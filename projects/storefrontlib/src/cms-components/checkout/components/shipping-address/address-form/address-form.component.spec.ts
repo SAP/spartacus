@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Type } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  Address,
   AddressValidation,
   CheckoutDeliveryService,
   Country,
@@ -14,11 +15,11 @@ import {
   UserAddressService,
   UserService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { AddressFormComponent } from './address-form.component';
-
 import createSpy = jasmine.createSpy;
+import { FormErrorsModule } from '../../../../../shared/index';
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -72,6 +73,41 @@ const mockRegions: Region[] = [
   },
 ];
 
+const mockAddress: Address = {
+  firstName: 'John',
+  lastName: 'Doe',
+  titleCode: 'mr',
+  line1: 'Toyosaki 2 create on cart',
+  line2: 'line2',
+  town: 'town',
+  region: { isocode: 'JP-27' },
+  postalCode: 'zip',
+  country: { isocode: 'JP' },
+  phone: '123123123',
+  defaultAddress: false,
+};
+
+const mockSuggestedAddressModalRef: any = {
+  componentInstance: {
+    enteredAddress: '',
+    suggestedAddresses: '',
+  },
+  result: new Promise((resolve) => {
+    return resolve(true);
+  }),
+};
+
+class MockModalService {
+  open(): any {
+    return mockSuggestedAddressModalRef;
+  }
+}
+
+const mockAddressValidation: AddressValidation = {
+  decision: 'test address validation',
+  suggestedAddresses: [{ id: 'address1' }],
+};
+
 class MockCheckoutDeliveryService {
   clearAddressVerificationResults = createSpy();
   verifyAddress = createSpy();
@@ -85,18 +121,25 @@ describe('AddressFormComponent', () => {
   let fixture: ComponentFixture<AddressFormComponent>;
   let controls: FormGroup['controls'];
 
-  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
+  let mockCheckoutDeliveryService: CheckoutDeliveryService;
   let userAddressService: UserAddressService;
   let userService: UserService;
   let mockGlobalMessageService: any;
+  let mockModalService: MockModalService;
 
   beforeEach(async(() => {
     mockGlobalMessageService = {
       add: createSpy(),
     };
+    mockModalService = new MockModalService();
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [AddressFormComponent],
       providers: [
         { provide: ModalService, useValue: { open: () => {} } },
@@ -107,6 +150,7 @@ describe('AddressFormComponent', () => {
         { provide: UserService, useClass: MockUserService },
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        { provide: ModalService, useClass: MockModalService },
       ],
     })
       .overrideComponent(AddressFormComponent, {
@@ -114,19 +158,15 @@ describe('AddressFormComponent', () => {
       })
       .compileComponents();
 
-    userService = TestBed.get(UserService as Type<UserService>);
-    userAddressService = TestBed.get(UserAddressService as Type<
-      UserAddressService
-    >);
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
+    userService = TestBed.inject(UserService);
+    userAddressService = TestBed.inject(UserAddressService);
+    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressFormComponent);
     component = fixture.componentInstance;
-    controls = component.address.controls;
+    controls = component.addressForm.controls;
     component.showTitleCode = true;
 
     spyOn(component.submitAddress, 'emit').and.callThrough();
@@ -137,7 +177,7 @@ describe('AddressFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get countries and titles data even when they not exist', done => {
+  it('should call ngOnInit to get countries and titles data even when they not exist', (done) => {
     spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userAddressService, 'loadDeliveryCountries').and.stub();
 
@@ -183,19 +223,19 @@ describe('AddressFormComponent', () => {
 
     let countries: Country[];
     component.countries$
-      .subscribe(data => {
+      .subscribe((data) => {
         countries = data;
       })
       .unsubscribe();
     let titles: Title[];
     component.titles$
-      .subscribe(data => {
+      .subscribe((data) => {
         titles = data;
       })
       .unsubscribe();
     let regions: Region[];
     component.regions$
-      .subscribe(data => {
+      .subscribe((data) => {
         regions = data;
       })
       .unsubscribe();
@@ -221,7 +261,7 @@ describe('AddressFormComponent', () => {
     spyOn(component, 'openSuggestedAddress');
     component.ngOnInit();
     expect(component.submitAddress.emit).toHaveBeenCalledWith(
-      component.address.value
+      component.addressForm.value
     );
   });
 
@@ -246,6 +286,24 @@ describe('AddressFormComponent', () => {
     expect(
       mockCheckoutDeliveryService.clearAddressVerificationResults
     ).toHaveBeenCalledWith();
+    mockAddressVerificationResult.errors.errors = [{ subject: 'titleCode' }];
+    component.ngOnInit();
+    expect(mockGlobalMessageService.add).toHaveBeenCalled();
+  });
+
+  it('should clear address verification result with address verification result "fail"', () => {
+    const mockAddressVerificationResult: AddressValidation = {
+      decision: 'FAIL',
+    };
+    component.addressData = mockAddress;
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getAddressVerificationResults'
+    ).and.returnValue(of(mockAddressVerificationResult));
+    component.ngOnInit();
+    expect(
+      mockCheckoutDeliveryService.clearAddressVerificationResults
+    ).toHaveBeenCalled();
   });
 
   it('should open suggested address with address verification result "review"', () => {
@@ -269,12 +327,16 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call verifyAddress() when address has some changes', () => {
-    component.address.markAsDirty();
+    component.ngOnInit();
+    component.addressForm.setValue(mockAddress);
+    component.addressForm.markAsDirty();
     component.verifyAddress();
     expect(mockCheckoutDeliveryService.verifyAddress).toHaveBeenCalled();
   });
 
   it('should not call verifyAddress() when address does not have change', () => {
+    component.ngOnInit();
+    component.addressForm.setValue(mockAddress);
     component.verifyAddress();
     expect(mockCheckoutDeliveryService.verifyAddress).not.toHaveBeenCalled();
   });
@@ -294,13 +356,13 @@ describe('AddressFormComponent', () => {
     fixture.detectChanges();
     checkbox.click();
 
-    expect(component.address.value.defaultAddress).toBeTruthy();
+    expect(component.addressForm.value.defaultAddress).toBeTruthy();
   });
 
   it('should call titleSelected()', () => {
     const mockTitleCode = 'test title code';
     component.titleSelected({ code: mockTitleCode });
-    expect(component.address['controls'].titleCode.value).toEqual(
+    expect(component.addressForm['controls'].titleCode.value).toEqual(
       mockTitleCode
     );
   });
@@ -310,9 +372,9 @@ describe('AddressFormComponent', () => {
     const mockCountryIsocode = 'test country isocode';
     component.countrySelected({ isocode: mockCountryIsocode });
     component.ngOnInit();
-    component.regions$.subscribe(_ => _);
+    component.regions$.subscribe();
     expect(
-      component.address['controls'].country['controls'].isocode.value
+      component.addressForm['controls'].country['controls'].isocode.value
     ).toEqual(mockCountryIsocode);
     expect(userAddressService.getRegions).toHaveBeenCalledWith(
       mockCountryIsocode
@@ -323,8 +385,34 @@ describe('AddressFormComponent', () => {
     const mockRegionIsocode = 'test region isocode';
     component.regionSelected({ isocode: mockRegionIsocode });
     expect(
-      component.address['controls'].region['controls'].isocode.value
+      component.addressForm['controls'].region['controls'].isocode.value
     ).toEqual(mockRegionIsocode);
+  });
+
+  it('should call openSuggestedAddress', (done) => {
+    spyOn(component, 'openSuggestedAddress').and.callThrough();
+    spyOn(mockModalService, 'open').and.callThrough();
+
+    component.openSuggestedAddress(mockAddressValidation);
+    component.suggestedAddressModalRef.result.then(() => {
+      expect(
+        mockCheckoutDeliveryService.clearAddressVerificationResults
+      ).toHaveBeenCalled();
+      done();
+    });
+  });
+
+  it('should call verifyAddress', () => {
+    spyOn(component, 'verifyAddress').and.callThrough();
+    const mockCountryIsocode = 'test country isocode';
+    component.regionSelected({ isocode: mockCountryIsocode });
+    component.ngOnInit();
+    component.regions$.subscribe();
+    component.verifyAddress();
+    expect(
+      component.addressForm['controls'].region['controls'].isocode.value
+    ).toEqual(mockCountryIsocode);
+    expect(component.verifyAddress).toHaveBeenCalled();
   });
 
   describe('UI continue button', () => {
@@ -340,7 +428,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
 
       getContinueBtn().nativeElement.click();
-      expect(component.verifyAddress).not.toHaveBeenCalled();
+      expect(component.verifyAddress).toHaveBeenCalledTimes(1);
 
       controls['titleCode'].setValue('test titleCode');
       controls['firstName'].setValue('test firstName');
@@ -353,36 +441,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
 
       getContinueBtn().nativeElement.click();
-      expect(component.verifyAddress).toHaveBeenCalled();
-    });
-
-    it('should be enabled only when form has all mandatory fields filled', () => {
-      const isContinueBtnDisabled = () => {
-        fixture.detectChanges();
-        return getContinueBtn().nativeElement.disabled;
-      };
-      spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
-      spyOn(userService, 'getTitles').and.returnValue(of([]));
-      spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
-
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['titleCode'].setValue('test titleCode');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['firstName'].setValue('test firstName');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['lastName'].setValue('test lastName');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['line1'].setValue('test line1');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['town'].setValue('test town');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.region['controls'].isocode.setValue('test region isocode');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.country['controls'].isocode.setValue('test country isocode');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['postalCode'].setValue('test postalCode');
-
-      expect(isContinueBtnDisabled()).toBeFalsy();
+      expect(component.verifyAddress).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -430,5 +489,12 @@ describe('AddressFormComponent', () => {
       getBackBtn().nativeElement.click();
       expect(component.back).toHaveBeenCalled();
     });
+  });
+
+  it('should unsubscribe from any subscriptions when destroyed', () => {
+    component.regionsSub = new Subscription();
+    spyOn(component.regionsSub, 'unsubscribe');
+    component.ngOnDestroy();
+    expect(component.regionsSub.unsubscribe).toHaveBeenCalled();
   });
 });

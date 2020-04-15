@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { of } from 'rxjs';
@@ -36,11 +35,9 @@ describe('ProtectedRoutesGuard', () => {
       ],
     });
 
-    guard = TestBed.get(ProtectedRoutesGuard as Type<ProtectedRoutesGuard>);
-    service = TestBed.get(ProtectedRoutesService as Type<
-      ProtectedRoutesService
-    >);
-    authGuard = TestBed.get(AuthGuard as Type<AuthGuard>);
+    guard = TestBed.inject(ProtectedRoutesGuard);
+    service = TestBed.inject(ProtectedRoutesService);
+    authGuard = TestBed.inject(AuthGuard);
   });
 
   describe('canActivate', () => {
@@ -54,7 +51,7 @@ describe('ProtectedRoutesGuard', () => {
         let result;
         guard
           .canActivate({ url: [] } as ActivatedRouteSnapshot)
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
         expect(result).toBe(true);
       });
     });
@@ -69,7 +66,7 @@ describe('ProtectedRoutesGuard', () => {
         let result;
         guard
           .canActivate({ url: [] } as ActivatedRouteSnapshot)
-          .subscribe(res => (result = res))
+          .subscribe((res) => (result = res))
           .unsubscribe();
         expect(result).toBe('authGuard-result');
       });

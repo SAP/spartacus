@@ -23,7 +23,7 @@ export class UserTokenEffects {
           token.userId = OCC_USER_ID_CURRENT;
           return new AuthActions.LoadUserTokenSuccess(token);
         }),
-        catchError(error =>
+        catchError((error) =>
           of(new AuthActions.LoadUserTokenFail(makeErrorSerializable(error)))
         )
       )
@@ -44,12 +44,35 @@ export class UserTokenEffects {
     map((action: AuthActions.RefreshUserToken) => action.payload),
     exhaustMap(({ refreshToken }) => {
       return this.userTokenService.refreshToken(refreshToken).pipe(
-        map((token: UserToken) => {
-          const date = new Date();
-          date.setSeconds(date.getSeconds() + token.expires_in);
-          token.expiration_time = date.toJSON();
-          return new AuthActions.RefreshUserTokenSuccess(token);
-        }, catchError(error => of(new AuthActions.RefreshUserTokenFail(makeErrorSerializable(error)))))
+        map(
+          (token: UserToken) => {
+            const date = new Date();
+            date.setSeconds(date.getSeconds() + token.expires_in);
+            token.expiration_time = date.toJSON();
+            return new AuthActions.RefreshUserTokenSuccess(token);
+          },
+          catchError((error) =>
+            of(
+              new AuthActions.RefreshUserTokenFail(makeErrorSerializable(error))
+            )
+          )
+        )
+      );
+    })
+  );
+
+  @Effect()
+  revokeUserToken$: Observable<
+    AuthActions.UserTokenAction
+  > = this.actions$.pipe(
+    ofType(AuthActions.REVOKE_USER_TOKEN),
+    map((action: AuthActions.RevokeUserToken) => {
+      return action.payload;
+    }),
+    mergeMap((userToken: UserToken) => {
+      return this.userTokenService.revoke(userToken).pipe(
+        map(() => new AuthActions.RevokeUserTokenSuccess(userToken)),
+        catchError((error) => of(new AuthActions.RevokeUserTokenFail(error)))
       );
     })
   );

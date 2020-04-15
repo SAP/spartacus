@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
@@ -24,22 +23,18 @@ describe(`CheckoutDetailsLoadedGuard`, () => {
       ],
     });
 
-    guard = TestBed.get(CheckoutDetailsLoadedGuard as Type<
-      CheckoutDetailsLoadedGuard
-    >);
-    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService as Type<
-      CheckoutDetailsService
-    >);
+    guard = TestBed.inject(CheckoutDetailsLoadedGuard);
+    mockCheckoutDetailsService = TestBed.inject(CheckoutDetailsService);
   });
 
   describe('when checkout details not loaded', () => {
-    it('should return false', done => {
+    it('should return false', (done) => {
       spyOnProperty(
         mockCheckoutDetailsService,
         'getCheckoutDetailsLoaded$'
       ).and.returnValue(of(false));
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(result).toBeFalsy();
         done();
       });
@@ -47,13 +42,13 @@ describe(`CheckoutDetailsLoadedGuard`, () => {
   });
 
   describe(`when checkout details not loaded`, () => {
-    it(`should return true`, done => {
+    it(`should return true`, (done) => {
       spyOnProperty(
         mockCheckoutDetailsService,
         'getCheckoutDetailsLoaded$'
       ).and.returnValue(of(true));
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(result).toBeTruthy();
         done();
       });

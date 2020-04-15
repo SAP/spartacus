@@ -1,0 +1,95 @@
+<ng-container *ngIf="returnRequest$ | async as returnRequest">
+  <div class="d-none d-md-block d-lg-block d-xl-block">
+    <div class="cx-item-list-header row">
+      <div class="cx-item-list-desc col-md-5 col-lg-5 col-xl-6">
+        {{ 'returnRequest.item' | cxTranslate }}
+      </div>
+      <div class="cx-item-list-price col-md-2 col-lg-2 col-xl-2">
+        {{ 'returnRequest.itemPrice' | cxTranslate }}
+      </div>
+      <div class="cx-item-list-qty col-md-3 col-lg-3 col-xl-2">
+        {{ 'returnRequest.returnQty' | cxTranslate }}
+      </div>
+      <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">
+        {{ 'returnRequest.total' | cxTranslate }}
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="cx-item-list-row"
+    *ngFor="let returnEntry of returnRequest.returnEntries; let i = index"
+  >
+    <div class="cx-item-list-items">
+      <div class="row">
+        <!-- Item Image -->
+        <div class="col-2 cx-image-container">
+          <cx-media
+            [container]="returnEntry.orderEntry?.product.images?.PRIMARY"
+            format="thumbnail"
+          ></cx-media>
+        </div>
+        <!-- Item Information -->
+        <div class="cx-info col-10">
+          <div class="cx-info-container row">
+            <!-- Item Description -->
+            <div class="col-md-3 col-lg-4 col-xl-5">
+              <div *ngIf="returnEntry.orderEntry?.product.name" class="cx-name">
+                {{ returnEntry.orderEntry?.product.name }}
+              </div>
+              <div *ngIf="returnEntry.orderEntry?.product.code" class="cx-code">
+                {{ 'cartItems.id' | cxTranslate }}
+                {{ returnEntry.orderEntry?.product.code }}
+              </div>
+              <!-- Variants -->
+              <div
+                *ngFor="
+                  let variant of (returnEntry.orderEntry?.product
+                    .baseOptions)[0]?.selected?.variantOptionQualifiers
+                "
+                class="cx-property"
+              >
+                <div class="cx-label" *ngIf="variant.name">
+                  {{ variant.name }}:
+                </div>
+                <div class="cx-value" *ngIf="variant.value">
+                  {{ variant.value }}
+                </div>
+              </div>
+            </div>
+            <!-- Item Price -->
+            <div
+              *ngIf="returnEntry.orderEntry?.basePrice"
+              class="cx-price col-md-3 col-lg-2 col-xl-2"
+            >
+              <div class="cx-label d-block d-md-none d-lg-none d-xl-none">
+                {{ 'returnRequest.itemPrice' | cxTranslate }}
+              </div>
+              <div class="cx-value">
+                {{ returnEntry.orderEntry?.basePrice?.formattedValue }}
+              </div>
+            </div>
+            <!-- return Quantity -->
+            <div class="cx-quantity col-md-3 col-lg-3 col-xl-3">
+              <div class="cx-label d-block d-md-none d-lg-none d-xl-none">
+                {{ 'returnRequest.returnQty' | cxTranslate }}
+              </div>
+              <div class="cx-value">
+                {{ returnEntry.expectedQuantity }}
+              </div>
+            </div>
+            <!-- Total Price -->
+            <div class="cx-total col-md-3 col-lg-3 col-xl-2">
+              <div class="cx-label d-block d-md-none d-lg-none d-xl-none">
+                {{ 'returnRequest.total' | cxTranslate }}
+              </div>
+              <div class="cx-value">
+                {{ returnEntry.refundAmount?.formattedValue }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

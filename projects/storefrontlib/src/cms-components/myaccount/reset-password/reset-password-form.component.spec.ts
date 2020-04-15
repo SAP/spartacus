@@ -1,4 +1,4 @@
-import { DebugElement, Type } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -10,6 +10,7 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ResetPasswordFormComponent } from './reset-password-form.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 class MockUserService {
   isPasswordReset() {
@@ -35,19 +36,23 @@ describe('ResetPasswordFormComponent', () => {
   let component: ResetPasswordFormComponent;
   let fixture: ComponentFixture<ResetPasswordFormComponent>;
 
-  let userService: MockUserService;
-  let routingService: MockRoutingService;
+  let userService: UserService;
+  let routingService: RoutingService;
 
   let form: DebugElement;
   let password: AbstractControl;
   let rePassword: AbstractControl;
 
   const validPassword = 'test1234Test@';
-  const nonValidPassword = '1234';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [ResetPasswordFormComponent],
       providers: [
         { provide: UserService, useClass: MockUserService },
@@ -61,11 +66,11 @@ describe('ResetPasswordFormComponent', () => {
     component = fixture.componentInstance;
 
     form = fixture.debugElement.query(By.css('form'));
-    password = component.form.controls['password'];
-    rePassword = component.form.controls['repassword'];
+    password = component.resetPasswordForm.controls['password'];
+    rePassword = component.resetPasswordForm.controls['repassword'];
 
-    userService = TestBed.get(UserService as Type<UserService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    userService = TestBed.inject(UserService);
+    routingService = TestBed.inject(RoutingService);
   });
 
   it('should be created', () => {
@@ -73,39 +78,14 @@ describe('ResetPasswordFormComponent', () => {
   });
 
   it('should initialize the form property', () => {
-    expect(component.form.controls['repassword'].value).toBe('');
-    expect(component.form.controls['password'].value).toBe('');
+    expect(component.resetPasswordForm.controls['repassword'].value).toBe('');
+    expect(component.resetPasswordForm.controls['password'].value).toBe('');
   });
 
   it('should form be valid when password and repassword are set correctly', () => {
     password.setValue(validPassword);
     rePassword.setValue(validPassword);
-    expect(component.form.valid).toBeTruthy();
-  });
-
-  it('should form be invalid when password not valid', () => {
-    password.setValue(nonValidPassword);
-    password.markAsDirty();
-    password.markAsTouched();
-    fixture.detectChanges();
-
-    expect(component.form.valid).toBeFalsy();
-    const message = fixture.debugElement.query(By.css('.invalid-feedback'))
-      .children[0].nativeElement.textContent;
-    expect(message).toEqual('register.passwordMinRequirements');
-  });
-
-  it('should form be invalid when password and repassword are not match', () => {
-    password.setValue(validPassword);
-    rePassword.setValue(nonValidPassword);
-    rePassword.markAsDirty();
-    rePassword.markAsTouched();
-    fixture.detectChanges();
-
-    expect(component.form.valid).toBeFalsy();
-    const message = fixture.debugElement.query(By.css('.invalid-feedback'))
-      .children[0].nativeElement.textContent;
-    expect(message).toEqual('register.bothPasswordMustMatch');
+    expect(component.resetPasswordForm.valid).toBeTruthy();
   });
 
   it('should call resetPassword() method on submit', () => {
@@ -116,7 +96,7 @@ describe('ResetPasswordFormComponent', () => {
     expect(request).toHaveBeenCalled();
   });
 
-  it('should resetPassword on submit when form is valide', () => {
+  it('should resetPassword on submit when form is valid', () => {
     spyOn(userService, 'resetPassword');
 
     password.setValue(validPassword);
@@ -128,7 +108,6 @@ describe('ResetPasswordFormComponent', () => {
       'test token',
       validPassword
     );
-    expect(component.submited).toBeTruthy();
   });
 
   it('should go to login page when password reset successfully', () => {

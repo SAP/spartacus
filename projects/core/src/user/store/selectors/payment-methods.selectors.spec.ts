@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { PaymentDetails } from '../../../model/cart.model';
@@ -24,7 +23,7 @@ describe('User Payment Methods Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -33,7 +32,7 @@ describe('User Payment Methods Selectors', () => {
       let result: LoaderState<PaymentDetails[]>;
       store
         .pipe(select(UsersSelectors.getPaymentMethodsState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -50,7 +49,7 @@ describe('User Payment Methods Selectors', () => {
       let result: PaymentDetails[];
       store
         .pipe(select(UsersSelectors.getPaymentMethods))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 
@@ -69,7 +68,7 @@ describe('User Payment Methods Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getPaymentMethodsLoading))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
 
@@ -84,7 +83,7 @@ describe('User Payment Methods Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getPaymentMethodsLoadedSuccess))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
 

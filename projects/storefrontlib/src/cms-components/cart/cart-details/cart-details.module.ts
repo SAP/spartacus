@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
@@ -20,14 +21,17 @@ import { CartDetailsComponent } from './cart-details.component';
     RouterModule,
     UrlModule,
     PromotionsModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    FeaturesConfigModule,
+    I18nModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CartComponent: {
           component: CartDetailsComponent,
         },
       },
     }),
-    I18nModule,
   ],
   declarations: [CartDetailsComponent],
   exports: [CartDetailsComponent],

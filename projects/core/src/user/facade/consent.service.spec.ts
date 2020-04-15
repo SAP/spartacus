@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { AnonymousConsentsService } from '../../anonymous-consents/index';
@@ -54,13 +53,9 @@ describe('ConsentService', () => {
       ],
     });
 
-    service = TestBed.get(ConsentService as Type<ConsentService>);
-    userConsentService = TestBed.get(UserConsentService as Type<
-      UserConsentService
-    >);
-    anonymousConsentsService = TestBed.get(AnonymousConsentsService as Type<
-      AnonymousConsentsService
-    >);
+    service = TestBed.inject(ConsentService);
+    userConsentService = TestBed.inject(UserConsentService);
+    anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
   });
 
   describe('getConsent', () => {
@@ -73,7 +68,7 @@ describe('ConsentService', () => {
       const results: (Consent | AnonymousConsent)[] = [];
       service
         .getConsent(mockTemplateId)
-        .subscribe(value => results.push(value))
+        .subscribe((value) => results.push(value))
         .unsubscribe();
       expect(userConsentService.getConsent).toHaveBeenCalledWith(
         mockTemplateId
@@ -91,7 +86,7 @@ describe('ConsentService', () => {
       let result = true;
       service
         .checkConsentGivenByTemplateId(mockTemplateId)
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toEqual(false);
     });
@@ -104,7 +99,7 @@ describe('ConsentService', () => {
         let result = false;
         service
           .checkConsentGivenByTemplateId(mockTemplateId)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
         expect(anonymousConsentsService.isConsentGiven).toHaveBeenCalledWith(
@@ -122,7 +117,7 @@ describe('ConsentService', () => {
         let result = false;
         service
           .checkConsentGivenByTemplateId(mockTemplateId)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
         expect(anonymousConsentsService.isConsentGiven).not.toHaveBeenCalled();
@@ -139,7 +134,7 @@ describe('ConsentService', () => {
       let result = false;
       service
         .checkConsentWithdrawnByTemplateId(mockTemplateId)
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toEqual(true);
     });
@@ -154,7 +149,7 @@ describe('ConsentService', () => {
         let result = false;
         service
           .checkConsentWithdrawnByTemplateId(mockTemplateId)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
         expect(
@@ -172,7 +167,7 @@ describe('ConsentService', () => {
         let result = false;
         service
           .checkConsentWithdrawnByTemplateId(mockTemplateId)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
         expect(

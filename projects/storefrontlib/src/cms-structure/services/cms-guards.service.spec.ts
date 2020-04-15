@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ActivatedRouteSnapshot,
@@ -6,6 +5,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
+import { ConfigModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsGuardsService } from './cms-guards.service';
 import { CmsMappingService } from './cms-mapping.service';
@@ -51,6 +51,7 @@ describe('CmsGuardsService', () => {
   beforeEach(() => {
     guards = [];
     TestBed.configureTestingModule({
+      imports: [ConfigModule.forRoot()],
       providers: [
         {
           provide: CmsMappingService,
@@ -62,14 +63,17 @@ describe('CmsGuardsService', () => {
         UrlTreeGuard,
       ],
     });
-    service = TestBed.get(CmsGuardsService as Type<CmsGuardsService>);
   });
 
   it('should be created', () => {
+    service = TestBed.inject(CmsGuardsService);
     expect(service).toBeTruthy();
   });
 
   describe('cmsPageCanActivate', () => {
+    beforeEach(() => {
+      service = TestBed.inject(CmsGuardsService);
+    });
     it('should resolve to true if not guards are defined', () => {
       let result;
       service
@@ -78,7 +82,7 @@ describe('CmsGuardsService', () => {
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
       expect(result).toEqual(true);
     });
 
@@ -92,9 +96,9 @@ describe('CmsGuardsService', () => {
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
       expect(result).toEqual(true);
-      expect(TestBed.get(PositiveGuard).canActivate).toHaveBeenCalledWith(
+      expect(TestBed.inject(PositiveGuard).canActivate).toHaveBeenCalledWith(
         mockActivatedRouteSnapshot,
         mockRouterStateSnapshot
       );
@@ -110,7 +114,7 @@ describe('CmsGuardsService', () => {
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
       expect(result).toEqual(false);
     });
 
@@ -124,7 +128,7 @@ describe('CmsGuardsService', () => {
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
       expect(result).toEqual(mockUrlTree);
     });
   });

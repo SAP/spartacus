@@ -9,6 +9,7 @@ import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
 import { CSAgentLoginFormComponent } from './csagent-login-form/csagent-login-form.component';
 import { CustomerEmulationComponent } from './customer-emulation/customer-emulation.component';
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
+import { FormErrorsModule } from '../../shared/index';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { CustomerSelectionComponent } from './customer-selection/customer-select
     I18nModule,
     AsmCoreModule.forRoot(),
     AsmLoaderModule,
+    FormErrorsModule,
   ],
   declarations: [
     AsmMainUiComponent,

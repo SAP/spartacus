@@ -34,7 +34,7 @@ export function setSessionData(data) {
       token: { ...data, userId: USERID_CURRENT },
     },
   };
-  cy.window().then(win => {
+  cy.window().then((win) => {
     const storageKey = 'spartacus-local-data';
     let state;
     try {
@@ -51,4 +51,16 @@ export function setSessionData(data) {
     cy.log('storing session state value:', JSON.stringify(state));
   });
   return data;
+}
+
+export function retrieveAuthToken() {
+  return cy.request({
+    method: 'POST',
+    url: config.tokenUrl,
+    body: {
+      ...config.client,
+      grant_type: 'client_credentials',
+    },
+    form: true,
+  });
 }

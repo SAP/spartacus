@@ -4,7 +4,6 @@ import {
   AnonymousConsentsConfig,
   AnonymousConsentsService,
   ConsentTemplate,
-  isFeatureLevel,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
@@ -25,9 +24,6 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   templates$: Observable<ConsentTemplate[]>;
   consents$: Observable<AnonymousConsent[]>;
-
-  // TODO(issue:4989) Anonymous consents - remove
-  isLevel13 = isFeatureLevel(this.config, '1.3');
 
   constructor(
     private config: AnonymousConsentsConfig,
@@ -59,7 +55,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
           take(1),
           distinctUntilChanged(),
           tap(([templates, consents]) =>
-            templates.forEach(template => {
+            templates.forEach((template) => {
               const consent = this.getCorrespondingConsent(template, consents);
               if (this.anonymousConsentsService.isConsentGiven(consent)) {
                 if (this.isRequiredConsent(template)) {
@@ -83,10 +79,10 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
           take(1),
           distinctUntilChanged(),
           tap(([templates, consents]) =>
-            templates.forEach(template => {
+            templates.forEach((template) => {
               const consent = this.getCorrespondingConsent(template, consents);
               if (
-                consent.consentState == null ||
+                (consent && consent.consentState == null) ||
                 this.anonymousConsentsService.isConsentWithdrawn(consent)
               ) {
                 if (this.isRequiredConsent(template)) {

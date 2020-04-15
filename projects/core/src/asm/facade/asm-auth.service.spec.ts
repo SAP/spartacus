@@ -1,12 +1,13 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import { of } from 'rxjs';
 import { UserToken } from '../../auth/models/token-types.model';
-import * as fromReducers from '../store/reducers/index';
-import { AsmAuthService } from './asm-auth.service';
+import { AuthActions } from '../../auth/store/actions';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { AsmActions } from '../store/actions';
 import { ASM_FEATURE, AsmState } from '../store/asm-state';
+import * as fromReducers from '../store/reducers/index';
+import { AsmAuthService } from './asm-auth.service';
 
 const mockToken = {
   userId: 'user@sap.com',
@@ -27,8 +28,8 @@ describe('AsmAuthService', () => {
       providers: [AsmAuthService],
     });
 
-    service = TestBed.get(AsmAuthService as Type<AsmAuthService>);
-    store = TestBed.get(Store as Type<Store<AsmState>>);
+    service = TestBed.inject(AsmAuthService);
+    store = TestBed.inject(Store);
   });
 
   it('should be created', () => {
@@ -43,7 +44,7 @@ describe('AsmAuthService', () => {
     let result: UserToken;
     const subscription = service
       .getCustomerSupportAgentToken()
-      .subscribe(token => {
+      .subscribe((token) => {
         result = token;
       });
     subscription.unsubscribe();
@@ -55,7 +56,7 @@ describe('AsmAuthService', () => {
     let result: boolean;
     service
       .getCustomerSupportAgentTokenLoading()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);
   });
@@ -74,10 +75,15 @@ describe('AsmAuthService', () => {
 
   it('should dispatch proper action for logoutCustomerSupportAgent', () => {
     spyOn(store, 'dispatch').and.stub();
-
+    spyOn(service, 'getCustomerSupportAgentToken').and.returnValue(
+      of(mockToken)
+    );
     service.logoutCustomerSupportAgent();
     expect(store.dispatch).toHaveBeenCalledWith(
       new AsmActions.LogoutCustomerSupportAgent()
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AuthActions.RevokeUserToken(mockToken)
     );
   });
 

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { StoreFinderActions } from '../actions/index';
@@ -25,7 +24,7 @@ describe('FindStores Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithStoreFinder>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -34,7 +33,7 @@ describe('FindStores Selectors', () => {
       let result;
       store
         .pipe(select(StoreFinderSelectors.getFindStoresEntities))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new StoreFinderActions.FindStores({ queryText: 'test' }));
       store.dispatch(new StoreFinderActions.FindStoresSuccess(searchResult));
@@ -48,7 +47,7 @@ describe('FindStores Selectors', () => {
       let result: boolean;
       store
         .pipe(select(StoreFinderSelectors.getStoresLoading))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
 

@@ -17,10 +17,13 @@ import {
   Country,
   GlobalMessageService,
   GlobalMessageType,
+  LoaderState,
   UserPaymentService,
+  Region,
+  UserAddressService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { combineLatest, Observable, Subscription, BehaviorSubject } from 'rxjs';
+import { map, tap, switchMap } from 'rxjs/operators';
 import { Card } from '../../../../../shared/components/card/card.component'; // tslint:disable-line
 import {
   ModalRef,
@@ -28,9 +31,6 @@ import {
 } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // tslint:disable-line
-
-type monthType = { id: number; name: string };
-type yearType = { id: number; name: number };
 
 @Component({
   selector: 'cx-payment-form',
@@ -43,13 +43,16 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   private checkboxSub: Subscription;
   private addressVerifySub: Subscription;
   suggestedAddressModalRef: ModalRef;
-  months: monthType[] = [];
-  years: yearType[] = [];
+  months: string[] = [];
+  years: number[] = [];
 
   cardTypes$: Observable<CardType[]>;
   shippingAddress$: Observable<Address>;
   countries$: Observable<Country[]>;
+  loading$: Observable<LoaderState<void>>;
   sameAsShippingAddress = true;
+  regions$: Observable<Region[]>;
+  selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   @Input()
   setAsDefaultField: boolean;
@@ -66,19 +69,19 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   @Output()
   setPaymentDetails = new EventEmitter<any>();
 
-  payment: FormGroup = this.fb.group({
-    defaultPayment: [false],
+  paymentForm: FormGroup = this.fb.group({
+    cardType: this.fb.group({
+      code: [null, Validators.required],
+    }),
     accountHolderName: ['', Validators.required],
     cardNumber: ['', Validators.required],
-    cardType: this.fb.group({
-      code: ['', Validators.required],
-    }),
-    expiryMonth: ['', Validators.required],
-    expiryYear: ['', Validators.required],
+    expiryMonth: [null, Validators.required],
+    expiryYear: [null, Validators.required],
     cvn: ['', Validators.required],
+    defaultPayment: [false],
   });
 
-  billingAddress: FormGroup = this.fb.group({
+  billingAddressForm: FormGroup = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
@@ -98,14 +101,15 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
-    private fb: FormBuilder,
-    private modalService: ModalService
+    protected fb: FormBuilder,
+    protected modalService: ModalService,
+    protected userAddressService: UserAddressService
   ) {}
 
   ngOnInit() {
     this.expMonthAndYear();
     this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
-      tap(countries => {
+      tap((countries) => {
         // If the store is empty fetch countries. This is also used when changing language.
         if (Object.keys(countries).length === 0) {
           this.userPaymentService.loadBillingCountries();
@@ -114,7 +118,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     );
 
     this.cardTypes$ = this.checkoutPaymentService.getCardTypes().pipe(
-      tap(cardTypes => {
+      tap((cardTypes) => {
         if (Object.keys(cardTypes).length === 0) {
           this.checkoutPaymentService.loadSupportedCardTypes();
         }
@@ -122,6 +126,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     );
 
     this.shippingAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
+    this.loading$ = this.checkoutPaymentService.getSetPaymentDetailsResultProcess();
 
     this.checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
       (shouldShowCheckbox: boolean) => {
@@ -134,7 +139,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     this.addressVerifySub = this.checkoutDeliveryService
       .getAddressVerificationResults()
       .subscribe((results: AddressValidation) => {
-        if (results === 'FAIL') {
+        if (results.decision === 'FAIL') {
           this.checkoutDeliveryService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
           this.next();
@@ -148,47 +153,57 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
           this.openSuggestedAddress(results);
         }
       });
+
+    this.regions$ = this.selectedCountry$.pipe(
+      switchMap((country) => this.userAddressService.getRegions(country)),
+      tap((regions) => {
+        const regionControl = this.billingAddressForm.get(
+          'region.isocodeShort'
+        );
+        if (regions.length > 0) {
+          regionControl.enable();
+        } else {
+          regionControl.disable();
+        }
+      })
+    );
   }
 
   expMonthAndYear(): void {
     const year = new Date().getFullYear();
+
     for (let i = 0; i < 10; i++) {
-      this.years.push({ id: i + 1, name: year + i });
+      this.years.push(year + i);
     }
+
     for (let j = 1; j <= 12; j++) {
       if (j < 10) {
-        this.months.push({ id: j, name: '0' + j.toString() });
+        this.months.push(`0${j}`);
       } else {
-        this.months.push({ id: j, name: j.toString() });
+        this.months.push(j.toString());
       }
     }
   }
 
   toggleDefaultPaymentMethod(): void {
-    this.payment.value.defaultPayment = !this.payment.value.defaultPayment;
+    this.paymentForm.value.defaultPayment = !this.paymentForm.value
+      .defaultPayment;
   }
 
   paymentSelected(card: CardType): void {
-    this.payment['controls'].cardType['controls'].code.setValue(card.code);
+    this.paymentForm.get('cardType.code').setValue(card.code);
   }
 
-  monthSelected(month: monthType): void {
-    this.payment['controls'].expiryMonth.setValue(month.name);
+  monthSelected(month: string): void {
+    this.paymentForm.get('expiryMonth').setValue(month);
   }
 
-  yearSelected(year: yearType): void {
-    this.payment['controls'].expiryYear.setValue(year.name);
+  yearSelected(year: number): void {
+    this.paymentForm.get('expiryYear').setValue(year);
   }
 
   toggleSameAsShippingAddress(): void {
     this.sameAsShippingAddress = !this.sameAsShippingAddress;
-  }
-
-  isContinueButtonDisabled(): boolean {
-    return (
-      this.payment.invalid ||
-      (!this.sameAsShippingAddress && this.billingAddress.invalid)
-    );
   }
 
   /**
@@ -200,8 +215,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     return combineLatest([this.countries$, this.shippingAddress$]).pipe(
       map(([countries, address]) => {
         return (
-          address !== undefined &&
-          address.country !== undefined &&
+          address?.country &&
           !!countries.filter(
             (country: Country): boolean =>
               country.isocode === address.country.isocode
@@ -235,7 +249,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
         SuggestedAddressDialogComponent,
         { centered: true, size: 'lg' }
       );
-      this.suggestedAddressModalRef.componentInstance.enteredAddress = this.billingAddress.value;
+      this.suggestedAddressModalRef.componentInstance.enteredAddress = this.billingAddressForm.value;
       this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
         results.suggestedAddresses;
       this.suggestedAddressModalRef.result
@@ -263,17 +277,45 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     if (this.sameAsShippingAddress) {
       this.next();
     } else {
-      this.checkoutDeliveryService.verifyAddress(this.billingAddress.value);
+      this.checkoutDeliveryService.verifyAddress(this.billingAddressForm.value);
     }
   }
 
+  countrySelected(country: Country): void {
+    this.billingAddressForm.get('country.isocode').setValue(country.isocode);
+    this.selectedCountry$.next(country.isocode);
+  }
+
+  regionSelected(region: Region): void {
+    this.billingAddressForm
+      .get('region.isocodeShort')
+      .setValue(region.isocodeShort);
+  }
+
   next(): void {
-    this.setPaymentDetails.emit({
-      paymentDetails: this.payment.value,
-      billingAddress: this.sameAsShippingAddress
-        ? null
-        : this.billingAddress.value,
-    });
+    if (this.paymentForm.valid) {
+      if (this.sameAsShippingAddress) {
+        this.setPaymentDetails.emit({
+          paymentDetails: this.paymentForm.value,
+          billingAddress: null,
+        });
+      } else {
+        if (this.billingAddressForm.valid) {
+          this.setPaymentDetails.emit({
+            paymentDetails: this.paymentForm.value,
+            billingAddress: this.billingAddressForm.value,
+          });
+        } else {
+          this.billingAddressForm.markAllAsTouched();
+        }
+      }
+    } else {
+      this.paymentForm.markAllAsTouched();
+
+      if (!this.sameAsShippingAddress) {
+        this.billingAddressForm.markAllAsTouched();
+      }
+    }
   }
 
   ngOnDestroy() {

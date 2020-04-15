@@ -274,17 +274,9 @@ button {
   }
 }
 
-//theme calydon cx-base adjustments
-$theme: '' !default;
-@if $theme == 'calydon' {
-  button,
-  .btn,
-  .btn-primary,
-  .btn-secondary {
-    color: var(--cx-color-inverse);
-    &:focus {
-      outline: var(--cx-color-visual-focus) auto 6px;
-      outline-offset: 2px;
-    }
+button,
+.btn {
+  &:focus {
+    @include visible-focus();
   }
 }

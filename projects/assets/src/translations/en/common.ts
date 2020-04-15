@@ -23,6 +23,8 @@ export const common = {
     search: {
       title: '{{count}} result for "{{query}}"',
       title_plural: '{{count}} results for "{{query}}"',
+      findProductTitle: '{{count}} result for coupon "{{coupon}}"',
+      findProductTitle_plural: '{{count}} results for coupon "{{coupon}}"',
     },
     product: {
       description: '{{description}}',
@@ -48,6 +50,7 @@ export const common = {
   sorting: {
     date: 'Date',
     orderNumber: 'Order Number',
+    rma: 'Return Number',
   },
   httpHandlers: {
     badGateway: 'A server error occurred. Please try again later.',
@@ -59,6 +62,10 @@ export const common = {
     internalServerError:
       'An Internal Server Error occurred. Please try again later.',
     unknownError: 'An unknown error occurred',
+    unauthorized: {
+      common: 'An unknown authorization error occured',
+      invalid_client: 'Bad client credentials',
+    },
     validationErrors: {
       missing: {
         card_cardType:
@@ -87,6 +94,10 @@ export const common = {
       invalid: {
         card_expirationMonth:
           'The credit card expiration date entered is not valid.',
+        firstName: 'First Name entered is not valid.',
+        lastName: 'Last Name entered is not valid.',
+        password: 'Password entered is not valid.',
+        uid: 'UID is not valid.',
       },
     },
     cartNotFound: 'Cart not found.',
@@ -94,9 +105,30 @@ export const common = {
   miniCart: {
     item: '{{count}} item currently in your cart',
     item_plural: '{{count}} items currently in your cart',
+    total: '{{total}}',
+    count: '{{count}}',
   },
   miniLogin: {
     userGreeting: 'Hi, {{name}}',
     signInRegister: 'Sign In / Register',
+  },
+  skipLink: {
+    skipTo: 'Skip to',
+    labels: {
+      header: 'Header',
+      main: 'Main Content',
+      footer: 'Footer',
+      productFacets: 'Product Facets',
+      productList: 'Product List',
+    },
+  },
+  formErrors: {
+    globalMessage: 'The form you are trying to submit contains errors.',
+    required: 'This field is required',
+    cxInvalidEmail: 'This is not a valid email format',
+    cxInvalidPassword: 'This is not a valid password format',
+    cxPasswordsMustMatch: 'Password fields must match',
+    cxEmailsMustMatch: 'Email fields must match',
+    cxStarRatingEmpty: 'Rating field is required',
   },
 };

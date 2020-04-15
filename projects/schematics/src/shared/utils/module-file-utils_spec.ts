@@ -1,13 +1,42 @@
-import * as path from 'path';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import * as path from 'path';
+import * as ts from 'typescript';
+import { UTF_8 } from '../constants';
 import { getPathResultsForFile } from './file-utils';
-import { addImport, importModule } from './module-file-utils';
+import {
+  addImport,
+  addToModuleDeclarations,
+  addToModuleEntryComponents,
+  addToModuleExports,
+  addToModuleImports,
+  getTemplateInfo,
+  stripTsFromImport,
+} from './module-file-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+
+const TEMPLATE_NAME = 'template.html';
+const COMPONENT_TEMPLATE_URL = `
+import { Component } from '@angular/core';
+@Component({
+  selector: 'cx-consent-management-form',
+  templateUrl: './${TEMPLATE_NAME}',
+})
+export class Test {}
+`;
+const TEMPLATE = '<div>test</div>';
+const COMPONENT_INLINE_TEMPLATE = `
+import { Component } from '@angular/core';
+@Component({
+  selector: 'cx-consent-management-form',
+  template: \`${TEMPLATE}\`,
+})
+export class Test {}
+`;
 
 describe('Module file utils', () => {
   let appTree: UnitTestTree;
@@ -49,6 +78,20 @@ describe('Module file utils', () => {
       .toPromise();
   });
 
+  describe('stripTsFromImport', () => {
+    it('should strip the .ts when present', () => {
+      const test1 = '../../components.ts';
+      expect(stripTsFromImport(test1)).toEqual('../../components');
+
+      const test2 = '../../ts.ts.ts';
+      expect(stripTsFromImport(test2)).toEqual('../../ts.ts');
+    });
+    it('should NOT strip the .ts when the import path does not end with it', () => {
+      const test = '../ts.tsts';
+      expect(stripTsFromImport(test)).toEqual(test);
+    });
+  });
+
   describe('addImport', () => {
     it('should add passed import', async () => {
       const appModulePath = getPathResultsForFile(
@@ -62,7 +105,7 @@ describe('Module file utils', () => {
       const buffer = appTree.read(appModulePath);
       expect(buffer).toBeTruthy();
       if (buffer) {
-        const fileContent = buffer.toString();
+        const fileContent = buffer.toString(UTF_8);
         expect(
           fileContent.includes("import { MockUnitTestModule } from '@test';")
         ).toBeTruthy();
@@ -70,22 +113,120 @@ describe('Module file utils', () => {
     });
   });
 
-  describe('importModule', () => {
-    it('should add passed position to import array', async () => {
-      const appModulePath = getPathResultsForFile(
-        appTree,
-        'app.module.ts',
-        'src'
-      )[0];
-      expect(appModulePath).toBeTruthy();
-      importModule(appTree, appModulePath, 'MockUnitTestModule');
+  describe('add metadata to ng module', () => {
+    describe('addToModuleImports', () => {
+      it('should add passed position to imports array', async () => {
+        const appModulePath = getPathResultsForFile(
+          appTree,
+          'app.module.ts',
+          'src'
+        )[0];
+        expect(appModulePath).toBeTruthy();
+        const resultChange = addToModuleImports(
+          appTree,
+          appModulePath,
+          'MockUnitTestModule'
+        );
 
-      const buffer = appTree.read(appModulePath);
-      expect(buffer).toBeTruthy();
-      if (buffer) {
-        const fileContent = buffer.toString();
-        expect(fileContent.includes('MockUnitTestModule')).toBeTruthy();
-      }
+        expect(resultChange).toBeTruthy();
+        expect(resultChange.length).toEqual(1);
+        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
+      });
+    });
+    describe('addToModuleDeclarations', () => {
+      it('should add passed position to declarations array', async () => {
+        const appModulePath = getPathResultsForFile(
+          appTree,
+          'app.module.ts',
+          'src'
+        )[0];
+        expect(appModulePath).toBeTruthy();
+        const resultChange = addToModuleDeclarations(
+          appTree,
+          appModulePath,
+          'MockUnitTestModule'
+        );
+
+        expect(resultChange).toBeTruthy();
+        expect(resultChange.length).toEqual(1);
+        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
+      });
+    });
+    describe('addToModuleEntryComponents', () => {
+      it('should add passed position to entryComponents array', async () => {
+        const appModulePath = getPathResultsForFile(
+          appTree,
+          'app.module.ts',
+          'src'
+        )[0];
+        expect(appModulePath).toBeTruthy();
+        const resultChange = addToModuleEntryComponents(
+          appTree,
+          appModulePath,
+          'MockUnitTestModule'
+        );
+
+        expect(resultChange).toBeTruthy();
+        expect(resultChange.length).toEqual(1);
+        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
+      });
+    });
+    describe('addToModuleExports', () => {
+      it('should add passed position to exports array', async () => {
+        const appModulePath = getPathResultsForFile(
+          appTree,
+          'app.module.ts',
+          'src'
+        )[0];
+        expect(appModulePath).toBeTruthy();
+        const resultChange = addToModuleExports(
+          appTree,
+          appModulePath,
+          'MockUnitTestModule'
+        );
+
+        expect(resultChange).toBeTruthy();
+        expect(resultChange.length).toEqual(1);
+        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
+      });
+    });
+  });
+
+  describe('getTemplateInfo', () => {
+    describe('when the templateUrl is specified', () => {
+      it('should return the template path', () => {
+        const source = ts.createSourceFile(
+          'component.ts',
+          COMPONENT_TEMPLATE_URL,
+          ts.ScriptTarget.Latest,
+          true
+        );
+        const result = getTemplateInfo(source);
+        expect(result).toBeTruthy();
+        if (result) {
+          expect(result.templateUrl).toEqual(TEMPLATE_NAME);
+          expect(result.inlineTemplateContent).toBeUndefined();
+          expect(result.inlineTemplateStart).toBeUndefined();
+        }
+      });
+    });
+
+    describe('when the inline template is defined', () => {
+      it('should return the template path', () => {
+        const source = ts.createSourceFile(
+          'component.ts',
+          COMPONENT_INLINE_TEMPLATE,
+          ts.ScriptTarget.Latest,
+          true
+        );
+        const result = getTemplateInfo(source);
+        expect(result).toBeTruthy();
+        if (result) {
+          expect(result.inlineTemplateContent).toEqual(TEMPLATE);
+          expect(result.inlineTemplateStart).toEqual(112);
+          expect(result.templateUrl).toBeUndefined();
+        }
+      });
     });
   });
 });

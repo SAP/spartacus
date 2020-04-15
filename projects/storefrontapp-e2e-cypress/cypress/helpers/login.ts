@@ -7,9 +7,7 @@ export const loginLinkSelector = 'cx-login [role="link"]';
 
 export function registerUser() {
   cy.get(loginLinkSelector).click();
-  cy.get('cx-page-layout')
-    .getByText('Register')
-    .click();
+  cy.get('cx-page-layout').getByText('Register').click();
   register(user);
   return user;
 }
@@ -36,4 +34,11 @@ export function loginWithBadCredentials() {
   alerts
     .getErrorAlert()
     .should('contain', 'Bad credentials. Please login again');
+}
+
+export function listenForTokenRevocationReqest(): string {
+  const aliasName = 'tokenRevocation';
+  cy.server();
+  cy.route('POST', '/authorizationserver/oauth/revoke').as(aliasName);
+  return `@${aliasName}`;
 }

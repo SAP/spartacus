@@ -1,3 +1,4 @@
+import { visitHomePage } from '../../../helpers/checkout-flow';
 import * as login from '../../../helpers/login';
 import {
   checkAnonymous,
@@ -6,19 +7,18 @@ import {
 
 describe('Payment Methods', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
+    visitHomePage();
   });
 
-  checkAnonymous();
+  describe('Anonymous user', () => {
+    checkAnonymous();
+  });
 
-  describe('should go to payment details page for login user', () => {
+  describe('Authenticated user', () => {
     before(() => {
-      cy.requireLoggedIn();
-      cy.reload();
-      cy.visit('/');
-      cy.selectUserMenuOption({
-        option: 'Payment Details',
-      });
+      cy.server();
+      visitHomePage();
     });
 
     beforeEach(() => {

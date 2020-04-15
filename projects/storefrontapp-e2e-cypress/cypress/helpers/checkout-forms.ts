@@ -27,7 +27,10 @@ export interface PaymentDetails {
   };
 }
 
-export function fillShippingAddress(shippingAddress: AddressData) {
+export function fillShippingAddress(
+  shippingAddress: AddressData,
+  submitForm: boolean = true
+) {
   cy.get('cx-address-form').within(() => {
     cy.get('.country-select[formcontrolname="isocode"]').ngSelect(
       shippingAddress.address.country
@@ -58,10 +61,10 @@ export function fillShippingAddress(shippingAddress: AddressData) {
     cy.get('[formcontrolname="postalCode"]')
       .clear()
       .type(shippingAddress.address.postal);
-    cy.get('[formcontrolname="phone"]')
-      .clear()
-      .type(shippingAddress.phone);
-    cy.get('button.btn-primary').click();
+    cy.get('[formcontrolname="phone"]').clear().type(shippingAddress.phone);
+    if (submitForm) {
+      cy.get('button.btn-primary').click({ force: true });
+    }
   });
 }
 
@@ -99,7 +102,8 @@ export function fillBillingAddress(billingAddress: AddressData) {
 
 export function fillPaymentDetails(
   paymentDetails: PaymentDetails,
-  billingAddress?: AddressData
+  billingAddress?: AddressData,
+  submitForm: boolean = true
 ) {
   cy.get('cx-payment-form').within(() => {
     cy.get('[bindValue="code"]').ngSelect(paymentDetails.payment.card);
@@ -109,18 +113,21 @@ export function fillPaymentDetails(
     cy.get('[formcontrolname="cardNumber"]')
       .clear()
       .type(paymentDetails.payment.number);
-    cy.get('[bindValue="expiryMonth"]').ngSelect(
+    cy.get('[formcontrolname="expiryMonth"]').ngSelect(
       paymentDetails.payment.expires.month
     );
-    cy.get('[bindValue="expiryYear"]').ngSelect(
+    cy.get('[formcontrolname="expiryYear"]').ngSelect(
       paymentDetails.payment.expires.year
     );
-    cy.get('[formcontrolname="cvn"]')
-      .clear()
-      .type(paymentDetails.payment.cvv);
+    cy.get('[formcontrolname="cvn"]').clear().type(paymentDetails.payment.cvv);
     if (billingAddress) {
       fillBillingAddress(billingAddress);
+    } else {
+      cy.get('input.form-check-input').check();
     }
-    cy.get('button.btn-primary').click();
+
+    if (submitForm) {
+      cy.get('button.btn.btn-block.btn-primary').contains('Continue').click();
+    }
   });
 }

@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { DELIVERY_MODE_NORMALIZER, OccConfig } from '@spartacus/core';
 import { Address } from '../../../model/address.model';
@@ -50,13 +49,9 @@ describe('OccCheckoutDeliveryAdapter', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
-    service = TestBed.get(OccCheckoutDeliveryAdapter as Type<
-      OccCheckoutDeliveryAdapter
-    >);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
+    service = TestBed.inject(OccCheckoutDeliveryAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -77,9 +72,9 @@ describe('OccCheckoutDeliveryAdapter', () => {
       let result;
       service
         .createAddress(userId, cartId, mockAddress)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'POST' &&
           req.url ===
@@ -111,9 +106,9 @@ describe('OccCheckoutDeliveryAdapter', () => {
       let result;
       service
         .setAddress(userId, cartId, mockAddressId)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'PUT' &&
           req.url ===
@@ -142,9 +137,9 @@ describe('OccCheckoutDeliveryAdapter', () => {
       let result;
       service
         .getSupportedModes(userId, cartId)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'GET' &&
           req.url ===
@@ -169,9 +164,9 @@ describe('OccCheckoutDeliveryAdapter', () => {
   describe('get delivery mode for cart', () => {
     it('should delivery modes for cart for given user id and cart id', () => {
       let result;
-      service.getMode(userId, cartId).subscribe(res => (result = res));
+      service.getMode(userId, cartId).subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'GET' &&
           req.url ===
@@ -198,9 +193,9 @@ describe('OccCheckoutDeliveryAdapter', () => {
       let result;
       service
         .setMode(userId, cartId, mockDeliveryModeId)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'PUT' &&
           req.url ===

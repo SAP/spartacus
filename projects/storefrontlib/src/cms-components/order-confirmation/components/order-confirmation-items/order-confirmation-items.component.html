@@ -2,8 +2,14 @@
   <h4 class="cx-order-items-header">
     {{ 'checkoutOrderConfirmation.orderItems' | cxTranslate }}
   </h4>
+
+  <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
+    <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+  </ng-container>
+
   <cx-cart-item-list
     [items]="order.entries"
-    [isReadOnly]="true"
+    [readonly]="true"
+    [promotionLocation]="promotionLocation"
   ></cx-cart-item-list>
 </div>

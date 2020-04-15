@@ -1,11 +1,18 @@
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import { OccEndpoints } from '../occ-models/occ-endpoints.model';
+import { LoadingScopes } from './loading-scopes-config';
 
 export abstract class OccConfig extends SiteContextConfig {
   backend?: {
     occ?: {
       baseUrl?: string;
       prefix?: string;
+      /**
+       * Indicates whether or not cross-site Access-Control requests should be made
+       * using credentials such as cookies, authorization headers or TLS client certificates
+       */
+      useWithCredentials?: boolean;
+
       endpoints?: OccEndpoints;
       legacy?: boolean;
     };
@@ -17,5 +24,6 @@ export abstract class OccConfig extends SiteContextConfig {
        */
       baseUrl?: string;
     };
+    loadingScopes?: LoadingScopes;
   };
 }

@@ -10,7 +10,7 @@ export function doPlaceOrder() {
 
   return cy
     .window()
-    .then(win => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
+    .then((win) => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
     .then(({ auth }) => {
       stateAuth = auth;
       return cy.requireProductAddedToCart(stateAuth);
@@ -54,6 +54,11 @@ export const orderHistoryTest = {
     it('should display placed order in Order History', () => {
       doPlaceOrder().then(() => {
         doPlaceOrder().then((orderData: any) => {
+          cy.waitForOrderToBePlacedRequest(
+            undefined,
+            undefined,
+            orderData.body.code
+          );
           cy.visit('/my-account/orders');
           cy.get('cx-order-history h3').should('contain', 'Order history');
           cy.get('.cx-order-history-code > .cx-order-history-value').should(
@@ -74,9 +79,9 @@ export const orderHistoryTest = {
       cy.route('GET', /sort=byOrderNumber/).as('query_order_asc');
       cy.visit('/my-account/orders');
       cy.get('.top cx-sorting .ng-select').ngSelect('Order Number');
-      cy.wait('@query_order_asc');
+      cy.wait('@query_order_asc').its('status').should('eq', 200);
       cy.get('.cx-order-history-code > .cx-order-history-value').then(
-        $orders => {
+        ($orders) => {
           expect(parseInt($orders[0].textContent, 10)).to.be.lessThan(
             parseInt($orders[1].textContent, 10)
           );
@@ -97,19 +102,15 @@ export const orderHistoryTest = {
       // DE: "15. Juni, 2019"
 
       const getDayNumber = (element: any) =>
-        element
-          .text()
-          .replace(',', '')
-          .replace('.', '')
-          .split(' ');
+        element.text().replace(',', '').replace('.', '').split(' ');
       let dayNumberEN: string;
       cy.visit('/my-account/orders');
-      cy.wait('@getOrderHistoryPage');
+      cy.wait('@getOrderHistoryPage').its('status').should('eq', 200);
       switchLanguage('en', isMobile);
 
       cy.get('.cx-order-history-placed > .cx-order-history-value')
         .first()
-        .then(element => {
+        .then((element) => {
           dayNumberEN = getDayNumber(element)[1];
         });
 
@@ -117,7 +118,7 @@ export const orderHistoryTest = {
 
       cy.get('.cx-order-history-placed > .cx-order-history-value')
         .first()
-        .then(element => {
+        .then((element) => {
           expect(getDayNumber(element)[0]).to.eq(dayNumberEN);
         });
 

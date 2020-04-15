@@ -1,11 +1,4 @@
-import {
-  Component,
-  DebugElement,
-  ElementRef,
-  Input,
-  Renderer2,
-  Type,
-} from '@angular/core';
+import { Component, DebugElement, ElementRef, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -83,7 +76,6 @@ describe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
   let navigationComponent: NavigationUIComponent;
   let element: DebugElement;
-  let renderer2: Renderer2;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -93,22 +85,48 @@ describe('Navigation UI Component', () => {
         MockIconComponent,
         MockGenericLinkComponent,
       ],
-      providers: [Renderer2],
+      providers: [],
     }).compileComponents();
+  });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(NavigationUIComponent);
+    navigationComponent = fixture.debugElement.componentInstance;
+    element = fixture.debugElement;
+
+    navigationComponent.node = mockNode;
+  });
+
+  describe('calculate columns', () => {
+    beforeEach(() => {
+      navigationComponent.wrapAfter = 5;
+    });
+
+    it('should return 2 for 10', () => {
+      expect(navigationComponent.getColumnCount(10)).toEqual(2);
+    });
+
+    it('should return 2 for 11', () => {
+      expect(navigationComponent.getColumnCount(11)).toEqual(2);
+    });
+
+    it('should return 2 for 12', () => {
+      expect(navigationComponent.getColumnCount(12)).toEqual(2);
+    });
+
+    it('should return 3 for 13', () => {
+      expect(navigationComponent.getColumnCount(13)).toEqual(3);
+    });
+
+    it('should return column count of 3 for 14 items', () => {
+      expect(navigationComponent.getColumnCount(14)).toEqual(3);
+    });
+
+    it('should return column count of 3 for 15 items', () => {
+      expect(navigationComponent.getColumnCount(15)).toEqual(3);
+    });
   });
 
   describe('UI tests', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(NavigationUIComponent);
-      navigationComponent = fixture.debugElement.componentInstance;
-      element = fixture.debugElement;
-      renderer2 = fixture.componentRef.injector.get<Renderer2>(
-        Renderer2 as Type<Renderer2>
-      );
-
-      navigationComponent.node = mockNode;
-    });
-
     it('should be created', () => {
       expect(navigationComponent).toBeTruthy();
     });
@@ -161,7 +179,7 @@ describe('Navigation UI Component', () => {
       fixture.detectChanges();
       // mmm... no `> nav` available in By.css
       let rootNavElementCount = 0;
-      (<HTMLElement>element.nativeElement).childNodes.forEach(el => {
+      (<HTMLElement>element.nativeElement).childNodes.forEach((el) => {
         if (el.nodeName === 'NAV') {
           rootNavElementCount++;
         }
@@ -218,46 +236,6 @@ describe('Navigation UI Component', () => {
         By.css('nav div .childs nav')
       );
       expect(child.length).toEqual(7);
-    });
-
-    it('should focus hovered element when another is focused', () => {
-      fixture.detectChanges();
-
-      const rootNavElements: DebugElement[] = element.queryAll(
-        By.css('div.flyout > nav')
-      );
-      const first: HTMLElement = rootNavElements[0].nativeElement;
-      const second: HTMLElement = rootNavElements[1].nativeElement;
-
-      // First element should not focus when no element is focused
-      expect(first).not.toBe(<HTMLElement>document.activeElement);
-
-      const listenFocusSecond = renderer2.listen(second, 'focus', () => {
-        listenFocusSecond();
-
-        // Second element should be focused
-        expect(<HTMLElement>document.activeElement).toBe(second);
-
-        // Hover mouse over first element
-        navigationComponent.focusAfterPreviousClicked(
-          new MouseEvent('mouseenter', {
-            relatedTarget: first,
-          })
-        );
-
-        first.dispatchEvent(new FocusEvent('focus', { relatedTarget: first }));
-      });
-
-      const listenFocusFirst = renderer2.listen(first, 'focus', () => {
-        listenFocusFirst();
-
-        // First element should become focused
-        expect(<HTMLElement>document.activeElement).toBe(first);
-      });
-
-      // Focus on second element
-      second.focus();
-      second.dispatchEvent(new FocusEvent('focus', { relatedTarget: second }));
     });
   });
 });

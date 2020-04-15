@@ -7,7 +7,7 @@ import {
   Product,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ItemCounterModule } from '../../../../shared';
+import { ItemCounterModule, FormErrorsModule } from '../../../../shared/index';
 import { ProductReviewsComponent } from './product-reviews.component';
 import { CurrentProductService } from '../../current-product.service';
 
@@ -48,7 +48,12 @@ describe('ProductReviewsComponent in product', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, ItemCounterModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        ItemCounterModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       providers: [
         {
           provide: ProductReviewService,
@@ -66,7 +71,6 @@ describe('ProductReviewsComponent in product', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductReviewsComponent);
     productReviewsComponent = fixture.componentInstance;
-
     fixture.detectChanges();
   });
 
@@ -76,7 +80,7 @@ describe('ProductReviewsComponent in product', () => {
 
   it('from get reviews by product code', () => {
     expect(productReviewsComponent.reviews$).toBeTruthy();
-    productReviewsComponent.reviews$.subscribe(result => {
+    productReviewsComponent.reviews$.subscribe((result) => {
       expect(result).toEqual(reviews);
     });
   });
@@ -84,7 +88,7 @@ describe('ProductReviewsComponent in product', () => {
   it('should contain a form object for the review submission form, after init()', () => {
     const props = ['comment', 'title', 'rating', 'reviewerName'];
 
-    props.forEach(prop => {
+    props.forEach((prop) => {
       expect(productReviewsComponent.reviewForm.controls[prop]).toBeDefined();
     });
   });
@@ -107,6 +111,39 @@ describe('ProductReviewsComponent in product', () => {
     it('should hide form on submitReview()', () => {
       productReviewsComponent.submitReview(product);
       expect(productReviewsComponent.isWritingReview).toBe(false);
+    });
+  });
+
+  describe('Overall rating display', () => {
+    it('should display rating component when rating is available', () => {
+      mockProduct.averageRating = 4.5;
+      fixture = TestBed.createComponent(ProductReviewsComponent);
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.nativeElement.querySelector(
+          '.header>cx-star-rating'
+        )
+      ).not.toBeNull();
+    });
+
+    it('should not display rating component when rating is unavailable', () => {
+      mockProduct.averageRating = undefined;
+      fixture = TestBed.createComponent(ProductReviewsComponent);
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.nativeElement.querySelector(
+          '.header>cx-star-rating'
+        )
+      ).toBeNull();
+    });
+
+    it('should display noReviews when rating is unavailable', () => {
+      mockProduct.averageRating = undefined;
+      fixture = TestBed.createComponent(ProductReviewsComponent);
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.innerText).toContain(
+        'productDetails.noReviews'
+      );
     });
   });
 });

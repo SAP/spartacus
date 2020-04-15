@@ -61,8 +61,8 @@ describe('JsonLdProductOfferBuilder', () => {
       ],
     });
 
-    service = TestBed.get(BreadcrumbSchemaBuilder);
-    pageMetaService = TestBed.get(PageMetaService);
+    service = TestBed.inject(BreadcrumbSchemaBuilder);
+    pageMetaService = TestBed.inject(PageMetaService);
   });
 
   it('should be created', () => {
@@ -73,7 +73,7 @@ describe('JsonLdProductOfferBuilder', () => {
     spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaHome));
     service
       .build()
-      .subscribe(schema => {
+      .subscribe((schema) => {
         expect(schema.itemListElement.length).toEqual(2);
       })
       .unsubscribe();
@@ -83,7 +83,7 @@ describe('JsonLdProductOfferBuilder', () => {
     spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaChild));
     service
       .build()
-      .subscribe(schema => {
+      .subscribe((schema) => {
         expect(schema.itemListElement.length).toEqual(3);
       })
       .unsubscribe();
@@ -93,7 +93,7 @@ describe('JsonLdProductOfferBuilder', () => {
     spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaHome));
     service
       .build()
-      .subscribe(schema => {
+      .subscribe((schema) => {
         expect(schema.itemListElement[1].position).toEqual(2);
       })
       .unsubscribe();
@@ -103,7 +103,7 @@ describe('JsonLdProductOfferBuilder', () => {
     spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaHome));
     service
       .build()
-      .subscribe(schema => {
+      .subscribe((schema) => {
         expect(schema.itemListElement[1].item.name).toEqual('name of the page');
       })
       .unsubscribe();
@@ -115,7 +115,7 @@ describe('JsonLdProductOfferBuilder', () => {
     );
     service
       .build()
-      .subscribe(schema => {
+      .subscribe((schema) => {
         expect(schema.itemListElement.length).toEqual(1);
       })
       .unsubscribe();
@@ -128,7 +128,7 @@ describe('JsonLdProductOfferBuilder', () => {
     let schema: string;
     service
       .build()
-      .subscribe(data => (schema = data))
+      .subscribe((data) => (schema = data))
       .unsubscribe();
     expect(schema).toBeUndefined();
   });

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { CartDataService } from '../../cart/facade/cart-data.service';
+import { AuthService } from '../../auth/facade/auth.service';
+import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { CardType, PaymentDetails } from '../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
@@ -20,7 +21,8 @@ import { CheckoutSelectors } from '../store/selectors/index';
 export class CheckoutPaymentService {
   constructor(
     protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
-    protected cartData: CartDataService
+    protected authService: AuthService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   /**
@@ -68,13 +70,27 @@ export class CheckoutPaymentService {
    */
   createPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new CheckoutActions.CreatePaymentDetails({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cartId,
-          paymentDetails,
-        })
-      );
+      let userId;
+      this.authService
+        .getOccUserId()
+        .subscribe((occUserId) => (userId = occUserId))
+        .unsubscribe();
+
+      let cartId;
+      this.activeCartService
+        .getActiveCartId()
+        .subscribe((activeCartId) => (cartId = activeCartId))
+        .unsubscribe();
+
+      if (userId && cartId) {
+        this.checkoutStore.dispatch(
+          new CheckoutActions.CreatePaymentDetails({
+            userId,
+            cartId,
+            paymentDetails,
+          })
+        );
+      }
     }
   }
 
@@ -84,20 +100,45 @@ export class CheckoutPaymentService {
    */
   setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new CheckoutActions.SetPaymentDetails({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cart.code,
-          paymentDetails: paymentDetails,
-        })
-      );
+      let userId;
+      this.authService
+        .getOccUserId()
+        .subscribe((occUserId) => (userId = occUserId))
+        .unsubscribe();
+
+      let cart;
+      this.activeCartService
+        .getActive()
+        .subscribe((activeCart) => (cart = activeCart))
+        .unsubscribe();
+      if (userId && cart) {
+        this.checkoutStore.dispatch(
+          new CheckoutActions.SetPaymentDetails({
+            userId,
+            cartId: cart.code,
+            paymentDetails: paymentDetails,
+          })
+        );
+      }
     }
   }
 
+  /**
+   * Sets payment loading to true without having the flicker issue (GH-3102)
+   */
+  paymentProcessSuccess() {
+    this.checkoutStore.dispatch(new CheckoutActions.PaymentProcessSuccess());
+  }
+
   protected actionAllowed(): boolean {
+    let userId;
+    this.authService
+      .getOccUserId()
+      .subscribe((occUserId) => (userId = occUserId))
+      .unsubscribe();
     return (
-      this.cartData.userId !== OCC_USER_ID_ANONYMOUS ||
-      this.cartData.isGuestCart
+      (userId && userId !== OCC_USER_ID_ANONYMOUS) ||
+      this.activeCartService.isGuestCart()
     );
   }
 }

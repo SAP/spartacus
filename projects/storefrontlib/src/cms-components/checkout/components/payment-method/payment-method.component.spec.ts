@@ -1,8 +1,9 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
+  ActiveCartService,
   Address,
   CheckoutDeliveryService,
   CheckoutPaymentService,
@@ -14,7 +15,6 @@ import {
   RoutingConfigService,
   RoutingService,
   UserPaymentService,
-  CartService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
@@ -110,7 +110,7 @@ class MockRoutingConfigService {
   }
 }
 
-class MockCartService {
+class MockActiveCartService {
   isGuestCart(): boolean {
     return false;
   }
@@ -175,9 +175,9 @@ describe('PaymentMethodComponent', () => {
   let fixture: ComponentFixture<PaymentMethodComponent>;
   let mockUserPaymentService: UserPaymentService;
   let mockCheckoutPaymentService: CheckoutPaymentService;
-  let mockRoutingService: MockRoutingService;
+  let mockRoutingService: RoutingService;
   let mockRoutingConfigService: RoutingConfigService;
-  let mockCartService: CartService;
+  let mockActiveCartService: ActiveCartService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -197,8 +197,8 @@ describe('PaymentMethodComponent', () => {
           useClass: MockCheckoutDeliveryService,
         },
         {
-          provide: CartService,
-          useClass: MockCartService,
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
         {
           provide: CheckoutPaymentService,
@@ -212,17 +212,11 @@ describe('PaymentMethodComponent', () => {
       ],
     }).compileComponents();
 
-    mockUserPaymentService = TestBed.get(UserPaymentService as Type<
-      UserPaymentService
-    >);
-    mockCheckoutPaymentService = TestBed.get(CheckoutPaymentService as Type<
-      CheckoutPaymentService
-    >);
-    mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
-      RoutingConfigService
-    >);
-    mockCartService = TestBed.get(CartService as Type<CartService>);
+    mockUserPaymentService = TestBed.inject(UserPaymentService);
+    mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentService);
+    mockRoutingService = TestBed.inject(RoutingService);
+    mockRoutingConfigService = TestBed.inject(RoutingConfigService);
+    mockActiveCartService = TestBed.inject(ActiveCartService);
   }));
 
   beforeEach(() => {
@@ -249,7 +243,7 @@ describe('PaymentMethodComponent', () => {
     });
   });
 
-  it('should get existing payment methods if they do not exist for login user', done => {
+  it('should get existing payment methods if they do not exist for login user', (done) => {
     spyOn(mockUserPaymentService, 'loadPaymentMethods').and.stub();
     spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(of([]));
     component.ngOnInit();
@@ -260,10 +254,10 @@ describe('PaymentMethodComponent', () => {
     });
   });
 
-  it('should not get existing payment methods for guest user', done => {
+  it('should not get existing payment methods for guest user', (done) => {
     spyOn(mockUserPaymentService, 'loadPaymentMethods').and.stub();
     spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(of([]));
-    spyOn(mockCartService, 'isGuestCart').and.returnValue(true);
+    spyOn(mockActiveCartService, 'isGuestCart').and.returnValue(true);
     component.ngOnInit();
 
     component.existingPaymentMethods$.subscribe(() => {
@@ -280,7 +274,7 @@ describe('PaymentMethodComponent', () => {
     component.ngOnInit();
     let paymentMethods: PaymentDetails[];
     component.existingPaymentMethods$
-      .subscribe(data => {
+      .subscribe((data) => {
         paymentMethods = data;
       })
       .unsubscribe();
@@ -291,7 +285,7 @@ describe('PaymentMethodComponent', () => {
   it('should call getCardContent() to get payment method card data', () => {
     component
       .getCardContent(mockPaymentDetails)
-      .subscribe(card => {
+      .subscribe((card) => {
         expect(card.title).toEqual('');
         expect(card.textBold).toEqual('Name');
         expect(card.text).toEqual([
@@ -378,7 +372,7 @@ describe('PaymentMethodComponent', () => {
     const getContinueBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-primary'))
-        .find(el => el.nativeElement.innerText === 'common.continue');
+        .find((el) => el.nativeElement.innerText === 'common.continue');
 
     it('should be enabled when payment method is selected', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
@@ -413,7 +407,7 @@ describe('PaymentMethodComponent', () => {
     const getBackBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'common.back');
+        .find((el) => el.nativeElement.innerText === 'common.back');
 
     it('should call "goPrevious" function after being clicked', () => {
       spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
@@ -475,7 +469,9 @@ describe('PaymentMethodComponent', () => {
     const getAddNewPaymentBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'paymentForm.addNewPayment');
+        .find(
+          (el) => el.nativeElement.innerText === 'paymentForm.addNewPayment'
+        );
     const getNewPaymentForm = () =>
       fixture.debugElement.query(By.css('cx-payment-form'));
 

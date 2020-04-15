@@ -1,0 +1,120 @@
+%cx-coupon-card {
+  .cx-coupon-card-row {
+    display: flex;
+    justify-content: space-between;
+    &.top {
+      height: 48px;
+    }
+
+    &.bottom {
+      padding: 1rem 0 0 0;
+      @include media-breakpoint-down(md) {
+        flex-direction: column;
+        .cx-coupon-find-product {
+          padding: 0;
+        }
+      }
+    }
+
+    .cx-coupon-card-head {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      width: 80%;
+    }
+
+    .cx-coupon-status {
+      text-transform: uppercase;
+      white-space: nowrap;
+      &.effective {
+        color: var(--cx-color-success);
+      }
+      &.expiresoon {
+        color: var(--cx-color-danger);
+      }
+      &.presession {
+        color: var(--cx-color-warning);
+      }
+    }
+  }
+
+  .cx-coupon-card-date {
+    padding: 1rem 0 0 0;
+    p {
+      margin: 0;
+    }
+    .cx-coupon-date {
+      display: flex;
+      width: 80%;
+      @include media-breakpoint-down(md) {
+        flex-direction: column;
+      }
+    }
+
+    .cx-coupon-date-start {
+      white-space: nowrap;
+    }
+    .cx-coupon-date-end {
+      white-space: nowrap;
+    }
+  }
+
+  a:not([href]) {
+    text-decoration: underline;
+    &.cx-card-read-more {
+      color: var(--cx-color-text);
+      padding: 1rem 0 0 0;
+      cursor: pointer;
+      display: inline-block;
+      &:hover {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+
+  .cx-coupon-spinner {
+    padding: 5rem 0 5rem 0;
+  }
+
+  .cx-coupon-card {
+    padding-bottom: 30px;
+  }
+
+  .cx-my-coupons-form-group {
+    padding: 0;
+    margin-bottom: 0;
+
+    @include media-breakpoint-down(sm) {
+      padding: 1.25rem;
+    }
+  }
+
+  .cx-my-coupons-sort {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      padding-top: 0;
+    }
+    &.top {
+      padding: 1rem 0;
+    }
+
+    &.bottom {
+      padding: 2rem 0 1rem 0;
+    }
+  }
+
+  .cx-my-coupons-pagination {
+    @include media-breakpoint-down(sm) {
+      margin: 0 auto;
+    }
+  }
+
+  .cx-section-msg {
+    text-align: center;
+  }
+}

@@ -25,7 +25,7 @@ export class CheckoutProgressComponent implements OnInit {
   ngOnInit(): void {
     this.steps = this.config.checkout.steps;
     this.routerState$ = this.routingService.getRouterState().pipe(
-      tap(router => {
+      tap((router) => {
         this.activeStepUrl = router.state.context.id;
 
         this.steps.forEach((step, index) => {
@@ -38,5 +38,17 @@ export class CheckoutProgressComponent implements OnInit {
         });
       })
     );
+  }
+
+  getTabIndex(stepIndex: number): number {
+    return !this.isActive(stepIndex) && !this.isDisabled(stepIndex) ? 0 : -1;
+  }
+
+  isActive(index: number): boolean {
+    return index === this.activeStepIndex;
+  }
+
+  isDisabled(index: number): boolean {
+    return index > this.activeStepIndex;
   }
 }

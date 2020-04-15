@@ -1,8 +1,5 @@
-import { Address } from '../../../model/address.model';
-import { PaymentDetails } from '../../../model/cart.model';
-import { DeliveryMode, Order } from '../../../model/order.model';
-import { CheckoutActions } from '../actions/index';
 import {
+  MULTI_CART_DATA,
   PROCESS_FEATURE,
   SET_DELIVERY_ADDRESS_PROCESS_ID,
   SET_DELIVERY_MODE_PROCESS_ID,
@@ -10,6 +7,11 @@ import {
   SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
   StateEntityLoaderActions,
 } from '@spartacus/core';
+import { Address } from '../../../model/address.model';
+import { PaymentDetails } from '../../../model/cart.model';
+import { DeliveryMode, Order } from '../../../model/order.model';
+import { StateEntityProcessesLoaderActions } from '../../../state/utils/index';
+import { CheckoutActions } from '../actions/index';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
@@ -273,6 +275,7 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.CREATE_PAYMENT_DETAILS,
           payload,
+          meta: action.meta,
         });
       });
     });
@@ -285,6 +288,7 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL,
           payload: error,
+          meta: action.meta,
         });
       });
     });
@@ -477,6 +481,10 @@ describe('Checkout Actions', () => {
       expect({ ...action }).toEqual({
         type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE,
         payload,
+        meta: StateEntityProcessesLoaderActions.entityProcessesIncrementMeta(
+          MULTI_CART_DATA,
+          cartId
+        ),
       });
     });
   });
@@ -486,11 +494,16 @@ describe('Checkout Actions', () => {
       const payload = {
         userId,
         cartId,
+        error: 'anError',
       };
       const action = new CheckoutActions.ClearCheckoutDeliveryModeFail(payload);
       expect({ ...action }).toEqual({
         type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_FAIL,
         payload,
+        meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
+          MULTI_CART_DATA,
+          cartId
+        ),
       });
     });
   });
@@ -504,6 +517,10 @@ describe('Checkout Actions', () => {
       expect({ ...action }).toEqual({
         type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
         payload: { userId, cartId },
+        meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
+          MULTI_CART_DATA,
+          cartId
+        ),
       });
     });
   });

@@ -2,12 +2,11 @@ import { NgModule } from '@angular/core';
 import { Config } from '@spartacus/core';
 import { OutletRefModule } from '../cms-structure/outlet/outlet-ref/outlet-ref.module';
 import { LayoutConfig } from './config/layout-config';
-
-const layoutModules = [OutletRefModule];
+import { LaunchDialogModule } from './launch-dialog/index';
 
 @NgModule({
-  imports: [...layoutModules],
+  imports: [OutletRefModule, LaunchDialogModule.forRoot()],
   providers: [{ provide: LayoutConfig, useExisting: Config }],
-  exports: [...layoutModules],
+  exports: [OutletRefModule],
 })
 export class LayoutModule {}

@@ -1,5 +1,8 @@
 import { standardUser } from '../sample-data/shared-users';
 import { login, register } from './auth-forms';
+import { waitForPage } from './checkout-flow';
+import { PRODUCT_LISTING } from './data-configuration';
+import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
 
 interface TestProduct {
@@ -9,12 +12,21 @@ interface TestProduct {
   price?: number;
 }
 
-const formatPrice = (price: number) =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  }).format(price);
+const formatPrice = (price: number, currency: string = 'USD') => {
+  if (currency === 'USD') {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    }).format(price);
+  } else if (currency === 'GBP') {
+    return new Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: 'GBP',
+      minimumFractionDigits: 2,
+    }).format(price);
+  }
+};
 
 export const products: TestProduct[] = [
   {
@@ -36,7 +48,13 @@ export const products: TestProduct[] = [
     price: 370.72,
   },
   {
-    code: '29925',
+    code: '872912',
+  },
+  {
+    code: '932577',
+    type: 'camera',
+    name: 'Digital Camera Tripod',
+    price: 24.47,
   },
 ];
 
@@ -52,24 +70,27 @@ function checkCartSummary(subtotal: string) {
 }
 
 function incrementQuantity() {
-  cy.get('.cx-counter-action')
-    .contains('+')
-    .click();
+  cy.get('cx-item-counter button').contains('+').click();
 }
 
 function goToFirstProductFromSearch(id: string, mobile: boolean) {
   cy.get('cx-storefront.stop-navigating');
   if (mobile) {
     cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
-    cy.get('cx-searchbox input')
-      .clear({ force: true })
-      .type(id, { force: true })
-      .type('{enter}', { force: true });
-    cy.get('cx-product-list-item')
+
+    createProductQuery(
+      QUERY_ALIAS.PRODUCE_CODE,
+      id,
+      PRODUCT_LISTING.PRODUCTS_PER_PAGE
+    );
+
+    cy.get('cx-searchbox input').clear().type(`${id}{enter}`);
+
+    cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`).its('status').should('eq', 200);
+
+    cy.get('cx-product-list-item .cx-product-name')
       .first()
-      .get('.cx-product-name')
-      .first()
-      .click();
+      .click({ force: true });
   } else {
     cy.get('cx-searchbox input')
       .clear({ force: true })
@@ -96,32 +117,56 @@ export function validateEmptyCart() {
 }
 
 export function addToCart() {
-  cy.get('cx-add-to-cart')
-    .getAllByText(/Add To Cart/i)
-    .first()
-    .click({ force: true });
+  cy.get('cx-add-to-cart button[type=submit]').first().click({ force: true });
 }
 
-export function waitForCartRefresh() {
+export function registerCartRefreshRoute() {
   cy.server();
 
   cy.route(
     'GET',
-    `/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
+    `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
+}
+
+export function registerCreateCartRoute() {
+  cy.server();
+
+  cy.route(
+    'POST',
+    `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/electronics-spa/users/*/carts?fields=*&lang=en&curr=USD`
+  ).as('create_cart');
+}
+
+export function registerSaveCartRoute() {
+  cy.server();
+
+  cy.route(
+    'PATCH',
+    `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/electronics-spa/users/*/carts/*/save?lang=en&curr=USD`
+  ).as('save_cart');
 }
 
 export function closeAddedToCartDialog() {
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
 }
 
-export function checkProductInCart(product, qty = 1) {
+export function checkProductInCart(product, qty = 1, currency = 'USD') {
   return getCartItem(product.name).within(() => {
-    cy.get('.cx-price>.cx-value').should('contain', formatPrice(product.price));
-    cy.get('.cx-counter-value').should('have.value', `${qty}`);
+    cy.get('.cx-price>.cx-value').should(
+      'contain',
+      formatPrice(product.price, currency)
+    );
+    cy.get('cx-item-counter input').should('have.value', `${qty}`);
     cy.get('.cx-total>.cx-value').should(
       'contain',
-      formatPrice(qty * product.price)
+      formatPrice(qty * product.price, currency)
     );
     cy.root();
   });
@@ -144,9 +189,9 @@ export function addProductToCartViaAutoComplete(mobile: boolean) {
 }
 
 export function addProductToCartViaSearchPage(mobile: boolean) {
-  const product = products[1];
+  const product = products[4];
 
-  goToFirstProductFromSearch(product.type, mobile);
+  goToFirstProductFromSearch(product.code, mobile);
 
   addToCart();
 
@@ -158,19 +203,13 @@ export function addProductToCartViaSearchPage(mobile: boolean) {
 }
 
 export function removeAllItemsFromCart() {
-  const product0 = products[0];
-  const product1 = products[1];
-  waitForCartRefresh();
+  registerCartRefreshRoute();
 
-  getCartItem(product0.name).within(() => {
-    cy.getByText('Remove').click();
-  });
+  removeCartItem(products[0]);
 
-  cy.wait('@refresh_cart');
+  cy.wait('@refresh_cart').its('status').should('eq', 200);
 
-  getCartItem(product1.name).within(() => {
-    cy.getByText('Remove').click();
-  });
+  removeCartItem(products[4]);
 
   validateEmptyCart();
 }
@@ -196,27 +235,49 @@ export function addProductWhenLoggedIn(mobile: boolean) {
   const product = products[1];
 
   goToFirstProductFromSearch(product.code, mobile);
+  /**
+   * This waits is added here to delay Add to cart click until wishlist is created.
+   * Wishlist is created on first render of wishlist components.
+   * Without that there might be a race condition that active cart will use the same cart as wishlist.
+   */
+  cy.wait('@create_cart');
+  cy.wait('@save_cart');
   addToCart();
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 }
 
 export function logOutAndNavigateToEmptyCart() {
+  const logoutPage = waitForPage('/logout', 'getLogoutPage');
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
+  cy.wait(`@${logoutPage}`);
+
   cy.get('cx-login [role="link"]').should('contain', 'Sign In');
 
+  const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
+  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+
   validateEmptyCart();
 }
 
 export function addProductAsAnonymous() {
   const product = products[2];
 
+  createProductQuery(
+    QUERY_ALIAS.PRODUCE_CODE,
+    product.code,
+    PRODUCT_LISTING.PRODUCTS_PER_PAGE
+  );
+
   cy.get('cx-searchbox input').type(`${product.code}{enter}`, {
     force: true,
   });
+
+  cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`).its('status').should('eq', 200);
+
   cy.get('cx-product-list')
     .contains('cx-product-list-item', product.name)
     .within(() => {
@@ -235,7 +296,10 @@ export function verifyMergedCartWhenLoggedIn() {
   const product0 = products[1];
   const product1 = products[2];
 
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get('cx-login [role="link"]').click();
+  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+
   login(
     standardUser.registrationData.email,
     standardUser.registrationData.password
@@ -252,10 +316,16 @@ export function verifyMergedCartWhenLoggedIn() {
 }
 
 export function logOutAndEmptyCart() {
+  const logoutPage = waitForPage('/logout', 'getLogoutPage');
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
+  cy.wait(`@${logoutPage}`);
+
+  const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
+  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+
   validateEmptyCart();
 }
 
@@ -264,11 +334,11 @@ export function manipulateCartQuantity() {
 
   cy.visit(`/product/${product.code}`);
 
-  waitForCartRefresh();
+  registerCartRefreshRoute();
 
   addToCart();
 
-  cy.wait('@refresh_cart');
+  cy.wait('@refresh_cart').its('status').should('eq', 200);
 
   checkAddedToCartDialog();
   closeAddedToCartDialog();
@@ -311,13 +381,18 @@ export const cartUser = {
 };
 
 export function registerCartUser() {
+  const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.visit('/login/register');
+  cy.wait(`@${registerPage}`);
+
   register({ ...cartUser.registrationData });
   cy.url().should('not.contain', 'register');
 }
 
 export function loginCartUser() {
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.visit('/login');
+  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
   login(cartUser.registrationData.email, cartUser.registrationData.password);
   cy.url().should('not.contain', 'login');
 }

@@ -67,11 +67,11 @@ describe('AsmComponentService', () => {
       ],
     });
 
-    asmComponentService = TestBed.get(AsmComponentService);
-    authService = TestBed.get(AuthService);
-    asmAuthService = TestBed.get(AsmAuthService);
-    routingService = TestBed.get(RoutingService);
-    windowRef = TestBed.get(WindowRef);
+    asmComponentService = TestBed.inject(AsmComponentService);
+    authService = TestBed.inject(AuthService);
+    asmAuthService = TestBed.inject(AsmAuthService);
+    routingService = TestBed.inject(RoutingService);
+    windowRef = TestBed.inject(WindowRef);
   });
 
   it('should be created', () => {
@@ -136,7 +136,7 @@ describe('AsmComponentService', () => {
       asmComponentService
         .isCustomerEmulationSessionInProgress()
         .pipe(take(1))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toBe(true);
     });
 
@@ -147,7 +147,7 @@ describe('AsmComponentService', () => {
       asmComponentService
         .isCustomerEmulationSessionInProgress()
         .pipe(take(1))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toBe(false);
     });
   });

@@ -1,323 +1,212 @@
-import { Type } from '@angular/core';
-import {
-  async,
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ItemCounterComponent } from './item-counter.component';
 
-class MockEvent {
-  code: string;
-
-  preventDefault() {}
-
-  stopPropagation() {}
-}
-
-const testData = [
-  { incomingValue: 0, adjustedValue: 1, isMaxOrMinValueOrBeyond: true },
-  { incomingValue: 1, adjustedValue: 1, isMaxOrMinValueOrBeyond: true },
-  { incomingValue: 2, adjustedValue: 2, isMaxOrMinValueOrBeyond: false },
-  { incomingValue: 4, adjustedValue: 4, isMaxOrMinValueOrBeyond: false },
-  { incomingValue: 5, adjustedValue: 5, isMaxOrMinValueOrBeyond: true },
-  { incomingValue: 6, adjustedValue: 5, isMaxOrMinValueOrBeyond: true },
-];
+const form = new FormGroup({
+  quantity: new FormControl('1'),
+});
 
 describe('ItemCounterComponent', () => {
-  let itemCounterComponent: ItemCounterComponent;
+  let component: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
-
-  let keyBoardEvent: MockEvent;
-  let focusEvent: FocusEvent;
-
-  let isInputFocused;
-  let isIncrementBtnFocused;
-  let isDecrementBtnFocused;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, ReactiveFormsModule],
       declarations: [ItemCounterComponent],
-      providers: [
-        { provide: Function },
-        { provide: KeyboardEvent, useClass: MockEvent },
-        { provide: FocusEvent, useClass: MockEvent },
-        { provide: MockEvent },
-      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    isInputFocused = false;
-    isIncrementBtnFocused = false;
-    isDecrementBtnFocused = false;
     fixture = TestBed.createComponent(ItemCounterComponent);
-    itemCounterComponent = fixture.componentInstance;
-    itemCounterComponent.input = {
-      nativeElement: {
-        focus: () => {
-          isInputFocused = true;
-        },
-      },
-    };
-    itemCounterComponent.incrementBtn = {
-      nativeElement: {
-        focus: () => {
-          isIncrementBtnFocused = true;
-        },
-      },
-    };
-    itemCounterComponent.decrementBtn = {
-      nativeElement: {
-        focus: () => {
-          isDecrementBtnFocused = true;
-        },
-      },
-    };
+    component = fixture.componentInstance;
 
-    keyBoardEvent = TestBed.get(KeyboardEvent as Type<KeyboardEvent>);
-    focusEvent = TestBed.get(FocusEvent as Type<FocusEvent>);
+    component.control = <FormControl>form.get('quantity');
 
-    spyOn(itemCounterComponent, 'decrement').and.callThrough();
-    spyOn(itemCounterComponent, 'increment').and.callThrough();
-    spyOn(itemCounterComponent, 'updateValue').and.callThrough();
-    spyOn(itemCounterComponent, 'isMaxOrMinValueOrBeyond').and.callThrough();
-    spyOn(itemCounterComponent, 'adjustValueInRange').and.callThrough();
-    spyOn(itemCounterComponent, 'manualChange').and.callThrough();
-    spyOn(itemCounterComponent.update, 'emit').and.callThrough();
-    spyOn(keyBoardEvent, 'preventDefault').and.callThrough();
-    spyOn(keyBoardEvent, 'stopPropagation').and.callThrough();
-    spyOn(focusEvent, 'preventDefault').and.callThrough();
-    spyOn(focusEvent, 'stopPropagation').and.callThrough();
+    component.control.setValue(1);
+    component.control.markAsPristine();
+    fixture.detectChanges();
   });
 
   it('should create ItemCounterComponent', () => {
-    expect(itemCounterComponent).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  it('should call writeValue(value) with null value', () => {
-    itemCounterComponent.writeValue(null);
-    expect(itemCounterComponent.value).toEqual(0);
+  it('should update the input value when the control value is changed', () => {
+    const input: HTMLInputElement = fixture.debugElement.query(By.css('input'))
+      .nativeElement;
+    component.control.setValue(5);
+    fixture.detectChanges();
+    expect(input.value).toEqual('5');
   });
 
-  it('should call writeValue(value) with valid value', () => {
-    itemCounterComponent.writeValue(3);
-    expect(itemCounterComponent.value).toEqual(3);
+  it('should update the form control when the input is changed', async(() => {
+    const input: HTMLInputElement = fixture.debugElement.query(By.css('input'))
+      .nativeElement;
+
+    input.focus();
+    input.value = '10';
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(component.control.value).toEqual(10);
+  }));
+
+  describe('readonly', () => {
+    it('should add readonly class', async(() => {
+      component.readonly = true;
+      fixture.detectChanges();
+      expect(
+        (<HTMLElement>fixture.debugElement.nativeElement).classList
+      ).toContain('readonly');
+    }));
+
+    it('should not add readonly class', async(() => {
+      component.readonly = false;
+      fixture.detectChanges();
+      expect(
+        (<HTMLElement>fixture.debugElement.nativeElement).classList
+      ).not.toContain('readonly');
+    }));
   });
 
-  it('should call onKeyDown(event: KeyboardEvent) where event contains a ArrowDown code', () => {
-    keyBoardEvent.code = 'ArrowDown';
-    itemCounterComponent.onKeyDown(keyBoardEvent as KeyboardEvent);
+  describe('validate value', () => {
+    it('should set value to max when it is greater than max value', () => {
+      component.max = 40;
+      component.control.setValue(50);
+      fixture.detectChanges();
 
-    expect(keyBoardEvent.preventDefault).toHaveBeenCalled();
-    expect(keyBoardEvent.stopPropagation).toHaveBeenCalled();
-  });
+      expect(component.control.value).toEqual(40);
+    });
 
-  it('should call onKeyDown(event: KeyboardEvent) where event contains a ArrowUp code', () => {
-    keyBoardEvent.code = 'ArrowUp';
-    itemCounterComponent.onKeyDown(keyBoardEvent as KeyboardEvent);
+    it('should set value to min when it is smaller than min value', () => {
+      component.min = 3;
+      component.control.setValue(2);
+      fixture.detectChanges();
 
-    expect(keyBoardEvent.preventDefault).toHaveBeenCalled();
-    expect(keyBoardEvent.stopPropagation).toHaveBeenCalled();
-  });
+      expect(component.control.value).toEqual(3);
+    });
 
-  it('should call onKeyDown(event: KeyboardEvent) where event contains a invalid code', () => {
-    keyBoardEvent.code = 'InvalidCode';
-    itemCounterComponent.onKeyDown(keyBoardEvent as KeyboardEvent);
+    it('should avoid invalid characters in the input to silently fail', async(() => {
+      component.min = 5;
+      const input: HTMLInputElement = fixture.debugElement.query(
+        By.css('input')
+      ).nativeElement;
 
-    expect(keyBoardEvent.preventDefault).not.toHaveBeenCalled();
-    expect(keyBoardEvent.stopPropagation).not.toHaveBeenCalled();
-  });
+      input.value = 'abc';
+      input.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
 
-  it('should call onBlur(event: FocusEvent)', () => {
-    itemCounterComponent.onBlur(focusEvent);
+      expect(input.value).toEqual('5');
+    }));
 
-    expect(itemCounterComponent.focus).toBeFalsy();
-    expect(focusEvent.preventDefault).toHaveBeenCalled();
-    expect(focusEvent.stopPropagation).toHaveBeenCalled();
-  });
+    it('should ignore 0 value in case `allowZero` is set to true', () => {
+      component.allowZero = true;
+      component.control.setValue(0);
+      fixture.detectChanges();
 
-  it('should call onFocus(event: FocusEvent)', () => {
-    itemCounterComponent.onFocus(focusEvent);
+      expect(component.control.value).toEqual(0);
+    });
 
-    expect(itemCounterComponent.focus).toBeTruthy();
-    expect(focusEvent.preventDefault).toHaveBeenCalled();
-    expect(focusEvent.stopPropagation).toHaveBeenCalled();
+    it('should set to min value in case `allowZero` is set to false', () => {
+      component.allowZero = false;
+      component.control.setValue(0);
+      fixture.detectChanges();
+
+      expect(component.control.value).toEqual(component.min);
+    });
   });
 
   describe('increment()', () => {
-    it('should increment value when it is less than max', () => {
-      itemCounterComponent.value = 1;
-      itemCounterComponent.min = 1;
-      itemCounterComponent.max = 2;
-      itemCounterComponent.increment();
-
-      expect(itemCounterComponent.value).toEqual(2);
-      expect(itemCounterComponent.update.emit).toHaveBeenCalled();
+    it('should increase form control value when plus button is used', () => {
+      const button: DebugElement[] = fixture.debugElement.queryAll(
+        By.css('button')
+      );
+      button[1].nativeElement.click();
+      fixture.detectChanges();
+      expect(component.control.value).toEqual(2);
     });
 
-    it('should set focus when value is incremented', () => {
-      const isIncremented = true;
-      itemCounterComponent.setFocus(isIncremented);
-      itemCounterComponent.increment();
-
-      expect(isInputFocused).toBeFalsy();
-      expect(isDecrementBtnFocused).toBeFalsy();
-      expect(isIncrementBtnFocused).toBeTruthy();
+    it('should mark the control "dirty" when the value increases', () => {
+      expect(component.control.dirty).toBe(false);
+      const button: DebugElement[] = fixture.debugElement.queryAll(
+        By.css('button')
+      );
+      button[1].nativeElement.click();
+      fixture.detectChanges();
+      expect(component.control.dirty).toBe(true);
     });
 
-    it('should set value to max when it is greater than max', () => {
-      itemCounterComponent.value = 3;
-      itemCounterComponent.min = 1;
-      itemCounterComponent.max = 2;
-      itemCounterComponent.increment();
+    it('should enable increase button if max number is not reached', () => {
+      component.control.setValue(5);
+      component.max = 10;
+      fixture.detectChanges();
+      const button: DebugElement[] = fixture.debugElement.queryAll(
+        By.css('button')
+      );
+      expect((<HTMLButtonElement>button[1].nativeElement).disabled).toBeFalsy();
+    });
 
-      expect(itemCounterComponent.value).toEqual(2);
-      expect(itemCounterComponent.update.emit).toHaveBeenCalled();
+    it('should disable increase button if max number is reached', () => {
+      component.control.setValue(5);
+      component.max = 5;
+      fixture.detectChanges();
+      const button: DebugElement[] = fixture.debugElement.queryAll(
+        By.css('button')
+      );
+      expect(
+        (<HTMLButtonElement>button[1].nativeElement).disabled
+      ).toBeTruthy();
     });
   });
 
   describe('decrement()', () => {
-    it('should decrement value when it is greater than min', () => {
-      itemCounterComponent.value = 3;
-      itemCounterComponent.min = 2;
-      itemCounterComponent.max = 5;
-      itemCounterComponent.decrement();
-
-      expect(itemCounterComponent.value).toEqual(2);
-      expect(itemCounterComponent.update.emit).toHaveBeenCalled();
-    });
-    it('should set value to min when it is less than min', () => {
-      itemCounterComponent.value = 1;
-      itemCounterComponent.min = 2;
-      itemCounterComponent.max = 5;
-      itemCounterComponent.decrement();
-
-      expect(itemCounterComponent.value).toEqual(2);
-      expect(itemCounterComponent.update.emit).toHaveBeenCalled();
-    });
-    it('should set focus on the decrement button when value is decremented', () => {
-      const isIncremented = false;
-      itemCounterComponent.setFocus(isIncremented);
-
-      expect(isInputFocused).toBeFalsy();
-      expect(isIncrementBtnFocused).toBeFalsy();
-      expect(isDecrementBtnFocused).toBeTruthy();
-    });
-  });
-
-  it('should set focus on the input field when value is equal to min or equal to max', () => {
-    itemCounterComponent.value = 1;
-    itemCounterComponent.min = 1;
-    itemCounterComponent.max = 5;
-    const isIncremented = true;
-    itemCounterComponent.setFocus(isIncremented);
-
-    expect(isIncrementBtnFocused).toBeFalsy();
-    expect(isDecrementBtnFocused).toBeFalsy();
-    expect(isInputFocused).toBeTruthy();
-  });
-
-  it('should verify is value out of range', () => {
-    itemCounterComponent.min = 1;
-    itemCounterComponent.max = 5;
-
-    testData.forEach(({ incomingValue, isMaxOrMinValueOrBeyond }) => {
-      itemCounterComponent.value = incomingValue;
-      expect(itemCounterComponent.isMaxOrMinValueOrBeyond()).toBe(
-        isMaxOrMinValueOrBeyond
+    it('should decrease form control value when minus button is used', () => {
+      component.control.setValue(5);
+      fixture.detectChanges();
+      const button: DebugElement[] = fixture.debugElement.queryAll(
+        By.css('button')
       );
+      button[0].nativeElement.click();
+      fixture.detectChanges();
+      expect(component.control.value).toEqual(4);
     });
-  });
 
-  it('should not display input when isValueChangeable is false', () => {
-    itemCounterComponent.isValueChangeable = false;
-    fixture.detectChanges();
-
-    expect(
-      fixture.debugElement.query(By.css('input.cx-counter-value'))
-    ).toBeFalsy();
-    expect(
-      fixture.debugElement.query(By.css('div.cx-counter-value'))
-    ).toBeTruthy();
-  });
-
-  it('should display input when isValueChangeable is true', () => {
-    itemCounterComponent.isValueChangeable = true;
-    fixture.detectChanges();
-
-    expect(
-      fixture.debugElement.query(By.css('input.cx-counter-value'))
-    ).toBeTruthy();
-    expect(
-      fixture.debugElement.query(By.css('div.cx-counter-value'))
-    ).toBeFalsy();
-  });
-
-  it('should adjust value in range', () => {
-    itemCounterComponent.min = 1;
-    itemCounterComponent.max = 5;
-
-    testData.forEach(({ incomingValue, adjustedValue }) => {
-      expect(itemCounterComponent.adjustValueInRange(incomingValue)).toEqual(
-        adjustedValue
+    it('should mark the control "dirty" when the value decreases', () => {
+      expect(component.control.dirty).toBe(false);
+      component.control.setValue(5);
+      fixture.detectChanges();
+      const button: DebugElement[] = fixture.debugElement.queryAll(
+        By.css('button')
       );
+      button[0].nativeElement.click();
+      fixture.detectChanges();
+      expect(component.control.dirty).toBe(true);
     });
-  });
 
-  it('should try set manual change with value', () => {
-    itemCounterComponent.min = 1;
-    itemCounterComponent.max = 5;
-
-    testData.forEach(({ incomingValue, adjustedValue }) => {
-      itemCounterComponent.manualChange(incomingValue);
-
-      expect(itemCounterComponent.adjustValueInRange).toHaveBeenCalledWith(
-        incomingValue
+    it('should enable decrease button if min number is not reached', () => {
+      component.control.setValue(5);
+      component.min = 3;
+      fixture.detectChanges();
+      const button: DebugElement[] = fixture.debugElement.queryAll(
+        By.css('button')
       );
-      expect(itemCounterComponent.updateValue).toHaveBeenCalledWith(
-        adjustedValue
+      expect((<HTMLButtonElement>button[0].nativeElement).disabled).toBeFalsy();
+    });
+
+    it('should disable decrease button if min number is reached', () => {
+      component.control.setValue(5);
+      component.min = 5;
+      fixture.detectChanges();
+      const button: DebugElement[] = fixture.debugElement.queryAll(
+        By.css('button')
       );
+      expect(
+        (<HTMLButtonElement>button[0].nativeElement).disabled
+      ).toBeTruthy();
     });
-  });
-
-  it('should call manualChange with value', fakeAsync(() => {
-    itemCounterComponent.isValueChangeable = true;
-    itemCounterComponent.ngOnInit();
-    fixture.detectChanges();
-
-    const event = value => ({
-      key: value,
-      target: { value },
-    });
-    const inputEl = fixture.debugElement.query(By.css('input'));
-    inputEl.triggerEventHandler('input', event('5'));
-    tick(300);
-    expect(itemCounterComponent.manualChange).toHaveBeenCalledWith(5);
-  }));
-
-  it('should disable/enable input based on cartIsLoading', () => {
-    itemCounterComponent.cartIsLoading = true;
-    itemCounterComponent.ngOnChanges();
-    fixture.detectChanges();
-    expect(itemCounterComponent.inputValue.disabled).toBeTruthy();
-
-    itemCounterComponent.cartIsLoading = false;
-    itemCounterComponent.ngOnChanges();
-    fixture.detectChanges();
-    expect(itemCounterComponent.inputValue.disabled).toBeFalsy();
-  });
-
-  it('should not display decrement or increment button when isValueChangeable is false', () => {
-    itemCounterComponent.isValueChangeable = false;
-    itemCounterComponent.ngOnChanges();
-    fixture.detectChanges();
-    expect(itemCounterComponent.decrementBtn).toBeUndefined();
-    expect(itemCounterComponent.incrementBtn).toBeUndefined();
   });
 });

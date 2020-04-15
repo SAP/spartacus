@@ -3,7 +3,6 @@ import {
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
 import { CmsStructureConfigService } from '../../../cms/services';
@@ -72,16 +71,10 @@ describe('OccCmsComponentAdapter', () => {
         },
       ],
     });
-    service = TestBed.get(OccCmsComponentAdapter as Type<
-      OccCmsComponentAdapter
-    >);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
-    endpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
+    service = TestBed.inject(OccCmsComponentAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    endpointsService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -95,7 +88,7 @@ describe('OccCmsComponentAdapter', () => {
     it('should get cms component data', () => {
       spyOnEndpoint(spyOnLoadEndpint);
 
-      service.load('comp1', context).subscribe(result => {
+      service.load('comp1', context).subscribe((result) => {
         expect(result).toEqual(component);
       });
 
@@ -203,7 +196,7 @@ describe('OccCmsComponentAdapter', () => {
     requestMethod: string,
     requestUrl: string
   ): TestRequest {
-    return httpMock.expectOne(req => {
+    return httpMock.expectOne((req) => {
       return req.method === requestMethod && req.url === requestUrl;
     });
   }
@@ -250,7 +243,7 @@ describe('OccCmsComponentAdapter', () => {
   }
 
   function assertNormalizer(requestUrl: string) {
-    httpMock.expectOne(req => req.url === requestUrl).flush(componentList);
+    httpMock.expectOne((req) => req.url === requestUrl).flush(componentList);
   }
 
   function assertPostSubscription(
@@ -261,7 +254,7 @@ describe('OccCmsComponentAdapter', () => {
   ) {
     adapter
       .findComponentsByIdsLegacy(ids, context, fields, currentPage, pageSize)
-      .subscribe(result => {
+      .subscribe((result) => {
         expect(result).toEqual(componentList.component);
       });
   }
@@ -274,7 +267,7 @@ describe('OccCmsComponentAdapter', () => {
   ) {
     adapter
       .findComponentsByIds(ids, context, fields, currentPage, pageSize)
-      .subscribe(result => {
+      .subscribe((result) => {
         expect(result).toEqual(componentList.component);
       });
   }

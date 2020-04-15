@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { GeoPoint } from '../../../model/misc.model';
 import {
@@ -59,16 +58,10 @@ describe('OccStoreFinderAdapter', () => {
       ],
     });
 
-    occStoreFinderAdapter = TestBed.get(OccStoreFinderAdapter as Type<
-      OccStoreFinderAdapter
-    >);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    occEndpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
+    occStoreFinderAdapter = TestBed.inject(OccStoreFinderAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEndpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(converterService, 'pipeableMany').and.callThrough();
     spyOn(occEndpointsService, 'getUrl').and.callThrough();
@@ -135,7 +128,7 @@ describe('OccStoreFinderAdapter', () => {
 
   describe('loadCounts', () => {
     it('should request stores count', () => {
-      occStoreFinderAdapter.loadCounts().subscribe(result => {
+      occStoreFinderAdapter.loadCounts().subscribe((result) => {
         expect(result).toEqual([
           { count: 1, name: 'name1' },
           { count: 2, name: 'name2' },
@@ -160,7 +153,7 @@ describe('OccStoreFinderAdapter', () => {
 
   describe('load', () => {
     it('should request stores by store id', () => {
-      occStoreFinderAdapter.load(storeId).subscribe(result => {
+      occStoreFinderAdapter.load(storeId).subscribe((result) => {
         expect(result).toEqual(searchResults.stores[0]);
       });
 

@@ -4,6 +4,7 @@
     <a
       [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
       (click)="viewItem()"
+      tabindex="-1"
     >
       <cx-media
         [container]="item.product.images?.PRIMARY"
@@ -13,7 +14,7 @@
   </div>
   <!-- Item Information -->
   <div class="cx-info col-10">
-    <div class="cx-info-container row ">
+    <div class="cx-info-container row">
       <!-- Item Description -->
       <div [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
         <div *ngIf="item.product.name" class="cx-name">
@@ -28,13 +29,19 @@
           {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
         </div>
         <!-- Variants -->
-        <div
-          *ngFor="let variant of item.product.variantOptionQualifiers"
-          class="cx-property"
-        >
-          <div class="cx-label">{{ variant.name }}</div>
-          <div class="cx-value">{{ variant.value }}</div>
-        </div>
+        <ng-container *ngIf="item.product.baseOptions?.length">
+          <div
+            *ngFor="
+              let variant of item.product.baseOptions[0]?.selected
+                ?.variantOptionQualifiers
+            "
+            class="cx-property"
+          >
+            <div class="cx-label" *ngIf="variant.name && variant.value">
+              {{ variant.name }}: {{ variant.value }}
+            </div>
+          </div>
+        </ng-container>
       </div>
       <!-- Item Price -->
       <div
@@ -53,11 +60,7 @@
         </div>
       </div>
       <!-- Item Quantity -->
-      <div
-        *ngIf="item.quantity"
-        class="cx-quantity"
-        [ngClass]="compact ? '' : ' col-3'"
-      >
+      <div class="cx-quantity" [ngClass]="compact ? '' : ' col-3'">
         <div
           class="cx-label"
           [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
@@ -66,55 +69,104 @@
         >
           {{ 'cartItems.quantity' | cxTranslate }}
         </div>
-        <div *ngIf="isReadOnly" class="cx-value">{{ item.quantity }}</div>
-        <div
-          *ngIf="!isReadOnly && parent"
-          class="cx-value"
-          [formGroup]="parent"
-        >
+        <div class="cx-value">
           <cx-item-counter
-            [isValueChangeable]="item.updateable"
-            [step]="1"
-            [min]="1"
+            [control]="quantityControl"
+            [readonly]="
+              !item.updateable ||
+              readonly ||
+              (isSaveForLaterEnabled() && options.isSaveForLater)
+            "
             [max]="item.product.stock?.stockLevel || 1000"
-            (update)="updateItem($event)"
-            [cartIsLoading]="cartIsLoading"
-            formControlName="quantity"
+            [allowZero]="true"
           >
           </cx-item-counter>
         </div>
       </div>
       <!-- Total -->
-      <div
-        *ngIf="item.totalPrice"
-        class="cx-total"
-        [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
+      <ng-container
+        *ngIf="isSaveForLaterEnabled() && options.isSaveForLater; else total"
       >
         <div
-          class="cx-label"
-          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+          class="cx-total"
+          [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
         >
-          {{ 'cartItems.total' | cxTranslate }}
+          <div
+            class="cx-label"
+            [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+          >
+            {{ 'saveForLaterItems.stock' | cxTranslate }}
+          </div>
+          <div
+            *ngIf="item.product?.stock?.stockLevel >= 0; else forceInstock"
+            class="cx-value"
+          >
+            {{ item.product.stock.stockLevel }}
+          </div>
+          <ng-template #forceInstock
+            ><div class="cx-value">
+              {{ 'saveForLaterItems.forceInStock' | cxTranslate }}
+            </div></ng-template
+          >
         </div>
-        <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
-      </div>
+      </ng-container>
     </div>
     <!-- Availability -->
-    <div *ngIf="isProductOutOfStock(item)" class="cx-availability col-12">
+    <div
+      *ngIf="isProductOutOfStock(item.product)"
+      class="cx-availability col-12"
+    >
       {{ 'productSummary.outOfStock' | cxTranslate }}
     </div>
     <!-- Promotion -->
-    <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
+
+    <ng-container
+      *ngIf="appliedProductPromotions$ | async as appliedProductPromotions"
+    >
+      <cx-promotions [promotions]="appliedProductPromotions"></cx-promotions>
+    </ng-container>
+
     <!-- Actions -->
-    <div *ngIf="!isReadOnly && item.updateable" class="cx-actions col-12">
-      <button
-        class="link"
-        [class.disabled]="cartIsLoading"
-        [disabled]="cartIsLoading"
-        (click)="removeItem()"
-      >
-        {{ 'common.remove' | cxTranslate }}
-      </button>
+    <div
+      *ngIf="(!readonly || options.isSaveForLater) && item.updateable"
+      class="cx-actions col-12"
+    >
+      <ng-container *ngIf="!isProductOutOfStock(item.product)">
+        <ng-container
+          *ngTemplateOutlet="
+            options.optionalBtn;
+            context: {
+              $implicit: { loading: quantityControl.disabled, item: item }
+            }
+          "
+        ></ng-container>
+      </ng-container>
+
+      <div class="col-md-3 cx-remove-btn">
+        <button
+          class="link"
+          [disabled]="quantityControl.disabled"
+          (click)="removeItem()"
+        >
+          {{ 'common.remove' | cxTranslate }}
+        </button>
+      </div>
     </div>
   </div>
 </div>
+
+<ng-template #total>
+  <div
+    *ngIf="item.totalPrice"
+    class="cx-total"
+    [ngClass]="compact ? '' : ' col-md-3 col-xl-2'"
+  >
+    <div
+      class="cx-label"
+      [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+    >
+      {{ 'cartItems.total' | cxTranslate }}
+    </div>
+    <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
+  </div>
+</ng-template>

@@ -31,9 +31,22 @@ export interface Facet {
   multiSelect?: boolean;
   name?: string;
   priority?: number;
-  topValues?: FacetValue[];
   values?: FacetValue[];
   visible?: boolean;
+
+  /**
+   * Indicates the top values that will be shown instantly. The top values can be
+   * controlled by business users per facet.
+   */
+  topValueCount?: number;
+
+  /**
+   * The OCC backend has topValues with duplicated facet data.
+   * This is not used in the UI, but normalized in the `topValueCount` property.
+   *
+   * TODO: once we implement a dedicated UI model, we should remove the `topValues`.
+   */
+  topValues?: FacetValue[];
 }
 
 export interface SpellingSuggestion {

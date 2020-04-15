@@ -1,0 +1,6 @@
+<div [cxFocus]="{ tab: true }" *ngIf="skipLinks$ | async as links">
+  <button *ngFor="let link of links" (click)="scrollToTarget(link)">
+    {{ 'skipLink.skipTo' | cxTranslate }}
+    {{ link.i18nKey | cxTranslate }}
+  </button>
+</div>

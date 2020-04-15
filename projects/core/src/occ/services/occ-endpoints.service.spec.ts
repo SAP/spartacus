@@ -1,34 +1,37 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
 import { OccEndpointsService } from './occ-endpoints.service';
 
 describe('OccEndpointsService', () => {
-  const mockOccConfig: OccConfig = {
-    backend: {
-      occ: {
-        baseUrl: 'test-baseUrl',
-        prefix: '/test-occPrefix',
-        endpoints: {
-          login: '/authorizationserver/oauth/token',
-          product: 'configured-endpoint1/${test}?fields=abc',
-        },
-      },
-    },
-    context: {
-      baseSite: ['/test-baseSite'],
-    },
-  };
-
+  let mockOccConfig: OccConfig;
   const baseEndpoint = 'test-baseUrl/test-occPrefix/test-baseSite';
 
   let service: OccEndpointsService;
 
   beforeEach(() => {
+    mockOccConfig = {
+      backend: {
+        occ: {
+          baseUrl: 'test-baseUrl',
+          prefix: '/test-occPrefix',
+          endpoints: {
+            login: '/authorizationserver/oauth/token',
+            product: 'configured-endpoint1/${test}?fields=abc',
+            product_scopes: {
+              test: 'configured-endpoint1/${test}?fields=test',
+            },
+          },
+        },
+      },
+      context: {
+        baseSite: ['/test-baseSite'],
+      },
+    };
+
     TestBed.configureTestingModule({
       providers: [{ provide: OccConfig, useValue: mockOccConfig }],
     });
-    service = TestBed.get(OccEndpointsService as Type<OccEndpointsService>);
+    service = TestBed.inject(OccEndpointsService);
   });
 
   it('should be created', () => {
@@ -61,9 +64,62 @@ describe('OccEndpointsService', () => {
       );
     });
 
+    describe('using scope', () => {
+      it('should return endpoint from config', () => {
+        const url = service.getUrl('product', undefined, undefined, 'test');
+
+        expect(url).toEqual(
+          baseEndpoint + '/configured-endpoint1/${test}?fields=test'
+        );
+      });
+
+      it('should fallback to default scope', () => {
+        const url = service.getUrl(
+          'product',
+          undefined,
+          undefined,
+          'test-non-existing'
+        );
+
+        expect(url).toEqual(
+          baseEndpoint + '/configured-endpoint1/${test}?fields=abc'
+        );
+      });
+
+      it('should not resolve endpoint for missing scope when no default is specified', () => {
+        const config = TestBed.inject(OccConfig);
+        delete config.backend.occ.endpoints.product;
+
+        const url = service.getUrl(
+          'product',
+          undefined,
+          undefined,
+          'test-non-existing'
+        );
+
+        expect(url).toBe('test-baseUrl/test-occPrefix/test-baseSite/product');
+      });
+
+      it('should use string configuration for backward compatibility', () => {
+        const config = TestBed.inject(OccConfig);
+        config.backend.occ.endpoints.product =
+          'configured-endpoint1/${test}?fields=fallback';
+
+        const url = service.getUrl(
+          'product',
+          undefined,
+          undefined,
+          'test-non-existing'
+        );
+
+        expect(url).toBe(
+          'test-baseUrl/test-occPrefix/test-baseSite/configured-endpoint1/${test}?fields=fallback'
+        );
+      });
+    });
+
     it('should apply parameters to configured endpoint', () => {
       const url = service.getUrl('product', { test: 'test-value' });
-
       expect(url).toEqual(
         baseEndpoint + '/configured-endpoint1/test-value?fields=abc'
       );
@@ -113,6 +169,19 @@ describe('OccEndpointsService', () => {
 
       expect(url).toEqual(
         baseEndpoint + '/configured-endpoint1/%C4%85%C4%87%C4%99%24%25'
+      );
+    });
+
+    it('should escape query parameters', () => {
+      const url = service.getUrl(
+        'product',
+        { test: 'test-value' },
+        { fields: '+./.\\.,.?' }
+      );
+
+      expect(url).toEqual(
+        baseEndpoint +
+          '/configured-endpoint1/test-value?fields=%2B.%2F.%5C.%2C.%3F'
       );
     });
   });

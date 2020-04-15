@@ -4,17 +4,25 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { UpdateEmailFormComponent } from './update-email-form/update-email-form.component';
 import { UpdateEmailComponent } from './update-email.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    FormsModule,
+    ReactiveFormsModule,
+    SpinnerModule,
+    I18nModule,
+    FormErrorsModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         UpdateEmailComponent: {
           component: UpdateEmailComponent,
@@ -22,10 +30,6 @@ import { UpdateEmailComponent } from './update-email.component';
         },
       },
     }),
-    FormsModule,
-    ReactiveFormsModule,
-    SpinnerModule,
-    I18nModule,
   ],
   declarations: [UpdateEmailFormComponent, UpdateEmailComponent],
   exports: [UpdateEmailComponent, UpdateEmailFormComponent],

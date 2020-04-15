@@ -36,12 +36,12 @@ export class CurrencyService implements SiteContext<Currency> {
   getAll(): Observable<Currency[]> {
     return this.store.pipe(
       select(SiteContextSelectors.getAllCurrencies),
-      tap(currencies => {
+      tap((currencies) => {
         if (!currencies) {
           this.store.dispatch(new SiteContextActions.LoadCurrencies());
         }
       }),
-      filter(currenies => Boolean(currenies))
+      filter((currenies) => Boolean(currenies))
     );
   }
 
@@ -51,7 +51,7 @@ export class CurrencyService implements SiteContext<Currency> {
   getActive(): Observable<string> {
     return this.store.pipe(
       select(SiteContextSelectors.getActiveCurrency),
-      filter(active => Boolean(active))
+      filter((active) => Boolean(active))
     );
   }
 
@@ -60,11 +60,8 @@ export class CurrencyService implements SiteContext<Currency> {
    */
   setActive(isocode: string) {
     return this.store
-      .pipe(
-        select(SiteContextSelectors.getActiveCurrency),
-        take(1)
-      )
-      .subscribe(activeCurrency => {
+      .pipe(select(SiteContextSelectors.getActiveCurrency), take(1))
+      .subscribe((activeCurrency) => {
         if (activeCurrency !== isocode) {
           this.store.dispatch(
             new SiteContextActions.SetActiveCurrency(isocode)

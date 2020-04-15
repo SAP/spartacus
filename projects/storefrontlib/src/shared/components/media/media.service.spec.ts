@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
 import { LayoutConfig } from '../../../layout';
@@ -42,7 +41,7 @@ describe('MediaService', () => {
         { provide: LayoutConfig, useValue: {} },
       ],
     });
-    mediaService = TestBed.get(MediaService as Type<MediaService>);
+    mediaService = TestBed.inject(MediaService);
   });
 
   it('should inject service', () => {
@@ -90,6 +89,13 @@ describe('MediaService', () => {
   it('should return srcset', () => {
     expect(mediaService.getMedia(mockMediaContainer).srcset).toBe(
       'http://mobileUrl 576w, base:tabletUrl 768w, base:desktopUrl 992w'
+    );
+  });
+
+  it('should return image url if default format is not provided', () => {
+    mockMediaContainer.tablet = null;
+    expect(mediaService.getMedia(mockMediaContainer, 'tablet').src).toBe(
+      `${MockConfig.backend.media.baseUrl}${mockMediaContainer.desktop.url}`
     );
   });
 });

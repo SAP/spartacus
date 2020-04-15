@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { AnonymousConsentsActions } from '../actions/index';
@@ -23,7 +22,7 @@ describe('anonymous consent ui selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithAnonymousConsents>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -41,7 +40,7 @@ describe('anonymous consent ui selectors', () => {
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(updated);
@@ -61,7 +60,7 @@ describe('anonymous consent ui selectors', () => {
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentsBannerDismissed)
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(dismissed);

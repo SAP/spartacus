@@ -1,14 +1,12 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { UserPaymentAdapter } from './user-payment.adapter';
 import { UserPaymentConnector } from './user-payment.connector';
-
 import createSpy = jasmine.createSpy;
 
 class MockUserPaymentAdapter implements UserPaymentAdapter {
   delete = createSpy('load').and.returnValue(of({}));
-  loadAll = createSpy('loadAll').and.callFake(userId =>
+  loadAll = createSpy('loadAll').and.callFake((userId) =>
     of(`loadList-${userId}`)
   );
   setDefault = createSpy('setDefault').and.returnValue(of({}));
@@ -25,8 +23,8 @@ describe('UserPaymentConnector', () => {
       ],
     });
 
-    service = TestBed.get(UserPaymentConnector as Type<UserPaymentConnector>);
-    adapter = TestBed.get(UserPaymentAdapter as Type<UserPaymentAdapter>);
+    service = TestBed.inject(UserPaymentConnector);
+    adapter = TestBed.inject(UserPaymentAdapter);
   });
 
   it('should be created', () => {
@@ -35,14 +33,14 @@ describe('UserPaymentConnector', () => {
 
   it('delete should call adapter', () => {
     let result;
-    service.delete('user-id', 'payment-id').subscribe(res => (result = res));
+    service.delete('user-id', 'payment-id').subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.delete).toHaveBeenCalledWith('user-id', 'payment-id');
   });
 
   it('getAll should call adapter', () => {
     let result;
-    service.getAll('user-id').subscribe(res => (result = res));
+    service.getAll('user-id').subscribe((res) => (result = res));
     expect(result).toEqual('loadList-user-id');
     expect(adapter.loadAll).toHaveBeenCalledWith('user-id');
   });
@@ -51,7 +49,7 @@ describe('UserPaymentConnector', () => {
     let result;
     service
       .setDefault('user-id', 'payment-id')
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.setDefault).toHaveBeenCalledWith('user-id', 'payment-id');
   });

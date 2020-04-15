@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CartService } from '@spartacus/core';
+import { ActiveCartService, SelectiveCartService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PageLayoutHandler } from '../../cms-structure/page/page-layout/page-layout-handler';
@@ -8,7 +8,10 @@ import { PageLayoutHandler } from '../../cms-structure/page/page-layout/page-lay
   providedIn: 'root',
 })
 export class CartPageLayoutHandler implements PageLayoutHandler {
-  constructor(private cartService: CartService) {}
+  constructor(
+    protected activeCartService: ActiveCartService,
+    protected selectiveCartService: SelectiveCartService
+  ) {}
 
   handle(
     slots$: Observable<string[]>,
@@ -16,13 +19,24 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
     section?: string
   ) {
     if (pageTemplate === 'CartPageTemplate' && !section) {
-      return combineLatest([slots$, this.cartService.getActive()]).pipe(
-        map(([slots, cart]) => {
+      return combineLatest([
+        slots$,
+        this.activeCartService.getActive(),
+        this.selectiveCartService.getCart(),
+      ]).pipe(
+        map(([slots, cart, selectiveCart]) => {
           if (cart.totalItems) {
-            return slots.filter(slot => slot !== 'EmptyCartMiddleContent');
+            return slots.filter((slot) => slot !== 'EmptyCartMiddleContent');
+          } else if (selectiveCart.totalItems) {
+            return slots.filter(
+              (slot) =>
+                slot !== 'EmptyCartMiddleContent' &&
+                slot !== 'CenterRightContentSlot'
+            );
           } else {
             return slots.filter(
-              slot => slot !== 'TopContent' && slot !== 'CenterRightContentSlot'
+              (slot) =>
+                slot !== 'TopContent' && slot !== 'CenterRightContentSlot'
             );
           }
         })

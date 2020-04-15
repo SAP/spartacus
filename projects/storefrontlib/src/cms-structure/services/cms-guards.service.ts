@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
-import { concat, from, isObservable, Observable, of } from 'rxjs';
 import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { CmsActivatedRouteSnapshot } from '@spartacus/core';
+import { concat, from, isObservable, Observable, of } from 'rxjs';
 import { endWith, first, skipWhile } from 'rxjs/operators';
 import { CmsMappingService } from './cms-mapping.service';
 
@@ -25,7 +25,7 @@ export class CmsGuardsService {
     const guards = this.cmsMapping.getGuardsForComponents(componentTypes);
 
     if (guards.length) {
-      const canActivateObservables = guards.map(guardClass => {
+      const canActivateObservables = guards.map((guardClass) => {
         const guard = this.injector.get<CanActivate>(guardClass, null);
         if (isCanActivate(guard)) {
           return wrapIntoObservable(guard.canActivate(route, state)).pipe(

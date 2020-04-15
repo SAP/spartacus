@@ -27,15 +27,15 @@ describe(`OccSitesConfigLoader`, () => {
       providers: [{ provide: OccConfig, useValue: mockConfig }],
     });
 
-    loader = TestBed.get(OccSitesConfigLoader);
-    httpMock = TestBed.get(HttpTestingController);
+    loader = TestBed.inject(OccSitesConfigLoader);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   describe('load', () => {
     it('should load configuration of all base sites', () => {
       const mockBaseSites: BaseSite[] = [{ uid: 'test-site' }];
 
-      loader.load().subscribe(result => {
+      loader.load().subscribe((result) => {
         expect(result).toEqual(mockBaseSites);
       });
       const mockReq: TestRequest = httpMock.expectOne({

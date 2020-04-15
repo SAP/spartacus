@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RoutingConfig } from '../configurable-routes/config/routing-config';
 import { ProtectedRoutesGuard } from './protected-routes.guard';
@@ -22,9 +21,7 @@ describe('ProtectedRoutesService', () => {
       ],
     });
 
-    service = TestBed.get(ProtectedRoutesService as Type<
-      ProtectedRoutesService
-    >);
+    service = TestBed.inject(ProtectedRoutesService);
   }
 
   describe('isUrlProtected', () => {
@@ -155,6 +152,34 @@ describe('ProtectedRoutesService', () => {
         expect(
           service.isUrlProtected(['product', 'camera', '1234', 'test-test'])
         ).toBe(true);
+      });
+    });
+  });
+
+  describe('shouldProtect', () => {
+    describe('when app not protected', () => {
+      beforeEach(() => {
+        beforeEachWithConfig({
+          protected: false,
+          routes: {},
+        });
+      });
+
+      it('should return false', () => {
+        expect(service.shouldProtect).toBe(false);
+      });
+    });
+
+    describe('when app protected', () => {
+      beforeEach(() => {
+        beforeEachWithConfig({
+          protected: true,
+          routes: {},
+        });
+      });
+
+      it('should return true', () => {
+        expect(service.shouldProtect).toBe(true);
       });
     });
   });

@@ -1,5 +1,4 @@
 import { Location } from '@angular/common';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -24,8 +23,8 @@ describe('SiteContextRoutesHandlerService', () => {
     mockRouter = {
       events: mockRouterEvents,
       url: 'test',
-      parseUrl: createSpy().and.callFake(url => url + '_a'),
-      serializeUrl: createSpy().and.callFake(url => url + '_b'),
+      parseUrl: createSpy().and.callFake((url) => url + '_a'),
+      serializeUrl: createSpy().and.callFake((url) => url + '_b'),
     };
 
     mockLocation = {
@@ -46,7 +45,7 @@ describe('SiteContextRoutesHandlerService', () => {
     };
 
     mockSiteContextUrlSerializer = {
-      urlExtractContextParameters: url => ({ params: { language: url } }),
+      urlExtractContextParameters: (url) => ({ params: { language: url } }),
     };
 
     TestBed.configureTestingModule({
@@ -71,9 +70,7 @@ describe('SiteContextRoutesHandlerService', () => {
       ],
     });
 
-    service = TestBed.get(SiteContextRoutesHandler as Type<
-      SiteContextRoutesHandler
-    >);
+    service = TestBed.inject(SiteContextRoutesHandler);
     service.init();
   });
 

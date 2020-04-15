@@ -2,14 +2,16 @@
   <cx-media [container]="main" format="zoom"> </cx-media>
 </ng-container>
 
-<cx-carousel
-  *ngIf="!isThumbsEmpty"
-  class="thumbs"
-  [items]="thumbs$ | async"
-  itemWidth="120px"
-  [hideIndicators]="false"
-  [template]="thumb"
-></cx-carousel>
+<ng-container *ngIf="thumbs$ | async as thumbs">
+  <cx-carousel
+    *ngIf="thumbs.length"
+    class="thumbs"
+    [items]="thumbs"
+    itemWidth="120px"
+    [hideIndicators]="false"
+    [template]="thumb"
+  ></cx-carousel>
+</ng-container>
 
 <ng-template #thumb let-item="item">
   <cx-media

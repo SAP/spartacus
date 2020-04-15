@@ -1,5 +1,4 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -9,14 +8,14 @@ import { AUTH_FEATURE } from '../../../auth/store/auth-state';
 import * as fromAuthReducers from '../../../auth/store/reducers/index';
 import { Cart } from '../../../model/cart.model';
 import { OccConfig } from '../../../occ/config/occ-config';
+import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import * as fromUserReducers from '../../../user/store/reducers/index';
 import { USER_FEATURE } from '../../../user/store/user-state';
 import { CartConnector } from '../../connectors/cart/cart.connector';
-import { CartDataService } from '../../facade/cart-data.service';
 import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
-import { CART_FEATURE } from '../cart-state';
+import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
 import createSpy = jasmine.createSpy;
 
@@ -33,6 +32,8 @@ const testCart: Cart = {
     value: 0,
   },
 };
+
+const tempCartId = 'tempCartId';
 
 describe('Cart effect', () => {
   let cartEffects: fromEffects.CartEffects;
@@ -65,9 +66,12 @@ describe('Cart effect', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CART_FEATURE, fromCartReducers.getReducers()),
         StoreModule.forFeature(USER_FEATURE, fromUserReducers.getReducers()),
         StoreModule.forFeature(AUTH_FEATURE, fromAuthReducers.getReducers()),
+        StoreModule.forFeature(
+          MULTI_CART_FEATURE,
+          fromCartReducers.getMultiCartReducers()
+        ),
       ],
 
       providers: [
@@ -77,14 +81,11 @@ describe('Cart effect', () => {
         },
         fromEffects.CartEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        CartDataService,
         provideMockActions(() => actions$),
       ],
     });
 
-    cartEffects = TestBed.get(fromEffects.CartEffects as Type<
-      fromEffects.CartEffects
-    >);
+    cartEffects = TestBed.inject(fromEffects.CartEffects);
   });
 
   describe('loadCart$', () => {
@@ -93,18 +94,68 @@ describe('Cart effect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const completion = new CartActions.LoadCartSuccess(testCart);
+      const loadCartCompletion = new CartActions.LoadCartSuccess({
+        cart: testCart,
+        userId,
+        cartId: testCart.code,
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(b)', {
+        b: loadCartCompletion,
+      });
 
       expect(cartEffects.loadCart$).toBeObservable(expected);
     });
 
-    it('should clear cart on "Cart not found" error', () => {
+    it('should remove current cart for current load', () => {
+      const action = new CartActions.LoadCart({
+        userId,
+        cartId: 'current',
+      });
+      const loadCartCompletion = new CartActions.LoadCartSuccess({
+        cart: testCart,
+        userId,
+        cartId: testCart.code,
+      });
+      const removeCartCompletion = new CartActions.RemoveCart({
+        cartId: OCC_CART_ID_CURRENT,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: loadCartCompletion,
+        c: removeCartCompletion,
+      });
+
+      expect(cartEffects.loadCart$).toBeObservable(expected);
+    });
+
+    it('return fail actions on empty cart', () => {
       const action = new CartActions.LoadCart({
         userId,
         cartId,
+      });
+      loadMock.and.returnValue(of(null));
+      const loadCartFailCompletion = new CartActions.LoadCartFail({
+        userId,
+        cartId,
+        error: {},
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', {
+        b: loadCartFailCompletion,
+      });
+
+      expect(cartEffects.loadCart$).toBeObservable(expected);
+    });
+
+    it('should clear active cart on "Cart not found" error', () => {
+      const action = new CartActions.LoadCart({
+        userId,
+        cartId,
+        extraData: { active: true },
       });
       loadMock.and.returnValue(
         throwError({
@@ -113,20 +164,37 @@ describe('Cart effect', () => {
           },
         })
       );
-      const completion = new CartActions.ClearCart();
+      const removeCartCompletion = new CartActions.RemoveCart({ cartId });
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-b', {
+        b: removeCartCompletion,
+      });
       expect(cartEffects.loadCart$).toBeObservable(expected);
     });
   });
 
   describe('createCart$', () => {
     it('should create a cart', () => {
-      const action = new CartActions.CreateCart({ userId });
-      const completion = new CartActions.CreateCartSuccess(testCart);
+      const action = new CartActions.CreateCart({
+        userId,
+        tempCartId,
+      });
+      const createCartSuccessCompletion = new CartActions.CreateCartSuccess({
+        cart: testCart,
+        userId,
+        tempCartId,
+        cartId: testCart.code,
+      });
+      const setTempCartCompletion = new CartActions.SetTempCart({
+        cart: testCart,
+        tempCartId: tempCartId,
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', {
+        b: createCartSuccessCompletion,
+        c: setTempCartCompletion,
+      });
 
       expect(cartEffects.createCart$).toBeObservable(expected);
     });
@@ -135,18 +203,33 @@ describe('Cart effect', () => {
       const action = new CartActions.CreateCart({
         userId,
         oldCartId: 'testOldCartId',
+        tempCartId,
       });
 
-      const createCartCompletion = new CartActions.CreateCartSuccess(testCart);
+      const createCartCompletion = new CartActions.CreateCartSuccess({
+        cart: testCart,
+        userId,
+        tempCartId,
+        cartId: testCart.code,
+        oldCartId: 'testOldCartId',
+      });
+      const setTempCartCompletion = new CartActions.SetTempCart({
+        cart: testCart,
+        tempCartId,
+      });
       const mergeCartCompletion = new CartActions.MergeCartSuccess({
         userId,
         cartId: testCart.code,
+        oldCartId: 'testOldCartId',
+        tempCartId: 'tempCartId',
+        extraData: undefined,
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
+      const expected = cold('-(bcd)', {
         b: createCartCompletion,
-        c: mergeCartCompletion,
+        c: setTempCartCompletion,
+        d: mergeCartCompletion,
       });
 
       expect(cartEffects.createCart$).toBeObservable(expected);
@@ -158,11 +241,14 @@ describe('Cart effect', () => {
       const action = new CartActions.MergeCart({
         userId: userId,
         cartId: cartId,
+        tempCartId: 'temp-uuid',
       });
       const completion = new CartActions.CreateCart({
         userId: userId,
         oldCartId: cartId,
         toMergeCartGuid: 'testGuid',
+        tempCartId: 'temp-uuid',
+        extraData: undefined,
       });
 
       actions$ = hot('-a', { a: action });
@@ -173,28 +259,58 @@ describe('Cart effect', () => {
   });
 
   describe('refresh$', () => {
-    const cartChangesSuccessActions = [
-      'MergeCartSuccess',
-      'CartAddEntrySuccess',
-      'CartUpdateEntrySuccess',
-      'CartRemoveEntrySuccess',
-    ];
+    const cartChangesSuccessActions = ['CartAddVoucherSuccess'];
 
-    cartChangesSuccessActions.forEach(actionName => {
+    cartChangesSuccessActions.forEach((actionName) => {
       it(`should refresh cart on ${actionName}`, () => {
         const action = new CartActions[actionName]({
           userId: userId,
           cartId: cartId,
         });
-        const completion = new CartActions.LoadCart({
+        const loadCompletion = new CartActions.LoadCart({
+          userId: userId,
+          cartId: cartId,
+        });
+        const decrementCompletion = new CartActions.CartProcessesDecrement(
+          cartId
+        );
+
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-(bc)', {
+          b: decrementCompletion,
+          c: loadCompletion,
+        });
+
+        expect(cartEffects.refresh$).toBeObservable(expected);
+      });
+    });
+  });
+
+  describe('refreshWithoutProcesses$', () => {
+    const cartChangesSuccessActions = [
+      'CartAddEntrySuccess',
+      'CartUpdateEntrySuccess',
+      'CartRemoveEntrySuccess',
+      'CartRemoveVoucherSuccess',
+    ];
+
+    cartChangesSuccessActions.forEach((actionName) => {
+      it(`should refresh cart on ${actionName}`, () => {
+        const action = new CartActions[actionName]({
+          userId: userId,
+          cartId: cartId,
+        });
+        const loadCompletion = new CartActions.LoadCart({
           userId: userId,
           cartId: cartId,
         });
 
         actions$ = hot('-a', { a: action });
-        const expected = cold('-b', { b: completion });
+        const expected = cold('-b', {
+          b: loadCompletion,
+        });
 
-        expect(cartEffects.refresh$).toBeObservable(expected);
+        expect(cartEffects.refreshWithoutProcesses$).toBeObservable(expected);
       });
     });
   });
@@ -202,13 +318,15 @@ describe('Cart effect', () => {
   describe('resetCartDetailsOnSiteContextChange$', () => {
     const siteContextChangeActions = ['LanguageChange', 'CurrencyChange'];
 
-    siteContextChangeActions.forEach(actionName => {
+    siteContextChangeActions.forEach((actionName) => {
       it(`should reset cart details on ${actionName}`, () => {
         const action = new SiteContextActions[actionName]();
-        const completion = new CartActions.ResetCartDetails();
+        const resetCartDetailsCompletion = new CartActions.ResetCartDetails();
 
         actions$ = hot('-a', { a: action });
-        const expected = cold('-b', { b: completion });
+        const expected = cold('-b', {
+          b: resetCartDetailsCompletion,
+        });
 
         expect(cartEffects.resetCartDetailsOnSiteContextChange$).toBeObservable(
           expected
@@ -220,17 +338,24 @@ describe('Cart effect', () => {
   describe('addEmail$', () => {
     it('should add email to cart', () => {
       const action = new CartActions.AddEmailToCart({
-        userId: userId,
-        cartId: cartId,
+        userId,
+        cartId,
         email: 'test@test.com',
       });
-      const completion = new CartActions.AddEmailToCartSuccess({
+      const addEmailToCartCompletion = new CartActions.AddEmailToCartSuccess({
+        userId,
+        cartId,
+        email: 'test@test.com',
+      });
+      const loadCartCompletion = new CartActions.LoadCart({
         userId,
         cartId,
       });
-
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', {
+        b: addEmailToCartCompletion,
+        c: loadCartCompletion,
+      });
 
       expect(cartEffects.addEmail$).toBeObservable(expected);
     });
@@ -239,7 +364,10 @@ describe('Cart effect', () => {
   describe('deleteCart$', () => {
     it('should delete cart', () => {
       const action = new CartActions.DeleteCart({ userId, cartId });
-      const completion = new CartActions.ClearCart();
+      const completion = new CartActions.DeleteCartSuccess({
+        userId,
+        cartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { ConsentTemplate } from '../../../model/index';
@@ -25,7 +24,7 @@ describe('anonymous consent templates selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithAnonymousConsents>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -51,7 +50,7 @@ describe('anonymous consent templates selectors', () => {
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesState)
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -75,7 +74,7 @@ describe('anonymous consent templates selectors', () => {
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesValue)
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(mockConsentTemplates);
@@ -92,7 +91,7 @@ describe('anonymous consent templates selectors', () => {
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesLoading)
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -111,7 +110,7 @@ describe('anonymous consent templates selectors', () => {
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesSuccess)
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -130,7 +129,7 @@ describe('anonymous consent templates selectors', () => {
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesError)
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -153,7 +152,7 @@ describe('anonymous consent templates selectors', () => {
             )
           )
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(mockConsentTemplates[0]);

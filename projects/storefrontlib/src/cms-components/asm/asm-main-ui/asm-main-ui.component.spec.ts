@@ -133,12 +133,12 @@ describe('AsmMainUiComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmMainUiComponent);
-    authService = TestBed.get(AuthService);
-    asmAuthService = TestBed.get(AsmAuthService);
-    userService = TestBed.get(UserService);
-    globalMessageService = TestBed.get(GlobalMessageService);
-    routingService = TestBed.get(RoutingService);
-    asmComponentService = TestBed.get(AsmComponentService);
+    authService = TestBed.inject(AuthService);
+    asmAuthService = TestBed.inject(AsmAuthService);
+    userService = TestBed.inject(UserService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    routingService = TestBed.inject(RoutingService);
+    asmComponentService = TestBed.inject(AsmComponentService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -208,7 +208,7 @@ describe('AsmMainUiComponent', () => {
     expect(el.query(By.css('cx-customer-selection'))).toBeTruthy();
     expect(el.query(By.css('cx-asm-session-timer'))).toBeTruthy();
     expect(el.query(By.css('cx-customer-emulation'))).toBeFalsy();
-    expect(el.query(By.css('a[title="asm.logout"]'))).toBeTruthy();
+    expect(el.query(By.css('button[title="asm.logout"]'))).toBeTruthy();
   });
 
   it('should display customer emulation state when a customer is signed in.', () => {
@@ -225,7 +225,7 @@ describe('AsmMainUiComponent', () => {
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
     expect(el.query(By.css('cx-asm-session-timer'))).toBeTruthy();
-    expect(el.query(By.css('a[title="asm.logout"]'))).toBeTruthy();
+    expect(el.query(By.css('button[title="asm.logout"]'))).toBeTruthy();
   });
 
   it('should redirect to home when starting a customer emulation session.', () => {
@@ -283,7 +283,7 @@ describe('AsmMainUiComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     const submitBtn = fixture.debugElement.query(
-      By.css('a[title="asm.hideUi"]')
+      By.css('button[title="asm.hideUi"]')
     );
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(component.disabled).toEqual(true);
@@ -294,7 +294,7 @@ describe('AsmMainUiComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     const submitBtn = fixture.debugElement.query(
-      By.css('a[title="asm.hideUi"]')
+      By.css('button[title="asm.hideUi"]')
     );
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(asmComponentService.unload).toHaveBeenCalled();

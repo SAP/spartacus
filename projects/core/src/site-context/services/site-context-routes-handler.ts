@@ -1,5 +1,5 @@
-import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
+import { Injectable, Injector, OnDestroy } from '@angular/core';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -8,9 +8,9 @@ import {
   Router,
   RouterEvent,
 } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { SiteContextParamsService } from './site-context-params.service';
-import { Subscription } from 'rxjs';
 import { SiteContextUrlSerializer } from './site-context-url-serializer';
 
 @Injectable({
@@ -47,11 +47,11 @@ export class SiteContextRoutesHandler implements OnDestroy {
   }
 
   private subscribeChanges(params: string[]) {
-    params.forEach(param => {
+    params.forEach((param) => {
       const service = this.siteContextParams.getSiteContextService(param);
       if (service) {
         this.subscription.add(
-          service.getActive().subscribe(value => {
+          service.getActive().subscribe((value) => {
             if (
               !this.isNavigating &&
               this.contextValues[param] &&
@@ -73,7 +73,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
       this.router.events
         .pipe(
           filter(
-            event =>
+            (event) =>
               event instanceof NavigationStart ||
               event instanceof NavigationEnd ||
               event instanceof NavigationError ||
@@ -91,7 +91,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
 
   private setContextParamsFromRoute(url: string) {
     const { params } = this.serializer.urlExtractContextParameters(url);
-    Object.keys(params).forEach(param =>
+    Object.keys(params).forEach((param) =>
       this.siteContextParams.setValue(param, params[param])
     );
   }

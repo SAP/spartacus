@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
@@ -18,11 +18,13 @@ export class CartVoucherEffects {
 
   @Effect()
   addCartVoucher$: Observable<
-    CartActions.CartVoucherAction
+    | CartActions.CartVoucherAction
+    | CartActions.LoadCart
+    | CartActions.CartProcessesDecrement
   > = this.actions$.pipe(
     ofType(CartActions.CART_ADD_VOUCHER),
     map((action: CartActions.CartAddVoucher) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.cartVoucherConnector
         .add(payload.userId, payload.cartId, payload.voucherId)
         .pipe(
@@ -33,24 +35,43 @@ export class CartVoucherEffects {
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
             return new CartActions.CartAddVoucherSuccess({
-              userId: payload.userId,
-              cartId: payload.cartId,
+              ...payload,
             });
           }),
-          catchError(error =>
-            of(new CartActions.CartAddVoucherFail(makeErrorSerializable(error)))
-          )
+          catchError((error) => {
+            if (error?.error?.errors) {
+              error.error.errors.forEach((err) => {
+                if (err.message) {
+                  this.messageService.add(
+                    err.message,
+                    GlobalMessageType.MSG_TYPE_ERROR
+                  );
+                }
+              });
+            }
+            return from([
+              new CartActions.CartAddVoucherFail({
+                ...payload,
+                error: makeErrorSerializable(error),
+              }),
+              new CartActions.CartProcessesDecrement(payload.cartId),
+              new CartActions.LoadCart({
+                userId: payload.userId,
+                cartId: payload.cartId,
+              }),
+            ]);
+          })
         );
     })
   );
 
   @Effect()
   removeCartVoucher$: Observable<
-    CartActions.CartVoucherAction
+    CartActions.CartVoucherAction | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_VOUCHER),
     map((action: CartActions.CartRemoveVoucher) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.cartVoucherConnector
         .remove(payload.userId, payload.cartId, payload.voucherId)
         .pipe(
@@ -63,14 +84,22 @@ export class CartVoucherEffects {
             return new CartActions.CartRemoveVoucherSuccess({
               userId: payload.userId,
               cartId: payload.cartId,
+              voucherId: payload.voucherId,
             });
           }),
-          catchError(error =>
-            of(
-              new CartActions.CartRemoveVoucherFail(
-                makeErrorSerializable(error)
-              )
-            )
+          catchError((error) =>
+            from([
+              new CartActions.CartRemoveVoucherFail({
+                error: makeErrorSerializable(error),
+                cartId: payload.cartId,
+                userId: payload.userId,
+                voucherId: payload.voucherId,
+              }),
+              new CartActions.LoadCart({
+                userId: payload.userId,
+                cartId: payload.cartId,
+              }),
+            ])
           )
         );
     })

@@ -3,7 +3,6 @@ import {
   Component,
   DebugElement,
   Input,
-  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -105,9 +104,7 @@ describe('ProductFacetNavigationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductFacetNavigationComponent);
     component = fixture.componentInstance;
-    productListComponentService = TestBed.get(
-      ProductListComponentService as Type<ProductListComponentService>
-    );
+    productListComponentService = TestBed.inject(ProductListComponentService);
   });
 
   it('should create', () => {
@@ -156,12 +153,12 @@ describe('ProductFacetNavigationComponent', () => {
     it('should toggle facet after clicking the title', () => {
       const group = element.query(By.css('.cx-facet-group'));
       const trigger = group.children
-        .find(child =>
+        .find((child) =>
           child.nativeElement.className.includes('cx-facet-header')
         )
         .query(By.css('.cx-facet-header-link')).nativeElement;
       const getList = () =>
-        group.children.find(child =>
+        group.children.find((child) =>
           child.nativeElement.className.includes('cx-facet-list')
         );
       let list = getList();

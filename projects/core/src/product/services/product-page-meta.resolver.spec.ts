@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { PageMeta } from '../../cms';
+import { PageRobotsMeta } from '../../cms';
 import { I18nTestingModule, TranslationService } from '../../i18n';
 import { RoutingService } from '../../routing';
 import { ProductService } from '../facade';
@@ -73,160 +73,95 @@ describe('ProductPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.get(ProductPageMetaResolver);
+    service = TestBed.inject(ProductPageMetaResolver);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('resolvers', () => {
-    it('should return product heading for resolveHeading()', () => {
-      let result: string;
-      service
-        .resolveHeading()
-        .subscribe(value => (result = value))
-        .unsubscribe();
+  it('should resolve product heading', () => {
+    let result: string;
+    service
+      .resolveHeading()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
 
-      expect(result).toEqual('pageMetaResolver.product.heading:Product title');
-    });
-
-    it('should return product title for resolveTitle()', () => {
-      let result: string;
-      service
-        .resolveTitle()
-        .subscribe(value => (result = value))
-        .unsubscribe();
-
-      expect(result).toEqual(
-        'pageMetaResolver.product.title:Product title | one two three | Canon'
-      );
-    });
-
-    it('should return product description for resolveDescription()', () => {
-      let result: string;
-      service
-        .resolveDescription()
-        .subscribe(value => (result = value))
-        .unsubscribe();
-
-      expect(result).toEqual(
-        'pageMetaResolver.product.description:Product summary'
-      );
-    });
-
-    it('should resolve product image', () => {
-      let result: string;
-      service
-        .resolveImage()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-
-      expect(result).toEqual('https://storefront.com/image');
-    });
-
-    it('should resolve 2 breadcrumbs', () => {
-      let result: any[];
-      service
-        .resolveBreadcrumbs()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-
-      expect(result.length).toEqual(2);
-    });
-
-    it('should resolve 2nd breadcrumbs with category name', () => {
-      let result: any[];
-      service
-        .resolveBreadcrumbs()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-
-      expect(result[1].label).toEqual('one two three');
-    });
+    expect(result).toEqual('pageMetaResolver.product.heading:Product title');
   });
 
-  describe('deprecated resolve()', () => {
-    it('should resolve product page heading', () => {
-      let result: PageMeta;
-      service
-        .resolve()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-      expect(result.heading).toEqual(
-        'pageMetaResolver.product.heading:Product title'
-      );
-    });
+  it('should resolve product title', () => {
+    let result: string;
+    service
+      .resolveTitle()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
 
-    it('should resolve product page title', () => {
-      let result: PageMeta;
-      service
-        .resolve()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
-      expect(result.title).toEqual(
-        'pageMetaResolver.product.title:Product title | one two three | Canon'
-      );
-    });
+    expect(result).toEqual(
+      'pageMetaResolver.product.title:Product title | one two three | Canon'
+    );
+  });
 
-    it('should resolve product description', () => {
-      let result: PageMeta;
-      service
-        .resolve()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
+  it('should resolve product description', () => {
+    let result: string;
+    service
+      .resolveDescription()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
 
-      expect(result.description).toEqual(
-        'pageMetaResolver.product.description:Product summary'
-      );
-    });
+    expect(result).toEqual(
+      'pageMetaResolver.product.description:Product summary'
+    );
+  });
 
-    it('should resolve product image', () => {
-      let result: PageMeta;
-      service
-        .resolve()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
+  it('should resolve product image', () => {
+    let result: string;
+    service
+      .resolveImage()
+      .subscribe((value) => {
+        result = value;
+      })
+      .unsubscribe();
 
-      expect(result.image).toEqual('https://storefront.com/image');
-    });
+    expect(result).toEqual('https://storefront.com/image');
+  });
 
-    it('should resolve 2 breadcrumbs', () => {
-      let result: PageMeta;
-      service
-        .resolve()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
+  it('should resolve breadcrumbs', () => {
+    let result: any[];
+    service
+      .resolveBreadcrumbs()
+      .subscribe((value) => {
+        result = value;
+      })
+      .unsubscribe();
 
-      expect(result.breadcrumbs.length).toEqual(2);
-    });
+    expect(result.length).toEqual(2);
+  });
 
-    it('should resolve 2nd breadcrumbs with category name', () => {
-      let result: PageMeta;
-      service
-        .resolve()
-        .subscribe(value => {
-          result = value;
-        })
-        .unsubscribe();
+  it('should resolve 2nd breadcrumbs with category name', () => {
+    let result: any[];
+    service
+      .resolveBreadcrumbs()
+      .subscribe((value) => {
+        result = value;
+      })
+      .unsubscribe();
 
-      expect(result.breadcrumbs[1].label).toEqual('one two three');
-    });
+    expect(result[1].label).toEqual('one two three');
+  });
+
+  it('should resolve robots', () => {
+    let result: any[];
+    service
+      .resolveRobots()
+      .subscribe((value) => {
+        result = value;
+      })
+      .unsubscribe();
+
+    expect(result).toContain(PageRobotsMeta.FOLLOW);
+    expect(result).toContain(PageRobotsMeta.INDEX);
+    expect(result).not.toContain(PageRobotsMeta.NOINDEX);
+    expect(result).not.toContain(PageRobotsMeta.NOFOLLOW);
   });
 });

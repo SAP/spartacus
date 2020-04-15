@@ -1,3 +1,4 @@
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   ComponentFactoryResolver,
   Inject,
@@ -5,7 +6,6 @@ import {
   PLATFORM_ID,
   Renderer2,
 } from '@angular/core';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { CmsConfig } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
@@ -83,7 +83,7 @@ export class ComponentMapperService {
     componentType: string,
     renderer: Renderer2
   ): Promise<string> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       const [path, selector] = this.getComponent(componentType).split('#');
 
       let script = this.loadedWebComponents[path];

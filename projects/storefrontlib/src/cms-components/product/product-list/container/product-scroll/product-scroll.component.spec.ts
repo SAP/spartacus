@@ -19,6 +19,7 @@ import { ProductListComponentService } from '../product-list-component.service';
 import { ProductScrollComponent } from './product-scroll.component';
 
 import createSpy = jasmine.createSpy;
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/src/shared/test/mock-feature-level-directive';
 
 const mockModel1: ProductSearchPage = {
   breadcrumbs: [
@@ -132,18 +133,26 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
 })
-export class MockAddToCartComponent {
+class MockAddToCartComponent {
   @Input() product: string;
   @Input() showQuantity: boolean;
 }
 
-export class MockProductListComponentService {
+class MockProductListComponentService {
   setQuery = createSpy('setQuery');
   viewPage = createSpy('viewPage');
   sort = createSpy('sort');
   clearSearchResults = createSpy('clearSearchResults');
   getPageItems = createSpy('getPageItems');
   model$ = createSpy('model$');
+}
+
+@Component({
+  selector: 'cx-variant-style-icons',
+  template: 'test',
+})
+class MockStyleIconsComponent {
+  @Input() variants: any[];
 }
 
 describe('ProductScrollComponent', () => {
@@ -161,6 +170,8 @@ describe('ProductScrollComponent', () => {
         MediaComponent,
         MockStarRatingComponent,
         MockAddToCartComponent,
+        MockStyleIconsComponent,
+        MockFeatureLevelDirective,
       ],
       imports: [
         InfiniteScrollModule,

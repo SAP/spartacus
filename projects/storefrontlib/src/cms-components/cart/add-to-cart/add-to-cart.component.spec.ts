@@ -1,11 +1,12 @@
-import { Component, DebugElement, Input, Type } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartService,
   Cart,
-  CartService,
   I18nTestingModule,
   OrderEntry,
   Product,
@@ -24,7 +25,7 @@ const mockProduct: Product = {
 };
 
 const mockProduct2: Product = {
-  name: 'mockPrduct2',
+  name: 'mockProduct2',
   code: 'code2',
   stock: { stockLevelStatus: 'inStock' },
 };
@@ -35,12 +36,12 @@ const mockNoStockProduct: Product = {
   stock: { stockLevelStatus: 'outOfStock' },
 };
 
-class MockCartService {
+class MockActiveCartService {
   addEntry(_productCode: string, _quantity: number): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }
-  getLoaded(): Observable<boolean> {
+  isStable(): Observable<boolean> {
     return of();
   }
   getActive(): Observable<Cart> {
@@ -59,17 +60,16 @@ class MockCurrentProductService {
   selector: 'cx-item-counter',
 })
 class MockItemCounterComponent {
-  @Input() step;
   @Input() min;
   @Input() max;
-  @Input() cartIsLoading;
-  @Input() value;
+  @Input() step;
+  @Input() control;
 }
 
 describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
-  let cartService: CartService;
+  let service: ActiveCartService;
   let currentProductService: CurrentProductService;
   let el: DebugElement;
 
@@ -83,11 +83,12 @@ describe('AddToCartComponent', () => {
         RouterTestingModule,
         SpinnerModule,
         I18nTestingModule,
+        ReactiveFormsModule,
       ],
       declarations: [AddToCartComponent, MockItemCounterComponent],
       providers: [
         { provide: ModalService, useValue: { open: () => {} } },
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
@@ -99,11 +100,9 @@ describe('AddToCartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToCartComponent);
     addToCartComponent = fixture.componentInstance;
-    cartService = TestBed.get(CartService as Type<CartService>);
-    modalInstance = TestBed.get(ModalService as Type<ModalService>);
-    currentProductService = TestBed.get(CurrentProductService as Type<
-      CurrentProductService
-    >);
+    service = TestBed.inject(ActiveCartService);
+    modalInstance = TestBed.inject(ModalService);
+    currentProductService = TestBed.inject(CurrentProductService);
     el = fixture.debugElement;
 
     spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
@@ -114,20 +113,14 @@ describe('AddToCartComponent', () => {
     expect(addToCartComponent).toBeTruthy();
   });
 
-  describe('load cart entry', () => {
-    beforeEach(() => {
-      spyOn(cartService, 'getEntry').and.callThrough();
-    });
-    it('should load entry by product', () => {
-      addToCartComponent.product = mockProduct;
-      addToCartComponent.ngOnInit();
-      expect(cartService.getEntry).toHaveBeenCalledWith(mockProduct.code);
-    });
-
-    it('should load entry by product code', () => {
+  describe('Product code provided', () => {
+    it('should call ngOnInit()', () => {
       addToCartComponent.productCode = productCode;
+      spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
       addToCartComponent.ngOnInit();
-      expect(cartService.getEntry).toHaveBeenCalledWith(productCode);
+      let result: OrderEntry;
+      addToCartComponent.cartEntry$.subscribe((entry) => (result = entry));
+      expect(result).toEqual(mockCartEntry);
     });
 
     it('should load entry by product code from currentProductService', () => {
@@ -135,34 +128,10 @@ describe('AddToCartComponent', () => {
         of(mockProduct)
       );
       addToCartComponent.ngOnInit();
-      expect(cartService.getEntry).toHaveBeenCalledWith(mockProduct.code);
-    });
-  });
-
-  describe('stock info', () => {
-    it('should have stock based on product', () => {
-      addToCartComponent.product = {
-        stock: { stockLevelStatus: 'inStock' },
-      };
-      addToCartComponent.ngOnInit();
-      expect(addToCartComponent.hasStock).toEqual(true);
-    });
-
-    it('should not have stock based on product', () => {
-      addToCartComponent.product = {
-        stock: { stockLevelStatus: 'outOfStock' },
-      };
-      addToCartComponent.ngOnInit();
-      expect(addToCartComponent.hasStock).toEqual(false);
-    });
-
-    it('should have stock based on current product', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of({
-          stock: { stockLevelStatus: 'inStock' },
-        })
+      expect(addToCartComponent.productCode).toEqual(mockProduct.code);
+      expect(addToCartComponent.maxQuantity).toEqual(
+        mockProduct.stock.stockLevel
       );
-      addToCartComponent.ngOnInit();
       expect(addToCartComponent.hasStock).toEqual(true);
     });
 
@@ -216,15 +185,15 @@ describe('AddToCartComponent', () => {
   it('should call addToCart()', () => {
     addToCartComponent.productCode = productCode;
     addToCartComponent.ngOnInit();
-    spyOn(cartService, 'addEntry').and.callThrough();
-    spyOn(cartService, 'getEntry').and.returnValue(of(mockCartEntry));
+    spyOn(service, 'addEntry').and.callThrough();
+    spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
     addToCartComponent.quantity = 1;
 
     addToCartComponent.addToCart();
     addToCartComponent.cartEntry$.subscribe();
 
     expect(modalInstance.open).toHaveBeenCalled();
-    expect(cartService.addEntry).toHaveBeenCalledWith(productCode, 1);
+    expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
   });
 
   describe('UI', () => {
@@ -261,5 +230,12 @@ describe('AddToCartComponent', () => {
       fixture.detectChanges();
       expect(el.query(By.css('button'))).toBeNull();
     });
+  });
+
+  it('should hide quantity if showQuantity is set to false', () => {
+    addToCartComponent.showQuantity = false;
+    fixture.detectChanges();
+    const quantityEl = el.query(By.css('.quantity'));
+    expect(quantityEl).toBeNull();
   });
 });

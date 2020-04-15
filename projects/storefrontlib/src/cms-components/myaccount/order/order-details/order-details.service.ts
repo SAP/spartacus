@@ -3,7 +3,9 @@ import { Order, RoutingService, UserOrderService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OrderDetailsService {
   orderCode$: Observable<string>;
   orderLoad$: Observable<{}>;
@@ -14,10 +16,10 @@ export class OrderDetailsService {
   ) {
     this.orderCode$ = this.routingService
       .getRouterState()
-      .pipe(map(routingData => routingData.state.params.orderCode));
+      .pipe(map((routingData) => routingData.state.params.orderCode));
 
     this.orderLoad$ = this.orderCode$.pipe(
-      tap(orderCode => {
+      tap((orderCode) => {
         if (orderCode) {
           this.userOrderService.loadOrderDetails(orderCode);
         } else {

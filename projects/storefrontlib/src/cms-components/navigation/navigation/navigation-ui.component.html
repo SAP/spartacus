@@ -10,16 +10,17 @@
 </div>
 
 <ng-container *ngFor="let child of node?.children">
-  <ng-container *ngTemplateOutlet="nav; context: { node: child }">
+  <ng-container *ngTemplateOutlet="nav; context: { node: child, depth: 0 }">
   </ng-container>
 </ng-container>
 
 <!-- we generate links in a recursive manner -->
-<ng-template #nav let-node="node">
+<ng-template #nav let-node="node" let-depth="depth">
   <nav
-    tabindex="0"
     (click)="toggleOpen($event)"
     (mouseenter)="onMouseEnter($event)"
+    (keydown.space)="toggleOpen($event)"
+    (keydown.esc)="back()"
   >
     <cx-generic-link
       *ngIf="
@@ -27,6 +28,7 @@
         else heading
       "
       [url]="node.url"
+      [target]="node.target"
     >
       {{ node.title }}
       <cx-icon
@@ -36,7 +38,10 @@
     </cx-generic-link>
 
     <ng-template #heading>
-      <h5 [attr.aria-label]="node.title">
+      <h5
+        [attr.aria-label]="node.title"
+        [attr.tabindex]="flyout && (depth === 0 || node.url) ? 0 : -1"
+      >
         {{ node.title }}
         <cx-icon
           *ngIf="flyout && node.children?.length > 0"
@@ -47,16 +52,24 @@
 
     <!-- we add a wrapper to allow for better layout handling in CSS -->
     <div class="wrapper" *ngIf="node.children?.length > 0">
-      <cx-generic-link *ngIf="node.url" [url]="node.url" class="all">
+      <cx-generic-link
+        *ngIf="node.url"
+        [url]="node.url"
+        [target]="node.target"
+        class="all"
+      >
         {{ 'navigation.shopAll' | cxTranslate: { navNode: node.title } }}
       </cx-generic-link>
       <div
         class="childs"
-        [attr.depth]="getDepth(node)"
+        [attr.depth]="getTotalDepth(node)"
         [attr.wrap-after]="node.children?.length > wrapAfter ? wrapAfter : null"
+        [attr.columns]="getColumnCount(node.children?.length)"
       >
         <ng-container *ngFor="let child of node.children">
-          <ng-container *ngTemplateOutlet="nav; context: { node: child }">
+          <ng-container
+            *ngTemplateOutlet="nav; context: { node: child, depth: depth + 1 }"
+          >
           </ng-container>
         </ng-container>
       </div>

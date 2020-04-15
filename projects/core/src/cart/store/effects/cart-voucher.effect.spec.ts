@@ -45,8 +45,8 @@ describe('Cart Voucher effect', () => {
       ],
     });
 
-    voucherEffects = TestBed.get(fromEffects.CartVoucherEffects);
-    cartVoucherConnector = TestBed.get(CartVoucherConnector);
+    voucherEffects = TestBed.inject(fromEffects.CartVoucherEffects);
+    cartVoucherConnector = TestBed.inject(CartVoucherConnector);
 
     spyOn(cartVoucherConnector, 'add').and.returnValue(of({}));
     spyOn(cartVoucherConnector, 'remove').and.returnValue(of({}));
@@ -60,8 +60,9 @@ describe('Cart Voucher effect', () => {
         voucherId: voucherId,
       });
       const completion = new CartActions.CartAddVoucherSuccess({
-        userId: 'userId',
-        cartId: 'cartId',
+        userId,
+        cartId,
+        voucherId,
       });
 
       actions$ = hot('-a', { a: action });
@@ -81,6 +82,7 @@ describe('Cart Voucher effect', () => {
       const completion = new CartActions.CartRemoveVoucherSuccess({
         userId: 'userId',
         cartId: 'cartId',
+        voucherId,
       });
 
       actions$ = hot('-a', { a: action });

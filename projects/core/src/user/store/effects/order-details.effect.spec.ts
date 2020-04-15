@@ -1,5 +1,4 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -18,6 +17,12 @@ const mockOrderDetailsParams = {
   orderCode: '00000386',
 };
 
+const mockCancelOrderParams = {
+  userId: 'user15355363988711@ydev.hybris.com',
+  orderCode: '00000386',
+  cancelRequestInput: {},
+};
+
 describe('Order Details effect', () => {
   let orderDetailsEffect: fromOrderDetailsEffect.OrderDetailsEffect;
   let orderConnector: UserOrderConnector;
@@ -33,15 +38,11 @@ describe('Order Details effect', () => {
       ],
     });
 
-    actions$ = TestBed.get(Actions as Type<Actions>);
-    orderDetailsEffect = TestBed.get(
-      fromOrderDetailsEffect.OrderDetailsEffect as Type<
-        fromOrderDetailsEffect.OrderDetailsEffect
-      >
+    actions$ = TestBed.inject(Actions);
+    orderDetailsEffect = TestBed.inject(
+      fromOrderDetailsEffect.OrderDetailsEffect
     );
-    orderConnector = TestBed.get(UserOrderConnector as Type<
-      UserOrderConnector
-    >);
+    orderConnector = TestBed.inject(UserOrderConnector);
   });
 
   describe('loadOrderDetails$', () => {
@@ -70,6 +71,34 @@ describe('Order Details effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(orderDetailsEffect.loadOrderDetails$).toBeObservable(expected);
+    });
+  });
+
+  describe('cancelOrder$', () => {
+    it('should cancel an order', () => {
+      spyOn(orderConnector, 'cancel').and.returnValue(of({}));
+
+      const action = new UserActions.CancelOrder(mockCancelOrderParams);
+
+      const completion = new UserActions.CancelOrderSuccess();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(orderDetailsEffect.cancelOrder$).toBeObservable(expected);
+    });
+
+    it('should handle failures for cancel an order', () => {
+      spyOn(orderConnector, 'cancel').and.returnValue(throwError('Error'));
+
+      const action = new UserActions.CancelOrder(mockCancelOrderParams);
+
+      const completion = new UserActions.CancelOrderFail('Error');
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(orderDetailsEffect.cancelOrder$).toBeObservable(expected);
     });
   });
 });

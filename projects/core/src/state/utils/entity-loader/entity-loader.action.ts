@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-
 import { entityMeta, EntityMeta } from '../entity/entity.action';
 import {
   failMeta,

@@ -33,12 +33,12 @@ interface SearchCriteria {
 
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
+  // TODO: make it configurable
   protected defaultPageSize = 10;
 
   protected sub: Subscription;
 
-  protected readonly RELEVANCE_CATEGORY = ':relevance:category:';
-  protected readonly RELEVANCE_BRAND = ':relevance:brand:';
+  protected readonly RELEVANCE_ALLCATEGORIES = ':relevance:allCategories:';
 
   constructor(
     protected productSearchService: ProductSearchService,
@@ -53,7 +53,7 @@ export class ProductListComponentService {
     ProductSearchPage
   > = this.productSearchService
     .getResults()
-    .pipe(filter(searchResult => Object.keys(searchResult).length > 0));
+    .pipe(filter((searchResult) => Object.keys(searchResult).length > 0));
 
   private searchByRouting$: Observable<
     ActivatedRouterStateSnapshot
@@ -91,10 +91,7 @@ export class ProductListComponentService {
   readonly model$: Observable<ProductSearchPage> = combineLatest([
     this.searchResults$,
     this.searchByRouting$,
-  ]).pipe(
-    pluck(0),
-    shareReplay({ bufferSize: 1, refCount: true })
-  );
+  ]).pipe(pluck(0), shareReplay({ bufferSize: 1, refCount: true }));
 
   clearSearchResults(): void {
     this.productSearchService.clearResults();
@@ -121,10 +118,10 @@ export class ProductListComponentService {
       return query;
     }
     if (categoryCode) {
-      return this.RELEVANCE_CATEGORY + categoryCode;
+      return this.RELEVANCE_ALLCATEGORIES + categoryCode;
     }
     if (brandCode) {
-      return this.RELEVANCE_BRAND + brandCode;
+      return this.RELEVANCE_ALLCATEGORIES + brandCode;
     }
   }
 
@@ -143,7 +140,7 @@ export class ProductListComponentService {
     };
 
     // drop empty keys
-    Object.keys(result).forEach(key => !result[key] && delete result[key]);
+    Object.keys(result).forEach((key) => !result[key] && delete result[key]);
 
     return result;
   }
@@ -162,7 +159,7 @@ export class ProductListComponentService {
   getPageItems(pageNumber: number): void {
     this.routing
       .getRouterState()
-      .subscribe(route => {
+      .subscribe((route) => {
         const routeCriteria = this.getCriteriaFromRoute(
           route.state.params,
           route.state.queryParams

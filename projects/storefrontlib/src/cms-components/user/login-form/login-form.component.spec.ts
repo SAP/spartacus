@@ -1,6 +1,6 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -15,8 +15,8 @@ import {
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../../checkout';
 import { LoginFormComponent } from './login-form.component';
-
 import createSpy = jasmine.createSpy;
+import { FormErrorsModule } from '../../../shared/index';
 
 @Pipe({
   name: 'cxUrl',
@@ -57,13 +57,18 @@ describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
 
-  let authService: MockAuthService;
+  let authService: AuthService;
   let authRedirectService: AuthRedirectService;
   let windowRef: WindowRef;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [LoginFormComponent, MockUrlPipe],
       providers: [
         WindowRef,
@@ -82,11 +87,9 @@ describe('LoginFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
-    authService = TestBed.get(AuthService as Type<AuthService>);
-    authRedirectService = TestBed.get(AuthRedirectService as Type<
-      AuthRedirectService
-    >);
-    windowRef = TestBed.get(WindowRef as Type<WindowRef>);
+    authService = TestBed.inject(AuthService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
+    windowRef = TestBed.inject(WindowRef);
   });
 
   beforeEach(() => {
@@ -99,8 +102,8 @@ describe('LoginFormComponent', () => {
   });
 
   it('should init the form - empty', () => {
-    expect(component.form.controls['userId'].value).toBe('');
-    expect(component.form.controls['password'].value).toBe('');
+    expect(component.loginForm.controls['userId'].value).toBe('');
+    expect(component.loginForm.controls['password'].value).toBe('');
   });
 
   it('should init the form - prefilled', () => {
@@ -115,7 +118,7 @@ describe('LoginFormComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(component.form.controls['userId'].value).toBe(email);
+    expect(component.loginForm.controls['userId'].value).toBe(email);
 
     // reset the state
     windowRef.nativeWindow.history.replaceState(null, null);
@@ -126,12 +129,22 @@ describe('LoginFormComponent', () => {
       const email = 'test@email.com';
       const password = 'secret';
 
-      component.form.controls['userId'].setValue(email);
-      component.form.controls['password'].setValue(password);
-      component.login();
+      component.loginForm.controls['userId'].setValue(email);
+      component.loginForm.controls['password'].setValue(password);
+      component.submitForm();
 
       expect(authService.authorize).toHaveBeenCalledWith(email, password);
       expect(authRedirectService.redirect).toHaveBeenCalled();
+    });
+
+    it('should not login when form not valid', () => {
+      const email = 'test@email.com';
+
+      component.loginForm.controls['userId'].setValue(email);
+      component.submitForm();
+
+      expect(authService.authorize).not.toHaveBeenCalled();
+      expect(authRedirectService.redirect).not.toHaveBeenCalled();
     });
 
     it('should handle changing email to lowercase', () => {
@@ -139,76 +152,14 @@ describe('LoginFormComponent', () => {
       const email_lowercase = 'test@email.com';
       const password = 'secret';
 
-      component.form.controls['userId'].setValue(email_uppercase);
-      component.form.controls['password'].setValue(password);
-      component.login();
+      component.loginForm.controls['userId'].setValue(email_uppercase);
+      component.loginForm.controls['password'].setValue(password);
+      component.submitForm();
 
       expect(authService.authorize).toHaveBeenCalledWith(
         email_lowercase,
         password
       );
-    });
-  });
-
-  describe('userId form field', () => {
-    let control: AbstractControl;
-
-    beforeEach(() => {
-      control = component.form.controls['userId'];
-    });
-
-    it('should NOT be valid when empty', () => {
-      control.setValue('');
-      expect(control.valid).toBeFalsy();
-    });
-
-    it('should NOT be valid when is an invalid email', () => {
-      control.setValue('with space@email.com');
-      expect(control.valid).toBeFalsy();
-
-      control.setValue('without.domain@');
-      expect(control.valid).toBeFalsy();
-
-      control.setValue('without.at.com');
-      expect(control.valid).toBeFalsy();
-
-      control.setValue('@without.username.com');
-      expect(control.valid).toBeFalsy();
-    });
-
-    it('should be valid when is a valid email', () => {
-      control.setValue('valid@email.com');
-      expect(control.valid).toBeTruthy();
-
-      control.setValue('valid123@example.email.com');
-      expect(control.valid).toBeTruthy();
-    });
-  });
-
-  describe('password form field', () => {
-    let control: AbstractControl;
-
-    beforeEach(() => {
-      control = component.form.controls['password'];
-    });
-
-    it('should be valid when not empty', () => {
-      control.setValue('not-empty');
-      expect(control.valid).toBeTruthy();
-
-      control.setValue('not empty');
-      expect(control.valid).toBeTruthy();
-
-      control.setValue(' ');
-      expect(control.valid).toBeTruthy();
-    });
-
-    it('should NOT be valid when empty', () => {
-      control.setValue('');
-      expect(control.valid).toBeFalsy();
-
-      control.setValue(null);
-      expect(control.valid).toBeFalsy();
     });
   });
 

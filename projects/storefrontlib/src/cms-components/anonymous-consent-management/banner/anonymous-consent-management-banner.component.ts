@@ -3,7 +3,7 @@ import { AnonymousConsentsService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
-import { ModalService } from '../../../shared/components/modal/index';
+import { ModalService } from '../../../shared/components/modal/modal.service';
 
 @Component({
   selector: 'cx-anonymous-consent-management-banner',
@@ -33,7 +33,7 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
     this.subscriptions.add(
       this.anonymousConsentsService
         .giveAllConsents()
-        .pipe(tap(_ => this.hideBanner()))
+        .pipe(tap(() => this.hideBanner()))
         .subscribe()
     );
   }

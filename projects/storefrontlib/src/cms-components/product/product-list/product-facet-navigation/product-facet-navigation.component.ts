@@ -9,8 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Facet, ProductSearchPage } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
-import { ModalService } from '../../../../shared/components/modal/index';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { ProductListComponentService } from '../container/product-list-component.service';
 
 @Component({
@@ -25,7 +25,6 @@ export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
 
   activeFacetValueCode: string;
   searchResult: ProductSearchPage;
-  minPerFacet = 6;
   showAllPerFacetMap: Map<String, boolean>;
   protected queryCodec: HttpUrlEncodingCodec;
   private collapsedFacets = new Set<string>();
@@ -42,14 +41,14 @@ export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.sub = this.activatedRoute.params.subscribe(params => {
+    this.sub = this.activatedRoute.params.subscribe((params) => {
       this.activeFacetValueCode = params.categoryCode || params.brandCode;
     });
 
     this.searchResult$ = this.productListComponentService.model$.pipe(
-      tap(searchResult => {
+      tap((searchResult) => {
         if (searchResult.facets) {
-          searchResult.facets.forEach(el => {
+          searchResult.facets.forEach((el) => {
             this.showAllPerFacetMap.set(el.name, false);
           });
         }
@@ -57,9 +56,9 @@ export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
     );
 
     this.visibleFacets$ = this.searchResult$.pipe(
-      map(searchResult => {
+      map((searchResult) => {
         return searchResult.facets
-          ? searchResult.facets.filter(facet => facet.visible)
+          ? searchResult.facets.filter((facet) => facet.visible)
           : [];
       })
     );
@@ -99,12 +98,12 @@ export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
     }
   }
 
-  getVisibleFacetValues(facet): any {
+  getVisibleFacetValues(facet: Facet): Facet[] {
     return facet.values.slice(
       0,
       this.showAllPerFacetMap.get(facet.name)
         ? facet.values.length
-        : this.minPerFacet
+        : facet.topValueCount
     );
   }
 

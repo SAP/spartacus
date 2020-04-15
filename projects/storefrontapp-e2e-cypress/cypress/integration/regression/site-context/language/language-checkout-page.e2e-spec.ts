@@ -1,5 +1,6 @@
 import { manipulateCartQuantity } from '../../../../helpers/cart';
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
+import { apiUrl } from '../../../../support/utils/login';
 
 describe('Language switch - checkout page', () => {
   const checkoutShippingPath =
@@ -10,13 +11,12 @@ describe('Language switch - checkout page', () => {
   const deutschName = siteContextSelector.PRODUCT_NAME_CART_DE;
 
   before(() => {
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
       win.localStorage.clear();
     });
     cy.requireLoggedIn();
     siteContextSelector.doPlaceOrder();
-    manipulateCartQuantity();
   });
 
   siteContextSelector.stub(
@@ -24,11 +24,23 @@ describe('Language switch - checkout page', () => {
     siteContextSelector.LANGUAGES
   );
 
+  describe('populate cart, history, quantity', () => {
+    it('should have basic data', () => {
+      manipulateCartQuantity();
+    });
+  });
+
   describe('checkout page', () => {
     it('should change language in the shipping address url', () => {
       // page being already tested in language-address-book
+      cy.route(
+        'PUT',
+        `${apiUrl}/rest/v2/electronics-spa/users/current/carts/*/addresses/delivery?*`
+      ).as('setAddress');
+      cy.visit(checkoutShippingPath);
+      cy.wait('@setAddress');
       siteContextSelector.verifySiteContextChangeUrl(
-        checkoutShippingPath,
+        null,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,
@@ -38,13 +50,13 @@ describe('Language switch - checkout page', () => {
       siteContextSelector.addressBookNextStep();
     });
 
-    it('should change language in the checkoutDelvieryPath url', () => {
+    it('should change language in the checkoutDeliveryPath url', () => {
       siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_DE_USD + checkoutDeliveryPath
       );
     });
 
-    it('should change language in the checkoutDelvieryPath page', () => {
+    it('should change language in the checkoutDeliveryPath page', () => {
       cy.get('cx-delivery-mode .cx-delivery-mode:first').should(
         'have.text',
         'Standard-Lieferung'

@@ -6,9 +6,18 @@
 /out-tsc
 /documentation
 
+# test output
+test-results.xml
+
 # docs archives
 docs.tar.gz
 docs.zip
+
+# spartacussampleaddon
+spartacussampleaddon.zip
+spartacussampleaddon.tar.gz
+spartacussampledataaddon.zip
+spartacussampledataaddon.tar
 
 # dependencies
 node_modules/

@@ -1,7 +1,11 @@
 %cx-product-references {
   padding-bottom: 50px;
   a {
-    outline: none;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
     color: var(--cx-color-text);
 
     &:focus {

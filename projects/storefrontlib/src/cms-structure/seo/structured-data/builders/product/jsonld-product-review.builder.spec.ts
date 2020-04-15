@@ -53,9 +53,9 @@ describe('JsonLdProductReviewBuilder', () => {
       ],
     });
 
-    service = TestBed.get(JsonLdProductReviewBuilder);
+    service = TestBed.inject(JsonLdProductReviewBuilder);
 
-    reviewService = TestBed.get(ProductReviewService);
+    reviewService = TestBed.inject(ProductReviewService);
   });
 
   it('should be created', () => {
@@ -67,7 +67,7 @@ describe('JsonLdProductReviewBuilder', () => {
       spyOn(reviewService, 'getByProductCode').and.returnValue(of([review1]));
       service
         .build(simpleProductMock)
-        .subscribe(schema => {
+        .subscribe((schema) => {
           expect(schema.aggregateRating.ratingCount).toEqual(1);
         })
         .unsubscribe();
@@ -79,7 +79,7 @@ describe('JsonLdProductReviewBuilder', () => {
       );
       service
         .build(simpleProductMock)
-        .subscribe(schema => {
+        .subscribe((schema) => {
           expect(schema.aggregateRating.ratingCount).toEqual(3);
         })
         .unsubscribe();
@@ -91,7 +91,7 @@ describe('JsonLdProductReviewBuilder', () => {
       );
       service
         .build(simpleProductMock)
-        .subscribe(schema => {
+        .subscribe((schema) => {
           expect(schema.aggregateRating.reviewCount).toEqual(2);
         })
         .unsubscribe();
@@ -105,7 +105,7 @@ describe('JsonLdProductReviewBuilder', () => {
       );
       service
         .build(simpleProductMock)
-        .subscribe(schema => {
+        .subscribe((schema) => {
           expect(schema.review.length).toEqual(2);
         })
         .unsubscribe();
@@ -116,7 +116,7 @@ describe('JsonLdProductReviewBuilder', () => {
       );
       service
         .build(simpleProductMock)
-        .subscribe(schema => {
+        .subscribe((schema) => {
           expect(schema.review.length).toEqual(3);
         })
         .unsubscribe();
@@ -126,7 +126,7 @@ describe('JsonLdProductReviewBuilder', () => {
       spyOn(reviewService, 'getByProductCode').and.returnValue(of([review1]));
       service
         .build(simpleProductMock)
-        .subscribe(schema => {
+        .subscribe((schema) => {
           expect(schema.review[0].reviewRating.ratingValue).toEqual('4');
         })
         .unsubscribe();
@@ -136,7 +136,7 @@ describe('JsonLdProductReviewBuilder', () => {
       spyOn(reviewService, 'getByProductCode').and.returnValue(of([review1]));
       service
         .build(simpleProductMock)
-        .subscribe(schema => {
+        .subscribe((schema) => {
           expect(schema.review[0].author).toBeUndefined();
         })
         .unsubscribe();
@@ -146,7 +146,7 @@ describe('JsonLdProductReviewBuilder', () => {
       spyOn(reviewService, 'getByProductCode').and.returnValue(of([review2]));
       service
         .build(simpleProductMock)
-        .subscribe(schema => {
+        .subscribe((schema) => {
           expect(schema.review[0].author).toEqual('tobi');
         })
         .unsubscribe();
@@ -156,7 +156,7 @@ describe('JsonLdProductReviewBuilder', () => {
       spyOn(reviewService, 'getByProductCode').and.returnValue(of([review1]));
       service
         .build(simpleProductMock)
-        .subscribe(schema => {
+        .subscribe((schema) => {
           expect(schema.review[0].datePublished).toEqual('2019-12-5');
         })
         .unsubscribe();

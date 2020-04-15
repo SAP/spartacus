@@ -4,12 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
   I18nModule,
   NotAuthGuard,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { ForgotPasswordComponent } from './forgot-password.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 @NgModule({
   imports: [
@@ -17,7 +18,11 @@ import { ForgotPasswordComponent } from './forgot-password.component';
     ReactiveFormsModule,
     RouterModule,
     UrlModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    I18nModule,
+    FormErrorsModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ForgotPasswordComponent: {
           component: ForgotPasswordComponent,
@@ -25,7 +30,6 @@ import { ForgotPasswordComponent } from './forgot-password.component';
         },
       },
     }),
-    I18nModule,
   ],
   declarations: [ForgotPasswordComponent],
   exports: [ForgotPasswordComponent],
