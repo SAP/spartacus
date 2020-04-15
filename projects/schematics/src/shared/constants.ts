@@ -40,6 +40,8 @@ export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
 export const ACTIVATED_ROUTE = 'ActivatedRoute';
 export const ROUTER = 'Router';
 export const WINDOW_REF = 'WindowRef';
+export const VIEW_CONTAINER_REF = 'ViewContainerRef';
+export const TEMPLATE_REF = 'TemplateRef';
 export const LOCATION = 'Location';
 export const COMPONENT_FACTORY_RESOLVER = 'ComponentFactoryResolver';
 
@@ -105,6 +107,7 @@ export const CONSENT_SERVICE = 'ConsentService';
 export const CDS_CONFIG = 'CdsConfig';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
+export const LOGOUT_GUARD = 'LogoutGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
@@ -124,6 +127,8 @@ export const CART_VOUCHER_SERVICE = 'CartVoucherService';
 export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
+export const PROTECTED_ROUTES_SERVICE = 'ProtectedRoutesService';
+
 export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
 export const REGISTER_COMPONENT = 'RegisterComponent';
 export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
@@ -143,8 +148,10 @@ export const URL_MATCHER_SERVICE = 'UrlMatcherService';
 export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
 export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
 export const EXTERNAL_ROUTES_CONFIG = 'ExternalRoutesConfig';
-export const ASM_ENABLER_SERVICE = 'AsmEnablerService';
+export const OUTLET_DIRECTIVE = 'OutletDirective';
 export const OUTLET_SERVICE = 'OutletService';
+export const DEFER_LOADER_SERVICE = 'DeferLoaderService';
+export const ASM_ENABLER_SERVICE = 'AsmEnablerService';
 export const LAUNCH_DIALOG_SERVICE = 'LaunchComponentService';
 export const PLACE_ORDER_COMPONENT = 'PlaceOrderComponent';
 export const USER_INTERESTS_SERVICE = 'UserInterestsService';
