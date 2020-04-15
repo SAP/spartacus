@@ -399,6 +399,8 @@ export class ConfiguratorEffects {
                       ...entry,
                       userId: payload.userId,
                       cartId: payload.cartId,
+                      entryNumber: payload.cartEntryNumber,
+                      quantity: entry.quantity,
                     }),
                   ];
                 }),

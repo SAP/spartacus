@@ -39,11 +39,14 @@ let payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntr
 const cartModification: CartModification = {
   quantity: 1,
   quantityAdded: 1,
+  deliveryModeChanged: true,
   entry: {
     product: { code: productCode },
     quantity: 1,
     entryNumber: entryNumber,
   },
+  statusCode: '',
+  statusMessage: '',
 };
 
 describe('ConfiguratorEffect', () => {
@@ -490,6 +493,13 @@ describe('ConfiguratorEffect', () => {
         ...cartModification,
         userId: userId,
         cartId: cartId,
+        productCode: payloadInput.productCode,
+        quantity: cartModification.quantity,
+        deliveryModeChanged: cartModification.deliveryModeChanged,
+        entry: cartModification.entry,
+        quantityAdded: cartModification.quantityAdded,
+        statusCode: cartModification.statusCode,
+        statusMessage: cartModification.statusMessage,
       });
 
       const removeConfiguration = new ConfiguratorActions.AddNextOwner(
