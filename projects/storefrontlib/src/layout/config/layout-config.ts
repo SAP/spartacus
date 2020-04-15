@@ -1,5 +1,5 @@
 import { DeferLoadingStrategy } from '@spartacus/core';
-import { LaunchConfig } from '../launch-dialog';
+import { LaunchConfig } from '../launch-dialog/index';
 
 export enum BREAKPOINT {
   xs = 'xs',

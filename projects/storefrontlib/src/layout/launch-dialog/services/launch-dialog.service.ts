@@ -69,7 +69,7 @@ export class LaunchDialogService {
    */
   protected findConfiguration(caller: LAUNCH_CALLER): LaunchOptions {
     if (this.layoutConfig?.launch) {
-      return this.layoutConfig?.launch[caller];
+      return this.layoutConfig.launch[caller];
     }
     return undefined;
   }

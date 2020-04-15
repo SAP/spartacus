@@ -1,6 +1,6 @@
 import { OutletPosition } from '../../../cms-structure/outlet/outlet.model';
 
-export abstract class LaunchConfig {
+export interface LaunchConfig {
   [key: string]: LaunchOptions;
 }
 

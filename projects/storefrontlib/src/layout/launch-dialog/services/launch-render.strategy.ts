@@ -15,12 +15,32 @@ import {
 } from '../config';
 
 export abstract class LaunchRenderStrategy {
-  // List of called references; only used for rendered elements
+  /**
+   *  List of called references; only used for rendered elements
+   */
   protected renderedCallers: Array<{
     caller: LAUNCH_CALLER;
     element?: any;
     component?: ComponentRef<any>;
   }> = [];
+
+  /**
+   * Classes to apply to the component when the dialog is a DIALOG
+   */
+  protected dialogClasses = ['d-block', 'fade', 'modal', 'show'];
+  /**
+   * Classes to apply to the component when the dialog is a POPOVER
+   */
+  protected popoverClasses = [];
+  /**
+   * Classes to apply to the component when the dialog is a SIDEBAR_END
+   */
+  protected sidebarEndClasses = [];
+  /**
+   * Classes to apply to the component when the dialog is a SIDEBAR_START
+   */
+  protected sidebarStartClasses = [];
+
   protected renderer: Renderer2;
 
   constructor(
@@ -69,17 +89,17 @@ export abstract class LaunchRenderStrategy {
     // TODO: make classes configurable
     switch (dialogType) {
       case DIALOG_TYPE.DIALOG:
-        classes = ['d-block', 'fade', 'modal', 'show'];
+        classes = this.dialogClasses;
         this.renderer.addClass(this.document.body, 'modal-open');
         break;
       case DIALOG_TYPE.POPOVER:
-        classes = [];
+        classes = this.popoverClasses;
         break;
       case DIALOG_TYPE.SIDEBAR_END:
-        classes = [];
+        classes = this.sidebarEndClasses;
         break;
       case DIALOG_TYPE.SIDEBAR_START:
-        classes = [];
+        classes = this.sidebarStartClasses;
         break;
     }
 
