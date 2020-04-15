@@ -1,11 +1,7 @@
 import { Component, Input, Output } from '@angular/core';
-import {
-  async,
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { DialogMode } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
@@ -45,7 +41,7 @@ class MockBreakpointService {
 //   activeFacets: [{ facetName: 'facet-B' }],
 // };
 
-describe('ProductFacetNavigationComponent', () => {
+fdescribe('ProductFacetNavigationComponent', () => {
   let component: ProductFacetNavigationComponent;
   let fixture: ComponentFixture<ProductFacetNavigationComponent>;
   // let element: DebugElement;
@@ -66,11 +62,7 @@ describe('ProductFacetNavigationComponent', () => {
           useClass: MockBreakpointService,
         },
       ],
-    })
-      // .overrideComponent(ProductFacetNavigationComponent, {
-      //   set: { changeDetection: ChangeDetectionStrategy.Default },
-      // })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -81,14 +73,37 @@ describe('ProductFacetNavigationComponent', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(ProductFacetNavigationComponent);
       component = fixture.componentInstance;
-      // fixture.detectChanges();
+      component.ngOnInit();
+      fixture.detectChanges();
     });
 
-    it('should create', fakeAsync(() => {
-      // tick(50);
-      // fixture.detectChanges();
+    it('should create', () => {
       expect(component).toBeTruthy();
+    });
+
+    fit('should have inline dialogMode', async(async () => {
+      let result;
+      // spyOnProperty(component, 'hasTrigger').and.returnValue(false);
+
+      component.dialogMode$
+        .subscribe(async (dialogMode) => {
+          await fixture.whenStable();
+          fixture.detectChanges();
+          result = dialogMode;
+        })
+        .unsubscribe();
+      // await fixture.whenStable();
+
+      expect(result).toEqual(DialogMode.POP);
     }));
+
+    xit('should set isOpen to false', () => {
+      component.isOpen = true;
+      component.ngOnInit();
+      component.dialogMode$.subscribe().unsubscribe();
+      expect(component.isOpen).toBeFalsy();
+    });
+
     // it('should store the facetList', () => {
     //   component.updateFacetList(mockFacetList);
     //   expect(component.facetList).toEqual(mockFacetList);
