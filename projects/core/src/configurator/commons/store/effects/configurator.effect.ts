@@ -399,7 +399,7 @@ export class ConfiguratorEffects {
                       ...entry,
                       userId: payload.userId,
                       cartId: payload.cartId,
-                      entryNumber: payload.cartEntryNumber,
+                      entryNumber: entry.entry.entryNumber.toString(),
                       quantity: entry.quantity,
                     }),
                   ];

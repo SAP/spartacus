@@ -35,7 +35,8 @@ let productConfiguration: Configurator.Configuration = {
   configId: 'a',
 };
 
-let payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntryParameters = {};
+let payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntryParameters = {
+};
 const cartModification: CartModification = {
   quantity: 1,
   quantityAdded: 1,
@@ -547,6 +548,8 @@ describe('ConfiguratorEffect', () => {
         ...cartModification,
         userId: userId,
         cartId: cartId,
+        entryNumber: cartModification.entry.entryNumber.toString(),
+        quantity: cartModification.quantity,
       });
 
       actions$ = hot('-a', { a: action });
