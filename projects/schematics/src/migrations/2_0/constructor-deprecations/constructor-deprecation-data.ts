@@ -38,6 +38,7 @@ import { PAYMENT_FORM_COMPONENT_MIGRATION } from './data/payment-form.component.
 import { PAYMENT_METHOD_COMPONENT_MIGRATIONS } from './data/payment-method.component.migration';
 import { PLACE_ORDER_COMPONENT_MIGRATION } from './data/place-order.component.migration';
 import { PRODUCT_CAROUSEL_COMPONENT_MIGRATION } from './data/product-carousel-component.migration';
+import { PRODUCT_LIST_COMPONENT_MIGRATION } from './data/product-list.component.migration';
 import { PRODUCT_SERVICE_MIGRATION } from './data/product-service.migration';
 import { PROMOTION_SERVICE_MIGRATION } from './data/promotion.service.migration';
 import { REGISTER_COMPONENT_MIGRATIONS } from './data/register.component.migration';
@@ -52,6 +53,7 @@ import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-noti
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
+import { OUTLET_DIRECTIVE_MIGRATION } from './data/outlet.directive.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -100,10 +102,12 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CURRENT_PRODUCT_SERVICE_MIGRATION,
   PRODUCT_SERVICE_MIGRATION,
   PRODUCT_CAROUSEL_COMPONENT_MIGRATION,
+  PRODUCT_LIST_COMPONENT_MIGRATION,
   CONSENT_MANAGEMENT_COMPONENT_MIGRATION,
   FOOTER_NAVIGATION_COMPONENT_MIGRATION,
   CONFIGURABLE_ROUTES_SERVICE_MIGRATION,
   EXTERNAL_ROUTES_SERVICE_MIGRATION,
+  OUTLET_DIRECTIVE_MIGRATION,
   PLACE_ORDER_COMPONENT_MIGRATION,
   CUSTOMER_COUPON_SERVICE_MIGRATION,
   USER_INTERESTS_SERVICE_MIGRATION,
