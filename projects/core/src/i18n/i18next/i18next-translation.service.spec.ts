@@ -49,6 +49,7 @@ describe('I18nextTranslationService', () => {
     describe(', when key exists,', () => {
       beforeEach(() => {
         spyOn(i18next, 'exists').and.returnValue(true);
+        i18next.isInitialized = true;
       });
 
       it('should emit result of i18next.t', () => {

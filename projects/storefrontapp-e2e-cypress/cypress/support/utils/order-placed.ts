@@ -11,10 +11,12 @@ let startTime = 0;
  * Waits until order is available in orders API response.
  * @param orderNumber Order number to wait for. Without this parameter it will check if at least one order exists
  * @param contentCatalog Content catalog you are testing
+ * @param currency Currency you are using
  */
 export function waitForOrderToBePlacedRequest(
   orderNumber?: string,
-  contentCatalog: string = 'electronics-spa'
+  contentCatalog: string = 'electronics-spa',
+  currency: string = 'USD'
 ) {
   const { userId, access_token } = JSON.parse(
     localStorage.getItem('spartacus-local-data')
@@ -23,7 +25,7 @@ export function waitForOrderToBePlacedRequest(
     method: 'GET',
     url: `${Cypress.env(
       'API_URL'
-    )}/rest/v2/${contentCatalog}/users/${userId}/orders?pageSize=5&lang=en&curr=USD`,
+    )}/rest/v2/${contentCatalog}/users/${userId}/orders?pageSize=5&lang=en&curr=${currency}`,
     headers: {
       Authorization: `bearer ${access_token}`,
     },
@@ -44,7 +46,7 @@ export function waitForOrderToBePlacedRequest(
         return;
       } else {
         startTime += delay;
-        waitForOrderToBePlacedRequest(orderNumber, contentCatalog);
+        waitForOrderToBePlacedRequest(orderNumber, contentCatalog, currency);
       }
     });
 }
