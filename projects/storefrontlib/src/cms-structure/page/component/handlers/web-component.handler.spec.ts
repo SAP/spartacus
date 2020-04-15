@@ -60,8 +60,8 @@ describe('WebComponentHandler', () => {
         fixture.componentInstance.vcr
       )
       .pipe(take(1))
-      .subscribe(([elRef]) => {
-        expect(elRef.nativeElement.tagName).toBe('MY-WEBCOMPONENT');
+      .subscribe(({ elementRef }) => {
+        expect(elementRef.nativeElement.tagName).toBe('MY-WEBCOMPONENT');
         done();
       });
   });

@@ -66,7 +66,7 @@ export class ComponentHandlerService {
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
     elementInjector?: Injector
-  ): Observable<[ElementRef, ComponentRef<any>?]> {
+  ): Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }> {
     return this.resolve(componentMapping)?.launcher(
       componentMapping,
       viewContainerRef,

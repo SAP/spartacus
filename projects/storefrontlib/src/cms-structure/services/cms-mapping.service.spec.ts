@@ -42,7 +42,7 @@ describe('CmsMappingService', () => {
   });
 
   describe('getComponentMapping', () => {
-    it('should return component data', () => {
+    it('should return component mapping', () => {
       expect(service.getComponentMapping('exampleMapping1')).toBe(
         mockConfig.cmsComponents.exampleMapping1
       );

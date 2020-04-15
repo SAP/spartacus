@@ -33,15 +33,18 @@ export class DefaultComponentHandler implements ComponentHandler {
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
     elementInjector?: Injector
-  ): Observable<[ElementRef, ComponentRef<any>]> {
-    return new Observable<[ElementRef, ComponentRef<any>]>((observer) => {
-      let cmpRef: ComponentRef<any>;
+  ): Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }> {
+    return new Observable<{
+      elementRef: ElementRef;
+      componentRef?: ComponentRef<any>;
+    }>((subscriber) => {
+      let componentRef: ComponentRef<any>;
 
       const injector = elementInjector ?? viewContainerRef.injector;
 
       const dispose = () => {
-        if (cmpRef) {
-          cmpRef.destroy();
+        if (componentRef) {
+          componentRef.destroy();
         }
       };
 
@@ -51,10 +54,12 @@ export class DefaultComponentHandler implements ComponentHandler {
       );
 
       if (factory) {
-        const vcRef = viewContainerRef;
-
-        cmpRef = vcRef.createComponent(factory, undefined, injector);
-        observer.next([cmpRef.location, cmpRef]);
+        componentRef = viewContainerRef.createComponent(
+          factory,
+          undefined,
+          injector
+        );
+        subscriber.next({ elementRef: componentRef.location, componentRef });
       }
 
       return dispose;

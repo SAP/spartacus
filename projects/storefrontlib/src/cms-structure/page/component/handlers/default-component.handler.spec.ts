@@ -58,9 +58,9 @@ describe('DefaultComponentHandler', () => {
     handler
       .launcher({ component: TestComponent }, fixture.componentInstance.vcr)
       .pipe(take(1))
-      .subscribe(([elRef, cmpRef]) => {
-        expect(cmpRef.componentType).toBe(TestComponent);
-        expect(elRef.nativeElement.innerText).toBe('testComponent');
+      .subscribe(({ elementRef, componentRef }) => {
+        expect(componentRef.componentType).toBe(TestComponent);
+        expect(elementRef.nativeElement.innerText).toBe('testComponent');
         done();
       });
   });

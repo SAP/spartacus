@@ -29,7 +29,7 @@ export abstract class ComponentHandler implements Handler {
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
     elementInjector?: Injector
-  ): Observable<[ElementRef, ComponentRef<any>?]>;
+  ): Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }>;
 
   abstract hasMatch(componentMapping: CmsComponentMapping): boolean;
   abstract getPriority?(): Priority;

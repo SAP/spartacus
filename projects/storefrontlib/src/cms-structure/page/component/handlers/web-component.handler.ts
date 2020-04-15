@@ -43,8 +43,8 @@ export class WebComponentHandler implements ComponentHandler {
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
     elementInjector?: Injector
-  ): Observable<[ElementRef]> {
-    return new Observable<[ElementRef]>((observer) => {
+  ): Observable<{ elementRef: ElementRef }> {
+    return new Observable<{ elementRef: ElementRef }>((subscriber) => {
       let webElement;
       let active = true;
       const injector = elementInjector ?? viewContainerRef.injector;
@@ -75,7 +75,7 @@ export class WebComponentHandler implements ComponentHandler {
               webElement
             );
 
-            observer.next([new ElementRef(webElement)]);
+            subscriber.next({ elementRef: new ElementRef(webElement) });
 
             if (!active) {
               disposeFunc();

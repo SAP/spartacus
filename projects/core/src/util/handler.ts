@@ -1,8 +1,8 @@
 export const enum Priority {
-  FALLBACK = -10,
-  LOW = -5,
-  NORMAL = 0,
-  HIGH = 5,
+  FALLBACK = -10, // used as fallback, when there was no other matches
+  LOW = -5, // used mainly in libraries, easy overridable
+  NORMAL = 0, // default in application
+  HIGH = 5, // should take precedencee
 }
 
 /**

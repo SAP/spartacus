@@ -79,12 +79,10 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
           this.injector
         )
       )
-      ?.subscribe(
-        ([elementRef, componentRef]: [ElementRef, ComponentRef<any>]) => {
-          this.cmpRef = componentRef;
-          this.decorate(elementRef);
-        }
-      );
+      ?.subscribe(({ elementRef, componentRef }) => {
+        this.cmpRef = componentRef;
+        this.decorate(elementRef);
+      });
   }
 
   private decorate(elementRef: ElementRef) {
