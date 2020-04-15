@@ -26,6 +26,7 @@ import { CUSTOMER_COUPON_SERVICE_MIGRATION } from './data/customer-coupon.servic
 import { EXTERNAL_ROUTES_SERVICE_MIGRATION } from './data/external-routes.service.migration';
 import { FOOTER_NAVIGATION_COMPONENT_MIGRATION } from './data/footer-navigation.component.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
+import { LOGOUT_GUARD_MIGRATION } from './data/logout-guard.migration';
 import { MINI_CART_COMPONENT_MIGRATION } from './data/mini-cart.component.migration';
 import { NOT_CHECKOUT_AUTH_GUARD_MIGRATION } from './data/not-checkout-auth-guard.migration';
 import { OCC_CART_ENTRY_ADAPTER_MIGRATION } from './data/occ-cart-entry.adapter.migration';
@@ -33,6 +34,7 @@ import { OCC_CART_ADAPTER_MIGRATION } from './data/occ-cart.adapter.migration';
 import { OCC_USER_ORDER_ADAPTER_MIGRATION } from './data/occ-user-order.adapter.migration';
 import { ORDER_CONFIRMATION_ITEMS_COMPONENT_MIGRATION } from './data/order-confirmation-items.component.migration';
 import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
+import { OUTLET_DIRECTIVE_MIGRATION } from './data/outlet.directive.migration';
 import { CATEGORY_PAGE_META_RESOLVER_MIGRATION } from './data/page-resolvers/category-page-meta.resolver.migration';
 import { CHECKOUT_PAGE_META_RESOLVER_MIGRATION } from './data/page-resolvers/checkout-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-resolvers/page-meta.service.migration';
@@ -41,6 +43,7 @@ import { PAYMENT_FORM_COMPONENT_MIGRATION } from './data/payment-form.component.
 import { PAYMENT_METHOD_COMPONENT_MIGRATIONS } from './data/payment-method.component.migration';
 import { PLACE_ORDER_COMPONENT_MIGRATION } from './data/place-order.component.migration';
 import { PRODUCT_CAROUSEL_COMPONENT_MIGRATION } from './data/product-carousel-component.migration';
+import { PRODUCT_LIST_COMPONENT_MIGRATION } from './data/product-list.component.migration';
 import { PRODUCT_SERVICE_MIGRATION } from './data/product-service.migration';
 import { PROMOTION_SERVICE_MIGRATION } from './data/promotion.service.migration';
 import { REGISTER_COMPONENT_MIGRATIONS } from './data/register.component.migration';
@@ -102,16 +105,19 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CART_VOUCHER_SERVICE_MIGRATION,
   ...CART_COUPON_COMPONENT_MIGRATIONS,
   ...CART_ITEM_LIST_COMPONENT_MIGRATIONS,
+  LOGOUT_GUARD_MIGRATION,
   LOGIN_FORM_COMPONENT_MIGRATION,
   ...REGISTER_COMPONENT_MIGRATIONS,
   STAR_RATING_COMPONENT_MIGRATION,
   CURRENT_PRODUCT_SERVICE_MIGRATION,
   PRODUCT_SERVICE_MIGRATION,
   PRODUCT_CAROUSEL_COMPONENT_MIGRATION,
+  PRODUCT_LIST_COMPONENT_MIGRATION,
   CONSENT_MANAGEMENT_COMPONENT_MIGRATION,
   FOOTER_NAVIGATION_COMPONENT_MIGRATION,
   CONFIGURABLE_ROUTES_SERVICE_MIGRATION,
   EXTERNAL_ROUTES_SERVICE_MIGRATION,
+  OUTLET_DIRECTIVE_MIGRATION,
   PLACE_ORDER_COMPONENT_MIGRATION,
   CUSTOMER_COUPON_SERVICE_MIGRATION,
   USER_INTERESTS_SERVICE_MIGRATION,
