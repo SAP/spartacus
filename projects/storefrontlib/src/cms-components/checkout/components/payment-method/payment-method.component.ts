@@ -222,7 +222,16 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected createCard(paymentDetails, cardLabels, selected): Card {
+  protected createCard(
+    paymentDetails: PaymentDetails,
+    cardLabels: {
+      textDefaultPaymentMethod: string;
+      textExpires: string;
+      textUseThisPayment: string;
+      textSelected: string;
+    },
+    selected: PaymentDetails
+  ): Card {
     return {
       title: paymentDetails.defaultPayment
         ? cardLabels.textDefaultPaymentMethod
