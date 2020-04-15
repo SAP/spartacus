@@ -38,6 +38,7 @@ import { PAYMENT_FORM_COMPONENT_MIGRATION } from './data/payment-form.component.
 import { PAYMENT_METHOD_COMPONENT_MIGRATIONS } from './data/payment-method.component.migration';
 import { PLACE_ORDER_COMPONENT_MIGRATION } from './data/place-order.component.migration';
 import { PRODUCT_CAROUSEL_COMPONENT_MIGRATION } from './data/product-carousel-component.migration';
+import { PRODUCT_LIST_COMPONENT_MIGRATION } from './data/product-list.component.migration';
 import { PRODUCT_SERVICE_MIGRATION } from './data/product-service.migration';
 import { PROMOTION_SERVICE_MIGRATION } from './data/promotion.service.migration';
 import { REGISTER_COMPONENT_MIGRATIONS } from './data/register.component.migration';
@@ -101,6 +102,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CURRENT_PRODUCT_SERVICE_MIGRATION,
   PRODUCT_SERVICE_MIGRATION,
   PRODUCT_CAROUSEL_COMPONENT_MIGRATION,
+  PRODUCT_LIST_COMPONENT_MIGRATION,
   CONSENT_MANAGEMENT_COMPONENT_MIGRATION,
   FOOTER_NAVIGATION_COMPONENT_MIGRATION,
   CONFIGURABLE_ROUTES_SERVICE_MIGRATION,
