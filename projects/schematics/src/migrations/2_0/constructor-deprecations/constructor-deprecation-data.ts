@@ -52,6 +52,7 @@ import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-noti
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
+import { OUTLET_DIRECTIVE_MIGRATION } from './data/outlet.directive.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -104,6 +105,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   FOOTER_NAVIGATION_COMPONENT_MIGRATION,
   CONFIGURABLE_ROUTES_SERVICE_MIGRATION,
   EXTERNAL_ROUTES_SERVICE_MIGRATION,
+  OUTLET_DIRECTIVE_MIGRATION,
   PLACE_ORDER_COMPONENT_MIGRATION,
   CUSTOMER_COUPON_SERVICE_MIGRATION,
   USER_INTERESTS_SERVICE_MIGRATION,
