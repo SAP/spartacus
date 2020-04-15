@@ -11,11 +11,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
-import {
-  DialogMode,
-  FacetGroupCollapsedState,
-  FacetList,
-} from '../facet.model';
+import { FacetGroupCollapsedState, FacetList } from '../facet.model';
 import { FacetComponent } from '../facet/facet.component';
 import { FacetService } from '../services/facet.service';
 
@@ -28,7 +24,7 @@ export class FacetListComponent {
   /**
    * Indicates that the facet navigation is rendered in dialog.
    */
-  @Input() dialogMode: DialogMode;
+  @Input() isDialog: boolean;
 
   /** Emits when the dialog must close */
   @Output() closeDialog = new EventEmitter();
@@ -55,7 +51,6 @@ export class FacetListComponent {
    */
   expandFacetGroup(facet: Facet, ref: FacetComponent) {
     if (!ref.isExpanded) {
-      // this.facetService.toggleExpand(facet);
       this.facetService.toggle(facet, ref.isExpanded);
     }
   }
@@ -80,12 +75,5 @@ export class FacetListComponent {
       .pipe(
         map((value) => value.toggled === FacetGroupCollapsedState.COLLAPSED)
       );
-  }
-
-  /**
-   * indicates whether this dialog is popped upo inline.
-   */
-  get isDialog(): boolean {
-    return this.dialogMode === DialogMode.POP;
   }
 }

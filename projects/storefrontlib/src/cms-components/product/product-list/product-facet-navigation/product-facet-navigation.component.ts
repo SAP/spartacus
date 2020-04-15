@@ -1,39 +1,29 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { asapScheduler } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/internal/operators/map';
-import { distinctUntilChanged, observeOn, tap } from 'rxjs/operators';
+import { asapScheduler, BehaviorSubject, interval, Subscription } from 'rxjs';
+import { delay, delayWhen, filter, observeOn } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
-import { FacetListComponent } from './facet-list/facet-list.component';
-import { DialogMode } from './facet.model';
 
 @Component({
   selector: 'cx-product-facet-navigation',
   templateUrl: './product-facet-navigation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductFacetNavigationComponent implements OnInit {
+export class ProductFacetNavigationComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
-  inlineMode = DialogMode.INLINE;
-
-  /**
-   * We delay the assignment CSS class so that they fire only once the DOM is created.
-   */
-  protected TOGGLE_LAUNCH_DELAY = 0;
 
   /**
    * We delay the removal of DOM so that animations can finish playing until the
    * DOM is created.
    */
-  protected TOGGLE_CLOSE_DELAY = 300;
+  protected CLOSE_DELAY = 300;
 
   /**
    * The trigger element is used to open the facet navigation in a dialog.
@@ -43,42 +33,58 @@ export class ProductFacetNavigationComponent implements OnInit {
    * The element reference is also used to refocus the trigger element after
    * the dialog is closed.
    */
-  @ViewChild('dialogTrigger') dialogTrigger: ElementRef<HTMLElement>;
+  @ViewChild('trigger') dialogTrigger: ElementRef<HTMLElement>;
 
   /**
-   * The dialog element reference is used to focus the dialog once it's launched
-   * and add an `active` class to it.
+   * Indicates whether the facet navigation is launched.
    */
-  @ViewChild(FacetListComponent, { read: ElementRef }) facetListRef: ElementRef<
-    HTMLElement
-  >;
+  launched$: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
 
   /**
-   * Indicates that the dialog is opened.
-   *
-   * This is default in inline mode, but requires explicit action in mobile mode.
+   * Indicates the active state of the dialog. This is used to apply css classes
+   * and keyboard focus to the dialog.
    */
-  isOpen: boolean;
+  active$: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
 
-  /**
-   * Indicates that the facet navigation is rendered in dialog, often
-   * a modal or sidenav. The dialog experience is driven by CSS
-   */
-  dialogMode$: Observable<DialogMode>;
+  private subscriptions = new Subscription();
 
-  constructor(
-    protected breakpointService: BreakpointService,
-    protected cd: ChangeDetectorRef
-  ) {}
+  constructor(protected breakpointService: BreakpointService) {}
 
   ngOnInit() {
-    this.dialogMode$ = this.breakpointService.breakpoint$.pipe(
-      // deffer emitting a new value to the next micro-task,
-      // so the `this.hasTrigger` can be accessed later, after the DOM is (re)rendered.
-      observeOn(asapScheduler),
-      map(() => (this.hasTrigger ? DialogMode.POP : DialogMode.INLINE)),
-      distinctUntilChanged(),
-      tap(() => (this.isOpen = false))
+    this.subscriptions.add(
+      this.breakpointService.breakpoint$
+        .pipe(observeOn(asapScheduler))
+        .subscribe(() => this.launched$.next(!this.hasTrigger))
+    );
+
+    // when the facet navigation is toggled we delay the activated state
+    this.subscriptions.add(
+      this.launched$
+        .pipe(
+          filter((launched) => launched !== undefined),
+          delayWhen((launched) =>
+            launched ? interval(0) : interval(this.CLOSE_DELAY)
+          )
+        )
+        .subscribe((launched) => {
+          if (launched || this.active$.value) {
+            this.active$.next(launched === true);
+          }
+        })
+    );
+
+    this.subscriptions.add(
+      this.active$
+        .pipe(
+          filter((active) => active !== undefined),
+          delay(this.CLOSE_DELAY)
+        )
+        .subscribe((active) => {
+          if (this.hasTrigger && !active && this.launched$.value === true) {
+            this.launched$.next(false);
+            this.dialogTrigger.nativeElement.focus();
+          }
+        })
     );
   }
 
@@ -87,7 +93,7 @@ export class ProductFacetNavigationComponent implements OnInit {
    * controlled by CSS, where the trigger button can be hidden (display:none)
    * for certain screen sizes.
    */
-  protected get hasTrigger() {
+  get hasTrigger() {
     return this.dialogTrigger.nativeElement.offsetParent !== null;
   }
 
@@ -100,12 +106,7 @@ export class ProductFacetNavigationComponent implements OnInit {
    * for an accessibility flow.
    */
   launch() {
-    this.isOpen = true;
-
-    setTimeout(() => {
-      this.facetListRef?.nativeElement.classList.add('active');
-      this.facetListRef?.nativeElement.focus();
-    }, this.TOGGLE_LAUNCH_DELAY);
+    this.launched$.next(true);
   }
 
   /**
@@ -116,12 +117,10 @@ export class ProductFacetNavigationComponent implements OnInit {
    * The trigger element will be focussed as well.
    */
   close() {
-    this.facetListRef.nativeElement.classList.remove('active');
-    this.dialogTrigger.nativeElement.focus();
+    this.active$.next(false);
+  }
 
-    setTimeout(() => {
-      this.isOpen = false;
-      this.cd.markForCheck();
-    }, this.TOGGLE_CLOSE_DELAY);
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }

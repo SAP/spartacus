@@ -1,13 +1,6 @@
 import { Breadcrumb, Facet } from '@spartacus/core';
 
 /**
- * TODO: consider moving to a generic location
- */
-export enum DialogMode {
-  INLINE = 'INLINE',
-  POP = 'POP',
-}
-/**
  * UI model that holds the full list of facet and active facets for
  * the product list.
  */

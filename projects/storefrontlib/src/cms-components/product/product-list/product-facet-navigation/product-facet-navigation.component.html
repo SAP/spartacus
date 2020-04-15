@@ -1,5 +1,5 @@
 <button
-  #dialogTrigger
+  #trigger
   class="btn btn-action btn-block dialog-trigger"
   (click)="launch()"
 >
@@ -9,10 +9,9 @@
 
 <cx-active-facets></cx-active-facets>
 
-<ng-container *ngIf="dialogMode$ | async as dialogMode">
-  <cx-facet-list
-    *ngIf="dialogMode === 'INLINE' || isOpen"
-    [dialogMode]="dialogMode"
-    (closeDialog)="close()"
-  ></cx-facet-list>
-</ng-container>
+<cx-facet-list
+  *ngIf="launched$ | async as launched"
+  [isDialog]="hasTrigger"
+  (closeDialog)="close()"
+  [class.active]="active$ | async"
+></cx-facet-list>
