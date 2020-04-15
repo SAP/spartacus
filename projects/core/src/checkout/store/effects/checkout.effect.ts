@@ -380,7 +380,6 @@ export class CheckoutEffects {
   clearCheckoutDeliveryMode$: Observable<
     | CheckoutActions.ClearCheckoutDeliveryModeFail
     | CheckoutActions.ClearCheckoutDeliveryModeSuccess
-    | CartActions.CartProcessesDecrement
     | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
@@ -393,16 +392,15 @@ export class CheckoutEffects {
           map(
             () =>
               new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
-                userId: payload.userId,
-                cartId: payload.cartId,
+                ...payload,
               })
           ),
           catchError((error) =>
             from([
-              new CheckoutActions.ClearCheckoutDeliveryModeFail(
-                makeErrorSerializable(error)
-              ),
-              new CartActions.CartProcessesDecrement(payload.cartId),
+              new CheckoutActions.ClearCheckoutDeliveryModeFail({
+                ...payload,
+                error: makeErrorSerializable(error),
+              }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
                 userId: payload.userId,
