@@ -4,8 +4,6 @@
   @extend %LoginPageTemplate-#{$theme} !optional;
 
   cx-order-details-headline {
-    order: 1;
-
     @include media-breakpoint-down(sm) {
       border: none;
     }
@@ -64,7 +62,6 @@
 
   cx-order-details-items {
     margin-bottom: 15px;
-    order: 2;
   }
 
   cx-order-consigned-entries {
@@ -96,7 +93,6 @@
   }
 
   cx-order-details-shipping {
-    order: 4;
     .cx-summary {
       margin-bottom: 48px;
     }
@@ -124,12 +120,7 @@
   }
 
   cx-order-details-totals {
-    order: 3;
     margin-bottom: 32px;
-  }
-
-  cx-order-details-actions {
-    order: 5;
   }
 
   cx-tab-paragraph-container {
