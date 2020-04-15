@@ -2,14 +2,12 @@ import {
   ComponentRef,
   Inject,
   Injectable,
+  isDevMode,
   ViewContainerRef,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  LaunchConfig,
-  LaunchOptions,
-  LAUNCH_CALLER,
-} from '../config/launch-config';
+import { LayoutConfig } from '../../config/layout-config';
+import { LaunchOptions, LAUNCH_CALLER } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
@@ -20,7 +18,7 @@ export class LaunchDialogService {
   constructor(
     @Inject(LaunchRenderStrategy)
     protected renderStrategies: LaunchRenderStrategy[],
-    protected launchConfig: LaunchConfig
+    protected layoutConfig: LayoutConfig
   ) {
     this.renderStrategies = this.renderStrategies || [];
   }
@@ -36,12 +34,16 @@ export class LaunchDialogService {
     vcr?: ViewContainerRef
   ): void | Observable<ComponentRef<any>> {
     const config = this.findConfiguration(caller);
-    const renderer = this.getStrategy(config);
+    if (config) {
+      const renderer = this.getStrategy(config);
 
-    // Render if the strategy exists
-    if (renderer) {
-      const component = renderer.render(config, caller, vcr);
-      return component;
+      // Render if the strategy exists
+      if (renderer) {
+        const component = renderer.render(config, caller, vcr);
+        return component;
+      }
+    } else if (isDevMode) {
+      console.warn('No configuration provided for caller ' + caller);
     }
   }
 
@@ -66,7 +68,10 @@ export class LaunchDialogService {
    * @param caller LAUNCH_CALLER
    */
   protected findConfiguration(caller: LAUNCH_CALLER): LaunchOptions {
-    return this.launchConfig?.launch[caller];
+    if (this.layoutConfig?.launch) {
+      return this.layoutConfig?.launch[caller];
+    }
+    return undefined;
   }
 
   /**

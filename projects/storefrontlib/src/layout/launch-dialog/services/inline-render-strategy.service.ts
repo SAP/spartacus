@@ -1,6 +1,8 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ComponentFactoryResolver,
   ComponentRef,
+  Inject,
   Injectable,
   isDevMode,
   RendererFactory2,
@@ -13,10 +15,11 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 @Injectable({ providedIn: 'root' })
 export class InlineRenderStrategy extends LaunchRenderStrategy {
   constructor(
+    @Inject(DOCUMENT) protected document: Document,
     protected rendererFactory: RendererFactory2,
     protected componentFactoryResolver: ComponentFactoryResolver
   ) {
-    super(rendererFactory);
+    super(document, rendererFactory);
   }
 
   /**

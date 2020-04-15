@@ -1,7 +1,9 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ComponentFactory,
   ComponentFactoryResolver,
   ComponentRef,
+  Inject,
   Injectable,
   RendererFactory2,
 } from '@angular/core';
@@ -18,12 +20,13 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 @Injectable({ providedIn: 'root' })
 export class OutletRenderStrategy extends LaunchRenderStrategy {
   constructor(
+    @Inject(DOCUMENT) protected document: Document,
     protected rendererFactory: RendererFactory2,
     protected outletService: OutletService<ComponentFactory<any>>,
     protected componentFactoryResolver: ComponentFactoryResolver,
     protected outletRendererService: OutletRendererService
   ) {
-    super(rendererFactory);
+    super(document, rendererFactory);
   }
 
   /**
@@ -86,6 +89,6 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
       template
     );
 
-    super.remove(caller);
+    super.remove(caller, config);
   }
 }

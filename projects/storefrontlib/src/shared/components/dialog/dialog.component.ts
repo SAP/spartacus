@@ -5,6 +5,7 @@ import { Component, HostBinding } from '@angular/core';
   templateUrl: 'dialog.component.html',
 })
 export class DialogComponent {
+  // TODO: new modal classes
   @HostBinding('class') classes = 'modal-dialog modal-dialog-centered modal-lg';
   @HostBinding('attr.role') role = 'dialog';
   @HostBinding('attr.aria-modal') modal = true;

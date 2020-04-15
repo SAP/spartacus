@@ -68,9 +68,6 @@ if (!environment.production) {
         level: '1.5',
         anonymousConsents: true,
       },
-      checkout: {
-        guest: true,
-      },
     }),
     JsonLdBuilderModule,
 

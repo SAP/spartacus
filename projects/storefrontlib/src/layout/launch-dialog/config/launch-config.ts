@@ -1,9 +1,7 @@
 import { OutletPosition } from '../../../cms-structure/outlet/outlet.model';
 
 export abstract class LaunchConfig {
-  launch?: {
-    [key: string]: LaunchOptions;
-  };
+  [key: string]: LaunchOptions;
 }
 
 export type LaunchOptions =

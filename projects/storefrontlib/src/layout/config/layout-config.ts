@@ -1,4 +1,5 @@
 import { DeferLoadingStrategy } from '@spartacus/core';
+import { LaunchConfig } from '../launch-dialog';
 
 export enum BREAKPOINT {
   xs = 'xs',
@@ -77,4 +78,6 @@ export abstract class LayoutConfig {
      */
     intersectionMargin?: string;
   };
+
+  launch?: LaunchConfig;
 }

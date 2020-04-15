@@ -1,5 +1,7 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ComponentRef,
+  Inject,
   Renderer2,
   RendererFactory2,
   ViewContainerRef,
@@ -21,7 +23,10 @@ export abstract class LaunchRenderStrategy {
   }> = [];
   protected renderer: Renderer2;
 
-  constructor(protected rendererFactory: RendererFactory2) {
+  constructor(
+    @Inject(DOCUMENT) protected document: Document,
+    protected rendererFactory: RendererFactory2
+  ) {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
 
@@ -65,6 +70,7 @@ export abstract class LaunchRenderStrategy {
     switch (dialogType) {
       case DIALOG_TYPE.DIALOG:
         classes = ['d-block', 'fade', 'modal', 'show'];
+        this.renderer.addClass(this.document.body, 'modal-open');
         break;
       case DIALOG_TYPE.POPOVER:
         classes = [];
@@ -89,9 +95,13 @@ export abstract class LaunchRenderStrategy {
    * @param caller
    * @param _config optional parameters used in children strategies
    */
-  public remove(caller: LAUNCH_CALLER, _config?: LaunchOptions): void {
+  public remove(caller: LAUNCH_CALLER, config: LaunchOptions): void {
     this.renderedCallers = this.renderedCallers.filter(
       (el) => el.caller !== caller
     );
+
+    if ((config as LaunchDialog).options?.dialogType === DIALOG_TYPE.DIALOG) {
+      this.renderer.removeClass(this.document.body, 'modal-open');
+    }
   }
 }
