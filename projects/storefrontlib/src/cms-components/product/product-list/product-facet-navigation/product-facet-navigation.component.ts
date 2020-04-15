@@ -1,14 +1,15 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
+  OnInit,
   ViewChild,
 } from '@angular/core';
+import { asapScheduler } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/internal/operators/map';
-import { distinctUntilChanged, tap } from 'rxjs/operators';
+import { distinctUntilChanged, observeOn, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { FacetListComponent } from './facet-list/facet-list.component';
@@ -19,7 +20,7 @@ import { DialogMode } from './facet.model';
   templateUrl: './product-facet-navigation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductFacetNavigationComponent implements AfterViewInit {
+export class ProductFacetNavigationComponent implements OnInit {
   iconTypes = ICON_TYPE;
   inlineMode = DialogMode.INLINE;
 
@@ -70,16 +71,15 @@ export class ProductFacetNavigationComponent implements AfterViewInit {
     protected cd: ChangeDetectorRef
   ) {}
 
-  ngAfterViewInit() {
-    // We initiate the dialogMode inside the `AfterViewInit` so that we can detect
-    // the availability of the trigger element.
+  ngOnInit() {
     this.dialogMode$ = this.breakpointService.breakpoint$.pipe(
+      // deffer emitting a new value to the next micro-task,
+      // so the `this.hasTrigger` can be accessed later, after the DOM is (re)rendered.
+      observeOn(asapScheduler),
       map(() => (this.hasTrigger ? DialogMode.POP : DialogMode.INLINE)),
       distinctUntilChanged(),
       tap(() => (this.isOpen = false))
     );
-    // given that we've done this after view init, we need to kick the cd once more.
-    this.cd.markForCheck();
   }
 
   /**
