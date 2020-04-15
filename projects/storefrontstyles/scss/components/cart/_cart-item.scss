@@ -161,11 +161,9 @@
       @include type('8');
       color: var(--cx-color-text);
       border-width: 0;
-      text-decoration: none;
       background-color: transparent;
 
       &:hover {
-        text-decoration: underline;
         color: var(--cx-color-primary);
       }
     }
