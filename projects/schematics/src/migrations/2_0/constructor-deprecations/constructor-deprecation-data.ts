@@ -25,6 +25,7 @@ import { CUSTOMER_COUPON_SERVICE_MIGRATION } from './data/customer-coupon.servic
 import { EXTERNAL_ROUTES_SERVICE_MIGRATION } from './data/external-routes.service.migration';
 import { FOOTER_NAVIGATION_COMPONENT_MIGRATION } from './data/footer-navigation.component.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
+import { LOGOUT_GUARD_MIGRATION } from './data/logout-guard.migration';
 import { MINI_CART_COMPONENT_MIGRATION } from './data/mini-cart.component.migration';
 import { NOT_CHECKOUT_AUTH_GUARD_MIGRATION } from './data/not-checkout-auth-guard.migration';
 import { ORDER_CONFIRMATION_ITEMS_COMPONENT_MIGRATION } from './data/order-confirmation-items.component.migration';
@@ -94,6 +95,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ...CART_COUPON_COMPONENT_MIGRATIONS,
   ...CART_ITEM_LIST_COMPONENT_MIGRATIONS,
   ...CART_ITEM_COMPONENT_MIGRATIONS,
+  LOGOUT_GUARD_MIGRATION,
   LOGIN_FORM_COMPONENT_MIGRATION,
   ...REGISTER_COMPONENT_MIGRATIONS,
   STAR_RATING_COMPONENT_MIGRATION,
