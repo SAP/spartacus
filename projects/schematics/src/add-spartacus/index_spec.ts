@@ -78,11 +78,6 @@ describe('add-spartacus', () => {
         `import { B2cStorefrontModule } from '@spartacus/storefront';`
       )
     ).toBe(true);
-    expect(
-      appModule.includes(
-        `import { environment } from '../environments/environment';`
-      )
-    );
     expect(appModule.includes('B2cStorefrontModule.withConfig')).toBe(true);
   });
 
@@ -142,24 +137,6 @@ describe('add-spartacus', () => {
       );
 
       expect(appModule.includes(`context: {`)).toBeFalsy();
-    });
-
-    it('should set prefix', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync(
-          'add-spartacus',
-          { ...defaultOptions, baseUrl: 'test-url' },
-          appTree
-        )
-        .toPromise();
-      const devEnvironment = tree.readContent(
-        '/projects/schematics-test/src/environments/environment.ts'
-      );
-      const prodEnvironment = tree.readContent(
-        '/projects/schematics-test/src/environments/environment.prod.ts'
-      );
-      expect(devEnvironment.includes(`occPrefix: '/occ/v2/'`)).toBe(true);
-      expect(prodEnvironment.includes(`occPrefix: '/occ/v2/'`)).toBe(true);
     });
   });
 
