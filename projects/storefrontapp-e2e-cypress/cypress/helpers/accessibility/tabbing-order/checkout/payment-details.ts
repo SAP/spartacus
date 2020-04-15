@@ -28,10 +28,12 @@ export function checkoutPaymentDetailsTabbingOrder(config: TabElement[]) {
   verifyTabbingOrder(containerSelector, config);
 }
 
+const containerSelectorBillingAddress = '.cx-payment-form-billing';
+
 export function checkoutBillingAddressTabbingOrder(config: TabElement[]) {
   const { firstName, lastName, phone, address } = user;
   fillBillingAddress({ firstName, lastName, phone, address });
 
-  verifyTabbingOrder(containerSelector, config);
+  verifyTabbingOrder(containerSelectorBillingAddress, config);
   checkoutNextStep('/checkout/review-order');
 }
