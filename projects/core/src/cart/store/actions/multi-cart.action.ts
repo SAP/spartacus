@@ -8,12 +8,12 @@ import {
 import { EntityRemoveAllAction } from '../../../state/utils/entity/entity.action';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
-export const SET_TEMP_CART = '[Multi Cart] Set Temp Cart';
+export const SET_TEMP_CART = '[Cart] Set Temp Cart';
 
-export const CART_PROCESSES_INCREMENT = '[Multi Cart] Cart Processes Increment';
-export const CART_PROCESSES_DECREMENT = '[Multi Cart] Cart Processes Decrement';
+export const CART_PROCESSES_INCREMENT = '[Cart] Cart Processes Increment';
+export const CART_PROCESSES_DECREMENT = '[Cart] Cart Processes Decrement';
 
-export const SET_ACTIVE_CART_ID = '[Multi Cart] Set Active Cart Id';
+export const SET_ACTIVE_CART_ID = '[Cart] Set Active Cart Id';
 
 export const CLEAR_CART_STATE = '[Cart] Clear Cart State';
 
@@ -29,6 +29,12 @@ export class SetTempCart extends EntitySuccessAction {
   }
 }
 
+// TODO(#7241): Remove when there won't be any usage
+/**
+ * Increases process counter on cart entities
+ * All actions that cause computations on cart should extend EntityProcessesIncrementAction instead of dispatching this action.
+ * @deprecated since 2.0
+ */
 export class CartProcessesIncrement extends EntityProcessesIncrementAction {
   readonly type = CART_PROCESSES_INCREMENT;
   constructor(public payload: string) {
@@ -36,6 +42,12 @@ export class CartProcessesIncrement extends EntityProcessesIncrementAction {
   }
 }
 
+// TODO(#7241): Remove when there won't be any usage
+/**
+ * Decrement process counter on cart entities
+ * All actions that cause computations on cart should extend EntityProcessesDecrementAction instead of dispatching this action.
+ * @deprecated since 2.0
+ */
 export class CartProcessesDecrement extends EntityProcessesDecrementAction {
   readonly type = CART_PROCESSES_DECREMENT;
   constructor(public payload: string) {
@@ -43,6 +55,9 @@ export class CartProcessesDecrement extends EntityProcessesDecrementAction {
   }
 }
 
+/**
+ * Only sets active cart property with id of active cart. Then services take care of loading that cart.
+ */
 export class SetActiveCartId implements Action {
   readonly type = SET_ACTIVE_CART_ID;
   constructor(public payload: string) {}
