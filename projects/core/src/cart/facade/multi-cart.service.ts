@@ -5,7 +5,6 @@ import { debounce, distinctUntilChanged } from 'rxjs/operators';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
-import * as DeprecatedCartActions from '../store/actions/cart.action';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
@@ -214,7 +213,7 @@ export class MultiCartService {
       new CartActions.CartRemoveEntry({
         userId,
         cartId,
-        entry: `${entryNumber}`,
+        entryNumber: `${entryNumber}`,
       })
     );
   }
@@ -238,8 +237,8 @@ export class MultiCartService {
         new CartActions.CartUpdateEntry({
           userId,
           cartId,
-          entry: `${entryNumber}`,
-          qty: quantity,
+          entryNumber: `${entryNumber}`,
+          quantity: quantity,
         })
       );
     } else {
@@ -286,7 +285,7 @@ export class MultiCartService {
    */
   deleteCart(cartId: string, userId: string) {
     this.store.dispatch(
-      new DeprecatedCartActions.DeleteCart({
+      new CartActions.DeleteCart({
         userId,
         cartId,
       })
