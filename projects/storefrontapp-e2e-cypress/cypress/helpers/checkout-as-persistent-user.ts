@@ -197,8 +197,6 @@ export function selectPaymentMethod() {
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Payment Method');
   cy.get('.card-header').should('contain', 'Selected');
-  //TODO: remove once GH-6839 is merged,
-  cy.get('.cx-card-actions a').should('contain', 'Use this payment').click();
   cy.get('button.btn-primary').click();
 }
 

@@ -33,7 +33,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   isLoading$: Observable<boolean>;
-  cards$: Observable<{ card: Card; paymentMethod: PaymentDetails }[]>;
+  cards$: Observable<{ content: Card; paymentMethod: PaymentDetails }[]>;
   selectedMethod$: Observable<PaymentDetails>;
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
@@ -149,7 +149,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
             }
           }
           return paymentMethods.map((payment) => ({
-            card: this.createCard(
+            content: this.createCard(
               payment.payment,
               {
                 textExpires: payment.expiryTranslation,
