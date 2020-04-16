@@ -13,6 +13,8 @@ export const ANGULAR_SCHEMATICS = '@schematics/angular';
 export const ANGULAR_CORE = '@angular/core';
 export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
+export const ANGULAR_HTTP = '@angular/common/http';
+
 export const ANGULAR_LOCALIZE = '@angular/localize';
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
@@ -46,6 +48,8 @@ export const VIEW_CONTAINER_REF = 'ViewContainerRef';
 export const TEMPLATE_REF = 'TemplateRef';
 export const LOCATION = 'Location';
 export const COMPONENT_FACTORY_RESOLVER = 'ComponentFactoryResolver';
+
+export const HTTP_CLIENT = 'HttpClient';
 
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
@@ -113,6 +117,16 @@ export const LOGOUT_GUARD = 'LogoutGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
+export const CLIENT_AUTHENTICATION_TOKEN_SERVICE =
+  'ClientAuthenticationTokenService';
+export const USER_AUTHENTICATION_TOKEN_SERVICE =
+  'UserAuthenticationTokenService';
+export const OCC_ENDPOINTS_SERVICE = 'OccEndpointsService';
+export const AUTH_CONFIG = 'AuthConfig';
+export const OCC_CART_ENTRY_ADAPTER = 'OccCartEntryAdapter';
+export const OCC_CART_ADAPTER = 'OccCartAdapter';
+export const OCC_USER_ORDER_ADAPTER = 'OccUserOrderAdapter';
+export const CONVERTER_SERVICE = 'ConverterService';
 export const CONSENT_MANAGEMENT_COMPONENT = 'ConsentManagementComponent';
 export const ANONYMOUS_CONSENT_DIALOG_COMPONENT =
   'AnonymousConsentDialogComponent';
