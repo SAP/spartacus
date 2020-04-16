@@ -6,7 +6,6 @@ import {
   deleteShippingAddress,
   verifyAndPlaceOrder,
 } from './checkout-as-persistent-user';
-import { baseEndpoint } from './constants/backend';
 
 export const eosCameraProductName = 'EOS450D';
 
@@ -27,7 +26,7 @@ export function addProductToCart() {
     .getByText(/Add To Cart/i)
     .click();
   cy.server();
-  cy.route(`${baseEndpoint}/users/current/carts/*`).as('cart');
+  cy.route(`${Cypress.env('BASE_ENDPOINT')}/users/current/carts/*`).as('cart');
   cy.wait(`@cart`).its('status').should('eq', 200);
 }
 

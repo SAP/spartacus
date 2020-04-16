@@ -1,4 +1,3 @@
-import { baseEndpoint } from '../../constants/backend';
 import { testProductUrl, verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
 
@@ -8,7 +7,9 @@ export function productPageTabbingOrder(config: TabElement[]) {
   cy.server();
   cy.visit(testProductUrl);
 
-  cy.route(`${baseEndpoint}/products/779841/reviews*`).as('reviews');
+  cy.route(`${Cypress.env('BASE_ENDPOINT')}/products/779841/reviews*`).as(
+    'reviews'
+  );
 
   cy.get('cx-breadcrumb').should('contain', 'Home');
   cy.get('cx-breadcrumb').should('contain', 'Film cameras');

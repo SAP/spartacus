@@ -1,6 +1,5 @@
 import * as cart from './cart';
 import * as cartCoupon from './cart-coupon';
-import { baseEndpoint } from './constants/backend';
 
 interface TestProduct {
   code: string;
@@ -59,14 +58,16 @@ export function stubForCartsRefresh() {
   stubForCartRefresh();
   cy.route(
     'GET',
-    `${baseEndpoint}/users/*/carts/selectivecart*?fields=*&lang=en&curr=USD`
+    `${Cypress.env(
+      'BASE_ENDPOINT'
+    )}/users/*/carts/selectivecart*?fields=*&lang=en&curr=USD`
   ).as('refresh_selectivecart');
 }
 export function stubForCartRefresh() {
   cy.server();
   cy.route(
     'GET',
-    `${baseEndpoint}/users/*/carts/*?fields=*&lang=en&curr=USD`
+    `${Cypress.env('BASE_ENDPOINT')}/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
 }
 

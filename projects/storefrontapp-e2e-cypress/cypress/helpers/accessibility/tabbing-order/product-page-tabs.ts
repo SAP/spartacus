@@ -1,12 +1,15 @@
-import { baseEndpoint } from '../../constants/backend';
 import { testProductUrl } from '../tabbing-order';
 
 export function productPageTabsTabbingOrder() {
   cy.server();
   cy.visit(testProductUrl);
 
-  cy.route(`${baseEndpoint}/products/779841/references*`).as('references');
-  cy.route(`${baseEndpoint}/products/779841/reviews*`).as('reviews');
+  cy.route(`${Cypress.env('BASE_ENDPOINT')}/products/779841/references*`).as(
+    'references'
+  );
+  cy.route(`${Cypress.env('BASE_ENDPOINT')}/products/779841/reviews*`).as(
+    'reviews'
+  );
 
   cy.get('cx-breadcrumb').should('contain', 'Home');
   cy.get('cx-breadcrumb').should('contain', 'Film cameras');

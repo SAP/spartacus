@@ -1,7 +1,6 @@
 import { user } from '../sample-data/checkout-flow';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { waitForPage } from './checkout-flow';
-import { baseEndpoint } from './constants/backend';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -20,14 +19,24 @@ export const LANGUAGE_EN = 'en';
 export const LANGUAGE_DE = 'de';
 export const CART_REQUEST_ALIAS = 'cart_request_alias';
 
-export const LANGUAGE_REQUEST = `${baseEndpoint}/languages?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
-export const CURRENCY_REQUEST = `${baseEndpoint}/currencies?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
+export const LANGUAGE_REQUEST = `${Cypress.env(
+  'BASE_ENDPOINT'
+)}/languages?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
+export const CURRENCY_REQUEST = `${Cypress.env(
+  'BASE_ENDPOINT'
+)}/currencies?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 
-export const CART_REQUEST = `${baseEndpoint}/users/current/carts/*`;
+export const CART_REQUEST = `${Cypress.env(
+  'BASE_ENDPOINT'
+)}/users/current/carts/*`;
 
-export const PAGE_REQUEST = `${baseEndpoint}/cms/pages?fields=DEFAULT&pageType=CategoryPage&code=574&lang=${LANGUAGE_DE}&curr=${CURRENCY_USD}`;
+export const PAGE_REQUEST = `${Cypress.env(
+  'BASE_ENDPOINT'
+)}/cms/pages?fields=DEFAULT&pageType=CategoryPage&code=574&lang=${LANGUAGE_DE}&curr=${CURRENCY_USD}`;
 
-export const TITLE_REQUEST = `${baseEndpoint}/titles?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
+export const TITLE_REQUEST = `${Cypress.env(
+  'BASE_ENDPOINT'
+)}/titles?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 
 export const FULL_BASE_URL_EN_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_USD}`;
 export const FULL_BASE_URL_EN_JPY = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_JPY}`;
@@ -86,7 +95,7 @@ export function addressBookNextStep() {
     'getDeliveryPage'
   );
 
-  cy.get('cx-shipping-address .btn-primary').click({ force: true });
+  cy.get('cx-shipping-address .btn-primary').click();
 
   cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
@@ -101,7 +110,7 @@ export function deliveryModeNextStep() {
     'getPaymentPage'
   );
 
-  cy.get('cx-delivery-mode .btn-primary').click({ force: true });
+  cy.get('cx-delivery-mode .btn-primary').click();
 
   cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
 }
@@ -113,7 +122,7 @@ export function paymentDetailsNextStep() {
 
   const reviewPage = waitForPage(CHECKOUT_REVIEW_ORDER_PATH, 'getReviewPage');
 
-  cy.get('cx-payment-method .btn-primary').click({ force: true });
+  cy.get('cx-payment-method .btn-primary').click();
 
   cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
 }
@@ -144,7 +153,9 @@ export function siteContextChange(
   selectedOption: string,
   label: string
 ): void {
-  cy.visit(FULL_BASE_URL_EN_USD + pagePath);
+  if (pagePath !== null) {
+    cy.visit(FULL_BASE_URL_EN_USD + pagePath);
+  }
 
   let contextParam: string;
 

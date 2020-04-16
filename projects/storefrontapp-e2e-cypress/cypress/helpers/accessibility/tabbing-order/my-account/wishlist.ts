@@ -1,4 +1,3 @@
-import { baseEndpoint } from '../../../constants/backend';
 import { verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
@@ -8,7 +7,9 @@ export function wishlistTabbingOrder(config: TabElement[]) {
   cy.server();
   cy.route(
     'POST',
-    `${baseEndpoint}/users/current/carts/*/entries?code=779841&qty=1&lang=en&curr=USD`
+    `${Cypress.env(
+      'BASE_ENDPOINT'
+    )}/users/current/carts/*/entries?code=779841&qty=1&lang=en&curr=USD`
   ).as('addToWishlist');
 
   cy.visit('/product/779841');

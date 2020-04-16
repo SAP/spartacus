@@ -1,4 +1,3 @@
-import { prefixAndBaseSite } from '../../../constants/backend';
 import { verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
@@ -9,9 +8,10 @@ export function countriesListTabbingOrder(config: TabElement[]) {
 
   cy.server();
 
-  cy.route('GET', `${prefixAndBaseSite}/stores/storescounts*`).as(
-    'storesCounts'
-  );
+  cy.route(
+    'GET',
+    `${Cypress.env('PREFIX_AND_BASESITE')}/stores/storescounts*`
+  ).as('storesCounts');
 
   cy.wait('@storesCounts');
   verifyTabbingOrder(containerSelector, config);

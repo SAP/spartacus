@@ -1,6 +1,5 @@
 import { user } from '../sample-data/checkout-flow';
 import { login } from './auth-forms';
-import { prefixAndBaseSite } from './constants/backend';
 import { checkBanner } from './homepage';
 import { switchLanguage } from './language';
 
@@ -55,7 +54,11 @@ export const orderHistoryTest = {
     it('should display placed order in Order History', () => {
       doPlaceOrder().then(() => {
         doPlaceOrder().then((orderData: any) => {
-          cy.waitForOrderToBePlacedRequest(orderData.body.code);
+          cy.waitForOrderToBePlacedRequest(
+            undefined,
+            undefined,
+            orderData.body.code
+          );
           cy.visit('/my-account/orders');
           cy.get('cx-order-history h3').should('contain', 'Order history');
           cy.get('.cx-order-history-code > .cx-order-history-value').should(
@@ -89,9 +92,10 @@ export const orderHistoryTest = {
   checkCorrectDateFormat(isMobile?: boolean) {
     it('should show correct date format', () => {
       cy.server();
-      cy.route('GET', `${prefixAndBaseSite}/cms/pages?*/my-account/orders*`).as(
-        'getOrderHistoryPage'
-      );
+      cy.route(
+        'GET',
+        `${Cypress.env('PREFIX_AND_BASESITE')}/cms/pages?*/my-account/orders*`
+      ).as('getOrderHistoryPage');
 
       // to compare two dates (EN and DE) we have to compare day numbers
       // EN: "June 15, 2019"

@@ -1,6 +1,5 @@
 import * as anonymousConsents from '../../../helpers/anonymous-consents';
 import { waitForPage } from '../../../helpers/checkout-flow';
-import { prefixAndBaseSite } from '../../../helpers/constants/backend';
 import { navigation } from '../../../helpers/navigation';
 import { cdsHelper } from '../../../helpers/vendor/cds/cds';
 import { profileTagHelper } from '../../../helpers/vendor/cds/profile-tag';
@@ -39,9 +38,10 @@ describe('Profile-tag events', () => {
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.get('cx-added-to-cart-dialog .btn-primary').click();
     cy.get('cx-cart-item cx-item-counter').getByText('+').click();
-    cy.route('GET', `${prefixAndBaseSite}/users/anonymous/carts/*`).as(
-      'getRefreshedCart'
-    );
+    cy.route(
+      'GET',
+      `${Cypress.env('PREFIX_AND_BASESITE')}/users/anonymous/carts/*`
+    ).as('getRefreshedCart');
     cy.wait('@getRefreshedCart');
     cy.window().then((win) => {
       expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(4);
@@ -57,9 +57,10 @@ describe('Profile-tag events', () => {
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.get('cx-added-to-cart-dialog .btn-primary').click();
     cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').click();
-    cy.route('GET', `${prefixAndBaseSite}/users/anonymous/carts/*`).as(
-      'getRefreshedCart'
-    );
+    cy.route(
+      'GET',
+      `${Cypress.env('PREFIX_AND_BASESITE')}/users/anonymous/carts/*`
+    ).as('getRefreshedCart');
     cy.wait('@getRefreshedCart');
     cy.window().then((win) => {
       expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(4);

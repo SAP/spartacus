@@ -1,6 +1,5 @@
 import { standardUser } from '../sample-data/shared-users';
 import { waitForPage } from './checkout-flow';
-import { prefixAndBaseSite } from './constants/backend';
 import * as alerts from './global-message';
 import { generateMail, randomString } from './user';
 
@@ -17,7 +16,7 @@ export const CouponWithProducts = 'midautumn';
 export const PageSize = 10;
 export const NumberInPage2 = 1;
 
-export const pageUrl = prefixAndBaseSite;
+export const pageUrl = Cypress.env('PREFIX_AND_BASESITE');
 
 export function verifyPagingAndSorting() {
   const firstCouponStartDateAscending = 'customerCoupon1';

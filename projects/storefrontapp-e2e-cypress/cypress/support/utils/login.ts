@@ -1,9 +1,7 @@
-import { baseEndpoint, occ } from '../../helpers/constants/backend';
-
 export const USERID_CURRENT = 'current';
 export const config = {
-  tokenUrl: `${occ.apiUrl}/authorizationserver/oauth/token`,
-  newUserUrl: `${baseEndpoint}/users/?lang=en&curr=USD`,
+  tokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/token`,
+  newUserUrl: `${Cypress.env('BASE_ENDPOINT')}/users/?lang=en&curr=USD`,
   client: {
     client_id: Cypress.env('CLIENT_ID'),
     client_secret: Cypress.env('CLIENT_SECRET'),

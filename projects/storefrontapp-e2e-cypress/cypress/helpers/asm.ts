@@ -4,7 +4,7 @@ import * as consent from '../helpers/consent-management';
 import * as loginHelper from '../helpers/login';
 import * as profile from '../helpers/update-profile';
 import { login } from './auth-forms';
-import { prefixAndBaseSite } from './constants/backend';
+
 let customer: any;
 
 export function asmTests(isMobile: boolean) {
@@ -243,7 +243,9 @@ export function listenForCustomerSearchRequest(): string {
 function listenForUserDetailsRequest(): string {
   const aliasName = 'userDetails';
   cy.server();
-  cy.route('GET', `${prefixAndBaseSite}/users/*`).as(aliasName);
+  cy.route('GET', `${Cypress.env('PREFIX_AND_BASESITE')}/users/*`).as(
+    aliasName
+  );
   return `@${aliasName}`;
 }
 

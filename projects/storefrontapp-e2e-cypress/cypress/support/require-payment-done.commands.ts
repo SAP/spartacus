@@ -1,4 +1,3 @@
-import { baseEndpoint, occ } from '../helpers/constants/backend';
 import { user } from '../sample-data/checkout-flow';
 
 declare global {
@@ -22,7 +21,9 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
   function getResponseUrl() {
     return cy.request({
       method: 'GET',
-      url: `${baseEndpoint}/users/current/carts/current/payment/sop/request?responseUrl=sampleUrl`,
+      url: `${Cypress.env(
+        'BASE_ENDPOINT'
+      )}/users/current/carts/current/payment/sop/request?responseUrl=sampleUrl`,
       form: false,
       headers: {
         Authorization: `bearer ${auth.userToken.token.access_token}`,
@@ -34,7 +35,7 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
     data = prepareCardData(data);
     return cy.request({
       method: 'POST',
-      url: `${occ.apiUrl}/acceleratorservices/sop-mock/process`,
+      url: `${Cypress.env('API_URL')}/acceleratorservices/sop-mock/process`,
       body: data,
       form: true,
       headers: {
@@ -55,7 +56,9 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
 
     return cy.request({
       method: 'POST',
-      url: `${baseEndpoint}/users/current/carts/current/payment/sop/response`,
+      url: `${Cypress.env(
+        'BASE_ENDPOINT'
+      )}/users/current/carts/current/payment/sop/response`,
       body: data,
       form: true,
       headers: {

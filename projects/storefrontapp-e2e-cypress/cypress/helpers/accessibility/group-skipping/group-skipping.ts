@@ -1,4 +1,3 @@
-import { baseEndpoint } from '../../constants/backend';
 import {
   GroupSkippingConfig,
   GroupSkippingPageConfig,
@@ -21,7 +20,9 @@ export function verifyGroupSkippingOnPageFromConfig(
 
   // Wait for group skippers and page content to load
   cy.server();
-  cy.route(`${baseEndpoint}/cms/components*`).as('getComponents');
+  cy.route(`${Cypress.env('BASE_ENDPOINT')}/cms/components*`).as(
+    'getComponents'
+  );
   checkGroupSkipperAnchorsHaveLoaded(config.expectedSkipperCount);
   cy.wait('@getComponents');
 

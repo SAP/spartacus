@@ -1,5 +1,3 @@
-import { prefixAndBaseSite } from './constants/backend';
-
 export const productId = '3595723';
 export const productId2 = '4812254';
 export const productName2 = '500D + 18-55mm IS + EF-S 55-250 IS';
@@ -117,9 +115,10 @@ export function addDifferentProducts(isMobile: Boolean = false) {
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
   cy.server();
-  cy.route('GET', `${prefixAndBaseSite}/users/anonymous/carts/*`).as(
-    'getRefreshedCart'
-  );
+  cy.route(
+    'GET',
+    `${Cypress.env('PREFIX_AND_BASESITE')}/users/anonymous/carts/*`
+  ).as('getRefreshedCart');
 
   // delete a product and check if the total is updated
   cy.get('cx-cart-item-list .cx-item-list-items')

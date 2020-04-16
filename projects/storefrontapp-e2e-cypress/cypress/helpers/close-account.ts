@@ -1,6 +1,5 @@
 import { standardUser } from '../sample-data/shared-users';
 import { login } from './auth-forms';
-import { prefixAndBaseSite } from './constants/backend';
 import * as alerts from './global-message';
 import { generateMail, randomString } from './user';
 
@@ -22,7 +21,9 @@ export function cancelCloseAccountAction() {
 
 export function closeAccount() {
   cy.server();
-  cy.route('DELETE', `${prefixAndBaseSite}/users/*`).as('deleteQuery');
+  cy.route('DELETE', `${Cypress.env('PREFIX_AND_BASESITE')}/users/*`).as(
+    'deleteQuery'
+  );
 
   cy.location('pathname').should('contain', CLOSE_ACCOUNT);
 

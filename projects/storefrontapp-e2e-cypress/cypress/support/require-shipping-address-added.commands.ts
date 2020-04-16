@@ -1,4 +1,3 @@
-import { baseEndpoint } from '../helpers/constants/backend';
 import { user } from '../sample-data/checkout-flow';
 
 declare global {
@@ -41,7 +40,9 @@ Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
   function addAddress() {
     return cy.request({
       method: 'POST',
-      url: `${baseEndpoint}/users/current/carts/current/addresses/delivery`,
+      url: `${Cypress.env(
+        'BASE_ENDPOINT'
+      )}/users/current/carts/current/addresses/delivery`,
       body: _address,
       form: false,
       headers: {
