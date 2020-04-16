@@ -86,7 +86,7 @@ export class MediaService {
    */
   protected get reversedFormats(): { code: string; size: MediaFormatSize }[] {
     if (!this._reversedFormats) {
-      this._reversedFormats = this.sortedFormats.reverse();
+      this._reversedFormats = this.sortedFormats.slice().reverse();
     }
     return this._reversedFormats;
   }
