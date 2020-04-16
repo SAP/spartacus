@@ -1,49 +1,70 @@
 import {
-  subscribeStockNotification,
   enableNotificationChannel,
-  clickNotifyMeBtn,
   navigateToPDP,
-  unsubscribeStockNotification,
   normalProductCode,
+  disableNotificationChannel,
 } from '../../notification';
 import { TabElement } from '../tabbing-order.model';
 import { verifyTabbingOrder } from '../tabbing-order';
 
 const containerSelector = '.ProductDetailsPageTemplate cx-stock-notification';
-const productUrl = '/product/872912';
 
-export function stockNotificationNotLoginTabbingOrder(config: TabElement[]) {
-  cy.visit(productUrl);
+export function stockNotificationTabbingOrderNotificationsNotAllowed(
+  config: TabElement[]
+) {
+  navigateToPDP(normalProductCode);
+
+  cy.get(`${containerSelector} button[disabled]`);
+
   verifyTabbingOrder(containerSelector, config);
 }
 
-export function stockNotificationNoEnbaledPreferenceTabbingOrder(
+export function stockNotificationTabbingOrderNotificationsAllowed(
   config: TabElement[]
 ) {
-  cy.visit(productUrl);
-  verifyTabbingOrder(containerSelector, config);
-}
-
-export function stockNotificationProductSubscribedTabbingOrder(
-  config: TabElement[]
-) {
+  navigateToPDP(normalProductCode);
   enableNotificationChannel();
-  subscribeStockNotification(normalProductCode);
-  cy.get('cx-stock-notification > .btn').should('contain', 'STOP NOTIFICATION');
+  navigateToPDP(normalProductCode);
+
+  cy.get(`${containerSelector} button:not([disabled])`);
+
   verifyTabbingOrder(containerSelector, config);
+
+  disableNotificationChannel();
 }
 
 export function stockNotificationDialogTabbingOrder(config: TabElement[]) {
-  unsubscribeStockNotification(normalProductCode);
-  clickNotifyMeBtn(normalProductCode);
+  navigateToPDP(normalProductCode);
+  enableNotificationChannel();
+  navigateToPDP(normalProductCode);
+
+  cy.get(`${containerSelector} button:not([disabled])`).first().click();
+
   verifyTabbingOrder('cx-stock-notification-dialog', config);
+
+  cy.get('cx-stock-notification-dialog button:not([disabled])').first().click();
+  cy.get(`${containerSelector} button:not([disabled])`).first().click();
+  disableNotificationChannel();
 }
 
-export function stockNotificationTabbingOrder(config: TabElement[]) {
-  unsubscribeStockNotification(normalProductCode);
+export function stockNotificationTabbingOrderProductSubscribed(
+  config: TabElement[]
+) {
   navigateToPDP(normalProductCode);
-  cy.get('cx-stock-notification > .btn')
-    .should('contain', 'NOTIFY ME')
-    .should('not.be.disabled');
+  enableNotificationChannel();
+  navigateToPDP(normalProductCode);
+
+  cy.get(`${containerSelector} button:not([disabled])`).first().click();
+  cy.get('cx-stock-notification-dialog button:not([disabled])').first().click();
+
+  verifyTabbingOrder(containerSelector, config);
+
+  cy.get(`${containerSelector} button:not([disabled])`).first().click();
+  disableNotificationChannel();
+}
+
+export function stockNotificationNotLoginTabbingOrder(config: TabElement[]) {
+  navigateToPDP(normalProductCode);
+
   verifyTabbingOrder(containerSelector, config);
 }

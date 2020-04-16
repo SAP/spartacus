@@ -11,6 +11,10 @@ export const testProductListUrl = '/Brands/all/c/brands?currentPage=1';
 export function verifyTabElement(tabElement: TabElement) {
   // Check generic cases without value
   switch (tabElement.type) {
+    case TabbingOrderTypes.GENERIC_ELEMENT: {
+      cy.focused().should('exist');
+      return;
+    }
     case TabbingOrderTypes.GENERIC_CHECKBOX: {
       cy.focused().should('have.attr', 'type', 'checkbox');
       return;
@@ -21,7 +25,7 @@ export function verifyTabElement(tabElement: TabElement) {
     }
     case TabbingOrderTypes.GENERIC_INPUT: {
       cy.focused().should('have.prop', 'tagName').should('eq', 'INPUT');
-      break;
+      return;
     }
     case TabbingOrderTypes.GENERIC_NG_SELECT: {
       cy.focused().should('have.attr', 'type', 'ng-select');
@@ -32,7 +36,7 @@ export function verifyTabElement(tabElement: TabElement) {
         .should('have.class', 'cx-product-layout')
         .should('have.prop', 'tagName')
         .should('eq', 'BUTTON');
-      break;
+      return;
     }
   }
 
@@ -56,15 +60,15 @@ export function verifyTabElement(tabElement: TabElement) {
   switch (tabElement.type) {
     case TabbingOrderTypes.FORM_FIELD: {
       cy.focused().should('have.attr', 'formcontrolname', tabElement.value);
-      break;
+      return;
     }
     case TabbingOrderTypes.LINK: {
       regexpCheck(tabElement.value as string);
-      break;
+      return;
     }
     case TabbingOrderTypes.BUTTON: {
       cy.focused().should('contain', tabElement.value);
-      break;
+      return;
     }
     case TabbingOrderTypes.NG_SELECT: {
       cy.focused()
@@ -72,21 +76,21 @@ export function verifyTabElement(tabElement: TabElement) {
         .last()
         .parent()
         .should('have.attr', 'formcontrolname', tabElement.value);
-      break;
+      return;
     }
     case TabbingOrderTypes.CHECKBOX_WITH_LABEL: {
       cy.focused().parent().should('contain', tabElement.value);
-      break;
+      return;
     }
     case TabbingOrderTypes.IMG_LINK: {
       cy.focused().should('have.attr', 'href', tabElement.value);
-      break;
+      return;
     }
     case TabbingOrderTypes.RADIO: {
       cy.focused()
         .should('have.attr', 'type', 'radio')
         .should('have.attr', 'formcontrolname', tabElement.value);
-      break;
+      return;
     }
     case TabbingOrderTypes.H3: {
       cy.focused().should('contain', tabElement.value);
@@ -102,11 +106,11 @@ export function verifyTabElement(tabElement: TabElement) {
     }
     case TabbingOrderTypes.SELECT: {
       cy.focused().get('select').parent().should('contain', tabElement.value);
-      break;
+      return;
     }
     case TabbingOrderTypes.NAV_CATEGORY_DROPDOWN: {
       cy.focused().parent().should('contain', tabElement.value);
-      break;
+      return;
     }
     case TabbingOrderTypes.INDEX_OF_ELEMENT: {
       const selector = tabElement.value[0];

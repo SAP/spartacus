@@ -18,6 +18,7 @@ export enum TabbingOrderTypes {
   GENERIC_INPUT = 'genericInput',
   GENERIC_BUTTON = 'genericButton',
   GENERIC_NG_SELECT = 'genericNgSelect',
+  GENERIC_ELEMENT = 'genericElement',
   RADIO = 'radio',
   SELECT = 'select',
   NAV_CATEGORY_DROPDOWN = 'navCategoryDropdown',
