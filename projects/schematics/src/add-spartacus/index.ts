@@ -155,7 +155,7 @@ function getStorefrontConfig(options: SpartacusOptions): string {
   return `{
       backend: {
         occ: {${options.useMetaTags ? '' : baseUrlPart}
-          prefix: '/rest/v2/'
+          prefix: '${options.occPrefix}'
         }
       },${contextContent}
       i18n: {
