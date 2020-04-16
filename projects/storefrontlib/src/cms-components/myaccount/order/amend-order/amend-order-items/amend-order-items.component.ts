@@ -21,9 +21,6 @@ export class CancelOrReturnItemsComponent {
     const control = <FormControl>(
       form.get('entries').get(entry.entryNumber.toString())
     );
-    if (this.isConfirmation) {
-      control.disable();
-    }
     return control;
   }
 

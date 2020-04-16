@@ -4,6 +4,8 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
+import { RoutingService } from '@spartacus/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'cx-amend-order-actions',
@@ -12,9 +14,23 @@ import {
 })
 export class AmendOrderActionsComponent {
   @Input() orderCode: string;
-  @Input() isValid: string;
+  @Input() control: FormGroup;
   @Input() backRoute: string;
   @Input() forwardRoute: string;
 
   @HostBinding('class') styles = 'row';
+
+  constructor(private routingService: RoutingService) {}
+
+  continue(event: any): void {
+    if (this.control.valid) {
+      this.routingService.go({
+        cxRoute: this.forwardRoute,
+        params: { code: this.orderCode },
+      });
+    } else {
+      this.control.markAllAsTouched();
+      event.stopPropagation();
+    }
+  }
 }

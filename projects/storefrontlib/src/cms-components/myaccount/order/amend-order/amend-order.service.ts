@@ -14,6 +14,16 @@ function ValidateQuantity(control: FormControl) {
   return q > 0 ? null : { required: true };
 }
 
+function ValidateQuantityToCancel(control: FormControl) {
+  let q = 0;
+  if (control.value.entries) {
+    Object.keys(control.value.entries).forEach(
+      (key) => (q += control.value.entries[key])
+    );
+  }
+  return q > 0 ? null : { cxNoSelectedItemToCancel: true };
+}
+
 @Injectable()
 export abstract class OrderAmendService {
   protected amendType: AmendOrderType;
@@ -67,7 +77,7 @@ export abstract class OrderAmendService {
   }
 
   private buildForm(order: Order): void {
-    this.form = new FormGroup({});
+    this.form = new FormGroup({}, { validators: [ValidateQuantityToCancel] });
     this.form.addControl('orderCode', new FormControl(order.code));
 
     const entryGroup = new FormGroup({}, { validators: [ValidateQuantity] });
