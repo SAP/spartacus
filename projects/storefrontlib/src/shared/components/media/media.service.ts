@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Image, OccConfig } from '@spartacus/core';
+import { Inject, Injectable } from '@angular/core';
+import { Config, Image, OccConfig } from '@spartacus/core';
+import { BreakpointService } from 'projects/storefrontlib/src/layout/breakpoint/breakpoint.service';
+import { StorefrontConfig } from '../../../storefront-config';
 import { MediaConfig } from './media.config';
 import { Media, MediaContainer, MediaFormatSize } from './media.model';
 
@@ -27,8 +29,13 @@ export class MediaService {
   protected reversedFormats: { code: string; size: MediaFormatSize }[];
 
   constructor(
-    protected occConfig: OccConfig,
-    protected mediaConfig: MediaConfig
+    @Inject(Config) protected config: StorefrontConfig,
+    /**
+     * The BreakpointService is no longer used in version 2.0 as the different size formats are
+     * driven by configuration only. There's however a change that this service will play a role
+     * in the near future, which is why we keep the constructor as-is.
+     */
+    protected breakpointService: BreakpointService
   ) {
     this.sortFormats();
   }
@@ -62,10 +69,10 @@ export class MediaService {
    * logical order. The map contains the format key and the format size information.
    */
   protected sortFormats(): void {
-    this.sortedFormats = Object.keys(this.mediaConfig.mediaFormats)
+    this.sortedFormats = Object.keys((this.config as MediaConfig).mediaFormats)
       .map((key) => ({
         code: key,
-        size: this.mediaConfig.mediaFormats[key],
+        size: (this.config as MediaConfig).mediaFormats[key],
       }))
       .sort((a, b) => (a.size.width > b.size.width ? 1 : -1));
 
@@ -150,8 +157,8 @@ export class MediaService {
    */
   protected getBaseUrl(): string {
     return (
-      this.occConfig.backend.media.baseUrl ||
-      this.occConfig.backend.occ.baseUrl ||
+      (this.config as OccConfig).backend.media.baseUrl ||
+      (this.config as OccConfig).backend.occ.baseUrl ||
       ''
     );
   }

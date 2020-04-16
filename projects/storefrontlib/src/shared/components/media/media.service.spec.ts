@@ -1,18 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { Image, OccConfig } from '@spartacus/core';
+import { Config, Image } from '@spartacus/core';
 import { StorefrontConfig } from '../../../storefront-config';
-import { MediaConfig } from './media.config';
 import { MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 
-const MockConfig: StorefrontConfig = {
+const MockStorefrontConfig: StorefrontConfig = {
   backend: {
     media: {
       baseUrl: 'base:',
     },
   },
-};
-const MockMediaConfig: MediaConfig = {
   mediaFormats: {
     format400: {
       width: 400,
@@ -86,8 +83,7 @@ describe('MediaService', () => {
     TestBed.configureTestingModule({
       providers: [
         MediaService,
-        { provide: OccConfig, useValue: MockConfig },
-        { provide: MediaConfig, useValue: MockMediaConfig },
+        { provide: Config, useValue: MockStorefrontConfig },
       ],
     });
     mediaService = TestBed.inject(MediaService);
