@@ -16,6 +16,11 @@
       "description": "The url of the OCC backend",
       "default": "https://localhost:9002"
     },
+    "occPrefix": {
+      "type": "string",
+      "description": "The OCC API prefix. E.g.: /occ/v2/",
+      "default": "/rest/v2/"
+    },
     "baseSite": {
       "type": "string",
       "description": "The base site to use with spartacus"
