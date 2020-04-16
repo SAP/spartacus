@@ -158,7 +158,7 @@
     }
 
     button.link {
-      @include type('8');
+      @include type('7');
       color: var(--cx-color-text);
       border-width: 0;
       background-color: transparent;
@@ -209,7 +209,7 @@
       }
 
       button.link {
-        @include type('8');
+        @include type('7');
       }
     }
   }
