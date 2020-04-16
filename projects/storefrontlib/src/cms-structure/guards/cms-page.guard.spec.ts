@@ -8,10 +8,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsService,
   Config,
-  FeaturesConfig,
   Page,
   PageContext,
   ProtectedRoutesGuard,
+  RouteLoadStrategy,
+  RoutingConfig,
   RoutingService,
 } from '@spartacus/core';
 import { NEVER, of } from 'rxjs';
@@ -44,7 +45,7 @@ describe('CmsPageGuard', () => {
   let service: CmsPageGuardService;
   let protectedRoutesGuard: ProtectedRoutesGuard;
   let guard: CmsPageGuard;
-  let config: FeaturesConfig;
+  let config: RoutingConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -67,21 +68,21 @@ describe('CmsPageGuard', () => {
   });
 
   describe('canActivate', () => {
-    // describe('when ProtectedRoutesGuard.canActivate emits false,', () => {
-    //   beforeEach(() => {
-    //     spyOn(protectedRoutesGuard, 'canActivate').and.returnValue(of(false));
-    //   });
+    describe('when ProtectedRoutesGuard.canActivate emits false,', () => {
+      beforeEach(() => {
+        spyOn(protectedRoutesGuard, 'canActivate').and.returnValue(of(false));
+      });
 
-    //   it('should emit false', () => {
-    //     let result: boolean | UrlTree;
-    //     guard
-    //       .canActivate(mockActivatedRouteSnapshot, mockRouterStateSnapshot)
-    //       .subscribe((value) => (result = value))
-    //       .unsubscribe();
+      it('should emit false', () => {
+        let result: boolean | UrlTree;
+        guard
+          .canActivate(mockActivatedRouteSnapshot, mockRouterStateSnapshot)
+          .subscribe((value) => (result = value))
+          .unsubscribe();
 
-    //     expect(result).toBe(false);
-    //   });
-    // });
+        expect(result).toBe(false);
+      });
+    });
 
     describe('when ProtectedRoutesGuard.canActivate emits true,', () => {
       beforeEach(() => {
@@ -102,11 +103,9 @@ describe('CmsPageGuard', () => {
         expect(cmsService.getPage).toHaveBeenCalledWith(pageContext, true);
       });
 
-      describe('and when `cmsPageLoadOnce` feature is configured on', () => {
+      describe('and when `loadStrategy` is set to ONCE', () => {
         beforeEach(() => {
-          config.features = {
-            cmsPageLoadOnce: true,
-          };
+          config['routing'] = { loadStrategy: RouteLoadStrategy.ONCE };
         });
 
         it('should get (but not force reload) CMS page for the anticipated page context', () => {

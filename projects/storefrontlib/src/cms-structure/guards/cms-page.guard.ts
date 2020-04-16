@@ -4,8 +4,9 @@ import {
   CmsActivatedRouteSnapshot,
   CmsService,
   Config,
-  isFeatureEnabled,
   ProtectedRoutesGuard,
+  RouteLoadStrategy,
+  RoutingConfig,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -46,25 +47,23 @@ export class CmsPageGuard implements CanActivate {
         canActivate
           ? this.routingService.getNextPageContext().pipe(
               switchMap((pageContext) =>
-                this.cmsService
-                  .getPage(pageContext, this.shouldReloadCmsData())
-                  .pipe(
-                    first(),
-                    switchMap((pageData) =>
-                      pageData
-                        ? this.service.canActivatePage(
-                            pageContext,
-                            pageData,
-                            route,
-                            state
-                          )
-                        : this.service.canActivateNotFoundPage(
-                            pageContext,
-                            route,
-                            state
-                          )
-                    )
+                this.cmsService.getPage(pageContext, this.shouldReload()).pipe(
+                  first(),
+                  switchMap((pageData) =>
+                    pageData
+                      ? this.service.canActivatePage(
+                          pageContext,
+                          pageData,
+                          route,
+                          state
+                        )
+                      : this.service.canActivateNotFoundPage(
+                          pageContext,
+                          route,
+                          state
+                        )
                   )
+                )
               )
             )
           : of(false)
@@ -75,7 +74,10 @@ export class CmsPageGuard implements CanActivate {
   /**
    * Returns whether we should reload the CMS page data, even when it was loaded before.
    */
-  private shouldReloadCmsData(): boolean {
-    return !isFeatureEnabled(this.config, 'cmsPageLoadOnce');
+  private shouldReload(): boolean {
+    return (
+      (this.config as RoutingConfig).routing?.loadStrategy !==
+      RouteLoadStrategy.ONCE
+    );
   }
 }
