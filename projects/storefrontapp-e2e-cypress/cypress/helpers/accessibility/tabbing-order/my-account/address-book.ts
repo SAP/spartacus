@@ -1,7 +1,37 @@
 import { verifyTabbingOrder } from '../../tabbing-order';
-import { TabElement } from '../../tabbing-order.model';
+import { TabElement, TabbingOrderTypes } from '../../tabbing-order.model';
 
 const containerSelector = '.AccountPageTemplate';
+
+const addressBookDirectoryConfig: TabElement[] = [
+  {
+    value: 'Add new address',
+    type: TabbingOrderTypes.BUTTON,
+  },
+  {
+    value: 'Edit',
+    type: TabbingOrderTypes.LINK,
+  },
+  {
+    value: 'Delete',
+    type: TabbingOrderTypes.LINK,
+  },
+];
+
+const addressBookCardConfig: TabElement[] = [
+  {
+    value: 'Set as default',
+    type: TabbingOrderTypes.LINK,
+  },
+  {
+    value: 'Edit',
+    type: TabbingOrderTypes.LINK,
+  },
+  {
+    value: 'Delete',
+    type: TabbingOrderTypes.LINK,
+  },
+];
 
 export function setupForAddressBookTests() {
   addAddress();
@@ -18,12 +48,25 @@ export function addressBookFormTabbingOrder(config: TabElement[]) {
   verifyTabbingOrder(containerSelector, config);
 }
 
-export function addressBookDirectoryTabbingOrder(config: TabElement[]) {
+export function addressBookDirectoryTabbingOrder() {
+  let config: TabElement[];
   cy.visit('/my-account/address-book');
 
-  cy.get('.BodyContent').contains('Add new address').focus();
+  config = addressBookDirectoryConfig;
 
-  verifyTabbingOrder(containerSelector, config);
+  // dynamically adding card tabbing config
+  cy.get('.cx-card')
+    .each((_, i) => {
+      // ignoring the first card, since it has a different config
+      if (i > 0) {
+        config = [...config, ...addressBookCardConfig];
+      }
+    })
+    .then(() => {
+      cy.get('.BodyContent').contains('Add new address').focus();
+
+      verifyTabbingOrder(containerSelector, config);
+    });
 }
 
 function addAddress() {

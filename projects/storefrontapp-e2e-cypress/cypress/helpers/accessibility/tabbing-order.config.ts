@@ -329,56 +329,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
     },
   ],
-  addressBookDirectory: [
-    {
-      value: 'Add new address',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Edit',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Delete',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Set as default',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Edit',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Delete',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Set as default',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Edit',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Delete',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Set as default',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Edit',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Delete',
-      type: TabbingOrderTypes.LINK,
-    },
-  ],
   consentManagement: [
     {
       type: TabbingOrderTypes.LINK,

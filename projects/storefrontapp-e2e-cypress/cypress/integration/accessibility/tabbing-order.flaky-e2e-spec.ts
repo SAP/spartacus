@@ -368,7 +368,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
       orderHistoryNoOrdersTabbingOrder(config.orderHistoryNoOrders);
     });
 
-    it.skip('should allow to navigate with tab key (with orders)', () => {
+    it('should allow to navigate with tab key (with orders)', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.requireLoggedIn();
       orderHistoryWithOrdersTabbingOrder();
@@ -414,11 +414,11 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('Address Book (Form)', () => {
     it('should allow to navigate with tab key (Directory)', () => {
       setupForAddressBookTests();
-      addressBookFormTabbingOrder(config.addressBookForm);
+      addressBookDirectoryTabbingOrder();
     });
 
     it('should allow to navigate with tab key (Form)', () => {
-      addressBookDirectoryTabbingOrder(config.addressBookDirectory);
+      addressBookFormTabbingOrder(config.addressBookForm);
     });
   });
 
