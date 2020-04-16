@@ -77,7 +77,7 @@ describe('AmendOrderActionsComponent', () => {
 
     component.orderCode = orderCode;
     component.forwardRoute = forwardRoute;
-    component.control = formControl;
+    component.form = formControl;
 
     formControl.controls['test'].setErrors({ incorrect: true });
     component.continue(ev);

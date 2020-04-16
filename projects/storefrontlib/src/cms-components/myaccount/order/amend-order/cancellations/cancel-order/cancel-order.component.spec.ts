@@ -6,6 +6,7 @@ import { OrderEntry } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { CancelOrderComponent } from './cancel-order.component';
+import { FormErrorsModule } from '../../../../../../../../../dist/storefrontlib/shared/components/form/form-errors/index';
 
 class MockOrderAmendService {
   getForm() {
@@ -39,7 +40,7 @@ describe('CancelOrderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, FormErrorsModule],
       providers: [
         { provide: OrderAmendService, useClass: MockOrderAmendService },
       ],

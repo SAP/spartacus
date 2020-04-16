@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
-  @Input() control: FormGroup;
+  @Input() form: FormGroup;
   @Input() backRoute: string;
   @Input() forwardRoute: string;
 }

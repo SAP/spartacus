@@ -45,7 +45,7 @@
       <div class="cx-info col-10">
         <div class="cx-info-container row">
           <!-- Item Description -->
-          <div class="col-md-4 col-xl-5">
+          <div class="col-md-4 col-xl-5 cx-list-item-desc">
             <div *ngIf="item.product.name" class="cx-name">
               {{ item.product.name }}
             </div>
@@ -96,7 +96,7 @@
             </div>
           </div>
           <!-- Amended Quantity -->
-          <div class="cx-quantity col-2 col-md-2 col-sm-12">
+          <div class="cx-quantity col-xs-12 col-md-2 col-sm-12">
             <div class="cx-label d-block d-md-none d-lg-none d-xl-none">
               {{
                 (isCancellation()
@@ -117,7 +117,7 @@
               [min]="0"
               [max]="getMaxAmendQuantity(item)"
               [control]="getControl(form, item)"
-              [class.readonly]="isConfirmation"
+              [readonly]="isConfirmation"
             >
             </cx-item-counter>
           </div>

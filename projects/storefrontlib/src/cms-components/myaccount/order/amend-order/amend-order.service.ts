@@ -15,13 +15,14 @@ function ValidateQuantity(control: FormControl) {
 }
 
 function ValidateQuantityToCancel(control: FormControl) {
-  let q = 0;
-  if (control.value.entries) {
-    Object.keys(control.value.entries).forEach(
-      (key) => (q += control.value.entries[key])
-    );
+  if (!control.value.entries) {
+    return null;
   }
-  return q > 0 ? null : { cxNoSelectedItemToCancel: true };
+  const quantity = Object.values(control.value.entries).reduce(
+    (acc: number, val: number) => acc + val,
+    0
+  );
+  return quantity > 0 ? null : { cxNoSelectedItemToCancel: true };
 }
 
 @Injectable()
