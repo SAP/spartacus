@@ -4,7 +4,6 @@ export const defaultOccConfig: OccConfig = {
   backend: {
     occ: {
       prefix: '/occ/v2/',
-      legacy: false,
     },
     media: {},
   },
