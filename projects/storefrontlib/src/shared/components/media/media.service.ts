@@ -25,8 +25,8 @@ export class MediaService {
    * The media formats sorted by size. The media format representing the smallest
    * size is sorted on top.
    */
-  protected sortedFormats: { code: string; size: MediaFormatSize }[];
-  protected reversedFormats: { code: string; size: MediaFormatSize }[];
+  private _sortedFormats: { code: string; size: MediaFormatSize }[];
+  private _reversedFormats: { code: string; size: MediaFormatSize }[];
 
   constructor(
     @Inject(Config) protected config: StorefrontConfig,
@@ -36,9 +36,7 @@ export class MediaService {
      * in the near future, which is why we keep the constructor as-is.
      */
     protected breakpointService: BreakpointService
-  ) {
-    this.sortFormats();
-  }
+  ) {}
 
   /**
    * Returns a `Media` object with the main media (`src`) and various media (`src`)
@@ -65,18 +63,32 @@ export class MediaService {
   }
 
   /**
-   * Creates the media formats to provide fast access to the media formats in a
-   * logical order. The map contains the format key and the format size information.
+   * Creates the media formats in a logical sorted order. The map contains the
+   * format key and the format size information. We do this only once for performance
+   * benefits.
    */
-  protected sortFormats(): void {
-    this.sortedFormats = Object.keys((this.config as MediaConfig).mediaFormats)
-      .map((key) => ({
-        code: key,
-        size: (this.config as MediaConfig).mediaFormats[key],
-      }))
-      .sort((a, b) => (a.size.width > b.size.width ? 1 : -1));
+  protected get sortedFormats(): { code: string; size: MediaFormatSize }[] {
+    if (!this._sortedFormats) {
+      this._sortedFormats = Object.keys(
+        (this.config as MediaConfig).mediaFormats
+      )
+        .map((key) => ({
+          code: key,
+          size: (this.config as MediaConfig).mediaFormats[key],
+        }))
+        .sort((a, b) => (a.size.width > b.size.width ? 1 : -1));
+    }
+    return this._sortedFormats;
+  }
 
-    this.reversedFormats = [].concat(this.sortedFormats).reverse();
+  /**
+   * Creates the media formats in a reversed sorted order.
+   */
+  protected get reversedFormats(): { code: string; size: MediaFormatSize }[] {
+    if (!this._reversedFormats) {
+      this._reversedFormats = this.sortedFormats.reverse();
+    }
+    return this._reversedFormats;
   }
 
   /**
