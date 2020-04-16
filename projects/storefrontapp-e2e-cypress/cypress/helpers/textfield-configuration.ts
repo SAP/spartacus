@@ -34,6 +34,14 @@ export function clickAddToCartButton() {
   cy.wait(1500);
 }
 
+export function clickOnAddToCartButtonOnProductDetails() {
+  cy.get('cx-add-to-cart button.btn-primary').contains('Add to cart').click();
+}
+
+export function clickOnViewCartButtonOnProductDetails() {
+  cy.get('div.cx-dialog-buttons a.btn-primary').contains('view cart').click();
+}
+
 export function verifyTextfieldProductInCart(productName: string) {
   cy.get('cx-cart-item-list').contains(productName).should('be.visible');
 }

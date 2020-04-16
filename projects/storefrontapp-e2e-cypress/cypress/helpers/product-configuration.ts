@@ -19,7 +19,7 @@ export function clickOnConfigureCartEntryButton() {
  * @param uiType UI Type of the attribute of the target group. Will be used to verify that the next group is displayed
  */
 export function clickOnNextGroupButton(attributeName: string, uiType: string) {
-  cy.get(nextGroupButtonSelector).debug().click({
+  cy.get(nextGroupButtonSelector).click({
     force: true,
   });
   verifyAttributeIsDisplayed(attributeName, uiType);
@@ -175,7 +175,7 @@ export function verifyCategoryNavigationIsNotDisplayed() {
 }
 
 export function verifyTotalPrice(formattedPrice) {
-  cy.get('.cx-price-summary-total-price .cx-summary-amount').should(($div) => {
+  cy.get('cx-price-summary-total-price cx-summary-amount').should(($div) => {
     expect($div).to.contain(formattedPrice);
   });
 }
@@ -210,4 +210,12 @@ export function clickAddToCartButton() {
 
 export function verifyConfigurableProductInCart(productName: string) {
   cy.get('cx-cart-item-list').contains(productName).should('be.visible');
+}
+
+export function clickOnAddToCartButtonOnProductDetails() {
+  cy.get('cx-add-to-cart button.btn-primary').contains('Add to cart').click();
+}
+
+export function clickOnViewCartButtonOnProductDetails() {
+  cy.get('div.cx-dialog-buttons a.btn-primary').contains('view cart').click();
 }

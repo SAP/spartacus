@@ -1,13 +1,12 @@
-import * as cart from '../../helpers/cart';
-import * as configuration from '../../helpers/product-configuration';
-import * as configurationOverview from '../../helpers/product-configuration-overview';
-import * as productSearch from '../../helpers/product-search';
-import { formats } from '../../sample-data/viewports';
+import * as cart from "../../helpers/cart";
+import * as configuration from "../../helpers/product-configuration";
+import * as configurationOverview from "../../helpers/product-configuration-overview";
+import * as productSearch from "../../helpers/product-search";
+import { formats } from "../../sample-data/viewports";
 
-const testProduct = 'WCEM_DEPENDENCY_PC';
-const testProductPricing = 'WEC_DRAGON_CAR';
-const testProductMultiLevel = 'CPQ_HOME_THEATER';
-const configurator = 'CPQCONFIGURATOR';
+const testProduct = "CONF_CAMERA_SL";
+const testProductMultiLevel = "CONF_HOME_THEATER_ML";
+const configurator = "CPQCONFIGURATOR";
 
 function goToConfigurationPage(configurator, testProduct) {
   cy.visit(
@@ -26,32 +25,39 @@ function goToProductDetailsPage(testProduct) {
 }
 
 function goToCart() {
-  cy.visit('/electronics-spa/en/USD/cart');
+  cy.visit("/electronics-spa/en/USD/cart");
 }
 
-context('Product Configuration', () => {
+context("Product Configuration", () => {
   before(() => {
-    cy.visit('/');
+    cy.visit("/");
   });
 
-  describe('Navigate to Product Configuration Page', () => {
-    it('should be able to navigate from the product search result', () => {
+  describe("Navigate to Product Configuration Page", () => {
+    it("should be able to navigate from the product search result", () => {
       productSearch.searchForProduct(testProduct);
       configuration.clickOnConfigureButton();
       configuration.verifyConfigurationPageIsDisplayed();
     });
 
-    it('should be able to navigate from the product details page', () => {
+    it("should be able to navigate from the product details page", () => {
       goToProductDetailsPage(testProduct);
-
       configuration.clickOnConfigureButton();
       configuration.verifyConfigurationPageIsDisplayed();
     });
 
-    it('should be able to navigate from the cart', () => {
+    it("should be able to navigate from the overview page", () => {
+      goToConfigurationOverviewPage(configurator, testProduct);
+      configurationOverview.verifyConfigurationOverviewPageIsDisplayed();
+      configurationOverview.navigateToConfigurationPage();
+      configuration.verifyConfigurationPageIsDisplayed();
+    });
+
+    it("should be able to navigate from the cart", () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
       configuration.clickAddToCartButton();
+      configuration.verifyOverviewPageIsDisplayed();
       cy.wait(1500);
       goToCart();
       cy.wait(1500);
@@ -59,197 +65,104 @@ context('Product Configuration', () => {
       configuration.clickOnConfigureCartEntryButton();
       configuration.verifyConfigurationPageIsDisplayed();
     });
+
+    it("should be able to navigate from the cart after adding product directly to the cart", () => {
+      goToProductDetailsPage(testProduct);
+      configuration.clickOnAddToCartButtonOnProductDetails();
+      configuration.clickOnViewCartButtonOnProductDetails();
+      cart.verifyCartNotEmpty();
+      configuration.clickOnConfigureCartEntryButton();
+      configuration.verifyConfigurationPageIsDisplayed();
+    });
   });
 
-  describe('Configure Product', () => {
-    it('Value should disappear on configuration change', () => {
-      goToConfigurationPage(configurator, testProduct);
+  describe("Configure Product", () => {
+    it.skip("Image Attribute Types - Single Selection", () => {
+      goToConfigurationPage(configurator, testProductMultiLevel);
       configuration.verifyConfigurationPageIsDisplayed();
-
-      configuration.verifyAttributeValueIsDisplayed(
-        'WCEM_DP_MONITOR_MODEL',
-        'radioGroup',
-        '247E3LSU'
-      );
-
-      configuration.selectAttribute(
-        'WCEM_DP_MONITOR_MNF',
-        'radioGroup',
-        'SAMSUNG'
-      );
-
-      configuration.verifyAttributeValueIsNotDisplayed(
-        'WCEM_DP_MONITOR_MODEL',
-        'radioGroup',
-        '247E3LSU'
-      );
-    });
-
-    it('Image Attribute Types - Multi Selection', () => {
-      goToConfigurationPage(configurator, testProduct);
-      configuration.verifyConfigurationPageIsDisplayed();
-
-      configuration.clickOnGroup(3);
       configuration.verifyAttributeIsDisplayed(
-        'WCEM_DP_RADIO_BUTTON',
-        'radioGroup'
+        "ROOM_SIZE",
+        "radioGroup"
       );
 
       configuration.selectAttribute(
-        'CPQ_HT_VIDEO_SOURCES',
-        'multi_selection_image',
-        'ATV'
+        "COLOUR_HT",
+        "single_selection_image",
+        "WHITE"
+      );
+
+      configuration.verifyImageIsSelected(
+        "COLOUR_HT",
+        "single_selection_image",
+        "WHITE"
       );
 
       configuration.selectAttribute(
-        'CPQ_HT_VIDEO_SOURCES',
-        'multi_selection_image',
-        'AFT'
+        "COLOUR_HT",
+        "single_selection_image",
+        "TITAN"
       );
 
-      //Both Images should be selected in multi select type
       configuration.verifyImageIsSelected(
-        'CPQ_HT_VIDEO_SOURCES',
-        'multi_selection_image',
-        'ATV'
-      );
-      configuration.verifyImageIsSelected(
-        'CPQ_HT_VIDEO_SOURCES',
-        'multi_selection_image',
-        'AFT'
+        "COLOUR_HT",
+        "single_selection_image",
+        "TITAN"
       );
     });
 
-    it('Image Attribute Types - Single Selection', () => {
+    it("Checkboxes should be still selected after group change", () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
-
-      configuration.clickOnGroup(3);
-
+      configuration.verifyConfigurationPageIsDisplayed();
       configuration.verifyAttributeIsDisplayed(
-        'WCEM_DP_RADIO_BUTTON',
-        'radioGroup'
+        "CAMERA_MODE",
+        "radioGroup"
       );
-
+      configuration.clickOnNextGroupButton("CAMERA_PIXELS", "radioGroup");
       configuration.selectAttribute(
-        'CPQ_HT_SPK_MODEL',
-        'single_selection_image',
-        'YM_NS_F160'
-      );
-
-      configuration.selectAttribute(
-        'CPQ_HT_SPK_MODEL',
-        'single_selection_image',
-        'YM_NS_C700'
-      );
-
-      //Only one image should be selected
-      configuration.verifyImageIsNotSelected(
-        'CPQ_HT_SPK_MODEL',
-        'single_selection_image',
-        'YM_NS_F160'
-      );
-      configuration.verifyImageIsSelected(
-        'CPQ_HT_SPK_MODEL',
-        'single_selection_image',
-        'YM_NS_C700'
-      );
-    });
-
-    it('Checkboxes should be still selected after group change', () => {
-      goToConfigurationPage(configurator, testProduct);
-      configuration.verifyConfigurationPageIsDisplayed();
-      configuration.verifyAttributeValueIsDisplayed(
-        'WCEM_DP_MONITOR_MODEL',
-        'radioGroup',
-        '247E3LSU'
-      );
-      configuration.clickOnNextGroupButton('WCEM_DP_ACCESSORY', 'checkBoxList');
-      configuration.selectAttribute(
-        'WCEM_DP_ACCESSORY',
-        'checkBoxList',
-        'EXT_DD'
+        "CAMERA_SD_CARD",
+        "checkBoxList",
+        "SDHC"
       );
       cy.wait(1500);
       configuration.clickOnPreviousGroupButton(
-        'WCEM_DP_MONITOR_MODEL',
-        'radioGroup'
+        "CAMERA_MODE",
+        "radioGroup"
       );
-      configuration.clickOnNextGroupButton('WCEM_DP_ACCESSORY', 'checkBoxList');
-      configuration.verifyCheckboxIsSelected('WCEM_DP_ACCESSORY', 'EXT_DD');
-    });
-
-    it('Value should change on configuration change', () => {
-      //TODO:
+      configuration.clickOnNextGroupButton("CAMERA_PIXELS", "radioGroup");
+      configuration.verifyCheckboxIsSelected("CAMERA_SD_CARD", "SDHC");
     });
   });
 
-  describe('Tab Navigation', () => {
-    it('Navigate from Configuration to Overview Page', () => {
-      goToConfigurationPage(configurator, testProductPricing);
-      configuration.verifyConfigurationPageIsDisplayed();
-
-      configuration.navigateToOverviewPage();
-      configurationOverview.verifyConfigurationOverviewPageIsDisplayed();
-    });
-
-    it('Navigate from Overview to Configuration Page', () => {
-      goToConfigurationOverviewPage(configurator, testProduct);
-      configurationOverview.verifyConfigurationOverviewPageIsDisplayed();
-
-      configurationOverview.navigateToConfigurationPage();
-      configuration.verifyConfigurationPageIsDisplayed();
-    });
-  });
-
-  describe('Pricing Summary', () => {
-    it('Price should be displayed', () => {
-      goToConfigurationPage(configurator, testProductPricing);
-      configuration.verifyConfigurationPageIsDisplayed();
-      configuration.verifyTotalPrice('22,000.00');
-    });
-
-    it('Price should change on configuration change', () => {
-      goToConfigurationPage(configurator, testProductPricing);
-      configuration.verifyConfigurationPageIsDisplayed();
-      configuration.verifyTotalPrice('22,000.00');
-
-      configuration.selectAttribute('WEC_DC_ENGINE', 'radioGroup', 'D');
-
-      configuration.verifyTotalPrice('22,900.00');
-    });
-  });
-
-  // Failing tests
-  describe('Group handling', () => {
-    it.skip('should navigate between groups', () => {
+  describe.skip("Group handling", () => {
+    it("should navigate between groups", () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
 
-      configuration.clickOnNextGroupButton('WCEM_DP_EXT_DD', 'radioGroup');
-      configuration.clickOnNextGroupButton('WCEM_DP_SOUND_CARD', 'radioGroup');
-      configuration.clickOnPreviousGroupButton('WCEM_DP_EXT_DD', 'radioGroup');
+      configuration.clickOnNextGroupButton("CAMERA_PIXELS", "radioGroup");
+      configuration.clickOnNextGroupButton("CAMERA_DISPLAY", "radioGroup");
+      configuration.clickOnPreviousGroupButton("CAMERA_PIXELS", "radioGroup");
     });
 
-    it.skip('should check if group buttons are clickable', () => {
+    it("should check if group buttons are clickable", () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
 
       configuration.verifyNextGroupButtonIsEnabled();
       configuration.verifyPreviousGroupButtonIsDisabled();
 
-      configuration.clickOnNextGroupButton('WCEM_DP_EXT_DD', 'radioGroup');
+      configuration.clickOnNextGroupButton("CAMERA_PIXELS", "radioGroup");
       configuration.verifyPreviousGroupButtonIsEnabled();
-      configuration.clickOnNextGroupButton('WCEM_DP_SOUND_CARD', 'radioGroup');
-      configuration.clickOnNextGroupButton('WCEM_RO_REQ_INPUT', 'string');
+      configuration.clickOnNextGroupButton("CAMERA_DISPLAY", "radioGroup");
+      configuration.clickOnNextGroupButton("CAMERA_LENS_MANUFACTURER", "radioGroup");
       configuration.clickOnNextGroupButton(
-        'WCEM_DP_RADIO_BUTTON',
-        'radioGroup'
+        "CAMERA_OPTIONS",
+        "checkBoxList"
       );
       configuration.verifyNextGroupButtonIsDisabled();
     });
 
-    it.skip('should navigate using the group menu', () => {
+    it("should navigate using the group menu", () => {
       goToProductDetailsPage(testProduct);
       configuration.verifyCategoryNavigationIsDisplayed();
 
@@ -258,20 +171,21 @@ context('Product Configuration', () => {
       configuration.verifyCategoryNavigationIsNotDisplayed();
       configuration.verifyGroupMenuIsDisplayed();
       configuration.verifyAttributeIsDisplayed(
-        'WCEM_DP_MONITOR_MNF',
-        'radioGroup'
+        "CAMERA_MODE",
+        "radioGroup"
       );
 
       configuration.clickOnGroup(2);
       configuration.verifyAttributeIsDisplayed(
-        'WCEM_DP_SOUND_CARD',
-        'radioGroup'
+        "CAMERA_DISPLAY",
+        "radioGroup"
       );
       configuration.clickOnGroup(1);
-      configuration.verifyAttributeIsDisplayed('WCEM_DP_EXT_DD', 'radioGroup');
+      configuration.verifyAttributeIsDisplayed("CAMERA_PIXELS", "radioGroup");
     });
 
-    it.skip('should navigate using the group menu in mobile resolution', () => {
+    //TODO: this test should be moved to integration/mobile/product-configuration folder
+    it("should navigate using the group menu in mobile resolution", () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.viewport(formats.mobile.width, formats.mobile.height);
       goToConfigurationPage(configurator, testProduct);
@@ -279,8 +193,8 @@ context('Product Configuration', () => {
       configuration.verifyGroupMenuIsNotDisplayed();
       configuration.verifyHamburgerIsDisplayed();
       configuration.verifyAttributeIsDisplayed(
-        'WCEM_DP_MONITOR_MNF',
-        'radioGroup'
+        "CAMERA_MODE",
+        "radioGroup"
       );
 
       configuration.clickHamburger();
@@ -288,59 +202,29 @@ context('Product Configuration', () => {
 
       configuration.clickOnGroup(2);
       configuration.verifyAttributeIsDisplayed(
-        'WCEM_DP_SOUND_CARD',
-        'radioGroup'
+        "CAMERA_DISPLAY",
+        "radioGroup"
       );
     });
 
-    it('should navigate using the previous and next button for multi level product', () => {
+    it("should navigate using the previous and next button for multi level product", () => {
       goToConfigurationPage(configurator, testProductMultiLevel);
       configuration.verifyConfigurationPageIsDisplayed();
 
-      configuration.clickOnNextGroupButton('CPQ_HT_INCLUDE_TV', 'label');
-      configuration.clickOnNextGroupButton('CPQ_HT_RECV_MODEL2', 'dropdown');
-      configuration.clickOnPreviousGroupButton('CPQ_HT_INCLUDE_TV', 'label');
+      configuration.clickOnNextGroupButton("PROJECTOR_TYPE", "radioGroup");
+      configuration.clickOnNextGroupButton("FLAT_PANEL_TV", "radioGroup");
+      configuration.clickOnPreviousGroupButton("PROJECTOR_TYPE", "radioGroup");
     });
 
-    it('should navigate using the group menu for multi level product', () => {
+    it.skip("should navigate using the group menu for multi level product", () => {
       goToConfigurationPage(configurator, testProductMultiLevel);
       configuration.verifyConfigurationPageIsDisplayed();
 
       configuration.clickOnGroup(2);
       configuration.verifyAttributeIsDisplayed(
-        'CPQ_HT_RECV_MODEL2',
-        'dropdown'
+        "CPQ_HT_RECV_MODEL2",
+        "dropdown"
       );
-    });
-  });
-
-  describe('Cart handling', () => {
-    it('should add configurable product to cart', () => {
-      goToConfigurationPage(configurator, testProductPricing);
-      configuration.verifyConfigurationPageIsDisplayed();
-      configuration.clickAddToCartButton();
-      cy.wait(1500);
-      cart.verifyCartNotEmpty();
-      configuration.verifyOverviewPageIsDisplayed();
-      configuration.clickAddToCartButton();
-      configuration.verifyConfigurableProductInCart(testProductPricing);
-    });
-
-    it.skip('Should be able to change configration from the cart', () => {
-      //Product already in cart
-      goToCart();
-      cy.wait(1500);
-      cart.checkProductInCart({ name: testProductPricing, price: 22000 }, 1);
-      configuration.clickOnConfigureCartEntryButton();
-
-      configuration.verifyConfigurationPageIsDisplayed();
-      configuration.selectAttribute('WEC_DC_ENGINE', 'radioGroup', 'D');
-
-      configuration.verifyTotalPrice('22,900.00');
-      configuration.clickAddToCartButton(); //In this case it is the update cart button, the CSS Selector is the same, therefor we can use this method
-
-      cy.wait(1500);
-      cart.checkProductInCart({ name: testProductPricing, price: 22900 }, 1);
     });
   });
 });
