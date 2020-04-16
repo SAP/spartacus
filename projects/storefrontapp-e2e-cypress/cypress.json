@@ -10,7 +10,7 @@
     "OCC_PREFIX": "/rest/v2",
     "BASE_SITE": "/electronics-spa",
     "PREFIX_AND_BASESITE": "/rest/v2/electronics-spa",
-    "API_URL_AND_PREFIX": "https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002/rest/v2",
+    "API_SERVER": "https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002/rest/v2",
     "BASE_ENDPOINT": "https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002/rest/v2/electronics-spa"
   }
 }

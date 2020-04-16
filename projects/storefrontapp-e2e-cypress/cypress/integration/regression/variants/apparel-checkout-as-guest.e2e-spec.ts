@@ -39,6 +39,14 @@ context('Apparel - checkout as guest', () => {
     cy.saveLocalStorage();
   });
 
+  after(() => {
+    Cypress.env('BASE_SITE', `/${checkout.ELECTRONICS_BASESITE}`);
+    Cypress.env(
+      'PREFIX_AND_BASESITE',
+      Cypress.env('OCC_PREFIX') + `/${checkout.ELECTRONICS_BASESITE}`
+    );
+  });
+
   describe('when adding a single variant product to cart and completing checkout.', () => {
     it('should go to product page add the variant style of the product from category page', () => {
       checkout.goToCheapProductDetailsPage(products[0]);

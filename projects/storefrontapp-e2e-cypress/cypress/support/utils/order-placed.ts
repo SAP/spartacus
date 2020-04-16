@@ -24,7 +24,7 @@ export function waitForOrderToBePlacedRequest(
   cy.request({
     method: 'GET',
     url: `${Cypress.env(
-      'API_URL_AND_PREFIX'
+      'API_SERVER'
     )}/${contentCatalog}/users/${userId}/orders?pageSize=5&lang=en&curr=${currency}`,
     headers: {
       Authorization: `bearer ${access_token}`,
@@ -62,7 +62,7 @@ export function waitForOrderWithConsignmentToBePlacedRequest(
   cy.request({
     method: 'GET',
     url: `${Cypress.env(
-      'API_URL_AND_PREFIX'
+      'API_SERVER'
     )}/${contentCatalog}/users/${userId}/orders/${orderNumber}?pageSize=5&lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${access_token}`,
