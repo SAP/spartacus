@@ -2,6 +2,8 @@ import {
   ACTIVE_CART_SERVICE,
   ANONYMOUS_USERID_CONST,
   AUTH_SERVICE,
+  BILLING_ADDRESS_FORM_COMPONENT,
+  BILLING_ADDRESS_FORM_MODULE,
   CARTS_STATE,
   CART_COMBINED_EFFECTS,
   CART_DATA_CONST,
@@ -16,15 +18,21 @@ import {
   CLEAR_CART_STATE,
   CLEAR_MULTI_CART_STATE,
   CONTEXT_SERVICE_PROVIDERS,
+  ENTITY_LOADER_STATE,
+  ENTITY_PROCESSES_LOADER_STATE,
+  ENTITY_STATE,
+  FORM_UTILS,
   GET_MULTI_CART_REDUCERS,
   GET_REDUCERS,
   GET_STRUCTURED_DATA_FACTORY,
   INITITIALIZE_CONTEXT,
   INIT_SITE_CONTEXT_ROUTES_HANDLER,
+  LOADER_STATE,
   META_REDUCERS,
   MULTI_CART_META_REDUCERS,
   MULTI_CART_REDUCER_PROVIDER,
   MULTI_CART_REDUCER_TOKEN,
+  PROCESSES_LOADER_STATE,
   PWA_CONFIGURATION_FACTORY,
   PWA_FACTORY,
   REDUCER_PROVIDER,
@@ -33,13 +41,20 @@ import {
   SKIP_LINK_FACTORY,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
+  STATE_ENTITY_ACTIONS,
+  STATE_ENTITY_LOADER_ACTIONS,
+  STATE_ENTITY_LOADER_SELECTORS,
+  STATE_ENTITY_PROCESSESS_LOADER_ACTIONS,
+  STATE_ENTITY_PROCESSESS_LOADER_SELECTORS,
+  STATE_ENTITY_SELECTORS,
+  STATE_LOADER_ACTIONS,
+  STATE_LOADER_SELECTORS,
+  STATE_PROCESSES_LOADER_ACTIONS,
+  STATE_PROCESSES_LOADER_SELECTORS,
   STATE_WITH_CART,
   URL_MATCHER_FACTORY_SERVICE,
   URL_MATCHER_SERVICE,
   WISHLIST_EFFECTS,
-  FORM_UTILS,
-  BILLING_ADDRESS_FORM_COMPONENT,
-  BILLING_ADDRESS_FORM_MODULE,
 } from '../../shared/constants';
 import { DeprecatedNode } from '../../shared/utils/file-utils';
 
@@ -236,5 +251,95 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: BILLING_ADDRESS_FORM_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${BILLING_ADDRESS_FORM_MODULE}' was removed. The form and the whole logic was moved to 'PaymentFormComponent'.`,
+  },
+  // projects/core/src/state/utils/loader/loader-state.ts
+  {
+    node: LOADER_STATE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${LOADER_STATE}' was moved under 'StateUtils' namespace. Instead use it like 'StateUtils.${LOADER_STATE}'`,
+  },
+  // projects/core/src/state/utils/processes-loader/processes-loader-state.ts
+  {
+    node: PROCESSES_LOADER_STATE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${PROCESSES_LOADER_STATE}' was moved under 'StateUtils' namespace. Instead use it like 'StateUtils.${PROCESSES_LOADER_STATE}'`,
+  },
+  // projects/core/src/state/utils/entity/entity-state.ts
+  {
+    node: ENTITY_STATE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${ENTITY_STATE}' was moved under 'StateUtils' namespace. Instead use it like 'StateUtils.${ENTITY_STATE}'`,
+  },
+  // projects/core/src/state/utils/entity-loader/entity-loader-state.ts
+  {
+    node: ENTITY_LOADER_STATE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${ENTITY_LOADER_STATE}' was moved under 'StateUtils' namespace. Instead use it like 'StateUtils.${ENTITY_LOADER_STATE}'`,
+  },
+  // projects/core/src/state/utils/entity-processes-loader/entity-processes-loader-state.ts
+  {
+    node: ENTITY_PROCESSES_LOADER_STATE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${ENTITY_PROCESSES_LOADER_STATE}' was moved under 'StateUtils' namespace. Instead use it like 'StateUtils.${ENTITY_PROCESSES_LOADER_STATE}'`,
+  },
+  // projects/core/src/state/utils/loader/loader.action.ts
+  {
+    node: STATE_LOADER_ACTIONS,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STATE_LOADER_ACTIONS}' was moved under 'StateUtils'. Instead use actions under 'StateUtils'`,
+  },
+  // projects/core/src/state/utils/processes-loader/processes-loader.action.ts
+  {
+    node: STATE_PROCESSES_LOADER_ACTIONS,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STATE_PROCESSES_LOADER_ACTIONS}' was moved under 'StateUtils'. Instead use actions under 'StateUtils'`,
+  },
+  // projects/core/src/state/utils/entity/entity.action.ts
+  {
+    node: STATE_ENTITY_ACTIONS,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STATE_ENTITY_ACTIONS}' was moved under 'StateUtils' namespace. Instead use actions under 'StateUtils'`,
+  },
+  // projects/core/src/state/utils/entity-loader/entity-loader.action.ts
+  {
+    node: STATE_ENTITY_LOADER_ACTIONS,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STATE_ENTITY_LOADER_ACTIONS}' was moved under 'StateUtils' namespace. Instead use actions under 'StateUtils'`,
+  },
+  // projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.action.ts
+  {
+    node: STATE_ENTITY_PROCESSESS_LOADER_ACTIONS,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STATE_ENTITY_PROCESSESS_LOADER_ACTIONS}' was moved under 'StateUtils' namespace. Instead use actions under 'StateUtils'`,
+  },
+  // projects/core/src/state/utils/loader/loader.selectors.ts
+  {
+    node: STATE_LOADER_SELECTORS,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STATE_LOADER_SELECTORS}' was moved under 'StateUtils'. Instead use selectors under 'StateUtils'`,
+  },
+  // projects/core/src/state/utils/processes-loader/processes-loader.selectors.ts
+  {
+    node: STATE_PROCESSES_LOADER_SELECTORS,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STATE_PROCESSES_LOADER_SELECTORS}' was moved under 'StateUtils'. Instead use selectors under 'StateUtils'`,
+  },
+  // projects/core/src/state/utils/entity/entity.selectors.ts
+  {
+    node: STATE_ENTITY_SELECTORS,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STATE_ENTITY_SELECTORS}' was moved under 'StateUtils'. Instead use selectors under 'StateUtils'`,
+  },
+  // projects/core/src/state/utils/entity-loader/entity-loader.selectors.ts
+  {
+    node: STATE_ENTITY_LOADER_SELECTORS,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STATE_ENTITY_LOADER_SELECTORS}' was moved under 'StateUtils'. Instead use selectors under 'StateUtils'`,
+  },
+  // projects\core\src\state\utils\entity-processes-loader\entity-processes-loader.selectors.ts
+  {
+    node: STATE_ENTITY_PROCESSESS_LOADER_SELECTORS,
+    importPath: SPARTACUS_CORE,
+    comment: `'${STATE_ENTITY_PROCESSESS_LOADER_SELECTORS}' was moved under 'StateUtils'. Instead use selectors under 'StateUtils'`,
   },
 ];

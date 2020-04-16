@@ -216,6 +216,23 @@ export const SKIP_LINK_FACTORY = 'skipLinkFactory';
 export const FORM_UTILS = 'FormUtils';
 export const BILLING_ADDRESS_FORM_COMPONENT = 'BillingAddressFormComponent';
 export const BILLING_ADDRESS_FORM_MODULE = 'BillingAddressFormModule';
+export const LOADER_STATE = 'LoaderState';
+export const PROCESSES_LOADER_STATE = 'ProcessesLoaderState';
+export const ENTITY_STATE = 'EntityState';
+export const ENTITY_LOADER_STATE = 'EntityLoaderState';
+export const ENTITY_PROCESSES_LOADER_STATE = 'EntityProcessesLoaderState';
+export const STATE_LOADER_ACTIONS = 'StateLoaderActions';
+export const STATE_PROCESSES_LOADER_ACTIONS = 'StateProcessesLoaderActions';
+export const STATE_ENTITY_ACTIONS = 'StateEntityActions';
+export const STATE_ENTITY_LOADER_ACTIONS = 'StateEntityLoaderActions';
+export const STATE_ENTITY_PROCESSESS_LOADER_ACTIONS =
+  'StateEntityProcessesLoaderActions';
+export const STATE_LOADER_SELECTORS = 'StateLoaderSelectors';
+export const STATE_PROCESSES_LOADER_SELECTORS = 'StateProcessesLoaderSelectors';
+export const STATE_ENTITY_SELECTORS = 'StateEntitySelectors';
+export const STATE_ENTITY_LOADER_SELECTORS = 'StateEntityLoaderSelectors';
+export const STATE_ENTITY_PROCESSESS_LOADER_SELECTORS =
+  'StateEntityProcessesLoaderSelectors';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
