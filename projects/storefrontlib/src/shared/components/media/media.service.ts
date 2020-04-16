@@ -18,7 +18,7 @@ import { Media, MediaContainer, MediaFormatSize } from './media.model';
  * `occConfig.backend.occ.baseUrl`.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MediaService {
   /**
@@ -60,7 +60,7 @@ export class MediaService {
     return {
       src: this.resolveAbsoluteUrl(mainMedia?.url),
       alt: alt || mainMedia?.altText,
-      srcset: this.resolveSrcSet(mediaContainer)
+      srcset: this.resolveSrcSet(mediaContainer),
     };
   }
 
@@ -70,9 +70,9 @@ export class MediaService {
    */
   protected sortFormats(): void {
     this.sortedFormats = Object.keys((this.config as MediaConfig).mediaFormats)
-      .map(key => ({
+      .map((key) => ({
         code: key,
-        size: (this.config as MediaConfig).mediaFormats[key]
+        size: (this.config as MediaConfig).mediaFormats[key],
       }))
       .sort((a, b) => (a.size.width > b.size.width ? 1 : -1));
 
@@ -107,7 +107,7 @@ export class MediaService {
    * Returns the media format code with the best size.
    */
   protected resolveBestFormat(media: MediaContainer | Image): string {
-    return this.reversedFormats.find(format =>
+    return this.reversedFormats.find((format) =>
       media.hasOwnProperty(format.code)
     )?.code;
   }
