@@ -6,6 +6,7 @@ import { PRODUCT_IMAGES_COMPONENT_MIGRATION } from './data/product-images.compon
 import { CART_DETAILS_COMPONENT_MIGRATION } from './data/cart-details.component.migration';
 import { CART_ITEM_LIST_COMPONENT_MIGRATION } from './data/cart-item-list.component.migration';
 import { CART_ITEM_COMPONENT_MIGRATION } from './data/cart-item.component.migration';
+import { PRODUCT_SCROLL_COMPONENT_MIGRATION } from './data/product-scroll.component.migration';
 
 export const COMPONENT_DEPRECATION_DATA: ComponentData[] = [
   CONSENT_MANAGEMENT_FORM_COMPONENT_MIGRATION,
@@ -14,5 +15,6 @@ export const COMPONENT_DEPRECATION_DATA: ComponentData[] = [
   CART_DETAILS_COMPONENT_MIGRATION,
   CART_ITEM_LIST_COMPONENT_MIGRATION,
   CART_ITEM_COMPONENT_MIGRATION,
+  PRODUCT_SCROLL_COMPONENT_MIGRATION,
   ANONYMOUS_CONSENT_DIALOG_COMPONENT_MIGRATION,
 ];
