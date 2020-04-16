@@ -14,5 +14,12 @@ describe('scopedLoaderReducer', () => {
       const expected = loaderReducer(TEST_ENTITY_TYPE)(undefined, action);
       expect(state[scope]).toEqual(expected);
     });
+
+    it('should use empty scope if no scope is provided', () => {
+      const action: any = new LoaderLoadAction(TEST_ENTITY_TYPE);
+      const state = scopedLoaderReducer(TEST_ENTITY_TYPE)(undefined, action);
+      const expected = loaderReducer(TEST_ENTITY_TYPE)(undefined, action);
+      expect(state['']).toEqual(expected);
+    });
   });
 });
