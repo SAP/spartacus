@@ -23,6 +23,6 @@ export class RoutingConfigService {
   }
 
   getLoadStrategy(): RouteLoadStrategy {
-    return this.config?.routing?.loadStrategy;
+    return this.config?.routing?.loadStrategy ?? RouteLoadStrategy.ALWAYS;
   }
 }
