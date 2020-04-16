@@ -18,8 +18,11 @@ import {
   CLEAR_CART_STATE,
   CLEAR_MULTI_CART_STATE,
   CONTEXT_SERVICE_PROVIDERS,
+  ENTITY_LOADER_REDUCER,
   ENTITY_LOADER_STATE,
+  ENTITY_PROCESSES_LOADER_REDUCER,
   ENTITY_PROCESSES_LOADER_STATE,
+  ENTITY_REDUCER,
   ENTITY_STATE,
   FORM_UTILS,
   GET_MULTI_CART_REDUCERS,
@@ -27,11 +30,13 @@ import {
   GET_STRUCTURED_DATA_FACTORY,
   INITITIALIZE_CONTEXT,
   INIT_SITE_CONTEXT_ROUTES_HANDLER,
+  LOADER_REDUCER,
   LOADER_STATE,
   META_REDUCERS,
   MULTI_CART_META_REDUCERS,
   MULTI_CART_REDUCER_PROVIDER,
   MULTI_CART_REDUCER_TOKEN,
+  PROCESSES_LOADER_REDUCER,
   PROCESSES_LOADER_STATE,
   PWA_CONFIGURATION_FACTORY,
   PWA_FACTORY,
@@ -336,10 +341,40 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_CORE,
     comment: `'${STATE_ENTITY_LOADER_SELECTORS}' was moved under 'StateUtils'. Instead use selectors under 'StateUtils'`,
   },
-  // projects\core\src\state\utils\entity-processes-loader\entity-processes-loader.selectors.ts
+  // projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.selectors.ts
   {
     node: STATE_ENTITY_PROCESSESS_LOADER_SELECTORS,
     importPath: SPARTACUS_CORE,
     comment: `'${STATE_ENTITY_PROCESSESS_LOADER_SELECTORS}' was moved under 'StateUtils'. Instead use selectors under 'StateUtils'`,
+  },
+  // projects/core/src/state/utils/loader/loader.reducer.ts
+  {
+    node: LOADER_REDUCER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${LOADER_REDUCER}' was moved under 'StateUtils' namespace. Instead use it like 'StateUtils.${LOADER_REDUCER}'`,
+  },
+  // projects/core/src/state/utils/processes-loader/processes-loader.reducer.ts
+  {
+    node: PROCESSES_LOADER_REDUCER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${PROCESSES_LOADER_REDUCER}' was moved under 'StateUtils' namespace. Instead use it like 'StateUtils.${PROCESSES_LOADER_REDUCER}'`,
+  },
+  // projects/core/src/state/utils/entity/entity.reducer.ts
+  {
+    node: ENTITY_REDUCER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${ENTITY_REDUCER}' was moved under 'StateUtils' namespace. Instead use it like 'StateUtils.${ENTITY_REDUCER}'`,
+  },
+  // projects/core/src/state/utils/entity-loader/entity-loader.reducer.ts
+  {
+    node: ENTITY_LOADER_REDUCER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${ENTITY_LOADER_REDUCER}' was moved under 'StateUtils' namespace. Instead use it like 'StateUtils.${ENTITY_LOADER_REDUCER}'`,
+  },
+  // projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.reducer.ts
+  {
+    node: ENTITY_PROCESSES_LOADER_REDUCER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${ENTITY_PROCESSES_LOADER_REDUCER}' was moved under 'StateUtils' namespace. Instead use it like 'StateUtils.${ENTITY_PROCESSES_LOADER_REDUCER}'`,
   },
 ];

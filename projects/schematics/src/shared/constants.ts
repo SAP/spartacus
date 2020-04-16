@@ -233,6 +233,11 @@ export const STATE_ENTITY_SELECTORS = 'StateEntitySelectors';
 export const STATE_ENTITY_LOADER_SELECTORS = 'StateEntityLoaderSelectors';
 export const STATE_ENTITY_PROCESSESS_LOADER_SELECTORS =
   'StateEntityProcessesLoaderSelectors';
+export const LOADER_REDUCER = 'loaderReducer';
+export const PROCESSES_LOADER_REDUCER = 'processesLoaderReducer';
+export const ENTITY_REDUCER = 'entityReducer';
+export const ENTITY_LOADER_REDUCER = 'entityLoaderReducer';
+export const ENTITY_PROCESSES_LOADER_REDUCER = 'entityProcessesLoaderReducer';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
