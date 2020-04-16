@@ -106,7 +106,10 @@
               }}
             </div>
 
-            <div *ngIf="isConfirmation" class="w-100 text-center cx-order-quantity-value">
+            <div
+              *ngIf="isConfirmation"
+              class="w-100 text-center cx-order-quantity-value"
+            >
               {{ getControl(form, item).value }}
             </div>
             <cx-item-counter
