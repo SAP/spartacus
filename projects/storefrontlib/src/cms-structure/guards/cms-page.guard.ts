@@ -1,12 +1,11 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
-  Config,
   ProtectedRoutesGuard,
   RouteLoadStrategy,
-  RoutingConfig,
+  RoutingConfigService,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -24,7 +23,7 @@ export class CmsPageGuard implements CanActivate {
     protected cmsService: CmsService,
     protected protectedRoutesGuard: ProtectedRoutesGuard,
     protected service: CmsPageGuardService,
-    @Inject(Config) protected config: any
+    protected routingConfig: RoutingConfigService
   ) {}
 
   /**
@@ -75,9 +74,6 @@ export class CmsPageGuard implements CanActivate {
    * Returns whether we should reload the CMS page data, even when it was loaded before.
    */
   private shouldReload(): boolean {
-    return (
-      (this.config as RoutingConfig).routing?.loadStrategy !==
-      RouteLoadStrategy.ONCE
-    );
+    return this.routingConfig.getLoadStrategy() !== RouteLoadStrategy.ONCE;
   }
 }

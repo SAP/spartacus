@@ -7,12 +7,11 @@ import {
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsService,
-  Config,
   Page,
   PageContext,
   ProtectedRoutesGuard,
   RouteLoadStrategy,
-  RoutingConfig,
+  RoutingConfigService,
   RoutingService,
 } from '@spartacus/core';
 import { NEVER, of } from 'rxjs';
@@ -36,6 +35,10 @@ class MockProtectedRoutesGuard implements Partial<ProtectedRoutesGuard> {
   canActivate = () => of(true);
 }
 
+class MockRoutingConfigService {
+  getLoadStrategy = () => {};
+}
+
 const mockActivatedRouteSnapshot: ActivatedRouteSnapshot = {} as any;
 const mockRouterStateSnapshot: RouterStateSnapshot = {} as any;
 
@@ -45,7 +48,6 @@ describe('CmsPageGuard', () => {
   let service: CmsPageGuardService;
   let protectedRoutesGuard: ProtectedRoutesGuard;
   let guard: CmsPageGuard;
-  let config: RoutingConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -54,7 +56,10 @@ describe('CmsPageGuard', () => {
         { provide: CmsService, useClass: MockCmsService },
         { provide: CmsPageGuardService, useClass: MockCmsPageGuardService },
         { provide: ProtectedRoutesGuard, useClass: MockProtectedRoutesGuard },
-        { provide: Config, useValue: {} },
+        {
+          provide: RoutingConfigService,
+          useClass: MockRoutingConfigService,
+        },
       ],
       imports: [RouterTestingModule],
     });
@@ -64,7 +69,6 @@ describe('CmsPageGuard', () => {
     protectedRoutesGuard = TestBed.inject(ProtectedRoutesGuard);
     service = TestBed.inject(CmsPageGuardService);
     guard = TestBed.inject(CmsPageGuard);
-    config = TestBed.inject(Config);
   });
 
   describe('canActivate', () => {
@@ -105,7 +109,10 @@ describe('CmsPageGuard', () => {
 
       describe('and when `loadStrategy` is set to ONCE', () => {
         beforeEach(() => {
-          config['routing'] = { loadStrategy: RouteLoadStrategy.ONCE };
+          const routingConfig = TestBed.inject(RoutingConfigService);
+          spyOn(routingConfig, 'getLoadStrategy').and.returnValue(
+            RouteLoadStrategy.ONCE
+          );
         });
 
         it('should get (but not force reload) CMS page for the anticipated page context', () => {
