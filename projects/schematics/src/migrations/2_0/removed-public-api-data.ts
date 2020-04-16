@@ -235,6 +235,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: BILLING_ADDRESS_FORM_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${BILLING_ADDRESS_FORM_MODULE}' was removed. The form and the whole logic was moved to 'PaymentFormComponent'.`,
+    comment: `'${BILLING_ADDRESS_FORM_MODULE}' was removed. The form module and the whole logic was moved to 'PaymentFormModule'.`,
   },
 ];
