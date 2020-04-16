@@ -41,10 +41,10 @@ context('Textfield Configuration', () => {
       cart.verifyCartNotEmpty();
       configuration.verifyTextfieldProductInCart(testProduct);
       // go back to textfield configuration
-     // configuration.verifyConfigurationPageIsDisplayed();
+      // configuration.verifyConfigurationPageIsDisplayed();
     });
 
-    it.skip("should be able to navigate from the cart after adding product directly to the cart", () => {
+    it.skip('should be able to navigate from the cart after adding product directly to the cart', () => {
       goToProductDetailsPage(testProduct);
       configuration.clickOnAddToCartButtonOnProductDetails();
       configuration.clickOnViewCartButtonOnProductDetails();
