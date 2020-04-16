@@ -6,7 +6,7 @@ import { PointOfService } from '../../model/point-of-service.model';
 import { GeoPoint } from '../../model/misc.model';
 import {
   StoreCount,
-  StoreFinderSearchPage
+  StoreFinderSearchPage,
 } from '../../model/store-finder.model';
 
 @Injectable({ providedIn: 'root' })

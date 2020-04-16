@@ -4,7 +4,7 @@ import { PointOfService } from '../../model/point-of-service.model';
 import { GeoPoint } from '../../model/misc.model';
 import {
   StoreFinderSearchPage,
-  StoreCount
+  StoreCount,
 } from '../../model/store-finder.model';
 
 export abstract class StoreFinderAdapter {
