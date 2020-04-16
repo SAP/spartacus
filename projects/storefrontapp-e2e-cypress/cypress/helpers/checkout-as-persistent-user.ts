@@ -1,5 +1,6 @@
 import { product } from '../sample-data/checkout-flow';
 import { config, login, setSessionData } from '../support/utils/login';
+import { ELECTRONICS_BASESITE } from './checkout-flow';
 
 export const username = 'test-user-cypress@ydev.hybris.com';
 export const password = 'Password123.';
@@ -151,12 +152,12 @@ export function addPaymentMethod() {
     });
 }
 
-export function selectShippingAddress() {
+export function selectShippingAddress(baseSite: string = ELECTRONICS_BASESITE) {
   cy.server();
 
   cy.route(
     'GET',
-    '/rest/v2/electronics-spa/cms/pages?*/checkout/shipping-address*'
+    `/rest/v2/${baseSite}/cms/pages?*/checkout/shipping-address*`
   ).as('getShippingPage');
   cy.getByText(/proceed to checkout/i).click();
   cy.wait('@getShippingPage');
@@ -171,7 +172,7 @@ export function selectShippingAddress() {
 
   cy.route(
     'GET',
-    '/rest/v2/electronics-spa/cms/pages?*/checkout/delivery-mode*'
+    `/rest/v2/${baseSite}/cms/pages?*/checkout/delivery-mode*`
   ).as('getDeliveryPage');
   cy.get('button.btn-primary').click();
   cy.wait('@getDeliveryPage').its('status').should('eq', 200);
@@ -196,6 +197,8 @@ export function selectPaymentMethod() {
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Payment Method');
   cy.get('.card-header').should('contain', 'Selected');
+  //TODO: remove once GH-6839 is merged,
+  cy.get('.cx-card-actions a').should('contain', 'Use this payment').click();
   cy.get('button.btn-primary').click();
 }
 

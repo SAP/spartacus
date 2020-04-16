@@ -37,7 +37,11 @@ describe(`${formats.mobile.width + 1}p resolution - Order details page`, () => {
 
   it('should display order details page', () => {
     doPlaceOrder().then((orderData: any) => {
-      cy.waitForOrderToBePlacedRequest(orderData.body.code);
+      cy.waitForOrderToBePlacedRequest(
+        undefined,
+        undefined,
+        orderData.body.code
+      );
       cy.visit('/my-account/orders');
       cy.get('.cx-order-history-code > .cx-order-history-value')
         .then((el) => {

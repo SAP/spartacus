@@ -4,6 +4,7 @@ import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
+import { CustomEncoder } from '../adapters/cart/custom.encoder';
 import { OccConfig } from '../config/occ-config';
 
 @Injectable({
@@ -94,13 +95,16 @@ export class OccEndpointsService {
     }
 
     if (queryParams) {
-      let httpParamsOptions;
+      let httpParamsOptions = { encoder: new CustomEncoder() };
 
       if (endpoint.includes('?')) {
         let queryParamsFromEndpoint;
         [endpoint, queryParamsFromEndpoint] = endpoint.split('?');
 
-        httpParamsOptions = { fromString: queryParamsFromEndpoint };
+        httpParamsOptions = {
+          ...httpParamsOptions,
+          ...{ fromString: queryParamsFromEndpoint },
+        };
       }
 
       let httpParams = new HttpParams(httpParamsOptions);

@@ -32,6 +32,9 @@ export class I18nextTranslationService implements TranslationService {
 
     return new Observable<string>((subscriber) => {
       const translate = () => {
+        if (!i18next.isInitialized) {
+          return;
+        }
         if (i18next.exists(namespacedKey, options)) {
           subscriber.next(i18next.t(namespacedKey, options));
         } else {
