@@ -9,36 +9,21 @@ export const getProductState: MemoizedSelector<
   StateUtils.EntityLoaderState<Product>
 > = createSelector(getProductsState, (state: ProductsState) => state.details);
 
-export const getSelectedProductsFactory = (
-  codes: string[]
-): MemoizedSelector<StateWithProduct, Product[]> => {
-  return createSelector(
-    getProductState,
-    (details: StateUtils.EntityLoaderState<Product>) => {
-      return codes
-        .map((code) =>
-          details.entities[code] ? details.entities[code].value : undefined
-        )
-        .filter((product) => product !== undefined);
-    }
-  );
-};
-
 export const getSelectedProductStateFactory = (
   code: string,
-  scope?: string
+  scope = ''
 ): MemoizedSelector<StateWithProduct, StateUtils.LoaderState<Product>> => {
-  return createSelector(getProductState, (details) =>
-    scope
-      ? StateUtils.entityStateSelector(details, code)[scope] ||
-        StateUtils.initialLoaderState
-      : StateUtils.entityStateSelector(details, code)
+  return createSelector(
+    getProductState,
+    (details) =>
+      StateUtils.entityStateSelector(details, code)[scope] ||
+      StateUtils.initialLoaderState
   );
 };
 
 export const getSelectedProductFactory = (
   code: string,
-  scope?: string
+  scope = ''
 ): MemoizedSelector<StateWithProduct, Product> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
@@ -48,7 +33,7 @@ export const getSelectedProductFactory = (
 
 export const getSelectedProductLoadingFactory = (
   code: string,
-  scope?: string
+  scope = ''
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
@@ -58,7 +43,7 @@ export const getSelectedProductLoadingFactory = (
 
 export const getSelectedProductSuccessFactory = (
   code: string,
-  scope?: string
+  scope = ''
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
@@ -68,7 +53,7 @@ export const getSelectedProductSuccessFactory = (
 
 export const getSelectedProductErrorFactory = (
   code: string,
-  scope?: string
+  scope = ''
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
