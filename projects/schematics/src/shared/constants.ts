@@ -238,6 +238,13 @@ export const PROCESSES_LOADER_REDUCER = 'processesLoaderReducer';
 export const ENTITY_REDUCER = 'entityReducer';
 export const ENTITY_LOADER_REDUCER = 'entityLoaderReducer';
 export const ENTITY_PROCESSES_LOADER_REDUCER = 'entityProcessesLoaderReducer';
+export const INITIAL_ENTITY_STATE = 'initialEntityState';
+export const INITIAL_LOADER_STATE = 'initialLoaderState';
+export const INITIAL_PROCESSES_STATE = 'initialProcessesState';
+export const GET_STATE_SLICE = 'getStateSlice';
+export const OF_LOADER_LOAD = 'ofLoaderLoad';
+export const OF_LOADER_FAIL = 'ofLoaderFail';
+export const OF_LOADER_SUCCESS = 'ofLoaderSuccess';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
