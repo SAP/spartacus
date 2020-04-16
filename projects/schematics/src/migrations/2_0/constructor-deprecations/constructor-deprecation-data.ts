@@ -39,9 +39,7 @@ import { CATEGORY_PAGE_META_RESOLVER_MIGRATION } from './data/page-resolvers/cat
 import { CHECKOUT_PAGE_META_RESOLVER_MIGRATION } from './data/page-resolvers/checkout-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-resolvers/page-meta.service.migration';
 import { PRODUCT_PAGE_META_RESOLVER_MIGRATION } from './data/page-resolvers/product-page-meta.resolver.migration';
-import { PAYMENT_FORM_COMPONENT_MIGRATION } from './data/payment-form.component.migration';
 import { PAYMENT_METHOD_COMPONENT_MIGRATIONS } from './data/payment-method.component.migration';
-import { PLACE_ORDER_COMPONENT_MIGRATION } from './data/place-order.component.migration';
 import { PRODUCT_CAROUSEL_COMPONENT_MIGRATION } from './data/product-carousel-component.migration';
 import { PRODUCT_LIST_COMPONENT_MIGRATION } from './data/product-list.component.migration';
 import { PRODUCT_SERVICE_MIGRATION } from './data/product-service.migration';
@@ -59,6 +57,9 @@ import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-noti
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
+import { CART_ITEM_COMPONENT_MIGRATIONS } from './data/cart-item.component.migration';
+import { PLACE_ORDER_COMPONENT_MIGRATION } from './data/place-order.component.migration';
+import { PAYMENT_FORM_COMPONENT_MIGRATION } from './data/payment-form.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -105,6 +106,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CART_VOUCHER_SERVICE_MIGRATION,
   ...CART_COUPON_COMPONENT_MIGRATIONS,
   ...CART_ITEM_LIST_COMPONENT_MIGRATIONS,
+  ...CART_ITEM_COMPONENT_MIGRATIONS,
   LOGOUT_GUARD_MIGRATION,
   LOGIN_FORM_COMPONENT_MIGRATION,
   ...REGISTER_COMPONENT_MIGRATIONS,
