@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Config, Image } from '@spartacus/core';
+import { LayoutConfig } from 'projects/storefrontlib/src/layout';
 import { StorefrontConfig } from '../../../storefront-config';
 import { MediaContainer } from './media.model';
 import { MediaService } from './media.service';
@@ -84,6 +85,7 @@ describe('MediaService', () => {
       providers: [
         MediaService,
         { provide: Config, useValue: MockStorefrontConfig },
+        { provide: LayoutConfig, useValue: {} },
       ],
     });
     mediaService = TestBed.inject(MediaService);
