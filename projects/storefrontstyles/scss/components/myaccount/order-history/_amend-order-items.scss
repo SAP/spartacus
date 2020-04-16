@@ -11,11 +11,9 @@
 
   .cx-item-list-total {
     text-align: right;
-    padding: 0;
 
     @include media-breakpoint-only(xl) {
-      text-align: center;
-      padding-right: 0;
+      text-align: right;
     }
 
     @include media-breakpoint-down(lg) {
