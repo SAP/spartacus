@@ -11,7 +11,7 @@ class MockRoutingConfig extends RoutingConfig {
   };
 }
 
-fdescribe('RoutingConfigService', () => {
+describe('RoutingConfigService', () => {
   let service: RoutingConfigService;
 
   beforeEach(() => {
