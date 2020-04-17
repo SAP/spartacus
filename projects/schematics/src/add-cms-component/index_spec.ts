@@ -6,6 +6,7 @@ import { Style } from '@angular/cli/lib/config/schema';
 import { Schema as ApplicationOptions } from '@schematics/angular/application/schema';
 import { addSymbolToNgModuleMetadata } from '@schematics/angular/utility/ast-utils';
 import * as path from 'path';
+import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import {
   ANGULAR_SCHEMATICS,
   CMS_CONFIG,
@@ -93,10 +94,8 @@ describe('add-cms-component', () => {
     projectRoot: '',
   };
 
-  const defaultOptions = {
+  const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    target: 'build',
-    configuration: 'production',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
   };
