@@ -8,8 +8,8 @@ import {
 import { Inject, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { HttpResponseStatus } from '../models/response-status.model';
 import { HttpErrorHandler } from './handlers/http-error.handler';
+import { resolveHandler } from '../../util/handler.js';
 
 @Injectable({ providedIn: 'root' })
 export class HttpErrorInterceptor implements HttpInterceptor {
@@ -50,13 +50,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
    * If no handler is available, the UNKNOWN handler is returned.
    */
   protected getResponseHandler(response: HttpErrorResponse): HttpErrorHandler {
-    const status = response.status;
-    let handler = this.handlers.find((h) => h.responseStatus === status);
-    if (!handler) {
-      handler = this.handlers.find(
-        (h) => h.responseStatus === HttpResponseStatus.UNKNOWN
-      );
-    }
-    return handler;
+    return resolveHandler(this.handlers, [response]);
   }
 }

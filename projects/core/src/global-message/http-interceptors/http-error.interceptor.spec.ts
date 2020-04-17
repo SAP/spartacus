@@ -23,8 +23,8 @@ import {
   UnknownErrorHandler,
 } from './handlers';
 import { HttpErrorInterceptor } from './http-error.interceptor';
-import createSpy = jasmine.createSpy;
 import { ErrorHandler } from '@angular/core';
+import createSpy = jasmine.createSpy;
 
 describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
@@ -50,13 +50,6 @@ describe('HttpErrorInterceptor', () => {
           useClass: HttpErrorHandler,
           multi: true,
         },
-        BadGatewayHandler,
-        BadRequestHandler,
-        ConflictHandler,
-        ForbiddenHandler,
-        GatewayTimeoutHandler,
-        NotFoundHandler,
-        UnknownErrorHandler,
         {
           provide: HttpErrorHandler,
           useExisting: UnknownErrorHandler,
@@ -123,7 +116,7 @@ describe('HttpErrorInterceptor', () => {
       });
     }
 
-    testHandlers(UnknownErrorHandler, HttpResponseStatus.UNKNOWN);
+    testHandlers(UnknownErrorHandler, -1);
     testHandlers(BadGatewayHandler, HttpResponseStatus.BAD_GATEWAY);
     testHandlers(BadRequestHandler, HttpResponseStatus.BAD_REQUEST);
     testHandlers(ConflictHandler, HttpResponseStatus.CONFLICT);

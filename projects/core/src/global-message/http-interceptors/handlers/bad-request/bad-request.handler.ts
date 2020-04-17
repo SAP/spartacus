@@ -4,6 +4,7 @@ import { ErrorModel } from '../../../../model/misc.model';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
+import { Priority } from '../../../../util/handler';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -91,5 +92,9 @@ export class BadRequestHandler extends HttpErrorHandler {
     return (response.error?.errors || []).filter(
       (error) => error.type !== 'JaloObjectNoLongerValidError'
     );
+  }
+
+  getPriority(): Priority {
+    return Priority.LOW;
   }
 }
