@@ -18,6 +18,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.handleBadLoginResponse(request, response);
     this.handleBadCartRequest(request, response);
     this.handleValidationError(request, response);
+    this.handleVoucherOperationError(request, response);
   }
 
   protected handleBadPassword(
@@ -82,6 +83,24 @@ export class BadRequestHandler extends HttpErrorHandler {
       .forEach(() => {
         this.globalMessageService.add(
           { key: 'httpHandlers.cartNotFound' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
+  protected handleVoucherOperationError(
+    _request: HttpRequest<any>,
+    response: HttpErrorResponse
+  ): void {
+    this.getErrors(response)
+      .filter(
+        (e) =>
+          e.message === 'coupon.invalid.code.provided' &&
+          e.type === 'VoucherOperationError'
+      )
+      .forEach(() => {
+        this.globalMessageService.add(
+          { key: 'httpHandlers.invalidCodeProvided' },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });

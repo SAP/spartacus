@@ -1,5 +1,5 @@
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { UPDATE_PASSWORD_PROCESS_ID } from '../user-state';
 import { UserActions } from './index';
 
@@ -18,7 +18,7 @@ describe('Update Password Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_PASSWORD,
         payload: { userId, oldPassword, newPassword },
-        meta: StateEntityLoaderActions.entityLoadMeta(
+        meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
           UPDATE_PASSWORD_PROCESS_ID
         ),
@@ -34,7 +34,7 @@ describe('Update Password Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_PASSWORD_FAIL,
         payload: error,
-        meta: StateEntityLoaderActions.entityFailMeta(
+        meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           UPDATE_PASSWORD_PROCESS_ID,
           error
@@ -49,7 +49,7 @@ describe('Update Password Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_PASSWORD_SUCCESS,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
+        meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
           UPDATE_PASSWORD_PROCESS_ID
         ),
@@ -64,7 +64,7 @@ describe('Update Password Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_PASSWORD_RESET,
-        meta: StateEntityLoaderActions.entityResetMeta(
+        meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
           UPDATE_PASSWORD_PROCESS_ID
         ),

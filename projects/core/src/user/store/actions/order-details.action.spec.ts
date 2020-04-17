@@ -1,9 +1,6 @@
 import { Order } from '../../../model/order.model';
 import { UserActions } from './index';
-import {
-  StateLoaderActions,
-  StateEntityLoaderActions,
-} from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import { USER_ORDER_DETAILS, CANCEL_ORDER_PROCESS_ID } from '../user-state';
 
@@ -22,7 +19,7 @@ describe('Order Details Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_ORDER_DETAILS,
         payload: mockOrderDetailsParams,
-        meta: StateLoaderActions.loadMeta(USER_ORDER_DETAILS),
+        meta: StateUtils.loadMeta(USER_ORDER_DETAILS),
       });
     });
   });
@@ -35,7 +32,7 @@ describe('Order Details Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_ORDER_DETAILS_FAIL,
         payload: error,
-        meta: StateLoaderActions.failMeta(USER_ORDER_DETAILS, error),
+        meta: StateUtils.failMeta(USER_ORDER_DETAILS, error),
       });
     });
   });
@@ -47,7 +44,7 @@ describe('Order Details Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_ORDER_DETAILS_SUCCESS,
         payload: mockOrderDetails,
-        meta: StateLoaderActions.successMeta(USER_ORDER_DETAILS),
+        meta: StateUtils.successMeta(USER_ORDER_DETAILS),
       });
     });
   });
@@ -58,7 +55,7 @@ describe('Order Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.CLEAR_ORDER_DETAILS,
-        meta: StateLoaderActions.resetMeta(USER_ORDER_DETAILS),
+        meta: StateUtils.resetMeta(USER_ORDER_DETAILS),
       });
     });
   });
@@ -75,7 +72,7 @@ describe('Order Details Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CANCEL_ORDER,
         payload: payload,
-        meta: StateEntityLoaderActions.entityLoadMeta(
+        meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
           CANCEL_ORDER_PROCESS_ID
         ),
@@ -91,7 +88,7 @@ describe('Order Details Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CANCEL_ORDER_FAIL,
         payload: error,
-        meta: StateEntityLoaderActions.entityFailMeta(
+        meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           CANCEL_ORDER_PROCESS_ID,
           error
@@ -106,7 +103,7 @@ describe('Order Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.CANCEL_ORDER_SUCCESS,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
+        meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
           CANCEL_ORDER_PROCESS_ID
         ),
@@ -121,7 +118,7 @@ describe('Order Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.RESET_CANCEL_ORDER_PROCESS,
-        meta: StateEntityLoaderActions.entityResetMeta(
+        meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
           CANCEL_ORDER_PROCESS_ID
         ),

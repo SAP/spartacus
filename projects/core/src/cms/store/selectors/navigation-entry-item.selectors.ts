@@ -1,24 +1,19 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
-import {
-  StateEntityLoaderSelectors,
-  StateLoaderSelectors,
-} from '../../../state/utils/index';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { StateUtils } from '../../../state/utils/index';
 import { NodeItem } from '../../model/node-item.model';
 import { CmsState, StateWithCms } from '../cms-state';
 import { getCmsState } from './feature.selectors';
 
 export const getNavigationEntryItemState: MemoizedSelector<
   StateWithCms,
-  EntityLoaderState<NodeItem>
+  StateUtils.EntityLoaderState<NodeItem>
 > = createSelector(getCmsState, (state: CmsState) => state.navigation);
 
 export const getSelectedNavigationEntryItemState = (
   nodeId: string
-): MemoizedSelector<StateWithCms, LoaderState<NodeItem>> => {
+): MemoizedSelector<StateWithCms, StateUtils.LoaderState<NodeItem>> => {
   return createSelector(getNavigationEntryItemState, (nodes) =>
-    StateEntityLoaderSelectors.entityStateSelector(nodes, nodeId)
+    StateUtils.entityLoaderStateSelector(nodes, nodeId)
   );
 };
 
@@ -27,6 +22,6 @@ export const getNavigationEntryItems = (
 ): MemoizedSelector<StateWithCms, NodeItem> => {
   return createSelector(
     getSelectedNavigationEntryItemState(nodeId),
-    (itemState) => StateLoaderSelectors.loaderValueSelector(itemState)
+    (itemState) => StateUtils.loaderValueSelector(itemState)
   );
 };
