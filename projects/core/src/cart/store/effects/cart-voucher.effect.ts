@@ -35,30 +35,22 @@ export class CartVoucherEffects {
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
             return new CartActions.CartAddVoucherSuccess({
-              userId: payload.userId,
-              cartId: payload.cartId,
+              ...payload,
             });
           }),
-          catchError((error) => {
-            if (error?.error?.errors) {
-              error.error.errors.forEach((err) => {
-                if (err.message) {
-                  this.messageService.add(
-                    err.message,
-                    GlobalMessageType.MSG_TYPE_ERROR
-                  );
-                }
-              });
-            }
-            return from([
-              new CartActions.CartAddVoucherFail(makeErrorSerializable(error)),
+          catchError((error) =>
+            from([
+              new CartActions.CartAddVoucherFail({
+                ...payload,
+                error: makeErrorSerializable(error),
+              }),
               new CartActions.CartProcessesDecrement(payload.cartId),
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
-            ]);
-          })
+            ])
+          )
         );
     })
   );

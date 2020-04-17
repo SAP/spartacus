@@ -72,12 +72,12 @@ function addPackageJsonDependencies(): Rule {
 
       {
         type: NodeDependencyType.Default,
-        version: '^4.1.0',
+        version: '^6.0.0',
         name: '@ng-bootstrap/ng-bootstrap',
       },
       {
         type: NodeDependencyType.Default,
-        version: '^2.13.2',
+        version: '^4.0.0',
         name: '@ng-select/ng-select',
       },
 
@@ -102,20 +102,20 @@ function addPackageJsonDependencies(): Rule {
         version: '^4.2.1',
         name: 'bootstrap',
       },
-      { type: NodeDependencyType.Default, version: '^15.0.6', name: 'i18next' },
+      { type: NodeDependencyType.Default, version: '^19.3.4', name: 'i18next' },
       {
         type: NodeDependencyType.Default,
-        version: '^2.0.1',
+        version: '^3.2.2',
         name: 'i18next-xhr-backend',
       },
       {
         type: NodeDependencyType.Default,
-        version: angularVersion || '~9.1.0',
+        version: angularVersion,
         name: '@angular/service-worker',
       },
       {
         type: NodeDependencyType.Default,
-        version: angularVersion || '~9.1.0',
+        version: angularVersion,
         name: ANGULAR_LOCALIZE,
       },
       {
@@ -155,7 +155,7 @@ function getStorefrontConfig(options: SpartacusOptions): string {
   return `{
       backend: {
         occ: {${options.useMetaTags ? '' : baseUrlPart}
-          prefix: '/rest/v2/'
+          prefix: '${options.occPrefix}'
         }
       },${contextContent}
       i18n: {
