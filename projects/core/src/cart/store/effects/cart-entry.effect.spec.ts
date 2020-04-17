@@ -84,11 +84,12 @@ describe('Cart effect', () => {
       const action = new CartActions.CartRemoveEntry({
         userId: userId,
         cartId: cartId,
-        entry: 'testEntryNumber',
+        entryNumber: 'testEntryNumber',
       });
       const completion = new CartActions.CartRemoveEntrySuccess({
         userId,
         cartId,
+        entryNumber: 'testEntryNumber',
       });
 
       actions$ = hot('-a', { a: action });
@@ -100,16 +101,14 @@ describe('Cart effect', () => {
 
   describe('updateEntry$', () => {
     it('should update an entry', () => {
-      const action = new CartActions.CartUpdateEntry({
+      const payload = {
         userId: userId,
         cartId: cartId,
-        entry: 'testEntryNumber',
-        qty: 1,
-      });
-      const completion = new CartActions.CartUpdateEntrySuccess({
-        userId,
-        cartId,
-      });
+        entryNumber: 'testEntryNumber',
+        quantity: 1,
+      };
+      const action = new CartActions.CartUpdateEntry(payload);
+      const completion = new CartActions.CartUpdateEntrySuccess(payload);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

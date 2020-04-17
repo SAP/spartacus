@@ -1,10 +1,10 @@
+import * as AngularCore from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { I18nextTranslationService } from './i18next-translation.service';
 import i18next from 'i18next';
 import { first, take } from 'rxjs/operators';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
-import * as AngularCore from '@angular/core';
+import { I18nextTranslationService } from './i18next-translation.service';
 
 const testKey = 'testKey';
 const testOptions = 'testOptions';
@@ -49,6 +49,7 @@ describe('I18nextTranslationService', () => {
     describe(', when key exists,', () => {
       beforeEach(() => {
         spyOn(i18next, 'exists').and.returnValue(true);
+        i18next.isInitialized = true;
       });
 
       it('should emit result of i18next.t', () => {

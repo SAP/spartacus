@@ -9,6 +9,8 @@ import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
 } from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
+import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
+import { ProcessesLoaderResetAction } from '../../../state/utils/processes-loader/processes-loader.action';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
@@ -28,11 +30,10 @@ export const MERGE_CART_SUCCESS = '[Cart] Merge Cart Success';
 
 export const RESET_CART_DETAILS = '[Cart] Reset Cart Details';
 
-export const CLEAR_EXPIRED_COUPONS = '[Cart] Clear Expired Coupon';
-
-export const CLEAR_CART = '[Cart] Clear Cart';
+export const REMOVE_CART = '[Cart] Remove Cart';
 
 export const DELETE_CART = '[Cart] Delete Cart';
+export const DELETE_CART_SUCCESS = '[Cart] Delete Cart Success';
 export const DELETE_CART_FAIL = '[Cart] Delete Cart Fail';
 
 interface CreateCartPayload {
@@ -147,39 +148,73 @@ export class LoadCartSuccess extends EntitySuccessAction {
   }
 }
 
+interface MergeCartPayload {
+  cartId: string;
+  userId: string;
+  extraData?: { active?: boolean };
+  /**
+   * MergeCart actions triggers CreateCart which requires this parameter, so that's why it is required.
+   */
+  tempCartId: string;
+}
+
 export class MergeCart implements Action {
   readonly type = MERGE_CART;
-  constructor(public payload: any) {}
+  constructor(public payload: MergeCartPayload) {}
 }
 
-export class MergeCartSuccess implements Action {
+interface MergeCartSuccessPayload extends MergeCartPayload {
+  /**
+   * Previous cart id which was merged with new/user cart.
+   * Needed to know which obsolete entity should be removed.
+   */
+  oldCartId: string;
+}
+
+export class MergeCartSuccess extends EntityRemoveAction {
   readonly type = MERGE_CART_SUCCESS;
-  constructor(public payload: { cartId: string; userId: string }) {}
+  constructor(public payload: MergeCartSuccessPayload) {
+    super(MULTI_CART_DATA, payload.oldCartId);
+  }
 }
 
-export class ResetCartDetails implements Action {
+/**
+ * On site context change we want to keep current list of entities, but we want to clear the value and flags.
+ * With ProcessesLoaderResetAction we run it on every entity of this type.
+ */
+export class ResetCartDetails extends ProcessesLoaderResetAction {
   readonly type = RESET_CART_DETAILS;
-  constructor() {}
+  constructor() {
+    super(MULTI_CART_DATA);
+  }
 }
 
-export class ClearExpiredCoupons implements Action {
-  readonly type = CLEAR_EXPIRED_COUPONS;
-  constructor(public payload: any) {}
+/**
+ * Used for cleaning cart in local state, when we get information that it no longer exists in the backend.
+ * For removing particular cart in both places use DeleteCart actions.
+ */
+export class RemoveCart extends EntityRemoveAction {
+  readonly type = REMOVE_CART;
+  constructor(public payload: { cartId: string }) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
-export class ClearCart {
-  readonly type = CLEAR_CART;
-  constructor() {}
-}
-
-export class DeleteCart {
+export class DeleteCart implements Action {
   readonly type = DELETE_CART;
   constructor(public payload: { userId: string; cartId: string }) {}
 }
 
-export class DeleteCartFail {
+export class DeleteCartSuccess extends EntityRemoveAction {
+  readonly type = DELETE_CART_SUCCESS;
+  constructor(public payload: { userId: string; cartId: string }) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class DeleteCartFail implements Action {
   readonly type = DELETE_CART_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: { userId: string; cartId: string; error: any }) {}
 }
 
 export type CartAction =
@@ -196,6 +231,6 @@ export type CartAction =
   | AddEmailToCartFail
   | AddEmailToCartSuccess
   | DeleteCart
+  | DeleteCartSuccess
   | DeleteCartFail
-  | ClearExpiredCoupons
-  | ClearCart;
+  | RemoveCart;

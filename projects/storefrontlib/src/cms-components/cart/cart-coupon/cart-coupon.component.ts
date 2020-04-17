@@ -75,6 +75,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
       couponCode: ['', [Validators.required]],
     });
 
+    // TODO(#7241): Replace process subscriptions with event listeners and drop process for ADD_VOUCHER
     this.subscription.add(
       this.cartVoucherService
         .getAddVoucherResultSuccess()
@@ -83,6 +84,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         })
     );
 
+    // TODO(#7241): Replace process subscriptions with event listeners and drop process for ADD_VOUCHER
     this.subscription.add(
       this.cartVoucherService.getAddVoucherResultError().subscribe((error) => {
         this.onError(error);

@@ -10,12 +10,13 @@ declare global {
        *
        * @example
         ```
-        cy.waitForOrderToBePlacedRequest(orderNumber, contentCatalog);
+        cy.waitForOrderToBePlacedRequest(contentCatalog, currency, orderNumber);
         ```
        */
       waitForOrderToBePlacedRequest: (
-        orderNumber?: string,
-        contentCatalog?: string
+        contentCatalog?: string,
+        currency?: string,
+        orderNumber?: string
       ) => void;
     }
   }
@@ -23,7 +24,7 @@ declare global {
 
 Cypress.Commands.add(
   'waitForOrderToBePlacedRequest',
-  (orderNumber, contentCatalog = 'electronics-spa') => {
-    waitForOrderToBePlacedRequest(orderNumber, contentCatalog);
+  (contentCatalog = 'electronics-spa', currency = 'USD', orderNumber) => {
+    waitForOrderToBePlacedRequest(orderNumber, contentCatalog, currency);
   }
 );

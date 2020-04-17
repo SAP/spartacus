@@ -60,8 +60,9 @@ describe('Cart Voucher effect', () => {
         voucherId: voucherId,
       });
       const completion = new CartActions.CartAddVoucherSuccess({
-        userId: 'userId',
-        cartId: 'cartId',
+        userId,
+        cartId,
+        voucherId,
       });
 
       actions$ = hot('-a', { a: action });
