@@ -1,24 +1,45 @@
 <ng-container *ngIf="order$ | async as order">
   <!-- consigned entries -->
-  <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
-    <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+  <ng-container *ngIf="order.consignments?.length" class="cx-list row">
+    <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
+      <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+    </ng-container>
+
+    <cx-order-consigned-entries
+      *ngIf="others$ | async as others"
+      [order]="order"
+      [consignments]="others"
+    ></cx-order-consigned-entries>
+
+    <cx-order-consigned-entries
+      *ngIf="completed$ | async as completed"
+      [order]="order"
+      [consignments]="completed"
+    ></cx-order-consigned-entries>
+
+    <cx-order-consigned-entries
+      *ngIf="cancel$ | async as cancel"
+      [order]="order"
+      [consignments]="cancel"
+    ></cx-order-consigned-entries>
   </ng-container>
+  <!-- unconsigned entries -->
+  <ng-container *ngIf="order.unconsignedEntries?.length" class="cx-list row">
+    <div class="cx-list-header col-12">
+      <div class="cx-list-status">
+        {{ 'orderDetails.pending' | cxTranslate }}
+      </div>
+    </div>
+    <div class="cx-list-item col-12">
+      <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
+        <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+      </ng-container>
 
-  <cx-order-consigned-entries
-    *ngIf="others$ | async as others"
-    [order]="order"
-    [consignments]="others"
-  ></cx-order-consigned-entries>
-
-  <cx-order-consigned-entries
-    *ngIf="completed$ | async as completed"
-    [order]="order"
-    [consignments]="completed"
-  ></cx-order-consigned-entries>
-
-  <cx-order-consigned-entries
-    *ngIf="cancel$ | async as cancel"
-    [order]="order"
-    [consignments]="cancel"
-  ></cx-order-consigned-entries>
+      <cx-cart-item-list
+        [items]="order?.unconsignedEntries"
+        [readonly]="true"
+        [promotionLocation]="promotionLocation"
+      ></cx-cart-item-list>
+    </div>
+  </ng-container>
 </ng-container>
