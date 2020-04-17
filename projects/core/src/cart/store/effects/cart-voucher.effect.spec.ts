@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { OccConfig } from '../../../occ/index';
 import { CartVoucherAdapter } from '../../connectors';
@@ -60,14 +60,55 @@ describe('Cart Voucher effect', () => {
         voucherId: voucherId,
       });
       const completion = new CartActions.CartAddVoucherSuccess({
-        userId: 'userId',
-        cartId: 'cartId',
+        userId,
+        cartId,
+        voucherId,
       });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(voucherEffects.addCartVoucher$).toBeObservable(expected);
+      expect(cartVoucherConnector.add).toHaveBeenCalledWith(
+        userId,
+        cartId,
+        voucherId
+      );
+    });
+
+    it('should fail', () => {
+      const error = 'error';
+      cartVoucherConnector.add = createSpy().and.returnValue(throwError(error));
+      const action = new CartActions.CartAddVoucher({
+        userId,
+        cartId,
+        voucherId,
+      });
+      const completion1 = new CartActions.CartAddVoucherFail({
+        userId,
+        cartId,
+        voucherId,
+        error,
+      });
+      const completion2 = new CartActions.CartProcessesDecrement(cartId);
+      const completion3 = new CartActions.LoadCart({
+        userId,
+        cartId,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: completion1,
+        c: completion2,
+        d: completion3,
+      });
+
+      expect(voucherEffects.addCartVoucher$).toBeObservable(expected);
+      expect(cartVoucherConnector.add).toHaveBeenCalledWith(
+        userId,
+        cartId,
+        voucherId
+      );
     });
   });
 

@@ -7,7 +7,7 @@ import {
   entityFailMeta,
   EntityLoadAction,
   entityLoadMeta,
-  EntityResetAction,
+  EntityLoaderResetAction,
   entityResetMeta,
   EntitySuccessAction,
   entitySuccessMeta,
@@ -60,7 +60,10 @@ describe('EntityLoader Actions', () => {
 
     describe('LoaderResetAction', () => {
       it('should create an action', () => {
-        const action = new EntityResetAction(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
+        const action = new EntityLoaderResetAction(
+          TEST_ENTITY_TYPE,
+          TEST_ENTITY_ID
+        );
         expect({ ...action }).toEqual({
           type: ENTITY_RESET_ACTION,
           meta: entityResetMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID),

@@ -67,6 +67,17 @@ const MockValidationErrorResponse = {
   },
 } as HttpErrorResponse;
 
+const MockVoucherOperationErrorResponse = {
+  error: {
+    errors: [
+      {
+        type: 'VoucherOperationError',
+        message: 'coupon.invalid.code.provided',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
 class MockGlobalMessageService {
   add() {}
   remove() {}
@@ -135,6 +146,16 @@ describe('BadRequestHandler', () => {
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
         key: `httpHandlers.validationErrors.the_reason.the_subject`,
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should handle voucher operation error', () => {
+    service.handleError(MockRequest, MockVoucherOperationErrorResponse);
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: `httpHandlers.invalidCodeProvided`,
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );

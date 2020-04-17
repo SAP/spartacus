@@ -108,13 +108,13 @@ export function modifyPackageJsonScripts(): Rule {
     const packagesToAddOrUpdate: NodeDependency[] = [
       {
         type: NodeDependencyType.Default,
-        version: `^${ANGULAR_UNIVERSAL_EXPRESS_VERSION}`,
+        version: ANGULAR_UNIVERSAL_EXPRESS_VERSION,
         name: '@nguniversal/express-engine',
         overwrite: true,
       },
       {
         type: NodeDependencyType.Dev,
-        version: `^${ANGULAR_UNIVERSAL_BUILDERS}`,
+        version: ANGULAR_UNIVERSAL_BUILDERS,
         name: '@nguniversal/builders',
         overwrite: true,
       },

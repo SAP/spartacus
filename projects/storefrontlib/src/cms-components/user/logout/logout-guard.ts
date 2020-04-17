@@ -4,31 +4,30 @@ import {
   AuthService,
   CmsService,
   PageType,
+  ProtectedRoutesService,
   RoutingService,
   SemanticPathService,
-  ProtectedRoutesService,
-  FeatureConfigService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+/**
+ * Guards the _logout_ route.
+ *
+ * Takes care of routing the user to a logout page (if available) or redirects to
+ * the homepage. If the homepage is protected, the user is redirected
+ * to the login route instead.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class LogoutGuard implements CanActivate {
-  /**
-   * @deprecated since 1.4
-   * Check #5666 for more info
-   *
-   * TODO(issue:5666) Deprecated since 1.4
-   */
   constructor(
     protected auth: AuthService,
     protected cms: CmsService,
     protected routing: RoutingService,
     protected semanticPathService: SemanticPathService,
-    protected protectedRoutes?: ProtectedRoutesService,
-    protected featureConfig?: FeatureConfigService
+    protected protectedRoutes: ProtectedRoutesService
   ) {}
 
   canActivate(): Observable<any> {
@@ -48,18 +47,23 @@ export class LogoutGuard implements CanActivate {
       );
   }
 
+  /**
+   * Whenever there is no specific "logout" page configured in the CMS,
+   * we redirect after the user is logged out.
+   *
+   * The user gets redirected to the homepage, unless the homepage is protected
+   * (in case of a closed shop). We'll redirect to the login page instead.
+   */
   protected redirect(): void {
-    // TODO(issue:5666) Deprecated since 1.4
-    const cxRoute: string =
-      this.featureConfig.isLevel('1.4') &&
-      this.protectedRoutes &&
-      this.protectedRoutes.shouldProtect
-        ? 'login'
-        : 'home';
-
+    const cxRoute = this.protectedRoutes.shouldProtect ? 'login' : 'home';
     this.routing.go({ cxRoute });
   }
 
+  /**
+   * Log user out.
+   *
+   * This is delegated to the `AuthService`.
+   */
   protected logout(): void {
     this.auth.logout();
   }
