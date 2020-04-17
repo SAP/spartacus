@@ -22,7 +22,8 @@ import {
 } from '@spartacus/core';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { CxApiService } from './cx-api.service';
+import { CxApiService } from './services/cx-api.service';
+import { PageComponentModule } from '@spartacus/storefront';
 
 const testText = 'test text';
 
@@ -96,7 +97,7 @@ describe('ComponentWrapperDirective', () => {
 
   beforeEach(() => {
     testBedConfig = {
-      imports: [TestModule],
+      imports: [PageComponentModule, TestModule],
       declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
         Renderer2,

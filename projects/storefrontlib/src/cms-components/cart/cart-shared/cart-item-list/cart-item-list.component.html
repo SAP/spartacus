@@ -10,12 +10,7 @@
       {{ 'cartItems.quantity' | cxTranslate }}
     </div>
 
-    <ng-container
-      *ngIf="
-        isSaveForLaterEnabled() && options.isSaveForLater;
-        else totalHeader
-      "
-    >
+    <ng-container *ngIf="options.isSaveForLater; else totalHeader">
       <div class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">
         {{ 'saveForLaterItems.stock' | cxTranslate }}
       </div>
