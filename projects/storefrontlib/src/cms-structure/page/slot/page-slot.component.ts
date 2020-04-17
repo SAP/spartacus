@@ -4,17 +4,23 @@ import {
   ElementRef,
   HostBinding,
   Input,
-  OnInit,
   Renderer2,
 } from '@angular/core';
 import {
   CmsConfig,
   CmsService,
   ContentSlotComponentData,
+  ContentSlotData,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { delay, distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  distinctUntilChanged,
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 
 /**
@@ -31,7 +37,7 @@ import { IntersectionOptions } from '../../../layout/loading/intersection.model'
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageSlotComponent implements OnInit {
+export class PageSlotComponent {
   /**
    * The position represents the unique key for a page slot on a single page, but can
    * be reused cross pages.
@@ -39,7 +45,9 @@ export class PageSlotComponent implements OnInit {
    * The position is used to find the CMS components for the page slot. It is also
    * added as an additional CSS class so that layoutt can be applied.
    */
-  @Input() position: string;
+  @Input() set position(value: string) {
+    this.position$.next(value);
+  }
 
   /** Contains css classes introduced by the host. Additional classes are added by the component logic. */
   @Input() @HostBinding() class: string;
@@ -50,11 +58,24 @@ export class PageSlotComponent implements OnInit {
   /** Indicates that the page slot is indicated as the last page slot above the fold */
   @HostBinding('class.cx-pending') @Input() isPending = true;
 
+  /** Indicates that the page slot is indicated as the last page slot above the fold */
+  @HostBinding('class.has-components') @Input() hasComponents = true;
+
+  position$ = new BehaviorSubject(undefined);
+
   /** Observes the components for the given page slot. */
-  components$: Observable<ContentSlotComponentData[]>;
+  components$: Observable<ContentSlotComponentData[]> = this.position$.pipe(
+    switchMap((position) => this.cmsService.getContentSlot(position)),
+    distinctUntilChanged(this.isDistinct),
+    tap((slot) => this.decorate(slot)),
+    map((slot) => slot?.components ?? []),
+    shareReplay()
+  );
 
   /** Keeps track of the pending components that must be loaded for the page slot */
-  private _pendingComponentCount = 0;
+  private pendingComponentCount = 0;
+  /** Tracks the last used position, in case the page slot is used dynamically */
+  private lastPosition: string;
 
   constructor(
     protected cmsService: CmsService,
@@ -64,22 +85,22 @@ export class PageSlotComponent implements OnInit {
     protected config: CmsConfig
   ) {}
 
-  ngOnInit() {
-    if (this.position) {
-      this.toggleStyleClass(this.position, true);
-      this.components$ = this.cmsService.getContentSlot(this.position).pipe(
-        tap((slot) => this.addSmartEditSlotClass(slot)),
-        map((slot) => slot?.components ?? []),
-        distinctUntilChanged(this.compareComponents),
-        delay(0),
-        tap((components) => {
-          this.toggleStyleClass('has-components', components.length > 0);
-          this.pending = components.length || 0;
-        })
-      );
-    } else {
-      this.isPending = false;
+  decorate(slot: ContentSlotData): void {
+    // decorate css class
+    if (!this.class) {
+      this.class = '';
     }
+    if (this.lastPosition && this.class.indexOf(this.lastPosition) > -1) {
+      this.class = this.class.replace(this.lastPosition, '');
+    }
+    this.lastPosition = this.position$.value;
+    this.class += ` ${this.position$.value}`;
+
+    // host bindings
+    this.pending = slot.components?.length || 0;
+    this.hasComponents = slot.components?.length > 0;
+
+    this.addSmartEditSlotClass(slot);
   }
 
   /**
@@ -87,12 +108,12 @@ export class PageSlotComponent implements OnInit {
    * loaded, the `isPending` flag is updated, so that the associated class can be updated
    */
   protected set pending(count: number) {
-    this._pendingComponentCount = count;
-    this.isPending = this._pendingComponentCount > 0;
+    this.pendingComponentCount = count;
+    this.isPending = this.pendingComponentCount > 0;
   }
 
   protected get pending(): number {
-    return this._pendingComponentCount;
+    return this.pendingComponentCount;
   }
 
   /**
@@ -132,6 +153,15 @@ export class PageSlotComponent implements OnInit {
     return { deferLoading };
   }
 
+  protected isDistinct(old: ContentSlotData, current: ContentSlotData) {
+    return (
+      old.components.length === current.components.length &&
+      !old.components.find(
+        (el, index) => el.uid !== current.components[index].uid
+      )
+    );
+  }
+
   private addSmartEditSlotClass(slot): void {
     if (slot && this.cmsService.isLaunchInSmartEdit()) {
       this.dynamicAttributeService.addDynamicAttributes(
@@ -140,15 +170,5 @@ export class PageSlotComponent implements OnInit {
         this.renderer
       );
     }
-  }
-
-  private compareComponents(
-    old: ContentSlotComponentData[],
-    components: ContentSlotComponentData[]
-  ) {
-    return (
-      old.length === components.length &&
-      !old.find((el, index) => el.uid !== components[index].uid)
-    );
   }
 }
