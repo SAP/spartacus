@@ -7,4 +7,9 @@ export interface IntersectionOptions {
    * margin will faster intersects the element with the view port.
    */
   rootMargin?: string;
+  /**
+   * Either a single number or an array of numbers which indicate at what percentage of the target's visibility
+   * the observer's callback should be executed.
+   */
+  threshold?: number | number[];
 }
