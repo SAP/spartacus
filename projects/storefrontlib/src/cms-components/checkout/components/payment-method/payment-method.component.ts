@@ -103,7 +103,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.cards$ = combineLatest([
       this.existingPaymentMethods$.pipe(
         switchMap((methods) => {
-          return !methods || !methods.length
+          return !methods?.length
             ? of([])
             : combineLatest(
                 methods.map((method) =>
