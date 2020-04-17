@@ -20,7 +20,7 @@ export class AmendOrderActionsComponent {
 
   @HostBinding('class') styles = 'row';
 
-  constructor(private routingService: RoutingService) {}
+  constructor(protected routingService: RoutingService) {}
 
   continue(event: any): void {
     if (this.form.valid) {

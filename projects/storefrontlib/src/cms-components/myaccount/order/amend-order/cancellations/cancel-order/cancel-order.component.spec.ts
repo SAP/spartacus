@@ -6,7 +6,7 @@ import { OrderEntry } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { CancelOrderComponent } from './cancel-order.component';
-import { FormErrorsModule } from '../../../../../../../../../dist/storefrontlib/shared/components/form/form-errors/index';
+import { FormErrorsModule } from '../../../../../../shared/index';
 
 class MockOrderAmendService {
   getForm() {

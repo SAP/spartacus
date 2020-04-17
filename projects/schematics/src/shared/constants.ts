@@ -174,6 +174,7 @@ export const USER_INTERESTS_SERVICE = 'UserInterestsService';
 export const USER_NOTIFICATION_PREFERENCE_SERVICE =
   'UserNotificationPreferenceService';
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
+export const AMEND_ORDER_ACTIONS_COMPONENT = 'AmendOrderActionsComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

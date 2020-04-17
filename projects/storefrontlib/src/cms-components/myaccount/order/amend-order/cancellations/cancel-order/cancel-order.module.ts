@@ -11,7 +11,7 @@ import { AmendOrderItemsModule } from '../../amend-order-items/amend-order-items
 import { OrderAmendService } from '../../amend-order.service';
 import { OrderCancellationService } from '../order-cancellation.service';
 import { CancelOrderComponent } from './cancel-order.component';
-import { FormErrorsModule } from '../../../../../../shared/components/form/form-errors/index';
+import { FormErrorsModule } from '../../../../../../shared/index';
 
 @NgModule({
   imports: [
