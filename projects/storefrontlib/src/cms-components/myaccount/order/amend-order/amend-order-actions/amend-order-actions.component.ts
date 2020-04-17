@@ -14,7 +14,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class AmendOrderActionsComponent {
   @Input() orderCode: string;
-  @Input() form: FormGroup;
+  @Input() amendOrderForm: FormGroup;
   @Input() backRoute: string;
   @Input() forwardRoute: string;
 
@@ -22,14 +22,14 @@ export class AmendOrderActionsComponent {
 
   constructor(protected routingService: RoutingService) {}
 
-  continue(event: any): void {
-    if (this.form.valid) {
+  continue(event: Event): void {
+    if (this.amendOrderForm.valid) {
       this.routingService.go({
         cxRoute: this.forwardRoute,
         params: { code: this.orderCode },
       });
     } else {
-      this.form.markAllAsTouched();
+      this.amendOrderForm.markAllAsTouched();
       event.stopPropagation();
     }
   }

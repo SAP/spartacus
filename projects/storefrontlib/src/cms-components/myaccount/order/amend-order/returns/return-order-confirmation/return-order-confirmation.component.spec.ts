@@ -14,7 +14,7 @@ import createSpy = jasmine.createSpy;
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
-  @Input() form: FormGroup;
+  @Input() amendOrderForm: FormGroup;
   @Input() backRoute: string;
   @Input() forwardRoute: string;
 }

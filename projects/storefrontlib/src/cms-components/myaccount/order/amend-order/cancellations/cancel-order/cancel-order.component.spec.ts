@@ -7,12 +7,16 @@ import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { CancelOrderComponent } from './cancel-order.component';
 import { FormErrorsModule } from '../../../../../../shared/index';
+import { FormControl, FormGroup } from '@angular/forms';
+
+const mockForm = new FormGroup({
+  orderCode: new FormControl('123'),
+  entries: new FormControl([]),
+});
 
 class MockOrderAmendService {
   getForm() {
-    return of({
-      value: { orderCode: '123' },
-    });
+    return of(mockForm);
   }
   getEntries() {}
 }
@@ -30,8 +34,10 @@ class MockCancelOrReturnItemsComponent {
   selector: 'cx-amend-order-actions',
 })
 class MockAmendOrderActionComponent {
-  @Input() orderCode;
-  @Input() isValid;
+  @Input() orderCode: string;
+  @Input() amendOrderForm: FormGroup;
+  @Input() backRoute: string;
+  @Input() forwardRoute: string;
 }
 
 describe('CancelOrderComponent', () => {

@@ -77,15 +77,15 @@ describe('AmendOrderActionsComponent', () => {
 
     component.orderCode = orderCode;
     component.forwardRoute = forwardRoute;
-    component.form = formControl;
+    component.amendOrderForm = formControl;
 
     formControl.controls['test'].setErrors({ incorrect: true });
-    component.continue(ev);
+    component.continue(ev as Event);
     expect(routingService.go).not.toHaveBeenCalled();
     expect(formControl.invalid).toEqual(true);
 
     formControl.controls['test'].setErrors(null);
-    component.continue(ev);
+    component.continue(ev as Event);
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: forwardRoute,
       params: { code: orderCode },
