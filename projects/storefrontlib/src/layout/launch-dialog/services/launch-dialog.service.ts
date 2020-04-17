@@ -5,7 +5,7 @@ import {
   LaunchOptions,
 } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
-import { resolveHandler } from '../../../../../core/src/util';
+import { resolveHandler } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
