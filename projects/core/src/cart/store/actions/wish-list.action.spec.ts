@@ -1,5 +1,5 @@
 import { Cart } from '../../../model/cart.model';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { getCartIdByUserId, getWishlistName } from '../../utils/utils';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 import { CartActions } from './index';
@@ -28,10 +28,7 @@ describe('WishList Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.LOAD_WISH_LIST,
           payload,
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            MULTI_CART_DATA,
-            payload.tempCartId
-          ),
+          meta: StateUtils.entityLoadMeta(MULTI_CART_DATA, payload.tempCartId),
         });
       });
     });
@@ -47,10 +44,7 @@ describe('WishList Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.LOAD_WISH_LIST_SUCCESS,
           payload,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            MULTI_CART_DATA,
-            testCart.code
-          ),
+          meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, testCart.code),
         });
       });
     });
@@ -66,7 +60,7 @@ describe('WishList Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.LOAD_WISH_LIST_FAIL,
           payload,
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             MULTI_CART_DATA,
             testCart.code,
             'anyError'
@@ -98,10 +92,7 @@ describe('WishList Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CREATE_WISH_LIST_SUCCESS,
           payload,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            MULTI_CART_DATA,
-            testCart.code
-          ),
+          meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, testCart.code),
         });
       });
     });
@@ -113,7 +104,7 @@ describe('WishList Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CREATE_WISH_LIST_FAIL,
           payload,
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             MULTI_CART_DATA,
             payload.cartId,
             payload.error
