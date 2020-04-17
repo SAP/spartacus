@@ -1,5 +1,5 @@
 import { CmsComponent } from '../../../model/cms.model';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
 import { CmsActions } from './index';
 
@@ -16,7 +16,7 @@ describe('Navigation Entry Item Actions', () => {
         expect({ ...action }).toEqual({
           type: CmsActions.LOAD_CMS_NAVIGATION_ITEMS,
           payload,
-          meta: StateEntityLoaderActions.entityLoadMeta(
+          meta: StateUtils.entityLoadMeta(
             NAVIGATION_DETAIL_ENTITY,
             payload.nodeId
           ),
@@ -36,7 +36,7 @@ describe('Navigation Entry Item Actions', () => {
         expect({ ...action }).toEqual({
           type: CmsActions.LOAD_CMS_NAVIGATION_ITEMS_FAIL,
           payload,
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             NAVIGATION_DETAIL_ENTITY,
             nodeId,
             payload
@@ -59,7 +59,7 @@ describe('Navigation Entry Item Actions', () => {
         expect({ ...action }).toEqual({
           type: CmsActions.LOAD_CMS_NAVIGATION_ITEMS_SUCCESS,
           payload,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateUtils.entitySuccessMeta(
             NAVIGATION_DETAIL_ENTITY,
             payload.nodeId
           ),

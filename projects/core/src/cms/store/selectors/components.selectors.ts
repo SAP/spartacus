@@ -1,11 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { CmsComponent } from '../../../model/cms.model';
-import {
-  initialLoaderState,
-  LoaderState,
-  StateEntitySelectors,
-  StateLoaderSelectors,
-} from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { ComponentsContext, ComponentsState, StateWithCms } from '../cms-state';
 import { getCmsState } from './feature.selectors';
 
@@ -18,21 +13,21 @@ export const componentsContextSelectorFactory = (
   uid: string
 ): MemoizedSelector<StateWithCms, ComponentsContext> => {
   return createSelector(getComponentsState, (componentsState) =>
-    StateEntitySelectors.entitySelector(componentsState, uid)
+    StateUtils.entitySelector(componentsState, uid)
   );
 };
 
 export const componentsLoaderStateSelectorFactory = (
   uid: string,
   context: string
-): MemoizedSelector<StateWithCms, LoaderState<boolean>> => {
+): MemoizedSelector<StateWithCms, StateUtils.LoaderState<boolean>> => {
   return createSelector(
     componentsContextSelectorFactory(uid),
     (componentsContext) =>
       (componentsContext &&
         componentsContext.pageContext &&
         componentsContext.pageContext[context]) ||
-      initialLoaderState
+      StateUtils.initialLoaderState
   );
 };
 
@@ -42,8 +37,7 @@ export const componentsContextExistsSelectorFactory = (
 ): MemoizedSelector<StateWithCms, boolean> => {
   return createSelector(
     componentsLoaderStateSelectorFactory(uid, context),
-    (loaderState) =>
-      StateLoaderSelectors.loaderValueSelector(loaderState) || false
+    (loaderState) => StateUtils.loaderValueSelector(loaderState) || false
   );
 };
 

@@ -1,5 +1,4 @@
-import { initialLoaderState } from '@spartacus/core';
-import { initialEntityState } from '../entity/entity.reducer';
+import { StateUtils } from '@spartacus/core';
 import { initialProcessesState } from '../processes-loader';
 import {
   EntityProcessesDecrementAction,
@@ -19,7 +18,7 @@ describe('EntityProcessesLoader reducer', () => {
         action
       );
 
-      const expectedState = initialEntityState;
+      const expectedState = StateUtils.initialEntityState;
 
       expect(state).toEqual(expectedState);
     });
@@ -245,11 +244,11 @@ describe('EntityProcessesLoader reducer', () => {
           entities: {
             [TEST_ENTITIES_ID[0]]: {
               ...initialProcessesState,
-              ...initialLoaderState,
+              ...StateUtils.initialLoaderState,
             },
             [TEST_ENTITIES_ID[1]]: {
               ...initialProcessesState,
-              ...initialLoaderState,
+              ...StateUtils.initialLoaderState,
             },
             'another entity': {
               processesCount: 2,

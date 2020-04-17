@@ -1,9 +1,6 @@
 import { ConsentTemplate } from '../../../model/consent.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import {
-  StateEntityLoaderActions,
-  StateLoaderActions,
-} from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import {
   GIVE_CONSENT_PROCESS_ID,
   USER_CONSENTS,
@@ -29,35 +26,35 @@ export const WITHDRAW_USER_CONSENT_SUCCESS =
 export const RESET_WITHDRAW_USER_CONSENT_PROCESS =
   '[User] Reset Withdraw User Consent Process';
 
-export class LoadUserConsents extends StateLoaderActions.LoaderLoadAction {
+export class LoadUserConsents extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_USER_CONSENTS;
   constructor(public payload: string) {
     super(USER_CONSENTS);
   }
 }
 
-export class LoadUserConsentsFail extends StateLoaderActions.LoaderFailAction {
+export class LoadUserConsentsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_CONSENTS_FAIL;
   constructor(public payload: any) {
     super(USER_CONSENTS, payload);
   }
 }
 
-export class LoadUserConsentsSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class LoadUserConsentsSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_USER_CONSENTS_SUCCESS;
   constructor(public payload: ConsentTemplate[]) {
     super(USER_CONSENTS);
   }
 }
 
-export class ResetLoadUserConsents extends StateLoaderActions.LoaderResetAction {
+export class ResetLoadUserConsents extends StateUtils.LoaderResetAction {
   readonly type = RESET_LOAD_USER_CONSENTS;
   constructor() {
     super(USER_CONSENTS);
   }
 }
 
-export class GiveUserConsent extends StateEntityLoaderActions.EntityLoadAction {
+export class GiveUserConsent extends StateUtils.EntityLoadAction {
   readonly type = GIVE_USER_CONSENT;
   constructor(
     public payload: {
@@ -70,21 +67,21 @@ export class GiveUserConsent extends StateEntityLoaderActions.EntityLoadAction {
   }
 }
 
-export class GiveUserConsentFail extends StateEntityLoaderActions.EntityFailAction {
+export class GiveUserConsentFail extends StateUtils.EntityFailAction {
   readonly type = GIVE_USER_CONSENT_FAIL;
   constructor(payload: any) {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID, payload);
   }
 }
 
-export class GiveUserConsentSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class GiveUserConsentSuccess extends StateUtils.EntitySuccessAction {
   readonly type = GIVE_USER_CONSENT_SUCCESS;
   constructor(public consentTemplate: ConsentTemplate) {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);
   }
 }
 
-export class ResetGiveUserConsentProcess extends StateEntityLoaderActions.EntityResetAction {
+export class ResetGiveUserConsentProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_GIVE_USER_CONSENT_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);
@@ -102,7 +99,7 @@ export class TransferAnonymousConsent {
   ) {}
 }
 
-export class WithdrawUserConsent extends StateEntityLoaderActions.EntityLoadAction {
+export class WithdrawUserConsent extends StateUtils.EntityLoadAction {
   readonly type = WITHDRAW_USER_CONSENT;
   constructor(
     public payload: {
@@ -114,21 +111,21 @@ export class WithdrawUserConsent extends StateEntityLoaderActions.EntityLoadActi
   }
 }
 
-export class WithdrawUserConsentFail extends StateEntityLoaderActions.EntityFailAction {
+export class WithdrawUserConsentFail extends StateUtils.EntityFailAction {
   readonly type = WITHDRAW_USER_CONSENT_FAIL;
   constructor(payload: any) {
     super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID, payload);
   }
 }
 
-export class WithdrawUserConsentSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class WithdrawUserConsentSuccess extends StateUtils.EntitySuccessAction {
   readonly type = WITHDRAW_USER_CONSENT_SUCCESS;
   constructor() {
     super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID);
   }
 }
 
-export class ResetWithdrawUserConsentProcess extends StateEntityLoaderActions.EntityResetAction {
+export class ResetWithdrawUserConsentProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_WITHDRAW_USER_CONSENT_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID);
