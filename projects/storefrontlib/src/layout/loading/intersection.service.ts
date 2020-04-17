@@ -40,7 +40,7 @@ export class IntersectionService {
    */
   private intersects(
     element: HTMLElement,
-    options?: IntersectionOptions
+    options: IntersectionOptions = {}
   ): Observable<boolean> {
     const elementVisible$ = new Observable((observer) => {
       const rootMargin = this.getRootMargin(options);
