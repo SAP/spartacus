@@ -17,10 +17,10 @@ import {
   Country,
   GlobalMessageService,
   GlobalMessageType,
-  LoaderState,
   UserPaymentService,
   Region,
   UserAddressService,
+  StateUtils,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription, BehaviorSubject } from 'rxjs';
 import { map, tap, switchMap } from 'rxjs/operators';
@@ -49,7 +49,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   cardTypes$: Observable<CardType[]>;
   shippingAddress$: Observable<Address>;
   countries$: Observable<Country[]>;
-  loading$: Observable<LoaderState<void>>;
+  loading$: Observable<StateUtils.LoaderState<void>>;
   sameAsShippingAddress = true;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
