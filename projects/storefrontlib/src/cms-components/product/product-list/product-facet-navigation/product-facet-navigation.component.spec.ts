@@ -75,29 +75,8 @@ describe('ProductFacetNavigationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('desktop', () => {
-    it('should have facet list when trigger button is hidden', async(async () => {
-      fixture.detectChanges();
-
-      const button: HTMLElement = element.query(By.css('button')).nativeElement;
-      button.style.display = 'none';
-
-      component.ngOnInit();
-
-      await fixture.whenStable();
-      fixture.detectChanges();
-
-      const facetList = element.query(By.css('cx-facet-list')).nativeElement;
-      expect(facetList).toBeTruthy();
-    }));
-  });
-
   describe('mobile', () => {
     it('should not have facet list when trigger button is visible', async(async () => {
-      fixture.detectChanges();
-
-      component.ngOnInit();
-
       await fixture.whenStable();
       fixture.detectChanges();
 
@@ -113,20 +92,46 @@ describe('ProductFacetNavigationComponent', () => {
       expect(component.launch).toHaveBeenCalled();
     });
 
-    it('should have facet list after launch', async(async () => {
-      // TODO: UI testing
+    it('should have facet list after trigger button is clicked', async(async () => {
       fixture.detectChanges();
-      component.ngOnInit();
-
       const button: HTMLElement = element.query(By.css('button')).nativeElement;
       button.click();
 
+      await fixture.whenStable();
       fixture.detectChanges();
 
-      let launched;
-      component.launched$.subscribe((l) => (launched = l)).unsubscribe();
+      const facetList = element.query(By.css('cx-facet-list')).nativeElement;
+      expect(facetList).toBeTruthy();
+    }));
 
-      expect(launched).toBeTruthy();
+    it('should invoke close when closeList is emitted', async(async () => {
+      spyOn(component, 'close');
+      fixture.detectChanges();
+      const button: HTMLElement = element.query(By.css('button')).nativeElement;
+      button.click();
+
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      const facetList = element.query(By.css('cx-facet-list')).nativeElement;
+      facetList.dispatchEvent(new Event('closeList'));
+
+      expect(component.close).toHaveBeenCalled();
+    }));
+  });
+
+  describe('desktop', () => {
+    it('should have facet list when trigger button is hidden', async(async () => {
+      fixture.detectChanges();
+
+      const button: HTMLElement = element.query(By.css('button')).nativeElement;
+      button.style.display = 'none';
+
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      const facetList = element.query(By.css('cx-facet-list')).nativeElement;
+      expect(facetList).toBeTruthy();
     }));
   });
 });
