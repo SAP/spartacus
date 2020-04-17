@@ -124,17 +124,17 @@ describe('FacetListComponent', () => {
 
     describe('close dialog', () => {
       it('should emit close when clicking the close button', () => {
-        spyOn(component.closeDialog, 'emit').and.stub();
+        spyOn(component.closeList, 'emit').and.stub();
         component.isDialog = true;
         fixture.detectChanges();
 
         const header = element.query(By.css('button.close'));
         (header.nativeElement as HTMLElement).dispatchEvent(new Event('click'));
-        expect(component.closeDialog.emit).toHaveBeenCalled();
+        expect(component.closeList.emit).toHaveBeenCalled();
       });
 
       it('should emit close when handling escape', () => {
-        spyOn(component.closeDialog, 'emit').and.stub();
+        spyOn(component.closeList, 'emit').and.stub();
         component.isDialog = true;
         fixture.detectChanges();
 
@@ -142,7 +142,7 @@ describe('FacetListComponent', () => {
         (container.nativeElement as HTMLElement).dispatchEvent(
           new Event('esc')
         );
-        expect(component.closeDialog.emit).toHaveBeenCalled();
+        expect(component.closeList.emit).toHaveBeenCalled();
       });
     });
 

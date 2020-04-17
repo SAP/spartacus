@@ -26,8 +26,8 @@ export class FacetListComponent {
    */
   @Input() isDialog: boolean;
 
-  /** Emits when the dialog must close */
-  @Output() closeDialog = new EventEmitter();
+  /** Emits when the list must close */
+  @Output() closeList = new EventEmitter();
 
   /** The list of all facet and values related to the products in the list */
   facetList$: Observable<FacetList> = this.facetService.facetList$;
@@ -75,5 +75,9 @@ export class FacetListComponent {
       .pipe(
         map((value) => value.toggled === FacetGroupCollapsedState.COLLAPSED)
       );
+  }
+
+  close(event?: boolean): void {
+    this.closeList.emit(event);
   }
 }
