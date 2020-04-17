@@ -24,7 +24,7 @@ export abstract class RoutingConfig {
     protected?: boolean;
 
     /**
-     *Global load strategy which is used as a fallback for loading data on each navigation
+     * Global load strategy which is used as a fallback for loading data on each navigation
      */
     loadStrategy?: RouteLoadStrategy;
   };
