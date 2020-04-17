@@ -30,16 +30,30 @@ export class ProductFacetNavigationComponent {
    *
    * The reference is also used to refocus the trigger after the dialog is closed.
    */
-  @ViewChild('dialogTrigger') dialogTrigger: ElementRef<HTMLElement>;
+  @ViewChild('trigger') trigger: ElementRef<HTMLElement>;
 
   protected open$ = new BehaviorSubject(false);
 
+  /**
+   * Emits the open state that indicates whether the facet list should be rendered.
+   * This is either done instantly, or after the user triggers this by using the trigger
+   * button. This driven by the visiibility of the trigger, so that the CSS drives
+   * the behaviour. This can differ per breakpoint.
+   *
+   * There's a configurable delay for the closed state, so that the DOM is not removed
+   * before some CSS animations are done.
+   */
   isOpen$: Observable<boolean> = this.breakpointService.breakpoint$.pipe(
     observeOn(asapScheduler),
     switchMap(() => (this.hasTrigger ? this.open$ : of(true))),
     delayWhen((launched) => interval(launched ? 0 : this.CLOSE_DELAY))
   );
 
+  /**
+   * Emits the active state that indicates whether the facet list is activated. Activation
+   * is related to the css, so that a animation or transition can visualize opening/closing
+   * the list (i.e. dialog).
+   */
   isActive$ = this.open$.pipe(observeOn(asapScheduler));
 
   constructor(protected breakpointService: BreakpointService) {}
@@ -50,7 +64,7 @@ export class ProductFacetNavigationComponent {
 
   close() {
     this.open$.next(false);
-    this.dialogTrigger.nativeElement.focus();
+    this.trigger.nativeElement.focus();
   }
 
   /**
@@ -59,6 +73,6 @@ export class ProductFacetNavigationComponent {
    * (display:none) for certain screen sizes.
    */
   get hasTrigger() {
-    return this.dialogTrigger.nativeElement.offsetParent !== null;
+    return this.trigger.nativeElement.offsetParent !== null;
   }
 }
