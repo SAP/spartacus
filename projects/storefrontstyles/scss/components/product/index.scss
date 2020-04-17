@@ -4,10 +4,21 @@
 @import './carousel/index';
 @import './star-rating';
 
-$product-components-whitelist: cx-searchbox, cx-product-carousel,
-  cx-product-references, cx-product-images, cx-product-summary,
-  cx-product-attributes, cx-product-reviews, cx-product-list,
-  cx-product-list-item, cx-product-grid, cx-product-grid-item,
-  cx-product-facet-navigation, cx-product-view, cx-product-intro, cx-star-rating,
-  cx-tab-paragraph-container, cx-stock-notification,
-  cx-stock-notification-dialog, cx-product-variants !default;
+$product-components-whitelist: mergeAll(
+  (
+    $product-list-whitelist,
+    cx-searchbox,
+    cx-product-carousel,
+    cx-product-references,
+    cx-product-images,
+    cx-product-summary,
+    cx-product-attributes,
+    cx-product-reviews,
+    cx-product-intro,
+    cx-star-rating,
+    cx-tab-paragraph-container,
+    cx-stock-notification,
+    cx-stock-notification-dialog,
+    cx-product-variants
+  )
+) !default;
