@@ -1,4 +1,4 @@
-import { StateLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { UserToken } from '../../../auth/models/token-types.model';
 import { CSAGENT_TOKEN_DATA } from '../asm-state';
 import { AsmActions } from './index';
@@ -24,7 +24,7 @@ describe('Customer Support Agent Token Actions', () => {
       const action = new AsmActions.LoadCustomerSupportAgentToken(tokenRequest);
       expect({ ...action }).toEqual({
         type: AsmActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN,
-        meta: StateLoaderActions.loadMeta(CSAGENT_TOKEN_DATA),
+        meta: StateUtils.loadMeta(CSAGENT_TOKEN_DATA),
         payload: tokenRequest,
       });
     });
@@ -37,7 +37,7 @@ describe('Customer Support Agent Token Actions', () => {
 
       expect({ ...action }).toEqual({
         type: AsmActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL,
-        meta: StateLoaderActions.failMeta(CSAGENT_TOKEN_DATA),
+        meta: StateUtils.failMeta(CSAGENT_TOKEN_DATA),
         payload: error,
       });
     });
@@ -49,7 +49,7 @@ describe('Customer Support Agent Token Actions', () => {
 
       expect({ ...action }).toEqual({
         type: AsmActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS,
-        meta: StateLoaderActions.successMeta(CSAGENT_TOKEN_DATA),
+        meta: StateUtils.successMeta(CSAGENT_TOKEN_DATA),
         payload: token,
       });
     });
