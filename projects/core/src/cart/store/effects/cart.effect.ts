@@ -98,7 +98,9 @@ export class CartEffects {
                 }
 
                 const cartNotFoundErrors = error.error.errors.filter(
-                  (err) => err.reason === 'notFound' || 'UnknownResourceError'
+                  (err) =>
+                    err.reason === 'notFound' ||
+                    err.reason === 'UnknownResourceError'
                 );
                 if (cartNotFoundErrors.length > 0) {
                   // Remove cart as it doesn't exist on backend.
