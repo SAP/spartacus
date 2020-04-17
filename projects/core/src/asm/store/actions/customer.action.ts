@@ -1,4 +1,4 @@
-import { StateLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import {
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -10,28 +10,28 @@ export const CUSTOMER_SEARCH_FAIL = '[Asm] Customer Search Fail';
 export const CUSTOMER_SEARCH_SUCCESS = '[Asm] Customer Search Success';
 export const CUSTOMER_SEARCH_RESET = '[Asm] Customer Search Reset';
 
-export class CustomerSearch extends StateLoaderActions.LoaderLoadAction {
+export class CustomerSearch extends StateUtils.LoaderLoadAction {
   readonly type = CUSTOMER_SEARCH;
   constructor(public payload: CustomerSearchOptions) {
     super(CUSTOMER_SEARCH_DATA);
   }
 }
 
-export class CustomerSearchFail extends StateLoaderActions.LoaderFailAction {
+export class CustomerSearchFail extends StateUtils.LoaderFailAction {
   readonly type = CUSTOMER_SEARCH_FAIL;
   constructor(public payload: any) {
     super(CUSTOMER_SEARCH_DATA);
   }
 }
 
-export class CustomerSearchSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class CustomerSearchSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = CUSTOMER_SEARCH_SUCCESS;
   constructor(public payload: CustomerSearchPage) {
     super(CUSTOMER_SEARCH_DATA);
   }
 }
 
-export class CustomerSearchReset extends StateLoaderActions.LoaderResetAction {
+export class CustomerSearchReset extends StateUtils.LoaderResetAction {
   readonly type = CUSTOMER_SEARCH_RESET;
   constructor() {
     super(CUSTOMER_SEARCH_DATA);

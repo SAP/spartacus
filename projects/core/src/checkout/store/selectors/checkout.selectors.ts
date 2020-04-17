@@ -6,7 +6,7 @@ import {
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
-import { StateLoaderSelectors } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   CheckoutState,
@@ -40,7 +40,7 @@ export const getCheckoutSteps: MemoizedSelector<
   StateWithCheckout,
   CheckoutStepsState
 > = createSelector(getCheckoutStepsState, (state) =>
-  StateLoaderSelectors.loaderValueSelector(state)
+  StateUtils.loaderValueSelector(state)
 );
 
 export const getDeliveryAddress: MemoizedSelector<
@@ -103,6 +103,6 @@ export const getCheckoutDetailsLoaded: MemoizedSelector<
 > = createSelector(
   getCheckoutStepsState,
   (state) =>
-    StateLoaderSelectors.loaderSuccessSelector(state) &&
-    !StateLoaderSelectors.loaderLoadingSelector(state)
+    StateUtils.loaderSuccessSelector(state) &&
+    !StateUtils.loaderLoadingSelector(state)
 );
