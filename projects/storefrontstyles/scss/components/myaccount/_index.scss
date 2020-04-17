@@ -5,13 +5,11 @@
 @import './close-account';
 @import './close-account-modal';
 @import './forgot-password';
-@import './order-details/consignment-tracking';
 @import './consent-management';
 @import './consent-management-form';
 @import './my-coupons';
 @import './my-coupons-card';
 @import './my-coupons-dialog';
-@import './anonymous-consent/index';
 @import './my-interests';
 
 $myaccount-components-whitelist: cx-address-book, cx-order-summary,
@@ -26,5 +24,4 @@ $myaccount-components-whitelist: cx-address-book, cx-order-summary,
   cx-return-order-confirmation, cx-cancel-order-confirmation, cx-my-interests,
   cx-amend-order-items, cx-order-details-actions, cx-consignment-tracking,
   cx-return-request-overview, cx-return-request-totals, cx-return-request-items,
-  cx-my-coupons, cx-coupon-card, cx-coupon-dialog, cx-order-consignment-entries,
-  cx-update-password-form !default;
+  cx-my-coupons, cx-coupon-card, cx-coupon-dialog, cx-update-password-form !default;
