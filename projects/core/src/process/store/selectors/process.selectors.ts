@@ -13,7 +13,7 @@ export function getProcessStateFactory<T>(
   processId: string
 ): MemoizedSelector<StateWithProcess<T>, LoaderState<T>> {
   return createSelector(getProcessState(), (entityState) =>
-    StateUtils.entityStateSelector(entityState, processId)
+    StateUtils.entityLoaderStateSelector(entityState, processId)
   );
 }
 

@@ -31,7 +31,7 @@ export class UpdatePasswordSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class UpdatePasswordReset extends StateUtils.EntityResetAction {
+export class UpdatePasswordReset extends StateUtils.EntityLoaderResetAction {
   readonly type = UPDATE_PASSWORD_RESET;
   constructor() {
     super(PROCESS_FEATURE, UPDATE_PASSWORD_PROCESS_ID);

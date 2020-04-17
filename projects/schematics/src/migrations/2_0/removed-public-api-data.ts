@@ -23,7 +23,9 @@ import {
   ENTITY_PROCESSES_LOADER_REDUCER,
   ENTITY_PROCESSES_LOADER_STATE,
   ENTITY_REDUCER,
+  ENTITY_RESET_ACTION,
   ENTITY_STATE,
+  ENTITY_STATE_SELECTOR,
   FORM_UTILS,
   GET_MULTI_CART_REDUCERS,
   GET_REDUCERS,
@@ -425,5 +427,17 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: OF_LOADER_FAIL,
     importPath: SPARTACUS_CORE,
     comment: `'${OF_LOADER_FAIL}' was removed.`,
+  },
+  // projects/core/src/state/utils/entity-loader/entity-loader.selectors.ts
+  {
+    node: ENTITY_STATE_SELECTOR,
+    importPath: SPARTACUS_CORE,
+    comment: `'${ENTITY_STATE_SELECTOR}' under 'StateUtils' was renamed to 'entityLoaderStateSelector'.`,
+  },
+  // projects/core/src/state/utils/entity-loader/entity-loader.action.ts
+  {
+    node: ENTITY_RESET_ACTION,
+    importPath: SPARTACUS_CORE,
+    comment: `'${ENTITY_RESET_ACTION}' under 'StateUtils' was renamed to 'EntityLoaderResetAction'.`,
   },
 ];

@@ -3,7 +3,7 @@ import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
   EntityLoadAction,
-  EntityResetAction,
+  EntityLoaderResetAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import {
@@ -73,7 +73,7 @@ export class UpdateNotificationPreferencesSuccess extends EntitySuccessAction {
   }
 }
 
-export class ResetNotificationPreferences extends EntityResetAction {
+export class ResetNotificationPreferences extends EntityLoaderResetAction {
   readonly type = RESET_NOTIFICATION_PREFERENCES;
   constructor() {
     super(PROCESS_FEATURE, UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID);

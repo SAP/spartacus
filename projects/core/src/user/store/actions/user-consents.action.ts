@@ -81,7 +81,7 @@ export class GiveUserConsentSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class ResetGiveUserConsentProcess extends StateUtils.EntityResetAction {
+export class ResetGiveUserConsentProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_GIVE_USER_CONSENT_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);
@@ -125,7 +125,7 @@ export class WithdrawUserConsentSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class ResetWithdrawUserConsentProcess extends StateUtils.EntityResetAction {
+export class ResetWithdrawUserConsentProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_WITHDRAW_USER_CONSENT_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID);

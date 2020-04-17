@@ -245,6 +245,8 @@ export const GET_STATE_SLICE = 'getStateSlice';
 export const OF_LOADER_LOAD = 'ofLoaderLoad';
 export const OF_LOADER_FAIL = 'ofLoaderFail';
 export const OF_LOADER_SUCCESS = 'ofLoaderSuccess';
+export const ENTITY_STATE_SELECTOR = 'entityStateSelector';
+export const ENTITY_RESET_ACTION = 'EntityResetAction';
 /***** Removed public api end *****/
 
 /***** Properties start *****/

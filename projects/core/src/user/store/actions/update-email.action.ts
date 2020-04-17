@@ -34,7 +34,7 @@ export class UpdateEmailErrorAction extends StateUtils.EntityFailAction {
   }
 }
 
-export class ResetUpdateEmailAction extends StateUtils.EntityResetAction {
+export class ResetUpdateEmailAction extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_EMAIL;
   constructor() {
     super(PROCESS_FEATURE, UPDATE_EMAIL_PROCESS_ID);

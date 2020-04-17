@@ -42,7 +42,7 @@ export class RegisterUserSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class ResetRegisterUserProcess extends StateUtils.EntityResetAction {
+export class ResetRegisterUserProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_REGISTER_USER_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, REGISTER_USER_PROCESS_ID);
@@ -84,7 +84,7 @@ export class RemoveUserSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class RemoveUserReset extends StateUtils.EntityResetAction {
+export class RemoveUserReset extends StateUtils.EntityLoaderResetAction {
   readonly type = REMOVE_USER_RESET;
   constructor() {
     super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID);

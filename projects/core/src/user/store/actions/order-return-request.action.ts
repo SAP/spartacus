@@ -172,7 +172,7 @@ export class ClearOrderReturnRequestList extends LoaderResetAction {
   }
 }
 
-export class ResetCancelReturnProcess extends StateUtils.EntityResetAction {
+export class ResetCancelReturnProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_CANCEL_RETURN_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID);

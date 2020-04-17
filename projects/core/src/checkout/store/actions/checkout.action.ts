@@ -137,7 +137,7 @@ export class SetDeliveryAddressSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class ResetSetDeliveryAddressProcess extends StateUtils.EntityResetAction {
+export class ResetSetDeliveryAddressProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_SET_DELIVERY_ADDRESS_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, SET_DELIVERY_ADDRESS_PROCESS_ID);
@@ -165,7 +165,7 @@ export class LoadSupportedDeliveryModesSuccess extends StateUtils.EntitySuccessA
   }
 }
 
-export class ResetLoadSupportedDeliveryModesProcess extends StateUtils.EntityResetAction {
+export class ResetLoadSupportedDeliveryModesProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID);
@@ -195,7 +195,7 @@ export class SetDeliveryModeSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class ResetSetDeliveryModeProcess extends StateUtils.EntityResetAction {
+export class ResetSetDeliveryModeProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_SET_DELIVERY_MODE_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, SET_DELIVERY_MODE_PROCESS_ID);
@@ -261,7 +261,7 @@ export class SetPaymentDetailsSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class ResetSetPaymentDetailsProcess extends StateUtils.EntityResetAction {
+export class ResetSetPaymentDetailsProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_SET_PAYMENT_DETAILS_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);

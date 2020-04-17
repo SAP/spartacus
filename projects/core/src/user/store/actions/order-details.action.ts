@@ -82,7 +82,7 @@ export class CancelOrderSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class ResetCancelOrderProcess extends StateUtils.EntityResetAction {
+export class ResetCancelOrderProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_CANCEL_ORDER_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, CANCEL_ORDER_PROCESS_ID);

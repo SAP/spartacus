@@ -2,7 +2,7 @@ import { entityLoaderReducer } from './entity-loader.reducer';
 import {
   EntityFailAction,
   EntityLoadAction,
-  EntityResetAction,
+  EntityLoaderResetAction,
   EntitySuccessAction,
 } from './entity-loader.action';
 import { StateUtils } from '@spartacus/core';
@@ -85,7 +85,10 @@ describe('EntityLoader reducer', () => {
 
     describe('RESET ACTION', () => {
       it('should reset load state', () => {
-        const action = new EntityResetAction(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
+        const action = new EntityLoaderResetAction(
+          TEST_ENTITY_TYPE,
+          TEST_ENTITY_ID
+        );
         const initialState = {
           entities: {
             [TEST_ENTITY_ID]: {
@@ -227,7 +230,7 @@ describe('EntityLoader reducer', () => {
 
     describe('RESET ACTION', () => {
       it('should reset load state', () => {
-        const action = new EntityResetAction(
+        const action = new EntityLoaderResetAction(
           TEST_ENTITY_TYPE,
           TEST_ENTITIES_ID
         );

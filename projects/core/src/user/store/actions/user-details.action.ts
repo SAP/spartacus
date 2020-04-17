@@ -49,7 +49,7 @@ export class UpdateUserDetailsSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-export class ResetUpdateUserDetails extends StateUtils.EntityResetAction {
+export class ResetUpdateUserDetails extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_USER_DETAILS;
   constructor() {
     super(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID);

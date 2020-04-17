@@ -65,7 +65,8 @@ export const getPageStateIndexLoaderState = (
 ): MemoizedSelector<StateWithCms, StateUtils.LoaderState<string>> =>
   createSelector(
     getPageStateIndexEntityLoaderState(pageContext),
-    (indexState) => StateUtils.entityStateSelector(indexState, pageContext.id)
+    (indexState) =>
+      StateUtils.entityLoaderStateSelector(indexState, pageContext.id)
   );
 
 export const getPageStateIndexValue = (

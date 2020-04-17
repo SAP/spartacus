@@ -16,7 +16,7 @@ export const getSelectedProductStateFactory = (
   return createSelector(
     getProductState,
     (details) =>
-      StateUtils.entityStateSelector(details, code)[scope] ||
+      StateUtils.entityLoaderStateSelector(details, code)[scope] ||
       StateUtils.initialLoaderState
   );
 };
