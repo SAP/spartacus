@@ -1,7 +1,4 @@
-import {
-  CURRENCY_USD,
-  LANGUAGE_EN,
-} from '../../../helpers/site-context-selector';
+import { CURRENCY_USD, LANGUAGE_EN } from '../../../helpers/site-context-selector';
 
 interface StrategyRequestContext {
   language?: string;
@@ -221,11 +218,11 @@ export function verifyMerchandisingCarouselRendersOnPDPPage(
 }
 
 export function applyFacet(facetGroup: string, facetName: string): void {
-  cy.get('.cx-facet-header')
+  cy.get('cx-facet .heading')
     .contains(facetGroup)
-    .parents('.cx-facet-group')
+    .parents('cx-facet')
     .within(() => {
-      cy.get('.cx-facet-label').contains(facetName).click();
+      cy.get('a.value')..contains(facetName).click();
     });
 }
 
