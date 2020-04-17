@@ -7,7 +7,7 @@ import {
   CheckoutDetails,
   CheckoutPaymentService,
   DeliveryMode,
-  LoaderState,
+  StateUtils,
   PaymentDetails,
   UserAddressService,
   UserPaymentService,
@@ -98,13 +98,15 @@ class MockCheckoutDeliveryService implements Partial<CheckoutDeliveryService> {
     return mockSupportedDeliveryModes.asObservable();
   }
 
-  getSetDeliveryAddressProcess(): Observable<LoaderState<void>> {
+  getSetDeliveryAddressProcess(): Observable<StateUtils.LoaderState<void>> {
     return mockSetDeliveryAddressResult.asObservable();
   }
-  getSetDeliveryModeProcess(): Observable<LoaderState<void>> {
+  getSetDeliveryModeProcess(): Observable<StateUtils.LoaderState<void>> {
     return mockSetDeliveryModeResult.asObservable();
   }
-  getLoadSupportedDeliveryModeProcess(): Observable<LoaderState<void>> {
+  getLoadSupportedDeliveryModeProcess(): Observable<
+    StateUtils.LoaderState<void>
+  > {
     return mockLoadSupportedDeliveryModesResult.asObservable();
   }
 }
@@ -117,7 +119,9 @@ const mockSetPaymentDetailsResult = new BehaviorSubject({
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentService> {
   resetSetPaymentDetailsProcess() {}
-  getSetPaymentDetailsResultProcess(): Observable<LoaderState<void>> {
+  getSetPaymentDetailsResultProcess(): Observable<
+    StateUtils.LoaderState<void>
+  > {
     return mockSetPaymentDetailsResult.asObservable();
   }
   setPaymentDetails() {}
