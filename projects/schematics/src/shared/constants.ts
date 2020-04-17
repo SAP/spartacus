@@ -242,5 +242,5 @@ export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 
 /***** Misc start *****/
 export const CSS_DOCS_URL =
-  'https://sap.github.io/spartacus-docs/deprecation-guide/css';
+  'https://sap.github.io/spartacus-docs/updating-to-version-2/css';
 /***** Misc end *****/
