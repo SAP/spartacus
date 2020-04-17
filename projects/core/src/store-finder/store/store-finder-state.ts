@@ -1,4 +1,4 @@
-import { LoaderState } from '../../state';
+import { StateUtils } from '../../state/utils';
 import { StoreEntities } from '../model';
 
 export const STORE_FINDER_FEATURE = 'stores';
@@ -9,8 +9,8 @@ export interface StateWithStoreFinder {
 }
 
 export interface StoresState {
-  findStores: LoaderState<FindStoresState>;
-  viewAllStores: LoaderState<ViewAllStoresState>;
+  findStores: StateUtils.LoaderState<FindStoresState>;
+  viewAllStores: StateUtils.LoaderState<ViewAllStoresState>;
 }
 
 export interface FindStoresState {
