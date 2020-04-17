@@ -47,12 +47,12 @@ function addPackageJsonDependencies(): Rule {
     const dependencies: NodeDependency[] = [
       {
         type: NodeDependencyType.Default,
-        version: angularVersion || '~9.0.3',
+        version: angularVersion,
         name: '@angular/platform-server',
       },
       {
         type: NodeDependencyType.Default,
-        version: `^${ANGULAR_UNIVERSAL_EXPRESS_VERSION}`,
+        version: ANGULAR_UNIVERSAL_EXPRESS_VERSION,
         name: '@nguniversal/express-engine',
       },
       {

@@ -6,7 +6,7 @@ export const b2bConfig: StorefrontConfig = {
   backend: {
     occ: {
       baseUrl: environment.occBaseUrl,
-      legacy: false,
+      prefix: '/rest/v2/',
     },
   },
   context: {

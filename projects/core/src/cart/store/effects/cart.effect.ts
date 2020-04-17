@@ -5,7 +5,6 @@ import { from, Observable, of } from 'rxjs';
 import {
   catchError,
   concatMap,
-  exhaustMap,
   filter,
   groupBy,
   map,
@@ -13,7 +12,7 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CheckoutActions } from '../../../checkout/store/actions/index';
+import { CheckoutActions } from '../../../checkout/store/actions';
 import { Cart } from '../../../model/cart.model';
 import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
@@ -21,7 +20,6 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { withdrawOn } from '../../../util/withdraw-on';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { getCartIdByUserId } from '../../utils/utils';
-import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { StateWithMultiCart } from '../multi-cart-state';
 import { getCartHasPendingProcessesSelectorFactory } from '../selectors/multi-cart.selector';
@@ -39,8 +37,6 @@ export class CartEffects {
   loadCart$: Observable<
     | CartActions.LoadCartFail
     | CartActions.LoadCartSuccess
-    | CartActions.ClearExpiredCoupons
-    | DeprecatedCartActions.ClearCart
     | CartActions.RemoveCart
   > = this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
@@ -77,7 +73,9 @@ export class CartEffects {
                 if (payload.cartId === OCC_CART_ID_CURRENT) {
                   // Removing cart from entity object under `current` key as it is no longer needed.
                   // Current cart is loaded under it's code entity.
-                  actions.push(new CartActions.RemoveCart(OCC_CART_ID_CURRENT));
+                  actions.push(
+                    new CartActions.RemoveCart({ cartId: OCC_CART_ID_CURRENT })
+                  );
                 }
               } else {
                 actions = [
@@ -95,39 +93,26 @@ export class CartEffects {
                   (err) => err.reason === 'invalid'
                 );
                 if (couponExpiredErrors.length > 0) {
-                  // clear coupons actions just wanted to reload cart again
-                  // no need to do it in refresh or keep that action
-                  // however removing this action will be a breaking change
-                  // remove that action in 2.0 release
-                  // @deprecated since 1.4
-                  return from([
-                    new CartActions.LoadCart({ ...payload }),
-                    new CartActions.ClearExpiredCoupons({}),
-                  ]);
+                  // Reload in case of expired coupon.
+                  return of(new CartActions.LoadCart({ ...payload }));
                 }
 
                 const cartNotFoundErrors = error.error.errors.filter(
                   (err) => err.reason === 'notFound' || 'UnknownResourceError'
                 );
-                if (
-                  cartNotFoundErrors.length > 0 &&
-                  payload.extraData &&
-                  payload.extraData.active
-                ) {
-                  // Clear cart is responsible for removing cart in `cart` store feature.
-                  // Remove cart does the same thing, but in `multi-cart` store feature.
-                  return from([
-                    new DeprecatedCartActions.ClearCart(),
-                    new CartActions.RemoveCart(payload.cartId),
-                  ]);
+                if (cartNotFoundErrors.length > 0) {
+                  // Remove cart as it doesn't exist on backend.
+                  return of(
+                    new CartActions.RemoveCart({ cartId: payload.cartId })
+                  );
                 }
               }
-              return from([
+              return of(
                 new CartActions.LoadCartFail({
                   ...payload,
                   error: makeErrorSerializable(error),
-                }),
-              ]);
+                })
+              );
             })
           );
         })
@@ -210,21 +195,13 @@ export class CartEffects {
     withdrawOn(this.contextChange$)
   );
 
+  // TODO(#7241): Remove when AddVoucherSuccess actions will extend processes actions
   @Effect()
   refresh$: Observable<
     CartActions.LoadCart | CartActions.CartProcessesDecrement
   > = this.actions$.pipe(
-    ofType(
-      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
-      CartActions.CART_ADD_VOUCHER_SUCCESS
-    ),
-    map(
-      (
-        action:
-          | CheckoutActions.ClearCheckoutDeliveryModeSuccess
-          | CartActions.CartAddVoucherSuccess
-      ) => action.payload
-    ),
+    ofType(CartActions.CART_ADD_VOUCHER_SUCCESS),
+    map((action: CartActions.CartAddVoucherSuccess) => action.payload),
     concatMap((payload) =>
       from([
         new CartActions.CartProcessesDecrement(payload.cartId),
@@ -236,6 +213,7 @@ export class CartEffects {
     )
   );
 
+  // TODO: Switch to automatic cart reload on processes count reaching 0 for cart entity
   @Effect()
   refreshWithoutProcesses$: Observable<
     CartActions.LoadCart
@@ -244,7 +222,8 @@ export class CartEffects {
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
       CartActions.CART_UPDATE_ENTRY_SUCCESS,
-      CartActions.CART_REMOVE_VOUCHER_SUCCESS
+      CartActions.CART_REMOVE_VOUCHER_SUCCESS,
+      CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS
     ),
     map(
       (
@@ -253,6 +232,7 @@ export class CartEffects {
           | CartActions.CartUpdateEntrySuccess
           | CartActions.CartRemoveEntrySuccess
           | CartActions.CartRemoveVoucherSuccess
+          | CheckoutActions.ClearCheckoutDeliveryModeSuccess
       ) => action.payload
     ),
     map(
@@ -266,17 +246,14 @@ export class CartEffects {
 
   @Effect()
   resetCartDetailsOnSiteContextChange$: Observable<
-    DeprecatedCartActions.ResetCartDetails | CartActions.ResetMultiCartDetails
+    CartActions.ResetCartDetails
   > = this.actions$.pipe(
     ofType(
       SiteContextActions.LANGUAGE_CHANGE,
       SiteContextActions.CURRENCY_CHANGE
     ),
     mergeMap(() => {
-      return [
-        new DeprecatedCartActions.ResetCartDetails(),
-        new CartActions.ResetMultiCartDetails(),
-      ];
+      return [new CartActions.ResetCartDetails()];
     })
   );
 
@@ -321,20 +298,30 @@ export class CartEffects {
   );
 
   @Effect()
-  deleteCart$: Observable<any> = this.actions$.pipe(
-    ofType(DeprecatedCartActions.DELETE_CART),
-    map((action: DeprecatedCartActions.DeleteCart) => action.payload),
-    exhaustMap((payload) =>
+  deleteCart$: Observable<
+    | CartActions.DeleteCartSuccess
+    | CartActions.DeleteCartFail
+    | CartActions.LoadCart
+  > = this.actions$.pipe(
+    ofType(CartActions.DELETE_CART),
+    map((action: CartActions.DeleteCart) => action.payload),
+    mergeMap((payload) =>
       this.cartConnector.delete(payload.userId, payload.cartId).pipe(
         map(() => {
-          return new DeprecatedCartActions.ClearCart();
+          return new CartActions.DeleteCartSuccess({ ...payload });
         }),
         catchError((error) =>
-          of(
-            new DeprecatedCartActions.DeleteCartFail(
-              makeErrorSerializable(error)
-            )
-          )
+          from([
+            new CartActions.DeleteCartFail({
+              ...payload,
+              error: makeErrorSerializable(error),
+            }),
+            // Error might happen in higher backend layer and cart could still be removed.
+            // When load fail with NotFound error then RemoveCart action will kick in and clear that cart in our state.
+            new CartActions.LoadCart({
+              ...payload,
+            }),
+          ])
         )
       )
     )
