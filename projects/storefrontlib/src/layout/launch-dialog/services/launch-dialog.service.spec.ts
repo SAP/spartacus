@@ -1,7 +1,7 @@
 import { Component, Injectable, ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { LayoutConfig } from '../../config/layout-config';
 import {
-  LaunchConfig,
   LaunchInlineDialog,
   LaunchRoute,
   LAUNCH_CALLER,
@@ -9,7 +9,7 @@ import {
 import { LaunchDialogService } from './launch-dialog.service';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
-const mockLaunchConfig: LaunchConfig = {
+const mockLaunchConfig: LayoutConfig = {
   launch: {
     TEST_INLINE: {
       inline: true,
@@ -78,7 +78,7 @@ describe('LaunchDialogService', () => {
           useExisting: MockInlineRenderStrategy,
           multi: true,
         },
-        { provide: LaunchConfig, useValue: mockLaunchConfig },
+        { provide: LayoutConfig, useValue: mockLaunchConfig },
       ],
       declarations: [TestContainerComponent],
     }).compileComponents();

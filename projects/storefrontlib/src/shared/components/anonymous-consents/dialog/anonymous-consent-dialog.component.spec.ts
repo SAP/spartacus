@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AnonymousConsent,
@@ -9,7 +9,6 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ModalService } from '../../modal/index';
 import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
 
 @Component({
@@ -64,10 +63,6 @@ class MockAnonymousConsentsService {
   }
 }
 
-class MockModalService {
-  closeActiveModal(_reason?: any): void {}
-}
-
 const mockTemplates: ConsentTemplate[] = [
   { id: 'MARKETING' },
   { id: 'PERSONALIZATION' },
@@ -77,7 +72,6 @@ describe('AnonymousConsentsDialogComponent', () => {
   let component: AnonymousConsentDialogComponent;
   let fixture: ComponentFixture<AnonymousConsentDialogComponent>;
   let anonymousConsentsService: AnonymousConsentsService;
-  let modalService: ModalService;
   let anonymousConsentsConfig: AnonymousConsentsConfig;
 
   beforeEach(async(() => {
@@ -99,14 +93,11 @@ describe('AnonymousConsentsDialogComponent', () => {
           useClass: MockAnonymousConsentsService,
         },
         {
-          provide: ModalService,
-          useClass: MockModalService,
-        },
-        {
           provide: AnonymousConsentsConfig,
           useValue: mockConfig,
         },
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -114,7 +105,6 @@ describe('AnonymousConsentsDialogComponent', () => {
     fixture = TestBed.createComponent(AnonymousConsentDialogComponent);
     component = fixture.componentInstance;
     anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
-    modalService = TestBed.inject(ModalService);
     anonymousConsentsConfig = TestBed.inject(AnonymousConsentsConfig);
 
     fixture.detectChanges();
@@ -137,9 +127,12 @@ describe('AnonymousConsentsDialogComponent', () => {
 
   describe('closeModal', () => {
     it('should call modalService.closeActiveModal', () => {
-      spyOn(modalService, 'closeActiveModal').and.stub();
+      let result;
+      component.closeDialog.subscribe((reason) => (result = reason));
+
       component.closeModal('xxx');
-      expect(modalService.closeActiveModal).toHaveBeenCalledWith('xxx');
+
+      expect(result).toEqual('xxx');
     });
   });
 

@@ -52,7 +52,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
       this.outletRendererService.render(config.outlet);
       this.renderedCallers.push({ caller });
 
-      return this.outletRendererService.getOutletRef$(config.outlet).pipe(
+      return this.outletRendererService.getOutletRef(config.outlet).pipe(
         map((outletDirective) => {
           const components = outletDirective.renderedComponents.get(
             config.position ? config.position : OutletPosition.BEFORE

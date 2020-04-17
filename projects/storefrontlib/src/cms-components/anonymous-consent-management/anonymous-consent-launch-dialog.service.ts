@@ -22,7 +22,7 @@ export class AnonymousConsentLaunchDialogService {
 
   openDialog(data: DialogData): Observable<ComponentRef<any> | boolean> {
     const component = this.launchDialogService.launch(
-      'ANONYMOUS_CONSENT' as LAUNCH_CALLER,
+      LAUNCH_CALLER.ANONYMOUS_CONSENT,
       data.vcr
     );
 
@@ -32,9 +32,7 @@ export class AnonymousConsentLaunchDialogService {
           return (comp.instance.closeDialog as Observable<boolean>).pipe(
             tap(() => {
               data.openElement?.nativeElement.focus();
-              this.launchDialogService.clear(
-                'ANONYMOUS_CONSENT' as LAUNCH_CALLER
-              );
+              this.launchDialogService.clear(LAUNCH_CALLER.ANONYMOUS_CONSENT);
               comp.destroy();
             })
           );

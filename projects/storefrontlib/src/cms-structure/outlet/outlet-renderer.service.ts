@@ -33,7 +33,7 @@ export class OutletRendererService {
    * Returns map of outlets
    *
    */
-  getOutletRef$(outlet: string): Observable<OutletDirective> {
+  getOutletRef(outlet: string): Observable<OutletDirective> {
     return this.outletRefs.asObservable().pipe(
       map((val) => val.get(outlet)),
       filter((val) => Boolean(val))
