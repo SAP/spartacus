@@ -13,7 +13,7 @@ export abstract class PageMetaResolver implements Handler {
   pageType: PageType;
 
   /** The page template is used to score the (non)matching page template */
-  pageTemplate: string;h
+  pageTemplate: string;
 
   /**
    * Returns the matching score for a resolver class, based on
