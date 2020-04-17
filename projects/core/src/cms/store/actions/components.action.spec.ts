@@ -1,6 +1,6 @@
 import { CmsComponent, PageType } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { COMPONENT_ENTITY } from '../cms-state';
 import { CmsActions } from './index';
 
@@ -19,10 +19,7 @@ describe('Cms Component Actions', () => {
         expect({ ...action }).toEqual({
           type: CmsActions.LOAD_CMS_COMPONENT,
           payload: payload,
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            COMPONENT_ENTITY,
-            test_uid
-          ),
+          meta: StateUtils.entityLoadMeta(COMPONENT_ENTITY, test_uid),
         });
       });
     });
@@ -43,11 +40,7 @@ describe('Cms Component Actions', () => {
             pageContext,
           },
           type: CmsActions.LOAD_CMS_COMPONENT_FAIL,
-          meta: StateEntityLoaderActions.entityFailMeta(
-            COMPONENT_ENTITY,
-            test_uid,
-            error
-          ),
+          meta: StateUtils.entityFailMeta(COMPONENT_ENTITY, test_uid, error),
         });
       });
     });
@@ -67,10 +60,7 @@ describe('Cms Component Actions', () => {
         expect({ ...action }).toEqual({
           type: CmsActions.LOAD_CMS_COMPONENT_SUCCESS,
           payload: { component, uid: component.uid, pageContext },
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            COMPONENT_ENTITY,
-            'comp1'
-          ),
+          meta: StateUtils.entitySuccessMeta(COMPONENT_ENTITY, 'comp1'),
         });
       });
     });
@@ -103,7 +93,7 @@ describe('Cms Component Actions', () => {
               pageContext,
             },
           ],
-          meta: StateEntityLoaderActions.entitySuccessMeta(COMPONENT_ENTITY, [
+          meta: StateUtils.entitySuccessMeta(COMPONENT_ENTITY, [
             'uid1',
             'uid2',
           ]),

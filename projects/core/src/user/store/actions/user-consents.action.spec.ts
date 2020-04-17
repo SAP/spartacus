@@ -1,9 +1,6 @@
 import { ConsentTemplate } from '../../../model/consent.model';
 import { PROCESS_FEATURE } from '../../../process/index';
-import {
-  StateEntityLoaderActions,
-  StateLoaderActions,
-} from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { GIVE_CONSENT_PROCESS_ID, USER_CONSENTS } from '../user-state';
 import { UserActions } from './index';
 
@@ -17,7 +14,7 @@ describe('user consent actions', () => {
         expect({ ...action }).toEqual({
           type: UserActions.LOAD_USER_CONSENTS,
           payload: userId,
-          meta: StateLoaderActions.loadMeta(USER_CONSENTS),
+          meta: StateUtils.loadMeta(USER_CONSENTS),
         });
       });
     });
@@ -28,7 +25,7 @@ describe('user consent actions', () => {
         expect({ ...action }).toEqual({
           type: UserActions.LOAD_USER_CONSENTS_FAIL,
           payload,
-          meta: StateLoaderActions.failMeta(USER_CONSENTS, payload),
+          meta: StateUtils.failMeta(USER_CONSENTS, payload),
         });
       });
     });
@@ -39,7 +36,7 @@ describe('user consent actions', () => {
         expect({ ...action }).toEqual({
           type: UserActions.LOAD_USER_CONSENTS_SUCCESS,
           payload,
-          meta: StateLoaderActions.successMeta(USER_CONSENTS),
+          meta: StateUtils.successMeta(USER_CONSENTS),
         });
       });
     });
@@ -48,7 +45,7 @@ describe('user consent actions', () => {
         const action = new UserActions.ResetLoadUserConsents();
         expect({ ...action }).toEqual({
           type: UserActions.RESET_LOAD_USER_CONSENTS,
-          meta: StateLoaderActions.resetMeta(USER_CONSENTS),
+          meta: StateUtils.resetMeta(USER_CONSENTS),
         });
       });
     });
@@ -66,7 +63,7 @@ describe('user consent actions', () => {
         expect({ ...action }).toEqual({
           type: UserActions.GIVE_USER_CONSENT,
           payload,
-          meta: StateEntityLoaderActions.entityLoadMeta(
+          meta: StateUtils.entityLoadMeta(
             PROCESS_FEATURE,
             GIVE_CONSENT_PROCESS_ID
           ),
@@ -79,7 +76,7 @@ describe('user consent actions', () => {
         const action = new UserActions.GiveUserConsentFail(payload);
         expect({ ...action }).toEqual({
           type: UserActions.GIVE_USER_CONSENT_FAIL,
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             GIVE_CONSENT_PROCESS_ID,
             payload
@@ -97,7 +94,7 @@ describe('user consent actions', () => {
           type: UserActions.GIVE_USER_CONSENT_SUCCESS,
           payload: undefined,
           consentTemplate,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
             GIVE_CONSENT_PROCESS_ID
           ),
@@ -109,7 +106,7 @@ describe('user consent actions', () => {
         const action = new UserActions.ResetGiveUserConsentProcess();
         expect({ ...action }).toEqual({
           type: UserActions.RESET_GIVE_USER_CONSENT_PROCESS,
-          meta: StateEntityLoaderActions.entityResetMeta(
+          meta: StateUtils.entityResetMeta(
             PROCESS_FEATURE,
             GIVE_CONSENT_PROCESS_ID
           ),

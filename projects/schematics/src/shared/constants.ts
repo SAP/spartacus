@@ -216,6 +216,35 @@ export const SKIP_LINK_FACTORY = 'skipLinkFactory';
 export const FORM_UTILS = 'FormUtils';
 export const BILLING_ADDRESS_FORM_COMPONENT = 'BillingAddressFormComponent';
 export const BILLING_ADDRESS_FORM_MODULE = 'BillingAddressFormModule';
+export const LOADER_STATE = 'LoaderState';
+export const PROCESSES_LOADER_STATE = 'ProcessesLoaderState';
+export const ENTITY_STATE = 'EntityState';
+export const ENTITY_LOADER_STATE = 'EntityLoaderState';
+export const ENTITY_PROCESSES_LOADER_STATE = 'EntityProcessesLoaderState';
+export const STATE_LOADER_ACTIONS = 'StateLoaderActions';
+export const STATE_PROCESSES_LOADER_ACTIONS = 'StateProcessesLoaderActions';
+export const STATE_ENTITY_ACTIONS = 'StateEntityActions';
+export const STATE_ENTITY_LOADER_ACTIONS = 'StateEntityLoaderActions';
+export const STATE_ENTITY_PROCESSESS_LOADER_ACTIONS =
+  'StateEntityProcessesLoaderActions';
+export const STATE_LOADER_SELECTORS = 'StateLoaderSelectors';
+export const STATE_PROCESSES_LOADER_SELECTORS = 'StateProcessesLoaderSelectors';
+export const STATE_ENTITY_SELECTORS = 'StateEntitySelectors';
+export const STATE_ENTITY_LOADER_SELECTORS = 'StateEntityLoaderSelectors';
+export const STATE_ENTITY_PROCESSESS_LOADER_SELECTORS =
+  'StateEntityProcessesLoaderSelectors';
+export const LOADER_REDUCER = 'loaderReducer';
+export const PROCESSES_LOADER_REDUCER = 'processesLoaderReducer';
+export const ENTITY_REDUCER = 'entityReducer';
+export const ENTITY_LOADER_REDUCER = 'entityLoaderReducer';
+export const ENTITY_PROCESSES_LOADER_REDUCER = 'entityProcessesLoaderReducer';
+export const INITIAL_ENTITY_STATE = 'initialEntityState';
+export const INITIAL_LOADER_STATE = 'initialLoaderState';
+export const INITIAL_PROCESSES_STATE = 'initialProcessesState';
+export const GET_STATE_SLICE = 'getStateSlice';
+export const OF_LOADER_LOAD = 'ofLoaderLoad';
+export const OF_LOADER_FAIL = 'ofLoaderFail';
+export const OF_LOADER_SUCCESS = 'ofLoaderSuccess';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
