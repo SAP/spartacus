@@ -14,18 +14,18 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './store-finder-search-result.component.html',
 })
 export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
-  locations: any;
-  searchQuery: StoreFinderSearchQuery;
-  locations$: Observable<any>;
-  isLoading$: Observable<any>;
-  geolocation: GeoPoint;
-  subscription: Subscription;
-  useMyLocation: boolean;
-  countryCode: string = null;
-  searchConfig: SearchConfig = {
+  protected locations: any;
+  protected searchQuery: StoreFinderSearchQuery;
+  protected geolocation: GeoPoint;
+  protected subscription: Subscription;
+  protected useMyLocation: boolean;
+  protected countryCode: string = null;
+  protected searchConfig: SearchConfig = {
     currentPage: 0,
   };
-  radius: number;
+  protected radius: number;
+  locations$: Observable<any>;
+  isLoading$: Observable<any>;
 
   constructor(
     private storeFinderService: StoreFinderService,
