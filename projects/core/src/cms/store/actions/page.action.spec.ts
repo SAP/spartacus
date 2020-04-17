@@ -1,6 +1,6 @@
 import { PageType } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { Page } from '../../model/page.model';
 import { CmsActions } from './index';
 
@@ -17,10 +17,7 @@ describe('Cms Page Actions', () => {
 
         expect({ ...action }).toEqual({
           type: CmsActions.LOAD_CMS_PAGE_DATA,
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            pageContext.type,
-            pageContext.id
-          ),
+          meta: StateUtils.entityLoadMeta(pageContext.type, pageContext.id),
           payload: pageContext,
         });
       });
@@ -33,7 +30,7 @@ describe('Cms Page Actions', () => {
 
         expect({ ...action }).toEqual({
           type: CmsActions.LOAD_CMS_PAGE_DATA_FAIL,
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             pageContext.type,
             pageContext.id,
             payload
@@ -53,10 +50,7 @@ describe('Cms Page Actions', () => {
         expect({ ...action }).toEqual({
           payload: newIndex,
           type: CmsActions.CMS_SET_PAGE_FAIL_INDEX,
-          meta: StateEntityLoaderActions.entityFailMeta(
-            pageContext.type,
-            pageContext.id
-          ),
+          meta: StateUtils.entityFailMeta(pageContext.type, pageContext.id),
         });
       });
     });
@@ -70,10 +64,7 @@ describe('Cms Page Actions', () => {
 
         expect({ ...action }).toEqual({
           type: CmsActions.LOAD_CMS_PAGE_DATA_SUCCESS,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            pageContext.type,
-            pageContext.id
-          ),
+          meta: StateUtils.entitySuccessMeta(pageContext.type, pageContext.id),
           payload: page,
         });
       });
