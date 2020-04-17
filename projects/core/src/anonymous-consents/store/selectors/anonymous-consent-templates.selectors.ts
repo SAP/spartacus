@@ -1,6 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { ConsentTemplate } from '../../../model/consent.model';
-import { StateLoaderSelectors } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { StateWithAnonymousConsents } from '../anonymous-consents-state';
 import { getAnonymousConsentState } from './feature.selector';
@@ -15,7 +15,7 @@ export const getAnonymousConsentTemplatesValue: MemoizedSelector<
   ConsentTemplate[]
 > = createSelector(
   getAnonymousConsentTemplatesState,
-  StateLoaderSelectors.loaderValueSelector
+  StateUtils.loaderValueSelector
 );
 
 export const getAnonymousConsentTemplatesLoading: MemoizedSelector<
@@ -23,7 +23,7 @@ export const getAnonymousConsentTemplatesLoading: MemoizedSelector<
   boolean
 > = createSelector(
   getAnonymousConsentTemplatesState,
-  StateLoaderSelectors.loaderLoadingSelector
+  StateUtils.loaderLoadingSelector
 );
 
 export const getAnonymousConsentTemplatesSuccess: MemoizedSelector<
@@ -31,7 +31,7 @@ export const getAnonymousConsentTemplatesSuccess: MemoizedSelector<
   boolean
 > = createSelector(
   getAnonymousConsentTemplatesState,
-  StateLoaderSelectors.loaderSuccessSelector
+  StateUtils.loaderSuccessSelector
 );
 
 export const getAnonymousConsentTemplatesError: MemoizedSelector<
@@ -39,7 +39,7 @@ export const getAnonymousConsentTemplatesError: MemoizedSelector<
   boolean
 > = createSelector(
   getAnonymousConsentTemplatesState,
-  StateLoaderSelectors.loaderErrorSelector
+  StateUtils.loaderErrorSelector
 );
 
 export const getAnonymousConsentTemplate = (
