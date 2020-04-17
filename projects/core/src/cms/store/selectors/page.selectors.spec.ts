@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { PageType } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/models/page-context.model';
-import { EntityLoaderState, LoaderState } from '../../../state';
+import { StateUtils } from '../../../state/utils';
 import { ContentSlotComponentData } from '../../model/content-slot-component-data.model';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
@@ -84,7 +84,7 @@ describe('Cms PageData Selectors', () => {
     it('should return an index', () => {
       store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
-      let result: EntityLoaderState<string>;
+      let result: StateUtils.EntityLoaderState<string>;
       store
         .pipe(
           select(CmsSelectors.getPageStateIndexEntityLoaderState(pageContext))
@@ -107,7 +107,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageStateIndexLoaderState', () => {
     it('should return an initial entity state when there is no entity', () => {
-      let result: LoaderState<string>;
+      let result: StateUtils.LoaderState<string>;
       store
         .pipe(select(CmsSelectors.getPageStateIndexLoaderState(pageContext)))
         .subscribe((value) => (result = value))
@@ -124,7 +124,7 @@ describe('Cms PageData Selectors', () => {
     it('should return an entity from an index', () => {
       store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
-      let result: LoaderState<string>;
+      let result: StateUtils.LoaderState<string>;
       store
         .pipe(select(CmsSelectors.getPageStateIndexLoaderState(pageContext)))
         .subscribe((value) => (result = value))
