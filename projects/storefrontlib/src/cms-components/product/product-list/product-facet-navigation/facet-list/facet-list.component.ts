@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   Output,
 } from '@angular/core';
@@ -40,6 +41,10 @@ export class FacetListComponent {
     focusOnEscape: true,
     autofocus: 'cx-facet',
   };
+
+  @HostListener('click') handleClick() {
+    this.close();
+  }
 
   constructor(
     protected facetService: FacetService,
@@ -79,5 +84,9 @@ export class FacetListComponent {
 
   close(event?: boolean): void {
     this.closeList.emit(event);
+  }
+
+  block(event?: MouseEvent) {
+    event.stopPropagation();
   }
 }

@@ -1,3 +1,17 @@
 // Spartacus Application styles
 
 @import 'storefrontstyles/index';
+
+cx-product-facet-navigation {
+  button.dialog-trigger {
+    display: block;
+  }
+}
+
+// cx-facet-list.dialog {
+//   @extend %cx-overlay;
+//   > .inner {
+//     width: 40vw;
+//     height: 100vh;
+//   }
+// }
