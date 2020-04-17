@@ -1,6 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { Region } from '../../../model/address.model';
-import { StateLoaderSelectors } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { RegionsState, StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
@@ -16,7 +16,7 @@ export const getAllRegions: MemoizedSelector<
 > = createSelector(
   getRegionsLoaderState,
   (state: LoaderState<RegionsState>) => {
-    return StateLoaderSelectors.loaderValueSelector(state).entities;
+    return StateUtils.loaderValueSelector(state).entities;
   }
 );
 
@@ -31,10 +31,10 @@ export const getRegionsDataAndLoading: MemoizedSelector<
 > = createSelector(
   getRegionsLoaderState,
   (state: LoaderState<RegionsState>) => ({
-    loaded: StateLoaderSelectors.loaderSuccessSelector(state),
-    loading: StateLoaderSelectors.loaderLoadingSelector(state),
-    regions: StateLoaderSelectors.loaderValueSelector(state).entities,
-    country: StateLoaderSelectors.loaderValueSelector(state).country,
+    loaded: StateUtils.loaderSuccessSelector(state),
+    loading: StateUtils.loaderLoadingSelector(state),
+    regions: StateUtils.loaderValueSelector(state).entities,
+    country: StateUtils.loaderValueSelector(state).country,
   })
 );
 
@@ -44,19 +44,19 @@ export const getRegionsCountry: MemoizedSelector<
 > = createSelector(
   getRegionsLoaderState,
   (state: LoaderState<RegionsState>) =>
-    StateLoaderSelectors.loaderValueSelector(state).country
+    StateUtils.loaderValueSelector(state).country
 );
 
 export const getRegionsLoading: MemoizedSelector<
   StateWithUser,
   boolean
 > = createSelector(getRegionsLoaderState, (state: LoaderState<RegionsState>) =>
-  StateLoaderSelectors.loaderLoadingSelector(state)
+  StateUtils.loaderLoadingSelector(state)
 );
 
 export const getRegionsLoaded: MemoizedSelector<
   StateWithUser,
   boolean
 > = createSelector(getRegionsLoaderState, (state: LoaderState<RegionsState>) =>
-  StateLoaderSelectors.loaderSuccessSelector(state)
+  StateUtils.loaderSuccessSelector(state)
 );

@@ -3,7 +3,7 @@ import { ReturnRequest, ReturnRequestList } from '../../../model/order.model';
 import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { StateLoaderSelectors } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 
 export const getOrderReturnRequestState: MemoizedSelector<
   StateWithUser,
@@ -15,8 +15,7 @@ export const getOrderReturnRequest: MemoizedSelector<
   ReturnRequest
 > = createSelector(
   getOrderReturnRequestState,
-  (state: LoaderState<ReturnRequest>) =>
-    StateLoaderSelectors.loaderValueSelector(state)
+  (state: LoaderState<ReturnRequest>) => StateUtils.loaderValueSelector(state)
 );
 
 export const getOrderReturnRequestLoading: MemoizedSelector<
@@ -24,8 +23,7 @@ export const getOrderReturnRequestLoading: MemoizedSelector<
   boolean
 > = createSelector(
   getOrderReturnRequestState,
-  (state: LoaderState<ReturnRequest>) =>
-    StateLoaderSelectors.loaderLoadingSelector(state)
+  (state: LoaderState<ReturnRequest>) => StateUtils.loaderLoadingSelector(state)
 );
 
 export const getOrderReturnRequestSuccess: MemoizedSelector<
@@ -34,8 +32,8 @@ export const getOrderReturnRequestSuccess: MemoizedSelector<
 > = createSelector(
   getOrderReturnRequestState,
   (state: LoaderState<ReturnRequest>) =>
-    StateLoaderSelectors.loaderSuccessSelector(state) &&
-    !StateLoaderSelectors.loaderLoadingSelector(state)
+    StateUtils.loaderSuccessSelector(state) &&
+    !StateUtils.loaderLoadingSelector(state)
 );
 
 export const getOrderReturnRequestListState: MemoizedSelector<
@@ -49,5 +47,5 @@ export const getOrderReturnRequestList: MemoizedSelector<
 > = createSelector(
   getOrderReturnRequestListState,
   (state: LoaderState<ReturnRequestList>) =>
-    StateLoaderSelectors.loaderValueSelector(state)
+    StateUtils.loaderValueSelector(state)
 );
