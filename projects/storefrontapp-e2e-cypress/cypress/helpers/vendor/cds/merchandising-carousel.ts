@@ -1,4 +1,7 @@
-import { CURRENCY_USD, LANGUAGE_EN } from '../../../helpers/site-context-selector';
+import {
+  CURRENCY_USD,
+  LANGUAGE_EN,
+} from '../../../helpers/site-context-selector';
 
 interface StrategyRequestContext {
   language?: string;
@@ -222,7 +225,7 @@ export function applyFacet(facetGroup: string, facetName: string): void {
     .contains(facetGroup)
     .parents('cx-facet')
     .within(() => {
-      cy.get('a.value')..contains(facetName).click();
+      cy.get('a.value').contains(facetName).click();
     });
 }
 
