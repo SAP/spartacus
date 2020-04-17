@@ -8,7 +8,7 @@ export interface IntersectionOptions {
    */
   rootMargin?: string;
   /**
-   * Either a single number or an array of numbers which indicate at what percentage of the target's visibility
+   * Indicate at what percentage of the target's visibility
    * the observer's callback should be executed.
    */
   threshold?: number | number[];
