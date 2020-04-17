@@ -116,7 +116,7 @@ describe('HttpErrorInterceptor', () => {
       });
     }
 
-    testHandlers(UnknownErrorHandler, -1);
+    testHandlers(UnknownErrorHandler, HttpResponseStatus.UNKNOWN);
     testHandlers(BadGatewayHandler, HttpResponseStatus.BAD_GATEWAY);
     testHandlers(BadRequestHandler, HttpResponseStatus.BAD_REQUEST);
     testHandlers(ConflictHandler, HttpResponseStatus.CONFLICT);
