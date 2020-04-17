@@ -1,6 +1,6 @@
 <ng-container *ngIf="order$ | async as order">
   <!-- consigned entries -->
-  <ng-container *ngIf="order.consignments?.length" class="cx-list row">
+  <ng-container *ngIf="order.consignments?.length">
     <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
       <cx-promotions [promotions]="orderPromotions"></cx-promotions>
     </ng-container>
