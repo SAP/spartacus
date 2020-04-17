@@ -71,12 +71,12 @@ describe('RoutingRenderStrategy', () => {
   describe('match', () => {
     it('should return TRUE for an inline config', () => {
       const config = mockLaunchConfig.launch['TEST_URL'] as LaunchRoute;
-      expect(service.match(config)).toBeTruthy();
+      expect(service.hasMatch(config)).toBeTruthy();
     });
 
     it('should return FALSE for a different config', () => {
       const config = mockLaunchConfig.launch['TEST_OUTLET'] as LaunchRoute;
-      expect(service.match(config)).toBeFalsy();
+      expect(service.hasMatch(config)).toBeFalsy();
     });
   });
 });

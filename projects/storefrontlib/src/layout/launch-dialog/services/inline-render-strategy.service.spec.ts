@@ -79,14 +79,14 @@ describe('InlineRenderStrategy', () => {
       const config = mockLaunchConfig.launch[
         'TEST_INLINE'
       ] as LaunchInlineDialog;
-      expect(service.match(config)).toBeTruthy();
+      expect(service.hasMatch(config)).toBeTruthy();
     });
 
     it('should return FALSE for a different config', () => {
       const config = mockLaunchConfig.launch[
         'TEST_OUTLET'
       ] as LaunchInlineDialog;
-      expect(service.match(config)).toBeFalsy();
+      expect(service.hasMatch(config)).toBeFalsy();
     });
   });
 });

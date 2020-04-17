@@ -1,10 +1,11 @@
 import { Inject, Injectable, ViewContainerRef } from '@angular/core';
 import {
+  LAUNCH_CALLER,
   LaunchConfig,
   LaunchOptions,
-  LAUNCH_CALLER,
 } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
+import { resolveHandler } from '../../../../../core/src/util';
 
 @Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
@@ -65,6 +66,6 @@ export class LaunchDialogService {
    * @param config Configuration for launch
    */
   protected getStrategy(config: LaunchOptions): LaunchRenderStrategy {
-    return this.renderStrategies.find((strategy) => strategy.match(config));
+    return resolveHandler(this.renderStrategies, [config]);
   }
 }
