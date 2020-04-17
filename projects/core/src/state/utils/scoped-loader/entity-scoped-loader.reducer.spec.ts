@@ -35,10 +35,12 @@ describe('entityScopedLoaderReducer', () => {
         const expectedState = {
           entities: {
             [TEST_ENTITY_ID]: {
-              loading: true,
-              error: false,
-              success: false,
-              value: undefined,
+              '': {
+                loading: true,
+                error: false,
+                success: false,
+                value: undefined,
+              },
             },
           },
         };
@@ -61,16 +63,20 @@ describe('entityScopedLoaderReducer', () => {
         const expectedState = {
           entities: {
             [TEST_ENTITIES_ID[0]]: {
-              loading: true,
-              error: false,
-              success: false,
-              value: undefined,
+              '': {
+                loading: true,
+                error: false,
+                success: false,
+                value: undefined,
+              },
             },
             [TEST_ENTITIES_ID[1]]: {
-              loading: true,
-              error: false,
-              success: false,
-              value: undefined,
+              '': {
+                loading: true,
+                error: false,
+                success: false,
+                value: undefined,
+              },
             },
           },
         };
@@ -97,10 +103,6 @@ describe('entityScopedLoaderReducer', () => {
         const expectedState: any = {
           entities: {
             [TEST_ENTITY_ID]: {
-              loading: false,
-              error: false,
-              success: false,
-              value: undefined,
               [SCOPE]: {
                 loading: true,
                 error: false,
@@ -130,10 +132,6 @@ describe('entityScopedLoaderReducer', () => {
         const expectedState = {
           entities: {
             [TEST_ENTITIES_ID[0]]: {
-              loading: false,
-              error: false,
-              success: false,
-              value: undefined,
               [SCOPE]: {
                 loading: true,
                 error: false,
@@ -142,10 +140,6 @@ describe('entityScopedLoaderReducer', () => {
               },
             },
             [TEST_ENTITIES_ID[1]]: {
-              loading: false,
-              error: false,
-              success: false,
-              value: undefined,
               [SCOPE]: {
                 loading: true,
                 error: false,
