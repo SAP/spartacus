@@ -1,5 +1,5 @@
 import { OrderHistoryList } from '../../../model/order.model';
-import { StateLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { USER_ORDERS } from '../user-state';
 import { UserActions } from './index';
 
@@ -31,7 +31,7 @@ describe('User Orders Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_USER_ORDERS,
         payload: mockUserOrder,
-        meta: StateLoaderActions.loadMeta(USER_ORDERS),
+        meta: StateUtils.loadMeta(USER_ORDERS),
       });
     });
   });
@@ -44,7 +44,7 @@ describe('User Orders Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_USER_ORDERS_FAIL,
         payload: error,
-        meta: StateLoaderActions.failMeta(USER_ORDERS, error),
+        meta: StateUtils.failMeta(USER_ORDERS, error),
       });
     });
   });
@@ -56,7 +56,7 @@ describe('User Orders Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_USER_ORDERS_SUCCESS,
         payload: mockUserOrders,
-        meta: StateLoaderActions.successMeta(USER_ORDERS),
+        meta: StateUtils.successMeta(USER_ORDERS),
       });
     });
   });
@@ -67,7 +67,7 @@ describe('User Orders Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.CLEAR_USER_ORDERS,
-        meta: StateLoaderActions.resetMeta(USER_ORDERS),
+        meta: StateUtils.resetMeta(USER_ORDERS),
       });
     });
   });
