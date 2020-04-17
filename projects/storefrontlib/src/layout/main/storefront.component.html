@@ -1,3 +1,8 @@
+<button (click)="pos1()">logo</button>
+<button (click)="pos2()">search</button>
+<button (click)="pos3()">empty</button>
+<cx-page-slot [position]="pos"></cx-page-slot>
+
 <ng-template cxOutlet="cx-storefront">
   <ng-template cxOutlet="cx-header">
     <header

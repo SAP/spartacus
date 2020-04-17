@@ -32,6 +32,8 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   @ViewChild(SkipLinkComponent) child: SkipLinkComponent;
 
+  pos = 'SearchBox';
+
   private keyboardFocusConfig: FocusConfig = {
     focusOnEscape: true,
     focusOnDoubleEscape: true,
@@ -52,6 +54,18 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     protected elementRef: ElementRef<HTMLElement>,
     protected keyboardFocusService: KeyboardFocusService
   ) {}
+
+  pos1() {
+    this.pos = 'SiteLogo';
+  }
+
+  pos2() {
+    this.pos = 'SearchBox';
+  }
+
+  pos3() {
+    this.pos = 'empty';
+  }
 
   ngOnInit(): void {
     this.navigateSubscription = this.routingService
