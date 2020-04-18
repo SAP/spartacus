@@ -15,7 +15,7 @@ export class RoutingRenderStrategy extends LaunchRenderStrategy {
     this.routingService.go(config);
   }
 
-  match(config: LaunchRoute) {
+  hasMatch(config: LaunchRoute) {
     return Boolean(config.cxRoute);
   }
 }
