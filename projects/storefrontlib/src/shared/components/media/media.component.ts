@@ -7,7 +7,7 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import { Media } from './media.model';
+import { Media, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class MediaComponent implements OnChanges {
    * can be provided in a `srcset` so the browser will figure out
    * the best media for the device.
    */
-  @Input() container: any;
+  @Input() container: MediaContainer;
 
   /**
    * if a media format is given, a media for the given format will be rendered
@@ -75,7 +75,7 @@ export class MediaComponent implements OnChanges {
   /**
    * Creates the `Media` object
    */
-  private create(): void {
+  protected create(): void {
     this.media = this.mediaService.getMedia(
       this.container,
       this.format,
@@ -104,7 +104,7 @@ export class MediaComponent implements OnChanges {
     this.handleMissing();
   }
 
-  private handleMissing() {
+  protected handleMissing() {
     this.isLoading = false;
     this.isInitialized = true;
     this.isMissing = true;
