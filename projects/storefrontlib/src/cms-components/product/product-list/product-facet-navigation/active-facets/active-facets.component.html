@@ -1,0 +1,15 @@
+<ng-container *ngIf="facetList$ | async as facetList">
+  <h4 *ngIf="facetList?.activeFacets?.length > 0">
+    {{ 'productList.appliedFilter' | cxTranslate }}
+  </h4>
+
+  <a
+    *ngFor="let facet of facetList?.activeFacets"
+    routerLink="./"
+    [queryParams]="getLinkParams(facet)"
+    [cxFocus]="getFocusKey(facetList, facet)"
+  >
+    <span>{{ facet.facetValueName }}</span>
+    <cx-icon aria-hidden="true" [type]="closeIcon"></cx-icon>
+  </a>
+</ng-container>
