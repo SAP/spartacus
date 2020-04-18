@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { KeyboardFocusService } from '../../keyboard-focus';
+import { KeyboardFocusService } from '../../keyboard-focus/services/keyboard-focus.service';
 import { SkipLink, SkipLinkConfig } from '../config/skip-link.config';
 
 @Injectable({

@@ -1,6 +1,13 @@
+@import './facet';
 @import './product-list';
 @import './product-list-item';
-@import './product-facet-navigation';
 @import './product-grid';
 @import './product-grid-item';
 @import './product-view';
+@import './active-facets';
+@import './facet-list';
+@import './product-facet-navigation';
+
+$product-list-whitelist: cx-product-list, cx-product-list-item, cx-product-grid,
+  cx-product-grid-item, cx-product-view, cx-product-facet-navigation,
+  cx-active-facets, cx-facet, cx-facet-list !default;
