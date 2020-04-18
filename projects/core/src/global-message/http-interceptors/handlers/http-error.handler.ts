@@ -26,6 +26,10 @@ export abstract class HttpErrorHandler implements Handler {
     errorResponse: HttpErrorResponse
   ): void;
 
+/**
+ * Error handlers are matched by the error `responseStatus` (i.e. 404). On top of the matching status 
+ * a priority can be added to distinguish multiple handles for the same response status. 
+ */
   hasMatch(errorResponse: HttpErrorResponse): boolean {
     return errorResponse.status === this.responseStatus;
   }
