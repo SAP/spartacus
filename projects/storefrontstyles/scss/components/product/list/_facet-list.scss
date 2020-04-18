@@ -1,0 +1,35 @@
+%cx-facet-list {
+  h4 {
+    padding: 0.4rem;
+  }
+  > .close {
+    display: none;
+  }
+
+  @include media-breakpoint-up(lg) {
+    h4 {
+      display: none;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 11;
+    background-color: var(--cx-color-background);
+    height: 100%;
+    width: 100%;
+
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+
+    transform: translate3d(0, 100%, 0);
+
+    &.active {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}

@@ -135,12 +135,7 @@ export function filterUsingFacetFiltering() {
   cy.server();
   createFacetFilterQuery(QUERY_ALIAS.FACET);
 
-  cy.get('.cx-facet-header')
-    .contains('Stores')
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox').first().click({ force: true });
-    });
+  clickFacet('Stores');
 
   cy.wait(`@${QUERY_ALIAS.FACET}`).then((xhr) => {
     const facetResults = xhr.response.body.pagination.totalResults;
@@ -152,15 +147,7 @@ export function filterUsingFacetFiltering() {
 }
 
 export function clearActiveFacet(mobile?: string) {
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click({ force: true });
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click({ force: true });
-  }
+  cy.get('cx-active-facets a:first').click();
   cy.get(resultsTitleSelector).should('contain', 'results for "camera"');
 }
 
@@ -214,11 +201,11 @@ export function checkFirstItem(productName: string): void {
 }
 
 export function clickFacet(header: string) {
-  cy.get('.cx-facet-header')
+  cy.get('cx-facet .heading')
     .contains(header)
-    .parents('.cx-facet-group')
+    .parents('cx-facet')
     .within(() => {
-      cy.get('.cx-facet-checkbox').first().click({ force: true });
+      cy.get('a.value').first().click();
     });
 }
 
