@@ -50,8 +50,8 @@ export function resolveHandler<T extends Handler>(
   if (matchedHandlers.length > 1) {
     matchedHandlers.sort(
       (a, b) =>
-        (a.getPriority ? a.getPriority(...priorityParams) : 0) -
-        (b.getPriority ? b.getPriority(...priorityParams) : 0)
+        (a.getPriority ? a.getPriority(...priorityParams) : Priority.NORMAL) -
+        (b.getPriority ? b.getPriority(...priorityParams) : Priority.NORMAL)
     );
   }
   return matchedHandlers[matchedHandlers.length - 1];
