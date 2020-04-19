@@ -50,9 +50,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
    * If no handler is available, the UNKNOWN handler is returned.
    */
   protected getResponseHandler(response: HttpErrorResponse): HttpErrorHandler {
-    console.log('handleraaa');
-    const handler = resolveHandler(this.handlers, [response]);
-    console.log('handler', handler);
-    return handler;
+    return resolveHandler(this.handlers, [response]);
   }
 }
