@@ -41,8 +41,8 @@ export interface Handler {
  */
 export function resolveHandler<T extends Handler>(
   handlers: T[],
-  matchParams?: any[],
-  priorityParams?: any[]
+  matchParams: any[] = [],
+  priorityParams: any[] = []
 ): T | undefined {
   const matchedHandlers = (handlers ?? []).filter(
     (handler) => !handler.hasMatch || handler.hasMatch(...matchParams)
