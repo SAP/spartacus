@@ -62,6 +62,10 @@
 
   cx-order-details-items {
     margin-bottom: 15px;
+  }
+
+  cx-order-consigned-entries {
+    margin-bottom: 15px;
     .cx-list-header {
       @include media-breakpoint-down(sm) {
         padding: 0;
@@ -76,6 +80,7 @@
     }
 
     .cx-list-status {
+      margin: 0 0 0.5rem;
       padding: 15px 30px;
       background-color: var(--cx-color-background);
       @include type('4');

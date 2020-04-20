@@ -17,8 +17,8 @@ import {
   Country,
   GlobalMessageService,
   GlobalMessageType,
-  LoaderState,
   Region,
+  StateUtils,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
@@ -48,7 +48,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   cardTypes$: Observable<CardType[]>;
   shippingAddress$: Observable<Address>;
   countries$: Observable<Country[]>;
-  loading$: Observable<LoaderState<void>>;
+  loading$: Observable<StateUtils.LoaderState<void>>;
   sameAsShippingAddress = true;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
