@@ -89,7 +89,6 @@ describe('kyma feature flag migration', () => {
     await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
     const content = appTree.readContent('/src/index.ts');
-    console.log(content);
     const regex = new RegExp(
       `// ${TODO_SPARTACUS} '${KYMA_ENABLED}' has been removed. Just remove this property, as kyma is now enabled by just importing 'KymaModule'.\n`,
       'g'
