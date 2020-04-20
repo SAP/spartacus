@@ -68,7 +68,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   regionsSub: Subscription;
   suggestedAddressModalRef: ModalRef;
 
-  address: FormGroup = this.fb.group({
+  addressForm: FormGroup = this.fb.group({
     defaultAddress: [false],
     titleCode: [''],
     firstName: ['', Validators.required],
