@@ -2,7 +2,7 @@ import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
   EntityLoadAction,
-  EntityResetAction,
+  EntityLoaderResetAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import {
@@ -62,7 +62,7 @@ export class CartAddVoucherSuccess extends EntitySuccessAction {
  *
  * @deprecated since 2.0
  */
-export class CartResetAddVoucher extends EntityResetAction {
+export class CartResetAddVoucher extends EntityLoaderResetAction {
   readonly type = CART_RESET_ADD_VOUCHER;
   constructor() {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);

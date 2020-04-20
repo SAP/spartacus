@@ -15,6 +15,10 @@ $productThumbSize: 75px !default;
     height: 100%;
     width: 100%; // required to support horizontal layouts
     position: relative;
+
+    img {
+      object-fit: scale-down;
+    }
   }
 
   cx-media {

@@ -1,5 +1,5 @@
 import { User } from '../../../model/misc.model';
-import { StateLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import {
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -27,7 +27,7 @@ describe('Customer Actions', () => {
       const action = new AsmActions.CustomerSearch(searchOptions);
       expect({ ...action }).toEqual({
         type: AsmActions.CUSTOMER_SEARCH,
-        meta: StateLoaderActions.loadMeta(CUSTOMER_SEARCH_DATA),
+        meta: StateUtils.loadMeta(CUSTOMER_SEARCH_DATA),
         payload: searchOptions,
       });
     });
@@ -38,7 +38,7 @@ describe('Customer Actions', () => {
 
       expect({ ...action }).toEqual({
         type: AsmActions.CUSTOMER_SEARCH_FAIL,
-        meta: StateLoaderActions.failMeta(CUSTOMER_SEARCH_DATA),
+        meta: StateUtils.failMeta(CUSTOMER_SEARCH_DATA),
         payload: error,
       });
     });
@@ -50,7 +50,7 @@ describe('Customer Actions', () => {
 
       expect({ ...action }).toEqual({
         type: AsmActions.CUSTOMER_SEARCH_SUCCESS,
-        meta: StateLoaderActions.successMeta(CUSTOMER_SEARCH_DATA),
+        meta: StateUtils.successMeta(CUSTOMER_SEARCH_DATA),
         payload: mockCustomerSearchPage,
       });
     });
@@ -60,7 +60,7 @@ describe('Customer Actions', () => {
 
       expect({ ...action }).toEqual({
         type: AsmActions.CUSTOMER_SEARCH_RESET,
-        meta: StateLoaderActions.resetMeta(CUSTOMER_SEARCH_DATA),
+        meta: StateUtils.resetMeta(CUSTOMER_SEARCH_DATA),
       });
     });
   });
