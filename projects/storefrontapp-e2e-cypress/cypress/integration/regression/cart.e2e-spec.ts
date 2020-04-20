@@ -156,7 +156,9 @@ describe('Cart', () => {
       cy.request({
         // create cart
         method: 'POST',
-        url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/current/carts`,
+        url: `${Cypress.env('API_URL')}/${Cypress.env(
+          'OCC_PREFIX'
+        )}/${Cypress.env('BASE_SITE')}/users/current/carts`,
         headers: {
           Authorization: `bearer ${res.body.access_token}`,
         },
@@ -166,7 +168,9 @@ describe('Cart', () => {
           method: 'POST',
           url: `${Cypress.env('API_URL')}/${Cypress.env(
             'OCC_PREFIX'
-          )}/${Cypress.env('BASE_SITE')}/users/current/carts/${response.body.code}/entries`,
+          )}/${Cypress.env('BASE_SITE')}/users/current/carts/${
+            response.body.code
+          }/entries`,
           headers: {
             Authorization: `bearer ${res.body.access_token}`,
           },
@@ -186,9 +190,9 @@ describe('Cart', () => {
     // cleanup
     cy.route(
       'GET',
-      `${Cypress.env(
-        'OCC_PREFIX'
-      )}/${Cypress.env('BASE_SITE')}/users/current/carts/*?fields=*&lang=en&curr=USD`
+      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/carts/*?fields=*&lang=en&curr=USD`
     ).as('refresh_cart');
     cart.removeCartItem(cart.products[0]);
     cy.wait('@refresh_cart').its('status').should('eq', 200);
@@ -220,7 +224,9 @@ describe('Cart', () => {
     cy.visit(`/product/${cart.products[0].code}`);
     cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
     cy.route(
-      `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/current/carts?*`
+      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/carts?*`
     ).as('cart');
     cart.addToCart();
     cart.checkAddedToCartDialog();
@@ -230,9 +236,9 @@ describe('Cart', () => {
     // cleanup
     cy.route(
       'GET',
-      `${Cypress.env(
-        'OCC_PREFIX'
-      )}/${Cypress.env('BASE_SITE')}/users/current/carts/*?fields=*&lang=en&curr=USD`
+      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/carts/*?fields=*&lang=en&curr=USD`
     ).as('refresh_cart');
     cart.removeCartItem(cart.products[0]);
     cart.validateEmptyCart();
@@ -306,7 +312,7 @@ describe('Cart', () => {
     cart.checkAddedToCartDialog();
     cart.closeAddedToCartDialog();
 
-    cy.visit('/${Cypress.env('BASE_SITE')}/en/USD/cart');
+    cy.visit(`/${Cypress.env('BASE_SITE')}/en/USD/cart`);
     cart.checkProductInCart(cart.products[0]);
     alerts.getErrorAlert().should('not.contain', 'Cart not found');
 
