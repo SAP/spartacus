@@ -10,6 +10,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { GuestRegisterFormComponent } from './guest-register-form.component';
 import createSpy = jasmine.createSpy;
+import { FormErrorsModule } from '../../../../shared/index';
 
 class MockAuthService {
   getUserToken(): Observable<UserToken> {
@@ -34,7 +35,7 @@ describe('GuestRegisterFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
+      imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
       declarations: [GuestRegisterFormComponent],
       providers: [
         { provide: AuthService, useClass: MockAuthService },

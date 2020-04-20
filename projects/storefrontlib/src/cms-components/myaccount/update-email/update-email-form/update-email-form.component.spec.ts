@@ -4,6 +4,7 @@ import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { UpdateEmailFormComponent } from './update-email-form.component';
+import { FormErrorsModule } from '../../../../shared/index';
 
 describe('UpdateEmailFormComponent', () => {
   let component: UpdateEmailFormComponent;
@@ -15,7 +16,7 @@ describe('UpdateEmailFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [UpdateEmailFormComponent],
     }).compileComponents();
   }));

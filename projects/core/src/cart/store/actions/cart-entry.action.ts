@@ -67,7 +67,7 @@ export class CartAddEntryFail extends EntityProcessesDecrementAction {
 export class CartRemoveEntry extends EntityProcessesIncrementAction {
   readonly type = CART_REMOVE_ENTRY;
   constructor(
-    public payload: { cartId: string; userId: string; entry: string }
+    public payload: { cartId: string; userId: string; entryNumber: string }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -75,14 +75,23 @@ export class CartRemoveEntry extends EntityProcessesIncrementAction {
 
 export class CartRemoveEntrySuccess extends EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_ENTRY_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {
+  constructor(
+    public payload: { userId: string; cartId: string; entryNumber: string }
+  ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
 export class CartRemoveEntryFail extends EntityProcessesDecrementAction {
   readonly type = CART_REMOVE_ENTRY_FAIL;
-  constructor(public payload: { error: any; cartId: string; userId: string }) {
+  constructor(
+    public payload: {
+      error: any;
+      cartId: string;
+      userId: string;
+      entryNumber: string;
+    }
+  ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
@@ -93,8 +102,8 @@ export class CartUpdateEntry extends EntityProcessesIncrementAction {
     public payload: {
       userId: string;
       cartId: string;
-      entry: string;
-      qty: number;
+      entryNumber: string;
+      quantity: number;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -103,14 +112,29 @@ export class CartUpdateEntry extends EntityProcessesIncrementAction {
 
 export class CartUpdateEntrySuccess extends EntityProcessesDecrementAction {
   readonly type = CART_UPDATE_ENTRY_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      entryNumber: string;
+      quantity: number;
+    }
+  ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
 export class CartUpdateEntryFail extends EntityProcessesDecrementAction {
   readonly type = CART_UPDATE_ENTRY_FAIL;
-  constructor(public payload: { error: any; userId: string; cartId: string }) {
+  constructor(
+    public payload: {
+      error: any;
+      userId: string;
+      cartId: string;
+      entryNumber: string;
+      quantity: number;
+    }
+  ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }

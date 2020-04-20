@@ -5,8 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartService,
   ConsignmentEntry,
-  FeatureConfigService,
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
@@ -77,11 +75,6 @@ describe('CartItemListComponent', () => {
     ['removeEntry']
   );
 
-  const mockFeatureConfig = jasmine.createSpyObj('FeatureConfigService', [
-    'isEnabled',
-    'isLevel',
-  ]);
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -95,13 +88,6 @@ describe('CartItemListComponent', () => {
       providers: [
         { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: SelectiveCartService, useValue: mockSelectiveCartService },
-        { provide: FeatureConfigService, useValue: mockFeatureConfig },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.3' },
-          },
-        },
       ],
     }).compileComponents();
   }));
@@ -115,7 +101,6 @@ describe('CartItemListComponent', () => {
     component.options = { isSaveForLater: false };
 
     spyOn(activeCartService, 'updateEntry').and.callThrough();
-    mockFeatureConfig.isEnabled.and.returnValue(false);
 
     fixture.detectChanges();
   });
@@ -243,7 +228,6 @@ describe('CartItemListComponent', () => {
   });
 
   it('remove entry for save for later', () => {
-    mockFeatureConfig.isEnabled.and.returnValue(true);
     component.options = { isSaveForLater: true };
     fixture.detectChanges();
     const item = mockItems[0];
@@ -251,11 +235,5 @@ describe('CartItemListComponent', () => {
     component.removeEntry(item);
     expect(mockSelectiveCartService.removeEntry).toHaveBeenCalledWith(item);
     expect(component.form.controls[item.product.code]).toBeUndefined();
-  });
-
-  it('should get save for later feature flag', () => {
-    fixture.detectChanges();
-    component.isSaveForLaterEnabled();
-    expect(mockFeatureConfig.isEnabled).toHaveBeenCalled();
   });
 });

@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, User } from '@spartacus/core';
 import { UpdateProfileFormComponent } from './update-profile-form.component';
+import { FormErrorsModule } from '../../../../shared/index';
 
 const mockUser: User = {
   titleCode: 'dr',
@@ -19,7 +20,7 @@ describe('UpdateProfileFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [UpdateProfileFormComponent],
     }).compileComponents();
   }));

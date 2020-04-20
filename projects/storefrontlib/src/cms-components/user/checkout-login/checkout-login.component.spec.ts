@@ -9,6 +9,7 @@ import {
 import { of } from 'rxjs';
 import { CheckoutLoginComponent } from './checkout-login.component';
 import createSpy = jasmine.createSpy;
+import { FormErrorsModule } from '../../../shared/index';
 
 class MockActiveCartService {
   addEmail = createSpy('MockCartService.addEmail');
@@ -36,7 +37,7 @@ describe('CheckoutLoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [CheckoutLoginComponent],
       providers: [
         { provide: ActiveCartService, useClass: MockActiveCartService },

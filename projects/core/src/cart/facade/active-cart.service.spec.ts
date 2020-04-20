@@ -14,7 +14,7 @@ import {
 } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers/index';
-import { ProcessesLoaderState } from '../../state';
+import { StateUtils } from '../../state';
 import { MULTI_CART_FEATURE } from '../store/multi-cart-state';
 import { ActiveCartService } from './active-cart.service';
 import { MultiCartService } from './multi-cart.service';
@@ -586,7 +586,9 @@ describe('ActiveCartService', () => {
     });
 
     it('should try to load cart for logged user if it is not already loaded', (done) => {
-      const cart$ = new BehaviorSubject<ProcessesLoaderState<Cart>>({});
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
+        {}
+      );
       spyOn<any>(service, 'load').and.callFake(() => {
         cart$.next({
           loading: false,
@@ -611,7 +613,9 @@ describe('ActiveCartService', () => {
     });
 
     it('should try to create cart after failed load cart for logged user', (done) => {
-      const cart$ = new BehaviorSubject<ProcessesLoaderState<Cart>>({});
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
+        {}
+      );
       spyOn<any>(service, 'load').and.callFake(() => {
         cart$.next({
           loading: false,
@@ -649,7 +653,9 @@ describe('ActiveCartService', () => {
     });
 
     it('should try to create cart for anonymous user', (done) => {
-      const cart$ = new BehaviorSubject<ProcessesLoaderState<Cart>>({});
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
+        {}
+      );
       spyOn<any>(service, 'load').and.callThrough();
 
       spyOn(multiCartService, 'createCart').and.callFake(() => {
