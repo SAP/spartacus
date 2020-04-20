@@ -1,11 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
+import {
+  bufferCount,
+  catchError,
+  exhaustMap,
+  filter,
+  map,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { WindowRef } from '../../../window/window-ref';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
+import { getActiveLanguage } from '../selectors/languages.selectors';
+import { StateWithSiteContext } from '../state';
 
 @Injectable()
 export class LanguagesEffects {
@@ -41,12 +52,26 @@ export class LanguagesEffects {
         this.winRef.sessionStorage.setItem('language', action.payload);
       }
     }),
-    map(() => new SiteContextActions.LanguageChange())
+    withLatestFrom(
+      this.state.select(getActiveLanguage).pipe(
+        bufferCount(2, 1),
+
+        // avoid dispatching `change` action when we're just setting the initial value:
+        filter(([previous]) => !!previous),
+        // avoid dispatching `change` action when values are the same
+        filter(([previous, current]) => previous !== current)
+      )
+    ),
+    map(
+      ([_, [previous, current]]) =>
+        new SiteContextActions.LanguageChange({ previous, current })
+    )
   );
 
   constructor(
     private actions$: Actions,
     private siteConnector: SiteConnector,
-    private winRef: WindowRef
+    private winRef: WindowRef,
+    private state: Store<StateWithSiteContext>
   ) {}
 }
