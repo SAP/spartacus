@@ -41,7 +41,7 @@ class MockAppliedCouponsComponent {
   isReadOnly = false;
 }
 
-describe('CartCouponComponent', () => {
+fdescribe('CartCouponComponent', () => {
   let component: CartCouponComponent;
   let fixture: ComponentFixture<CartCouponComponent>;
   let input: HTMLInputElement;
@@ -49,6 +49,7 @@ describe('CartCouponComponent', () => {
 
   const mockActiveCartService = jasmine.createSpyObj('ActiveCartService', [
     'getActive',
+    'getActiveCartId',
     'isStable',
   ]);
 
@@ -116,6 +117,7 @@ describe('CartCouponComponent', () => {
     mockActiveCartService.getActive.and.returnValue(
       of<Cart>({ code: '123' })
     );
+    mockActiveCartService.getActiveCartId.and.returnValue(of<string>('123'));
     mockActiveCartService.isStable.and.returnValue(of(true));
     mockAuthService.getOccUserId.and.returnValue(of('testUserId'));
     mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of());
