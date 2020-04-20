@@ -87,7 +87,7 @@ describe('Cart', () => {
     });
     cy.clearLocalStorage();
     cy.route(
-      `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/${Cypress.env(
+      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
       )}/users/current/carts?fields=*`
     ).as('carts');
