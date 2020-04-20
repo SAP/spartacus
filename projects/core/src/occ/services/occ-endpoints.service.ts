@@ -14,9 +14,6 @@ import { DEFAULT_SCOPE } from '../occ-models/occ-endpoints.model';
 export class OccEndpointsService {
   private activeBaseSite: string;
 
-  // TODO: deprecated since 2.0, issue: #xxx
-  private readonly SCOPE_SUFFIX = '_scopes';
-
   constructor(
     private config: OccConfig,
     @Optional() private baseSiteService: BaseSiteService
@@ -141,14 +138,6 @@ export class OccEndpointsService {
       if (scope === DEFAULT_SCOPE && typeof endpointConfig === 'string') {
         return endpointConfig;
       }
-      // TODO: depreecatd since 2.x, issue #xxxx
-      // BLOCK TO REMOVE BEGIN
-      const deprecatedEndpointConfig =
-        endpointsConfig[`${endpoint}${this.SCOPE_SUFFIX}`];
-      if (deprecatedEndpointConfig && deprecatedEndpointConfig[scope]) {
-        return deprecatedEndpointConfig[scope];
-      }
-      // BLOCK TO REMOVE END
       if (isDevMode()) {
         console.warn(
           `${endpoint} endpoint configuration missing for scope "${scope}"`
