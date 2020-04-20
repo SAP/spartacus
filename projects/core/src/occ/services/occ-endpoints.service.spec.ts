@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
 import { OccEndpointsService } from './occ-endpoints.service';
 
-fdescribe('OccEndpointsService', () => {
+describe('OccEndpointsService', () => {
   let mockOccConfig: OccConfig;
   const baseEndpoint = 'test-baseUrl/test-occPrefix/test-baseSite';
 

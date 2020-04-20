@@ -148,7 +148,7 @@ export class OccEndpointsService {
     return (
       (typeof endpointConfig === 'string'
         ? endpointConfig
-        : endpointConfig[DEFAULT_SCOPE]) || endpoint
+        : endpointConfig?.[DEFAULT_SCOPE]) || endpoint
     );
   }
 }
