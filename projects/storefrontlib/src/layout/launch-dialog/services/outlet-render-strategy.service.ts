@@ -20,7 +20,7 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 @Injectable({ providedIn: 'root' })
 export class OutletRenderStrategy extends LaunchRenderStrategy {
   constructor(
-    @Inject(DOCUMENT) protected document: Document,
+    @Inject(DOCUMENT) protected document: any,
     protected rendererFactory: RendererFactory2,
     protected outletService: OutletService<ComponentFactory<any>>,
     protected componentFactoryResolver: ComponentFactoryResolver,
@@ -65,8 +65,8 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
             );
         }),
         tap((component) => {
-          if (config.options?.dialogType) {
-            this.applyClasses(component, config.options?.dialogType);
+          if (config?.dialogType) {
+            this.applyClasses(component, config?.dialogType);
           }
         }),
         distinctUntilChanged()

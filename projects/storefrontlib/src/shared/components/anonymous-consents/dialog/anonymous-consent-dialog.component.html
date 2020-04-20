@@ -1,6 +1,9 @@
-<cx-dialog [cxFocus]="focusConfig">
-  <!-- z-index is a temporary fix until we have the new modal styles -->
-  <div class="modal-content" style="z-index: 10;">
+<div
+  class="modal-dialog modal-dialog-centered modal-lg"
+  [cxFocus]="focusConfig"
+  (esc)="closeModal('Escape clicked')"
+>
+  <div class="modal-content">
     <div *ngIf="loading$ | async; else dialogBody">
       <div class="cx-spinner">
         <cx-spinner></cx-spinner>
@@ -64,4 +67,4 @@
       </div>
     </ng-template>
   </div>
-</cx-dialog>
+</div>

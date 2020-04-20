@@ -44,7 +44,7 @@ export abstract class LaunchRenderStrategy {
   protected renderer: Renderer2;
 
   constructor(
-    @Inject(DOCUMENT) protected document: Document,
+    @Inject(DOCUMENT) protected document: any,
     protected rendererFactory: RendererFactory2
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
@@ -120,7 +120,7 @@ export abstract class LaunchRenderStrategy {
       (el) => el.caller !== caller
     );
 
-    if ((config as LaunchDialog).options?.dialogType === DIALOG_TYPE.DIALOG) {
+    if ((config as LaunchDialog)?.dialogType === DIALOG_TYPE.DIALOG) {
       this.renderer.removeClass(this.document.body, 'modal-open');
     }
   }

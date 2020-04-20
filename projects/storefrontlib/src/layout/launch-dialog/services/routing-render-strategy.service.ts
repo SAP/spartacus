@@ -7,7 +7,7 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 @Injectable({ providedIn: 'root' })
 export class RoutingRenderStrategy extends LaunchRenderStrategy {
   constructor(
-    @Inject(DOCUMENT) protected document: Document,
+    @Inject(DOCUMENT) protected document: any,
     protected rendererFactory: RendererFactory2,
     protected routingService: RoutingService
   ) {

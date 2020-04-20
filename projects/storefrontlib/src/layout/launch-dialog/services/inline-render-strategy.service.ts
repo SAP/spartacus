@@ -9,13 +9,13 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { LaunchInlineDialog, LAUNCH_CALLER } from '../config';
+import { LaunchInlineDialog, LAUNCH_CALLER } from '../config/index';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class InlineRenderStrategy extends LaunchRenderStrategy {
   constructor(
-    @Inject(DOCUMENT) protected document: Document,
+    @Inject(DOCUMENT) protected document: any,
     protected rendererFactory: RendererFactory2,
     protected componentFactoryResolver: ComponentFactoryResolver
   ) {
@@ -42,8 +42,8 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
 
       const component = vcr.createComponent(template);
 
-      if (config.options?.dialogType) {
-        this.applyClasses(component, config.options?.dialogType);
+      if (config?.dialogType) {
+        this.applyClasses(component, config?.dialogType);
       }
 
       this.renderedCallers.push({ caller, element: vcr.element, component });

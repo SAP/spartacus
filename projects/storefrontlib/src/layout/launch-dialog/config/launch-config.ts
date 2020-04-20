@@ -19,14 +19,9 @@ export interface LaunchDialog {
    */
   multi?: boolean;
   /**
-   * Optional elements for other configurations
+   * Dialog type is used to apply CSS classes
    */
-  options?: {
-    /**
-     * Dialog type is used to apply CSS classes
-     */
-    dialogType?: DIALOG_TYPE;
-  };
+  dialogType?: DIALOG_TYPE;
 }
 
 /**

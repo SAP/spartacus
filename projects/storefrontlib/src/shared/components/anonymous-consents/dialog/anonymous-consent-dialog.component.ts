@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   HostListener,
   OnDestroy,
   OnInit,
@@ -23,6 +24,9 @@ import { FocusConfig } from '../../../../layout/a11y/keyboard-focus/index';
   templateUrl: './anonymous-consent-dialog.component.html',
 })
 export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
+  @HostBinding('attr.role') role = 'dialog';
+  @HostBinding('attr.aria-modal') modal = true;
+
   private subscriptions = new Subscription();
 
   showLegalDescription = true;
@@ -37,6 +41,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     trap: true,
     block: true,
     autofocus: true,
+    focusOnEscape: true,
   };
 
   @Output()

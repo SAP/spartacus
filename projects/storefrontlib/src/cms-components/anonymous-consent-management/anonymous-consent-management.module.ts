@@ -5,10 +5,12 @@ import {
   DeferLoadingStrategy,
   FeaturesConfigModule,
   I18nModule,
+  provideConfig,
   provideDefaultConfig,
 } from '@spartacus/core';
 import { KeyboardFocusModule } from '../../layout/a11y/keyboard-focus/index';
 import { AnonymousConsentManagementBannerComponent } from './banner/anonymous-consent-management-banner.component';
+import { defaultAnonymousConsentLayoutConfig } from './default-anonymous-consent-layout.config';
 import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-consent-open-dialog.component';
 
 @NgModule({
@@ -19,6 +21,7 @@ import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-con
     KeyboardFocusModule,
   ],
   providers: [
+    provideConfig(defaultAnonymousConsentLayoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AnonymousConsentManagementBannerComponent: {
