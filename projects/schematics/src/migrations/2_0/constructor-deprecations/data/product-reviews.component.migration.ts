@@ -5,6 +5,9 @@ import {
   FORM_BUILDER,
   ANGULAR_FORMS,
   CHANGE_DETECTOR_REF,
+  CURRENT_PRODUCT_SERVICE,
+  SPARTACUS_CORE,
+  PRODUCT_REVIEW_SERVICE,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -16,6 +19,14 @@ export const PRODUCT_REVIEWS_COMPONENT_MIGRATION: ConstructorDeprecation = {
     {
       className: FORM_BUILDER,
       importPath: ANGULAR_FORMS,
+    },
+    {
+      className: PRODUCT_REVIEW_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
+      className: CURRENT_PRODUCT_SERVICE,
+      importPath: SPARTACUS_STOREFRONTLIB,
     },
   ],
   addParams: [

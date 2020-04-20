@@ -175,9 +175,10 @@ export const USER_NOTIFICATION_PREFERENCE_SERVICE =
   'UserNotificationPreferenceService';
 export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
 export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
-export const CMS_SEARCH_BOX_COMPONENT = `CmsSearchBoxComponent`;
 export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
+export const PRODUCT_REVIEW_SERVICE = 'ProductReviewService';
+export const SEARCH_BOX_COMPONENT_SERVICE = 'SearchBoxComponentService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

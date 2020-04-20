@@ -3,7 +3,9 @@ import {
   SEARCH_BOX_COMPONENT,
   ANGULAR_CORE,
   WINDOW_REF,
-  CMS_SEARCH_BOX_COMPONENT,
+  CMS_COMPONENT_DATA_CLASS,
+  SPARTACUS_CORE,
+  SEARCH_BOX_COMPONENT_SERVICE,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -13,8 +15,12 @@ export const SEARCH_BOX_COMPONENT_MIGRATION: ConstructorDeprecation = {
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
     {
-      className: CMS_SEARCH_BOX_COMPONENT,
-      importPath: ANGULAR_CORE,
+      className: SEARCH_BOX_COMPONENT_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
+      className: CMS_COMPONENT_DATA_CLASS,
+      importPath: SPARTACUS_CORE,
     },
   ],
   addParams: [
