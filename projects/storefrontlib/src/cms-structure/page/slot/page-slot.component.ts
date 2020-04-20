@@ -48,6 +48,9 @@ export class PageSlotComponent {
   @Input() set position(value: string) {
     this.position$.next(value);
   }
+  get position(): string {
+    return this.position$?.value;
+  }
 
   /** Contains css classes introduced by the host. Additional classes are added by the component logic. */
   @Input() @HostBinding() class: string;
@@ -59,9 +62,9 @@ export class PageSlotComponent {
   @HostBinding('class.cx-pending') @Input() isPending = true;
 
   /** Indicates that the page slot is indicated as the last page slot above the fold */
-  @HostBinding('class.has-components') @Input() hasComponents = true;
+  @HostBinding('class.has-components') @Input() hasComponents = false;
 
-  position$ = new BehaviorSubject(undefined);
+  protected position$: BehaviorSubject<string> = new BehaviorSubject(undefined);
 
   /** Observes the components for the given page slot. */
   components$: Observable<ContentSlotComponentData[]> = this.position$.pipe(
@@ -85,20 +88,23 @@ export class PageSlotComponent {
     protected config: CmsConfig
   ) {}
 
-  decorate(slot: ContentSlotData): void {
-    // decorate css class
-    if (!this.class) {
-      this.class = '';
+  protected decorate(slot: ContentSlotData): void {
+    let cls = this.class || '';
+
+    if (this.lastPosition && cls.indexOf(this.lastPosition) > -1) {
+      cls = cls.replace(this.lastPosition, '');
     }
-    if (this.lastPosition && this.class.indexOf(this.lastPosition) > -1) {
-      this.class = this.class.replace(this.lastPosition, '');
+    if (this.position$.value) {
+      cls += ` ${this.position$.value}`;
+      this.lastPosition = this.position$.value;
     }
-    this.lastPosition = this.position$.value;
-    this.class += ` ${this.position$.value}`;
 
     // host bindings
-    this.pending = slot.components?.length || 0;
-    this.hasComponents = slot.components?.length > 0;
+    this.pending = slot?.components?.length || 0;
+    this.hasComponents = slot?.components?.length > 0;
+    if (cls && cls !== this.class) {
+      this.class = cls;
+    }
 
     this.addSmartEditSlotClass(slot);
   }
@@ -155,7 +161,8 @@ export class PageSlotComponent {
 
   protected isDistinct(old: ContentSlotData, current: ContentSlotData) {
     return (
-      old.components.length === current.components.length &&
+      current.components &&
+      old.components?.length === current.components.length &&
       !old.components.find(
         (el, index) => el.uid !== current.components[index].uid
       )
