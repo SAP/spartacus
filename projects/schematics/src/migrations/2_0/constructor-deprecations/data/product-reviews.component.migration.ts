@@ -4,7 +4,7 @@ import {
   ANGULAR_CORE,
   FORM_BUILDER,
   ANGULAR_FORMS,
-  CHANGE_DETECTOR_REF
+  CHANGE_DETECTOR_REF,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -15,13 +15,13 @@ export const PRODUCT_REVIEWS_COMPONENT_MIGRATION: ConstructorDeprecation = {
   deprecatedParams: [
     {
       className: FORM_BUILDER,
-      importPath: ANGULAR_FORMS
-    }
+      importPath: ANGULAR_FORMS,
+    },
   ],
   addParams: [
     {
       className: CHANGE_DETECTOR_REF,
-      importPath: ANGULAR_CORE
-    }
-  ]
+      importPath: ANGULAR_CORE,
+    },
+  ],
 };

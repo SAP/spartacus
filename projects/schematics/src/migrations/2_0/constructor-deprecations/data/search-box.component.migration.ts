@@ -3,7 +3,7 @@ import {
   SEARCH_BOX_COMPONENT,
   ANGULAR_CORE,
   WINDOW_REF,
-  CMS_SEARCH_BOX_COMPONENT
+  CMS_SEARCH_BOX_COMPONENT,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -14,13 +14,13 @@ export const SEARCH_BOX_COMPONENT_MIGRATION: ConstructorDeprecation = {
   deprecatedParams: [
     {
       className: CMS_SEARCH_BOX_COMPONENT,
-      importPath: ANGULAR_CORE
-    }
+      importPath: ANGULAR_CORE,
+    },
   ],
   addParams: [
     {
       className: WINDOW_REF,
-      importPath: ANGULAR_CORE
-    }
-  ]
+      importPath: ANGULAR_CORE,
+    },
+  ],
 };
