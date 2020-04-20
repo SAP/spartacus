@@ -7,7 +7,6 @@ import {
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,
-  FeatureConfigService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -34,7 +33,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     protected cartVoucherService: CartVoucherService,
     protected formBuilder: FormBuilder,
     protected customerCouponService: CustomerCouponService,
-    protected featureConfig: FeatureConfigService,
     protected activeCartService: ActiveCartService
   ) {}
 

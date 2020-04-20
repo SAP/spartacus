@@ -99,12 +99,6 @@ describe('CartCouponComponent', () => {
         { provide: AuthService, useValue: mockAuthService },
         { provide: CartVoucherService, useValue: mockCartVoucherService },
         { provide: CustomerCouponService, useValue: mockCustomerCouponService },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.5' },
-          },
-        },
       ],
     }).compileComponents();
   }));
