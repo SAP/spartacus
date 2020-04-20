@@ -1,13 +1,20 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { StateWithUser, USER_FEATURE } from '../store/user-state';
-import { UserNotificationPreferenceService } from './user-notification-preference.service';
 import { Store, StoreModule } from '@ngrx/store';
-import * as fromStoreReducers from '../store/reducers/index';
+import { AuthService } from '../../auth/facade/auth.service';
+import { NotificationPreference } from '../../model/notification-preference.model';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
-import { NotificationPreference } from '../../model/notification-preference.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import * as fromStoreReducers from '../store/reducers/index';
+import { StateWithUser, USER_FEATURE } from '../store/user-state';
+import { UserNotificationPreferenceService } from './user-notification-preference.service';
+
+class MockAuthService {
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
+  }
+}
 
 describe('UserNotificationPreferenceService', () => {
   let userNotificationPreferenceService: UserNotificationPreferenceService;
@@ -30,7 +37,10 @@ describe('UserNotificationPreferenceService', () => {
           fromProcessReducers.getReducers()
         ),
       ],
-      providers: [UserNotificationPreferenceService],
+      providers: [
+        UserNotificationPreferenceService,
+        { provide: AuthService, useClass: MockAuthService },
+      ],
     });
 
     store = TestBed.inject(Store);

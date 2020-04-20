@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { TranslationChunkService, TranslationService } from '@spartacus/core';
 import { CmsMappingService } from './cms-mapping.service';
-import { TranslationService, TranslationChunkService } from '@spartacus/core';
 
 /**
  * Please don't put that service in public API.
@@ -15,7 +15,7 @@ export class CmsI18nService {
     private translationChunk: TranslationChunkService
   ) {}
 
-  loadChunksForComponents(componentTypes: string[]) {
+  loadForComponents(componentTypes: string[]) {
     const i18nKeys = this.cmsMapping.getI18nKeysForComponents(componentTypes);
     const i18nChunks = new Set<string>();
     for (const key of i18nKeys) {

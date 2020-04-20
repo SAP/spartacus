@@ -54,7 +54,12 @@ class MockDynamicAttributeService {
   addDynamicAttributes() {}
 }
 
-class MockCmsMappingService {}
+class MockCmsMappingService {
+  isComponentEnabled() {
+    return true;
+  }
+  getComponentMapping() {}
+}
 
 @Component({
   template: `

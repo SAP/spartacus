@@ -1,5 +1,5 @@
 import { GeoPoint } from '../../../model/misc.model';
-import { StateLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { StoreFinderSearchConfig } from '../../model/search-config';
 import { STORE_FINDER_DATA } from '../store-finder-state';
 
@@ -13,14 +13,14 @@ export const FIND_STORE_BY_ID_FAIL = '[StoreFinder] Find a Store by Id Fail';
 export const FIND_STORE_BY_ID_SUCCESS =
   '[StoreFinder] Find a Store by Id Success';
 
-export class FindStoresOnHold extends StateLoaderActions.LoaderLoadAction {
+export class FindStoresOnHold extends StateUtils.LoaderLoadAction {
   readonly type = FIND_STORES_ON_HOLD;
   constructor() {
     super(STORE_FINDER_DATA);
   }
 }
 
-export class FindStores extends StateLoaderActions.LoaderLoadAction {
+export class FindStores extends StateUtils.LoaderLoadAction {
   readonly type = FIND_STORES;
   constructor(
     public payload: {
@@ -35,35 +35,35 @@ export class FindStores extends StateLoaderActions.LoaderLoadAction {
   }
 }
 
-export class FindStoresFail extends StateLoaderActions.LoaderFailAction {
+export class FindStoresFail extends StateUtils.LoaderFailAction {
   readonly type = FIND_STORES_FAIL;
   constructor(public payload: any) {
     super(STORE_FINDER_DATA, payload);
   }
 }
 
-export class FindStoresSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class FindStoresSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = FIND_STORES_SUCCESS;
   constructor(public payload: any) {
     super(STORE_FINDER_DATA);
   }
 }
 
-export class FindStoreById extends StateLoaderActions.LoaderLoadAction {
+export class FindStoreById extends StateUtils.LoaderLoadAction {
   readonly type = FIND_STORE_BY_ID;
   constructor(public payload: { storeId: string }) {
     super(STORE_FINDER_DATA);
   }
 }
 
-export class FindStoreByIdFail extends StateLoaderActions.LoaderFailAction {
+export class FindStoreByIdFail extends StateUtils.LoaderFailAction {
   readonly type = FIND_STORE_BY_ID_FAIL;
   constructor(public payload: any) {
     super(STORE_FINDER_DATA, payload);
   }
 }
 
-export class FindStoreByIdSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class FindStoreByIdSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = FIND_STORE_BY_ID_SUCCESS;
   constructor(public payload: any) {
     super(STORE_FINDER_DATA);

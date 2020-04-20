@@ -3,5 +3,3 @@ export abstract class FeaturesConfig {
     [featureToggle: string]: string | boolean;
   };
 }
-
-export const ANONYMOUS_CONSENTS_FEATURE = 'anonymousConsents';

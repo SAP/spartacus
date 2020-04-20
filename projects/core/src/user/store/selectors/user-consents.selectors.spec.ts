@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { ConsentTemplate } from '../../../model/index';
-import { LoaderState } from '../../../state/index';
+import { StateUtils } from '../../../state/index';
 import { UserActions } from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import { UsersSelectors } from '../selectors/index';
@@ -28,7 +28,7 @@ describe('User consents selectors', () => {
     it('should return consents', () => {
       store.dispatch(new UserActions.LoadUserConsentsSuccess(consents));
 
-      let result: LoaderState<ConsentTemplate[]>;
+      let result: StateUtils.LoaderState<ConsentTemplate[]>;
       store
         .pipe(select(UsersSelectors.getConsentsState))
         .subscribe((value) => (result = value))

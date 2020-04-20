@@ -41,7 +41,7 @@ export class NavigationUIComponent implements OnDestroy {
   /**
    * Indicates whether the navigation should support flyout.
    * If flyout is set to true, the
-   * nested child navitation nodes will only appear on hover or focus.
+   * nested child navigation nodes will only appear on hover or focus.
    */
   @Input() @HostBinding('class.flyout') flyout = true;
 
@@ -74,7 +74,9 @@ export class NavigationUIComponent implements OnDestroy {
   }
 
   toggleOpen(event: UIEvent): void {
-    event.preventDefault();
+    if (event.type === 'keydown') {
+      event.preventDefault();
+    }
     const node = <HTMLElement>event.currentTarget;
     if (this.openNodes.includes(node)) {
       if (event.type === 'keydown') {
@@ -114,9 +116,11 @@ export class NavigationUIComponent implements OnDestroy {
     this.focusAfterPreviousClicked(event);
   }
 
-  getDepth(node: NavigationNode, depth = 0): number {
+  getTotalDepth(node: NavigationNode, depth = 0): number {
     if (node.children && node.children.length > 0) {
-      return Math.max(...node.children.map((n) => this.getDepth(n, depth + 1)));
+      return Math.max(
+        ...node.children.map((n) => this.getTotalDepth(n, depth + 1))
+      );
     } else {
       return depth;
     }
@@ -184,9 +188,5 @@ export class NavigationUIComponent implements OnDestroy {
     });
 
     this.isOpen = this.openNodes.length > 0;
-  }
-
-  isTabbable(node: any) {
-    return this.flyout && node.children && node.children.length;
   }
 }

@@ -39,6 +39,11 @@ context('Checkout flow', () => {
   });
 
   it('should be able to check order in order history', () => {
+    // hack: visit other page to trigger store -> local storage sync
+    cy.selectUserMenuOption({
+      option: 'Personal Details',
+    });
+    cy.waitForOrderToBePlacedRequest();
     checkout.viewOrderHistoryWithCheapProduct();
     checkout.signOut();
   });

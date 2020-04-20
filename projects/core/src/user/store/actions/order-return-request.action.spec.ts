@@ -2,10 +2,7 @@ import {
   ReturnRequestEntryInputList,
   ReturnRequestList,
 } from '../../../model/order.model';
-import {
-  StateLoaderActions,
-  StateEntityLoaderActions,
-} from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   USER_RETURN_REQUESTS,
@@ -53,7 +50,7 @@ describe('Order Return Request actions', () => {
           userId: 'userId',
           returnRequestInput,
         },
-        meta: StateLoaderActions.loadMeta(USER_RETURN_REQUEST_DETAILS),
+        meta: StateUtils.loadMeta(USER_RETURN_REQUEST_DETAILS),
       });
     });
   });
@@ -66,7 +63,7 @@ describe('Order Return Request actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CREATE_ORDER_RETURN_REQUEST_FAIL,
         payload: error,
-        meta: StateLoaderActions.failMeta(USER_RETURN_REQUEST_DETAILS, error),
+        meta: StateUtils.failMeta(USER_RETURN_REQUEST_DETAILS, error),
       });
     });
   });
@@ -80,7 +77,7 @@ describe('Order Return Request actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CREATE_ORDER_RETURN_REQUEST_SUCCESS,
         payload: { rma: '0000' },
-        meta: StateLoaderActions.successMeta(USER_RETURN_REQUEST_DETAILS),
+        meta: StateUtils.successMeta(USER_RETURN_REQUEST_DETAILS),
       });
     });
   });
@@ -98,7 +95,7 @@ describe('Order Return Request actions', () => {
           userId: 'userId',
           returnRequestCode: 'test',
         },
-        meta: StateLoaderActions.loadMeta(USER_RETURN_REQUEST_DETAILS),
+        meta: StateUtils.loadMeta(USER_RETURN_REQUEST_DETAILS),
       });
     });
   });
@@ -111,7 +108,7 @@ describe('Order Return Request actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_ORDER_RETURN_REQUEST_FAIL,
         payload: error,
-        meta: StateLoaderActions.failMeta(USER_RETURN_REQUEST_DETAILS, error),
+        meta: StateUtils.failMeta(USER_RETURN_REQUEST_DETAILS, error),
       });
     });
   });
@@ -125,7 +122,7 @@ describe('Order Return Request actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_ORDER_RETURN_REQUEST_SUCCESS,
         payload: { rma: '0000' },
-        meta: StateLoaderActions.successMeta(USER_RETURN_REQUEST_DETAILS),
+        meta: StateUtils.successMeta(USER_RETURN_REQUEST_DETAILS),
       });
     });
   });
@@ -145,7 +142,7 @@ describe('Order Return Request actions', () => {
           returnRequestCode: 'test',
           returnRequestModification: {},
         },
-        meta: StateEntityLoaderActions.entityLoadMeta(
+        meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
           CANCEL_RETURN_PROCESS_ID
         ),
@@ -161,7 +158,7 @@ describe('Order Return Request actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CANCEL_ORDER_RETURN_REQUEST_FAIL,
         payload: error,
-        meta: StateEntityLoaderActions.entityFailMeta(
+        meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           CANCEL_RETURN_PROCESS_ID,
           error
@@ -176,7 +173,7 @@ describe('Order Return Request actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.CANCEL_ORDER_RETURN_REQUEST_SUCCESS,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
+        meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
           CANCEL_RETURN_PROCESS_ID
         ),
@@ -194,7 +191,7 @@ describe('Order Return Request actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_ORDER_RETURN_REQUEST_LIST,
         payload: mockLoadPayload,
-        meta: StateLoaderActions.loadMeta(USER_RETURN_REQUESTS),
+        meta: StateUtils.loadMeta(USER_RETURN_REQUESTS),
       });
     });
   });
@@ -207,7 +204,7 @@ describe('Order Return Request actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_ORDER_RETURN_REQUEST_LIST_FAIL,
         payload: error,
-        meta: StateLoaderActions.failMeta(USER_RETURN_REQUESTS, error),
+        meta: StateUtils.failMeta(USER_RETURN_REQUESTS, error),
       });
     });
   });
@@ -221,7 +218,7 @@ describe('Order Return Request actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS,
         payload: mockReturnRequestList,
-        meta: StateLoaderActions.successMeta(USER_RETURN_REQUESTS),
+        meta: StateUtils.successMeta(USER_RETURN_REQUESTS),
       });
     });
   });
@@ -232,7 +229,7 @@ describe('Order Return Request actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.CLEAR_ORDER_RETURN_REQUEST_LIST,
-        meta: StateLoaderActions.resetMeta(USER_RETURN_REQUESTS),
+        meta: StateUtils.resetMeta(USER_RETURN_REQUESTS),
       });
     });
   });
@@ -243,7 +240,7 @@ describe('Order Return Request actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.CLEAR_ORDER_RETURN_REQUEST,
-        meta: StateLoaderActions.resetMeta(USER_RETURN_REQUEST_DETAILS),
+        meta: StateUtils.resetMeta(USER_RETURN_REQUEST_DETAILS),
       });
     });
   });
@@ -254,7 +251,7 @@ describe('Order Return Request actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.RESET_CANCEL_RETURN_PROCESS,
-        meta: StateEntityLoaderActions.entityResetMeta(
+        meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
           CANCEL_RETURN_PROCESS_ID
         ),

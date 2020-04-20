@@ -31,12 +31,13 @@ describe('Multi Cart selectors', () => {
 
   function loadCart() {
     store.dispatch(
-      new CartActions.LoadMultiCartSuccess({
+      new CartActions.LoadCartSuccess({
         cart: testCart,
         userId: 'userId',
         extraData: {
           active: true,
         },
+        cartId: testCart.code,
       })
     );
   }

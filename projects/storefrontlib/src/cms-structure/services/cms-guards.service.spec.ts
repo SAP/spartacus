@@ -5,6 +5,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
+import { ConfigModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsGuardsService } from './cms-guards.service';
 import { CmsMappingService } from './cms-mapping.service';
@@ -50,6 +51,7 @@ describe('CmsGuardsService', () => {
   beforeEach(() => {
     guards = [];
     TestBed.configureTestingModule({
+      imports: [ConfigModule.forRoot()],
       providers: [
         {
           provide: CmsMappingService,
@@ -61,14 +63,17 @@ describe('CmsGuardsService', () => {
         UrlTreeGuard,
       ],
     });
-    service = TestBed.inject(CmsGuardsService);
   });
 
   it('should be created', () => {
+    service = TestBed.inject(CmsGuardsService);
     expect(service).toBeTruthy();
   });
 
   describe('cmsPageCanActivate', () => {
+    beforeEach(() => {
+      service = TestBed.inject(CmsGuardsService);
+    });
     it('should resolve to true if not guards are defined', () => {
       let result;
       service

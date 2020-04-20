@@ -8,7 +8,7 @@ export interface Page {
   title?: string;
   template?: string;
   loadTime?: number;
-  slots: { [key: string]: ContentSlotData };
+  slots?: { [key: string]: ContentSlotData };
   properties?: any;
   label?: string;
 }

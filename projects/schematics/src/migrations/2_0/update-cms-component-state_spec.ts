@@ -31,7 +31,7 @@ const GET_COMPONENT_STATE_TEST_CLASS = `
     import {
       CmsSelectors,
       ComponentState,
-      EntityLoaderState,
+      StateUtils,
       StateWithCms
     } from '@spartacus/core';
     import { Observable } from 'rxjs';
@@ -45,7 +45,7 @@ const GET_COMPONENT_STATE_TEST_CLASS = `
           .subscribe();
       }
 
-      getComponentState2(): Observable<EntityLoaderState<any>> {
+      getComponentState2(): Observable<StateUtils.EntityLoaderState<any>> {
         return this.store.pipe(select(CmsSelectors.getComponentState));
       }
 
@@ -81,7 +81,7 @@ const GET_COMPONENT_ENTITIES_TEST_CLASS = `
 `;
 const COMPONENT_STATE_SELECTOR_FACTORY_TEST_CLASS = `
     import { MemoizedSelector, select, Store } from '@ngrx/store';
-    import { CmsSelectors, LoaderState, StateWithCms } from '@spartacus/core';
+    import { CmsSelectors, StateUtils, StateWithCms } from '@spartacus/core';
     import { Observable } from 'rxjs';
 
     export class TestClass {
@@ -93,7 +93,7 @@ const COMPONENT_STATE_SELECTOR_FACTORY_TEST_CLASS = `
           .subscribe();
       }
 
-      componentStateSelectorFactory2(): Observable<LoaderState<any>> {
+      componentStateSelectorFactory2(): Observable<StateUtils.LoaderState<any>> {
         return this.store.pipe(
           select(CmsSelectors.componentStateSelectorFactory('sample-uid'))
         );
@@ -101,7 +101,7 @@ const COMPONENT_STATE_SELECTOR_FACTORY_TEST_CLASS = `
 
       componentStateSelectorFactory3(): MemoizedSelector<
         StateWithCms,
-        LoaderState<any>
+        StateUtils.LoaderState<any>
       > {
         return CmsSelectors.componentStateSelectorFactory('sample-uid');
       }
@@ -170,12 +170,10 @@ const ALL_TEST_CASES_CLASS = `
       CmsComponent,
       CmsSelectors,
       ComponentState,
-      EntityLoaderState,
-      LoaderState,
       StateWithCms,
       CmsActions,
       PageContext,
-      StateEntityLoaderActions
+      StateUtils
     } from '@spartacus/core';
     import { Observable } from 'rxjs';
 
@@ -187,7 +185,7 @@ const ALL_TEST_CASES_CLASS = `
       getComponentState1(): void {
         this.store.pipe(select(CmsSelectors.getComponentState)).subscribe();
       }
-      getComponentState2(): Observable<EntityLoaderState<any>> {
+      getComponentState2(): Observable<StateUtils.EntityLoaderState<any>> {
         return this.store.pipe(select(CmsSelectors.getComponentState));
       }
       getComponentState3(): MemoizedSelector<StateWithCms, ComponentState> {
@@ -210,14 +208,14 @@ const ALL_TEST_CASES_CLASS = `
           .pipe(select(CmsSelectors.componentStateSelectorFactory('sample-uid')))
           .subscribe();
       }
-      componentStateSelectorFactory2(): Observable<LoaderState<any>> {
+      componentStateSelectorFactory2(): Observable<StateUtils.LoaderState<any>> {
         return this.store.pipe(
           select(CmsSelectors.componentStateSelectorFactory('sample-uid'))
         );
       }
       componentStateSelectorFactory3(): MemoizedSelector<
         StateWithCms,
-        LoaderState<any>
+        StateUtils.LoaderState<any>
       > {
         return CmsSelectors.componentStateSelectorFactory('sample-uid');
       }

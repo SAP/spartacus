@@ -1,19 +1,18 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ReturnRequestList } from '../../model/order.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
-import { PROCESS_FEATURE } from '../../process/store/process-state';
-import * as fromProcessReducers from '../../process/store/reducers';
 import { OrderReturnRequestService } from './order-return-request.service';
 
 class MockAuthService {
-  getOccUserId(): Observable<string> {
-    return of(OCC_USER_ID_CURRENT);
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
   }
 }
 

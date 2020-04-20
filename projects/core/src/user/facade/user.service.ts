@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/index';
@@ -47,7 +47,7 @@ export class UserService {
    * Loads the user's details
    */
   load(): void {
-    this.withUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       if (userId !== OCC_USER_ID_ANONYMOUS) {
         this.store.dispatch(new UserActions.LoadUserDetails(userId));
       }
@@ -111,9 +111,9 @@ export class UserService {
    * Remove user account, that's also called close user's account
    */
   remove(): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(new UserActions.RemoveUser(userId))
-    );
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(new UserActions.RemoveUser(userId));
+    });
   }
 
   /**
@@ -177,14 +177,14 @@ export class UserService {
    * @param userDetails to be updated
    */
   updatePersonalDetails(userDetails: User): void {
-    this.withUserId((userId) =>
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdateUserDetails({
           username: userId,
           userDetails,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -243,15 +243,15 @@ export class UserService {
    * Updates the user's email
    */
   updateEmail(password: string, newUid: string): void {
-    this.withUserId((userId) =>
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdateEmailAction({
           uid: userId,
           password,
           newUid,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -294,15 +294,15 @@ export class UserService {
    * @param newPassword the new password
    */
   updatePassword(oldPassword: string, newPassword: string): void {
-    this.withUserId((userId) =>
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdatePassword({
           userId,
           oldPassword,
           newPassword,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -338,15 +338,5 @@ export class UserService {
    */
   resetUpdatePasswordProcessState(): void {
     this.store.dispatch(new UserActions.UpdatePasswordReset());
-  }
-
-  /*
-   * Utility method to distinquish user id in a convenient way
-   */
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
   }
 }

@@ -1007,3 +1007,17 @@ export function getMetadataProperty(
 
   return property as ts.PropertyAssignment;
 }
+
+export function getLineFromTSFile(
+  host: Tree,
+  path: string,
+  position: number
+): [number, number] {
+  const tsFile = getTsSourceFile(host, path);
+
+  const lac = tsFile.getLineAndCharacterOfPosition(position);
+  const lineStart = tsFile.getPositionOfLineAndCharacter(lac.line, 0);
+  const nextLineStart = tsFile.getPositionOfLineAndCharacter(lac.line + 1, 0);
+
+  return [lineStart, nextLineStart - lineStart];
+}

@@ -9,6 +9,7 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { ResetPasswordFormComponent } from './reset-password-form.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { ResetPasswordFormComponent } from './reset-password-form.component';
     ReactiveFormsModule,
     RouterModule,
     I18nModule,
+    FormErrorsModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
