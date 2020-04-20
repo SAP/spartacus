@@ -112,7 +112,7 @@ const providers = [
   },
 ];
 
-fdescribe('PageSlotComponent', () => {
+describe('PageSlotComponent', () => {
   let fixture: ComponentFixture<PageSlotComponent>;
   let pageSlotComponent: PageSlotComponent;
   let cmsService: CmsService;
