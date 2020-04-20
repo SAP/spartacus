@@ -6,12 +6,10 @@ export interface OccEndpoint {
 }
 
 export interface ProductOccEndpoint extends OccEndpoint {
-  default?: string;
   list?: string;
   details?: string;
   attributes?: string;
   variants?: string;
-  [scope: string]: string;
 }
 
 export interface OccEndpoints {
