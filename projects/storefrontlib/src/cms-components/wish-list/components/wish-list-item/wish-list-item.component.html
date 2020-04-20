@@ -5,10 +5,7 @@
       [routerLink]="{ cxRoute: 'product', params: cartEntry.product } | cxUrl"
       tabindex="-1"
     >
-      <cx-media
-        [container]="cartEntry.product.images?.PRIMARY"
-        format="thumbnail"
-      ></cx-media>
+      <cx-media [container]="cartEntry.product.images?.PRIMARY"></cx-media>
     </a>
   </div>
   <!-- Item Information -->
