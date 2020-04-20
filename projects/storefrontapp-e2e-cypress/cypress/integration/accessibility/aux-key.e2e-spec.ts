@@ -51,6 +51,9 @@ context('Auxiliary Keys', () => {
           .should('contain.text', 'My Account')
           .and('be.visible')
           .within(() => {
+            cy.get('cx-generic-link')
+              .contains('Order History')
+              .should('not.be.visible');
             cy.get('nav h5').first().focus().trigger('keydown', {
               key: ' ',
               code: 'Space',
