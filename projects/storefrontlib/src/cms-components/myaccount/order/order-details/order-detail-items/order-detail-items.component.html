@@ -1,10 +1,10 @@
 <ng-container *ngIf="order$ | async as order">
   <!-- consigned entries -->
-  <ng-container *ngIf="order.consignments?.length">
-    <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
-      <cx-promotions [promotions]="orderPromotions"></cx-promotions>
-    </ng-container>
+  <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
+    <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+  </ng-container>
 
+  <ng-container *ngIf="order.consignments?.length">
     <cx-order-consigned-entries
       *ngIf="others$ | async as others"
       [order]="order"
@@ -31,10 +31,6 @@
       </div>
     </div>
     <div class="cx-list-item col-12">
-      <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
-        <cx-promotions [promotions]="orderPromotions"></cx-promotions>
-      </ng-container>
-
       <cx-cart-item-list
         [items]="order?.unconsignedEntries"
         [readonly]="true"
