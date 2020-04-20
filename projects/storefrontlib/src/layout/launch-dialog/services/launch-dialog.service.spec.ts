@@ -31,7 +31,7 @@ class MockRoutingRenderStrategy extends LaunchRenderStrategy {
     _vcr?: ViewContainerRef
   ) {}
 
-  public match(config: LaunchRoute) {
+  public hasMatch(config: LaunchRoute) {
     return Boolean(config.cxRoute);
   }
 }
@@ -46,7 +46,7 @@ class MockInlineRenderStrategy extends LaunchRenderStrategy {
     _vcr: ViewContainerRef
   ) {}
 
-  public match(config: LaunchInlineDialog) {
+  public hasMatch(config: LaunchInlineDialog) {
     return Boolean(config.inline);
   }
 }

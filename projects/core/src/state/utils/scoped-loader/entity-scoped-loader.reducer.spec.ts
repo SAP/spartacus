@@ -1,5 +1,5 @@
 import { entityScopedLoaderReducer } from './entity-scoped-loader.reducer';
-import { initialEntityState } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 import { EntityScopedLoaderActions } from './entity-scoped-loader.actions';
 
 describe('entityScopedLoaderReducer', () => {
@@ -13,7 +13,7 @@ describe('entityScopedLoaderReducer', () => {
         action
       );
 
-      const expectedState = initialEntityState;
+      const expectedState = StateUtils.initialEntityState;
 
       expect(state).toEqual(expectedState);
     });

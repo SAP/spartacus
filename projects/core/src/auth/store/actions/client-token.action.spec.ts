@@ -1,4 +1,4 @@
-import { StateLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { CLIENT_TOKEN_DATA } from '../auth-state';
 import { ClientToken } from './../../models/token-types.model';
 import { AuthActions } from './index';
@@ -16,7 +16,7 @@ describe('Client Token Actions', () => {
       const action = new AuthActions.LoadClientToken();
       expect({ ...action }).toEqual({
         type: AuthActions.LOAD_CLIENT_TOKEN,
-        meta: StateLoaderActions.loadMeta(CLIENT_TOKEN_DATA),
+        meta: StateUtils.loadMeta(CLIENT_TOKEN_DATA),
       });
     });
   });
@@ -28,7 +28,7 @@ describe('Client Token Actions', () => {
       expect({ ...action }).toEqual({
         type: AuthActions.LOAD_CLIENT_TOKEN_FAIL,
         payload: error,
-        meta: StateLoaderActions.failMeta(CLIENT_TOKEN_DATA, error),
+        meta: StateUtils.failMeta(CLIENT_TOKEN_DATA, error),
       });
     });
   });
@@ -40,7 +40,7 @@ describe('Client Token Actions', () => {
       expect({ ...action }).toEqual({
         type: AuthActions.LOAD_CLIENT_TOKEN_SUCCESS,
         payload: clientToken,
-        meta: StateLoaderActions.successMeta(CLIENT_TOKEN_DATA),
+        meta: StateUtils.successMeta(CLIENT_TOKEN_DATA),
       });
     });
   });
