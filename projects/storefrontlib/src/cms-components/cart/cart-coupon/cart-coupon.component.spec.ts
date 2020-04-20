@@ -9,7 +9,6 @@ import {
   CartVoucherService,
   CustomerCouponSearchResult,
   CustomerCouponService,
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   Voucher,
