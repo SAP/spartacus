@@ -17,16 +17,16 @@ export const PRODUCT_REVIEWS_COMPONENT_MIGRATION: ConstructorDeprecation = {
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
     {
-      className: FORM_BUILDER,
-      importPath: ANGULAR_FORMS,
-    },
-    {
       className: PRODUCT_REVIEW_SERVICE,
       importPath: SPARTACUS_CORE,
     },
     {
       className: CURRENT_PRODUCT_SERVICE,
       importPath: SPARTACUS_STOREFRONTLIB,
+    },
+    {
+      className: FORM_BUILDER,
+      importPath: ANGULAR_FORMS,
     },
   ],
   addParams: [
