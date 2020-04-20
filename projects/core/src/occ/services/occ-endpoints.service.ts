@@ -36,7 +36,7 @@ export class OccEndpointsService {
    * @param endpoint Endpoint suffix
    */
   getRawEndpoint(endpoint: string): string {
-    if (!!this.config?.backend?.occ) {
+    if (!this.config?.backend?.occ) {
       return '';
     }
     endpoint = this.config.backend.occ.endpoints?.[endpoint];

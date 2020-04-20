@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
 import { OccEndpointsService } from './occ-endpoints.service';
 
-describe('OccEndpointsService', () => {
+fdescribe('OccEndpointsService', () => {
   let mockOccConfig: OccConfig;
   const baseEndpoint = 'test-baseUrl/test-occPrefix/test-baseSite';
 
@@ -16,8 +16,8 @@ describe('OccEndpointsService', () => {
           prefix: '/test-occPrefix',
           endpoints: {
             login: '/authorizationserver/oauth/token',
-            product: 'configured-endpoint1/${test}?fields=abc',
-            product_scopes: {
+            product: {
+              default: 'configured-endpoint1/${test}?fields=abc',
               test: 'configured-endpoint1/${test}?fields=test',
             },
           },
