@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CmsProductCarouselComponent as model,
-  FeatureConfigService,
   Product,
   ProductScope,
   ProductService,
@@ -16,8 +15,7 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselComponent {
-  protected readonly PRODUCT_SCOPE =
-    this.features && this.features.isLevel('1.4') ? ProductScope.LIST : '';
+  protected readonly PRODUCT_SCOPE = ProductScope.LIST;
 
   private componentData$: Observable<model> = this.componentData.data$.pipe(
     filter(Boolean)
@@ -43,23 +41,7 @@ export class ProductCarouselComponent {
   );
 
   constructor(
-    componentData: CmsComponentData<model>,
-    productService: ProductService,
-    // tslint:disable-next-line: unified-signatures
-    features?: FeatureConfigService
-  );
-
-  /**
-   * @deprecated since 1.4
-   */
-  constructor(
-    componentData: CmsComponentData<model>,
-    productService: ProductService
-  );
-
-  constructor(
     protected componentData: CmsComponentData<model>,
-    protected productService: ProductService,
-    protected features?: FeatureConfigService
+    protected productService: ProductService
   ) {}
 }

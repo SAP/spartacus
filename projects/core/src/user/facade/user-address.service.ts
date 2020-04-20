@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Address, Country, Region } from '../../model/address.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -173,19 +172,13 @@ export class UserAddressService {
     );
   }
 
-  /**
-   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
-   *
+  /*
+   * Utility method to distinquish user id in a convenient way
    */
   private withUserId(callback: (userId: string) => void): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(userId => callback(userId));
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
-      callback(OCC_USER_ID_CURRENT);
-    }
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(userId => callback(userId));
   }
 }

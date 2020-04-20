@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParagraphComponent } from './paragraph.component';
-import { ConfigModule } from '@spartacus/core';
-import { CmsConfig } from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  imports: [CommonModule],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CMSParagraphComponent: {
           component: ParagraphComponent,

@@ -1,5 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { Config, provideConfig } from '../config/config.module';
+import { Config, provideDefaultConfig } from '../config/config.module';
 import { CmsConfig } from './config/cms-config';
 import { CmsStructureConfig } from './config/cms-structure.config';
 import { defaultCmsModuleConfig } from './config/default-cms-config';
@@ -18,7 +18,7 @@ export class CmsModule {
         CmsService,
         { provide: CmsConfig, useExisting: Config },
         { provide: CmsStructureConfig, useExisting: Config },
-        provideConfig(defaultCmsModuleConfig),
+        provideDefaultConfig(defaultCmsModuleConfig),
       ],
     };
   }

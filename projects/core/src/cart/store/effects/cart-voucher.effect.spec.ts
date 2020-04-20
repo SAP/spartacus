@@ -81,6 +81,7 @@ describe('Cart Voucher effect', () => {
       const completion = new CartActions.CartRemoveVoucherSuccess({
         userId: 'userId',
         cartId: 'cartId',
+        voucherId,
       });
 
       actions$ = hot('-a', { a: action });

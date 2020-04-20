@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
+  ActiveCartService,
   AuthService,
   Cart,
-  CartService,
   CartVoucherService,
   CustomerCoupon,
   CustomerCouponSearchResult,
@@ -33,32 +33,12 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   couponBoxIsActive = false;
 
   constructor(
-    cartService: CartService,
-    authService: AuthService,
-    cartVoucherService: CartVoucherService,
-    formBuilder: FormBuilder,
-    customerCouponService: CustomerCouponService,
-    featureConfig: FeatureConfigService
-  );
-  /**
-   * @deprecated Since 1.5
-   * Add customerCouponService,featureConfig for customer coupon feature.
-   * Remove issue: #5971
-   */
-  constructor(
-    cartService: CartService,
-    authService: AuthService,
-    cartVoucherService: CartVoucherService,
-    formBuilder: FormBuilder
-  );
-
-  constructor(
-    private cartService: CartService,
-    private authService: AuthService,
-    private cartVoucherService: CartVoucherService,
-    private formBuilder: FormBuilder,
-    protected customerCouponService?: CustomerCouponService,
-    protected featureConfig?: FeatureConfigService
+    protected authService: AuthService,
+    protected cartVoucherService: CartVoucherService,
+    protected formBuilder: FormBuilder,
+    protected customerCouponService: CustomerCouponService,
+    protected featureConfig: FeatureConfigService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   ngOnInit() {
@@ -69,7 +49,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     }
     if (this.featureConfig && this.featureConfig.isLevel('1.5')) {
       this.cart$ = combineLatest([
-        this.cartService.getActive(),
+        this.activeCartService.getActive(),
         this.authService.getOccUserId(),
         this.customerCouponService.getCustomerCoupons(
           this.MAX_CUSTOMER_COUPON_PAGE
@@ -92,7 +72,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     //TODO(issue:#5971) Deprecated since 1.5
     else {
       this.cart$ = combineLatest([
-        this.cartService.getActive(),
+        this.activeCartService.getActive(),
         this.authService.getOccUserId(),
       ]).pipe(
         tap(
@@ -105,7 +85,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     }
     //TODO(issue:#5971) Deprecated since 1.5
 
-    this.cartIsLoading$ = this.cartService
+    this.cartIsLoading$ = this.activeCartService
       .getLoaded()
       .pipe(map(loaded => !loaded));
 

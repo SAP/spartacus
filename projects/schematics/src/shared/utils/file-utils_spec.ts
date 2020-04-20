@@ -478,7 +478,7 @@ describe('File utils', () => {
         })
       ).toEqual(false);
     });
-    it('should return true if the parameter lengths condition is not satisfied', () => {
+    it('should return true even if the parameter lengths condition is not satisfied', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
         PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS,

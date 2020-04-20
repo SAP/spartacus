@@ -4,9 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
   I18nModule,
   NotAuthGuard,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/index';
@@ -20,7 +20,11 @@ import { RegisterComponent } from './register.component';
     ReactiveFormsModule,
     RouterModule,
     UrlModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    I18nModule,
+    SpinnerModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         RegisterCustomerComponent: {
           component: RegisterComponent,
@@ -28,8 +32,6 @@ import { RegisterComponent } from './register.component';
         },
       },
     }),
-    I18nModule,
-    SpinnerModule,
   ],
   declarations: [RegisterComponent],
   exports: [RegisterComponent],

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Config, ConfigModule } from '../config/config.module';
+import { Config, provideDefaultConfig } from '../config/config.module';
 import { defaultStoreFinderConfig } from './config/default-store-finder-config';
 import { StoreFinderConfig } from './config/store-finder-config';
 import { StoreDataService } from './facade/store-data.service';
@@ -11,11 +11,9 @@ import {
 import { StoreFinderStoreModule } from './store/store-finder-store.module';
 
 @NgModule({
-  imports: [
-    ConfigModule.withConfig(defaultStoreFinderConfig),
-    StoreFinderStoreModule,
-  ],
+  imports: [StoreFinderStoreModule],
   providers: [
+    provideDefaultConfig(defaultStoreFinderConfig),
     StoreFinderService,
     StoreDataService,
     GoogleMapRendererService,

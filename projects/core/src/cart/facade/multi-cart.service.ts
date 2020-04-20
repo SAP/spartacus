@@ -204,7 +204,7 @@ export class MultiCartService {
       new CartActions.CartRemoveEntry({
         userId,
         cartId,
-        entry: entryNumber,
+        entry: `${entryNumber}`,
       })
     );
   }
@@ -228,7 +228,7 @@ export class MultiCartService {
         new CartActions.CartUpdateEntry({
           userId,
           cartId,
-          entry: entryNumber,
+          entry: `${entryNumber}`,
           qty: quantity,
         })
       );

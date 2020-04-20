@@ -1,7 +1,7 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { CurrentProductService } from '../../../../../cms-components/product/current-product.service';
 import { JsonLdBuilder, SchemaBuilder } from '../schema.interface';
 import { JSONLD_PRODUCT_BUILDER } from '../tokens';
@@ -24,7 +24,6 @@ export class ProductSchemaBuilder implements SchemaBuilder {
 
   build(): Observable<any> {
     return this.currentProduct.getProduct().pipe(
-      startWith(null as Product),
       switchMap((product: Product) => {
         if (product) {
           return combineLatest(this.collect(product)).pipe(

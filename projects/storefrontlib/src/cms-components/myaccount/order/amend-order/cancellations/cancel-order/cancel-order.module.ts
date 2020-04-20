@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AuthGuard, CmsConfig, ConfigModule } from '@spartacus/core';
+import { AuthGuard, CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import {
   CmsPageGuard,
   PageLayoutComponent,
@@ -11,6 +11,7 @@ import { AmendOrderItemsModule } from '../../amend-order-items/amend-order-items
 import { OrderAmendService } from '../../amend-order.service';
 import { OrderCancellationService } from '../order-cancellation.service';
 import { CancelOrderComponent } from './cancel-order.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -24,7 +25,11 @@ import { CancelOrderComponent } from './cancel-order.component';
         },
       },
     ]),
-    ConfigModule.withConfig(<CmsConfig>{
+    AmendOrderItemsModule,
+    AmendOrderActionsModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CancelOrderComponent: {
           component: CancelOrderComponent,
@@ -38,8 +43,6 @@ import { CancelOrderComponent } from './cancel-order.component';
         },
       },
     }),
-    AmendOrderItemsModule,
-    AmendOrderActionsModule,
   ],
   declarations: [CancelOrderComponent],
   exports: [CancelOrderComponent],

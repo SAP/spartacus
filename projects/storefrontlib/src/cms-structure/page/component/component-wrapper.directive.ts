@@ -92,7 +92,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
       this.webElement.cxApi = {
         ...this.injector.get(CxApiService),
-        CmsComponentData: cmsComponentData, // TODO: remove / deprecated since 1.0.x
         cmsComponentData,
       };
 

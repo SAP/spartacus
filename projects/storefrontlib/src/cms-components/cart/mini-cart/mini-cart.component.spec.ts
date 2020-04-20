@@ -107,7 +107,7 @@ describe('MiniCartComponent', () => {
     it('should show 0 items when cart is not loaded', () => {
       const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
         .nativeElement.innerText;
-      expect(cartItemsNumber).toEqual('0');
+      expect(cartItemsNumber).toEqual('miniCart.count count:0');
     });
 
     it('should contain number of items in cart', () => {
@@ -115,7 +115,7 @@ describe('MiniCartComponent', () => {
       fixture.detectChanges();
       const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
         .nativeElement.innerText;
-      expect(cartItemsNumber).toEqual('1');
+      expect(cartItemsNumber).toEqual('miniCart.count count:1');
     });
   });
 });

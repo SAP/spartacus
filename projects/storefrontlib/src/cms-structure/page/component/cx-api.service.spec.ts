@@ -1,9 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
 import {
+  ActiveCartService,
   AuthService,
   BaseSiteService,
-  CartDataService,
-  CartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
@@ -34,8 +33,7 @@ import {
 import { CxApiService } from './cx-api.service';
 
 class MockAuthService {}
-class MockCartService {}
-class MockCartDataService {}
+class MockActiveCartService {}
 class MockCheckoutService {}
 class MockCheckoutDeliveryService {}
 class MockCheckoutPaymentService {}
@@ -79,8 +77,7 @@ describe('CxApiService', () => {
       providers: [
         CxApiService,
         { provide: AuthService, useClass: MockAuthService },
-        { provide: CartService, useClass: MockCartService },
-        { provide: CartDataService, useClass: MockCartDataService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: CheckoutService, useClass: MockCheckoutService },
         {
           provide: CheckoutDeliveryService,

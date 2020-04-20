@@ -32,22 +32,43 @@ const NO_CONSTRUCTOR = `
     import { Store } from '@ngrx/store';
     export class InheritingService extends UserAddressService {}
 `;
-const WRONG_PARAM_ORDER = `
-    import { Store } from '@ngrx/store';
-    import {
-      AuthService,
-      StateWithProcess,
-      StateWithUser,
-      UserAddressService
-    } from '@spartacus/core';
-    export class InheritingService extends UserAddressService {
-      constructor(
-        authService: AuthService,
-        store: Store<StateWithUser | StateWithProcess<void>>
-      ) {
-        super(authService, store);
-      }
-    }
+const WRONG_PARAM_ORDER_BUT_VALID = `
+import { ChangeDetectorRef } from '@angular/core';
+import { CartService } from '@spartacus/core';
+import {
+  AddToCartComponent,
+  CurrentProductService,
+  ModalService,
+} from '@spartacus/storefront';
+export class InheritingService extends AddToCartComponent {
+  constructor(
+    modalService: ModalService,
+    currentProductService: CurrentProductService,
+    cartService: CartService,
+    changeDetectorRef: ChangeDetectorRef
+  ) {
+    super(cartService, modalService, currentProductService, changeDetectorRef);
+  }
+}
+`;
+const WRONG_PARAM_ORDER_EXPECTED = `
+import { ChangeDetectorRef } from '@angular/core';
+import {  ActiveCartService } from '@spartacus/core';
+import {
+  AddToCartComponent,
+  CurrentProductService,
+  ModalService,
+} from '@spartacus/storefront';
+export class InheritingService extends AddToCartComponent {
+  constructor(
+    modalService: ModalService,
+    currentProductService: CurrentProductService
+    ,
+    changeDetectorRef: ChangeDetectorRef, activeCartService: ActiveCartService
+  ) {
+    super( modalService, currentProductService, changeDetectorRef, activeCartService);
+  }
+}
 `;
 const NO_SUPER_CALL = `
     import { Store } from '@ngrx/store';
@@ -368,13 +389,13 @@ describe('constructor migrations', () => {
   });
 
   describe('when the class has the wrong param order', () => {
-    it('should skip it', async () => {
-      writeFile(host, '/src/index.ts', WRONG_PARAM_ORDER);
+    it('should NOT skip it', async () => {
+      writeFile(host, '/src/index.ts', WRONG_PARAM_ORDER_BUT_VALID);
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent('/src/index.ts');
-      expect(content).toEqual(WRONG_PARAM_ORDER);
+      expect(content).toEqual(WRONG_PARAM_ORDER_EXPECTED);
     });
   });
 

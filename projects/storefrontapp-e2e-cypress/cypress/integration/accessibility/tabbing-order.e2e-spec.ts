@@ -73,6 +73,12 @@ import {
   consignmentTrackingTabbingOrder,
   consignmentTrackingEventsTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/consignment-tracking';
+import {
+  asmTabbingOrder,
+  asmTabbingOrderNotLoggedIn,
+  asmTabbingOrderNoSelectedUser,
+  asmTabbingOrderWithSelectedUser,
+} from '../../helpers/accessibility/tabbing-order/asm';
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
@@ -261,6 +267,20 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
   context('Stock Notification', () => {
     it('should allow to navigate with tab key (not login)', () => {
       stockNotificationNotLoginTabbingOrder(config.stockNotificationNotLogin);
+    });
+  });
+
+  context('ASM', () => {
+    it('should allow to navigate with tab key (not logged in)', () => {
+      asmTabbingOrderNotLoggedIn(config.asmNotLoggedIn);
+    });
+
+    it('should allow to navigate with tab key (no user selected)', () => {
+      asmTabbingOrderNoSelectedUser(config.asmNoSelectedUser);
+    });
+
+    it('should allow to navigate with tab key (with user selected)', () => {
+      asmTabbingOrderWithSelectedUser(config.asmWithSelectedUser);
     });
   });
 });

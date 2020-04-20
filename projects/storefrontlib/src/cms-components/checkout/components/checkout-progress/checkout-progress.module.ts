@@ -4,8 +4,8 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   Config,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { CheckoutConfig } from '../../config/checkout-config';
@@ -15,13 +15,13 @@ import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-em
 import { CheckoutProgressComponent } from './checkout-progress.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    UrlModule,
-    I18nModule,
-    RouterModule,
-    ConfigModule.withConfig(defaultCheckoutConfig),
-    ConfigModule.withConfig(<CmsConfig>{
+  imports: [CommonModule, UrlModule, I18nModule, RouterModule],
+  declarations: [CheckoutProgressComponent],
+  entryComponents: [CheckoutProgressComponent],
+  exports: [CheckoutProgressComponent],
+  providers: [
+    provideDefaultConfig(defaultCheckoutConfig),
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutProgress: {
           component: CheckoutProgressComponent,
@@ -29,10 +29,7 @@ import { CheckoutProgressComponent } from './checkout-progress.component';
         },
       },
     }),
+    { provide: CheckoutConfig, useExisting: Config },
   ],
-  declarations: [CheckoutProgressComponent],
-  entryComponents: [CheckoutProgressComponent],
-  exports: [CheckoutProgressComponent],
-  providers: [{ provide: CheckoutConfig, useExisting: Config }],
 })
 export class CheckoutProgressModule {}

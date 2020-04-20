@@ -1,23 +1,23 @@
-import { Component, Input, DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import {
-  CartService,
-  I18nTestingModule,
-  Voucher,
+  ActiveCartService,
+  AuthService,
   Cart,
   CartVoucherService,
-  AuthService,
-  CustomerCouponService,
   CustomerCouponSearchResult,
+  CustomerCouponService,
   FeaturesConfig,
   FeaturesConfigModule,
+  I18nTestingModule,
+  Voucher,
 } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { of } from 'rxjs';
 import { CartCouponComponent } from './cart-coupon.component';
-import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-icon',
@@ -46,7 +46,7 @@ describe('CartCouponComponent', () => {
   let input: HTMLInputElement;
   let el: DebugElement;
 
-  const mockCartService = jasmine.createSpyObj('CartService', [
+  const mockActiveCartService = jasmine.createSpyObj('ActiveCartService', [
     'getActive',
     'getLoaded',
   ]);
@@ -88,7 +88,7 @@ describe('CartCouponComponent', () => {
         MockCxIconComponent,
       ],
       providers: [
-        { provide: CartService, useValue: mockCartService },
+        { provide: ActiveCartService, useValue: mockActiveCartService },
         { provide: AuthService, useValue: mockAuthService },
         { provide: CartVoucherService, useValue: mockCartVoucherService },
         { provide: CustomerCouponService, useValue: mockCustomerCouponService },
@@ -107,10 +107,10 @@ describe('CartCouponComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    mockCartService.getActive.and.returnValue(
+    mockActiveCartService.getActive.and.returnValue(
       of<Cart>({ code: '123' })
     );
-    mockCartService.getLoaded.and.returnValue(of(true));
+    mockActiveCartService.getLoaded.and.returnValue(of(true));
     mockAuthService.getOccUserId.and.returnValue(of('testUserId'));
     mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of());
     mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(of());
@@ -214,7 +214,7 @@ describe('CartCouponComponent', () => {
   });
 
   it('should not show applied customer coupon', () => {
-    mockCartService.getActive.and.returnValue(
+    mockActiveCartService.getActive.and.returnValue(
       of<Cart>({ appliedVouchers: appliedVouchers })
     );
     mockCustomerCouponService.getCustomerCoupons.and.returnValue(

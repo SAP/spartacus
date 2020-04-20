@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
   FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { CartSharedModule } from '../../../../cms-components/cart/cart-shared/cart-shared.module';
@@ -28,7 +28,9 @@ import { PromotionsModule } from '../promotions/promotions.module';
     RouterModule,
     PromotionsModule,
     FeaturesConfigModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutReviewOrder: {
           component: ReviewSubmitComponent,

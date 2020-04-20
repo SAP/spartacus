@@ -1,5 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { Config, provideConfig } from '../config/config.module';
+import { Config, provideDefaultConfig } from '../config/config.module';
 import { defaultStateConfig } from './config/default-state-config';
 import { StateConfig } from './config/state-config';
 import { stateMetaReducers } from './reducers/index';
@@ -11,7 +11,7 @@ export class StateModule {
       ngModule: StateModule,
       providers: [
         ...stateMetaReducers,
-        provideConfig(defaultStateConfig),
+        provideDefaultConfig(defaultStateConfig),
         { provide: StateConfig, useExisting: Config },
       ],
     };

@@ -137,7 +137,7 @@ export function asmTests(isMobile: boolean) {
       });
 
       it('agent should close the ASM UI.', () => {
-        cy.get('a[title="Close ASM"]').click();
+        cy.get('button[title="Close ASM"]').click();
         cy.get('cx-asm-main-ui').should('exist');
         cy.get('cx-asm-main-ui').should('not.be.visible');
       });
@@ -228,7 +228,7 @@ function listenForAuthenticationRequest(): string {
   cy.route('POST', `/authorizationserver/oauth/token`).as(aliasName);
   return `@${aliasName}`;
 }
-function listenForCustomerSearchRequest(): string {
+export function listenForCustomerSearchRequest(): string {
   const aliasName = 'customerSearch';
   cy.server();
   cy.route('GET', `/assistedservicewebservices/customers/search?*`).as(
@@ -244,7 +244,7 @@ function listenForUserDetailsRequest(): string {
   return `@${aliasName}`;
 }
 
-function agentLogin(): void {
+export function agentLogin(): void {
   const authRequest = listenForAuthenticationRequest();
 
   cy.get('cx-csagent-login-form').should('exist');
@@ -275,7 +275,7 @@ function startCustomerEmulation(): void {
     .its('status')
     .should('eq', 200);
 
-  cy.get('cx-customer-selection div.asm-results a').click();
+  cy.get('cx-customer-selection div.asm-results button').click();
   cy.get('button[type="submit"]').click();
 
   cy.wait(userDetailsRequestAlias)
@@ -300,7 +300,7 @@ function loginCustomerInStorefront() {
 
 function agentSignOut() {
   const tokenRevocationAlias = loginHelper.listenForTokenRevocationReqest();
-  cy.get('a[title="Sign Out"]').click();
+  cy.get('button[title="Sign Out"]').click();
   cy.wait(tokenRevocationAlias)
     .its('status')
     .should('eq', 200);

@@ -1,7 +1,7 @@
 export const summaryContainer = `cx-product-summary`;
 export const infoContainer = `cx-product-intro`;
 export const tabsContainer = 'cx-tab-paragraph-container';
-export const tabsHeaderList = `${tabsContainer} > h3`;
+export const tabsHeaderList = `${tabsContainer} > button`;
 export const activeTabContainer = `${tabsContainer} .active .container`;
 export const shippingTabActive = `${tabsContainer} .active cx-paragraph`;
 export const reviewContainer = 'cx-product-reviews';
@@ -92,9 +92,6 @@ export function verifyReviewForm() {
   cy.get(writeAReviewForm)
     .getByText('Cancel')
     .should('be.not.disabled');
-  cy.get(writeAReviewForm)
-    .getByText('Submit')
-    .should('be.disabled');
   cy.get(`${writeAReviewForm} input`)
     .eq(0)
     .type('My review title');

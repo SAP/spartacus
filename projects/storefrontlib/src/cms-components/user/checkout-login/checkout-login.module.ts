@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { CheckoutLoginComponent } from './checkout-login.component';
 import { NotCheckoutAuthGuard } from '../../checkout/guards/not-checkout-auth.guard';
 
@@ -11,7 +11,11 @@ import { NotCheckoutAuthGuard } from '../../checkout/guards/not-checkout-auth.gu
     I18nModule,
     FormsModule,
     ReactiveFormsModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    FormsModule,
+    ReactiveFormsModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         GuestCheckoutLoginComponent: {
           component: CheckoutLoginComponent,
@@ -19,8 +23,6 @@ import { NotCheckoutAuthGuard } from '../../checkout/guards/not-checkout-auth.gu
         },
       },
     }),
-    FormsModule,
-    ReactiveFormsModule,
   ],
   declarations: [CheckoutLoginComponent],
   exports: [CheckoutLoginComponent],

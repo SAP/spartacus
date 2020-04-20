@@ -262,7 +262,7 @@ describe('ComponentWrapperDirective', () => {
             'cms-component'
           );
           expect(cmsComponentElement).toBeTruthy();
-          const componentData = cmsComponentElement.cxApi.CmsComponentData;
+          const componentData = cmsComponentElement.cxApi.cmsComponentData;
           expect(componentData.uid).toEqual('test_uid');
           done();
         });

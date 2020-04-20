@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
-  I18nModule,
-  UrlModule,
   FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+  UrlModule,
 } from '@spartacus/core';
 import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
@@ -22,14 +22,16 @@ import { CartDetailsComponent } from './cart-details.component';
     UrlModule,
     PromotionsModule,
     FeaturesConfigModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    I18nModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CartComponent: {
           component: CartDetailsComponent,
         },
       },
     }),
-    I18nModule,
   ],
   declarations: [CartDetailsComponent],
   exports: [CartDetailsComponent],

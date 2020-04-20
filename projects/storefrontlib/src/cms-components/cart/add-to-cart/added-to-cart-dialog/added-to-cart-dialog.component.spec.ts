@@ -10,24 +10,22 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CartService,
+  ActiveCartService,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
   PromotionLocation,
-  PromotionResult,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components';
 import { ModalService } from '../../../../shared/components/modal/index';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
-import { AutoFocusDirectiveModule } from '../../../../shared/directives/auto-focus/auto-focus.directive.module';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
-class MockCartService {
+class MockActiveCartService {
   getLoaded(): Observable<boolean> {
     return of();
   }
@@ -73,7 +71,6 @@ class MockModalService {
 class MockCartItemComponent {
   @Input() compact = false;
   @Input() item: Observable<OrderEntry>;
-  @Input() potentialProductPromotions: PromotionResult[];
   @Input() readonly = false;
   @Input() quantityControl: FormControl;
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
@@ -98,7 +95,7 @@ describe('AddedToCartDialogComponent', () => {
   let component: AddedToCartDialogComponent;
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
   let el: DebugElement;
-  let cartService: CartService;
+  let activeCartService: ActiveCartService;
   let mockModalService: MockModalService;
 
   beforeEach(async(() => {
@@ -109,7 +106,6 @@ describe('AddedToCartDialogComponent', () => {
         RouterTestingModule,
         SpinnerModule,
         I18nTestingModule,
-        AutoFocusDirectiveModule,
         PromotionsModule,
         FeaturesConfigModule,
       ],
@@ -125,8 +121,8 @@ describe('AddedToCartDialogComponent', () => {
           useClass: MockModalService,
         },
         {
-          provide: CartService,
-          useClass: MockCartService,
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
         {
           provide: PromotionService,
@@ -147,10 +143,10 @@ describe('AddedToCartDialogComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     component.entry$ = of(mockOrderEntry[0]);
-    cartService = TestBed.inject(CartService);
+    activeCartService = TestBed.inject(ActiveCartService);
     mockModalService = TestBed.inject(ModalService);
 
-    spyOn(cartService, 'updateEntry').and.callThrough();
+    spyOn(activeCartService, 'updateEntry').and.callThrough();
     spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
     component.loaded$ = of(true);
   });
@@ -166,13 +162,6 @@ describe('AddedToCartDialogComponent', () => {
       el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
     ).toEqual('addToCart.updatingCart');
     expect(el.query(By.css('cx-spinner')).nativeElement).toBeDefined();
-  });
-
-  it('should handle focus of elements', () => {
-    fixture.detectChanges();
-    expect(
-      el.query(By.css('.cx-dialog-buttons > .btn-primary')).nativeElement
-    ).toEqual(document.activeElement);
   });
 
   it('should display quantity', () => {

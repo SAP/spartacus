@@ -6,10 +6,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
-  UserService,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
@@ -27,14 +26,6 @@ import { OrderHistoryComponent } from './order-history.component';
         data: { cxRoute: 'orders' },
       },
     ]),
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        AccountOrderHistoryComponent: {
-          component: OrderHistoryComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
     RouterModule,
     FormsModule,
     NgSelectModule,
@@ -44,7 +35,16 @@ import { OrderHistoryComponent } from './order-history.component';
   ],
   declarations: [OrderHistoryComponent],
   exports: [OrderHistoryComponent],
-  providers: [UserService],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        AccountOrderHistoryComponent: {
+          component: OrderHistoryComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+  ],
   entryComponents: [OrderHistoryComponent],
 })
 export class OrderHistoryModule {}

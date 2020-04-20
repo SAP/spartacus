@@ -5,7 +5,6 @@ import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Country } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -16,21 +15,8 @@ import { StateWithUser } from '../store/user-state';
 })
 export class UserPaymentService {
   constructor(
-    store: Store<StateWithUser | StateWithProcess<void>>,
-    // tslint:disable-next-line:unified-signatures
-    authService: AuthService
-  );
-  /**
-   * @deprecated since version 1.3
-   *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
-   *  authService: AuthService) instead
-   *
-   *  TODO(issue:#5628) Deprecated since 1.3.0
-   */
-  constructor(store: Store<StateWithUser | StateWithProcess<void>>);
-  constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService?: AuthService
+    protected authService: AuthService
   ) {}
 
   /**
@@ -106,19 +92,13 @@ export class UserPaymentService {
     this.store.dispatch(new UserActions.LoadBillingCountries());
   }
 
-  /**
-   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
-   *
+  /*
+   * Utility method to distinquish user id in a convenient way
    */
   private withUserId(callback: (userId: string) => void): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(userId => callback(userId));
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
-      callback(OCC_USER_ID_CURRENT);
-    }
+    this.authService
+      .getOccUserId()
+      .pipe(take(1))
+      .subscribe(userId => callback(userId));
   }
 }

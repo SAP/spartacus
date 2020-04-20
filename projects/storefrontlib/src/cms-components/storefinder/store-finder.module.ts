@@ -5,8 +5,8 @@ import { RouterModule } from '@angular/router';
 import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   StoreFinderCoreModule,
   UrlModule,
 } from '@spartacus/core';
@@ -40,7 +40,9 @@ import { StoreFinderStoreComponent } from './components/store-finder-store/store
     StoreFinderCoreModule,
     I18nModule,
     IconModule,
-    ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig | LayoutConfig>{
       cmsComponents: {
         StoreFinderComponent: {
           component: StoreFinderComponent,

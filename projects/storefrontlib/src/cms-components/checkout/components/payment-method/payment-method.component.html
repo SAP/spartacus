@@ -34,7 +34,7 @@
               [border]="true"
               [fitToContainer]="true"
               [content]="getCardContent(method) | async"
-              (sendCard)="paymentMethodSelected(method)"
+              (sendCard)="selectPaymentMethod(method)"
             ></cx-card>
           </div>
         </div>
@@ -42,7 +42,7 @@
 
       <div class="row cx-checkout-btns">
         <div class="col-md-12 col-lg-6">
-          <button class="btn btn-block btn-action" (click)="back()">
+          <button class="btn btn-block btn-action" (click)="goPrevious()">
             {{ 'common.back' | cxTranslate }}
           </button>
         </div>
@@ -50,7 +50,7 @@
           <button
             class="btn btn-block btn-primary"
             [disabled]="!selectedPayment"
-            (click)="next()"
+            (click)="goNext()"
           >
             {{ 'common.continue' | cxTranslate }}
           </button>
@@ -62,7 +62,7 @@
       <cx-payment-form
         (setPaymentDetails)="setPaymentDetails($event)"
         (closeForm)="hideNewPaymentForm()"
-        (goBack)="back()"
+        (goBack)="goPrevious()"
         [paymentMethodsCount]="existingPaymentMethods?.length || 0"
         [setAsDefaultField]="!isGuestCheckout"
       ></cx-payment-form>
