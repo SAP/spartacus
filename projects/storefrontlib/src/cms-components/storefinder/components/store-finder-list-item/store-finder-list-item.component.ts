@@ -1,4 +1,3 @@
-import { ActivatedRoute } from '@angular/router';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { StoreDataService, RoutingService } from '@spartacus/core';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
@@ -21,7 +20,6 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
 
   constructor(
     protected storeDataService: StoreDataService,
-    protected route: ActivatedRoute,
     protected routingService: RoutingService
   ) {
     super(storeDataService);
@@ -31,20 +29,6 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
     if (this.locationIndex !== null) {
       this.storeItemClick.emit(this.locationIndex);
     }
-  }
-
-  viewStore(location: any): void {
-    this.routingService.go([this.prepareRouteUrl(location)]);
-  }
-
-  prepareRouteUrl(location: any): string {
-    const countryParam = this.route.snapshot.params.country
-      ? `country/${this.route.snapshot.params.country}/`
-      : '';
-    const regionParam = this.route.snapshot.params.region
-      ? `region/${this.route.snapshot.params.region}/`
-      : '';
-    return `store-finder/${countryParam}${regionParam}${location.name}`;
   }
 
   onKey(event: KeyboardEvent) {
