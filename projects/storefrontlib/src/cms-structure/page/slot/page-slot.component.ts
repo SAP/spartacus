@@ -5,6 +5,8 @@ import {
   ElementRef,
   HostBinding,
   Input,
+  OnDestroy,
+  OnInit,
   Renderer2,
 } from '@angular/core';
 import {
@@ -14,14 +16,8 @@ import {
   ContentSlotData,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  map,
-  shareReplay,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 
 /**
@@ -38,7 +34,7 @@ import { IntersectionOptions } from '../../../layout/loading/intersection.model'
   templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageSlotComponent {
+export class PageSlotComponent implements OnInit, OnDestroy {
   /**
    * The position represents the unique key for a page slot on a single page, but can
    * be reused cross pages.
@@ -53,7 +49,7 @@ export class PageSlotComponent {
     return this.position$?.value;
   }
 
-  /** Contains css classes introduced by the host. Additional classes are added by the component logic. */
+  /** Maintains css classes introduced by the host and adds additional classes */
   @Input() @HostBinding() class: string;
 
   /** Indicates that the page slot is the last page slot above the fold */
@@ -67,21 +63,25 @@ export class PageSlotComponent {
 
   protected position$: BehaviorSubject<string> = new BehaviorSubject(undefined);
 
-  /** Observes the components for the given page slot. */
-  components$: Observable<ContentSlotComponentData[]> = this.position$.pipe(
+  components: ContentSlotComponentData[];
+
+  protected slot$: Observable<ContentSlotData> = this.position$.pipe(
     switchMap((position) => this.cmsService.getContentSlot(position)),
-    distinctUntilChanged(this.isDistinct),
-    tap((slot) => this.decorate(slot)),
-    map((slot) => slot?.components ?? []),
-    shareReplay()
+    distinctUntilChanged(this.isDistinct)
   );
+
+  /** Observes the components for the given page slot. */
+  components$: Observable<ContentSlotComponentData[]> = this.slot$.pipe(
+    map((slot) => slot?.components ?? [])
+  );
+
+  protected subscription: Subscription = new Subscription();
 
   /** Keeps track of the pending components that must be loaded for the page slot */
   private pendingComponentCount = 0;
 
   /** Tracks the last used position, in case the page slot is used dynamically */
   private lastPosition: string;
-
   constructor(
     protected cmsService: CmsService,
     protected dynamicAttributeService: DynamicAttributeService,
@@ -90,6 +90,14 @@ export class PageSlotComponent {
     protected config: CmsConfig,
     protected cd: ChangeDetectorRef
   ) {}
+
+  ngOnInit() {
+    this.subscription.add(
+      this.slot$
+        .pipe(tap((slot) => this.decorate(slot)))
+        .subscribe((value) => (this.components = value?.components || []))
+    );
+  }
 
   protected decorate(slot: ContentSlotData): void {
     let cls = this.class || '';
@@ -181,5 +189,9 @@ export class PageSlotComponent {
         this.renderer
       );
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }
