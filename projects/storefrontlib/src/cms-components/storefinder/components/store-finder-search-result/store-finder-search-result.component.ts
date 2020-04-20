@@ -14,14 +14,14 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './store-finder-search-result.component.html',
 })
 export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
-  protected locations: any;
-  protected subscription: Subscription;
-  protected useMyLocation: boolean;
-  protected countryCode: string = null;
-  protected searchConfig: SearchConfig = {
+  locations: any;
+  subscription: Subscription;
+  useMyLocation: boolean;
+  countryCode: string = null;
+  searchConfig: SearchConfig = {
     currentPage: 0,
   };
-  protected radius: number;
+  radius: number;
   searchQuery: StoreFinderSearchQuery;
   geolocation: GeoPoint;
   locations$: Observable<any>;
