@@ -21,8 +21,10 @@ Cypress.Commands.add('requireShippingMethodSelected', (auth) => {
   function setShippingMethod() {
     return cy.request({
       method: 'PUT',
-      url: `${Cypress.env(
-        'BASE_ENDPOINT'
+      url: `${Cypress.env('API_URL')}/${Cypress.env(
+        'OCC_PREFIX'
+      )}/${Cypress.env(
+        'BASE_SITE'
       )}/users/current/carts/current/deliverymode?deliveryModeId=${
         delivery.mode
       }`,

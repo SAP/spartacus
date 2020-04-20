@@ -10,7 +10,9 @@ export function countriesListTabbingOrder(config: TabElement[]) {
 
   cy.route(
     'GET',
-    `${Cypress.env('PREFIX_AND_BASESITE')}/stores/storescounts*`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/stores/storescounts*`
   ).as('storesCounts');
 
   cy.wait('@storesCounts');

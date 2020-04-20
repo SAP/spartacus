@@ -59,8 +59,8 @@ export function waitForGetWishList() {
 
   cy.route(
     'GET',
-    `${Cypress.env(
-      'PREFIX_AND_BASESITE'
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
     )}/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('get_wish_list');
 }
@@ -149,8 +149,8 @@ export function addProductToCart(product: TestProduct) {
 
   cy.route(
     'POST',
-    `${Cypress.env(
-      'PREFIX_AND_BASESITE'
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
     )}/users/*/carts/*/entries?code=*&qty=*&lang=en&curr=USD`
   ).as('add_to_cart');
 
@@ -266,7 +266,7 @@ function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
     .should(
       'have.attr',
       'href',
-      '/electronics-spa/en/USD/terms-and-conditions'
+      `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`
     );
   cy.get('.form-check-input').check();
   const orderConfirmationPage = waitForPage(

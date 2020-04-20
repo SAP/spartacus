@@ -8,8 +8,8 @@ export const pageLinkSelector = 'cx-pagination a.current';
 export const sortingOptionSelector = 'cx-sorting .ng-select:first';
 export const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
 export const firstProductNameSelector = `${firstProductItemSelector} a.cx-product-name`;
-export const searchUrlPrefix = `${Cypress.env(
-  'BASE_ENDPOINT'
+export const searchUrlPrefix = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  'BASE_SITE'
 )}/products/search`;
 
 export const QUERY_ALIAS = {

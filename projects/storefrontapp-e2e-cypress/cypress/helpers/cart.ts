@@ -125,7 +125,9 @@ export function registerCartRefreshRoute() {
 
   cy.route(
     'GET',
-    `${Cypress.env('BASE_ENDPOINT')}/users/*/carts/*?fields=*&lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
 }
 
@@ -134,7 +136,9 @@ export function registerCreateCartRoute() {
 
   cy.route(
     'POST',
-    `${Cypress.env('BASE_ENDPOINT')}/users/*/carts?fields=*&lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts?fields=*&lang=en&curr=USD`
   ).as('create_cart');
 }
 
@@ -143,7 +147,9 @@ export function registerSaveCartRoute() {
 
   cy.route(
     'PATCH',
-    `${Cypress.env('BASE_ENDPOINT')}/users/*/carts/*/save?lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/*/save?lang=en&curr=USD`
   ).as('save_cart');
 }
 

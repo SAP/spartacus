@@ -52,8 +52,8 @@ export function ApplyMyCoupons(couponCode: string) {
 export function claimCoupon(couponCode: string) {
   cy.request({
     method: 'POST',
-    url: `${Cypress.env(
-      'BASE_ENDPOINT'
+    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
     )}/users/current/customercoupons/${couponCode}/claim`,
     headers: {
       Authorization: `bearer ${

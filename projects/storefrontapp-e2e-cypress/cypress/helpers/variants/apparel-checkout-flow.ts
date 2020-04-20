@@ -19,7 +19,9 @@ export function addVariantOfSameProductToCart() {
   cy.server();
   cy.route(
     'GET',
-    `/rest/v2/apparel-uk-spa/products/${products[1].code}/reviews*`
+    `${Cypress.env('OCC_PREFIX')}/apparel-uk-spa/products/${
+      products[1].code
+    }/reviews*`
   ).as('getProductPage');
   cy.get('.variant-selector ul.variant-list li:nth-child(2)').first().click();
   cy.wait('@getProductPage').its('status').should('eq', 200);

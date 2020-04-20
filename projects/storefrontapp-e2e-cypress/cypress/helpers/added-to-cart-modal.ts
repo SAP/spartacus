@@ -117,7 +117,9 @@ export function addDifferentProducts(isMobile: Boolean = false) {
   cy.server();
   cy.route(
     'GET',
-    `${Cypress.env('PREFIX_AND_BASESITE')}/users/anonymous/carts/*`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/anonymous/carts/*`
   ).as('getRefreshedCart');
 
   // delete a product and check if the total is updated

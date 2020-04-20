@@ -94,7 +94,9 @@ export const orderHistoryTest = {
       cy.server();
       cy.route(
         'GET',
-        `${Cypress.env('PREFIX_AND_BASESITE')}/cms/pages?*/my-account/orders*`
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/cms/pages?*/my-account/orders*`
       ).as('getOrderHistoryPage');
 
       // to compare two dates (EN and DE) we have to compare day numbers

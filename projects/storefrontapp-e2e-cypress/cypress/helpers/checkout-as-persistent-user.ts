@@ -55,8 +55,8 @@ export function loginSuccessfully() {
 export function addShippingAddress() {
   cy.request({
     method: 'POST',
-    url: `${Cypress.env(
-      'BASE_ENDPOINT'
+    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
     )}/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
@@ -117,8 +117,10 @@ export function addPaymentMethod() {
       const cartid = $cart.text().match(/[0-9]+/)[0];
       cy.request({
         method: 'POST',
-        url: `${Cypress.env(
-          'BASE_ENDPOINT'
+        url: `${Cypress.env('API_URL')}/${Cypress.env(
+          'OCC_PREFIX'
+        )}/${Cypress.env(
+          'BASE_SITE'
         )}/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
@@ -156,8 +158,8 @@ export function selectShippingAddress() {
 
   cy.route(
     'GET',
-    `${Cypress.env(
-      'PREFIX_AND_BASESITE'
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
     )}/cms/pages?*/checkout/shipping-address*`
   ).as('getShippingPage');
   cy.getByText(/proceed to checkout/i).click();
@@ -173,7 +175,9 @@ export function selectShippingAddress() {
 
   cy.route(
     'GET',
-    `${Cypress.env('PREFIX_AND_BASESITE')}/cms/pages?*/checkout/delivery-mode*`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages?*/checkout/delivery-mode*`
   ).as('getDeliveryPage');
   cy.get('button.btn-primary').click();
   cy.wait('@getDeliveryPage').its('status').should('eq', 200);
@@ -183,8 +187,8 @@ export function selectDeliveryMethod() {
   cy.server();
   cy.route(
     'GET',
-    `${Cypress.env(
-      'PREFIX_AND_BASESITE'
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
     )}/cms/pages?*/checkout/payment-details*`
   ).as('getPaymentPage');
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
@@ -241,8 +245,8 @@ export function deleteShippingAddress() {
   // Retrieve the address ID
   cy.request({
     method: 'GET',
-    url: `${Cypress.env(
-      'BASE_ENDPOINT'
+    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
     )}/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
@@ -260,8 +264,10 @@ export function deleteShippingAddress() {
       // Delete the address
       cy.request({
         method: 'DELETE',
-        url: `${Cypress.env(
-          'BASE_ENDPOINT'
+        url: `${Cypress.env('API_URL')}/${Cypress.env(
+          'OCC_PREFIX'
+        )}/${Cypress.env(
+          'BASE_SITE'
         )}/users/test-user-cypress@ydev.hybris.com/addresses/${id}?lang=en&curr=USD`,
         headers: {
           Authorization: `bearer ${
@@ -278,8 +284,8 @@ export function deletePaymentCard() {
   // Retrieve the payment ID
   cy.request({
     method: 'GET',
-    url: `${Cypress.env(
-      'BASE_ENDPOINT'
+    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
     )}/users/test-user-cypress@ydev.hybris.com/paymentdetails?saved=true&lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
@@ -297,8 +303,10 @@ export function deletePaymentCard() {
       // Delete the payment
       cy.request({
         method: 'DELETE',
-        url: `${Cypress.env(
-          'BASE_ENDPOINT'
+        url: `${Cypress.env('API_URL')}/${Cypress.env(
+          'OCC_PREFIX'
+        )}/${Cypress.env(
+          'BASE_SITE'
         )}/users/test-user-cypress@ydev.hybris.com/paymentdetails/${id}?lang=en&curr=USD`,
         headers: {
           Authorization: `bearer ${

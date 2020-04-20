@@ -139,10 +139,14 @@ export function deleteFirstAddress() {
   cy.server();
   cy.route(
     'DELETE',
-    `${Cypress.env('PREFIX_AND_BASESITE')}/users/*/addresses/*?lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/addresses/*?lang=en&curr=USD`
   ).as('deleteAddress');
   cy.route(
-    `${Cypress.env('PREFIX_AND_BASESITE')}/users/*/addresses?lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/addresses?lang=en&curr=USD`
   ).as('fetchAddresses');
 
   const firstCard = cy.get('cx-card').first();

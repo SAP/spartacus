@@ -40,7 +40,9 @@ describe('Profile-tag events', () => {
     cy.get('cx-cart-item cx-item-counter').getByText('+').click();
     cy.route(
       'GET',
-      `${Cypress.env('PREFIX_AND_BASESITE')}/users/anonymous/carts/*`
+      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/anonymous/carts/*`
     ).as('getRefreshedCart');
     cy.wait('@getRefreshedCart');
     cy.window().then((win) => {
@@ -59,7 +61,9 @@ describe('Profile-tag events', () => {
     cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').click();
     cy.route(
       'GET',
-      `${Cypress.env('PREFIX_AND_BASESITE')}/users/anonymous/carts/*`
+      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/anonymous/carts/*`
     ).as('getRefreshedCart');
     cy.wait('@getRefreshedCart');
     cy.window().then((win) => {

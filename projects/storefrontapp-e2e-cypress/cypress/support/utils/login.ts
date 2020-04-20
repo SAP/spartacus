@@ -1,7 +1,9 @@
 export const USERID_CURRENT = 'current';
 export const config = {
   tokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/token`,
-  newUserUrl: `${Cypress.env('BASE_ENDPOINT')}/users/?lang=en&curr=USD`,
+  newUserUrl: `${Cypress.env('API_URL')}/${Cypress.env(
+    'OCC_PREFIX'
+  )}/${Cypress.env('BASE_SITE')}/users/?lang=en&curr=USD`,
   client: {
     client_id: Cypress.env('CLIENT_ID'),
     client_secret: Cypress.env('CLIENT_SECRET'),

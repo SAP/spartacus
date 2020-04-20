@@ -7,9 +7,11 @@ export function productPageTabbingOrder(config: TabElement[]) {
   cy.server();
   cy.visit(testProductUrl);
 
-  cy.route(`${Cypress.env('BASE_ENDPOINT')}/products/779841/reviews*`).as(
-    'reviews'
-  );
+  cy.route(
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/779841/reviews*`
+  ).as('reviews');
 
   cy.get('cx-breadcrumb').should('contain', 'Home');
   cy.get('cx-breadcrumb').should('contain', 'Film cameras');

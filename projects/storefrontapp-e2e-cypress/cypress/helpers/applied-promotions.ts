@@ -26,7 +26,11 @@ export function addProductToCart() {
     .getByText(/Add To Cart/i)
     .click();
   cy.server();
-  cy.route(`${Cypress.env('BASE_ENDPOINT')}/users/current/carts/*`).as('cart');
+  cy.route(
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}users/current/carts/*`
+  ).as('cart');
   cy.wait(`@cart`).its('status').should('eq', 200);
 }
 

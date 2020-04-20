@@ -23,11 +23,7 @@ import {
 context('Apparel - checkout as guest', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-    Cypress.env('BASE_SITE', `/${APPAREL_BASESITE}`);
-    Cypress.env(
-      'PREFIX_AND_BASESITE',
-      Cypress.env('OCC_PREFIX') + `/${APPAREL_BASESITE}`
-    );
+    Cypress.env('BASE_SITE', `${APPAREL_BASESITE}`);
   });
 
   beforeEach(() => {
@@ -37,14 +33,6 @@ context('Apparel - checkout as guest', () => {
 
   afterEach(() => {
     cy.saveLocalStorage();
-  });
-
-  after(() => {
-    Cypress.env('BASE_SITE', `/${checkout.ELECTRONICS_BASESITE}`);
-    Cypress.env(
-      'PREFIX_AND_BASESITE',
-      Cypress.env('OCC_PREFIX') + `/${checkout.ELECTRONICS_BASESITE}`
-    );
   });
 
   describe('when adding a single variant product to cart and completing checkout.', () => {
@@ -79,8 +67,6 @@ context('Apparel - checkout as guest', () => {
     });
 
     it('should fill in payment form', () => {
-      cy.wait(3000);
-
       checkout.fillPaymentFormWithCheapProduct(
         variantUser,
         undefined,

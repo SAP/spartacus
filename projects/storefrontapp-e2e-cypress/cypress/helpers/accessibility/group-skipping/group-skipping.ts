@@ -20,7 +20,7 @@ export function verifyGroupSkippingOnPageFromConfig(
 
   // Wait for group skippers and page content to load
   cy.server();
-  cy.route(`${Cypress.env('BASE_ENDPOINT')}/cms/components*`).as(
+  cy.route(`${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/cms/components*`).as(
     'getComponents'
   );
   checkGroupSkipperAnchorsHaveLoaded(config.expectedSkipperCount);

@@ -243,9 +243,10 @@ export function listenForCustomerSearchRequest(): string {
 function listenForUserDetailsRequest(): string {
   const aliasName = 'userDetails';
   cy.server();
-  cy.route('GET', `${Cypress.env('PREFIX_AND_BASESITE')}/users/*`).as(
-    aliasName
-  );
+  cy.route(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*`
+  ).as(aliasName);
   return `@${aliasName}`;
 }
 

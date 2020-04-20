@@ -21,9 +21,10 @@ export function cancelCloseAccountAction() {
 
 export function closeAccount() {
   cy.server();
-  cy.route('DELETE', `${Cypress.env('PREFIX_AND_BASESITE')}/users/*`).as(
-    'deleteQuery'
-  );
+  cy.route(
+    'DELETE',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*`
+  ).as('deleteQuery');
 
   cy.location('pathname').should('contain', CLOSE_ACCOUNT);
 

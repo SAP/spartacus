@@ -16,7 +16,9 @@ export const CouponWithProducts = 'midautumn';
 export const PageSize = 10;
 export const NumberInPage2 = 1;
 
-export const pageUrl = Cypress.env('PREFIX_AND_BASESITE');
+export const pageUrl = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  'BASE_SITE'
+)}`;
 
 export function verifyPagingAndSorting() {
   const firstCouponStartDateAscending = 'customerCoupon1';

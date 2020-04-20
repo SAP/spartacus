@@ -97,9 +97,12 @@ context('Auxiliary Keys', () => {
 
     it('should make search suggestions', () => {
       cy.server();
-      cy.route('GET', `${Cypress.env('BASE_ENDPOINT')}/products/search?**`).as(
-        'query'
-      );
+      cy.route(
+        'GET',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/products/search?**`
+      ).as('query');
       cy.get('cx-searchbox input').type('dsa');
       cy.wait('@query');
       cy.get('cx-searchbox a').should('have.length', 6);
@@ -183,9 +186,9 @@ context('Auxiliary Keys', () => {
 
 function loadPageWithComponenents(pageUrl: string) {
   cy.server();
-  cy.route(`${Cypress.env('BASE_ENDPOINT')}/cms/components*`).as(
-    'getComponents'
-  );
+  cy.route(
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/cms/components*`
+  ).as('getComponents');
   cy.visit(pageUrl);
   cy.wait('@getComponents');
 }

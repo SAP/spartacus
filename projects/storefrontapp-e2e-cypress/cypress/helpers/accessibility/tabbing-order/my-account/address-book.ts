@@ -53,7 +53,9 @@ function addAddress() {
 function getAddressRequest(auth, address, verify: boolean) {
   return cy.request({
     method: 'POST',
-    url: `${Cypress.env('BASE_ENDPOINT')}/users/current/addresses${
+    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/addresses${
       verify ? '/verification' : ''
     }?lang=en&curr=USD`,
     body: address,
@@ -66,9 +68,11 @@ function getAddressRequest(auth, address, verify: boolean) {
 
 function selectCountryCanada() {
   cy.server();
-  cy.route(`${Cypress.env('BASE_ENDPOINT')}/countries/CA/regions*`).as(
-    'regions'
-  );
+  cy.route(
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/countries/CA/regions*`
+  ).as('regions');
 
   cy.get('cx-address-book .country-select').ngSelect('Canada');
 

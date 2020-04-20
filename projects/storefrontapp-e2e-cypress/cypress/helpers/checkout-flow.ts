@@ -168,7 +168,7 @@ export function placeOrder() {
     .should(
       'have.attr',
       'href',
-      '/electronics-spa/en/USD/terms-and-conditions'
+      `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`
     );
   cy.get('.form-check-input').check();
   cy.get('cx-place-order button.btn-primary').click();
@@ -353,7 +353,7 @@ export function placeOrderWithCheapProduct(
     .should(
       'have.attr',
       'href',
-      `${Cypress.env('BASE_SITE')}/en/${currency}/terms-and-conditions`
+      `/${Cypress.env('BASE_SITE')}/en/${currency}/terms-and-conditions`
     );
   cy.get('input[formcontrolname="termsAndConditions"]').check();
   const orderConfirmationPage = waitForPage(
@@ -423,7 +423,9 @@ export function waitForPage(page: string, alias: string): string {
   cy.server();
   cy.route(
     'GET',
-    `${Cypress.env('PREFIX_AND_BASESITE')}/cms/pages?*${page}*`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages?*${page}*`
   ).as(alias);
   return alias;
 }
