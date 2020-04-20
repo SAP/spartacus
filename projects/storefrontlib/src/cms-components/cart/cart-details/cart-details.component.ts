@@ -3,7 +3,6 @@ import {
   ActiveCartService,
   AuthService,
   Cart,
-  FeatureConfigService,
   OrderEntry,
   PromotionLocation,
   PromotionResult,
@@ -34,8 +33,7 @@ export class CartDetailsComponent implements OnInit {
     protected promotionService: PromotionService,
     protected selectiveCartService: SelectiveCartService,
     private authService: AuthService,
-    private routingService: RoutingService,
-    private featureConfig: FeatureConfigService
+    private routingService: RoutingService
   ) {}
 
   ngOnInit() {
@@ -46,37 +44,21 @@ export class CartDetailsComponent implements OnInit {
       .getEntries()
       .pipe(filter((entries) => entries.length > 0));
 
-    if (this.isSaveForLaterEnabled()) {
-      this.cartLoaded$ = combineLatest([
-        this.activeCartService.isStable(),
-        this.selectiveCartService.getLoaded(),
-        this.authService.isUserLoggedIn(),
-      ]).pipe(
-        tap(([, , loggedIn]) => (this.loggedIn = loggedIn)),
-        map(([cartLoaded, sflLoaded, loggedIn]) =>
-          loggedIn ? cartLoaded && sflLoaded : cartLoaded
-        )
-      );
-    }
-    //TODO remove for #5958
-    else {
-      this.cartLoaded$ = this.activeCartService.isStable();
-    }
-    //TODO  remove for #5958 end
+    this.cartLoaded$ = combineLatest([
+      this.activeCartService.isStable(),
+      this.selectiveCartService.getLoaded(),
+      this.authService.isUserLoggedIn(),
+    ]).pipe(
+      tap(([, , loggedIn]) => (this.loggedIn = loggedIn)),
+      map(([cartLoaded, sflLoaded, loggedIn]) =>
+        loggedIn ? cartLoaded && sflLoaded : cartLoaded
+      )
+    );
 
     this.orderPromotions$ = this.promotionService.getOrderPromotions(
       this.promotionLocation
     );
   }
-
-  //TODO remove feature flag for #5958
-  isSaveForLaterEnabled(): boolean {
-    if (this.featureConfig) {
-      return this.featureConfig.isEnabled('saveForLater');
-    }
-    return false;
-  }
-  //TODO remove feature flag for #5958 end
 
   saveForLater(item: Item) {
     if (this.loggedIn) {

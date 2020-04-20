@@ -143,8 +143,8 @@ export const CART_VOUCHER_SERVICE = 'CartVoucherService';
 export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
+export const CART_ITEM_COMPONENT = 'CartItemComponent';
 export const PROTECTED_ROUTES_SERVICE = 'ProtectedRoutesService';
-
 export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
 export const REGISTER_COMPONENT = 'RegisterComponent';
 export const ANONYMOUS_CONSENTS_SERVICE = 'AnonymousConsentsService';
@@ -216,6 +216,35 @@ export const SKIP_LINK_FACTORY = 'skipLinkFactory';
 export const FORM_UTILS = 'FormUtils';
 export const BILLING_ADDRESS_FORM_COMPONENT = 'BillingAddressFormComponent';
 export const BILLING_ADDRESS_FORM_MODULE = 'BillingAddressFormModule';
+export const LOADER_STATE = 'LoaderState';
+export const PROCESSES_LOADER_STATE = 'ProcessesLoaderState';
+export const ENTITY_STATE = 'EntityState';
+export const ENTITY_LOADER_STATE = 'EntityLoaderState';
+export const ENTITY_PROCESSES_LOADER_STATE = 'EntityProcessesLoaderState';
+export const STATE_LOADER_ACTIONS = 'StateLoaderActions';
+export const STATE_PROCESSES_LOADER_ACTIONS = 'StateProcessesLoaderActions';
+export const STATE_ENTITY_ACTIONS = 'StateEntityActions';
+export const STATE_ENTITY_LOADER_ACTIONS = 'StateEntityLoaderActions';
+export const STATE_ENTITY_PROCESSESS_LOADER_ACTIONS =
+  'StateEntityProcessesLoaderActions';
+export const STATE_LOADER_SELECTORS = 'StateLoaderSelectors';
+export const STATE_PROCESSES_LOADER_SELECTORS = 'StateProcessesLoaderSelectors';
+export const STATE_ENTITY_SELECTORS = 'StateEntitySelectors';
+export const STATE_ENTITY_LOADER_SELECTORS = 'StateEntityLoaderSelectors';
+export const STATE_ENTITY_PROCESSESS_LOADER_SELECTORS =
+  'StateEntityProcessesLoaderSelectors';
+export const LOADER_REDUCER = 'loaderReducer';
+export const PROCESSES_LOADER_REDUCER = 'processesLoaderReducer';
+export const ENTITY_REDUCER = 'entityReducer';
+export const ENTITY_LOADER_REDUCER = 'entityLoaderReducer';
+export const ENTITY_PROCESSES_LOADER_REDUCER = 'entityProcessesLoaderReducer';
+export const INITIAL_ENTITY_STATE = 'initialEntityState';
+export const INITIAL_LOADER_STATE = 'initialLoaderState';
+export const INITIAL_PROCESSES_STATE = 'initialProcessesState';
+export const GET_STATE_SLICE = 'getStateSlice';
+export const OF_LOADER_LOAD = 'ofLoaderLoad';
+export const OF_LOADER_FAIL = 'ofLoaderFail';
+export const OF_LOADER_SUCCESS = 'ofLoaderSuccess';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -242,5 +271,5 @@ export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 
 /***** Misc start *****/
 export const CSS_DOCS_URL =
-  'https://sap.github.io/cloud-commerce-spartacus-storefront-docs/deprecation-guide/css';
+  'https://sap.github.io/spartacus-docs/updating-to-version-2/css';
 /***** Misc end *****/

@@ -99,7 +99,7 @@ export function removeCoupon(couponCode: string) {
 
 export function applyWrongCoupon() {
   applyCartCoupon('wrongCouponCode');
-  cy.get('cx-global-message').should('contain', 'coupon.invalid.code.provided');
+  cy.get('cx-global-message').should('contain', 'Invalid code provided.');
 }
 
 export function placeOrder(stateAuth: any) {

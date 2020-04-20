@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { StateLoaderSelectors } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { OpenIdToken } from '../../models/kyma-token-types.model';
 import { StateWithKyma } from '../kyma-state';
@@ -13,31 +13,19 @@ export const getOpenIdTokenState: MemoizedSelector<
 export const getOpenIdTokenValue: MemoizedSelector<
   StateWithKyma,
   OpenIdToken
-> = createSelector(
-  getOpenIdTokenState,
-  StateLoaderSelectors.loaderValueSelector
-);
+> = createSelector(getOpenIdTokenState, StateUtils.loaderValueSelector);
 
 export const getOpenIdTokenLoading: MemoizedSelector<
   StateWithKyma,
   boolean
-> = createSelector(
-  getOpenIdTokenState,
-  StateLoaderSelectors.loaderLoadingSelector
-);
+> = createSelector(getOpenIdTokenState, StateUtils.loaderLoadingSelector);
 
 export const getOpenIdTokenSuccess: MemoizedSelector<
   StateWithKyma,
   boolean
-> = createSelector(
-  getOpenIdTokenState,
-  StateLoaderSelectors.loaderSuccessSelector
-);
+> = createSelector(getOpenIdTokenState, StateUtils.loaderSuccessSelector);
 
 export const getOpenIdTokenError: MemoizedSelector<
   StateWithKyma,
   boolean
-> = createSelector(
-  getOpenIdTokenState,
-  StateLoaderSelectors.loaderErrorSelector
-);
+> = createSelector(getOpenIdTokenState, StateUtils.loaderErrorSelector);
