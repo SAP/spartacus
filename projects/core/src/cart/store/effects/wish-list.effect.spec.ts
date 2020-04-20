@@ -159,7 +159,10 @@ describe('Wish List Effect', () => {
         new CartActions.LoadWishListSuccess({ cart: testCart, userId })
       );
 
-      const action = new SiteContextActions.CurrencyChange();
+      const action = new SiteContextActions.CurrencyChange({
+        previous: 'previous',
+        current: 'current',
+      });
 
       const resetWishListAction = new CartActions.LoadWishListSuccess({
         cart: wishList,
