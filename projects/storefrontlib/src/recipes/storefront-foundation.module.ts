@@ -19,6 +19,7 @@ import {
 } from '@spartacus/core';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
 import { LayoutModule } from '../layout/layout.module';
+import { MediaModule } from '../shared/components/media/media.module';
 import { ViewConfigModule } from '../shared/config/view-config.module';
 
 @NgModule({
@@ -41,6 +42,7 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
     ViewConfigModule.forRoot(),
     FeaturesConfigModule.forRoot('2.0'),
     LayoutModule,
+    MediaModule.forRoot(),
   ],
   exports: [LayoutModule],
   providers: [...provideConfigFromMetaTags()],
