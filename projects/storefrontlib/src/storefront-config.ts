@@ -22,6 +22,7 @@ import { FeatureToggles } from './feature-toggles';
 import { SkipLinkConfig } from './layout/a11y/skip-link/config/index';
 import { LayoutConfig } from './layout/config/layout-config';
 import { PaginationConfig } from './shared/components/list-navigation/pagination/index';
+import { MediaConfig } from './shared/components/media/media.config';
 import { ViewConfig } from './shared/config/view-config';
 
 export type StorefrontConfig =
@@ -34,6 +35,7 @@ export type StorefrontConfig =
   | PWAModuleConfig
   | SiteContextConfig
   | LayoutConfig
+  | MediaConfig
   | RoutingConfig
   | I18nConfig
   | PersonalizationConfig

@@ -1,5 +1,5 @@
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { UPDATE_EMAIL_PROCESS_ID } from '../user-state';
 import { UserActions } from './index';
 
@@ -19,7 +19,7 @@ describe('Update Email Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_EMAIL,
         payload: { uid, password, newUid },
-        meta: StateEntityLoaderActions.entityLoadMeta(
+        meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
           UPDATE_EMAIL_PROCESS_ID
         ),
@@ -35,7 +35,7 @@ describe('Update Email Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_EMAIL_SUCCESS,
         newUid,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
+        meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
           UPDATE_EMAIL_PROCESS_ID
         ),
@@ -53,7 +53,7 @@ describe('Update Email Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_EMAIL_ERROR,
         payload: error,
-        meta: StateEntityLoaderActions.entityFailMeta(
+        meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           UPDATE_EMAIL_PROCESS_ID,
           error
@@ -68,7 +68,7 @@ describe('Update Email Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.RESET_EMAIL,
-        meta: StateEntityLoaderActions.entityResetMeta(
+        meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
           UPDATE_EMAIL_PROCESS_ID
         ),
