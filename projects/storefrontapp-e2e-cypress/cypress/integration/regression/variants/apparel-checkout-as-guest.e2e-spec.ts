@@ -23,7 +23,7 @@ import {
 context('Apparel - checkout as guest', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-    Cypress.env('BASE_SITE', `${APPAREL_BASESITE}`);
+    Cypress.env('BASE_SITE', APPAREL_BASESITE);
   });
 
   beforeEach(() => {

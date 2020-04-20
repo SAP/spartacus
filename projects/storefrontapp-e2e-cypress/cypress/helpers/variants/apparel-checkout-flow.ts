@@ -19,7 +19,7 @@ export function addVariantOfSameProductToCart() {
   cy.server();
   cy.route(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/apparel-uk-spa/products/${
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/products/${
       products[1].code
     }/reviews*`
   ).as('getProductPage');
@@ -31,7 +31,7 @@ export function addVariantOfSameProductToCart() {
 
 export function visitProductWithoutVariantPage() {
   configureProductWithVariants();
-  cy.visit('apparel-uk-spa/en/GBP/product/300611156');
+  cy.visit(`${APPAREL_BASESITE}/en/GBP/product/300611156`);
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[2].code);
   });
