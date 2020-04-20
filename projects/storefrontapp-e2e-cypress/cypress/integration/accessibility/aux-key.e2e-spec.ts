@@ -169,9 +169,9 @@ context('Auxiliary Keys', () => {
 
 function loadPageWithComponenents(pageUrl: string) {
   cy.server();
-  cy.route(`${Cypress.env('API_URL')}/rest/v2/electronics-spa/**`).as(
-    'getComponents'
-  );
+  cy.route(
+    `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
+  ).as('getComponents');
   cy.visit(pageUrl);
   cy.wait('@getComponents');
 }
