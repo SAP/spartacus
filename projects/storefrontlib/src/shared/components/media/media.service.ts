@@ -1,108 +1,145 @@
-import { Injectable } from '@angular/core';
-import { OccConfig } from '@spartacus/core';
+import { Inject, Injectable } from '@angular/core';
+import { Config, Image, OccConfig } from '@spartacus/core';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
-import { BREAKPOINT } from '../../../layout/config/layout-config';
-import { Media, MediaFormats } from './media.model';
+import { StorefrontConfig } from '../../../storefront-config';
+import { MediaConfig } from './media.config';
+import { Media, MediaContainer, MediaFormatSize } from './media.model';
 
-/** the default format is used for browsers that do not support   */
-const DEFAULT_MEDIA_FORMAT = 'tablet';
-
+/**
+ * Service which generates media URLs. It leverage the MediaContainer and MediaFormats so
+ * that URLs and sizes are generated for the same media. This helps to improve performance
+ * across difference devices and layouts.
+ *
+ * Media formats are optional, but highly recommended. The format will help the browser to
+ * identify the right media for the right experience.
+ *
+ * The MediaService will generate absolute URLs in case relative URLs are provided for the Media.
+ * The baseUrl is read from the `occConfig.backend.media.baseUrl` or
+ * `occConfig.backend.occ.baseUrl`.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class MediaService {
+  /**
+   * The media formats sorted by size. The media format representing the smallest
+   * size is sorted on top.
+   */
+  private _sortedFormats: { code: string; size: MediaFormatSize }[];
+  private _reversedFormats: { code: string; size: MediaFormatSize }[];
+
   constructor(
-    protected config: OccConfig,
+    @Inject(Config) protected config: StorefrontConfig,
+    /**
+     * The BreakpointService is no longer used in version 2.0 as the different size formats are
+     * driven by configuration only. There's however a change that this service will play a role
+     * in the near future, which is why we keep the constructor as-is.
+     */
     protected breakpointService: BreakpointService
   ) {}
 
-  private get mediaFormats(): MediaFormats[] {
-    return [
-      {
-        code: 'mobile',
-        threshold: this.breakpointService.getSize(BREAKPOINT.xs),
-      },
-      {
-        code: 'tablet',
-        threshold: this.breakpointService.getSize(BREAKPOINT.sm),
-      },
-      {
-        code: 'desktop',
-        threshold: this.breakpointService.getSize(BREAKPOINT.md),
-      },
-      {
-        code: 'widescreen',
-        threshold: this.breakpointService.getSize(BREAKPOINT.lg),
-      },
-    ];
-  }
+  /**
+   * Returns a `Media` object with the main media (`src`) and various media (`src`)
+   * for specific formats.
+   */
+  getMedia(
+    mediaContainer: MediaContainer | Image,
+    format?: string,
+    alt?: string
+  ): Media {
+    if (!mediaContainer) {
+      return;
+    }
 
-  getMedia(container, format?: string, alt?: string): Media {
+    const mainMedia: Image = mediaContainer.url
+      ? mediaContainer
+      : this.resolveMedia(mediaContainer as MediaContainer, format);
+
     return {
-      src: this.getMainImage(container, format),
-      srcset: this.getSrcSet(container),
-      alt: alt || this.getAlt(container, format),
+      src: this.resolveAbsoluteUrl(mainMedia?.url),
+      alt: alt || mainMedia?.altText,
+      srcset: this.resolveSrcSet(mediaContainer),
     };
   }
 
-  private getMainImage(media, format?: string): string {
-    if (media && media[format || DEFAULT_MEDIA_FORMAT]) {
-      return this.getImageUrl(media[format || DEFAULT_MEDIA_FORMAT].url);
-    } else if (media && media.url) {
-      return this.getImageUrl(media.url);
-    } else if (media && media[this.getHighestAvailableFormat(media)]) {
-      return this.getImageUrl(media[this.getHighestAvailableFormat(media)].url);
-    } else {
-      return null;
+  /**
+   * Creates the media formats in a logical sorted order. The map contains the
+   * format key and the format size information. We do this only once for performance
+   * benefits.
+   */
+  protected get sortedFormats(): { code: string; size: MediaFormatSize }[] {
+    if (!this._sortedFormats) {
+      this._sortedFormats = Object.keys(
+        (this.config as MediaConfig).mediaFormats
+      )
+        .map((key) => ({
+          code: key,
+          size: (this.config as MediaConfig).mediaFormats[key],
+        }))
+        .sort((a, b) => (a.size.width > b.size.width ? 1 : -1));
     }
+    return this._sortedFormats;
   }
 
   /**
-   * returns highest resolution format name from media formats
+   * Creates the media formats in a reversed sorted order.
    */
-  private getHighestAvailableFormat(media): string {
-    if (media) {
-      let mediaFormat: MediaFormats;
-
-      this.mediaFormats.forEach((format) => {
-        if (
-          !mediaFormat ||
-          (mediaFormat.threshold < format.threshold && media[format.code])
-        ) {
-          mediaFormat = format;
-        }
-      });
-
-      return mediaFormat.code;
+  protected get reversedFormats(): { code: string; size: MediaFormatSize }[] {
+    if (!this._reversedFormats) {
+      this._reversedFormats = this.sortedFormats.slice().reverse();
     }
-
-    return null;
-  }
-
-  private getAlt(media, format?: string): string {
-    if (!media) {
-      return undefined;
-    } else if (media[format || DEFAULT_MEDIA_FORMAT]) {
-      return media[format || DEFAULT_MEDIA_FORMAT].altText;
-    } else if (media.altText) {
-      return media.altText;
-    }
+    return this._reversedFormats;
   }
 
   /**
-   * builds a set of images aligned with the breakpoints
+   * Resolves the right media for the given format. The fo
    */
-  private getSrcSet(media): string {
+  protected resolveMedia(media: MediaContainer, format?: string): Image {
+    return media[this.resolveFormat(media, format)];
+  }
+
+  /**
+   * Validates the format against the given mediaContainer. If there is no format available,
+   * or if the mediaContainer doesn't contain a media for the given media, the most optimal
+   * format is resolved. If even that is not possible, the first format is returned.
+   */
+  protected resolveFormat(
+    mediaContainer: MediaContainer,
+    format?: string
+  ): string {
+    if (format && mediaContainer[format]) {
+      return format;
+    }
+    return (
+      this.resolveBestFormat(mediaContainer) || Object.keys(mediaContainer)[0]
+    );
+  }
+
+  /**
+   * Returns the media format code with the best size.
+   */
+  protected resolveBestFormat(media: MediaContainer | Image): string {
+    return this.reversedFormats.find((format) =>
+      media.hasOwnProperty(format.code)
+    )?.code;
+  }
+
+  /**
+   * Returns a set of media for the available media formats. Additionally, the congiured media
+   * format width is added to the srcset, so that browsers can select the appropriate media.
+   */
+  protected resolveSrcSet(media: MediaContainer | Image): string {
     if (!media) {
       return undefined;
     }
-    const srcset = this.mediaFormats.reduce((set, format) => {
+
+    const srcset = this.sortedFormats.reduce((set, format) => {
       if (!!media[format.code]) {
         if (set) {
           set += ', ';
         }
-        set += `${this.getImageUrl(media[format.code].url)} ${
-          format.threshold
+        set += `${this.resolveAbsoluteUrl(media[format.code].url)} ${
+          format.size.width
         }w`;
       }
       return set;
@@ -111,16 +148,30 @@ export class MediaService {
     return srcset === '' ? undefined : srcset;
   }
 
-  private getImageUrl(url: string): string {
+  /**
+   * Resolves the absolute URL for the given url. In most cases, this URL represents
+   * the relative URL on the backend. In that case, we prefix the url with the baseUrl.
+   */
+  protected resolveAbsoluteUrl(url: string): string {
     if (!url) {
       return null;
     }
     return url.startsWith('http') ? url : this.getBaseUrl() + url;
   }
 
-  private getBaseUrl(): string {
+  /**
+   * The base URL is either driven by a specific `backend.media.baseUrl`, or by the
+   * `backend.occ.baseUrl`.
+   *
+   * The `backend.media.baseUrl` can be used to load media from a different location.
+   *
+   * In Commerce Cloud, a differnt location could mean a different "aspect".
+   */
+  protected getBaseUrl(): string {
     return (
-      this.config.backend.media.baseUrl || this.config.backend.occ.baseUrl || ''
+      (this.config as OccConfig).backend.media.baseUrl ||
+      (this.config as OccConfig).backend.occ.baseUrl ||
+      ''
     );
   }
 }
