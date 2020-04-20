@@ -1,9 +1,5 @@
 import { Cart } from '../../../model/cart.model';
-import {
-  StateEntityActions,
-  StateEntityLoaderActions,
-  StateEntityProcessesLoaderActions,
-} from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 import { CartActions } from './index';
 
@@ -32,10 +28,7 @@ describe('MultiCart Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.SET_TEMP_CART,
           payload,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            MULTI_CART_DATA,
-            tempCartId
-          ),
+          meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, tempCartId),
         });
       });
     });
@@ -48,10 +41,7 @@ describe('MultiCart Actions', () => {
       expect({ ...action }).toEqual({
         type: CartActions.CART_PROCESSES_INCREMENT,
         payload,
-        meta: StateEntityProcessesLoaderActions.entityProcessesIncrementMeta(
-          MULTI_CART_DATA,
-          payload
-        ),
+        meta: StateUtils.entityProcessesIncrementMeta(MULTI_CART_DATA, payload),
       });
     });
   });
@@ -63,10 +53,7 @@ describe('MultiCart Actions', () => {
       expect({ ...action }).toEqual({
         type: CartActions.CART_PROCESSES_DECREMENT,
         payload,
-        meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
-          MULTI_CART_DATA,
-          payload
-        ),
+        meta: StateUtils.entityProcessesDecrementMeta(MULTI_CART_DATA, payload),
       });
     });
   });
@@ -87,7 +74,7 @@ describe('MultiCart Actions', () => {
       const action = new CartActions.ClearCartState();
       expect({ ...action }).toEqual({
         type: CartActions.CLEAR_CART_STATE,
-        meta: StateEntityActions.entityRemoveAllMeta(MULTI_CART_DATA),
+        meta: StateUtils.entityRemoveAllMeta(MULTI_CART_DATA),
       });
     });
   });
