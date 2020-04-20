@@ -37,7 +37,6 @@ describe('ConsentManagementFormComponent', () => {
       describe('when anonymous consents feature is enabled and consent is provided', () => {
         it('should set consentGiven according to the state of the provided consent', () => {
           component.consent = { consentState: ANONYMOUS_CONSENT_STATUS.GIVEN };
-          component.isAnonymousConsentsEnabled = true;
           component.ngOnInit();
           expect(component.consentGiven).toEqual(true);
         });
@@ -91,7 +90,6 @@ describe('ConsentManagementFormComponent', () => {
     describe('isRequired', () => {
       it('should return TRUE if the id is included in the required array', () => {
         const templateId = 'TEMPLATE_ID';
-        component.isAnonymousConsentsEnabled = true;
         component.requiredConsents = [templateId, 'OTHER1', 'OTHER2'];
 
         expect(component.isRequired(templateId)).toBeTruthy();
@@ -127,7 +125,6 @@ describe('ConsentManagementFormComponent', () => {
         expect(component.onConsentChange).toHaveBeenCalled();
       });
       it('should disable required consents', () => {
-        component.isAnonymousConsentsEnabled = true;
         component.consentTemplate = mockConsentTemplate;
         component.requiredConsents = [mockConsentTemplate.id];
 

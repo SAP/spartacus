@@ -3,10 +3,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
-import { CheckoutActions } from '../../../checkout/store/actions';
 import { Cart } from '../../../model/cart.model';
 import * as fromCartReducers from '../../store/reducers/index';
-import * as DeprecatedCartActions from '../actions/cart.action';
 import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './multi-cart.effect';
@@ -49,43 +47,17 @@ describe('Multi Cart effect', () => {
   });
 
   describe('setTempCart$', () => {
-    it('should dispatch reset just after setting', () => {
+    it('should dispatch RemoveCart just after setting', () => {
       const payload = { cart: testCart, tempCartId: 'tempCartId' };
       const action = new CartActions.SetTempCart(payload);
-      const removeTempCartCompletion = new CartActions.RemoveTempCart(payload);
+      const removeTempCartCompletion = new CartActions.RemoveCart({
+        cartId: payload.tempCartId,
+      });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {
         b: removeTempCartCompletion,
       });
       expect(cartEffects.setTempCart$).toBeObservable(expected);
-    });
-  });
-
-  describe('mergeCart2$', () => {
-    it('should dispatch MergeMultiCart action', () => {
-      const action = new DeprecatedCartActions.MergeCart({});
-      const mergeMultiCartCompletion = new CartActions.MergeMultiCart({});
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: mergeMultiCartCompletion,
-      });
-      expect(cartEffects.mergeCart2$).toBeObservable(expected);
-    });
-  });
-
-  describe('removeCart$', () => {
-    it('should dispatch RemoveCart action', () => {
-      const payload = {
-        userId: 'userId',
-        cartId: 'cartId',
-      };
-      const action = new DeprecatedCartActions.DeleteCart(payload);
-      const removeCartCompletion = new CartActions.RemoveCart(payload.cartId);
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: removeCartCompletion,
-      });
-      expect(cartEffects.removeCart$).toBeObservable(expected);
     });
   });
 
@@ -95,8 +67,7 @@ describe('Multi Cart effect', () => {
         userId: 'userId',
         cartId: 'cartId',
       };
-      const action5 = new CheckoutActions.ClearCheckoutDeliveryMode(payload);
-      const action6 = new CartActions.CartAddVoucher({
+      const action = new CartActions.CartAddVoucher({
         ...payload,
         voucherId: 'voucherId',
       });
@@ -104,13 +75,11 @@ describe('Multi Cart effect', () => {
       const processesIncrementCompletion = new CartActions.CartProcessesIncrement(
         payload.cartId
       );
-      actions$ = hot('-e-f', {
-        e: action5,
-        f: action6,
+      actions$ = hot('-b', {
+        b: action,
       });
-      const expected = cold('-5-6', {
-        5: processesIncrementCompletion,
-        6: processesIncrementCompletion,
+      const expected = cold('-1', {
+        1: processesIncrementCompletion,
       });
       expect(cartEffects.processesIncrement$).toBeObservable(expected);
     });

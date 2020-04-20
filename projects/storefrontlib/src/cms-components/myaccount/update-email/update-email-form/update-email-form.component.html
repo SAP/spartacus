@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form (ngSubmit)="onSubmit()" [formGroup]="updateEmailForm">
   <div class="form-group row">
     <div class="col-md-12">
       <label>
@@ -13,11 +13,10 @@
             'updateEmailForm.newEmailAddress.placeholder' | cxTranslate
           }}"
           class="form-control"
-          [class.is-invalid]="isNotValid('email')"
         />
-        <div class="invalid-feedback" *ngIf="isNotValid('email')">
-          <span>{{ 'updateEmailForm.enterValidEmail' | cxTranslate }}</span>
-        </div>
+        <cx-form-errors
+          [control]="updateEmailForm.get('email')"
+        ></cx-form-errors>
       </label>
     </div>
   </div>
@@ -36,14 +35,10 @@
             'updateEmailForm.confirmNewEmailAddress.placeholder' | cxTranslate
           }}"
           class="form-control"
-          [class.is-invalid]="isEmailConfirmNotValid('confirmEmail')"
         />
-        <div
-          class="invalid-feedback"
-          *ngIf="isEmailConfirmNotValid('confirmEmail')"
-        >
-          <span>{{ 'updateEmailForm.bothEmailMustMatch' | cxTranslate }}</span>
-        </div>
+        <cx-form-errors
+          [control]="updateEmailForm.get('confirmEmail')"
+        ></cx-form-errors>
       </label>
     </div>
   </div>
@@ -62,12 +57,11 @@
             'updateEmailForm.password.placeholder' | cxTranslate
           }}"
           class="form-control"
-          [class.is-invalid]="isNotValid('password')"
           autocomplete="new-password"
         />
-        <div class="invalid-feedback" *ngIf="isNotValid('password')">
-          <span>{{ 'updateEmailForm.pleaseInputPassword' | cxTranslate }}</span>
-        </div>
+        <cx-form-errors
+          [control]="updateEmailForm.get('password')"
+        ></cx-form-errors>
       </label>
     </div>
   </div>

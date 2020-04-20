@@ -77,7 +77,7 @@ export function verifyReviewForm() {
     'My best comment I have ever posted'
   );
   cy.get(`${writeAReviewForm} .star`).eq(2).click();
-  cy.get(`${writeAReviewForm} input`).eq(1).type('Me');
+  cy.get(`${writeAReviewForm} input`).eq(2).type('Me');
   cy.get(writeAReviewForm).getByText('Submit').should('be.not.disabled');
   cy.get(writeAReviewForm).getByText('Submit').click();
   cy.get(writeAReviewForm).should('be.not.visible');

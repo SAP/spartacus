@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
+import { CartModification } from '../../../model/cart.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { withdrawOn } from '../../../util/withdraw-on';
@@ -35,19 +36,17 @@ export class CartEntryEffects {
         )
         .pipe(
           map(
-            (entry: any) =>
+            (cartModification: CartModification) =>
               new CartActions.CartAddEntrySuccess({
-                ...entry,
-                userId: payload.userId,
-                cartId: payload.cartId,
+                ...payload,
+                ...(cartModification as Required<CartModification>),
               })
           ),
           catchError((error) =>
             from([
               new CartActions.CartAddEntryFail({
+                ...payload,
                 error: makeErrorSerializable(error),
-                cartId: payload.cartId,
-                userId: payload.userId,
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -70,20 +69,18 @@ export class CartEntryEffects {
     map((action: CartActions.CartRemoveEntry) => action.payload),
     concatMap((payload) =>
       this.cartEntryConnector
-        .remove(payload.userId, payload.cartId, payload.entry)
+        .remove(payload.userId, payload.cartId, payload.entryNumber)
         .pipe(
           map(() => {
             return new CartActions.CartRemoveEntrySuccess({
-              userId: payload.userId,
-              cartId: payload.cartId,
+              ...payload,
             });
           }),
           catchError((error) =>
             from([
               new CartActions.CartRemoveEntryFail({
+                ...payload,
                 error: makeErrorSerializable(error),
-                cartId: payload.cartId,
-                userId: payload.userId,
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -106,20 +103,23 @@ export class CartEntryEffects {
     map((action: CartActions.CartUpdateEntry) => action.payload),
     concatMap((payload) =>
       this.cartEntryConnector
-        .update(payload.userId, payload.cartId, payload.entry, payload.qty)
+        .update(
+          payload.userId,
+          payload.cartId,
+          payload.entryNumber,
+          payload.quantity
+        )
         .pipe(
           map(() => {
             return new CartActions.CartUpdateEntrySuccess({
-              userId: payload.userId,
-              cartId: payload.cartId,
+              ...payload,
             });
           }),
           catchError((error) =>
             from([
               new CartActions.CartUpdateEntryFail({
+                ...payload,
                 error: makeErrorSerializable(error),
-                cartId: payload.cartId,
-                userId: payload.userId,
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,

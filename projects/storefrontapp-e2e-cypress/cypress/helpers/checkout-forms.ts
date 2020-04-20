@@ -113,10 +113,10 @@ export function fillPaymentDetails(
     cy.get('[formcontrolname="cardNumber"]')
       .clear()
       .type(paymentDetails.payment.number);
-    cy.get('[bindValue="expiryMonth"]').ngSelect(
+    cy.get('[formcontrolname="expiryMonth"]').ngSelect(
       paymentDetails.payment.expires.month
     );
-    cy.get('[bindValue="expiryYear"]').ngSelect(
+    cy.get('[formcontrolname="expiryYear"]').ngSelect(
       paymentDetails.payment.expires.year
     );
     cy.get('[formcontrolname="cvn"]').clear().type(paymentDetails.payment.cvv);
@@ -126,6 +126,8 @@ export function fillPaymentDetails(
       cy.get('input.form-check-input').check();
     }
 
-    cy.get('button.btn.btn-block.btn-primary').contains('Continue').click();
+    if (submitForm) {
+      cy.get('button.btn.btn-block.btn-primary').contains('Continue').click();
+    }
   });
 }

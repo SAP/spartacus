@@ -95,7 +95,7 @@ export function addressBookNextStep() {
     'getDeliveryPage'
   );
 
-  cy.get('cx-shipping-address .btn-primary').click({ force: true });
+  cy.get('cx-shipping-address .btn-primary').click();
 
   cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
@@ -110,7 +110,7 @@ export function deliveryModeNextStep() {
     'getPaymentPage'
   );
 
-  cy.get('cx-delivery-mode .btn-primary').click({ force: true });
+  cy.get('cx-delivery-mode .btn-primary').click();
 
   cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
 }
@@ -122,7 +122,7 @@ export function paymentDetailsNextStep() {
 
   const reviewPage = waitForPage(CHECKOUT_REVIEW_ORDER_PATH, 'getReviewPage');
 
-  cy.get('cx-payment-method .btn-primary').click({ force: true });
+  cy.get('cx-payment-method .btn-primary').click();
 
   cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
 }
@@ -153,7 +153,9 @@ export function siteContextChange(
   selectedOption: string,
   label: string
 ): void {
-  cy.visit(FULL_BASE_URL_EN_USD + pagePath);
+  if (pagePath !== null) {
+    cy.visit(FULL_BASE_URL_EN_USD + pagePath);
+  }
 
   let contextParam: string;
 

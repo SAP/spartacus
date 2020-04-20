@@ -10,6 +10,7 @@ import {
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { UpdatePasswordFormComponent } from './components/update-password-form/update-password-form.component';
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { UpdatePasswordComponent } from './components/update-password/update-pas
     ReactiveFormsModule,
     SpinnerModule,
     I18nModule,
+    FormErrorsModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

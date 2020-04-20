@@ -1,22 +1,32 @@
-<div class="cx-place-order-form form-check">
-  <label>
-    <input class="form-check-input" type="checkbox" (change)="toggleTAndC()" />
-    <span class="form-check-label">
-      {{ 'checkoutReview.confirmThatRead' | cxTranslate }}
-      <a
-        [routerLink]="{ cxRoute: 'termsAndConditions' } | cxUrl"
-        class="cx-tc-link"
-        target="_blank"
-      >
-        {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
-      </a>
-    </span>
-  </label>
-</div>
-<button
-  [disabled]="!tAndCToggler"
-  (click)="placeOrder()"
-  class="btn btn-primary btn-block"
+<form
+  (ngSubmit)="submitForm()"
+  class="cx-place-order-form form-check"
+  [formGroup]="checkoutSubmitForm"
 >
-  {{ 'checkoutReview.placeOrder' | cxTranslate }}
-</button>
+  <div class="form-group">
+    <label>
+      <input
+        formControlName="termsAndConditions"
+        class="form-check-input"
+        type="checkbox"
+      />
+      <span class="form-check-label">
+        {{ 'checkoutReview.confirmThatRead' | cxTranslate }}
+        <a
+          [routerLink]="{ cxRoute: 'termsAndConditions' } | cxUrl"
+          class="cx-tc-link"
+          target="_blank"
+        >
+          {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
+        </a>
+      </span>
+      <cx-form-errors
+        [control]="checkoutSubmitForm.get('termsAndConditions')"
+      ></cx-form-errors>
+    </label>
+  </div>
+
+  <button type="submit" class="btn btn-primary btn-block">
+    {{ 'checkoutReview.placeOrder' | cxTranslate }}
+  </button>
+</form>
