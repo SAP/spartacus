@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
@@ -59,7 +60,7 @@ export class PageSlotComponent {
   @HostBinding('class.page-fold') @Input() isPageFold = false;
 
   /** Indicates that the page slot is indicated as the last page slot above the fold */
-  @HostBinding('class.cx-pending') @Input() isPending = true;
+  @HostBinding('class.cx-pending') isPending = true;
 
   /** Indicates that the page slot is indicated as the last page slot above the fold */
   @HostBinding('class.has-components') @Input() hasComponents = false;
@@ -77,6 +78,7 @@ export class PageSlotComponent {
 
   /** Keeps track of the pending components that must be loaded for the page slot */
   private pendingComponentCount = 0;
+
   /** Tracks the last used position, in case the page slot is used dynamically */
   private lastPosition: string;
 
@@ -85,7 +87,8 @@ export class PageSlotComponent {
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected elementRef: ElementRef,
-    protected config: CmsConfig
+    protected config: CmsConfig,
+    protected cd: ChangeDetectorRef
   ) {}
 
   protected decorate(slot: ContentSlotData): void {
@@ -146,6 +149,7 @@ export class PageSlotComponent {
   isLoaded(loadState: boolean) {
     if (loadState) {
       this.pending--;
+      this.cd.markForCheck();
     }
   }
 
