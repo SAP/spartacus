@@ -41,7 +41,7 @@ class MockAppliedCouponsComponent {
   isReadOnly = false;
 }
 
-fdescribe('CartCouponComponent', () => {
+describe('CartCouponComponent', () => {
   let component: CartCouponComponent;
   let fixture: ComponentFixture<CartCouponComponent>;
   let input: HTMLInputElement;
