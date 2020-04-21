@@ -1,4 +1,3 @@
-import { apiUrl } from '../support/utils/login';
 import * as cart from './cart';
 import * as cartCoupon from './cart-coupon';
 
@@ -59,14 +58,18 @@ export function stubForCartsRefresh() {
   stubForCartRefresh();
   cy.route(
     'GET',
-    `${apiUrl}/rest/v2/electronics-spa/users/*/carts/selectivecart*?fields=*&lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/selectivecart*?fields=*&lang=en&curr=USD`
   ).as('refresh_selectivecart');
 }
 export function stubForCartRefresh() {
   cy.server();
   cy.route(
     'GET',
-    `${apiUrl}/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
 }
 
