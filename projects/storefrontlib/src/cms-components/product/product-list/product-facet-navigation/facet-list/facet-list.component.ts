@@ -6,6 +6,7 @@ import {
   HostListener,
   Input,
   Output,
+  Renderer2,
 } from '@angular/core';
 import { Facet } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -22,10 +23,21 @@ import { FacetService } from '../services/facet.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FacetListComponent {
+  private _isDialog: boolean;
   /**
    * Indicates that the facet navigation is rendered in dialog.
    */
-  @Input() isDialog: boolean;
+  @Input()
+  set isDialog(value: boolean) {
+    this._isDialog = value;
+    if (value) {
+      this.renderer.addClass(document.body, 'modal-open');
+    }
+  }
+
+  get isDialog(): boolean {
+    return this._isDialog;
+  }
 
   /** Emits when the list must close */
   @Output() closeList = new EventEmitter();
@@ -48,7 +60,8 @@ export class FacetListComponent {
 
   constructor(
     protected facetService: FacetService,
-    protected elementRef: ElementRef
+    protected elementRef: ElementRef,
+    protected renderer: Renderer2
   ) {}
 
   /**
@@ -83,6 +96,7 @@ export class FacetListComponent {
   }
 
   close(event?: boolean): void {
+    this.renderer.removeClass(document.body, 'modal-open');
     this.closeList.emit(event);
   }
 
