@@ -21,8 +21,13 @@ export class LazyComponentHandler extends DefaultComponentHandler {
   hasMatch(componentMapping: CmsComponentMapping): boolean {
     return (
       typeof componentMapping.component === 'function' &&
-      !componentMapping.component.prototype
+      this.isNotClass(componentMapping.component)
     );
+  }
+
+  private isNotClass(symbol: any): boolean {
+    const signature = symbol.toString().substr(0, 20).replace(' ', '');
+    return signature.startsWith('function()') || signature.startsWith('()=>');
   }
 
   getPriority(): Priority {
