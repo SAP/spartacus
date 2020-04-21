@@ -203,6 +203,12 @@ export function stubForPaginableMyInterests(jsonfile: string, url: string) {
 
 export function verifyPagingAndSorting() {
   stubForPaginableMyInterests(
+    'myinterestpage0.json',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:asc&pageSize=10&lang=en&curr=USD`
+  );
+  stubForPaginableMyInterests(
     'myinterestpage1.json',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
