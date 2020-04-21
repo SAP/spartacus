@@ -1926,6 +1926,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   myAccount: [
     {
+      value: 'My Account',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Order History',
       type: TabbingOrderTypes.LINK,
     },
