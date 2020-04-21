@@ -11,7 +11,7 @@ export const STORE_FINDER_LIST_ITEM_MIGRATION: ComponentData = {
     },
     {
       name: 'prepareRouteUrl',
-      comment: `'viewStore' method has been removed.`,
+      comment: `'prepareRouteUrl' method has been removed.`,
     },
   ],
 };
