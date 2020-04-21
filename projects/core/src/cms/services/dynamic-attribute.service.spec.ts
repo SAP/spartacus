@@ -13,7 +13,7 @@ const mockProperties = {
 };
 
 class MockSmartEditService {
-  isLaunchInSmartEdit(): boolean {
+  isLaunchedInSmartEdit(): boolean {
     return true;
   }
 }
