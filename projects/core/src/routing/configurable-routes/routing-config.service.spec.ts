@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { RoutingConfig } from './config/routing-config';
-import { RoutesConfig } from './routes-config';
+import { RouteLoadStrategy, RoutingConfig } from './config/routing-config';
 import { RoutingConfigService } from './routing-config.service';
 
-class MockRoutingConfig {
-  routing: { routes: RoutesConfig } = {
+class MockRoutingConfig extends RoutingConfig {
+  routing = {
     routes: {
       page1: { paths: ['path1', 'path10'] },
     },
+    loadStrategy: RouteLoadStrategy.ONCE,
   };
 }
 
@@ -35,6 +35,18 @@ describe('RoutingConfigService', () => {
       };
       const expectedResult = { paths: ['path1', 'path10'] };
       expect(service.getRouteConfig('page1')).toEqual(expectedResult);
+    });
+  });
+
+  describe('getLoadStrategy', () => {
+    it('should return default load strategy', async () => {
+      const config = TestBed.inject(RoutingConfig);
+      delete config.routing.loadStrategy;
+      expect(service.getLoadStrategy()).toEqual(RouteLoadStrategy.ALWAYS);
+    });
+
+    it('should return load strategy', async () => {
+      expect(service.getLoadStrategy()).toEqual(RouteLoadStrategy.ONCE);
     });
   });
 });

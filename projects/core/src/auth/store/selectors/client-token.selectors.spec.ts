@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { LoaderState } from '../../../state';
+import { StateUtils } from '../../../state';
 import { ClientToken } from '../../models/token-types.model';
 import { AuthActions } from '../actions/index';
 import { AUTH_FEATURE, StateWithAuth } from '../auth-state';
@@ -30,7 +30,7 @@ describe('ClientToken Selectors', () => {
     it('should return the client token state', () => {
       store.dispatch(new AuthActions.LoadClientTokenSuccess(mockClientToken));
 
-      let result: LoaderState<ClientToken>;
+      let result: StateUtils.LoaderState<ClientToken>;
       store
         .pipe(select(AuthSelectors.getClientTokenState))
         .subscribe((value) => (result = value))
@@ -41,7 +41,7 @@ describe('ClientToken Selectors', () => {
         loading: false,
         success: true,
         value: mockClientToken,
-      } as LoaderState<ClientToken>);
+      } as StateUtils.LoaderState<ClientToken>);
     });
   });
 });

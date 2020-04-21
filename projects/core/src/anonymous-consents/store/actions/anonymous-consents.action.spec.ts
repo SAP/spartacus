@@ -2,7 +2,7 @@ import {
   AnonymousConsent,
   ConsentTemplate,
 } from '../../../model/consent.model';
-import { StateLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { ANONYMOUS_CONSENTS } from '../anonymous-consents-state';
 import { AnonymousConsentsActions } from './index';
 
@@ -25,7 +25,7 @@ describe('anonymous consent actions', () => {
         const action = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
         expect({ ...action }).toEqual({
           type: AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES,
-          meta: StateLoaderActions.loadMeta(ANONYMOUS_CONSENTS),
+          meta: StateUtils.loadMeta(ANONYMOUS_CONSENTS),
         });
       });
     });
@@ -38,7 +38,7 @@ describe('anonymous consent actions', () => {
           payload: mockConsentTemplates,
           type:
             AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES_SUCCESS,
-          meta: StateLoaderActions.successMeta(ANONYMOUS_CONSENTS),
+          meta: StateUtils.successMeta(ANONYMOUS_CONSENTS),
         });
       });
     });
@@ -50,7 +50,7 @@ describe('anonymous consent actions', () => {
         );
         expect({ ...action }).toEqual({
           type: AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES_FAIL,
-          meta: StateLoaderActions.failMeta(ANONYMOUS_CONSENTS, mockError),
+          meta: StateUtils.failMeta(ANONYMOUS_CONSENTS, mockError),
         });
       });
     });
@@ -59,7 +59,7 @@ describe('anonymous consent actions', () => {
         const action = new AnonymousConsentsActions.ResetLoadAnonymousConsentTemplates();
         expect({ ...action }).toEqual({
           type: AnonymousConsentsActions.RESET_LOAD_ANONYMOUS_CONSENT_TEMPLATES,
-          meta: StateLoaderActions.resetMeta(ANONYMOUS_CONSENTS),
+          meta: StateUtils.resetMeta(ANONYMOUS_CONSENTS),
         });
       });
     });

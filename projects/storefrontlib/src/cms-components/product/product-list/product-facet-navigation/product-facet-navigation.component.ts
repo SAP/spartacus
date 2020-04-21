@@ -44,6 +44,8 @@ export class ProductFacetNavigationComponent {
    * before some CSS animations are done.
    */
   isOpen$: Observable<boolean> = this.breakpointService.breakpoint$.pipe(
+    // deffer emitting a new value to the next micro-task to ensure that the `hasTrigger`
+    // method represents the actual UI state.
     observeOn(asapScheduler),
     switchMap(() => (this.hasTrigger ? this.open$ : of(true))),
     delayWhen((launched) => interval(launched ? 0 : this.CLOSE_DELAY))
@@ -54,7 +56,11 @@ export class ProductFacetNavigationComponent {
    * is related to the css, so that a animation or transition can visualize opening/closing
    * the list (i.e. dialog).
    */
-  isActive$ = this.open$.pipe(observeOn(asapScheduler));
+  isActive$ = this.open$.pipe(
+    // deffer emitting a new value to the next micro-task to ensure the active class is
+    //  applied after the DOM is created
+    observeOn(asapScheduler)
+  );
 
   constructor(protected breakpointService: BreakpointService) {}
 

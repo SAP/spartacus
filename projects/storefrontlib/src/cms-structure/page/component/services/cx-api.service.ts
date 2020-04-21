@@ -30,7 +30,7 @@ import {
   UserPaymentService,
   UserService,
 } from '@spartacus/core';
-import { CmsComponentData } from '../model';
+import { CmsComponentData } from '../../model';
 
 @Injectable({
   providedIn: 'root',
