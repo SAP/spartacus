@@ -1,6 +1,5 @@
 import { manipulateCartQuantity } from '../../../../helpers/cart';
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
-import { apiUrl } from '../../../../support/utils/login';
 
 describe('Language switch - checkout page', () => {
   const checkoutShippingPath =
@@ -35,7 +34,9 @@ describe('Language switch - checkout page', () => {
       // page being already tested in language-address-book
       cy.route(
         'PUT',
-        `${apiUrl}/rest/v2/electronics-spa/users/current/carts/*/addresses/delivery?*`
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/users/current/carts/*/addresses/delivery?*`
       ).as('setAddress');
       cy.visit(checkoutShippingPath);
       cy.wait('@setAddress');
