@@ -1,10 +1,12 @@
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { ADD_TO_CART_COMPONENT_MIGRATION } from './data/add-to-cart.component.migration';
 import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATIONS } from './data/added-to-cart-dialog.component.migration';
+import { ADDRESS_BOOK_COMPONENT_MIGRATION } from './data/address-book.component.migration';
 import { ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATIONS } from './data/address-book.component.service.migration';
 import { CART_COUPON_COMPONENT_MIGRATIONS } from './data/cart-coupon.component.migration';
 import { CART_DETAILS_COMPONENT_MIGRATIONS } from './data/cart-details.component.migration';
 import { CART_ITEM_LIST_COMPONENT_MIGRATIONS } from './data/cart-item-list.component.migration';
+import { CART_ITEM_COMPONENT_MIGRATIONS } from './data/cart-item.component.migration';
 import { CART_NOT_EMPTY_GUARD_MIGRATION } from './data/cart-not-empty.guard.migration';
 import { CART_PAGE_LAYOUT_HANDLER_MIGRATIONS } from './data/cart-page-layout-handler.migration';
 import { CART_TOTALS_COMPONENT_MIGRATION } from './data/cart-totals.component.migration';
@@ -39,13 +41,18 @@ import { CATEGORY_PAGE_META_RESOLVER_MIGRATION } from './data/page-resolvers/cat
 import { CHECKOUT_PAGE_META_RESOLVER_MIGRATION } from './data/page-resolvers/checkout-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-resolvers/page-meta.service.migration';
 import { PRODUCT_PAGE_META_RESOLVER_MIGRATION } from './data/page-resolvers/product-page-meta.resolver.migration';
+import { PAGE_SLOT_COMPONENT_MIGRATION } from './data/page-slot.component.migration';
+import { PAYMENT_FORM_COMPONENT_MIGRATION } from './data/payment-form.component.migration';
 import { PAYMENT_METHOD_COMPONENT_MIGRATIONS } from './data/payment-method.component.migration';
+import { PLACE_ORDER_COMPONENT_MIGRATION } from './data/place-order.component.migration';
 import { PRODUCT_CAROUSEL_COMPONENT_MIGRATION } from './data/product-carousel-component.migration';
 import { PRODUCT_LIST_COMPONENT_MIGRATION } from './data/product-list.component.migration';
+import { PRODUCT_REVIEWS_COMPONENT_MIGRATION } from './data/product-reviews.component.migration';
 import { PRODUCT_SERVICE_MIGRATION } from './data/product-service.migration';
 import { PROMOTION_SERVICE_MIGRATION } from './data/promotion.service.migration';
 import { REGISTER_COMPONENT_MIGRATIONS } from './data/register.component.migration';
 import { REVIEW_SUBMIT_COMPONENT_MIGRATIONS } from './data/review-submit.component.migration';
+import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { CDS_SPARTACUS_EVENT_SERVICE_MIGRATION } from './data/spartacus-event.service.migration';
 import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating.component.migration';
@@ -57,12 +64,6 @@ import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-noti
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
-import { PRODUCT_REVIEWS_COMPONENT_MIGRATION } from './data/product-reviews.component.migration';
-import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migration';
-import { ADDRESS_BOOK_COMPONENT_MIGRATION } from './data/address-book.component.migration';
-import { CART_ITEM_COMPONENT_MIGRATIONS } from './data/cart-item.component.migration';
-import { PLACE_ORDER_COMPONENT_MIGRATION } from './data/place-order.component.migration';
-import { PAYMENT_FORM_COMPONENT_MIGRATION } from './data/payment-form.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -122,6 +123,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   FOOTER_NAVIGATION_COMPONENT_MIGRATION,
   CONFIGURABLE_ROUTES_SERVICE_MIGRATION,
   EXTERNAL_ROUTES_SERVICE_MIGRATION,
+  PAGE_SLOT_COMPONENT_MIGRATION,
   OUTLET_DIRECTIVE_MIGRATION,
   PLACE_ORDER_COMPONENT_MIGRATION,
   CUSTOMER_COUPON_SERVICE_MIGRATION,
