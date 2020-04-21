@@ -1,6 +1,7 @@
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { ADD_TO_CART_COMPONENT_MIGRATION } from './data/add-to-cart.component.migration';
 import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATIONS } from './data/added-to-cart-dialog.component.migration';
+import { ADDRESS_BOOK_COMPONENT_MIGRATION } from './data/address-book.component.migration';
 import { ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATIONS } from './data/address-book.component.service.migration';
 import { CART_COUPON_COMPONENT_MIGRATIONS } from './data/cart-coupon.component.migration';
 import { CART_DETAILS_COMPONENT_MIGRATIONS } from './data/cart-details.component.migration';
@@ -46,10 +47,12 @@ import { PAYMENT_METHOD_COMPONENT_MIGRATIONS } from './data/payment-method.compo
 import { PLACE_ORDER_COMPONENT_MIGRATION } from './data/place-order.component.migration';
 import { PRODUCT_CAROUSEL_COMPONENT_MIGRATION } from './data/product-carousel-component.migration';
 import { PRODUCT_LIST_COMPONENT_MIGRATION } from './data/product-list.component.migration';
+import { PRODUCT_REVIEWS_COMPONENT_MIGRATION } from './data/product-reviews.component.migration';
 import { PRODUCT_SERVICE_MIGRATION } from './data/product-service.migration';
 import { PROMOTION_SERVICE_MIGRATION } from './data/promotion.service.migration';
 import { REGISTER_COMPONENT_MIGRATIONS } from './data/register.component.migration';
 import { REVIEW_SUBMIT_COMPONENT_MIGRATIONS } from './data/review-submit.component.migration';
+import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { CDS_SPARTACUS_EVENT_SERVICE_MIGRATION } from './data/spartacus-event.service.migration';
 import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating.component.migration';
@@ -126,5 +129,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CUSTOMER_COUPON_SERVICE_MIGRATION,
   USER_INTERESTS_SERVICE_MIGRATION,
   USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION,
+  PRODUCT_REVIEWS_COMPONENT_MIGRATION,
+  SEARCH_BOX_COMPONENT_MIGRATION,
+  ADDRESS_BOOK_COMPONENT_MIGRATION,
   PAYMENT_FORM_COMPONENT_MIGRATION,
 ];

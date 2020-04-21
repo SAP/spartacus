@@ -48,10 +48,6 @@ export const CART_COUPON_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
         importPath: SPARTACUS_CORE,
       },
       {
-        className: FEATURE_CONFIG_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-      {
         className: ACTIVE_CART_SERVICE,
         importPath: SPARTACUS_CORE,
       },
@@ -91,6 +87,14 @@ export const CART_COUPON_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
         className: CART_SERVICE,
         importPath: SPARTACUS_CORE,
       },
+      {
+        className: AUTH_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: FEATURE_CONFIG_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
     ],
     addParams: [
       {
@@ -98,5 +102,46 @@ export const CART_COUPON_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
         importPath: SPARTACUS_CORE,
       },
     ],
+  },
+  {
+    class: CART_COUPON_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    deprecatedParams: [
+      {
+        className: AUTH_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: CART_VOUCHER_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: FORM_BUILDER,
+        importPath: ANGULAR_FORMS,
+      },
+      {
+        className: CUSTOMER_COUPON_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: FEATURE_CONFIG_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: ACTIVE_CART_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    removeParams: [
+      {
+        className: AUTH_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: FEATURE_CONFIG_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+    ],
+    addParams: [],
   },
 ];
