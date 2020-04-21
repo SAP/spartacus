@@ -1,7 +1,7 @@
-import { generateMail, randomString } from './user';
-import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
 import { apiUrl } from '../support/utils/login';
+import { login } from './auth-forms';
+import { generateMail, randomString } from './user';
 
 export const normalProductCode = '872912';
 export const firstProductCodeSelector =
@@ -203,6 +203,10 @@ export function stubForPaginableMyInterests(jsonfile: string, url: string) {
 }
 
 export function verifyPagingAndSorting() {
+  stubForPaginableMyInterests(
+    'myinterestpage0.json',
+    `${apiUrl}/rest/v2/electronics-spa/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:asc&pageSize=10&lang=en&curr=USD`
+  );
   stubForPaginableMyInterests(
     'myinterestpage1.json',
     `${apiUrl}/rest/v2/electronics-spa/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&lang=en&curr=USD`
