@@ -9,6 +9,7 @@ import { CmsComponentMapping, Priority } from '@spartacus/core';
 import { from, Observable } from 'rxjs';
 import { DefaultComponentHandler } from './default-component.handler';
 import { switchMap } from 'rxjs/operators';
+import { ComponentHandler } from './component-handler';
 
 /**
  * Lazy component handler used for launching lazy loaded cms components implemented
@@ -17,7 +18,12 @@ import { switchMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class LazyComponentHandler extends DefaultComponentHandler {
+export class LazyComponentHandler implements ComponentHandler {
+  constructor(protected defaultHandler: DefaultComponentHandler) {}
+
+  /**
+   * We want to mach dynamic import signature () => import('')
+   */
   hasMatch(componentMapping: CmsComponentMapping): boolean {
     return (
       typeof componentMapping.component === 'function' &&
@@ -41,7 +47,7 @@ export class LazyComponentHandler extends DefaultComponentHandler {
   ): Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }> {
     return from(componentMapping.component()).pipe(
       switchMap((component) =>
-        super.launcher(
+        this.defaultHandler.launcher(
           { ...componentMapping, component },
           viewContainerRef,
           elementInjector
