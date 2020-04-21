@@ -46,7 +46,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     this.position$.next(value);
   }
   get position(): string {
-    return this.position$?.value;
+    return this.position$.value;
   }
 
   /** Maintains css classes introduced by the host and adds additional classes */
@@ -93,9 +93,10 @@ export class PageSlotComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription.add(
-      this.slot$
-        .pipe(tap((slot) => this.decorate(slot)))
-        .subscribe((value) => (this.components = value?.components || []))
+      this.slot$.pipe(tap((slot) => this.decorate(slot))).subscribe((value) => {
+        this.components = value?.components || [];
+        this.cd.markForCheck();
+      })
     );
   }
 
@@ -131,23 +132,6 @@ export class PageSlotComponent implements OnInit, OnDestroy {
 
   protected get pending(): number {
     return this.pendingComponentCount;
-  }
-
-  /**
-   * Toggles the css classes for the host element.
-   *
-   * @param cls the classname that should be added.
-   * @param forceAdd indicates that the class should be added or not regardless of the current classlist.
-   */
-  protected toggleStyleClass(cls: string, forceAdd?: boolean): void {
-    let classes = this.class || '';
-
-    if (!classes.includes(cls) && forceAdd !== false) {
-      classes += ` ${cls} `;
-    } else if (!forceAdd) {
-      classes = classes.replace(cls, '');
-    }
-    this.class = classes.replace(/\s\s/g, ' ').trim();
   }
 
   /*

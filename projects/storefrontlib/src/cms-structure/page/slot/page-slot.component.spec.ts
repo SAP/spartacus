@@ -141,7 +141,6 @@ describe('PageSlotComponent', () => {
     fixture = TestBed.createComponent(PageSlotComponent);
     pageSlotComponent = fixture.componentInstance;
 
-    pageSlotComponent.position = 'Section1';
     dynamicAttributeService = TestBed.inject(DynamicAttributeService);
     renderer = fixture.componentRef.injector.get<Renderer2>(Renderer2 as any);
   });
@@ -151,6 +150,10 @@ describe('PageSlotComponent', () => {
   });
 
   describe('position', () => {
+    it('should return undefined for position', () => {
+      expect(pageSlotComponent.position).toBeUndefined();
+    });
+
     it('should return the given position', () => {
       pageSlotComponent.position = 'Section1';
       expect(pageSlotComponent.position).toEqual('Section1');
