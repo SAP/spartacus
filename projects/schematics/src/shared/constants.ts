@@ -254,6 +254,7 @@ export const OF_LOADER_SUCCESS = 'ofLoaderSuccess';
 
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
+export const KYMA_ENABLED = 'kyma_enabled';
 /***** Properties end *****/
 
 /***** APIs start *****/
