@@ -1,15 +1,10 @@
 import { SampleUser, user } from '../sample-data/checkout-flow';
 import * as checkout from './checkout-flow';
-import { ELECTRONICS_BASESITE } from './checkout-flow';
 
-export function loginAsGuest(
-  baseSite: string = ELECTRONICS_BASESITE,
-  sampleUser: SampleUser = user
-) {
+export function loginAsGuest(sampleUser: SampleUser = user) {
   const guestLoginPage = checkout.waitForPage(
     '/checkout-login',
-    'getguestLoginPage',
-    baseSite
+    'getguestLoginPage'
   );
   cy.get('.register')
     .getByText(/Guest Checkout/i)
@@ -24,17 +19,13 @@ export function loginAsGuest(
   });
   const shippingPage = checkout.waitForPage(
     '/checkout/shipping-address',
-    'getShippingPage',
-    baseSite
+    'getShippingPage'
   );
   cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
 }
 
-export function createAccountFromGuest(
-  password: string,
-  baseSite: string = ELECTRONICS_BASESITE
-) {
-  const homePage = checkout.waitForPage('homepage', 'getHomePage', baseSite);
+export function createAccountFromGuest(password: string) {
+  const homePage = checkout.waitForPage('homepage', 'getHomePage');
 
   cy.get('cx-guest-register-form').within(() => {
     cy.get('[formcontrolname="password"]').clear().type(password);
