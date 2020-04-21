@@ -66,7 +66,7 @@ class MockTranslationService {
   }
 }
 
-fdescribe('ProductPageMetaResolver', () => {
+describe('ProductPageMetaResolver', () => {
   let service: ProductPageMetaResolver;
   let productService: ProductService;
 
