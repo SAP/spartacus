@@ -174,6 +174,11 @@ export const USER_INTERESTS_SERVICE = 'UserInterestsService';
 export const USER_NOTIFICATION_PREFERENCE_SERVICE =
   'UserNotificationPreferenceService';
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
+export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
+export const CMS_MAPPING_SERVICE = 'CmsMappingService';
+export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
+export const COMPONENT_HANDLER_SERVICE = 'ComponentHandlerService';
+export const CMS_INJECTOR_SERVICE = 'CmsInjectorService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
