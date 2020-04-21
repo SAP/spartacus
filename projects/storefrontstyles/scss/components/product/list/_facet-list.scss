@@ -1,3 +1,7 @@
+body.modal-open {
+  overflow: hidden;
+}
+
 %cx-dialog {
   z-index: 11;
   position: fixed; /* could also be absolute */
@@ -31,8 +35,6 @@
   align-items: center;
 
   > .inner {
-    // width: 100vw;
-    // height: 100vh;
     transform: translate3d(0, 100%, 0);
   }
 }
@@ -48,25 +50,31 @@
 }
 
 %cx-facet-list {
-  h4 {
-    padding: 0.4rem;
-  }
-  > .close {
-    display: none;
-  }
-
-  @include media-breakpoint-up(lg) {
-    h4 {
-      display: none;
-    }
-  }
-
   .inner {
-    padding: 10px;
-    .close {
-      opacity: 1;
-      &:hover {
-        color: var(--cx-color-primary);
+    overflow: scroll;
+    max-height: 100vh;
+
+    padding: 0 10px 10px 10px;
+
+    h4 {
+      position: sticky;
+      top: 0;
+      background: var(--cx-color-background);
+
+      padding: 0.4rem;
+      padding-top: 10px;
+
+      .close {
+        opacity: 1;
+        &:hover {
+          color: var(--cx-color-primary);
+        }
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      h4 {
+        display: none;
       }
     }
   }
