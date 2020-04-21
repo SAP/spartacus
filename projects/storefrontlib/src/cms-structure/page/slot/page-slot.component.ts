@@ -49,16 +49,26 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     return this.position$.value;
   }
 
-  /** Maintains css classes introduced by the host and adds additional classes */
+  /**
+   * Maintains css classes introduced by the host and adds additional classes.
+   */
   @Input() @HostBinding() class: string;
 
-  /** Indicates that the page slot is the last page slot above the fold */
+  /**
+   * Indicates that the page slot is the last page slot above the fold.
+   */
   @HostBinding('class.page-fold') @Input() isPageFold = false;
 
-  /** Indicates that the page slot is indicated as the last page slot above the fold */
+  /**
+   * Indicates that the components of the page slot haven't been loaded as long
+   * as the isPending state is true.
+   */
   @HostBinding('class.cx-pending') isPending = true;
 
-  /** Indicates that the page slot is indicated as the last page slot above the fold */
+  /**
+   * Indicates that the page slot doesn't contain any components. This is no
+   * longer used in spartacus, but kept for backwards compatibility.
+   */
   @HostBinding('class.has-components') @Input() hasComponents = false;
 
   protected position$: BehaviorSubject<string> = new BehaviorSubject(undefined);
