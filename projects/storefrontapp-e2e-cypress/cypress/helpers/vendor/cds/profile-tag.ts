@@ -14,3 +14,17 @@ export const profileTagHelper = {
   },
   profileTagScriptResponse: {},
 };
+
+export function verifyNumberOfEventsInDataLayer(
+  eventName: string,
+  numberOfEvents: number
+) {
+  cy.window().then((win) => {
+    console.log('event layer contents: ', (<any>win).Y_TRACKING.eventLayer);
+    expect(
+      (<any>win).Y_TRACKING.eventLayer.filter(
+        (event) => event.name === eventName
+      ).length
+    ).to.equal(numberOfEvents);
+  });
+}

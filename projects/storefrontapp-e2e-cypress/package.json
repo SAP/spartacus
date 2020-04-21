@@ -14,7 +14,8 @@
     "cy:run:mobile": "cypress run --spec \"cypress/integration/mobile/**/*\"",
     "cy:run:mobile:ci": "cypress run --config-file cypress.ci.json --spec \"cypress/integration/mobile/**/*\"",
     "cy:run:regression": "cypress run --spec \"cypress/integration/regression/**/*\"",
-    "cy:run:regression:ci": "cypress run --config-file cypress.ci.json --spec \"cypress/integration/regression/**/*\""
+    "cy:run:regression:ci": "cypress run --config-file cypress.ci.json --spec \"cypress/integration/regression/**/*\"",
+    "cy:cds:run:vendor": "cypress run --spec \"cypress/integration/vendor/cds/**/*\""
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^4.0.3",

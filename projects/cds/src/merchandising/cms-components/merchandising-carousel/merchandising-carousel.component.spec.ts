@@ -13,7 +13,7 @@ import { Product } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
-import { MerchandisingProduct } from '../../model/merchandising-products.model';
+import { MerchandisingMetadata, MerchandisingProduct } from '../../model';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
@@ -45,7 +45,7 @@ class MockCarouselComponent {
   inputs: ['cxAttributes', 'cxAttributesNamePrefix'],
 })
 class MockAttributesDirective {
-  @Input() cxAttributes: Map<string, string>;
+  @Input() cxAttributes: { [attribute: string]: any };
   @Input() cxAttributesNamePrefix: string;
 }
 
@@ -101,11 +101,9 @@ const merchandisingCarouselModelProducts: MerchandisingProduct[] = [
     },
   },
 ];
-const merchandisingCarouselModelMetadata: Map<string, string> = new Map();
-merchandisingCarouselModelMetadata.set(
-  'custom-metadata-field-1',
-  'custom-metadata-data-value-1'
-);
+const merchandisingCarouselModelMetadata: MerchandisingMetadata = {
+  'custom-metadata-field-1': 'custom-metadata-data-value-1',
+};
 const merchandisingCarouselModel: MerchandisingCarouselModel = {
   items$: merchandisingCarouselModelProducts.map((merchandisingProduct) =>
     of(merchandisingProduct)
@@ -187,7 +185,7 @@ describe('MerchandisingCarouselComponent', () => {
   }));
 
   it('should have MerchandisingProducts populated', async(() => {
-    let actualCarouselMetadata: Map<string, string>;
+    let actualCarouselMetadata: MerchandisingMetadata;
     const actualCarouselProducts: MerchandisingProduct[] = [];
     component.merchandisingCarouselModel$.subscribe((merchandisingProducts) => {
       actualCarouselMetadata = merchandisingProducts.metadata;

@@ -7,4 +7,5 @@ export interface IntersectionOptions {
    * margin will faster intersects the element with the view port.
    */
   rootMargin?: string;
+  threshold?: number | number[];
 }

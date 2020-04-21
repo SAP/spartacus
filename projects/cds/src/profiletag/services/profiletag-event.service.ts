@@ -15,8 +15,8 @@ import {
   DebugEvent,
   ProfileTagEventNames,
   ProfileTagJsConfig,
+  ProfiletagPushEvent,
   ProfileTagWindowObject,
-  PushEvent,
 } from '../model/profile-tag.model';
 
 @Injectable({
@@ -119,7 +119,7 @@ export class ProfileTagEventService {
     this.profileTagWindow.Y_TRACKING.q = q;
   }
 
-  notifyProfileTagOfEventOccurence(event: PushEvent): void {
+  notifyProfileTagOfEventOccurence(event: ProfiletagPushEvent): void {
     try {
       this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
     } catch (e) {

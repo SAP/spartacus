@@ -3,7 +3,7 @@ import { Cart } from '@spartacus/core';
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
     q?: ProfileTagJsConfig[][];
-    eventLayer?: PushEvent[];
+    eventLayer?: ProfiletagPushEvent[];
   };
 }
 
@@ -44,15 +44,10 @@ export enum PushEventNames {
   CART_CHANGED = 'CartSnapshot',
 }
 
-interface ProfiletagPushEvent {
-  name: PushEventNames;
+export interface ProfiletagPushEvent {
+  name: PushEventNames | string;
   data?: any;
 }
-
-export type PushEvent =
-  | NavigatedPushEvent
-  | ConsentChangedPushEvent
-  | CartChangedPushEvent;
 
 export class NavigatedPushEvent implements ProfiletagPushEvent {
   name = PushEventNames.NAVIGATED;

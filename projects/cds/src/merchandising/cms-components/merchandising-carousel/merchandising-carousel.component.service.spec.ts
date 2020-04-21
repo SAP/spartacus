@@ -1,10 +1,14 @@
-import { async, TestBed } from '@angular/core/testing';
+import { async, TestBed, TestBedStatic } from '@angular/core/testing';
 import { Product, ProductService } from '@spartacus/core';
+import { CdsConfig } from 'projects/cds/src/config';
 import { Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
-import { MerchandisingProduct } from '../../model/merchandising-products.model';
-import { StrategyProducts } from '../../model/strategy-products.model';
+import {
+  MerchandisingMetadata,
+  MerchandisingProduct,
+  StrategyProducts,
+} from '../../model';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 
 const mockStrategyProducts: StrategyProducts = {
@@ -51,6 +55,8 @@ const mockProducts = {
   },
 };
 
+const emptyComponentData: CmsMerchandisingCarouselComponent = {};
+
 const mockComponentData: CmsMerchandisingCarouselComponent = {
   uid: '001',
   typeCode: 'MerchandisingCarouselComponent',
@@ -60,6 +66,15 @@ const mockComponentData: CmsMerchandisingCarouselComponent = {
   name: 'Mock Product Carousel',
   strategy: 'test-strategy-1',
   container: 'false',
+  viewportPercentage: 30,
+};
+
+const mockCdsConfig: CdsConfig = {
+  cds: {
+    merchandising: {
+      defaultCarouselViewportThreshold: 50,
+    },
+  },
 };
 
 class MockCdsMerchandisingProductService {
@@ -77,8 +92,8 @@ class MockProductService {
 describe('MerchandisingCarouselComponentService', () => {
   let componentService: MerchandisingCarouselComponentService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  function configureTestingModule(): TestBedStatic {
+    return TestBed.configureTestingModule({
       providers: [
         {
           provide: ProductService,
@@ -88,8 +103,16 @@ describe('MerchandisingCarouselComponentService', () => {
           provide: CdsMerchandisingProductService,
           useClass: MockCdsMerchandisingProductService,
         },
+        {
+          provide: CdsConfig,
+          useValue: mockCdsConfig,
+        },
       ],
     });
+  }
+
+  beforeEach(() => {
+    configureTestingModule();
 
     componentService = TestBed.inject(MerchandisingCarouselComponentService);
   });
@@ -98,37 +121,70 @@ describe('MerchandisingCarouselComponentService', () => {
     expect(componentService).toBeTruthy();
   }));
 
-  it('should retrieve a merchandising carousel model', () => {
-    const expectedMerchandisingCarouselModelMetadata: Map<
-      string,
-      string
-    > = new Map(Object.entries(mockStrategyProducts.metadata));
+  describe('getMerchandisingCaourselViewportThreshold', () => {
+    it('should fallback to a hardcoded carousel viewport threshold if one is not provided in the carousel CMS component config or the CDS config', () => {
+      TestBed.resetTestingModule();
+      configureTestingModule().overrideProvider(CdsConfig, {
+        useValue: {},
+      });
+      componentService = TestBed.inject(MerchandisingCarouselComponentService);
 
-    expectedMerchandisingCarouselModelMetadata.set(
-      'title',
-      mockComponentData.title
-    );
-    expectedMerchandisingCarouselModelMetadata.set(
-      'name',
-      mockComponentData.name
-    );
-    expectedMerchandisingCarouselModelMetadata.set(
-      'strategyid',
-      mockComponentData.strategy
-    );
-    expectedMerchandisingCarouselModelMetadata.set(
-      'slots',
-      mockStrategyProducts.products.length.toString()
-    );
-    expectedMerchandisingCarouselModelMetadata.set('id', mockComponentData.uid);
+      let actualViewportThreshold;
+
+      componentService
+        .getMerchandisingCaourselViewportThreshold(emptyComponentData)
+        .subscribe(
+          (viewportThreshold) => (actualViewportThreshold = viewportThreshold)
+        );
+
+      expect(actualViewportThreshold).toBe(0.8);
+    });
+
+    it('should fallback to the carousel viewport threshold in the CDS config if one is not provided in the carousel CMS component config', () => {
+      let actualViewportThreshold;
+
+      componentService
+        .getMerchandisingCaourselViewportThreshold(emptyComponentData)
+        .subscribe(
+          (viewportThreshold) => (actualViewportThreshold = viewportThreshold)
+        );
+
+      expect(actualViewportThreshold).toBe(
+        mockCdsConfig.cds.merchandising.defaultCarouselViewportThreshold / 100
+      );
+    });
+
+    it('should get the carousel viewport threshold from the carousel CMS component config', () => {
+      let actualViewportThreshold;
+
+      componentService
+        .getMerchandisingCaourselViewportThreshold(mockComponentData)
+        .subscribe(
+          (viewportThreshold) => (actualViewportThreshold = viewportThreshold)
+        );
+
+      expect(actualViewportThreshold).toBe(
+        mockComponentData.viewportPercentage / 100
+      );
+    });
+  });
+
+  it('should retrieve a merchandising carousel model', () => {
+    const expectedMerchandisingCarouselModelMetadata: MerchandisingMetadata = {
+      ...mockStrategyProducts.metadata,
+      title: mockComponentData.title,
+      name: mockComponentData.name,
+      strategyid: mockComponentData.strategy,
+      slots: mockStrategyProducts.products.length,
+      id: mockComponentData.uid,
+    };
 
     const expectedMerchandisingCarouselModelProducts: MerchandisingProduct[] = mockStrategyProducts.products.map(
       (strategyProduct, index) => {
-        const merchandisingProductMetadata = new Map<string, string>(
-          Object.entries(strategyProduct.metadata)
-        );
-        merchandisingProductMetadata.set('id', strategyProduct.id);
-        merchandisingProductMetadata.set('slot', (index + 1).toString());
+        const merchandisingProductMetadata: MerchandisingMetadata =
+          strategyProduct.metadata;
+        merchandisingProductMetadata.id = strategyProduct.id;
+        merchandisingProductMetadata.slot = index + 1;
 
         return {
           ...mockProducts[strategyProduct.id],
@@ -137,7 +193,7 @@ describe('MerchandisingCarouselComponentService', () => {
       }
     );
 
-    let actualCarouselMetadata: Map<string, string>;
+    let actualCarouselMetadata: MerchandisingMetadata;
     const actualCarouselProducts: MerchandisingProduct[] = [];
     componentService
       .getMerchandisingCarouselModel(mockComponentData)

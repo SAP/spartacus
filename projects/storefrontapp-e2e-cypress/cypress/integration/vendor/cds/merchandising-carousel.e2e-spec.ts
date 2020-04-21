@@ -97,7 +97,7 @@ describe('Merchandising Carousel', () => {
     });
   });
 
-  it('should send another request to the strategy service, if consent is accepted, containing the consent-reference as a HTTP header', () => {
+  xit('should send another request to the strategy service, if consent is accepted, containing the consent-reference as a HTTP header', () => {
     testHomePage();
 
     merchandisingCarousel.acceptConsent();
@@ -117,7 +117,7 @@ describe('Merchandising Carousel', () => {
     testHomePage();
   });
 
-  it("should update the products' language when the storefront language is changed on the homepage", () => {
+  xit("should update the products' language when the storefront language is changed on the homepage", () => {
     testHomePage();
 
     merchandisingCarousel.verifyFirstCarouselItemTextContent(
@@ -138,7 +138,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it("should update the products' currency when the storefront currency is changed on the homepage", () => {
+  xit("should update the products' currency when the storefront currency is changed on the homepage", () => {
     testHomePage();
 
     merchandisingCarousel.verifyFirstCarouselItemPrice(
@@ -154,7 +154,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should render products on a PDP page when a carousel item on the homepage is clicked', () => {
+  xit('should render products on a PDP page when a carousel item on the homepage is clicked', () => {
     testHomePage();
 
     merchandisingCarousel.clickOnCarouselItem(
@@ -167,11 +167,11 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should render with products and metadata when displayed on a category page', () => {
+  xit('should render with products and metadata when displayed on a category page', () => {
     testCategoryPage();
   });
 
-  it("should update the products' language when the storefront language is changed on a category page", () => {
+  xit("should update the products' language when the storefront language is changed on a category page", () => {
     testCategoryPage();
 
     merchandisingCarousel.verifyFirstCarouselItemTextContent(
@@ -193,7 +193,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it("should update the products' currency when the storefront currency is changed on a category page", () => {
+  xit("should update the products' currency when the storefront currency is changed on a category page", () => {
     testCategoryPage();
 
     merchandisingCarousel.verifyFirstCarouselItemPrice(
@@ -209,7 +209,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should request products filtered by additional facets when facets on a category page are changed', () => {
+  xit('should request products filtered by additional facets when facets on a category page are changed', () => {
     testCategoryPage();
 
     merchandisingCarousel.applyFacet('Brand', sonyBrandName);
@@ -222,7 +222,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should ignore previous category page context when navigating back to the homepage', () => {
+  xit('should ignore previous category page context when navigating back to the homepage', () => {
     testCategoryPage();
 
     merchandisingCarousel.navigateToHomepage();
@@ -233,7 +233,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should ignore previous category page content when navigating to a different category page', () => {
+  xit('should ignore previous category page content when navigating to a different category page', () => {
     testCategoryPage();
 
     merchandisingCarousel.navigateToCategory(camcordersCategoryName);
@@ -244,7 +244,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should render products on a PDP page when a carousel item on a category page is clicked', () => {
+  xit('should render products on a PDP page when a carousel item on a category page is clicked', () => {
     testCategoryPage();
 
     merchandisingCarousel.clickOnCarouselItem(
@@ -257,11 +257,11 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should render with products and metadata when displayed on a non-product list category page', () => {
+  xit('should render with products and metadata when displayed on a non-product list category page', () => {
     testCategoryPage(slrCategoryCode, slrNonProductListCategoryPagePath);
   });
 
-  it("should update the products' language when the storefront language is changed on a non-product list category page", () => {
+  xit("should update the products' language when the storefront language is changed on a non-product list category page", () => {
     testCategoryPage(slrCategoryCode, slrNonProductListCategoryPagePath);
 
     merchandisingCarousel.verifyFirstCarouselItemTextContent(
@@ -283,7 +283,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it("should update the products' currency when the storefront currency is changed on a non-product list category page", () => {
+  xit("should update the products' currency when the storefront currency is changed on a non-product list category page", () => {
     testCategoryPage(slrCategoryCode, slrNonProductListCategoryPagePath);
 
     merchandisingCarousel.verifyFirstCarouselItemPrice(
@@ -299,7 +299,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should ignore previous non-product list category page context when navigating back to the homepage', () => {
+  xit('should ignore previous non-product list category page context when navigating back to the homepage', () => {
     testCategoryPage(slrCategoryCode, slrNonProductListCategoryPagePath);
 
     merchandisingCarousel.navigateToHomepage();
@@ -310,7 +310,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should render products on a PDP page when a carousel item on a non-product list category page is clicked', () => {
+  xit('should render products on a PDP page when a carousel item on a non-product list category page is clicked', () => {
     testCategoryPage(slrCategoryCode, slrNonProductListCategoryPagePath);
 
     merchandisingCarousel.clickOnCarouselItem(
@@ -323,11 +323,11 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should render with products and metadata when displayed on a brand page', () => {
+  xit('should render with products and metadata when displayed on a brand page', () => {
     testBrandPage();
   });
 
-  it("should update the products' language when the storefront language is changed on a brand page", () => {
+  xit("should update the products' language when the storefront language is changed on a brand page", () => {
     testBrandPage();
 
     merchandisingCarousel.verifyFirstCarouselItemTextContent(
@@ -349,7 +349,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it("should update the products' currency when the storefront currency is changed on a brand page", () => {
+  xit("should update the products' currency when the storefront currency is changed on a brand page", () => {
     testBrandPage();
 
     merchandisingCarousel.verifyFirstCarouselItemPrice(
@@ -365,7 +365,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should request products filtered by additional facets when facets on a brand page are changed', () => {
+  xit('should request products filtered by additional facets when facets on a brand page are changed', () => {
     testBrandPage();
 
     merchandisingCarousel.applyFacet(
@@ -381,7 +381,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should ignore previous brand page context when navigating back to the homepage', () => {
+  xit('should ignore previous brand page context when navigating back to the homepage', () => {
     testBrandPage();
 
     merchandisingCarousel.navigateToHomepage();
@@ -392,7 +392,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should render products on a PDP page when a carousel item on a brand page is clicked', () => {
+  xit('should render products on a PDP page when a carousel item on a brand page is clicked', () => {
     testBrandPage();
 
     merchandisingCarousel.clickOnCarouselItem(
@@ -405,11 +405,11 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should render with products and metadata when displayed on a PDP page', () => {
+  xit('should render with products and metadata when displayed on a PDP page', () => {
     testPDPPage(merchandisingCarousel.STRATEGY_RESPONSE.products[0].id);
   });
 
-  it("should update the products' language when the storefront language is changed on a PDP page", () => {
+  xit("should update the products' language when the storefront language is changed on a PDP page", () => {
     testPDPPage(merchandisingCarousel.STRATEGY_RESPONSE.products[0].id);
 
     merchandisingCarousel.verifyFirstCarouselItemTextContent(
@@ -431,7 +431,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it("should update the products' currency when the storefront currency is changed on a PDP page", () => {
+  xit("should update the products' currency when the storefront currency is changed on a PDP page", () => {
     testPDPPage(merchandisingCarousel.STRATEGY_RESPONSE.products[0].id);
 
     merchandisingCarousel.verifyFirstCarouselItemPrice(
@@ -447,7 +447,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should ignore previous PDP page context when navigating back to the homepage', () => {
+  xit('should ignore previous PDP page context when navigating back to the homepage', () => {
     testPDPPage(merchandisingCarousel.STRATEGY_RESPONSE.products[0].id);
 
     merchandisingCarousel.navigateToHomepage();
@@ -458,7 +458,7 @@ describe('Merchandising Carousel', () => {
     );
   });
 
-  it('should render products on a PDP page when a carousel item on a PDP page is clicked', () => {
+  xit('should render products on a PDP page when a carousel item on a PDP page is clicked', () => {
     testPDPPage(merchandisingCarousel.STRATEGY_RESPONSE.products[0].id);
 
     merchandisingCarousel.clickOnCarouselItem(

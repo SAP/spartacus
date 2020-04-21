@@ -78,11 +78,14 @@ if (!environment.production) {
           strategyProducts:
             '/strategy/${tenant}/strategies/${strategyId}/products',
         },
+        merchandising: {
+          defaultCarouselViewportThreshold: 75,
+        },
         profileTag: {
           javascriptUrl:
-            'http://tag.static.stage.context.cloud.sap/js/profile-tag.js',
+            'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
           configUrl:
-            'https://tag.static.stage.context.cloud.sap/config/dfbb97b0-f4d7-11e9-9c99-2125ab7968c6',
+            'https://tag.static.stage.context.cloud.sap/config/ce58e770-80aa-11ea-81df-0dfb7a7728df',
           allowInsecureCookies: true,
         },
       },

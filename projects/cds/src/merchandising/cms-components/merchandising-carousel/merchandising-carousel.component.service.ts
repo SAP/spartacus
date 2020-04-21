@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { ProductService } from '@spartacus/core';
+import { CdsConfig } from 'projects/cds/src/config';
 import { combineLatest, EMPTY, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
-import { MerchandisingProduct } from '../../model/merchandising-products.model';
 import {
+  MerchandisingMetadata,
+  MerchandisingProduct,
   StrategyProduct,
   StrategyProducts,
-} from '../../model/strategy-products.model';
+} from '../../model';
 import { MerchandisingCarouselModel } from './model/merchandising-carousel.model';
+
+const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD = 80;
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +23,21 @@ export class MerchandisingCarouselComponentService {
 
   constructor(
     protected cdsMerchandisingProductService: CdsMerchandisingProductService,
-    protected productService: ProductService
+    protected productService: ProductService,
+    protected cdsConfig: CdsConfig
   ) {}
+
+  getMerchandisingCaourselViewportThreshold(
+    cmsComponent: CmsMerchandisingCarouselComponent
+  ): Observable<number> {
+    return of(
+      cmsComponent.viewportPercentage ??
+        this.cdsConfig?.cds?.merchandising?.defaultCarouselViewportThreshold ??
+        DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD
+    ).pipe(
+      map((viewportThresholdPercentage) => viewportThresholdPercentage / 100)
+    );
+  }
 
   getMerchandisingCarouselModel(
     cmsComponent: CmsMerchandisingCarouselComponent
@@ -54,18 +71,16 @@ export class MerchandisingCarouselComponentService {
   private getCarouselMetadata(
     strategyProducts: StrategyProducts,
     componentData: CmsMerchandisingCarouselComponent
-  ): Map<string, string> {
-    const metadata = strategyProducts.metadata
-      ? new Map<string, string>(Object.entries(strategyProducts.metadata))
-      : new Map<string, string>();
+  ): MerchandisingMetadata {
+    const metadata: MerchandisingMetadata = strategyProducts.metadata ?? {};
     if (strategyProducts.products && strategyProducts.products.length) {
-      metadata.set('slots', strategyProducts.products.length.toString());
+      metadata.slots = strategyProducts.products.length;
     }
 
-    metadata.set('title', componentData.title);
-    metadata.set('name', componentData.name);
-    metadata.set('strategyid', componentData.strategy);
-    metadata.set('id', componentData.uid);
+    metadata.title = componentData.title;
+    metadata.name = componentData.name;
+    metadata.strategyid = componentData.strategy;
+    metadata.id = componentData.uid;
 
     return metadata;
   }
@@ -91,13 +106,11 @@ export class MerchandisingCarouselComponentService {
   private getCarouselItemMetadata(
     strategyProduct: StrategyProduct,
     index: number
-  ): Map<string, string> {
-    const metadata = strategyProduct.metadata
-      ? new Map<string, string>(Object.entries(strategyProduct.metadata))
-      : new Map<string, string>();
+  ): MerchandisingMetadata {
+    const metadata: MerchandisingMetadata = strategyProduct.metadata ?? {};
 
-    metadata.set('slot', index.toString());
-    metadata.set('id', strategyProduct.id);
+    metadata.slot = index;
+    metadata.id = strategyProduct.id;
 
     return metadata;
   }

@@ -1,6 +1,7 @@
 <ng-container
   *ngIf="merchandisingCarouselModel$ | async as merchandisingCarouselModel"
 >
+  <div *ngIf="intersectionEvent$ | async"></div>
   <div
     class="data-cx-merchandising-carousel"
     [cxAttributes]="merchandisingCarouselModel.metadata"
@@ -21,7 +22,11 @@
     [cxAttributes]="item.metadata"
     [cxAttributesNamePrefix]="'data-cx-merchandising-product'"
   ></div>
-  <a tabindex="0" [routerLink]="{ cxRoute: 'product', params: item } | cxUrl">
+  <a
+    tabindex="0"
+    [routerLink]="{ cxRoute: 'product', params: item } | cxUrl"
+    (click)="onMerchandisingCarouselItemClick($event, item)"
+  >
     <cx-media
       *ngIf="item.images?.PRIMARY"
       [container]="item.images.PRIMARY"

@@ -2,6 +2,7 @@ import {
   CURRENCY_USD,
   LANGUAGE_EN,
 } from '../../../helpers/site-context-selector';
+import { verifyNumberOfEventsInDataLayer } from './profile-tag';
 
 interface StrategyRequestContext {
   language?: string;
@@ -15,6 +16,9 @@ const site = 'electronics-spa';
 export const DEFAULT_LANGUAGE = LANGUAGE_EN;
 export const DEFAULT_CURRENCY = CURRENCY_USD;
 const productDisplayCount = 10;
+
+const MERCHANDISING_CAROUSEL_TAG_NAME = 'cx-merchandising-carousel';
+const MERCHANDISING_CAROUSEL_VIEWED_EVENT_NAME = 'CarouselViewed';
 
 /*
  * NOTE: Ids of actual products in the storefront need to be returned by the stub CDS strategy service
@@ -103,17 +107,24 @@ function verifyCarouselItemsRendered(
 }
 
 function verifyMerchandisingCarouselRendersProducts(): void {
-  cy.get('cx-merchandising-carousel')
+  verifyNumberOfEventsInDataLayer(MERCHANDISING_CAROUSEL_VIEWED_EVENT_NAME, 0);
+
+  cy.get(MERCHANDISING_CAROUSEL_TAG_NAME)
     /*
      * There could be multiple merchandising carousels on the page being used to test them,
      * but as we are stubbing the product retrieval response all of them will show the same products.
      * Limit our tests to the first carousel on the page by using first() and then within()
      */
     .first()
+    .scrollIntoView()
     .should('be.visible')
     .within(($merchandisingCarousel) => {
       verifyCarouselLevelMetadata($merchandisingCarousel);
       verifyCarouselItemsRendered($merchandisingCarousel);
+      verifyNumberOfEventsInDataLayer(
+        MERCHANDISING_CAROUSEL_VIEWED_EVENT_NAME,
+        1
+      );
     });
 }
 
@@ -237,7 +248,7 @@ export function verifyFirstCarouselItemTextContent(
   toContain: string,
   toNotContain: string
 ): void {
-  cy.get('cx-merchandising-carousel .item h4')
+  cy.get(`${MERCHANDISING_CAROUSEL_TAG_NAME} .item h4`)
     .first()
     .should('contain.text', toContain)
     .and('not.contain.text', toNotContain);
@@ -247,7 +258,7 @@ export function verifyFirstCarouselItemPrice(
   currencySymbol: string,
   value: number
 ): void {
-  cy.get('cx-merchandising-carousel .item .price')
+  cy.get(`${MERCHANDISING_CAROUSEL_TAG_NAME} .item .price`)
     .first()
     .should('contain.text', currencySymbol)
     .and('contain.text', value);

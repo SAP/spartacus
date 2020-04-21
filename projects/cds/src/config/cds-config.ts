@@ -1,4 +1,5 @@
 import { CdsEndpoints } from '../cds-models/cds-endpoints.model';
+import { MerchandisingConfig } from './merchandising.config';
 import { ProfileTagConfig } from './profile-tag.config';
 
 export abstract class CdsConfig {
@@ -7,6 +8,7 @@ export abstract class CdsConfig {
     baseUrl?: string;
     consentTemplateId?: string;
     endpoints?: CdsEndpoints;
+    merchandising?: MerchandisingConfig;
     profileTag?: ProfileTagConfig;
   };
 }
