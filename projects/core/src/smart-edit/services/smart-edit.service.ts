@@ -15,7 +15,7 @@ export class SmartEditService {
   private _cmsTicketId: string;
   private isPreviewPage = false;
   private _currentPageId: string;
-  private _launchInSmartEdit = false;
+  private _launchedInSmartEdit = false;
 
   private defaultPreviewProductCode: string;
   private defaultPreviewCategoryCode: string;
@@ -70,7 +70,7 @@ export class SmartEditService {
         take(1)
       )
       .subscribe(() => {
-        this._launchInSmartEdit = true;
+        this._launchedInSmartEdit = true;
         this.getDefaultPreviewCode();
       });
   }
@@ -172,7 +172,7 @@ export class SmartEditService {
   /**
    * Whether the app launched in smart edit
    */
-  isLaunchInSmartEdit(): boolean {
-    return this._launchInSmartEdit;
+  isLaunchedInSmartEdit(): boolean {
+    return this._launchedInSmartEdit;
   }
 }
