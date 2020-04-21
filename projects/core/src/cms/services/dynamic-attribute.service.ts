@@ -1,23 +1,26 @@
 import { Injectable, Renderer2 } from '@angular/core';
+import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DynamicAttributeService {
+  constructor(protected smartEditService: SmartEditService) {}
+
   /**
    * Add dynamic attributes to DOM. These attributes are extracted from the properties of cms items received from backend.
-   * There can by many different groups of properties, one of them is smaredit. But EC allows addons to create different groups.
+   * There can by many different groups of properties, one of them is smartedit. But EC allows addons to create different groups.
    * For example, personalization may add 'script' group etc.
    * @param properties: properties in each cms item response data
    * @param element: slot or cms component element
    * @param renderer
    */
   addDynamicAttributes(
-    properties: any,
+    properties: object,
     element: Element,
     renderer: Renderer2
   ): void {
-    if (properties) {
+    if (properties && this.smartEditService.isLaunchInSmartEdit()) {
       // check each group of properties, e.g. smartedit
       Object.keys(properties).forEach((group) => {
         const name = 'data-' + group + '-';

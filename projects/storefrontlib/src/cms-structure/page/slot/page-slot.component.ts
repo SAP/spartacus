@@ -115,7 +115,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
 
   /**
    * Is triggered when a component is added to the view.
-   * We use this information to dropthe `is-pending` class from the page slot
+   * We use this information to drop the `is-pending` class from the page slot
    * when all nested components have been added.
    */
   isLoaded(loadState: boolean) {
@@ -143,7 +143,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   }
 
   private addSmartEditSlotClass(slot): void {
-    if (slot && this.cmsService.isLaunchInSmartEdit()) {
+    if (slot) {
       this.addSmartEditContract(slot);
     }
   }

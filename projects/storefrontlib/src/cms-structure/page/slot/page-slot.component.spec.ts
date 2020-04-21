@@ -45,9 +45,6 @@ class MockCmsService {
       },
     });
   }
-  isLaunchInSmartEdit(): boolean {
-    return true;
-  }
 }
 
 class MockDynamicAttributeService {
@@ -360,24 +357,6 @@ describe('PageSlotComponent', () => {
 
       const native = fixture.debugElement.nativeElement;
       expect(dynamicAttributeService.addDynamicAttributes).toHaveBeenCalledWith(
-        {
-          smartedit: {
-            test: 'test',
-          },
-        },
-        native,
-        renderer
-      );
-    });
-
-    it('should not add smart edit slot contract if app not launch in smart edit', () => {
-      spyOn(dynamicAttributeService, 'addDynamicAttributes').and.callThrough();
-      spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
-
-      const native = fixture.debugElement.nativeElement;
-      expect(
-        dynamicAttributeService.addDynamicAttributes
-      ).not.toHaveBeenCalledWith(
         {
           smartedit: {
             test: 'test',

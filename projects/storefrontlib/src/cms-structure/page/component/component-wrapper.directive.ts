@@ -10,14 +10,13 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import {
-  CmsService,
   ContentSlotComponentData,
   DynamicAttributeService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CmsMappingService } from '../../services/cms-mapping.service';
-import { ComponentHandlerService } from './services/component-handler.service';
 import { CmsInjectorService } from './services/cms-injector.service';
+import { ComponentHandlerService } from './services/component-handler.service';
 
 /**
  * Directive used to facilitate instantiation of CMS driven dynamic components
@@ -46,8 +45,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
-    protected cmsInjector: CmsInjectorService,
-    protected cmsService: CmsService // TODO: remove, move smartedit detection responsibility to different layer/service
+    protected cmsInjector: CmsInjectorService
   ) {}
 
   ngOnInit() {
@@ -85,14 +83,12 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       });
   }
 
-  private decorate(elementRef: ElementRef) {
-    if (this.cmsService.isLaunchInSmartEdit()) {
-      this.dynamicAttributeService.addDynamicAttributes(
-        this.cxComponentWrapper.properties,
-        elementRef.nativeElement,
-        this.renderer
-      );
-    }
+  private decorate(elementRef: ElementRef): void {
+    this.dynamicAttributeService.addDynamicAttributes(
+      this.cxComponentWrapper.properties,
+      elementRef.nativeElement,
+      this.renderer
+    );
   }
 
   ngOnDestroy() {
