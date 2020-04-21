@@ -99,7 +99,9 @@ context('Auxiliary Keys', () => {
       cy.server();
       cy.route(
         'GET',
-        `${Cypress.env('API_URL')}/rest/v2/electronics-spa/products/search?**`
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/products/search?**`
       ).as('query');
       cy.get('cx-searchbox input').type('dsa');
       cy.wait('@query');
@@ -185,7 +187,7 @@ context('Auxiliary Keys', () => {
 function loadPageWithComponenents(pageUrl: string) {
   cy.server();
   cy.route(
-    `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/cms/components*`
   ).as('getComponents');
   cy.visit(pageUrl);
   cy.wait('@getComponents');

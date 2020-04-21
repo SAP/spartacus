@@ -6,7 +6,7 @@ const containerSelector = '.LoginPageTemplate';
 export function forgotPasswordTabbingOrder(config: TabElement[]) {
   cy.server();
   cy.route(
-    `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/cms/components*`
   ).as('getComponents');
   cy.visit('/login/forgot-password');
   cy.wait('@getComponents');
