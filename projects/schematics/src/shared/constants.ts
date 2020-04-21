@@ -179,6 +179,7 @@ export const CMS_MAPPING_SERVICE = 'CmsMappingService';
 export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
 export const COMPONENT_HANDLER_SERVICE = 'ComponentHandlerService';
 export const CMS_INJECTOR_SERVICE = 'CmsInjectorService';
+export const SMART_EDIT_SERVICE = 'SmartEditService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

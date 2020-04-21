@@ -25,6 +25,7 @@ import { CONFIGURABLE_ROUTES_SERVICE_MIGRATION } from './data/configurable-route
 import { CONSENT_MANAGEMENT_COMPONENT_MIGRATION } from './data/consent-management.component.migration';
 import { CURRENT_PRODUCT_SERVICE_MIGRATION } from './data/current-product-service.migration';
 import { CUSTOMER_COUPON_SERVICE_MIGRATION } from './data/customer-coupon.service.migration';
+import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
 import { EXTERNAL_ROUTES_SERVICE_MIGRATION } from './data/external-routes.service.migration';
 import { FOOTER_NAVIGATION_COMPONENT_MIGRATION } from './data/footer-navigation.component.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
@@ -127,4 +128,5 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION,
   PAYMENT_FORM_COMPONENT_MIGRATION,
   COMPONENT_WRAPPER_DIRECTIVE_MIGRATION,
+  DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION,
 ];
