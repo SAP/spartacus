@@ -12,16 +12,16 @@ import {
   Country,
   GlobalMessageService,
   I18nTestingModule,
-  UserPaymentService,
   Region,
   UserAddressService,
+  UserPaymentService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
+import { FormErrorsModule } from '../../../../../shared/index';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 import { PaymentFormComponent } from './payment-form.component';
 import createSpy = jasmine.createSpy;
-import { FormErrorsModule } from '../../../../../shared/index';
 
 @Component({
   selector: 'cx-spinner',
@@ -181,7 +181,6 @@ describe('PaymentFormComponent', () => {
   let mockCheckoutPaymentService: MockCheckoutPaymentService;
   let mockUserPaymentService: MockUserPaymentService;
   let mockGlobalMessageService: MockGlobalMessageService;
-  let showSameAsShippingAddressCheckboxSpy: jasmine.Spy;
   let mockModalService: MockModalService;
   let mockUserAddressService: MockUserAddressService;
 
@@ -243,11 +242,6 @@ describe('PaymentFormComponent', () => {
 
     spyOn(component.setPaymentDetails, 'emit').and.callThrough();
     spyOn(component.closeForm, 'emit').and.callThrough();
-
-    showSameAsShippingAddressCheckboxSpy = spyOn(
-      component,
-      'showSameAsShippingAddressCheckbox'
-    ).and.returnValue(of(true));
   });
 
   it('should be created', () => {
@@ -363,31 +357,6 @@ describe('PaymentFormComponent', () => {
     expect(component.openSuggestedAddress).toHaveBeenCalled();
   });
 
-  it('should decide if shipping address can also be a billing address', () => {
-    showSameAsShippingAddressCheckboxSpy.and.callThrough();
-    const testIsocode = 'ABC';
-    component.shippingAddress$ = of({
-      country: {
-        isocode: testIsocode,
-      },
-    });
-    component.countries$ = of([]);
-
-    component.showSameAsShippingAddressCheckbox().subscribe((data) => {
-      expect(data).toEqual(false);
-    });
-
-    component.countries$ = of([
-      {
-        isocode: testIsocode,
-      },
-    ]);
-
-    component.showSameAsShippingAddressCheckbox().subscribe((data) => {
-      expect(data).toEqual(true);
-    });
-  });
-
   it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
     component.paymentForm.value.defaultPayment = false;
     component.toggleDefaultPaymentMethod();
@@ -500,9 +469,7 @@ describe('PaymentFormComponent', () => {
       );
       spyOn(component, 'next');
 
-      // show billing address
-      showSameAsShippingAddressCheckboxSpy.calls.reset();
-      showSameAsShippingAddressCheckboxSpy.and.returnValue(of(false));
+      component.showSameAsShippingAddressCheckbox$ = of(false);
       component.sameAsShippingAddress = false;
 
       fixture.detectChanges();
@@ -581,13 +548,13 @@ describe('PaymentFormComponent', () => {
       fixture.detectChanges();
       expect(
         fixture.debugElement.queryAll(By.css('.form-check-input')).length
-      ).toEqual(1);
+      ).toEqual(0);
 
       component.setAsDefaultField = true;
       fixture.detectChanges();
       expect(
         fixture.debugElement.queryAll(By.css('.form-check-input')).length
-      ).toEqual(2);
+      ).toEqual(1);
     });
   });
 

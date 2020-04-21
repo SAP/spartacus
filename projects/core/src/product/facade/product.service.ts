@@ -7,6 +7,7 @@ import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
 import { ProductLoadingService } from '../services/product-loading.service';
 import { ProductScope } from '../model/product-scope';
+import { DEFAULT_SCOPE } from '../../occ/occ-models/occ-endpoints.model';
 
 @Injectable()
 export class ProductService {
@@ -30,7 +31,7 @@ export class ProductService {
    */
   get(
     productCode: string,
-    scopes: (ProductScope | string)[] | ProductScope | string = ''
+    scopes: (ProductScope | string)[] | ProductScope | string = DEFAULT_SCOPE
   ): Observable<Product> {
     return productCode
       ? this.productLoading.get(productCode, [].concat(scopes))
