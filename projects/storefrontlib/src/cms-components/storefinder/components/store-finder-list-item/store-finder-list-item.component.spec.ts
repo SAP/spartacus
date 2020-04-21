@@ -1,14 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  I18nTestingModule,
-  StoreDataService,
-  RoutingService,
-} from '@spartacus/core';
-import { StoreFinderListItemComponent } from './store-finder-list-item.component';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule, StoreDataService } from '@spartacus/core';
+import { StoreFinderListItemComponent } from './store-finder-list-item.component';
 
 const weekday = {
   closingTime: {
@@ -86,10 +82,6 @@ const sampleStore: any = {
   },
 };
 
-const mockRoutingService = {
-  go: jasmine.createSpy('go'),
-};
-
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
   let fixture: ComponentFixture<StoreFinderListItemComponent>;
@@ -103,10 +95,7 @@ describe('StoreFinderListItemComponent', () => {
         RouterTestingModule,
       ],
       declarations: [StoreFinderListItemComponent],
-      providers: [
-        StoreDataService,
-        { provide: RoutingService, useValue: mockRoutingService },
-      ],
+      providers: [StoreDataService],
     }).compileComponents();
   }));
 
@@ -135,7 +124,7 @@ describe('StoreFinderListItemComponent', () => {
     const link = fixture.debugElement
       .queryAll(By.css('.cx-store-name > a'))
       .find((el) => el.nativeElement.innerText === displayName).nativeElement;
-    expect(link.getAttribute('href')).toEqual(`/${encodedName})}`);
+    expect(link.getAttribute('href')).toEqual(`/${encodedName}`);
     expect(link.getAttribute('ng-reflect-router-link')).toEqual(name);
   });
 });

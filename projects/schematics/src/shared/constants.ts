@@ -67,6 +67,7 @@ export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
 export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
+export const STORE_DATA_SERVICE = 'StoreDataService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
@@ -174,6 +175,7 @@ export const USER_INTERESTS_SERVICE = 'UserInterestsService';
 export const USER_NOTIFICATION_PREFERENCE_SERVICE =
   'UserNotificationPreferenceService';
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
+export const STORE_FINDER_LIST_ITEM_COMPONENT = 'StoreFinderListItemComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

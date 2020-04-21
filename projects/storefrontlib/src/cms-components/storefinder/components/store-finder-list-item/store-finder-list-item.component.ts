@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { StoreDataService, RoutingService } from '@spartacus/core';
+import { StoreDataService } from '@spartacus/core';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
 
 @Component({
@@ -18,10 +18,7 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
   @Output()
   storeItemClick: EventEmitter<number> = new EventEmitter();
 
-  constructor(
-    protected storeDataService: StoreDataService,
-    protected routingService: RoutingService
-  ) {
+  constructor(protected storeDataService: StoreDataService) {
     super(storeDataService);
   }
 
