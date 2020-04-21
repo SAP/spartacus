@@ -108,10 +108,6 @@ export const CART_COUPON_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
-        className: ACTIVE_CART_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-      {
         className: AUTH_SERVICE,
         importPath: SPARTACUS_CORE,
       },
@@ -129,6 +125,10 @@ export const CART_COUPON_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
       },
       {
         className: FEATURE_CONFIG_SERVICE,
+        importPath: SPARTACUS_CORE,
+      },
+      {
+        className: ACTIVE_CART_SERVICE,
         importPath: SPARTACUS_CORE,
       },
     ],
