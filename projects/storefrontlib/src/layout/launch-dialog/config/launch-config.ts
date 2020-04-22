@@ -1,5 +1,11 @@
 import { OutletPosition } from '../../../cms-structure/outlet/outlet.model';
+import { Injectable } from '@angular/core';
+import { Config } from '@spartacus/core';
 
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
 export abstract class LaunchConfig {
   launch?: {
     [key: string]: LaunchOptions;

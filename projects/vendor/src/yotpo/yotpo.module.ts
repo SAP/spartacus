@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-import { Config, provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@spartacus/core';
 import { CommonModule } from '@angular/common';
 import { YotporeviewComponent } from './yotporeview/yotpo-review.component';
 import { YotpostarratingComponent } from './yotpostarrating/yotpo-star-rating.component';
-import { YotpoConfig } from './yotpoconfig/yotpo-config';
 import { defaultYotpoConfig } from './yotpoconfig/default-yotpo-config';
 
 @NgModule({
@@ -11,9 +10,6 @@ import { defaultYotpoConfig } from './yotpoconfig/default-yotpo-config';
   exports: [YotporeviewComponent, YotpostarratingComponent],
   declarations: [YotporeviewComponent, YotpostarratingComponent],
   entryComponents: [YotporeviewComponent, YotpostarratingComponent],
-  providers: [
-    provideDefaultConfig(defaultYotpoConfig),
-    { provide: YotpoConfig, useExisting: Config },
-  ],
+  providers: [provideDefaultConfig(defaultYotpoConfig)],
 })
 export class YotpoModule {}
