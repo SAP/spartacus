@@ -18,6 +18,8 @@ const generalGroupName = '_GEN';
 const generalGroupDescription = 'General';
 const groupName = 'GROUP1';
 const groupDescription = 'The Group Name';
+let flatGroups: Configurator.Group[] = [];
+let groups: Configurator.Group[] = [];
 
 const occImage: OccConfigurator.Image = {
   altText: 'Alternate Text for Image',
@@ -104,6 +106,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
       OccConfiguratorVariantNormalizer as Type<OccConfiguratorVariantNormalizer>
     );
     occConfig = TestBed.get(OccConfig as Type<OccConfig>);
+    groups = [];
+    flatGroups = [];
   });
 
   it('should be created', () => {
@@ -161,20 +165,33 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   it('should convert a standard group', () => {
-    const groups: Configurator.Group[] = [];
-    const flatGroups: Configurator.Group[] = [];
-
     occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
     expect(groups[0].description).toBe(groupDescription);
   });
 
-  it('should convert a general group', () => {
-    const groups: Configurator.Group[] = [];
-    const flatGroups: Configurator.Group[] = [];
-    group.name = generalGroupName;
-    group.description = undefined;
+  it('should convert a group with no attributes', () => {
+    const groupsWithoutAttributes: OccConfigurator.Group = {
+      name: groupName,
+    };
 
-    occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
+    occConfiguratorVariantNormalizer.convertGroup(
+      groupsWithoutAttributes,
+      groups,
+      flatGroups
+    );
+    expect(groups[0].name).toBe(groupName);
+  });
+
+  it('should convert a general group', () => {
+    const generalGroup: OccConfigurator.Group = {
+      name: generalGroupName,
+    };
+
+    occConfiguratorVariantNormalizer.convertGroup(
+      generalGroup,
+      groups,
+      flatGroups
+    );
     expect(groups[0].description).toBe(generalGroupDescription);
   });
 
