@@ -144,6 +144,19 @@ export class ActiveCartService {
   }
 
   /**
+   * Returns cart loading state
+   */
+  getLoading(): Observable<boolean> {
+    return this.cartSelector$.pipe(
+      withLatestFrom(this.activeCartId$),
+      map(([cartEntity]) => {
+        return cartEntity.loading;
+      }),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
    * Returns true when cart is stable (not loading and not pending processes on cart)
    */
   isStable(): Observable<boolean> {

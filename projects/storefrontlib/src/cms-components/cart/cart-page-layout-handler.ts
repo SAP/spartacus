@@ -23,22 +23,28 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
         slots$,
         this.activeCartService.getActive(),
         this.selectiveCartService.getCart(),
+        this.activeCartService.getLoading(),
       ]).pipe(
-        map(([slots, cart, selectiveCart]) => {
-          if (cart.totalItems) {
-            return slots.filter((slot) => slot !== 'EmptyCartMiddleContent');
-          } else if (selectiveCart.totalItems) {
-            return slots.filter(
-              (slot) =>
-                slot !== 'EmptyCartMiddleContent' &&
-                slot !== 'CenterRightContentSlot'
-            );
-          } else {
-            return slots.filter(
-              (slot) =>
-                slot !== 'TopContent' && slot !== 'CenterRightContentSlot'
-            );
-          }
+        map(([slots, cart, selectiveCart, loadingCart]) => {
+          return Object.keys(cart).length === 0 && loadingCart
+            ? slots.filter(
+                (slot) =>
+                  slot !== 'TopContent' &&
+                  slot !== 'CenterRightContentSlot' &&
+                  slot !== 'EmptyCartMiddleContent'
+              )
+            : cart.totalItems
+            ? slots.filter((slot) => slot !== 'EmptyCartMiddleContent')
+            : selectiveCart.totalItems
+            ? slots.filter(
+                (slot) =>
+                  slot !== 'EmptyCartMiddleContent' &&
+                  slot !== 'CenterRightContentSlot'
+              )
+            : slots.filter(
+                (slot) =>
+                  slot !== 'TopContent' && slot !== 'CenterRightContentSlot'
+              );
         })
       );
     }
