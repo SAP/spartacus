@@ -15,11 +15,7 @@ import { resolveHandler } from '../../util/handler';
 export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(
     @Inject(HttpErrorHandler) protected handlers: HttpErrorHandler[]
-  ) {
-    // We reverse the handlers to allow for custom handlers
-    // that replace standard handlers
-    this.handlers.reverse();
-  }
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
