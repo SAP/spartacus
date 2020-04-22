@@ -22,11 +22,8 @@ export const ELECTRONICS_CURRENCY = 'USD';
 
 export const ELECTRONICS_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-net';
 
-export function visitHomePage(
-  queryStringParams?: string,
-  baseSite: string = ELECTRONICS_BASESITE
-) {
-  const homePage = waitForPage('homepage', 'getHomePage', baseSite);
+export function visitHomePage(queryStringParams?: string) {
+  const homePage = waitForPage('homepage', 'getHomePage');
 
   if (queryStringParams) {
     cy.visit(`/?${queryStringParams}`);
@@ -44,18 +41,13 @@ export function signOut() {
 
 export function registerUser(
   giveRegistrationConsent: boolean = false,
-  sampleUser: SampleUser = user,
-  baseSite: string = ELECTRONICS_BASESITE
+  sampleUser: SampleUser = user
 ) {
-  const loginPage = waitForPage('/login', 'getLoginPage', baseSite);
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/Sign in \/ Register/i).click();
   cy.wait(`@${loginPage}`);
 
-  const registerPage = waitForPage(
-    '/login/register',
-    'getRegisterPage',
-    baseSite
-  );
+  const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.getByText('Register').click();
   cy.wait(`@${registerPage}`);
 
@@ -64,21 +56,15 @@ export function registerUser(
   return sampleUser;
 }
 
-export function signInUser(
-  baseSite: string = ELECTRONICS_BASESITE,
-  sampleUser: SampleUser = user
-) {
-  const loginPage = waitForPage('/login', 'getLoginPage', baseSite);
+export function signInUser(sampleUser: SampleUser = user) {
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/Sign in \/ Register/i).click();
   cy.wait(`@${loginPage}`);
   login(sampleUser.email, sampleUser.password);
 }
 
-export function signOutUser(
-  baseSite: string = ELECTRONICS_BASESITE,
-  sampleUser: SampleUser = user
-) {
-  const logoutPage = waitForPage('/logout', 'getLogoutPage', baseSite);
+export function signOutUser(sampleUser: SampleUser = user) {
+  const logoutPage = waitForPage('/logout', 'getLogoutPage');
   signOut();
   cy.wait(`@${logoutPage}`);
   cy.get('.cx-login-greet').should('not.contain', sampleUser.fullName);
@@ -124,15 +110,13 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
 }
 
 export function verifyDeliveryMethod(
-  baseSite: string = ELECTRONICS_BASESITE,
   deliveryMode: string = ELECTRONICS_DEFAULT_DELIVERY_MODE
 ) {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get(`#${deliveryMode}`).should('be.checked');
   const paymentPage = waitForPage(
     '/checkout/payment-details',
-    'getPaymentPage',
-    baseSite
+    'getPaymentPage'
   );
   cy.get('.cx-checkout-btns button.btn-primary').click();
   cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
@@ -184,7 +168,7 @@ export function placeOrder() {
     .should(
       'have.attr',
       'href',
-      '/electronics-spa/en/USD/terms-and-conditions'
+      `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`
     );
   cy.get('.form-check-input').check();
   cy.get('cx-place-order button.btn-primary').click();
@@ -233,19 +217,17 @@ export function clickAddNewPayment() {
 }
 
 export function goToCheapProductDetailsPage(
-  baseSite: string = ELECTRONICS_BASESITE,
   sampleProduct: SampleProduct = cheapProduct
 ) {
-  visitHomePage('', baseSite);
-  clickCheapProductDetailsFromHomePage(baseSite, sampleProduct);
+  visitHomePage();
+  clickCheapProductDetailsFromHomePage(sampleProduct);
 }
 
 export function clickCheapProductDetailsFromHomePage(
-  baseSite: string = ELECTRONICS_BASESITE,
   sampleProduct: SampleProduct = cheapProduct
 ) {
   const productCode = `ProductPage&code=${sampleProduct.code}`;
-  const productPage = waitForPage(productCode, 'getProductPage', baseSite);
+  const productPage = waitForPage(productCode, 'getProductPage');
   cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
   cy.wait(`@${productPage}`).its('status').should('eq', 200);
   cy.get('cx-product-intro').within(() => {
@@ -257,30 +239,27 @@ export function clickCheapProductDetailsFromHomePage(
 }
 
 export function addCheapProductToCartAndLogin(
-  baseSite: string = ELECTRONICS_BASESITE,
   sampleUser: SampleUser = user,
   sampleProduct: SampleProduct = cheapProduct
 ) {
   addCheapProductToCart(sampleProduct);
-  const loginPage = waitForPage('/login', 'getLoginPage', baseSite);
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
 
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
-    'getShippingPage',
-    baseSite
+    'getShippingPage'
   );
   loginUser(sampleUser);
   cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
 }
 
 export function addCheapProductToCartAndProceedToCheckout(
-  baseSite: string = ELECTRONICS_BASESITE,
   sampleProduct: SampleProduct = cheapProduct
 ) {
   addCheapProductToCart(sampleProduct);
-  const loginPage = waitForPage('/login', 'getLoginPage', baseSite);
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
 }
@@ -310,8 +289,7 @@ export function addCheapProductToCart(
 
 export function fillAddressFormWithCheapProduct(
   shippingAddressData: AddressData = user,
-  cartData: SampleCartProduct = cartWithCheapProduct,
-  baseSite: string = ELECTRONICS_BASESITE
+  cartData: SampleCartProduct = cartWithCheapProduct
 ) {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
@@ -320,8 +298,7 @@ export function fillAddressFormWithCheapProduct(
     .should('contain', cartData.total);
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
-    'getDeliveryPage',
-    baseSite
+    'getDeliveryPage'
   );
   fillShippingAddress(shippingAddressData);
   cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
@@ -330,18 +307,13 @@ export function fillAddressFormWithCheapProduct(
 export function fillPaymentFormWithCheapProduct(
   paymentDetailsData: PaymentDetails = user,
   billingAddress?: AddressData,
-  cartData: SampleCartProduct = cartWithCheapProduct,
-  baseSite: string = ELECTRONICS_BASESITE
+  cartData: SampleCartProduct = cartWithCheapProduct
 ) {
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('contain', cartData.totalAndShipping);
-  const reivewPage = waitForPage(
-    '/checkout/review-order',
-    'getReviewPage',
-    baseSite
-  );
+  const reivewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
   cy.wait(`@${reivewPage}`).its('status').should('eq', 200);
 }
@@ -349,7 +321,6 @@ export function fillPaymentFormWithCheapProduct(
 export function placeOrderWithCheapProduct(
   sampleUser: SampleUser = user,
   cartData: SampleCartProduct = cartWithCheapProduct,
-  baseSite: string = ELECTRONICS_BASESITE,
   currency: string = 'USD'
 ) {
   verifyReviewOrderPage();
@@ -382,13 +353,12 @@ export function placeOrderWithCheapProduct(
     .should(
       'have.attr',
       'href',
-      `/${baseSite}/en/${currency}/terms-and-conditions`
+      `/${Cypress.env('BASE_SITE')}/en/${currency}/terms-and-conditions`
     );
   cy.get('input[formcontrolname="termsAndConditions"]').check();
   const orderConfirmationPage = waitForPage(
     '/order-confirmation',
-    'getOrderConfirmationPage',
-    baseSite
+    'getOrderConfirmationPage'
   );
   cy.get('cx-place-order button.btn-primary').click();
   cy.wait(`@${orderConfirmationPage}`).its('status').should('eq', 200);
@@ -432,13 +402,11 @@ export function verifyOrderConfirmationPageWithCheapProduct(
 }
 
 export function viewOrderHistoryWithCheapProduct(
-  baseSite: string = ELECTRONICS_BASESITE,
   cartData: SampleCartProduct = cartWithCheapProduct
 ) {
   const orderHistoryPage = waitForPage(
     '/my-account/orders',
-    'getOrderHistoryPage',
-    baseSite
+    'getOrderHistoryPage'
   );
   cy.selectUserMenuOption({
     option: 'Order History',
@@ -451,12 +419,13 @@ export function viewOrderHistoryWithCheapProduct(
     .should('contain', cartData.totalAndShipping);
 }
 
-export function waitForPage(
-  page: string,
-  alias: string,
-  baseSite: string = ELECTRONICS_BASESITE
-): string {
+export function waitForPage(page: string, alias: string): string {
   cy.server();
-  cy.route('GET', `/rest/v2/${baseSite}/cms/pages?*${page}*`).as(alias);
+  cy.route(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages?*${page}*`
+  ).as(alias);
   return alias;
 }

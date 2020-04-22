@@ -8,7 +8,7 @@ export const APPAREL_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-gross';
 export function configureProductWithVariants() {
   cy.cxConfig({
     context: {
-      baseSite: ['apparel-uk-spa'],
+      baseSite: [APPAREL_BASESITE],
       currency: ['GBP'],
     },
     checkout: { guest: true },
@@ -19,7 +19,9 @@ export function addVariantOfSameProductToCart() {
   cy.server();
   cy.route(
     'GET',
-    `/rest/v2/apparel-uk-spa/products/${products[1].code}/reviews*`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/products/${
+      products[1].code
+    }/reviews*`
   ).as('getProductPage');
   cy.get('.variant-selector ul.variant-list li:nth-child(2)').first().click();
   cy.wait('@getProductPage').its('status').should('eq', 200);
@@ -29,7 +31,7 @@ export function addVariantOfSameProductToCart() {
 
 export function visitProductWithoutVariantPage() {
   configureProductWithVariants();
-  cy.visit('apparel-uk-spa/en/GBP/product/300611156');
+  cy.visit(`${APPAREL_BASESITE}/en/GBP/product/300611156`);
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[2].code);
   });
