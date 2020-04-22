@@ -9,9 +9,8 @@ import {
 import { GlobalMessageStoreModule } from './store/global-message-store.module';
 import { GlobalMessageEffect } from './store/effects/global-message.effect';
 
-import { Config, provideDefaultConfigFactory } from '../config/config.module';
+import { provideDefaultConfigFactory } from '../config/config.module';
 import { defaultGlobalMessageConfigFactory } from './config/default-global-message-config';
-import { GlobalMessageConfig } from './config/global-message-config';
 
 @NgModule({
   imports: [
@@ -21,7 +20,6 @@ import { GlobalMessageConfig } from './config/global-message-config';
   providers: [
     provideDefaultConfigFactory(defaultGlobalMessageConfigFactory),
     GlobalMessageService,
-    { provide: GlobalMessageConfig, useExisting: Config },
   ],
 })
 export class GlobalMessageModule {
