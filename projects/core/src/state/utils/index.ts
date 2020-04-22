@@ -1,1 +1,2 @@
-export * as StateUtils from './utils-group';
+import * as StateUtils from './utils-group';
+export { StateUtils };
