@@ -4,7 +4,7 @@ import { ErrorModel } from '../../../../model/misc.model';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
-import { Priority } from '../../../../util/handler';
+import { Priority } from '../../../../util/applicable';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
