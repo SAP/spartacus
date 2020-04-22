@@ -4,7 +4,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
-import { resolveHandler } from '../../util';
+import { resolveApplicable } from '../../util';
 
 @Injectable({
   providedIn: 'root',
@@ -78,6 +78,6 @@ export class PageMetaService {
    * Resolvers match by default on `PageType` and `page.template`.
    */
   protected getMetaResolver(page: Page): PageMetaResolver {
-    return resolveHandler(this.resolvers, [page], [page]);
+    return resolveApplicable(this.resolvers, [page], [page]);
   }
 }

@@ -9,7 +9,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpErrorHandler } from './handlers/http-error.handler';
-import { resolveHandler } from '../../util/handler';
+import { resolveApplicable } from '../../util/applicable';
 
 @Injectable({ providedIn: 'root' })
 export class HttpErrorInterceptor implements HttpInterceptor {
@@ -46,6 +46,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
    * If no handler is available, the UNKNOWN handler is returned.
    */
   protected getResponseHandler(response: HttpErrorResponse): HttpErrorHandler {
-    return resolveHandler(this.handlers, [response]);
+    return resolveApplicable(this.handlers, [response]);
   }
 }
