@@ -1,12 +1,12 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { GlobalMessageService } from '../../facade/global-message.service';
 import { Injectable } from '@angular/core';
-import { Handler, Priority } from '../../../util/handler';
+import { Applicable, Priority } from '../../../util/applicable';
 
 @Injectable({
   providedIn: 'root',
 })
-export abstract class HttpErrorHandler implements Handler {
+export abstract class HttpErrorHandler implements Applicable {
   constructor(protected globalMessageService: GlobalMessageService) {}
 
   /**

@@ -1,5 +1,7 @@
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 import { CmsConfig } from './cms-config';
+import { Injectable } from '@angular/core';
+import { Config } from '../../config';
 
 /**
  * The `CmsPageConfig` is used to build pages by configuration.
@@ -64,6 +66,10 @@ export interface CmsPageSlotConfig {
  * only require the necessary properties. Adapter logic is applied to serialize
  * the `CmsStructureConfig` into the required UI model.
  */
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
 export abstract class CmsStructureConfig extends CmsConfig {
   cmsStructure: {
     components?: { [key: string]: ContentSlotComponentData | any };
