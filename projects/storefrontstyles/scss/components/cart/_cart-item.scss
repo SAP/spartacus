@@ -108,7 +108,9 @@
   }
 
   .cx-image-container {
-    padding: 0;
+    @include media-breakpoint-down(md) {
+      padding: 0;
+    }
   }
 
   .cx-quantity {
