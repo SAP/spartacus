@@ -51,8 +51,10 @@ body.modal-open {
 
 %cx-facet-list {
   .inner {
-    overflow: scroll;
-    max-height: 100vh;
+    @include media-breakpoint-down(md) {
+      max-height: 100vh;
+      overflow: scroll;
+    }
 
     padding: 0 10px 10px 10px;
 
