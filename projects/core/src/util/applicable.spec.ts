@@ -137,4 +137,9 @@ describe('resolveApplicable', () => {
     resolveApplicable(applicables);
     expect(applicables[0].getPriority).not.toHaveBeenCalled();
   });
+
+  it('in case of identical priorities last one applicable should win', () => {
+    const applicables: Applicable[] = [{}, {}, {}];
+    expect(resolveApplicable(applicables)).toBe(applicables[2]);
+  });
 });
