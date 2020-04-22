@@ -16,8 +16,8 @@ describe('OccEndpointsService', () => {
           prefix: '/test-occPrefix',
           endpoints: {
             login: '/authorizationserver/oauth/token',
-            product: 'configured-endpoint1/${test}?fields=abc',
-            product_scopes: {
+            product: {
+              default: 'configured-endpoint1/${test}?fields=abc',
               test: 'configured-endpoint1/${test}?fields=test',
             },
           },

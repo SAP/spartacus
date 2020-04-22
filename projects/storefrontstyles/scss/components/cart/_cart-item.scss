@@ -158,14 +158,13 @@
     }
 
     button.link {
-      @include type('8');
+      @include type('7');
       color: var(--cx-color-text);
       border-width: 0;
-      text-decoration: none;
       background-color: transparent;
 
       &:hover {
-        text-decoration: underline;
+        color: var(--cx-color-primary);
       }
     }
   }
@@ -210,8 +209,7 @@
       }
 
       button.link {
-        @include type('8');
-        color: var(--cx-color-text);
+        @include type('7');
       }
     }
   }
