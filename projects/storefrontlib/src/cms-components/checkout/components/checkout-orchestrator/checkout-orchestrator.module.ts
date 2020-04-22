@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, Config, provideDefaultConfig } from '@spartacus/core';
-import { CheckoutConfig } from '../../config/checkout-config';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { defaultCheckoutConfig } from '../../config/default-checkout-config';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CheckoutGuard } from '../../guards/checkout.guard';
@@ -20,7 +19,6 @@ import { CheckoutOrchestratorComponent } from './checkout-orchestrator.component
         },
       },
     }),
-    { provide: CheckoutConfig, useExisting: Config },
   ],
   declarations: [CheckoutOrchestratorComponent],
   entryComponents: [CheckoutOrchestratorComponent],
