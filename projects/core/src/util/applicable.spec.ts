@@ -1,7 +1,7 @@
 import { Applicable, resolveApplicable } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
-fdescribe('resolveApplicable', () => {
+describe('resolveApplicable', () => {
   it('should resolve applicable when hasMatch returns true', () => {
     const applicables: Applicable[] = [
       {
