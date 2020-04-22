@@ -85,9 +85,9 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   private decorate(elementRef: ElementRef): void {
     this.dynamicAttributeService.addDynamicAttributes(
-      this.cxComponentWrapper.properties,
       elementRef.nativeElement,
-      this.renderer
+      this.renderer,
+      { componentData: this.cxComponentWrapper }
     );
   }
 

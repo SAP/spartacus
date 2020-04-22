@@ -178,15 +178,18 @@ describe('ComponentWrapperDirective', () => {
         const compEl = el.query(By.css('cx-test')).nativeElement;
         expect(
           dynamicAttributeService.addDynamicAttributes
-        ).toHaveBeenCalledWith(
-          {
-            smartedit: {
-              test: 'test',
+        ).toHaveBeenCalledWith(compEl, renderer, {
+          componentData: {
+            typeCode: 'cms_typeCode',
+            flexType: 'CMSTestComponent',
+            uid: 'test_uid',
+            properties: {
+              smartedit: {
+                test: 'test',
+              },
             },
           },
-          compEl,
-          renderer
-        );
+        });
       });
 
       it('should inject cms component data', () => {

@@ -175,12 +175,12 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     );
   }
 
-  private addSmartEditSlotClass(slot): void {
+  private addSmartEditSlotClass(slot: ContentSlotData): void {
     if (slot) {
       this.dynamicAttributeService.addDynamicAttributes(
-        slot.properties,
         this.elementRef.nativeElement,
-        this.renderer
+        this.renderer,
+        { slotData: slot }
       );
     }
   }

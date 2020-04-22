@@ -42,7 +42,9 @@ describe('DynamicAttributeService', () => {
     (factory: RendererFactory2) => {
       renderer = factory.createRenderer(null, null);
       const element = renderer.createElement('div');
-      service.addDynamicAttributes(mockProperties, element, renderer);
+      service.addDynamicAttributes(element, renderer, {
+        componentData: { properties: mockProperties },
+      });
 
       expect(element.getAttribute('data-smartedit-component-id')).toEqual(
         'testId'

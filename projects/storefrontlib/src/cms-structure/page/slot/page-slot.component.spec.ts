@@ -362,13 +362,17 @@ describe('PageSlotComponent', () => {
 
       const native = fixture.debugElement.nativeElement;
       expect(dynamicAttributeService.addDynamicAttributes).toHaveBeenCalledWith(
-        {
-          smartedit: {
-            test: 'test',
-          },
-        },
         native,
-        renderer
+        renderer,
+        {
+          slotData: {
+            properties: {
+              smartedit: {
+                test: 'test',
+              },
+            },
+          },
+        }
       );
     });
   });

@@ -1,5 +1,7 @@
 import { Injectable, Renderer2 } from '@angular/core';
 import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
+import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
+import { ContentSlotData } from '../model/content-slot-data.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +18,17 @@ export class DynamicAttributeService {
    * @param renderer
    */
   addDynamicAttributes(
-    properties: object,
     element: Element,
-    renderer: Renderer2
+    renderer: Renderer2,
+    cmsRenderingContext: {
+      componentData?: ContentSlotComponentData;
+      slotData?: ContentSlotData;
+    }
   ): void {
+    const properties =
+      cmsRenderingContext.componentData?.properties ||
+      cmsRenderingContext.slotData?.properties;
+
     if (properties && this.smartEditService.isLaunchedInSmartEdit()) {
       // check each group of properties, e.g. smartedit
       Object.keys(properties).forEach((group) => {
