@@ -164,6 +164,8 @@ export const URL_MATCHER_SERVICE = 'UrlMatcherService';
 export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
 export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
 export const EXTERNAL_ROUTES_CONFIG = 'ExternalRoutesConfig';
+export const PAGE_SLOT_COMPONENT = 'PageSlotComponent;';
+export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
 export const OUTLET_DIRECTIVE = 'OutletDirective';
 export const OUTLET_SERVICE = 'OutletService';
 export const DEFER_LOADER_SERVICE = 'DeferLoaderService';
@@ -173,13 +175,17 @@ export const PLACE_ORDER_COMPONENT = 'PlaceOrderComponent';
 export const USER_INTERESTS_SERVICE = 'UserInterestsService';
 export const USER_NOTIFICATION_PREFERENCE_SERVICE =
   'UserNotificationPreferenceService';
+export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
+export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
+export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
 export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
 export const CMS_MAPPING_SERVICE = 'CmsMappingService';
-export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
 export const COMPONENT_HANDLER_SERVICE = 'ComponentHandlerService';
 export const CMS_INJECTOR_SERVICE = 'CmsInjectorService';
 export const SMART_EDIT_SERVICE = 'SmartEditService';
+export const PRODUCT_REVIEW_SERVICE = 'ProductReviewService';
+export const SEARCH_BOX_COMPONENT_SERVICE = 'SearchBoxComponentService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -255,6 +261,7 @@ export const OF_LOADER_SUCCESS = 'ofLoaderSuccess';
 
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
+export const KYMA_ENABLED = 'kyma_enabled';
 /***** Properties end *****/
 
 /***** APIs start *****/

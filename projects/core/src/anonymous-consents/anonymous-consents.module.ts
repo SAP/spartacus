@@ -1,6 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { Config, provideDefaultConfig } from '../config/config.module';
-import { AnonymousConsentsConfig } from './config/anonymous-consents-config';
+import { provideDefaultConfig } from '../config/config.module';
 import { defaultAnonymousConsentsConfig } from './config/default-anonymous-consents-config';
 import { AnonymousConsentsService } from './facade/anonymous-consents.service';
 import { interceptors } from './http-interceptors/index';
@@ -16,7 +15,6 @@ export class AnonymousConsentsModule {
       providers: [
         ...interceptors,
         AnonymousConsentsService,
-        { provide: AnonymousConsentsConfig, useExisting: Config },
         provideDefaultConfig(defaultAnonymousConsentsConfig),
       ],
     };
