@@ -1847,7 +1847,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   myAccount: [
     {
       value: 'My Account',
-      type: TabbingOrderTypes.BUTTON,
+      // type: TabbingOrderTypes.BUTTON,
+      type: TabbingOrderTypes.LINK,
     },
     {
       value: 'Order History',

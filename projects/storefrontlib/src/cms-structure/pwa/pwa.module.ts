@@ -29,7 +29,6 @@ export function pwaFactory(addToHomeScreenService): any {
   ],
   providers: [
     provideDefaultConfig(defaultPWAModuleConfig),
-    { provide: PWAModuleConfig, useExisting: Config },
     {
       provide: SwRegistrationOptions,
       useFactory: pwaConfigurationFactory,

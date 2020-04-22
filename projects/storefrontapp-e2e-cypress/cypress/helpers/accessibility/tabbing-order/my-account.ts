@@ -14,7 +14,6 @@ export function myAccountTabbingOrder(
     cy.viewport(formats.mobile.width, formats.mobile.height);
   }
 
-  cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor (#6743)
   if (mobile) {
     cy.get('cx-hamburger-menu button').first().click().focus();
   }

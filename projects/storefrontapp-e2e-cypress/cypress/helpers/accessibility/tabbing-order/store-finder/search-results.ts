@@ -6,7 +6,11 @@ const lastPageSelector = 'cx-pagination .end';
 
 export function searchResultsTabbingOrder(config: TabElement[]) {
   cy.server();
-  cy.route('GET', '/rest/v2/electronics-spa/stores?fields=*').as('storesList');
+
+  cy.route(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/stores?fields=*`
+  ).as('storesList');
 
   cy.visit('/store-finder/find?query=Nakano');
 
