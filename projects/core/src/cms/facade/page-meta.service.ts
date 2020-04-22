@@ -4,7 +4,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
-import { resolveApplicable } from '../../util';
+import { resolveApplicable } from '../../util/applicable';
 
 @Injectable({
   providedIn: 'root',
