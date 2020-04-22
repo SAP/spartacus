@@ -38,7 +38,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
    */
   render(
     config: LaunchOutletDialog,
-    caller: LAUNCH_CALLER
+    caller: LAUNCH_CALLER | string
   ): Observable<ComponentRef<any>> {
     if (this.shouldRender(caller, config)) {
       const template = this.componentFactoryResolver.resolveComponentFactory(
@@ -78,7 +78,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
     return Boolean(config.outlet);
   }
 
-  remove(caller: LAUNCH_CALLER, config: LaunchOutletDialog): void {
+  remove(caller: LAUNCH_CALLER | string, config: LaunchOutletDialog): void {
     const template = this.componentFactoryResolver.resolveComponentFactory(
       config.component
     );

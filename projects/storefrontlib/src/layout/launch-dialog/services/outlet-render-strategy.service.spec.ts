@@ -44,8 +44,8 @@ class MockOutletService {
 }
 
 class MockOutletRendererService {
-  render(_outlet: string) {}
-  getOutletRef(_outlet: string) {}
+  render() {}
+  getOutletRef() {}
 }
 
 class MockComponentFactoryResolver {

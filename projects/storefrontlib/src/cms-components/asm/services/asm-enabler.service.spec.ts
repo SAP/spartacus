@@ -40,7 +40,7 @@ class MockLocation {
 }
 
 class MockLaunchDialogService {
-  render() {}
+  launch() {}
 }
 
 const mockLaunchConfig: LayoutConfig = {

@@ -19,7 +19,7 @@ export abstract class LaunchRenderStrategy {
    *  List of called references; only used for rendered elements
    */
   protected renderedCallers: Array<{
-    caller: LAUNCH_CALLER;
+    caller: LAUNCH_CALLER | string;
     element?: any;
     component?: ComponentRef<any>;
   }> = [];
@@ -57,7 +57,7 @@ export abstract class LaunchRenderStrategy {
    */
   abstract render(
     config: LaunchOptions,
-    caller: LAUNCH_CALLER,
+    caller: LAUNCH_CALLER | string,
     vcr?: ViewContainerRef
   ): void | Observable<ComponentRef<any>>;
 
@@ -74,7 +74,10 @@ export abstract class LaunchRenderStrategy {
    * @param caller
    * @param config
    */
-  protected shouldRender(caller: LAUNCH_CALLER, config: LaunchDialog): boolean {
+  protected shouldRender(
+    caller: LAUNCH_CALLER | string,
+    config: LaunchDialog
+  ): boolean {
     return this.renderedCallers.some((el) => el.caller === caller)
       ? !!config.multi
       : true;
@@ -115,7 +118,7 @@ export abstract class LaunchRenderStrategy {
    * @param caller
    * @param _config optional parameters used in children strategies
    */
-  public remove(caller: LAUNCH_CALLER, config: LaunchOptions): void {
+  public remove(caller: LAUNCH_CALLER | string, config: LaunchOptions): void {
     this.renderedCallers = this.renderedCallers.filter(
       (el) => el.caller !== caller
     );

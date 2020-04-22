@@ -31,7 +31,7 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
    */
   render(
     config: LaunchInlineDialog,
-    caller: LAUNCH_CALLER,
+    caller: LAUNCH_CALLER | string,
     vcr: ViewContainerRef
   ): Observable<ComponentRef<any>> {
     // Only render if a ViewContainerRef is provided

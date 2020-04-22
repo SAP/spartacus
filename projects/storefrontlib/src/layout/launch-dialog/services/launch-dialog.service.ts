@@ -30,7 +30,7 @@ export class LaunchDialogService {
    * @param vcr View Container Ref of the container for inline rendering
    */
   launch(
-    caller: LAUNCH_CALLER,
+    caller: LAUNCH_CALLER | string,
     vcr?: ViewContainerRef
   ): void | Observable<ComponentRef<any>> {
     const config = this.findConfiguration(caller);
@@ -52,7 +52,7 @@ export class LaunchDialogService {
    *
    * @param caller LAUNCH_CALLER
    */
-  clear(caller: LAUNCH_CALLER): void {
+  clear(caller: LAUNCH_CALLER | string): void {
     const config = this.findConfiguration(caller);
     const renderer = this.getStrategy(config);
 
@@ -67,7 +67,7 @@ export class LaunchDialogService {
    *
    * @param caller LAUNCH_CALLER
    */
-  protected findConfiguration(caller: LAUNCH_CALLER): LaunchOptions {
+  protected findConfiguration(caller: LAUNCH_CALLER | string): LaunchOptions {
     if (this.layoutConfig?.launch) {
       return this.layoutConfig.launch[caller];
     }
