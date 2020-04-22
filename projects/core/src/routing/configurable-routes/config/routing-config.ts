@@ -1,4 +1,6 @@
 import { RoutesConfig } from '../routes-config';
+import { Injectable } from '@angular/core';
+import { Config } from '../../../config/config.module';
 
 export const enum RouteLoadStrategy {
   /**
@@ -11,6 +13,10 @@ export const enum RouteLoadStrategy {
   ALWAYS = 'always',
 }
 
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
 export abstract class RoutingConfig {
   routing?: {
     /**
