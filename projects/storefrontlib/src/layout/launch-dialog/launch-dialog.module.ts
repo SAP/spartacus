@@ -5,7 +5,7 @@ import {
   InlineRenderStrategy,
   LaunchRenderStrategy,
   OutletRenderStrategy,
-  RoutingRenderStrategy
+  RoutingRenderStrategy,
 } from './services/index';
 
 @NgModule({
