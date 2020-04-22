@@ -8,7 +8,12 @@ import {
 } from '@angular/core';
 import { Applicable } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { LaunchDialog, LaunchOptions, LAUNCH_CALLER } from '../config';
+import {
+  DIALOG_TYPE,
+  LaunchDialog,
+  LaunchOptions,
+  LAUNCH_CALLER,
+} from '../config';
 
 export abstract class LaunchRenderStrategy implements Applicable {
   // List of called references; only used for rendered elements
