@@ -182,7 +182,7 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
     });
   });
 
-  context('Product List', () => {
+  context.skip('Product List', () => {
     it('should allow to navigate with tab key (desktop - list view)', () => {
       productListTabbingOrderDesktop(config.productListDesktop);
     });

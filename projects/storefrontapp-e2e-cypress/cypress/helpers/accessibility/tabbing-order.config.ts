@@ -80,15 +80,15 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
+      value: '/electronics-spa/en/USD/product/2278102/miniDV%20Head%20Cleaner',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
       value: '/electronics-spa/en/USD/product/1776948/Camileo%20S10%20EU',
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
       value: '/electronics-spa/en/USD/product/1934796/PowerShot%20A480',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
-      value: '/electronics-spa/en/USD/product/2278102/miniDV%20Head%20Cleaner',
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
