@@ -24,7 +24,8 @@ export class FindStoresEffect {
         .search(
           payload.queryText,
           payload.searchConfig,
-          payload.longitudeLatitude
+          payload.longitudeLatitude,
+          payload.radius
         )
         .pipe(
           map((data) => {
