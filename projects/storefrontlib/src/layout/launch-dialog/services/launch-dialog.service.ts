@@ -5,7 +5,7 @@ import {
   LaunchOptions,
 } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
-import { resolveHandler } from '@spartacus/core';
+import { resolveApplicable } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
@@ -66,6 +66,6 @@ export class LaunchDialogService {
    * @param config Configuration for launch
    */
   protected getStrategy(config: LaunchOptions): LaunchRenderStrategy {
-    return resolveHandler(this.renderStrategies, [config]);
+    return resolveApplicable(this.renderStrategies, [config]);
   }
 }

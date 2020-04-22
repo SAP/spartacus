@@ -1,7 +1,7 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { provideConfigValidator } from '../config/config-validator/config-validator';
-import { Config, provideDefaultConfig } from '../config/config.module';
+import { provideDefaultConfig } from '../config/config.module';
 import { AsmOccModule } from './adapters/asm/asm-occ.module';
 import { CartOccModule } from './adapters/cart/cart-occ.module';
 import { CheckoutOccModule } from './adapters/checkout/checkout-occ.module';
@@ -12,7 +12,6 @@ import { StoreFinderOccModule } from './adapters/store-finder/store-finder-occ.m
 import { UserOccModule } from './adapters/user/user-occ.module';
 import { OccConfigLoaderModule } from './config-loader/occ-config-loader.module';
 import { defaultOccConfig } from './config/default-occ-config';
-import { OccConfig } from './config/occ-config';
 import { occConfigValidator } from './config/occ-config-validator';
 import { WithCredentialsInterceptor } from './interceptors/with-credentials.interceptor';
 
@@ -39,7 +38,6 @@ export class OccModule {
           useExisting: WithCredentialsInterceptor,
           multi: true,
         },
-        { provide: OccConfig, useExisting: Config },
         provideDefaultConfig(defaultOccConfig),
         provideConfigValidator(occConfigValidator),
       ],

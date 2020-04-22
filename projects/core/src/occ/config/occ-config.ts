@@ -1,7 +1,13 @@
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import { OccEndpoints } from '../occ-models/occ-endpoints.model';
 import { LoadingScopes } from './loading-scopes-config';
+import { Injectable } from '@angular/core';
+import { Config } from '../../config/config.module';
 
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
 export abstract class OccConfig extends SiteContextConfig {
   backend?: {
     occ?: {

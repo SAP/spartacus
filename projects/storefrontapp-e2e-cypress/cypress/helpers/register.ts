@@ -10,7 +10,7 @@ export function registerUser(user) {
 }
 
 export function navigateToTermsAndConditions() {
-  const termsLink = '/electronics-spa/en/USD/terms-and-conditions';
+  const termsLink = `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`;
   cy.visit('/login/register');
   cy.getByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
@@ -25,7 +25,12 @@ export function checkTermsAndConditions() {
 
 export function signOut() {
   cy.server();
-  cy.route('GET', '/rest/v2/electronics-spa/cms/pages?*/logout*').as('logOut');
+  cy.route(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages?*/logout*`
+  ).as('logOut');
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });

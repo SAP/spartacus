@@ -23,6 +23,7 @@ import {
 context('Apparel - checkout as guest', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
+    Cypress.env('BASE_SITE', APPAREL_BASESITE);
   });
 
   beforeEach(() => {
@@ -35,12 +36,8 @@ context('Apparel - checkout as guest', () => {
   });
 
   describe('when adding a single variant product to cart and completing checkout.', () => {
-    before(() => {
-      checkout.visitHomePage();
-    });
-
     it('should go to product page add the variant style of the product from category page', () => {
-      checkout.goToCheapProductDetailsPage(APPAREL_BASESITE, products[0]);
+      checkout.goToCheapProductDetailsPage(products[0]);
       addVariantOfSameProductToCart();
     });
 
@@ -50,40 +47,30 @@ context('Apparel - checkout as guest', () => {
     });
 
     it('should go to product page, and add product to cart from category page and proceed to checkout', () => {
-      checkout.goToCheapProductDetailsPage(APPAREL_BASESITE, products[0]);
-      checkout.addCheapProductToCartAndProceedToCheckout(
-        APPAREL_BASESITE,
-        variantProduct
-      );
+      checkout.goToCheapProductDetailsPage(products[0]);
+      checkout.addCheapProductToCartAndProceedToCheckout(variantProduct);
     });
 
     it('should login as guest', () => {
-      guestCheckout.loginAsGuest(APPAREL_BASESITE, variantUser);
+      guestCheckout.loginAsGuest(variantUser);
     });
 
     it('should fill in address form', () => {
       checkout.fillAddressFormWithCheapProduct(
         variantUser,
-        cartWithTotalVariantProduct,
-        APPAREL_BASESITE
+        cartWithTotalVariantProduct
       );
     });
 
     it('should choose delivery', () => {
-      checkout.verifyDeliveryMethod(
-        APPAREL_BASESITE,
-        APPAREL_DEFAULT_DELIVERY_MODE
-      );
+      checkout.verifyDeliveryMethod(APPAREL_DEFAULT_DELIVERY_MODE);
     });
 
     it('should fill in payment form', () => {
-      cy.wait(3000);
-
       checkout.fillPaymentFormWithCheapProduct(
         variantUser,
         undefined,
-        cartWithTotalVariantProduct,
-        APPAREL_BASESITE
+        cartWithTotalVariantProduct
       );
     });
 
@@ -91,7 +78,6 @@ context('Apparel - checkout as guest', () => {
       checkout.placeOrderWithCheapProduct(
         variantUser,
         cartWithTotalVariantProduct,
-        APPAREL_BASESITE,
         APPAREL_CURRENCY
       );
     });
@@ -108,10 +94,7 @@ context('Apparel - checkout as guest', () => {
 
   describe('Create account', () => {
     it('should create an account', () => {
-      guestCheckout.createAccountFromGuest(
-        variantUser.password,
-        APPAREL_BASESITE
-      );
+      guestCheckout.createAccountFromGuest(variantUser.password);
     });
   });
 
@@ -122,10 +105,7 @@ context('Apparel - checkout as guest', () => {
         option: 'Personal Details',
       });
       cy.waitForOrderToBePlacedRequest(APPAREL_BASESITE, APPAREL_CURRENCY);
-      checkout.viewOrderHistoryWithCheapProduct(
-        APPAREL_BASESITE,
-        cartWithTotalVariantProduct
-      );
+      checkout.viewOrderHistoryWithCheapProduct(cartWithTotalVariantProduct);
     });
 
     it('should show address in Address Book', () => {
@@ -170,31 +150,22 @@ context('Apparel - checkout as guest', () => {
 
   describe('Guest cart merge', () => {
     it('should keep guest cart content and restart checkout', () => {
-      checkout.goToCheapProductDetailsPage(APPAREL_BASESITE, products[0]);
-      checkout.addCheapProductToCartAndProceedToCheckout(
-        APPAREL_BASESITE,
-        variantProduct
-      );
+      checkout.goToCheapProductDetailsPage(products[0]);
+      checkout.addCheapProductToCartAndProceedToCheckout(variantProduct);
 
-      guestCheckout.loginAsGuest(APPAREL_BASESITE, variantUser);
+      guestCheckout.loginAsGuest(variantUser);
 
       checkout.fillAddressFormWithCheapProduct(
         variantUser,
-        cartWithSingleVariantProduct,
-        APPAREL_BASESITE
+        cartWithSingleVariantProduct
       );
 
       const shippingPage = checkout.waitForPage(
         '/checkout/shipping-address',
-        'getShippingPage',
-        APPAREL_BASESITE
+        'getShippingPage'
       );
 
-      const loginPage = checkout.waitForPage(
-        '/login',
-        'getLoginPage',
-        APPAREL_BASESITE
-      );
+      const loginPage = checkout.waitForPage('/login', 'getLoginPage');
       cy.getByText(/Sign in \/ Register/i).click();
       cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
@@ -203,11 +174,7 @@ context('Apparel - checkout as guest', () => {
 
       cy.get('cx-mini-cart .count').contains('1');
 
-      const cartPage = checkout.waitForPage(
-        '/cart',
-        'getCartPage',
-        APPAREL_BASESITE
-      );
+      const cartPage = checkout.waitForPage('/cart', 'getCartPage');
       cy.get('cx-mini-cart').click();
       cy.wait(`@${cartPage}`).its('status').should('eq', 200);
 

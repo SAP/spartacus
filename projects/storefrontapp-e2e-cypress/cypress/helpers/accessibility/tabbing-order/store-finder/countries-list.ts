@@ -8,9 +8,12 @@ export function countriesListTabbingOrder(config: TabElement[]) {
 
   cy.server();
 
-  cy.route('GET', '/rest/v2/electronics-spa/stores/storescounts*').as(
-    'storesCounts'
-  );
+  cy.route(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/stores/storescounts*`
+  ).as('storesCounts');
 
   cy.wait('@storesCounts');
   verifyTabbingOrder(containerSelector, config);
