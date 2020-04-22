@@ -6,18 +6,12 @@ import {
   RendererFactory2,
   ViewContainerRef,
 } from '@angular/core';
+import { Applicable } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import {
-  DIALOG_TYPE,
-  LaunchDialog,
-  LaunchOptions,
-  LAUNCH_CALLER,
-} from '../config';
+import { LaunchDialog, LaunchOptions, LAUNCH_CALLER } from '../config';
 
-export abstract class LaunchRenderStrategy {
-  /**
-   *  List of called references; only used for rendered elements
-   */
+export abstract class LaunchRenderStrategy implements Applicable {
+  // List of called references; only used for rendered elements
   protected renderedCallers: Array<{
     caller: LAUNCH_CALLER | string;
     element?: any;
@@ -66,7 +60,7 @@ export abstract class LaunchRenderStrategy {
    *
    * @param config
    */
-  abstract match(config: LaunchOptions): boolean;
+  abstract hasMatch(config: LaunchOptions): boolean;
 
   /**
    * Determines if element should render

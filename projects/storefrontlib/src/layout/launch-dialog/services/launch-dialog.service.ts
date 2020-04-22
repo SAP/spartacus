@@ -5,6 +5,7 @@ import {
   isDevMode,
   ViewContainerRef,
 } from '@angular/core';
+import { resolveApplicable } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { LayoutConfig } from '../../config/layout-config';
 import { LaunchOptions, LAUNCH_CALLER } from '../config/launch-config';
@@ -80,6 +81,6 @@ export class LaunchDialogService {
    * @param config Configuration for launch
    */
   protected getStrategy(config: LaunchOptions): LaunchRenderStrategy {
-    return this.renderStrategies.find((strategy) => strategy.match(config));
+    return resolveApplicable(this.renderStrategies, [config]);
   }
 }

@@ -60,7 +60,7 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
     }
   }
 
-  match(config: LaunchInlineDialog) {
+  hasMatch(config: LaunchInlineDialog) {
     return Boolean(config.inline);
   }
 }

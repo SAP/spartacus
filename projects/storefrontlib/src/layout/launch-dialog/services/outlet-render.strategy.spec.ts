@@ -5,7 +5,7 @@ import { OutletPosition, OutletService } from '../../../cms-structure/index';
 import { OutletRendererService } from '../../../cms-structure/outlet/outlet-renderer.service';
 import { LayoutConfig } from '../../config/layout-config';
 import { LaunchOutletDialog, LAUNCH_CALLER } from '../config';
-import { OutletRenderStrategy } from './outlet-render-strategy.service';
+import { OutletRenderStrategy } from './outlet-render.strategy';
 
 @Component({
   template: 'test',

@@ -164,6 +164,8 @@ export const URL_MATCHER_SERVICE = 'UrlMatcherService';
 export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
 export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
 export const EXTERNAL_ROUTES_CONFIG = 'ExternalRoutesConfig';
+export const PAGE_SLOT_COMPONENT = 'PageSlotComponent;';
+export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
 export const OUTLET_DIRECTIVE = 'OutletDirective';
 export const OUTLET_SERVICE = 'OutletService';
 export const DEFER_LOADER_SERVICE = 'DeferLoaderService';
@@ -173,7 +175,16 @@ export const PLACE_ORDER_COMPONENT = 'PlaceOrderComponent';
 export const USER_INTERESTS_SERVICE = 'UserInterestsService';
 export const USER_NOTIFICATION_PREFERENCE_SERVICE =
   'UserNotificationPreferenceService';
+export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
+export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
+export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
+export const STORE_FINDER_SEARCH_RESULT_COMPONENT =
+  'StoreFinderSearchResultComponent';
+export const STORE_FINDER_SERVICE = 'StoreFinderService';
+export const STORE_FINDER_CONFIG = 'StoreFinderConfig';
+export const PRODUCT_REVIEW_SERVICE = 'ProductReviewService';
+export const SEARCH_BOX_COMPONENT_SERVICE = 'SearchBoxComponentService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -249,6 +260,7 @@ export const OF_LOADER_SUCCESS = 'ofLoaderSuccess';
 
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
+export const KYMA_ENABLED = 'kyma_enabled';
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -271,5 +283,5 @@ export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 
 /***** Misc start *****/
 export const CSS_DOCS_URL =
-  'https://sap.github.io/cloud-commerce-spartacus-storefront-docs/deprecation-guide/css';
+  'https://sap.github.io/spartacus-docs/updating-to-version-2/css';
 /***** Misc end *****/

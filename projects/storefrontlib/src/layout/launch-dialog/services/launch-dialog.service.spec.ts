@@ -34,7 +34,7 @@ class MockRoutingRenderStrategy {
 
   public remove(_caller: LAUNCH_CALLER | string, _config: LaunchOptions) {}
 
-  public match(config: LaunchRoute) {
+  public hasMatch(config: LaunchRoute) {
     return Boolean(config.cxRoute);
   }
 }
@@ -51,7 +51,7 @@ class MockInlineRenderStrategy {
 
   public remove(_caller: LAUNCH_CALLER | string, _config: LaunchOptions) {}
 
-  public match(config: LaunchInlineDialog) {
+  public hasMatch(config: LaunchInlineDialog) {
     return Boolean(config.inline);
   }
 }

@@ -10,10 +10,8 @@
   <a tabindex="0" [routerLink]="{ cxRoute: 'product', params: item } | cxUrl">
     <cx-media
       *ngIf="item.images?.PRIMARY"
-      [container]="item.images.PRIMARY"
-      format="product"
-    >
-    </cx-media>
+      [container]="item.images?.PRIMARY"
+    ></cx-media>
     <h4>{{ item.name }}</h4>
     <div class="price">{{ item.price?.formattedValue }}</div>
   </a>

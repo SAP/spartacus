@@ -1,6 +1,4 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { Config } from '../../config/config.module';
-import { ExternalRoutesConfig } from './external-routes-config';
 import { addExternalRoutesFactory } from './external-routes.providers';
 import { ExternalRoutesService } from './external-routes.service';
 
@@ -14,7 +12,6 @@ export class ExternalRoutesModule {
       ngModule: ExternalRoutesModule,
       providers: [
         ExternalRoutesService,
-        { provide: ExternalRoutesConfig, useExisting: Config },
         {
           provide: APP_INITIALIZER,
           multi: true,

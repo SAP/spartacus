@@ -74,7 +74,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
     }
   }
 
-  match(config: LaunchOutletDialog) {
+  hasMatch(config: LaunchOutletDialog) {
     return Boolean(config.outlet);
   }
 
