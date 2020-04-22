@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
-  "module": "esnext",
   "compilerOptions": {
+    "module": "esnext",
     "outDir": "../../out-tsc/app",
     "types": [],
     "target": "es2015"
