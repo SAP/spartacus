@@ -58,6 +58,7 @@ import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migr
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { CDS_SPARTACUS_EVENT_SERVICE_MIGRATION } from './data/spartacus-event.service.migration';
 import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating.component.migration';
+import { STORE_FINDER_SEARCH_RESULT_COMPONENT_MIGRATION } from './data/store-finder-search-result.component.migration';
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address.service.migration';
 import { USER_AUTHENTICATION_TOKEN_SERVICE_MIGRATION } from './data/user-authentication-token.service.migration';
 import { USER_CONSENT_SERVICE_MIGRATION } from './data/user-consent.service.migration';
@@ -137,4 +138,5 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   PAYMENT_FORM_COMPONENT_MIGRATION,
   COMPONENT_WRAPPER_DIRECTIVE_MIGRATION,
   DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION,
+  STORE_FINDER_SEARCH_RESULT_COMPONENT_MIGRATION,
 ];

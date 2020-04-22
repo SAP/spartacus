@@ -184,6 +184,10 @@ export const CMS_MAPPING_SERVICE = 'CmsMappingService';
 export const COMPONENT_HANDLER_SERVICE = 'ComponentHandlerService';
 export const CMS_INJECTOR_SERVICE = 'CmsInjectorService';
 export const SMART_EDIT_SERVICE = 'SmartEditService';
+export const STORE_FINDER_SEARCH_RESULT_COMPONENT =
+  'StoreFinderSearchResultComponent';
+export const STORE_FINDER_SERVICE = 'StoreFinderService';
+export const STORE_FINDER_CONFIG = 'StoreFinderConfig';
 export const PRODUCT_REVIEW_SERVICE = 'ProductReviewService';
 export const SEARCH_BOX_COMPONENT_SERVICE = 'SearchBoxComponentService';
 /***** Classes end *****/
