@@ -23,15 +23,26 @@ export class CmsComponentsService {
   ) {}
 
   /**
-   * Should be called to make sure all component mappings are properly resolved
+   * Should be called to make sure all component mappings are determined,
+   * especially lazy loaded ones.
+   *
+   * It's recommended way to make sure all other methods of CmsComponentService
+   * will be able to work synchronously for asked component types and avoid risk
+   * of potential errors that could be thrown otherwise.
    */
-  resolve(componentTypes: string[]): Observable<string[]> {
+  determineMappings(componentTypes: string[]): Observable<string[]> {
     return of(componentTypes);
   }
 
   /**
    * Return collection of component mapping configuration for specified list of
-   * component types
+   * component types.
+   *
+   * If component mapping can't be determined synchronously, for example, lazy
+   * loaded one, it will throw an error.
+   *
+   * To make sure component mapping is available, determineMappings()
+   * should be called and completed first.
    */
   getMapping(componentType: string): CmsComponentMapping {
     const componentConfig = this.config.cmsComponents?.[componentType];

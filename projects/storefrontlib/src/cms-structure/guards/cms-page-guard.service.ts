@@ -63,7 +63,7 @@ export class CmsPageGuardService {
     return this.cmsService.getPageComponentTypes(pageContext).pipe(
       take(1),
       switchMap((componentTypes) =>
-        this.cmsComponentsService.resolve(componentTypes)
+        this.cmsComponentsService.determineMappings(componentTypes)
       ),
       switchMap((componentTypes) =>
         this.cmsGuards
