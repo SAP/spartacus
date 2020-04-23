@@ -67,6 +67,7 @@ export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
 export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
+export const STORE_DATA_SERVICE = 'StoreDataService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
@@ -191,6 +192,7 @@ export const STORE_FINDER_CONFIG = 'StoreFinderConfig';
 export const PRODUCT_REVIEW_SERVICE = 'ProductReviewService';
 export const SEARCH_BOX_COMPONENT_SERVICE = 'SearchBoxComponentService';
 export const NAVIGATION_UI_COMPONENT = 'NavigationUIComponent';
+export const STORE_FINDER_LIST_ITEM_COMPONENT = 'StoreFinderListItemComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
