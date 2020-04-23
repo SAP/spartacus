@@ -79,7 +79,7 @@ export class TabParagraphContainerComponent
     const routeState =
       this.winRef.nativeWindow.history?.state;
 
-    if (routeState && routeState['activeTab']) {
+    if (routeState?.['activeTab']) {
       this.activeTabNum = routeState['activeTab'];
     }
   }
