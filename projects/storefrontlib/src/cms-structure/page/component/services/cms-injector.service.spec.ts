@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { CmsComponentData } from '@spartacus/storefront';
 
 const mockCmsMappingService = jasmine.createSpyObj('CmsMappingService', [
-  'getComponentMapping',
+  'getMapping',
 ]);
 
 const mockCmsService = {

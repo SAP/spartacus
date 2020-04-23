@@ -52,7 +52,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.cmsComponentsService
-      .resolve([this.cxComponentWrapper.flexType])
+      .determineMappings([this.cxComponentWrapper.flexType])
       .subscribe(() => {
         if (
           this.cmsComponentsService.shouldRender(
