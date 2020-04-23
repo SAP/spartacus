@@ -2,13 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { CmsRoute, PageType } from '@spartacus/core';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
-import { CmsMappingService } from './cms-mapping.service';
+import { CmsComponentsService } from './cms-components.service';
 import { CmsRoutesImplService } from './cms-routes-impl.service';
 import createSpy = jasmine.createSpy;
 
 describe('CmsRoutesImplService', () => {
   let service: CmsRoutesImplService;
-  let cmsMappingService: CmsMappingService;
+  let cmsMappingService: CmsComponentsService;
   let mockRouter;
 
   const mockPageContext = {
@@ -26,8 +26,8 @@ describe('CmsRoutesImplService', () => {
     },
   ];
 
-  const mockCmsMapping = {
-    getRoutesForComponents: () => [{ path: 'sub-route' }],
+  const mockCmsComponentsService = {
+    getChildRoutes: () => [{ path: 'sub-route' }],
   };
 
   beforeEach(() => {
@@ -43,12 +43,12 @@ describe('CmsRoutesImplService', () => {
           provide: Router,
           useValue: mockRouter,
         },
-        { provide: CmsMappingService, useValue: mockCmsMapping },
+        { provide: CmsComponentsService, useValue: mockCmsComponentsService },
       ],
     });
 
     service = TestBed.inject(CmsRoutesImplService);
-    cmsMappingService = TestBed.inject(CmsMappingService);
+    cmsMappingService = TestBed.inject(CmsComponentsService);
   });
 
   it('should be created', () => {
@@ -139,7 +139,7 @@ describe('CmsRoutesImplService', () => {
     });
 
     it('should return true for content pages without cms driven route', () => {
-      spyOn(cmsMappingService, 'getRoutesForComponents').and.returnValue([]);
+      spyOn(cmsMappingService, 'getChildRoutes').and.returnValue([]);
 
       expect(
         service.handleCmsRoutesInGuard(
