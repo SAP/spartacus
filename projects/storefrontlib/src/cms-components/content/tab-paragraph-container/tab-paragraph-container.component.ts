@@ -40,24 +40,9 @@ export class TabParagraphContainerComponent
   subscription: Subscription;
 
   constructor(
-    componentData: CmsComponentData<CMSTabParagraphContainer>,
-    cmsService: CmsService,
-    // tslint:disable-next-line:unified-signatures
-    winRef: WindowRef
-  );
-  /**
-   * @deprecated since 1.4
-   *
-   * TODO(issue:#5813) Deprecated since 1.4
-   */
-  constructor(
-    componentData: CmsComponentData<CMSTabParagraphContainer>,
-    cmsService: CmsService
-  );
-  constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     private cmsService: CmsService,
-    private winRef?: WindowRef
+    private winRef: WindowRef
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -91,14 +76,12 @@ export class TabParagraphContainerComponent
   }
 
   ngOnInit(): void {
-    if (this.winRef && this.winRef.nativeWindow) {
-      const routeState =
-        this.winRef.nativeWindow.history &&
-        this.winRef.nativeWindow.history.state;
+    const routeState =
+      this.winRef.nativeWindow.history &&
+      this.winRef.nativeWindow.history.state;
 
-      if (routeState && routeState['activeTab']) {
-        this.activeTabNum = routeState['activeTab'];
-      }
+    if (routeState && routeState['activeTab']) {
+      this.activeTabNum = routeState['activeTab'];
     }
   }
 
