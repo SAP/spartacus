@@ -5,16 +5,13 @@ import { concat, from, isObservable, Observable, of } from 'rxjs';
 import { endWith, first, skipWhile } from 'rxjs/operators';
 import { CmsComponentsService } from './cms-components.service';
 
-/**
- * Please don't put that service in public API.
- * */
 @Injectable({
   providedIn: 'root',
 })
 export class CmsGuardsService {
   constructor(
-    private cmsComponentsService: CmsComponentsService,
-    private injector: Injector
+    protected cmsComponentsService: CmsComponentsService,
+    protected injector: Injector
   ) {}
 
   cmsPageCanActivate(

@@ -8,9 +8,6 @@ import { Route } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
 import { Observable, of } from 'rxjs';
 
-/**
- * Please don't put that service in public API.
- * */
 @Injectable({
   providedIn: 'root',
 })
@@ -18,8 +15,8 @@ export class CmsComponentsService {
   private missingComponents: string[] = [];
 
   constructor(
-    private config: CmsConfig,
-    @Inject(PLATFORM_ID) private platformId: Object
+    protected config: CmsConfig,
+    @Inject(PLATFORM_ID) protected platformId: Object
   ) {}
 
   /**

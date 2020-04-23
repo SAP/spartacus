@@ -2,17 +2,14 @@ import { Injectable } from '@angular/core';
 import { TranslationChunkService, TranslationService } from '@spartacus/core';
 import { CmsComponentsService } from './cms-components.service';
 
-/**
- * Please don't put that service in public API.
- * */
 @Injectable({
   providedIn: 'root',
 })
 export class CmsI18nService {
   constructor(
-    private cmsComponentsService: CmsComponentsService,
-    private translation: TranslationService,
-    private translationChunk: TranslationChunkService
+    protected cmsComponentsService: CmsComponentsService,
+    protected translation: TranslationService,
+    protected translationChunk: TranslationChunkService
   ) {}
 
   loadForComponents(componentTypes: string[]) {
