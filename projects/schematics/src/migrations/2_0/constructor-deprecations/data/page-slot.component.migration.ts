@@ -1,7 +1,7 @@
 import {
   ANGULAR_CORE,
   CHANGE_DETECTOR_REF,
-  CMS_CONFIG,
+  CMS_COMPONENT_SERVICE,
   CMS_SERVICE,
   DYNAMIC_ATTRIBUTE_SERVICE,
   ELEMENT_REF,
@@ -23,8 +23,8 @@ export const PAGE_SLOT_COMPONENT_MIGRATION: ConstructorDeprecation = {
   ],
   addParams: [
     {
-      className: CMS_CONFIG,
-      importPath: SPARTACUS_CORE,
+      className: CMS_COMPONENT_SERVICE,
+      importPath: SPARTACUS_STOREFRONTLIB,
     },
     {
       className: CHANGE_DETECTOR_REF,
