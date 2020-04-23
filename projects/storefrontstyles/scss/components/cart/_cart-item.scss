@@ -8,22 +8,6 @@
     }
   }
 
-  cx-media.is-missing {
-    min-width: 100%;
-
-    &[format='thumbnail'] {
-      @include media-breakpoint-up(xl) {
-        background-size: 90%;
-      }
-      @include media-breakpoint-down(md) {
-        background-size: 120px;
-      }
-      @include media-breakpoint-down(xs) {
-        background-size: 96px;
-      }
-    }
-  }
-
   .cx-name {
     @include type('5');
     overflow-wrap: break-word;
@@ -108,6 +92,12 @@
 
   .cx-image-container {
     padding: 0;
+
+    a {
+      display: block;
+      padding: 0 1vw;
+      height: 100%;
+    }
   }
 
   .cx-quantity {

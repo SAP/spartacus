@@ -19,9 +19,7 @@
     width: 60%;
 
     &.is-missing {
-      align-self: center;
-      width: 60%;
-      background-size: 60%;
+      min-height: 200px;
     }
   }
 }
