@@ -6,7 +6,7 @@
           *ngIf="getProductInWishList(product, entries) as entry; else addItem"
         >
           <button
-            class="btn btn-link button-remove"
+            class="btn btn-link button-remove cx-action-link"
             (click)="remove(entry)"
             [disabled]="loading$ | async"
           >
@@ -18,7 +18,7 @@
         </div>
         <ng-template #addItem>
           <button
-            class="btn btn-link button-add"
+            class="btn btn-link button-add cx-action-link"
             (click)="add(product)"
             [disabled]="loading$ | async"
           >
@@ -36,7 +36,7 @@
 <ng-template #loginPrompt>
   <ng-container *ngIf="hasStock">
     <a
-      class="btn btn-link button-add-link"
+      class="btn btn-link button-add-link cx-action-link"
       [routerLink]="{ cxRoute: 'login' } | cxUrl"
     >
       <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>

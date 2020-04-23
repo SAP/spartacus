@@ -6,9 +6,9 @@ import { Product } from '../../model/product.model';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductService } from './product.service';
-import { ProductLoadingService } from '@spartacus/core';
+import { DEFAULT_SCOPE, ProductLoadingService } from '@spartacus/core';
 
-function mockProduct(code, scopes = []) {
+function mockProduct(code, scopes = [DEFAULT_SCOPE]) {
   return { code, name: `product${scopes.join('')}` };
 }
 

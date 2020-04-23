@@ -16,9 +16,10 @@
       padding: 0;
       background-color: var(--cx-color-inverse);
     }
-    cx-media.is-missing {
-      min-width: 100%;
-      background-size: 85px;
+    .cx-remove-btn {
+      max-width: 100%;
+      padding: 0;
+      flex: 0 0 100%;
     }
   }
 
@@ -50,10 +51,7 @@
       }
 
       .cx-actions {
-        button.link {
-          font-weight: var(--cx-font-weight-normal);
-          text-decoration: underline;
-        }
+        justify-content: flex-start;
       }
     }
   }

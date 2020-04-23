@@ -30,7 +30,7 @@ const storeCountResponseBody: Occ.StoreCountList = {
   ],
 };
 
-const mockRadius = '10000000';
+const mockRadius = 50000;
 
 const storeId = 'test';
 
@@ -95,7 +95,7 @@ describe('OccStoreFinderAdapter', () => {
     describe('with longitudeLatitude', () => {
       it('should return search results for given longitudeLatitude', () => {
         occStoreFinderAdapter
-          .search('', mockSearchConfig, longitudeLatitude)
+          .search('', mockSearchConfig, longitudeLatitude, mockRadius)
           .subscribe()
           .unsubscribe();
 
@@ -110,7 +110,7 @@ describe('OccStoreFinderAdapter', () => {
           {
             longitude: longitudeLatitude.longitude.toString(),
             latitude: longitudeLatitude.latitude.toString(),
-            radius: mockRadius,
+            radius: mockRadius.toString(),
             pageSize: mockSearchConfig.pageSize.toString(),
           }
         );

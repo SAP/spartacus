@@ -1,35 +1,91 @@
-%cx-facet-list {
-  h4 {
-    padding: 0.4rem;
+body.modal-open {
+  overflow: hidden;
+}
+
+%cx-dialog {
+  z-index: 11;
+  position: fixed; /* could also be absolute */
+
+  > .inner {
+    background-color: var(--cx-color-background);
+    transition: transform 0.3s ease-in-out;
   }
-  > .close {
-    display: none;
+  &.active {
+    > .inner {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}
+
+%cx-modal {
+  @extend %cx-dialog;
+
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  transition: background-color 0.3s ease-in-out;
+  &.active {
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
-  @include media-breakpoint-up(lg) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > .inner {
+    transform: translate3d(0, 100%, 0);
+  }
+}
+
+%cx-overlay {
+  @extend %cx-modal;
+  justify-content: start;
+  > .inner {
+    height: 100vh;
+    width: 50vw;
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+%cx-facet-list {
+  .inner {
+    @include media-breakpoint-down(md) {
+      max-height: 100vh;
+      overflow: scroll;
+    }
+
+    padding: 0 10px 10px 10px;
+
     h4 {
-      display: none;
+      position: sticky;
+      top: 0;
+      background: var(--cx-color-background);
+
+      padding: 0.4rem;
+      padding-top: 10px;
+
+      .close {
+        opacity: 1;
+        &:hover {
+          color: var(--cx-color-primary);
+        }
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      h4 {
+        display: none;
+      }
     }
   }
 
-  @include media-breakpoint-down(md) {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 11;
-    background-color: var(--cx-color-background);
-    height: 100%;
-    width: 100%;
-
-    overflow: hidden;
-    transition: transform 0.3s ease-in-out;
-
-    transform: translate3d(0, 100%, 0);
-
-    &.active {
-      transform: translate3d(0, 0, 0);
+  &.dialog {
+    @extend %cx-modal;
+    > .inner {
+      width: 95vw;
+      height: 95vh;
     }
   }
 }

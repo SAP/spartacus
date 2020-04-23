@@ -30,11 +30,15 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
   search(
     query: string,
     searchConfig: StoreFinderSearchConfig,
-    longitudeLatitude?: GeoPoint
+    longitudeLatitude?: GeoPoint,
+    radius?: number
   ): Observable<StoreFinderSearchPage> {
-    return this.callOccFindStores(query, searchConfig, longitudeLatitude).pipe(
-      this.converterService.pipeable(STORE_FINDER_SEARCH_PAGE_NORMALIZER)
-    );
+    return this.callOccFindStores(
+      query,
+      searchConfig,
+      longitudeLatitude,
+      radius
+    ).pipe(this.converterService.pipeable(STORE_FINDER_SEARCH_PAGE_NORMALIZER));
   }
 
   loadCounts(): Observable<StoreCount[]> {
@@ -59,17 +63,19 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
   protected callOccFindStores(
     query: string,
     searchConfig: StoreFinderSearchConfig,
-    longitudeLatitude?: GeoPoint
+    longitudeLatitude?: GeoPoint,
+    radius?: number
   ): Observable<Occ.StoreFinderSearchPage> {
     const params = {};
 
     if (longitudeLatitude) {
       params['longitude'] = String(longitudeLatitude.longitude);
       params['latitude'] = String(longitudeLatitude.latitude);
-      params['radius'] = String('10000000');
+      params['radius'] = String(radius);
     } else {
       params['query'] = query;
     }
+
     if (searchConfig.pageSize) {
       params['pageSize'] = String(searchConfig.pageSize);
     }

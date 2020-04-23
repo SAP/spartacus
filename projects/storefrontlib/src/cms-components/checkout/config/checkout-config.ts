@@ -1,4 +1,6 @@
 import { CheckoutStep } from '../model/checkout-step.model';
+import { Injectable } from '@angular/core';
+import { Config } from '@spartacus/core';
 
 export enum DeliveryModePreferences {
   FREE = 'FREE',
@@ -6,6 +8,10 @@ export enum DeliveryModePreferences {
   MOST_EXPENSIVE = 'MOST_EXPENSIVE',
 }
 
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
 export abstract class CheckoutConfig {
   checkout?: {
     /**

@@ -6,6 +6,7 @@ import {
   createProductQuery,
   createProductSortQuery,
   QUERY_ALIAS,
+  searchUrlPrefix,
   verifyProductSearch,
 } from './product-search';
 
@@ -40,18 +41,19 @@ export function productStoreFlow(mobile?: string) {
     QUERY_ALIAS.NAME_DSC_FILTER,
     PRODUCT_LISTING.SORTING_TYPES.BY_NAME_DESC
   );
+  cy.route('GET', `${searchUrlPrefix}?fields=*`).as('facets');
 
-  clickFacet('Stores');
+  clickFacet('Stores', mobile);
 
-  cy.wait(`@${QUERY_ALIAS.NAME_DSC_FILTER}`).its('status').should('eq', 200);
+  cy.wait(`@facets`).its('status').should('eq', 200);
 
-  assertNumberOfProducts(`@${QUERY_ALIAS.NAME_DSC_FILTER}`, `"${category}"`);
+  assertNumberOfProducts(`@facets`, `"${category}"`);
 
-  clearSelectedFacet(mobile);
+  clearSelectedFacet();
 
-  cy.wait(`@${QUERY_ALIAS.NAME_DSC_FILTER}`).its('status').should('eq', 200);
+  cy.wait(`@facets`).its('status').should('eq', 200);
 
-  assertNumberOfProducts(`@${QUERY_ALIAS.NAME_DSC_FILTER}`, `"${category}"`);
+  assertNumberOfProducts(`@facets`, `"${category}"`);
 
   // Add product to cart from search listing page
   cy.get('cx-add-to-cart:first button').click({ force: true });

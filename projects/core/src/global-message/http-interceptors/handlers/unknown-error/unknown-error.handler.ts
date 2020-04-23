@@ -1,7 +1,7 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
-import { Priority } from '../../../../util/handler';
+import { Priority } from '../../../../util/applicable';
 
 /**
  * Unknown Error Handler works as an fallback, to handle errors that were
