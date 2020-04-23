@@ -1,8 +1,7 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CmsConfig } from '@spartacus/core';
+import { CmsConfig, DeferLoadingStrategy } from '@spartacus/core';
 import { CmsComponentsService } from './cms-components.service';
-import { DeferLoadingStrategy } from '../../../../../dist/core/src/cms/config';
 
 let service: CmsComponentsService;
 
