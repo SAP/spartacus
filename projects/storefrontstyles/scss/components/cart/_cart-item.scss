@@ -28,10 +28,9 @@
     @include type('5');
     overflow-wrap: break-word;
     padding: 0;
-    min-width: 17rem;
 
     @include media-breakpoint-up(xl) {
-      min-width: 15rem;
+      min-width: 14rem;
     }
 
     .cx-link {
