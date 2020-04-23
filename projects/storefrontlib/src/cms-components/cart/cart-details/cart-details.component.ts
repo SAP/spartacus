@@ -11,7 +11,7 @@ import {
   SelectiveCartService,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 
@@ -28,7 +28,7 @@ export class CartDetailsComponent implements OnInit {
   orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   promotions$: Observable<PromotionResult[]>;
-  selectiveCartEnabled$: Observable<boolean>;
+  selectiveCartEnabled: boolean;
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -47,21 +47,20 @@ export class CartDetailsComponent implements OnInit {
       .getEntries()
       .pipe(filter((entries) => entries.length > 0));
 
-    this.selectiveCartEnabled$ = this.cartConfigService.isSelectiveCartEnabled();
+    this.selectiveCartEnabled = this.cartConfigService.isSelectiveCartEnabled();
 
     this.cartLoaded$ = combineLatest([
       this.activeCartService.isStable(),
-      this.selectiveCartEnabled$.pipe(
-        switchMap((enabled) =>
-          enabled ? this.selectiveCartService.getLoaded() : of(false)
-        )
-      ),
+      this.selectiveCartEnabled
+        ? this.selectiveCartService.getLoaded()
+        : of(false),
       this.authService.isUserLoggedIn(),
-      this.selectiveCartEnabled$,
     ]).pipe(
       tap(([, , loggedIn]) => (this.loggedIn = loggedIn)),
-      map(([cartLoaded, sflLoaded, loggedIn, selectiveCartEnabled]) =>
-        loggedIn && selectiveCartEnabled ? cartLoaded && sflLoaded : cartLoaded
+      map(([cartLoaded, sflLoaded, loggedIn]) =>
+        loggedIn && this.selectiveCartEnabled
+          ? cartLoaded && sflLoaded
+          : cartLoaded
       )
     );
 

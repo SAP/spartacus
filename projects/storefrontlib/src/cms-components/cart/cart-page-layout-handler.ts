@@ -6,7 +6,7 @@ import {
   SelectiveCartService,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { PageLayoutHandler } from '../../cms-structure/page/page-layout/page-layout-handler';
 
 @Injectable({
@@ -28,14 +28,9 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
       return combineLatest([
         slots$,
         this.activeCartService.getActive(),
-        this.cartConfigService
-          .isSelectiveCartEnabled()
-          .pipe(
-            switchMap(
-              (enabled): Observable<Cart> =>
-                enabled ? this.selectiveCartService.getCart() : of({})
-            )
-          ),
+        this.cartConfigService.isSelectiveCartEnabled()
+          ? this.selectiveCartService.getCart()
+          : of({} as Cart),
       ]).pipe(
         map(([slots, cart, selectiveCart]) => {
           if (cart.totalItems) {
