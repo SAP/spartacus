@@ -160,7 +160,9 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    * rendered instantly or whether it should be deferred.
    */
   getComponentDeferOptions(componentType: string): IntersectionOptions {
-    const deferLoading = this.cmsComponentsService.getDeferLoadingStrategy(componentType);
+    const deferLoading = this.cmsComponentsService.getDeferLoadingStrategy(
+      componentType
+    );
     return { deferLoading };
   }
 

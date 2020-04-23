@@ -70,19 +70,13 @@ describe('CmsMappingService', () => {
 
   describe('getGuardsForComponents', () => {
     it('should get routes from page data', () => {
-      expect(service.getGuards(mockComponents)).toEqual([
-        'guard1',
-        'guard2',
-      ]);
+      expect(service.getGuards(mockComponents)).toEqual(['guard1', 'guard2']);
     });
   });
 
   describe('getI18nKeysForComponents', () => {
     it('should get i18n keys from page data', () => {
-      expect(service.getI18nKeys(mockComponents)).toEqual([
-        'key-1',
-        'key-2',
-      ]);
+      expect(service.getI18nKeys(mockComponents)).toEqual(['key-1', 'key-2']);
     });
   });
 });

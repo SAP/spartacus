@@ -7,7 +7,10 @@ import { CmsComponentsService } from './cms-components.service';
 // This service should be exposed in public API only after the refactor planned in https://github.com/SAP/spartacus/issues/7070
 @Injectable({ providedIn: 'root' })
 export class CmsRoutesImplService {
-  constructor(private router: Router, private cmsComponentsService: CmsComponentsService) {}
+  constructor(
+    private router: Router,
+    private cmsComponentsService: CmsComponentsService
+  ) {}
 
   private cmsRouteExists(url: string): boolean {
     const isCmsDrivenRoute = url.startsWith('/');
