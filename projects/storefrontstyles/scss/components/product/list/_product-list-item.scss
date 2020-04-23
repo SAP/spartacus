@@ -15,10 +15,13 @@
   .cx-product-image-container {
     display: block;
     text-align: center;
+    height: 100%;
   }
 
   .cx-product-image {
     width: 100%;
+    height: 100%;
+    display: block;
   }
 
   .cx-product-name {
@@ -50,6 +53,10 @@
     }
   }
 
+  cx-media.is-missing {
+    min-height: 255px;
+  }
+
   cx-variant-style-icons {
     display: block;
     margin-top: 1rem;
@@ -61,8 +68,7 @@
     }
 
     .cx-product-image {
-      width: 100%;
-      margin: 3rem 0;
+      max-height: 255px;
     }
 
     .cx-product-name,
