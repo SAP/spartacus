@@ -40,8 +40,7 @@ export class LaunchDialogService {
 
       // Render if the strategy exists
       if (renderer) {
-        const component = renderer.render(config, caller, vcr);
-        return component;
+        return renderer.render(config, caller, vcr);
       }
     } else if (isDevMode) {
       console.warn('No configuration provided for caller ' + caller);

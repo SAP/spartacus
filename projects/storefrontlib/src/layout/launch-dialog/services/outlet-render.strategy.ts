@@ -8,7 +8,7 @@ import {
   RendererFactory2,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import {
   OutletPosition,
   OutletService,
@@ -68,8 +68,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
           if (config?.dialogType) {
             this.applyClasses(component, config?.dialogType);
           }
-        }),
-        distinctUntilChanged()
+        })
       );
     }
   }

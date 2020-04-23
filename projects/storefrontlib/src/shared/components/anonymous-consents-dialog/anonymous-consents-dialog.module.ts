@@ -5,7 +5,7 @@ import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { ConsentManagementModule } from '../../../cms-components/myaccount/consent-management/consent-management.module';
 import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/index';
 import { SpinnerModule } from '../spinner/spinner.module';
-import { AnonymousConsentDialogComponent } from './dialog/anonymous-consent-dialog.component';
+import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
 
 @NgModule({
   imports: [
@@ -20,4 +20,4 @@ import { AnonymousConsentDialogComponent } from './dialog/anonymous-consent-dial
   entryComponents: [AnonymousConsentDialogComponent],
   exports: [AnonymousConsentDialogComponent],
 })
-export class AnonymousConsentsModule {}
+export class AnonymousConsentsDialogModule {}

@@ -6,7 +6,7 @@ import {
   RendererFactory2,
   ViewContainerRef,
 } from '@angular/core';
-import { Applicable } from '@spartacus/core';
+import { Applicable, Priority } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   DIALOG_TYPE,
@@ -125,5 +125,9 @@ export abstract class LaunchRenderStrategy implements Applicable {
     if ((config as LaunchDialog)?.dialogType === DIALOG_TYPE.DIALOG) {
       this.renderer.removeClass(this.document.body, 'modal-open');
     }
+  }
+
+  getPriority(): Priority {
+    return Priority.LOW; // low, as it's a default matcher
   }
 }

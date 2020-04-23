@@ -1,21 +1,18 @@
 import {
   Component,
   ElementRef,
-  OnDestroy,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { AnonymousConsentLaunchDialogService } from '../anonymous-consent-launch-dialog.service';
 
 @Component({
   selector: 'cx-anonymous-consent-open-dialog',
   templateUrl: './anonymous-consent-open-dialog.component.html',
 })
-export class AnonymousConsentOpenDialogComponent implements OnDestroy {
+export class AnonymousConsentOpenDialogComponent {
   @ViewChild('open') openElement: ElementRef;
-
-  private subscription = new Subscription();
 
   constructor(
     protected vcr: ViewContainerRef,
@@ -28,11 +25,7 @@ export class AnonymousConsentOpenDialogComponent implements OnDestroy {
       vcr: this.vcr,
     });
     if (dialog) {
-      this.subscription.add(dialog.subscribe());
+      dialog.pipe(take(1)).subscribe();
     }
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 }

@@ -16,8 +16,8 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
-import { FocusConfig } from '../../../../layout/a11y/keyboard-focus/index';
+import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
+import { FocusConfig } from '../../../layout/a11y/keyboard-focus/index';
 
 @Component({
   selector: 'cx-anonymous-consent-dialog',
