@@ -1,6 +1,9 @@
 import { Cart } from '../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
+/**
+ * Extract cart identifier for current user. Anonymous calls use `guid` and for logged users `code` is used.
+ */
 export function getCartIdByUserId(cart: Cart, userId: string): string {
   if (userId === OCC_USER_ID_ANONYMOUS) {
     return cart.guid;
@@ -8,6 +11,16 @@ export function getCartIdByUserId(cart: Cart, userId: string): string {
   return cart.code;
 }
 
+/**
+ * Check if cart is selective (save for later) based on id.
+ */
+export function isSelectiveCart(cartId = ''): boolean {
+  return cartId.startsWith('selectivecart');
+}
+
+/**
+ * Compute wishlist cart name for customer.
+ */
 export function getWishlistName(customerId: string): string {
   return `wishlist${customerId}`;
 }
@@ -22,7 +35,7 @@ export function getWishlistName(customerId: string): string {
  * - to know if there is currently a cart creation process in progress (eg. so, we don't create more than one active cart at the same time)
  * - cart identifiers are created in the backend, so those are only known after cart is created
  *
- * Temporary cart lifecycle
+ * Temporary cart life cycle
  * - create cart method invoked
  * - new `temp-${uuid}` cart is created with `loading=true` state
  * - backend returns created cart

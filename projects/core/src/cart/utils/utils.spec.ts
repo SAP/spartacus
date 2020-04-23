@@ -1,6 +1,11 @@
 import { Cart } from '../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../occ';
-import { getCartIdByUserId, getWishlistName, isTempCartId } from './utils';
+import {
+  getCartIdByUserId,
+  getWishlistName,
+  isSelectiveCart,
+  isTempCartId,
+} from './utils';
 
 describe('Cart utils', () => {
   describe('getCartIdByUserId', () => {
@@ -35,6 +40,18 @@ describe('Cart utils', () => {
 
     it('should return false for id "temp"', () => {
       expect(isTempCartId('temp')).toEqual(false);
+    });
+  });
+
+  describe('isSelectiveCart', () => {
+    it('should return true for cartId starting with "selectivecart"', () => {
+      expect(isSelectiveCart('selectivecart-electronicsspa-5435435')).toEqual(
+        true
+      );
+    });
+
+    it('should return false for normal cart code', () => {
+      expect(isSelectiveCart('54374645')).toEqual(false);
     });
   });
 });
