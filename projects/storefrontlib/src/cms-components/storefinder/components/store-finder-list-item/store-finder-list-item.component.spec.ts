@@ -1,12 +1,9 @@
-import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  I18nTestingModule,
-  StoreDataService,
-  RoutingService,
-} from '@spartacus/core';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule, StoreDataService } from '@spartacus/core';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
 
 const weekday = {
@@ -23,15 +20,12 @@ const weekday = {
   closed: false,
 };
 
-const location = {
-  name: 'Test Name',
-};
-
-const countryIsoCode = 'CA';
-
-const regionIsoCode = 'CA-QC';
+const name = 'Tokyu Hotel';
+const displayName = 'Tokio Cerulean Tower Tokyu Hotel';
 
 const sampleStore: any = {
+  name,
+  displayName,
   address: {
     country: { isocode: 'JP' },
     line1: 'Sakuragaokacho Shibuya',
@@ -40,7 +34,6 @@ const sampleStore: any = {
     postalCode: '150-8512',
     town: 'Tokio',
   },
-  displayName: 'Tokio Cerulean Tower Tokyu Hotel',
   geoPoint: {
     latitude: 35.656347,
     longitude: 139.69956,
@@ -89,35 +82,24 @@ const sampleStore: any = {
   },
 };
 
-const mockRoutingService = {
-  go: jasmine.createSpy('go'),
-};
-
-const mockActivatedRoute = {
-  snapshot: {
-    params: {},
-  },
-};
-
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
   let fixture: ComponentFixture<StoreFinderListItemComponent>;
-  let route: ActivatedRoute;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, ReactiveFormsModule, I18nTestingModule],
-      declarations: [StoreFinderListItemComponent],
-      providers: [
-        StoreDataService,
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        { provide: RoutingService, useValue: mockRoutingService },
+      imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        I18nTestingModule,
+        RouterTestingModule,
       ],
+      declarations: [StoreFinderListItemComponent],
+      providers: [StoreDataService],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    route = TestBed.inject(ActivatedRoute);
     fixture = TestBed.createComponent(StoreFinderListItemComponent);
     component = fixture.componentInstance;
     component.location = sampleStore;
@@ -136,28 +118,13 @@ describe('StoreFinderListItemComponent', () => {
     expect(component.storeItemClick.emit).toHaveBeenCalledWith(1);
   });
 
-  it('should route when viewStore is called without region', () => {
-    route.snapshot.params = {
-      country: countryIsoCode,
-    };
+  it('should prepare proper link', () => {
     fixture.detectChanges();
-
-    component.viewStore(location);
-
-    expect(mockRoutingService.go).toHaveBeenCalledWith([
-      `store-finder/country/${countryIsoCode}/${location.name}`,
-    ]);
-  });
-
-  it('should create store url for route', () => {
-    route.snapshot.params = {
-      country: countryIsoCode,
-      region: regionIsoCode,
-    };
-    const result = component.prepareRouteUrl(location);
-
-    expect(result).toEqual(
-      `store-finder/country/${countryIsoCode}/region/${regionIsoCode}/${location.name}`
-    );
+    const encodedName = name.replace(' ', '%20');
+    const link = fixture.debugElement
+      .queryAll(By.css('.cx-store-name > a'))
+      .find((el) => el.nativeElement.innerText === displayName).nativeElement;
+    expect(link.getAttribute('href')).toEqual(`/${encodedName}`);
+    expect(link.getAttribute('ng-reflect-router-link')).toEqual(name);
   });
 });
