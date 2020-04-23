@@ -12,7 +12,7 @@ import { Observable, of } from 'rxjs';
 import { SkipLinkDirective } from '../../../layout/a11y/index';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../../outlet/index';
-import { CmsMappingService } from '../../services/cms-mapping.service';
+import { CmsComponentsService } from '../../services/cms-components.service';
 import { PageSlotComponent } from './page-slot.component';
 
 const slotWithOneComp = {
@@ -100,7 +100,7 @@ const providers = [
     useClass: MockCmsService,
   },
   {
-    provide: CmsMappingService,
+    provide: CmsComponentsService,
     useClass: MockCmsMappingService,
   },
   {

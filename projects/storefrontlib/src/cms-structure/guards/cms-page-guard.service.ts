@@ -20,6 +20,7 @@ import {
 import { CmsGuardsService } from '../services/cms-guards.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';
+import { CmsComponentsService } from '../services';
 
 /**
  * Helper service for `CmsPageGuard`
@@ -30,10 +31,11 @@ import { CmsRoutesService } from '../services/cms-routes.service';
 export class CmsPageGuardService {
   constructor(
     protected semanticPathService: SemanticPathService,
-    private cmsService: CmsService,
-    private cmsRoutes: CmsRoutesService,
-    private cmsI18n: CmsI18nService,
-    private cmsGuards: CmsGuardsService
+    protected cmsService: CmsService,
+    protected cmsRoutes: CmsRoutesService,
+    protected cmsI18n: CmsI18nService,
+    protected cmsGuards: CmsGuardsService,
+    protected cmsComponentsService: CmsComponentsService
   ) {}
 
   /**
@@ -60,6 +62,9 @@ export class CmsPageGuardService {
   ): Observable<boolean | UrlTree> {
     return this.cmsService.getPageComponentTypes(pageContext).pipe(
       take(1),
+      switchMap((componentTypes) =>
+        this.cmsComponentsService.resolve(componentTypes)
+      ),
       switchMap((componentTypes) =>
         this.cmsGuards
           .cmsPageCanActivate(componentTypes, route, state)

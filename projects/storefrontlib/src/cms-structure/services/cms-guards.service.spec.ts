@@ -8,7 +8,7 @@ import {
 import { ConfigModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsGuardsService } from './cms-guards.service';
-import { CmsMappingService } from './cms-mapping.service';
+import { CmsComponentsService } from './cms-components.service';
 
 describe('CmsGuardsService', () => {
   let service: CmsGuardsService;
@@ -54,7 +54,7 @@ describe('CmsGuardsService', () => {
       imports: [ConfigModule.forRoot()],
       providers: [
         {
-          provide: CmsMappingService,
+          provide: CmsComponentsService,
           useClass: MockCmsMappingService,
         },
         PositiveGuard,

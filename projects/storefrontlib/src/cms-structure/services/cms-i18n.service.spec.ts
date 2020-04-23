@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { TranslationChunkService, TranslationService } from '@spartacus/core';
 import { CmsI18nService } from './cms-i18n.service';
-import { CmsMappingService } from './cms-mapping.service';
+import { CmsComponentsService } from './cms-components.service';
 import createSpy = jasmine.createSpy;
 
 describe('CmsI18nService', () => {
@@ -24,7 +24,7 @@ describe('CmsI18nService', () => {
     TestBed.configureTestingModule({
       providers: [
         CmsI18nService,
-        { provide: CmsMappingService, useValue: mockCmsMapping },
+        { provide: CmsComponentsService, useValue: mockCmsMapping },
         { provide: TranslationService, useValue: mockTranslation },
         {
           provide: TranslationChunkService,
