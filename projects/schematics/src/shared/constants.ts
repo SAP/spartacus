@@ -179,6 +179,10 @@ export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
 export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
 export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
+export const STORE_FINDER_SEARCH_RESULT_COMPONENT =
+  'StoreFinderSearchResultComponent';
+export const STORE_FINDER_SERVICE = 'StoreFinderService';
+export const STORE_FINDER_CONFIG = 'StoreFinderConfig';
 export const PRODUCT_REVIEW_SERVICE = 'ProductReviewService';
 export const SEARCH_BOX_COMPONENT_SERVICE = 'SearchBoxComponentService';
 /***** Classes end *****/
