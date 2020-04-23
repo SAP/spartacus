@@ -2,17 +2,15 @@ import { Component, Renderer2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  CmsConfig,
   CmsService,
   ContentSlotData,
-  DeferLoadingStrategy,
   DynamicAttributeService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SkipLinkDirective } from '../../../layout/a11y/index';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../../outlet/index';
-import { CmsMappingService } from '../../services/cms-mapping.service';
+import { CmsComponentsService } from '../../services/cms-components.service';
 import { PageSlotComponent } from './page-slot.component';
 
 const slotWithOneComp = {
@@ -81,14 +79,9 @@ class MockDeferLoaderService {
   }
 }
 
-const MockCmsConfig: CmsConfig = {
-  cmsComponents: {
-    CMSTestComponent: {
-      component: PageSlotComponent,
-      deferLoading: DeferLoadingStrategy.DEFER,
-    },
-  },
-};
+class MockCmsComponentsService {
+  getDeferLoadingStrategy = () => {};
+}
 
 const providers = [
   Renderer2,
@@ -97,7 +90,7 @@ const providers = [
     useClass: MockCmsService,
   },
   {
-    provide: CmsMappingService,
+    provide: CmsComponentsService,
     useClass: MockCmsMappingService,
   },
   {
@@ -109,8 +102,8 @@ const providers = [
     useClass: MockDeferLoaderService,
   },
   {
-    provide: CmsConfig,
-    useValue: MockCmsConfig,
+    provide: CmsComponentsService,
+    useClass: MockCmsComponentsService,
   },
 ];
 
@@ -120,6 +113,7 @@ describe('PageSlotComponent', () => {
   let cmsService: CmsService;
   let dynamicAttributeService;
   let renderer;
+  let cmsComponentsService: CmsComponentsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -134,6 +128,8 @@ describe('PageSlotComponent', () => {
     }).compileComponents();
 
     cmsService = TestBed.inject(CmsService);
+    cmsComponentsService = TestBed.inject(CmsComponentsService);
+    spyOn(cmsComponentsService, 'getDeferLoadingStrategy').and.callThrough();
 
     fixture = TestBed.createComponent(PageSlotComponent);
     pageSlotComponent = fixture.componentInstance;
@@ -337,20 +333,12 @@ describe('PageSlotComponent', () => {
   });
 
   describe('Component Defer Options', () => {
-    it('should return DEFER strategy for component', () => {
+    it('should call CmsComponentsService.getDeferLoadingStrategy', () => {
       fixture.detectChanges();
-      expect(
-        pageSlotComponent.getComponentDeferOptions('CMSTestComponent')
-          .deferLoading
-      ).toEqual(DeferLoadingStrategy.DEFER);
-    });
-
-    it('should return no strategy for deferLoading for unknown component', () => {
-      fixture.detectChanges();
-      expect(
-        pageSlotComponent.getComponentDeferOptions('UnknownComponent')
-          .deferLoading
-      ).toBeUndefined();
+      pageSlotComponent.getComponentDeferOptions('CMSTestComponent');
+      expect(cmsComponentsService.getDeferLoadingStrategy).toHaveBeenCalledWith(
+        'CMSTestComponent'
+      );
     });
   });
 
