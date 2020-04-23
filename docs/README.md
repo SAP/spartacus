@@ -1,4 +1,3 @@
-
 # Spartacus Documentation
 
 All Spartacus documentation is published on our dedicated [Spartacus Documentation site](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/).
