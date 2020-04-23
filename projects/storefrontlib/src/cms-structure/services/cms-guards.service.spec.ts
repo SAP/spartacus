@@ -15,10 +15,8 @@ describe('CmsGuardsService', () => {
   let guards: any[];
   const mockUrlTree = new UrlTree();
 
-  class MockCmsMappingService {
-    getGuardsForComponents = jasmine
-      .createSpy('getGuardsForComponents')
-      .and.returnValue(guards);
+  class MockCmsComponentsService {
+    getGuards = jasmine.createSpy('getGuards').and.returnValue(guards);
   }
 
   class PositiveGuard implements CanActivate {
@@ -55,7 +53,7 @@ describe('CmsGuardsService', () => {
       providers: [
         {
           provide: CmsComponentsService,
-          useClass: MockCmsMappingService,
+          useClass: MockCmsComponentsService,
         },
         PositiveGuard,
         PositiveGuardObservable,
