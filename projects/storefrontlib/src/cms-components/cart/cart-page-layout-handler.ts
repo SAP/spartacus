@@ -26,25 +26,22 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
         this.activeCartService.getLoading(),
       ]).pipe(
         map(([slots, cart, selectiveCart, loadingCart]) => {
+          const exclude = (arr, args) =>
+            arr.filter((item) => args.every((arg) => arg !== item));
           return Object.keys(cart).length === 0 && loadingCart
-            ? slots.filter(
-                (slot) =>
-                  slot !== 'TopContent' &&
-                  slot !== 'CenterRightContentSlot' &&
-                  slot !== 'EmptyCartMiddleContent'
-              )
+            ? exclude(slots, [
+                'TopContent',
+                'CenterRightContentSlot',
+                'EmptyCartMiddleContent',
+              ])
             : cart.totalItems
-            ? slots.filter((slot) => slot !== 'EmptyCartMiddleContent')
+            ? exclude(slots, ['EmptyCartMiddleContent'])
             : selectiveCart.totalItems
-            ? slots.filter(
-                (slot) =>
-                  slot !== 'EmptyCartMiddleContent' &&
-                  slot !== 'CenterRightContentSlot'
-              )
-            : slots.filter(
-                (slot) =>
-                  slot !== 'TopContent' && slot !== 'CenterRightContentSlot'
-              );
+            ? exclude(slots, [
+                'EmptyCartMiddleContent',
+                'CenterRightContentSlot',
+              ])
+            : exclude(slots, ['TopContent', 'CenterRightContentSlot']);
         })
       );
     }
