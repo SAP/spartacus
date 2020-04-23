@@ -18,11 +18,14 @@ declare global {
   }
 }
 Cypress.Commands.add('requirePaymentDone', (auth) => {
-  const apiUrl = Cypress.env('API_URL');
   function getResponseUrl() {
     return cy.request({
       method: 'GET',
-      url: `${apiUrl}/rest/v2/electronics-spa/users/current/carts/current/payment/sop/request?responseUrl=sampleUrl`,
+      url: `${Cypress.env('API_URL')}/${Cypress.env(
+        'OCC_PREFIX'
+      )}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/carts/current/payment/sop/request?responseUrl=sampleUrl`,
       form: false,
       headers: {
         Authorization: `bearer ${auth.userToken.token.access_token}`,
@@ -34,7 +37,7 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
     data = prepareCardData(data);
     return cy.request({
       method: 'POST',
-      url: `${apiUrl}/acceleratorservices/sop-mock/process`,
+      url: `${Cypress.env('API_URL')}/acceleratorservices/sop-mock/process`,
       body: data,
       form: true,
       headers: {
@@ -55,7 +58,11 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
 
     return cy.request({
       method: 'POST',
-      url: `${apiUrl}/rest/v2/electronics-spa/users/current/carts/current/payment/sop/response`,
+      url: `${Cypress.env('API_URL')}/${Cypress.env(
+        'OCC_PREFIX'
+      )}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/carts/current/payment/sop/response`,
       body: data,
       form: true,
       headers: {

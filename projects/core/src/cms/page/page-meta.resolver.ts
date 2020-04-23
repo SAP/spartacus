@@ -1,6 +1,6 @@
 import { PageType } from '../../model/cms.model';
 import { Page } from '../model/page.model';
-import { Handler } from '../../util/handler';
+import { Applicable } from '../../util/applicable';
 
 /**
  * Abstract class that can be used to resolve meta data for specific pages.
@@ -8,7 +8,7 @@ import { Handler } from '../../util/handler';
  * page, based on a score. The score is calculated by the (non)matching page
  * type and page template.
  */
-export abstract class PageMetaResolver implements Handler {
+export abstract class PageMetaResolver implements Applicable {
   /** The `PageType` is used to score the (non)matching page */
   pageType: PageType;
 
