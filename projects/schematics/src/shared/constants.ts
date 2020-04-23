@@ -185,6 +185,7 @@ export const STORE_FINDER_SERVICE = 'StoreFinderService';
 export const STORE_FINDER_CONFIG = 'StoreFinderConfig';
 export const PRODUCT_REVIEW_SERVICE = 'ProductReviewService';
 export const SEARCH_BOX_COMPONENT_SERVICE = 'SearchBoxComponentService';
+export const NAVIGATION_UI_COMPONENT = 'NavigationUIComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
