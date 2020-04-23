@@ -29,6 +29,7 @@ export class FindStores extends StateUtils.LoaderLoadAction {
       longitudeLatitude?: GeoPoint;
       useMyLocation?: boolean;
       countryIsoCode?: string;
+      radius?: number;
     }
   ) {
     super(STORE_FINDER_DATA);

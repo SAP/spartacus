@@ -19,10 +19,7 @@ import { CmsComponentMapping, Priority } from '@spartacus/core';
 })
 export class DefaultComponentHandler implements ComponentHandler {
   hasMatch(componentMapping: CmsComponentMapping): boolean {
-    return (
-      typeof componentMapping.component === 'function' &&
-      componentMapping.component.prototype
-    );
+    return typeof componentMapping.component === 'function';
   }
 
   getPriority(): Priority {

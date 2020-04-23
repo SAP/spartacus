@@ -128,4 +128,12 @@
   cx-paragraph h4 {
     text-align: center;
   }
+
+  cx-cart-item {
+    .cx-image-container {
+      a {
+        padding: 0 3vw;
+      }
+    }
+  }
 }
