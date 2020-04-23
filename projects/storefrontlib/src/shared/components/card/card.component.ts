@@ -1,5 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
+import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
 
 export interface CardAction {
   event: string;
@@ -52,6 +60,8 @@ export class CardComponent implements OnInit {
   content: Card;
   @Input()
   fitToContainer = false;
+
+  @ViewChild(FocusDirective) keyboardFocus: FocusDirective;
 
   // ACTIONS
 

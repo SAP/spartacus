@@ -52,4 +52,19 @@
   .cx-card-link {
     margin: 0 0 0 1rem;
   }
+
+  .cx-card-cancel-button {
+    &:focus {
+      border: 2px solid var(--cx-color-visual-focus);
+      box-shadow: none;
+      -webkit-box-shadow: none;
+    }
+  }
+  .cx-card-delete-button {
+    &:focus {
+      border: 2px solid var(--cx-color-visual-focus);
+      box-shadow: none;
+      -webkit-box-shadow: none;
+    }
+  }
 }
