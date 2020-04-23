@@ -30,6 +30,12 @@
 
   .cx-card-body-delete {
     padding: 1rem 0 0 0;
+
+    .btn-secondary {
+      @include media-breakpoint-down(sm) {
+        margin: 0 0 1rem;
+      }
+    }
   }
 
   .cx-card-delete-msg {
