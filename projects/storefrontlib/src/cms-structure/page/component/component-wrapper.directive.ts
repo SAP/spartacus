@@ -15,7 +15,7 @@ import {
   DynamicAttributeService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { CmsMappingService } from '../../services/cms-mapping.service';
+import { CmsComponentsService } from '../../services/cms-components.service';
 import { ComponentHandlerService } from './services/component-handler.service';
 import { CmsInjectorService } from './services/cms-injector.service';
 
@@ -41,7 +41,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   constructor(
     protected vcr: ViewContainerRef,
-    protected cmsMappingService: CmsMappingService,
+    protected cmsComponentsService: CmsComponentsService,
     protected injector: Injector,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
@@ -51,17 +51,21 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    if (
-      this.cmsMappingService.isComponentEnabled(
-        this.cxComponentWrapper.flexType
-      )
-    ) {
-      this.launchComponent();
-    }
+    this.cmsComponentsService
+      .determineMappings([this.cxComponentWrapper.flexType])
+      .subscribe(() => {
+        if (
+          this.cmsComponentsService.shouldRender(
+            this.cxComponentWrapper.flexType
+          )
+        ) {
+          this.launchComponent();
+        }
+      });
   }
 
   private launchComponent() {
-    const componentMapping = this.cmsMappingService.getComponentMapping(
+    const componentMapping = this.cmsComponentsService.getMapping(
       this.cxComponentWrapper.flexType
     );
 
