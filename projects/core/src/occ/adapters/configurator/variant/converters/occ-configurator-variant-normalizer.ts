@@ -40,9 +40,11 @@ export class OccConfiguratorVariantNormalizer
     flatGroupList: Configurator.Group[]
   ) {
     const attributes: Configurator.Attribute[] = [];
-    source.attributes.forEach((sourceAttribute) =>
-      this.convertAttribute(sourceAttribute, attributes)
-    );
+    if (source.attributes) {
+      source.attributes.forEach((sourceAttribute) =>
+        this.convertAttribute(sourceAttribute, attributes)
+      );
+    }
 
     const group = {
       description: source.description,

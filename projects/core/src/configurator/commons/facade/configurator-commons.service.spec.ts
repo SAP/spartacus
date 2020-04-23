@@ -697,6 +697,26 @@ describe('ConfiguratorCommonsService', () => {
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
+
+    it('should not create a new configuration if existing yet but erroneous', () => {
+      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+        loading: false,
+        error: true,
+      };
+
+      const obs = cold('x', {
+        x: productConfigurationLoaderState,
+      });
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+      spyOn(store, 'dispatch').and.callThrough();
+
+      const configurationObs = serviceUnderTest.getOrCreateConfiguration(
+        OWNER_PRODUCT
+      );
+
+      expect(configurationObs).toBeObservable(cold('', {}));
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
   });
 
   describe('buildGroupPath', () => {

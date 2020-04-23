@@ -65,7 +65,8 @@ export class ConfiguratorCommonsService {
         if (
           (!this.isConfigurationCreated(configurationState.value) ||
             localOwner.hasObsoleteState === true) &&
-          configurationState.loading !== true
+          configurationState.loading !== true &&
+          configurationState.error !== true
         ) {
           if (owner.type === GenericConfigurator.OwnerType.PRODUCT) {
             this.store.dispatch(
