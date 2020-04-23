@@ -8,8 +8,8 @@ describe('CmsI18nService', () => {
   let service: CmsI18nService;
   let translation: TranslationService;
 
-  const mockCmsMapping = {
-    getI18nKeysForComponents: () => ['key1', 'key2'],
+  const mockCmsComponentsService = {
+    getI18nKeys: () => ['key1', 'key2'],
   };
   const mockTranslation = {
     loadChunks: createSpy('loadChunks'),
@@ -24,7 +24,7 @@ describe('CmsI18nService', () => {
     TestBed.configureTestingModule({
       providers: [
         CmsI18nService,
-        { provide: CmsComponentsService, useValue: mockCmsMapping },
+        { provide: CmsComponentsService, useValue: mockCmsComponentsService },
         { provide: TranslationService, useValue: mockTranslation },
         {
           provide: TranslationChunkService,

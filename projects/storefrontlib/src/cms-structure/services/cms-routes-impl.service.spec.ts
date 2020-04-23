@@ -26,8 +26,8 @@ describe('CmsRoutesImplService', () => {
     },
   ];
 
-  const mockCmsMapping = {
-    getRoutesForComponents: () => [{ path: 'sub-route' }],
+  const mockCmsComponentsService = {
+    getChildRoutes: () => [{ path: 'sub-route' }],
   };
 
   beforeEach(() => {
@@ -43,7 +43,7 @@ describe('CmsRoutesImplService', () => {
           provide: Router,
           useValue: mockRouter,
         },
-        { provide: CmsComponentsService, useValue: mockCmsMapping },
+        { provide: CmsComponentsService, useValue: mockCmsComponentsService },
       ],
     });
 
