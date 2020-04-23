@@ -7,7 +7,6 @@ import { CartEntryEffects } from './effects/cart-entry.effect';
 import { CartVoucherEffects } from './effects/cart-voucher.effect';
 import { CartEffects } from './effects/cart.effect';
 import { MultiCartEffects } from './effects/multi-cart.effect';
-import { SelectiveCartFeatureEffect } from './effects/selective-cart-feature.effect';
 import { WishListEffects } from './effects/wish-list.effect';
 import { MULTI_CART_FEATURE } from './multi-cart-state';
 import {
@@ -22,7 +21,6 @@ const effects: any[] = [
   CartVoucherEffects,
   WishListEffects,
   MultiCartEffects,
-  SelectiveCartFeatureEffect,
 ];
 
 @NgModule({
