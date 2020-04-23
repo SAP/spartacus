@@ -1,37 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { iif, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map, withLatestFrom } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { KymaConfig } from '../../config/kyma-config';
 import { OpenIdAuthenticationTokenService } from '../../services/open-id-token/open-id-token.service';
 import { KymaActions } from '../actions/index';
 
 @Injectable()
 export class OpenIdTokenEffect {
   @Effect()
-  triggerOpenIdTokenLoading$: Observable<KymaActions.LoadOpenIdToken> = iif<
-    KymaActions.LoadOpenIdToken,
+  triggerOpenIdTokenLoading$: Observable<
     KymaActions.LoadOpenIdToken
-  >(
-    () => this.config.authentication && this.config.authentication.kyma_enabled,
-    this.actions$.pipe(
-      ofType<KymaActions.LoadOpenIdTokenSuccess>(
-        AuthActions.LOAD_USER_TOKEN_SUCCESS
-      ),
-      withLatestFrom(
-        this.actions$.pipe(
-          ofType<AuthActions.LoadUserToken>(AuthActions.LOAD_USER_TOKEN)
-        )
-      ),
-      map(
-        ([, loginAction]) =>
-          new KymaActions.LoadOpenIdToken({
-            username: loginAction.payload.userId,
-            password: loginAction.payload.password,
-          })
+  > = this.actions$.pipe(
+    ofType<KymaActions.LoadOpenIdTokenSuccess>(
+      AuthActions.LOAD_USER_TOKEN_SUCCESS
+    ),
+    withLatestFrom(
+      this.actions$.pipe(
+        ofType<AuthActions.LoadUserToken>(AuthActions.LOAD_USER_TOKEN)
       )
+    ),
+    map(
+      ([, loginAction]) =>
+        new KymaActions.LoadOpenIdToken({
+          username: loginAction.payload.userId,
+          password: loginAction.payload.password,
+        })
     )
   );
 
@@ -57,7 +52,6 @@ export class OpenIdTokenEffect {
 
   constructor(
     private actions$: Actions,
-    private openIdTokenService: OpenIdAuthenticationTokenService,
-    private config: KymaConfig
+    private openIdTokenService: OpenIdAuthenticationTokenService
   ) {}
 }

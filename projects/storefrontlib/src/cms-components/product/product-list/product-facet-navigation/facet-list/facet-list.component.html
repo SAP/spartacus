@@ -1,16 +1,13 @@
 <div
+  class="inner"
   *ngIf="(facetList$ | async)?.facets as facets"
   [cxFocus]="isDialog ? dialogFocusConfig : {}"
-  (esc)="closeList.emit($event)"
+  (esc)="close($event)"
+  (click)="block($event)"
 >
   <h4>
     {{ 'productList.filterBy.label' | cxTranslate }}
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="closeList.emit()"
-    >
+    <button type="button" class="close" aria-label="Close" (click)="close()">
       <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
     </button>
   </h4>

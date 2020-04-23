@@ -9,7 +9,6 @@ import {
   CartVoucherService,
   CustomerCouponSearchResult,
   CustomerCouponService,
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   Voucher,
@@ -49,6 +48,7 @@ describe('CartCouponComponent', () => {
 
   const mockActiveCartService = jasmine.createSpyObj('ActiveCartService', [
     'getActive',
+    'getActiveCartId',
     'isStable',
   ]);
 
@@ -98,12 +98,6 @@ describe('CartCouponComponent', () => {
         { provide: AuthService, useValue: mockAuthService },
         { provide: CartVoucherService, useValue: mockCartVoucherService },
         { provide: CustomerCouponService, useValue: mockCustomerCouponService },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.5' },
-          },
-        },
       ],
     }).compileComponents();
   }));
@@ -116,6 +110,7 @@ describe('CartCouponComponent', () => {
     mockActiveCartService.getActive.and.returnValue(
       of<Cart>({ code: '123' })
     );
+    mockActiveCartService.getActiveCartId.and.returnValue(of<string>('123'));
     mockActiveCartService.isStable.and.returnValue(of(true));
     mockAuthService.getOccUserId.and.returnValue(of('testUserId'));
     mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of());
