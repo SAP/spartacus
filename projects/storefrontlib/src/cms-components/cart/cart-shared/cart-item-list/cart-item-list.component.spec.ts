@@ -235,11 +235,29 @@ describe('CartItemListComponent', () => {
     component.items = multipleMockItems;
     fixture.detectChanges();
     expect(
-      component.form.controls[multipleMockItems[0].product.code]
+      component.form.controls[component.createControlName(multipleMockItems[0])]
     ).toBeDefined();
     expect(
-      component.form.controls[multipleMockItems[1].product.code]
+      component.form.controls[component.createControlName(multipleMockItems[1])]
     ).toBeDefined();
+  });
+
+  it('should compile control name from items entry number', () => {
+    fixture.detectChanges();
+    const multipleMockItems = [
+      {
+        id: 1,
+        quantity: 5,
+        entryNumber: 0,
+      },
+      {
+        id: 2,
+        quantity: 3,
+        entryNumber: 999,
+      },
+    ];
+    expect(component.createControlName(multipleMockItems[0])).toBe('0');
+    expect(component.createControlName(multipleMockItems[1])).toBe('999');
   });
 
   it('remove entry for save for later', () => {
@@ -247,10 +265,14 @@ describe('CartItemListComponent', () => {
     component.options = { isSaveForLater: true };
     fixture.detectChanges();
     const item = mockItems[0];
-    expect(component.form.controls[item.product.code]).toBeDefined();
+    expect(
+      component.form.controls[component.createControlName(item)]
+    ).toBeDefined();
     component.removeEntry(item);
     expect(mockSelectiveCartService.removeEntry).toHaveBeenCalledWith(item);
-    expect(component.form.controls[item.product.code]).toBeUndefined();
+    expect(
+      component.form.controls[component.createControlName(item)]
+    ).toBeUndefined();
   });
 
   it('should get save for later feature flag', () => {
