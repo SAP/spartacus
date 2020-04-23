@@ -65,6 +65,10 @@ $productThumbSize: 75px !default;
 
       cursor: pointer;
 
+      &.is-missing {
+        min-height: 80px;
+      }
+
       border: 2px solid var(--cx-color-light);
 
       &.is-active,
