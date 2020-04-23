@@ -3,14 +3,15 @@ import {
   ActiveCartService,
   AuthService,
   Cart,
+  CartConfigService,
   OrderEntry,
   PromotionLocation,
   PromotionResult,
   RoutingService,
   SelectiveCartService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
 
@@ -27,13 +28,15 @@ export class CartDetailsComponent implements OnInit {
   orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   promotions$: Observable<PromotionResult[]>;
+  selectiveCartEnabled$: Observable<boolean>;
 
   constructor(
     protected activeCartService: ActiveCartService,
     protected promotionService: PromotionService,
     protected selectiveCartService: SelectiveCartService,
-    private authService: AuthService,
-    private routingService: RoutingService
+    protected authService: AuthService,
+    protected routingService: RoutingService,
+    protected cartConfigService: CartConfigService
   ) {}
 
   ngOnInit() {
@@ -44,14 +47,21 @@ export class CartDetailsComponent implements OnInit {
       .getEntries()
       .pipe(filter((entries) => entries.length > 0));
 
+    this.selectiveCartEnabled$ = this.cartConfigService.isSelectiveCartEnabled();
+
     this.cartLoaded$ = combineLatest([
       this.activeCartService.isStable(),
-      this.selectiveCartService.getLoaded(),
+      this.selectiveCartEnabled$.pipe(
+        switchMap((enabled) =>
+          enabled ? this.selectiveCartService.getLoaded() : of(false)
+        )
+      ),
       this.authService.isUserLoggedIn(),
+      this.selectiveCartEnabled$,
     ]).pipe(
       tap(([, , loggedIn]) => (this.loggedIn = loggedIn)),
-      map(([cartLoaded, sflLoaded, loggedIn]) =>
-        loggedIn ? cartLoaded && sflLoaded : cartLoaded
+      map(([cartLoaded, sflLoaded, loggedIn, selectiveCartEnabled]) =>
+        loggedIn && selectiveCartEnabled ? cartLoaded && sflLoaded : cartLoaded
       )
     );
 
