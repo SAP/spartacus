@@ -217,7 +217,7 @@ export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
 
 export const URL_MATCHER_FACTORY_SERVICE = 'UrlMatcherFactoryService';
-export const CMS_COMPONENT_SERVICE = 'CmsComponentsService';
+export const CMS_COMPONENTS_SERVICE = 'CmsComponentsService';
 
 export const ANONYMOUS_USERID_CONST = 'ANONYMOUS_USERID';
 
