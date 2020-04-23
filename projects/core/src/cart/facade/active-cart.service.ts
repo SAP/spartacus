@@ -148,10 +148,7 @@ export class ActiveCartService {
    */
   getLoading(): Observable<boolean> {
     return this.cartSelector$.pipe(
-      withLatestFrom(this.activeCartId$),
-      map(([cartEntity]) => {
-        return cartEntity.loading;
-      }),
+      map((cartEntity) => cartEntity.loading),
       distinctUntilChanged()
     );
   }
