@@ -1,6 +1,7 @@
 import {
   ACTIVE_CART_SERVICE,
   AUTH_SERVICE,
+  CART_CONFIG_SERVICE,
   CART_DETAILS_COMPONENT,
   CART_SERVICE,
   FEATURE_CONFIG_SERVICE,
@@ -50,7 +51,7 @@ export const CART_DETAILS_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
         importPath: SPARTACUS_CORE,
       },
       {
-        className: FEATURE_CONFIG_SERVICE,
+        className: CART_CONFIG_SERVICE,
         importPath: SPARTACUS_CORE,
       },
     ],
@@ -132,43 +133,7 @@ export const CART_DETAILS_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
         importPath: SPARTACUS_CORE,
       },
       {
-        className: FEATURE_CONFIG_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-    ],
-  },
-  {
-    class: CART_DETAILS_COMPONENT,
-    importPath: SPARTACUS_STOREFRONTLIB,
-    deprecatedParams: [
-      {
-        className: CART_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-      {
-        className: PROMOTION_SERVICE,
-        importPath: SPARTACUS_STOREFRONTLIB,
-      },
-      {
-        className: SELECTIVE_CART_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-      {
-        className: AUTH_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-      {
-        className: ROUTING_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-      {
-        className: FEATURE_CONFIG_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-    ],
-    removeParams: [
-      {
-        className: FEATURE_CONFIG_SERVICE,
+        className: CART_CONFIG_SERVICE,
         importPath: SPARTACUS_CORE,
       },
     ],
