@@ -6,7 +6,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 import { ConfigFormUpdateEvent } from './config-form.event';
 
@@ -30,12 +30,33 @@ export class ConfigFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .isOverview(this.routingService)
       .pipe(
-        switchMap((owner) =>
-          this.configuratorCommonsService.getOrCreateConfiguration(owner)
+        filter((isConfig) => isConfig !== true),
+        switchMap(() =>
+          this.configRouterExtractorService
+            .extractConfigurationOwner(this.routingService)
+            .pipe(
+              switchMap((owner) => {
+                console.log('CHHI form component triggers getOrCreate');
+                return this.configuratorCommonsService.getOrCreateConfiguration(
+                  owner
+                );
+              })
+            )
         )
       );
+
+    //this.configuration$ = this.configRouterExtractorService
+    //  .extractConfigurationOwner(this.routingService)
+    //  .pipe(
+    //    switchMap((owner) => {
+    //      console.log('CHHI form component triggers getOrCreate');
+    //      return this.configuratorCommonsService.getOrCreateConfiguration(
+    //        owner
+    //      );
+    //    })
+    //  );
 
     this.configRouterExtractorService
       .extractConfigurationOwner(this.routingService)

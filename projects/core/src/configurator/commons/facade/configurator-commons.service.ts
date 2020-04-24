@@ -54,7 +54,12 @@ export class ConfiguratorCommonsService {
   getOrCreateConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    const localOwner = owner;
+    const localOwner: GenericConfigurator.Owner = {
+      hasObsoleteState: owner.hasObsoleteState,
+    };
+    console.log(
+      'CHHI getOrCreate config, owner obsolete: ' + owner.hasObsoleteState
+    );
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
@@ -73,6 +78,7 @@ export class ConfiguratorCommonsService {
               new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
             );
           } else {
+            console.log('CHHI read from cart entry');
             localOwner.hasObsoleteState = false;
             this.readConfigurationForCartEntry(owner);
           }
@@ -191,6 +197,7 @@ export class ConfiguratorCommonsService {
         cartEntryNumber: configuration.owner.id,
         configuration: configuration,
       };
+      console.log('CHHI update cart entry');
       this.store.dispatch(new ConfiguratorActions.UpdateCartEntry(parameters));
     });
   }
