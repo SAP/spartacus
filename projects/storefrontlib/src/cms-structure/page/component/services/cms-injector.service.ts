@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { CmsComponentData } from '../../model';
 import { CmsComponent, CmsService } from '@spartacus/core';
-import { CmsMappingService } from '../../../services/cms-mapping.service';
+import { CmsComponentsService } from '../../../services/cms-components.service';
 
 /**
  * Used to prepare injector for CMS components.
@@ -14,7 +14,7 @@ import { CmsMappingService } from '../../../services/cms-mapping.service';
 })
 export class CmsInjectorService {
   constructor(
-    protected cmsMapping: CmsMappingService,
+    protected cmsComponentsService: CmsComponentsService,
     protected injector: Injector
   ) {}
 
@@ -36,7 +36,7 @@ export class CmsInjectorService {
     parentInjector?: Injector
   ): Injector {
     const configProviders =
-      this.cmsMapping.getComponentMapping(type)?.providers ?? [];
+      this.cmsComponentsService.getMapping(type)?.providers ?? [];
     return Injector.create({
       providers: [
         {

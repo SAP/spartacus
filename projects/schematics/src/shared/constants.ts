@@ -67,6 +67,7 @@ export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
 export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
+export const STORE_DATA_SERVICE = 'StoreDataService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
@@ -188,6 +189,7 @@ export const SEARCH_BOX_COMPONENT_SERVICE = 'SearchBoxComponentService';
 export const TAB_PARAGRAPH_CONTAINER_COMPONENT =
   'TabParagraphContainerComponent';
 export const NAVIGATION_UI_COMPONENT = 'NavigationUIComponent';
+export const STORE_FINDER_LIST_ITEM_COMPONENT = 'StoreFinderListItemComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -220,6 +222,7 @@ export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
 
 export const URL_MATCHER_FACTORY_SERVICE = 'UrlMatcherFactoryService';
+export const CMS_COMPONENTS_SERVICE = 'CmsComponentsService';
 
 export const ANONYMOUS_USERID_CONST = 'ANONYMOUS_USERID';
 

@@ -8,6 +8,7 @@ import { CART_ITEM_LIST_COMPONENT_MIGRATION } from './data/cart-item-list.compon
 import { CART_ITEM_COMPONENT_MIGRATION } from './data/cart-item.component.migration';
 import { PRODUCT_SCROLL_COMPONENT_MIGRATION } from './data/product-scroll.component.migration';
 import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
+import { STORE_FINDER_LIST_ITEM_MIGRATION } from './data/store-finder-list-item.component.migration';
 
 export const COMPONENT_DEPRECATION_DATA: ComponentData[] = [
   CONSENT_MANAGEMENT_FORM_COMPONENT_MIGRATION,
@@ -19,4 +20,5 @@ export const COMPONENT_DEPRECATION_DATA: ComponentData[] = [
   PRODUCT_SCROLL_COMPONENT_MIGRATION,
   ANONYMOUS_CONSENT_DIALOG_COMPONENT_MIGRATION,
   NAVIGATION_UI_COMPONENT_MIGRATION,
+  STORE_FINDER_LIST_ITEM_MIGRATION,
 ];

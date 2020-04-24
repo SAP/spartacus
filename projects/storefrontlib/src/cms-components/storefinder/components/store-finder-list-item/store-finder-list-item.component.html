@@ -11,7 +11,7 @@
       >
         {{ location.displayName || location.name }}
       </button>
-      <a *ngIf="!useClickEvent" [href]="prepareRouteUrl(location)">{{
+      <a *ngIf="!useClickEvent" [routerLink]="[location.name]">{{
         location.displayName || location.name
       }}</a>
     </div>
