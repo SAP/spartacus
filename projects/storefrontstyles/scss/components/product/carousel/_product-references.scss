@@ -10,7 +10,8 @@
 
     &:focus {
       color: var(--cx-color-primary);
-      text-decoration: underline;
+      z-index: 1;
+      position: relative;
     }
   }
 
