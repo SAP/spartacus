@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { WebComponentHandler } from './web-component.handler';
-import { CmsMappingService } from '../../../services/cms-mapping.service';
+import { CmsComponentsService } from '../../../services/cms-components.service';
 import { Component, ViewContainerRef } from '@angular/core';
 import { Priority } from '@spartacus/core';
 import { take } from 'rxjs/operators';
@@ -24,7 +24,7 @@ describe('WebComponentHandler', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: CmsMappingService,
+          provide: CmsComponentsService,
           useValue: mockCmsMappingService,
         },
         {

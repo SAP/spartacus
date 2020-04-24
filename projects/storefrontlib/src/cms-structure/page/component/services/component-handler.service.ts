@@ -9,7 +9,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ComponentHandler } from '../handlers/component-handler';
-import { CmsComponentMapping, resolveHandler } from '@spartacus/core';
+import { CmsComponentMapping, resolveApplicable } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 /**
@@ -33,7 +33,7 @@ export class ComponentHandlerService {
    * @param componentMapping
    */
   protected resolve(componentMapping: CmsComponentMapping): ComponentHandler {
-    const handler = resolveHandler(this.handlers, [componentMapping]);
+    const handler = resolveApplicable(this.handlers, [componentMapping]);
 
     if (isDevMode() && !handler) {
       if (!this.invalidMappings.has(componentMapping)) {

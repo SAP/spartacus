@@ -8,7 +8,10 @@ export function storesListTabbingOrder(config: TabElement[]) {
 
   cy.server();
 
-  cy.route('GET', '/rest/v2/electronics-spa/stores?fields=*').as('storesList');
+  cy.route(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/stores?fields=*`
+  ).as('storesList');
 
   cy.wait('@storesList');
 
