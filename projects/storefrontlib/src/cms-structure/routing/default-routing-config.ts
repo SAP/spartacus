@@ -104,24 +104,16 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['organization/unit/assign-roles/:code/:roleId'],
   },
   orgUnitManageAddresses: {
-    paths: [
-      'my-company/organization-management/manage-unit/manage-addresses/:code',
-    ],
+    paths: ['organization/unit/addresses/:code'],
   },
   orgUnitAddressEdit: {
-    paths: [
-      'my-company/organization-management/manage-unit/manage-address/edit/:code/:id',
-    ],
+    paths: ['organization/unit/address/edit/:code/:id'],
   },
   orgUnitAddressDetails: {
-    paths: [
-      'my-company/organization-management/manage-unit/manage-address/:code/:id',
-    ],
+    paths: ['organization/unit/address/:code/:id'],
   },
   orgUnitAddressCreate: {
-    paths: [
-      'my-company/organization-management/manage-unit/manage-addresses/create/:code',
-    ],
+    paths: ['organization/unit/manage-addresses/create/:code'],
   },
   costCenters: {
     paths: ['organization/costcenters'],
