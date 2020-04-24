@@ -37,14 +37,14 @@ export class CarouselService {
    * @param availableWidth The available width in pixels for the carousel items.
    * @param itemWidth The width per carousel item, in px or percentage.
    */
-  private calculateItems(availableWidth: number, itemWidth: string) {
+  protected calculateItems(availableWidth: number, itemWidth: string) {
     let calculatedItems = 0;
-    if (itemWidth.endsWith('px')) {
+    if (itemWidth?.endsWith('px')) {
       const num = itemWidth.substring(0, itemWidth.length - 2);
       calculatedItems = availableWidth / <number>(<any>num);
     }
 
-    if (itemWidth.endsWith('%')) {
+    if (itemWidth?.endsWith('%')) {
       const perc = itemWidth.substring(0, itemWidth.length - 1);
       calculatedItems =
         availableWidth / (availableWidth * (<number>(<any>perc) / 100));

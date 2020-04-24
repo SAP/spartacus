@@ -6,7 +6,7 @@ import {
   ProductService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 
 @Component({
@@ -17,9 +17,12 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
 export class ProductCarouselComponent {
   protected readonly PRODUCT_SCOPE = ProductScope.LIST;
 
-  private componentData$: Observable<model> = this.componentData.data$.pipe(
-    filter(Boolean)
-  );
+  protected readonly componentData$: Observable<
+    model
+  > = this.componentData.data$.pipe(filter(Boolean));
+
+  /** A unique key for the focusable group  */
+  focusGroup: string;
 
   /**
    * returns an Obervable string for the title.
@@ -35,6 +38,7 @@ export class ProductCarouselComponent {
    */
   items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
     map((data) => data.productCodes.trim().split(' ')),
+    tap((data) => (this.focusGroup = data.join(''))),
     map((codes) =>
       codes.map((code) => this.productService.get(code, this.PRODUCT_SCOPE))
     )

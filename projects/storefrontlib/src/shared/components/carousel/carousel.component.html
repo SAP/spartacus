@@ -1,12 +1,19 @@
 <ng-container *ngIf="items?.length > 0 && (size$ | async) as size">
   <h3 *ngIf="title">{{ title }}</h3>
 
-  <div class="carousel-panel" [ngClass]="'size-' + size">
+  <div
+    class="carousel-panel"
+    [ngClass]="'size-' + size"
+    [cxFocus]="focusConfig"
+    #carousel
+  >
     <button
-      *ngIf="size < items.length"
       class="previous"
-      (click)="activeSlide = activeSlide - size"
-      [disabled]="activeSlide === 0"
+      (click)="previous()"
+      [style.visibility]="(previous$ | async)?.visible ? 'visible' : 'hidden'"
+      [disabled]="!(previous$ | async)?.enabled"
+      [cxFocus]="{ key: 'previous', group: focusConfig.group }"
+      tabindex="-1"
     >
       <cx-icon [type]="previousIcon"></cx-icon>
     </button>
@@ -18,9 +25,12 @@
             *ngFor="let item of items | slice: i:i + size; let j = index"
           >
             <div
+              #item
               *ngIf="item | async as data"
               class="item"
               [class.active]="i === activeSlide"
+              cxIntersected
+              (intersect)="intersect($event, item)"
             >
               <ng-container
                 *ngTemplateOutlet="template; context: { item: data }"
@@ -32,26 +42,26 @@
     </div>
 
     <button
-      *ngIf="size < items.length"
       class="next"
-      (click)="activeSlide = activeSlide + size"
+      (click)="next()"
+      [style.visibility]="(next$ | async)?.visible ? 'visible' : 'hidden'"
+      [disabled]="!(next$ | async)?.enabled"
+      [cxFocus]="{ key: 'next', group: focusConfig.group }"
       tabindex="-1"
-      [disabled]="activeSlide > items.length - size - 1"
     >
       <cx-icon [type]="nextIcon"></cx-icon>
     </button>
   </div>
 
-  <div *ngIf="!hideIndicators && size < items.length" class="indicators">
-    <ng-container *ngFor="let _ of items; let i = index">
-      <button
-        *ngIf="i % size === 0"
-        (focus)="activeSlide = i"
-        [disabled]="i === activeSlide"
-        tabindex="-1"
-      >
-        <cx-icon [type]="indicatorIcon"></cx-icon>
-      </button>
-    </ng-container>
+  <div class="indicators">
+    <button
+      *ngFor="let indicator of indicators$ | async; let i = index"
+      (click)="scroll(indicator.index)"
+      [class.selected]="indicator.selected"
+      [cxFocus]="{ key: i + 1, group: focusConfig.group }"
+      tabindex="-1"
+    >
+      <cx-icon [type]="indicatorIcon"></cx-icon>
+    </button>
   </div>
 </ng-container>

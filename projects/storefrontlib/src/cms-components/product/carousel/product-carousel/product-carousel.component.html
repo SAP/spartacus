@@ -2,12 +2,19 @@
   [items]="items$ | async"
   [title]="title$ | async"
   [template]="carouselItem"
-  itemWidth="285px"
+  [focusConfig]="{
+    lock: true,
+    autofocus: true,
+    group: focusGroup
+  }"
 >
 </cx-carousel>
 
 <ng-template #carouselItem let-item="item">
-  <a tabindex="0" [routerLink]="{ cxRoute: 'product', params: item } | cxUrl">
+  <a
+    [cxFocus]="{ key: item.code, group: focusGroup }"
+    [routerLink]="{ cxRoute: 'product', params: item } | cxUrl"
+  >
     <cx-media
       *ngIf="item.images?.PRIMARY"
       [container]="item.images?.PRIMARY"

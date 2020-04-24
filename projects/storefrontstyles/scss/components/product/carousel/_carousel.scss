@@ -1,115 +1,295 @@
 %cx-carousel {
+  scroll-behavior: smooth;
+  width: 100%;
+  // display: block;
+
   display: flex;
-  flex: 100%;
-  --cx-speed: 0.5;
-  flex-direction: column;
+  flex-wrap: wrap;
+
+  // height: 30vh;
+
+  // justify-content: flex-start;
+  // align-items: flex-start;
+
+  position: relative;
+
+  padding: 0;
+  margin: 0;
 
   > h3 {
-    @include type('3');
-    font-weight: bold;
-    text-align: center;
+    flex: 100%;
+
     margin-top: 2rem;
     margin-bottom: 1rem;
     @include media-breakpoint-up(xl) {
       margin-bottom: 3rem;
     }
+
+    @include type('3');
+    font-weight: bold;
+    text-align: center;
   }
 
   .carousel-panel {
-    display: flex;
-    justify-content: space-between;
+    // height: 30vh;
+    overflow-x: scroll;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
 
-    // The size of carousel items depends on the number of items per slide.
-    // We generate 10 sizes in case there are a lot of carousel items displayed
-    // on a single slide.
-    @for $i from 1 through 10 {
-      &.size-#{$i} .item {
-        flex: 0 0 calc((100 / #{$i}) * 1%);
-      }
-    }
-
-    .slides {
-      flex: auto;
-      position: relative;
-
-      .slide {
-        transition: 0.6s all;
-        width: 100%;
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-
-        &:not(:last-child) {
-          // we keep the last slide non-absolute, so the height
-          //  of the parent size is based on contetn
-          position: absolute;
-        }
-
-        .item {
-          opacity: 0;
-          z-index: -1;
-          &.active {
-            opacity: 1;
-            z-index: 1;
-          }
-          transition: 0.4s all;
-
-          // we add a transition delay so that items are nicely animated in a sequence
-          @for $i from 1 through 4 {
-            &:nth-child(#{$i}) {
-              transition-delay: calc(var(--cx-speed, 1) * #{$i * 0.25s});
-            }
-          }
-        }
-      }
-    }
-  }
-
-  button {
-    &:focus {
-      outline: none;
-    }
-    color: var(--cx-color-light);
-    &:not(:disabled) {
-      cursor: pointer;
-    }
-  }
-
-  .indicators {
-    display: flex;
-    justify-content: center;
-
-    button {
-      border: none;
-      padding: 10px;
-      margin: 0;
-      transition: 0.6s all;
-      background-color: transparent;
-      &[disabled] {
-        color: var(--cx-color-primary);
-      }
-      &:not(:disabled):hover {
-        color: var(--cx-color-secondary);
-      }
-    }
-
-    @include media-breakpoint-only(xs) {
+    &::-webkit-scrollbar {
       display: none;
     }
-  }
 
-  .previous,
-  .next {
-    background-color: transparent;
+    display: block;
+
     border: none;
-    font-size: 2rem;
+    // position: relative;
 
-    &:disabled {
-      opacity: 0.5;
+    .slides {
+      display: flex;
+      width: auto;
+      height: 100%;
+      position: relative;
+      justify-content: flex-start;
+
+      box-sizing: border-box;
+
+      .slide {
+        display: contents;
+      }
+
+      .item {
+        display: block;
+        height: 100%;
+        object-fit: cover;
+
+        flex-shrink: 0;
+
+        // @for $i from 1 through 20 {
+        //   &:nth-child(#{$i}) {
+        //     background-color: rgba(255, 255, 255, $i * 0.05);
+        //   }
+        // }
+
+        a:focus {
+          outline-offset: 0;
+          margin: 2px;
+        }
+
+        // Specifies the width of the carousel item. This can vary per media query
+        // or specific layout.
+
+        @include media-breakpoint-up(md) {
+          flex-basis: 25%;
+          &:nth-child(4n-3) {
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+          }
+        }
+
+        @include media-breakpoint-down(md) {
+          min-width: 25%;
+          flex-basis: 50%;
+          &:nth-child(2n-1) {
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+          }
+        }
+
+        // snaps every element
+        // scroll-snap-align: start;
+        // scroll-snap-stop: always;
+
+        // snaps every other
+        // &:first-child,
+        // &:last-child,
+
+        // &:nth-child(1n + 7) {
+        //   flex-basis: 33.33%;
+        // }
+
+        // &:nth-child(1),
+        // &:nth-child(5),
+        // &:nth-child(8) {
+        // }
+
+        // margin-inline-end: 5px;
+        // margin: 10px;
+        box-sizing: border-box;
+
+        &:focus {
+          outline-offset: -3px;
+          border: none;
+        }
+
+        // border: solid 1px white;
+        border-radius: 0;
+        // img,
+        // image {
+        //   display: flex;
+        //   height: 100%;
+        //   color: white;
+        //   text-align: center;
+        //   background-color: rgba($color: #000000, $alpha: 0.1);
+        //   border: none;
+        // }
+
+        // &.intersected {
+        //   border: red 1px solid;
+        // }
+
+        // [tabindex='-1'] {
+        //   border: yellow 5px solid;
+        // }
+        // [tabindex='-1'] {
+        //   border: rebeccapurple 5px solid;
+        // }
+        // [tabindex='0'] {
+        //   border: gray 5px solid;
+        // }
+        // [tabindex='1'] {
+        //   border: green 5px solid;
+        // }
+        // [tabindex='2'] {
+        //   border: yellow 5px solid;
+        // }
+        // [tabindex='3'] {
+        //   border: orange 5px solid;
+        // }
+        // [tabindex='4'] {
+        //   border: red 5px solid;
+        // }
+      }
     }
+  }
+}
 
-    &:not(:disabled):hover {
+// %cx-carousel {
+//   display: flex;
+//   flex: 100%;
+//   --cx-speed: 0.5;
+//   flex-direction: column;
+
+//   .carousel-panel {
+//     display: flex;
+//     justify-content: space-between;
+
+//     // The size of carousel items depends on the number of items per slide.
+//     // We generate 10 sizes in case there are a lot of carousel items displayed
+//     // on a single slide.
+//     @for $i from 1 through 10 {
+//       &.size-#{$i} .item {
+//         flex: 0 0 calc((100 / #{$i}) * 1%);
+//       }
+//     }
+
+//     .slides {
+//       flex: auto;
+//       position: relative;
+
+//       .slide {
+//         transition: 0.6s all;
+//         width: 100%;
+//         display: flex;
+//         flex-wrap: nowrap;
+//         justify-content: flex-start;
+
+//         &:not(:last-child) {
+//           // we keep the last slide non-absolute, so the height
+//           //  of the parent size is based on contetn
+//           position: absolute;
+//         }
+
+//         .item {
+//           opacity: 0;
+//           z-index: -1;
+//           &.active {
+//             opacity: 1;
+//             z-index: 1;
+//           }
+//           transition: 0.4s all;
+
+//           // we add a transition delay so that items are nicely animated in a sequence
+//           @for $i from 1 through 4 {
+//             &:nth-child(#{$i}) {
+//               transition-delay: calc(var(--cx-speed, 1) * #{$i * 0.25s});
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+
+//   button {
+//     &:focus {
+//       outline: none;
+//     }
+//     color: var(--cx-color-light);
+//     &:not(:disabled) {
+//       cursor: pointer;
+//     }
+//   }
+
+.indicators {
+  flex: 100%;
+  display: flex;
+  justify-content: center;
+
+  button {
+    border: none;
+    padding: 10px;
+    margin: 0;
+    transition: 0.6s background-color;
+    background-color: transparent;
+    &[disabled],
+    &.selected {
       color: var(--cx-color-primary);
     }
+    &:not(:disabled):not(.selected):hover {
+      color: var(--cx-color-secondary);
+    }
   }
+
+  @include media-breakpoint-only(xs) {
+    display: none;
+  }
+}
+
+.previous,
+.next {
+  position: absolute;
+  top: 50%;
+
+  flex: 50px;
+  height: max-content;
+  align-self: center;
+  z-index: 10;
+
+  width: 55px;
+
+  // .next {
+  //   position: absolute;
+  //   right: 0;
+  //   z-index: 10;
+  //   height: 100%;
+  //   border: solid;
+  // }
+  // .previous,
+  // .next {
+
+  background-color: transparent;
+  border: none;
+  font-size: 2rem;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+
+  &:not(:disabled):hover {
+    color: var(--cx-color-primary);
+  }
+}
+.next {
+  left: calc(100% - 55px);
 }

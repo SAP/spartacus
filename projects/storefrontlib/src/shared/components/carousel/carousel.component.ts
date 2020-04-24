@@ -5,10 +5,20 @@ import {
   Input,
   isDevMode,
   OnInit,
+  QueryList,
   TemplateRef,
+  ViewChild,
+  ViewChildren,
 } from '@angular/core';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { FocusConfig } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/keyboard-focus.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  tap,
+} from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { CarouselService } from './carousel.service';
 
@@ -39,10 +49,26 @@ export class CarouselComponent implements OnInit {
   @Input() title: string;
 
   /**
+   * provides a configuration to add accessibility control to the carousel. The default configuration adds
+   * the following:
+   * - _locks_ the carousel, so that the carousel can be skipped usign the tab key.
+   * - traps the focus, which means that the after selecting the last item, the first item is selected
+   * - the first item is autofocused (if it is focusable) is selected.
+   *
+   * Additionally, a named focus _group_ could be added to refocus the last selected element if the carousel
+   * is focussed again.
+   */
+  @Input() focusConfig: FocusConfig = {
+    lock: true,
+    autofocus: true,
+  };
+
+  /**
    * The items$ represent the carousel items. The items$ are
    * observables so that the items can be loaded on demand.
    */
   items: Observable<any>[];
+
   @Input('items')
   set setItems(inputItems: Observable<any>[]) {
     this.items = inputItems;
@@ -63,7 +89,8 @@ export class CarouselComponent implements OnInit {
    * and the host element `clientWidth`, so that the carousel is reusable in
    * different layouts (for example in a 50% grid).
    */
-  @Input() itemWidth = '300px';
+  @Input() itemWidth;
+  //  = '300px';
 
   /**
    * Indicates whether the visual indicators are used.
@@ -77,7 +104,101 @@ export class CarouselComponent implements OnInit {
   activeSlide: number;
   size$: Observable<number>;
 
-  constructor(protected el: ElementRef, protected service: CarouselService) {}
+  @ViewChild('carousel', { read: ElementRef }) carousel: ElementRef<
+    HTMLElement
+  >;
+
+  @ViewChildren('item') itemRefs!: QueryList<ElementRef<HTMLElement>>;
+
+  protected readonly visibleItems$: BehaviorSubject<
+    Map<number, boolean>
+  > = new BehaviorSubject(new Map());
+
+  // protected readonly visible2$ = this.visibleItems$.pipe(
+  //   // tap(console.log)
+  // );
+
+  protected readonly slides$ = this.visibleItems$.pipe(
+    // tap(console.log),
+    // Currently a lower deboucne time breaks the indicator seelction,
+    // since the scroll left would end to it's final state.
+    debounceTime(300),
+    filter((v) => v.size > 0),
+    map((visible) =>
+      Array.from(visible)
+        .filter((value) => !!value[1])
+        .map((value) => value[0])
+        .sort((a, b) => a - b)
+    ),
+    distinctUntilChanged(),
+    // filter((v) => v.length > 0),
+    map((visible) => {
+      const slides = Array.from(
+        Array(
+          Math.ceil(
+            this.carousel.nativeElement.scrollWidth /
+              this.carousel.nativeElement.clientWidth
+          )
+        ).keys()
+      );
+
+      const previous = {
+        visible: slides.length > 1,
+        disabled: visible[0] === 0,
+        enabled: visible[0] > 0,
+      };
+      const next = {
+        visible: slides.length > 1,
+        disabled: visible[visible.length] === this.itemRefs.length - 1,
+        enabled: visible[visible.length - 1] < this.itemRefs.length - 1,
+      };
+
+      return { slides, previous, next };
+    }),
+    distinctUntilChanged()
+  );
+
+  /**
+   * Returns the observed disabled state for the previous button.
+   */
+  readonly previous$: Observable<any> = this.slides$.pipe(
+    map((data) => data.previous),
+    distinctUntilChanged()
+  );
+
+  /**
+   * Returns the obsered disabled state for the next button.
+   */
+  readonly next$: Observable<any> = this.slides$.pipe(
+    map((data) => data.next),
+    distinctUntilChanged()
+  );
+
+  indicators$: Observable<any> = this.slides$.pipe(
+    map((data) => {
+      const scrollLeft = this.carousel.nativeElement.scrollLeft;
+      return data.slides.map((index) => {
+        const left = this.carousel.nativeElement.clientWidth * index;
+        const right = this.carousel.nativeElement.clientWidth * (index + 1);
+
+        const hasLastMatch =
+          scrollLeft + this.carousel.nativeElement.clientWidth ===
+          this.carousel.nativeElement.scrollWidth;
+
+        const selected = hasLastMatch
+          ? index === data.slides.length - 1
+          : scrollLeft >= left && scrollLeft < right;
+
+        return { index, selected };
+      });
+    }),
+    filter((i) => i.length > 1)
+  );
+
+  constructor(
+    protected el: ElementRef,
+    protected service: CarouselService // protected cd: ChangeDetectorRef, // protected tabFocusService: TabFocusService, // protected selectFocusUtility: SelectFocusUtility
+  ) {}
 
   ngOnInit() {
     if (!this.template && isDevMode()) {
@@ -86,8 +207,46 @@ export class CarouselComponent implements OnInit {
       );
       return;
     }
-    this.size$ = this.service
-      .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
-      .pipe(tap(() => (this.activeSlide = 0)));
+    if (!this.itemWidth) {
+      this.size$ = this.service
+        .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
+        .pipe(map(() => this.items?.length || 0));
+    } else {
+      this.size$ = this.service
+        .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
+        .pipe(tap(() => (this.activeSlide = 0)));
+    }
+  }
+
+  previous() {
+    this.carousel?.nativeElement.scrollBy({
+      left: -this.carousel.nativeElement.clientWidth,
+    });
+  }
+
+  next() {
+    this.carousel?.nativeElement.scrollBy({
+      left: this.carousel.nativeElement.clientWidth,
+    });
+  }
+
+  scroll(index: number) {
+    this.carousel?.nativeElement.scrollTo({
+      left: this.carousel.nativeElement.clientWidth * index,
+    });
+  }
+
+  /**
+   * Maintains a map with all the visible slide items. This is stored in
+   * a subject, so that we can observe the visible slides and update the indicators.
+   */
+  intersect(event: any, ref: HTMLElement) {
+    const index = this.itemRefs
+      .toArray()
+      .findIndex((item) => item.nativeElement === ref);
+
+    const visibleMap = this.visibleItems$.value;
+    visibleMap.set(index, event);
+    this.visibleItems$.next(visibleMap);
   }
 }

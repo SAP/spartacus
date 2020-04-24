@@ -38,7 +38,7 @@ export class IntersectionService {
    * This is private for now, but could be exposed as a public API
    * to introduce additional (css) render effects to the UI.
    */
-  private intersects(
+  intersects(
     element: HTMLElement,
     options: IntersectionOptions = {}
   ): Observable<boolean> {

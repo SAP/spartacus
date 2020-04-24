@@ -1,3 +1,5 @@
-export { DeferLoaderService } from './defer-loader.service';
-export { IntersectionOptions } from './intersection.model';
-export { IntersectionService } from './intersection.service';
+export * from './defer-loader.service';
+export * from './intersection.directive';
+export * from './intersection.model';
+export * from './intersection.module';
+export * from './intersection.service';

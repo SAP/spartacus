@@ -30,13 +30,13 @@ export const b2cLayoutConfig: LayoutConfig = {
     LandingPage2Template: {
       pageFold: 'Section2B',
       slots: [
-        'Section1',
-        'Section2A',
-        'Section2B',
-        'Section2C',
+        // 'Section1',
+        // 'Section2A',
+        // 'Section2B',
+        // 'Section2C',
         'Section3',
-        'Section4',
-        'Section5',
+        // 'Section4',
+        // 'Section5',
       ],
     },
 

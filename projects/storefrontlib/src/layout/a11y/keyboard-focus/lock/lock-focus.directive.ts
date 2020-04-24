@@ -152,7 +152,7 @@ export class LockFocusDirective extends TrapFocusDirective
 
   handleEscape(event: KeyboardEvent): void {
     if (this.shouldLock) {
-      this.service.clear(this.config.group);
+      // this.service.clear(this.config.group);
     }
     super.handleEscape(event);
   }
