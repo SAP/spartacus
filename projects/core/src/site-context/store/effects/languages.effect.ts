@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { NEVER, Observable, of } from 'rxjs';
 import {
   bufferCount,
   catchError,
   exhaustMap,
   filter,
   map,
+  switchMapTo,
   tap,
-  withLatestFrom,
 } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { WindowRef } from '../../../window/window-ref';
@@ -43,27 +43,32 @@ export class LanguagesEffects {
   );
 
   @Effect()
-  activateLanguage$: Observable<
-    SiteContextActions.LanguageChange
-  > = this.actions$.pipe(
+  persist$: Observable<void> = this.actions$.pipe(
     ofType(SiteContextActions.SET_ACTIVE_LANGUAGE),
     tap((action: SiteContextActions.SetActiveLanguage) => {
       if (this.winRef.sessionStorage) {
         this.winRef.sessionStorage.setItem('language', action.payload);
       }
     }),
-    withLatestFrom(
-      this.state.select(getActiveLanguage).pipe(
-        bufferCount(2, 1),
+    switchMapTo(NEVER)
+  );
 
-        // avoid dispatching `change` action when we're just setting the initial value:
-        filter(([previous]) => !!previous),
-        // avoid dispatching `change` action when values are the same
-        filter(([previous, current]) => previous !== current)
-      )
-    ),
+  @Effect()
+  activateLanguage$: Observable<
+    SiteContextActions.LanguageChange
+  > = this.state.select(getActiveLanguage).pipe(
+    tap(current => {
+      console.log('current', current);
+    }),
+    bufferCount(2, 1),
+    tap(buffer => console.log('buffer', buffer)),
+
+    // avoid dispatching `change` action when we're just setting the initial value:
+    filter(([previous]) => !!previous),
+    // avoid dispatching `change` action when values are the same
+    filter(([previous, current]) => previous !== current),
     map(
-      ([_, [previous, current]]) =>
+      ([previous, current]) =>
         new SiteContextActions.LanguageChange({ previous, current })
     )
   );

@@ -29,8 +29,9 @@ export class PageEffects {
       AuthActions.LOGOUT,
       AuthActions.LOGIN
     ),
-    switchMap(_ =>
-      this.routingService.getRouterState().pipe(
+    switchMap(_ => {
+      console.warn(_); // spike todo remove
+      return this.routingService.getRouterState().pipe(
         filter(
           routerState =>
             routerState &&
@@ -41,8 +42,8 @@ export class PageEffects {
         take(1),
         map(routerState => routerState.state.context),
         mergeMap(context => of(new CmsActions.LoadCmsPageData(context)))
-      )
-    )
+      );
+    })
   );
 
   @Effect()
