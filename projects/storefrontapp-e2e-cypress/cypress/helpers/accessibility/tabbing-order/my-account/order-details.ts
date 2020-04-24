@@ -6,7 +6,16 @@ const containerSelector = '.AccountPageTemplate';
 
 export function orderDetailsTabbingOrder(config: TabElement[]) {
   doPlaceOrder().then((orderData: any) => {
+    cy.server();
+    cy.route(
+      `${Cypress.env('API_URL')}/rest/v2/electronics-spa/users/current/orders/*`
+    ).as('getOrders');
+
     cy.visit(`/my-account/order/${orderData.body.code}`);
+
+    cy.wait('@getOrders');
+
+    cy.get('cx-cart-item');
 
     verifyTabbingOrder(containerSelector, config);
   });
