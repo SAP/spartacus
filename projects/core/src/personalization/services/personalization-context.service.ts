@@ -32,7 +32,7 @@ export class PersonalizationContextService {
       ),
       filter(Boolean),
       map((component: ContentSlotComponentData) =>
-        this.buildPersonalizationContext(component.properties['script'].data)
+        this.buildPersonalizationContext(component.properties.script.data)
       )
     );
   }
