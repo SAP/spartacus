@@ -6,6 +6,7 @@ import {
   ActiveCartService,
   AuthService,
   Cart,
+  CartConfigService,
   FeaturesConfigModule,
   I18nTestingModule,
   Order,
@@ -32,6 +33,12 @@ class MockActiveCartService {
   }
   isStable(): Observable<boolean> {
     return of(true);
+  }
+}
+
+class MockCartConfigService {
+  isSelectiveCartEnabled() {
+    return true;
   }
 }
 
@@ -81,6 +88,7 @@ describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
   let activeCartService: ActiveCartService;
+  let cartConfigService: CartConfigService;
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
@@ -118,6 +126,10 @@ describe('CartDetailsComponent', () => {
           provide: PromotionService,
           useClass: MockPromotionService,
         },
+        {
+          provide: CartConfigService,
+          useClass: MockCartConfigService,
+        },
       ],
     }).compileComponents();
   }));
@@ -126,6 +138,7 @@ describe('CartDetailsComponent', () => {
     fixture = TestBed.createComponent(CartDetailsComponent);
     component = fixture.componentInstance;
     activeCartService = TestBed.inject(ActiveCartService);
+    cartConfigService = TestBed.inject(CartConfigService);
   });
 
   it('should create cart details component', () => {
@@ -165,6 +178,19 @@ describe('CartDetailsComponent', () => {
     component.saveForLater(mockItem);
     fixture.detectChanges();
     expect(mockRoutingService.go).toHaveBeenCalled();
+  });
+
+  it('should not show save for later when selective cart is disabled', () => {
+    spyOn(cartConfigService, 'isSelectiveCartEnabled').and.returnValue(false);
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('button'));
+    expect(el).toBe(null);
+  });
+
+  it('should show save for later when selective cart is enabled', () => {
+    fixture.detectChanges();
+    const el = fixture.debugElement.query(By.css('button'));
+    expect(el).toBeDefined();
   });
 
   it('should display cart text with cart number', () => {
