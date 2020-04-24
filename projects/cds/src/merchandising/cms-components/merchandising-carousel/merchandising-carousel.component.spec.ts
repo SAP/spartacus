@@ -9,14 +9,20 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Product } from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
+import {
+  PageContext,
+  PageType,
+  Product,
+  RoutingService,
+} from '@spartacus/core';
+import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingMetadata, MerchandisingProduct } from '../../model';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-carousel',
@@ -119,13 +125,34 @@ const MockCmsMerchandisingCarouselComponent = <CmsComponentData<any>>{
 };
 
 class MockMerchandisingCarouselComponentService {
+  sendCarouselViewEvent = createSpy(
+    'MerchandisingCarouselComponentService.sendCarouselViewEvent'
+  ).and.callFake(() => {});
+
   getMerchandisingCarouselModel(): Observable<MerchandisingCarouselModel> {
     return of(merchandisingCarouselModel);
+  }
+
+  getMerchandisingCaourselViewportThreshold(): Observable<number> {
+    return of(0.8);
+  }
+}
+
+class RoutingServiceStub {
+  getPageContext(): Observable<PageContext> {
+    return of(new PageContext('homepage', PageType.CONTENT_PAGE));
+  }
+}
+
+class IntersectionServiceStub {
+  isIntersected(): Observable<boolean> {
+    return of();
   }
 }
 
 describe('MerchandisingCarouselComponent', () => {
   let component: MerchandisingCarouselComponent;
+  let componentService: MerchandisingCarouselComponentService;
   let fixture: ComponentFixture<MerchandisingCarouselComponent>;
 
   beforeEach(async(() => {
@@ -147,11 +174,20 @@ describe('MerchandisingCarouselComponent', () => {
           provide: MerchandisingCarouselComponentService,
           useClass: MockMerchandisingCarouselComponentService,
         },
+        {
+          provide: RoutingService,
+          useClass: RoutingServiceStub,
+        },
+        {
+          provide: IntersectionService,
+          useClass: IntersectionServiceStub,
+        },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MerchandisingCarouselComponent);
     component = fixture.componentInstance;
+    componentService = TestBed.inject(MerchandisingCarouselComponentService);
     fixture.detectChanges();
   }));
 
@@ -218,6 +254,29 @@ describe('MerchandisingCarouselComponent', () => {
     items[0].subscribe((p) => (product = p));
     expect(product).toEqual(merchandisingCarouselModelProducts[0]);
   }));
+
+  describe('intersectionEvent$', () => {
+    let intersectionService: IntersectionService;
+    beforeEach(() => {
+      intersectionService = TestBed.inject(IntersectionService);
+    });
+
+    it('should not trigger if the carousel is not in the viewport', () => {
+      spyOn(intersectionService, 'isIntersected').and.returnValue(of(false));
+
+      component.intersectionEvent$.subscribe((_) => {});
+
+      expect(componentService.sendCarouselViewEvent).not.toHaveBeenCalled();
+    });
+
+    it('should trigger if the carousel is in the viewport', () => {
+      spyOn(intersectionService, 'isIntersected').and.returnValue(of(true));
+
+      component.intersectionEvent$.subscribe((_) => {});
+
+      expect(componentService.sendCarouselViewEvent).toHaveBeenCalled();
+    });
+  });
 
   describe('UI test', () => {
     it('should have 2 rendered templates', async(() => {

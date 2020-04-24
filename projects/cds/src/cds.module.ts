@@ -5,9 +5,7 @@ import {
   provideConfigValidator,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { CdsConfig } from './config/cds-config';
-import { cdsConfigValidator } from './config/cds-config-validator';
-import { DEFAULT_CDS_CONFIG } from './config/default-cds-config';
+import { CdsConfig, cdsConfigValidator, DEFAULT_CDS_CONFIG } from './config';
 import { MerchandisingModule } from './merchandising/merchandising.module';
 import { ProfileTagModule } from './profiletag/profile-tag.module';
 

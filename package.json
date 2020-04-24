@@ -80,7 +80,7 @@
     "e2e:cy:cds:start-run-ci": "start-server-and-test start:cds:ci http-get://localhost:4200 e2e:cy:run:ci:all",
     "start:cds": "ng serve storefrontapp-cds-integration --proxy-config mock-server/proxy.backend.js",
     "start:cds:qa": "ng serve storefrontapp-cds-integration -c=qa",
-    "start:cds:ci": "yarn build:core:lib:cds && yarn start:cds:prod -c=ci",
+    "start:cds:ci": "yarn build:cds && yarn start:cds:prod -c=ci",
     "start:cds:prod": "ng serve storefrontapp-cds-integration --prod",
     "start:cds:ssl": "ng serve storefrontapp-cds-integration --ssl",
     "start:cds:pwa": "cd ./dist/storefrontapp-cds-integration/ && http-server -p 4200",

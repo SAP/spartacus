@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ProductService } from '@spartacus/core';
-import { CdsConfig } from 'projects/cds/src/config';
 import { combineLatest, EMPTY, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
+import { CdsConfig } from '../../../config';
+import { ProfileTagEventService } from '../../../profiletag';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
 import {
   MerchandisingMetadata,
@@ -11,6 +12,11 @@ import {
   StrategyProduct,
   StrategyProducts,
 } from '../../model';
+import {
+  CarouselEvent,
+  MerchandisingCarouselClicked,
+  MerchandisingCarouselViewed,
+} from './model';
 import { MerchandisingCarouselModel } from './model/merchandising-carousel.model';
 
 const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD = 80;
@@ -24,6 +30,7 @@ export class MerchandisingCarouselComponentService {
   constructor(
     protected cdsMerchandisingProductService: CdsMerchandisingProductService,
     protected productService: ProductService,
+    protected profileTagEventService: ProfileTagEventService,
     protected cdsConfig: CdsConfig
   ) {}
 
@@ -65,6 +72,52 @@ export class MerchandisingCarouselComponentService {
           textColor: cmsComponent.textColour,
         };
       })
+    );
+  }
+
+  sendCarouselViewEvent(
+    merchandisingCarouselModel: MerchandisingCarouselModel
+  ): void {
+    console.log('sending carousel view event');
+    const carouselEvent: CarouselEvent = this.getCarouselEventFromCarouselModel(
+      merchandisingCarouselModel
+    );
+    const productSkus: string[] = [];
+    merchandisingCarouselModel.items$.forEach((merchandisingProduct$) =>
+      merchandisingProduct$
+        .pipe(
+          filter((merchandisingProduct) => Boolean(merchandisingProduct.code))
+        )
+        .subscribe((merchandisingProduct) =>
+          productSkus.push(merchandisingProduct.code)
+        )
+    );
+
+    this.profileTagEventService.notifyProfileTagOfEventOccurence(
+      new MerchandisingCarouselViewed(carouselEvent, productSkus)
+    );
+  }
+
+  sendCarouselItemClickedEvent(
+    merchandisingCarouselModel: MerchandisingCarouselModel,
+    clickedProduct: MerchandisingProduct
+  ): void {
+    const carouselEvent: CarouselEvent = this.getCarouselEventFromCarouselModel(
+      merchandisingCarouselModel
+    );
+
+    carouselEvent.metadata = {
+      ...carouselEvent.metadata,
+      ...clickedProduct.metadata,
+    };
+
+    this.profileTagEventService.notifyProfileTagOfEventOccurence(
+      new MerchandisingCarouselClicked(
+        carouselEvent,
+        clickedProduct.metadata.slot,
+        clickedProduct.code,
+        clickedProduct.images?.PRIMARY['product']?.url
+      )
     );
   }
 
@@ -113,5 +166,16 @@ export class MerchandisingCarouselComponentService {
     metadata.id = strategyProduct.id;
 
     return metadata;
+  }
+
+  private getCarouselEventFromCarouselModel(
+    carouselModel: MerchandisingCarouselModel
+  ): CarouselEvent {
+    return {
+      carouselId: carouselModel.metadata.id,
+      carouselName: carouselModel.metadata.name,
+      strategyId: carouselModel.metadata.strategyid,
+      metadata: carouselModel.metadata,
+    };
   }
 }

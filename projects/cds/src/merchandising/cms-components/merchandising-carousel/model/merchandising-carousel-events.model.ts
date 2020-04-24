@@ -1,4 +1,4 @@
-import { ProfiletagPushEvent } from '../../../../profiletag/model/profile-tag.model';
+import { ProfiletagPushEvent } from '../../../../profiletag';
 import { MerchandisingMetadata } from '../../../model';
 
 const CAROUSEL_VIEWED = 'CarouselViewed';

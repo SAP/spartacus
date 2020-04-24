@@ -2,7 +2,7 @@ import {
   CURRENCY_USD,
   LANGUAGE_EN,
 } from '../../../helpers/site-context-selector';
-import { verifyNumberOfEventsInDataLayer } from './profile-tag';
+import verifyNumberOfEventsInDataLayer from './profile-tag';
 
 interface StrategyRequestContext {
   language?: string;
@@ -17,8 +17,7 @@ export const DEFAULT_LANGUAGE = LANGUAGE_EN;
 export const DEFAULT_CURRENCY = CURRENCY_USD;
 const productDisplayCount = 10;
 
-const MERCHANDISING_CAROUSEL_TAG_NAME = 'cx-merchandising-carousel';
-const MERCHANDISING_CAROUSEL_VIEWED_EVENT_NAME = 'CarouselViewed';
+const merchandisingCarouselTagName = 'cx-merchandising-carousel';
 
 /*
  * NOTE: Ids of actual products in the storefront need to be returned by the stub CDS strategy service
@@ -26,7 +25,7 @@ const MERCHANDISING_CAROUSEL_VIEWED_EVENT_NAME = 'CarouselViewed';
  */
 export const STRATEGY_RESPONSE = {
   metadata: {
-    mixcardid: 'cypress-test-mixcard',
+    mixcardId: 'cypress-test-mixcard',
   },
   products: [
     {
@@ -61,7 +60,7 @@ function verifyCarouselLevelMetadata(
         .equal(STRATEGY_RESPONSE.products.length.toString());
       expect($merchandisingCarouselMetadata)
         .to.have.attr('data-cx-merchandising-carousel-mixcardid')
-        .equal(STRATEGY_RESPONSE.metadata.mixcardid);
+        .equal(STRATEGY_RESPONSE.metadata.mixcardId);
     });
 }
 
@@ -107,9 +106,7 @@ function verifyCarouselItemsRendered(
 }
 
 function verifyMerchandisingCarouselRendersProducts(): void {
-  verifyNumberOfEventsInDataLayer(MERCHANDISING_CAROUSEL_VIEWED_EVENT_NAME, 0);
-
-  cy.get(MERCHANDISING_CAROUSEL_TAG_NAME)
+  cy.get(merchandisingCarouselTagName)
     /*
      * There could be multiple merchandising carousels on the page being used to test them,
      * but as we are stubbing the product retrieval response all of them will show the same products.
@@ -121,10 +118,6 @@ function verifyMerchandisingCarouselRendersProducts(): void {
     .within(($merchandisingCarousel) => {
       verifyCarouselLevelMetadata($merchandisingCarousel);
       verifyCarouselItemsRendered($merchandisingCarousel);
-      verifyNumberOfEventsInDataLayer(
-        MERCHANDISING_CAROUSEL_VIEWED_EVENT_NAME,
-        1
-      );
     });
 }
 
@@ -177,9 +170,13 @@ export function verifyRequestToStrategyService(
 
 export function verifyMerchandisingCarouselRendersOnHomePage(
   strategyRequestAlias: string,
-  language?: string
+  language?: string,
+  containsConsentReference?: boolean
 ): void {
-  verifyRequestToStrategyService(strategyRequestAlias, { language });
+  verifyRequestToStrategyService(strategyRequestAlias, {
+    language,
+    containsConsentReference,
+  });
 
   verifyMerchandisingCarouselRendersProducts();
 }
@@ -240,28 +237,21 @@ export function applyFacet(facetGroup: string, facetName: string): void {
     });
 }
 
-export function acceptConsent() {
-  cy.get('.anonymous-consent-banner .cx-banner-buttons .btn-primary').click();
-}
-
 export function verifyFirstCarouselItemTextContent(
   toContain: string,
   toNotContain: string
 ): void {
-  cy.get(`${MERCHANDISING_CAROUSEL_TAG_NAME} .item h4`)
+  cy.get(`${merchandisingCarouselTagName} .item h4`)
     .first()
     .should('contain.text', toContain)
     .and('not.contain.text', toNotContain);
 }
 
-export function verifyFirstCarouselItemPrice(
-  currencySymbol: string,
-  value: number
-): void {
-  cy.get(`${MERCHANDISING_CAROUSEL_TAG_NAME} .item .price`)
+export function verifyFirstCarouselItemPrice(currencySymbol: string): void {
+  cy.get(`${merchandisingCarouselTagName} .item .price`)
     .first()
-    .should('contain.text', currencySymbol)
-    .and('contain.text', value);
+    .should('be.visible')
+    .and('contain.text', currencySymbol);
 }
 
 export function clickOnCarouselItem(productId: string): void {
@@ -282,4 +272,14 @@ export function navigateToCategory(categoryName: string): void {
   cy.get('cx-category-navigation cx-generic-link a')
     .contains(categoryName)
     .click({ force: true });
+}
+
+export function scrollToCarousel(viewEventShouldBeSent?: boolean): void {
+  cy.route('POST', '/edge/clickstreamEvents').as('clickstreamEvent');
+  cy.get(merchandisingCarouselTagName).scrollIntoView().should('be.visible');
+
+  if (viewEventShouldBeSent) {
+    verifyNumberOfEventsInDataLayer('CarouselViewed', 1);
+    cy.wait('@clickstreamEvent');
+  }
 }

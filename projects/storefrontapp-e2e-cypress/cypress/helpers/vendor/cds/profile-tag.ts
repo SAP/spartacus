@@ -1,3 +1,5 @@
+import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
+
 export const profileTagHelper = {
   interceptProfileTagJs(contentWindow) {
     const oldAppendChild = contentWindow.document.head.appendChild;
@@ -15,14 +17,26 @@ export const profileTagHelper = {
   profileTagScriptResponse: {},
 };
 
+export function grantConsent() {
+  cy.route('POST', '/consent/*/consentReferences').as(
+    'consentReferenceCreation'
+  );
+  clickAllowAllFromBanner();
+  verifyNumberOfEventsInDataLayer('ConsentChanged', 1);
+  cy.wait('@consentReferenceCreation');
+}
+
 export function verifyNumberOfEventsInDataLayer(
   eventName: string,
   numberOfEvents: number
 ) {
-  cy.window().then((win) => {
-    console.log('event layer contents: ', (<any>win).Y_TRACKING.eventLayer);
+  cy.window().should(($win) => {
+    // console.log(
+    //   'event layer contents: ',
+    //   JSON.stringify((<any>$win).Y_TRACKING.eventLayer)
+    // );
     expect(
-      (<any>win).Y_TRACKING.eventLayer.filter(
+      (<any>$win).Y_TRACKING.eventLayer.filter(
         (event) => event.name === eventName
       ).length
     ).to.equal(numberOfEvents);
