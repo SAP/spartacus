@@ -1,7 +1,7 @@
 @import '../../theme';
 
 %cx-cart-coupon {
-  padding: 2rem 3rem;
+  padding: 2rem 0 2rem 3rem;
 
   @include media-breakpoint-down(md) {
     padding: 0 3rem 2rem 3rem;
@@ -16,6 +16,26 @@
   .cx-cart-coupon-title {
     @include type('5');
     margin: 1.125rem 0 0.5rem;
+  }
+
+  .cx-cart-coupon-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 15px;
+    grid-row-gap: 0px;
+
+    input {
+      grid-area: 1 / 1 / 2 / 2;
+    }
+
+    button {
+      grid-area: 1 / 2 / 2 / 3;
+    }
+
+    cx-form-errors {
+      grid-area: 2 / 1 / 3 / 3;
+    }
   }
 
   .cx-available-coupon {

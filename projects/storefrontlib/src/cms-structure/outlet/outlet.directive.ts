@@ -37,28 +37,12 @@ export class OutletDirective implements OnDestroy, OnChanges {
   subscription = new Subscription();
 
   constructor(
-    vcr: ViewContainerRef,
-    templateRef: TemplateRef<any>,
-    outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>,
-    // tslint:disable-next-line: unified-signatures
-    intersectionService: DeferLoaderService
-  );
-  /**
-   * @deprecated since version 1.4
-   * Use constructor(vcr: ViewContainerRef, templateRef: TemplateRef<any>, outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>, intersectionService?: IntersectionService) instead
-   */
-  constructor(
-    vcr: ViewContainerRef,
-    templateRef: TemplateRef<any>,
-    outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>
-  );
-  constructor(
     private vcr: ViewContainerRef,
     private templateRef: TemplateRef<any>,
     private outletService: OutletService<
       TemplateRef<any> | ComponentFactory<any>
     >,
-    private deferLoaderService?: DeferLoaderService,
+    private deferLoaderService: DeferLoaderService,
     private outletRendererService?: OutletRendererService
   ) {}
 
@@ -146,15 +130,19 @@ export class OutletDirective implements OnDestroy, OnChanges {
 
   /**
    * Returns the closest `HtmlElement`, by iterating over the
-   * parent elements of the given element.
+   * parent nodes of the given element.
+   *
+   * We avoid traversing the parent _elements_, as this is blocking
+   * ie11 implementations. One of the spare exclusions we make to not
+   * supporting ie11.
    *
    * @param element
    */
-  private getHostElement(element: Element): HTMLElement {
+  private getHostElement(element: Node): HTMLElement {
     if (element instanceof HTMLElement) {
       return element;
     }
-    return this.getHostElement(element.parentElement);
+    return this.getHostElement(element.parentNode);
   }
 
   ngOnDestroy() {

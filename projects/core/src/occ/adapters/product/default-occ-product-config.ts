@@ -5,9 +5,9 @@ export const defaultOccProductConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        product:
-          'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,manufacturer,numberOfReviews,categories(FULL),baseOptions,baseProduct,variantOptions,variantType',
-        product_scopes: {
+        product: {
+          default:
+            'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,manufacturer,numberOfReviews,categories(FULL),baseOptions,baseProduct,variantOptions,variantType',
           list:
             'products/${productCode}?fields=code,name,summary,price(formattedValue),images(DEFAULT,galleryIndex)',
           details:
@@ -24,7 +24,7 @@ export const defaultOccProductConfig: OccConfig = {
           'products/${productCode}/references?fields=DEFAULT,references(target(images(FULL)))',
         // tslint:disable:max-line-length
         productSearch:
-          'products/search?fields=products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch',
+          'products/search?fields=products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL),averageRating,variantOptions),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT),freeTextSearch,currentQuery',
         // tslint:enable
         productSuggestions: 'products/suggestions',
       },

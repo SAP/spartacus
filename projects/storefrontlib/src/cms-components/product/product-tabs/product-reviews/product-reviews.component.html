@@ -62,7 +62,7 @@
   </ng-container>
 
   <ng-template #writeReview>
-    <form [formGroup]="reviewForm" (ngSubmit)="submitReview(product)">
+    <form (ngSubmit)="submitReview(product)" [formGroup]="reviewForm">
       <div class="form-group">
         <label>
           <span class="label-content">{{
@@ -73,12 +73,8 @@
             type="text"
             class="form-control"
             formControlName="title"
-            [class.is-invalid]="
-              reviewForm.controls['title'].invalid &&
-              (reviewForm.controls['title'].touched ||
-                reviewForm.controls['title'].dirty)
-            "
           />
+          <cx-form-errors [control]="reviewForm.get('title')"></cx-form-errors>
         </label>
       </div>
       <div class="form-group">
@@ -90,12 +86,10 @@
             class="form-control"
             rows="3"
             formControlName="comment"
-            [class.is-invalid]="
-              reviewForm.controls['comment'].invalid &&
-              (reviewForm.controls['comment'].touched ||
-                reviewForm.controls['comment'].dirty)
-            "
           ></textarea>
+          <cx-form-errors
+            [control]="reviewForm.get('comment')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="form-group">
@@ -103,7 +97,9 @@
           <span class="label-content">{{
             'productReview.rating' | cxTranslate
           }}</span>
+          <input type="number" formControlName="rating" class="rating-input" />
           <cx-star-rating (change)="setRating($event)"></cx-star-rating>
+          <cx-form-errors [control]="reviewForm.get('rating')"></cx-form-errors>
         </label>
       </div>
       <div class="form-group">
@@ -129,11 +125,7 @@
           </button>
         </div>
         <div class="col-12 col-md-4">
-          <button
-            type="submit"
-            class="btn btn-block btn-primary"
-            [ngClass]="{ 'submit-btn': reviewForm.valid }"
-          >
+          <button type="submit" class="btn btn-block btn-primary">
             {{ 'common.submit' | cxTranslate }}
           </button>
         </div>

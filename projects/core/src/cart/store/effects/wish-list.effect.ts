@@ -61,7 +61,7 @@ export class WishListEffects {
   @Effect()
   loadWishList$: Observable<
     | CartActions.LoadWishListSuccess
-    | CartActions.RemoveTempCart
+    | CartActions.RemoveCart
     | CartActions.CreateWishList
     | CartActions.LoadWishListFail
   > = this.actions$.pipe(
@@ -84,9 +84,7 @@ export class WishListEffects {
                   customerId,
                   cartId: getCartIdByUserId(wishList, userId),
                 }),
-                new CartActions.RemoveTempCart({
-                  tempCartId,
-                }),
+                new CartActions.RemoveCart({ cartId: tempCartId }),
               ];
             } else {
               return [

@@ -57,9 +57,9 @@ export function ApplyMyCoupons(couponCode: string) {
 export function claimCoupon(couponCode: string) {
   cy.request({
     method: 'POST',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/current/customercoupons/${couponCode}/claim`,
+    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/customercoupons/${couponCode}/claim`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
@@ -71,17 +71,24 @@ export function claimCoupon(couponCode: string) {
   });
 }
 
+const cartCouponInput = 'input.input-coupon-code';
+const cartCouponButton = 'button.apply-coupon-button';
+const applyCartCoupon = (code: string) => {
+  cy.get('cx-cart-coupon').within(() => {
+    cy.get(cartCouponInput).type(code);
+    cy.get(cartCouponButton).click();
+  });
+};
+
 export function applyMyCouponAsAnonymous(couponCode: string) {
   addProductToCart(productCode4);
-  cy.get('#applyVoucher').type(couponCode);
-  cy.get('.col-md-4 > .btn').click();
+  applyCartCoupon(couponCode);
   getCouponItemFromCart(couponCode).should('not.exist');
   cy.get('cx-global-message .alert').should('exist');
 }
 
 export function applyCoupon(couponCode: string) {
-  cy.get('#applyVoucher').type(couponCode);
-  cy.get('.col-md-4 > .btn').click();
+  applyCartCoupon(couponCode);
   cy.get('cx-global-message').should(
     'contain',
     `${couponCode} has been applied`
@@ -96,9 +103,8 @@ export function removeCoupon(couponCode: string) {
 }
 
 export function applyWrongCoupon() {
-  cy.get('#applyVoucher').type('error');
-  cy.get('.col-md-4 > .btn').click();
-  cy.get('cx-global-message').should('contain', 'coupon.invalid.code.provided');
+  applyCartCoupon('wrongCouponCode');
+  cy.get('cx-global-message').should('contain', 'Invalid code provided.');
 }
 
 export function placeOrder(stateAuth: any) {

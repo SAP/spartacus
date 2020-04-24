@@ -113,10 +113,10 @@ export function fillPaymentDetails(
     cy.get('[formcontrolname="cardNumber"]')
       .clear()
       .type(paymentDetails.payment.number);
-    cy.get('[bindValue="expiryMonth"]').ngSelect(
+    cy.get('[formcontrolname="expiryMonth"]').ngSelect(
       paymentDetails.payment.expires.month
     );
-    cy.get('[bindValue="expiryYear"]').ngSelect(
+    cy.get('[formcontrolname="expiryYear"]').ngSelect(
       paymentDetails.payment.expires.year
     );
     cy.get('[formcontrolname="cvn"]').clear().type(paymentDetails.payment.cvv);
@@ -126,6 +126,14 @@ export function fillPaymentDetails(
       cy.get('input.form-check-input').check();
     }
 
-    cy.get('button.btn.btn-block.btn-primary').contains('Continue').click();
+    if (submitForm) {
+      /**
+       * TODO: remove when we find out what happened to the delivery address not setting instantly like before.
+       * It takes time for the delivery address to set.
+       * Was reported in the ec-spartacus-release https://sap-cx.slack.com/archives/GLJ5MR1LL/p1586937731001500
+       */
+      cy.wait(3000);
+      cy.get('button.btn.btn-block.btn-primary').contains('Continue').click();
+    }
   });
 }

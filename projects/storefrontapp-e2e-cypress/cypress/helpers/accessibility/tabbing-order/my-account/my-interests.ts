@@ -2,6 +2,7 @@ import { verifyTabbingOrder } from '../../tabbing-order';
 import {
   verifySubscriptionAndCustomerInterest,
   enableNotificationChannel,
+  disableNotificationChannel,
 } from '../../../notification';
 import { TabElement } from '../../tabbing-order.model';
 
@@ -12,4 +13,6 @@ export function myInterestTabbingOrder(config: TabElement[]) {
   enableNotificationChannel();
   verifySubscriptionAndCustomerInterest('872912');
   verifyTabbingOrder(containerSelector, config);
+
+  disableNotificationChannel();
 }

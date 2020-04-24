@@ -2,14 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   ActiveCartService,
-  AuthService,
   Cart,
   CartVoucherService,
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,
-  FeatureConfigService,
-  OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -20,7 +17,7 @@ import { map, tap } from 'rxjs/operators';
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
   MAX_CUSTOMER_COUPON_PAGE = 100;
-  form: FormGroup;
+  couponForm: FormGroup;
   cartIsLoading$: Observable<boolean>;
   cart$: Observable<Cart>;
   cartId: string;
@@ -33,11 +30,9 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   couponBoxIsActive = false;
 
   constructor(
-    protected authService: AuthService,
     protected cartVoucherService: CartVoucherService,
     protected formBuilder: FormBuilder,
     protected customerCouponService: CustomerCouponService,
-    protected featureConfig: FeatureConfigService,
     protected activeCartService: ActiveCartService
   ) {}
 
@@ -47,43 +42,26 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         this.MAX_CUSTOMER_COUPON_PAGE
       );
     }
-    if (this.featureConfig && this.featureConfig.isLevel('1.5')) {
-      this.cart$ = combineLatest([
-        this.activeCartService.getActive(),
-        this.authService.getOccUserId(),
-        this.customerCouponService.getCustomerCoupons(
-          this.MAX_CUSTOMER_COUPON_PAGE
-        ),
-      ]).pipe(
-        tap(
-          ([cart, userId, customerCoupons]: [
-            Cart,
-            string,
-            CustomerCouponSearchResult
-          ]) => {
-            this.cartId =
-              userId === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
-            this.getApplicableCustomerCoupons(cart, customerCoupons.coupons);
-          }
-        ),
-        map(([cart]: [Cart, string, CustomerCouponSearchResult]) => cart)
-      );
-    }
-    //TODO(issue:#5971) Deprecated since 1.5
-    else {
-      this.cart$ = combineLatest([
-        this.activeCartService.getActive(),
-        this.authService.getOccUserId(),
-      ]).pipe(
-        tap(
-          ([cart, userId]: [Cart, string]) =>
-            (this.cartId =
-              userId === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code)
-        ),
-        map(([cart]: [Cart, string]) => cart)
-      );
-    }
-    //TODO(issue:#5971) Deprecated since 1.5
+
+    this.cart$ = combineLatest([
+      this.activeCartService.getActive(),
+      this.activeCartService.getActiveCartId(),
+      this.customerCouponService.getCustomerCoupons(
+        this.MAX_CUSTOMER_COUPON_PAGE
+      ),
+    ]).pipe(
+      tap(
+        ([cart, activeCardId, customerCoupons]: [
+          Cart,
+          string,
+          CustomerCouponSearchResult
+        ]) => {
+          this.cartId = activeCardId;
+          this.getApplicableCustomerCoupons(cart, customerCoupons.coupons);
+        }
+      ),
+      map(([cart]: [Cart, string, CustomerCouponSearchResult]) => cart)
+    );
 
     this.cartIsLoading$ = this.activeCartService
       .isStable()
@@ -91,10 +69,11 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
     this.cartVoucherService.resetAddVoucherProcessingState();
 
-    this.form = this.formBuilder.group({
+    this.couponForm = this.formBuilder.group({
       couponCode: ['', [Validators.required]],
     });
 
+    // TODO(#7241): Replace process subscriptions with event listeners and drop process for ADD_VOUCHER
     this.subscription.add(
       this.cartVoucherService
         .getAddVoucherResultSuccess()
@@ -103,6 +82,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
         })
     );
 
+    // TODO(#7241): Replace process subscriptions with event listeners and drop process for ADD_VOUCHER
     this.subscription.add(
       this.cartVoucherService.getAddVoucherResultError().subscribe((error) => {
         this.onError(error);
@@ -121,7 +101,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
 
   onSuccess(success: boolean) {
     if (success) {
-      this.form.reset();
+      this.couponForm.reset();
       this.cartVoucherService.resetAddVoucherProcessingState();
     }
   }
@@ -141,12 +121,16 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   }
 
   applyVoucher(): void {
-    if (!this.form.valid) {
-      this.form.markAsTouched();
-      return;
+    if (this.couponForm.valid) {
+      this.cartVoucherService.addVoucher(
+        this.couponForm.value.couponCode,
+        this.cartId
+      );
+    } else {
+      this.couponForm.markAllAsTouched();
     }
-    this.cartVoucherService.addVoucher(this.form.value.couponCode, this.cartId);
   }
+
   applyCustomerCoupon(couponId: string): void {
     this.cartVoucherService.addVoucher(couponId, this.cartId);
     this.couponBoxIsActive = false;

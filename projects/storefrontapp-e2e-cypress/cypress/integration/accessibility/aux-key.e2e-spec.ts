@@ -4,7 +4,7 @@ context('Auxiliary Keys', () => {
       loadPageWithComponenents('/');
     });
 
-    it('should open menu with space key', () => {
+    it('should open and close menu with space key', () => {
       cy.get('cx-category-navigation').within(() => {
         cy.get('cx-navigation-ui').find('nav').should('have.length', 30);
         cy.get('cx-navigation-ui')
@@ -12,38 +12,30 @@ context('Auxiliary Keys', () => {
           .should('contain.text', 'Brands')
           .and('be.visible')
           .within(() => {
-            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor(#6743)
-            cy.get('nav h5').first().focus();
+            cy.get('div.wrapper')
+              .should('have.length', 7)
+              .first()
+              .should('not.be.visible');
+            cy.get('nav h5').contains('Brands').focus().trigger('keydown', {
+              key: ' ',
+              code: 'Space',
+              force: true,
+            });
+            cy.get('div.wrapper')
+              .should('have.length', 7)
+              .first()
+              .should('be.visible');
             cy.focused().trigger('keydown', {
               key: ' ',
               code: 'Space',
               force: true,
             });
+            cy.get('div.wrapper')
+              .should('have.length', 7)
+              .first()
+              .should('not.be.visible');
           });
       });
-      cy.get('cx-navigation-ui nav div.wrapper').first().should('be.visible');
-    });
-
-    it('should close menu with space key', () => {
-      cy.get('cx-category-navigation').within(() => {
-        cy.get('cx-navigation-ui').find('nav').should('have.length', 30);
-        cy.get('cx-navigation-ui')
-          .first()
-          .should('contain.text', 'Brands')
-          .and('be.visible')
-          .within(() => {
-            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor (#6743)
-            cy.get('nav h5').first().focus();
-            cy.focused().trigger('keydown', {
-              key: ' ',
-              code: 'Space',
-              force: true,
-            });
-          });
-      });
-      cy.get('cx-navigation-ui nav div.wrapper')
-        .first()
-        .should('not.be.visible');
     });
   });
 
@@ -53,15 +45,16 @@ context('Auxiliary Keys', () => {
       loadPageWithComponenents('/');
     });
 
-    it('should open menu with space key', () => {
+    it('should open and close menu with space key', () => {
       cy.get('cx-page-layout[section="header"]').within(() => {
         cy.get('cx-navigation-ui.accNavComponent')
           .should('contain.text', 'My Account')
           .and('be.visible')
           .within(() => {
-            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor (#6743)
-            cy.get('nav h5').first().focus();
-            cy.focused().trigger('keydown', {
+            cy.get('cx-generic-link')
+              .contains('Order History')
+              .should('not.be.visible');
+            cy.get('nav h5').first().focus().trigger('keydown', {
               key: ' ',
               code: 'Space',
               force: true,
@@ -69,28 +62,16 @@ context('Auxiliary Keys', () => {
             cy.get('cx-generic-link')
               .contains('Order History')
               .should('be.visible');
-          });
-      });
-    });
-
-    it('should close menu with space key', () => {
-      cy.get('cx-page-layout[section="header"]').within(() => {
-        cy.get('cx-navigation-ui.accNavComponent')
-          .should('contain.text', 'My Account')
-          .and('be.visible')
-          .within(() => {
-            cy.wait(1000); // TODO: Wait stabilizes test, change after cx-navigation-ui refactor (#6743)
-            cy.get('nav h5').first().focus();
             cy.focused().trigger('keydown', {
               key: ' ',
               code: 'Space',
               force: true,
             });
+            cy.get('cx-generic-link')
+              .contains('Order History')
+              .should('not.be.visible');
           });
       });
-      cy.get('cx-generic-link')
-        .contains('Order History')
-        .should('not.be.visible');
     });
   });
 
@@ -103,7 +84,9 @@ context('Auxiliary Keys', () => {
       cy.server();
       cy.route(
         'GET',
-        `${Cypress.env('API_URL')}/rest/v2/electronics-spa/products/search?**`
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/products/search?**`
       ).as('query');
       cy.get('cx-searchbox input').type('dsa');
       cy.wait('@query');
@@ -114,15 +97,15 @@ context('Auxiliary Keys', () => {
       cy.focused().trigger('keydown', { key: 'ArrowDown' });
       cy.focused().should('contain.text', 'dsa');
       cy.focused().trigger('keydown', { key: 'ArrowDown' });
-      cy.focused().should('contain.text', 'DSC-S930');
+      cy.focused().should('contain.text', 'DSC-');
       cy.focused().trigger('keydown', { key: 'ArrowDown' });
-      cy.focused().should('contain.text', 'DSC-S930');
+      cy.focused().should('contain.text', 'DSC-');
       cy.focused().trigger('keydown', { key: 'ArrowDown' });
-      cy.focused().should('contain.text', 'DSC-S930');
+      cy.focused().should('contain.text', 'DSC-');
       cy.focused().trigger('keydown', { key: 'ArrowDown' });
-      cy.focused().should('contain.text', 'DSC-W270');
+      cy.focused().should('contain.text', 'DSC-');
       cy.focused().trigger('keydown', { key: 'ArrowDown' });
-      cy.focused().should('contain.text', 'DSC-HX1');
+      cy.focused().should('contain.text', 'DSC-');
       cy.focused().trigger('keydown', { key: 'ArrowDown' });
       cy.focused().should('contain.text', 'dsa');
     });
@@ -130,15 +113,15 @@ context('Auxiliary Keys', () => {
     it('should navigate through suggestions with ArrowUp key', () => {
       cy.focused().should('contain.text', 'dsa');
       cy.focused().trigger('keydown', { key: 'ArrowUp' });
-      cy.focused().should('contain.text', 'DSC-HX1');
+      cy.focused().should('contain.text', 'DSC-');
       cy.focused().trigger('keydown', { key: 'ArrowUp' });
-      cy.focused().should('contain.text', 'DSC-W270');
+      cy.focused().should('contain.text', 'DSC-');
       cy.focused().trigger('keydown', { key: 'ArrowUp' });
-      cy.focused().should('contain.text', 'DSC-S930');
+      cy.focused().should('contain.text', 'DSC-');
       cy.focused().trigger('keydown', { key: 'ArrowUp' });
-      cy.focused().should('contain.text', 'DSC-S930');
+      cy.focused().should('contain.text', 'DSC-');
       cy.focused().trigger('keydown', { key: 'ArrowUp' });
-      cy.focused().should('contain.text', 'DSC-S930');
+      cy.focused().should('contain.text', 'DSC-');
       cy.focused().trigger('keydown', { key: 'ArrowUp' });
       cy.focused().should('contain.text', 'dsa');
     });
@@ -189,7 +172,7 @@ context('Auxiliary Keys', () => {
 function loadPageWithComponenents(pageUrl: string) {
   cy.server();
   cy.route(
-    `${Cypress.env('API_URL')}/rest/v2/electronics-spa/cms/components*`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/cms/components*`
   ).as('getComponents');
   cy.visit(pageUrl);
   cy.wait('@getComponents');

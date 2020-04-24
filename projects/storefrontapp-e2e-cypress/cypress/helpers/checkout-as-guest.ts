@@ -1,7 +1,7 @@
-import { user } from '../sample-data/checkout-flow';
+import { SampleUser, user } from '../sample-data/checkout-flow';
 import * as checkout from './checkout-flow';
 
-export function loginAsGuest() {
+export function loginAsGuest(sampleUser: SampleUser = user) {
   const guestLoginPage = checkout.waitForPage(
     '/checkout-login',
     'getguestLoginPage'
@@ -11,8 +11,10 @@ export function loginAsGuest() {
     .click();
   cy.wait(`@${guestLoginPage}`).its('status').should('eq', 200);
   cy.get('cx-checkout-login').within(() => {
-    cy.get('[formcontrolname="email"]').clear().type(user.email);
-    cy.get('[formcontrolname="emailConfirmation"]').clear().type(user.email);
+    cy.get('[formcontrolname="email"]').clear().type(sampleUser.email);
+    cy.get('[formcontrolname="emailConfirmation"]')
+      .clear()
+      .type(sampleUser.email);
     cy.get('button[type=submit]').click();
   });
   const shippingPage = checkout.waitForPage(

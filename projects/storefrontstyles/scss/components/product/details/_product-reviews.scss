@@ -1,6 +1,10 @@
 $gutterSize: 15px;
 
 %cx-product-reviews {
+  .rating-input {
+    display: none;
+  }
+
   .header {
     display: flex;
     flex-wrap: wrap;
