@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { CmsRoute, PageContext, PageType } from '@spartacus/core';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
-import { CmsMappingService } from './cms-mapping.service';
+import { CmsComponentsService } from './cms-components.service';
 
 // This service should be exposed in public API only after the refactor planned in https://github.com/SAP/spartacus/issues/7070
 @Injectable({ providedIn: 'root' })
 export class CmsRoutesImplService {
-  constructor(private router: Router, private cmsMapping: CmsMappingService) {}
+  constructor(
+    private router: Router,
+    private cmsComponentsService: CmsComponentsService
+  ) {}
 
   private cmsRouteExists(url: string): boolean {
     const isCmsDrivenRoute = url.startsWith('/');
@@ -46,7 +49,7 @@ export class CmsRoutesImplService {
       return true;
     }
 
-    const componentRoutes = this.cmsMapping.getRoutesForComponents(
+    const componentRoutes = this.cmsComponentsService.getChildRoutes(
       componentTypes
     );
     if (componentRoutes.length) {

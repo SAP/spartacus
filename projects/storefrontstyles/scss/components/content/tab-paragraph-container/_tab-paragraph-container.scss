@@ -78,10 +78,13 @@ $useTabsOnPDP: false !default;
       border-top: 1px var(--cx-color-light) solid;
       font-size: 18px;
       padding: 15px 0 0 4%;
+      width: 100%;
+      text-align: left;
+      height: 63px;
 
       &:before {
         content: '+';
-        margin: 5px 15px;
+        margin: 0px 15px;
         float: right;
         font-size: 33px;
         bottom: 12px;
