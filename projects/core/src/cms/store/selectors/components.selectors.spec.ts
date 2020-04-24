@@ -240,7 +240,7 @@ describe('Cms Component Selectors', () => {
               )
             )
           )
-          .subscribe(value => (result = value));
+          .subscribe((value) => (result = value));
 
         expect(result).toBe(false);
       });
@@ -373,7 +373,7 @@ describe('Cms Component Selectors', () => {
               )
             )
           )
-          .subscribe(value => (result = value));
+          .subscribe((value) => (result = value));
 
         expect(result).toBe(null);
       });

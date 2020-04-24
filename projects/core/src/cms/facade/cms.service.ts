@@ -141,7 +141,7 @@ export class CmsService {
 
     const component$ = this.store.pipe(
       select(CmsSelectors.componentsSelectorFactory(uid, context)),
-      filter(component => component !== undefined)
+      filter((component) => component !== undefined)
     ) as Observable<T | null>;
 
     return using(

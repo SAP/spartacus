@@ -57,12 +57,12 @@ export class TabParagraphContainerComponent
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
     distinctUntilChanged((x, y) => x?.components === y?.components),
-    switchMap(data =>
+    switchMap((data) =>
       combineLatest(
-        (data?.components ?? '').split(' ').map(component =>
+        (data?.components ?? '').split(' ').map((component) =>
           this.cmsService.getComponentData<any>(component).pipe(
             distinctUntilChanged(),
-            map(tab => {
+            map((tab) => {
               if (!tab) {
                 return undefined;
               }
