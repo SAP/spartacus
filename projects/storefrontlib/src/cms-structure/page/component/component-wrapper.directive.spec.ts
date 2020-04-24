@@ -20,17 +20,16 @@ import {
   ContentSlotComponentData,
   DynamicAttributeService,
 } from '@spartacus/core';
+import { PageComponentModule } from '@spartacus/storefront';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { CxApiService } from './cx-api.service';
+import { CxApiService } from './services/cx-api.service';
 
 const testText = 'test text';
 
 @Component({
   selector: 'cx-test',
-  template: `
-    <div id="debugEl1">${testText}</div>
-  `,
+  template: ` <div id="debugEl1">${testText}</div> `,
 })
 class TestComponent {
   constructor(
@@ -62,13 +61,10 @@ const MockCmsModuleConfig: CmsConfig = {
 
 class MockCmsService {
   getComponentData(): any {}
-  isLaunchInSmartEdit(): boolean {
-    return true;
-  }
 }
 
 class MockDynamicAttributeService {
-  addDynamicAttributes() {}
+  addDynamicAttributes(): void {}
 }
 
 @Component({
@@ -90,7 +86,6 @@ class TestWrapperComponent {
 
 describe('ComponentWrapperDirective', () => {
   let fixture: ComponentFixture<TestWrapperComponent>;
-  let cmsService: CmsService;
   let dynamicAttributeService: DynamicAttributeService;
   let renderer: Renderer2;
 
@@ -98,7 +93,7 @@ describe('ComponentWrapperDirective', () => {
 
   beforeEach(() => {
     testBedConfig = {
-      imports: [TestModule],
+      imports: [PageComponentModule, TestModule],
       declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
         Renderer2,
@@ -129,7 +124,6 @@ describe('ComponentWrapperDirective', () => {
         fixture = TestBed.createComponent(
           TestWrapperComponent as Type<TestWrapperComponent>
         );
-        cmsService = TestBed.inject(CmsService);
         cmsConfig = TestBed.inject(CmsConfig);
       });
 
@@ -159,7 +153,6 @@ describe('ComponentWrapperDirective', () => {
     describe('with angular component', () => {
       beforeEach(() => {
         fixture = TestBed.createComponent(TestWrapperComponent);
-        cmsService = TestBed.inject(CmsService);
         dynamicAttributeService = TestBed.inject(DynamicAttributeService);
         renderer = fixture.componentRef.injector.get<Renderer2>(
           Renderer2 as any
@@ -185,39 +178,18 @@ describe('ComponentWrapperDirective', () => {
         const compEl = el.query(By.css('cx-test')).nativeElement;
         expect(
           dynamicAttributeService.addDynamicAttributes
-        ).toHaveBeenCalledWith(
-          {
-            smartedit: {
-              test: 'test',
+        ).toHaveBeenCalledWith(compEl, renderer, {
+          componentData: {
+            typeCode: 'cms_typeCode',
+            flexType: 'CMSTestComponent',
+            uid: 'test_uid',
+            properties: {
+              smartedit: {
+                test: 'test',
+              },
             },
           },
-          compEl,
-          renderer
-        );
-      });
-
-      it('should not add smartedit contract if app launch in smart edit', () => {
-        spyOn(
-          dynamicAttributeService,
-          'addDynamicAttributes'
-        ).and.callThrough();
-        spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
-
-        fixture = TestBed.createComponent(TestWrapperComponent);
-        fixture.detectChanges();
-        const el = fixture.debugElement;
-        const compEl = el.query(By.css('cx-test')).nativeElement;
-        expect(
-          dynamicAttributeService.addDynamicAttributes
-        ).not.toHaveBeenCalledWith(
-          {
-            smartedit: {
-              test: 'test',
-            },
-          },
-          compEl,
-          renderer
-        );
+        });
       });
 
       it('should inject cms component data', () => {
@@ -253,7 +225,7 @@ describe('ComponentWrapperDirective', () => {
         expect(scriptEl.src).toContain('path/to/file.js');
       });
 
-      it('should instantiate web component', done => {
+      it('should instantiate web component', (done) => {
         scriptEl.onload(); // invoke load callbacks
 
         // run in next runloop (to process async tasks)
@@ -268,7 +240,7 @@ describe('ComponentWrapperDirective', () => {
         });
       });
 
-      it('should pass cxApi to web component', done => {
+      it('should pass cxApi to web component', (done) => {
         scriptEl.onload(); // invoke load callbacks
 
         // run in next runloop (to process async tasks)

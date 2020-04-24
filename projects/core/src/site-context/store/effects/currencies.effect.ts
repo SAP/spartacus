@@ -18,9 +18,10 @@ export class CurrenciesEffects {
     exhaustMap(() => {
       return this.siteConnector.getCurrencies().pipe(
         map(
-          currencies => new SiteContextActions.LoadCurrenciesSuccess(currencies)
+          (currencies) =>
+            new SiteContextActions.LoadCurrenciesSuccess(currencies)
         ),
-        catchError(error =>
+        catchError((error) =>
           of(
             new SiteContextActions.LoadCurrenciesFail(
               makeErrorSerializable(error)

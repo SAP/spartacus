@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
+import { entityLoaderStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
@@ -39,7 +39,7 @@ export const getB2BUserState = (
   orgCustomerId: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<B2BUser>> =>
   createSelector(getB2BUsersState, (state: EntityLoaderState<B2BUser>) =>
-    entityStateSelector(state, orgCustomerId)
+    entityLoaderStateSelector(state, orgCustomerId)
   );
 
 export const getUserList = (

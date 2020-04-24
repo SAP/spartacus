@@ -184,7 +184,7 @@ describe('UserGroupListComponent', () => {
       component.ngOnInit();
       let userGroupsList: any;
       component.data$
-        .subscribe(value => {
+        .subscribe((value) => {
           userGroupsList = value;
         })
         .unsubscribe();

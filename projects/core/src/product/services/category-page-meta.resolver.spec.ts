@@ -66,7 +66,7 @@ describe('CategoryPageMetaResolver', () => {
     let result: string;
     service
       .resolveTitle()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();
@@ -80,7 +80,7 @@ describe('CategoryPageMetaResolver', () => {
     let result: any[];
     service
       .resolveBreadcrumbs()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result.length).toEqual(2);

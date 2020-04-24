@@ -64,7 +64,7 @@ describe('OccOrgUnitAdapter', () => {
     it('should load orgUnit details for given orgUnit id', () => {
       service.load(userId, orgUnitId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'orgUnit' + orgUnitId
+        (req) => req.method === 'GET' && req.url === 'orgUnit' + orgUnitId
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -79,7 +79,7 @@ describe('OccOrgUnitAdapter', () => {
     it('should load orgUnit list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'orgUnitsAvailable'
+        (req) => req.method === 'GET' && req.url === 'orgUnitsAvailable'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -94,7 +94,7 @@ describe('OccOrgUnitAdapter', () => {
     it('should create orgUnit', () => {
       service.create(userId, orgUnit).subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'POST' &&
           req.url === 'orgUnits' &&
           req.body.id === orgUnit.id
@@ -112,7 +112,7 @@ describe('OccOrgUnitAdapter', () => {
     it('should update orgUnit', () => {
       service.update(userId, orgUnitId, orgUnit).subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'PATCH' &&
           req.url === 'orgUnit' + orgUnitId &&
           req.body.id === orgUnit.id

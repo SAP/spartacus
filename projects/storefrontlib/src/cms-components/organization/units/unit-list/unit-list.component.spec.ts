@@ -88,7 +88,7 @@ xdescribe('OrgUnitListComponent', () => {
       component.ngOnInit();
       let orgUnitsList: any;
       component.data$
-        .subscribe(value => {
+        .subscribe((value) => {
           orgUnitsList = value;
         })
         .unsubscribe();

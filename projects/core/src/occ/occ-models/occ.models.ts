@@ -4262,6 +4262,10 @@ export namespace Occ {
     name?: string;
   }
 
+  export interface OrderApprovalPermissionTypeList {
+    orderApprovalPermissionTypes?: OrderApprovalPermissionType[];
+  }
+
   export enum Period {
     DAY = 'DAY',
     WEEK = 'WEEK',

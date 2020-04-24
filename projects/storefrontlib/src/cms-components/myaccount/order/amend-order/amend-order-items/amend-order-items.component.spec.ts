@@ -22,7 +22,7 @@ const mockEntries = [
 const mockForm: FormGroup = new FormGroup({});
 const entryGroup = new FormGroup({});
 mockForm.addControl('entries', entryGroup);
-mockEntries.forEach(entry => {
+mockEntries.forEach((entry) => {
   const key = entry.entryNumber.toString();
   entryGroup.addControl(key, new FormControl(0));
 });

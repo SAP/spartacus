@@ -151,7 +151,7 @@ describe('BudgetEditComponent', () => {
       component.ngOnInit();
       let budget: any;
       component.budget$
-        .subscribe(value => {
+        .subscribe((value) => {
           budget = value;
         })
         .unsubscribe();

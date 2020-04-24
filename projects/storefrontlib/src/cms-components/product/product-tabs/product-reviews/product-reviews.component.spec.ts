@@ -7,7 +7,7 @@ import {
   Product,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ItemCounterModule } from '../../../../shared';
+import { ItemCounterModule, FormErrorsModule } from '../../../../shared/index';
 import { ProductReviewsComponent } from './product-reviews.component';
 import { CurrentProductService } from '../../current-product.service';
 
@@ -48,7 +48,12 @@ describe('ProductReviewsComponent in product', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, ItemCounterModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        ItemCounterModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       providers: [
         {
           provide: ProductReviewService,
@@ -75,7 +80,7 @@ describe('ProductReviewsComponent in product', () => {
 
   it('from get reviews by product code', () => {
     expect(productReviewsComponent.reviews$).toBeTruthy();
-    productReviewsComponent.reviews$.subscribe(result => {
+    productReviewsComponent.reviews$.subscribe((result) => {
       expect(result).toEqual(reviews);
     });
   });
@@ -83,7 +88,7 @@ describe('ProductReviewsComponent in product', () => {
   it('should contain a form object for the review submission form, after init()', () => {
     const props = ['comment', 'title', 'rating', 'reviewerName'];
 
-    props.forEach(prop => {
+    props.forEach((prop) => {
       expect(productReviewsComponent.reviewForm.controls[prop]).toBeDefined();
     });
   });

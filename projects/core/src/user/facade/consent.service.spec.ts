@@ -68,7 +68,7 @@ describe('ConsentService', () => {
       const results: (Consent | AnonymousConsent)[] = [];
       service
         .getConsent(mockTemplateId)
-        .subscribe(value => results.push(value))
+        .subscribe((value) => results.push(value))
         .unsubscribe();
       expect(userConsentService.getConsent).toHaveBeenCalledWith(
         mockTemplateId
@@ -86,7 +86,7 @@ describe('ConsentService', () => {
       let result = true;
       service
         .checkConsentGivenByTemplateId(mockTemplateId)
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toEqual(false);
     });
@@ -99,7 +99,7 @@ describe('ConsentService', () => {
         let result = false;
         service
           .checkConsentGivenByTemplateId(mockTemplateId)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
         expect(anonymousConsentsService.isConsentGiven).toHaveBeenCalledWith(
@@ -117,7 +117,7 @@ describe('ConsentService', () => {
         let result = false;
         service
           .checkConsentGivenByTemplateId(mockTemplateId)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
         expect(anonymousConsentsService.isConsentGiven).not.toHaveBeenCalled();
@@ -134,7 +134,7 @@ describe('ConsentService', () => {
       let result = false;
       service
         .checkConsentWithdrawnByTemplateId(mockTemplateId)
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toEqual(true);
     });
@@ -149,7 +149,7 @@ describe('ConsentService', () => {
         let result = false;
         service
           .checkConsentWithdrawnByTemplateId(mockTemplateId)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
         expect(
@@ -167,7 +167,7 @@ describe('ConsentService', () => {
         let result = false;
         service
           .checkConsentWithdrawnByTemplateId(mockTemplateId)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
         expect(result).toEqual(true);
         expect(

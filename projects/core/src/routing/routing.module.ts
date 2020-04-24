@@ -6,8 +6,6 @@ import {
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
-import { Config } from '../config/config.module';
-import { RoutingConfig } from './configurable-routes/config/routing-config';
 import { ConfigurableRoutesService } from './configurable-routes/configurable-routes.service';
 import { effects } from './store/effects/index';
 import {
@@ -50,7 +48,6 @@ export class RoutingModule {
           deps: [ConfigurableRoutesService],
           multi: true,
         },
-        { provide: RoutingConfig, useExisting: Config },
       ],
     };
   }

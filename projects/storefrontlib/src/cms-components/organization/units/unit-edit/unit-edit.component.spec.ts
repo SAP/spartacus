@@ -136,7 +136,7 @@ describe('OrgUnitEditComponent', () => {
       component.ngOnInit();
       let orgUnit: any;
       component.orgUnit$
-        .subscribe(value => {
+        .subscribe((value) => {
           orgUnit = value;
         })
         .unsubscribe();

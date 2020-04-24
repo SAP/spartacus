@@ -71,7 +71,7 @@ describe('OrgUnitService', () => {
       let orgUnitDetails: B2BUnitNode;
       service
         .get(orgUnitId)
-        .subscribe(data => {
+        .subscribe((data) => {
           orgUnitDetails = data;
         })
         .unsubscribe();
@@ -88,7 +88,7 @@ describe('OrgUnitService', () => {
       let orgUnitDetails: B2BUnitNode;
       service
         .get(orgUnitId)
-        .subscribe(data => {
+        .subscribe((data) => {
           orgUnitDetails = data;
         })
         .unsubscribe();
@@ -106,7 +106,7 @@ describe('OrgUnitService', () => {
       let orgUnits: B2BUnitNode[];
       service
         .getList()
-        .subscribe(data => {
+        .subscribe((data) => {
           orgUnits = data;
         })
         .unsubscribe();
@@ -125,7 +125,7 @@ describe('OrgUnitService', () => {
       let orgUnits: B2BUnitNode[];
       service
         .getList()
-        .subscribe(data => {
+        .subscribe((data) => {
           orgUnits = data;
         })
         .unsubscribe();

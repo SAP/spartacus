@@ -38,7 +38,7 @@ describe('Regions Selectors', () => {
       let result: Region[];
       store
         .pipe(select(UsersSelectors.getAllRegions))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 
@@ -55,7 +55,7 @@ describe('Regions Selectors', () => {
       let result: string;
       store
         .pipe(select(UsersSelectors.getRegionsCountry))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toBeNull();
       store.dispatch(
@@ -73,7 +73,7 @@ describe('Regions Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getRegionsLoading))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
       store.dispatch(new UserActions.LoadRegions(country));
@@ -86,7 +86,7 @@ describe('Regions Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getRegionsLoaded))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
       store.dispatch(

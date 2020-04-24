@@ -19,6 +19,7 @@ import { CostCenterFormComponent } from './cost-center-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
+import { FormErrorsComponent } from '@spartacus/storefront';
 
 const costCenterCode = 'b1';
 
@@ -99,7 +100,7 @@ describe('CostCenterFormComponent', () => {
         NgSelectModule,
         RouterTestingModule,
       ],
-      declarations: [CostCenterFormComponent, MockUrlPipe],
+      declarations: [CostCenterFormComponent, MockUrlPipe, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -126,7 +127,7 @@ describe('CostCenterFormComponent', () => {
       component.ngOnInit();
       let currencies: any;
       component.currencies$
-        .subscribe(value => {
+        .subscribe((value) => {
           currencies = value;
         })
         .unsubscribe();
@@ -138,7 +139,7 @@ describe('CostCenterFormComponent', () => {
       component.ngOnInit();
       let businessUnits: any;
       component.businessUnits$
-        .subscribe(value => {
+        .subscribe((value) => {
           businessUnits = value;
         })
         .unsubscribe();
@@ -165,19 +166,21 @@ describe('CostCenterFormComponent', () => {
 
   describe('verifyCostCenter', () => {
     it('should not emit value if form is invalid', () => {
-      spyOn(component.submit, 'emit');
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
-      expect(component.submit.emit).not.toHaveBeenCalled();
+      spyOn(component.submitForm, 'emit');
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
+      expect(component.submitForm.emit).not.toHaveBeenCalled();
     });
 
     it('should emit value if form is valid', () => {
-      spyOn(component.submit, 'emit');
+      spyOn(component.submitForm, 'emit');
       component.costCenterData = mockCostCenter;
       component.ngOnInit();
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
-      expect(component.submit.emit).toHaveBeenCalledWith(component.form.value);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
+      expect(component.submitForm.emit).toHaveBeenCalledWith(
+        component.form.value
+      );
     });
   });
 

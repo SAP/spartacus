@@ -1,75 +1,77 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap, combineReducers } from '@ngrx/store';
 import {
-  Budget,
-  B2BUnitNode,
-  ListModel,
-  Permission,
-  CostCenter,
-  B2BUnit,
-  B2BApprovalProcess,
-  UserGroup,
-  B2BUser,
   B2BAddress,
+  B2BApprovalProcess,
+  B2BUnit,
+  B2BUnitNode,
+  B2BUser,
+  Budget,
+  CostCenter,
+  ListModel,
+  OrderApprovalPermissionType,
+  Permission,
+  UserGroup,
 } from '../../../model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import {
-  OrganizationState,
+  ADDRESS_ENTITIES,
+  ADDRESS_LIST,
+  B2B_USER_APPROVERS,
+  B2B_USER_ENTITIES,
+  B2B_USER_FEATURE,
+  B2B_USER_PERMISSIONS,
+  B2B_USER_USER_GROUPS,
   BUDGET_ENTITIES,
   BUDGET_FEATURE,
   BUDGET_LIST,
+  COST_CENTER_ASSIGNED_BUDGETS,
+  COST_CENTER_ENTITIES,
+  COST_CENTER_FEATURE,
+  COST_CENTER_LIST,
+  OrganizationState,
+  ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
+  ORG_UNIT_ASSIGNED_USERS,
+  ORG_UNIT_ENTITIES,
   ORG_UNIT_FEATURE,
   ORG_UNIT_NODE_LIST,
+  ORG_UNIT_TREE_ENTITY,
   PERMISSION_ENTITIES,
   PERMISSION_FEATURE,
   PERMISSION_LIST,
-  COST_CENTER_FEATURE,
-  COST_CENTER_ENTITIES,
-  COST_CENTER_LIST,
-  COST_CENTER_ASSIGNED_BUDGETS,
+  PERMISSION_TYPES_LIST,
+  USER_GROUP_AVAILABLE_CUSTOMERS,
   USER_GROUP_ENTITIES,
   USER_GROUP_FEATURE,
   USER_GROUP_LIST,
   USER_GROUP_PERMISSIONS,
-  USER_GROUP_AVAILABLE_CUSTOMERS,
-  ORG_UNIT_ENTITIES,
-  ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
-  ORG_UNIT_TREE_ENTITY,
-  B2B_USER_FEATURE,
-  B2B_USER_ENTITIES,
   USER_LIST,
-  ORG_UNIT_ASSIGNED_USERS,
-  B2B_USER_APPROVERS,
-  B2B_USER_PERMISSIONS,
-  B2B_USER_USER_GROUPS,
-  ADDRESS_LIST,
-  ADDRESS_ENTITIES,
 } from '../organization-state';
-import { budgetsListReducer, budgetsEntitiesReducer } from './budget.reducer';
 import {
-  permissionsListReducer,
-  permissionsEntitiesReducer,
-} from './permission.reducer';
-import {
-  costCentersListReducer,
-  costCenterAssignedBudgetsListReducer,
-} from './cost-center.reducer';
-import {
-  userListReducer,
-  b2bUserEntitiesReducer,
   b2bUserApproverListReducer,
+  b2bUserEntitiesReducer,
   b2bUserPermissionListReducer,
   b2bUserUserGroupListReducer,
+  userListReducer,
 } from './b2b-user.reducer';
+import { budgetsEntitiesReducer, budgetsListReducer } from './budget.reducer';
+import {
+  costCenterAssignedBudgetsListReducer,
+  costCentersListReducer,
+} from './cost-center.reducer';
+import {
+  orgUnitAddressListReducer,
+  orgUnitUserListReducer,
+} from './org-unit.reducer';
+import {
+  permissionsEntitiesReducer,
+  permissionsListReducer,
+} from './permission.reducer';
 import {
   userGroupAvailableOrderApprovalPermissionsListReducer,
   userGroupAvailablOrgCustomersListReducer,
   userGroupsListReducer,
 } from './user-group.reducer';
-import {
-  orgUnitUserListReducer,
-  orgUnitAddressListReducer,
-} from './org-unit.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -88,6 +90,9 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       list: entityLoaderReducer<ListModel>(
         PERMISSION_LIST,
         permissionsListReducer
+      ),
+      permissionTypes: entityLoaderReducer<OrderApprovalPermissionType[]>(
+        PERMISSION_TYPES_LIST
       ),
     }),
     [ORG_UNIT_FEATURE]: combineReducers({

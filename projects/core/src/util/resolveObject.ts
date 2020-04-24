@@ -6,10 +6,10 @@ export function resolveValuesBy<O extends { [key: string]: IN }, IN, OUT>(
   resolver: (IN) => Observable<OUT>
 ): Observable<Array<{ [Key in keyof Partial<O>]: OUT }>> {
   return of(object).pipe(
-    mergeMap(obj =>
+    mergeMap((obj) =>
       forkJoin(
-        ...Object.keys(obj).map(key =>
-          resolver(obj[key]).pipe(map(response => ({ [key]: response })))
+        ...Object.keys(obj).map((key) =>
+          resolver(obj[key]).pipe(map((response) => ({ [key]: response })))
         )
       )
     )
@@ -30,8 +30,8 @@ export function resolveKeyAndValueBy<O extends { [key: string]: IN }, IN, OUT>(
   resolver: (IN) => Observable<OUT>
 ): Observable<Array<{ key: keyof O; value: OUT }>> {
   return resolveValuesBy(object, resolver).pipe(
-    map(arr =>
-      arr.map(item => {
+    map((arr) =>
+      arr.map((item) => {
         const key = Object.keys(item)[0];
         return { key, value: item[key] };
       })

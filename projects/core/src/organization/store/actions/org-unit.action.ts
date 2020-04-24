@@ -110,7 +110,7 @@ export class LoadOrgUnitSuccess extends EntitySuccessAction {
   constructor(public payload: B2BUnit[]) {
     super(
       ORG_UNIT_ENTITIES,
-      payload.map(orgUnit => orgUnit.uid)
+      payload.map((orgUnit) => orgUnit.uid)
     );
   }
 }
@@ -446,7 +446,7 @@ export class LoadAddressSuccess extends EntitySuccessAction {
   constructor(public payload: B2BAddress[]) {
     super(
       ADDRESS_ENTITIES,
-      payload.map(address => address.id)
+      payload.map((address) => address.id)
     );
   }
 }

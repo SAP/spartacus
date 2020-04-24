@@ -58,7 +58,7 @@ describe('Permission Selectors', () => {
       let result: PermissionManagement;
       store
         .pipe(select(PermissionSelectors.getPermissionManagementState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new PermissionActions.LoadPermissionSuccess([permission, permission2])
@@ -66,6 +66,7 @@ describe('Permission Selectors', () => {
       expect(result).toEqual({
         entities: { entities },
         list: { entities: {} },
+        permissionTypes: { entities: {} },
       });
     });
   });
@@ -75,7 +76,7 @@ describe('Permission Selectors', () => {
       let result: EntityLoaderState<Permission>;
       store
         .pipe(select(PermissionSelectors.getPermissionsState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new PermissionActions.LoadPermissionSuccess([permission, permission2])
@@ -88,8 +89,8 @@ describe('Permission Selectors', () => {
     it('should return permission by id', () => {
       let result: LoaderState<Permission>;
       store
-        .pipe(select(PermissionSelectors.getPermissionState(code)))
-        .subscribe(value => (result = value));
+        .pipe(select(PermissionSelectors.getPermission(code)))
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new PermissionActions.LoadPermissionSuccess([permission, permission2])

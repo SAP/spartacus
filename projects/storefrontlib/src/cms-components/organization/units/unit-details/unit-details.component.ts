@@ -13,7 +13,7 @@ export class UnitDetailsComponent implements OnInit {
   orgUnit$: Observable<B2BUnit>;
   orgUnitCode$: Observable<string> = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['code']));
+    .pipe(map((routingData) => routingData.state.params['code']));
 
   constructor(
     protected routingService: RoutingService,
@@ -22,8 +22,8 @@ export class UnitDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.orgUnit$ = this.orgUnitCode$.pipe(
-      tap(code => this.orgUnitsService.loadOrgUnit(code)),
-      switchMap(code => this.orgUnitsService.get(code)),
+      tap((code) => this.orgUnitsService.loadOrgUnit(code)),
+      switchMap((code) => this.orgUnitsService.get(code)),
       filter(Boolean)
     );
   }
@@ -31,7 +31,7 @@ export class UnitDetailsComponent implements OnInit {
   update(orgUnit: B2BUnit) {
     this.orgUnitCode$
       .pipe(take(1))
-      .subscribe(orgUnitCode =>
+      .subscribe((orgUnitCode) =>
         this.orgUnitsService.update(orgUnitCode, orgUnit)
       );
   }

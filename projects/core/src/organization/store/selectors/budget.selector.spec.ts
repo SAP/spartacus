@@ -60,7 +60,7 @@ describe('Budget Selectors', () => {
       let result: BudgetManagement;
       store
         .pipe(select(BudgetSelectors.getBudgetManagementState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
       expect(result).toEqual({
@@ -75,7 +75,7 @@ describe('Budget Selectors', () => {
       let result: EntityLoaderState<Budget>;
       store
         .pipe(select(BudgetSelectors.getBudgetsState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
       expect(result).toEqual({ entities });
@@ -86,8 +86,8 @@ describe('Budget Selectors', () => {
     it('should return budget by id', () => {
       let result: LoaderState<Budget>;
       store
-        .pipe(select(BudgetSelectors.getBudgetState(code)))
-        .subscribe(value => (result = value));
+        .pipe(select(BudgetSelectors.getBudget(code)))
+        .subscribe((value) => (result = value));
 
       store.dispatch(new BudgetActions.LoadBudgetSuccess([budget, budget2]));
       expect(result).toEqual(entities.testCode);

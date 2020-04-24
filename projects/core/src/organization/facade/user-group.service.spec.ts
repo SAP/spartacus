@@ -116,7 +116,7 @@ describe('UserGroupService', () => {
       let userGroupDetails: UserGroup;
       service
         .get(testUserGroupId)
-        .subscribe(data => {
+        .subscribe((data) => {
           userGroupDetails = data;
         })
         .unsubscribe();
@@ -138,7 +138,7 @@ describe('UserGroupService', () => {
       let userGroupDetails: UserGroup;
       service
         .get(testUserGroupId)
-        .subscribe(data => {
+        .subscribe((data) => {
           userGroupDetails = data;
         })
         .unsubscribe();
@@ -161,7 +161,7 @@ describe('UserGroupService', () => {
       let userGroups: EntitiesModel<UserGroup>;
       service
         .getList(params)
-        .subscribe(data => {
+        .subscribe((data) => {
           userGroups = data;
         })
         .unsubscribe();
@@ -190,7 +190,7 @@ describe('UserGroupService', () => {
       let userGroups: EntitiesModel<UserGroup>;
       service
         .getList(params)
-        .subscribe(data => {
+        .subscribe((data) => {
           userGroups = data;
         })
         .unsubscribe();
@@ -253,7 +253,7 @@ describe('UserGroupService', () => {
       let permissions: EntitiesModel<Permission>;
       service
         .getAvailableOrderApprovalPermissions(testUserGroupId, params)
-        .subscribe(data => {
+        .subscribe((data) => {
           permissions = data;
         })
         .unsubscribe();
@@ -287,7 +287,7 @@ describe('UserGroupService', () => {
       let permissions: EntitiesModel<Permission>;
       service
         .getAvailableOrderApprovalPermissions(testUserGroupId, params)
-        .subscribe(data => {
+        .subscribe((data) => {
           permissions = data;
         })
         .unsubscribe();
@@ -337,7 +337,7 @@ describe('UserGroupService', () => {
       let members: EntitiesModel<B2BUser>;
       service
         .getAvailableOrgCustomers(testUserGroupId, params)
-        .subscribe(data => {
+        .subscribe((data) => {
           members = data;
         })
         .unsubscribe();
@@ -369,7 +369,7 @@ describe('UserGroupService', () => {
       let members: EntitiesModel<B2BUser>;
       service
         .getAvailableOrgCustomers(testUserGroupId, params)
-        .subscribe(data => {
+        .subscribe((data) => {
           members = data;
         })
         .unsubscribe();

@@ -19,6 +19,7 @@ import { UnitFormComponent } from './unit-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
+import { FormErrorsComponent } from '@spartacus/storefront';
 
 const mockApprovalProcesses: B2BApprovalProcess[] = [
   { code: 'testCode', name: 'testName' },
@@ -101,7 +102,7 @@ describe('OrgUnitFormComponent', () => {
         NgSelectModule,
         RouterTestingModule,
       ],
-      declarations: [UnitFormComponent, MockUrlPipe],
+      declarations: [UnitFormComponent, MockUrlPipe, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -126,7 +127,7 @@ describe('OrgUnitFormComponent', () => {
       component.ngOnInit();
       let approvalProcesses: any;
       component.approvalProcesses$
-        .subscribe(value => {
+        .subscribe((value) => {
           approvalProcesses = value;
         })
         .unsubscribe();
@@ -139,7 +140,7 @@ describe('OrgUnitFormComponent', () => {
       component.ngOnInit();
       let businessUnits: any;
       component.businessUnits$
-        .subscribe(value => {
+        .subscribe((value) => {
           businessUnits = value;
         })
         .unsubscribe();
@@ -166,19 +167,21 @@ describe('OrgUnitFormComponent', () => {
 
   describe('verifyOrgUnit', () => {
     it('should not emit value if form is invalid', () => {
-      spyOn(component.submit, 'emit');
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
-      expect(component.submit.emit).not.toHaveBeenCalled();
+      spyOn(component.submitForm, 'emit');
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
+      expect(component.submitForm.emit).not.toHaveBeenCalled();
     });
 
     it('should emit value if form is valid', () => {
-      spyOn(component.submit, 'emit');
+      spyOn(component.submitForm, 'emit');
       component.orgUnitData = mockOrgUnit;
       component.ngOnInit();
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
-      expect(component.submit.emit).toHaveBeenCalledWith(component.form.value);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
+      expect(component.submitForm.emit).toHaveBeenCalledWith(
+        component.form.value
+      );
     });
   });
 

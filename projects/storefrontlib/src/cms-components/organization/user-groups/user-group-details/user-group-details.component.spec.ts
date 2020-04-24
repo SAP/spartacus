@@ -106,7 +106,7 @@ describe('UserGroupDetailsComponent', () => {
       component.ngOnInit();
       let budget: any;
       component.userGroup$
-        .subscribe(value => {
+        .subscribe((value) => {
           budget = value;
         })
         .unsubscribe();

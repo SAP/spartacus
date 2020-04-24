@@ -20,7 +20,7 @@ export class OccOrgUnitAddressListNormalizer
     if (target === undefined) {
       target = {
         ...(source as any),
-        values: source.addresses.map(address => ({
+        values: source.addresses.map((address) => ({
           ...this.converter.convert(address, B2B_ADDRESS_NORMALIZER),
         })),
       };

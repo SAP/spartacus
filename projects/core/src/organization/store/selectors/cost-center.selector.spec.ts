@@ -60,7 +60,7 @@ describe('CostCenter Selectors', () => {
       let result: CostCenterManagement;
       store
         .pipe(select(CostCenterSelectors.getCostCenterManagementState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2])
@@ -78,7 +78,7 @@ describe('CostCenter Selectors', () => {
       let result: EntityLoaderState<CostCenter>;
       store
         .pipe(select(CostCenterSelectors.getCostCentersState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2])
@@ -91,8 +91,8 @@ describe('CostCenter Selectors', () => {
     it('should return costCenter by id', () => {
       let result: LoaderState<CostCenter>;
       store
-        .pipe(select(CostCenterSelectors.getCostCenterState(code)))
-        .subscribe(value => (result = value));
+        .pipe(select(CostCenterSelectors.getCostCenter(code)))
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2])

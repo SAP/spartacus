@@ -90,7 +90,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
 
   private urlIncludeContextParameters(url: string, params: ParamValuesMap) {
     const contextRoutePart = this.urlEncodingParameters
-      .map(param => {
+      .map((param) => {
         return params[param]
           ? params[param]
           : this.siteContextParams.getValue(param);

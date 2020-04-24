@@ -11,28 +11,76 @@
   }
 }
 
-.invalid-feedback {
-  text-align: left;
-  &::before {
-    content: '!';
-    color: var(--cx-color-inverse);
-    text-align: center;
-    border-radius: 50%;
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-color: var(--cx-color-danger);
-    margin-right: 6px;
-    font-weight: var(--cx-font-weight-bold);
+cx-form-errors {
+  display: none;
+
+  &.control-invalid {
+    &.control-dirty,
+    &.control-touched {
+      display: initial;
+    }
   }
-  &:focus {
-    box-shadow: none;
-    -webkit-box-shadow: none;
+
+  p {
+    font-size: 14px;
+    margin: 6px 0;
+    padding: 0 0 0 25px;
+    position: relative;
+    word-break: break-word;
+
+    &::before,
+    &::after {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      width: 20px;
+      height: 20px;
+    }
+
+    &::before {
+      content: '';
+      background-color: var(--cx-color-danger);
+      border-radius: 50%;
+    }
+
+    &::after {
+      content: '!';
+      color: var(--cx-color-inverse);
+      font-weight: var(--cx-font-weight-bold);
+      text-align: center;
+      line-height: 20px;
+    }
+
+    &:focus {
+      box-shadow: none;
+      -webkit-box-shadow: none;
+    }
   }
 }
 
-.is-invalid {
-  color: var(--cx-color-danger);
+input,
+input[type='checkbox'],
+input[type='radio'],
+textarea {
+  &.ng-invalid {
+    &.ng-dirty,
+    &.ng-touched {
+      border-color: var(--cx-color-danger);
+    }
+  }
+}
+
+ng-select {
+  &.ng-invalid {
+    &.ng-dirty,
+    &.ng-touched {
+      .ng-select-container {
+        border-color: var(--cx-color-danger);
+      }
+    }
+  }
 }
 
 input[type='checkbox'],
@@ -52,7 +100,7 @@ input[type='radio'] {
   border-width: 1px;
   position: absolute;
   margin-top: 0.3rem;
-  margin-left: -1.25rem;
+  margin-left: -2.25rem;
 }
 
 label {
@@ -68,6 +116,7 @@ label {
 
 .form-check {
   margin-bottom: 18px;
+  padding-left: 2.25rem;
 
   label {
     font-weight: var(--cx-font-weight-normal);
@@ -75,7 +124,6 @@ label {
 
   .form-check-label {
     display: inline-block;
-    padding-left: 0.75rem;
     position: relative;
     top: 4px;
   }

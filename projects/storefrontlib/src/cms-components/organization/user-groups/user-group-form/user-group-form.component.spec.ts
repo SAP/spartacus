@@ -17,6 +17,7 @@ import { UserGroupFormComponent } from './user-group-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
+import { FormErrorsComponent } from '@spartacus/storefront';
 
 const uid = 'b1';
 
@@ -75,7 +76,7 @@ describe('UserGroupFormComponent', () => {
         NgSelectModule,
         RouterTestingModule,
       ],
-      declarations: [UserGroupFormComponent, MockUrlPipe],
+      declarations: [UserGroupFormComponent, MockUrlPipe, FormErrorsComponent],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: UserGroupService, useClass: MockUserGroupService },
@@ -100,7 +101,7 @@ describe('UserGroupFormComponent', () => {
       component.ngOnInit();
       let businessUnits: any;
       component.businessUnits$
-        .subscribe(value => {
+        .subscribe((value) => {
           businessUnits = value;
         })
         .unsubscribe();
@@ -127,19 +128,21 @@ describe('UserGroupFormComponent', () => {
 
   describe('verifyUserGroup', () => {
     it('should not emit value if form is invalid', () => {
-      spyOn(component.submit, 'emit');
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
-      expect(component.submit.emit).not.toHaveBeenCalled();
+      spyOn(component.submitForm, 'emit');
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
+      expect(component.submitForm.emit).not.toHaveBeenCalled();
     });
 
     it('should emit value if form is valid', () => {
-      spyOn(component.submit, 'emit');
+      spyOn(component.submitForm, 'emit');
       component.userGroupData = mockUserGroup;
       component.ngOnInit();
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
-      expect(component.submit.emit).toHaveBeenCalledWith(component.form.value);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
+      expect(component.submitForm.emit).toHaveBeenCalledWith(
+        component.form.value
+      );
     });
   });
 

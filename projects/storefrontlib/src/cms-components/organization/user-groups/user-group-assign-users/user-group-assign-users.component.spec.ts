@@ -204,7 +204,7 @@ describe('UserGroupAssignUsersComponent', () => {
       component.ngOnInit();
 
       let usersList: any;
-      component.data$.subscribe(value => {
+      component.data$.subscribe((value) => {
         usersList = value;
       });
 

@@ -161,7 +161,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getSlots()
-          .subscribe(slots => (results = slots))
+          .subscribe((slots) => (results = slots))
           .unsubscribe();
         expect(results).toEqual(DEFAULT_SLOT_CONFIG);
       });
@@ -170,7 +170,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getSlots('footer')
-          .subscribe(slots => (results = slots))
+          .subscribe((slots) => (results = slots))
           .unsubscribe();
         expect(results).toEqual(DEFAULT_FOOTER_SLOT_CONFIG);
       });
@@ -194,7 +194,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getSlots()
-          .subscribe(slots => (results = slots))
+          .subscribe((slots) => (results = slots))
           .unsubscribe();
 
         expect(results).toEqual(SLOT_CONFIG_FOR_MD);
@@ -204,7 +204,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getSlots('footer')
-          .subscribe(slots => (results = slots))
+          .subscribe((slots) => (results = slots))
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_MD);
       });
@@ -221,7 +221,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getSlots()
-          .subscribe(slots => (results = slots))
+          .subscribe((slots) => (results = slots))
           .unsubscribe();
 
         expect(results).toEqual(SLOT_CONFIG_FOR_MD);
@@ -231,7 +231,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getSlots('footer')
-          .subscribe(slots => (results = slots))
+          .subscribe((slots) => (results = slots))
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_MD);
       });
@@ -253,7 +253,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getSlots('footer')
-          .subscribe(slots => (results = slots))
+          .subscribe((slots) => (results = slots))
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_PAGE2);
       });
@@ -270,7 +270,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getSlots('footer')
-          .subscribe(slots => (results = slots))
+          .subscribe((slots) => (results = slots))
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_PAGE2);
       });
@@ -286,7 +286,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getSlots('footer')
-          .subscribe(slots => (results = slots))
+          .subscribe((slots) => (results = slots))
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_PAGE2);
       });
@@ -305,7 +305,7 @@ describe('PageLayoutService', () => {
       let results;
       pageLayoutService
         .getSlots()
-        .subscribe(slots => (results = slots))
+        .subscribe((slots) => (results = slots))
         .unsubscribe();
       expect(results).toEqual(['slot1']);
     });
@@ -313,7 +313,7 @@ describe('PageLayoutService', () => {
 
   describe('page fold', () => {
     describe('single page fold for all breakpoints', () => {
-      Object.keys(BREAKPOINT).forEach(breakpoint => {
+      Object.keys(BREAKPOINT).forEach((breakpoint) => {
         it('should return page-fold for large ' + breakpoint, () => {
           spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
             of(breakpoint)
@@ -321,7 +321,7 @@ describe('PageLayoutService', () => {
           let results;
           pageLayoutService
             .getPageFoldSlot('template_with_global_page_fold')
-            .subscribe(pf => (results = pf))
+            .subscribe((pf) => (results = pf))
             .unsubscribe();
           expect(results).toEqual('slot1');
         });
@@ -337,7 +337,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getPageFoldSlot(pageTemplate)
-          .subscribe(pf => (results = pf))
+          .subscribe((pf) => (results = pf))
           .unsubscribe();
         expect(results).toEqual('slot-xs');
       });
@@ -348,7 +348,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getPageFoldSlot(pageTemplate)
-          .subscribe(pf => (results = pf))
+          .subscribe((pf) => (results = pf))
           .unsubscribe();
         expect(results).toEqual('slot-xs');
       });
@@ -359,7 +359,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getPageFoldSlot(pageTemplate)
-          .subscribe(pf => (results = pf))
+          .subscribe((pf) => (results = pf))
           .unsubscribe();
         expect(results).toEqual('slot-md');
       });
@@ -370,7 +370,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getPageFoldSlot(pageTemplate)
-          .subscribe(pf => (results = pf))
+          .subscribe((pf) => (results = pf))
           .unsubscribe();
         expect(results).toEqual('slot-md');
       });
@@ -381,7 +381,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getPageFoldSlot(pageTemplate)
-          .subscribe(pf => (results = pf))
+          .subscribe((pf) => (results = pf))
           .unsubscribe();
         expect(results).toEqual('slot-md');
       });
@@ -397,7 +397,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getPageFoldSlot('template_without_page_fold')
-          .subscribe(pf => (results = pf))
+          .subscribe((pf) => (results = pf))
           .unsubscribe();
         expect(results).toBeFalsy();
       });
@@ -406,7 +406,7 @@ describe('PageLayoutService', () => {
         let results;
         pageLayoutService
           .getPageFoldSlot('unknown_template')
-          .subscribe(pf => (results = pf))
+          .subscribe((pf) => (results = pf))
           .unsubscribe();
         expect(results).toBeFalsy();
       });
@@ -445,7 +445,7 @@ describe('PageLayoutService', () => {
       let results;
       pageLayoutService
         .getPageFoldSlot('template')
-        .subscribe(pf => (results = pf))
+        .subscribe((pf) => (results = pf))
         .unsubscribe();
       expect(results).toBeFalsy();
     });

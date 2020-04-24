@@ -23,7 +23,7 @@ export class ComponentGenerator extends ClientGenerator {
             (error, service, resource, response) => {
               if (!error) {
                 const pageData = JSON.parse(response.bodyAsText);
-                this.getChildComponents(pageData).forEach(uid => {
+                this.getChildComponents(pageData).forEach((uid) => {
                   if (!componentList.includes(uid)) {
                     componentList.push(uid);
                   }
@@ -113,7 +113,7 @@ export class ComponentGenerator extends ClientGenerator {
             (error, service, resource, response) => {
               if (!error) {
                 const pageData = JSON.parse(response.bodyAsText);
-                this.getChildComponents(pageData).forEach(uid => {
+                this.getChildComponents(pageData).forEach((uid) => {
                   if (!componentList.includes(uid)) {
                     componentList.push(uid);
                   }
@@ -133,18 +133,18 @@ export class ComponentGenerator extends ClientGenerator {
   private getChildComponents(pageData) {
     const components = [];
     if (pageData.contentSlots && pageData.contentSlots.contentSlot.length > 0) {
-      pageData.contentSlots.contentSlot.forEach(slot => {
+      pageData.contentSlots.contentSlot.forEach((slot) => {
         if (
           slot.components &&
           slot.components.component &&
           slot.components.component.length > 0
         )
-          slot.components.component.forEach(component => {
+          slot.components.component.forEach((component) => {
             if (component && component.navigationNode) {
               if (component.navigationNode.children) {
-                component.navigationNode.children.forEach(child => {
+                component.navigationNode.children.forEach((child) => {
                   if (child.entries && child.entries.length > 0) {
-                    child.entries.forEach(entry =>
+                    child.entries.forEach((entry) =>
                       components.push(entry.itemId)
                     );
                   }

@@ -4,6 +4,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
+import { resolveApplicable } from '../../util/applicable';
 
 @Injectable({
   providedIn: 'root',
@@ -56,17 +57,17 @@ export class PageMetaService {
    */
   protected resolve(metaResolver: PageMetaResolver): Observable<PageMeta> {
     const resolveMethods: any[] = Object.keys(this.resolverMethods)
-      .filter(key => metaResolver[this.resolverMethods[key]])
-      .map(key =>
+      .filter((key) => metaResolver[this.resolverMethods[key]])
+      .map((key) =>
         metaResolver[this.resolverMethods[key]]().pipe(
-          map(data => ({
+          map((data) => ({
             [key]: data,
           }))
         )
       );
 
     return combineLatest(resolveMethods).pipe(
-      map(data => Object.assign({}, ...data))
+      map((data) => Object.assign({}, ...data))
     );
   }
 
@@ -77,12 +78,6 @@ export class PageMetaService {
    * Resolvers match by default on `PageType` and `page.template`.
    */
   protected getMetaResolver(page: Page): PageMetaResolver {
-    const matchingResolvers = this.resolvers.filter(
-      resolver => resolver.getScore(page) > 0
-    );
-    matchingResolvers.sort(function(a, b) {
-      return b.getScore(page) - a.getScore(page);
-    });
-    return matchingResolvers[0];
+    return resolveApplicable(this.resolvers, [page], [page]);
   }
 }

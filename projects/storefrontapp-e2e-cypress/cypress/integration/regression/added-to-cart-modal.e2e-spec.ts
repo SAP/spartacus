@@ -2,7 +2,7 @@ import * as addedToCartModal from '../../helpers/added-to-cart-modal';
 
 describe('Added to cart modal', () => {
   before(() => {
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
     });
     cy.visit(`/product/${addedToCartModal.productId}`);

@@ -20,6 +20,7 @@ import { PermissionFormComponent } from './permission-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
+import { FormErrorsComponent } from '@spartacus/storefront';
 
 const permissionCode = 'b1';
 
@@ -105,7 +106,7 @@ describe('PermissionFormComponent', () => {
         NgSelectModule,
         RouterTestingModule,
       ],
-      declarations: [PermissionFormComponent, MockUrlPipe],
+      declarations: [PermissionFormComponent, MockUrlPipe, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -132,7 +133,7 @@ describe('PermissionFormComponent', () => {
       component.ngOnInit();
       let currencies: any;
       component.currencies$
-        .subscribe(value => {
+        .subscribe((value) => {
           currencies = value;
         })
         .unsubscribe();
@@ -144,7 +145,7 @@ describe('PermissionFormComponent', () => {
       component.ngOnInit();
       let businessUnits: any;
       component.businessUnits$
-        .subscribe(value => {
+        .subscribe((value) => {
           businessUnits = value;
         })
         .unsubscribe();
@@ -171,19 +172,21 @@ describe('PermissionFormComponent', () => {
 
   describe('verifyPermission', () => {
     it('should not emit value if form is invalid', () => {
-      spyOn(component.submit, 'emit');
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
-      expect(component.submit.emit).not.toHaveBeenCalled();
+      spyOn(component.submitForm, 'emit');
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
+      expect(component.submitForm.emit).not.toHaveBeenCalled();
     });
 
     it('should emit value if form is valid', () => {
-      spyOn(component.submit, 'emit');
+      spyOn(component.submitForm, 'emit');
       component.permissionData = mockPermission;
       component.ngOnInit();
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
-      expect(component.submit.emit).toHaveBeenCalledWith(component.form.value);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
+      expect(component.submitForm.emit).toHaveBeenCalledWith(
+        component.form.value
+      );
     });
   });
 

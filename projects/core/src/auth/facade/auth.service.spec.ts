@@ -48,7 +48,7 @@ describe('AuthService', () => {
     let result: UserToken;
     service
       .getUserToken()
-      .subscribe(token => (result = token))
+      .subscribe((token) => (result = token))
       .unsubscribe();
     expect(result).toEqual(mockToken);
   });
@@ -57,7 +57,7 @@ describe('AuthService', () => {
     store.dispatch(new AuthActions.LoadUserTokenSuccess(mockToken));
 
     let result: UserToken;
-    const subscription = service.getUserToken().subscribe(token => {
+    const subscription = service.getUserToken().subscribe((token) => {
       result = token;
     });
     subscription.unsubscribe();
@@ -69,7 +69,7 @@ describe('AuthService', () => {
     store.dispatch(new AuthActions.LoadClientTokenSuccess(mockClientToken));
 
     let result: ClientToken;
-    const subscription = service.getClientToken().subscribe(token => {
+    const subscription = service.getClientToken().subscribe((token) => {
       result = token;
     });
     subscription.unsubscribe();
@@ -80,7 +80,7 @@ describe('AuthService', () => {
   it('should call loadClientToken() when no token is present', () => {
     spyOn(store, 'dispatch').and.stub();
 
-    const subscription = service.getClientToken().subscribe(_token => {});
+    const subscription = service.getClientToken().subscribe((_token) => {});
     subscription.unsubscribe();
 
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -107,7 +107,7 @@ describe('AuthService', () => {
 
     service
       .getClientToken()
-      .subscribe(token => (result = token))
+      .subscribe((token) => (result = token))
       .unsubscribe();
     expect(result).toEqual(mockClientToken);
   });
@@ -171,7 +171,7 @@ describe('AuthService', () => {
     let result: string;
     service
       .getOccUserId()
-      .subscribe(token => (result = token))
+      .subscribe((token) => (result = token))
       .unsubscribe();
     expect(result).toEqual(OCC_USER_ID_ANONYMOUS);
   });
@@ -182,7 +182,7 @@ describe('AuthService', () => {
     let result: string;
     service
       .getOccUserId()
-      .subscribe(token => (result = token))
+      .subscribe((token) => (result = token))
       .unsubscribe();
     expect(result).toEqual(mockToken.userId);
   });
@@ -193,7 +193,7 @@ describe('AuthService', () => {
       let result = true;
       service
         .isUserLoggedIn()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toEqual(false);
     });
@@ -202,7 +202,7 @@ describe('AuthService', () => {
       let result = true;
       service
         .isUserLoggedIn()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toEqual(false);
     });
@@ -213,7 +213,7 @@ describe('AuthService', () => {
       let result = false;
       service
         .isUserLoggedIn()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toEqual(true);
     });

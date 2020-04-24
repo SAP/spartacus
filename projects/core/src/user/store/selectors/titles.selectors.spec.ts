@@ -37,7 +37,7 @@ describe('Titles Selectors', () => {
       let result: Title[];
       store
         .pipe(select(UsersSelectors.getAllTitles))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 
@@ -65,7 +65,7 @@ describe('Titles Selectors', () => {
 
       store
         .pipe(select(UsersSelectors.titleSelectorFactory(code)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new UserActions.LoadTitlesSuccess(mockTitles));
       expect(result).toEqual(mockTitles[0]);

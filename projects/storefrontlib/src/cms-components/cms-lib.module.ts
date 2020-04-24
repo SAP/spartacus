@@ -17,6 +17,7 @@ import {
   CloseAccountModule,
   ConsentManagementModule,
   ForgotPasswordModule,
+  MyCouponsModule,
   MyInterestsModule,
   NotificationPreferenceModule,
   OrderCancellationModule,
@@ -30,7 +31,6 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
-  MyCouponsModule,
 } from './myaccount/index';
 import {
   BreadcrumbModule,
@@ -42,6 +42,7 @@ import {
 import { OrderConfirmationModule } from './order-confirmation/index';
 import {
   ProductCarouselModule,
+  ProductFacetNavigationModule,
   ProductIntroModule,
   ProductListModule,
   ProductReferencesModule,
@@ -73,6 +74,10 @@ import {
   UnitDetailsModule,
   UnitEditModule,
   UnitAssignRolesModule,
+  UnitManageAddressesModule,
+  UnitAddressEditModule,
+  UnitAddressCreateModule,
+  UnitAddressDetailsModule,
   UserGroupListModule,
   UserGroupCreateModule,
   UserGroupDetailsModule,
@@ -103,6 +108,7 @@ import {
     ReturnRequestListModule,
     ReturnRequestDetailModule,
     ProductListModule,
+    ProductFacetNavigationModule,
     ProductTabsModule,
     ProductCarouselModule,
     ProductReferencesModule,
@@ -149,6 +155,10 @@ import {
     UnitDetailsModule,
     UnitEditModule,
     UnitAssignRolesModule,
+    UnitManageAddressesModule,
+    UnitAddressEditModule,
+    UnitAddressCreateModule,
+    UnitAddressDetailsModule,
     UserGroupListModule,
     UserGroupCreateModule,
     UserGroupDetailsModule,

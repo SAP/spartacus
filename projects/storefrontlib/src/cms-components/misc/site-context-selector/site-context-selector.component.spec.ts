@@ -140,20 +140,20 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
         label: mockLanguages[1].name,
       },
     ];
-    component.items$.subscribe(value => {
+    component.items$.subscribe((value) => {
       expect(value).toEqual(expected);
     });
   });
 
   it('should get activeItem$', () => {
-    component.activeItem$.subscribe(value => {
+    component.activeItem$.subscribe((value) => {
       expect(value).toEqual(mockActiveLang);
     });
   });
 
   it('should change language', () => {
     component.active = 'ja';
-    serviceSpy.getActive().subscribe(value => expect(value).toEqual('ja'));
+    serviceSpy.getActive().subscribe((value) => expect(value).toEqual('ja'));
   });
 
   it('should contain a select with number of options', () => {

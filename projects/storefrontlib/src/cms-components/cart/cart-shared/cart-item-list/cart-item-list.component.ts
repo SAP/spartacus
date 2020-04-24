@@ -3,7 +3,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
   ConsignmentEntry,
-  FeatureConfigService,
   PromotionLocation,
   SelectiveCartService,
 } from '@spartacus/core';
@@ -58,26 +57,16 @@ export class CartItemListComponent {
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected selectiveCartService: SelectiveCartService,
-    protected featureConfig: FeatureConfigService
+    protected selectiveCartService: SelectiveCartService
   ) {}
-
-  //TODO remove feature flag for #5958
-  isSaveForLaterEnabled(): boolean {
-    if (this.featureConfig) {
-      return this.featureConfig.isEnabled('saveForLater');
-    }
-    return false;
-  }
-  //TODO remove feature flag for #5958
 
   /**
    * The items we're getting form the input do not have a consistent model.
    * In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
    */
   private resolveItems(items: Item[]): void {
-    if (items.every(item => item.hasOwnProperty('orderEntry'))) {
-      this._items = items.map(consignmentEntry => {
+    if (items.every((item) => item.hasOwnProperty('orderEntry'))) {
+      this._items = items.map((consignmentEntry) => {
         const entry = Object.assign(
           {},
           (consignmentEntry as ConsignmentEntry).orderEntry
@@ -92,7 +81,7 @@ export class CartItemListComponent {
 
   private createForm(): void {
     this.form = new FormGroup({});
-    this._items.forEach(item => {
+    this._items.forEach((item) => {
       const { code } = item.product;
       const group = new FormGroup({
         entryNumber: new FormControl((<any>item).entryNumber),
@@ -118,7 +107,7 @@ export class CartItemListComponent {
     return this.form.get(item.product.code).valueChanges.pipe(
       // tslint:disable-next-line:deprecation
       startWith(null),
-      map(value => {
+      map((value) => {
         if (value && this.selectiveCartService && this.options.isSaveForLater) {
           this.selectiveCartService.updateEntry(
             value.entryNumber,

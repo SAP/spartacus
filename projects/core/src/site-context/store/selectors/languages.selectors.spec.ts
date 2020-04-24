@@ -42,7 +42,7 @@ describe('Languages Selectors', () => {
 
       store
         .pipe(select(SiteContextSelectors.getLanguagesEntities))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(null);
 
@@ -58,7 +58,7 @@ describe('Languages Selectors', () => {
 
       store
         .pipe(select(SiteContextSelectors.getActiveLanguage))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(null);
 
@@ -74,7 +74,7 @@ describe('Languages Selectors', () => {
 
       store
         .pipe(select(SiteContextSelectors.getAllLanguages))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(null);
 

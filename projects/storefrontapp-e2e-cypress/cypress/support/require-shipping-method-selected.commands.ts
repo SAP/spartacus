@@ -17,12 +17,17 @@ declare global {
     }
   }
 }
-Cypress.Commands.add('requireShippingMethodSelected', auth => {
-  const apiUrl = Cypress.env('API_URL');
+Cypress.Commands.add('requireShippingMethodSelected', (auth) => {
   function setShippingMethod() {
     return cy.request({
       method: 'PUT',
-      url: `${apiUrl}/rest/v2/electronics-spa/users/current/carts/current/deliverymode?deliveryModeId=${delivery.mode}`,
+      url: `${Cypress.env('API_URL')}/${Cypress.env(
+        'OCC_PREFIX'
+      )}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/carts/current/deliverymode?deliveryModeId=${
+        delivery.mode
+      }`,
       form: false,
       headers: {
         Authorization: `bearer ${auth.userToken.token.access_token}`,
@@ -31,5 +36,5 @@ Cypress.Commands.add('requireShippingMethodSelected', auth => {
   }
 
   cy.server();
-  setShippingMethod().then(resp => cy.wrap(resp));
+  setShippingMethod().then((resp) => cy.wrap(resp));
 });

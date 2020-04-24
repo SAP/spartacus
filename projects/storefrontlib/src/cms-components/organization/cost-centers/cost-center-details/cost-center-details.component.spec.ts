@@ -120,7 +120,7 @@ describe('CostCenterDetailsComponent', () => {
       component.ngOnInit();
       let costCenter: any;
       component.costCenter$
-        .subscribe(value => {
+        .subscribe((value) => {
           costCenter = value;
         })
         .unsubscribe();

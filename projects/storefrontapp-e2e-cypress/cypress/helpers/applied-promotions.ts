@@ -1,4 +1,4 @@
-import { apiUrl } from '../support/utils/login';
+import { waitForOrderWithConsignmentToBePlacedRequest } from '../support/utils/order-placed';
 import {
   addPaymentMethod,
   addShippingAddress,
@@ -26,12 +26,12 @@ export function addProductToCart() {
     .getByText(/Add To Cart/i)
     .click();
   cy.server();
-  cy.route(`${apiUrl}/rest/v2/electronics-spa/users/current/carts/*`).as(
-    'cart'
-  );
-  cy.wait(`@cart`)
-    .its('status')
-    .should('eq', 200);
+  cy.route(
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}users/current/carts/*`
+  ).as('cart');
+  cy.wait(`@cart`).its('status').should('eq', 200);
 }
 
 export function goToCartDetailsViewFromCartDialog() {
@@ -72,8 +72,9 @@ export function selectPaymentMethod() {
 }
 
 export function goToOrderHistoryDetailsFromSummary() {
-  cy.get('.cx-page-title').then(el => {
+  cy.get('.cx-page-title').then((el) => {
     const orderNumber = el.text().match(/\d+/)[0];
+    waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
     cy.visit(`/my-account/order/${orderNumber}`);
   });
 }
@@ -123,9 +124,7 @@ export function checkForAppliedCartPromotions(shouldContainPromotion) {
 }
 
 export function decreaseQuantityOfCartEntry() {
-  cy.get('cx-item-counter button')
-    .first()
-    .click();
+  cy.get('cx-item-counter button').first().click();
 }
 
 export function removeCartEntry() {

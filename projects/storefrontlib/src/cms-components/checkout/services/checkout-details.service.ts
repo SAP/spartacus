@@ -32,7 +32,7 @@ export class CheckoutDetailsService {
     protected activeCartService: ActiveCartService
   ) {
     this.cartId$ = this.activeCartService.getActive().pipe(
-      map(cartData => {
+      map((cartData) => {
         if (
           (cartData.user && cartData.user.uid === OCC_USER_ID_ANONYMOUS) ||
           this.activeCartService.isGuestCart()
@@ -41,14 +41,14 @@ export class CheckoutDetailsService {
         }
         return cartData.code;
       }),
-      filter(cartId => !!cartId)
+      filter((cartId) => !!cartId)
     );
 
     this.getCheckoutDetailsLoaded$ = this.cartId$.pipe(
-      tap(cartId => this.checkoutService.loadCheckoutDetails(cartId)),
+      tap((cartId) => this.checkoutService.loadCheckoutDetails(cartId)),
       shareReplay(1),
       switchMap(() => this.checkoutService.getCheckoutDetailsLoaded()),
-      skipWhile(loaded => !loaded)
+      skipWhile((loaded) => !loaded)
     );
   }
 

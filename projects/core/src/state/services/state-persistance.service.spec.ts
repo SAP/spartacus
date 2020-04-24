@@ -131,7 +131,7 @@ describe('StatePersistanceService', () => {
       service.syncWithStorage({
         key: 'test',
         state$: state.asObservable(),
-        onRead: res => (stateFromStorage = res),
+        onRead: (res) => (stateFromStorage = res),
       });
 
       expect(localStorageMock.getItem).toHaveBeenCalledWith('spartacus⚿⚿test');
@@ -149,7 +149,7 @@ describe('StatePersistanceService', () => {
         key: 'test',
         state$: state.asObservable(),
         context$: context.asObservable(),
-        onRead: res => (stateFromStorage = res),
+        onRead: (res) => (stateFromStorage = res),
       });
 
       context.next('en');

@@ -21,7 +21,7 @@ export class GlobalMessageService {
   get(): Observable<GlobalMessageEntities> {
     return this.store.pipe(
       select(GlobalMessageSelectors.getGlobalMessageEntities),
-      filter(data => data !== undefined)
+      filter((data) => data !== undefined)
     );
   }
 

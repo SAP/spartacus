@@ -70,7 +70,8 @@ describe('OccCostCenterAdapter', () => {
     it('should load costCenter details for given costCenter code', () => {
       service.load(userId, costCenterCode).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'costCenter' + costCenterCode
+        (req) =>
+          req.method === 'GET' && req.url === 'costCenter' + costCenterCode
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -85,7 +86,7 @@ describe('OccCostCenterAdapter', () => {
     it('should load costCenter list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'costCentersAll'
+        (req) => req.method === 'GET' && req.url === 'costCentersAll'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -100,7 +101,7 @@ describe('OccCostCenterAdapter', () => {
     it('should create costCenter', () => {
       service.create(userId, costCenter).subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'POST' &&
           req.url === 'costCenters' &&
           req.body.code === costCenter.code
@@ -118,7 +119,7 @@ describe('OccCostCenterAdapter', () => {
     it('should update costCenter', () => {
       service.update(userId, costCenterCode, costCenter).subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'PATCH' &&
           req.url === 'costCenter' + costCenterCode &&
           req.body.code === costCenter.code
@@ -136,7 +137,7 @@ describe('OccCostCenterAdapter', () => {
     it('should load budgets list for costCenter', () => {
       service.loadBudgets(userId, costCenterCode, {}).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'costCenterBudgets'
+        (req) => req.method === 'GET' && req.url === 'costCenterBudgets'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -151,7 +152,7 @@ describe('OccCostCenterAdapter', () => {
     it('should assign budget to costCenter', () => {
       service.assignBudget(userId, costCenterCode, budgetCode).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'POST' && req.url === 'costCenterBudgets'
+        (req) => req.method === 'POST' && req.url === 'costCenterBudgets'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -163,7 +164,7 @@ describe('OccCostCenterAdapter', () => {
     it('should unassign budget from costCenter', () => {
       service.unassignBudget(userId, costCenterCode, budgetCode).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'DELETE' && req.url === 'costCenterBudget'
+        (req) => req.method === 'DELETE' && req.url === 'costCenterBudget'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

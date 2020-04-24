@@ -90,7 +90,7 @@ describe('CdsMerchandisingUserContextService', () => {
     let merchandisingUserContext: MerchandisingUserContext;
     cdsMerchandisingUserContextService
       .getUserContext()
-      .subscribe(userContext => (merchandisingUserContext = userContext))
+      .subscribe((userContext) => (merchandisingUserContext = userContext))
       .unsubscribe();
     expect(merchandisingUserContext).toEqual(expectedMerchandisingUserContext);
   });
@@ -112,7 +112,7 @@ describe('CdsMerchandisingUserContextService', () => {
     let merchandisingUserContext: MerchandisingUserContext;
     cdsMerchandisingUserContextService
       .getUserContext()
-      .subscribe(userContext => (merchandisingUserContext = userContext))
+      .subscribe((userContext) => (merchandisingUserContext = userContext))
       .unsubscribe();
     expect(merchandisingUserContext).toEqual(expectedMerchandisingUserContext);
   });
@@ -140,7 +140,7 @@ describe('CdsMerchandisingUserContextService', () => {
     let merchandisingUserContext: MerchandisingUserContext;
     cdsMerchandisingUserContextService
       .getUserContext()
-      .subscribe(userContext => (merchandisingUserContext = userContext))
+      .subscribe((userContext) => (merchandisingUserContext = userContext))
       .unsubscribe();
     expect(merchandisingUserContext).toEqual(expectedUserContext);
   });
@@ -167,7 +167,7 @@ describe('CdsMerchandisingUserContextService', () => {
     let merchandisingUserContext: MerchandisingUserContext;
     cdsMerchandisingUserContextService
       .getUserContext()
-      .subscribe(userContext => (merchandisingUserContext = userContext))
+      .subscribe((userContext) => (merchandisingUserContext = userContext))
       .unsubscribe();
     expect(merchandisingUserContext).toEqual(expectedUserContext);
   });
@@ -188,7 +188,7 @@ describe('CdsMerchandisingUserContextService', () => {
     let merchandisingUserContext: MerchandisingUserContext;
     cdsMerchandisingUserContextService
       .getUserContext()
-      .subscribe(userContext => (merchandisingUserContext = userContext))
+      .subscribe((userContext) => (merchandisingUserContext = userContext))
       .unsubscribe();
     expect(merchandisingUserContext).toEqual(expectedUserContext);
   });
@@ -243,7 +243,7 @@ describe('CdsMerchandisingUserContextService', () => {
     let merchandisingUserContext: MerchandisingUserContext;
     cdsMerchandisingUserContextService
       .getUserContext()
-      .subscribe(userContext => (merchandisingUserContext = userContext))
+      .subscribe((userContext) => (merchandisingUserContext = userContext))
       .unsubscribe();
     expect(merchandisingUserContext).toEqual(expectedMerchandisingUserContext);
   });

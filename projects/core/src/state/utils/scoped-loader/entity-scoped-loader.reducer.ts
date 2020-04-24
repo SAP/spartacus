@@ -1,11 +1,12 @@
-import { ScopedLoaderState } from './scoped-loader.state';
+import {
+  EntityScopedLoaderState,
+  ScopedLoaderState,
+} from './scoped-loader.state';
 import { scopedLoaderReducer } from './scoped-loader.reducer';
 
 import { entityReducer } from '../entity/entity.reducer';
 import { LoaderAction } from '../loader/loader.action';
-import { EntityLoaderState } from '../entity-loader/entity-loader-state';
-import { EntityLoaderAction } from '../entity-loader/entity-loader.action';
-import { LoaderState } from '../loader/loader-state';
+import { EntityScopedLoaderActions } from './entity-scoped-loader.actions';
 
 /**
  * Higher order reducer that wraps scopedLoaderReducer and EntityReducer enhancing
@@ -15,10 +16,10 @@ export function entityScopedLoaderReducer<T>(
   entityType: string,
   reducer?: (state: T, action: LoaderAction) => T
 ): (
-  state: EntityLoaderState<T>,
-  action: EntityLoaderAction
-) => EntityLoaderState<T> {
-  return entityReducer<ScopedLoaderState<T> | LoaderState<T>>(
+  state: EntityScopedLoaderState<T>,
+  action: EntityScopedLoaderActions.EntityScopedLoaderAction
+) => EntityScopedLoaderState<T> {
+  return entityReducer<ScopedLoaderState<T>>(
     entityType,
     scopedLoaderReducer<T>(entityType, reducer)
   );

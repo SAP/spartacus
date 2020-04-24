@@ -6,6 +6,9 @@ describe('CartPageLayoutHandler', () => {
     getActive() {
       return of({ totalItems: 0 });
     },
+    getLoading() {
+      return of(false);
+    },
   };
   const mockSelectiveCartService: any = {
     getCart() {
@@ -29,7 +32,7 @@ describe('CartPageLayoutHandler', () => {
     let result;
     handler
       .handle(mockSlots$, cartPageTemplate)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual(['test', 'EmptyCartMiddleContent']);
   });
 
@@ -45,7 +48,7 @@ describe('CartPageLayoutHandler', () => {
     let result;
     handler
       .handle(mockSlots$, cartPageTemplate)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual(['test', 'TopContent', 'CenterRightContentSlot']);
   });
 
@@ -61,7 +64,7 @@ describe('CartPageLayoutHandler', () => {
     let result;
     handler
       .handle(mockSlots$, cartPageTemplate)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual(['test', 'TopContent']);
   });
 
@@ -72,5 +75,20 @@ describe('CartPageLayoutHandler', () => {
     );
     const slots$ = handler.handle(mockSlots$, 'different page');
     expect(slots$).toBe(mockSlots$);
+  });
+
+  it('should not return content slots when cart is loading', () => {
+    spyOn(mockActiveCartService, 'getActive').and.returnValue(of({}));
+    spyOn(mockActiveCartService, 'getLoading').and.returnValue(of(true));
+    const handler = new CartPageLayoutHandler(
+      mockActiveCartService,
+      mockSelectiveCartService
+    );
+
+    let result;
+    handler
+      .handle(mockSlots$, cartPageTemplate)
+      .subscribe((res) => (result = res));
+    expect(result).toEqual(['test']);
   });
 });

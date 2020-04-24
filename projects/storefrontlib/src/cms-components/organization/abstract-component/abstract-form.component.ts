@@ -1,7 +1,6 @@
 import { EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import { UrlCommandRoute } from '@spartacus/core';
-import { FormUtils } from '../../../shared/utils/forms/form-utils';
 
 export class AbstractFormComponent {
   form: FormGroup;
@@ -19,7 +18,7 @@ export class AbstractFormComponent {
   routerBackLink: UrlCommandRoute;
 
   @Output()
-  submit = new EventEmitter<any>();
+  submitForm = new EventEmitter<any>();
 
   @Output()
   clickBack = new EventEmitter<any>();
@@ -32,16 +31,23 @@ export class AbstractFormComponent {
 
   verifyAndSubmit(): void {
     this.submitClicked = true;
-    if (!this.form.invalid) {
-      this.submit.emit(this.form.value);
+    if (this.form.valid) {
+      this.submitForm.emit(this.form.value);
+    } else {
+      this.form.markAllAsTouched();
     }
   }
 
   isNotValid(formControlName: string): boolean {
-    return FormUtils.isNotValidField(
-      this.form,
-      formControlName,
-      this.submitClicked
-    );
+    return this.isNotValidField(this.form, formControlName, this.submitClicked);
+  }
+
+  isNotValidField(
+    form: FormGroup,
+    formControlName: string,
+    submitted: boolean
+  ): boolean {
+    const control: AbstractControl = form.get(formControlName);
+    return control.invalid && (submitted || (control.touched && control.dirty));
   }
 }

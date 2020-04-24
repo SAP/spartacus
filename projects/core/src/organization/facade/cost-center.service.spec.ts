@@ -86,7 +86,7 @@ describe('CostCenterService', () => {
       let costCenterDetails: CostCenter;
       service
         .get(costCenterCode)
-        .subscribe(data => {
+        .subscribe((data) => {
           costCenterDetails = data;
         })
         .unsubscribe();
@@ -105,7 +105,7 @@ describe('CostCenterService', () => {
       let costCenterDetails: CostCenter;
       service
         .get(costCenterCode)
-        .subscribe(data => {
+        .subscribe((data) => {
           costCenterDetails = data;
         })
         .unsubscribe();
@@ -125,7 +125,7 @@ describe('CostCenterService', () => {
       let costCenters: EntitiesModel<CostCenter>;
       service
         .getList(params)
-        .subscribe(data => {
+        .subscribe((data) => {
           costCenters = data;
         })
         .unsubscribe();
@@ -154,7 +154,7 @@ describe('CostCenterService', () => {
       let costCenters: EntitiesModel<CostCenter>;
       service
         .getList(params)
-        .subscribe(data => {
+        .subscribe((data) => {
           costCenters = data;
         })
         .unsubscribe();
@@ -200,7 +200,7 @@ describe('CostCenterService', () => {
       let budgets: EntitiesModel<Budget>;
       service
         .getBudgets(costCenterCode, params)
-        .subscribe(data => {
+        .subscribe((data) => {
           budgets = data;
         })
         .unsubscribe();
@@ -232,7 +232,7 @@ describe('CostCenterService', () => {
       let budgets: EntitiesModel<Budget>;
       service
         .getBudgets(costCenterCode, params)
-        .subscribe(data => {
+        .subscribe((data) => {
           budgets = data;
         })
         .unsubscribe();

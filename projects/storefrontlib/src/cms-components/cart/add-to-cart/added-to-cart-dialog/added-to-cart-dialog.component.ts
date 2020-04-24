@@ -50,13 +50,13 @@ export class AddedToCartDialogComponent implements OnInit {
   getQuantityControl(): Observable<FormControl> {
     if (!this.quantityControl$) {
       this.quantityControl$ = this.entry$.pipe(
-        filter(e => !!e),
-        map(entry => this.getFormControl(entry)),
+        filter((e) => !!e),
+        map((entry) => this.getFormControl(entry)),
         switchMap(() =>
           this.form.valueChanges.pipe(
             // tslint:disable-next-line:deprecation
             startWith(null),
-            tap(valueChange => {
+            tap((valueChange) => {
               if (valueChange) {
                 this.cartService.updateEntry(
                   valueChange.entryNumber,

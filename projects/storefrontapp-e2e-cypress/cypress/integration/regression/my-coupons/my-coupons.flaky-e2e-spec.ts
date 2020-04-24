@@ -1,41 +1,57 @@
-import * as myCoupons from '../../../helpers/my-coupons';
 import * as cartCoupon from '../../../helpers/cart-coupon';
+import { visitHomePage } from '../../../helpers/checkout-flow';
+import * as myCoupons from '../../../helpers/my-coupons';
 
 describe('My coupons test for anonymous user', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => {
+      win.sessionStorage.clear();
+      win.localStorage.clear();
+    });
   });
 
   it('should redirect to login page when entering my coupons using anonymous user', () => {
     myCoupons.verifyMyCouponsAsAnonymous();
   });
 
-  it('should apply customer coupon failed for anonymous user', () => {
+  it('should apply customer coupon that fails for anonymous user', () => {
     cartCoupon.applyMyCouponAsAnonymous(cartCoupon.myCouponCode2);
   });
 
   describe('claim coupon test for anonymous user', () => {
-    beforeEach(() => {
-      cy.window().then(win => win.sessionStorage.clear());
+    before(() => {
+      myCoupons.createStandardUser();
       cy.reload();
-      cy.getByText('Sign In / Register').should('exist');
-      myCoupons.registerUser();
+      visitHomePage();
     });
-    it('claim customer coupon successfully for anonymous user', () => {
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
+
+    it('claim customer coupon that is successful for anonymous user', () => {
       myCoupons.verifyClaimCouponSuccessAsAnonymous(myCoupons.validCouponCode);
     });
 
-    it('claim customer coupon failed for anonymous user', () => {
+    it('claim customer coupon that fails for anonymous user', () => {
       myCoupons.verifyClaimCouponFailedAsAnonymous(myCoupons.invalidCouponCode);
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
     });
   });
 });
 
 describe('My coupons test for login user', () => {
   beforeEach(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => {
+      win.sessionStorage.clear();
+      win.localStorage.clear();
+    });
     cy.requireLoggedIn();
-    cy.visit('/');
+    cy.reload();
+    visitHomePage();
   });
 
   it('claim customer coupon, switch notification button and find product', () => {
@@ -56,15 +72,18 @@ describe('My coupons test for login user', () => {
 
 describe('My coupons test for pagination and sort', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
-    cy.login(myCoupons.testUser, myCoupons.testPassword);
-    cy.visit('/');
-    cy.selectUserMenuOption({
-      option: 'My Coupons',
+    cy.window().then((win) => {
+      win.sessionStorage.clear();
+      win.localStorage.clear();
     });
+    cy.login(myCoupons.testUser, myCoupons.testPassword);
+    visitHomePage();
   });
 
   it('should page and sort my coupon list', () => {
+    cy.selectUserMenuOption({
+      option: 'My Coupons',
+    });
     myCoupons.verifyPagingAndSorting();
   });
 });

@@ -1,5 +1,6 @@
 export { CartModule } from './cart.module';
 export * from './connectors/index';
+export * from './event/index';
 export * from './facade/index';
 export * from './services/multi-cart-state-persistence.service';
 export * from './store/actions/index';

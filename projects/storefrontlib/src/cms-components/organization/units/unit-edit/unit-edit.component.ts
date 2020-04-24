@@ -12,7 +12,7 @@ export class UnitEditComponent implements OnInit {
   orgUnit$: Observable<B2BUnitNode>;
   orgUnitCode$: Observable<string> = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['code']));
+    .pipe(map((routingData) => routingData.state.params['code']));
 
   constructor(
     protected routingService: RoutingService,
@@ -21,15 +21,15 @@ export class UnitEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.orgUnit$ = this.orgUnitCode$.pipe(
-      tap(code => this.orgUnitsService.loadOrgUnit(code)),
-      switchMap(code => this.orgUnitsService.get(code))
+      tap((code) => this.orgUnitsService.loadOrgUnit(code)),
+      switchMap((code) => this.orgUnitsService.get(code))
     );
   }
 
   updateOrgUnit(orgUnit: B2BUnitNode) {
     this.orgUnitCode$
       .pipe(take(1))
-      .subscribe(orgUnitCode =>
+      .subscribe((orgUnitCode) =>
         this.orgUnitsService.update(orgUnitCode, orgUnit)
       );
     this.routingService.go({

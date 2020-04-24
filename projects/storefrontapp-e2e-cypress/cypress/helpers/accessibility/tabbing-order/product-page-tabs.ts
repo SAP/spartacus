@@ -5,12 +5,14 @@ export function productPageTabsTabbingOrder() {
   cy.visit(testProductUrl);
 
   cy.route(
-    `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/products/779841/references*`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/779841/references*`
   ).as('references');
   cy.route(
-    `${Cypress.env('API_URL')}/rest/v2/electronics-spa/products/779841/reviews*`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/779841/reviews*`
   ).as('reviews');
 
   cy.get('cx-breadcrumb').should('contain', 'Home');
@@ -22,10 +24,7 @@ export function productPageTabsTabbingOrder() {
   cy.get('cx-product-reviews'); // wait for reviews to render
   cy.get('p .tab-delivery'); // wait for shipping to render
 
-  cy.get('h3')
-    .contains('Product Details')
-    .first()
-    .focus();
+  cy.get('h3').contains('Product Details').first().focus();
 
   cy.wait('@references');
   cy.wait('@reviews');
@@ -35,21 +34,15 @@ export function productPageTabsTabbingOrder() {
   // Specs
   cy.pressTab();
 
-  cy.focused()
-    .click()
-    .should('contain', 'Specs');
+  cy.focused().click().should('contain', 'Specs');
 
   // Reviews
   cy.pressTab();
 
-  cy.focused()
-    .click()
-    .should('contain', 'Reviews');
+  cy.focused().click().should('contain', 'Reviews');
 
   cy.pressTab();
-  cy.focused()
-    .should('contain', 'Write a Review')
-    .click();
+  cy.focused().should('contain', 'Write a Review').click();
 
   cy.focused().should('have.attr', 'formcontrolname', 'title');
 
@@ -71,9 +64,7 @@ export function productPageTabsTabbingOrder() {
   cy.pressTab();
   cy.focused().should('contain', 'Submit');
 
-  cy.get('button')
-    .contains('Cancel')
-    .click();
+  cy.get('button').contains('Cancel').click();
 
   cy.pressTab();
   cy.focused().should('contain', 'George Reviewer');
@@ -96,7 +87,5 @@ export function productPageTabsTabbingOrder() {
   // Shipping
   cy.pressTab();
 
-  cy.focused()
-    .click()
-    .should('contain', 'Shipping');
+  cy.focused().click().should('contain', 'Shipping');
 }

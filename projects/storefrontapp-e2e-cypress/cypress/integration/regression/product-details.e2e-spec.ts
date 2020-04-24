@@ -42,7 +42,7 @@ function apparelProductDetailsTest() {
 }
 
 function configureDefaultProduct() {
-  cy.window().then(win => win.sessionStorage.clear());
+  cy.window().then((win) => win.sessionStorage.clear());
   cy.cxConfig({
     context: {
       baseSite: ['electronics-spa'],
@@ -53,7 +53,7 @@ function configureDefaultProduct() {
 }
 
 function configureApparelProduct() {
-  cy.window().then(win => win.sessionStorage.clear());
+  cy.window().then((win) => win.sessionStorage.clear());
   cy.cxConfig({
     context: {
       baseSite: ['apparel-uk-spa'],

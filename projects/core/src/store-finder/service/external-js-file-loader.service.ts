@@ -40,7 +40,7 @@ export class ExternalJsFileLoader {
       result =
         '?' +
         keysArray
-          .map(key => encodeURI(key) + '=' + encodeURI(params[key]))
+          .map((key) => encodeURI(key) + '=' + encodeURI(params[key]))
           .join('&');
     }
     return result;

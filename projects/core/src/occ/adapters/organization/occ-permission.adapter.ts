@@ -8,10 +8,14 @@ import { ConverterService } from '../../../util/converter.service';
 import {
   PERMISSION_NORMALIZER,
   PERMISSIONS_NORMALIZER,
+  PERMISSION_TYPES_NORMALIZER,
 } from '../../../organization/connectors/permission/converters';
 import { B2BSearchConfig } from '../../../organization/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
-import { Permission } from '../../../model/permission.model';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../../../model/permission.model';
 import { EntitiesModel } from '../../../model/misc.model';
 
 @Injectable()
@@ -56,6 +60,14 @@ export class OccPermissionAdapter implements PermissionAdapter {
       .pipe(this.converter.pipeable(PERMISSION_NORMALIZER));
   }
 
+  loadTypes(): Observable<OrderApprovalPermissionType[]> {
+    return this.http
+      .get<Occ.OrderApprovalPermissionTypeList>(
+        this.getPermissionTypesEndpoint()
+      )
+      .pipe(this.converter.pipeable(PERMISSION_TYPES_NORMALIZER));
+  }
+
   protected getPermissionEndpoint(
     userId: string,
     orderApprovalPermissionCode: string
@@ -71,5 +83,9 @@ export class OccPermissionAdapter implements PermissionAdapter {
     params?: B2BSearchConfig
   ): string {
     return this.occEndpoints.getUrl('permissions', { userId }, params);
+  }
+
+  protected getPermissionTypesEndpoint(): string {
+    return this.occEndpoints.getUrl('orderApprovalPermissionTypes');
   }
 }

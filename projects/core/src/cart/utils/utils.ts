@@ -8,6 +8,10 @@ export function getCartIdByUserId(cart: Cart, userId: string): string {
   return cart.code;
 }
 
+export function getWishlistName(customerId: string): string {
+  return `wishlist${customerId}`;
+}
+
 /**
  * What is a temporary cart?
  * - frontend only cart entity!

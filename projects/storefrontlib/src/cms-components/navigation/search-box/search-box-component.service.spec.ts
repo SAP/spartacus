@@ -130,7 +130,7 @@ describe('SearchBoxComponentService', () => {
     spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(of([]));
     service
       .getResults(searchBoxConfig)
-      .subscribe(results => (result = results));
+      .subscribe((results) => (result = results));
     expect(result.products.length).toEqual(2);
   });
 
@@ -142,7 +142,7 @@ describe('SearchBoxComponentService', () => {
     let result: SearchResults;
     service
       .getResults({ displaySuggestions: true, displayProducts: false })
-      .subscribe(results => (result = results));
+      .subscribe((results) => (result = results));
     expect(result.products).toBeFalsy();
   });
 
@@ -161,7 +161,7 @@ describe('SearchBoxComponentService', () => {
 
       service
         .getResults(searchBoxConfig)
-        .subscribe(results => (result = results));
+        .subscribe((results) => (result = results));
       expect(result.suggestions.length).toEqual(2);
     });
 
@@ -172,7 +172,7 @@ describe('SearchBoxComponentService', () => {
 
       service
         .getResults({ displaySuggestions: false, displayProducts: true })
-        .subscribe(results => (result = results));
+        .subscribe((results) => (result = results));
       expect(result.suggestions.length).toEqual(0);
     });
 
@@ -181,7 +181,7 @@ describe('SearchBoxComponentService', () => {
 
       service
         .getResults(searchBoxConfig)
-        .subscribe(results => (result = results));
+        .subscribe((results) => (result = results));
       expect(result.suggestions).toEqual([
         'searchBox.help.exactMatch{"term":"query"}',
       ]);
@@ -194,7 +194,7 @@ describe('SearchBoxComponentService', () => {
 
       service
         .getResults(searchBoxConfig)
-        .subscribe(results => (result = results));
+        .subscribe((results) => (result = results));
       expect(result.suggestions).not.toContain(
         'searchBox.help.exactMatch{"term":"query"}'
       );
@@ -208,7 +208,7 @@ describe('SearchBoxComponentService', () => {
       spyOn(searchBoxservice, 'getResults').and.returnValue(of({}));
       spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(of([]));
 
-      service.getResults(searchBoxConfig).subscribe(r => (result = r));
+      service.getResults(searchBoxConfig).subscribe((r) => (result = r));
       expect(result.message).toBeFalsy();
     });
 
@@ -218,7 +218,7 @@ describe('SearchBoxComponentService', () => {
       );
       spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(of([]));
 
-      service.getResults(searchBoxConfig).subscribe(r => (result = r));
+      service.getResults(searchBoxConfig).subscribe((r) => (result = r));
       expect(result.message).toBeTruthy();
 
       expect(result.message).toEqual('searchBox.help.noMatch');
@@ -230,7 +230,7 @@ describe('SearchBoxComponentService', () => {
       );
       spyOn(searchBoxservice, 'getSuggestionResults').and.returnValue(of([]));
 
-      service.getResults(searchBoxConfig).subscribe(r => (result = r));
+      service.getResults(searchBoxConfig).subscribe((r) => (result = r));
       expect(result.message).toBeFalsy();
     });
 
@@ -240,7 +240,7 @@ describe('SearchBoxComponentService', () => {
         of(['sug1'] as any)
       );
 
-      service.getResults(searchBoxConfig).subscribe(r => (result = r));
+      service.getResults(searchBoxConfig).subscribe((r) => (result = r));
       expect(result.message).toBeFalsy();
     });
   });

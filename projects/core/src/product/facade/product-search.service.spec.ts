@@ -58,7 +58,7 @@ describe('ProductSearchService', () => {
     let tempSearchResult: ProductSearchPage;
     service
       .getResults()
-      .subscribe(result => (tempSearchResult = result))
+      .subscribe((result) => (tempSearchResult = result))
       .unsubscribe();
     expect(tempSearchResult).toEqual(mockSearchResults);
   });

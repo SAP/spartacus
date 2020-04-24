@@ -1,0 +1,73 @@
+<ng-container class="container" *ngIf="data$ | async as data">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+      <div class="cx-table-header cx-textalign">
+        <h3>
+          {{ 'unitManageAddresses.header' | cxTranslate: { code: code } }}
+        </h3>
+      </div>
+
+      <!--        <cx-search-->
+      <!--          (searchEvent)="search($event)"-->
+      <!--          [placeholder]="searchBoxLabel"-->
+      <!--        >-->
+      <!--        </cx-search>-->
+    </div>
+    <div class="col-md-12 col-lg-3">
+      <div class="row cx-search-links mb-3">
+        <a
+          [routerLink]="
+            { cxRoute: 'orgUnitDetails', params: { uid: code } } | cxUrl
+          "
+          class="btn btn-secondary btn-block"
+        >
+          {{ 'unitManageAddresses.back' | cxTranslate }}
+        </a>
+      </div>
+      <div class="row cx-search-links mb-3">
+        <a
+          [routerLink]="
+            { cxRoute: 'orgUnitAddressCreate', params: { code: code } } | cxUrl
+          "
+          class="btn btn-primary btn-block"
+        >
+          {{ 'unitManageAddresses.create' | cxTranslate }}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="cx-table-body">
+    <ng-container *ngIf="data.values?.length > 0; else noData">
+      <!-- TABLE -->
+      <cx-table
+        [tableData]="data.values"
+        [columns]="[
+          {
+            key: 'id',
+            value: 'unitManageAddresses.id' | cxTranslate,
+            cxRoute: 'orgUnitAddressDetails'
+          },
+          {
+            key: 'name',
+            value: 'unitManageAddresses.name' | cxTranslate
+          },
+          {
+            key: 'formattedAddress',
+            value: 'unitManageAddresses.formattedAddress' | cxTranslate
+          }
+        ]"
+      >
+      </cx-table>
+    </ng-container>
+
+    <!-- NO ORDER CONTAINER -->
+    <ng-template #noData>
+      <div class="cx-no-items row">
+        <div class="col-sm-12 col-md-6 col-lg-4">
+          <div>{{ 'common.noData' | cxTranslate }}</div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</ng-container>

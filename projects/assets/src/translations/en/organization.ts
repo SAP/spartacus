@@ -66,11 +66,6 @@ export const organization = {
       label: 'Budget amount',
       placeholder: 'Amount',
     },
-    message: {
-      required: 'Value is required',
-      rangeOverflow: 'Date must be before {{date}}',
-      rangeUnderflow: 'Date must be after {{date}}',
-    },
   },
   permissionsList: {
     code: 'Code',
@@ -122,9 +117,6 @@ export const organization = {
     threshold: {
       label: 'Permission threshold',
       placeholder: 'Amount',
-    },
-    message: {
-      required: 'Value is required',
     },
   },
   costCentersList: {
@@ -178,9 +170,6 @@ export const organization = {
       placeholder: 'Select business unit',
     },
     currency: 'Currency',
-    message: {
-      required: 'Value is required',
-    },
   },
   orgUnitsList: {
     orgUnitManagement: 'Organization Units Management',
@@ -200,6 +189,7 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     assignRoles: 'Manage Roles',
+    manageAddresses: 'Manage Addresses',
   },
   orgUnitForm: {
     create: 'Create Unit',
@@ -221,13 +211,68 @@ export const organization = {
       label: 'Approval process',
       placeholder: 'Select approval process',
     },
-    message: {
-      required: 'Value is required',
-    },
   },
   unitAssignRoles: {
     header: 'Manage roles in {{code}}',
     back: 'Close',
+  },
+  unitManageAddresses: {
+    header: 'Manage addresses in {{code}}',
+    create: 'Create new Address',
+    back: 'Back to unit',
+    id: 'ID',
+    name: 'Name',
+    formattedAddress: 'Details',
+  },
+  unitAddressDetails: {
+    header: 'Addresses details',
+    edit: 'Edit',
+    delete: 'Delete',
+    back: 'Back',
+    id: 'ID',
+    name: 'Name',
+    unit: 'Unit',
+    details: 'Details',
+  },
+  unitAddressCreate: {
+    header: 'Address create',
+    create: 'Create',
+  },
+  unitAddressEdit: {
+    header: 'Address edit',
+    update: 'Update',
+  },
+  unitAddressForm: {
+    title: 'Title',
+    firstName: {
+      label: 'First name',
+      placeholder: 'First Name',
+    },
+    lastName: {
+      label: 'Last name',
+      placeholder: 'Last Name',
+    },
+    address1: 'Address 1',
+    address2: 'Address 2 (optional)',
+    country: 'Country',
+    city: {
+      label: 'City',
+      placeholder: 'City',
+    },
+    state: 'State',
+    zipCode: {
+      label: 'Zip code',
+      placeholder: 'Postal Code/Zip',
+    },
+    phoneNumber: {
+      label: 'Phone number (optional)',
+      placeholder: '(555) 555 - 0123',
+    },
+    saveAsDefault: 'Save as default',
+    chooseAddress: 'Choose address',
+    streetAddress: 'Street Address',
+    aptSuite: 'Apt, Suite',
+    selectOne: 'Select One...',
   },
   usersList: {
     sorting: {
@@ -285,9 +330,6 @@ export const organization = {
     businessUnits: {
       label: 'Parent business unit',
       placeholder: 'Select business unit',
-    },
-    message: {
-      required: 'Value is required',
     },
   },
   userGroupAssignPermissions: {

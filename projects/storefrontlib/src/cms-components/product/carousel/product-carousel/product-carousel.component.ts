@@ -25,7 +25,7 @@ export class ProductCarouselComponent {
    * returns an Obervable string for the title.
    */
   title$: Observable<string> = this.componentData$.pipe(
-    map(data => data.title)
+    map((data) => data.title)
   );
 
   /**
@@ -34,9 +34,9 @@ export class ProductCarouselComponent {
    * in the viewpoint.
    */
   items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
-    map(data => data.productCodes.trim().split(' ')),
-    map(codes =>
-      codes.map(code => this.productService.get(code, this.PRODUCT_SCOPE))
+    map((data) => data.productCodes.trim().split(' ')),
+    map((codes) =>
+      codes.map((code) => this.productService.get(code, this.PRODUCT_SCOPE))
     )
   );
 

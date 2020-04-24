@@ -66,7 +66,7 @@ describe('SearchPageMetaResolver', () => {
     let result: string;
     service
       .resolveTitle()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();

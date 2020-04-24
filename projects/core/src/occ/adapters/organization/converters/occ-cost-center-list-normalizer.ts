@@ -20,7 +20,7 @@ export class OccCostCenterListNormalizer
     if (target === undefined) {
       target = {
         ...(source as any),
-        values: source.costCenters.map(costCenter => ({
+        values: source.costCenters.map((costCenter) => ({
           ...this.converter.convert(costCenter, COST_CENTER_NORMALIZER),
         })),
       };

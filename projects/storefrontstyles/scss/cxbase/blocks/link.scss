@@ -13,12 +13,13 @@ a {
 }
 
 .cx-action-link {
-  @include type('8');
-  text-transform: uppercase;
+  @include type('7');
+  text-transform: capitalize;
   text-decoration: underline;
   cursor: pointer;
   display: inline-block;
   &:hover {
     color: var(--cx-color-primary);
+    text-decoration: none;
   }
 }

@@ -24,11 +24,12 @@ $caretSize: 7px;
   }
   cx-icon {
     margin-left: -10px;
+    z-index: 1;
   }
 
   select {
     color: inherit;
-    background-color: transparent;
+    background-color: var(--cx-color-light);
     border: 0;
 
     -webkit-appearance: none;
@@ -40,6 +41,8 @@ $caretSize: 7px;
     outline: none;
 
     position: relative;
-    z-index: 1;
+    @include media-breakpoint-up(lg) {
+      background-color: var(--cx-color-dark);
+    }
   }
 }
