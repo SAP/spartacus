@@ -1,5 +1,5 @@
 import { EntitiesModel, ListModel } from '../../model/misc.model';
-import { LoaderState, EntityLoaderState } from '../../state/index';
+import { StateUtils } from '../../state/index';
 import { entityLoaderStateSelector } from '../../state/utils/entity-loader/entity-loader.selectors';
 import { B2BSearchConfig } from '../model/search-config';
 import { Management } from '../store/organization-state';
@@ -27,16 +27,16 @@ export function serializeB2BSearchConfig(
 export function denormalizeB2BSearch<T>(
   state: Management<T>,
   params?: B2BSearchConfig
-): LoaderState<EntitiesModel<T>> {
+): StateUtils.LoaderState<EntitiesModel<T>> {
   return denormalizeCustomB2BSearch<T>(state.list, state.entities, params);
 }
 
 export function denormalizeCustomB2BSearch<T>(
-  list: EntityLoaderState<ListModel>,
-  entities: EntityLoaderState<T>,
+  list: StateUtils.EntityLoaderState<ListModel>,
+  entities: StateUtils.EntityLoaderState<T>,
   params?: B2BSearchConfig,
   id?: string
-): LoaderState<EntitiesModel<T>> {
+): StateUtils.LoaderState<EntitiesModel<T>> {
   const serializedList: any = entityLoaderStateSelector(
     list,
     params ? serializeB2BSearchConfig(params, id) : id ?? ALL
@@ -44,13 +44,17 @@ export function denormalizeCustomB2BSearch<T>(
   if (!serializedList.value || !serializedList.value.ids) {
     return serializedList;
   }
-  const res: LoaderState<EntitiesModel<T>> = Object.assign({}, serializedList, {
-    value: {
-      values: serializedList.value.ids.map(
-        (code) => entityLoaderStateSelector(entities, code).value
-      ),
-    },
-  });
+  const res: StateUtils.LoaderState<EntitiesModel<T>> = Object.assign(
+    {},
+    serializedList,
+    {
+      value: {
+        values: serializedList.value.ids.map(
+          (code) => entityLoaderStateSelector(entities, code).value
+        ),
+      },
+    }
+  );
   if (params) {
     res.value.pagination = serializedList.value.pagination;
     res.value.sorts = serializedList.value.sorts;

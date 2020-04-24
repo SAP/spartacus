@@ -4,7 +4,6 @@ export * from './glob.service';
 export * from './regex-pattern';
 export * from './withdraw-on';
 export * from './applicable';
-export * from './handler';
 export {
   diff as θdiff,
   shallowEqualObjects as θshallowEqualObjects,
