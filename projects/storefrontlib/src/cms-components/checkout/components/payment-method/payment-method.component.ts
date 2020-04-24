@@ -18,8 +18,8 @@ import {
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { ICON_TYPE } from '../../../misc/icon';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
@@ -31,18 +31,17 @@ import { CheckoutConfigService } from '../../services/checkout-config.service';
 })
 export class PaymentMethodComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
-  newPaymentFormManuallyOpened = false;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   isLoading$: Observable<boolean>;
-  selectedPayment: PaymentDetails;
-  allowRouting: boolean;
+  cards$: Observable<{ content: Card; paymentMethod: PaymentDetails }[]>;
+  selectedMethod$: Observable<PaymentDetails>;
   isGuestCheckout = false;
+  newPaymentFormManuallyOpened = false;
 
-  private getPaymentDetailsSub: Subscription;
-
-  private deliveryAddress: Address;
-  private checkoutStepUrlNext: string;
-  private checkoutStepUrlPrevious: string;
+  protected shouldRedirect: boolean;
+  protected deliveryAddress: Address;
+  protected checkoutStepUrlNext: string;
+  protected checkoutStepUrlPrevious: string;
 
   constructor(
     protected userPaymentService: UserPaymentService,
@@ -58,7 +57,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.allowRouting = false;
+    this.shouldRedirect = false;
     this.isLoading$ = this.userPaymentService.getPaymentMethodsLoading();
 
     if (!this.activeCartService.isGuestCart()) {
@@ -83,62 +82,92 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       });
 
     this.existingPaymentMethods$ = this.userPaymentService.getPaymentMethods();
-    this.getPaymentDetailsSub = this.checkoutPaymentService
-      .getPaymentDetails()
-      .pipe(
-        filter(paymentInfo => paymentInfo && !!Object.keys(paymentInfo).length)
-      )
-      .subscribe(paymentInfo => {
-        if (this.allowRouting) {
-          this.routingService.go(this.checkoutStepUrlNext);
-        }
-        if (!paymentInfo['hasError']) {
-          this.selectedPayment = paymentInfo;
-        } else {
-          Object.keys(paymentInfo).forEach(key => {
-            if (key.startsWith('InvalidField')) {
-              this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
-            }
-          });
-          this.checkoutService.clearCheckoutStep(3);
-        }
-      });
-  }
 
-  getCardContent(payment: PaymentDetails): Observable<Card> {
-    if (!this.selectedPayment && payment.defaultPayment) {
-      this.selectedPayment = payment;
-    }
+    this.selectedMethod$ = this.checkoutPaymentService.getPaymentDetails().pipe(
+      tap((paymentInfo) => {
+        if (paymentInfo && !!Object.keys(paymentInfo).length) {
+          if (paymentInfo['hasError']) {
+            Object.keys(paymentInfo).forEach((key) => {
+              if (key.startsWith('InvalidField')) {
+                this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
+              }
+            });
+            this.checkoutService.clearCheckoutStep(3);
+          } else if (this.shouldRedirect) {
+            this.routingService.go(this.checkoutStepUrlNext);
+          }
+        }
+      })
+    );
 
-    return combineLatest([
-      this.translation.translate('paymentCard.expires', {
-        month: payment.expiryMonth,
-        year: payment.expiryYear,
-      }),
+    this.cards$ = combineLatest([
+      this.existingPaymentMethods$.pipe(
+        switchMap((methods) => {
+          return !methods?.length
+            ? of([])
+            : combineLatest(
+                methods.map((method) =>
+                  combineLatest([
+                    of(method),
+                    this.translation.translate('paymentCard.expires', {
+                      month: method.expiryMonth,
+                      year: method.expiryYear,
+                    }),
+                  ]).pipe(
+                    map(([payment, translation]) => ({
+                      payment,
+                      expiryTranslation: translation,
+                    }))
+                  )
+                )
+              );
+        })
+      ),
+      this.selectedMethod$,
       this.translation.translate('paymentForm.useThisPayment'),
       this.translation.translate('paymentCard.defaultPaymentMethod'),
       this.translation.translate('paymentCard.selected'),
     ]).pipe(
       map(
         ([
-          textExpires,
+          paymentMethods,
+          selectedMethod,
           textUseThisPayment,
           textDefaultPaymentMethod,
           textSelected,
         ]) => {
-          return this.createCard(payment, {
-            textExpires,
-            textUseThisPayment,
-            textDefaultPaymentMethod,
-            textSelected,
-          });
+          if (
+            paymentMethods.length &&
+            (!selectedMethod || Object.keys(selectedMethod).length === 0)
+          ) {
+            const defaultPaymentMethod = paymentMethods.find(
+              (paymentMethod) => paymentMethod.payment.defaultPayment
+            );
+            if (defaultPaymentMethod) {
+              selectedMethod = defaultPaymentMethod.payment;
+              this.checkoutPaymentService.setPaymentDetails(selectedMethod);
+            }
+          }
+          return paymentMethods.map((payment) => ({
+            content: this.createCard(
+              payment.payment,
+              {
+                textExpires: payment.expiryTranslation,
+                textUseThisPayment,
+                textDefaultPaymentMethod,
+                textSelected,
+              },
+              selectedMethod
+            ),
+            paymentMethod: payment.payment,
+          }));
         }
       )
     );
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
-    this.selectedPayment = paymentDetails;
+    this.checkoutPaymentService.setPaymentDetails(paymentDetails);
   }
 
   showNewPaymentForm(): void {
@@ -152,29 +181,17 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   setPaymentDetails({
     paymentDetails,
     billingAddress,
-    isNewPayment = true,
   }: {
     paymentDetails: PaymentDetails;
     billingAddress?: Address;
-    isNewPayment?: boolean;
   }): void {
     const details: PaymentDetails = { ...paymentDetails };
     details.billingAddress = billingAddress || this.deliveryAddress;
-
-    if (isNewPayment) {
-      this.checkoutPaymentService.createPaymentDetails(details);
-    } else if (this.selectedPayment && this.selectedPayment.id === details.id) {
-      this.checkoutPaymentService.setPaymentDetails(details);
-    }
-
-    this.allowRouting = true;
+    this.checkoutPaymentService.createPaymentDetails(details);
+    this.shouldRedirect = true;
   }
 
   ngOnDestroy(): void {
-    if (this.getPaymentDetailsSub) {
-      this.getPaymentDetailsSub.unsubscribe();
-    }
-
     this.checkoutPaymentService.paymentProcessSuccess();
   }
 
@@ -195,17 +212,26 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     return ccIcon;
   }
 
-  protected sendPaymentMethodFailGlobalMessage(msg: string) {
+  protected sendPaymentMethodFailGlobalMessage(field: string) {
     this.globalMessageService.add(
       {
         key: 'paymentMethods.invalidField',
-        params: { field: msg },
+        params: { field },
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   }
 
-  protected createCard(paymentDetails, cardLabels) {
+  protected createCard(
+    paymentDetails: PaymentDetails,
+    cardLabels: {
+      textDefaultPaymentMethod: string;
+      textExpires: string;
+      textUseThisPayment: string;
+      textSelected: string;
+    },
+    selected: PaymentDetails
+  ): Card {
     return {
       title: paymentDetails.defaultPayment
         ? cardLabels.textDefaultPaymentMethod
@@ -215,47 +241,17 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       img: this.getCardIcon(paymentDetails.cardType.code),
       actions: [{ name: cardLabels.textUseThisPayment, event: 'send' }],
       header:
-        this.selectedPayment && this.selectedPayment.id === paymentDetails.id
+        selected?.id === paymentDetails.id
           ? cardLabels.textSelected
           : undefined,
     };
   }
 
   goNext(): void {
-    this.setPaymentDetails({
-      paymentDetails: this.selectedPayment,
-      isNewPayment: false,
-    });
+    this.routingService.go(this.checkoutStepUrlNext);
   }
 
   goPrevious(): void {
     this.routingService.go(this.checkoutStepUrlPrevious);
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use goNext() instead.
-   * TODO(issue:#4992) deprecated since 1.3
-   */
-  next(): void {
-    this.goNext();
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use goPrevious() instead.
-   * TODO(issue:#4992) deprecated since 1.3
-   */
-  back(): void {
-    this.goPrevious();
-  }
-
-  /**
-   * @deprecated since version 1.3
-   * This method will no longer be in use. Use selectPaymentMethod() instead.
-   * TODO(issue:#4992) deprecated since 1.3
-   */
-  paymentMethodSelected(paymentDetails: PaymentDetails): void {
-    this.selectPaymentMethod(paymentDetails);
   }
 }

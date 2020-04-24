@@ -7,7 +7,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FormUtils } from '../../../shared/utils/forms/form-utils';
 
 @Component({
   selector: 'cx-csagent-login-form',
@@ -16,8 +15,7 @@ import { FormUtils } from '../../../shared/utils/forms/form-utils';
   encapsulation: ViewEncapsulation.None,
 })
 export class CSAgentLoginFormComponent implements OnInit {
-  form: FormGroup;
-  private submitClicked = false;
+  csAgentLoginForm: FormGroup;
 
   @Input()
   csAgentTokenLoading = false;
@@ -28,29 +26,20 @@ export class CSAgentLoginFormComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
+    this.csAgentLoginForm = this.fb.group({
       userId: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
   }
 
   onSubmit(): void {
-    this.submitClicked = true;
-    if (this.form.invalid) {
-      return;
+    if (this.csAgentLoginForm.valid) {
+      this.submitEvent.emit({
+        userId: this.csAgentLoginForm.get('userId').value,
+        password: this.csAgentLoginForm.get('password').value,
+      });
+    } else {
+      this.csAgentLoginForm.markAllAsTouched();
     }
-
-    this.submitEvent.emit({
-      userId: this.form.controls.userId.value,
-      password: this.form.controls.password.value,
-    });
-  }
-
-  isNotValid(formControlName: string): boolean {
-    return FormUtils.isNotValidField(
-      this.form,
-      formControlName,
-      this.submitClicked
-    );
   }
 }

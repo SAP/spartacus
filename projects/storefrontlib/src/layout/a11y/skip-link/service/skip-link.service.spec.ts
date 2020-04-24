@@ -118,7 +118,7 @@ describe('SkipLinkService', () => {
 
       service
         .getSkipLinks()
-        .subscribe(links => {
+        .subscribe((links) => {
           // note that they're upside down in the link register...
           secondSkipLink = links[0];
           firstSkipLink = links[1];

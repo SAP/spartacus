@@ -188,7 +188,7 @@ describe('OrderDetailItemsComponent', () => {
     fixture.detectChanges();
     let order: Order;
     component.order$
-      .subscribe(value => {
+      .subscribe((value) => {
         order = value;
       })
       .unsubscribe();
@@ -199,7 +199,7 @@ describe('OrderDetailItemsComponent', () => {
     fixture.detectChanges();
     let others: Consignment[];
     component.others$
-      .subscribe(value => {
+      .subscribe((value) => {
         others = value;
       })
       .unsubscribe();
@@ -213,7 +213,7 @@ describe('OrderDetailItemsComponent', () => {
     fixture.detectChanges();
     let others: Consignment[];
     component.others$
-      .subscribe(value => {
+      .subscribe((value) => {
         others = value;
       })
       .unsubscribe();
@@ -226,7 +226,7 @@ describe('OrderDetailItemsComponent', () => {
     fixture.detectChanges();
     let completed: Consignment[];
     component.completed$
-      .subscribe(value => {
+      .subscribe((value) => {
         completed = value;
       })
       .unsubscribe();
@@ -239,7 +239,7 @@ describe('OrderDetailItemsComponent', () => {
     fixture.detectChanges();
     let cancel: Consignment[];
     component.cancel$
-      .subscribe(value => {
+      .subscribe((value) => {
         cancel = value;
       })
       .unsubscribe();

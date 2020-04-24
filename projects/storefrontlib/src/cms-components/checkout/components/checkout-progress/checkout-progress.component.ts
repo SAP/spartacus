@@ -25,7 +25,7 @@ export class CheckoutProgressComponent implements OnInit {
   ngOnInit(): void {
     this.steps = this.config.checkout.steps;
     this.routerState$ = this.routingService.getRouterState().pipe(
-      tap(router => {
+      tap((router) => {
         this.activeStepUrl = router.state.context.id;
 
         this.steps.forEach((step, index) => {

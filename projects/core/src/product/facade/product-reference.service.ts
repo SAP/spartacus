@@ -23,7 +23,7 @@ export class ProductReferenceService {
           referenceType
         )
       ),
-      tap(references => {
+      tap((references) => {
         if (references === undefined && productCode !== undefined) {
           this.store.dispatch(
             new ProductActions.LoadProductReferences({

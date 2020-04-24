@@ -42,7 +42,7 @@ export class ConfigurableRoutesService {
    * @param routes list of Angular `Route` objects
    */
   protected configureRoutes(routes: Routes): Routes {
-    return routes.map(route => {
+    return routes.map((route) => {
       const configuredRoute = this.configureRoute(route);
 
       if (route.children && route.children.length) {
@@ -104,11 +104,13 @@ export class ConfigurableRoutesService {
     route: Route,
     matchersOrFactories: RouteConfig['matchers']
   ): UrlMatcher {
-    const matchers: UrlMatcher[] = matchersOrFactories.map(matcherOrFactory => {
-      return typeof matcherOrFactory === 'function'
-        ? matcherOrFactory // matcher
-        : this.resolveUrlMatcherFactory(route, matcherOrFactory); // factory injection token
-    });
+    const matchers: UrlMatcher[] = matchersOrFactories.map(
+      (matcherOrFactory) => {
+        return typeof matcherOrFactory === 'function'
+          ? matcherOrFactory // matcher
+          : this.resolveUrlMatcherFactory(route, matcherOrFactory); // factory injection token
+      }
+    );
     return this.urlMatcherService.getCombined(matchers);
   }
 

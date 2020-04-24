@@ -114,7 +114,7 @@ export const reducerProvider: Provider = {
 export function clearUserState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
-  return function(state, action) {
+  return function (state, action) {
     if (action.type === AuthActions.LOGOUT) {
       state = undefined;
     }

@@ -18,9 +18,9 @@ export class LanguagesEffects {
     exhaustMap(() => {
       return this.siteConnector.getLanguages().pipe(
         map(
-          languages => new SiteContextActions.LoadLanguagesSuccess(languages)
+          (languages) => new SiteContextActions.LoadLanguagesSuccess(languages)
         ),
-        catchError(error =>
+        catchError((error) =>
           of(
             new SiteContextActions.LoadLanguagesFail(
               makeErrorSerializable(error)

@@ -23,7 +23,7 @@ export class UserTokenEffects {
           token.userId = OCC_USER_ID_CURRENT;
           return new AuthActions.LoadUserTokenSuccess(token);
         }),
-        catchError(error =>
+        catchError((error) =>
           of(new AuthActions.LoadUserTokenFail(makeErrorSerializable(error)))
         )
       )
@@ -51,7 +51,7 @@ export class UserTokenEffects {
             token.expiration_time = date.toJSON();
             return new AuthActions.RefreshUserTokenSuccess(token);
           },
-          catchError(error =>
+          catchError((error) =>
             of(
               new AuthActions.RefreshUserTokenFail(makeErrorSerializable(error))
             )
@@ -72,7 +72,7 @@ export class UserTokenEffects {
     mergeMap((userToken: UserToken) => {
       return this.userTokenService.revoke(userToken).pipe(
         map(() => new AuthActions.RevokeUserTokenSuccess(userToken)),
-        catchError(error => of(new AuthActions.RevokeUserTokenFail(error)))
+        catchError((error) => of(new AuthActions.RevokeUserTokenFail(error)))
       );
     })
   );

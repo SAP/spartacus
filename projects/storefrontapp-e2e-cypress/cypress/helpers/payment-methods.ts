@@ -102,9 +102,7 @@ export function setOtherPaymentToDefault() {
 }
 
 export function deletePayment() {
-  cy.getAllByText('Delete')
-    .first()
-    .click({ force: true });
+  cy.getAllByText('Delete').first().click({ force: true });
 
   // should see confirmation message
   cy.get('.cx-card-delete-msg').should(
@@ -121,9 +119,7 @@ export function deletePayment() {
   );
 
   // delete the payment
-  cy.getAllByText('Delete')
-    .first()
-    .click({ force: true });
+  cy.getAllByText('Delete').first().click({ force: true });
   cy.get('.btn-primary').should('contain', 'Delete');
   cy.get('.btn-primary').click({ force: true });
   cy.get('.cx-payment-card').should('have.length', 1);
@@ -143,9 +139,7 @@ export function visitPaymentDetailsPage(isMobile: boolean = false) {
     option: 'Payment Details',
     isMobile,
   });
-  cy.wait(`@${paymentDetailPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${paymentDetailPage}`).its('status').should('eq', 200);
 }
 
 export function paymentMethodsTest(isMobile: boolean = false) {
@@ -198,13 +192,15 @@ export function paymentMethodsTest(isMobile: boolean = false) {
 function addPaymentMethod(paymentDetail: PaymentDetail) {
   cy.get('.cx-total')
     .first()
-    .then($cart => {
+    .then(($cart) => {
       const cartid = $cart.text().match(/[0-9]+/)[0];
       cy.request({
         method: 'POST',
-        url: `${Cypress.env(
-          'API_URL'
-        )}/rest/v2/electronics-spa/users/current/carts/${cartid}/paymentdetails`,
+        url: `${Cypress.env('API_URL')}/${Cypress.env(
+          'OCC_PREFIX'
+        )}/${Cypress.env(
+          'BASE_SITE'
+        )}/users/current/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(localStorage.getItem('spartacus-local-data')).auth
@@ -212,7 +208,7 @@ function addPaymentMethod(paymentDetail: PaymentDetail) {
           }`,
         },
         body: paymentDetail,
-      }).then(response => {
+      }).then((response) => {
         expect(response.status).to.eq(201);
       });
     });

@@ -1,11 +1,14 @@
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
+import { defaultOccConfig } from '../../occ/config/default-occ-config';
 import { SmartEditService } from '../services/smart-edit.service';
 import { CmsTicketInterceptor } from './cms-ticket.interceptor';
+
+const OccUrl = `https://localhost:9002${defaultOccConfig.backend.occ.prefix}electronics`;
 
 class MockSmartEditService {
   private _cmsTicketId: string;
@@ -46,10 +49,10 @@ describe('CmsTicketInterceptor', () => {
   it('should not add parameters: cmsTicketId', inject(
     [HttpClient],
     (http: HttpClient) => {
-      http.get('/xxx').subscribe(result => {
+      http.get('/xxx').subscribe((result) => {
         expect(result).toBeTruthy();
       });
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -65,12 +68,10 @@ describe('CmsTicketInterceptor', () => {
         'mockCmsTicketId'
       );
 
-      http
-        .get('https://localhost:9002/rest/v2/electronics/cms/page')
-        .subscribe(result => {
-          expect(result).toBeTruthy();
-        });
-      const mockReq = httpMock.expectOne(req => {
+      http.get(`${OccUrl}/cms/page`).subscribe((result) => {
+        expect(result).toBeTruthy();
+      });
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -88,13 +89,11 @@ describe('CmsTicketInterceptor', () => {
         'mockCmsTicketId'
       );
 
-      http
-        .get('https://localhost:9002/rest/v2/electronics/user')
-        .subscribe(result => {
-          expect(result).toBeTruthy();
-        });
+      http.get(`${OccUrl}/user`).subscribe((result) => {
+        expect(result).toBeTruthy();
+      });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 

@@ -225,7 +225,7 @@ describe('PromotionService', () => {
       it('should return appropriate applied order promotions for cart', () => {
         promotionService
           .getOrderPromotions(promotionLocation)
-          .subscribe(promotions => (appliedOrderPromotions = promotions))
+          .subscribe((promotions) => (appliedOrderPromotions = promotions))
           .unsubscribe();
         expect(appliedOrderPromotions).toEqual(expectedAppliedOrderPromotions);
       });
@@ -248,7 +248,7 @@ describe('PromotionService', () => {
       it('should return appropriate applied order promotions for checkout', () => {
         promotionService
           .getOrderPromotions(promotionLocation)
-          .subscribe(promotions => (appliedOrderPromotions = promotions))
+          .subscribe((promotions) => (appliedOrderPromotions = promotions))
           .unsubscribe();
         expect(appliedOrderPromotions).toEqual(expectedAppliedOrderPromotions);
       });
@@ -271,7 +271,7 @@ describe('PromotionService', () => {
       it('should return appropriate applied order promotions for order', () => {
         promotionService
           .getOrderPromotions(promotionLocation)
-          .subscribe(promotions => (appliedOrderPromotions = promotions))
+          .subscribe((promotions) => (appliedOrderPromotions = promotions))
           .unsubscribe();
         expect(appliedOrderPromotions).toEqual(expectedAppliedOrderPromotions);
       });

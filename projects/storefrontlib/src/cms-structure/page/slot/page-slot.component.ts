@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
@@ -9,17 +10,25 @@ import {
   Renderer2,
 } from '@angular/core';
 import {
-  CmsConfig,
   CmsService,
   ContentSlotComponentData,
   ContentSlotData,
-  DeferLoadingStrategy,
   DynamicAttributeService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
+import { CmsComponentsService } from '../../services/cms-components.service';
 
+/**
+ * The `PageSlotComponent` is used to render the CMS page slot and it's components.
+ *
+ * The Page slot host element will be supplemented with css classes so that the layout
+ * can be fully controlled by customers:
+ * - The page slot _position_ is added as a css class by default.
+ * - The `cx-pending` is added for as long as the slot hasn't start loading.
+ * - The `page-fold` style class is added for the page slot which is configured as the page fold.
+ */
 @Component({
   selector: 'cx-page-slot,[cx-page-slot]',
   templateUrl: './page-slot.component.html',
@@ -27,129 +36,157 @@ import { IntersectionOptions } from '../../../layout/loading/intersection.model'
 })
 export class PageSlotComponent implements OnInit, OnDestroy {
   /**
-   * The position is used to find the CMS page slot (and optional outlet)
-   * that is rendered in the PageSlotComponent. Furthermore, the position
-   * is added as a CSS class name to the host element.
+   * The position represents the unique key for a page slot on a single page, but can
+   * be reused cross pages.
+   *
+   * The position is used to find the CMS components for the page slot. It is also
+   * added as an additional CSS class so that layoutt can be applied.
    */
-  @Input()
-  set position(position: string) {
-    this.position$.next(position);
-    this.renderer.addClass(this.hostElement.nativeElement, position);
+  @Input() set position(value: string) {
+    this.position$.next(value);
   }
   get position(): string {
     return this.position$.value;
   }
 
-  @HostBinding('class.cx-pending') isPending = true;
-  @HostBinding('class.has-components') hasComponents = false;
+  /**
+   * Maintains css classes introduced by the host and adds additional classes.
+   */
+  @Input() @HostBinding() class: string;
+
+  /**
+   * Indicates that the page slot is the last page slot above the fold.
+   */
   @HostBinding('class.page-fold') @Input() isPageFold = false;
 
-  private pendingComponentCount: number;
-
-  readonly position$ = new BehaviorSubject<string>(undefined);
+  /**
+   * Indicates that the components of the page slot haven't been loaded as long
+   * as the isPending state is true.
+   */
+  @HostBinding('class.cx-pending') isPending = true;
 
   /**
-   * observable with `ContentSlotData` for the current position
-   *
-   * @deprecated we'll stop supporting this property in 2.0 as
-   * it is not used separately.
+   * Indicates that the page slot doesn't contain any components. This is no
+   * longer used in spartacus, but kept for backwards compatibility.
    */
-  readonly slot$: Observable<ContentSlotData> = this.position$.pipe(
-    switchMap(position => this.cmsService.getContentSlot(position)),
-    tap(slot => this.addSmartEditSlotClass(slot))
+  @HostBinding('class.has-components') @Input() hasComponents = false;
+
+  protected position$: BehaviorSubject<string> = new BehaviorSubject(undefined);
+
+  components: ContentSlotComponentData[];
+
+  protected slot$: Observable<ContentSlotData> = this.position$.pipe(
+    switchMap((position) => this.cmsService.getContentSlot(position)),
+    distinctUntilChanged(this.isDistinct)
   );
 
-  readonly components$: Observable<
-    ContentSlotComponentData[]
-  > = this.slot$.pipe(
-    map(slot => (slot && slot.components ? slot.components : [])),
-    distinctUntilChanged(
-      (a, b) =>
-        a.length === b.length && !a.find((el, index) => el.uid !== b[index].uid)
-    )
+  /** Observes the components for the given page slot. */
+  components$: Observable<ContentSlotComponentData[]> = this.slot$.pipe(
+    map((slot) => slot?.components ?? [])
   );
 
-  private subscription = new Subscription();
+  protected subscription: Subscription = new Subscription();
 
-  constructor(
-    cmsService: CmsService,
-    dynamicAttributeService: DynamicAttributeService,
-    renderer: Renderer2,
-    hostElement: ElementRef,
-    // tslint:disable-next-line:unified-signatures
-    config: CmsConfig
-  );
-  /**
-   * @deprecated since version 1.4
-   * Use constructor(cmsService: CmsService, dynamicAttributeService: DynamicAttributeService, renderer: Renderer2, hostElement: ElementRef, config?: CmsConfig) instead
-   */
-  constructor(
-    cmsService: CmsService,
-    dynamicAttributeService: DynamicAttributeService,
-    renderer: Renderer2,
-    hostElement: ElementRef
-  );
+  /** Keeps track of the pending components that must be loaded for the page slot */
+  private pendingComponentCount = 0;
+
+  /** Tracks the last used position, in case the page slot is used dynamically */
+  private lastPosition: string;
   constructor(
     protected cmsService: CmsService,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
-    protected hostElement: ElementRef,
-    protected config?: CmsConfig
+    protected elementRef: ElementRef,
+    protected cmsComponentsService: CmsComponentsService,
+    protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.subscription.add(
-      this.components$.subscribe(components => {
-        this.hasComponents = components && components.length > 0;
-        this.pendingComponentCount = components ? components.length : 0;
-        this.isPending = this.pendingComponentCount > 0;
+      this.slot$.pipe(tap((slot) => this.decorate(slot))).subscribe((value) => {
+        this.components = value?.components || [];
+        this.cd.markForCheck();
       })
     );
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  protected decorate(slot: ContentSlotData): void {
+    let cls = this.class || '';
+
+    if (this.lastPosition && cls.indexOf(this.lastPosition) > -1) {
+      cls = cls.replace(this.lastPosition, '');
+    }
+    if (this.position$.value) {
+      cls += ` ${this.position$.value}`;
+      this.lastPosition = this.position$.value;
+    }
+
+    // host bindings
+    this.pending = slot?.components?.length || 0;
+    this.hasComponents = slot?.components?.length > 0;
+    if (cls && cls !== this.class) {
+      this.class = cls;
+    }
+
+    this.addSmartEditSlotClass(slot);
   }
 
   /**
-   * Is triggered when a component is added to the view.
-   * We use this information to dropthe `is-pending` class from the page slot
-   * when all nested components have been added.
+   * Sets the pending count for the page slot components. Once all pending components are
+   * loaded, the `isPending` flag is updated, so that the associated class can be updated
    */
-  isLoaded(loadState: boolean) {
-    if (loadState) {
-      this.pendingComponentCount--;
-    }
+  protected set pending(count: number) {
+    this.pendingComponentCount = count;
     this.isPending = this.pendingComponentCount > 0;
   }
 
-  getComponentDeferOptions(componentType: string): IntersectionOptions {
-    const deferLoading = this.getDeferLoadingStrategy(componentType);
-    return { deferLoading };
+  protected get pending(): number {
+    return this.pendingComponentCount;
+  }
+
+  /*
+   * Is triggered when a component is added to the view. This is used to
+   * update the pending count
+   */
+  isLoaded(loadState: boolean) {
+    if (loadState) {
+      this.pending--;
+      this.cd.markForCheck();
+    }
   }
 
   /**
-   * The `DeferLoadingStrategy` indicates whether component rendering
-   * should be deferred.
+   * The `DeferLoadingStrategy` indicates whether the component should be
+   * rendered instantly or whether it should be deferred.
    */
-  private getDeferLoadingStrategy(componentType: string): DeferLoadingStrategy {
-    if (this.config) {
-      return ((this.config as CmsConfig).cmsComponents[componentType] || {})
-        .deferLoading;
-    }
+  getComponentDeferOptions(componentType: string): IntersectionOptions {
+    const deferLoading = this.cmsComponentsService.getDeferLoadingStrategy(
+      componentType
+    );
+    return { deferLoading };
+  }
+
+  protected isDistinct(old: ContentSlotData, current: ContentSlotData) {
+    return (
+      current.components &&
+      old.components?.length === current.components.length &&
+      !old.components.find(
+        (el, index) => el.uid !== current.components[index].uid
+      )
+    );
   }
 
   private addSmartEditSlotClass(slot): void {
     if (slot && this.cmsService.isLaunchInSmartEdit()) {
-      this.addSmartEditContract(slot);
+      this.dynamicAttributeService.addDynamicAttributes(
+        slot.properties,
+        this.elementRef.nativeElement,
+        this.renderer
+      );
     }
   }
 
-  private addSmartEditContract(slot: ContentSlotData): void {
-    this.dynamicAttributeService.addDynamicAttributes(
-      slot.properties,
-      this.hostElement.nativeElement,
-      this.renderer
-    );
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

@@ -32,9 +32,7 @@ export function migrate(): Rule {
               `'${removedNode.node}' is no longer part of the public API. Please look into migration guide for more information`
           )
         );
-        if (changes.length) {
-          commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-        }
+        commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
       }
     }
 

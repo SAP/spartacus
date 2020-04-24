@@ -26,11 +26,11 @@ export class PaymentMethodsComponent implements OnInit {
 
   ngOnInit(): void {
     this.paymentMethods$ = this.userPaymentService.getPaymentMethods().pipe(
-      tap(paymentDetails => {
+      tap((paymentDetails) => {
         // Set first payment method to DEFAULT if none is set
         if (
           paymentDetails.length > 0 &&
-          !paymentDetails.find(paymentDetail => paymentDetail.defaultPayment)
+          !paymentDetails.find((paymentDetail) => paymentDetail.defaultPayment)
         ) {
           this.setDefaultPaymentMethod(paymentDetails[0]);
         }

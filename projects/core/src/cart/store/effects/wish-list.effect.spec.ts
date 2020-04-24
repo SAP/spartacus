@@ -9,8 +9,9 @@ import { Cart, SaveCartResult } from '../../../model/cart.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { CartConnector } from '../../connectors';
 import { SaveCartConnector } from '../../connectors/save-cart';
+import { getCartIdByUserId, getWishlistName } from '../../utils/utils';
 import { CartActions } from '../actions';
-import { StateWithMultiCart } from '../multi-cart-state';
+import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';
 import * as fromEffects from './wish-list.effect';
 import { WishListEffects } from './wish-list.effect';
 import createSpy = jasmine.createSpy;
@@ -37,7 +38,7 @@ const testCart: Cart = {
 
 const wishList: Cart = {
   code: wishListId,
-  name: `wishlist${customerId}`,
+  name: getWishlistName(customerId),
 };
 
 const saveCartResult: SaveCartResult = {
@@ -76,7 +77,7 @@ describe('Wish List Effect', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          'multi-cart',
+          MULTI_CART_FEATURE,
           fromReducers.getMultiCartReducers()
         ),
       ],
@@ -118,7 +119,11 @@ describe('Wish List Effect', () => {
 
   describe('loadWishList$', () => {
     it('should create wish list if it does NOT exist', () => {
-      const payload = { userId, customerId };
+      const payload = {
+        userId,
+        customerId,
+        tempCartId: getWishlistName(customerId),
+      };
 
       spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart]));
 
@@ -126,7 +131,7 @@ describe('Wish List Effect', () => {
 
       const createWishListAction = new CartActions.CreateWishList({
         userId,
-        name: `wishlist${customerId}`,
+        name: getWishlistName(customerId),
       });
 
       actions$ = hot('-a', { a: action });
@@ -135,7 +140,11 @@ describe('Wish List Effect', () => {
       expect(wishListEffect.loadWishList$).toBeObservable(expected);
     });
     it('should dispatch load wish list success if it exists', () => {
-      const payload = { userId, customerId };
+      const payload = {
+        userId,
+        customerId,
+        tempCartId: getWishlistName(customerId),
+      };
 
       spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart, wishList]));
 
@@ -144,10 +153,20 @@ describe('Wish List Effect', () => {
       const loadWishListSuccessAction = new CartActions.LoadWishListSuccess({
         cart: wishList,
         userId,
+        cartId: getCartIdByUserId(wishList, userId),
+        tempCartId: getWishlistName(customerId),
+        customerId,
+      });
+
+      const removeCartAction = new CartActions.RemoveCart({
+        cartId: getWishlistName(customerId),
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: loadWishListSuccessAction });
+      const expected = cold('-(bc)', {
+        b: loadWishListSuccessAction,
+        c: removeCartAction,
+      });
 
       expect(wishListEffect.loadWishList$).toBeObservable(expected);
     });
@@ -156,7 +175,11 @@ describe('Wish List Effect', () => {
   describe('resetWishList$', () => {
     it('should load wish list from id', () => {
       store.dispatch(
-        new CartActions.LoadWishListSuccess({ cart: testCart, userId })
+        new CartActions.LoadWishListSuccess({
+          cart: testCart,
+          userId,
+          cartId: getCartIdByUserId(testCart, userId),
+        })
       );
 
       const action = new SiteContextActions.CurrencyChange();
@@ -164,6 +187,7 @@ describe('Wish List Effect', () => {
       const resetWishListAction = new CartActions.LoadWishListSuccess({
         cart: wishList,
         userId,
+        cartId: getCartIdByUserId(wishList, userId),
       });
 
       actions$ = hot('-a', { a: action });

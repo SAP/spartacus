@@ -15,7 +15,7 @@
         [promotionLocation]="promotionLocation"
         [options]="{
           isSaveForLater: false,
-          optionalBtn: isSaveForLaterEnabled() ? saveForLaterBtn : null
+          optionalBtn: saveForLaterBtn
         }"
       ></cx-cart-item-list>
     </div>
@@ -25,7 +25,7 @@
 <ng-template let-ctx #saveForLaterBtn>
   <div class="col-md-3 col-lg-3 col-xl-3 cx-sfl-btn">
     <button
-      class="link"
+      class="link cx-action-link"
       [disabled]="ctx.loading"
       (click)="saveForLater(ctx.item)"
       type="button"

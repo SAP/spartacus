@@ -18,6 +18,7 @@ import { OrderConfirmationTotalsComponent } from './components/order-confirmatio
 import { GuestRegisterFormComponent } from './components/guest-register-form/guest-register-form.component';
 import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
 import { PromotionsModule } from '../checkout/components/promotions/promotions.module';
+import { FormErrorsModule } from '../../shared/index';
 
 const orderConfirmationComponents = [
   OrderConfirmationItemsComponent,
@@ -37,6 +38,7 @@ const orderConfirmationComponents = [
     I18nModule,
     ReactiveFormsModule,
     FeaturesConfigModule,
+    FormErrorsModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

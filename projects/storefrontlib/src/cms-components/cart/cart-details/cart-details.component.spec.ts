@@ -6,8 +6,6 @@ import {
   ActiveCartService,
   AuthService,
   Cart,
-  FeatureConfigService,
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   Order,
@@ -32,7 +30,7 @@ class MockActiveCartService {
   getEntries(): Observable<OrderEntry[]> {
     return of([{}]);
   }
-  getLoaded(): Observable<boolean> {
+  isStable(): Observable<boolean> {
     return of(true);
   }
 }
@@ -89,10 +87,6 @@ describe('CartDetailsComponent', () => {
     ['getCart', 'getLoaded', 'removeEntry', 'getEntries', 'addEntry']
   );
 
-  const mockFeatureConfigService = jasmine.createSpyObj(
-    'FeatureConfigService',
-    ['isEnabled', 'isLevel']
-  );
   const mockAuthService = jasmine.createSpyObj('AuthService', [
     'isUserLoggedIn',
   ]);
@@ -113,7 +107,6 @@ describe('CartDetailsComponent', () => {
         MockCartCouponComponent,
       ],
       providers: [
-        { provide: FeatureConfigService, useValue: mockFeatureConfigService },
         { provide: SelectiveCartService, useValue: mockSelectiveCartService },
         { provide: AuthService, useValue: mockAuthService },
         { provide: RoutingService, useValue: mockRoutingService },
@@ -124,12 +117,6 @@ describe('CartDetailsComponent', () => {
         {
           provide: PromotionService,
           useClass: MockPromotionService,
-        },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.3' },
-          },
         },
       ],
     }).compileComponents();
@@ -142,12 +129,6 @@ describe('CartDetailsComponent', () => {
   });
 
   it('should create cart details component', () => {
-    mockFeatureConfigService.isEnabled.and.returnValue(false);
-    fixture.detectChanges();
-    expect(component).toBeTruthy();
-
-    mockFeatureConfigService.isEnabled.and.returnValue(true);
-    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
@@ -158,14 +139,12 @@ describe('CartDetailsComponent', () => {
         code: 'PR0000',
       },
     };
-    mockFeatureConfigService.isLevel.and.returnValue(true);
-    mockFeatureConfigService.isEnabled.and.returnValue(true);
     mockAuthService.isUserLoggedIn.and.returnValue(of(true));
     mockSelectiveCartService.addEntry.and.callThrough();
     mockSelectiveCartService.getLoaded.and.returnValue(of(true));
     spyOn(activeCartService, 'removeEntry').and.callThrough();
     spyOn(activeCartService, 'getEntries').and.callThrough();
-    spyOn(activeCartService, 'getLoaded').and.returnValue(of(true));
+    spyOn(activeCartService, 'isStable').and.returnValue(of(true));
     fixture.detectChanges();
     component.saveForLater(mockItem);
     expect(activeCartService.removeEntry).toHaveBeenCalledWith(mockItem);

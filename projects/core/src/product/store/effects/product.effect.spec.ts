@@ -35,8 +35,8 @@ const product: Product = {
 };
 
 class MockProductConnector {
-  getMany = createSpy().and.callFake(products =>
-    products.map(pr => ({ ...pr, data$: of(product) }))
+  getMany = createSpy().and.callFake((products) =>
+    products.map((pr) => ({ ...pr, data$: of(product) }))
   );
 }
 

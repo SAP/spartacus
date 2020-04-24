@@ -75,7 +75,7 @@ export class ProductsGenerator extends ClientGenerator {
   }
 
   anonymize = (data: Product[]) =>
-    data.map(product => ({
+    data.map((product) => ({
       ...product,
       name: faker.commerce.productName(),
     }));
@@ -84,8 +84,8 @@ export class ProductsGenerator extends ClientGenerator {
     searchProducts: Product[],
     products: Product[]
   ) => {
-    return searchProducts.map(product => {
-      const anonymizedProduct = products.find(p => p.code === product.code);
+    return searchProducts.map((product) => {
+      const anonymizedProduct = products.find((p) => p.code === product.code);
       return {
         ...product,
         name: anonymizedProduct.name,
@@ -94,7 +94,7 @@ export class ProductsGenerator extends ClientGenerator {
   };
 
   getProductPages(site: string, code: string) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.client.getPageData(
         site,
         {

@@ -14,12 +14,12 @@ export class MiniCartComponent {
 
   quantity$: Observable<number> = this.activeCartService.getActive().pipe(
     startWith({ deliveryItemsQuantity: 0 }),
-    map(cart => cart.deliveryItemsQuantity || 0)
+    map((cart) => cart.deliveryItemsQuantity || 0)
   );
 
   total$: Observable<string> = this.activeCartService.getActive().pipe(
-    filter(cart => !!cart.totalPrice),
-    map(cart => cart.totalPrice.formattedValue)
+    filter((cart) => !!cart.totalPrice),
+    map((cart) => cart.totalPrice.formattedValue)
   );
 
   constructor(protected activeCartService: ActiveCartService) {}

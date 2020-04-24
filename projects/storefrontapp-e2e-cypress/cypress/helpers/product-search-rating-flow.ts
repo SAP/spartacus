@@ -10,6 +10,7 @@ import {
   pageLinkSelector,
   previousPage,
   QUERY_ALIAS,
+  searchUrlPrefix,
   verifyProductSearch,
 } from './product-search';
 
@@ -37,9 +38,7 @@ export function productRatingFlow(mobile?: string) {
 
   cy.get('cx-searchbox input').type(`${productName}{enter}`);
 
-  cy.wait(`@${QUERY_ALIAS.DSC_N1}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${QUERY_ALIAS.DSC_N1}`).its('status').should('eq', 200);
 
   assertNumberOfProducts(`@${QUERY_ALIAS.DSC_N1}`, `"${productName}"`);
 
@@ -51,9 +50,7 @@ export function productRatingFlow(mobile?: string) {
 
   // Navigate to previous page
   previousPage();
-  cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`).its('status').should('eq', 200);
 
   // active paginated number
   cy.get(pageLinkSelector).should('contain', `1`);
@@ -61,42 +58,27 @@ export function productRatingFlow(mobile?: string) {
   assertFirstProduct();
 
   // Filter by category
-  clickFacet('Category');
+  cy.route('GET', `${searchUrlPrefix}?fields=*`).as('facets');
+  clickFacet('Category', mobile);
 
-  cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@facets`).its('status').should('eq', 200);
 
-  assertNumberOfProducts(
-    `@${QUERY_ALIAS.TOP_RATED_FILTER}`,
-    `"${productName}"`
-  );
+  assertNumberOfProducts(`@facets`, `"${productName}"`);
 
   assertFirstProduct();
 
-  clearSelectedFacet(mobile);
+  clearSelectedFacet();
 
-  cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
-    .its('status')
-    .should('eq', 200);
+  cy.route('GET', `${searchUrlPrefix}?fields=*`).as('facets');
 
-  assertNumberOfProducts(
-    `@${QUERY_ALIAS.TOP_RATED_FILTER}`,
-    `"${productName}"`
-  );
+  cy.wait(`@facets`).its('status').should('eq', 200);
+
+  assertNumberOfProducts(`@facets`, `"${productName}"`);
 
   // Select product and read all the tabs on product details page
   cy.get('cx-product-list-item:first .cx-product-name').click();
-  cy.get(tabsHeaderList)
-    .eq(0)
-    .should('contain', 'Product Details');
-  cy.get(tabsHeaderList)
-    .eq(1)
-    .should('contain', 'Specs');
-  cy.get(tabsHeaderList)
-    .eq(2)
-    .should('contain', 'Reviews');
-  cy.get(tabsHeaderList)
-    .eq(3)
-    .should('contain', 'Shipping');
+  cy.get(tabsHeaderList).eq(0).should('contain', 'Product Details');
+  cy.get(tabsHeaderList).eq(1).should('contain', 'Specs');
+  cy.get(tabsHeaderList).eq(2).should('contain', 'Reviews');
+  cy.get(tabsHeaderList).eq(3).should('contain', 'Shipping');
 }

@@ -16,7 +16,7 @@ export class CartNotEmptyGuard implements CanActivate {
   canActivate(): Observable<boolean> {
     return combineLatest([
       this.activeCartService.getActive(),
-      this.activeCartService.getLoaded(),
+      this.activeCartService.isStable(),
     ]).pipe(
       filter(([_, loaded]) => loaded),
       map(([cart]) => {

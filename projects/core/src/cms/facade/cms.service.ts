@@ -61,7 +61,7 @@ export class CmsService {
     return this.routingService
       .getPageContext()
       .pipe(
-        switchMap(pageContext =>
+        switchMap((pageContext) =>
           this.store.select(CmsSelectors.getPageData(pageContext))
         )
       );
@@ -105,8 +105,8 @@ export class CmsService {
   ): Observable<T> {
     if (!pageContext) {
       return this.routingService.getPageContext().pipe(
-        filter(currentContext => !!currentContext),
-        switchMap(currentContext =>
+        filter((currentContext) => !!currentContext),
+        switchMap((currentContext) =>
           this.getComponentData<T>(uid, currentContext)
         )
       );
@@ -158,7 +158,7 @@ export class CmsService {
     return this.routingService
       .getPageContext()
       .pipe(
-        switchMap(pageContext =>
+        switchMap((pageContext) =>
           this.store.pipe(
             select(
               CmsSelectors.getCurrentSlotSelectorFactory(pageContext, position)
@@ -203,7 +203,7 @@ export class CmsService {
     this.routingService
       .getPageContext()
       .pipe(take(1))
-      .subscribe(pageContext =>
+      .subscribe((pageContext) =>
         this.store.dispatch(new CmsActions.LoadCmsPageData(pageContext))
       );
   }
@@ -260,7 +260,7 @@ export class CmsService {
           forceReload = false;
         }
       }),
-      filter(entity => {
+      filter((entity) => {
         if (!entity.hasOwnProperty('value')) {
           // if we have incomplete state from SSR failed load transfer state,
           // we should wait for reload and actual value
@@ -278,7 +278,7 @@ export class CmsService {
    **/
   getPage(pageContext: PageContext, forceReload = false): Observable<Page> {
     return this.hasPage(pageContext, forceReload).pipe(
-      switchMap(hasPage =>
+      switchMap((hasPage) =>
         hasPage ? this.getPageState(pageContext) : of(null)
       )
     );

@@ -16,31 +16,31 @@ export class NavigationEntryItemEffects {
   > = this.actions$.pipe(
     ofType(CmsActions.LOAD_CMS_NAVIGATION_ITEMS),
     map((action: CmsActions.LoadCmsNavigationItems) => action.payload),
-    map(payload => {
+    map((payload) => {
       return {
         ids: this.getIdListByItemType(payload.items),
         nodeId: payload.nodeId,
       };
     }),
-    mergeMap(data => {
+    mergeMap((data) => {
       if (data.ids.componentIds.length > 0) {
         return this.routingService.getRouterState().pipe(
-          filter(routerState => routerState !== undefined),
-          map(routerState => routerState.state.context),
+          filter((routerState) => routerState !== undefined),
+          map((routerState) => routerState.state.context),
           take(1),
-          mergeMap(pageContext =>
+          mergeMap((pageContext) =>
             // download all items in one request
             this.cmsComponentConnector
               .getList(data.ids.componentIds, pageContext)
               .pipe(
                 map(
-                  components =>
+                  (components) =>
                     new CmsActions.LoadCmsNavigationItemsSuccess({
                       nodeId: data.nodeId,
                       components: components,
                     })
                 ),
-                catchError(error =>
+                catchError((error) =>
                   of(
                     new CmsActions.LoadCmsNavigationItemsFail(
                       data.nodeId,
@@ -76,7 +76,7 @@ export class NavigationEntryItemEffects {
     const componentIds: string[] = [];
     const mediaIds: string[] = [];
 
-    itemList.forEach(item => {
+    itemList.forEach((item) => {
       if (item.superType === 'AbstractCMSComponent') {
         componentIds.push(item.id);
       } else if (item.superType === 'AbstractPage') {

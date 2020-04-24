@@ -75,7 +75,7 @@ describe('ReturnRequestService', () => {
     let result: ReturnRequest;
     service
       .getReturnRequest()
-      .subscribe(returnRequest => (result = returnRequest));
+      .subscribe((returnRequest) => (result = returnRequest));
     expect(result).toEqual(mockReturnRequest);
   });
 
@@ -83,10 +83,7 @@ describe('ReturnRequestService', () => {
     spyOn(orderReturnRequestService, 'getOrderReturnRequest').and.returnValue(
       of(undefined)
     );
-    service
-      .getReturnRequest()
-      .subscribe()
-      .unsubscribe();
+    service.getReturnRequest().subscribe().unsubscribe();
     expect(
       orderReturnRequestService.loadOrderReturnRequestDetail
     ).toHaveBeenCalled();
@@ -96,10 +93,7 @@ describe('ReturnRequestService', () => {
     spyOn(orderReturnRequestService, 'getOrderReturnRequest').and.returnValue(
       of({ rma: '1111', returnEntries: [] })
     );
-    service
-      .getReturnRequest()
-      .subscribe()
-      .unsubscribe();
+    service.getReturnRequest().subscribe().unsubscribe();
     expect(
       orderReturnRequestService.loadOrderReturnRequestDetail
     ).toHaveBeenCalled();
@@ -112,10 +106,7 @@ describe('ReturnRequestService', () => {
     spyOn(orderReturnRequestService, 'getReturnRequestLoading').and.returnValue(
       of(true)
     );
-    service
-      .getReturnRequest()
-      .subscribe()
-      .unsubscribe();
+    service.getReturnRequest().subscribe().unsubscribe();
     expect(
       orderReturnRequestService.loadOrderReturnRequestDetail
     ).not.toHaveBeenCalled();

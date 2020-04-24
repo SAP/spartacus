@@ -10,11 +10,12 @@ describe('Language switch - checkout page', () => {
   const deutschName = siteContextSelector.PRODUCT_NAME_CART_DE;
 
   before(() => {
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
       win.localStorage.clear();
     });
     cy.requireLoggedIn();
+    siteContextSelector.doPlaceOrder();
   });
 
   siteContextSelector.stub(
@@ -24,7 +25,6 @@ describe('Language switch - checkout page', () => {
 
   describe('populate cart, history, quantity', () => {
     it('should have basic data', () => {
-      siteContextSelector.doPlaceOrder();
       manipulateCartQuantity();
     });
   });
@@ -32,8 +32,16 @@ describe('Language switch - checkout page', () => {
   describe('checkout page', () => {
     it('should change language in the shipping address url', () => {
       // page being already tested in language-address-book
+      cy.route(
+        'PUT',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/users/current/carts/*/addresses/delivery?*`
+      ).as('setAddress');
+      cy.visit(checkoutShippingPath);
+      cy.wait('@setAddress');
       siteContextSelector.verifySiteContextChangeUrl(
-        checkoutShippingPath,
+        null,
         siteContextSelector.LANGUAGES,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL,

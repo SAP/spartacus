@@ -105,7 +105,7 @@ export class CustomSerializer
           (state.routeConfig &&
             state.routeConfig.canActivate &&
             state.routeConfig.canActivate.find(
-              x => x && x.guardName === 'CmsPageGuard'
+              (x) => x && x.guardName === 'CmsPageGuard'
             )))
       ) {
         cmsRequired = true;
@@ -131,7 +131,7 @@ export class CustomSerializer
       } else if (!context) {
         if (state.url.length > 0) {
           const pageLabel =
-            '/' + state.url.map(urlSegment => urlSegment.path).join('/');
+            '/' + state.url.map((urlSegment) => urlSegment.path).join('/');
           context = {
             id: pageLabel,
             type: PageType.CONTENT_PAGE,

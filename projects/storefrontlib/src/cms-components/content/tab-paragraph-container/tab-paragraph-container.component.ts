@@ -117,7 +117,7 @@ export class TabParagraphContainerComponent
   }
 
   private getTitleParams(children: QueryList<ComponentWrapperDirective>) {
-    children.forEach(comp => {
+    children.forEach((comp) => {
       if (comp.cmpRef && comp.cmpRef.instance.tabTitleParam$) {
         this.tabTitleParams.push(comp.cmpRef.instance.tabTitleParam$);
       } else {

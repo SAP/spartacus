@@ -11,10 +11,7 @@ export function getSourceRoot(
   const workspace = getWorkspace(host).workspace;
 
   if (!options.project) {
-    options.project =
-      workspace.defaultProject !== undefined
-        ? workspace.defaultProject
-        : Object.keys(workspace.projects)[0];
+    options.project = getDefaultProjectNameFromWorkspace(host);
   }
 
   const sourceRoot = workspace.projects[options.project].sourceRoot;
@@ -30,7 +27,7 @@ export function getWorkspace(
   files = DEFAULT_POSSIBLE_PROJECT_FILES
 ): { path: string; workspace: experimental.workspace.WorkspaceSchema } {
   const angularJson = getAngularJsonFile(host, files);
-  const path = files.filter(filePath => host.exists(filePath))[0];
+  const path = files.filter((filePath) => host.exists(filePath))[0];
 
   return {
     path,
@@ -42,7 +39,7 @@ function getAngularJsonFile(
   tree: Tree,
   possibleProjectFiles = DEFAULT_POSSIBLE_PROJECT_FILES
 ): experimental.workspace.WorkspaceSchema {
-  const path = possibleProjectFiles.filter(filePath =>
+  const path = possibleProjectFiles.filter((filePath) =>
     tree.exists(filePath)
   )[0];
   if (!path) {
@@ -84,4 +81,12 @@ export function getProjectFromWorkspace(
   }
 
   return project;
+}
+
+export function getDefaultProjectNameFromWorkspace(tree: Tree): string {
+  const workspace = getWorkspace(tree).workspace;
+
+  return workspace.defaultProject !== undefined
+    ? workspace.defaultProject
+    : Object.keys(workspace.projects)[0];
 }

@@ -12,9 +12,10 @@ Run the following command from your project root:
 
 - `baseUrl`: Base url of your CX OCC backend
 - `baseSite`: Name of your base site
+- `occPrefix`: The OCC API prefix. E.g.: /occ/v2/
 - `useMetaTags`: Whether or not to configure baseUrl and mediaUrl in the meta tags from `index.html`
-- `featureLevel`: Application feature level. (default: _1.3_)
-- `overwriteAppComponent`: Overwrite content of app.component.html file. (default: false)
+- `featureLevel`: Application feature level. (default: _2.0_)
+- `overwriteAppComponent`: Overwrite content of app.component.html file. (default: true)
 - `pwa`: Include PWA features while constructing application.
 - `ssr`: Include Server-side Rendering configuration.
 
@@ -172,8 +173,6 @@ Some examples:
 #### Component deprecation
 
 Similar to [constructor deprecation](#Constructor-deprecation), `projects/schematics/src/migrations/2_0/component-deprecations.ts` performs the component migration tasks, for both component _*.ts_ and _HTML_ templates. Usually, a developer does not need to touch this file, and they should rather describe the component deprecation in `projects/schematics/src/migrations/2_0/component-deprecations-data.ts`. The constant `COMPONENT_DEPRECATION_DATA` describes the deprecated components.
-
-If needed, there's a `projects/schematics/src/shared/utils/file-utils.ts#insertHtmlComment` method, to which you can provide a Spartacus component selector, above which the schematic will insert a comment.
 
 #### CSS
 

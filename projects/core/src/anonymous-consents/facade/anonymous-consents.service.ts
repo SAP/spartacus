@@ -133,9 +133,9 @@ export class AnonymousConsentsService {
    */
   getConsent(templateId: string): Observable<AnonymousConsent> {
     return this.authService.isUserLoggedIn().pipe(
-      filter(authenticated => !authenticated),
-      tap(_ => this.getTemplates(true)),
-      switchMap(_ =>
+      filter((authenticated) => !authenticated),
+      tap(() => this.getTemplates(true)),
+      switchMap(() =>
         this.store.pipe(
           select(
             AnonymousConsentsSelectors.getAnonymousConsentByTemplateCode(
@@ -162,8 +162,8 @@ export class AnonymousConsentsService {
    */
   giveAllConsents(): Observable<ConsentTemplate[]> {
     return this.getTemplates(true).pipe(
-      tap(templates =>
-        templates.forEach(template => this.giveConsent(template.id))
+      tap((templates) =>
+        templates.forEach((template) => this.giveConsent(template.id))
       )
     );
   }
@@ -191,8 +191,8 @@ export class AnonymousConsentsService {
    */
   withdrawAllConsents(): Observable<ConsentTemplate[]> {
     return this.getTemplates(true).pipe(
-      tap(templates =>
-        templates.forEach(template => this.withdrawConsent(template.id))
+      tap((templates) =>
+        templates.forEach((template) => this.withdrawConsent(template.id))
       )
     );
   }
@@ -237,7 +237,7 @@ export class AnonymousConsentsService {
    */
   getTemplatesUpdated(): Observable<boolean> {
     return this.getTemplates(true).pipe(
-      switchMap(_ =>
+      switchMap(() =>
         this.store.pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesUpdate)
         )

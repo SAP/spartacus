@@ -164,7 +164,7 @@ describe('Component Effects', () => {
           uid: component2.uid,
           pageContext: pageContext2,
         });
-        const getListSpy = spyOn(service, 'getList').and.callFake(ids =>
+        const getListSpy = spyOn(service, 'getList').and.callFake((ids) =>
           cold('---a', { a: [{ ...component, uid: ids[0] }] })
         );
 

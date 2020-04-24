@@ -11,9 +11,7 @@ export function setupForAddressBookTests() {
 export function addressBookFormTabbingOrder(config: TabElement[]) {
   cy.visit('/my-account/address-book');
 
-  cy.get('.BodyContent')
-    .contains('Add new address')
-    .click();
+  cy.get('.BodyContent').contains('Add new address').click();
 
   selectCountryCanada();
 
@@ -23,9 +21,7 @@ export function addressBookFormTabbingOrder(config: TabElement[]) {
 export function addressBookDirectoryTabbingOrder(config: TabElement[]) {
   cy.visit('/my-account/address-book');
 
-  cy.get('.BodyContent')
-    .contains('Add new address')
-    .focus();
+  cy.get('.BodyContent').contains('Add new address').focus();
 
   verifyTabbingOrder(containerSelector, config);
 }
@@ -46,7 +42,7 @@ function addAddress() {
 
   let authObj;
   cy.window()
-    .then(win => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
+    .then((win) => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
     .then(({ auth }) => {
       authObj = auth;
       getAddressRequest(authObj, address, true);
@@ -57,9 +53,9 @@ function addAddress() {
 function getAddressRequest(auth, address, verify: boolean) {
   return cy.request({
     method: 'POST',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/current/addresses${
+    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/addresses${
       verify ? '/verification' : ''
     }?lang=en&curr=USD`,
     body: address,
@@ -73,7 +69,9 @@ function getAddressRequest(auth, address, verify: boolean) {
 function selectCountryCanada() {
   cy.server();
   cy.route(
-    `${Cypress.env('API_URL')}/rest/v2/electronics-spa/countries/CA/regions*`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/countries/CA/regions*`
   ).as('regions');
 
   cy.get('cx-address-book .country-select').ngSelect('Canada');

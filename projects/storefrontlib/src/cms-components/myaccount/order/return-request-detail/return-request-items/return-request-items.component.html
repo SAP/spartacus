@@ -26,12 +26,11 @@
         <div class="col-2 cx-image-container">
           <cx-media
             [container]="returnEntry.orderEntry?.product.images?.PRIMARY"
-            format="thumbnail"
           ></cx-media>
         </div>
         <!-- Item Information -->
         <div class="cx-info col-10">
-          <div class="cx-info-container row ">
+          <div class="cx-info-container row">
             <!-- Item Description -->
             <div class="col-md-3 col-lg-4 col-xl-5">
               <div *ngIf="returnEntry.orderEntry?.product.name" class="cx-name">
@@ -42,34 +41,20 @@
                 {{ returnEntry.orderEntry?.product.code }}
               </div>
               <!-- Variants -->
-              <ng-container *cxFeatureLevel="'!1.5'">
-                <div
-                  *ngFor="
-                    let variant of returnEntry.orderEntry?.product
-                      .variantOptionQualifiers
-                  "
-                  class="cx-property"
-                >
-                  <div class="cx-label">{{ variant.name }}</div>
-                  <div class="cx-value">{{ variant.value }}</div>
+              <div
+                *ngFor="
+                  let variant of (returnEntry.orderEntry?.product
+                    .baseOptions)[0]?.selected?.variantOptionQualifiers
+                "
+                class="cx-property"
+              >
+                <div class="cx-label" *ngIf="variant.name">
+                  {{ variant.name }}:
                 </div>
-              </ng-container>
-              <ng-container *cxFeatureLevel="'1.5'">
-                <div
-                  *ngFor="
-                    let variant of (returnEntry.orderEntry?.product
-                      .baseOptions)[0]?.selected?.variantOptionQualifiers
-                  "
-                  class="cx-property"
-                >
-                  <div class="cx-label" *ngIf="variant.name">
-                    {{ variant.name }}:
-                  </div>
-                  <div class="cx-value" *ngIf="variant.value">
-                    {{ variant.value }}
-                  </div>
+                <div class="cx-value" *ngIf="variant.value">
+                  {{ variant.value }}
                 </div>
-              </ng-container>
+              </div>
             </div>
             <!-- Item Price -->
             <div

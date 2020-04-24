@@ -28,9 +28,9 @@ export class SiteContextComponentService {
   getItems(context?: SiteContextType): Observable<any> {
     return this.getService(context).pipe(
       switchMap((service: SiteContext<any>) => service.getAll()),
-      switchMap(items =>
+      switchMap((items) =>
         this.getContext(context).pipe(
-          switchMap(ctx => {
+          switchMap((ctx) => {
             const itemsCopy = [];
             for (const item of items) {
               itemsCopy.push({
@@ -53,7 +53,7 @@ export class SiteContextComponentService {
 
   getLabel(context?: SiteContextType): Observable<any> {
     return this.getContext(context).pipe(
-      map(ctx => {
+      map((ctx) => {
         return LABELS[ctx];
       })
     );
@@ -62,7 +62,7 @@ export class SiteContextComponentService {
   setActive(value: string, context?: SiteContextType): void {
     this.getService(context)
       .pipe(take(1))
-      .subscribe(service => {
+      .subscribe((service) => {
         service.setActive(value);
       });
   }
@@ -72,7 +72,7 @@ export class SiteContextComponentService {
   ): Observable<SiteContext<any>> {
     return this.getContext(context).pipe(
       map((ctx: string) => (ctx ? this.getInjectedService(ctx) : undefined)),
-      filter(s => !!s)
+      filter((s) => !!s)
     );
   }
 
@@ -81,8 +81,8 @@ export class SiteContextComponentService {
       return of(context);
     } else if (this.componentData) {
       return this.componentData.data$.pipe(
-        map(data => data?.context),
-        map(ctx => {
+        map((data) => data?.context),
+        map((ctx) => {
           switch (ctx) {
             case 'LANGUAGE':
               return LANGUAGE_CONTEXT_ID;

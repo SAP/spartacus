@@ -24,7 +24,5 @@ function addCartItemsAndLoadCart() {
 
   cy.get('cx-added-to-cart-dialog .cx-counter-value:not([disabled])'); // wait until counter is accessible after clicking '+'
 
-  cy.get('cx-added-to-cart-dialog .btn-primary')
-    .contains('view cart')
-    .click();
+  cy.get('cx-added-to-cart-dialog .btn-primary').contains('view cart').click();
 }

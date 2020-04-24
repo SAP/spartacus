@@ -1,38 +1,33 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { CmsComponent } from '../../../model/cms.model';
-import {
-  initialLoaderState,
-  LoaderState,
-  StateEntitySelectors,
-  StateLoaderSelectors,
-} from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { ComponentsContext, ComponentsState, StateWithCms } from '../cms-state';
 import { getCmsState } from './feature.selectors';
 
 export const getComponentsState: MemoizedSelector<
   StateWithCms,
   ComponentsState
-> = createSelector(getCmsState, state => state.components);
+> = createSelector(getCmsState, (state) => state.components);
 
 export const componentsContextSelectorFactory = (
   uid: string
 ): MemoizedSelector<StateWithCms, ComponentsContext> => {
-  return createSelector(getComponentsState, componentsState =>
-    StateEntitySelectors.entitySelector(componentsState, uid)
+  return createSelector(getComponentsState, (componentsState) =>
+    StateUtils.entitySelector(componentsState, uid)
   );
 };
 
 export const componentsLoaderStateSelectorFactory = (
   uid: string,
   context: string
-): MemoizedSelector<StateWithCms, LoaderState<boolean>> => {
+): MemoizedSelector<StateWithCms, StateUtils.LoaderState<boolean>> => {
   return createSelector(
     componentsContextSelectorFactory(uid),
-    componentsContext =>
+    (componentsContext) =>
       (componentsContext &&
         componentsContext.pageContext &&
         componentsContext.pageContext[context]) ||
-      initialLoaderState
+      StateUtils.initialLoaderState
   );
 };
 
@@ -51,14 +46,14 @@ export const componentsContextExistsSelectorFactory = (
 ): MemoizedSelector<StateWithCms, boolean | undefined> => {
   return createSelector(
     componentsLoaderStateSelectorFactory(uid, context),
-    loaderState => StateLoaderSelectors.loaderValueSelector(loaderState)
+    (loaderState) => StateUtils.loaderValueSelector(loaderState)
   );
 };
 
 export const componentsDataSelectorFactory = (
   uid: string
 ): MemoizedSelector<StateWithCms, CmsComponent | undefined> => {
-  return createSelector(componentsContextSelectorFactory(uid), state =>
+  return createSelector(componentsContextSelectorFactory(uid), (state) =>
     state ? state.component : undefined
   );
 };

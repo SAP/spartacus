@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { KeyboardFocusService } from '../../keyboard-focus';
+import { KeyboardFocusService } from '../../keyboard-focus/services/keyboard-focus.service';
 import { SkipLink, SkipLinkConfig } from '../config/skip-link.config';
 
 @Injectable({
@@ -20,7 +20,7 @@ export class SkipLinkService {
 
   add(key: string, target: HTMLElement): void {
     const found: SkipLink = this.config.skipLinks.find(
-      skipLink => skipLink.key === key
+      (skipLink) => skipLink.key === key
     );
 
     if (found) {
@@ -37,12 +37,12 @@ export class SkipLinkService {
 
   remove(key: string): void {
     const found: SkipLink = this.config.skipLinks.find(
-      skipLink => skipLink.key === key
+      (skipLink) => skipLink.key === key
     );
 
     if (found) {
       let existing: SkipLink[] = this.skipLinks$.value;
-      existing = existing.filter(skipLink => skipLink.key !== key);
+      existing = existing.filter((skipLink) => skipLink.key !== key);
       this.skipLinks$.next(existing);
     }
   }
@@ -73,7 +73,7 @@ export class SkipLinkService {
 
   protected getSkipLinkIndexInArray(key: string): number {
     let index: number = this.config.skipLinks.findIndex(
-      skipLink => skipLink.key === key
+      (skipLink) => skipLink.key === key
     );
 
     while (index > 0) {
@@ -82,7 +82,7 @@ export class SkipLinkService {
       if (previous) {
         const existing: SkipLink[] = this.skipLinks$.value;
         const found: number = existing.findIndex(
-          skipLink => skipLink.key === previous.key
+          (skipLink) => skipLink.key === previous.key
         );
         if (found > -1) {
           return found + 1;

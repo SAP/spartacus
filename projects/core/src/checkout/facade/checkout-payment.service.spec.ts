@@ -83,7 +83,7 @@ describe('CheckoutPaymentService', () => {
     );
 
     let cardTypes: CardType[];
-    service.getCardTypes().subscribe(data => {
+    service.getCardTypes().subscribe((data) => {
       cardTypes = data;
     });
     expect(cardTypes).toEqual([
@@ -100,7 +100,7 @@ describe('CheckoutPaymentService', () => {
     let tempPaymentDetails: PaymentDetails;
     service
       .getPaymentDetails()
-      .subscribe(data => {
+      .subscribe((data) => {
         tempPaymentDetails = data;
       })
       .unsubscribe();

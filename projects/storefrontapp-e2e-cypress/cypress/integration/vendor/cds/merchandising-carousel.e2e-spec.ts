@@ -77,7 +77,7 @@ function testPDPPage(productId: string): void {
 
 describe('Merchandising Carousel', () => {
   before(() => {
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
     });
   });

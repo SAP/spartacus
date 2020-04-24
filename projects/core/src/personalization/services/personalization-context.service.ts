@@ -27,7 +27,7 @@ export class PersonalizationContextService {
       filter(Boolean),
       map((slot: ContentSlotData) =>
         slot.components.find(
-          i => i.uid === this.config.personalization.context.componentId
+          (i) => i.uid === this.config.personalization.context.componentId
         )
       ),
       filter(Boolean),
@@ -39,8 +39,8 @@ export class PersonalizationContextService {
 
   private buildPersonalizationContext(data: string): PersonalizationContext {
     const context = JSON.parse(atob(data));
-    context.actions.forEach(action => {
-      Object.keys(action).forEach(key => {
+    context.actions.forEach((action) => {
+      Object.keys(action).forEach((key) => {
         action[key] = atob(action[key]);
       });
     });

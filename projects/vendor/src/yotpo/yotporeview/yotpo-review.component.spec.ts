@@ -54,7 +54,7 @@ describe('YotporeviewComponent', () => {
   it('should fetch product data', () => {
     let result: Product;
     component.ngOnInit();
-    component.product$.subscribe(product => (result = product));
+    component.product$.subscribe((product) => (result = product));
     expect(result).toEqual(mockProduct);
   });
 

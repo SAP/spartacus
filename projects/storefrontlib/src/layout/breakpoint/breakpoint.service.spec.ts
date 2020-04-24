@@ -126,7 +126,7 @@ describe('BreakpointService', () => {
       MockWindow.target.innerWidth = 576;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
       let result: BREAKPOINT;
-      service.breakpoint$.subscribe(br => (result = br)).unsubscribe();
+      service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.xs);
     });
 
@@ -134,7 +134,7 @@ describe('BreakpointService', () => {
       MockWindow.target.innerWidth = 768;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
       let result: BREAKPOINT;
-      service.breakpoint$.subscribe(br => (result = br)).unsubscribe();
+      service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.sm);
     });
 
@@ -142,7 +142,7 @@ describe('BreakpointService', () => {
       MockWindow.target.innerWidth = 992;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
       let result: BREAKPOINT;
-      service.breakpoint$.subscribe(br => (result = br)).unsubscribe();
+      service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.md);
     });
 
@@ -150,7 +150,7 @@ describe('BreakpointService', () => {
       MockWindow.target.innerWidth = 1200;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
       let result: BREAKPOINT;
-      service.breakpoint$.subscribe(br => (result = br)).unsubscribe();
+      service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.lg);
     });
 
@@ -158,7 +158,7 @@ describe('BreakpointService', () => {
       MockWindow.target.innerWidth = 1201;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
       let result: BREAKPOINT;
-      service.breakpoint$.subscribe(br => (result = br)).unsubscribe();
+      service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.xl);
     });
   });
@@ -181,7 +181,7 @@ describe('BreakpointService', () => {
         let result: boolean;
         service
           .isEqual(breakpoint)
-          .subscribe(br => (result = br))
+          .subscribe((br) => (result = br))
           .unsubscribe();
         return result;
       };
@@ -230,7 +230,7 @@ describe('BreakpointService', () => {
         let result: boolean;
         service
           .isDown(breakpoint)
-          .subscribe(br => (result = br))
+          .subscribe((br) => (result = br))
           .unsubscribe();
         return result;
       };
@@ -275,7 +275,7 @@ describe('BreakpointService', () => {
         let result: boolean;
         service
           .isUp(breakpoint)
-          .subscribe(br => (result = br))
+          .subscribe((br) => (result = br))
           .unsubscribe();
         return result;
       };
