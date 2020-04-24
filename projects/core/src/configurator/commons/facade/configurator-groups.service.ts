@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import { ConfiguratorUiActions } from '../store';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration } from '../store/configuration-state';
@@ -81,7 +82,82 @@ export class ConfiguratorGroupsService {
     );
   }
 
+  isGroupVisited(
+    configuration: Configurator.Configuration,
+    groupId: string
+  ): boolean {
+    return false;
+  }
+
+  getParentGroupStatus(
+    configuration: Configurator.Configuration,
+    groupId: string,
+    parentGroup: Configurator.Group,
+    groupIds: string[]
+  ) {
+    if (parentGroup === null) {
+      return;
+    }
+
+    let isVisited = true;
+
+    parentGroup.subGroups.forEach((subGroup) => {
+      if (subGroup.id === groupId) {
+        return;
+      }
+
+      if (!this.isGroupVisited(configuration, groupId)) {
+        isVisited = false;
+      }
+    });
+
+    if (isVisited) {
+      groupIds.push(parentGroup.id);
+    }
+
+    this.getParentGroupStatus(
+      configuration,
+      parentGroup.id,
+      this.findParentGroup(
+        configuration.groups,
+        this.findCurrentGroup(configuration.groups, parentGroup.id),
+        null
+      ),
+      groupIds
+    );
+  }
+
+  setGroupStatus(configuration: Configurator.Configuration, groupId: string) {
+    ///// Visisted
+    const groupIds = [];
+    groupIds.push(groupId);
+    this.getParentGroupStatus(
+      configuration,
+      groupId,
+      this.findParentGroup(
+        configuration.groups,
+        this.findCurrentGroup(configuration.groups, groupId),
+        null
+      ),
+      groupIds
+    );
+
+    this.store.dispatch(
+      new ConfiguratorUiActions.SetGroupsVisited(
+        configuration.owner.key,
+        groupIds
+      )
+    );
+  }
+
   navigateToGroup(configuration: Configurator.Configuration, groupId: string) {
+    //Set Group status for current group
+    this.getCurrentGroup(configuration.owner)
+      .pipe(take(1))
+      .subscribe((currentGroup) => {
+        this.setGroupStatus(configuration, currentGroup.id);
+      });
+
     const parentGroup = this.findParentGroup(
       configuration.groups,
       this.findCurrentGroup(configuration.groups, groupId),

@@ -4,6 +4,9 @@ import { UiState } from '../configuration-state';
 export const initialState: UiState = {
   currentGroup: null,
   menuParentGroup: null,
+  groupsComplete: null,
+  groupsError: null,
+  groupsVisited: null,
 };
 
 export function reducer(
@@ -39,6 +42,11 @@ export function reducer(
     }
     case ConfiguratorUiActions.CREATE_UI_STATE:
     case ConfiguratorUiActions.REMOVE_UI_STATE: {
+      return state;
+    }
+    case ConfiguratorUiActions.SET_GROUPS_VISITED: {
+      const groupIds: string[] = action.payload;
+      groupIds.forEach((groupId) => (state.groupsVisited[groupId] = true));
       return state;
     }
   }

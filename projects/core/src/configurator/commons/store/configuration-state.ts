@@ -20,4 +20,7 @@ export interface ConfigurationState {
 export interface UiState {
   currentGroup: string;
   menuParentGroup: string;
+  groupsVisited?: EntityState<Boolean>;
+  groupsComplete?: EntityState<Boolean>;
+  groupsError?: EntityState<Boolean>;
 }
