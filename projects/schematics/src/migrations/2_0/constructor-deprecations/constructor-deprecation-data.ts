@@ -21,10 +21,12 @@ import { CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT_MIGRATION } from './data/checkou
 import { CHECKOUT_GUARD_MIGRATIONS } from './data/checkout.guard.migration';
 import { CHECKOUT_SERVICE_MIGRATION } from './data/checkout.service.migration';
 import { CLIENT_AUTHENTICATION_TOKEN_SERVICE_MIGRATION } from './data/client-authentication-token.service.migration';
+import { COMPONENT_WRAPPER_DIRECTIVE_MIGRATION } from './data/component-wrapper.directive.migration';
 import { CONFIGURABLE_ROUTES_SERVICE_MIGRATION } from './data/configurable-routes.service.migration';
 import { CONSENT_MANAGEMENT_COMPONENT_MIGRATION } from './data/consent-management.component.migration';
 import { CURRENT_PRODUCT_SERVICE_MIGRATION } from './data/current-product-service.migration';
 import { CUSTOMER_COUPON_SERVICE_MIGRATION } from './data/customer-coupon.service.migration';
+import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
 import { EXTERNAL_ROUTES_SERVICE_MIGRATION } from './data/external-routes.service.migration';
 import { FOOTER_NAVIGATION_COMPONENT_MIGRATION } from './data/footer-navigation.component.migration';
 import { LOGIN_FORM_COMPONENT_MIGRATION } from './data/login-form.component.migration';
@@ -56,6 +58,8 @@ import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migr
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { CDS_SPARTACUS_EVENT_SERVICE_MIGRATION } from './data/spartacus-event.service.migration';
 import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating.component.migration';
+import { STORE_FINDER_LIST_ITEM_MIGRATION } from './data/store-finder-list-item.component.migration';
+import { STORE_FINDER_SEARCH_RESULT_COMPONENT_MIGRATION } from './data/store-finder-search-result.component.migration';
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address.service.migration';
 import { USER_AUTHENTICATION_TOKEN_SERVICE_MIGRATION } from './data/user-authentication-token.service.migration';
 import { USER_CONSENT_SERVICE_MIGRATION } from './data/user-consent.service.migration';
@@ -64,9 +68,7 @@ import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-noti
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
-import { STORE_FINDER_SEARCH_RESULT_COMPONENT_MIGRATION } from './data/store-finder-search-result.component.migration';
 import { TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION } from './data/tab-paragraph-container.component.migration';
-import { STORE_FINDER_LIST_ITEM_MIGRATION } from './data/store-finder-list-item.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -136,6 +138,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   SEARCH_BOX_COMPONENT_MIGRATION,
   ADDRESS_BOOK_COMPONENT_MIGRATION,
   PAYMENT_FORM_COMPONENT_MIGRATION,
+  COMPONENT_WRAPPER_DIRECTIVE_MIGRATION,
+  DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION,
   STORE_FINDER_SEARCH_RESULT_COMPONENT_MIGRATION,
   TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION,
   STORE_FINDER_LIST_ITEM_MIGRATION,
