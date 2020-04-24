@@ -6,7 +6,7 @@ import {
   B2BUser,
   B2BAddress,
 } from '../../../model/org-unit.model';
-import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
+import { entityLoaderStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
@@ -76,7 +76,7 @@ export const getOrgUnit = (
   orgUnitId: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<B2BUnit>> =>
   createSelector(getOrgUnitsState, (state: EntityLoaderState<B2BUnit>) =>
-    entityStateSelector(state, orgUnitId)
+    entityLoaderStateSelector(state, orgUnitId)
   );
 
 export const getOrgUnitList = (): MemoizedSelector<
@@ -86,7 +86,7 @@ export const getOrgUnitList = (): MemoizedSelector<
   createSelector(
     getOrgUnitsNodeListState,
     (state: EntityLoaderState<B2BUnitNode[]>) =>
-      entityStateSelector(state, ORG_UNIT_NODES)
+      entityLoaderStateSelector(state, ORG_UNIT_NODES)
   );
 
 export const getOrgUnitTree = (): MemoizedSelector<
@@ -96,7 +96,7 @@ export const getOrgUnitTree = (): MemoizedSelector<
   createSelector(
     getOrgUnitsTreeState,
     (state: EntityLoaderState<B2BUnitNode>) =>
-      entityStateSelector(state, ORG_UNIT_TREE)
+      entityLoaderStateSelector(state, ORG_UNIT_TREE)
   );
 
 export const getApprovalProcesses = (): MemoizedSelector<
@@ -106,7 +106,7 @@ export const getApprovalProcesses = (): MemoizedSelector<
   createSelector(
     getApprovalProcessesState,
     (state: EntityLoaderState<B2BApprovalProcess[]>) =>
-      entityStateSelector(state, ORG_UNIT_APPROVAL_PROCESSES)
+      entityLoaderStateSelector(state, ORG_UNIT_APPROVAL_PROCESSES)
   );
 
 export const getAssignedUsers = (
@@ -149,5 +149,5 @@ export const getB2BAddress = (
   addressId: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<B2BAddress>> =>
   createSelector(getAddressesState, (state: EntityLoaderState<B2BAddress>) =>
-    entityStateSelector(state, addressId)
+    entityLoaderStateSelector(state, addressId)
   );

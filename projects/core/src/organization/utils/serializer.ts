@@ -1,6 +1,6 @@
 import { EntitiesModel, ListModel } from '../../model/misc.model';
 import { LoaderState, EntityLoaderState } from '../../state/index';
-import { entityStateSelector } from '../../state/utils/entity-loader/entity-loader.selectors';
+import { entityLoaderStateSelector } from '../../state/utils/entity-loader/entity-loader.selectors';
 import { B2BSearchConfig } from '../model/search-config';
 import { Management } from '../store/organization-state';
 
@@ -37,7 +37,7 @@ export function denormalizeCustomB2BSearch<T>(
   params?: B2BSearchConfig,
   id?: string
 ): LoaderState<EntitiesModel<T>> {
-  const serializedList: any = entityStateSelector(
+  const serializedList: any = entityLoaderStateSelector(
     list,
     params ? serializeB2BSearchConfig(params, id) : id ?? ALL
   );
@@ -47,7 +47,7 @@ export function denormalizeCustomB2BSearch<T>(
   const res: LoaderState<EntitiesModel<T>> = Object.assign({}, serializedList, {
     value: {
       values: serializedList.value.ids.map(
-        (code) => entityStateSelector(entities, code).value
+        (code) => entityLoaderStateSelector(entities, code).value
       ),
     },
   });
