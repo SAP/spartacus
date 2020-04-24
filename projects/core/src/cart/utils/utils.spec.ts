@@ -74,7 +74,7 @@ describe('Cart utils', () => {
           subject: '123456',
           subjectType: 'product',
         })
-      ).toEqual(true);
+      ).toEqual(false);
     });
 
     it('should return false on different error reason', () => {
@@ -84,7 +84,7 @@ describe('Cart utils', () => {
           subject: '123456',
           subjectType: 'cart',
         })
-      ).toEqual(true);
+      ).toEqual(false);
     });
 
     it('should return false for selective cart notFound error', () => {
@@ -94,7 +94,7 @@ describe('Cart utils', () => {
           subject: 'selectivecart-electronicsspa-123456',
           subjectType: 'cart',
         })
-      ).toEqual(true);
+      ).toEqual(false);
     });
   });
 });
