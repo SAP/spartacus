@@ -4,6 +4,7 @@ import { ErrorModel } from '../../../../model/misc.model';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
+import { Priority } from '../../../../util/applicable';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -18,6 +19,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.handleBadLoginResponse(request, response);
     this.handleBadCartRequest(request, response);
     this.handleValidationError(request, response);
+    this.handleVoucherOperationError(request, response);
   }
 
   protected handleBadPassword(
@@ -87,9 +89,31 @@ export class BadRequestHandler extends HttpErrorHandler {
       });
   }
 
+  protected handleVoucherOperationError(
+    _request: HttpRequest<any>,
+    response: HttpErrorResponse
+  ): void {
+    this.getErrors(response)
+      .filter(
+        (e) =>
+          e.message === 'coupon.invalid.code.provided' &&
+          e.type === 'VoucherOperationError'
+      )
+      .forEach(() => {
+        this.globalMessageService.add(
+          { key: 'httpHandlers.invalidCodeProvided' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
       (error) => error.type !== 'JaloObjectNoLongerValidError'
     );
+  }
+
+  getPriority(): Priority {
+    return Priority.LOW;
   }
 }

@@ -130,15 +130,19 @@ export class OutletDirective implements OnDestroy, OnChanges {
 
   /**
    * Returns the closest `HtmlElement`, by iterating over the
-   * parent elements of the given element.
+   * parent nodes of the given element.
+   *
+   * We avoid traversing the parent _elements_, as this is blocking
+   * ie11 implementations. One of the spare exclusions we make to not
+   * supporting ie11.
    *
    * @param element
    */
-  private getHostElement(element: Element): HTMLElement {
+  private getHostElement(element: Node): HTMLElement {
     if (element instanceof HTMLElement) {
       return element;
     }
-    return this.getHostElement(element.parentElement);
+    return this.getHostElement(element.parentNode);
   }
 
   ngOnDestroy() {

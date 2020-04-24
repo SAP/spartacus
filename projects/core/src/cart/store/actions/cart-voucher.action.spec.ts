@@ -5,7 +5,7 @@ import {
   entityResetMeta,
   entitySuccessMeta,
 } from '../../../state/utils/entity-loader/entity-loader.action';
-import { StateEntityProcessesLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { ADD_VOUCHER_PROCESS_ID, MULTI_CART_DATA } from '../multi-cart-state';
 import { CartActions } from './index';
 
@@ -89,7 +89,7 @@ describe('Cart-voucher Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_REMOVE_VOUCHER,
           payload: payload,
-          meta: StateEntityProcessesLoaderActions.entityProcessesIncrementMeta(
+          meta: StateUtils.entityProcessesIncrementMeta(
             MULTI_CART_DATA,
             cartId
           ),
@@ -106,7 +106,7 @@ describe('Cart-voucher Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_REMOVE_VOUCHER_FAIL,
           payload,
-          meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
+          meta: StateUtils.entityProcessesDecrementMeta(
             MULTI_CART_DATA,
             cartId
           ),
@@ -125,7 +125,7 @@ describe('Cart-voucher Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.CART_REMOVE_VOUCHER_SUCCESS,
           payload,
-          meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
+          meta: StateUtils.entityProcessesDecrementMeta(
             MULTI_CART_DATA,
             'cartId'
           ),

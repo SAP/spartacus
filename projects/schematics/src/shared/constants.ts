@@ -67,6 +67,7 @@ export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
 export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
+export const STORE_DATA_SERVICE = 'StoreDataService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
@@ -164,6 +165,8 @@ export const URL_MATCHER_SERVICE = 'UrlMatcherService';
 export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
 export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
 export const EXTERNAL_ROUTES_CONFIG = 'ExternalRoutesConfig';
+export const PAGE_SLOT_COMPONENT = 'PageSlotComponent;';
+export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
 export const OUTLET_DIRECTIVE = 'OutletDirective';
 export const OUTLET_SERVICE = 'OutletService';
 export const DEFER_LOADER_SERVICE = 'DeferLoaderService';
@@ -173,7 +176,23 @@ export const PLACE_ORDER_COMPONENT = 'PlaceOrderComponent';
 export const USER_INTERESTS_SERVICE = 'UserInterestsService';
 export const USER_NOTIFICATION_PREFERENCE_SERVICE =
   'UserNotificationPreferenceService';
+export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
+export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
+export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
+export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
+export const CMS_MAPPING_SERVICE = 'CmsMappingService';
+export const COMPONENT_HANDLER_SERVICE = 'ComponentHandlerService';
+export const CMS_INJECTOR_SERVICE = 'CmsInjectorService';
+export const SMART_EDIT_SERVICE = 'SmartEditService';
+export const STORE_FINDER_SEARCH_RESULT_COMPONENT =
+  'StoreFinderSearchResultComponent';
+export const STORE_FINDER_SERVICE = 'StoreFinderService';
+export const STORE_FINDER_CONFIG = 'StoreFinderConfig';
+export const PRODUCT_REVIEW_SERVICE = 'ProductReviewService';
+export const SEARCH_BOX_COMPONENT_SERVICE = 'SearchBoxComponentService';
+export const NAVIGATION_UI_COMPONENT = 'NavigationUIComponent';
+export const STORE_FINDER_LIST_ITEM_COMPONENT = 'StoreFinderListItemComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -206,6 +225,7 @@ export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
 
 export const URL_MATCHER_FACTORY_SERVICE = 'UrlMatcherFactoryService';
+export const CMS_COMPONENTS_SERVICE = 'CmsComponentsService';
 
 export const ANONYMOUS_USERID_CONST = 'ANONYMOUS_USERID';
 
@@ -216,10 +236,40 @@ export const SKIP_LINK_FACTORY = 'skipLinkFactory';
 export const FORM_UTILS = 'FormUtils';
 export const BILLING_ADDRESS_FORM_COMPONENT = 'BillingAddressFormComponent';
 export const BILLING_ADDRESS_FORM_MODULE = 'BillingAddressFormModule';
+export const LOADER_STATE = 'LoaderState';
+export const PROCESSES_LOADER_STATE = 'ProcessesLoaderState';
+export const ENTITY_STATE = 'EntityState';
+export const ENTITY_LOADER_STATE = 'EntityLoaderState';
+export const ENTITY_PROCESSES_LOADER_STATE = 'EntityProcessesLoaderState';
+export const STATE_LOADER_ACTIONS = 'StateLoaderActions';
+export const STATE_PROCESSES_LOADER_ACTIONS = 'StateProcessesLoaderActions';
+export const STATE_ENTITY_ACTIONS = 'StateEntityActions';
+export const STATE_ENTITY_LOADER_ACTIONS = 'StateEntityLoaderActions';
+export const STATE_ENTITY_PROCESSESS_LOADER_ACTIONS =
+  'StateEntityProcessesLoaderActions';
+export const STATE_LOADER_SELECTORS = 'StateLoaderSelectors';
+export const STATE_PROCESSES_LOADER_SELECTORS = 'StateProcessesLoaderSelectors';
+export const STATE_ENTITY_SELECTORS = 'StateEntitySelectors';
+export const STATE_ENTITY_LOADER_SELECTORS = 'StateEntityLoaderSelectors';
+export const STATE_ENTITY_PROCESSESS_LOADER_SELECTORS =
+  'StateEntityProcessesLoaderSelectors';
+export const LOADER_REDUCER = 'loaderReducer';
+export const PROCESSES_LOADER_REDUCER = 'processesLoaderReducer';
+export const ENTITY_REDUCER = 'entityReducer';
+export const ENTITY_LOADER_REDUCER = 'entityLoaderReducer';
+export const ENTITY_PROCESSES_LOADER_REDUCER = 'entityProcessesLoaderReducer';
+export const INITIAL_ENTITY_STATE = 'initialEntityState';
+export const INITIAL_LOADER_STATE = 'initialLoaderState';
+export const INITIAL_PROCESSES_STATE = 'initialProcessesState';
+export const GET_STATE_SLICE = 'getStateSlice';
+export const OF_LOADER_LOAD = 'ofLoaderLoad';
+export const OF_LOADER_FAIL = 'ofLoaderFail';
+export const OF_LOADER_SUCCESS = 'ofLoaderSuccess';
 /***** Removed public api end *****/
 
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
+export const KYMA_ENABLED = 'kyma_enabled';
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -242,5 +292,5 @@ export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 
 /***** Misc start *****/
 export const CSS_DOCS_URL =
-  'https://sap.github.io/cloud-commerce-spartacus-storefront-docs/deprecation-guide/css';
+  'https://sap.github.io/spartacus-docs/updating-to-version-2/css';
 /***** Misc end *****/
