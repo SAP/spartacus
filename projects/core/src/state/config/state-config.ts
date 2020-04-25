@@ -1,3 +1,6 @@
+import { Injectable } from '@angular/core';
+import { Config } from '../../config/config.module';
+
 export enum StorageSyncType {
   NO_STORAGE = 'NO_STORAGE',
   LOCAL_STORAGE = 'LOCAL_STORAGE',
@@ -8,6 +11,10 @@ export enum StateTransferType {
   TRANSFER_STATE = 'SSR',
 }
 
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
 export abstract class StateConfig {
   state?: {
     storageSync?: {

@@ -14,6 +14,7 @@ import { CmsGuardsService } from '../services/cms-guards.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';
 import { CmsPageGuardService } from './cms-page-guard.service';
+import { CmsComponentsService } from '@spartacus/storefront';
 
 const NOT_FOUND_ROUTE_NAME = 'notFound';
 const NOT_FOUND_URL = '/not-found';
@@ -41,6 +42,10 @@ class MockCmsGuardsService implements Partial<CmsGuardsService> {
   cmsPageCanActivate = () => of(true);
 }
 
+class MockCmsComponentsService implements Partial<CmsComponentsService> {
+  determineMappings = (c) => of(c);
+}
+
 describe('CmsPageGuardService', () => {
   let cms: CmsService;
   let cmsRoutes: CmsRoutesService;
@@ -57,6 +62,10 @@ describe('CmsPageGuardService', () => {
         { provide: CmsRoutesService, useClass: MockCmsRoutesService },
         { provide: CmsI18nService, useClass: MockCmsI18nService },
         { provide: CmsGuardsService, useClass: MockCmsGuardsService },
+        {
+          provide: CmsComponentsService,
+          useClass: MockCmsComponentsService,
+        },
       ],
       imports: [RouterTestingModule],
     });

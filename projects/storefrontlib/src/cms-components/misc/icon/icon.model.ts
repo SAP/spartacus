@@ -1,3 +1,6 @@
+import { Injectable } from '@angular/core';
+import { Config } from '@spartacus/core';
+
 export enum ICON_TYPE {
   STAR = 'STAR',
   SEARCH = 'SEARCH',
@@ -26,6 +29,10 @@ export enum ICON_TYPE {
   FILTER = 'FILTER',
 }
 
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
 export abstract class IconConfig {
   icon?: IconOptions;
 }
