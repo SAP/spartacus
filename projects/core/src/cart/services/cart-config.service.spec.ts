@@ -6,15 +6,7 @@ describe('CartConfigService', () => {
   let service: CartConfigService;
 
   beforeEach(() => {
-    // default spec cart config
-    mockCartConfig = {
-      cart: {
-        selectiveCart: {
-          enabled: false,
-        },
-      },
-    };
-
+    mockCartConfig = {};
     TestBed.configureTestingModule({
       providers: [{ provide: CartConfig, useValue: mockCartConfig }],
     });
@@ -27,7 +19,7 @@ describe('CartConfigService', () => {
 
   describe('isSelectiveCartService', () => {
     it('should return true if selectiveCart enabled is set to true', () => {
-      mockCartConfig.cart.selectiveCart.enabled = true;
+      mockCartConfig.cart = { selectiveCart: { enabled: true } };
       expect(service.isSelectiveCartEnabled()).toBeTruthy();
     });
 

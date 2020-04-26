@@ -1,8 +1,6 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
 import { ConfigInitializerService } from '../config/config-initializer/config-initializer.service';
-import { provideDefaultConfig } from '../config/config.module';
-import { defaultCartConfig } from './config/default-cart-config';
 import { CartEventModule } from './event/cart-event.module';
 import { ActiveCartService } from './facade/active-cart.service';
 import {
@@ -34,7 +32,6 @@ export class CartModule {
     return {
       ngModule: CartModule,
       providers: [
-        provideDefaultConfig(defaultCartConfig),
         CartVoucherService,
         MultiCartService,
         WishListService,
