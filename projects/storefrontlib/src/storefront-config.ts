@@ -2,6 +2,7 @@ import {
   AnonymousConsentsConfig,
   AsmConfig,
   AuthConfig,
+  CartConfig,
   CmsConfig,
   ExternalRoutesConfig,
   GlobalMessageConfig,
@@ -12,6 +13,7 @@ import {
   RoutingConfig,
   SiteContextConfig,
   StateConfig,
+  StoreFinderConfig,
 } from '@spartacus/core';
 import { CheckoutConfig } from './cms-components/checkout/config/checkout-config';
 import { IconConfig } from './cms-components/misc/icon/icon.model';
@@ -47,4 +49,6 @@ export type StorefrontConfig =
   | FeatureToggles
   | AsmConfig
   | SkipLinkConfig
-  | PaginationConfig;
+  | PaginationConfig
+  | StoreFinderConfig
+  | CartConfig;

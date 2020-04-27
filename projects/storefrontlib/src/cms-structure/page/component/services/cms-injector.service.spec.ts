@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { CmsInjectorService } from './cms-injector.service';
-import { CmsMappingService } from '../../../services/cms-mapping.service';
+import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CmsService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '@spartacus/storefront';
 
 const mockCmsMappingService = jasmine.createSpyObj('CmsMappingService', [
-  'getComponentMapping',
+  'getMapping',
 ]);
 
 const mockCmsService = {
@@ -20,7 +20,7 @@ describe('CmsInjectorService', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: CmsMappingService,
+          provide: CmsComponentsService,
           useValue: mockCmsMappingService,
         },
         {
