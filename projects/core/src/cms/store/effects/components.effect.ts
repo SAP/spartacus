@@ -18,7 +18,7 @@ import { CmsActions } from '../actions/index';
 export class ComponentsEffects {
   constructor(
     private actions$: Actions,
-    private cmsComponentLoader: CmsComponentConnector
+    private cmsComponentConnector: CmsComponentConnector
   ) {}
 
   private contextChange$: Observable<Action> = this.actions$.pipe(
@@ -59,19 +59,33 @@ export class ComponentsEffects {
     | CmsActions.LoadCmsComponentSuccess<CmsComponent>
     | CmsActions.LoadCmsComponentFail
   > {
-    return this.cmsComponentLoader.getList(componentUids, pageContext).pipe(
-      switchMap((components) =>
-        from(
-          components.map(
-            (component) =>
-              new CmsActions.LoadCmsComponentSuccess({
-                component,
-                uid: component.uid,
-                pageContext,
-              })
-          )
-        )
-      ),
+    return this.cmsComponentConnector.getList(componentUids, pageContext).pipe(
+      switchMap((components) => {
+        const actions: (
+          | CmsActions.LoadCmsComponentSuccess<CmsComponent>
+          | CmsActions.LoadCmsComponentFail
+        )[] = [];
+        const uidsLeft = new Set<string>(componentUids);
+        for (const component of components) {
+          actions.push(
+            new CmsActions.LoadCmsComponentSuccess({
+              component,
+              uid: component.uid,
+              pageContext,
+            })
+          );
+          uidsLeft.delete(component.uid);
+        }
+        uidsLeft.forEach((uid) => {
+          actions.push(
+            new CmsActions.LoadCmsComponentFail({
+              uid,
+              pageContext,
+            })
+          );
+        });
+        return from(actions);
+      }),
       catchError((error) =>
         from(
           componentUids.map(
