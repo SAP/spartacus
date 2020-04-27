@@ -359,14 +359,6 @@ describe('AddressFormComponent', () => {
     expect(component.addressForm.value.defaultAddress).toBeTruthy();
   });
 
-  it('should call titleSelected()', () => {
-    const mockTitleCode = 'test title code';
-    component.titleSelected({ code: mockTitleCode });
-    expect(component.addressForm['controls'].titleCode.value).toEqual(
-      mockTitleCode
-    );
-  });
-
   it('should call countrySelected()', () => {
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
     const mockCountryIsocode = 'test country isocode';
