@@ -304,10 +304,10 @@ const CART_PAGE_LAYOUT_HANDLER = `
 `;
 const CART_PAGE_LAYOUT_HANDLER_EXPECTED = `
     import { CartPageLayoutHandler } from '@spartacus/storefront';
-    import {  ActiveCartService, SelectiveCartService, CartConfigService } from '@spartacus/core';
+    import {  ActiveCartService, SelectiveCartService } from '@spartacus/core';
     export class InheritingService extends CartPageLayoutHandler {
-      constructor( activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, cartConfigService: CartConfigService) {
-        super( activeCartService, selectiveCartService, cartConfigService);
+      constructor( activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService) {
+        super( activeCartService, selectiveCartService);
       }
     }
 `;
