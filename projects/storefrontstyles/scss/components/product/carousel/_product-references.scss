@@ -10,7 +10,8 @@
 
     &:focus {
       color: var(--cx-color-primary);
-      text-decoration: underline;
+      z-index: 1;
+      position: relative;
     }
   }
 
@@ -19,9 +20,7 @@
     width: 60%;
 
     &.is-missing {
-      align-self: center;
-      width: 60%;
-      background-size: 60%;
+      min-height: 200px;
     }
   }
 }

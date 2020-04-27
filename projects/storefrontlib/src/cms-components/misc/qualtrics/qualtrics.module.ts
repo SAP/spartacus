@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { CmsConfig, Config, provideDefaultConfig } from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { defaultQualtricsConfig } from './config/default-qualtrics-config';
-import { QualtricsConfig } from './config/qualtrics-config';
 import { QualtricsComponent } from './qualtrics.component';
 
 @NgModule({
@@ -19,11 +18,6 @@ import { QualtricsComponent } from './qualtrics.component';
       },
     }),
     provideDefaultConfig(defaultQualtricsConfig),
-
-    {
-      provide: QualtricsConfig,
-      useExisting: Config,
-    },
   ],
 })
 export class QualtricsModule {}
