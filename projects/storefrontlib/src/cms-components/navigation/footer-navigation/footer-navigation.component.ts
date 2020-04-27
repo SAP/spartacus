@@ -20,8 +20,6 @@ export class FooterNavigationComponent {
     map((d) => d.styleClass)
   );
 
-  data$: Observable<CmsNavigationComponent> = this.componentData.data$;
-
   constructor(
     protected componentData: CmsComponentData<CmsNavigationComponent>,
     protected service: NavigationService
