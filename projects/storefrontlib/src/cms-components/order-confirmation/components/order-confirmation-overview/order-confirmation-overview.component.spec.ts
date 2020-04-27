@@ -116,7 +116,7 @@ describe('OrderConfirmationOverviewComponent', () => {
   it('should call getAddressCardContent(deliveryAddress: Address)', () => {
     spyOn(component, 'getAddressCardContent').and.callThrough();
     spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component.getAddressCardContent(mockDeliveryAddress).subscribe(data => {
+    component.getAddressCardContent(mockDeliveryAddress).subscribe((data) => {
       expect(data).toBeTruthy();
       expect(data.title).toEqual('test');
     });
@@ -128,7 +128,7 @@ describe('OrderConfirmationOverviewComponent', () => {
   it('should call getDeliveryModeCardContent(deliveryMode: DeliveryMode)', () => {
     spyOn(component, 'getDeliveryModeCardContent').and.callThrough();
     spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component.getDeliveryModeCardContent(mockDeliveryMode).subscribe(data => {
+    component.getDeliveryModeCardContent(mockDeliveryMode).subscribe((data) => {
       expect(data).toBeTruthy();
       expect(data.title).toEqual('test');
     });
@@ -143,7 +143,7 @@ describe('OrderConfirmationOverviewComponent', () => {
     spyOn(translationService, 'translate').and.returnValue(of('test'));
     component
       .getBillingAddressCardContent(mockBillingAddress)
-      .subscribe(data => {
+      .subscribe((data) => {
         expect(data).toBeTruthy();
         expect(data.title).toEqual('test');
       });
@@ -156,7 +156,7 @@ describe('OrderConfirmationOverviewComponent', () => {
   it('should call getPaymentInfoCardContent(payment: PaymentDetails)', () => {
     spyOn(component, 'getPaymentInfoCardContent').and.callThrough();
     spyOn(translationService, 'translate').and.returnValue(of('test'));
-    component.getPaymentInfoCardContent(mockPayment).subscribe(data => {
+    component.getPaymentInfoCardContent(mockPayment).subscribe((data) => {
       expect(data).toBeTruthy();
       expect(data.title).toEqual('test');
     });

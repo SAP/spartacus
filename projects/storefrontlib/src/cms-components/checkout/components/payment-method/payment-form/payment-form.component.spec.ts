@@ -12,10 +12,13 @@ import {
   Country,
   GlobalMessageService,
   I18nTestingModule,
+  Region,
+  UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
+import { FormErrorsModule } from '../../../../../shared/index';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 import { PaymentFormComponent } from './payment-form.component';
 import createSpy = jasmine.createSpy;
@@ -69,6 +72,18 @@ const mockCardTypes: CardType[] = [
   },
 ];
 
+const mockPayment: any = {
+  cardType: {
+    code: mockCardTypes[0].code,
+  },
+  accountHolderName: 'Test Name',
+  cardNumber: '1234123412341234',
+  expiryMonth: '02',
+  expiryYear: 2022,
+  cvn: '123',
+  defaultPayment: false,
+};
+
 @Component({
   selector: 'cx-billing-address-form',
   template: '',
@@ -107,6 +122,7 @@ class MockCheckoutPaymentService {
     return of({ loading: false });
   }
 }
+
 class MockCheckoutDeliveryService {
   getDeliveryAddress(): Observable<Address> {
     return of(null);
@@ -136,7 +152,7 @@ const mockSuggestedAddressModalRef: any = {
     enteredAddress: '',
     suggestedAddresses: '',
   },
-  result: new Promise(resolve => {
+  result: new Promise((resolve) => {
     return resolve(true);
   }),
 };
@@ -144,6 +160,12 @@ const mockSuggestedAddressModalRef: any = {
 class MockModalService {
   open(): any {
     return mockSuggestedAddressModalRef;
+  }
+}
+
+class MockUserAddressService {
+  getRegions(): Observable<Region[]> {
+    return of([]);
   }
 }
 
@@ -159,8 +181,8 @@ describe('PaymentFormComponent', () => {
   let mockCheckoutPaymentService: MockCheckoutPaymentService;
   let mockUserPaymentService: MockUserPaymentService;
   let mockGlobalMessageService: MockGlobalMessageService;
-  let showSameAsShippingAddressCheckboxSpy: jasmine.Spy;
   let mockModalService: MockModalService;
+  let mockUserAddressService: MockUserAddressService;
 
   let controls: {
     payment: FormGroup['controls'];
@@ -173,9 +195,15 @@ describe('PaymentFormComponent', () => {
     mockUserPaymentService = new MockUserPaymentService();
     mockGlobalMessageService = new MockGlobalMessageService();
     mockModalService = new MockModalService();
+    mockUserAddressService = new MockUserAddressService();
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [
         PaymentFormComponent,
         MockCardComponent,
@@ -195,6 +223,7 @@ describe('PaymentFormComponent', () => {
         },
         { provide: UserPaymentService, useValue: mockUserPaymentService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        { provide: UserAddressService, useValue: mockUserAddressService },
       ],
     })
       .overrideComponent(PaymentFormComponent, {
@@ -207,17 +236,12 @@ describe('PaymentFormComponent', () => {
     fixture = TestBed.createComponent(PaymentFormComponent);
     component = fixture.componentInstance;
     controls = {
-      payment: component.payment.controls,
-      billingAddress: component.billingAddress.controls,
+      payment: component.paymentForm.controls,
+      billingAddress: component.billingAddressForm.controls,
     };
 
     spyOn(component.setPaymentDetails, 'emit').and.callThrough();
     spyOn(component.closeForm, 'emit').and.callThrough();
-
-    showSameAsShippingAddressCheckboxSpy = spyOn(
-      component,
-      'showSameAsShippingAddressCheckbox'
-    ).and.returnValue(of(true));
   });
 
   it('should be created', () => {
@@ -234,7 +258,7 @@ describe('PaymentFormComponent', () => {
     });
   });
 
-  it('should call ngOnInit to get supported card types if they do not exist', done => {
+  it('should call ngOnInit to get supported card types if they do not exist', (done) => {
     spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(of([]));
     component.ngOnInit();
     component.cardTypes$.subscribe(() => {
@@ -333,30 +357,23 @@ describe('PaymentFormComponent', () => {
     expect(component.openSuggestedAddress).toHaveBeenCalled();
   });
 
-  it('should call showSameAsShippingAddressCheckbox', () => {
-    showSameAsShippingAddressCheckboxSpy.and.callThrough();
-    component.showSameAsShippingAddressCheckbox().subscribe(data => {
-      console.log(data);
-      expect(data).toBeTruthy();
-    });
+  it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
+    component.paymentForm.value.defaultPayment = false;
+    component.toggleDefaultPaymentMethod();
+    expect(component.paymentForm.value.defaultPayment).toBeTruthy();
   });
 
   it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
-    component.payment.value.defaultPayment = false;
+    component.paymentForm.value.defaultPayment = true;
     component.toggleDefaultPaymentMethod();
-    expect(component.payment.value.defaultPayment).toBeTruthy();
-  });
-
-  it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
-    component.payment.value.defaultPayment = true;
-    component.toggleDefaultPaymentMethod();
-    expect(component.payment.value.defaultPayment).toBeFalsy();
+    expect(component.paymentForm.value.defaultPayment).toBeFalsy();
   });
 
   it('should call next()', () => {
+    component.paymentForm.setValue(mockPayment);
     component.next();
     expect(component.setPaymentDetails.emit).toHaveBeenCalledWith({
-      paymentDetails: component.payment.value,
+      paymentDetails: component.paymentForm.value,
       billingAddress: null,
     });
   });
@@ -369,18 +386,18 @@ describe('PaymentFormComponent', () => {
   it('should call paymentSelected(card)', () => {
     component.paymentSelected({ code: 'test select payment' });
     expect(
-      component.payment['controls'].cardType['controls'].code.value
+      component.paymentForm['controls'].cardType['controls'].code.value
     ).toEqual('test select payment');
   });
 
   it('should call monthSelected(month)', () => {
-    component.monthSelected({ id: 5, name: '05' });
-    expect(component.payment['controls'].expiryMonth.value).toEqual('05');
+    component.monthSelected('05');
+    expect(component.paymentForm['controls'].expiryMonth.value).toEqual('05');
   });
 
   it('should call yearSelected(year)', () => {
-    component.yearSelected({ id: 1, name: 2022 });
-    expect(component.payment['controls'].expiryYear.value).toEqual(2022);
+    component.yearSelected(2022);
+    expect(component.paymentForm['controls'].expiryYear.value).toEqual(2022);
   });
 
   it('should call getAddressCardContent(address)', () => {
@@ -422,7 +439,7 @@ describe('PaymentFormComponent', () => {
     expect(mockCheckoutDeliveryService.verifyAddress).toHaveBeenCalled();
   });
 
-  it('should call openSuggestedAddress', () => {
+  it('should call openSuggestedAddress', (done) => {
     spyOn(component, 'openSuggestedAddress').and.callThrough();
     spyOn(mockModalService, 'open').and.callThrough();
     spyOn(mockCheckoutDeliveryService, 'clearAddressVerificationResults');
@@ -432,6 +449,7 @@ describe('PaymentFormComponent', () => {
       expect(
         mockCheckoutDeliveryService.clearAddressVerificationResults
       ).toHaveBeenCalled();
+      done();
     });
   });
 
@@ -451,9 +469,7 @@ describe('PaymentFormComponent', () => {
       );
       spyOn(component, 'next');
 
-      // show billing address
-      showSameAsShippingAddressCheckboxSpy.calls.reset();
-      showSameAsShippingAddressCheckboxSpy.and.returnValue(of(false));
+      component.showSameAsShippingAddressCheckbox$ = of(false);
       component.sameAsShippingAddress = false;
 
       fixture.detectChanges();
@@ -527,28 +543,18 @@ describe('PaymentFormComponent', () => {
       expect(component.next).toHaveBeenCalledTimes(2);
     });
 
-    it('should not be disabled', () => {
-      const isContinueBtnDisabled = () => {
-        fixture.detectChanges();
-        return getContinueBtn().nativeElement.disabled;
-      };
-
-      fixture.detectChanges();
-      expect(isContinueBtnDisabled()).toBeFalsy();
-    });
-
     it('should check setAsDefaultField to determine whether setAsDefault checkbox displayed or not', () => {
       component.setAsDefaultField = false;
       fixture.detectChanges();
       expect(
         fixture.debugElement.queryAll(By.css('.form-check-input')).length
-      ).toEqual(1);
+      ).toEqual(0);
 
       component.setAsDefaultField = true;
       fixture.detectChanges();
       expect(
         fixture.debugElement.queryAll(By.css('.form-check-input')).length
-      ).toEqual(2);
+      ).toEqual(1);
     });
   });
 

@@ -46,7 +46,7 @@ export class CdsMerchandisingProductService {
           };
         }
       ),
-      mergeMap(context =>
+      mergeMap((context) =>
         this.strategyConnector.loadProductsForStrategy(strategyId, context)
       )
     );

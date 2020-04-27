@@ -65,11 +65,11 @@ export class SiteContextRoutesHandler implements OnDestroy {
    * But it happens only for the parameters configured to be persisted in the URL.
    */
   private subscribeChanges(params: string[]) {
-    params.forEach(param => {
+    params.forEach((param) => {
       const service = this.siteContextParams.getSiteContextService(param);
       if (service) {
         this.subscription.add(
-          service.getActive().subscribe(value => {
+          service.getActive().subscribe((value) => {
             if (
               !this.isNavigating &&
               this.contextValues[param] &&
@@ -102,7 +102,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
       this.router.events
         .pipe(
           filter(
-            event =>
+            (event) =>
               event instanceof NavigationStart ||
               event instanceof NavigationEnd ||
               event instanceof NavigationError ||
@@ -130,7 +130,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
    */
   private setContextParamsFromRoute(url: string) {
     const { params } = this.serializer.urlExtractContextParameters(url);
-    Object.keys(params).forEach(param =>
+    Object.keys(params).forEach((param) =>
       this.siteContextParams.setValue(param, params[param])
     );
   }

@@ -22,7 +22,7 @@ export class AutoFocusService extends EscapeFocusService {
     } else if (this.hasPersistedFocus(host, config)) {
       return this.getPersisted(host, this.getPersistenceGroup(host, config));
     } else {
-      return this.selectFocusUtil.findFirstFocusable(host, config);
+      return this.selectFocusUtil.findFirstFocusable(host, config) || host;
     }
   }
 

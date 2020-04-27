@@ -23,8 +23,8 @@ describe('SiteContextRoutesHandler', () => {
     mockRouter = {
       events: mockRouterEvents,
       url: 'test',
-      parseUrl: createSpy().and.callFake(url => url + '_a'),
-      serializeUrl: createSpy().and.callFake(url => url + '_b'),
+      parseUrl: createSpy().and.callFake((url) => url + '_a'),
+      serializeUrl: createSpy().and.callFake((url) => url + '_b'),
     };
 
     mockLocation = {
@@ -45,7 +45,7 @@ describe('SiteContextRoutesHandler', () => {
     };
 
     mockSiteContextUrlSerializer = {
-      urlExtractContextParameters: url => ({ params: { language: url } }),
+      urlExtractContextParameters: (url) => ({ params: { language: url } }),
     };
 
     TestBed.configureTestingModule({

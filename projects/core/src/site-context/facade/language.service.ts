@@ -36,12 +36,12 @@ export class LanguageService implements SiteContext<Language> {
   getAll(): Observable<Language[]> {
     return this.store.pipe(
       select(SiteContextSelectors.getAllLanguages),
-      tap(languages => {
+      tap((languages) => {
         if (!languages) {
           this.store.dispatch(new SiteContextActions.LoadLanguages());
         }
       }),
-      filter(languages => Boolean(languages))
+      filter((languages) => Boolean(languages))
     );
   }
 
@@ -51,7 +51,7 @@ export class LanguageService implements SiteContext<Language> {
   getActive(): Observable<string> {
     return this.store.pipe(
       select(SiteContextSelectors.getActiveLanguage),
-      filter(active => Boolean(active))
+      filter((active) => Boolean(active))
     );
   }
 
@@ -61,7 +61,7 @@ export class LanguageService implements SiteContext<Language> {
   setActive(isocode: string) {
     return this.store
       .pipe(select(SiteContextSelectors.getActiveLanguage), take(1))
-      .subscribe(activeLanguage => {
+      .subscribe((activeLanguage) => {
         if (activeLanguage !== isocode) {
           this.store.dispatch(
             new SiteContextActions.SetActiveLanguage(isocode)

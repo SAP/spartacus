@@ -15,7 +15,7 @@ describe('OccOrderNormalizer', () => {
     service = TestBed.inject(OccOrderNormalizer);
     converter = TestBed.inject(ConverterService);
     spyOn(converter, 'convert').and.callFake(
-      product =>
+      (product) =>
         ({
           ...product,
           code: (product as Product).code + 'converted',

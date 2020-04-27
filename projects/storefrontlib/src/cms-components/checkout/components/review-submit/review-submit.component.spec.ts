@@ -293,17 +293,19 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call getShippingAddressCard(deliveryAddress, countryName) to get address card data', () => {
-    component.getShippingAddressCard(mockAddress, 'Canada').subscribe(card => {
-      expect(card.title).toEqual('addressCard.shipTo');
-      expect(card.textBold).toEqual('John Doe');
-      expect(card.text).toEqual([
-        'Toyosaki 2 create on cart',
-        'line2',
-        'town, JP-27, Canada',
-        'zip',
-        undefined,
-      ]);
-    });
+    component
+      .getShippingAddressCard(mockAddress, 'Canada')
+      .subscribe((card) => {
+        expect(card.title).toEqual('addressCard.shipTo');
+        expect(card.textBold).toEqual('John Doe');
+        expect(card.text).toEqual([
+          'Toyosaki 2 create on cart',
+          'line2',
+          'town, JP-27, Canada',
+          'zip',
+          undefined,
+        ]);
+      });
   });
 
   it('should call getDeliveryModeCard(deliveryMode) to get delivery mode card data', () => {
@@ -312,7 +314,7 @@ describe('ReviewSubmitComponent', () => {
       name: 'Standard gross',
       description: 'Standard Delivery description',
     };
-    component.getDeliveryModeCard(selectedMode).subscribe(card => {
+    component.getDeliveryModeCard(selectedMode).subscribe((card) => {
       expect(card.title).toEqual('checkoutShipping.shippingMethod');
       expect(card.textBold).toEqual('Standard gross');
       expect(card.text).toEqual(['Standard Delivery description']);
@@ -320,7 +322,7 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call getPaymentMethodCard(paymentDetails) to get payment card data', () => {
-    component.getPaymentMethodCard(mockPaymentDetails).subscribe(card => {
+    component.getPaymentMethodCard(mockPaymentDetails).subscribe((card) => {
       expect(card.title).toEqual('paymentForm.payment');
       expect(card.textBold).toEqual(mockPaymentDetails.accountHolderName);
       expect(card.text).toEqual([

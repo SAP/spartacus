@@ -9,7 +9,7 @@ import {
   map,
   mergeMap,
   switchMap,
-  take,
+  take
 } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { RoutingService } from '../../../routing/index';
@@ -29,9 +29,8 @@ export class PageEffects {
       AuthActions.LOGOUT,
       AuthActions.LOGIN
     ),
-    switchMap(_ => {
-      console.warn(_); // spike todo remove
-      return this.routingService.getRouterState().pipe(
+    switchMap(() =>
+      this.routingService.getRouterState().pipe(
         filter(
           routerState =>
             routerState &&
@@ -42,8 +41,8 @@ export class PageEffects {
         take(1),
         map(routerState => routerState.state.context),
         mergeMap(context => of(new CmsActions.LoadCmsPageData(context)))
-      );
-    })
+      )
+    )
   );
 
   @Effect()
@@ -60,13 +59,13 @@ export class PageEffects {
                 new CmsActions.CmsGetComponentFromPage(
                   cmsStructure.components.map(component => ({
                     component,
-                    pageContext,
+                    pageContext
                   }))
                 ),
                 new CmsActions.LoadCmsPageDataSuccess(
                   pageContext,
                   cmsStructure.page
-                ),
+                )
               ];
 
               const pageLabel = cmsStructure.page.label;

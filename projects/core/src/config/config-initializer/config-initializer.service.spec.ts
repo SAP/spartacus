@@ -145,7 +145,7 @@ describe('ConfigInitializerService', () => {
 
   describe('should warn for duplicate scopes', async () => {
     function getInitializersForScopes(...scopes) {
-      return scopes.map(scope => ({
+      return scopes.map((scope) => ({
         scopes: scope,
         configFactory: async () => ({}),
       }));

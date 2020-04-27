@@ -73,13 +73,13 @@ describe('CurrentProductService', () => {
 
   it('should fetch product data', () => {
     let result: Product;
-    service.getProduct().subscribe(product => (result = product));
+    service.getProduct().subscribe((product) => (result = product));
     expect(result).toEqual(mockProduct);
   });
 
   it('should fetch product attributes', () => {
     let result: Product;
-    service.getProduct('attributes').subscribe(product => (result = product));
+    service.getProduct('attributes').subscribe((product) => (result = product));
     expect(result).toEqual(mockProductWithAttributes);
   });
 
@@ -89,7 +89,7 @@ describe('CurrentProductService', () => {
     spyOn(routingService, 'getRouterState').and.returnValue(
       of({ state: { params: {} } } as any)
     );
-    service.getProduct().subscribe(product => (result = product));
+    service.getProduct().subscribe((product) => (result = product));
     expect(result).toBe(null);
   });
 });

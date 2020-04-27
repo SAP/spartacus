@@ -1,5 +1,11 @@
 import { Component, Directive, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LockFocusConfig } from '../keyboard-focus.model';
 import { LockFocusDirective } from './lock-focus.directive';
@@ -67,6 +73,7 @@ class MockLockFocusService {
     return !!config.focusOnEscape;
   }
   set() {}
+  clear() {}
 }
 
 describe('LockFocusDirective', () => {
@@ -92,7 +99,7 @@ describe('LockFocusDirective', () => {
       By.css('#a1,#a2,#b1,#b2,#b3,#d1,#d2')
     );
     spyOn(service, 'findFocusable').and.returnValue(
-      children.map(c => c.nativeElement)
+      children.map((c) => c.nativeElement)
     );
   });
 
@@ -156,15 +163,16 @@ describe('LockFocusDirective', () => {
   });
 
   describe('lock focusable children', () => {
-    it('should lock child elements', () => {
+    it('should lock child elements', fakeAsync(() => {
       const b1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
       const b2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
       const b3 = fixture.debugElement.query(By.css('#b3')).nativeElement;
       fixture.detectChanges();
+      tick(500);
       expect(b1.getAttribute('tabindex')).toEqual('-1');
       expect(b2.getAttribute('tabindex')).toEqual('-1');
       expect(b3.getAttribute('tabindex')).toEqual('-1');
-    });
+    }));
 
     it('should not lock non-focusable', () => {
       const b4 = fixture.debugElement.query(By.css('#b4')).nativeElement;
@@ -299,6 +307,22 @@ describe('LockFocusDirective', () => {
       fixture.detectChanges();
       host.triggerEventHandler('keydown.escape', event);
       expect(service.handleEscape).not.toHaveBeenCalled();
+    });
+
+    it('should clear persistence focus on escape', () => {
+      const host = fixture.debugElement.query(By.css('#d'));
+      spyOn(service, 'clear').and.callThrough();
+      fixture.detectChanges();
+      host.triggerEventHandler('keydown.escape', event);
+      expect(service.clear).toHaveBeenCalled();
+    });
+
+    it('should not clear persistence focus if lock=false', () => {
+      const host = fixture.debugElement.query(By.css('#c'));
+      spyOn(service, 'clear').and.callThrough();
+      fixture.detectChanges();
+      host.triggerEventHandler('keydown.escape', event);
+      expect(service.clear).not.toHaveBeenCalled();
     });
   });
 

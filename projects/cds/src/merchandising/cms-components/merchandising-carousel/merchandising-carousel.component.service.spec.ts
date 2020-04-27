@@ -141,10 +141,10 @@ describe('MerchandisingCarouselComponentService', () => {
     const actualCarouselProducts: MerchandisingProduct[] = [];
     componentService
       .getMerchandisingCarouselModel(mockComponentData)
-      .subscribe(merchandisingProducts => {
+      .subscribe((merchandisingProducts) => {
         actualCarouselMetadata = merchandisingProducts.metadata;
-        merchandisingProducts.items$.forEach(observableProduct =>
-          observableProduct.subscribe(product =>
+        merchandisingProducts.items$.forEach((observableProduct) =>
+          observableProduct.subscribe((product) =>
             actualCarouselProducts.push(product)
           )
         );

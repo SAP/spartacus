@@ -1,11 +1,12 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { GlobalMessageService } from '../../facade/global-message.service';
 import { Injectable } from '@angular/core';
+import { Applicable, Priority } from '../../../util/applicable';
 
 @Injectable({
   providedIn: 'root',
 })
-export abstract class HttpErrorHandler {
+export abstract class HttpErrorHandler implements Applicable {
   constructor(protected globalMessageService: GlobalMessageService) {}
 
   /**
@@ -13,7 +14,7 @@ export abstract class HttpErrorHandler {
    * Implementations can set the response status number, i.e. 404, so that
    * the handler can be found by the error interceptor.
    */
-  abstract responseStatus: number;
+  responseStatus?: number;
 
   /**
    * Handles the error response for the respose status that is register for the handler
@@ -24,4 +25,14 @@ export abstract class HttpErrorHandler {
     request: HttpRequest<any>,
     errorResponse: HttpErrorResponse
   ): void;
+
+  /**
+   * Error handlers are matched by the error `responseStatus` (i.e. 404). On top of the matching status
+   * a priority can be added to distinguish multiple handles for the same response status.
+   */
+  hasMatch(errorResponse: HttpErrorResponse): boolean {
+    return errorResponse.status === this.responseStatus;
+  }
+
+  abstract getPriority?(): Priority;
 }

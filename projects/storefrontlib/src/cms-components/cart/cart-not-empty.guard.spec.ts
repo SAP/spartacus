@@ -14,7 +14,7 @@ class ActiveCartServiceStub {
   getActive(): Observable<Cart> {
     return of();
   }
-  getLoaded(): Observable<boolean> {
+  isStable(): Observable<boolean> {
     return of();
   }
 }
@@ -55,14 +55,11 @@ describe('CartNotEmptyGuard', () => {
           spyOn(activeCartService, 'getActive').and.returnValue(
             of(CART_NOT_CREATED)
           );
-          spyOn(activeCartService, 'getLoaded').and.returnValue(of(true));
+          spyOn(activeCartService, 'isStable').and.returnValue(of(true));
         });
 
         it('then Router should redirect to main page', () => {
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe()
-            .unsubscribe();
+          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
           expect(routingService.go).toHaveBeenCalledWith({
             cxRoute: 'home',
           });
@@ -72,7 +69,7 @@ describe('CartNotEmptyGuard', () => {
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
-            .subscribe(result => (emittedValue = result))
+            .subscribe((result) => (emittedValue = result))
             .unsubscribe();
           expect(emittedValue).toBe(false);
         });
@@ -81,14 +78,11 @@ describe('CartNotEmptyGuard', () => {
       describe(', and when cart is empty', () => {
         beforeEach(() => {
           spyOn(activeCartService, 'getActive').and.returnValue(of(CART_EMPTY));
-          spyOn(activeCartService, 'getLoaded').and.returnValue(of(true));
+          spyOn(activeCartService, 'isStable').and.returnValue(of(true));
         });
 
         it('then Router should redirect to main page', () => {
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe()
-            .unsubscribe();
+          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
           expect(routingService.go).toHaveBeenCalledWith({
             cxRoute: 'home',
           });
@@ -98,7 +92,7 @@ describe('CartNotEmptyGuard', () => {
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
-            .subscribe(result => (emittedValue = result))
+            .subscribe((result) => (emittedValue = result))
             .unsubscribe();
           expect(emittedValue).toBe(false);
         });
@@ -109,14 +103,11 @@ describe('CartNotEmptyGuard', () => {
           spyOn(activeCartService, 'getActive').and.returnValue(
             of(CART_NOT_EMPTY)
           );
-          spyOn(activeCartService, 'getLoaded').and.returnValue(of(true));
+          spyOn(activeCartService, 'isStable').and.returnValue(of(true));
         });
 
         it('then Router should NOT redirect', () => {
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe()
-            .unsubscribe();
+          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
           expect(routingService.go).not.toHaveBeenCalled();
         });
 
@@ -124,7 +115,7 @@ describe('CartNotEmptyGuard', () => {
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
-            .subscribe(result => (emittedValue = result))
+            .subscribe((result) => (emittedValue = result))
             .unsubscribe();
           expect(emittedValue).toBe(true);
         });
@@ -136,14 +127,11 @@ describe('CartNotEmptyGuard', () => {
         spyOn(activeCartService, 'getActive').and.returnValue(
           of(CART_NOT_CREATED)
         );
-        spyOn(activeCartService, 'getLoaded').and.returnValue(of(false));
+        spyOn(activeCartService, 'isStable').and.returnValue(of(false));
       });
 
       it('then Router should not redirect to main page', () => {
-        cartNotEmptyGuard
-          .canActivate()
-          .subscribe()
-          .unsubscribe();
+        cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
         expect(routingService.go).not.toHaveBeenCalled();
       });
 
@@ -151,7 +139,7 @@ describe('CartNotEmptyGuard', () => {
         let emittedValue: any = 'nothing was emitted';
         cartNotEmptyGuard
           .canActivate()
-          .subscribe(result => (emittedValue = result))
+          .subscribe((result) => (emittedValue = result))
           .unsubscribe();
         expect(emittedValue).toBe('nothing was emitted');
       });

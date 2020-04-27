@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import {
   ReturnRequest,
@@ -35,7 +35,7 @@ export class OrderReturnRequestService {
   createOrderReturnRequest(
     returnRequestInput: ReturnRequestEntryInputList
   ): void {
-    this.withUserId(userId => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.CreateOrderReturnRequest({
           userId,
@@ -58,7 +58,7 @@ export class OrderReturnRequestService {
   getOrderReturnRequestList(pageSize: number): Observable<ReturnRequestList> {
     return this.store.pipe(
       select(UsersSelectors.getOrderReturnRequestListState),
-      tap(returnListState => {
+      tap((returnListState) => {
         const attemptedLoad =
           returnListState.loading ||
           returnListState.success ||
@@ -67,7 +67,7 @@ export class OrderReturnRequestService {
           this.loadOrderReturnRequestList(pageSize);
         }
       }),
-      map(returnListState => returnListState.value)
+      map((returnListState) => returnListState.value)
     );
   }
 
@@ -76,10 +76,10 @@ export class OrderReturnRequestService {
    * @param returnRequestCode
    */
   loadOrderReturnRequestDetail(returnRequestCode: string): void {
-    this.withUserId(userId => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderReturnRequest({
-          userId: userId,
+          userId,
           returnRequestCode,
         })
       );
@@ -97,13 +97,13 @@ export class OrderReturnRequestService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.withUserId(userId => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderReturnRequestList({
-          userId: userId,
-          pageSize: pageSize,
-          currentPage: currentPage,
-          sort: sort,
+          userId,
+          pageSize,
+          currentPage,
+          sort,
         })
       );
     });
@@ -144,7 +144,7 @@ export class OrderReturnRequestService {
     returnRequestCode: string,
     returnRequestModification: ReturnRequestModification
   ): void {
-    this.withUserId(userId => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.CancelOrderReturnRequest({
           userId,
@@ -178,15 +178,5 @@ export class OrderReturnRequestService {
    */
   resetCancelReturnRequestProcessState(): void {
     return this.store.dispatch(new UserActions.ResetCancelReturnProcess());
-  }
-
-  /*
-   * Utility method to distinquish user id in a convenient way
-   */
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(userId => callback(userId));
   }
 }

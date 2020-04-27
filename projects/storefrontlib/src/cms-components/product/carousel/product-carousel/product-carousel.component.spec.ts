@@ -144,15 +144,15 @@ describe('ProductCarouselComponent', () => {
 
   it('should have 2 items', async(() => {
     let items: Observable<Product>[];
-    component.items$.subscribe(i => (items = i));
+    component.items$.subscribe((i) => (items = i));
     expect(items.length).toBe(2);
   }));
 
   it('should have product code 111 in first product', async(() => {
     let items: Observable<Product>[];
-    component.items$.subscribe(i => (items = i));
+    component.items$.subscribe((i) => (items = i));
     let product: Product;
-    items[0].subscribe(p => (product = p));
+    items[0].subscribe((p) => (product = p));
 
     expect(product).toBe(mockProducts[1]);
   }));

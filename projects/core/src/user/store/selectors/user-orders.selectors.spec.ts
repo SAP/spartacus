@@ -42,7 +42,7 @@ describe('User Orders Selectors', () => {
       let result: LoaderState<OrderHistoryList>;
       store
         .pipe(select(UsersSelectors.getOrdersState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -59,7 +59,7 @@ describe('User Orders Selectors', () => {
       let result: OrderHistoryList;
       store
         .pipe(select(UsersSelectors.getOrders))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(emptyOrder);
 
@@ -73,7 +73,7 @@ describe('User Orders Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getOrdersLoaded))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
 

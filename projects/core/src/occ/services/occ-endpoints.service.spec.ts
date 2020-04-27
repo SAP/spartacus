@@ -16,8 +16,8 @@ describe('OccEndpointsService', () => {
           prefix: '/test-occPrefix',
           endpoints: {
             login: '/authorizationserver/oauth/token',
-            product: 'configured-endpoint1/${test}?fields=abc',
-            product_scopes: {
+            product: {
+              default: 'configured-endpoint1/${test}?fields=abc',
               test: 'configured-endpoint1/${test}?fields=test',
             },
           },
@@ -169,6 +169,19 @@ describe('OccEndpointsService', () => {
 
       expect(url).toEqual(
         baseEndpoint + '/configured-endpoint1/%C4%85%C4%87%C4%99%24%25'
+      );
+    });
+
+    it('should escape query parameters', () => {
+      const url = service.getUrl(
+        'product',
+        { test: 'test-value' },
+        { fields: '+./.\\.,.?' }
+      );
+
+      expect(url).toEqual(
+        baseEndpoint +
+          '/configured-endpoint1/test-value?fields=%2B.%2F.%5C.%2C.%3F'
       );
     });
   });

@@ -74,16 +74,13 @@ describe('AuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toBe(false);
     });
 
     it('should notify AuthRedirectService with the current navigation', () => {
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(authRedirectService.reportAuthGuard).toHaveBeenCalled();
     });
   });
@@ -97,7 +94,7 @@ describe('AuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toBe(true);
     });

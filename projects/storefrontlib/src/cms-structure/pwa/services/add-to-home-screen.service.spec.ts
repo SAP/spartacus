@@ -67,14 +67,14 @@ describe('AddToHomeScreenService', () => {
 
   it('should enableAddToHomeScreen make canPrompt true', () => {
     let canPrompt: boolean;
-    addToHomeService.canPrompt$.subscribe(value => (canPrompt = value));
+    addToHomeService.canPrompt$.subscribe((value) => (canPrompt = value));
     addToHomeService.enableAddToHomeScreen();
     expect(canPrompt).toBeTruthy();
   });
 
   it('should disableAddToHomeScreen make canPrompt false', () => {
     let canPrompt: boolean;
-    addToHomeService.canPrompt$.subscribe(value => (canPrompt = value));
+    addToHomeService.canPrompt$.subscribe((value) => (canPrompt = value));
     addToHomeService.disableAddToHomeScreen();
     expect(canPrompt).toBeFalsy();
   });

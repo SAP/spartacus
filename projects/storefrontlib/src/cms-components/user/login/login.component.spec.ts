@@ -101,7 +101,7 @@ describe('LoginComponent', () => {
 
   it('should have user details when token exists', () => {
     let user;
-    component.user$.subscribe(result => (user = result));
+    component.user$.subscribe((result) => (user = result));
     expect(user).toEqual(mockUserDetails);
   });
 
@@ -110,7 +110,7 @@ describe('LoginComponent', () => {
 
     let user;
     component.ngOnInit();
-    component.user$.subscribe(result => (user = result));
+    component.user$.subscribe((result) => (user = result));
     expect(user).toBeFalsy();
   });
 

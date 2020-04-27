@@ -4,7 +4,7 @@ import {
 } from './group-skipping.config';
 
 export function verifyGroupSkippingFromConfig(config: GroupSkippingConfig) {
-  Object.keys(config).forEach(page => {
+  Object.keys(config).forEach((page) => {
     describe(page, () => {
       it('should tab through group skippers', () => {
         verifyGroupSkippingOnPageFromConfig(config[page]);
@@ -18,10 +18,15 @@ export function verifyGroupSkippingOnPageFromConfig(
 ) {
   cy.visit(config.pageUrl);
 
-  // Wait for group skippers to load
+  // Wait for group skippers and page content to load
+  cy.server();
+  cy.route(
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/cms/components*`
+  ).as('getComponents');
   checkGroupSkipperAnchorsHaveLoaded(config.expectedSkipperCount);
+  cy.wait('@getComponents');
 
-  cy.get('body').focus();
+  cy.get('cx-storefront').focus();
 
   // Should tab through anchor tags
   for (let i = 0; i < config.expectedSkipperCount; i++) {
@@ -35,23 +40,21 @@ export function verifyGroupSkippingOnPageFromConfig(
 }
 
 function checkGroupSkipperAnchorsHaveLoaded(noOfAnchors: number) {
-  cy.get('cx-skip-link')
-    .find('button')
-    .should('have.length', noOfAnchors);
+  cy.get('cx-skip-link').find('button').should('have.length', noOfAnchors);
 }
 
 function checkFocusIsWithinGroupSkipper() {
   cy.focused()
+    .parentsUntil('cx-skip-link')
     .parent()
     .should('have.prop', 'tagName')
     .should('eq', 'CX-SKIP-LINK');
-  cy.focused()
-    .should('have.prop', 'tagName')
-    .should('eq', 'BUTTON');
+  cy.focused().should('have.prop', 'tagName').should('eq', 'BUTTON');
 }
 
 function checkFocusIsNotWithinGroupSkipper() {
   cy.focused()
+    .parent()
     .parent()
     .should('have.prop', 'tagName')
     .should('not.eq', 'CX-SKIP-LINK');

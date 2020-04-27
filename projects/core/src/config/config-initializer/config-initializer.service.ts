@@ -53,7 +53,8 @@ export class ConfigInitializerService {
     return this.ongoingScopes$
       .pipe(
         filter(
-          ongoingScopes => ongoingScopes && this.areReady(scopes, ongoingScopes)
+          (ongoingScopes) =>
+            ongoingScopes && this.areReady(scopes, ongoingScopes)
         ),
         take(1),
         mapTo(this.config)

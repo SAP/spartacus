@@ -61,7 +61,7 @@ describe('ConverterService', () => {
 
       of(source)
         .pipe(service.pipeable(TestConverterInjectionToken))
-        .subscribe(result => (target = result));
+        .subscribe((result) => (target = result));
 
       expect(target).toEqual({ test: 'test', source: { test: 'test' } });
     });
@@ -71,7 +71,7 @@ describe('ConverterService', () => {
 
       of(source)
         .pipe(service.pipeable(NotProvidedConverterInjectionToken))
-        .subscribe(result => (target = result));
+        .subscribe((result) => (target = result));
 
       expect(target).toBe(source);
     });
@@ -84,7 +84,7 @@ describe('ConverterService', () => {
 
       of(sources)
         .pipe(service.pipeableMany(TestConverterInjectionToken))
-        .subscribe(result => (target = result));
+        .subscribe((result) => (target = result));
 
       expect(target).toEqual([
         { test: 'test', source: { test: 'test' } },
@@ -97,7 +97,7 @@ describe('ConverterService', () => {
 
       of(sources)
         .pipe(service.pipeable(NotProvidedConverterInjectionToken))
-        .subscribe(result => (target = result));
+        .subscribe((result) => (target = result));
 
       expect(target).toBe(sources);
     });

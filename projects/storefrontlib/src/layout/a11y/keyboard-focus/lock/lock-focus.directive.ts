@@ -1,5 +1,5 @@
 import {
-  AfterContentInit,
+  AfterViewInit,
   Directive,
   ElementRef,
   EventEmitter,
@@ -14,13 +14,18 @@ import { TrapFocusDirective } from '../trap/trap-focus.directive';
 import { LockFocusService } from './lock-focus.service';
 
 /**
+ * Focusable elements exclude hidden elements by default, but this contradicts with
+ * unlocking (hidden) elements.
+ */
+const UNLOCK_HIDDEN_ELEMENTS = true;
+/**
  * Directive that adds persistence for focussed element in case
  * the elements are being rebuild. This happens often when change
  * detection kicks in because of new data set from the backend.
  */
 @Directive() // selector: '[cxLockFocus]'
 export class LockFocusDirective extends TrapFocusDirective
-  implements OnInit, AfterContentInit {
+  implements OnInit, AfterViewInit {
   protected defaultConfig: LockFocusConfig = { lock: true };
 
   // @Input('cxLockFocus')
@@ -31,6 +36,7 @@ export class LockFocusDirective extends TrapFocusDirective
    * CSS class `focus-lock`.
    */
   @HostBinding('class.focus-lock') shouldLock: boolean;
+
   /**
    * Indicates that the host is locked. This is available as a CSS class `is-locked`.
    */
@@ -81,7 +87,7 @@ export class LockFocusDirective extends TrapFocusDirective
   protected unlockFocus(event?: UIEvent) {
     this.unlock.emit(true);
     this.addTabindexToChildren(0);
-    // we focus the host if the event target was a nested child
+    // we focus the host if the event was triggered from a child
     if (event?.target === this.host) {
       super.handleFocus(event as KeyboardEvent);
     }
@@ -109,7 +115,7 @@ export class LockFocusDirective extends TrapFocusDirective
     }
   }
 
-  ngAfterContentInit() {
+  ngAfterViewInit() {
     if (this.shouldLock) {
       /**
        * If the component hosts a group of focusable children elmenents,
@@ -117,36 +123,38 @@ export class LockFocusDirective extends TrapFocusDirective
        * into account when they persist their focus state.
        */
       if (!!this.group) {
-        this.service
-          .findFocusable(this.host)
-          .forEach(el =>
-            this.renderer.setAttribute(el, FOCUS_GROUP_ATTR, this.group)
-          );
+        this.service.findFocusable(this.host).forEach((el) =>
+          // we must do this in after view init as
+          this.renderer.setAttribute(el, FOCUS_GROUP_ATTR, this.group)
+        );
       }
 
-      this.lockFocus();
+      if (this.shouldAutofocus) {
+        this.handleFocus();
+      }
     }
+    super.ngAfterViewInit();
   }
 
   handleFocus(event?: KeyboardEvent): void {
     if (this.shouldLock) {
-      this.lockFocus();
-
       if (this.shouldUnlockAfterAutofocus(event)) {
         // Delay unlocking in case the host is using `ChangeDetectionStrategy.Default`
         setTimeout(() => this.unlockFocus(event));
       } else {
-        this.lockFocus();
-      }
-
-      // let's not bubble up the handleFocus event if the host is locked
-      if (this.isLocked) {
+        setTimeout(() => this.lockFocus());
         event?.stopPropagation();
         return;
       }
     }
-
     super.handleFocus(event);
+  }
+
+  handleEscape(event: KeyboardEvent): void {
+    if (this.shouldLock) {
+      this.service.clear(this.config.group);
+    }
+    super.handleEscape(event);
   }
 
   /**
@@ -167,9 +175,9 @@ export class LockFocusDirective extends TrapFocusDirective
     if (this.shouldLock) {
       this.isLocked = i === -1;
       if (!(this.hasFocusableChildren && i === 0) || i === 0) {
-        this.focusable.forEach(el => {
-          this.renderer.setAttribute(el, 'tabindex', i.toString());
-        });
+        this.focusable.forEach((el) =>
+          this.renderer.setAttribute(el, 'tabindex', i.toString())
+        );
       }
     }
   }
@@ -191,6 +199,10 @@ export class LockFocusDirective extends TrapFocusDirective
    * We keep this private to not polute the API.
    */
   private get focusable(): HTMLElement[] {
-    return this.service.findFocusable(this.host, this.shouldLock);
+    return this.service.findFocusable(
+      this.host,
+      this.shouldLock,
+      UNLOCK_HIDDEN_ELEMENTS
+    );
   }
 }

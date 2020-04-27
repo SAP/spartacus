@@ -36,7 +36,7 @@ describe('EventService', () => {
     service.register(EventB, of(new EventB(100)));
 
     const results = [];
-    sub = service.get(EventA).subscribe(e => results.push(e));
+    sub = service.get(EventA).subscribe((e) => results.push(e));
     expect(results).toEqual([new EventA(1), new EventA(2)]);
   });
 
@@ -46,7 +46,7 @@ describe('EventService', () => {
     service.register(EventA, of(new EventA(4)));
 
     const results = [];
-    sub = service.get(EventA).subscribe(e => results.push(e));
+    sub = service.get(EventA).subscribe((e) => results.push(e));
     expect(results).toEqual([
       new EventA(1),
       new EventA(2),
@@ -60,7 +60,7 @@ describe('EventService', () => {
     service.register(EventA, of(new EventA(2), new EventA(3)));
 
     const results = [];
-    sub = service.get(EventA).subscribe(e => results.push(e));
+    sub = service.get(EventA).subscribe((e) => results.push(e));
     service.dispatch(new EventA(4)); // dispatch after subscription will be detected
 
     expect(results).toEqual([new EventA(2), new EventA(3), new EventA(4)]);
@@ -75,7 +75,7 @@ describe('EventService', () => {
     unregister();
 
     const results = [];
-    sub = service.get(EventA).subscribe(e => results.push(e));
+    sub = service.get(EventA).subscribe((e) => results.push(e));
 
     expect(results).toEqual([new EventA(3), new EventA(4)]);
   });

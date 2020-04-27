@@ -22,8 +22,6 @@ declare global {
 }
 
 Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
-  const apiUrl = Cypress.env('API_URL');
-
   // format the request body
   const _address = {
     ...address,
@@ -42,7 +40,11 @@ Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
   function addAddress() {
     return cy.request({
       method: 'POST',
-      url: `${apiUrl}/rest/v2/electronics-spa/users/current/carts/current/addresses/delivery`,
+      url: `${Cypress.env('API_URL')}/${Cypress.env(
+        'OCC_PREFIX'
+      )}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/carts/current/addresses/delivery`,
       body: _address,
       form: false,
       headers: {
@@ -52,5 +54,5 @@ Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
   }
 
   cy.server();
-  addAddress().then(resp => cy.wrap(resp));
+  addAddress().then((resp) => cy.wrap(resp));
 });

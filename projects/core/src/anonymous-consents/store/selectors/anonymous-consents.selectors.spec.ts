@@ -45,7 +45,7 @@ describe('anonymous consents selectors', () => {
       let result: AnonymousConsent[];
       store
         .pipe(select(AnonymousConsentsSelectors.getAnonymousConsents))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(mockAnonymousConsents);
@@ -72,7 +72,7 @@ describe('anonymous consents selectors', () => {
             )
           )
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(expected);

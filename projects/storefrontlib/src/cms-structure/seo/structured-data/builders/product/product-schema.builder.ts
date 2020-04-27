@@ -40,7 +40,7 @@ export class ProductSchemaBuilder implements SchemaBuilder {
       return [];
     }
     const builders = this.builders
-      ? this.builders.map(builder => builder.build(product))
+      ? this.builders.map((builder) => builder.build(product))
       : [];
     return [
       of({

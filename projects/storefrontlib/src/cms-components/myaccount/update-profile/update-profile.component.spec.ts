@@ -23,9 +23,7 @@ import { UpdateProfileComponent } from './update-profile.component';
 
 @Component({
   selector: 'cx-update-profile-form',
-  template: `
-    <div>update form</div>
-  `,
+  template: ` <div>update form</div> `,
 })
 class MockUpdateProfileFormComponent {
   @Input()
@@ -39,9 +37,7 @@ class MockUpdateProfileFormComponent {
 }
 @Component({
   selector: 'cx-spinner',
-  template: `
-    <div>spinner</div>
-  `,
+  template: ` <div>spinner</div> `,
 })
 class MockCxSpinnerComponent {}
 
