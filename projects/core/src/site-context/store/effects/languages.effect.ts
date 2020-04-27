@@ -65,8 +65,6 @@ export class LanguagesEffects {
 
     // avoid dispatching `change` action when we're just setting the initial value:
     filter(([previous]) => !!previous),
-    // avoid dispatching `change` action when values are the same
-    filter(([previous, current]) => previous !== current),
     map(
       ([previous, current]) =>
         new SiteContextActions.LanguageChange({ previous, current })
