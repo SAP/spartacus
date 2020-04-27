@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { GenericConfigurator, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ConfigurationRouter } from '../../generic/service/config-router-data';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 @Component({
@@ -17,18 +18,23 @@ export class ConfigTabBarComponent {
     private routingService: RoutingService,
     private configRouterExtractorService: ConfigRouterExtractorService
   ) {
-    this.owner$ = this.configRouterExtractorService.extractConfigurationOwner(
-      this.routingService
-    );
+    this.owner$ = this.configRouterExtractorService
+      .extractRouterData(this.routingService)
+      .pipe(map((routerData) => routerData.owner));
 
-    this.configuratorType$ = this.configRouterExtractorService.getConfiguratorType(
-      routingService
-    );
+    this.configuratorType$ = this.configRouterExtractorService
+      .extractRouterData(routingService)
+      .pipe(map((routerData) => routerData.configuratorType));
   }
 
   isOverviewPage(): Observable<boolean> {
     return this.configRouterExtractorService
-      .isOverview(this.routingService)
-      .pipe(map((isOverview) => isOverview.isOverview));
+      .extractRouterData(this.routingService)
+      .pipe(
+        map(
+          (routerData) =>
+            routerData.pageType === ConfigurationRouter.PageType.OVERVIEW
+        )
+      );
   }
 }

@@ -6,7 +6,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
@@ -35,18 +35,18 @@ export class ConfigGroupMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) =>
-          this.configuratorCommonsService.getConfiguration(owner)
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
         )
       );
 
     this.currentGroup$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) =>
-          this.configuratorGroupsService.getCurrentGroup(owner)
+        switchMap((routerData) =>
+          this.configuratorGroupsService.getCurrentGroup(routerData.owner)
         )
       );
 
@@ -54,6 +54,7 @@ export class ConfigGroupMenuComponent implements OnInit {
       switchMap((configuration) =>
         this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
       ),
+      distinctUntilChanged(),
       switchMap((parentGroup) => this.getCondensedParentGroup(parentGroup))
     );
 

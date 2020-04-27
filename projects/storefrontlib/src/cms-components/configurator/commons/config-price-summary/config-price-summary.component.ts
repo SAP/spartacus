@@ -24,10 +24,12 @@ export class ConfigPriceSummaryComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) => {
-          return this.configuratorCommonsService.getConfiguration(owner);
+        switchMap((routerData) => {
+          return this.configuratorCommonsService.getConfiguration(
+            routerData.owner
+          );
         })
       );
   }

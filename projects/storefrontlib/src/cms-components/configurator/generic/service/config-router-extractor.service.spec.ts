@@ -145,38 +145,4 @@ describe('ConfigRouterExtractorService', () => {
       );
     expect(hasBeenAdded.isOwnerCartEntry).toBe(false);
   });
-
-  describe('should know if it is on the overview or configurator page', () => {
-    it('on configurator page', () => {
-      let isOverviewResult;
-      let isConfiguratorResult;
-
-      serviceUnderTest
-        .isOverview(routingService)
-        .subscribe((isOverview) => (isOverviewResult = isOverview));
-      serviceUnderTest
-        .isConfigurator(routingService)
-        .subscribe((isConfigurator) => (isConfiguratorResult = isConfigurator));
-
-      expect(isConfiguratorResult.isConfigurator).toBe(true);
-      expect(isOverviewResult.isOverview).toBe(false);
-    });
-
-    it('on overview page', () => {
-      let isOverviewResult;
-      let isConfiguratorResult;
-
-      mockRouterState.state.url = OVERVIEW_URL;
-
-      serviceUnderTest
-        .isOverview(routingService)
-        .subscribe((isOverview) => (isOverviewResult = isOverview));
-      serviceUnderTest
-        .isConfigurator(routingService)
-        .subscribe((isConfigurator) => (isConfiguratorResult = isConfigurator));
-
-      expect(isConfiguratorResult.isConfigurator).toBe(false);
-      expect(isOverviewResult.isOverview).toBe(true);
-    });
-  });
 });
