@@ -10,14 +10,13 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import {
-  CmsService,
   ContentSlotComponentData,
   DynamicAttributeService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { CmsMappingService } from '../../services/cms-mapping.service';
-import { ComponentHandlerService } from './services/component-handler.service';
+import { CmsComponentsService } from '../../services/cms-components.service';
 import { CmsInjectorService } from './services/cms-injector.service';
+import { ComponentHandlerService } from './services/component-handler.service';
 
 /**
  * Directive used to facilitate instantiation of CMS driven dynamic components
@@ -41,27 +40,30 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   constructor(
     protected vcr: ViewContainerRef,
-    protected cmsMappingService: CmsMappingService,
+    protected cmsComponentsService: CmsComponentsService,
     protected injector: Injector,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
-    protected cmsInjector: CmsInjectorService,
-    protected cmsService: CmsService // TODO: remove, move smartedit detection responsibility to different layer/service
+    protected cmsInjector: CmsInjectorService
   ) {}
 
   ngOnInit() {
-    if (
-      this.cmsMappingService.isComponentEnabled(
-        this.cxComponentWrapper.flexType
-      )
-    ) {
-      this.launchComponent();
-    }
+    this.cmsComponentsService
+      .determineMappings([this.cxComponentWrapper.flexType])
+      .subscribe(() => {
+        if (
+          this.cmsComponentsService.shouldRender(
+            this.cxComponentWrapper.flexType
+          )
+        ) {
+          this.launchComponent();
+        }
+      });
   }
 
   private launchComponent() {
-    const componentMapping = this.cmsMappingService.getComponentMapping(
+    const componentMapping = this.cmsComponentsService.getMapping(
       this.cxComponentWrapper.flexType
     );
 
@@ -85,14 +87,12 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       });
   }
 
-  private decorate(elementRef: ElementRef) {
-    if (this.cmsService.isLaunchInSmartEdit()) {
-      this.dynamicAttributeService.addDynamicAttributes(
-        this.cxComponentWrapper.properties,
-        elementRef.nativeElement,
-        this.renderer
-      );
-    }
+  private decorate(elementRef: ElementRef): void {
+    this.dynamicAttributeService.addDynamicAttributes(
+      elementRef.nativeElement,
+      this.renderer,
+      { componentData: this.cxComponentWrapper }
+    );
   }
 
   ngOnDestroy() {

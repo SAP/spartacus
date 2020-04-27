@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Breadcrumb } from '@spartacus/core';
-
+import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { FacetList } from '../facet.model';
 import { FacetService } from '../services/facet.service';
-import { Observable } from 'rxjs';
 
 /**
  * Active facets render the applied facet values as a list of focusable buttons

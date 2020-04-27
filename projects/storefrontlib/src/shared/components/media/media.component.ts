@@ -81,7 +81,7 @@ export class MediaComponent implements OnChanges {
       this.format,
       this.alt
     );
-    if (!this.media.src) {
+    if (!this.media?.src) {
       this.handleMissing();
     }
   }
