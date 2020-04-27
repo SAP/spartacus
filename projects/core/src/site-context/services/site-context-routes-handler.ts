@@ -54,6 +54,8 @@ export class SiteContextRoutesHandler implements OnDestroy {
       if (routingParams.length) {
         this.subscribeChanges(routingParams);
         this.subscribeRouting(resolve);
+      } else {
+        resolve();
       }
     });
   }
