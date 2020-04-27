@@ -57,11 +57,11 @@ export class LanguagesEffects {
   activateLanguage$: Observable<
     SiteContextActions.LanguageChange
   > = this.state.select(getActiveLanguage).pipe(
-    tap(current => {
+    tap((current) => {
       console.log('current', current);
     }),
     bufferCount(2, 1),
-    tap(buffer => console.log('buffer', buffer)),
+    tap((buffer) => console.log('buffer', buffer)),
 
     // avoid dispatching `change` action when we're just setting the initial value:
     filter(([previous]) => !!previous),

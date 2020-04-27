@@ -79,7 +79,7 @@ describe('SiteContextRoutesHandler', () => {
   });
 
   describe('init', () => {
-    it('should return promise that will be resolved after first route navigation', done => {
+    it('should return promise that will be resolved after first route navigation', (done) => {
       let resolved = false;
 
       service.init().then(() => {

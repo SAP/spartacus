@@ -58,7 +58,7 @@ describe('Languages Effects', () => {
   describe('loadLanguages$', () => {
     it('should populate all languages from LoadLanguagesSuccess', () => {
       const results = [];
-      effects.loadLanguages$.subscribe(a => results.push(a));
+      effects.loadLanguages$.subscribe((a) => results.push(a));
       actions$.next(new SiteContextActions.LoadLanguages());
       expect(results).toEqual([
         new SiteContextActions.LoadLanguagesSuccess(languages),
@@ -70,7 +70,7 @@ describe('Languages Effects', () => {
     describe('when language is set for the first time', () => {
       it('should NOT dispatch language change action', () => {
         const results = [];
-        effects.activateLanguage$.subscribe(a => results.push(a));
+        effects.activateLanguage$.subscribe((a) => results.push(a));
         mockState.next('zh');
         expect(results).toEqual([]);
       });
@@ -79,7 +79,7 @@ describe('Languages Effects', () => {
     describe('when language is set for the next time', () => {
       it('should dispatch language change action', () => {
         const results = [];
-        effects.activateLanguage$.subscribe(a => results.push(a));
+        effects.activateLanguage$.subscribe((a) => results.push(a));
 
         mockState.next('en');
         mockState.next('zh');

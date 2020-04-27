@@ -78,7 +78,7 @@ export class CurrencyService implements SiteContext<Currency> {
   initialize() {
     let value;
     this.getActive()
-      .subscribe(val => (value = val))
+      .subscribe((val) => (value = val))
       .unsubscribe();
     if (value) {
       // don't initialize, if there is already a value (i.e. retrieved from route or transferred from SSR)

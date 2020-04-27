@@ -45,7 +45,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
    * @returns Promise that is resolved when the site context state is initialized (updated for the first time) based on the URL.
    */
   init(): Promise<void> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.router = this.injector.get<Router>(Router);
 
       this.location = this.injector.get<Location>(Location);

@@ -58,7 +58,7 @@ describe('Currencies Effects', () => {
   describe('loadCurrencies$', () => {
     it('should populate all currencies from LoadCurrenciesSuccess', () => {
       const results = [];
-      effects.loadCurrencies$.subscribe(a => results.push(a));
+      effects.loadCurrencies$.subscribe((a) => results.push(a));
       actions$.next(new SiteContextActions.LoadCurrencies());
       expect(results).toEqual([
         new SiteContextActions.LoadCurrenciesSuccess(currencies),
@@ -70,7 +70,7 @@ describe('Currencies Effects', () => {
     describe('when currency is set for the first time', () => {
       it('should NOT dispatch currency change action', () => {
         const results = [];
-        effects.activateCurrency$.subscribe(a => results.push(a));
+        effects.activateCurrency$.subscribe((a) => results.push(a));
         mockState.next('zh');
         expect(results).toEqual([]);
       });
@@ -79,7 +79,7 @@ describe('Currencies Effects', () => {
     describe('when currency is set for the next time', () => {
       it('should dispatch currency change action', () => {
         const results = [];
-        effects.activateCurrency$.subscribe(a => results.push(a));
+        effects.activateCurrency$.subscribe((a) => results.push(a));
 
         mockState.next('en');
         mockState.next('zh');
