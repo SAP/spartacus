@@ -76,6 +76,8 @@ export class ComponentsEffects {
           );
           uidsLeft.delete(component.uid);
         }
+        // we have to emit LoadCmsComponentFail for all component's uids that
+        // are missing from the response
         uidsLeft.forEach((uid) => {
           actions.push(
             new CmsActions.LoadCmsComponentFail({
