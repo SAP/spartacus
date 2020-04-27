@@ -49,10 +49,6 @@ export const CART_DETAILS_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
         className: ROUTING_SERVICE,
         importPath: SPARTACUS_CORE,
       },
-      {
-        className: FEATURE_CONFIG_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
     ],
   },
   {
@@ -131,10 +127,6 @@ export const CART_DETAILS_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
         className: ROUTING_SERVICE,
         importPath: SPARTACUS_CORE,
       },
-      {
-        className: FEATURE_CONFIG_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
     ],
   },
   {
@@ -142,7 +134,7 @@ export const CART_DETAILS_COMPONENT_MIGRATIONS: ConstructorDeprecation[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     deprecatedParams: [
       {
-        className: CART_SERVICE,
+        className: ACTIVE_CART_SERVICE,
         importPath: SPARTACUS_CORE,
       },
       {
