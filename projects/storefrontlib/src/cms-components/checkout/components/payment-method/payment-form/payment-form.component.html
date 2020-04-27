@@ -17,7 +17,6 @@
                   bindLabel="name"
                   bindValue="code"
                   placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}"
-                  (change)="paymentSelected($event)"
                   formControlName="code"
                 >
                 </ng-select>
@@ -336,7 +335,6 @@
                           placeholder="{{
                             'addressForm.selectOne' | cxTranslate
                           }}"
-                          (change)="regionSelected($event)"
                         >
                         </ng-select>
                         <cx-form-errors

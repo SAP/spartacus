@@ -414,13 +414,6 @@ describe('PaymentFormComponent', () => {
     expect(component.closeForm.emit).toHaveBeenCalled();
   });
 
-  it('should call paymentSelected(card)', () => {
-    component.paymentSelected({ code: 'test select payment' });
-    expect(
-      component.paymentForm['controls'].cardType['controls'].code.value
-    ).toEqual('test select payment');
-  });
-
   it('should call monthSelected(month)', () => {
     component.monthSelected('05');
     expect(component.paymentForm['controls'].expiryMonth.value).toEqual('05');

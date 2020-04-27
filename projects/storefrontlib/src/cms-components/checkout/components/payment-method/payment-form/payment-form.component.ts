@@ -190,10 +190,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
       .defaultPayment;
   }
 
-  paymentSelected(card: CardType): void {
-    this.paymentForm.get('cardType.code').setValue(card.code);
-  }
-
   monthSelected(month: string): void {
     this.paymentForm.get('expiryMonth').setValue(month);
   }
@@ -284,12 +280,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   countrySelected(country: Country): void {
     this.billingAddressForm.get('country.isocode').setValue(country.isocode);
     this.selectedCountry$.next(country.isocode);
-  }
-
-  regionSelected(region: Region): void {
-    this.billingAddressForm
-      .get('region.isocodeShort')
-      .setValue(region.isocodeShort);
   }
 
   next(): void {

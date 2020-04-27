@@ -381,14 +381,6 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should call regionSelected()', () => {
-    const mockRegionIsocode = 'test region isocode';
-    component.regionSelected({ isocode: mockRegionIsocode });
-    expect(
-      component.addressForm['controls'].region['controls'].isocode.value
-    ).toEqual(mockRegionIsocode);
-  });
-
   it('should call openSuggestedAddress', (done) => {
     spyOn(component, 'openSuggestedAddress').and.callThrough();
     spyOn(mockModalService, 'open').and.callThrough();
