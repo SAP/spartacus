@@ -62,6 +62,7 @@ const mockCountries: Country[] = [
     name: 'Serbia',
   },
 ];
+
 const mockRegions: Region[] = [
   {
     isocode: 'CA-ON',
