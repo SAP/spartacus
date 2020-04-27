@@ -14,9 +14,7 @@ describe('CartPageLayoutHandler', () => {
     getCart() {
       return of({ totalItems: 0 });
     },
-  };
-  const mockCartConfigService: any = {
-    isSelectiveCartEnabled() {
+    isEnabled() {
       return true;
     },
   };
@@ -31,8 +29,7 @@ describe('CartPageLayoutHandler', () => {
   it('should remove cart slots when cart and save for later are empty', () => {
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
-      mockSelectiveCartService,
-      mockCartConfigService
+      mockSelectiveCartService
     );
 
     let result;
@@ -48,8 +45,7 @@ describe('CartPageLayoutHandler', () => {
     );
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
-      mockSelectiveCartService,
-      mockCartConfigService
+      mockSelectiveCartService
     );
 
     let result;
@@ -65,8 +61,7 @@ describe('CartPageLayoutHandler', () => {
     );
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
-      mockSelectiveCartService,
-      mockCartConfigService
+      mockSelectiveCartService
     );
 
     let result;
@@ -78,13 +73,10 @@ describe('CartPageLayoutHandler', () => {
 
   it('should not check save for later cart if the feature is disabled', () => {
     spyOn(mockSelectiveCartService, 'getCart').and.stub();
-    spyOn(mockCartConfigService, 'isSelectiveCartEnabled').and.returnValue(
-      false
-    );
+    spyOn(mockSelectiveCartService, 'isEnabled').and.returnValue(false);
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
-      mockSelectiveCartService,
-      mockCartConfigService
+      mockSelectiveCartService
     );
 
     let result;
@@ -98,8 +90,7 @@ describe('CartPageLayoutHandler', () => {
   it('should return untouched stream if not a cart page template', () => {
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
-      mockSelectiveCartService,
-      mockCartConfigService
+      mockSelectiveCartService
     );
     const slots$ = handler.handle(mockSlots$, 'different page');
     expect(slots$).toBe(mockSlots$);
@@ -110,8 +101,7 @@ describe('CartPageLayoutHandler', () => {
     spyOn(mockActiveCartService, 'getLoading').and.returnValue(of(true));
     const handler = new CartPageLayoutHandler(
       mockActiveCartService,
-      mockSelectiveCartService,
-      mockCartConfigService
+      mockSelectiveCartService
     );
 
     let result;

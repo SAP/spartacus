@@ -1,6 +1,5 @@
 import {
   ACTIVE_CART_SERVICE,
-  CART_CONFIG_SERVICE,
   CART_PAGE_LAYOUT_HANDLER,
   CART_SERVICE,
   FEATURE_CONFIG_SERVICE,
@@ -34,10 +33,6 @@ export const CART_PAGE_LAYOUT_HANDLER_MIGRATIONS: ConstructorDeprecation[] = [
       },
       {
         className: SELECTIVE_CART_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-      {
-        className: CART_CONFIG_SERVICE,
         importPath: SPARTACUS_CORE,
       },
     ],
@@ -80,10 +75,6 @@ export const CART_PAGE_LAYOUT_HANDLER_MIGRATIONS: ConstructorDeprecation[] = [
       },
       {
         className: SELECTIVE_CART_SERVICE,
-        importPath: SPARTACUS_CORE,
-      },
-      {
-        className: CART_CONFIG_SERVICE,
         importPath: SPARTACUS_CORE,
       },
     ],

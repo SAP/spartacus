@@ -12,6 +12,7 @@ import { StateWithProcess } from '../../process';
 import * as fromProcessReducers from '../../process/store/reducers/index';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { UserService } from '../../user';
+import { CartConfigService } from '../services';
 import { MULTI_CART_FEATURE, StateWithMultiCart } from '../store';
 import { MultiCartService } from './multi-cart.service';
 import { SelectiveCartService } from './selective-cart.service';
@@ -69,10 +70,17 @@ class BaseSiteServiceStub {
   }
 }
 
+class CartConfigServiceStub {
+  isSelectiveCartEnabled(): boolean {
+    return true;
+  }
+}
+
 describe('Selective Cart Service', () => {
   let service: SelectiveCartService;
   let multiCartService: MultiCartService;
   let store: Store<StateWithMultiCart | StateWithProcess<void>>;
+  let cartConfigService: CartConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -90,11 +98,13 @@ describe('Selective Cart Service', () => {
         { provide: AuthService, useClass: AuthServiceStub },
         { provide: UserService, useClass: UserServiceStup },
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
+        { provide: CartConfigService, useClass: CartConfigServiceStub },
       ],
     });
 
     service = TestBed.inject(SelectiveCartService);
     multiCartService = TestBed.inject(MultiCartService);
+    cartConfigService = TestBed.inject(CartConfigService);
     store = TestBed.inject(Store);
     service['cartId$'] = new BehaviorSubject<string>(TEST_CART_ID);
     service['cartSelector$'] = of({
@@ -318,6 +328,17 @@ describe('Selective Cart Service', () => {
       'selectivecartelectronics-spa-test-customer-id',
       'code123'
     );
+  });
+
+  describe('isEnabled', () => {
+    it('should return true when selectiveCart is enabled', () => {
+      expect(service.isEnabled()).toEqual(true);
+    });
+
+    it('should return false when selectiveCart is disabled', () => {
+      spyOn(cartConfigService, 'isSelectiveCartEnabled').and.returnValue(false);
+      expect(service.isEnabled()).toEqual(false);
+    });
   });
 
   describe('test private method', () => {

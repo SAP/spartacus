@@ -3,7 +3,6 @@ import {
   ActiveCartService,
   AuthService,
   Cart,
-  CartConfigService,
   OrderEntry,
   PromotionLocation,
   PromotionResult,
@@ -35,8 +34,7 @@ export class CartDetailsComponent implements OnInit {
     protected promotionService: PromotionService,
     protected selectiveCartService: SelectiveCartService,
     protected authService: AuthService,
-    protected routingService: RoutingService,
-    protected cartConfigService: CartConfigService
+    protected routingService: RoutingService
   ) {}
 
   ngOnInit() {
@@ -47,7 +45,7 @@ export class CartDetailsComponent implements OnInit {
       .getEntries()
       .pipe(filter((entries) => entries.length > 0));
 
-    this.selectiveCartEnabled = this.cartConfigService.isSelectiveCartEnabled();
+    this.selectiveCartEnabled = this.selectiveCartService.isEnabled();
 
     this.cartLoaded$ = combineLatest([
       this.activeCartService.isStable(),

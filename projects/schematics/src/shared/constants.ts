@@ -196,6 +196,8 @@ export const TAB_PARAGRAPH_CONTAINER_COMPONENT =
 export const NAVIGATION_UI_COMPONENT = 'NavigationUIComponent';
 export const STORE_FINDER_LIST_ITEM_COMPONENT = 'StoreFinderListItemComponent';
 export const CART_CONFIG_SERVICE = 'CartConfigService';
+export const MULTI_CART_SERVICE = 'MultiCartService';
+export const BASE_SITE_SERVICE = 'BaseSiteService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

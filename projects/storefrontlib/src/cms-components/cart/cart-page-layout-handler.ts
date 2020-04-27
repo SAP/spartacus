@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActiveCartService,
-  Cart,
-  CartConfigService,
-  SelectiveCartService,
-} from '@spartacus/core';
+import { ActiveCartService, Cart, SelectiveCartService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PageLayoutHandler } from '../../cms-structure/page/page-layout/page-layout-handler';
@@ -15,8 +10,7 @@ import { PageLayoutHandler } from '../../cms-structure/page/page-layout/page-lay
 export class CartPageLayoutHandler implements PageLayoutHandler {
   constructor(
     protected activeCartService: ActiveCartService,
-    protected selectiveCartService: SelectiveCartService,
-    protected cartConfigService: CartConfigService
+    protected selectiveCartService: SelectiveCartService
   ) {}
 
   handle(
@@ -28,7 +22,7 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
       return combineLatest([
         slots$,
         this.activeCartService.getActive(),
-        this.cartConfigService.isSelectiveCartEnabled()
+        this.selectiveCartService.isEnabled()
           ? this.selectiveCartService.getCart()
           : of({} as Cart),
         this.activeCartService.getLoading(),
