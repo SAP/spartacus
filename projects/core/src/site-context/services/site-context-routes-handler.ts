@@ -42,8 +42,6 @@ export class SiteContextRoutesHandler implements OnDestroy {
       const routingParams = this.siteContextParams.getUrlEncodingParameters();
 
       if (routingParams.length) {
-        // this.setContextParamsFromRoute(this.router.url); // commented out - as it updates state incorrectly, based on default config, not b URL
-
         this.subscribeChanges(routingParams);
         this.subscribeRouting(resolve);
       }
