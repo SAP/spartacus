@@ -9,11 +9,9 @@ import {
   UserGroupManagement,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
-import {
-  EntityLoaderState,
-  LoaderState,
-  UserGroupSelectors,
-} from '@spartacus/core';
+import { UserGroupSelectors } from '../selectors/index';
+import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 
 describe('UserGroup Selectors', () => {
   let store: Store<StateWithOrganization>;

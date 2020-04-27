@@ -5,7 +5,7 @@ import {
   BUDGET_ENTITIES,
 } from '../organization-state';
 import { CostCenter } from '../../../model/cost-center.model';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { CostCenterActions } from './index';
 
 const costCenterCode = 'testCostCenterId';
@@ -34,10 +34,7 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.LOAD_COST_CENTER,
           payload: { userId, costCenterCode },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            COST_CENTER_ENTITIES,
-            costCenterCode
-          ),
+          meta: StateUtils.entityLoadMeta(COST_CENTER_ENTITIES, costCenterCode),
         });
       });
     });
@@ -52,7 +49,7 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.LOAD_COST_CENTER_FAIL,
           payload: { costCenterCode, error },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             COST_CENTER_ENTITIES,
             costCenterCode,
             error
@@ -70,10 +67,9 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.LOAD_COST_CENTER_SUCCESS,
           payload: [costCenter],
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            COST_CENTER_ENTITIES,
-            [costCenterCode]
-          ),
+          meta: StateUtils.entitySuccessMeta(COST_CENTER_ENTITIES, [
+            costCenterCode,
+          ]),
         });
       });
     });
@@ -90,10 +86,7 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.LOAD_COST_CENTERS,
           payload: { userId, params },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            COST_CENTER_LIST,
-            query
-          ),
+          meta: StateUtils.entityLoadMeta(COST_CENTER_LIST, query),
         });
       });
     });
@@ -108,13 +101,9 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.LOAD_COST_CENTERS_FAIL,
           payload: { params, error: { error } },
-          meta: StateEntityLoaderActions.entityFailMeta(
-            COST_CENTER_LIST,
-            query,
-            {
-              error,
-            }
-          ),
+          meta: StateUtils.entityFailMeta(COST_CENTER_LIST, query, {
+            error,
+          }),
         });
       });
     });
@@ -129,10 +118,7 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.LOAD_COST_CENTERS_SUCCESS,
           payload: { page, params },
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            COST_CENTER_LIST,
-            query
-          ),
+          meta: StateUtils.entitySuccessMeta(COST_CENTER_LIST, query),
         });
       });
     });
@@ -149,10 +135,7 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.CREATE_COST_CENTER,
           payload: { userId, costCenter },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            COST_CENTER_ENTITIES,
-            costCenterCode
-          ),
+          meta: StateUtils.entityLoadMeta(COST_CENTER_ENTITIES, costCenterCode),
         });
       });
     });
@@ -170,7 +153,7 @@ describe('CostCenter Actions', () => {
             costCenterCode,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             COST_CENTER_ENTITIES,
             costCenterCode,
             error
@@ -188,7 +171,7 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.CREATE_COST_CENTER_SUCCESS,
           payload: costCenter,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateUtils.entitySuccessMeta(
             COST_CENTER_ENTITIES,
             costCenterCode
           ),
@@ -209,10 +192,7 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.UPDATE_COST_CENTER,
           payload: { userId, costCenterCode, costCenter },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            COST_CENTER_ENTITIES,
-            costCenterCode
-          ),
+          meta: StateUtils.entityLoadMeta(COST_CENTER_ENTITIES, costCenterCode),
         });
       });
     });
@@ -230,7 +210,7 @@ describe('CostCenter Actions', () => {
             costCenterCode,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             COST_CENTER_ENTITIES,
             costCenterCode,
             error
@@ -248,7 +228,7 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.UPDATE_COST_CENTER_SUCCESS,
           payload: costCenter,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateUtils.entitySuccessMeta(
             COST_CENTER_ENTITIES,
             costCenterCode
           ),
@@ -269,7 +249,7 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.LOAD_ASSIGNED_BUDGETS,
           payload: { userId, costCenterCode, params },
-          meta: StateEntityLoaderActions.entityLoadMeta(
+          meta: StateUtils.entityLoadMeta(
             COST_CENTER_ASSIGNED_BUDGETS,
             costCenterCode + query
           ),
@@ -292,7 +272,7 @@ describe('CostCenter Actions', () => {
             params,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             COST_CENTER_ASSIGNED_BUDGETS,
             costCenterCode + query,
             error
@@ -316,7 +296,7 @@ describe('CostCenter Actions', () => {
             page,
             params,
           },
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateUtils.entitySuccessMeta(
             COST_CENTER_ASSIGNED_BUDGETS,
             costCenterCode + query
           ),
@@ -337,10 +317,7 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.ASSIGN_BUDGET,
           payload: { userId, costCenterCode, budgetCode },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            BUDGET_ENTITIES,
-            budgetCode
-          ),
+          meta: StateUtils.entityLoadMeta(BUDGET_ENTITIES, budgetCode),
         });
       });
     });
@@ -358,11 +335,7 @@ describe('CostCenter Actions', () => {
             budgetCode,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
-            BUDGET_ENTITIES,
-            budgetCode,
-            error
-          ),
+          meta: StateUtils.entityFailMeta(BUDGET_ENTITIES, budgetCode, error),
         });
       });
     });
@@ -377,10 +350,7 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.ASSIGN_BUDGET_SUCCESS,
           payload: { code: budgetCode, selected: true },
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            BUDGET_ENTITIES,
-            budgetCode
-          ),
+          meta: StateUtils.entitySuccessMeta(BUDGET_ENTITIES, budgetCode),
         });
       });
     });
@@ -398,10 +368,7 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.UNASSIGN_BUDGET,
           payload: { userId, costCenterCode, budgetCode },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            BUDGET_ENTITIES,
-            budgetCode
-          ),
+          meta: StateUtils.entityLoadMeta(BUDGET_ENTITIES, budgetCode),
         });
       });
     });
@@ -419,11 +386,7 @@ describe('CostCenter Actions', () => {
             budgetCode,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
-            BUDGET_ENTITIES,
-            budgetCode,
-            error
-          ),
+          meta: StateUtils.entityFailMeta(BUDGET_ENTITIES, budgetCode, error),
         });
       });
     });
@@ -438,10 +401,7 @@ describe('CostCenter Actions', () => {
         expect({ ...action }).toEqual({
           type: CostCenterActions.UNASSIGN_BUDGET_SUCCESS,
           payload: { code: budgetCode, selected: false },
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            BUDGET_ENTITIES,
-            budgetCode
-          ),
+          meta: StateUtils.entitySuccessMeta(BUDGET_ENTITIES, budgetCode),
         });
       });
     });
