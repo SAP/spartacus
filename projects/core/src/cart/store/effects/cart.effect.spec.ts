@@ -160,11 +160,44 @@ describe('Cart effect', () => {
       loadMock.and.returnValue(
         throwError({
           error: {
-            errors: [{ reason: 'notFound' }],
+            errors: [
+              { reason: 'notFound', subjectType: 'cart', subject: '123456' },
+            ],
           },
         })
       );
       const removeCartCompletion = new CartActions.RemoveCart({ cartId });
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', {
+        b: removeCartCompletion,
+      });
+      expect(cartEffects.loadCart$).toBeObservable(expected);
+    });
+
+    it('should not clear selective cart on "Cart not found" error', () => {
+      const payload = {
+        userId,
+        cartId,
+        extraData: { active: true },
+      };
+      const action = new CartActions.LoadCart(payload);
+      loadMock.and.returnValue(
+        throwError({
+          error: {
+            errors: [
+              {
+                reason: 'notFound',
+                subjectType: 'cart',
+                subject: 'selectivecart-electronicsspa-123456',
+              },
+            ],
+          },
+        })
+      );
+      const removeCartCompletion = new CartActions.LoadCartFail({
+        ...payload,
+        error: { error: 'unknown error' },
+      });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {
         b: removeCartCompletion,
