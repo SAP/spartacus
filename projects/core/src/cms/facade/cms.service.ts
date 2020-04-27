@@ -27,8 +27,6 @@ import { serializePageContext } from '../utils/cms-utils';
   providedIn: 'root',
 })
 export class CmsService {
-  private _launchInSmartEdit = false;
-
   private components: {
     [uid: string]: {
       [pageContext: string]: Observable<CmsComponent>;
@@ -39,20 +37,6 @@ export class CmsService {
     protected store: Store<StateWithCms>,
     protected routingService: RoutingService
   ) {}
-
-  /**
-   * Set _launchInSmartEdit value
-   */
-  set launchInSmartEdit(value: boolean) {
-    this._launchInSmartEdit = value;
-  }
-
-  /**
-   * Whether the app launched in smart edit
-   */
-  isLaunchInSmartEdit(): boolean {
-    return this._launchInSmartEdit;
-  }
 
   /**
    * Get current CMS page data

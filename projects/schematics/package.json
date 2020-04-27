@@ -35,7 +35,9 @@
       "@spartacus/core",
       "@spartacus/storefront",
       "@spartacus/styles",
-      "@spartacus/cds"
+      "@spartacus/cds",
+      "@spartacus/assets",
+      "@spartacus/incubator"
     ]
   }
 }
