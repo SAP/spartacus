@@ -67,6 +67,11 @@ if (!environment.production) {
       features: {
         level: '1.5',
       },
+      cart: {
+        selectiveCart: {
+          enabled: true,
+        },
+      },
     }),
     JsonLdBuilderModule,
 
