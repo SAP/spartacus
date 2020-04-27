@@ -55,11 +55,13 @@ import { PROMOTION_SERVICE_MIGRATION } from './data/promotion.service.migration'
 import { REGISTER_COMPONENT_MIGRATIONS } from './data/register.component.migration';
 import { REVIEW_SUBMIT_COMPONENT_MIGRATIONS } from './data/review-submit.component.migration';
 import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migration';
+import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { CDS_SPARTACUS_EVENT_SERVICE_MIGRATION } from './data/spartacus-event.service.migration';
 import { STAR_RATING_COMPONENT_MIGRATION } from './data/star-rating.component.migration';
 import { STORE_FINDER_LIST_ITEM_MIGRATION } from './data/store-finder-list-item.component.migration';
 import { STORE_FINDER_SEARCH_RESULT_COMPONENT_MIGRATION } from './data/store-finder-search-result.component.migration';
+import { TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION } from './data/tab-paragraph-container.component.migration';
 import { USER_ADDRESS_SERVICE_MIGRATION } from './data/user-address.service.migration';
 import { USER_AUTHENTICATION_TOKEN_SERVICE_MIGRATION } from './data/user-authentication-token.service.migration';
 import { USER_CONSENT_SERVICE_MIGRATION } from './data/user-consent.service.migration';
@@ -68,7 +70,6 @@ import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-noti
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
-import { TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION } from './data/tab-paragraph-container.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -143,4 +144,5 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   STORE_FINDER_SEARCH_RESULT_COMPONENT_MIGRATION,
   TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION,
   STORE_FINDER_LIST_ITEM_MIGRATION,
+  SELECTIVE_CART_SERVICE_MIGRATION,
 ];
