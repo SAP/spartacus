@@ -79,7 +79,7 @@ if (!environment.production) {
             '/strategy/${tenant}/strategies/${strategyId}/products',
         },
         merchandising: {
-          defaultCarouselViewportThreshold: 75,
+          defaultCarouselViewportThreshold: 80,
         },
         profileTag: {
           javascriptUrl:

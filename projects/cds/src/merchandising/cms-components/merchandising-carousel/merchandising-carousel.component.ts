@@ -15,8 +15,6 @@ import { MerchandisingProduct } from '../../model';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
 
-//const MERCHANDISING_CAROUSEL_DATA_CLASS_NAME = 'data-cx-merchandising-carousel';
-
 @Component({
   selector: 'cx-merchandising-carousel',
   templateUrl: './merchandising-carousel.component.html',
