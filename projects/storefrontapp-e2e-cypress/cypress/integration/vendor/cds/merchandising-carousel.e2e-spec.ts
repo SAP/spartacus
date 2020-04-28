@@ -7,24 +7,27 @@ import {
   LANGUAGE_LABEL,
 } from './../../../helpers/site-context-selector';
 const strategyRequestAlias = 'strategyProductsApiRequest';
+const carouselEventRequestAlias = 'carouselEventApiRequest';
 const japaneseLanguage = 'ja';
 const englishFilmProductText = 'Film';
 const japaneseFilmProductText = 'プ';
 const dollarCurrencySymbol = '$';
 const yenCurrencySymbol = '¥';
-const sonyBrandName = 'Sony';
-const sonyBrandCode = 'brand_5';
-const sonyBrandPagePath = `Brands/${sonyBrandName}/c/${sonyBrandCode}`;
-const digitalCompactCamerasCategoryName = 'Digital Compacts';
-const digitalCompactCamerasCategoryCode = '576';
-const digitalCompactCamerasCategoryPagePath = `Open-Catalogue/Cameras/Digital-Cameras/c/${digitalCompactCamerasCategoryCode}`;
+const canonBrandName = 'Canon';
+const canonBrandCode = 'brand_10';
+const canonBrandPagePath = `Brands/${canonBrandName}/c/${canonBrandCode}`;
+const filmCamerasCategoryName = 'Film Cameras';
+const filmCamerasCategoryCode = '574';
+const filmCamerasCategoryPagePath = `Open-Catalogue/Cameras/Film-Cameras/c/${filmCamerasCategoryCode}`;
 const camcordersCategoryName = 'Camcorders';
 const camcordersCategoryCode = '584';
 const slrCategoryCode = '578';
 const slrNonProductListCategoryPagePath = `Open-Catalogue/Cameras/Digital-Cameras/Digital-SLR/c/${slrCategoryCode}`;
+const digitalCamerasCategoryName = 'Digital Cameras';
+const digitalCamerasCategoryCode = '575';
 
-const carouselViewedEventName = 'CarouselViewed';
 const requestContainsConsentReference = true;
+const checkForCarouselClickEvent = true;
 
 function testHomePage(): void {
   cy.visit(
@@ -38,8 +41,9 @@ function testHomePage(): void {
 }
 
 function testCategoryPage(
-  categoryCode: string = digitalCompactCamerasCategoryCode,
-  categoryPagePath: string = digitalCompactCamerasCategoryPagePath
+  categoryCode: string = filmCamerasCategoryCode,
+  categoryPagePath: string = filmCamerasCategoryPagePath,
+  containsConsentReference?: boolean
 ): void {
   cy.visit(
     `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}/${categoryPagePath}`
@@ -48,7 +52,9 @@ function testCategoryPage(
   merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
     strategyRequestAlias,
     categoryCode,
-    merchandisingCarousel.DEFAULT_LANGUAGE
+    merchandisingCarousel.DEFAULT_LANGUAGE,
+    undefined,
+    containsConsentReference
   );
 }
 
@@ -56,11 +62,11 @@ function testBrandPage(
   language: string = merchandisingCarousel.DEFAULT_LANGUAGE,
   currency: string = merchandisingCarousel.DEFAULT_CURRENCY
 ): void {
-  cy.visit(`/${language}/${currency}/${sonyBrandPagePath}`);
+  cy.visit(`/${language}/${currency}/${canonBrandPagePath}`);
 
   merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
     strategyRequestAlias,
-    sonyBrandCode,
+    canonBrandCode,
     language
   );
 }
@@ -98,15 +104,11 @@ describe('Merchandising Carousel', () => {
       },
     });
   });
-  afterEach(() => {
-    cy.window().then((win) => {
-      console.log('event layer contents: ', (<any>win).Y_TRACKING.eventLayer);
-      (<any>win).Y_TRACKING.eventLayer = [];
-    });
-  });
 
   describe('with consent granted', () => {
     beforeEach(() => {
+      cy.route('POST', '/edge/clickstreamEvents').as(carouselEventRequestAlias);
+
       cy.visit(
         `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}`
       );
@@ -124,54 +126,73 @@ describe('Merchandising Carousel', () => {
         requestContainsConsentReference
       );
 
-      profileTag.verifyNumberOfEventsInDataLayer(carouselViewedEventName, 1);
+      merchandisingCarousel.waitForCarouselViewEvent();
     });
 
-    xit('should send carousel events to the data layer when the carousel is on a category page', () => {});
+    it('should send carousel events to the data layer when the carousel is on a category page', () => {
+      merchandisingCarousel.verifyRequestToStrategyService(
+        strategyRequestAlias,
+        { containsConsentReference: requestContainsConsentReference }
+      );
 
-    xit('should send carousel events to the data layer when navigating from one category page to another category page', () => {});
+      merchandisingCarousel.navigateToCategory(filmCamerasCategoryName);
+      merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
+        strategyRequestAlias,
+        filmCamerasCategoryCode,
+        merchandisingCarousel.DEFAULT_LANGUAGE,
+        undefined,
+        requestContainsConsentReference
+      );
+      merchandisingCarousel.waitForCarouselViewEvent();
+    });
 
-    xit('should send carousel events to the data layer when the carousel is on a non-product list category page', () => {});
+    it('should send carousel events to the data layer when navigating from one category page to another category page', () => {
+      merchandisingCarousel.verifyRequestToStrategyService(
+        strategyRequestAlias,
+        { containsConsentReference: requestContainsConsentReference }
+      );
 
-    xit('should send carousel events to the data layer when the carousel is on a brand page', () => {});
+      merchandisingCarousel.navigateToCategory(filmCamerasCategoryName);
+      merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
+        strategyRequestAlias,
+        filmCamerasCategoryCode,
+        merchandisingCarousel.DEFAULT_LANGUAGE,
+        undefined,
+        requestContainsConsentReference
+      );
+      merchandisingCarousel.waitForCarouselViewEvent();
 
-    xit('should send carousel events to the data layer when the carousel is on a PDP page', () => {});
+      merchandisingCarousel.navigateToCategory(camcordersCategoryName);
+      merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
+        strategyRequestAlias,
+        camcordersCategoryCode,
+        merchandisingCarousel.DEFAULT_LANGUAGE,
+        undefined,
+        requestContainsConsentReference
+      );
+      merchandisingCarousel.waitForCarouselViewEvent();
+    });
+
+    it('should send carousel events to the data layer when a carousel item is clicked on', () => {
+      merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
+        strategyRequestAlias,
+        merchandisingCarousel.DEFAULT_LANGUAGE,
+        requestContainsConsentReference
+      );
+
+      merchandisingCarousel.clickOnCarouselItem(
+        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id,
+        checkForCarouselClickEvent
+      );
+    });
   });
 
   describe('without consent granted', () => {
-    xit('should send another request to the strategy service, if consent is accepted, containing the consent-reference as a HTTP header', () => {
-      testHomePage();
+    // it('should render with products and metadata displayed on the homepage', () => {
+    //   testHomePage();
+    // });
 
-      profileTag.grantConsent();
-
-      merchandisingCarousel.verifyRequestToStrategyService(
-        strategyRequestAlias,
-        {
-          containsConsentReference: requestContainsConsentReference,
-        }
-      );
-
-      merchandisingCarousel.navigateToCategory(camcordersCategoryName);
-      merchandisingCarousel.verifyRequestToStrategyService(
-        strategyRequestAlias,
-        {
-          category: camcordersCategoryCode,
-          containsConsentReference: true,
-        }
-      );
-
-      // Now that consent is granted, carousel events should be sent to the data layer
-      merchandisingCarousel.scrollToCarousel(true);
-    });
-
-    xit('should render with products and metadata and not send data layer events when displayed on the homepage', () => {
-      testHomePage();
-
-      // We should not send any events to the data layer as we have not given consent
-      profileTag.verifyNumberOfEventsInDataLayer(carouselViewedEventName, 0);
-    });
-
-    xit("should update the products' language when the storefront language is changed on the homepage", () => {
+    it("should update the products' language when the storefront language is changed on the homepage", () => {
       testHomePage();
 
       merchandisingCarousel.verifyFirstCarouselItemTextContent(
@@ -192,7 +213,7 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    xit("should update the products' currency when the storefront currency is changed on the homepage", () => {
+    it("should update the products' currency when the storefront currency is changed on the homepage", () => {
       testHomePage();
 
       merchandisingCarousel.verifyFirstCarouselItemPrice(dollarCurrencySymbol);
@@ -202,7 +223,7 @@ describe('Merchandising Carousel', () => {
       merchandisingCarousel.verifyFirstCarouselItemPrice(yenCurrencySymbol);
     });
 
-    xit('should render products on a PDP page when a carousel item on the homepage is clicked', () => {
+    it('should render products on a PDP page when a carousel item on the homepage is clicked', () => {
       testHomePage();
 
       merchandisingCarousel.clickOnCarouselItem(
@@ -215,11 +236,11 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    xit('should render with products and metadata when displayed on a category page', () => {
-      testCategoryPage();
-    });
+    // it('should render with products and metadata when displayed on a category page', () => {
+    //   testCategoryPage();
+    // });
 
-    xit("should update the products' language when the storefront language is changed on a category page", () => {
+    it("should update the products' language when the storefront language is changed on a category page", () => {
       testCategoryPage();
 
       merchandisingCarousel.verifyFirstCarouselItemTextContent(
@@ -231,7 +252,7 @@ describe('Merchandising Carousel', () => {
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
         strategyRequestAlias,
-        digitalCompactCamerasCategoryCode,
+        filmCamerasCategoryCode,
         japaneseLanguage
       );
 
@@ -241,7 +262,7 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    xit("should update the products' currency when the storefront currency is changed on a category page", () => {
+    it("should update the products' currency when the storefront currency is changed on a category page", () => {
       testCategoryPage();
 
       merchandisingCarousel.verifyFirstCarouselItemPrice(dollarCurrencySymbol);
@@ -251,20 +272,20 @@ describe('Merchandising Carousel', () => {
       merchandisingCarousel.verifyFirstCarouselItemPrice(yenCurrencySymbol);
     });
 
-    xit('should request products filtered by additional facets when facets on a category page are changed', () => {
+    it('should request products filtered by additional facets when facets on a category page are changed', () => {
       testCategoryPage();
 
-      merchandisingCarousel.applyFacet('Brand', sonyBrandName);
+      merchandisingCarousel.applyFacet('Brand', canonBrandName);
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
         strategyRequestAlias,
-        digitalCompactCamerasCategoryCode,
+        filmCamerasCategoryCode,
         merchandisingCarousel.DEFAULT_LANGUAGE,
-        [`brand:${sonyBrandCode}`]
+        [`brand:${canonBrandCode}`]
       );
     });
 
-    xit('should ignore previous category page context when navigating back to the homepage', () => {
+    it('should ignore previous category page context when navigating back to the homepage', () => {
       testCategoryPage();
 
       merchandisingCarousel.navigateToHomepage();
@@ -275,7 +296,7 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    xit('should ignore previous category page content when navigating to a different category page', () => {
+    it('should ignore previous category page content when navigating to a different category page', () => {
       testCategoryPage();
 
       merchandisingCarousel.navigateToCategory(camcordersCategoryName);
@@ -286,7 +307,7 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    xit('should render products on a PDP page when a carousel item on a category page is clicked', () => {
+    it('should render products on a PDP page when a carousel item on a category page is clicked', () => {
       testCategoryPage();
 
       merchandisingCarousel.clickOnCarouselItem(
@@ -299,11 +320,11 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    xit('should render with products and metadata when displayed on a non-product list category page', () => {
-      testCategoryPage(slrCategoryCode, slrNonProductListCategoryPagePath);
-    });
+    // it('should render with products and metadata when displayed on a non-product list category page', () => {
+    //   testCategoryPage(slrCategoryCode, slrNonProductListCategoryPagePath);
+    // });
 
-    xit("should update the products' language when the storefront language is changed on a non-product list category page", () => {
+    it("should update the products' language when the storefront language is changed on a non-product list category page", () => {
       testCategoryPage(slrCategoryCode, slrNonProductListCategoryPagePath);
 
       merchandisingCarousel.verifyFirstCarouselItemTextContent(
@@ -325,7 +346,7 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    xit("should update the products' currency when the storefront currency is changed on a non-product list category page", () => {
+    it("should update the products' currency when the storefront currency is changed on a non-product list category page", () => {
       testCategoryPage(slrCategoryCode, slrNonProductListCategoryPagePath);
 
       merchandisingCarousel.verifyFirstCarouselItemPrice(dollarCurrencySymbol);
@@ -335,7 +356,7 @@ describe('Merchandising Carousel', () => {
       merchandisingCarousel.verifyFirstCarouselItemPrice(yenCurrencySymbol);
     });
 
-    xit('should ignore previous non-product list category page context when navigating back to the homepage', () => {
+    it('should ignore previous non-product list category page context when navigating back to the homepage', () => {
       testCategoryPage(slrCategoryCode, slrNonProductListCategoryPagePath);
 
       merchandisingCarousel.navigateToHomepage();
@@ -346,7 +367,7 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    xit('should render products on a PDP page when a carousel item on a non-product list category page is clicked', () => {
+    it('should render products on a PDP page when a carousel item on a non-product list category page is clicked', () => {
       testCategoryPage(slrCategoryCode, slrNonProductListCategoryPagePath);
 
       merchandisingCarousel.clickOnCarouselItem(
@@ -359,11 +380,11 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    xit('should render with products and metadata when displayed on a brand page', () => {
-      testBrandPage();
-    });
+    // it('should render with products and metadata when displayed on a brand page', () => {
+    //   testBrandPage();
+    // });
 
-    xit("should update the products' language when the storefront language is changed on a brand page", () => {
+    it("should update the products' language when the storefront language is changed on a brand page", () => {
       testBrandPage();
 
       merchandisingCarousel.verifyFirstCarouselItemTextContent(
@@ -375,7 +396,7 @@ describe('Merchandising Carousel', () => {
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
         strategyRequestAlias,
-        sonyBrandCode,
+        canonBrandCode,
         japaneseLanguage
       );
 
@@ -385,7 +406,7 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    xit("should update the products' currency when the storefront currency is changed on a brand page", () => {
+    it("should update the products' currency when the storefront currency is changed on a brand page", () => {
       testBrandPage();
 
       merchandisingCarousel.verifyFirstCarouselItemPrice(dollarCurrencySymbol);
@@ -395,23 +416,20 @@ describe('Merchandising Carousel', () => {
       merchandisingCarousel.verifyFirstCarouselItemPrice(yenCurrencySymbol);
     });
 
-    xit('should request products filtered by additional facets when facets on a brand page are changed', () => {
+    it('should request products filtered by additional facets when facets on a brand page are changed', () => {
       testBrandPage();
 
-      merchandisingCarousel.applyFacet(
-        'Category',
-        digitalCompactCamerasCategoryName
-      );
+      merchandisingCarousel.applyFacet('Category', digitalCamerasCategoryName);
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
         strategyRequestAlias,
-        sonyBrandCode,
+        canonBrandCode,
         merchandisingCarousel.DEFAULT_LANGUAGE,
-        [`category:${digitalCompactCamerasCategoryCode}`]
+        [`category:${digitalCamerasCategoryCode}`]
       );
     });
 
-    xit('should ignore previous brand page context when navigating back to the homepage', () => {
+    it('should ignore previous brand page context when navigating back to the homepage', () => {
       testBrandPage();
 
       merchandisingCarousel.navigateToHomepage();
@@ -422,7 +440,7 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    xit('should render products on a PDP page when a carousel item on a brand page is clicked', () => {
+    it('should render products on a PDP page when a carousel item on a brand page is clicked', () => {
       testBrandPage();
 
       merchandisingCarousel.clickOnCarouselItem(
@@ -435,11 +453,11 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    xit('should render with products and metadata when displayed on a PDP page', () => {
-      testPDPPage(merchandisingCarousel.STRATEGY_RESPONSE.products[0].id);
-    });
+    // it('should render with products and metadata when displayed on a PDP page', () => {
+    //   testPDPPage(merchandisingCarousel.STRATEGY_RESPONSE.products[0].id);
+    // });
 
-    xit("should update the products' language when the storefront language is changed on a PDP page", () => {
+    it("should update the products' language when the storefront language is changed on a PDP page", () => {
       testPDPPage(merchandisingCarousel.STRATEGY_RESPONSE.products[0].id);
 
       merchandisingCarousel.verifyFirstCarouselItemTextContent(
@@ -461,7 +479,7 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    xit("should update the products' currency when the storefront currency is changed on a PDP page", () => {
+    it("should update the products' currency when the storefront currency is changed on a PDP page", () => {
       testPDPPage(merchandisingCarousel.STRATEGY_RESPONSE.products[0].id);
 
       merchandisingCarousel.verifyFirstCarouselItemPrice(dollarCurrencySymbol);
@@ -471,7 +489,7 @@ describe('Merchandising Carousel', () => {
       merchandisingCarousel.verifyFirstCarouselItemPrice(yenCurrencySymbol);
     });
 
-    xit('should ignore previous PDP page context when navigating back to the homepage', () => {
+    it('should ignore previous PDP page context when navigating back to the homepage', () => {
       testPDPPage(merchandisingCarousel.STRATEGY_RESPONSE.products[0].id);
 
       merchandisingCarousel.navigateToHomepage();
@@ -482,7 +500,7 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    xit('should render products on a PDP page when a carousel item on a PDP page is clicked', () => {
+    it('should render products on a PDP page when a carousel item on a PDP page is clicked', () => {
       testPDPPage(merchandisingCarousel.STRATEGY_RESPONSE.products[0].id);
 
       merchandisingCarousel.clickOnCarouselItem(

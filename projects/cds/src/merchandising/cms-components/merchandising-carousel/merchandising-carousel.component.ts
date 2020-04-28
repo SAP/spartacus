@@ -36,7 +36,6 @@ export class MerchandisingCarouselComponent {
   merchandisingCarouselModel$: Observable<
     MerchandisingCarouselModel
   > = this.componentData.data$.pipe(
-    tap((_) => console.log('product observable emitted')),
     filter((data) => Boolean(data)),
     distinctUntilKeyChanged('strategy'),
     switchMap((data) =>

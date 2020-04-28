@@ -2,7 +2,6 @@ import {
   CURRENCY_USD,
   LANGUAGE_EN,
 } from '../../../helpers/site-context-selector';
-import verifyNumberOfEventsInDataLayer from './profile-tag';
 
 interface StrategyRequestContext {
   language?: string;
@@ -18,6 +17,8 @@ export const DEFAULT_CURRENCY = CURRENCY_USD;
 const productDisplayCount = 10;
 
 const merchandisingCarouselTagName = 'cx-merchandising-carousel';
+const carouselViewedEventSchema = 'context/commerce/carouselViewed';
+const carouselClickedEventSchema = 'context/commerce/carouselClicked';
 
 /*
  * NOTE: Ids of actual products in the storefront need to be returned by the stub CDS strategy service
@@ -113,12 +114,42 @@ function verifyMerchandisingCarouselRendersProducts(): void {
      * Limit our tests to the first carousel on the page by using first() and then within()
      */
     .first()
-    .scrollIntoView()
-    .should('be.visible')
     .within(($merchandisingCarousel) => {
       verifyCarouselLevelMetadata($merchandisingCarousel);
       verifyCarouselItemsRendered($merchandisingCarousel);
-    });
+      return cy.wrap($merchandisingCarousel);
+    })
+    /*
+     * If we scroll immediately (i.e. before checking for the carousel item DOM elements) then sometimes
+     * the carousel item observable has not finished emitting with the full product details, so not all of the products may be rendered.
+     * This will then cause a view event to be sent without all the product skus, which then makes the tests flakey.
+     * If we check the DOM for the carousel is as we expect first and then scroll it into view we get more reilable behaviour
+     */
+    .scrollIntoView()
+    .should('be.visible');
+}
+
+function verifyCarouselEvent(carouselEvent: any) {
+  expect(carouselEvent['strategyId']).to.be.ok;
+  expect(carouselEvent['carouselId']).to.be.ok;
+  expect(carouselEvent['carouselName']).to.be.ok;
+  expect(carouselEvent['mixCardId']).to.equal(
+    STRATEGY_RESPONSE.metadata.mixcardId
+  );
+}
+
+function verifyCarouselViewEvent(carouselEvent: any) {
+  verifyCarouselEvent(carouselEvent);
+  const expectedProductSkus = STRATEGY_RESPONSE.products.map(
+    (product) => product.id
+  );
+  expect(carouselEvent['productSkus']).to.have.members(expectedProductSkus);
+}
+
+function verifyCarouselClickEvent(productSku: string, carouselEvent: any) {
+  verifyCarouselEvent(carouselEvent);
+  expect(carouselEvent['imageUrl']).to.be.ok;
+  expect(carouselEvent['sku']).to.equal(productSku);
 }
 
 export function verifyRequestToStrategyService(
@@ -185,12 +216,14 @@ export function verifyMerchandisingCarouselRendersOnCategoryPage(
   strategyRequestAlias: string,
   categoryCode: string,
   language?: string,
-  additionalFacets?: string[]
+  additionalFacets?: string[],
+  containsConsentReference?: boolean
 ): void {
   verifyRequestToStrategyService(strategyRequestAlias, {
     language,
     category: categoryCode,
     facets: additionalFacets,
+    containsConsentReference,
   });
 
   verifyMerchandisingCarouselRendersProducts();
@@ -254,7 +287,10 @@ export function verifyFirstCarouselItemPrice(currencySymbol: string): void {
     .and('contain.text', currencySymbol);
 }
 
-export function clickOnCarouselItem(productId: string): void {
+export function clickOnCarouselItem(
+  productId: string,
+  checkForCarouselEvent?: boolean
+): void {
   cy.get(
     `.data-cx-merchandising-product[data-cx-merchandising-product-id='${productId}'`
   )
@@ -262,6 +298,12 @@ export function clickOnCarouselItem(productId: string): void {
     .within(() => {
       cy.get('a').click();
     });
+
+  if (checkForCarouselEvent) {
+    cy.waitForCarouselEvent(carouselClickedEventSchema).should((sentEvent) => {
+      verifyCarouselClickEvent(productId, sentEvent);
+    });
+  }
 }
 
 export function navigateToHomepage(): void {
@@ -274,12 +316,12 @@ export function navigateToCategory(categoryName: string): void {
     .click({ force: true });
 }
 
-export function scrollToCarousel(viewEventShouldBeSent?: boolean): void {
-  cy.route('POST', '/edge/clickstreamEvents').as('clickstreamEvent');
+export function scrollToCarousel(): void {
   cy.get(merchandisingCarouselTagName).scrollIntoView().should('be.visible');
+}
 
-  if (viewEventShouldBeSent) {
-    verifyNumberOfEventsInDataLayer('CarouselViewed', 1);
-    cy.wait('@clickstreamEvent');
-  }
+export function waitForCarouselViewEvent(): void {
+  cy.waitForCarouselEvent(carouselViewedEventSchema).should((sentEvent) => {
+    verifyCarouselViewEvent(sentEvent);
+  });
 }

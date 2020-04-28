@@ -78,7 +78,6 @@ export class MerchandisingCarouselComponentService {
   sendCarouselViewEvent(
     merchandisingCarouselModel: MerchandisingCarouselModel
   ): void {
-    console.log('sending carousel view event');
     const carouselEvent: CarouselEvent = this.getCarouselEventFromCarouselModel(
       merchandisingCarouselModel
     );

@@ -22,23 +22,5 @@ export function grantConsent() {
     'consentReferenceCreation'
   );
   clickAllowAllFromBanner();
-  verifyNumberOfEventsInDataLayer('ConsentChanged', 1);
   cy.wait('@consentReferenceCreation');
-}
-
-export function verifyNumberOfEventsInDataLayer(
-  eventName: string,
-  numberOfEvents: number
-) {
-  cy.window().should(($win) => {
-    // console.log(
-    //   'event layer contents: ',
-    //   JSON.stringify((<any>$win).Y_TRACKING.eventLayer)
-    // );
-    expect(
-      (<any>$win).Y_TRACKING.eventLayer.filter(
-        (event) => event.name === eventName
-      ).length
-    ).to.equal(numberOfEvents);
-  });
 }

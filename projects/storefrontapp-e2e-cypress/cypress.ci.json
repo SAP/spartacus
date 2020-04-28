@@ -8,6 +8,6 @@
   "env": {
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
-    "API_URL": "https://cds-1905-k8s-us.prod.argonauts.cd.ydev.hybris.com:9002"
+    "API_URL": "https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002"
   }
 }

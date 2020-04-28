@@ -122,11 +122,6 @@ export class ProfileTagEventService {
   notifyProfileTagOfEventOccurence(event: ProfiletagPushEvent): void {
     try {
       this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
-      console.log(
-        `datalayer contents after push: ${JSON.stringify(
-          this.profileTagWindow.Y_TRACKING.eventLayer
-        )}`
-      );
     } catch (e) {
       console.log(`Unexpected error when calling profiletag push method ${e}`);
     }
