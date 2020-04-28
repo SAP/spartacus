@@ -2,7 +2,12 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
-import { B2BUnit, OrgUnitService, RoutingService } from '@spartacus/core';
+import {
+  B2BUnit,
+  B2BUnitNode,
+  OrgUnitService,
+  RoutingService,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-unit-details',
@@ -11,6 +16,7 @@ import { B2BUnit, OrgUnitService, RoutingService } from '@spartacus/core';
 })
 export class UnitDetailsComponent implements OnInit {
   orgUnit$: Observable<B2BUnit>;
+  orgUnitChildren$: Observable<B2BUnitNode[]>;
   orgUnitCode$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(map((routingData) => routingData.state.params['code']));
@@ -24,6 +30,11 @@ export class UnitDetailsComponent implements OnInit {
     this.orgUnit$ = this.orgUnitCode$.pipe(
       tap((code) => this.orgUnitsService.loadOrgUnit(code)),
       switchMap((code) => this.orgUnitsService.get(code)),
+      filter(Boolean)
+    );
+    this.orgUnitChildren$ = this.orgUnitCode$.pipe(
+      tap((code) => this.orgUnitsService.loadOrgUnit(code)),
+      switchMap((code) => this.orgUnitsService.getChildUnits(code)),
       filter(Boolean)
     );
   }

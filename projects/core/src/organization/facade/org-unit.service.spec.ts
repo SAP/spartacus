@@ -20,6 +20,59 @@ const userId = 'current';
 const orgUnitId = 'testOrgUnit';
 const orgUnit: Partial<B2BUnit> = { uid: orgUnitId };
 
+const mockedTree = {
+  active: true,
+  children: [
+    {
+      active: true,
+      children: [
+        {
+          active: true,
+          children: [],
+          id: 'Services West',
+          name: 'Services West',
+          parent: 'Rustic Services',
+        },
+        {
+          active: true,
+          children: [],
+          id: 'Services East',
+          name: 'Services East',
+          parent: 'Rustic Services',
+        },
+      ],
+      id: 'Rustic Services',
+      name: 'Rustic Services',
+      parent: 'Rustic',
+    },
+    {
+      active: true,
+      children: [
+        {
+          active: true,
+          children: [
+            {
+              active: true,
+              children: [],
+              id: 'Test',
+              name: 'TestUnit',
+              parent: 'Custom Retail',
+            },
+          ],
+          id: 'Custom Retail',
+          name: 'Custom Retail',
+          parent: 'Rustic Retail',
+        },
+      ],
+      id: 'Rustic Retail',
+      name: 'Rustic Retail',
+      parent: 'Rustic',
+    },
+  ],
+  id: 'Rustic',
+  name: 'Rustic',
+};
+
 const orgUnitNode: Partial<B2BUnitNode> = { id: orgUnitId };
 const orgUnitNode2: Partial<B2BUnitNode> = { id: 'testOrgUnit2' };
 
@@ -134,6 +187,47 @@ describe('OrgUnitService', () => {
       expect(orgUnits).toEqual(orgUnitList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new OrgUnitActions.LoadOrgUnitNodes({ userId })
+      );
+    });
+  });
+
+  describe('get ChildUnits', () => {
+    it('findUnitChildrenInTree', () => {
+      expect(
+        service['findUnitChildrenInTree'](mockedTree.id, mockedTree)
+      ).toEqual(mockedTree.children);
+      expect(
+        service['findUnitChildrenInTree'](mockedTree.children[0].id, mockedTree)
+      ).toEqual(mockedTree.children[0].children);
+      expect(
+        service['findUnitChildrenInTree'](
+          mockedTree.children[0].children[0].id,
+          mockedTree
+        )
+      ).toEqual(mockedTree.children[0].children[0].children);
+      expect(
+        service['findUnitChildrenInTree'](
+          mockedTree.children[0].children[1].id,
+          mockedTree
+        )
+      ).toEqual(mockedTree.children[0].children[1].children);
+      expect(
+        service['findUnitChildrenInTree'](mockedTree.children[1].id, mockedTree)
+      ).toEqual(mockedTree.children[1].children);
+      expect(
+        service['findUnitChildrenInTree'](
+          mockedTree.children[1].children[0].id,
+          mockedTree
+        )
+      ).toEqual(mockedTree.children[1].children[0].children);
+      expect(
+        service['findUnitChildrenInTree'](
+          mockedTree.children[1].children[0].children[0].id,
+          mockedTree
+        )
+      ).toEqual(mockedTree.children[1].children[0].children[0].children);
+      expect(service['findUnitChildrenInTree']('Fake ID', mockedTree)).toEqual(
+        []
       );
     });
   });
