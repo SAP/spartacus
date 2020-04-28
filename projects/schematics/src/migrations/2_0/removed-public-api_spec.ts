@@ -69,11 +69,12 @@ fdescribe('removed public api migrations', () => {
   let host = new TempScopedNodeJsSyncHost();
   let tmpDirPath = getSystemPath(host.root);
   shx.rm('-r', tmpDirPath);
-  const host2 = new TempScopedNodeJsSyncHost();
+  host = new TempScopedNodeJsSyncHost();
   tmpDirPath = getSystemPath(host.root);
   shx.rm('-r', tmpDirPath);
-  const host3 = new TempScopedNodeJsSyncHost();
-  console.log(host2, host3);
+  host = new TempScopedNodeJsSyncHost();
+  tmpDirPath = getSystemPath(host.root);
+  shx.rm('-r', tmpDirPath);
   host = new TempScopedNodeJsSyncHost();
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
