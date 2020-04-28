@@ -6,7 +6,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
@@ -54,7 +54,6 @@ export class ConfigGroupMenuComponent implements OnInit {
       switchMap((configuration) =>
         this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
       ),
-      distinctUntilChanged(),
       switchMap((parentGroup) => this.getCondensedParentGroup(parentGroup))
     );
 

@@ -14,8 +14,8 @@ const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_NUMBER = '0';
 const CONFIGURATOR_URL =
   'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
-const OVERVIEW_URL =
-  'electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
+//const OVERVIEW_URL =
+//  'electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
 
 const mockRouterState: any = {
   state: {
@@ -63,8 +63,8 @@ describe('ConfigRouterExtractorService', () => {
   it('should find proper owner for route based purely on product code ', () => {
     let owner: GenericConfigurator.Owner;
     serviceUnderTest
-      .extractConfigurationOwner(routingService)
-      .subscribe((ownerFromRouting) => (owner = ownerFromRouting));
+      .extractRouterData(routingService)
+      .subscribe((routerData) => (owner = routerData.owner));
     expect(owner.id).toBe(PRODUCT_CODE);
     expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
     expect(owner.key.includes(GenericConfigurator.OwnerType.PRODUCT)).toBe(
@@ -79,8 +79,8 @@ describe('ConfigRouterExtractorService', () => {
     mockRouterState.state.params.entityKey = PRODUCT_CODE;
 
     serviceUnderTest
-      .extractConfigurationOwner(routingService)
-      .subscribe((ownerFromRouting) => (owner = ownerFromRouting));
+      .extractRouterData(routingService)
+      .subscribe((routerData) => (owner = routerData.owner));
     expect(owner.id).toBe(PRODUCT_CODE);
     expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
     expect(owner.key.includes(GenericConfigurator.OwnerType.PRODUCT)).toBe(
@@ -95,54 +95,12 @@ describe('ConfigRouterExtractorService', () => {
     mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
 
     serviceUnderTest
-      .extractConfigurationOwner(routingService)
-      .subscribe((ownerFromRouting) => (owner = ownerFromRouting));
+      .extractRouterData(routingService)
+      .subscribe((routerData) => (owner = routerData.owner));
     expect(owner.id).toBe(CART_ENTRY_NUMBER);
     expect(owner.type).toBe(GenericConfigurator.OwnerType.CART_ENTRY);
     expect(owner.key.includes(GenericConfigurator.OwnerType.CART_ENTRY)).toBe(
       true
     );
-  });
-
-  it('should extract configurator type from URL', () => {
-    let configType: string;
-    mockRouterState.state.params.ownerType =
-      GenericConfigurator.OwnerType.CART_ENTRY;
-    mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
-    mockRouterState.state.url =
-      'http://localhost:4200/electronics-spa/en/USD/configureCPQCONFIGURATOR/cartEntry/entityKey/2';
-
-    serviceUnderTest
-      .getConfiguratorType(routingService)
-      .subscribe((configuratorType) => (configType = configuratorType));
-    expect(configType).toBe('CPQCONFIGURATOR');
-  });
-
-  it('should know from URL that a configuration has been added to the cart', () => {
-    let hasBeenAdded;
-    mockRouterState.state.params.ownerType =
-      GenericConfigurator.OwnerType.CART_ENTRY;
-    mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
-
-    serviceUnderTest
-      .isOwnerCartEntry(routingService)
-      .subscribe(
-        (hasBeenAddedFromRouter) => (hasBeenAdded = hasBeenAddedFromRouter)
-      );
-    expect(hasBeenAdded.isOwnerCartEntry).toBe(true);
-  });
-
-  it('should know from URL that a configuration has not been added to the cart yet', () => {
-    let hasBeenAdded;
-    mockRouterState.state.params.ownerType =
-      GenericConfigurator.OwnerType.PRODUCT;
-    mockRouterState.state.params.entityKey = PRODUCT_CODE;
-
-    serviceUnderTest
-      .isOwnerCartEntry(routingService)
-      .subscribe(
-        (hasBeenAddedFromRouter) => (hasBeenAdded = hasBeenAddedFromRouter)
-      );
-    expect(hasBeenAdded.isOwnerCartEntry).toBe(false);
   });
 });

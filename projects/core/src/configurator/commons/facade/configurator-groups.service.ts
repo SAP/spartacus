@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import * as UiActions from '../store/actions/configurator-ui.action';
@@ -46,7 +46,7 @@ export class ConfiguratorGroupsService {
   ): Observable<Configurator.Group> {
     return this.configuratorCommonsService.getUiState(owner).pipe(
       map((uiState) => uiState.menuParentGroup),
-      distinctUntilChanged(),
+
       switchMap((parentGroupId) => {
         return this.configuratorCommonsService
           .getConfiguration(owner)
@@ -67,7 +67,6 @@ export class ConfiguratorGroupsService {
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
     return this.getCurrentGroupId(owner).pipe(
-      distinctUntilChanged(),
       switchMap((currentGroupId) => {
         if (!currentGroupId) {
           return of(null);
