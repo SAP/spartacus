@@ -2,8 +2,8 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { runMigration } from '../../../shared/utils/test-utils';
 import { UTF_8 } from '../../../shared/constants';
+import { runMigration } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-ssr-07';
 
@@ -56,7 +56,7 @@ describe('ssr', () => {
 
   beforeEach(async () => {
     appSchematicRunner = new SchematicTestRunner(
-      'test',
+      'schematics',
       require.resolve('../../migrations.json')
     );
 
