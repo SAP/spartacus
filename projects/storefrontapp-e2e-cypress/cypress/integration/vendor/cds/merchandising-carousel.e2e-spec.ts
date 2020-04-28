@@ -188,10 +188,6 @@ describe('Merchandising Carousel', () => {
   });
 
   describe('without consent granted', () => {
-    // it('should render with products and metadata displayed on the homepage', () => {
-    //   testHomePage();
-    // });
-
     it("should update the products' language when the storefront language is changed on the homepage", () => {
       testHomePage();
 
@@ -235,10 +231,6 @@ describe('Merchandising Carousel', () => {
         merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
       );
     });
-
-    // it('should render with products and metadata when displayed on a category page', () => {
-    //   testCategoryPage();
-    // });
 
     it("should update the products' language when the storefront language is changed on a category page", () => {
       testCategoryPage();
@@ -320,10 +312,6 @@ describe('Merchandising Carousel', () => {
       );
     });
 
-    // it('should render with products and metadata when displayed on a non-product list category page', () => {
-    //   testCategoryPage(slrCategoryCode, slrNonProductListCategoryPagePath);
-    // });
-
     it("should update the products' language when the storefront language is changed on a non-product list category page", () => {
       testCategoryPage(slrCategoryCode, slrNonProductListCategoryPagePath);
 
@@ -379,10 +367,6 @@ describe('Merchandising Carousel', () => {
         merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
       );
     });
-
-    // it('should render with products and metadata when displayed on a brand page', () => {
-    //   testBrandPage();
-    // });
 
     it("should update the products' language when the storefront language is changed on a brand page", () => {
       testBrandPage();
@@ -452,10 +436,6 @@ describe('Merchandising Carousel', () => {
         merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
       );
     });
-
-    // it('should render with products and metadata when displayed on a PDP page', () => {
-    //   testPDPPage(merchandisingCarousel.STRATEGY_RESPONSE.products[0].id);
-    // });
 
     it("should update the products' language when the storefront language is changed on a PDP page", () => {
       testPDPPage(merchandisingCarousel.STRATEGY_RESPONSE.products[0].id);
