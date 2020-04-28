@@ -160,7 +160,10 @@ describe('Page Effects', () => {
           of(mockRouterState as any)
         );
 
-        const action = new SiteContextActions.LanguageChange();
+        const action = new SiteContextActions.LanguageChange({
+          previous: 'previous',
+          current: 'current',
+        });
         const completion = new CmsActions.LoadCmsPageData(pageContext);
 
         actions$ = hot('-a', { a: action });
