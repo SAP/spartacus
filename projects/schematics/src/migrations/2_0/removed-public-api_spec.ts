@@ -65,7 +65,7 @@ import * as Core from '@spartacus/core';
 new Core.ActiveCartService()
 `;
 
-fdescribe('removed public api migrations', () => {
+describe('removed public api migrations', () => {
   let host = new TempScopedNodeJsSyncHost();
   let tmpDirPath = getSystemPath(host.root);
   shx.rm('-r', tmpDirPath);
