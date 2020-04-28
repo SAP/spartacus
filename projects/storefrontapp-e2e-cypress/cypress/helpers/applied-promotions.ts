@@ -48,7 +48,8 @@ export function selectShippingAddress() {
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
   cy.get('.card-header').should('contain', 'Selected');
-  cy.visit(`/checkout/delivery-mode`);
+  cy.get('button.btn-primary').click();
+  // TODO: make it more stable when JaloError happens
 }
 
 export function selectDeliveryMethod() {
