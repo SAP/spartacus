@@ -70,7 +70,7 @@ describe('removed public api migrations', () => {
   console.log('at start');
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
-  // let tmpDirPath: string;
+  let tmpDirPath: string;
   let previousWorkingDir: string;
 
   beforeEach(() => {
