@@ -179,8 +179,8 @@ describe('Cms Component Selectors', () => {
   });
 
   describe('componentsContextExistsSelectorFactory', () => {
-    describe('when the context does not exist', () => {
-      it('should return false', () => {
+    describe('when there is no context data', () => {
+      it('should return undefined', () => {
         const componentUid = 'comp1';
 
         const pageContext: PageContext = {
@@ -208,7 +208,41 @@ describe('Cms Component Selectors', () => {
           )
           .subscribe((value) => (result = value));
 
-        expect(result).toEqual(false);
+        expect(result).toBe(undefined);
+      });
+    });
+    describe('when the context does not exist', () => {
+      it('should return false', () => {
+        const componentUid = 'comp1';
+
+        const pageContext: PageContext = {
+          id: 'xxx',
+          type: PageType.CONTENT_PAGE,
+        };
+
+        const serializedPageContext = serializePageContext(pageContext, true);
+
+        store.dispatch(
+          new CmsActions.LoadCmsComponentFail({
+            uid: componentUid,
+            error: undefined,
+            pageContext,
+          })
+        );
+
+        let result: boolean;
+        store
+          .pipe(
+            select(
+              CmsSelectors.componentsContextExistsSelectorFactory(
+                componentUid,
+                serializedPageContext
+              )
+            )
+          )
+          .subscribe((value) => (result = value));
+
+        expect(result).toBe(false);
       });
     });
     describe('when the context exists', () => {
@@ -281,8 +315,8 @@ describe('Cms Component Selectors', () => {
   });
 
   describe('componentsSelectorFactory', () => {
-    describe('when the component exists', () => {
-      it('should return the component', () => {
+    describe('when there is no component data', () => {
+      it('should return undefined', () => {
         const componentUid = 'comp1';
         const pageContext: PageContext = {
           id: 'xxx',
@@ -309,11 +343,43 @@ describe('Cms Component Selectors', () => {
           )
           .subscribe((value) => (result = value));
 
-        expect(result).toEqual(undefined);
+        expect(result).toBe(undefined);
       });
     });
     describe('when the component does not exist', () => {
-      it('should return undefined', () => {
+      it('should return null', () => {
+        const componentUid = 'comp1';
+        const pageContext: PageContext = {
+          id: 'xxx',
+          type: PageType.CONTENT_PAGE,
+        };
+        const serializedPageContext = serializePageContext(pageContext, true);
+
+        store.dispatch(
+          new CmsActions.LoadCmsComponentFail({
+            uid: componentUid,
+            error: undefined,
+            pageContext,
+          })
+        );
+
+        let result: CmsComponent;
+        store
+          .pipe(
+            select(
+              CmsSelectors.componentsSelectorFactory(
+                componentUid,
+                serializedPageContext
+              )
+            )
+          )
+          .subscribe((value) => (result = value));
+
+        expect(result).toBe(null);
+      });
+    });
+    describe('when the component exists', () => {
+      it('should return the component', () => {
         const componentUid = 'comp1';
 
         const pageContext: PageContext = {
