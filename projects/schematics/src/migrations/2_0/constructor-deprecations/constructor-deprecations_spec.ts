@@ -180,7 +180,7 @@ const REMOVE_PARAMETER_EXPECTED_CLASS = `
 import { Dummy } from '@angular/core';
 import {
   CmsService,
-  
+
   PageMetaResolver,
   PageMetaService
 } from '@spartacus/core';
@@ -188,7 +188,7 @@ export class Test extends PageMetaService {
   constructor(
     resolvers: PageMetaResolver[],
     cms: CmsService
-    
+
   ) {
     super(resolvers, cms );
   }
@@ -218,7 +218,7 @@ const REMOVE_PARAMETER_WITH_ADDITIONAL_INJECTED_SERVICE_EXPECTED_CLASS = `
 import { ActionsSubject } from '@ngrx/store';
 import {
   CmsService,
-  
+
   PageMetaResolver,
   PageMetaService
 } from '@spartacus/core';
@@ -313,7 +313,7 @@ const CART_PAGE_LAYOUT_HANDLER_EXPECTED = `
 `;
 
 describe('constructor migrations', () => {
-  let host = new TempScopedNodeJsSyncHost();
+  let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
   let tmpDirPath: string;
