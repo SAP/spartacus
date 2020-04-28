@@ -31,8 +31,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isInfiniteScroll = this.scrollConfig.view.infiniteScroll.active;
 
-    this.productListComponentService.clearSearchResults();
-
     this.subscription.add(
       this.pageLayoutService.templateName$
         .pipe(take(1))
@@ -40,7 +38,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
           this.viewMode$.next(
             template === 'ProductGridPageTemplate'
               ? ViewModes.Grid
-              : ViewModes.List
+                : ViewModes.List
           );
         })
     );
