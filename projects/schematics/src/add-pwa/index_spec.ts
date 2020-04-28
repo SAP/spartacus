@@ -32,6 +32,10 @@ describe('Spartacus Schematics: add-pwa', () => {
     project: 'schematics-test',
   };
 
+  afterAll(() => {
+    console.log('add-pwa');
+  });
+
   beforeEach(async () => {
     appTree = await schematicRunner
       .runExternalSchematicAsync(

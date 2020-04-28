@@ -79,6 +79,10 @@ describe('add-cms-component', () => {
 
   let appTree: UnitTestTree;
 
+  afterAll(() => {
+    console.log('add-cms-component');
+  });
+
   const workspaceOptions: any = {
     name: 'workspace',
     version: '0.5.0',

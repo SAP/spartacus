@@ -54,6 +54,10 @@ describe('ssr', () => {
     projectRoot: '',
   };
 
+  afterAll(() => {
+    console.log('ssr');
+  });
+
   beforeEach(async () => {
     appSchematicRunner = new SchematicTestRunner(
       'schematics',

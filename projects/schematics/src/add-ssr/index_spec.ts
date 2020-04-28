@@ -61,6 +61,10 @@ describe('add-ssr', () => {
       .toPromise();
   });
 
+  afterAll(() => {
+    console.log('add-ssr');
+  });
+
   describe('package.json', () => {
     it('should add SSR dependencies', async () => {
       const packageJson = appTree.readContent('/package.json');

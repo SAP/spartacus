@@ -54,6 +54,10 @@ describe('add-spartacus', () => {
       .toPromise();
   });
 
+  afterAll(() => {
+    console.log('add-spartacus');
+  });
+
   it('should add spartacus deps', async () => {
     const tree = await schematicRunner
       .runSchematicAsync('add-spartacus', defaultOptions, appTree)
