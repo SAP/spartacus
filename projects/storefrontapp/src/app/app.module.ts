@@ -36,7 +36,7 @@ if (!environment.production) {
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
-          legacy: false,
+          prefix: '/rest/v2/',
         },
       },
       context: {
@@ -66,6 +66,11 @@ if (!environment.production) {
       },
       features: {
         level: '1.5',
+      },
+      cart: {
+        selectiveCart: {
+          enabled: true,
+        },
       },
     }),
     JsonLdBuilderModule,

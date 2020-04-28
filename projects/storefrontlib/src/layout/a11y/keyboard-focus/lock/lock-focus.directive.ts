@@ -36,11 +36,11 @@ export class LockFocusDirective extends TrapFocusDirective
    * CSS class `focus-lock`.
    */
   @HostBinding('class.focus-lock') shouldLock: boolean;
+
   /**
    * Indicates that the host is locked. This is available as a CSS class `is-locked`.
    */
-  @HostBinding('class.is-locked')
-  isLocked: boolean;
+  @HostBinding('class.is-locked') isLocked: boolean;
 
   /**
    * Emits an event when the host is unlocked.

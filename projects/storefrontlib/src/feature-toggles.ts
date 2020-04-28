@@ -7,7 +7,5 @@ export interface FeatureToggles {
      */
     level?: string;
     consignmentTracking?: boolean;
-    saveForLater?: boolean;
-    cmsPageLoadOnce?: boolean;
   };
 }

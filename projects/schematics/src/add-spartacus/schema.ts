@@ -1,6 +1,7 @@
 export interface Schema {
   project: string;
   baseUrl?: string;
+  occPrefix?: string;
   baseSite?: string;
   useMetaTags?: boolean;
   featureLevel?: string;

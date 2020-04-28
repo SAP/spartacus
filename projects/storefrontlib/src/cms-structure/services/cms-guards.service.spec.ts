@@ -8,17 +8,15 @@ import {
 import { ConfigModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsGuardsService } from './cms-guards.service';
-import { CmsMappingService } from './cms-mapping.service';
+import { CmsComponentsService } from './cms-components.service';
 
 describe('CmsGuardsService', () => {
   let service: CmsGuardsService;
   let guards: any[];
   const mockUrlTree = new UrlTree();
 
-  class MockCmsMappingService {
-    getGuardsForComponents = jasmine
-      .createSpy('getGuardsForComponents')
-      .and.returnValue(guards);
+  class MockCmsComponentsService {
+    getGuards = jasmine.createSpy('getGuards').and.returnValue(guards);
   }
 
   class PositiveGuard implements CanActivate {
@@ -54,8 +52,8 @@ describe('CmsGuardsService', () => {
       imports: [ConfigModule.forRoot()],
       providers: [
         {
-          provide: CmsMappingService,
-          useClass: MockCmsMappingService,
+          provide: CmsComponentsService,
+          useClass: MockCmsComponentsService,
         },
         PositiveGuard,
         PositiveGuardObservable,

@@ -3,7 +3,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
   ConsignmentEntry,
-  FeatureConfigService,
   PromotionLocation,
   SelectiveCartService,
 } from '@spartacus/core';
@@ -58,18 +57,8 @@ export class CartItemListComponent {
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected selectiveCartService: SelectiveCartService,
-    protected featureConfig: FeatureConfigService
+    protected selectiveCartService: SelectiveCartService
   ) {}
-
-  //TODO remove feature flag for #5958
-  isSaveForLaterEnabled(): boolean {
-    if (this.featureConfig) {
-      return this.featureConfig.isEnabled('saveForLater');
-    }
-    return false;
-  }
-  //TODO remove feature flag for #5958
 
   /**
    * The items we're getting form the input do not have a consistent model.

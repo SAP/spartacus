@@ -15,7 +15,7 @@ let startTime = 0;
  */
 export function waitForOrderToBePlacedRequest(
   orderNumber?: string,
-  contentCatalog: string = 'electronics-spa',
+  contentCatalog: string = Cypress.env('BASE_SITE'),
   currency: string = 'USD'
 ) {
   const { userId, access_token } = JSON.parse(
@@ -23,9 +23,9 @@ export function waitForOrderToBePlacedRequest(
   ).auth.userToken.token;
   cy.request({
     method: 'GET',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/${contentCatalog}/users/${userId}/orders?pageSize=5&lang=en&curr=${currency}`,
+    url: `${Cypress.env('API_URL')}/${Cypress.env(
+      'OCC_PREFIX'
+    )}/${contentCatalog}/users/${userId}/orders?pageSize=5&lang=en&curr=${currency}`,
     headers: {
       Authorization: `bearer ${access_token}`,
     },
@@ -53,7 +53,7 @@ export function waitForOrderToBePlacedRequest(
 
 export function waitForOrderWithConsignmentToBePlacedRequest(
   orderNumber?: string,
-  contentCatalog: string = 'electronics-spa',
+  contentCatalog: string = Cypress.env('BASE_SITE'),
   elapsedTime = 0
 ) {
   const { userId, access_token } = JSON.parse(
@@ -61,9 +61,9 @@ export function waitForOrderWithConsignmentToBePlacedRequest(
   ).auth.userToken.token;
   cy.request({
     method: 'GET',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/${contentCatalog}/users/${userId}/orders/${orderNumber}?pageSize=5&lang=en&curr=USD`,
+    url: `${Cypress.env('API_URL')}/${Cypress.env(
+      'OCC_PREFIX'
+    )}/${contentCatalog}/users/${userId}/orders/${orderNumber}?pageSize=5&lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${access_token}`,
     },
