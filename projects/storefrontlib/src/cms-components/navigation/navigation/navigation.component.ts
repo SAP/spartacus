@@ -17,7 +17,7 @@ export class NavigationComponent {
   );
 
   styleClass$: Observable<string> = this.componentData.data$.pipe(
-    map((d) => d.styleClass)
+    map((d) => d?.styleClass)
   );
 
   constructor(
