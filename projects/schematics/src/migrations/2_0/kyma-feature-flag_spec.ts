@@ -79,9 +79,9 @@ describe('kyma feature flag migration', () => {
   });
 
   afterEach(() => {
+    console.log('kyma spec');
     shx.cd(previousWorkingDir);
     shx.rm('-r', tmpDirPath);
-    console.log('kyma spec');
   });
 
   it('migrate', async () => {
