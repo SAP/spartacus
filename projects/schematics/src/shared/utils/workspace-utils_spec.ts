@@ -52,6 +52,10 @@ describe('Workspace utils', () => {
       .toPromise();
   });
 
+  afterAll(() => {
+    console.log('workspace-utils');
+  });
+
   describe('getSourceRoot', () => {
     it('should return the source root of the default project', async () => {
       const sourceRoot = getSourceRoot(appTree, {});

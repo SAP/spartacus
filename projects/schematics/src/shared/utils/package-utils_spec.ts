@@ -32,6 +32,10 @@ describe('Package utils', () => {
     project: 'schematics-test',
   };
 
+  afterAll(() => {
+    console.log('package-utils');
+  });
+
   beforeEach(async () => {
     appTree = await schematicRunner
       .runExternalSchematicAsync(
