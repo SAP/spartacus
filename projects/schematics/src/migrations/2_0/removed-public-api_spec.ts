@@ -66,6 +66,7 @@ new Core.ActiveCartService()
 `;
 
 describe('removed public api migrations', () => {
+  console.log('at start');
   let host = new TempScopedNodeJsSyncHost();
   let tmpDirPath = getSystemPath(host.root);
   shx.rm('-r', tmpDirPath);
