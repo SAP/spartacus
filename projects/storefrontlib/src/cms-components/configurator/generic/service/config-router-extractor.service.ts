@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import {
   GenericConfigurator,
   GenericConfigUtilsService,
+  RouterState,
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { ConfigurationRouter } from './config-router-data';
-let i = 1;
-let j = 1;
+
 /**
  * Service to extract the configuration owner key from the current route
  */
@@ -20,46 +20,49 @@ export class ConfigRouterExtractorService {
     routingService: RoutingService
   ): Observable<ConfigurationRouter.Data> {
     return routingService.getRouterState().pipe(
-      tap(() => {
-        i = i + 1;
-      }),
       filter((routingData) => routingData.state.params.entityKey),
+      //we don't need to cover the intermediate router states where a future route is already known.
+      //only changes to the URL are relevant. Otherwise we get wrong hits where e.g. the config form fires although
+      //the OV already loads
       filter((routingData) => routingData.nextState === undefined),
       map((routingData) => {
-        j = j + 1;
-        const params = routingData.state.params;
+        const owner = this.createOwnerFromRouterState(routingData);
 
-        const owner: GenericConfigurator.Owner = {};
         const routerData: ConfigurationRouter.Data = {
           owner: owner,
-          isOwnerCartEntry: false,
+          isOwnerCartEntry:
+            owner.type === GenericConfigurator.OwnerType.CART_ENTRY,
           configuratorType: this.getConfiguratorTypeFromUrl(
             routingData.state.url
           ),
+          pageType: routingData.state.url.includes('configureOverview')
+            ? ConfigurationRouter.PageType.OVERVIEW
+            : ConfigurationRouter.PageType.CONFIGURATION,
         };
-        if (params.ownerType) {
-          const entityKey = params.entityKey;
-          owner.type = params.ownerType;
-          if (owner.type === GenericConfigurator.OwnerType.CART_ENTRY) {
-            routerData.isOwnerCartEntry = true;
-          }
-          owner.id = entityKey;
-          owner.hasObsoleteState =
-            routingData.state?.queryParams?.forceReload === 'true';
-        } else {
-          owner.type = GenericConfigurator.OwnerType.PRODUCT;
-          owner.id = params.rootProduct;
-        }
-        this.configUtilsService.setOwnerKey(owner);
 
-        if (routingData.state.url.includes('configureOverview')) {
-          routerData.pageType = ConfigurationRouter.PageType.OVERVIEW;
-        } else {
-          routerData.pageType = ConfigurationRouter.PageType.CONFIGURATION;
-        }
         return routerData;
       })
     );
+  }
+
+  createOwnerFromRouterState(
+    routerState: RouterState
+  ): GenericConfigurator.Owner {
+    const owner: GenericConfigurator.Owner = { hasObsoleteState: false };
+    const params = routerState.state.params;
+    if (params.ownerType) {
+      const entityKey = params.entityKey;
+      owner.type = params.ownerType;
+
+      owner.id = entityKey;
+      owner.hasObsoleteState =
+        routerState.state?.queryParams?.forceReload === 'true';
+    } else {
+      owner.type = GenericConfigurator.OwnerType.PRODUCT;
+      owner.id = params.rootProduct;
+    }
+    this.configUtilsService.setOwnerKey(owner);
+    return owner;
   }
 
   getConfiguratorTypeFromUrl(url: string): string {
