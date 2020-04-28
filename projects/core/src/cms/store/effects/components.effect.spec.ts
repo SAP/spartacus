@@ -88,6 +88,28 @@ describe('Component Effects', () => {
         effects.loadComponent$({ scheduler: getTestScheduler() })
       ).toBeObservable(expected);
     });
+    it('should return LoadComponentFail if component is missing in the response', () => {
+      const pageContext: PageContext = {
+        id: 'xxx',
+        type: PageType.CONTENT_PAGE,
+      };
+      const action = new CmsActions.LoadCmsComponent({
+        uid: 'comp1',
+        pageContext,
+      });
+      const completion = new CmsActions.LoadCmsComponentFail({
+        uid: action.payload.uid,
+        pageContext,
+      });
+      spyOn(service, 'getList').and.returnValue(of([]));
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(
+        effects.loadComponent$({ scheduler: getTestScheduler() })
+      ).toBeObservable(expected);
+    });
     describe('when the same page context is present in all the actions', () => {
       it('should group component load in specified time frame', () => {
         const pageContext: PageContext = {
