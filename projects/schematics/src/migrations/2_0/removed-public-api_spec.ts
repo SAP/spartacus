@@ -75,6 +75,7 @@ describe('removed public api migrations', () => {
   host = new TempScopedNodeJsSyncHost();
   tmpDirPath = getSystemPath(host.root);
   shx.rm('-r', tmpDirPath);
+  console.log('in describe');
   host = new TempScopedNodeJsSyncHost();
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
@@ -86,6 +87,7 @@ describe('removed public api migrations', () => {
       'test',
       require.resolve('../migrations.json')
     );
+    console.log('in before');
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
 
