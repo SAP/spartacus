@@ -29,8 +29,14 @@ const productConfiguration: Configurator.Configuration = {
   groups: [
     { id: GROUP_ID_1, subGroups: [] },
     { id: GROUP_ID_2, subGroups: [] },
-    { id: GROUP_ID_3, subGroups: [{ id: GROUP_ID_4 }] },
-    { id: GROUP_ID_5, subGroups: [{ id: GROUP_ID_6 }, { id: GROUP_ID_7 }] },
+    { id: GROUP_ID_3, subGroups: [{ id: GROUP_ID_4, subGroups: [] }] },
+    {
+      id: GROUP_ID_5,
+      subGroups: [
+        { id: GROUP_ID_6, subGroups: [] },
+        { id: GROUP_ID_7, subGroups: [] },
+      ],
+    },
   ],
   flatGroups: [
     { id: GROUP_ID_1 },
@@ -138,7 +144,7 @@ describe('ConfiguratorGroupsService', () => {
 
     expect(currentGroup).toBeDefined();
     currentGroup.subscribe((groupId) => {
-      expect(groupId).toBe(GROUP_ID_3);
+      expect(groupId).toBe(GROUP_ID_4);
     });
   });
 
