@@ -65,11 +65,19 @@ import * as Core from '@spartacus/core';
 new Core.ActiveCartService()
 `;
 
-describe('removed public api migrations', () => {
+fdescribe('removed public api migrations', () => {
   let host = new TempScopedNodeJsSyncHost();
+  let tmpDirPath = getSystemPath(host.root);
+  shx.rm('-r', tmpDirPath);
+  const host2 = new TempScopedNodeJsSyncHost();
+  tmpDirPath = getSystemPath(host.root);
+  shx.rm('-r', tmpDirPath);
+  const host3 = new TempScopedNodeJsSyncHost();
+  console.log(host2, host3);
+  host = new TempScopedNodeJsSyncHost();
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
-  let tmpDirPath: string;
+  // let tmpDirPath: string;
   let previousWorkingDir: string;
 
   beforeEach(() => {
@@ -165,6 +173,19 @@ describe('removed public api migrations', () => {
 
   describe('when the namespaced import is present in the file', () => {
     it('should not change anything when property is not access', async () => {
+      writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
+      writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
+      writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
+      writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
+      writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
+      writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
+      writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
+      writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
+      writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
+      writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
+      writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
+      writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
+      writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
       writeFile(host, '/src/index.ts', NOT_USED_PROPERTY);
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
