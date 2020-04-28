@@ -8,6 +8,7 @@ import { ConfiguratorUiActions } from '../store';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration } from '../store/configuration-state';
+import * as UiSelectors from '../store/selectors/configurator-ui.selector';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 /**
@@ -85,8 +86,10 @@ export class ConfiguratorGroupsService {
   isGroupVisited(
     configuration: Configurator.Configuration,
     groupId: string
-  ): boolean {
-    return false;
+  ): Observable<Boolean> {
+    return this.store.select(
+      UiSelectors.isGroupVisisted(configuration.owner.key, groupId)
+    );
   }
 
   getParentGroupStatus(
@@ -106,9 +109,13 @@ export class ConfiguratorGroupsService {
         return;
       }
 
-      if (!this.isGroupVisited(configuration, groupId)) {
-        isVisited = false;
-      }
+      this.isGroupVisited(configuration, groupId)
+        .pipe(take(1))
+        .subscribe((isSubgroupVisited) => {
+          if (!isSubgroupVisited) {
+            isVisited = false;
+          }
+        });
     });
 
     if (isVisited) {

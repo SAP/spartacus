@@ -18,19 +18,28 @@ const getUiState: MemoizedSelector<
   (state: ConfigurationState) => state.uiState
 );
 
-export const getUiStateForProduct = (
-  code: string
+export const getUiStateForOwner = (
+  ownerKey: string
 ): MemoizedSelector<StateWithConfiguration, UiState> => {
   return createSelector(getUiState, (details) =>
-    StateEntitySelectors.entitySelector(details, code)
+    StateEntitySelectors.entitySelector(details, ownerKey)
   );
 };
 
 export const getCurrentGroupForProduct = (
-  code: string
+  ownerKey: string
 ): MemoizedSelector<StateWithConfiguration, string> => {
   return createSelector(
-    getUiStateForProduct(code),
+    getUiStateForOwner(ownerKey),
     (details) => details.currentGroup
+  );
+};
+
+export const isGroupVisisted = (
+  ownerKey: string,
+  groupId: string
+): MemoizedSelector<StateWithConfiguration, Boolean> => {
+  return createSelector(getUiStateForOwner(ownerKey), (details) =>
+    StateEntitySelectors.entitySelector(details.groupsVisited, groupId)
   );
 };

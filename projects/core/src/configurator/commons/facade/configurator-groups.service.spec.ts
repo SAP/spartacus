@@ -15,6 +15,9 @@ const GROUP_ID_1 = '1234-56-7891';
 const GROUP_ID_2 = '1234-56-7892';
 const GROUP_ID_3 = '1234-56-7893';
 const GROUP_ID_4 = '1234-56-7894';
+const GROUP_ID_5 = '1234-56-7895';
+const GROUP_ID_6 = '1234-56-7896';
+const GROUP_ID_7 = '1234-56-7897';
 const uiState: UiState = {
   currentGroup: GROUP_ID_2,
   menuParentGroup: GROUP_ID_3,
@@ -27,8 +30,15 @@ const productConfiguration: Configurator.Configuration = {
     { id: GROUP_ID_1, subGroups: [] },
     { id: GROUP_ID_2, subGroups: [] },
     { id: GROUP_ID_3, subGroups: [{ id: GROUP_ID_4 }] },
+    { id: GROUP_ID_5, subGroups: [{ id: GROUP_ID_6 }, { id: GROUP_ID_7 }] },
   ],
-  flatGroups: [{ id: GROUP_ID_1 }, { id: GROUP_ID_2 }, { id: GROUP_ID_3 }],
+  flatGroups: [
+    { id: GROUP_ID_1 },
+    { id: GROUP_ID_2 },
+    { id: GROUP_ID_4 },
+    { id: GROUP_ID_6 },
+    { id: GROUP_ID_7 },
+  ],
   owner: {
     id: PRODUCT_CODE,
     type: GenericConfigurator.OwnerType.PRODUCT,
@@ -71,6 +81,7 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)
     );
+    spyOn(serviceUnderTest, 'setGroupStatus').and.callThrough();
   });
 
   it('should create service', () => {
@@ -189,5 +200,42 @@ describe('ConfiguratorGroupsService', () => {
     expect(serviceUnderTest.hasSubGroups(productConfiguration.groups[2])).toBe(
       true
     );
+  });
+
+  describe('Group Status Tests', () => {
+    it('should call group status in navigate to different group', () => {
+      serviceUnderTest.navigateToGroup(
+        productConfiguration,
+        productConfiguration.groups[2].id
+      );
+
+      expect(serviceUnderTest.setGroupStatus).toHaveBeenCalled();
+    });
+
+    it('should call setGroupVisisted action on setGroupStatus method call', () => {
+      serviceUnderTest.setGroupStatus(
+        productConfiguration,
+        productConfiguration.groups[0].id
+      );
+
+      const expectedAction = new UiActions.SetGroupsVisited(
+        productConfiguration.owner.key,
+        [GROUP_ID_1]
+      );
+
+      expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    });
+
+    it('should get parent group, when all subgroups are visited', () => {
+      serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_4);
+      spyOn(store, 'select').and.returnValue(of(true));
+
+      const expectedAction = new UiActions.SetGroupsVisited(
+        productConfiguration.owner.key,
+        [GROUP_ID_4, GROUP_ID_3]
+      );
+
+      expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    });
   });
 });
