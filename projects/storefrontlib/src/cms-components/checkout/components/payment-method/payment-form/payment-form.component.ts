@@ -201,14 +201,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
       .defaultPayment;
   }
 
-  monthSelected(month: string): void {
-    this.paymentForm.get('expiryMonth').setValue(month);
-  }
-
-  yearSelected(year: number): void {
-    this.paymentForm.get('expiryYear').setValue(year);
-  }
-
   toggleSameAsShippingAddress(): void {
     this.sameAsShippingAddress = !this.sameAsShippingAddress;
   }

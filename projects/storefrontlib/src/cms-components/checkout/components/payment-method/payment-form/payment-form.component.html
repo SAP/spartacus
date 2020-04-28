@@ -60,7 +60,6 @@
             ></cx-form-errors>
           </label>
         </div>
-
         <div class="row">
           <div class="form-group col-md-8">
             <label>
@@ -74,7 +73,6 @@
                     [clearable]="false"
                     [items]="months"
                     placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}"
-                    (change)="monthSelected($event)"
                     formControlName="expiryMonth"
                   >
                   </ng-select>
@@ -88,7 +86,6 @@
                     [clearable]="false"
                     [items]="years"
                     placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}"
-                    (change)="yearSelected($event)"
                     formControlName="expiryYear"
                   >
                   </ng-select>

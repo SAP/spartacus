@@ -383,16 +383,6 @@ describe('PaymentFormComponent', () => {
     expect(component.closeForm.emit).toHaveBeenCalled();
   });
 
-  it('should call monthSelected(month)', () => {
-    component.monthSelected('05');
-    expect(component.paymentForm['controls'].expiryMonth.value).toEqual('05');
-  });
-
-  it('should call yearSelected(year)', () => {
-    component.yearSelected(2022);
-    expect(component.paymentForm['controls'].expiryYear.value).toEqual(2022);
-  });
-
   it('should call getAddressCardContent(address)', () => {
     const card = component.getAddressCardContent(mockAddress);
     expect(card.textBold).toEqual('John Doe');
