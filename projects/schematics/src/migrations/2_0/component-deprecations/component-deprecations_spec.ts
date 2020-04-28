@@ -163,6 +163,7 @@ describe('component selectors migration', () => {
   afterEach(() => {
     shx.cd(previousWorkingDir);
     shx.rm('-r', tmpDirPath);
+    console.log('component deprecation spec');
   });
 
   const htmlFileName = '/src/test.html';

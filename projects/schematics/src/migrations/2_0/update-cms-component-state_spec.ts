@@ -26,7 +26,7 @@ import {
 } from './update-cms-component-state';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-update-cms-component-state-02';
-const GET_COMPONENT_STATE_TEST_CLASS = `  
+const GET_COMPONENT_STATE_TEST_CLASS = `
     import { MemoizedSelector, select, Store } from '@ngrx/store';
     import {
       CmsSelectors,
@@ -299,6 +299,7 @@ describe('updateCmsComponentState migration', () => {
   afterEach(() => {
     shx.cd(previousWorkingDir);
     shx.rm('-r', tmpDirPath);
+    console.log('update cms component state spec');
   });
 
   it('getComponentState', async () => {

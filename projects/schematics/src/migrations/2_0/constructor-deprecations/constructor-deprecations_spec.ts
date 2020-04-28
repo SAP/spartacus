@@ -364,6 +364,7 @@ describe('constructor migrations', () => {
   afterEach(() => {
     shx.cd(previousWorkingDir);
     shx.rm('-r', tmpDirPath);
+    console.log('constructor deprecation spec');
   });
 
   describe('when the class does NOT extend a Spartacus class', () => {

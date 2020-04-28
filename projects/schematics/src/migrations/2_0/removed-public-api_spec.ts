@@ -129,6 +129,7 @@ describe('removed public api migrations', () => {
   afterEach(() => {
     shx.cd(previousWorkingDir);
     shx.rm('-r', tmpDirPath);
+    console.log('remove public api spec');
   });
 
   describe('when the import is present in the file', () => {
