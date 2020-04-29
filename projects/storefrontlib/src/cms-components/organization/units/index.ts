@@ -8,3 +8,4 @@ export * from './unit-address-create/unit-address-create.module';
 export * from './unit-address-edit/unit-address-edit.module';
 export * from './unit-address-details/unit-address-details.module';
 export * from './unit-children/unit-children.module';
+export * from './unit-cost-centers/unit-cost-centers.module';

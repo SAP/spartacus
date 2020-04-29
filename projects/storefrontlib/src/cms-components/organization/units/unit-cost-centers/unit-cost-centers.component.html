@@ -1,0 +1,65 @@
+<ng-container class="container" *ngIf="data$ | async as data">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+      <div class="cx-table-header cx-textalign">
+        <h3>
+          {{ 'unitCostCenters.header' | cxTranslate: { code: code$ | async } }}
+        </h3>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-3">
+      <div class="row cx-search-links mb-3">
+        <a
+          [routerLink]="
+            { cxRoute: 'orgUnitDetails', params: { uid: code$ | async } }
+              | cxUrl
+          "
+          class="btn btn-secondary btn-block"
+        >
+          {{ 'unitCostCenters.back' | cxTranslate }}
+        </a>
+      </div>
+      <div class="row cx-search-links mb-3">
+        <a
+          [routerLink]="
+            { cxRoute: 'orgUnitCreate', params: { code: code$ | async } }
+              | cxUrl
+          "
+          class="btn btn-primary btn-block"
+        >
+          {{ 'unitCostCenters.create' | cxTranslate }}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="cx-table-body">
+    <ng-container *ngIf="data?.length > 0; else noData">
+      <!-- TABLE -->
+      <cx-table
+        [tableData]="data"
+        [columns]="[
+          {
+            key: 'code',
+            value: 'unitCostCenters.code' | cxTranslate,
+            cxRoute: 'costCenterDetails'
+          },
+          {
+            key: 'name',
+            value: 'unitCostCenters.name' | cxTranslate
+          }
+        ]"
+      >
+      </cx-table>
+    </ng-container>
+
+    <!-- NO ORDER CONTAINER -->
+    <ng-template #noData>
+      <div class="cx-no-items row">
+        <div class="col-sm-12 col-md-6 col-lg-4">
+          <div>{{ 'common.noData' | cxTranslate }}</div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</ng-container>
