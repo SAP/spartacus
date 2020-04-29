@@ -244,6 +244,38 @@ export const organization = {
     approver: 'Approver',
     customer: 'Customer',
   },
+  user: {
+    details: 'User details',
+    id: 'ID',
+    name: 'User Name',
+    parentUnit: 'Parent Unit',
+    edit: 'Edit',
+    back: 'Back to list',
+    assignPermissions: 'Manage Permissions',
+    assignApprovers: 'Manage Approvers',
+    assignUserGroups: 'Manage User Groups',
+  },
+  userForm: {
+    create: 'Create User',
+    edit: 'Edit User',
+    update: 'Update User',
+    code: {
+      label: 'User ID',
+      placeholder: 'Code',
+    },
+    name: {
+      label: 'User name',
+      placeholder: 'Name',
+    },
+    businessUnits: {
+      label: 'Parent business unit',
+      placeholder: 'Select business unit',
+    },
+    message: {
+      required: 'Value is required',
+    },
+  },
+
   userGroupsList: {
     assign: 'Assign',
     id: 'ID',
