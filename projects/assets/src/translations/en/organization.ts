@@ -190,6 +190,8 @@ export const organization = {
     deactivated: 'Deactivated',
     assignRoles: 'Manage Roles',
     manageAddresses: 'Manage Addresses',
+    children: 'Child Units',
+    costCenters: 'Cost Centers',
   },
   orgUnitForm: {
     create: 'Create Unit',
@@ -273,6 +275,20 @@ export const organization = {
     streetAddress: 'Street Address',
     aptSuite: 'Apt, Suite',
     selectOne: 'Select One...',
+  },
+  unitCostCenters: {
+    header: 'Cost centers in {{code}}',
+    back: 'Close',
+    create: 'Create',
+    code: 'Code',
+    name: 'Name',
+  },
+  unitChildren: {
+    header: 'Child units in {{code}}',
+    back: 'Close',
+    create: 'Create',
+    id: 'ID',
+    name: 'Name',
   },
   usersList: {
     sorting: {

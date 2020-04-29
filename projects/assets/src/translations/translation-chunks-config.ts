@@ -92,6 +92,8 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'unitAddressCreate',
     'unitAddressEdit',
     'unitAddressForm',
+    'unitCostCenters',
+    'unitChildren',
     'usersList',
     'userGroupsList',
     'userGroup',
