@@ -83,14 +83,15 @@ export class ConfigAddToCartButtonComponent implements OnInit {
         if (isOwnerCartEntry) {
           if (configuration.isCartEntryUpdateRequired) {
             this.configuratorCommonsService.updateCartEntry(configuration);
+            this.configuratorCommonsService.removeConfiguration(owner);
           }
           this.performNavigation(
             configuratorType,
             configuration.owner,
             'configurator.addToCart.confirmationUpdate',
-            isOverview
+            isOverview,
+            configuration.isCartEntryUpdateRequired
           );
-          this.configuratorCommonsService.removeConfiguration(owner);
         } else {
           this.configuratorCommonsService.addToCart(
             owner.id,
@@ -112,7 +113,8 @@ export class ConfigAddToCartButtonComponent implements OnInit {
                 configuratorType,
                 configWithNextOwner.nextOwner,
                 'configurator.addToCart.confirmation',
-                isOverview
+                isOverview,
+                true
               );
               this.configuratorCommonsService.removeConfiguration(owner);
               this.configuratorCommonsService.removeUiState(owner);
@@ -121,17 +123,20 @@ export class ConfigAddToCartButtonComponent implements OnInit {
       });
   }
 
-  private performNavigation(
+  performNavigation(
     configuratorType: string,
     owner: GenericConfigurator.Owner,
     messageKey: string,
-    isOverview: boolean
+    isOverview: boolean,
+    showMessage: boolean
   ) {
     if (isOverview) {
       this.navigateToCart();
     } else {
       this.navigateToOverview(configuratorType, owner);
     }
-    this.displayConfirmationMessage(messageKey);
+    if (showMessage) {
+      this.displayConfirmationMessage(messageKey);
+    }
   }
 }

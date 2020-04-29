@@ -123,7 +123,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     const result: Configurator.Configuration = occConfiguratorVariantNormalizer.convert(
       configuration
     );
-    expect(result.isCartEntryUpdateRequired).toBe(false);
+    expect(result.isCartEntryUpdateRequired).toBeUndefined();
   });
 
   it('should convert subgroups', () => {

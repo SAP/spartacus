@@ -25,7 +25,6 @@ export class OccConfiguratorVariantNormalizer
       productCode: source.rootProduct,
       groups: [],
       flatGroups: [],
-      isCartEntryUpdateRequired: false,
     };
 
     source.groups.forEach((group) =>
