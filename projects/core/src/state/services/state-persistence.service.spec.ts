@@ -34,7 +34,7 @@ const winRef = {
   },
 } as WindowRef;
 
-describe('StatePersistanceService', () => {
+describe('StatePersistenceService', () => {
   let service: StatePersistenceService;
 
   beforeEach(() => {
