@@ -116,7 +116,7 @@ export class Test extends ProductImagesComponent {
 `;
 
 describe('component selectors migration', () => {
-  let host = new TempScopedNodeJsSyncHost();
+  let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
   let tmpDirPath: string;

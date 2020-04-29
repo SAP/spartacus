@@ -2,6 +2,7 @@ import {
   AnonymousConsentsConfig,
   AsmConfig,
   AuthConfig,
+  CartConfig,
   CmsConfig,
   ExternalRoutesConfig,
   GlobalMessageConfig,
@@ -49,4 +50,5 @@ export type StorefrontConfig =
   | AsmConfig
   | SkipLinkConfig
   | PaginationConfig
-  | StoreFinderConfig;
+  | StoreFinderConfig
+  | CartConfig;

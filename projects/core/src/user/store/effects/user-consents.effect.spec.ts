@@ -167,7 +167,10 @@ describe('User Consents effect', () => {
 
   describe('resetConsents$', () => {
     it('should return ResetLoadUserConsents', () => {
-      const action = new SiteContextActions.LanguageChange();
+      const action = new SiteContextActions.LanguageChange({
+        previous: 'previous',
+        current: 'current',
+      });
       const completion = new UserActions.ResetLoadUserConsents();
 
       actions$ = hot('-a', { a: action });
