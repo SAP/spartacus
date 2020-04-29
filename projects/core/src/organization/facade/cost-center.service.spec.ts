@@ -4,7 +4,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { CostCenter } from '../../model/cost-center.model';
+import { CostCenter } from '../../model/org-unit.model';
 import { EntitiesModel } from '../../model/misc.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';

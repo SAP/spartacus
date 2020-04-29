@@ -92,7 +92,7 @@ class LanguageServiceStub {
   }
 }
 
-describe('OrgUnitCreateComponent', () => {
+describe('UnitCreateComponent', () => {
   let component: UnitCreateComponent;
   let fixture: ComponentFixture<UnitCreateComponent>;
   let orgUnitsService: MockOrgUnitService;

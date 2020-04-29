@@ -88,7 +88,7 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-describe('OrgUnitFormComponent', () => {
+describe('UnitFormComponent', () => {
   let component: UnitFormComponent;
   let fixture: ComponentFixture<UnitFormComponent>;
   let orgUnitService: OrgUnitService;

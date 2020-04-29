@@ -4,7 +4,7 @@ import {
   COST_CENTER_ASSIGNED_BUDGETS,
   BUDGET_ENTITIES,
 } from '../organization-state';
-import { CostCenter } from '../../../model/cost-center.model';
+import { CostCenter } from '../../../model/org-unit.model';
 import { StateUtils } from '../../../state/utils/index';
 import { CostCenterActions } from './index';
 

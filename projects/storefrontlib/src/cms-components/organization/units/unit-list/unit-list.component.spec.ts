@@ -53,7 +53,7 @@ class MockCxDatePipe {
   }
 }
 
-xdescribe('OrgUnitListComponent', () => {
+xdescribe('UnitListComponent', () => {
   let component: ManageUnitsListComponent;
   let fixture: ComponentFixture<ManageUnitsListComponent>;
   let orgUnitsService: MockOrgUnitService;

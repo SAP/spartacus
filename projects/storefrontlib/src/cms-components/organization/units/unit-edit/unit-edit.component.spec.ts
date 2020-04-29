@@ -94,7 +94,7 @@ class LanguageServiceStub {
   }
 }
 
-describe('OrgUnitEditComponent', () => {
+describe('UnitEditComponent', () => {
   let component: UnitEditComponent;
   let fixture: ComponentFixture<UnitEditComponent>;
   let orgUnitsService: MockOrgUnitService;

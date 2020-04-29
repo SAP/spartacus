@@ -7,13 +7,13 @@ import {
   I18nTestingModule,
   RoutingService,
   OrgUnitService,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
   B2BUnit,
+  CostCenter,
 } from '@spartacus/core';
 
-import { UnitChildrenComponent } from './unit-details.component';
+import { UnitCostCentersComponent } from './unit-cost-centers.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { TableModule } from '../../../../shared/components/table/table.module';
@@ -32,12 +32,32 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+const mockedCostCenters: CostCenter[] = [
+  {
+    code: 'c1',
+    name: 'n1',
+    currency: {
+      symbol: '$',
+      isocode: 'USD',
+    },
+    unit: { name: 'orgName', uid: 'orgUid' },
+  },
+  {
+    code: 'c2',
+    name: 'n2',
+    currency: {
+      symbol: '$',
+      isocode: 'USD',
+    },
+    unit: { name: 'orgName2', uid: 'orgUid2' },
+  },
+];
+
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnit = createSpy('loadOrgUnit');
-  get = createSpy('get').and.returnValue(of(mockOrgUnit));
+  getCostCenters = createSpy('getCostCenters').and.returnValue(of(mockOrgUnit));
   update = createSpy('update');
 }
-
 const mockRouterState = {
   state: {
     params: {
@@ -60,24 +80,17 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
-describe('OrgUnitDetailsComponent', () => {
-  let component: UnitChildrenComponent;
-  let fixture: ComponentFixture<UnitChildrenComponent>;
+describe('UnitCostCentersComponent', () => {
+  let component: UnitCostCentersComponent;
+  let fixture: ComponentFixture<UnitCostCentersComponent>;
   let orgUnitsService: MockOrgUnitService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, TableModule, I18nTestingModule],
-      declarations: [UnitChildrenComponent, MockUrlPipe],
+      declarations: [UnitCostCentersComponent, MockUrlPipe],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -89,7 +102,7 @@ describe('OrgUnitDetailsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnitChildrenComponent);
+    fixture = TestBed.createComponent(UnitCostCentersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -99,34 +112,18 @@ describe('OrgUnitDetailsComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should load orgUnit', () => {
+    it('should load cost centers', () => {
       component.ngOnInit();
-      let orgUnit: any;
-      component.orgUnit$
+      let costCenters: CostCenter[];
+      component.data$
         .subscribe((value) => {
-          orgUnit = value;
+          costCenters = value;
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
       expect(orgUnitsService.loadOrgUnit).toHaveBeenCalledWith(code);
-      expect(orgUnitsService.get).toHaveBeenCalledWith(code);
-      expect(orgUnit).toEqual(mockOrgUnit);
-    });
-  });
-
-  describe('update', () => {
-    it('should update orgUnit', () => {
-      component.ngOnInit();
-
-      component.update({ active: false });
-      expect(orgUnitsService.update).toHaveBeenCalledWith(code, {
-        active: false,
-      });
-
-      component.update({ active: true });
-      expect(orgUnitsService.update).toHaveBeenCalledWith(code, {
-        active: true,
-      });
+      expect(orgUnitsService.getCostCenters).toHaveBeenCalledWith(code);
+      expect(costCenters).toEqual(mockedCostCenters);
     });
   });
 });

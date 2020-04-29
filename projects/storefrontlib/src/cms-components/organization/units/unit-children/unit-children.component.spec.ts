@@ -7,21 +7,37 @@ import {
   I18nTestingModule,
   RoutingService,
   OrgUnitService,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
-  B2BUnit,
+  B2BUnitNode,
 } from '@spartacus/core';
 
-import { UnitChildrenComponent } from './unit-details.component';
+import { UnitChildrenComponent } from './unit-children.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { TableModule } from '../../../../shared/components/table/table.module';
 
 const code = 'b1';
 
-const mockOrgUnit: B2BUnit = {
-  uid: code,
+const mockedTree: B2BUnitNode = {
+  active: true,
+  children: [
+    {
+      active: true,
+      children: [],
+      id: 'Rustic Services',
+      name: 'Rustic Services',
+      parent: 'Rustic',
+    },
+    {
+      active: true,
+      children: [],
+      id: 'Rustic Retail',
+      name: 'Rustic Retail',
+      parent: 'Rustic',
+    },
+  ],
+  id: code,
   name: 'orgUnit1',
 };
 
@@ -34,8 +50,10 @@ class MockUrlPipe implements PipeTransform {
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnit = createSpy('loadOrgUnit');
-  get = createSpy('get').and.returnValue(of(mockOrgUnit));
-  update = createSpy('update');
+  getChildUnits = createSpy('getChildUnits').and.returnValue(
+    of(mockedTree.children)
+  );
+  loadTree = createSpy('loadTree');
 }
 
 const mockRouterState = {
@@ -60,13 +78,7 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
-describe('OrgUnitDetailsComponent', () => {
+describe('UnitChildrenComponent', () => {
   let component: UnitChildrenComponent;
   let fixture: ComponentFixture<UnitChildrenComponent>;
   let orgUnitsService: MockOrgUnitService;
@@ -77,7 +89,6 @@ describe('OrgUnitDetailsComponent', () => {
       imports: [RouterTestingModule, TableModule, I18nTestingModule],
       declarations: [UnitChildrenComponent, MockUrlPipe],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -99,34 +110,18 @@ describe('OrgUnitDetailsComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should load orgUnit', () => {
+    it('should load children', () => {
       component.ngOnInit();
-      let orgUnit: any;
-      component.orgUnit$
+      let nodes: B2BUnitNode[];
+      component.data$
         .subscribe((value) => {
-          orgUnit = value;
+          nodes = value;
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalled();
-      expect(orgUnitsService.loadOrgUnit).toHaveBeenCalledWith(code);
-      expect(orgUnitsService.get).toHaveBeenCalledWith(code);
-      expect(orgUnit).toEqual(mockOrgUnit);
-    });
-  });
-
-  describe('update', () => {
-    it('should update orgUnit', () => {
-      component.ngOnInit();
-
-      component.update({ active: false });
-      expect(orgUnitsService.update).toHaveBeenCalledWith(code, {
-        active: false,
-      });
-
-      component.update({ active: true });
-      expect(orgUnitsService.update).toHaveBeenCalledWith(code, {
-        active: true,
-      });
+      expect(orgUnitsService.loadTree).toHaveBeenCalledWith();
+      expect(orgUnitsService.getChildUnits).toHaveBeenCalledWith(code);
+      expect(nodes).toEqual(mockedTree.children);
     });
   });
 });
