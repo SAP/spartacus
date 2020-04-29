@@ -64,6 +64,15 @@ function clone_repo {
     git clone -b ${BRANCH} ${SPARTACUS_REPO_URL} ${CLONE_DIR} --depth 1
 }
 
+function update_projects_versions {
+    projects=$@
+    for i in $projects
+        do
+            echo $i;
+            (cd "${CLONE_DIR}/projects/${i}" && sed -i -E 's/("version": ")[^"]+/\1"${version}"/g' package.json);
+        done
+}
+
 function npm_install {
     pre_install
 
@@ -151,8 +160,11 @@ function local_install {
     printh "Installing source dependencies."
     ( cd ${CLONE_DIR} && yarn install )
 
-    printh "Building spa libraries from source"
+    printh "Building spa libraries from source."
     ( cd ${CLONE_DIR} && yarn build:core:lib)
+
+    printh "Updating projects versions."
+    update_projects_versions ${SPARTACUS_PROJECTS[@]}
 
     verdaccio --config ./config.yaml &
 
@@ -161,19 +173,19 @@ function local_install {
     sleep 5
 
     printh "Creating core npm package"
-    ( cd ${CLONE_DIR}/dist/core && yarn publish --new-version=2.0.0-next.0 --registry=http://localhost:4873/ )
+    ( cd ${CLONE_DIR}/dist/core && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ )
 
     printh "Creating storefrontlib npm package"
-    ( cd ${CLONE_DIR}/dist/storefrontlib && yarn publish --new-version=2.0.0-next.0 --registry=http://localhost:4873/ )
+    ( cd ${CLONE_DIR}/dist/storefrontlib && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ )
 
     printh "Creating storefrontstyles npm package"
-    ( cd ${CLONE_DIR}/projects/storefrontstyles && yarn publish --new-version=2.0.0-next.0 --registry=http://localhost:4873/ )
+    ( cd ${CLONE_DIR}/projects/storefrontstyles && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ )
 
     printh "Creating assets npm package"
-    ( cd ${CLONE_DIR}/dist/assets && yarn publish --new-version=2.0.0-next.0 --registry=http://localhost:4873/ )
+    ( cd ${CLONE_DIR}/dist/assets && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ )
 
     printh "Creating schematics npm package"
-    ( cd ${CLONE_DIR}/projects/schematics && yarn && yarn build && yarn publish --new-version=2.0.0-next.0 --registry=http://localhost:4873/ )
+    ( cd ${CLONE_DIR}/projects/schematics && yarn && yarn build && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ )
 
     create_apps
 
@@ -256,7 +268,7 @@ function run_e2e_tests {
 }
 
 function cmd_help {
-    echo "Usage: spartacus [command]"
+    echo "Usage: run [command]"
     echo "Available commands are:"
     echo " install"
     echo " install_npm"

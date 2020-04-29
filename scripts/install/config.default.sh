@@ -10,6 +10,15 @@ BACKEND_URL="https://localhost:9002"
 
 BASE_SITE="electronics-spa"
 
+SPARTACUS_PROJECTS=(
+        "core"
+        "assets"
+        "storefrontlib"
+        "storefrontstyles"
+        "cds"
+        "schematics"
+        )
+
 SPARTACUS_REPO_URL="git://github.com/SAP/cloud-commerce-spartacus-storefront.git"
 BRANCH='develop'
 CLONE_DIR="clone"
