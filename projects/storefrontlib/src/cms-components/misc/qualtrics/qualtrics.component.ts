@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 
 @Component({
   selector: 'cx-qualtrics',
-  template: ` <ng-container *ngIf="qualtricsEnabled$ | async"></ng-container> `,
+  template: ``,
 })
-export class QualtricsComponent {
-  qualtricsEnabled$ = this.qualtricsLoader.load();
+export class QualtricsComponent implements OnInit {
+  constructor(protected qualtricsLoader: QualtricsLoaderService) {}
 
-  constructor(private qualtricsLoader: QualtricsLoaderService) {}
+  ngOnInit() {
+    this.qualtricsLoader.addScript();
+  }
 }

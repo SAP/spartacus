@@ -1,5 +1,7 @@
 import { QualtricsConfig } from './qualtrics-config';
 
 export const defaultQualtricsConfig: QualtricsConfig = {
-  qualtrics: {},
+  qualtrics: {
+    scriptSource: 'assets/qualtricsIntegration.js',
+  },
 };
