@@ -313,7 +313,7 @@ const CART_PAGE_LAYOUT_HANDLER_EXPECTED = `
 `;
 
 describe('constructor migrations', () => {
-  let host = new TempScopedNodeJsSyncHost();
+  let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
   let tmpDirPath: string;
