@@ -46,6 +46,7 @@ export class ConfiguratorGroupsService {
   ): Observable<Configurator.Group> {
     return this.configuratorCommonsService.getUiState(owner).pipe(
       map((uiState) => uiState.menuParentGroup),
+
       switchMap((parentGroupId) => {
         return this.configuratorCommonsService
           .getConfiguration(owner)

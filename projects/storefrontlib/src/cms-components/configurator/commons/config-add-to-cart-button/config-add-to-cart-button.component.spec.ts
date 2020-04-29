@@ -10,11 +10,13 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { ConfigurationRouter } from '../../generic/service/config-router-data';
 import { ConfigAddToCartButtonComponent } from './config-add-to-cart-button.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '1';
 const configuratorType = 'cpqconfigurator';
+const pageTypeConfiguration = ConfigurationRouter.PageType.CONFIGURATION;
 const URL_CONFIGURATION =
   'host:port/electronics-spa/en/USD/configureCPQCONFIGURATOR';
 const URL_OVERVIEW =
@@ -125,14 +127,22 @@ function performAddToCartOnOverview(
     queryParams: {},
     url: URL_OVERVIEW,
   };
-  classUnderTest.onAddToCart(productConfiguration, configuratorType);
+  classUnderTest.onAddToCart(
+    productConfiguration,
+    configuratorType,
+    ConfigurationRouter.PageType.OVERVIEW
+  );
 }
 
 function performAddToCartWhenAdded(
   classUnderTest: ConfigAddToCartButtonComponent
 ) {
   ensureCartBound();
-  classUnderTest.onAddToCart(productConfiguration, configuratorType);
+  classUnderTest.onAddToCart(
+    productConfiguration,
+    configuratorType,
+    pageTypeConfiguration
+  );
 }
 
 function ensureCartBound() {
@@ -165,7 +175,11 @@ function performAddToCartWhenAddedAndOnOV(
   classUnderTest: ConfigAddToCartButtonComponent
 ) {
   ensureCartBoundAndOnOverview();
-  classUnderTest.onAddToCart(productConfiguration, configuratorType);
+  classUnderTest.onAddToCart(
+    productConfiguration,
+    configuratorType,
+    ConfigurationRouter.PageType.OVERVIEW
+  );
 }
 
 describe('ConfigAddToCartButtonComponent', () => {
@@ -251,19 +265,31 @@ describe('ConfigAddToCartButtonComponent', () => {
 
   it('should display updateCart message if configuration has already been added', () => {
     ensureCartBound();
-    classUnderTest.onAddToCart(productConfiguration, configuratorType);
+    classUnderTest.onAddToCart(
+      productConfiguration,
+      configuratorType,
+      pageTypeConfiguration
+    );
     expect(globalMessageService.add).toHaveBeenCalledTimes(1);
   });
 
   it('should navigate to overview in case configuration has not been added yet and we are on configuration page', () => {
     ensureProductBound();
-    classUnderTest.onAddToCart(productConfiguration, configuratorType);
+    classUnderTest.onAddToCart(
+      productConfiguration,
+      configuratorType,
+      pageTypeConfiguration
+    );
     expect(routingService.go).toHaveBeenCalledWith(navParamsOverview, attribs);
   });
 
   it('should display addToCart message in case configuration has not been added yet', () => {
     ensureProductBound();
-    classUnderTest.onAddToCart(productConfiguration, configuratorType);
+    classUnderTest.onAddToCart(
+      productConfiguration,
+      configuratorType,
+      pageTypeConfiguration
+    );
     expect(globalMessageService.add).toHaveBeenCalledTimes(1);
   });
 

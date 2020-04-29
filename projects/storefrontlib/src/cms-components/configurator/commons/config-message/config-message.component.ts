@@ -25,15 +25,15 @@ export class ConfigMessageComponent implements OnInit {
 
   ngOnInit(): void {
     this.hasPendingChanges$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) => {
+        switchMap((routerData) => {
           return this.configuratorCommonsService
-            .hasPendingChanges(owner)
+            .hasPendingChanges(routerData.owner)
             .pipe(
               switchMap((hasPendingChanges) =>
                 this.configuratorCommonsService
-                  .configurationIsLoading(owner)
+                  .configurationIsLoading(routerData.owner)
                   .pipe(map((isLoading) => hasPendingChanges || isLoading))
               )
             );

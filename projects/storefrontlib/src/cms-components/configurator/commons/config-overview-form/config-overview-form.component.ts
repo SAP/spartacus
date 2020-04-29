@@ -24,10 +24,12 @@ export class ConfigOverviewFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) =>
-          this.configuratorCommonsService.getOrCreateConfiguration(owner)
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getOrCreateConfiguration(
+            routerData.owner
+          )
         ),
         take(1),
         switchMap((configuration) =>

@@ -35,18 +35,18 @@ export class ConfigGroupMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) =>
-          this.configuratorCommonsService.getConfiguration(owner)
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
         )
       );
 
     this.currentGroup$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) =>
-          this.configuratorGroupsService.getCurrentGroup(owner)
+        switchMap((routerData) =>
+          this.configuratorGroupsService.getCurrentGroup(routerData.owner)
         )
       );
 

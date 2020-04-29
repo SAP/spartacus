@@ -6,7 +6,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
+import { ConfigurationRouter } from '../../generic/service/config-router-data';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 import { ConfigFormUpdateEvent } from './config-form.event';
 
@@ -30,28 +31,34 @@ export class ConfigFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) =>
-          this.configuratorCommonsService.getOrCreateConfiguration(owner)
-        )
+        filter(
+          (routerData) =>
+            routerData.pageType === ConfigurationRouter.PageType.CONFIGURATION
+        ),
+        switchMap((routerData) => {
+          return this.configuratorCommonsService.getOrCreateConfiguration(
+            routerData.owner
+          );
+        })
       );
 
     this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) =>
-          this.configuratorCommonsService.getOrCreateUiState(owner)
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getOrCreateUiState(routerData.owner)
         ),
         take(1)
       )
       .subscribe();
 
     this.currentGroup$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) =>
-          this.configuratorGroupsService.getCurrentGroup(owner)
+        switchMap((routerData) =>
+          this.configuratorGroupsService.getCurrentGroup(routerData.owner)
         )
       );
   }

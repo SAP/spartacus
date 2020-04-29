@@ -27,10 +27,10 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) =>
-          this.configuratorCommonsService.getConfiguration(owner)
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
         )
       );
   }
