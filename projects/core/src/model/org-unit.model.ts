@@ -1,4 +1,5 @@
 import { User } from './misc.model';
+import { CostCenter } from './cost-center.model';
 
 export interface B2BUnitNode {
   active?: boolean;
@@ -18,6 +19,7 @@ export interface B2BUnit {
   administrators?: B2BUser[];
   approvers?: B2BUser[];
   customers?: B2BUser[];
+  costCenters?: CostCenter[];
   managers?: B2BUser[];
 }
 

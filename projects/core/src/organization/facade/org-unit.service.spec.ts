@@ -14,6 +14,7 @@ import {
   AuthService,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
+  CostCenter,
 } from '@spartacus/core';
 
 const userId = 'current';
@@ -154,6 +155,21 @@ describe('OrgUnitService', () => {
     });
   });
 
+  describe('get CostCenters', () => {
+    it('getCostCenters() should trigger get()', () => {
+      store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
+      let costCenters: CostCenter[];
+      service
+        .getCostCenters(orgUnitId)
+        .subscribe((data) => {
+          costCenters = data;
+        })
+        .unsubscribe();
+
+      expect(costCenters).toEqual(orgUnit.costCenters);
+    });
+  });
+
   describe('get orgUnits', () => {
     it('getList() should trigger load orgUnits when they are not present in the store', () => {
       let orgUnits: B2BUnitNode[];
@@ -196,36 +212,43 @@ describe('OrgUnitService', () => {
       expect(
         service['findUnitChildrenInTree'](mockedTree.id, mockedTree)
       ).toEqual(mockedTree.children);
+
       expect(
         service['findUnitChildrenInTree'](mockedTree.children[0].id, mockedTree)
       ).toEqual(mockedTree.children[0].children);
+
       expect(
         service['findUnitChildrenInTree'](
           mockedTree.children[0].children[0].id,
           mockedTree
         )
       ).toEqual(mockedTree.children[0].children[0].children);
+
       expect(
         service['findUnitChildrenInTree'](
           mockedTree.children[0].children[1].id,
           mockedTree
         )
       ).toEqual(mockedTree.children[0].children[1].children);
+
       expect(
         service['findUnitChildrenInTree'](mockedTree.children[1].id, mockedTree)
       ).toEqual(mockedTree.children[1].children);
+
       expect(
         service['findUnitChildrenInTree'](
           mockedTree.children[1].children[0].id,
           mockedTree
         )
       ).toEqual(mockedTree.children[1].children[0].children);
+
       expect(
         service['findUnitChildrenInTree'](
           mockedTree.children[1].children[0].children[0].id,
           mockedTree
         )
       ).toEqual(mockedTree.children[1].children[0].children[0].children);
+
       expect(service['findUnitChildrenInTree']('Fake ID', mockedTree)).toEqual(
         []
       );

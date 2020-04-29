@@ -30,6 +30,7 @@ import {
   B2BUser,
   EntitiesModel,
   B2BAddress,
+  CostCenter,
 } from '../../model';
 import { B2BSearchConfig } from '../model/search-config';
 
@@ -140,7 +141,11 @@ export class OrgUnitService {
     );
   }
 
-  private findUnitChildrenInTree(orginitId, unit: B2BUnitNode) {
+  getCostCenters(orgUnitId: string): Observable<CostCenter[]> {
+    return this.get(orgUnitId).pipe(map((orgUnit) => orgUnit.costCenters));
+  }
+
+  protected findUnitChildrenInTree(orginitId, unit: B2BUnitNode) {
     if (unit.id === orginitId) {
       return unit.children;
     } else {
@@ -151,10 +156,9 @@ export class OrgUnitService {
   }
 
   getChildUnits(orgUnitId: string): Observable<B2BUnitNode[]> {
-    return this.get(orgUnitId).pipe(
-      withLatestFrom(this.getTree()),
-      map(([orginit, tree]) => {
-        return this.findUnitChildrenInTree(orginit.uid, tree);
+    return this.getTree().pipe(
+      map((tree) => {
+        return this.findUnitChildrenInTree(orgUnitId, tree);
       })
     );
   }

@@ -119,4 +119,17 @@
       {{ 'orgUnit.manageAddresses' | cxTranslate }}
     </a>
   </div>
+  <div class="col-md-12 col-lg-6">
+    <a
+      [routerLink]="
+        {
+          cxRoute: 'orgUnitChildren',
+          params: { code: orgUnit.uid }
+        } | cxUrl
+      "
+      class="btn btn-primary btn-block"
+    >
+      {{ 'orgUnit.children' | cxTranslate }}
+    </a>
+  </div>
 </ng-container>
