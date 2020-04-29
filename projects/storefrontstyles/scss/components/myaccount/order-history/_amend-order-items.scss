@@ -1,7 +1,6 @@
 %cx-amend-order-items {
   .cx-item-list-header {
     @include type('8');
-    margin: 0;
     padding: 1.125rem 0;
     text-transform: uppercase;
     color: var(--cx-color-secondary);
@@ -10,26 +9,11 @@
     border-color: var(--cx-color-light);
   }
 
-  .cx-item-list-desc {
-    text-align: left;
-    padding: 0;
-  }
-
-  .cx-item-list-price {
-    text-align: center;
-  }
-
-  .cx-item-list-qty {
-    text-align: center;
-  }
-
   .cx-item-list-total {
     text-align: right;
-    padding: 0;
 
     @include media-breakpoint-only(xl) {
-      text-align: center;
-      padding-right: 0;
+      text-align: right;
     }
 
     @include media-breakpoint-down(lg) {
@@ -46,16 +30,16 @@
     border-width: 0 0 1px 0;
     border-style: solid;
     border-color: var(--cx-color-light);
-
-    cx-media {
-      text-align: center;
-    }
   }
 
   .cx-info-container {
     @include media-breakpoint-down(sm) {
       display: flex;
       flex-direction: column;
+
+      .cx-order-quantity-value {
+        text-align: left;
+      }
     }
   }
 
@@ -180,7 +164,7 @@
 
   .cx-total {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
 
     @include media-breakpoint-down(md) {
