@@ -30,7 +30,7 @@ export class AppModule {}
 `;
 
 describe('kyma feature flag migration', () => {
-  let host = new TempScopedNodeJsSyncHost();
+  let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
   let tmpDirPath: string;
