@@ -1,4 +1,4 @@
-import { waitForOrderWithConsignmentToBePlacedRequest } from '../support/utils/order-placed';
+import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import {
   addPaymentMethod,
   addShippingAddress,
@@ -27,9 +27,9 @@ export function addProductToCart() {
     .click();
   cy.server();
   cy.route(
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}users/current/carts/*`
+    )}/users/current/carts/*`
   ).as('cart');
   cy.wait(`@cart`).its('status').should('eq', 200);
 }
@@ -48,7 +48,8 @@ export function selectShippingAddress() {
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
   cy.get('.card-header').should('contain', 'Selected');
-  cy.visit(`/checkout/delivery-mode`);
+  cy.get('button.btn-primary').click();
+  // TODO: make it more stable when JaloError happens
 }
 
 export function selectDeliveryMethod() {
@@ -74,7 +75,7 @@ export function selectPaymentMethod() {
 export function goToOrderHistoryDetailsFromSummary() {
   cy.get('.cx-page-title').then((el) => {
     const orderNumber = el.text().match(/\d+/)[0];
-    waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
+    waitForOrderToBePlacedRequest(orderNumber);
     cy.visit(`/my-account/order/${orderNumber}`);
   });
 }
