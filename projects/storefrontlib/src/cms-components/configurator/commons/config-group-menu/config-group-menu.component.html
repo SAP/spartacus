@@ -24,6 +24,7 @@
             (keyup)="clickOnEnter($event, group)"
             class="cx-config-menu-item"
             tabindex="0"
+            [class.visited]="showGroupVisited(currentGroup.id)"
           >
             <a [class.active]="currentGroup.id === group.id" role="link"
               >{{ group.description }}

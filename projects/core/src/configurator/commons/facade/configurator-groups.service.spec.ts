@@ -18,6 +18,7 @@ const GROUP_ID_4 = '1234-56-7894';
 const GROUP_ID_5 = '1234-56-7895';
 const GROUP_ID_6 = '1234-56-7896';
 const GROUP_ID_7 = '1234-56-7897';
+const GROUP_ID_8 = '1234-56-7898';
 const uiState: UiState = {
   currentGroup: GROUP_ID_2,
   menuParentGroup: GROUP_ID_3,
@@ -34,7 +35,7 @@ const productConfiguration: Configurator.Configuration = {
       id: GROUP_ID_5,
       subGroups: [
         { id: GROUP_ID_6, subGroups: [] },
-        { id: GROUP_ID_7, subGroups: [] },
+        { id: GROUP_ID_7, subGroups: [{ id: GROUP_ID_8, subGroups: [] }] },
       ],
     },
   ],
@@ -233,12 +234,39 @@ describe('ConfiguratorGroupsService', () => {
     });
 
     it('should get parent group, when all subgroups are visited', () => {
-      serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_4);
       spyOn(store, 'select').and.returnValue(of(true));
+      serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_4);
 
       const expectedAction = new UiActions.SetGroupsVisited(
         productConfiguration.owner.key,
         [GROUP_ID_4, GROUP_ID_3]
+      );
+
+      expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    });
+
+    it('should not get parent group, when not all subgroups are visited', () => {
+      //Not all subgroups are visited
+      spyOn(store, 'select').and.returnValue(of(false));
+
+      serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_6);
+
+      const expectedAction = new UiActions.SetGroupsVisited(
+        productConfiguration.owner.key,
+        [GROUP_ID_6]
+      );
+
+      expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    });
+
+    it('should get all parent group, when lowest subgroup are visited', () => {
+      spyOn(store, 'select').and.returnValue(of(true));
+
+      serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_8);
+
+      const expectedAction = new UiActions.SetGroupsVisited(
+        productConfiguration.owner.key,
+        [GROUP_ID_8, GROUP_ID_7, GROUP_ID_5]
       );
 
       expect(store.dispatch).toHaveBeenCalledWith(expectedAction);

@@ -35,11 +35,36 @@ export const getCurrentGroupForProduct = (
   );
 };
 
-export const isGroupVisisted = (
+export const isGroupVisited = (
   ownerKey: string,
   groupId: string
 ): MemoizedSelector<StateWithConfiguration, Boolean> => {
   return createSelector(getUiStateForOwner(ownerKey), (details) =>
     StateEntitySelectors.entitySelector(details.groupsVisited, groupId)
   );
+};
+
+export const areGroupsVisited = (
+  ownerKey: string,
+  groupIds: string[]
+): MemoizedSelector<StateWithConfiguration, Boolean> => {
+  return createSelector(getUiStateForOwner(ownerKey), (details) => {
+    let isVisited: Boolean = true;
+    groupIds.forEach((groupId) => {
+      if (!isVisited) {
+        return;
+      }
+
+      isVisited = StateEntitySelectors.entitySelector(
+        details.groupsVisited,
+        groupId
+      );
+
+      if (isVisited === undefined) {
+        isVisited = false;
+      }
+    });
+
+    return isVisited;
+  });
 };

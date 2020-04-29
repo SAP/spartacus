@@ -84,12 +84,17 @@ export class ConfiguratorGroupsService {
   }
 
   isGroupVisited(
-    configuration: Configurator.Configuration,
+    owner: GenericConfigurator.Owner,
     groupId: string
   ): Observable<Boolean> {
-    return this.store.select(
-      UiSelectors.isGroupVisisted(configuration.owner.key, groupId)
-    );
+    return this.store.select(UiSelectors.isGroupVisited(owner.key, groupId));
+  }
+
+  areGroupsVisited(
+    owner: GenericConfigurator.Owner,
+    groupIds: string[]
+  ): Observable<Boolean> {
+    return this.store.select(UiSelectors.areGroupsVisited(owner.key, groupIds));
   }
 
   getParentGroupStatus(
@@ -102,36 +107,33 @@ export class ConfiguratorGroupsService {
       return;
     }
 
-    let isVisited = true;
-
+    const subGroups = [];
     parentGroup.subGroups.forEach((subGroup) => {
+      //The current group is not set to visited yet, therefor we have to exclude it in the check
       if (subGroup.id === groupId) {
         return;
       }
-
-      this.isGroupVisited(configuration, groupId)
-        .pipe(take(1))
-        .subscribe((isSubgroupVisited) => {
-          if (!isSubgroupVisited) {
-            isVisited = false;
-          }
-        });
+      subGroups.push(subGroup.id);
     });
 
-    if (isVisited) {
-      groupIds.push(parentGroup.id);
-    }
+    this.areGroupsVisited(configuration.owner, subGroups)
+      .pipe(take(1))
+      .subscribe((isVisited) => {
+        if (isVisited) {
+          groupIds.push(parentGroup.id);
 
-    this.getParentGroupStatus(
-      configuration,
-      parentGroup.id,
-      this.findParentGroup(
-        configuration.groups,
-        this.findCurrentGroup(configuration.groups, parentGroup.id),
-        null
-      ),
-      groupIds
-    );
+          this.getParentGroupStatus(
+            configuration,
+            parentGroup.id,
+            this.findParentGroup(
+              configuration.groups,
+              this.findCurrentGroup(configuration.groups, parentGroup.id),
+              null
+            ),
+            groupIds
+          );
+        }
+      });
   }
 
   setGroupStatus(configuration: Configurator.Configuration, groupId: string) {
