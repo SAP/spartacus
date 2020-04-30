@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 export class CostCenterCreateComponent {
   parentUnit$: Observable<string> = this.routingService
     .getRouterState()
-    .pipe(map((routingData) => routingData.state.queryParams['parentUnit']));
+    .pipe(map((routingData) => routingData.state.queryParams?.['parentUnit']));
 
   constructor(
     protected costCenterService: CostCenterService,
