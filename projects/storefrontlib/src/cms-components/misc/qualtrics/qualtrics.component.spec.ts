@@ -13,11 +13,10 @@ class MockQualtricsLoaderService {
   addScript(): void {}
 }
 
-fdescribe('QualtricsComponent', () => {
+describe('QualtricsComponent', () => {
   let component: QualtricsComponent;
   let fixture: ComponentFixture<QualtricsComponent>;
   let service: QualtricsLoaderService;
-  let config: QualtricsConfig;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
