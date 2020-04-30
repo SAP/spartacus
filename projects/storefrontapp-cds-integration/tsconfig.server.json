@@ -4,18 +4,16 @@
     "outDir": "../../out-tsc/app-server",
     "baseUrl": ".",
     "module": "commonjs",
-    "types": [],
+    "types": ["node"],
     "paths": {
-      "@spartacus/core": ["../../dist/core"],
-      "@spartacus/storefront": ["../../dist/storefrontlib"],
-      "@spartacus/assets": ["../../dist/assets"],
-      "@spartacus/cds": ["../../dist/cds"]
+      "@spartacus/core": ["../../projects/core/public_api"],
+      "@spartacus/storefront": ["../../projects/storefrontlib/src/public_api"],
+      "@spartacus/assets": ["../../projects/assets/src/public_api"],
+      "@spartacus/cds": ["../../projects/cds/public_api"]
     }
   },
   "angularCompilerOptions": {
-    "entryModule": "src/app/app.server.module#AppServerModule",
-    "enableIvy": false
+    "entryModule": "src/app/app.server.module#AppServerModule"
   },
-  "files": ["src/main.server.ts"],
-  "include": ["projects/storefrontapp-cds-integration/src/**/*.d.ts"]
+  "files": ["src/main.server.ts", "server.ts"]
 }

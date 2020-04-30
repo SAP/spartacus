@@ -10,7 +10,7 @@ import {
   successMeta,
   resetMeta,
 } from '../../../state/utils/loader/loader.action';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
@@ -134,7 +134,7 @@ describe('Customer Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.SUBSCRIBE_CUSTOMER_COUPON,
         payload: { userId, couponCode },
-        meta: StateEntityLoaderActions.entityLoadMeta(
+        meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
           SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
         ),
@@ -150,7 +150,7 @@ describe('Customer Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.SUBSCRIBE_CUSTOMER_COUPON_FAIL,
         payload: error,
-        meta: StateEntityLoaderActions.entityFailMeta(
+        meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
           error
@@ -168,7 +168,7 @@ describe('Customer Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
         payload: customerCouponNotification,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
+        meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
           SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
         ),
@@ -182,7 +182,7 @@ describe('Customer Coupon Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.RESET_SUBSCRIBE_CUSTOMER_COUPON_PROCESS,
-        meta: StateEntityLoaderActions.entityResetMeta(
+        meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
           SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
         ),
@@ -200,7 +200,7 @@ describe('Customer Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.UNSUBSCRIBE_CUSTOMER_COUPON,
         payload: { userId, couponCode },
-        meta: StateEntityLoaderActions.entityLoadMeta(
+        meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
           UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
         ),
@@ -216,7 +216,7 @@ describe('Customer Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.UNSUBSCRIBE_CUSTOMER_COUPON_FAIL,
         payload: error,
-        meta: StateEntityLoaderActions.entityFailMeta(
+        meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID,
           error
@@ -233,7 +233,7 @@ describe('Customer Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS,
         payload: success,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
+        meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
           UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
         ),
@@ -247,7 +247,7 @@ describe('Customer Coupon Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.RESET_UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS,
-        meta: StateEntityLoaderActions.entityResetMeta(
+        meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
           UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID
         ),
@@ -265,7 +265,7 @@ describe('Customer Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CLAIM_CUSTOMER_COUPON,
         payload: { userId, couponCode },
-        meta: StateEntityLoaderActions.entityLoadMeta(
+        meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
           CLAIM_CUSTOMER_COUPON_PROCESS_ID
         ),
@@ -281,7 +281,7 @@ describe('Customer Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CLAIM_CUSTOMER_COUPON_FAIL,
         payload: error,
-        meta: StateEntityLoaderActions.entityFailMeta(
+        meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           CLAIM_CUSTOMER_COUPON_PROCESS_ID,
           error
@@ -299,7 +299,7 @@ describe('Customer Coupon Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.CLAIM_CUSTOMER_COUPON_SUCCESS,
         payload: customerCoupon2Customer,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
+        meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
           CLAIM_CUSTOMER_COUPON_PROCESS_ID
         ),

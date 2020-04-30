@@ -31,7 +31,7 @@ const polandAddress: Address = {
 
 context('Payment billing address', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });
 

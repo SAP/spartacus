@@ -9,7 +9,9 @@
   // backdrop - fade out
   background-color: rgba(0, 0, 0, 0);
   transition: top 0s 0.3s ease, background-color 0.3s ease;
-
+  > div {
+    display: contents;
+  }
   &:focus-within {
     top: 0;
     // backdrop - fade in

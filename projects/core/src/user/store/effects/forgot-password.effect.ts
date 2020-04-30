@@ -20,7 +20,7 @@ export class ForgotPasswordEffects {
     map((action: UserActions.ForgotPasswordEmailRequest) => {
       return action.payload;
     }),
-    concatMap(userEmailAddress => {
+    concatMap((userEmailAddress) => {
       return this.userAccountConnector
         .requestForgotPasswordEmail(userEmailAddress)
         .pipe(
@@ -31,7 +31,7 @@ export class ForgotPasswordEffects {
               type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
             }),
           ]),
-          catchError(error =>
+          catchError((error) =>
             of(
               new UserActions.ForgotPasswordEmailRequestFail(
                 makeErrorSerializable(error)

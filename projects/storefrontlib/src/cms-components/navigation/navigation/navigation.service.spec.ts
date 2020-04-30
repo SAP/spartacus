@@ -153,7 +153,7 @@ describe('NavigationComponentService', () => {
     let result: NavigationNode;
     navigationService
       .getNavigationNode(of(componentData))
-      .subscribe(node => (result = node));
+      .subscribe((node) => (result = node));
 
     expect(result.url).toEqual('/main');
   });
@@ -166,7 +166,7 @@ describe('NavigationComponentService', () => {
     let result: NavigationNode;
     navigationService
       .getNavigationNode(of(componentData))
-      .subscribe(node => (result = node));
+      .subscribe((node) => (result = node));
 
     expect(result.children[2].url).toBeFalsy();
   });
@@ -179,7 +179,7 @@ describe('NavigationComponentService', () => {
     let result: NavigationNode;
     navigationService
       .getNavigationNode(of(componentData))
-      .subscribe(node => (result = node));
+      .subscribe((node) => (result = node));
 
     expect(result.children[3].url).toEqual(['category', '444', 'name 4']);
   });
@@ -192,7 +192,7 @@ describe('NavigationComponentService', () => {
     let result: NavigationNode;
     navigationService
       .getNavigationNode(of(componentData))
-      .subscribe(node => (result = node));
+      .subscribe((node) => (result = node));
 
     expect(result.children.length).toEqual(4);
     expect(result.children[0].title).toEqual('test link 1');
@@ -217,10 +217,11 @@ describe('NavigationComponentService', () => {
     };
 
     navigationService.getNavigationNode(of(componentData)).subscribe();
-    expect(mockCmsService.loadNavigationItems).toHaveBeenCalledWith(
-      'MockNavigationNode001',
-      [{ superType: 'AbstractCMSComponent', id: 'MockLink005' }]
-    );
+    expect(
+      mockCmsService.loadNavigationItems
+    ).toHaveBeenCalledWith('MockNavigationNode001', [
+      { superType: 'AbstractCMSComponent', id: 'MockLink005' },
+    ]);
   });
 
   it('should create a virtual navigation root', () => {
@@ -231,7 +232,7 @@ describe('NavigationComponentService', () => {
     let result: NavigationNode;
     navigationService
       .createNavigation(of(componentData))
-      .subscribe(node => (result = node));
+      .subscribe((node) => (result = node));
 
     expect(result.title).toEqual('NavigationComponent name');
     expect(result.children.length).toEqual(1);
@@ -252,7 +253,7 @@ describe('NavigationComponentService', () => {
             },
           })
         )
-        .subscribe(node => (result = node));
+        .subscribe((node) => (result = node));
 
       expect(result).toBeTruthy();
     });
@@ -269,7 +270,7 @@ describe('NavigationComponentService', () => {
             },
           })
         )
-        .subscribe(node => (result = node));
+        .subscribe((node) => (result = node));
 
       expect(result).toBeFalsy();
     });
@@ -301,7 +302,7 @@ describe('NavigationComponentService', () => {
             },
           })
         )
-        .subscribe(node => (result = node));
+        .subscribe((node) => (result = node));
 
       expect(result).toBeTruthy();
       expect(result.title).toEqual('entry linkName');
@@ -325,7 +326,7 @@ describe('NavigationComponentService', () => {
             },
           })
         )
-        .subscribe(node => (result = node));
+        .subscribe((node) => (result = node));
 
       expect(result.children).toBeFalsy();
     });
@@ -358,7 +359,7 @@ describe('NavigationComponentService', () => {
             } as NavigationNode,
           })
         )
-        .subscribe(node => (result = node));
+        .subscribe((node) => (result = node));
 
       expect(result.target).toEqual('_blank');
     });
@@ -391,7 +392,7 @@ describe('NavigationComponentService', () => {
             } as NavigationNode,
           })
         )
-        .subscribe(node => (result = node));
+        .subscribe((node) => (result = node));
 
       expect(result.target).toBeFalsy();
     });
@@ -423,7 +424,7 @@ describe('NavigationComponentService', () => {
             } as NavigationNode,
           })
         )
-        .subscribe(node => (result = node));
+        .subscribe((node) => (result = node));
 
       expect(result.target).toBeFalsy();
     });

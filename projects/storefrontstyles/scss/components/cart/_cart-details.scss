@@ -16,5 +16,20 @@
     @include type('7');
     color: var(--cx-color-success);
     padding: 0.5rem 0;
+
+    li {
+      line-height: 1.6;
+    }
+  }
+
+  .cx-remove-btn {
+    text-align: right;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .cx-sfl-btn {
+    text-align: right;
+    padding-right: 0;
   }
 }

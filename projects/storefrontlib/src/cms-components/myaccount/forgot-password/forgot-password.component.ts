@@ -7,8 +7,8 @@ import { CustomFormValidators } from '../../../shared/utils/validators/custom-fo
   templateUrl: './forgot-password.component.html',
 })
 export class ForgotPasswordComponent implements OnInit {
-  form: FormGroup;
-  submited = false;
+  forgotPasswordForm: FormGroup;
+
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -16,7 +16,7 @@ export class ForgotPasswordComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.form = this.fb.group({
+    this.forgotPasswordForm = this.fb.group({
       userEmail: [
         '',
         [Validators.required, CustomFormValidators.emailValidator],
@@ -25,12 +25,13 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   requestForgotPasswordEmail() {
-    this.submited = true;
-
-    if (this.form.invalid) {
-      return;
+    if (this.forgotPasswordForm.valid) {
+      this.userService.requestForgotPasswordEmail(
+        this.forgotPasswordForm.value.userEmail
+      );
+      this.routingService.go({ cxRoute: 'login' });
+    } else {
+      this.forgotPasswordForm.markAllAsTouched();
     }
-    this.userService.requestForgotPasswordEmail(this.form.value.userEmail);
-    this.routingService.go({ cxRoute: 'login' });
   }
 }

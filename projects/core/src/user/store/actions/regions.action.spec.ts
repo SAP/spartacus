@@ -1,4 +1,4 @@
-import { StateLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { REGIONS } from '../user-state';
 import { UserActions } from './index';
 
@@ -11,7 +11,7 @@ describe('Regions Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_REGIONS,
         payload: country,
-        meta: StateLoaderActions.loadMeta(REGIONS),
+        meta: StateUtils.loadMeta(REGIONS),
       });
     });
   });
@@ -24,7 +24,7 @@ describe('Regions Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_REGIONS_FAIL,
         payload: error,
-        meta: StateLoaderActions.failMeta(REGIONS, error),
+        meta: StateUtils.failMeta(REGIONS, error),
       });
     });
   });
@@ -51,7 +51,7 @@ describe('Regions Actions', () => {
           entities: regions,
           country,
         },
-        meta: StateLoaderActions.successMeta(REGIONS),
+        meta: StateUtils.successMeta(REGIONS),
       });
     });
   });

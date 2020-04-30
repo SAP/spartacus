@@ -59,11 +59,11 @@ describe('OccUserPaymentAdapter', () => {
         payments: [mockPayment1, mockPayment2],
       };
 
-      occUserPaymentAdapter.loadAll(username).subscribe(result => {
+      occUserPaymentAdapter.loadAll(username).subscribe((result) => {
         expect(result).toEqual(mockUserPaymentMethods.payments);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -81,7 +81,7 @@ describe('OccUserPaymentAdapter', () => {
     it('should use converter', () => {
       occUserPaymentAdapter.loadAll(username).subscribe();
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return req.method === 'GET';
         })
         .flush({});
@@ -100,11 +100,11 @@ describe('OccUserPaymentAdapter', () => {
 
       occUserPaymentAdapter
         .setDefault(username, mockPayment.id)
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toEqual('');
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'PATCH' && req.body.defaultPayment === true;
       });
 
@@ -126,9 +126,9 @@ describe('OccUserPaymentAdapter', () => {
 
       occUserPaymentAdapter
         .delete(username, mockPayment.id)
-        .subscribe(result => expect(result).toEqual(''));
+        .subscribe((result) => expect(result).toEqual(''));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'DELETE';
       });
 

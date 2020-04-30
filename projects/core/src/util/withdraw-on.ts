@@ -14,8 +14,5 @@ export function withdrawOn<T>(
   notifier: Observable<any>
 ): OperatorFunction<T, T> {
   return (source: Observable<T>) =>
-    notifier.pipe(
-      startWith(undefined),
-      switchMapTo(source)
-    );
+    notifier.pipe(startWith(undefined), switchMapTo(source));
 }

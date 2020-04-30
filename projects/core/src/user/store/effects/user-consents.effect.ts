@@ -23,10 +23,10 @@ export class UserConsentsEffect {
   getConsents$: Observable<UserActions.UserConsentsAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_USER_CONSENTS),
     map((action: UserActions.LoadUserConsents) => action.payload),
-    concatMap(userId =>
+    concatMap((userId) =>
       this.userConsentConnector.loadConsents(userId).pipe(
-        map(consents => new UserActions.LoadUserConsentsSuccess(consents)),
-        catchError(error =>
+        map((consents) => new UserActions.LoadUserConsentsSuccess(consents)),
+        catchError((error) =>
           of(new UserActions.LoadUserConsentsFail(makeErrorSerializable(error)))
         )
       )
@@ -41,7 +41,7 @@ export class UserConsentsEffect {
       UserActions.GIVE_USER_CONSENT,
       UserActions.TRANSFER_ANONYMOUS_CONSENT
     ),
-    concatMap(action =>
+    concatMap((action) =>
       this.userConsentConnector
         .giveConsent(
           action.payload.userId,
@@ -49,8 +49,8 @@ export class UserConsentsEffect {
           action.payload.consentTemplateVersion
         )
         .pipe(
-          map(consent => new UserActions.GiveUserConsentSuccess(consent)),
-          catchError(error => {
+          map((consent) => new UserActions.GiveUserConsentSuccess(consent)),
+          catchError((error) => {
             const errors: Array<
               | UserActions.UserConsentsAction
               | GlobalMessageActions.RemoveMessagesByType
@@ -82,7 +82,7 @@ export class UserConsentsEffect {
     concatMap(({ userId, consentCode }) =>
       this.userConsentConnector.withdrawConsent(userId, consentCode).pipe(
         map(() => new UserActions.WithdrawUserConsentSuccess()),
-        catchError(error =>
+        catchError((error) =>
           of(
             new UserActions.WithdrawUserConsentFail(
               makeErrorSerializable(error)

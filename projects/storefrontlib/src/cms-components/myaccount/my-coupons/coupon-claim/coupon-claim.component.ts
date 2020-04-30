@@ -23,13 +23,13 @@ export class CouponClaimComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.routingService
       .getRouterState()
-      .subscribe(k => {
+      .subscribe((k) => {
         const couponCode = k.state.params.couponCode;
         if (couponCode) {
           this.couponService.claimCustomerCoupon(couponCode);
           this.subscription = this.couponService
             .getClaimCustomerCouponResultSuccess()
-            .subscribe(success => {
+            .subscribe((success) => {
               if (success) {
                 this.messageService.add(
                   { key: 'myCoupons.claimCustomerCoupon' },

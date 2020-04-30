@@ -6,7 +6,7 @@ describe('Language switch - cart page', () => {
   const deutschName = siteContextSelector.PRODUCT_NAME_CART_DE;
 
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
     cy.visit('/');
     manipulateCartQuantity();

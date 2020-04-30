@@ -6,7 +6,7 @@ export const b2cConfig: StorefrontConfig = {
   backend: {
     occ: {
       baseUrl: environment.occBaseUrl,
-      legacy: false,
+      prefix: '/occ/v2/',
     },
   },
   context: {
@@ -19,7 +19,6 @@ export const b2cConfig: StorefrontConfig = {
       'apparel-uk-spa',
     ],
   },
-
   // custom routing configuration for e2e testing
   routing: {
     routes: {
@@ -36,6 +35,10 @@ export const b2cConfig: StorefrontConfig = {
   },
   features: {
     level: '1.5',
-    anonymousConsents: true,
+  },
+  cart: {
+    selectiveCart: {
+      enabled: true,
+    },
   },
 };

@@ -136,7 +136,7 @@ describe('AsmComponentService', () => {
       asmComponentService
         .isCustomerEmulationSessionInProgress()
         .pipe(take(1))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toBe(true);
     });
 
@@ -147,7 +147,7 @@ describe('AsmComponentService', () => {
       asmComponentService
         .isCustomerEmulationSessionInProgress()
         .pipe(take(1))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toBe(false);
     });
   });

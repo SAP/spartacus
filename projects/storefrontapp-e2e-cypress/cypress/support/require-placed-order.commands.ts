@@ -15,12 +15,12 @@ declare namespace Cypress {
 }
 
 Cypress.Commands.add('requirePlacedOrder', (auth, cartId) => {
-  const apiUrl = Cypress.env('API_URL');
-
   function placeOrder() {
     return cy.request({
       method: 'POST',
-      url: `${apiUrl}/rest/v2/electronics-spa/users/current/orders?cartId=${cartId}`,
+      url: `${Cypress.env('API_URL')}/${Cypress.env(
+        'OCC_PREFIX'
+      )}/${Cypress.env('BASE_SITE')}/users/current/orders?cartId=${cartId}`,
       form: false,
       headers: {
         Authorization: `bearer ${auth.userToken.token.access_token}`,
@@ -29,5 +29,5 @@ Cypress.Commands.add('requirePlacedOrder', (auth, cartId) => {
   }
 
   cy.server();
-  placeOrder().then(resp => cy.wrap(resp));
+  placeOrder().then((resp) => cy.wrap(resp));
 });

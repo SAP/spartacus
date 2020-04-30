@@ -19,10 +19,6 @@ class MockStoreFinderListItemComponent {
   location;
 }
 
-const location = {
-  name: 'Test Name',
-};
-
 const mockActivatedRoute = {
   snapshot: {
     params: {},
@@ -90,30 +86,5 @@ describe('StoreFinderGridComponent', () => {
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
-  });
-
-  it('should route when viewStore is called without region', () => {
-    route.snapshot.params = {
-      country: countryIsoCode,
-    };
-    fixture.detectChanges();
-
-    component.viewStore(location);
-
-    expect(mockRoutingService.go).toHaveBeenCalledWith([
-      `store-finder/country/${countryIsoCode}/${location.name}`,
-    ]);
-  });
-
-  it('should create store url for route', () => {
-    route.snapshot.params = {
-      country: countryIsoCode,
-      region: regionIsoCode,
-    };
-    const result = component.prepareRouteUrl(location);
-
-    expect(result).toEqual(
-      `store-finder/country/${countryIsoCode}/region/${regionIsoCode}/${location.name}`
-    );
   });
 });

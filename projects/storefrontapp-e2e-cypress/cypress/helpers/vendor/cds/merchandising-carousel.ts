@@ -51,7 +51,7 @@ function verifyCarouselLevelMetadata(
 ): void {
   cy.wrap($merchandisingCarousel)
     .get('.data-cx-merchandising-carousel')
-    .should($merchandisingCarouselMetadata => {
+    .should(($merchandisingCarouselMetadata) => {
       expect($merchandisingCarouselMetadata)
         .to.have.attr('data-cx-merchandising-carousel-slots')
         .equal(STRATEGY_RESPONSE.products.length.toString());
@@ -75,7 +75,7 @@ function verifyCarouselItemRendered(
       .get('.price')
       .should('not.be.empty')
       .get('.data-cx-merchandising-product')
-      .should($productMetadata => {
+      .should(($productMetadata) => {
         expect($productMetadata)
           .to.have.attr('data-cx-merchandising-product-slot')
           .equal((index + 1).toString());
@@ -111,7 +111,7 @@ function verifyMerchandisingCarouselRendersProducts(): void {
      */
     .first()
     .should('be.visible')
-    .within($merchandisingCarousel => {
+    .within(($merchandisingCarousel) => {
       verifyCarouselLevelMetadata($merchandisingCarousel);
       verifyCarouselItemsRendered($merchandisingCarousel);
     });
@@ -121,7 +121,7 @@ export function verifyRequestToStrategyService(
   requestAlias: string,
   strategyRequestContext: StrategyRequestContext
 ): void {
-  cy.wait(`@${requestAlias}`).then(request => {
+  cy.wait(`@${requestAlias}`).then((request) => {
     expect(request.url).to.contain(`site=${site}`);
     expect(request.url).to.contain(
       `language=${
@@ -221,13 +221,11 @@ export function verifyMerchandisingCarouselRendersOnPDPPage(
 }
 
 export function applyFacet(facetGroup: string, facetName: string): void {
-  cy.get('.cx-facet-header')
+  cy.get('cx-facet .heading')
     .contains(facetGroup)
-    .parents('.cx-facet-group')
+    .parents('cx-facet')
     .within(() => {
-      cy.get('.cx-facet-label')
-        .contains(facetName)
-        .click();
+      cy.get('a.value').contains(facetName).click();
     });
 }
 

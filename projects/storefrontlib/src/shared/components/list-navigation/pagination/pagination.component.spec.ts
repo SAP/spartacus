@@ -116,10 +116,12 @@ describe('PaginationComponent', () => {
       });
       it('should not query parameter for current page', () => {
         component.pagination.currentPage = 2;
-        expect(component.getQueryParams({
-          type: PaginationItemType.PAGE,
-          number: 2,
-        }) as Params).toEqual({});
+        expect(
+          component.getQueryParams({
+            type: PaginationItemType.PAGE,
+            number: 2,
+          }) as Params
+        ).toEqual({});
       });
     });
   });

@@ -27,8 +27,6 @@ import { serializePageContext } from '../utils/cms-utils';
   providedIn: 'root',
 })
 export class CmsService {
-  private _launchInSmartEdit = false;
-
   private components: {
     [uid: string]: {
       [pageContext: string]: Observable<CmsComponent>;
@@ -41,27 +39,13 @@ export class CmsService {
   ) {}
 
   /**
-   * Set _launchInSmartEdit value
-   */
-  set launchInSmartEdit(value: boolean) {
-    this._launchInSmartEdit = value;
-  }
-
-  /**
-   * Whether the app launched in smart edit
-   */
-  isLaunchInSmartEdit(): boolean {
-    return this._launchInSmartEdit;
-  }
-
-  /**
    * Get current CMS page data
    */
   getCurrentPage(): Observable<Page> {
     return this.routingService
       .getPageContext()
       .pipe(
-        switchMap(pageContext =>
+        switchMap((pageContext) =>
           this.store.select(CmsSelectors.getPageData(pageContext))
         )
       );
@@ -80,7 +64,7 @@ export class CmsService {
    * @param uid CMS component uid
    * @param pageContext if provided, it will be used to lookup the component data.
    */
-  getComponentData<T extends CmsComponent>(
+  getComponentData<T extends CmsComponent | null>(
     uid: string,
     pageContext?: PageContext
   ): Observable<T> {
@@ -105,8 +89,8 @@ export class CmsService {
   ): Observable<T> {
     if (!pageContext) {
       return this.routingService.getPageContext().pipe(
-        filter(currentContext => !!currentContext),
-        switchMap(currentContext =>
+        filter((currentContext) => !!currentContext),
+        switchMap((currentContext) =>
           this.getComponentData<T>(uid, currentContext)
         )
       );
@@ -141,17 +125,13 @@ export class CmsService {
 
     const component$ = this.store.pipe(
       select(CmsSelectors.componentsSelectorFactory(uid, context)),
-      // TODO(issue:6431) - this `filter` should be removed.
-      // The reason for removal: with `filter` in place, when moving to a page that has restrictions, the component data will still emit the previous value.
-      // Removing it causes some components to fail, because they are not checking
-      // if the data is actually there. I noticed these that this component is failing, but there are possibly more:
-      // - `tab-paragraph-container.component.ts` when visiting any PDP page
-      filter(component => !!component)
-    ) as Observable<T>;
+      filter((component) => component !== undefined)
+    ) as Observable<T | null>;
 
-    return using(() => loading$.subscribe(), () => component$).pipe(
-      shareReplay({ bufferSize: 1, refCount: true })
-    );
+    return using(
+      () => loading$.subscribe(),
+      () => component$
+    ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
   }
 
   /**
@@ -159,16 +139,18 @@ export class CmsService {
    * @param position : content slot position
    */
   getContentSlot(position: string): Observable<ContentSlotData> {
-    return this.routingService.getPageContext().pipe(
-      switchMap(pageContext =>
-        this.store.pipe(
-          select(
-            CmsSelectors.getCurrentSlotSelectorFactory(pageContext, position)
-          ),
-          filter(Boolean)
+    return this.routingService
+      .getPageContext()
+      .pipe(
+        switchMap((pageContext) =>
+          this.store.pipe(
+            select(
+              CmsSelectors.getCurrentSlotSelectorFactory(pageContext, position)
+            ),
+            filter(Boolean)
+          )
         )
-      )
-    );
+      );
   }
 
   /**
@@ -205,7 +187,7 @@ export class CmsService {
     this.routingService
       .getPageContext()
       .pipe(take(1))
-      .subscribe(pageContext =>
+      .subscribe((pageContext) =>
         this.store.dispatch(new CmsActions.LoadCmsPageData(pageContext))
       );
   }
@@ -262,7 +244,7 @@ export class CmsService {
           forceReload = false;
         }
       }),
-      filter(entity => {
+      filter((entity) => {
         if (!entity.hasOwnProperty('value')) {
           // if we have incomplete state from SSR failed load transfer state,
           // we should wait for reload and actual value
@@ -280,7 +262,7 @@ export class CmsService {
    **/
   getPage(pageContext: PageContext, forceReload = false): Observable<Page> {
     return this.hasPage(pageContext, forceReload).pipe(
-      switchMap(hasPage =>
+      switchMap((hasPage) =>
         hasPage ? this.getPageState(pageContext) : of(null)
       )
     );

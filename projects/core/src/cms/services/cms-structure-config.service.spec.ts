@@ -35,7 +35,7 @@ describe('CmsStructureConfigService', () => {
       let result: CmsStructureModel;
       service
         .mergePageStructure('mockPage', mockPageStructure)
-        .subscribe(res => {
+        .subscribe((res) => {
           result = res;
         });
 
@@ -125,7 +125,7 @@ describe('CmsStructureConfigService', () => {
         let result: CmsStructureModel;
         service
           .mergePageStructure('cartPage', mockPageStructure)
-          .subscribe(res => {
+          .subscribe((res) => {
             result = res;
           });
 
@@ -140,7 +140,7 @@ describe('CmsStructureConfigService', () => {
         let result: CmsStructureModel;
         service
           .mergePageStructure('nonExistingPage', mockPageStructure)
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
 
         expect(Object.keys(result.page.slots)).toContain('GobalSlot');
         expect(Object.keys(result.page.slots).length).toEqual(1);
@@ -150,7 +150,7 @@ describe('CmsStructureConfigService', () => {
         let result: CmsStructureModel;
         service
           .mergePageStructure('hasGobalSlot', mockPageStructure)
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
 
         expect(Object.keys(result.page.slots['GobalSlot'])).not.toContain(
           'components'
@@ -161,7 +161,7 @@ describe('CmsStructureConfigService', () => {
         let result;
         service
           .shouldIgnoreBackend('cartPage')
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
         expect(result).toEqual(false);
       });
 
@@ -169,7 +169,7 @@ describe('CmsStructureConfigService', () => {
         let result;
         service
           .shouldIgnoreBackend('customPage')
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
         expect(result).toEqual(true);
       });
     });
@@ -179,7 +179,7 @@ describe('CmsStructureConfigService', () => {
         let result: CmsStructureModel;
         service
           .mergePageStructure('cartPage', mockPageStructure)
-          .subscribe(res => {
+          .subscribe((res) => {
             result = res;
           });
 
@@ -191,7 +191,7 @@ describe('CmsStructureConfigService', () => {
         let result: CmsStructureModel;
         service
           .mergePageStructure('cartPage', mockPageStructure)
-          .subscribe(res => {
+          .subscribe((res) => {
             result = res;
           });
 
@@ -206,7 +206,7 @@ describe('CmsStructureConfigService', () => {
         let component;
         service
           .getComponentFromConfig('ComponentOne')
-          .subscribe(res => (component = res));
+          .subscribe((res) => (component = res));
         expect(component).toEqual(
           globalSlotConfig.cmsStructure.components.ComponentOne
         );
@@ -215,7 +215,7 @@ describe('CmsStructureConfigService', () => {
         let component;
         service
           .getComponentFromConfig('ComponentNotInConfig')
-          .subscribe(res => (component = res));
+          .subscribe((res) => (component = res));
         expect(component).toBe(undefined);
       });
     });
@@ -225,7 +225,7 @@ describe('CmsStructureConfigService', () => {
         let components;
         service
           .getComponentsFromConfig(['ComponentOne', 'ComponentTwo'])
-          .subscribe(res => (components = res));
+          .subscribe((res) => (components = res));
 
         const expected = [
           globalSlotConfig.cmsStructure.components.ComponentOne,
@@ -242,7 +242,7 @@ describe('CmsStructureConfigService', () => {
             'ComponentNotTwo',
             'ComponentThree',
           ])
-          .subscribe(res => (components = res));
+          .subscribe((res) => (components = res));
 
         const expected = [
           globalSlotConfig.cmsStructure.components.ComponentOne,

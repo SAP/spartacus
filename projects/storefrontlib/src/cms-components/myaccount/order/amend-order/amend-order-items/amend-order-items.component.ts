@@ -21,14 +21,11 @@ export class CancelOrReturnItemsComponent {
     const control = <FormControl>(
       form.get('entries').get(entry.entryNumber.toString())
     );
-    if (this.isConfirmation) {
-      control.disable();
-    }
     return control;
   }
 
   setAll(form: FormGroup): void {
-    this.entries.forEach(entry =>
+    this.entries.forEach((entry) =>
       this.getControl(form, entry).setValue(this.getMaxAmendQuantity(entry))
     );
   }

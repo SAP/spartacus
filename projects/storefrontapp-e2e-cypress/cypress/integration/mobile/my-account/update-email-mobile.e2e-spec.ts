@@ -7,7 +7,7 @@ import { formats } from '../../../sample-data/viewports';
 
 describe(`${formats.mobile.width + 1}p resolution - Update Email Page`, () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   beforeEach(() => {

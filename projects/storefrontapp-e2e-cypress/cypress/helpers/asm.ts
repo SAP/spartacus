@@ -4,6 +4,7 @@ import * as consent from '../helpers/consent-management';
 import * as loginHelper from '../helpers/login';
 import * as profile from '../helpers/update-profile';
 import { login } from './auth-forms';
+
 let customer: any;
 
 export function asmTests(isMobile: boolean) {
@@ -65,6 +66,12 @@ export function asmTests(isMobile: boolean) {
 
     describe('Customer Emulation - My Account', () => {
       it('agent should be able to check order in order history', () => {
+        // hack: visit other page to trigger store -> local storage sync
+        cy.selectUserMenuOption({
+          option: 'Personal Details',
+          isMobile,
+        });
+        cy.waitForOrderToBePlacedRequest();
         checkout.viewOrderHistoryWithCheapProduct();
       });
 
@@ -85,14 +92,14 @@ export function asmTests(isMobile: boolean) {
           option: 'Address Book',
           isMobile,
         });
-        cy.get('cx-address-card').should('have.length', 1);
+        cy.get('cx-card').should('have.length', 1);
         addressBook.deleteFirstAddress();
-        cy.get('cx-address-card').should('have.length', 0);
+        cy.get('cx-card').should('have.length', 0);
       });
 
       it('agent should create new address', () => {
         addressBook.createNewAddress();
-        cy.get('cx-address-card').should('have.length', 1);
+        cy.get('cx-card').should('have.length', 1);
         addressBook.verifyNewAddress();
       });
 
@@ -137,7 +144,7 @@ export function asmTests(isMobile: boolean) {
       });
 
       it('agent should close the ASM UI.', () => {
-        cy.get('a[title="Close ASM"]').click();
+        cy.get('button[title="Close ASM"]').click();
         cy.get('cx-asm-main-ui').should('exist');
         cy.get('cx-asm-main-ui').should('not.be.visible');
       });
@@ -166,7 +173,7 @@ export function asmTests(isMobile: boolean) {
           option: 'Address Book',
           isMobile,
         });
-        cy.get('cx-address-card').should('have.length', 1);
+        cy.get('cx-card').should('have.length', 1);
         addressBook.verifyNewAddress();
       });
 
@@ -185,9 +192,7 @@ export function asmTests(isMobile: boolean) {
           option: 'Consent Management',
           isMobile,
         });
-        cy.get('input[type="checkbox"]')
-          .first()
-          .should('be.checked');
+        cy.get('input[type="checkbox"]').first().should('be.checked');
       });
 
       it('customer should sign out.', () => {
@@ -199,9 +204,7 @@ export function asmTests(isMobile: boolean) {
       it('asm ui should only display a message that the session in progress is a regular session.', () => {
         const loginPage = checkout.waitForPage('/login', 'getLoginPage');
         cy.visit('/login?asm=true');
-        cy.wait(`@${loginPage}`)
-          .its('status')
-          .should('eq', 200);
+        cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
         agentLogin();
         loginCustomerInStorefront();
@@ -228,7 +231,7 @@ function listenForAuthenticationRequest(): string {
   cy.route('POST', `/authorizationserver/oauth/token`).as(aliasName);
   return `@${aliasName}`;
 }
-function listenForCustomerSearchRequest(): string {
+export function listenForCustomerSearchRequest(): string {
   const aliasName = 'customerSearch';
   cy.server();
   cy.route('GET', `/assistedservicewebservices/customers/search?*`).as(
@@ -240,11 +243,14 @@ function listenForCustomerSearchRequest(): string {
 function listenForUserDetailsRequest(): string {
   const aliasName = 'userDetails';
   cy.server();
-  cy.route('GET', '/rest/v2/electronics-spa/users/*').as(aliasName);
+  cy.route(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*`
+  ).as(aliasName);
   return `@${aliasName}`;
 }
 
-function agentLogin(): void {
+export function agentLogin(): void {
   const authRequest = listenForAuthenticationRequest();
 
   cy.get('cx-csagent-login-form').should('exist');
@@ -255,9 +261,7 @@ function agentLogin(): void {
     cy.get('button[type="submit"]').click();
   });
 
-  cy.wait(authRequest)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(authRequest).its('status').should('eq', 200);
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('exist');
 }
@@ -271,16 +275,12 @@ function startCustomerEmulation(): void {
   cy.get('cx-customer-selection form').within(() => {
     cy.get('[formcontrolname="searchTerm"]').type(customer.email);
   });
-  cy.wait(customerSearchRequestAlias)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(customerSearchRequestAlias).its('status').should('eq', 200);
 
-  cy.get('cx-customer-selection div.asm-results a').click();
+  cy.get('cx-customer-selection div.asm-results button').click();
   cy.get('button[type="submit"]').click();
 
-  cy.wait(userDetailsRequestAlias)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(userDetailsRequestAlias).its('status').should('eq', 200);
   cy.get('cx-customer-emulation input')
     .invoke('attr', 'placeholder')
     .should('contain', customer.fullName);
@@ -293,17 +293,13 @@ function loginCustomerInStorefront() {
   const authRequest = listenForAuthenticationRequest();
 
   login(customer.email, customer.password);
-  cy.wait(authRequest)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(authRequest).its('status').should('eq', 200);
 }
 
 function agentSignOut() {
   const tokenRevocationAlias = loginHelper.listenForTokenRevocationReqest();
-  cy.get('a[title="Sign Out"]').click();
-  cy.wait(tokenRevocationAlias)
-    .its('status')
-    .should('eq', 200);
+  cy.get('button[title="Sign Out"]').click();
+  cy.wait(tokenRevocationAlias).its('status').should('eq', 200);
   cy.get('cx-csagent-login-form').should('exist');
   cy.get('cx-customer-selection').should('not.exist');
 }

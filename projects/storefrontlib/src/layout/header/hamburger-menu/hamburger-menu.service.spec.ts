@@ -26,7 +26,7 @@ describe('HamburgerMenuService', () => {
     let expanded: boolean;
 
     service.toggle();
-    service.isExpanded.subscribe(result => (expanded = result));
+    service.isExpanded.subscribe((result) => (expanded = result));
 
     expect(expanded).toBeTruthy();
   });
@@ -35,7 +35,7 @@ describe('HamburgerMenuService', () => {
     let expanded: boolean;
 
     service.toggle(true);
-    service.isExpanded.subscribe(result => (expanded = result));
+    service.isExpanded.subscribe((result) => (expanded = result));
 
     expect(expanded).toBeFalsy();
   });

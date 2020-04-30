@@ -17,15 +17,15 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
     }
 
     if (source.entries) {
-      target.entries = source.entries.map(entry =>
+      target.entries = source.entries.map((entry) =>
         this.convertOrderEntry(entry)
       );
     }
 
     if (source.consignments) {
-      target.consignments = source.consignments.map(consignment => ({
+      target.consignments = source.consignments.map((consignment) => ({
         ...consignment,
-        entries: consignment.entries.map(entry => ({
+        entries: consignment.entries.map((entry) => ({
           ...entry,
           orderEntry: this.convertOrderEntry(entry.orderEntry),
         })),
@@ -33,7 +33,7 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
     }
 
     if (source.unconsignedEntries) {
-      target.unconsignedEntries = source.unconsignedEntries.map(entry =>
+      target.unconsignedEntries = source.unconsignedEntries.map((entry) =>
         this.convertOrderEntry(entry)
       );
     }

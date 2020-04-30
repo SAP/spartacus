@@ -61,8 +61,8 @@ export class OccConfigLoaderService {
   loadConfig(): Promise<I18nConfig | SiteContextConfig> {
     return this.get()
       .pipe(
-        tap(externalConfig => this.transfer(externalConfig)),
-        map(externalConfig =>
+        tap((externalConfig) => this.transfer(externalConfig)),
+        map((externalConfig) =>
           deepMerge({}, ...this.getConfigChunks(externalConfig))
         )
       )
@@ -87,7 +87,7 @@ export class OccConfigLoaderService {
     return this.sitesConfigLoader
       .load()
       .pipe(
-        map(baseSites =>
+        map((baseSites) =>
           this.converter.fromOccBaseSites(baseSites, this.currentUrl)
         )
       );

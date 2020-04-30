@@ -62,6 +62,10 @@ export const common = {
     internalServerError:
       'An Internal Server Error occurred. Please try again later.',
     unknownError: 'An unknown error occurred',
+    unauthorized: {
+      common: 'An unknown authorization error occured',
+      invalid_client: 'Bad client credentials',
+    },
     validationErrors: {
       missing: {
         card_cardType:
@@ -90,13 +94,20 @@ export const common = {
       invalid: {
         card_expirationMonth:
           'The credit card expiration date entered is not valid.',
+        firstName: 'First Name entered is not valid.',
+        lastName: 'Last Name entered is not valid.',
+        password: 'Password entered is not valid.',
+        uid: 'UID is not valid.',
       },
     },
     cartNotFound: 'Cart not found.',
+    invalidCodeProvided: 'Invalid code provided.',
   },
   miniCart: {
     item: '{{count}} item currently in your cart',
     item_plural: '{{count}} items currently in your cart',
+    total: '{{total}}',
+    count: '{{count}}',
   },
   miniLogin: {
     userGreeting: 'Hi, {{name}}',
@@ -111,5 +122,15 @@ export const common = {
       productFacets: 'Product Facets',
       productList: 'Product List',
     },
+  },
+  formErrors: {
+    globalMessage: 'The form you are trying to submit contains errors.',
+    required: 'This field is required',
+    cxInvalidEmail: 'This is not a valid email format',
+    cxInvalidPassword: 'This is not a valid password format',
+    cxPasswordsMustMatch: 'Password fields must match',
+    cxEmailsMustMatch: 'Email fields must match',
+    cxStarRatingEmpty: 'Rating field is required',
+    cxNoSelectedItemToCancel: 'Select at least one item to cancel',
   },
 };

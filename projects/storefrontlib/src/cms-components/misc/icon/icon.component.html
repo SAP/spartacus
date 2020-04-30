@@ -1,5 +1,1 @@
-<ng-container *ngIf="useSvg">
-  <svg>
-    <use [attr.xlink:href]="svgPath"></use>
-  </svg>
-</ng-container>
+<i [outerHTML]="icon"></i><ng-content></ng-content>

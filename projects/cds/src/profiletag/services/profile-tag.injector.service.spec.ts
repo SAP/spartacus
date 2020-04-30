@@ -26,24 +26,24 @@ describe('ProfileTagInjector', () => {
     spartacusEventTrackerMock = <SpartacusEventService>(<unknown>{
       consentGranted: jasmine
         .createSpy('consentGranted')
-        .and.callFake(_ => consentBehavior),
+        .and.callFake(() => consentBehavior),
       navigated: jasmine
         .createSpy('navigated')
-        .and.callFake(_ => navigatedBehavior),
+        .and.callFake(() => navigatedBehavior),
       cartChanged: jasmine
         .createSpy('cartChanged')
-        .and.callFake(_ => cartBehavior),
+        .and.callFake(() => cartBehavior),
     });
     profileTagEventTrackerMock = <ProfileTagEventService>(<unknown>{
       addTracker: jasmine
         .createSpy('addTracker')
-        .and.callFake(_ => addTrackerBehavior),
+        .and.callFake(() => addTrackerBehavior),
       notifyProfileTagOfEventOccurence: jasmine.createSpy(
         'notifyProfileTagOfEventOccurence'
       ),
       getProfileTagEvents: jasmine
         .createSpy('getProfileTagEvents')
-        .and.callFake(_ => of()),
+        .and.callFake(() => of()),
     });
   }
   beforeEach(() => {

@@ -19,12 +19,12 @@ export class UpdateEmailEffects {
   > = this.actions$.pipe(
     ofType(UserActions.UPDATE_EMAIL),
     map((action: UserActions.UpdateEmailAction) => action.payload),
-    concatMap(payload =>
+    concatMap((payload) =>
       this.userAccountConnector
         .updateEmail(payload.uid, payload.password, payload.newUid)
         .pipe(
           map(() => new UserActions.UpdateEmailSuccessAction(payload.newUid)),
-          catchError(error =>
+          catchError((error) =>
             of(
               new UserActions.UpdateEmailErrorAction(
                 makeErrorSerializable(error)
