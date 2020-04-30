@@ -82,7 +82,7 @@ export function verifyEmailChannel(email: String) {
 //stock notification
 export function verifyStockNotificationAsGuest() {
   navigateToPDP(normalProductCode);
-  cy.get('.stock-notification-notes > label > a').click();
+  cy.get('.stock-notification-notes > p > a').click();
   cy.location('pathname').should('contain', '/login');
 }
 
@@ -92,7 +92,7 @@ export function navigateToPDP(productCode: string) {
 
 export function verifyStockNotificationWithoutChannel() {
   navigateToPDP(normalProductCode);
-  cy.get('.stock-notification-notes > label > a').click();
+  cy.get('.stock-notification-notes > p > a').click();
   cy.location('pathname').should('contain', '/notification-preference');
 }
 
