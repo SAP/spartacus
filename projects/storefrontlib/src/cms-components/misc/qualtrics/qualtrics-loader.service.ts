@@ -45,11 +45,9 @@ export class QualtricsLoaderService {
    */
   protected qsi$: Observable<any> = this.qsiLoaded$.pipe(
     switchMap(() => this.isDataLoaded()),
-    map(() => this.winRef.nativeWindow['QSI']),
+    map(() => this.winRef?.nativeWindow['QSI']),
     filter((api) => Boolean(api)),
-    tap((qsi) => {
-      this.qsiApi = qsi;
-    })
+    tap((qsi) => (this.qsiApi = qsi))
   );
 
   constructor(
