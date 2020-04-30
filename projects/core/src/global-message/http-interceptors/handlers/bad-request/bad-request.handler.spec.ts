@@ -55,6 +55,18 @@ const MockBadCartResponse = {
   },
 } as HttpErrorResponse;
 
+const MockBadCartResponseForSelectiveCart = {
+  error: {
+    errors: [
+      {
+        subjectType: 'cart',
+        subject: 'selectivecart-electronics-12345',
+        reason: 'notFound',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
 const MockValidationErrorResponse = {
   error: {
     errors: [
@@ -167,5 +179,10 @@ describe('BadRequestHandler', () => {
       { key: 'httpHandlers.cartNotFound' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
+  });
+
+  it('should not handle bad cart error for selective cart', () => {
+    service.handleError(MockRequest, MockBadCartResponseForSelectiveCart);
+    expect(globalMessageService.add).not.toHaveBeenCalled();
   });
 });
