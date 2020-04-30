@@ -19,7 +19,7 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
  * data is required befor the Qualtrics _creatives_ run.
  *
  * This service also supports the creation of the Qualtrics deployment script. This is optional, as
- * the script can be added in various ways.
+ * the script can be added in alternatives ways.
  */
 @Injectable({
   providedIn: 'root',
@@ -69,7 +69,7 @@ export class QualtricsLoaderService {
   /**
    * Evaluates the Qualtrics project code for the application.
    *
-   * In order to reload the evaulation in Qualtrics, the API requires to unload the API before
+   * In order to reload the evaluation in Qualtrics, the API requires to unload the API before
    * running it again. We don't do this by default, but offer a flag to conditionally unload the API.
    */
   protected run(reload = false): void {
@@ -91,10 +91,10 @@ export class QualtricsLoaderService {
   }
 
   /**
-   * Adds the deployment script to the DOM. If the deployment script is not
+   * Adds the deployment script to the DOM.
    *
-   * The script will not be added twice if it was loaded before. In that case, we _run_
-   * the Qualtrics API straight away.
+   * The script will not be added twice if it was loaded before. In that case, we use
+   * the Qualtrics API directly to _unload_ and _run_ the project.
    */
   addScript(scriptSource: string): void {
     if (this.hasScript(scriptSource)) {
@@ -122,7 +122,7 @@ export class QualtricsLoaderService {
    * Indicates if the script is already added to the DOM.
    */
   protected hasScript(source?: string): boolean {
-    return !!this.winRef.document?.querySelector(`script[src="${source}"]`);
+    return !!this.winRef.document.querySelector(`script[src="${source}"]`);
   }
 
   protected get renderer(): Renderer2 {
