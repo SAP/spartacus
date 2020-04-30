@@ -7,15 +7,13 @@
  */
 import { HttpParameterCodec } from '@angular/common/http';
 
-const ENCODED_PLUS_SIGN = /%2B/g;
-
 export class CustomEncoder implements HttpParameterCodec {
   encodeKey(key: string): string {
     return encodeURIComponent(key);
   }
 
   encodeValue(value: string): string {
-    return encodeURIComponent(value).replace(ENCODED_PLUS_SIGN, '+');
+    return encodeURIComponent(value);
   }
 
   decodeKey(key: string): string {

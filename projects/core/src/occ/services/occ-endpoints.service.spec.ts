@@ -181,7 +181,7 @@ describe('OccEndpointsService', () => {
 
       expect(url).toEqual(
         baseEndpoint +
-          '/configured-endpoint1/test-value?fields=+.%2F.%5C.%2C.%3F'
+          '/configured-endpoint1/test-value?fields=%2B.%2F.%5C.%2C.%3F'
       );
     });
   });
