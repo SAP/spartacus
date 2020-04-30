@@ -83,7 +83,6 @@ export class ConfigAddToCartButtonComponent implements OnInit {
         if (isOwnerCartEntry) {
           if (configuration.isCartEntryUpdateRequired) {
             this.configuratorCommonsService.updateCartEntry(configuration);
-            this.configuratorCommonsService.removeConfiguration(owner);
           }
           this.performNavigation(
             configuratorType,

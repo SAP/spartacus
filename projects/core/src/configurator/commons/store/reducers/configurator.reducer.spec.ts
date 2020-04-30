@@ -119,7 +119,7 @@ describe('Configurator reducer', () => {
   });
 
   describe('UpdateCartEntry action', () => {
-    it('should set attribute that states that a cart update is not required anymore', () => {
+    it('should set attribute that states that a cart update is not required anymore but an backend update is pending', () => {
       const params: Configurator.UpdateConfigurationForCartEntryParameters = {
         configuration: configuration,
       };
@@ -127,6 +127,7 @@ describe('Configurator reducer', () => {
       const state = StateReduce.reducer(undefined, action);
 
       expect(state.isCartEntryUpdateRequired).toEqual(false);
+      expect(state.isCartEntryUpdatePending).toEqual(true);
     });
   });
   describe('RemoveConfiguration action', () => {

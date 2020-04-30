@@ -54,6 +54,7 @@ export namespace Configurator {
     owner?: GenericConfigurator.Owner;
     nextOwner?: GenericConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
+    isCartEntryUpdatePending?: boolean;
   }
 
   export interface Overview {
