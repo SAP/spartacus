@@ -37,7 +37,7 @@ describe('Payment Types Selectors', () => {
       let result: PaymentType[];
       store
         .pipe(select(CheckoutSelectors.getAllPaymentTypes))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toEqual([]);
 
       store.dispatch(new CheckoutActions.LoadPaymentTypesSuccess(paymentTypes));

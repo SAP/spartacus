@@ -17,10 +17,10 @@ export class PaymentTypesEffects {
     switchMap(() => {
       return this.paymentTypeConnector.getPaymentTypes().pipe(
         map(
-          paymentTypes =>
+          (paymentTypes) =>
             new CheckoutActions.LoadPaymentTypesSuccess(paymentTypes)
         ),
-        catchError(error =>
+        catchError((error) =>
           of(
             new CheckoutActions.LoadPaymentTypesFail(
               makeErrorSerializable(error)
