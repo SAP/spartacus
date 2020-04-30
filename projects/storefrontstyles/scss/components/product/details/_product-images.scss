@@ -15,10 +15,15 @@ $productThumbSize: 75px !default;
     height: 100%;
     width: 100%; // required to support horizontal layouts
     position: relative;
+
+    img {
+      object-fit: scale-down;
+    }
   }
 
   cx-media {
     outline: none;
+    text-align: center;
 
     &.is-missing {
       min-height: 30vh;
@@ -59,6 +64,10 @@ $productThumbSize: 75px !default;
       padding: 0.5vw;
 
       cursor: pointer;
+
+      &.is-missing {
+        min-height: 80px;
+      }
 
       border: 2px solid var(--cx-color-light);
 

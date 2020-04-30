@@ -29,7 +29,7 @@ export const reducerProvider: Provider = {
 export function clearProductsState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
-  return function(state, action) {
+  return function (state, action) {
     if (
       action.type === SiteContextActions.CURRENCY_CHANGE ||
       action.type === SiteContextActions.LANGUAGE_CHANGE

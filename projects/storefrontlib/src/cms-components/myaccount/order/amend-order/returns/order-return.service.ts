@@ -30,10 +30,10 @@ export class OrderReturnService extends OrderAmendService {
 
   getEntries(): Observable<OrderEntry[]> {
     return this.getOrder().pipe(
-      filter(order => !!order.entries),
-      map(order =>
+      filter((order) => !!order.entries),
+      map((order) =>
         order.entries.filter(
-          entry => entry.entryNumber !== -1 && entry.returnableQuantity > 0
+          (entry) => entry.entryNumber !== -1 && entry.returnableQuantity > 0
         )
       )
     );
@@ -43,9 +43,9 @@ export class OrderReturnService extends OrderAmendService {
     const orderCode = this.form.value.orderCode;
     const entries = this.form.value.entries;
     const inputs: CancelOrReturnRequestEntryInput[] = Object.keys(entries)
-      .filter(entryNumber => <number>entries[entryNumber] > 0)
+      .filter((entryNumber) => <number>entries[entryNumber] > 0)
       .map(
-        entryNumber =>
+        (entryNumber) =>
           ({
             orderEntryNumber: Number(entryNumber),
             quantity: <number>entries[entryNumber],
@@ -68,8 +68,8 @@ export class OrderReturnService extends OrderAmendService {
   private afterSave(): void {
     this.returnRequestService
       .getOrderReturnRequest()
-      .pipe(first(r => !!r))
-      .subscribe(returnRequest => {
+      .pipe(first((r) => !!r))
+      .subscribe((returnRequest) => {
         const rma = returnRequest.rma;
         this.globalMessageService.add(
           {

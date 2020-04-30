@@ -69,10 +69,10 @@ export class ProductLoadingService {
 
     if (scopes.length > 1) {
       this.products[productCode][this.getScopesIndex(scopes)] = combineLatest(
-        scopes.map(scope => this.products[productCode][scope])
+        scopes.map((scope) => this.products[productCode][scope])
       ).pipe(
         auditTime(0),
-        map(productParts =>
+        map((productParts) =>
           productParts.every(Boolean)
             ? deepMerge({}, ...productParts)
             : undefined
@@ -101,11 +101,11 @@ export class ProductLoadingService {
         ProductSelectors.getSelectedProductStateFactory(productCode, scope)
       ),
       map(
-        productState =>
+        (productState) =>
           !productState.loading && !productState.success && !productState.error
       ),
       distinctUntilChanged(),
-      filter(x => x)
+      filter((x) => x)
     );
 
     const isLoading$ = this.store.pipe(

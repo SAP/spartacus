@@ -4,13 +4,13 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import {
+  ActiveCartService,
   I18nTestingModule,
   RoutesConfig,
   RoutingConfigService,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CartService } from '../../../../../../../core/src/cart/facade/cart.service';
 import { defaultStorefrontRoutesConfig } from '../../../../../cms-structure/routing/default-routing-config';
 import { CheckoutConfig } from '../../../config/checkout-config';
 import { defaultCheckoutConfig } from '../../../config/default-checkout-config';
@@ -49,7 +49,7 @@ class MockRoutingConfigService {
   }
 }
 
-class MockCartService {
+class MockActiveCartService {
   getActive(): Observable<any> {
     return of(mockActiveCart);
   }
@@ -78,7 +78,7 @@ describe('CheckoutProgressMobileTopComponent', () => {
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
       ],
     }).compileComponents();
   }));

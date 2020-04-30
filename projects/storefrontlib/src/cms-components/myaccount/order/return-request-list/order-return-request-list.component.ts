@@ -36,8 +36,8 @@ export class OrderReturnRequestListComponent implements OnDestroy {
    * TabParagraphContainerComponent. This can be read from TabParagraphContainer.
    */
   tabTitleParam$: Observable<number> = this.returnRequests$.pipe(
-    map(returnRequests => returnRequests.pagination.totalResults),
-    filter(totalResults => totalResults !== undefined),
+    map((returnRequests) => returnRequests.pagination.totalResults),
+    filter((totalResults) => totalResults !== undefined),
     take(1)
   );
 

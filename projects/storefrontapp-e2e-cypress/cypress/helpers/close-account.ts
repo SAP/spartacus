@@ -21,7 +21,10 @@ export function cancelCloseAccountAction() {
 
 export function closeAccount() {
   cy.server();
-  cy.route('DELETE', '/rest/v2/electronics-spa/users/*').as('deleteQuery');
+  cy.route(
+    'DELETE',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*`
+  ).as('deleteQuery');
 
   cy.location('pathname').should('contain', CLOSE_ACCOUNT);
 
@@ -29,9 +32,7 @@ export function closeAccount() {
 
   cy.get('cx-close-account-modal .cx-btn-group button:first-of-type').click();
 
-  cy.wait('@deleteQuery')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@deleteQuery').its('status').should('eq', 200);
 
   cy.location('pathname').should('contain', '/');
 

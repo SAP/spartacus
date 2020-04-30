@@ -121,11 +121,4 @@ describe('FooterNavigationComponent', () => {
     const navigationUI = element.query(By.css('cx-navigation-ui'));
     expect(navigationUI.nativeElement.classList).toContain('footer-styling');
   });
-
-  describe('notice', () => {
-    it('should be visible when the anonymous consents feature is NOT enabled', () => {
-      const consentPreferences = element.query(By.css('.notice'));
-      expect(consentPreferences).toBeTruthy();
-    });
-  });
 });

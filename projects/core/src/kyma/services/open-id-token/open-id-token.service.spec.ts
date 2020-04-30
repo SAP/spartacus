@@ -56,12 +56,12 @@ describe('loadOpenIdAuthenticationToken', () => {
     it('should load user token for given username and password', () => {
       service
         .loadOpenIdAuthenticationToken(username, password)
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toEqual(token);
         });
 
       const mockReq = httpMock.expectOne(
-        req => req.method === 'POST' && req.url === mockOauthEndpoint
+        (req) => req.method === 'POST' && req.url === mockOauthEndpoint
       );
 
       expect(mockReq.cancelled).toBeFalsy();

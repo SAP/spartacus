@@ -31,7 +31,7 @@ export const reducerProvider: Provider = {
 export function clearAuthState(
   reducer: ActionReducer<AuthState, Action>
 ): ActionReducer<AuthState, Action> {
-  return function(state, action) {
+  return function (state, action) {
     if (action.type === AuthActions.LOGOUT) {
       state = {
         ...state,

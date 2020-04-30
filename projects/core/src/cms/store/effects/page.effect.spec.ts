@@ -117,7 +117,7 @@ describe('Page Effects', () => {
         const action = new CmsActions.LoadCmsPageData(pageContext);
 
         const completion1 = new CmsActions.CmsGetComponentFromPage(
-          componentsMock.map(component => ({ component, pageContext }))
+          componentsMock.map((component) => ({ component, pageContext }))
         );
         const completion2 = new CmsActions.LoadCmsPageDataSuccess(
           pageContext,
@@ -160,7 +160,10 @@ describe('Page Effects', () => {
           of(mockRouterState as any)
         );
 
-        const action = new SiteContextActions.LanguageChange();
+        const action = new SiteContextActions.LanguageChange({
+          previous: 'previous',
+          current: 'current',
+        });
         const completion = new CmsActions.LoadCmsPageData(pageContext);
 
         actions$ = hot('-a', { a: action });

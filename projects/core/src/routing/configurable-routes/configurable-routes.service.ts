@@ -1,106 +1,167 @@
-import { Injectable, Injector, isDevMode } from '@angular/core';
-import { Route, Router, Routes } from '@angular/router';
-import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
+import { Injectable, InjectionToken, Injector, isDevMode } from '@angular/core';
+import { Route, Router, Routes, UrlMatcher } from '@angular/router';
+import { UrlMatcherService } from '../services/url-matcher.service';
+import { UrlMatcherFactory } from '../url-matcher/url-matcher-factory';
 import { RouteConfig } from './routes-config';
 import { RoutingConfigService } from './routing-config.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurableRoutesService {
   constructor(
-    private injector: Injector,
-    private routingConfigService: RoutingConfigService,
-    private urlMatcherFactory: UrlMatcherFactoryService
+    protected injector: Injector,
+    protected routingConfigService: RoutingConfigService,
+    protected urlMatcherService: UrlMatcherService
   ) {}
 
-  private initCalled = false; // guard not to call init() more than once
+  protected initCalled = false; // guard not to call init() more than once
 
   /**
-   * Configures all existing Routes in the Router
+   * Enhances existing Angular routes using the routing config of Spartacus.
+   * Can be called only once.
    */
   init(): void {
     if (!this.initCalled) {
       this.initCalled = true;
-      this.configureRouter();
+
+      this.configure();
     }
   }
 
-  private configureRouter() {
+  /**
+   * Enhances existing Angular routes using the routing config of Spartacus.
+   */
+  protected configure(): void {
     // Router could not be injected in constructor due to cyclic dependency with APP_INITIALIZER:
     const router = this.injector.get(Router);
-
-    const configuredRoutes = this.configureRoutes(router.config);
-
-    router.resetConfig(configuredRoutes);
+    router.resetConfig(this.configureRoutes(router.config));
   }
 
-  private configureRoutes(routes: Routes): Routes {
-    const result = [];
-    routes.forEach(route => {
+  /**
+   * Sets the property `path` or `matcher` for the given routes, based on the Spartacus' routing configuration.
+   *
+   * @param routes list of Angular `Route` objects
+   */
+  protected configureRoutes(routes: Routes): Routes {
+    return routes.map((route) => {
       const configuredRoute = this.configureRoute(route);
 
       if (route.children && route.children.length) {
         configuredRoute.children = this.configureRoutes(route.children);
       }
-      result.push(configuredRoute);
+      return configuredRoute;
     });
-    return result;
   }
 
-  private configureRoute(route: Route): Route {
+  /**
+   * Sets the property `path` or `matcher` of the `Route`, based on the Spartacus' routing configuration.
+   * Uses the property `data.cxRoute` to determine the name of the route.
+   * It's the same name used as a key in the routing configuration: `routing.routes[ROUTE NAME]`.
+   *
+   * @param route Angular `Route` object
+   */
+  protected configureRoute(route: Route): Route {
     const routeName = this.getRouteName(route);
     if (routeName) {
       const routeConfig = this.routingConfigService.getRouteConfig(routeName);
-      const paths = this.getConfiguredPaths(routeConfig, routeName, route);
-      const isDisabled = routeConfig && routeConfig.disabled;
+      this.validateRouteConfig(routeConfig, routeName, route);
 
-      if (isDisabled || !paths.length) {
+      if (routeConfig?.disabled) {
         delete route.path;
         return {
           ...route,
-          matcher: this.urlMatcherFactory.getFalsyUrlMatcher(),
+          matcher: this.urlMatcherService.getFalsy(),
         };
-      } else if (paths.length === 1) {
+      } else if (routeConfig?.matchers) {
+        delete route.path;
+        return {
+          ...route,
+          matcher: this.resolveUrlMatchers(route, routeConfig?.matchers),
+        };
+      } else if (routeConfig?.paths?.length === 1) {
         delete route.matcher;
-        return { ...route, path: paths[0] };
+        return { ...route, path: routeConfig?.paths[0] };
       } else {
         delete route.path;
         return {
           ...route,
-          matcher: this.urlMatcherFactory.getMultiplePathsUrlMatcher(paths),
+          matcher: this.urlMatcherService.getFromPaths(
+            routeConfig?.paths || []
+          ),
         };
       }
     }
     return route; // if route doesn't have a name, just pass the original route
   }
 
-  private getRouteName(route: Route): string {
+  /**
+   * Creates a single `UrlMatcher` based on given matchers and factories of matchers.
+   *
+   * @param route Route object
+   * @param matchersOrFactories `UrlMatcher`s or injection tokens with a factory functions
+   *  that create UrlMatchers based on the given route.
+   */
+  protected resolveUrlMatchers(
+    route: Route,
+    matchersOrFactories: RouteConfig['matchers']
+  ): UrlMatcher {
+    const matchers: UrlMatcher[] = matchersOrFactories.map(
+      (matcherOrFactory) => {
+        return typeof matcherOrFactory === 'function'
+          ? matcherOrFactory // matcher
+          : this.resolveUrlMatcherFactory(route, matcherOrFactory); // factory injection token
+      }
+    );
+    return this.urlMatcherService.getCombined(matchers);
+  }
+
+  /**
+   * Creates an `UrlMatcher` based on the given route, using the factory function coming from the given injection token.
+   *
+   * @param route Route object
+   * @param factoryToken injection token with a factory function that will create an UrlMatcher using given route
+   */
+  protected resolveUrlMatcherFactory(
+    route: Route,
+    factoryToken: InjectionToken<UrlMatcherFactory>
+  ): UrlMatcher {
+    const factory = this.injector.get(factoryToken);
+    return factory(route);
+  }
+
+  /**
+   * Returns the name of the Route stored in its property `data.cxRoute`
+   * @param route
+   */
+  protected getRouteName(route: Route): string {
     return route.data && route.data.cxRoute;
   }
 
-  private getConfiguredPaths(
+  protected validateRouteConfig(
     routeConfig: RouteConfig,
     routeName: string,
     route: Route
-  ): string[] {
-    if (routeConfig === undefined) {
-      this.warn(
-        `Could not configure the named route '${routeName}'`,
-        route,
-        `due to undefined key '${routeName}' in the routes config`
-      );
-      return [];
-    }
-    if (routeConfig && routeConfig.paths === undefined) {
-      this.warn(
-        `Could not configure the named route '${routeName}'`,
-        route,
-        `due to undefined 'paths' for the named route '${routeName}' in the routes config`
-      );
-      return [];
-    }
+  ) {
+    if (isDevMode()) {
+      // - null value of routeConfig or routeConfig.paths means explicit switching off the route - it's valid config
+      // - routeConfig with defined `matchers` is valid, even if `paths` are undefined
+      if (
+        routeConfig === null ||
+        routeConfig.paths === null ||
+        routeConfig?.matchers
+      ) {
+        return;
+      }
 
-    // routeConfig or routeConfig.paths can be null - which means switching off the route
-    return (routeConfig && routeConfig.paths) || [];
+      // undefined value of routeConfig or routeConfig.paths is a misconfiguration
+      if (!routeConfig?.paths) {
+        this.warn(
+          `Could not configure the named route '${routeName}'`,
+          route,
+          `due to undefined config or undefined 'paths' property for this route`
+        );
+        return;
+      }
+    }
   }
 
   private warn(...args) {

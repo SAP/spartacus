@@ -43,7 +43,7 @@ describe('ReviewService', () => {
         of([mockReview])
       );
       let result: Review[];
-      service.getByProductCode('testId').subscribe(reviews => {
+      service.getByProductCode('testId').subscribe((reviews) => {
         result = reviews;
       });
       expect(result).toEqual([mockReview]);
@@ -53,10 +53,7 @@ describe('ReviewService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(undefined)
       );
-      service
-        .getByProductCode('testId')
-        .subscribe()
-        .unsubscribe();
+      service.getByProductCode('testId').subscribe().unsubscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new ProductActions.LoadProductReviews('testId')

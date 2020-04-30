@@ -24,7 +24,7 @@ export class AsmComponentService {
     this.authService
       .getUserToken()
       .pipe(take(1))
-      .subscribe(token => {
+      .subscribe((token) => {
         if (this.asmAuthService.isCustomerEmulationToken(token)) {
           this.logoutCustomer();
         }
@@ -41,7 +41,7 @@ export class AsmComponentService {
     return this.authService
       .getUserToken()
       .pipe(
-        mergeMap(userToken =>
+        mergeMap((userToken) =>
           of(this.asmAuthService.isCustomerEmulationToken(userToken))
         )
       );

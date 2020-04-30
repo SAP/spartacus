@@ -1,4 +1,8 @@
 %cx-product-list {
+  cx-star-rating {
+    padding-top: 0;
+  }
+
   .cx-product-search-list {
     display: block;
     border-width: 0 0 1px 0;
@@ -61,6 +65,13 @@
     display: grid;
     width: 50%;
     margin: auto;
+  }
+
+  .cx-single-btn-container,
+  .cx-double-btn-container {
+    .btn-block {
+      cursor: pointer;
+    }
   }
 
   .grid-btn-padding {

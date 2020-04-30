@@ -1,4 +1,4 @@
-<form (submit)="login()" [formGroup]="form">
+<form (ngSubmit)="submitForm()" [formGroup]="loginForm">
   <div class="form-group">
     <label>
       <span class="label-content">{{
@@ -7,23 +7,11 @@
       <input
         type="email"
         class="form-control"
-        [class.is-invalid]="
-          form.controls['userId'].invalid &&
-          (form.controls['userId'].touched || form.controls['userId'].dirty)
-        "
         formControlName="userId"
         placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
       />
+      <cx-form-errors [control]="loginForm.get('userId')"></cx-form-errors>
     </label>
-    <div
-      class="invalid-feedback"
-      *ngIf="
-        form.controls['userId'].invalid &&
-        (form.controls['userId'].touched || form.controls['userId'].dirty)
-      "
-    >
-      <span>{{ 'loginForm.wrongEmailFormat' | cxTranslate }}</span>
-    </div>
   </div>
   <div class="form-group">
     <label>
@@ -36,6 +24,7 @@
         placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
         formControlName="password"
       />
+      <cx-form-errors [control]="loginForm.get('password')"></cx-form-errors>
     </label>
   </div>
   <p>
@@ -53,9 +42,9 @@
 </form>
 
 <div class="register">
-  <h3 class="cx-section-title cx-section-title-alt">
+  <p class="cx-section-title">
     {{ 'loginForm.dontHaveAccount' | cxTranslate }}
-  </h3>
+  </p>
 
   <ng-container *ngIf="!loginAsGuest">
     <a

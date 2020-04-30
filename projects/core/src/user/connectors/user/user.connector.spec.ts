@@ -6,10 +6,12 @@ import { UserConnector } from './user.connector';
 import createSpy = jasmine.createSpy;
 
 class MockUserAdapter implements UserAdapter {
-  load = createSpy('load').and.callFake(userId => of(`load-${userId}`));
+  load = createSpy('load').and.callFake((userId) => of(`load-${userId}`));
   update = createSpy('update').and.returnValue(of({}));
-  register = createSpy('register').and.callFake(userId => of(userId));
-  registerGuest = createSpy('registerGuest').and.callFake(userId => of(userId));
+  register = createSpy('register').and.callFake((userId) => of(userId));
+  registerGuest = createSpy('registerGuest').and.callFake((userId) =>
+    of(userId)
+  );
   remove = createSpy('remove').and.returnValue(of({}));
   requestForgotPasswordEmail = createSpy(
     'requestForgotPasswordEmail'
@@ -39,14 +41,14 @@ describe('UserConnector', () => {
 
   it('get should call adapter', () => {
     let result;
-    service.get('user-id').subscribe(res => (result = res));
+    service.get('user-id').subscribe((res) => (result = res));
     expect(result).toEqual('load-user-id');
     expect(adapter.load).toHaveBeenCalledWith('user-id');
   });
 
   it('update should call adapter', () => {
     let result;
-    service.update('user-id', {}).subscribe(res => (result = res));
+    service.update('user-id', {}).subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.update).toHaveBeenCalledWith('user-id', {});
   });
@@ -62,7 +64,7 @@ describe('UserConnector', () => {
       uid: 'uid',
     };
 
-    service.register(registerData).subscribe(res => (result = res));
+    service.register(registerData).subscribe((res) => (result = res));
     expect(result).toBe(registerData);
     expect(adapter.register).toHaveBeenCalledWith(registerData);
   });
@@ -70,14 +72,16 @@ describe('UserConnector', () => {
   it('registerGuest should call adapter', () => {
     let result;
 
-    service.registerGuest('guid', 'password').subscribe(res => (result = res));
+    service
+      .registerGuest('guid', 'password')
+      .subscribe((res) => (result = res));
     expect(result).toBe('guid');
     expect(adapter.registerGuest).toHaveBeenCalledWith('guid', 'password');
   });
 
   it('remove should call adapter', () => {
     let result;
-    service.remove('user-id').subscribe(res => (result = res));
+    service.remove('user-id').subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.remove).toHaveBeenCalledWith('user-id');
   });
@@ -86,14 +90,16 @@ describe('UserConnector', () => {
     let result;
     service
       .requestForgotPasswordEmail('user-id')
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.requestForgotPasswordEmail).toHaveBeenCalledWith('user-id');
   });
 
   it('resetPassword should call adapter', () => {
     let result;
-    service.resetPassword('token', 'password').subscribe(res => (result = res));
+    service
+      .resetPassword('token', 'password')
+      .subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.resetPassword).toHaveBeenCalledWith('token', 'password');
   });
@@ -102,7 +108,7 @@ describe('UserConnector', () => {
     let result;
     service
       .updateEmail('email', 'password', 'new-email')
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.updateEmail).toHaveBeenCalledWith(
       'email',
@@ -115,7 +121,7 @@ describe('UserConnector', () => {
     let result;
     service
       .updatePassword('email', 'password', 'new-password')
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.updatePassword).toHaveBeenCalledWith(
       'email',
@@ -126,7 +132,7 @@ describe('UserConnector', () => {
 
   it('getTitles should call adapter', () => {
     let result;
-    service.getTitles().subscribe(res => (result = res));
+    service.getTitles().subscribe((res) => (result = res));
     expect(result).toEqual([]);
     expect(adapter.loadTitles).toHaveBeenCalledWith();
   });

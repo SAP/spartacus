@@ -1,7 +1,37 @@
 import { verifyTabbingOrder } from '../../tabbing-order';
-import { TabElement } from '../../tabbing-order.model';
+import { TabElement, TabbingOrderTypes } from '../../tabbing-order.model';
 
 const containerSelector = '.AccountPageTemplate';
+
+const addressBookDirectoryConfig: TabElement[] = [
+  {
+    value: 'Add new address',
+    type: TabbingOrderTypes.BUTTON,
+  },
+  {
+    value: 'Edit',
+    type: TabbingOrderTypes.LINK,
+  },
+  {
+    value: 'Delete',
+    type: TabbingOrderTypes.LINK,
+  },
+];
+
+const addressBookCardConfig: TabElement[] = [
+  {
+    value: 'Set as default',
+    type: TabbingOrderTypes.LINK,
+  },
+  {
+    value: 'Edit',
+    type: TabbingOrderTypes.LINK,
+  },
+  {
+    value: 'Delete',
+    type: TabbingOrderTypes.LINK,
+  },
+];
 
 export function setupForAddressBookTests() {
   addAddress();
@@ -11,23 +41,32 @@ export function setupForAddressBookTests() {
 export function addressBookFormTabbingOrder(config: TabElement[]) {
   cy.visit('/my-account/address-book');
 
-  cy.get('.BodyContent')
-    .contains('Add new address')
-    .click();
+  cy.get('.BodyContent').contains('Add new address').click();
 
   selectCountryCanada();
 
   verifyTabbingOrder(containerSelector, config);
 }
 
-export function addressBookDirectoryTabbingOrder(config: TabElement[]) {
+export function addressBookDirectoryTabbingOrder() {
+  let config: TabElement[];
   cy.visit('/my-account/address-book');
 
-  cy.get('.BodyContent')
-    .contains('Add new address')
-    .focus();
+  config = addressBookDirectoryConfig;
 
-  verifyTabbingOrder(containerSelector, config);
+  // dynamically adding card tabbing config
+  cy.get('.cx-card')
+    .each((_, i) => {
+      // ignoring the first card, since it has a different config
+      if (i > 0) {
+        config = [...config, ...addressBookCardConfig];
+      }
+    })
+    .then(() => {
+      cy.get('.BodyContent').contains('Add new address').focus();
+
+      verifyTabbingOrder(containerSelector, config);
+    });
 }
 
 function addAddress() {
@@ -46,7 +85,7 @@ function addAddress() {
 
   let authObj;
   cy.window()
-    .then(win => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
+    .then((win) => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
     .then(({ auth }) => {
       authObj = auth;
       getAddressRequest(authObj, address, true);
@@ -57,9 +96,9 @@ function addAddress() {
 function getAddressRequest(auth, address, verify: boolean) {
   return cy.request({
     method: 'POST',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/current/addresses${
+    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/addresses${
       verify ? '/verification' : ''
     }?lang=en&curr=USD`,
     body: address,
@@ -73,7 +112,9 @@ function getAddressRequest(auth, address, verify: boolean) {
 function selectCountryCanada() {
   cy.server();
   cy.route(
-    `${Cypress.env('API_URL')}/rest/v2/electronics-spa/countries/CA/regions*`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/countries/CA/regions*`
   ).as('regions');
 
   cy.get('cx-address-book .country-select').ngSelect('Canada');

@@ -9,7 +9,7 @@ import { checkoutNextStep } from '../../helpers/accessibility/tabbing-order';
 
 context('Group Skipping - Not Logged In', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   verifyGroupSkippingFromConfig(groupSkippingConfigNotLoggedIn);

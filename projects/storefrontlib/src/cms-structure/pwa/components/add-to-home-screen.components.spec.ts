@@ -51,7 +51,7 @@ describe('AddToHomeScreenComponent', () => {
   it('should be able to get canPrompt', () => {
     component.ngOnInit();
     let canPrompt: boolean;
-    component.canPrompt$.subscribe(value => (canPrompt = value));
+    component.canPrompt$.subscribe((value) => (canPrompt = value));
     expect(canPrompt).toBeTruthy();
   });
 

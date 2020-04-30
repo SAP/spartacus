@@ -81,7 +81,9 @@
   }
 
   .cx-order-history-code {
-    text-decoration: underline;
+    .cx-order-history-value {
+      text-decoration: underline;
+    }
   }
 
   .cx-order-history-placed {

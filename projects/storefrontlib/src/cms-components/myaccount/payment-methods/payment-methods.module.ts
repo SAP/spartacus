@@ -3,20 +3,17 @@ import { NgModule } from '@angular/core';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
   I18nModule,
-  UserService,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import { CardModule } from '../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { PaymentMethodsComponent } from './payment-methods.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CardModule,
-    SpinnerModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  imports: [CommonModule, CardModule, SpinnerModule, I18nModule],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountPaymentDetailsComponent: {
           component: PaymentMethodsComponent,
@@ -24,9 +21,7 @@ import { PaymentMethodsComponent } from './payment-methods.component';
         },
       },
     }),
-    I18nModule,
   ],
-  providers: [UserService],
   declarations: [PaymentMethodsComponent],
   exports: [PaymentMethodsComponent],
   entryComponents: [PaymentMethodsComponent],

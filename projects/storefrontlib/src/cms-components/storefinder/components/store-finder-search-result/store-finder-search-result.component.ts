@@ -5,6 +5,7 @@ import {
   SearchConfig,
   StoreFinderSearchQuery,
   StoreFinderService,
+  StoreFinderConfig,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 
@@ -14,24 +15,26 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   locations: any;
-  searchQuery: StoreFinderSearchQuery;
-  locations$: Observable<any>;
-  isLoading$: Observable<any>;
-  geolocation: GeoPoint;
   subscription: Subscription;
   useMyLocation: boolean;
   countryCode: string = null;
   searchConfig: SearchConfig = {
     currentPage: 0,
   };
+  radius: number;
+  searchQuery: StoreFinderSearchQuery;
+  geolocation: GeoPoint;
+  locations$: Observable<any>;
+  isLoading$: Observable<any>;
 
   constructor(
     private storeFinderService: StoreFinderService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    protected config: StoreFinderConfig
   ) {}
 
   ngOnInit() {
-    this.subscription = this.route.queryParams.subscribe(params =>
+    this.subscription = this.route.queryParams.subscribe((params) =>
       this.initialize(params)
     );
   }
@@ -49,7 +52,8 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
       this.searchConfig,
       this.geolocation,
       this.countryCode,
-      this.useMyLocation
+      this.useMyLocation,
+      this.radius
     );
   }
 
@@ -57,12 +61,14 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
     this.searchQuery = this.parseParameters(params);
     this.useMyLocation = params && params.useMyLocation ? true : false;
     this.searchConfig = { ...this.searchConfig, currentPage: 0 };
+    this.radius = this.config.googleMaps.radius;
     this.storeFinderService.findStoresAction(
       this.searchQuery.queryText,
       this.searchConfig,
       this.geolocation,
       this.countryCode,
-      this.useMyLocation
+      this.useMyLocation,
+      this.radius
     );
 
     this.isLoading$ = this.storeFinderService.getStoresLoading();

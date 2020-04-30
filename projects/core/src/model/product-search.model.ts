@@ -35,6 +35,13 @@ export interface Facet {
   visible?: boolean;
 
   /**
+   * Indicates whether the facet group is expanded in the UI. An expanded
+   * does not necessarily show all facet value at once, this can be limited
+   * by the so-called `topValueCount`.
+   */
+  expanded?: boolean;
+
+  /**
    * Indicates the top values that will be shown instantly. The top values can be
    * controlled by business users per facet.
    */
@@ -43,8 +50,6 @@ export interface Facet {
   /**
    * The OCC backend has topValues with duplicated facet data.
    * This is not used in the UI, but normalized in the `topValueCount` property.
-   *
-   * TODO: once we implement a dedicated UI model, we should remove the `topValues`.
    */
   topValues?: FacetValue[];
 }

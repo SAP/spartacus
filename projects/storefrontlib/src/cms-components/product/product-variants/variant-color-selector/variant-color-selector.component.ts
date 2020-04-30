@@ -31,7 +31,7 @@ export class VariantColorSelectorComponent {
     return null;
   }
   getVariantOptionValue(qualifiers: VariantOptionQualifier[]) {
-    const obj = qualifiers.find(q => q.qualifier === VariantQualifier.COLOR);
+    const obj = qualifiers.find((q) => q.qualifier === VariantQualifier.COLOR);
     return obj ? obj.value : '';
   }
 }

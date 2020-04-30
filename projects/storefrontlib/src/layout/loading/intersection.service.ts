@@ -19,7 +19,7 @@ export class IntersectionService {
    * Returns an Observable that emits only once a boolean value whenever
    * the given element has shown in the view port.
    *
-   * The returned obervable will only emit the first value. The
+   * The returned observable will only emit the first value. The
    * observable must be cleaned up either way, since the value might never emit; it
    *  depends on whether the element appears in the view port.
    */
@@ -27,7 +27,7 @@ export class IntersectionService {
     element: HTMLElement,
     options?: IntersectionOptions
   ): Observable<boolean> {
-    return this.intersects(element, options).pipe(first(v => v === true));
+    return this.intersects(element, options).pipe(first((v) => v === true));
   }
 
   /**
@@ -40,12 +40,12 @@ export class IntersectionService {
    */
   private intersects(
     element: HTMLElement,
-    options?: IntersectionOptions
+    options: IntersectionOptions = {}
   ): Observable<boolean> {
-    const elementVisible$ = new Observable(observer => {
+    const elementVisible$ = new Observable((observer) => {
       const rootMargin = this.getRootMargin(options);
-      const intersectOptions = { rootMargin };
-      const intersectionObserver = new IntersectionObserver(entries => {
+      const intersectOptions = { rootMargin, thresholds: options.threshold };
+      const intersectionObserver = new IntersectionObserver((entries) => {
         observer.next(entries);
       }, intersectOptions);
       intersectionObserver.observe(element);
@@ -61,7 +61,7 @@ export class IntersectionService {
     return elementVisible$;
   }
 
-  private getRootMargin(options?: IntersectionOptions) {
+  private getRootMargin(options: IntersectionOptions = {}): string {
     if (options.rootMargin) {
       return options.rootMargin;
     }

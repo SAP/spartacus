@@ -7,6 +7,7 @@
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
     "API_URL": "https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002",
-    "ORDER_HISTORY_WAIT_TIME": 15000
+    "OCC_PREFIX": "/rest/v2",
+    "BASE_SITE": "electronics-spa"
   }
 }

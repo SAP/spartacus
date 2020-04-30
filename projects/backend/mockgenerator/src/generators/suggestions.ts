@@ -13,10 +13,10 @@ export class SuggestionsGenerator extends ClientGenerator {
   generateSuggestions() {
     const colorSuggestions = Array(20)
       .fill(1)
-      .map(val => ({ value: faker.commerce.color() }));
+      .map((val) => ({ value: faker.commerce.color() }));
     const productNameSuggestions = Array(50)
       .fill(1)
-      .map(val => ({ value: faker.commerce.productName() }));
+      .map((val) => ({ value: faker.commerce.productName() }));
     return [...colorSuggestions, ...productNameSuggestions];
   }
 }

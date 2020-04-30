@@ -3,7 +3,7 @@ const componentGenerator = require('./generate-components');
 const ENDPOINTS = require('../constants/endpoints');
 const products = require('../services/products');
 
-exports.generate = function(sites) {
+exports.generate = function (sites) {
   const data = {};
   // generate pages for each site
   for (const site of sites) {
@@ -44,7 +44,7 @@ function generateProductPage() {
 function generateHomepage() {
   const productCodes = [...products]
     .splice(0, 6)
-    .map(product => product.code)
+    .map((product) => product.code)
     .join(' ');
   const page = {
     uid: 'homepage',
@@ -96,7 +96,7 @@ function generateCartPage() {
   return page;
 }
 
-generateHomePageSlots = function() {
+generateHomePageSlots = function () {
   return [
     {
       position: 'Section1',

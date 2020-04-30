@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -7,9 +7,12 @@ import {
 import { inject, TestBed } from '@angular/core/testing';
 import { OccConfig } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
+import { defaultOccConfig } from '../../occ/config/default-occ-config';
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from './../../auth/models/token-types.model';
 import { UserTokenInterceptor } from './user-token.interceptor';
+
+const OccUrl = `https://localhost:9002${defaultOccConfig.backend.occ.prefix}test-site`;
 
 const userToken = {
   access_token: 'xxx',
@@ -30,7 +33,7 @@ const MockAuthConfig: OccConfig = {
   backend: {
     occ: {
       baseUrl: 'https://localhost:9002',
-      prefix: '/rest/v2/',
+      prefix: defaultOccConfig.backend.occ.prefix,
     },
   },
   context: {
@@ -65,11 +68,11 @@ describe('UserTokenInterceptor', () => {
     (http: HttpClient) => {
       spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
 
-      const sub: Subscription = http.get('/xxx').subscribe(result => {
+      const sub: Subscription = http.get('/xxx').subscribe((result) => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -86,13 +89,11 @@ describe('UserTokenInterceptor', () => {
     [HttpClient],
     (http: HttpClient) => {
       spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
-      const sub: Subscription = http
-        .get('https://localhost:9002/rest/v2/test-site')
-        .subscribe(result => {
-          expect(result).toBeTruthy();
-        });
+      const sub: Subscription = http.get(OccUrl).subscribe((result) => {
+        expect(result).toBeTruthy();
+      });
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -114,12 +115,12 @@ describe('UserTokenInterceptor', () => {
 
       const headers = { Authorization: 'bearer 123' };
       const sub: Subscription = http
-        .get('https://localhost:9002/rest/v2/test-site', { headers })
-        .subscribe(result => {
+        .get(OccUrl, { headers })
+        .subscribe((result) => {
           expect(result).toBeTruthy();
         });
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 

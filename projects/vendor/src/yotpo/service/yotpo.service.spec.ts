@@ -76,13 +76,13 @@ describe('YotpoService', () => {
 
   it('should fetch product data', () => {
     let result: Product;
-    service.getProduct().subscribe(product => (result = product));
+    service.getProduct().subscribe((product) => (result = product));
     expect(result).toEqual(mockProduct);
   });
 
   it('should add Yotpo init widgets script', () => {
     const yotpoScriptTester = {
-      asymmetricMatch: function(actual) {
+      asymmetricMatch: function (actual) {
         return (
           actual.type === 'text/javascript' &&
           actual.text.includes('yotpo.initWidgets()')

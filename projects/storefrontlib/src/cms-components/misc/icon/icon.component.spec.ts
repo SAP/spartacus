@@ -118,6 +118,16 @@ describe('IconComponent', () => {
       fixture.detectChanges();
       expect(service.addLinkResource).toHaveBeenCalled();
     });
+
+    it('should remove former CSS classes when changing the icon type', () => {
+      component.type = ICON_TYPE.EXPAND;
+      component.type = ICON_TYPE.COLLAPSE;
+      fixture.detectChanges();
+      const classList = (debugElement.nativeElement as HTMLElement).classList;
+      expect(classList).toContain('cx-icon');
+      expect(classList).not.toContain('EXPAND');
+      expect(classList).toContain('COLLAPSE');
+    });
   });
 });
 

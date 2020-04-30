@@ -2,7 +2,7 @@ import * as notification from '../../../helpers/notification';
 
 describe('Stock Notification for Guest', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });
   it('should login first when guest want to subcribe notification', () => {
@@ -12,7 +12,7 @@ describe('Stock Notification for Guest', () => {
 
 describe('Stock Notification for Customer', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
     cy.visit('/');
   });

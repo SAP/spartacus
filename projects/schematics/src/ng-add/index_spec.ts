@@ -3,6 +3,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
+import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { UTF_8 } from '../shared/constants';
 import { getPathResultsForFile } from '../shared/utils/file-utils';
 
@@ -29,10 +30,8 @@ describe('Spartacus Schematics: ng-add', () => {
     projectRoot: '',
   };
 
-  const defaultOptions = {
+  const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    target: 'build',
-    configuration: 'production',
   };
 
   beforeEach(async () => {
@@ -116,25 +115,20 @@ describe('Spartacus Schematics: ng-add', () => {
         .runSchematicAsync('ng-add', { ...defaultOptions, ssr: true }, appTree)
         .toPromise();
 
-      const appMainServerFilePath = getPathResultsForFile(
-        appTree,
-        'main.server.ts',
-        '/src'
-      )[0];
-
       const polyfillsPath = getPathResultsForFile(
         appTree,
         'polyfills.ts',
         '/src'
       )[0];
-      const buffer = tree.read(appMainServerFilePath);
+
+      const buffer = tree.read('./server.ts');
       const polyfillsBuffer = tree.read(polyfillsPath);
       expect(buffer).toBeTruthy();
       expect(polyfillsBuffer).toBeTruthy();
       if (buffer) {
-        const appMainServer = buffer.toString(UTF_8);
+        const appServerTsFileString = buffer.toString(UTF_8);
         expect(
-          appMainServer.includes("import '@angular/localize/init'")
+          appServerTsFileString.includes("import '@angular/localize/init'")
         ).toBeTruthy();
       }
       if (polyfillsBuffer) {

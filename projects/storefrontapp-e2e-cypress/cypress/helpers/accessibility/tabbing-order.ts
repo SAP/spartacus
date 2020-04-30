@@ -11,6 +11,10 @@ export const testProductListUrl = '/Brands/all/c/brands?currentPage=1';
 export function verifyTabElement(tabElement: TabElement) {
   // Check generic cases without value
   switch (tabElement.type) {
+    case TabbingOrderTypes.GENERIC_ELEMENT: {
+      cy.focused().should('exist');
+      return;
+    }
     case TabbingOrderTypes.GENERIC_CHECKBOX: {
       cy.focused().should('have.attr', 'type', 'checkbox');
       return;
@@ -20,10 +24,8 @@ export function verifyTabElement(tabElement: TabElement) {
       return;
     }
     case TabbingOrderTypes.GENERIC_INPUT: {
-      cy.focused()
-        .should('have.prop', 'tagName')
-        .should('eq', 'INPUT');
-      break;
+      cy.focused().should('have.prop', 'tagName').should('eq', 'INPUT');
+      return;
     }
     case TabbingOrderTypes.GENERIC_NG_SELECT: {
       cy.focused().should('have.attr', 'type', 'ng-select');
@@ -33,8 +35,8 @@ export function verifyTabElement(tabElement: TabElement) {
       cy.focused()
         .should('have.class', 'cx-product-layout')
         .should('have.prop', 'tagName')
-        .should('eq', 'DIV');
-      break;
+        .should('eq', 'BUTTON');
+      return;
     }
   }
 
@@ -50,7 +52,7 @@ export function verifyTabElement(tabElement: TabElement) {
 
     cy.focused()
       .invoke('text')
-      .then(text => {
+      .then((text) => {
         expect(text).to.match(regexp);
       });
   };
@@ -58,15 +60,15 @@ export function verifyTabElement(tabElement: TabElement) {
   switch (tabElement.type) {
     case TabbingOrderTypes.FORM_FIELD: {
       cy.focused().should('have.attr', 'formcontrolname', tabElement.value);
-      break;
+      return;
     }
     case TabbingOrderTypes.LINK: {
       regexpCheck(tabElement.value as string);
-      break;
+      return;
     }
     case TabbingOrderTypes.BUTTON: {
       cy.focused().should('contain', tabElement.value);
-      break;
+      return;
     }
     case TabbingOrderTypes.NG_SELECT: {
       cy.focused()
@@ -74,61 +76,48 @@ export function verifyTabElement(tabElement: TabElement) {
         .last()
         .parent()
         .should('have.attr', 'formcontrolname', tabElement.value);
-      break;
+      return;
     }
     case TabbingOrderTypes.CHECKBOX_WITH_LABEL: {
-      cy.focused()
-        .parent()
-        .should('contain', tabElement.value);
-      break;
+      cy.focused().parent().should('contain', tabElement.value);
+      return;
     }
     case TabbingOrderTypes.IMG_LINK: {
       cy.focused().should('have.attr', 'href', tabElement.value);
-      break;
+      return;
     }
     case TabbingOrderTypes.RADIO: {
       cy.focused()
         .should('have.attr', 'type', 'radio')
         .should('have.attr', 'formcontrolname', tabElement.value);
-      break;
+      return;
     }
     case TabbingOrderTypes.H3: {
       cy.focused().should('contain', tabElement.value);
       return;
     }
     case TabbingOrderTypes.CX_MEDIA: {
-      cy.focused()
-        .find('img')
-        .should('have.attr', 'alt', tabElement.value);
+      cy.focused().find('img').should('have.attr', 'alt', tabElement.value);
       return;
     }
     case TabbingOrderTypes.CX_ICON: {
-      cy.focused()
-        .should('have.prop', 'tagName')
-        .should('eq', 'CX_ICON');
+      cy.focused().should('have.prop', 'tagName').should('eq', 'CX_ICON');
       return;
     }
     case TabbingOrderTypes.SELECT: {
-      cy.focused()
-        .get('select')
-        .parent()
-        .should('contain', tabElement.value);
-      break;
+      cy.focused().get('select').parent().should('contain', tabElement.value);
+      return;
     }
     case TabbingOrderTypes.NAV_CATEGORY_DROPDOWN: {
-      cy.focused()
-        .parent()
-        .should('contain', tabElement.value);
-      break;
+      cy.focused().parent().should('contain', tabElement.value);
+      return;
     }
     case TabbingOrderTypes.INDEX_OF_ELEMENT: {
       const selector = tabElement.value[0];
       const index = tabElement.value[1];
 
-      cy.focused().then(focusedElement => {
-        cy.get(selector)
-          .eq(index)
-          .should('match', focusedElement.get()[0]);
+      cy.focused().then((focusedElement) => {
+        cy.get(selector).eq(index).should('match', focusedElement.get()[0]);
       });
     }
   }
@@ -140,15 +129,13 @@ export function verifyTabbingOrder(
 ) {
   cy.get(containerSelector)
     .find(focusableSelectors.join(','))
-    .then(focusableElements =>
+    .then((focusableElements) =>
       focusableElements.filter((_, element) => element.offsetParent != null)
     )
     .as('children')
     .should('have.length', elements.length);
 
-  cy.get('@children')
-    .first()
-    .focus();
+  cy.get('@children').first().focus();
 
   elements.forEach((element: TabElement, index: number) => {
     // skip tabbing on first element
@@ -187,10 +174,11 @@ export function registerAndLogin(): void {
   cy.wait(`@${homePage}`);
 }
 
-export function addProduct(): void {
+export function addProduct(productCode?: string): void {
   const cartPage = waitForPage('/cart', 'getCartPage');
+  const productUrl = productCode ? `/product/${productCode}` : testProductUrl;
 
-  cy.visit(testProductUrl);
+  cy.visit(productUrl);
   cy.getAllByText(/Add to cart/i)
     .first()
     .click();
@@ -204,8 +192,6 @@ export function addProduct(): void {
 
 export function checkoutNextStep(url: string) {
   const nextStep = waitForPage(url, 'getNextStep');
-  cy.getAllByText('Continue')
-    .first()
-    .click();
+  cy.getAllByText('Continue').first().click();
   cy.wait(`@${nextStep}`);
 }
