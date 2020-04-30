@@ -36,7 +36,8 @@ if (!environment.production) {
     B2cStorefrontModule.withConfig({
       backend: {
         occ: {
-          baseUrl: environment.occBaseUrl,
+          baseUrl:
+            'https://cds-1905-k8s-us.prod.argonauts.cd.ydev.hybris.com:9002',
           prefix: '/rest/v2/',
         },
       },

@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, using } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
   shareReplay,
   switchMap,
+  switchMapTo,
   tap,
-  withLatestFrom,
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingProduct } from '../../model';
@@ -31,7 +31,7 @@ export class MerchandisingCarouselComponent {
     protected el: ElementRef
   ) {}
 
-  merchandisingCarouselModel$: Observable<
+  private merchandisingCarouselModel$: Observable<
     MerchandisingCarouselModel
   > = this.componentData.data$.pipe(
     filter((data) => Boolean(data)),
@@ -55,13 +55,13 @@ export class MerchandisingCarouselComponent {
         );
       }
     }),
-    shareReplay({ refCount: true })
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  intersectionEvent$: Observable<
-    [boolean, MerchandisingCarouselModel]
+  private intersectionEvent$: Observable<
+    boolean
   > = this.routingService.getPageContext().pipe(
-    switchMap((_) => this.componentData.data$),
+    switchMapTo(this.componentData.data$),
     filter((data) => Boolean(data)),
     switchMap((data) =>
       this.merchandisingCarouselComponentService.getMerchandisingCaourselViewportThreshold(
@@ -75,14 +75,18 @@ export class MerchandisingCarouselComponent {
         })
         .pipe(
           filter((carouselIsVisible) => carouselIsVisible),
-          withLatestFrom(this.merchandisingCarouselModel$),
-          tap(([_, carouselModel]) =>
+          tap((_) =>
             this.merchandisingCarouselComponentService.sendCarouselViewEvent(
-              carouselModel
+              this.merchandisingCarouselModel$
             )
           )
         )
     )
+  );
+
+  ultimate$ = using(
+    () => this.intersectionEvent$.subscribe(),
+    () => this.merchandisingCarouselModel$
   );
 
   onMerchandisingCarouselItemClick(

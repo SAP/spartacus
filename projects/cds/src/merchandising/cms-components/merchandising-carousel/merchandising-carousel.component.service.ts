@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ProductService } from '@spartacus/core';
 import { combineLatest, EMPTY, Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map, switchMap, switchMapTo, tap } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsConfig } from '../../../config';
 import { ProfileTagEventService } from '../../../profiletag';
@@ -76,24 +76,29 @@ export class MerchandisingCarouselComponentService {
   }
 
   sendCarouselViewEvent(
-    merchandisingCarouselModel: MerchandisingCarouselModel
-  ): void {
-    const carouselEvent: CarouselEvent = this.getCarouselEventFromCarouselModel(
-      merchandisingCarouselModel
-    );
-    const productSkus: string[] = [];
-    merchandisingCarouselModel.items$.forEach((merchandisingProduct$) =>
-      merchandisingProduct$
-        .pipe(
-          filter((merchandisingProduct) => Boolean(merchandisingProduct.code))
+    merchandisingCarouselModel$: Observable<MerchandisingCarouselModel>
+  ): Observable<void> {
+    return merchandisingCarouselModel$.pipe(
+      switchMap((model) =>
+        combineLatest(model.items$).pipe(
+          map((items) => ({
+            ...model,
+            items: items.map((item) => item.code),
+          })),
+          tap((merchandisingCarouselModel) => {
+            const carouselEvent: CarouselEvent = this.getCarouselEventFromCarouselModel(
+              merchandisingCarouselModel
+            );
+            this.profileTagEventService.notifyProfileTagOfEventOccurence(
+              new MerchandisingCarouselViewed(
+                carouselEvent,
+                merchandisingCarouselModel.items
+              )
+            );
+          }),
+          switchMapTo(of())
         )
-        .subscribe((merchandisingProduct) =>
-          productSkus.push(merchandisingProduct.code)
-        )
-    );
-
-    this.profileTagEventService.notifyProfileTagOfEventOccurence(
-      new MerchandisingCarouselViewed(carouselEvent, productSkus)
+      )
     );
   }
 
