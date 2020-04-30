@@ -1,5 +1,10 @@
 import { PaymentType } from '../../../model/cart.model';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import {
+  EntityFailAction,
+  EntityLoadAction,
+  EntitySuccessAction,
+  EntityLoaderResetAction,
+} from '../../../state/utils/entity-loader/entity-loader.action';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import { GET_PAYMENT_TYPES_PROCESS_ID } from '../checkout-state';
 
@@ -10,28 +15,28 @@ export const LOAD_PAYMENT_TYPES_SUCCESS =
 export const RESET_LOAD_PAYMENT_TYPES_PROCESS_ID =
   '[Checkout] Reset Load Payment Type Process';
 
-export class LoadPaymentTypes extends StateEntityLoaderActions.EntityLoadAction {
+export class LoadPaymentTypes extends EntityLoadAction {
   readonly type = LOAD_PAYMENT_TYPES;
   constructor() {
     super(PROCESS_FEATURE, GET_PAYMENT_TYPES_PROCESS_ID);
   }
 }
 
-export class LoadPaymentTypesFail extends StateEntityLoaderActions.EntityFailAction {
+export class LoadPaymentTypesFail extends EntityFailAction {
   readonly type = LOAD_PAYMENT_TYPES_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, GET_PAYMENT_TYPES_PROCESS_ID);
   }
 }
 
-export class LoadPaymentTypesSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class LoadPaymentTypesSuccess extends EntitySuccessAction {
   readonly type = LOAD_PAYMENT_TYPES_SUCCESS;
   constructor(public payload: PaymentType[]) {
     super(PROCESS_FEATURE, GET_PAYMENT_TYPES_PROCESS_ID);
   }
 }
 
-export class ResetLoadPaymentTypeProcess extends StateEntityLoaderActions.EntityResetAction {
+export class ResetLoadPaymentTypeProcess extends EntityLoaderResetAction {
   readonly type = RESET_LOAD_PAYMENT_TYPES_PROCESS_ID;
   constructor() {
     super(PROCESS_FEATURE, GET_PAYMENT_TYPES_PROCESS_ID);
