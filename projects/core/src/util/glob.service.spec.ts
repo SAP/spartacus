@@ -6,7 +6,7 @@ describe('GlobService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.get(GlobService);
+    service = TestBed.inject(GlobService);
   });
 
   describe('getValidator', () => {
@@ -44,7 +44,7 @@ describe('GlobService', () => {
         },
       ];
 
-      testCases.forEach(testCase => test_matcher(patterns, testCase));
+      testCases.forEach((testCase) => test_matcher(patterns, testCase));
     });
 
     describe('should return matcher for wildcard negative pattern with positive exceptions', () => {
@@ -69,7 +69,7 @@ describe('GlobService', () => {
         },
       ];
 
-      testCases.forEach(testCase => test_matcher(patterns, testCase));
+      testCases.forEach((testCase) => test_matcher(patterns, testCase));
     });
   });
 });

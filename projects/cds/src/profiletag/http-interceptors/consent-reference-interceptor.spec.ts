@@ -1,24 +1,23 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '@spartacus/core';
 import { ProfileTagEventService } from '../services/profiletag-event.service';
 import { ConsentReferenceInterceptor } from './consent-reference-interceptor';
 
 describe('consent reference interceptor', () => {
-  const ProfileTagEventTrackerMock = {
-    get latestConsentReference() {
-      return null;
-    },
-  };
+  let ProfileTagEventTrackerMock;
   const occEndPointsMock = {
     getBaseEndpoint: () => '/occ',
   };
   beforeEach(() => {
+    ProfileTagEventTrackerMock = {
+      latestConsentReference: null,
+    };
+
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
@@ -42,9 +41,7 @@ describe('consent reference interceptor', () => {
   it('Should modify the x-consent-reference header if there is a consent-reference', inject(
     [HttpClient, HttpTestingController],
     (http: HttpClient, mock: HttpTestingController) => {
-      const injectorMock = TestBed.get(ProfileTagEventService as Type<
-        ProfileTagEventService
-      >);
+      const injectorMock = TestBed.inject(ProfileTagEventService);
       injectorMock.latestConsentReference = 'test-123-abc-!@#';
       let response;
       http
@@ -53,10 +50,10 @@ describe('consent reference interceptor', () => {
             testHeader: 'test',
           },
         })
-        .subscribe(res => (response = res));
+        .subscribe((res) => (response = res));
       mock
         .expectOne(
-          req =>
+          (req) =>
             req.headers.has('testHeader') &&
             req.headers.has('X-Consent-Reference') &&
             req.headers.get('X-Consent-Reference') === 'test-123-abc-!@#'
@@ -77,10 +74,10 @@ describe('consent reference interceptor', () => {
             testHeader: 'test',
           },
         })
-        .subscribe(res => (response = res));
+        .subscribe((res) => (response = res));
       mock
         .expectOne(
-          req =>
+          (req) =>
             req.headers.has('testHeader') &&
             !req.headers.has('X-Consent-Reference')
         )
@@ -93,9 +90,7 @@ describe('consent reference interceptor', () => {
   it('Should not add the x-consent-reference header if url is not occ', inject(
     [HttpClient, HttpTestingController],
     (http: HttpClient, mock: HttpTestingController) => {
-      const injector = TestBed.get(ProfileTagEventService as Type<
-        ProfileTagEventService
-      >);
+      const injector = TestBed.inject(ProfileTagEventService);
       injector.profileTagDebug = true;
       let response;
       http
@@ -104,10 +99,10 @@ describe('consent reference interceptor', () => {
             testHeader: 'test',
           },
         })
-        .subscribe(res => (response = res));
+        .subscribe((res) => (response = res));
       mock
         .expectOne(
-          req =>
+          (req) =>
             req.headers.has('testHeader') &&
             !req.headers.has('X-Consent-Reference')
         )

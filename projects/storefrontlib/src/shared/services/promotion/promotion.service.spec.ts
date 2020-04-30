@@ -1,16 +1,15 @@
-import { PromotionService } from './promotion.service';
+import { TestBed } from '@angular/core/testing';
 import {
-  CartService,
-  CheckoutService,
+  ActiveCartService,
   Cart,
-  PromotionResult,
+  CheckoutService,
   Order,
   PromotionLocation,
+  PromotionResult,
 } from '@spartacus/core';
 import { OrderDetailsService } from 'projects/storefrontlib/src/cms-components';
-import { TestBed } from '@angular/core/testing';
-import { Type } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { PromotionService } from './promotion.service';
 
 const mockAppliedProductPromotions: PromotionResult[] = [
   {
@@ -161,7 +160,7 @@ const mockCheckoutDetails: Order = {
   appliedProductPromotions: mockAppliedProductPromotions,
 };
 
-class MockCartService {
+class MockActiveCartService {
   getActive(): Observable<Cart> {
     return of(mockCart);
   }
@@ -187,8 +186,8 @@ describe('PromotionService', () => {
       providers: [
         PromotionService,
         {
-          provide: CartService,
-          useClass: MockCartService,
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
         {
           provide: CheckoutService,
@@ -201,7 +200,7 @@ describe('PromotionService', () => {
       ],
     });
 
-    promotionService = TestBed.get(PromotionService as Type<PromotionService>);
+    promotionService = TestBed.inject(PromotionService);
   });
 
   it('should inject service', () => {
@@ -226,7 +225,7 @@ describe('PromotionService', () => {
       it('should return appropriate applied order promotions for cart', () => {
         promotionService
           .getOrderPromotions(promotionLocation)
-          .subscribe(promotions => (appliedOrderPromotions = promotions))
+          .subscribe((promotions) => (appliedOrderPromotions = promotions))
           .unsubscribe();
         expect(appliedOrderPromotions).toEqual(expectedAppliedOrderPromotions);
       });
@@ -249,7 +248,7 @@ describe('PromotionService', () => {
       it('should return appropriate applied order promotions for checkout', () => {
         promotionService
           .getOrderPromotions(promotionLocation)
-          .subscribe(promotions => (appliedOrderPromotions = promotions))
+          .subscribe((promotions) => (appliedOrderPromotions = promotions))
           .unsubscribe();
         expect(appliedOrderPromotions).toEqual(expectedAppliedOrderPromotions);
       });
@@ -272,7 +271,7 @@ describe('PromotionService', () => {
       it('should return appropriate applied order promotions for order', () => {
         promotionService
           .getOrderPromotions(promotionLocation)
-          .subscribe(promotions => (appliedOrderPromotions = promotions))
+          .subscribe((promotions) => (appliedOrderPromotions = promotions))
           .unsubscribe();
         expect(appliedOrderPromotions).toEqual(expectedAppliedOrderPromotions);
       });

@@ -1,4 +1,4 @@
-import { Component, NgZone, Type } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -61,9 +61,9 @@ describe('Router Reducer', () => {
       ],
     });
 
-    zone = TestBed.get(NgZone as Type<NgZone>);
-    store = TestBed.get(Store as Type<Store<any>>);
-    router = TestBed.get(Router as Type<Router>);
+    zone = TestBed.inject(NgZone);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
   });
 
   describe('Default/undefined action', () => {
@@ -168,7 +168,7 @@ describe('Router Reducer', () => {
 
   it('should return the router state', async () => {
     let routerReducer;
-    store.subscribe(routerStore => {
+    store.subscribe((routerStore) => {
       routerReducer = routerStore.router;
     });
 
@@ -204,7 +204,7 @@ describe('Router Reducer', () => {
     let context;
 
     beforeEach(async () => {
-      store.subscribe(routerStore => {
+      store.subscribe((routerStore) => {
         context = routerStore.router.state.context;
       });
     });

@@ -54,9 +54,9 @@ export function getReducers(): ActionReducerMap<CmsState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<CmsState>
-> = new InjectionToken<ActionReducerMap<CmsState>>('CmsReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<
+  CmsState
+>> = new InjectionToken<ActionReducerMap<CmsState>>('CmsReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
@@ -66,7 +66,7 @@ export const reducerProvider: Provider = {
 export function clearCmsState(
   reducer: ActionReducer<StateWithCms, Action>
 ): ActionReducer<StateWithCms, Action> {
-  return function(state, action) {
+  return function (state, action) {
     if (
       action.type === SiteContextActions.LANGUAGE_CHANGE ||
       action.type === AuthActions.LOGOUT ||

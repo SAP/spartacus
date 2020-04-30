@@ -16,7 +16,7 @@ import { WishListItemComponent } from './wish-list-item.component';
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
 })
-export class MockAddToCartComponent {
+class MockAddToCartComponent {
   @Input() product;
   @Input() showQuantity;
 }
@@ -25,7 +25,7 @@ export class MockAddToCartComponent {
   selector: 'cx-media',
   template: 'mock picture component',
 })
-export class MockPictureComponent {
+class MockPictureComponent {
   @Input() container;
   @Input() alt;
 }

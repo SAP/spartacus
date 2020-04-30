@@ -1,12 +1,13 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { take } from 'rxjs/operators';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { CartActions } from '../store/actions';
-import * as DeprecatedCartActions from '../store/actions/cart.action';
-import { StateWithMultiCart } from '../store/multi-cart-state';
+import {
+  MULTI_CART_FEATURE,
+  StateWithMultiCart,
+} from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
 
 const testCart: Cart = {
@@ -34,15 +35,15 @@ describe('MultiCartService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          'multi-cart',
+          MULTI_CART_FEATURE,
           fromReducers.getMultiCartReducers()
         ),
       ],
       providers: [MultiCartService],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithMultiCart>>);
-    service = TestBed.get(MultiCartService as Type<MultiCartService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(MultiCartService);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -50,19 +51,20 @@ describe('MultiCartService', () => {
   describe('getCart', () => {
     it('should return cart with given id', () => {
       let result;
-      service.getCart('xxx').subscribe(cart => {
+      service.getCart('xxx').subscribe((cart) => {
         result = cart;
       });
 
       expect(result).toEqual(undefined);
 
       store.dispatch(
-        new CartActions.LoadMultiCartSuccess({
+        new CartActions.LoadCartSuccess({
           userId: 'userId',
           extraData: {
             active: true,
           },
           cart: testCart,
+          cartId: testCart.code,
         })
       );
 
@@ -73,7 +75,7 @@ describe('MultiCartService', () => {
   describe('getCartEntity', () => {
     it('should return cart entity with given id', () => {
       let result;
-      service.getCartEntity('xxx').subscribe(cartEntity => {
+      service.getCartEntity('xxx').subscribe((cartEntity) => {
         result = cartEntity;
       });
 
@@ -86,12 +88,13 @@ describe('MultiCartService', () => {
       });
 
       store.dispatch(
-        new CartActions.LoadMultiCartSuccess({
+        new CartActions.LoadCartSuccess({
           userId: 'userId',
           extraData: {
             active: true,
           },
           cart: testCart,
+          cartId: testCart.code,
         })
       );
 
@@ -106,35 +109,36 @@ describe('MultiCartService', () => {
   });
 
   describe('isStable', () => {
-    it('should return true when cart is stable', done => {
+    it('should return true when cart is stable', (done) => {
       store.dispatch(
-        new CartActions.LoadMultiCartSuccess({
+        new CartActions.LoadCartSuccess({
           userId: 'userId',
           extraData: {
             active: true,
           },
           cart: testCart,
+          cartId: testCart.code,
         })
       );
       service
         .isStable('xxx')
         .pipe(take(1))
-        .subscribe(isStable => {
+        .subscribe((isStable) => {
           expect(isStable).toBe(true);
           done();
         });
     });
 
-    it('should return false when there are pending processes', done => {
+    it('should return false when there are pending processes', (done) => {
       store.dispatch(
-        new CartActions.LoadMultiCart({
+        new CartActions.LoadCart({
           userId: 'userId',
           cartId: 'xxx',
         })
       );
       service
         .isStable('cartId')
-        .subscribe(isStable => {
+        .subscribe((isStable) => {
           expect(isStable).toBe(false);
           done();
         })
@@ -148,12 +152,12 @@ describe('MultiCartService', () => {
 
       const results = [];
 
-      service.createCart({ userId: 'userId' }).subscribe(cart => {
+      service.createCart({ userId: 'userId' }).subscribe((cart) => {
         results.push(cart);
       });
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.CreateCart({
+        new CartActions.CreateCart({
           userId: 'userId',
           extraData: undefined,
           oldCartId: undefined,
@@ -163,7 +167,7 @@ describe('MultiCartService', () => {
       );
 
       expect(results[0]).toEqual({
-        loading: false,
+        loading: true,
         error: false,
         success: false,
         value: undefined,
@@ -198,7 +202,7 @@ describe('MultiCartService', () => {
       });
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.MergeCart({
+        new CartActions.MergeCart({
           userId: 'userId',
           extraData: {},
           cartId: 'cartId',
@@ -219,7 +223,7 @@ describe('MultiCartService', () => {
       });
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.LoadCart({
+        new CartActions.LoadCart({
           cartId: 'cartId',
           userId: 'userId',
           extraData: {
@@ -233,19 +237,20 @@ describe('MultiCartService', () => {
   describe('getEntries', () => {
     it('should return cart entries', () => {
       let result;
-      service.getEntries('xxx').subscribe(cart => {
+      service.getEntries('xxx').subscribe((cart) => {
         result = cart;
       });
 
       expect(result).toEqual([]);
 
       store.dispatch(
-        new CartActions.LoadMultiCartSuccess({
+        new CartActions.LoadCartSuccess({
           userId: 'userId',
           extraData: {
             active: true,
           },
           cart: testCart,
+          cartId: testCart.code,
         })
       );
 
@@ -302,7 +307,7 @@ describe('MultiCartService', () => {
         new CartActions.CartRemoveEntry({
           cartId: 'cartId',
           userId: 'userId',
-          entry: 0,
+          entryNumber: '0',
         })
       );
     });
@@ -316,8 +321,8 @@ describe('MultiCartService', () => {
         new CartActions.CartUpdateEntry({
           userId: 'userId',
           cartId: 'cartId',
-          entry: 0,
-          qty: 2,
+          entryNumber: '0',
+          quantity: 2,
         })
       );
     });
@@ -336,19 +341,20 @@ describe('MultiCartService', () => {
       let result;
       service
         .getEntry('xxx', testCart.entries[0].product.code)
-        .subscribe(cart => {
+        .subscribe((cart) => {
           result = cart;
         });
 
       expect(result).toEqual(undefined);
 
       store.dispatch(
-        new CartActions.LoadMultiCartSuccess({
+        new CartActions.LoadCartSuccess({
           userId: 'userId',
           extraData: {
             active: true,
           },
           cart: testCart,
+          cartId: testCart.code,
         })
       );
 
@@ -361,7 +367,7 @@ describe('MultiCartService', () => {
       service.assignEmail('cartId', 'userId', 'test@email.com');
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.AddEmailToCart({
+        new CartActions.AddEmailToCart({
           userId: 'userId',
           cartId: 'cartId',
           email: 'test@email.com',
@@ -375,7 +381,7 @@ describe('MultiCartService', () => {
       service.deleteCart('cartId', 'userId');
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        new DeprecatedCartActions.DeleteCart({
+        new CartActions.DeleteCart({
           userId: 'userId',
           cartId: 'cartId',
         })

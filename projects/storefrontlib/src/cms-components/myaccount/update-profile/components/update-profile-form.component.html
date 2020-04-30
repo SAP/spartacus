@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form (ngSubmit)="onSubmit()" [formGroup]="updateProfileForm">
   <div class="form-group row">
     <div class="col-md-12">
       <label>
@@ -28,13 +28,10 @@
             'updateProfileForm.firstName.placeholder' | cxTranslate
           }}"
           formControlName="firstName"
-          [class.is-invalid]="isNotValid('firstName')"
         />
-        <div class="invalid-feedback" *ngIf="isNotValid('firstName')">
-          <span>{{
-            'updateProfileForm.firstNameIsRequired' | cxTranslate
-          }}</span>
-        </div>
+        <cx-form-errors
+          [control]="updateProfileForm.get('firstName')"
+        ></cx-form-errors>
       </label>
     </div>
   </div>
@@ -52,13 +49,10 @@
             'updateProfileForm.lastName.placeholder' | cxTranslate
           }}"
           formControlName="lastName"
-          [class.is-invalid]="isNotValid('lastName')"
         />
-        <div class="invalid-feedback" *ngIf="isNotValid('lastName')">
-          <span>{{
-            'updateProfileForm.lastNameIsRequired' | cxTranslate
-          }}</span>
-        </div>
+        <cx-form-errors
+          [control]="updateProfileForm.get('lastName')"
+        ></cx-form-errors>
       </label>
     </div>
   </div>

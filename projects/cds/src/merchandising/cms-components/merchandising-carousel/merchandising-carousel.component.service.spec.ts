@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Product, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -92,11 +91,7 @@ describe('MerchandisingCarouselComponentService', () => {
       ],
     });
 
-    componentService = TestBed.get(
-      MerchandisingCarouselComponentService as Type<
-        MerchandisingCarouselComponentService
-      >
-    );
+    componentService = TestBed.inject(MerchandisingCarouselComponentService);
   });
 
   it('should be created', async(() => {
@@ -146,10 +141,10 @@ describe('MerchandisingCarouselComponentService', () => {
     const actualCarouselProducts: MerchandisingProduct[] = [];
     componentService
       .getMerchandisingCarouselModel(mockComponentData)
-      .subscribe(merchandisingProducts => {
+      .subscribe((merchandisingProducts) => {
         actualCarouselMetadata = merchandisingProducts.metadata;
-        merchandisingProducts.items$.forEach(observableProduct =>
-          observableProduct.subscribe(product =>
+        merchandisingProducts.items$.forEach((observableProduct) =>
+          observableProduct.subscribe((product) =>
             actualCarouselProducts.push(product)
           )
         );

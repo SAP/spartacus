@@ -1,5 +1,4 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -33,15 +32,9 @@ describe('User Orders effect', () => {
       ],
     });
 
-    actions$ = TestBed.get(Actions);
-    userOrdersEffect = TestBed.get(
-      fromUserOrdersEffect.UserOrdersEffect as Type<
-        fromUserOrdersEffect.UserOrdersEffect
-      >
-    );
-    orderConnector = TestBed.get(UserOrderConnector as Type<
-      UserOrderConnector
-    >);
+    actions$ = TestBed.inject(Actions);
+    userOrdersEffect = TestBed.inject(fromUserOrdersEffect.UserOrdersEffect);
+    orderConnector = TestBed.inject(UserOrderConnector);
   });
 
   describe('loadUserOrders$', () => {
@@ -79,7 +72,10 @@ describe('User Orders effect', () => {
 
   describe('resetUserOrders$', () => {
     it('should return a reset action', () => {
-      const action = new SiteContextActions.LanguageChange();
+      const action = new SiteContextActions.LanguageChange({
+        previous: 'previous',
+        current: 'current',
+      });
 
       const completion = new UserActions.ClearUserOrders();
 

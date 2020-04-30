@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CONSENT_TEMPLATE_NORMALIZER,
@@ -37,16 +36,10 @@ describe('OccUserConsentAdapter', () => {
       ],
     });
 
-    occUserConsentAdapter = TestBed.get(OccUserConsentAdapter as Type<
-      OccUserConsentAdapter
-    >);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
-    occEnpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
+    occUserConsentAdapter = TestBed.inject(OccUserConsentAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
@@ -63,11 +56,11 @@ describe('OccUserConsentAdapter', () => {
         consentTemplates: [{ id: 'xxx' }],
       };
 
-      occUserConsentAdapter.loadConsents(userId).subscribe(result => {
+      occUserConsentAdapter.loadConsents(userId).subscribe((result) => {
         expect(result).toEqual(mockConsentTemplateList.consentTemplates);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -86,7 +79,7 @@ describe('OccUserConsentAdapter', () => {
       const userId = 'xxx@xxx.xxx';
       occUserConsentAdapter.loadConsents(userId).subscribe();
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return req.method === 'GET';
         })
         .flush([]);
@@ -111,10 +104,10 @@ describe('OccUserConsentAdapter', () => {
       };
       occUserConsentAdapter
         .giveConsent(userId, consentTemplateId, consentTemplateVersion)
-        .subscribe(result => expect(result).toEqual(expectedConsentTemplate));
+        .subscribe((result) => expect(result).toEqual(expectedConsentTemplate));
 
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'POST' &&
           req.serializeBody() ===
             `consentTemplateId=${consentTemplateId}&consentTemplateVersion=${consentTemplateVersion}`
@@ -134,7 +127,7 @@ describe('OccUserConsentAdapter', () => {
       const userId = 'xxx@xxx.xxx';
 
       occUserConsentAdapter.giveConsent(userId, 'xxx', 1).subscribe();
-      httpMock.expectOne(req => req.method === 'POST').flush({});
+      httpMock.expectOne((req) => req.method === 'POST').flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(
         CONSENT_TEMPLATE_NORMALIZER
       );
@@ -145,9 +138,9 @@ describe('OccUserConsentAdapter', () => {
     it('should withdraw the user consent', () => {
       occUserConsentAdapter
         .withdrawConsent('xxx@xxx.xxx', 'xxx')
-        .subscribe(result => expect(result).toEqual(''));
+        .subscribe((result) => expect(result).toEqual(''));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'DELETE';
       });
 

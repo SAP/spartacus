@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NavigationStart, Router } from '@angular/router';
 import { of } from 'rxjs';
@@ -16,7 +15,7 @@ describe('HamburgerMenuService', () => {
       providers: [{ provide: Router, useClass: MockRouter }],
     });
 
-    service = TestBed.get(HamburgerMenuService as Type<HamburgerMenuService>);
+    service = TestBed.inject(HamburgerMenuService);
   });
 
   it('should inject service', () => {
@@ -27,7 +26,7 @@ describe('HamburgerMenuService', () => {
     let expanded: boolean;
 
     service.toggle();
-    service.isExpanded.subscribe(result => (expanded = result));
+    service.isExpanded.subscribe((result) => (expanded = result));
 
     expect(expanded).toBeTruthy();
   });
@@ -36,7 +35,7 @@ describe('HamburgerMenuService', () => {
     let expanded: boolean;
 
     service.toggle(true);
-    service.isExpanded.subscribe(result => (expanded = result));
+    service.isExpanded.subscribe((result) => (expanded = result));
 
     expect(expanded).toBeFalsy();
   });

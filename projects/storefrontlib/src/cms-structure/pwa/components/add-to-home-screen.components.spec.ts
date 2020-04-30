@@ -1,4 +1,4 @@
-import { Component, Type } from '@angular/core';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { AddToHomeScreenService } from '../services/add-to-home-screen.service';
@@ -23,7 +23,7 @@ class MockAddToHomeScreenService {
 describe('AddToHomeScreenComponent', () => {
   let component: AddToHomeScreenComponent;
   let fixture: ComponentFixture<ExampleAddToHomeScreenComponent>;
-  let mockAddToHomeScreenService: MockAddToHomeScreenService;
+  let mockAddToHomeScreenService: AddToHomeScreenService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -36,9 +36,7 @@ describe('AddToHomeScreenComponent', () => {
       ],
     }).compileComponents();
 
-    mockAddToHomeScreenService = TestBed.get(AddToHomeScreenService as Type<
-      AddToHomeScreenService
-    >);
+    mockAddToHomeScreenService = TestBed.inject(AddToHomeScreenService);
   }));
 
   beforeEach(() => {
@@ -53,7 +51,7 @@ describe('AddToHomeScreenComponent', () => {
   it('should be able to get canPrompt', () => {
     component.ngOnInit();
     let canPrompt: boolean;
-    component.canPrompt$.subscribe(value => (canPrompt = value));
+    component.canPrompt$.subscribe((value) => (canPrompt = value));
     expect(canPrompt).toBeTruthy();
   });
 

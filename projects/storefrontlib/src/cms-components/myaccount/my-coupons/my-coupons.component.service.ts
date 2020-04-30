@@ -4,9 +4,8 @@ import {
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

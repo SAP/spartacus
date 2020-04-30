@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Address, Country, Region } from '../../model/address.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/index';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -23,9 +22,9 @@ export class UserAddressService {
    * Retrieves user's addresses
    */
   loadAddresses(): void {
-    this.withUserId(userId =>
-      this.store.dispatch(new UserActions.LoadUserAddresses(userId))
-    );
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(new UserActions.LoadUserAddresses(userId));
+    });
   }
 
   /**
@@ -33,14 +32,14 @@ export class UserAddressService {
    * @param address a user address
    */
   addUserAddress(address: Address): void {
-    this.withUserId(userId =>
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.AddUserAddress({
           userId,
           address,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -48,15 +47,15 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   setAddressAsDefault(addressId: string): void {
-    this.withUserId(userId =>
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdateUserAddress({
           userId,
           addressId,
           address: { defaultAddress: true },
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -65,15 +64,15 @@ export class UserAddressService {
    * @param address a user address
    */
   updateUserAddress(addressId: string, address: Address): void {
-    this.withUserId(userId =>
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdateUserAddress({
           userId,
           addressId,
           address,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -81,14 +80,14 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   deleteUserAddress(addressId: string): void {
-    this.withUserId(userId =>
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.DeleteUserAddress({
           userId,
           addressId,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -171,21 +170,5 @@ export class UserAddressService {
         return regions;
       })
     );
-  }
-
-  /**
-   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
-   *
-   */
-  private withUserId(callback: (userId: string) => void): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(userId => callback(userId));
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
-      callback(OCC_USER_ID_CURRENT);
-    }
   }
 }

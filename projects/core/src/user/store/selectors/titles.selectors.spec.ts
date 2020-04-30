@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Title } from '../../../model/misc.model';
@@ -18,7 +17,7 @@ describe('Titles Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -38,7 +37,7 @@ describe('Titles Selectors', () => {
       let result: Title[];
       store
         .pipe(select(UsersSelectors.getAllTitles))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 
@@ -66,7 +65,7 @@ describe('Titles Selectors', () => {
 
       store
         .pipe(select(UsersSelectors.titleSelectorFactory(code)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new UserActions.LoadTitlesSuccess(mockTitles));
       expect(result).toEqual(mockTitles[0]);

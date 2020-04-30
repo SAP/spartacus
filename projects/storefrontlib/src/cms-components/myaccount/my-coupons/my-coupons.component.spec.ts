@@ -58,7 +58,7 @@ class MockedCouponCardComponent {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 

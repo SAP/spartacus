@@ -17,9 +17,9 @@ export class DeliveryCountriesEffects {
     switchMap(() => {
       return this.siteConnector.getCountries(CountryType.SHIPPING).pipe(
         map(
-          countries => new UserActions.LoadDeliveryCountriesSuccess(countries)
+          (countries) => new UserActions.LoadDeliveryCountriesSuccess(countries)
         ),
-        catchError(error =>
+        catchError((error) =>
           of(
             new UserActions.LoadDeliveryCountriesFail(
               makeErrorSerializable(error)

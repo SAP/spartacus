@@ -1,6 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { ViewConfig } from './view-config';
-import { Config, provideConfig } from '@spartacus/core';
+import { provideDefaultConfig } from '@spartacus/core';
 
 @NgModule({})
 export class ViewConfigModule {
@@ -8,13 +7,9 @@ export class ViewConfigModule {
     return {
       ngModule: ViewConfigModule,
       providers: [
-        provideConfig({
+        provideDefaultConfig({
           view: {},
         }),
-        {
-          provide: ViewConfig,
-          useExisting: Config,
-        },
       ],
     };
   }

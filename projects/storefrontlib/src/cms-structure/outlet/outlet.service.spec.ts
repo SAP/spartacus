@@ -31,9 +31,7 @@ const OUTLET_NAME_4 = 'OUTLET.4';
 class TestContainerComponent {}
 
 @Component({
-  template: `
-    any
-  `,
+  template: ` any `,
 })
 class AnyComponent {}
 @NgModule({
@@ -52,7 +50,7 @@ describe('OutletService', () => {
       providers: [OutletService],
     }).compileComponents();
 
-    outletService = TestBed.get(OutletService);
+    outletService = TestBed.inject(OutletService);
   });
 
   it('should be created', () => {
@@ -129,7 +127,7 @@ describe('OutletService', () => {
     let factory: ComponentFactory<any>;
 
     beforeEach(() => {
-      componentFactoryResolver = TestBed.get(ComponentFactoryResolver);
+      componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
       factory = componentFactoryResolver.resolveComponentFactory(AnyComponent);
     });
 
@@ -224,6 +222,40 @@ describe('OutletService', () => {
           USE_STACKED_OUTLETS
         ) instanceof Array
       ).toBeTruthy();
+    });
+  });
+
+  describe('remove', () => {
+    let componentFactoryResolver: ComponentFactoryResolver;
+    let factory: ComponentFactory<any>;
+
+    beforeEach(() => {
+      componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
+      factory = componentFactoryResolver.resolveComponentFactory(AnyComponent);
+    });
+
+    it('should remove all instance of the provided value', () => {
+      outletService.add(OUTLET_NAME_1, factory, OutletPosition.AFTER);
+      outletService.add(OUTLET_NAME_2, factory, OutletPosition.AFTER);
+      outletService.add(OUTLET_NAME_2, factory, OutletPosition.AFTER);
+      outletService.add(OUTLET_NAME_2, factory, OutletPosition.BEFORE);
+
+      outletService.remove(OUTLET_NAME_2, OutletPosition.AFTER, factory);
+
+      expect(outletService.get(OUTLET_NAME_1, OutletPosition.AFTER)).toEqual(
+        factory
+      );
+      expect(outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE)).toEqual(
+        factory
+      );
+
+      outletService.add(OUTLET_NAME_2, factory, OutletPosition.BEFORE);
+
+      outletService.remove(OUTLET_NAME_2, OutletPosition.BEFORE);
+
+      expect(outletService.get(OUTLET_NAME_2, OutletPosition.BEFORE)).toEqual(
+        undefined
+      );
     });
   });
 });

@@ -1,24 +1,25 @@
-import { Type, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  CmsConfig,
   CmsService,
   CMSTabParagraphContainer,
   I18nTestingModule,
+  SmartEditService,
   WindowRef,
-  CmsConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
-import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 import { LayoutConfig } from '../../../layout/config/layout-config';
+import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 
 @Component({
   selector: 'cx-test-cmp',
   template: '',
 })
-export class TestComponent {
+class TestComponent {
   tabTitleParam$ = of('title param');
 }
 
@@ -69,6 +70,12 @@ const MockCmsComponentData = <CmsComponentData<CMSTabParagraphContainer>>{
   data$: of(mockComponentData),
 };
 
+class MockSmartEditService {
+  isLaunchInSmartEdit(): boolean {
+    return true;
+  }
+}
+
 describe('TabParagraphContainerComponent', () => {
   let component: TabParagraphContainerComponent;
   let fixture: ComponentFixture<TabParagraphContainerComponent>;
@@ -90,6 +97,7 @@ describe('TabParagraphContainerComponent', () => {
         { provide: CmsService, useValue: MockCmsService },
         { provide: CmsConfig, useValue: MockCmsModuleConfig },
         { provide: LayoutConfig, useValue: MockLayoutConfig },
+        { provide: SmartEditService, useClass: MockSmartEditService },
       ],
     }).compileComponents();
   }));
@@ -97,8 +105,8 @@ describe('TabParagraphContainerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TabParagraphContainerComponent);
     component = fixture.componentInstance;
-    cmsService = TestBed.get(CmsService as Type<CmsService>);
-    windowRef = TestBed.get(WindowRef as Type<WindowRef>);
+    cmsService = TestBed.inject(CmsService);
+    windowRef = TestBed.inject(WindowRef);
   });
 
   it('should create', () => {
@@ -113,7 +121,7 @@ describe('TabParagraphContainerComponent', () => {
     );
     let childComponents: any[];
     component.components$
-      .subscribe(components => (childComponents = components))
+      .subscribe((components) => (childComponents = components))
       .unsubscribe();
 
     for (let i = 0; i < childComponents.length; i++) {
@@ -153,9 +161,9 @@ describe('TabParagraphContainerComponent', () => {
     component.ngAfterViewInit();
 
     let param = '';
-    component.tabTitleParams.forEach(param$ => {
+    component.tabTitleParams.forEach((param$) => {
       if (param$ != null) {
-        param$.subscribe(value => (param = value)).unsubscribe();
+        param$.subscribe((value) => (param = value)).unsubscribe();
       }
     });
 

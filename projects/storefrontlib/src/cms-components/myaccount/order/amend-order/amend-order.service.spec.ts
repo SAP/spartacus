@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import { Order } from '@spartacus/core';
@@ -41,7 +40,7 @@ describe('OrderAmendService', () => {
       ],
     });
 
-    service = TestBed.get(OrderAmendService as Type<OrderAmendService>);
+    service = TestBed.inject(OrderAmendService);
   });
 
   it('should be created', () => {
@@ -52,7 +51,7 @@ describe('OrderAmendService', () => {
     let result;
     service
       .getOrder()
-      .subscribe(f => (result = f))
+      .subscribe((f) => (result = f))
       .unsubscribe();
     expect(result).toEqual(mockOrder);
   });
@@ -61,7 +60,7 @@ describe('OrderAmendService', () => {
     let form;
     service
       .getForm()
-      .subscribe(f => (form = f))
+      .subscribe((f) => (form = f))
       .unsubscribe();
 
     expect(form.get('orderCode').value).toEqual('123');
@@ -71,7 +70,7 @@ describe('OrderAmendService', () => {
     let form;
     service
       .getForm()
-      .subscribe(f => (form = f))
+      .subscribe((f) => (form = f))
       .unsubscribe();
 
     expect(Object.keys(<FormGroup>form.get('entries').controls).length).toEqual(
@@ -107,7 +106,7 @@ describe('OrderAmendService', () => {
     let form: FormGroup;
     service
       .getForm()
-      .subscribe(f => (form = f))
+      .subscribe((f) => (form = f))
       .unsubscribe();
 
     const control = form.get('entries').get('3');

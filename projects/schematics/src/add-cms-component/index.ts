@@ -191,8 +191,7 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
       options.name
     )}.${strings.dasherize(options.type)}.ts`;
 
-    const possibleProjectFiles = ['/angular.json', '/.angular.json'];
-    const { workspace } = getWorkspace(tree, possibleProjectFiles);
+    const { workspace } = getWorkspace(tree);
     const project = getProjectFromWorkspace(workspace, options.project);
 
     const componentPath = getPathResultsForFile(
@@ -261,8 +260,7 @@ function updateTemplate(options: CxCmsComponentSchema): Rule {
     const componentFileName = `${strings.dasherize(
       options.name
     )}.${strings.dasherize(options.type)}.ts`;
-    const possibleProjectFiles = ['/angular.json', '/.angular.json'];
-    const { workspace } = getWorkspace(tree, possibleProjectFiles);
+    const { workspace } = getWorkspace(tree);
     const project = getProjectFromWorkspace(workspace, options.project);
 
     const componentPath = getPathResultsForFile(

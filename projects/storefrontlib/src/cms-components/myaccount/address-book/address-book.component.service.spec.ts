@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -6,7 +5,6 @@ import { take } from 'rxjs/operators';
 import {
   Address,
   CheckoutDeliveryService,
-  FeatureConfigService,
   User,
   UserAddressService,
 } from '@spartacus/core';
@@ -49,12 +47,6 @@ class MockCheckoutDeliveryService {
   clearCheckoutDeliveryDetails() {}
 }
 
-class MockFeatureConfigService {
-  isLevel(_featureLevel: string): boolean {
-    return true;
-  }
-}
-
 describe('AddressBookComponentService', () => {
   let service: AddressBookComponentService;
   let userAddressService: UserAddressService;
@@ -72,19 +64,12 @@ describe('AddressBookComponentService', () => {
           provide: CheckoutDeliveryService,
           useClass: MockCheckoutDeliveryService,
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
-    service = TestBed.get(AddressBookComponentService as Type<
-      AddressBookComponentService
-    >);
-    userAddressService = TestBed.get(UserAddressService as Type<
-      UserAddressService
-    >);
-    checkoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
+    service = TestBed.inject(AddressBookComponentService);
+    userAddressService = TestBed.inject(UserAddressService);
+    checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
   });
 
   it('should service be created', () => {

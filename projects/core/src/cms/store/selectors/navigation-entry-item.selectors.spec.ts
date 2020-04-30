@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { CmsComponent } from '../../../model/cms.model';
@@ -35,7 +34,7 @@ describe('Navigation Entry Items Selectors', () => {
         StoreModule.forFeature('cms', fromReducers.getReducers()),
       ],
     });
-    store = TestBed.get(Store as Type<Store<StateWithCms>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -47,7 +46,7 @@ describe('Navigation Entry Items Selectors', () => {
         .pipe(
           select(CmsSelectors.getSelectedNavigationEntryItemState('testId'))
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({
         loading: false,
@@ -68,7 +67,7 @@ describe('Navigation Entry Items Selectors', () => {
 
       store
         .pipe(select(CmsSelectors.getNavigationEntryItems('testId')))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new CmsActions.LoadCmsNavigationItemsSuccess(mockPayload));
 

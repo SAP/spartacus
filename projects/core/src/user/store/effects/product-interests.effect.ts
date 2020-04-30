@@ -22,7 +22,7 @@ export class ProductInterestsEffect {
   > = this.actions$.pipe(
     ofType(UserActions.LOAD_PRODUCT_INTERESTS),
     map((action: UserActions.LoadProductInterests) => action.payload),
-    switchMap(payload => {
+    switchMap((payload) => {
       return this.userInterestsConnector
         .getInterests(
           payload.userId,
@@ -36,7 +36,7 @@ export class ProductInterestsEffect {
           map((interests: ProductInterestSearchResult) => {
             return new UserActions.LoadProductInterestsSuccess(interests);
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new UserActions.LoadProductInterestsFail(
                 makeErrorSerializable(error)
@@ -51,11 +51,11 @@ export class ProductInterestsEffect {
   removeProductInterest$: Observable<Action> = this.actions$.pipe(
     ofType(UserActions.REMOVE_PRODUCT_INTEREST),
     map((action: UserActions.RemoveProductInterest) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.userInterestsConnector
         .removeInterest(payload.userId, payload.item)
         .pipe(
-          switchMap(data => [
+          switchMap((data) => [
             new UserActions.LoadProductInterests(
               payload.singleDelete
                 ? {
@@ -68,7 +68,7 @@ export class ProductInterestsEffect {
             ),
             new UserActions.RemoveProductInterestSuccess(data),
           ]),
-          catchError(error =>
+          catchError((error) =>
             of(
               new UserActions.RemoveProductInterestFail(
                 makeErrorSerializable(error)
@@ -83,7 +83,7 @@ export class ProductInterestsEffect {
   addProductInterest$: Observable<Action> = this.actions$.pipe(
     ofType(UserActions.ADD_PRODUCT_INTEREST),
     map((action: UserActions.AddProductInterest) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.userInterestsConnector
         .addInterest(
           payload.userId,
@@ -99,7 +99,7 @@ export class ProductInterestsEffect {
             }),
             new UserActions.AddProductInterestSuccess(res),
           ]),
-          catchError(error =>
+          catchError((error) =>
             of(
               new UserActions.AddProductInterestFail(
                 makeErrorSerializable(error)

@@ -7,7 +7,7 @@ import * as login from '../../../helpers/login';
 
 describe('My Account - Update Password', () => {
   before(() =>
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
     })
   );

@@ -1,15 +1,13 @@
 import { ElementRef } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import {
+  PageType,
   Product,
   ProductService,
   RoutingService,
-  PageType,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-
-import { TestBed } from '@angular/core/testing';
 import { YotpoConfig } from '../yotpoconfig/yotpo-config';
-
 import { YotpoService } from './yotpo.service';
 
 class MockYotpoConfig extends YotpoConfig {
@@ -69,7 +67,7 @@ describe('YotpoService', () => {
       ],
     });
 
-    service = bed.get(YotpoService);
+    service = bed.inject(YotpoService);
   });
 
   it('should be created', () => {
@@ -78,13 +76,13 @@ describe('YotpoService', () => {
 
   it('should fetch product data', () => {
     let result: Product;
-    service.getProduct().subscribe(product => (result = product));
+    service.getProduct().subscribe((product) => (result = product));
     expect(result).toEqual(mockProduct);
   });
 
   it('should add Yotpo init widgets script', () => {
     const yotpoScriptTester = {
-      asymmetricMatch: function(actual) {
+      asymmetricMatch: function (actual) {
         return (
           actual.type === 'text/javascript' &&
           actual.text.includes('yotpo.initWidgets()')

@@ -14,10 +14,7 @@ import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model
 export const getCustomerCouponsState: MemoizedSelector<
   StateWithUser,
   LoaderState<CustomerCouponSearchResult>
-> = createSelector(
-  getUserState,
-  (state: UserState) => state.customerCoupons
-);
+> = createSelector(getUserState, (state: UserState) => state.customerCoupons);
 
 export const getCustomerCouponsLoaded: MemoizedSelector<
   StateWithUser,

@@ -17,9 +17,9 @@ export function getReducers(): ActionReducerMap<ProductsState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<ProductsState>
-> = new InjectionToken<ActionReducerMap<ProductsState>>('ProductReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<
+  ProductsState
+>> = new InjectionToken<ActionReducerMap<ProductsState>>('ProductReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
@@ -29,7 +29,7 @@ export const reducerProvider: Provider = {
 export function clearProductsState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
-  return function(state, action) {
+  return function (state, action) {
     if (
       action.type === SiteContextActions.CURRENCY_CHANGE ||
       action.type === SiteContextActions.LANGUAGE_CHANGE

@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, select } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
 import { StateWithUser, USER_FEATURE } from '../user-state';
 import * as fromReducers from '../reducers/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { UserActions } from '../actions/index';
 import { UsersSelectors } from '../selectors/index';
-import { Type } from '@angular/core';
 
 const emptyInterestList: ProductInterestSearchResult = {
   results: [],
@@ -40,7 +39,7 @@ describe('Product Interests Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -49,7 +48,7 @@ describe('Product Interests Selectors', () => {
       let result: LoaderState<ProductInterestSearchResult>;
       store
         .pipe(select(UsersSelectors.getInterestsState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -66,7 +65,7 @@ describe('Product Interests Selectors', () => {
       let result: ProductInterestSearchResult;
       store
         .pipe(select(UsersSelectors.getInterests))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toEqual(emptyInterestList);
 
       store.dispatch(
@@ -81,7 +80,7 @@ describe('Product Interests Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getInterestsLoading))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toEqual(false);
 
       store.dispatch(

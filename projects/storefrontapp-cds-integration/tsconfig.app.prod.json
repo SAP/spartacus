@@ -1,10 +1,6 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.app.json",
   "compilerOptions": {
-    "outDir": "../../out-tsc/app",
-    "module": "es2015",
-    "target": "es2015",
-    "types": [],
     "paths": {
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"],
@@ -12,6 +8,5 @@
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/cds": ["dist/cds"]
     }
-  },
-  "exclude": ["src/test.ts", "**/*.spec.ts"]
+  }
 }

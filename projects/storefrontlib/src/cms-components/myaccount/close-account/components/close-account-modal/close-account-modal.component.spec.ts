@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AuthService,
@@ -12,7 +12,6 @@ import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/index';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { CloseAccountModalComponent } from './close-account-modal.component';
-
 import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService {
@@ -109,12 +108,10 @@ describe('CloseAccountModalComponent', () => {
     fixture = TestBed.createComponent(CloseAccountModalComponent);
     component = fixture.componentInstance;
 
-    userService = TestBed.get(UserService as Type<UserService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
-    globalMessageService = TestBed.get(GlobalMessageService as Type<
-      GlobalMessageService
-    >);
-    mockModalService = TestBed.get(ModalService as Type<ModalService>);
+    userService = TestBed.inject(UserService);
+    routingService = TestBed.inject(RoutingService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    mockModalService = TestBed.inject(ModalService);
 
     spyOn(routingService, 'go').and.stub();
   });

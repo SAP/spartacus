@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import {
@@ -55,7 +54,7 @@ describe('OrderReturnService', () => {
   let service: OrderReturnService;
   let returnRequestService: OrderReturnRequestService;
   let globalMessageService: GlobalMessageService;
-  let routingService: MockRoutingService;
+  let routingService: RoutingService;
 
   let form: FormGroup;
 
@@ -82,25 +81,18 @@ describe('OrderReturnService', () => {
       ],
     });
 
-    service = TestBed.get(OrderReturnService as Type<OrderReturnService>);
+    service = TestBed.inject(OrderReturnService);
 
-    returnRequestService = TestBed.get(OrderReturnRequestService as Type<
-      OrderReturnRequestService
-    >);
-    globalMessageService = TestBed.get(GlobalMessageService as Type<
-      GlobalMessageService
-    >);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    returnRequestService = TestBed.inject(OrderReturnRequestService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    routingService = TestBed.inject(RoutingService);
 
     service
       .getForm()
-      .subscribe(f => (form = f))
+      .subscribe((f) => (form = f))
       .unsubscribe();
 
-    form
-      .get('entries')
-      .get('2')
-      .setValue(3);
+    form.get('entries').get('2').setValue(3);
   });
 
   it('should be created', () => {
@@ -115,7 +107,7 @@ describe('OrderReturnService', () => {
     let result;
     service
       .getEntries()
-      .subscribe(entries => (result = entries))
+      .subscribe((entries) => (result = entries))
       .unsubscribe();
 
     expect(result.length).toEqual(2);
@@ -126,7 +118,7 @@ describe('OrderReturnService', () => {
 
     service
       .getAmendedEntries()
-      .subscribe(entries => (result = entries))
+      .subscribe((entries) => (result = entries))
       .unsubscribe();
 
     expect(result.length).toEqual(1);

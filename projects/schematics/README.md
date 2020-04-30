@@ -12,9 +12,10 @@ Run the following command from your project root:
 
 - `baseUrl`: Base url of your CX OCC backend
 - `baseSite`: Name of your base site
+- `occPrefix`: The OCC API prefix. E.g.: /occ/v2/
 - `useMetaTags`: Whether or not to configure baseUrl and mediaUrl in the meta tags from `index.html`
-- `featureLevel`: Application feature level. (default: _1.3_)
-- `overwriteAppComponent`: Overwrite content of app.component.html file. (default: false)
+- `featureLevel`: Application feature level. (default: _2.0_)
+- `overwriteAppComponent`: Overwrite content of app.component.html file. (default: true)
 - `pwa`: Include PWA features while constructing application.
 - `ssr`: Include Server-side Rendering configuration.
 
@@ -89,9 +90,9 @@ Install angular schematics globally: `npm install -g @angular-devkit/schematics-
 - `ng add path-to-file/spartacus-schematics-x.x.x.tgz` (it will execute default schematics)
 - `yarn add path-to-file/spartacus-schematics-x.x.x.tgz` and `ng g @spartacus/schematics:add-spartacus`
 
-### Developing update schematics
+## Developing update schematics
 
-#### The update schematic structure
+### The update schematic structure
 
 The `projects/schematics/src/migrations/migrations.json` file contains all migrations for all Spartacus versions:
 
@@ -100,11 +101,11 @@ The `projects/schematics/src/migrations/migrations.json` file contains all migra
   - _migration-feature-name_ is a short name that describes what the migration is doing.
   - _sequence-number_ is the sequence number in which the migrations should be executed
   - An example is _migration-v2-update-cms-component-state-02_.
-- _version_ is important for the Angular's update mechanism, as it is used to automatically execute the required migration scripts for the current project.
+- _version_ is _really_ important for the Angular's update mechanism, as it is used to automatically execute the required migration scripts for the current project's version. For more information about this, please check [releasing update schematics](#releasing-update-schematics) section.
 - _factory_ - points to the specific migration script.
 - _description_ - a short free-form description field for developers.
 
-#### Testing update schematic
+### Testing update schematic
 
 The best way to test an unpublished update schematic is to publish it to a local npm registry.
 
@@ -129,18 +130,65 @@ Now create a new angular project:
 - commit the changes, if any.
 - run the following update command `ng update @spartacus/schematics`. If there's an error about the unresolved peer dependencies, you can append `--force` flag just to quickly test something out, but this error should _not_ appear when executing the update schematics without the flag. You should see your update commands executed now.
 
-#### Iterative development
+> NOTE: if _verdaccio_ refuses to publish libraries, and displays an error that says that the lib is already published with the same version, the quickest way around this seems to be [this](https://github.com/verdaccio/verdaccio/issues/1203#issuecomment-457361429) - 
+> open `nano ~/.config/verdaccio/config.yaml` and under `packages: '@*/*':` sections, comment out the `proxy: npmjs` line. After doing this, you should be able to publish the packages.
+
+### Iterative development
 
 When doing iterative development of the update schematic, it's for the best to do the following before testing the changes:
 
 - for the schematics library: unpublish the previous version and publish the new schematic code - `cd projects/schematics` and `yarn build && npm unpublish @spartacus/schematic --registry http://localhost:4873 --force && npm publish --registry http://localhost:4873`
-- alternatively, you can run `./migrations-test.sh` (located in `scripts/migrations-test.sh`) script which will build all the relevant libs, unpublish the old versions and publish the new versions to the local npm registry. If you want to skip building of the libs and just publish them (i.e. you manually added some files to the _dist_ folder and just want it published), you can run the script `migrations-test.sh skip`
+- alternatively, you can run `./migrations-test.sh` (located in `scripts/migrations-test.sh`) script which will build all the relevant libs, unpublish the old versions and publish the new versions to the local npm registry. If you want to skip building of all the libs and just build and publish the `schematics` changes, you can run the script with `skip` argument: `migrations-test.sh skip`.
 - in the test project:
   - revert the `package.json` and `yarn.lock` changes
   - make sure that the version of the `@spartacus/schematics` package is lower than the currently developed one. E.g. if you are developing an update schematic for v3, make sure that the version of `@spartacus/schematics` is set to i.e. `"^2.0.0"`. If any change is made, make sure to commit the changes.
   - delete the old `node_modules` folder and install the dependencies again: `rm -rf node_modules/ && yarn`
   - run the `ng update @spartacus/schematics --force` command
 
+### How to write update schematics
+
 #### Validations
 
 If some validations are required to be ran before actually upgrading the Spartacus version, the "migration script" located in `projects/schematics/src/migrations/2_0/validate.ts` can be used.
+
+#### Constructor deprecation
+
+The `projects/schematics/src/migrations/2_0/constructor-deprecations.ts` performs the constructor migration tasks. Usually, a developer does not need to touch this file, but they should rather describe the constructor deprecation in `projects/schematics/src/migrations/2_0/constructor-deprecation-data.ts`. The constant `CONSTRUCTOR_DEPRECATION_DATA` describes the deprecated constructor and has `addParams` and `removeParams` properties in which you can specify which parameters should be added or removed, respectively.
+
+#### Commenting code
+
+Another common case is to place a comment in customer's code base, describing what should they do in order to upgrade to a new Spartacus version. We should do this only in cases where upgrading manually is easy, but writing a migration script would be too complex.
+The `projects/schematics/src/shared/utils/file-utils.ts#insertCommentAboveIdentifier` method will add comment above the specified _identifier_ TypeScript node.
+
+Some examples:
+
+- adding a comment above the removed API method, guiding customers which method they can use instead.
+- adding a comment above the Ngrx action in which we changed parameters
+
+#### Component deprecation
+
+Similar to [constructor deprecation](#Constructor-deprecation), `projects/schematics/src/migrations/2_0/component-deprecations.ts` performs the component migration tasks, for both component _*.ts_ and _HTML_ templates. Usually, a developer does not need to touch this file, and they should rather describe the component deprecation in `projects/schematics/src/migrations/2_0/component-deprecations-data.ts`. The constant `COMPONENT_DEPRECATION_DATA` describes the deprecated components.
+
+#### CSS
+
+To handle CSS changes, we are printing a link to the CSS docs, where customers can look up which CSS selectors have changed between Spartacus versions. For this reason, if making a change to a CSS selector, please update this docs. (link to follow).
+
+### Releasing update schematics
+
+This section is for developers who do the release, and it specifies how to manage the versions in `projects/schematics/src/migrations/migrations.json`.
+
+The migration scripts that are listed here should be executed each time customers perform the automatic upgrade by running `ng update @spartacus/schematics --next`:
+
+- `migration-v2-validate-01`
+- `migration-v2-constructor-deprecations-03`
+- `migration-v2-removed-public-api-04`
+- `migration-v2-component-deprecations-05`
+- `migration-v2-css-06`
+
+Please bump the `version` in `migration.json` only for the migration scripts listed above, and _do not change the other script's versions_.
+
+This is _really_ important for the Angular's update mechanism, as it is used to automatically execute the required migration scripts for the current project's version.
+It's also important to note that after we release a Spartacus _next.x_, or an _rc.x_ version, all the migration scripts that are written after the release _have_ to specify the future release version.
+E.g. if Spartacus _2.0.0-next.1_ has been released, then the _new_ migration scripts (added after it _2.0.0-next.1_) should specify the next version (e.g. _2.0.0-next.2_).
+This is required for clients that upgrade frequently and it will make angular to run only the new migration scripts for them, avoiding the same scripts to run twice.
+However, there are exceptions from this rule - as we have data-driven generic mechanisms for e.g. constructor deprecation, we have to bump the version in `migrations.json` for those scripts.

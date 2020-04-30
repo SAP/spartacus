@@ -1,14 +1,13 @@
-import { Component, NgZone, Type } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthService,
   CmsService,
+  ProtectedRoutesService,
   RoutingService,
   SemanticPathService,
-  ProtectedRoutesService,
-  FeatureConfigService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LogoutGuard } from './logout-guard';
@@ -44,17 +43,10 @@ class MockProtectedRoutesService {
   }
 }
 
-class MockFeatureConfigService {
-  isLevel() {
-    return false;
-  }
-}
-
 describe('LogoutGuard', () => {
   let logoutGuard: LogoutGuard;
   let authService: AuthService;
   let routingService: RoutingService;
-  let featureConfigService: FeatureConfigService;
   let protectedRoutesService: ProtectedRoutesService;
 
   let zone: NgZone;
@@ -81,28 +73,19 @@ describe('LogoutGuard', () => {
           provide: ProtectedRoutesService,
           useClass: MockProtectedRoutesService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
       ],
     });
-    authService = TestBed.get(AuthService as Type<AuthService>);
-    logoutGuard = TestBed.get(LogoutGuard as Type<LogoutGuard>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
-    router = TestBed.get(Router as Type<Router>);
-    featureConfigService = TestBed.get(FeatureConfigService as Type<
-      FeatureConfigService
-    >);
-    protectedRoutesService = TestBed.get(ProtectedRoutesService as Type<
-      ProtectedRoutesService
-    >);
+    authService = TestBed.inject(AuthService);
+    logoutGuard = TestBed.inject(LogoutGuard);
+    routingService = TestBed.inject(RoutingService);
+    router = TestBed.inject(Router);
+    protectedRoutesService = TestBed.inject(ProtectedRoutesService);
 
-    zone = TestBed.get(NgZone as Type<NgZone>);
+    zone = TestBed.inject(NgZone);
   });
 
   describe('When user is authorised,', () => {
-    beforeEach(function() {
+    beforeEach(function () {
       spyOn(authService, 'logout');
     });
 
@@ -110,7 +93,7 @@ describe('LogoutGuard', () => {
       let result: boolean;
       logoutGuard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(false);
@@ -121,20 +104,7 @@ describe('LogoutGuard', () => {
       expect(authService.logout).toHaveBeenCalled();
     });
 
-    // TODO(issue:5666) Deprecated since 1.4
-    it('should redirect to home page', () => {
-      spyOn(featureConfigService, 'isLevel').and.returnValue(false);
-      logoutGuard.canActivate().subscribe();
-
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'home',
-      });
-    });
-
-    // TODO(issue:5666) Deprecated since 1.4
     it('should redirect to home page if app not protected', () => {
-      spyOn(featureConfigService, 'isLevel').and.returnValue(true);
-
       spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
         false
       );
@@ -146,10 +116,7 @@ describe('LogoutGuard', () => {
       });
     });
 
-    // TODO(issue:5666) Deprecated since 1.4
     it('should redirect to login page if app protected', () => {
-      spyOn(featureConfigService, 'isLevel').and.returnValue(true);
-
       spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
         true
       );

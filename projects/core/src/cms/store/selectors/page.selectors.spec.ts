@@ -1,9 +1,8 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { PageType } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/models/page-context.model';
-import { EntityLoaderState, LoaderState } from '../../../state';
+import { StateUtils } from '../../../state/utils';
 import { ContentSlotComponentData } from '../../model/content-slot-component-data.model';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
@@ -47,7 +46,7 @@ describe('Cms PageData Selectors', () => {
         StoreModule.forFeature('cms', fromReducers.getReducers()),
       ],
     });
-    store = TestBed.get(Store as Type<Store<StateWithCms>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -58,7 +57,7 @@ describe('Cms PageData Selectors', () => {
       let result: IndexType;
       store
         .pipe(select(CmsSelectors.getPageStateIndex))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       const expectedResult: IndexType = {
@@ -85,12 +84,12 @@ describe('Cms PageData Selectors', () => {
     it('should return an index', () => {
       store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
-      let result: EntityLoaderState<string>;
+      let result: StateUtils.EntityLoaderState<string>;
       store
         .pipe(
           select(CmsSelectors.getPageStateIndexEntityLoaderState(pageContext))
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -108,10 +107,10 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageStateIndexLoaderState', () => {
     it('should return an initial entity state when there is no entity', () => {
-      let result: LoaderState<string>;
+      let result: StateUtils.LoaderState<string>;
       store
         .pipe(select(CmsSelectors.getPageStateIndexLoaderState(pageContext)))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -125,10 +124,10 @@ describe('Cms PageData Selectors', () => {
     it('should return an entity from an index', () => {
       store.dispatch(new CmsActions.LoadCmsPageDataSuccess(pageContext, page));
 
-      let result: LoaderState<string>;
+      let result: StateUtils.LoaderState<string>;
       store
         .pipe(select(CmsSelectors.getPageStateIndexLoaderState(pageContext)))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -147,7 +146,7 @@ describe('Cms PageData Selectors', () => {
       let result: string;
       store
         .pipe(select(CmsSelectors.getPageStateIndexValue(pageContext)))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual('homepage');
@@ -161,7 +160,7 @@ describe('Cms PageData Selectors', () => {
       let result: { [id: string]: Page };
       store
         .pipe(select(CmsSelectors.getPageEntities))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({ homepage: page });
@@ -175,7 +174,7 @@ describe('Cms PageData Selectors', () => {
       let result: Page;
       store
         .pipe(select(CmsSelectors.getPageData(pageContext)))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(page);
@@ -189,7 +188,7 @@ describe('Cms PageData Selectors', () => {
       let result: string[];
       store
         .pipe(select(CmsSelectors.getPageComponentTypes(pageContext)))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual([
@@ -211,7 +210,7 @@ describe('Cms PageData Selectors', () => {
             CmsSelectors.getCurrentSlotSelectorFactory(pageContext, 'left')
           )
         )
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({ components });

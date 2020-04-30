@@ -29,7 +29,7 @@ export class AddToHomeScreenService {
     if (this.winRef.nativeWindow) {
       this.winRef.nativeWindow.addEventListener(
         'beforeinstallprompt',
-        event => {
+        (event) => {
           event.preventDefault();
           this.deferredEvent = event;
           this.enableAddToHomeScreen();

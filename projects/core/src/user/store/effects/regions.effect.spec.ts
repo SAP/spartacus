@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -7,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { Region } from '../../../model/index';
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
-import { StateLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { UserActions } from '../actions/index';
 import { REGIONS } from '../user-state';
 import { RegionsEffects } from './regions.effect';
@@ -39,8 +38,8 @@ describe('', () => {
       ],
     });
 
-    effect = TestBed.get(RegionsEffects as Type<RegionsEffects>);
-    service = TestBed.get(SiteConnector as Type<SiteConnector>);
+    effect = TestBed.inject(RegionsEffects);
+    service = TestBed.inject(SiteConnector);
 
     spyOn(service, 'getRegions').and.returnValue(of(mockRegions));
   });
@@ -66,7 +65,7 @@ describe('', () => {
         type: UserActions.CLEAR_USER_MISCS_DATA,
       };
 
-      const completion = new StateLoaderActions.LoaderResetAction(REGIONS);
+      const completion = new StateUtils.LoaderResetAction(REGIONS);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

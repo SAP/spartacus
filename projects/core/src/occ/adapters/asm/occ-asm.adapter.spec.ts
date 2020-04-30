@@ -46,7 +46,7 @@ class MockBaseSiteService {
   }
 }
 
-export class MockOccEndpointsService {
+class MockOccEndpointsService {
   getRawEndpoint(endpoint: string): string {
     return endpoint;
   }
@@ -69,10 +69,10 @@ describe('OccAsmAdapter', () => {
       ],
     });
 
-    occAsmAdapter = TestBed.get(OccAsmAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converterService = TestBed.get(ConverterService);
-    occEnpointsService = TestBed.get(OccEndpointsService);
+    occAsmAdapter = TestBed.inject(OccAsmAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(occEnpointsService, 'getRawEndpoint').and.callThrough();
   });
@@ -89,10 +89,10 @@ describe('OccAsmAdapter', () => {
       query: searchQuery,
       pageSize,
     };
-    occAsmAdapter.customerSearch(searchOptions).subscribe(data => {
+    occAsmAdapter.customerSearch(searchOptions).subscribe((data) => {
       result = data;
     });
-    const mockReq: TestRequest = httpMock.expectOne(req => {
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET';
     });
 
@@ -116,10 +116,10 @@ describe('OccAsmAdapter', () => {
   it('should not include optional params if they are not in the options', () => {
     let result: CustomerSearchPage;
     const searchOptions: CustomerSearchOptions = {};
-    occAsmAdapter.customerSearch(searchOptions).subscribe(data => {
+    occAsmAdapter.customerSearch(searchOptions).subscribe((data) => {
       result = data;
     });
-    const mockReq: TestRequest = httpMock.expectOne(req => {
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET';
     });
 
@@ -148,10 +148,10 @@ describe('OccAsmAdapter', () => {
       query: searchQuery,
       pageSize,
     };
-    occAsmAdapter.customerSearch(searchOptions).subscribe(data => {
+    occAsmAdapter.customerSearch(searchOptions).subscribe((data) => {
       result = data;
     });
-    const mockReq: TestRequest = httpMock.expectOne(req => {
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET';
     });
 

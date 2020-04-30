@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Currency } from '../../../model/misc.model';
@@ -29,7 +28,7 @@ describe('Currencies Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -39,7 +38,7 @@ describe('Currencies Selectors', () => {
 
       store
         .pipe(select(SiteContextSelectors.getCurrenciesEntities))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(null);
 
@@ -54,7 +53,7 @@ describe('Currencies Selectors', () => {
 
       store
         .pipe(select(SiteContextSelectors.getActiveCurrency))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(null);
 
@@ -69,7 +68,7 @@ describe('Currencies Selectors', () => {
 
       store
         .pipe(select(SiteContextSelectors.getAllCurrencies))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(null);
 

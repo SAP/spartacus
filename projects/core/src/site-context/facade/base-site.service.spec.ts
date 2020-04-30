@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
@@ -42,9 +41,9 @@ describe('BaseSiteService', () => {
         { provide: SiteContextConfig, useValue: {} },
       ],
     });
-    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.stub();
-    service = TestBed.get(BaseSiteService as Type<BaseSiteService>);
+    service = TestBed.inject(BaseSiteService);
   });
 
   it('should be created', () => {
@@ -55,7 +54,7 @@ describe('BaseSiteService', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
 
     let result;
-    service.getActive().subscribe(res => (result = res));
+    service.getActive().subscribe((res) => (result = res));
 
     expect(result).toEqual(mockBaseSite);
   });
@@ -64,14 +63,14 @@ describe('BaseSiteService', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
 
     let result;
-    service.getAll().subscribe(res => (result = res));
+    service.getAll().subscribe((res) => (result = res));
     expect(result).toEqual([mockBaseSite]);
   });
 
   describe('setActive', () => {
     it('should dispatch SetActiveBaseSite action', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
-      const connector = TestBed.get(SiteConnector as Type<SiteConnector>);
+      const connector = TestBed.inject(SiteConnector);
       spyOn(connector, 'getBaseSite').and.returnValue(of({}));
       service.setActive('my-base-site');
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -92,7 +91,7 @@ describe('BaseSiteService', () => {
     );
 
     let result;
-    service.getBaseSiteData().subscribe(res => (result = res));
+    service.getBaseSiteData().subscribe((res) => (result = res));
     expect(result).toEqual({ uid: 'test-basesite' });
   });
 

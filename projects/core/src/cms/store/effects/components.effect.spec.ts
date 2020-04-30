@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -61,10 +60,8 @@ describe('Component Effects', () => {
       ],
     });
 
-    service = TestBed.get(CmsComponentConnector as Type<CmsComponentConnector>);
-    effects = TestBed.get(fromEffects.ComponentsEffects as Type<
-      fromEffects.ComponentsEffects
-    >);
+    service = TestBed.inject(CmsComponentConnector);
+    effects = TestBed.inject(fromEffects.ComponentsEffects);
   });
 
   describe('loadComponent$', () => {
@@ -83,6 +80,28 @@ describe('Component Effects', () => {
         pageContext,
       });
       spyOn(service, 'getList').and.returnValue(of([component]));
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(
+        effects.loadComponent$({ scheduler: getTestScheduler() })
+      ).toBeObservable(expected);
+    });
+    it('should return LoadComponentFail if component is missing in the response', () => {
+      const pageContext: PageContext = {
+        id: 'xxx',
+        type: PageType.CONTENT_PAGE,
+      };
+      const action = new CmsActions.LoadCmsComponent({
+        uid: 'comp1',
+        pageContext,
+      });
+      const completion = new CmsActions.LoadCmsComponentFail({
+        uid: action.payload.uid,
+        pageContext,
+      });
+      spyOn(service, 'getList').and.returnValue(of([]));
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -167,7 +186,7 @@ describe('Component Effects', () => {
           uid: component2.uid,
           pageContext: pageContext2,
         });
-        const getListSpy = spyOn(service, 'getList').and.callFake(ids =>
+        const getListSpy = spyOn(service, 'getList').and.callFake((ids) =>
           cold('---a', { a: [{ ...component, uid: ids[0] }] })
         );
 

@@ -17,7 +17,7 @@ If the route is `https://your-domain.com/rest/v2/electronics/languages`, and the
 
 `"/rest/v2/:baseSiteId/languages(\\?.+)?": "/:baseSiteId-languages"`
 
-*NOTE: `:baseSiteId` in the above example is a variable, so you can use this route for multiple baseSiteIds*
+*NOTE: `:baseSiteId` in the above example is a variable, so you can use this route for multiple baseSiteIds. Also, SAP Commerce cloud 2005 and above needs to use the occ prefix `/occ/v2/`. Anything below will be be using the default value of `/rest/v2/`.*
 
 ## Generators
 

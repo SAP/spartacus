@@ -17,9 +17,9 @@ export class BillingCountriesEffect {
     switchMap(() => {
       return this.siteConnector.getCountries(CountryType.BILLING).pipe(
         map(
-          countries => new UserActions.LoadBillingCountriesSuccess(countries)
+          (countries) => new UserActions.LoadBillingCountriesSuccess(countries)
         ),
-        catchError(error =>
+        catchError((error) =>
           of(
             new UserActions.LoadBillingCountriesFail(
               makeErrorSerializable(error)

@@ -1,6 +1,5 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Store, StoreModule, select } from '@ngrx/store';
+import { select, Store, StoreModule } from '@ngrx/store';
 import * as fromReducers from '../reducers';
 import { UsersSelectors } from '../selectors/index';
 import { UserActions } from '../actions/index';
@@ -25,7 +24,7 @@ describe('Notification Preference Selectors', () => {
         StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
       ],
     });
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -34,7 +33,7 @@ describe('Notification Preference Selectors', () => {
       let result: LoaderState<NotificationPreference[]>;
       store
         .pipe(select(UsersSelectors.getPreferencesLoaderState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -51,7 +50,7 @@ describe('Notification Preference Selectors', () => {
       let result: NotificationPreference[];
       store
         .pipe(select(UsersSelectors.getPreferences))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toEqual([]);
 
       store.dispatch(
@@ -68,7 +67,7 @@ describe('Notification Preference Selectors', () => {
       let result: NotificationPreference[];
       store
         .pipe(select(UsersSelectors.getEnabledPreferences))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toEqual([]);
 
       store.dispatch(
@@ -85,7 +84,7 @@ describe('Notification Preference Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getPreferencesLoading))
-        .subscribe(value => {
+        .subscribe((value) => {
           result = value;
         });
       expect(result).toEqual(false);

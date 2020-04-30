@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
@@ -24,7 +23,7 @@ class MockOccEndpointsService {
 }
 
 class MockConvertService {
-  pipeable = createSpy().and.returnValue(x => x);
+  pipeable = createSpy().and.returnValue((x) => x);
 }
 
 describe('OccProductAdapter', () => {
@@ -43,10 +42,8 @@ describe('OccProductAdapter', () => {
         { provide: ConverterService, useClass: MockConvertService },
       ],
     });
-    service = TestBed.get(OccProductAdapter as Type<OccProductAdapter>);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
+    service = TestBed.inject(OccProductAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -60,9 +57,9 @@ describe('OccProductAdapter', () => {
   describe('load product details', () => {
     it('should load product details for given product code', () => {
       let result;
-      service.load(productCode).subscribe(res => (result = res));
+      service.load(productCode).subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET' && req.url === 'product' + productCode;
       });
 
@@ -74,7 +71,7 @@ describe('OccProductAdapter', () => {
 
     it('should load product details for given product code and scope', () => {
       let result;
-      service.load(productCode, 'scope').subscribe(res => (result = res));
+      service.load(productCode, 'scope').subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne(`product${productCode}?fields=scope`);
 
@@ -85,7 +82,7 @@ describe('OccProductAdapter', () => {
     });
 
     it('should use converter', () => {
-      const converter = TestBed.get(ConverterService as Type<ConverterService>);
+      const converter = TestBed.inject(ConverterService);
 
       service.load(productCode).subscribe();
       httpMock.expectOne('product' + productCode).flush(product);
@@ -101,7 +98,7 @@ describe('OccProductAdapter', () => {
       expect(scopedData.length).toEqual(1);
 
       let result;
-      scopedData[0].data$.subscribe(res => (result = res));
+      scopedData[0].data$.subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne('product' + productCode);
 
@@ -120,10 +117,10 @@ describe('OccProductAdapter', () => {
       expect(scopedData.length).toEqual(2);
 
       let result1;
-      scopedData[0].data$.subscribe(res => (result1 = res));
+      scopedData[0].data$.subscribe((res) => (result1 = res));
 
       let result2;
-      scopedData[1].data$.subscribe(res => (result2 = res));
+      scopedData[1].data$.subscribe((res) => (result2 = res));
 
       const mockReq1 = httpMock.match(`product${productCode}`)[0];
       const mockReq2 = httpMock.match('product333?fields=scope')[0];
@@ -143,9 +140,9 @@ describe('OccProductAdapter', () => {
       expect(scopedData.length).toEqual(2);
 
       let result1;
-      scopedData[0].data$.subscribe(res => (result1 = res));
+      scopedData[0].data$.subscribe((res) => (result1 = res));
       let result2;
-      scopedData[1].data$.subscribe(res => (result2 = res));
+      scopedData[1].data$.subscribe((res) => (result2 = res));
 
       const mockReq = httpMock.expectOne('producttestCode?fields=code,name');
 
@@ -155,7 +152,7 @@ describe('OccProductAdapter', () => {
     });
 
     it('should use converter', () => {
-      const converter = TestBed.get(ConverterService as Type<ConverterService>);
+      const converter = TestBed.inject(ConverterService);
 
       const scopedData = service.loadMany([{ code: productCode, scope: '' }]);
       scopedData[0].data$.subscribe();

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BaseSiteService, LanguageService } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -35,13 +34,11 @@ describe('CdsMerchandisingSiteContextService', () => {
         },
       ],
     });
-    cdsMerchandisingSiteContextService = TestBed.get(
-      CdsMerchandisingSiteContextService as Type<
-        CdsMerchandisingSiteContextService
-      >
+    cdsMerchandisingSiteContextService = TestBed.inject(
+      CdsMerchandisingSiteContextService
     );
-    baseSiteService = TestBed.get(BaseSiteService as Type<BaseSiteService>);
-    languageService = TestBed.get(LanguageService as Type<LanguageService>);
+    baseSiteService = TestBed.inject(BaseSiteService);
+    languageService = TestBed.inject(LanguageService);
   });
 
   it('should be created', () => {
@@ -62,7 +59,7 @@ describe('CdsMerchandisingSiteContextService', () => {
     let merchandisingSiteContext: MerchandisingSiteContext;
     cdsMerchandisingSiteContextService
       .getSiteContext()
-      .subscribe(siteContext => {
+      .subscribe((siteContext) => {
         merchandisingSiteContext = siteContext;
       })
       .unsubscribe();

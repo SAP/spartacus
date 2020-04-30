@@ -5,9 +5,9 @@ import { Observable, of } from 'rxjs';
 import { GlobalMessageService } from '../../../global-message/index';
 import {
   CustomerCoupon,
-  CustomerCouponSearchResult,
-  CustomerCouponNotification,
   CustomerCoupon2Customer,
+  CustomerCouponNotification,
+  CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
 import { User } from '../../../model/misc.model';
 import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
@@ -88,8 +88,8 @@ describe('Customer Coupon effect', () => {
       ],
     });
 
-    customerCouponsEffect = TestBed.get(CustomerCouponEffects);
-    customerCouponConnector = TestBed.get(CustomerCouponConnector);
+    customerCouponsEffect = TestBed.inject(CustomerCouponEffects);
+    customerCouponConnector = TestBed.inject(CustomerCouponConnector);
 
     spyOn(customerCouponConnector, 'getCustomerCoupons').and.returnValue(
       of(customerSearcherResult)

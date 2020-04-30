@@ -72,7 +72,7 @@ export class SearchBoxComponentService {
           message,
         };
       }),
-      tap(results =>
+      tap((results) =>
         this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, this.hasResults(results))
       )
     );
@@ -128,11 +128,11 @@ export class SearchBoxComponentService {
       return of([]);
     } else {
       return this.searchService.getSuggestionResults().pipe(
-        map(res => res.map(suggestion => suggestion.value)),
-        switchMap(suggestions => {
+        map((res) => res.map((suggestion) => suggestion.value)),
+        switchMap((suggestions) => {
           if (suggestions.length === 0) {
             return this.getExactSuggestion(config).pipe(
-              map(match => (match ? [match] : []))
+              map((match) => (match ? [match] : []))
             );
           } else {
             return of(suggestions);
@@ -148,7 +148,7 @@ export class SearchBoxComponentService {
    */
   private getExactSuggestion(config: SearchBoxConfig): Observable<string> {
     return this.getProductResults(config).pipe(
-      switchMap(productResult => {
+      switchMap((productResult) => {
         return productResult.products && productResult.products.length > 0
           ? this.fetchTranslation('searchBox.help.exactMatch', {
               term: productResult.freeTextSearch,
@@ -168,7 +168,8 @@ export class SearchBoxComponentService {
           productResult &&
           productResult.products &&
           productResult.products.length === 0 &&
-          (suggestions && suggestions.length === 0)
+          suggestions &&
+          suggestions.length === 0
         ) {
           return this.fetchTranslation('searchBox.help.noMatch');
         } else {

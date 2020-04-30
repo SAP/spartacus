@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { StrategyProducts } from '../../model/strategy-products.model';
@@ -46,12 +45,8 @@ describe('Strategy Connector', () => {
         },
       ],
     });
-    strategyConnector = TestBed.get(MerchandisingStrategyConnector as Type<
-      MerchandisingStrategyConnector
-    >);
-    strategyAdapter = TestBed.get(MerchandisingStrategyAdapter as Type<
-      MerchandisingStrategyAdapter
-    >);
+    strategyConnector = TestBed.inject(MerchandisingStrategyConnector);
+    strategyAdapter = TestBed.inject(MerchandisingStrategyAdapter);
   });
 
   it('should be created', () => {
@@ -63,7 +58,7 @@ describe('Strategy Connector', () => {
 
     strategyConnector
       .loadProductsForStrategy(STRATEGY_ID, STRATEGY_REQUEST)
-      .subscribe(strategyProducts => {
+      .subscribe((strategyProducts) => {
         actualStrategyProducts = strategyProducts;
       })
       .unsubscribe();

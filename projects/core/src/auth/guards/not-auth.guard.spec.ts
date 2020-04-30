@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -51,12 +50,10 @@ describe('NotAuthGuard', () => {
       ],
       imports: [RouterTestingModule],
     });
-    authService = TestBed.get(AuthService as Type<AuthService>);
-    guard = TestBed.get(NotAuthGuard as Type<NotAuthGuard>);
-    routing = TestBed.get(RoutingService as Type<RoutingService>);
-    authRedirectService = TestBed.get(AuthRedirectService as Type<
-      AuthRedirectService
-    >);
+    authService = TestBed.inject(AuthService);
+    guard = TestBed.inject(NotAuthGuard);
+    routing = TestBed.inject(RoutingService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
   });
 
   describe(', when user is authorized,', () => {
@@ -68,7 +65,7 @@ describe('NotAuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(false);
@@ -76,10 +73,7 @@ describe('NotAuthGuard', () => {
 
     it('should redirect to homepage', () => {
       spyOn(routing, 'go');
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(routing.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     });
   });
@@ -95,7 +89,7 @@ describe('NotAuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(true);
@@ -103,18 +97,12 @@ describe('NotAuthGuard', () => {
 
     it('should not redirect to home', () => {
       spyOn(routing, 'go');
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(routing.go).not.toHaveBeenCalled();
     });
 
     it('should notify AuthRedirectService with the current navigation', () => {
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(authRedirectService.reportNotAuthGuard).toHaveBeenCalled();
     });
   });

@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CdsEndpointsService } from '../../../services/cds-endpoints.service';
 import { StrategyProducts } from '../../model/strategy-products.model';
@@ -47,7 +46,7 @@ const strategyRequestUndefinedConsentReference = {
 
 class MockCdsEndpointsService {
   getUrl = createSpy('MockCdsEndpointsService.getUrl').and.callFake(
-    endpoint => endpoint
+    (endpoint) => endpoint
   );
 }
 
@@ -68,15 +67,9 @@ describe('MerchandisingStrategyAdapter', () => {
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    strategyAdapter = TestBed.get(CdsMerchandisingStrategyAdapter as Type<
-      CdsMerchandisingStrategyAdapter
-    >);
-    cdsEndpointsService = TestBed.get(CdsEndpointsService as Type<
-      CdsEndpointsService
-    >);
+    httpMock = TestBed.inject(HttpTestingController);
+    strategyAdapter = TestBed.inject(CdsMerchandisingStrategyAdapter);
+    cdsEndpointsService = TestBed.inject(CdsEndpointsService);
   });
 
   afterEach(() => {
@@ -91,11 +84,11 @@ describe('MerchandisingStrategyAdapter', () => {
     it('should load products for the given strategy id', () => {
       strategyAdapter
         .loadProductsForStrategy(STRATEGY_ID)
-        .subscribe(products => {
+        .subscribe((products) => {
           expect(products).toEqual(expectedProductsFromStrategy);
         });
 
-      const mockStrategyProductsRequest = httpMock.expectOne(request => {
+      const mockStrategyProductsRequest = httpMock.expectOne((request) => {
         /*
          * Our mock CdsEndpointsService returns the given endpoint key as the url,
          * so the adapter will make the http request with the endpoint key rather than a url
@@ -114,10 +107,10 @@ describe('MerchandisingStrategyAdapter', () => {
     it('should load the products for a given strategy id, and the request URL should include the parameters in the StrategyRequest', () => {
       strategyAdapter
         .loadProductsForStrategy(STRATEGY_ID, strategyRequest)
-        .subscribe(products => {
+        .subscribe((products) => {
           expect(products).toEqual(expectedProductsFromStrategy);
         });
-      const mockStrategyProductsRequest = httpMock.expectOne(request => {
+      const mockStrategyProductsRequest = httpMock.expectOne((request) => {
         /*
          * Our mock CdsEndpointsService returns the given endpoint key as the url,
          * so the adapter will make the http request with the endpoint key rather than a url
@@ -143,10 +136,10 @@ describe('MerchandisingStrategyAdapter', () => {
           STRATEGY_ID,
           strategyRequestUndefinedConsentReference
         )
-        .subscribe(products => {
+        .subscribe((products) => {
           expect(products).toEqual(expectedProductsFromStrategy);
         });
-      const mockStrategyProductsRequest = httpMock.expectOne(request => {
+      const mockStrategyProductsRequest = httpMock.expectOne((request) => {
         /*
          * Our mock CdsEndpointsService returns the given endpoint key as the url,
          * so the adapter will make the http request with the endpoint key rather than a url

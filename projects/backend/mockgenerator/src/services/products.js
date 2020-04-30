@@ -1,6 +1,6 @@
 const faker = require('faker');
 
-const products = (function() {
+const products = (function () {
   const productList = [];
   for (let n = 0; n < 50; n++) {
     const code = faker.random.number();

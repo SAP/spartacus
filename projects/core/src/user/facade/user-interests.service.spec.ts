@@ -1,22 +1,29 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { AuthService } from '../../auth/facade/auth.service';
+import {
+  NotificationType,
+  ProductInterestSearchResult,
+} from '../../model/product-interest.model';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserInterestsService } from './user-interests.service';
-import { Type } from '@angular/core';
-import {
-  ProductInterestSearchResult,
-  NotificationType,
-} from '../../model/product-interest.model';
 
 const emptyInterestList: ProductInterestSearchResult = {
   results: [],
   sorts: [],
   pagination: {},
 };
+
+class MockAuthService {
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
+  }
+}
 
 describe('UserInterestsService', () => {
   let service: UserInterestsService;
@@ -32,12 +39,15 @@ describe('UserInterestsService', () => {
           fromProcessReducers.getReducers()
         ),
       ],
-      providers: [UserInterestsService],
+      providers: [
+        UserInterestsService,
+        { provide: AuthService, useClass: MockAuthService },
+      ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(UserInterestsService as Type<UserInterestsService>);
+    service = TestBed.inject(UserInterestsService);
   });
 
   it('should UserInterestsService is injected', inject(
@@ -68,12 +78,12 @@ describe('UserInterestsService', () => {
 
     service
       .getAndLoadProductInterests()
-      .subscribe(data => expect(data).toEqual(emptyInterestList))
+      .subscribe((data) => expect(data).toEqual(emptyInterestList))
       .unsubscribe();
 
     service
       .getProductInterests()
-      .subscribe(data => expect(data).toEqual(emptyInterestList))
+      .subscribe((data) => expect(data).toEqual(emptyInterestList))
       .unsubscribe();
   });
 
@@ -81,7 +91,7 @@ describe('UserInterestsService', () => {
     store.dispatch(new UserActions.LoadProductInterests({ userId: 'userId' }));
     service
       .getProdutInterestsLoading()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 
@@ -111,7 +121,7 @@ describe('UserInterestsService', () => {
     );
     service
       .getRemoveProdutInterestLoading()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 
@@ -119,7 +129,7 @@ describe('UserInterestsService', () => {
     store.dispatch(new UserActions.RemoveProductInterestSuccess('success'));
     service
       .getRemoveProdutInterestSuccess()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 
@@ -138,7 +148,7 @@ describe('UserInterestsService', () => {
     store.dispatch(new UserActions.AddProductInterestSuccess('success'));
     service
       .getAddProductInterestSuccess()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 
@@ -146,7 +156,7 @@ describe('UserInterestsService', () => {
     store.dispatch(new UserActions.AddProductInterestFail('error'));
     service
       .getAddProductInterestError()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 

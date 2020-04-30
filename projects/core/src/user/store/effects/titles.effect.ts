@@ -13,10 +13,10 @@ export class TitlesEffects {
     ofType(UserActions.LOAD_TITLES),
     switchMap(() => {
       return this.userAccountConnector.getTitles().pipe(
-        map(titles => {
+        map((titles) => {
           return new UserActions.LoadTitlesSuccess(titles);
         }),
-        catchError(error =>
+        catchError((error) =>
           of(new UserActions.LoadTitlesFail(makeErrorSerializable(error)))
         )
       );

@@ -1,7 +1,7 @@
-import { Component, TemplateRef, Type } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DeferLoaderService } from 'projects/storefrontlib/src/layout/loading/defer-loader.service';
 import { of } from 'rxjs';
+import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../outlet.directive';
 import { OutletService } from '../outlet.service';
 import { OutletRefDirective } from './outlet-ref.directive';
@@ -22,7 +22,7 @@ const CUSTOM_TEXT = 'customized';
 })
 class TestContainerComponent {}
 
-export class MockDeferLoaderService {
+class MockDeferLoaderService {
   load(_element: HTMLElement, _options?: any) {
     return of(true);
   }
@@ -49,7 +49,7 @@ describe('OutletDirective', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestContainerComponent);
-    service = TestBed.get(OutletService as Type<OutletService>);
+    service = TestBed.inject(OutletService);
   });
 
   it('should render custom content', () => {

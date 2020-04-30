@@ -1,14 +1,20 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { StateWithUser, USER_FEATURE } from '../store/user-state';
-import { UserNotificationPreferenceService } from './user-notification-preference.service';
-import { StoreModule, Store } from '@ngrx/store';
-import * as fromStoreReducers from '../store/reducers/index';
-import { PROCESS_FEATURE } from '../../process/store/process-state';
-import * as fromProcessReducers from '../../process/store/reducers';
-import { Type } from '@angular/core';
-import { UserActions } from '../store/actions/index';
+import { Store, StoreModule } from '@ngrx/store';
+import { AuthService } from '../../auth/facade/auth.service';
 import { NotificationPreference } from '../../model/notification-preference.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
+import { UserActions } from '../store/actions/index';
+import * as fromStoreReducers from '../store/reducers/index';
+import { StateWithUser, USER_FEATURE } from '../store/user-state';
+import { UserNotificationPreferenceService } from './user-notification-preference.service';
+
+class MockAuthService {
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
+  }
+}
 
 describe('UserNotificationPreferenceService', () => {
   let userNotificationPreferenceService: UserNotificationPreferenceService;
@@ -31,15 +37,16 @@ describe('UserNotificationPreferenceService', () => {
           fromProcessReducers.getReducers()
         ),
       ],
-      providers: [UserNotificationPreferenceService],
+      providers: [
+        UserNotificationPreferenceService,
+        { provide: AuthService, useClass: MockAuthService },
+      ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    userNotificationPreferenceService = TestBed.get(
-      UserNotificationPreferenceService as Type<
-        UserNotificationPreferenceService
-      >
+    userNotificationPreferenceService = TestBed.inject(
+      UserNotificationPreferenceService
     );
   });
 
@@ -59,7 +66,7 @@ describe('UserNotificationPreferenceService', () => {
     let notificationPreferences: NotificationPreference[];
     userNotificationPreferenceService
       .getPreferences()
-      .subscribe(preferences => {
+      .subscribe((preferences) => {
         notificationPreferences = preferences;
       })
       .unsubscribe();
@@ -74,7 +81,7 @@ describe('UserNotificationPreferenceService', () => {
     );
     userNotificationPreferenceService
       .getEnabledPreferences()
-      .subscribe(preferences => expect(preferences).toEqual([]))
+      .subscribe((preferences) => expect(preferences).toEqual([]))
       .unsubscribe();
   });
 
@@ -95,7 +102,7 @@ describe('UserNotificationPreferenceService', () => {
     let notificationPreferenceLoading: boolean;
     userNotificationPreferenceService
       .getPreferencesLoading()
-      .subscribe(loading => {
+      .subscribe((loading) => {
         notificationPreferenceLoading = loading;
       })
       .unsubscribe();
@@ -125,7 +132,7 @@ describe('UserNotificationPreferenceService', () => {
     let result = false;
     userNotificationPreferenceService
       .getUpdatePreferencesResultLoading()
-      .subscribe(loading => (result = loading))
+      .subscribe((loading) => (result = loading))
       .unsubscribe();
 
     expect(result).toEqual(true);

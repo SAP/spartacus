@@ -100,5 +100,5 @@ export function filterKeysByType(
   if (!keys) {
     return [];
   }
-  return Object.keys(keys).filter(key => keys[key] === type);
+  return Object.keys(keys).filter((key) => keys[key] === type);
 }

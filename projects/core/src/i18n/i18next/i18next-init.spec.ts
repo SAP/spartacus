@@ -18,8 +18,8 @@ describe('i18nextGetHttpClient should return a http client that', () => {
       imports: [HttpClientTestingModule],
     });
 
-    httpMock = TestBed.get(HttpTestingController);
-    httpClient = TestBed.get(HttpClient);
+    httpMock = TestBed.inject(HttpTestingController);
+    httpClient = TestBed.inject(HttpClient);
 
     const func = i18nextGetHttpClient(httpClient);
     testCallback = jasmine.createSpy('testCallback');

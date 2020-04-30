@@ -1,25 +1,32 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { ConfigModule, provideConfig } from '@spartacus/core';
+import {
+  provideConfig,
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { StorefrontConfig } from '../storefront-config';
-import { b2cLayoutConfig } from './config/b2c-layout-config';
+import { b2cLayoutConfig, mediaConfig } from './config/index';
 import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
 import { StorefrontModule } from './storefront.module';
 
 @NgModule({
   imports: [
-    StorefrontModule.withConfig(<StorefrontConfig>{
+    StorefrontModule,
+
+    // the cms lib module contains all components that added in the bundle
+    CmsLibModule,
+  ],
+  providers: [
+    provideDefaultConfig({
       pwa: {
         enabled: true,
         addToHomeScreen: true,
       },
     }),
-
-    ConfigModule.withConfig(b2cLayoutConfig),
-    ConfigModule.withConfigFactory(defaultCmsContentConfig),
-
-    // the cms lib module contains all components that added in the bundle
-    CmsLibModule,
+    provideDefaultConfig(b2cLayoutConfig),
+    provideDefaultConfig(mediaConfig),
+    provideDefaultConfigFactory(defaultCmsContentConfig),
   ],
   exports: [StorefrontModule],
 })

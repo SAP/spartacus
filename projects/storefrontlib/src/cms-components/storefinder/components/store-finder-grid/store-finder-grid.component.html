@@ -9,7 +9,6 @@
       <div
         class="col-sm-4 col-md-4 col-lg-3 item"
         *ngFor="let location of locations?.stores"
-        (click)="viewStore(location)"
       >
         <cx-store-finder-list-item
           [location]="location"

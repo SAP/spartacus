@@ -1,4 +1,4 @@
-import { PLATFORM_ID, Type } from '@angular/core';
+import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
@@ -75,10 +75,9 @@ describe('ProfileTagEventTracker', () => {
         { provide: PLATFORM_ID, useValue: 'browser' },
       ],
     });
-    profileTagEventTracker = TestBed.get(ProfileTagEventService as Type<
-      ProfileTagEventService
-    >);
-    nativeWindow = TestBed.get(WindowRef).nativeWindow;
+    profileTagEventTracker = TestBed.inject(ProfileTagEventService);
+    nativeWindow = TestBed.inject(WindowRef)
+      .nativeWindow as ProfileTagWindowObject;
   });
 
   it('should be created', () => {
@@ -118,17 +117,14 @@ describe('ProfileTagEventTracker', () => {
     expect(nativeWindow.Y_TRACKING.eventLayer.push).not.toHaveBeenCalled();
   });
 
-  it(`Should call the pageLoaded method if the site is active,
-        and event receiver callback has been called with loaded`, () => {
+  it(`Should call the pageLoaded method if the site is active even when the event receiver callback
+   has not been called with loaded`, () => {
     let loaded = 0;
     const subscription = profileTagEventTracker
       .addTracker()
-      .pipe(tap(_ => loaded++))
+      .pipe(tap(() => loaded++))
       .subscribe();
     getActiveBehavior.next('electronics-test');
-    eventListener[ProfileTagEventNames.LOADED](
-      new CustomEvent(ProfileTagEventNames.LOADED)
-    );
     subscription.unsubscribe();
 
     expect(loaded).toEqual(1);
@@ -138,7 +134,7 @@ describe('ProfileTagEventTracker', () => {
     let timesCalled = 0;
     const subscription = profileTagEventTracker
       .getProfileTagEvents()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
 
     const debugEvent = <DebugEvent>(
@@ -156,7 +152,7 @@ describe('ProfileTagEventTracker', () => {
     let timesCalled = 0;
     const subscription = profileTagEventTracker
       .getProfileTagEvents()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
 
     let consentReferenceChangedEvent = <ConsentReferenceEvent>(
@@ -186,7 +182,7 @@ describe('ProfileTagEventTracker', () => {
     let cr3 = null;
     const subscription1CR = profileTagEventTracker
       .getConsentReference()
-      .subscribe(cr => (cr1 = cr));
+      .subscribe((cr) => (cr1 = cr));
     const consentReferenceChangedEvent = <ConsentReferenceEvent>(
       new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
         detail: { consentReference: 'some_id' },
@@ -197,10 +193,10 @@ describe('ProfileTagEventTracker', () => {
     );
     const subscription2CR = profileTagEventTracker
       .getConsentReference()
-      .subscribe(cr => (cr2 = cr));
+      .subscribe((cr) => (cr2 = cr));
     const subscription3CR = profileTagEventTracker
       .getConsentReference()
-      .subscribe(cr => (cr3 = cr));
+      .subscribe((cr) => (cr3 = cr));
     subscription1CR.unsubscribe();
     subscription2CR.unsubscribe();
     subscription3CR.unsubscribe();

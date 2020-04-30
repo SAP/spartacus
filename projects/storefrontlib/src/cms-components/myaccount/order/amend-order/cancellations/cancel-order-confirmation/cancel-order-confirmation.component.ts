@@ -15,7 +15,7 @@ export class CancelOrderConfirmationComponent {
 
   form$ = this.orderAmendService
     .getForm()
-    .pipe(tap(form => (this.orderCode = form.value.orderCode)));
+    .pipe(tap((form) => (this.orderCode = form.value.orderCode)));
 
   entries$: Observable<
     OrderEntry[]
@@ -23,8 +23,11 @@ export class CancelOrderConfirmationComponent {
 
   constructor(protected orderAmendService: OrderAmendService) {}
 
-  submit(form: FormGroup): void {
-    form.disable();
-    this.orderAmendService.save();
+  submit(form: FormGroup) {
+    if (form.valid) {
+      this.orderAmendService.save();
+    } else {
+      form.markAllAsTouched();
+    }
   }
 }

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -8,7 +7,7 @@ import {
 } from '../../occ/utils/occ-constants';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
-import { AuthState, AUTH_FEATURE } from '../store/auth-state';
+import { AUTH_FEATURE, AuthState } from '../store/auth-state';
 import * as fromReducers from '../store/reducers/index';
 import { AuthService } from './auth.service';
 
@@ -35,8 +34,8 @@ describe('AuthService', () => {
       providers: [AuthService],
     });
 
-    service = TestBed.get(AuthService as Type<AuthService>);
-    store = TestBed.get(Store as Type<Store<AuthState>>);
+    service = TestBed.inject(AuthService);
+    store = TestBed.inject(Store);
   });
 
   it('should be created', () => {
@@ -49,7 +48,7 @@ describe('AuthService', () => {
     let result: UserToken;
     service
       .getUserToken()
-      .subscribe(token => (result = token))
+      .subscribe((token) => (result = token))
       .unsubscribe();
     expect(result).toEqual(mockToken);
   });
@@ -58,7 +57,7 @@ describe('AuthService', () => {
     store.dispatch(new AuthActions.LoadUserTokenSuccess(mockToken));
 
     let result: UserToken;
-    const subscription = service.getUserToken().subscribe(token => {
+    const subscription = service.getUserToken().subscribe((token) => {
       result = token;
     });
     subscription.unsubscribe();
@@ -70,7 +69,7 @@ describe('AuthService', () => {
     store.dispatch(new AuthActions.LoadClientTokenSuccess(mockClientToken));
 
     let result: ClientToken;
-    const subscription = service.getClientToken().subscribe(token => {
+    const subscription = service.getClientToken().subscribe((token) => {
       result = token;
     });
     subscription.unsubscribe();
@@ -81,7 +80,7 @@ describe('AuthService', () => {
   it('should call loadClientToken() when no token is present', () => {
     spyOn(store, 'dispatch').and.stub();
 
-    const subscription = service.getClientToken().subscribe(_token => {});
+    const subscription = service.getClientToken().subscribe((_token) => {});
     subscription.unsubscribe();
 
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -108,7 +107,7 @@ describe('AuthService', () => {
 
     service
       .getClientToken()
-      .subscribe(token => (result = token))
+      .subscribe((token) => (result = token))
       .unsubscribe();
     expect(result).toEqual(mockClientToken);
   });
@@ -172,7 +171,7 @@ describe('AuthService', () => {
     let result: string;
     service
       .getOccUserId()
-      .subscribe(token => (result = token))
+      .subscribe((token) => (result = token))
       .unsubscribe();
     expect(result).toEqual(OCC_USER_ID_ANONYMOUS);
   });
@@ -183,7 +182,7 @@ describe('AuthService', () => {
     let result: string;
     service
       .getOccUserId()
-      .subscribe(token => (result = token))
+      .subscribe((token) => (result = token))
       .unsubscribe();
     expect(result).toEqual(mockToken.userId);
   });
@@ -194,7 +193,7 @@ describe('AuthService', () => {
       let result = true;
       service
         .isUserLoggedIn()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toEqual(false);
     });
@@ -203,7 +202,7 @@ describe('AuthService', () => {
       let result = true;
       service
         .isUserLoggedIn()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toEqual(false);
     });
@@ -214,7 +213,7 @@ describe('AuthService', () => {
       let result = false;
       service
         .isUserLoggedIn()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toEqual(true);
     });

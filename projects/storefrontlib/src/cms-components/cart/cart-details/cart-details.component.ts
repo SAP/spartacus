@@ -1,16 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
+  ActiveCartService,
   AuthService,
   Cart,
-  CartService,
-  FeatureConfigService,
   OrderEntry,
   PromotionLocation,
   PromotionResult,
   RoutingService,
   SelectiveCartService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
@@ -28,101 +27,49 @@ export class CartDetailsComponent implements OnInit {
   orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   promotions$: Observable<PromotionResult[]>;
+  selectiveCartEnabled: boolean;
 
   constructor(
-    cartService: CartService,
-    // tslint:disable-next-line:unified-signatures
-    promotionService: PromotionService,
-    selectiveCartService: SelectiveCartService,
-    authService: AuthService,
-    routingService: RoutingService,
-    featureConfig: FeatureConfigService
-  );
-
-  /**
-   * @deprecated Since 1.5
-   * Use promotionService instead of the promotion inputs.
-   * Remove issue: #5670
-   */
-  constructor(cartService: CartService);
-
-  constructor(
-    protected cartService: CartService,
-    protected promotionService?: PromotionService,
-    protected selectiveCartService?: SelectiveCartService,
-    private authService?: AuthService,
-    private routingService?: RoutingService,
-    private featureConfig?: FeatureConfigService
+    protected activeCartService: ActiveCartService,
+    protected promotionService: PromotionService,
+    protected selectiveCartService: SelectiveCartService,
+    protected authService: AuthService,
+    protected routingService: RoutingService
   ) {}
 
   ngOnInit() {
-    this.cart$ = this.cartService.getActive();
+    this.cart$ = this.activeCartService.getActive();
+    this.promotions$ = this.promotionService.getOrderPromotionsFromCart();
 
-    /**
-     * TODO Remove the check for promotion service
-     * Issue: GH-5670
-     */
-    if (this.promotionService) {
-      this.promotions$ = this.promotionService.getOrderPromotionsFromCart();
-    }
-
-    this.entries$ = this.cartService
+    this.entries$ = this.activeCartService
       .getEntries()
-      .pipe(filter(entries => entries.length > 0));
+      .pipe(filter((entries) => entries.length > 0));
 
-    if (this.isSaveForLaterEnabled()) {
-      this.cartLoaded$ = combineLatest([
-        this.cartService.getLoaded(),
-        this.selectiveCartService.getLoaded(),
-        this.authService.isUserLoggedIn(),
-      ]).pipe(
-        tap(([, , loggedIn]) => (this.loggedIn = loggedIn)),
-        map(([cartLoaded, sflLoaded, loggedIn]) =>
-          loggedIn ? cartLoaded && sflLoaded : cartLoaded
-        )
-      );
-    }
-    //TODO remove for #5958
-    else {
-      this.cartLoaded$ = this.cartService.getLoaded();
-    }
-    //TODO  remove for #5958 end
-    if (this.promotionService) {
-      this.orderPromotions$ = this.promotionService.getOrderPromotions(
-        this.promotionLocation
-      );
-    }
-  }
+    this.selectiveCartEnabled = this.selectiveCartService.isEnabled();
 
-  //TODO remove feature flag for #5958
-  isSaveForLaterEnabled(): boolean {
-    if (this.featureConfig) {
-      return this.featureConfig.isEnabled('saveForLater');
-    }
-    return false;
-  }
-  //TODO remove feature flag for #5958 end
+    this.cartLoaded$ = combineLatest([
+      this.activeCartService.isStable(),
+      this.selectiveCartEnabled
+        ? this.selectiveCartService.getLoaded()
+        : of(false),
+      this.authService.isUserLoggedIn(),
+    ]).pipe(
+      tap(([, , loggedIn]) => (this.loggedIn = loggedIn)),
+      map(([cartLoaded, sflLoaded, loggedIn]) =>
+        loggedIn && this.selectiveCartEnabled
+          ? cartLoaded && sflLoaded
+          : cartLoaded
+      )
+    );
 
-  /**
-   * @deprecated Since 1.5
-   * Use promotionService instead of the promotion inputs.
-   * Remove issue: #5670
-   */
-  getAllPromotionsForCart(cart: Cart): any[] {
-    const potentialPromotions = [];
-    potentialPromotions.push(...(cart.potentialOrderPromotions || []));
-    potentialPromotions.push(...(cart.potentialProductPromotions || []));
-
-    const appliedPromotions = [];
-    appliedPromotions.push(...(cart.appliedOrderPromotions || []));
-    appliedPromotions.push(...(cart.appliedProductPromotions || []));
-
-    return [...potentialPromotions, ...appliedPromotions];
+    this.orderPromotions$ = this.promotionService.getOrderPromotions(
+      this.promotionLocation
+    );
   }
 
   saveForLater(item: Item) {
     if (this.loggedIn) {
-      this.cartService.removeEntry(item);
+      this.activeCartService.removeEntry(item);
       this.selectiveCartService.addEntry(item.product.code, item.quantity);
     } else {
       this.routingService.go({ cxRoute: 'login' });

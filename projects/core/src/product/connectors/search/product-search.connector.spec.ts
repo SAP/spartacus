@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { ProductSearchAdapter } from './product-search.adapter';
@@ -6,13 +5,13 @@ import { ProductSearchConnector } from './product-search.connector';
 import createSpy = jasmine.createSpy;
 
 class MockProductSearchAdapter implements ProductSearchAdapter {
-  search = createSpy('ProductSearchAdapter.loadSearch').and.callFake(query =>
+  search = createSpy('ProductSearchAdapter.loadSearch').and.callFake((query) =>
     of('search:' + query)
   );
 
   loadSuggestions = createSpy(
     'ProductSearchAdapter.loadSuggestions'
-  ).and.callFake(term => of('term:' + term));
+  ).and.callFake((term) => of('term:' + term));
 }
 
 describe('ProductSearchConnector', () => {
@@ -25,10 +24,8 @@ describe('ProductSearchConnector', () => {
         { provide: ProductSearchAdapter, useClass: MockProductSearchAdapter },
       ],
     });
-    service = TestBed.get(ProductSearchConnector as Type<
-      ProductSearchConnector
-    >);
-    adapter = TestBed.get(ProductSearchAdapter as Type<ProductSearchAdapter>);
+    service = TestBed.inject(ProductSearchConnector);
+    adapter = TestBed.inject(ProductSearchAdapter);
   });
 
   it('should be created', () => {
@@ -37,14 +34,14 @@ describe('ProductSearchConnector', () => {
 
   it('search should call adapter', () => {
     let result;
-    service.search('test query').subscribe(res => (result = res));
+    service.search('test query').subscribe((res) => (result = res));
     expect(result).toBe('search:test query');
     expect(adapter.search).toHaveBeenCalledWith('test query', undefined);
   });
 
   it('getSuggestions should call adapter', () => {
     let result;
-    service.getSuggestions('test term').subscribe(res => (result = res));
+    service.getSuggestions('test term').subscribe((res) => (result = res));
     expect(result).toBe('term:test term');
     expect(adapter.loadSuggestions).toHaveBeenCalledWith(
       'test term',

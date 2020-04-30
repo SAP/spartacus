@@ -4,17 +4,17 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { ConsignmentTrackingComponent } from '../../../../cms-components/myaccount/order/order-details/order-detail-items/consignment-tracking/consignment-tracking.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CardModule } from '../../../../shared/components/card/card.module';
-import { SpinnerModule } from '../../../../shared/components/index';
+import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
@@ -60,7 +60,10 @@ const moduleComponents = [
         data: { cxRoute: 'orderDetails' },
       },
     ]),
-    ConfigModule.withConfig(<CmsConfig | FeaturesConfig>{
+    SpinnerModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig | FeaturesConfig>{
       cmsComponents: {
         AccountOrderDetailsActionsComponent: {
           component: OrderDetailActionsComponent,
@@ -82,9 +85,8 @@ const moduleComponents = [
         consignmentTracking: '1.2',
       },
     }),
-    SpinnerModule,
+    OrderDetailsService,
   ],
-  providers: [OrderDetailsService],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],
   entryComponents: [...moduleComponents],

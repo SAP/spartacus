@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CheckoutPaymentAdapter } from './checkout-payment.adapter';
@@ -27,12 +26,8 @@ describe('CheckoutPaymentConnector', () => {
       ],
     });
 
-    service = TestBed.get(CheckoutPaymentConnector as Type<
-      CheckoutPaymentConnector
-    >);
-    adapter = TestBed.get(CheckoutPaymentAdapter as Type<
-      CheckoutPaymentAdapter
-    >);
+    service = TestBed.inject(CheckoutPaymentConnector);
+    adapter = TestBed.inject(CheckoutPaymentAdapter);
   });
 
   it('should be created', () => {
@@ -51,7 +46,7 @@ describe('CheckoutPaymentConnector', () => {
 
   it('getCardTypes should call adapter', () => {
     let result;
-    service.getCardTypes().subscribe(res => (result = res));
+    service.getCardTypes().subscribe((res) => (result = res));
     expect(result).toEqual([]);
     expect(adapter.loadCardTypes).toHaveBeenCalledWith();
   });

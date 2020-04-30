@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Product } from '../../../model/product.model';
@@ -8,7 +7,7 @@ import * as fromReducers from '../reducers/index';
 import { ProductSelectors } from '../selectors/index';
 import { Subscription } from 'rxjs';
 
-describe('Cms Component Selectors', () => {
+describe('Product Selectors', () => {
   let store: Store<StateWithProduct>;
 
   const code = 'testCode';
@@ -28,7 +27,7 @@ describe('Cms Component Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithProduct>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -39,25 +38,12 @@ describe('Cms Component Selectors', () => {
     }
   });
 
-  describe('getSelectedProductsFactory', () => {
-    it('should return product by code', () => {
-      let result: Product[];
-      subscription = store
-        .pipe(select(ProductSelectors.getSelectedProductsFactory(['testCode'])))
-        .subscribe(value => (result = value));
-
-      store.dispatch(new ProductActions.LoadProductSuccess(product));
-
-      expect(result).toEqual([product]);
-    });
-  });
-
   describe('getAllProductCodes', () => {
     it('should return product codes as an array', () => {
       let result: string[];
       subscription = store
         .pipe(select(ProductSelectors.getAllProductCodes))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 
@@ -72,7 +58,7 @@ describe('Cms Component Selectors', () => {
       let result: Product;
       subscription = store
         .pipe(select(ProductSelectors.getSelectedProductFactory(code)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new ProductActions.LoadProductSuccess(product));
       expect(result).toEqual(product);
@@ -82,7 +68,7 @@ describe('Cms Component Selectors', () => {
       let result: Product;
       subscription = store
         .pipe(select(ProductSelectors.getSelectedProductFactory(code, scope)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new ProductActions.LoadProductSuccess(product, scope));
       expect(result).toEqual(product);
@@ -95,7 +81,7 @@ describe('Cms Component Selectors', () => {
 
       subscription = store
         .pipe(select(ProductSelectors.getSelectedProductLoadingFactory(code)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new ProductActions.LoadProduct(product.code));
       expect(result).toBeTruthy();
@@ -111,7 +97,7 @@ describe('Cms Component Selectors', () => {
         .pipe(
           select(ProductSelectors.getSelectedProductLoadingFactory(code, scope))
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(new ProductActions.LoadProduct(product.code, scope));
       expect(result).toBeTruthy();
@@ -127,7 +113,7 @@ describe('Cms Component Selectors', () => {
 
       subscription = store
         .pipe(select(ProductSelectors.getSelectedProductSuccessFactory(code)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toBeFalsy();
 
@@ -141,7 +127,7 @@ describe('Cms Component Selectors', () => {
         .pipe(
           select(ProductSelectors.getSelectedProductSuccessFactory(code, scope))
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toBeFalsy();
 
@@ -156,7 +142,7 @@ describe('Cms Component Selectors', () => {
 
       subscription = store
         .pipe(select(ProductSelectors.getSelectedProductErrorFactory(code)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toBeFalsy();
 
@@ -171,7 +157,7 @@ describe('Cms Component Selectors', () => {
         .pipe(
           select(ProductSelectors.getSelectedProductErrorFactory(code, scope))
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toBeFalsy();
 

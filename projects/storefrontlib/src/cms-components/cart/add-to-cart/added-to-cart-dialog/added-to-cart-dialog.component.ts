@@ -2,15 +2,15 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   Cart,
-  CartService,
+  ActiveCartService,
   OrderEntry,
   PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
-import { ModalService } from '../../../../shared/components/modal/index';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({
@@ -30,7 +30,7 @@ export class AddedToCartDialogComponent implements OnInit {
   quantity = 0;
   modalIsOpen = false;
 
-  @ViewChild('dialog', { static: false, read: ElementRef })
+  @ViewChild('dialog', { read: ElementRef })
   dialog: ElementRef;
 
   form: FormGroup = new FormGroup({});
@@ -38,23 +38,9 @@ export class AddedToCartDialogComponent implements OnInit {
   private quantityControl$: Observable<FormControl>;
 
   constructor(
-    modalService: ModalService,
-    cartService: CartService,
-    // tslint:disable-next-line:unified-signatures
-    promotionService: PromotionService
-  );
-
-  /**
-   * @deprecated Since 1.5
-   * Use promotionService instead of the promotion inputs.
-   * Remove issue: #5670
-   */
-  constructor(modalService: ModalService, cartService: CartService);
-
-  constructor(
     protected modalService: ModalService,
-    protected cartService: CartService,
-    protected promotionService?: PromotionService
+    protected cartService: ActiveCartService,
+    protected promotionService: PromotionService
   ) {}
   /**
    * Returns an observable formControl with the quantity of the cartEntry,
@@ -64,13 +50,13 @@ export class AddedToCartDialogComponent implements OnInit {
   getQuantityControl(): Observable<FormControl> {
     if (!this.quantityControl$) {
       this.quantityControl$ = this.entry$.pipe(
-        filter(e => !!e),
-        map(entry => this.getFormControl(entry)),
+        filter((e) => !!e),
+        map((entry) => this.getFormControl(entry)),
         switchMap(() =>
           this.form.valueChanges.pipe(
             // tslint:disable-next-line:deprecation
             startWith(null),
-            tap(valueChange => {
+            tap((valueChange) => {
               if (valueChange) {
                 this.cartService.updateEntry(
                   valueChange.entryNumber,

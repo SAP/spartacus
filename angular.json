@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/storefrontapp",
             "index": "projects/storefrontapp/src/index.html",
             "main": "projects/storefrontapp/src/main.ts",
@@ -33,6 +34,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
@@ -52,6 +59,12 @@
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
             "ci": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
@@ -70,6 +83,12 @@
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
             "qa": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
@@ -147,14 +166,46 @@
           "builder": "@angular-devkit/build-angular:server",
           "options": {
             "outputPath": "dist/storefrontapp-server",
-            "main": "projects/storefrontapp/src/main.server.ts",
-            "tsConfig": "projects/storefrontapp/tsconfig.server.json",
-            "fileReplacements": [
-              {
-                "replace": "projects/storefrontapp/src/environments/environment.ts",
-                "with": "projects/storefrontapp/src/environments/environment.prod.ts"
-              }
-            ]
+            "main": "projects/storefrontapp/server.ts",
+            "tsConfig": "projects/storefrontapp/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/environment.ts",
+                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true,
+              "tsConfig": "projects/storefrontapp/tsconfig.server.prod.json"
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "storefrontapp:build",
+            "serverTarget": "storefrontapp:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "storefrontapp:build:production",
+              "serverTarget": "storefrontapp:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "storefrontapp:build:production",
+            "serverTarget": "storefrontapp:server:production",
+            "routes": ["/"]
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }
@@ -170,6 +221,11 @@
           "options": {
             "tsConfig": "projects/storefrontlib/tsconfig.lib.json",
             "project": "projects/storefrontlib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/storefrontlib/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -207,6 +263,11 @@
           "options": {
             "tsConfig": "projects/core/tsconfig.lib.json",
             "project": "projects/core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/core/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -240,6 +301,11 @@
           "options": {
             "tsConfig": "projects/vendor/tsconfig.lib.json",
             "project": "projects/vendor/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/vendor/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -273,6 +339,11 @@
           "options": {
             "tsConfig": "projects/assets/tsconfig.lib.json",
             "project": "projects/assets/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/assets/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -306,6 +377,11 @@
           "options": {
             "tsConfig": "projects/incubator/tsconfig.lib.json",
             "project": "projects/incubator/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/incubator/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -339,6 +415,11 @@
           "options": {
             "tsConfig": "projects/cds/tsconfig.lib.json",
             "project": "projects/cds/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/cds/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -371,6 +452,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/storefrontapp-cds-integration",
             "index": "projects/storefrontapp-cds-integration/src/index.html",
             "main": "projects/storefrontapp-cds-integration/src/main.ts",
@@ -393,6 +475,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp-cds-integration/src/environments/environment.ts",
@@ -412,6 +500,12 @@
               "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.app.prod.json"
             },
             "ci": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp-cds-integration/src/environments/environment.ts",
@@ -430,6 +524,12 @@
               "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.app.prod.json"
             },
             "qa": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp-cds-integration/src/environments/environment.ts",
@@ -509,14 +609,46 @@
           "builder": "@angular-devkit/build-angular:server",
           "options": {
             "outputPath": "dist/storefrontapp-cds-integration-server",
-            "main": "projects/storefrontapp-cds-integration/src/main.server.ts",
-            "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.server.json",
-            "fileReplacements": [
-              {
-                "replace": "projects/storefrontapp-cds-integration/src/environments/environment.ts",
-                "with": "projects/storefrontapp-cds-integration/src/environments/environment.prod.ts"
-              }
-            ]
+            "main": "projects/storefrontapp-cds-integration/server.ts",
+            "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp-cds-integration/src/environments/environment.ts",
+                  "with": "projects/storefrontapp-cds-integration/src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true,
+              "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.server.prod.json"
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "storefrontapp-cds-integration:build",
+            "serverTarget": "storefrontapp-cds-integration:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "storefrontapp-cds-integration:build:production",
+              "serverTarget": "storefrontapp-cds-integration:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "storefrontapp-cds-integration:build:production",
+            "serverTarget": "storefrontapp-cds-integration:server:production",
+            "routes": ["/"]
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }

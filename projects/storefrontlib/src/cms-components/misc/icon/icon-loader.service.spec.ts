@@ -1,15 +1,22 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { DomSanitizer } from '@angular/platform-browser';
+import { WindowRef } from '@spartacus/core';
 import { IconLoaderService } from './icon-loader.service';
 import { IconConfig, IconResourceType, ICON_TYPE } from './icon.model';
 
+const FONT_AWESOME_RESOURCE =
+  'https://use.fontawesome.com/releases/v5.8.1/css/all.css';
 const MockFontIconConfig: IconConfig = {
   icon: {
     symbols: {
       SEARCH: 'fas fa-search',
       VISA: 'fab fa-cc-visa',
+      AMEX: 'fab fa-amex',
+      MASTERCARD: 'fab fa-master-card',
+      PAYPAL: 'fab fa-paypal',
       CART: 'cartSymbol',
       INFO: 'infoSymbol',
+      HAPPY: '😊',
     },
     resources: [
       {
@@ -21,53 +28,116 @@ const MockFontIconConfig: IconConfig = {
         type: IconResourceType.SVG,
         types: [ICON_TYPE.INFO],
       },
+      {
+        type: IconResourceType.LINK,
+        url: FONT_AWESOME_RESOURCE,
+      },
+      {
+        type: IconResourceType.LINK,
+        url: FONT_AWESOME_RESOURCE,
+        types: ['PAYPAL'],
+      },
+      {
+        type: IconResourceType.LINK,
+        url: 'different-font.css',
+        types: ['MASTERCARD'],
+      },
+      {
+        type: IconResourceType.TEXT,
+        types: ['HAPPY'],
+      },
     ],
   },
 };
 
 describe('IconLoaderService', () => {
   let service: IconLoaderService;
+  let winRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [{ provide: IconConfig, useValue: MockFontIconConfig }],
     });
 
-    service = TestBed.get(IconLoaderService as Type<IconLoaderService>);
+    service = TestBed.inject(IconLoaderService);
+    winRef = TestBed.inject(WindowRef);
   });
 
-  describe('Font Awesome icons', () => {
-    it('should inject service', () => {
-      expect(service).toBeTruthy();
+  it('should inject service', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should return symbol', () => {
+    expect(service.getSymbol(ICON_TYPE.VISA)).toEqual('fab fa-cc-visa');
+  });
+
+  describe('Linked resources', () => {
+    it('should add the font resource', () => {
+      spyOn<any>(winRef.document, 'createElement').and.callThrough();
+      service.addLinkResource(ICON_TYPE.VISA);
+      expect(winRef.document.createElement).toHaveBeenCalledWith('link');
     });
 
-    it('should use configured symbol in the class when using fonts', () => {
+    it('should not add the font resource for the same font icon', () => {
+      spyOn<any>(winRef.document, 'createElement').and.callThrough();
+      service.addLinkResource(ICON_TYPE.VISA);
+      service.addLinkResource(ICON_TYPE.VISA);
+      expect(winRef.document.createElement).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not add the same font resource for fonts with the same font resource', () => {
+      spyOn<any>(winRef.document, 'createElement').and.callThrough();
+      service.addLinkResource(ICON_TYPE.VISA);
+      service.addLinkResource('PAYPAL');
+      expect(winRef.document.createElement).toHaveBeenCalledTimes(1);
+    });
+
+    it('should add 2 fonts resources for the different fonts', () => {
+      spyOn<any>(winRef.document, 'createElement').and.callThrough();
+      service.addLinkResource(ICON_TYPE.VISA);
+      service.addLinkResource('MASTERCARD');
+      expect(winRef.document.createElement).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('Styles', () => {
+    it('should return configured symbol in the class when using fonts', () => {
       expect(service.getStyleClasses(ICON_TYPE.VISA)).toContain('fab');
       expect(service.getStyleClasses(ICON_TYPE.VISA)).toContain('fa-cc-visa');
     });
-
-    it('should not use svg', () => {
-      expect(service.useSvg(ICON_TYPE.SEARCH)).toBeFalsy();
-    });
-
-    it('should not return an svg path when icons are driven by fonts', () => {
-      expect(service.getSvgPath(ICON_TYPE.VISA)).toBeFalsy();
-    });
   });
 
-  describe('SVG icons', () => {
-    it('should use svg', () => {
-      expect(service.useSvg(ICON_TYPE.CART)).toBeTruthy();
+  describe('sanitize HTML for icons', () => {
+    it(`should not have bypassed HTML sanitizing for font icon`, () => {
+      const domSanitizer: DomSanitizer = TestBed.get(DomSanitizer);
+      spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+      service.getHtml(ICON_TYPE.VISA);
+      expect(domSanitizer.bypassSecurityTrustHtml).not.toHaveBeenCalled();
     });
 
-    it('should use SVG sprites', () => {
-      expect(service.getSvgPath(ICON_TYPE.CART)).toEqual(
-        './assets/sprite.svg#cartSymbol'
+    it(`should have bypassed HTML sanitizing for text icon`, () => {
+      const domSanitizer: DomSanitizer = TestBed.get(DomSanitizer);
+      spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+      service.getHtml('HAPPY');
+      expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalled();
+    });
+
+    it('should have bypassed HTML sanitizing for sprited SVG', () => {
+      const domSanitizer: DomSanitizer = TestBed.get(DomSanitizer);
+      spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+      service.getHtml(ICON_TYPE.CART);
+      expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(
+        '<svg><use xlink:href="./assets/sprite.svg#cartSymbol"></use></svg>'
       );
     });
 
-    it('should use local SVG symbol', () => {
-      expect(service.getSvgPath(ICON_TYPE.INFO)).toEqual('#infoSymbol');
+    it('should have bypassed HTML sanitizing for non-sprited SVG', () => {
+      const domSanitizer: DomSanitizer = TestBed.get(DomSanitizer);
+      spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
+      service.getHtml(ICON_TYPE.INFO);
+      expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(
+        '<svg><use xlink:href="#infoSymbol"></use></svg>'
+      );
     });
   });
 });

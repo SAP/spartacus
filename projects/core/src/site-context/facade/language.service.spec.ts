@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
@@ -60,9 +59,9 @@ describe('LanguageService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(LanguageService as Type<LanguageService>);
+    service = TestBed.inject(LanguageService);
   });
 
   it('should LanguageService is injected', inject(
@@ -78,14 +77,14 @@ describe('LanguageService', () => {
 
   it('should be able to get languages', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
-    service.getAll().subscribe(results => {
+    service.getAll().subscribe((results) => {
       expect(results).toEqual(mockLanguages);
     });
   });
 
   it('should be able to get active languages', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
-    service.getActive().subscribe(results => {
+    service.getActive().subscribe((results) => {
       expect(results).toEqual(mockActiveLang);
     });
   });

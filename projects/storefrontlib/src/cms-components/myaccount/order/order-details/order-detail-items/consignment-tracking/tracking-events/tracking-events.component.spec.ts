@@ -57,7 +57,7 @@ describe('TrackingEventsComponent', () => {
   it('should show loading spinner', () => {
     component.tracking$ = of();
     fixture.detectChanges();
-    expect(el.query(By.css('[data-test="loading-track"]'))).toBeTruthy();
+    expect(el.query(By.css('.tracking-loading'))).toBeTruthy();
   });
 
   it('should show no tracking', () => {
@@ -65,7 +65,7 @@ describe('TrackingEventsComponent', () => {
       trackingID: '1234567890',
     });
     fixture.detectChanges();
-    expect(el.query(By.css('[data-test="head-notrack"]'))).toBeTruthy();
+    expect(el.query(By.css('.no-tracking-heading'))).toBeTruthy();
   });
 
   it('should show tracking info', () => {
@@ -97,13 +97,13 @@ describe('TrackingEventsComponent', () => {
       ],
     });
     fixture.detectChanges();
-    expect(el.query(By.css('[data-test="head-track"]'))).toBeTruthy();
-    expect(el.queryAll(By.css('[data-test="body-event"]')).length).toBe(3);
+    expect(el.query(By.css('.shipment-heading'))).toBeTruthy();
+    expect(el.queryAll(By.css('.event-body')).length).toBe(3);
   });
 
   it('should be able to close dialog', () => {
     fixture.detectChanges();
-    el.query(By.css('[data-test="btn-dismiss"')).nativeElement.click();
+    el.query(By.css('.btn-dismiss')).nativeElement.click();
     expect(ngbActiveModal.dismiss).toHaveBeenCalledWith('Cross click');
     expect(userOrderService.clearConsignmentTracking).toHaveBeenCalled();
   });

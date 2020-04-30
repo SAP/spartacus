@@ -18,13 +18,13 @@ describe(`OccLoadedConfigConverter`, () => {
         {
           provide: JavaRegExpConverter,
           useValue: {
-            toJsRegExp: jasmine.createSpy().and.callFake(x => new RegExp(x)),
+            toJsRegExp: jasmine.createSpy().and.callFake((x) => new RegExp(x)),
           },
         },
       ],
     });
 
-    converter = TestBed.get(OccLoadedConfigConverter);
+    converter = TestBed.inject(OccLoadedConfigConverter);
   });
 
   describe(`fromOccBaseSites`, () => {
@@ -47,7 +47,7 @@ describe(`OccLoadedConfigConverter`, () => {
         urlEncodingAttributes: [],
       };
 
-      javaRegExpConverter = TestBed.get(JavaRegExpConverter);
+      javaRegExpConverter = TestBed.inject(JavaRegExpConverter);
     });
 
     it(`should throw error when the base sites param is undefined`, () => {

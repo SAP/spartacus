@@ -4,8 +4,8 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
@@ -21,7 +21,9 @@ import { CloseAccountComponent } from './components/close-account/close-account.
     I18nModule,
     IconModule,
     SpinnerModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CloseAccountComponent: {
           component: CloseAccountComponent,

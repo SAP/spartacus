@@ -1,12 +1,12 @@
-import { Component, DebugElement, Input, Type } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartService,
   Cart,
-  CartService,
   I18nTestingModule,
   OrderEntry,
   Product,
@@ -36,15 +36,12 @@ const mockNoStockProduct: Product = {
   stock: { stockLevelStatus: 'outOfStock' },
 };
 
-class MockCartService {
+class MockActiveCartService {
   addEntry(_productCode: string, _quantity: number): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }
-  getAddEntryLoaded(): Observable<boolean> {
-    return of(true);
-  }
-  getLoaded(): Observable<boolean> {
+  isStable(): Observable<boolean> {
     return of();
   }
   getActive(): Observable<Cart> {
@@ -72,7 +69,7 @@ class MockItemCounterComponent {
 describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
-  let service: CartService;
+  let service: ActiveCartService;
   let currentProductService: CurrentProductService;
   let el: DebugElement;
 
@@ -91,7 +88,7 @@ describe('AddToCartComponent', () => {
       declarations: [AddToCartComponent, MockItemCounterComponent],
       providers: [
         { provide: ModalService, useValue: { open: () => {} } },
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
@@ -103,11 +100,9 @@ describe('AddToCartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToCartComponent);
     addToCartComponent = fixture.componentInstance;
-    service = TestBed.get(CartService as Type<CartService>);
-    modalInstance = TestBed.get(ModalService as Type<ModalService>);
-    currentProductService = TestBed.get(CurrentProductService as Type<
-      CurrentProductService
-    >);
+    service = TestBed.inject(ActiveCartService);
+    modalInstance = TestBed.inject(ModalService);
+    currentProductService = TestBed.inject(CurrentProductService);
     el = fixture.debugElement;
 
     spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
@@ -124,7 +119,7 @@ describe('AddToCartComponent', () => {
       spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
       addToCartComponent.ngOnInit();
       let result: OrderEntry;
-      addToCartComponent.cartEntry$.subscribe(entry => (result = entry));
+      addToCartComponent.cartEntry$.subscribe((entry) => (result = entry));
       expect(result).toEqual(mockCartEntry);
     });
 

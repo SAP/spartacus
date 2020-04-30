@@ -107,7 +107,9 @@ export class ConverterService {
     injectionToken: InjectionToken<Converter<S, T>>
   ): T[] {
     if (this.hasConverters(injectionToken) && Array.isArray(sources)) {
-      return sources.map(source => this.convertSource(source, injectionToken));
+      return sources.map((source) =>
+        this.convertSource(source, injectionToken)
+      );
     } else {
       return sources as any[];
     }
@@ -117,11 +119,8 @@ export class ConverterService {
     source: S,
     injectionToken: InjectionToken<Converter<S, T>>
   ): T {
-    return this.getConverters(injectionToken).reduce(
-      (target, converter) => {
-        return converter.convert(source, target);
-      },
-      undefined as T
-    );
+    return this.getConverters(injectionToken).reduce((target, converter) => {
+      return converter.convert(source, target);
+    }, undefined as T);
   }
 }

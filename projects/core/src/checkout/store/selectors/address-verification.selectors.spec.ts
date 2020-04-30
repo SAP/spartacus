@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { AddressValidation } from '../../../model/address.model';
@@ -18,7 +17,7 @@ describe('Address Verification Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithCheckout>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -32,7 +31,7 @@ describe('Address Verification Selectors', () => {
       let result: string | AddressValidation;
       store
         .pipe(select(CheckoutSelectors.getAddressVerificationResults))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({});
 

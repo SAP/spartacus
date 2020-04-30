@@ -46,6 +46,7 @@
 #  LTiger14 - Louis Pierrestiger
 #  znikola - Nikola Zarić
 #  developpeurweb - Miguel Estrada
+#  psmul - Patryk Smul
 
 
 # ===========================================================
@@ -98,6 +99,14 @@
 #   - dunqan
 #   - Platonn
 
+# ===========================================================
+#  @SAP/spartacus-schematics-owners
+# ===========================================================
+#
+#   - znikola
+#   - psmul
+
+
 
 ######################################################################################################
 #
@@ -142,6 +151,11 @@
 #  Routing Functionality
 # ================================================
 /projects/core/src/routing/**                                            @SAP/spartacus-routing-owners @SAP/spartacus-global-owners
+
+# ================================================
+#  Schematics
+# ================================================
+/projects/schematics/src/**                                            @SAP/spartacus-schematics-owners @SAP/spartacus-global-owners
 
 # ================================================
 #  CODEOWNERS Owners owners ...

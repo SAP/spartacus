@@ -1,7 +1,5 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
 import {
@@ -16,8 +14,8 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
 
 class MockAuthService {
-  getOccUserId(): Observable<string> {
-    return of('current');
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
   }
 }
 
@@ -41,9 +39,9 @@ describe('UserService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(UserService as Type<UserService>);
+    service = TestBed.inject(UserService);
   });
 
   it('should UserService is injected', inject(
@@ -62,7 +60,7 @@ describe('UserService', () => {
       let userDetails: User;
       service
         .get()
-        .subscribe(data => {
+        .subscribe((data) => {
           userDetails = data;
         })
         .unsubscribe();
@@ -73,7 +71,7 @@ describe('UserService', () => {
       let userDetails: User;
       service
         .get()
-        .subscribe(data => {
+        .subscribe((data) => {
           userDetails = data;
         })
         .unsubscribe();
@@ -91,9 +89,9 @@ describe('UserService', () => {
     });
 
     it('should not load anonymous user details', () => {
-      const authService = TestBed.get(AuthService as Type<AuthService>);
-      spyOn(authService, 'getOccUserId').and.returnValue(
-        of(OCC_USER_ID_ANONYMOUS)
+      const authService = TestBed.inject(AuthService);
+      spyOn(authService, 'invokeWithUserId').and.callFake((cb) =>
+        cb(OCC_USER_ID_ANONYMOUS)
       );
       service.load();
       expect(store.dispatch).not.toHaveBeenCalled();
@@ -137,7 +135,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getRemoveUserResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -149,7 +147,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getRemoveUserResultError()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -161,7 +159,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getRemoveUserResultSuccess()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -185,7 +183,7 @@ describe('UserService', () => {
     let titles: Title[];
     service
       .getTitles()
-      .subscribe(data => {
+      .subscribe((data) => {
         titles = data;
       })
       .unsubscribe();
@@ -222,7 +220,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdatePersonalDetailsResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(false);
@@ -234,7 +232,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdatePersonalDetailsResultError()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -246,7 +244,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdatePersonalDetailsResultSuccess()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -283,7 +281,7 @@ describe('UserService', () => {
     let isResst: boolean;
     service
       .isPasswordReset()
-      .subscribe(data => {
+      .subscribe((data) => {
         isResst = data;
       })
       .unsubscribe();
@@ -311,7 +309,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdateEmailResultSuccess()
-        .subscribe(success => (result = success))
+        .subscribe((success) => (result = success))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -323,7 +321,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdateEmailResultError()
-        .subscribe(error => (result = error))
+        .subscribe((error) => (result = error))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -335,7 +333,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdateEmailResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(false);
@@ -374,7 +372,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getUpdatePasswordResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -386,7 +384,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getUpdatePasswordResultError()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -398,7 +396,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getUpdatePasswordResultSuccess()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);

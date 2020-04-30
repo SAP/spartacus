@@ -1,10 +1,9 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { MultiCartSelectors } from '.';
 import { Cart } from '../../../model/cart.model';
 import { CartActions } from '../actions';
-import { StateWithMultiCart } from '../multi-cart-state';
+import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';
 import * as fromReducers from './../reducers/index';
 
 describe('Multi Cart selectors', () => {
@@ -32,12 +31,13 @@ describe('Multi Cart selectors', () => {
 
   function loadCart() {
     store.dispatch(
-      new CartActions.LoadMultiCartSuccess({
+      new CartActions.LoadCartSuccess({
         cart: testCart,
         userId: 'userId',
         extraData: {
           active: true,
         },
+        cartId: testCart.code,
       })
     );
   }
@@ -47,13 +47,13 @@ describe('Multi Cart selectors', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(
-          'multi-cart',
+          MULTI_CART_FEATURE,
           fromReducers.getMultiCartReducers()
         ),
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithMultiCart>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -62,7 +62,7 @@ describe('Multi Cart selectors', () => {
       let result;
       store
         .pipe(select(MultiCartSelectors.getMultiCartState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({
         active: '',
@@ -97,7 +97,7 @@ describe('Multi Cart selectors', () => {
       let result;
       store
         .pipe(select(MultiCartSelectors.getMultiCartEntities))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({
         entities: {},
@@ -126,7 +126,7 @@ describe('Multi Cart selectors', () => {
         .pipe(
           select(MultiCartSelectors.getCartEntitySelectorFactory(testCart.code))
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({
         loading: false,
@@ -153,7 +153,7 @@ describe('Multi Cart selectors', () => {
       let result;
       store
         .pipe(select(MultiCartSelectors.getCartSelectorFactory(testCart.code)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(undefined);
 
@@ -172,7 +172,7 @@ describe('Multi Cart selectors', () => {
             MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code)
           )
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
 
@@ -193,7 +193,7 @@ describe('Multi Cart selectors', () => {
             )
           )
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
 
@@ -212,7 +212,7 @@ describe('Multi Cart selectors', () => {
             MultiCartSelectors.getCartEntriesSelectorFactory(testCart.code)
           )
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 
@@ -234,7 +234,7 @@ describe('Multi Cart selectors', () => {
             )
           )
         )
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(undefined);
 
@@ -249,7 +249,7 @@ describe('Multi Cart selectors', () => {
       let result;
       store
         .pipe(select(MultiCartSelectors.getActiveCartId))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual('');
 

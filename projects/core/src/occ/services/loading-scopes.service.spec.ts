@@ -32,7 +32,7 @@ describe('LoadingScopesService', () => {
     TestBed.configureTestingModule({
       providers: [{ provide: OccConfig, useValue: mockConfig }],
     });
-    service = TestBed.get(LoadingScopesService);
+    service = TestBed.inject(LoadingScopesService);
   });
 
   it('should be created', () => {

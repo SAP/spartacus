@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { BaseSite } from '../../../model/misc.model';
@@ -21,7 +20,7 @@ describe('BaseSite Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
+    store = TestBed.inject(Store);
   });
 
   describe('getActiveBaseSite', () => {
@@ -30,7 +29,7 @@ describe('BaseSite Selectors', () => {
 
       store
         .pipe(select(SiteContextSelectors.getActiveBaseSite))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual('');
 
@@ -50,7 +49,7 @@ describe('BaseSite Selectors', () => {
       let result: BaseSite;
       store
         .pipe(select(SiteContextSelectors.getBaseSiteData))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({});
 

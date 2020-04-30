@@ -1,10 +1,8 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { Address } from '../../../model/address.model';
 import { UserAddressAdapter } from './user-address.adapter';
 import { UserAddressConnector } from './user-address.connector';
-
 import createSpy = jasmine.createSpy;
 
 const mockAddress: Address = {
@@ -15,9 +13,9 @@ const mockAddress: Address = {
 class MockAddressUserAdapter implements UserAddressAdapter {
   add = createSpy('add').and.returnValue(of({}));
   delete = createSpy('delete').and.returnValue(of({}));
-  loadAll = createSpy('loadAll').and.callFake(userId => of(`load-${userId}`));
+  loadAll = createSpy('loadAll').and.callFake((userId) => of(`load-${userId}`));
   update = createSpy('update').and.returnValue(of({}));
-  verify = createSpy('verify').and.callFake(userId => of(`verify-${userId}`));
+  verify = createSpy('verify').and.callFake((userId) => of(`verify-${userId}`));
 }
 
 describe('UserAddressConnector', () => {
@@ -31,8 +29,8 @@ describe('UserAddressConnector', () => {
       ],
     });
 
-    service = TestBed.get(UserAddressConnector as Type<UserAddressConnector>);
-    adapter = TestBed.get(UserAddressAdapter as Type<UserAddressAdapter>);
+    service = TestBed.inject(UserAddressConnector);
+    adapter = TestBed.inject(UserAddressAdapter);
   });
 
   it('should be created', () => {
@@ -41,21 +39,21 @@ describe('UserAddressConnector', () => {
 
   it('add should call adapter', () => {
     let result;
-    service.add('user-id', mockAddress).subscribe(res => (result = res));
+    service.add('user-id', mockAddress).subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.add).toHaveBeenCalledWith('user-id', mockAddress);
   });
 
   it('delete should call adapter', () => {
     let result;
-    service.delete('user-id', 'address-id').subscribe(res => (result = res));
+    service.delete('user-id', 'address-id').subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.delete).toHaveBeenCalledWith('user-id', 'address-id');
   });
 
   it('getAll should call adapter', () => {
     let result;
-    service.getAll('user-id').subscribe(res => (result = res));
+    service.getAll('user-id').subscribe((res) => (result = res));
     expect(result).toEqual('load-user-id');
     expect(adapter.loadAll).toHaveBeenCalledWith('user-id');
   });
@@ -64,7 +62,7 @@ describe('UserAddressConnector', () => {
     let result;
     service
       .update('user-id', 'address-id', mockAddress)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.update).toHaveBeenCalledWith(
       'user-id',
@@ -75,7 +73,7 @@ describe('UserAddressConnector', () => {
 
   it('verify should call adapter', () => {
     let result;
-    service.verify('user-id', mockAddress).subscribe(res => (result = res));
+    service.verify('user-id', mockAddress).subscribe((res) => (result = res));
     expect(result).toEqual('verify-user-id');
     expect(adapter.verify).toHaveBeenCalledWith('user-id', mockAddress);
   });

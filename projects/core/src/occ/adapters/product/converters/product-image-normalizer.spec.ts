@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { ImageType } from '../../../../model/image.model';
 import { Product } from '../../../../model/product.model';
@@ -113,9 +112,7 @@ describe('ProductImageNormalizer', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
-    service = TestBed.get(ProductImageNormalizer as Type<
-      ProductImageNormalizer
-    >);
+    service = TestBed.inject(ProductImageNormalizer);
   });
 
   it('should inject ProductImageConverterService', inject(

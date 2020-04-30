@@ -23,7 +23,7 @@ export class StockNotificationDialogComponent implements OnDestroy {
   ngOnDestroy(): void {
     if (this.subscribeSuccess$) {
       this.subscribeSuccess$
-        .subscribe(success => {
+        .subscribe((success) => {
           if (success) {
             this.interestsService.resetAddInterestState();
           }

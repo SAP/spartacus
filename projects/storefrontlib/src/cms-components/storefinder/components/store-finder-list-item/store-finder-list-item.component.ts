@@ -13,6 +13,8 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
   listOrderLabel: any;
   @Input()
   displayDistance: boolean;
+  @Input()
+  useClickEvent: boolean;
   @Output()
   storeItemClick: EventEmitter<number> = new EventEmitter();
 
@@ -23,6 +25,12 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
   handleStoreItemClick() {
     if (this.locationIndex !== null) {
       this.storeItemClick.emit(this.locationIndex);
+    }
+  }
+
+  onKey(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.handleStoreItemClick();
     }
   }
 }

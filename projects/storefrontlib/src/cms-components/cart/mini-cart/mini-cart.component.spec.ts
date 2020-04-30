@@ -3,8 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartService,
   Cart,
-  CartService,
   CmsComponent,
   CmsMiniCartComponent,
   I18nTestingModule,
@@ -27,7 +27,7 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 
@@ -59,7 +59,7 @@ const mockComponentData: CmsMiniCartComponent = {
 
 const activeCart = new ReplaySubject<Cart>();
 
-class MockCartService {
+class MockActiveCartService {
   getActive(): Observable<Cart> {
     return activeCart.asObservable();
   }
@@ -79,7 +79,7 @@ describe('MiniCartComponent', () => {
       declarations: [MiniCartComponent, MockUrlPipe, MockCxIconComponent],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
       ],
     }).compileComponents();
   }));
@@ -107,7 +107,7 @@ describe('MiniCartComponent', () => {
     it('should show 0 items when cart is not loaded', () => {
       const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
         .nativeElement.innerText;
-      expect(cartItemsNumber).toEqual('0');
+      expect(cartItemsNumber).toEqual('miniCart.count count:0');
     });
 
     it('should contain number of items in cart', () => {
@@ -115,7 +115,7 @@ describe('MiniCartComponent', () => {
       fixture.detectChanges();
       const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
         .nativeElement.innerText;
-      expect(cartItemsNumber).toEqual('1');
+      expect(cartItemsNumber).toEqual('miniCart.count count:1');
     });
   });
 });

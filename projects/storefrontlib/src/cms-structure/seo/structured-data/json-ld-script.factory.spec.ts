@@ -6,7 +6,7 @@ import { JsonLdScriptFactory } from './json-ld-script.factory';
 import { StructuredDataFactory } from './structured-data.factory';
 
 describe('JsonLdScriptFactory', () => {
-  let service: JsonLdScriptFactory;
+  let service: JsonLdScriptFactory | StructuredDataFactory;
   let winRef: WindowRef;
 
   describe('server', () => {
@@ -19,8 +19,8 @@ describe('JsonLdScriptFactory', () => {
         ],
       });
 
-      service = TestBed.get(JsonLdScriptFactory);
-      winRef = TestBed.get(WindowRef);
+      service = TestBed.inject(JsonLdScriptFactory);
+      winRef = TestBed.inject(WindowRef);
     });
 
     it('should be created', () => {
@@ -83,8 +83,8 @@ describe('JsonLdScriptFactory', () => {
         ],
       });
 
-      service = TestBed.get(StructuredDataFactory);
-      winRef = TestBed.get(WindowRef);
+      service = TestBed.inject(StructuredDataFactory);
+      winRef = TestBed.inject(WindowRef);
     });
 
     it('should not build in production mode', () => {

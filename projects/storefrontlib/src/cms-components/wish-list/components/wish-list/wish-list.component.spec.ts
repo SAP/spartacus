@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, Type } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Cart,
@@ -56,7 +56,7 @@ describe('WishListComponent', () => {
     fixture = TestBed.createComponent(WishListComponent);
     component = fixture.componentInstance;
 
-    wishListService = TestBed.get(WishListService as Type<WishListService>);
+    wishListService = TestBed.inject(WishListService);
     fixture.detectChanges();
   });
 

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import { ConverterService } from '../../../../util/converter.service';
@@ -37,7 +36,7 @@ const mockedInterests = {
 
 describe('OccUserInterestsNormalizer', () => {
   let occUserInterestsNormalizer: OccUserInterestsNormalizer;
-  let converter: MockConverterService;
+  let converter: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -47,10 +46,8 @@ describe('OccUserInterestsNormalizer', () => {
       ],
     });
 
-    occUserInterestsNormalizer = TestBed.get(OccUserInterestsNormalizer as Type<
-      OccUserInterestsNormalizer
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
+    occUserInterestsNormalizer = TestBed.inject(OccUserInterestsNormalizer);
+    converter = TestBed.inject(ConverterService);
     spyOn(converter, 'convert').and.callFake(((p: Product) => ({
       ...p,
       code: p.code + 'converted',

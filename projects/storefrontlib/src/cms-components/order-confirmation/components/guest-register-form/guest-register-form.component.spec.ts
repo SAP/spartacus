@@ -1,17 +1,16 @@
-import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
-  I18nTestingModule,
-  UserToken,
   AuthService,
-  UserService,
+  I18nTestingModule,
   RoutingService,
+  UserService,
+  UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { GuestRegisterFormComponent } from './guest-register-form.component';
-
 import createSpy = jasmine.createSpy;
+import { FormErrorsModule } from '../../../../shared/index';
 
 class MockAuthService {
   getUserToken(): Observable<UserToken> {
@@ -36,7 +35,7 @@ describe('GuestRegisterFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
+      imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
       declarations: [GuestRegisterFormComponent],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
@@ -49,8 +48,8 @@ describe('GuestRegisterFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GuestRegisterFormComponent);
 
-    userService = TestBed.get(UserService as Type<UserService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    userService = TestBed.inject(UserService);
+    routingService = TestBed.inject(RoutingService);
 
     component = fixture.componentInstance;
   });
@@ -60,8 +59,9 @@ describe('GuestRegisterFormComponent', () => {
   });
 
   it('should register customer and redirect to homepage when submit', () => {
-    const password = 'test password';
+    const password = 'StrongPass123!@#';
     component.guestRegisterForm.controls['password'].setValue(password);
+    component.guestRegisterForm.controls['passwordconf'].setValue(password);
     component.guid = 'guid';
     component.submit();
 

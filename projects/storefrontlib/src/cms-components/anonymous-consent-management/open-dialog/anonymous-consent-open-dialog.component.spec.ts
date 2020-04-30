@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
@@ -32,7 +31,7 @@ describe('AnonymousConsentOpenDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AnonymousConsentOpenDialogComponent);
     component = fixture.componentInstance;
-    modalService = TestBed.get(ModalService as Type<ModalService>);
+    modalService = TestBed.inject(ModalService);
 
     fixture.detectChanges();
   });

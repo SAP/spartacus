@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs/internal/observable/of';
 import { UserConsentAdapter } from './user-consent.adapter';
@@ -20,8 +19,8 @@ describe('UserConsentConnector', () => {
       providers: [{ provide: UserConsentAdapter, useClass: MockUserAdapter }],
     });
 
-    service = TestBed.get(UserConsentConnector as Type<UserConsentConnector>);
-    adapter = TestBed.get(UserConsentAdapter as Type<UserConsentAdapter>);
+    service = TestBed.inject(UserConsentConnector);
+    adapter = TestBed.inject(UserConsentAdapter);
   });
 
   it('should be created', () => {
@@ -30,7 +29,7 @@ describe('UserConsentConnector', () => {
 
   it('loadConsents should call adapter', () => {
     let result;
-    service.loadConsents('userId').subscribe(res => (result = res));
+    service.loadConsents('userId').subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.loadConsents).toHaveBeenCalledWith('userId');
   });
@@ -39,7 +38,7 @@ describe('UserConsentConnector', () => {
     let result;
     service
       .giveConsent('userId', 'templateId', 0)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.giveConsent).toHaveBeenCalledWith('userId', 'templateId', 0);
   });
@@ -48,7 +47,7 @@ describe('UserConsentConnector', () => {
     let result;
     service
       .withdrawConsent('userId', 'consentCode')
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.withdrawConsent).toHaveBeenCalledWith(
       'userId',

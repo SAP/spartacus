@@ -2,7 +2,6 @@ import { ProductVariantGuard } from '@spartacus/storefront';
 import { Product, ProductService, RoutingService } from '@spartacus/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Type } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 const mockPurchasableProduct = {
@@ -68,25 +67,25 @@ describe('ProductVariantGuard', () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(ProductVariantGuard as Type<ProductVariantGuard>);
-    productService = TestBed.get(ProductService as Type<ProductService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    guard = TestBed.inject(ProductVariantGuard);
+    productService = TestBed.inject(ProductService);
+    routingService = TestBed.inject(RoutingService);
   });
 
-  it('should return true if product is purchasable', done => {
+  it('should return true if product is purchasable', (done) => {
     spyOn(productService, 'get').and.returnValue(of(mockPurchasableProduct));
 
-    guard.canActivate().subscribe(val => {
+    guard.canActivate().subscribe((val) => {
       expect(val).toBeTruthy();
       done();
     });
   });
 
-  it('should return false and redirect if product is non-purchasable', done => {
+  it('should return false and redirect if product is non-purchasable', (done) => {
     spyOn(productService, 'get').and.returnValue(of(mockNonPurchasableProduct));
     spyOn(routingService, 'go').and.stub();
 
-    guard.canActivate().subscribe(val => {
+    guard.canActivate().subscribe((val) => {
       expect(val).toBeFalsy();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'product',
@@ -96,7 +95,7 @@ describe('ProductVariantGuard', () => {
     });
   });
 
-  it('should return true if no productCode in route parameter (launch from smartedit)', done => {
+  it('should return true if no productCode in route parameter (launch from smartedit)', (done) => {
     spyOn(routingService, 'getRouterState').and.returnValue(
       of({
         nextState: {
@@ -105,7 +104,7 @@ describe('ProductVariantGuard', () => {
       } as any)
     );
 
-    guard.canActivate().subscribe(val => {
+    guard.canActivate().subscribe((val) => {
       expect(val).toBeTruthy();
       done();
     });

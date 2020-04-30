@@ -24,13 +24,13 @@ export class ReturnRequestOverviewComponent implements OnInit, OnDestroy {
     ReturnRequest
   > = this.returnRequestService
     .getReturnRequest()
-    .pipe(tap(returnRequest => (this.rma = returnRequest.rma)));
+    .pipe(tap((returnRequest) => (this.rma = returnRequest.rma)));
 
   isCancelling$ = this.returnRequestService.isCancelling$;
 
   ngOnInit(): void {
     this.subscription = this.returnRequestService.isCancelSuccess$.subscribe(
-      success => {
+      (success) => {
         if (success) {
           this.returnRequestService.cancelSuccess(this.rma);
         }

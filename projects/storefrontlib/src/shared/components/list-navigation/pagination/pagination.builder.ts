@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PaginationConfig } from './config/index';
+import { PaginationConfig } from './config/pagination.config';
 import {
   PaginationItem,
   PaginationItemType,

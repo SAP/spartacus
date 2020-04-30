@@ -1,7 +1,6 @@
 import { UserActions } from './index';
 import { NotificationPreference } from '../../../model/notification-preference.model';
-import { StateLoaderActions } from '../../../state/utils/index';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
@@ -27,7 +26,7 @@ describe('Notification Preference Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_NOTIFICATION_PREFERENCES,
         payload: userId,
-        meta: StateLoaderActions.loadMeta(NOTIFICATION_PREFERENCES),
+        meta: StateUtils.loadMeta(NOTIFICATION_PREFERENCES),
       });
     });
   });
@@ -38,7 +37,7 @@ describe('Notification Preference Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_NOTIFICATION_PREFERENCES_FAIL,
         payload: error,
-        meta: StateLoaderActions.failMeta(NOTIFICATION_PREFERENCES, error),
+        meta: StateUtils.failMeta(NOTIFICATION_PREFERENCES, error),
       });
     });
   });
@@ -51,7 +50,7 @@ describe('Notification Preference Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.LOAD_NOTIFICATION_PREFERENCES_SUCCESS,
         payload: mockNotificationPreference,
-        meta: StateLoaderActions.successMeta(NOTIFICATION_PREFERENCES),
+        meta: StateUtils.successMeta(NOTIFICATION_PREFERENCES),
       });
     });
   });
@@ -68,7 +67,7 @@ describe('Notification Preference Actions', () => {
           userId: userId,
           preferences: mockNotificationPreference,
         },
-        meta: StateEntityLoaderActions.entityLoadMeta(
+        meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
           UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID
         ),
@@ -82,7 +81,7 @@ describe('Notification Preference Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_NOTIFICATION_PREFERENCES_FAIL,
         payload: error,
-        meta: StateEntityLoaderActions.entityFailMeta(
+        meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
           error
@@ -99,7 +98,7 @@ describe('Notification Preference Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.UPDATE_NOTIFICATION_PREFERENCES_SUCCESS,
         payload: mockNotificationPreference,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
+        meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
           UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID
         ),
@@ -112,7 +111,7 @@ describe('Notification Preference Actions', () => {
       const action = new UserActions.ResetNotificationPreferences();
       expect({ ...action }).toEqual({
         type: UserActions.RESET_NOTIFICATION_PREFERENCES,
-        meta: StateEntityLoaderActions.entityResetMeta(
+        meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
           UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID
         ),

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CdsConfig } from '../config/cds-config';
 import { StrategyRequest } from './../cds-models/cds-strategy-request.model';
@@ -31,9 +30,7 @@ describe('CdsEndpointsService', () => {
       providers: [{ provide: CdsConfig, useValue: mockCdsConfig }],
     });
 
-    cdsEndpointsService = TestBed.get(CdsEndpointsService as Type<
-      CdsEndpointsService
-    >);
+    cdsEndpointsService = TestBed.inject(CdsEndpointsService);
   });
 
   it('should be created', () => {

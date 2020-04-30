@@ -39,7 +39,6 @@ describe('cxAttributes directive', () => {
 
   it('should not add any custom attributes if none are provided', () => {
     const expectedAttributes = {
-      'ng-reflect-cx-attributes': null,
       'ng-reflect-cx-attributes-name-prefix': attributeNamePrefix,
     };
 

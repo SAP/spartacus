@@ -24,10 +24,16 @@
         *ngFor="let address of addresses$ | async"
         class="col-md-6 cx-address-card"
       >
-        <cx-address-card
-          (editEvent)="editAddressButtonHandle(address)"
-          [address]="address"
-        ></cx-address-card>
+        <cx-card
+          [border]="true"
+          [fitToContainer]="true"
+          [content]="getCardContent(address) | async"
+          (editCard)="editAddressButtonHandle(address)"
+          (setDefaultCard)="setAddressAsDefault(address.id)"
+          (deleteCard)="setEdit(address.id)"
+          [editMode]="address.id === editCard"
+          (cancelCard)="cancelCard()"
+        ></cx-card>
       </div>
     </div>
   </ng-container>
@@ -46,6 +52,7 @@
         [setAsDefaultField]="!((addresses$ | async).length === 0)"
         (submitAddress)="addAddressSubmit($event)"
         (backToAddress)="addAddressCancel()"
+        (cancelCard)="cancelCard()"
       ></cx-address-form>
     </section>
   </ng-container>
