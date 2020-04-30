@@ -66,7 +66,7 @@ new Core.ActiveCartService()
 `;
 
 describe('removed public api migrations', () => {
-  let host = new TempScopedNodeJsSyncHost();
+  let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
   let tmpDirPath: string;
