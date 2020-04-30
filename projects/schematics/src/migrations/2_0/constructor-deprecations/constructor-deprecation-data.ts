@@ -3,9 +3,11 @@ import { ADD_TO_CART_COMPONENT_MIGRATION } from './data/add-to-cart.component.mi
 import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATIONS } from './data/added-to-cart-dialog.component.migration';
 import { ADDRESS_BOOK_COMPONENT_MIGRATION } from './data/address-book.component.migration';
 import { ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATIONS } from './data/address-book.component.service.migration';
+import { AMEND_ORDER_ACTIONS_COMPONENT_MIGRATION } from './data/amend-order-actions.component.migration';
 import { CART_COUPON_COMPONENT_MIGRATIONS } from './data/cart-coupon.component.migration';
 import { CART_DETAILS_COMPONENT_MIGRATIONS } from './data/cart-details.component.migration';
 import { CART_ITEM_LIST_COMPONENT_MIGRATIONS } from './data/cart-item-list.component.migration';
+import { CART_ITEM_COMPONENT_MIGRATIONS } from './data/cart-item.component.migration';
 import { CART_NOT_EMPTY_GUARD_MIGRATION } from './data/cart-not-empty.guard.migration';
 import { CART_PAGE_LAYOUT_HANDLER_MIGRATIONS } from './data/cart-page-layout-handler.migration';
 import { CART_TOTALS_COMPONENT_MIGRATION } from './data/cart-totals.component.migration';
@@ -51,6 +53,8 @@ import { PRODUCT_LIST_COMPONENT_MIGRATION } from './data/product-list.component.
 import { PRODUCT_REVIEWS_COMPONENT_MIGRATION } from './data/product-reviews.component.migration';
 import { PRODUCT_SERVICE_MIGRATION } from './data/product-service.migration';
 import { PROMOTION_SERVICE_MIGRATION } from './data/promotion.service.migration';
+import { QUALTRICS_LOADER_MIGRATION } from './data/qualtrics-loader.service.migration';
+import { QUALTRICS_COMPONENT_MIGRATION } from './data/qualtrics.component.migration';
 import { REGISTER_COMPONENT_MIGRATIONS } from './data/register.component.migration';
 import { REVIEW_SUBMIT_COMPONENT_MIGRATIONS } from './data/review-submit.component.migration';
 import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migration';
@@ -69,8 +73,6 @@ import { USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION } from './data/user-noti
 import { USER_ORDER_SERVICE_MIGRATION } from './data/user-order.service.migration';
 import { USER_PAYMENT_SERVICE_MIGRATION } from './data/user-payment.service.migration';
 import { USER_SERVICE_MIGRATION } from './data/user.service.migration';
-import { CART_ITEM_COMPONENT_MIGRATIONS } from './data/cart-item.component.migration';
-import { AMEND_ORDER_ACTIONS_COMPONENT_MIGRATION } from './data/amend-order-actions.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_ADDRESS_SERVICE_MIGRATION,
@@ -147,4 +149,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION,
   STORE_FINDER_LIST_ITEM_MIGRATION,
   SELECTIVE_CART_SERVICE_MIGRATION,
+  QUALTRICS_LOADER_MIGRATION,
+  QUALTRICS_COMPONENT_MIGRATION,
 ];

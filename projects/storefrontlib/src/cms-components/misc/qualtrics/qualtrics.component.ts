@@ -19,7 +19,6 @@ export class QualtricsComponent {
     protected config: QualtricsConfig
   ) {
     if (this.config.qualtrics?.scriptSource) {
-      console.log(this.config.qualtrics?.scriptSource);
       this.qualtricsLoader.addScript(this.config.qualtrics.scriptSource);
     }
   }
