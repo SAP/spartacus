@@ -22,7 +22,7 @@ export class UnitCostCentersComponent implements OnInit {
 
   ngOnInit(): void {
     this.data$ = this.code$.pipe(
-      tap((code) => this.orgUnitsService.get(code)),
+      tap((code) => this.orgUnitsService.loadOrgUnit(code)),
       switchMap((code) => this.orgUnitsService.getCostCenters(code))
     );
   }

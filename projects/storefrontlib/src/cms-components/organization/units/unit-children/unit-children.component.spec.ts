@@ -41,6 +41,24 @@ const mockedTree: B2BUnitNode = {
   name: 'orgUnit1',
 };
 
+const unitListUI = [
+  {
+    active: true,
+    children: [],
+    id: 'Rustic Services',
+    uid: 'Rustic Services',
+    name: 'Rustic Services',
+    parent: 'Rustic',
+  },
+  {
+    active: true,
+    children: [],
+    id: 'Rustic Retail',
+    uid: 'Rustic Retail',
+    name: 'Rustic Retail',
+    parent: 'Rustic',
+  },
+];
 @Pipe({
   name: 'cxUrl',
 })
@@ -118,10 +136,10 @@ describe('UnitChildrenComponent', () => {
           nodes = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(orgUnitsService.loadTree).toHaveBeenCalledWith();
       expect(orgUnitsService.getChildUnits).toHaveBeenCalledWith(code);
-      expect(nodes).toEqual(mockedTree.children);
+      expect(nodes).toEqual(unitListUI);
     });
   });
 });

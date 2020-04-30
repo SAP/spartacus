@@ -9,7 +9,6 @@ import {
   OrgUnitService,
   RoutesConfig,
   RoutingConfig,
-  B2BUnit,
   CostCenter,
 } from '@spartacus/core';
 
@@ -19,11 +18,6 @@ import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing
 import { TableModule } from '../../../../shared/components/table/table.module';
 
 const code = 'b1';
-
-const mockOrgUnit: B2BUnit = {
-  uid: code,
-  name: 'orgUnit1',
-};
 
 @Pipe({
   name: 'cxUrl',
@@ -55,8 +49,9 @@ const mockedCostCenters: CostCenter[] = [
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnit = createSpy('loadOrgUnit');
-  getCostCenters = createSpy('getCostCenters').and.returnValue(of(mockOrgUnit));
-  update = createSpy('update');
+  getCostCenters = createSpy('getCostCenters').and.returnValue(
+    of(mockedCostCenters)
+  );
 }
 const mockRouterState = {
   state: {
@@ -120,7 +115,7 @@ describe('UnitCostCentersComponent', () => {
           costCenters = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(orgUnitsService.loadOrgUnit).toHaveBeenCalledWith(code);
       expect(orgUnitsService.getCostCenters).toHaveBeenCalledWith(code);
       expect(costCenters).toEqual(mockedCostCenters);
