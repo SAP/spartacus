@@ -15,22 +15,22 @@ const locations = [
     },
   },
 ];
-const selectedIndex = function() {};
+const selectedIndex = function () {};
 
 class ExternalJsFileLoaderMock {
   public load(_src: string, _params?: Object, callback?: EventListener): void {
     const googleMock: any = {};
     googleMock.maps = {};
     googleMock.maps.MapTypeId = {};
-    googleMock.maps.Map = function(mapDomElement: HTMLElement) {
+    googleMock.maps.Map = function (mapDomElement: HTMLElement) {
       mapDomElement.innerHTML = MAP_DOM_ELEMENT_INNER_HTML;
-      this.setCenter = function() {};
-      this.setZoom = function() {};
+      this.setCenter = function () {};
+      this.setZoom = function () {};
     };
-    googleMock.maps.LatLng = function() {};
-    googleMock.maps.Marker = function() {
-      this.setMap = function() {};
-      this.addListener = function() {};
+    googleMock.maps.LatLng = function () {};
+    googleMock.maps.Marker = function () {
+      this.setMap = function () {};
+      this.addListener = function () {};
     };
     (window as any)['google'] = googleMock;
     callback(new Event('test'));

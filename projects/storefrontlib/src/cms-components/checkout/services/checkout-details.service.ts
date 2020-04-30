@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
+  ActiveCartService,
   Address,
-  CartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
@@ -26,29 +26,29 @@ export class CheckoutDetailsService {
   getCheckoutDetailsLoaded$: Observable<boolean>;
 
   constructor(
-    private checkoutService: CheckoutService,
-    private checkoutDeliveryService: CheckoutDeliveryService,
-    private checkoutPaymentService: CheckoutPaymentService,
-    private cartService: CartService
+    protected checkoutService: CheckoutService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutPaymentService: CheckoutPaymentService,
+    protected activeCartService: ActiveCartService
   ) {
-    this.cartId$ = this.cartService.getActive().pipe(
-      map(cartData => {
+    this.cartId$ = this.activeCartService.getActive().pipe(
+      map((cartData) => {
         if (
           (cartData.user && cartData.user.uid === OCC_USER_ID_ANONYMOUS) ||
-          this.cartService.isGuestCart()
+          this.activeCartService.isGuestCart()
         ) {
           return cartData.guid;
         }
         return cartData.code;
       }),
-      filter(cartId => !!cartId)
+      filter((cartId) => !!cartId)
     );
 
     this.getCheckoutDetailsLoaded$ = this.cartId$.pipe(
-      tap(cartId => this.checkoutService.loadCheckoutDetails(cartId)),
+      tap((cartId) => this.checkoutService.loadCheckoutDetails(cartId)),
       shareReplay(1),
       switchMap(() => this.checkoutService.getCheckoutDetailsLoaded()),
-      skipWhile(loaded => !loaded)
+      skipWhile((loaded) => !loaded)
     );
   }
 

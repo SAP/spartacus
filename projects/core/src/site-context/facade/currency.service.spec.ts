@@ -87,14 +87,14 @@ describe('CurrencyService', () => {
   it('should be able to get currencies', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
 
-    service.getAll().subscribe(results => {
+    service.getAll().subscribe((results) => {
       expect(results).toEqual(mockCurrencies);
     });
   });
 
   it('should be able to get active currencies', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
-    service.getActive().subscribe(results => {
+    service.getActive().subscribe((results) => {
       expect(results).toEqual(mockActiveCurr);
     });
   });

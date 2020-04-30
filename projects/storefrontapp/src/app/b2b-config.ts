@@ -10,7 +10,7 @@ export const b2bConfig: StorefrontConfig = {
   backend: {
     occ: {
       baseUrl: environment.occBaseUrl,
-      legacy: false,
+      prefix: '/occ/v2/',
       endpoints: {
         addEntries: 'orgUsers/${userId}/carts/${cartId}/entries',
         user: 'orgUsers/${userId}',

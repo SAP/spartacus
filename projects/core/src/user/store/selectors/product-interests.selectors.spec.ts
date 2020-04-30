@@ -48,7 +48,7 @@ describe('Product Interests Selectors', () => {
       let result: LoaderState<ProductInterestSearchResult>;
       store
         .pipe(select(UsersSelectors.getInterestsState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -65,7 +65,7 @@ describe('Product Interests Selectors', () => {
       let result: ProductInterestSearchResult;
       store
         .pipe(select(UsersSelectors.getInterests))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toEqual(emptyInterestList);
 
       store.dispatch(
@@ -80,7 +80,7 @@ describe('Product Interests Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getInterestsLoading))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toEqual(false);
 
       store.dispatch(

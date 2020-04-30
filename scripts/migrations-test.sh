@@ -48,6 +48,7 @@ cd ../projects/schematics
 yarn build 
 cd ../../dist
 
+doItFor "assets"
 doItFor "core"
 doItFor "storefrontlib"
 doItFor "cds"

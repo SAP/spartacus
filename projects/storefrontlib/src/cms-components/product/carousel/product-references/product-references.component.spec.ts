@@ -149,15 +149,15 @@ describe('ProductReferencesComponent', () => {
 
   it('should have 2 items', async(() => {
     let items: Observable<Product>[];
-    component.items$.subscribe(i => (items = i));
+    component.items$.subscribe((i) => (items = i));
     expect(items.length).toBe(2);
   }));
 
   it('should have product reference code 111 in first product', async(() => {
     let items: Observable<Product>[];
-    component.items$.subscribe(i => (items = i));
+    component.items$.subscribe((i) => (items = i));
     let product: Product;
-    items[0].subscribe(p => (product = p));
+    items[0].subscribe((p) => (product = p));
 
     expect(product).toBe(mockProductReferences[0].target);
   }));
@@ -186,8 +186,8 @@ describe('ProductReferencesComponent', () => {
     expect(el.nativeElement).toBeTruthy();
   }));
 
-  it('should not render product primary image for the 2nd item', async(() => {
+  it('should render missing product image for the 2nd item as well', async(() => {
     const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
-    expect(el).toBeNull();
+    expect(el.nativeElement).toBeTruthy();
   }));
 });

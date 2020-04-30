@@ -6,7 +6,7 @@ import * as login from '../../../helpers/login';
 
 describe('Checkout - As a Persistent User', () => {
   before(() =>
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
     })
   );

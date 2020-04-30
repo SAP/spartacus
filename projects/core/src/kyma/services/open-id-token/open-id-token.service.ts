@@ -35,7 +35,7 @@ export class OpenIdAuthenticationTokenService {
 
     return this.http
       .post<OpenIdToken>(url, params, { headers })
-      .pipe(catchError(error => throwError(error)));
+      .pipe(catchError((error) => throwError(error)));
   }
 
   private getOAuthEndpoint(): string {

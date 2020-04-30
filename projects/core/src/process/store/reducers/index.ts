@@ -8,9 +8,9 @@ export function getReducers<T>(): ActionReducer<EntityLoaderState<T>> {
   return entityLoaderReducer(PROCESS_FEATURE);
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<EntityLoaderState<any>>
-> = new InjectionToken<ActionReducerMap<EntityLoaderState<any>>>(
+export const reducerToken: InjectionToken<ActionReducerMap<
+  EntityLoaderState<any>
+>> = new InjectionToken<ActionReducerMap<EntityLoaderState<any>>>(
   'ProcessReducers'
 );
 

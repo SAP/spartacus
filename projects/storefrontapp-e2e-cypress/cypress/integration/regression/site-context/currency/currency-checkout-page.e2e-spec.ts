@@ -9,11 +9,12 @@ describe('Currency switch - checkout page', () => {
   const checkoutReviewPath = siteContextSelector.CHECKOUT_REVIEW_ORDER_PATH;
 
   before(() => {
-    cy.window().then(win => {
+    cy.window().then((win) => {
       win.sessionStorage.clear();
       win.localStorage.clear();
     });
     cy.requireLoggedIn();
+    siteContextSelector.doPlaceOrder();
   });
 
   siteContextSelector.stub(
@@ -23,7 +24,6 @@ describe('Currency switch - checkout page', () => {
 
   describe('populate cart, history, quantity', () => {
     it('should have basic data', () => {
-      siteContextSelector.doPlaceOrder();
       manipulateCartQuantity();
     });
   });
@@ -31,8 +31,16 @@ describe('Currency switch - checkout page', () => {
   describe('checkout page', () => {
     it('should change currency in the shipping address url', () => {
       // page being already tested in currency-address-book
+      cy.route(
+        'PUT',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/users/current/carts/*/addresses/delivery?*`
+      ).as('setAddress');
+      cy.visit(checkoutShippingPath);
+      cy.wait('@setAddress');
       siteContextSelector.verifySiteContextChangeUrl(
-        checkoutShippingPath,
+        null,
         siteContextSelector.CURRENCIES,
         siteContextSelector.CURRENCY_JPY,
         siteContextSelector.CURRENCY_LABEL,

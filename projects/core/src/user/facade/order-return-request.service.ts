@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import {
-  ReturnRequestList,
-  ReturnRequestEntryInputList,
   ReturnRequest,
+  ReturnRequestEntryInputList,
+  ReturnRequestList,
   ReturnRequestModification,
 } from '../../model/order.model';
+import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
-import { StateWithProcess } from '../../process/store/process-state';
-import { CANCEL_RETURN_PROCESS_ID } from '../store/user-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
-import { StateWithUser } from '../store/user-state';
-import { OCC_USER_ID_CURRENT } from '../../occ/index';
+import { CANCEL_RETURN_PROCESS_ID, StateWithUser } from '../store/user-state';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +35,7 @@ export class OrderReturnRequestService {
   createOrderReturnRequest(
     returnRequestInput: ReturnRequestEntryInputList
   ): void {
-    this.withUserId(userId => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.CreateOrderReturnRequest({
           userId,
@@ -60,7 +58,7 @@ export class OrderReturnRequestService {
   getOrderReturnRequestList(pageSize: number): Observable<ReturnRequestList> {
     return this.store.pipe(
       select(UsersSelectors.getOrderReturnRequestListState),
-      tap(returnListState => {
+      tap((returnListState) => {
         const attemptedLoad =
           returnListState.loading ||
           returnListState.success ||
@@ -69,7 +67,7 @@ export class OrderReturnRequestService {
           this.loadOrderReturnRequestList(pageSize);
         }
       }),
-      map(returnListState => returnListState.value)
+      map((returnListState) => returnListState.value)
     );
   }
 
@@ -78,10 +76,10 @@ export class OrderReturnRequestService {
    * @param returnRequestCode
    */
   loadOrderReturnRequestDetail(returnRequestCode: string): void {
-    this.withUserId(userId => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderReturnRequest({
-          userId: userId,
+          userId,
           returnRequestCode,
         })
       );
@@ -99,13 +97,13 @@ export class OrderReturnRequestService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.withUserId(userId => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderReturnRequestList({
-          userId: userId,
-          pageSize: pageSize,
-          currentPage: currentPage,
-          sort: sort,
+          userId,
+          pageSize,
+          currentPage,
+          sort,
         })
       );
     });
@@ -146,7 +144,7 @@ export class OrderReturnRequestService {
     returnRequestCode: string,
     returnRequestModification: ReturnRequestModification
   ): void {
-    this.withUserId(userId => {
+    this.authService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.CancelOrderReturnRequest({
           userId,
@@ -180,21 +178,5 @@ export class OrderReturnRequestService {
    */
   resetCancelReturnRequestProcessState(): void {
     return this.store.dispatch(new UserActions.ResetCancelReturnProcess());
-  }
-
-  /*
-   * Utility method to distinquish pre / post 1.3.0 in a convenient way.
-   *
-   */
-  private withUserId(callback: (userId: string) => void): void {
-    if (this.authService) {
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe(userId => callback(userId));
-    } else {
-      // TODO(issue:#5628) Deprecated since 1.3.0
-      callback(OCC_USER_ID_CURRENT);
-    }
   }
 }

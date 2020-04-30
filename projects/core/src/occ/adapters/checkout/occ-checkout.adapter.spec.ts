@@ -69,11 +69,11 @@ describe('OccCheckoutAdapter', () => {
 
   describe('place order', () => {
     it('should be able to place order for the cart', () => {
-      service.placeOrder(userId, cartId).subscribe(result => {
+      service.placeOrder(userId, cartId).subscribe((result) => {
         expect(result).toEqual(orderData);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'POST' &&
           req.url === usersEndpoint + `/${userId}` + orderEndpoint
@@ -90,7 +90,7 @@ describe('OccCheckoutAdapter', () => {
       service.placeOrder(userId, cartId).subscribe();
       httpMock
         .expectOne(
-          req =>
+          (req) =>
             req.method === 'POST' &&
             req.url === usersEndpoint + `/${userId}` + orderEndpoint
         )
@@ -101,11 +101,11 @@ describe('OccCheckoutAdapter', () => {
 
   describe('load checkout details', () => {
     it('should load checkout details data for given userId, cartId', () => {
-      service.loadCheckoutDetails(userId, cartId).subscribe(result => {
+      service.loadCheckoutDetails(userId, cartId).subscribe((result) => {
         expect(result).toEqual(checkoutData);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'GET' &&
           req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}`
@@ -121,11 +121,13 @@ describe('OccCheckoutAdapter', () => {
 
   describe('clear checkout delivery address', () => {
     it('should clear checkout delivery address for given userId, cartId', () => {
-      service.clearCheckoutDeliveryAddress(userId, cartId).subscribe(result => {
-        expect(result).toEqual(checkoutData);
-      });
+      service
+        .clearCheckoutDeliveryAddress(userId, cartId)
+        .subscribe((result) => {
+          expect(result).toEqual(checkoutData);
+        });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'DELETE' &&
           req.url ===
@@ -141,11 +143,11 @@ describe('OccCheckoutAdapter', () => {
 
   describe('clear checkout delivery mode', () => {
     it('should clear checkout delivery mode for given userId, cartId', () => {
-      service.clearCheckoutDeliveryMode(userId, cartId).subscribe(result => {
+      service.clearCheckoutDeliveryMode(userId, cartId).subscribe((result) => {
         expect(result).toEqual(checkoutData);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'DELETE' &&
           req.url ===

@@ -3,7 +3,7 @@ import * as checkout from '../../../helpers/checkout-flow';
 
 context('Express checkout', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.cxConfig({ checkout: { express: true } } as CheckoutConfig);
     cy.visit('/');
   });
@@ -83,9 +83,7 @@ context('Express checkout', () => {
       cy.selectUserMenuOption({
         option: 'Payment Details',
       });
-      cy.getAllByText('Delete')
-        .first()
-        .click({ force: true });
+      cy.getAllByText('Delete').first().click({ force: true });
       cy.get('.btn-primary').click({ force: true });
     });
 

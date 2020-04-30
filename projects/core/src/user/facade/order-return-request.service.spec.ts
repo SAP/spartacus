@@ -1,19 +1,18 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ReturnRequestList } from '../../model/order.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
-import { PROCESS_FEATURE } from '../../process/store/process-state';
-import * as fromProcessReducers from '../../process/store/reducers';
 import { OrderReturnRequestService } from './order-return-request.service';
 
 class MockAuthService {
-  getOccUserId(): Observable<string> {
-    return of(OCC_USER_ID_CURRENT);
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
   }
 }
 
@@ -67,7 +66,7 @@ describe('OrderReturnRequestService', () => {
     );
     service
       .getOrderReturnRequest()
-      .subscribe(r => expect(r).toEqual({ rma: '000000' }))
+      .subscribe((r) => expect(r).toEqual({ rma: '000000' }))
       .unsubscribe();
   });
 
@@ -90,7 +89,7 @@ describe('OrderReturnRequestService', () => {
     );
     service
       .getReturnRequestLoading()
-      .subscribe(r => expect(r).toBeTruthy())
+      .subscribe((r) => expect(r).toBeTruthy())
       .unsubscribe();
   });
 
@@ -102,7 +101,7 @@ describe('OrderReturnRequestService', () => {
     );
     service
       .getReturnRequestSuccess()
-      .subscribe(r => expect(r).toBeTruthy())
+      .subscribe((r) => expect(r).toBeTruthy())
       .unsubscribe();
   });
 
@@ -118,7 +117,7 @@ describe('OrderReturnRequestService', () => {
     let requestList: ReturnRequestList;
     service
       .getOrderReturnRequestList(1)
-      .subscribe(data => {
+      .subscribe((data) => {
         requestList = data;
       })
       .unsubscribe();
@@ -176,7 +175,7 @@ describe('OrderReturnRequestService', () => {
     );
     service
       .getCancelReturnRequestLoading()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 
@@ -184,7 +183,7 @@ describe('OrderReturnRequestService', () => {
     store.dispatch(new UserActions.CancelOrderReturnRequestSuccess());
     service
       .getCancelReturnRequestSuccess()
-      .subscribe(data => expect(data).toEqual(true))
+      .subscribe((data) => expect(data).toEqual(true))
       .unsubscribe();
   });
 

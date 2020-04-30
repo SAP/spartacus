@@ -15,8 +15,8 @@ export class BaseSiteEffects {
     ofType(SiteContextActions.LOAD_BASE_SITE),
     exhaustMap(() => {
       return this.siteConnector.getBaseSite().pipe(
-        map(baseSite => new SiteContextActions.LoadBaseSiteSuccess(baseSite)),
-        catchError(error =>
+        map((baseSite) => new SiteContextActions.LoadBaseSiteSuccess(baseSite)),
+        catchError((error) =>
           of(
             new SiteContextActions.LoadBaseSiteFail(
               makeErrorSerializable(error)

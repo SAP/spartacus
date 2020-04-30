@@ -9,7 +9,7 @@ import { cheapProduct, user } from '../../../sample-data/checkout-flow';
 
 context('Checkout as guest', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
   });
 
@@ -60,6 +60,11 @@ context('Checkout as guest', () => {
 
   describe('Guest account', () => {
     it('should be able to check order in order history', () => {
+      // hack: visit other page to trigger store -> local storage sync
+      cy.selectUserMenuOption({
+        option: 'Personal Details',
+      });
+      cy.waitForOrderToBePlacedRequest();
       checkout.viewOrderHistoryWithCheapProduct();
     });
 
@@ -118,22 +123,16 @@ context('Checkout as guest', () => {
 
       const loginPage = waitForPage('/login', 'getLoginPage');
       cy.getByText(/Sign in \/ Register/i).click();
-      cy.wait(`@${loginPage}`)
-        .its('status')
-        .should('eq', 200);
+      cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
       login(user.email, user.password);
-      cy.wait(`@${shippingPage}`)
-        .its('status')
-        .should('eq', 200);
+      cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
 
       cy.get('cx-mini-cart .count').contains('1');
 
       const cartPage = waitForPage('/cart', 'getCartPage');
       cy.get('cx-mini-cart').click();
-      cy.wait(`@${cartPage}`)
-        .its('status')
-        .should('eq', 200);
+      cy.wait(`@${cartPage}`).its('status').should('eq', 200);
 
       cy.get('cx-cart-item-list')
         .contains('cx-cart-item', cheapProduct.code)

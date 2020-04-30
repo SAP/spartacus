@@ -7,7 +7,7 @@ import {
   CheckoutDetails,
   CheckoutPaymentService,
   DeliveryMode,
-  LoaderState,
+  StateUtils,
   PaymentDetails,
   UserAddressService,
   UserPaymentService,
@@ -98,13 +98,15 @@ class MockCheckoutDeliveryService implements Partial<CheckoutDeliveryService> {
     return mockSupportedDeliveryModes.asObservable();
   }
 
-  getSetDeliveryAddressProcess(): Observable<LoaderState<void>> {
+  getSetDeliveryAddressProcess(): Observable<StateUtils.LoaderState<void>> {
     return mockSetDeliveryAddressResult.asObservable();
   }
-  getSetDeliveryModeProcess(): Observable<LoaderState<void>> {
+  getSetDeliveryModeProcess(): Observable<StateUtils.LoaderState<void>> {
     return mockSetDeliveryModeResult.asObservable();
   }
-  getLoadSupportedDeliveryModeProcess(): Observable<LoaderState<void>> {
+  getLoadSupportedDeliveryModeProcess(): Observable<
+    StateUtils.LoaderState<void>
+  > {
     return mockLoadSupportedDeliveryModesResult.asObservable();
   }
 }
@@ -117,7 +119,9 @@ const mockSetPaymentDetailsResult = new BehaviorSubject({
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentService> {
   resetSetPaymentDetailsProcess() {}
-  getSetPaymentDetailsResultProcess(): Observable<LoaderState<void>> {
+  getSetPaymentDetailsResultProcess(): Observable<
+    StateUtils.LoaderState<void>
+  > {
     return mockSetPaymentDetailsResult.asObservable();
   }
   setPaymentDetails() {}
@@ -212,29 +216,31 @@ describe('ExpressCheckoutService', () => {
   });
 
   describe('trySetDefaultCheckoutDetails', () => {
-    it('should return true if express checkout is possible', done => {
-      subscription = service.trySetDefaultCheckoutDetails().subscribe(data => {
-        expect(data).toBeTruthy();
-        done();
-      });
+    it('should return true if express checkout is possible', (done) => {
+      subscription = service
+        .trySetDefaultCheckoutDetails()
+        .subscribe((data) => {
+          expect(data).toBeTruthy();
+          done();
+        });
     });
 
     describe('shippingAddressSet$', () => {
-      it('should load addresses if they are not loaded', done => {
+      it('should load addresses if they are not loaded', (done) => {
         mockGetAddressesLoadedSuccess.next(false);
         spyOn(userAddressService, 'loadAddresses').and.callFake(() =>
           mockGetAddressesLoadedSuccess.next(true)
         );
         subscription = service
           .trySetDefaultCheckoutDetails()
-          .subscribe(data => {
+          .subscribe((data) => {
             expect(userAddressService.loadAddresses).toHaveBeenCalled();
             expect(data).toBeTruthy();
             done();
           });
       });
 
-      it('should set delivery address if it has been not loaded yet', done => {
+      it('should set delivery address if it has been not loaded yet', (done) => {
         mockSetDeliveryAddressResult.next({
           success: false,
           error: false,
@@ -249,7 +255,7 @@ describe('ExpressCheckoutService', () => {
         );
         subscription = service
           .trySetDefaultCheckoutDetails()
-          .subscribe(data => {
+          .subscribe((data) => {
             expect(
               checkoutDeliveryService.setDeliveryAddress
             ).toHaveBeenCalledWith(mockDetails.deliveryAddress);
@@ -258,7 +264,7 @@ describe('ExpressCheckoutService', () => {
           });
       });
 
-      it('should return false if set delivery address error', done => {
+      it('should return false if set delivery address error', (done) => {
         mockSetDeliveryAddressResult.next({
           success: false,
           error: false,
@@ -273,17 +279,17 @@ describe('ExpressCheckoutService', () => {
         );
         subscription = service
           .trySetDefaultCheckoutDetails()
-          .subscribe(data => {
+          .subscribe((data) => {
             expect(data).toBeFalsy();
             done();
           });
       });
 
-      it('should return false if there are no addresses', done => {
+      it('should return false if there are no addresses', (done) => {
         mockAddresses.next([]);
         subscription = service
           .trySetDefaultCheckoutDetails()
-          .subscribe(data => {
+          .subscribe((data) => {
             expect(data).toBeFalsy();
             done();
           });
@@ -291,21 +297,21 @@ describe('ExpressCheckoutService', () => {
     });
 
     describe('paymentMethodSet$', () => {
-      it('should load payment methods if they are not loaded', done => {
+      it('should load payment methods if they are not loaded', (done) => {
         mockGetPaymentMethodsLoadedSuccess.next(false);
         spyOn(userPaymentService, 'loadPaymentMethods').and.callFake(() =>
           mockGetPaymentMethodsLoadedSuccess.next(true)
         );
         subscription = service
           .trySetDefaultCheckoutDetails()
-          .subscribe(data => {
+          .subscribe((data) => {
             expect(userPaymentService.loadPaymentMethods).toHaveBeenCalled();
             expect(data).toBeTruthy();
             done();
           });
       });
 
-      it('should set payment method if it has been not loaded yet', done => {
+      it('should set payment method if it has been not loaded yet', (done) => {
         mockSetPaymentDetailsResult.next({
           success: false,
           error: false,
@@ -320,7 +326,7 @@ describe('ExpressCheckoutService', () => {
         );
         subscription = service
           .trySetDefaultCheckoutDetails()
-          .subscribe(data => {
+          .subscribe((data) => {
             expect(
               checkoutPaymentService.setPaymentDetails
             ).toHaveBeenCalledWith(mockDetails.paymentInfo);
@@ -329,7 +335,7 @@ describe('ExpressCheckoutService', () => {
           });
       });
 
-      it('should return false if set payment method error', done => {
+      it('should return false if set payment method error', (done) => {
         mockSetPaymentDetailsResult.next({
           success: false,
           error: false,
@@ -344,17 +350,17 @@ describe('ExpressCheckoutService', () => {
         );
         subscription = service
           .trySetDefaultCheckoutDetails()
-          .subscribe(data => {
+          .subscribe((data) => {
             expect(data).toBeFalsy();
             done();
           });
       });
 
-      it('should return false if there are no payment methods', done => {
+      it('should return false if there are no payment methods', (done) => {
         mockPaymentMethods.next([]);
         subscription = service
           .trySetDefaultCheckoutDetails()
-          .subscribe(data => {
+          .subscribe((data) => {
             expect(data).toBeFalsy();
             done();
           });
@@ -362,7 +368,7 @@ describe('ExpressCheckoutService', () => {
     });
 
     describe('deliveryModeSet$', () => {
-      it('should set delivery mode if it has been not loaded yet', done => {
+      it('should set delivery mode if it has been not loaded yet', (done) => {
         mockSetDeliveryModeResult.next({
           success: false,
           error: false,
@@ -377,7 +383,7 @@ describe('ExpressCheckoutService', () => {
         );
         subscription = service
           .trySetDefaultCheckoutDetails()
-          .subscribe(data => {
+          .subscribe((data) => {
             expect(
               checkoutDeliveryService.setDeliveryMode
             ).toHaveBeenCalledWith(mockDetails.deliveryMode.code);
@@ -386,7 +392,7 @@ describe('ExpressCheckoutService', () => {
           });
       });
 
-      it('should return false if set delivery mode error', done => {
+      it('should return false if set delivery mode error', (done) => {
         mockSetDeliveryModeResult.next({
           success: false,
           error: false,
@@ -401,17 +407,17 @@ describe('ExpressCheckoutService', () => {
         );
         subscription = service
           .trySetDefaultCheckoutDetails()
-          .subscribe(data => {
+          .subscribe((data) => {
             expect(data).toBeFalsy();
             done();
           });
       });
 
-      it('should return false if there are no delivery modes', done => {
+      it('should return false if there are no delivery modes', (done) => {
         mockSupportedDeliveryModes.next([]);
         subscription = service
           .trySetDefaultCheckoutDetails()
-          .subscribe(data => {
+          .subscribe((data) => {
             expect(data).toBeFalsy();
             done();
           });

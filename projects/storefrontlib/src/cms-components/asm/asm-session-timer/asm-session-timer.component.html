@@ -3,9 +3,8 @@
   >{{ timeLeft | formatTimer }}
   {{ 'asm.agentSessionTimer.minutes' | cxTranslate }}</span
 >
-<a
+<button
   class="reset"
   title="{{ 'asm.agentSessionTimer.reset' | cxTranslate }}"
   (click)="resetTimer()"
->
-</a>
+></button>

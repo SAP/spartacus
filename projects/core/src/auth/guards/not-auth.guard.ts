@@ -21,7 +21,7 @@ export class NotAuthGuard implements CanActivate {
 
     // redirect, if user is already logged in:
     return this.authService.getUserToken().pipe(
-      map(token => {
+      map((token) => {
         if (token.access_token) {
           this.routingService.go({ cxRoute: 'home' });
         }

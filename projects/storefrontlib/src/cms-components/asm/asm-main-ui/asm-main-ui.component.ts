@@ -46,7 +46,7 @@ export class AsmMainUiComponent implements OnInit {
     this.csAgentToken$ = this.asmAuthService.getCustomerSupportAgentToken();
     this.csAgentTokenLoading$ = this.asmAuthService.getCustomerSupportAgentTokenLoading();
     this.customer$ = this.authService.getUserToken().pipe(
-      switchMap(token => {
+      switchMap((token) => {
         if (token && !!token.access_token) {
           this.handleCustomerSessionStartRedirection(token);
           return this.userService.get();
@@ -86,7 +86,7 @@ export class AsmMainUiComponent implements OnInit {
     this.asmAuthService
       .getCustomerSupportAgentToken()
       .pipe(take(1))
-      .subscribe(customerSupportAgentToken =>
+      .subscribe((customerSupportAgentToken) =>
         this.asmAuthService.startCustomerEmulationSession(
           customerSupportAgentToken,
           customerId

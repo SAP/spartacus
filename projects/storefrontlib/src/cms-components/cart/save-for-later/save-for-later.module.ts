@@ -1,29 +1,24 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SaveForLaterComponent } from './save-for-later.component';
+import { NgModule } from '@angular/core';
 import {
-  ConfigModule,
   CmsConfig,
-  I18nModule,
   FeaturesConfig,
+  I18nModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
+import { SaveForLaterComponent } from './save-for-later.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ConfigModule.withConfig(<CmsConfig | FeaturesConfig>{
+  imports: [CommonModule, I18nModule, CartSharedModule],
+  providers: [
+    provideDefaultConfig(<CmsConfig | FeaturesConfig>{
       cmsComponents: {
         SaveForLaterComponent: {
           component: SaveForLaterComponent,
         },
       },
-      features: {
-        saveForLater: '1.5',
-      },
     }),
-    I18nModule,
-    CartSharedModule,
   ],
   declarations: [SaveForLaterComponent],
   exports: [SaveForLaterComponent],

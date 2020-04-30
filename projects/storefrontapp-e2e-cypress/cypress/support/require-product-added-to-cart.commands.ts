@@ -18,12 +18,13 @@ declare global {
   }
 }
 
-Cypress.Commands.add('requireProductAddedToCart', auth => {
-  const apiUrl = Cypress.env('API_URL');
+Cypress.Commands.add('requireProductAddedToCart', (auth) => {
   function createCart() {
     return cy.request({
       method: 'POST',
-      url: `${apiUrl}/rest/v2/electronics-spa/users/current/carts`,
+      url: `${Cypress.env('API_URL')}/${Cypress.env(
+        'OCC_PREFIX'
+      )}/${Cypress.env('BASE_SITE')}/users/current/carts`,
       body: {
         fields: 'DEFAULT',
       },
@@ -37,7 +38,9 @@ Cypress.Commands.add('requireProductAddedToCart', auth => {
   function addToCart(cartCode: any, productData: any) {
     return cy.request({
       method: 'POST',
-      url: `${apiUrl}/rest/v2/electronics-spa/users/current/carts/${cartCode}/entries`,
+      url: `${Cypress.env('API_URL')}/${Cypress.env(
+        'OCC_PREFIX'
+      )}/${Cypress.env('BASE_SITE')}/users/current/carts/${cartCode}/entries`,
       body: {
         code: productData.code,
         qty: 1,
@@ -51,8 +54,8 @@ Cypress.Commands.add('requireProductAddedToCart', auth => {
 
   cy.server();
 
-  createCart().then(cart => {
-    addToCart(cart.body.code, product).then(resp => {
+  createCart().then((cart) => {
+    addToCart(cart.body.code, product).then((resp) => {
       resp.body.cartId = cart.body.code; // need this in the response for later use
       cy.wrap(resp.body);
     });

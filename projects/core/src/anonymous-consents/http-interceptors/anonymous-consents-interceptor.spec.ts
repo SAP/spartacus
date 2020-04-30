@@ -273,12 +273,12 @@ describe('AnonymousConsentsInterceptor', () => {
 
           http
             .get('/xxx')
-            .subscribe(result => {
+            .subscribe((result) => {
               expect(result).toBeTruthy();
             })
             .unsubscribe();
 
-          httpMock.expectOne(req => {
+          httpMock.expectOne((req) => {
             return req.method === 'GET';
           });
           expect(interceptor[handleRequestMethod]).toHaveBeenCalled();

@@ -166,14 +166,46 @@
           "builder": "@angular-devkit/build-angular:server",
           "options": {
             "outputPath": "dist/storefrontapp-server",
-            "main": "projects/storefrontapp/src/main.server.ts",
-            "tsConfig": "projects/storefrontapp/tsconfig.server.json",
-            "fileReplacements": [
-              {
-                "replace": "projects/storefrontapp/src/environments/environment.ts",
-                "with": "projects/storefrontapp/src/environments/environment.prod.ts"
-              }
-            ]
+            "main": "projects/storefrontapp/server.ts",
+            "tsConfig": "projects/storefrontapp/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/environment.ts",
+                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true,
+              "tsConfig": "projects/storefrontapp/tsconfig.server.prod.json"
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "storefrontapp:build",
+            "serverTarget": "storefrontapp:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "storefrontapp:build:production",
+              "serverTarget": "storefrontapp:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "storefrontapp:build:production",
+            "serverTarget": "storefrontapp:server:production",
+            "routes": ["/"]
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }
@@ -577,14 +609,46 @@
           "builder": "@angular-devkit/build-angular:server",
           "options": {
             "outputPath": "dist/storefrontapp-cds-integration-server",
-            "main": "projects/storefrontapp-cds-integration/src/main.server.ts",
-            "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.server.json",
-            "fileReplacements": [
-              {
-                "replace": "projects/storefrontapp-cds-integration/src/environments/environment.ts",
-                "with": "projects/storefrontapp-cds-integration/src/environments/environment.prod.ts"
-              }
-            ]
+            "main": "projects/storefrontapp-cds-integration/server.ts",
+            "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp-cds-integration/src/environments/environment.ts",
+                  "with": "projects/storefrontapp-cds-integration/src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true,
+              "tsConfig": "projects/storefrontapp-cds-integration/tsconfig.server.prod.json"
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "storefrontapp-cds-integration:build",
+            "serverTarget": "storefrontapp-cds-integration:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "storefrontapp-cds-integration:build:production",
+              "serverTarget": "storefrontapp-cds-integration:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "storefrontapp-cds-integration:build:production",
+            "serverTarget": "storefrontapp-cds-integration:server:production",
+            "routes": ["/"]
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }

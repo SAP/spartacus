@@ -34,13 +34,13 @@ export class CheckoutProgressComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   ngOnInit(): void {
-    this.subscription = this.checkoutStepService.steps$.subscribe(steps => {
+    this.subscription = this.checkoutStepService.steps$.subscribe((steps) => {
       this.steps = steps;
       this.cdr.detectChanges();
     });
 
     this.routerState$ = this.routingService.getRouterState().pipe(
-      tap(router => {
+      tap((router) => {
         this.activeStepUrl = router.state.context.id;
 
         this.steps.forEach((step, index) => {
@@ -59,5 +59,17 @@ export class CheckoutProgressComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  getTabIndex(stepIndex: number): number {
+    return !this.isActive(stepIndex) && !this.isDisabled(stepIndex) ? 0 : -1;
+  }
+
+  isActive(index: number): boolean {
+    return index === this.activeStepIndex;
+  }
+
+  isDisabled(index: number): boolean {
+    return index > this.activeStepIndex;
   }
 }

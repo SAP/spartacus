@@ -20,11 +20,13 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
   loadConsents(userId: string): Observable<ConsentTemplate[]> {
     const url = this.occEndpoints.getUrl('consentTemplates', { userId });
     const headers = new HttpHeaders({ 'Cache-Control': 'no-cache' });
-    return this.http.get<Occ.ConsentTemplateList>(url, { headers }).pipe(
-      catchError((error: any) => throwError(error)),
-      map(consentList => consentList.consentTemplates),
-      this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
-    );
+    return this.http
+      .get<Occ.ConsentTemplateList>(url, { headers })
+      .pipe(
+        catchError((error: any) => throwError(error)),
+        map((consentList) => consentList.consentTemplates),
+        this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
+      );
   }
 
   giveConsent(
@@ -43,7 +45,7 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
     return this.http
       .post<Occ.ConsentTemplate>(url, httpParams, { headers })
       .pipe(
-        catchError(error => throwError(error)),
+        catchError((error) => throwError(error)),
         this.converter.pipeable(CONSENT_TEMPLATE_NORMALIZER)
       );
   }

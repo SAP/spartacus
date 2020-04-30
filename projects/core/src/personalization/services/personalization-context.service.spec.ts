@@ -90,7 +90,7 @@ describe('PersonalizationContextService', () => {
     let result: PersonalizationContext;
     service
       .getPersonalizationContext()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();

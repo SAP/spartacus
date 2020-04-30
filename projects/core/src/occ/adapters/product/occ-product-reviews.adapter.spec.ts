@@ -16,7 +16,10 @@ import createSpy = jasmine.createSpy;
 const productCode = 'testCode';
 const maxCount = 2;
 const productReviews: Occ.ReviewList = {
-  reviews: [{ id: '1', comment: 'Review 1' }, { id: '2', comment: 'Review 2' }],
+  reviews: [
+    { id: '1', comment: 'Review 1' },
+    { id: '2', comment: 'Review 2' },
+  ],
 };
 const endpoint = '/productReviews';
 
@@ -64,9 +67,9 @@ describe('OccProductReviewsAdapter', () => {
   describe('load', () => {
     it('should load review list', () => {
       let loadResult;
-      service.load(productCode).subscribe(res => (loadResult = res));
+      service.load(productCode).subscribe((res) => (loadResult = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET' && req.url === endpoint;
       });
 
@@ -106,9 +109,9 @@ describe('OccProductReviewsAdapter', () => {
 
       service
         .post(productCode, { rating: 3 })
-        .subscribe(res => (postResult = res));
+        .subscribe((res) => (postResult = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST' && req.url === endpoint;
       });
       mockReq.flush('posted');

@@ -1,25 +1,13 @@
-import { generateMail, randomString } from './user';
-import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
+import { login } from './auth-forms';
+import { generateMail, randomString } from './user';
 
-export const normalProductCode = '1978440_green';
-export const productCodeList = [
-  '553637',
-  '592506',
-  '932577',
-  '3357724',
-  '4205431',
-  '358639',
-  '2053266',
-  '898520',
-  '816379',
-  '1978440_red',
-  '1934793',
-];
+export const normalProductCode = '872912';
 export const firstProductCodeSelector =
   'cx-my-interests .cx-product-interests-product-item:first .cx-code';
 export const firstProductAscending = '4205431';
 export const firstProductDescending = '898520';
+
 // notification preference
 export function navigateToNotificationPreferencePage() {
   cy.selectUserMenuOption({
@@ -34,16 +22,12 @@ export function verifyNotificationPrefAsAnonymous() {
 
 export function enableNotificationChannel() {
   navigateToNotificationPreferencePage();
-  cy.get('[type="checkbox"]')
-    .first()
-    .check();
+  cy.get('[type="checkbox"]').first().check();
 }
 
 export function disableNotificationChannel() {
   navigateToNotificationPreferencePage();
-  cy.get('[type="checkbox"]')
-    .first()
-    .uncheck();
+  cy.get('[type="checkbox"]').first().uncheck();
 }
 
 export function verifyNotificationChannel() {
@@ -76,17 +60,13 @@ export function verifyChannelValueUpdating() {
 export function verifyChannelDisabled() {
   cy.visit('/');
   navigateToNotificationPreferencePage();
-  cy.get('[type="checkbox"]')
-    .first()
-    .should('not.be.checked');
+  cy.get('[type="checkbox"]').first().should('not.be.checked');
 }
 
 export function verifyChannelEnabled() {
   cy.visit('/');
   navigateToNotificationPreferencePage();
-  cy.get('[type="checkbox"]')
-    .first()
-    .should('be.checked');
+  cy.get('[type="checkbox"]').first().should('be.checked');
 }
 
 export function verifyEmailChannel(email: String) {
@@ -96,25 +76,23 @@ export function verifyEmailChannel(email: String) {
       'contain',
       'Email: ' + email
     );
-    cy.get('[type="checkbox"]')
-      .first()
-      .should('not.be.checked');
+    cy.get('[type="checkbox"]').first().should('not.be.checked');
   });
 }
 //stock notification
 export function verifyStockNotificationAsGuest() {
   navigateToPDP(normalProductCode);
-  cy.get('.stock-notification-notes > label > a').click();
+  cy.get('.stock-notification-notes > p > a').click();
   cy.location('pathname').should('contain', '/login');
 }
 
 export function navigateToPDP(productCode: string) {
-  cy.visit(`/electronics-spa/en/USD/product/${productCode}`);
+  cy.visit(`/${Cypress.env('BASE_SITE')}/en/USD/product/${productCode}`);
 }
 
 export function verifyStockNotificationWithoutChannel() {
   navigateToPDP(normalProductCode);
-  cy.get('.stock-notification-notes > label > a').click();
+  cy.get('.stock-notification-notes > p > a').click();
   cy.location('pathname').should('contain', '/notification-preference');
 }
 
@@ -141,9 +119,7 @@ export function clickNotifyMeBtn(productCode: string) {
   cy.get('cx-stock-notification > .btn')
     .should('contain', 'NOTIFY ME')
     .should('not.be.disabled')
-    .then(el => {
-      cy.wrap(el).click();
-    });
+    .click();
 }
 
 export function verifyStockNotification() {
@@ -218,13 +194,38 @@ export function navigateToPDPInCustomerInterest(productCode: string) {
   });
 }
 
+export function stubForPaginableMyInterests(jsonfile: string, url: string) {
+  cy.server();
+  cy.route('GET', url, `fixture:${jsonfile}`);
+}
+
 export function verifyPagingAndSorting() {
+  stubForPaginableMyInterests(
+    'myinterestpage0.json',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:asc&pageSize=10&lang=en&curr=USD`
+  );
+  stubForPaginableMyInterests(
+    'myinterestpage1.json',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&lang=en&curr=USD`
+  );
+  stubForPaginableMyInterests(
+    'myinterestpage2.json',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&currentPage=1&lang=en&curr=USD`
+  );
   navigateToMyInterestsPage();
   cy.get(firstProductCodeSelector).should('contain', firstProductAscending);
   cy.get('.top cx-sorting .ng-select').ngSelect('Name (descending)');
   cy.get(firstProductCodeSelector).should('contain', firstProductDescending);
   cy.get('.cx-product-interests-product-item').should('have.length', 10);
-  cy.get('cx-pagination:first .page-link').should('have.length', 4);
+  cy.get('cx-pagination:last a').should('have.length', 4);
+  cy.get('cx-pagination:last a').last().click();
+  cy.get('.cx-code > span').should('contain.text', 'ID 872912');
 }
 
 export function navigateToMyInterestsPage() {

@@ -31,21 +31,14 @@ export class StarRatingComponent implements OnInit {
   /**
    * Emits the given rating when the user clicks on a star.
    */
+  // tslint:disable-next-line:no-output-native
   @Output() change = new EventEmitter<number>();
 
   private initialRate = 0;
 
   iconTypes = ICON_TYPE;
 
-  constructor(el: ElementRef, renderer: Renderer2); // tslint:disable-line
-  /**
-   * @deprecated since version 1.0.2
-   *  Use constructor(el: ElementRef, renderer: Renderer2) instead
-   *
-   *  TODO(issue:#3803) deprecated since 1.0.2
-   */
-  constructor(el: ElementRef);
-  constructor(protected el: ElementRef, protected renderer?: Renderer2) {}
+  constructor(protected el: ElementRef, protected renderer: Renderer2) {}
 
   ngOnInit(): void {
     this.setRate(this.rating, true);
@@ -53,19 +46,11 @@ export class StarRatingComponent implements OnInit {
 
   setRate(value: number, force?: boolean): void {
     if (!this.disabled || force) {
-      // TODO(issue:#3803) deprecated since 1.0.2
-      if (this.renderer) {
-        this.renderer.setAttribute(
-          this.el.nativeElement,
-          'style',
-          `--star-fill:${value || this.initialRate};`
-        );
-      } else {
-        this.el.nativeElement.style.setProperty(
-          '--star-fill',
-          value || this.initialRate
-        );
-      }
+      this.renderer.setAttribute(
+        this.el.nativeElement,
+        'style',
+        `--star-fill:${value || this.initialRate};`
+      );
     }
   }
 
@@ -76,5 +61,12 @@ export class StarRatingComponent implements OnInit {
     this.initialRate = rating;
     this.setRate(rating);
     this.change.emit(rating);
+  }
+
+  setRateOnEvent(event: any, rating: number) {
+    if (event.code === 'Space') {
+      event.preventDefault();
+      this.setRate(rating);
+    }
   }
 }

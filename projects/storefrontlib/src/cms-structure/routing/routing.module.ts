@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
-  provideConfig,
+  provideDefaultConfig,
   RoutingModule as CoreRoutingModule,
 } from '@spartacus/core';
 import { CmsRouteModule } from './cms-route/cms-route.module';
@@ -13,7 +13,7 @@ export class RoutingModule {
   static forRoot(): ModuleWithProviders<RoutingModule> {
     return {
       ngModule: RoutingModule,
-      providers: [provideConfig(defaultRoutingConfig)],
+      providers: [provideDefaultConfig(defaultRoutingConfig)],
     };
   }
 }

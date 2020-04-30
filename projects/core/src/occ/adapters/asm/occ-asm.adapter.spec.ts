@@ -89,10 +89,10 @@ describe('OccAsmAdapter', () => {
       query: searchQuery,
       pageSize,
     };
-    occAsmAdapter.customerSearch(searchOptions).subscribe(data => {
+    occAsmAdapter.customerSearch(searchOptions).subscribe((data) => {
       result = data;
     });
-    const mockReq: TestRequest = httpMock.expectOne(req => {
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET';
     });
 
@@ -116,10 +116,10 @@ describe('OccAsmAdapter', () => {
   it('should not include optional params if they are not in the options', () => {
     let result: CustomerSearchPage;
     const searchOptions: CustomerSearchOptions = {};
-    occAsmAdapter.customerSearch(searchOptions).subscribe(data => {
+    occAsmAdapter.customerSearch(searchOptions).subscribe((data) => {
       result = data;
     });
-    const mockReq: TestRequest = httpMock.expectOne(req => {
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET';
     });
 
@@ -148,10 +148,10 @@ describe('OccAsmAdapter', () => {
       query: searchQuery,
       pageSize,
     };
-    occAsmAdapter.customerSearch(searchOptions).subscribe(data => {
+    occAsmAdapter.customerSearch(searchOptions).subscribe((data) => {
       result = data;
     });
-    const mockReq: TestRequest = httpMock.expectOne(req => {
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'GET';
     });
 

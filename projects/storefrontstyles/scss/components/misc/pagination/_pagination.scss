@@ -52,5 +52,8 @@
     &.current + a {
       border-left: none;
     }
+    &:focus {
+      z-index: 1;
+    }
   }
 }

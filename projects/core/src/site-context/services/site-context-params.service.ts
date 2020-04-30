@@ -1,11 +1,13 @@
 import { Injectable, Injector } from '@angular/core';
-import { SiteContextConfig } from '../config/site-context-config';
-import { SiteContext } from '../facade/site-context.interface';
-import { ContextServiceMap } from '../providers/context-service-map';
+import { combineLatest, Observable, of } from 'rxjs';
+import { distinctUntilChanged, filter } from 'rxjs/operators';
 import {
   getContextParameterDefault,
   getContextParameterValues,
 } from '../config/context-config-utils';
+import { SiteContextConfig } from '../config/site-context-config';
+import { SiteContext } from '../facade/site-context.interface';
+import { ContextServiceMap } from '../providers/context-service-map';
 
 @Injectable()
 export class SiteContextParamsService {
@@ -18,7 +20,7 @@ export class SiteContextParamsService {
   getContextParameters(): string[] {
     if (this.config.context) {
       return Object.keys(this.config.context).filter(
-        param => param !== 'urlParameters'
+        (param) => param !== 'urlParameters'
       );
     }
     return [];
@@ -49,7 +51,7 @@ export class SiteContextParamsService {
     if (service) {
       service
         .getActive()
-        .subscribe(val => (value = val))
+        .subscribe((val) => (value = val))
         .unsubscribe();
     }
 
@@ -61,5 +63,26 @@ export class SiteContextParamsService {
     if (service) {
       service.setActive(value);
     }
+  }
+
+  /**
+   * Get active values for all provided context parameters
+   *
+   * @param params Context parameters
+   *
+   * @returns Observable emitting array of all passed active context values
+   */
+  getValues(params: string[]): Observable<Array<string>> {
+    if (params.length === 0) {
+      return of([]);
+    }
+
+    return combineLatest(
+      params.map((param) =>
+        this.getSiteContextService(param)
+          .getActive()
+          .pipe(distinctUntilChanged())
+      )
+    ).pipe(filter((value) => value.every((param) => !!param)));
   }
 }

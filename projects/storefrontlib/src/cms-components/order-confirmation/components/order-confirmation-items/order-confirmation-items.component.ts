@@ -24,21 +24,8 @@ export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
   orderPromotions$: Observable<PromotionResult[]>;
 
   constructor(
-    checkoutService: CheckoutService,
-    // tslint:disable-next-line:unified-signatures
-    promotionService: PromotionService
-  );
-
-  /**
-   * @deprecated Since 1.5
-   * Use promotionService instead of the promotion inputs.
-   * Remove issue: #5670
-   */
-  constructor(checkoutService: CheckoutService);
-
-  constructor(
     protected checkoutService: CheckoutService,
-    protected promotionService?: PromotionService
+    protected promotionService: PromotionService
   ) {}
 
   ngOnInit() {

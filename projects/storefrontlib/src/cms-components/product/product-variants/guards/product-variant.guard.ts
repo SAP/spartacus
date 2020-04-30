@@ -21,7 +21,7 @@ export class ProductVariantGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.routingService.getRouterState().pipe(
-      map(state => state.nextState.params.productCode),
+      map((state) => state.nextState.params.productCode),
       switchMap((productCode: string) => {
         // if open pdp from smartedit
         if (!productCode) {
@@ -37,10 +37,7 @@ export class ProductVariantGuard implements CanActivate {
               // we're just calling it earlier and storing
               this.productService
                 .get(variant.code, ProductScope.LIST)
-                .pipe(
-                  filter(Boolean),
-                  take(1)
-                )
+                .pipe(filter(Boolean), take(1))
                 .subscribe((_product: Product) => {
                   this.routingService.go({
                     cxRoute: 'product',
@@ -58,7 +55,7 @@ export class ProductVariantGuard implements CanActivate {
   }
 
   findVariant(variants: VariantOption[]): VariantOption {
-    const results: VariantOption[] = variants.filter(variant => {
+    const results: VariantOption[] = variants.filter((variant) => {
       return variant.stock && variant.stock.stockLevel ? variant : false;
     });
     return !results.length && variants.length ? variants[0] : results[0];

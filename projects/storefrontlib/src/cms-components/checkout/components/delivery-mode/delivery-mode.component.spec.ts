@@ -115,7 +115,7 @@ describe('DeliveryModeComponent', () => {
     ).and.returnValue(of(mockSupportedDeliveryModes));
     component.ngOnInit();
 
-    component.supportedDeliveryModes$.subscribe(modes => {
+    component.supportedDeliveryModes$.subscribe((modes) => {
       expect(modes).toBe(mockSupportedDeliveryModes);
     });
   });
