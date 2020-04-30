@@ -1,3 +1,5 @@
+import { waitForPage } from './checkout-flow';
+
 /* Use this methods if you need to test UI for login/register (eg. form validation).
  If you only need to be logged in to check other feature use `requireLoggedIn` command */
 
@@ -52,7 +54,9 @@ export function register(
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
   cy.get('cx-register form').within(() => {
+    const loginPage = waitForPage('/login', 'loginPage');
     cy.get('button[type="submit"]').click();
+    cy.wait(`@${loginPage}`);
   });
 }
 
