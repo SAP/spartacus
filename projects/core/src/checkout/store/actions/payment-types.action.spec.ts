@@ -1,9 +1,6 @@
 import { CheckoutActions } from '../actions/index';
-import {
-  PROCESS_FEATURE,
-  GET_PAYMENT_TYPES_PROCESS_ID,
-  StateEntityLoaderActions,
-} from '@spartacus/core';
+import { PROCESS_FEATURE, GET_PAYMENT_TYPES_PROCESS_ID } from '@spartacus/core';
+import { StateUtils } from '../../../state/utils/index';
 
 describe('Payment Types Actions', () => {
   describe('Load All Payment Types', () => {
@@ -12,7 +9,7 @@ describe('Payment Types Actions', () => {
         const action = new CheckoutActions.LoadPaymentTypes();
         expect({ ...action }).toEqual({
           type: CheckoutActions.LOAD_PAYMENT_TYPES,
-          meta: StateEntityLoaderActions.entityLoadMeta(
+          meta: StateUtils.entityLoadMeta(
             PROCESS_FEATURE,
             GET_PAYMENT_TYPES_PROCESS_ID
           ),
@@ -28,7 +25,7 @@ describe('Payment Types Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.LOAD_PAYMENT_TYPES_FAIL,
           payload: error,
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             GET_PAYMENT_TYPES_PROCESS_ID
           ),
@@ -45,7 +42,7 @@ describe('Payment Types Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.LOAD_PAYMENT_TYPES_SUCCESS,
           payload: paymentTypes,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
             GET_PAYMENT_TYPES_PROCESS_ID
           ),
