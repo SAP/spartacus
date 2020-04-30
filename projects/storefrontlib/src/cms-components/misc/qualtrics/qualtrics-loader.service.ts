@@ -119,7 +119,7 @@ export class QualtricsLoaderService {
   }
 
   /**
-   * Indicatas that the script is already added to the DOM.
+   * Indicates if the script is already added to the DOM.
    */
   protected hasScript(source?: string): boolean {
     return !!this.winRef.document?.querySelector(`script[src="${source}"]`);
