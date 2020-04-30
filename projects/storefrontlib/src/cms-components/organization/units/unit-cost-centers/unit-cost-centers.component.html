@@ -22,9 +22,11 @@
       <div class="row cx-search-links mb-3">
         <a
           [routerLink]="
-            { cxRoute: 'costCenterCreate', params: { code: code$ | async } }
-              | cxUrl
+            {
+              cxRoute: 'costCenterCreate'
+            } | cxUrl
           "
+          [queryParams]="{ parentUnit: code$ | async }"
           class="btn btn-primary btn-block"
         >
           {{ 'unitCostCenters.create' | cxTranslate }}

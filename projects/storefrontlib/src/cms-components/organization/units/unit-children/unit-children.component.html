@@ -21,10 +21,8 @@
       </div>
       <div class="row cx-search-links mb-3">
         <a
-          [routerLink]="
-            { cxRoute: 'orgUnitCreate', params: { code: code$ | async } }
-              | cxUrl
-          "
+          [routerLink]="{ cxRoute: 'orgUnitCreate' } | cxUrl"
+          [queryParams]="{ parentUnit: code$ | async }"
           class="btn btn-primary btn-block"
         >
           {{ 'unitChildren.create' | cxTranslate }}

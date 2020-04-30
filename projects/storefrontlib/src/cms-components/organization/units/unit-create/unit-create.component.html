@@ -4,6 +4,7 @@
 <cx-unit-form
   [actionBtnLabel]="'orgUnitForm.create' | cxTranslate"
   [routerBackLink]="{ cxRoute: 'orgUnits' }"
+  [orgUnitData]="{ parentOrgUnit: { uid: parentUnit$ | async } }"
   (submitForm)="createOrgUnit($event)"
 >
 </cx-unit-form>
