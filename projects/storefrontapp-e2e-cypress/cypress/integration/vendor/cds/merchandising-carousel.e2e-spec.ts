@@ -1,5 +1,5 @@
 import * as merchandisingCarousel from '../../../helpers/vendor/cds/merchandising-carousel';
-import * as profileTag from '../../../helpers/vendor/cds/profile-tag';
+import { profileTagHelper } from '../../../helpers/vendor/cds/profile-tag';
 import { switchSiteContext } from '../../../support/utils/switch-site-context';
 import {
   CURRENCY_JPY,
@@ -116,7 +116,7 @@ describe('Merchandising Carousel', () => {
         strategyRequestAlias,
         {}
       );
-      profileTag.grantConsent();
+      profileTagHelper.grantConsent();
     });
 
     it('should send carousel events to the data layer when the carousel is on the homepage', () => {

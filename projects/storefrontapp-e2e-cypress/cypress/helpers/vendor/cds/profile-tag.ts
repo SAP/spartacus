@@ -15,12 +15,12 @@ export const profileTagHelper = {
     };
   },
   profileTagScriptResponse: {},
-};
 
-export function grantConsent() {
-  cy.route('POST', '/consent/*/consentReferences').as(
-    'consentReferenceCreation'
-  );
-  clickAllowAllFromBanner();
-  cy.wait('@consentReferenceCreation');
-}
+  grantConsent() {
+    cy.route('POST', '/consent/*/consentReferences').as(
+      'consentReferenceCreation'
+    );
+    clickAllowAllFromBanner();
+    cy.wait('@consentReferenceCreation');
+  },
+};
