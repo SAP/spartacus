@@ -72,7 +72,7 @@ if (!environment.production) {
     JsonLdBuilderModule,
     CdsModule.forRoot({
       cds: {
-        tenant: 'argotest',
+        tenant: 'spartans',
         baseUrl: 'https://api.stage.context.cloud.sap',
         endpoints: {
           strategyProducts:
@@ -85,7 +85,7 @@ if (!environment.production) {
           javascriptUrl:
             'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',
           configUrl:
-            'https://tag.static.stage.context.cloud.sap/config/ce58e770-80aa-11ea-81df-0dfb7a7728df',
+            'https://tag.static.stage.context.cloud.sap/config/47cbd5f0-8aeb-11ea-81df-0dfb7a7728df',
           allowInsecureCookies: true,
         },
       },

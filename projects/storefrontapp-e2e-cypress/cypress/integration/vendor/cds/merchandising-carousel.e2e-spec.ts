@@ -23,8 +23,7 @@ const camcordersCategoryName = 'Camcorders';
 const camcordersCategoryCode = '584';
 const slrCategoryCode = '578';
 const slrNonProductListCategoryPagePath = `Open-Catalogue/Cameras/Digital-Cameras/Digital-SLR/c/${slrCategoryCode}`;
-const digitalCamerasCategoryName = 'Digital Cameras';
-const digitalCamerasCategoryCode = '575';
+const chibaStoreName = 'Chiba';
 
 const requestContainsConsentReference = true;
 const checkForCarouselClickEvent = true;
@@ -403,13 +402,13 @@ describe('Merchandising Carousel', () => {
     it('should request products filtered by additional facets when facets on a brand page are changed', () => {
       testBrandPage();
 
-      merchandisingCarousel.applyFacet('Category', digitalCamerasCategoryName);
+      merchandisingCarousel.applyFacet('Stores', chibaStoreName);
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
         strategyRequestAlias,
         canonBrandCode,
         merchandisingCarousel.DEFAULT_LANGUAGE,
-        [`category:${digitalCamerasCategoryCode}`]
+        [`availableInStores:${chibaStoreName}`]
       );
     });
 
