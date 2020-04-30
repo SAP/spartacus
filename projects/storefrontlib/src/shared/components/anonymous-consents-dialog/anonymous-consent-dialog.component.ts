@@ -18,6 +18,7 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/index';
+import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
 
 @Component({
   selector: 'cx-anonymous-consent-dialog',
@@ -58,7 +59,8 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   constructor(
     private config: AnonymousConsentsConfig,
     private anonymousConsentsService: AnonymousConsentsService,
-    private el: ElementRef
+    private el: ElementRef,
+    private launchDialogService: LaunchDialogService
   ) {
     if (Boolean(this.config.anonymousConsents)) {
       this.showLegalDescription = this.config.anonymousConsents.showLegalDescriptionInDialog;
@@ -75,7 +77,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   }
 
   closeModal(reason?: any): void {
-    this.closeDialog.emit(reason);
+    this.launchDialogService.closeDialog(reason);
   }
 
   rejectAll(): void {

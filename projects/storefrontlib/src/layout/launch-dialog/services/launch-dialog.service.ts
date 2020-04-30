@@ -6,7 +6,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { resolveApplicable } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LayoutConfig } from '../../config/layout-config';
 import { LaunchOptions, LAUNCH_CALLER } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
@@ -15,6 +15,8 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 export class LaunchDialogService {
   // Keep a list of rendered elements
   protected renderedCallers: LAUNCH_CALLER[] = [];
+
+  private _dialogClose = new BehaviorSubject<string>(undefined);
 
   constructor(
     @Inject(LaunchRenderStrategy)
@@ -40,6 +42,7 @@ export class LaunchDialogService {
 
       // Render if the strategy exists
       if (renderer) {
+        this._dialogClose.next(undefined);
         return renderer.render(config, caller, vcr);
       }
     } else if (isDevMode) {
@@ -60,6 +63,14 @@ export class LaunchDialogService {
     if (renderer) {
       renderer.remove(caller, config);
     }
+  }
+
+  get dialogClose(): Observable<string> {
+    return this._dialogClose.asObservable();
+  }
+
+  closeDialog(reason: string) {
+    this._dialogClose.next(reason);
   }
 
   /**

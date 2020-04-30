@@ -57,10 +57,7 @@ describe('AnonymousConsentOpenDialogComponent', () => {
 
       expect(
         anonymousConsentLaunchDialogService.openDialog
-      ).toHaveBeenCalledWith({
-        openElement: component.openElement,
-        vcr: component['vcr'],
-      });
+      ).toHaveBeenCalledWith(component.openElement, component['vcr']);
     });
   });
 });

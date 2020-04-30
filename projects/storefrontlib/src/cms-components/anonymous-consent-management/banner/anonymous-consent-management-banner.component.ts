@@ -23,9 +23,10 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
 
   viewDetails(): void {
     this.hideBanner();
-    const dialog = this.anonymousConsentLaunchDialogService.openDialog({
-      vcr: this.vcr,
-    });
+    const dialog = this.anonymousConsentLaunchDialogService.openDialog(
+      null,
+      this.vcr
+    );
     if (dialog) {
       this.subscriptions.add(dialog.subscribe());
     }

@@ -20,10 +20,10 @@ export class AnonymousConsentOpenDialogComponent {
   ) {}
 
   openDialog(): void {
-    const dialog = this.anonymousConsentLaunchDialogService.openDialog({
-      openElement: this.openElement,
-      vcr: this.vcr,
-    });
+    const dialog = this.anonymousConsentLaunchDialogService.openDialog(
+      this.openElement,
+      this.vcr
+    );
     if (dialog) {
       dialog.pipe(take(1)).subscribe();
     }

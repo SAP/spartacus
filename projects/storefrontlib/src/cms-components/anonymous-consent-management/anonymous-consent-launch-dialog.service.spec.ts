@@ -51,7 +51,7 @@ describe('AnonymousConsentLaunchDialogService', () => {
     });
 
     it('should call LaunchDialogService launch', () => {
-      service.openDialog({ vcr: component.vcr });
+      service.openDialog(null, component.vcr);
 
       expect(launchDialogService.launch).toHaveBeenCalledWith(
         LAUNCH_CALLER.ANONYMOUS_CONSENT,
@@ -62,7 +62,7 @@ describe('AnonymousConsentLaunchDialogService', () => {
     it('should call LaunchDialogService clear on close', () => {
       spyOn(launchDialogService, 'clear');
 
-      const comp = service.openDialog({ vcr: component.vcr });
+      const comp = service.openDialog(null, component.vcr);
 
       comp.subscribe();
 
@@ -74,7 +74,7 @@ describe('AnonymousConsentLaunchDialogService', () => {
     it('should destroy component on close', () => {
       spyOn(componentRef, 'destroy');
 
-      const comp = service.openDialog({ vcr: component.vcr });
+      const comp = service.openDialog(null, component.vcr);
 
       comp.subscribe();
 

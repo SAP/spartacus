@@ -1,42 +1,36 @@
-import {
-  ComponentRef,
-  ElementRef,
-  Injectable,
-  ViewContainerRef,
-} from '@angular/core';
-import { Observable } from 'rxjs';
-import { concatMap, tap } from 'rxjs/operators';
+import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '../../layout/launch-dialog/index';
 
-interface DialogData {
-  openElement?: ElementRef;
-  vcr?: ViewContainerRef;
-}
-
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentLaunchDialogService {
   constructor(protected launchDialogService: LaunchDialogService) {}
 
-  openDialog(data: DialogData): Observable<ComponentRef<any> | string> {
+  openDialog(
+    openElement?: ElementRef,
+    vcr?: ViewContainerRef
+  ): Observable<any> {
     const component = this.launchDialogService.launch(
       LAUNCH_CALLER.ANONYMOUS_CONSENT,
-      data.vcr
+      vcr
     );
 
     if (component) {
-      return (component as Observable<ComponentRef<any>>).pipe(
-        concatMap((comp) => {
-          return (comp.instance.closeDialog as Observable<string>).pipe(
-            tap(() => {
-              data.openElement?.nativeElement.focus();
-              this.launchDialogService.clear(LAUNCH_CALLER.ANONYMOUS_CONSENT);
-              comp.destroy();
-            })
-          );
-        })
+      return combineLatest([
+        component,
+        this.launchDialogService.dialogClose,
+      ]).pipe(
+        filter(([, close]) => close && close !== undefined),
+        tap(([comp]) => {
+          openElement?.nativeElement.focus();
+          this.launchDialogService.clear(LAUNCH_CALLER.ANONYMOUS_CONSENT);
+          comp.destroy();
+        }),
+        map(([comp]) => comp)
       );
     }
   }

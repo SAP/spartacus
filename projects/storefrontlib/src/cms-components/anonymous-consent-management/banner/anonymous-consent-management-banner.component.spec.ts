@@ -75,7 +75,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
       expect(component.hideBanner).toHaveBeenCalled();
       expect(
         anonymousConsentLaunchDialogService.openDialog
-      ).toHaveBeenCalledWith({ vcr: component['vcr'] });
+      ).toHaveBeenCalledWith(null, component['vcr']);
     });
   });
 

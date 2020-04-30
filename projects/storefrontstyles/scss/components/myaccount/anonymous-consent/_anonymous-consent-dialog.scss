@@ -4,6 +4,12 @@
   color: var(--cx-color-text);
   background-color: rgba(0, 0, 0, 0.5);
 
+  .cx-anonymous-consent-dialog {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+    @extend .modal-lg;
+  }
+
   .cx-dialog-header {
     padding: 2rem 1.75rem 0.85rem;
   }
