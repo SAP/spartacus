@@ -1,12 +1,10 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
   HostBinding,
   HostListener,
   OnDestroy,
   OnInit,
-  Output,
 } from '@angular/core';
 import {
   AnonymousConsent,
@@ -44,9 +42,6 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     autofocus: true,
     focusOnEscape: true,
   };
-
-  @Output()
-  closeDialog: EventEmitter<string> = new EventEmitter();
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {

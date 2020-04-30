@@ -9,12 +9,14 @@ import { AnonymousConsentLaunchDialogService } from './anonymous-consent-launch-
 })
 class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
-  public closeDialog = of('close');
 }
 
 class MockLaunchDialogService {
   launch() {}
   clear() {}
+  get dialogClose() {
+    return of('close');
+  }
 }
 
 describe('AnonymousConsentLaunchDialogService', () => {

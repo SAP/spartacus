@@ -8,6 +8,7 @@ import {
   ConsentTemplate,
   I18nTestingModule,
 } from '@spartacus/core';
+import { LaunchDialogService } from 'projects/storefrontlib/src/layout';
 import { Observable, of } from 'rxjs';
 import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
 
@@ -58,6 +59,10 @@ class MockAnonymousConsentsService {
   }
 }
 
+class MockLaunchDialogService {
+  closeDialog() {}
+}
+
 const mockTemplates: ConsentTemplate[] = [
   { id: 'MARKETING' },
   { id: 'PERSONALIZATION' },
@@ -68,6 +73,7 @@ describe('AnonymousConsentsDialogComponent', () => {
   let fixture: ComponentFixture<AnonymousConsentDialogComponent>;
   let anonymousConsentsService: AnonymousConsentsService;
   let anonymousConsentsConfig: AnonymousConsentsConfig;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(async(() => {
     const mockConfig: AnonymousConsentsConfig = {
@@ -91,6 +97,10 @@ describe('AnonymousConsentsDialogComponent', () => {
           provide: AnonymousConsentsConfig,
           useValue: mockConfig,
         },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
@@ -101,6 +111,7 @@ describe('AnonymousConsentsDialogComponent', () => {
     component = fixture.componentInstance;
     anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
     anonymousConsentsConfig = TestBed.inject(AnonymousConsentsConfig);
+    launchDialogService = TestBed.inject(LaunchDialogService);
 
     fixture.detectChanges();
   });
@@ -122,12 +133,11 @@ describe('AnonymousConsentsDialogComponent', () => {
 
   describe('closeModal', () => {
     it('should call modalService.closeActiveModal', () => {
-      let result;
-      component.closeDialog.subscribe((reason) => (result = reason));
+      spyOn(launchDialogService, 'closeDialog');
 
       component.closeModal('xxx');
 
-      expect(result).toEqual('xxx');
+      expect(launchDialogService.closeDialog).toHaveBeenCalledWith('xxx');
     });
   });
 

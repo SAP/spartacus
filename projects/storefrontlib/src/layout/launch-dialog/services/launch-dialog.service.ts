@@ -11,11 +11,8 @@ import { LayoutConfig } from '../../config/layout-config';
 import { LaunchOptions, LAUNCH_CALLER } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class LaunchDialogService {
-  // Keep a list of rendered elements
-  protected renderedCallers: LAUNCH_CALLER[] = [];
-
   private _dialogClose = new BehaviorSubject<string>(undefined);
 
   constructor(

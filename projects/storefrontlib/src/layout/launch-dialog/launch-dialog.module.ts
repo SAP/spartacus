@@ -3,6 +3,7 @@ import { Config } from '@spartacus/core';
 import { LayoutConfig } from '../config/layout-config';
 import {
   InlineRenderStrategy,
+  LaunchDialogService,
   LaunchRenderStrategy,
   OutletRenderStrategy,
   RoutingRenderStrategy,
@@ -25,6 +26,7 @@ import {
       useExisting: RoutingRenderStrategy,
       multi: true,
     },
+    LaunchDialogService,
   ],
 })
 export class LaunchDialogModule {
