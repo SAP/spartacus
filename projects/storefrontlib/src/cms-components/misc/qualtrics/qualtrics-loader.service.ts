@@ -8,7 +8,7 @@ import { WindowRef } from '@spartacus/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
-export const QUALTRICS_EVENT = 'qsi_js_loaded';
+export const QUALTRICS_EVENT_NAME = 'qsi_js_loaded';
 
 /**
  * Service to integration Qualtrics.
@@ -17,8 +17,8 @@ export const QUALTRICS_EVENT = 'qsi_js_loaded';
  * to let Qualtrics evaluate the application.
  *
  * The service supports an additional _hook_ (`isDataLoaded()`) that can be used to load application
- * data before pulling the QSI API. This is benefitial in a single page application when additional
- * data is required befor the Qualtrics _creatives_ run.
+ * data before pulling the QSI API. This is beneficial in a single page application when additional
+ * data is required before the Qualtrics _creatives_ run.
  *
  * This service also supports the creation of the Qualtrics deployment script. This is optional, as
  * the script can be added in alternatives ways.
@@ -36,7 +36,7 @@ export class QualtricsLoaderService {
    * QSI load event that happens when the QSI JS file is loaded.
    */
   private qsiLoaded$: Observable<any> = this.winRef?.nativeWindow
-    ? fromEvent(this.winRef.nativeWindow, QUALTRICS_EVENT)
+    ? fromEvent(this.winRef.nativeWindow, QUALTRICS_EVENT_NAME)
     : of();
 
   /**

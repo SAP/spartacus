@@ -4,7 +4,7 @@ import { WindowRef } from '@spartacus/core';
 import { of } from 'rxjs';
 import {
   QualtricsLoaderService,
-  QUALTRICS_EVENT,
+  QUALTRICS_EVENT_NAME,
 } from './qualtrics-loader.service';
 
 const mockQsiJsApi = {
@@ -33,7 +33,7 @@ class MockRendererFactory2 {
 const eventListener: Map<String, Function> = <Map<String, Function>>{};
 
 const loadQsi = () => {
-  eventListener[QUALTRICS_EVENT](new Event(QUALTRICS_EVENT));
+  eventListener[QUALTRICS_EVENT_NAME](new Event(QUALTRICS_EVENT_NAME));
 };
 
 @Injectable({
@@ -146,7 +146,7 @@ describe('QualtricsLoaderService', () => {
       const customService = TestBed.inject(CustomQualtricsLoaderService);
       spyOn(customService, 'collectData').and.callThrough();
 
-      eventListener[QUALTRICS_EVENT](new Event(QUALTRICS_EVENT));
+      eventListener[QUALTRICS_EVENT_NAME](new Event(QUALTRICS_EVENT_NAME));
 
       expect(customService.collectData).toHaveBeenCalled();
     });
