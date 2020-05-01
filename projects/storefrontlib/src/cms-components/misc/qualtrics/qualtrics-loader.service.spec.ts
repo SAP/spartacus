@@ -2,7 +2,10 @@ import { Injectable, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { of } from 'rxjs';
-import { QualtricsLoaderService } from './qualtrics-loader.service';
+import {
+  QualtricsLoaderService,
+  QUALTRICS_EVENT,
+} from './qualtrics-loader.service';
 
 const mockQsiJsApi = {
   API: {
@@ -27,12 +30,10 @@ class MockRendererFactory2 {
   }
 }
 
-const eventListener: Record<'qsi_js_loaded', Function> = <
-  Record<'qsi_js_loaded', Function>
->{};
+const eventListener: Map<String, Function> = <Map<String, Function>>{};
 
 const loadQsi = () => {
-  eventListener['qsi_js_loaded'](new Event('qsi_js_loaded'));
+  eventListener[QUALTRICS_EVENT](new Event(QUALTRICS_EVENT));
 };
 
 @Injectable({
@@ -48,12 +49,11 @@ class CustomQualtricsLoaderService extends QualtricsLoaderService {
 }
 
 describe('QualtricsLoaderService', () => {
-  let mockedWindowRef;
   let service: QualtricsLoaderService;
   let winRef: WindowRef;
 
   beforeEach(() => {
-    mockedWindowRef = {
+    const mockedWindowRef = {
       nativeWindow: {
         addEventListener: (event, listener) => {
           eventListener[event] = listener;
@@ -146,7 +146,7 @@ describe('QualtricsLoaderService', () => {
       const customService = TestBed.inject(CustomQualtricsLoaderService);
       spyOn(customService, 'collectData').and.callThrough();
 
-      eventListener['qsi_js_loaded'](new Event('qsi_js_loaded'));
+      eventListener[QUALTRICS_EVENT](new Event(QUALTRICS_EVENT));
 
       expect(customService.collectData).toHaveBeenCalled();
     });

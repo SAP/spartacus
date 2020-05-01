@@ -8,6 +8,8 @@ import { WindowRef } from '@spartacus/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
+export const QUALTRICS_EVENT = 'qsi_js_loaded';
+
 /**
  * Service to integration Qualtrics.
  *
@@ -34,7 +36,7 @@ export class QualtricsLoaderService {
    * QSI load event that happens when the QSI JS file is loaded.
    */
   private qsiLoaded$: Observable<any> = this.winRef?.nativeWindow
-    ? fromEvent(this.winRef.nativeWindow, 'qsi_js_loaded')
+    ? fromEvent(this.winRef.nativeWindow, QUALTRICS_EVENT)
     : of();
 
   /**
