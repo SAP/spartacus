@@ -194,7 +194,7 @@ describe('PermissionService', () => {
           permisstionTypes = data;
         })
         .unsubscribe();
-      expect(authService.getOccUserId).toHaveBeenCalled();
+
       expect(permisstionTypes).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new PermissionActions.LoadPermissionTypes()
