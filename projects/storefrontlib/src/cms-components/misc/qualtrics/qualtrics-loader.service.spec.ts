@@ -1,8 +1,39 @@
-import { Injectable } from '@angular/core';
+import { Injectable, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { of } from 'rxjs';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
+
+const mockQsiJsApi = {
+  API: {
+    unload: (): void => {},
+    load: () => {
+      return {
+        done: (_intercept: Function) => {},
+      };
+    },
+    run: (): void => {},
+  },
+};
+
+const createElementSpy = jasmine.createSpy('createElement').and.returnValue({});
+
+class MockRendererFactory2 {
+  createRenderer() {
+    return {
+      createElement: createElementSpy,
+      appendChild() {},
+    };
+  }
+}
+
+const eventListener: Record<'qsi_js_loaded', Function> = <
+  Record<'qsi_js_loaded', Function>
+>{};
+
+const loadQsi = () => {
+  eventListener['qsi_js_loaded'](new Event('qsi_js_loaded'));
+};
 
 @Injectable({
   providedIn: 'root',
@@ -16,25 +47,10 @@ class CustomQualtricsLoaderService extends QualtricsLoaderService {
   }
 }
 
-const mockQsi = {
-  API: {
-    unload: (): void => {},
-    load: () => {
-      return {
-        done: (_intercept: Function) => {},
-      };
-    },
-    run: (): void => {},
-  },
-};
-
-fdescribe('QualtricsLoaderService', () => {
+describe('QualtricsLoaderService', () => {
+  let mockedWindowRef;
   let service: QualtricsLoaderService;
   let winRef: WindowRef;
-  const eventListener: Record<'qsi_js_loaded', Function> = <
-    Record<'qsi_js_loaded', Function>
-  >{};
-  let mockedWindowRef;
 
   beforeEach(() => {
     mockedWindowRef = {
@@ -43,6 +59,7 @@ fdescribe('QualtricsLoaderService', () => {
           eventListener[event] = listener;
         },
         removeEventListener: jasmine.createSpy('removeEventListener'),
+        QSI: mockQsiJsApi,
       },
       document: {
         querySelector: () => {},
@@ -54,13 +71,12 @@ fdescribe('QualtricsLoaderService', () => {
         QualtricsLoaderService,
         CustomQualtricsLoaderService,
         { provide: WindowRef, useValue: mockedWindowRef },
+        { provide: RendererFactory2, useClass: MockRendererFactory2 },
       ],
     });
 
     winRef = TestBed.inject(WindowRef);
     service = TestBed.inject(QualtricsLoaderService);
-
-    winRef.nativeWindow['QSI'] = mockQsi;
   });
 
   it('should be created', () => {
@@ -68,65 +84,60 @@ fdescribe('QualtricsLoaderService', () => {
   });
 
   describe('Consume Qualtrics API', () => {
+    let qsiRun: jasmine.Spy<any>;
+    let qsiUnload: jasmine.Spy<any>;
+
     beforeEach(() => {
-      spyOn(winRef.nativeWindow['QSI'].API, 'unload').and.stub();
-      spyOn(winRef.nativeWindow['QSI'].API, 'run').and.stub();
+      qsiRun = spyOn(winRef.nativeWindow['QSI'].API, 'run').and.stub();
+      qsiUnload = spyOn(winRef.nativeWindow['QSI'].API, 'unload').and.stub();
     });
+
     it('should not load Qualtrics when the qsi_js_loaded event is not triggered', () => {
-      expect(winRef.nativeWindow['QSI'].API.run).not.toHaveBeenCalled();
+      expect(qsiRun).not.toHaveBeenCalled();
     });
 
-    it('should load Qualtrics API when the qsi_js_loaded event is triggered', () => {
-      eventListener['qsi_js_loaded'](new Event('qsi_js_loaded'));
-      expect(winRef.nativeWindow['QSI'].API.run).toHaveBeenCalledTimes(1);
-    });
+    describe('Qualtrics loaded', () => {
+      beforeEach(() => {
+        loadQsi();
+      });
 
-    it('should not unload Qualtrics API when the qsi_js_loaded event is triggered', () => {
-      eventListener['qsi_js_loaded'](new Event('qsi_js_loaded'));
-      expect(winRef.nativeWindow['QSI'].API.unload).not.toHaveBeenCalled();
-    });
+      it('should load Qualtrics API when the qsi_js_loaded event is triggered', () => {
+        expect(qsiRun).toHaveBeenCalledTimes(1);
+      });
 
-    it('should load twice when a the event is dispatched twice', () => {
-      eventListener['qsi_js_loaded'](new Event('qsi_js_loaded'));
-      eventListener['qsi_js_loaded'](new Event('qsi_js_loaded'));
-      expect(winRef.nativeWindow['QSI'].API.run).toHaveBeenCalledTimes(2);
-    });
+      it('should not unload Qualtrics API when the qsi_js_loaded event is triggered', () => {
+        expect(qsiUnload).not.toHaveBeenCalled();
+      });
 
-    it('should unload when a script is loaded for the 2nd time', () => {
-      service.addScript('whatever.js');
-      expect(winRef.nativeWindow['QSI'].API.unload).not.toHaveBeenCalled();
-      service.addScript('whatever.js');
-      expect(winRef.nativeWindow['QSI'].API.unload).toHaveBeenCalled();
+      it('should load twice when a the event is dispatched twice', () => {
+        loadQsi();
+        expect(qsiRun).toHaveBeenCalledTimes(2);
+      });
+
+      it('should unload when a script is alread in the DOM', () => {
+        spyOn(winRef.document, 'querySelector').and.returnValue({} as Element);
+        service.addScript('whatever.js');
+        expect(qsiUnload).toHaveBeenCalled();
+      });
     });
   });
 
   describe('addScript()', () => {
-    it('should add the given deployment script', () => {
+    beforeEach(() => {
+      loadQsi();
+    });
+
+    it('should add the deployment script', () => {
       service.addScript('whatever.js');
-      const el = document.querySelector(`script[src="whatever.js"]`);
-      expect(el).toBeTruthy();
+      expect(createElementSpy).toHaveBeenCalledWith('script');
     });
 
-    it('should add the same script only once', () => {
+    it('should not add the same script twice', () => {
+      createElementSpy.calls.reset();
+      // simulate script has been added
+      spyOn(winRef.document, 'querySelector').and.returnValue({} as Element);
       service.addScript('whatever2.js');
-      service.addScript('whatever2.js');
-
-      const scripts = document.querySelectorAll(`script[src="whatever.js"]`);
-      expect(scripts.length).toEqual(1);
-    });
-
-    it('should run Qualtrics API when the same script is added again', () => {
-      spyOn(winRef.nativeWindow['QSI'].API, 'unload').and.stub();
-      spyOn(winRef.nativeWindow['QSI'].API, 'run').and.stub();
-
-      // ensure we have the qsi API available
-      eventListener['qsi_js_loaded'](new Event('qsi_js_loaded'));
-
-      service.addScript('whatever3.js');
-      service.addScript('whatever3.js');
-
-      expect(winRef.nativeWindow['QSI'].API.unload).toHaveBeenCalledTimes(1);
-      expect(winRef.nativeWindow['QSI'].API.run).toHaveBeenCalled();
+      expect(createElementSpy).not.toHaveBeenCalled();
     });
   });
 
