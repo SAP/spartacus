@@ -1,4 +1,6 @@
-<ng-container *ngIf="ultimate$ | async as merchandisingCarouselModel">
+<ng-container
+  *ngIf="merchandisingCarouselModel$ | async as merchandisingCarouselModel"
+>
   <div
     class="data-cx-merchandising-carousel"
     [cxAttributes]="merchandisingCarouselModel.metadata"
