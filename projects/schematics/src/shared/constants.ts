@@ -202,6 +202,7 @@ export const BASE_SITE_SERVICE = 'BaseSiteService';
 export const QUALTRICS_LOADER_SERVICE = 'QualtricsLoaderService';
 export const RENDERER_FACTORY_2 = 'RendererFactory2';
 export const QUALTRICS_CONFIG = 'QualtricsConfig';
+export const QUALTRICS_COMPONENT = 'QualtricsComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

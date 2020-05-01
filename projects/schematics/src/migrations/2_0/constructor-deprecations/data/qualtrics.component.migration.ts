@@ -1,4 +1,5 @@
 import {
+  QUALTRICS_COMPONENT,
   QUALTRICS_CONFIG,
   QUALTRICS_LOADER_SERVICE,
   SPARTACUS_STOREFRONTLIB,
@@ -7,9 +8,8 @@ import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const QUALTRICS_COMPONENT_MIGRATION: ConstructorDeprecation = {
   // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics.component.ts
-  class: QUALTRICS_LOADER_SERVICE,
+  class: QUALTRICS_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
-
   deprecatedParams: [
     {
       className: QUALTRICS_LOADER_SERVICE,
