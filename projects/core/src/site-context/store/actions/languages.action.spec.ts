@@ -56,9 +56,16 @@ describe('Languages Actions', () => {
 
   describe('LanguageChange Action', () => {
     it('should create an action', () => {
-      const action = new SiteContextActions.LanguageChange();
+      const action = new SiteContextActions.LanguageChange({
+        previous: 'previous',
+        current: 'current',
+      });
       expect({ ...action }).toEqual({
         type: SiteContextActions.LANGUAGE_CHANGE,
+        payload: {
+          previous: 'previous',
+          current: 'current',
+        },
       });
     });
   });
