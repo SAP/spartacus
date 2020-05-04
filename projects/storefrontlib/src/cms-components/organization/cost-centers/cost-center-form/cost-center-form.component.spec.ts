@@ -83,6 +83,7 @@ class MockCurrencyService implements Partial<CurrencyService> {
     mockActiveCurr.next(isocode);
     return mockActiveCurr.subscribe();
   }
+  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 describe('CostCenterFormComponent', () => {
@@ -131,7 +132,7 @@ describe('CostCenterFormComponent', () => {
           currencies = value;
         })
         .unsubscribe();
-      expect(currencyService.getAll).toHaveBeenCalled();
+      expect(currencyService.getAll).toHaveBeenCalledWith();
       expect(currencies).toEqual(mockCurrencies);
     });
 
@@ -143,7 +144,8 @@ describe('CostCenterFormComponent', () => {
           businessUnits = value;
         })
         .unsubscribe();
-      expect(orgUnitService.getList).toHaveBeenCalled();
+      expect(orgUnitService.loadOrgUnitNodes).toHaveBeenCalledWith();
+      expect(orgUnitService.getList).toHaveBeenCalledWith();
       expect(businessUnits).toEqual(mockOrgUnits);
     });
 
