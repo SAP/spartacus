@@ -148,9 +148,7 @@ export class OrgUnitService {
 
   getChildUnits(orgUnitId: string): Observable<B2BUnitNode[]> {
     return this.getTree().pipe(
-      map((tree) => {
-        return this.findUnitChildrenInTree(orgUnitId, tree);
-      })
+      map((tree) => this.findUnitChildrenInTree(orgUnitId, tree))
     );
   }
 
