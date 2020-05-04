@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
+  map,
   shareReplay,
   switchMap,
   tap,
@@ -63,7 +64,7 @@ export class MerchandisingCarouselComponent {
   > = this.routingService.getPageContext().pipe(
     switchMap((_) => this.componentData.data$),
     filter((data) => Boolean(data)),
-    switchMap((data) =>
+    map((data) =>
       this.merchandisingCarouselComponentService.getMerchandisingCaourselViewportThreshold(
         data
       )
