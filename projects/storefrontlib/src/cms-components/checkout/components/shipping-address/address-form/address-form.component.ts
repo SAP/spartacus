@@ -70,6 +70,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   suggestedAddressModalRef: ModalRef;
 
   addressForm: FormGroup = this.fb.group({
+    country: this.fb.group({
+      isocode: [null, Validators.required],
+    }),
     titleCode: [''],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
@@ -77,9 +80,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     line2: [''],
     town: ['', Validators.required],
     region: this.fb.group({
-      isocode: [null, Validators.required],
-    }),
-    country: this.fb.group({
       isocode: [null, Validators.required],
     }),
     postalCode: ['', Validators.required],
@@ -212,10 +212,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     if (this.addressForm.dirty) {
       this.checkoutDeliveryService.verifyAddress(this.addressForm.value);
-    } else {
+
       // address form value not changed
       // ignore duplicate address
       this.submitAddress.emit(undefined);
+    } else {
+      this.addressForm.markAllAsTouched();
     }
   }
 
