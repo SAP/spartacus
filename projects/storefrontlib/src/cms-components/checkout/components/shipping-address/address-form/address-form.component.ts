@@ -208,14 +208,14 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           isocodeShort: obj.isocodeShort,
         });
       });
-    }
 
-    if (this.addressForm.dirty) {
-      this.checkoutDeliveryService.verifyAddress(this.addressForm.value);
-
-      // address form value not changed
-      // ignore duplicate address
-      this.submitAddress.emit(undefined);
+      if (this.addressForm.dirty) {
+        this.checkoutDeliveryService.verifyAddress(this.addressForm.value);
+      } else {
+        // address form value not changed
+        // ignore duplicate address
+        this.submitAddress.emit(undefined);
+      }
     } else {
       this.addressForm.markAllAsTouched();
     }
