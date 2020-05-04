@@ -139,13 +139,11 @@ export class OrgUnitService {
   }
 
   protected findUnitChildrenInTree(orginitId, unit: B2BUnitNode) {
-    if (unit.id === orginitId) {
-      return unit.children;
-    } else {
-      return unit.children.flatMap((child) =>
-        this.findUnitChildrenInTree(orginitId, child)
-      );
-    }
+    return unit.id === orginitId
+      ? unit.children
+      : unit.children.flatMap((child) =>
+          this.findUnitChildrenInTree(orginitId, child)
+        );
   }
 
   getChildUnits(orgUnitId: string): Observable<B2BUnitNode[]> {
