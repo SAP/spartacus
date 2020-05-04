@@ -30,7 +30,7 @@ export class CostCenterFormComponent extends AbstractFormComponent
   costCenterData: CostCenter;
 
   @Input()
-  readonlyParent: boolean = false;
+  readonlyParent = false;
 
   form: FormGroup = this.fb.group({
     code: ['', Validators.required],
