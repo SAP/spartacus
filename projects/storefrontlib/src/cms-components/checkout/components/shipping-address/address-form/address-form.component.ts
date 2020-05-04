@@ -199,15 +199,18 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   verifyAddress(): void {
     if (this.addressForm.valid) {
-      this.regionsSub = this.regions$.pipe(take(1)).subscribe((regions) => {
-        const obj = regions.find(
-          (region: Region) =>
-            region.isocode === this.addressForm.get('region').value.isocode
-        );
-        Object.assign(this.addressForm.value.region, {
-          isocodeShort: obj.isocodeShort,
+      if (this.addressForm.get('region').value.isocode) {
+        this.regionsSub = this.regions$.pipe(take(1)).subscribe((regions) => {
+          const obj = regions.find(
+            (region) =>
+              region.isocode ===
+              this.addressForm.controls['region'].value.isocode
+          );
+          Object.assign(this.addressForm.value.region, {
+            isocodeShort: obj.isocodeShort,
+          });
         });
-      });
+      }
 
       if (this.addressForm.dirty) {
         this.checkoutDeliveryService.verifyAddress(this.addressForm.value);
