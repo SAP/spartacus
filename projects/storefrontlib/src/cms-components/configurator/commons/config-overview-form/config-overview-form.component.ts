@@ -5,7 +5,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 @Component({
@@ -36,12 +36,14 @@ export class ConfigOverviewFormComponent implements OnInit {
           this.configuratorCommonsService.getConfigurationWithOverview(
             configuration
           )
-        )
+        ),
+        filter(configuration => configuration.overview !== undefined && configuration.overview !== null),
+        take(1)
       );
   }
 
   hasAttributes(configuration: Configurator.Configuration): boolean {
-    if (!configuration.overview) {
+    if (!(configuration?.overview?.groups?.length > 0)) {
       return false;
     }
 
