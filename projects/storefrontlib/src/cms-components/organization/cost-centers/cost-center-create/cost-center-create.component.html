@@ -5,6 +5,7 @@
   [actionBtnLabel]="'costCenterForm.create' | cxTranslate"
   [routerBackLink]="{ cxRoute: 'costCenters' }"
   [costCenterData]="{ unit: { uid: parentUnit$ | async } }"
+  [disabledFields]="(parentUnit$ | async) ? ['unit'] : []"
   (submitForm)="createCostCenter($event)"
 >
 </cx-cost-center-form>

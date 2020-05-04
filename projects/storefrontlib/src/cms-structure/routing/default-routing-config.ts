@@ -122,7 +122,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['organization/unit/address/:code/:id'],
   },
   orgUnitAddressCreate: {
-    paths: ['organization/unit/manage-addresses/create/:code'],
+    paths: ['organization/unit/addresses/create/:code'],
   },
   costCenters: {
     paths: ['organization/costcenters'],

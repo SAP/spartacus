@@ -52,5 +52,6 @@ export class UnitFormComponent extends AbstractFormComponent implements OnInit {
     if (this.orgUnitData && Object.keys(this.orgUnitData).length !== 0) {
       this.form.patchValue(this.orgUnitData);
     }
+    this.disableFields();
   }
 }
