@@ -135,7 +135,9 @@ export class OrgUnitService {
   }
 
   getCostCenters(orgUnitId: string): Observable<CostCenter[]> {
-    return this.get(orgUnitId).pipe(map((orgUnit) => orgUnit.costCenters));
+    return this.get(orgUnitId).pipe(
+      map((orgUnit) => orgUnit.costCenters ?? [])
+    );
   }
 
   protected findUnitChildrenInTree(orginitId, unit: B2BUnitNode) {

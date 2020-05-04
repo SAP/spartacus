@@ -10,7 +10,6 @@ import {
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
-  // B2BUnit,
   B2BAddress,
 } from '@spartacus/core';
 

@@ -53,6 +53,7 @@ export class CostCenterFormComponent extends AbstractFormComponent
 
   ngOnInit() {
     this.currencies$ = this.currencyService.getAll();
+    this.orgUnitService.loadOrgUnitNodes();
     this.businessUnits$ = this.orgUnitService.getList();
     if (this.costCenterData && Object.keys(this.costCenterData).length !== 0) {
       this.form.patchValue(this.costCenterData);

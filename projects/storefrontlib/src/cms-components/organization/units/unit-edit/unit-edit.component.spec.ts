@@ -153,7 +153,6 @@ describe('UnitEditComponent', () => {
       const updateOrgUnit = {
         code,
         name: 'newName',
-        activeFlag: false,
       };
 
       component.updateOrgUnit(updateOrgUnit);
