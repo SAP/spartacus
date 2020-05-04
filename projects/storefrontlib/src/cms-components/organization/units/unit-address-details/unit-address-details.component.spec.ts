@@ -10,7 +10,6 @@ import {
   CxDatePipe,
   RoutesConfig,
   RoutingConfig,
-  // B2BUnit,
   B2BAddress,
 } from '@spartacus/core';
 
@@ -114,7 +113,7 @@ describe('UnitAddressDetailsComponent', () => {
           address = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(orgUnitsService.loadAddresses).toHaveBeenCalledWith(code);
       expect(orgUnitsService.getAddress).toHaveBeenCalledWith(
         code,

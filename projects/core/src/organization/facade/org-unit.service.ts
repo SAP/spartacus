@@ -23,6 +23,7 @@ import {
   B2BUser,
   EntitiesModel,
   B2BAddress,
+  CostCenter,
 } from '../../model';
 import { B2BSearchConfig } from '../model/search-config';
 
@@ -130,6 +131,26 @@ export class OrgUnitService {
       }),
       filter((state) => state.success || state.error),
       map((state) => state.value)
+    );
+  }
+
+  getCostCenters(orgUnitId: string): Observable<CostCenter[]> {
+    return this.get(orgUnitId).pipe(
+      map((orgUnit) => orgUnit.costCenters ?? [])
+    );
+  }
+
+  protected findUnitChildrenInTree(orginitId, unit: B2BUnitNode) {
+    return unit.id === orginitId
+      ? unit.children
+      : unit.children.flatMap((child) =>
+          this.findUnitChildrenInTree(orginitId, child)
+        );
+  }
+
+  getChildUnits(orgUnitId: string): Observable<B2BUnitNode[]> {
+    return this.getTree().pipe(
+      map((tree) => this.findUnitChildrenInTree(orgUnitId, tree))
     );
   }
 

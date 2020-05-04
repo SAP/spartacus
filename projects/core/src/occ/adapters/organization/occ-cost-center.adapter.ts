@@ -12,7 +12,7 @@ import {
 import { BUDGETS_NORMALIZER } from '../../../organization/connectors/budget/converters';
 import { B2BSearchConfig } from '../../../organization/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
-import { CostCenter } from '../../../model/cost-center.model';
+import { CostCenter } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 import { Budget } from '../../../model/budget.model';
 

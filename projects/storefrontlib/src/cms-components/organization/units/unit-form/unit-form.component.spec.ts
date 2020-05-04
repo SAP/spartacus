@@ -60,6 +60,7 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   getApprovalProcesses = createSpy('getApprovalProcesses').and.returnValue(
     of(mockApprovalProcesses)
   );
+  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 const mockCurrencies: Currency[] = [
@@ -88,7 +89,7 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-describe('OrgUnitFormComponent', () => {
+describe('UnitFormComponent', () => {
   let component: UnitFormComponent;
   let fixture: ComponentFixture<UnitFormComponent>;
   let orgUnitService: OrgUnitService;
@@ -132,7 +133,7 @@ describe('OrgUnitFormComponent', () => {
         })
         .unsubscribe();
 
-      expect(orgUnitService.getApprovalProcesses).toHaveBeenCalled();
+      expect(orgUnitService.getApprovalProcesses).toHaveBeenCalledWith();
       expect(approvalProcesses).toEqual(mockApprovalProcesses);
     });
 
@@ -144,7 +145,8 @@ describe('OrgUnitFormComponent', () => {
           businessUnits = value;
         })
         .unsubscribe();
-      expect(orgUnitService.getList).toHaveBeenCalled();
+      expect(orgUnitService.loadOrgUnitNodes).toHaveBeenCalledWith();
+      expect(orgUnitService.getList).toHaveBeenCalledWith();
       expect(businessUnits).toEqual(mockOrgUnits);
     });
 
@@ -189,7 +191,7 @@ describe('OrgUnitFormComponent', () => {
     it('should emit clickBack event', () => {
       spyOn(component.clickBack, 'emit');
       component.back();
-      expect(component.clickBack.emit).toHaveBeenCalled();
+      expect(component.clickBack.emit).toHaveBeenCalledWith();
     });
   });
 });

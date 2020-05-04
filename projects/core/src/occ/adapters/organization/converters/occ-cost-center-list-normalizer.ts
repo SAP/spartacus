@@ -6,7 +6,7 @@ import {
 } from '../../../../util/converter.service';
 import { COST_CENTER_NORMALIZER } from '../../../../organization/connectors/cost-center/converters';
 import { EntitiesModel } from '../../../../model/misc.model';
-import { CostCenter } from '../../../../model/cost-center.model';
+import { CostCenter } from '../../../../model/org-unit.model';
 
 @Injectable()
 export class OccCostCenterListNormalizer
