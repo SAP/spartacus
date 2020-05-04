@@ -766,4 +766,23 @@ describe('ConfiguratorCommonsService', () => {
       expect(groupPath.length).toBe(0);
     });
   });
+
+  describe('isConfigurationCreated', () => {
+    it('should tell from undefined config', () => {
+      const configuration: Configurator.Configuration = undefined;
+      expect(serviceUnderTest.isConfigurationCreated(configuration)).toBe(
+        false
+      );
+    });
+    it('should tell from config ID', () => {
+      const configuration: Configurator.Configuration = { configId: 'a' };
+      expect(serviceUnderTest.isConfigurationCreated(configuration)).toBe(true);
+    });
+    it('should tell from blank config ID', () => {
+      const configuration: Configurator.Configuration = { configId: '' };
+      expect(serviceUnderTest.isConfigurationCreated(configuration)).toBe(
+        false
+      );
+    });
+  });
 });

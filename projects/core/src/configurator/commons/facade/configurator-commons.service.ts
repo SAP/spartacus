@@ -57,6 +57,7 @@ export class ConfiguratorCommonsService {
     const localOwner: GenericConfigurator.Owner = {
       hasObsoleteState: owner.hasObsoleteState,
     };
+
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
@@ -208,9 +209,9 @@ export class ConfiguratorCommonsService {
           ),
           take(1)
         )
-        .subscribe((configAfterUpdate) =>
-          this.removeConfiguration(configAfterUpdate.owner)
-        );
+        .subscribe((configAfterUpdate) => {
+          this.readConfigurationForCartEntry(configAfterUpdate.owner);
+        });
     });
   }
 
@@ -232,11 +233,8 @@ export class ConfiguratorCommonsService {
   }
 
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
-    return (
-      configuration !== undefined &&
-      configuration.configId !== undefined &&
-      configuration.configId.length !== 0
-    );
+    const configId: String = configuration?.configId;
+    return configId !== undefined && configId.length !== 0;
   }
 
   createConfigurationExtract(
