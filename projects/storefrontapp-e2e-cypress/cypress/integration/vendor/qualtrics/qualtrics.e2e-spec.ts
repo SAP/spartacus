@@ -57,10 +57,10 @@ context('Qualtrics integration', () => {
       cy.window().then((win) => win.dispatchEvent(new Event('qsi_js_loaded')));
     });
     it('should call the QSI API load() and run() functions', () => {
-      // TODO: unused expression??
+      // tslint:disable-next-line: no-unused-expression
       expect(loadSpy).to.have.been.called;
+      // tslint:disable-next-line: no-unused-expression
       expect(runSpy).to.have.been.called;
-      // expect(win['QSI'].API.load).to.have.been.called();
     });
   });
 });
