@@ -77,6 +77,7 @@ const mockActiveCurr = new BehaviorSubject('USD');
 
 class MockCurrencyService implements Partial<CurrencyService> {
   getAll = jasmine.createSpy('getAll').and.returnValue(of(mockCurrencies));
+  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
   getActive(): Observable<string> {
     return mockActiveCurr;
   }
@@ -84,7 +85,6 @@ class MockCurrencyService implements Partial<CurrencyService> {
     mockActiveCurr.next(isocode);
     return mockActiveCurr.subscribe();
   }
-  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 describe('CostCenterFormComponent', () => {
