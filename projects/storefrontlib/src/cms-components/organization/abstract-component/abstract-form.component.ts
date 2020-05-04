@@ -32,12 +32,6 @@ export class AbstractFormComponent {
     this.clickBack.emit();
   }
 
-  disableFields() {
-    this.disabledFields.forEach((field: string) =>
-      this.form.get(field)?.disable()
-    );
-  }
-
   verifyAndSubmit(): void {
     this.submitClicked = true;
     if (this.form.valid) {

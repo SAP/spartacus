@@ -19,6 +19,7 @@
                 bindLabel="name"
                 bindValue="id"
                 [class.invalid]="isNotValid('parentOrgUnit')"
+                [readonly]="readonlyParent"
               >
               </ng-select>
               <cx-form-errors

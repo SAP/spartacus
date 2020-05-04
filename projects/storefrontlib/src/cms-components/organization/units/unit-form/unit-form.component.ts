@@ -27,6 +27,9 @@ export class UnitFormComponent extends AbstractFormComponent implements OnInit {
   @Input()
   orgUnitData: B2BUnitNode;
 
+  @Input()
+  readonlyParent: boolean = false;
+
   form: FormGroup = this.fb.group({
     uid: ['', Validators.required],
     name: ['', Validators.required],
@@ -52,6 +55,5 @@ export class UnitFormComponent extends AbstractFormComponent implements OnInit {
     if (this.orgUnitData && Object.keys(this.orgUnitData).length !== 0) {
       this.form.patchValue(this.orgUnitData);
     }
-    this.disableFields();
   }
 }
