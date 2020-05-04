@@ -44,6 +44,7 @@ class MockPermissionConnector {
   );
   create = createSpy().and.returnValue(of(permission));
   update = createSpy().and.returnValue(of(permission));
+  getTypes = createSpy().and.returnValue(of(permissionTypes));
 }
 
 describe('Permission Effects', () => {
@@ -224,7 +225,7 @@ describe('Permission Effects', () => {
     });
 
     it('should return UpdatePermissionFail action if permission not created', () => {
-      permissionConnector.update = createSpy().and.returnValue(
+      permissionConnector.update = createSpy('update').and.returnValue(
         throwError(error)
       );
       const action = new PermissionActions.UpdatePermission({
@@ -258,27 +259,22 @@ describe('Permission Effects', () => {
       expected = cold('-b', { b: completion });
 
       expect(effects.loadPermissionTypes$).toBeObservable(expected);
-      /*expect(permissionConnector.get).toHaveBeenCalledWith(
-        userId,
-        permissionCode
-      );*/
+      expect(permissionConnector.getTypes).toHaveBeenCalledWith();
     });
 
     it('should return LoadPermissionTypesFail action if permission types are not updated', () => {
-      permissionConnector.get = createSpy().and.returnValue(throwError(error));
+      permissionConnector.getTypes = createSpy().and.returnValue(
+        throwError(error)
+      );
       const action = new PermissionActions.LoadPermissionTypes();
       const completion = new PermissionActions.LoadPermissionTypesFail({
-        permissionCode,
         error,
       });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
       expect(effects.loadPermissionTypes$).toBeObservable(expected);
-      /*expect(permissionConnector.get).toHaveBeenCalledWith(
-        userId,
-        permissionCode
-      );*/
+      expect(permissionConnector.getTypes).toHaveBeenCalledWith();
     });
   });
 });
