@@ -45,8 +45,7 @@
         }
       }
 
-      .cx-dialog-title {
-        @extend .modal-title;
+      h3 {
         @include type('3');
       }
 
