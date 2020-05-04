@@ -10,7 +10,6 @@ import {
   Renderer2,
 } from '@angular/core';
 import {
-  CmsConfig,
   CmsService,
   ContentSlotComponentData,
   ContentSlotData,
@@ -19,6 +18,7 @@ import {
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
+import { CmsComponentsService } from '../../services/cms-components.service';
 
 /**
  * The `PageSlotComponent` is used to render the CMS page slot and it's components.
@@ -97,7 +97,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected elementRef: ElementRef,
-    protected config: CmsConfig,
+    protected cmsComponentsService: CmsComponentsService,
     protected cd: ChangeDetectorRef
   ) {}
 
@@ -160,8 +160,9 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    * rendered instantly or whether it should be deferred.
    */
   getComponentDeferOptions(componentType: string): IntersectionOptions {
-    const deferLoading = (this.config.cmsComponents[componentType] || {})
-      .deferLoading;
+    const deferLoading = this.cmsComponentsService.getDeferLoadingStrategy(
+      componentType
+    );
     return { deferLoading };
   }
 
@@ -175,12 +176,12 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     );
   }
 
-  private addSmartEditSlotClass(slot): void {
-    if (slot && this.cmsService.isLaunchInSmartEdit()) {
+  private addSmartEditSlotClass(slot: ContentSlotData): void {
+    if (slot) {
       this.dynamicAttributeService.addDynamicAttributes(
-        slot.properties,
         this.elementRef.nativeElement,
-        this.renderer
+        this.renderer,
+        { slotData: slot }
       );
     }
   }
