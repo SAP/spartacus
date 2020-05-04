@@ -1,5 +1,8 @@
 import { Observable } from 'rxjs';
-import { MerchandisingMetadata, MerchandisingProduct } from '../../../model';
+import {
+  MerchandisingMetadata,
+  MerchandisingProduct,
+} from '../../../model/index';
 
 export interface MerchandisingCarouselModel {
   items$: Observable<MerchandisingProduct>[];

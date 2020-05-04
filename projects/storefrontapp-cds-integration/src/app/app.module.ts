@@ -78,9 +78,6 @@ if (!environment.production) {
           strategyProducts:
             '/strategy/${tenant}/strategies/${strategyId}/products',
         },
-        merchandising: {
-          defaultCarouselViewportThreshold: 80,
-        },
         profileTag: {
           javascriptUrl:
             'https://tag.static.stage.context.cloud.sap/js/profile-tag.js',

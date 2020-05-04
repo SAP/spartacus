@@ -3,21 +3,21 @@ import { ProductService } from '@spartacus/core';
 import { combineLatest, EMPTY, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
-import { CdsConfig } from '../../../config';
-import { ProfileTagEventService } from '../../../profiletag';
+import { CdsConfig } from '../../../config/index';
+import { ProfileTagEventService } from '../../../profiletag/index';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
 import {
   MerchandisingMetadata,
   MerchandisingProduct,
   StrategyProduct,
   StrategyProducts,
-} from '../../model';
+} from '../../model/index';
 import {
   CarouselEvent,
   MerchandisingCarouselClicked,
+  MerchandisingCarouselModel,
   MerchandisingCarouselViewed,
-} from './model';
-import { MerchandisingCarouselModel } from './model/merchandising-carousel.model';
+} from './model/index';
 
 const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD = 80;
 
@@ -36,14 +36,13 @@ export class MerchandisingCarouselComponentService {
 
   getMerchandisingCaourselViewportThreshold(
     cmsComponent: CmsMerchandisingCarouselComponent
-  ): Observable<number> {
-    return of(
+  ): number {
+    const viewportPercentage =
       cmsComponent.viewportPercentage ??
-        this.cdsConfig?.cds?.merchandising?.defaultCarouselViewportThreshold ??
-        DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD
-    ).pipe(
-      map((viewportThresholdPercentage) => viewportThresholdPercentage / 100)
-    );
+      this.cdsConfig?.cds?.merchandising?.defaultCarouselViewportThreshold ??
+      DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD;
+
+    return viewportPercentage / 100;
   }
 
   getMerchandisingCarouselModel(
