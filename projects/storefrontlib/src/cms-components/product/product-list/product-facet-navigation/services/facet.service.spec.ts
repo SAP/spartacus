@@ -190,4 +190,15 @@ describe('FacetService', () => {
       expect(result.maxVisible).toEqual(5);
     });
   });
+
+  describe('getLinkParams', () => {
+    it('should decode the provided value', () => {
+      const result = service.getLinkParams('test%20test');
+      expect(result).toEqual({ query: 'test test' });
+    });
+    it(`should replace '+' with and empty space ' '`, () => {
+      const result = service.getLinkParams('test+test');
+      expect(result).toEqual({ query: 'test test' });
+    });
+  });
 });

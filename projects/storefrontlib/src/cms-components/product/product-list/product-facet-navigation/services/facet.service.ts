@@ -126,7 +126,12 @@ export class FacetService {
     return this.facetState.has(facet.name);
   }
 
-  getLinkParams(query: string) {
-    return { query: new HttpUrlEncodingCodec().decodeValue(query) };
+  getLinkParams(query: string): { [key: string]: string } {
+    return {
+      // to avoid encoding issues with facets that have space (' ') in their name,
+      // we replace the decoded '+' back to empty space ' '.
+      // For more, see https://github.com/SAP/spartacus/issues/7348
+      query: new HttpUrlEncodingCodec().decodeValue(query).replace(/\+/g, ' '),
+    };
   }
 }
