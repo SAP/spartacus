@@ -139,7 +139,7 @@ describe('BudgetFormComponent', () => {
           currencies = value;
         })
         .unsubscribe();
-      expect(currencyService.getAll).toHaveBeenCalled();
+      expect(currencyService.getAll).toHaveBeenCalledWith();
       expect(currencies).toEqual(mockCurrencies);
     });
 
@@ -197,7 +197,7 @@ describe('BudgetFormComponent', () => {
     it('should emit clickBack event', () => {
       spyOn(component.clickBack, 'emit');
       component.back();
-      expect(component.clickBack.emit).toHaveBeenCalled();
+      expect(component.clickBack.emit).toHaveBeenCalledWith();
     });
   });
 });

@@ -107,7 +107,7 @@ describe('UnitDetailsComponent', () => {
           orgUnit = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(orgUnitsService.loadOrgUnit).toHaveBeenCalledWith(code);
       expect(orgUnitsService.get).toHaveBeenCalledWith(code);
       expect(orgUnit).toEqual(mockOrgUnit);

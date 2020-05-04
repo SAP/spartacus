@@ -44,6 +44,7 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
   create = createSpy('create');
   getApprovalProcesses = createSpy('getApprovalProcesses');
+  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 const mockRouterState = {
