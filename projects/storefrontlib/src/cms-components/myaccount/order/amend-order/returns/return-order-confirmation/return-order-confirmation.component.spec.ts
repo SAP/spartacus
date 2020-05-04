@@ -13,8 +13,10 @@ import createSpy = jasmine.createSpy;
   selector: 'cx-amend-order-actions',
 })
 class MockAmendOrderActionComponent {
-  @Input() orderCode;
-  @Input() isValid;
+  @Input() orderCode: string;
+  @Input() amendOrderForm: FormGroup;
+  @Input() backRoute: string;
+  @Input() forwardRoute: string;
 }
 
 @Component({
