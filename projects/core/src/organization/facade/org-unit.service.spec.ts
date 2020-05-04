@@ -19,7 +19,7 @@ import {
 
 const userId = 'current';
 const orgUnitId = 'testOrgUnit';
-const orgUnit: Partial<B2BUnit> = { uid: orgUnitId };
+const orgUnit: Partial<B2BUnit> = { uid: orgUnitId, costCenters: [] };
 
 const mockedTree = {
   active: true,
