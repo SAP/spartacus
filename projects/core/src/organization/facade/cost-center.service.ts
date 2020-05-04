@@ -5,7 +5,7 @@ import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
-import { CostCenter } from '../../model/cost-center.model';
+import { CostCenter } from '../../model/org-unit.model';
 import { EntitiesModel } from '../../model/misc.model';
 import { StateWithOrganization } from '../store/organization-state';
 import { CostCenterActions } from '../store/actions/index';

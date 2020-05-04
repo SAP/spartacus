@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { CostCenter } from '../../../../model/cost-center.model';
+import { CostCenter } from '../../../../model/org-unit.model';
 import { OccConfig } from '../../../config/occ-config';
 import { Occ } from '../../../occ-models/occ.models';
 import { OccCostCenterNormalizer } from './occ-cost-center-normalizer';

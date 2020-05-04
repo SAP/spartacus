@@ -124,7 +124,7 @@ describe('CostCenterDetailsComponent', () => {
           costCenter = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(costCentersService.loadCostCenter).toHaveBeenCalledWith(code);
       expect(costCentersService.get).toHaveBeenCalledWith(code);
       expect(costCenter).toEqual(mockCostCenterUI);

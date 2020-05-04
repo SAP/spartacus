@@ -159,7 +159,7 @@ describe('UnitAddressFormComponent', () => {
         })
         .unsubscribe();
 
-      expect(userService.getTitles).toHaveBeenCalled();
+      expect(userService.getTitles).toHaveBeenCalledWith();
       expect(titles).toEqual(mockTitles);
     });
     // TODO: for fellows
@@ -171,7 +171,7 @@ describe('UnitAddressFormComponent', () => {
           countries = value;
         })
         .unsubscribe();
-      expect(userAddressService.getDeliveryCountries).toHaveBeenCalled();
+      expect(userAddressService.getDeliveryCountries).toHaveBeenCalledWith();
       expect(countries).toEqual(mockCountries);
     });
     // TODO: for fellows
@@ -183,7 +183,7 @@ describe('UnitAddressFormComponent', () => {
           regions = value;
         })
         .unsubscribe();
-      expect(this.userAddressService.getRegions).toHaveBeenCalled();
+      expect(this.userAddressService.getRegions).toHaveBeenCalledWith();
       expect(regions).toEqual(mockRegions);
     });
 
@@ -228,7 +228,7 @@ describe('UnitAddressFormComponent', () => {
     it('should emit clickBack event', () => {
       spyOn(component.clickBack, 'emit');
       component.back();
-      expect(component.clickBack.emit).toHaveBeenCalled();
+      expect(component.clickBack.emit).toHaveBeenCalledWith();
     });
   });
 });

@@ -6,31 +6,18 @@ import { of } from 'rxjs';
 import {
   I18nTestingModule,
   RoutingService,
+  OrgUnitService,
   RoutesConfig,
   RoutingConfig,
-  UserGroupService,
-  UserGroup,
+  CostCenter,
 } from '@spartacus/core';
 
+import { UnitCostCentersComponent } from './unit-cost-centers.component';
+import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { TableModule } from '../../../../shared/components/table/table.module';
-import { UserGroupDetailsComponent } from './user-group-details.component';
-import createSpy = jasmine.createSpy;
 
-const uid = 'b1';
-
-const mockUserGroup: UserGroup = {
-  uid,
-  name: 'group1',
-  orgUnit: { name: 'orgName' },
-};
-
-const mockUserGroupUI: any = {
-  code: uid,
-  uid,
-  name: 'group1',
-  orgUnit: { name: 'orgName' },
-};
+const code = 'b1';
 
 @Pipe({
   name: 'cxUrl',
@@ -39,16 +26,37 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockUserGroupService implements Partial<UserGroupService> {
-  loadUserGroup = createSpy('loadUserGroup');
-  get = createSpy('get').and.returnValue(of(mockUserGroup));
-  update = createSpy('update');
-}
+const mockedCostCenters: CostCenter[] = [
+  {
+    code: 'c1',
+    name: 'n1',
+    currency: {
+      symbol: '$',
+      isocode: 'USD',
+    },
+    unit: { name: 'orgName', uid: 'orgUid' },
+  },
+  {
+    code: 'c2',
+    name: 'n2',
+    currency: {
+      symbol: '$',
+      isocode: 'USD',
+    },
+    unit: { name: 'orgName2', uid: 'orgUid2' },
+  },
+];
 
+class MockOrgUnitService implements Partial<OrgUnitService> {
+  loadOrgUnit = createSpy('loadOrgUnit');
+  getCostCenters = createSpy('getCostCenters').and.returnValue(
+    of(mockedCostCenters)
+  );
+}
 const mockRouterState = {
   state: {
     params: {
-      code: uid,
+      code,
     },
   },
 };
@@ -67,32 +75,29 @@ class MockRoutingConfig {
   }
 }
 
-describe('UserGroupDetailsComponent', () => {
-  let component: UserGroupDetailsComponent;
-  let fixture: ComponentFixture<UserGroupDetailsComponent>;
-  let userGroupService: MockUserGroupService;
+describe('UnitCostCentersComponent', () => {
+  let component: UnitCostCentersComponent;
+  let fixture: ComponentFixture<UnitCostCentersComponent>;
+  let orgUnitsService: MockOrgUnitService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, TableModule, I18nTestingModule],
-      declarations: [UserGroupDetailsComponent, MockUrlPipe],
+      declarations: [UnitCostCentersComponent, MockUrlPipe],
       providers: [
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        {
-          provide: UserGroupService,
-          useClass: MockUserGroupService,
-        },
+        { provide: OrgUnitService, useClass: MockOrgUnitService },
       ],
     }).compileComponents();
 
-    userGroupService = TestBed.get(UserGroupService as Type<UserGroupService>);
+    orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserGroupDetailsComponent);
+    fixture = TestBed.createComponent(UnitCostCentersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -102,18 +107,18 @@ describe('UserGroupDetailsComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should load budget', () => {
+    it('should load cost centers', () => {
       component.ngOnInit();
-      let budget: any;
-      component.userGroup$
+      let costCenters: CostCenter[];
+      component.data$
         .subscribe((value) => {
-          budget = value;
+          costCenters = value;
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(userGroupService.loadUserGroup).toHaveBeenCalledWith(uid);
-      expect(userGroupService.get).toHaveBeenCalledWith(uid);
-      expect(budget).toEqual(mockUserGroupUI);
+      expect(orgUnitsService.loadOrgUnit).toHaveBeenCalledWith(code);
+      expect(orgUnitsService.getCostCenters).toHaveBeenCalledWith(code);
+      expect(costCenters).toEqual(mockedCostCenters);
     });
   });
 });

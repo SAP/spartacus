@@ -6,32 +6,59 @@ import { of } from 'rxjs';
 import {
   I18nTestingModule,
   RoutingService,
+  OrgUnitService,
   RoutesConfig,
   RoutingConfig,
-  UserGroupService,
-  UserGroup,
+  B2BUnitNode,
 } from '@spartacus/core';
 
+import { UnitChildrenComponent } from './unit-children.component';
+import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { TableModule } from '../../../../shared/components/table/table.module';
-import { UserGroupDetailsComponent } from './user-group-details.component';
-import createSpy = jasmine.createSpy;
 
-const uid = 'b1';
+const code = 'b1';
 
-const mockUserGroup: UserGroup = {
-  uid,
-  name: 'group1',
-  orgUnit: { name: 'orgName' },
+const mockedTree: B2BUnitNode = {
+  active: true,
+  children: [
+    {
+      active: true,
+      children: [],
+      id: 'Rustic Services',
+      name: 'Rustic Services',
+      parent: 'Rustic',
+    },
+    {
+      active: true,
+      children: [],
+      id: 'Rustic Retail',
+      name: 'Rustic Retail',
+      parent: 'Rustic',
+    },
+  ],
+  id: code,
+  name: 'orgUnit1',
 };
 
-const mockUserGroupUI: any = {
-  code: uid,
-  uid,
-  name: 'group1',
-  orgUnit: { name: 'orgName' },
-};
-
+const unitListUI = [
+  {
+    active: true,
+    children: [],
+    id: 'Rustic Services',
+    uid: 'Rustic Services',
+    name: 'Rustic Services',
+    parent: 'Rustic',
+  },
+  {
+    active: true,
+    children: [],
+    id: 'Rustic Retail',
+    uid: 'Rustic Retail',
+    name: 'Rustic Retail',
+    parent: 'Rustic',
+  },
+];
 @Pipe({
   name: 'cxUrl',
 })
@@ -39,16 +66,18 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockUserGroupService implements Partial<UserGroupService> {
-  loadUserGroup = createSpy('loadUserGroup');
-  get = createSpy('get').and.returnValue(of(mockUserGroup));
-  update = createSpy('update');
+class MockOrgUnitService implements Partial<OrgUnitService> {
+  loadOrgUnit = createSpy('loadOrgUnit');
+  getChildUnits = createSpy('getChildUnits').and.returnValue(
+    of(mockedTree.children)
+  );
+  loadTree = createSpy('loadTree');
 }
 
 const mockRouterState = {
   state: {
     params: {
-      code: uid,
+      code,
     },
   },
 };
@@ -67,32 +96,29 @@ class MockRoutingConfig {
   }
 }
 
-describe('UserGroupDetailsComponent', () => {
-  let component: UserGroupDetailsComponent;
-  let fixture: ComponentFixture<UserGroupDetailsComponent>;
-  let userGroupService: MockUserGroupService;
+describe('UnitChildrenComponent', () => {
+  let component: UnitChildrenComponent;
+  let fixture: ComponentFixture<UnitChildrenComponent>;
+  let orgUnitsService: MockOrgUnitService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, TableModule, I18nTestingModule],
-      declarations: [UserGroupDetailsComponent, MockUrlPipe],
+      declarations: [UnitChildrenComponent, MockUrlPipe],
       providers: [
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        {
-          provide: UserGroupService,
-          useClass: MockUserGroupService,
-        },
+        { provide: OrgUnitService, useClass: MockOrgUnitService },
       ],
     }).compileComponents();
 
-    userGroupService = TestBed.get(UserGroupService as Type<UserGroupService>);
+    orgUnitsService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
     routingService = TestBed.get(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserGroupDetailsComponent);
+    fixture = TestBed.createComponent(UnitChildrenComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -102,18 +128,18 @@ describe('UserGroupDetailsComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should load budget', () => {
+    it('should load children', () => {
       component.ngOnInit();
-      let budget: any;
-      component.userGroup$
+      let nodes: B2BUnitNode[];
+      component.data$
         .subscribe((value) => {
-          budget = value;
+          nodes = value;
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(userGroupService.loadUserGroup).toHaveBeenCalledWith(uid);
-      expect(userGroupService.get).toHaveBeenCalledWith(uid);
-      expect(budget).toEqual(mockUserGroupUI);
+      expect(orgUnitsService.loadTree).toHaveBeenCalledWith();
+      expect(orgUnitsService.getChildUnits).toHaveBeenCalledWith(code);
+      expect(nodes).toEqual(unitListUI);
     });
   });
 });
