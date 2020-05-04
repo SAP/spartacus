@@ -551,9 +551,14 @@ describe('ConfiguratorEffect', () => {
         quantity: cartModification.quantity,
       });
 
+      const updateCartEntrySuccess = new ConfiguratorActions.UpdateCartEntrySuccess(
+        productConfiguration
+      );
+
       actions$ = hot('-a', { a: action });
-      const expected = cold('-d', {
+      const expected = cold('-(de)', {
         d: cartAddEntrySuccess,
+        e: updateCartEntrySuccess,
       });
       expect(configEffects.updateCartEntry$).toBeObservable(expected);
     });

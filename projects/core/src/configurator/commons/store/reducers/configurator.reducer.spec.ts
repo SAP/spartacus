@@ -7,6 +7,7 @@ import {
   ReadConfigurationSuccess,
   RemoveConfiguration,
   UpdateCartEntry,
+  UpdateCartEntrySuccess,
   UpdateConfiguration,
   UpdateConfigurationFail,
   UpdateConfigurationFinalizeSuccess,
@@ -130,6 +131,18 @@ describe('Configurator reducer', () => {
       expect(state.isCartEntryUpdatePending).toEqual(true);
     });
   });
+
+  describe('UpdateCartEntrySuccess action', () => {
+    it('should remove attribute that states that an backend update is pending', () => {
+      const action: ConfiguratorAction = new UpdateCartEntrySuccess(
+        configuration
+      );
+      const state = StateReduce.reducer(undefined, action);
+
+      expect(state.isCartEntryUpdatePending).toEqual(false);
+    });
+  });
+
   describe('RemoveConfiguration action', () => {
     it('should set the initial state', () => {
       const action1: ConfiguratorAction = new ReadConfigurationSuccess(
