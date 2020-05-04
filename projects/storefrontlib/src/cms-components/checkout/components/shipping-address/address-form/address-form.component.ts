@@ -70,7 +70,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   suggestedAddressModalRef: ModalRef;
 
   addressForm: FormGroup = this.fb.group({
-    defaultAddress: [false],
     titleCode: [''],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
@@ -85,15 +84,16 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }),
     postalCode: ['', Validators.required],
     phone: '',
+    defaultAddress: [false],
   });
 
   constructor(
-    private fb: FormBuilder,
+    protected fb: FormBuilder,
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
-    private modalService: ModalService
+    protected modalService: ModalService
   ) {}
 
   ngOnInit() {
@@ -198,11 +198,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   verifyAddress(): void {
-    if (this.addressForm.controls['region'].value.isocode) {
+    if (this.addressForm.valid) {
       this.regionsSub = this.regions$.pipe(take(1)).subscribe((regions) => {
         const obj = regions.find(
-          (region) =>
-            region.isocode === this.addressForm.controls['region'].value.isocode
+          (region: Region) =>
+            region.isocode === this.addressForm.get('region').value.isocode
         );
         Object.assign(this.addressForm.value.region, {
           isocodeShort: obj.isocodeShort,
