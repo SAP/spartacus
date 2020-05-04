@@ -2,35 +2,6 @@
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="form-group">
-        <ng-container
-          *ngIf="businessUnits$ | async as businessUnits"
-          formGroupName="parentOrgUnit"
-        >
-          <div *ngIf="businessUnits.length !== 0">
-            <label aria-required="true">
-              <span class="label-content required">{{
-                'orgUnitForm.parentOrgUnit.label' | cxTranslate
-              }}</span>
-              <ng-select
-                formControlName="uid"
-                [searchable]="false"
-                [clearable]="false"
-                [items]="businessUnits"
-                bindLabel="name"
-                bindValue="id"
-                [class.invalid]="isNotValid('parentOrgUnit')"
-                [readonly]="readonlyParent"
-              >
-              </ng-select>
-              <cx-form-errors
-                [control]="form.get('parentOrgUnit.uid')"
-              ></cx-form-errors>
-            </label>
-          </div>
-        </ng-container>
-      </div>
-
-      <div class="form-group">
         <label>
           <span class="label-content required">{{
             'orgUnitForm.uid.label' | cxTranslate
@@ -83,6 +54,35 @@
               </ng-select>
               <cx-form-errors
                 [control]="form.get('approvalProcess.code')"
+              ></cx-form-errors>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-group">
+        <ng-container
+          *ngIf="businessUnits$ | async as businessUnits"
+          formGroupName="parentOrgUnit"
+        >
+          <div *ngIf="businessUnits.length !== 0">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'orgUnitForm.parentOrgUnit.label' | cxTranslate
+              }}</span>
+              <ng-select
+                formControlName="uid"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="businessUnits"
+                bindLabel="name"
+                bindValue="id"
+                [class.invalid]="isNotValid('parentOrgUnit')"
+                [readonly]="readonlyParent"
+              >
+              </ng-select>
+              <cx-form-errors
+                [control]="form.get('parentOrgUnit.uid')"
               ></cx-form-errors>
             </label>
           </div>
