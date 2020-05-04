@@ -196,23 +196,24 @@ export class ConfiguratorCommonsService {
       };
 
       this.store.dispatch(new ConfiguratorActions.UpdateCartEntry(parameters));
-      this.store
-        .pipe(
-          select(
-            ConfiguratorSelectors.getConfigurationFactory(
-              configuration.owner.key
-            )
-          ),
-          filter(
-            (configInUpdate) =>
-              configInUpdate.isCartEntryUpdatePending === false
-          ),
-          take(1)
-        )
-        .subscribe((configAfterUpdate) => {
-          this.readConfigurationForCartEntry(configAfterUpdate.owner);
-        });
+      this.checkForUpdateDone(configuration).subscribe((configAfterUpdate) => {
+        this.readConfigurationForCartEntry(configAfterUpdate.owner);
+      });
     });
+  }
+
+  checkForUpdateDone(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    return this.store.pipe(
+      select(
+        ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
+      ),
+      filter(
+        (configInUpdate) => configInUpdate.isCartEntryUpdatePending === false
+      ),
+      take(1)
+    );
   }
 
   ////

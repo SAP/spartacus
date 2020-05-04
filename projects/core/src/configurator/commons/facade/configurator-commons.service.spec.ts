@@ -489,7 +489,7 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   describe('updateCartEntry', () => {
-    it('should get cart, create updateParameters and call updateCartEntry action', () => {
+    it('should create updateParameters and call updateCartEntry action', () => {
       const params: Configurator.UpdateConfigurationForCartEntryParameters = {
         cartId: CART_GUID,
         userId: OCC_USER_ID_ANONYMOUS,
@@ -503,6 +503,33 @@ describe('ConfiguratorCommonsService', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.UpdateCartEntry(params)
+      );
+    });
+
+    it('should re-read cart entry only after update went through', () => {
+      const productConfigInUpdate: Configurator.Configuration = {
+        configId: CONFIG_ID,
+        owner: OWNER_CART_ENTRY,
+        isCartEntryUpdatePending: true,
+      };
+      const productConfigUpdateCompleted: Configurator.Configuration = {
+        configId: CONFIG_ID,
+        isCartEntryUpdatePending: false,
+      };
+      const obs = cold('xyz', {
+        x: productConfigInUpdate,
+        y: productConfigInUpdate,
+        z: productConfigUpdateCompleted,
+      });
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+
+      const updateCartEntryWaitForDone = serviceUnderTest.checkForUpdateDone(
+        productConfiguration
+      );
+      expect(updateCartEntryWaitForDone).toBeObservable(
+        cold('--(z|)', {
+          z: productConfigUpdateCompleted,
+        })
       );
     });
   });
