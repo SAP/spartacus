@@ -39,7 +39,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
-    autofocus: true,
+    autofocus: 'input[type="checkbox"]',
     focusOnEscape: true,
   };
 
@@ -47,7 +47,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   handleClick(event: UIEvent): void {
     // Close on click outside the dialog window
     if ((event.target as any).tagName === this.el.nativeElement.tagName) {
-      this.closeModal('Cross click');
+      this.close('Cross click');
     }
   }
 
@@ -71,7 +71,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     this.loading$ = this.anonymousConsentsService.getLoadTemplatesLoading();
   }
 
-  closeModal(reason?: any): void {
+  close(reason?: any): void {
     this.launchDialogService.closeDialog(reason);
   }
 
@@ -96,7 +96,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         )
         .subscribe()
     );
-    this.closeModal('rejectAll');
+    this.close('rejectAll');
   }
 
   allowAll(): void {
@@ -123,7 +123,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         )
         .subscribe()
     );
-    this.closeModal('allowAll');
+    this.close('allowAll');
   }
 
   private isRequiredConsent(template: ConsentTemplate): boolean {

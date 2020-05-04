@@ -8,8 +8,8 @@ import {
   ConsentTemplate,
   I18nTestingModule,
 } from '@spartacus/core';
-import { LaunchDialogService } from 'projects/storefrontlib/src/layout';
 import { Observable, of } from 'rxjs';
+import { LaunchDialogService } from '../../../layout/launch-dialog/index';
 import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
 
 @Component({
@@ -131,11 +131,11 @@ describe('AnonymousConsentsDialogComponent', () => {
     });
   });
 
-  describe('closeModal', () => {
+  describe('close', () => {
     it('should call modalService.closeActiveModal', () => {
       spyOn(launchDialogService, 'closeDialog');
 
-      component.closeModal('xxx');
+      component.close('xxx');
 
       expect(launchDialogService.closeDialog).toHaveBeenCalledWith('xxx');
     });
@@ -157,7 +157,7 @@ describe('AnonymousConsentsDialogComponent', () => {
         anonymousConsentsConfig.anonymousConsents.requiredConsents = [
           mockTemplates[0].id,
         ];
-        spyOn(component, 'closeModal').and.stub();
+        spyOn(component, 'close').and.stub();
         spyOn(anonymousConsentsService, 'isConsentGiven').and.returnValues(
           true,
           true
@@ -176,12 +176,12 @@ describe('AnonymousConsentsDialogComponent', () => {
         expect(anonymousConsentsService.withdrawConsent).toHaveBeenCalledTimes(
           1
         );
-        expect(component.closeModal).toHaveBeenCalledWith('rejectAll');
+        expect(component.close).toHaveBeenCalledWith('rejectAll');
       });
     });
     describe('when no required consent is present', () => {
       it('should call withdrawAllConsents and close the modal dialog', () => {
-        spyOn(component, 'closeModal').and.stub();
+        spyOn(component, 'close').and.stub();
         spyOn(anonymousConsentsService, 'isConsentGiven').and.returnValues(
           true,
           true
@@ -200,7 +200,7 @@ describe('AnonymousConsentsDialogComponent', () => {
         expect(anonymousConsentsService.withdrawConsent).toHaveBeenCalledTimes(
           mockTemplates.length
         );
-        expect(component.closeModal).toHaveBeenCalledWith('rejectAll');
+        expect(component.close).toHaveBeenCalledWith('rejectAll');
       });
     });
   });
@@ -221,7 +221,7 @@ describe('AnonymousConsentsDialogComponent', () => {
         anonymousConsentsConfig.anonymousConsents.requiredConsents = [
           mockTemplates[0].id,
         ];
-        spyOn(component, 'closeModal').and.stub();
+        spyOn(component, 'close').and.stub();
         spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValues(
           true,
           true
@@ -238,12 +238,12 @@ describe('AnonymousConsentsDialogComponent', () => {
         component.allowAll();
 
         expect(anonymousConsentsService.giveConsent).toHaveBeenCalledTimes(1);
-        expect(component.closeModal).toHaveBeenCalledWith('allowAll');
+        expect(component.close).toHaveBeenCalledWith('allowAll');
       });
     });
     describe('when no required consent is present', () => {
       it('should call giveConsent for each consent and close the modal dialog', () => {
-        spyOn(component, 'closeModal').and.stub();
+        spyOn(component, 'close').and.stub();
         spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValues(
           true,
           true
@@ -262,7 +262,7 @@ describe('AnonymousConsentsDialogComponent', () => {
         expect(anonymousConsentsService.giveConsent).toHaveBeenCalledTimes(
           mockTemplates.length
         );
-        expect(component.closeModal).toHaveBeenCalledWith('allowAll');
+        expect(component.close).toHaveBeenCalledWith('allowAll');
       });
     });
     describe('when the consents have null state', () => {
@@ -278,7 +278,7 @@ describe('AnonymousConsentsDialogComponent', () => {
           },
         ];
 
-        spyOn(component, 'closeModal').and.stub();
+        spyOn(component, 'close').and.stub();
         spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValues(
           true,
           true
@@ -297,7 +297,7 @@ describe('AnonymousConsentsDialogComponent', () => {
         expect(anonymousConsentsService.giveConsent).toHaveBeenCalledTimes(
           mockTemplates.length
         );
-        expect(component.closeModal).toHaveBeenCalledWith('allowAll');
+        expect(component.close).toHaveBeenCalledWith('allowAll');
       });
     });
   });

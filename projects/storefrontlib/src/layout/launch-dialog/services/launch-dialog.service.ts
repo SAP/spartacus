@@ -11,7 +11,7 @@ import { LayoutConfig } from '../../config/layout-config';
 import { LaunchOptions, LAUNCH_CALLER } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
   private _dialogClose = new BehaviorSubject<string>(undefined);
 
