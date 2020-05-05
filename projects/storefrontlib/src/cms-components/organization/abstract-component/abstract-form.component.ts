@@ -17,6 +17,9 @@ export class AbstractFormComponent {
   @Input()
   routerBackLink: UrlCommandRoute;
 
+  @Input()
+  disabledFields: string[] = [];
+
   @Output()
   submitForm = new EventEmitter<any>();
 

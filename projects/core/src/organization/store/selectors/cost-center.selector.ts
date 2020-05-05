@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { CostCenter } from '../../../model/cost-center.model';
+import { CostCenter } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 import { Budget } from '../../../model/budget.model';
 import { entityLoaderStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';

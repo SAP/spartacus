@@ -6,6 +6,10 @@ import { Order } from '../../../model/order.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+} from '../../../global-message/index';
 
 @Injectable()
 export class OrderDetailsEffect {
@@ -36,15 +40,25 @@ export class OrderDetailsEffect {
         .cancel(payload.userId, payload.orderCode, payload.cancelRequestInput)
         .pipe(
           map(() => new UserActions.CancelOrderSuccess()),
-          catchError((error) =>
-            of(new UserActions.CancelOrderFail(makeErrorSerializable(error)))
-          )
+          catchError((error) => {
+            error.error?.errors.forEach((err) =>
+              this.globalMessageService.add(
+                err.message,
+                GlobalMessageType.MSG_TYPE_ERROR
+              )
+            );
+
+            return of(
+              new UserActions.CancelOrderFail(makeErrorSerializable(error))
+            );
+          })
         );
     })
   );
 
   constructor(
     private actions$: Actions,
-    private orderConnector: UserOrderConnector
+    private orderConnector: UserOrderConnector,
+    private globalMessageService: GlobalMessageService
   ) {}
 }

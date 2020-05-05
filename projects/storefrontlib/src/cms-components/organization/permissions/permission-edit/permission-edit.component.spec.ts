@@ -51,6 +51,7 @@ const mockOrgUnits: B2BUnitNode[] = [
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
+  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 class MockPermissionService implements Partial<PermissionService> {
@@ -154,7 +155,7 @@ describe('PermissionEditComponent', () => {
           permission = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(permissionsService.loadPermission).toHaveBeenCalledWith(code);
       expect(permissionsService.get).toHaveBeenCalledWith(code);
       expect(permission).toEqual(mockPermission);

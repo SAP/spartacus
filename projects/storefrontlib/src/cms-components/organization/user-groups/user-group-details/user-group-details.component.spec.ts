@@ -110,7 +110,7 @@ describe('UserGroupDetailsComponent', () => {
           budget = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(userGroupService.loadUserGroup).toHaveBeenCalledWith(uid);
       expect(userGroupService.get).toHaveBeenCalledWith(uid);
       expect(budget).toEqual(mockUserGroupUI);

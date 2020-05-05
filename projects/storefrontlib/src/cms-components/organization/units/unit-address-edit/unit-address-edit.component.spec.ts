@@ -102,7 +102,7 @@ describe('UnitAddressEditComponent', () => {
           orgUnit = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(orgUnitsService.loadAddresses).toHaveBeenCalledWith(code);
       expect(orgUnitsService.getAddress).toHaveBeenCalledWith(
         code,

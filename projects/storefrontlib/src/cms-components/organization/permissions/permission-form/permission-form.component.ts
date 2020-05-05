@@ -67,6 +67,7 @@ export class PermissionFormComponent extends AbstractFormComponent
   ngOnInit() {
     this.permissionTypes$ = this.permissionService.getTypes();
     this.currencies$ = this.currencyService.getAll();
+    this.orgUnitService.loadOrgUnitNodes();
     this.businessUnits$ = this.orgUnitService.getList();
     if (this.permissionData && Object.keys(this.permissionData).length !== 0) {
       this.form.patchValue(this.permissionData);

@@ -53,6 +53,7 @@ const mockOrgUnits: B2BUnitNode[] = [
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
+  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 class MockCostCenterService implements Partial<CostCenterService> {
@@ -76,6 +77,7 @@ const mockActiveCurr = new BehaviorSubject('USD');
 
 class MockCurrencyService implements Partial<CurrencyService> {
   getAll = jasmine.createSpy('getAll').and.returnValue(of(mockCurrencies));
+  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
   getActive(): Observable<string> {
     return mockActiveCurr;
   }
@@ -131,7 +133,7 @@ describe('CostCenterFormComponent', () => {
           currencies = value;
         })
         .unsubscribe();
-      expect(currencyService.getAll).toHaveBeenCalled();
+      expect(currencyService.getAll).toHaveBeenCalledWith();
       expect(currencies).toEqual(mockCurrencies);
     });
 
@@ -143,7 +145,8 @@ describe('CostCenterFormComponent', () => {
           businessUnits = value;
         })
         .unsubscribe();
-      expect(orgUnitService.getList).toHaveBeenCalled();
+      expect(orgUnitService.loadOrgUnitNodes).toHaveBeenCalledWith();
+      expect(orgUnitService.getList).toHaveBeenCalledWith();
       expect(businessUnits).toEqual(mockOrgUnits);
     });
 
@@ -188,7 +191,7 @@ describe('CostCenterFormComponent', () => {
     it('should emit clickBack event', () => {
       spyOn(component.clickBack, 'emit');
       component.back();
-      expect(component.clickBack.emit).toHaveBeenCalled();
+      expect(component.clickBack.emit).toHaveBeenCalledWith();
     });
   });
 });

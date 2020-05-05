@@ -83,6 +83,9 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   budgetDetails: {
     paths: ['organization/budget/:code'],
   },
+  budgetCostCenters: {
+    paths: ['organization/budget/costcenters/:code'],
+  },
   budgetEdit: {
     paths: ['organization/budget/edit/:code'],
   },
@@ -106,6 +109,12 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   orgUnitManageAddresses: {
     paths: ['organization/unit/addresses/:code'],
   },
+  orgUnitChildren: {
+    paths: ['organization/unit/children/:code'],
+  },
+  orgUnitCostCenters: {
+    paths: ['organization/unit/costcenters/:code'],
+  },
   orgUnitAddressEdit: {
     paths: ['organization/unit/address/edit/:code/:id'],
   },
@@ -113,7 +122,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['organization/unit/address/:code/:id'],
   },
   orgUnitAddressCreate: {
-    paths: ['organization/unit/manage-addresses/create/:code'],
+    paths: ['organization/unit/addresses/create/:code'],
   },
   costCenters: {
     paths: ['organization/costcenters'],

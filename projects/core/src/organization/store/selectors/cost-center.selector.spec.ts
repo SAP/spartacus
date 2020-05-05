@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { CostCenter } from '../../../model/cost-center.model';
+import { CostCenter } from '../../../model/org-unit.model';
 import { CostCenterActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,

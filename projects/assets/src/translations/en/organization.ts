@@ -222,6 +222,8 @@ export const organization = {
       title: 'Disable Unit',
       message: 'Are you sure you want to disable this unit?',
     },
+    children: 'Child Units',
+    costCenters: 'Cost Centers',
   },
   orgUnitForm: {
     create: 'Create Unit',
@@ -305,6 +307,20 @@ export const organization = {
     streetAddress: 'Street Address',
     aptSuite: 'Apt, Suite',
     selectOne: 'Select One...',
+  },
+  unitCostCenters: {
+    header: 'Cost centers in {{code}}',
+    back: 'Close',
+    create: 'Create',
+    code: 'Code',
+    name: 'Name',
+  },
+  unitChildren: {
+    header: 'Child units in {{code}}',
+    back: 'Close',
+    create: 'Create',
+    id: 'ID',
+    name: 'Name',
   },
   usersList: {
     sorting: {

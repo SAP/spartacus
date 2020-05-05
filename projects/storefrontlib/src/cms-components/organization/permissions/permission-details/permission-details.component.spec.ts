@@ -129,7 +129,7 @@ describe('PermissionDetailsComponent', () => {
           permission = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(permissionsService.loadPermission).toHaveBeenCalledWith(code);
       expect(permissionsService.get).toHaveBeenCalledWith(code);
       expect(permission).toEqual(mockPermissionUI);

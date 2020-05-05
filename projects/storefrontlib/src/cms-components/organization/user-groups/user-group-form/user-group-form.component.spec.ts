@@ -47,6 +47,7 @@ const mockOrgUnits: B2BUnitNode[] = [
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
+  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 class MockUserGroupService implements Partial<UserGroupService> {
@@ -105,7 +106,8 @@ describe('UserGroupFormComponent', () => {
           businessUnits = value;
         })
         .unsubscribe();
-      expect(orgUnitService.getList).toHaveBeenCalled();
+      expect(orgUnitService.loadOrgUnitNodes).toHaveBeenCalledWith();
+      expect(orgUnitService.getList).toHaveBeenCalledWith();
       expect(businessUnits).toEqual(mockOrgUnits);
     });
 
@@ -150,7 +152,7 @@ describe('UserGroupFormComponent', () => {
     it('should emit clickBack event', () => {
       spyOn(component.clickBack, 'emit');
       component.back();
-      expect(component.clickBack.emit).toHaveBeenCalled();
+      expect(component.clickBack.emit).toHaveBeenCalledWith();
     });
   });
 });

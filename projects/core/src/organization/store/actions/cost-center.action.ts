@@ -1,4 +1,4 @@
-import { CostCenter } from '../../../model/cost-center.model';
+import { CostCenter } from '../../../model/org-unit.model';
 import {
   EntityFailAction,
   EntityLoadAction,
