@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { TableModule } from '../../../../shared/components/table/table.module';
+import { ConfirmModalModule } from '../../../../shared/components/modal/confirm-modal';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { TableModule } from '../../../../shared/components/table/table.module';
     UrlModule,
     I18nModule,
     TableModule,
+    ConfirmModalModule,
   ],
   declarations: [BudgetDetailsComponent],
   exports: [BudgetDetailsComponent],

@@ -1,7 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { RoutingService, UserGroup, UserGroupService } from '@spartacus/core';
+import { ModalService } from '../../../../shared/components/modal/index';
 
 @Component({
   selector: 'cx-user-group-details',
@@ -18,7 +24,8 @@ export class UserGroupDetailsComponent implements OnInit {
 
   constructor(
     protected routingService: RoutingService,
-    protected userGroupsService: UserGroupService
+    protected userGroupsService: UserGroupService,
+    protected modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -31,5 +38,11 @@ export class UserGroupDetailsComponent implements OnInit {
         code: userGroup.uid,
       }))
     );
+  }
+
+  openModal(template: TemplateRef<any>): void {
+    this.modalService.open(template, {
+      centered: true,
+    });
   }
 }

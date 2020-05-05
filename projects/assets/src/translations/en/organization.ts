@@ -42,6 +42,14 @@ export const organization = {
       code: 'Code',
       name: 'Name',
     },
+    confirmActivation: {
+      title: 'Enable Budget',
+      message: 'Are you sure you want to enable this budget?',
+    },
+    confirmDeactivation: {
+      title: 'Disable Budget',
+      message: 'Are you sure you want to disable this budget?',
+    },
   },
   budgetForm: {
     create: 'Create Budget',
@@ -98,6 +106,14 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     threshold: 'Threshold Amount',
+    confirmActivation: {
+      title: 'Enable Permission',
+      message: 'Are you sure you want to enable this permission?',
+    },
+    confirmDeactivation: {
+      title: 'Disable Permission',
+      message: 'Are you sure you want to disable this permission?',
+    },
   },
   permissionForm: {
     create: 'Create Permission',
@@ -148,6 +164,14 @@ export const organization = {
     deactivated: 'Deactivated',
     budgets: 'Budgets',
     assignBudgets: 'Manage Budgets',
+    confirmActivation: {
+      title: 'Enable Cost Center',
+      message: 'Are you sure you want to enable this cost center?',
+    },
+    confirmDeactivation: {
+      title: 'Disable Cost Center',
+      message: 'Are you sure you want to disable this cost center?',
+    },
   },
   costCenterAssignBudgets: {
     header: 'Manage budgets in {{code}}',
@@ -190,6 +214,14 @@ export const organization = {
     deactivated: 'Deactivated',
     assignRoles: 'Manage Roles',
     manageAddresses: 'Manage Addresses',
+    confirmActivation: {
+      title: 'Enable Unit',
+      message: 'Are you sure you want to enable this unit?',
+    },
+    confirmDeactivation: {
+      title: 'Disable Unit',
+      message: 'Are you sure you want to disable this unit?',
+    },
   },
   orgUnitForm: {
     create: 'Create Unit',
