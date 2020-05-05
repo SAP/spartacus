@@ -1,7 +1,7 @@
 # These are the default configs
 # DON'T EDIT THIS FILE
 # If you want to use different values, create a file named 'config.sh'
-# If present, 'config.sh' will be used instead of 'config.default.sh'.
+# If present, 'config.sh' will be used as well in addition to 'config.default.sh' (to override variables).
 
 # Url of the hybris backend
 # Will replace default host (https://localhost:9002) as a backend endpoint

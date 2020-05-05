@@ -40,6 +40,11 @@ function cmd_clean {
 }
 
 function pre_install {
+    if [ -d $BASE_DIR ]; then
+        echo "Directory ${BASE_DIR} already exists, please remove it in order to start fresh installation."
+        exit 1
+    fi
+
     npm config set @spartacus:registry https://registry.npmjs.org/
 
     cmd_clean
@@ -69,7 +74,7 @@ function update_projects_versions {
     for i in $projects
         do
             echo $i;
-            (cd "${CLONE_DIR}/projects/${i}" && sed -i -E 's/("version": ")[^"]+/\1"${version}"/g' package.json);
+            (cd "${CLONE_DIR}/projects/${i}" && pwd && sed --debug -i -E 's/("version": ")[^"]+/\1'"${SPARTACUS_VERSION}"'/g' package.json);
         done
 }
 
@@ -169,23 +174,24 @@ function local_install {
     verdaccio --config ./config.yaml &
 
     VERDACCIO_PID=$!
+    echo "verdaccio PID: ${VERDACCIO_PID}"
 
     sleep 5
-
+    # cp ../../.npmignore ${CLONE_DIR}/
     printh "Creating core npm package"
-    ( cd ${CLONE_DIR}/dist/core && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ )
+    ( cd ${CLONE_DIR}/dist/core && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     printh "Creating storefrontlib npm package"
-    ( cd ${CLONE_DIR}/dist/storefrontlib && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ )
+    ( cd ${CLONE_DIR}/dist/storefrontlib && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     printh "Creating storefrontstyles npm package"
-    ( cd ${CLONE_DIR}/projects/storefrontstyles && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ )
+    ( cd ${CLONE_DIR}/projects/storefrontstyles && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     printh "Creating assets npm package"
-    ( cd ${CLONE_DIR}/dist/assets && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ )
+    ( cd ${CLONE_DIR}/dist/assets && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     printh "Creating schematics npm package"
-    ( cd ${CLONE_DIR}/projects/schematics && yarn && yarn build && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ )
+    ( cd ${CLONE_DIR}/projects/schematics && yarn && yarn build && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     create_apps
 
@@ -211,7 +217,7 @@ function start_csr_unix {
     else
         prestart_csr
         printh "Starting csr app"
-        pm2 start --name csr serve -- ${INSTALLATION_DIR}/csr/dist/ --single -p 4200 --name csr
+        pm2 start --name csr serve -- ${INSTALLATION_DIR}/csr/dist/csr/ --single -p ${CSR_PORT}
     fi
 }
 
@@ -232,7 +238,7 @@ function start_ssr_pwa_unix {
 
 function start_windows_apps {
     prestart_csr
-    concurrently "serve ${INSTALLATION_DIR}/csr/dist/csr --single -p 4200" --names "csr"
+    concurrently "serve ${INSTALLATION_DIR}/csr/dist/csr --single -p ${CSR_PORT}" --names "csr"
 }
 
 function start_apps {
@@ -291,6 +297,14 @@ if [ -f "./config.sh" ]; then
     echo "Loading configs from ./config.sh"
     . ./config.sh
 fi
+
+# top directory for the installation output (must be outside of the project)
+if [ -z $BASE_DIR ]; then
+    BASE_DIR="../../../spartacus-${SPARTACUS_VERSION}"
+fi
+CLONE_DIR="$BASE_DIR/$CLONE_DIR"
+INSTALLATION_DIR="$BASE_DIR/$INSTALLATION_DIR"
+E2E_TEST_DIR="$BASE_DIR/$E2E_TEST_DIR"
 
 for current_command in $(echo "$commands" | tr "+" "\n"); do
 
