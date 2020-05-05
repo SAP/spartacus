@@ -37,7 +37,11 @@ export class ConfigOverviewFormComponent implements OnInit {
             configuration
           )
         ),
-        filter(configuration => configuration.overview !== undefined && configuration.overview !== null),
+        filter(
+          (configuration) =>
+            configuration.overview !== undefined &&
+            configuration.overview !== null
+        ),
         take(1)
       );
   }
