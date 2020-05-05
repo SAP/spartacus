@@ -20,6 +20,6 @@ export const navigation = {
       .route('GET', `/rest/v2/electronics-spa/cms/pages?*${page}*`)
       .as(page);
   },
-  requestsCount: alias =>
-    (<any>cy).state('requests').filter(a => a.alias === alias).length,
+  requestsCount: (alias) =>
+    (<any>cy).state('requests').filter((a) => a.alias === alias).length,
 };

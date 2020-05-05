@@ -37,7 +37,7 @@ describe('Card Types Selectors', () => {
       let result: CardType[];
       store
         .pipe(select(CheckoutSelectors.getAllCardTypes))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 

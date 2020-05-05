@@ -2,11 +2,12 @@ import { registerAndLogin } from '../../../helpers/update-email';
 import * as notification from '../../../helpers/notification';
 import { formats } from '../../../sample-data/viewports';
 
-describe(`${formats.mobile.width +
-  1}p resolution - Notification Preference for guest`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - Notification Preference for guest`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   it('should redirect to login page for anonymous user', () => {
@@ -14,11 +15,12 @@ describe(`${formats.mobile.width +
   });
 });
 
-describe(`${formats.mobile.width +
-  1}p resolution - Notification Preference for customer`, () => {
+describe(`${
+  formats.mobile.width + 1
+}p resolution - Notification Preference for customer`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     registerAndLogin();
     cy.visit('/');
   });

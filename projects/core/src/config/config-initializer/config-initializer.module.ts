@@ -10,7 +10,6 @@ import {
   CONFIG_INITIALIZER_FORROOT_GUARD,
   ConfigInitializer,
 } from './config-initializer';
-import { ConfigValidatorModule } from '../config-validator/config-validator.module';
 
 export function configInitializerFactory(
   configInitializer: ConfigInitializerService,
@@ -20,11 +19,7 @@ export function configInitializerFactory(
   return isReady;
 }
 
-@NgModule({
-  imports: [
-    ConfigValidatorModule.forRoot(), // TODO: remove, deprecated since 1.3, issue #5279
-  ],
-})
+@NgModule({})
 export class ConfigInitializerModule {
   static forRoot(): ModuleWithProviders<ConfigInitializerModule> {
     return {

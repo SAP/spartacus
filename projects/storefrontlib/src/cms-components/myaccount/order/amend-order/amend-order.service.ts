@@ -7,11 +7,15 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details/order-details.service';
 import { AmendOrderType } from './amend-order.model';
 
-function ValidateQuantity(control: FormControl) {
-  let q = 0;
-  Object.keys(control.value).forEach(key => (q += control.value[key]));
-
-  return q > 0 ? null : { required: true };
+function ValidateQuantityToCancel(control: FormControl) {
+  if (!control.value) {
+    return null;
+  }
+  const quantity = Object.values(control.value).reduce(
+    (acc: number, val: number) => acc + val,
+    0
+  );
+  return quantity > 0 ? null : { cxNoSelectedItemToCancel: true };
 }
 
 @Injectable()
@@ -31,10 +35,12 @@ export abstract class OrderAmendService {
    */
   getAmendedEntries(): Observable<OrderEntry[]> {
     return this.getForm().pipe(
-      switchMap(form => {
+      switchMap((form) => {
         return this.getEntries().pipe(
-          map(entries =>
-            entries.filter(entry => this.getFormControl(form, entry).value > 0)
+          map((entries) =>
+            entries.filter(
+              (entry) => this.getFormControl(form, entry).value > 0
+            )
           )
         );
       })
@@ -55,7 +61,7 @@ export abstract class OrderAmendService {
    */
   getForm(): Observable<FormGroup> {
     return this.getOrder().pipe(
-      tap(order => {
+      tap((order) => {
         if (!this.form || this.form.get('orderCode').value !== order.code) {
           this.buildForm(order);
         }
@@ -68,10 +74,13 @@ export abstract class OrderAmendService {
     this.form = new FormGroup({});
     this.form.addControl('orderCode', new FormControl(order.code));
 
-    const entryGroup = new FormGroup({}, { validators: [ValidateQuantity] });
+    const entryGroup = new FormGroup(
+      {},
+      { validators: [ValidateQuantityToCancel] }
+    );
     this.form.addControl('entries', entryGroup);
 
-    (order.entries || []).forEach(entry => {
+    (order.entries || []).forEach((entry) => {
       const key = entry.entryNumber.toString();
       entryGroup.addControl(
         key,

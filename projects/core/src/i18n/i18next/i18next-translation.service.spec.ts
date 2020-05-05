@@ -1,10 +1,10 @@
+import * as AngularCore from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { I18nextTranslationService } from './i18next-translation.service';
 import i18next from 'i18next';
 import { first, take } from 'rxjs/operators';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
-import * as AngularCore from '@angular/core';
+import { I18nextTranslationService } from './i18next-translation.service';
 
 const testKey = 'testKey';
 const testOptions = 'testOptions';
@@ -49,6 +49,7 @@ describe('I18nextTranslationService', () => {
     describe(', when key exists,', () => {
       beforeEach(() => {
         spyOn(i18next, 'exists').and.returnValue(true);
+        i18next.isInitialized = true;
       });
 
       it('should emit result of i18next.t', () => {
@@ -57,7 +58,7 @@ describe('I18nextTranslationService', () => {
         service
           .translate(testKey, testOptions)
           .pipe(first())
-          .subscribe(x => (result = x));
+          .subscribe((x) => (result = x));
 
         expect(i18next.t).toHaveBeenCalledWith(
           'testChunk:testKey',
@@ -78,7 +79,7 @@ describe('I18nextTranslationService', () => {
         service
           .translate(testKey, testOptions, true)
           .pipe(first())
-          .subscribe(x => (result = x));
+          .subscribe((x) => (result = x));
         expect(result).toBe(nonBreakingSpace);
       });
 
@@ -87,15 +88,12 @@ describe('I18nextTranslationService', () => {
         service
           .translate(testKey, testOptions, false)
           .pipe(first())
-          .subscribe(x => (result = x));
+          .subscribe((x) => (result = x));
         expect(result).toBe('initial value');
       });
 
       it('should load chunk of key', () => {
-        service
-          .translate(testKey, testOptions)
-          .pipe(first())
-          .subscribe();
+        service.translate(testKey, testOptions).pipe(first()).subscribe();
 
         expect(i18next.loadNamespaces).toHaveBeenCalledWith(
           'testChunk',
@@ -118,7 +116,7 @@ describe('I18nextTranslationService', () => {
         service
           .translate(testKey, testOptions)
           .pipe(first())
-          .subscribe(x => (result = x));
+          .subscribe((x) => (result = x));
         expect(result).toBe(`[testChunk:testKey]`);
       });
 
@@ -128,7 +126,7 @@ describe('I18nextTranslationService', () => {
         service
           .translate(testKey, testOptions)
           .pipe(first())
-          .subscribe(x => (result = x));
+          .subscribe((x) => (result = x));
         expect(result).toBe(nonBreakingSpace);
       });
     });
@@ -148,7 +146,7 @@ describe('I18nextTranslationService', () => {
         service
           .translate(testKey, testOptions)
           .pipe(first())
-          .subscribe(x => (result = x));
+          .subscribe((x) => (result = x));
         expect(i18next.t).toHaveBeenCalledWith(
           'testChunk:testKey',
           testOptions
@@ -171,7 +169,7 @@ describe('I18nextTranslationService', () => {
         service
           .translate(testKey, testOptions)
           .pipe(take(2))
-          .subscribe(x => (result = x));
+          .subscribe((x) => (result = x));
         expect(result).toBe('value1');
 
         languageChangedCallback();

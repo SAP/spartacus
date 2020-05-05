@@ -7,9 +7,8 @@ export const b2cLayoutConfig: LayoutConfig = {
   // },
   layoutSlots: {
     header: {
-      md: {
+      lg: {
         slots: [
-          'PreHeader',
           'SiteContext',
           'SiteLinks',
           'SiteLogo',
@@ -19,15 +18,11 @@ export const b2cLayoutConfig: LayoutConfig = {
           'NavigationBar',
         ],
       },
-      xs: {
-        slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
-      },
+      slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
     },
     navigation: {
-      md: { slots: [] },
-      xs: {
-        slots: ['SiteLogin', 'NavigationBar', 'SiteContext', 'SiteLinks'],
-      },
+      lg: { slots: [] },
+      slots: ['SiteLogin', 'NavigationBar', 'SiteContext', 'SiteLinks'],
     },
     footer: {
       slots: ['Footer'],
@@ -75,12 +70,12 @@ export const b2cLayoutConfig: LayoutConfig = {
       ],
     },
     ProductDetailsPageTemplate: {
-      md: {
+      lg: {
         pageFold: 'UpSelling',
       },
-      xs: {
-        pageFold: 'Summary',
-      },
+
+      pageFold: 'Summary',
+
       slots: [
         'Summary',
         'UpSelling',

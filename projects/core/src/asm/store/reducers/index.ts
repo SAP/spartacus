@@ -26,9 +26,9 @@ export function getReducers(): ActionReducerMap<AsmState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<AsmState>
-> = new InjectionToken<ActionReducerMap<AsmState>>('AsmReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<
+  AsmState
+>> = new InjectionToken<ActionReducerMap<AsmState>>('AsmReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
@@ -38,7 +38,7 @@ export const reducerProvider: Provider = {
 export function clearCustomerSupportAgentAsmState(
   reducer: ActionReducer<AsmState, Action>
 ): ActionReducer<AsmState, Action> {
-  return function(state, action) {
+  return function (state, action) {
     if (action.type === AuthActions.LOGOUT_CUSTOMER_SUPPORT_AGENT) {
       state = {
         ...state,

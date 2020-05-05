@@ -23,8 +23,8 @@ import {
   UnknownErrorHandler,
 } from './handlers';
 import { HttpErrorInterceptor } from './http-error.interceptor';
-import createSpy = jasmine.createSpy;
 import { ErrorHandler } from '@angular/core';
+import createSpy = jasmine.createSpy;
 
 describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
@@ -50,13 +50,6 @@ describe('HttpErrorInterceptor', () => {
           useClass: HttpErrorHandler,
           multi: true,
         },
-        BadGatewayHandler,
-        BadRequestHandler,
-        ConflictHandler,
-        ForbiddenHandler,
-        GatewayTimeoutHandler,
-        NotFoundHandler,
-        UnknownErrorHandler,
         {
           provide: HttpErrorHandler,
           useExisting: UnknownErrorHandler,
@@ -102,12 +95,15 @@ describe('HttpErrorInterceptor', () => {
 
   describe('Error Handlers', () => {
     function testHandlers(handlerClass, responseStatus) {
-      it('should call handleError for ' + handlerClass.name, function() {
+      it('should call handleError for ' + handlerClass.name, function () {
         http
           .get('/123')
           .pipe(catchError((error: any) => throwError(error)))
-          .subscribe(_result => {}, error => (this.error = error));
-        const mockReq = httpMock.expectOne(req => {
+          .subscribe(
+            (_result) => {},
+            (error) => (this.error = error)
+          );
+        const mockReq = httpMock.expectOne((req) => {
           return req.method === 'GET';
         });
 
@@ -146,7 +142,10 @@ describe('HttpErrorInterceptor', () => {
         http
           .get('/validation-error')
           .pipe(catchError((error: any) => throwError(error)))
-          .subscribe(_result => {}, error => (this.error = error));
+          .subscribe(
+            (_result) => {},
+            (error) => (this.error = error)
+          );
 
         httpMock
           .expectOne('/validation-error')
@@ -165,9 +164,12 @@ describe('HttpErrorInterceptor', () => {
         http
           .get('/unknown')
           .pipe(catchError((error: any) => throwError(error)))
-          .subscribe(_result => {}, error => (this.error = error));
+          .subscribe(
+            (_result) => {},
+            (error) => (this.error = error)
+          );
 
-        const mockReq = httpMock.expectOne(req => {
+        const mockReq = httpMock.expectOne((req) => {
           return req.method === 'GET';
         });
         mockReq.flush({}, { status: 123, statusText: 'unknown' });

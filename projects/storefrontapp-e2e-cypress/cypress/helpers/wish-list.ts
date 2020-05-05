@@ -59,7 +59,9 @@ export function waitForGetWishList() {
 
   cy.route(
     'GET',
-    `/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('get_wish_list');
 }
 
@@ -126,7 +128,7 @@ export function verifyProductInWishList(product: TestProduct) {
 export function removeProductFromWishListPage(product: TestProduct) {
   waitForGetWishList();
   getWishListItem(product.name).within(() => {
-    cy.get('.cx-return-button>.btn-link').click({ force: true });
+    cy.get('.cx-return-button>button').click({ force: true });
   });
   cy.wait('@get_wish_list');
   getWishListItem(product.name).should('not.exist');
@@ -147,7 +149,9 @@ export function addProductToCart(product: TestProduct) {
 
   cy.route(
     'POST',
-    `/rest/v2/electronics-spa/users/*/carts/*/entries?code=*&qty=*&lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/*/entries?code=*&qty=*&lang=en&curr=USD`
   ).as('add_to_cart');
 
   getWishListItem(product.name).within(() => {
@@ -227,9 +231,7 @@ function proceedToCheckout() {
     'getShippingAddressPage'
   );
   cy.getByText(/proceed to checkout/i).click();
-  cy.wait(`@${shippingAddressPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${shippingAddressPage}`).its('status').should('eq', 200);
 }
 
 function fillAddressForm(shippingAddressData: AddressData = user) {
@@ -239,9 +241,7 @@ function fillAddressForm(shippingAddressData: AddressData = user) {
     'getDeliveryPage'
   );
   fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
 
 function fillPaymentForm(
@@ -251,9 +251,7 @@ function fillPaymentForm(
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.wait(`@${reviewPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
 }
 
 function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
@@ -268,7 +266,7 @@ function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
     .should(
       'have.attr',
       'href',
-      '/electronics-spa/en/USD/terms-and-conditions'
+      `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`
     );
   cy.get('.form-check-input').check();
   const orderConfirmationPage = waitForPage(
@@ -276,9 +274,7 @@ function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
     'getOrderConfirmationPage'
   );
   cy.get('cx-place-order button.btn-primary').click();
-  cy.wait(`@${orderConfirmationPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${orderConfirmationPage}`).its('status').should('eq', 200);
 }
 
 function verifyOrderConfirmationPage(checkoutProducts: TestProduct[]) {

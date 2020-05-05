@@ -30,7 +30,6 @@ export interface DebugEvent extends CustomEvent {
 }
 
 export enum ProfileTagEventNames {
-  LOADED = 'profiletag_loaded',
   CONSENT_REFERENCE_LOADED = 'profiletag_consentReferenceLoaded',
   DEBUG_FLAG_CHANGED = 'profiletag_debugFlagChanged',
 }

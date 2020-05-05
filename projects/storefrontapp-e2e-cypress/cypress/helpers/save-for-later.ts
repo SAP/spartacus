@@ -1,4 +1,3 @@
-import { apiUrl } from '../support/utils/login';
 import * as cart from './cart';
 import * as cartCoupon from './cart-coupon';
 
@@ -27,9 +26,9 @@ export const products: TestProduct[] = [
   },
 
   {
-    code: '1992696',
-    name: 'DSC-S930',
-    price: 223.36,
+    code: '1993747',
+    name: 'DSC-W270',
+    price: 206.88,
   },
   {
     code: '1934796',
@@ -59,14 +58,18 @@ export function stubForCartsRefresh() {
   stubForCartRefresh();
   cy.route(
     'GET',
-    `${apiUrl}/rest/v2/electronics-spa/users/*/carts/selectivecart*?fields=*&lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/selectivecart*?fields=*&lang=en&curr=USD`
   ).as('refresh_selectivecart');
 }
 export function stubForCartRefresh() {
   cy.server();
   cy.route(
     'GET',
-    `${apiUrl}/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
 }
 
@@ -82,16 +85,7 @@ export function moveItem(
     cy.get('.cx-sfl-btn > .link').click();
   });
   if (!isAnonymous) {
-    cy.wait(['@refresh_cart', '@refresh_selectivecart']).spread(
-      (refresh_cart, refresh_selectivecart) => {
-        cy.wrap(refresh_cart)
-          .its('status')
-          .should('eq', 200);
-        cy.wrap(refresh_selectivecart)
-          .its('status')
-          .should('eq', 200);
-      }
-    );
+    cy.wait(['@refresh_cart', '@refresh_selectivecart']);
   }
 }
 
@@ -100,22 +94,16 @@ export function removeItem(product, position: ItemList) {
   getItem(product, position).within(() => {
     cy.get('.cx-remove-btn > .link')
       .should('not.be.disabled')
-      .then(el => {
+      .then((el) => {
         cy.wrap(el).click();
       });
   });
-  cy.wait('@refresh_cart')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@refresh_cart').its('status').should('eq', 200);
 }
 
 export function validateProduct(product, qty = 1, position: ItemList) {
   return getItem(product, position).within(() => {
-    if (position === ItemList.Cart) {
-      cy.get('cx-item-counter input').should('have.value', `${qty}`);
-    } else {
-      cy.get('.cx-quantity').should('contain', `${qty}`);
-    }
+    cy.get('cx-item-counter input').should('have.value', `${qty}`);
     cy.get('.cx-total .cx-value').should('exist');
   });
 }
@@ -231,6 +219,7 @@ export function verifyPlaceOrder() {
   addProductToCart(products[1]);
   moveItem(products[0], ItemList.SaveForLater);
   validateCart(1, 1);
+  cy.wait(1000);
   cartCoupon.placeOrder(stateAuth);
   cy.reload();
   validateCart(0, 1);

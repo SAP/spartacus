@@ -4,5 +4,7 @@
   class="star"
   (mouseover)="setRate(i)"
   (mouseout)="setRate(0)"
+  (keydown)="setRateOnEvent($event, i)"
   (click)="saveRate(i)"
+  [attr.tabindex]="disabled ? null : 0"
 ></cx-icon>

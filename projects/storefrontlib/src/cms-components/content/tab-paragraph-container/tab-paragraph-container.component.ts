@@ -13,12 +13,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import {
-  distinctUntilChanged,
-  distinctUntilKeyChanged,
-  map,
-  switchMap,
-} from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 
@@ -40,34 +35,23 @@ export class TabParagraphContainerComponent
   subscription: Subscription;
 
   constructor(
-    componentData: CmsComponentData<CMSTabParagraphContainer>,
-    cmsService: CmsService,
-    // tslint:disable-next-line:unified-signatures
-    winRef: WindowRef
-  );
-  /**
-   * @deprecated since 1.4
-   *
-   * TODO(issue:#5813) Deprecated since 1.4
-   */
-  constructor(
-    componentData: CmsComponentData<CMSTabParagraphContainer>,
-    cmsService: CmsService
-  );
-  constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
-    private cmsService: CmsService,
-    private winRef?: WindowRef
+    protected cmsService: CmsService,
+    protected winRef: WindowRef
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
-    distinctUntilKeyChanged('components'),
-    switchMap(data =>
+    distinctUntilChanged((x, y) => x?.components === y?.components),
+    switchMap((data) =>
       combineLatest(
-        data.components.split(' ').map(component =>
+        (data?.components ?? '').split(' ').map((component) =>
           this.cmsService.getComponentData<any>(component).pipe(
             distinctUntilChanged(),
-            map(tab => {
+            map((tab) => {
+              if (!tab) {
+                return undefined;
+              }
+
               if (!tab.flexType) {
                 tab = {
                   ...tab,
@@ -91,15 +75,8 @@ export class TabParagraphContainerComponent
   }
 
   ngOnInit(): void {
-    if (this.winRef && this.winRef.nativeWindow) {
-      const routeState =
-        this.winRef.nativeWindow.history &&
-        this.winRef.nativeWindow.history.state;
-
-      if (routeState && routeState['activeTab']) {
-        this.activeTabNum = routeState['activeTab'];
-      }
-    }
+    this.activeTabNum =
+      this.winRef.nativeWindow.history?.state?.activeTab ?? this.activeTabNum;
   }
 
   ngAfterViewInit(): void {
@@ -118,7 +95,7 @@ export class TabParagraphContainerComponent
   }
 
   private getTitleParams(children: QueryList<ComponentWrapperDirective>) {
-    children.forEach(comp => {
+    children.forEach((comp) => {
       if (comp.cmpRef && comp.cmpRef.instance.tabTitleParam$) {
         this.tabTitleParams.push(comp.cmpRef.instance.tabTitleParam$);
       } else {

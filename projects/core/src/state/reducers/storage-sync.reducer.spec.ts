@@ -51,7 +51,7 @@ describe('storage-sync-reducer', () => {
     let reducer: ActionReducer<Object, Action>;
 
     beforeEach(() => {
-      nextReducer = function<T>(state: T, _action: Action) {
+      nextReducer = function <T>(state: T, _action: Action) {
         return state;
       };
       metaReducer = getStorageSyncReducer(winRef, {

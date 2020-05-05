@@ -77,11 +77,11 @@ describe('OccUserNotificationPreferenceAdapter', () => {
 
   describe('load notification preferences', () => {
     it('should load notification preferences for a given user id', () => {
-      occNotificationPreferenceAdapter.loadAll(userId).subscribe(result => {
+      occNotificationPreferenceAdapter.loadAll(userId).subscribe((result) => {
         expect(result).toEqual(mockNotificationPreference);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -99,7 +99,7 @@ describe('OccUserNotificationPreferenceAdapter', () => {
     it('should use converter', () => {
       occNotificationPreferenceAdapter.loadAll(userId).subscribe();
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return req.method === 'GET';
         })
         .flush({});
@@ -113,11 +113,11 @@ describe('OccUserNotificationPreferenceAdapter', () => {
     it('should update notification preferences for given user', () => {
       occNotificationPreferenceAdapter
         .update(userId, mockNotificationPreference)
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toEqual(updatedNotificationPreference);
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'PATCH';
       });
 
@@ -138,7 +138,7 @@ describe('OccUserNotificationPreferenceAdapter', () => {
       .update(userId, mockNotificationPreference)
       .subscribe();
     httpMock
-      .expectOne(req => {
+      .expectOne((req) => {
         return req.method === 'PATCH';
       })
       .flush({});

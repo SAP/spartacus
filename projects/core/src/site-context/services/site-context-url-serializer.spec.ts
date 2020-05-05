@@ -9,9 +9,9 @@ import {
 describe('SiteContextUrlSerializer', () => {
   const mockSiteContextParamsService = {
     getUrlEncodingParameters: () => ['language', 'currency'],
-    getParamValues: param =>
+    getParamValues: (param) =>
       ({ language: ['en', 'de'], currency: ['usd', 'pln'] }[param]),
-    getValue: param => ({ language: 'de', currency: 'usd' }[param]),
+    getValue: (param) => ({ language: 'de', currency: 'usd' }[param]),
   };
 
   let mockUrlTree: UrlTreeWithSiteContext;

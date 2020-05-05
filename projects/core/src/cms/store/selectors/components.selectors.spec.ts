@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { CmsComponent, PageType } from '../../../model/cms.model';
 import { PageContext } from '../../../routing/index';
-import { initialLoaderState, LoaderState } from '../../../state/index';
+import { StateUtils } from '../../../state/index';
 import { serializePageContext } from '../../utils/cms-utils';
 import { CmsActions } from '../actions/index';
 import { ComponentsContext, StateWithCms } from '../cms-state';
@@ -38,7 +38,7 @@ describe('Cms Component Selectors', () => {
           .pipe(
             select(CmsSelectors.componentsContextSelectorFactory(componentUid))
           )
-          .subscribe(value => (result = value));
+          .subscribe((value) => (result = value));
 
         expect(result).toEqual(undefined);
       });
@@ -52,7 +52,7 @@ describe('Cms Component Selectors', () => {
           .pipe(
             select(CmsSelectors.componentsContextSelectorFactory(componentUid))
           )
-          .subscribe(value => (result = value));
+          .subscribe((value) => (result = value));
 
         const pageContext: PageContext = {
           id: 'xxx',
@@ -77,7 +77,7 @@ describe('Cms Component Selectors', () => {
             success: true,
             error: false,
             value: true,
-          } as LoaderState<boolean>,
+          } as StateUtils.LoaderState<boolean>,
         });
       });
     });
@@ -88,7 +88,7 @@ describe('Cms Component Selectors', () => {
       it('should return the default loader state', () => {
         const componentUid = 'comp1';
 
-        let result: LoaderState<boolean>;
+        let result: StateUtils.LoaderState<boolean>;
 
         store
           .pipe(
@@ -99,9 +99,9 @@ describe('Cms Component Selectors', () => {
               )
             )
           )
-          .subscribe(value => (result = value));
+          .subscribe((value) => (result = value));
 
-        expect(result).toEqual(initialLoaderState);
+        expect(result).toEqual(StateUtils.initialLoaderState);
       });
     });
     describe('when the component context state slice exists', () => {
@@ -121,7 +121,7 @@ describe('Cms Component Selectors', () => {
             })
           );
 
-          let result: LoaderState<boolean>;
+          let result: StateUtils.LoaderState<boolean>;
 
           store
             .pipe(
@@ -132,9 +132,9 @@ describe('Cms Component Selectors', () => {
                 )
               )
             )
-            .subscribe(value => (result = value));
+            .subscribe((value) => (result = value));
 
-          expect(result).toEqual(initialLoaderState);
+          expect(result).toEqual(StateUtils.initialLoaderState);
         });
       });
       describe('when the context exists', () => {
@@ -154,7 +154,7 @@ describe('Cms Component Selectors', () => {
             })
           );
 
-          let result: LoaderState<boolean>;
+          let result: StateUtils.LoaderState<boolean>;
 
           store
             .pipe(
@@ -165,7 +165,7 @@ describe('Cms Component Selectors', () => {
                 )
               )
             )
-            .subscribe(value => (result = value));
+            .subscribe((value) => (result = value));
 
           expect(result).toEqual({
             success: true,
@@ -179,8 +179,8 @@ describe('Cms Component Selectors', () => {
   });
 
   describe('componentsContextExistsSelectorFactory', () => {
-    describe('when the context does not exist', () => {
-      it('should return false', () => {
+    describe('when there is no context data', () => {
+      it('should return undefined', () => {
         const componentUid = 'comp1';
 
         const pageContext: PageContext = {
@@ -206,9 +206,43 @@ describe('Cms Component Selectors', () => {
               )
             )
           )
-          .subscribe(value => (result = value));
+          .subscribe((value) => (result = value));
 
-        expect(result).toEqual(false);
+        expect(result).toBe(undefined);
+      });
+    });
+    describe('when the context does not exist', () => {
+      it('should return false', () => {
+        const componentUid = 'comp1';
+
+        const pageContext: PageContext = {
+          id: 'xxx',
+          type: PageType.CONTENT_PAGE,
+        };
+
+        const serializedPageContext = serializePageContext(pageContext, true);
+
+        store.dispatch(
+          new CmsActions.LoadCmsComponentFail({
+            uid: componentUid,
+            error: undefined,
+            pageContext,
+          })
+        );
+
+        let result: boolean;
+        store
+          .pipe(
+            select(
+              CmsSelectors.componentsContextExistsSelectorFactory(
+                componentUid,
+                serializedPageContext
+              )
+            )
+          )
+          .subscribe((value) => (result = value));
+
+        expect(result).toBe(false);
       });
     });
     describe('when the context exists', () => {
@@ -239,7 +273,7 @@ describe('Cms Component Selectors', () => {
               )
             )
           )
-          .subscribe(value => (result = value));
+          .subscribe((value) => (result = value));
 
         expect(result).toEqual(true);
       });
@@ -265,7 +299,7 @@ describe('Cms Component Selectors', () => {
       let result: CmsComponent;
       store
         .pipe(select(CmsSelectors.componentsDataSelectorFactory(componentUid)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(component);
     });
@@ -274,15 +308,15 @@ describe('Cms Component Selectors', () => {
       let result: CmsComponent;
       store
         .pipe(select(CmsSelectors.componentsDataSelectorFactory(componentUid)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(undefined);
     });
   });
 
   describe('componentsSelectorFactory', () => {
-    describe('when the component exists', () => {
-      it('should return the component', () => {
+    describe('when there is no component data', () => {
+      it('should return undefined', () => {
         const componentUid = 'comp1';
         const pageContext: PageContext = {
           id: 'xxx',
@@ -307,13 +341,45 @@ describe('Cms Component Selectors', () => {
               )
             )
           )
-          .subscribe(value => (result = value));
+          .subscribe((value) => (result = value));
 
-        expect(result).toEqual(undefined);
+        expect(result).toBe(undefined);
       });
     });
     describe('when the component does not exist', () => {
-      it('should return undefined', () => {
+      it('should return null', () => {
+        const componentUid = 'comp1';
+        const pageContext: PageContext = {
+          id: 'xxx',
+          type: PageType.CONTENT_PAGE,
+        };
+        const serializedPageContext = serializePageContext(pageContext, true);
+
+        store.dispatch(
+          new CmsActions.LoadCmsComponentFail({
+            uid: componentUid,
+            error: undefined,
+            pageContext,
+          })
+        );
+
+        let result: CmsComponent;
+        store
+          .pipe(
+            select(
+              CmsSelectors.componentsSelectorFactory(
+                componentUid,
+                serializedPageContext
+              )
+            )
+          )
+          .subscribe((value) => (result = value));
+
+        expect(result).toBe(null);
+      });
+    });
+    describe('when the component exists', () => {
+      it('should return the component', () => {
         const componentUid = 'comp1';
 
         const pageContext: PageContext = {
@@ -340,7 +406,7 @@ describe('Cms Component Selectors', () => {
               )
             )
           )
-          .subscribe(value => (result = value));
+          .subscribe((value) => (result = value));
 
         expect(result).toEqual(component);
       });

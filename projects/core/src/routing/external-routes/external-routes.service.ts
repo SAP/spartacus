@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Router, Routes, UrlMatcher } from '@angular/router';
-import { UrlMatcherFactoryService } from '../services/url-matcher-factory.service';
+import { UrlMatcherService } from '../services/url-matcher.service';
 import { ExternalRoutesConfig } from './external-routes-config';
 import { ExternalRoutesGuard } from './external-routes.guard';
 
@@ -11,7 +11,7 @@ import { ExternalRoutesGuard } from './external-routes.guard';
 export class ExternalRoutesService {
   constructor(
     protected config: ExternalRoutesConfig,
-    protected matcherFactory: UrlMatcherFactoryService,
+    protected urlMatcherService: UrlMatcherService,
     protected injector: Injector
   ) {}
 
@@ -55,9 +55,9 @@ export class ExternalRoutesService {
    * Returns the URL matcher for the external route
    */
   protected getUrlMatcher(): UrlMatcher {
-    const matcher = this.matcherFactory.getGlobUrlMatcher(
+    const matcher = this.urlMatcherService.getFromGlob(
       this.internalUrlPatterns
     );
-    return this.matcherFactory.getOppositeUrlMatcher(matcher); // the external route should be activated only when it's NOT an internal route
+    return this.urlMatcherService.getOpposite(matcher); // the external route should be activated only when it's NOT an internal route
   }
 }

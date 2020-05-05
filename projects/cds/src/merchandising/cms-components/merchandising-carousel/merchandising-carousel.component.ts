@@ -28,14 +28,14 @@ export class MerchandisingCarouselComponent {
   merchandisingCarouselModel$: Observable<
     MerchandisingCarouselModel
   > = this.componentData.data$.pipe(
-    filter(data => Boolean(data)),
+    filter((data) => Boolean(data)),
     distinctUntilKeyChanged('strategy'),
-    switchMap(data =>
+    switchMap((data) =>
       this.merchandisingCarouselComponentService.getMerchandisingCarouselModel(
         data
       )
     ),
-    tap(data => {
+    tap((data) => {
       if (typeof data.backgroundColor === 'string') {
         this.el.nativeElement.style.setProperty(
           '--cx-color-background',

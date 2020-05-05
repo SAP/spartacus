@@ -1,16 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { CustomerCouponAdapter } from '../../../user/connectors/customer-coupon/customer-coupon.adapter';
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import {
-  CustomerCouponSearchResult,
-  CustomerCouponNotification,
   CustomerCoupon2Customer,
+  CustomerCouponNotification,
+  CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
 import { CUSTOMER_COUPON_SEARCH_RESULT_NORMALIZER } from '../../../user/connectors/customer-coupon/converters';
+import { CustomerCouponAdapter } from '../../../user/connectors/customer-coupon/customer-coupon.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 
 @Injectable()
 export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
@@ -26,6 +27,11 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     currentPage: number,
     sort: string
   ): Observable<CustomerCouponSearchResult> {
+    // Currently OCC only supports calls for customer coupons in case of logged users
+    if (userId === OCC_USER_ID_ANONYMOUS) {
+      return of({});
+    }
+
     const url = this.occEndpoints.getUrl('customerCoupons', { userId });
 
     let params = new HttpParams().set('sort', sort ? sort : 'startDate:asc');

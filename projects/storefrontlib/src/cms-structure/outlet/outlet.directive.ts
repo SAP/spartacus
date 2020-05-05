@@ -13,6 +13,7 @@ import {
 import { Subscription } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { IntersectionOptions } from '../../layout/loading/intersection.model';
+import { OutletRendererService } from './outlet-renderer.service';
 import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
 import { OutletService } from './outlet.service';
 
@@ -20,6 +21,8 @@ import { OutletService } from './outlet.service';
   selector: '[cxOutlet]',
 })
 export class OutletDirective implements OnDestroy, OnChanges {
+  private renderedTemplate = [];
+
   @Input() cxOutlet: string;
 
   @Input() cxOutletContext: any;
@@ -34,45 +37,32 @@ export class OutletDirective implements OnDestroy, OnChanges {
   subscription = new Subscription();
 
   constructor(
-    vcr: ViewContainerRef,
-    templateRef: TemplateRef<any>,
-    outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>,
-    // tslint:disable-next-line: unified-signatures
-    intersectionService: DeferLoaderService
-  );
-  /**
-   * @deprecated since version 1.4
-   * Use constructor(vcr: ViewContainerRef, templateRef: TemplateRef<any>, outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>, intersectionService?: IntersectionService) instead
-   */
-  constructor(
-    vcr: ViewContainerRef,
-    templateRef: TemplateRef<any>,
-    outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>
-  );
-  constructor(
     private vcr: ViewContainerRef,
     private templateRef: TemplateRef<any>,
     private outletService: OutletService<
       TemplateRef<any> | ComponentFactory<any>
     >,
-    private deferLoaderService?: DeferLoaderService
+    private deferLoaderService: DeferLoaderService,
+    private outletRendererService?: OutletRendererService
   ) {}
 
-  private initializeOutlet(): void {
+  public render(): void {
     this.vcr.clear();
+    this.renderedTemplate = [];
     this.subscription.unsubscribe();
     this.subscription = new Subscription();
+    this.outletRendererService.register(this.cxOutlet, this);
 
     if (this.cxOutletDefer) {
       this.deferLoading();
     } else {
-      this.render();
+      this.build();
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cxOutlet) {
-      this.initializeOutlet();
+      this.render();
     }
   }
 
@@ -86,22 +76,24 @@ export class OutletDirective implements OnDestroy, OnChanges {
       this.deferLoaderService
         .load(hostElement, this.cxOutletDefer)
         .subscribe(() => {
-          this.render();
+          this.build();
           this.loaded.emit(true);
         })
     );
   }
 
-  private render() {
-    this.renderOutlet(OutletPosition.BEFORE);
-    this.renderOutlet(OutletPosition.REPLACE);
-    this.renderOutlet(OutletPosition.AFTER);
+  private build() {
+    this.buildOutlet(OutletPosition.BEFORE);
+    this.buildOutlet(OutletPosition.REPLACE);
+    this.buildOutlet(OutletPosition.AFTER);
   }
 
-  private renderOutlet(position: OutletPosition): void {
+  private buildOutlet(position: OutletPosition): void {
     let templates: any[] = <any[]>(
       this.outletService.get(this.cxOutlet, position, USE_STACKED_OUTLETS)
     );
+
+    templates = templates?.filter((el) => !this.renderedTemplate.includes(el));
 
     if (!templates && position === OutletPosition.REPLACE) {
       templates = [this.templateRef];
@@ -113,7 +105,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
       templates = [templates];
     }
 
-    templates.forEach(obj => {
+    templates.forEach((obj) => {
       this.create(obj);
     });
   }
@@ -133,19 +125,24 @@ export class OutletDirective implements OnDestroy, OnChanges {
       // so we apply change detection anyway
       view.markForCheck();
     }
+    this.renderedTemplate.push(tmplOrFactory);
   }
 
   /**
    * Returns the closest `HtmlElement`, by iterating over the
-   * parent elements of the given element.
+   * parent nodes of the given element.
+   *
+   * We avoid traversing the parent _elements_, as this is blocking
+   * ie11 implementations. One of the spare exclusions we make to not
+   * supporting ie11.
    *
    * @param element
    */
-  private getHostElement(element: Element): HTMLElement {
+  private getHostElement(element: Node): HTMLElement {
     if (element instanceof HTMLElement) {
       return element;
     }
-    return this.getHostElement(element.parentElement);
+    return this.getHostElement(element.parentNode);
   }
 
   ngOnDestroy() {

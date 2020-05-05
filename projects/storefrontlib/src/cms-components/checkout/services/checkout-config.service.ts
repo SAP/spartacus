@@ -96,7 +96,7 @@ export class CheckoutConfigService {
         break;
       case DeliveryModePreferences.LEAST_EXPENSIVE:
         const leastExpensiveFound = deliveryModes.find(
-          deliveryMode => deliveryMode.deliveryCost.value !== 0
+          (deliveryMode) => deliveryMode.deliveryCost.value !== 0
         );
         if (leastExpensiveFound) {
           return leastExpensiveFound.code;
@@ -106,7 +106,8 @@ export class CheckoutConfigService {
         return deliveryModes[deliveryModes.length - 1].code;
       default:
         const codeFound = deliveryModes.find(
-          deliveryMode => deliveryMode.code === this.defaultDeliveryMode[index]
+          (deliveryMode) =>
+            deliveryMode.code === this.defaultDeliveryMode[index]
         );
         if (codeFound) {
           return codeFound.code;

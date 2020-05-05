@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { ConfigModule, CmsConfig, I18nModule } from '@spartacus/core';
-import { StarRatingModule } from '../../../../shared/components/star-rating/star-rating.module';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ProductReviewsComponent } from './product-reviews.component';
+import { StarRatingModule, FormErrorsModule } from '../../../../shared/index';
 
 @NgModule({
   imports: [
@@ -13,7 +13,10 @@ import { ProductReviewsComponent } from './product-reviews.component';
     FormsModule,
     I18nModule,
     StarRatingModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    FormErrorsModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ProductReviewsTabComponent: {
           component: ProductReviewsComponent,

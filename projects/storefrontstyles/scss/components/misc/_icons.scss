@@ -1,3 +1,7 @@
+.cx-icon {
+  @extend %cx-icon;
+}
+
 %cx-icon {
   align-self: center;
   line-height: normal;

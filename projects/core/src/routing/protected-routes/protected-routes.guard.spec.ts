@@ -51,7 +51,7 @@ describe('ProtectedRoutesGuard', () => {
         let result;
         guard
           .canActivate({ url: [] } as ActivatedRouteSnapshot)
-          .subscribe(res => (result = res));
+          .subscribe((res) => (result = res));
         expect(result).toBe(true);
       });
     });
@@ -66,7 +66,7 @@ describe('ProtectedRoutesGuard', () => {
         let result;
         guard
           .canActivate({ url: [] } as ActivatedRouteSnapshot)
-          .subscribe(res => (result = res))
+          .subscribe((res) => (result = res))
           .unsubscribe();
         expect(result).toBe('authGuard-result');
       });

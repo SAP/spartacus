@@ -3,15 +3,15 @@ import {
   Event as NgRouterEvent,
   NavigationEnd,
   NavigationStart,
-  Router,
+  Router
 } from '@angular/router';
 import { Action, ActionsSubject } from '@ngrx/store';
 import {
+  ActiveCartService,
   AuthActions,
   Cart,
-  CartService,
   ConsentService,
-  OrderEntry,
+  OrderEntry
 } from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -25,14 +25,14 @@ describe('SpartacusEventTracker', () => {
   let routerEventsBehavior;
   let router;
   let consentsService;
-  let cartService;
+  let activeCartService;
   let cartBehavior;
   let mockActionsSubject: ReplaySubject<Action>;
 
   const mockCDSConfig: CdsConfig = {
     cds: {
-      consentTemplateId: 'PROFILE',
-    },
+      consentTemplateId: 'PROFILE'
+    }
   };
   function setVariables() {
     getConsentBehavior = new BehaviorSubject<Object>([{}]);
@@ -44,13 +44,13 @@ describe('SpartacusEventTracker', () => {
     mockActionsSubject = new ReplaySubject<Action>();
     consentsService = {
       getConsent: () => getConsentBehavior,
-      isConsentGiven: () => isConsentGivenValue,
+      isConsentGiven: () => isConsentGivenValue
     };
     router = {
-      events: routerEventsBehavior,
+      events: routerEventsBehavior
     };
-    cartService = {
-      getActive: () => cartBehavior,
+    activeCartService = {
+      getActive: () => cartBehavior
     };
   }
   beforeEach(() => {
@@ -60,21 +60,21 @@ describe('SpartacusEventTracker', () => {
         { provide: Router, useValue: router },
         {
           provide: ConsentService,
-          useValue: consentsService,
+          useValue: consentsService
         },
         {
-          provide: CartService,
-          useValue: cartService,
+          provide: ActiveCartService,
+          useValue: activeCartService
         },
         {
           provide: CdsConfig,
-          useValue: mockCDSConfig,
+          useValue: mockCDSConfig
         },
         {
           provide: ActionsSubject,
-          useValue: mockActionsSubject,
-        },
-      ],
+          useValue: mockActionsSubject
+        }
+      ]
     });
     spartacusEventTracker = TestBed.inject(SpartacusEventService);
   });
@@ -88,7 +88,7 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .consentGranted()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     isConsentGivenValue = false;
     getConsentBehavior.next({ consent: 'test' });
@@ -109,7 +109,7 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .navigated()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     getConsentBehavior.next({ consent: 'test' });
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
@@ -128,17 +128,17 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .cartChanged()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     const mockOrderEntry: OrderEntry[] = [{ entryNumber: 7 }];
     const mockOrderEntries: OrderEntry[] = [
       { entryNumber: 7 },
-      { entryNumber: 1 },
+      { entryNumber: 1 }
     ];
     const testCart = { id: 123, entries: mockOrderEntry };
     const testCartWithAdditionalOrderEntry = {
       id: 123,
-      entries: mockOrderEntries,
+      entries: mockOrderEntries
     };
     cartBehavior.next(testCart);
     cartBehavior.next(testCartWithAdditionalOrderEntry);
@@ -150,7 +150,7 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .cartChanged()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     subscription.unsubscribe();
     expect(timesCalled).toEqual(0);
@@ -160,7 +160,7 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .cartChanged()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     cartBehavior.next({ id: 123, entries: [] });
     cartBehavior.next({ id: 13, entries: [] });
@@ -172,7 +172,7 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .cartChanged()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     const mockOrderEntry: OrderEntry[] = [{ entryNumber: 7 }];
     cartBehavior.next({ id: 123, entries: [] });

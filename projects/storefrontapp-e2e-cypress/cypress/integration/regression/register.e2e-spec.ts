@@ -3,7 +3,7 @@ import { user } from '../../sample-data/checkout-flow';
 
 describe('Register', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });
 

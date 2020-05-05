@@ -37,7 +37,7 @@ describe('SaveForLaterComponent', () => {
 
   const mockCartService = jasmine.createSpyObj('ActiveCartService', [
     'addEntry',
-    'getLoaded',
+    'isStable',
     'getActive',
   ]);
 
@@ -66,14 +66,18 @@ describe('SaveForLaterComponent', () => {
     fixture = TestBed.createComponent(SaveForLaterComponent);
     component = fixture.componentInstance;
 
-    mockCartService.getLoaded.and.returnValue(of(true));
+    mockCartService.isStable.and.returnValue(of(true));
     mockCartService.getActive.and.returnValue(
       of<Cart>({ code: '00001', totalItems: 0 })
     );
     mockCmsService.getComponentData.and.returnValue(of({ content: 'content' }));
     mockSelectiveCartService.getLoaded.and.returnValue(of(true));
-    mockSelectiveCartService.getCart.and.returnValue(of<Cart>({ code: '123' }));
-    mockSelectiveCartService.getEntries.and.returnValue(of<OrderEntry[]>([{}]));
+    mockSelectiveCartService.getCart.and.returnValue(
+      of<Cart>({ code: '123' })
+    );
+    mockSelectiveCartService.getEntries.and.returnValue(
+      of<OrderEntry[]>([{}])
+    );
   });
 
   it('should create', () => {

@@ -12,9 +12,7 @@ import { cold, getTestScheduler } from 'jasmine-marbles';
 
 @Component({
   selector: 'cx-spinner',
-  template: `
-    <div>spinner</div>
-  `,
+  template: ` <div>spinner</div> `,
 })
 class MockCxSpinnerComponent {}
 

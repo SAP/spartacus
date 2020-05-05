@@ -1,5 +1,11 @@
 import { TranslationResources } from '../translation-resources';
+import { Injectable } from '@angular/core';
+import { Config } from '../../config/config.module';
 
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
 export abstract class I18nConfig {
   i18n?: {
     /**
@@ -23,11 +29,6 @@ export abstract class I18nConfig {
        */
 
       loadPath?: string;
-
-      /**
-       * @deprecated since 1.4 - this property can be removed since it's not used and we are using Angular HttpClient for loading JSON translations
-       */
-      crossDomain?: boolean;
     };
 
     /**

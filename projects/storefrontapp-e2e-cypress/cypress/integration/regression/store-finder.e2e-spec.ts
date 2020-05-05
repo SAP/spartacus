@@ -29,25 +29,27 @@ context('Store finder', () => {
   });
 
   it('should allow to select store from result list', () => {
-    cy.get(searchResults)
-      .eq(0)
-      .click();
+    cy.get(resultListItem)
+      .first()
+      .within(() => {
+        cy.get('.cx-store-name button').click();
+      });
 
     cy.get('.cx-store-details').should('exist');
   });
 
   it('should allow to view all stores', () => {
     cy.getByText('View all stores').click();
-    cy.get('.country-header-link')
-      .eq(0)
-      .click();
+    cy.get('.country-header-link').eq(0).click();
     cy.get(resultListItem).should('have.length.greaterThan', 0);
   });
 
   it('should allow to see store details', () => {
     cy.get(resultListItem)
-      .eq(0)
-      .click({ force: true });
+      .first()
+      .within(() => {
+        cy.get('.cx-store-name a').click();
+      });
 
     cy.get(storeAddressDescription).should('not.to.be.empty');
     cy.get(openingHours).should('not.to.be.empty');

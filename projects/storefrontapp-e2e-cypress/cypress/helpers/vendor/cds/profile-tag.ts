@@ -1,7 +1,7 @@
 export const profileTagHelper = {
   interceptProfileTagJs(contentWindow) {
     const oldAppendChild = contentWindow.document.head.appendChild;
-    contentWindow.document.head.appendChild = function(newChild) {
+    contentWindow.document.head.appendChild = function (newChild) {
       if (
         newChild &&
         (<HTMLScriptElement>(<any>newChild)).src &&
@@ -12,6 +12,7 @@ export const profileTagHelper = {
       return oldAppendChild.call(this, newChild);
     };
   },
+<<<<<<< HEAD
   triggerLoaded() {
     cy.window().then(win => {
       const event = new CustomEvent('profiletag_loaded');
@@ -30,5 +31,7 @@ export const profileTagHelper = {
     cy.get('cx-profiletag', { timeout });
   },
   testCr: '123-1bc',
+=======
+>>>>>>> 3d58b479cd9ad4c015632977e632f6d52e72dddd
   profileTagScriptResponse: {},
 };

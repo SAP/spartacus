@@ -18,15 +18,15 @@ context('Product search', () => {
 
   describe('Pagination', () => {
     it('should navigate to the next page and display results', () => {
-      productSearchFlow.nextPage();
+      productSearchFlow.verifyNextPage(2);
     });
 
     it('should be able navigate to the specified page number and display results', () => {
-      productSearchFlow.choosePage();
+      productSearchFlow.verifyChoosePage(3);
     });
 
     it('should navigate to the previous page and display results', () => {
-      productSearchFlow.previousPage();
+      productSearchFlow.verifyPreviousPage(2);
     });
   });
 
@@ -38,7 +38,7 @@ context('Product search', () => {
 
   describe('Facets', () => {
     it('should filter results using facet filtering', () => {
-      productSearchFlow.filterUsingFacetFiltering();
+      productSearchFlow.filterUsingFacetFiltering('');
     });
 
     it('should be able to clear active facet', () => {

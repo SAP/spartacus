@@ -6,8 +6,8 @@ import {
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
-  COUNTRY_NORMALIZER,
   CountryType,
+  COUNTRY_NORMALIZER,
   OccSiteAdapter,
   REGION_NORMALIZER,
 } from '@spartacus/core';
@@ -15,6 +15,7 @@ import {
   CURRENCY_NORMALIZER,
   LANGUAGE_NORMALIZER,
 } from '../../../site-context/connectors/converters';
+import { defaultOccConfig } from '../../config/default-occ-config';
 import { OccConfig } from '../../config/occ-config';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services';
@@ -23,7 +24,7 @@ const MockOccModuleConfig: OccConfig = {
   backend: {
     occ: {
       baseUrl: 'base-url',
-      prefix: '/rest/v2/',
+      prefix: defaultOccConfig.backend.occ.prefix,
     },
   },
 
@@ -83,7 +84,7 @@ describe('OccSiteAdapter', () => {
         languages: [{ isocode: 'en' }, { isocode: 'de' }],
       };
 
-      occSiteAdapter.loadLanguages().subscribe(result => {
+      occSiteAdapter.loadLanguages().subscribe((result) => {
         expect(result).toEqual(languages.languages);
       });
 
@@ -113,7 +114,7 @@ describe('OccSiteAdapter', () => {
         currencies: [{ isocode: 'USD' }, { isocode: 'JPY' }],
       };
 
-      occSiteAdapter.loadCurrencies().subscribe(result => {
+      occSiteAdapter.loadCurrencies().subscribe((result) => {
         expect(result).toEqual(currencies.currencies);
       });
       const mockReq: TestRequest = httpMock.expectOne({
@@ -151,12 +152,12 @@ describe('OccSiteAdapter', () => {
         ],
       };
 
-      occSiteAdapter.loadCountries().subscribe(result => {
+      occSiteAdapter.loadCountries().subscribe((result) => {
         expect(result).toEqual(countryList.countries);
       });
 
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'countries'
+        (req) => req.method === 'GET' && req.url === 'countries'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -167,7 +168,7 @@ describe('OccSiteAdapter', () => {
     it('should take type into account', () => {
       occSiteAdapter.loadCountries(CountryType.BILLING).subscribe();
       httpMock
-        .expectOne(req => req.method === 'GET' && req.url === 'countries')
+        .expectOne((req) => req.method === 'GET' && req.url === 'countries')
         .flush({});
       expect(occEndpointsService.getUrl).toHaveBeenCalledWith(
         'countries',
@@ -205,12 +206,12 @@ describe('OccSiteAdapter', () => {
         ],
       };
 
-      occSiteAdapter.loadRegions(countryIsoCode).subscribe(result => {
+      occSiteAdapter.loadRegions(countryIsoCode).subscribe((result) => {
         expect(result).toEqual(regions.regions);
       });
 
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'regions'
+        (req) => req.method === 'GET' && req.url === 'regions'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -238,12 +239,12 @@ describe('OccSiteAdapter', () => {
         defaultPreviewProductCode: 'test product code',
       };
 
-      occSiteAdapter.loadBaseSite().subscribe(result => {
+      occSiteAdapter.loadBaseSite().subscribe((result) => {
         expect(result).toEqual(baseSite);
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: 'base-url/rest/v2/basesites?fields=FULL',
+        url: `base-url${defaultOccConfig.backend.occ.prefix}basesites?fields=FULL`,
       });
 
       expect(mockReq.cancelled).toBeFalsy();

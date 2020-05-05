@@ -9,6 +9,7 @@ import { StoreFinderService } from './store-finder.service';
 import { GlobalMessageService } from '../../global-message/index';
 import { RoutingService, UrlCommands } from '../../routing/index';
 import { NavigationExtras } from '@angular/router';
+import { StoreFinderConfig } from '../config/store-finder-config';
 
 class MockRoutingService {
   go(
@@ -16,6 +17,10 @@ class MockRoutingService {
     _query?: object,
     _extras?: NavigationExtras
   ): void {}
+}
+
+class MockStoreFinderConfig {
+  radius: 50000;
 }
 
 describe('StoreFinderService', () => {
@@ -37,7 +42,7 @@ describe('StoreFinderService', () => {
     nativeWindow: {
       navigator: {
         geolocation: {
-          watchPosition: callback => {
+          watchPosition: (callback) => {
             callback({ coords: longitudeLatitude });
             return geolocationWatchId;
           },
@@ -59,6 +64,7 @@ describe('StoreFinderService', () => {
         { provide: WindowRef, useValue: MockWindowRef },
         { provide: RoutingService, useClass: MockRoutingService },
         GlobalMessageService,
+        { provide: StoreFinderConfig, useClass: MockStoreFinderConfig },
       ],
     });
 
@@ -101,6 +107,7 @@ describe('StoreFinderService', () => {
           },
           longitudeLatitude: undefined,
           countryIsoCode: undefined,
+          radius: undefined,
         })
       );
     });

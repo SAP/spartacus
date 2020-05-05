@@ -1,12 +1,28 @@
+import { InjectionToken } from '@angular/core';
+import { UrlMatcher } from '@angular/router';
+import { UrlMatcherFactory } from '../url-matcher';
+
 export interface RoutesConfig {
   [routeName: string]: RouteConfig; // allows User's custom pages
 }
 
 export interface RouteConfig {
   /**
-   * List of path aliases to match with URL. Also used to build the semantic links.
+   * List of path aliases used to build the semantic links.
+   * It's used also to match the URLs, unless the config property `matchers` is given for the same route.
+   *
+   * See https://angular.io/api/router/Route#path
    */
   paths?: string[];
+
+  /**
+   * Array of Angular `UrlMatcher`s and injection tokens of Spartacus `UrlMatcherFactory`.
+   * All the url matchers (static and resolved from factories) will be used to match the route.
+   * When not given (undefined or null), the configured `paths` will be used to match the the route.
+   *
+   * See https://angular.io/api/router/Route#matcher
+   */
+  matchers?: (UrlMatcher | InjectionToken<UrlMatcherFactory>)[];
 
   /**
    * Maps names of route params with params used to build the semantic link.

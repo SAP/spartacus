@@ -5,7 +5,7 @@ import { CdsBackendConnector } from '../connectors/cds-backend-connector';
 import {
   CartChangedPushEvent,
   ConsentChangedPushEvent,
-  NavigatedPushEvent,
+  NavigatedPushEvent
 } from '../model/profile-tag.model';
 import { ProfileTagInjectorService } from './profile-tag.injector.service';
 import { ProfileTagEventService } from './profiletag-event.service';
@@ -30,32 +30,32 @@ describe('ProfileTagInjector', () => {
     cdsBackendConnectorMock = <CdsBackendConnector>(<any>{
       notifySuccessfulLogin: jasmine
         .createSpy('cdsBackendConnectorMock')
-        .and.returnValue(new BehaviorSubject(true)),
+        .and.returnValue(new BehaviorSubject(true))
     });
     spartacusEventTrackerMock = <SpartacusEventService>(<unknown>{
       consentGranted: jasmine
         .createSpy('consentGranted')
-        .and.callFake(_ => consentBehavior),
+        .and.callFake(() => consentBehavior),
       navigated: jasmine
         .createSpy('navigated')
-        .and.callFake(_ => navigatedBehavior),
+        .and.callFake(() => navigatedBehavior),
       cartChanged: jasmine
         .createSpy('cartChanged')
         .and.callFake(_ => cartBehavior),
       loginSuccessful: jasmine
         .createSpy('loginSuccessful')
-        .and.callFake(_ => postBehaviour),
+        .and.callFake(_ => postBehaviour)
     });
     profileTagEventTrackerMock = <ProfileTagEventService>(<unknown>{
       addTracker: jasmine
         .createSpy('addTracker')
-        .and.callFake(_ => addTrackerBehavior),
+        .and.callFake(() => addTrackerBehavior),
       notifyProfileTagOfEventOccurence: jasmine.createSpy(
         'notifyProfileTagOfEventOccurence'
       ),
       getProfileTagEvents: jasmine
         .createSpy('getProfileTagEvents')
-        .and.callFake(_ => of()),
+        .and.callFake(() => of())
     });
   }
   beforeEach(() => {
@@ -64,17 +64,17 @@ describe('ProfileTagInjector', () => {
       providers: [
         {
           provide: ProfileTagEventService,
-          useValue: profileTagEventTrackerMock,
+          useValue: profileTagEventTrackerMock
         },
         {
           provide: SpartacusEventService,
-          useValue: spartacusEventTrackerMock,
+          useValue: spartacusEventTrackerMock
         },
         {
           provide: CdsBackendConnector,
-          useValue: cdsBackendConnectorMock,
-        },
-      ],
+          useValue: cdsBackendConnectorMock
+        }
+      ]
     });
     profileTagInjector = TestBed.inject(ProfileTagInjectorService);
   });

@@ -4,11 +4,11 @@ export function checkBanner() {
   ).should('exist');
 }
 
+export function clickHamburger() {
+  cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
+}
+
 export function waitForHomePage() {
   checkBanner();
   clickHamburger();
-}
-
-export function clickHamburger() {
-  cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
 }

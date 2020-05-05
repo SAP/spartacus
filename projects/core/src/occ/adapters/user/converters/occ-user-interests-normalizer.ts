@@ -21,7 +21,7 @@ export class OccUserInterestsNormalizer
       target = { ...(source as any) };
     }
     if (source && source.results) {
-      target.results = source.results.map(result => ({
+      target.results = source.results.map((result) => ({
         ...result,
         product: this.converter.convert(result.product, PRODUCT_NORMALIZER),
       }));

@@ -2,8 +2,8 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartService,
   Cart,
-  CartService,
   I18nTestingModule,
   OrderEntry,
 } from '@spartacus/core';
@@ -40,7 +40,7 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockCartService {
+class MockActiveCartService {
   getActive(): Observable<Cart> {
     return of(cartMock);
   }
@@ -63,8 +63,8 @@ describe('CartTotalsComponent', () => {
       ],
       providers: [
         {
-          provide: CartService,
-          useClass: MockCartService,
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
       ],
     }).compileComponents();

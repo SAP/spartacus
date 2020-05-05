@@ -77,7 +77,7 @@ describe('RoutingService', () => {
       spyOnProperty(document, 'referrer', 'get').and.returnValue(
         'http://foobar.com'
       );
-      spyOn(urlService, 'transform').and.callFake(x => x);
+      spyOn(urlService, 'transform').and.callFake((x) => x);
       service.back();
       expect(store.dispatch).toHaveBeenCalledWith(
         new RoutingActions.RouteGoAction({
@@ -103,7 +103,7 @@ describe('RoutingService', () => {
     spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
 
     let routerState: any;
-    service.getRouterState().subscribe(state => (routerState = state));
+    service.getRouterState().subscribe((state) => (routerState = state));
     expect(mockRouterState).toHaveBeenCalledWith(
       RoutingSelector.getRouterState
     );
@@ -121,7 +121,7 @@ describe('RoutingService', () => {
     let result: PageContext;
     service
       .getPageContext()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result).toEqual(pageContext);
@@ -138,11 +138,11 @@ describe('RoutingService', () => {
     let result: PageContext;
     service
       .getNextPageContext()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result).toEqual(pageContext);
-    expect(NgrxStore.select).toHaveBeenCalledWith(
+    expect(NgrxStore.select as any).toHaveBeenCalledWith(
       RoutingSelector.getNextPageContext
     );
   });
@@ -155,10 +155,12 @@ describe('RoutingService', () => {
     let result: boolean;
     service
       .isNavigating()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result).toEqual(isNavigating);
-    expect(NgrxStore.select).toHaveBeenCalledWith(RoutingSelector.isNavigating);
+    expect(NgrxStore.select as any).toHaveBeenCalledWith(
+      RoutingSelector.isNavigating
+    );
   });
 });

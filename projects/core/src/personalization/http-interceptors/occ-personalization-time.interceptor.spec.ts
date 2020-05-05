@@ -72,11 +72,11 @@ describe('OccPersonalizationTimeInterceptor with personalization enabled', () =>
     (http: HttpClient) => {
       winRef.localStorage.setItem('personalization-time', 'test timestamp');
 
-      http.get('https://localhost:9002/test').subscribe(result => {
+      http.get('https://localhost:9002/test').subscribe((result) => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -95,11 +95,11 @@ describe('OccPersonalizationTimeInterceptor with personalization enabled', () =>
     (http: HttpClient) => {
       winRef.localStorage.setItem('personalization-time', 'old timestamp');
 
-      http.get('https://localhost:9002/test').subscribe(response => {
+      http.get('https://localhost:9002/test').subscribe((response) => {
         expect(response).toEqual('');
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
       mockReq.flush('', {
@@ -151,10 +151,10 @@ describe('OccPersonalizationIdInterceptor with personalization disabled', () => 
   it('should clear client-side personalization-id, and not send it in request header', inject(
     [HttpClient],
     (http: HttpClient) => {
-      http.get('https://localhost:9002/test').subscribe(result => {
+      http.get('https://localhost:9002/test').subscribe((result) => {
         expect(result).toBeTruthy();
       });
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
       const perHeader: string = mockReq.request.headers.get(

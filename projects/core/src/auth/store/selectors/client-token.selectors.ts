@@ -7,7 +7,4 @@ import { getAuthState } from './feature.selector';
 export const getClientTokenState: MemoizedSelector<
   StateWithAuth,
   LoaderState<ClientToken>
-> = createSelector(
-  getAuthState,
-  (state: AuthState) => state.clientToken
-);
+> = createSelector(getAuthState, (state: AuthState) => state.clientToken);

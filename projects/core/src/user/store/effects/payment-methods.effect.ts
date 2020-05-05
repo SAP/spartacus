@@ -14,12 +14,12 @@ export class UserPaymentMethodsEffects {
   loadUserPaymentMethods$: Observable<Action> = this.actions$.pipe(
     ofType(UserActions.LOAD_USER_PAYMENT_METHODS),
     map((action: UserActions.LoadUserPaymentMethods) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.userPaymentMethodConnector.getAll(payload).pipe(
         map((payments: PaymentDetails[]) => {
           return new UserActions.LoadUserPaymentMethodsSuccess(payments);
         }),
-        catchError(error =>
+        catchError((error) =>
           of(
             new UserActions.LoadUserPaymentMethodsFail(
               makeErrorSerializable(error)
@@ -34,15 +34,15 @@ export class UserPaymentMethodsEffects {
   setDefaultUserPaymentMethod$: Observable<Action> = this.actions$.pipe(
     ofType(UserActions.SET_DEFAULT_USER_PAYMENT_METHOD),
     map((action: UserActions.SetDefaultUserPaymentMethod) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.userPaymentMethodConnector
         .setDefault(payload.userId, payload.paymentMethodId)
         .pipe(
-          switchMap(data => [
+          switchMap((data) => [
             new UserActions.SetDefaultUserPaymentMethodSuccess(data),
             new UserActions.LoadUserPaymentMethods(payload.userId),
           ]),
-          catchError(error =>
+          catchError((error) =>
             of(
               new UserActions.SetDefaultUserPaymentMethodFail(
                 makeErrorSerializable(error)
@@ -56,15 +56,15 @@ export class UserPaymentMethodsEffects {
   deleteUserPaymentMethod$: Observable<Action> = this.actions$.pipe(
     ofType(UserActions.DELETE_USER_PAYMENT_METHOD),
     map((action: UserActions.DeleteUserPaymentMethod) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.userPaymentMethodConnector
         .delete(payload.userId, payload.paymentMethodId)
         .pipe(
-          switchMap(data => [
+          switchMap((data) => [
             new UserActions.DeleteUserPaymentMethodSuccess(data),
             new UserActions.LoadUserPaymentMethods(payload.userId),
           ]),
-          catchError(error =>
+          catchError((error) =>
             of(
               new UserActions.DeleteUserPaymentMethodFail(
                 makeErrorSerializable(error)

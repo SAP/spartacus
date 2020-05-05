@@ -35,7 +35,7 @@ describe(`OccSitesConfigLoader`, () => {
     it('should load configuration of all base sites', () => {
       const mockBaseSites: BaseSite[] = [{ uid: 'test-site' }];
 
-      loader.load().subscribe(result => {
+      loader.load().subscribe((result) => {
         expect(result).toEqual(mockBaseSites);
       });
       const mockReq: TestRequest = httpMock.expectOne({

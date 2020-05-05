@@ -32,7 +32,7 @@ export class ProductIntroComponent implements AfterContentChecked {
     // Use translated label for Reviews tab reference
     this.translationService
       .translate('TabPanelContainer.tabs.ProductReviewsTabComponent')
-      .subscribe(reviewsTabLabel => {
+      .subscribe((reviewsTabLabel) => {
         const tabsComponent = this.getTabsComponent();
         const reviewsTab = this.getTabByLabel(reviewsTabLabel, tabsComponent);
         const reviewsComponent = this.getReviewsComponent();
@@ -71,16 +71,16 @@ export class ProductIntroComponent implements AfterContentChecked {
   // Get Tab by label if exists on page
   private getTabByLabel(label: string, tabsComponent: Element): HTMLElement {
     if (tabsComponent) {
-      // NOTE: Reads through h3 tags to click on correct tab
+      // NOTE: Reads through button tags to click on correct tab
       // There may be a better way of doing this now/after refactor
-      const h3Elements: HTMLCollectionOf<
-        HTMLElement
-      > = tabsComponent.getElementsByTagName('h3');
+      const tabElements: HTMLCollectionOf<HTMLElement> = tabsComponent.getElementsByTagName(
+        'button'
+      );
 
-      // Look through h3 tab elements until finding tab with label
-      for (const h3Element of Array.from(h3Elements)) {
-        if (h3Element.innerHTML.includes(label)) {
-          return h3Element;
+      // Look through button tab elements until finding tab with label
+      for (const buttonElement of Array.from(tabElements)) {
+        if (buttonElement.innerHTML.includes(label)) {
+          return buttonElement;
         }
       }
     }
