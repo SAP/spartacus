@@ -31,11 +31,11 @@ const permissionList: EntitiesModel<Permission> = {
   pagination,
   sorts,
 };
-const permissionType2: OrderApprovalPermissionType = {
+const mockPermissionType: OrderApprovalPermissionType = {
   code: 'testPermissionTypeCode',
   name: 'testPermissionTypeName',
 };
-const permissionTypes2: OrderApprovalPermissionType[] = [permissionType2];
+const mockPermissionTypes: OrderApprovalPermissionType[] = [mockPermissionType];
 
 class MockAuthService {
   getOccUserId = createSpy().and.returnValue(of(userId));
@@ -208,17 +208,17 @@ describe('PermissionService', () => {
 
     it('getTypes() should trigger load permission types when they are present in the store', () => {
       store.dispatch(
-        new PermissionActions.LoadPermissionTypesSuccess(permissionTypes2)
+        new PermissionActions.LoadPermissionTypesSuccess(mockPermissionTypes)
       );
-      let permisstionTypes: OrderApprovalPermissionType[];
+      let permissionTypesRecived: OrderApprovalPermissionType[];
       service
         .getTypes()
         .subscribe((data) => {
-          permisstionTypes = data;
+          permissionTypesRecived = data;
         })
         .unsubscribe();
 
-      expect(permisstionTypes).toEqual(permissionTypes2);
+      expect(permissionTypesRecived).toEqual(mockPermissionTypes);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new PermissionActions.LoadPermissionTypes()
       );
