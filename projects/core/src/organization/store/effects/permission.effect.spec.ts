@@ -3,18 +3,20 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { Observable, of, throwError } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
-import createSpy = jasmine.createSpy;
-
-import { Permission } from '../../../model/permission.model';
+import { Observable, of, throwError } from 'rxjs';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../../../model/permission.model';
 import { defaultOccOrganizationConfig } from '../../../occ/adapters/organization/default-occ-organization-config';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { PermissionConnector } from '../../connectors/permission/permission.connector';
+import { B2BSearchConfig } from '../../model/search-config';
 import { PermissionActions } from '../actions/index';
 import * as fromEffects from './permission.effect';
-import { B2BSearchConfig } from '../../model/search-config';
+import createSpy = jasmine.createSpy;
 
 const error = 'error';
 const permissionCode = 'testCode';
@@ -25,6 +27,13 @@ const permission: Permission = {
   currency: {},
   orgUnit: { uid: 'ouid', name: 'ouName' },
 };
+
+const permissionType: OrderApprovalPermissionType = {
+  code: 'testPermissionTypeCode',
+  name: 'testPermissionTypeName',
+};
+const permissionTypes: OrderApprovalPermissionType[] = [permissionType];
+
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
 
@@ -35,6 +44,7 @@ class MockPermissionConnector {
   );
   create = createSpy().and.returnValue(of(permission));
   update = createSpy().and.returnValue(of(permission));
+  getTypes = createSpy().and.returnValue(of(permissionTypes));
 }
 
 describe('Permission Effects', () => {
@@ -215,7 +225,7 @@ describe('Permission Effects', () => {
     });
 
     it('should return UpdatePermissionFail action if permission not created', () => {
-      permissionConnector.update = createSpy().and.returnValue(
+      permissionConnector.update = createSpy('update').and.returnValue(
         throwError(error)
       );
       const action = new PermissionActions.UpdatePermission({
@@ -236,6 +246,35 @@ describe('Permission Effects', () => {
         permissionCode,
         permission
       );
+    });
+  });
+
+  describe('loadPermissionTypes$', () => {
+    it('should return LoadPermissionTypesSuccess action', () => {
+      const action = new PermissionActions.LoadPermissionTypes();
+      const completion = new PermissionActions.LoadPermissionTypesSuccess(
+        permissionTypes
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.loadPermissionTypes$).toBeObservable(expected);
+      expect(permissionConnector.getTypes).toHaveBeenCalledWith();
+    });
+
+    it('should return LoadPermissionTypesFail action if permission types are not updated', () => {
+      permissionConnector.getTypes = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new PermissionActions.LoadPermissionTypes();
+      const completion = new PermissionActions.LoadPermissionTypesFail({
+        error,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.loadPermissionTypes$).toBeObservable(expected);
+      expect(permissionConnector.getTypes).toHaveBeenCalledWith();
     });
   });
 });
