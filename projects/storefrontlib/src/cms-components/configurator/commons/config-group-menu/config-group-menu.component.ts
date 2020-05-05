@@ -154,14 +154,14 @@ export class ConfigGroupMenuComponent implements OnInit {
     });
   }
 
-  showGroupVisited(groupId: string): Observable<Boolean> {
-    return this.configuration$.pipe(
-      switchMap((configuration) =>
-        this.configuratorGroupsService.isGroupVisited(
-          configuration.owner,
-          groupId
-        )
-      )
+  showGroupVisited(
+    groupId: string,
+    configuration: Configurator.Configuration
+  ): Observable<Boolean> {
+    console.warn(groupId);
+    return this.configuratorGroupsService.isGroupVisited(
+      configuration.owner,
+      groupId
     );
   }
 }

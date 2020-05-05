@@ -1,42 +1,46 @@
-<nav>
-  <ul class="cx-config-menu" tabindex="0">
-    <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
-      <li
-        tabindex="0"
-        (click)="navigateUp()"
-        (keyup)="navigateUpOnEnter($event)"
-        class="cx-config-menu-back"
-        *ngIf="parentGroup !== null"
-      >
-        <!--TODO: "Back" text is still under discussion -->
-        <a role="link"
-          ><cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon
-          >{{ 'configurator.button.back' | cxTranslate }}</a
+<ng-container *ngIf="configuration$ | async as configuration">
+  <nav>
+    <ul class="cx-config-menu" tabindex="0">
+      <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
+        <li
+          tabindex="0"
+          (click)="navigateUp()"
+          (keyup)="navigateUpOnEnter($event)"
+          class="cx-config-menu-back"
+          *ngIf="parentGroup !== null"
         >
-      </li>
-    </ng-container>
-
-    <ng-container *ngIf="displayedGroups$ | async as groups">
-      <ng-container *ngIf="currentGroup$ | async as currentGroup">
-        <ng-container *ngFor="let group of groups">
-          <li
-            (click)="click(group)"
-            (keyup)="clickOnEnter($event, group)"
-            class="cx-config-menu-item"
-            tabindex="0"
-            [class.visited]="showGroupVisited(currentGroup.id)"
+          <!--TODO: "Back" text is still under discussion -->
+          <a role="link"
+            ><cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon
+            >{{ 'configurator.button.back' | cxTranslate }}</a
           >
-            <a [class.active]="currentGroup.id === group.id" role="link"
-              >{{ group.description }}
+        </li>
+      </ng-container>
 
-              <cx-icon
-                *ngIf="configuratorGroupsService.hasSubGroups(group)"
-                [type]="iconTypes.CARET_RIGHT"
-              ></cx-icon
-            ></a>
-          </li>
+      <ng-container *ngIf="displayedGroups$ | async as groups">
+        <ng-container *ngIf="currentGroup$ | async as currentGroup">
+          <ng-container *ngFor="let group of groups">
+            <li
+              (click)="click(group)"
+              (keyup)="clickOnEnter($event, group)"
+              class="cx-config-menu-item"
+              tabindex="0"
+              [class.visited]="
+                showGroupVisited(group.id, configuration) | async
+              "
+            >
+              <a [class.active]="currentGroup.id === group.id" role="link"
+                >{{ group.description }}
+
+                <cx-icon
+                  *ngIf="configuratorGroupsService.hasSubGroups(group)"
+                  [type]="iconTypes.CARET_RIGHT"
+                ></cx-icon
+              ></a>
+            </li>
+          </ng-container>
         </ng-container>
       </ng-container>
-    </ng-container>
-  </ul>
-</nav>
+    </ul>
+  </nav>
+</ng-container>
