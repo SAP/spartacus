@@ -1,11 +1,12 @@
 import {
-  SPARTACUS_STOREFRONTLIB,
-  OUTLET_DIRECTIVE,
-  VIEW_CONTAINER_REF,
-  SPARTACUS_CORE,
-  TEMPLATE_REF,
-  OUTLET_SERVICE,
+  ANGULAR_CORE,
   DEFER_LOADER_SERVICE,
+  OUTLET_DIRECTIVE,
+  OUTLET_SERVICE,
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+  TEMPLATE_REF,
+  VIEW_CONTAINER_REF,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -16,7 +17,7 @@ export const OUTLET_DIRECTIVE_MIGRATION: ConstructorDeprecation = {
   deprecatedParams: [
     {
       className: VIEW_CONTAINER_REF,
-      importPath: SPARTACUS_CORE,
+      importPath: ANGULAR_CORE,
     },
     {
       className: TEMPLATE_REF,

@@ -199,6 +199,12 @@ export const STORE_FINDER_LIST_ITEM_COMPONENT = 'StoreFinderListItemComponent';
 export const CART_CONFIG_SERVICE = 'CartConfigService';
 export const MULTI_CART_SERVICE = 'MultiCartService';
 export const BASE_SITE_SERVICE = 'BaseSiteService';
+export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT =
+  'AnonymousConsentManagementBannerComponent';
+export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
+  'AnonymousConsentLaunchDialogService';
+export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT =
+  'AnonymousConsentOpenDialogComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

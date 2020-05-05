@@ -52,10 +52,10 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private config: AnonymousConsentsConfig,
-    private anonymousConsentsService: AnonymousConsentsService,
-    private el: ElementRef,
-    private launchDialogService: LaunchDialogService
+    protected config: AnonymousConsentsConfig,
+    protected anonymousConsentsService: AnonymousConsentsService,
+    protected el: ElementRef,
+    protected launchDialogService: LaunchDialogService
   ) {
     if (Boolean(this.config.anonymousConsents)) {
       this.showLegalDescription = this.config.anonymousConsents.showLegalDescriptionInDialog;

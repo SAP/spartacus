@@ -16,7 +16,7 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
   > = this.anonymousConsentsService.isBannerVisible();
 
   constructor(
-    private anonymousConsentsService: AnonymousConsentsService,
+    protected anonymousConsentsService: AnonymousConsentsService,
     protected anonymousConsentLaunchDialogService: AnonymousConsentLaunchDialogService,
     protected vcr: ViewContainerRef
   ) {}
