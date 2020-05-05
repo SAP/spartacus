@@ -3,7 +3,6 @@ import { RoutingService } from '@spartacus/core';
 import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
 import { Observable, using } from 'rxjs';
 import {
-  debounceTime,
   distinctUntilKeyChanged,
   filter,
   shareReplay,
@@ -42,6 +41,7 @@ export class MerchandisingCarouselComponent {
         data
       )
     ),
+    tap((_) => console.log('fetch products data fired')),
     tap((data) => {
       if (typeof data.backgroundColor === 'string') {
         this.el.nativeElement.style.setProperty(
@@ -59,30 +59,33 @@ export class MerchandisingCarouselComponent {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  private intersection$: Observable<
-    void
-  > = this.routingService.getPageContext().pipe(
-    switchMapTo(this.componentData.data$),
-    filter((data) => Boolean(data)),
-    switchMap((data) =>
-      this.merchandisingCarouselComponentService.getMerchandisingCaourselViewportThreshold(
-        data
-      )
-    ),
-    debounceTime(1000),
-    switchMap((threshold) =>
-      this.intersectionService
-        .isIntersected(this.el.nativeElement, {
-          threshold,
-        })
-        .pipe(
-          filter((carouselIsVisible) => carouselIsVisible),
-          switchMapTo(
-            this.merchandisingCarouselComponentService.sendCarouselViewEvent(
-              this.fetchProducts$
-            )
+  private intersection$: Observable<void> = this.fetchProducts$.pipe(
+    filter((model) => Boolean(model)),
+    switchMap((_) =>
+      this.routingService.getPageContext().pipe(
+        switchMapTo(this.componentData.data$),
+        filter((data) => Boolean(data)),
+        switchMap((data) =>
+          this.merchandisingCarouselComponentService.getMerchandisingCaourselViewportThreshold(
+            data
           )
+        ),
+        switchMap((threshold) =>
+          this.intersectionService
+            .isIntersected(this.el.nativeElement, {
+              threshold,
+            })
+            .pipe(
+              tap((x) => console.log('seen: ', x)),
+              filter((carouselIsVisible) => carouselIsVisible),
+              switchMapTo(
+                this.merchandisingCarouselComponentService.sendCarouselViewEvent(
+                  this.fetchProducts$
+                )
+              )
+            )
         )
+      )
     )
   );
 
