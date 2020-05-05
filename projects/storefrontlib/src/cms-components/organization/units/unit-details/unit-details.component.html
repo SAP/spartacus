@@ -53,7 +53,7 @@
             <cx-confirm-modal
               [title]="'orgUnit.confirmDeactivation.title' | cxTranslate"
               [message]="'orgUnit.confirmDeactivation.message' | cxTranslate"
-              (onConfirm)="update({ active: false })"
+              (confirm)="update({ active: false })"
             ></cx-confirm-modal>
           </ng-template>
         </div>
@@ -69,7 +69,7 @@
               <cx-confirm-modal
                 [title]="'orgUnit.confirmActivation.title' | cxTranslate"
                 [message]="'orgUnit.confirmActivation.message' | cxTranslate"
-                (onConfirm)="update({ active: true })"
+                (confirm)="update({ active: true })"
               ></cx-confirm-modal>
             </ng-template>
           </div>

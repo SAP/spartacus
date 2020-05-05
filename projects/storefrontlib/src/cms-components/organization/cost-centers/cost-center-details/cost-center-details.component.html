@@ -58,7 +58,7 @@
             <cx-confirm-modal
               [title]="'costCenter.confirmDeactivation.title' | cxTranslate"
               [message]="'costCenter.confirmDeactivation.message' | cxTranslate"
-              (onConfirm)="update({ activeFlag: false })"
+              (confirm)="update({ activeFlag: false })"
             ></cx-confirm-modal>
           </ng-template>
         </div>
@@ -75,7 +75,7 @@
               <cx-confirm-modal
                 [title]="'costCenter.confirmActivation.title' | cxTranslate"
                 [message]="'costCenter.confirmActivation.message' | cxTranslate"
-                (onConfirm)="update({ activeFlag: true })"
+                (confirm)="update({ activeFlag: true })"
               ></cx-confirm-modal>
             </ng-template>
           </div>

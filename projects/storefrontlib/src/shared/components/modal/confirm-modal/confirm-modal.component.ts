@@ -16,14 +16,14 @@ import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 export class ConfirmModalComponent {
   @Input() title: string;
   @Input() message: string;
-  @Output() onConfirm: EventEmitter<boolean> = new EventEmitter();
+  @Output() confirm: EventEmitter<boolean> = new EventEmitter();
 
   iconTypes = ICON_TYPE;
 
   constructor(protected modalService: ModalService) {}
 
-  confirm() {
-    this.onConfirm.emit(true);
+  onConfirm() {
+    this.confirm.emit(true);
     this.modalService.closeActiveModal();
   }
 
