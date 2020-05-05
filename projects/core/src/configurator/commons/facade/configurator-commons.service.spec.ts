@@ -498,7 +498,8 @@ describe('ConfiguratorCommonsService', () => {
       };
 
       spyOn(store, 'dispatch').and.callThrough();
-
+      const obs = cold('|');
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
       serviceUnderTest.updateCartEntry(productConfiguration);
 
       expect(store.dispatch).toHaveBeenCalledWith(
