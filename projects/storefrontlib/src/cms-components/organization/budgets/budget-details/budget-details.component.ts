@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { Budget, BudgetService, RoutingService } from '@spartacus/core';
-import { ModalService } from '../../../../shared/components/modal/index';
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 
 @Component({
   selector: 'cx-budget-details',

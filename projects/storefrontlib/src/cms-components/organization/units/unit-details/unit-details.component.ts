@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { ModalService } from '../../../../shared/components/modal/index';
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { B2BUnit, OrgUnitService, RoutingService } from '@spartacus/core';
 
 @Component({

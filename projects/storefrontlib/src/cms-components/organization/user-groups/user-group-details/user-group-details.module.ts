@@ -12,7 +12,6 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { TableModule } from '../../../../shared/components/table/table.module';
 import { UserGroupDetailsComponent } from './user-group-details.component';
-import { ConfirmModalModule } from '../../../../shared/components/modal/confirm-modal';
 
 @NgModule({
   imports: [
@@ -36,7 +35,6 @@ import { ConfirmModalModule } from '../../../../shared/components/modal/confirm-
     UrlModule,
     I18nModule,
     TableModule,
-    ConfirmModalModule,
   ],
   declarations: [UserGroupDetailsComponent],
   exports: [UserGroupDetailsComponent],
