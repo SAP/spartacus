@@ -171,10 +171,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  titleSelected(title: Title): void {
-    this.addressForm['controls'].titleCode.setValue(title.code);
-  }
-
   countrySelected(country: Country): void {
     this.addressForm['controls'].country['controls'].isocode.setValue(
       country.isocode
