@@ -9,7 +9,7 @@ readonly help_display="Usage: $0 [ command_options ] [ param ]
     command options:
         --suite, -s                             choose an e2e suite to run. Default: regression
         --integration, -i                       run the correct e2e integration suite. Default: "" for smoke tests
-        --environment                           [1905 | 2005 | ccv2]. Default: 1905
+        --environment, --env                    [1905 | 2005 | ccv2]. Default: 1905
         --help, -h                              show this message and exit
 "
 
@@ -26,7 +26,7 @@ do
             shift
             shift
             ;;
-        '--env' )
+        '--environment' | '--env' )
             CI_ENV=":$2"
             shift
             shift
