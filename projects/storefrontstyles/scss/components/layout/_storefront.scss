@@ -17,6 +17,12 @@
 
   > footer {
     margin-top: auto;
+
+    cx-paragraph {
+      p {
+        margin-bottom: 0;
+      }
+    }
   }
 
   // prevents visible focus when the UI is not used by keyboard.
