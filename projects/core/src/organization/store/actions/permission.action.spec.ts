@@ -1,12 +1,27 @@
-import { PERMISSION_ENTITIES, PERMISSION_LIST } from '../organization-state';
-import { Permission } from '../../../model/permission.model';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../../../model/permission.model';
 import { StateUtils } from '../../../state/utils/index';
+import {
+  PERMISSION_ENTITIES,
+  PERMISSION_LIST,
+  PERMISSION_TYPES,
+  PERMISSION_TYPES_LIST,
+} from '../organization-state';
 import { PermissionActions } from './index';
 
 const permissionCode = 'testPermissionId';
 const permission: Permission = {
   code: permissionCode,
 };
+
+const permissionType: OrderApprovalPermissionType = {
+  code: 'testPermissionTypeCode',
+  name: 'testPermissionTypeName',
+};
+const permissionTypes: OrderApprovalPermissionType[] = [permissionType];
+
 const userId = 'xxx@xxx.xxx';
 const error = 'anError';
 const params = { currentPage: 2 };
@@ -228,6 +243,61 @@ describe('Permission Actions', () => {
           meta: StateUtils.entitySuccessMeta(
             PERMISSION_ENTITIES,
             permissionCode
+          ),
+        });
+      });
+    });
+  });
+
+  describe('LoadPermissionTypes Actions', () => {
+    describe('LoadPermissionTypes', () => {
+      it('should execute LoadPermissionTypes action', () => {
+        const action = new PermissionActions.LoadPermissionTypes();
+
+        expect({ ...action }).toEqual({
+          type: PermissionActions.LOAD_PERMISSION_TYPES,
+          meta: StateUtils.entityLoadMeta(
+            PERMISSION_TYPES_LIST,
+            PERMISSION_TYPES
+          ),
+        });
+      });
+    });
+
+    describe('LoadPermissionTypesFail', () => {
+      it('should execute LoadPermissionTypesFail action', () => {
+        const action = new PermissionActions.LoadPermissionTypesFail({
+          permissionCode,
+          error,
+        });
+
+        expect({ ...action }).toEqual({
+          type: PermissionActions.LOAD_PERMISSION_TYPES_FAIL,
+          payload: {
+            permissionCode,
+            error,
+          },
+          meta: StateUtils.entityFailMeta(
+            PERMISSION_TYPES_LIST,
+            PERMISSION_TYPES,
+            error
+          ),
+        });
+      });
+    });
+
+    describe('LoadPermissionTypesSuccess', () => {
+      it('should execute LoadPermissionTypesSuccess action', () => {
+        const action = new PermissionActions.LoadPermissionTypesSuccess(
+          permissionTypes
+        );
+
+        expect({ ...action }).toEqual({
+          type: PermissionActions.LOAD_PERMISSION_TYPES_SUCCESS,
+          payload: permissionTypes,
+          meta: StateUtils.entitySuccessMeta(
+            PERMISSION_TYPES_LIST,
+            PERMISSION_TYPES
           ),
         });
       });
