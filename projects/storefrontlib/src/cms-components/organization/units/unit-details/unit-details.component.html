@@ -45,19 +45,33 @@
         <div *ngIf="orgUnit.active; else enable" class="col-md-12 col-lg-6">
           <button
             class="btn btn-secondary btn-block"
-            (click)="update({ active: false })"
+            (click)="openModal(confirmDisable)"
           >
             {{ 'orgUnit.disable' | cxTranslate }}
           </button>
+          <ng-template #confirmDisable>
+            <cx-confirm-modal
+              [title]="'orgUnit.confirmDeactivation.title' | cxTranslate"
+              [message]="'orgUnit.confirmDeactivation.message' | cxTranslate"
+              (onConfirm)="update({ active: false })"
+            ></cx-confirm-modal>
+          </ng-template>
         </div>
         <ng-template #enable>
           <div class="col-md-12 col-lg-6">
             <button
               class="btn btn-primary btn-block"
-              (click)="update({ active: true })"
+              (click)="openModal(confirmEnable)"
             >
               {{ 'orgUnit.enable' | cxTranslate }}
             </button>
+            <ng-template #confirmEnable>
+              <cx-confirm-modal
+                [title]="'orgUnit.confirmActivation.title' | cxTranslate"
+                [message]="'orgUnit.confirmActivation.message' | cxTranslate"
+                (onConfirm)="update({ active: true })"
+              ></cx-confirm-modal>
+            </ng-template>
           </div>
         </ng-template>
       </div>

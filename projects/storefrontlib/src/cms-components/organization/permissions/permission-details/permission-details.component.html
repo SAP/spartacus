@@ -45,19 +45,33 @@
         <div *ngIf="permission.active; else enable" class="col-md-12 col-lg-6">
           <button
             class="btn btn-secondary btn-block"
-            (click)="update({ active: false })"
+            (click)="openModal(confirmDisable)"
           >
             {{ 'permission.disable' | cxTranslate }}
           </button>
+          <ng-template #confirmDisable>
+            <cx-confirm-modal
+              [title]="'permission.confirmDeactivation.title' | cxTranslate"
+              [message]="'permission.confirmDeactivation.message' | cxTranslate"
+              (onConfirm)="update({ active: false })"
+            ></cx-confirm-modal>
+          </ng-template>
         </div>
         <ng-template #enable>
           <div class="col-md-12 col-lg-6">
             <button
               class="btn btn-primary btn-block"
-              (click)="update({ active: true })"
+              (click)="openModal(confirmEnable)"
             >
               {{ 'permission.enable' | cxTranslate }}
             </button>
+            <ng-template #confirmEnable>
+              <cx-confirm-modal
+                [title]="'permission.confirmActivation.title' | cxTranslate"
+                [message]="'permission.confirmActivation.message' | cxTranslate"
+                (onConfirm)="update({ active: true })"
+              ></cx-confirm-modal>
+            </ng-template>
           </div>
         </ng-template>
       </div>
