@@ -265,12 +265,9 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
 
-    it('should remove configuration and display a message in case done is triggered on config page which means that there are pending changes', () => {
+    it('should display a message in case done is triggered on config page which means that there are pending changes', () => {
       productConfiguration.isCartEntryUpdateRequired = true;
       performUpdateCart(classUnderTest);
-      expect(
-        configuratorCommonsService.removeConfiguration
-      ).toHaveBeenCalledTimes(1);
       expect(globalMessageService.add).toHaveBeenCalledTimes(1);
     });
 

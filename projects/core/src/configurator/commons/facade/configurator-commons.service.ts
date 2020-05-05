@@ -57,6 +57,7 @@ export class ConfiguratorCommonsService {
     const localOwner: GenericConfigurator.Owner = {
       hasObsoleteState: owner.hasObsoleteState,
     };
+
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
@@ -195,7 +196,24 @@ export class ConfiguratorCommonsService {
       };
 
       this.store.dispatch(new ConfiguratorActions.UpdateCartEntry(parameters));
+      this.checkForUpdateDone(configuration).subscribe((configAfterUpdate) => {
+        this.readConfigurationForCartEntry(configAfterUpdate.owner);
+      });
     });
+  }
+
+  checkForUpdateDone(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    return this.store.pipe(
+      select(
+        ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
+      ),
+      filter(
+        (configInUpdate) => configInUpdate.isCartEntryUpdatePending === false
+      ),
+      take(1)
+    );
   }
 
   ////
@@ -216,11 +234,8 @@ export class ConfiguratorCommonsService {
   }
 
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
-    return (
-      configuration !== undefined &&
-      configuration.configId !== undefined &&
-      configuration.configId.length !== 0
-    );
+    const configId: String = configuration?.configId;
+    return configId !== undefined && configId.length !== 0;
   }
 
   createConfigurationExtract(

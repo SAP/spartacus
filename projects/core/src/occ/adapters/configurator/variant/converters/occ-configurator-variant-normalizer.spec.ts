@@ -119,11 +119,12 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(result.complete).toBe(true);
   });
 
-  it('should initialize isRequiredCartUpdate when converting a configuration', () => {
+  it('should not touch isRequiredCartUpdate and isCartEntryUpdatePending when converting a configuration', () => {
     const result: Configurator.Configuration = occConfiguratorVariantNormalizer.convert(
       configuration
     );
     expect(result.isCartEntryUpdateRequired).toBeUndefined();
+    expect(result.isCartEntryUpdatePending).toBeUndefined();
   });
 
   it('should convert subgroups', () => {
