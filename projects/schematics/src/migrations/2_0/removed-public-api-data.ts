@@ -2,6 +2,8 @@ import {
   ACTIVE_CART_SERVICE,
   ANONYMOUS_USERID_CONST,
   AUTH_SERVICE,
+  AUTO_FOCUS_DIRECTIVE,
+  AUTO_FOCUS_DIRECTIVE_MODULE,
   BILLING_ADDRESS_FORM_COMPONENT,
   BILLING_ADDRESS_FORM_MODULE,
   CARTS_STATE,
@@ -43,6 +45,8 @@ import {
   OF_LOADER_FAIL,
   OF_LOADER_LOAD,
   OF_LOADER_SUCCESS,
+  ONLY_NUMBER_DIRECTIVE,
+  ONLY_NUMBER_DIRECTIVE_MODULE,
   PROCESSES_LOADER_REDUCER,
   PROCESSES_LOADER_STATE,
   PWA_CONFIGURATION_FACTORY,
@@ -425,5 +429,29 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: OF_LOADER_FAIL,
     importPath: SPARTACUS_CORE,
     comment: `'${OF_LOADER_FAIL}' was removed.`,
+  },
+  //projects/storefrontlib/src/shared/directives/auto-focus/auto-focus.directive.ts
+  {
+    node: AUTO_FOCUS_DIRECTIVE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${AUTO_FOCUS_DIRECTIVE}' was removed.`,
+  },
+  //projects/storefrontlib/src/shared/directives/auto-focus/auto-focus.directive.module.ts
+  {
+    node: AUTO_FOCUS_DIRECTIVE_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${AUTO_FOCUS_DIRECTIVE_MODULE}' was removed.`,
+  },
+  // projects/storefrontlib/src/shared/directives/only-number/only-number.directive.ts
+  {
+    node: ONLY_NUMBER_DIRECTIVE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${ONLY_NUMBER_DIRECTIVE}' was removed.`,
+  },
+  // projects/storefrontlib/src/shared/directives/only-number/only-number.directive.module.ts
+  {
+    node: ONLY_NUMBER_DIRECTIVE_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${ONLY_NUMBER_DIRECTIVE_MODULE}' was removed.`,
   },
 ];
