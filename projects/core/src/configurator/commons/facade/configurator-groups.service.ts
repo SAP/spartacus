@@ -195,7 +195,8 @@ export class ConfiguratorGroupsService {
         this.findCurrentGroup(configuration.groups, groupId),
         null
       ),
-      groupIds
+      groupIds,
+      []
     );
 
     this.store.dispatch(
