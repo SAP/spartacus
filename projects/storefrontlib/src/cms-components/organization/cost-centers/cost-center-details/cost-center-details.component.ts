@@ -1,7 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
 
 @Component({
@@ -19,7 +24,8 @@ export class CostCenterDetailsComponent implements OnInit {
 
   constructor(
     protected routingService: RoutingService,
-    protected costCentersService: CostCenterService
+    protected costCentersService: CostCenterService,
+    protected modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -36,5 +42,11 @@ export class CostCenterDetailsComponent implements OnInit {
       .subscribe((costCenterCode) =>
         this.costCentersService.update(costCenterCode, costCenter)
       );
+  }
+
+  openModal(template: TemplateRef<any>): void {
+    this.modalService.open(template, {
+      centered: true,
+    });
   }
 }
