@@ -4,6 +4,8 @@ import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATIONS } from './data/added-to-cart-
 import { ADDRESS_BOOK_COMPONENT_MIGRATION } from './data/address-book.component.migration';
 import { ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATIONS } from './data/address-book.component.service.migration';
 import { AMEND_ORDER_ACTIONS_COMPONENT_MIGRATION } from './data/amend-order-actions.component.migration';
+import { ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT_MIGRATION } from './data/anonymous-consent-management-banner.component.migration';
+import { ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION } from './data/anonymous-consent-open-dialog.component.migration';
 import { CART_COUPON_COMPONENT_MIGRATIONS } from './data/cart-coupon.component.migration';
 import { CART_DETAILS_COMPONENT_MIGRATIONS } from './data/cart-details.component.migration';
 import { CART_ITEM_LIST_COMPONENT_MIGRATIONS } from './data/cart-item-list.component.migration';
@@ -153,6 +155,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION,
   STORE_FINDER_LIST_ITEM_MIGRATION,
   SELECTIVE_CART_SERVICE_MIGRATION,
+  ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT_MIGRATION,
+  ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION,
   PRODUCT_FACET_NAVIGATION_COMPONENT_MIGRATION,
   STORE_FINDER_GRID_COMPONENT_MIGRATION,
 ];
