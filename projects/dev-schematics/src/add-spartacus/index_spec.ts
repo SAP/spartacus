@@ -73,7 +73,6 @@ describe('add-spartacus', () => {
     const appModule = tree.readContent(
       '/projects/schematics-test/src/app/app.module.ts'
     );
-    console.log(tree.files)
     expect(
       appModule.includes(
         `import { B2cStorefrontModule } from '@spartacus/storefront';`
