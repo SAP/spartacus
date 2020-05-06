@@ -4,7 +4,6 @@ import { PaymentTypesState } from '../checkout-state';
 
 export const initialState: PaymentTypesState = {
   entities: {},
-  selected: '',
 };
 
 export function reducer(
@@ -47,5 +46,3 @@ export function reducer(
 
 export const getPaymentTypesEntites = (state: PaymentTypesState) =>
   state.entities;
-export const getSelectedPaymentType = (state: PaymentTypesState) =>
-  state.selected;

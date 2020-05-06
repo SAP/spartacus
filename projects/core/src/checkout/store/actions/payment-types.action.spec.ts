@@ -49,5 +49,19 @@ describe('Payment Types Actions', () => {
         });
       });
     });
+
+    describe('ResetLoadPaymentTypeProcess Action', () => {
+      it('should create the action', () => {
+        const action = new CheckoutActions.ResetLoadPaymentTypeProcess();
+
+        expect({ ...action }).toEqual({
+          type: CheckoutActions.RESET_LOAD_PAYMENT_TYPES_PROCESS_ID,
+          meta: StateUtils.entityResetMeta(
+            PROCESS_FEATURE,
+            GET_PAYMENT_TYPES_PROCESS_ID
+          ),
+        });
+      });
+    });
   });
 });
