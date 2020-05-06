@@ -5,8 +5,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Configurator } from 'projects/core/src/model/configurator.model';
+import { By } from '@angular/platform-browser';
 
-describe('ConfigAttributeDropDownComponent', () => {
+describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfigAttributeCheckBoxListComponent;
   let fixture: ComponentFixture<ConfigAttributeCheckBoxListComponent>;
 
@@ -24,27 +25,20 @@ describe('ConfigAttributeDropDownComponent', () => {
       .compileComponents();
   }));
 
+  function createValue(code: string, name: string, isSelected: boolean) {
+    const value: Configurator.Value = {
+      valueCode: code,
+      name: name,
+      selected: isSelected,
+    };
+    return value;
+  }
+
   beforeEach(() => {
-    const value1: Configurator.Value = {
-      valueCode: '1',
-      name: 'val1',
-      selected: true,
-    };
-    const value2: Configurator.Value = {
-      valueCode: '2',
-      name: 'val2',
-      selected: false,
-    };
-    const value3: Configurator.Value = {
-      valueCode: '3',
-      name: 'val3',
-      selected: true,
-    };
-
-    let localvalues: Configurator.Value[];
-    localvalues = [];
-
-    localvalues.push(value1, value2, value3);
+    const value1 = createValue('1', 'val1', true);
+    const value2 = createValue('2', 'val2', false);
+    const value3 = createValue('3', 'val3', true);
+    let attributes: Configurator.Value[] = [value1, value2, value3];
 
     fixture = TestBed.createComponent(ConfigAttributeCheckBoxListComponent);
     component = fixture.componentInstance;
@@ -53,7 +47,7 @@ describe('ConfigAttributeDropDownComponent', () => {
       name: 'attributeName',
       attrCode: 444,
       uiType: Configurator.UiType.CHECKBOX,
-      values: localvalues,
+      values: attributes,
     };
     fixture.detectChanges();
   });
@@ -67,5 +61,24 @@ describe('ConfigAttributeDropDownComponent', () => {
     expect(component.attributeCheckBoxForms[0].value).toBe(true);
     expect(component.attributeCheckBoxForms[1].value).toBe(false);
     expect(component.attributeCheckBoxForms[2].value).toBe(true);
+  });
+
+  it('select a checkbox value and deselect it again', () => {
+    const checkboxId =
+      '#cx-config--checkBoxList--' +
+      component.attribute.name +
+      '--' +
+      component.attribute.values[1].valueCode;
+    const valueToSelect = fixture.debugElement.query(By.css(checkboxId))
+      .nativeElement;
+    expect(valueToSelect.checked).toBeFalsy();
+    // select value
+    valueToSelect.click();
+    fixture.detectChanges();
+    expect(valueToSelect.checked).toBeTruthy();
+    // deselect value
+    valueToSelect.click();
+    fixture.detectChanges();
+    expect(valueToSelect.checked).toBeFalsy();
   });
 });
