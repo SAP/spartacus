@@ -1,6 +1,8 @@
 import {
   ComponentFactory,
+  ComponentRef,
   Directive,
+  EmbeddedViewRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -22,6 +24,10 @@ import { OutletService } from './outlet.service';
 })
 export class OutletDirective implements OnDestroy, OnChanges {
   private renderedTemplate = [];
+  public renderedComponents = new Map<
+    OutletPosition,
+    Array<ComponentRef<any> | EmbeddedViewRef<any>>
+  >();
 
   @Input() cxOutlet: string;
 
@@ -43,15 +49,15 @@ export class OutletDirective implements OnDestroy, OnChanges {
       TemplateRef<any> | ComponentFactory<any>
     >,
     private deferLoaderService: DeferLoaderService,
-    private outletRendererService?: OutletRendererService
+    private outletRendererService: OutletRendererService
   ) {}
 
   public render(): void {
     this.vcr.clear();
     this.renderedTemplate = [];
+    this.renderedComponents.clear();
     this.subscription.unsubscribe();
     this.subscription = new Subscription();
-    this.outletRendererService.register(this.cxOutlet, this);
 
     if (this.cxOutletDefer) {
       this.deferLoading();
@@ -63,6 +69,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cxOutlet) {
       this.render();
+      this.outletRendererService.register(this.cxOutlet, this);
     }
   }
 
@@ -105,14 +112,21 @@ export class OutletDirective implements OnDestroy, OnChanges {
       templates = [templates];
     }
 
+    const components = [];
     templates.forEach((obj) => {
-      this.create(obj);
+      const component = this.create(obj);
+      components.push(component);
     });
+
+    this.renderedComponents.set(position, components);
   }
 
-  private create(tmplOrFactory: any): void {
+  private create(tmplOrFactory: any): ComponentRef<any> | EmbeddedViewRef<any> {
+    this.renderedTemplate.push(tmplOrFactory);
+
     if (tmplOrFactory instanceof ComponentFactory) {
-      this.vcr.createComponent(tmplOrFactory);
+      const component = this.vcr.createComponent(tmplOrFactory);
+      return component;
     } else if (tmplOrFactory instanceof TemplateRef) {
       const view = this.vcr.createEmbeddedView(
         <TemplateRef<any>>tmplOrFactory,
@@ -124,8 +138,8 @@ export class OutletDirective implements OnDestroy, OnChanges {
       // we do not know if content is created dynamically or not
       // so we apply change detection anyway
       view.markForCheck();
+      return view;
     }
-    this.renderedTemplate.push(tmplOrFactory);
   }
 
   /**

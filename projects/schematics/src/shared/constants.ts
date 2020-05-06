@@ -209,6 +209,12 @@ export const SKIP_LINK_CONFIG = 'SkipLinkConfig';
 export const KEYBOARD_FOCUS_SERVICE = 'KeyboardFocusService';
 export const STOREFRONT_COMPONENT = 'StorefrontComponent';
 export const HAMBURGER_MENU_SERVICE = 'HamburgerMenuService';
+export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT =
+  'AnonymousConsentManagementBannerComponent';
+export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
+  'AnonymousConsentLaunchDialogService';
+export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT =
+  'AnonymousConsentOpenDialogComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
