@@ -10,6 +10,7 @@ export const SET_MENU_PARENT_GROUP =
   '[Configurator] Set current parent group for menu to UI State';
 
 export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
+export const SET_GROUPS_COMPLETED = '[Configurator] Set group complete status';
 
 export class SetUiState implements StateEntityActions.EntityAction {
   readonly type = SET_UI_STATE;
@@ -58,6 +59,18 @@ export class SetGroupsVisited implements StateEntityActions.EntityAction {
   }
 }
 
+export class SetGroupCompleted implements StateEntityActions.EntityAction {
+  readonly type = SET_GROUPS_COMPLETED;
+  readonly meta: StateEntityActions.EntityMeta;
+  constructor(
+    entityKey: string,
+    public completedGroups: string[],
+    public uncompletedGroups: string[]
+  ) {
+    this.meta = StateEntityActions.entityMeta(CONFIGURATION_UI_DATA, entityKey);
+  }
+}
+
 // action types
 export type ConfiguratorUiAction =
   | SetUiState
@@ -65,4 +78,5 @@ export type ConfiguratorUiAction =
   | RemoveUiState
   | CreateUiState
   | SetCurrentGroup
-  | SetGroupsVisited;
+  | SetGroupsVisited
+  | SetGroupCompleted;

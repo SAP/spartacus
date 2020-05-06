@@ -68,6 +68,34 @@ export function reducer(
         ...changedState,
       };
     }
+    case ConfiguratorUiActions.SET_GROUPS_COMPLETED: {
+      const changedState = {
+        groupsComplete: {
+          entities: {},
+        },
+      };
+
+      //Set Current state items
+      Object.keys(state.groupsComplete.entities).forEach(
+        (groupId) =>
+          (changedState.groupsComplete.entities[groupId] =
+            state.groupsComplete.entities[groupId])
+      );
+
+      //Add new Groups
+      action.completedGroups.forEach(
+        (groupId) => (changedState.groupsComplete.entities[groupId] = true)
+      );
+
+      action.uncompletedGroups.forEach(
+        (groupId) => (changedState.groupsComplete.entities[groupId] = false)
+      );
+
+      return {
+        ...state,
+        ...changedState,
+      };
+    }
   }
   return state;
 }

@@ -344,26 +344,26 @@ describe('ConfiguratorGroupsService', () => {
     it('should return status completed if required fields are filled', () => {
       // required checkbox not filled
       expect(
-        serviceUnderTest.isGroupComplete(productConfiguration.groups[0])
+        serviceUnderTest.checkIsGroupComplete(productConfiguration.groups[0])
       ).toBe(false);
       //no required attributes in group
       expect(
-        serviceUnderTest.isGroupComplete(productConfiguration.groups[1])
+        serviceUnderTest.checkIsGroupComplete(productConfiguration.groups[1])
       ).toBe(true);
       // two required attributes, only one is filled
       expect(
-        serviceUnderTest.isGroupComplete(productConfiguration.groups[3])
+        serviceUnderTest.checkIsGroupComplete(productConfiguration.groups[3])
       ).toBe(false);
       //required single selection image not filled
       expect(
-        serviceUnderTest.isGroupComplete(productConfiguration.groups[2])
+        serviceUnderTest.checkIsGroupComplete(productConfiguration.groups[2])
       ).toBe(false);
     });
 
     it('should return status completed if required fields are filled', () => {
       // required checkbox not filled
       expect(
-        serviceUnderTest.isGroupComplete(productConfiguration.groups[0])
+        serviceUnderTest.checkIsGroupComplete(productConfiguration.groups[0])
       ).toBe(false);
     });
   });

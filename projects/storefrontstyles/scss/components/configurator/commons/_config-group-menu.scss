@@ -52,6 +52,10 @@
     .cx-config-menu-item.visited {
       background-color: #dddddd;
     }
+
+    .cx-config-menu-item.completed {
+      text-decoration: underline;
+    }
   }
 
   .cx-config-menu-back {

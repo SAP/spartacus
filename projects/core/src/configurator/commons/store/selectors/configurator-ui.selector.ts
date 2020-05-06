@@ -35,6 +35,15 @@ export const getCurrentGroupForProduct = (
   );
 };
 
+export const isGroupCompleted = (
+  ownerKey: string,
+  groupId: string
+): MemoizedSelector<StateWithConfiguration, Boolean> => {
+  return createSelector(getUiStateForOwner(ownerKey), (details) =>
+    StateEntitySelectors.entitySelector(details.groupsComplete, groupId)
+  );
+};
+
 export const isGroupVisited = (
   ownerKey: string,
   groupId: string

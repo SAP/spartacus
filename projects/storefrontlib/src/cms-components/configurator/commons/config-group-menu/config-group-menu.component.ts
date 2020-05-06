@@ -164,4 +164,15 @@ export class ConfigGroupMenuComponent implements OnInit {
       groupId
     );
   }
+
+  showGroupCompleted(
+    groupId: string,
+    configuration: Configurator.Configuration
+  ): Observable<Boolean> {
+    console.warn(groupId);
+    return this.configuratorGroupsService.isGroupComplete(
+      configuration.owner,
+      groupId
+    );
+  }
 }

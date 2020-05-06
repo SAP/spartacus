@@ -28,6 +28,9 @@
               [class.visited]="
                 showGroupVisited(group.id, configuration) | async
               "
+              [class.completed]="
+                showGroupCompleted(group.id, configuration) | async
+              "
             >
               <a [class.active]="currentGroup.id === group.id" role="link"
                 >{{ group.description }}

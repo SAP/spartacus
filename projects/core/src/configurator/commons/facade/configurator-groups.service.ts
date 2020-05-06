@@ -90,6 +90,13 @@ export class ConfiguratorGroupsService {
     return this.store.select(UiSelectors.isGroupVisited(owner.key, groupId));
   }
 
+  isGroupComplete(
+    owner: GenericConfigurator.Owner,
+    groupId: string
+  ): Observable<Boolean> {
+    return this.store.select(UiSelectors.isGroupCompleted(owner.key, groupId));
+  }
+
   areGroupsVisited(
     owner: GenericConfigurator.Owner,
     groupIds: string[]
@@ -97,7 +104,7 @@ export class ConfiguratorGroupsService {
     return this.store.select(UiSelectors.areGroupsVisited(owner.key, groupIds));
   }
 
-  isGroupComplete(group: Configurator.Group): Boolean {
+  checkIsGroupComplete(group: Configurator.Group): Boolean {
     let isGroupComplete = true;
 
     group.attributes.forEach((attribute) => {
@@ -142,12 +149,46 @@ export class ConfiguratorGroupsService {
     return isGroupComplete;
   }
 
-  getParentGroupStatus(
+  getParentGroupStatusCompleted(
+    configuration: Configurator.Configuration,
+    parentGroup: Configurator.Group,
+    completedGroupIds: string[],
+    uncompletedGroupdIds: string[]
+  ) {
+    if (parentGroup === null) {
+      return;
+    }
+
+    let allSubGroupsComplete = true;
+    parentGroup.subGroups.forEach((subGroup) => {
+      if (!this.checkIsGroupComplete(subGroup)) {
+        allSubGroupsComplete = false;
+      }
+    });
+
+    if (allSubGroupsComplete) {
+      completedGroupIds.push(parentGroup.id);
+    } else {
+      uncompletedGroupdIds.push(parentGroup.id);
+    }
+
+    this.getParentGroupStatusCompleted(
+      configuration,
+      this.findParentGroup(
+        configuration.groups,
+        this.findCurrentGroup(configuration.groups, parentGroup.id),
+        null
+      ),
+      completedGroupIds,
+      uncompletedGroupdIds
+    );
+  }
+
+  getParentGroupStatusVisited(
     configuration: Configurator.Configuration,
     groupId: string,
     parentGroup: Configurator.Group,
-    visitedGroupIds: string[],
-    completedGroupIds: string[]
+    visitedGroupIds: string[]
   ) {
     if (parentGroup === null) {
       return;
@@ -168,7 +209,7 @@ export class ConfiguratorGroupsService {
         if (isVisited) {
           visitedGroupIds.push(parentGroup.id);
 
-          this.getParentGroupStatus(
+          this.getParentGroupStatusVisited(
             configuration,
             parentGroup.id,
             this.findParentGroup(
@@ -176,33 +217,73 @@ export class ConfiguratorGroupsService {
               this.findCurrentGroup(configuration.groups, parentGroup.id),
               null
             ),
-            visitedGroupIds,
-            completedGroupIds
+            visitedGroupIds
           );
         }
       });
   }
 
   setGroupStatus(configuration: Configurator.Configuration, groupId: string) {
-    ///// Visisted
-    const groupIds = [];
-    groupIds.push(groupId);
-    this.getParentGroupStatus(
+    const group = this.getGroup(configuration.groups, groupId);
+    const parentGroup = this.findParentGroup(
+      configuration.groups,
+      this.findCurrentGroup(configuration.groups, groupId),
+      null
+    );
+
+    this.setGroupStatusCompleted(configuration, group, parentGroup);
+
+    this.setGroupStatusVisited(configuration, group, parentGroup);
+  }
+
+  setGroupStatusCompleted(
+    configuration: Configurator.Configuration,
+    group: Configurator.Group,
+    parentGroup: Configurator.Group
+  ) {
+    const completedGroupIds = [];
+    const uncompletedGroupdIds = [];
+
+    if (this.checkIsGroupComplete(group)) {
+      completedGroupIds.push(group.id);
+    } else {
+      uncompletedGroupdIds.push(group.id);
+    }
+
+    this.getParentGroupStatusCompleted(
       configuration,
-      groupId,
-      this.findParentGroup(
-        configuration.groups,
-        this.findCurrentGroup(configuration.groups, groupId),
-        null
-      ),
-      groupIds,
-      []
+      parentGroup,
+      completedGroupIds,
+      uncompletedGroupdIds
+    );
+
+    this.store.dispatch(
+      new ConfiguratorUiActions.SetGroupCompleted(
+        configuration.owner.key,
+        completedGroupIds,
+        uncompletedGroupdIds
+      )
+    );
+  }
+
+  setGroupStatusVisited(
+    configuration: Configurator.Configuration,
+    group: Configurator.Group,
+    parentGroup: Configurator.Group
+  ) {
+    const visitedGroupIds = [];
+    visitedGroupIds.push(group.id);
+    this.getParentGroupStatusVisited(
+      configuration,
+      group.id,
+      parentGroup,
+      visitedGroupIds
     );
 
     this.store.dispatch(
       new ConfiguratorUiActions.SetGroupsVisited(
         configuration.owner.key,
-        groupIds
+        visitedGroupIds
       )
     );
   }
@@ -300,6 +381,17 @@ export class ConfiguratorGroupsService {
 
     return groups
       .map((group) => this.findCurrentGroup(group.subGroups, groupId))
+      .filter((foundGroup) => foundGroup)
+      .pop();
+  }
+
+  getGroup(groups: Configurator.Group[], groupId: string): Configurator.Group {
+    if (groups.find((value) => value.id === groupId)) {
+      return groups.find((value) => value.id === groupId);
+    }
+
+    return groups
+      .map((currentGroup) => this.getGroup(currentGroup.subGroups, groupId))
       .filter((foundGroup) => foundGroup)
       .pop();
   }
