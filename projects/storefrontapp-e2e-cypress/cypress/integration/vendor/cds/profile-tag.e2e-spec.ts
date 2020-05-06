@@ -11,19 +11,17 @@ describe('Profile-tag events', () => {
     const homePage = waitForPage('homepage', 'getHomePage');
     navigation.visitHomePage({
       options: {
-        onBeforeLoad: profileTagHelper.interceptProfileTagJs
-      }
+        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
+      },
     });
     cy.get('cx-profiletag');
-    cy.wait(`@${homePage}`)
-      .its('status')
-      .should('eq', 200);
+    cy.wait(`@${homePage}`).its('status').should('eq', 200);
   });
   it('should send a CartChanged event on adding an item to cart', () => {
     goToProductPage();
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.get('cx-added-to-cart-dialog .btn-primary');
-    cy.window().then(win => {
+    cy.window().then((win) => {
       expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(2);
       expect((<any>win).Y_TRACKING.eventLayer[1]['name']).to.equal(
         'CartSnapshot'
@@ -39,9 +37,7 @@ describe('Profile-tag events', () => {
     goToProductPage();
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.get('cx-added-to-cart-dialog .btn-primary').click();
-    cy.get('cx-cart-item cx-item-counter')
-      .getByText('+')
-      .click();
+    cy.get('cx-cart-item cx-item-counter').getByText('+').click();
     cy.route(
       'GET',
       `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -49,11 +45,11 @@ describe('Profile-tag events', () => {
       )}/users/anonymous/carts/*`
     ).as('getRefreshedCart');
     cy.wait('@getRefreshedCart');
-    cy.window().then(win => {
+    cy.window().then((win) => {
       expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(4);
       expect(
         (<any>win).Y_TRACKING.eventLayer.filter(
-          event => event.name === 'CartSnapshot'
+          (event) => event.name === 'CartSnapshot'
         ).length
       ).to.equal(2);
     });
@@ -62,9 +58,7 @@ describe('Profile-tag events', () => {
     goToProductPage();
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.get('cx-added-to-cart-dialog .btn-primary').click();
-    cy.get('cx-cart-item-list')
-      .get('.cx-remove-btn > .link')
-      .click();
+    cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').click();
     cy.route(
       'GET',
       `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -72,11 +66,11 @@ describe('Profile-tag events', () => {
       )}/users/anonymous/carts/*`
     ).as('getRefreshedCart');
     cy.wait('@getRefreshedCart');
-    cy.window().then(win => {
+    cy.window().then((win) => {
       expect((<any>win).Y_TRACKING.eventLayer.length).to.equal(4);
       expect(
         (<any>win).Y_TRACKING.eventLayer.filter(
-          event => event.name === 'CartSnapshot'
+          (event) => event.name === 'CartSnapshot'
         ).length
       ).to.equal(2);
     });
@@ -86,16 +80,14 @@ describe('Profile-tag events', () => {
     cy.get(
       'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
     ).click();
-    cy.wait(`@${categoryPage}`)
-      .its('status')
-      .should('eq', 200);
-    cy.window().then(win => {
+    cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
+    cy.window().then((win) => {
       expect((<any>win).Y_TRACKING.eventLayer[0]['name']).to.equal('Navigated');
     });
   });
   it('should wait for a user to accept consent and then send a ConsentChanged event', () => {
     anonymousConsents.clickAllowAllFromBanner();
-    cy.window().then(win => {
+    cy.window().then((win) => {
       expect((<any>win).Y_TRACKING.eventLayer[0]).to.have.property('name');
       expect((<any>win).Y_TRACKING.eventLayer[0]['name']).to.equal(
         'ConsentChanged'
@@ -122,7 +114,7 @@ describe.skip('login notification', () => {
   });
   it('should call the login endpont of EC on a successful login', () => {
     loginHelper.loginAsDefaultUser();
-    cy.wait(`@${loginAlias}`).then(xhr => {
+    cy.wait(`@${loginAlias}`).then((xhr) => {
       expect(xhr.request.headers['X-Consent-Reference']).to.eq(
         profileTagHelper.testCr
       );
@@ -133,11 +125,6 @@ describe.skip('login notification', () => {
 function goToProductPage() {
   const productPagePath = 'ProductPage';
   const productPage = waitForPage(productPagePath, 'getProductPage');
-  cy.get('.Section4 cx-banner')
-    .first()
-    .find('img')
-    .click({ force: true });
-  cy.wait(`@${productPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
+  cy.wait(`@${productPage}`).its('status').should('eq', 200);
 }

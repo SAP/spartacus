@@ -69,7 +69,7 @@ export class ProfileTagInjectorService {
 
   private notifyEcOfLoginSuccessful(): Observable<boolean> {
     return this.spartacusEventTracker.loginSuccessful().pipe(
-      switchMap(_ => {
+      switchMap((_) => {
         return this.cdsBackendConnector
           .notifySuccessfulLogin()
           .pipe(mapTo(true));

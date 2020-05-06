@@ -3,7 +3,7 @@ import {
   Event as NgRouterEvent,
   NavigationEnd,
   NavigationStart,
-  Router
+  Router,
 } from '@angular/router';
 import { Action, ActionsSubject } from '@ngrx/store';
 import {
@@ -11,7 +11,7 @@ import {
   AuthActions,
   Cart,
   ConsentService,
-  OrderEntry
+  OrderEntry,
 } from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -31,8 +31,8 @@ describe('SpartacusEventTracker', () => {
 
   const mockCDSConfig: CdsConfig = {
     cds: {
-      consentTemplateId: 'PROFILE'
-    }
+      consentTemplateId: 'PROFILE',
+    },
   };
   function setVariables() {
     getConsentBehavior = new BehaviorSubject<Object>([{}]);
@@ -44,13 +44,13 @@ describe('SpartacusEventTracker', () => {
     mockActionsSubject = new ReplaySubject<Action>();
     consentsService = {
       getConsent: () => getConsentBehavior,
-      isConsentGiven: () => isConsentGivenValue
+      isConsentGiven: () => isConsentGivenValue,
     };
     router = {
-      events: routerEventsBehavior
+      events: routerEventsBehavior,
     };
     activeCartService = {
-      getActive: () => cartBehavior
+      getActive: () => cartBehavior,
     };
   }
   beforeEach(() => {
@@ -60,21 +60,21 @@ describe('SpartacusEventTracker', () => {
         { provide: Router, useValue: router },
         {
           provide: ConsentService,
-          useValue: consentsService
+          useValue: consentsService,
         },
         {
           provide: ActiveCartService,
-          useValue: activeCartService
+          useValue: activeCartService,
         },
         {
           provide: CdsConfig,
-          useValue: mockCDSConfig
+          useValue: mockCDSConfig,
         },
         {
           provide: ActionsSubject,
-          useValue: mockActionsSubject
-        }
-      ]
+          useValue: mockActionsSubject,
+        },
+      ],
     });
     spartacusEventTracker = TestBed.inject(SpartacusEventService);
   });
@@ -133,12 +133,12 @@ describe('SpartacusEventTracker', () => {
     const mockOrderEntry: OrderEntry[] = [{ entryNumber: 7 }];
     const mockOrderEntries: OrderEntry[] = [
       { entryNumber: 7 },
-      { entryNumber: 1 }
+      { entryNumber: 1 },
     ];
     const testCart = { id: 123, entries: mockOrderEntry };
     const testCartWithAdditionalOrderEntry = {
       id: 123,
-      entries: mockOrderEntries
+      entries: mockOrderEntries,
     };
     cartBehavior.next(testCart);
     cartBehavior.next(testCartWithAdditionalOrderEntry);
@@ -190,7 +190,7 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .loginSuccessful()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap((_) => timesCalled++))
       .subscribe();
     mockActionsSubject.next({ type: AuthActions.LOGOUT });
     mockActionsSubject.next({ type: AuthActions.LOGIN });

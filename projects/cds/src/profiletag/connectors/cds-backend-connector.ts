@@ -11,6 +11,8 @@ export class CdsBackendConnector {
     private cdsBackendNotificationAdapter: CdsBackendNotificationAdapter
   ) {}
   notifySuccessfulLogin(): Observable<void> {
-    return this.cdsBackendNotificationAdapter.notifySuccessfulLogin().pipe(mapTo(null));
+    return this.cdsBackendNotificationAdapter
+      .notifySuccessfulLogin()
+      .pipe(mapTo(null));
   }
 }
