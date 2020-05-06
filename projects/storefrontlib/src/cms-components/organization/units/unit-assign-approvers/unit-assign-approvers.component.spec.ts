@@ -110,9 +110,9 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
 
   getUsers = createSpy('getUsers').and.returnValue(userList);
 
-  assignRole = createSpy('assign');
+  assignApprover = createSpy('assignApprover');
 
-  unassignRole = createSpy('unassign');
+  unassignApprover = createSpy('unassignApprover');
 }
 
 class MockRoutingService {
@@ -146,7 +146,7 @@ class MockCxDatePipe {
   }
 }
 
-describe('UnitAssignRolesComponent', () => {
+describe('UnitAssignApproversComponent', () => {
   let component: UnitAssignApproversComponent;
   let fixture: ComponentFixture<UnitAssignApproversComponent>;
   let orgUnitService: MockOrgUnitService;
@@ -224,9 +224,9 @@ describe('UnitAssignRolesComponent', () => {
   });
 
   describe('assign', () => {
-    it('should assign user', () => {
+    it('should assign approver', () => {
       component.assign(userRow);
-      expect(orgUnitService.assignRole).toHaveBeenCalledWith(
+      expect(orgUnitService.assignApprover).toHaveBeenCalledWith(
         code,
         userRow.row.email,
         roleId
@@ -235,9 +235,9 @@ describe('UnitAssignRolesComponent', () => {
   });
 
   describe('unassign', () => {
-    it('should unassign user', () => {
+    it('should unassign approver', () => {
       component.unassign(userRow);
-      expect(orgUnitService.unassignRole).toHaveBeenCalledWith(
+      expect(orgUnitService.unassignApprover).toHaveBeenCalledWith(
         code,
         userRow.row.email,
         roleId
