@@ -42,7 +42,7 @@ export class LaunchDialogService {
         this._dialogClose.next(undefined);
         return renderer.render(config, caller, vcr);
       }
-    } else if (isDevMode) {
+    } else if (isDevMode()) {
       console.warn('No configuration provided for caller ' + caller);
     }
   }

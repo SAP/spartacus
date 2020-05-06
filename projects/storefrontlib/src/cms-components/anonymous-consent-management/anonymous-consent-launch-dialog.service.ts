@@ -13,7 +13,7 @@ export class AnonymousConsentLaunchDialogService {
   openDialog(
     openElement?: ElementRef,
     vcr?: ViewContainerRef
-  ): Observable<any> {
+  ): Observable<any> | undefined {
     const component = this.launchDialogService.launch(
       LAUNCH_CALLER.ANONYMOUS_CONSENT,
       vcr

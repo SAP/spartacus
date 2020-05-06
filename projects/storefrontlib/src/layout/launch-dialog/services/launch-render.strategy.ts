@@ -77,9 +77,12 @@ export abstract class LaunchRenderStrategy implements Applicable {
     caller: LAUNCH_CALLER | string,
     config: LaunchDialog
   ): boolean {
-    return this.renderedCallers.some((el) => el.caller === caller)
-      ? !!config.multi
-      : true;
+    return (
+      Boolean(config.component) &&
+      (this.renderedCallers.some((el) => el.caller === caller)
+        ? !!config.multi
+        : true)
+    );
   }
 
   protected applyClasses(
