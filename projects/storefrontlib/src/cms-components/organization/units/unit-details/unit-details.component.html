@@ -117,6 +117,19 @@
     <a
       [routerLink]="
         {
+          cxRoute: 'orgUnitAssignApprovers',
+          params: { code: orgUnit.uid }
+        } | cxUrl
+      "
+      class="btn btn-primary btn-block"
+    >
+      {{ 'orgUnit.assignApprovers' | cxTranslate }}
+    </a>
+  </div>
+  <div class="col-md-12 col-lg-6">
+    <a
+      [routerLink]="
+        {
           cxRoute: 'orgUnitManageAddresses',
           params: { code: orgUnit.uid }
         } | cxUrl

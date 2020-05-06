@@ -31,28 +31,6 @@
   <div class="col-md-12 col-lg-3">
     <div class="row cx-search-links mb-3">
       <div class="col-12 cx-textalign">
-        <ng-select
-          bindLabel="name"
-          bindValue="roleId"
-          [clearable]="false"
-          [ngModel]="role$ | async"
-          (change)="changeRole($event)"
-          [items]="[
-            { name: 'usersList.admin' | cxTranslate, roleId: 'b2badmingroup' },
-            {
-              name: 'usersList.manager' | cxTranslate,
-              roleId: 'b2bmanagergroup'
-            },
-            {
-              name: 'usersList.customer' | cxTranslate,
-              roleId: 'b2bcustomergroup'
-            }
-          ]"
-        ></ng-select>
-      </div>
-    </div>
-    <div class="row cx-search-links mb-3">
-      <div class="col-12 cx-textalign">
         <!--          back-->
         <a
           [routerLink]="
