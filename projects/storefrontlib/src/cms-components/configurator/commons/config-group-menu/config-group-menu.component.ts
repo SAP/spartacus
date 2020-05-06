@@ -6,7 +6,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { delay, map, switchMap, take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
@@ -66,7 +66,8 @@ export class ConfigGroupMenuComponent implements OnInit {
             } else {
               return this.condenseGroups(configuration.groups);
             }
-          })
+          }),
+          delay(0)
         );
       })
     );
