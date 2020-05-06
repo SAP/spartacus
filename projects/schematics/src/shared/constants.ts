@@ -180,6 +180,7 @@ export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
 export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
 export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
+export const AMEND_ORDER_ACTIONS_COMPONENT = 'AmendOrderActionsComponent';
 export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
 export const CMS_MAPPING_SERVICE = 'CmsMappingService';
 export const COMPONENT_HANDLER_SERVICE = 'ComponentHandlerService';
@@ -195,6 +196,19 @@ export const TAB_PARAGRAPH_CONTAINER_COMPONENT =
   'TabParagraphContainerComponent';
 export const NAVIGATION_UI_COMPONENT = 'NavigationUIComponent';
 export const STORE_FINDER_LIST_ITEM_COMPONENT = 'StoreFinderListItemComponent';
+export const CART_CONFIG_SERVICE = 'CartConfigService';
+export const MULTI_CART_SERVICE = 'MultiCartService';
+export const BASE_SITE_SERVICE = 'BaseSiteService';
+export const PRODUCT_FACET_NAVIGATION_COMPONENT =
+  'ProductFacetNavigationComponent';
+export const BREAKPOINT_SERVICE = 'BreakpointService';
+export const STORE_FINDER_GRID_COMPONENT = 'StoreFinderGridComponent';
+export const OUTLET_RENDERER_SERVICE = 'OutletRendererService';
+export const SKIP_LINK_SERVICE = 'SkipLinkService';
+export const SKIP_LINK_CONFIG = 'SkipLinkConfig';
+export const KEYBOARD_FOCUS_SERVICE = 'KeyboardFocusService';
+export const STOREFRONT_COMPONENT = 'StorefrontComponent';
+export const HAMBURGER_MENU_SERVICE = 'HamburgerMenuService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -267,6 +281,12 @@ export const GET_STATE_SLICE = 'getStateSlice';
 export const OF_LOADER_LOAD = 'ofLoaderLoad';
 export const OF_LOADER_FAIL = 'ofLoaderFail';
 export const OF_LOADER_SUCCESS = 'ofLoaderSuccess';
+
+export const ONLY_NUMBER_DIRECTIVE_MODULE = 'OnlyNumberDirectiveModule';
+export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
+export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
+export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
