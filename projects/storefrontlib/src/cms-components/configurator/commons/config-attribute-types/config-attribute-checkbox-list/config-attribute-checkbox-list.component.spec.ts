@@ -63,7 +63,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     expect(component.attributeCheckBoxForms[2].value).toBe(true);
   });
 
-  it('select a checkbox value and deselect it again', () => {
+  it('select and deselect a checkbox value', () => {
     const checkboxId =
       '#cx-config--checkBoxList--' +
       component.attribute.name +
