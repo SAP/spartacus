@@ -233,15 +233,21 @@ describe('ConfigurationOverviewFormComponent', () => {
       'aa',
       '---xy',
       '---uv',
-      '-------uv'
+      '-------(u|)'
     );
   });
 
   it('should get 2 emissions of overview if configurations service emits fast', () => {
-    checkConfigurationOverviewObs(component, 'a---a', 'xy', '--uv', '--uv');
+    checkConfigurationOverviewObs(component, 'a---a', 'xy', '--uv', '--(u|)');
   });
 
   it('should get 2 emissions of overview if router and config service emit slowly', () => {
-    checkConfigurationOverviewObs(component, 'a-----a', '--x--y', 'uv', '--uv');
+    checkConfigurationOverviewObs(
+      component,
+      'a-----a',
+      '--x--y',
+      'uv',
+      '--(u|)'
+    );
   });
 });
