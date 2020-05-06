@@ -66,18 +66,10 @@
           <div class="col-md-12 col-lg-6">
             <button
               class="btn btn-primary btn-block"
-              (click)="openModal(confirmEnable)"
+              (click)="update({ activeFlag: true })"
             >
               {{ 'costCenter.enable' | cxTranslate }}
             </button>
-
-            <ng-template #confirmEnable>
-              <cx-confirm-modal
-                [title]="'costCenter.confirmActivation.title' | cxTranslate"
-                [message]="'costCenter.confirmActivation.message' | cxTranslate"
-                (confirm)="update({ activeFlag: true })"
-              ></cx-confirm-modal>
-            </ng-template>
           </div>
         </ng-template>
       </div>

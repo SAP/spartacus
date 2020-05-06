@@ -61,17 +61,10 @@
           <div class="col-md-12 col-lg-6">
             <button
               class="btn btn-primary btn-block"
-              (click)="openModal(confirmEnable)"
+              (click)="update({ active: true })"
             >
               {{ 'permission.enable' | cxTranslate }}
             </button>
-            <ng-template #confirmEnable>
-              <cx-confirm-modal
-                [title]="'permission.confirmActivation.title' | cxTranslate"
-                [message]="'permission.confirmActivation.message' | cxTranslate"
-                (confirm)="update({ active: true })"
-              ></cx-confirm-modal>
-            </ng-template>
           </div>
         </ng-template>
       </div>
