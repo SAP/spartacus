@@ -38,7 +38,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     const value1 = createValue('1', 'val1', true);
     const value2 = createValue('2', 'val2', false);
     const value3 = createValue('3', 'val3', true);
-    let attributes: Configurator.Value[] = [value1, value2, value3];
+    const values: Configurator.Value[] = [value1, value2, value3];
 
     fixture = TestBed.createComponent(ConfigAttributeCheckBoxListComponent);
     component = fixture.componentInstance;
@@ -47,7 +47,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       name: 'attributeName',
       attrCode: 444,
       uiType: Configurator.UiType.CHECKBOX,
-      values: attributes,
+      values: values,
     };
     fixture.detectChanges();
   });
