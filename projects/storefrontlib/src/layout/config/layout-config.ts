@@ -1,5 +1,6 @@
-import { DeferLoadingStrategy, Config } from '@spartacus/core';
 import { Injectable } from '@angular/core';
+import { Config, DeferLoadingStrategy } from '@spartacus/core';
+import { LaunchConfig } from '../launch-dialog/index';
 
 export enum BREAKPOINT {
   xs = 'xs',
@@ -82,4 +83,6 @@ export abstract class LayoutConfig {
      */
     intersectionMargin?: string;
   };
+
+  launch?: LaunchConfig;
 }
