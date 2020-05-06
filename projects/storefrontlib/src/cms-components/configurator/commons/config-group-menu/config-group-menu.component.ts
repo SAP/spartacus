@@ -81,7 +81,6 @@ export class ConfigGroupMenuComponent implements OnInit {
   click(group: Configurator.Group) {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
-        window.scroll(0, 0);
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
       } else {
