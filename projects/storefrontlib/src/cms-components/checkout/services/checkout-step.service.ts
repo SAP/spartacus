@@ -11,8 +11,8 @@ import { CheckoutConfigService } from './checkout-config.service';
 export class CheckoutStepService {
   // initial enabled steps
   intialSteps: CheckoutStep[] = this.checkoutConfigService.steps
-    .filter(step => !step.disabled)
-    .map(x => Object.assign({}, x));
+    .filter((step) => !step.disabled)
+    .map((x) => Object.assign({}, x));
 
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
     this.intialSteps
@@ -28,12 +28,7 @@ export class CheckoutStepService {
     const previousUrl = this.checkoutConfigService.getPreviousCheckoutStepUrl(
       this.activatedRoute
     );
-
-    if (previousUrl === null) {
-      this.routingService.go('cart');
-    } else {
-      this.routingService.go(previousUrl);
-    }
+    this.routingService.go(previousUrl === null ? 'cart' : previousUrl);
   }
 
   next(): void {
@@ -52,13 +47,13 @@ export class CheckoutStepService {
       return 'checkout.backToCart';
     }
 
-    return 'common.back'
+    return 'common.back';
   }
 
   resetSteps(): void {
     this.intialSteps = this.checkoutConfigService.steps
-      .filter(step => !step.disabled)
-      .map(x => Object.assign({}, x));
+      .filter((step) => !step.disabled)
+      .map((x) => Object.assign({}, x));
     this.steps$.next(this.intialSteps);
   }
 
@@ -66,12 +61,12 @@ export class CheckoutStepService {
     currentStepType: CheckoutStepType,
     disabled: boolean
   ): void {
-    const currentStep = this.intialSteps.find(step =>
+    const currentStep = this.intialSteps.find((step) =>
       step.type.includes(currentStepType)
     );
     if (currentStep) {
       currentStep.disabled = disabled;
-      this.steps$.next(this.intialSteps.filter(step => !step.disabled));
+      this.steps$.next(this.intialSteps.filter((step) => !step.disabled));
     }
   }
 }

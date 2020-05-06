@@ -17,33 +17,33 @@ import { CheckoutStepType } from '../../model/checkout-step.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentTypeComponent implements OnInit {
-  paymentTypes$: Observable<PaymentType[]>;
+  paymentTypes$: Observable<
+    PaymentType[]
+  > = this.paymentTypeService.getPaymentTypes().pipe(
+    tap((paymentTypes) => {
+      if (paymentTypes && paymentTypes.length > 0) {
+        // Now we use the first type as the default selected type
+        // This value should be read from cart.
+        // The `set PaymentType to cart` will be implemented in #6655
+        this.typeSelected = paymentTypes[0].code;
+      }
+    })
+  );
 
-  @ViewChild('poNumber', { static: false }) poNumberInput: ElementRef;
+  @ViewChild('poNumber', { static: false })
+  poNumberInput: ElementRef;
+
   typeSelected: string;
 
-  backBtnText = '';
+  backBtnText = this.checkoutStepService.getBackBntText();
 
   constructor(
     protected paymentTypeService: PaymentTypeService,
     protected checkoutStepService: CheckoutStepService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.checkoutStepService.resetSteps();
-
-    this.paymentTypes$ = this.paymentTypeService.getPaymentTypes().pipe(
-      tap(paymentTypes => {
-        if (paymentTypes && paymentTypes.length > 0) {
-          // Now we use the first type as the default selected type
-          // This value should be read from cart.
-          // The `set PaymentType to cart` will be implemented in #6655
-          this.typeSelected = paymentTypes[0].code;
-        }
-      })
-    );
-
-    this.backBtnText = this.checkoutStepService.getBackBntText();
   }
 
   changeType(code: string): void {

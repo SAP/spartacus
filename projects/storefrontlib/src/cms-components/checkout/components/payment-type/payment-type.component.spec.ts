@@ -64,12 +64,12 @@ describe('PaymentTypeComponent', () => {
       ],
     }).compileComponents();
 
-    paymentTypeService = TestBed.inject(PaymentTypeService as Type<
-      PaymentTypeService
-    >);
-    checkoutStepService = TestBed.inject(CheckoutStepService as Type<
-      CheckoutStepService
-    >);
+    paymentTypeService = TestBed.inject(
+      PaymentTypeService as Type<PaymentTypeService>
+    );
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>
+    );
 
     spyOn(paymentTypeService, 'getPaymentTypes').and.returnValue(
       of(mockPaymentTypes)
@@ -88,7 +88,7 @@ describe('PaymentTypeComponent', () => {
   });
 
   it('should get all supported payment types', () => {
-    component.paymentTypes$.subscribe(types => {
+    component.paymentTypes$.subscribe((types) => {
       expect(types).toBe(mockPaymentTypes);
     });
   });

@@ -75,9 +75,9 @@ describe('CheckoutStpService', () => {
 
     activatedRoute = TestBed.inject(ActivatedRoute as Type<ActivatedRoute>);
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
-    checkoutConfigService = TestBed.inject(CheckoutConfigService as Type<
-      CheckoutConfigService
-    >);
+    checkoutConfigService = TestBed.inject(
+      CheckoutConfigService as Type<CheckoutConfigService>
+    );
 
     service = new CheckoutStepService(
       routingService,
@@ -119,11 +119,11 @@ describe('CheckoutStpService', () => {
     let steps = [];
     // disable the first step
     service.disableEnableStep(CheckoutStepType.PAYMENT_TYPES, true);
-    service.steps$.subscribe(value => (steps = value)).unsubscribe();
+    service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(3);
     // reset
     service.resetSteps();
-    service.steps$.subscribe(value => (steps = value)).unsubscribe();
+    service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(4);
     expect(steps[0].id).toEqual('step0');
   });
@@ -132,13 +132,13 @@ describe('CheckoutStpService', () => {
     let steps = [];
     // disable the first step
     service.disableEnableStep(CheckoutStepType.PAYMENT_TYPES, true);
-    service.steps$.subscribe(value => (steps = value)).unsubscribe();
+    service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(3);
     expect(steps[0].id).toEqual('step1');
 
     // enable the first setp
     service.disableEnableStep(CheckoutStepType.PAYMENT_TYPES, false);
-    service.steps$.subscribe(value => (steps = value)).unsubscribe();
+    service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(4);
     expect(steps[0].id).toEqual('step0');
   });
