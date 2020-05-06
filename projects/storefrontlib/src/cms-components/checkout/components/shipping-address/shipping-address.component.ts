@@ -130,12 +130,13 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   addAddress(address: Address): void {
-    const selectedSub = this.selectedAddress$.subscribe((selected) => {
-      if (selected && selected.shippingAddress) {
-        this.goNext();
-        selectedSub.unsubscribe();
-      }
-    });
+    this.selectedAddress$
+      .subscribe((selected) => {
+        if (selected && selected.shippingAddress) {
+          this.goNext();
+        }
+      })
+      .unsubscribe();
 
     this.forceLoader = true;
 
