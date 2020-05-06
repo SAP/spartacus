@@ -5,7 +5,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { LaunchConfig, LaunchInlineDialog, LAUNCH_CALLER } from '../config';
+import { LayoutConfig } from '../../config/layout-config';
+import { LaunchInlineDialog, LAUNCH_CALLER } from '../config';
 import { InlineRenderStrategy } from './inline-render.strategy';
 
 const testTemplate = {} as ComponentFactory<any>;
@@ -17,7 +18,7 @@ class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }
 
-const mockLaunchConfig: LaunchConfig = {
+const mockLaunchConfig: LayoutConfig = {
   launch: {
     TEST_INLINE: {
       inline: true,
