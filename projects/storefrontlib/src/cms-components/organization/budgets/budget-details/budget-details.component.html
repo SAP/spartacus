@@ -57,10 +57,18 @@
         <div *ngIf="budget.active; else enable" class="col-md-12 col-lg-6">
           <button
             class="btn btn-secondary btn-block"
-            (click)="update({ active: false })"
+            (click)="openModal(confirmDisable)"
           >
             {{ 'budget.disable' | cxTranslate }}
           </button>
+
+          <ng-template #confirmDisable>
+            <cx-confirm-modal
+              [title]="'budget.confirmDeactivation.title' | cxTranslate"
+              [message]="'budget.confirmDeactivation.message' | cxTranslate"
+              (confirm)="update({ active: false })"
+            ></cx-confirm-modal>
+          </ng-template>
         </div>
         <ng-template #enable>
           <div class="col-md-12 col-lg-6">

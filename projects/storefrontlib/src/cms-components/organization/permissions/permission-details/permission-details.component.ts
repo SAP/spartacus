@@ -1,7 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { Permission, PermissionService, RoutingService } from '@spartacus/core';
 
 @Component({
@@ -19,7 +24,8 @@ export class PermissionDetailsComponent implements OnInit {
 
   constructor(
     protected routingService: RoutingService,
-    protected permissionsService: PermissionService
+    protected permissionsService: PermissionService,
+    protected modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -39,5 +45,11 @@ export class PermissionDetailsComponent implements OnInit {
       .subscribe((permissionCode) =>
         this.permissionsService.update(permissionCode, permission)
       );
+  }
+
+  openModal(template: TemplateRef<any>): void {
+    this.modalService.open(template, {
+      centered: true,
+    });
   }
 }
