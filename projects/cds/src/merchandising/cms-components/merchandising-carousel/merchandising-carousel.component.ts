@@ -8,6 +8,7 @@ import {
   shareReplay,
   switchMap,
   switchMapTo,
+  take,
   tap,
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
@@ -41,7 +42,6 @@ export class MerchandisingCarouselComponent {
         data
       )
     ),
-    tap((_) => console.log('fetch products data fired')),
     tap((data) => {
       if (typeof data.backgroundColor === 'string') {
         this.el.nativeElement.style.setProperty(
@@ -60,7 +60,7 @@ export class MerchandisingCarouselComponent {
   );
 
   private intersection$: Observable<void> = this.fetchProducts$.pipe(
-    filter((model) => Boolean(model)),
+    take(1),
     switchMap((_) =>
       this.routingService.getPageContext().pipe(
         switchMapTo(this.componentData.data$),
@@ -76,7 +76,6 @@ export class MerchandisingCarouselComponent {
               threshold,
             })
             .pipe(
-              tap((x) => console.log('seen: ', x)),
               filter((carouselIsVisible) => carouselIsVisible),
               switchMapTo(
                 this.merchandisingCarouselComponentService.sendCarouselViewEvent(

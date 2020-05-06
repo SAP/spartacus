@@ -49,8 +49,7 @@ export class ProfileTagEventService {
       ).pipe(
         map((event) => <ConsentReferenceEvent>event),
         map((event) => event.detail.consentReference),
-        shareReplay(1),
-        tap((x) => console.log('getConsentReference() fired: ', x))
+        shareReplay(1)
       );
     }
     return this.consentReference$;
@@ -122,7 +121,6 @@ export class ProfileTagEventService {
 
   notifyProfileTagOfEventOccurence(event: ProfiletagPushEvent): void {
     try {
-      console.log('event pushed: ', event);
       this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
     } catch (e) {
       console.log(`Unexpected error when calling profiletag push method ${e}`);
