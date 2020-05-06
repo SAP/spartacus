@@ -48,7 +48,7 @@ describe('PaymentTypeService', () => {
     );
 
     let paymentTypes: PaymentType[];
-    service.getPaymentTypes().subscribe(data => {
+    service.getPaymentTypes().subscribe((data) => {
       paymentTypes = data;
     });
     expect(paymentTypes).toEqual([
@@ -63,7 +63,7 @@ describe('PaymentTypeService', () => {
     let types: PaymentType[];
     service
       .getPaymentTypes()
-      .subscribe(data => {
+      .subscribe((data) => {
         types = data;
       })
       .unsubscribe();

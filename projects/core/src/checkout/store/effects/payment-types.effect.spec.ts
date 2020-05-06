@@ -38,9 +38,9 @@ describe('Payment Types effect', () => {
     });
 
     effect = TestBed.inject(PaymentTypesEffects as Type<PaymentTypesEffects>);
-    service = TestBed.inject(PaymentTypeConnector as Type<
-      PaymentTypeConnector
-    >);
+    service = TestBed.inject(
+      PaymentTypeConnector as Type<PaymentTypeConnector>
+    );
 
     spyOn(service, 'getPaymentTypes').and.returnValue(of(mockPaymentTypes));
   });

@@ -62,4 +62,8 @@ $modal-min-width-sm: 100% !important;
     align-items: unset !important;
     overflow-y: auto;
   }
+
+  .modal-dialog {
+    overflow-y: initial;
+  }
 }

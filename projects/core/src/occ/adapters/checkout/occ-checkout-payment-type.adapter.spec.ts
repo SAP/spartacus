@@ -33,12 +33,12 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
-    service = TestBed.inject(OccCheckoutPaymentTypeAdapter as Type<
-      OccCheckoutPaymentTypeAdapter
-    >);
-    httpMock = TestBed.inject(HttpTestingController as Type<
-      HttpTestingController
-    >);
+    service = TestBed.inject(
+      OccCheckoutPaymentTypeAdapter as Type<OccCheckoutPaymentTypeAdapter>
+    );
+    httpMock = TestBed.inject(
+      HttpTestingController as Type<HttpTestingController>
+    );
     converter = TestBed.inject(ConverterService as Type<ConverterService>);
 
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -63,11 +63,11 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
         ],
       };
 
-      service.loadPaymentTypes().subscribe(result => {
+      service.loadPaymentTypes().subscribe((result) => {
         expect(result).toEqual(paymentTypesList.paymentTypes);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET' && req.url === '/paymenttypes';
       });
 

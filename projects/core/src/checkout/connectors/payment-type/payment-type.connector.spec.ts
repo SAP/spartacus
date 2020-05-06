@@ -25,9 +25,9 @@ describe('PaymentTypeConnector', () => {
       ],
     });
 
-    service = TestBed.inject(PaymentTypeConnector as Type<
-      PaymentTypeConnector
-    >);
+    service = TestBed.inject(
+      PaymentTypeConnector as Type<PaymentTypeConnector>
+    );
     adapter = TestBed.inject(PaymentTypeAdapter as Type<PaymentTypeAdapter>);
   });
 
@@ -37,7 +37,7 @@ describe('PaymentTypeConnector', () => {
 
   it('getPaymentType should call adapter', () => {
     let result;
-    service.getPaymentTypes().subscribe(res => (result = res));
+    service.getPaymentTypes().subscribe((res) => (result = res));
     expect(result).toEqual([]);
     expect(adapter.loadPaymentTypes).toHaveBeenCalledWith();
   });
