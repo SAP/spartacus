@@ -1,5 +1,5 @@
-import { ProfiletagPushEvent } from '../../../../profiletag';
-import { MerchandisingMetadata } from '../../../model';
+import { ProfiletagPushEvent } from '../../../../profiletag/index';
+import { MerchandisingMetadata } from '../../../model/index';
 
 const CAROUSEL_VIEWED = 'CarouselViewed';
 const CAROUSEL_CLICKED = 'CarouselClicked';

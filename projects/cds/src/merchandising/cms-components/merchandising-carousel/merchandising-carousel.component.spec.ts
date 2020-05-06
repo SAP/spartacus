@@ -18,7 +18,7 @@ import {
 import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
-import { MerchandisingMetadata, MerchandisingProduct } from '../../model';
+import { MerchandisingMetadata, MerchandisingProduct } from '../../model/index';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
@@ -133,8 +133,8 @@ class MockMerchandisingCarouselComponentService {
     return of(merchandisingCarouselModel);
   }
 
-  getMerchandisingCaourselViewportThreshold(): Observable<number> {
-    return of(0.8);
+  getMerchandisingCaourselViewportThreshold(): number {
+    return 0.8;
   }
 }
 

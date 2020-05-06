@@ -2,20 +2,20 @@ import { async, TestBed, TestBedStatic } from '@angular/core/testing';
 import { Product, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
-import { CdsConfig } from '../../../config';
-import { ProfileTagEventService } from '../../../profiletag';
+import { CdsConfig } from '../../../config/index';
+import { ProfileTagEventService } from '../../../profiletag/index';
 import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
 import {
   MerchandisingMetadata,
   MerchandisingProduct,
   StrategyProducts,
-} from '../../model';
+} from '../../model/index';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import {
   MerchandisingCarouselClicked,
   MerchandisingCarouselModel,
   MerchandisingCarouselViewed,
-} from './model';
+} from './model/index';
 import createSpy = jasmine.createSpy;
 
 const mockStrategyProducts: StrategyProducts = {
@@ -161,43 +161,29 @@ describe('MerchandisingCarouselComponentService', () => {
       });
       componentService = TestBed.inject(MerchandisingCarouselComponentService);
 
-      let actualViewportThreshold;
-
-      componentService
-        .getMerchandisingCaourselViewportThreshold(emptyComponentData)
-        .subscribe(
-          (viewportThreshold) => (actualViewportThreshold = viewportThreshold)
-        );
-
-      expect(actualViewportThreshold).toBe(0.8);
+      expect(
+        componentService.getMerchandisingCaourselViewportThreshold(
+          emptyComponentData
+        )
+      ).toBe(0.8);
     });
 
     it('should fallback to the carousel viewport threshold in the CDS config if one is not provided in the carousel CMS component config', () => {
-      let actualViewportThreshold;
-
-      componentService
-        .getMerchandisingCaourselViewportThreshold(emptyComponentData)
-        .subscribe(
-          (viewportThreshold) => (actualViewportThreshold = viewportThreshold)
-        );
-
-      expect(actualViewportThreshold).toBe(
+      expect(
+        componentService.getMerchandisingCaourselViewportThreshold(
+          emptyComponentData
+        )
+      ).toBe(
         mockCdsConfig.cds.merchandising.defaultCarouselViewportThreshold / 100
       );
     });
 
     it('should get the carousel viewport threshold from the carousel CMS component config', () => {
-      let actualViewportThreshold;
-
-      componentService
-        .getMerchandisingCaourselViewportThreshold(mockComponentData)
-        .subscribe(
-          (viewportThreshold) => (actualViewportThreshold = viewportThreshold)
-        );
-
-      expect(actualViewportThreshold).toBe(
-        mockComponentData.viewportPercentage / 100
-      );
+      expect(
+        componentService.getMerchandisingCaourselViewportThreshold(
+          mockComponentData
+        )
+      ).toBe(mockComponentData.viewportPercentage / 100);
     });
   });
 
