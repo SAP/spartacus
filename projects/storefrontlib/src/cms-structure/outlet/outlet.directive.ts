@@ -49,7 +49,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
       TemplateRef<any> | ComponentFactory<any>
     >,
     private deferLoaderService: DeferLoaderService,
-    private outletRendererService?: OutletRendererService
+    private outletRendererService: OutletRendererService
   ) {}
 
   public render(): void {
