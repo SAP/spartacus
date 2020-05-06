@@ -62,10 +62,9 @@ export class MerchandisingCarouselComponent {
 
   private intersection$: Observable<void> = this.fetchProducts$.pipe(
     take(1),
-    switchMap((_) =>
+    switchMapTo(
       this.routingService.getPageContext().pipe(
         switchMapTo(this.componentData.data$),
-        filter((data) => Boolean(data)),
         map((data) =>
           this.merchandisingCarouselComponentService.getMerchandisingCaourselViewportThreshold(
             data
