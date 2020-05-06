@@ -43,6 +43,7 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
   }
 
   navigateToNextGroup(configuration: Configurator.Configuration) {
+    window.scroll(0, 0);
     this.configuratorGroupsService
       .getNextGroupId(configuration.owner)
       .pipe(take(1))
@@ -52,6 +53,7 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
   }
 
   navigateToPreviousGroup(configuration: Configurator.Configuration) {
+    window.scroll(0, 0);
     this.configuratorGroupsService
       .getPreviousGroupId(configuration.owner)
       .pipe(take(1))
