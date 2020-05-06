@@ -35,6 +35,8 @@ export const CHANGE_GROUP = '[Configurator] Change group';
 export const CHANGE_GROUP_FINALIZE = '[Configurator] Change group finalize';
 export const ADD_TO_CART = '[Configurator] Add to cart';
 export const UPDATE_CART_ENTRY = '[Configurator] Update cart entry';
+export const UPDATE_CART_ENTRY_SUCCESS =
+  '[Configurator] Update cart entry success';
 
 export const REMOVE_CONFIGURATION = '[Configurator] Remove configuration';
 
@@ -218,6 +220,13 @@ export class UpdateCartEntry extends StateEntityLoaderActions.EntityLoadAction {
   }
 }
 
+export class UpdateCartEntrySuccess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = UPDATE_CART_ENTRY_SUCCESS;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.owner.key);
+  }
+}
+
 export class RemoveConfiguration extends StateEntityLoaderActions.EntityResetAction {
   readonly type = REMOVE_CONFIGURATION;
   constructor(ownerKey: string | string[]) {
@@ -287,4 +296,5 @@ export type ConfiguratorAction =
   | ReadCartEntryConfigurationSuccess
   | ReadCartEntryConfigurationFail
   | UpdateCartEntry
+  | UpdateCartEntrySuccess
   | RemoveConfiguration;
