@@ -19,6 +19,8 @@ const GROUP_ID_5 = '1234-56-7895';
 const GROUP_ID_6 = '1234-56-7896';
 const GROUP_ID_7 = '1234-56-7897';
 const GROUP_ID_8 = '1234-56-7898';
+const GROUP_ID_9 = '1234-56-7899';
+const GROUP_ID_10 = '1234-56-7900';
 const uiState: UiState = {
   currentGroup: GROUP_ID_2,
   menuParentGroup: GROUP_ID_3,
@@ -28,14 +30,80 @@ const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
   groups: [
-    { id: GROUP_ID_1, subGroups: [] },
-    { id: GROUP_ID_2, subGroups: [] },
-    { id: GROUP_ID_3, subGroups: [{ id: GROUP_ID_4, subGroups: [] }] },
+    {
+      id: GROUP_ID_1,
+      attributes: [
+        {
+          name: 'ATTRIBUTE_1_CHECKBOX',
+          uiType: Configurator.UiType.CHECKBOX,
+          values: [],
+          required: true,
+        },
+      ],
+      subGroups: [],
+    },
+
+    {
+      id: GROUP_ID_2,
+      attributes: [
+        {
+          name: 'ATTRIBUTE_2_RADIOBUTTON',
+          uiType: Configurator.UiType.RADIOBUTTON,
+          selectedSingleValue: null,
+          required: false,
+        },
+      ],
+      subGroups: [],
+    },
+    {
+      id: GROUP_ID_3,
+      attributes: [
+        {
+          name: 'ATTRIBUTE_3_SINGLESELECTIONIMAGE',
+          uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
+          selectedSingleValue: null,
+          required: true,
+        },
+      ],
+      subGroups: [{ id: GROUP_ID_4, subGroups: [] }],
+    },
     {
       id: GROUP_ID_5,
+      attributes: [
+        {
+          name: 'ATTRIBUTE_5_STRING',
+          uiType: Configurator.UiType.STRING,
+          userInput: 'input',
+          required: true,
+        },
+        {
+          name: 'ATTRIBUTE_5_DROPDOWN',
+          uiType: Configurator.UiType.DROPDOWN,
+          selectedSingleValue: null,
+          required: true,
+        },
+      ],
+
       subGroups: [
         { id: GROUP_ID_6, subGroups: [] },
         { id: GROUP_ID_7, subGroups: [{ id: GROUP_ID_8, subGroups: [] }] },
+      ],
+    },
+
+    {
+      id: GROUP_ID_9,
+      subGroups: [
+        {
+          id: GROUP_ID_10,
+          attributes: [
+            {
+              name: 'ATTRIBUTE_10_DROPDOWN',
+              uiType: Configurator.UiType.DROPDOWN,
+              selectedSingleValue: 'test123',
+              required: true,
+            },
+          ],
+        },
       ],
     },
   ],
@@ -45,6 +113,7 @@ const productConfiguration: Configurator.Configuration = {
     { id: GROUP_ID_4 },
     { id: GROUP_ID_6 },
     { id: GROUP_ID_7 },
+    { id: GROUP_ID_10 },
   ],
   owner: {
     id: PRODUCT_CODE,
@@ -266,10 +335,36 @@ describe('ConfiguratorGroupsService', () => {
 
       const expectedAction = new UiActions.SetGroupsVisited(
         productConfiguration.owner.key,
-        [GROUP_ID_8, GROUP_ID_7, GROUP_ID_5]
+        [GROUP_ID_8, GROUP_ID_7, GROUP_ID_6]
       );
 
       expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
+    });
+
+    it('should return status completed if required fields are filled', () => {
+      // required checkbox not filled
+      expect(
+        serviceUnderTest.isGroupComplete(productConfiguration.groups[0])
+      ).toBe(false);
+      //no required attributes in group
+      expect(
+        serviceUnderTest.isGroupComplete(productConfiguration.groups[1])
+      ).toBe(true);
+      // two required attributes, only one is filled
+      expect(
+        serviceUnderTest.isGroupComplete(productConfiguration.groups[3])
+      ).toBe(false);
+      //required single selection image not filled
+      expect(
+        serviceUnderTest.isGroupComplete(productConfiguration.groups[2])
+      ).toBe(false);
+    });
+
+    it('should return status completed if required fields are filled', () => {
+      // required checkbox not filled
+      expect(
+        serviceUnderTest.isGroupComplete(productConfiguration.groups[0])
+      ).toBe(false);
     });
   });
 });

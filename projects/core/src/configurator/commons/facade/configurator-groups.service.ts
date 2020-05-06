@@ -97,11 +97,57 @@ export class ConfiguratorGroupsService {
     return this.store.select(UiSelectors.areGroupsVisited(owner.key, groupIds));
   }
 
+  isGroupComplete(group: Configurator.Group): Boolean {
+    let isGroupComplete = true;
+
+    group.attributes.forEach((attribute) => {
+      if (!attribute.required || !isGroupComplete) {
+        return;
+      }
+      switch (attribute.uiType) {
+        case Configurator.UiType.RADIOBUTTON:
+        case Configurator.UiType.DROPDOWN:
+        case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
+          if (!attribute.selectedSingleValue) {
+            isGroupComplete = false;
+          }
+          break;
+        }
+
+        case Configurator.UiType.STRING: {
+          if (!attribute.userInput) {
+            isGroupComplete = false;
+          }
+          break;
+        }
+
+        case Configurator.UiType.CHECKBOX:
+        case Configurator.UiType.MULTI_SELECTION_IMAGE: {
+          let oneValueSelected = false;
+          attribute.values.forEach((value) => {
+            if (value.selected) {
+              oneValueSelected = true;
+            }
+          });
+
+          if (!oneValueSelected) {
+            isGroupComplete = false;
+          }
+
+          break;
+        }
+      }
+    });
+
+    return isGroupComplete;
+  }
+
   getParentGroupStatus(
     configuration: Configurator.Configuration,
     groupId: string,
     parentGroup: Configurator.Group,
-    groupIds: string[]
+    visitedGroupIds: string[],
+    completedGroupIds: string[]
   ) {
     if (parentGroup === null) {
       return;
@@ -120,7 +166,7 @@ export class ConfiguratorGroupsService {
       .pipe(take(1))
       .subscribe((isVisited) => {
         if (isVisited) {
-          groupIds.push(parentGroup.id);
+          visitedGroupIds.push(parentGroup.id);
 
           this.getParentGroupStatus(
             configuration,
@@ -130,7 +176,8 @@ export class ConfiguratorGroupsService {
               this.findCurrentGroup(configuration.groups, parentGroup.id),
               null
             ),
-            groupIds
+            visitedGroupIds,
+            completedGroupIds
           );
         }
       });
