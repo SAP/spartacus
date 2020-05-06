@@ -56,14 +56,14 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('forms should have 3 entries after init with first and last value filled', () => {
+  it('should have 3 entries after init with first and last value filled', () => {
     expect(component.attributeCheckBoxForms.length).toBe(3);
     expect(component.attributeCheckBoxForms[0].value).toBe(true);
     expect(component.attributeCheckBoxForms[1].value).toBe(false);
     expect(component.attributeCheckBoxForms[2].value).toBe(true);
   });
 
-  it('select and deselect a checkbox value', () => {
+  it('should select and deselect a checkbox value', () => {
     const checkboxId =
       '#cx-config--checkBoxList--' +
       component.attribute.name +
