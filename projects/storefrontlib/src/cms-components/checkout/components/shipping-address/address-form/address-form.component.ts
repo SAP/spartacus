@@ -13,6 +13,7 @@ import {
   AddressValidation,
   CheckoutDeliveryService,
   Country,
+  ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
   Region,
@@ -26,8 +27,8 @@ import {
   ModalRef,
   ModalService,
 } from '../../../../../shared/components/modal/index';
-import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { sortTitles } from '../../../../../shared/utils/forms/title-utils';
+import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 
 @Component({
   selector: 'cx-address-form',
@@ -50,7 +51,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   cancelBtnLabel: string;
 
   @Input()
-  setAsDefaultField: boolean;
+  setAsDefaultField = true;
 
   @Input()
   showTitleCode: boolean;
@@ -98,7 +99,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Fetching countries
     this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
-      tap((countries) => {
+      tap((countries: Country[]) => {
         if (Object.keys(countries).length === 0) {
           this.userAddressService.loadDeliveryCountries();
         }
@@ -107,7 +108,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     // Fetching titles
     this.titles$ = this.userService.getTitles().pipe(
-      tap((titles) => {
+      tap((titles: Title[]) => {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
         }
@@ -122,7 +123,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     // Fetching regions
     this.regions$ = this.selectedCountry$.pipe(
       switchMap((country) => this.userAddressService.getRegions(country)),
-      tap((regions) => {
+      tap((regions: Region[]) => {
         const regionControl = this.addressForm.get('region.isocode');
         if (regions && regions.length > 0) {
           regionControl.enable();
@@ -143,7 +144,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         } else if (results.decision === 'REJECT') {
           // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
           if (
-            results.errors.errors.some((error) => error.subject === 'titleCode')
+            results.errors.errors.some(
+              (error: ErrorModel) => error.subject === 'titleCode'
+            )
           ) {
             this.globalMessageService.add(
               { key: 'addressForm.titleRequired' },
