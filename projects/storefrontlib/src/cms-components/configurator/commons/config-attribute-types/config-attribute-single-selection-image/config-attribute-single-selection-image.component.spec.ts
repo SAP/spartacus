@@ -7,7 +7,7 @@ import { ConfigAttributeSingleSelectionImageComponent } from './config-attribute
 import { NgSelectModule } from '@ng-select/ng-select';
 import { By } from '@angular/platform-browser';
 
-fdescribe('ConfigAttributeSingleSelectionImageComponent', () => {
+describe('ConfigAttributeSingleSelectionImageComponent', () => {
   let component: ConfigAttributeSingleSelectionImageComponent;
   let fixture: ComponentFixture<ConfigAttributeSingleSelectionImageComponent>;
 
