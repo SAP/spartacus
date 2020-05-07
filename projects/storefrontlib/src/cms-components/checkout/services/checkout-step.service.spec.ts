@@ -79,11 +79,7 @@ describe('CheckoutStpService', () => {
       CheckoutConfigService as Type<CheckoutConfigService>
     );
 
-    service = new CheckoutStepService(
-      routingService,
-      checkoutConfigService,
-      activatedRoute
-    );
+    service = new CheckoutStepService(routingService, checkoutConfigService);
   });
 
   it('should be created', () => {
@@ -91,28 +87,30 @@ describe('CheckoutStpService', () => {
   });
 
   it('should be able to go back', () => {
-    service.back();
+    service.back(activatedRoute);
     expect(routingService.go).toHaveBeenCalledWith('');
 
     spyOn(checkoutConfigService, 'getPreviousCheckoutStepUrl').and.returnValue(
       null
     );
-    service.back();
+    service.back(activatedRoute);
     expect(routingService.go).toHaveBeenCalledWith('cart');
   });
 
   it('should be able to go next', () => {
-    service.next();
+    service.next(activatedRoute);
     expect(routingService.go).toHaveBeenCalledWith('');
   });
 
   it('should be able to get back button text', () => {
-    expect(service.getBackBntText()).toEqual('common.back');
+    expect(service.getBackBntText(activatedRoute)).toEqual('common.back');
 
     spyOn(checkoutConfigService, 'getPreviousCheckoutStepUrl').and.returnValue(
       null
     );
-    expect(service.getBackBntText()).toEqual('checkout.backToCart');
+    expect(service.getBackBntText(activatedRoute)).toEqual(
+      'checkout.backToCart'
+    );
   });
 
   it('should be able to reset the steps', () => {

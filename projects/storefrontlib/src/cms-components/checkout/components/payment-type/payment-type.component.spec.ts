@@ -1,4 +1,5 @@
 import { Component, Type } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -36,6 +37,10 @@ class MockCheckoutStepService {
   }
 }
 
+class MockActivatedRoute {
+  snapshot = of();
+}
+
 const mockPaymentTypes: PaymentType[] = [
   { code: 'card', displayName: 'card' },
   { code: 'account', displayName: 'account' },
@@ -61,6 +66,7 @@ describe('PaymentTypeComponent', () => {
           provide: CheckoutStepService,
           useClass: MockCheckoutStepService,
         },
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
       ],
     }).compileComponents();
 

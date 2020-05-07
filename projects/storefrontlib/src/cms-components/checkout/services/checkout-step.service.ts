@@ -20,29 +20,27 @@ export class CheckoutStepService {
 
   constructor(
     protected routingService: RoutingService,
-    protected checkoutConfigService: CheckoutConfigService,
-    protected activatedRoute: ActivatedRoute
+    protected checkoutConfigService: CheckoutConfigService
   ) {}
 
-  back(): void {
+  back(activatedRoute: ActivatedRoute): void {
     const previousUrl = this.checkoutConfigService.getPreviousCheckoutStepUrl(
-      this.activatedRoute
+      activatedRoute
     );
     this.routingService.go(previousUrl === null ? 'cart' : previousUrl);
   }
 
-  next(): void {
+  next(activatedRoute: ActivatedRoute): void {
     const nextUrl = this.checkoutConfigService.getNextCheckoutStepUrl(
-      this.activatedRoute
+      activatedRoute
     );
     this.routingService.go(nextUrl);
   }
 
-  getBackBntText(): string {
+  getBackBntText(activatedRoute: ActivatedRoute): string {
     if (
-      this.checkoutConfigService.getPreviousCheckoutStepUrl(
-        this.activatedRoute
-      ) === null
+      this.checkoutConfigService.getPreviousCheckoutStepUrl(activatedRoute) ===
+      null
     ) {
       return 'checkout.backToCart';
     }

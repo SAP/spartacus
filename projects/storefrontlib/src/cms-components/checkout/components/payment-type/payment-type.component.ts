@@ -5,6 +5,7 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { PaymentTypeService, PaymentType } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -35,11 +36,12 @@ export class PaymentTypeComponent implements OnInit {
 
   typeSelected: string;
 
-  backBtnText = this.checkoutStepService.getBackBntText();
+  backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
   constructor(
     protected paymentTypeService: PaymentTypeService,
-    protected checkoutStepService: CheckoutStepService
+    protected checkoutStepService: CheckoutStepService,
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -57,10 +59,10 @@ export class PaymentTypeComponent implements OnInit {
 
   next(): void {
     // here need set payment type, will implemented in #6655
-    this.checkoutStepService.next();
+    this.checkoutStepService.next(this.activatedRoute);
   }
 
   back(): void {
-    this.checkoutStepService.back();
+    this.checkoutStepService.back(this.activatedRoute);
   }
 }
