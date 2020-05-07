@@ -63,8 +63,9 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
         ],
       };
 
-      service.loadPaymentTypes().subscribe((result) => {
-        expect(result).toEqual(paymentTypesList.paymentTypes);
+      let result;
+      service.loadPaymentTypes().subscribe((res) => {
+        result = res;
       });
 
       const mockReq = httpMock.expectOne((req) => {
@@ -74,6 +75,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(paymentTypesList);
+      expect(result).toEqual(paymentTypesList.paymentTypes);
     });
 
     it('should use converter', () => {
