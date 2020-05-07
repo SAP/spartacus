@@ -97,7 +97,11 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   }
 
   protected getComponentsEndpoint(requestParams: any, fields: string): string {
-    return this.occEndpoints.getUrl('components', { fields }, requestParams);
+    return this.occEndpoints.getUrl(
+      'components',
+      {},
+      { fields, ...requestParams }
+    );
   }
 
   private getPaginationParams(

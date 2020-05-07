@@ -1,21 +1,18 @@
-import { NgModule } from '@angular/core';
-import { Config, ConfigModule } from '../config/index';
-import { CmsStructureConfig } from './config/cms-structure.config';
-import { CmsConfig, defaultCmsModuleConfig } from './config/index';
-import { CmsService } from './facade/index';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+import { provideDefaultConfig } from '../config/config.module';
+import { defaultCmsModuleConfig } from './config/default-cms-config';
+import { CmsService } from './facade/cms.service';
 import { CmsPageTitleModule } from './page/page.module';
 import { CmsStoreModule } from './store/cms-store.module';
 
 @NgModule({
-  imports: [
-    CmsStoreModule,
-    ConfigModule.withConfig(defaultCmsModuleConfig),
-    CmsPageTitleModule,
-  ],
-  providers: [
-    CmsService,
-    { provide: CmsConfig, useExisting: Config },
-    { provide: CmsStructureConfig, useExisting: Config },
-  ],
+  imports: [CmsStoreModule, CmsPageTitleModule],
 })
-export class CmsModule {}
+export class CmsModule {
+  static forRoot(): ModuleWithProviders<CmsModule> {
+    return {
+      ngModule: CmsModule,
+      providers: [CmsService, provideDefaultConfig(defaultCmsModuleConfig)],
+    };
+  }
+}

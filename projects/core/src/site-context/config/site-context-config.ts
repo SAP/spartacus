@@ -1,23 +1,13 @@
-export enum ContextPersistence {
-  NONE = 'none',
-  ROUTE = 'route',
-  // possible future values:
-  // SESSION = 'session',
-  // DOMAIN = 'domain',
-  // COOKIE = 'cookie'
-}
+import { Injectable } from '@angular/core';
+import { Config } from '../../config/config.module';
 
-export interface ContextParameter {
-  persistence?: ContextPersistence | string;
-  default?: string;
-  values?: string[];
-}
-
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
 export abstract class SiteContextConfig {
   context?: {
-    parameters?: {
-      [contextName: string]: ContextParameter;
-    };
-    urlEncodingParameters?: string[];
+    urlParameters?: string[];
+    [contextName: string]: string[];
   };
 }

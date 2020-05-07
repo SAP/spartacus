@@ -20,7 +20,7 @@ describe('User Addresses Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -29,7 +29,7 @@ describe('User Addresses Selectors', () => {
       let result: LoaderState<Address[]>;
       store
         .pipe(select(UsersSelectors.getAddressesLoaderState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -46,7 +46,7 @@ describe('User Addresses Selectors', () => {
       let result: Address[];
       store
         .pipe(select(UsersSelectors.getAddresses))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 
@@ -63,11 +63,26 @@ describe('User Addresses Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getAddressesLoading))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
 
       store.dispatch(new UserActions.LoadUserAddresses('userId'));
+
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('getAddressesLoadedSuccess', () => {
+    it('should return loaded flag', () => {
+      let result: boolean;
+      store
+        .pipe(select(UsersSelectors.getAddressesLoadedSuccess))
+        .subscribe((value) => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new UserActions.LoadUserAddressesSuccess([]));
 
       expect(result).toEqual(true);
     });

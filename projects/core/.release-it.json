@@ -7,7 +7,20 @@
     "tagAnnotation": "Bumping core version to ${version}"
   },
   "npm": {
-    "publishPath": "./../../dist/core",
-    "tag": "latest"
+    "publishPath": "./../../dist/core"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:core:lib"
+  },
+  "github": {
+    "release": true,
+    "assets": [
+      "../../docs.tar.gz",
+      "../../docs.zip",
+      "../../spartacussampledataaddon.zip",
+      "../../spartacussampledataaddon.tar"
+    ],
+    "releaseName": "@spartacus/core@${version}",
+    "releaseNotes": "cd ../.. && npm run --silent release-notes:core -- --to core-${version}"
   }
 }

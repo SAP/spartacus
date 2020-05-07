@@ -4,9 +4,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
-import { CheckoutConfigService } from '../checkout-config.service';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
+import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { DeliveryModeSetGuard } from './delivery-mode-set.guard';
 
@@ -51,14 +51,14 @@ describe(`DeliveryModeSetGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(DeliveryModeSetGuard);
-    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
-    mockCheckoutConfig = TestBed.get(CheckoutConfig);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService);
-    mockCheckoutConfigService = TestBed.get(CheckoutConfigService);
+    guard = TestBed.inject(DeliveryModeSetGuard);
+    mockCheckoutDetailsService = TestBed.inject(CheckoutDetailsService);
+    mockCheckoutConfig = TestBed.inject(CheckoutConfig);
+    mockRoutingConfigService = TestBed.inject(RoutingConfigService);
+    mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
   });
 
-  it('should redirect to deliveryMode page when no modes selected', done => {
+  it('should redirect to deliveryMode page when no modes selected', (done) => {
     spyOn(
       mockCheckoutDetailsService,
       'getSelectedDeliveryModeCode'
@@ -80,7 +80,7 @@ describe(`DeliveryModeSetGuard`, () => {
     });
   });
 
-  it('should redirect to default page if there is no deliveryMode step', done => {
+  it('should redirect to default page if there is no deliveryMode step', (done) => {
     spyOn(
       mockCheckoutDetailsService,
       'getSelectedDeliveryModeCode'
@@ -97,7 +97,7 @@ describe(`DeliveryModeSetGuard`, () => {
     });
   });
 
-  it('should not redirect to deliveryMode page when mode is selected', done => {
+  it('should not redirect to deliveryMode page when mode is selected', (done) => {
     spyOn(
       mockCheckoutDetailsService,
       'getSelectedDeliveryModeCode'

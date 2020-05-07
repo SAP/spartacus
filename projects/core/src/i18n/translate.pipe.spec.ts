@@ -1,9 +1,8 @@
-import { TestBed } from '@angular/core/testing';
-import { TranslationService } from './translation.service';
-import createSpy = jasmine.createSpy;
+import { ChangeDetectorRef } from '@angular/core';
 import { of } from 'rxjs';
 import { TranslatePipe } from './translate.pipe';
-import { ChangeDetectorRef } from '@angular/core';
+import { TranslationService } from './translation.service';
+import createSpy = jasmine.createSpy;
 
 describe('TranslatePipe', () => {
   let pipe: TranslatePipe;
@@ -11,24 +10,11 @@ describe('TranslatePipe', () => {
   let cd: ChangeDetectorRef;
 
   beforeEach(() => {
-    const mockTranslateService = {
+    service = {
       translate: () => {},
-    };
-
-    TestBed.configureTestingModule({
-      providers: [
-        TranslatePipe,
-        {
-          provide: ChangeDetectorRef,
-          useValue: { markForCheck: createSpy('markForCheck') },
-        },
-        { provide: TranslationService, useValue: mockTranslateService },
-      ],
-    });
-
-    pipe = TestBed.get(TranslatePipe);
-    service = TestBed.get(TranslationService);
-    cd = TestBed.get(ChangeDetectorRef);
+    } as any;
+    cd = { markForCheck: createSpy('markForCheck') } as any;
+    pipe = new TranslatePipe(service, cd);
   });
 
   describe('transform', () => {

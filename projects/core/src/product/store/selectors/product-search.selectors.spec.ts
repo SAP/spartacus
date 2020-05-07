@@ -23,7 +23,8 @@ describe('ProductSearch Selectors', () => {
         StoreModule.forFeature(PRODUCT_FEATURE, fromReducers.getReducers()),
       ],
     });
-    store = TestBed.get(Store);
+
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -33,7 +34,7 @@ describe('ProductSearch Selectors', () => {
       const searchConfig: SearchConfig = { pageSize: 10 };
       store
         .pipe(select(ProductSelectors.getSearchResults))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({});
 
@@ -55,7 +56,7 @@ describe('ProductSearch Selectors', () => {
       const searchConfig: SearchConfig = { pageSize: 10 };
       store
         .pipe(select(ProductSelectors.getAuxSearchResults))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({});
 
@@ -81,7 +82,7 @@ describe('ProductSearch Selectors', () => {
       let result: Suggestion[];
       store
         .pipe(select(ProductSelectors.getProductSuggestions))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import {
   RouterState,
@@ -6,7 +6,7 @@ import {
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
-import { ConfigurableRoutesModule } from './configurable-routes/configurable-routes.module';
+import { ConfigurableRoutesService } from './configurable-routes/configurable-routes.service';
 import { effects } from './store/effects/index';
 import {
   CustomSerializer,
@@ -15,9 +15,15 @@ import {
 } from './store/reducers/router.reducer';
 import { ROUTING_FEATURE } from './store/routing-state';
 
+export function initConfigurableRoutes(
+  service: ConfigurableRoutesService
+): () => void {
+  const result = () => service.init(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
+  return result;
+}
+
 @NgModule({
   imports: [
-    ConfigurableRoutesModule,
     StoreModule.forFeature(ROUTING_FEATURE, reducerToken),
     EffectsModule.forFeature(effects),
     StoreRouterConnectingModule.forRoot({
@@ -25,12 +31,24 @@ import { ROUTING_FEATURE } from './store/routing-state';
       stateKey: ROUTING_FEATURE, // name of reducer key
     }),
   ],
-  providers: [
-    reducerProvider,
-    {
-      provide: RouterStateSerializer,
-      useClass: CustomSerializer,
-    },
-  ],
 })
-export class RoutingModule {}
+export class RoutingModule {
+  static forRoot(): ModuleWithProviders<RoutingModule> {
+    return {
+      ngModule: RoutingModule,
+      providers: [
+        reducerProvider,
+        {
+          provide: RouterStateSerializer,
+          useClass: CustomSerializer,
+        },
+        {
+          provide: APP_INITIALIZER,
+          useFactory: initConfigurableRoutes,
+          deps: [ConfigurableRoutesService],
+          multi: true,
+        },
+      ],
+    };
+  }
+}

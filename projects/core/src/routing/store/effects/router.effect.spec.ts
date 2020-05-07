@@ -30,9 +30,9 @@ describe('Router Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.RouterEffects);
-    router = TestBed.get(Router);
-    location = TestBed.get(Location);
+    effects = TestBed.inject(fromEffects.RouterEffects);
+    router = TestBed.inject(Router);
+    location = TestBed.inject(Location);
   });
 
   describe('navigate$', () => {
@@ -75,7 +75,7 @@ describe('Router Effects', () => {
       spyOn(router, 'resetConfig');
       effects.clearCmsRoutes$.subscribe(() => {
         expect(router.resetConfig).toHaveBeenCalledWith([
-          { path: 'test2', component: true },
+          { path: 'test2', component: true } as any,
         ]);
       });
     });

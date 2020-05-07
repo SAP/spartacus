@@ -2,28 +2,32 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
-  AuthGuard,
-  CheckoutModule,
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
+import { CartNotEmptyGuard } from '../../../cart/cart-not-empty.guard';
+import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { PlaceOrderComponent } from './place-order.component';
+import { FormErrorsModule } from '../../../../shared/index';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
-    CheckoutModule,
     RouterModule,
     UrlModule,
     I18nModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    ReactiveFormsModule,
+    FormErrorsModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutPlaceOrder: {
           component: PlaceOrderComponent,
-          guards: [AuthGuard, CartNotEmptyGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),

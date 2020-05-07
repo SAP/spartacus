@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, ConfigModule } from '@spartacus/core';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { HamburgerMenuComponent } from './hamburger-menu.component';
+
 @NgModule({
-  imports: [
-    CommonModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  imports: [CommonModule],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         HamburgerMenuComponent: {
           component: HamburgerMenuComponent,
@@ -14,6 +15,7 @@ import { HamburgerMenuComponent } from './hamburger-menu.component';
     }),
   ],
   declarations: [HamburgerMenuComponent],
+  exports: [HamburgerMenuComponent],
   entryComponents: [HamburgerMenuComponent],
 })
 export class HamburgerMenuModule {}

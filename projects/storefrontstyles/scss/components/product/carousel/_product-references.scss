@@ -1,11 +1,26 @@
 %cx-product-references {
   padding-bottom: 50px;
+  a {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    color: var(--cx-color-text);
+
+    &:focus {
+      color: var(--cx-color-primary);
+      z-index: 1;
+      position: relative;
+    }
+  }
+
   cx-media {
-    height: 20vmin;
+    align-self: center;
+    width: 60%;
 
     &.is-missing {
-      min-height: 20vmin;
-      background-size: 20vmin;
+      min-height: 200px;
     }
   }
 }

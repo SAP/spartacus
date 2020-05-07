@@ -1,9 +1,10 @@
+import { InjectionToken } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { RoutingConfigService } from './routing-config.service';
+import { Route, Router, Routes, UrlMatcher } from '@angular/router';
+import { UrlMatcherService } from '../services/url-matcher.service';
+import { UrlMatcherFactory } from '../url-matcher';
 import { ConfigurableRoutesService } from './configurable-routes.service';
-import { Router, Routes } from '@angular/router';
-import { UrlMatcherFactoryService } from './url-matcher-factory.service';
-import * as AngularCore from '@angular/core';
+import { RoutingConfigService } from './routing-config.service';
 
 class MockRoutingConfigService {
   getRouteConfig() {}
@@ -16,19 +17,33 @@ class MockRouter {
   }
 }
 
-class MockUrlMatcherFactoryService {
-  getMultiplePathsUrlMatcher = jasmine
-    .createSpy('getMultiplePathsUrlMatcher')
-    .and.callFake(paths => paths);
-  getFalsyUrlMatcher = jasmine
-    .createSpy('getFalsyUrlMatcher')
-    .and.returnValue(false);
+const combinedUrlMatcher: UrlMatcher = () => null;
+
+class MockUrlMatcherService implements Partial<UrlMatcherService> {
+  getFromPaths = jasmine
+    .createSpy('getFromPaths')
+    .and.callFake((paths) => paths);
+  getFalsy = jasmine.createSpy('getFalsy').and.returnValue(false);
+  getCombined = jasmine
+    .createSpy('getCombined')
+    .and.returnValue(combinedUrlMatcher);
 }
+
+const testUrlMatcherFromFactory: UrlMatcher = () => null;
+const testUrlMatcherFactory: UrlMatcherFactory = jasmine
+  .createSpy('testUrlMatcherFactory')
+  .and.callFake((_route: Route) => testUrlMatcherFromFactory);
+
+const TEST_URL_MATCHER_FACTORY = new InjectionToken<UrlMatcherFactory>(
+  'TEST_URL_MATCHER_FACTORY',
+  { providedIn: 'root', factory: () => testUrlMatcherFactory }
+);
 
 describe('ConfigurableRoutesService', () => {
   let service: ConfigurableRoutesService;
   let router: Router;
   let routingConfigService: RoutingConfigService;
+  let urlMatcherService: UrlMatcherService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,8 +54,8 @@ describe('ConfigurableRoutesService', () => {
           useClass: MockRoutingConfigService,
         },
         {
-          provide: UrlMatcherFactoryService,
-          useClass: MockUrlMatcherFactoryService,
+          provide: UrlMatcherService,
+          useClass: MockUrlMatcherService,
         },
         {
           provide: Router,
@@ -49,9 +64,10 @@ describe('ConfigurableRoutesService', () => {
       ],
     });
 
-    service = TestBed.get(ConfigurableRoutesService);
-    router = TestBed.get(Router);
-    routingConfigService = TestBed.get(RoutingConfigService);
+    service = TestBed.inject(ConfigurableRoutesService);
+    urlMatcherService = TestBed.inject(UrlMatcherService);
+    router = TestBed.inject(Router);
+    routingConfigService = TestBed.inject(RoutingConfigService);
 
     router.config = [];
   });
@@ -112,26 +128,17 @@ describe('ConfigurableRoutesService', () => {
       router.config = [{ path: null, data: { cxRoute: 'page1' } }];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues(null);
       await service.init();
+      expect(router.config[0].matcher).toEqual([]);
+    });
+
+    it('should generate route that will never match if it was disabled by config', async () => {
+      router.config = [{ path: null, data: { cxRoute: 'page1' } }];
+      spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
+        paths: ['path1', 'path100'],
+        disabled: true,
+      });
+      await service.init();
       expect(router.config[0].matcher).toBe(false);
-    });
-
-    // tslint:disable-next-line:max-line-length
-    it('should console.warn in non-production environment if route refers a page name that does not exist in config', async () => {
-      spyOn(console, 'warn');
-      router.config = [{ path: null, data: { cxRoute: 'page1' } }];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
-      await service.init();
-      expect(console.warn).toHaveBeenCalled();
-    });
-
-    // tslint:disable-next-line:max-line-length
-    it('should NOT console.warn in production environment if route refers a page name that does not exist in config', async () => {
-      spyOn(console, 'warn');
-      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
-      router.config = [{ path: null, data: { cxRoute: 'page1' } }];
-      spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
-      await service.init();
-      expect(console.warn).not.toHaveBeenCalled();
     });
 
     it('should configure configurable routes placed among non-configurable routes', async () => {
@@ -178,6 +185,51 @@ describe('ConfigurableRoutesService', () => {
         // normal routes
         { path: 'path5' },
       ]);
+    });
+  });
+
+  it('should configure matchers over paths', async () => {
+    const matcher1: UrlMatcher = () => null;
+    const matcher2: UrlMatcher = () => null;
+
+    router.config = [{ path: null, data: { cxRoute: 'page' } }];
+    spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
+      paths: ['path'],
+      matchers: [matcher1, matcher2],
+    });
+    await service.init();
+    expect(urlMatcherService.getCombined).toHaveBeenCalledWith([
+      matcher1,
+      matcher2,
+    ]);
+    expect(router.config[0]).toEqual({
+      matcher: combinedUrlMatcher,
+      data: { cxRoute: 'page' },
+    });
+  });
+
+  it('should resolve token with url matcher factory and create url matcher based on route', async () => {
+    const matcher1: UrlMatcher = () => null;
+    const originalRoute = { path: null, data: { cxRoute: 'page' } };
+    router.config = [originalRoute];
+    spyOn(routingConfigService, 'getRouteConfig').and.returnValues({
+      paths: ['path'],
+      matchers: [matcher1, TEST_URL_MATCHER_FACTORY],
+    });
+    spyOn(service['injector'], 'get').and.callThrough();
+
+    await service.init();
+    expect(service['injector'].get).toHaveBeenCalledWith(
+      TEST_URL_MATCHER_FACTORY
+    );
+    expect(testUrlMatcherFactory).toHaveBeenCalledWith(originalRoute);
+    expect(urlMatcherService.getCombined).toHaveBeenCalledWith([
+      matcher1,
+      testUrlMatcherFromFactory,
+    ]);
+    expect(router.config[0]).toEqual({
+      matcher: combinedUrlMatcher,
+      data: { cxRoute: 'page' },
     });
   });
 });

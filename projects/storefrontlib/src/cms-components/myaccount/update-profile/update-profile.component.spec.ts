@@ -23,9 +23,7 @@ import { UpdateProfileComponent } from './update-profile.component';
 
 @Component({
   selector: 'cx-update-profile-form',
-  template: `
-    <div>update form</div>
-  `,
+  template: ` <div>update form</div> `,
 })
 class MockUpdateProfileFormComponent {
   @Input()
@@ -39,9 +37,7 @@ class MockUpdateProfileFormComponent {
 }
 @Component({
   selector: 'cx-spinner',
-  template: `
-    <div>spinner</div>
-  `,
+  template: ` <div>spinner</div> `,
 })
 class MockCxSpinnerComponent {}
 
@@ -118,9 +114,9 @@ describe('UpdateProfileComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    userService = TestBed.get(UserService);
-    routingService = TestBed.get(RoutingService);
-    globalMessageService = TestBed.get(GlobalMessageService);
+    userService = TestBed.inject(UserService);
+    routingService = TestBed.inject(RoutingService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
 
     fixture.detectChanges();
   });

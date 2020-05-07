@@ -16,7 +16,7 @@ import { isPlatformBrowser } from '@angular/common';
 
 const PERSONALIZATION_TIME_KEY = 'personalization-time';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
   private timestamp: string;
   private requestHeader: string;
@@ -64,7 +64,7 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(
-      tap(event => {
+      tap((event) => {
         if (event instanceof HttpResponse) {
           if (event.headers.keys().includes(this.requestHeader)) {
             const receivedTimestamp = event.headers.get(this.requestHeader);

@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, ConfigModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import { CmsConfig, provideDefaultConfig, UrlModule } from '@spartacus/core';
 import { CarouselModule } from '../../../../shared/components/carousel/carousel.module';
+import { MediaModule } from '../../../../shared/components/media/media.module';
 import { ProductReferencesComponent } from './product-references.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CarouselModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  imports: [CommonModule, CarouselModule, MediaModule, RouterModule, UrlModule],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ProductReferencesComponent: {
           component: ProductReferencesComponent,

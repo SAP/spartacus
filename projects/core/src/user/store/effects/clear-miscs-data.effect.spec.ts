@@ -16,7 +16,7 @@ describe('ClearMiscsDataEffect', () => {
       providers: [ClearMiscsDataEffect, provideMockActions(() => actions$)],
     });
 
-    effect = TestBed.get(ClearMiscsDataEffect);
+    effect = TestBed.inject(ClearMiscsDataEffect);
   });
 
   describe('clearMiscsData$', () => {

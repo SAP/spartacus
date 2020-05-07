@@ -1,35 +1,42 @@
 import { user } from '../sample-data/checkout-flow';
 import { switchSiteContext } from '../support/utils/switch-site-context';
+import { waitForPage } from './checkout-flow';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
 export const PAGES = 'pages';
 export const TITLES = 'titles';
+export const CART = 'cart';
 
 export const LANGUAGE_LABEL = 'Language';
 export const CURRENCY_LABEL = 'Currency';
 
 export const BASE_URL = Cypress.config().baseUrl;
-export const CONTENT_CATALOG = 'electronics-spa';
+export const CONTENT_CATALOG = Cypress.env('BASE_SITE');
 export const CURRENCY_USD = 'USD';
 export const CURRENCY_JPY = 'JPY';
 export const LANGUAGE_EN = 'en';
 export const LANGUAGE_DE = 'de';
+export const CART_REQUEST_ALIAS = 'cart_request_alias';
 
 export const LANGUAGE_REQUEST = `${Cypress.env(
-  'API_URL'
-)}/rest/v2/${CONTENT_CATALOG}/languages?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
+  'OCC_PREFIX'
+)}/${CONTENT_CATALOG}/languages?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 export const CURRENCY_REQUEST = `${Cypress.env(
-  'API_URL'
-)}/rest/v2/${CONTENT_CATALOG}/currencies?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
+  'OCC_PREFIX'
+)}/${CONTENT_CATALOG}/currencies?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
+
+export const CART_REQUEST = `${Cypress.env(
+  'OCC_PREFIX'
+)}/${CONTENT_CATALOG}/users/current/carts/*`;
 
 export const PAGE_REQUEST = `${Cypress.env(
-  'API_URL'
-)}/rest/v2/${CONTENT_CATALOG}/cms/pages?fields=DEFAULT&pageType=CategoryPage&code=574&lang=${LANGUAGE_DE}&curr=${CURRENCY_USD}`;
+  'OCC_PREFIX'
+)}/${CONTENT_CATALOG}/cms/pages?fields=DEFAULT&pageType=CategoryPage&code=574&lang=${LANGUAGE_DE}&curr=${CURRENCY_USD}`;
 
 export const TITLE_REQUEST = `${Cypress.env(
-  'API_URL'
-)}/rest/v2/${CONTENT_CATALOG}/titles?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
+  'OCC_PREFIX'
+)}/${CONTENT_CATALOG}/titles?lang=${LANGUAGE_EN}&curr=${CURRENCY_USD}`;
 
 export const FULL_BASE_URL_EN_USD = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_USD}`;
 export const FULL_BASE_URL_EN_JPY = `${BASE_URL}/${CONTENT_CATALOG}/${LANGUAGE_EN}/${CURRENCY_JPY}`;
@@ -42,7 +49,9 @@ export const PRODUCT_NAME_DETAILS_DE = 'Stativ mit Fernbedienung';
 export const PRODUCT_NAME_SEARCH_DE =
   'FUN Einwegkamera mit Blitz, 27+12 Bilder';
 export const TITLE_DE = 'Herr';
-export const MONTH_DE = 'Juni';
+export const MONTH_DE = new Date().toLocaleDateString('de-DE', {
+  month: 'long',
+});
 
 export const PRODUCT_PATH_1 = `/product/${PRODUCT_ID_1}`;
 export const PRODUCT_PATH_2 = `/product/${PRODUCT_ID_2}`;
@@ -65,11 +74,11 @@ export const CHECKOUT_PAYMENT_DETAILS_PATH = '/checkout/payment-details';
 export const CHECKOUT_REVIEW_ORDER_PATH = '/checkout/review-order';
 
 export function doPlaceOrder() {
-  cy.window().then(win => {
+  cy.window().then((win) => {
     const savedState = JSON.parse(
       win.localStorage.getItem('spartacus-local-data')
     );
-    cy.requireProductAddedToCart(savedState.auth).then(resp => {
+    cy.requireProductAddedToCart(savedState.auth).then((resp) => {
       cy.requireShippingAddressAdded(user.address, savedState.auth);
       cy.requireShippingMethodSelected(savedState.auth);
       cy.requirePaymentDone(savedState.auth);
@@ -80,24 +89,45 @@ export function doPlaceOrder() {
 
 export function addressBookNextStep() {
   cy.get('cx-shipping-address .cx-card-link').click({ force: true });
-  cy.get('cx-shipping-address .btn-primary').click({ force: true });
+
+  const deliveryPage = waitForPage(
+    CHECKOUT_DELIVERY_MODE_PATH,
+    'getDeliveryPage'
+  );
+
+  cy.get('cx-shipping-address .btn-primary').click();
+
+  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
 
 export function deliveryModeNextStep() {
-  cy.get('cx-delivery-mode #deliveryMode-standard-gross').click({
+  cy.get('cx-delivery-mode #deliveryMode-standard-net').click({
     force: true,
   });
-  cy.get('cx-delivery-mode .btn-primary').click({ force: true });
+
+  const paymentPage = waitForPage(
+    CHECKOUT_PAYMENT_DETAILS_PATH,
+    'getPaymentPage'
+  );
+
+  cy.get('cx-delivery-mode .btn-primary').click();
+
+  cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
 }
 
 export function paymentDetailsNextStep() {
   cy.get('cx-payment-method .cx-card-link').click({
     force: true,
   });
-  cy.get('cx-payment-method .btn-primary').click({ force: true });
+
+  const reviewPage = waitForPage(CHECKOUT_REVIEW_ORDER_PATH, 'getReviewPage');
+
+  cy.get('cx-payment-method .btn-primary').click();
+
+  cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
 }
 
-export function createGerericQuery(request: string, alias: string): void {
+export function createRoute(request: string, alias: string): void {
   cy.route(request).as(alias);
 }
 
@@ -105,7 +135,7 @@ export function stub(request: string, alias: string): void {
   beforeEach(() => {
     cy.restoreLocalStorage();
     cy.server();
-    createGerericQuery(request, alias);
+    createRoute(request, alias);
   });
 
   afterEach(() => {
@@ -123,13 +153,30 @@ export function siteContextChange(
   selectedOption: string,
   label: string
 ): void {
-  cy.visit(FULL_BASE_URL_EN_USD + pagePath);
+  if (pagePath !== null) {
+    cy.visit(FULL_BASE_URL_EN_USD + pagePath);
+  }
 
-  cy.wait(`@${alias}`);
+  let contextParam: string;
 
-  cy.route('GET', `*${selectedOption}*`).as('switchedContext');
+  switch (label) {
+    case LANGUAGE_LABEL: {
+      contextParam = 'lang';
+      break;
+    }
+    case CURRENCY_LABEL: {
+      contextParam = 'curr';
+      break;
+    }
+    default: {
+      throw new Error(`Unsupported context label : ${label}`);
+    }
+  }
+  cy.wait(`@${alias}`).its('status').should('eq', 200);
+
+  cy.route('GET', `*${contextParam}=${selectedOption}*`).as('switchedContext');
   switchSiteContext(selectedOption, label);
-  cy.wait('@switchedContext');
+  cy.wait('@switchedContext').its('status').should('eq', 200);
 }
 
 export function verifySiteContextChangeUrl(

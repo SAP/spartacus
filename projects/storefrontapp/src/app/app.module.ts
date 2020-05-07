@@ -9,12 +9,14 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
+import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
+  JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
-
+import { TestOutletModule } from '../test-outlets/test-outlet.module';
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -34,25 +36,21 @@ if (!environment.production) {
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
-          legacy: false,
+          prefix: '/rest/v2/',
         },
       },
       context: {
-        urlEncodingParameters: ['baseSite', 'language', 'currency'],
-        parameters: {
-          baseSite: {
-            values: [
-              'electronics-spa',
-              'electronics',
-              'apparel-de',
-              'apparel-uk',
-            ],
-            persistence: 'route',
-          },
-        },
+        urlParameters: ['baseSite', 'language', 'currency'],
+        baseSite: [
+          'electronics-spa',
+          'electronics',
+          'apparel-de',
+          'apparel-uk',
+          'apparel-uk-spa',
+        ],
       },
 
-      // special routing confiuration for e2e testing
+      // custom routing configuration for e2e testing
       routing: {
         routes: {
           product: {
@@ -60,17 +58,30 @@ if (!environment.production) {
           },
         },
       },
-
-      // we  bring in static translations to be up and running soon right away
-      // but adding
+      // we bring in static translations to be up and running soon right away
       i18n: {
         resources: translations,
         chunks: translationChunksConfig,
+        fallbackLang: 'en',
+      },
+      features: {
+        level: '1.5',
+      },
+      cart: {
+        selectiveCart: {
+          enabled: true,
+        },
       },
     }),
+    JsonLdBuilderModule,
+
+    TestOutletModule, // custom usages of cxOutletRef only for e2e testing
+    TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
+    ConfigModule,
   ],
+
   bootstrap: [StorefrontComponent],
 })
 export class AppModule {}

@@ -6,7 +6,10 @@
     "commitMessage": "Bumping styles version to ${version}",
     "tagAnnotation": "Bumping styles version to ${version}"
   },
-  "npm": {
-    "tag": "latest"
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/styles@${version}",
+    "releaseNotes": "cd ../.. && npm run --silent release-notes:styles -- --to styles-${version}"
   }
 }

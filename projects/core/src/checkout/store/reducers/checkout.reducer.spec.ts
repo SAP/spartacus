@@ -230,4 +230,43 @@ describe('Checkout reducer', () => {
       expect(state.paymentDetails.accountHolderName).toEqual(accountHolderName);
     });
   });
+
+  describe('CLEAR_CHECKOUT_DELIVERY_ADDRESS action', () => {
+    it('should clear supported delivery modes', () => {
+      const { initialState } = fromCheckout;
+      const stateWithAddress = {
+        ...initialState,
+        address: { firstName: 'firstName' },
+      };
+      const payload = {
+        userId: 'userId',
+        cartId: 'cartId',
+      };
+
+      const action = new CheckoutActions.ClearCheckoutDeliveryAddress(payload);
+      const state = fromCheckout.reducer(stateWithAddress, action);
+      expect(state.address).toEqual(initialState.address);
+    });
+  });
+
+  describe('CLEAR_CHECKOUT_DELIVERY_MODE action', () => {
+    it('should clear supported delivery modes', () => {
+      const { initialState } = fromCheckout;
+      const stateWithDeliveryMode = {
+        ...initialState,
+        deliveryMode: {
+          supported: {},
+          selected: 'deliveryMode1',
+        },
+      };
+      const payload = {
+        userId: 'userId',
+        cartId: 'cartId',
+      };
+
+      const action = new CheckoutActions.ClearCheckoutDeliveryMode(payload);
+      const state = fromCheckout.reducer(stateWithDeliveryMode, action);
+      expect(state.deliveryMode).toEqual(initialState.deliveryMode);
+    });
+  });
 });

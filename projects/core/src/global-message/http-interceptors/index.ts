@@ -1,15 +1,18 @@
-import { Provider } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-
+import { Provider } from '@angular/core';
+import {
+  BadGatewayHandler,
+  BadRequestHandler,
+  ConflictHandler,
+  ForbiddenHandler,
+  GatewayTimeoutHandler,
+  HttpErrorHandler,
+  InternalServerErrorHandler,
+  NotFoundHandler,
+  UnauthorizedErrorHandler,
+  UnknownErrorHandler,
+} from './handlers/index';
 import { HttpErrorInterceptor } from './http-error.interceptor';
-import { HttpErrorHandler } from './handlers/http-error.handler';
-import { UnknownErrorHandler } from './handlers/unknown-error.handler';
-import { BadGatewayHandler } from './handlers/bad-gateway.handler';
-import { BadRequestHandler } from './handlers/bad-request.handler';
-import { ConflictHandler } from './handlers/conflict.handler';
-import { ForbiddenHandler } from './handlers/forbidden.handler';
-import { GatewayTimeoutHandler } from './handlers/gateway-timeout.handler';
-import { NotFoundHandler } from './handlers/not-found.handler';
 
 export const errorHandlers: Provider[] = [
   {
@@ -44,7 +47,17 @@ export const errorHandlers: Provider[] = [
   },
   {
     provide: HttpErrorHandler,
+    useExisting: InternalServerErrorHandler,
+    multi: true,
+  },
+  {
+    provide: HttpErrorHandler,
     useExisting: NotFoundHandler,
+    multi: true,
+  },
+  {
+    provide: HttpErrorHandler,
+    useExisting: UnauthorizedErrorHandler,
     multi: true,
   },
 ];
@@ -52,7 +65,7 @@ export const errorHandlers: Provider[] = [
 export const httpErrorInterceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: HttpErrorInterceptor,
+    useExisting: HttpErrorInterceptor,
     multi: true,
   },
 ];

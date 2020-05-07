@@ -77,7 +77,7 @@ describe('Navigation UI Component', () => {
   let navigationComponent: NavigationUIComponent;
   let element: DebugElement;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
@@ -88,16 +88,45 @@ describe('Navigation UI Component', () => {
       providers: [],
     }).compileComponents();
   });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(NavigationUIComponent);
+    navigationComponent = fixture.debugElement.componentInstance;
+    element = fixture.debugElement;
 
-  describe('UI tests', () => {
+    navigationComponent.node = mockNode;
+  });
+
+  describe('calculate columns', () => {
     beforeEach(() => {
-      fixture = TestBed.createComponent(NavigationUIComponent);
-      navigationComponent = fixture.debugElement.componentInstance;
-      element = fixture.debugElement;
-
-      navigationComponent.node = mockNode;
+      navigationComponent.wrapAfter = 5;
     });
 
+    it('should return 2 for 10', () => {
+      expect(navigationComponent.getColumnCount(10)).toEqual(2);
+    });
+
+    it('should return 2 for 11', () => {
+      expect(navigationComponent.getColumnCount(11)).toEqual(2);
+    });
+
+    it('should return 2 for 12', () => {
+      expect(navigationComponent.getColumnCount(12)).toEqual(2);
+    });
+
+    it('should return 3 for 13', () => {
+      expect(navigationComponent.getColumnCount(13)).toEqual(3);
+    });
+
+    it('should return column count of 3 for 14 items', () => {
+      expect(navigationComponent.getColumnCount(14)).toEqual(3);
+    });
+
+    it('should return column count of 3 for 15 items', () => {
+      expect(navigationComponent.getColumnCount(15)).toEqual(3);
+    });
+  });
+
+  describe('UI tests', () => {
     it('should be created', () => {
       expect(navigationComponent).toBeTruthy();
     });
@@ -150,7 +179,7 @@ describe('Navigation UI Component', () => {
       fixture.detectChanges();
       // mmm... no `> nav` available in By.css
       let rootNavElementCount = 0;
-      (<HTMLElement>element.nativeElement).childNodes.forEach(el => {
+      (<HTMLElement>element.nativeElement).childNodes.forEach((el) => {
         if (el.nodeName === 'NAV') {
           rootNavElementCount++;
         }

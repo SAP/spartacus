@@ -1,23 +1,33 @@
 import { NgModule } from '@angular/core';
 import { HamburgerMenuModule } from '../layout/index';
+import { AnonymousConsentManagementBannerModule } from './anonymous-consent-management/anonymous-consent-management.module';
+import { AsmModule } from './asm/asm.module';
 import { CartComponentModule } from './cart/cart.module';
 import { CheckoutComponentModule } from './checkout/checkout.module';
+import { BannerCarouselModule } from './content/banner-carousel/banner-carousel.module';
 import {
   BannerModule,
   CmsParagraphModule,
   LinkModule,
   TabParagraphContainerModule,
 } from './content/index';
-import { SiteContextSelectorModule } from './misc/index';
+import { QualtricsModule, SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
   CloseAccountModule,
   ConsentManagementModule,
   ForgotPasswordModule,
+  MyCouponsModule,
+  MyInterestsModule,
+  NotificationPreferenceModule,
+  OrderCancellationModule,
   OrderDetailsModule,
   OrderHistoryModule,
+  OrderReturnModule,
   PaymentMethodsModule,
   ResetPasswordModule,
+  ReturnRequestDetailModule,
+  ReturnRequestListModule,
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
@@ -32,16 +42,24 @@ import {
 import { OrderConfirmationModule } from './order-confirmation/index';
 import {
   ProductCarouselModule,
+  ProductFacetNavigationModule,
   ProductIntroModule,
   ProductListModule,
   ProductReferencesModule,
   ProductTabsModule,
+  StockNotificationModule,
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
+import { ProductVariantsModule } from './product/product-variants/product-variants.module';
+import { StoreFinderModule } from './storefinder/store-finder.module';
+import { UserComponentModule } from './user/user.module';
+import { WishListModule } from './wish-list/wish-list.module';
 
 @NgModule({
   imports: [
+    AnonymousConsentManagementBannerModule,
+    AsmModule,
     HamburgerMenuModule,
     CmsParagraphModule,
     LinkModule,
@@ -52,9 +70,15 @@ import { ProductSummaryModule } from './product/product-summary/product-summary.
     BreadcrumbModule,
     SearchBoxModule,
     SiteContextSelectorModule,
+    QualtricsModule,
     AddressBookModule,
     OrderHistoryModule,
+    OrderCancellationModule,
+    OrderReturnModule,
+    ReturnRequestListModule,
+    ReturnRequestDetailModule,
     ProductListModule,
+    ProductFacetNavigationModule,
     ProductTabsModule,
     ProductCarouselModule,
     ProductReferencesModule,
@@ -68,14 +92,21 @@ import { ProductSummaryModule } from './product/product-summary/product-summary.
     CartComponentModule,
     TabParagraphContainerModule,
     OrderConfirmationModule,
-    // TODO:#2811 - uncomment to enable
-    // StoreFinderModule,
+    StoreFinderModule,
     ProductImagesModule,
     ProductSummaryModule,
+    ProductVariantsModule,
     ProductIntroModule,
     CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
+    BannerCarouselModule,
+    UserComponentModule,
+    MyCouponsModule,
+    WishListModule,
+    NotificationPreferenceModule,
+    MyInterestsModule,
+    StockNotificationModule,
   ],
 })
 export class CmsLibModule {}

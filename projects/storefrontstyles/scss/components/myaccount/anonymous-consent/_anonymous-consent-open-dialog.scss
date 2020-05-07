@@ -1,0 +1,20 @@
+%cx-anonymous-consent-open-dialog {
+  display: flex;
+  justify-content: center;
+  margin: 0 3vw 3vw 3vw;
+
+  @include media-breakpoint-down(sm) {
+    justify-content: flex-start;
+  }
+  .btn-link {
+    padding: 0;
+    color: var(--cx-color-inverse);
+    font-size: 0.8rem;
+    &:not(:hover) {
+      text-decoration: none;
+    }
+    &:hover {
+      color: var(--cx-color-inverse);
+    }
+  }
+}

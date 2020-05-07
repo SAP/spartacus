@@ -1,10 +1,18 @@
 %cx-store-finder-store-description {
+  .container {
+    margin-bottom: 1rem;
+  }
+
   .cx-store {
     text-align: left;
   }
 
+  .cx-store-description-address {
+    margin-bottom: 1.5rem;
+  }
+
   .cx-contact {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     font-weight: 700;
     text-decoration: underline;
   }
@@ -18,18 +26,23 @@
     color: var(--cx-color-text);
   }
 
-  .cx-item {
-    margin-bottom: 0.5rem;
-  }
-
   .cx-schedule {
-    margin-top: 1.5rem;
-    font-weight: 700;
+    margin-bottom: 1.5rem;
   }
 
-  .cx-feature {
-    margin-top: 30px;
-    margin-bottom: 20px;
+  .cx-store-hours {
+    padding: 0;
+  }
+
+  .cx-hours {
+    text-align: right;
+    &.closed {
+      color: var(--cx-color-primary);
+    }
+  }
+
+  .cx-features {
+    margin-bottom: 10px;
   }
 
   .cx-features-header {
@@ -37,11 +50,13 @@
   }
 
   .cx-feature-value {
-    border-width: 1px;
-    border-style: solid;
+    color: var(--cx-color-primary);
+  }
 
-    @include media-breakpoint-down(md) {
-      margin: 5px 0;
-    }
+  .cx-feature-item {
+    text-align: left;
+  }
+  .cx-storeMap {
+    height: 70vh;
   }
 }

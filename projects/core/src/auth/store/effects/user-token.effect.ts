@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
+import { catchError, exhaustMap, map, mergeMap } from 'rxjs/operators';
+import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserToken } from '../../models/token-types.model';
 import { UserAuthenticationTokenService } from '../../services/user-authentication/user-authentication-token.service';
@@ -20,10 +20,10 @@ export class UserTokenEffects {
           const date = new Date();
           date.setSeconds(date.getSeconds() + token.expires_in);
           token.expiration_time = date.toJSON();
-          token.userId = USERID_CURRENT;
+          token.userId = OCC_USER_ID_CURRENT;
           return new AuthActions.LoadUserTokenSuccess(token);
         }),
-        catchError(error =>
+        catchError((error) =>
           of(new AuthActions.LoadUserTokenFail(makeErrorSerializable(error)))
         )
       )
@@ -42,15 +42,37 @@ export class UserTokenEffects {
   > = this.actions$.pipe(
     ofType(AuthActions.REFRESH_USER_TOKEN),
     map((action: AuthActions.RefreshUserToken) => action.payload),
-    switchMap(({ refreshToken }) => {
+    exhaustMap(({ refreshToken }) => {
       return this.userTokenService.refreshToken(refreshToken).pipe(
-        map((token: UserToken) => {
-          const date = new Date();
-          date.setSeconds(date.getSeconds() + token.expires_in);
-          token.expiration_time = date.toJSON();
-          token.userId = USERID_CURRENT;
-          return new AuthActions.RefreshUserTokenSuccess(token);
-        }, catchError(error => of(new AuthActions.RefreshUserTokenFail(makeErrorSerializable(error)))))
+        map(
+          (token: UserToken) => {
+            const date = new Date();
+            date.setSeconds(date.getSeconds() + token.expires_in);
+            token.expiration_time = date.toJSON();
+            return new AuthActions.RefreshUserTokenSuccess(token);
+          },
+          catchError((error) =>
+            of(
+              new AuthActions.RefreshUserTokenFail(makeErrorSerializable(error))
+            )
+          )
+        )
+      );
+    })
+  );
+
+  @Effect()
+  revokeUserToken$: Observable<
+    AuthActions.UserTokenAction
+  > = this.actions$.pipe(
+    ofType(AuthActions.REVOKE_USER_TOKEN),
+    map((action: AuthActions.RevokeUserToken) => {
+      return action.payload;
+    }),
+    mergeMap((userToken: UserToken) => {
+      return this.userTokenService.revoke(userToken).pipe(
+        map(() => new AuthActions.RevokeUserTokenSuccess(userToken)),
+        catchError((error) => of(new AuthActions.RevokeUserTokenFail(error)))
       );
     })
   );

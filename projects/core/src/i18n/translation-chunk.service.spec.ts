@@ -22,7 +22,7 @@ describe('TranslationChunkService', () => {
       ],
     });
 
-    service = TestBed.get(TranslationChunkService);
+    service = TestBed.inject(TranslationChunkService);
   });
 
   describe('getChunk', () => {
@@ -44,12 +44,24 @@ describe('TranslationChunkService', () => {
   });
 
   describe('I18n config', () => {
+    it('should not fail if no config has been provided', () => {
+      const mockService = new TranslationChunkService({});
+      expect(mockService).toBeTruthy();
+    });
+
+    it('should not fail if no config chunks has been provided', () => {
+      const mockService = new TranslationChunkService({
+        i18n: {},
+      });
+      expect(mockService).toBeTruthy();
+    });
+
     it('should warn if there are duplicated keys in the config', () => {
       const warnSpy = spyOn(console, 'warn');
-      // @ts-ignore: 'mockService' is declared but its value is never read
       const mockService = new TranslationChunkService({
         i18n: { chunks: mockChunksConfig },
       });
+      expect(mockService).toBeTruthy();
       expect(warnSpy).toHaveBeenCalled();
     });
   });

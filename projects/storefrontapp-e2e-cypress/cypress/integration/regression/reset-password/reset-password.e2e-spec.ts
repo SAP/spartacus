@@ -1,31 +1,33 @@
+import * as alerts from '../../../helpers/global-message';
+
 context('Reset Password Page', () => {
   beforeEach(() => {
     // Clear the session to make sure no user is authenticated.
-    cy.window().then(win => win.sessionStorage.clear());
-    cy.visit('/login/reset-password');
+    cy.window().then((win) => win.sessionStorage.clear());
+    cy.visit('/login/pw/change');
   });
 
   it('should not submit an empty form', () => {
     // Submitting an empty form should not procede. Detailed form validation cases are covered by unit tests.
-    cy.get('cx-global-message .alert').should('not.exist');
+    alerts.getAlert().should('not.exist');
 
     cy.get('cx-reset-password-form form').within(() => {
       cy.get('button[type="submit"]').click();
     });
-    cy.url().should('match', /\/login\/reset-password$/);
-    cy.get('cx-global-message .alert').should('not.exist');
+    cy.url().should('match', /\/login\/pw\/change$/);
+    alerts.getAlert().should('not.exist');
   });
 
   it('should invalid token result in server error', () => {
     // The form is submited without a change password token. An error message should appear and the page should not change.
-    cy.get('cx-global-message .alert-danger').should('not.exist');
+    alerts.getErrorAlert().should('not.exist');
     cy.get('cx-reset-password-form form').within(() => {
       cy.get('[formcontrolname="password"]').type('N3wPassword!');
       cy.get('[formcontrolname="repassword"]').type('N3wPassword!');
       cy.get('button[type="submit"]').click();
     });
-    cy.url().should('match', /\/login\/reset-password$/);
-    cy.get('cx-global-message .alert-danger').should('exist');
+    cy.url().should('match', /\/login\/pw\/change$/);
+    alerts.getErrorAlert().should('exist');
   });
 
   it('should react as expected on password change success.', () => {
@@ -37,7 +39,7 @@ context('Reset Password Page', () => {
       status: 202,
       response: {},
     }).as('postResetPassword');
-    cy.get('cx-global-message .alert-success').should('not.exist');
+    alerts.getSuccessAlert().should('not.exist');
 
     cy.get('cx-reset-password-form form').within(() => {
       cy.get('[formcontrolname="password"]').type('N3wPassword!');
@@ -45,9 +47,8 @@ context('Reset Password Page', () => {
       cy.get('button[type="submit"]').click();
     });
     cy.url().should('match', /\/login$/);
-    cy.get('cx-global-message .alert-success').should(
-      'contain',
-      'Success! You can now login using your new password.'
-    );
+    alerts
+      .getSuccessAlert()
+      .should('contain', 'Success! You can now login using your new password.');
   });
 });

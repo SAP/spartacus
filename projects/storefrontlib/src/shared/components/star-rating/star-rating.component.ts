@@ -7,6 +7,7 @@ import {
   Input,
   OnInit,
   Output,
+  Renderer2,
 } from '@angular/core';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
 
@@ -30,13 +31,14 @@ export class StarRatingComponent implements OnInit {
   /**
    * Emits the given rating when the user clicks on a star.
    */
+  // tslint:disable-next-line:no-output-native
   @Output() change = new EventEmitter<number>();
 
   private initialRate = 0;
 
   iconTypes = ICON_TYPE;
 
-  constructor(private el: ElementRef) {}
+  constructor(protected el: ElementRef, protected renderer: Renderer2) {}
 
   ngOnInit(): void {
     this.setRate(this.rating, true);
@@ -44,9 +46,10 @@ export class StarRatingComponent implements OnInit {
 
   setRate(value: number, force?: boolean): void {
     if (!this.disabled || force) {
-      this.el.nativeElement.style.setProperty(
-        '--star-fill',
-        value || this.initialRate
+      this.renderer.setAttribute(
+        this.el.nativeElement,
+        'style',
+        `--star-fill:${value || this.initialRate};`
       );
     }
   }
@@ -58,5 +61,12 @@ export class StarRatingComponent implements OnInit {
     this.initialRate = rating;
     this.setRate(rating);
     this.change.emit(rating);
+  }
+
+  setRateOnEvent(event: any, rating: number) {
+    if (event.code === 'Space') {
+      event.preventDefault();
+      this.setRate(rating);
+    }
   }
 }

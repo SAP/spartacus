@@ -90,7 +90,7 @@ Cypress.Commands.add(
       generateMail(account.user, options.freshUserOnTestRefresh);
 
     cy.server();
-    login(username, account.registrationData.password, false).then(res => {
+    login(username, account.registrationData.password, false).then((res) => {
       if (res.status === 200) {
         // User is already registered - only set session in sessionStorage
         setSessionData(res.body);
@@ -101,7 +101,7 @@ Cypress.Commands.add(
            3. Login as a new user
         */
         loginAsGuest()
-          .then(response =>
+          .then((response) =>
             registerUser(
               username,
               account.registrationData,
@@ -109,7 +109,7 @@ Cypress.Commands.add(
             )
           )
           .then(() => login(username, account.registrationData.password))
-          .then(response => {
+          .then((response) => {
             setSessionData(response.body);
           });
       }

@@ -1,19 +1,19 @@
-import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-
-import { Occ, OccConfig } from '../../index';
-import { StoreFinderSearchConfig } from '../../../store-finder/model/search-config';
+import { TestBed } from '@angular/core/testing';
 import { GeoPoint } from '../../../model/misc.model';
-import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
-import { ConverterService } from '../../../util/converter.service';
 import {
   POINT_OF_SERVICE_NORMALIZER,
   STORE_COUNT_NORMALIZER,
   STORE_FINDER_SEARCH_PAGE_NORMALIZER,
 } from '../../../store-finder/connectors';
+import { StoreFinderSearchConfig } from '../../../store-finder/model/search-config';
+import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../index';
+import { OccEndpointsService } from '../../services';
+import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };
@@ -30,41 +30,41 @@ const storeCountResponseBody: Occ.StoreCountList = {
   ],
 };
 
+const mockRadius = 50000;
+
 const storeId = 'test';
 
-export class MockOccModuleConfig {
-  server = {
-    baseUrl: '',
-    occPrefix: '',
-  };
-  context = {
-    parameters: {
-      baseSite: { default: 'test-site' },
-      language: { default: '' },
-      currency: { default: '' },
-    },
-  };
+class MockOccEndpointsService {
+  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+    return this.getEndpoint(endpoint);
+  }
+  getEndpoint(url: string) {
+    return url;
+  }
 }
 
 describe('OccStoreFinderAdapter', () => {
-  let adapter: OccStoreFinderAdapter;
-  let converter: ConverterService;
+  let occStoreFinderAdapter: OccStoreFinderAdapter;
+  let converterService: ConverterService;
   let httpMock: HttpTestingController;
+  let occEndpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         OccStoreFinderAdapter,
-        { provide: OccConfig, useClass: MockOccModuleConfig },
+        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
       ],
     });
 
-    adapter = TestBed.get(OccStoreFinderAdapter);
-    converter = TestBed.get(ConverterService);
-    httpMock = TestBed.get(HttpTestingController);
-    spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(converter, 'pipeableMany').and.callThrough();
+    occStoreFinderAdapter = TestBed.inject(OccStoreFinderAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEndpointsService = TestBed.inject(OccEndpointsService);
+    spyOn(converterService, 'pipeable').and.callThrough();
+    spyOn(converterService, 'pipeableMany').and.callThrough();
+    spyOn(occEndpointsService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -74,52 +74,53 @@ describe('OccStoreFinderAdapter', () => {
   describe('search', () => {
     describe('with text query', () => {
       it('should return search results for given query text', () => {
-        adapter
+        occStoreFinderAdapter
           .search(queryText, mockSearchConfig)
-          .toPromise()
-          .then(result => {
-            expect(result).toEqual(searchResults);
-          });
+          .subscribe()
+          .unsubscribe();
 
-        const mockReq = httpMock.expectOne({
+        httpMock.expectOne({
           method: 'GET',
-          url:
-            '/stores?fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL))' +
-            ',geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country,email),%20features)' +
-            ',pagination(DEFAULT),sorts(DEFAULT)&query=test&pageSize=5',
+          url: 'stores',
         });
 
-        expect(mockReq.cancelled).toBeFalsy();
-        expect(mockReq.request.responseType).toEqual('json');
+        expect(occEndpointsService.getUrl).toHaveBeenCalledWith(
+          'stores',
+          undefined,
+          { query: queryText, pageSize: mockSearchConfig.pageSize.toString() }
+        );
       });
     });
 
     describe('with longitudeLatitude', () => {
       it('should return search results for given longitudeLatitude', () => {
-        adapter
-          .search('', mockSearchConfig, longitudeLatitude)
-          .toPromise()
-          .then(result => {
-            expect(result).toEqual(searchResults);
-          });
+        occStoreFinderAdapter
+          .search('', mockSearchConfig, longitudeLatitude, mockRadius)
+          .subscribe()
+          .unsubscribe();
 
-        const mockReq = httpMock.expectOne({
+        httpMock.expectOne({
           method: 'GET',
-          url:
-            '/stores?fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL))' +
-            ',geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country,email),%20features)' +
-            ',pagination(DEFAULT),sorts(DEFAULT)&longitude=10.1&latitude=20.2&pageSize=5',
+          url: 'stores',
         });
 
-        expect(mockReq.cancelled).toBeFalsy();
-        expect(mockReq.request.responseType).toEqual('json');
+        expect(occEndpointsService.getUrl).toHaveBeenCalledWith(
+          'stores',
+          undefined,
+          {
+            longitude: longitudeLatitude.longitude.toString(),
+            latitude: longitudeLatitude.latitude.toString(),
+            radius: mockRadius.toString(),
+            pageSize: mockSearchConfig.pageSize.toString(),
+          }
+        );
       });
     });
 
     it('should use converter', () => {
-      adapter.search('', mockSearchConfig).subscribe();
+      occStoreFinderAdapter.search('', mockSearchConfig).subscribe();
       httpMock.expectOne({});
-      expect(converter.pipeable).toHaveBeenCalledWith(
+      expect(converterService.pipeable).toHaveBeenCalledWith(
         STORE_FINDER_SEARCH_PAGE_NORMALIZER
       );
     });
@@ -127,7 +128,7 @@ describe('OccStoreFinderAdapter', () => {
 
   describe('loadCounts', () => {
     it('should request stores count', () => {
-      adapter.loadCounts().subscribe(result => {
+      occStoreFinderAdapter.loadCounts().subscribe((result) => {
         expect(result).toEqual([
           { count: 1, name: 'name1' },
           { count: 2, name: 'name2' },
@@ -135,14 +136,16 @@ describe('OccStoreFinderAdapter', () => {
       });
 
       httpMock
-        .expectOne({ method: 'GET', url: '/stores/storescounts' })
+        .expectOne({ method: 'GET', url: 'storescounts' })
         .flush(storeCountResponseBody);
+
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('storescounts');
     });
 
     it('should use converter', () => {
-      adapter.loadCounts().subscribe();
+      occStoreFinderAdapter.loadCounts().subscribe();
       httpMock.expectOne({});
-      expect(converter.pipeableMany).toHaveBeenCalledWith(
+      expect(converterService.pipeableMany).toHaveBeenCalledWith(
         STORE_COUNT_NORMALIZER
       );
     });
@@ -150,22 +153,26 @@ describe('OccStoreFinderAdapter', () => {
 
   describe('load', () => {
     it('should request stores by store id', () => {
-      adapter.load(storeId).subscribe(result => {
+      occStoreFinderAdapter.load(storeId).subscribe((result) => {
         expect(result).toEqual(searchResults.stores[0]);
       });
 
       httpMock
         .expectOne({
           method: 'GET',
-          url: '/stores/' + storeId + '?fields=FULL',
+          url: 'store',
         })
         .flush(searchResults.stores[0]);
+
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('store', {
+        storeId,
+      });
     });
 
     it('should use converter', () => {
-      adapter.load(storeId).subscribe();
+      occStoreFinderAdapter.load(storeId).subscribe();
       httpMock.expectOne({});
-      expect(converter.pipeable).toHaveBeenCalledWith(
+      expect(converterService.pipeable).toHaveBeenCalledWith(
         POINT_OF_SERVICE_NORMALIZER
       );
     });

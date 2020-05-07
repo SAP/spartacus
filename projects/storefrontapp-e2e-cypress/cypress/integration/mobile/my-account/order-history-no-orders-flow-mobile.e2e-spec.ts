@@ -1,23 +1,23 @@
-import { formats } from '../../../sample-data/viewports';
-import { user } from '../../../sample-data/checkout-flow';
-import { register } from '../../../helpers/auth-forms';
+import { waitForHomePage } from '../../../helpers/homepage';
+import * as loginHelper from '../../../helpers/login';
 import { orderHistoryTest } from '../../../helpers/order-history';
+import { formats } from '../../../sample-data/viewports';
+import { getAlert } from '../../../helpers/global-message';
 
-describe(`${formats.mobile.width +
-  1}p resolution - Order History with no orders`, () => {
-  const loginLink = 'cx-login [role="link"]';
-
+describe(`${
+  formats.mobile.width + 1
+}p resolution - Order History with no orders`, () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
+    cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.visit('/');
 
-    cy.get(loginLink).click();
-    cy.get('cx-page-layout')
-      .getByText('Register')
-      .click();
-    register(user);
+    waitForHomePage();
 
-    cy.selectUserMenuOption('Sign Out');
+    loginHelper.registerUser();
+
+    // waiting for post-register alert, so we don't abort register user request
+    getAlert();
   });
 
   beforeEach(() => {

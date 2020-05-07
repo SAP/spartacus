@@ -6,8 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   GoogleMapRendererService,
   I18nTestingModule,
-  StoreDataService,
   PointOfService,
+  StoreDataService,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
@@ -17,7 +17,7 @@ const location: PointOfService = {
   displayName: 'Test Store',
 };
 const stores: Array<PointOfService> = [location];
-const locations = { stores: stores };
+const locations = { stores: stores, pagination: { currentPage: 0 } };
 
 class StoreDataServiceMock {
   getStoreLatitude(_location: any): number {
@@ -64,8 +64,8 @@ describe('StoreFinderDisplayListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListComponent);
     component = fixture.componentInstance;
-    storeDataService = TestBed.get(StoreDataService);
-    googleMapRendererService = TestBed.get(GoogleMapRendererService);
+    storeDataService = TestBed.inject(StoreDataService);
+    googleMapRendererService = TestBed.inject(GoogleMapRendererService);
 
     spyOn(storeDataService, 'getStoreLatitude');
     spyOn(storeDataService, 'getStoreLongitude');
@@ -95,8 +95,8 @@ describe('StoreFinderDisplayListComponent', () => {
 
   it('should select store from list', () => {
     const itemNumber = 4;
-    const storeListItemMock = { scrollIntoView: function() {} };
-    spyOn(document, 'getElementById').and.returnValue(storeListItemMock);
+    const storeListItemMock = { scrollIntoView: function () {} };
+    spyOn(document, 'getElementById').and.returnValue(storeListItemMock as any);
     spyOn(storeListItemMock, 'scrollIntoView');
 
     component.selectStoreItemList(itemNumber);

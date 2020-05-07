@@ -9,11 +9,12 @@ describe('Currency switch - checkout page', () => {
   const checkoutReviewPath = siteContextSelector.CHECKOUT_REVIEW_ORDER_PATH;
 
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => {
+      win.sessionStorage.clear();
+      win.localStorage.clear();
+    });
     cy.requireLoggedIn();
-    cy.visit('/');
     siteContextSelector.doPlaceOrder();
-    manipulateCartQuantity();
   });
 
   siteContextSelector.stub(
@@ -21,11 +22,25 @@ describe('Currency switch - checkout page', () => {
     siteContextSelector.CURRENCIES
   );
 
+  describe('populate cart, history, quantity', () => {
+    it('should have basic data', () => {
+      manipulateCartQuantity();
+    });
+  });
+
   describe('checkout page', () => {
     it('should change currency in the shipping address url', () => {
       // page being already tested in currency-address-book
+      cy.route(
+        'PUT',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/users/current/carts/*/addresses/delivery?*`
+      ).as('setAddress');
+      cy.visit(checkoutShippingPath);
+      cy.wait('@setAddress');
       siteContextSelector.verifySiteContextChangeUrl(
-        checkoutShippingPath,
+        null,
         siteContextSelector.CURRENCIES,
         siteContextSelector.CURRENCY_JPY,
         siteContextSelector.CURRENCY_LABEL,
@@ -35,16 +50,16 @@ describe('Currency switch - checkout page', () => {
       siteContextSelector.addressBookNextStep();
     });
 
-    it('should change currency in the checkoutDelvieryPath url', () => {
+    it('should change currency in the checkoutDeliveryPath url', () => {
       siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutDeliveryPath
       );
     });
 
-    it('should change currency in the checkoutDelvieryPath page', () => {
+    it('should change currency in the checkoutDeliveryPath page', () => {
       cy.get('cx-delivery-mode .cx-delivery-price:first').should(
         'have.text',
-        ' ¥80 '
+        ' ¥60 '
       );
 
       siteContextSelector.deliveryModeNextStep();

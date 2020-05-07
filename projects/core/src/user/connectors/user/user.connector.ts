@@ -21,6 +21,10 @@ export class UserConnector {
     return this.adapter.register(user);
   }
 
+  registerGuest(guid: string, password: string): Observable<User> {
+    return this.adapter.registerGuest(guid, password);
+  }
+
   requestForgotPasswordEmail(userEmailAddress: string): Observable<{}> {
     return this.adapter.requestForgotPasswordEmail(userEmailAddress);
   }

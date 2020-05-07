@@ -2,6 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { SiteContextConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { Currency } from '../../model/misc.model';
 import { SiteConnector } from '../connectors/site.connector';
@@ -16,6 +17,12 @@ const mockCurrencies: Currency[] = [
 ];
 
 const mockActiveCurr = 'USD';
+
+const mockSiteContextConfig: SiteContextConfig = {
+  context: {
+    currency: ['USD'],
+  },
+};
 
 class MockSiteConnector {
   getCurrencies() {
@@ -49,12 +56,13 @@ describe('CurrencyService', () => {
       providers: [
         CurrencyService,
         { provide: SiteConnector, useClass: MockSiteConnector },
+        { provide: SiteContextConfig, useValue: mockSiteContextConfig },
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(CurrencyService);
+    service = TestBed.inject(CurrencyService);
   });
 
   it('should CurrencyService is injected', inject(
@@ -79,14 +87,14 @@ describe('CurrencyService', () => {
   it('should be able to get currencies', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
 
-    service.getAll().subscribe(results => {
+    service.getAll().subscribe((results) => {
       expect(results).toEqual(mockCurrencies);
     });
   });
 
   it('should be able to get active currencies', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
-    service.getActive().subscribe(results => {
+    service.getActive().subscribe((results) => {
       expect(results).toEqual(mockActiveCurr);
     });
   });

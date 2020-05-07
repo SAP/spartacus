@@ -1,13 +1,12 @@
 import { Injectable, NgZone } from '@angular/core';
 import { combineLatest } from 'rxjs';
-import { takeWhile, take, filter } from 'rxjs/operators';
-
-import { RoutingService } from '../../routing/facade/routing.service';
+import { filter, take, takeWhile } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { Page } from '../../cms/model/page.model';
-import { WindowRef } from '../../window/window-ref';
 import { PageType } from '../../model/cms.model';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
+import { WindowRef } from '../../window/window-ref';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +15,7 @@ export class SmartEditService {
   private _cmsTicketId: string;
   private isPreviewPage = false;
   private _currentPageId: string;
+  private _launchedInSmartEdit = false;
 
   private defaultPreviewProductCode: string;
   private defaultPreviewCategoryCode: string;
@@ -28,7 +28,6 @@ export class SmartEditService {
     protected winRef: WindowRef
   ) {
     this.getCmsTicket();
-    this.addPageContract();
 
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
@@ -56,15 +55,23 @@ export class SmartEditService {
       this.cmsService.getCurrentPage(),
       this.routingService.getRouterState(),
     ])
-      .pipe(takeWhile(([cmsPage]) => cmsPage === undefined))
-      .subscribe(([, routerState]) => {
-        if (routerState.nextState && !this._cmsTicketId) {
-          this._cmsTicketId = routerState.nextState.queryParams['cmsTicketId'];
-          if (this._cmsTicketId) {
-            this.cmsService.launchInSmartEdit = true;
-            this.getDefaultPreviewCode();
+      .pipe(
+        takeWhile(([cmsPage]) => cmsPage === undefined),
+        filter(([, routerState]) => {
+          if (routerState.nextState && !this._cmsTicketId) {
+            this._cmsTicketId =
+              routerState.nextState.queryParams['cmsTicketId'];
+            if (this._cmsTicketId) {
+              return true;
+            }
           }
-        }
+          return false;
+        }),
+        take(1)
+      )
+      .subscribe(() => {
+        this._launchedInSmartEdit = true;
+        this.getDefaultPreviewCode();
       });
   }
 
@@ -72,17 +79,19 @@ export class SmartEditService {
     this.baseSiteService
       .getBaseSiteData()
       .pipe(
-        filter(site => Object.keys(site).length !== 0),
+        filter((site) => Object.keys(site).length !== 0),
         take(1)
       )
-      .subscribe(site => {
+      .subscribe((site) => {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;
+
+        this.addPageContract();
       });
   }
 
   protected addPageContract() {
-    this.cmsService.getCurrentPage().subscribe(cmsPage => {
+    this.cmsService.getCurrentPage().subscribe((cmsPage) => {
       if (cmsPage && this._cmsTicketId) {
         this._currentPageId = cmsPage.pageId;
 
@@ -91,17 +100,17 @@ export class SmartEditService {
 
         // remove old page contract
         const previousContract = [];
-        Array.from(this.winRef.document.body.classList).forEach(attr =>
+        Array.from(this.winRef.document.body.classList).forEach((attr) =>
           previousContract.push(attr)
         );
-        previousContract.forEach(attr =>
+        previousContract.forEach((attr) =>
           this.winRef.document.body.classList.remove(attr)
         );
 
         // add new page contract
         if (cmsPage.properties && cmsPage.properties.smartedit) {
           const seClasses = cmsPage.properties.smartedit.classes.split(' ');
-          seClasses.forEach(classItem => {
+          seClasses.forEach((classItem) => {
             this.winRef.document.body.classList.add(classItem);
           });
         }
@@ -119,7 +128,7 @@ export class SmartEditService {
       ) {
         this.routingService.go({
           cxRoute: 'product',
-          params: { code: this.defaultPreviewProductCode },
+          params: { code: this.defaultPreviewProductCode, name: '' },
         });
       } else if (
         cmsPage.type === PageType.CATEGORY_PAGE &&
@@ -158,5 +167,12 @@ export class SmartEditService {
 
   protected reprocessPage() {
     // TODO: reprocess page API
+  }
+
+  /**
+   * Whether the app launched in smart edit
+   */
+  isLaunchedInSmartEdit(): boolean {
+    return this._launchedInSmartEdit;
   }
 }

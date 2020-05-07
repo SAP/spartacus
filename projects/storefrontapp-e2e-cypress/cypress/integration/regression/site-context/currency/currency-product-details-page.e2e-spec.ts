@@ -1,11 +1,11 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
-describe('Language switch - product-details page', () => {
+describe('Currency switch - product-details page', () => {
   const productDetailsPath = siteContextSelector.PRODUCT_PATH_2;
   const jpCurrency = ' ¥12,750 ';
 
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   siteContextSelector.stub(

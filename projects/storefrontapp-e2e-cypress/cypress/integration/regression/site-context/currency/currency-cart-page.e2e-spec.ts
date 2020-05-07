@@ -1,28 +1,28 @@
 import { manipulateCartQuantity } from '../../../../helpers/cart';
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
-describe('Language switch - cart page', () => {
+describe('Currency switch - cart page', () => {
   const cartPath = siteContextSelector.CART_PATH;
   const jpCurrency_per_item = ' ¥9,720 ';
   const jpCurrency_total = ' ¥29,160 ';
 
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
     cy.visit('/');
     manipulateCartQuantity();
   });
 
   siteContextSelector.stub(
-    siteContextSelector.CURRENCY_REQUEST,
-    siteContextSelector.CURRENCIES
+    siteContextSelector.CART_REQUEST,
+    siteContextSelector.CART_REQUEST_ALIAS
   );
 
   describe('cart page', () => {
     it('should change currency in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         cartPath,
-        siteContextSelector.CURRENCIES,
+        siteContextSelector.CART_REQUEST_ALIAS,
         siteContextSelector.CURRENCY_JPY,
         siteContextSelector.CURRENCY_LABEL,
         siteContextSelector.FULL_BASE_URL_EN_JPY + cartPath
@@ -32,7 +32,7 @@ describe('Language switch - cart page', () => {
     it('should change currency for price per item in the page', () => {
       siteContextSelector.siteContextChange(
         cartPath,
-        siteContextSelector.CURRENCIES,
+        siteContextSelector.CART_REQUEST_ALIAS,
         siteContextSelector.CURRENCY_JPY,
         siteContextSelector.CURRENCY_LABEL
       );
@@ -46,7 +46,7 @@ describe('Language switch - cart page', () => {
     it('should change currency for total price in the page', () => {
       siteContextSelector.siteContextChange(
         cartPath,
-        siteContextSelector.CURRENCIES,
+        siteContextSelector.CART_REQUEST_ALIAS,
         siteContextSelector.CURRENCY_JPY,
         siteContextSelector.CURRENCY_LABEL
       );

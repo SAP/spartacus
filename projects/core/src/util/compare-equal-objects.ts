@@ -57,3 +57,23 @@ export function deepEqualObjects(objA: object, objB: object): boolean {
     return true;
   }
 }
+
+export function countOfDeepEqualObjects(obj: any, arr: Array<any>): number {
+  return arr.reduce((acc, curr) => {
+    if (deepEqualObjects(obj, curr)) {
+      acc++;
+    }
+    return acc;
+  }, 0);
+}
+
+export function indexOfFirstOccurrence(
+  obj: any,
+  arr: Array<any>
+): number | undefined {
+  for (let index = 0; index < arr.length; index++) {
+    if (deepEqualObjects(arr[index], obj)) {
+      return index;
+    }
+  }
+}

@@ -15,7 +15,7 @@ describe('Reset Password Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -24,7 +24,7 @@ describe('Reset Password Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getResetPassword))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toBeFalsy();
     });
   });

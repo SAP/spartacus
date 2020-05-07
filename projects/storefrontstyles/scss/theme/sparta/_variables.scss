@@ -10,7 +10,6 @@
     1) Add new variables
 */
 @import '../../cxbase/functions';
-@import '../../cxbase/mixins';
 
 //fonts (see _fonts.scss to import)
 $font-family-sans-serif: 'Open Sans', -apple-system, BlinkMacSystemFont,
@@ -30,6 +29,7 @@ $background: #f4f4f4 !default;
 $inverse: #ffffff !default;
 $text: #212738 !default;
 $transparent: transparent !default;
+$visual-focus: #6d9df7 !default;
 
 $theme-colors: (
   'primary': $primary,
@@ -44,6 +44,7 @@ $theme-colors: (
   'inverse': $inverse,
   'text': $text,
   'transparent': $transparent,
+  'visual-focus': $visual-focus,
 );
 
 //type — https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss#L225

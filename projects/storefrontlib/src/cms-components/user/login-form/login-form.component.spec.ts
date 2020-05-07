@@ -1,6 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthRedirectService,
@@ -8,11 +10,13 @@ import {
   GlobalMessageService,
   I18nTestingModule,
   UserToken,
+  WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { CheckoutConfigService } from '../../checkout';
 import { LoginFormComponent } from './login-form.component';
-
 import createSpy = jasmine.createSpy;
+import { FormErrorsModule } from '../../../shared/index';
 
 @Pipe({
   name: 'cxUrl',
@@ -35,24 +39,47 @@ class MockGlobalMessageService {
   remove = createSpy();
 }
 
+class MockActivatedRoute {
+  snapshot = {
+    queryParams: {
+      forced: false,
+    },
+  };
+}
+
+class MockCheckoutConfigService {
+  isGuestCheckout() {
+    return false;
+  }
+}
+
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
 
-  let authService: MockAuthService;
+  let authService: AuthService;
   let authRedirectService: AuthRedirectService;
+  let windowRef: WindowRef;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [LoginFormComponent, MockUrlPipe],
       providers: [
+        WindowRef,
         { provide: AuthService, useClass: MockAuthService },
         {
           provide: AuthRedirectService,
           useClass: MockRedirectAfterAuthService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
       ],
     }).compileComponents();
   }));
@@ -60,9 +87,12 @@ describe('LoginFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
-    authService = TestBed.get(AuthService);
-    authRedirectService = TestBed.get(AuthRedirectService);
+    authService = TestBed.inject(AuthService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
+    windowRef = TestBed.inject(WindowRef);
+  });
 
+  beforeEach(() => {
     component.ngOnInit();
     fixture.detectChanges();
   });
@@ -71,99 +101,90 @@ describe('LoginFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize the form property', () => {
-    expect(component.form.controls['userId'].value).toBe('');
-    expect(component.form.controls['password'].value).toBe('');
+  it('should init the form - empty', () => {
+    expect(component.loginForm.controls['userId'].value).toBe('');
+    expect(component.loginForm.controls['password'].value).toBe('');
   });
 
-  it('should login and redirect to return url after auth', () => {
-    const username = 'test@email.com';
-    const password = 'secret';
+  it('should init the form - prefilled', () => {
+    const email = 'test@email.com';
+    windowRef.nativeWindow.history.pushState(
+      {
+        newUid: email,
+      },
+      null
+    );
 
-    component.form.controls['userId'].setValue(username);
-    component.form.controls['password'].setValue(password);
-    component.login();
+    component.ngOnInit();
+    fixture.detectChanges();
 
-    expect(authService.authorize).toHaveBeenCalledWith(username, password);
-    expect(authRedirectService.redirect).toHaveBeenCalled();
+    expect(component.loginForm.controls['userId'].value).toBe(email);
+
+    // reset the state
+    windowRef.nativeWindow.history.replaceState(null, null);
   });
 
-  describe('userId form field', () => {
-    let control: AbstractControl;
+  describe('login()', () => {
+    it('should login and redirect to return url after auth', () => {
+      const email = 'test@email.com';
+      const password = 'secret';
 
-    beforeEach(() => {
-      control = component.form.controls['userId'];
+      component.loginForm.controls['userId'].setValue(email);
+      component.loginForm.controls['password'].setValue(password);
+      component.submitForm();
+
+      expect(authService.authorize).toHaveBeenCalledWith(email, password);
+      expect(authRedirectService.redirect).toHaveBeenCalled();
     });
 
-    it('should make email lowercase', () => {
-      const upperCaseEmail = 'Test@email.com';
-      const lowerCaseEmail = upperCaseEmail.toLowerCase();
+    it('should not login when form not valid', () => {
+      const email = 'test@email.com';
 
-      control.setValue(upperCaseEmail);
-      const result = component.emailToLowerCase();
-      expect(result).toEqual(lowerCaseEmail);
+      component.loginForm.controls['userId'].setValue(email);
+      component.submitForm();
+
+      expect(authService.authorize).not.toHaveBeenCalled();
+      expect(authRedirectService.redirect).not.toHaveBeenCalled();
     });
 
-    it('original form email value should NOT be changed', () => {
-      const upperCaseEmail = 'Test@email.com';
+    it('should handle changing email to lowercase', () => {
+      const email_uppercase = 'TEST@email.com';
+      const email_lowercase = 'test@email.com';
+      const password = 'secret';
 
-      control.setValue(upperCaseEmail);
-      component.emailToLowerCase();
-      expect(control.value).toEqual(upperCaseEmail);
-    });
+      component.loginForm.controls['userId'].setValue(email_uppercase);
+      component.loginForm.controls['password'].setValue(password);
+      component.submitForm();
 
-    it('should NOT be valid when empty', () => {
-      control.setValue('');
-      expect(control.valid).toBeFalsy();
-    });
-
-    it('should NOT be valid when is an invalid email', () => {
-      control.setValue('with space@email.com');
-      expect(control.valid).toBeFalsy();
-
-      control.setValue('without.domain@');
-      expect(control.valid).toBeFalsy();
-
-      control.setValue('without.at.com');
-      expect(control.valid).toBeFalsy();
-
-      control.setValue('@without.username.com');
-      expect(control.valid).toBeFalsy();
-    });
-
-    it('should be valid when is a valid email', () => {
-      control.setValue('valid@email.com');
-      expect(control.valid).toBeTruthy();
-
-      control.setValue('valid123@example.email.com');
-      expect(control.valid).toBeTruthy();
+      expect(authService.authorize).toHaveBeenCalledWith(
+        email_lowercase,
+        password
+      );
     });
   });
 
-  describe('password form field', () => {
-    let control: AbstractControl;
+  describe('guest checkout', () => {
+    it('should show "Register" when forced flag is false', () => {
+      const registerLinkElement: HTMLElement = fixture.debugElement.query(
+        By.css('.btn-register')
+      ).nativeElement;
+      const guestLink = fixture.debugElement.query(By.css('.btn-guest'));
 
-    beforeEach(() => {
-      control = component.form.controls['password'];
+      expect(guestLink).toBeFalsy();
+      expect(registerLinkElement).toBeTruthy();
     });
 
-    it('should be valid when not empty', () => {
-      control.setValue('not-empty');
-      expect(control.valid).toBeTruthy();
+    it('should show "Guest checkout" when forced flag is true', () => {
+      component.loginAsGuest = true;
+      fixture.detectChanges();
 
-      control.setValue('not empty');
-      expect(control.valid).toBeTruthy();
+      const guestLinkElement: HTMLElement = fixture.debugElement.query(
+        By.css('.btn-guest')
+      ).nativeElement;
+      const registerLink = fixture.debugElement.query(By.css('.btn-register'));
 
-      control.setValue(' ');
-      expect(control.valid).toBeTruthy();
-    });
-
-    it('should NOT be valid when empty', () => {
-      control.setValue('');
-      expect(control.valid).toBeFalsy();
-
-      control.setValue(null);
-      expect(control.valid).toBeFalsy();
+      expect(registerLink).toBeFalsy();
+      expect(guestLinkElement).toBeTruthy();
     });
   });
 });

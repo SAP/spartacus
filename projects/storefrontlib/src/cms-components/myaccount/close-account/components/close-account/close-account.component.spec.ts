@@ -1,11 +1,11 @@
-import { async, TestBed, ComponentFixture } from '@angular/core/testing';
-import { CloseAccountComponent } from './close-account.component';
-import { I18nTestingModule } from '@spartacus/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Pipe, PipeTransform, Component, Input } from '@angular/core';
-import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
-import { ModalService } from '../../../../../shared/components/modal/index';
+import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '../../../../../cms-components/misc/index';
+import { ModalService } from '../../../../../shared/components/modal/index';
+import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
+import { CloseAccountComponent } from './close-account.component';
 
 @Component({
   selector: 'cx-icon',
@@ -38,7 +38,7 @@ describe('CloseAccountComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CloseAccountComponent);
     component = fixture.componentInstance;
-    modalInstance = TestBed.get(ModalService);
+    modalInstance = TestBed.inject(ModalService);
 
     spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
     fixture.detectChanges();

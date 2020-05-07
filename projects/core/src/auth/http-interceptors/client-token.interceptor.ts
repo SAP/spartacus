@@ -17,7 +17,7 @@ import {
 import { ClientToken } from '../models/token-types.model';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ClientTokenInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,

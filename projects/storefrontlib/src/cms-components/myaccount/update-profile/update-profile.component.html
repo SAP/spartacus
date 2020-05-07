@@ -1,5 +1,5 @@
 <ng-container>
-  <div *ngIf="(loading$ | async); else updateForm">
+  <div *ngIf="loading$ | async; else updateForm">
     <div class="cx-spinner">
       <cx-spinner></cx-spinner>
     </div>
@@ -14,7 +14,7 @@
           [user]="user$ | async"
           [titles]="titles$ | async"
           (cancelled)="onCancel()"
-          (submited)="onSubmit($event)"
+          (submitted)="onSubmit($event)"
         ></cx-update-profile-form>
       </div>
     </div>

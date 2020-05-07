@@ -1,4 +1,4 @@
-<ng-container *ngIf="(userToken$ | async) as userToken">
+<ng-container *ngIf="userToken$ | async as userToken">
   <div class="modal-header cx-dialog-header">
     <h3 class="modal-title">
       {{ 'closeAccount.confirmAccountClosure' | cxTranslate }}
@@ -15,7 +15,7 @@
     </button>
   </div>
 
-  <div *ngIf="(isLoading$ | async); else loaded">
+  <div *ngIf="isLoading$ | async; else loaded">
     <div class="cx-spinner">
       <cx-spinner> </cx-spinner>
     </div>

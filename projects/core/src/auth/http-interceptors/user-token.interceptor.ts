@@ -10,7 +10,7 @@ import { switchMap, take } from 'rxjs/operators';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { AuthService } from '../facade/auth.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UserTokenInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
@@ -23,7 +23,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return this.authService.getUserToken().pipe(
       take(1),
-      switchMap(token => {
+      switchMap((token) => {
         if (
           token &&
           this.isOccUrl(request.url) &&

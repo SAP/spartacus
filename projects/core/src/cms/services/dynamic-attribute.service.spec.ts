@@ -1,6 +1,6 @@
-import { TestBed, inject } from '@angular/core/testing';
 import { Renderer2, RendererFactory2 } from '@angular/core';
-
+import { inject, TestBed } from '@angular/core/testing';
+import { SmartEditService } from '../../smart-edit/services/smart-edit.service';
 import { DynamicAttributeService } from './dynamic-attribute.service';
 
 const mockProperties = {
@@ -12,16 +12,25 @@ const mockProperties = {
   group: { prop1: 'groupProp1', prop2: 'groupProp2' },
 };
 
+class MockSmartEditService {
+  isLaunchedInSmartEdit(): boolean {
+    return true;
+  }
+}
+
 describe('DynamicAttributeService', () => {
   let service: DynamicAttributeService;
   let renderer: Renderer2;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DynamicAttributeService],
+      providers: [
+        DynamicAttributeService,
+        { provide: SmartEditService, useClass: MockSmartEditService },
+      ],
     });
 
-    service = TestBed.get(DynamicAttributeService);
+    service = TestBed.inject(DynamicAttributeService);
   });
 
   it('should DynamicAttributeService is injected', () => {
@@ -33,7 +42,9 @@ describe('DynamicAttributeService', () => {
     (factory: RendererFactory2) => {
       renderer = factory.createRenderer(null, null);
       const element = renderer.createElement('div');
-      service.addDynamicAttributes(mockProperties, element, renderer);
+      service.addDynamicAttributes(element, renderer, {
+        componentData: { properties: mockProperties },
+      });
 
       expect(element.getAttribute('data-smartedit-component-id')).toEqual(
         'testId'

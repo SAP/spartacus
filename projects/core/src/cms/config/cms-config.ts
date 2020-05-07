@@ -1,8 +1,9 @@
-import { StaticProvider } from '@angular/core';
+import { Injectable, StaticProvider } from '@angular/core';
 import { Routes } from '@angular/router';
 import { AuthConfig } from '../../auth/config/auth-config';
 import { KymaConfig } from '../../kyma/config/kyma-config';
 import { OccConfig } from '../../occ/config/occ-config';
+import { Config } from '../../config/config.module';
 
 export interface StandardCmsComponentConfig {
   CMSSiteContextComponent?: CmsComponentMapping;
@@ -43,21 +44,38 @@ export interface CmsComponentMapping {
   disableSSR?: boolean;
   i18nKeys?: string[];
   guards?: any[];
+
+  /**
+   * DeferLoading can be specified globally, but also per component.
+   * Some components require direct loading while it's not initially
+   * in the viewport.
+   */
+  deferLoading?: DeferLoadingStrategy;
+}
+
+/** Strategy to control the loading strategy of DOM elements. */
+export enum DeferLoadingStrategy {
+  /** Defers loading of DOM elements until element is near/in the users view port */
+  DEFER = 'DEFERRED-LOADING',
+  /** Renders the DOM instantly without being concerned with the view port */
+  INSTANT = 'INSTANT-LOADING',
 }
 
 export interface CMSComponentConfig
   extends StandardCmsComponentConfig,
     JspIncludeCmsComponentConfig {
-  [_: string]: CmsComponentMapping;
+  [componentType: string]: CmsComponentMapping;
 }
 
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
 export abstract class CmsConfig extends OccConfig
   implements AuthConfig, KymaConfig {
   authentication?: {
     client_id?: string;
     client_secret?: string;
-
-    kyma_enabled?: boolean;
     kyma_client_id?: string;
     kyma_client_secret?: string;
   };

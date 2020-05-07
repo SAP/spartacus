@@ -23,8 +23,8 @@ describe('', () => {
       ],
     });
 
-    effect = TestBed.get(ForgotPasswordEffects);
-    service = TestBed.get(UserConnector);
+    effect = TestBed.inject(ForgotPasswordEffects);
+    service = TestBed.inject(UserConnector);
 
     spyOn(service, 'requestForgotPasswordEmail').and.returnValue(of({}));
   });

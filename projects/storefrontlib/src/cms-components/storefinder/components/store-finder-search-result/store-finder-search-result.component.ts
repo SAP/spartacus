@@ -5,9 +5,9 @@ import {
   SearchConfig,
   StoreFinderSearchQuery,
   StoreFinderService,
+  StoreFinderConfig,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-store-finder-search-result',
@@ -15,22 +15,26 @@ import { tap } from 'rxjs/operators';
 })
 export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   locations: any;
-  searchQuery: StoreFinderSearchQuery;
-  locations$: Observable<any>;
-  isLoading$: Observable<any>;
-  geolocation: GeoPoint;
   subscription: Subscription;
+  useMyLocation: boolean;
+  countryCode: string = null;
   searchConfig: SearchConfig = {
     currentPage: 0,
   };
+  radius: number;
+  searchQuery: StoreFinderSearchQuery;
+  geolocation: GeoPoint;
+  locations$: Observable<any>;
+  isLoading$: Observable<any>;
 
   constructor(
     private storeFinderService: StoreFinderService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    protected config: StoreFinderConfig
   ) {}
 
   ngOnInit() {
-    this.subscription = this.route.queryParams.subscribe(params =>
+    this.subscription = this.route.queryParams.subscribe((params) =>
       this.initialize(params)
     );
   }
@@ -45,27 +49,30 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
     this.searchConfig = { ...this.searchConfig, currentPage: pageNumber };
     this.storeFinderService.findStoresAction(
       this.searchQuery.queryText,
+      this.searchConfig,
       this.geolocation,
-      this.searchConfig
+      this.countryCode,
+      this.useMyLocation,
+      this.radius
     );
   }
 
   private initialize(params: Params) {
     this.searchQuery = this.parseParameters(params);
+    this.useMyLocation = params && params.useMyLocation ? true : false;
+    this.searchConfig = { ...this.searchConfig, currentPage: 0 };
+    this.radius = this.config.googleMaps.radius;
     this.storeFinderService.findStoresAction(
       this.searchQuery.queryText,
+      this.searchConfig,
       this.geolocation,
-      this.searchConfig
+      this.countryCode,
+      this.useMyLocation,
+      this.radius
     );
 
     this.isLoading$ = this.storeFinderService.getStoresLoading();
-    this.locations$ = this.storeFinderService.getFindStoresEntities().pipe(
-      tap(data => {
-        if (data) {
-          this.geolocation = data.longitudeLatitude;
-        }
-      })
-    );
+    this.locations$ = this.storeFinderService.getFindStoresEntities();
   }
 
   private parseParameters(queryParams: {

@@ -23,8 +23,8 @@ describe('', () => {
       ],
     });
 
-    effect = TestBed.get(ResetPasswordEffects);
-    service = TestBed.get(UserConnector);
+    effect = TestBed.inject(ResetPasswordEffects);
+    service = TestBed.inject(UserConnector);
 
     spyOn(service, 'resetPassword').and.returnValue(of({}));
   });

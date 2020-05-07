@@ -4,7 +4,7 @@ import { Occ } from '../../../occ-models/occ.models';
 import { Converter } from '../../../../util/converter.service';
 import { Product } from '../../../../model/product.model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
   constructor(protected config: OccConfig) {}
 

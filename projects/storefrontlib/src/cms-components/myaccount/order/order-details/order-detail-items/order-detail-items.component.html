@@ -1,38 +1,51 @@
-<ng-container *ngIf="(order$ | async) as order">
-  <div *ngFor="let consignment of order.consignments" class="cx-list row">
-    <div class="cx-list-header col-12">
-      <div class="cx-list-status">
-        <span *ngIf="consignment">
-          {{
-            'orderDetails.deliveryStatus'
-              | cxTranslate: { context: consignment.status }
-          }}
-        </span>
-      </div>
-      <div *ngIf="consignment?.statusDate" class="cx-list-date">
-        <div>{{ 'orderDetails.shippedOn' | cxTranslate }}&nbsp;</div>
-        <div>{{ consignment?.statusDate | cxDate }}</div>
-      </div>
-    </div>
-    <div class="cx-list-item col-12">
-      <cx-cart-item-list
-        [items]="getConsignmentProducts(consignment)"
-        [isReadOnly]="true"
-      ></cx-cart-item-list>
-    </div>
-  </div>
+<ng-container *ngIf="order$ | async as order">
+  <ng-container
+    *ngIf="order.consignments?.length || order.unconsignedEntries?.length"
+  >
+    <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
+      <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+    </ng-container>
+  </ng-container>
 
-  <div *ngIf="order.unconsignedEntries?.length" class="cx-list row">
-    <div class="cx-list-header col-12">
-      <div class="cx-list-status">
-        {{ 'orderDetails.inProcess' | cxTranslate }}
+  <!-- consigned entries -->
+  <ng-container *ngIf="order.consignments?.length">
+    <cx-order-consigned-entries
+      *ngIf="others$ | async as others"
+      [order]="order"
+      [consignments]="others"
+    ></cx-order-consigned-entries>
+
+    <cx-order-consigned-entries
+      *ngIf="completed$ | async as completed"
+      [order]="order"
+      [consignments]="completed"
+    ></cx-order-consigned-entries>
+
+    <cx-order-consigned-entries
+      *ngIf="cancel$ | async as cancel"
+      [order]="order"
+      [consignments]="cancel"
+    ></cx-order-consigned-entries>
+  </ng-container>
+
+  <!-- unconsigned entries -->
+  <ng-container *ngIf="order.unconsignedEntries?.length">
+    <div class="cx-list row">
+      <div class="cx-list-header col-12">
+        <div class="cx-list-status">
+          {{
+            'orderDetails.statusDisplay'
+              | cxTranslate: { context: order.statusDisplay }
+          }}
+        </div>
+      </div>
+      <div class="cx-list-item col-12">
+        <cx-cart-item-list
+          [items]="order?.unconsignedEntries"
+          [readonly]="true"
+          [promotionLocation]="promotionLocation"
+        ></cx-cart-item-list>
       </div>
     </div>
-    <div class="cx-list-item col-12">
-      <cx-cart-item-list
-        [items]="order?.unconsignedEntries"
-        [isReadOnly]="true"
-      ></cx-cart-item-list>
-    </div>
-  </div>
+  </ng-container>
 </ng-container>

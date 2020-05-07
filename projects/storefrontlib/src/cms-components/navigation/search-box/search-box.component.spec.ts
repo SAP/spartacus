@@ -53,7 +53,7 @@ class MockHighlightPipe implements PipeTransform {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 
@@ -61,7 +61,7 @@ export class MockCxIconComponent {
   selector: 'cx-media',
   template: '<img>',
 })
-export class MockMediaComponent {
+class MockMediaComponent {
   @Input() container;
   @Input() format;
   @Input() alt;
@@ -124,7 +124,7 @@ describe('SearchBoxComponent', () => {
 
   describe('Default config', () => {
     beforeEach(() => {
-      cmsComponentData = TestBed.get(CmsComponentData);
+      cmsComponentData = TestBed.inject(CmsComponentData);
 
       spyOnProperty(cmsComponentData, 'data$').and.returnValue(
         of(mockSearchBoxComponentData)
@@ -156,11 +156,25 @@ describe('SearchBoxComponent', () => {
       expect(searchBoxComponent.search).toHaveBeenCalledWith('test input');
     });
 
-    it('should launch the search page', () => {
+    it('should launch the search page, given it is not an empty search', () => {
+      const input = fixture.debugElement.query(By.css('input'));
+      const PRODUCT_SEARCH_STRING = 'camera';
+
+      input.nativeElement.value = PRODUCT_SEARCH_STRING;
+      input.triggerEventHandler('keydown.enter', {});
+
+      fixture.detectChanges();
+
+      expect(serviceSpy.launchSearchPage).toHaveBeenCalled();
+    });
+
+    it('should not launch search page on empty search', () => {
       const input = fixture.debugElement.query(By.css('input'));
       input.triggerEventHandler('keydown.enter', {});
+
       fixture.detectChanges();
-      expect(serviceSpy.launchSearchPage).toHaveBeenCalled();
+
+      expect(serviceSpy.launchSearchPage).not.toHaveBeenCalled();
     });
 
     describe('UI tests', () => {
@@ -225,12 +239,70 @@ describe('SearchBoxComponent', () => {
         fixture.debugElement.query(By.css('.products a:first-child.has-media'))
       ).toBeTruthy();
     });
+
+    describe('Arrow key tests', () => {
+      function getFocusedElement(): HTMLElement {
+        return <HTMLElement>document.activeElement;
+      }
+
+      beforeEach(() => {
+        searchBoxComponent.queryText = 'te';
+        fixture.detectChanges();
+
+        // Focus should begin on searchbox input
+        const inputSearchBox: HTMLElement = fixture.debugElement.query(
+          By.css('input[aria-label="search"]')
+        ).nativeElement;
+        inputSearchBox.focus();
+        expect(inputSearchBox).toBe(getFocusedElement());
+      });
+
+      it('should navigate to first child', () => {
+        searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
+
+        expect(
+          fixture.debugElement.query(By.css('.results div > a:first-child'))
+            .nativeElement
+        ).toBe(getFocusedElement());
+      });
+
+      it('should navigate to second child', () => {
+        searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
+        searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
+
+        expect(
+          fixture.debugElement.query(By.css('.results div > a:nth-child(2)'))
+            .nativeElement
+        ).toBe(getFocusedElement());
+      });
+
+      it('should navigate to last child', () => {
+        searchBoxComponent.focusPreviousChild(new UIEvent('keydown.arrowup'));
+
+        expect(
+          fixture.debugElement.query(
+            By.css('.results div:last-child > a:last-child')
+          ).nativeElement
+        ).toBe(getFocusedElement());
+      });
+
+      it('should navigate to second last child', () => {
+        searchBoxComponent.focusPreviousChild(new UIEvent('keydown.arrowup'));
+        searchBoxComponent.focusPreviousChild(new UIEvent('keydown.arrowup'));
+
+        expect(
+          fixture.debugElement.query(
+            By.css('.results div:nth-child(2) > a:last-child')
+          ).nativeElement
+        ).toBe(getFocusedElement());
+      });
+    });
   });
 
   describe('Searchbox config ', () => {
     describe('displayProductImages=false', () => {
       beforeEach(() => {
-        cmsComponentData = TestBed.get(CmsComponentData);
+        cmsComponentData = TestBed.inject(CmsComponentData);
 
         spyOnProperty(cmsComponentData, 'data$').and.returnValue(
           of({
@@ -265,7 +337,7 @@ describe('SearchBoxComponent', () => {
 
     describe('displaySuggestions=false', () => {
       beforeEach(() => {
-        cmsComponentData = TestBed.get(CmsComponentData);
+        cmsComponentData = TestBed.inject(CmsComponentData);
 
         spyOnProperty(cmsComponentData, 'data$').and.returnValue(
           of({

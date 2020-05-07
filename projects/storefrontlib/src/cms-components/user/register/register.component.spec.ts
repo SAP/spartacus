@@ -1,21 +1,35 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  AuthRedirectService,
-  AuthService,
+  ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
+  AnonymousConsentsConfig,
+  AnonymousConsentsService,
+  ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  RoutingService,
   Title,
   UserService,
-  UserToken,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { RegisterComponent } from './register.component';
-
 import createSpy = jasmine.createSpy;
+import { FormErrorsModule } from '../../../shared/index';
+
+const mockRegisterFormData: any = {
+  titleCode: 'Mr',
+  firstName: 'John',
+  lastName: 'Doe',
+  email: 'JohnDoe@thebest.john.intheworld.com',
+  email_lowercase: 'johndoe@thebest.john.intheworld.com',
+  termsandconditions: true,
+  password: 'strongPass$!123',
+};
 
 const mockTitlesList: Title[] = [
   {
@@ -35,22 +49,26 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockAuthService {
-  getUserToken(): Observable<UserToken> {
-    return of({ access_token: 'test' } as UserToken);
-  }
-}
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockSpinnerComponent {}
 
-class MockRedirectAfterAuthService {
-  redirect = createSpy('AuthRedirectService.redirect');
-}
+const registerUserIsLoading: BehaviorSubject<boolean> = new BehaviorSubject(
+  false
+);
+const registerUserIsSuccess: BehaviorSubject<boolean> = new BehaviorSubject(
+  false
+);
 
 class MockUserService {
+  loadTitles(): void {}
+  resetRegisterUserProcessState(): void {}
+
   getTitles(): Observable<Title[]> {
     return of([]);
   }
-
-  loadTitles(): void {}
 
   register(
     _titleCode: string,
@@ -59,53 +77,116 @@ class MockUserService {
     _email: string,
     _password: string
   ): void {}
+
+  getRegisterUserResultLoading(): Observable<boolean> {
+    return registerUserIsLoading.asObservable();
+  }
+  getRegisterUserResultSuccess(): Observable<boolean> {
+    return registerUserIsSuccess.asObservable();
+  }
 }
 
 class MockGlobalMessageService {
-  remove() {}
+  add = createSpy();
+  remove = createSpy();
   get() {
     return of();
   }
 }
 
+class MockRoutingService {
+  go = createSpy();
+}
+
+class MockAnonymousConsentsService {
+  getConsent(_templateCode: string): Observable<AnonymousConsent> {
+    return of();
+  }
+  getTemplate(_templateCode: string): Observable<ConsentTemplate> {
+    return of();
+  }
+  withdrawConsent(_templateCode: string): void {}
+  giveConsent(_templateCode: string): void {}
+  isConsentGiven(_consent: AnonymousConsent): boolean {
+    return true;
+  }
+}
+
+const mockAnonymousConsentsConfig: AnonymousConsentsConfig = {
+  anonymousConsents: {
+    registerConsent: 'MARKETING',
+    requiredConsents: ['MARKETING'],
+  },
+};
+
 describe('RegisterComponent', () => {
-  let controls;
+  let controls: any;
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
-  let authRedirectService: AuthRedirectService;
-  let userService: MockUserService;
-  let globalMessageService: MockGlobalMessageService;
+  let userService: UserService;
+  let mockGlobalMessageService: GlobalMessageService;
+  let mockRoutingService: RoutingService;
+  let anonymousConsentService: AnonymousConsentsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
-      declarations: [RegisterComponent, MockUrlPipe],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
+      declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
       providers: [
-        {
-          provide: AuthRedirectService,
-          useClass: MockRedirectAfterAuthService,
-        },
         { provide: UserService, useClass: MockUserService },
-        { provide: AuthService, useClass: MockAuthService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+        {
+          provide: AnonymousConsentsService,
+          useClass: MockAnonymousConsentsService,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
+        },
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
-    authRedirectService = TestBed.get(AuthRedirectService);
-    userService = TestBed.get(UserService);
-    globalMessageService = TestBed.get(GlobalMessageService);
+    userService = TestBed.inject(UserService);
+    mockGlobalMessageService = TestBed.inject(GlobalMessageService);
+    mockRoutingService = TestBed.inject(RoutingService);
+    anonymousConsentService = TestBed.inject(AnonymousConsentsService);
+
     component = fixture.componentInstance;
 
     fixture.detectChanges();
-    controls = component.userRegistrationForm.controls;
+    controls = component.registerForm.controls;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('submit button', () => {
+    it('should NOT be disabled', () => {
+      fixture = TestBed.createComponent(RegisterComponent);
+      fixture.detectChanges();
+      const el: HTMLElement = fixture.debugElement.nativeElement;
+      const submitButton: HTMLElement = el.querySelector(
+        'button[type="submit"]'
+      );
+      expect(submitButton.hasAttribute('disabled')).toBeFalsy();
+    });
   });
 
   describe('ngOnInit', () => {
@@ -116,14 +197,14 @@ describe('RegisterComponent', () => {
 
       let titleList: Title[];
       component.titles$
-        .subscribe(data => {
+        .subscribe((data) => {
           titleList = data;
         })
         .unsubscribe();
       expect(titleList).toEqual(mockTitlesList);
     });
 
-    it('should fetch titles if the state is empty', done => {
+    it('should fetch titles if the state is empty', (done) => {
       spyOn(userService, 'loadTitles').and.stub();
       spyOn(userService, 'getTitles').and.returnValue(of([]));
 
@@ -136,111 +217,45 @@ describe('RegisterComponent', () => {
         })
         .unsubscribe();
     });
-  });
 
-  describe('form validate', () => {
-    it('form invalid when empty', () => {
-      spyOn(userService, 'getTitles').and.returnValue(of(mockTitlesList));
-
+    it('should fetch registerUser process loading state', () => {
+      const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
       component.ngOnInit();
 
-      expect(component.userRegistrationForm.valid).toBeFalsy();
-    });
+      // when false
+      registerUserIsLoading.next(false);
+      fixture.detectChanges();
 
-    it('should contains error if repassword is different than password', () => {
-      component.ngOnInit();
+      expect(getSpinner()).toBeFalsy();
 
-      controls['password'].setValue('test');
-      controls['passwordconf'].setValue('test1');
+      // when true
+      registerUserIsLoading.next(true);
+      fixture.detectChanges();
 
-      const isNotEqual = component.userRegistrationForm.hasError('NotEqual');
-      expect(isNotEqual).toBeTruthy();
-    });
-
-    it('should not contain error if repassword is the same as password', () => {
-      component.ngOnInit();
-
-      controls['password'].setValue('test');
-      controls['passwordconf'].setValue('test');
-
-      const isNotEqual = component.userRegistrationForm.hasError('NotEqual');
-      expect(isNotEqual).toBeFalsy();
-    });
-
-    it('form valid when filled', () => {
-      component.ngOnInit();
-
-      controls['titleCode'].setValue('Mr');
-      controls['firstName'].setValue('John');
-      controls['lastName'].setValue('Doe');
-      controls['email'].setValue('JohnDoe@thebest.john.intheworld.com');
-      controls['termsandconditions'].setValue(true);
-      controls['password'].setValue('strongPass$!123');
-      controls['passwordconf'].setValue('strongPass$!123');
-
-      expect(component.userRegistrationForm.valid).toBeTruthy();
-    });
-
-    it('form invalid when not all required fields filled', () => {
-      component.ngOnInit();
-
-      controls['titleCode'].setValue('Mr');
-      controls['firstName'].setValue('John');
-      controls['lastName'].setValue('');
-      controls['email'].setValue('JohnDoe@thebest.john.intheworld.com');
-      controls['termsandconditions'].setValue(true);
-      controls['password'].setValue('strongPass$!123');
-      controls['passwordconf'].setValue('strongPass$!123');
-
-      expect(component.userRegistrationForm.valid).toBeFalsy();
-    });
-
-    it('form invalid when not terms not checked', () => {
-      component.ngOnInit();
-
-      controls['titleCode'].setValue('Mr');
-      controls['firstName'].setValue('John');
-      controls['lastName'].setValue('Doe');
-      controls['email'].setValue('JohnDoe@thebest.john.intheworld.com');
-      controls['termsandconditions'].setValue(false);
-      controls['password'].setValue('strongPass$!123');
-      controls['passwordconf'].setValue('strongPass$!123');
-
-      expect(component.userRegistrationForm.valid).toBeFalsy();
+      expect(getSpinner()).toBeTruthy();
     });
   });
 
-  describe('validate email before submitting', () => {
-    it('should make email lowercase', () => {
-      const upperCaseEmail = 'JohnDoe@thebest.JOHn.InTHEworld.com';
-      const lowerCaseEmail = upperCaseEmail.toLowerCase();
+  describe('collectDataFromRegisterForm()', () => {
+    it('should return correct register data', () => {
+      const form = mockRegisterFormData;
 
-      component.ngOnInit();
-
-      controls['email'].setValue(upperCaseEmail);
-      component.emailToLowerCase();
-      expect(component.userRegistrationForm.value.email).toEqual(
-        lowerCaseEmail
-      );
-    });
-
-    it('original form email value should NOT be changed', () => {
-      const upperCaseEmail = 'JohnDoe@thebest.JOHn.InTHEworld.com';
-
-      component.ngOnInit();
-
-      controls['email'].setValue(upperCaseEmail);
-      component.emailToLowerCase();
-      expect(controls['email'].value).toEqual(upperCaseEmail);
+      expect(component.collectDataFromRegisterForm(form)).toEqual({
+        firstName: form.firstName,
+        lastName: form.lastName,
+        uid: form.email_lowercase,
+        password: form.password,
+        titleCode: form.titleCode,
+      });
     });
   });
 
   describe('submit', () => {
     beforeEach(() => {
-      spyOn(globalMessageService, 'remove').and.callThrough();
       spyOn(userService, 'register').and.stub();
+
       component.ngOnInit();
-      component.submit();
+      component.registerUser();
     });
 
     it('should submit form', () => {
@@ -253,11 +268,62 @@ describe('RegisterComponent', () => {
       });
     });
 
-    it('should go to redirect url after registration and remove error messages', () => {
-      expect(authRedirectService.redirect).toHaveBeenCalled();
-      expect(globalMessageService.remove).toHaveBeenCalledWith(
-        GlobalMessageType.MSG_TYPE_ERROR
+    it('should redirect to login page and show message (new flow)', () => {
+      registerUserIsSuccess.next(true);
+
+      expect(mockRoutingService.go).toHaveBeenCalledWith('login');
+      expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
+        { key: 'register.postRegisterMessage' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
+    });
+  });
+
+  const toggleAnonymousConsentMethod = 'toggleAnonymousConsent';
+  describe(`${toggleAnonymousConsentMethod}`, () => {
+    it('should call anonymousConsentsService.giveConsent when the consent is given', () => {
+      spyOn(anonymousConsentService, 'giveConsent').and.stub();
+      component.ngOnInit();
+
+      controls['newsletter'].setValue(true);
+      component.toggleAnonymousConsent();
+      expect(anonymousConsentService.giveConsent).toHaveBeenCalled();
+    });
+    it('should call anonymousConsentsService.withdrawConsent when the consent is NOT given', () => {
+      spyOn(anonymousConsentService, 'withdrawConsent').and.stub();
+      component.ngOnInit();
+
+      controls['newsletter'].setValue(false);
+      component.toggleAnonymousConsent();
+      expect(anonymousConsentService.withdrawConsent).toHaveBeenCalled();
+    });
+  });
+
+  describe('isConsentGiven', () => {
+    it('should call anonymousConsentsService.isConsentGiven', () => {
+      spyOn(anonymousConsentService, 'isConsentGiven').and.stub();
+      const mockConsent: AnonymousConsent = {
+        consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
+      };
+      component.isConsentGiven(mockConsent);
+      expect(anonymousConsentService.isConsentGiven).toHaveBeenCalledWith(
+        mockConsent
+      );
+    });
+  });
+
+  const isConsentRequiredMethod = 'isConsentRequired';
+  describe('isConsentRequired', () => {
+    it('should disable form when register consent is required', () => {
+      expect(component[isConsentRequiredMethod]()).toEqual(true);
+    });
+
+    it('should disable input when register consent is required', () => {
+      spyOn<any>(component, isConsentRequiredMethod).and.returnValue(true);
+
+      fixture.detectChanges();
+
+      expect(controls['newsletter'].status).toEqual('DISABLED');
     });
   });
 });

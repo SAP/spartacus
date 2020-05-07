@@ -8,7 +8,7 @@ describe('HighlightPipe', () => {
     TestBed.configureTestingModule({
       providers: [HighlightPipe],
     });
-    pipe = TestBed.get(HighlightPipe);
+    pipe = TestBed.inject(HighlightPipe);
   });
 
   describe('transform', () => {

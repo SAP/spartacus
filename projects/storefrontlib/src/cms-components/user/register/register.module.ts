@@ -1,19 +1,17 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-
-import { LoginModule } from '../login/login.module';
-import { RegisterComponent } from './register.component';
+import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
   I18nModule,
   NotAuthGuard,
+  provideDefaultConfig,
   UrlModule,
-  UserModule,
 } from '@spartacus/core';
+import { SpinnerModule, FormErrorsModule } from '../../../shared/index';
+import { LoginModule } from '../login/login.module';
+import { RegisterComponent } from './register.component';
 
 @NgModule({
   imports: [
@@ -21,9 +19,13 @@ import {
     LoginModule,
     ReactiveFormsModule,
     RouterModule,
-    UserModule,
     UrlModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    I18nModule,
+    SpinnerModule,
+    FormErrorsModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         RegisterCustomerComponent: {
           component: RegisterComponent,
@@ -31,7 +33,6 @@ import {
         },
       },
     }),
-    I18nModule,
   ],
   declarations: [RegisterComponent],
   exports: [RegisterComponent],

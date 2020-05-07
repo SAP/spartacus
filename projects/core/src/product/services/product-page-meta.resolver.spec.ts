@@ -1,29 +1,11 @@
-import { inject, TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
-import {
-  CmsService,
-  Page,
-  PageMeta,
-  PageMetaResolver,
-  PageMetaService,
-} from '../../cms';
+import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { PageRobotsMeta } from '../../cms';
+import { I18nTestingModule, TranslationService } from '../../i18n';
+import { Product } from '../../model';
 import { RoutingService } from '../../routing';
 import { ProductService } from '../facade';
 import { ProductPageMetaResolver } from './product-page-meta.resolver';
-import { PageType } from '../../model/cms.model';
-import { I18nTestingModule } from '../../i18n';
-
-const mockProductPage: Page = {
-  type: PageType.PRODUCT_PAGE,
-  title: 'content page title',
-  slots: {},
-};
-
-class MockCmsService {
-  getCurrentPage(): Observable<Page> {
-    return of(mockProductPage);
-  }
-}
 
 class MockRoutingService {
   getRouterState() {
@@ -37,134 +19,172 @@ class MockRoutingService {
   }
 }
 
-class MockProductService {
-  get(code: string) {
-    return of(<any>{
-      code: code,
-      name: 'Product title',
-      summary: 'Product summary',
-      categories: [
-        {
-          code: '123',
-          name: 'one two three',
-        },
-      ],
-      images: {
-        PRIMARY: {
-          zoom: {
-            url: 'https://storefront.com/image',
-          },
-        },
+const MockProduct: Product = {
+  code: '1234',
+  name: 'Product title',
+  summary: 'Product summary',
+  categories: [
+    {
+      code: '123',
+      name: 'one two three',
+    },
+  ],
+  images: {
+    PRIMARY: {
+      zoom: {
+        url: 'https://storefront.com/image',
       },
-      manufacturer: 'Canon',
-    });
+    },
+  },
+  manufacturer: 'Canon',
+};
+
+const MockProductWithoutImages: Product = {
+  code: '1234',
+};
+
+class MockProductService {
+  get(_code: string) {
+    return of(MockProduct);
+  }
+}
+
+class MockTranslationService {
+  translate(key, params: any) {
+    if (!params) {
+      return of(key);
+    }
+    if (params.title) {
+      return of(key + ':' + params.title);
+    }
+    if (params.heading) {
+      return of(key + ':' + params.heading);
+    }
+    if (params.description) {
+      return of(key + ':' + params.description);
+    }
   }
 }
 
 describe('ProductPageMetaResolver', () => {
-  let service: PageMetaService;
+  let service: ProductPageMetaResolver;
+  let productService: ProductService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
-        PageMetaService,
-        { provide: CmsService, useClass: MockCmsService },
+        ProductPageMetaResolver,
         { provide: ProductService, useClass: MockProductService },
         { provide: RoutingService, useClass: MockRoutingService },
-        {
-          provide: PageMetaResolver,
-          useExisting: ProductPageMetaResolver,
-          multi: true,
-        },
+        { provide: TranslationService, useClass: MockTranslationService },
       ],
     });
 
-    service = TestBed.get(PageMetaService);
+    service = TestBed.inject(ProductPageMetaResolver);
+    productService = TestBed.inject(ProductService);
   });
 
-  it('ProductTitleService should be created', inject(
-    [PageMetaService],
-    (pageTitleService: PageMetaService) => {
-      expect(pageTitleService).toBeTruthy();
-    }
-  ));
-
-  it('should resolve product page heading', () => {
-    let result: PageMeta;
-    service
-      .getMeta()
-      .subscribe(value => {
-        result = value;
-      })
-      .unsubscribe();
-
-    expect(result.heading).toEqual(
-      'pageMetaResolver.product.heading heading:Product title'
-    );
+  it('should be created', () => {
+    expect(service).toBeTruthy();
   });
 
-  it('should resolve product page title', () => {
-    let result: PageMeta;
+  it('should resolve product heading', () => {
+    let result: string;
     service
-      .getMeta()
-      .subscribe(value => {
-        result = value;
-      })
+      .resolveHeading()
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
-    expect(result.title).toEqual(
-      'pageMetaResolver.product.title title:Product title | one two three | Canon'
+    expect(result).toEqual('pageMetaResolver.product.heading:Product title');
+  });
+
+  it('should resolve product title', () => {
+    let result: string;
+    service
+      .resolveTitle()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual(
+      'pageMetaResolver.product.title:Product title | one two three | Canon'
     );
   });
 
   it('should resolve product description', () => {
-    let result: PageMeta;
+    let result: string;
     service
-      .getMeta()
-      .subscribe(value => {
-        result = value;
-      })
+      .resolveDescription()
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
-    expect(result.description).toEqual(
-      'pageMetaResolver.product.description description:Product summary'
+    expect(result).toEqual(
+      'pageMetaResolver.product.description:Product summary'
     );
   });
 
-  it('should resolve 2 breadcrumbs', () => {
-    let result: PageMeta;
+  it('should resolve product image', () => {
+    let result: string;
     service
-      .getMeta()
-      .subscribe(value => {
+      .resolveImage()
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();
 
-    expect(result.breadcrumbs.length).toEqual(2);
+    expect(result).toEqual('https://storefront.com/image');
+  });
+
+  it('should gracefully return null for product without images', () => {
+    spyOn(productService, 'get').and.returnValue(of(MockProductWithoutImages));
+
+    let result: string;
+    service
+      .resolveImage()
+      .subscribe((value) => {
+        result = value;
+      })
+      .unsubscribe();
+
+    expect(result).toBeNull();
+  });
+
+  it('should resolve breadcrumbs', () => {
+    let result: any[];
+    service
+      .resolveBreadcrumbs()
+      .subscribe((value) => {
+        result = value;
+      })
+      .unsubscribe();
+
+    expect(result.length).toEqual(2);
   });
 
   it('should resolve 2nd breadcrumbs with category name', () => {
-    let result: PageMeta;
+    let result: any[];
     service
-      .getMeta()
-      .subscribe(value => {
+      .resolveBreadcrumbs()
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();
 
-    expect(result.breadcrumbs[1].label).toEqual('one two three');
+    expect(result[1].label).toEqual('one two three');
   });
 
-  it('should resolve product image', () => {
-    let result: PageMeta;
+  it('should resolve robots', () => {
+    let result: any[];
     service
-      .getMeta()
-      .subscribe(value => {
+      .resolveRobots()
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();
 
-    expect(result.image).toEqual('https://storefront.com/image');
+    expect(result).toContain(PageRobotsMeta.FOLLOW);
+    expect(result).toContain(PageRobotsMeta.INDEX);
+    expect(result).not.toContain(PageRobotsMeta.NOINDEX);
+    expect(result).not.toContain(PageRobotsMeta.NOFOLLOW);
   });
 });

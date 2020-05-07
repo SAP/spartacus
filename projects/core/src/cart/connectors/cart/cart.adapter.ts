@@ -29,4 +29,24 @@ export abstract class CartAdapter {
     oldCartId?: string,
     toMergeCartGuid?: string
   ): Observable<Cart>;
+
+  /**
+   * Abstract method used to delete cart
+   *
+   * @param userId
+   * @param cartId
+   */
+  abstract delete(userId: string, cartId: string): Observable<{}>;
+
+  /**
+   * Abstract method to assign an email to the cart. This step is required to make a guest checkout
+   * @param userId
+   * @param cartId
+   * @param email
+   */
+  abstract addEmail(
+    userId: string,
+    cartId: string,
+    email: string
+  ): Observable<{}>;
 }

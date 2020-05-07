@@ -70,8 +70,8 @@ describe('Navigation Entry Items Effects', () => {
       ],
     });
 
-    service = TestBed.get(CmsComponentConnector);
-    effects = TestBed.get(fromEffects.NavigationEntryItemEffects);
+    service = TestBed.inject(CmsComponentConnector);
+    effects = TestBed.inject(fromEffects.NavigationEntryItemEffects);
 
     spyOn(service, 'getList').and.returnValue(of(listComponents));
   });

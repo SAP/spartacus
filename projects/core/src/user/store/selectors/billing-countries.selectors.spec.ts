@@ -17,7 +17,7 @@ describe('Billing Countries Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -37,7 +37,7 @@ describe('Billing Countries Selectors', () => {
       let result: Country[];
       store
         .pipe(select(UsersSelectors.getAllBillingCountries))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
 

@@ -8,7 +8,7 @@ import { INIT } from '@ngrx/store';
 import { AUTH_FEATURE, StateWithAuth } from '../../auth/store/auth-state';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig, StateTransferType } from '../config/state-config';
-import { getStateSlice } from '../utils/get-state-slice';
+import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';
 
 export const CX_KEY: StateKey<string> = makeStateKey<string>('cx-state');
 
@@ -37,18 +37,23 @@ export function getTransferStateReducer(
     }
   }
 
-  return reducer => reducer;
+  return (reducer) => reducer;
 }
 
 export function getServerTransferStateReducer(
   transferState: TransferState,
   keys: { [key: string]: StateTransferType }
 ) {
-  return function(reducer) {
-    return function(state, action: any) {
+  const transferStateKeys = filterKeysByType(
+    keys,
+    StateTransferType.TRANSFER_STATE
+  );
+
+  return function (reducer) {
+    return function (state, action: any) {
       const newState = reducer(state, action);
       if (newState) {
-        const stateSlice = getStateSlice(Object.keys(keys), newState);
+        const stateSlice = getStateSlice(transferStateKeys, [], newState);
         transferState.set(CX_KEY, stateSlice);
       }
 
@@ -61,8 +66,13 @@ export function getBrowserTransferStateReducer(
   transferState: TransferState,
   keys: { [key: string]: StateTransferType }
 ) {
-  return function(reducer) {
-    return function(state, action: any) {
+  const transferStateKeys = filterKeysByType(
+    keys,
+    StateTransferType.TRANSFER_STATE
+  );
+
+  return function (reducer) {
+    return function (state, action: any) {
       if (action.type === INIT) {
         if (!state) {
           state = reducer(state, action);
@@ -75,7 +85,11 @@ export function getBrowserTransferStateReducer(
 
         if (!isLoggedIn && transferState.hasKey(CX_KEY)) {
           const cxKey = transferState.get(CX_KEY, {});
-          const transferredStateSlice = getStateSlice(Object.keys(keys), cxKey);
+          const transferredStateSlice = getStateSlice(
+            transferStateKeys,
+            [],
+            cxKey
+          );
 
           state = deepMerge({}, state, transferredStateSlice);
         }

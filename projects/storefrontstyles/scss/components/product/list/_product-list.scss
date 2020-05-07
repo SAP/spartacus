@@ -1,4 +1,8 @@
 %cx-product-list {
+  cx-star-rating {
+    padding-top: 0;
+  }
+
   .cx-product-search-list {
     display: block;
     border-width: 0 0 1px 0;
@@ -49,5 +53,32 @@
     .ng-arrow-wrapper {
       padding: 0 35px 0 0;
     }
+  }
+
+  .cx-double-btn-container {
+    display: grid;
+    grid-gap: 5%;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cx-single-btn-container {
+    display: grid;
+    width: 50%;
+    margin: auto;
+  }
+
+  .cx-single-btn-container,
+  .cx-double-btn-container {
+    .btn-block {
+      cursor: pointer;
+    }
+  }
+
+  .grid-btn-padding {
+    padding-top: 25px;
+  }
+
+  .align-btn {
+    margin-top: 0px !important;
   }
 }

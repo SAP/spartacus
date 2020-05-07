@@ -35,8 +35,8 @@ describe('ClientTokenEffect', () => {
       ],
     });
 
-    clientTokenEffect = TestBed.get(fromStore.ClientTokenEffect);
-    clientAuthenticationTokenService = TestBed.get(
+    clientTokenEffect = TestBed.inject(fromStore.ClientTokenEffect);
+    clientAuthenticationTokenService = TestBed.inject(
       ClientAuthenticationTokenService
     );
 

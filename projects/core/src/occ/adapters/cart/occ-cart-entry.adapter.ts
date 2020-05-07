@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartEntryAdapter } from '../../../cart/connectors/entry/cart-entry.adapter';
@@ -11,14 +11,9 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 export class OccCartEntryAdapter implements CartEntryAdapter {
   constructor(
     protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected occEndpointsService: OccEndpointsService,
+    protected converterService: ConverterService
   ) {}
-
-  protected getCartEndpoint(userId: string): string {
-    const cartEndpoint = 'users/' + userId + '/carts/';
-    return this.occEndpoints.getEndpoint(cartEndpoint);
-  }
 
   public add(
     userId: string,
@@ -28,19 +23,22 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   ): Observable<CartModification> {
     const toAdd = JSON.stringify({});
 
-    const url = this.getCartEndpoint(userId) + cartId + '/entries';
-
-    const params = new HttpParams({
-      fromString: 'code=' + productCode + '&qty=' + quantity,
-    });
-
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
+    const url = this.occEndpointsService.getUrl(
+      'addEntries',
+      {
+        userId,
+        cartId,
+      },
+      { code: productCode, qty: quantity }
+    );
+
     return this.http
-      .post<CartModification>(url, toAdd, { headers, params })
-      .pipe(this.converter.pipeable(CART_MODIFICATION_NORMALIZER));
+      .post<CartModification>(url, toAdd, { headers })
+      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
   public update(
@@ -50,24 +48,24 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     qty: number,
     pickupStore?: string
   ): Observable<CartModification> {
-    const url =
-      this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
-
-    let queryString = 'qty=' + qty;
+    let params = {};
     if (pickupStore) {
-      queryString = queryString + '&pickupStore=' + pickupStore;
+      params = { pickupStore };
     }
-    const params = new HttpParams({
-      fromString: queryString,
-    });
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
+    const url = this.occEndpointsService.getUrl(
+      'updateEntries',
+      { userId, cartId, entryNumber },
+      { qty, ...params }
+    );
+
     return this.http
-      .patch<CartModification>(url, {}, { headers, params })
-      .pipe(this.converter.pipeable(CART_MODIFICATION_NORMALIZER));
+      .patch<CartModification>(url, {}, { headers })
+      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
   public remove(
@@ -75,11 +73,14 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     cartId: string,
     entryNumber: string
   ): Observable<any> {
-    const url =
-      this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
-
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
+    });
+
+    const url = this.occEndpointsService.getUrl('removeEntries', {
+      userId,
+      cartId,
+      entryNumber,
     });
 
     return this.http.delete(url, { headers });

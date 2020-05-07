@@ -1,7 +1,9 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ConsentTemplate } from '../../model/consent.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { Observable, of } from 'rxjs';
+import { AuthService } from '../../auth/facade/auth.service';
+import { Consent, ConsentTemplate } from '../../model/consent.model';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
@@ -9,8 +11,18 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserConsentService } from './user-consent.service';
 
+class MockAuthService {
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
+  }
+  isUserLoggedIn(): Observable<boolean> {
+    return of(true);
+  }
+}
+
 describe('UserConsentService', () => {
   let service: UserConsentService;
+  let authService: AuthService;
   let store: Store<StateWithUser>;
 
   beforeEach(() => {
@@ -23,12 +35,16 @@ describe('UserConsentService', () => {
           fromProcessReducers.getReducers()
         ),
       ],
-      providers: [UserConsentService],
+      providers: [
+        UserConsentService,
+        { provide: AuthService, useClass: MockAuthService },
+      ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(UserConsentService);
+    authService = TestBed.inject(AuthService);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(UserConsentService);
   });
 
   it('should UserConsentService is injected', inject(
@@ -38,7 +54,7 @@ describe('UserConsentService', () => {
     }
   ));
 
-  const userId = USERID_CURRENT;
+  const userId = OCC_USER_ID_CURRENT;
   const consentTemplateListMock: ConsentTemplate[] = [{ id: 'xxx' }];
 
   describe('load consents', () => {
@@ -51,19 +67,84 @@ describe('UserConsentService', () => {
       });
     });
     describe('getConsents', () => {
-      it('should return the consent template list', () => {
-        store.dispatch(
-          new UserActions.LoadUserConsentsSuccess(consentTemplateListMock)
-        );
+      describe('when the loadIfMissing parameter is false', () => {
+        it('should just return the consent template list', () => {
+          store.dispatch(
+            new UserActions.LoadUserConsentsSuccess(consentTemplateListMock)
+          );
 
-        let result: ConsentTemplate[];
-        service
-          .getConsents()
-          .subscribe(consents => (result = consents))
-          .unsubscribe();
-        expect(result).toEqual(consentTemplateListMock);
+          let result: ConsentTemplate[];
+          service
+            .getConsents()
+            .subscribe((consents) => (result = consents))
+            .unsubscribe();
+          expect(result).toEqual(consentTemplateListMock);
+        });
+      });
+      describe('when the loadIfMissing parameter is set to true', () => {
+        it('should call loadConsents()', () => {
+          spyOn(service, 'loadConsents').and.stub();
+          spyOn(service, 'getConsentsResultLoading').and.returnValue(of(false));
+          spyOn(service, 'getConsentsResultSuccess').and.returnValue(of(false));
+
+          service.getConsents(true).subscribe().unsubscribe();
+
+          expect(service.loadConsents).toHaveBeenCalled();
+        });
+        describe('when the templates already exist', () => {
+          it('should NOT call loadConsents()', () => {
+            store.dispatch(
+              new UserActions.LoadUserConsentsSuccess(consentTemplateListMock)
+            );
+            spyOn(service, 'loadConsents').and.stub();
+            spyOn(service, 'getConsentsResultLoading').and.returnValue(
+              of(false)
+            );
+            spyOn(service, 'getConsentsResultSuccess').and.returnValue(
+              of(false)
+            );
+
+            service.getConsents(true).subscribe().unsubscribe();
+
+            expect(service.loadConsents).not.toHaveBeenCalled();
+          });
+        });
+        describe('when the templates are currently being loaded', () => {
+          it('should NOT call loadConsents()', () => {
+            spyOn(service, 'loadConsents').and.stub();
+            spyOn(service, 'getConsentsResultLoading').and.returnValue(
+              of(true)
+            );
+            spyOn(service, 'getConsentsResultSuccess').and.returnValue(
+              of(false)
+            );
+
+            service.getConsents(true).subscribe().unsubscribe();
+
+            expect(service.loadConsents).not.toHaveBeenCalled();
+          });
+        });
+        describe('when the loading was already attempted', () => {
+          it('should NOT call loadConsents()', () => {
+            store.dispatch(
+              new UserActions.LoadUserConsentsSuccess(consentTemplateListMock)
+            );
+            spyOn(service, 'loadConsents').and.stub();
+            spyOn(service, 'getConsentsResultLoading').and.returnValue(
+              of(false)
+            );
+            spyOn(service, 'getConsentsResultSuccess').and.returnValue(
+              of(true)
+            );
+
+            service.getConsents(true).subscribe().unsubscribe();
+
+            expect(service.loadConsents).not.toHaveBeenCalled();
+          });
+        });
       });
     });
+
     describe('getConsentsResultLoading', () => {
       it('should return the loading flag', () => {
         store.dispatch(new UserActions.LoadUserConsents(userId));
@@ -71,7 +152,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getConsentsResultLoading()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -86,7 +167,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getConsentsResultSuccess()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -99,7 +180,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getConsentsResultError()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -111,6 +192,99 @@ describe('UserConsentService', () => {
         expect(store.dispatch).toHaveBeenCalledWith(
           new UserActions.ResetLoadUserConsents()
         );
+      });
+    });
+
+    describe('getConsent', () => {
+      const mockTemplateId = 'PROFILE';
+      const mockConsentTemplates: ConsentTemplate[] = [
+        {
+          id: mockTemplateId,
+          currentConsent: {
+            code: 'xxx',
+          },
+        },
+      ];
+
+      describe('when the user is logged in', () => {
+        it('should call getConsentByTemplateId selector', () => {
+          spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+          spyOn(service, 'getConsents').and.returnValue(
+            of(mockConsentTemplates)
+          );
+          store.dispatch(
+            new UserActions.LoadUserConsentsSuccess(mockConsentTemplates)
+          );
+
+          let result: Consent;
+          service
+            .getConsent(mockTemplateId)
+            .subscribe((value) => (result = value))
+            .unsubscribe();
+          expect(result).toEqual(mockConsentTemplates[0].currentConsent);
+        });
+      });
+      describe('when the user is anonymous', () => {
+        it('should not call getConsents()', () => {
+          spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+          spyOn(service, 'getConsents').and.stub();
+
+          service.getConsent(mockTemplateId).subscribe().unsubscribe();
+
+          expect(service.getConsents).not.toHaveBeenCalled();
+        });
+      });
+    });
+
+    describe('isConsentGiven', () => {
+      describe('when the consent does not exist', () => {
+        it('should return false', () => {
+          const result = service.isConsentGiven(undefined);
+          expect(result).toEqual(false);
+        });
+      });
+      describe('when the consent has a given date, but not the withdrawn date', () => {
+        it('should return true', () => {
+          const result = service.isConsentGiven({
+            consentGivenDate: new Date(),
+          });
+          expect(result).toEqual(true);
+        });
+      });
+      describe('when the consent has a withdrawn date', () => {
+        it('should return true', () => {
+          const result = service.isConsentGiven({
+            consentGivenDate: new Date(),
+            consentWithdrawnDate: new Date(),
+          });
+          expect(result).toEqual(false);
+        });
+      });
+    });
+
+    describe('isConsentWithdrawn', () => {
+      describe('when the consent is falsy', () => {
+        it('should return true', () => {
+          const result = service.isConsentWithdrawn(undefined);
+          expect(result).toEqual(true);
+        });
+      });
+      describe('when the consent does NOT have a withdrawn date', () => {
+        it('should return false', () => {
+          const result = service.isConsentWithdrawn({
+            consentGivenDate: new Date(),
+          });
+          expect(result).toEqual(false);
+        });
+      });
+      describe('when the consent has a withdrawn date', () => {
+        it('should return true', () => {
+          const result = service.isConsentWithdrawn({
+            consentGivenDate: new Date(),
+            consentWithdrawnDate: new Date(),
+          });
+          expect(result).toEqual(true);
+        });
       });
     });
   });
@@ -144,7 +318,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getGiveConsentResultLoading()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -157,7 +331,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getGiveConsentResultSuccess()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -170,7 +344,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getGiveConsentResultError()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -208,7 +382,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getWithdrawConsentResultLoading()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -221,7 +395,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getWithdrawConsentResultSuccess()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -234,7 +408,7 @@ describe('UserConsentService', () => {
         let result = false;
         service
           .getWithdrawConsentResultError()
-          .subscribe(loading => (result = loading))
+          .subscribe((loading) => (result = loading))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -246,6 +420,28 @@ describe('UserConsentService', () => {
         expect(store.dispatch).toHaveBeenCalledWith(
           new UserActions.ResetWithdrawUserConsentProcess()
         );
+      });
+    });
+  });
+
+  describe('filterConsentTemplates', () => {
+    const mockTemplateList: ConsentTemplate[] = [
+      { id: 'MARKETING' },
+      { id: 'PERSONALIZATION' },
+    ];
+
+    describe('when the empty hideTemplateIds is provided', () => {
+      it('should return the provided templateList', () => {
+        expect(service.filterConsentTemplates(mockTemplateList)).toEqual(
+          mockTemplateList
+        );
+      });
+    });
+    describe('when a list of IDs to hide is provided', () => {
+      it('should remove them from the provided templateList', () => {
+        expect(
+          service.filterConsentTemplates(mockTemplateList, ['MARKETING'])
+        ).toEqual([mockTemplateList[1]]);
       });
     });
   });

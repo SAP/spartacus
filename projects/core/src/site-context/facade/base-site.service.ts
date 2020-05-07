@@ -3,6 +3,9 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { BaseSite } from '../../model/misc.model';
+import { getContextParameterDefault } from '../config/context-config-utils';
+import { SiteContextConfig } from '../config/site-context-config';
+import { BASE_SITE_CONTEXT_ID } from '../providers/context-ids';
 import { SiteContextActions } from '../store/actions/index';
 import { SiteContextSelectors } from '../store/selectors/index';
 import { StateWithSiteContext } from '../store/state';
@@ -10,7 +13,10 @@ import { SiteContext } from './site-context.interface';
 
 @Injectable()
 export class BaseSiteService implements SiteContext<string> {
-  constructor(protected store: Store<StateWithSiteContext>) {}
+  constructor(
+    protected store: Store<StateWithSiteContext>,
+    protected config: SiteContextConfig
+  ) {}
 
   /**
    * Represents the current baseSite uid.
@@ -18,7 +24,7 @@ export class BaseSiteService implements SiteContext<string> {
   getActive(): Observable<string> {
     return this.store.pipe(
       select(SiteContextSelectors.getActiveBaseSite),
-      filter(active => Boolean(active))
+      filter((active) => Boolean(active))
     );
   }
 
@@ -26,16 +32,13 @@ export class BaseSiteService implements SiteContext<string> {
    * We currently don't support switching baseSite at run time
    */
   getAll(): Observable<string[]> {
-    return this.getActive().pipe(map(baseSite => [baseSite]));
+    return this.getActive().pipe(map((baseSite) => [baseSite]));
   }
 
   setActive(baseSite: string): Subscription {
     return this.store
-      .pipe(
-        select(SiteContextSelectors.getActiveBaseSite),
-        take(1)
-      )
-      .subscribe(activeBaseSite => {
+      .pipe(select(SiteContextSelectors.getActiveBaseSite), take(1))
+      .subscribe((activeBaseSite) => {
         if (baseSite && activeBaseSite !== baseSite) {
           this.store.dispatch(
             new SiteContextActions.SetActiveBaseSite(baseSite)
@@ -47,8 +50,19 @@ export class BaseSiteService implements SiteContext<string> {
   /**
    * Initializes the active baseSite.
    */
-  initialize(defaultBaseSite: string): void {
-    this.setActive(defaultBaseSite);
+  initialize(): void {
+    let value;
+    this.getActive()
+      .subscribe((val) => (value = val))
+      .unsubscribe();
+    if (value) {
+      // don't initialize, if there is already a value (i.e. retrieved from route or transferred from SSR)
+      return;
+    }
+
+    this.setActive(
+      getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID)
+    );
   }
 
   /**
@@ -57,7 +71,7 @@ export class BaseSiteService implements SiteContext<string> {
   getBaseSiteData(): Observable<BaseSite> {
     return this.store.pipe(
       select(SiteContextSelectors.getBaseSiteData),
-      tap(baseSite => {
+      tap((baseSite) => {
         if (Object.keys(baseSite).length === 0) {
           this.store.dispatch(new SiteContextActions.LoadBaseSite());
         }

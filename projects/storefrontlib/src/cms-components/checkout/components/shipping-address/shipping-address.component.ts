@@ -1,23 +1,17 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
+  ActiveCartService,
   Address,
-  CartService,
   CheckoutDeliveryService,
   RoutingService,
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
-import { CheckoutConfigService } from '../../checkout-config.service';
-import { CheckoutStepType } from '../../model/checkout-step.model';
+import { CheckoutConfigService } from '../../services/checkout-config.service';
 
 export interface CardWithAddress {
   card: Card;
@@ -29,45 +23,33 @@ export interface CardWithAddress {
   templateUrl: './shipping-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShippingAddressComponent implements OnInit, OnDestroy {
+export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable<Address[]>;
   newAddressFormManuallyOpened = false;
-  cards: Card[] = [];
   isLoading$: Observable<boolean>;
-  selectedAddress: Address;
-  goTo: CheckoutStepType;
-  setAddress: Address;
-  setAddressSub: Subscription;
-  selectedAddressSub: Subscription;
-  selectedAddress$: BehaviorSubject<Address> = new BehaviorSubject<Address>(
-    null
-  );
   cards$: Observable<CardWithAddress[]>;
-  checkoutStepUrlNext: string;
-  checkoutStepUrlPrevious: string;
+  selectedAddress$: Observable<Address>;
+  forceLoader = false; // this helps with smoother steps transition
+  isGuestCheckout = false;
 
   constructor(
     protected userAddressService: UserAddressService,
-    protected cartService: CartService,
     protected routingService: RoutingService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
-    private checkoutConfigService: CheckoutConfigService,
-    private activatedRoute: ActivatedRoute,
-    private translation: TranslationService
+    protected checkoutConfigService: CheckoutConfigService,
+    protected activatedRoute: ActivatedRoute,
+    protected translation: TranslationService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   ngOnInit() {
-    this.goTo = null;
-    this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
-      this.activatedRoute
-    );
-    this.checkoutStepUrlPrevious = 'cart';
-
     this.isLoading$ = this.userAddressService.getAddressesLoading();
     this.existingAddresses$ = this.userAddressService.getAddresses();
+    this.selectedAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
+
     this.cards$ = combineLatest([
       this.existingAddresses$,
-      this.selectedAddress$.asObservable(),
+      this.selectedAddress$,
       this.translation.translate('checkoutAddress.defaultShippingAddress'),
       this.translation.translate('checkoutAddress.shipToThisAddress'),
       this.translation.translate('addressCard.selected'),
@@ -80,7 +62,18 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
           textShipToThisAddress,
           textSelected,
         ]) => {
-          return addresses.map(address => {
+          // Select default address if none selected
+          if (
+            addresses.length &&
+            (!selected || Object.keys(selected).length === 0)
+          ) {
+            const defaultAddress = addresses.find(
+              (address) => address.defaultAddress
+            );
+            selected = defaultAddress;
+            this.selectAddress(defaultAddress);
+          }
+          return addresses.map((address) => {
             const card = this.getCardContent(
               address,
               selected,
@@ -97,21 +90,11 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.userAddressService.loadAddresses();
-
-    this.setAddressSub = this.checkoutDeliveryService
-      .getDeliveryAddress()
-      .subscribe(address => {
-        this.setAddress = address;
-        this.selectedAddress$.next(address);
-        if (this.goTo) {
-          this.goNext();
-          this.goTo = null;
-        }
-      });
-    this.selectedAddressSub = this.selectedAddress$.subscribe(address => {
-      this.selectedAddress = address;
-    });
+    if (!this.activeCartService.isGuestCart()) {
+      this.userAddressService.loadAddresses();
+    } else {
+      this.isGuestCheckout = true;
+    }
   }
 
   getCardContent(
@@ -122,10 +105,12 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     textSelected: string
   ): Card {
     let region = '';
+
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
     }
-    const card: Card = {
+
+    return {
       title: address.defaultAddress ? textDefaultShippingAddress : '',
       textBold: address.firstName + ' ' + address.lastName,
       text: [
@@ -138,73 +123,51 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       actions: [{ name: textShipToThisAddress, event: 'send' }],
       header: selected && selected.id === address.id ? textSelected : '',
     };
-
-    this.cards.push(card);
-
-    return card;
   }
 
-  addressSelected(address: Address): void {
-    this.selectedAddress$.next(address);
+  selectAddress(address: Address): void {
+    this.checkoutDeliveryService.setDeliveryAddress(address);
   }
 
-  next(): void {
-    this.addAddress({ address: this.selectedAddress, newAddress: false });
-  }
+  addAddress(address: Address): void {
+    const selectedSub = this.selectedAddress$.subscribe((selected) => {
+      if (selected && selected.shippingAddress) {
+        this.goNext();
+        selectedSub.unsubscribe();
+      }
+    });
 
-  addAddress({
-    newAddress,
-    address,
-  }: {
-    newAddress: boolean;
-    address: Address;
-  }): void {
-    if (newAddress) {
-      this.checkoutDeliveryService.createAndSetAddress(address);
-      this.goTo = CheckoutStepType.DELIVERY_MODE;
-      return;
-    }
-    if (
-      this.setAddress &&
-      this.selectedAddress &&
-      this.setAddress.id === this.selectedAddress.id
-    ) {
-      this.goNext();
-    } else {
-      this.goTo = CheckoutStepType.DELIVERY_MODE;
-      this.checkoutDeliveryService.setDeliveryAddress(address);
-    }
-  }
+    this.forceLoader = true;
 
-  addNewAddress(address: Address): void {
-    this.addAddress({ address, newAddress: true });
+    this.existingAddresses$.pipe(take(1)).subscribe((addresses) => {
+      addresses.includes(address)
+        ? this.selectAddress(address)
+        : this.checkoutDeliveryService.createAndSetAddress(address);
+    });
   }
 
   showNewAddressForm(): void {
     this.newAddressFormManuallyOpened = true;
   }
 
-  hideNewAddressForm(goBack: boolean = false): void {
+  hideNewAddressForm(goPrevious: boolean = false): void {
     this.newAddressFormManuallyOpened = false;
-    if (goBack) {
-      this.back();
+    if (goPrevious) {
+      this.goPrevious();
     }
   }
 
   goNext(): void {
-    this.routingService.go(this.checkoutStepUrlNext);
+    this.routingService.go(
+      this.checkoutConfigService.getNextCheckoutStepUrl(this.activatedRoute)
+    );
   }
 
-  back(): void {
-    this.routingService.go(this.checkoutStepUrlPrevious);
-  }
-
-  ngOnDestroy(): void {
-    if (this.setAddressSub) {
-      this.setAddressSub.unsubscribe();
-    }
-    if (this.selectedAddressSub) {
-      this.selectedAddressSub.unsubscribe();
-    }
+  goPrevious(): void {
+    this.routingService.go(
+      this.checkoutConfigService.getPreviousCheckoutStepUrl(
+        this.activatedRoute
+      ) || 'cart'
+    );
   }
 }

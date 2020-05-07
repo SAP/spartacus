@@ -12,9 +12,9 @@ import {
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-confirmation-overview',
@@ -39,15 +39,14 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
 
   getAddressCardContent(deliveryAddress: Address): Observable<Card> {
     return this.translation.translate('addressCard.shipTo').pipe(
-      map(textTitle => ({
+      filter(() => Boolean(deliveryAddress)),
+      map((textTitle) => ({
         title: textTitle,
         textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
         text: [
           deliveryAddress.line1,
           deliveryAddress.line2,
-          `${deliveryAddress.town}, ${deliveryAddress.country.isocode}, ${
-            deliveryAddress.postalCode
-          }`,
+          `${deliveryAddress.town}, ${deliveryAddress.country.isocode}, ${deliveryAddress.postalCode}`,
           deliveryAddress.phone,
         ],
       }))
@@ -56,7 +55,8 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
 
   getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {
     return this.translation.translate('checkoutShipping.shippingMethod').pipe(
-      map(textTitle => ({
+      filter(() => Boolean(deliveryMode)),
+      map((textTitle) => ({
         title: textTitle,
         textBold: deliveryMode.name,
         text: [deliveryMode.description],
@@ -66,15 +66,14 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
 
   getBillingAddressCardContent(billingAddress: Address): Observable<Card> {
     return this.translation.translate('addressCard.billTo').pipe(
-      map(textTitle => ({
+      filter(() => Boolean(billingAddress)),
+      map((textTitle) => ({
         title: textTitle,
         textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
         text: [
           billingAddress.line1,
           billingAddress.line2,
-          `${billingAddress.town}, ${billingAddress.country.isocode}, ${
-            billingAddress.postalCode
-          }`,
+          `${billingAddress.town}, ${billingAddress.country.isocode}, ${billingAddress.postalCode}`,
           billingAddress.phone,
         ],
       }))
@@ -85,10 +84,11 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
     return combineLatest([
       this.translation.translate('paymentForm.payment'),
       this.translation.translate('paymentCard.expires', {
-        month: payment.expiryMonth,
-        year: payment.expiryYear,
+        month: Boolean(payment) ? payment.expiryMonth : '',
+        year: Boolean(payment) ? payment.expiryYear : '',
       }),
     ]).pipe(
+      filter(() => Boolean(payment)),
       map(([textTitle, textExpires]) => ({
         title: textTitle,
         textBold: payment.accountHolderName,

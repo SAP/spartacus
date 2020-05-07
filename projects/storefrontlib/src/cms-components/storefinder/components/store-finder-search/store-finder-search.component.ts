@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { RoutingService } from '@spartacus/core';
+import { ICON_TYPE } from '../../../misc/icon';
 
 @Component({
   selector: 'cx-store-finder-search',
@@ -9,23 +9,24 @@ import { RoutingService } from '@spartacus/core';
 })
 export class StoreFinderSearchComponent {
   searchBox: FormControl = new FormControl();
+  iconTypes = ICON_TYPE;
 
-  constructor(private routing: RoutingService, private route: ActivatedRoute) {}
+  constructor(private routingService: RoutingService) {}
 
   findStores(address: string) {
-    this.routing.go(['find'], { query: address }, { relativeTo: this.route });
+    this.routingService.go(['store-finder/find'], { query: address });
   }
 
   viewStoresWithMyLoc() {
-    this.routing.go(
-      ['find'],
-      { useMyLocation: true },
-      { relativeTo: this.route }
-    );
+    this.routingService.go(['store-finder/find'], { useMyLocation: true });
   }
 
   onKey(event: any) {
-    if (event.key === 'Enter') {
+    if (
+      this.searchBox.value &&
+      this.searchBox.value.length &&
+      event.key === 'Enter'
+    ) {
       this.findStores(this.searchBox.value);
     }
   }

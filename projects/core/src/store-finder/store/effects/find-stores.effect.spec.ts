@@ -8,7 +8,6 @@ import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { StoreFinderSearchConfig } from '../../model/search-config';
 import { StoreFinderActions } from '../actions/index';
 import * as fromEffects from './find-stores.effect';
-
 import createSpy = jasmine.createSpy;
 
 const singleStoreResult = {};
@@ -38,7 +37,7 @@ describe('FindStores Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.FindStoresEffect);
+    effects = TestBed.inject(fromEffects.FindStoresEffect);
     searchConfig = { pageSize: 10 };
   });
 

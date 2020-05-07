@@ -22,7 +22,7 @@ const user: UserSignUp = {
 describe('UserRegister effect', () => {
   let effect: UserRegisterEffects;
   let actions$: Observable<Action>;
-  let userService: UserConnector;
+  let userConnector: UserConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,21 +39,39 @@ describe('UserRegister effect', () => {
       ],
     });
 
-    effect = TestBed.get(UserRegisterEffects);
-    userService = TestBed.get(UserConnector);
+    effect = TestBed.inject(UserRegisterEffects);
+    userConnector = TestBed.inject(UserConnector);
 
-    spyOn(userService, 'register').and.returnValue(of({}));
-    spyOn(userService, 'remove').and.returnValue(of({}));
+    spyOn(userConnector, 'register').and.returnValue(of({}));
+    spyOn(userConnector, 'registerGuest').and.returnValue(of({ uid: 'test' }));
+    spyOn(userConnector, 'remove').and.returnValue(of({}));
   });
 
   describe('registerUser$', () => {
     it('should register user', () => {
       const action = new UserActions.RegisterUser(user);
-      const loadUser = new AuthActions.LoadUserToken({
-        userId: user.uid,
-        password: user.password,
-      });
       const completion = new UserActions.RegisterUserSuccess();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', {
+        b: completion,
+      });
+
+      expect(effect.registerUser$).toBeObservable(expected);
+    });
+  });
+
+  describe('registerGuest$', () => {
+    it('should register guest', () => {
+      const action = new UserActions.RegisterGuest({
+        guid: 'guid',
+        password: 'password',
+      });
+      const loadUser = new AuthActions.LoadUserToken({
+        userId: 'test',
+        password: 'password',
+      });
+      const completion = new UserActions.RegisterGuestSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -61,7 +79,7 @@ describe('UserRegister effect', () => {
         c: completion,
       });
 
-      expect(effect.registerUser$).toBeObservable(expected);
+      expect(effect.registerGuest$).toBeObservable(expected);
     });
   });
 

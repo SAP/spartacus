@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { ConsentTemplate } from '../../model/consent.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { iif, Observable } from 'rxjs';
+import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
+import { Consent, ConsentTemplate } from '../../model/consent.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -21,20 +22,47 @@ import {
   providedIn: 'root',
 })
 export class UserConsentService {
-  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
+  constructor(
+    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected authService: AuthService
+  ) {}
 
   /**
    * Retrieves all consents.
    */
   loadConsents(): void {
-    this.store.dispatch(new UserActions.LoadUserConsents(USERID_CURRENT));
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(new UserActions.LoadUserConsents(userId));
+    });
   }
 
   /**
-   * Returns all consents
+   * Returns all consent templates. If `loadIfMissing` parameter is set to `true`, the method triggers the load if consent templates.
+   * @param loadIfMissing is set to `true`, the method will load templates if those are not already present. The default value is `false`.
    */
-  getConsents(): Observable<ConsentTemplate[]> {
-    return this.store.pipe(select(UsersSelectors.getConsentsValue));
+  getConsents(loadIfMissing = false): Observable<ConsentTemplate[]> {
+    return iif(
+      () => loadIfMissing,
+      this.store.pipe(
+        select(UsersSelectors.getConsentsValue),
+        withLatestFrom(
+          this.getConsentsResultLoading(),
+          this.getConsentsResultSuccess()
+        ),
+        filter(([_templates, loading, _success]) => !loading),
+        tap(([templates, _loading, success]) => {
+          if (!templates || templates.length === 0) {
+            // avoid infite loop - if we've already attempted to load templates and we got an empty array as the response
+            if (!success) {
+              this.loadConsents();
+            }
+          }
+        }),
+        filter(([templates, _loading]) => Boolean(templates)),
+        map(([templates, _loading]) => templates)
+      ),
+      this.store.pipe(select(UsersSelectors.getConsentsValue))
+    );
   }
 
   /**
@@ -66,18 +94,68 @@ export class UserConsentService {
   }
 
   /**
+   * Returns the registered consent for the given template ID.
+   *
+   * As a side-effect, the method will call `getConsents(true)` to load the templates if those are not present.
+   *
+   * @param templateId a template ID by which to filter the registered templates.
+   */
+  getConsent(templateId: string): Observable<Consent> {
+    return this.authService.isUserLoggedIn().pipe(
+      filter(Boolean),
+      tap(() => this.getConsents(true)),
+      switchMap(() =>
+        this.store.pipe(
+          select(UsersSelectors.getConsentByTemplateId(templateId))
+        )
+      ),
+      filter((template) => Boolean(template)),
+      map((template) => template.currentConsent)
+    );
+  }
+
+  /**
+   * Returns `true` if the consent is truthy and if `consentWithdrawnDate` doesn't exist.
+   * Otherwise, `false` is returned.
+   *
+   * @param consent to check
+   */
+  isConsentGiven(consent: Consent): boolean {
+    return (
+      Boolean(consent) &&
+      Boolean(consent.consentGivenDate) &&
+      !Boolean(consent.consentWithdrawnDate)
+    );
+  }
+
+  /**
+   * Returns `true` if the consent is either falsy or if `consentWithdrawnDate` is present.
+   * Otherwise, `false` is returned.
+   *
+   * @param consent to check
+   */
+  isConsentWithdrawn(consent: Consent): boolean {
+    if (Boolean(consent)) {
+      return Boolean(consent.consentWithdrawnDate);
+    }
+    return true;
+  }
+
+  /**
    * Give consent for specified consent template ID and version.
    * @param consentTemplateId a template ID for which to give a consent
    * @param consentTemplateVersion a template version for which to give a consent
    */
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
-    this.store.dispatch(
-      new UserActions.GiveUserConsent({
-        userId: USERID_CURRENT,
-        consentTemplateId,
-        consentTemplateVersion,
-      })
-    );
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(
+        new UserActions.GiveUserConsent({
+          userId,
+          consentTemplateId,
+          consentTemplateVersion,
+        })
+      );
+    });
   }
 
   /**
@@ -119,12 +197,14 @@ export class UserConsentService {
    * @param consentCode for which to withdraw the consent
    */
   withdrawConsent(consentCode: string): void {
-    this.store.dispatch(
-      new UserActions.WithdrawUserConsent({
-        userId: USERID_CURRENT,
-        consentCode,
-      })
-    );
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(
+        new UserActions.WithdrawUserConsent({
+          userId,
+          consentCode,
+        })
+      );
+    });
   }
 
   /**
@@ -161,5 +241,31 @@ export class UserConsentService {
     return this.store.dispatch(
       new UserActions.ResetWithdrawUserConsentProcess()
     );
+  }
+
+  /**
+   * Filters the provided `templateList`' templates by hiding the template IDs specified in `hideTemplateIds`.
+   * If the `hideTemplateIds` is empty, the provided `templateList` is returned.
+   *
+   * @param templateList a list of consent templates to filter
+   * @param hideTemplateIds template IDs to hide
+   */
+  filterConsentTemplates(
+    templateList: ConsentTemplate[],
+    hideTemplateIds: string[] = []
+  ): ConsentTemplate[] {
+    if (hideTemplateIds.length === 0) {
+      return templateList;
+    }
+
+    const updatedTemplateList: ConsentTemplate[] = [];
+    for (const template of templateList) {
+      const show = !hideTemplateIds.includes(template.id);
+      if (show) {
+        updatedTemplateList.push(template);
+      }
+    }
+
+    return updatedTemplateList;
   }
 }

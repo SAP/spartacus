@@ -36,8 +36,8 @@ describe('Card Types effect', () => {
       ],
     });
 
-    effect = TestBed.get(CardTypesEffects);
-    service = TestBed.get(CheckoutPaymentConnector);
+    effect = TestBed.inject(CardTypesEffects);
+    service = TestBed.inject(CheckoutPaymentConnector);
 
     spyOn(service, 'getCardTypes').and.returnValue(of(mockCardTypes));
   });

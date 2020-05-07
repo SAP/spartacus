@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -19,80 +19,75 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-const STORES_ENDPOINT = 'stores';
-
 @Injectable()
 export class OccStoreFinderAdapter implements StoreFinderAdapter {
   constructor(
     protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected occEndpointsService: OccEndpointsService,
+    protected converterService: ConverterService
   ) {}
 
   search(
     query: string,
     searchConfig: StoreFinderSearchConfig,
-    longitudeLatitude?: GeoPoint
+    longitudeLatitude?: GeoPoint,
+    radius?: number
   ): Observable<StoreFinderSearchPage> {
-    return this.callOccFindStores(query, searchConfig, longitudeLatitude).pipe(
-      this.converter.pipeable(STORE_FINDER_SEARCH_PAGE_NORMALIZER)
-    );
+    return this.callOccFindStores(
+      query,
+      searchConfig,
+      longitudeLatitude,
+      radius
+    ).pipe(this.converterService.pipeable(STORE_FINDER_SEARCH_PAGE_NORMALIZER));
   }
 
   loadCounts(): Observable<StoreCount[]> {
-    const storeCountUrl = this.getStoresEndpoint('storescounts');
-
-    return this.http.get<Occ.StoreCountList>(storeCountUrl).pipe(
-      map(({ countriesAndRegionsStoreCount }) => countriesAndRegionsStoreCount),
-      this.converter.pipeableMany(STORE_COUNT_NORMALIZER)
-    );
+    return this.http
+      .get<Occ.StoreCountList>(this.occEndpointsService.getUrl('storescounts'))
+      .pipe(
+        map(
+          ({ countriesAndRegionsStoreCount }) => countriesAndRegionsStoreCount
+        ),
+        this.converterService.pipeableMany(STORE_COUNT_NORMALIZER)
+      );
   }
 
   load(storeId: string): Observable<PointOfService> {
-    const storeDetailsUrl = this.getStoresEndpoint(storeId);
-    const params = { fields: 'FULL' };
-
     return this.http
-      .get<Occ.PointOfService>(storeDetailsUrl, { params })
-      .pipe(this.converter.pipeable(POINT_OF_SERVICE_NORMALIZER));
+      .get<Occ.PointOfService>(
+        this.occEndpointsService.getUrl('store', { storeId })
+      )
+      .pipe(this.converterService.pipeable(POINT_OF_SERVICE_NORMALIZER));
   }
 
   protected callOccFindStores(
     query: string,
     searchConfig: StoreFinderSearchConfig,
-    longitudeLatitude?: GeoPoint
+    longitudeLatitude?: GeoPoint,
+    radius?: number
   ): Observable<Occ.StoreFinderSearchPage> {
-    const url = this.getStoresEndpoint();
-    let params: HttpParams = new HttpParams({
-      fromString:
-        'fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
-        'geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country,email), features),' +
-        'pagination(DEFAULT),' +
-        'sorts(DEFAULT)',
-    });
+    const params = {};
 
     if (longitudeLatitude) {
-      params = params.set('longitude', String(longitudeLatitude.longitude));
-      params = params.set('latitude', String(longitudeLatitude.latitude));
+      params['longitude'] = String(longitudeLatitude.longitude);
+      params['latitude'] = String(longitudeLatitude.latitude);
+      params['radius'] = String(radius);
     } else {
-      params = params.set('query', query);
+      params['query'] = query;
     }
+
     if (searchConfig.pageSize) {
-      params = params.set('pageSize', String(searchConfig.pageSize));
+      params['pageSize'] = String(searchConfig.pageSize);
     }
     if (searchConfig.currentPage) {
-      params = params.set('currentPage', String(searchConfig.currentPage));
+      params['currentPage'] = String(searchConfig.currentPage);
     }
     if (searchConfig.sort) {
-      params = params.set('sort', searchConfig.sort);
+      params['sort'] = searchConfig.sort;
     }
 
-    return this.http.get<Occ.StoreFinderSearchPage>(url, { params });
-  }
-
-  protected getStoresEndpoint(url?: string): string {
-    const baseUrl = this.occEndpoints.getEndpoint(STORES_ENDPOINT);
-
-    return url ? baseUrl + '/' + url : baseUrl;
+    return this.http.get<Occ.StoreFinderSearchPage>(
+      this.occEndpointsService.getUrl('stores', undefined, params)
+    );
   }
 }

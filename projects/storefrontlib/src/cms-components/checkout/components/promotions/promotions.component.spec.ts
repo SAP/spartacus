@@ -1,4 +1,8 @@
-import { Promotion } from '@spartacus/core';
+import {
+  Promotion,
+  FeaturesConfigModule,
+  FeaturesConfig,
+} from '@spartacus/core';
 import { PromotionsComponent } from './promotions.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -15,7 +19,16 @@ describe('PromotionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [FeaturesConfigModule],
       declarations: [PromotionsComponent],
+      providers: [
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
+        },
+      ],
     }).compileComponents();
   }));
 

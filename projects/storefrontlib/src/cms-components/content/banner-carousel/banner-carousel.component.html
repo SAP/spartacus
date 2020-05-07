@@ -1,0 +1,17 @@
+<cx-carousel
+  [items]="getItems() | async"
+  [template]="template"
+  itemWidth="100%"
+  class="inline-navigation"
+></cx-carousel>
+
+<ng-template #template let-item="item">
+  <ng-container
+    [cxComponentWrapper]="{
+      flexType: item.typeCode,
+      typeCode: item.typeCode,
+      uid: item?.uid
+    }"
+  >
+  </ng-container>
+</ng-template>

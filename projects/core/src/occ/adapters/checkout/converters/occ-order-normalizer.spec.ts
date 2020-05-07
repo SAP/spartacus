@@ -1,7 +1,6 @@
-import { OccOrderNormalizer } from './occ-order-normalizer';
-
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
+import { ConverterService, Product, PRODUCT_NORMALIZER } from '@spartacus/core';
+import { OccOrderNormalizer } from './occ-order-normalizer';
 
 describe('OccOrderNormalizer', () => {
   let service: OccOrderNormalizer;
@@ -13,13 +12,15 @@ describe('OccOrderNormalizer', () => {
         { provide: OccOrderNormalizer, useClass: OccOrderNormalizer },
       ],
     });
-
-    service = TestBed.get(OccOrderNormalizer);
-    converter = TestBed.get(ConverterService);
-    spyOn(converter, 'convert').and.callFake(product => ({
-      ...product,
-      code: product.code + 'converted',
-    }));
+    service = TestBed.inject(OccOrderNormalizer);
+    converter = TestBed.inject(ConverterService);
+    spyOn(converter, 'convert').and.callFake(
+      (product) =>
+        ({
+          ...product,
+          code: (product as Product).code + 'converted',
+        } as any)
+    );
   });
 
   it('should be created', () => {

@@ -1,16 +1,14 @@
 import { user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
+import * as alerts from './global-message';
 
 export const userGreetSelector = 'cx-login .cx-login-greet';
 export const loginLinkSelector = 'cx-login [role="link"]';
 
 export function registerUser() {
   cy.get(loginLinkSelector).click();
-  cy.get('cx-page-layout')
-    .getByText('Register')
-    .click();
+  cy.get('cx-page-layout').getByText('Register').click();
   register(user);
-  cy.get(userGreetSelector).should('contain', user.fullName);
   return user;
 }
 
@@ -23,7 +21,6 @@ export function signOutUser() {
 }
 
 export function loginUser() {
-  cy.get(loginLinkSelector).click();
   login(user.email, user.password);
 }
 
@@ -34,8 +31,14 @@ export function loginWithBadCredentials() {
 
   cy.get(userGreetSelector).should('not.exist');
 
-  cy.get('cx-global-message .alert-danger').should(
-    'contain',
-    'Bad credentials. Please login again'
-  );
+  alerts
+    .getErrorAlert()
+    .should('contain', 'Bad credentials. Please login again');
+}
+
+export function listenForTokenRevocationReqest(): string {
+  const aliasName = 'tokenRevocation';
+  cy.server();
+  cy.route('POST', '/authorizationserver/oauth/revoke').as(aliasName);
+  return `@${aliasName}`;
 }

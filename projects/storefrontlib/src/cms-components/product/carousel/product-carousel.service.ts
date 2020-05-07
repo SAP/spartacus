@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import {
   Product,
+  ProductReference,
   ProductReferenceService,
   ProductService,
   SemanticPathService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { CarouselItem } from '../../../shared/components/carousel/carousel.model';
+import { ProductCarouselItem } from './product-carousel.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,10 +23,10 @@ export class ProductCarouselService {
   /**
    * Loads the product data and converts it `CarouselItem`.
    */
-  loadProduct(code: string): Observable<CarouselItem> {
+  loadProduct(code: string): Observable<ProductCarouselItem> {
     return this.productService.get(code).pipe(
       filter(Boolean),
-      map(product => this.convertProduct(product))
+      map((product) => this.convertProduct(product))
     );
   }
 
@@ -34,11 +35,11 @@ export class ProductCarouselService {
     referenceType: string,
     displayTitle: boolean,
     displayProductPrices: boolean
-  ): Observable<CarouselItem[]> {
+  ): Observable<ProductCarouselItem[]> {
     return this.referenceService.get(code, referenceType).pipe(
       filter(Boolean),
-      map(refs =>
-        refs.map(ref =>
+      map((refs: ProductReference[]) =>
+        refs.map((ref) =>
           this.convertProduct(ref.target, displayTitle, displayProductPrices)
         )
       )
@@ -52,8 +53,8 @@ export class ProductCarouselService {
     source: Product,
     displayTitle = true,
     displayProductPrices = true
-  ): CarouselItem {
-    const item: CarouselItem = {};
+  ): ProductCarouselItem {
+    const item: ProductCarouselItem = {};
     if (displayTitle) {
       item.title = source.name;
     }

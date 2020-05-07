@@ -28,8 +28,8 @@ describe('BaseSite Effects', () => {
       ],
     });
 
-    connector = TestBed.get(SiteConnector);
-    effects = TestBed.get(fromEffects.BaseSiteEffects);
+    connector = TestBed.inject(SiteConnector);
+    effects = TestBed.inject(fromEffects.BaseSiteEffects);
 
     spyOn(connector, 'getBaseSite').and.returnValue(of(baseSite));
   });

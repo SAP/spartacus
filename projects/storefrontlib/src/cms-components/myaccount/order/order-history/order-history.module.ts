@@ -6,25 +6,26 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
-  UserService,
 } from '@spartacus/core';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
+import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
+import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { OrderHistoryComponent } from './order-history.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        AccountOrderHistoryComponent: {
-          component: OrderHistoryComponent,
-          guards: [AuthGuard],
-        },
+    RouterModule.forChild([
+      {
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'orders' },
       },
-    }),
+    ]),
     RouterModule,
     FormsModule,
     NgSelectModule,
@@ -34,7 +35,16 @@ import { OrderHistoryComponent } from './order-history.component';
   ],
   declarations: [OrderHistoryComponent],
   exports: [OrderHistoryComponent],
-  providers: [UserService],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        AccountOrderHistoryComponent: {
+          component: OrderHistoryComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+  ],
   entryComponents: [OrderHistoryComponent],
 })
 export class OrderHistoryModule {}

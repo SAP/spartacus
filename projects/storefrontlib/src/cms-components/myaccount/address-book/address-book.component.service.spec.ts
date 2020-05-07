@@ -1,7 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { Address, User, UserAddressService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+
+import {
+  Address,
+  CheckoutDeliveryService,
+  User,
+  UserAddressService,
+} from '@spartacus/core';
 import { AddressBookComponentService } from './address-book.component.service';
 
 const mockAddresses: Address[] = [
@@ -37,8 +43,14 @@ class MockUserAddressService {
   }
 }
 
+class MockCheckoutDeliveryService {
+  clearCheckoutDeliveryDetails() {}
+}
+
 describe('AddressBookComponentService', () => {
   let service: AddressBookComponentService;
+  let userAddressService: UserAddressService;
+  let checkoutDeliveryService: CheckoutDeliveryService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,10 +60,16 @@ describe('AddressBookComponentService', () => {
           provide: UserAddressService,
           useClass: MockUserAddressService,
         },
+        {
+          provide: CheckoutDeliveryService,
+          useClass: MockCheckoutDeliveryService,
+        },
       ],
     });
 
-    service = TestBed.get(AddressBookComponentService);
+    service = TestBed.inject(AddressBookComponentService);
+    userAddressService = TestBed.inject(UserAddressService);
+    checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
   });
 
   it('should service be created', () => {
@@ -74,5 +92,35 @@ describe('AddressBookComponentService', () => {
       .subscribe((state: boolean) => {
         expect(state).toEqual(false);
       });
+  });
+
+  it('should loadAddresses() load addresses', () => {
+    service.loadAddresses();
+    expect(userAddressService.loadAddresses).toHaveBeenCalled();
+  });
+
+  it('should addUserAddress() add user address', () => {
+    service.addUserAddress(mockAddresses[0]);
+    expect(userAddressService.addUserAddress).toHaveBeenCalledWith(
+      mockAddresses[0]
+    );
+  });
+
+  describe('updateUserAddress', () => {
+    it('should run update user address', () => {
+      service.updateUserAddress('addressId', mockAddresses[0]);
+      expect(userAddressService.updateUserAddress).toHaveBeenCalledWith(
+        'addressId',
+        mockAddresses[0]
+      );
+    });
+
+    it('should clear checkout delivery details', () => {
+      spyOn(checkoutDeliveryService, 'clearCheckoutDeliveryDetails');
+      service.updateUserAddress('addressId', mockAddresses[0]);
+      expect(
+        checkoutDeliveryService.clearCheckoutDeliveryDetails
+      ).toHaveBeenCalled();
+    });
   });
 });

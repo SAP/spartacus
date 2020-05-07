@@ -1,0 +1,7 @@
+@function mergeAll($list) {
+  $result: ();
+  @each $i in $list {
+    $result: join($result, $i);
+  }
+  @return $result;
+}

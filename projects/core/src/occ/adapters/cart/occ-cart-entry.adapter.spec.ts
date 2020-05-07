@@ -1,14 +1,13 @@
-import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-
-import { OccConfig } from '../../index';
-import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
-import { ConverterService } from '../../../util/converter.service';
+import { TestBed } from '@angular/core/testing';
 import { CART_MODIFICATION_NORMALIZER } from '@spartacus/core';
 import { Cart, CartModification } from '../../../model/cart.model';
+import { ConverterService } from '../../../util/converter.service';
+import { OccEndpointsService } from '../../services';
+import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
 
 const userId = '123';
 const cartId = '456';
@@ -20,42 +19,37 @@ const cartModified: CartModification = {
   deliveryModeChanged: true,
 };
 
-const usersEndpoint = '/users';
-const cartsEndpoint = '/carts/';
-
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-  context: {
-    parameters: {
-      baseSite: { default: '' },
-    },
-  },
-};
+class MockOccEndpointsService {
+  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+    return this.getEndpoint(endpoint);
+  }
+  getEndpoint(url: string) {
+    return url;
+  }
+}
 
 describe('OccCartEntryAdapter', () => {
-  let service: OccCartEntryAdapter;
+  let occCartEntryAdapter: OccCartEntryAdapter;
   let httpMock: HttpTestingController;
-  let converter: ConverterService;
+  let converterService: ConverterService;
+  let occEnpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         OccCartEntryAdapter,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
       ],
     });
 
-    service = TestBed.get(OccCartEntryAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
+    occCartEntryAdapter = TestBed.inject(OccCartEntryAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
 
-    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converterService, 'pipeable').and.callThrough();
+    spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -65,29 +59,30 @@ describe('OccCartEntryAdapter', () => {
   describe('add entry to cart', () => {
     it('should add entry to cart for given user id, cart id, product code and product quantity', () => {
       let result;
-      service.add(userId, cartId, '147852', 5).subscribe(res => (result = res));
+      occCartEntryAdapter
+        .add(userId, cartId, '147852', 5)
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'POST' &&
-          req.url ===
-            usersEndpoint + `/${userId}` + cartsEndpoint + cartId + '/entries'
-        );
-      });
+      const mockReq = httpMock.expectOne({ method: 'POST', url: 'addEntries' });
 
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
         'application/x-www-form-urlencoded'
       );
 
-      expect(mockReq.request.params.get('code')).toEqual('147852');
-
-      expect(mockReq.request.params.get('qty')).toEqual('5');
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'addEntries',
+        {
+          userId,
+          cartId,
+        },
+        { code: '147852', qty: 5 }
+      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartModified);
       expect(result).toEqual(cartModified);
-      expect(converter.pipeable).toHaveBeenCalledWith(
+      expect(converterService.pipeable).toHaveBeenCalledWith(
         CART_MODIFICATION_NORMALIZER
       );
     });
@@ -96,32 +91,58 @@ describe('OccCartEntryAdapter', () => {
   describe('update entry in a cart', () => {
     it('should update an entry in a cart for given user id, cart id, entryNumber and quantitiy', () => {
       let result;
-      service
+      occCartEntryAdapter
         .update(userId, cartId, '12345', 5)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'PATCH' &&
-          req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/entries/12345'
-        );
+      const mockReq = httpMock.expectOne({
+        method: 'PATCH',
+        url: 'updateEntries',
       });
 
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
         'application/x-www-form-urlencoded'
       );
-      expect(mockReq.request.params.get('qty')).toEqual('5');
+
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'updateEntries',
+        {
+          userId,
+          cartId,
+          entryNumber: '12345',
+        },
+        { qty: 5 }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartModified);
       expect(result).toEqual(cartModified);
-      expect(converter.pipeable).toHaveBeenCalledWith(
+      expect(converterService.pipeable).toHaveBeenCalledWith(
         CART_MODIFICATION_NORMALIZER
+      );
+    });
+
+    it(`should handle 'pickupStore'`, () => {
+      const pickupStore =
+        'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France';
+      occCartEntryAdapter
+        .update(userId, cartId, '12345', 5, pickupStore)
+        .subscribe()
+        .unsubscribe();
+
+      httpMock.expectOne({
+        method: 'PATCH',
+        url: 'updateEntries',
+      });
+
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'updateEntries',
+        {
+          userId,
+          cartId,
+          entryNumber: '12345',
+        },
+        { qty: 5, pickupStore }
       );
     });
   });
@@ -129,21 +150,20 @@ describe('OccCartEntryAdapter', () => {
   describe('remove an entry from cart', () => {
     it('should remove entry from cart for given user id, cart id and entry number', () => {
       let result;
-      service.remove(userId, cartId, '147852').subscribe(res => (result = res));
+      occCartEntryAdapter
+        .remove(userId, cartId, '147852')
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'DELETE' &&
-          req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/entries/' +
-              '147852'
-        );
+      const mockReq = httpMock.expectOne({
+        method: 'DELETE',
+        url: 'removeEntries',
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('removeEntries', {
+        userId,
+        cartId,
+        entryNumber: '147852',
+      });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);

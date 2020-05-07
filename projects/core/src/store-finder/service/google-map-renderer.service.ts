@@ -70,10 +70,14 @@ export class GoogleMapRendererService {
     mapElement: HTMLElement,
     mapCenter: google.maps.LatLng
   ): void {
+    type GestureHandlingOptions = 'cooperative' | 'greedy' | 'none' | 'auto';
+    const gestureOption: GestureHandlingOptions = 'greedy';
+
     const mapProp = {
       center: mapCenter,
       zoom: this.config.googleMaps.scale,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
+      gestureHandling: gestureOption,
     };
     this.googleMap = new google.maps.Map(mapElement, mapProp);
   }
@@ -98,14 +102,14 @@ export class GoogleMapRendererService {
       });
       this.markers.push(marker);
       marker.setMap(this.googleMap);
-      marker.addListener('mouseover', function() {
+      marker.addListener('mouseover', function () {
         marker.setAnimation(google.maps.Animation.BOUNCE);
       });
-      marker.addListener('mouseout', function() {
+      marker.addListener('mouseout', function () {
         marker.setAnimation(null);
       });
       if (selectMarkerHandler) {
-        marker.addListener('click', function() {
+        marker.addListener('click', function () {
           selectMarkerHandler(index);
         });
       }

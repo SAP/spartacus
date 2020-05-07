@@ -10,7 +10,6 @@ import { OccConfig } from '../../../occ/config/occ-config';
 import { ProductReferencesConnector } from '../../connectors/references/product-references.connector';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from '../effects/product-references.effect';
-
 import createSpy = jasmine.createSpy;
 
 const productCode = 'productCode';
@@ -55,7 +54,7 @@ describe('Product references effect', () => {
         provideMockActions(() => actions$),
       ],
     });
-    effects = TestBed.get(fromEffects.ProductReferencesEffects);
+    effects = TestBed.inject(fromEffects.ProductReferencesEffects);
   });
 
   describe('loadProductReferences$', () => {

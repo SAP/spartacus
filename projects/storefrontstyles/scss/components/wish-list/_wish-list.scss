@@ -1,0 +1,23 @@
+@import '../cart/cart-item-list';
+
+%cx-wish-list {
+  @extend %cx-cart-item-list;
+
+  --cx-max-width: 75%;
+  margin: auto;
+
+  .cx-item-list-price {
+    padding: 0;
+  }
+
+  @include media-breakpoint-down(sm) {
+    --cx-max-width: 100%;
+    .cx-item-list-row:last-of-type {
+      border: none;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    --cx-max-width: 90%;
+  }
+}

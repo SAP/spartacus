@@ -1,19 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, of } from 'rxjs';
 import {
   CurrencyService,
   LanguageService,
   ProductSearchService,
   RoutingService,
 } from '@spartacus/core';
+import { BehaviorSubject, of } from 'rxjs';
 import { ProductListComponentService } from './product-list-component.service';
 
-export class MockRouter {
+class MockRouter {
   navigate = jasmine.createSpy('navigate');
 }
 
-export class MockProductSearchService {
+class MockProductSearchService {
   getResults = jasmine
     .createSpy('getResults')
     .and.returnValue(of({ products: [] }));
@@ -71,10 +71,10 @@ describe('ProductListComponentService', () => {
       ],
     });
 
-    service = TestBed.get(ProductListComponentService);
-    router = TestBed.get(Router);
-    activatedRoute = TestBed.get(ActivatedRoute);
-    productSearchService = TestBed.get(ProductSearchService);
+    service = TestBed.inject(ProductListComponentService);
+    router = TestBed.inject(Router);
+    activatedRoute = TestBed.inject(ActivatedRoute);
+    productSearchService = TestBed.inject(ProductSearchService);
   });
 
   it('setQuery should set query param "query" in the url and reset "currentPage"', () => {
@@ -107,7 +107,7 @@ describe('ProductListComponentService', () => {
   describe('model$', () => {
     it('should return search results', () => {
       let result;
-      service.model$.subscribe(res => (result = res));
+      service.model$.subscribe((res) => (result = res));
       expect(result).toEqual({ products: [] });
     });
 
@@ -127,7 +127,7 @@ describe('ProductListComponentService', () => {
         service.model$.subscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
-          ':relevance:category:testCategory',
+          ':relevance:allCategories:testCategory',
           jasmine.any(Object)
         );
       });
@@ -139,7 +139,7 @@ describe('ProductListComponentService', () => {
         service.model$.subscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(
-          ':relevance:brand:testBrand',
+          ':relevance:allCategories:testBrand',
           jasmine.any(Object)
         );
       });

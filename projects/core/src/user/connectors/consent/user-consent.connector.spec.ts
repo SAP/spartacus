@@ -19,8 +19,8 @@ describe('UserConsentConnector', () => {
       providers: [{ provide: UserConsentAdapter, useClass: MockUserAdapter }],
     });
 
-    service = TestBed.get(UserConsentConnector);
-    adapter = TestBed.get(UserConsentAdapter);
+    service = TestBed.inject(UserConsentConnector);
+    adapter = TestBed.inject(UserConsentAdapter);
   });
 
   it('should be created', () => {
@@ -29,7 +29,7 @@ describe('UserConsentConnector', () => {
 
   it('loadConsents should call adapter', () => {
     let result;
-    service.loadConsents('userId').subscribe(res => (result = res));
+    service.loadConsents('userId').subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.loadConsents).toHaveBeenCalledWith('userId');
   });
@@ -38,7 +38,7 @@ describe('UserConsentConnector', () => {
     let result;
     service
       .giveConsent('userId', 'templateId', 0)
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.giveConsent).toHaveBeenCalledWith('userId', 'templateId', 0);
   });
@@ -47,7 +47,7 @@ describe('UserConsentConnector', () => {
     let result;
     service
       .withdrawConsent('userId', 'consentCode')
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toEqual({});
     expect(adapter.withdrawConsent).toHaveBeenCalledWith(
       'userId',

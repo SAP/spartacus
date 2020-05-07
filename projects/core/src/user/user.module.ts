@@ -1,10 +1,13 @@
-import { NgModule } from '@angular/core';
-import { ProcessModule } from '../process/process.module';
-import { UserService } from './facade/index';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { UserStoreModule } from './store/user-store.module';
 
 @NgModule({
-  imports: [UserStoreModule, ProcessModule],
-  providers: [UserService],
+  imports: [UserStoreModule],
 })
-export class UserModule {}
+export class UserModule {
+  static forRoot(): ModuleWithProviders<UserModule> {
+    return {
+      ngModule: UserModule,
+    };
+  }
+}

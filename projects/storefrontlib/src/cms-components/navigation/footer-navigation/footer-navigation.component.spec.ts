@@ -2,7 +2,11 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CmsNavigationComponent } from '@spartacus/core';
+import {
+  AnonymousConsentsConfig,
+  CmsNavigationComponent,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
@@ -19,6 +23,12 @@ class MockNavigationUIComponent {
   @Input() flyout = true;
   @Input() node: NavigationNode;
 }
+
+const mockAnonymousConsentsConfig = {
+  features: {
+    anonymousConsents: false,
+  },
+};
 
 @Component({
   selector: 'cx-generic-link',
@@ -61,7 +71,7 @@ describe('FooterNavigationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         FooterNavigationComponent,
         NavigationComponent,
@@ -76,6 +86,10 @@ describe('FooterNavigationComponent', () => {
         {
           provide: CmsComponentData,
           useValue: MockCmsNavigationComponent,
+        },
+        {
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
         },
       ],
     }).compileComponents();

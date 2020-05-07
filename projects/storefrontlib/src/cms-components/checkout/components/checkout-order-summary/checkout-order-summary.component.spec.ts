@@ -1,19 +1,35 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Cart, CartService, I18nTestingModule } from '@spartacus/core';
+import {
+  ActiveCartService,
+  Cart,
+  CartVoucherService,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { OrderSummaryComponent } from '../../../../cms-components/cart/cart-shared/order-summary/order-summary.component';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
+import { AppliedCouponsComponent } from '../../../cart/cart-coupon/applied-coupons/applied-coupons.component';
+import { ICON_TYPE } from '../../../misc/icon';
 import { PromotionsComponent } from '../promotions/promotions.component';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
-
 import createSpy = jasmine.createSpy;
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
 
 describe('CheckoutOrderSummaryComponent', () => {
   let component: CheckoutOrderSummaryComponent;
   let fixture: ComponentFixture<CheckoutOrderSummaryComponent>;
-  let mockCartService: any;
+  let mockActiveCartService: any;
 
   beforeEach(async(() => {
-    mockCartService = {
+    mockActiveCartService = {
       getActive(): BehaviorSubject<Cart> {
         return new BehaviorSubject({
           totalItems: 5141,
@@ -28,8 +44,14 @@ describe('CheckoutOrderSummaryComponent', () => {
         CheckoutOrderSummaryComponent,
         OrderSummaryComponent,
         PromotionsComponent,
+        AppliedCouponsComponent,
+        MockCxIconComponent,
+        MockFeatureLevelDirective,
       ],
-      providers: [{ provide: CartService, useValue: mockCartService }],
+      providers: [
+        { provide: ActiveCartService, useValue: mockActiveCartService },
+        { provide: CartVoucherService, useValue: {} },
+      ],
     }).compileComponents();
   }));
 

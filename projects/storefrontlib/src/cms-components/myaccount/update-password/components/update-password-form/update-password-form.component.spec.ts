@@ -3,8 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { FormUtils } from '../../../../../shared/utils/forms/form-utils';
+import * as testUtils from '../../../../../shared/utils/forms/form-test-utils';
 import { UpdatePasswordFormComponent } from './update-password-form.component';
+import { FormErrorsModule } from '../../../../../shared/index';
 
 describe('UpdatePasswordFormComponent', () => {
   let component: UpdatePasswordFormComponent;
@@ -14,12 +15,10 @@ describe('UpdatePasswordFormComponent', () => {
   let newPassword: AbstractControl;
   let newPasswordConfirm: AbstractControl;
   const validPassword = 'testPass123!';
-  const invalidPassword = 'invalid';
-  const mismatchPassword = 'mismatch';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [UpdatePasswordFormComponent],
     }).compileComponents();
   }));
@@ -31,47 +30,37 @@ describe('UpdatePasswordFormComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    oldPassword = component.form.controls['oldPassword'];
-    newPassword = component.form.controls['newPassword'];
-    newPasswordConfirm = component.form.controls['newPasswordConfirm'];
+    oldPassword = component.updatePasswordForm.controls['oldPassword'];
+    newPassword = component.updatePasswordForm.controls['newPassword'];
+    newPasswordConfirm =
+      component.updatePasswordForm.controls['newPasswordConfirm'];
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('isNotValid() should delegate to FormUtils.isNotValidField()', () => {
-    spyOn(FormUtils, 'isNotValidField').and.stub();
-
-    component.isNotValid('oldPassword');
-    expect(FormUtils.isNotValidField).toHaveBeenCalledWith(
-      component.form,
-      'oldPassword',
-      component['submitClicked']
-    );
-  });
-
   describe('onSubmit() ', () => {
     it('should be called when submit button is clicked', () => {
       spyOn(component, 'onSubmit').and.stub();
 
-      clickSubmit();
+      testUtils.clickSubmit(fixture);
 
       expect(component.onSubmit).toHaveBeenCalled();
     });
 
     it('should NOT emit submited event if the form is not valid', () => {
       spyOn(component, 'onSubmit').and.stub();
-      spyOn(component.submited, 'emit').and.stub();
+      spyOn(component.submitted, 'emit').and.stub();
 
       component.onSubmit();
 
-      expect(component.form.valid).toBeFalsy();
+      expect(component.updatePasswordForm.valid).toBeFalsy();
       expect(component.onSubmit).toHaveBeenCalled();
-      expect(component.submited.emit).not.toHaveBeenCalled();
+      expect(component.submitted.emit).not.toHaveBeenCalled();
     });
     it('should emit submited event when the form is valid', () => {
-      spyOn(component.submited, 'emit').and.stub();
+      spyOn(component.submitted, 'emit').and.stub();
 
       oldPassword.setValue(validPassword);
       newPassword.setValue(validPassword);
@@ -79,8 +68,8 @@ describe('UpdatePasswordFormComponent', () => {
       fixture.detectChanges();
       component.onSubmit();
 
-      expect(component.form.valid).toBeTruthy();
-      expect(component.submited.emit).toHaveBeenCalled();
+      expect(component.updatePasswordForm.valid).toBeTruthy();
+      expect(component.submitted.emit).toHaveBeenCalled();
     });
   });
 
@@ -98,142 +87,4 @@ describe('UpdatePasswordFormComponent', () => {
       expect(component.cancelled.emit).toHaveBeenCalled();
     });
   });
-
-  describe('Error messages on form submit', () => {
-    it('should NOT display when displaying the form', () => {
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeFalsy();
-      });
-    });
-    it('should display when submit an empty form', () => {
-      clickSubmit();
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeTruthy();
-        expect(isFormControlDisplayingError('newPassword')).toBeTruthy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeFalsy();
-      });
-    });
-
-    it('should NOT display when all field have valid valies', () => {
-      oldPassword.setValue(validPassword);
-      newPassword.setValue(validPassword);
-      newPasswordConfirm.setValue(validPassword);
-      clickSubmit();
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeFalsy();
-      });
-    });
-
-    it('should display when the user submits invalid input', () => {
-      oldPassword.setValue('');
-      newPassword.setValue(invalidPassword);
-      newPasswordConfirm.setValue(mismatchPassword);
-      clickSubmit();
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeTruthy();
-        expect(isFormControlDisplayingError('newPassword')).toBeTruthy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeTruthy();
-      });
-    });
-  });
-  describe('Error messages without submit', () => {
-    it('should NOT display for empty abandonment', () => {
-      oldPassword.setValue('');
-      oldPassword.markAsTouched();
-      newPassword.setValue('');
-      newPassword.markAsTouched();
-      newPasswordConfirm.setValue('');
-      newPasswordConfirm.markAsTouched();
-
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeFalsy();
-      });
-    });
-    it('should NOT display until the user is finished typing', () => {
-      oldPassword.setValue('');
-      oldPassword.markAsDirty();
-      newPassword.setValue(invalidPassword);
-      newPassword.markAsDirty();
-      newPasswordConfirm.setValue(mismatchPassword);
-      newPasswordConfirm.markAsDirty();
-
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeFalsy();
-      });
-    });
-
-    it('should display when the user is finished typing invalid input', () => {
-      oldPassword.setValue('');
-      oldPassword.markAsDirty();
-      oldPassword.markAsTouched();
-      newPassword.setValue(invalidPassword);
-      newPassword.markAsDirty();
-      newPassword.markAsTouched();
-      newPasswordConfirm.setValue(mismatchPassword);
-      newPasswordConfirm.markAsDirty();
-      newPasswordConfirm.markAsTouched();
-
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeTruthy();
-        expect(isFormControlDisplayingError('newPassword')).toBeTruthy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeTruthy();
-      });
-    });
-    it('should NOT display when the user is finished typing valid input', () => {
-      oldPassword.setValue(validPassword);
-      oldPassword.markAsDirty();
-      oldPassword.markAsTouched();
-      newPassword.setValue(validPassword);
-      newPassword.markAsDirty();
-      newPassword.markAsTouched();
-      newPasswordConfirm.setValue(validPassword);
-      newPasswordConfirm.markAsDirty();
-      newPasswordConfirm.markAsTouched();
-
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(isFormControlDisplayingError('oldPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPassword')).toBeFalsy();
-        expect(isFormControlDisplayingError('newPasswordConfirm')).toBeFalsy();
-      });
-    });
-  });
-
-  function isFormControlDisplayingError(formControlName: string): boolean {
-    const elementWithErrorMessage = fixture.debugElement.query(
-      By.css(
-        `input[formcontrolname="${formControlName}"] + div.invalid-feedback`
-      )
-    );
-
-    if (!elementWithErrorMessage) {
-      return false;
-    }
-
-    const errorMessage: string =
-      elementWithErrorMessage.nativeElement.innerText;
-    return errorMessage && errorMessage.trim().length > 0;
-  }
-
-  function clickSubmit() {
-    const submitBtn = fixture.debugElement.query(
-      By.css('button[type="submit"]')
-    );
-    submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
-  }
 });

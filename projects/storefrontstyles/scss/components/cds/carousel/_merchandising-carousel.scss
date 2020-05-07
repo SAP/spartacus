@@ -1,0 +1,10 @@
+@import '../../product/carousel/product-carousel';
+
+%cx-merchandising-carousel {
+  @extend %cx-product-carousel;
+  background-color: var(--cx-color-background);
+  color: var(--cx-color-text);
+  a {
+    color: inherit;
+  }
+}

@@ -15,7 +15,7 @@ export function reducer(
     case UserActions.LOAD_REGIONS_SUCCESS: {
       const entities: Region[] = action.payload.entities;
       const country: string = action.payload.country;
-      if (entities) {
+      if (entities || country) {
         return {
           ...state,
           entities,

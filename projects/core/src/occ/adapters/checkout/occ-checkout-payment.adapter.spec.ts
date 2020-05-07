@@ -41,9 +41,7 @@ const MockOccModuleConfig: OccConfig = {
     },
   },
   context: {
-    parameters: {
-      baseSite: { default: '' },
-    },
+    baseSite: [''],
   },
 };
 
@@ -183,10 +181,9 @@ describe('OccCheckoutPaymentAdapter', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
-
-    service = TestBed.get(OccCheckoutPaymentAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
+    service = TestBed.inject(OccCheckoutPaymentAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -199,11 +196,11 @@ describe('OccCheckoutPaymentAdapter', () => {
 
   describe('set payment details', () => {
     it('should set payment details for given user id, cart id and payment details id', () => {
-      service.set(userId, cartId, '123').subscribe(result => {
+      service.set(userId, cartId, '123').subscribe((result) => {
         expect(result).toEqual(cartData);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'PUT' &&
           req.url ===
@@ -225,12 +222,12 @@ describe('OccCheckoutPaymentAdapter', () => {
   describe('create payment', () => {
     it('should create payment', () => {
       let result;
-      service.create(userId, cartId, mockPaymentDetails).subscribe(res => {
+      service.create(userId, cartId, mockPaymentDetails).subscribe((res) => {
         result = res;
       });
 
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return (
             req.method === 'GET' &&
             req.url ===
@@ -244,7 +241,7 @@ describe('OccCheckoutPaymentAdapter', () => {
         .flush(paymentProviderInfo);
 
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return (
             req.method === 'POST' && req.url === paymentProviderInfo.postUrl
           );
@@ -252,7 +249,7 @@ describe('OccCheckoutPaymentAdapter', () => {
         .flush(html);
 
       httpMock
-        .expectOne(req => {
+        .expectOne((req) => {
           return (
             req.method === 'POST' &&
             req.url === '/users/123/carts/456/payment/sop/response'
@@ -274,11 +271,13 @@ describe('OccCheckoutPaymentAdapter', () => {
   describe('get payment provider subscription info', () => {
     it('should get payment provider subscription info for given user id and cart id', () => {
       // testing protected method
-      (service as any).getProviderSubInfo(userId, cartId).subscribe(result => {
-        expect(result).toEqual(cartData);
-      });
+      (service as any)
+        .getProviderSubInfo(userId, cartId)
+        .subscribe((result) => {
+          expect(result).toEqual(cartData);
+        });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'GET' &&
           req.url ===
@@ -307,11 +306,11 @@ describe('OccCheckoutPaymentAdapter', () => {
       // testing protected method
       (service as any)
         .createSubWithProvider(mockUrl, params)
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toEqual(mockPaymentProvider);
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST' && req.url === mockUrl;
       });
 
@@ -338,11 +337,11 @@ describe('OccCheckoutPaymentAdapter', () => {
       // testing protected method
       (service as any)
         .createSubWithProvider(mockUrl, params)
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toEqual(mockPaymentProvider);
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST' && req.url === mockUrl;
       });
 
@@ -367,11 +366,11 @@ describe('OccCheckoutPaymentAdapter', () => {
       // testing protected method
       (service as any)
         .createDetailsWithParameters(userId, cartId, params)
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toEqual(mockPaymentDetails);
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'POST' &&
           req.url ===
@@ -403,11 +402,11 @@ describe('OccCheckoutPaymentAdapter', () => {
       // testing protected method
       (service as any)
         .createDetailsWithParameters(userId, cartId, params)
-        .subscribe(result => {
+        .subscribe((result) => {
           expect(result).toEqual(mockPaymentDetails);
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'POST' &&
           req.url ===
@@ -445,11 +444,11 @@ describe('OccCheckoutPaymentAdapter', () => {
         ],
       };
 
-      service.loadCardTypes().subscribe(result => {
+      service.loadCardTypes().subscribe((result) => {
         expect(result).toEqual(cardTypesList.cardTypes);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET' && req.url === '/cardtypes';
       });
 
@@ -462,6 +461,57 @@ describe('OccCheckoutPaymentAdapter', () => {
       service.loadCardTypes().subscribe();
       httpMock.expectOne('/cardtypes').flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(CARD_TYPE_NORMALIZER);
+    });
+
+    describe('getParamsForPaymentProvider() function ', () => {
+      const parametersSentByBackend = [
+        { key: 'billTo_country', value: 'CA' },
+        { key: 'billTo_state', value: 'QC' },
+      ];
+      const labelsMap = {
+        hybris_billTo_country: 'billTo_country',
+        hybris_billTo_region: 'billTo_state',
+      };
+
+      it('should support billing address in a different country than the default/shipping address.', () => {
+        const paymentDetails: PaymentDetails = {
+          cardType: { code: 'visa' },
+          billingAddress: {
+            country: { isocode: 'US' },
+            region: { isocodeShort: 'RG' },
+          },
+        };
+        const params = service['getParamsForPaymentProvider'](
+          paymentDetails,
+          parametersSentByBackend,
+          labelsMap
+        );
+        expect(params['billTo_country']).toEqual(
+          paymentDetails.billingAddress.country.isocode
+        );
+        expect(params['billTo_state']).toEqual(
+          paymentDetails.billingAddress.region.isocodeShort
+        );
+      });
+
+      it('should support billing address different than shipping when billing country has no region.', () => {
+        const paymentDetails: PaymentDetails = {
+          cardType: { code: 'visa' },
+          billingAddress: {
+            country: { isocode: 'PL' },
+          },
+        };
+
+        const params = service['getParamsForPaymentProvider'](
+          paymentDetails,
+          parametersSentByBackend,
+          labelsMap
+        );
+        expect(params['billTo_country']).toEqual(
+          paymentDetails.billingAddress.country.isocode
+        );
+        expect(params['billTo_state']).toEqual('');
+      });
     });
   });
 });

@@ -1,13 +1,12 @@
-import { TestBed, inject } from '@angular/core/testing';
-import createSpy = jasmine.createSpy;
-
+import { inject, TestBed } from '@angular/core/testing';
 import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
 } from '@spartacus/core';
-import { AddToHomeScreenService } from './add-to-home-screen.service';
 import { PWAModuleConfig } from '../pwa.module-config';
+import { AddToHomeScreenService } from './add-to-home-screen.service';
+import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService {
   add = createSpy();
@@ -34,9 +33,9 @@ describe('AddToHomeScreenService', () => {
       ],
     });
 
-    addToHomeService = TestBed.get(AddToHomeScreenService);
-    winRef = TestBed.get(WindowRef);
-    globalMessageService = TestBed.get(GlobalMessageService);
+    addToHomeService = TestBed.inject(AddToHomeScreenService);
+    winRef = TestBed.inject(WindowRef);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should inject AddToHomeScreenService', inject(
@@ -68,14 +67,14 @@ describe('AddToHomeScreenService', () => {
 
   it('should enableAddToHomeScreen make canPrompt true', () => {
     let canPrompt: boolean;
-    addToHomeService.canPrompt$.subscribe(value => (canPrompt = value));
+    addToHomeService.canPrompt$.subscribe((value) => (canPrompt = value));
     addToHomeService.enableAddToHomeScreen();
     expect(canPrompt).toBeTruthy();
   });
 
   it('should disableAddToHomeScreen make canPrompt false', () => {
     let canPrompt: boolean;
-    addToHomeService.canPrompt$.subscribe(value => (canPrompt = value));
+    addToHomeService.canPrompt$.subscribe((value) => (canPrompt = value));
     addToHomeService.disableAddToHomeScreen();
     expect(canPrompt).toBeFalsy();
   });

@@ -1,26 +1,23 @@
-import { TestBed, inject } from '@angular/core/testing';
-import {
-  HttpTestingController,
-  HttpClientTestingModule,
-  TestRequest,
-} from '@angular/common/http/testing';
 import {
   HTTP_INTERCEPTORS,
   HttpClient,
   HttpHandler,
-  HttpRequest,
   HttpHeaders,
   HttpParams,
+  HttpRequest,
 } from '@angular/common/http';
-
-import { throwError, Observable, of } from 'rxjs';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+  TestRequest,
+} from '@angular/common/http/testing';
+import { inject, TestBed } from '@angular/core/testing';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
+import { USE_CLIENT_TOKEN } from '../../occ/utils/interceptor-util';
 import { AuthService } from '../facade/auth.service';
 import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
-import { USE_CLIENT_TOKEN } from '../../occ/utils/interceptor-util';
-
 import { AuthErrorInterceptor } from './auth-error.interceptor';
 
 class MockUserErrorHandlingService {
@@ -76,13 +73,12 @@ describe('AuthErrorInterceptor', () => {
       ],
     });
 
-    userErrorHandlingService = TestBed.get(UserErrorHandlingService);
-    clientErrorHandlingService = TestBed.get(ClientErrorHandlingService);
-    authService = TestBed.get(AuthService);
-    httpMock = TestBed.get(HttpTestingController);
-
+    userErrorHandlingService = TestBed.inject(UserErrorHandlingService);
+    clientErrorHandlingService = TestBed.inject(ClientErrorHandlingService);
+    authService = TestBed.inject(AuthService);
+    httpMock = TestBed.inject(HttpTestingController);
     spyOn(userErrorHandlingService, 'handleExpiredUserToken').and.returnValue(
-      of({})
+      of({} as any)
     );
     spyOn(userErrorHandlingService, 'handleExpiredRefreshToken').and.stub();
     spyOn(
@@ -98,11 +94,11 @@ describe('AuthErrorInterceptor', () => {
       const options = {
         headers,
       };
-      http.get('/test', options).subscribe(result => {
+      http.get('/test', options).subscribe((result) => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
       mockReq.flush(
@@ -125,11 +121,11 @@ describe('AuthErrorInterceptor', () => {
   it(`should catch 401 error for a user token`, inject(
     [HttpClient],
     (http: HttpClient) => {
-      http.get('/test').subscribe(result => {
+      http.get('/test').subscribe((result) => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -153,11 +149,11 @@ describe('AuthErrorInterceptor', () => {
   it(`should catch refresh_token 401 error`, inject(
     [HttpClient],
     (http: HttpClient) => {
-      http.get('/authorizationserver/oauth/token').subscribe(result => {
+      http.get('/authorizationserver/oauth/token').subscribe((result) => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -189,13 +185,13 @@ describe('AuthErrorInterceptor', () => {
       .post(url, params, { headers })
       .pipe(catchError((error: any) => throwError(error)))
       .subscribe(
-        _result => {},
-        _error => {
+        (_result) => {},
+        (_error) => {
           expect(authService.logout).toHaveBeenCalled();
         }
       );
 
-    const mockReq: TestRequest = httpMock.expectOne(req => {
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
       return req.method === 'POST' && req.url === url;
     });
 

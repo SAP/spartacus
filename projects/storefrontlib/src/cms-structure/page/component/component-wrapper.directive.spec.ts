@@ -4,6 +4,7 @@ import {
   NgModule,
   PLATFORM_ID,
   Renderer2,
+  Type,
 } from '@angular/core';
 import {
   async,
@@ -12,26 +13,25 @@ import {
   TestModuleMetadata,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { CmsComponentData } from '../model/cms-component-data';
 import {
   CmsComponent,
-  CmsService,
   CmsConfig,
+  CmsService,
   ContentSlotComponentData,
   DynamicAttributeService,
 } from '@spartacus/core';
-import { CxApiService } from './cx-api.service';
+import { PageComponentModule } from '@spartacus/storefront';
+import { CmsComponentData } from '../model/cms-component-data';
+import { ComponentWrapperDirective } from './component-wrapper.directive';
+import { CxApiService } from './services/cx-api.service';
 
 const testText = 'test text';
 
 @Component({
   selector: 'cx-test',
-  template: `
-    <div id="debugEl1">${testText}</div>
-  `,
+  template: ` <div id="debugEl1">${testText}</div> `,
 })
-export class TestComponent {
+class TestComponent {
   constructor(
     public cmsData: CmsComponentData<CmsComponent>,
     @Inject('testService') public testService
@@ -43,7 +43,7 @@ export class TestComponent {
   entryComponents: [TestComponent],
   exports: [TestComponent],
 })
-export class TestModule {}
+class TestModule {}
 
 const MockCmsModuleConfig: CmsConfig = {
   cmsComponents: {
@@ -61,13 +61,10 @@ const MockCmsModuleConfig: CmsConfig = {
 
 class MockCmsService {
   getComponentData(): any {}
-  isLaunchInSmartEdit(): boolean {
-    return true;
-  }
 }
 
 class MockDynamicAttributeService {
-  addDynamicAttributes() {}
+  addDynamicAttributes(): void {}
 }
 
 @Component({
@@ -89,7 +86,6 @@ class TestWrapperComponent {
 
 describe('ComponentWrapperDirective', () => {
   let fixture: ComponentFixture<TestWrapperComponent>;
-  let cmsService: CmsService;
   let dynamicAttributeService: DynamicAttributeService;
   let renderer: Renderer2;
 
@@ -97,7 +93,7 @@ describe('ComponentWrapperDirective', () => {
 
   beforeEach(() => {
     testBedConfig = {
-      imports: [TestModule],
+      imports: [PageComponentModule, TestModule],
       declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
         Renderer2,
@@ -125,9 +121,10 @@ describe('ComponentWrapperDirective', () => {
 
     describe('with angular component', () => {
       beforeEach(() => {
-        fixture = TestBed.createComponent(TestWrapperComponent);
-        cmsService = TestBed.get(CmsService);
-        cmsConfig = TestBed.get(CmsConfig);
+        fixture = TestBed.createComponent(
+          TestWrapperComponent as Type<TestWrapperComponent>
+        );
+        cmsConfig = TestBed.inject(CmsConfig);
       });
 
       it('should instantiate the found component if it was enabled for SSR', () => {
@@ -156,8 +153,7 @@ describe('ComponentWrapperDirective', () => {
     describe('with angular component', () => {
       beforeEach(() => {
         fixture = TestBed.createComponent(TestWrapperComponent);
-        cmsService = TestBed.get(CmsService);
-        dynamicAttributeService = TestBed.get(DynamicAttributeService);
+        dynamicAttributeService = TestBed.inject(DynamicAttributeService);
         renderer = fixture.componentRef.injector.get<Renderer2>(
           Renderer2 as any
         );
@@ -182,39 +178,18 @@ describe('ComponentWrapperDirective', () => {
         const compEl = el.query(By.css('cx-test')).nativeElement;
         expect(
           dynamicAttributeService.addDynamicAttributes
-        ).toHaveBeenCalledWith(
-          {
-            smartedit: {
-              test: 'test',
+        ).toHaveBeenCalledWith(compEl, renderer, {
+          componentData: {
+            typeCode: 'cms_typeCode',
+            flexType: 'CMSTestComponent',
+            uid: 'test_uid',
+            properties: {
+              smartedit: {
+                test: 'test',
+              },
             },
           },
-          compEl,
-          renderer
-        );
-      });
-
-      it('should not add smartedit contract if app launch in smart edit', () => {
-        spyOn(
-          dynamicAttributeService,
-          'addDynamicAttributes'
-        ).and.callThrough();
-        spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
-
-        fixture = TestBed.createComponent(TestWrapperComponent);
-        fixture.detectChanges();
-        const el = fixture.debugElement;
-        const compEl = el.query(By.css('cx-test')).nativeElement;
-        expect(
-          dynamicAttributeService.addDynamicAttributes
-        ).not.toHaveBeenCalledWith(
-          {
-            smartedit: {
-              test: 'test',
-            },
-          },
-          compEl,
-          renderer
-        );
+        });
       });
 
       it('should inject cms component data', () => {
@@ -238,7 +213,7 @@ describe('ComponentWrapperDirective', () => {
       let scriptEl;
 
       beforeEach(() => {
-        const cmsMapping = TestBed.get(CmsConfig) as CmsConfig;
+        const cmsMapping = TestBed.inject(CmsConfig);
         cmsMapping.cmsComponents.CMSTestComponent.component =
           'path/to/file.js#cms-component';
         fixture = TestBed.createComponent(TestWrapperComponent);
@@ -250,7 +225,7 @@ describe('ComponentWrapperDirective', () => {
         expect(scriptEl.src).toContain('path/to/file.js');
       });
 
-      it('should instantiate web component', done => {
+      it('should instantiate web component', (done) => {
         scriptEl.onload(); // invoke load callbacks
 
         // run in next runloop (to process async tasks)
@@ -259,13 +234,13 @@ describe('ComponentWrapperDirective', () => {
             'cms-component'
           );
           expect(cmsComponentElement).toBeTruthy();
-          const componentData = cmsComponentElement.cxApi.CmsComponentData;
+          const componentData = cmsComponentElement.cxApi.cmsComponentData;
           expect(componentData.uid).toEqual('test_uid');
           done();
         });
       });
 
-      it('should pass cxApi to web component', done => {
+      it('should pass cxApi to web component', (done) => {
         scriptEl.onload(); // invoke load callbacks
 
         // run in next runloop (to process async tasks)
@@ -277,6 +252,7 @@ describe('ComponentWrapperDirective', () => {
           expect(cxApi.cms).toBeTruthy();
           expect(cxApi.auth).toBeTruthy();
           expect(cxApi.routing).toBeTruthy();
+          expect(cxApi.cmsComponentData).toBeTruthy();
           done();
         });
       });

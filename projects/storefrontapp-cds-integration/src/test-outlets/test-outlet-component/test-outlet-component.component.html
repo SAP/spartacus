@@ -1,0 +1,13 @@
+<cx-page-layout></cx-page-layout>
+
+<ng-template [cxOutletRef]="testComponent" cxOutletPos="before" let-model>
+  <p>Before component, uid: {{ model.component.uid }}</p>
+</ng-template>
+
+<ng-template [cxOutletRef]="testComponent" cxOutletPos="after" let-model>
+  <p>After component, uid: {{ model.component.uid }}</p>
+</ng-template>
+
+<ng-template [cxOutletRef]="testComponent" let-model>
+  <p>Replace component, uid: {{ model.component.uid }}</p>
+</ng-template>

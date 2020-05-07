@@ -2,7 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { SiteConnector, StateWithSiteContext } from '@spartacus/core';
+import {
+  SiteConnector,
+  SiteContextConfig,
+  StateWithSiteContext,
+} from '@spartacus/core';
 import { of } from 'rxjs';
 import { SiteAdapter } from '../connectors/site.adapter';
 import { SiteContextActions } from '../store/actions/index';
@@ -34,11 +38,12 @@ describe('BaseSiteService', () => {
           provide: SiteAdapter,
           useValue: {},
         },
+        { provide: SiteContextConfig, useValue: {} },
       ],
     });
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.stub();
-    service = TestBed.get(BaseSiteService);
+    service = TestBed.inject(BaseSiteService);
   });
 
   it('should be created', () => {
@@ -49,7 +54,7 @@ describe('BaseSiteService', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
 
     let result;
-    service.getActive().subscribe(res => (result = res));
+    service.getActive().subscribe((res) => (result = res));
 
     expect(result).toEqual(mockBaseSite);
   });
@@ -58,14 +63,14 @@ describe('BaseSiteService', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
 
     let result;
-    service.getAll().subscribe(res => (result = res));
+    service.getAll().subscribe((res) => (result = res));
     expect(result).toEqual([mockBaseSite]);
   });
 
   describe('setActive', () => {
     it('should dispatch SetActiveBaseSite action', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSiteSelect);
-      const connector = TestBed.get(SiteConnector);
+      const connector = TestBed.inject(SiteConnector);
       spyOn(connector, 'getBaseSite').and.returnValue(of({}));
       service.setActive('my-base-site');
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -86,7 +91,7 @@ describe('BaseSiteService', () => {
     );
 
     let result;
-    service.getBaseSiteData().subscribe(res => (result = res));
+    service.getBaseSiteData().subscribe((res) => (result = res));
     expect(result).toEqual({ uid: 'test-basesite' });
   });
 

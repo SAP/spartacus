@@ -1,17 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NavigationExtras } from '@angular/router';
-
+import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+import { UrlCommands } from '../../routing/configurable-routes/url-translation/url-command';
 import { RoutingService } from '../../routing/facade/routing.service';
-
-import { of, Observable } from 'rxjs';
-
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from '../models/token-types.model';
-
-import { NotAuthGuard } from './not-auth.guard';
-import { UrlCommands } from '../../routing/configurable-routes/url-translation/url-command';
 import { AuthRedirectService } from './auth-redirect.service';
+import { NotAuthGuard } from './not-auth.guard';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',
@@ -54,10 +50,10 @@ describe('NotAuthGuard', () => {
       ],
       imports: [RouterTestingModule],
     });
-    authService = TestBed.get(AuthService);
-    guard = TestBed.get(NotAuthGuard);
-    routing = TestBed.get(RoutingService);
-    authRedirectService = TestBed.get(AuthRedirectService);
+    authService = TestBed.inject(AuthService);
+    guard = TestBed.inject(NotAuthGuard);
+    routing = TestBed.inject(RoutingService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
   });
 
   describe(', when user is authorized,', () => {
@@ -69,7 +65,7 @@ describe('NotAuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(false);
@@ -77,10 +73,7 @@ describe('NotAuthGuard', () => {
 
     it('should redirect to homepage', () => {
       spyOn(routing, 'go');
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(routing.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     });
   });
@@ -96,7 +89,7 @@ describe('NotAuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toBe(true);
@@ -104,18 +97,12 @@ describe('NotAuthGuard', () => {
 
     it('should not redirect to home', () => {
       spyOn(routing, 'go');
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(routing.go).not.toHaveBeenCalled();
     });
 
     it('should notify AuthRedirectService with the current navigation', () => {
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(authRedirectService.reportNotAuthGuard).toHaveBeenCalled();
     });
   });

@@ -22,8 +22,8 @@ describe('Update Email Effect', () => {
       ],
     });
 
-    updateEmailEffect = TestBed.get(fromEffect.UpdateEmailEffects);
-    userService = TestBed.get(UserConnector);
+    updateEmailEffect = TestBed.inject(fromEffect.UpdateEmailEffects);
+    userService = TestBed.inject(UserConnector);
   });
 
   describe('updateEmail$', () => {

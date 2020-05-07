@@ -7,12 +7,12 @@ import { OccPersonalizationTimeInterceptor } from './occ-personalization-time.in
 export const interceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: OccPersonalizationIdInterceptor,
+    useExisting: OccPersonalizationIdInterceptor,
     multi: true,
   },
   {
     provide: HTTP_INTERCEPTORS,
-    useClass: OccPersonalizationTimeInterceptor,
+    useExisting: OccPersonalizationTimeInterceptor,
     multi: true,
   },
 ];

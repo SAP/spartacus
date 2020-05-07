@@ -9,6 +9,12 @@ import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-stor
 export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
   @Input()
   locationIndex: number = null;
+  @Input()
+  listOrderLabel: any;
+  @Input()
+  displayDistance: boolean;
+  @Input()
+  useClickEvent: boolean;
   @Output()
   storeItemClick: EventEmitter<number> = new EventEmitter();
 
@@ -19,6 +25,12 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
   handleStoreItemClick() {
     if (this.locationIndex !== null) {
       this.storeItemClick.emit(this.locationIndex);
+    }
+  }
+
+  onKey(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.handleStoreItemClick();
     }
   }
 }

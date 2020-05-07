@@ -1,15 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NavigationExtras } from '@angular/router';
-
-import { of, Observable } from 'rxjs';
-
-import { AuthGuard } from './auth.guard';
-import { UserToken } from '../models/token-types.model';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+import { UrlCommands } from '../../routing/configurable-routes/url-translation/url-command';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
-import { UrlCommands } from '../../routing/configurable-routes/url-translation/url-command';
+import { UserToken } from '../models/token-types.model';
 import { AuthRedirectService } from './auth-redirect.service';
+import { AuthGuard } from './auth.guard';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',
@@ -57,10 +55,10 @@ describe('AuthGuard', () => {
       ],
       imports: [RouterTestingModule],
     });
-    guard = TestBed.get(AuthGuard);
-    service = TestBed.get(RoutingService);
-    authService = TestBed.get(AuthService);
-    authRedirectService = TestBed.get(AuthRedirectService);
+    guard = TestBed.inject(AuthGuard);
+    service = TestBed.inject(RoutingService);
+    authService = TestBed.inject(AuthService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
 
     spyOn(service, 'go').and.stub();
   });
@@ -76,16 +74,13 @@ describe('AuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toBe(false);
     });
 
     it('should notify AuthRedirectService with the current navigation', () => {
-      guard
-        .canActivate()
-        .subscribe()
-        .unsubscribe();
+      guard.canActivate().subscribe().unsubscribe();
       expect(authRedirectService.reportAuthGuard).toHaveBeenCalled();
     });
   });
@@ -99,7 +94,7 @@ describe('AuthGuard', () => {
       let result: boolean;
       guard
         .canActivate()
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
       expect(result).toBe(true);
     });

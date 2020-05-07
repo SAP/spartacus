@@ -1,27 +1,55 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-
-import { CheckoutConfig } from '../config/checkout-config';
+import { ActiveCartService, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { RoutingConfigService } from '@spartacus/core';
+import { switchMap } from 'rxjs/operators';
+import { CheckoutStepType } from '../model/checkout-step.model';
+import { CheckoutConfigService } from '../services/checkout-config.service';
+import { ExpressCheckoutService } from '../services/express-checkout.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CheckoutGuard implements CanActivate {
-  constructor(
-    private router: Router,
-    private config: CheckoutConfig,
-    private routingConfigService: RoutingConfigService
-  ) {}
+  private readonly firstStep$: Observable<UrlTree>;
 
-  canActivate(): Observable<boolean | UrlTree> {
-    return of(
+  constructor(
+    protected router: Router,
+    protected routingConfigService: RoutingConfigService,
+    protected checkoutConfigService: CheckoutConfigService,
+    protected expressCheckoutService: ExpressCheckoutService,
+    protected activeCartService: ActiveCartService
+  ) {
+    this.firstStep$ = of(
       this.router.parseUrl(
         this.routingConfigService.getRouteConfig(
-          this.config.checkout.steps[0].routeName
+          this.checkoutConfigService.getFirstCheckoutStepRoute()
         ).paths[0]
       )
     );
+  }
+
+  canActivate(): Observable<boolean | UrlTree> {
+    if (
+      this.checkoutConfigService.isExpressCheckout() &&
+      !this.activeCartService.isGuestCart()
+    ) {
+      return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
+        switchMap((expressCheckoutPossible: boolean) => {
+          return expressCheckoutPossible
+            ? of(
+                this.router.parseUrl(
+                  this.routingConfigService.getRouteConfig(
+                    this.checkoutConfigService.getCheckoutStepRoute(
+                      CheckoutStepType.REVIEW_ORDER
+                    )
+                  ).paths[0]
+                )
+              )
+            : this.firstStep$;
+        })
+      );
+    }
+    return this.firstStep$;
   }
 }

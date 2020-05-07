@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageType } from '../../model/cms.model';
 import { PageContext, RoutingService } from '../../routing/index';
-import { LoaderState } from '../../state';
+import { StateUtils } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
@@ -21,6 +21,9 @@ class MockRoutingService {
   }
   isNavigating(): Observable<boolean> {
     return of(false);
+  }
+  getNextPageContext(): Observable<PageContext> {
+    return of();
   }
 }
 
@@ -59,8 +62,8 @@ describe('CmsService', () => {
       ],
     });
 
-    store = TestBed.get(Store);
-    routingService = TestBed.get(RoutingService);
+    store = TestBed.inject(Store);
+    routingService = TestBed.inject(RoutingService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -68,28 +71,102 @@ describe('CmsService', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('getComponentData should call the store and trigger component load', inject(
-    [CmsService],
-    (service: CmsService) => {
-      spyOn(service, 'getCurrentPage').and.returnValue(of(page));
+  describe('getComponentData', () => {
+    describe('when pageContext is NOT provided', () => {
+      it('should use the current page context and dispatch LoadCmsComponent', inject(
+        [CmsService],
+        (service: CmsService) => {
+          const currentPageContext: PageContext = {
+            id: 'current',
+            type: PageType.CONTENT_PAGE,
+          };
+          const nextPageContext: PageContext = {
+            id: 'next',
+            type: PageType.CATALOG_PAGE,
+          };
 
-      const testUid = 'test_uid';
-      const mockSelect = createSpy('select').and.returnValue(() => of({}));
-      spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+          spyOn(routingService, 'getPageContext').and.returnValue(
+            of(currentPageContext)
+          );
+          spyOn(routingService, 'getNextPageContext').and.returnValue(
+            of(nextPageContext)
+          );
 
-      service
-        .getComponentData(testUid)
-        .pipe(take(1))
-        .subscribe(() => {})
-        .unsubscribe();
+          const mockLoaderState: StateUtils.LoaderState<boolean> = {
+            success: false,
+            loading: false,
+            error: false,
+          };
+          const mockSelect = createSpy('select').and.returnValue(() =>
+            of(mockLoaderState)
+          );
+          spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
-      expect(mockSelect).toHaveBeenCalled();
+          const uid = 'mockUid';
+          service.getComponentData(uid).pipe(take(1)).subscribe().unsubscribe();
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CmsActions.LoadCmsComponent(testUid)
-      );
-    }
-  ));
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new CmsActions.LoadCmsComponent({
+              uid,
+              pageContext: currentPageContext,
+            })
+          );
+          expect(routingService.getPageContext).toHaveBeenCalled();
+        }
+      ));
+    });
+    describe('when pageContext is provided', () => {
+      it('should use the provided page context and dispatch LoadCmsComponent', inject(
+        [CmsService],
+        (service: CmsService) => {
+          const specifiedPageContext: PageContext = {
+            id: 'specified',
+            type: PageType.PRODUCT_PAGE,
+          };
+          const currentPageContext: PageContext = {
+            id: 'current',
+            type: PageType.CONTENT_PAGE,
+          };
+          const nextPageContext: PageContext = {
+            id: 'next',
+            type: PageType.CATALOG_PAGE,
+          };
+
+          spyOn(routingService, 'getPageContext').and.returnValue(
+            of(currentPageContext)
+          );
+          spyOn(routingService, 'getNextPageContext').and.returnValue(
+            of(nextPageContext)
+          );
+
+          const mockLoaderState: StateUtils.LoaderState<boolean> = {
+            success: false,
+            loading: false,
+            error: false,
+          };
+          const mockSelect = createSpy('select').and.returnValue(() =>
+            of(mockLoaderState)
+          );
+          spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
+
+          const uid = 'mockUid';
+          service
+            .getComponentData(uid, specifiedPageContext)
+            .pipe(take(1))
+            .subscribe()
+            .unsubscribe();
+
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new CmsActions.LoadCmsComponent({
+              uid,
+              pageContext: specifiedPageContext,
+            })
+          );
+          expect(routingService.getPageContext).not.toHaveBeenCalled();
+        }
+      ));
+    });
+  });
 
   it('getContentSlot should be able to get content slot by position', inject(
     [CmsService],
@@ -104,7 +181,7 @@ describe('CmsService', () => {
       let contentSlotReturned: ContentSlotData;
       service
         .getContentSlot('Section1')
-        .subscribe(value => {
+        .subscribe((value) => {
           contentSlotReturned = value;
         })
         .unsubscribe();
@@ -128,7 +205,7 @@ describe('CmsService', () => {
       let result: NodeItem;
       service
         .getNavigationEntryItems(testUid)
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(mockNodeItem);
@@ -162,7 +239,7 @@ describe('CmsService', () => {
       let result: Page;
       service
         .getCurrentPage()
-        .subscribe(value => {
+        .subscribe((value) => {
           result = value;
         })
         .unsubscribe();
@@ -195,15 +272,33 @@ describe('CmsService', () => {
     }
   ));
 
-  it('should be able to refresh the cms component by uid', inject(
-    [CmsService],
-    (service: CmsService) => {
-      service.refreshComponent('test_uid');
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CmsActions.LoadCmsComponent('test_uid')
-      );
-    }
-  ));
+  describe('refreshComponent', () => {
+    it('should be able to refresh the cms component by uid', inject(
+      [CmsService],
+      (service: CmsService) => {
+        service.refreshComponent('test_uid');
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CmsActions.LoadCmsComponent({
+            uid: 'test_uid',
+            pageContext: undefined,
+          })
+        );
+      }
+    ));
+    it('should be able to refresh the cms component by uid and provided pageContext', inject(
+      [CmsService],
+      (service: CmsService) => {
+        const pageContext: PageContext = {
+          id: 'xxx',
+          type: PageType.CONTENT_PAGE,
+        };
+        service.refreshComponent('test_uid', pageContext);
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new CmsActions.LoadCmsComponent({ uid: 'test_uid', pageContext })
+        );
+      }
+    ));
+  });
 
   it('getPageState should select correct page state', inject(
     [CmsService],
@@ -217,7 +312,7 @@ describe('CmsService', () => {
       );
 
       let result;
-      service.getPageState(pageContext).subscribe(res => (result = res));
+      service.getPageState(pageContext).subscribe((res) => (result = res));
       expect(result).toEqual(pageData);
     }
   ));
@@ -243,25 +338,22 @@ describe('CmsService', () => {
       let result: string[];
       service
         .getPageComponentTypes(pageContext)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
       expect(result).toEqual(['test1', 'test2', 'test3']);
     }
   ));
 
-  describe('hasPage()', () => {
+  describe('hasPage', () => {
     it('should dispatch a load action if the load was not attempted', inject(
       [CmsService],
       (service: CmsService) => {
-        const mockedEntity: LoaderState<string> = {};
+        const mockedEntity: StateUtils.LoaderState<string> = {};
         const mockSelect = createSpy('select').and.returnValue(() =>
           of(mockedEntity)
         );
         spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
-        service
-          .hasPage(testPageContext)
-          .subscribe(_ => _)
-          .unsubscribe();
+        service.hasPage(testPageContext).subscribe().unsubscribe();
 
         expect(store.dispatch).toHaveBeenCalledWith(
           new CmsActions.LoadCmsPageData(testPageContext)
@@ -272,16 +364,13 @@ describe('CmsService', () => {
     it('should NOT dispatch a load action if the load was attempted', inject(
       [CmsService],
       (service: CmsService) => {
-        const mockedEntity: LoaderState<string> = { success: true };
+        const mockedEntity: StateUtils.LoaderState<string> = { success: true };
         const mockSelect = createSpy('select').and.returnValue(() =>
           of(mockedEntity)
         );
         spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
-        service
-          .hasPage(testPageContext)
-          .subscribe(_ => _)
-          .unsubscribe();
+        service.hasPage(testPageContext).subscribe().unsubscribe();
 
         expect(store.dispatch).not.toHaveBeenCalledWith(
           new CmsActions.LoadCmsPageData(testPageContext)
@@ -293,16 +382,13 @@ describe('CmsService', () => {
       it('should dispatch a load action if the load was not attempted', inject(
         [CmsService],
         (service: CmsService) => {
-          const mockedEntity: LoaderState<string> = {};
+          const mockedEntity: StateUtils.LoaderState<string> = {};
           const mockSelect = createSpy('select').and.returnValue(() =>
             of(mockedEntity)
           );
           spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
-          service
-            .hasPage(testPageContext, true)
-            .subscribe(_ => _)
-            .unsubscribe();
+          service.hasPage(testPageContext, true).subscribe().unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
             new CmsActions.LoadCmsPageData(testPageContext)
@@ -313,16 +399,15 @@ describe('CmsService', () => {
       it('should dispatch a load action with if the load was attempted', inject(
         [CmsService],
         (service: CmsService) => {
-          const mockedEntity: LoaderState<string> = { success: true };
+          const mockedEntity: StateUtils.LoaderState<string> = {
+            success: true,
+          };
           const mockSelect = createSpy('select').and.returnValue(() =>
             of(mockedEntity)
           );
           spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
-          service
-            .hasPage(testPageContext, true)
-            .subscribe(_ => _)
-            .unsubscribe();
+          service.hasPage(testPageContext, true).subscribe().unsubscribe();
 
           expect(store.dispatch).toHaveBeenCalledWith(
             new CmsActions.LoadCmsPageData(testPageContext)
@@ -334,7 +419,10 @@ describe('CmsService', () => {
     it('should return true if the load was successful', inject(
       [CmsService],
       (service: CmsService) => {
-        const mockedEntity: LoaderState<string> = { success: true, value: '' };
+        const mockedEntity: StateUtils.LoaderState<string> = {
+          success: true,
+          value: '',
+        };
         const mockSelect = createSpy('select').and.returnValue(() =>
           of(mockedEntity)
         );
@@ -343,7 +431,7 @@ describe('CmsService', () => {
         let result: boolean;
         service
           .hasPage(testPageContext)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
 
         expect(result).toEqual(true);
@@ -353,7 +441,7 @@ describe('CmsService', () => {
     it('should return false if the there was an error', inject(
       [CmsService],
       (service: CmsService) => {
-        const mockedEntity: LoaderState<string> = {
+        const mockedEntity: StateUtils.LoaderState<string> = {
           success: false,
           error: true,
           value: undefined,
@@ -366,10 +454,52 @@ describe('CmsService', () => {
         let result: boolean;
         service
           .hasPage(testPageContext)
-          .subscribe(value => (result = value))
+          .subscribe((value) => (result = value))
           .unsubscribe();
 
         expect(result).toEqual(false);
+      }
+    ));
+  });
+
+  describe('getPage', () => {
+    let pageContext: PageContext;
+
+    beforeEach(() => {
+      pageContext = { id: 'testId' };
+    });
+
+    it('should call "hasPage"', inject([CmsService], (service: CmsService) => {
+      spyOn(service, 'hasPage').and.returnValue(of(false));
+      service.getPage(pageContext, true);
+      expect(service.hasPage).toHaveBeenCalledWith(pageContext, true);
+    }));
+
+    it('should return result of "getPageState" when page exists', inject(
+      [CmsService],
+      (service: CmsService) => {
+        spyOn(service, 'hasPage').and.returnValue(of(true));
+        spyOn(service, 'getPageState').and.returnValue(
+          of({ pageId: 'testId' } as any)
+        );
+
+        let result;
+        service.getPage(pageContext, true).subscribe((res) => (result = res));
+        expect(service.getPageState).toHaveBeenCalledWith(pageContext);
+        expect(result).toEqual({ pageId: 'testId' });
+      }
+    ));
+
+    it('should emit null when page does not exist', inject(
+      [CmsService],
+      (service: CmsService) => {
+        spyOn(service, 'hasPage').and.returnValue(of(false));
+        spyOn(service, 'getPageState');
+
+        let result;
+        service.getPage(pageContext, true).subscribe((res) => (result = res));
+        expect(service.getPageState).not.toHaveBeenCalled();
+        expect(result).toEqual(null);
       }
     ));
   });
@@ -387,7 +517,7 @@ describe('CmsService', () => {
       );
 
       let result;
-      service.getPageIndex(pageContext).subscribe(res => (result = res));
+      service.getPageIndex(pageContext).subscribe((res) => (result = res));
       expect(result).toEqual('testUid');
     }
   ));

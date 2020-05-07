@@ -8,6 +8,11 @@ import { Order } from '../../../model/order.model';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import {
+  InterceptorUtil,
+  USE_CLIENT_TOKEN,
+} from '../../utils/interceptor-util';
+import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 
 // To be changed to a more optimised params after ticket: C3PO-1076
 const FULL_PARAMS = 'fields=FULL';
@@ -34,9 +39,12 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
       fromString: 'cartId=' + cartId + '&' + FULL_PARAMS,
     });
 
-    const headers = new HttpHeaders({
+    let headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
+    if (userId === OCC_USER_ID_ANONYMOUS) {
+      headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    }
 
     return this.http
       .post<Occ.Order>(url, {}, { headers, params })
@@ -52,5 +60,24 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
       fromString: `fields=${CHECKOUT_PARAMS}`,
     });
     return this.http.get<CheckoutDetails>(url, { params });
+  }
+
+  clearCheckoutDeliveryAddress(
+    userId: string,
+    cartId: string
+  ): Observable<any> {
+    const url = `${this.getEndpoint(
+      userId,
+      CARTS_ENDPOINT
+    )}${cartId}/addresses/delivery`;
+    return this.http.delete<any>(url);
+  }
+
+  clearCheckoutDeliveryMode(userId: string, cartId: string): Observable<any> {
+    const url = `${this.getEndpoint(
+      userId,
+      CARTS_ENDPOINT
+    )}${cartId}/deliverymode`;
+    return this.http.delete<any>(url);
   }
 }

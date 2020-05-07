@@ -4,9 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { I18nTestingModule } from '@spartacus/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { Observable, of } from 'rxjs';
 import { PageLayoutService } from '../../../../cms-structure';
-import { ListNavigationModule, MediaComponent } from '../../../../shared';
+import {
+  ListNavigationModule,
+  MediaComponent,
+  SpinnerModule,
+} from '../../../../shared';
+import { ViewConfig } from '../../../../shared/config/view-config';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
@@ -15,6 +22,7 @@ import {
 } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
+import { ProductScrollComponent } from './product-scroll/product-scroll.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -55,7 +63,7 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 
@@ -63,17 +71,35 @@ export class MockCxIconComponent {
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
 })
-export class MockAddToCartComponent {
-  @Input() productCode;
+class MockAddToCartComponent {
+  @Input() product;
   @Input() showQuantity;
 }
 
-export class MockProductListComponentService {
+class MockProductListComponentService {
   setQuery = createSpy('setQuery');
   viewPage = createSpy('viewPage');
   sort = createSpy('sort');
   clearSearchResults = createSpy('clearSearchResults');
   model$ = of({});
+}
+
+class MockViewConfig {
+  view = {
+    infiniteScroll: {
+      active: true,
+      productLimit: 0,
+      showMoreButton: false,
+    },
+  };
+}
+
+@Component({
+  selector: 'cx-variant-style-icons',
+  template: 'test',
+})
+class MockStyleIconsComponent {
+  @Input() variants: any[];
 }
 
 describe('ProductListComponent', () => {
@@ -89,6 +115,8 @@ describe('ProductListComponent', () => {
         FormsModule,
         RouterTestingModule,
         I18nTestingModule,
+        InfiniteScrollModule,
+        SpinnerModule,
       ],
       providers: [
         {
@@ -98,6 +126,10 @@ describe('ProductListComponent', () => {
         {
           provide: ProductListComponentService,
           useClass: MockProductListComponentService,
+        },
+        {
+          provide: ViewConfig,
+          useClass: MockViewConfig,
         },
       ],
       declarations: [
@@ -111,6 +143,9 @@ describe('ProductListComponent', () => {
         MockProductListItemComponent,
         MockUrlPipe,
         MockCxIconComponent,
+        ProductScrollComponent,
+        MockStyleIconsComponent,
+        MockFeatureLevelDirective,
       ],
     }).compileComponents();
   }));
@@ -118,7 +153,7 @@ describe('ProductListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
-    componentService = TestBed.get(ProductListComponentService);
+    componentService = TestBed.inject(ProductListComponentService);
   });
 
   it('should create', () => {
@@ -126,20 +161,21 @@ describe('ProductListComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should clear search results', () => {
+    beforeEach(() => {
       component.ngOnInit();
+    });
+
+    it('should clear search results', () => {
       expect(componentService.clearSearchResults).toHaveBeenCalled();
     });
 
     it('should get model from the service', () => {
-      component.ngOnInit();
       expect(component.model$).toBe(componentService.model$);
     });
-  });
 
-  it('viewPage should call service.viewPage', () => {
-    component.viewPage(123);
-    expect(componentService.viewPage).toHaveBeenCalledWith(123);
+    it('should use infinite scroll when config setting is active', () => {
+      expect(component.isInfiniteScroll).toEqual(true);
+    });
   });
 
   it('sortList should call service.sort', () => {

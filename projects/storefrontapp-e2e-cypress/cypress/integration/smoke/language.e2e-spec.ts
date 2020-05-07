@@ -5,7 +5,7 @@ context('Language Switcher', () => {
 
   beforeEach(() => {
     cy.server();
-    siteContextSelector.createGerericQuery(
+    siteContextSelector.createRoute(
       siteContextSelector.LANGUAGE_REQUEST,
       siteContextSelector.LANGUAGES
     );

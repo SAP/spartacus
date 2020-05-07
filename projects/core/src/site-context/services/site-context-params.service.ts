@@ -1,15 +1,13 @@
 import { Injectable, Injector } from '@angular/core';
+import { combineLatest, Observable, of } from 'rxjs';
+import { distinctUntilChanged, filter } from 'rxjs/operators';
 import {
-  ContextParameter,
-  ContextPersistence,
-  SiteContextConfig,
-} from '../config/site-context-config';
+  getContextParameterDefault,
+  getContextParameterValues,
+} from '../config/context-config-utils';
+import { SiteContextConfig } from '../config/site-context-config';
 import { SiteContext } from '../facade/site-context.interface';
 import { ContextServiceMap } from '../providers/context-service-map';
-import {
-  getContextParameter,
-  getContextParameterDefault,
-} from '../config/context-config-utils';
 
 @Injectable()
 export class SiteContextParamsService {
@@ -19,27 +17,21 @@ export class SiteContextParamsService {
     private serviceMap: ContextServiceMap
   ) {}
 
-  getContextParameters(persistence?: ContextPersistence | string): string[] {
-    const contextConfig = this.config.context && this.config.context.parameters;
-    if (contextConfig) {
-      const params = Object.keys(contextConfig);
-      if (persistence) {
-        return params.filter(
-          key => contextConfig[key].persistence === persistence
-        );
-      } else {
-        return params;
-      }
+  getContextParameters(): string[] {
+    if (this.config.context) {
+      return Object.keys(this.config.context).filter(
+        (param) => param !== 'urlParameters'
+      );
     }
     return [];
   }
 
-  getParameter(param: string): ContextParameter {
-    return getContextParameter(this.config, param);
+  getUrlEncodingParameters(): string[] {
+    return (this.config.context && this.config.context.urlParameters) || [];
   }
 
   getParamValues(param: string): string[] {
-    return this.getParameter(param).values || [];
+    return getContextParameterValues(this.config, param);
   }
 
   getParamDefaultValue(param: string): string {
@@ -59,7 +51,7 @@ export class SiteContextParamsService {
     if (service) {
       service
         .getActive()
-        .subscribe(val => (value = val))
+        .subscribe((val) => (value = val))
         .unsubscribe();
     }
 
@@ -71,5 +63,26 @@ export class SiteContextParamsService {
     if (service) {
       service.setActive(value);
     }
+  }
+
+  /**
+   * Get active values for all provided context parameters
+   *
+   * @param params Context parameters
+   *
+   * @returns Observable emitting array of all passed active context values
+   */
+  getValues(params: string[]): Observable<Array<string>> {
+    if (params.length === 0) {
+      return of([]);
+    }
+
+    return combineLatest(
+      params.map((param) =>
+        this.getSiteContextService(param)
+          .getActive()
+          .pipe(distinctUntilChanged())
+      )
+    ).pipe(filter((value) => value.every((param) => !!param)));
   }
 }

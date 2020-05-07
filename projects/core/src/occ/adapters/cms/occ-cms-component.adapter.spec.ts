@@ -71,11 +71,10 @@ describe('OccCmsComponentAdapter', () => {
         },
       ],
     });
-
-    service = TestBed.get(OccCmsComponentAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
-    endpointsService = TestBed.get(OccEndpointsService);
+    service = TestBed.inject(OccCmsComponentAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    endpointsService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -89,7 +88,7 @@ describe('OccCmsComponentAdapter', () => {
     it('should get cms component data', () => {
       spyOnEndpoint(spyOnLoadEndpint);
 
-      service.load('comp1', context).subscribe(result => {
+      service.load('comp1', context).subscribe((result) => {
         expect(result).toEqual(component);
       });
 
@@ -197,7 +196,7 @@ describe('OccCmsComponentAdapter', () => {
     requestMethod: string,
     requestUrl: string
   ): TestRequest {
-    return httpMock.expectOne(req => {
+    return httpMock.expectOne((req) => {
       return req.method === requestMethod && req.url === requestUrl;
     });
   }
@@ -218,16 +217,17 @@ describe('OccCmsComponentAdapter', () => {
   function assertPostRequestGetUrl(fields: string, pageSize: string) {
     expect(endpointsService.getUrl).toHaveBeenCalledWith(
       'components',
-      { fields },
-      { productCode: '123', currentPage: '0', pageSize }
+      {},
+      { fields, productCode: '123', currentPage: '0', pageSize }
     );
   }
 
   function assertGetRequestGetUrl(fields: string, pageSize: string) {
     expect(endpointsService.getUrl).toHaveBeenCalledWith(
       'components',
-      { fields },
+      {},
       {
+        fields,
         componentIds: ids.toString(),
         productCode: '123',
         currentPage: '0',
@@ -243,7 +243,7 @@ describe('OccCmsComponentAdapter', () => {
   }
 
   function assertNormalizer(requestUrl: string) {
-    httpMock.expectOne(req => req.url === requestUrl).flush(componentList);
+    httpMock.expectOne((req) => req.url === requestUrl).flush(componentList);
   }
 
   function assertPostSubscription(
@@ -254,7 +254,7 @@ describe('OccCmsComponentAdapter', () => {
   ) {
     adapter
       .findComponentsByIdsLegacy(ids, context, fields, currentPage, pageSize)
-      .subscribe(result => {
+      .subscribe((result) => {
         expect(result).toEqual(componentList.component);
       });
   }
@@ -267,7 +267,7 @@ describe('OccCmsComponentAdapter', () => {
   ) {
     adapter
       .findComponentsByIds(ids, context, fields, currentPage, pageSize)
-      .subscribe(result => {
+      .subscribe((result) => {
         expect(result).toEqual(componentList.component);
       });
   }

@@ -26,6 +26,55 @@ export interface OrderEntry {
   quantity?: number;
   totalPrice?: Price;
   updateable?: boolean;
+  returnedItemsPrice?: Price;
+  returnableQuantity?: number;
+  cancelledItemsPrice?: Price;
+  cancellableQuantity?: number;
+}
+
+export interface CancelOrReturnRequestEntryInput {
+  orderEntryNumber?: number;
+  quantity?: number;
+}
+
+export interface ReturnRequestEntryInputList {
+  orderCode?: string;
+  returnRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
+}
+
+export interface CancellationRequestEntryInputList {
+  cancellationRequestEntryInputs?: CancelOrReturnRequestEntryInput[];
+}
+
+export interface ReturnRequestEntry {
+  orderEntry?: OrderEntry;
+  expectedQuantity?: number;
+  refundAmount?: Price;
+}
+
+export interface ReturnRequest {
+  cancellable?: boolean;
+  code?: string;
+  creationTime?: Date;
+  deliveryCost?: Price;
+  order?: Order;
+  refundDeliveryCost?: boolean;
+  returnEntries?: ReturnRequestEntry[];
+  returnLabelDownloadUrl?: string;
+  rma?: string;
+  status?: string;
+  subTotal?: Price;
+  totalPrice?: Price;
+}
+
+export interface ReturnRequestList {
+  returnRequests?: ReturnRequest[];
+  pagination?: PaginationModel;
+  sorts?: SortModel[];
+}
+
+export interface ReturnRequestModification {
+  status?: string;
 }
 
 export interface PickupOrderEntryGroup {
@@ -110,4 +159,6 @@ export interface Order {
   totalTax?: Price;
   unconsignedEntries?: OrderEntry[];
   user?: Principal;
+  returnable?: boolean;
+  cancellable?: boolean;
 }
