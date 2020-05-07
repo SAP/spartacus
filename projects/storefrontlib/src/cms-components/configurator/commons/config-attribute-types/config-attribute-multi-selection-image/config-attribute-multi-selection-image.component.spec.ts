@@ -5,9 +5,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { Configurator } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 import { ConfigAttributeMultiSelectionImageComponent } from './config-attribute-multi-selection-image.component';
+import { By } from '@angular/platform-browser';
 
 describe('ConfigAttributeMultiSelectionImageComponent', () => {
-  let classUnderTest: ConfigAttributeMultiSelectionImageComponent;
+  let component: ConfigAttributeMultiSelectionImageComponent;
   let fixture: ComponentFixture<ConfigAttributeMultiSelectionImageComponent>;
   let htmlElem: HTMLElement;
 
@@ -25,69 +26,60 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       .compileComponents();
   }));
 
-  beforeEach(() => {
+  function createImage(url: string, altText: string): Configurator.Image {
     const image: Configurator.Image = {
-      url: 'url',
-      altText: 'altText',
+      url: url,
+      altText: altText,
     };
+    return image;
+  }
 
-    let localimages: Configurator.Image[];
-    localimages = [];
-
-    localimages.push(image, image, image);
-
-    const value1: Configurator.Value = {
-      valueCode: '1',
-      name: 'val1',
-      selected: false,
-      images: localimages,
+  function createValue(
+    code: string,
+    name: string,
+    isSelected: boolean,
+    images: Configurator.Image[]
+  ): Configurator.Value {
+    const value: Configurator.Value = {
+      valueCode: code,
+      name: name,
+      selected: isSelected,
+      images: images,
     };
-    const value2: Configurator.Value = {
-      valueCode: '2',
-      name: 'val2',
-      selected: true,
-      images: localimages,
-    };
-    const value3: Configurator.Value = {
-      valueCode: '3',
-      name: 'val3',
-      selected: true,
-      images: localimages,
-    };
-    const value4: Configurator.Value = {
-      valueCode: '4',
-      name: 'val4',
-      selected: false,
-      images: localimages,
-    };
+    return value;
+  }
 
-    let localvalues: Configurator.Value[];
-    localvalues = [];
-
-    localvalues.push(value1, value2, value3, value4);
+  beforeEach(() => {
+    const image = createImage('url', 'altText');
+    const images: Configurator.Image[] = [image, image, image];
+    const value1 = createValue('1', 'val1', false, images);
+    const value2 = createValue('2', 'val2', true, images);
+    const value3 = createValue('3', 'val3', true, images);
+    const value4 = createValue('4', 'val4', false, images);
+    const values: Configurator.Value[] = [value1, value2, value3, value4];
 
     fixture = TestBed.createComponent(
       ConfigAttributeMultiSelectionImageComponent
     );
-    classUnderTest = fixture.componentInstance;
+    component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
 
-    classUnderTest.attribute = {
+    component.attribute = {
       name: 'attributeName',
       attrCode: 444,
       uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
       required: false,
-      values: localvalues,
+      values: values,
     };
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(classUnderTest).toBeTruthy();
+  it('should create a component', () => {
+    expect(component).toBeTruthy();
   });
 
-  it('should render 4 images', () => {
-    classUnderTest.ngOnInit();
+  it('should render 4 multi selection images after init', () => {
+    component.ngOnInit();
     fixture.detectChanges();
 
     expect(
@@ -95,10 +87,31 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     ).toBe(4);
   });
 
-  it('should init with selectedValue', () => {
-    expect(classUnderTest.attributeCheckBoxForms[0].value).toEqual(false);
-    expect(classUnderTest.attributeCheckBoxForms[1].value).toEqual(true);
-    expect(classUnderTest.attributeCheckBoxForms[2].value).toEqual(true);
-    expect(classUnderTest.attributeCheckBoxForms[3].value).toEqual(false);
+  it('should mark two values as selected', () => {
+    expect(component.attributeCheckBoxForms[0].value).toEqual(false);
+    expect(component.attributeCheckBoxForms[1].value).toEqual(true);
+    expect(component.attributeCheckBoxForms[2].value).toEqual(true);
+    expect(component.attributeCheckBoxForms[3].value).toEqual(false);
+  });
+
+  it('should select a new value and deselect it again', () => {
+    const singleSelectionImageId =
+      '#cx-config--multi_selection_image--' +
+      component.attribute.name +
+      '--' +
+      component.attribute.values[0].valueCode +
+      '-input';
+    const valueToSelect = fixture.debugElement.query(
+      By.css(singleSelectionImageId)
+    ).nativeElement;
+    expect(valueToSelect.checked).toBe(false);
+    valueToSelect.click();
+    fixture.detectChanges();
+    expect(valueToSelect.checked).toBe(true);
+    expect(component.attributeCheckBoxForms[0].value).toEqual(true);
+    valueToSelect.click();
+    fixture.detectChanges();
+    expect(valueToSelect.checked).toBe(false);
+    expect(component.attributeCheckBoxForms[0].value).toEqual(false);
   });
 });

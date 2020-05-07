@@ -51,19 +51,16 @@ export class ConfigAttributeMultiSelectionImageComponent implements OnInit {
     return localAssembledValues;
   }
 
-  onEnter(event, index) {
-    if (event.which !== 13) {
-      return;
+  onEnter(event: KeyboardEvent, index: number) {
+    if (event.key === 'Enter') {
+      this.onSelect(index);
     }
-
-    this.onSelect(index);
-
     //TODO: fix focus lose when selection with keyboard
   }
 
-  onSelect(i) {
-    this.attributeCheckBoxForms[i].setValue(
-      !this.attributeCheckBoxForms[i].value
+  onSelect(index: number) {
+    this.attributeCheckBoxForms[index].setValue(
+      !this.attributeCheckBoxForms[index].value
     );
 
     const selectedValues = this.assembleValues();
