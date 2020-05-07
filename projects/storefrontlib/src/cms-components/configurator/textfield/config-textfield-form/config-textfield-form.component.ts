@@ -5,7 +5,7 @@ import {
   GenericConfigurator,
   RoutingService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
@@ -34,7 +34,7 @@ export class ConfigTextfieldFormComponent implements OnInit {
                 routerData.owner
               );
             case GenericConfigurator.OwnerType.CART_ENTRY:
-              return null; //TODO:get configuration from cart for change confuration in cart
+              return of(null); //TODO: get configuration from cart for change confuration in cart
           }
         })
       );
