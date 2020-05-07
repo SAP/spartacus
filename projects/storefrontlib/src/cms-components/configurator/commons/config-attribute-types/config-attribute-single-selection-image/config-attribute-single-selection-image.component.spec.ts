@@ -76,13 +76,14 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should init with selectedValue', () => {
+  it('should init with val3', () => {
+    fixture.detectChanges();
     expect(component.attributeRadioButtonForm.value).toEqual(
       component.attribute.values[2].valueCode
     );
   });
 
-  it('should select a single selection image value', () => {
+  it('should select another single selection image value', () => {
     const singleSelectionImageId =
       '#cx-config--single_selection_image--' +
       component.attribute.name +
