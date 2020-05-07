@@ -1,4 +1,3 @@
-import { RoutingService, RoutingConfigService } from '@spartacus/core';
 import {
   Component,
   ChangeDetectionStrategy,
@@ -18,16 +17,18 @@ import { tap } from 'rxjs/operators';
 })
 export class CheckoutProgressComponent implements OnInit, OnDestroy {
   constructor(
-    protected routingService: RoutingService,
-    protected routingConfigService: RoutingConfigService,
     protected checkoutStepService: CheckoutStepService,
     protected cdr: ChangeDetectorRef
   ) {}
 
   steps: CheckoutStep[];
-  routerState$: Observable<any>;
+
   activeStepIndex: number;
-  activeStepUrl: string;
+  activeStepIndex$: Observable<
+    number
+  > = this.checkoutStepService.activeStepIndex$.pipe(
+    tap((index) => (this.activeStepIndex = index))
+  );
 
   subscription: Subscription;
 
@@ -36,21 +37,6 @@ export class CheckoutProgressComponent implements OnInit, OnDestroy {
       this.steps = steps;
       this.cdr.detectChanges();
     });
-
-    this.routerState$ = this.routingService.getRouterState().pipe(
-      tap((router) => {
-        this.activeStepUrl = router.state.context.id;
-
-        this.steps.forEach((step, index) => {
-          const routeUrl = `/${
-            this.routingConfigService.getRouteConfig(step.routeName).paths[0]
-          }`;
-          if (routeUrl === this.activeStepUrl) {
-            this.activeStepIndex = index;
-          }
-        });
-      })
-    );
   }
 
   ngOnDestroy(): void {

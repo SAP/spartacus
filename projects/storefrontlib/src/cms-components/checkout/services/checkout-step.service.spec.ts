@@ -1,8 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { RoutingService } from '@spartacus/core';
-import { of } from 'rxjs';
+import { RoutingService, RoutingConfigService } from '@spartacus/core';
+import { of, Observable } from 'rxjs';
 import { CheckoutStepType } from '../model';
 import { CheckoutConfigService } from './checkout-config.service';
 import { CheckoutStepService } from './checkout-step.service';
@@ -32,13 +32,6 @@ class MockCheckoutConfigService {
       type: [CheckoutStepType.DELIVERY_MODE],
       enabled: true,
     },
-    {
-      id: 'step3',
-      name: 'step 3',
-      routeName: 'route3',
-      type: [CheckoutStepType.PAYMENT_DETAILS],
-      enabled: true,
-    },
   ];
 
   getNextCheckoutStepUrl(): string {
@@ -49,18 +42,41 @@ class MockCheckoutConfigService {
   }
 }
 
+class MockRoutingConfigService {
+  getRouteConfig(stepRoute) {
+    if (stepRoute === 'route0') {
+      return { paths: ['checkout/route0'] };
+    } else if (stepRoute === 'route1') {
+      return { paths: ['checkout/route1'] };
+    } else if (stepRoute === 'route2') {
+      return { paths: ['checkout/route2'] };
+    }
+    return null;
+  }
+}
+
 class MockActivatedRoute {
   snapshot = of();
 }
 
 class MockRoutingService {
   go = createSpy();
+  getRouterState(): Observable<any> {
+    return of({
+      state: {
+        context: {
+          id: '/checkout/route0',
+        },
+      },
+    });
+  }
 }
 
 describe('CheckoutStpService', () => {
   let service: CheckoutStepService;
   let activatedRoute: ActivatedRoute;
   let routingService: RoutingService;
+  let routingConfigService: RoutingConfigService;
   let checkoutConfigService: CheckoutConfigService;
 
   beforeEach(() => {
@@ -70,6 +86,7 @@ describe('CheckoutStpService', () => {
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: RoutingConfigService, useClass: MockRoutingConfigService },
       ],
     });
 
@@ -78,12 +95,25 @@ describe('CheckoutStpService', () => {
     checkoutConfigService = TestBed.inject(
       CheckoutConfigService as Type<CheckoutConfigService>
     );
+    routingConfigService = TestBed.inject(
+      RoutingConfigService as Type<RoutingConfigService>
+    );
 
-    service = new CheckoutStepService(routingService, checkoutConfigService);
+    service = new CheckoutStepService(
+      routingService,
+      checkoutConfigService,
+      routingConfigService
+    );
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should be able to get active step index', () => {
+    let index;
+    service.activeStepIndex$.subscribe((value) => (index = value));
+    expect(index).toEqual(0);
   });
 
   it('should be able to go back', () => {
@@ -118,11 +148,11 @@ describe('CheckoutStpService', () => {
     // disable the first step
     service.disableEnableStep(CheckoutStepType.PAYMENT_TYPES, true);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
-    expect(steps.length).toEqual(3);
+    expect(steps.length).toEqual(2);
     // reset
     service.resetSteps();
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
-    expect(steps.length).toEqual(4);
+    expect(steps.length).toEqual(3);
     expect(steps[0].id).toEqual('step0');
   });
 
@@ -131,13 +161,13 @@ describe('CheckoutStpService', () => {
     // disable the first step
     service.disableEnableStep(CheckoutStepType.PAYMENT_TYPES, true);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
-    expect(steps.length).toEqual(3);
+    expect(steps.length).toEqual(2);
     expect(steps[0].id).toEqual('step1');
 
     // enable the first setp
     service.disableEnableStep(CheckoutStepType.PAYMENT_TYPES, false);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
-    expect(steps.length).toEqual(4);
+    expect(steps.length).toEqual(3);
     expect(steps[0].id).toEqual('step0');
   });
 });

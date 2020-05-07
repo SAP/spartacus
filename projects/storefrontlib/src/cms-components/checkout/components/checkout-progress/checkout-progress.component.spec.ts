@@ -2,11 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  I18nTestingModule,
-  RoutingConfigService,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutProgressComponent } from './checkout-progress.component';
@@ -38,33 +34,7 @@ class MockCheckoutStepService {
   steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
     mockCheckoutSteps
   );
-}
-
-class MockRoutingConfigService {
-  getRouteConfig(stepRoute) {
-    if (stepRoute === 'route0') {
-      return { paths: ['checkout/route0'] };
-    } else if (stepRoute === 'route1') {
-      return { paths: ['checkout/route1'] };
-    } else if (stepRoute === 'route2') {
-      return { paths: ['checkout/route2'] };
-    }
-    return null;
-  }
-}
-
-const mockRouterState = {
-  state: {
-    context: {
-      id: '/checkout/route0',
-    },
-  },
-};
-
-class MockRoutingService {
-  getRouterState(): Observable<any> {
-    return of(mockRouterState);
-  }
+  activeStepIndex$: Observable<number> = of(0);
 }
 
 @Pipe({
@@ -84,8 +54,6 @@ describe('CheckoutProgressComponent', () => {
       declarations: [CheckoutProgressComponent, MockTranslateUrlPipe],
       providers: [
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: RoutingConfigService, useClass: MockRoutingConfigService },
       ],
     }).compileComponents();
   }));

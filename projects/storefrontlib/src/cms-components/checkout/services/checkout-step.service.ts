@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RoutingService } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { RoutingService, RoutingConfigService } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutConfigService } from './checkout-config.service';
 
@@ -14,13 +15,36 @@ export class CheckoutStepService {
     .filter((step) => !step.disabled)
     .map((x) => Object.assign({}, x));
 
-  steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
-    this.intialSteps
+  readonly steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<
+    CheckoutStep[]
+  >(this.intialSteps);
+
+  readonly activeStepIndex$: Observable<
+    number
+  > = this.routingService.getRouterState().pipe(
+    switchMap((router) => {
+      const activeStepUrl = router.state.context.id;
+      return this.steps$.pipe(
+        map((steps) => {
+          let activeIndex;
+          steps.forEach((step, index) => {
+            const routeUrl = `/${
+              this.routingConfigService.getRouteConfig(step.routeName).paths[0]
+            }`;
+            if (routeUrl === activeStepUrl) {
+              activeIndex = index;
+            }
+          });
+          return activeIndex;
+        })
+      );
+    })
   );
 
   constructor(
     protected routingService: RoutingService,
-    protected checkoutConfigService: CheckoutConfigService
+    protected checkoutConfigService: CheckoutConfigService,
+    protected routingConfigService: RoutingConfigService
   ) {}
 
   back(activatedRoute: ActivatedRoute): void {
@@ -47,6 +71,24 @@ export class CheckoutStepService {
 
     return 'common.back';
   }
+
+  /*getActiveStepIndex(): Observable<number> {
+    return this.routingService.getRouterState().pipe(
+      map((router) => {
+        let activeIndex;
+        const activeStepUrl = router.state.context.id;
+        this.intialSteps.forEach((step, index) => {
+          const routeUrl = `/${
+            this.routingConfigService.getRouteConfig(step.routeName).paths[0]
+          }`;
+          if (routeUrl === activeStepUrl) {
+            activeIndex = index;
+          }
+        });
+        return activeIndex;
+      })
+    );
+  }*/
 
   resetSteps(): void {
     this.intialSteps = this.checkoutConfigService.steps
