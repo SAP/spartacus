@@ -25,14 +25,14 @@ import {
 import { BehaviorSubject, of } from 'rxjs';
 
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
-import { UnitAssignRolesComponent } from './unit-assign-roles.component';
+import { UnitAssignApproversComponent } from './unit-assign-approvers.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
 
 const code = 'unitCode';
 const email = 'aaa@bbb';
-const roleId = 'b2bcustomergroup';
+const roleId = 'b2bapprovergroup';
 const userRow = {
   row: {
     email,
@@ -110,9 +110,9 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
 
   getUsers = createSpy('getUsers').and.returnValue(userList);
 
-  assignRole = createSpy('assignRole');
+  assignApprover = createSpy('assignApprover');
 
-  unassignRole = createSpy('unassignRole');
+  unassignApprover = createSpy('unassignApprover');
 }
 
 class MockRoutingService {
@@ -146,16 +146,16 @@ class MockCxDatePipe {
   }
 }
 
-describe('UnitAssignRolesComponent', () => {
-  let component: UnitAssignRolesComponent;
-  let fixture: ComponentFixture<UnitAssignRolesComponent>;
+describe('UnitAssignApproversComponent', () => {
+  let component: UnitAssignApproversComponent;
+  let fixture: ComponentFixture<UnitAssignApproversComponent>;
   let orgUnitService: MockOrgUnitService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
       declarations: [
-        UnitAssignRolesComponent,
+        UnitAssignApproversComponent,
         MockUrlPipe,
         MockPaginationComponent,
       ],
@@ -177,7 +177,7 @@ describe('UnitAssignRolesComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnitAssignRolesComponent);
+    fixture = TestBed.createComponent(UnitAssignApproversComponent);
     component = fixture.componentInstance;
     userList.next(mockUserList);
     fixture.detectChanges();
@@ -224,9 +224,10 @@ describe('UnitAssignRolesComponent', () => {
   });
 
   describe('assign', () => {
-    it('should assign user', () => {
+    it('should assign approver', () => {
       component.assign(userRow);
-      expect(orgUnitService.assignRole).toHaveBeenCalledWith(
+      expect(orgUnitService.assignApprover).toHaveBeenCalledWith(
+        code,
         userRow.row.email,
         roleId
       );
@@ -234,9 +235,10 @@ describe('UnitAssignRolesComponent', () => {
   });
 
   describe('unassign', () => {
-    it('should unassign user', () => {
+    it('should unassign approver', () => {
       component.unassign(userRow);
-      expect(orgUnitService.unassignRole).toHaveBeenCalledWith(
+      expect(orgUnitService.unassignApprover).toHaveBeenCalledWith(
+        code,
         userRow.row.email,
         roleId
       );

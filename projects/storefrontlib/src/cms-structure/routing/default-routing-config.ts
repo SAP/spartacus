@@ -106,6 +106,9 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   orgUnitAssignRoles: {
     paths: ['organization/unit/assign-roles/:code/:roleId'],
   },
+  orgUnitAssignApprovers: {
+    paths: ['organization/unit/assign-approvers/:code'],
+  },
   orgUnitManageAddresses: {
     paths: ['organization/unit/addresses/:code'],
   },

@@ -25,8 +25,6 @@ import {
 import { EntitiesModel } from '../../../model/misc.model';
 import { B2BSearchConfig } from '../../../organization/model/search-config';
 
-const APPROVER = 'b2bapprovergroup';
-
 @Injectable()
 export class OccOrgUnitAdapter implements OrgUnitAdapter {
   constructor(
@@ -92,28 +90,45 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
 
   assignRole(
     userId: string,
-    orgUnitId: string,
     orgCustomerId: string,
     roleId: string
   ): Observable<any> {
     return this.http.post<any>(
-      roleId === APPROVER
-        ? this.getApproversEndpoint(userId, orgUnitId, { roleId })
-        : this.getRolesEndpoint(userId, orgUnitId, orgCustomerId, { roleId }),
+      this.getRolesEndpoint(userId, orgCustomerId, { roleId }),
       null
     );
   }
 
   unassignRole(
     userId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): Observable<any> {
+    return this.http.delete<any>(
+      this.getRoleEndpoint(userId, orgCustomerId, roleId)
+    );
+  }
+
+  assignApprover(
+    userId: string,
+    orgUnitId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): Observable<any> {
+    return this.http.post<any>(
+      this.getApproversEndpoint(userId, orgUnitId, orgCustomerId, { roleId }),
+      null
+    );
+  }
+
+  unassignApprover(
+    userId: string,
     orgUnitId: string,
     orgCustomerId: string,
     roleId: string
   ): Observable<any> {
     return this.http.delete<any>(
-      roleId === APPROVER
-        ? this.getApproverEndpoint(userId, orgCustomerId, roleId)
-        : this.getRoleEndpoint(userId, orgUnitId, orgCustomerId, roleId)
+      this.getApproverEndpoint(userId, orgUnitId, orgCustomerId, roleId)
     );
   }
 
@@ -204,26 +219,23 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
 
   protected getRolesEndpoint(
     userId: string,
-    orgUnitId: string,
     orgCustomerId: string,
     params: { roleId: string }
   ): string {
     return this.occEndpoints.getUrl(
       'orgUnitUserRoles',
-      { userId, orgUnitId, orgCustomerId },
+      { userId, orgCustomerId },
       params
     );
   }
 
   protected getRoleEndpoint(
     userId: string,
-    orgUnitId: string,
     orgCustomerId: string,
     roleId: string
   ): string {
     return this.occEndpoints.getUrl('orgUnitUserRole', {
       userId,
-      orgUnitId,
       orgCustomerId,
       roleId,
     });
@@ -231,23 +243,26 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
 
   protected getApproversEndpoint(
     userId: string,
+    orgUnitId: string,
     orgCustomerId: string,
     params: { roleId: string }
   ): string {
     return this.occEndpoints.getUrl(
       'orgUnitApprovers',
-      { userId, orgCustomerId },
+      { userId, orgUnitId, orgCustomerId },
       params
     );
   }
 
   protected getApproverEndpoint(
     userId: string,
+    orgUnitId: string,
     orgCustomerId: string,
     roleId: string
   ): string {
     return this.occEndpoints.getUrl('orgUnitApprover', {
       userId,
+      orgUnitId,
       orgCustomerId,
       roleId,
     });
