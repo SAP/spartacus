@@ -74,7 +74,7 @@ function update_projects_versions {
     for i in $projects
         do
             echo $i;
-            (cd "${CLONE_DIR}/projects/${i}" && pwd && sed --debug -i -E 's/("version": ")[^"]+/\1'"${SPARTACUS_VERSION}"'/g' package.json);
+            (cd "${CLONE_DIR}/projects/${i}" && pwd && sed -i -E 's/\("version": "\)[^"]+/\1'"${SPARTACUS_VERSION}"'/g' package.json);
         done
 }
 

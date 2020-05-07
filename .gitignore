@@ -23,6 +23,11 @@ spartacussampledataaddon.tar
 node_modules/
 package-lock.json
 
+# verdaccio storage
+scripts/install/storage
+# Environment config file
+scripts/install/config.sh
+
 # IDEs and editors
 /.idea
 *.iml

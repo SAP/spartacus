@@ -19,13 +19,20 @@ SPARTACUS_PROJECTS=(
         "schematics"
         )
 
-SPARTACUS_REPO_URL="git://github.com/SAP/cloud-commerce-spartacus-storefront.git"
+SPARTACUS_REPO_URL="git://github.com/SAP/spartacus.git"
 BRANCH='develop'
+
+# custom location for the installation output
+# BASE_DIR='/tmp/'
+
+# other locations
 CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
+
 ANGULAR_CLI_VERSION='~9.0.0'
 SPARTACUS_VERSION='latest'
+
 CSR_PORT="4200"
 # not yet supported
 SSR_PORT="4100"
