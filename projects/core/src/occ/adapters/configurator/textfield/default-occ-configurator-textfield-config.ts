@@ -10,6 +10,9 @@ export function defaultOccConfiguratorTextfieldConfigFactory(): OccConfig {
 
           addConfigurationTextfieldToCart:
             'users/${userId}/carts/${cartId}/entries/configurator/textfield',
+
+          readConfigurationForCartEntry:
+            'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/configurator/textfield',
         },
       },
     },

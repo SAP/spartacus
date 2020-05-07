@@ -238,12 +238,10 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(0);
   });
 
-  it('should render 3 groups after groups have been compiled', () => {
+  it('should return 3 groups after groups have been compiled', () => {
     component.ngOnInit();
-    fixture.detectChanges();
-    component.displayedGroups$.subscribe(() => {
-      fixture.detectChanges();
-      expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(3);
+    component.displayedGroups$.subscribe((groups) => {
+      expect(groups.length).toBe(3);
     });
   });
 

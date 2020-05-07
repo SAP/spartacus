@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Configurator } from '../../../../model/configurator.model';
+import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import {
   StateEntityLoaderActions,
   StateEntityProcessesLoaderActions,
@@ -67,7 +68,7 @@ export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadActi
 export class ReadCartEntryConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION;
   constructor(
-    public payload: Configurator.ReadConfigurationFromCartEntryParameters
+    public payload: GenericConfigurator.ReadConfigurationFromCartEntryParameters
   ) {
     super(CONFIGURATION_DATA, payload.owner.key);
   }
