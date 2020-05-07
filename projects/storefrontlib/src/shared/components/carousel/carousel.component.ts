@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
+import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { CarouselService } from './carousel.service';
 
 /**
@@ -40,9 +40,15 @@ export class CarouselComponent implements OnInit {
 
   /**
    * The items$ represent the carousel items. The items$ are
-   * observables so that the itesm can be loaded on demand.
+   * observables so that the items can be loaded on demand.
    */
-  @Input() items: Observable<any>[];
+  items: Observable<any>[];
+  @Input('items')
+  set setItems(inputItems: Observable<any>[]) {
+    this.items = inputItems;
+    //Reset slider when changing products
+    this.activeSlide = 0;
+  }
 
   /**
    * The template is rendered for each item, so that the actual

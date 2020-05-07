@@ -1,10 +1,10 @@
-import { StoreFinderConnector } from './store-finder.connector';
-import { StoreFinderAdapter } from './store-finder.adapter';
 import { TestBed } from '@angular/core/testing';
-import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
-import { StoreFinderSearchConfig } from '../model';
 import { GeoPoint } from '../../model';
+import { StoreFinderSearchConfig } from '../model';
+import { StoreFinderAdapter } from './store-finder.adapter';
+import { StoreFinderConnector } from './store-finder.connector';
+import createSpy = jasmine.createSpy;
 
 class MockStoreFinderAdapter implements StoreFinderAdapter {
   search = createSpy('adapter.search').and.returnValue(
@@ -29,8 +29,8 @@ describe('StoreFinderConnector', () => {
       ],
     });
 
-    service = TestBed.get(StoreFinderConnector);
-    adapter = TestBed.get(StoreFinderAdapter);
+    service = TestBed.inject(StoreFinderConnector);
+    adapter = TestBed.inject(StoreFinderAdapter);
   });
 
   it('should be created', () => {
@@ -42,29 +42,31 @@ describe('StoreFinderConnector', () => {
     const searchConfig: StoreFinderSearchConfig = {
       sort: 'ASC',
     };
+    const radius = 50000;
 
     let result;
     service
-      .search('query', searchConfig, geoPoint)
-      .subscribe(res => (result = res));
+      .search('query', searchConfig, geoPoint, radius)
+      .subscribe((res) => (result = res));
     expect(result).toBe('adapter.search result');
     expect(adapter.search).toHaveBeenCalledWith(
       'query',
       searchConfig,
-      geoPoint
+      geoPoint,
+      radius
     );
   });
 
   it('get should call adapter', () => {
     let result;
-    service.get('storeId').subscribe(res => (result = res));
+    service.get('storeId').subscribe((res) => (result = res));
     expect(result).toBe('adapter.load result');
     expect(adapter.load).toHaveBeenCalledWith('storeId');
   });
 
   it('getCounts should call adapter', () => {
     let result;
-    service.getCounts().subscribe(res => (result = res));
+    service.getCounts().subscribe((res) => (result = res));
     expect(result).toBe('adapter.loadCounts result');
     expect(adapter.loadCounts).toHaveBeenCalled();
   });

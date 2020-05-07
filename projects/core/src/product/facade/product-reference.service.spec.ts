@@ -4,7 +4,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { ProductReference } from '../../model/product.model';
 import { ProductActions } from '../store/actions/index';
-import { ProductsState, PRODUCT_FEATURE } from '../store/product-state';
+import { PRODUCT_FEATURE, ProductsState } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductReferenceService } from './product-reference.service';
 
@@ -33,8 +33,8 @@ describe('ReferenceService', () => {
       providers: [ProductReferenceService],
     });
 
-    store = TestBed.get(Store);
-    service = TestBed.get(ProductReferenceService);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(ProductReferenceService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -51,7 +51,7 @@ describe('ReferenceService', () => {
         of(productReferences)
       );
       let result: ProductReference[];
-      service.get(productCode).subscribe(data => {
+      service.get(productCode).subscribe((data) => {
         result = data;
       });
 
@@ -62,10 +62,7 @@ describe('ReferenceService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(undefined)
       );
-      service
-        .get(productCode)
-        .subscribe()
-        .unsubscribe();
+      service.get(productCode).subscribe().unsubscribe();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new ProductActions.LoadProductReferences({
@@ -73,6 +70,15 @@ describe('ReferenceService', () => {
           referenceType: undefined,
           pageSize: undefined,
         })
+      );
+    });
+  });
+
+  describe('cleanReferences', () => {
+    it('should clean references', () => {
+      service.cleanReferences();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ProductActions.CleanProductReferences()
       );
     });
   });

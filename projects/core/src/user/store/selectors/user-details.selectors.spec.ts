@@ -25,7 +25,7 @@ describe('User Details Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -34,7 +34,7 @@ describe('User Details Selectors', () => {
       let result: User;
       store
         .pipe(select(UsersSelectors.getDetails))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({});
 

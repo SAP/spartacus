@@ -3,14 +3,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartService,
   Cart,
-  CartService,
   CmsComponent,
   CmsMiniCartComponent,
   I18nTestingModule,
   UrlCommandRoute,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { MiniCartComponent } from './mini-cart.component';
 
@@ -27,7 +27,7 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 
@@ -57,9 +57,11 @@ const mockComponentData: CmsMiniCartComponent = {
   },
 };
 
-class MockCartService {
+const activeCart = new ReplaySubject<Cart>();
+
+class MockActiveCartService {
   getActive(): Observable<Cart> {
-    return of(testCart);
+    return activeCart.asObservable();
   }
 }
 
@@ -77,7 +79,7 @@ describe('MiniCartComponent', () => {
       declarations: [MiniCartComponent, MockUrlPipe, MockCxIconComponent],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
       ],
     }).compileComponents();
   }));
@@ -102,10 +104,18 @@ describe('MiniCartComponent', () => {
       expect(linkHref).toBe('/cart');
     });
 
-    it('should contain number of items in cart', () => {
+    it('should show 0 items when cart is not loaded', () => {
       const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
         .nativeElement.innerText;
-      expect(cartItemsNumber).toEqual('1');
+      expect(cartItemsNumber).toEqual('miniCart.count count:0');
+    });
+
+    it('should contain number of items in cart', () => {
+      activeCart.next(testCart);
+      fixture.detectChanges();
+      const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
+        .nativeElement.innerText;
+      expect(cartItemsNumber).toEqual('miniCart.count count:1');
     });
   });
 });

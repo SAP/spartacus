@@ -1,13 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import {
   AuthRedirectService,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
+  WindowRef,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
+import { CheckoutConfigService } from '../../checkout/services/checkout-config.service';
+import { CustomFormValidators } from '../../../shared/index';
 
 @Component({
   selector: 'cx-login-form',
@@ -15,47 +18,66 @@ import { CustomFormValidators } from '../../../shared/utils/validators/custom-fo
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
   sub: Subscription;
-  form: FormGroup;
+  loginForm: FormGroup;
+  loginAsGuest = false;
 
   constructor(
-    private auth: AuthService,
-    private globalMessageService: GlobalMessageService,
-    private fb: FormBuilder,
-    private authRedirectService: AuthRedirectService
+    protected auth: AuthService,
+    protected globalMessageService: GlobalMessageService,
+    protected fb: FormBuilder,
+    protected authRedirectService: AuthRedirectService,
+    protected winRef: WindowRef,
+    protected activatedRoute: ActivatedRoute,
+    protected checkoutConfigService: CheckoutConfigService
   ) {}
 
-  ngOnInit() {
-    this.form = this.fb.group({
-      userId: ['', [Validators.required, CustomFormValidators.emailValidator]],
+  ngOnInit(): void {
+    const routeState = this.winRef.nativeWindow?.history?.state;
+    const prefilledEmail = routeState?.['newUid'];
+
+    this.loginForm = this.fb.group({
+      userId: [
+        prefilledEmail?.length ? prefilledEmail : '',
+        [Validators.required, CustomFormValidators.emailValidator],
+      ],
       password: ['', Validators.required],
     });
+
+    if (this.checkoutConfigService.isGuestCheckout()) {
+      this.loginAsGuest = this.activatedRoute?.snapshot?.queryParams?.[
+        'forced'
+      ];
+    }
   }
 
-  login(): void {
-    const userId = this.emailToLowerCase();
-    this.auth.authorize(userId, this.form.controls.password.value);
+  submitForm(): void {
+    if (this.loginForm.valid) {
+      this.loginUser();
+    } else {
+      this.loginForm.markAllAsTouched();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+  }
+
+  protected loginUser(): void {
+    const { userId, password } = this.loginForm.controls;
+    this.auth.authorize(
+      userId.value.toLowerCase(), // backend accepts lowercase emails only
+      password.value
+    );
 
     if (!this.sub) {
-      this.sub = this.auth.getUserToken().subscribe(data => {
+      this.sub = this.auth.getUserToken().subscribe((data) => {
         if (data && data.access_token) {
           this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
           this.authRedirectService.redirect();
         }
       });
-    }
-  }
-
-  /*
-   * Change the inputed email to lowercase because
-   * the backend only accepts lowercase emails
-   */
-  emailToLowerCase() {
-    return this.form.controls.userId.value.toLowerCase();
-  }
-
-  ngOnDestroy() {
-    if (this.sub) {
-      this.sub.unsubscribe();
     }
   }
 }

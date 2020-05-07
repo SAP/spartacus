@@ -10,7 +10,7 @@ describe('UrlParsingService', () => {
       imports: [RouterTestingModule],
       providers: [UrlParsingService],
     });
-    service = TestBed.get(UrlParsingService);
+    service = TestBed.inject(UrlParsingService);
   });
 
   describe('getPrimarySegments', () => {

@@ -9,5 +9,8 @@
 
   .cx-hours {
     text-align: center;
+    &.closed {
+      color: var(--cx-color-primary);
+    }
   }
 }

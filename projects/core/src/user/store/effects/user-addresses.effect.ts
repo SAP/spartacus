@@ -7,7 +7,6 @@ import {
   GlobalMessageType,
 } from '../../../global-message/index';
 import { Address } from '../../../model/address.model';
-import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { UserAddressService } from '../../facade/user-address.service';
@@ -21,12 +20,12 @@ export class UserAddressesEffects {
   > = this.actions$.pipe(
     ofType(UserActions.LOAD_USER_ADDRESSES),
     map((action: UserActions.LoadUserAddresses) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.userAddressConnector.getAll(payload).pipe(
         map((addresses: Address[]) => {
           return new UserActions.LoadUserAddressesSuccess(addresses);
         }),
-        catchError(error =>
+        catchError((error) =>
           of(
             new UserActions.LoadUserAddressesFail(makeErrorSerializable(error))
           )
@@ -41,14 +40,14 @@ export class UserAddressesEffects {
   > = this.actions$.pipe(
     ofType(UserActions.ADD_USER_ADDRESS),
     map((action: UserActions.AddUserAddress) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.userAddressConnector
         .add(payload.userId, payload.address)
         .pipe(
           map((data: any) => {
             return new UserActions.AddUserAddressSuccess(data);
           }),
-          catchError(error =>
+          catchError((error) =>
             of(new UserActions.AddUserAddressFail(makeErrorSerializable(error)))
           )
         );
@@ -61,23 +60,23 @@ export class UserAddressesEffects {
   > = this.actions$.pipe(
     ofType(UserActions.UPDATE_USER_ADDRESS),
     map((action: UserActions.UpdateUserAddress) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.userAddressConnector
         .update(payload.userId, payload.addressId, payload.address)
         .pipe(
-          map(data => {
+          map((data) => {
             // don't show the message if just setting address as default
             if (
               payload.address &&
               Object.keys(payload.address).length === 1 &&
               payload.address.defaultAddress
             ) {
-              return new UserActions.LoadUserAddresses(USERID_CURRENT);
+              return new UserActions.LoadUserAddresses(payload.userId);
             } else {
               return new UserActions.UpdateUserAddressSuccess(data);
             }
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new UserActions.UpdateUserAddressFail(
                 makeErrorSerializable(error)
@@ -94,14 +93,14 @@ export class UserAddressesEffects {
   > = this.actions$.pipe(
     ofType(UserActions.DELETE_USER_ADDRESS),
     map((action: UserActions.DeleteUserAddress) => action.payload),
-    mergeMap(payload => {
+    mergeMap((payload) => {
       return this.userAddressConnector
         .delete(payload.userId, payload.addressId)
         .pipe(
-          map(data => {
+          map((data) => {
             return new UserActions.DeleteUserAddressSuccess(data);
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new UserActions.DeleteUserAddressFail(
                 makeErrorSerializable(error)

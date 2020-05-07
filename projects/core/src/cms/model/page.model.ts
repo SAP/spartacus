@@ -8,8 +8,9 @@ export interface Page {
   title?: string;
   template?: string;
   loadTime?: number;
-  slots: { [key: string]: ContentSlotData };
+  slots?: { [key: string]: ContentSlotData };
   properties?: any;
+  label?: string;
 }
 
 /**
@@ -56,7 +57,12 @@ export interface PageMeta {
   /**
    * the list of breadcrumbs that can be rendered in the page UI.
    */
-  breadcrumbs?: any[];
+  breadcrumbs?: BreadcrumbMeta[];
+}
+
+export interface BreadcrumbMeta {
+  label: string;
+  link: string;
 }
 
 export enum PageRobotsMeta {

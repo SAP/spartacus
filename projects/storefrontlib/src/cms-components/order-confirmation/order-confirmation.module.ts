@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
-  AuthGuard,
   CmsConfig,
-  ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import { CardModule } from '../../shared/components/card/card.module';
 import { CartSharedModule } from '../cart/cart-shared/cart-shared.module';
@@ -14,13 +15,17 @@ import { OrderConfirmationOverviewComponent } from './components/order-confirmat
 // tslint:disable-next-line
 import { OrderConfirmationThankYouMessageComponent } from './components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
 import { OrderConfirmationTotalsComponent } from './components/order-confirmation-totals/order-confirmation-totals.component';
+import { GuestRegisterFormComponent } from './components/guest-register-form/guest-register-form.component';
 import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
+import { PromotionsModule } from '../checkout/components/promotions/promotions.module';
+import { FormErrorsModule } from '../../shared/index';
 
 const orderConfirmationComponents = [
   OrderConfirmationItemsComponent,
   OrderConfirmationOverviewComponent,
   OrderConfirmationThankYouMessageComponent,
   OrderConfirmationTotalsComponent,
+  GuestRegisterFormComponent,
 ];
 
 @NgModule({
@@ -29,24 +34,30 @@ const orderConfirmationComponents = [
     CartSharedModule,
     CardModule,
     PwaModule,
+    PromotionsModule,
     I18nModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    ReactiveFormsModule,
+    FeaturesConfigModule,
+    FormErrorsModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         OrderConfirmationThankMessageComponent: {
           component: OrderConfirmationThankYouMessageComponent,
-          guards: [AuthGuard, OrderConfirmationGuard],
+          guards: [OrderConfirmationGuard],
         },
         OrderConfirmationItemsComponent: {
           component: OrderConfirmationItemsComponent,
-          guards: [AuthGuard, OrderConfirmationGuard],
+          guards: [OrderConfirmationGuard],
         },
         OrderConfirmationTotalsComponent: {
           component: OrderConfirmationTotalsComponent,
-          guards: [AuthGuard, OrderConfirmationGuard],
+          guards: [OrderConfirmationGuard],
         },
         OrderConfirmationOverviewComponent: {
           component: OrderConfirmationOverviewComponent,
-          guards: [AuthGuard, OrderConfirmationGuard],
+          guards: [OrderConfirmationGuard],
         },
       },
     }),

@@ -41,9 +41,8 @@ describe('ProductSearchService', () => {
       ],
       providers: [ProductSearchService],
     });
-
-    store = TestBed.get(Store);
-    service = TestBed.get(ProductSearchService);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(ProductSearchService);
     spyOn(service, 'search').and.callThrough();
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -59,7 +58,7 @@ describe('ProductSearchService', () => {
     let tempSearchResult: ProductSearchPage;
     service
       .getResults()
-      .subscribe(result => (tempSearchResult = result))
+      .subscribe((result) => (tempSearchResult = result))
       .unsubscribe();
     expect(tempSearchResult).toEqual(mockSearchResults);
   });

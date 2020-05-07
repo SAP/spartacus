@@ -1,0 +1,25 @@
+<ng-container>
+  <div class="variant-selector">
+    <div *ngIf="variants.selected" class="variant-name">
+      {{ 'variant.style' | cxTranslate }}:
+      <span class="style-name">{{
+        getVariantOptionValue(variants?.selected.variantOptionQualifiers)
+      }}</span>
+    </div>
+    <ul class="variant-list">
+      <li
+        *ngFor="let v of variants?.options"
+        [ngClass]="{
+          'selected-variant': v.code === variants?.selected.code
+        }"
+      >
+        <img
+          (click)="changeStyle(v.code)"
+          src="{{ getVariantThumbnailUrl(v.variantOptionQualifiers) }}"
+          title="{{ getVariantOptionValue(v.variantOptionQualifiers) }}"
+          alt="{{ getVariantOptionValue(v.variantOptionQualifiers) }}"
+        />
+      </li>
+    </ul>
+  </div>
+</ng-container>

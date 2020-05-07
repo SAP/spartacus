@@ -76,9 +76,9 @@ describe('SearchboxService', () => {
         },
       ],
     });
+    store = TestBed.inject(Store);
+    service = TestBed.inject(SearchboxService);
 
-    store = TestBed.get(Store);
-    service = TestBed.get(SearchboxService);
     spyOn(service, 'search').and.callThrough();
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -119,7 +119,7 @@ describe('SearchboxService', () => {
       let tempSearchResult: ProductSearchPage;
       service
         .getResults()
-        .subscribe(result => (tempSearchResult = result))
+        .subscribe((result) => (tempSearchResult = result))
         .unsubscribe();
       expect(tempSearchResult).toEqual(mockAuxSearchResults);
     });
@@ -141,7 +141,7 @@ describe('SearchboxService', () => {
       let tempSearchResult: Suggestion[];
       service
         .getSuggestionResults()
-        .subscribe(result => (tempSearchResult = result))
+        .subscribe((result) => (tempSearchResult = result))
         .unsubscribe();
       expect(tempSearchResult).toEqual(mockSuggestions);
     });

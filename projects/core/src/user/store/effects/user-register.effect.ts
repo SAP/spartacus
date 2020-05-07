@@ -12,21 +12,37 @@ import { UserActions } from '../actions/index';
 export class UserRegisterEffects {
   @Effect()
   registerUser$: Observable<
-    UserActions.UserRegisterOrRemoveAction | AuthActions.LoadUserToken
+    UserActions.UserRegisterOrRemoveAction
   > = this.actions$.pipe(
     ofType(UserActions.REGISTER_USER),
     map((action: UserActions.RegisterUser) => action.payload),
     mergeMap((user: UserSignUp) =>
       this.userConnector.register(user).pipe(
-        switchMap(_result => [
+        map(() => new UserActions.RegisterUserSuccess()),
+        catchError((error) =>
+          of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
+        )
+      )
+    )
+  );
+
+  @Effect()
+  registerGuest$: Observable<
+    UserActions.UserRegisterOrRemoveAction | AuthActions.LoadUserToken
+  > = this.actions$.pipe(
+    ofType(UserActions.REGISTER_GUEST),
+    map((action: UserActions.RegisterGuest) => action.payload),
+    mergeMap(({ guid, password }) =>
+      this.userConnector.registerGuest(guid, password).pipe(
+        switchMap((user) => [
           new AuthActions.LoadUserToken({
             userId: user.uid,
-            password: user.password,
+            password: password,
           }),
-          new UserActions.RegisterUserSuccess(),
+          new UserActions.RegisterGuestSuccess(),
         ]),
-        catchError(error =>
-          of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
+        catchError((error) =>
+          of(new UserActions.RegisterGuestFail(makeErrorSerializable(error)))
         )
       )
     )
@@ -40,11 +56,11 @@ export class UserRegisterEffects {
     map((action: UserActions.RemoveUser) => action.payload),
     mergeMap((userId: string) => {
       return this.userConnector.remove(userId).pipe(
-        switchMap(_result => [
+        switchMap(() => [
           new UserActions.RemoveUserSuccess(),
           new AuthActions.Logout(),
         ]),
-        catchError(error =>
+        catchError((error) =>
           of(new UserActions.RemoveUserFail(makeErrorSerializable(error)))
         )
       );

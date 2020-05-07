@@ -1,26 +1,24 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpInterceptor,
-  HttpHandler,
-  HttpEvent,
   HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
 } from '@angular/common/http';
-import { HttpRequest } from '@angular/common/http';
-
+import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
-import { AuthService } from '../facade/auth.service';
-import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
-import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
+import { AuthService } from '../facade/auth.service';
+import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
+import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthErrorInterceptor implements HttpInterceptor {
   constructor(
     private userErrorHandlingService: UserErrorHandlingService,

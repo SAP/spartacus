@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  ANONYMOUS_USERID,
-  CartDataService,
-} from '../../cart/facade/cart-data.service';
+import { AuthService } from '../../auth/facade/auth.service';
+import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { Order } from '../../model/order.model';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
@@ -14,7 +13,8 @@ import { CheckoutSelectors } from '../store/selectors/index';
 export class CheckoutService {
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
-    protected cartData: CartDataService
+    protected authService: AuthService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   /**
@@ -22,12 +22,26 @@ export class CheckoutService {
    */
   placeOrder(): void {
     if (this.actionAllowed()) {
-      this.checkoutStore.dispatch(
-        new CheckoutActions.PlaceOrder({
-          userId: this.cartData.userId,
-          cartId: this.cartData.cartId,
-        })
-      );
+      let userId;
+      this.authService
+        .getOccUserId()
+        .subscribe((occUserId) => (userId = occUserId))
+        .unsubscribe();
+
+      let cartId;
+      this.activeCartService
+        .getActiveCartId()
+        .subscribe((activeCartId) => (cartId = activeCartId))
+        .unsubscribe();
+
+      if (userId && cartId) {
+        this.checkoutStore.dispatch(
+          new CheckoutActions.PlaceOrder({
+            userId,
+            cartId,
+          })
+        );
+      }
     }
   }
 
@@ -48,15 +62,29 @@ export class CheckoutService {
     );
   }
 
+  /**
+   * Load checkout details data
+   * @param cartId : string Cart ID of loaded cart
+   */
   loadCheckoutDetails(cartId: string) {
-    this.checkoutStore.dispatch(
-      new CheckoutActions.LoadCheckoutDetails({
-        userId: this.cartData.userId,
-        cartId,
-      })
-    );
+    let userId;
+    this.authService
+      .getOccUserId()
+      .subscribe((occUserId) => (userId = occUserId))
+      .unsubscribe();
+    if (userId) {
+      this.checkoutStore.dispatch(
+        new CheckoutActions.LoadCheckoutDetails({
+          userId,
+          cartId,
+        })
+      );
+    }
   }
 
+  /**
+   * Get status of checkout details loaded
+   */
   getCheckoutDetailsLoaded(): Observable<boolean> {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getCheckoutDetailsLoaded)
@@ -73,6 +101,14 @@ export class CheckoutService {
   }
 
   protected actionAllowed(): boolean {
-    return this.cartData.userId !== ANONYMOUS_USERID;
+    let userId;
+    this.authService
+      .getOccUserId()
+      .subscribe((occUserId) => (userId = occUserId))
+      .unsubscribe();
+    return (
+      (userId && userId !== OCC_USER_ID_ANONYMOUS) ||
+      this.activeCartService.isGuestCart()
+    );
   }
 }

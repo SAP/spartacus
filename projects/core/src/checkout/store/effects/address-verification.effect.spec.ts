@@ -28,8 +28,8 @@ describe('Address Verification effect', () => {
       ],
     });
 
-    effect = TestBed.get(AddressVerificationEffect);
-    service = TestBed.get(UserAddressConnector);
+    effect = TestBed.inject(AddressVerificationEffect);
+    service = TestBed.inject(UserAddressConnector);
 
     spyOn(service, 'verify').and.returnValue(of(addressValidation));
   });

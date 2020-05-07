@@ -1,2 +1,7 @@
 export * from './config.module';
-export * from './utils/config-validator';
+export {
+  TestConfigModule,
+  TestConfigModuleOptions,
+} from './test-config.module';
+export * from './config-validator/index';
+export * from './config-initializer/index';

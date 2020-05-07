@@ -17,14 +17,6 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
-
-const USER_ENDPOINT = 'users/';
-const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
-const RESET_PASSWORD_ENDPOINT = '/resetpassword';
-const UPDATE_EMAIL_ENDPOINT = '/login';
-const UPDATE_PASSWORD_ENDPOINT = '/password';
-const TITLES_ENDPOINT = 'titles';
-
 @Injectable()
 export class OccUserAdapter implements UserAdapter {
   constructor(
@@ -33,26 +25,21 @@ export class OccUserAdapter implements UserAdapter {
     protected converter: ConverterService
   ) {}
 
-  private getUserEndpoint(userId?: string): string {
-    const endpoint = userId ? `${USER_ENDPOINT}${userId}` : USER_ENDPOINT;
-    return this.occEndpoints.getEndpoint(endpoint);
-  }
-
   load(userId: string): Observable<User> {
-    const url = this.getUserEndpoint(userId);
+    const url = this.occEndpoints.getUrl('user', { userId });
     return this.http
       .get<Occ.User>(url)
       .pipe(this.converter.pipeable(USER_NORMALIZER));
   }
 
   update(userId: string, user: User): Observable<{}> {
-    const url = this.getUserEndpoint(userId);
+    const url = this.occEndpoints.getUrl('user', { userId });
     user = this.converter.convert(user, USER_SERIALIZER);
     return this.http.patch(url, user);
   }
 
   register(user: UserSignUp): Observable<User> {
-    const url: string = this.getUserEndpoint();
+    const url: string = this.occEndpoints.getUrl('userRegister');
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -64,8 +51,24 @@ export class OccUserAdapter implements UserAdapter {
       .pipe(this.converter.pipeable(USER_NORMALIZER));
   }
 
+  registerGuest(guid: string, password: string): Observable<User> {
+    const url: string = this.occEndpoints.getUrl('userRegister');
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+
+    const httpParams: HttpParams = new HttpParams()
+      .set('guid', guid)
+      .set('password', password);
+
+    return this.http
+      .post<User>(url, httpParams, { headers })
+      .pipe(this.converter.pipeable(USER_NORMALIZER));
+  }
+
   requestForgotPasswordEmail(userEmailAddress: string): Observable<{}> {
-    const url = this.occEndpoints.getEndpoint(FORGOT_PASSWORD_ENDPOINT);
+    const url = this.occEndpoints.getUrl('userForgotPassword');
     const httpParams: HttpParams = new HttpParams().set(
       'userId',
       userEmailAddress
@@ -78,7 +81,7 @@ export class OccUserAdapter implements UserAdapter {
   }
 
   resetPassword(token: string, newPassword: string): Observable<{}> {
-    const url = this.occEndpoints.getEndpoint(RESET_PASSWORD_ENDPOINT);
+    const url = this.occEndpoints.getUrl('userResetPassword');
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -92,7 +95,7 @@ export class OccUserAdapter implements UserAdapter {
     currentPassword: string,
     newUserId: string
   ): Observable<{}> {
-    const url = this.getUserEndpoint(userId) + UPDATE_EMAIL_ENDPOINT;
+    const url = this.occEndpoints.getUrl('userUpdateLoginId', { userId });
     const httpParams: HttpParams = new HttpParams()
       .set('password', currentPassword)
       .set('newLogin', newUserId);
@@ -107,7 +110,7 @@ export class OccUserAdapter implements UserAdapter {
     oldPassword: string,
     newPassword: string
   ): Observable<{}> {
-    const url = this.getUserEndpoint(userId) + UPDATE_PASSWORD_ENDPOINT;
+    const url = this.occEndpoints.getUrl('userUpdatePassword', { userId });
     const httpParams: HttpParams = new HttpParams()
       .set('old', oldPassword)
       .set('new', newPassword);
@@ -118,16 +121,15 @@ export class OccUserAdapter implements UserAdapter {
   }
 
   remove(userId: string): Observable<{}> {
-    const url = this.getUserEndpoint(userId);
+    const url = this.occEndpoints.getUrl('user', { userId });
     return this.http.delete<User>(url);
   }
 
   loadTitles(): Observable<Title[]> {
-    return this.http
-      .get<Occ.TitleList>(this.occEndpoints.getEndpoint(TITLES_ENDPOINT))
-      .pipe(
-        map(titleList => titleList.titles),
-        this.converter.pipeableMany(TITLE_NORMALIZER)
-      );
+    const url = this.occEndpoints.getUrl('titles');
+    return this.http.get<Occ.TitleList>(url).pipe(
+      map((titleList) => titleList.titles),
+      this.converter.pipeableMany(TITLE_NORMALIZER)
+    );
   }
 }

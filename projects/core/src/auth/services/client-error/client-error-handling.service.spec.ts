@@ -1,12 +1,9 @@
+import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpHandler, HttpRequest, HttpEvent } from '@angular/common/http';
-
 import { Observable, of } from 'rxjs';
-
 import { AuthService } from '../../facade/auth.service';
 import { ClientToken } from '../../models/token-types.model';
-
 import { ClientErrorHandlingService } from './client-error-handling.service';
 
 class MockHttpHandler extends HttpHandler {
@@ -45,7 +42,7 @@ describe('ClientErrorHandlingService', () => {
   let httpRequest = new HttpRequest('GET', '/');
   let service: ClientErrorHandlingService;
   let httpHandler: HttpHandler;
-  let authService: AuthServiceStub;
+  let authService: AuthService | AuthServiceStub;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,9 +54,9 @@ describe('ClientErrorHandlingService', () => {
       ],
     });
 
-    service = TestBed.get(ClientErrorHandlingService);
-    httpHandler = TestBed.get(HttpHandler);
-    authService = TestBed.get(AuthService);
+    service = TestBed.inject(ClientErrorHandlingService);
+    authService = TestBed.inject(AuthService);
+    httpHandler = TestBed.inject(HttpHandler);
 
     spyOn(httpHandler, 'handle').and.callThrough();
   });
@@ -69,7 +66,7 @@ describe('ClientErrorHandlingService', () => {
       spyOn(authService, 'refreshClientToken').and.returnValue(
         of(newClientToken)
       );
-      authService.clientToken$ = of(clientToken);
+      (authService as AuthServiceStub).clientToken$ = of(clientToken);
 
       const sub = service
         .handleExpiredClientToken(httpRequest, httpHandler)
@@ -78,9 +75,7 @@ describe('ClientErrorHandlingService', () => {
 
       httpRequest = httpRequest.clone({
         setHeaders: {
-          Authorization: `${newClientToken.token_type} ${
-            newClientToken.access_token
-          }`,
+          Authorization: `${newClientToken.token_type} ${newClientToken.access_token}`,
         },
       });
       expect(httpHandler.handle).toHaveBeenCalledWith(httpRequest);

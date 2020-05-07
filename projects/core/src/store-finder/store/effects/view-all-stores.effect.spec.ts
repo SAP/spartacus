@@ -45,7 +45,7 @@ describe('ViewAllStores Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.ViewAllStoresEffect);
+    effects = TestBed.inject(fromEffects.ViewAllStoresEffect);
   });
 
   describe('viewAllStores$', () => {

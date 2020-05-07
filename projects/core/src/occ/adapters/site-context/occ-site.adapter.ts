@@ -15,64 +15,60 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-const COUNTRIES_ENDPOINT = 'countries';
-const REGIONS_ENDPOINT = 'regions';
-
 @Injectable()
 export class OccSiteAdapter implements SiteAdapter {
   constructor(
     protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected occEndpointsService: OccEndpointsService,
+    protected converterService: ConverterService
   ) {}
 
   loadLanguages(): Observable<Language[]> {
     return this.http
-      .get<Occ.LanguageList>(this.occEndpoints.getEndpoint('languages'))
+      .get<Occ.LanguageList>(this.occEndpointsService.getUrl('languages'))
       .pipe(
-        map(languageList => languageList.languages),
-        this.converter.pipeableMany(LANGUAGE_NORMALIZER)
+        map((languageList) => languageList.languages),
+        this.converterService.pipeableMany(LANGUAGE_NORMALIZER)
       );
   }
 
   loadCurrencies(): Observable<Currency[]> {
     return this.http
-      .get<Occ.CurrencyList>(this.occEndpoints.getEndpoint('currencies'))
+      .get<Occ.CurrencyList>(this.occEndpointsService.getUrl('currencies'))
       .pipe(
-        map(currencyList => currencyList.currencies),
-        this.converter.pipeableMany(CURRENCY_NORMALIZER)
+        map((currencyList) => currencyList.currencies),
+        this.converterService.pipeableMany(CURRENCY_NORMALIZER)
       );
   }
 
   loadCountries(type?: CountryType): Observable<Country[]> {
-    let params;
-
-    if (type) {
-      params = new HttpParams().set('type', type);
-    }
-
     return this.http
-      .get<Occ.CountryList>(this.occEndpoints.getEndpoint(COUNTRIES_ENDPOINT), {
-        params,
-      })
+      .get<Occ.CountryList>(
+        this.occEndpointsService.getUrl(
+          'countries',
+          undefined,
+          type ? { type } : undefined
+        )
+      )
       .pipe(
-        map(countryList => countryList.countries),
-        this.converter.pipeableMany(COUNTRY_NORMALIZER)
+        map((countryList) => countryList.countries),
+        this.converterService.pipeableMany(COUNTRY_NORMALIZER)
       );
   }
 
   loadRegions(countryIsoCode: string): Observable<Region[]> {
-    const regionsEndpoint = `${COUNTRIES_ENDPOINT}/${countryIsoCode}/${REGIONS_ENDPOINT}?fields=regions(name,isocode,isocodeShort)`;
     return this.http
-      .get<Occ.RegionList>(this.occEndpoints.getEndpoint(regionsEndpoint))
+      .get<Occ.RegionList>(
+        this.occEndpointsService.getUrl('regions', { isoCode: countryIsoCode })
+      )
       .pipe(
-        map(regionList => regionList.regions),
-        this.converter.pipeableMany(REGION_NORMALIZER)
+        map((regionList) => regionList.regions),
+        this.converterService.pipeableMany(REGION_NORMALIZER)
       );
   }
 
   loadBaseSite(): Observable<BaseSite> {
-    const baseUrl = this.occEndpoints.getBaseEndpoint();
+    const baseUrl = this.occEndpointsService.getBaseEndpoint();
     const urlSplits = baseUrl.split('/');
     const activeSite = urlSplits.pop();
     const url = urlSplits.join('/') + '/basesites';
@@ -84,8 +80,8 @@ export class OccSiteAdapter implements SiteAdapter {
     return this.http
       .get<{ baseSites: BaseSite[] }>(url, { params: params })
       .pipe(
-        map(siteList => {
-          return siteList.baseSites.find(site => site.uid === activeSite);
+        map((siteList) => {
+          return siteList.baseSites.find((site) => site.uid === activeSite);
         })
       );
   }

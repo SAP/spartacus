@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
 import {
   Address,
   Cart,
-  CartService,
+  ActiveCartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   Country,
@@ -13,8 +11,15 @@ import {
   PaymentDetails,
   TranslationService,
   UserAddressService,
+  PromotionResult,
+  PromotionLocation,
 } from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
+import { CheckoutStepType } from '../../model/index';
+import { CheckoutConfigService } from '../../services/index';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({
   selector: 'cx-review-submit',
@@ -22,26 +27,34 @@ import { Card } from '../../../../shared/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReviewSubmitComponent implements OnInit {
+  checkoutStepType = CheckoutStepType;
   entries$: Observable<OrderEntry[]>;
   cart$: Observable<Cart>;
   deliveryMode$: Observable<DeliveryMode>;
   countryName$: Observable<string>;
   deliveryAddress$: Observable<Address>;
   paymentDetails$: Observable<PaymentDetails>;
+  orderPromotions$: Observable<PromotionResult[]>;
+  promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   constructor(
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected checkoutPaymentService: CheckoutPaymentService,
     protected userAddressService: UserAddressService,
-    protected cartService: CartService,
-    private translation: TranslationService
+    protected activeCartService: ActiveCartService,
+    protected translation: TranslationService,
+    protected checkoutConfigService: CheckoutConfigService,
+    protected promotionService: PromotionService
   ) {}
 
   ngOnInit() {
-    this.cart$ = this.cartService.getActive();
-    this.entries$ = this.cartService.getEntries();
+    this.cart$ = this.activeCartService.getActive();
+    this.entries$ = this.activeCartService.getEntries();
     this.deliveryAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
     this.paymentDetails$ = this.checkoutPaymentService.getPaymentDetails();
+    this.orderPromotions$ = this.promotionService.getOrderPromotions(
+      this.promotionLocation
+    );
 
     this.deliveryMode$ = this.checkoutDeliveryService
       .getSelectedDeliveryMode()
@@ -128,5 +141,10 @@ export class ReviewSubmitComponent implements OnInit {
         };
       })
     );
+  }
+
+  getCheckoutStepUrl(stepType: CheckoutStepType): string {
+    const step = this.checkoutConfigService.getCheckoutStep(stepType);
+    return step && step.routeName;
   }
 }

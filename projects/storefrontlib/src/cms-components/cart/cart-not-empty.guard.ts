@@ -1,21 +1,25 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Cart, CartService, RoutingService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { ActiveCartService, Cart, RoutingService } from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartNotEmptyGuard implements CanActivate {
   constructor(
-    private cartService: CartService,
-    private routingService: RoutingService
+    protected routingService: RoutingService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.cartService.getActive().pipe(
-      map(cart => {
+    return combineLatest([
+      this.activeCartService.getActive(),
+      this.activeCartService.isStable(),
+    ]).pipe(
+      filter(([_, loaded]) => loaded),
+      map(([cart]) => {
         if (this.isEmpty(cart)) {
           this.routingService.go({ cxRoute: 'home' });
           return false;

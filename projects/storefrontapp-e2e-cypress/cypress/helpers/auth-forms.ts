@@ -8,12 +8,16 @@ export interface RegisterUser {
   password: string;
 }
 
-export function register({
-  firstName,
-  lastName,
-  email,
-  password,
-}: RegisterUser) {
+export interface LoginUser {
+  username: string;
+  password: string;
+}
+
+export function fillRegistrationForm(
+  { firstName, lastName, email, password }: RegisterUser,
+  giveRegistrationConsent,
+  hiddenConsent?
+) {
   cy.get('cx-register form').within(() => {
     cy.get('[formcontrolname="titleCode"]').select('mr');
     cy.get('[formcontrolname="firstName"]').type(firstName);
@@ -21,15 +25,37 @@ export function register({
     cy.get('[formcontrolname="email"]').type(email);
     cy.get('[formcontrolname="password"]').type(password);
     cy.get('[formcontrolname="passwordconf"]').type(password);
+    if (giveRegistrationConsent) {
+      cy.get('[formcontrolname="newsletter"]').check();
+      if (hiddenConsent) {
+        cy.get('[formcontrolname="newsletter"]')
+          .siblings('.form-check-label')
+          .should('contain', hiddenConsent);
+      }
+    }
     cy.get('[formcontrolname="termsandconditions"]').check();
+  });
+}
+
+export function fillLoginForm({ username, password }: LoginUser) {
+  cy.get('cx-login-form form').within(() => {
+    cy.get('[formcontrolname="userId"]').clear().type(username);
+    cy.get('[formcontrolname="password"]').clear().type(password);
+    cy.get('button[type=submit]').click();
+  });
+}
+
+export function register(
+  user: RegisterUser,
+  giveRegistrationConsent = false,
+  hiddenConsent?
+) {
+  fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
+  cy.get('cx-register form').within(() => {
     cy.get('button[type="submit"]').click();
   });
 }
 
 export function login(username: string, password: string) {
-  cy.get('cx-login-form form').within(() => {
-    cy.get('[formcontrolname="userId"]').type(username);
-    cy.get('[formcontrolname="password"]').type(password);
-    cy.get('button[type=submit]').click();
-  });
+  fillLoginForm({ username, password });
 }

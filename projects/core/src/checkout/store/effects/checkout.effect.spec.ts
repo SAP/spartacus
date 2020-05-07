@@ -5,7 +5,6 @@ import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { AuthActions } from '../../../auth/store/actions/index';
-import { CartDataService } from '../../../cart/facade/cart-data.service';
 import { CartActions } from '../../../cart/store/actions/index';
 import {
   CheckoutDeliveryConnector,
@@ -56,11 +55,6 @@ class MockCheckoutDeliveryConnector {
   setMode = createSpy().and.returnValue(of({}));
 }
 
-class MockCartDataService {
-  cartId = 'cartId';
-  userId = 'userId';
-}
-
 class MockCheckoutPaymentConnector {
   set = createSpy().and.returnValue(of({}));
   create = createSpy().and.returnValue(of(paymentDetails));
@@ -69,8 +63,9 @@ class MockCheckoutPaymentConnector {
 class MockCheckoutConnector {
   loadCheckoutDetails = createSpy().and.returnValue(of(details));
   placeOrder = () => of({});
+  clearCheckoutDeliveryAddress = () => of({});
+  clearCheckoutDeliveryMode = () => of({});
 }
-
 describe('Checkout effect', () => {
   let checkoutConnector: CheckoutConnector;
   let entryEffects: fromEffects.CheckoutEffects;
@@ -90,20 +85,19 @@ describe('Checkout effect', () => {
           useClass: MockCheckoutPaymentConnector,
         },
         { provide: CheckoutConnector, useClass: MockCheckoutConnector },
-        { provide: CartDataService, useClass: MockCartDataService },
         fromEffects.CheckoutEffects,
         provideMockActions(() => actions$),
       ],
     });
 
-    entryEffects = TestBed.get(fromEffects.CheckoutEffects);
-    checkoutConnector = TestBed.get(CheckoutConnector);
+    entryEffects = TestBed.inject(fromEffects.CheckoutEffects);
+    checkoutConnector = TestBed.inject(CheckoutConnector);
 
     spyOn(checkoutConnector, 'placeOrder').and.returnValue(of(orderDetails));
   });
 
   describe('addDeliveryAddress$', () => {
-    it('should add delivery address to cart', () => {
+    it('should add delivery address to cart for login user', () => {
       const action = new CheckoutActions.AddDeliveryAddress({
         userId: userId,
         cartId: cartId,
@@ -122,6 +116,25 @@ describe('Checkout effect', () => {
 
       expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
     });
+
+    it('should add delivery address to cart for guest user', () => {
+      const action = new CheckoutActions.AddDeliveryAddress({
+        userId: 'anonymous',
+        cartId: cartId,
+        address: address,
+      });
+
+      const completion = new CheckoutActions.SetDeliveryAddress({
+        userId: 'anonymous',
+        cartId: cartId,
+        address: address,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.addDeliveryAddress$).toBeObservable(expected);
+    });
   });
 
   describe('setDeliveryAddress$', () => {
@@ -132,13 +145,25 @@ describe('Checkout effect', () => {
         address: address,
       });
       const completion = new CheckoutActions.SetDeliveryAddressSuccess(address);
-      const completion2 = new CheckoutActions.LoadSupportedDeliveryModes({
+      const completion2 = new CheckoutActions.ClearCheckoutDeliveryMode({
+        userId,
+        cartId,
+      });
+      const completion3 = new CheckoutActions.ClearSupportedDeliveryModes();
+      const completion4 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
+      const completion5 = new CheckoutActions.LoadSupportedDeliveryModes({
         userId,
         cartId,
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion, c: completion2 });
+      const expected = cold('-(bcdef)', {
+        b: completion,
+        c: completion2,
+        d: completion3,
+        e: completion4,
+        f: completion5,
+      });
 
       expect(entryEffects.setDeliveryAddress$).toBeObservable(expected);
     });
@@ -163,11 +188,15 @@ describe('Checkout effect', () => {
 
   describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
     it('should dispatch checkout clear miscs data action on language change', () => {
-      const action = new SiteContextActions.LanguageChange();
-      const completion = new CheckoutActions.CheckoutClearMiscsData();
+      const action = new SiteContextActions.LanguageChange({
+        previous: 'previous',
+        current: 'current',
+      });
+      const completion1 = new CheckoutActions.CheckoutClearMiscsData();
+      const completion2 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(
         entryEffects.clearCheckoutMiscsDataOnLanguageChange$
@@ -177,7 +206,10 @@ describe('Checkout effect', () => {
 
   describe('clearDeliveryModesOnCurrencyChange$', () => {
     it('should dispatch clear supported delivery modes action on currency change', () => {
-      const action = new SiteContextActions.CurrencyChange();
+      const action = new SiteContextActions.CurrencyChange({
+        previous: 'previous',
+        current: 'current',
+      });
       const completion = new CheckoutActions.ClearSupportedDeliveryModes();
 
       actions$ = hot('-a', { a: action });
@@ -198,6 +230,18 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.clearCheckoutDataOnLogout$).toBeObservable(expected);
+    });
+  });
+
+  describe('clearCheckoutDataOnLogin$', () => {
+    it('should dispatch clear checkout data action on login', () => {
+      const action = new AuthActions.Login();
+      const completion = new CheckoutActions.ClearCheckoutData();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearCheckoutDataOnLogin$).toBeObservable(expected);
     });
   });
 
@@ -227,30 +271,29 @@ describe('Checkout effect', () => {
   });
 
   describe('createPaymentDetails$', () => {
+    const mockPaymentDetails: PaymentDetails = {
+      accountHolderName: 'test test',
+      cardNumber: '4111111111111111',
+      cardType: {
+        code: 'visa',
+      },
+      defaultPayment: false,
+      expiryMonth: '01',
+      expiryYear: '2019',
+      cvn: '123',
+      billingAddress: {
+        firstName: 'test',
+        lastName: 'test',
+        line1: 'line1',
+        line2: 'line2',
+        postalCode: '12345',
+        town: 'MainCity',
+        country: {
+          isocode: 'US',
+        },
+      },
+    };
     it('should create payment details for cart', () => {
-      const mockPaymentDetails: PaymentDetails = {
-        accountHolderName: 'test test',
-        cardNumber: '4111111111111111',
-        cardType: {
-          code: 'visa',
-        },
-        defaultPayment: false,
-        expiryMonth: '01',
-        expiryYear: '2019',
-        cvn: '123',
-        billingAddress: {
-          firstName: 'test',
-          lastName: 'test',
-          line1: 'line1',
-          line2: 'line2',
-          postalCode: '12345',
-          town: 'MainCity',
-          country: {
-            isocode: 'US',
-          },
-        },
-      };
-
       const action = new CheckoutActions.CreatePaymentDetails({
         userId: userId,
         cartId: cartId,
@@ -263,6 +306,22 @@ describe('Checkout effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
+
+      expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
+    });
+
+    it('should create payment details for guest user', () => {
+      const action = new CheckoutActions.CreatePaymentDetails({
+        userId: 'anonymous',
+        cartId: cartId,
+        paymentDetails: mockPaymentDetails,
+      });
+      const completion = new CheckoutActions.CreatePaymentDetailsSuccess(
+        paymentDetails
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
 
       expect(entryEffects.createPaymentDetails$).toBeObservable(expected);
     });
@@ -292,10 +351,16 @@ describe('Checkout effect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const completion1 = new CheckoutActions.PlaceOrderSuccess(orderDetails);
+      const removeCartCompletion = new CartActions.RemoveCart({ cartId });
+      const placeOrderSuccessCompletion = new CheckoutActions.PlaceOrderSuccess(
+        orderDetails
+      );
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(b)', { b: completion1 });
+      const expected = cold('-(bc)', {
+        b: removeCartCompletion,
+        c: placeOrderSuccessCompletion,
+      });
 
       expect(entryEffects.placeOrder$).toBeObservable(expected);
     });
@@ -315,6 +380,41 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.loadCheckoutDetails$).toBeObservable(expected);
+    });
+  });
+
+  describe('clearCheckoutDeliveryAddress$', () => {
+    it('should clear checkout delivery address', () => {
+      const action = new CheckoutActions.ClearCheckoutDeliveryAddress({
+        userId: userId,
+        cartId: cartId,
+      });
+      const completion = new CheckoutActions.ClearCheckoutDeliveryAddressSuccess();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearCheckoutDeliveryAddress$).toBeObservable(
+        expected
+      );
+    });
+  });
+
+  describe('clearCheckoutDeliveryMode$', () => {
+    it('should clear checkout delivery modes', () => {
+      const action = new CheckoutActions.ClearCheckoutDeliveryMode({
+        userId: userId,
+        cartId: cartId,
+      });
+      const completion = new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
+        userId: userId,
+        cartId: cartId,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.clearCheckoutDeliveryMode$).toBeObservable(expected);
     });
   });
 });

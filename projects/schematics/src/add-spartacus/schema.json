@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SpartacusSchematics",
+  "title": "Spartacus Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "baseUrl": {
+      "type": "string",
+      "description": "The url of the OCC backend",
+      "default": "https://localhost:9002"
+    },
+    "occPrefix": {
+      "type": "string",
+      "description": "The OCC API prefix. E.g.: /occ/v2/",
+      "default": "/rest/v2/"
+    },
+    "baseSite": {
+      "type": "string",
+      "description": "The base site to use with spartacus"
+    },
+    "useMetaTags": {
+      "type": "boolean",
+      "description": "Configure baseUrl via meta tag in index.html"
+    },
+    "featureLevel": {
+      "type": "string",
+      "description": "Configure feature level for application."
+    },
+    "overwriteAppComponent": {
+      "type": "boolean",
+      "description": "Overwrite the contents of app.component.html file with the <cx-storefront> tag.",
+      "default": true
+    },
+    "pwa": {
+      "type": "boolean",
+      "description": "Add PWA support to the project.",
+      "default": false
+    },
+    "ssr": {
+      "type": "boolean",
+      "description": "Add Server-side rendering support to the project.",
+      "default": false
+    }
+  },
+  "required": []
+}

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import {
+  FeatureConfigService,
   PageType,
   Product,
   ProductService,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-
 import { CurrentProductService } from './current-product.service';
 
 const router = {
@@ -26,11 +26,23 @@ class MockRoutingService {
 }
 
 const mockProduct: Product = { name: 'mockProduct' };
+const mockProductWithAttributes: Product = {
+  name: 'mockProduct',
+  classifications: [{}],
+};
 
 class MockProductService {
-  get(): Observable<Product> {
+  get(_code: string, scope?: string): Observable<Product> {
+    if (scope && scope === 'attributes') {
+      return of(mockProductWithAttributes);
+    }
+
     return of(mockProduct);
   }
+}
+
+class MockFeatureConfigService {
+  isLevel = () => true;
 }
 
 describe('CurrentProductService', () => {
@@ -49,15 +61,35 @@ describe('CurrentProductService', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
     });
 
-    service = TestBed.get(CurrentProductService);
+    service = TestBed.inject(CurrentProductService);
   });
 
   it('should fetch product data', () => {
     let result: Product;
-    service.getProduct().subscribe(product => (result = product));
+    service.getProduct().subscribe((product) => (result = product));
     expect(result).toEqual(mockProduct);
+  });
+
+  it('should fetch product attributes', () => {
+    let result: Product;
+    service.getProduct('attributes').subscribe((product) => (result = product));
+    expect(result).toEqual(mockProductWithAttributes);
+  });
+
+  it('should return null if not on product route', () => {
+    let result: Product;
+    const routingService = TestBed.inject(RoutingService);
+    spyOn(routingService, 'getRouterState').and.returnValue(
+      of({ state: { params: {} } } as any)
+    );
+    service.getProduct().subscribe((product) => (result = product));
+    expect(result).toBe(null);
   });
 });

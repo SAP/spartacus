@@ -26,12 +26,4 @@
       margin: 3vw;
     }
   }
-
-  .notice {
-    padding: 32px 0;
-    text-align: center;
-    @include type();
-    color: var(--cx-color-dark);
-    background-color: var(--cx-color-inverse);
-  }
 }

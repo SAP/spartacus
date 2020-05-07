@@ -5,8 +5,8 @@ import { of } from 'rxjs';
 import { GlobalMessageType } from '../models/global-message.model';
 import { GlobalMessageActions } from '../store/actions/index';
 import {
-  GlobalMessageState,
   GLOBAL_MESSAGE_FEATURE,
+  GlobalMessageState,
 } from '../store/global-message-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { GlobalMessageService } from './global-message.service';
@@ -37,10 +37,10 @@ describe('GlobalMessageService', () => {
       providers: [GlobalMessageService],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
     spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
-    service = TestBed.get(GlobalMessageService);
+    service = TestBed.inject(GlobalMessageService);
   });
 
   it('Should GlobalMessageService be injected', inject(
@@ -51,7 +51,7 @@ describe('GlobalMessageService', () => {
   ));
 
   it('Should be able to get all messages', () => {
-    service.get().subscribe(results => {
+    service.get().subscribe((results) => {
       expect(results).toEqual(mockMessages);
     });
   });
@@ -62,6 +62,7 @@ describe('GlobalMessageService', () => {
       new GlobalMessageActions.AddMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
         text: { raw: 'Test error message' },
+        timeout: undefined,
       })
     );
   });
@@ -75,6 +76,18 @@ describe('GlobalMessageService', () => {
       new GlobalMessageActions.AddMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
         text: { key: 'test.key', params: { param: 'value' } },
+        timeout: undefined,
+      })
+    );
+  });
+
+  it('Should be able to add a message with a duration', () => {
+    service.add('Test error message', GlobalMessageType.MSG_TYPE_ERROR, 10000);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new GlobalMessageActions.AddMessage({
+        type: GlobalMessageType.MSG_TYPE_ERROR,
+        text: { raw: 'Test error message' },
+        timeout: 10000,
       })
     );
   });

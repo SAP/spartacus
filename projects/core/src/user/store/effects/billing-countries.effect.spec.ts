@@ -33,8 +33,8 @@ describe('Billing Countries effect', () => {
       ],
     });
 
-    effect = TestBed.get(BillingCountriesEffect);
-    service = TestBed.get(SiteConnector);
+    effect = TestBed.inject(BillingCountriesEffect);
+    service = TestBed.inject(SiteConnector);
 
     spyOn(service, 'getCountries').and.returnValue(of(mockCountries));
   });

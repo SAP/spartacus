@@ -85,4 +85,37 @@ describe('User Token Actions', () => {
       });
     });
   });
+
+  describe('RevokeUserToken Actions', () => {
+    it('should create the action', () => {
+      const action = new AuthActions.RevokeUserToken(token);
+      expect({ ...action }).toEqual({
+        type: AuthActions.REVOKE_USER_TOKEN,
+        payload: token,
+      });
+    });
+  });
+
+  describe('RevokeUserTokenFail Action', () => {
+    it('should create the action', () => {
+      const error = 'anError';
+      const action = new AuthActions.RevokeUserTokenFail(error);
+
+      expect({ ...action }).toEqual({
+        type: AuthActions.REVOKE_USER_TOKEN_FAIL,
+        payload: error,
+      });
+    });
+  });
+
+  describe('RevokeUserTokenSuccess Action', () => {
+    it('should create the action', () => {
+      const action = new AuthActions.RevokeUserTokenSuccess(token);
+
+      expect({ ...action }).toEqual({
+        type: AuthActions.REVOKE_USER_TOKEN_SUCCESS,
+        payload: token,
+      });
+    });
+  });
 });

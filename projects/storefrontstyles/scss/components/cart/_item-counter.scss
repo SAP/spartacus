@@ -1,0 +1,77 @@
+%cx-item-counter {
+  input {
+    text-align: center;
+
+    // avpid native increase/decrease buttons on the numeric field
+    &[type='number']::-webkit-inner-spin-button,
+    &[type='number']::-webkit-outer-spin-button {
+      appearance: none;
+    }
+    &[type='number'] {
+      -moz-appearance: textfield;
+    }
+  }
+  &.readonly {
+    button {
+      display: none;
+    }
+
+    input {
+      border: none;
+      cursor: text;
+    }
+  }
+
+  &:not(.readonly) {
+    display: inline-flex;
+    border: solid 1px var(--cx-color-light);
+    border-radius: 4px;
+    input {
+      border: solid 1px var(--cx-color-light);
+      border-width: 0 1px;
+
+      padding: 12px 9px;
+      max-height: 46px;
+      min-width: 48px;
+      max-width: 78px;
+
+      &:focus {
+        background: var(--cx-color-background);
+      }
+    }
+  }
+
+  button {
+    margin: 0;
+
+    max-height: 48px;
+    min-width: 40px;
+
+    border: none;
+
+    cursor: pointer;
+
+    color: var(--cx-color-text);
+    background-color: var(--cx-color-transparent);
+
+    @include type(3);
+
+    &:hover {
+      color: var(--cx-color-primary);
+    }
+
+    &:focus {
+      color: var(--cx-color, var(--cx-color-primary));
+      font-weight: var(--cx-font-weight-bold);
+      cursor: pointer;
+    }
+
+    &:disabled {
+      color: var(--cx-color-light);
+    }
+  }
+
+  :disabled {
+    cursor: not-allowed;
+  }
+}

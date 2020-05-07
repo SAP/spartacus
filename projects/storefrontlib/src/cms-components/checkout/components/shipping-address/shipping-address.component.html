@@ -1,8 +1,8 @@
-<ng-container *ngIf="(cards$ | async) as cards">
+<ng-container *ngIf="cards$ | async as cards">
   <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'checkoutAddress.shippingAddress' | cxTranslate }}
   </h3>
-  <ng-container *ngIf="!(isLoading$ | async); else loading">
+  <ng-container *ngIf="!forceLoader && !(isLoading$ | async); else loading">
     <ng-container
       *ngIf="
         cards?.length && !newAddressFormManuallyOpened;
@@ -30,13 +30,13 @@
         >
           <div
             class="cx-shipping-address-card-inner"
-            (click)="addressSelected(card.address)"
+            (click)="selectAddress(card.address)"
           >
             <cx-card
               [border]="true"
               [fitToContainer]="true"
               [content]="card.card"
-              (sendCard)="addressSelected(card.address)"
+              (sendCard)="selectAddress(card.address)"
             ></cx-card>
           </div>
         </div>
@@ -44,15 +44,18 @@
 
       <div class="cx-checkout-btns row">
         <div class="col-md-12 col-lg-6">
-          <button class="cx-btn btn btn-block btn-action" (click)="back()">
+          <button
+            class="cx-btn btn btn-block btn-action"
+            (click)="goPrevious()"
+          >
             {{ 'checkout.backToCart' | cxTranslate }}
           </button>
         </div>
         <div class="col-md-12 col-lg-6">
           <button
             class="cx-btn btn btn-block btn-primary"
-            [disabled]="!selectedAddress || !selectedAddress.id"
-            (click)="next()"
+            [disabled]="!(selectedAddress$ | async)?.id"
+            (click)="goNext()"
           >
             {{ 'common.continue' | cxTranslate }}
           </button>
@@ -63,17 +66,19 @@
     <ng-template #newAddressForm>
       <ng-container *ngIf="cards.length; else initialAddressForm">
         <cx-address-form
-          showTitleCode="true"
+          [showTitleCode]="true"
           (backToAddress)="hideNewAddressForm(false)"
-          (submitAddress)="addNewAddress($event)"
+          (submitAddress)="addAddress($event)"
         ></cx-address-form>
       </ng-container>
       <ng-template #initialAddressForm>
         <cx-address-form
-          showTitleCode="true"
+          [showTitleCode]="true"
+          [setAsDefaultField]="!isGuestCheckout"
+          [addressData]="selectedAddress$ | async"
           cancelBtnLabel="{{ 'checkout.backToCart' | cxTranslate }}"
           (backToAddress)="hideNewAddressForm(true)"
-          (submitAddress)="addNewAddress($event)"
+          (submitAddress)="addAddress($event)"
         ></cx-address-form>
       </ng-template>
     </ng-template>

@@ -3,56 +3,57 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../config/occ-config';
-import { Address, AddressValidation } from '../../../model/address.model';
-import { Occ } from '../../occ-models/occ.models';
-import { OccUserAddressAdapter } from './occ-user-address.adapter';
 import {
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
   ADDRESS_VALIDATION_NORMALIZER,
   ConverterService,
 } from '@spartacus/core';
+import { Address, AddressValidation } from '../../../model/address.model';
+import { OccConfig } from '../../config/occ-config';
+import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services';
+import { OccUserAddressAdapter } from './occ-user-address.adapter';
+import {
+  MockOccEndpointsService,
+  mockOccModuleConfig,
+} from './unit-test.helper';
 
 const username = 'mockUsername';
-
-const endpoint = '/users';
-const addressVerificationEndpoint = '/addresses/verification';
-const addressesEndpoint = '/addresses';
-
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-
-  context: {
-    baseSite: [''],
-  },
+const address: Address = {
+  companyName: 'ACME',
+  defaultAddress: true,
 };
-
+const suggestedAddresses: AddressValidation = {
+  suggestedAddresses: [address],
+};
 describe('OccUserAddressAdapter', () => {
-  let service: OccUserAddressAdapter;
+  let occUserAddressAdapter: OccUserAddressAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
+  let occEnpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         OccUserAddressAdapter,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
+        {
+          provide: OccEndpointsService,
+          useClass: MockOccEndpointsService,
+        },
       ],
     });
 
-    service = TestBed.get(OccUserAddressAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
+    occUserAddressAdapter = TestBed.inject(OccUserAddressAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
+    spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -61,40 +62,53 @@ describe('OccUserAddressAdapter', () => {
 
   describe('load address verification results', () => {
     it('should load address verification results for given user id and address', () => {
-      const address: Address = {
-        companyName: 'ACME',
-        defaultAddress: true,
-      };
-      const suggestedAddresses: AddressValidation = {
-        suggestedAddresses: [address],
-      };
-
-      service.verify(username, address).subscribe(result => {
+      occUserAddressAdapter.verify(username, address).subscribe((result) => {
         expect(result).toEqual(suggestedAddresses);
       });
 
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'POST' &&
-          req.url === endpoint + `/${username}` + addressVerificationEndpoint
-        );
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'POST';
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'addressVerification',
+        {
+          userId: username,
+        }
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(suggestedAddresses);
+    });
+
+    it('should load address verification results for anonymous user', () => {
+      occUserAddressAdapter.verify('anonymous', address).subscribe((result) => {
+        expect(result).toEqual(suggestedAddresses);
+      });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'POST';
+      });
+
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'addressVerification',
+        {
+          userId: 'anonymous',
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(suggestedAddresses);
     });
 
     it('should use converter', () => {
-      const address: Address = {
-        companyName: 'ACME',
-        defaultAddress: true,
-      };
-
-      service.verify(username, address).subscribe();
+      occUserAddressAdapter.verify(username, address).subscribe();
       httpMock
-        .expectOne(endpoint + `/${username}` + addressVerificationEndpoint)
+        .expectOne((req) => {
+          return req.method === 'POST';
+        })
         .flush({});
+
       expect(converter.convert).toHaveBeenCalledWith(
         address,
         ADDRESS_SERIALIZER
@@ -117,26 +131,28 @@ describe('OccUserAddressAdapter', () => {
         addresses: [mockAddress1, mockAddress2],
       };
 
-      service.loadAll(username).subscribe(result => {
+      occUserAddressAdapter.loadAll(username).subscribe((result) => {
         expect(result).toEqual(mockUserAddresses.addresses);
       });
 
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url === endpoint + `/${username}` + addressesEndpoint
-        );
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET';
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('addresses', {
+        userId: username,
+      });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockUserAddresses);
     });
 
     it('should use converter', () => {
-      service.loadAll(username).subscribe();
+      occUserAddressAdapter.loadAll(username).subscribe();
       httpMock
-        .expectOne(endpoint + `/${username}` + addressesEndpoint)
+        .expectOne((req) => {
+          return req.method === 'GET';
+        })
         .flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(ADDRESS_NORMALIZER);
     });

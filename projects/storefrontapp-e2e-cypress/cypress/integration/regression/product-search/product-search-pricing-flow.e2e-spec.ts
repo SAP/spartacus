@@ -1,12 +1,12 @@
 import * as productSearchPricingFlow from '../../../helpers/product-search-pricing-flow';
 context('Product search pricing flow', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });
 
   describe('Product search', () => {
-    it('should be able to search with price', () => {
+    it('should be able to search product and sort by price', () => {
       productSearchPricingFlow.productPricingFlow();
     });
   });

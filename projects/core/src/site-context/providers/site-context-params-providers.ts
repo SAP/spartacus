@@ -1,25 +1,12 @@
-import { APP_INITIALIZER, Provider } from '@angular/core';
-import { SiteContextParamsService } from '../services/site-context-params.service';
+import { Provider } from '@angular/core';
 import { UrlSerializer } from '@angular/router';
+import { SiteContextParamsService } from '../services/site-context-params.service';
 import { SiteContextUrlSerializer } from '../services/site-context-url-serializer';
-import { SiteContextRoutesHandler } from '../services/site-context-routes-handler';
 
-export function initSiteContextRoutesHandler(
-  siteContextRoutesHandler: SiteContextRoutesHandler
-) {
-  return () => {
-    siteContextRoutesHandler.init();
-  };
-}
+// functions below should not be exposed in public API:
 
 export const siteContextParamsProviders: Provider[] = [
   SiteContextParamsService,
   SiteContextUrlSerializer,
   { provide: UrlSerializer, useExisting: SiteContextUrlSerializer },
-  {
-    provide: APP_INITIALIZER,
-    useFactory: initSiteContextRoutesHandler,
-    deps: [SiteContextRoutesHandler],
-    multi: true,
-  },
 ];

@@ -1,9 +1,16 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { CartDataService } from '../../cart/facade/cart-data.service';
+import {
+  ActiveCartService,
+  StateUtils,
+  PROCESS_FEATURE,
+} from '@spartacus/core';
+import { of } from 'rxjs';
+import { AuthService } from '../../auth';
 import { Address, AddressValidation } from '../../model/address.model';
 import { Cart } from '../../model/cart.model';
 import { DeliveryMode } from '../../model/order.model';
+import * as fromProcessReducers from '../../process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
@@ -11,16 +18,31 @@ import { CheckoutDeliveryService } from './checkout-delivery.service';
 
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
-  let cartData: CartDataServiceStub;
+  let activeCartService: ActiveCartService;
+  let authService: AuthService;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
 
-  class CartDataServiceStub {
-    userId;
+  class ActiveCartServiceStub {
     cart;
-    get cartId() {
-      return this.cart.code;
+    isGuestCart() {
+      return true;
+    }
+
+    getActiveCartId() {
+      return of(cart.code);
+    }
+
+    getActive() {
+      return of(cart);
+    }
+  }
+
+  class AuthServiceStub {
+    userId;
+    getOccUserId() {
+      return of(userId);
     }
   }
 
@@ -39,19 +61,25 @@ describe('CheckoutDeliveryService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('checkout', fromCheckoutReducers.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [
         CheckoutDeliveryService,
-        { provide: CartDataService, useClass: CartDataServiceStub },
+        { provide: AuthService, useClass: AuthServiceStub },
+        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
       ],
     });
 
-    service = TestBed.get(CheckoutDeliveryService);
-    cartData = TestBed.get(CartDataService);
-    store = TestBed.get(Store);
+    service = TestBed.inject(CheckoutDeliveryService);
+    activeCartService = TestBed.inject(ActiveCartService);
+    authService = TestBed.inject(AuthService);
+    store = TestBed.inject(Store);
 
-    cartData.userId = userId;
-    cartData.cart = cart;
+    authService['userId'] = userId;
+    activeCartService['cart'] = cart;
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -74,7 +102,7 @@ describe('CheckoutDeliveryService', () => {
     let deliveryModes: DeliveryMode[];
     service
       .getSupportedDeliveryModes()
-      .subscribe(data => {
+      .subscribe((data) => {
         deliveryModes = data;
       })
       .unsubscribe();
@@ -87,7 +115,7 @@ describe('CheckoutDeliveryService', () => {
     let deliveryModes: DeliveryMode[];
     service
       .getSupportedDeliveryModes()
-      .subscribe(data => {
+      .subscribe((data) => {
         deliveryModes = data;
       })
       .unsubscribe();
@@ -106,7 +134,7 @@ describe('CheckoutDeliveryService', () => {
     store.dispatch(new CheckoutActions.SetDeliveryModeSuccess('mode1'));
 
     let selectedMode: DeliveryMode;
-    service.getSelectedDeliveryMode().subscribe(data => {
+    service.getSelectedDeliveryMode().subscribe((data) => {
       selectedMode = data;
     });
     expect(selectedMode).toEqual({ code: 'mode1' });
@@ -122,7 +150,7 @@ describe('CheckoutDeliveryService', () => {
     store.dispatch(new CheckoutActions.SetDeliveryModeSuccess('mode1'));
 
     let selectedModeCode: string;
-    service.getSelectedDeliveryModeCode().subscribe(data => {
+    service.getSelectedDeliveryModeCode().subscribe((data) => {
       selectedModeCode = data;
     });
     expect(selectedModeCode).toEqual('mode1');
@@ -134,11 +162,146 @@ describe('CheckoutDeliveryService', () => {
     let deliveryAddress: Address;
     service
       .getDeliveryAddress()
-      .subscribe(data => {
+      .subscribe((data) => {
         deliveryAddress = data;
       })
       .unsubscribe();
     expect(deliveryAddress).toEqual(address);
+  });
+
+  it('should be able to get the set delivery address process', () => {
+    let loaderState: StateUtils.LoaderState<any>;
+    service
+      .getSetDeliveryAddressProcess()
+      .subscribe((data) => {
+        loaderState = data;
+      })
+      .unsubscribe();
+    expect(loaderState).toEqual({
+      error: false,
+      loading: false,
+      success: false,
+      value: undefined,
+    });
+  });
+
+  it('should be able to get the set delivery address process during loading state', () => {
+    service.setDeliveryAddress(address);
+
+    let loaderState: StateUtils.LoaderState<any>;
+    service
+      .getSetDeliveryAddressProcess()
+      .subscribe((data) => {
+        loaderState = data;
+      })
+      .unsubscribe();
+    expect(loaderState).toEqual({
+      error: false,
+      loading: true,
+      success: false,
+      value: undefined,
+    });
+  });
+
+  it('should be able to reset set delivery address process', () => {
+    service.resetSetDeliveryAddressProcess();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ResetSetDeliveryAddressProcess()
+    );
+  });
+
+  it('should be able to get the set delivery mode status', () => {
+    let loaderState: StateUtils.LoaderState<any>;
+    service
+      .getSetDeliveryModeProcess()
+      .subscribe((data) => {
+        loaderState = data;
+      })
+      .unsubscribe();
+    expect(loaderState).toEqual({
+      error: false,
+      loading: false,
+      success: false,
+      value: undefined,
+    });
+  });
+
+  it('should be able to get the set delivery mode status during loading state', () => {
+    const modeId = 'testId';
+    service.setDeliveryMode(modeId);
+
+    let loaderState: StateUtils.LoaderState<any>;
+    service
+      .getSetDeliveryModeProcess()
+      .subscribe((data) => {
+        loaderState = data;
+      })
+      .unsubscribe();
+    expect(loaderState).toEqual({
+      error: false,
+      loading: true,
+      success: false,
+      value: undefined,
+    });
+  });
+
+  it('should be able to reset set delivery mode process', () => {
+    service.resetSetDeliveryModeProcess();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ResetSetDeliveryModeProcess()
+    );
+  });
+
+  it('should be able to reset load supported delivery modes process', () => {
+    service.resetLoadSupportedDeliveryModesProcess();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ResetLoadSupportedDeliveryModesProcess()
+    );
+  });
+
+  it('should be able to get load supported delivery mode status', () => {
+    let loaderState: StateUtils.LoaderState<any>;
+    service
+      .getLoadSupportedDeliveryModeProcess()
+      .subscribe((data) => {
+        loaderState = data;
+      })
+      .unsubscribe();
+    expect(loaderState).toEqual({
+      error: false,
+      loading: false,
+      success: false,
+      value: undefined,
+    });
+  });
+
+  it('should be able to get the load supported delivery mode status during loading state', () => {
+    service.loadSupportedDeliveryModes();
+
+    let loaderState: StateUtils.LoaderState<any>;
+    service
+      .getLoadSupportedDeliveryModeProcess()
+      .subscribe((data) => {
+        loaderState = data;
+      })
+      .unsubscribe();
+    expect(loaderState).toEqual({
+      error: false,
+      loading: true,
+      success: false,
+      value: undefined,
+    });
+  });
+
+  it('should be able to clear checkout delivery modes', () => {
+    service.clearCheckoutDeliveryModes();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ClearSupportedDeliveryModes()
+    );
   });
 
   it('should be able to get the address verification result', () => {
@@ -149,7 +312,7 @@ describe('CheckoutDeliveryService', () => {
     let result: AddressValidation | string;
     service
       .getAddressVerificationResults()
-      .subscribe(data => {
+      .subscribe((data) => {
         result = data;
       })
       .unsubscribe();
@@ -209,7 +372,7 @@ describe('CheckoutDeliveryService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.SetDeliveryAddress({
         userId: userId,
-        cartId: cartData.cart.code,
+        cartId: cart.code,
         address: address,
       })
     );
@@ -219,6 +382,45 @@ describe('CheckoutDeliveryService', () => {
     service.clearAddressVerificationResults();
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.ClearAddressVerificationResults()
+    );
+  });
+
+  it('should be able to clear checkout delivery address', () => {
+    service.clearCheckoutDeliveryAddress();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ClearCheckoutDeliveryAddress({
+        userId: userId,
+        cartId: cart.code,
+      })
+    );
+  });
+
+  it('should be able to clear checkout delivery mode', () => {
+    service.clearCheckoutDeliveryMode();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ClearCheckoutDeliveryMode({
+        userId: userId,
+        cartId: cart.code,
+      })
+    );
+  });
+
+  it('should be able to clear checkout delivery details', () => {
+    service.clearCheckoutDeliveryDetails();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ClearCheckoutDeliveryAddress({
+        userId: userId,
+        cartId: cart.code,
+      })
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ClearCheckoutDeliveryMode({
+        userId: userId,
+        cartId: cart.code,
+      })
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.ClearSupportedDeliveryModes()
     );
   });
 });

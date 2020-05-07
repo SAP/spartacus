@@ -2,46 +2,49 @@ import * as checkout from '../../helpers/checkout-flow';
 
 context('Checkout flow', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
-    cy.visit('/');
+    cy.window().then((win) => win.sessionStorage.clear());
+    checkout.visitHomePage();
   });
 
   it('should register successfully', () => {
     checkout.registerUser();
-    checkout.signOutUser();
   });
 
   it('should go to product page from category page', () => {
-    checkout.goToProductDetailsPage();
+    checkout.goToCheapProductDetailsPage();
   });
 
   it('should add product to cart and go to checkout', () => {
-    checkout.addProductToCart();
-    checkout.loginUser();
+    checkout.addCheapProductToCartAndLogin();
   });
 
   it('should fill in address form', () => {
-    checkout.fillAddressForm();
+    checkout.fillAddressFormWithCheapProduct();
   });
 
   it('should choose delivery', () => {
-    checkout.chooseDeliveryMethod();
+    checkout.verifyDeliveryMethod();
   });
 
   it('should fill in payment form', () => {
-    checkout.fillPaymentForm();
+    checkout.fillPaymentFormWithCheapProduct();
   });
 
   it('should review and place order', () => {
-    checkout.placeOrder();
+    checkout.placeOrderWithCheapProduct();
   });
 
   it('should display summary page', () => {
-    checkout.verifyOrderConfirmationPage();
+    checkout.verifyOrderConfirmationPageWithCheapProduct();
   });
 
   it('should be able to check order in order history', () => {
-    checkout.viewOrderHistory();
+    // hack: visit other page to trigger store -> local storage sync
+    cy.selectUserMenuOption({
+      option: 'Personal Details',
+    });
+    cy.waitForOrderToBePlacedRequest();
+    checkout.viewOrderHistoryWithCheapProduct();
     checkout.signOut();
   });
 });

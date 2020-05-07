@@ -12,8 +12,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { CheckoutConfigService } from '../../checkout-config.service';
+import { map, withLatestFrom } from 'rxjs/operators';
+import { CheckoutConfigService } from '../../services/checkout-config.service';
 
 @Component({
   selector: 'cx-delivery-mode',
@@ -26,8 +26,8 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   currentDeliveryModeId: string;
   checkoutStepUrlNext: string;
   checkoutStepUrlPrevious: string;
+  private allowRedirect = false;
 
-  changedOption: boolean;
   deliveryModeSub: Subscription;
 
   mode: FormGroup = this.fb.group({
@@ -49,19 +49,32 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     this.checkoutStepUrlPrevious = this.checkoutConfigService.getPreviousCheckoutStepUrl(
       this.activatedRoute
     );
-    this.changedOption = false;
 
     this.supportedDeliveryModes$ = this.checkoutDeliveryService.getSupportedDeliveryModes();
 
-    this.deliveryModeSub = this.checkoutDeliveryService
-      .getSelectedDeliveryMode()
+    this.deliveryModeSub = this.supportedDeliveryModes$
       .pipe(
-        map((deliveryMode: DeliveryMode) =>
-          deliveryMode && deliveryMode.code ? deliveryMode.code : null
+        withLatestFrom(
+          this.checkoutDeliveryService
+            .getSelectedDeliveryMode()
+            .pipe(
+              map((deliveryMode: DeliveryMode) =>
+                deliveryMode && deliveryMode.code ? deliveryMode.code : null
+              )
+            )
         )
       )
-      .subscribe(code => {
-        if (!!code && code === this.currentDeliveryModeId) {
+      .subscribe(([deliveryModes, code]: [DeliveryMode[], string]) => {
+        if (!code && deliveryModes && deliveryModes.length) {
+          code = this.checkoutConfigService.getPreferredDeliveryMode(
+            deliveryModes
+          );
+        }
+        if (
+          this.allowRedirect &&
+          !!code &&
+          code === this.currentDeliveryModeId
+        ) {
           this.routingService.go(this.checkoutStepUrlNext);
         }
         this.currentDeliveryModeId = code;
@@ -73,17 +86,19 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   changeMode(code: string): void {
     if (code !== this.currentDeliveryModeId) {
-      this.changedOption = true;
       this.currentDeliveryModeId = code;
     }
   }
 
   next(): void {
-    if (this.changedOption) {
+    this.allowRedirect = true;
+    if (this.mode.valid && this.mode.value) {
+      if (!this.currentDeliveryModeId) {
+        this.currentDeliveryModeId = this.mode.value.deliveryModeId;
+      }
       this.checkoutDeliveryService.setDeliveryMode(this.currentDeliveryModeId);
-    } else {
-      this.routingService.go(this.checkoutStepUrlNext);
     }
+    this.routingService.go(this.checkoutStepUrlNext);
   }
 
   back(): void {

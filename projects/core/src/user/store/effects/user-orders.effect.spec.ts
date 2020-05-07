@@ -2,15 +2,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { OrderHistoryList } from '../../../model/order.model';
-import { StateLoaderActions } from '../../../state/utils/index';
+import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { UserOrderAdapter } from '../../connectors/order/user-order.adapter';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
-import { USER_ORDERS } from '../user-state';
 import * as fromUserOrdersEffect from './user-orders.effect';
 
 const mockUserOrders: OrderHistoryList = {
@@ -34,9 +32,9 @@ describe('User Orders effect', () => {
       ],
     });
 
-    actions$ = TestBed.get(Actions);
-    userOrdersEffect = TestBed.get(fromUserOrdersEffect.UserOrdersEffect);
-    orderConnector = TestBed.get(UserOrderConnector);
+    actions$ = TestBed.inject(Actions);
+    userOrdersEffect = TestBed.inject(fromUserOrdersEffect.UserOrdersEffect);
+    orderConnector = TestBed.inject(UserOrderConnector);
   });
 
   describe('loadUserOrders$', () => {
@@ -74,11 +72,12 @@ describe('User Orders effect', () => {
 
   describe('resetUserOrders$', () => {
     it('should return a reset action', () => {
-      const action: Action = {
-        type: UserActions.CLEAR_USER_MISCS_DATA,
-      };
+      const action = new SiteContextActions.LanguageChange({
+        previous: 'previous',
+        current: 'current',
+      });
 
-      const completion = new StateLoaderActions.LoaderResetAction(USER_ORDERS);
+      const completion = new UserActions.ClearUserOrders();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

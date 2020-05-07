@@ -22,8 +22,8 @@ describe('Update Password Effect', () => {
       ],
     });
 
-    updatePasswordEffect = TestBed.get(fromEffects.UpdatePasswordEffects);
-    userService = TestBed.get(UserConnector);
+    updatePasswordEffect = TestBed.inject(fromEffects.UpdatePasswordEffects);
+    userService = TestBed.inject(UserConnector);
   });
 
   describe('updatePassword$', () => {

@@ -1,25 +1,24 @@
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-
-import { OccProductSearchAdapter } from './occ-product-search.adapter';
 import {
   ConverterService,
   PRODUCT_SEARCH_PAGE_NORMALIZER,
   PRODUCT_SUGGESTION_NORMALIZER,
 } from '@spartacus/core';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { SearchConfig } from '../../../product/model/search-config';
-import createSpy = jasmine.createSpy;
 import { ProductSearchPage } from '../../../model/product-search.model';
+import { SearchConfig } from '../../../product/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { OccProductSearchAdapter } from './occ-product-search.adapter';
+import createSpy = jasmine.createSpy;
 
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // tslint:disable-next-line:no-shadowed-variable
-    (url, { term, query }) => url + (term || query)
+    (url) => url
   );
 }
 
@@ -47,11 +46,10 @@ describe('OccProductSearchAdapter', () => {
         },
       ],
     });
-
-    service = TestBed.get(OccProductSearchAdapter);
-    endpoints = TestBed.get(OccEndpointsService);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
+    service = TestBed.inject(OccProductSearchAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    endpoints = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -67,20 +65,21 @@ describe('OccProductSearchAdapter', () => {
 
   describe('query text search', () => {
     it('should return search results for given query text', () => {
-      service.search(queryText, mockSearchConfig).subscribe(result => {
+      service.search(queryText, mockSearchConfig).subscribe((result) => {
         expect(result).toEqual(searchResults);
       });
 
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'productSearchtest'
+        (req) => req.method === 'GET' && req.url === 'productSearch'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(endpoints.getUrl).toHaveBeenCalledWith(
         'productSearch',
-        { query: queryText },
+        {},
         {
+          query: queryText,
           pageSize: mockSearchConfig.pageSize,
           currentPage: undefined,
           sort: undefined,
@@ -91,7 +90,7 @@ describe('OccProductSearchAdapter', () => {
 
     it('should call converter', () => {
       service.search(queryText, mockSearchConfig).subscribe();
-      httpMock.expectOne('productSearchtest').flush(searchResults);
+      httpMock.expectOne('productSearch').flush(searchResults);
 
       expect(converter.pipeable).toHaveBeenCalledWith(
         PRODUCT_SEARCH_PAGE_NORMALIZER
@@ -103,26 +102,30 @@ describe('OccProductSearchAdapter', () => {
     it('should return suggestions for given term', () => {
       service
         .loadSuggestions(queryText, mockSearchConfig.pageSize)
-        .subscribe(suggestions => {
+        .subscribe((suggestions) => {
           expect(suggestions).toEqual(suggestionList.suggestions);
         });
 
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'productSuggestionstest'
+        (req) => req.method === 'GET' && req.url === 'productSuggestions'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(endpoints.getUrl).toHaveBeenCalledWith('productSuggestions', {
-        term: queryText,
-        max: mockSearchConfig.pageSize.toString(),
-      });
+      expect(endpoints.getUrl).toHaveBeenCalledWith(
+        'productSuggestions',
+        {},
+        {
+          term: queryText,
+          max: mockSearchConfig.pageSize.toString(),
+        }
+      );
       mockReq.flush(suggestionList);
     });
 
     it('should call converter', () => {
       service.loadSuggestions(queryText, mockSearchConfig.pageSize).subscribe();
-      httpMock.expectOne('productSuggestionstest').flush(suggestionList);
+      httpMock.expectOne('productSuggestions').flush(suggestionList);
 
       expect(converter.pipeableMany).toHaveBeenCalledWith(
         PRODUCT_SUGGESTION_NORMALIZER

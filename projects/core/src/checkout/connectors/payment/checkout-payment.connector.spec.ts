@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { CheckoutPaymentConnector } from './checkout-payment.connector';
 import { of } from 'rxjs';
 import { CheckoutPaymentAdapter } from './checkout-payment.adapter';
+import { CheckoutPaymentConnector } from './checkout-payment.connector';
 import createSpy = jasmine.createSpy;
 
 describe('CheckoutPaymentConnector', () => {
@@ -26,8 +26,8 @@ describe('CheckoutPaymentConnector', () => {
       ],
     });
 
-    service = TestBed.get(CheckoutPaymentConnector);
-    adapter = TestBed.get(CheckoutPaymentAdapter);
+    service = TestBed.inject(CheckoutPaymentConnector);
+    adapter = TestBed.inject(CheckoutPaymentAdapter);
   });
 
   it('should be created', () => {
@@ -46,7 +46,7 @@ describe('CheckoutPaymentConnector', () => {
 
   it('getCardTypes should call adapter', () => {
     let result;
-    service.getCardTypes().subscribe(res => (result = res));
+    service.getCardTypes().subscribe((res) => (result = res));
     expect(result).toEqual([]);
     expect(adapter.loadCardTypes).toHaveBeenCalledWith();
   });

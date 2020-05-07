@@ -3,48 +3,44 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { OccConfig } from '../../config/occ-config';
-import { PaymentDetails } from '../../../model/cart.model';
-import { Occ } from '../../occ-models/occ.models';
-import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 import { ConverterService, PAYMENT_DETAILS_NORMALIZER } from '@spartacus/core';
+import { PaymentDetails } from '../../../model/cart.model';
+import { OccConfig } from '../../config/occ-config';
+import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services';
+import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
+import {
+  MockOccEndpointsService,
+  mockOccModuleConfig,
+} from './unit-test.helper';
 
 const username = 'mockUsername';
 
-const endpoint = '/users';
-const paymentDetailsEndpoint = '/paymentdetails';
-
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-
-  context: {
-    baseSite: [''],
-  },
-};
-
 describe('OccUserPaymentAdapter', () => {
-  let service: OccUserPaymentAdapter;
+  let occUserPaymentAdapter: OccUserPaymentAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
+  let occEnpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         OccUserPaymentAdapter,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
+        {
+          provide: OccEndpointsService,
+          useClass: MockOccEndpointsService,
+        },
       ],
     });
 
-    service = TestBed.get(OccUserPaymentAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
+    occUserPaymentAdapter = TestBed.inject(OccUserPaymentAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converter, 'pipeableMany').and.callThrough();
+    spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -63,29 +59,31 @@ describe('OccUserPaymentAdapter', () => {
         payments: [mockPayment1, mockPayment2],
       };
 
-      service.loadAll(username).subscribe(result => {
+      occUserPaymentAdapter.loadAll(username).subscribe((result) => {
         expect(result).toEqual(mockUserPaymentMethods.payments);
       });
 
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url ===
-            `${endpoint}/${username}${paymentDetailsEndpoint}?saved=true`
-        );
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'GET';
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'paymentDetailsAll',
+        {
+          userId: username,
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockUserPaymentMethods);
     });
 
     it('should use converter', () => {
-      service.loadAll(username).subscribe();
+      occUserPaymentAdapter.loadAll(username).subscribe();
       httpMock
-        .expectOne(
-          `${endpoint}/${username}${paymentDetailsEndpoint}?saved=true`
-        )
+        .expectOne((req) => {
+          return req.method === 'GET';
+        })
         .flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(
         PAYMENT_DETAILS_NORMALIZER
@@ -100,19 +98,20 @@ describe('OccUserPaymentAdapter', () => {
         id: '123',
       };
 
-      service.setDefault(username, mockPayment.id).subscribe(result => {
-        expect(result).toEqual('');
+      occUserPaymentAdapter
+        .setDefault(username, mockPayment.id)
+        .subscribe((result) => {
+          expect(result).toEqual('');
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'PATCH' && req.body.defaultPayment === true;
       });
 
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'PATCH' &&
-          req.body.defaultPayment === true &&
-          req.url ===
-            `${endpoint}/${username}${paymentDetailsEndpoint}/${mockPayment.id}`
-        );
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('paymentDetail', {
+        userId: username,
+        paymentDetailId: mockPayment.id,
       });
-
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush('');
@@ -125,18 +124,18 @@ describe('OccUserPaymentAdapter', () => {
         id: '123',
       };
 
-      service
+      occUserPaymentAdapter
         .delete(username, mockPayment.id)
-        .subscribe(result => expect(result).toEqual(''));
+        .subscribe((result) => expect(result).toEqual(''));
 
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'DELETE' &&
-          req.url ===
-            `${endpoint}/${username}${paymentDetailsEndpoint}/${mockPayment.id}`
-        );
+      const mockReq = httpMock.expectOne((req) => {
+        return req.method === 'DELETE';
       });
 
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('paymentDetail', {
+        userId: username,
+        paymentDetailId: mockPayment.id,
+      });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush('');

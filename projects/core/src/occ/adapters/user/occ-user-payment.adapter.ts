@@ -1,16 +1,13 @@
-import { Injectable } from '@angular/core';
-import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Occ } from '../../occ-models/occ.models';
-import { PaymentDetails } from '../../../model/cart.model';
-import { ConverterService } from '../../../util/converter.service';
 import { PAYMENT_DETAILS_NORMALIZER } from '../../../checkout/connectors/payment/converters';
-
-const USER_ENDPOINT = 'users/';
-const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
+import { PaymentDetails } from '../../../model/cart.model';
+import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
+import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../occ-models/occ.models';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccUserPaymentAdapter implements UserPaymentAdapter {
@@ -20,26 +17,27 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
     protected converter: ConverterService
   ) {}
 
-  private getPaymentDetailsEndpoint(userId: string): string {
-    const endpoint = `${USER_ENDPOINT}${userId}${PAYMENT_DETAILS_ENDPOINT}`;
-    return this.occEndpoints.getEndpoint(endpoint);
-  }
-
   loadAll(userId: string): Observable<PaymentDetails[]> {
-    const url = this.getPaymentDetailsEndpoint(userId) + '?saved=true';
+    const url =
+      this.occEndpoints.getUrl('paymentDetailsAll', { userId }) + '?saved=true';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
-    return this.http.get<Occ.PaymentDetailsList>(url, { headers }).pipe(
-      catchError((error: any) => throwError(error)),
-      map(methodList => methodList.payments),
-      this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
-    );
+    return this.http
+      .get<Occ.PaymentDetailsList>(url, { headers })
+      .pipe(
+        catchError((error: any) => throwError(error)),
+        map((methodList) => methodList.payments),
+        this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
+      );
   }
 
   delete(userId: string, paymentMethodID: string): Observable<{}> {
-    const url = this.getPaymentDetailsEndpoint(userId) + `/${paymentMethodID}`;
+    const url = this.occEndpoints.getUrl('paymentDetail', {
+      userId,
+      paymentDetailId: paymentMethodID,
+    });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -50,7 +48,11 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
   }
 
   setDefault(userId: string, paymentMethodID: string): Observable<{}> {
-    const url = this.getPaymentDetailsEndpoint(userId) + `/${paymentMethodID}`;
+    const url = this.occEndpoints.getUrl('paymentDetail', {
+      userId,
+      paymentDetailId: paymentMethodID,
+    });
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });

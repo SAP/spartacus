@@ -1,6 +1,15 @@
+import {
+  MULTI_CART_DATA,
+  PROCESS_FEATURE,
+  SET_DELIVERY_ADDRESS_PROCESS_ID,
+  SET_DELIVERY_MODE_PROCESS_ID,
+  SET_PAYMENT_DETAILS_PROCESS_ID,
+  SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
+} from '@spartacus/core';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
+import { StateUtils } from '../../../state/utils/index';
 import { CheckoutActions } from '../actions/index';
 
 const userId = 'testUserId';
@@ -30,15 +39,15 @@ describe('Checkout Actions', () => {
   describe('AddDeliveryAddress', () => {
     it('should create the action', () => {
       const payload = {
-        userId: userId,
-        cartId: cartId,
-        address: address,
+        userId,
+        cartId,
+        address,
       };
 
       const action = new CheckoutActions.AddDeliveryAddress(payload);
       expect({ ...action }).toEqual({
         type: CheckoutActions.ADD_DELIVERY_ADDRESS,
-        payload: payload,
+        payload,
       });
     });
   });
@@ -68,15 +77,19 @@ describe('Checkout Actions', () => {
   describe('SetDeliveryAddress', () => {
     it('should create the action', () => {
       const payload = {
-        userId: userId,
-        cartId: cartId,
-        address: address,
+        userId,
+        cartId,
+        address,
       };
 
       const action = new CheckoutActions.SetDeliveryAddress(payload);
       expect({ ...action }).toEqual({
         type: CheckoutActions.SET_DELIVERY_ADDRESS,
-        payload: payload,
+        payload,
+        meta: StateUtils.entityLoadMeta(
+          PROCESS_FEATURE,
+          SET_DELIVERY_ADDRESS_PROCESS_ID
+        ),
       });
     });
   });
@@ -89,6 +102,11 @@ describe('Checkout Actions', () => {
       expect({ ...action }).toEqual({
         type: CheckoutActions.SET_DELIVERY_ADDRESS_FAIL,
         payload: error,
+        meta: StateUtils.entityFailMeta(
+          PROCESS_FEATURE,
+          SET_DELIVERY_ADDRESS_PROCESS_ID,
+          error
+        ),
       });
     });
   });
@@ -99,6 +117,23 @@ describe('Checkout Actions', () => {
       expect({ ...action }).toEqual({
         type: CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS,
         payload: address,
+        meta: StateUtils.entitySuccessMeta(
+          PROCESS_FEATURE,
+          SET_DELIVERY_ADDRESS_PROCESS_ID
+        ),
+      });
+    });
+  });
+
+  describe('ResetSetDeliveryAddressProcess', () => {
+    it('should create the action', () => {
+      const action = new CheckoutActions.ResetSetDeliveryAddressProcess();
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.RESET_SET_DELIVERY_ADDRESS_PROCESS,
+        meta: StateUtils.entityResetMeta(
+          PROCESS_FEATURE,
+          SET_DELIVERY_ADDRESS_PROCESS_ID
+        ),
       });
     });
   });
@@ -107,14 +142,18 @@ describe('Checkout Actions', () => {
     describe('LoadSupportedDeliveryModes', () => {
       it('should create the action', () => {
         const payload = {
-          userId: userId,
-          cartId: cartId,
+          userId,
+          cartId,
         };
 
         const action = new CheckoutActions.LoadSupportedDeliveryModes(payload);
         expect({ ...action }).toEqual({
           type: CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES,
-          payload: payload,
+          payload,
+          meta: StateUtils.entityLoadMeta(
+            PROCESS_FEATURE,
+            SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
+          ),
         });
       });
     });
@@ -129,6 +168,10 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_FAIL,
           payload: error,
+          meta: StateUtils.entityFailMeta(
+            PROCESS_FEATURE,
+            SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
+          ),
         });
       });
     });
@@ -141,6 +184,10 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS,
           payload: modes,
+          meta: StateUtils.entitySuccessMeta(
+            PROCESS_FEATURE,
+            SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
+          ),
         });
       });
     });
@@ -150,15 +197,19 @@ describe('Checkout Actions', () => {
     describe('SetDeliveryMode', () => {
       it('should create the action', () => {
         const payload = {
-          userId: userId,
-          cartId: cartId,
+          userId,
+          cartId,
           selectedModeId: selectedModeId,
         };
 
         const action = new CheckoutActions.SetDeliveryMode(payload);
         expect({ ...action }).toEqual({
           type: CheckoutActions.SET_DELIVERY_MODE,
-          payload: payload,
+          payload,
+          meta: StateUtils.entityLoadMeta(
+            PROCESS_FEATURE,
+            SET_DELIVERY_MODE_PROCESS_ID
+          ),
         });
       });
     });
@@ -171,6 +222,11 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.SET_DELIVERY_MODE_FAIL,
           payload: error,
+          meta: StateUtils.entityFailMeta(
+            PROCESS_FEATURE,
+            SET_DELIVERY_MODE_PROCESS_ID,
+            error
+          ),
         });
       });
     });
@@ -183,6 +239,23 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.SET_DELIVERY_MODE_SUCCESS,
           payload: selectedModeId,
+          meta: StateUtils.entitySuccessMeta(
+            PROCESS_FEATURE,
+            SET_DELIVERY_MODE_PROCESS_ID
+          ),
+        });
+      });
+    });
+
+    describe('ResetSetDeliveryModeProcess', () => {
+      it('should create the action', () => {
+        const action = new CheckoutActions.ResetSetDeliveryModeProcess();
+        expect({ ...action }).toEqual({
+          type: CheckoutActions.RESET_SET_DELIVERY_MODE_PROCESS,
+          meta: StateUtils.entityResetMeta(
+            PROCESS_FEATURE,
+            SET_DELIVERY_MODE_PROCESS_ID
+          ),
         });
       });
     });
@@ -192,15 +265,16 @@ describe('Checkout Actions', () => {
     describe('CreatePaymentDetails', () => {
       it('should create the action', () => {
         const payload = {
-          userId: userId,
-          cartId: cartId,
+          userId,
+          cartId,
           paymentDetails: paymentDetails,
         };
 
         const action = new CheckoutActions.CreatePaymentDetails(payload);
         expect({ ...action }).toEqual({
           type: CheckoutActions.CREATE_PAYMENT_DETAILS,
-          payload: payload,
+          payload,
+          meta: action.meta,
         });
       });
     });
@@ -213,6 +287,7 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL,
           payload: error,
+          meta: action.meta,
         });
       });
     });
@@ -234,15 +309,19 @@ describe('Checkout Actions', () => {
     describe('SetPaymentDetails', () => {
       it('should create the action', () => {
         const payload = {
-          userId: userId,
-          cartId: cartId,
+          userId,
+          cartId,
           paymentDetails: paymentDetails,
         };
 
         const action = new CheckoutActions.SetPaymentDetails(payload);
         expect({ ...action }).toEqual({
           type: CheckoutActions.SET_PAYMENT_DETAILS,
-          payload: payload,
+          payload,
+          meta: StateUtils.entityLoadMeta(
+            PROCESS_FEATURE,
+            SET_PAYMENT_DETAILS_PROCESS_ID
+          ),
         });
       });
     });
@@ -255,6 +334,11 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.SET_PAYMENT_DETAILS_FAIL,
           payload: error,
+          meta: StateUtils.entityFailMeta(
+            PROCESS_FEATURE,
+            SET_PAYMENT_DETAILS_PROCESS_ID,
+            error
+          ),
         });
       });
     });
@@ -267,6 +351,23 @@ describe('Checkout Actions', () => {
         expect({ ...action }).toEqual({
           type: CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS,
           payload: paymentDetails,
+          meta: StateUtils.entitySuccessMeta(
+            PROCESS_FEATURE,
+            SET_PAYMENT_DETAILS_PROCESS_ID
+          ),
+        });
+      });
+    });
+
+    describe('ResetSetPaymentDetailsProcess', () => {
+      it('should create the action', () => {
+        const action = new CheckoutActions.ResetSetPaymentDetailsProcess();
+        expect({ ...action }).toEqual({
+          type: CheckoutActions.RESET_SET_PAYMENT_DETAILS_PROCESS,
+          meta: StateUtils.entityResetMeta(
+            PROCESS_FEATURE,
+            SET_PAYMENT_DETAILS_PROCESS_ID
+          ),
         });
       });
     });
@@ -276,14 +377,14 @@ describe('Checkout Actions', () => {
     describe('PlaceOrder', () => {
       it('should create the action', () => {
         const payload = {
-          userId: userId,
-          cartId: cartId,
+          userId,
+          cartId,
         };
 
         const action = new CheckoutActions.PlaceOrder(payload);
         expect({ ...action }).toEqual({
           type: CheckoutActions.PLACE_ORDER,
-          payload: payload,
+          payload,
         });
       });
     });
@@ -312,35 +413,113 @@ describe('Checkout Actions', () => {
   });
 
   describe('Clear Checkout Step', () => {
-    describe('ClearCheckoutStep', () => {
-      it('should create the action', () => {
-        const action = new CheckoutActions.ClearCheckoutStep(2);
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CLEAR_CHECKOUT_STEP,
-          payload: 2,
-        });
+    it('should create the action', () => {
+      const action = new CheckoutActions.ClearCheckoutStep(2);
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_STEP,
+        payload: 2,
       });
     });
   });
 
   describe('Clear Checkout Data', () => {
-    describe('ClearCheckoutData', () => {
-      it('should create the action', () => {
-        const action = new CheckoutActions.ClearCheckoutData();
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CLEAR_CHECKOUT_DATA,
-        });
+    it('should create the action', () => {
+      const action = new CheckoutActions.ClearCheckoutData();
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_DATA,
+      });
+    });
+  });
+
+  describe('Clear Checkout Delivery Address', () => {
+    it('should create the action', () => {
+      const payload = {
+        userId,
+        cartId,
+      };
+      const action = new CheckoutActions.ClearCheckoutDeliveryAddress(payload);
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS,
+        payload,
+      });
+    });
+  });
+
+  describe('Clear Checkout Delivery Address Fail', () => {
+    it('should create the action', () => {
+      const payload = {
+        userId,
+        cartId,
+      };
+      const action = new CheckoutActions.ClearCheckoutDeliveryAddressFail(
+        payload
+      );
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL,
+        payload,
+      });
+    });
+  });
+
+  describe('Clear Checkout Delivery Address Success', () => {
+    it('should create the action', () => {
+      const action = new CheckoutActions.ClearCheckoutDeliveryAddressSuccess();
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS,
+      });
+    });
+  });
+
+  describe('Clear Checkout Delivery Mode', () => {
+    it('should create the action', () => {
+      const payload = {
+        userId,
+        cartId,
+      };
+      const action = new CheckoutActions.ClearCheckoutDeliveryMode(payload);
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE,
+        payload,
+        meta: StateUtils.entityProcessesIncrementMeta(MULTI_CART_DATA, cartId),
+      });
+    });
+  });
+
+  describe('Clear Checkout Delivery Mode Fail', () => {
+    it('should create the action', () => {
+      const payload = {
+        userId,
+        cartId,
+        error: 'anError',
+      };
+      const action = new CheckoutActions.ClearCheckoutDeliveryModeFail(payload);
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_FAIL,
+        payload,
+        meta: StateUtils.entityProcessesDecrementMeta(MULTI_CART_DATA, cartId),
+      });
+    });
+  });
+
+  describe('Clear Checkout Delivery Mode Success', () => {
+    it('should create the action', () => {
+      const action = new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
+        userId,
+        cartId,
+      });
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS,
+        payload: { userId, cartId },
+        meta: StateUtils.entityProcessesDecrementMeta(MULTI_CART_DATA, cartId),
       });
     });
   });
 
   describe('Clear Supported Delivery Modes Data', () => {
-    describe('ClearSupportedDeliveryModes', () => {
-      it('should create the action', () => {
-        const action = new CheckoutActions.ClearSupportedDeliveryModes();
-        expect({ ...action }).toEqual({
-          type: CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES,
-        });
+    it('should create the action', () => {
+      const action = new CheckoutActions.ClearSupportedDeliveryModes();
+      expect({ ...action }).toEqual({
+        type: CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES,
       });
     });
   });

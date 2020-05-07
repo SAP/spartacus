@@ -1,12 +1,11 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
+import { RoutingConfigService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { RoutingConfigService } from '@spartacus/core';
-import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
-import { CheckoutConfigService } from '../checkout-config.service';
+import { CheckoutConfigService } from '../services/checkout-config.service';
+import { CheckoutDetailsService } from '../services/checkout-details.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,16 +25,14 @@ export class PaymentDetailsSetGuard implements CanActivate {
 
     if (!checkoutStep && isDevMode()) {
       console.warn(
-        `Missing step with type ${
-          CheckoutStepType.PAYMENT_DETAILS
-        } in checkout configuration.`
+        `Missing step with type ${CheckoutStepType.PAYMENT_DETAILS} in checkout configuration.`
       );
     }
 
     return this.checkoutDetailsService
       .getPaymentDetails()
       .pipe(
-        map(paymentDetails =>
+        map((paymentDetails) =>
           paymentDetails && Object.keys(paymentDetails).length !== 0
             ? true
             : this.router.parseUrl(

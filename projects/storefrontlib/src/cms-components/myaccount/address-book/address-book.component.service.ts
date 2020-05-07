@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Address, UserAddressService } from '@spartacus/core';
+import {
+  Address,
+  CheckoutDeliveryService,
+  UserAddressService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class AddressBookComponentService {
-  constructor(private userAddressService: UserAddressService) {}
+  constructor(
+    protected userAddressService: UserAddressService,
+    protected checkoutDeliveryService: CheckoutDeliveryService
+  ) {}
 
   getAddresses(): Observable<Address[]> {
     return this.userAddressService.getAddresses();
@@ -24,5 +31,6 @@ export class AddressBookComponentService {
 
   updateUserAddress(addressId: string, address: Address) {
     this.userAddressService.updateUserAddress(addressId, address);
+    this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
   }
 }

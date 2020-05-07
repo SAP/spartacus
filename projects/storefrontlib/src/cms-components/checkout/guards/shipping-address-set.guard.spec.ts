@@ -3,13 +3,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Order, RoutesConfig, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
-import { CheckoutConfigService } from '../checkout-config.service';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
+import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { ShippingAddressSetGuard } from './shipping-address-set.guard';
 
-const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
+const MockRoutesConfig: RoutesConfig = JSON.parse(
+  JSON.stringify(defaultStorefrontRoutesConfig)
+);
 
 class MockCheckoutDetailsService {
   getDeliveryAddress(): Observable<Order> {
@@ -26,11 +28,13 @@ class MockCheckoutConfigService {
   getCheckoutStep() {}
 }
 
-const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
+const MockCheckoutConfig: CheckoutConfig = JSON.parse(
+  JSON.stringify(defaultCheckoutConfig)
+);
 
 describe(`ShippingAddressSetGuard`, () => {
   let guard: ShippingAddressSetGuard;
-  let mockCheckoutDetailsService: MockCheckoutDetailsService;
+  let mockCheckoutDetailsService: CheckoutDetailsService;
   let mockCheckoutConfig: CheckoutConfig;
   let mockRoutingConfigService: RoutingConfigService;
   let mockCheckoutConfigService: CheckoutConfigService;
@@ -49,15 +53,15 @@ describe(`ShippingAddressSetGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(ShippingAddressSetGuard);
-    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
-    mockCheckoutConfig = TestBed.get(CheckoutConfig);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService);
-    mockCheckoutConfigService = TestBed.get(CheckoutConfigService);
+    guard = TestBed.inject(ShippingAddressSetGuard);
+    mockCheckoutDetailsService = TestBed.inject(CheckoutDetailsService);
+    mockCheckoutConfig = TestBed.inject(CheckoutConfig);
+    mockRoutingConfigService = TestBed.inject(RoutingConfigService);
+    mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
   });
 
   describe(`when there is NO shipping address present`, () => {
-    it(`should navigate to shipping address step`, done => {
+    it(`should navigate to shipping address step`, (done) => {
       spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
         of({})
       );
@@ -66,7 +70,7 @@ describe(`ShippingAddressSetGuard`, () => {
         MockCheckoutConfig.checkout.steps[0]
       );
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
@@ -78,14 +82,14 @@ describe(`ShippingAddressSetGuard`, () => {
       });
     });
 
-    it(`should navigate to default if not configured`, done => {
+    it(`should navigate to default if not configured`, (done) => {
       spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
         of({})
       );
       spyOn(console, 'warn');
       mockCheckoutConfig.checkout.steps = [];
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(console.warn).toHaveBeenCalledWith(
           'Missing step with type shippingAddress in checkout configuration.'
         );
@@ -96,12 +100,12 @@ describe(`ShippingAddressSetGuard`, () => {
   });
 
   describe(`when there is shipping address present`, () => {
-    it(`should return true`, done => {
+    it(`should return true`, (done) => {
       spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
-        of({ id: 'testAddress' })
+        of({ id: 'testAddress' } as any)
       );
 
-      guard.canActivate().subscribe(result => {
+      guard.canActivate().subscribe((result) => {
         expect(result).toBeTruthy();
         done();
       });

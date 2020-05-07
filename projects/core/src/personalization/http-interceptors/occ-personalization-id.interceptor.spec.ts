@@ -1,13 +1,13 @@
-import { TestBed, inject } from '@angular/core/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { OccPersonalizationIdInterceptor } from './occ-personalization-id.interceptor';
-import { PersonalizationConfig } from '../config/personalization-config';
+import { inject, TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { WindowRef } from '../../window/window-ref';
+import { PersonalizationConfig } from '../config/personalization-config';
+import { OccPersonalizationIdInterceptor } from './occ-personalization-id.interceptor';
 
 const mockPersonalizationConfig: PersonalizationConfig = {
   personalization: {
@@ -60,8 +60,8 @@ describe('OccPersonalizationIdInterceptor with personalization enabled', () => {
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController);
-    winRef = TestBed.get(WindowRef);
+    httpMock = TestBed.inject(HttpTestingController);
+    winRef = TestBed.inject(WindowRef);
   });
 
   afterEach(() => {
@@ -73,11 +73,11 @@ describe('OccPersonalizationIdInterceptor with personalization enabled', () => {
     (http: HttpClient) => {
       winRef.localStorage.setItem('personalization-id', 'test id');
 
-      http.get('https://localhost:9002/test').subscribe(result => {
+      http.get('https://localhost:9002/test').subscribe((result) => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
 
@@ -96,11 +96,11 @@ describe('OccPersonalizationIdInterceptor with personalization enabled', () => {
     (http: HttpClient) => {
       winRef.localStorage.setItem('personalization-id', 'old id');
 
-      http.get('https://localhost:9002/test').subscribe(response => {
+      http.get('https://localhost:9002/test').subscribe((response) => {
         expect(response).toEqual('');
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
       mockReq.flush('', { headers: { ['test-personalization-id']: 'new id' } });
@@ -137,8 +137,8 @@ describe('OccPersonalizationIdInterceptor with personalization disabled', () => 
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController);
-    winRef = TestBed.get(WindowRef);
+    httpMock = TestBed.inject(HttpTestingController);
+    winRef = TestBed.inject(WindowRef);
 
     winRef.localStorage.setItem('personalization-id', 'test id');
   });
@@ -150,10 +150,10 @@ describe('OccPersonalizationIdInterceptor with personalization disabled', () => 
   it('should clear client-side personalization-id, and not send it in request header', inject(
     [HttpClient],
     (http: HttpClient) => {
-      http.get('https://localhost:9002/test').subscribe(result => {
+      http.get('https://localhost:9002/test').subscribe((result) => {
         expect(result).toBeTruthy();
       });
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
       const perHeader: string = mockReq.request.headers.get(

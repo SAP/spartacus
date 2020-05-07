@@ -1,17 +1,25 @@
 import { APP_INITIALIZER, Provider } from '@angular/core';
-import { LanguageService } from '../facade/language.service';
-import { CurrencyService } from '../facade/currency.service';
+import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { BaseSiteService } from '../facade/base-site.service';
+import { CurrencyService } from '../facade/currency.service';
+import { LanguageService } from '../facade/language.service';
+import { SiteContextRoutesHandler } from '../services/site-context-routes-handler';
 
-export function inititializeContext(
+export function initializeContext(
   baseSiteService: BaseSiteService,
   langService: LanguageService,
-  currService: CurrencyService
+  currService: CurrencyService,
+  configInit: ConfigInitializerService,
+  siteContextRoutesHandler: SiteContextRoutesHandler
 ) {
   return () => {
-    baseSiteService.initialize();
-    langService.initialize();
-    currService.initialize();
+    configInit.getStableConfig('context').then(() => {
+      siteContextRoutesHandler.init().then(() => {
+        baseSiteService.initialize();
+        langService.initialize();
+        currService.initialize();
+      });
+    });
   };
 }
 
@@ -21,8 +29,14 @@ export const contextServiceProviders: Provider[] = [
   CurrencyService,
   {
     provide: APP_INITIALIZER,
-    useFactory: inititializeContext,
-    deps: [BaseSiteService, LanguageService, CurrencyService],
+    useFactory: initializeContext,
+    deps: [
+      BaseSiteService,
+      LanguageService,
+      CurrencyService,
+      ConfigInitializerService,
+      SiteContextRoutesHandler,
+    ],
     multi: true,
   },
 ];

@@ -107,10 +107,10 @@ describe('UpdateEmailComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    userService = TestBed.get(UserService);
-    authService = TestBed.get(AuthService);
-    routingService = TestBed.get(RoutingService);
-    globalMessageService = TestBed.get(GlobalMessageService);
+    userService = TestBed.inject(UserService);
+    authService = TestBed.inject(AuthService);
+    routingService = TestBed.inject(RoutingService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
 
     fixture.detectChanges();
   });
@@ -185,7 +185,15 @@ describe('UpdateEmailComponent', () => {
 
         expect(authService.logout).toHaveBeenCalled();
 
-        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
+        expect(routingService.go).toHaveBeenCalledWith(
+          { cxRoute: 'login' },
+          null,
+          {
+            state: {
+              newUid,
+            },
+          }
+        );
       });
     });
 

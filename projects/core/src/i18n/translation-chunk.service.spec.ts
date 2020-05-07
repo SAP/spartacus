@@ -22,7 +22,7 @@ describe('TranslationChunkService', () => {
       ],
     });
 
-    service = TestBed.get(TranslationChunkService);
+    service = TestBed.inject(TranslationChunkService);
   });
 
   describe('getChunk', () => {

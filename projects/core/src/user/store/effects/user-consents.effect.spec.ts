@@ -2,9 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
+import { GlobalMessageActions } from '../../../global-message/store/actions';
 import { ConsentTemplate } from '../../../model/consent.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConsentAdapter } from '../../connectors/index';
 import { UserActions } from '../actions/index';
 import * as fromEffect from './user-consents.effect';
@@ -39,8 +42,8 @@ describe('User Consents effect', () => {
       ],
     });
 
-    userConsentEffect = TestBed.get(fromEffect.UserConsentsEffect);
-    userConsentAdapter = TestBed.get(UserConsentAdapter);
+    userConsentEffect = TestBed.inject(fromEffect.UserConsentsEffect);
+    userConsentAdapter = TestBed.inject(UserConsentAdapter);
   });
 
   describe('getConsents$', () => {
@@ -92,6 +95,57 @@ describe('User Consents effect', () => {
 
       expect(userConsentEffect.giveConsent$).toBeObservable(expected);
     });
+
+    it('should close error message on 409 for TRANSFER_ANONYMOUS_CONSENT action', () => {
+      const mockError = {
+        status: 409,
+        msg: 'Mock error',
+      };
+      spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
+        throwError(mockError)
+      );
+
+      const action = new UserActions.TransferAnonymousConsent({
+        userId,
+        consentTemplateId,
+        consentTemplateVersion,
+      });
+      const completion = new UserActions.GiveUserConsentFail(
+        makeErrorSerializable(mockError)
+      );
+      const closeMessage = new GlobalMessageActions.RemoveMessagesByType(
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', { b: completion, c: closeMessage });
+
+      expect(userConsentEffect.giveConsent$).toBeObservable(expected);
+    });
+
+    it('should not close error message for GIVE_USER_CONSENT action', () => {
+      const mockError = {
+        status: 409,
+        msg: 'Mock error',
+      };
+      spyOn(userConsentAdapter, 'giveConsent').and.returnValue(
+        throwError(mockError)
+      );
+
+      const action = new UserActions.GiveUserConsent({
+        userId,
+        consentTemplateId,
+        consentTemplateVersion,
+      });
+      const completion = new UserActions.GiveUserConsentFail(
+        makeErrorSerializable(mockError)
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(userConsentEffect.giveConsent$).toBeObservable(expected);
+    });
   });
 
   describe('withdrawConsent$', () => {
@@ -113,7 +167,10 @@ describe('User Consents effect', () => {
 
   describe('resetConsents$', () => {
     it('should return ResetLoadUserConsents', () => {
-      const action = new SiteContextActions.LanguageChange();
+      const action = new SiteContextActions.LanguageChange({
+        previous: 'previous',
+        current: 'current',
+      });
       const completion = new UserActions.ResetLoadUserConsents();
 
       actions$ = hot('-a', { a: action });

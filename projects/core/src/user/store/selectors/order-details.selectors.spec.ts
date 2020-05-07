@@ -16,7 +16,7 @@ describe('Order Details Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
   describe('getOrderDetails', () => {
@@ -24,7 +24,7 @@ describe('Order Details Selectors', () => {
       let result: Order;
       store
         .pipe(select(UsersSelectors.getOrderDetails))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).not.toBeNull();
     });
   });

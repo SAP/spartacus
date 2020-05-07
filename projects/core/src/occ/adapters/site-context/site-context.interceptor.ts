@@ -17,7 +17,7 @@ import {
   LANGUAGE_CONTEXT_ID,
 } from '../../../site-context/providers/context-ids';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class SiteContextInterceptor implements HttpInterceptor {
   activeLang: string;
   activeCurr: string;
@@ -39,9 +39,9 @@ export class SiteContextInterceptor implements HttpInterceptor {
 
     this.languageService
       .getActive()
-      .subscribe(data => (this.activeLang = data));
+      .subscribe((data) => (this.activeLang = data));
 
-    this.currencyService.getActive().subscribe(data => {
+    this.currencyService.getActive().subscribe((data) => {
       this.activeCurr = data;
     });
   }

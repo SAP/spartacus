@@ -3,7 +3,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { OpenIdToken } from '../models/kyma-token-types.model';
 import { KymaActions } from '../store/actions/index';
 import * as fromKymaStore from '../store/index';
-import { KymaState, KYMA_FEATURE } from '../store/kyma-state';
+import { KYMA_FEATURE, KymaState } from '../store/kyma-state';
 import { KymaService } from './kyma.service';
 
 const mockOpenIdToken = {
@@ -23,8 +23,8 @@ describe('KymaService', () => {
       providers: [KymaService],
     });
 
-    service = TestBed.get(KymaService);
-    store = TestBed.get(Store);
+    service = TestBed.inject(KymaService);
+    store = TestBed.inject(Store);
   });
 
   it('should be created', () => {
@@ -51,7 +51,7 @@ describe('KymaService', () => {
       let result: OpenIdToken;
       service
         .getOpenIdToken()
-        .subscribe(token => (result = token))
+        .subscribe((token) => (result = token))
         .unsubscribe();
       expect(result).toEqual(mockOpenIdToken);
     });

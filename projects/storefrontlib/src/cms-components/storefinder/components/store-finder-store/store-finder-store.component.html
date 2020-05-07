@@ -1,0 +1,27 @@
+<div
+  class="container"
+  *ngIf="
+    location || (!(isLoading$ | async) && (location$ | async)) as location;
+    else loading
+  "
+>
+  <div class="row cx-store-actions">
+    <div class="col-md-4 col-sm-6 col-lg-2">
+      <button class="btn btn-block btn-action" (click)="goBack()">
+        <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
+        {{ 'storeFinder.backToList' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 p-0">
+      <cx-store-finder-store-description
+        [disableMap]="disableMap"
+        [location]="location"
+      ></cx-store-finder-store-description>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+</ng-template>

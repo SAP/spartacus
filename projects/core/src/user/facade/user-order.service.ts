@@ -2,18 +2,30 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Order, OrderHistoryList } from '../../model/order.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { AuthService } from '../../auth/facade/auth.service';
+import { ConsignmentTracking } from '../../model/consignment-tracking.model';
+import {
+  CancellationRequestEntryInputList,
+  Order,
+  OrderHistoryList,
+} from '../../model/order.model';
 import { StateWithProcess } from '../../process/store/process-state';
+import {
+  getProcessLoadingFactory,
+  getProcessSuccessFactory,
+} from '../../process/store/selectors/process.selectors';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
-import { StateWithUser } from '../store/user-state';
+import { CANCEL_ORDER_PROCESS_ID, StateWithUser } from '../store/user-state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserOrderService {
-  constructor(protected store: Store<StateWithUser | StateWithProcess<void>>) {}
+  constructor(
+    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected authService: AuthService
+  ) {}
 
   /**
    * Returns an order's detail
@@ -28,12 +40,14 @@ export class UserOrderService {
    * @param orderCode an order code
    */
   loadOrderDetails(orderCode: string): void {
-    this.store.dispatch(
-      new UserActions.LoadOrderDetails({
-        userId: USERID_CURRENT,
-        orderCode: orderCode,
-      })
-    );
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(
+        new UserActions.LoadOrderDetails({
+          userId,
+          orderCode,
+        })
+      );
+    });
   }
 
   /**
@@ -49,7 +63,7 @@ export class UserOrderService {
   getOrderHistoryList(pageSize: number): Observable<OrderHistoryList> {
     return this.store.pipe(
       select(UsersSelectors.getOrdersState),
-      tap(orderListState => {
+      tap((orderListState) => {
         const attemptedLoad =
           orderListState.loading ||
           orderListState.success ||
@@ -58,7 +72,7 @@ export class UserOrderService {
           this.loadOrderList(pageSize);
         }
       }),
-      map(orderListState => orderListState.value)
+      map((orderListState) => orderListState.value)
     );
   }
 
@@ -76,14 +90,16 @@ export class UserOrderService {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.store.dispatch(
-      new UserActions.LoadUserOrders({
-        userId: USERID_CURRENT,
-        pageSize: pageSize,
-        currentPage: currentPage,
-        sort: sort,
-      })
-    );
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(
+        new UserActions.LoadUserOrders({
+          userId,
+          pageSize,
+          currentPage,
+          sort,
+        })
+      );
+    });
   }
 
   /**
@@ -91,5 +107,79 @@ export class UserOrderService {
    */
   clearOrderList(): void {
     this.store.dispatch(new UserActions.ClearUserOrders());
+  }
+
+  /**
+   *  Returns a consignment tracking detail
+   */
+  getConsignmentTracking(): Observable<ConsignmentTracking> {
+    return this.store.pipe(select(UsersSelectors.getConsignmentTracking));
+  }
+
+  /**
+   * Retrieves consignment tracking details
+   * @param orderCode an order code
+   * @param consignmentCode a consignment code
+   */
+  loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(
+        new UserActions.LoadConsignmentTracking({
+          userId,
+          orderCode,
+          consignmentCode,
+        })
+      );
+    });
+  }
+
+  /**
+   * Cleaning consignment tracking
+   */
+  clearConsignmentTracking(): void {
+    this.store.dispatch(new UserActions.ClearConsignmentTracking());
+  }
+
+  /*
+   * Cancel an order
+   */
+  cancelOrder(
+    orderCode: string,
+    cancelRequestInput: CancellationRequestEntryInputList
+  ): void {
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(
+        new UserActions.CancelOrder({
+          userId,
+          orderCode,
+          cancelRequestInput,
+        })
+      );
+    });
+  }
+
+  /**
+   * Returns the cancel order loading flag
+   */
+  getCancelOrderLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(CANCEL_ORDER_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the cancel order success flag
+   */
+  getCancelOrderSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(CANCEL_ORDER_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the cancel order process flags
+   */
+  resetCancelOrderProcessState(): void {
+    return this.store.dispatch(new UserActions.ResetCancelOrderProcess());
   }
 }

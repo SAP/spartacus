@@ -9,11 +9,10 @@ import {
   UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CloseAccountModalComponent } from './close-account-modal.component';
-
-import createSpy = jasmine.createSpy;
 import { ICON_TYPE } from '../../../../../cms-components/misc/index';
 import { ModalService } from '../../../../../shared/components/modal/index';
+import { CloseAccountModalComponent } from './close-account-modal.component';
+import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService {
   add = createSpy();
@@ -26,6 +25,10 @@ class MockModalService {
 class MockUserService {
   remove(_userId: string): void {}
   getRemoveUserResultSuccess(): Observable<Boolean> {
+    return of();
+  }
+
+  getRemoveUserResultError(): Observable<Boolean> {
     return of();
   }
 
@@ -105,10 +108,10 @@ describe('CloseAccountModalComponent', () => {
     fixture = TestBed.createComponent(CloseAccountModalComponent);
     component = fixture.componentInstance;
 
-    userService = TestBed.get(UserService);
-    routingService = TestBed.get(RoutingService);
-    globalMessageService = TestBed.get(GlobalMessageService);
-    mockModalService = TestBed.get(ModalService);
+    userService = TestBed.inject(UserService);
+    routingService = TestBed.inject(RoutingService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    mockModalService = TestBed.inject(ModalService);
 
     spyOn(routingService, 'go').and.stub();
   });
@@ -135,6 +138,18 @@ describe('CloseAccountModalComponent', () => {
     expect(component.onSuccess).toHaveBeenCalledWith(true);
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
+  });
+
+  it('should dismiss modal when account failed to close', () => {
+    spyOn(userService, 'getRemoveUserResultError').and.returnValue(of(true));
+    spyOn(component, 'onError').and.callThrough();
+    spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
+
+    component.ngOnInit();
+
+    expect(component.onError).toHaveBeenCalledWith(true);
+    expect(globalMessageService.add).toHaveBeenCalled();
     expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
   });
 });

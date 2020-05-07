@@ -1,5 +1,5 @@
-import { DefaultUrlSerializer, UrlTree } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { DefaultUrlSerializer, UrlTree } from '@angular/router';
 import { SiteContextParamsService } from './site-context-params.service';
 
 export interface ParamValuesMap {
@@ -10,9 +10,13 @@ export interface UrlTreeWithSiteContext extends UrlTree {
   siteContext?: ParamValuesMap;
 }
 
+const UrlSplit = /(^[^#?]*)(.*)/; // used to split url into path and query/fragment parts
+
 @Injectable()
 export class SiteContextUrlSerializer extends DefaultUrlSerializer {
-  private readonly urlEncodingParameters: string[];
+  private get urlEncodingParameters(): string[] {
+    return this.siteContextParams.getUrlEncodingParameters();
+  }
 
   get hasContextInRoutes() {
     return this.urlEncodingParameters.length > 0;
@@ -20,7 +24,6 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
 
   constructor(private siteContextParams: SiteContextParamsService) {
     super();
-    this.urlEncodingParameters = this.siteContextParams.getUrlEncodingParameters();
   }
 
   parse(url: string): UrlTreeWithSiteContext {
@@ -37,7 +40,9 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
   urlExtractContextParameters(
     url: string
   ): { url: string; params: ParamValuesMap } {
-    const segments = url.split('/');
+    const [, urlPart, queryPart] = url.match(UrlSplit);
+
+    const segments = urlPart.split('/');
     if (segments[0] === '') {
       segments.shift();
     }
@@ -59,7 +64,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
       paramId++;
     }
 
-    url = segments.slice(Object.keys(params).length).join('/');
+    url = segments.slice(Object.keys(params).length).join('/') + queryPart;
     return { url, params };
   }
 
@@ -85,7 +90,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
 
   private urlIncludeContextParameters(url: string, params: ParamValuesMap) {
     const contextRoutePart = this.urlEncodingParameters
-      .map(param => {
+      .map((param) => {
         return params[param]
           ? params[param]
           : this.siteContextParams.getValue(param);

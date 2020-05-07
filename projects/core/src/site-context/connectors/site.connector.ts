@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { SiteAdapter } from './site.adapter';
 import { Observable } from 'rxjs';
-import { Currency, Language, BaseSite } from '../../model/misc.model';
 import { Country, CountryType, Region } from '../../model/address.model';
+import { BaseSite, Currency, Language } from '../../model/misc.model';
+import { SiteAdapter } from './site.adapter';
 
 @Injectable({
   providedIn: 'root',

@@ -1,6 +1,8 @@
-import { ExternalJsFileLoader } from './external-js-file-loader.service';
-import { TestBed } from '@angular/core/testing';
+/* tslint:disable:deprecation */
+// for now there is no better way than to use document.createElement here, therefore we need to disable tslint deprecation rule here
 import { DOCUMENT } from '@angular/common';
+import { TestBed } from '@angular/core/testing';
+import { ExternalJsFileLoader } from './external-js-file-loader.service';
 
 const SCRIPT_LOAD_URL = 'http://url/';
 
@@ -26,8 +28,8 @@ describe('ExternalJsFileLoader', () => {
       ],
     });
 
-    externalJsFileLoader = bed.get(ExternalJsFileLoader);
-    documentMock = bed.get(DOCUMENT);
+    externalJsFileLoader = bed.inject(ExternalJsFileLoader);
+    documentMock = bed.inject(DOCUMENT);
     jsDomElement = document.createElement('script');
   });
 
@@ -37,7 +39,7 @@ describe('ExternalJsFileLoader', () => {
     spyOn(documentMock, 'appendChild').and.callThrough();
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
     const params = { param1: 'value1', param2: 'value2' };
-    const callback = function() {};
+    const callback = function () {};
 
     // when
     externalJsFileLoader.load(SCRIPT_LOAD_URL, params, callback);

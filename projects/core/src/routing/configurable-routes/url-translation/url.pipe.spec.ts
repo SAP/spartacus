@@ -13,14 +13,14 @@ describe('UrlPipe', () => {
         { provide: SemanticPathService, useValue: { transform: () => {} } },
       ],
     });
-    pipe = TestBed.get(UrlPipe);
-    service = TestBed.get(SemanticPathService);
+    pipe = TestBed.inject(UrlPipe);
+    service = TestBed.inject(SemanticPathService);
   });
 
   describe('transform', () => {
     it('should return result from service', () => {
       const serviceResult = 'test-sevice-result';
-      spyOn(service, 'transform').and.returnValue(serviceResult);
+      spyOn(service, 'transform').and.returnValue(serviceResult as any);
       expect(pipe.transform({ cxRoute: 'testRoute' })).toBe(serviceResult);
       expect(service.transform).toHaveBeenCalled();
     });

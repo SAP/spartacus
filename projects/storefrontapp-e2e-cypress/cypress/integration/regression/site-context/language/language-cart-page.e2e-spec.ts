@@ -1,4 +1,4 @@
-import * as cart from '../../../../helpers/cart';
+import { manipulateCartQuantity } from '../../../../helpers/cart';
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
 describe('Language switch - cart page', () => {
@@ -6,15 +6,20 @@ describe('Language switch - cart page', () => {
   const deutschName = siteContextSelector.PRODUCT_NAME_CART_DE;
 
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
     cy.visit('/');
-    cart.manipulateCartQuantity();
+    manipulateCartQuantity();
   });
 
   siteContextSelector.stub(
     siteContextSelector.LANGUAGE_REQUEST,
     siteContextSelector.LANGUAGES
+  );
+
+  siteContextSelector.stub(
+    siteContextSelector.CART_REQUEST,
+    siteContextSelector.CART
   );
 
   describe('cart page', () => {
@@ -31,7 +36,7 @@ describe('Language switch - cart page', () => {
     it('should change language in the page', () => {
       siteContextSelector.siteContextChange(
         cartPath,
-        siteContextSelector.LANGUAGES,
+        siteContextSelector.CART,
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL
       );

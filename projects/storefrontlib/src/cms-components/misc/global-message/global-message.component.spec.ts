@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { of, Observable } from 'rxjs';
-import createSpy = jasmine.createSpy;
-import { GlobalMessageComponent } from './global-message.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  GlobalMessageType,
-  GlobalMessageService,
   GlobalMessageEntities,
+  GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
 } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { GlobalMessageComponent } from './global-message.component';
+import createSpy = jasmine.createSpy;
 
 const mockMessages: GlobalMessageEntities = {
   [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Confirmation' }],
@@ -27,7 +27,7 @@ class MockMessageService {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 
@@ -50,7 +50,7 @@ describe('GlobalMessageComponent', () => {
     fixture = TestBed.createComponent(GlobalMessageComponent);
     globalMessageComponent = fixture.componentInstance;
 
-    messageService = TestBed.get(GlobalMessageService);
+    messageService = TestBed.inject(GlobalMessageService);
   });
 
   it('Should create Global message component', () => {
@@ -59,7 +59,7 @@ describe('GlobalMessageComponent', () => {
 
   it('Should not have duplicate messages per message type', () => {
     globalMessageComponent.ngOnInit();
-    globalMessageComponent.messages$.subscribe(messages => {
+    globalMessageComponent.messages$.subscribe((messages) => {
       expect(messages[GlobalMessageType.MSG_TYPE_CONFIRMATION].length).toBe(1);
     });
   });

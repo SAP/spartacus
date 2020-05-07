@@ -7,7 +7,7 @@ import {
   ConverterService,
 } from '../../../../util/converter.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class OccProductReferencesListNormalizer
   implements Converter<Occ.ProductReferenceList, ProductReference[]> {
   constructor(private converter: ConverterService) {}
@@ -21,7 +21,7 @@ export class OccProductReferencesListNormalizer
     }
 
     if (source && source.references) {
-      target = source.references.map(reference => ({
+      target = source.references.map((reference) => ({
         ...reference,
         target: this.converter.convert(reference.target, PRODUCT_NORMALIZER),
       }));

@@ -1,13 +1,21 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { take } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
 import { Address, Country, Region } from '../../model/address.model';
-import { USERID_CURRENT } from '../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
+
+class MockAuthService {
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
+  }
+}
 
 describe('UserAddressService', () => {
   let service: UserAddressService;
@@ -23,12 +31,15 @@ describe('UserAddressService', () => {
           fromProcessReducers.getReducers()
         ),
       ],
-      providers: [UserAddressService],
+      providers: [
+        UserAddressService,
+        { provide: AuthService, useClass: MockAuthService },
+      ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(UserAddressService);
+    service = TestBed.inject(UserAddressService);
   });
 
   it('should UserAddressService is injected', inject(
@@ -41,7 +52,7 @@ describe('UserAddressService', () => {
   it('should be able to load user addresses', () => {
     service.loadAddresses();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadUserAddresses(USERID_CURRENT)
+      new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT)
     );
   });
 
@@ -55,7 +66,7 @@ describe('UserAddressService', () => {
     let addresses: Address[];
     service
       .getAddresses()
-      .subscribe(data => {
+      .subscribe((data) => {
         addresses = data;
       })
       .unsubscribe();
@@ -79,7 +90,7 @@ describe('UserAddressService', () => {
     let countries: Country[];
     service
       .getDeliveryCountries()
-      .subscribe(data => {
+      .subscribe((data) => {
         countries = data;
       })
       .unsubscribe();
@@ -100,7 +111,7 @@ describe('UserAddressService', () => {
     let country: Country;
     service
       .getCountry('c1')
-      .subscribe(data => {
+      .subscribe((data) => {
         country = data;
       })
       .unsubscribe();
@@ -130,7 +141,7 @@ describe('UserAddressService', () => {
     service.addUserAddress(mockAddress);
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.AddUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         address: mockAddress,
       })
     );
@@ -144,7 +155,7 @@ describe('UserAddressService', () => {
     service.updateUserAddress('123', mockAddressUpdate);
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.UpdateUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         addressId: '123',
         address: mockAddressUpdate,
       })
@@ -155,7 +166,7 @@ describe('UserAddressService', () => {
     service.deleteUserAddress('123');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.DeleteUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         addressId: '123',
       })
     );
@@ -165,7 +176,7 @@ describe('UserAddressService', () => {
     service.setAddressAsDefault('123');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.UpdateUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         addressId: '123',
         address: {
           defaultAddress: true,
@@ -174,23 +185,47 @@ describe('UserAddressService', () => {
     );
   });
 
+  it('should get address loading status', () => {
+    const results: boolean[] = [];
+    service
+      .getAddressesLoading()
+      .pipe(take(2))
+      .subscribe((loadingStatus) => {
+        results.push(loadingStatus);
+      });
+    store.dispatch(new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT));
+    expect(results).toEqual([false, true]);
+  });
+
+  it('should indicate successful loading', () => {
+    const results: boolean[] = [];
+    service
+      .getAddressesLoadedSuccess()
+      .pipe(take(2))
+      .subscribe((loadedStatus) => {
+        results.push(loadedStatus);
+      });
+    store.dispatch(new UserActions.LoadUserAddressesSuccess([]));
+    expect(results).toEqual([false, true]);
+  });
+
   describe('getRegions', () => {
     const regionsList: Region[] = [{ name: 'r1' }, { name: 'r2' }];
     const country = 'CA';
 
-    it('should be able to get all regions', done => {
+    it('should be able to get all regions', (done) => {
       let regions: Region[];
       store.dispatch(
         new UserActions.LoadRegionsSuccess({ entities: regionsList, country })
       );
-      service.getRegions(country).subscribe(data => {
+      service.getRegions(country).subscribe((data) => {
         regions = data;
         expect(regions).toEqual(regionsList);
         done();
       });
     });
 
-    it('should clear regions on empty country', done => {
+    it('should clear regions on empty country', (done) => {
       let regions: Region[];
       store.dispatch(
         new UserActions.LoadRegionsSuccess({
@@ -199,7 +234,7 @@ describe('UserAddressService', () => {
         })
       );
       spyOn(service, 'clearRegions').and.stub();
-      service.getRegions(null).subscribe(data => {
+      service.getRegions(null).subscribe((data) => {
         regions = data;
         expect(regions).toEqual([]);
         expect(service.clearRegions).toHaveBeenCalled();
@@ -207,12 +242,12 @@ describe('UserAddressService', () => {
       });
     });
 
-    it('should return empty array while loading', done => {
+    it('should return empty array while loading', (done) => {
       let regions: Region[];
       store.dispatch(new UserActions.LoadRegions(country));
       spyOn(service, 'clearRegions').and.stub();
       spyOn(service, 'loadRegions').and.stub();
-      service.getRegions(country).subscribe(data => {
+      service.getRegions(country).subscribe((data) => {
         regions = data;
         expect(regions).toEqual([]);
         expect(service.clearRegions).not.toHaveBeenCalled();
@@ -222,7 +257,7 @@ describe('UserAddressService', () => {
       });
     });
 
-    it('should return empty array and invoke clear and load when changing country', done => {
+    it('should return empty array and invoke clear and load when changing country', (done) => {
       let regions: Region[];
       spyOn(service, 'clearRegions').and.stub();
       spyOn(service, 'loadRegions').and.stub();
@@ -233,7 +268,7 @@ describe('UserAddressService', () => {
           country,
         })
       );
-      service.getRegions(country2).subscribe(data => {
+      service.getRegions(country2).subscribe((data) => {
         regions = data;
         expect(regions).toEqual([]);
         expect(service.clearRegions).toHaveBeenCalled();
@@ -242,7 +277,7 @@ describe('UserAddressService', () => {
       });
     });
 
-    it('should return already loaded results on another request', done => {
+    it('should return already loaded results on another request', (done) => {
       let regions: Region[];
       store.dispatch(
         new UserActions.LoadRegionsSuccess({
@@ -252,13 +287,20 @@ describe('UserAddressService', () => {
       );
       spyOn(service, 'clearRegions').and.stub();
       spyOn(service, 'loadRegions').and.stub();
-      service.getRegions(country).subscribe(data => {
+      service.getRegions(country).subscribe((data) => {
         regions = data;
         expect(regions).toEqual(regionsList);
         expect(service.clearRegions).not.toHaveBeenCalled();
         expect(service.loadRegions).not.toHaveBeenCalled();
         done();
       });
+    });
+
+    it('should call clear regions', () => {
+      service.clearRegions();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new UserActions.ClearRegions()
+      );
     });
   });
 });

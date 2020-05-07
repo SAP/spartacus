@@ -41,8 +41,8 @@ describe('Titles effect', () => {
       ],
     });
 
-    effect = TestBed.get(TitlesEffects);
-    service = TestBed.get(UserConnector);
+    effect = TestBed.inject(TitlesEffects);
+    service = TestBed.inject(UserConnector);
 
     spyOn(service, 'getTitles').and.returnValue(of(mockTitles));
   });

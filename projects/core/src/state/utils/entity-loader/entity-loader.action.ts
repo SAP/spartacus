@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-
 import { entityMeta, EntityMeta } from '../entity/entity.action';
 import {
   failMeta,
@@ -86,7 +85,7 @@ export class EntitySuccessAction implements EntityLoaderAction {
   }
 }
 
-export class EntityResetAction implements EntityLoaderAction {
+export class EntityLoaderResetAction implements EntityLoaderAction {
   type = ENTITY_RESET_ACTION;
   readonly meta: EntityLoaderMeta;
   constructor(entityType: string, id: string | string[]) {

@@ -1,17 +1,16 @@
 import { register } from './auth-forms';
+import * as alerts from './global-message';
 
 export const loginLink = 'cx-login [role="link"]';
 
 export function registerUser(user) {
-  cy.get(loginLink).click();
-  cy.get('cx-page-layout')
-    .getByText('Register')
-    .click();
+  cy.getByText(/Sign in \/ Register/i).click();
+  cy.get('cx-page-layout').getByText('Register').click({ force: true });
   register(user);
 }
 
 export function navigateToTermsAndConditions() {
-  const termsLink = '/electronics-spa/en/USD/terms-and-conditions';
+  const termsLink = `/${Cypress.env('BASE_SITE')}/en/USD/terms-and-conditions`;
   cy.visit('/login/register');
   cy.getByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
@@ -25,16 +24,30 @@ export function checkTermsAndConditions() {
 }
 
 export function signOut() {
+  cy.server();
+  cy.route(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages?*/logout*`
+  ).as('logOut');
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });
+  cy.wait('@logOut');
   cy.visit('/');
 }
 
 export function verifyFailedRegistration() {
-  cy.get('cx-global-message .alert-danger').should(
-    'contain',
-    'Bad credentials. Please login again.'
-  );
+  alerts
+    .getErrorAlert()
+    .should('contain', 'Bad credentials. Please login again.');
   cy.url().should('match', /\/login\/register/);
+}
+
+export function verifyGlobalMessageAfterRegistration() {
+  const alert = alerts.getSuccessAlert();
+
+  alert.should('contain', 'Please log in with provided credentials.');
+  cy.url().should('match', /\/login/);
 }

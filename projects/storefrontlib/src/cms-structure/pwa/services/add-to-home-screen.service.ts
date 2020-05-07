@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { PWAModuleConfig } from '../pwa.module-config';
 import {
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
 } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { PWAModuleConfig } from '../pwa.module-config';
 
 @Injectable()
 export class AddToHomeScreenService {
@@ -30,7 +29,7 @@ export class AddToHomeScreenService {
     if (this.winRef.nativeWindow) {
       this.winRef.nativeWindow.addEventListener(
         'beforeinstallprompt',
-        event => {
+        (event) => {
           event.preventDefault();
           this.deferredEvent = event;
           this.enableAddToHomeScreen();

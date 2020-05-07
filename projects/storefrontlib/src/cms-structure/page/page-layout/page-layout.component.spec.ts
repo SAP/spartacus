@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CmsService, ContentSlotData, Page } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../../outlet';
 import { PageLayoutComponent } from './page-layout.component';
 import { PageLayoutService } from './page-layout.service';
@@ -23,26 +24,24 @@ const slots = {
     </cx-page-layout>
   `,
 })
-export class MockPageTemplateComponent {}
+class MockPageTemplateComponent {}
 
 @Component({
   selector: 'cx-page-header-test',
-  template: `
-    <cx-page-layout section="header"> </cx-page-layout>
-  `,
+  template: ` <cx-page-layout section="header"> </cx-page-layout> `,
 })
-export class MockHeaderComponent {}
+class MockHeaderComponent {}
 
 @Component({
   selector: 'cx-page-slot',
   template: 'dynamic-slot.component',
 })
-export class MockDynamicSlotComponent {
-  @Input()
-  position: string;
+class MockDynamicSlotComponent {
+  @Input() position: string;
+  @Input() isPageFold;
 }
 
-export class MockCmsService {
+class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of({
       pageId: 'page_uid',
@@ -62,15 +61,26 @@ export class MockCmsService {
   }
 }
 
-export class MockPageLayoutService {
+class MockPageLayoutService {
   getSlots(section?: string): Observable<string[]> {
     if (section) {
       return of(['LogoSlot']);
     }
     return of(['Section1', 'Section2A']);
   }
+
+  getPageFoldSlot(_pageTemplate: string): Observable<string> {
+    return of('');
+  }
+
   get templateName$(): Observable<string> {
     return of('LandingPage2Template');
+  }
+}
+
+class MockDeferLoaderService {
+  load(_element: HTMLElement, _options?: any) {
+    return of(true);
   }
 }
 
@@ -89,9 +99,10 @@ export class MockPageLayoutService {
       useClass: MockCmsService,
     },
     { provide: PageLayoutService, useClass: MockPageLayoutService },
+    { provide: DeferLoaderService, useClass: MockDeferLoaderService },
   ],
 })
-export class TestModule {}
+class TestModule {}
 
 describe('PageLayoutComponent', () => {
   let pageLayoutComponent: MockPageTemplateComponent;

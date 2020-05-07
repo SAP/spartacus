@@ -89,10 +89,9 @@ describe('ProductImagesComponent', () => {
         },
       ],
     }).compileComponents();
+
+    currentProductService = TestBed.inject(CurrentProductService);
   }));
-  beforeEach(() => {
-    currentProductService = TestBed.get(CurrentProductService);
-  });
 
   describe('with multiple pictures', () => {
     beforeEach(() => {
@@ -111,21 +110,21 @@ describe('ProductImagesComponent', () => {
 
     it('should have mainImage$', () => {
       let result: any;
-      component.mainImage$.subscribe(value => (result = value)).unsubscribe();
+      component.mainImage$.subscribe((value) => (result = value)).unsubscribe();
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
     it('should have 2 thumbnails', async(() => {
       let items: Observable<Product>[];
-      component.thumbs$.subscribe(i => (items = i));
+      component.thumbs$.subscribe((i) => (items = i));
       expect(items.length).toBe(2);
     }));
 
     it('should have thumb with url in first product', async(() => {
       let thumbs: Observable<Product>[];
-      component.thumbs$.subscribe(i => (thumbs = i));
+      component.thumbs$.subscribe((i) => (thumbs = i));
       let thumb: any;
-      thumbs[0].subscribe(p => (thumb = p));
+      thumbs[0].subscribe((p) => (thumb = p));
       expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
     }));
 
@@ -161,22 +160,23 @@ describe('ProductImagesComponent', () => {
 
     it('should have mainImage$', () => {
       let result: any;
-      component.mainImage$.subscribe(value => (result = value)).unsubscribe();
+      component.mainImage$.subscribe((value) => (result = value)).unsubscribe();
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
     it('should not have thumbnails in case there is only one GALLERY image', async(() => {
       let items: Observable<Product>[];
-      component.thumbs$.subscribe(i => (items = i));
+      component.thumbs$.subscribe((i) => (items = i));
       expect(items.length).toBe(0);
     }));
 
     describe('(UI test)', () => {
       it('should not render cx-carousel for one GALLERY image', () => {
-        const carousel = fixture.debugElement.queryAll(
-          By.css('cx-carousel cx-media')
-        );
-        expect(carousel.length).toEqual(0);
+        component.thumbs$.subscribe();
+        fixture.detectChanges();
+
+        const carousel = fixture.debugElement.query(By.css('cx-carousel'));
+        expect(carousel).toBeNull();
       });
     });
   });

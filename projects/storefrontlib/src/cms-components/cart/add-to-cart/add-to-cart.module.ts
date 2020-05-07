@@ -1,37 +1,45 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { IconModule } from '../../../cms-components/misc/icon/index';
-import { AutoFocusDirectiveModule } from '../../../shared/directives/auto-focus/auto-focus.directive.module';
+import { IconModule } from '../../../cms-components/misc/icon/icon.module';
+import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { ItemCounterModule, SpinnerModule } from '../../../shared/index';
+import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 import { CartSharedModule } from './../cart-shared/cart-shared.module';
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
 @NgModule({
   imports: [
-    CartSharedModule,
     CommonModule,
+    ReactiveFormsModule,
+    CartSharedModule,
     RouterModule,
     SpinnerModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    PromotionsModule,
+    FeaturesConfigModule,
+    UrlModule,
+    IconModule,
+    I18nModule,
+    ItemCounterModule,
+    KeyboardFocusModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ProductAddToCartComponent: {
           component: AddToCartComponent,
         },
       },
     }),
-    UrlModule,
-    IconModule,
-    I18nModule,
-    ItemCounterModule,
-    AutoFocusDirectiveModule,
   ],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],
   entryComponents: [AddToCartComponent, AddedToCartDialogComponent],

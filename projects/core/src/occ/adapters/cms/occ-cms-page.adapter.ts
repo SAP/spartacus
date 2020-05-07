@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { PageContext } from '../../../routing';
 import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
-import { ConverterService } from '../../../util/converter.service';
 import { CmsStructureModel } from '../../../cms/model/page.model';
 import { PageType } from '../../../model/cms.model';
+import { PageContext } from '../../../routing';
+import { ConverterService } from '../../../util/converter.service';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccCmsPageAdapter implements CmsPageAdapter {
@@ -27,10 +27,13 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
     if (pageContext.type === undefined) {
       return this.http
         .get(
-          this.occEndpoints.getUrl('page', {
-            id: pageContext.id,
-            fields: fields ? fields : 'DEFAULT',
-          }),
+          this.occEndpoints.getUrl(
+            'page',
+            {
+              id: pageContext.id,
+            },
+            { fields: fields ? fields : 'DEFAULT' }
+          ),
           {
             headers: this.headers,
           }
@@ -54,7 +57,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
     fields?: string
   ): string {
     fields = fields ? fields : 'DEFAULT';
-    return this.occEndpoints.getUrl('pages', { fields }, params);
+    return this.occEndpoints.getUrl('pages', {}, { fields, ...params });
   }
 
   private getPagesRequestParams(

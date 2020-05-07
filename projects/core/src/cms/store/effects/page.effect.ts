@@ -17,6 +17,7 @@ import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
 import { CmsStructureModel } from '../../model/page.model';
+import { serializePageContext } from '../../utils/cms-utils';
 import { CmsActions } from '../actions/index';
 
 @Injectable()
@@ -28,18 +29,18 @@ export class PageEffects {
       AuthActions.LOGOUT,
       AuthActions.LOGIN
     ),
-    switchMap(_ =>
+    switchMap(() =>
       this.routingService.getRouterState().pipe(
-        take(1),
         filter(
-          routerState =>
+          (routerState) =>
             routerState &&
             routerState.state &&
             routerState.state.cmsRequired &&
             !routerState.nextState
         ),
-        map(routerState => routerState.state.context),
-        mergeMap(context => of(new CmsActions.LoadCmsPageData(context)))
+        take(1),
+        map((routerState) => routerState.state.context),
+        mergeMap((context) => of(new CmsActions.LoadCmsPageData(context)))
       )
     )
   );
@@ -48,21 +49,40 @@ export class PageEffects {
   loadPageData$: Observable<Action> = this.actions$.pipe(
     ofType(CmsActions.LOAD_CMS_PAGE_DATA),
     map((action: CmsActions.LoadCmsPageData) => action.payload),
-    groupBy(pageContext => pageContext.type + pageContext.id),
-    mergeMap(group =>
+    groupBy((pageContext) => serializePageContext(pageContext)),
+    mergeMap((group) =>
       group.pipe(
-        switchMap(pageContext =>
+        switchMap((pageContext) =>
           this.cmsPageConnector.get(pageContext).pipe(
             mergeMap((cmsStructure: CmsStructureModel) => {
-              return [
-                new CmsActions.CmsGetComponentFromPage(cmsStructure.components),
+              const actions: Action[] = [
+                new CmsActions.CmsGetComponentFromPage(
+                  cmsStructure.components.map((component) => ({
+                    component,
+                    pageContext,
+                  }))
+                ),
                 new CmsActions.LoadCmsPageDataSuccess(
                   pageContext,
                   cmsStructure.page
                 ),
               ];
+
+              const pageLabel = cmsStructure.page.label;
+              // For content pages the page label returned from backend can be different than page ID initially assumed from route.
+              // In such a case let's save the success response not only for initially assumed page ID, but also for correct page label.
+              if (pageLabel && pageLabel !== pageContext.id) {
+                actions.unshift(
+                  new CmsActions.CmsSetPageSuccessIndex(
+                    { id: pageLabel, type: pageContext.type },
+                    cmsStructure.page
+                  )
+                );
+              }
+
+              return actions;
             }),
-            catchError(error =>
+            catchError((error) =>
               of(
                 new CmsActions.LoadCmsPageDataFail(
                   pageContext,

@@ -42,7 +42,7 @@ describe('Product Reviews selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of(reviews));
   });
 
@@ -52,7 +52,7 @@ describe('Product Reviews selectors', () => {
       .pipe(
         select(ProductSelectors.getSelectedProductReviewsFactory(productCode))
       )
-      .subscribe(data => (result = data))
+      .subscribe((data) => (result = data))
       .unsubscribe();
 
     expect(result).toEqual(reviews);

@@ -1,7 +1,27 @@
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CartVoucherService,
+  I18nTestingModule,
+  Voucher,
+} from '@spartacus/core';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { PromotionsModule } from '../../../checkout';
 import { OrderSummaryComponent } from './order-summary.component';
+
+@Component({
+  selector: 'cx-applied-coupons',
+  template: '',
+})
+class MockAppliedCouponsComponent {
+  @Input()
+  vouchers: Voucher[];
+  @Input()
+  cartIsLoading = false;
+  @Input()
+  isReadOnly = false;
+}
 
 describe('OrderSummary', () => {
   let component: OrderSummaryComponent;
@@ -9,8 +29,13 @@ describe('OrderSummary', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [PromotionsModule, I18nTestingModule],
-      declarations: [OrderSummaryComponent],
+      imports: [CommonModule, PromotionsModule, I18nTestingModule],
+      declarations: [
+        OrderSummaryComponent,
+        MockAppliedCouponsComponent,
+        MockFeatureLevelDirective,
+      ],
+      providers: [{ provide: CartVoucherService, useValue: {} }],
     }).compileComponents();
   }));
 

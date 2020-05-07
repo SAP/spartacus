@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Product } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CarouselComponent } from './carousel.component';
@@ -25,9 +26,7 @@ class MockCxIconComponent {
 }
 
 @Component({
-  template: `
-    <div id="templateEl"></div>
-  `,
+  template: ` <div id="templateEl"></div> `,
 })
 class MockTemplateComponent {}
 
@@ -53,7 +52,7 @@ describe('Carousel Component', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CarouselComponent);
     component = fixture.componentInstance;
-    service = TestBed.get(CarouselService);
+    service = TestBed.inject(CarouselService);
 
     templateFixture = TestBed.createComponent(MockTemplateComponent);
     const compiled = templateFixture.debugElement.nativeElement;
@@ -79,7 +78,7 @@ describe('Carousel Component', () => {
       component.ngOnInit();
       let results: number;
 
-      component.size$.subscribe(value => (results = value)).unsubscribe();
+      component.size$.subscribe((value) => (results = value)).unsubscribe();
 
       expect(results).toEqual(4);
     });
@@ -354,6 +353,21 @@ describe('Carousel Component', () => {
 
         const el = fixture.debugElement.query(By.css('div.carousel-panel'));
         expect(el).toBeNull();
+      });
+    });
+
+    describe('new input items', () => {
+      const mockProduct: Product = {
+        name: 'mockProduct',
+        code: 'code1',
+        stock: { stockLevelStatus: 'inStock', stockLevel: 20 },
+      };
+
+      it('should reset slider', () => {
+        component.activeSlide = 1;
+        const mockProductArr: Observable<Product>[] = [of(mockProduct)];
+        component.setItems = mockProductArr;
+        expect(component.activeSlide).toEqual(0);
       });
     });
   });

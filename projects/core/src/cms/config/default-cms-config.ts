@@ -5,9 +5,9 @@ export const defaultCmsModuleConfig: CmsConfig = {
     occ: {
       endpoints: {
         component: 'cms/components/${id}',
-        components: 'cms/components?fields=${fields}',
-        pages: 'cms/pages?fields=${fields}',
-        page: 'cms/pages/${id}?fields=${fields}',
+        components: 'cms/components',
+        pages: 'cms/pages',
+        page: 'cms/pages/${id}',
       },
       legacy: false,
     },

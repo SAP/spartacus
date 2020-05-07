@@ -1,7 +1,7 @@
 const faker = require('faker');
 const { getMime, createImage } = require('../helpers/image');
 
-exports.banner = function(width, height, link, name, imageUrl) {
+exports.banner = function (width, height, link, name, imageUrl) {
   if (!imageUrl) imageUrl = createImage(width | 500, height | 400);
 
   return {

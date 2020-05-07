@@ -6,6 +6,11 @@
 >
   <cx-icon [type]="iconTypes.CART"></cx-icon>
 
-  <span class="total">{{ total$ | async }}</span>
-  <span class="count">{{ quantity$ | async }}</span>
+  <span class="total">
+    {{ 'miniCart.total' | cxTranslate: { total: total$ | async } }}
+  </span>
+
+  <span class="count">
+    {{ 'miniCart.count' | cxTranslate: { count: quantity$ | async } }}
+  </span>
 </a>

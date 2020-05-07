@@ -15,8 +15,8 @@ import {
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
-import { ModalService } from '../../../../../shared/components/modal/index';
+import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
+import { ModalService } from '../../../../../shared/components/modal/modal.service';
 
 @Component({
   selector: 'cx-close-account-modal',
@@ -45,7 +45,13 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.userService
         .getRemoveUserResultSuccess()
-        .subscribe(success => this.onSuccess(success))
+        .subscribe((success) => this.onSuccess(success))
+    );
+
+    this.subscription.add(
+      this.userService
+        .getRemoveUserResultError()
+        .subscribe((error) => this.onError(error))
     );
     this.isLoading$ = this.userService.getRemoveUserResultLoading();
   }
@@ -56,13 +62,25 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
       this.translationService
         .translate('closeAccount.accountClosedSuccessfully')
         .pipe(first())
-        .subscribe(text => {
+        .subscribe((text) => {
           this.globalMessageService.add(
             text,
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
         });
       this.routingService.go({ cxRoute: 'home' });
+    }
+  }
+
+  onError(error: boolean): void {
+    if (error) {
+      this.dismissModal();
+      this.translationService
+        .translate('closeAccount.accountClosedFailure')
+        .pipe(first())
+        .subscribe((text) => {
+          this.globalMessageService.add(text, GlobalMessageType.MSG_TYPE_ERROR);
+        });
     }
   }
 

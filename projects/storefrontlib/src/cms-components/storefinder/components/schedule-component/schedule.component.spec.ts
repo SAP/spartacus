@@ -23,15 +23,19 @@ closeDay2.setHours(17);
 closeDay2.setMinutes(45);
 
 class StoreDataServiceMock {
-  getStoreOpeningTime(_location: any, date: Date): Date {
+  getTime(date: Date): string {
+    return date.getHours() + ':' + date.getMinutes();
+  }
+
+  getStoreOpeningTime(_location: any, date: Date): string {
     switch (date.getDay()) {
       case 1: {
         // Monday
-        return openDay1;
+        return this.getTime(openDay1);
       }
       case 2: {
         // Tuesday
-        return openDay2;
+        return this.getTime(openDay2);
       }
 
       default: {
@@ -41,15 +45,15 @@ class StoreDataServiceMock {
     }
   }
 
-  getStoreClosingTime(_location: any, date: Date): Date {
+  getStoreClosingTime(_location: any, date: Date): string {
     switch (date.getDay()) {
       case 1: {
         // Monday
-        return closeDay1;
+        return this.getTime(closeDay1);
       }
       case 2: {
         // Tuesday
-        return closeDay2;
+        return this.getTime(closeDay2);
       }
 
       default: {
@@ -106,13 +110,13 @@ describe('ScheduleComponent', () => {
 
     expect(renderedScheduleRows.length).toBe(WEEK_DAYS_NUMBER);
 
-    verifyScheduleRow(renderedScheduleRows.item(0), 'Sun', 'closed');
+    verifyScheduleRow(renderedScheduleRows.item(0), 'Sun', '  -  ');
     verifyScheduleRow(renderedScheduleRows.item(1), 'Mon', '10:15 - 18:20');
-    verifyScheduleRow(renderedScheduleRows.item(2), 'Tue', '09:30 - 17:45');
-    verifyScheduleRow(renderedScheduleRows.item(3), 'Wed', 'closed');
-    verifyScheduleRow(renderedScheduleRows.item(4), 'Thu', 'closed');
-    verifyScheduleRow(renderedScheduleRows.item(5), 'Fri', 'closed');
-    verifyScheduleRow(renderedScheduleRows.item(6), 'Sat', 'closed');
+    verifyScheduleRow(renderedScheduleRows.item(2), 'Tue', '9:30 - 17:45');
+    verifyScheduleRow(renderedScheduleRows.item(3), 'Wed', '  -  ');
+    verifyScheduleRow(renderedScheduleRows.item(4), 'Thu', '  -  ');
+    verifyScheduleRow(renderedScheduleRows.item(5), 'Fri', '  -  ');
+    verifyScheduleRow(renderedScheduleRows.item(6), 'Sat', '  -  ');
   });
 
   it('should not render the schedule when there is no opening hours', () => {

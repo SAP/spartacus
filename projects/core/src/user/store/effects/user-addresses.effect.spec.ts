@@ -4,7 +4,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { GlobalMessageService } from '../../../global-message/index';
 import { Address } from '../../../model/address.model';
-import { USERID_CURRENT } from '../../../occ/utils/occ-constants';
+import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { UserAddressAdapter } from '../../connectors/address/user-address.adapter';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { UserAddressService } from '../../facade/user-address.service';
@@ -48,10 +48,10 @@ describe('User Addresses effect', () => {
       ],
     });
 
-    userAddressesEffect = TestBed.get(
+    userAddressesEffect = TestBed.inject(
       fromUserAddressesEffect.UserAddressesEffects
     );
-    userAddressConnector = TestBed.get(UserAddressConnector);
+    userAddressConnector = TestBed.inject(UserAddressConnector);
 
     spyOn(userAddressConnector, 'getAll').and.returnValue(
       of(mockUserAddresses)
@@ -79,7 +79,7 @@ describe('User Addresses effect', () => {
   describe('addUserAddress$', () => {
     it('should add user address', () => {
       const action = new UserActions.AddUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         address: mockUserAddress,
       });
       const completion = new UserActions.AddUserAddressSuccess({});
@@ -93,7 +93,7 @@ describe('User Addresses effect', () => {
   describe('updateUserAddress$', () => {
     it('should update user address', () => {
       const action = new UserActions.UpdateUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         addressId: '123',
         address: {
           firstName: 'test',
@@ -110,7 +110,7 @@ describe('User Addresses effect', () => {
   describe('deleteUserAddress$', () => {
     it('should delete user address', () => {
       const action = new UserActions.DeleteUserAddress({
-        userId: USERID_CURRENT,
+        userId: OCC_USER_ID_CURRENT,
         addressId: 'address123',
       });
       const completion = new UserActions.DeleteUserAddressSuccess({});

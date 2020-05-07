@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { AuthActions } from '../store/actions/index';
@@ -26,6 +30,39 @@ export class AuthService {
         password: password,
       })
     );
+  }
+
+  /**
+   * This function provides the userId the OCC calls should use, depending
+   * on whether there is an active storefront session or not.
+   *
+   * It returns the userId of the current storefront user or 'anonymous'
+   * in the case there are no signed in user in the storefront.
+   *
+   * The user id of a regular customer session is 'current'.  In the case of an
+   * asm customer emulation session, the userId will be the customerId.
+   */
+  getOccUserId(): Observable<string> {
+    return this.getUserToken().pipe(
+      map((userToken) => {
+        if (!!userToken && !!userToken.userId) {
+          return userToken.userId;
+        } else {
+          return OCC_USER_ID_ANONYMOUS;
+        }
+      })
+    );
+  }
+
+  /**
+   * Calls provided callback with current user id.
+   *
+   * @param cb callback function to invoke
+   */
+  invokeWithUserId(cb: (userId: string) => any): Subscription {
+    return this.getOccUserId()
+      .pipe(take(1))
+      .subscribe((id) => cb(id));
   }
 
   /**
@@ -55,10 +92,17 @@ export class AuthService {
   }
 
   /**
-   * Logout
+   * Logout a storefront customer
    */
   logout(): void {
-    this.store.dispatch(new AuthActions.Logout());
+    this.getUserToken()
+      .pipe(take(1))
+      .subscribe((userToken) => {
+        this.store.dispatch(new AuthActions.Logout());
+        if (Boolean(userToken) && userToken.userId === OCC_USER_ID_CURRENT) {
+          this.store.dispatch(new AuthActions.RevokeUserToken(userToken));
+        }
+      });
   }
 
   /**
@@ -100,5 +144,14 @@ export class AuthService {
 
   protected isClientTokenLoaded(state: LoaderState<ClientToken>): boolean {
     return (state.success || state.error) && !state.loading;
+  }
+
+  /**
+   * Returns `true` if the user is logged in; and `false` if the user is anonymous.
+   */
+  isUserLoggedIn(): Observable<boolean> {
+    return this.getUserToken().pipe(
+      map((userToken) => Boolean(userToken) && Boolean(userToken.access_token))
+    );
   }
 }

@@ -1,22 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CartService } from '../../cart';
-import {
-  PageMeta,
-  PageMetaResolver,
-  PageMetaService,
-  PageRobotsMeta,
-} from '../../cms';
-import { CheckoutPageMetaResolver } from './checkout-page-meta.resolver';
-import { Cart } from '../../model/cart.model';
+import { ActiveCartService } from '../../cart';
+import { PageMetaResolver, PageMetaService, PageRobotsMeta } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
+import { Cart } from '../../model/cart.model';
+import { CheckoutPageMetaResolver } from './checkout-page-meta.resolver';
 
 const mockCart: Cart = {
   code: '1234',
   totalItems: 5,
 };
 
-class MockCartService {
+class MockActiveCartService {
   getActive(): Observable<Cart> {
     return of(mockCart);
   }
@@ -30,7 +25,7 @@ describe('CheckoutPageMetaResolver', () => {
       imports: [I18nTestingModule],
       providers: [
         PageMetaService,
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         {
           provide: PageMetaResolver,
           useExisting: CheckoutPageMetaResolver,
@@ -39,39 +34,38 @@ describe('CheckoutPageMetaResolver', () => {
       ],
     });
 
-    service = TestBed.get(CheckoutPageMetaResolver);
+    service = TestBed.inject(CheckoutPageMetaResolver);
   });
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should resolve content page title with cart code', () => {
-    let result: PageMeta;
+  it(`should resolve page title`, () => {
+    let result: string;
 
     service
-      .resolve()
-      .subscribe(meta => {
+      .resolveTitle()
+      .subscribe((meta) => {
         result = meta;
       })
       .unsubscribe();
 
-    expect(result.title).toEqual('pageMetaResolver.checkout.title count:5');
+    expect(result).toEqual('pageMetaResolver.checkout.title count:5');
   });
 
-  it('should resolve robots with nofollow,noindex', () => {
-    let result: PageMeta;
+  it(`should resolve robots`, () => {
+    let result: string[];
 
     service
-      .resolve()
-      .subscribe(meta => {
+      .resolveRobots()
+      .subscribe((meta) => {
         result = meta;
       })
       .unsubscribe();
 
-    expect(result.robots).toContain(PageRobotsMeta.NOFOLLOW);
-    expect(result.robots).toContain(PageRobotsMeta.NOINDEX);
-    expect(result.robots).not.toContain(PageRobotsMeta.FOLLOW);
-    expect(result.robots).not.toContain(PageRobotsMeta.INDEX);
+    expect(result.length).toEqual(2);
+    expect(result).toContain(PageRobotsMeta.NOINDEX);
+    expect(result).toContain(PageRobotsMeta.NOFOLLOW);
   });
 });

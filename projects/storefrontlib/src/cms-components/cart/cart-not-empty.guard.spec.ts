@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Cart, CartService, RoutingService } from '@spartacus/core';
+import { ActiveCartService, Cart, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CartNotEmptyGuard } from './cart-not-empty.guard';
 
@@ -10,19 +10,19 @@ const CART_NOT_CREATED = Object.freeze({});
 
 const mockRoutingService = { go: () => {} };
 
-class CartServiceStub {
+class ActiveCartServiceStub {
   getActive(): Observable<Cart> {
     return of();
   }
-  isEmpty(_cart: any): boolean {
-    return false;
+  isStable(): Observable<boolean> {
+    return of();
   }
 }
 
 describe('CartNotEmptyGuard', () => {
   let cartNotEmptyGuard: CartNotEmptyGuard;
   let routingService: RoutingService;
-  let cartService: CartServiceStub;
+  let activeCartService: ActiveCartServiceStub;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,16 +32,16 @@ describe('CartNotEmptyGuard', () => {
           useValue: mockRoutingService,
         },
         {
-          provide: CartService,
-          useClass: CartServiceStub,
+          provide: ActiveCartService,
+          useClass: ActiveCartServiceStub,
         },
       ],
       imports: [RouterTestingModule],
     });
 
-    cartNotEmptyGuard = TestBed.get(CartNotEmptyGuard);
-    routingService = TestBed.get(RoutingService);
-    cartService = TestBed.get(CartService);
+    cartNotEmptyGuard = TestBed.inject(CartNotEmptyGuard);
+    routingService = TestBed.inject(RoutingService);
+    activeCartService = TestBed.inject(ActiveCartService);
   });
 
   describe('canActivate:', () => {
@@ -52,26 +52,24 @@ describe('CartNotEmptyGuard', () => {
     describe('when cart is loaded', () => {
       describe(', and when cart is NOT created', () => {
         beforeEach(() => {
-          spyOn(cartService, 'getActive').and.returnValue(of(CART_NOT_CREATED));
+          spyOn(activeCartService, 'getActive').and.returnValue(
+            of(CART_NOT_CREATED)
+          );
+          spyOn(activeCartService, 'isStable').and.returnValue(of(true));
         });
 
         it('then Router should redirect to main page', () => {
-          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe()
-            .unsubscribe();
+          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
           expect(routingService.go).toHaveBeenCalledWith({
             cxRoute: 'home',
           });
         });
 
         it('then returned observable should emit false', () => {
-          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
-            .subscribe(result => (emittedValue = result))
+            .subscribe((result) => (emittedValue = result))
             .unsubscribe();
           expect(emittedValue).toBe(false);
         });
@@ -79,26 +77,22 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is empty', () => {
         beforeEach(() => {
-          spyOn(cartService, 'getActive').and.returnValue(of(CART_EMPTY));
+          spyOn(activeCartService, 'getActive').and.returnValue(of(CART_EMPTY));
+          spyOn(activeCartService, 'isStable').and.returnValue(of(true));
         });
 
         it('then Router should redirect to main page', () => {
-          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe()
-            .unsubscribe();
+          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
           expect(routingService.go).toHaveBeenCalledWith({
             cxRoute: 'home',
           });
         });
 
         it('then returned observable should emit false', () => {
-          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
-            .subscribe(result => (emittedValue = result))
+            .subscribe((result) => (emittedValue = result))
             .unsubscribe();
           expect(emittedValue).toBe(false);
         });
@@ -106,14 +100,14 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is NOT empty', () => {
         beforeEach(() => {
-          spyOn(cartService, 'getActive').and.returnValue(of(CART_NOT_EMPTY));
+          spyOn(activeCartService, 'getActive').and.returnValue(
+            of(CART_NOT_EMPTY)
+          );
+          spyOn(activeCartService, 'isStable').and.returnValue(of(true));
         });
 
         it('then Router should NOT redirect', () => {
-          cartNotEmptyGuard
-            .canActivate()
-            .subscribe()
-            .unsubscribe();
+          cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
           expect(routingService.go).not.toHaveBeenCalled();
         });
 
@@ -121,10 +115,33 @@ describe('CartNotEmptyGuard', () => {
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
-            .subscribe(result => (emittedValue = result))
+            .subscribe((result) => (emittedValue = result))
             .unsubscribe();
           expect(emittedValue).toBe(true);
         });
+      });
+    });
+
+    describe('when cart is not loaded', () => {
+      beforeEach(() => {
+        spyOn(activeCartService, 'getActive').and.returnValue(
+          of(CART_NOT_CREATED)
+        );
+        spyOn(activeCartService, 'isStable').and.returnValue(of(false));
+      });
+
+      it('then Router should not redirect to main page', () => {
+        cartNotEmptyGuard.canActivate().subscribe().unsubscribe();
+        expect(routingService.go).not.toHaveBeenCalled();
+      });
+
+      it('then returned observable should not emit', () => {
+        let emittedValue: any = 'nothing was emitted';
+        cartNotEmptyGuard
+          .canActivate()
+          .subscribe((result) => (emittedValue = result))
+          .unsubscribe();
+        expect(emittedValue).toBe('nothing was emitted');
       });
     });
   });

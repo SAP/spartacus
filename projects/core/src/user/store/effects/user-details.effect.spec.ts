@@ -30,8 +30,10 @@ describe('User Details effect', () => {
       ],
     });
 
-    userDetailsEffect = TestBed.get(fromUserDetailsEffect.UserDetailsEffects);
-    userService = TestBed.get(UserConnector);
+    userDetailsEffect = TestBed.inject(
+      fromUserDetailsEffect.UserDetailsEffects
+    );
+    userService = TestBed.inject(UserConnector);
   });
 
   describe('loadUserDetails$', () => {

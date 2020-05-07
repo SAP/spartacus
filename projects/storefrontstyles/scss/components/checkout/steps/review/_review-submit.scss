@@ -14,18 +14,31 @@
     margin: 0;
     background-color: var(--cx-color-background);
 
+    &-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+      word-break: break-all;
+    }
+
+    &-edit-step {
+      padding: 0 20px 20px;
+
+      @include media-breakpoint-down(md) {
+        padding: 10px 0 0;
+      }
+    }
+
     .cx-review-summary-card {
       @include media-breakpoint-down(md) {
         background-color: theme-color('inverse');
         border-style: solid;
         border-width: 1px;
         border-color: var(--cx-color-light);
+        min-height: auto;
       }
     }
-  }
-
-  .row {
-    margin: 0;
   }
 
   .form-check {
@@ -102,5 +115,18 @@ cx-place-order {
 
   .cx-place-order-form {
     @include type('7');
+    padding: 0;
+
+    .form-check {
+      &-input {
+        margin: 0;
+        top: 1rem;
+      }
+
+      &-label {
+        padding: 0;
+        margin: 0 0 0.5rem 3rem;
+      }
+    }
   }
 }

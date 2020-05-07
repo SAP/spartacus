@@ -1,100 +1,123 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { CartService, PromotionResult } from '@spartacus/core';
-import { Item } from '../cart-item/cart-item.component';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import {
+  ActiveCartService,
+  ConsignmentEntry,
+  PromotionLocation,
+  SelectiveCartService,
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import {
+  CartItemComponentOptions,
+  Item,
+} from '../cart-item/cart-item.component';
 
 @Component({
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartItemListComponent implements OnInit {
-  @Input()
-  isReadOnly = false;
+export class CartItemListComponent {
+  @Input() readonly = false;
 
-  @Input()
-  hasHeader = true;
+  @Input() hasHeader = true;
 
-  @Input()
-  items: Item[] = [];
+  @Input() options: CartItemComponentOptions = {
+    isSaveForLater: false,
+    optionalBtn: null,
+  };
 
-  @Input()
-  potentialProductPromotions: PromotionResult[] = [];
+  private _items: Item[] = [];
+  form: FormGroup;
 
-  @Input()
-  cartIsLoading = false;
+  @Input('items')
+  // TODO: currently we're getting a new array of items if the cart changes.
+  // pretty annoying as it forces a repaint on the screen,
+  // which is noticable in the UI.
+  set items(items: Item[]) {
+    this.resolveItems(items);
+    this.createForm();
+  }
+  get items(): Item[] {
+    return this._items;
+  }
 
-  form: FormGroup = this.fb.group({});
+  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
-  constructor(protected cartService: CartService, protected fb: FormBuilder) {}
+  @Input('cartIsLoading') set setLoading(value: boolean) {
+    if (!this.readonly) {
+      // Whenver the cart is loading, we disable the complete form
+      // to avoid any user interaction with the cart.
+      value
+        ? this.form.disable({ emitEvent: false })
+        : this.form.enable({ emitEvent: false });
+    }
+  }
 
-  ngOnInit() {
-    this.items.forEach(item => {
+  constructor(
+    protected activeCartService: ActiveCartService,
+    protected selectiveCartService: SelectiveCartService
+  ) {}
+
+  /**
+   * The items we're getting form the input do not have a consistent model.
+   * In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
+   */
+  private resolveItems(items: Item[]): void {
+    if (items.every((item) => item.hasOwnProperty('orderEntry'))) {
+      this._items = items.map((consignmentEntry) => {
+        const entry = Object.assign(
+          {},
+          (consignmentEntry as ConsignmentEntry).orderEntry
+        );
+        entry.quantity = consignmentEntry.quantity;
+        return entry;
+      });
+    } else {
+      this._items = items;
+    }
+  }
+
+  private createForm(): void {
+    this.form = new FormGroup({});
+    this._items.forEach((item) => {
       const { code } = item.product;
-      if (!this.form.controls[code]) {
-        this.form.setControl(code, this.createEntryFormGroup(item));
-      } else {
-        const entryForm = this.form.controls[code] as FormGroup;
-        entryForm.controls.quantity.setValue(item.quantity);
+      const group = new FormGroup({
+        entryNumber: new FormControl((<any>item).entryNumber),
+        quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
+      });
+      if (!item.updateable || this.readonly) {
+        group.disable();
       }
+      this.form.addControl(code, group);
     });
   }
 
   removeEntry(item: Item): void {
-    this.cartService.removeEntry(item);
+    if (this.selectiveCartService && this.options.isSaveForLater) {
+      this.selectiveCartService.removeEntry(item);
+    } else {
+      this.activeCartService.removeEntry(item);
+    }
     delete this.form.controls[item.product.code];
   }
 
-  updateEntry({
-    item,
-    updatedQuantity,
-  }: {
-    item: any;
-    updatedQuantity: number;
-  }): void {
-    this.cartService.updateEntry(item.entryNumber, updatedQuantity);
-  }
-
-  getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
-    const entryPromotions: PromotionResult[] = [];
-    if (
-      this.potentialProductPromotions &&
-      this.potentialProductPromotions.length > 0
-    ) {
-      for (const promotion of this.potentialProductPromotions) {
-        if (
-          promotion.description &&
-          promotion.consumedEntries &&
-          promotion.consumedEntries.length > 0
-        ) {
-          for (const consumedEntry of promotion.consumedEntries) {
-            if (this.isConsumedByEntry(consumedEntry, item)) {
-              entryPromotions.push(promotion);
-            }
-          }
+  getControl(item: Item): Observable<FormGroup> {
+    return this.form.get(item.product.code).valueChanges.pipe(
+      // tslint:disable-next-line:deprecation
+      startWith(null),
+      map((value) => {
+        if (value && this.selectiveCartService && this.options.isSaveForLater) {
+          this.selectiveCartService.updateEntry(
+            value.entryNumber,
+            value.quantity
+          );
+        } else if (value) {
+          this.activeCartService.updateEntry(value.entryNumber, value.quantity);
         }
-      }
-    }
-    return entryPromotions;
-  }
-
-  private createEntryFormGroup(entry): FormGroup {
-    return this.fb.group({
-      entryNumber: entry.entryNumber,
-      quantity: entry.quantity,
-    });
-  }
-
-  private isConsumedByEntry(consumedEntry: any, entry: any): boolean {
-    const consumendEntryNumber = consumedEntry.orderEntryNumber;
-    if (entry.entries && entry.entries.length > 0) {
-      for (const subEntry of entry.entries) {
-        if (subEntry.entryNumber === consumendEntryNumber) {
-          return true;
-        }
-      }
-      return false;
-    } else {
-      return consumendEntryNumber === entry.entryNumber;
-    }
+      }),
+      map(() => <FormGroup>this.form.get(item.product.code))
+    );
   }
 }

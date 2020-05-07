@@ -11,3 +11,7 @@ export * from './cart-totals/cart-totals.module';
 export * from './cart.module';
 export * from './mini-cart/mini-cart.component';
 export * from './mini-cart/mini-cart.module';
+export * from './cart-coupon/index';
+export * from './save-for-later/save-for-later.component';
+export * from './save-for-later/save-for-later.module';
+export * from './add-to-wishlist/index';
