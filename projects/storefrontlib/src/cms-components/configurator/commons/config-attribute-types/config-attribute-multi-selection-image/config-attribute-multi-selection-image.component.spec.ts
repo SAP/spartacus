@@ -78,7 +78,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render 4 images after init', () => {
+  it('should render 4 multi selection images after init', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
