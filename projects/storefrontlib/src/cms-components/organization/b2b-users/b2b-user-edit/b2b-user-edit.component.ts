@@ -34,7 +34,7 @@ export class B2BUserEditComponent implements OnInit {
         this.b2bUsersService.update(b2bUserCode, b2bUser)
       );
     this.routingService.go({
-      cxRoute: 'b2bUserDetails',
+      cxRoute: 'userDetails',
       params: { code: b2bUser.uid },
     });
   }

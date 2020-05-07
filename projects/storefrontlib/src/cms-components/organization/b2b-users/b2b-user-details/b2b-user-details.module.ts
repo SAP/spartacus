@@ -21,7 +21,7 @@ import { B2BUserDetailsComponent } from './b2b-user-details.component';
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'b2bUserDetails' },
+        data: { cxRoute: 'userDetails' },
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{

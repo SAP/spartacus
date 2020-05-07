@@ -20,7 +20,7 @@ import { B2BUserFormModule } from '../b2b-user-form/b2b-user-form.module';
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'b2bUserEdit' },
+        data: { cxRoute: 'userEdit' },
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{

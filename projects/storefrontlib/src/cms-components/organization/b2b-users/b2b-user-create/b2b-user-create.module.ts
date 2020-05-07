@@ -7,7 +7,7 @@ import {
   I18nModule,
 } from '@spartacus/core';
 import { B2BUserCreateComponent } from './b2b-user-create.component';
-import { B2BUserFormModule } from '../b2b-users-form/b2b-user-form.module';
+import { B2BUserFormModule } from '../b2b-user-form/b2b-user-form.module';
 
 @NgModule({
   imports: [
