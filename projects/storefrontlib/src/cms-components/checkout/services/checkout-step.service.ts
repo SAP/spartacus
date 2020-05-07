@@ -72,24 +72,6 @@ export class CheckoutStepService {
     return 'common.back';
   }
 
-  /*getActiveStepIndex(): Observable<number> {
-    return this.routingService.getRouterState().pipe(
-      map((router) => {
-        let activeIndex;
-        const activeStepUrl = router.state.context.id;
-        this.intialSteps.forEach((step, index) => {
-          const routeUrl = `/${
-            this.routingConfigService.getRouteConfig(step.routeName).paths[0]
-          }`;
-          if (routeUrl === activeStepUrl) {
-            activeIndex = index;
-          }
-        });
-        return activeIndex;
-      })
-    );
-  }*/
-
   resetSteps(): void {
     this.intialSteps = this.checkoutConfigService.steps
       .filter((step) => !step.disabled)
