@@ -41,7 +41,7 @@ describe('OutletRendererService', () => {
     const mockDirective = new MockOutletDirective() as OutletDirective;
     outletRendererService.register(outlet, mockDirective);
 
-    expect(outletRendererService['outletRefs'].get(outlet)).toEqual(
+    expect(outletRendererService['outletRefs'].value.get(outlet)).toEqual(
       mockDirective
     );
   });

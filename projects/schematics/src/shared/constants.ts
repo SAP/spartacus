@@ -203,6 +203,22 @@ export const QUALTRICS_LOADER_SERVICE = 'QualtricsLoaderService';
 export const RENDERER_FACTORY_2 = 'RendererFactory2';
 export const QUALTRICS_CONFIG = 'QualtricsConfig';
 export const QUALTRICS_COMPONENT = 'QualtricsComponent';
+export const PRODUCT_FACET_NAVIGATION_COMPONENT =
+  'ProductFacetNavigationComponent';
+export const BREAKPOINT_SERVICE = 'BreakpointService';
+export const STORE_FINDER_GRID_COMPONENT = 'StoreFinderGridComponent';
+export const OUTLET_RENDERER_SERVICE = 'OutletRendererService';
+export const SKIP_LINK_SERVICE = 'SkipLinkService';
+export const SKIP_LINK_CONFIG = 'SkipLinkConfig';
+export const KEYBOARD_FOCUS_SERVICE = 'KeyboardFocusService';
+export const STOREFRONT_COMPONENT = 'StorefrontComponent';
+export const HAMBURGER_MENU_SERVICE = 'HamburgerMenuService';
+export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT =
+  'AnonymousConsentManagementBannerComponent';
+export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
+  'AnonymousConsentLaunchDialogService';
+export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT =
+  'AnonymousConsentOpenDialogComponent';
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -275,6 +291,12 @@ export const GET_STATE_SLICE = 'getStateSlice';
 export const OF_LOADER_LOAD = 'ofLoaderLoad';
 export const OF_LOADER_FAIL = 'ofLoaderFail';
 export const OF_LOADER_SUCCESS = 'ofLoaderSuccess';
+
+export const ONLY_NUMBER_DIRECTIVE_MODULE = 'OnlyNumberDirectiveModule';
+export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
+export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
+export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
