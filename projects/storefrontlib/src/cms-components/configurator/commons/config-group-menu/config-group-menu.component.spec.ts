@@ -232,11 +232,19 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
   });
 
-  it('should render 3 groups', () => {
+  it('should render 0 groups directly after init has been performed as groups are compiled with delay', () => {
     component.ngOnInit();
     fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(0);
+  });
 
-    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(3);
+  it('should render 3 groups after groups have been compiled', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+    component.displayedGroups$.subscribe(() => {
+      fixture.detectChanges();
+      expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(3);
+    });
   });
 
   it('should set current group in case of clicking on a group', () => {

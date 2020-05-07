@@ -1,45 +1,58 @@
+import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   ConfiguratorTextfield,
   ConfiguratorTextfieldService,
+  GenericConfigurator,
   I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { cold } from 'jasmine-marbles';
+import { Observable } from 'rxjs';
 import { PageLayoutModule } from '../../../../cms-structure/page/page-layout/page-layout.module';
 import { ConfigTextfieldAddToCartButtonComponent } from '../config-textfield-add-to-cart-button/config-textfield-add-to-cart-button.component';
 import { ConfigTextfieldInputFieldComponent } from '../config-textfield-input-field/config-textfield-input-field.component';
 import { ConfigTextfieldFormComponent } from './config-textfield-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
+const CART_ENTRY_KEY = '3';
 const ATTRIBUTE_NAME = 'AttributeName';
+const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';
 const mockRouterState: any = {
   state: {
     params: {
-      rootProduct: PRODUCT_CODE,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
+      entityKey: PRODUCT_CODE,
     },
+    url: URL_CONFIGURATION,
   },
+};
+const productConfig: ConfiguratorTextfield.Configuration = {
+  configurationInfos: [{ configurationLabel: ATTRIBUTE_NAME }],
 };
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
+    return cold('-r', {
+      r: mockRouterState,
+    });
   }
 }
 
 class MockConfiguratorTextfieldService {
   createConfiguration(): Observable<ConfiguratorTextfield.Configuration> {
-    const productConfig: ConfiguratorTextfield.Configuration = {
-      configurationInfos: [{ configurationLabel: ATTRIBUTE_NAME }],
-    };
-    return of(productConfig);
+    return cold('-p', {
+      p: productConfig,
+    });
   }
+  updateConfiguration(): void {}
 }
 describe('ConfigTextfieldFormComponent', () => {
   let component: ConfigTextfieldFormComponent;
   let fixture: ComponentFixture<ConfigTextfieldFormComponent>;
+  let textfieldService: ConfiguratorTextfieldService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -47,7 +60,6 @@ describe('ConfigTextfieldFormComponent', () => {
         I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-
         PageLayoutModule,
       ],
       declarations: [
@@ -60,7 +72,6 @@ describe('ConfigTextfieldFormComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
-
         {
           provide: ConfiguratorTextfieldService,
           useClass: MockConfiguratorTextfieldService,
@@ -71,6 +82,9 @@ describe('ConfigTextfieldFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigTextfieldFormComponent);
     component = fixture.componentInstance;
+    textfieldService = TestBed.inject(
+      ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
+    );
   });
 
   it('should create component', () => {
@@ -79,11 +93,34 @@ describe('ConfigTextfieldFormComponent', () => {
 
   it('should know product configuration after init has been done', () => {
     component.ngOnInit();
-    component.configuration$.subscribe((configuration) => {
-      const attributes: ConfiguratorTextfield.ConfigurationInfo[] =
-        configuration.configurationInfos;
-      expect(attributes.length).toBe(1);
-      expect(attributes[0].configurationLabel).toBe(ATTRIBUTE_NAME);
-    });
+
+    expect(component.configuration$).toBeObservable(
+      cold('--p', {
+        p: productConfig,
+      })
+    );
+  });
+
+  it('should know product configuration after init when starting from cart', () => {
+    mockRouterState.state = {
+      params: {
+        ownerType: GenericConfigurator.OwnerType.CART_ENTRY,
+        entityKey: CART_ENTRY_KEY,
+      },
+      url: URL_CONFIGURATION,
+    };
+
+    component.ngOnInit();
+    expect(component.configuration$).toBeObservable(
+      cold('-p', {
+        p: null,
+      })
+    );
+  });
+
+  it('should call update configuration', () => {
+    spyOn(textfieldService, 'updateConfiguration').and.callThrough();
+    component.updateConfiguration(productConfig.configurationInfos[0]);
+    expect(textfieldService.updateConfiguration).toHaveBeenCalledTimes(1);
   });
 });
