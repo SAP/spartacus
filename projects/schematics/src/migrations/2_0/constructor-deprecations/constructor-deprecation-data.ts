@@ -56,6 +56,8 @@ import { PRODUCT_LIST_COMPONENT_MIGRATION } from './data/product-list.component.
 import { PRODUCT_REVIEWS_COMPONENT_MIGRATION } from './data/product-reviews.component.migration';
 import { PRODUCT_SERVICE_MIGRATION } from './data/product-service.migration';
 import { PROMOTION_SERVICE_MIGRATION } from './data/promotion.service.migration';
+import { QUALTRICS_LOADER_MIGRATION } from './data/qualtrics-loader.service.migration';
+import { QUALTRICS_COMPONENT_MIGRATION } from './data/qualtrics.component.migration';
 import { REGISTER_COMPONENT_MIGRATIONS } from './data/register.component.migration';
 import { REVIEW_SUBMIT_COMPONENT_MIGRATIONS } from './data/review-submit.component.migration';
 import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migration';
@@ -155,6 +157,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION,
   STORE_FINDER_LIST_ITEM_MIGRATION,
   SELECTIVE_CART_SERVICE_MIGRATION,
+  QUALTRICS_LOADER_MIGRATION,
+  QUALTRICS_COMPONENT_MIGRATION,
   ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT_MIGRATION,
   ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION,
   PRODUCT_FACET_NAVIGATION_COMPONENT_MIGRATION,
