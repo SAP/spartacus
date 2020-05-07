@@ -10,6 +10,7 @@ import { By } from '@angular/platform-browser';
 describe('ConfigAttributeSingleSelectionImageComponent', () => {
   let component: ConfigAttributeSingleSelectionImageComponent;
   let fixture: ComponentFixture<ConfigAttributeSingleSelectionImageComponent>;
+  let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -60,6 +61,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       ConfigAttributeSingleSelectionImageComponent
     );
     component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
 
     component.attribute = {
       name: 'attributeName',
@@ -72,8 +74,17 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create a component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render 3 images', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(
+      htmlElem.querySelectorAll('.cx-config-attribute-value-img').length
+    ).toBe(3);
   });
 
   it('should init with val3', () => {
