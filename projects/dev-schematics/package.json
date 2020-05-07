@@ -1,0 +1,25 @@
+{
+  "name": "@spartacus/dev-schematics",
+  "version": "0.0.1",
+  "description": "Spartacus dev-schematics",
+  "keywords": [
+    "spartacus",
+    "dev-schematics"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "tsc -p tsconfig.json && jasmine \"src/**/*_spec.js\""
+  },
+  "author": "",
+  "license": "MIT",
+  "schematics": "./src/collection.json",
+  "dependencies": {
+    "@angular-devkit/core": "^9.1.0",
+    "@angular-devkit/schematics": "^9.1.0",
+    "@schematics/angular": "^9.1.0",
+    "@types/jasmine": "^3.5.0",
+    "@types/node": "^12.11.1",
+    "jasmine": "^3.5.0",
+    "typescript": "~3.8.3"
+  }
+}
