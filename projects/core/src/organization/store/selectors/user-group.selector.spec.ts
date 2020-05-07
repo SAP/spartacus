@@ -9,11 +9,9 @@ import {
   UserGroupManagement,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
-import {
-  EntityLoaderState,
-  LoaderState,
-  UserGroupSelectors,
-} from '@spartacus/core';
+import { UserGroupSelectors } from '../selectors/index';
+import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 
 describe('UserGroup Selectors', () => {
   let store: Store<StateWithOrganization>;
@@ -63,7 +61,7 @@ describe('UserGroup Selectors', () => {
       let result: UserGroupManagement;
       store
         .pipe(select(UserGroupSelectors.getUserGroupManagementState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
@@ -82,7 +80,7 @@ describe('UserGroup Selectors', () => {
       let result: EntityLoaderState<UserGroup>;
       store
         .pipe(select(UserGroupSelectors.getUserGroupsState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])
@@ -96,7 +94,7 @@ describe('UserGroup Selectors', () => {
       let result: LoaderState<UserGroup>;
       store
         .pipe(select(UserGroupSelectors.getUserGroup(uid)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new UserGroupActions.LoadUserGroupSuccess([userGroup, userGroup2])

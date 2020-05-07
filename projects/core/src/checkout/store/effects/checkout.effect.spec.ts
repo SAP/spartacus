@@ -5,7 +5,6 @@ import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { AuthActions } from '../../../auth/store/actions/index';
-import * as DeprecatedCartActions from '../../../cart/store/actions/cart.action';
 import { CartActions } from '../../../cart/store/actions/index';
 import {
   CheckoutDeliveryConnector,
@@ -189,7 +188,10 @@ describe('Checkout effect', () => {
 
   describe('clearCheckoutMiscsDataOnLanguageChange$', () => {
     it('should dispatch checkout clear miscs data action on language change', () => {
-      const action = new SiteContextActions.LanguageChange();
+      const action = new SiteContextActions.LanguageChange({
+        previous: 'previous',
+        current: 'current',
+      });
       const completion1 = new CheckoutActions.CheckoutClearMiscsData();
       const completion2 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
 
@@ -204,7 +206,10 @@ describe('Checkout effect', () => {
 
   describe('clearDeliveryModesOnCurrencyChange$', () => {
     it('should dispatch clear supported delivery modes action on currency change', () => {
-      const action = new SiteContextActions.CurrencyChange();
+      const action = new SiteContextActions.CurrencyChange({
+        previous: 'previous',
+        current: 'current',
+      });
       const completion = new CheckoutActions.ClearSupportedDeliveryModes();
 
       actions$ = hot('-a', { a: action });
@@ -250,7 +255,7 @@ describe('Checkout effect', () => {
       const setDeliveryModeSuccess = new CheckoutActions.SetDeliveryModeSuccess(
         'testSelectedModeId'
       );
-      const loadCart = new DeprecatedCartActions.LoadCart({
+      const loadCart = new CartActions.LoadCart({
         userId,
         cartId,
       });
@@ -346,7 +351,7 @@ describe('Checkout effect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const removeCartCompletion = new CartActions.RemoveCart(cartId);
+      const removeCartCompletion = new CartActions.RemoveCart({ cartId });
       const placeOrderSuccessCompletion = new CheckoutActions.PlaceOrderSuccess(
         orderDetails
       );

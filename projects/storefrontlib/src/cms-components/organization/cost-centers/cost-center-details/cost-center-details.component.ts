@@ -1,7 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
 
 @Component({
@@ -15,17 +20,18 @@ export class CostCenterDetailsComponent implements OnInit {
     string
   > = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['code']));
+    .pipe(map((routingData) => routingData.state.params['code']));
 
   constructor(
     protected routingService: RoutingService,
-    protected costCentersService: CostCenterService
+    protected costCentersService: CostCenterService,
+    protected modalService: ModalService
   ) {}
 
   ngOnInit(): void {
     this.costCenter$ = this.costCenterCode$.pipe(
-      tap(code => this.costCentersService.loadCostCenter(code)),
-      switchMap(code => this.costCentersService.get(code)),
+      tap((code) => this.costCentersService.loadCostCenter(code)),
+      switchMap((code) => this.costCentersService.get(code)),
       filter(Boolean)
     );
   }
@@ -33,8 +39,14 @@ export class CostCenterDetailsComponent implements OnInit {
   update(costCenter: CostCenter) {
     this.costCenterCode$
       .pipe(take(1))
-      .subscribe(costCenterCode =>
+      .subscribe((costCenterCode) =>
         this.costCentersService.update(costCenterCode, costCenter)
       );
+  }
+
+  openModal(template: TemplateRef<any>): void {
+    this.modalService.open(template, {
+      centered: true,
+    });
   }
 }

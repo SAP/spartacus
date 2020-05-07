@@ -9,7 +9,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { SpinnerModule } from '../../../shared/index';
+import { SpinnerModule, FormErrorsModule } from '../../../shared/index';
 import { LoginModule } from '../login/login.module';
 import { RegisterComponent } from './register.component';
 
@@ -22,6 +22,7 @@ import { RegisterComponent } from './register.component';
     UrlModule,
     I18nModule,
     SpinnerModule,
+    FormErrorsModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

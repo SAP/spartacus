@@ -19,18 +19,19 @@ export class FindStoresEffect {
   > = this.actions$.pipe(
     ofType(StoreFinderActions.FIND_STORES),
     map((action: StoreFinderActions.FindStores) => action.payload),
-    mergeMap(payload =>
+    mergeMap((payload) =>
       this.storeFinderConnector
         .search(
           payload.queryText,
           payload.searchConfig,
-          payload.longitudeLatitude
+          payload.longitudeLatitude,
+          payload.radius
         )
         .pipe(
-          map(data => {
+          map((data) => {
             if (payload.countryIsoCode) {
               data.stores = data.stores.filter(
-                store =>
+                (store) =>
                   store.address.country.isocode === payload.countryIsoCode
               );
               data.stores.sort((a, b) =>
@@ -40,7 +41,7 @@ export class FindStoresEffect {
 
             return new StoreFinderActions.FindStoresSuccess(data);
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new StoreFinderActions.FindStoresFail(
                 makeErrorSerializable(error)
@@ -58,10 +59,10 @@ export class FindStoresEffect {
   > = this.actions$.pipe(
     ofType(StoreFinderActions.FIND_STORE_BY_ID),
     map((action: StoreFinderActions.FindStoreById) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.storeFinderConnector.get(payload.storeId).pipe(
-        map(data => new StoreFinderActions.FindStoreByIdSuccess(data)),
-        catchError(error =>
+        map((data) => new StoreFinderActions.FindStoreByIdSuccess(data)),
+        catchError((error) =>
           of(
             new StoreFinderActions.FindStoreByIdFail(
               makeErrorSerializable(error)

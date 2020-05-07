@@ -42,6 +42,10 @@ export const organization = {
       code: 'Code',
       name: 'Name',
     },
+    confirmDeactivation: {
+      title: 'Disable Budget',
+      message: 'Are you sure you want to disable this budget?',
+    },
   },
   budgetForm: {
     create: 'Create Budget',
@@ -65,11 +69,6 @@ export const organization = {
     amount: {
       label: 'Budget amount',
       placeholder: 'Amount',
-    },
-    message: {
-      required: 'Value is required',
-      rangeOverflow: 'Date must be before {{date}}',
-      rangeUnderflow: 'Date must be after {{date}}',
     },
   },
   permissionsList: {
@@ -103,6 +102,10 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     threshold: 'Threshold Amount',
+    confirmDeactivation: {
+      title: 'Disable Permission',
+      message: 'Are you sure you want to disable this permission?',
+    },
   },
   permissionForm: {
     create: 'Create Permission',
@@ -122,9 +125,6 @@ export const organization = {
     threshold: {
       label: 'Permission threshold',
       placeholder: 'Amount',
-    },
-    message: {
-      required: 'Value is required',
     },
   },
   costCentersList: {
@@ -156,6 +156,10 @@ export const organization = {
     deactivated: 'Deactivated',
     budgets: 'Budgets',
     assignBudgets: 'Manage Budgets',
+    confirmDeactivation: {
+      title: 'Disable Cost Center',
+      message: 'Are you sure you want to disable this cost center?',
+    },
   },
   costCenterAssignBudgets: {
     header: 'Manage budgets in {{code}}',
@@ -178,9 +182,6 @@ export const organization = {
       placeholder: 'Select business unit',
     },
     currency: 'Currency',
-    message: {
-      required: 'Value is required',
-    },
   },
   orgUnitsList: {
     orgUnitManagement: 'Organization Units Management',
@@ -200,6 +201,13 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     assignRoles: 'Manage Roles',
+    manageAddresses: 'Manage Addresses',
+    confirmDeactivation: {
+      title: 'Disable Unit',
+      message: 'Are you sure you want to disable this unit?',
+    },
+    children: 'Child Units',
+    costCenters: 'Cost Centers',
   },
   orgUnitForm: {
     create: 'Create Unit',
@@ -221,13 +229,82 @@ export const organization = {
       label: 'Approval process',
       placeholder: 'Select approval process',
     },
-    message: {
-      required: 'Value is required',
-    },
   },
   unitAssignRoles: {
     header: 'Manage roles in {{code}}',
     back: 'Close',
+  },
+  unitManageAddresses: {
+    header: 'Manage addresses in {{code}}',
+    create: 'Create new Address',
+    back: 'Back to unit',
+    id: 'ID',
+    name: 'Name',
+    formattedAddress: 'Details',
+  },
+  unitAddressDetails: {
+    header: 'Addresses details',
+    edit: 'Edit',
+    delete: 'Delete',
+    back: 'Back',
+    id: 'ID',
+    name: 'Name',
+    unit: 'Unit',
+    details: 'Details',
+  },
+  unitAddressCreate: {
+    header: 'Address create',
+    create: 'Create',
+  },
+  unitAddressEdit: {
+    header: 'Address edit',
+    update: 'Update',
+  },
+  unitAddressForm: {
+    title: 'Title',
+    firstName: {
+      label: 'First name',
+      placeholder: 'First Name',
+    },
+    lastName: {
+      label: 'Last name',
+      placeholder: 'Last Name',
+    },
+    address1: 'Address 1',
+    address2: 'Address 2 (optional)',
+    country: 'Country',
+    city: {
+      label: 'City',
+      placeholder: 'City',
+    },
+    state: 'State',
+    zipCode: {
+      label: 'Zip code',
+      placeholder: 'Postal Code/Zip',
+    },
+    phoneNumber: {
+      label: 'Phone number (optional)',
+      placeholder: '(555) 555 - 0123',
+    },
+    saveAsDefault: 'Save as default',
+    chooseAddress: 'Choose address',
+    streetAddress: 'Street Address',
+    aptSuite: 'Apt, Suite',
+    selectOne: 'Select One...',
+  },
+  unitCostCenters: {
+    header: 'Cost centers in {{code}}',
+    back: 'Close',
+    create: 'Create',
+    code: 'Code',
+    name: 'Name',
+  },
+  unitChildren: {
+    header: 'Child units in {{code}}',
+    back: 'Close',
+    create: 'Create',
+    id: 'ID',
+    name: 'Name',
   },
   usersList: {
     sorting: {
@@ -317,9 +394,6 @@ export const organization = {
     businessUnits: {
       label: 'Parent business unit',
       placeholder: 'Select business unit',
-    },
-    message: {
-      required: 'Value is required',
     },
   },
   userGroupAssignPermissions: {

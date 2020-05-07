@@ -59,8 +59,8 @@ export class SearchBoxComponent {
   ) {}
 
   results$: Observable<SearchResults> = this.config$.pipe(
-    tap(c => (this.config = c)),
-    switchMap(config => this.searchBoxComponentService.getResults(config))
+    tap((c) => (this.config = c)),
+    switchMap((config) => this.searchBoxComponentService.getResults(config))
   );
 
   /**
@@ -71,17 +71,17 @@ export class SearchBoxComponent {
       return <Observable<SearchBoxConfig>>this.componentData.data$.pipe(
         // Since the backend returns string values (i.e. displayProducts: "true") for
         // boolean values, we replace them with boolean values.
-        map(c => {
+        map((c) => {
           return {
             ...c,
             displayProducts:
-              <any>c.displayProducts === 'true' || c.displayProducts === true,
+              <any>c?.displayProducts === 'true' || c?.displayProducts === true,
             displayProductImages:
-              <any>c.displayProductImages === 'true' ||
-              c.displayProductImages === true,
+              <any>c?.displayProductImages === 'true' ||
+              c?.displayProductImages === true,
             displaySuggestions:
-              <any>c.displaySuggestions === 'true' ||
-              c.displaySuggestions === true,
+              <any>c?.displaySuggestions === 'true' ||
+              c?.displaySuggestions === true,
           };
         })
       );

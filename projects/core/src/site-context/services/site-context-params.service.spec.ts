@@ -112,7 +112,7 @@ describe('SiteContextParamsService', () => {
       service
         .getValues([])
         .pipe(take(1))
-        .subscribe(value => expect(value).toEqual([]));
+        .subscribe((value) => expect(value).toEqual([]));
     });
 
     it('should emit active values for single service', () => {
@@ -122,7 +122,7 @@ describe('SiteContextParamsService', () => {
       service
         .getValues([LANGUAGE_CONTEXT_ID])
         .pipe(bufferCount(3), take(1))
-        .subscribe(values => {
+        .subscribe((values) => {
           expect(values).toEqual([['en'], ['de'], ['en']]);
         });
     });
@@ -135,7 +135,7 @@ describe('SiteContextParamsService', () => {
       service
         .getValues([LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID])
         .pipe(bufferCount(3), take(1))
-        .subscribe(values => {
+        .subscribe((values) => {
           expect(values).toEqual([
             ['ja', 'USD'],
             ['ja', 'JPY'],

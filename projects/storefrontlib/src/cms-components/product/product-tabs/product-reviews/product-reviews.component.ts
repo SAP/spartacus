@@ -16,6 +16,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { CurrentProductService } from '../../current-product.service';
+import { CustomFormValidators } from '../../../../shared/index';
 
 @Component({
   selector: 'cx-product-reviews',
@@ -37,10 +38,12 @@ export class ProductReviewsComponent {
   product$: Observable<Product> = this.currentProductService.getProduct();
 
   reviews$: Observable<Review[]> = this.product$.pipe(
-    filter(p => !!p),
-    map(p => p.code),
+    filter((p) => !!p),
+    map((p) => p.code),
     distinctUntilChanged(),
-    switchMap(productCode => this.reviewService.getByProductCode(productCode)),
+    switchMap((productCode) =>
+      this.reviewService.getByProductCode(productCode)
+    ),
     tap(() => {
       this.resetReviewForm();
       this.maxListItems = this.initialMaxListItems;
@@ -75,21 +78,15 @@ export class ProductReviewsComponent {
     }
   }
 
-  setRating(rating): void {
+  setRating(rating: number): void {
     this.reviewForm.controls.rating.setValue(rating);
-  }
-
-  private markFormAsTouched(): void {
-    Object.keys(this.reviewForm.controls).forEach(key => {
-      this.reviewForm.controls[key].markAsTouched();
-    });
   }
 
   submitReview(product: Product) {
     if (this.reviewForm.valid) {
       this.addReview(product);
     } else {
-      this.markFormAsTouched();
+      this.reviewForm.markAllAsTouched();
     }
   }
 
@@ -118,7 +115,7 @@ export class ProductReviewsComponent {
     this.reviewForm = this.fb.group({
       title: ['', Validators.required],
       comment: ['', Validators.required],
-      rating: [0, [Validators.min(1), Validators.max(5)]],
+      rating: [null, CustomFormValidators.starRatingEmpty],
       reviewerName: '',
     });
   }

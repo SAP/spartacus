@@ -19,6 +19,7 @@ import { CostCenterFormComponent } from './cost-center-form.component';
 import createSpy = jasmine.createSpy;
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { By } from '@angular/platform-browser';
+import { FormErrorsComponent } from '@spartacus/storefront';
 
 const costCenterCode = 'b1';
 
@@ -52,6 +53,7 @@ const mockOrgUnits: B2BUnitNode[] = [
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
+  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 class MockCostCenterService implements Partial<CostCenterService> {
@@ -75,6 +77,7 @@ const mockActiveCurr = new BehaviorSubject('USD');
 
 class MockCurrencyService implements Partial<CurrencyService> {
   getAll = jasmine.createSpy('getAll').and.returnValue(of(mockCurrencies));
+  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
   getActive(): Observable<string> {
     return mockActiveCurr;
   }
@@ -99,7 +102,7 @@ describe('CostCenterFormComponent', () => {
         NgSelectModule,
         RouterTestingModule,
       ],
-      declarations: [CostCenterFormComponent, MockUrlPipe],
+      declarations: [CostCenterFormComponent, MockUrlPipe, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -126,11 +129,11 @@ describe('CostCenterFormComponent', () => {
       component.ngOnInit();
       let currencies: any;
       component.currencies$
-        .subscribe(value => {
+        .subscribe((value) => {
           currencies = value;
         })
         .unsubscribe();
-      expect(currencyService.getAll).toHaveBeenCalled();
+      expect(currencyService.getAll).toHaveBeenCalledWith();
       expect(currencies).toEqual(mockCurrencies);
     });
 
@@ -138,11 +141,12 @@ describe('CostCenterFormComponent', () => {
       component.ngOnInit();
       let businessUnits: any;
       component.businessUnits$
-        .subscribe(value => {
+        .subscribe((value) => {
           businessUnits = value;
         })
         .unsubscribe();
-      expect(orgUnitService.getList).toHaveBeenCalled();
+      expect(orgUnitService.loadOrgUnitNodes).toHaveBeenCalledWith();
+      expect(orgUnitService.getList).toHaveBeenCalledWith();
       expect(businessUnits).toEqual(mockOrgUnits);
     });
 
@@ -165,19 +169,21 @@ describe('CostCenterFormComponent', () => {
 
   describe('verifyCostCenter', () => {
     it('should not emit value if form is invalid', () => {
-      spyOn(component.submit, 'emit');
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
-      expect(component.submit.emit).not.toHaveBeenCalled();
+      spyOn(component.submitForm, 'emit');
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
+      expect(component.submitForm.emit).not.toHaveBeenCalled();
     });
 
     it('should emit value if form is valid', () => {
-      spyOn(component.submit, 'emit');
+      spyOn(component.submitForm, 'emit');
       component.costCenterData = mockCostCenter;
       component.ngOnInit();
-      const submitButton = fixture.debugElement.query(By.css('.btn-primary'));
-      submitButton.triggerEventHandler('click', null);
-      expect(component.submit.emit).toHaveBeenCalledWith(component.form.value);
+      const form = fixture.debugElement.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
+      expect(component.submitForm.emit).toHaveBeenCalledWith(
+        component.form.value
+      );
     });
   });
 
@@ -185,7 +191,7 @@ describe('CostCenterFormComponent', () => {
     it('should emit clickBack event', () => {
       spyOn(component.clickBack, 'emit');
       component.back();
-      expect(component.clickBack.emit).toHaveBeenCalled();
+      expect(component.clickBack.emit).toHaveBeenCalledWith();
     });
   });
 });

@@ -39,7 +39,7 @@ export class UserGroupAssignUsersComponent extends AbstractListingComponent
   }
 
   ngOnInit(): void {
-    this.code$.pipe(take(1)).subscribe(code => (this.code = code));
+    this.code$.pipe(take(1)).subscribe((code) => (this.code = code));
 
     this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
       withLatestFrom(this.code$),
@@ -52,7 +52,7 @@ export class UserGroupAssignUsersComponent extends AbstractListingComponent
           map((usersList: EntitiesModel<B2BUser>) => ({
             sorts: usersList.sorts,
             pagination: usersList.pagination,
-            values: usersList.values.map(user => ({
+            values: usersList.values.map((user) => ({
               selected: user.selected,
               email: user.uid,
               name: user.name,

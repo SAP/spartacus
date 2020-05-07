@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { PageRobotsMeta } from '../../cms';
 import { I18nTestingModule, TranslationService } from '../../i18n';
+import { Product } from '../../model';
 import { RoutingService } from '../../routing';
 import { ProductService } from '../facade';
 import { ProductPageMetaResolver } from './product-page-meta.resolver';
@@ -18,27 +19,33 @@ class MockRoutingService {
   }
 }
 
-class MockProductService {
-  get(code: string) {
-    return of(<any>{
-      code: code,
-      name: 'Product title',
-      summary: 'Product summary',
-      categories: [
-        {
-          code: '123',
-          name: 'one two three',
-        },
-      ],
-      images: {
-        PRIMARY: {
-          zoom: {
-            url: 'https://storefront.com/image',
-          },
-        },
+const MockProduct: Product = {
+  code: '1234',
+  name: 'Product title',
+  summary: 'Product summary',
+  categories: [
+    {
+      code: '123',
+      name: 'one two three',
+    },
+  ],
+  images: {
+    PRIMARY: {
+      zoom: {
+        url: 'https://storefront.com/image',
       },
-      manufacturer: 'Canon',
-    });
+    },
+  },
+  manufacturer: 'Canon',
+};
+
+const MockProductWithoutImages: Product = {
+  code: '1234',
+};
+
+class MockProductService {
+  get(_code: string) {
+    return of(MockProduct);
   }
 }
 
@@ -61,6 +68,7 @@ class MockTranslationService {
 
 describe('ProductPageMetaResolver', () => {
   let service: ProductPageMetaResolver;
+  let productService: ProductService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -74,6 +82,7 @@ describe('ProductPageMetaResolver', () => {
     });
 
     service = TestBed.inject(ProductPageMetaResolver);
+    productService = TestBed.inject(ProductService);
   });
 
   it('should be created', () => {
@@ -84,7 +93,7 @@ describe('ProductPageMetaResolver', () => {
     let result: string;
     service
       .resolveHeading()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result).toEqual('pageMetaResolver.product.heading:Product title');
@@ -94,7 +103,7 @@ describe('ProductPageMetaResolver', () => {
     let result: string;
     service
       .resolveTitle()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result).toEqual(
@@ -106,7 +115,7 @@ describe('ProductPageMetaResolver', () => {
     let result: string;
     service
       .resolveDescription()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result).toEqual(
@@ -118,7 +127,7 @@ describe('ProductPageMetaResolver', () => {
     let result: string;
     service
       .resolveImage()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();
@@ -126,11 +135,25 @@ describe('ProductPageMetaResolver', () => {
     expect(result).toEqual('https://storefront.com/image');
   });
 
+  it('should gracefully return null for product without images', () => {
+    spyOn(productService, 'get').and.returnValue(of(MockProductWithoutImages));
+
+    let result: string;
+    service
+      .resolveImage()
+      .subscribe((value) => {
+        result = value;
+      })
+      .unsubscribe();
+
+    expect(result).toBeNull();
+  });
+
   it('should resolve breadcrumbs', () => {
     let result: any[];
     service
       .resolveBreadcrumbs()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();
@@ -142,7 +165,7 @@ describe('ProductPageMetaResolver', () => {
     let result: any[];
     service
       .resolveBreadcrumbs()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();
@@ -154,7 +177,7 @@ describe('ProductPageMetaResolver', () => {
     let result: any[];
     service
       .resolveRobots()
-      .subscribe(value => {
+      .subscribe((value) => {
         result = value;
       })
       .unsubscribe();

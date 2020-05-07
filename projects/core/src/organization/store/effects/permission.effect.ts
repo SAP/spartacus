@@ -26,7 +26,7 @@ export class PermissionEffects {
         map((permission: Permission) => {
           return new PermissionActions.LoadPermissionSuccess([permission]);
         }),
-        catchError(error =>
+        catchError((error) =>
           of(
             new PermissionActions.LoadPermissionFail({
               permissionCode,
@@ -46,7 +46,7 @@ export class PermissionEffects {
   > = this.actions$.pipe(
     ofType(PermissionActions.LOAD_PERMISSIONS),
     map((action: PermissionActions.LoadPermissions) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.permissionConnector.getList(payload.userId, payload.params).pipe(
         switchMap((permissions: EntitiesModel<Permission>) => {
           const { values, page } = normalizeListPage(permissions, 'code');
@@ -58,7 +58,7 @@ export class PermissionEffects {
             }),
           ];
         }),
-        catchError(error =>
+        catchError((error) =>
           of(
             new PermissionActions.LoadPermissionsFail({
               params: payload.params,
@@ -77,10 +77,10 @@ export class PermissionEffects {
   > = this.actions$.pipe(
     ofType(PermissionActions.CREATE_PERMISSION),
     map((action: PermissionActions.CreatePermission) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.permissionConnector.create(payload.userId, payload.permission).pipe(
-        map(data => new PermissionActions.CreatePermissionSuccess(data)),
-        catchError(error =>
+        map((data) => new PermissionActions.CreatePermissionSuccess(data)),
+        catchError((error) =>
           of(
             new PermissionActions.CreatePermissionFail({
               permissionCode: payload.permission.code,
@@ -99,12 +99,12 @@ export class PermissionEffects {
   > = this.actions$.pipe(
     ofType(PermissionActions.UPDATE_PERMISSION),
     map((action: PermissionActions.UpdatePermission) => action.payload),
-    switchMap(payload =>
+    switchMap((payload) =>
       this.permissionConnector
         .update(payload.userId, payload.permissionCode, payload.permission)
         .pipe(
-          map(data => new PermissionActions.UpdatePermissionSuccess(data)),
-          catchError(error =>
+          map((data) => new PermissionActions.UpdatePermissionSuccess(data)),
+          catchError((error) =>
             of(
               new PermissionActions.UpdatePermissionFail({
                 permissionCode: payload.permission.code,
@@ -128,7 +128,7 @@ export class PermissionEffects {
           (permissionTypeList: OrderApprovalPermissionType[]) =>
             new PermissionActions.LoadPermissionTypesSuccess(permissionTypeList)
         ),
-        catchError(error =>
+        catchError((error) =>
           of(
             new PermissionActions.LoadPermissionTypesFail({
               error: makeErrorSerializable(error),

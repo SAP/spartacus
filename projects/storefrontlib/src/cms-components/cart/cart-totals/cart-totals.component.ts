@@ -18,6 +18,6 @@ export class CartTotalsComponent implements OnInit {
     this.cart$ = this.activeCartService.getActive();
     this.entries$ = this.activeCartService
       .getEntries()
-      .pipe(filter(entries => entries.length > 0));
+      .pipe(filter((entries) => entries.length > 0));
   }
 }

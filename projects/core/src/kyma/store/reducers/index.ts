@@ -28,7 +28,7 @@ export const reducerProvider: Provider = {
 export function clearKymaState(
   reducer: ActionReducer<KymaState, Action>
 ): ActionReducer<KymaState, Action> {
-  return function(state, action) {
+  return function (state, action) {
     if (action.type === AuthActions.LOGOUT) {
       state = {
         ...state,

@@ -7,3 +7,4 @@ export * from './media/index';
 export * from './modal/index';
 export * from './spinner/index';
 export * from './star-rating/index';
+export * from './form/form-errors/index';

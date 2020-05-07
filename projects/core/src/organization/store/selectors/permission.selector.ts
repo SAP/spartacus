@@ -4,7 +4,7 @@ import {
   OrderApprovalPermissionType,
   Permission,
 } from '../../../model/permission.model';
-import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
+import { entityLoaderStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { B2BSearchConfig } from '../../model/search-config';
@@ -46,7 +46,7 @@ export const getPermission = (
   permissionCode: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<Permission>> =>
   createSelector(getPermissionsState, (state: EntityLoaderState<Permission>) =>
-    entityStateSelector(state, permissionCode)
+    entityLoaderStateSelector(state, permissionCode)
   );
 
 export const getPermissionList = (
@@ -66,5 +66,5 @@ export const getPermissionTypes = (): MemoizedSelector<
   createSelector(
     getPermissionTypesState,
     (state: EntityLoaderState<OrderApprovalPermissionType[]>) =>
-      entityStateSelector(state, PERMISSION_TYPES)
+      entityLoaderStateSelector(state, PERMISSION_TYPES)
   );

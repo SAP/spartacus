@@ -18,7 +18,7 @@ import createSpy = jasmine.createSpy;
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // tslint:disable-next-line:no-shadowed-variable
-    url => url
+    (url) => url
   );
 }
 
@@ -65,12 +65,12 @@ describe('OccProductSearchAdapter', () => {
 
   describe('query text search', () => {
     it('should return search results for given query text', () => {
-      service.search(queryText, mockSearchConfig).subscribe(result => {
+      service.search(queryText, mockSearchConfig).subscribe((result) => {
         expect(result).toEqual(searchResults);
       });
 
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'productSearch'
+        (req) => req.method === 'GET' && req.url === 'productSearch'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -102,12 +102,12 @@ describe('OccProductSearchAdapter', () => {
     it('should return suggestions for given term', () => {
       service
         .loadSuggestions(queryText, mockSearchConfig.pageSize)
-        .subscribe(suggestions => {
+        .subscribe((suggestions) => {
           expect(suggestions).toEqual(suggestionList.suggestions);
         });
 
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'productSuggestions'
+        (req) => req.method === 'GET' && req.url === 'productSuggestions'
       );
 
       expect(mockReq.cancelled).toBeFalsy();

@@ -1,6 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { ConsentTemplate } from '../../../model/consent.model';
-import { StateLoaderSelectors } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
@@ -13,32 +13,26 @@ export const getConsentsState: MemoizedSelector<
 export const getConsentsValue: MemoizedSelector<
   StateWithUser,
   ConsentTemplate[]
-> = createSelector(getConsentsState, StateLoaderSelectors.loaderValueSelector);
+> = createSelector(getConsentsState, StateUtils.loaderValueSelector);
 
 export const getConsentByTemplateId = (
   templateId: string
 ): MemoizedSelector<StateWithUser, ConsentTemplate> =>
-  createSelector(getConsentsValue, templates =>
-    templates.find(template => template.id === templateId)
+  createSelector(getConsentsValue, (templates) =>
+    templates.find((template) => template.id === templateId)
   );
 
 export const getConsentsLoading: MemoizedSelector<
   StateWithUser,
   boolean
-> = createSelector(
-  getConsentsState,
-  StateLoaderSelectors.loaderLoadingSelector
-);
+> = createSelector(getConsentsState, StateUtils.loaderLoadingSelector);
 
 export const getConsentsSuccess: MemoizedSelector<
   StateWithUser,
   boolean
-> = createSelector(
-  getConsentsState,
-  StateLoaderSelectors.loaderSuccessSelector
-);
+> = createSelector(getConsentsState, StateUtils.loaderSuccessSelector);
 
 export const getConsentsError: MemoizedSelector<
   StateWithUser,
   boolean
-> = createSelector(getConsentsState, StateLoaderSelectors.loaderErrorSelector);
+> = createSelector(getConsentsState, StateUtils.loaderErrorSelector);

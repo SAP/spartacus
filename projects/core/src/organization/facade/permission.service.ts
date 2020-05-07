@@ -28,7 +28,7 @@ export class PermissionService {
   ) {}
 
   loadPermission(permissionCode: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new PermissionActions.LoadPermission({
           userId,
@@ -39,7 +39,7 @@ export class PermissionService {
   }
 
   loadPermissions(params?: B2BSearchConfig): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new PermissionActions.LoadPermissions({ userId, params })
       )
@@ -71,13 +71,13 @@ export class PermissionService {
   get(permissionCode: string): Observable<Permission> {
     return this.getPermission(permissionCode).pipe(
       observeOn(queueScheduler),
-      tap(state => {
+      tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.loadPermission(permissionCode);
         }
       }),
-      filter(state => state.success || state.error),
-      map(state => state.value)
+      filter((state) => state.success || state.error),
+      map((state) => state.value)
     );
   }
 
@@ -93,7 +93,7 @@ export class PermissionService {
         (process: LoaderState<OrderApprovalPermissionType[]>) =>
           process.success || process.error
       ),
-      map(result => result.value)
+      map((result) => result.value)
     );
   }
 
@@ -109,12 +109,12 @@ export class PermissionService {
         (process: LoaderState<EntitiesModel<Permission>>) =>
           process.success || process.error
       ),
-      map(result => result.value)
+      map((result) => result.value)
     );
   }
 
   create(permission: Permission): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new PermissionActions.CreatePermission({ userId, permission })
       )
@@ -122,7 +122,7 @@ export class PermissionService {
   }
 
   update(permissionCode: string, permission: Permission): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new PermissionActions.UpdatePermission({
           userId,
@@ -137,6 +137,6 @@ export class PermissionService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(userId => callback(userId));
+      .subscribe((userId) => callback(userId));
   }
 }

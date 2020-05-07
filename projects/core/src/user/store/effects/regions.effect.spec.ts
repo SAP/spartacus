@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { Region } from '../../../model/index';
 import { SiteAdapter } from '../../../site-context/connectors/site.adapter';
 import { SiteConnector } from '../../../site-context/connectors/site.connector';
-import { StateLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { UserActions } from '../actions/index';
 import { REGIONS } from '../user-state';
 import { RegionsEffects } from './regions.effect';
@@ -65,7 +65,7 @@ describe('', () => {
         type: UserActions.CLEAR_USER_MISCS_DATA,
       };
 
-      const completion = new StateLoaderActions.LoaderResetAction(REGIONS);
+      const completion = new StateUtils.LoaderResetAction(REGIONS);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

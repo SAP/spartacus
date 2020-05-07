@@ -76,7 +76,7 @@ describe('BudgetService', () => {
       let budgetDetails: Budget;
       service
         .get(budgetCode)
-        .subscribe(data => {
+        .subscribe((data) => {
           budgetDetails = data;
         })
         .unsubscribe();
@@ -93,7 +93,7 @@ describe('BudgetService', () => {
       let budgetDetails: Budget;
       service
         .get(budgetCode)
-        .subscribe(data => {
+        .subscribe((data) => {
           budgetDetails = data;
         })
         .unsubscribe();
@@ -113,7 +113,7 @@ describe('BudgetService', () => {
       let budgets: EntitiesModel<Budget>;
       service
         .getList(params)
-        .subscribe(data => {
+        .subscribe((data) => {
           budgets = data;
         })
         .unsubscribe();
@@ -140,7 +140,7 @@ describe('BudgetService', () => {
       let budgets: EntitiesModel<Budget>;
       service
         .getList(params)
-        .subscribe(data => {
+        .subscribe((data) => {
           budgets = data;
         })
         .unsubscribe();

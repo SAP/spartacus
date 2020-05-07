@@ -98,7 +98,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     // so modal will have proper header text displayed
     this.activeCartService
       .getEntry(this.productCode)
-      .subscribe(entry => {
+      .subscribe((entry) => {
         if (entry) {
           this.increment = true;
         }

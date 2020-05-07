@@ -1,13 +1,9 @@
 import { Location } from '@angular/common';
-import {
-  ComponentFactory,
-  ComponentFactoryResolver,
-  Injectable,
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { OutletPosition, OutletService } from '../../../cms-structure/index';
+import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/index';
+import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
-import { AsmMainUiComponent } from '../asm-main-ui/asm-main-ui.component';
 
 /**
  * The AsmEnablerService is used to enable ASM for those scenario's
@@ -18,14 +14,10 @@ import { AsmMainUiComponent } from '../asm-main-ui/asm-main-ui.component';
   providedIn: 'root',
 })
 export class AsmEnablerService {
-  /** indicates whether the ASM UI has been added already */
-  private isUiAdded = false;
-
   constructor(
     protected location: Location,
     protected winRef: WindowRef,
-    protected componentFactoryResolver: ComponentFactoryResolver,
-    protected outletService: OutletService<ComponentFactory<any>>
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   /**
@@ -54,7 +46,7 @@ export class AsmEnablerService {
    * Indicates whether ASM is launched through the URL,
    * using the asm flag in the URL.
    */
-  private isLaunched(): boolean {
+  protected isLaunched(): boolean {
     const params = this.location.path().split('?')[1];
     return params && params.split('&').includes('asm=true');
   }
@@ -62,7 +54,7 @@ export class AsmEnablerService {
   /**
    * Evaluates local storage where we persist the usage of ASM.
    */
-  private isUsedBefore(): boolean {
+  protected isUsedBefore(): boolean {
     return (
       this.winRef.localStorage &&
       this.winRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY) === 'true'
@@ -72,14 +64,7 @@ export class AsmEnablerService {
   /**
    * Adds the ASM UI by using the `cx-storefront` outlet.
    */
-  private addUi(): void {
-    if (this.isUiAdded) {
-      return;
-    }
-    const factory = this.componentFactoryResolver.resolveComponentFactory(
-      AsmMainUiComponent
-    );
-    this.outletService.add('cx-storefront', factory, OutletPosition.BEFORE);
-    this.isUiAdded = true;
+  protected addUi(): void {
+    this.launchDialogService.launch(LAUNCH_CALLER.ASM);
   }
 }

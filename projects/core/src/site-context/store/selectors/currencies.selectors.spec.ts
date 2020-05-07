@@ -38,7 +38,7 @@ describe('Currencies Selectors', () => {
 
       store
         .pipe(select(SiteContextSelectors.getCurrenciesEntities))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(null);
 
@@ -53,7 +53,7 @@ describe('Currencies Selectors', () => {
 
       store
         .pipe(select(SiteContextSelectors.getActiveCurrency))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(null);
 
@@ -68,7 +68,7 @@ describe('Currencies Selectors', () => {
 
       store
         .pipe(select(SiteContextSelectors.getAllCurrencies))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(null);
 

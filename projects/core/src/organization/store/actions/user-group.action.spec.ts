@@ -6,7 +6,7 @@ import {
   USER_GROUP_AVAILABLE_CUSTOMERS,
   B2B_USER_ENTITIES,
 } from '../organization-state';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { UserGroupActions } from './index';
 import { UserGroup } from '@spartacus/core';
 
@@ -37,10 +37,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.LOAD_USER_GROUP,
           payload: { userId, userGroupId },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            USER_GROUP_ENTITIES,
-            userGroupId
-          ),
+          meta: StateUtils.entityLoadMeta(USER_GROUP_ENTITIES, userGroupId),
         });
       });
     });
@@ -55,7 +52,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.LOAD_USER_GROUP_FAIL,
           payload: { userGroupId, error },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             USER_GROUP_ENTITIES,
             userGroupId,
             error
@@ -71,10 +68,9 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.LOAD_USER_GROUP_SUCCESS,
           payload: [userGroup],
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            USER_GROUP_ENTITIES,
-            [userGroupId]
-          ),
+          meta: StateUtils.entitySuccessMeta(USER_GROUP_ENTITIES, [
+            userGroupId,
+          ]),
         });
       });
     });
@@ -91,7 +87,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.LOAD_USER_GROUPS,
           payload: { userId, params },
-          meta: StateEntityLoaderActions.entityLoadMeta(USER_GROUP_LIST, query),
+          meta: StateUtils.entityLoadMeta(USER_GROUP_LIST, query),
         });
       });
     });
@@ -106,13 +102,9 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.LOAD_USER_GROUPS_FAIL,
           payload: { params, error: { error } },
-          meta: StateEntityLoaderActions.entityFailMeta(
-            USER_GROUP_LIST,
-            query,
-            {
-              error,
-            }
-          ),
+          meta: StateUtils.entityFailMeta(USER_GROUP_LIST, query, {
+            error,
+          }),
         });
       });
     });
@@ -127,10 +119,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.LOAD_USER_GROUPS_SUCCESS,
           payload: { page, params },
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            USER_GROUP_LIST,
-            query
-          ),
+          meta: StateUtils.entitySuccessMeta(USER_GROUP_LIST, query),
         });
       });
     });
@@ -147,10 +136,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.CREATE_USER_GROUP,
           payload: { userId, userGroup },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            USER_GROUP_ENTITIES,
-            userGroupId
-          ),
+          meta: StateUtils.entityLoadMeta(USER_GROUP_ENTITIES, userGroupId),
         });
       });
     });
@@ -168,7 +154,7 @@ describe('UserGroup Actions', () => {
             userGroupId,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             USER_GROUP_ENTITIES,
             userGroupId,
             error
@@ -184,10 +170,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.CREATE_USER_GROUP_SUCCESS,
           payload: userGroup,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            USER_GROUP_ENTITIES,
-            userGroupId
-          ),
+          meta: StateUtils.entitySuccessMeta(USER_GROUP_ENTITIES, userGroupId),
         });
       });
     });
@@ -205,10 +188,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.UPDATE_USER_GROUP,
           payload: { userId, userGroupId, userGroup },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            USER_GROUP_ENTITIES,
-            userGroupId
-          ),
+          meta: StateUtils.entityLoadMeta(USER_GROUP_ENTITIES, userGroupId),
         });
       });
     });
@@ -226,7 +206,7 @@ describe('UserGroup Actions', () => {
             userGroupId,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             USER_GROUP_ENTITIES,
             userGroupId,
             error
@@ -242,10 +222,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.UPDATE_USER_GROUP_SUCCESS,
           payload: userGroup,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            USER_GROUP_ENTITIES,
-            userGroupId
-          ),
+          meta: StateUtils.entitySuccessMeta(USER_GROUP_ENTITIES, userGroupId),
         });
       });
     });
@@ -262,10 +239,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.DELETE_USER_GROUP,
           payload: { userId, userGroupId },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            USER_GROUP_ENTITIES,
-            userGroupId
-          ),
+          meta: StateUtils.entityLoadMeta(USER_GROUP_ENTITIES, userGroupId),
         });
       });
     });
@@ -283,7 +257,7 @@ describe('UserGroup Actions', () => {
             userGroupId,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             USER_GROUP_ENTITIES,
             userGroupId,
             error
@@ -299,10 +273,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.DELETE_USER_GROUP_SUCCESS,
           payload: userGroup,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            USER_GROUP_ENTITIES,
-            userGroupId
-          ),
+          meta: StateUtils.entitySuccessMeta(USER_GROUP_ENTITIES, userGroupId),
         });
       });
     });
@@ -320,7 +291,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.LOAD_USER_GROUP_PERMISSIONS,
           payload: { userId, userGroupId, params },
-          meta: StateEntityLoaderActions.entityLoadMeta(
+          meta: StateUtils.entityLoadMeta(
             USER_GROUP_PERMISSIONS,
             userGroupId + query
           ),
@@ -343,7 +314,7 @@ describe('UserGroup Actions', () => {
             params,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             USER_GROUP_PERMISSIONS,
             userGroupId + query,
             error
@@ -367,7 +338,7 @@ describe('UserGroup Actions', () => {
             page,
             params,
           },
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateUtils.entitySuccessMeta(
             USER_GROUP_PERMISSIONS,
             userGroupId + query
           ),
@@ -388,10 +359,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.USER_GROUP_ASSIGN_PERMISSION,
           payload: { userId, userGroupId, permissionUid },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            PERMISSION_ENTITIES,
-            permissionUid
-          ),
+          meta: StateUtils.entityLoadMeta(PERMISSION_ENTITIES, permissionUid),
         });
       });
     });
@@ -411,7 +379,7 @@ describe('UserGroup Actions', () => {
             permissionUid,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionUid,
             error
@@ -430,7 +398,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.USER_GROUP_ASSIGN_PERMISSION_SUCCESS,
           payload: { permissionUid: permissionUid, selected: true },
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateUtils.entitySuccessMeta(
             PERMISSION_ENTITIES,
             permissionUid
           ),
@@ -451,10 +419,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION,
           payload: { userId, userGroupId, permissionUid },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            PERMISSION_ENTITIES,
-            permissionUid
-          ),
+          meta: StateUtils.entityLoadMeta(PERMISSION_ENTITIES, permissionUid),
         });
       });
     });
@@ -474,7 +439,7 @@ describe('UserGroup Actions', () => {
             permissionUid,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionUid,
             error
@@ -493,7 +458,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION_SUCCESS,
           payload: { permissionUid: permissionUid, selected: false },
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateUtils.entitySuccessMeta(
             PERMISSION_ENTITIES,
             permissionUid
           ),
@@ -514,7 +479,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS,
           payload: { userId, userGroupId, params },
-          meta: StateEntityLoaderActions.entityLoadMeta(
+          meta: StateUtils.entityLoadMeta(
             USER_GROUP_AVAILABLE_CUSTOMERS,
             userGroupId + query
           ),
@@ -537,7 +502,7 @@ describe('UserGroup Actions', () => {
             params,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             USER_GROUP_AVAILABLE_CUSTOMERS,
             userGroupId + query,
             error
@@ -561,7 +526,7 @@ describe('UserGroup Actions', () => {
             page,
             params,
           },
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateUtils.entitySuccessMeta(
             USER_GROUP_AVAILABLE_CUSTOMERS,
             userGroupId + query
           ),
@@ -582,10 +547,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.USER_GROUP_ASSIGN_MEMBER,
           payload: { userId, userGroupId, customerId },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            B2B_USER_ENTITIES,
-            customerId
-          ),
+          meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, customerId),
         });
       });
     });
@@ -605,11 +567,7 @@ describe('UserGroup Actions', () => {
             customerId,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
-            B2B_USER_ENTITIES,
-            customerId,
-            error
-          ),
+          meta: StateUtils.entityFailMeta(B2B_USER_ENTITIES, customerId, error),
         });
       });
     });
@@ -624,10 +582,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.USER_GROUP_ASSIGN_MEMBER_SUCCESS,
           payload: { customerId: customerId, selected: true },
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            B2B_USER_ENTITIES,
-            customerId
-          ),
+          meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, customerId),
         });
       });
     });
@@ -645,10 +600,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.USER_GROUP_UNASSIGN_MEMBER,
           payload: { userId, userGroupId, customerId },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            B2B_USER_ENTITIES,
-            customerId
-          ),
+          meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, customerId),
         });
       });
     });
@@ -668,11 +620,7 @@ describe('UserGroup Actions', () => {
             customerId,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
-            B2B_USER_ENTITIES,
-            customerId,
-            error
-          ),
+          meta: StateUtils.entityFailMeta(B2B_USER_ENTITIES, customerId, error),
         });
       });
     });
@@ -687,10 +635,7 @@ describe('UserGroup Actions', () => {
         expect({ ...action }).toEqual({
           type: UserGroupActions.USER_GROUP_UNASSIGN_MEMBER_SUCCESS,
           payload: { customerId: customerId, selected: false },
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            B2B_USER_ENTITIES,
-            customerId
-          ),
+          meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, customerId),
         });
       });
     });

@@ -46,6 +46,7 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   get = createSpy('get').and.returnValue(of(mockOrgUnit));
   getApprovalProcesses = createSpy('getApprovalProcesses');
   update = createSpy('update');
+  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 const mockRouterState = {
@@ -94,7 +95,7 @@ class LanguageServiceStub {
   }
 }
 
-describe('OrgUnitEditComponent', () => {
+describe('UnitEditComponent', () => {
   let component: UnitEditComponent;
   let fixture: ComponentFixture<UnitEditComponent>;
   let orgUnitsService: MockOrgUnitService;
@@ -136,11 +137,11 @@ describe('OrgUnitEditComponent', () => {
       component.ngOnInit();
       let orgUnit: any;
       component.orgUnit$
-        .subscribe(value => {
+        .subscribe((value) => {
           orgUnit = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(orgUnitsService.loadOrgUnit).toHaveBeenCalledWith(code);
       expect(orgUnitsService.get).toHaveBeenCalledWith(code);
       expect(orgUnit).toEqual(mockOrgUnit);
@@ -153,7 +154,6 @@ describe('OrgUnitEditComponent', () => {
       const updateOrgUnit = {
         code,
         name: 'newName',
-        activeFlag: false,
       };
 
       component.updateOrgUnit(updateOrgUnit);

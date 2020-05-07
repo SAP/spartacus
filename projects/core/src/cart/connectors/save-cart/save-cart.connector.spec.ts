@@ -32,7 +32,7 @@ describe('SaveCartConnector', () => {
     let result;
     service
       .saveCart('uid', '1', 'name', 'description')
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toBe('saveuid1namedescription');
     expect(adapter.saveCart).toHaveBeenCalledWith(
       'uid',

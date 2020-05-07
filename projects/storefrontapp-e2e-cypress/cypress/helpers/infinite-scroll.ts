@@ -79,7 +79,7 @@ export function scrollToFooter(
     defaultProductLimit = productLimit;
   }
 
-  cy.get('cx-breadcrumb h1').then($breadcrumb => {
+  cy.get('cx-breadcrumb h1').then(($breadcrumb) => {
     const breadcrumbQuantityNumber = Number($breadcrumb.text().split(' ')[0]);
 
     numberOfIteration = Math.floor(
@@ -131,7 +131,7 @@ export function verifySortingResetsList() {
 }
 
 export function verifyFilterResetsList() {
-  clickFacet('Brand');
+  clickFacet('Brand', '');
 
   cy.wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
     .its('status')

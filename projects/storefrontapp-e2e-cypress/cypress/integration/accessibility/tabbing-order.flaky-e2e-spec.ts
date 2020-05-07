@@ -49,8 +49,6 @@ import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-orde
 import { forgotPasswordTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/reset-password';
 import { updateEmailTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/update-email';
 import { wishlistTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/wishlist';
-import { notificationPreferenceTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/notification-preference';
-import { myInterestTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account/my-interests';
 import {
   checkoutAppliedCouponsTabbingOrder,
   checkoutCouponsTabbingOrder,
@@ -64,17 +62,16 @@ import { storesListTabbingOrder } from '../../helpers/accessibility/tabbing-orde
 import { saveForLaterTabbingOrder } from '../../helpers/accessibility/tabbing-order/save-for-later';
 import {
   stockNotificationNotLoginTabbingOrder,
-  stockNotificationNoEnbaledPreferenceTabbingOrder,
-  stockNotificationProductSubscribedTabbingOrder,
   stockNotificationDialogTabbingOrder,
-  stockNotificationTabbingOrder,
+  stockNotificationTabbingOrderNotificationsNotAllowed,
+  stockNotificationTabbingOrderNotificationsAllowed,
+  stockNotificationTabbingOrderProductSubscribed,
 } from '../../helpers/accessibility/tabbing-order/stock-notification';
 import {
   consignmentTrackingTabbingOrder,
   consignmentTrackingEventsTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/consignment-tracking';
 import {
-  asmTabbingOrder,
   asmTabbingOrderNotLoggedIn,
   asmTabbingOrderNoSelectedUser,
   asmTabbingOrderWithSelectedUser,
@@ -82,7 +79,7 @@ import {
 
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   context('Header - Desktop (not logged in)', () => {
@@ -99,7 +96,6 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
 
   describe('Header Sub Categories - Desktop', () => {
     context('Brands', () => {
-      // TODO: Test currently fails because navigation-ui works incorrectly
       it('should allow to navigate with tab key', () => {
         subCategoryTabbingOrder(config.headerCategoryBrands, 'Brands');
       });
@@ -115,8 +111,6 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
     });
 
     context('Accessories', () => {
-      // TODO: This test fails with the current navigation-ui implementation for unknown reasons.
-      // Better fixed after nav-ui refactor (#6743)
       it('should allow to navigate with tab key', () => {
         subCategoryTabbingOrder(
           config.headerCategoryAccessories,
@@ -188,7 +182,7 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
     });
   });
 
-  context('Product List', () => {
+  context.skip('Product List', () => {
     it('should allow to navigate with tab key (desktop - list view)', () => {
       productListTabbingOrderDesktop(config.productListDesktop);
     });
@@ -239,7 +233,7 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
       });
     });
 
-    context('Search results page', () => {
+    context.skip('Search results page', () => {
       it('should allow to navigate with tab key', () => {
         searchResultsTabbingOrder(config.storeFinderSearchResults);
       });
@@ -375,7 +369,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
 
     it('should allow to navigate with tab key (with orders)', () => {
-      cy.window().then(win => win.sessionStorage.clear());
+      cy.window().then((win) => win.sessionStorage.clear());
       cy.requireLoggedIn();
       orderHistoryWithOrdersTabbingOrder();
     });
@@ -420,11 +414,11 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   context('Address Book (Form)', () => {
     it('should allow to navigate with tab key (Directory)', () => {
       setupForAddressBookTests();
-      addressBookFormTabbingOrder(config.addressBookForm);
+      addressBookDirectoryTabbingOrder();
     });
 
     it('should allow to navigate with tab key (Form)', () => {
-      addressBookDirectoryTabbingOrder(config.addressBookDirectory);
+      addressBookFormTabbingOrder(config.addressBookForm);
     });
   });
 
@@ -434,7 +428,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  context('Order Details', () => {
+  context.skip('Order Details', () => {
     it('should allow to navigate with tab key', () => {
       orderDetailsTabbingOrder(config.orderDetails);
     });
@@ -475,24 +469,26 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   });
 
   context('Stock Notification', () => {
-    it('should allow to navigate with tab key (no enabled notification preference)', () => {
-      stockNotificationNoEnbaledPreferenceTabbingOrder(
-        config.stockNotificationNoEnabledPreference
+    it('should allow to navigate with tab key (notification preference NOT allowed)', () => {
+      stockNotificationTabbingOrderNotificationsNotAllowed(
+        config.stockNotificationPreferenceNotAllowed
       );
     });
 
-    it('should allow to navigate with tab key (product was been subscribed)', () => {
-      stockNotificationProductSubscribedTabbingOrder(
-        config.stockNotificationSubscribed
+    it('should allow to navigate with tab key (notification preference allowed)', () => {
+      stockNotificationTabbingOrderNotificationsAllowed(
+        config.stockNotificationPreferenceAllowed
       );
     });
 
-    it('should allow to navigate with tab key (dialog)', () => {
+    it.skip('should allow to navigate with tab key (dialog)', () => {
       stockNotificationDialogTabbingOrder(config.stockNotificationDialog);
     });
 
-    it('should allow to navigate with tab key', () => {
-      stockNotificationTabbingOrder(config.stockNotification);
+    it.skip('should allow to navigate with tab key (product subscribed)', () => {
+      stockNotificationTabbingOrderProductSubscribed(
+        config.stockNotificationSubscribed
+      );
     });
   });
 

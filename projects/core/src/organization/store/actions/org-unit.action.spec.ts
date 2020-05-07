@@ -4,7 +4,7 @@ import {
   ORG_UNIT_ENTITIES,
 } from '../organization-state';
 import { B2BUnit, B2BUnitNode } from '../../../model/org-unit.model';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { OrgUnitActions } from './index';
 
 const orgUnitId = 'testOrgUnitId';
@@ -30,10 +30,7 @@ describe('OrgUnit Actions', () => {
         expect({ ...action }).toEqual({
           type: OrgUnitActions.LOAD_ORG_UNIT,
           payload: { userId, orgUnitId },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            ORG_UNIT_ENTITIES,
-            orgUnitId
-          ),
+          meta: StateUtils.entityLoadMeta(ORG_UNIT_ENTITIES, orgUnitId),
         });
       });
     });
@@ -45,11 +42,7 @@ describe('OrgUnit Actions', () => {
         expect({ ...action }).toEqual({
           type: OrgUnitActions.LOAD_ORG_UNIT_FAIL,
           payload: { orgUnitId, error },
-          meta: StateEntityLoaderActions.entityFailMeta(
-            ORG_UNIT_ENTITIES,
-            orgUnitId,
-            error
-          ),
+          meta: StateUtils.entityFailMeta(ORG_UNIT_ENTITIES, orgUnitId, error),
         });
       });
     });
@@ -61,9 +54,7 @@ describe('OrgUnit Actions', () => {
         expect({ ...action }).toEqual({
           type: OrgUnitActions.LOAD_ORG_UNIT_SUCCESS,
           payload: [orgUnit],
-          meta: StateEntityLoaderActions.entitySuccessMeta(ORG_UNIT_ENTITIES, [
-            orgUnitId,
-          ]),
+          meta: StateUtils.entitySuccessMeta(ORG_UNIT_ENTITIES, [orgUnitId]),
         });
       });
     });
@@ -79,10 +70,7 @@ describe('OrgUnit Actions', () => {
         expect({ ...action }).toEqual({
           type: OrgUnitActions.LOAD_UNIT_NODES,
           payload: { userId },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            ORG_UNIT_NODE_LIST,
-            ORG_UNIT_NODES
-          ),
+          meta: StateUtils.entityLoadMeta(ORG_UNIT_NODE_LIST, ORG_UNIT_NODES),
         });
       });
     });
@@ -96,13 +84,9 @@ describe('OrgUnit Actions', () => {
         expect({ ...action }).toEqual({
           type: OrgUnitActions.LOAD_UNIT_NODES_FAIL,
           payload: { error: { error } },
-          meta: StateEntityLoaderActions.entityFailMeta(
-            ORG_UNIT_NODE_LIST,
-            ORG_UNIT_NODES,
-            {
-              error,
-            }
-          ),
+          meta: StateUtils.entityFailMeta(ORG_UNIT_NODE_LIST, ORG_UNIT_NODES, {
+            error,
+          }),
         });
       });
     });
@@ -114,7 +98,7 @@ describe('OrgUnit Actions', () => {
         expect({ ...action }).toEqual({
           type: OrgUnitActions.LOAD_UNIT_NODES_SUCCESS,
           payload: orgUnitList,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateUtils.entitySuccessMeta(
             ORG_UNIT_NODE_LIST,
             ORG_UNIT_NODES
           ),

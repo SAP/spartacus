@@ -1,16 +1,20 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { Permission } from '../../../model/permission.model';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../../../model/permission.model';
+import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { PermissionActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
-  StateWithOrganization,
   PermissionManagement,
+  StateWithOrganization,
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
 import { PermissionSelectors } from '../selectors/index';
-import { EntityLoaderState, LoaderState } from '@spartacus/core';
 
 describe('Permission Selectors', () => {
   let store: Store<StateWithOrganization>;
@@ -22,6 +26,11 @@ describe('Permission Selectors', () => {
   const permission2: Permission = {
     code: 'testCode2',
   };
+  const permissionType: OrderApprovalPermissionType = {
+    code: 'testPermissionTypeCode',
+    name: 'testPermissionTypeName',
+  };
+  const permissionTypes: OrderApprovalPermissionType[] = [permissionType];
 
   const entities = {
     testCode: {
@@ -35,6 +44,15 @@ describe('Permission Selectors', () => {
       error: false,
       success: true,
       value: permission2,
+    },
+  };
+
+  const entities2 = {
+    testCode: {
+      loading: false,
+      error: false,
+      success: true,
+      value: permissionTypes,
     },
   };
 
@@ -58,7 +76,7 @@ describe('Permission Selectors', () => {
       let result: PermissionManagement;
       store
         .pipe(select(PermissionSelectors.getPermissionManagementState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new PermissionActions.LoadPermissionSuccess([permission, permission2])
@@ -76,7 +94,7 @@ describe('Permission Selectors', () => {
       let result: EntityLoaderState<Permission>;
       store
         .pipe(select(PermissionSelectors.getPermissionsState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new PermissionActions.LoadPermissionSuccess([permission, permission2])
@@ -90,12 +108,26 @@ describe('Permission Selectors', () => {
       let result: LoaderState<Permission>;
       store
         .pipe(select(PermissionSelectors.getPermission(code)))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new PermissionActions.LoadPermissionSuccess([permission, permission2])
       );
       expect(result).toEqual(entities.testCode);
+    });
+  });
+
+  describe('getPermissionTypes', () => {
+    it('should return permission types', () => {
+      let result: LoaderState<OrderApprovalPermissionType[]>;
+      store
+        .pipe(select(PermissionSelectors.getPermissionTypes()))
+        .subscribe((value) => (result = value));
+
+      store.dispatch(
+        new PermissionActions.LoadPermissionTypesSuccess(permissionTypes)
+      );
+      expect(result).toEqual(entities2.testCode);
     });
   });
 });

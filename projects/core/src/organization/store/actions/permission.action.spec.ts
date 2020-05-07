@@ -1,12 +1,27 @@
-import { PERMISSION_ENTITIES, PERMISSION_LIST } from '../organization-state';
-import { Permission } from '../../../model/permission.model';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../../../model/permission.model';
+import { StateUtils } from '../../../state/utils/index';
+import {
+  PERMISSION_ENTITIES,
+  PERMISSION_LIST,
+  PERMISSION_TYPES,
+  PERMISSION_TYPES_LIST,
+} from '../organization-state';
 import { PermissionActions } from './index';
 
 const permissionCode = 'testPermissionId';
 const permission: Permission = {
   code: permissionCode,
 };
+
+const permissionType: OrderApprovalPermissionType = {
+  code: 'testPermissionTypeCode',
+  name: 'testPermissionTypeName',
+};
+const permissionTypes: OrderApprovalPermissionType[] = [permissionType];
+
 const userId = 'xxx@xxx.xxx';
 const error = 'anError';
 const params = { currentPage: 2 };
@@ -28,10 +43,7 @@ describe('Permission Actions', () => {
         expect({ ...action }).toEqual({
           type: PermissionActions.LOAD_PERMISSION,
           payload: { userId, permissionCode },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            PERMISSION_ENTITIES,
-            permissionCode
-          ),
+          meta: StateUtils.entityLoadMeta(PERMISSION_ENTITIES, permissionCode),
         });
       });
     });
@@ -49,7 +61,7 @@ describe('Permission Actions', () => {
             permissionCode,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionCode,
             error
@@ -67,10 +79,9 @@ describe('Permission Actions', () => {
         expect({ ...action }).toEqual({
           type: PermissionActions.LOAD_PERMISSION_SUCCESS,
           payload: [permission],
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            PERMISSION_ENTITIES,
-            [permissionCode]
-          ),
+          meta: StateUtils.entitySuccessMeta(PERMISSION_ENTITIES, [
+            permissionCode,
+          ]),
         });
       });
     });
@@ -87,7 +98,7 @@ describe('Permission Actions', () => {
         expect({ ...action }).toEqual({
           type: PermissionActions.LOAD_PERMISSIONS,
           payload: { userId, params },
-          meta: StateEntityLoaderActions.entityLoadMeta(PERMISSION_LIST, query),
+          meta: StateUtils.entityLoadMeta(PERMISSION_LIST, query),
         });
       });
     });
@@ -102,13 +113,9 @@ describe('Permission Actions', () => {
         expect({ ...action }).toEqual({
           type: PermissionActions.LOAD_PERMISSIONS_FAIL,
           payload: { params, error: { error } },
-          meta: StateEntityLoaderActions.entityFailMeta(
-            PERMISSION_LIST,
-            query,
-            {
-              error,
-            }
-          ),
+          meta: StateUtils.entityFailMeta(PERMISSION_LIST, query, {
+            error,
+          }),
         });
       });
     });
@@ -123,10 +130,7 @@ describe('Permission Actions', () => {
         expect({ ...action }).toEqual({
           type: PermissionActions.LOAD_PERMISSIONS_SUCCESS,
           payload: { page, params },
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            PERMISSION_LIST,
-            query
-          ),
+          meta: StateUtils.entitySuccessMeta(PERMISSION_LIST, query),
         });
       });
     });
@@ -143,10 +147,7 @@ describe('Permission Actions', () => {
         expect({ ...action }).toEqual({
           type: PermissionActions.CREATE_PERMISSION,
           payload: { userId, permission },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            PERMISSION_ENTITIES,
-            permissionCode
-          ),
+          meta: StateUtils.entityLoadMeta(PERMISSION_ENTITIES, permissionCode),
         });
       });
     });
@@ -164,7 +165,7 @@ describe('Permission Actions', () => {
             permissionCode,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionCode,
             error
@@ -182,7 +183,7 @@ describe('Permission Actions', () => {
         expect({ ...action }).toEqual({
           type: PermissionActions.CREATE_PERMISSION_SUCCESS,
           payload: permission,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateUtils.entitySuccessMeta(
             PERMISSION_ENTITIES,
             permissionCode
           ),
@@ -203,10 +204,7 @@ describe('Permission Actions', () => {
         expect({ ...action }).toEqual({
           type: PermissionActions.UPDATE_PERMISSION,
           payload: { userId, permissionCode, permission },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            PERMISSION_ENTITIES,
-            permissionCode
-          ),
+          meta: StateUtils.entityLoadMeta(PERMISSION_ENTITIES, permissionCode),
         });
       });
     });
@@ -224,7 +222,7 @@ describe('Permission Actions', () => {
             permissionCode,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             PERMISSION_ENTITIES,
             permissionCode,
             error
@@ -242,9 +240,64 @@ describe('Permission Actions', () => {
         expect({ ...action }).toEqual({
           type: PermissionActions.UPDATE_PERMISSION_SUCCESS,
           payload: permission,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateUtils.entitySuccessMeta(
             PERMISSION_ENTITIES,
             permissionCode
+          ),
+        });
+      });
+    });
+  });
+
+  describe('LoadPermissionTypes Actions', () => {
+    describe('LoadPermissionTypes', () => {
+      it('should execute LoadPermissionTypes action', () => {
+        const action = new PermissionActions.LoadPermissionTypes();
+
+        expect({ ...action }).toEqual({
+          type: PermissionActions.LOAD_PERMISSION_TYPES,
+          meta: StateUtils.entityLoadMeta(
+            PERMISSION_TYPES_LIST,
+            PERMISSION_TYPES
+          ),
+        });
+      });
+    });
+
+    describe('LoadPermissionTypesFail', () => {
+      it('should execute LoadPermissionTypesFail action', () => {
+        const action = new PermissionActions.LoadPermissionTypesFail({
+          permissionCode,
+          error,
+        });
+
+        expect({ ...action }).toEqual({
+          type: PermissionActions.LOAD_PERMISSION_TYPES_FAIL,
+          payload: {
+            permissionCode,
+            error,
+          },
+          meta: StateUtils.entityFailMeta(
+            PERMISSION_TYPES_LIST,
+            PERMISSION_TYPES,
+            error
+          ),
+        });
+      });
+    });
+
+    describe('LoadPermissionTypesSuccess', () => {
+      it('should execute LoadPermissionTypesSuccess action', () => {
+        const action = new PermissionActions.LoadPermissionTypesSuccess(
+          permissionTypes
+        );
+
+        expect({ ...action }).toEqual({
+          type: PermissionActions.LOAD_PERMISSION_TYPES_SUCCESS,
+          payload: permissionTypes,
+          meta: StateUtils.entitySuccessMeta(
+            PERMISSION_TYPES_LIST,
+            PERMISSION_TYPES
           ),
         });
       });

@@ -125,11 +125,11 @@ describe('PermissionDetailsComponent', () => {
       component.ngOnInit();
       let permission: any;
       component.permission$
-        .subscribe(value => {
+        .subscribe((value) => {
           permission = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(permissionsService.loadPermission).toHaveBeenCalledWith(code);
       expect(permissionsService.get).toHaveBeenCalledWith(code);
       expect(permission).toEqual(mockPermissionUI);

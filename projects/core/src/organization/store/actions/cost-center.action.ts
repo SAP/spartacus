@@ -1,4 +1,4 @@
-import { CostCenter } from '../../../model/cost-center.model';
+import { CostCenter } from '../../../model/org-unit.model';
 import {
   EntityFailAction,
   EntityLoadAction,
@@ -66,7 +66,7 @@ export class LoadCostCenterSuccess extends EntitySuccessAction {
   constructor(public payload: CostCenter[]) {
     super(
       COST_CENTER_ENTITIES,
-      payload.map(costCenter => costCenter.code)
+      payload.map((costCenter) => costCenter.code)
     );
   }
 }

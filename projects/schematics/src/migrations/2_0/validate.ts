@@ -11,7 +11,7 @@ import {
 
 export function validate(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    const angularVersion = getAngularVersion(tree);
+    const angularVersion = getAngularVersion(tree, false);
     validateAngularVersion(angularVersion);
 
     return tree;

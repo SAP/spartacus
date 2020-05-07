@@ -25,7 +25,7 @@ export class NotificationPreferenceComponent implements OnInit {
     this.notificationPreferenceService.resetNotificationPreferences();
     this.preferences$ = this.notificationPreferenceService
       .getPreferences()
-      .pipe(tap(preferences => (this.preferences = preferences)));
+      .pipe(tap((preferences) => (this.preferences = preferences)));
     this.notificationPreferenceService.loadPreferences();
 
     this.isLoading$ = combineLatest([
@@ -38,7 +38,7 @@ export class NotificationPreferenceComponent implements OnInit {
 
   updatePreference(preference: NotificationPreference) {
     const updatedPreferences = [];
-    this.preferences.forEach(p => {
+    this.preferences.forEach((p) => {
       if (p.channel === preference.channel) {
         updatedPreferences.push({
           ...p,

@@ -1,7 +1,7 @@
 export const profileTagHelper = {
   interceptProfileTagJs(contentWindow) {
     const oldAppendChild = contentWindow.document.head.appendChild;
-    contentWindow.document.head.appendChild = function(newChild) {
+    contentWindow.document.head.appendChild = function (newChild) {
       if (
         newChild &&
         (<HTMLScriptElement>(<any>newChild)).src &&

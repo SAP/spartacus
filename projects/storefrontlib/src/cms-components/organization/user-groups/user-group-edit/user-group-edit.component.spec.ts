@@ -42,6 +42,7 @@ const mockOrgUnits: B2BUnitNode[] = [
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
+  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 class MockUserGroupService implements Partial<UserGroupService> {
@@ -119,11 +120,11 @@ describe('UserGroupEditComponent', () => {
       component.ngOnInit();
       let userGroup: any;
       component.userGroup$
-        .subscribe(value => {
+        .subscribe((value) => {
           userGroup = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(userGroupsService.loadUserGroup).toHaveBeenCalledWith(uid);
       expect(userGroupsService.get).toHaveBeenCalledWith(uid);
       expect(userGroup).toEqual(mockUserGroup);

@@ -31,14 +31,14 @@ export class CostCenterListComponent extends AbstractListingComponent
 
   ngOnInit(): void {
     this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
-      tap(params => this.costCentersService.loadCostCenters(params)),
-      switchMap(params =>
+      tap((params) => this.costCentersService.loadCostCenters(params)),
+      switchMap((params) =>
         this.costCentersService.getList(params).pipe(
           filter(Boolean),
           map((costCentersList: EntitiesModel<CostCenter>) => ({
             sorts: costCentersList.sorts,
             pagination: costCentersList.pagination,
-            values: costCentersList.values.map(costCenter => ({
+            values: costCentersList.values.map((costCenter) => ({
               code: costCenter.code,
               name: costCenter.name,
               currency: costCenter.currency && costCenter.currency.isocode,

@@ -106,11 +106,11 @@ describe('UserGroupDetailsComponent', () => {
       component.ngOnInit();
       let budget: any;
       component.userGroup$
-        .subscribe(value => {
+        .subscribe((value) => {
           budget = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(userGroupService.loadUserGroup).toHaveBeenCalledWith(uid);
       expect(userGroupService.get).toHaveBeenCalledWith(uid);
       expect(budget).toEqual(mockUserGroupUI);

@@ -99,7 +99,7 @@ describe('LockFocusDirective', () => {
       By.css('#a1,#a2,#b1,#b2,#b3,#d1,#d2')
     );
     spyOn(service, 'findFocusable').and.returnValue(
-      children.map(c => c.nativeElement)
+      children.map((c) => c.nativeElement)
     );
   });
 

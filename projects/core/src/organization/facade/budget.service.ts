@@ -20,13 +20,13 @@ export class BudgetService {
   ) {}
 
   loadBudget(budgetCode: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(new BudgetActions.LoadBudget({ userId, budgetCode }))
     );
   }
 
   loadBudgets(params?: B2BSearchConfig): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params }))
     );
   }
@@ -44,13 +44,13 @@ export class BudgetService {
   get(budgetCode: string): Observable<Budget> {
     return this.getBudget(budgetCode).pipe(
       observeOn(queueScheduler),
-      tap(state => {
+      tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.loadBudget(budgetCode);
         }
       }),
-      filter(state => state.success || state.error),
-      map(state => state.value)
+      filter((state) => state.success || state.error),
+      map((state) => state.value)
     );
   }
 
@@ -66,18 +66,18 @@ export class BudgetService {
         (process: LoaderState<EntitiesModel<Budget>>) =>
           process.success || process.error
       ),
-      map(result => result.value)
+      map((result) => result.value)
     );
   }
 
   create(budget: Budget): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(new BudgetActions.CreateBudget({ userId, budget }))
     );
   }
 
   update(budgetCode: string, budget: Budget): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
       )
@@ -88,6 +88,6 @@ export class BudgetService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(userId => callback(userId));
+      .subscribe((userId) => callback(userId));
   }
 }

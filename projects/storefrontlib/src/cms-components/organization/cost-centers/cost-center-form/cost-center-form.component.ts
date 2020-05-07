@@ -29,6 +29,9 @@ export class CostCenterFormComponent extends AbstractFormComponent
   @Input()
   costCenterData: CostCenter;
 
+  @Input()
+  readonlyParent = false;
+
   form: FormGroup = this.fb.group({
     code: ['', Validators.required],
     name: ['', Validators.required],
@@ -50,6 +53,7 @@ export class CostCenterFormComponent extends AbstractFormComponent
 
   ngOnInit() {
     this.currencies$ = this.currencyService.getAll();
+    this.orgUnitService.loadOrgUnitNodes();
     this.businessUnits$ = this.orgUnitService.getList();
     if (this.costCenterData && Object.keys(this.costCenterData).length !== 0) {
       this.form.patchValue(this.costCenterData);

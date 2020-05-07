@@ -98,22 +98,22 @@ describe('Date Picker Component', () => {
         expect(component.validate()).toEqual(undefined);
       });
 
-      it('should return rangeOverflow', () => {
+      it('should return cxDateMax', () => {
         component.value = modelValue;
         component.nativeValue = nativeValue;
         component.getMin = createSpy('getMin').and.returnValue('2010-04-01');
         component.getMax = createSpy('getMax').and.returnValue('2010-05-01');
         fixture.detectChanges();
-        expect(component.validate()).toEqual({ rangeOverflow: true });
+        expect(component.validate()).toEqual({ cxDateMax: true });
       });
 
-      it('should return rangeUnderflow', () => {
+      it('should return cxDateMin', () => {
         component.value = modelValue;
         component.nativeValue = nativeValue;
         component.getMin = createSpy('getMin').and.returnValue('2010-07-01');
         component.getMax = createSpy('getMax').and.returnValue('2010-08-01');
         fixture.detectChanges();
-        expect(component.validate()).toEqual({ rangeUnderflow: true });
+        expect(component.validate()).toEqual({ cxDateMin: true });
       });
     });
   });

@@ -8,7 +8,9 @@ export function productPageTabbingOrder(config: TabElement[]) {
   cy.visit(testProductUrl);
 
   cy.route(
-    `${Cypress.env('API_URL')}/rest/v2/electronics-spa/products/779841/reviews*`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/779841/reviews*`
   ).as('reviews');
 
   cy.get('cx-breadcrumb').should('contain', 'Home');
@@ -16,9 +18,7 @@ export function productPageTabbingOrder(config: TabElement[]) {
   cy.get('cx-breadcrumb').should('contain', 'Kodak');
 
   // add product and force "minus" button to be active
-  cy.get('cx-item-counter button')
-    .contains('+')
-    .click();
+  cy.get('cx-item-counter button').contains('+').click();
 
   cy.wait('@reviews');
 

@@ -119,7 +119,7 @@ describe('AddToCartComponent', () => {
       spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
       addToCartComponent.ngOnInit();
       let result: OrderEntry;
-      addToCartComponent.cartEntry$.subscribe(entry => (result = entry));
+      addToCartComponent.cartEntry$.subscribe((entry) => (result = entry));
       expect(result).toEqual(mockCartEntry);
     });
 

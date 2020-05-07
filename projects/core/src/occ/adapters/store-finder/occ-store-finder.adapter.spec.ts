@@ -30,7 +30,7 @@ const storeCountResponseBody: Occ.StoreCountList = {
   ],
 };
 
-const mockRadius = '10000000';
+const mockRadius = 50000;
 
 const storeId = 'test';
 
@@ -95,7 +95,7 @@ describe('OccStoreFinderAdapter', () => {
     describe('with longitudeLatitude', () => {
       it('should return search results for given longitudeLatitude', () => {
         occStoreFinderAdapter
-          .search('', mockSearchConfig, longitudeLatitude)
+          .search('', mockSearchConfig, longitudeLatitude, mockRadius)
           .subscribe()
           .unsubscribe();
 
@@ -110,7 +110,7 @@ describe('OccStoreFinderAdapter', () => {
           {
             longitude: longitudeLatitude.longitude.toString(),
             latitude: longitudeLatitude.latitude.toString(),
-            radius: mockRadius,
+            radius: mockRadius.toString(),
             pageSize: mockSearchConfig.pageSize.toString(),
           }
         );
@@ -128,7 +128,7 @@ describe('OccStoreFinderAdapter', () => {
 
   describe('loadCounts', () => {
     it('should request stores count', () => {
-      occStoreFinderAdapter.loadCounts().subscribe(result => {
+      occStoreFinderAdapter.loadCounts().subscribe((result) => {
         expect(result).toEqual([
           { count: 1, name: 'name1' },
           { count: 2, name: 'name2' },
@@ -153,7 +153,7 @@ describe('OccStoreFinderAdapter', () => {
 
   describe('load', () => {
     it('should request stores by store id', () => {
-      occStoreFinderAdapter.load(storeId).subscribe(result => {
+      occStoreFinderAdapter.load(storeId).subscribe((result) => {
         expect(result).toEqual(searchResults.stores[0]);
       });
 

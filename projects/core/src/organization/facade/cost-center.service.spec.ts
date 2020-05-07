@@ -4,7 +4,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { CostCenter } from '../../model/cost-center.model';
+import { CostCenter } from '../../model/org-unit.model';
 import { EntitiesModel } from '../../model/misc.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
@@ -86,7 +86,7 @@ describe('CostCenterService', () => {
       let costCenterDetails: CostCenter;
       service
         .get(costCenterCode)
-        .subscribe(data => {
+        .subscribe((data) => {
           costCenterDetails = data;
         })
         .unsubscribe();
@@ -105,7 +105,7 @@ describe('CostCenterService', () => {
       let costCenterDetails: CostCenter;
       service
         .get(costCenterCode)
-        .subscribe(data => {
+        .subscribe((data) => {
           costCenterDetails = data;
         })
         .unsubscribe();
@@ -125,7 +125,7 @@ describe('CostCenterService', () => {
       let costCenters: EntitiesModel<CostCenter>;
       service
         .getList(params)
-        .subscribe(data => {
+        .subscribe((data) => {
           costCenters = data;
         })
         .unsubscribe();
@@ -154,7 +154,7 @@ describe('CostCenterService', () => {
       let costCenters: EntitiesModel<CostCenter>;
       service
         .getList(params)
-        .subscribe(data => {
+        .subscribe((data) => {
           costCenters = data;
         })
         .unsubscribe();
@@ -200,7 +200,7 @@ describe('CostCenterService', () => {
       let budgets: EntitiesModel<Budget>;
       service
         .getBudgets(costCenterCode, params)
-        .subscribe(data => {
+        .subscribe((data) => {
           budgets = data;
         })
         .unsubscribe();
@@ -232,7 +232,7 @@ describe('CostCenterService', () => {
       let budgets: EntitiesModel<Budget>;
       service
         .getBudgets(costCenterCode, params)
-        .subscribe(data => {
+        .subscribe((data) => {
           budgets = data;
         })
         .unsubscribe();

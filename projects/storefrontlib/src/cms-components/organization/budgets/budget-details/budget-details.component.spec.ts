@@ -131,11 +131,11 @@ describe('BudgetDetailsComponent', () => {
       component.ngOnInit();
       let budget: any;
       component.budget$
-        .subscribe(value => {
+        .subscribe((value) => {
           budget = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(budgetsService.loadBudget).toHaveBeenCalledWith(code);
       expect(budgetsService.get).toHaveBeenCalledWith(code);
       expect(budget).toEqual(mockBudgetUI);

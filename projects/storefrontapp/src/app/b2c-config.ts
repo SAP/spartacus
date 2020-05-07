@@ -6,7 +6,7 @@ export const b2cConfig: StorefrontConfig = {
   backend: {
     occ: {
       baseUrl: environment.occBaseUrl,
-      legacy: false,
+      prefix: '/rest/v2/',
     },
   },
   context: {
@@ -36,6 +36,10 @@ export const b2cConfig: StorefrontConfig = {
   },
   features: {
     level: '1.5',
-    anonymousConsents: true,
+  },
+  cart: {
+    selectiveCart: {
+      enabled: true,
+    },
   },
 };

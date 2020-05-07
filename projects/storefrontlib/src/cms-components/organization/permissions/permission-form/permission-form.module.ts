@@ -10,6 +10,7 @@ import {
   OrgUnitService,
 } from '@spartacus/core';
 import { PermissionFormComponent } from './permission-form.component';
+import { FormErrorsModule } from '../../../../shared/components/form/form-errors/form-errors.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { PermissionFormComponent } from './permission-form.component';
     UrlModule,
     I18nModule,
     ReactiveFormsModule,
+    FormErrorsModule,
   ],
   declarations: [PermissionFormComponent],
   exports: [PermissionFormComponent],

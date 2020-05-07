@@ -35,7 +35,7 @@
           bindLabel="name"
           bindValue="roleId"
           [clearable]="false"
-          [ngModel]="roleId"
+          [ngModel]="role$ | async"
           (change)="changeRole($event)"
           [items]="[
             { name: 'usersList.admin' | cxTranslate, roleId: 'b2badmingroup' },
@@ -62,7 +62,7 @@
           [routerLink]="
             { cxRoute: 'orgUnitDetails', params: { uid: code } } | cxUrl
           "
-          class="btn btn-primary btn-block"
+          class="btn btn-secondary btn-block"
         >
           {{ 'unitAssignRoles.back' | cxTranslate }}
         </a>
