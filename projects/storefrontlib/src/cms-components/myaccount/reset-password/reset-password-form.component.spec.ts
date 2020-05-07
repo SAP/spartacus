@@ -10,6 +10,7 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ResetPasswordFormComponent } from './reset-password-form.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 class MockUserService {
   isPasswordReset() {
@@ -46,7 +47,12 @@ describe('ResetPasswordFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [ResetPasswordFormComponent],
       providers: [
         { provide: UserService, useClass: MockUserService },

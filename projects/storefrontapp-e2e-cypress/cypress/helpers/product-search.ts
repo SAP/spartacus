@@ -1,4 +1,3 @@
-import { apiUrl } from '../support/utils/login';
 import { PRODUCT_LISTING } from './data-configuration';
 
 export const resultsTitleSelector = 'cx-breadcrumb h1';
@@ -9,7 +8,9 @@ export const pageLinkSelector = 'cx-pagination a.current';
 export const sortingOptionSelector = 'cx-sorting .ng-select:first';
 export const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
 export const firstProductNameSelector = `${firstProductItemSelector} a.cx-product-name`;
-export const searchUrlPrefix = `${apiUrl}/rest/v2/electronics-spa/products/search`;
+export const searchUrlPrefix = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  'BASE_SITE'
+)}/products/search`;
 
 export const QUERY_ALIAS = {
   FIRST_PAGE: 'first_page_query',
@@ -131,16 +132,11 @@ export function viewMode() {
   );
 }
 
-export function filterUsingFacetFiltering() {
+export function filterUsingFacetFiltering(mobile: string) {
   cy.server();
   createFacetFilterQuery(QUERY_ALIAS.FACET);
 
-  cy.get('.cx-facet-header')
-    .contains('Stores')
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox').first().click({ force: true });
-    });
+  clickFacet('Stores', mobile);
 
   cy.wait(`@${QUERY_ALIAS.FACET}`).then((xhr) => {
     const facetResults = xhr.response.body.pagination.totalResults;
@@ -152,15 +148,7 @@ export function filterUsingFacetFiltering() {
 }
 
 export function clearActiveFacet(mobile?: string) {
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click({ force: true });
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click({ force: true });
-  }
+  cy.get('cx-active-facets a:first').click();
   cy.get(resultsTitleSelector).should('contain', 'results for "camera"');
 }
 
@@ -213,25 +201,32 @@ export function checkFirstItem(productName: string): void {
     });
 }
 
-export function clickFacet(header: string) {
-  cy.get('.cx-facet-header')
+export function clickFacet(header: string, mobile: string) {
+  if (mobile) {
+    cy.get('cx-product-facet-navigation button').click();
+  }
+  cy.get('cx-facet .heading')
     .contains(header)
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox').first().click({ force: true });
+    .then((el) => {
+      if (el.find('.fa-plus').is(':visible')) {
+        // TODO Remove force once you can scroll facets on mobile
+        cy.wrap(el).click({ force: true });
+      }
     });
+  cy.get('cx-facet .heading')
+    .contains(header)
+    .parents('cx-facet')
+    .within(() => {
+      // TODO Remove force once you can scroll facets on mobile
+      cy.get('a.value').first().click({ force: true });
+    });
+  if (mobile) {
+    cy.get('cx-product-facet-navigation button.close').click();
+  }
 }
 
-export function clearSelectedFacet(mobile: string) {
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click({ force: true });
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-container .cx-facet-filter-pill .close:first'
-    ).click({ force: true });
-  }
+export function clearSelectedFacet() {
+  cy.get('cx-product-facet-navigation cx-active-facets a').first().click();
 }
 
 function createCameraQuery(alias: string): void {

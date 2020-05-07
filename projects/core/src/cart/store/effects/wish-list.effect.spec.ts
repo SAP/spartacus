@@ -158,14 +158,14 @@ describe('Wish List Effect', () => {
         customerId,
       });
 
-      const removeTempCartAction = new CartActions.RemoveTempCart({
-        tempCartId: getWishlistName(customerId),
+      const removeCartAction = new CartActions.RemoveCart({
+        cartId: getWishlistName(customerId),
       });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
         b: loadWishListSuccessAction,
-        c: removeTempCartAction,
+        c: removeCartAction,
       });
 
       expect(wishListEffect.loadWishList$).toBeObservable(expected);
@@ -182,7 +182,10 @@ describe('Wish List Effect', () => {
         })
       );
 
-      const action = new SiteContextActions.CurrencyChange();
+      const action = new SiteContextActions.CurrencyChange({
+        previous: 'previous',
+        current: 'current',
+      });
 
       const resetWishListAction = new CartActions.LoadWishListSuccess({
         cart: wishList,

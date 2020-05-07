@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import i18next from 'i18next';
+import i18next, { InitOptions } from 'i18next';
 import i18nextXhrBackend from 'i18next-xhr-backend';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { LanguageService } from '../../site-context/facade/language.service';
@@ -13,7 +13,7 @@ export function i18nextInit(
 ): () => Promise<any> {
   return () =>
     configInit.getStableConfig('i18n').then((config) => {
-      let i18nextConfig: i18next.InitOptions = {
+      let i18nextConfig: InitOptions = {
         ns: [], // don't preload any namespaces
         fallbackLng: config.i18n.fallbackLang,
         debug: config.i18n.debug,

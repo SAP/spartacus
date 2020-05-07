@@ -1,5 +1,22 @@
 import { RoutesConfig } from '../routes-config';
+import { Injectable } from '@angular/core';
+import { Config } from '../../../config/config.module';
 
+export const enum RouteLoadStrategy {
+  /**
+   * Don't reload the data on navigation if it was loaded before
+   */
+  ONCE = 'once',
+  /**
+   * Always reload the data on navigation
+   */
+  ALWAYS = 'always',
+}
+
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
 export abstract class RoutingConfig {
   routing?: {
     /**
@@ -11,5 +28,10 @@ export abstract class RoutingConfig {
      * When true, it closes the storefront for unauthorized users, except from routes that have individual config flag `protected: false`
      */
     protected?: boolean;
+
+    /**
+     * Global load strategy which is used as a fallback for loading data on each navigation
+     */
+    loadStrategy?: RouteLoadStrategy;
   };
 }

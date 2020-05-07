@@ -101,6 +101,7 @@ export const common = {
       },
     },
     cartNotFound: 'Cart not found.',
+    invalidCodeProvided: 'Invalid code provided.',
   },
   miniCart: {
     item: '{{count}} item currently in your cart',
@@ -130,5 +131,6 @@ export const common = {
     cxPasswordsMustMatch: 'Password fields must match',
     cxEmailsMustMatch: 'Email fields must match',
     cxStarRatingEmpty: 'Rating field is required',
+    cxNoSelectedItemToCancel: 'Select at least one item to cancel',
   },
 };

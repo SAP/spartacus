@@ -9,7 +9,6 @@ import {
   CartVoucherService,
   CustomerCouponSearchResult,
   CustomerCouponService,
-  FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   Voucher,
@@ -18,6 +17,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { of } from 'rxjs';
 import { CartCouponComponent } from './cart-coupon.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 @Component({
   selector: 'cx-icon',
@@ -48,6 +48,7 @@ describe('CartCouponComponent', () => {
 
   const mockActiveCartService = jasmine.createSpyObj('ActiveCartService', [
     'getActive',
+    'getActiveCartId',
     'isStable',
   ]);
 
@@ -81,7 +82,12 @@ describe('CartCouponComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, FeaturesConfigModule],
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        FeaturesConfigModule,
+        FormErrorsModule,
+      ],
       declarations: [
         CartCouponComponent,
         MockAppliedCouponsComponent,
@@ -92,12 +98,6 @@ describe('CartCouponComponent', () => {
         { provide: AuthService, useValue: mockAuthService },
         { provide: CartVoucherService, useValue: mockCartVoucherService },
         { provide: CustomerCouponService, useValue: mockCustomerCouponService },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.5' },
-          },
-        },
       ],
     }).compileComponents();
   }));
@@ -110,6 +110,7 @@ describe('CartCouponComponent', () => {
     mockActiveCartService.getActive.and.returnValue(
       of<Cart>({ code: '123' })
     );
+    mockActiveCartService.getActiveCartId.and.returnValue(of<string>('123'));
     mockActiveCartService.isStable.and.returnValue(of(true));
     mockAuthService.getOccUserId.and.returnValue(of('testUserId'));
     mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of());

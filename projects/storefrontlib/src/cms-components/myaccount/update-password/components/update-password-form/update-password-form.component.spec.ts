@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import * as testUtils from '../../../../../shared/utils/forms/form-test-utils';
 import { UpdatePasswordFormComponent } from './update-password-form.component';
+import { FormErrorsModule } from '../../../../../shared/index';
 
 describe('UpdatePasswordFormComponent', () => {
   let component: UpdatePasswordFormComponent;
@@ -17,7 +18,7 @@ describe('UpdatePasswordFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
+      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       declarations: [UpdatePasswordFormComponent],
     }).compileComponents();
   }));

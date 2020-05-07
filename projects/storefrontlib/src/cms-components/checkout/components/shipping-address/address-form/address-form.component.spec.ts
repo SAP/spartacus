@@ -19,6 +19,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { AddressFormComponent } from './address-form.component';
 import createSpy = jasmine.createSpy;
+import { FormErrorsModule } from '../../../../../shared/index';
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -61,6 +62,7 @@ const mockCountries: Country[] = [
     name: 'Serbia',
   },
 ];
+
 const mockRegions: Region[] = [
   {
     isocode: 'CA-ON',
@@ -133,7 +135,12 @@ describe('AddressFormComponent', () => {
     mockModalService = new MockModalService();
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [AddressFormComponent],
       providers: [
         { provide: ModalService, useValue: { open: () => {} } },
@@ -353,14 +360,6 @@ describe('AddressFormComponent', () => {
     expect(component.addressForm.value.defaultAddress).toBeTruthy();
   });
 
-  it('should call titleSelected()', () => {
-    const mockTitleCode = 'test title code';
-    component.titleSelected({ code: mockTitleCode });
-    expect(component.addressForm['controls'].titleCode.value).toEqual(
-      mockTitleCode
-    );
-  });
-
   it('should call countrySelected()', () => {
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
     const mockCountryIsocode = 'test country isocode';
@@ -373,14 +372,6 @@ describe('AddressFormComponent', () => {
     expect(userAddressService.getRegions).toHaveBeenCalledWith(
       mockCountryIsocode
     );
-  });
-
-  it('should call regionSelected()', () => {
-    const mockRegionIsocode = 'test region isocode';
-    component.regionSelected({ isocode: mockRegionIsocode });
-    expect(
-      component.addressForm['controls'].region['controls'].isocode.value
-    ).toEqual(mockRegionIsocode);
   });
 
   it('should call openSuggestedAddress', (done) => {
