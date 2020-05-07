@@ -1,0 +1,27 @@
+<cx-page-layout></cx-page-layout>
+
+<!-- SLOT 1 -->
+<ng-template [cxOutletRef]="testSlot1" cxOutletPos="before" let-model>
+  <p>Before slot 1, components: {{ (model.components$ | async)?.length }}</p>
+</ng-template>
+
+<ng-template [cxOutletRef]="testSlot1" cxOutletPos="after" let-model>
+  <p>After slot 1, components: {{ (model.components$ | async)?.length }}</p>
+</ng-template>
+
+<ng-template [cxOutletRef]="testSlot1" let-model>
+  <p>Replace slot 1, components: {{ (model.components$ | async)?.length }}</p>
+</ng-template>
+
+<!-- SLOT 2 -->
+<ng-template [cxOutletRef]="testSlot2" cxOutletPos="before" let-model>
+  <p>Before slot 2, components: {{ (model.components$ | async)?.length }}</p>
+</ng-template>
+
+<ng-template [cxOutletRef]="testSlot2" cxOutletPos="after" let-model>
+  <p>After slot 2, components: {{ (model.components$ | async)?.length }}</p>
+</ng-template>
+
+<ng-template [cxOutletRef]="testSlot2" let-model>
+  <p>Replace slot 2, components: {{ (model.components$ | async)?.length }}</p>
+</ng-template>
