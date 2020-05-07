@@ -31,15 +31,14 @@ export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
 
-  onEnter(event, index) {
-    if (event.which !== 13) {
-      return;
+  onEnter(event: KeyboardEvent, index: number) {
+    if (event.key === 'Enter') {
+      this.onClick(index);
     }
-    this.onClick(index);
     //TODO: fix focus lose when selection with keyboard
   }
 
-  onClick(index) {
+  onClick(index: number) {
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,
       changedAttribute: {
