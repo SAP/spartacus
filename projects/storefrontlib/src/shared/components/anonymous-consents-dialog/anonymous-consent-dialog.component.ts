@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
@@ -7,14 +14,18 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
-import { ModalService } from '../../modal/index';
+import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
+import { FocusConfig } from '../../../layout/a11y/keyboard-focus/index';
+import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
 
 @Component({
   selector: 'cx-anonymous-consent-dialog',
   templateUrl: './anonymous-consent-dialog.component.html',
 })
 export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
+  @HostBinding('attr.role') role = 'dialog';
+  @HostBinding('attr.aria-modal') modal = true;
+
   private subscriptions = new Subscription();
 
   showLegalDescription = true;
@@ -25,10 +36,26 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   templates$: Observable<ConsentTemplate[]>;
   consents$: Observable<AnonymousConsent[]>;
 
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: 'input[type="checkbox"]',
+    focusOnEscape: true,
+  };
+
+  @HostListener('click', ['$event'])
+  handleClick(event: UIEvent): void {
+    // Close on click outside the dialog window
+    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
+      this.close('Cross click');
+    }
+  }
+
   constructor(
-    private config: AnonymousConsentsConfig,
-    private modalService: ModalService,
-    private anonymousConsentsService: AnonymousConsentsService
+    protected config: AnonymousConsentsConfig,
+    protected anonymousConsentsService: AnonymousConsentsService,
+    protected el: ElementRef,
+    protected launchDialogService: LaunchDialogService
   ) {
     if (Boolean(this.config.anonymousConsents)) {
       this.showLegalDescription = this.config.anonymousConsents.showLegalDescriptionInDialog;
@@ -44,8 +71,8 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     this.loading$ = this.anonymousConsentsService.getLoadTemplatesLoading();
   }
 
-  closeModal(reason?: any): void {
-    this.modalService.closeActiveModal(reason);
+  close(reason?: any): void {
+    this.launchDialogService.closeDialog(reason);
   }
 
   rejectAll(): void {
@@ -69,7 +96,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         )
         .subscribe()
     );
-    this.closeModal('rejectAll');
+    this.close('rejectAll');
   }
 
   allowAll(): void {
@@ -96,7 +123,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
         )
         .subscribe()
     );
-    this.closeModal('allowAll');
+    this.close('allowAll');
   }
 
   private isRequiredConsent(template: ConsentTemplate): boolean {
