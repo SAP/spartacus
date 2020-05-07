@@ -1,10 +1,9 @@
-import { User } from './misc.model';
-import { B2BUnit } from './org-unit.model';
+import { B2BUnit, B2BUser } from './org-unit.model';
 import { Permission } from './permission.model';
 
 export interface UserGroup {
-  members?: number;
-  membersCount?: User[];
+  members?: B2BUser[];
+  membersCount?: number;
   name?: string;
   orgUnit?: B2BUnit;
   permissions?: Permission[];
