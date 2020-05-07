@@ -50,7 +50,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
 
   beforeEach(() => {
     const image = createImage('url', 'altText');
-    let images: Configurator.Image[] = [image, image, image];
+    const images: Configurator.Image[] = [image, image, image];
     const value1 = createValue('1', 'val1', false, images);
     const value2 = createValue('2', 'val2', false, images);
     const value3 = createValue('3', 'val3', false, images);
