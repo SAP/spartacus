@@ -14,8 +14,16 @@ To use the scripts, clone this git repo and follow the usage indications below.
 
 ## Install Spartacus
 
-Script's output directory is set to `"../../../spartacus-${SPARTACUS_VERSION}"` directory so all commands should be run while being in this directory.
-To change the output directory `$BASE_DIR` can be overriden in the `config.sh` file.
+Script's output directory is set as below (related to script's root, `./scripts/install`):
+```bash
+# top directory for the installation output (must be outside of the project)
+if [ -z $BASE_DIR ]; then
+    BASE_DIR="../../../spartacus-${SPARTACUS_VERSION}"
+fi
+```
+so it's one level above the spartacus project root. To change the output directory `$BASE_DIR` can be overriden in the `config.sh` file.
+
+All scirpt's commands should be run while being in it's root directory.
 ```bash
 cd ./scripts/install && ./run.sh install
 ```
