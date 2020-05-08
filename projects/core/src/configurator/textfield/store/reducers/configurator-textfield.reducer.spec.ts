@@ -13,7 +13,7 @@ describe('ConfiguratorTextfieldReducer', () => {
   const configuration: ConfiguratorTextfield.Configuration = {
     configurationInfos: [{ configurationLabel: attributeName }],
   };
-  it('should not change state in case action is different from CreateConfigurationSuccess', () => {
+  it('should not change state in case action is not covered in reducer', () => {
     const result = reducer(
       configurationState,
       new ConfiguratorTextfieldActions.CreateConfiguration(productCode)
@@ -31,6 +31,17 @@ describe('ConfiguratorTextfieldReducer', () => {
     expect(result.content).toEqual(configuration);
   });
 
+  it('should change state on readFromCartEntry ', () => {
+    const result = reducer(
+      configurationState,
+      new ConfiguratorTextfieldActions.ReadCartEntryConfigurationSuccess(
+        configuration
+      )
+    );
+    expect(result).toBeDefined();
+    expect(result.content).toEqual(configuration);
+  });
+
   it('should change state on UpdateConfiguration ', () => {
     const result = reducer(
       configurationState,
@@ -38,5 +49,14 @@ describe('ConfiguratorTextfieldReducer', () => {
     );
     expect(result).toBeDefined();
     expect(result.content).toEqual(configuration);
+  });
+
+  it('should remove state on RemoveConfiguration ', () => {
+    const result = reducer(
+      configurationState,
+      new ConfiguratorTextfieldActions.RemoveConfiguration(null)
+    );
+    expect(result).toBeDefined();
+    expect(result.content).toBeNull();
   });
 });

@@ -22,4 +22,13 @@ export abstract class ConfiguratorTextfieldAdapter {
   abstract addToCart(
     parameters: ConfiguratorTextfield.AddToCartParameters
   ): Observable<CartModification>;
+
+  /**
+   * Abstract method to read a configuration for a cart entry
+   *
+   * @param parameters read from cart entry parameters object
+   */
+  abstract readConfigurationForCartEntry(
+    parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
+  ): Observable<ConfiguratorTextfield.Configuration>;
 }

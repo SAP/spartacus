@@ -4,6 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { GenericConfigurator } from 'projects/core/src/model';
 import { OccConfiguratorTextfieldAdapter } from '.';
 import { CART_MODIFICATION_NORMALIZER } from '../../../../cart/connectors/entry/converters';
 import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../../../../configurator/textfield/connectors/converters';
@@ -43,6 +44,12 @@ const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
   productCode: PRODUCT_CODE,
   quantity: QUANTITY,
   configuration: configuration,
+};
+
+const readParams: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
+  userId: USER_ID,
+  cartId: CART_ID,
+  cartEntryNumber: '0',
 };
 
 describe('OccConfigurationTextfieldAdapter', () => {
@@ -95,6 +102,30 @@ describe('OccConfigurationTextfieldAdapter', () => {
       {
         productCode,
       }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CONFIGURATION_TEXTFIELD_NORMALIZER
+    );
+  });
+
+  it('should call readConfigurationForCartEntry endpoint', () => {
+    occConfiguratorVariantAdapter
+      .readConfigurationForCartEntry(readParams)
+      .subscribe();
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readConfigurationTextfieldForCartEntry'
+      );
+    });
+
+    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      'readConfigurationTextfieldForCartEntry',
+      readParams
     );
 
     expect(mockReq.cancelled).toBeFalsy();

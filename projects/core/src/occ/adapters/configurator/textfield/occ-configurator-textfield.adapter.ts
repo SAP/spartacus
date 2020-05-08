@@ -63,4 +63,26 @@ export class OccConfiguratorTextfieldAdapter
       .post<CartModification>(url, occAddToCartParameters, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
+
+  readConfigurationForCartEntry(
+    parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
+  ): Observable<ConfiguratorTextfield.Configuration> {
+    const url = this.occEndpointsService.getUrl(
+      'readConfigurationTextfieldForCartEntry',
+      {
+        userId: parameters.userId,
+        cartId: parameters.cartId,
+        cartEntryNumber: parameters.cartEntryNumber,
+      }
+    );
+
+    return this.http.get<ConfiguratorTextfield.Configuration>(url).pipe(
+      this.converterService.pipeable(CONFIGURATION_TEXTFIELD_NORMALIZER),
+      tap((resultConfiguration) => {
+        resultConfiguration.owner = {
+          ...parameters.owner,
+        };
+      })
+    );
+  }
 }

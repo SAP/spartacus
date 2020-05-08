@@ -11,11 +11,13 @@ export function reducer(
   action:
     | ConfiguratorActions.CreateConfiguration
     | ConfiguratorActions.CreateConfigurationSuccess
+    | ConfiguratorActions.ReadCartEntryConfigurationSuccess
     | ConfiguratorActions.UpdateConfiguration
     | ConfiguratorActions.RemoveConfiguration
 ): ConfigurationTextfieldState {
   switch (action.type) {
     case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS:
+    case ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.UPDATE_CONFIGURATION: {
       const content = { ...action.payload };
 

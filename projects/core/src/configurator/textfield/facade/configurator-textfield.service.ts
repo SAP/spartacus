@@ -65,6 +65,25 @@ export class ConfiguratorTextfieldService {
     });
   }
 
+  readConfigurationForCartEntry(
+    owner: GenericConfigurator.Owner
+  ): Observable<ConfiguratorTextfield.Configuration> {
+    this.activeCartService.requireLoadedCart().subscribe((cartState) => {
+      const readFromCartEntryParameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
+        userId: this.getUserId(cartState.value),
+        cartId: this.getCartId(cartState.value),
+        cartEntryNumber: owner.id,
+        owner: owner,
+      };
+      this.store.dispatch(
+        new ConfiguratorActions.ReadCartEntryConfiguration(
+          readFromCartEntryParameters
+        )
+      );
+    });
+    return this.store.select(ConfiguratorSelectors.getConfigurationContent);
+  }
+
   ////
   // Helper methods
   ////

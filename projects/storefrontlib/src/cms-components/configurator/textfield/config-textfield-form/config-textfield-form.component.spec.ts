@@ -48,6 +48,13 @@ class MockConfiguratorTextfieldService {
     });
   }
   updateConfiguration(): void {}
+  readConfigurationForCartEntry(): Observable<
+    ConfiguratorTextfield.Configuration
+  > {
+    return cold('-p', {
+      p: productConfig,
+    });
+  }
 }
 describe('ConfigTextfieldFormComponent', () => {
   let component: ConfigTextfieldFormComponent;
@@ -112,8 +119,8 @@ describe('ConfigTextfieldFormComponent', () => {
 
     component.ngOnInit();
     expect(component.configuration$).toBeObservable(
-      cold('-p', {
-        p: null,
+      cold('--p', {
+        p: productConfig,
       })
     );
   });

@@ -18,6 +18,12 @@ export class ConfiguratorTextfieldConnector {
     return this.adapter.createConfiguration(productCode, owner);
   }
 
+  readConfigurationForCartEntry(
+    parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
+  ): Observable<ConfiguratorTextfield.Configuration> {
+    return this.adapter.readConfigurationForCartEntry(parameters);
+  }
+
   addToCart(
     parameters: ConfiguratorTextfield.AddToCartParameters
   ): Observable<CartModification> {
