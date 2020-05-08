@@ -1,4 +1,4 @@
-<div *ngIf="routerState$ | async as routerState">
+<div *ngIf="(activeStepIndex$ | async) !== undefined">
   <div class="cx-media">
     <div *ngFor="let step of steps; let i = index">
       <div class="cx-list-media" *ngIf="i > activeStepIndex">

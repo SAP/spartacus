@@ -138,7 +138,6 @@ export class CheckoutStepService {
         index++;
       }
     }
-
     return stepIndex >= 0 ? stepIndex : null;
   }
 
