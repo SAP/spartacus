@@ -68,7 +68,7 @@ export class OccConfiguratorTextfieldAdapter
     parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<ConfiguratorTextfield.Configuration> {
     const url = this.occEndpointsService.getUrl(
-      'readConfigurationForCartEntry',
+      'readConfigurationTextfieldForCartEntry',
       {
         userId: parameters.userId,
         cartId: parameters.cartId,
