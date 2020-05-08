@@ -418,10 +418,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   describe('check the setting of incomplete', () => {
     it('should set incomplete by string type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncompleteValue(
+      occConfiguratorVariantNormalizer.setIncomplete(
         attributeStringWoValue
       );
-      occConfiguratorVariantNormalizer.setIncompleteValue(
+      occConfiguratorVariantNormalizer.setIncomplete(
         attributeStringWithValue
       );
 
@@ -430,8 +430,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should set incomplete by radio button type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncompleteValue(attributeRBWoValues);
-      occConfiguratorVariantNormalizer.setIncompleteValue(
+      occConfiguratorVariantNormalizer.setIncomplete(attributeRBWoValues);
+      occConfiguratorVariantNormalizer.setIncomplete(
         attributeRBWithValues
       );
 
@@ -440,8 +440,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should set incomplete by drop-down type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncompleteValue(attributeDDWoValues);
-      occConfiguratorVariantNormalizer.setIncompleteValue(
+      occConfiguratorVariantNormalizer.setIncomplete(attributeDDWoValues);
+      occConfiguratorVariantNormalizer.setIncomplete(
         attributeDDWithValues
       );
 
@@ -450,8 +450,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should set incomplete by single-selection-image type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncompleteValue(attributeSSIWoValues);
-      occConfiguratorVariantNormalizer.setIncompleteValue(
+      occConfiguratorVariantNormalizer.setIncomplete(attributeSSIWoValues);
+      occConfiguratorVariantNormalizer.setIncomplete(
         attributeSSIWithValues
       );
 
@@ -460,10 +460,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should set incomplete by checkbox type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncompleteValue(
+      occConfiguratorVariantNormalizer.setIncomplete(
         attributeCheckboxWOValue
       );
-      occConfiguratorVariantNormalizer.setIncompleteValue(
+      occConfiguratorVariantNormalizer.setIncomplete(
         attributeCheckboxWithValue
       );
 
@@ -472,10 +472,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should set incomplete by multi-selection-image type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncompleteValue(
+      occConfiguratorVariantNormalizer.setIncomplete(
         attributeMSIWOValue
       );
-      occConfiguratorVariantNormalizer.setIncompleteValue(
+      occConfiguratorVariantNormalizer.setIncomplete(
         attributeMSIWithValue
       );
 
