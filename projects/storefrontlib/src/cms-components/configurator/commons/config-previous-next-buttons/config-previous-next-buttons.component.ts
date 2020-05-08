@@ -68,10 +68,7 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
     if (theElement instanceof HTMLElement) {
       topOffset = theElement.offsetTop;
     }
-    // Only scroll if user has scrolled
-    if (window.pageYOffset !== 0) {
-      window.scroll(0, topOffset);
-    }
+    window.scroll(0, topOffset);
   }
 
   isFirstGroup(owner: GenericConfigurator.Owner): Observable<Boolean> {
