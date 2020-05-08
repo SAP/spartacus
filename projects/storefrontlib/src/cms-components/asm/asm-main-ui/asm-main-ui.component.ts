@@ -1,11 +1,13 @@
 import {
   Component,
   HostBinding,
+  OnDestroy,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
 import {
   AsmAuthService,
+  AsmService,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
@@ -14,7 +16,7 @@ import {
   UserService,
   UserToken,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
 
@@ -24,10 +26,13 @@ import { AsmComponentService } from '../services/asm-component.service';
   styleUrls: ['./asm-main-ui.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class AsmMainUiComponent implements OnInit {
+export class AsmMainUiComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
+
   csAgentToken$: Observable<UserToken>;
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User>;
+  isCollapsed: boolean;
 
   @HostBinding('class.hidden') disabled = false;
 
@@ -39,7 +44,8 @@ export class AsmMainUiComponent implements OnInit {
     protected userService: UserService,
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected asmService: AsmService
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +60,11 @@ export class AsmMainUiComponent implements OnInit {
           return of(undefined);
         }
       })
+    );
+    this.subscription.add(
+      this.asmService
+        .getAsmUiState()
+        .subscribe((toggleState) => (this.isCollapsed = toggleState.collapsed))
     );
   }
 
@@ -99,5 +110,9 @@ export class AsmMainUiComponent implements OnInit {
   hideUi(): void {
     this.disabled = true;
     this.asmComponentService.unload();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

@@ -1,0 +1,7 @@
+{{ isCollapsed }}
+<button
+  [ngClass]="isCollapsed ? 'collapseIcon' : 'expandIcon'"
+  class="toggleUi"
+  title="{{ 'asm.toggleUi' | cxTranslate }}"
+  (click)="toggleUi()"
+></button>

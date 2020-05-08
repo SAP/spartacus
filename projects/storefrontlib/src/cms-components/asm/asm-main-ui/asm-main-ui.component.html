@@ -13,6 +13,8 @@
     </div>
   </div>
   <div class="asm-bar-actions">
+    <cx-asm-toggle-ui></cx-asm-toggle-ui>
+
     <cx-asm-session-timer
       *ngIf="(csAgentToken$ | async)?.access_token"
     ></cx-asm-session-timer>
@@ -37,11 +39,12 @@
 </div>
 
 <ng-container *ngIf="(csAgentToken$ | async)?.access_token; else showLoginForm">
-  <cx-customer-emulation
-    *ngIf="customer$ | async as customer; else showCustomerSelection"
-  ></cx-customer-emulation>
+  <ng-container *ngIf="customer$ | async; else showCustomerSelection">
+    <cx-customer-emulation *ngIf="!isCollapsed"></cx-customer-emulation>
+  </ng-container>
   <ng-template #showCustomerSelection>
     <cx-customer-selection
+      *ngIf="!isCollapsed"
       (submitEvent)="startCustomerEmulationSession($event)"
     ></cx-customer-selection>
   </ng-template>
@@ -49,6 +52,7 @@
 
 <ng-template #showLoginForm>
   <cx-csagent-login-form
+    *ngIf="!isCollapsed"
     (submitEvent)="loginCustomerSupportAgent($event)"
     [csAgentTokenLoading]="csAgentTokenLoading$ | async"
   ></cx-csagent-login-form>
