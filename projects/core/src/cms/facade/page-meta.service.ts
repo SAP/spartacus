@@ -56,7 +56,9 @@ export class PageMetaService {
    * @param metaResolver
    */
   protected resolve(metaResolver: PageMetaResolver): Observable<PageMeta> {
-    const resolveMethods: any[] = Object.keys(this.resolverMethods)
+    const resolveMethods: Observable<PageMeta>[] = Object.keys(
+      this.resolverMethods
+    )
       .filter((key) => metaResolver[this.resolverMethods[key]])
       .map((key) =>
         metaResolver[this.resolverMethods[key]]().pipe(
