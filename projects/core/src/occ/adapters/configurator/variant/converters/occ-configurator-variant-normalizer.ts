@@ -101,6 +101,9 @@ export class OccConfiguratorVariantNormalizer
       this.setSelectedSingleValue(attribute);
     }
 
+    //Has to be called after setSelectedSingleValue because it depends on the value of this property
+    this.setIncomplete(attribute);
+
     attributeList.push(attribute);
   }
 
@@ -237,6 +240,44 @@ export class OccConfiguratorVariantNormalizer
         return Configurator.ImageFormatType.VALUE_IMAGE;
       case OccConfigurator.ImageFormatType.CSTIC_IMAGE:
         return Configurator.ImageFormatType.ATTRIBUTE_IMAGE;
+    }
+  }
+
+  setIncomplete(attribute: Configurator.Attribute) {
+    //Default value for incomplete is false
+    attribute.incomplete = false;
+
+    switch (attribute.uiType) {
+      case Configurator.UiType.RADIOBUTTON:
+      case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
+        if (!attribute.selectedSingleValue) {
+          attribute.incomplete = true;
+        }
+        break;
+      }
+
+      case Configurator.UiType.STRING: {
+        if (!attribute.userInput) {
+          attribute.incomplete = true;
+        }
+        break;
+      }
+
+      case Configurator.UiType.CHECKBOX:
+      case Configurator.UiType.MULTI_SELECTION_IMAGE: {
+        let isOneValueSelected = false;
+        attribute.values.forEach((value) => {
+          if (value.selected) {
+            isOneValueSelected = true;
+          }
+        });
+
+        if (!isOneValueSelected) {
+          attribute.incomplete = true;
+        }
+        break;
+      }
     }
   }
 }
