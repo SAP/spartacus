@@ -12,8 +12,11 @@
   tabindex="0"
   >{{ attribute.label }}</label
 >
-<div *ngIf="showRequiredMessage()" class="cx-config-attribute-label-required-error-msg">
-  {{getRequiredMessageKey()| cxTranslate}}
+<div
+  *ngIf="showRequiredMessage()"
+  class="cx-config-attribute-label-required-error-msg"
+>
+  {{ getRequiredMessageKey() | cxTranslate }}
 </div>
 <img
   *ngIf="attribute.images[0]"

@@ -3,8 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Configurator, I18nTestingModule } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
 import { ConfigAttributeHeaderComponent } from './config-attribute-header.component';
-import { GenericConfigurator } from "../../../../../../../dist/core/src/model";
-
+import { GenericConfigurator } from '../../../../../../../dist/core/src/model';
 
 describe('ConfigAttributeHeaderComponent', () => {
   let classUnderTest: ConfigAttributeHeaderComponent;
@@ -24,9 +23,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [ConfigAttributeHeaderComponent],
-      providers: [
-        ConfigUIKeyGeneratorService,
-      ],
+      providers: [ConfigUIKeyGeneratorService],
     })
       .overrideComponent(ConfigAttributeHeaderComponent, {
         set: {
@@ -45,7 +42,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     classUnderTest.attribute.name = '123';
     classUnderTest.attribute.incomplete = true;
     classUnderTest.attribute.required = false;
-    classUnderTest.ownerType =  GenericConfigurator.OwnerType.CART_ENTRY;
+    classUnderTest.ownerType = GenericConfigurator.OwnerType.CART_ENTRY;
     fixture.detectChanges();
   });
 
@@ -109,7 +106,8 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   it('should return single select message key for single-selection-image attributes', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.SINGLE_SELECTION_IMAGE;
+    classUnderTest.attribute.uiType =
+      Configurator.UiType.SINGLE_SELECTION_IMAGE;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'singleSelectRequiredMessage'
     );

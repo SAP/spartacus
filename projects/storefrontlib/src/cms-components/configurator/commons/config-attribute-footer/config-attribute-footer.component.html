@@ -1,5 +1,6 @@
-<div *ngIf="showRequiredMessage()"
-     class="cx-config-attribute-footer-required-error-msg"
+<div
+  *ngIf="showRequiredMessage()"
+  class="cx-config-attribute-footer-required-error-msg"
 >
-  {{getRequiredMessageKey()| cxTranslate}}
+  {{ getRequiredMessageKey() | cxTranslate }}
 </div>

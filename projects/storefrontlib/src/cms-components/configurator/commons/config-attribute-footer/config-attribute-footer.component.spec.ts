@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Configurator, I18nTestingModule } from '@spartacus/core';
 import { ConfigAttributeFooterComponent } from './config-attribute-footer.component';
-import { GenericConfigurator } from "../../../../../../../dist/core/src/model";
-
+import { GenericConfigurator } from '../../../../../../../dist/core/src/model';
 
 describe('ConfigAttributeFooterComponent', () => {
   let classUnderTest: ConfigAttributeFooterComponent;
@@ -38,7 +37,7 @@ describe('ConfigAttributeFooterComponent', () => {
     classUnderTest.attribute.required = false;
     classUnderTest.attribute.uiType = Configurator.UiType.STRING;
     classUnderTest.attribute.userInput = undefined;
-    classUnderTest.ownerType =  GenericConfigurator.OwnerType.CART_ENTRY;
+    classUnderTest.ownerType = GenericConfigurator.OwnerType.CART_ENTRY;
     fixture.detectChanges();
   });
 
@@ -74,7 +73,7 @@ describe('ConfigAttributeFooterComponent', () => {
   });
 
   it("shouldn't render a required message because attribute has not been added to the cart yet.", () => {
-    classUnderTest.ownerType =  GenericConfigurator.OwnerType.PRODUCT;
+    classUnderTest.ownerType = GenericConfigurator.OwnerType.PRODUCT;
     classUnderTest.attribute.required = true;
     fixture.detectChanges();
     expectElementNotPresent(
