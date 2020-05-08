@@ -41,6 +41,59 @@ const occAttributeWithValues: OccConfigurator.Attribute = {
     { key: valueKey2, selected: selectedFlag },
   ],
 };
+const attributeRBWithValues: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.RADIOBUTTON,
+  selectedSingleValue: 'SomeValue',
+};
+const attributeRBWoValues: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.RADIOBUTTON,
+  selectedSingleValue: '',
+};
+const attributeStringWoValue: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.STRING,
+};
+const attributeStringWithValue: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.STRING,
+  userInput: 'SomeValue',
+};
+const attributeCheckboxWOValue: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.CHECKBOX,
+  values: [
+    {
+      name: 'name1',
+      selected: false,
+    },
+    {
+      name: 'name2',
+      selected: false,
+    },
+  ],
+};
+const attributeCheckboxWithValue: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.CHECKBOX,
+  values: [
+    {
+      name: 'name1',
+      selected: true,
+    },
+    {
+      name: 'name2',
+      selected: false,
+    },
+  ],
+};
 const configuration: OccConfigurator.Configuration = {
   complete: true,
   rootProduct: 'CONF_PRODUCT',
@@ -307,5 +360,41 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(images[0].url).toBe(
       'https://occBackendBaseUrl/media?This%20%is%20%a%20%URL'
     );
+  });
+
+  fdescribe('check the setting of incomplete', () => {
+    it('string type should be set correctly', () => {
+      occConfiguratorVariantNormalizer.setIncompleteValue(
+        attributeStringWoValue
+      );
+      occConfiguratorVariantNormalizer.setIncompleteValue(
+        attributeStringWithValue
+      );
+
+      expect(attributeStringWoValue.incomplete).toBe(true);
+      expect(attributeStringWithValue.incomplete).toBe(false);
+    });
+
+    it('radio button type should be set correctly', () => {
+      occConfiguratorVariantNormalizer.setIncompleteValue(attributeRBWoValues);
+      occConfiguratorVariantNormalizer.setIncompleteValue(
+        attributeRBWithValues
+      );
+
+      expect(attributeRBWoValues.incomplete).toBe(true);
+      expect(attributeRBWithValues.incomplete).toBe(false);
+    });
+
+    it('checkbox type should be set correctly', () => {
+      occConfiguratorVariantNormalizer.setIncompleteValue(
+        attributeCheckboxWOValue
+      );
+      occConfiguratorVariantNormalizer.setIncompleteValue(
+        attributeCheckboxWithValue
+      );
+
+      expect(attributeCheckboxWOValue.incomplete).toBe(true);
+      expect(attributeCheckboxWithValue.incomplete).toBe(false);
+    });
   });
 });
