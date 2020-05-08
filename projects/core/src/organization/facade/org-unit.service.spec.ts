@@ -342,13 +342,12 @@ describe('OrgUnitService', () => {
     const roleId = 'testRoleId';
 
     it('should assign role', () => {
-      service.assignRole(orgUnitId, orgCustomerId, roleId);
+      service.assignRole(orgCustomerId, roleId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.AssignRole({
           userId,
-          orgUnitId,
           orgCustomerId,
           roleId,
         })
@@ -356,13 +355,12 @@ describe('OrgUnitService', () => {
     });
 
     it('should unassign role', () => {
-      service.unassignRole(orgUnitId, orgCustomerId, roleId);
+      service.unassignRole(orgCustomerId, roleId);
 
       expect(authService.getOccUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrgUnitActions.UnassignRole({
           userId,
-          orgUnitId,
           orgCustomerId,
           roleId,
         })
