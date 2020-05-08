@@ -118,12 +118,13 @@ describe('OccConfigurationTextfieldAdapter', () => {
 
     const mockReq = httpMock.expectOne((req) => {
       return (
-        req.method === 'GET' && req.url === 'readConfigurationForCartEntry'
+        req.method === 'GET' &&
+        req.url === 'readConfigurationTextfieldForCartEntry'
       );
     });
 
     expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-      'readConfigurationForCartEntry',
+      'readConfigurationTextfieldForCartEntry',
       readParams
     );
 
