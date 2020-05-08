@@ -18,6 +18,8 @@ import { CheckoutStepType } from '../../model/checkout-step.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentTypeComponent implements OnInit {
+  readonly ACCOUNT_PAYMENT = 'ACCOUNT';
+
   paymentTypes$: Observable<
     PaymentType[]
   > = this.paymentTypeService.getPaymentTypes().pipe(
@@ -53,7 +55,7 @@ export class PaymentTypeComponent implements OnInit {
 
     this.checkoutStepService.disableEnableStep(
       CheckoutStepType.PAYMENT_DETAILS,
-      this.typeSelected === 'ACCOUNT'
+      this.typeSelected === this.ACCOUNT_PAYMENT
     );
   }
 

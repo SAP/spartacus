@@ -31,7 +31,7 @@
       <input #poNumber class="form-control" type="text" />
     </label>
 
-    <label aria-required="true" *ngIf="typeSelected === 'ACCOUNT'">
+    <label aria-required="true" *ngIf="typeSelected === ACCOUNT_PAYMENT">
       <span class="label-content required">{{
         'checkoutType.costCenter' | cxTranslate
       }}</span>
