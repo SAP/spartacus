@@ -115,7 +115,7 @@ export class OccConfiguratorVariantAdapter
   }
 
   readConfigurationForCartEntry(
-    parameters: Configurator.ReadConfigurationFromCartEntryParameters
+    parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<Configurator.Configuration> {
     const url = this.occEndpointsService.getUrl(
       'readConfigurationForCartEntry',

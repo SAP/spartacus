@@ -99,13 +99,6 @@ export namespace Configurator {
     ownerKey: string;
   }
 
-  export interface ReadConfigurationFromCartEntryParameters {
-    userId?: string;
-    cartId?: string;
-    cartEntryNumber?: string;
-    owner?: GenericConfigurator.Owner;
-  }
-
   export interface UpdateConfigurationForCartEntryParameters {
     userId?: string;
     cartId?: string;
