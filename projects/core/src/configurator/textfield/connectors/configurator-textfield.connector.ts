@@ -24,6 +24,12 @@ export class ConfiguratorTextfieldConnector {
     return this.adapter.readConfigurationForCartEntry(parameters);
   }
 
+  updateConfigurationForCartEntry(
+    parameters: ConfiguratorTextfield.UpdateCartEntryParameters
+  ): Observable<CartModification> {
+    return this.adapter.updateConfigurationForCartEntry(parameters);
+  }
+
   addToCart(
     parameters: ConfiguratorTextfield.AddToCartParameters
   ): Observable<CartModification> {

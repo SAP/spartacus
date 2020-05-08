@@ -7,6 +7,7 @@ import { ConfiguratorTextfieldAdapter } from '../../../../configurator/textfield
 import {
   CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER,
   CONFIGURATION_TEXTFIELD_NORMALIZER,
+  CONFIGURATION_TEXTFIELD_UPDATE_CART_ENTRY_SERIALIZER,
 } from '../../../../configurator/textfield/connectors/converters';
 import { CartModification } from '../../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
@@ -89,7 +90,7 @@ export class OccConfiguratorTextfieldAdapter
     parameters: ConfiguratorTextfield.UpdateCartEntryParameters
   ): Observable<CartModification> {
     const url = this.occEndpointsService.getUrl(
-      'updateConfigurationForCartEntry',
+      'updateConfigurationTextfieldForCartEntry',
       {
         userId: parameters.userId,
         cartId: parameters.cartId,
@@ -99,7 +100,7 @@ export class OccConfiguratorTextfieldAdapter
 
     const occUpdateCartEntryParameters = this.converterService.convert(
       parameters,
-      CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER
+      CONFIGURATION_TEXTFIELD_UPDATE_CART_ENTRY_SERIALIZER
     );
 
     const headers = new HttpHeaders({
