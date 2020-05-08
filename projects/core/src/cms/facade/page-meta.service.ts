@@ -1,10 +1,10 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
+import { resolveApplicable } from '../../util/applicable';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
-import { resolveApplicable } from '../../util/applicable';
 
 @Injectable({
   providedIn: 'root',
@@ -34,20 +34,23 @@ export class PageMetaService {
     robots: 'resolveRobots',
   };
 
-  getMeta(): Observable<PageMeta> {
-    return this.cms.getCurrentPage().pipe(
-      filter(Boolean),
-      switchMap((page: Page) => {
-        const metaResolver = this.getMetaResolver(page);
+  private meta$: Observable<PageMeta> = this.cms.getCurrentPage().pipe(
+    filter(Boolean),
+    switchMap((page: Page) => {
+      const metaResolver = this.getMetaResolver(page);
 
-        if (metaResolver) {
-          return this.resolve(metaResolver);
-        } else {
-          // we do not have a page resolver
-          return of(null);
-        }
-      })
-    );
+      if (metaResolver) {
+        return this.resolve(metaResolver);
+      } else {
+        // we do not have a page resolver
+        return of(null);
+      }
+    }),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
+
+  getMeta(): Observable<PageMeta> {
+    return this.meta$;
   }
 
   /**
