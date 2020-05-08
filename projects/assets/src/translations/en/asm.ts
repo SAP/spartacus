@@ -4,7 +4,7 @@ export const asm = {
     mainTitle: 'Assisted Service Mode',
     logout: 'Sign Out',
     hideUi: 'Close ASM',
-    toggleUi: 'Hide Asm Bar',
+    toggleUi: { collapse: 'Hide Asm', expand: 'Show Asm' },
     loginForm: {
       submit: 'Sign In',
       userId: {

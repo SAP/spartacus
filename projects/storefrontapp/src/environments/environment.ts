@@ -5,7 +5,6 @@
 
 export const environment = {
   production: false,
-  occBaseUrl:
-    'https://api.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com',
+  occBaseUrl: 'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002',
   occApiPrefix: '/rest/v2/',
 };
