@@ -121,7 +121,7 @@ const attributeCheckboxWithValue: Configurator.Attribute = {
 const attributeMSIWOValue: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
-  uiType: Configurator.UiType.CHECKBOX,
+  uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
   values: [
     {
       name: 'name1',
@@ -136,7 +136,7 @@ const attributeMSIWOValue: Configurator.Attribute = {
 const attributeMSIWithValue: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
-  uiType: Configurator.UiType.CHECKBOX,
+  uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
   values: [
     {
       name: 'name1',
@@ -418,12 +418,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   describe('check the setting of incomplete', () => {
     it('should set incomplete by string type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncomplete(
-        attributeStringWoValue
-      );
-      occConfiguratorVariantNormalizer.setIncomplete(
-        attributeStringWithValue
-      );
+      occConfiguratorVariantNormalizer.setIncomplete(attributeStringWoValue);
+      occConfiguratorVariantNormalizer.setIncomplete(attributeStringWithValue);
 
       expect(attributeStringWoValue.incomplete).toBe(true);
       expect(attributeStringWithValue.incomplete).toBe(false);
@@ -431,9 +427,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     it('should set incomplete by radio button type correctly', () => {
       occConfiguratorVariantNormalizer.setIncomplete(attributeRBWoValues);
-      occConfiguratorVariantNormalizer.setIncomplete(
-        attributeRBWithValues
-      );
+      occConfiguratorVariantNormalizer.setIncomplete(attributeRBWithValues);
 
       expect(attributeRBWoValues.incomplete).toBe(true);
       expect(attributeRBWithValues.incomplete).toBe(false);
@@ -441,9 +435,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     it('should set incomplete by drop-down type correctly', () => {
       occConfiguratorVariantNormalizer.setIncomplete(attributeDDWoValues);
-      occConfiguratorVariantNormalizer.setIncomplete(
-        attributeDDWithValues
-      );
+      occConfiguratorVariantNormalizer.setIncomplete(attributeDDWithValues);
 
       expect(attributeDDWoValues.incomplete).toBe(true);
       expect(attributeDDWithValues.incomplete).toBe(false);
@@ -451,18 +443,14 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     it('should set incomplete by single-selection-image type correctly', () => {
       occConfiguratorVariantNormalizer.setIncomplete(attributeSSIWoValues);
-      occConfiguratorVariantNormalizer.setIncomplete(
-        attributeSSIWithValues
-      );
+      occConfiguratorVariantNormalizer.setIncomplete(attributeSSIWithValues);
 
       expect(attributeSSIWoValues.incomplete).toBe(true);
       expect(attributeSSIWithValues.incomplete).toBe(false);
     });
 
     it('should set incomplete by checkbox type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncomplete(
-        attributeCheckboxWOValue
-      );
+      occConfiguratorVariantNormalizer.setIncomplete(attributeCheckboxWOValue);
       occConfiguratorVariantNormalizer.setIncomplete(
         attributeCheckboxWithValue
       );
@@ -472,12 +460,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should set incomplete by multi-selection-image type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncomplete(
-        attributeMSIWOValue
-      );
-      occConfiguratorVariantNormalizer.setIncomplete(
-        attributeMSIWithValue
-      );
+      occConfiguratorVariantNormalizer.setIncomplete(attributeMSIWOValue);
+      occConfiguratorVariantNormalizer.setIncomplete(attributeMSIWithValue);
 
       expect(attributeMSIWOValue.incomplete).toBe(true);
       expect(attributeMSIWithValue.incomplete).toBe(false);
