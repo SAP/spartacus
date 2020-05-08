@@ -216,13 +216,69 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.ASSIGN_ROLE),
     map((action: OrgUnitActions.AssignRole) => action.payload),
+    switchMap(({ userId, orgCustomerId, roleId }) =>
+      this.orgUnitConnector.assignRole(userId, orgCustomerId, roleId).pipe(
+        map(
+          () =>
+            new OrgUnitActions.AssignRoleSuccess({
+              uid: orgCustomerId,
+              roleId,
+              selected: true,
+            })
+        ),
+        catchError((error) =>
+          of(
+            new OrgUnitActions.AssignRoleFail({
+              orgCustomerId,
+              error: makeErrorSerializable(error),
+            })
+          )
+        )
+      )
+    )
+  );
+
+  @Effect()
+  unassignRoleToUser$: Observable<
+    OrgUnitActions.UnassignRoleSuccess | OrgUnitActions.UnassignRoleFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.UNASSIGN_ROLE),
+    map((action: OrgUnitActions.UnassignRole) => action.payload),
+    switchMap(({ userId, orgCustomerId, roleId }) =>
+      this.orgUnitConnector.unassignRole(userId, orgCustomerId, roleId).pipe(
+        map(
+          () =>
+            new OrgUnitActions.UnassignRoleSuccess({
+              uid: orgCustomerId,
+              roleId,
+              selected: false,
+            })
+        ),
+        catchError((error) =>
+          of(
+            new OrgUnitActions.UnassignRoleFail({
+              orgCustomerId,
+              error: makeErrorSerializable(error),
+            })
+          )
+        )
+      )
+    )
+  );
+
+  @Effect()
+  assignApprover: Observable<
+    OrgUnitActions.AssignApproverSuccess | OrgUnitActions.AssignApproverFail
+  > = this.actions$.pipe(
+    ofType(OrgUnitActions.ASSIGN_APPROVER),
+    map((action: OrgUnitActions.AssignApprover) => action.payload),
     switchMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
       this.orgUnitConnector
-        .assignRole(userId, orgUnitId, orgCustomerId, roleId)
+        .assignApprover(userId, orgUnitId, orgCustomerId, roleId)
         .pipe(
           map(
             () =>
-              new OrgUnitActions.AssignRoleSuccess({
+              new OrgUnitActions.AssignApproverSuccess({
                 uid: orgCustomerId,
                 roleId,
                 selected: true,
@@ -230,7 +286,7 @@ export class OrgUnitEffects {
           ),
           catchError((error) =>
             of(
-              new OrgUnitActions.AssignRoleFail({
+              new OrgUnitActions.AssignApproverFail({
                 orgCustomerId,
                 error: makeErrorSerializable(error),
               })
@@ -241,18 +297,18 @@ export class OrgUnitEffects {
   );
 
   @Effect()
-  unassignRoleToUser$: Observable<
-    OrgUnitActions.UnassignRoleSuccess | OrgUnitActions.UnassignRoleFail
+  unassignApprover: Observable<
+    OrgUnitActions.UnassignApproverSuccess | OrgUnitActions.UnassignApproverFail
   > = this.actions$.pipe(
-    ofType(OrgUnitActions.UNASSIGN_ROLE),
-    map((action: OrgUnitActions.UnassignRole) => action.payload),
+    ofType(OrgUnitActions.UNASSIGN_APPROVER),
+    map((action: OrgUnitActions.UnassignApprover) => action.payload),
     switchMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
       this.orgUnitConnector
-        .unassignRole(userId, orgUnitId, orgCustomerId, roleId)
+        .unassignApprover(userId, orgUnitId, orgCustomerId, roleId)
         .pipe(
           map(
             () =>
-              new OrgUnitActions.UnassignRoleSuccess({
+              new OrgUnitActions.UnassignApproverSuccess({
                 uid: orgCustomerId,
                 roleId,
                 selected: false,
@@ -260,7 +316,7 @@ export class OrgUnitEffects {
           ),
           catchError((error) =>
             of(
-              new OrgUnitActions.UnassignRoleFail({
+              new OrgUnitActions.UnassignApproverFail({
                 orgCustomerId,
                 error: makeErrorSerializable(error),
               })

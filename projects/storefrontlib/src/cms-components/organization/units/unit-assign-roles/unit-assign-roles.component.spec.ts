@@ -110,9 +110,9 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
 
   getUsers = createSpy('getUsers').and.returnValue(userList);
 
-  assignRole = createSpy('assign');
+  assignRole = createSpy('assignRole');
 
-  unassignRole = createSpy('unassign');
+  unassignRole = createSpy('unassignRole');
 }
 
 class MockRoutingService {
@@ -227,7 +227,6 @@ describe('UnitAssignRolesComponent', () => {
     it('should assign user', () => {
       component.assign(userRow);
       expect(orgUnitService.assignRole).toHaveBeenCalledWith(
-        code,
         userRow.row.email,
         roleId
       );
@@ -238,7 +237,6 @@ describe('UnitAssignRolesComponent', () => {
     it('should unassign user', () => {
       component.unassign(userRow);
       expect(orgUnitService.unassignRole).toHaveBeenCalledWith(
-        code,
         userRow.row.email,
         roleId
       );

@@ -1,8 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-
 import { Budget, BudgetService, RoutingService } from '@spartacus/core';
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 
 @Component({
   selector: 'cx-budget-details',
@@ -17,7 +22,8 @@ export class BudgetDetailsComponent implements OnInit {
 
   constructor(
     protected routingService: RoutingService,
-    protected budgetsService: BudgetService
+    protected budgetsService: BudgetService,
+    protected modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -34,5 +40,11 @@ export class BudgetDetailsComponent implements OnInit {
       .subscribe((budgetCode) =>
         this.budgetsService.update(budgetCode, budget)
       );
+  }
+
+  openModal(template: TemplateRef<any>): void {
+    this.modalService.open(template, {
+      centered: true,
+    });
   }
 }

@@ -1,7 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { B2BUnit, OrgUnitService, RoutingService } from '@spartacus/core';
 
 @Component({
@@ -17,7 +22,8 @@ export class UnitDetailsComponent implements OnInit {
 
   constructor(
     protected routingService: RoutingService,
-    protected orgUnitsService: OrgUnitService
+    protected orgUnitsService: OrgUnitService,
+    protected modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -34,5 +40,11 @@ export class UnitDetailsComponent implements OnInit {
       .subscribe((orgUnitCode) =>
         this.orgUnitsService.update(orgUnitCode, orgUnit)
       );
+  }
+
+  openModal(template: TemplateRef<any>): void {
+    this.modalService.open(template, {
+      centered: true,
+    });
   }
 }

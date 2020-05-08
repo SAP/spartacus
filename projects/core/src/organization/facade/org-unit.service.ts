@@ -235,12 +235,11 @@ export class OrgUnitService {
     );
   }
 
-  assignRole(orgUnitId: string, orgCustomerId: string, roleId: string): void {
+  assignRole(orgCustomerId: string, roleId: string): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.AssignRole({
           userId,
-          orgUnitId,
           orgCustomerId,
           roleId,
         })
@@ -248,12 +247,45 @@ export class OrgUnitService {
     );
   }
 
-  unassignRole(orgUnitId: string, orgCustomerId: string, roleId: string): void {
+  unassignRole(orgCustomerId: string, roleId: string): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new OrgUnitActions.UnassignRole({
           userId,
+          orgCustomerId,
+          roleId,
+        })
+      )
+    );
+  }
+
+  assignApprover(
+    orgUnitId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): void {
+    this.withUserId((userId) =>
+      this.store.dispatch(
+        new OrgUnitActions.AssignApprover({
           orgUnitId,
+          userId,
+          orgCustomerId,
+          roleId,
+        })
+      )
+    );
+  }
+
+  unassignApprover(
+    orgUnitId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): void {
+    this.withUserId((userId) =>
+      this.store.dispatch(
+        new OrgUnitActions.UnassignApprover({
+          orgUnitId,
+          userId,
           orgCustomerId,
           roleId,
         })

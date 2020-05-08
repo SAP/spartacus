@@ -33,7 +33,10 @@
     <div class="cx-list row">
       <div class="cx-list-header col-12">
         <div class="cx-list-status">
-          {{ 'orderDetails.pending' | cxTranslate }}
+          {{
+            'orderDetails.statusDisplay'
+              | cxTranslate: { context: order.statusDisplay }
+          }}
         </div>
       </div>
       <div class="cx-list-item col-12">

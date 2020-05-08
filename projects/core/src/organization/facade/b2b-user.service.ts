@@ -18,6 +18,7 @@ import {
   getB2BUserUserGroups,
 } from '../store/selectors/b2b-user.selector';
 import { Permission } from '../../model/permission.model';
+import { UserGroup } from '../../model/user-group.model';
 
 @Injectable()
 export class B2BUserService {
@@ -110,16 +111,16 @@ export class B2BUserService {
   getB2BUserApprovers(
     orgCustomerId: string,
     params: B2BSearchConfig
-  ): Observable<EntitiesModel<any>> {
+  ): Observable<EntitiesModel<B2BUser>> {
     return this.getB2BUserApproverList(orgCustomerId, params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<any>>) => {
+      tap((process: LoaderState<EntitiesModel<B2BUser>>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadB2BUserApprovers(orgCustomerId, params);
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<any>>) =>
+        (process: LoaderState<EntitiesModel<B2BUser>>) =>
           process.success || process.error
       ),
       map((result) => result.value)
@@ -165,16 +166,16 @@ export class B2BUserService {
   getB2BUserPermissions(
     orgCustomerId: string,
     params: B2BSearchConfig
-  ): Observable<EntitiesModel<any>> {
+  ): Observable<EntitiesModel<Permission>> {
     return this.getB2BUserPermissionList(orgCustomerId, params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<any>>) => {
+      tap((process: LoaderState<EntitiesModel<Permission>>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadB2BUserPermissions(orgCustomerId, params);
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<any>>) =>
+        (process: LoaderState<EntitiesModel<Permission>>) =>
           process.success || process.error
       ),
       map((result) => result.value)
@@ -220,16 +221,16 @@ export class B2BUserService {
   getB2BUserUserGroups(
     orgCustomerId: string,
     params: B2BSearchConfig
-  ): Observable<EntitiesModel<any>> {
+  ): Observable<EntitiesModel<UserGroup>> {
     return this.getB2BUserUserGroupList(orgCustomerId, params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<any>>) => {
+      tap((process: LoaderState<EntitiesModel<UserGroup>>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadB2BUserUserGroups(orgCustomerId, params);
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<any>>) =>
+        (process: LoaderState<EntitiesModel<UserGroup>>) =>
           process.success || process.error
       ),
       map((result) => result.value)
@@ -277,7 +278,7 @@ export class B2BUserService {
   private getB2BUserUserGroupList(
     orgCustomerId: string,
     params
-  ): Observable<LoaderState<EntitiesModel<Permission>>> {
+  ): Observable<LoaderState<EntitiesModel<UserGroup>>> {
     return this.store.select(getB2BUserUserGroups(orgCustomerId, params));
   }
 

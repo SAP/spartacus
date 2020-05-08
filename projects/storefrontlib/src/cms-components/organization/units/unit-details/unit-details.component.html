@@ -45,10 +45,17 @@
         <div *ngIf="orgUnit.active; else enable" class="col-md-12 col-lg-6">
           <button
             class="btn btn-secondary btn-block"
-            (click)="update({ active: false })"
+            (click)="openModal(confirmDisable)"
           >
             {{ 'orgUnit.disable' | cxTranslate }}
           </button>
+          <ng-template #confirmDisable>
+            <cx-confirm-modal
+              [title]="'orgUnit.confirmDeactivation.title' | cxTranslate"
+              [message]="'orgUnit.confirmDeactivation.message' | cxTranslate"
+              (confirm)="update({ active: false })"
+            ></cx-confirm-modal>
+          </ng-template>
         </div>
         <ng-template #enable>
           <div class="col-md-12 col-lg-6">
@@ -104,6 +111,19 @@
       class="btn btn-primary btn-block"
     >
       {{ 'orgUnit.assignRoles' | cxTranslate }}
+    </a>
+  </div>
+  <div class="col-md-12 col-lg-6">
+    <a
+      [routerLink]="
+        {
+          cxRoute: 'orgUnitAssignApprovers',
+          params: { code: orgUnit.uid }
+        } | cxUrl
+      "
+      class="btn btn-primary btn-block"
+    >
+      {{ 'orgUnit.assignApprovers' | cxTranslate }}
     </a>
   </div>
   <div class="col-md-12 col-lg-6">

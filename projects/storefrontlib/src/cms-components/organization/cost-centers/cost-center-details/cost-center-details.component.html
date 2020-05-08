@@ -49,10 +49,18 @@
         >
           <button
             class="btn btn-secondary btn-block"
-            (click)="update({ activeFlag: false })"
+            (click)="openModal(confirmDisable)"
           >
             {{ 'costCenter.disable' | cxTranslate }}
           </button>
+
+          <ng-template #confirmDisable>
+            <cx-confirm-modal
+              [title]="'costCenter.confirmDeactivation.title' | cxTranslate"
+              [message]="'costCenter.confirmDeactivation.message' | cxTranslate"
+              (confirm)="update({ activeFlag: false })"
+            ></cx-confirm-modal>
+          </ng-template>
         </div>
         <ng-template #enable>
           <div class="col-md-12 col-lg-6">

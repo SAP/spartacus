@@ -42,6 +42,10 @@ export const organization = {
       code: 'Code',
       name: 'Name',
     },
+    confirmDeactivation: {
+      title: 'Disable Budget',
+      message: 'Are you sure you want to disable this budget?',
+    },
   },
   budgetForm: {
     create: 'Create Budget',
@@ -98,6 +102,10 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     threshold: 'Threshold Amount',
+    confirmDeactivation: {
+      title: 'Disable Permission',
+      message: 'Are you sure you want to disable this permission?',
+    },
   },
   permissionForm: {
     create: 'Create Permission',
@@ -148,6 +156,10 @@ export const organization = {
     deactivated: 'Deactivated',
     budgets: 'Budgets',
     assignBudgets: 'Manage Budgets',
+    confirmDeactivation: {
+      title: 'Disable Cost Center',
+      message: 'Are you sure you want to disable this cost center?',
+    },
   },
   costCenterAssignBudgets: {
     header: 'Manage budgets in {{code}}',
@@ -189,7 +201,12 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     assignRoles: 'Manage Roles',
+    assignApprovers: 'Manage Approvers',
     manageAddresses: 'Manage Addresses',
+    confirmDeactivation: {
+      title: 'Disable Unit',
+      message: 'Are you sure you want to disable this unit?',
+    },
     children: 'Child Units',
     costCenters: 'Cost Centers',
   },
@@ -216,6 +233,10 @@ export const organization = {
   },
   unitAssignRoles: {
     header: 'Manage roles in {{code}}',
+    back: 'Close',
+  },
+  unitAssignApprovers: {
+    header: 'Manage approvers in {{code}}',
     back: 'Close',
   },
   unitManageAddresses: {
