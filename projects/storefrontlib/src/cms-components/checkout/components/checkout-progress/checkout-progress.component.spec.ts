@@ -1,44 +1,40 @@
-import { CommonModule } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { StoreModule } from '@ngrx/store';
-import {
-  I18nTestingModule,
-  RoutesConfig,
-  RoutingConfigService,
-  RoutingService,
-} from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { CheckoutConfig } from '../../config/checkout-config';
-import { defaultCheckoutConfig } from '../../config/default-checkout-config';
+import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutProgressComponent } from './checkout-progress.component';
+import { CheckoutStep, CheckoutStepType } from '../../model';
+import { BehaviorSubject } from 'rxjs';
 
-const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
-const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-
-const mockRouterState = {
-  state: {
-    context: {
-      id: `/${
-        MockRoutesConfig[MockCheckoutConfig.checkout.steps[0].routeName]
-          .paths[0]
-      }`,
-    },
+const mockCheckoutSteps: Array<CheckoutStep> = [
+  {
+    id: 'step0',
+    name: 'step 0',
+    routeName: 'route0',
+    type: [CheckoutStepType.PAYMENT_TYPES],
   },
-};
-class MockRoutingService {
-  getRouterState(): Observable<any> {
-    return of(mockRouterState);
-  }
-}
+  {
+    id: 'step1',
+    name: 'step 1',
+    routeName: 'route1',
+    type: [CheckoutStepType.SHIPPING_ADDRESS],
+  },
+  {
+    id: 'step2',
+    name: 'step 2',
+    routeName: 'route2',
+    type: [CheckoutStepType.DELIVERY_MODE],
+  },
+];
 
-class MockRoutingConfigService {
-  getRouteConfig(routeName: string) {
-    return MockRoutesConfig[routeName];
-  }
+class MockCheckoutStepService {
+  steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<CheckoutStep[]>(
+    mockCheckoutSteps
+  );
+  activeStepIndex$: Observable<number> = of(0);
 }
 
 @Pipe({
@@ -54,17 +50,10 @@ describe('CheckoutProgressComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        RouterTestingModule,
-        I18nTestingModule,
-        StoreModule.forRoot({}),
-      ],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [CheckoutProgressComponent, MockTranslateUrlPipe],
       providers: [
-        { provide: CheckoutConfig, useValue: MockCheckoutConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: RoutingConfigService, useClass: MockRoutingConfigService },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
       ],
     }).compileComponents();
   }));
@@ -75,7 +64,6 @@ describe('CheckoutProgressComponent', () => {
     fixture.detectChanges();
 
     component.ngOnInit();
-    component.steps = defaultCheckoutConfig.checkout.steps;
   });
 
   it('should create', () => {
@@ -85,7 +73,7 @@ describe('CheckoutProgressComponent', () => {
   it('should contain steps with labels', () => {
     const steps = fixture.debugElement.query(By.css('.cx-nav')).nativeElement;
 
-    MockCheckoutConfig.checkout.steps.forEach((step, index) => {
+    mockCheckoutSteps.forEach((step, index) => {
       expect(steps.innerText).toContain(step.name && index + 1);
     });
   });
@@ -103,7 +91,7 @@ describe('CheckoutProgressComponent', () => {
       By.css('.cx-item .cx-link.disabled')
     );
 
-    expect(steps.length).toBe(3);
+    expect(steps.length).toBe(2);
   });
 
   describe('isActive()', () => {
