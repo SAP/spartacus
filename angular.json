@@ -58,7 +58,7 @@
               "serviceWorker": true,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
-            "ci": {
+            "ci.1905": {
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -68,7 +68,7 @@
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.ci.ts"
+                  "with": "projects/storefrontapp/src/environments/environment.ci.1905.ts"
                 }
               ],
               "optimization": true,
@@ -82,7 +82,7 @@
               "buildOptimizer": true,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
-            "qa": {
+            "ci.2005": {
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -92,7 +92,7 @@
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.qa.ts"
+                  "with": "projects/storefrontapp/src/environments/environment.ci.2005.ts"
                 }
               ],
               "optimization": true,
@@ -104,7 +104,30 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "serviceWorker": true,
+              "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
+            },
+            "ccv2": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/environment.ts",
+                  "with": "projects/storefrontapp/src/environments/environment.ccv2.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             }
           }
@@ -121,11 +144,14 @@
             "development": {
               "browserTarget": "storefrontapp:build:development"
             },
-            "ci": {
-              "browserTarget": "storefrontapp:build:ci"
+            "ci.1905": {
+              "browserTarget": "storefrontapp:build:ci.1905"
             },
-            "qa": {
-              "browserTarget": "storefrontapp:build:qa"
+            "ci.2005": {
+              "browserTarget": "storefrontapp:build:ci.2005"
+            },
+            "ccv2": {
+              "browserTarget": "storefrontapp:build:ccv2"
             }
           }
         },
