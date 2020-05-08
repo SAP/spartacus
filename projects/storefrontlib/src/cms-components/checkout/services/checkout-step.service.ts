@@ -11,13 +11,11 @@ import { CheckoutConfigService } from './checkout-config.service';
 })
 export class CheckoutStepService {
   // initial enabled steps
-  intialSteps: CheckoutStep[] = this.checkoutConfigService.steps
-    .filter((step) => !step.disabled)
-    .map((x) => Object.assign({}, x));
+  intialSteps: CheckoutStep[];
 
   readonly steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<
     CheckoutStep[]
-  >(this.intialSteps);
+  >(undefined);
 
   readonly activeStepIndex$: Observable<
     number
@@ -45,7 +43,9 @@ export class CheckoutStepService {
     protected routingService: RoutingService,
     protected checkoutConfigService: CheckoutConfigService,
     protected routingConfigService: RoutingConfigService
-  ) {}
+  ) {
+    this.resetSteps();
+  }
 
   back(activatedRoute: ActivatedRoute): void {
     const previousUrl = this.checkoutConfigService.getPreviousCheckoutStepUrl(
