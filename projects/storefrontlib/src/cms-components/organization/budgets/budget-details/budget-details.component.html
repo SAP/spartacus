@@ -74,6 +74,7 @@
           <div class="col-md-12 col-lg-6">
             <button
               class="btn btn-primary btn-block"
+              [disabled]="!budget.orgUnit?.active"
               (click)="update({ active: true })"
             >
               {{ 'budget.enable' | cxTranslate }}

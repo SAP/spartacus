@@ -61,6 +61,9 @@
           <div class="col-md-12 col-lg-6">
             <button
               class="btn btn-primary btn-block"
+              [disabled]="
+                orgUnit.parentOrgUnit && !orgUnit.parentOrgUnit.active
+              "
               (click)="update({ active: true })"
             >
               {{ 'orgUnit.enable' | cxTranslate }}
