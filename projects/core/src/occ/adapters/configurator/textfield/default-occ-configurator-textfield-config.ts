@@ -13,6 +13,9 @@ export function defaultOccConfiguratorTextfieldConfigFactory(): OccConfig {
 
           readConfigurationForCartEntry:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/configurator/textfield',
+
+          updateConfigurationForCartEntry:
+            'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/configurator/textfield',
         },
       },
     },

@@ -85,4 +85,28 @@ export class OccConfiguratorTextfieldAdapter
       })
     );
   }
+  updateConfigurationForCartEntry(
+    parameters: ConfiguratorTextfield.UpdateCartEntryParameters
+  ): Observable<CartModification> {
+    const url = this.occEndpointsService.getUrl(
+      'updateConfigurationForCartEntry',
+      {
+        userId: parameters.userId,
+        cartId: parameters.cartId,
+        cartEntryNumber: parameters.cartEntryNumber,
+      }
+    );
+
+    const occUpdateCartEntryParameters = this.converterService.convert(
+      parameters,
+      CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER
+    );
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http
+      .post<CartModification>(url, occUpdateCartEntryParameters, { headers })
+      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+  }
 }

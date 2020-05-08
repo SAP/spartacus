@@ -21,6 +21,13 @@ export namespace OccConfiguratorTextfield {
     configurationInfos?: ConfigurationInfo[];
   }
 
+  export interface UpdateCartEntryParameters {
+    userId?: string;
+    cartId?: string;
+    cartEntryNumber?: string;
+    configurationInfos?: ConfigurationInfo[];
+  }
+
   export interface AddToCartProductData {
     code?: string;
   }
