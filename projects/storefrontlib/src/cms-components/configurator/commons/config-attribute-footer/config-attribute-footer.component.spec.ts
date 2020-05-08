@@ -1,23 +1,9 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Configurator, I18nTestingModule } from '@spartacus/core';
-import {
-  IconLoaderService,
-  IconModule,
-} from '../../../../cms-components/misc/icon/index';
-import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { ConfigAttributeFooterComponent } from './config-attribute-footer.component';
+import { GenericConfigurator } from "../../../../../../../dist/core/src/model";
 
-export class MockIconFontLoaderService {
-  useSvg(_iconType: ICON_TYPE) {
-    return false;
-  }
-  getStyleClasses(_iconType: ICON_TYPE): string {
-    return 'fas fa-exclamation-triangle';
-  }
-  addLinkResource() {}
-  getHtml(_iconType: ICON_TYPE) {}
-}
 
 describe('ConfigAttributeFooterComponent', () => {
   let classUnderTest: ConfigAttributeFooterComponent;
@@ -30,11 +16,8 @@ describe('ConfigAttributeFooterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconModule],
+      imports: [I18nTestingModule],
       declarations: [ConfigAttributeFooterComponent],
-      providers: [
-        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-      ],
     })
       .overrideComponent(ConfigAttributeFooterComponent, {
         set: {
@@ -53,6 +36,9 @@ describe('ConfigAttributeFooterComponent', () => {
     classUnderTest.attribute.name = '123';
     classUnderTest.attribute.incomplete = true;
     classUnderTest.attribute.required = false;
+    classUnderTest.attribute.uiType = Configurator.UiType.STRING;
+    classUnderTest.attribute.userInput = undefined;
+    classUnderTest.ownerType =  GenericConfigurator.OwnerType.CART_ENTRY;
     fixture.detectChanges();
   });
 
@@ -65,45 +51,42 @@ describe('ConfigAttributeFooterComponent', () => {
     fixture.detectChanges();
     expectElementPresent(
       htmlElem,
-      '.cx-config-attribute-footer-required-message'
+      '.cx-config-attribute-footer-required-error-msg'
     );
   });
 
-  it("shouldn't render a required message if  attribute is incomplete, but  not required.", () => {
-    classUnderTest.attribute.required = false;
-    classUnderTest.attribute.incomplete = true;
+  it("shouldn't render a required message if attribute is incomplete, but not required.", () => {
     fixture.detectChanges();
     expectElementNotPresent(
       htmlElem,
-      '.cx-config-attribute-footer-required-message'
+      '.cx-config-attribute-footer-required-error-msg'
     );
   });
 
-  // Unit Tests
+  it("shouldn't render a required message because attribute is a drop-down list.", () => {
+    classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
+    classUnderTest.attribute.required = true;
+    fixture.detectChanges();
+    expectElementNotPresent(
+      htmlElem,
+      '.cx-config-attribute-footer-required-error-msg'
+    );
+  });
+
+  it("shouldn't render a required message because attribute has not been added to the cart yet.", () => {
+    classUnderTest.ownerType =  GenericConfigurator.OwnerType.PRODUCT;
+    classUnderTest.attribute.required = true;
+    fixture.detectChanges();
+    expectElementNotPresent(
+      htmlElem,
+      '.cx-config-attribute-footer-required-error-msg'
+    );
+  });
+
   it('should return default message key for input string attributes', () => {
     classUnderTest.attribute.uiType = Configurator.UiType.STRING;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'defaultRequiredMessage'
-    );
-  });
-  it('should return single select message key for radio button attributes', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
-    expect(classUnderTest.getRequiredMessageKey()).toContain(
-      'singleSelectRequiredMessage'
-    );
-  });
-
-  it('should return single select message key for ddlb attributes', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
-    expect(classUnderTest.getRequiredMessageKey()).toContain(
-      'singleSelectRequiredMessage'
-    );
-  });
-
-  it('should return multi select message key for check box list attributes', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOX;
-    expect(classUnderTest.getRequiredMessageKey()).toContain(
-      'multiSelectRequiredMessage'
     );
   });
 });

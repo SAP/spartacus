@@ -6,14 +6,20 @@
     display: block;
     max-width: 66%;
 
-    &.cx-config-attribute-label-error {
+    &.cx-config-attribute-label-required-error {
       color: var(--cx-color-danger);
       font-weight: bold;
     }
   }
 
+  .cx-config-attribute-label-required-error-msg {
+    color: var(--cx-color-danger);
+    font-weight: bold;
+  }
+
   .cx-config-attribute-label-required-icon {
     display: inline-block;
+
     &:after {
       content: '*';
       color: var(--cx-color-danger);
