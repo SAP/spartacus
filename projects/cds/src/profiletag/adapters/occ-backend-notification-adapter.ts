@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OccEndpointsService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMapTo } from 'rxjs/operators';
 import { CdsBackendNotificationAdapter } from './cds-backend-notification-adapter';
 
 @Injectable()
@@ -17,6 +17,6 @@ export class OccBackendNotification implements CdsBackendNotificationAdapter {
         `${this.occEndpoints.getBaseEndpoint()}/users/current/loginnotification`,
         {}
       )
-      .pipe(mapTo(null));
+      .pipe(switchMapTo(of()));
   }
 }

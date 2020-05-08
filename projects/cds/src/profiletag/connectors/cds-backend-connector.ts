@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { mapTo } from 'rxjs/operators';
 import { CdsBackendNotificationAdapter } from '../adapters/cds-backend-notification-adapter';
 
 @Injectable({
@@ -13,6 +12,5 @@ export class CdsBackendConnector {
   notifySuccessfulLogin(): Observable<void> {
     return this.cdsBackendNotificationAdapter
       .notifySuccessfulLogin()
-      .pipe(mapTo(null));
   }
 }

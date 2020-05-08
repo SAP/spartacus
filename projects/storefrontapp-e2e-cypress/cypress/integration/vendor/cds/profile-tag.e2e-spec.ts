@@ -95,7 +95,7 @@ describe('Profile-tag events', () => {
     });
   });
 });
-describe.skip('login notification', () => {
+describe('login notification', () => {
   const loginAlias = 'loginNotification';
   beforeEach(() => {
     cy.server();
