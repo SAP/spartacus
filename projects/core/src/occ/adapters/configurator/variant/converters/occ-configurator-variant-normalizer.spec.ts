@@ -121,7 +121,7 @@ const attributeCheckboxWithValue: Configurator.Attribute = {
 const attributeMSIWOValue: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
-  uiType: Configurator.UiType.CHECKBOX,
+  uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
   values: [
     {
       name: 'name1',
@@ -136,7 +136,7 @@ const attributeMSIWOValue: Configurator.Attribute = {
 const attributeMSIWithValue: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
-  uiType: Configurator.UiType.CHECKBOX,
+  uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
   values: [
     {
       name: 'name1',
