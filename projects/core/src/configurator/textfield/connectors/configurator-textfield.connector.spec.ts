@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConfiguratorTextfield } from 'projects/core/src/model';
 import { of } from 'rxjs';
+import { GenericConfigurator } from './../../../model/generic-configurator.model';
 import { ConfiguratorTextfieldAdapter } from './configurator-textfield.adapter';
 import { ConfiguratorTextfieldConnector } from './configurator-textfield.connector';
 import createSpy = jasmine.createSpy;
@@ -68,6 +69,20 @@ describe('ConfiguratorTextfieldConnector', () => {
       PRODUCT_CODE,
       null
     );
+  });
+
+  it('should call adapter on readConfigurationForCartEntry', () => {
+    const adapter = TestBed.inject(
+      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
+    );
+
+    const params: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {};
+    let result;
+    service
+      .readConfigurationForCartEntry(params)
+      .subscribe((res) => (result = res));
+    expect(result).toBe('readConfigurationForCartEntry' + params);
+    expect(adapter.readConfigurationForCartEntry).toHaveBeenCalledWith(params);
   });
 
   it('should call adapter on addToCart', () => {
