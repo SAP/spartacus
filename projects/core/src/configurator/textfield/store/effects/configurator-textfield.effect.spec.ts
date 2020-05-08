@@ -5,6 +5,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
+import { GenericConfigurator } from 'projects/core/src/model';
 import { Observable, of, throwError } from 'rxjs';
 import { CartActions } from '../../../../cart/store/actions/';
 import { CartModification } from '../../../../model/cart.model';
@@ -39,6 +40,7 @@ const cartModification: CartModification = {
 
 describe('ConfiguratorTextfieldEffect', () => {
   let createMock: jasmine.Spy;
+  let readFromCartEntryMock: jasmine.Spy;
   let addToCartMock: jasmine.Spy;
 
   let configEffects: fromEffects.ConfiguratorTextfieldEffects;
@@ -47,10 +49,14 @@ describe('ConfiguratorTextfieldEffect', () => {
 
   beforeEach(() => {
     createMock = jasmine.createSpy().and.returnValue(of(productConfiguration));
+    readFromCartEntryMock = jasmine
+      .createSpy()
+      .and.returnValue(of(productConfiguration));
     addToCartMock = jasmine.createSpy().and.returnValue(of(cartModification));
     class MockConnector {
       createConfiguration = createMock;
       addToCart = addToCartMock;
+      readConfigurationForCartEntry = readFromCartEntryMock;
     }
 
     TestBed.configureTestingModule({
@@ -109,6 +115,41 @@ describe('ConfiguratorTextfieldEffect', () => {
     const expected = cold('-b', { b: completionFailure });
 
     expect(configEffects.createConfiguration$).toBeObservable(expected);
+  });
+
+  it('should emit a success action with content for an action of type readConfigurationFromCart if read from cart is successful', () => {
+    const payloadInput: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {};
+    const action = new ConfiguratorActions.ReadCartEntryConfiguration(
+      payloadInput
+    );
+
+    const completion = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
+      productConfiguration
+    );
+    actions$ = hot('-a', { a: action });
+    const expectedObs = cold('-b', { b: completion });
+
+    expect(configEffects.readConfigurationForCartEntry$).toBeObservable(
+      expectedObs
+    );
+  });
+
+  it('should emit a fail action in case read from cart leads to an error', () => {
+    readFromCartEntryMock.and.returnValue(throwError(errorResponse));
+    const payloadInput: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {};
+    const action = new ConfiguratorActions.ReadCartEntryConfiguration(
+      payloadInput
+    );
+
+    const completionFailure = new ConfiguratorActions.ReadCartEntryConfigurationFail(
+      makeErrorSerializable(errorResponse)
+    );
+    actions$ = hot('-a', { a: action });
+    const expectedObs = cold('-b', { b: completionFailure });
+
+    expect(configEffects.readConfigurationForCartEntry$).toBeObservable(
+      expectedObs
+    );
   });
 
   it('must not emit anything in case source action is not covered, createConfiguration', () => {

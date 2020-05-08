@@ -51,7 +51,7 @@ export class ConfiguratorCommonsConnector {
   }
 
   readConfigurationForCartEntry(
-    parameters: Configurator.ReadConfigurationFromCartEntryParameters
+    parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<Configurator.Configuration> {
     return this.adapter.readConfigurationForCartEntry(parameters);
   }

@@ -23,7 +23,7 @@ const productConfiguration: Configurator.Configuration = {
   },
 };
 
-const readFromCartEntryParameters: Configurator.ReadConfigurationFromCartEntryParameters = {
+const readFromCartEntryParameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
   userId: USER_ID,
   cartId: CART_ID,
   owner: productConfiguration.owner,

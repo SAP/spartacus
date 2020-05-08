@@ -606,7 +606,7 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('readConfigurationForCartEntry', () => {
     it('should dispatch ReadCartEntryConfiguration action ', () => {
-      const params: Configurator.ReadConfigurationFromCartEntryParameters = {
+      const params: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
         owner: OWNER_CART_ENTRY,
         cartEntryNumber: OWNER_CART_ENTRY.id,
         cartId: CART_GUID,

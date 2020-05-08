@@ -11,6 +11,13 @@ export namespace GenericConfigurator {
     hasObsoleteState?: boolean;
   }
 
+  export interface ReadConfigurationFromCartEntryParameters {
+    userId?: string;
+    cartId?: string;
+    cartEntryNumber?: string;
+    owner?: GenericConfigurator.Owner;
+  }
+
   export enum OwnerType {
     PRODUCT = 'product',
     CART_ENTRY = 'cartEntry',
