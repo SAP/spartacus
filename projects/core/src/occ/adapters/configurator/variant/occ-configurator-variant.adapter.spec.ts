@@ -176,7 +176,7 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should call readConfigurationForCartEntry endpoint', () => {
-    const params: Configurator.ReadConfigurationFromCartEntryParameters = {
+    const params: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
       owner: productConfiguration.owner,
       userId: userId,
       cartId: cartId,
@@ -242,7 +242,7 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should set owner on readConfigurationForCartEntry', () => {
-    const params: Configurator.ReadConfigurationFromCartEntryParameters = {
+    const params: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
       owner: productConfiguration.owner,
       userId: userId,
       cartId: cartId,

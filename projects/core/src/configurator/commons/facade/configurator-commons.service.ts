@@ -90,7 +90,7 @@ export class ConfiguratorCommonsService {
 
   readConfigurationForCartEntry(owner: GenericConfigurator.Owner) {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
-      const readFromCartEntryParameters: Configurator.ReadConfigurationFromCartEntryParameters = {
+      const readFromCartEntryParameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
         userId: this.getUserId(cartState.value),
         cartId: this.getCartId(cartState.value),
         cartEntryNumber: owner.id,
