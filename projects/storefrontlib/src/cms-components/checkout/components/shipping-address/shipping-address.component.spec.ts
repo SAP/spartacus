@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -7,12 +7,11 @@ import {
   Address,
   CheckoutDeliveryService,
   I18nTestingModule,
-  RoutingService,
   UserAddressService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Card } from '../../../../shared/components/card/card.component';
-import { CheckoutConfigService } from '../../services/checkout-config.service';
+import { CheckoutStepService } from '../../services/checkout-step.service';
 import { ShippingAddressComponent } from './shipping-address.component';
 import createSpy = jasmine.createSpy;
 
@@ -40,17 +39,11 @@ class MockCheckoutDeliveryService {
   }
 }
 
-class MockRoutingService {
-  go = createSpy();
-}
-
-class MockCheckoutConfigService {
-  getPreviousCheckoutStepUrl(): string {
-    return '';
-  }
-
-  getNextCheckoutStepUrl(): string {
-    return 'checkout/delivery-mode';
+class MockCheckoutStepService {
+  next = createSpy();
+  back = createSpy();
+  getBackBntText(): string {
+    return 'common.back';
   }
 }
 
@@ -124,8 +117,8 @@ describe('ShippingAddressComponent', () => {
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let mockCheckoutDeliveryService: CheckoutDeliveryService;
   let mockUserAddressService: UserAddressService;
-  let mockRoutingService: RoutingService;
   let mockActiveCartService: ActiveCartService;
+  let checkoutStepService: CheckoutStepService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -143,8 +136,7 @@ describe('ShippingAddressComponent', () => {
           provide: CheckoutDeliveryService,
           useClass: MockCheckoutDeliveryService,
         },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
     })
@@ -154,8 +146,10 @@ describe('ShippingAddressComponent', () => {
       .compileComponents();
 
     mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
-    mockRoutingService = TestBed.inject(RoutingService);
     mockActiveCartService = TestBed.inject(ActiveCartService);
+    checkoutStepService = TestBed.inject(
+      CheckoutStepService as Type<CheckoutStepService>
+    );
   }));
 
   beforeEach(() => {
@@ -255,16 +249,14 @@ describe('ShippingAddressComponent', () => {
     expect(component.newAddressFormManuallyOpened).toEqual(false);
   });
 
-  it('should call goPrevious()', () => {
-    const mockPreviousStepUrl = 'cart';
-    component.goPrevious();
-    expect(mockRoutingService.go).toHaveBeenCalledWith(mockPreviousStepUrl);
+  it('should be able to go to next step', () => {
+    component.next();
+    expect(checkoutStepService.next).toHaveBeenCalled();
   });
 
-  it('should call goNext()', () => {
-    const mockNextStepUrl = 'checkout/delivery-mode';
-    component.goNext();
-    expect(mockRoutingService.go).toHaveBeenCalledWith(mockNextStepUrl);
+  it('should be able to go to previous step', () => {
+    component.back();
+    expect(checkoutStepService.back).toHaveBeenCalled();
   });
 
   it('should automatically select default shipping address when there is no current selection', () => {
@@ -413,7 +405,7 @@ describe('ShippingAddressComponent', () => {
       spyOn(mockCheckoutDeliveryService, 'getDeliveryAddress').and.returnValue(
         of(mockAddress1)
       );
-      spyOn(component, 'goNext');
+      spyOn(component, 'next');
 
       component.ngOnInit();
       let address: Address[];
@@ -432,7 +424,7 @@ describe('ShippingAddressComponent', () => {
       expect(getContinueBtn().nativeElement.disabled).toEqual(false);
       getContinueBtn().nativeElement.click();
       fixture.detectChanges();
-      expect(component.goNext).toHaveBeenCalled();
+      expect(component.next).toHaveBeenCalled();
     });
   });
 
@@ -440,9 +432,9 @@ describe('ShippingAddressComponent', () => {
     const getBackBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find((el) => el.nativeElement.innerText === 'checkout.backToCart');
+        .find((el) => el.nativeElement.innerText === 'common.back');
 
-    it('should call "goPrevious" function after being clicked', () => {
+    it('should call "back" function after being clicked', () => {
       spyOn(mockUserAddressService, 'getAddressesLoading').and.returnValue(
         of(false)
       );
@@ -451,9 +443,9 @@ describe('ShippingAddressComponent', () => {
       );
 
       fixture.detectChanges();
-      spyOn(component, 'goPrevious');
+      spyOn(component, 'back');
       getBackBtn().nativeElement.click();
-      expect(component.goPrevious).toHaveBeenCalled();
+      expect(component.back).toHaveBeenCalled();
     });
   });
 

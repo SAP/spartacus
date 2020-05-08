@@ -4,14 +4,13 @@ import {
   ActiveCartService,
   Address,
   CheckoutDeliveryService,
-  RoutingService,
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
-import { CheckoutConfigService } from '../../services/checkout-config.service';
+import { CheckoutStepService } from '../../services/checkout-step.service';
 
 export interface CardWithAddress {
   card: Card;
@@ -32,14 +31,15 @@ export class ShippingAddressComponent implements OnInit {
   forceLoader = false; // this helps with smoother steps transition
   isGuestCheckout = false;
 
+  backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
+
   constructor(
     protected userAddressService: UserAddressService,
-    protected routingService: RoutingService,
     protected checkoutDeliveryService: CheckoutDeliveryService,
-    protected checkoutConfigService: CheckoutConfigService,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected checkoutStepService: CheckoutStepService
   ) {}
 
   ngOnInit() {
@@ -132,7 +132,7 @@ export class ShippingAddressComponent implements OnInit {
   addAddress(address: Address): void {
     const selectedSub = this.selectedAddress$.subscribe((selected) => {
       if (selected && selected.shippingAddress) {
-        this.goNext();
+        this.next();
         selectedSub.unsubscribe();
       }
     });
@@ -153,21 +153,15 @@ export class ShippingAddressComponent implements OnInit {
   hideNewAddressForm(goPrevious: boolean = false): void {
     this.newAddressFormManuallyOpened = false;
     if (goPrevious) {
-      this.goPrevious();
+      this.back();
     }
   }
 
-  goNext(): void {
-    this.routingService.go(
-      this.checkoutConfigService.getNextCheckoutStepUrl(this.activatedRoute)
-    );
+  next(): void {
+    this.checkoutStepService.next(this.activatedRoute);
   }
 
-  goPrevious(): void {
-    this.routingService.go(
-      this.checkoutConfigService.getPreviousCheckoutStepUrl(
-        this.activatedRoute
-      ) || 'cart'
-    );
+  back(): void {
+    this.checkoutStepService.back(this.activatedRoute);
   }
 }

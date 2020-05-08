@@ -11,13 +11,13 @@ import { CheckoutConfigService } from './checkout-config.service';
 })
 export class CheckoutStepService {
   // initial enabled steps
-  intialSteps: CheckoutStep[] = this.checkoutConfigService.steps
+  allSteps: CheckoutStep[] = this.checkoutConfigService.steps
     .filter((step) => !step.disabled)
     .map((x) => Object.assign({}, x));
 
   readonly steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<
     CheckoutStep[]
-  >(this.intialSteps);
+  >(this.allSteps);
 
   readonly activeStepIndex$: Observable<
     number
@@ -48,47 +48,111 @@ export class CheckoutStepService {
   ) {}
 
   back(activatedRoute: ActivatedRoute): void {
-    const previousUrl = this.checkoutConfigService.getPreviousCheckoutStepUrl(
-      activatedRoute
-    );
+    const previousUrl = this.getPreviousCheckoutStepUrl(activatedRoute);
     this.routingService.go(previousUrl === null ? 'cart' : previousUrl);
   }
 
   next(activatedRoute: ActivatedRoute): void {
-    const nextUrl = this.checkoutConfigService.getNextCheckoutStepUrl(
-      activatedRoute
-    );
+    const nextUrl = this.getNextCheckoutStepUrl(activatedRoute);
     this.routingService.go(nextUrl);
   }
 
   getBackBntText(activatedRoute: ActivatedRoute): string {
-    if (
-      this.checkoutConfigService.getPreviousCheckoutStepUrl(activatedRoute) ===
-      null
-    ) {
+    if (this.getPreviousCheckoutStepUrl(activatedRoute) === null) {
       return 'checkout.backToCart';
     }
-
     return 'common.back';
   }
 
   resetSteps(): void {
-    this.intialSteps = this.checkoutConfigService.steps
+    this.allSteps = this.checkoutConfigService.steps
       .filter((step) => !step.disabled)
       .map((x) => Object.assign({}, x));
-    this.steps$.next(this.intialSteps);
+    this.steps$.next(this.allSteps);
   }
 
   disableEnableStep(
     currentStepType: CheckoutStepType,
     disabled: boolean
   ): void {
-    const currentStep = this.intialSteps.find((step) =>
+    const currentStep = this.allSteps.find((step) =>
       step.type.includes(currentStepType)
     );
     if (currentStep) {
       currentStep.disabled = disabled;
-      this.steps$.next(this.intialSteps.filter((step) => !step.disabled));
+      this.steps$.next(this.allSteps.filter((step) => !step.disabled));
     }
+  }
+
+  getNextCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
+    const stepIndex = this.getCurrentStepIndex(activatedRoute);
+
+    if (stepIndex >= 0) {
+      let i = 1;
+      while (
+        this.allSteps[stepIndex + i] &&
+        this.allSteps[stepIndex + i].disabled
+      ) {
+        i++;
+      }
+      const nextStep = this.allSteps[stepIndex + i];
+      if (nextStep) {
+        return this.getStepUrlFromStepRoute(nextStep.routeName);
+      }
+    }
+    return null;
+  }
+
+  getPreviousCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
+    const stepIndex = this.getCurrentStepIndex(activatedRoute);
+
+    if (stepIndex >= 0) {
+      let i = 1;
+      while (
+        this.allSteps[stepIndex - i] &&
+        this.allSteps[stepIndex - i].disabled
+      ) {
+        i++;
+      }
+      const previousStep = this.allSteps[stepIndex - i];
+      if (previousStep) {
+        return this.getStepUrlFromStepRoute(previousStep.routeName);
+      }
+    }
+    return null;
+  }
+
+  getCurrentStepIndex(activatedRoute: ActivatedRoute): number | null {
+    const currentStepUrl: string = this.getStepUrlFromActivatedRoute(
+      activatedRoute
+    );
+
+    let stepIndex: number;
+    let index = 0;
+    for (const step of this.allSteps) {
+      if (
+        currentStepUrl === `/${this.getStepUrlFromStepRoute(step.routeName)}`
+      ) {
+        stepIndex = index;
+      } else {
+        index++;
+      }
+    }
+
+    return stepIndex >= 0 ? stepIndex : null;
+  }
+
+  private getStepUrlFromActivatedRoute(
+    activatedRoute: ActivatedRoute
+  ): string | null {
+    return activatedRoute &&
+      activatedRoute.snapshot &&
+      activatedRoute.snapshot.url
+      ? `/${activatedRoute.snapshot.url.join('/')}`
+      : null;
+  }
+
+  private getStepUrlFromStepRoute(stepRoute: string): string {
+    return this.routingConfigService.getRouteConfig(stepRoute).paths[0];
   }
 }
