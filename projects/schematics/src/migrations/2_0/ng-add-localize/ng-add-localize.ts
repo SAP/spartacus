@@ -1,8 +1,8 @@
 import {
   chain,
-  externalSchematic,
   Rule,
   SchematicContext,
+  SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
@@ -11,6 +11,7 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import { noop } from 'rxjs';
 import { ANGULAR_LOCALIZE } from '../../../shared/constants';
 import { getAngularVersion } from '../../../shared/utils/package-utils';
 
@@ -45,12 +46,34 @@ function installPackageJsonDependencies(): Rule {
   };
 }
 
+function isAngularLocalizeInstalled(tree: Tree): boolean {
+  const pkgPath = '/package.json';
+  const buffer = tree.read(pkgPath);
+  if (!buffer) {
+    throw new SchematicsException('Could not find package.json');
+  }
+
+  return buffer.toString().includes(ANGULAR_LOCALIZE);
+}
+
 export function migrate(): Rule {
-  return () => {
-    return chain([
-      addPackageJsonDependencies(),
-      installPackageJsonDependencies(),
-      externalSchematic(ANGULAR_LOCALIZE, 'ng-add', {}),
-    ]);
+  return (tree: Tree, context: SchematicContext) => {
+    const angularLocalizeInstalled = isAngularLocalizeInstalled(tree);
+    if (angularLocalizeInstalled) {
+      context.logger.info(
+        `Skipping the installation of ${ANGULAR_LOCALIZE} as it's already installed.`
+      );
+    } else {
+      context.logger.warn(
+        `Please run the following: ng add ${ANGULAR_LOCALIZE}`
+      );
+    }
+
+    return angularLocalizeInstalled
+      ? noop()
+      : chain([addPackageJsonDependencies(), installPackageJsonDependencies()])(
+          tree,
+          context
+        );
   };
 }
