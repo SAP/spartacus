@@ -1,8 +1,26 @@
-import { SchematicContext, Tree } from '@angular-devkit/schematics';
-import { Schema as DevSpartacusOptions } from '../ng-add/schema';
+import { chain, Tree } from '@angular-devkit/schematics';
+import { insertPropertyInStorefrontModuleCallExpression } from '../shared/utils/module-file-utils';
 
-export default function (options: DevSpartacusOptions) {
-  return (_tree: Tree, context: SchematicContext) => {
-    context.logger.info('add routing to project: ' + options.project);
+function provideTestRouting() {
+  return (tree: Tree) => {
+    const insertion = `,
+      routing: {
+        routes: {
+          product: {
+            paths: ['product/:productCode/:name', 'product/:productCode'],
+          },
+        },
+      }`;
+    insertPropertyInStorefrontModuleCallExpression(
+      tree,
+      'src/app/app.module.ts',
+      insertion
+    );
+  };
+}
+
+export default function () {
+  return (_tree: Tree) => {
+    return chain([provideTestRouting()]);
   };
 }
