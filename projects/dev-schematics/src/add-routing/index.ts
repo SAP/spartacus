@@ -1,7 +1,7 @@
 import { SchematicContext, Tree } from '@angular-devkit/schematics';
-import { Schema as SpartacusOptions } from '../ng-add/schema';
+import { Schema as DevSpartacusOptions } from '../ng-add/schema';
 
-export default function (options: SpartacusOptions) {
+export default function (options: DevSpartacusOptions) {
   return (_tree: Tree, context: SchematicContext) => {
     context.logger.info('add routing to project: ' + options.project);
   };

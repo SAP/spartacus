@@ -4,6 +4,7 @@
 
 /***** Imports start *****/
 export const SPARTACUS_CORE = '@spartacus/core';
+export const ANGULAR_CORE = '@angular/core';
 /***** Imports end *****/
 
 /***** Classes start *****/

@@ -12,7 +12,7 @@ import {
   url,
   SchematicsException,
 } from '@angular-devkit/schematics';
-import { Schema as SpartacusOptions } from '../ng-add/schema';
+import { Schema as DevSpartacusOptions } from '../ng-add/schema';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
@@ -27,7 +27,7 @@ import {
 import { isImported } from '@schematics/angular/utility/ast-utils';
 import { getTsSourceFile } from '../shared/utils/file-utils';
 
-function provideTestOutletsModuleImports(options: SpartacusOptions): Rule {
+function provideTestOutletsModuleImports(options: DevSpartacusOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const projectTargets = getProjectTargets(tree, options.project);
     if (!projectTargets.build) {
@@ -58,13 +58,11 @@ function provideTestOutletsModuleFiles(): Source {
   return apply(url('./files'), [renameTemplateFiles(), move('.', './src/app')]);
 }
 
-export default function (options: SpartacusOptions) {
-  return (_tree: Tree, context: SchematicContext) => {
-    context.logger.info('add test outlets to project: ' + options.project);
-
+export default function (options: DevSpartacusOptions) {
+  return (_tree: Tree) => {
     return chain([
       provideTestOutletsModuleImports(options),
       mergeWith(provideTestOutletsModuleFiles(), MergeStrategy.Overwrite),
-    ])(_tree, context);
+    ]);
   };
 }

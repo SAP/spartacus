@@ -1,8 +1,26 @@
-import { SchematicContext, Tree } from '@angular-devkit/schematics';
-import { Schema as SpartacusOptions } from '../ng-add/schema';
+import { chain, Tree } from '@angular-devkit/schematics';
+import { insertPropertyInStorefrontModuleCallExpression } from '../shared/utils/module-file-utils';
 
-export default function (options: SpartacusOptions) {
-  return (_tree: Tree, context: SchematicContext) => {
-    context.logger.info('add base site to project: ' + options.project);
+function provideTestBaseSites() {
+  return (tree: Tree) => {
+    const insertion = `,
+      baseSite: [
+        'electronics-spa',
+        'electronics',
+        'apparel-de',
+        'apparel-uk',
+        'apparel-uk-spa',
+      ]`;
+    insertPropertyInStorefrontModuleCallExpression(
+      tree,
+      'src/app/app.module.ts',
+      insertion
+    );
+  };
+}
+
+export default function () {
+  return (_tree: Tree) => {
+    return chain([provideTestBaseSites()]);
   };
 }
