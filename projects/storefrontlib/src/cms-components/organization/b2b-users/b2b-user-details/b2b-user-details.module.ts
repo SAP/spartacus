@@ -26,7 +26,7 @@ import { B2BUserDetailsComponent } from './b2b-user-details.component';
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        B2BUserDetailsComponent: {
+        UserDetailsComponent: {
           component: B2BUserDetailsComponent,
           guards: [AuthGuard],
         },

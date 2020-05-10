@@ -17,7 +17,7 @@ import { B2BUserListComponent } from './b2b-user-list.component';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ManageB2BUserListComponent: {
+        ManageUsersListComponent: {
           component: B2BUserListComponent,
           guards: [AuthGuard],
         },

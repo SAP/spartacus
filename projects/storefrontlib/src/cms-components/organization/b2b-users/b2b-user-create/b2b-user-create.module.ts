@@ -14,7 +14,7 @@ import { B2BUserFormModule } from '../b2b-user-form/b2b-user-form.module';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        B2BUserCreateComponent: {
+        UserCreateComponent: {
           component: B2BUserCreateComponent,
           guards: [AuthGuard],
         },

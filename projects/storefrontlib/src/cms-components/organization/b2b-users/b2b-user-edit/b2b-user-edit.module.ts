@@ -25,7 +25,7 @@ import { B2BUserFormModule } from '../b2b-user-form/b2b-user-form.module';
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        B2BUserEditComponent: {
+        UserEditComponent: {
           component: B2BUserEditComponent,
           guards: [AuthGuard],
         },

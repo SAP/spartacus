@@ -306,7 +306,7 @@ export const organization = {
     id: 'ID',
     name: 'Name',
   },
-  usersList: {
+  b2bUsersList: {
     sorting: {
       byName: 'Name',
       byUnitName: 'Unit Name',
