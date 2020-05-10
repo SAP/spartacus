@@ -21,7 +21,7 @@ import {
 })
 export class B2BUserListComponent extends AbstractListingComponent
   implements OnInit {
-  cxRoute = 'b2bUsers';
+  cxRoute = 'users';
 
   constructor(
     protected routingService: RoutingService,

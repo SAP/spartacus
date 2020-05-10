@@ -312,11 +312,14 @@ export const organization = {
     name: 'Name',
   },
   b2bUsersList: {
+    b2bUserManagement: 'User Management',
     sorting: {
       byName: 'Name',
-      byUnitName: 'Unit Name',
+      byUserName: 'Name',
+      byID: 'Email',
+      byUserID: 'Email',
     },
-    uid: 'Email',
+    id: 'Email',
     name: 'Name',
     roles: 'Roles',
     assign: 'Assign',
@@ -325,8 +328,9 @@ export const organization = {
     manager: 'Manager',
     approver: 'Approver',
     customer: 'Customer',
+    create: 'Create new user',
   },
-  user: {
+  b2bUser: {
     details: 'User details',
     id: 'ID',
     name: 'User Name',
@@ -337,7 +341,8 @@ export const organization = {
     assignApprovers: 'Manage Approvers',
     assignUserGroups: 'Manage User Groups',
   },
-  userForm: {
+
+  b2bUserForm: {
     create: 'Create User',
     edit: 'Edit User',
     update: 'Update User',

@@ -158,14 +158,14 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['organization/users'],
   },
   userCreate: {
-    paths: ['organization/user/create'],
+    paths: ['organization/users/create'],
   },
   userDetails: {
-    paths: ['organization/user/:code'],
+    paths: ['organization/users/:code'],
     paramsMapping: { code: 'email' },
   },
   userEdit: {
-    paths: ['organization/user/edit/:code'],
+    paths: ['organization/users/edit/:code'],
     paramsMapping: { code: 'email' },
   },
   userGroups: {
