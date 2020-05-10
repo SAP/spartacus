@@ -2,7 +2,7 @@ import { Address } from './address.model';
 import { Image } from './image.model';
 import { Product, Stock } from './product.model';
 import { GeoPoint, PaginationModel, SortModel } from './misc.model';
-import { Cart, Principal } from './cart.model';
+import { Cart } from './cart.model';
 import { OpeningSchedule } from './point-of-service.model';
 
 export interface CategoryHierarchy {
@@ -100,20 +100,4 @@ export interface StoreFinderStockSearchPage {
   sourceLatitude?: number;
   sourceLongitude?: number;
   stores?: PointOfServiceStock[];
-}
-
-export interface UserGroup {
-  members?: Principal[];
-  membersCount?: number;
-  name?: string;
-  subGroups?: UserGroup[];
-  uid?: string;
-}
-
-export interface UserGroupList {
-  currentPage?: number;
-  numberOfPages?: number;
-  pageSize?: number;
-  totalNumber?: number;
-  userGroups?: UserGroup[];
 }

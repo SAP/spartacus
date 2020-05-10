@@ -77,17 +77,13 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
   assign({ row }) {
     this.role$
       .pipe(take(1))
-      .subscribe((role) =>
-        this.orgUnitsService.assignRole(this.code, row.email, role)
-      );
+      .subscribe((role) => this.orgUnitsService.assignRole(row.email, role));
   }
 
   unassign({ row }) {
     this.role$
       .pipe(take(1))
-      .subscribe((role) =>
-        this.orgUnitsService.unassignRole(this.code, row.email, role)
-      );
+      .subscribe((role) => this.orgUnitsService.unassignRole(row.email, role));
   }
 
   changeRole({ roleId }: { roleId: string }) {

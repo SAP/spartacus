@@ -16,6 +16,7 @@ import {
 import { UserGroup } from '../../../model/user-group.model';
 import { B2BUser } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
+import { Permission } from '../../../model/permission.model';
 
 @Injectable()
 export class OccUserGroupAdapter implements UserGroupAdapter {
@@ -44,7 +45,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
     userId: string,
     userGroupId: string,
     params?: B2BSearchConfig
-  ): Observable<EntitiesModel<UserGroup>> {
+  ): Observable<EntitiesModel<Permission>> {
     return this.http
       .get<Occ.OrgUnitUserGroupList>(
         this.getPermissionsEndpoint(userId, userGroupId, params)
