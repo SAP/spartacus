@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Configurator, I18nTestingModule } from '@spartacus/core';
+import { Configurator, GenericConfigurator, I18nTestingModule } from "@spartacus/core";
 import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
 import { ConfigAttributeHeaderComponent } from './config-attribute-header.component';
-import { GenericConfigurator } from '../../../../../../../dist/core/src/model';
 
 describe('ConfigAttributeHeaderComponent', () => {
   let classUnderTest: ConfigAttributeHeaderComponent;
