@@ -235,7 +235,7 @@ describe('MerchandisingCarouselComponentService', () => {
   });
 
   describe('sendCarouselViewEvent', () => {
-    it('should send a caorusel view event to profile tag', () => {
+    it('should send a carousel view event to profile tag', () => {
       const expectedCarouselViewEvent = new MerchandisingCarouselViewedEvent(
         {
           carouselId: mockMerchandisingCarouselModel.metadata.id,
@@ -246,7 +246,10 @@ describe('MerchandisingCarouselComponentService', () => {
         [mockProducts[1].code, mockProducts[2].code]
       );
 
-      componentService.sendCarouselViewEvent(mockMerchandisingCarouselModel);
+      componentService
+        .sendCarouselViewEvent(of(mockMerchandisingCarouselModel))
+        .subscribe()
+        .unsubscribe();
 
       expect(
         profileTagEventService.notifyProfileTagOfEventOccurence

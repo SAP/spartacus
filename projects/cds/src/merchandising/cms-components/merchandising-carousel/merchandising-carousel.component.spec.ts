@@ -41,7 +41,7 @@ class MockCarouselComponent {
 }
 
 /*
- * The actual directrive would prefix our metadata attributes with the prefix input. We will not test
+ * The actual directive would prefix our metadata attributes with the prefix input. We will not test
  * the directive's behaviour as part of the tests for this component, so we should not expect the generated
  * metadata attributes to contain any kind of prefix
  */
@@ -127,7 +127,7 @@ const MockCmsMerchandisingCarouselComponent = <CmsComponentData<any>>{
 class MockMerchandisingCarouselComponentService {
   sendCarouselViewEvent = createSpy(
     'MerchandisingCarouselComponentService.sendCarouselViewEvent'
-  ).and.callFake(() => {});
+  ).and.callFake(() => of());
 
   getMerchandisingCarouselModel(): Observable<MerchandisingCarouselModel> {
     return of(merchandisingCarouselModel);
@@ -255,7 +255,7 @@ describe('MerchandisingCarouselComponent', () => {
     expect(product).toEqual(merchandisingCarouselModelProducts[0]);
   }));
 
-  describe('intersectionEvent$', () => {
+  describe('merchandisingCarouselModel$', () => {
     let intersectionService: IntersectionService;
     beforeEach(() => {
       intersectionService = TestBed.inject(IntersectionService);
@@ -264,7 +264,7 @@ describe('MerchandisingCarouselComponent', () => {
     it('should not trigger if the carousel is not in the viewport', () => {
       spyOn(intersectionService, 'isIntersected').and.returnValue(of(false));
 
-      component.intersectionEvent$.subscribe((_) => {});
+      component.merchandisingCarouselModel$.subscribe((_) => {});
 
       expect(componentService.sendCarouselViewEvent).not.toHaveBeenCalled();
     });
@@ -272,7 +272,7 @@ describe('MerchandisingCarouselComponent', () => {
     it('should trigger if the carousel is in the viewport', () => {
       spyOn(intersectionService, 'isIntersected').and.returnValue(of(true));
 
-      component.intersectionEvent$.subscribe((_) => {});
+      component.merchandisingCarouselModel$.subscribe((_) => {});
 
       expect(componentService.sendCarouselViewEvent).toHaveBeenCalled();
     });

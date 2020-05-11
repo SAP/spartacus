@@ -77,7 +77,7 @@ export class MerchandisingCarouselComponent {
             })
             .pipe(
               filter((carouselIsVisible) => carouselIsVisible),
-              switchMapTo(
+              switchMap((_) =>
                 this.merchandisingCarouselComponentService.sendCarouselViewEvent(
                   this.fetchProducts$
                 )
