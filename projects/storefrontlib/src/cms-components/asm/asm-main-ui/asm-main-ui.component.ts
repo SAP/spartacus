@@ -64,7 +64,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.asmService
         .getAsmUiState()
-        .subscribe((toggleState) => (this.isCollapsed = toggleState.collapsed))
+        .subscribe((uiState) => (this.isCollapsed = uiState.collapsed))
     );
   }
 
@@ -112,7 +112,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.asmComponentService.unload();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }

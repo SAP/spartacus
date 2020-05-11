@@ -14,19 +14,19 @@ export class AsmToggleUiComponent implements OnInit, OnDestroy {
 
   constructor(protected asmService: AsmService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.subscription.add(
-      this.asmService.getAsmUiState().subscribe((UiState) => {
-        this.isCollapsed = UiState.collapsed;
+      this.asmService.getAsmUiState().subscribe((uiState) => {
+        this.isCollapsed = uiState.collapsed;
       })
     );
   }
 
-  toggleUi() {
+  toggleUi(): void {
     this.asmService.updateAsmUiState({ collapsed: !this.isCollapsed });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }
