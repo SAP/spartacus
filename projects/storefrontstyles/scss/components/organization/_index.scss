@@ -1,9 +1,31 @@
-@import './budgets/budget-form';
+@import './budgets/budget-create';
+@import './budgets/budget-edit';
 @import './budgets/budget-list';
 @import './budgets/budget-details';
+
+@import './cost-centers/_cost-center-create';
+@import './cost-centers/_cost-center-edit';
 @import './cost-centers/_cost-center-details';
+
+@import './permissions/permission-create';
+@import './permissions/permission-edit';
 @import './permissions/permission-details';
+
+@import './user-groups/user-group-create';
+@import './user-groups/user-group-edit';
+@import './user-groups/user-group-details';
+
+@import './users/user-create';
+@import './users/user-edit';
+@import './users/user-details';
+
+@import './units/unit-create';
+@import './units/unit-edit';
 @import './units/unit-details';
 
-$organization-components-whitelist: cx-budget-form cx-budget-list
-  cx-cost-center-details cx-budget-details cx-unit-details cx-permission-details !default;
+$organization-components-whitelist: cx-budget-create cx-budget-edit
+  cx-budget-list cx-budget-details cx-cost-center-create cx-cost-center-edit
+  cx-cost-center-details cx-permission-create cx-permission-edit
+  cx-permission-details cx-user-group-create cx-user-group-edit
+  cx-user-group-details cx-user-create cx-user-edit cx-user-details
+  cx-unit-create cx-unit-edit cx-unit-details !default;
