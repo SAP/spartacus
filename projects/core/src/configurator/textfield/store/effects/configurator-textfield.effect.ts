@@ -20,6 +20,8 @@ import {
   ReadCartEntryConfigurationSuccess,
   READ_CART_ENTRY_CONFIGURATION,
   RemoveConfiguration,
+  UpdateCartEntryConfiguration,
+  UPDATE_CART_ENTRY_CONFIGURATION,
 } from '../actions/configurator-textfield.action';
 
 @Injectable()
@@ -87,6 +89,39 @@ export class ConfiguratorTextfieldEffects {
           of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
         )
       );
+    })
+  );
+
+  @Effect()
+  updateCartEntry$: Observable<
+    | RemoveConfiguration
+    | CartActions.CartUpdateEntrySuccess
+    | CartActions.CartUpdateEntryFail
+  > = this.actions$.pipe(
+    ofType(UPDATE_CART_ENTRY_CONFIGURATION),
+    map((action: UpdateCartEntryConfiguration) => action.payload),
+    mergeMap((payload) => {
+      return this.configuratorTextfieldConnector
+        .updateConfigurationForCartEntry(payload)
+        .pipe(
+          switchMap((entry: CartModification) => {
+            return [
+              new RemoveConfiguration(payload),
+              new CartActions.CartUpdateEntrySuccess({
+                ...entry,
+                userId: payload.userId,
+                cartId: payload.cartId,
+                entryNumber: payload.cartEntryNumber,
+                quantity: entry.quantity,
+              }),
+            ];
+          }),
+          catchError((error) =>
+            of(
+              new CartActions.CartUpdateEntryFail(makeErrorSerializable(error))
+            )
+          )
+        );
     })
   );
 

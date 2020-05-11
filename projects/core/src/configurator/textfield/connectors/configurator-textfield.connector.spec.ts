@@ -24,9 +24,11 @@ class MockConfiguratorTextfieldAdapter implements ConfiguratorTextfieldAdapter {
   );
 
   addToCart = createSpy().and.callFake((params) => of('addToCart' + params));
+
   updateConfigurationForCartEntry = createSpy().and.callFake((params) =>
     of('updateConfigurationForCartEntry' + params)
   );
+
   readConfigurationForCartEntry = createSpy().and.callFake((params) =>
     of('readConfigurationForCartEntry' + params)
   );

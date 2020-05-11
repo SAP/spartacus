@@ -31,6 +31,7 @@ class MockRoutingService {
 
 class MockConfiguratorTextfieldService {
   addToCart(): void {}
+  updateCartEntry(): void {}
 }
 
 describe('ConfigTextfieldAddToCartButtonComponent', () => {
@@ -89,9 +90,10 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   it('should navigate to cart when onAddToCart was triggered and owner points to cart entry ', () => {
     OWNER.type = GenericConfigurator.OwnerType.CART_ENTRY;
     spyOn(routingService, 'go').and.callThrough();
+    spyOn(textfieldService, 'updateCartEntry').and.callThrough();
 
     classUnderTest.onAddToCart(OWNER);
-
+    expect(textfieldService.updateCartEntry).toHaveBeenCalledWith(OWNER.id);
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
   });
 });

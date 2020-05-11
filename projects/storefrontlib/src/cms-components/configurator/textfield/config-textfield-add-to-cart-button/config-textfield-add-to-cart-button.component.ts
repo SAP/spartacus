@@ -34,7 +34,7 @@ export class ConfigTextfieldAddToCartButtonComponent implements OnInit {
         this.configuratorTextfieldService.addToCart(owner.id);
         break;
       case GenericConfigurator.OwnerType.CART_ENTRY:
-        //TODO:get configuration from cart for change confuration in cart
+        this.configuratorTextfieldService.updateCartEntry(owner.id);
         break;
     }
 
