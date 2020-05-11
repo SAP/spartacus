@@ -142,4 +142,9 @@ export namespace Configurator {
     PRIMARY = 'PRIMARY',
     GALLERY = 'GALLERY',
   }
+
+  export enum GroupStatus {
+    COMPLETE = 'COMPLETE',
+    ERROR = 'ERROR',
+  }
 }

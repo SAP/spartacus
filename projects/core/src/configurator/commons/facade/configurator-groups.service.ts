@@ -91,11 +91,11 @@ export class ConfiguratorGroupsService {
     return this.store.select(UiSelectors.isGroupVisited(owner.key, groupId));
   }
 
-  isGroupComplete(
+  getGroupStatus(
     owner: GenericConfigurator.Owner,
     groupId: string
-  ): Observable<Boolean> {
-    return this.store.select(UiSelectors.isGroupCompleted(owner.key, groupId));
+  ): Observable<Configurator.GroupStatus> {
+    return this.store.select(UiSelectors.getGroupStatus(owner.key, groupId));
   }
 
   areGroupsVisited(
@@ -108,45 +108,14 @@ export class ConfiguratorGroupsService {
   checkIsGroupComplete(group: Configurator.Group): Boolean {
     let isGroupComplete = true;
 
+    //Only required attributes need to be checked
     group.attributes.forEach((attribute) => {
-      if (!attribute.required || !isGroupComplete) {
-        return;
-      }
-      switch (attribute.uiType) {
-        case Configurator.UiType.RADIOBUTTON:
-        case Configurator.UiType.DROPDOWN:
-        case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
-          if (!attribute.selectedSingleValue) {
-            isGroupComplete = false;
-          }
-          break;
-        }
-
-        case Configurator.UiType.STRING: {
-          if (!attribute.userInput) {
-            isGroupComplete = false;
-          }
-          break;
-        }
-
-        case Configurator.UiType.CHECKBOX:
-        case Configurator.UiType.MULTI_SELECTION_IMAGE: {
-          let oneValueSelected = false;
-          attribute.values.forEach((value) => {
-            if (value.selected) {
-              oneValueSelected = true;
-            }
-          });
-
-          if (!oneValueSelected) {
-            isGroupComplete = false;
-          }
-
-          break;
-        }
+      if (attribute.required && isGroupComplete && attribute.incomplete) {
+        isGroupComplete = false;
       }
     });
 
+    console.warn(group.id, isGroupComplete);
     return isGroupComplete;
   }
 
@@ -224,7 +193,11 @@ export class ConfiguratorGroupsService {
       });
   }
 
-  setGroupStatus(configuration: Configurator.Configuration, groupId: string) {
+  setGroupStatus(
+    configuration: Configurator.Configuration,
+    groupId: string,
+    setGroupVisited: Boolean
+  ) {
     const group = this.getGroup(configuration.groups, groupId);
     const parentGroup = this.findParentGroup(
       configuration.groups,
@@ -232,37 +205,46 @@ export class ConfiguratorGroupsService {
       null
     );
 
-    this.setGroupStatusCompleted(configuration, group, parentGroup);
+    this.setGroupStatusCompletedOrError(configuration, group, parentGroup);
 
-    this.setGroupStatusVisited(configuration, group, parentGroup);
+    if (setGroupVisited) {
+      this.setGroupStatusVisited(configuration, group, parentGroup);
+    }
   }
 
-  setGroupStatusCompleted(
+  setGroupStatusCompletedOrError(
     configuration: Configurator.Configuration,
     group: Configurator.Group,
     parentGroup: Configurator.Group
   ) {
     const completedGroupIds = [];
-    const uncompletedGroupdIds = [];
+    const uncompletedOrErrorGroupdIds = [];
 
+    //Currently only check for completness, no validation of input types
     if (this.checkIsGroupComplete(group)) {
       completedGroupIds.push(group.id);
     } else {
-      uncompletedGroupdIds.push(group.id);
+      uncompletedOrErrorGroupdIds.push(group.id);
     }
 
     this.getParentGroupStatusCompleted(
       configuration,
       parentGroup,
       completedGroupIds,
-      uncompletedGroupdIds
+      uncompletedOrErrorGroupdIds
     );
 
     this.store.dispatch(
       new ConfiguratorUiActions.SetGroupCompleted(
         configuration.owner.key,
-        completedGroupIds,
-        uncompletedGroupdIds
+        completedGroupIds
+      )
+    );
+
+    this.store.dispatch(
+      new ConfiguratorUiActions.SetGroupError(
+        configuration.owner.key,
+        uncompletedOrErrorGroupdIds
       )
     );
   }
@@ -294,7 +276,7 @@ export class ConfiguratorGroupsService {
     this.getCurrentGroup(configuration.owner)
       .pipe(take(1))
       .subscribe((currentGroup) => {
-        this.setGroupStatus(configuration, currentGroup.id);
+        this.setGroupStatus(configuration, currentGroup.id, true);
       });
 
     const parentGroup = this.findParentGroup(

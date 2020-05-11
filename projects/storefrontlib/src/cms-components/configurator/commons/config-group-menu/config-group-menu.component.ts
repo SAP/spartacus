@@ -156,23 +156,11 @@ export class ConfigGroupMenuComponent implements OnInit {
     });
   }
 
-  showGroupVisited(
+  getGroupStatus(
     groupId: string,
     configuration: Configurator.Configuration
-  ): Observable<Boolean> {
-    console.warn(groupId);
-    return this.configuratorGroupsService.isGroupVisited(
-      configuration.owner,
-      groupId
-    );
-  }
-
-  showGroupCompleted(
-    groupId: string,
-    configuration: Configurator.Configuration
-  ): Observable<Boolean> {
-    console.warn(groupId);
-    return this.configuratorGroupsService.isGroupComplete(
+  ): Observable<String> {
+    return this.configuratorGroupsService.getGroupStatus(
       configuration.owner,
       groupId
     );

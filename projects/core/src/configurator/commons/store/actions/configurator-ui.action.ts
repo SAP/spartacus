@@ -11,6 +11,7 @@ export const SET_MENU_PARENT_GROUP =
 
 export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
 export const SET_GROUPS_COMPLETED = '[Configurator] Set group complete status';
+export const SET_GROUPS_ERROR = '[Configurator] Set group error status';
 
 export class SetUiState implements StateEntityActions.EntityAction {
   readonly type = SET_UI_STATE;
@@ -62,11 +63,15 @@ export class SetGroupsVisited implements StateEntityActions.EntityAction {
 export class SetGroupCompleted implements StateEntityActions.EntityAction {
   readonly type = SET_GROUPS_COMPLETED;
   readonly meta: StateEntityActions.EntityMeta;
-  constructor(
-    entityKey: string,
-    public completedGroups: string[],
-    public uncompletedGroups: string[]
-  ) {
+  constructor(entityKey: string, public completedGroups: string[]) {
+    this.meta = StateEntityActions.entityMeta(CONFIGURATION_UI_DATA, entityKey);
+  }
+}
+
+export class SetGroupError implements StateEntityActions.EntityAction {
+  readonly type = SET_GROUPS_ERROR;
+  readonly meta: StateEntityActions.EntityMeta;
+  constructor(entityKey: string, public errorGroups: string[]) {
     this.meta = StateEntityActions.entityMeta(CONFIGURATION_UI_DATA, entityKey);
   }
 }
@@ -79,4 +84,5 @@ export type ConfiguratorUiAction =
   | CreateUiState
   | SetCurrentGroup
   | SetGroupsVisited
-  | SetGroupCompleted;
+  | SetGroupCompleted
+  | SetGroupError;

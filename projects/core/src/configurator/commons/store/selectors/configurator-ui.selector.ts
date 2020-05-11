@@ -1,4 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { Configurator } from '../../../../model/configurator.model';
 import {
   EntityState,
   StateEntitySelectors,
@@ -35,12 +36,12 @@ export const getCurrentGroupForProduct = (
   );
 };
 
-export const isGroupCompleted = (
+export const getGroupStatus = (
   ownerKey: string,
   groupId: string
-): MemoizedSelector<StateWithConfiguration, Boolean> => {
+): MemoizedSelector<StateWithConfiguration, Configurator.GroupStatus> => {
   return createSelector(getUiStateForOwner(ownerKey), (details) =>
-    StateEntitySelectors.entitySelector(details.groupsComplete, groupId)
+    StateEntitySelectors.entitySelector(details.groupsStatus, groupId)
   );
 };
 

@@ -1,11 +1,11 @@
+import { Configurator } from '../../../../model/configurator.model';
 import * as ConfiguratorUiActions from '../actions/configurator-ui.action';
 import { UiState } from '../configuration-state';
 
 export const initialState: UiState = {
   currentGroup: null,
   menuParentGroup: null,
-  groupsComplete: { entities: {} },
-  groupsError: { entities: {} },
+  groupsStatus: { entities: {} },
   groupsVisited: { entities: {} },
 };
 
@@ -69,33 +69,46 @@ export function reducer(
       };
     }
     case ConfiguratorUiActions.SET_GROUPS_COMPLETED: {
-      const changedState = {
-        groupsComplete: {
-          entities: {},
-        },
-      };
-
-      //Set Current state items
-      Object.keys(state.groupsComplete.entities).forEach(
-        (groupId) =>
-          (changedState.groupsComplete.entities[groupId] =
-            state.groupsComplete.entities[groupId])
+      return setGroupStatus(
+        state,
+        action.completedGroups,
+        Configurator.GroupStatus.COMPLETE
       );
-
-      //Add new Groups
-      action.completedGroups.forEach(
-        (groupId) => (changedState.groupsComplete.entities[groupId] = true)
+    }
+    case ConfiguratorUiActions.SET_GROUPS_ERROR: {
+      return setGroupStatus(
+        state,
+        action.errorGroups,
+        Configurator.GroupStatus.ERROR
       );
-
-      action.uncompletedGroups.forEach(
-        (groupId) => (changedState.groupsComplete.entities[groupId] = false)
-      );
-
-      return {
-        ...state,
-        ...changedState,
-      };
     }
   }
   return state;
+}
+
+function setGroupStatus(
+  state: UiState,
+  groups: string[],
+  status: Configurator.GroupStatus
+): UiState {
+  const changedState: UiState = {
+    groupsStatus: { entities: {} },
+  };
+
+  //Set Current state items
+  Object.keys(state.groupsStatus.entities).forEach(
+    (groupId) =>
+      (changedState.groupsStatus.entities[groupId] =
+        state.groupsStatus.entities[groupId])
+  );
+
+  //Add status for groups
+  groups.forEach(
+    (groupId) => (changedState.groupsStatus.entities[groupId] = status)
+  );
+
+  return {
+    ...state,
+    ...changedState,
+  };
 }

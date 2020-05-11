@@ -23,14 +23,10 @@
             <li
               (click)="click(group)"
               (keyup)="clickOnEnter($event, group)"
-              class="cx-config-menu-item"
+              class="cx-config-menu-item {{
+                getGroupStatus(group.id, configuration) | async
+              }}"
               tabindex="0"
-              [class.visited]="
-                showGroupVisited(group.id, configuration) | async
-              "
-              [class.completed]="
-                showGroupCompleted(group.id, configuration) | async
-              "
             >
               <a [class.active]="currentGroup.id === group.id" role="link"
                 >{{ group.description }}
