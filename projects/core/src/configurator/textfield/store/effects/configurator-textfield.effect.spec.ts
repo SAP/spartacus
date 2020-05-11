@@ -5,8 +5,6 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { CartActions } from 'projects/core/src/cart';
-import { GenericConfigurator } from 'projects/core/src/model';
 import { Observable, of, throwError } from 'rxjs';
 import { CartModification } from '../../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
@@ -15,6 +13,8 @@ import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-te
 import * as ConfiguratorActions from '../actions/configurator-textfield.action';
 import { CONFIGURATION_TEXTFIELD_FEATURE } from '../configuration-textfield-state';
 import * as reducers from '../reducers/index';
+import { CartActions } from './../../../../cart/store/actions';
+import { GenericConfigurator } from './../../../../model/generic-configurator.model';
 import * as fromEffects from './configurator-textfield.effect';
 
 const productCode = 'CONF_LAPTOP';

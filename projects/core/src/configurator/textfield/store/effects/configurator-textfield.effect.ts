@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { CartActions } from 'projects/core/src/cart';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
@@ -24,6 +23,7 @@ import {
   UpdateCartEntryConfigurationFail,
   UPDATE_CART_ENTRY_CONFIGURATION,
 } from '../actions/configurator-textfield.action';
+import { CartActions } from './../../../../cart/store/actions';
 
 @Injectable()
 export class ConfiguratorTextfieldEffects {
