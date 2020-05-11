@@ -33,14 +33,14 @@ export class B2BUserListComponent extends AbstractListingComponent
 
   ngOnInit(): void {
     this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
-      tap(queryParams => this.b2bUsersService.loadB2BUsers(queryParams)),
-      switchMap(queryParams =>
+      tap((queryParams) => this.b2bUsersService.loadB2BUsers(queryParams)),
+      switchMap((queryParams) =>
         this.b2bUsersService.getList(queryParams).pipe(
           filter(Boolean),
           map((b2bUsersList: EntitiesModel<B2BUser>) => ({
             sorts: b2bUsersList.sorts,
             pagination: b2bUsersList.pagination,
-            values: b2bUsersList.values.map(b2bUser => ({
+            values: b2bUsersList.values.map((b2bUser) => ({
               code: b2bUser.uid,
               name: b2bUser.name,
               parentUnit: b2bUser.orgUnit && b2bUser.orgUnit.name,

@@ -9,11 +9,9 @@ import { B2BUser, B2BUserService, RoutingService } from '@spartacus/core';
 })
 export class B2BUserEditComponent implements OnInit {
   b2bUser$: Observable<B2BUser>;
-  b2bUserCode$: Observable<
-    string
-  > = this.routingService
+  b2bUserCode$: Observable<string> = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['code']));
+    .pipe(map((routingData) => routingData.state.params['code']));
 
   constructor(
     protected routingService: RoutingService,
@@ -22,15 +20,15 @@ export class B2BUserEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.b2bUser$ = this.b2bUserCode$.pipe(
-      tap(code => this.b2bUsersService.loadB2BUser(code)),
-      switchMap(code => this.b2bUsersService.get(code))
+      tap((code) => this.b2bUsersService.loadB2BUser(code)),
+      switchMap((code) => this.b2bUsersService.get(code))
     );
   }
 
   updateB2BUser(b2bUser: B2BUser) {
     this.b2bUserCode$
       .pipe(take(1))
-      .subscribe(b2bUserCode =>
+      .subscribe((b2bUserCode) =>
         this.b2bUsersService.update(b2bUserCode, b2bUser)
       );
     this.routingService.go({
