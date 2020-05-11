@@ -57,22 +57,20 @@ describe('Spartacus Schematics: ng-add', () => {
       .toPromise();
   });
 
-  it('should add pre-defined base sites', async () => {
+  it('should add pre-defined routing', async () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         'ng-add',
-        { ...defaultOptions, 'default-base-sites': true },
+        { ...defaultOptions, 'default-routing': true },
         appTree
       )
       .toPromise();
 
     const appModule = tree.readContent('/src/app/app.module.ts');
 
+    expect(appModule).toContain('routing:');
     expect(appModule).toContain(
-      "urlParameters: ['baseSite', 'language', 'currency']"
+      "paths: ['product/:productCode/:name', 'product/:productCode']"
     );
-    expect(appModule).toContain('baseSite:');
-    expect(appModule).toContain('electronics-spa');
-    expect(appModule).toContain('apparel-uk-spa');
   });
 });

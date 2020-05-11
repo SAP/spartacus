@@ -11,18 +11,15 @@
     },
     "add-baseSite": {
       "description": "Add base site to app module.",
-      "factory": "./add-baseSite/index",
-      "aliases": ["baseSite"]
-    },
-    "add-test-outlets": {
-      "description": "Add test outlets to app module.",
-      "factory": "./add-test-outlets/index",
-      "aliases": ["test-outlets"]
+      "factory": "./add-baseSite/index"
     },
     "add-routing": {
       "description": "Add routing to app module.",
-      "factory": "./add-routing/index",
-      "aliases": ["routing"]
+      "factory": "./add-routing/index"
+    },
+    "add-test-outlets": {
+      "description": "Add test outlets to app module.",
+      "factory": "./add-test-outlets/index"
     }
   }
 }

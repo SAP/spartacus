@@ -4,13 +4,17 @@ import { insertPropertyInStorefrontModuleCallExpression } from '../shared/utils/
 function provideTestBaseSites() {
   return (tree: Tree) => {
     const insertion = `,
-      baseSite: [
-        'electronics-spa',
-        'electronics',
-        'apparel-de',
-        'apparel-uk',
-        'apparel-uk-spa',
-      ]`;
+      context: {
+        urlParameters: ['baseSite', 'language', 'currency'],
+        baseSite: [
+          'electronics-spa',
+          'electronics',
+          'apparel-de',
+          'apparel-uk',
+          'apparel-uk-spa',
+        ],
+      }
+    `;
     insertPropertyInStorefrontModuleCallExpression(
       tree,
       'src/app/app.module.ts',

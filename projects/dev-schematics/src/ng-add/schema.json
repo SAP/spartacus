@@ -10,6 +10,24 @@
       "$default": {
         "$source": "projectName"
       }
+    },
+    "default-base-sites": {
+      "type": "boolean",
+      "description": "Add default base site list to the project.",
+      "default": false,
+      "aliases": ["baseSites"]
+    },
+    "default-routing": {
+      "type": "boolean",
+      "description": "Add default routing to the project.",
+      "default": false,
+      "aliases": ["routing"]
+    },
+    "test-outlets": {
+      "type": "boolean",
+      "description": "Add test outlets to the project.",
+      "default": false,
+      "aliases": ["outlets"]
     }
   },
   "required": []

@@ -4,6 +4,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import path from 'path';
 import { Schema as SpartacusOptions } from '../ng-add/schema';
+import { TEST_CONFIG_MODULE, TEST_OUTLET_MODULE } from '../shared/constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -57,22 +58,47 @@ describe('Spartacus Schematics: ng-add', () => {
       .toPromise();
   });
 
-  it('should add pre-defined base sites', async () => {
+  it('should add outlets module and config', async () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         'ng-add',
-        { ...defaultOptions, 'default-base-sites': true },
+        { ...defaultOptions, 'test-outlets': true },
         appTree
       )
       .toPromise();
 
     const appModule = tree.readContent('/src/app/app.module.ts');
 
-    expect(appModule).toContain(
-      "urlParameters: ['baseSite', 'language', 'currency']"
-    );
-    expect(appModule).toContain('baseSite:');
-    expect(appModule).toContain('electronics-spa');
-    expect(appModule).toContain('apparel-uk-spa');
+    expect(appModule).toContain(TEST_CONFIG_MODULE);
+    expect(appModule).toContain(TEST_OUTLET_MODULE);
+  });
+
+  it('should add outlets module and config', async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync(
+        'ng-add',
+        { ...defaultOptions, 'test-outlets': true },
+        appTree
+      )
+      .toPromise();
+
+    expect(
+      tree.readContent('/src/app/test-outlets/test-outlet.module.ts')
+    ).toBeTruthy();
+    expect(
+      tree.readContent(
+        '/src/app/test-outlets/test-outlet-component/test-outlet-component.module.ts'
+      )
+    ).toBeTruthy();
+    expect(
+      tree.readContent(
+        '/src/app/test-outlets/test-outlet-slot/test-outlet-slot.module.ts'
+      )
+    ).toBeTruthy();
+    expect(
+      tree.readContent(
+        '/src/app/test-outlets/test-outlet-template/test-outlet-template.module.ts'
+      )
+    ).toBeTruthy();
   });
 });
