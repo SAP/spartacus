@@ -347,8 +347,8 @@ export const organization = {
     edit: 'Edit User',
     update: 'Update User',
     code: {
-      label: 'User ID',
-      placeholder: 'Code',
+      label: 'Email address',
+      placeholder: 'Email',
     },
     name: {
       label: 'User name',
