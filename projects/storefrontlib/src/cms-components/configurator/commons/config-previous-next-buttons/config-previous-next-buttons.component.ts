@@ -43,6 +43,7 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
   }
 
   navigateToNextGroup(configuration: Configurator.Configuration) {
+    this.scrollToVariantConfigurationHeader();
     this.configuratorGroupsService
       .getNextGroupId(configuration.owner)
       .pipe(take(1))
@@ -52,12 +53,22 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
   }
 
   navigateToPreviousGroup(configuration: Configurator.Configuration) {
+    this.scrollToVariantConfigurationHeader();
     this.configuratorGroupsService
       .getPreviousGroupId(configuration.owner)
       .pipe(take(1))
       .subscribe((groupId) =>
         this.configuratorGroupsService.navigateToGroup(configuration, groupId)
       );
+  }
+
+  scrollToVariantConfigurationHeader() {
+    const theElement = document.querySelector('.VariantConfigurationTemplate');
+    let topOffset = 0;
+    if (theElement instanceof HTMLElement) {
+      topOffset = theElement.offsetTop;
+    }
+    window.scroll(0, topOffset);
   }
 
   isFirstGroup(owner: GenericConfigurator.Owner): Observable<Boolean> {

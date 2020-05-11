@@ -82,6 +82,7 @@ export class ConfigGroupMenuComponent implements OnInit {
   click(group: Configurator.Group) {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
+        this.scrollToVariantConfigurationHeader();
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
       } else {
@@ -153,5 +154,14 @@ export class ConfigGroupMenuComponent implements OnInit {
         return group;
       }
     });
+  }
+
+  scrollToVariantConfigurationHeader() {
+    const theElement = document.querySelector('.VariantConfigurationTemplate');
+    let topOffset = 0;
+    if (theElement instanceof HTMLElement) {
+      topOffset = theElement.offsetTop;
+    }
+    window.scroll(0, topOffset);
   }
 }
