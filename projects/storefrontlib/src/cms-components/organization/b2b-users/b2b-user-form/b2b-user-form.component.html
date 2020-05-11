@@ -5,9 +5,7 @@
 >
   <span class="is-invalid">
     <span *ngFor="let error of control.errors | keyvalue">
-      {{
-        'b2bUserForm.message.' + error.key | cxTranslate: translationParams
-      }}
+      {{ 'b2bUserForm.message.' + error.key | cxTranslate: translationParams }}
     </span>
   </span>
 </ng-template>
