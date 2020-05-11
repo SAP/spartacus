@@ -26,8 +26,8 @@ export const profileTagHelper = {
       win.dispatchEvent(event);
     });
   },
-  waitForCMSComponents(timeout = 7000) {
-    cy.get('cx-profiletag', { timeout });
+  waitForCMSComponents() {
+    cy.get('cx-profiletag');
   },
   testCr: '123-1bc',
   profileTagScriptResponse: {},

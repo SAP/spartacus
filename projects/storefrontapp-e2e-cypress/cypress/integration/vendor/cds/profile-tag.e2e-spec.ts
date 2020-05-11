@@ -8,14 +8,12 @@ describe('Profile-tag events', () => {
   beforeEach(() => {
     cy.server();
     cdsHelper.setUpMocks();
-    const homePage = waitForPage('homepage', 'getHomePage');
     navigation.visitHomePage({
       options: {
         onBeforeLoad: profileTagHelper.interceptProfileTagJs,
       },
     });
-    cy.get('cx-profiletag');
-    cy.wait(`@${homePage}`).its('status').should('eq', 200);
+    profileTagHelper.waitForCMSComponents();
   });
   it('should send a CartChanged event on adding an item to cart', () => {
     goToProductPage();
@@ -101,16 +99,26 @@ describe('login notification', () => {
     cy.server();
     cdsHelper.setUpMocks();
     cy.route('POST', '**/users/current/loginnotification**').as(loginAlias);
-    navigation.visitHomePage({});
+    navigation.visitHomePage({
+      options: {
+        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
+      },
+    });
     profileTagHelper.waitForCMSComponents();
     profileTagHelper.triggerLoaded();
     profileTagHelper.triggerConsentReferenceLoaded();
   });
   it('should not call the login endpont of EC on a failed login', () => {
     loginHelper.loginWithBadCredentials();
-    navigation.visitHomePage({}).then(() => {
-      expect(navigation.requestsCount(loginAlias)).eq(0);
-    });
+    navigation
+      .visitHomePage({
+        options: {
+          onBeforeLoad: profileTagHelper.interceptProfileTagJs,
+        },
+      })
+      .then(() => {
+        expect(navigation.requestsCount(loginAlias)).eq(0);
+      });
   });
   it('should call the login endpont of EC on a successful login', () => {
     loginHelper.loginAsDefaultUser();
