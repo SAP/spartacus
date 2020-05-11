@@ -5,6 +5,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
+import { CartActions } from 'projects/core/src/cart';
 import { GenericConfigurator } from 'projects/core/src/model';
 import { Observable, of, throwError } from 'rxjs';
 import { CartModification } from '../../../../model/cart.model';
@@ -177,7 +178,10 @@ describe('ConfiguratorTextfieldEffect', () => {
         configuration: productConfiguration,
       };
       const action = new ConfiguratorActions.AddToCart(payloadInput);
-      const cartAddEntrySuccess = new ConfiguratorActions.AddToCartSuccess();
+      const loadCart = new CartActions.LoadCart({
+        cartId: cartId,
+        userId: userId,
+      });
 
       const removeConfiguration = new ConfiguratorActions.RemoveConfiguration(
         payloadInput
@@ -186,7 +190,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
         b: removeConfiguration,
-        c: cartAddEntrySuccess,
+        c: loadCart,
       });
       expect(configEffects.addToCart$).toBeObservable(expected);
     });
@@ -225,7 +229,10 @@ describe('ConfiguratorTextfieldEffect', () => {
       const action = new ConfiguratorActions.UpdateCartEntryConfiguration(
         payloadInput
       );
-      const cartUpdateEntrySuccess = new ConfiguratorActions.UpdateCartEntryConfigurationSuccess();
+      const loadCart = new CartActions.LoadCart({
+        userId: userId,
+        cartId: cartId,
+      });
 
       const removeConfiguration = new ConfiguratorActions.RemoveConfiguration(
         payloadInput
@@ -234,7 +241,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
         b: removeConfiguration,
-        c: cartUpdateEntrySuccess,
+        c: loadCart,
       });
       expect(configEffects.updateCartEntry$).toBeObservable(expected);
     });
