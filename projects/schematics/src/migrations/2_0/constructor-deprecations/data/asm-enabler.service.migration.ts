@@ -11,7 +11,7 @@ import {
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
-export const ASM_ENABLE_SERVICE_MIGRATION: ConstructorDeprecation = {
+export const ASM_ENABLER_SERVICE_MIGRATION: ConstructorDeprecation = {
   // projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts
   class: ASM_ENABLER_SERVICE,
   importPath: SPARTACUS_STOREFRONTLIB,
