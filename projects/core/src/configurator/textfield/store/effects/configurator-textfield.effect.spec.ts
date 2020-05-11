@@ -7,7 +7,6 @@ import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { GenericConfigurator } from 'projects/core/src/model';
 import { Observable, of, throwError } from 'rxjs';
-import { CartActions } from '../../../../cart/store/actions/';
 import { CartModification } from '../../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
@@ -169,7 +168,7 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   describe('Textfield Effect addToCart', () => {
-    it('should emit AddToCartSuccess on addToCart', () => {
+    it('should emit success on addToCart', () => {
       const payloadInput = {
         userId: userId,
         cartId: cartId,
@@ -178,18 +177,7 @@ describe('ConfiguratorTextfieldEffect', () => {
         configuration: productConfiguration,
       };
       const action = new ConfiguratorActions.AddToCart(payloadInput);
-      const cartAddEntrySuccess = new CartActions.CartAddEntrySuccess({
-        ...cartModification,
-        userId: userId,
-        cartId: cartId,
-        productCode: payloadInput.productCode,
-        quantity: cartModification.quantity,
-        deliveryModeChanged: cartModification.deliveryModeChanged,
-        entry: cartModification.entry,
-        quantityAdded: cartModification.quantityAdded,
-        statusCode: cartModification.statusCode,
-        statusMessage: cartModification.statusMessage,
-      });
+      const cartAddEntrySuccess = new ConfiguratorActions.AddToCartSuccess();
 
       const removeConfiguration = new ConfiguratorActions.RemoveConfiguration(
         payloadInput
@@ -202,6 +190,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       });
       expect(configEffects.addToCart$).toBeObservable(expected);
     });
+
     it('should emit AddToCartFail in case add to cart call is not successful', () => {
       addToCartMock.and.returnValue(throwError(errorResponse));
       const payloadInput = {
@@ -212,7 +201,7 @@ describe('ConfiguratorTextfieldEffect', () => {
         configuration: productConfiguration,
       };
       const action = new ConfiguratorActions.AddToCart(payloadInput);
-      const cartAddEntryFail = new CartActions.CartAddEntryFail(
+      const cartAddEntryFail = new ConfiguratorActions.AddToCartFail(
         makeErrorSerializable(errorResponse)
       );
 
@@ -236,13 +225,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       const action = new ConfiguratorActions.UpdateCartEntryConfiguration(
         payloadInput
       );
-      const cartUpdateEntrySuccess = new CartActions.CartUpdateEntrySuccess({
-        ...cartModification,
-        userId: userId,
-        cartId: cartId,
-        quantity: cartModification.quantity,
-        entryNumber: cartEntryNumber,
-      });
+      const cartUpdateEntrySuccess = new ConfiguratorActions.UpdateCartEntryConfigurationSuccess();
 
       const removeConfiguration = new ConfiguratorActions.RemoveConfiguration(
         payloadInput
@@ -267,7 +250,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       const action = new ConfiguratorActions.UpdateCartEntryConfiguration(
         payloadInput
       );
-      const cartUpdateFail = new CartActions.CartUpdateEntryFail(
+      const cartUpdateFail = new ConfiguratorActions.UpdateCartEntryConfigurationFail(
         makeErrorSerializable(errorResponse)
       );
 
@@ -277,29 +260,6 @@ describe('ConfiguratorTextfieldEffect', () => {
         b: cartUpdateFail,
       });
       expect(configEffects.updateCartEntry$).toBeObservable(expected);
-    });
-  });
-
-  describe('Textfield effect addToCartCartProcessIncrement', () => {
-    it('should emit CartProcessesIncrement on addToCart', () => {
-      const payloadInput = {
-        userId: userId,
-        cartId: cartId,
-        productCode: productCode,
-        quantity: quantity,
-        configuration: productConfiguration,
-      };
-      const action = new ConfiguratorActions.AddToCart(payloadInput);
-      const cartProcessIncrement = new CartActions.CartProcessesIncrement(
-        cartId
-      );
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-c', {
-        c: cartProcessIncrement,
-      });
-      expect(configEffects.addToCartCartProcessIncrement$).toBeObservable(
-        expected
-      );
     });
   });
 });

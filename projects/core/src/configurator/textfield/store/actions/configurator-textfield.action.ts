@@ -13,6 +13,9 @@ export const CREATE_CONFIGURATION_SUCCESS =
 export const UPDATE_CONFIGURATION =
   '[Configurator] Update Configuration Textfield';
 export const ADD_TO_CART = '[Configurator] Add to cart Textfield';
+export const ADD_TO_CART_SUCCESS =
+  '[Configurator] Add to cart Textfield Sucess';
+export const ADD_TO_CART_FAIL = '[Configurator] Add to cart Textfield Fail';
 export const READ_CART_ENTRY_CONFIGURATION =
   '[Configurator] Read cart entry configuration Textfield';
 export const READ_CART_ENTRY_CONFIGURATION_FAIL =
@@ -21,6 +24,10 @@ export const READ_CART_ENTRY_CONFIGURATION_SUCCESS =
   '[Configurator] Read cart entry configuration Textfield Success';
 export const UPDATE_CART_ENTRY_CONFIGURATION =
   '[Configurator] Update cart entry configuration Textfield';
+export const UPDATE_CART_ENTRY_CONFIGURATION_SUCCESS =
+  '[Configurator] Update cart entry configuration Textfield Success';
+export const UPDATE_CART_ENTRY_CONFIGURATION_FAIL =
+  '[Configurator] Update cart entry configuration Textfield Fail';
 
 export const REMOVE_CONFIGURATION =
   '[Configurator] Remove Configuration Textfield';
@@ -57,10 +64,35 @@ export class AddToCart extends StateLoaderActions.LoaderLoadAction {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
+export class AddToCartSuccess extends StateLoaderActions.LoaderSuccessAction {
+  readonly type = ADD_TO_CART_SUCCESS;
+  constructor() {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+export class AddToCartFail extends StateLoaderActions.LoaderFailAction {
+  readonly type = ADD_TO_CART_FAIL;
+  constructor(public payload: any) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
 
 export class UpdateCartEntryConfiguration extends StateLoaderActions.LoaderLoadAction {
   readonly type = UPDATE_CART_ENTRY_CONFIGURATION;
   constructor(public payload: ConfiguratorTextfield.UpdateCartEntryParameters) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+export class UpdateCartEntryConfigurationSuccess extends StateLoaderActions.LoaderSuccessAction {
+  readonly type = UPDATE_CART_ENTRY_CONFIGURATION_SUCCESS;
+  constructor() {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+
+export class UpdateCartEntryConfigurationFail extends StateLoaderActions.LoaderFailAction {
+  readonly type = UPDATE_CART_ENTRY_CONFIGURATION_FAIL;
+  constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }

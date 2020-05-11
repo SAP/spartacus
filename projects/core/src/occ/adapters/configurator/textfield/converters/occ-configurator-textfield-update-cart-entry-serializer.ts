@@ -15,10 +15,9 @@ export class OccConfiguratorTextfieldUpdateCartEntrySerializer
   constructor() {}
 
   convert(
-    source: ConfiguratorTextfield.UpdateCartEntryParameters,
-    target?: OccConfiguratorTextfield.UpdateCartEntryParameters
+    source: ConfiguratorTextfield.UpdateCartEntryParameters
   ): OccConfiguratorTextfield.UpdateCartEntryParameters {
-    target = {
+    const target: OccConfiguratorTextfield.UpdateCartEntryParameters = {
       userId: source.userId,
       cartId: source.cartId,
       cartEntryNumber: source.cartEntryNumber,
