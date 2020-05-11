@@ -6,5 +6,4 @@
 export const environment = {
   production: false,
   occBaseUrl: '',
-  occApiPrefix: '/rest/v2/',
 };
