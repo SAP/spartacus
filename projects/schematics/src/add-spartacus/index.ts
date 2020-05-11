@@ -45,7 +45,7 @@ import { Schema as SpartacusOptions } from './schema';
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-    const ngrxVersion = '~9.0.0';
+    const ngrxVersion = '~9.1.0';
     const angularVersion = getAngularVersion(tree);
 
     const dependencies: NodeDependency[] = [
