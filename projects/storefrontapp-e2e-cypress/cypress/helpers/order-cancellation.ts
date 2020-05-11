@@ -1,5 +1,4 @@
 import { user } from '../sample-data/checkout-flow';
-import { login } from './auth-forms';
 import {
   addProductToCart,
   goToProductPageFromCategory,
@@ -16,16 +15,6 @@ export const register = (): void => {
   getSuccessAlert();
 };
 
-export const loginUser = (): void => {
-  const { email, password } = user;
-  cy.server();
-  cy.route(
-    'POST',
-    `${Cypress.env('API_URL')}/authorizationserver/oauth/token`
-  ).as('login');
-  login(email, password);
-  cy.wait('@login');
-};
 export const addProductToShoppingCart: VoidFunction = () => {
   goToProductPageFromCategory();
   addProductToCart();

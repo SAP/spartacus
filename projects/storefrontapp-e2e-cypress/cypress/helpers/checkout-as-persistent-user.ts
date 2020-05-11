@@ -47,7 +47,7 @@ export function retrieveTokenAndLogin() {
 }
 
 export function loginSuccessfully() {
-  cy.login('test-user-cypress@ydev.hybris.com', 'Password123.');
+  cy.login(username, password);
   cy.visit('/');
   cy.get('.cx-login-greet').should('contain', 'Test User');
 }

@@ -1,8 +1,5 @@
-import {
-  addProductToShoppingCart,
-  loginUser,
-  register,
-} from '../../../helpers/order-cancellation';
+import { loginSuccessfully } from '../../../helpers/checkout-as-persistent-user';
+import { doPlaceOrder } from '../../../helpers/order-history';
 
 context('Order Cancellation - Desktop', () => {
   before(() => {
@@ -20,16 +17,31 @@ context('Order Cancellation - Desktop', () => {
       cy.saveLocalStorage();
     });
 
-    it('should register a user', () => {
-      register();
-    });
-
     it('should login and redirect to front page', () => {
-      loginUser();
+      loginSuccessfully();
     });
 
     it('should add a product to cart', () => {
-      addProductToShoppingCart();
+      doPlaceOrder().then(() => {
+        doPlaceOrder().then((orderData: any) => {
+          cy.waitForOrderToBePlacedRequest(
+            undefined,
+            undefined,
+            orderData.body.code
+          );
+          cy.visit('/my-account/orders');
+          cy.get('cx-order-history h3').should('contain', 'Order history');
+          cy.reload();
+          cy.get('.cx-order-history-code > .cx-order-history-value').should(
+            'contain',
+            orderData.body.code
+          );
+          cy.get('.cx-order-history-total > .cx-order-history-value').should(
+            'contain',
+            orderData.body.totalPrice.formattedValue
+          );
+        });
+      });
     });
   });
 });
