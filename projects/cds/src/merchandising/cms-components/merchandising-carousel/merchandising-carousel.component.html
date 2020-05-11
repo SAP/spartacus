@@ -1,7 +1,6 @@
 <ng-container
   *ngIf="merchandisingCarouselModel$ | async as merchandisingCarouselModel"
 >
-  <div *ngIf="intersectionEvent$ | async"></div>
   <div
     class="data-cx-merchandising-carousel"
     [cxAttributes]="merchandisingCarouselModel.metadata"

@@ -1,15 +1,16 @@
 import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, using } from 'rxjs';
 import {
   distinctUntilKeyChanged,
   filter,
   map,
   shareReplay,
   switchMap,
+  switchMapTo,
+  take,
   tap,
-  withLatestFrom,
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingProduct } from '../../model/index';
@@ -32,7 +33,7 @@ export class MerchandisingCarouselComponent {
     protected el: ElementRef
   ) {}
 
-  merchandisingCarouselModel$: Observable<
+  private fetchProducts$: Observable<
     MerchandisingCarouselModel
   > = this.componentData.data$.pipe(
     filter((data) => Boolean(data)),
@@ -56,34 +57,40 @@ export class MerchandisingCarouselComponent {
         );
       }
     }),
-    shareReplay({ refCount: true })
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  intersectionEvent$: Observable<
-    [boolean, MerchandisingCarouselModel]
-  > = this.routingService.getPageContext().pipe(
-    switchMap((_) => this.componentData.data$),
-    filter((data) => Boolean(data)),
-    map((data) =>
-      this.merchandisingCarouselComponentService.getMerchandisingCaourselViewportThreshold(
-        data
-      )
-    ),
-    switchMap((threshold) =>
-      this.intersectionService
-        .isIntersected(this.el.nativeElement, {
-          threshold,
-        })
-        .pipe(
-          filter((carouselIsVisible) => carouselIsVisible),
-          withLatestFrom(this.merchandisingCarouselModel$),
-          tap(([_, carouselModel]) =>
-            this.merchandisingCarouselComponentService.sendCarouselViewEvent(
-              carouselModel
-            )
+  private intersection$: Observable<void> = this.fetchProducts$.pipe(
+    take(1),
+    switchMapTo(
+      this.routingService.getPageContext().pipe(
+        switchMapTo(this.componentData.data$),
+        map((data) =>
+          this.merchandisingCarouselComponentService.getMerchandisingCaourselViewportThreshold(
+            data
           )
+        ),
+        switchMap((threshold) =>
+          this.intersectionService
+            .isIntersected(this.el.nativeElement, {
+              threshold,
+            })
+            .pipe(
+              filter((carouselIsVisible) => carouselIsVisible),
+              switchMapTo(
+                this.merchandisingCarouselComponentService.sendCarouselViewEvent(
+                  this.fetchProducts$
+                )
+              )
+            )
         )
+      )
     )
+  );
+
+  merchandisingCarouselModel$ = using(
+    () => this.intersection$.subscribe(),
+    () => this.fetchProducts$
   );
 
   onMerchandisingCarouselItemClick(
