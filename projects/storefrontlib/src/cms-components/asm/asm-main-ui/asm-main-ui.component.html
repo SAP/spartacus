@@ -38,22 +38,26 @@
   </div>
 </div>
 
-<ng-container *ngIf="(csAgentToken$ | async)?.access_token; else showLoginForm">
-  <ng-container *ngIf="customer$ | async; else showCustomerSelection">
-    <cx-customer-emulation *ngIf="!isCollapsed"></cx-customer-emulation>
+<ng-container *ngIf="!(isCollapsed$ | async) as notCollapsed">
+  <ng-container
+    *ngIf="(csAgentToken$ | async)?.access_token; else showLoginForm"
+  >
+    <ng-container *ngIf="customer$ | async; else showCustomerSelection">
+      <cx-customer-emulation *ngIf="notCollapsed"></cx-customer-emulation>
+    </ng-container>
+    <ng-template #showCustomerSelection>
+      <cx-customer-selection
+        *ngIf="notCollapsed"
+        (submitEvent)="startCustomerEmulationSession($event)"
+      ></cx-customer-selection>
+    </ng-template>
   </ng-container>
-  <ng-template #showCustomerSelection>
-    <cx-customer-selection
-      *ngIf="!isCollapsed"
-      (submitEvent)="startCustomerEmulationSession($event)"
-    ></cx-customer-selection>
+
+  <ng-template #showLoginForm>
+    <cx-csagent-login-form
+      *ngIf="notCollapsed"
+      (submitEvent)="loginCustomerSupportAgent($event)"
+      [csAgentTokenLoading]="csAgentTokenLoading$ | async"
+    ></cx-csagent-login-form>
   </ng-template>
 </ng-container>
-
-<ng-template #showLoginForm>
-  <cx-csagent-login-form
-    *ngIf="!isCollapsed"
-    (submitEvent)="loginCustomerSupportAgent($event)"
-    [csAgentTokenLoading]="csAgentTokenLoading$ | async"
-  ></cx-csagent-login-form>
-</ng-template>

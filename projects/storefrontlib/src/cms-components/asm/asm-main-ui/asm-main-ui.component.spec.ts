@@ -213,7 +213,7 @@ describe('AsmMainUiComponent', () => {
     expect(el.query(By.css('cx-customer-emulation'))).toBeFalsy();
   });
 
-  it('should display the login form by default and when the collapse state is true', () => {
+  it('should not display the login form by default and when the collapse state is true', () => {
     spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
       of({} as UserToken)
@@ -242,7 +242,7 @@ describe('AsmMainUiComponent', () => {
     expect(el.query(By.css('button[title="asm.logout"]'))).toBeTruthy();
   });
 
-  it('should display the customer selection state when an agent is signed in and when the collapse state is true', () => {
+  it('should not display the customer selection state when an agent is signed in and when the collapse state is true', () => {
     spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
@@ -275,7 +275,7 @@ describe('AsmMainUiComponent', () => {
     expect(el.query(By.css('button[title="asm.logout"]'))).toBeTruthy();
   });
 
-  it('should display customer emulation state when a customer is signed in and when the collapse state is true', () => {
+  it('should not display customer emulation state when a customer is signed in and when the collapse state is true', () => {
     spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
