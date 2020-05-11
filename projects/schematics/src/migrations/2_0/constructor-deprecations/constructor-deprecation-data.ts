@@ -6,8 +6,6 @@ import { ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATIONS } from './data/address-book.c
 import { AMEND_ORDER_ACTIONS_COMPONENT_MIGRATION } from './data/amend-order-actions.component.migration';
 import { ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT_MIGRATION } from './data/anonymous-consent-management-banner.component.migration';
 import { ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION } from './data/anonymous-consent-open-dialog.component.migration';
-import { ASM_ENABLER_SERVICE_MIGRATION } from './data/asm-enabler.service.migration';
-import { ASM_MAIN_UI_COMPONENT_MIGRATION } from './data/asm-main-ui.component.migration';
 import { CART_COUPON_COMPONENT_MIGRATIONS } from './data/cart-coupon.component.migration';
 import { CART_DETAILS_COMPONENT_MIGRATIONS } from './data/cart-details.component.migration';
 import { CART_ITEM_LIST_COMPONENT_MIGRATIONS } from './data/cart-item-list.component.migration';
@@ -165,6 +163,4 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION,
   PRODUCT_FACET_NAVIGATION_COMPONENT_MIGRATION,
   STORE_FINDER_GRID_COMPONENT_MIGRATION,
-  ASM_MAIN_UI_COMPONENT_MIGRATION,
-  ASM_ENABLER_SERVICE_MIGRATION,
 ];
