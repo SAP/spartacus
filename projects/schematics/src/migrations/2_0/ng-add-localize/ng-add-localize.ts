@@ -63,9 +63,6 @@ export function migrate(): Rule {
 
     return angularLocalizeInstalled
       ? noop()
-      : chain([addPackageJsonDependencies(), installPackageJsonDependencies()])(
-          tree,
-          context
-        );
+      : chain([addPackageJsonDependencies(), installPackageJsonDependencies()]);
   };
 }
