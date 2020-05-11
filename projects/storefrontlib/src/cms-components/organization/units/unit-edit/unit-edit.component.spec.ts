@@ -41,7 +41,9 @@ const mockOrgUnits: B2BUnitNode[] = [
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits').and.returnValue(of(mockOrgUnits));
-  getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
+  getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
+    of(mockOrgUnits)
+  );
   loadOrgUnit = createSpy('loadOrgUnit');
   get = createSpy('get').and.returnValue(of(mockOrgUnit));
   getApprovalProcesses = createSpy('getApprovalProcesses');

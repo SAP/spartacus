@@ -201,6 +201,12 @@ export class OrgUnitService {
     );
   }
 
+  getActiveUnitList(): Observable<B2BUnitNode[]> {
+    return this.getList().pipe(
+      map((units) => units.filter((unit) => unit.active))
+    );
+  }
+
   getUsers(
     orgUnitId: string,
     roleId: string,
