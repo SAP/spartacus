@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Configurator, GenericConfigurator, I18nTestingModule } from "@spartacus/core";
+import {
+  Configurator,
+  GenericConfigurator,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { ConfigAttributeFooterComponent } from './config-attribute-footer.component';
 
 describe('ConfigAttributeFooterComponent', () => {
