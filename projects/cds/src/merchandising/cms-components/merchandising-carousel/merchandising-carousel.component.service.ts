@@ -14,9 +14,9 @@ import {
 } from '../../model/index';
 import {
   CarouselEvent,
-  MerchandisingCarouselClicked,
+  MerchandisingCarouselClickedEvent,
   MerchandisingCarouselModel,
-  MerchandisingCarouselViewed,
+  MerchandisingCarouselViewedEvent,
 } from './model/index';
 
 const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD = 80;
@@ -89,7 +89,7 @@ export class MerchandisingCarouselComponentService {
               merchandisingCarouselModel
             );
             this.profileTagEventService.notifyProfileTagOfEventOccurence(
-              new MerchandisingCarouselViewed(
+              new MerchandisingCarouselViewedEvent(
                 carouselEvent,
                 merchandisingCarouselModel.items
               )
@@ -115,7 +115,7 @@ export class MerchandisingCarouselComponentService {
     };
 
     this.profileTagEventService.notifyProfileTagOfEventOccurence(
-      new MerchandisingCarouselClicked(
+      new MerchandisingCarouselClickedEvent(
         carouselEvent,
         clickedProduct.metadata.slot,
         clickedProduct.code,

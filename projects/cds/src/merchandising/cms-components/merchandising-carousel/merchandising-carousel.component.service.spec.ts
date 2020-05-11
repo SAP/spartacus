@@ -12,9 +12,9 @@ import {
 } from '../../model/index';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import {
-  MerchandisingCarouselClicked,
+  MerchandisingCarouselClickedEvent,
   MerchandisingCarouselModel,
-  MerchandisingCarouselViewed,
+  MerchandisingCarouselViewedEvent,
 } from './model/index';
 import createSpy = jasmine.createSpy;
 
@@ -236,7 +236,7 @@ describe('MerchandisingCarouselComponentService', () => {
 
   describe('sendCarouselViewEvent', () => {
     it('should send a caorusel view event to profile tag', () => {
-      const expectedCarouselViewEvent = new MerchandisingCarouselViewed(
+      const expectedCarouselViewEvent = new MerchandisingCarouselViewedEvent(
         {
           carouselId: mockMerchandisingCarouselModel.metadata.id,
           carouselName: mockMerchandisingCarouselModel.metadata.name,
@@ -264,7 +264,7 @@ describe('MerchandisingCarouselComponentService', () => {
         },
       };
 
-      const expectedCarouselClickedEvent = new MerchandisingCarouselClicked(
+      const expectedCarouselClickedEvent = new MerchandisingCarouselClickedEvent(
         {
           carouselId: mockMerchandisingCarouselModel.metadata.id,
           carouselName: mockMerchandisingCarouselModel.metadata.name,
