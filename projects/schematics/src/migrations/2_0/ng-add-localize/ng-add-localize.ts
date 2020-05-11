@@ -2,7 +2,6 @@ import {
   chain,
   Rule,
   SchematicContext,
-  SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
@@ -13,7 +12,10 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { noop } from 'rxjs';
 import { ANGULAR_LOCALIZE } from '../../../shared/constants';
-import { getAngularVersion } from '../../../shared/utils/package-utils';
+import {
+  getAngularVersion,
+  isAngularLocalizeInstalled,
+} from '../../../shared/utils/package-utils';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -44,16 +46,6 @@ function installPackageJsonDependencies(): Rule {
     context.logger.log('info', `🔍 Installing packages...`);
     return tree;
   };
-}
-
-function isAngularLocalizeInstalled(tree: Tree): boolean {
-  const pkgPath = '/package.json';
-  const buffer = tree.read(pkgPath);
-  if (!buffer) {
-    throw new SchematicsException('Could not find package.json');
-  }
-
-  return buffer.toString().includes(ANGULAR_LOCALIZE);
 }
 
 export function migrate(): Rule {
