@@ -15,7 +15,7 @@ export interface LoginUser {
 
 export function fillRegistrationForm(
   { firstName, lastName, email, password }: RegisterUser,
-  giveRegistrationConsent = false,
+  giveRegistrationConsent,
   hiddenConsent?
 ) {
   cy.get('cx-register form').within(() => {
@@ -39,18 +39,18 @@ export function fillRegistrationForm(
 
 export function fillLoginForm({ username, password }: LoginUser) {
   cy.get('cx-login-form form').within(() => {
-    cy.get('[formcontrolname="userId"]')
-      .clear()
-      .type(username);
-    cy.get('[formcontrolname="password"]')
-      .clear()
-      .type(password);
+    cy.get('[formcontrolname="userId"]').clear().type(username);
+    cy.get('[formcontrolname="password"]').clear().type(password);
     cy.get('button[type=submit]').click();
   });
 }
 
-export function register(user: RegisterUser) {
-  fillRegistrationForm(user);
+export function register(
+  user: RegisterUser,
+  giveRegistrationConsent = false,
+  hiddenConsent?
+) {
+  fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
   cy.get('cx-register form').within(() => {
     cy.get('button[type="submit"]').click();
   });

@@ -6,7 +6,6 @@
   <cx-media
     class="cx-product-image"
     [container]="product.images?.PRIMARY"
-    format="product"
     [alt]="product.summary"
   ></cx-media>
 </a>
@@ -32,13 +31,11 @@
   </div>
 </div>
 
-<ng-container *cxFeatureLevel="'1.5'">
-  <div class="cx-variant-style-icons" *ngIf="product.variantOptions">
-    <cx-variant-style-icons
-      [variants]="product.variantOptions"
-    ></cx-variant-style-icons>
-  </div>
-</ng-container>
+<div class="cx-variant-style-icons" *ngIf="product.variantOptions">
+  <cx-variant-style-icons
+    [variants]="product.variantOptions"
+  ></cx-variant-style-icons>
+</div>
 
 <cx-add-to-cart
   *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"

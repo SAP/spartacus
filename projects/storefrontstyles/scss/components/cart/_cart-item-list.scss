@@ -17,12 +17,32 @@
     padding: 0;
   }
 
-  .cx-item-list-price,
+  .cx-item-list-price {
+    text-align: center;
+    padding: 0;
+
+    @include media-breakpoint-down(md) {
+      text-align: left;
+    }
+
+    @include media-breakpoint-only(xl) {
+      padding: 0px 15px 0 0;
+    }
+  }
+
   .cx-item-list-qty {
     text-align: center;
 
     @include media-breakpoint-down(md) {
       text-align: left;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding: 0 0 0 20px;
+    }
+
+    @include media-breakpoint-only(lg) {
+      padding: 0 24px 0 0px;
     }
   }
 

@@ -13,7 +13,7 @@ export class ContentPageGenerator extends ClientGenerator {
 
     for (let page in CONTENT_PAGES) {
       promises.push(
-        new Promise(function(resolve, reject) {
+        new Promise(function (resolve, reject) {
           client.getPageData(
             site,
             {

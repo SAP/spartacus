@@ -154,7 +154,7 @@ export class CheckoutDeliveryService {
   getAddressVerificationResults(): Observable<AddressValidation | string> {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getAddressVerificationResults),
-      filter(results => Object.keys(results).length !== 0)
+      filter((results) => Object.keys(results).length !== 0)
     );
   }
 
@@ -167,13 +167,13 @@ export class CheckoutDeliveryService {
       let userId;
       this.authService
         .getOccUserId()
-        .subscribe(occUserId => (userId = occUserId))
+        .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
       let cartId;
       this.activeCartService
         .getActiveCartId()
-        .subscribe(activeCartId => (cartId = activeCartId))
+        .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
       if (userId && cartId) {
         this.checkoutStore.dispatch(
@@ -195,13 +195,13 @@ export class CheckoutDeliveryService {
       let userId;
       this.authService
         .getOccUserId()
-        .subscribe(occUserId => (userId = occUserId))
+        .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
       let cartId;
       this.activeCartService
         .getActiveCartId()
-        .subscribe(activeCartId => (cartId = activeCartId))
+        .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
       if (userId && cartId) {
         this.checkoutStore.dispatch(
@@ -223,13 +223,13 @@ export class CheckoutDeliveryService {
       let userId;
       this.authService
         .getOccUserId()
-        .subscribe(occUserId => (userId = occUserId))
+        .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
       let cartId;
       this.activeCartService
         .getActiveCartId()
-        .subscribe(activeCartId => (cartId = activeCartId))
+        .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
       if (userId && cartId) {
         this.checkoutStore.dispatch(
@@ -252,7 +252,7 @@ export class CheckoutDeliveryService {
       let userId;
       this.authService
         .getOccUserId()
-        .subscribe(occUserId => (userId = occUserId))
+        .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
       if (userId) {
         this.checkoutStore.dispatch(
@@ -274,19 +274,19 @@ export class CheckoutDeliveryService {
       let userId;
       this.authService
         .getOccUserId()
-        .subscribe(occUserId => (userId = occUserId))
+        .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
-      let cart;
+      let cartId;
       this.activeCartService
-        .getActive()
-        .subscribe(activeCart => (cart = activeCart))
+        .getActiveCartId()
+        .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
-      if (cart && userId) {
+      if (cartId && userId) {
         this.checkoutStore.dispatch(
           new CheckoutActions.SetDeliveryAddress({
             userId,
-            cartId: cart.code,
+            cartId,
             address: address,
           })
         );
@@ -310,13 +310,13 @@ export class CheckoutDeliveryService {
     let userId;
     this.authService
       .getOccUserId()
-      .subscribe(occUserId => (userId = occUserId))
+      .subscribe((occUserId) => (userId = occUserId))
       .unsubscribe();
 
     let cartId;
     this.activeCartService
       .getActiveCartId()
-      .subscribe(activeCartId => (cartId = activeCartId))
+      .subscribe((activeCartId) => (cartId = activeCartId))
       .unsubscribe();
     if (userId && cartId) {
       this.checkoutStore.dispatch(
@@ -335,13 +335,13 @@ export class CheckoutDeliveryService {
     let userId;
     this.authService
       .getOccUserId()
-      .subscribe(occUserId => (userId = occUserId))
+      .subscribe((occUserId) => (userId = occUserId))
       .unsubscribe();
 
     let cartId;
     this.activeCartService
       .getActiveCartId()
-      .subscribe(activeCartId => (cartId = activeCartId))
+      .subscribe((activeCartId) => (cartId = activeCartId))
       .unsubscribe();
     if (userId && cartId) {
       this.checkoutStore.dispatch(
@@ -366,7 +366,7 @@ export class CheckoutDeliveryService {
     let userId;
     this.authService
       .getOccUserId()
-      .subscribe(occUserId => (userId = occUserId))
+      .subscribe((occUserId) => (userId = occUserId))
       .unsubscribe();
     return (
       (userId && userId !== OCC_USER_ID_ANONYMOUS) ||

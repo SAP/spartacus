@@ -1,10 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { EscapeFocusDirective } from './escape-focus.directive';
 import { EscapeFocusService } from './escape-focus.service';
 
+@Directive({
+  selector: '[cxEscFocus]',
+})
+class CustomFocusDirective extends EscapeFocusDirective {
+  @Input('cxEscFocus') protected config: EscapeFocusConfig;
+}
 @Component({
   selector: 'cx-host',
   template: `
@@ -56,7 +62,7 @@ describe('EscapeFocusDirective', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent, EscapeFocusDirective],
+      declarations: [MockComponent, CustomFocusDirective],
       providers: [
         {
           provide: EscapeFocusService,

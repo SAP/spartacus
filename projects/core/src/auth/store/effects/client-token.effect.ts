@@ -21,7 +21,7 @@ export class ClientTokenEffect {
           map((token: ClientToken) => {
             return new AuthActions.LoadClientTokenSuccess(token);
           }),
-          catchError(error =>
+          catchError((error) =>
             of(
               new AuthActions.LoadClientTokenFail(makeErrorSerializable(error))
             )

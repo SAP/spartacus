@@ -17,7 +17,7 @@ export class OrderConsignedEntriesComponent {
 
   getConsignmentProducts(consignment: Consignment): OrderEntry[] {
     const products: OrderEntry[] = [];
-    consignment.entries.forEach(element => {
+    consignment.entries.forEach((element) => {
       products.push(element.orderEntry);
     });
 

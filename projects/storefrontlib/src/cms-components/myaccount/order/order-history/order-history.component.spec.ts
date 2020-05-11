@@ -123,7 +123,7 @@ describe('OrderHistoryComponent', () => {
   it('should read order list', () => {
     let orders: OrderHistoryList;
     component.orders$
-      .subscribe(value => {
+      .subscribe((value) => {
         orders = value;
       })
       .unsubscribe();

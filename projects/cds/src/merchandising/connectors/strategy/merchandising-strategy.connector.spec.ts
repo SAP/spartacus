@@ -58,7 +58,7 @@ describe('Strategy Connector', () => {
 
     strategyConnector
       .loadProductsForStrategy(STRATEGY_ID, STRATEGY_REQUEST)
-      .subscribe(strategyProducts => {
+      .subscribe((strategyProducts) => {
         actualStrategyProducts = strategyProducts;
       })
       .unsubscribe();

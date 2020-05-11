@@ -64,7 +64,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
       .getAndLoadProductInterests(this.DEFAULT_PAGE_SIZE)
       .pipe(
         tap(
-          interests =>
+          (interests) =>
             (this.pagination = {
               currentPage: interests.pagination.page,
               pageSize: interests.pagination.count,
@@ -73,10 +73,10 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
               sort: 'byNameAsc',
             })
         ),
-        map(interest => ({
+        map((interest) => ({
           ...interest,
           results: interest.results
-            ? interest.results.map(result => ({
+            ? interest.results.map((result) => ({
                 ...result,
                 product$: this.getProduct(result),
               }))

@@ -1,8 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { TrapFocusConfig } from '../keyboard-focus.model';
 import { TrapFocusDirective } from './trap-focus.directive';
 import { TrapFocusService } from './trap-focus.service';
+
+@Directive({
+  selector: '[cxTrapFocus]',
+})
+class CustomFocusDirective extends TrapFocusDirective {
+  @Input('cxTrapFocus') protected config: TrapFocusConfig;
+}
 
 @Component({
   selector: 'cx-host',
@@ -27,7 +35,7 @@ describe('TrapFocusDirective', () => {
   let service: TrapFocusService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent, TrapFocusDirective],
+      declarations: [MockComponent, CustomFocusDirective],
       providers: [
         {
           provide: TrapFocusService,

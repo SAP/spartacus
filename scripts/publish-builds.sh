@@ -2,7 +2,7 @@
 set -u -e -o pipefail
 
 REPO_OWNER='SAP'
-PROJECT_NAME='cloud-commerce-spartacus-storefront'
+PROJECT_NAME='spartacus'
 SHA=`git rev-parse HEAD`
 COMMIT_MSG=`git log --oneline -1`
 COMMITTER_USER_NAME=`git --no-pager show -s --format='%cN' HEAD`

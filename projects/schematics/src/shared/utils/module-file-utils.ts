@@ -1,13 +1,21 @@
 import { normalize, relative } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
+import { findNodes } from '@angular/cdk/schematics';
 import {
   addSymbolToNgModuleMetadata,
+  getDecoratorMetadata,
   insertImport,
   isImported,
 } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
-import { commitChanges, getTsSourceFile, InsertDirection } from './file-utils';
+import { ANGULAR_CORE } from '../constants';
+import {
+  commitChanges,
+  getMetadataProperty,
+  getTsSourceFile,
+  InsertDirection,
+} from './file-utils';
 
 export function stripTsFromImport(importPath: string): string {
   if (!importPath.endsWith('.ts')) {
@@ -23,7 +31,7 @@ export function addImport(
   importText: string,
   importPath: string
 ): void {
-  const moduleSource = getTsSourceFile(host, filePath) as any;
+  const moduleSource = getTsSourceFile(host, filePath);
   if (!isImported(moduleSource, importText, importPath)) {
     const change = insertImport(moduleSource, filePath, importText, importPath);
     commitChanges(host, filePath, [change], InsertDirection.LEFT);
@@ -136,4 +144,79 @@ export function buildRelativePath(from: string, to: string): string {
   }
 
   return pathPrefix + (relativePath ? relativePath + '/' : '') + toFileName;
+}
+
+export function getTemplateInfo(
+  source: ts.SourceFile
+):
+  | {
+      templateUrl?: string;
+      inlineTemplateContent?: string;
+      inlineTemplateStart?: number;
+    }
+  | undefined {
+  const fileUrlResult = getTemplateUrlOrInlineTemplate(source, 'templateUrl');
+  if (fileUrlResult) {
+    return { templateUrl: fileUrlResult.contentOrUrl };
+  }
+
+  // if the 'templateUrl' is not specified, check for the inline template
+  const inlineTemplateResult = getTemplateUrlOrInlineTemplate(
+    source,
+    'template'
+  );
+  if (inlineTemplateResult) {
+    return {
+      inlineTemplateContent: inlineTemplateResult.contentOrUrl,
+      inlineTemplateStart: inlineTemplateResult.start,
+    };
+  }
+
+  return undefined;
+}
+
+function getTemplateUrlOrInlineTemplate(
+  source: ts.SourceFile,
+  templateOrTemplateUrl: 'template' | 'templateUrl'
+): { contentOrUrl: string; start?: number } | undefined {
+  const decorator = getDecoratorMetadata(source, 'Component', ANGULAR_CORE)[0];
+  if (!decorator) {
+    return undefined;
+  }
+
+  const templateMetadata = getMetadataProperty(
+    decorator,
+    templateOrTemplateUrl
+  );
+  if (!templateMetadata) {
+    return undefined;
+  }
+
+  let stringNode: ts.StringLiteral | ts.NoSubstitutionTemplateLiteral;
+  stringNode = stringNode = findNodes(
+    templateMetadata,
+    ts.SyntaxKind.NoSubstitutionTemplateLiteral
+  )[0] as ts.NoSubstitutionTemplateLiteral;
+  if (!stringNode) {
+    // fallback to single/double quotes
+    stringNode = findNodes(
+      templateMetadata,
+      ts.SyntaxKind.StringLiteral
+    )[0] as ts.StringLiteral;
+  }
+
+  if (!stringNode) {
+    return undefined;
+  }
+
+  const result = stringNode.text.trim();
+  if (templateOrTemplateUrl === 'templateUrl') {
+    const url = result.replace('./', '');
+    return { contentOrUrl: url };
+  }
+
+  return {
+    contentOrUrl: result,
+    start: stringNode.getStart() + 1,
+  };
 }

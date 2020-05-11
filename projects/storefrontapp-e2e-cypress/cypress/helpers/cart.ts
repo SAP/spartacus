@@ -70,9 +70,7 @@ function checkCartSummary(subtotal: string) {
 }
 
 function incrementQuantity() {
-  cy.get('cx-item-counter button')
-    .contains('+')
-    .click();
+  cy.get('cx-item-counter button').contains('+').click();
 }
 
 function goToFirstProductFromSearch(id: string, mobile: boolean) {
@@ -86,13 +84,9 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
       PRODUCT_LISTING.PRODUCTS_PER_PAGE
     );
 
-    cy.get('cx-searchbox input')
-      .clear()
-      .type(`${id}{enter}`);
+    cy.get('cx-searchbox input').clear().type(`${id}{enter}`);
 
-    cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`)
-      .its('status')
-      .should('eq', 200);
+    cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`).its('status').should('eq', 200);
 
     cy.get('cx-product-list-item .cx-product-name')
       .first()
@@ -123,9 +117,7 @@ export function validateEmptyCart() {
 }
 
 export function addToCart() {
-  cy.get('cx-add-to-cart button[type=submit]')
-    .first()
-    .click({ force: true });
+  cy.get('cx-add-to-cart button[type=submit]').first().click({ force: true });
 }
 
 export function registerCartRefreshRoute() {
@@ -133,9 +125,9 @@ export function registerCartRefreshRoute() {
 
   cy.route(
     'GET',
-    `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/*/carts/*?fields=*&lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
 }
 
@@ -144,9 +136,9 @@ export function registerCreateCartRoute() {
 
   cy.route(
     'POST',
-    `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/*/carts?fields=*&lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts?fields=*&lang=en&curr=USD`
   ).as('create_cart');
 }
 
@@ -155,9 +147,9 @@ export function registerSaveCartRoute() {
 
   cy.route(
     'PATCH',
-    `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/*/carts/*/save?lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/*/save?lang=en&curr=USD`
   ).as('save_cart');
 }
 
@@ -215,9 +207,7 @@ export function removeAllItemsFromCart() {
 
   removeCartItem(products[0]);
 
-  cy.wait('@refresh_cart')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@refresh_cart').its('status').should('eq', 200);
 
   removeCartItem(products[4]);
 
@@ -268,9 +258,7 @@ export function logOutAndNavigateToEmptyCart() {
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
 
   validateEmptyCart();
 }
@@ -288,9 +276,7 @@ export function addProductAsAnonymous() {
     force: true,
   });
 
-  cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${QUERY_ALIAS.PRODUCE_CODE}`).its('status').should('eq', 200);
 
   cy.get('cx-product-list')
     .contains('cx-product-list-item', product.name)
@@ -312,9 +298,7 @@ export function verifyMergedCartWhenLoggedIn() {
 
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get('cx-login [role="link"]').click();
-  cy.wait(`@${loginPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
   login(
     standardUser.registrationData.email,
@@ -340,9 +324,7 @@ export function logOutAndEmptyCart() {
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
 
   validateEmptyCart();
 }
@@ -356,9 +338,7 @@ export function manipulateCartQuantity() {
 
   addToCart();
 
-  cy.wait('@refresh_cart')
-    .its('status')
-    .should('eq', 200);
+  cy.wait('@refresh_cart').its('status').should('eq', 200);
 
   checkAddedToCartDialog();
   closeAddedToCartDialog();
@@ -412,9 +392,7 @@ export function registerCartUser() {
 export function loginCartUser() {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.visit('/login');
-  cy.wait(`@${loginPage}`)
-    .its('status')
-    .should('eq', 200);
+  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
   login(cartUser.registrationData.email, cartUser.registrationData.password);
   cy.url().should('not.contain', 'login');
 }

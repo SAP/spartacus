@@ -3,7 +3,6 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
-  Input,
   OnInit,
   Output,
 } from '@angular/core';
@@ -18,15 +17,13 @@ import { EscapeFocusService } from './escape-focus.service';
  * move up in the DOM tree.
  *
  */
-@Directive({
-  selector: '[cxEscFocus]',
-})
+@Directive() // selector: '[cxEscFocus]',
 export class EscapeFocusDirective extends PersistFocusDirective
   implements OnInit {
   protected defaultConfig: EscapeFocusConfig = { focusOnEscape: true };
 
-  /** Optional configuration to drive behaviour of the directive. */
-  @Input('cxEscFocus') protected config: EscapeFocusConfig;
+  // @Input('cxEscFocus')
+  protected config: EscapeFocusConfig;
 
   @Output() esc = new EventEmitter<boolean>();
 

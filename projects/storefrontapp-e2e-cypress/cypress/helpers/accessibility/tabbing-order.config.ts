@@ -80,6 +80,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
+      value: '/electronics-spa/en/USD/product/2278102/miniDV%20Head%20Cleaner',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
       value: '/electronics-spa/en/USD/product/1776948/Camileo%20S10%20EU',
       type: TabbingOrderTypes.IMG_LINK,
     },
@@ -93,10 +97,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: '/electronics-spa/en/USD/product/1992693/DSC-T90',
-      type: TabbingOrderTypes.IMG_LINK,
-    },
-    {
-      value: '/electronics-spa/en/USD/product/2278102/miniDV%20Head%20Cleaner',
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
@@ -171,9 +171,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
     },
-    { value: '-', type: TabbingOrderTypes.BUTTON },
     { type: TabbingOrderTypes.GENERIC_INPUT },
-    { value: '+', type: TabbingOrderTypes.BUTTON },
+    { value: 'Save For Later', type: TabbingOrderTypes.LINK },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
     {
       value: 'Proceed to Checkout',
@@ -211,6 +210,14 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'newPasswordConfirm',
       type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'Cancel',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Save',
+      type: TabbingOrderTypes.BUTTON,
     },
   ],
   notificationPreference: [
@@ -265,6 +272,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Delete', type: TabbingOrderTypes.LINK },
     { value: 'Set as default', type: TabbingOrderTypes.LINK },
     { value: 'Delete', type: TabbingOrderTypes.LINK },
+    { value: 'Set as default', type: TabbingOrderTypes.LINK },
+    { value: 'Delete', type: TabbingOrderTypes.LINK },
   ],
   addressBookForm: [
     {
@@ -296,12 +305,12 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.FORM_FIELD,
     },
     {
-      value: 'isocode',
-      type: TabbingOrderTypes.NG_SELECT,
-    },
-    {
       value: 'postalCode',
       type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'isocode',
+      type: TabbingOrderTypes.NG_SELECT,
     },
     {
       value: 'phone',
@@ -320,32 +329,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
     },
   ],
-  addressBookDirectory: [
-    {
-      value: 'Add new address',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Edit',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Delete',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Set as default',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Edit',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Delete',
-      type: TabbingOrderTypes.LINK,
-    },
-  ],
   consentManagement: [
     {
       type: TabbingOrderTypes.LINK,
@@ -361,7 +344,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
-      value: 'I approve to this sample PERSONALIZATION consent',
+      value: 'Allow SAP Commerce Cloud, Context-Driven Services tracking',
     },
     {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
@@ -376,9 +359,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
     },
-    { value: '-', type: TabbingOrderTypes.BUTTON },
     { type: TabbingOrderTypes.GENERIC_INPUT },
-    { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
     { value: 'view cart', type: TabbingOrderTypes.BUTTON },
     { value: 'proceed to checkout', type: TabbingOrderTypes.BUTTON },
@@ -391,8 +372,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'line1', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'line2', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'town', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'isocode', type: TabbingOrderTypes.GENERIC_INPUT },
     { value: 'postalCode', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'isocode', type: TabbingOrderTypes.GENERIC_INPUT },
     { value: 'phone', type: TabbingOrderTypes.FORM_FIELD },
     {
       value: 'Set as default',
@@ -421,6 +402,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Start Shopping', type: TabbingOrderTypes.BUTTON },
   ],
   paymentDetailsCard: [
+    { value: 'Shipping address', type: TabbingOrderTypes.LINK },
+    { value: 'Delivery mode', type: TabbingOrderTypes.LINK },
     { type: TabbingOrderTypes.GENERIC_INPUT },
     {
       value: 'accountHolderName',
@@ -442,16 +425,15 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Continue', type: TabbingOrderTypes.BUTTON },
   ],
   paymentDetailsBillingAddress: [
+    { type: TabbingOrderTypes.GENERIC_CHECKBOX },
     { type: TabbingOrderTypes.GENERIC_INPUT },
     { value: 'firstName', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'lastName', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'line1', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'line2', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'town', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'isocodeShort', type: TabbingOrderTypes.NG_SELECT },
     { value: 'postalCode', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'Back', type: TabbingOrderTypes.BUTTON },
-    { value: 'Continue', type: TabbingOrderTypes.BUTTON },
+    { value: 'isocodeShort', type: TabbingOrderTypes.NG_SELECT },
   ],
   orderDetails: [
     {
@@ -596,6 +578,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
   ],
   checkoutReviewOrder: [
+    { value: 'Shipping address', type: TabbingOrderTypes.LINK },
+    { value: 'Delivery mode', type: TabbingOrderTypes.LINK },
+    { value: 'Payment details', type: TabbingOrderTypes.LINK },
     { value: 'Edit shipping address', type: TabbingOrderTypes.LINK },
     { value: 'Edit shipping method', type: TabbingOrderTypes.LINK },
     { value: 'Edit payment method', type: TabbingOrderTypes.LINK },
@@ -603,6 +588,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
     },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
     {
       value: 'I am confirming that I have read and agreed with',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
@@ -620,9 +606,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CX_MEDIA,
     },
     { value: 'Show reviews', type: TabbingOrderTypes.LINK },
-    { value: '-', type: TabbingOrderTypes.BUTTON },
     { type: TabbingOrderTypes.GENERIC_INPUT },
-    { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
     { value: 'add to wish list', type: TabbingOrderTypes.LINK },
   ],
@@ -657,10 +641,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Cameras',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
       value: 'Canon',
       type: TabbingOrderTypes.LINK,
     },
@@ -683,10 +663,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Fujifilm',
       type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Accessories',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
       value: 'Kingston',
@@ -741,10 +717,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Gear',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
       value: 'Camera Flashes',
       type: TabbingOrderTypes.LINK,
     },
@@ -763,10 +735,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Power Supplies',
       type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Supplies',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
       value: 'Color Films',
@@ -884,10 +852,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Cameras',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
       value: 'Canon',
       type: TabbingOrderTypes.LINK,
     },
@@ -910,10 +874,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Fujifilm',
       type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Accessories',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
       value: 'Kingston',
@@ -968,10 +928,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: 'Gear',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
-    },
-    {
       value: 'Camera Flashes',
       type: TabbingOrderTypes.LINK,
     },
@@ -990,10 +946,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Power Supplies',
       type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Supplies',
-      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
     {
       value: 'Color Films',
@@ -1253,15 +1205,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: '2',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: '3',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '18',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -1333,15 +1277,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: '2',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: '3',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '18',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -1372,15 +1308,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: '2',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: '3',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '18',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -1452,15 +1380,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      value: '2',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: '3',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '18',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -1926,6 +1846,11 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   myAccount: [
     {
+      value: 'My Account',
+      // type: TabbingOrderTypes.BUTTON,
+      type: TabbingOrderTypes.LINK,
+    },
+    {
       value: 'Order History',
       type: TabbingOrderTypes.LINK,
     },
@@ -2081,18 +2006,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.GENERIC_INPUT,
     },
     {
-      value: '«',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '1',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '»',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
       value: 'Secure Digital Card 2GB',
       type: TabbingOrderTypes.LINK,
     },
@@ -2102,18 +2015,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
-    },
-    {
-      value: '«',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '1',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: '»',
-      type: TabbingOrderTypes.LINK,
     },
   ],
   coupons: [
@@ -2159,7 +2060,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   storeFinderSearchResults: [
     {
-      value: 'Nakano',
       type: TabbingOrderTypes.GENERIC_INPUT,
     },
     {
@@ -2206,7 +2106,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     {
-      type: TabbingOrderTypes.LINK,
+      type: TabbingOrderTypes.GENERIC_ELEMENT,
     },
     {
       type: TabbingOrderTypes.LINK,
@@ -2662,10 +2562,15 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
   ],
-  stockNotificationNoEnabledPreference: [
+  stockNotificationPreferenceNotAllowed: [
     {
       value: 'Notification Channels',
       type: TabbingOrderTypes.LINK,
+    },
+  ],
+  stockNotificationPreferenceAllowed: [
+    {
+      type: TabbingOrderTypes.GENERIC_BUTTON,
     },
   ],
   stockNotificationSubscribed: [
@@ -2682,11 +2587,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'My Interests',
       type: TabbingOrderTypes.LINK,
     },
-    {
-      type: TabbingOrderTypes.GENERIC_BUTTON,
-    },
-  ],
-  stockNotification: [
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
     },
@@ -2723,6 +2623,66 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   consignmentTrackingEvents: [
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
+    },
+  ],
+  asmNotLoggedIn: [
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: '',
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: 'Sign In',
+    },
+  ],
+  asmNoSelectedUser: [
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: '',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: '',
+    },
+    {
+      type: TabbingOrderTypes.FORM_FIELD,
+      value: 'searchTerm',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: 'Start Session',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: 'Linda Wolf',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: 'Linda Wolf',
+    },
+  ],
+  asmWithSelectedUser: [
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: '',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: '',
+    },
+    {
+      type: TabbingOrderTypes.FORM_FIELD,
+      value: 'searchTerm',
+    },
+    {
+      type: TabbingOrderTypes.BUTTON,
+      value: 'Start Session',
     },
   ],
 };

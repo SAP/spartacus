@@ -10,12 +10,12 @@
 </div>
 
 <ng-container *ngFor="let child of node?.children">
-  <ng-container *ngTemplateOutlet="nav; context: { node: child }">
+  <ng-container *ngTemplateOutlet="nav; context: { node: child, depth: 0 }">
   </ng-container>
 </ng-container>
 
 <!-- we generate links in a recursive manner -->
-<ng-template #nav let-node="node">
+<ng-template #nav let-node="node" let-depth="depth">
   <nav
     (click)="toggleOpen($event)"
     (mouseenter)="onMouseEnter($event)"
@@ -38,7 +38,10 @@
     </cx-generic-link>
 
     <ng-template #heading>
-      <h5 [attr.aria-label]="node.title" [attr.tabindex]="flyout ? 0 : -1">
+      <h5
+        [attr.aria-label]="node.title"
+        [attr.tabindex]="flyout && (depth === 0 || node.url) ? 0 : -1"
+      >
         {{ node.title }}
         <cx-icon
           *ngIf="flyout && node.children?.length > 0"
@@ -59,12 +62,14 @@
       </cx-generic-link>
       <div
         class="childs"
-        [attr.depth]="getDepth(node)"
+        [attr.depth]="getTotalDepth(node)"
         [attr.wrap-after]="node.children?.length > wrapAfter ? wrapAfter : null"
         [attr.columns]="getColumnCount(node.children?.length)"
       >
         <ng-container *ngFor="let child of node.children">
-          <ng-container *ngTemplateOutlet="nav; context: { node: child }">
+          <ng-container
+            *ngTemplateOutlet="nav; context: { node: child, depth: depth + 1 }"
+          >
           </ng-container>
         </ng-container>
       </div>

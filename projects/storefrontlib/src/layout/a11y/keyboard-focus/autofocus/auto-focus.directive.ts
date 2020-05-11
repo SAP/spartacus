@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef } from '@angular/core';
 import { EscapeFocusDirective } from '../escape/escape-focus.directive';
 import { AutoFocusConfig } from '../keyboard-focus.model';
 import { AutoFocusService } from './auto-focus.service';
@@ -6,7 +6,7 @@ import { AutoFocusService } from './auto-focus.service';
 /**
  * Directive that focus the first nested _focusable_ element based on state and configuration:
  *
- * 1. focusable element that was left in a focused state
+ * 1. focusable element that was left in a focused state (aka _persisted_ focus)
  * 2. focusable element selected by configured CSS selector (i.e. 'button[type=submit]')
  * 3. focusable element marked with the native HTML5 `autofocus` attribute
  * 4. first focusable element
@@ -23,15 +23,14 @@ import { AutoFocusService } from './auto-focus.service';
  * `<div [cxAutoFocus]="{autofocus: ':host'}">[...]</div>`
  *
  */
-@Directive({
-  selector: '[cxAutoFocus]',
-})
+@Directive() // selector: '[cxAutoFocus]'
 export class AutoFocusDirective extends EscapeFocusDirective
   implements AfterViewInit {
   /** The AutoFocusDirective will be using autofocus by default  */
   protected defaultConfig: AutoFocusConfig = { autofocus: true };
 
-  @Input('cxAutoFocus') protected config: AutoFocusConfig;
+  // @Input('cxAutoFocus')
+  protected config: AutoFocusConfig;
 
   constructor(
     protected elementRef: ElementRef,
@@ -77,10 +76,8 @@ export class AutoFocusDirective extends EscapeFocusDirective
   /**
    * Helper function to indicate whether we should use autofocus for the
    * child elements.
-   *
-   * We keep this private to not polute the API.
    */
-  private get shouldAutofocus(): boolean {
+  protected get shouldAutofocus(): boolean {
     return !!this.config?.autofocus;
   }
 

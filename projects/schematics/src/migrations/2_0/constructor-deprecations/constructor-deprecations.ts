@@ -45,9 +45,7 @@ export function migrate(): Rule {
             constructorNode,
             newConstructorParam
           );
-          if (changes.length) {
-            commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-          }
+          commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
         }
 
         for (const constructorParamToRemove of constructorDeprecation.removeParams ||
@@ -63,9 +61,7 @@ export function migrate(): Rule {
             constructorNode,
             constructorParamToRemove
           );
-          if (changes.length) {
-            commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-          }
+          commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
         }
       }
     }

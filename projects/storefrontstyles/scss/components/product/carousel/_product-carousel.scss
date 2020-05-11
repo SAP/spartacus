@@ -19,15 +19,19 @@
       color: var(--cx-color-primary);
       text-decoration: underline;
     }
+    &:focus {
+      position: relative;
+      z-index: 1;
+    }
   }
   cx-media {
     align-self: center;
     width: 60%;
 
     &.is-missing {
-      align-self: center;
-      width: 60%;
-      background-size: 60%;
+      min-height: 255px;
+      align-self: auto;
+      width: auto;
     }
   }
 }

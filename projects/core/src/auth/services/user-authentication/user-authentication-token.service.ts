@@ -13,21 +13,9 @@ import { UserToken } from '../../models/token-types.model';
 @Injectable()
 export class UserAuthenticationTokenService {
   constructor(
-    http: HttpClient,
-    config: AuthConfig,
-    // tslint:disable-next-line:unified-signatures
-    occEndpointsService: OccEndpointsService
-  );
-
-  /**
-   * @deprecated since version 1.1
-   * Use constructor(http: HttpClient, config: AuthConfig, occEndpointsService: OccEndpointsService) instead
-   */
-  constructor(http: HttpClient, config: AuthConfig);
-  constructor(
     protected http: HttpClient,
     protected config: AuthConfig,
-    protected occEndpointsService?: OccEndpointsService
+    protected occEndpointsService: OccEndpointsService
   ) {}
 
   loadToken(userId: string, password: string): Observable<UserToken> {

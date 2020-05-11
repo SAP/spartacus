@@ -73,13 +73,13 @@ export class CheckoutPaymentService {
       let userId;
       this.authService
         .getOccUserId()
-        .subscribe(occUserId => (userId = occUserId))
+        .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
       let cartId;
       this.activeCartService
         .getActiveCartId()
-        .subscribe(activeCartId => (cartId = activeCartId))
+        .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
 
       if (userId && cartId) {
@@ -103,13 +103,13 @@ export class CheckoutPaymentService {
       let userId;
       this.authService
         .getOccUserId()
-        .subscribe(occUserId => (userId = occUserId))
+        .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
       let cart;
       this.activeCartService
         .getActive()
-        .subscribe(activeCart => (cart = activeCart))
+        .subscribe((activeCart) => (cart = activeCart))
         .unsubscribe();
       if (userId && cart) {
         this.checkoutStore.dispatch(
@@ -134,7 +134,7 @@ export class CheckoutPaymentService {
     let userId;
     this.authService
       .getOccUserId()
-      .subscribe(occUserId => (userId = occUserId))
+      .subscribe((occUserId) => (userId = occUserId))
       .unsubscribe();
     return (
       (userId && userId !== OCC_USER_ID_ANONYMOUS) ||

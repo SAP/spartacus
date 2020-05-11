@@ -3,7 +3,6 @@
   class="cx-card"
   [class.cx-card-border]="border"
   [class.cx-card-fit-to-container]="fitToContainer"
-  cxAutoFocus
 >
   <!-- Card Header -->
   <div *ngIf="content.header && !editMode" class="card-header">
@@ -43,7 +42,7 @@
         </button>
       </div>
       <div class="col-md-6">
-        <button class="btn btn-block btn-primary" (click)="delete()" autofocus>
+        <button class="btn btn-block btn-primary" (click)="delete()">
           {{ 'common.delete' | cxTranslate }}
         </button>
       </div>
@@ -54,7 +53,7 @@
         <div [ngSwitch]="action.event">
           <a
             *ngSwitchCase="'delete'"
-            class="cx-card-link card-link btn-link"
+            class="cx-card-link card-link btn-link cx-action-link"
             (click)="delete()"
             (keydown.enter)="delete()"
             tabindex="0"
@@ -62,7 +61,7 @@
           >
           <a
             *ngSwitchCase="'default'"
-            class="cx-card-link card-link btn-link"
+            class="cx-card-link card-link btn-link cx-action-link"
             (click)="setDefault()"
             (keydown.enter)="setDefault()"
             tabindex="0"
@@ -70,7 +69,7 @@
           >
           <a
             *ngSwitchCase="'send'"
-            class="cx-card-link card-link btn-link"
+            class="cx-card-link card-link btn-link cx-action-link"
             (click)="send()"
             (keydown.enter)="send()"
             tabindex="0"
@@ -78,7 +77,7 @@
           >
           <a
             *ngSwitchCase="'edit'"
-            class="cx-card-link card-link btn-link"
+            class="cx-card-link card-link btn-link cx-action-link"
             (click)="edit()"
             (keydown.enter)="edit()"
             tabindex="0"
@@ -87,7 +86,7 @@
           <a
             *ngSwitchDefault
             href="{{ action.link }}"
-            class="card-link btn-link"
+            class="card-link btn-link cx-action-link"
             tabindex="0"
             >{{ action.name }}</a
           >

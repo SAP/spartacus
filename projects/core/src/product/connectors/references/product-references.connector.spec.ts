@@ -5,7 +5,7 @@ import { ProductReferencesConnector } from './product-references.connector';
 import createSpy = jasmine.createSpy;
 
 class MockProductReferencesAdapter implements ProductReferencesAdapter {
-  load = createSpy('ProductReferencesAdapter.load').and.callFake(code =>
+  load = createSpy('ProductReferencesAdapter.load').and.callFake((code) =>
     of('product' + code)
   );
 }
@@ -34,7 +34,7 @@ describe('ProductReferencesConnector', () => {
   });
 
   it('should call adapter', () => {
-    service.get('333').subscribe(res => (result = res));
+    service.get('333').subscribe((res) => (result = res));
     expect(result).toBe('product333');
     expect(adapter.load).toHaveBeenCalledWith('333', undefined, undefined);
   });

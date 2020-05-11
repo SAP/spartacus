@@ -5,7 +5,7 @@ describe('Language switch - registration page', () => {
   const deutschName = siteContextSelector.TITLE_DE;
 
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   siteContextSelector.stub(

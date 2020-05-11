@@ -85,7 +85,7 @@ export const getCartEntrySelectorFactory = (
     getCartEntriesSelectorFactory(cartId),
     (state: OrderEntry[]) => {
       return state
-        ? state.find(entry => entry.product.code === productCode)
+        ? state.find((entry) => entry.product.code === productCode)
         : undefined;
     }
   );

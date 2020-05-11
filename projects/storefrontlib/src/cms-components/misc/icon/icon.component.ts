@@ -77,14 +77,14 @@ export class IconComponent {
     this.renderer.addClass(this.host, 'cx-icon');
 
     if (this.styleClasses) {
-      this.styleClasses.forEach(cls =>
+      this.styleClasses.forEach((cls) =>
         this.renderer.removeClass(this.host, cls)
       );
     }
 
     this.styleClasses = this.iconLoader.getStyleClasses(type).split(' ');
 
-    this.styleClasses.forEach(cls => {
+    this.styleClasses.forEach((cls) => {
       if (cls !== '') {
         this.renderer.addClass(this.host, cls);
       }

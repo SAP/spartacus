@@ -7,9 +7,9 @@ export function wishlistTabbingOrder(config: TabElement[]) {
   cy.server();
   cy.route(
     'POST',
-    `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/current/carts/*/entries?code=779841&qty=1&lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/carts/*/entries?code=779841&qty=1&lang=en&curr=USD`
   ).as('addToWishlist');
 
   cy.visit('/product/779841');

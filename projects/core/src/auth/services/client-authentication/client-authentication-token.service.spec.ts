@@ -72,11 +72,11 @@ describe('ClientAuthenticationTokenService', () => {
 
   describe('loadClientAuthenticationToken', () => {
     it('Should fetch client auth token', () => {
-      service.loadClientAuthenticationToken().subscribe(result => {
+      service.loadClientAuthenticationToken().subscribe((result) => {
         expect(result).toEqual(token);
       });
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'POST' && req.url === loginEndpoint;
       });
 

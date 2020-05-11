@@ -1,23 +1,15 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
-import { FormUtils } from '../../../../../shared/utils/forms/form-utils';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomFormValidators } from '../../../../../shared/utils/validators/custom-form-validators';
 @Component({
   selector: 'cx-update-password-form',
   templateUrl: './update-password-form.component.html',
 })
 export class UpdatePasswordFormComponent implements OnInit {
-  private submitClicked = false;
-  form: FormGroup;
+  updatePasswordForm: FormGroup;
 
   @Output()
-  submited = new EventEmitter<{ oldPassword: string; newPassword: string }>();
+  submitted = new EventEmitter<{ oldPassword: string; newPassword: string }>();
 
   @Output()
   cancelled = new EventEmitter<void>();
@@ -25,7 +17,7 @@ export class UpdatePasswordFormComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.form = this.fb.group(
+    this.updatePasswordForm = this.fb.group(
       {
         oldPassword: ['', [Validators.required]],
         newPassword: [
@@ -34,50 +26,27 @@ export class UpdatePasswordFormComponent implements OnInit {
         ],
         newPasswordConfirm: ['', [Validators.required]],
       },
-      { validator: this.matchPassword }
-    );
-  }
-
-  isNotValid(formControlName: string): boolean {
-    return FormUtils.isNotValidField(
-      this.form,
-      formControlName,
-      this.submitClicked
-    );
-  }
-
-  isPasswordConfirmNotValid(): boolean {
-    return (
-      this.form.hasError('NotEqual') &&
-      (this.submitClicked ||
-        (this.form.get('newPasswordConfirm').touched &&
-          this.form.get('newPasswordConfirm').dirty))
+      {
+        validators: CustomFormValidators.passwordsMustMatch(
+          'newPassword',
+          'newPasswordConfirm'
+        ),
+      }
     );
   }
 
   onSubmit(): void {
-    this.submitClicked = true;
-    if (this.form.invalid) {
-      return;
+    if (this.updatePasswordForm.valid) {
+      this.submitted.emit({
+        oldPassword: this.updatePasswordForm.value.oldPassword,
+        newPassword: this.updatePasswordForm.value.newPassword,
+      });
+    } else {
+      this.updatePasswordForm.markAllAsTouched();
     }
-
-    this.submited.emit({
-      oldPassword: this.form.value.oldPassword,
-      newPassword: this.form.value.newPassword,
-    });
   }
 
   onCancel(): void {
     this.cancelled.emit();
-  }
-
-  private matchPassword(abstractControl: AbstractControl): ValidationErrors {
-    if (
-      abstractControl.get('newPassword').value !==
-      abstractControl.get('newPasswordConfirm').value
-    ) {
-      return { NotEqual: true };
-    }
-    return null;
   }
 }

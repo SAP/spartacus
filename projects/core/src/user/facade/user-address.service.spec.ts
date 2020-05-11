@@ -1,6 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Address, Country, Region } from '../../model/address.model';
@@ -13,8 +12,8 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
 
 class MockAuthService {
-  getOccUserId(): Observable<string> {
-    return of(OCC_USER_ID_CURRENT);
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
   }
 }
 
@@ -67,7 +66,7 @@ describe('UserAddressService', () => {
     let addresses: Address[];
     service
       .getAddresses()
-      .subscribe(data => {
+      .subscribe((data) => {
         addresses = data;
       })
       .unsubscribe();
@@ -91,7 +90,7 @@ describe('UserAddressService', () => {
     let countries: Country[];
     service
       .getDeliveryCountries()
-      .subscribe(data => {
+      .subscribe((data) => {
         countries = data;
       })
       .unsubscribe();
@@ -112,7 +111,7 @@ describe('UserAddressService', () => {
     let country: Country;
     service
       .getCountry('c1')
-      .subscribe(data => {
+      .subscribe((data) => {
         country = data;
       })
       .unsubscribe();
@@ -191,7 +190,7 @@ describe('UserAddressService', () => {
     service
       .getAddressesLoading()
       .pipe(take(2))
-      .subscribe(loadingStatus => {
+      .subscribe((loadingStatus) => {
         results.push(loadingStatus);
       });
     store.dispatch(new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT));
@@ -203,7 +202,7 @@ describe('UserAddressService', () => {
     service
       .getAddressesLoadedSuccess()
       .pipe(take(2))
-      .subscribe(loadedStatus => {
+      .subscribe((loadedStatus) => {
         results.push(loadedStatus);
       });
     store.dispatch(new UserActions.LoadUserAddressesSuccess([]));
@@ -214,19 +213,19 @@ describe('UserAddressService', () => {
     const regionsList: Region[] = [{ name: 'r1' }, { name: 'r2' }];
     const country = 'CA';
 
-    it('should be able to get all regions', done => {
+    it('should be able to get all regions', (done) => {
       let regions: Region[];
       store.dispatch(
         new UserActions.LoadRegionsSuccess({ entities: regionsList, country })
       );
-      service.getRegions(country).subscribe(data => {
+      service.getRegions(country).subscribe((data) => {
         regions = data;
         expect(regions).toEqual(regionsList);
         done();
       });
     });
 
-    it('should clear regions on empty country', done => {
+    it('should clear regions on empty country', (done) => {
       let regions: Region[];
       store.dispatch(
         new UserActions.LoadRegionsSuccess({
@@ -235,7 +234,7 @@ describe('UserAddressService', () => {
         })
       );
       spyOn(service, 'clearRegions').and.stub();
-      service.getRegions(null).subscribe(data => {
+      service.getRegions(null).subscribe((data) => {
         regions = data;
         expect(regions).toEqual([]);
         expect(service.clearRegions).toHaveBeenCalled();
@@ -243,12 +242,12 @@ describe('UserAddressService', () => {
       });
     });
 
-    it('should return empty array while loading', done => {
+    it('should return empty array while loading', (done) => {
       let regions: Region[];
       store.dispatch(new UserActions.LoadRegions(country));
       spyOn(service, 'clearRegions').and.stub();
       spyOn(service, 'loadRegions').and.stub();
-      service.getRegions(country).subscribe(data => {
+      service.getRegions(country).subscribe((data) => {
         regions = data;
         expect(regions).toEqual([]);
         expect(service.clearRegions).not.toHaveBeenCalled();
@@ -258,7 +257,7 @@ describe('UserAddressService', () => {
       });
     });
 
-    it('should return empty array and invoke clear and load when changing country', done => {
+    it('should return empty array and invoke clear and load when changing country', (done) => {
       let regions: Region[];
       spyOn(service, 'clearRegions').and.stub();
       spyOn(service, 'loadRegions').and.stub();
@@ -269,7 +268,7 @@ describe('UserAddressService', () => {
           country,
         })
       );
-      service.getRegions(country2).subscribe(data => {
+      service.getRegions(country2).subscribe((data) => {
         regions = data;
         expect(regions).toEqual([]);
         expect(service.clearRegions).toHaveBeenCalled();
@@ -278,7 +277,7 @@ describe('UserAddressService', () => {
       });
     });
 
-    it('should return already loaded results on another request', done => {
+    it('should return already loaded results on another request', (done) => {
       let regions: Region[];
       store.dispatch(
         new UserActions.LoadRegionsSuccess({
@@ -288,7 +287,7 @@ describe('UserAddressService', () => {
       );
       spyOn(service, 'clearRegions').and.stub();
       spyOn(service, 'loadRegions').and.stub();
-      service.getRegions(country).subscribe(data => {
+      service.getRegions(country).subscribe((data) => {
         regions = data;
         expect(regions).toEqual(regionsList);
         expect(service.clearRegions).not.toHaveBeenCalled();

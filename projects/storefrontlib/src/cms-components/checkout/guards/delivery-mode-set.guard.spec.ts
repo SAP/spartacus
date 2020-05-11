@@ -58,7 +58,7 @@ describe(`DeliveryModeSetGuard`, () => {
     mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
   });
 
-  it('should redirect to deliveryMode page when no modes selected', done => {
+  it('should redirect to deliveryMode page when no modes selected', (done) => {
     spyOn(
       mockCheckoutDetailsService,
       'getSelectedDeliveryModeCode'
@@ -80,7 +80,7 @@ describe(`DeliveryModeSetGuard`, () => {
     });
   });
 
-  it('should redirect to default page if there is no deliveryMode step', done => {
+  it('should redirect to default page if there is no deliveryMode step', (done) => {
     spyOn(
       mockCheckoutDetailsService,
       'getSelectedDeliveryModeCode'
@@ -97,7 +97,7 @@ describe(`DeliveryModeSetGuard`, () => {
     });
   });
 
-  it('should not redirect to deliveryMode page when mode is selected', done => {
+  it('should not redirect to deliveryMode page when mode is selected', (done) => {
     spyOn(
       mockCheckoutDetailsService,
       'getSelectedDeliveryModeCode'

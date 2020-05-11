@@ -10,8 +10,8 @@ import {
 import { RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import {
-  EscapeFocusConfig,
-  EscapeFocusService,
+  FocusConfig,
+  KeyboardFocusService,
 } from '../a11y/keyboard-focus/index';
 import { SkipLinkComponent } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
@@ -32,16 +32,16 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   @ViewChild(SkipLinkComponent) child: SkipLinkComponent;
 
-  private config: EscapeFocusConfig = {
+  private keyboardFocusConfig: FocusConfig = {
     focusOnEscape: true,
     focusOnDoubleEscape: true,
   };
 
   @HostListener('keydown.escape', ['$event'])
   handleEscape(event: KeyboardEvent): void {
-    this.service.handleEscape(
+    this.keyboardFocusService.handleEscape(
       this.elementRef.nativeElement,
-      this.config,
+      this.keyboardFocusConfig,
       event
     );
   }
@@ -50,13 +50,13 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     private hamburgerMenuService: HamburgerMenuService,
     private routingService: RoutingService,
     protected elementRef: ElementRef<HTMLElement>,
-    protected service: EscapeFocusService
+    protected keyboardFocusService: KeyboardFocusService
   ) {}
 
   ngOnInit(): void {
     this.navigateSubscription = this.routingService
       .isNavigating()
-      .subscribe(val => {
+      .subscribe((val) => {
         this.startNavigating = val === true;
         this.stopNavigating = val === false;
       });

@@ -24,7 +24,7 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
       .get<Occ.ConsentTemplateList>(url, { headers })
       .pipe(
         catchError((error: any) => throwError(error)),
-        map(consentList => consentList.consentTemplates),
+        map((consentList) => consentList.consentTemplates),
         this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
       );
   }
@@ -45,7 +45,7 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
     return this.http
       .post<Occ.ConsentTemplate>(url, httpParams, { headers })
       .pipe(
-        catchError(error => throwError(error)),
+        catchError((error) => throwError(error)),
         this.converter.pipeable(CONSENT_TEMPLATE_NORMALIZER)
       );
   }

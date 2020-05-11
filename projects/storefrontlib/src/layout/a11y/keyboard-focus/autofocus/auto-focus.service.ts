@@ -22,7 +22,7 @@ export class AutoFocusService extends EscapeFocusService {
     } else if (this.hasPersistedFocus(host, config)) {
       return this.getPersisted(host, this.getPersistenceGroup(host, config));
     } else {
-      return this.selectFocusUtil.findFirstFocusable(host, config);
+      return this.selectFocusUtil.findFirstFocusable(host, config) || host;
     }
   }
 
@@ -38,7 +38,7 @@ export class AutoFocusService extends EscapeFocusService {
    *
    * @param host the `HTMLElement` used to query for focusable children
    * @param group the optional group for the persistent state, to separate different focus
-   *   groups and remain the persistance
+   *   groups and remain the persistence
    */
   protected getPersisted(host: HTMLElement, group?: string): HTMLElement {
     if (!this.get(group)) {
