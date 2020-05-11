@@ -14,16 +14,29 @@ import { StateWithConfigurationTextfield } from '../store/configuration-textfiel
 import { ConfiguratorTextfieldService } from './configurator-textfield.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
-const owner: GenericConfigurator.Owner = {
-  id: PRODUCT_CODE,
-  type: GenericConfigurator.OwnerType.PRODUCT,
-};
+
 const ATTRIBUTE_NAME = 'AttributeName';
 const ATTRIBUTE_VALUE = 'AttributeValue';
 const SUCCESS = 'SUCCESS';
 const CHANGED_VALUE = 'theNewValue';
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
+const CART_ENTRY_NUMBER = '2';
+const owner: GenericConfigurator.Owner = {
+  id: PRODUCT_CODE,
+  type: GenericConfigurator.OwnerType.PRODUCT,
+};
+
+const ownerCartRelated: GenericConfigurator.Owner = {
+  id: CART_ENTRY_NUMBER,
+  type: GenericConfigurator.OwnerType.CART_ENTRY,
+};
+const readFromCartEntryParams: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
+  userId: 'anonymous',
+  cartId: CART_GUID,
+  cartEntryNumber: CART_ENTRY_NUMBER,
+  owner: ownerCartRelated,
+};
 
 const productConfiguration: ConfiguratorTextfield.Configuration = {
   configurationInfos: [
@@ -116,6 +129,24 @@ describe('ConfiguratorTextfieldService', () => {
         productCode: owner.id,
         owner: owner,
       })
+    );
+  });
+
+  it('should dispatch the correct action when readFromCartEntry is called', () => {
+    const configurationFromStore = serviceUnderTest.readConfigurationForCartEntry(
+      ownerCartRelated
+    );
+
+    expect(configurationFromStore).toBeDefined();
+
+    configurationFromStore.subscribe((configuration) =>
+      expect(configuration.configurationInfos.length).toBe(1)
+    );
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.ReadCartEntryConfiguration(
+        readFromCartEntryParams
+      )
     );
   });
 

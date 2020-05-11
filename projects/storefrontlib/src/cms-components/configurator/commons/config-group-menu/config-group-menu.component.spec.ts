@@ -20,6 +20,8 @@ import { ConfigGroupMenuComponent } from './config-group-menu.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '12342';
+const CONFIGURATOR_URL =
+  'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
 
 const mockRouterState: any = {
   state: {
@@ -28,6 +30,7 @@ const mockRouterState: any = {
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},
+    url: CONFIGURATOR_URL,
   },
 };
 
@@ -229,11 +232,17 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
   });
 
-  it('should render 3 groups', () => {
+  it('should render 0 groups directly after init has been performed as groups are compiled with delay', () => {
     component.ngOnInit();
     fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(0);
+  });
 
-    expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(3);
+  it('should return 3 groups after groups have been compiled', () => {
+    component.ngOnInit();
+    component.displayedGroups$.subscribe((groups) => {
+      expect(groups.length).toBe(3);
+    });
   });
 
   it('should set current group in case of clicking on a group', () => {

@@ -54,7 +54,10 @@ export class ConfiguratorCommonsService {
   getOrCreateConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    const localOwner = owner;
+    const localOwner: GenericConfigurator.Owner = {
+      hasObsoleteState: owner.hasObsoleteState,
+    };
+
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
@@ -87,7 +90,7 @@ export class ConfiguratorCommonsService {
 
   readConfigurationForCartEntry(owner: GenericConfigurator.Owner) {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
-      const readFromCartEntryParameters: Configurator.ReadConfigurationFromCartEntryParameters = {
+      const readFromCartEntryParameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
         userId: this.getUserId(cartState.value),
         cartId: this.getCartId(cartState.value),
         cartEntryNumber: owner.id,
@@ -191,8 +194,26 @@ export class ConfiguratorCommonsService {
         cartEntryNumber: configuration.owner.id,
         configuration: configuration,
       };
+
       this.store.dispatch(new ConfiguratorActions.UpdateCartEntry(parameters));
+      this.checkForUpdateDone(configuration).subscribe((configAfterUpdate) => {
+        this.readConfigurationForCartEntry(configAfterUpdate.owner);
+      });
     });
+  }
+
+  checkForUpdateDone(
+    configuration: Configurator.Configuration
+  ): Observable<Configurator.Configuration> {
+    return this.store.pipe(
+      select(
+        ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
+      ),
+      filter(
+        (configInUpdate) => configInUpdate.isCartEntryUpdatePending === false
+      ),
+      take(1)
+    );
   }
 
   ////
@@ -213,11 +234,8 @@ export class ConfiguratorCommonsService {
   }
 
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
-    return (
-      configuration !== undefined &&
-      configuration.configId !== undefined &&
-      configuration.configId.length !== 0
-    );
+    const configId: String = configuration?.configId;
+    return configId !== undefined && configId.length !== 0;
   }
 
   createConfigurationExtract(

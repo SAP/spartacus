@@ -25,16 +25,18 @@ export class ConfigTextfieldFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) => {
-          switch (owner.type) {
+        switchMap((routerData) => {
+          switch (routerData.owner.type) {
             case GenericConfigurator.OwnerType.PRODUCT:
               return this.configuratorTextfieldService.createConfiguration(
-                owner
+                routerData.owner
               );
             case GenericConfigurator.OwnerType.CART_ENTRY:
-              return null; //TODO:get configuration from cart for change confuration in cart
+              return this.configuratorTextfieldService.readConfigurationForCartEntry(
+                routerData.owner
+              );
           }
         })
       );

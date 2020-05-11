@@ -8,7 +8,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
+import { ConfigurationRouter } from '../../generic/service/config-router-data';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 @Component({
@@ -18,9 +19,7 @@ import { ConfigRouterExtractorService } from '../../generic/service/config-route
 })
 export class ConfigAddToCartButtonComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
-  ownerCheck$: Observable<any>;
-  isOverview$: Observable<any>;
-  configuratorType$: Observable<string>;
+  routerData$: Observable<ConfigurationRouter.Data>;
 
   constructor(
     private routingService: RoutingService,
@@ -31,21 +30,14 @@ export class ConfigAddToCartButtonComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) =>
-          this.configuratorCommonsService.getConfiguration(owner)
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
         )
       );
-    this.configuratorType$ = this.configRouterExtractorService.getConfiguratorType(
-      this.routingService
-    );
 
-    this.ownerCheck$ = this.configRouterExtractorService.isOwnerCartEntry(
-      this.routingService
-    );
-
-    this.isOverview$ = this.configRouterExtractorService.isOverview(
+    this.routerData$ = this.configRouterExtractorService.extractRouterData(
       this.routingService
     );
   }
@@ -76,23 +68,29 @@ export class ConfigAddToCartButtonComponent implements OnInit {
 
   onAddToCart(
     configuration: Configurator.Configuration,
-    configuratorType: string
+    configuratorType: string,
+    pageType: string
   ) {
+    const isOverview = pageType === ConfigurationRouter.PageType.OVERVIEW;
     const owner = configuration.owner;
     this.configRouterExtractorService
-      .isOwnerCartEntry(this.routingService)
-      .pipe(take(1))
-      .subscribe((config) => {
-        if (config.isOwnerCartEntry) {
+      .extractRouterData(this.routingService)
+      .pipe(
+        map((routerData) => routerData.isOwnerCartEntry),
+        take(1)
+      )
+      .subscribe((isOwnerCartEntry) => {
+        if (isOwnerCartEntry) {
           if (configuration.isCartEntryUpdateRequired) {
             this.configuratorCommonsService.updateCartEntry(configuration);
           }
           this.performNavigation(
             configuratorType,
             configuration.owner,
-            'configurator.addToCart.confirmationUpdate'
+            'configurator.addToCart.confirmationUpdate',
+            isOverview,
+            configuration.isCartEntryUpdateRequired
           );
-          this.configuratorCommonsService.removeConfiguration(owner);
         } else {
           this.configuratorCommonsService.addToCart(
             owner.id,
@@ -113,7 +111,9 @@ export class ConfigAddToCartButtonComponent implements OnInit {
               this.performNavigation(
                 configuratorType,
                 configWithNextOwner.nextOwner,
-                'configurator.addToCart.confirmation'
+                'configurator.addToCart.confirmation',
+                isOverview,
+                true
               );
               this.configuratorCommonsService.removeConfiguration(owner);
               this.configuratorCommonsService.removeUiState(owner);
@@ -122,18 +122,20 @@ export class ConfigAddToCartButtonComponent implements OnInit {
       });
   }
 
-  private performNavigation(
+  performNavigation(
     configuratorType: string,
     owner: GenericConfigurator.Owner,
-    messageKey: string
+    messageKey: string,
+    isOverview: boolean,
+    showMessage: boolean
   ) {
-    this.isOverview$.pipe(take(1)).subscribe((isOverview) => {
-      if (isOverview.isOverview) {
-        this.navigateToCart();
-      } else {
-        this.navigateToOverview(configuratorType, owner);
-      }
+    if (isOverview) {
+      this.navigateToCart();
+    } else {
+      this.navigateToOverview(configuratorType, owner);
+    }
+    if (showMessage) {
       this.displayConfirmationMessage(messageKey);
-    });
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Configurator } from '../../../../model/configurator.model';
+import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import {
   StateEntityLoaderActions,
   StateEntityProcessesLoaderActions,
@@ -35,6 +36,8 @@ export const CHANGE_GROUP = '[Configurator] Change group';
 export const CHANGE_GROUP_FINALIZE = '[Configurator] Change group finalize';
 export const ADD_TO_CART = '[Configurator] Add to cart';
 export const UPDATE_CART_ENTRY = '[Configurator] Update cart entry';
+export const UPDATE_CART_ENTRY_SUCCESS =
+  '[Configurator] Update cart entry success';
 
 export const REMOVE_CONFIGURATION = '[Configurator] Remove configuration';
 
@@ -65,7 +68,7 @@ export class CreateConfiguration extends StateEntityLoaderActions.EntityLoadActi
 export class ReadCartEntryConfiguration extends StateEntityLoaderActions.EntityLoadAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION;
   constructor(
-    public payload: Configurator.ReadConfigurationFromCartEntryParameters
+    public payload: GenericConfigurator.ReadConfigurationFromCartEntryParameters
   ) {
     super(CONFIGURATION_DATA, payload.owner.key);
   }
@@ -218,6 +221,13 @@ export class UpdateCartEntry extends StateEntityLoaderActions.EntityLoadAction {
   }
 }
 
+export class UpdateCartEntrySuccess extends StateEntityLoaderActions.EntitySuccessAction {
+  readonly type = UPDATE_CART_ENTRY_SUCCESS;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.owner.key);
+  }
+}
+
 export class RemoveConfiguration extends StateEntityLoaderActions.EntityResetAction {
   readonly type = REMOVE_CONFIGURATION;
   constructor(ownerKey: string | string[]) {
@@ -287,4 +297,5 @@ export type ConfiguratorAction =
   | ReadCartEntryConfigurationSuccess
   | ReadCartEntryConfigurationFail
   | UpdateCartEntry
+  | UpdateCartEntrySuccess
   | RemoveConfiguration;

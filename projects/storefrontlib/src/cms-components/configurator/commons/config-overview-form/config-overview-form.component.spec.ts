@@ -17,6 +17,8 @@ import { ConfigOverviewAttributeComponent } from '../config-overview-attribute/c
 import { ConfigOverviewFormComponent } from './config-overview-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
+const CONFIGURATOR_URL =
+  'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
 
 const mockRouterState: any = {
   state: {
@@ -25,6 +27,7 @@ const mockRouterState: any = {
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},
+    url: CONFIGURATOR_URL,
   },
 };
 
@@ -230,15 +233,21 @@ describe('ConfigurationOverviewFormComponent', () => {
       'aa',
       '---xy',
       '---uv',
-      '-------uv'
+      '-------(u|)'
     );
   });
 
   it('should get 2 emissions of overview if configurations service emits fast', () => {
-    checkConfigurationOverviewObs(component, 'a---a', 'xy', '--uv', '--uv');
+    checkConfigurationOverviewObs(component, 'a---a', 'xy', '--uv', '--(u|)');
   });
 
   it('should get 2 emissions of overview if router and config service emit slowly', () => {
-    checkConfigurationOverviewObs(component, 'a-----a', '--x--y', 'uv', '--uv');
+    checkConfigurationOverviewObs(
+      component,
+      'a-----a',
+      '--x--y',
+      'uv',
+      '--(u|)'
+    );
   });
 });

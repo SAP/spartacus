@@ -10,11 +10,13 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { ConfigurationRouter } from '../../generic/service/config-router-data';
 import { ConfigAddToCartButtonComponent } from './config-add-to-cart-button.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '1';
 const configuratorType = 'cpqconfigurator';
+const pageTypeConfiguration = ConfigurationRouter.PageType.CONFIGURATION;
 const URL_CONFIGURATION =
   'host:port/electronics-spa/en/USD/configureCPQCONFIGURATOR';
 const URL_OVERVIEW =
@@ -125,14 +127,20 @@ function performAddToCartOnOverview(
     queryParams: {},
     url: URL_OVERVIEW,
   };
-  classUnderTest.onAddToCart(productConfiguration, configuratorType);
+  classUnderTest.onAddToCart(
+    productConfiguration,
+    configuratorType,
+    ConfigurationRouter.PageType.OVERVIEW
+  );
 }
 
-function performAddToCartWhenAdded(
-  classUnderTest: ConfigAddToCartButtonComponent
-) {
+function performUpdateCart(classUnderTest: ConfigAddToCartButtonComponent) {
   ensureCartBound();
-  classUnderTest.onAddToCart(productConfiguration, configuratorType);
+  classUnderTest.onAddToCart(
+    productConfiguration,
+    configuratorType,
+    pageTypeConfiguration
+  );
 }
 
 function ensureCartBound() {
@@ -161,11 +169,13 @@ function ensureProductBound() {
   productConfiguration.nextOwner.id = CART_ENTRY_KEY;
 }
 
-function performAddToCartWhenAddedAndOnOV(
-  classUnderTest: ConfigAddToCartButtonComponent
-) {
+function performUpdateOnOV(classUnderTest: ConfigAddToCartButtonComponent) {
   ensureCartBoundAndOnOverview();
-  classUnderTest.onAddToCart(productConfiguration, configuratorType);
+  classUnderTest.onAddToCart(
+    productConfiguration,
+    configuratorType,
+    ConfigurationRouter.PageType.OVERVIEW
+  );
 }
 
 describe('ConfigAddToCartButtonComponent', () => {
@@ -220,67 +230,118 @@ describe('ConfigAddToCartButtonComponent', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
-  it('should navigate to OV in case configuration is cart bound and we are on product config page', () => {
-    performAddToCartWhenAdded(classUnderTest);
-    expect(routingService.go).toHaveBeenCalledWith(navParamsOverview, attribs);
+  describe('onAddToCart', () => {
+    it('should navigate to OV in case configuration is cart bound and we are on product config page', () => {
+      performUpdateCart(classUnderTest);
+      expect(routingService.go).toHaveBeenCalledWith(
+        navParamsOverview,
+        attribs
+      );
+    });
+
+    it('should navigate to cart in case configuration is cart bound and we are on OV config page', () => {
+      performUpdateOnOV(classUnderTest);
+      expect(routingService.go).toHaveBeenCalledWith('cart');
+    });
+
+    it('should remove configuration for product owner in case configuration is cart bound and we are on OV page, because we need to force a cart re-read', () => {
+      performUpdateOnOV(classUnderTest);
+      expect(
+        configuratorCommonsService.removeConfiguration
+      ).toHaveBeenCalledTimes(0);
+    });
+
+    it('should not remove UI state for product owner in case configuration has already been added', () => {
+      performUpdateCart(classUnderTest);
+      expect(configuratorCommonsService.removeUiState).toHaveBeenCalledTimes(0);
+    });
+
+    it('should not remove configuration and display no message in case continue to cart is triggered on config page', () => {
+      productConfiguration.isCartEntryUpdateRequired = false;
+      performUpdateCart(classUnderTest);
+      expect(
+        configuratorCommonsService.removeConfiguration
+      ).toHaveBeenCalledTimes(0);
+      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
+    });
+
+    it('should display a message in case done is triggered on config page which means that there are pending changes', () => {
+      productConfiguration.isCartEntryUpdateRequired = true;
+      performUpdateCart(classUnderTest);
+      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
+    });
+
+    it('should display updateCart message if configuration has already been added', () => {
+      ensureCartBound();
+      classUnderTest.onAddToCart(
+        productConfiguration,
+        configuratorType,
+        pageTypeConfiguration
+      );
+      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
+    });
+
+    it('should navigate to overview in case configuration has not been added yet and we are on configuration page', () => {
+      ensureProductBound();
+      classUnderTest.onAddToCart(
+        productConfiguration,
+        configuratorType,
+        pageTypeConfiguration
+      );
+      expect(routingService.go).toHaveBeenCalledWith(
+        navParamsOverview,
+        attribs
+      );
+    });
+
+    it('should display addToCart message in case configuration has not been added yet', () => {
+      ensureProductBound();
+      classUnderTest.onAddToCart(
+        productConfiguration,
+        configuratorType,
+        pageTypeConfiguration
+      );
+      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
+    });
+
+    it('should navigate to cart in case configuration has not yet been added and process was triggered from overview', () => {
+      performAddToCartOnOverview(classUnderTest);
+      expect(routingService.go).toHaveBeenCalledWith('cart');
+    });
+
+    it('should remove UI state in case configuration has not yet been added and process was triggered from overview', () => {
+      performAddToCartOnOverview(classUnderTest);
+      expect(configuratorCommonsService.removeUiState).toHaveBeenCalledTimes(1);
+    });
+
+    it('should remove configuration in case configuration has not yet been added and process was triggered from overview', () => {
+      performAddToCartOnOverview(classUnderTest);
+      expect(
+        configuratorCommonsService.removeConfiguration
+      ).toHaveBeenCalledTimes(1);
+    });
   });
 
-  it('should navigate to cart in case configuration is cart bound and we are on OV config page', () => {
-    performAddToCartWhenAddedAndOnOV(classUnderTest);
-    expect(routingService.go).toHaveBeenCalledWith('cart');
-  });
-
-  it('should remove configuration for product owner in case configuration is cart bound, because we need to force a cart re-read', () => {
-    performAddToCartWhenAdded(classUnderTest);
-    expect(
-      configuratorCommonsService.removeConfiguration
-    ).toHaveBeenCalledTimes(1);
-  });
-
-  it('should remove configuration for product owner in case configuration is cart bound and we are on OV page, because we need to force a cart re-read', () => {
-    performAddToCartWhenAddedAndOnOV(classUnderTest);
-    expect(
-      configuratorCommonsService.removeConfiguration
-    ).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not remove UI state for product owner in case configuration has already been added', () => {
-    performAddToCartWhenAdded(classUnderTest);
-    expect(configuratorCommonsService.removeUiState).toHaveBeenCalledTimes(0);
-  });
-
-  it('should display updateCart message if configuration has already been added', () => {
-    ensureCartBound();
-    classUnderTest.onAddToCart(productConfiguration, configuratorType);
-    expect(globalMessageService.add).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to overview in case configuration has not been added yet and we are on configuration page', () => {
-    ensureProductBound();
-    classUnderTest.onAddToCart(productConfiguration, configuratorType);
-    expect(routingService.go).toHaveBeenCalledWith(navParamsOverview, attribs);
-  });
-
-  it('should display addToCart message in case configuration has not been added yet', () => {
-    ensureProductBound();
-    classUnderTest.onAddToCart(productConfiguration, configuratorType);
-    expect(globalMessageService.add).toHaveBeenCalledTimes(1);
-  });
-
-  it('should navigate to cart in case configuration has not yet been added and process was triggered from overview', () => {
-    performAddToCartOnOverview(classUnderTest);
-    expect(routingService.go).toHaveBeenCalledWith('cart');
-  });
-
-  it('should remove UI state in case configuration has not yet been added and process was triggered from overview', () => {
-    performAddToCartOnOverview(classUnderTest);
-    expect(configuratorCommonsService.removeUiState).toHaveBeenCalledTimes(1);
-  });
-
-  it('should remove configuration in case configuration has not yet been added and process was triggered from overview', () => {
-    performAddToCartOnOverview(classUnderTest);
-    expect(
-      configuratorCommonsService.removeConfiguration
-    ).toHaveBeenCalledTimes(1);
+  describe('performNavigation', () => {
+    it('should display message on addToCart ', () => {
+      classUnderTest.performNavigation(
+        configuratorType,
+        productConfiguration.owner,
+        '',
+        true,
+        true
+      );
+      expect(globalMessageService.add).toHaveBeenCalledTimes(1);
+    });
+    it('should display no message on addToCart in case this is not desired', () => {
+      classUnderTest.performNavigation(
+        configuratorType,
+        productConfiguration.owner,
+        '',
+        true,
+        false
+      );
+      expect(globalMessageService.add).toHaveBeenCalledTimes(0);
+    });
   });
 });

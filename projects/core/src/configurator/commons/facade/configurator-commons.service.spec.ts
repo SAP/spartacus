@@ -489,7 +489,7 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   describe('updateCartEntry', () => {
-    it('should get cart, create updateParameters and call updateCartEntry action', () => {
+    it('should create updateParameters and call updateCartEntry action', () => {
       const params: Configurator.UpdateConfigurationForCartEntryParameters = {
         cartId: CART_GUID,
         userId: OCC_USER_ID_ANONYMOUS,
@@ -498,11 +498,39 @@ describe('ConfiguratorCommonsService', () => {
       };
 
       spyOn(store, 'dispatch').and.callThrough();
-
+      const obs = cold('|');
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
       serviceUnderTest.updateCartEntry(productConfiguration);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.UpdateCartEntry(params)
+      );
+    });
+
+    it('should re-read cart entry only after update went through', () => {
+      const productConfigInUpdate: Configurator.Configuration = {
+        configId: CONFIG_ID,
+        owner: OWNER_CART_ENTRY,
+        isCartEntryUpdatePending: true,
+      };
+      const productConfigUpdateCompleted: Configurator.Configuration = {
+        configId: CONFIG_ID,
+        isCartEntryUpdatePending: false,
+      };
+      const obs = cold('xyz', {
+        x: productConfigInUpdate,
+        y: productConfigInUpdate,
+        z: productConfigUpdateCompleted,
+      });
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+
+      const updateCartEntryWaitForDone = serviceUnderTest.checkForUpdateDone(
+        productConfiguration
+      );
+      expect(updateCartEntryWaitForDone).toBeObservable(
+        cold('--(z|)', {
+          z: productConfigUpdateCompleted,
+        })
       );
     });
   });
@@ -578,7 +606,7 @@ describe('ConfiguratorCommonsService', () => {
 
   describe('readConfigurationForCartEntry', () => {
     it('should dispatch ReadCartEntryConfiguration action ', () => {
-      const params: Configurator.ReadConfigurationFromCartEntryParameters = {
+      const params: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
         owner: OWNER_CART_ENTRY,
         cartEntryNumber: OWNER_CART_ENTRY.id,
         cartId: CART_GUID,
@@ -764,6 +792,25 @@ describe('ConfiguratorCommonsService', () => {
         groupPath
       );
       expect(groupPath.length).toBe(0);
+    });
+  });
+
+  describe('isConfigurationCreated', () => {
+    it('should tell from undefined config', () => {
+      const configuration: Configurator.Configuration = undefined;
+      expect(serviceUnderTest.isConfigurationCreated(configuration)).toBe(
+        false
+      );
+    });
+    it('should tell from config ID', () => {
+      const configuration: Configurator.Configuration = { configId: 'a' };
+      expect(serviceUnderTest.isConfigurationCreated(configuration)).toBe(true);
+    });
+    it('should tell from blank config ID', () => {
+      const configuration: Configurator.Configuration = { configId: '' };
+      expect(serviceUnderTest.isConfigurationCreated(configuration)).toBe(
+        false
+      );
     });
   });
 });

@@ -41,6 +41,113 @@ const occAttributeWithValues: OccConfigurator.Attribute = {
     { key: valueKey2, selected: selectedFlag },
   ],
 };
+const attributeRBWithValues: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.RADIOBUTTON,
+  selectedSingleValue: 'SomeValue',
+};
+const attributeRBWoValues: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.RADIOBUTTON,
+  selectedSingleValue: '',
+};
+const attributeDDWithValues: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.DROPDOWN,
+  selectedSingleValue: 'SomeValue',
+};
+const attributeDDWoValues: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.DROPDOWN,
+  selectedSingleValue: '',
+};
+const attributeSSIWithValues: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
+  selectedSingleValue: 'SomeValue',
+};
+const attributeSSIWoValues: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
+  selectedSingleValue: '',
+};
+const attributeStringWoValue: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.STRING,
+};
+const attributeStringWithValue: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.STRING,
+  userInput: 'SomeValue',
+};
+const attributeCheckboxWOValue: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.CHECKBOX,
+  values: [
+    {
+      name: 'name1',
+      selected: false,
+    },
+    {
+      name: 'name2',
+      selected: false,
+    },
+  ],
+};
+const attributeCheckboxWithValue: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.CHECKBOX,
+  values: [
+    {
+      name: 'name1',
+      selected: true,
+    },
+    {
+      name: 'name2',
+      selected: false,
+    },
+  ],
+};
+const attributeMSIWOValue: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
+  values: [
+    {
+      name: 'name1',
+      selected: false,
+    },
+    {
+      name: 'name2',
+      selected: false,
+    },
+  ],
+};
+const attributeMSIWithValue: Configurator.Attribute = {
+  name: attributeName,
+  required: requiredFlag,
+  uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
+  values: [
+    {
+      name: 'name1',
+      selected: true,
+    },
+    {
+      name: 'name2',
+      selected: false,
+    },
+  ],
+};
 const configuration: OccConfigurator.Configuration = {
   complete: true,
   rootProduct: 'CONF_PRODUCT',
@@ -119,11 +226,12 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(result.complete).toBe(true);
   });
 
-  it('should initialize isRequiredCartUpdate when converting a configuration', () => {
+  it('should not touch isRequiredCartUpdate and isCartEntryUpdatePending when converting a configuration', () => {
     const result: Configurator.Configuration = occConfiguratorVariantNormalizer.convert(
       configuration
     );
-    expect(result.isCartEntryUpdateRequired).toBe(false);
+    expect(result.isCartEntryUpdateRequired).toBeUndefined();
+    expect(result.isCartEntryUpdatePending).toBeUndefined();
   });
 
   it('should convert subgroups', () => {
@@ -306,5 +414,57 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(images[0].url).toBe(
       'https://occBackendBaseUrl/media?This%20%is%20%a%20%URL'
     );
+  });
+
+  describe('check the setting of incomplete', () => {
+    it('should set incomplete by string type correctly', () => {
+      occConfiguratorVariantNormalizer.setIncomplete(attributeStringWoValue);
+      occConfiguratorVariantNormalizer.setIncomplete(attributeStringWithValue);
+
+      expect(attributeStringWoValue.incomplete).toBe(true);
+      expect(attributeStringWithValue.incomplete).toBe(false);
+    });
+
+    it('should set incomplete by radio button type correctly', () => {
+      occConfiguratorVariantNormalizer.setIncomplete(attributeRBWoValues);
+      occConfiguratorVariantNormalizer.setIncomplete(attributeRBWithValues);
+
+      expect(attributeRBWoValues.incomplete).toBe(true);
+      expect(attributeRBWithValues.incomplete).toBe(false);
+    });
+
+    it('should set incomplete by drop-down type correctly', () => {
+      occConfiguratorVariantNormalizer.setIncomplete(attributeDDWoValues);
+      occConfiguratorVariantNormalizer.setIncomplete(attributeDDWithValues);
+
+      expect(attributeDDWoValues.incomplete).toBe(true);
+      expect(attributeDDWithValues.incomplete).toBe(false);
+    });
+
+    it('should set incomplete by single-selection-image type correctly', () => {
+      occConfiguratorVariantNormalizer.setIncomplete(attributeSSIWoValues);
+      occConfiguratorVariantNormalizer.setIncomplete(attributeSSIWithValues);
+
+      expect(attributeSSIWoValues.incomplete).toBe(true);
+      expect(attributeSSIWithValues.incomplete).toBe(false);
+    });
+
+    it('should set incomplete by checkbox type correctly', () => {
+      occConfiguratorVariantNormalizer.setIncomplete(attributeCheckboxWOValue);
+      occConfiguratorVariantNormalizer.setIncomplete(
+        attributeCheckboxWithValue
+      );
+
+      expect(attributeCheckboxWOValue.incomplete).toBe(true);
+      expect(attributeCheckboxWithValue.incomplete).toBe(false);
+    });
+
+    it('should set incomplete by multi-selection-image type correctly', () => {
+      occConfiguratorVariantNormalizer.setIncomplete(attributeMSIWOValue);
+      occConfiguratorVariantNormalizer.setIncomplete(attributeMSIWithValue);
+
+      expect(attributeMSIWOValue.incomplete).toBe(true);
+      expect(attributeMSIWithValue.incomplete).toBe(false);
+    });
   });
 });

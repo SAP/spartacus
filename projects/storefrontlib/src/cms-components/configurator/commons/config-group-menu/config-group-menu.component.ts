@@ -6,7 +6,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { delay, map, switchMap, take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
@@ -35,18 +35,18 @@ export class ConfigGroupMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) =>
-          this.configuratorCommonsService.getConfiguration(owner)
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
         )
       );
 
     this.currentGroup$ = this.configRouterExtractorService
-      .extractConfigurationOwner(this.routingService)
+      .extractRouterData(this.routingService)
       .pipe(
-        switchMap((owner) =>
-          this.configuratorGroupsService.getCurrentGroup(owner)
+        switchMap((routerData) =>
+          this.configuratorGroupsService.getCurrentGroup(routerData.owner)
         )
       );
 
@@ -66,7 +66,8 @@ export class ConfigGroupMenuComponent implements OnInit {
             } else {
               return this.condenseGroups(configuration.groups);
             }
-          })
+          }),
+          delay(0)
         );
       })
     );
@@ -81,6 +82,7 @@ export class ConfigGroupMenuComponent implements OnInit {
   click(group: Configurator.Group) {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
+        this.scrollToVariantConfigurationHeader();
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
       } else {
@@ -174,5 +176,14 @@ export class ConfigGroupMenuComponent implements OnInit {
       configuration.owner,
       groupId
     );
+  }
+
+  scrollToVariantConfigurationHeader() {
+    const theElement = document.querySelector('.VariantConfigurationTemplate');
+    let topOffset = 0;
+    if (theElement instanceof HTMLElement) {
+      topOffset = theElement.offsetTop;
+    }
+    window.scroll(0, topOffset);
   }
 }

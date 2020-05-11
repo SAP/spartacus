@@ -20,6 +20,8 @@ import { ConfigPreviousNextButtonsComponent } from './config-previous-next-butto
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const GROUP_ID = 'group1';
 const GROUP_2_ID = 'group2';
+const CONFIGURATOR_URL =
+  'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
 
 const mockRouterState: any = {
   state: {
@@ -28,6 +30,7 @@ const mockRouterState: any = {
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},
+    url: CONFIGURATOR_URL,
   },
 };
 

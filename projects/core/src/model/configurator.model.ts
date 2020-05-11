@@ -54,6 +54,7 @@ export namespace Configurator {
     owner?: GenericConfigurator.Owner;
     nextOwner?: GenericConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
+    isCartEntryUpdatePending?: boolean;
   }
 
   export interface Overview {
@@ -96,13 +97,6 @@ export namespace Configurator {
     quantity: number;
     configId: string;
     ownerKey: string;
-  }
-
-  export interface ReadConfigurationFromCartEntryParameters {
-    userId?: string;
-    cartId?: string;
-    cartEntryNumber?: string;
-    owner?: GenericConfigurator.Owner;
   }
 
   export interface UpdateConfigurationForCartEntryParameters {
