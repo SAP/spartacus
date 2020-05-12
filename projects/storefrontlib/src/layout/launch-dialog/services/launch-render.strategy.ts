@@ -26,19 +26,19 @@ export abstract class LaunchRenderStrategy implements Applicable {
   /**
    * Classes to apply to the component when the dialog is a DIALOG
    */
-  protected dialogClasses = ['d-block', 'fade', 'modal', 'show'];
+  protected dialogClasses = ['cx-dialog', 'fade', 'show'];
   /**
    * Classes to apply to the component when the dialog is a POPOVER
    */
-  protected popoverClasses = [];
+  protected popoverClasses = ['cx-dialog-popover'];
   /**
    * Classes to apply to the component when the dialog is a SIDEBAR_END
    */
-  protected sidebarEndClasses = [];
+  protected sidebarEndClasses = ['cx-sidebar-end'];
   /**
    * Classes to apply to the component when the dialog is a SIDEBAR_START
    */
-  protected sidebarStartClasses = [];
+  protected sidebarStartClasses = ['cx-sidebar-start'];
 
   protected renderer: Renderer2;
 
