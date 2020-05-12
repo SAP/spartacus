@@ -37,9 +37,11 @@ class MockCheckoutStepService {
   }
 }
 
-class MockActivatedRoute {
-  snapshot = of();
-}
+const mockActivatedRoute = {
+  snapshot: {
+    url: ['checkout', 'payment-type'],
+  },
+};
 
 const mockPaymentTypes: PaymentType[] = [
   { code: 'card', displayName: 'card' },
@@ -66,7 +68,7 @@ describe('PaymentTypeComponent', () => {
           provide: CheckoutStepService,
           useClass: MockCheckoutStepService,
         },
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
     }).compileComponents();
 
@@ -105,7 +107,9 @@ describe('PaymentTypeComponent', () => {
 
   it('should be able to go to next step', () => {
     component.next();
-    expect(checkoutStepService.next).toHaveBeenCalled();
+    expect(checkoutStepService.next).toHaveBeenCalledWith(
+      <any>mockActivatedRoute
+    );
   });
 
   it('should set the selected payment type to cart after invoking next()', () => {
@@ -114,7 +118,9 @@ describe('PaymentTypeComponent', () => {
 
   it('should cbe able to go to previous step', () => {
     component.back();
-    expect(checkoutStepService.back).toHaveBeenCalled();
+    expect(checkoutStepService.back).toHaveBeenCalledWith(
+      <any>mockActivatedRoute
+    );
   });
 
   it('should disable PAYMENT_DETAILS step when choosing type Account', () => {

@@ -76,6 +76,12 @@ class MockCheckoutStepService {
   }
 }
 
+const mockActivatedRoute = {
+  snapshot: {
+    url: ['checkout', 'payment-type'],
+  },
+};
+
 class MockGlobalMessageService {
   add = createSpy();
 }
@@ -153,7 +159,7 @@ describe('PaymentMethodComponent', () => {
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-        { provide: ActivatedRoute, useValue: {} },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
     }).compileComponents();
 
@@ -290,7 +296,9 @@ describe('PaymentMethodComponent', () => {
         billingAddress: mockAddress,
       });
       selectedPaymentMethod.next(mockPaymentDetails);
-      expect(checkoutStepService.next).toHaveBeenCalled();
+      expect(checkoutStepService.next).toHaveBeenCalledWith(
+        <any>mockActivatedRoute
+      );
     });
 
     it('should show form for creating new method after clicking new payment method button', () => {
@@ -486,7 +494,9 @@ describe('PaymentMethodComponent', () => {
         .nativeElement.click();
       fixture.detectChanges();
 
-      expect(checkoutStepService.back).toHaveBeenCalled();
+      expect(checkoutStepService.back).toHaveBeenCalledWith(
+        <any>mockActivatedRoute
+      );
     });
 
     it('should show errors on wrong card information', () => {

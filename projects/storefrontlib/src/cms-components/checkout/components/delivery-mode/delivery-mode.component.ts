@@ -67,7 +67,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
           !!code &&
           code === this.currentDeliveryModeId
         ) {
-          this.next();
+          this.checkoutStepService.next(this.activatedRoute);
         }
         this.currentDeliveryModeId = code;
         if (code) {

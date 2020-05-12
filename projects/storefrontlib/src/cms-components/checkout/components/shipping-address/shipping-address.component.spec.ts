@@ -78,7 +78,7 @@ const mockAddresses: Address[] = [mockAddress1, mockAddress2];
 
 const mockActivatedRoute = {
   snapshot: {
-    url: ['checkout', 'delivery-mode'],
+    url: ['checkout', 'shipping-address'],
   },
 };
 
@@ -251,12 +251,16 @@ describe('ShippingAddressComponent', () => {
 
   it('should be able to go to next step', () => {
     component.next();
-    expect(checkoutStepService.next).toHaveBeenCalled();
+    expect(checkoutStepService.next).toHaveBeenCalledWith(
+      <any>mockActivatedRoute
+    );
   });
 
   it('should be able to go to previous step', () => {
     component.back();
-    expect(checkoutStepService.back).toHaveBeenCalled();
+    expect(checkoutStepService.back).toHaveBeenCalledWith(
+      <any>mockActivatedRoute
+    );
   });
 
   it('should automatically select default shipping address when there is no current selection', () => {
