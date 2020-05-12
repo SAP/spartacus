@@ -66,6 +66,7 @@
           <div class="col-md-12 col-lg-6">
             <button
               class="btn btn-primary btn-block"
+              [disabled]="!costCenter.unit?.active"
               (click)="update({ activeFlag: true })"
             >
               {{ 'costCenter.enable' | cxTranslate }}
