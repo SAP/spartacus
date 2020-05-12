@@ -1,6 +1,6 @@
 import { OccConfig } from '../../config/occ-config';
 
-export const defaultOccCartConfig: OccConfig = {
+export const defaultOccCheckoutConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
