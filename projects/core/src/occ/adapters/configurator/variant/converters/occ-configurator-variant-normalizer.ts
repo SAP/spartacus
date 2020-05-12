@@ -177,6 +177,10 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.STRING;
         break;
       }
+      case OccConfigurator.UiType.NUMERIC: {
+        uiType = Configurator.UiType.NUMERIC;
+        break;
+      }
       case OccConfigurator.UiType.READ_ONLY: {
         uiType = Configurator.UiType.READ_ONLY;
         break;
@@ -256,7 +260,7 @@ export class OccConfiguratorVariantNormalizer
         }
         break;
       }
-
+      case Configurator.UiType.NUMERIC:
       case Configurator.UiType.STRING: {
         if (!attribute.userInput) {
           attribute.incomplete = true;
