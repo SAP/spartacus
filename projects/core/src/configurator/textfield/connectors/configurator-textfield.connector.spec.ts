@@ -23,8 +23,10 @@ class MockConfiguratorTextfieldAdapter implements ConfiguratorTextfieldAdapter {
     of('createConfiguration' + productCode)
   );
 
-  addToCart = createSpy().and.callFake((productCode) =>
-    of('addToCart' + productCode)
+  addToCart = createSpy().and.callFake((params) => of('addToCart' + params));
+
+  updateConfigurationForCartEntry = createSpy().and.callFake((params) =>
+    of('updateConfigurationForCartEntry' + params)
   );
 
   readConfigurationForCartEntry = createSpy().and.callFake((params) =>
@@ -100,5 +102,25 @@ describe('ConfiguratorTextfieldConnector', () => {
     service.addToCart(parameters).subscribe((res) => (result = res));
     expect(adapter.addToCart).toHaveBeenCalledWith(parameters);
     expect(result).toBe('addToCart' + parameters);
+  });
+
+  it('should call adapter on updateCartEntry', () => {
+    const adapter = TestBed.inject(
+      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
+    );
+
+    const parameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
+      userId: USER_ID,
+      cartId: CART_ID,
+      cartEntryNumber: '1',
+    };
+    let result;
+    service
+      .updateConfigurationForCartEntry(parameters)
+      .subscribe((res) => (result = res));
+    expect(adapter.updateConfigurationForCartEntry).toHaveBeenCalledWith(
+      parameters
+    );
+    expect(result).toBe('updateConfigurationForCartEntry' + parameters);
   });
 });

@@ -19,4 +19,11 @@ export namespace ConfiguratorTextfield {
     quantity: number;
     configuration?: Configuration;
   }
+
+  export interface UpdateCartEntryParameters {
+    userId: string;
+    cartId: string;
+    cartEntryNumber: string;
+    configuration?: Configuration;
+  }
 }
