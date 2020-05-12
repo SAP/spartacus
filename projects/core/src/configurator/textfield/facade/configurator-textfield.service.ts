@@ -65,6 +65,17 @@ export class ConfiguratorTextfieldService {
     });
   }
 
+  updateCartEntry(cartEntryNumber: string) {
+    this.activeCartService.requireLoadedCart().subscribe((cartState) => {
+      const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
+        userId: this.getUserId(cartState.value),
+        cartId: this.getCartId(cartState.value),
+        cartEntryNumber: cartEntryNumber,
+      };
+      this.callUpdateCartEntryActionWithConfigurationData(updateCartParameters);
+    });
+  }
+
   readConfigurationForCartEntry(
     owner: GenericConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
@@ -106,6 +117,21 @@ export class ConfiguratorTextfieldService {
         addToCartParameters.configuration = configuration;
         this.store.dispatch(
           new ConfiguratorActions.AddToCart(addToCartParameters)
+        );
+      });
+  }
+
+  callUpdateCartEntryActionWithConfigurationData(
+    updateCartEntryParameters: ConfiguratorTextfield.UpdateCartEntryParameters
+  ): void {
+    this.store
+      .pipe(select(ConfiguratorSelectors.getConfigurationContent), take(1))
+      .subscribe((configuration) => {
+        updateCartEntryParameters.configuration = configuration;
+        this.store.dispatch(
+          new ConfiguratorActions.UpdateCartEntryConfiguration(
+            updateCartEntryParameters
+          )
         );
       });
   }

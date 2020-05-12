@@ -48,6 +48,13 @@ const productConfiguration: ConfiguratorTextfield.Configuration = {
   },
 };
 
+const updateCartEntryParams: ConfiguratorTextfield.UpdateCartEntryParameters = {
+  cartId: CART_GUID,
+  userId: OCC_USER_ID_ANONYMOUS,
+  cartEntryNumber: CART_ENTRY_NUMBER,
+  configuration: productConfiguration,
+};
+
 const changedAttribute: ConfiguratorTextfield.ConfigurationInfo = {
   configurationLabel: ATTRIBUTE_NAME,
   configurationValue: CHANGED_VALUE,
@@ -235,6 +242,36 @@ describe('ConfiguratorTextfieldService', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorActions.AddToCart(addToCartParams)
+    );
+  });
+
+  it('should dispatch corresponding action in case updateCartEntry was triggered', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
+    );
+    serviceUnderTest.updateCartEntry(CART_ENTRY_NUMBER);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.UpdateCartEntryConfiguration(
+        updateCartEntryParams
+      )
+    );
+  });
+
+  it('should enrich updateCartEntryParameters with configuration and call updateCartEntry action', () => {
+    //clear to be able to later on assess that it has been added to update params
+    updateCartEntryParams.configuration = null;
+
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
+    );
+    serviceUnderTest.callUpdateCartEntryActionWithConfigurationData(
+      updateCartEntryParams
+    );
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorActions.UpdateCartEntryConfiguration(
+        updateCartEntryParams
+      )
     );
   });
 

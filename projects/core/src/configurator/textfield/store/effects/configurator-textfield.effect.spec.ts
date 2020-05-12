@@ -5,9 +5,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { GenericConfigurator } from 'projects/core/src/model';
 import { Observable, of, throwError } from 'rxjs';
-import { CartActions } from '../../../../cart/store/actions/';
 import { CartModification } from '../../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
@@ -15,10 +13,13 @@ import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-te
 import * as ConfiguratorActions from '../actions/configurator-textfield.action';
 import { CONFIGURATION_TEXTFIELD_FEATURE } from '../configuration-textfield-state';
 import * as reducers from '../reducers/index';
+import { CartActions } from './../../../../cart/store/actions';
+import { GenericConfigurator } from './../../../../model/generic-configurator.model';
 import * as fromEffects from './configurator-textfield.effect';
 
 const productCode = 'CONF_LAPTOP';
 const cartId = 'CART-1234';
+const cartEntryNumber = '1';
 const userId = 'theUser';
 const quantity = 1;
 
@@ -42,6 +43,7 @@ describe('ConfiguratorTextfieldEffect', () => {
   let createMock: jasmine.Spy;
   let readFromCartEntryMock: jasmine.Spy;
   let addToCartMock: jasmine.Spy;
+  let updateCartEntryMock: jasmine.Spy;
 
   let configEffects: fromEffects.ConfiguratorTextfieldEffects;
 
@@ -53,10 +55,14 @@ describe('ConfiguratorTextfieldEffect', () => {
       .createSpy()
       .and.returnValue(of(productConfiguration));
     addToCartMock = jasmine.createSpy().and.returnValue(of(cartModification));
+    updateCartEntryMock = jasmine
+      .createSpy()
+      .and.returnValue(of(cartModification));
     class MockConnector {
       createConfiguration = createMock;
       addToCart = addToCartMock;
       readConfigurationForCartEntry = readFromCartEntryMock;
+      updateConfigurationForCartEntry = updateCartEntryMock;
     }
 
     TestBed.configureTestingModule({
@@ -163,7 +169,7 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   describe('Textfield Effect addToCart', () => {
-    it('should emit AddToCartSuccess on addToCart', () => {
+    it('should emit success on addToCart', () => {
       const payloadInput = {
         userId: userId,
         cartId: cartId,
@@ -172,17 +178,9 @@ describe('ConfiguratorTextfieldEffect', () => {
         configuration: productConfiguration,
       };
       const action = new ConfiguratorActions.AddToCart(payloadInput);
-      const cartAddEntrySuccess = new CartActions.CartAddEntrySuccess({
-        ...cartModification,
-        userId: userId,
+      const loadCart = new CartActions.LoadCart({
         cartId: cartId,
-        productCode: payloadInput.productCode,
-        quantity: cartModification.quantity,
-        deliveryModeChanged: cartModification.deliveryModeChanged,
-        entry: cartModification.entry,
-        quantityAdded: cartModification.quantityAdded,
-        statusCode: cartModification.statusCode,
-        statusMessage: cartModification.statusMessage,
+        userId: userId,
       });
 
       const removeConfiguration = new ConfiguratorActions.RemoveConfiguration(
@@ -192,10 +190,11 @@ describe('ConfiguratorTextfieldEffect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
         b: removeConfiguration,
-        c: cartAddEntrySuccess,
+        c: loadCart,
       });
       expect(configEffects.addToCart$).toBeObservable(expected);
     });
+
     it('should emit AddToCartFail in case add to cart call is not successful', () => {
       addToCartMock.and.returnValue(throwError(errorResponse));
       const payloadInput = {
@@ -206,7 +205,7 @@ describe('ConfiguratorTextfieldEffect', () => {
         configuration: productConfiguration,
       };
       const action = new ConfiguratorActions.AddToCart(payloadInput);
-      const cartAddEntryFail = new CartActions.CartAddEntryFail(
+      const cartAddEntryFail = new ConfiguratorActions.AddToCartFail(
         makeErrorSerializable(errorResponse)
       );
 
@@ -219,26 +218,55 @@ describe('ConfiguratorTextfieldEffect', () => {
     });
   });
 
-  describe('Textfield effect addToCartCartProcessIncrement', () => {
-    it('should emit CartProcessesIncrement on addToCart', () => {
-      const payloadInput = {
+  describe('Effect updateCartEntry', () => {
+    it('should emit CartUpdateEntrySuccess on updateCartEntry', () => {
+      const payloadInput: ConfiguratorTextfield.UpdateCartEntryParameters = {
         userId: userId,
         cartId: cartId,
-        productCode: productCode,
-        quantity: quantity,
+        cartEntryNumber: cartEntryNumber,
         configuration: productConfiguration,
       };
-      const action = new ConfiguratorActions.AddToCart(payloadInput);
-      const cartProcessIncrement = new CartActions.CartProcessesIncrement(
-        cartId
+      const action = new ConfiguratorActions.UpdateCartEntryConfiguration(
+        payloadInput
       );
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-c', {
-        c: cartProcessIncrement,
+      const loadCart = new CartActions.LoadCart({
+        userId: userId,
+        cartId: cartId,
       });
-      expect(configEffects.addToCartCartProcessIncrement$).toBeObservable(
-        expected
+
+      const removeConfiguration = new ConfiguratorActions.RemoveConfiguration(
+        payloadInput
       );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: removeConfiguration,
+        c: loadCart,
+      });
+      expect(configEffects.updateCartEntry$).toBeObservable(expected);
+    });
+
+    it('should emit CartUpdateEntryFail in case update cart entry is not successful', () => {
+      updateCartEntryMock.and.returnValue(throwError(errorResponse));
+      const payloadInput: ConfiguratorTextfield.UpdateCartEntryParameters = {
+        userId: userId,
+        cartId: cartId,
+        cartEntryNumber: cartEntryNumber,
+        configuration: productConfiguration,
+      };
+      const action = new ConfiguratorActions.UpdateCartEntryConfiguration(
+        payloadInput
+      );
+      const cartUpdateFail = new ConfiguratorActions.UpdateCartEntryConfigurationFail(
+        makeErrorSerializable(errorResponse)
+      );
+
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-b', {
+        b: cartUpdateFail,
+      });
+      expect(configEffects.updateCartEntry$).toBeObservable(expected);
     });
   });
 });
