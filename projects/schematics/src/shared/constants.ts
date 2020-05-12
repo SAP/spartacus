@@ -170,7 +170,6 @@ export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
 export const OUTLET_DIRECTIVE = 'OutletDirective';
 export const OUTLET_SERVICE = 'OutletService';
 export const DEFER_LOADER_SERVICE = 'DeferLoaderService';
-export const ASM_ENABLER_SERVICE = 'AsmEnablerService';
 export const LAUNCH_DIALOG_SERVICE = 'LaunchComponentService';
 export const PLACE_ORDER_COMPONENT = 'PlaceOrderComponent';
 export const USER_INTERESTS_SERVICE = 'UserInterestsService';

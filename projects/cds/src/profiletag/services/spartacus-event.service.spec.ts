@@ -5,8 +5,10 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
+import { Action, ActionsSubject } from '@ngrx/store';
 import {
   ActiveCartService,
+  AuthActions,
   Cart,
   ConsentService,
   OrderEntry,
@@ -25,6 +27,8 @@ describe('SpartacusEventTracker', () => {
   let consentsService;
   let activeCartService;
   let cartBehavior;
+  let mockActionsSubject: ReplaySubject<Action>;
+
   const mockCDSConfig: CdsConfig = {
     cds: {
       consentTemplateId: 'PROFILE',
@@ -37,6 +41,7 @@ describe('SpartacusEventTracker', () => {
       new NavigationStart(0, 'test.com', 'popstate')
     );
     cartBehavior = new ReplaySubject<Cart>();
+    mockActionsSubject = new ReplaySubject<Action>();
     consentsService = {
       getConsent: () => getConsentBehavior,
       isConsentGiven: () => isConsentGivenValue,
@@ -64,6 +69,10 @@ describe('SpartacusEventTracker', () => {
         {
           provide: CdsConfig,
           useValue: mockCDSConfig,
+        },
+        {
+          provide: ActionsSubject,
+          useValue: mockActionsSubject,
         },
       ],
     });
@@ -175,5 +184,21 @@ describe('SpartacusEventTracker', () => {
     cartBehavior.next({ id: 123, entries: [] });
     subscription.unsubscribe();
     expect(timesCalled).toEqual(4);
+  });
+
+  it(`Should call the push method first time a login is successful`, () => {
+    let timesCalled = 0;
+    const subscription = spartacusEventTracker
+      .loginSuccessful()
+      .pipe(tap((_) => timesCalled++))
+      .subscribe();
+    mockActionsSubject.next({ type: AuthActions.LOGOUT });
+    mockActionsSubject.next({ type: AuthActions.LOGIN });
+    mockActionsSubject.next({ type: AuthActions.LOGOUT });
+    mockActionsSubject.next({ type: AuthActions.LOGOUT });
+    mockActionsSubject.next({ type: AuthActions.LOGIN });
+    mockActionsSubject.next({ type: AuthActions.LOGOUT });
+    subscription.unsubscribe();
+    expect(timesCalled).toEqual(2);
   });
 });
