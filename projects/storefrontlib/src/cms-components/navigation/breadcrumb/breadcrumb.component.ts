@@ -5,8 +5,8 @@ import {
   PageMetaService,
   TranslationService,
 } from '@spartacus/core';
-import { asyncScheduler, combineLatest, Observable } from 'rxjs';
-import { filter, map, observeOn } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { delay, filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
@@ -39,8 +39,9 @@ export class BreadcrumbComponent implements OnInit {
   private setCrumbs(): void {
     this.crumbs$ = combineLatest([
       this.pageMetaService.getMeta(),
-      this.translation.translate('common.home').pipe(observeOn(asyncScheduler)),
+      this.translation.translate('common.home'),
     ]).pipe(
+      delay(0),
       map(([meta, textHome]) =>
         meta?.breadcrumbs ? meta.breadcrumbs : [{ label: textHome, link: '/' }]
       )
