@@ -1,15 +1,22 @@
+import { ListModel } from '@spartacus/core';
 import {
+  B2BAddress,
   B2BApprovalProcess,
   B2BUnit,
   B2BUnitNode,
 } from '../../../model/org-unit.model';
 import { StateUtils } from '../../../state/utils/index';
 import {
+  ADDRESS_ENTITIES,
+  ADDRESS_LIST,
+  B2B_USER_ENTITIES,
   ORG_UNIT_APPROVAL_PROCESSES,
   ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
   ORG_UNIT_ENTITIES,
   ORG_UNIT_NODES,
   ORG_UNIT_NODE_LIST,
+  ORG_UNIT_TREE,
+  ORG_UNIT_TREE_ENTITY,
 } from '../organization-state';
 import { OrgUnitActions } from './index';
 
@@ -24,6 +31,11 @@ const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
 const approvalProcesses: B2BApprovalProcess[] = [
   { code: 'testAprovalProcessCode', name: 'testAprovalProcessName' },
 ];
+
+const orgCustomerId = 'testCustomerId';
+const roleId = 'testRoleId';
+const uid = 'testUid';
+const selected = true;
 
 const userId = 'xxx@xxx.xxx';
 const error = 'anError';
@@ -159,6 +171,481 @@ describe('OrgUnit Actions', () => {
           ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
           ORG_UNIT_APPROVAL_PROCESSES
         ),
+      });
+    });
+  });
+
+  describe('Create, Update Unit Actions', () => {
+    const unit: B2BUnit = { uid: 'testUid' };
+    const unitCode: string = unit.uid;
+
+    it('should execute Create Unit action', () => {
+      const action = new OrgUnitActions.CreateUnit({
+        userId,
+        unit,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.CREATE_ORG_UNIT,
+        payload: { userId, unit },
+        meta: StateUtils.entityLoadMeta(ORG_UNIT_ENTITIES, unit.uid),
+      });
+    });
+
+    it('should execute Create Unit Fail action', () => {
+      const action = new OrgUnitActions.CreateUnitFail({
+        unitCode,
+        error,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.CREATE_ORG_UNIT_FAIL,
+        payload: { unitCode, error },
+        meta: StateUtils.entityFailMeta(ORG_UNIT_ENTITIES, unitCode, error),
+      });
+    });
+
+    it('should execute Create Unit Success action', () => {
+      const action = new OrgUnitActions.CreateUnitSuccess(unit);
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.CREATE_ORG_UNIT_SUCCESS,
+        payload: unit,
+        meta: StateUtils.entitySuccessMeta(ORG_UNIT_ENTITIES, unitCode),
+      });
+    });
+
+    it('should execute Update Unit action', () => {
+      const action = new OrgUnitActions.UpdateUnit({
+        userId,
+        unitCode,
+        unit,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.UPDATE_ORG_UNIT,
+        payload: { userId, unitCode, unit },
+        meta: StateUtils.entityLoadMeta(ORG_UNIT_ENTITIES, unit.uid),
+      });
+    });
+
+    it('should execute Update Unit Fail action', () => {
+      const action = new OrgUnitActions.UpdateUnitFail({
+        unitCode,
+        error,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.UPDATE_ORG_UNIT_FAIL,
+        payload: { unitCode, error },
+        meta: StateUtils.entityFailMeta(ORG_UNIT_ENTITIES, unitCode, error),
+      });
+    });
+
+    it('should execute Update Unit Success action', () => {
+      const action = new OrgUnitActions.UpdateUnitSuccess(unit);
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.UPDATE_ORG_UNIT_SUCCESS,
+        payload: unit,
+        meta: StateUtils.entitySuccessMeta(ORG_UNIT_ENTITIES, unitCode),
+      });
+    });
+  });
+
+  describe('Create, Update, Delete & Load Addresses Actions', () => {
+    const address: B2BAddress = { id: 'testAddressId' };
+    const addressId: string = address.id;
+    const page: ListModel = {
+      ids: [addressId],
+      sorts: [{ code: 'code' }],
+    };
+
+    it('should execute Create Address action', () => {
+      const action = new OrgUnitActions.CreateAddress({
+        userId,
+        orgUnitId,
+        address,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.CREATE_ADDRESS,
+        payload: { userId, orgUnitId, address },
+        meta: StateUtils.entityLoadMeta(ADDRESS_ENTITIES, addressId),
+      });
+    });
+
+    it('should execute Create Address Fail action', () => {
+      const action = new OrgUnitActions.CreateAddressFail({
+        addressId,
+        error,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.CREATE_ADDRESS_FAIL,
+        payload: { addressId, error },
+        meta: StateUtils.entityFailMeta(ADDRESS_ENTITIES, addressId, error),
+      });
+    });
+
+    it('should execute Create Address Success action', () => {
+      const action = new OrgUnitActions.CreateAddressSuccess(address);
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.CREATE_ADDRESS_SUCCESS,
+        payload: address,
+        meta: StateUtils.entitySuccessMeta(ADDRESS_ENTITIES, addressId),
+      });
+    });
+
+    it('should execute Update Address action', () => {
+      const action = new OrgUnitActions.UpdateAddress({
+        userId,
+        orgUnitId,
+        addressId,
+        address,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.UPDATE_ADDRESS,
+        payload: { userId, orgUnitId, addressId, address },
+        meta: StateUtils.entityLoadMeta(ADDRESS_ENTITIES, addressId),
+      });
+    });
+
+    it('should execute Update Address Fail action', () => {
+      const action = new OrgUnitActions.UpdateAddressFail({
+        addressId,
+        error,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.UPDATE_ADDRESS_FAIL,
+        payload: { addressId, error },
+        meta: StateUtils.entityFailMeta(ADDRESS_ENTITIES, addressId, error),
+      });
+    });
+
+    it('should execute Update Address Success action', () => {
+      const action = new OrgUnitActions.UpdateAddressSuccess(address);
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.UPDATE_ADDRESS_SUCCESS,
+        payload: address,
+        meta: StateUtils.entitySuccessMeta(ADDRESS_ENTITIES, addressId),
+      });
+    });
+
+    it('should execute Delete Address action', () => {
+      const action = new OrgUnitActions.DeleteAddress({
+        userId,
+        orgUnitId,
+        addressId,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.DELETE_ADDRESS,
+        payload: { userId, orgUnitId, addressId },
+        meta: StateUtils.entityLoadMeta(ADDRESS_ENTITIES, addressId),
+      });
+    });
+
+    it('should execute Delete Address Fail action', () => {
+      const action = new OrgUnitActions.DeleteAddressFail({
+        addressId,
+        error,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.DELETE_ADDRESS_FAIL,
+        payload: { addressId, error },
+        meta: StateUtils.entityFailMeta(ADDRESS_ENTITIES, addressId, error),
+      });
+    });
+
+    it('should execute Delete Address Success action', () => {
+      const action = new OrgUnitActions.DeleteAddressSuccess(address);
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.DELETE_ADDRESS_SUCCESS,
+        payload: address,
+        meta: StateUtils.entitySuccessMeta(ADDRESS_ENTITIES, addressId),
+      });
+    });
+
+    it('should execute Load Addresses action', () => {
+      const action = new OrgUnitActions.LoadAddresses({
+        userId,
+        orgUnitId,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.LOAD_ADDRESSES,
+        payload: { userId, orgUnitId },
+        meta: StateUtils.entityLoadMeta(ADDRESS_LIST, orgUnitId),
+      });
+    });
+
+    it('should execute Load Addresses Fail action', () => {
+      const action = new OrgUnitActions.LoadAddressesFail({
+        orgUnitId,
+        error,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.LOAD_ADDRESSES_FAIL,
+        payload: { orgUnitId, error },
+        meta: StateUtils.entityFailMeta(ADDRESS_LIST, orgUnitId, error),
+      });
+    });
+
+    it('should execute Load Addresses Success action', () => {
+      const action = new OrgUnitActions.LoadAddressesSuccess({
+        page,
+        orgUnitId,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.LOAD_ADDRESSES_SUCCESS,
+        payload: { page, orgUnitId },
+        meta: StateUtils.entitySuccessMeta(ADDRESS_LIST, orgUnitId),
+      });
+    });
+
+    it('should execute Load Address Success action', () => {
+      const action = new OrgUnitActions.LoadAddressSuccess([address]);
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.LOAD_ADDRESS_SUCCESS,
+        payload: [address],
+        meta: StateUtils.entitySuccessMeta(ADDRESS_ENTITIES, [addressId]),
+      });
+    });
+  });
+
+  describe('Assign, Unassign Role Actions', () => {
+    it('should execute Assign Role action', () => {
+      const action = new OrgUnitActions.AssignRole({
+        userId,
+        orgCustomerId,
+        roleId,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.ASSIGN_ROLE,
+        payload: { userId, orgCustomerId, roleId },
+        meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, orgCustomerId),
+      });
+    });
+
+    it('should execute Assign Role Fail action', () => {
+      const action = new OrgUnitActions.AssignRoleFail({
+        orgCustomerId,
+        error,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.ASSIGN_ROLE_FAIL,
+        payload: { orgCustomerId, error },
+        meta: StateUtils.entityFailMeta(
+          B2B_USER_ENTITIES,
+          orgCustomerId,
+          error
+        ),
+      });
+    });
+
+    it('should execute Assign Role Success action', () => {
+      const action = new OrgUnitActions.AssignRoleSuccess({
+        uid,
+        roleId,
+        selected,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.ASSIGN_ROLE_SUCCESS,
+        payload: { uid, roleId, selected },
+        meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, uid),
+      });
+    });
+
+    it('should execute Unassign Role action', () => {
+      const action = new OrgUnitActions.UnassignRole({
+        userId,
+        orgCustomerId,
+        roleId,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.UNASSIGN_ROLE,
+        payload: { userId, orgCustomerId, roleId },
+        meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, orgCustomerId),
+      });
+    });
+
+    it('should execute Unassign Role Fail action', () => {
+      const action = new OrgUnitActions.UnassignRoleFail({
+        orgCustomerId,
+        error,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.UNASSIGN_ROLE_FAIL,
+        payload: { orgCustomerId, error },
+        meta: StateUtils.entityFailMeta(
+          B2B_USER_ENTITIES,
+          orgCustomerId,
+          error
+        ),
+      });
+    });
+
+    it('should execute Unassign Role Success action', () => {
+      const action = new OrgUnitActions.UnassignRoleSuccess({
+        uid,
+        roleId,
+        selected,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.UNASSIGN_ROLE_SUCCESS,
+        payload: { uid, roleId, selected },
+        meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, uid),
+      });
+    });
+  });
+
+  describe('Load Tree Actions', () => {
+    it('should execute Load Tree action', () => {
+      const action = new OrgUnitActions.LoadTree({
+        userId,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.LOAD_UNIT_TREE,
+        payload: { userId },
+        meta: StateUtils.entityLoadMeta(ORG_UNIT_TREE_ENTITY, ORG_UNIT_TREE),
+      });
+    });
+
+    it('should execute Load Tree Fail action', () => {
+      const action = new OrgUnitActions.LoadTreeFail({
+        error,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.LOAD_UNIT_TREE_FAIL,
+        payload: { error },
+        meta: StateUtils.entityFailMeta(
+          ORG_UNIT_TREE_ENTITY,
+          ORG_UNIT_TREE,
+          error
+        ),
+      });
+    });
+
+    it('should execute Load Tree Success action', () => {
+      const unitNode: B2BUnitNode = { id: 'testUnitNodeId' };
+      const action = new OrgUnitActions.LoadTreeSuccess(unitNode);
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.LOAD_UNIT_TREE_SUCCESS,
+        payload: unitNode,
+        meta: StateUtils.entitySuccessMeta(ORG_UNIT_TREE_ENTITY, ORG_UNIT_TREE),
+      });
+    });
+  });
+
+  describe('Assign, Unassign Approver Actions', () => {
+    it('should execute Assign Approver action', () => {
+      const action = new OrgUnitActions.AssignApprover({
+        userId,
+        orgUnitId,
+        orgCustomerId,
+        roleId,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.ASSIGN_APPROVER,
+        payload: { userId, orgUnitId, orgCustomerId, roleId },
+        meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, orgCustomerId),
+      });
+    });
+
+    it('should execute Assign Approver Fail action', () => {
+      const action = new OrgUnitActions.AssignApproverFail({
+        orgCustomerId,
+        error,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.ASSIGN_APPROVER_FAIL,
+        payload: { orgCustomerId, error },
+        meta: StateUtils.entityFailMeta(
+          B2B_USER_ENTITIES,
+          orgCustomerId,
+          error
+        ),
+      });
+    });
+
+    it('should execute Assign Approver Success action', () => {
+      const action = new OrgUnitActions.AssignApproverSuccess({
+        uid,
+        roleId,
+        selected,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.ASSIGN_APPROVER_SUCCESS,
+        payload: { uid, roleId, selected },
+        meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, uid),
+      });
+    });
+
+    it('should execute Unassign Approver action', () => {
+      const action = new OrgUnitActions.UnassignApprover({
+        userId,
+        orgUnitId,
+        orgCustomerId,
+        roleId,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.UNASSIGN_APPROVER,
+        payload: { userId, orgUnitId, orgCustomerId, roleId },
+        meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, orgCustomerId),
+      });
+    });
+
+    it('should execute Unassign Approver Fail action', () => {
+      const action = new OrgUnitActions.UnassignApproverFail({
+        orgCustomerId,
+        error,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.UNASSIGN_APPROVER_FAIL,
+        payload: { orgCustomerId, error },
+        meta: StateUtils.entityFailMeta(
+          B2B_USER_ENTITIES,
+          orgCustomerId,
+          error
+        ),
+      });
+    });
+
+    it('should execute Unassign Approver Success action', () => {
+      const action = new OrgUnitActions.UnassignApproverSuccess({
+        uid,
+        roleId,
+        selected,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.UNASSIGN_APPROVER_SUCCESS,
+        payload: { uid, roleId, selected },
+        meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, uid),
       });
     });
   });
