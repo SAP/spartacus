@@ -1,46 +1,78 @@
-import { user } from '../sample-data/checkout-flow';
-import {
-  addProductToCart,
-  goToProductPageFromCategory,
-} from './checkout-as-persistent-user';
+import { product } from '../sample-data/checkout-flow';
+import { waitForOrderWithConsignmentToBePlacedRequest } from '../support/utils/order-placed';
 import { waitForPage } from './checkout-flow';
-import { getSuccessAlert } from './global-message';
-import { registerUser } from './register';
+import { doPlaceOrder } from './order-history';
 
-export const register = (): void => {
-  const loginPage = waitForPage('/login', 'loginPage');
-  cy.visit('/login');
-  cy.wait(`@${loginPage}`);
-  registerUser(user);
-  getSuccessAlert();
+export const placeOrderAndVerifyHistory = () => {
+  let orderCode: string;
+
+  doPlaceOrder().then((orderData: any) => {
+    cy.waitForOrderToBePlacedRequest(undefined, undefined, orderData.body.code);
+    cy.visit('/my-account/orders');
+
+    cy.get('.cx-order-history-code > .cx-order-history-value')
+      .then(
+        (el: JQuery<HTMLElement>): Cypress.Chainable<JQuery<HTMLElement>> => {
+          const orderNumber: string = el.text().match(/\d+/).shift();
+          orderCode = orderNumber;
+
+          waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
+          return cy.wrap(el);
+        }
+      )
+      .first()
+      .click();
+
+    cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
+    cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
+    cy.get('.cx-summary-total > .cx-summary-amount').should(
+      'contain',
+      orderData.body.totalPrice.formattedValue
+    );
+  });
+
+  return orderCode;
 };
 
-export const addProductToShoppingCart: VoidFunction = () => {
-  goToProductPageFromCategory();
-  addProductToCart();
+export const cancelOrder = (orderCode: string) => {
+  const orderCancellationPage = waitForPage(
+    `/my-account/order/cancel/${orderCode}`,
+    'orderCancellationPage'
+  );
 
-  let stateAuth: any;
-  let cartId;
+  cy.get('cx-order-details-actions a[data-cy-cancel-button="cancelButton"]')
+    .should('exist')
+    .click();
 
-  cy.window()
-    .then((win) =>
-      JSON.parse(win.localStorage.getItem('spartacus⚿electronics-spa⚿cart'))
-    )
-    .then(({ active }) => {
-      cartId = active;
-    });
+  cy.wait(`@${orderCancellationPage}`);
 
-  cy.window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
-    .then(({ auth }) => {
-      stateAuth = auth;
-      return cy.requireProductAddedToCart(stateAuth);
-    })
-    .then((_) => {
-      cy.requireShippingAddressAdded(user.address, stateAuth);
-      cy.requireShippingMethodSelected(stateAuth);
-      cy.requirePaymentDone(stateAuth);
+  cy.get('cx-amend-order-items .cx-name')
+    .should('exist')
+    .should('contain.text', product.name);
 
-      return cy.requirePlacedOrder(stateAuth, cartId);
+  cy.get('cx-item-counter button').eq(1).should('exist').click();
+
+  const cancelOrderConfirmationPage = waitForPage(
+    `/my-account/order/cancel/confirmation/${orderCode}`,
+    'confirmOrderCancellationPage'
+  );
+
+  cy.get('cx-amend-order-actions').first().get('a.btn-primary').first().click();
+
+  cy.wait(`@${cancelOrderConfirmationPage}`);
+
+  cy.get('cx-amend-order-actions')
+    .first()
+    .get('button[type="submit"]')
+    .first()
+    .click();
+
+  cy.visit('/my-account/orders');
+
+  cy.get('.cx-order-history-status > .cx-order-history-value')
+    .first()
+    .then((element: JQuery<HTMLElement>) => {
+      const status = element.text();
+      cy.log(status);
     });
 };

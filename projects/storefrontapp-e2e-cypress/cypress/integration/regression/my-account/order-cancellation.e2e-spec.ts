@@ -1,5 +1,8 @@
 import { loginSuccessfully } from '../../../helpers/checkout-as-persistent-user';
-import { doPlaceOrder } from '../../../helpers/order-history';
+import { waitForPage } from '../../../helpers/checkout-flow';
+import { cancelOrder } from '../../../helpers/order-cancellation';
+
+let orderCode: string;
 
 context('Order Cancellation - Desktop', () => {
   before(() => {
@@ -21,27 +24,19 @@ context('Order Cancellation - Desktop', () => {
       loginSuccessfully();
     });
 
-    it('should add a product to cart', () => {
-      doPlaceOrder().then(() => {
-        doPlaceOrder().then((orderData: any) => {
-          cy.waitForOrderToBePlacedRequest(
-            undefined,
-            undefined,
-            orderData.body.code
-          );
-          cy.visit('/my-account/orders');
-          cy.get('cx-order-history h3').should('contain', 'Order history');
-          cy.reload();
-          cy.get('.cx-order-history-code > .cx-order-history-value').should(
-            'contain',
-            orderData.body.code
-          );
-          cy.get('.cx-order-history-total > .cx-order-history-value').should(
-            'contain',
-            orderData.body.totalPrice.formattedValue
-          );
-        });
-      });
+    it('should place an order and then display order history details page', () => {
+      // placeOrderAndVerifyHistory();
+      orderCode = '00001694';
+
+      waitForPage(`/my-account/order/${orderCode}`, 'tester');
+      cy.visit(`/my-account/order/${orderCode}`);
+      cy.wait('@tester');
+    });
+  });
+
+  describe('Order Cancellation', () => {
+    it('should cancel the order that was placed', () => {
+      cancelOrder(orderCode);
     });
   });
 });
