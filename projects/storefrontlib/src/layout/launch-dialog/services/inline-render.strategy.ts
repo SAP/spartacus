@@ -1,16 +1,25 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ComponentFactoryResolver,
+  ComponentRef,
+  Inject,
   Injectable,
   isDevMode,
+  RendererFactory2,
   ViewContainerRef,
 } from '@angular/core';
-import { LaunchInlineDialog, LAUNCH_CALLER } from '../config';
+import { Observable, of } from 'rxjs';
+import { LaunchInlineDialog, LAUNCH_CALLER } from '../config/index';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class InlineRenderStrategy extends LaunchRenderStrategy {
-  constructor(protected componentFactoryResolver: ComponentFactoryResolver) {
-    super();
+  constructor(
+    @Inject(DOCUMENT) protected document: any,
+    protected rendererFactory: RendererFactory2,
+    protected componentFactoryResolver: ComponentFactoryResolver
+  ) {
+    super(document, rendererFactory);
   }
 
   /**
@@ -22,16 +31,24 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
    */
   render(
     config: LaunchInlineDialog,
-    caller: LAUNCH_CALLER,
+    caller: LAUNCH_CALLER | string,
     vcr: ViewContainerRef
-  ) {
+  ): Observable<ComponentRef<any>> {
     // Only render if a ViewContainerRef is provided
     if (vcr && this.shouldRender(caller, config)) {
       const template = this.componentFactoryResolver.resolveComponentFactory(
         config.component
       );
-      vcr.createComponent(template);
-      this.renderedCallers.push({ caller, element: vcr.element });
+
+      const component = vcr.createComponent(template);
+
+      if (config?.dialogType) {
+        this.applyClasses(component, config?.dialogType);
+      }
+
+      this.renderedCallers.push({ caller, element: vcr.element, component });
+
+      return of(component);
     } else if (isDevMode()) {
       if (!vcr) {
         console.warn(`No view container ref provided for ${caller}`);

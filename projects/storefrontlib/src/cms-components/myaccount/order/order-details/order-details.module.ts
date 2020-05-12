@@ -16,6 +16,7 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
 import { CardModule } from '../../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
+import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
@@ -24,7 +25,6 @@ import { OrderDetailItemsComponent } from './order-detail-items/order-detail-ite
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from './order-details.service';
-import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 
 const moduleComponents = [
   OrderDetailActionsComponent,
@@ -49,7 +49,7 @@ const moduleComponents = [
     RouterModule.forChild([
       {
         path: null,
-        canActivate: [CmsPageGuard],
+        canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { pageLabel: 'order', cxRoute: 'orderGuest' },
       },
