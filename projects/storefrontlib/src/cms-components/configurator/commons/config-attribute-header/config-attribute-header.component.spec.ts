@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Configurator, GenericConfigurator, I18nTestingModule } from "@spartacus/core";
+import {
+  Configurator,
+  GenericConfigurator,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
 import { ConfigAttributeHeaderComponent } from './config-attribute-header.component';
 
@@ -39,9 +43,10 @@ describe('ConfigAttributeHeaderComponent', () => {
     classUnderTest.attribute = currentAttribute;
     classUnderTest.attribute.label = 'label of attribute';
     classUnderTest.attribute.name = '123';
-    classUnderTest.attribute.incomplete = true;
-    classUnderTest.attribute.required = false;
     classUnderTest.ownerType = GenericConfigurator.OwnerType.CART_ENTRY;
+    classUnderTest.attribute.required = false;
+    classUnderTest.attribute.incomplete = true;
+    classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
     fixture.detectChanges();
   });
 
@@ -90,21 +95,20 @@ describe('ConfigAttributeHeaderComponent', () => {
     expectElementPresent(htmlElem, '.cx-config-attribute-img');
   });
 
-  it('should return single select message key for radio button attributes', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+  it('should return a single-select message key for radio button attribute type', () => {
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'singleSelectRequiredMessage'
     );
   });
 
-  it('should return single select message key for ddlb attributes', () => {
+  it('should return a single-select message key for ddlb attribute type', () => {
     classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'singleSelectRequiredMessage'
     );
   });
 
-  it('should return single select message key for single-selection-image attributes', () => {
+  it('should return a single-select message key for single-selection-image attribute type', () => {
     classUnderTest.attribute.uiType =
       Configurator.UiType.SINGLE_SELECTION_IMAGE;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
@@ -112,28 +116,74 @@ describe('ConfigAttributeHeaderComponent', () => {
     );
   });
 
-  it('should return multi select message key for check box list attributes', () => {
+  it('should return a multi-select message key for check box list attribute type', () => {
     classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOX;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'multiSelectRequiredMessage'
     );
   });
 
-  it('should return multi select message key for multi-selection-image list attributes', () => {
+  it('should return a multi-select message key for multi-selection-image list attribute type', () => {
     classUnderTest.attribute.uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'multiSelectRequiredMessage'
     );
   });
 
-  it('should return no key for not implemented attribute', () => {
+  it('should return no key for not implemented attribute type', () => {
     classUnderTest.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
     expect(classUnderTest.getRequiredMessageKey()).toBe(undefined);
   });
 
-  it('should return no key for read only attribute', () => {
+  it('should return no key for read only attribute type', () => {
     classUnderTest.attribute.uiType = Configurator.UiType.READ_ONLY;
     expect(classUnderTest.getRequiredMessageKey()).toBe(undefined);
+  });
+
+  it('should render a required message if attribute has been set, yet.', () => {
+    classUnderTest.attribute.required = true;
+    classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+    fixture.detectChanges();
+    expectElementPresent(
+      htmlElem,
+      '.cx-config-attribute-label-required-error-msg'
+    );
+  });
+
+  it("shouldn't render a required message if attribute has not been added to the cart yet.", () => {
+    classUnderTest.ownerType = GenericConfigurator.OwnerType.PRODUCT;
+    fixture.detectChanges();
+    expectElementNotPresent(
+      htmlElem,
+      '.cx-config-attribute-label-required-error-msg'
+    );
+  });
+
+  it("shouldn't render a required message if attribute is not required.", () => {
+    classUnderTest.attribute.required = false;
+    fixture.detectChanges();
+    expectElementNotPresent(
+      htmlElem,
+      '.cx-config-attribute-label-required-error-msg'
+    );
+  });
+
+  it("shouldn't render a required message if attribute is complete.", () => {
+    classUnderTest.attribute.incomplete = true;
+    fixture.detectChanges();
+    expectElementNotPresent(
+      htmlElem,
+      '.cx-config-attribute-label-required-error-msg'
+    );
+  });
+
+  it("shouldn't render a required message if ui type is string.", () => {
+    classUnderTest.attribute.uiType = Configurator.UiType.STRING;
+    fixture.detectChanges();
+    expectElementNotPresent(
+      htmlElem,
+      '.cx-config-attribute-label-required-error-msg'
+    );
   });
 });
 
