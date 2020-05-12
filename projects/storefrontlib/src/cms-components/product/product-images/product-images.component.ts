@@ -17,9 +17,9 @@ export class ProductImagesComponent {
   > = this.currentProductService.getProduct().pipe(
     filter(Boolean),
     distinctUntilChanged(),
-    tap((p: Product) =>
-      this.mainMediaContainer.next(p.images ? p.images.PRIMARY : {})
-    )
+    tap((p: Product) => {
+      this.mainMediaContainer.next(p.images?.PRIMARY ? p.images.PRIMARY : {});
+    })
   );
 
   thumbs$: Observable<any[]> = this.product$.pipe(
