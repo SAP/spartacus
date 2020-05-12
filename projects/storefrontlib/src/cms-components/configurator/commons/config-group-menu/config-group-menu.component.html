@@ -30,7 +30,8 @@
             >
               <a [class.active]="currentGroup.id === group.id" role="link"
                 >{{ group.description }}
-
+                <cx-icon class="ERROR" [type]="iconTypes.ERROR"></cx-icon>
+                <cx-icon class="COMPLETE" [type]="iconTypes.SUCCESS"></cx-icon>
                 <cx-icon
                   *ngIf="configuratorGroupsService.hasSubGroups(group)"
                   [type]="iconTypes.CARET_RIGHT"

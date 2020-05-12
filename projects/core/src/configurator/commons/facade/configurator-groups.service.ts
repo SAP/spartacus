@@ -21,6 +21,22 @@ export class ConfiguratorGroupsService {
     private configuratorCommonsService: ConfiguratorCommonsService
   ) {}
 
+  subscribeToUpdateConfiguration(owner: GenericConfigurator.Owner): void {
+    // TODO: Cancel previous subscriptions of the configuration state
+    // Set Group Status on each update of the configuration state
+    // This will be called every time something in the configuration is changed, prices,
+    // attributes groups etc.
+    this.configuratorCommonsService
+      .getConfiguration(owner)
+      .subscribe((configuration) =>
+        this.getCurrentGroup(owner)
+          .pipe(take(1))
+          .subscribe((currentGroup) =>
+            this.setGroupStatus(configuration, currentGroup.id, false)
+          )
+      );
+  }
+
   getCurrentGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getUiState(owner).pipe(
       switchMap((uiState) => {
@@ -115,7 +131,6 @@ export class ConfiguratorGroupsService {
       }
     });
 
-    console.warn(group.id, isGroupComplete);
     return isGroupComplete;
   }
 

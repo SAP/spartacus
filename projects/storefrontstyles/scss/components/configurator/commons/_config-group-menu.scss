@@ -49,12 +49,22 @@
       }
     }
 
-    .cx-config-menu-item.visited {
-      background-color: #dddddd;
+    cx-icon.ERROR,
+    cx-icon.COMPLETE {
+      display: none;
     }
 
-    .cx-config-menu-item.completed {
-      text-decoration: underline;
+    cx-icon.ERROR {
+      color: var(--cx-color-danger);
+    }
+
+    cx-icon.COMPLETE {
+      color: var(--cx-color-text) !important;
+    }
+
+    .cx-config-menu-item.ERROR cx-icon.ERROR,
+    .cx-config-menu-item.COMPLETE cx-icon.COMPLETE {
+      display: inline-block;
     }
   }
 

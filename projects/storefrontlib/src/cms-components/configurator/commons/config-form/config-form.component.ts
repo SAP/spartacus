@@ -54,6 +54,15 @@ export class ConfigFormComponent implements OnInit {
       )
       .subscribe();
 
+    this.configRouterExtractorService
+      .extractRouterData(this.routingService)
+      .pipe(take(1))
+      .subscribe((routerData) =>
+        this.configuratorGroupsService.subscribeToUpdateConfiguration(
+          routerData.owner
+        )
+      );
+
     this.currentGroup$ = this.configRouterExtractorService
       .extractRouterData(this.routingService)
       .pipe(
