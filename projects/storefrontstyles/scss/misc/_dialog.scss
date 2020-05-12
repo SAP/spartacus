@@ -8,10 +8,6 @@
   outline: 0;
 }
 
-.cx-dialog {
-  @extend %cx-base-dialog;
-}
-
 .cx-sidebar-start {
   @extend %cx-base-dialog;
   display: flex;

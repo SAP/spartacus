@@ -26,7 +26,7 @@ export abstract class LaunchRenderStrategy implements Applicable {
   /**
    * Classes to apply to the component when the dialog is a DIALOG
    */
-  protected dialogClasses = ['cx-dialog', 'fade', 'show'];
+  protected dialogClasses = ['d-block', 'fade', 'modal', 'show'];
   /**
    * Classes to apply to the component when the dialog is a POPOVER
    */
