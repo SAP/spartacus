@@ -20,7 +20,7 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
-import { getIndexHtmlPath } from '../shared/utils/file-utils';
+import { getIndexHtmlPath, getTsSourceFile } from '../shared/utils/file-utils';
 import {
   addImport,
   addToModuleImportsAndCommitChanges,
@@ -32,6 +32,7 @@ import {
 } from '../shared/utils/package-utils';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 import { Schema as SpartacusOptions } from './schema';
+import { isImported } from '@schematics/angular/utility/ast-utils';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -172,16 +173,31 @@ function updateAppModule(options: SpartacusOptions): Rule {
     const modulePath = getAppModulePath(host, mainPath);
     context.logger.debug(`main module path: ${modulePath}`);
 
-    // add imports
-    addImport(host, modulePath, 'translations', '@spartacus/assets');
-    addImport(host, modulePath, 'translationChunksConfig', '@spartacus/assets');
-    addImport(host, modulePath, 'B2cStorefrontModule', '@spartacus/storefront');
+    const moduleSource = getTsSourceFile(host, modulePath);
+    if (
+      !isImported(moduleSource, 'B2cStorefrontModule', '@spartacus/storefront')
+    ) {
+      // add imports
+      addImport(host, modulePath, 'translations', '@spartacus/assets');
+      addImport(
+        host,
+        modulePath,
+        'translationChunksConfig',
+        '@spartacus/assets'
+      );
+      addImport(
+        host,
+        modulePath,
+        'B2cStorefrontModule',
+        '@spartacus/storefront'
+      );
 
-    addToModuleImportsAndCommitChanges(
-      host,
-      modulePath,
-      `B2cStorefrontModule.withConfig(${getStorefrontConfig(options)})`
-    );
+      addToModuleImportsAndCommitChanges(
+        host,
+        modulePath,
+        `B2cStorefrontModule.withConfig(${getStorefrontConfig(options)})`
+      );
+    }
 
     return host;
   };
