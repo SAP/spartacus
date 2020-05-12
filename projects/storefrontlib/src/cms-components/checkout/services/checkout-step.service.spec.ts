@@ -1,6 +1,5 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-//import { ActivatedRoute } from '@angular/router';
 import { RoutingService, RoutingConfigService } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 import { CheckoutStepType } from '../model';
@@ -60,7 +59,6 @@ class MockRoutingService {
 
 describe('CheckoutStpService', () => {
   let service: CheckoutStepService;
-  //let activatedRoute: ActivatedRoute;
   let routingService: RoutingService;
   let routingConfigService: RoutingConfigService;
   let checkoutConfigService: CheckoutConfigService;
@@ -70,13 +68,11 @@ describe('CheckoutStpService', () => {
       providers: [
         CheckoutStepService,
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
-        //{ provide: ActivatedRoute, useValue: {} },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
       ],
     });
 
-    //activatedRoute = TestBed.inject(ActivatedRoute as Type<ActivatedRoute>);
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
     checkoutConfigService = TestBed.inject(
       CheckoutConfigService as Type<CheckoutConfigService>

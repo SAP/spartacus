@@ -78,7 +78,7 @@ class MockCheckoutStepService {
 
 const mockActivatedRoute = {
   snapshot: {
-    url: ['checkout', 'payment-type'],
+    url: ['checkout', 'payment-method'],
   },
 };
 
