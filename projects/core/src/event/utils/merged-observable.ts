@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, Subscriber, Subscription } from 'rxjs';
+import { Observable, Subscriber, Subscription } from 'rxjs';
 import { share } from 'rxjs/operators';
 
 /**
@@ -15,54 +15,45 @@ import { share } from 'rxjs/operators';
  */
 export class MergedObservable<T> {
   /**
+   * List of already added sources (but not removed yet)
+   */
+  private sources: Observable<T>[] = [];
+
+  /**
    * For each source: it stores a subscription responsible for
    * passing all values from source to the consumer
    */
-
   private subscriptionsToSources = new Map<Observable<T>, Subscription>();
-
-  /**
-   * For each source: it stores a subscription responsible for
-   * watching if there is an active consumer. Thanks to that,
-   * each source can start (or stop) passing values to the consumer
-   * appears (or relatively, disappears).
-   *
-   * We store watchers separately, to allow for disposing them on manual
-   * removal of any source, using the method `remove()`.
-   */
-  private consumerWatchers = new Map<Observable<T>, Subscription>();
-
-  /**
-   * Reference to the consumer of the `__output$` observable.
-   *
-   * Thanks to the `share()` operator piped right after in `$output`,
-   * there can be only 0 or 1 consumer of `__output$`.
-   *
-   * When anyone subscribes to final `output$`, the `share()` operator starts consuming `__output$`.
-   * When nobody subscribers to final `output$`, `share()` stops consuming `__output$`.
-   */
-  private consumer = new BehaviorSubject<Subscriber<any>>(null);
-
-  /**
-   * On subscription, it notifies the sources they should pass their values to the consumer.
-   * On unsubscription, it notifies the sources they should stop passing values to the consumer.
-   */
-  private readonly __output$: Observable<T> = new Observable<T>((consumer) => {
-    this.consumer.next(consumer);
-    return () => this.consumer.next(null);
-  });
 
   /**
    * Observable with all sources merged.
    *
    * Only after subscribing to it, under the hood it subscribes to the source observables.
    * When the number of subscribers drops to 0, it unsubscribes from all source observables.
-   * But if later on a new subscription starts, it subscribes to the source observables again.
+   * But if later on something subscribes to it again, it subscribes to the source observables again.
    *
-   * It multicasts the emissions, so it subscribes to each source only once,
-   * even if there are many subscribers of `output$`.
+   * It multicasts the emissions for each subscriber.
    */
-  readonly output$ = this.__output$.pipe(share());
+  readonly output$: Observable<T> = new Observable<T>((consumer) => {
+    // There can be only 0 or 1 consumer of this observable coming from the `share()` operator
+    // that is piped right after this observable.
+    // `share()` not only multicasts the results but also  When all end-subscribers unsubscribe from `share()` operator, it will unsubscribe
+    // from this observable (by the nature `refCount`-nature of the `share()` operator).
+
+    this.consumer = consumer;
+    this.bindAllSourcesToConsumer(consumer);
+
+    return () => {
+      this.consumer = null;
+      this.unbindAllSourcesFromConsumer();
+    };
+  }).pipe(share());
+
+  /**
+   * Reference to the subscriber coming from the `share()` operator piped to the `output$` observable.
+   * For more, see docs of the `output$` observable;
+   */
+  private consumer: Subscriber<any> = null;
 
   /**
    * Registers the given source to pass its values to the `output$` observable.
@@ -74,23 +65,31 @@ export class MergedObservable<T> {
       return;
     }
 
-    // watch whether the consumer appears or disappears:
-    const watcher = this.consumer.subscribe((consumer) => {
-      if (consumer) {
-        // when appears
-        this.bindSourceToConsumer(source, consumer);
-      } else {
-        // when disappears
-        this.unbindSourceFromConsumer(source);
-      }
-    });
-
-    // store the watcher, so it's possible to dispose it later on demand
-    this.consumerWatchers.set(source, watcher);
+    if (this.consumer) {
+      this.bindSourceToConsumer(source, this.consumer);
+    }
+    this.sources.push(source);
   }
 
   /**
-   * Starts passing all values from source to consumer
+   * Starts passing all values from already added sources to consumer
+   */
+  private bindAllSourcesToConsumer(consumer: Subscriber<T>) {
+    this.sources.forEach((source) =>
+      this.bindSourceToConsumer(source, consumer)
+    );
+  }
+
+  /**
+   * Stops passing all values from already added sources to consumer
+   * (if any consumer is active at the moment)
+   */
+  private unbindAllSourcesFromConsumer() {
+    this.sources.forEach((source) => this.unbindSourceFromConsumer(source));
+  }
+
+  /**
+   * Starts passing all values from a single source to consumer
    */
   private bindSourceToConsumer(source: Observable<T>, consumer: Subscriber<T>) {
     const subscriptionToSource = source.subscribe((val) => consumer.next(val)); // passes all emissions from source to consumer
@@ -98,11 +97,10 @@ export class MergedObservable<T> {
   }
 
   /**
-   * Stops passing all values from source to consumer
+   * Stops passing all values from a single source to consumer
    * (if any consumer is active at the moment)
    */
   private unbindSourceFromConsumer(source: Observable<T>) {
-    // stop passing all values from source to the consumer
     const subscriptionToSource = this.subscriptionsToSources.get(source);
     if (subscriptionToSource !== undefined) {
       subscriptionToSource.unsubscribe();
@@ -119,16 +117,17 @@ export class MergedObservable<T> {
     // clear binding from source to consumer (if any consumer exists at the moment)
     this.unbindSourceFromConsumer(source);
 
-    // for this source, stop watching the existence of the consumer:
-    const watcher = this.consumerWatchers.get(source);
-    watcher.unsubscribe();
-    this.consumerWatchers.delete(source);
+    // remove source from array
+    let i: number;
+    if ((i = this.sources.findIndex((s) => s === source)) !== -1) {
+      this.sources.splice(i, 1);
+    }
   }
 
   /**
    * Returns whether the given source has been already addded
    */
   has(source: Observable<T>): boolean {
-    return this.consumerWatchers.has(source);
+    return this.sources.includes(source);
   }
 }
