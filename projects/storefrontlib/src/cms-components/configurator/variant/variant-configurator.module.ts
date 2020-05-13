@@ -34,6 +34,7 @@ import { ConfigurationMessageLoaderModule } from '../commons/config-message/conf
 import { ConfigMessageComponent } from '../commons/config-message/config-message.component';
 import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/config-price-summary.component';
+import { ConfigProductTitleComponent } from '../commons/config-product-title/config-product-title.component';
 import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.component';
 import { DefaultMessageConfig } from '../commons/config/default-message-config';
 import { MessageConfig } from '../commons/config/message-config';
@@ -63,6 +64,10 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
       cmsComponents: {
         VariantConfigurationTabBar: {
           component: ConfigTabBarComponent,
+          guards: [],
+        },
+        VariantConfigurationTitle: {
+          component: ConfigProductTitleComponent,
           guards: [],
         },
         VariantConfigurationGroupTitle: {
@@ -167,6 +172,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
     ConfigMessageComponent,
+    ConfigProductTitleComponent,
   ],
   exports: [
     ConfigFormComponent,
@@ -186,6 +192,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
     ConfigMessageComponent,
+    ConfigProductTitleComponent,
   ],
   providers: [UserService, { provide: MessageConfig, useExisting: Config }],
   entryComponents: [
@@ -206,6 +213,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigPriceSummaryComponent,
     ConfigTabBarComponent,
     ConfigMessageComponent,
+    ConfigProductTitleComponent,
   ],
 })
 export class VariantConfiguratorModule {}

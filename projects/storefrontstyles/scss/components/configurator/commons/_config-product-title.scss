@@ -1,0 +1,22 @@
+%cx-config-product-title {
+  .container {
+    padding: 15px;
+    background-color: var(--cx-color-background);
+    margin: 0 0 15px 0;
+    border-width: 1px;
+    font-weight: bold;
+    text-align: center;
+
+    .cx-config-product-title {
+    }
+
+    a {
+      cursor: pointer;
+      float: right;
+      text-decoration: underline !important;
+      font-weight: normal;
+      margin-top: -25px;
+      margin-right: 5px;
+    }
+  }
+}

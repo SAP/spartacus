@@ -7,6 +7,8 @@ export const configurator = {
       toconfig: 'Configure',
       editConfiguration: 'Edit Configuration',
       updateMessage: 'Configuration is updated wait a little bit!',
+      showMore: 'show more',
+      showLess: 'show less',
     },
     tabBar: {
       configuration: 'Configuration',

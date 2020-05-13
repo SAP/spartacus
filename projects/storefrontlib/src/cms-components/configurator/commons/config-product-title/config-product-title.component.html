@@ -1,0 +1,23 @@
+<ng-container *ngIf="product$ | async as product">
+  <div class="container">
+    <div class="cx-config-product-title" tabindex="0">
+      {{ product.name }}
+    </div>
+
+    <a class="cx-config-toogle-details-link" role="link" (click)="click()">
+      <ng-container *ngIf="showMore === false"
+        >{{ 'configurator.header.showMore' | cxTranslate }}
+        <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon
+      ></ng-container>
+
+      <ng-container *ngIf="showMore === true"
+        >{{ 'configurator.header.showLess' | cxTranslate }}
+        <cx-icon [type]="iconTypes.CARET_UP"></cx-icon
+      ></ng-container>
+    </a>
+
+    <div *ngIf="showMore === true" class="cx-config-product-title-details">
+      <img src="product.url" />
+    </div>
+  </div>
+</ng-container>
