@@ -1,6 +1,8 @@
 import { loginSuccessfully } from '../../../helpers/checkout-as-persistent-user';
-import { waitForPage } from '../../../helpers/checkout-flow';
-import { cancelOrder } from '../../../helpers/order-cancellation';
+import {
+  cancelOrder,
+  placeOrderAndVerifyHistory,
+} from '../../../helpers/order-cancellation';
 
 let orderCode: string;
 
@@ -25,12 +27,7 @@ context('Order Cancellation - Desktop', () => {
     });
 
     it('should place an order and then display order history details page', () => {
-      // placeOrderAndVerifyHistory();
-      orderCode = '00001694';
-
-      waitForPage(`/my-account/order/${orderCode}`, 'tester');
-      cy.visit(`/my-account/order/${orderCode}`);
-      cy.wait('@tester');
+      orderCode = placeOrderAndVerifyHistory();
     });
   });
 

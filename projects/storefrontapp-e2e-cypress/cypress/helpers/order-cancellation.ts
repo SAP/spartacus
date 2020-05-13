@@ -1,6 +1,5 @@
 import { product } from '../sample-data/checkout-flow';
 import { waitForOrderWithConsignmentToBePlacedRequest } from '../support/utils/order-placed';
-import { waitForPage } from './checkout-flow';
 import { doPlaceOrder } from './order-history';
 
 export const placeOrderAndVerifyHistory = () => {
@@ -35,16 +34,9 @@ export const placeOrderAndVerifyHistory = () => {
 };
 
 export const cancelOrder = (orderCode: string) => {
-  const orderCancellationPage = waitForPage(
-    `/my-account/order/cancel/${orderCode}`,
-    'orderCancellationPage'
-  );
-
   cy.get('cx-order-details-actions a[data-cy-cancel-button="cancelButton"]')
     .should('exist')
     .click();
-
-  cy.wait(`@${orderCancellationPage}`);
 
   cy.get('cx-amend-order-items .cx-name')
     .should('exist')
@@ -52,14 +44,7 @@ export const cancelOrder = (orderCode: string) => {
 
   cy.get('cx-item-counter button').eq(1).should('exist').click();
 
-  const cancelOrderConfirmationPage = waitForPage(
-    `/my-account/order/cancel/confirmation/${orderCode}`,
-    'confirmOrderCancellationPage'
-  );
-
   cy.get('cx-amend-order-actions').first().get('a.btn-primary').first().click();
-
-  cy.wait(`@${cancelOrderConfirmationPage}`);
 
   cy.get('cx-amend-order-actions')
     .first()
@@ -74,5 +59,6 @@ export const cancelOrder = (orderCode: string) => {
     .then((element: JQuery<HTMLElement>) => {
       const status = element.text();
       cy.log(status);
+      // expect(status).to.eq('Cancelled') uncomment when GH-7277 gets fixed
     });
 };
