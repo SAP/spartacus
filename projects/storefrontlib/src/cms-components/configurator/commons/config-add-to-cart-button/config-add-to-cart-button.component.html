@@ -4,31 +4,31 @@
       <button
         class="cx-btn btn btn-block btn-primary"
         (click)="
-            onAddToCart(
-              configuration,
-              routerData.configuratorType,
-              routerData.pageType
-            )
-          "
+          onAddToCart(
+            configuration,
+            routerData.configuratorType,
+            routerData.pageType
+          )
+        "
       >
         <ng-container
           *ngIf="
-              routerData.isOwnerCartEntry &&
-              configuration.isCartEntryUpdateRequired
-            "
+            routerData.isOwnerCartEntry &&
+            configuration.isCartEntryUpdateRequired
+          "
         >
           {{
-          'configurator.addToCart.buttonUpdateCart' | cxTranslate
+            'configurator.addToCart.buttonUpdateCart' | cxTranslate
           }}</ng-container
         >
         <ng-container
           *ngIf="
-              routerData.isOwnerCartEntry &&
-              !configuration.isCartEntryUpdateRequired
-            "
+            routerData.isOwnerCartEntry &&
+            !configuration.isCartEntryUpdateRequired
+          "
         >
           {{
-          'configurator.addToCart.buttonAfterAddToCart' | cxTranslate
+            'configurator.addToCart.buttonAfterAddToCart' | cxTranslate
           }}</ng-container
         >
         <ng-container *ngIf="!routerData.isOwnerCartEntry">
