@@ -6,30 +6,41 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as shx from 'shelljs';
-import { KYMA_ENABLED, TODO_SPARTACUS } from '../../shared/constants';
-import { runMigration, writeFile } from '../../shared/utils/test-utils';
+import { ANONYMOUS_CONSENTS, TODO_SPARTACUS } from '../../../shared/constants';
+import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
-const MIGRATION_SCRIPT_NAME = 'migration-v2-kyma-09';
+const MIGRATION_SCRIPT_NAME = 'migration-v2-config-deprecations-09';
 const TEST_CLASS = `
+const config = {
+  features: {
+    level: '1.5',
+    anonymousConsents: true
+  }
+};
+
 @NgModule({
   imports: [
-    BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
-    BrowserTransferStateModule,
-
     B2cStorefrontModule.withConfig({
-      authentication: {
-        kyma_enabled: true
-      },
+      features: {
+        level: '1.5',
+        anonymousConsents: true
+      }
     }),
-    KymaModule,
   ],
-
-  bootstrap: [StorefrontComponent],
+  providers: [
+    provideConfig(config),
+    provideConfig({
+      features: {
+        level: '1.5',
+        anonymousConsents: true
+      }
+    }),
+  ]
 })
 export class AppModule {}
 `;
 
-describe('kyma feature flag migration', () => {
+describe('config deprecations migration', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;
@@ -39,7 +50,7 @@ describe('kyma feature flag migration', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../migrations.json')
+      require.resolve('../../migrations.json')
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
@@ -90,10 +101,10 @@ describe('kyma feature flag migration', () => {
 
     const content = appTree.readContent('/src/index.ts');
     const regex = new RegExp(
-      `// ${TODO_SPARTACUS} '${KYMA_ENABLED}' has been removed. Just remove this property, as kyma is now enabled by just importing 'KymaModule'.\n`,
+      `// ${TODO_SPARTACUS} '${ANONYMOUS_CONSENTS}' has been removed, as this feature is now enabled by default.\n`,
       'g'
     );
     const commentOccurrences = (content.match(regex) || []).length;
-    expect(commentOccurrences).toEqual(1);
+    expect(commentOccurrences).toEqual(3);
   });
 });
