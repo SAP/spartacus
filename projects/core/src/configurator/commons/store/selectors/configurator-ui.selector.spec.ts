@@ -17,8 +17,7 @@ describe('Configurator selectors', () => {
   const uiState: UiState = {
     currentGroup: GROUP_ID,
     menuParentGroup: null,
-    groupsComplete: { entities: {} },
-    groupsError: { entities: {} },
+    groupsStatus: { entities: {} },
     groupsVisited: { entities: {} },
   };
 

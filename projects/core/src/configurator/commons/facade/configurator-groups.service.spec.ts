@@ -36,8 +36,8 @@ const productConfiguration: Configurator.Configuration = {
         {
           name: 'ATTRIBUTE_1_CHECKBOX',
           uiType: Configurator.UiType.CHECKBOX,
-          values: [],
           required: true,
+          incomplete: true,
         },
       ],
       subGroups: [],
@@ -49,8 +49,8 @@ const productConfiguration: Configurator.Configuration = {
         {
           name: 'ATTRIBUTE_2_RADIOBUTTON',
           uiType: Configurator.UiType.RADIOBUTTON,
-          selectedSingleValue: null,
           required: false,
+          incomplete: false,
         },
       ],
       subGroups: [],
@@ -61,11 +61,11 @@ const productConfiguration: Configurator.Configuration = {
         {
           name: 'ATTRIBUTE_3_SINGLESELECTIONIMAGE',
           uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
-          selectedSingleValue: null,
           required: true,
+          incomplete: true,
         },
       ],
-      subGroups: [{ id: GROUP_ID_4, subGroups: [] }],
+      subGroups: [{ id: GROUP_ID_4, subGroups: [], attributes: [] }],
     },
     {
       id: GROUP_ID_5,
@@ -73,20 +73,24 @@ const productConfiguration: Configurator.Configuration = {
         {
           name: 'ATTRIBUTE_5_STRING',
           uiType: Configurator.UiType.STRING,
-          userInput: 'input',
           required: true,
+          incomplete: false,
         },
         {
           name: 'ATTRIBUTE_5_DROPDOWN',
           uiType: Configurator.UiType.DROPDOWN,
-          selectedSingleValue: null,
           required: true,
+          incomplete: true,
         },
       ],
 
       subGroups: [
-        { id: GROUP_ID_6, subGroups: [] },
-        { id: GROUP_ID_7, subGroups: [{ id: GROUP_ID_8, subGroups: [] }] },
+        { id: GROUP_ID_6, subGroups: [], attributes: [] },
+        {
+          id: GROUP_ID_7,
+          subGroups: [{ id: GROUP_ID_8, subGroups: [], attributes: [] }],
+          attributes: [],
+        },
       ],
     },
 
@@ -99,10 +103,11 @@ const productConfiguration: Configurator.Configuration = {
             {
               name: 'ATTRIBUTE_10_DROPDOWN',
               uiType: Configurator.UiType.DROPDOWN,
-              selectedSingleValue: 'test123',
               required: true,
+              incomplete: false,
             },
           ],
+          subGroups: [],
         },
       ],
     },
@@ -291,7 +296,8 @@ describe('ConfiguratorGroupsService', () => {
     it('should call setGroupVisisted action on setGroupStatus method call', () => {
       serviceUnderTest.setGroupStatus(
         productConfiguration,
-        productConfiguration.groups[0].id
+        productConfiguration.groups[0].id,
+        true
       );
 
       const expectedAction = new UiActions.SetGroupsVisited(
@@ -304,7 +310,7 @@ describe('ConfiguratorGroupsService', () => {
 
     it('should get parent group, when all subgroups are visited', () => {
       spyOn(store, 'select').and.returnValue(of(true));
-      serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_4);
+      serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_4, true);
 
       const expectedAction = new UiActions.SetGroupsVisited(
         productConfiguration.owner.key,
@@ -318,7 +324,7 @@ describe('ConfiguratorGroupsService', () => {
       //Not all subgroups are visited
       spyOn(store, 'select').and.returnValue(of(false));
 
-      serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_6);
+      serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_6, true);
 
       const expectedAction = new UiActions.SetGroupsVisited(
         productConfiguration.owner.key,
@@ -331,11 +337,11 @@ describe('ConfiguratorGroupsService', () => {
     it('should get all parent group, when lowest subgroup are visited', () => {
       spyOn(store, 'select').and.returnValue(of(true));
 
-      serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_8);
+      serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_8, true);
 
       const expectedAction = new UiActions.SetGroupsVisited(
         productConfiguration.owner.key,
-        [GROUP_ID_8, GROUP_ID_7, GROUP_ID_6]
+        [GROUP_ID_8, GROUP_ID_7, GROUP_ID_5]
       );
 
       expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
