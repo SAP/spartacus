@@ -5,6 +5,11 @@ import * as alerts from './global-message';
 export const userGreetSelector = 'cx-login .cx-login-greet';
 export const loginLinkSelector = 'cx-login [role="link"]';
 
+export const defaultUser = {
+  name: 'test-user-cypress@ydev.hybris.com',
+  password: 'Password123.',
+};
+
 export function registerUser() {
   cy.get(loginLinkSelector).click();
   cy.get('cx-page-layout').getByText('Register').click();
@@ -34,6 +39,11 @@ export function loginWithBadCredentials() {
   alerts
     .getErrorAlert()
     .should('contain', 'Bad credentials. Please login again');
+}
+
+export function loginAsDefaultUser() {
+  cy.get(loginLinkSelector).click();
+  login(defaultUser.name, defaultUser.password);
 }
 
 export function listenForTokenRevocationReqest(): string {

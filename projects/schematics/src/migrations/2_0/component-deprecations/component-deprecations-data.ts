@@ -9,6 +9,7 @@ import { FOOTER_NAVIGATION_COMPONENT_MIGRATION } from './data/footer-navigation.
 import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
 import { PRODUCT_IMAGES_COMPONENT_MIGRATION } from './data/product-images.component.migration';
 import { PRODUCT_SCROLL_COMPONENT_MIGRATION } from './data/product-scroll.component.migration';
+import { QUALTRICS_COMPONENT_MIGRATION } from './data/qualtrics.component.migration';
 import { STORE_FINDER_LIST_ITEM_MIGRATION } from './data/store-finder-list-item.component.migration';
 
 export const COMPONENT_DEPRECATION_DATA: ComponentData[] = [
@@ -23,4 +24,5 @@ export const COMPONENT_DEPRECATION_DATA: ComponentData[] = [
   NAVIGATION_UI_COMPONENT_MIGRATION,
   STORE_FINDER_LIST_ITEM_MIGRATION,
   FOOTER_NAVIGATION_COMPONENT_MIGRATION,
+  QUALTRICS_COMPONENT_MIGRATION,
 ];
