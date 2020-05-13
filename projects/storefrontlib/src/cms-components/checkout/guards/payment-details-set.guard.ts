@@ -1,7 +1,7 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { RoutingConfigService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutStepService } from '../services/checkout-step.service';
@@ -29,20 +29,23 @@ export class PaymentDetailsSetGuard implements CanActivate {
       );
     }
 
-    return this.checkoutDetailsService.getPaymentDetails().pipe(
-      map((paymentDetails) => {
-        if (paymentDetails && Object.keys(paymentDetails).length !== 0) {
-          return true;
-        } else {
-          if (checkoutStep && !checkoutStep.disabled) {
-            return this.router.parseUrl(
-              this.routingConfigService.getRouteConfig(checkoutStep.routeName)
-                .paths[0]
-            );
-          }
-          return true;
-        }
-      })
-    );
+    if (checkoutStep && checkoutStep.disabled) {
+      return of(true);
+    }
+
+    return this.checkoutDetailsService
+      .getPaymentDetails()
+      .pipe(
+        map((paymentDetails) =>
+          paymentDetails && Object.keys(paymentDetails).length !== 0
+            ? true
+            : this.router.parseUrl(
+                checkoutStep &&
+                  this.routingConfigService.getRouteConfig(
+                    checkoutStep.routeName
+                  ).paths[0]
+              )
+        )
+      );
   }
 }
