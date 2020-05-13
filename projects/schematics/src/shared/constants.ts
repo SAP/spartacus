@@ -170,7 +170,6 @@ export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
 export const OUTLET_DIRECTIVE = 'OutletDirective';
 export const OUTLET_SERVICE = 'OutletService';
 export const DEFER_LOADER_SERVICE = 'DeferLoaderService';
-export const ASM_ENABLER_SERVICE = 'AsmEnablerService';
 export const LAUNCH_DIALOG_SERVICE = 'LaunchComponentService';
 export const PLACE_ORDER_COMPONENT = 'PlaceOrderComponent';
 export const USER_INTERESTS_SERVICE = 'UserInterestsService';
@@ -302,6 +301,7 @@ export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
 export const KYMA_ENABLED = 'kyma_enabled';
+export const ANONYMOUS_CONSENTS = 'anonymousConsents';
 /***** Properties end *****/
 
 /***** APIs start *****/
