@@ -1,29 +1,19 @@
-import {
-  Component,
-  Inject,
-  NgModule,
-  PLATFORM_ID,
-  Renderer2,
-  Type,
-} from '@angular/core';
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-  TestModuleMetadata,
-} from '@angular/core/testing';
+import { Component, Inject, NgModule, PLATFORM_ID, Renderer2, Type } from '@angular/core';
+import { async, ComponentFixture, TestBed, TestModuleMetadata } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CmsComponent,
   CmsConfig,
   CmsService,
   ContentSlotComponentData,
-  DynamicAttributeService,
+  DynamicAttributeService
 } from '@spartacus/core';
-import { PageComponentModule } from '@spartacus/storefront';
+import { ComponentHandler } from './handlers/component-handler';
+import { PageComponentModule } from './page-component.module';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { CxApiService } from './services/cx-api.service';
+import { WebComponentHandler } from './handlers/web-component.handler';
 
 const testText = 'test text';
 
@@ -102,6 +92,11 @@ describe('ComponentWrapperDirective', () => {
         {
           provide: DynamicAttributeService,
           useClass: MockDynamicAttributeService,
+        },
+        {
+          provide: ComponentHandler,
+          useExisting: WebComponentHandler,
+          multi: true,
         },
         { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } },
       ],
