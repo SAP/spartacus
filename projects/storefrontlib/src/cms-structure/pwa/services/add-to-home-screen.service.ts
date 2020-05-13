@@ -7,7 +7,9 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PWAModuleConfig } from '../pwa.module-config';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AddToHomeScreenService {
   private deferredEvent: any;
 
