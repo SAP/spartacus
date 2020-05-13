@@ -1,16 +1,19 @@
-import * as anonymousConsents from '../../../helpers/anonymous-consents';
-import { waitForPage } from '../../../helpers/checkout-flow';
-import * as loginHelper from '../../../helpers/login';
-import { navigation } from '../../../helpers/navigation';
-import { cdsHelper } from '../../../helpers/vendor/cds/cds';
-import { profileTagHelper } from '../../../helpers/vendor/cds/profile-tag';
+import * as anonymousConsents from '../../../../helpers/anonymous-consents';
+import { waitForPage } from '../../../../helpers/checkout-flow';
+import * as loginHelper from '../../../../helpers/login';
+import { navigation } from '../../../../helpers/navigation';
+import {
+  cdsHelper,
+  strategyRequestAlias,
+} from '../../../../helpers/vendor/cds/cds';
+import { profileTagHelper } from '../../../../helpers/vendor/cds/profile-tag';
 
 const cartSnapshotEventName = 'CartSnapshot';
 
 describe('Profile-tag events', () => {
   beforeEach(() => {
     cy.server();
-    cdsHelper.setUpMocks();
+    cdsHelper.setUpMocks(strategyRequestAlias);
     navigation.visitHomePage({
       options: {
         onBeforeLoad: profileTagHelper.interceptProfileTagJs,
@@ -107,7 +110,7 @@ describe('login notification', () => {
   const loginAlias = 'loginNotification';
   beforeEach(() => {
     cy.server();
-    cdsHelper.setUpMocks();
+    cdsHelper.setUpMocks(strategyRequestAlias);
     cy.route('POST', '**/users/current/loginnotification**').as(loginAlias);
     navigation.visitHomePage({
       options: {

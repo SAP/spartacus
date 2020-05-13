@@ -2,6 +2,7 @@ import {
   CURRENCY_USD,
   LANGUAGE_EN,
 } from '../../../helpers/site-context-selector';
+import { waitForPage } from '../../checkout-flow';
 
 interface StrategyRequestContext {
   language?: string;
@@ -16,9 +17,29 @@ export const DEFAULT_LANGUAGE = LANGUAGE_EN;
 export const DEFAULT_CURRENCY = CURRENCY_USD;
 const productDisplayCount = 10;
 
+export const japaneseLanguage = 'ja';
+export const englishFilmProductText = 'Film';
+export const japaneseFilmProductText = 'プ';
+export const dollarCurrencySymbol = '$';
+export const yenCurrencySymbol = '¥';
+export const canonBrandName = 'Canon';
+export const canonBrandCode = 'brand_10';
+export const canonBrandPagePath = `Brands/${canonBrandName}/c/${canonBrandCode}`;
+export const chibaStoreName = 'Chiba';
+export const filmCamerasCategoryName = 'Film Cameras';
+export const filmCamerasCategoryCode = '574';
+export const filmCamerasCategoryPagePath = `Open-Catalogue/Cameras/Film-Cameras/c/${filmCamerasCategoryCode}`;
+export const camcordersCategoryName = 'Camcorders';
+export const camcordersCategoryCode = '584';
+export const slrCategoryCode = '578';
+export const slrNonProductListCategoryPagePath = `Open-Catalogue/Cameras/Digital-Cameras/Digital-SLR/c/${slrCategoryCode}`;
+export const requestContainsConsentReference = true;
+export const checkForCarouselClickEvent = true;
+
 const merchandisingCarouselTagName = 'cx-merchandising-carousel';
 const carouselViewedEventSchema = 'context/commerce/carouselViewed';
 const carouselClickedEventSchema = 'context/commerce/carouselClicked';
+export const carouselEventRequestAlias = 'carouselEventApiRequest';
 
 /*
  * NOTE: Ids of actual products in the storefront need to be returned by the stub CDS strategy service
@@ -53,16 +74,18 @@ export const STRATEGY_RESPONSE = {
 function verifyCarouselLevelMetadata(
   $merchandisingCarousel: JQuery<HTMLElement>
 ): void {
-  cy.wrap($merchandisingCarousel)
-    .get('.data-cx-merchandising-carousel')
-    .should(($merchandisingCarouselMetadata) => {
-      expect($merchandisingCarouselMetadata)
-        .to.have.attr('data-cx-merchandising-carousel-slots')
-        .equal(STRATEGY_RESPONSE.products.length.toString());
-      expect($merchandisingCarouselMetadata)
-        .to.have.attr('data-cx-merchandising-carousel-mixcardid')
-        .equal(STRATEGY_RESPONSE.metadata.mixcardId);
-    });
+  cy.wrap($merchandisingCarousel).within(() => {
+    cy.get('.data-cx-merchandising-carousel').should(
+      ($merchandisingCarouselMetadata) => {
+        expect($merchandisingCarouselMetadata)
+          .to.have.attr('data-cx-merchandising-carousel-slots')
+          .equal(STRATEGY_RESPONSE.products.length.toString());
+        expect($merchandisingCarouselMetadata)
+          .to.have.attr('data-cx-merchandising-carousel-mixcardid')
+          .equal(STRATEGY_RESPONSE.metadata.mixcardId);
+      }
+    );
+  });
 }
 
 function verifyCarouselItemRendered(
@@ -72,26 +95,25 @@ function verifyCarouselItemRendered(
   const product = STRATEGY_RESPONSE.products[index];
 
   cy.wrap($carouselItem).within(() => {
-    cy.get('a')
-      .should('have.attr', 'href')
-      .get('h4')
-      .should('not.be.empty')
-      .get('.price')
-      .should('not.be.empty')
-      .get('.data-cx-merchandising-product')
-      .should(($productMetadata) => {
-        expect($productMetadata)
-          .to.have.attr('data-cx-merchandising-product-slot')
-          .equal((index + 1).toString());
-        expect($productMetadata)
-          .to.have.attr('data-cx-merchandising-product-id')
-          .equal(product.id);
-        expect($productMetadata)
-          .to.have.attr(
-            'data-cx-merchandising-product-cypress-test-product-metadata'
-          )
-          .equal(product.metadata['cypress-test-product-metadata']);
-      });
+    cy.get('.data-cx-merchandising-product').should(($productMetadata) => {
+      expect($productMetadata)
+        .to.have.attr('data-cx-merchandising-product-slot')
+        .equal((index + 1).toString());
+      expect($productMetadata)
+        .to.have.attr('data-cx-merchandising-product-id')
+        .equal(product.id);
+      expect($productMetadata)
+        .to.have.attr(
+          'data-cx-merchandising-product-cypress-test-product-metadata'
+        )
+        .equal(product.metadata['cypress-test-product-metadata']);
+    });
+
+    cy.get('a').within(() => {
+      cy.root().should('have.attr', 'href');
+      cy.get('h4').should('not.be.empty');
+      cy.get('.price').should('not.be.empty');
+    });
   });
 }
 
@@ -114,6 +136,7 @@ function verifyMerchandisingCarouselRendersProducts(): void {
      * Limit our tests to the first carousel on the page by using first() and then within()
      */
     .first()
+    .should('be.visible')
     .within(($merchandisingCarousel) => {
       verifyCarouselLevelMetadata($merchandisingCarousel);
       verifyCarouselItemsRendered($merchandisingCarousel);
@@ -156,7 +179,9 @@ export function verifyRequestToStrategyService(
   requestAlias: string,
   strategyRequestContext: StrategyRequestContext
 ): void {
-  cy.wait(`@${requestAlias}`).then((request) => {
+  cy.wait(`@${requestAlias}`).its('status').should('eq', 200);
+
+  cy.get(`@${requestAlias}`).then((request) => {
     expect(request.url).to.contain(`site=${site}`);
     expect(request.url).to.contain(
       `language=${
@@ -296,7 +321,10 @@ export function clickOnCarouselItem(
   )
     .parent()
     .within(() => {
+      cy.root().should('be.visible');
+      const productPage = waitForPage('ProductPage', 'getProductPage');
       cy.get('a').click();
+      cy.wait(`@${productPage}`).its('status').should('eq', 200);
     });
 
   if (checkForCarouselEvent) {
@@ -307,17 +335,17 @@ export function clickOnCarouselItem(
 }
 
 export function navigateToHomepage(): void {
+  const homePage = waitForPage('homepage', 'getHomePage');
   cy.get('cx-page-slot.SiteLogo').click();
+  cy.wait(`@${homePage}`).its('status').should('eq', 200);
 }
 
 export function navigateToCategory(categoryName: string): void {
+  const categoryPage = waitForPage('CategoryPage', 'getCategory');
   cy.get('cx-category-navigation cx-generic-link a')
     .contains(categoryName)
     .click({ force: true });
-}
-
-export function scrollToCarousel(): void {
-  cy.get(merchandisingCarouselTagName).scrollIntoView().should('be.visible');
+  cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
 }
 
 export function waitForCarouselViewEvent(): void {
