@@ -16,7 +16,7 @@ import { ModalService } from '../../../../shared/components/modal/modal.service'
 })
 export class BudgetDetailsComponent implements OnInit {
   budget$: Observable<Budget>;
-  budgetCode$: Observable<string> = this.routingService
+  code$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(map((routingData) => routingData.state.params['code']));
 
@@ -27,7 +27,7 @@ export class BudgetDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.budget$ = this.budgetCode$.pipe(
+    this.budget$ = this.code$.pipe(
       tap((code) => this.budgetsService.loadBudget(code)),
       switchMap((code) => this.budgetsService.get(code)),
       filter(Boolean)
@@ -35,7 +35,7 @@ export class BudgetDetailsComponent implements OnInit {
   }
 
   update(budget: Budget) {
-    this.budgetCode$
+    this.code$
       .pipe(take(1))
       .subscribe((budgetCode) =>
         this.budgetsService.update(budgetCode, budget)

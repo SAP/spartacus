@@ -38,10 +38,6 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     costCenters: 'Cost Centers',
-    costCenter: {
-      code: 'Code',
-      name: 'Name',
-    },
     confirmDeactivation: {
       title: 'Disable Budget',
       message: 'Are you sure you want to disable this budget?',
@@ -70,6 +66,12 @@ export const organization = {
       label: 'Budget amount',
       placeholder: 'Amount',
     },
+  },
+  budgetCostCenters: {
+    header: 'Cost centers of {{code}}',
+    back: 'Back',
+    code: 'Code',
+    name: 'Name',
   },
   permissionsList: {
     code: 'Code',

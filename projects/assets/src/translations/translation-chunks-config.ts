@@ -75,8 +75,9 @@ export const translationChunksConfig: TranslationChunksConfig = {
   organization: [
     'budgetsList',
     'budget',
-    'costCenter',
     'budgetForm',
+    'budgetCostCenters',
+    'costCenter',
     'permissionsList',
     'permissionForm',
     'permission',

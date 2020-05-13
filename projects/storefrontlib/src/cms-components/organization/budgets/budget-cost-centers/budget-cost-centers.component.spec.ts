@@ -7,15 +7,15 @@ import {
   I18nTestingModule,
   RoutingService,
   BudgetService,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
   Budget,
 } from '@spartacus/core';
 
-import { BudgetDetailsComponent } from './budget-details.component';
+import { BudgetCostCentersComponent } from './budget-cost-centers.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
+import { TableModule } from '../../../../shared/components/table/table.module';
 
 const code = 'b1';
 
@@ -87,24 +87,17 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
-describe('BudgetDetailsComponent', () => {
-  let component: BudgetDetailsComponent;
-  let fixture: ComponentFixture<BudgetDetailsComponent>;
+describe('BudgetCostCentersComponent', () => {
+  let component: BudgetCostCentersComponent;
+  let fixture: ComponentFixture<BudgetCostCentersComponent>;
   let budgetsService: MockBudgetService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [BudgetDetailsComponent, MockUrlPipe],
+      imports: [RouterTestingModule, TableModule, I18nTestingModule],
+      declarations: [BudgetCostCentersComponent, MockUrlPipe],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: BudgetService, useClass: MockBudgetService },
@@ -116,7 +109,7 @@ describe('BudgetDetailsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BudgetDetailsComponent);
+    fixture = TestBed.createComponent(BudgetCostCentersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -126,34 +119,18 @@ describe('BudgetDetailsComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should load budget', () => {
+    it('should load costCenters', () => {
       component.ngOnInit();
-      let budget: any;
-      component.budget$
+      let costCenters: any;
+      component.data$
         .subscribe((value) => {
-          budget = value;
+          costCenters = value;
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(budgetsService.loadBudget).toHaveBeenCalledWith(code);
       expect(budgetsService.get).toHaveBeenCalledWith(code);
-      expect(budget).toEqual(mockBudgetUI);
-    });
-  });
-
-  describe('update', () => {
-    it('should update budget', () => {
-      component.ngOnInit();
-
-      component.update({ active: false });
-      expect(budgetsService.update).toHaveBeenCalledWith(code, {
-        active: false,
-      });
-
-      component.update({ active: true });
-      expect(budgetsService.update).toHaveBeenCalledWith(code, {
-        active: true,
-      });
+      expect(costCenters).toEqual(mockBudgetUI.costCenters);
     });
   });
 });
