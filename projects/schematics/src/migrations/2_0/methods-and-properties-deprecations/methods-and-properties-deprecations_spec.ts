@@ -18,14 +18,15 @@ import {
   LOAD_CMS_COMPONENT_CLASS,
   LOAD_CMS_COMPONENT_FAIL_CLASS,
   LOAD_CMS_COMPONENT_SUCCESS_CLASS,
-} from '../../shared/constants';
-import { runMigration, writeFile } from '../../shared/utils/test-utils';
+} from '../../../shared/constants';
+import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 import {
   buildActionComment,
   buildMethodComment,
-} from './update-cms-component-state';
+} from './methods-and-properties-deprecations';
 
-const MIGRATION_SCRIPT_NAME = 'migration-v2-update-cms-component-state-02';
+const MIGRATION_SCRIPT_NAME =
+  'migration-v2-methods-and-properties-deprecations-02';
 const GET_COMPONENT_STATE_TEST_CLASS = `  
     import { MemoizedSelector, select, Store } from '@ngrx/store';
     import {
@@ -257,7 +258,7 @@ describe('updateCmsComponentState migration', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../migrations.json')
+      require.resolve('../../migrations.json')
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));

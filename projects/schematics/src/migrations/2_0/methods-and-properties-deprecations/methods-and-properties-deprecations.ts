@@ -19,15 +19,15 @@ import {
   LOAD_CMS_COMPONENT_SUCCESS_CLASS,
   SPARTACUS_CORE,
   TODO_SPARTACUS,
-} from '../../shared/constants';
+} from '../../../shared/constants';
 import {
   commitChanges,
   getAllTsSourceFiles,
   insertCommentAboveIdentifier,
   InsertDirection,
   renameIdentifierNode,
-} from '../../shared/utils/file-utils';
-import { getSourceRoot } from '../../shared/utils/workspace-utils';
+} from '../../../shared/utils/file-utils';
+import { getSourceRoot } from '../../../shared/utils/workspace-utils';
 
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
