@@ -123,7 +123,7 @@ export class LockFocusDirective extends TrapFocusDirective
   ngAfterViewInit() {
     if (this.shouldLock) {
       /**
-       * If the component hosts a group of focusable children elmenents,
+       * If the component hosts a group of focusable children elements,
        * we persist the group key to the children, so that they can taken this
        * into account when they persist their focus state.
        */
