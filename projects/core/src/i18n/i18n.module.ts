@@ -5,7 +5,6 @@ import { CxDatePipe } from './date.pipe';
 import { i18nextProviders } from './i18next/i18next-providers';
 import { I18nextTranslationService } from './i18next/i18next-translation.service';
 import { TranslatePipe } from './translate.pipe';
-import { TranslationChunkService } from './translation-chunk.service';
 import { TranslationService } from './translation.service';
 
 @NgModule({
@@ -19,7 +18,6 @@ export class I18nModule {
       providers: [
         provideDefaultConfig(defaultI18nConfig),
         { provide: TranslationService, useExisting: I18nextTranslationService },
-        TranslationChunkService,
         ...i18nextProviders,
       ],
     };
