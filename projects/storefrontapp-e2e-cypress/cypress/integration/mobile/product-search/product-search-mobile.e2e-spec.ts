@@ -44,7 +44,7 @@ context(`${formats.mobile.width + 1}p resolution - Product search`, () => {
 
   describe('Facets', () => {
     it('should filter results using facet filtering', () => {
-      productSearchFlow.filterUsingFacetFiltering();
+      productSearchFlow.filterUsingFacetFiltering('true');
     });
 
     it('should be able to clear active facet', () => {

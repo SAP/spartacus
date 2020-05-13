@@ -5,14 +5,15 @@ import {
   CmsService,
   CMSTabParagraphContainer,
   I18nTestingModule,
+  SmartEditService,
   WindowRef,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
-import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 import { LayoutConfig } from '../../../layout/config/layout-config';
+import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 
 @Component({
   selector: 'cx-test-cmp',
@@ -69,6 +70,12 @@ const MockCmsComponentData = <CmsComponentData<CMSTabParagraphContainer>>{
   data$: of(mockComponentData),
 };
 
+class MockSmartEditService {
+  isLaunchInSmartEdit(): boolean {
+    return true;
+  }
+}
+
 describe('TabParagraphContainerComponent', () => {
   let component: TabParagraphContainerComponent;
   let fixture: ComponentFixture<TabParagraphContainerComponent>;
@@ -90,6 +97,7 @@ describe('TabParagraphContainerComponent', () => {
         { provide: CmsService, useValue: MockCmsService },
         { provide: CmsConfig, useValue: MockCmsModuleConfig },
         { provide: LayoutConfig, useValue: MockLayoutConfig },
+        { provide: SmartEditService, useClass: MockSmartEditService },
       ],
     }).compileComponents();
   }));

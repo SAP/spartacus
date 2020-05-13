@@ -128,7 +128,7 @@ export function verifyProductInWishList(product: TestProduct) {
 export function removeProductFromWishListPage(product: TestProduct) {
   waitForGetWishList();
   getWishListItem(product.name).within(() => {
-    cy.get('.cx-return-button>.btn-link').click({ force: true });
+    cy.get('.cx-return-button>button').click({ force: true });
   });
   cy.wait('@get_wish_list');
   getWishListItem(product.name).should('not.exist');

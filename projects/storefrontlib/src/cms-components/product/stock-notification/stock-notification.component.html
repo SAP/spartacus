@@ -2,7 +2,7 @@
   <ng-container *ngIf="!(hasProductInterests$ | async); else stopNotify">
     <ng-container *ngIf="prefsEnabled$ | async; else disableNotify">
       <div class="stock-notification-notes">
-        <label>{{ 'stockNotification.getNotified' | cxTranslate }}</label>
+        <p>{{ 'stockNotification.getNotified' | cxTranslate }}</p>
       </div>
       <button
         class="btn btn-primary btn-block btn-notify"
@@ -17,7 +17,7 @@
 
 <ng-template #disableNotify>
   <div class="stock-notification-notes">
-    <label>
+    <p>
       <ng-container *ngIf="anonymous; else loggedIn">
         <a [routerLink]="{ cxRoute: 'login' } | cxUrl">
           {{ 'miniLogin.signInRegister' | cxTranslate }}</a
@@ -32,7 +32,7 @@
         }}</a
         >{{ 'stockNotification.activateChannelsSuffix' | cxTranslate }}
       </ng-template>
-    </label>
+    </p>
   </div>
   <button
     class="btn btn-primary btn-block btn-notify"
@@ -46,7 +46,7 @@
 <ng-template #stopNotify>
   <ng-container *ngIf="!(isRemoveInterestLoading$ | async); else loading">
     <div class="stock-notification-notes">
-      <label>{{ 'stockNotification.notified' | cxTranslate }}</label>
+      <p>{{ 'stockNotification.notified' | cxTranslate }}</p>
     </div>
     <button
       class="btn btn-primary btn-block btn-stop-notify"
