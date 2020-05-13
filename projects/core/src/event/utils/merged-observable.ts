@@ -47,7 +47,7 @@ export class MergedObservable<T> {
    * On subscription, it notifies the sources they should pass their values to the consumer.
    * On unsubscription, it notifies the sources they should stop passing values to the consumer.
    */
-  readonly __output$: Observable<T> = new Observable<T>((consumer) => {
+  private readonly __output$: Observable<T> = new Observable<T>((consumer) => {
     this.consumer.next(consumer);
     return () => this.consumer.next(null);
   });
