@@ -40,7 +40,6 @@ import { AddressBookComponentService } from './address-book.component.service';
       },
     }),
     UserAddressService,
-    AddressBookComponentService,
   ],
   entryComponents: [AddressBookComponent],
 })

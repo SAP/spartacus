@@ -9,7 +9,9 @@ import { ProductLoadingService } from '../services/product-loading.service';
 import { ProductScope } from '../model/product-scope';
 import { DEFAULT_SCOPE } from '../../occ/occ-models/occ-endpoints.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ProductService {
   constructor(
     protected store: Store<StateWithProduct>,
