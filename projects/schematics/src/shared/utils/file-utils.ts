@@ -63,6 +63,11 @@ export interface DeprecatedNode {
   comment?: string;
 }
 
+export interface ConfigDeprecation {
+  propertyName: string;
+  comment: string;
+}
+
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
   const buffer = tree.read(path);
   if (!buffer) {
@@ -807,6 +812,34 @@ export function injectService(
 
 export function buildSpartacusComment(comment: string): string {
   return `// ${TODO_SPARTACUS} ${comment}\n`;
+}
+
+export function insertCommentAboveConfigProperty(
+  sourcePath: string,
+  source: ts.SourceFile,
+  identifierName: string,
+  comment: string
+): Change[] {
+  const identifierNodes = new Set<ts.Node>();
+  getSourceNodes(source)
+    .filter((node) => node.kind === ts.SyntaxKind.ObjectLiteralExpression)
+    .forEach((objectLiteralNode) =>
+      findNodes(objectLiteralNode, ts.SyntaxKind.Identifier)
+        .filter((node) => node.getText() === identifierName)
+        .forEach((idNode) => identifierNodes.add(idNode))
+    );
+
+  const changes: Change[] = [];
+  identifierNodes.forEach((n) =>
+    changes.push(
+      new InsertChange(
+        sourcePath,
+        getLineStartFromTSFile(source, n.getStart()),
+        `${comment}`
+      )
+    )
+  );
+  return changes;
 }
 
 export function insertCommentAboveIdentifier(
