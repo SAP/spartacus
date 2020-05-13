@@ -20,8 +20,8 @@ export const PAGE_SLOT_COMPONENT_MIGRATION: ConstructorDeprecation[] = [
     deprecatedParams: [
       { className: CMS_SERVICE, importPath: SPARTACUS_CORE },
       { className: DYNAMIC_ATTRIBUTE_SERVICE, importPath: SPARTACUS_CORE },
-      { className: RENDERER_2, importPath: SPARTACUS_CORE },
-      { className: ELEMENT_REF, importPath: SPARTACUS_CORE },
+      { className: RENDERER_2, importPath: ANGULAR_CORE },
+      { className: ELEMENT_REF, importPath: ANGULAR_CORE },
     ],
     addParams: [
       {
@@ -40,8 +40,8 @@ export const PAGE_SLOT_COMPONENT_MIGRATION: ConstructorDeprecation[] = [
     deprecatedParams: [
       { className: CMS_SERVICE, importPath: SPARTACUS_CORE },
       { className: DYNAMIC_ATTRIBUTE_SERVICE, importPath: SPARTACUS_CORE },
-      { className: RENDERER_2, importPath: SPARTACUS_CORE },
-      { className: ELEMENT_REF, importPath: SPARTACUS_CORE },
+      { className: RENDERER_2, importPath: ANGULAR_CORE },
+      { className: ELEMENT_REF, importPath: ANGULAR_CORE },
       {
         className: CMS_CONFIG,
         importPath: SPARTACUS_CORE,
