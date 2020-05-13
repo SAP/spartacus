@@ -23,7 +23,7 @@ fi
 ```
 so it's one level above the spartacus project root. To change the output directory `$BASE_DIR` can be overriden in the `config.sh` file.
 
-All scirpt's commands should be run while being in it's root directory.
+All script's commands should be run while being in it's root directory.
 ```bash
 cd ./scripts/install && ./run.sh install
 ```
@@ -43,7 +43,7 @@ The installation will create two folders in the `$BASE_DIR` directory:
 ./run.sh start
 ```
 
-This command starts a development server for Spartacus, which is under `"${BASE_DIR}/apps/csr"` by default.
+This command starts a server for Spartacus, which is under `"${BASE_DIR}/apps/csr"` by default.
 
 ## Stop Spartacus
 
@@ -51,7 +51,7 @@ This command starts a development server for Spartacus, which is under `"${BASE_
 ./run.sh stop
 ```
 
-This command stops the running Spartacus using its PID.
+This command stops the running Spartacus PM2 processes.
 
 ## Update Spartacus
 
