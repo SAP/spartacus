@@ -4,7 +4,6 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { provideDefaultConfig } from '../config/config.module';
 import { defaultAuthConfig } from './config/default-auth-config';
 import { interceptors } from './http-interceptors/index';
-import { AuthServices } from './services/index';
 import { AuthStoreModule } from './store/auth-store.module';
 
 @NgModule({
@@ -14,11 +13,7 @@ export class AuthModule {
   static forRoot(): ModuleWithProviders<AuthModule> {
     return {
       ngModule: AuthModule,
-      providers: [
-        provideDefaultConfig(defaultAuthConfig),
-        ...interceptors,
-        ...AuthServices,
-      ],
+      providers: [provideDefaultConfig(defaultAuthConfig), ...interceptors],
     };
   }
 }

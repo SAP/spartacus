@@ -40,10 +40,10 @@
       "factory": "./2_0/ng-add-localize/ng-add-localize#migrate",
       "description": "Run ng add @angular/localize"
     },
-    "migration-v2-kyma-09": {
-      "version": "2-next.7",
-      "factory": "./2_0/kyma-feature-flag#migrate",
-      "description": "Handle Kyma migration"
+    "migration-v2-config-deprecations-09": {
+      "version": "2-rc.1",
+      "factory": "./2_0/config-deprecations/config-deprecation#migrate",
+      "description": "Handle deprecated configuration properties"
     }
   }
 }
