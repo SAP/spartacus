@@ -57,6 +57,14 @@ export interface ConstructorDeprecation {
   removeParams?: ClassType[];
 }
 
+export interface MethodPropertyDeprecation {
+  class: string;
+  importPath: string;
+  deprecatedNode: string;
+  newNode?: string;
+  comment?: string;
+}
+
 export interface DeprecatedNode {
   node: string;
   importPath: string;

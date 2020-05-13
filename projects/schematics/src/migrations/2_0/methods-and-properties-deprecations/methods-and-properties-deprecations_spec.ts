@@ -13,17 +13,13 @@ import {
   COMPONENT_SELECTOR_FACTORY_OLD_API,
   COMPONENT_STATE_SELECTOR_FACTORY_OLD_API,
   GET_COMPONENTS_STATE_NEW_API,
-  GET_COMPONENT_ENTITIES_COMMENT,
   GET_COMPONENT_STATE_OLD_API,
   LOAD_CMS_COMPONENT_CLASS,
   LOAD_CMS_COMPONENT_FAIL_CLASS,
   LOAD_CMS_COMPONENT_SUCCESS_CLASS,
 } from '../../../shared/constants';
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
-import {
-  buildActionComment,
-  buildMethodComment,
-} from './methods-and-properties-deprecations';
+import { buildMethodComment } from './methods-and-properties-deprecations';
 
 const MIGRATION_SCRIPT_NAME =
   'migration-v2-methods-and-properties-deprecations-02';
