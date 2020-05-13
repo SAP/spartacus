@@ -1,12 +1,24 @@
-import { Component, Inject, NgModule, PLATFORM_ID, Renderer2, Type } from '@angular/core';
-import { async, ComponentFixture, TestBed, TestModuleMetadata } from '@angular/core/testing';
+import {
+  Component,
+  Inject,
+  NgModule,
+  PLATFORM_ID,
+  Renderer2,
+  Type,
+} from '@angular/core';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  TestModuleMetadata,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CmsComponent,
   CmsConfig,
   CmsService,
   ContentSlotComponentData,
-  DynamicAttributeService
+  DynamicAttributeService,
 } from '@spartacus/core';
 import { ComponentHandler } from './handlers/component-handler';
 import { PageComponentModule } from './page-component.module';
