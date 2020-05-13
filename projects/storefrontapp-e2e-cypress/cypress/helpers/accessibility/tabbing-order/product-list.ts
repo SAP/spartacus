@@ -2,7 +2,15 @@ import { testProductListUrl, verifyTabbingOrder } from '../tabbing-order';
 import { formats } from '../../../sample-data/viewports';
 import { TabElement } from '../tabbing-order.model';
 
-const containerSelector = '.ProductListPageTemplate';
+// Temporarily checking only 'the right side' without product filters
+// TODO: Refactor filter, so they don't have tabindex attribute when not active
+// const containerSelector = '.ProductListPageTemplate';
+
+const containerSelector = '.ProductListSlot';
+
+export function toggleProductView() {
+  cy.get('cx-product-list cx-product-view').first().click();
+}
 
 export function productListTabbingOrderDesktop(config: TabElement[]) {
   cy.visit(testProductListUrl);
@@ -11,10 +19,6 @@ export function productListTabbingOrderDesktop(config: TabElement[]) {
   cy.get('cx-breadcrumb').should('contain', 'Brands');
 
   verifyTabbingOrder(containerSelector, config);
-}
-
-export function toggleProductView() {
-  cy.get('cx-product-list cx-product-view').first().click();
 }
 
 export function productListTabbingOrderMobile(config: TabElement[]) {
