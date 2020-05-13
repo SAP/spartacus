@@ -4,7 +4,7 @@ import { RoutingConfigService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
-import { CheckoutConfigService } from '../services/checkout-config.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 
 @Injectable({
@@ -13,13 +13,13 @@ import { CheckoutDetailsService } from '../services/checkout-details.service';
 export class PaymentDetailsSetGuard implements CanActivate {
   constructor(
     private checkoutDetailsService: CheckoutDetailsService,
-    private checkoutConfigService: CheckoutConfigService,
+    private checkoutStepService: CheckoutStepService,
     private routingConfigService: RoutingConfigService,
     private router: Router
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    const checkoutStep: CheckoutStep = this.checkoutConfigService.getCheckoutStep(
+    const checkoutStep: CheckoutStep = this.checkoutStepService.getCheckoutStep(
       CheckoutStepType.PAYMENT_DETAILS
     );
 
@@ -29,19 +29,20 @@ export class PaymentDetailsSetGuard implements CanActivate {
       );
     }
 
-    return this.checkoutDetailsService
-      .getPaymentDetails()
-      .pipe(
-        map((paymentDetails) =>
-          paymentDetails && Object.keys(paymentDetails).length !== 0
-            ? true
-            : this.router.parseUrl(
-                checkoutStep &&
-                  this.routingConfigService.getRouteConfig(
-                    checkoutStep.routeName
-                  ).paths[0]
-              )
-        )
-      );
+    return this.checkoutDetailsService.getPaymentDetails().pipe(
+      map((paymentDetails) => {
+        if (paymentDetails && Object.keys(paymentDetails).length !== 0) {
+          return true;
+        } else {
+          if (checkoutStep && !checkoutStep.disabled) {
+            return this.router.parseUrl(
+              this.routingConfigService.getRouteConfig(checkoutStep.routeName)
+                .paths[0]
+            );
+          }
+          return true;
+        }
+      })
+    );
   }
 }

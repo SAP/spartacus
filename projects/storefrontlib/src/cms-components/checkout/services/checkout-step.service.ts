@@ -84,6 +84,18 @@ export class CheckoutStepService {
     }
   }
 
+  getCheckoutStep(currentStepType: CheckoutStepType): CheckoutStep {
+    return this.allSteps[this.getCheckoutStepIndex('type', currentStepType)];
+  }
+
+  getCheckoutStepRoute(currentStepType: CheckoutStepType): string {
+    return this.getCheckoutStep(currentStepType).routeName;
+  }
+
+  getFirstCheckoutStepRoute(): string {
+    return this.allSteps[0].routeName;
+  }
+
   getNextCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
     const stepIndex = this.getCurrentStepIndex(activatedRoute);
 
@@ -145,5 +157,13 @@ export class CheckoutStepService {
 
   private getStepUrlFromStepRoute(stepRoute: string): string {
     return this.routingConfigService.getRouteConfig(stepRoute).paths[0];
+  }
+
+  private getCheckoutStepIndex(key: string, value: any): number | null {
+    return key && value
+      ? this.allSteps.findIndex((step: CheckoutStep) =>
+          step[key].includes(value)
+        )
+      : null;
   }
 }

@@ -18,7 +18,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutStepType } from '../../model/index';
-import { CheckoutConfigService } from '../../services/index';
+import { CheckoutStepService } from '../../services/index';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
 @Component({
@@ -43,7 +43,7 @@ export class ReviewSubmitComponent implements OnInit {
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
-    protected checkoutConfigService: CheckoutConfigService,
+    protected checkoutStepService: CheckoutStepService,
     protected promotionService: PromotionService
   ) {}
 
@@ -144,7 +144,7 @@ export class ReviewSubmitComponent implements OnInit {
   }
 
   getCheckoutStepUrl(stepType: CheckoutStepType): string {
-    const step = this.checkoutConfigService.getCheckoutStep(stepType);
+    const step = this.checkoutStepService.getCheckoutStep(stepType);
     return step && step.routeName;
   }
 }

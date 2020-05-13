@@ -4,7 +4,7 @@ import { Address, RoutingConfigService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
-import { CheckoutConfigService } from '../services/checkout-config.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 
 @Injectable({
@@ -13,13 +13,13 @@ import { CheckoutDetailsService } from '../services/checkout-details.service';
 export class ShippingAddressSetGuard implements CanActivate {
   constructor(
     private checkoutDetailsService: CheckoutDetailsService,
-    private checkoutConfigService: CheckoutConfigService,
+    private checkoutStepService: CheckoutStepService,
     private routingConfigService: RoutingConfigService,
     private router: Router
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    const checkoutStep: CheckoutStep = this.checkoutConfigService.getCheckoutStep(
+    const checkoutStep: CheckoutStep = this.checkoutStepService.getCheckoutStep(
       CheckoutStepType.SHIPPING_ADDRESS
     );
 
@@ -29,19 +29,20 @@ export class ShippingAddressSetGuard implements CanActivate {
       );
     }
 
-    return this.checkoutDetailsService
-      .getDeliveryAddress()
-      .pipe(
-        map((deliveryAddress: Address) =>
-          deliveryAddress && Object.keys(deliveryAddress).length
-            ? true
-            : this.router.parseUrl(
-                checkoutStep &&
-                  this.routingConfigService.getRouteConfig(
-                    checkoutStep.routeName
-                  ).paths[0]
-              )
-        )
-      );
+    return this.checkoutDetailsService.getDeliveryAddress().pipe(
+      map((deliveryAddress: Address) => {
+        if (deliveryAddress && Object.keys(deliveryAddress).length !== 0) {
+          return true;
+        } else {
+          if (checkoutStep && !checkoutStep.disabled) {
+            return this.router.parseUrl(
+              this.routingConfigService.getRouteConfig(checkoutStep.routeName)
+                .paths[0]
+            );
+          }
+          return true;
+        }
+      })
+    );
   }
 }
