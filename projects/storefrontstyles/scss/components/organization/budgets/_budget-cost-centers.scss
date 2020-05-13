@@ -1,5 +1,5 @@
 @import '../organization-list';
 
 %cx-budget-cost-centers {
-  @extend %cx-organization-list
+  @extend %cx-organization-list;
 }
