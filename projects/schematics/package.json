@@ -29,6 +29,9 @@
     "shelljs": "^0.8.3",
     "typescript": "~3.8.3"
   },
+  "ng-add": {
+    "save": "devDependencies"
+  },
   "ng-update": {
     "migrations": "./src/migrations/migrations.json",
     "packageGroup": [
