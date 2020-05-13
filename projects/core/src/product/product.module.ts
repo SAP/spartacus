@@ -9,6 +9,8 @@ import { CouponSearchPageResolver } from './services/coupon-search-page-meta.res
 import { ProductPageMetaResolver } from './services/product-page-meta.resolver';
 import { SearchPageMetaResolver } from './services/search-page-meta.resolver';
 import { ProductStoreModule } from './store/product-store.module';
+import { provideDefaultConfig } from '../config/config.module';
+import { defaultProductConfig } from './config/default-product-config';
 
 const pageTitleResolvers = [
   {
@@ -41,6 +43,7 @@ export class ProductModule {
     return {
       ngModule: ProductModule,
       providers: [
+        provideDefaultConfig(defaultProductConfig),
         ProductService,
         ProductSearchService,
         ProductReviewService,

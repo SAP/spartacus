@@ -8,6 +8,7 @@ import {
   ProductSearchService,
   RoutingService,
   SearchConfig,
+  ProductConfig,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
@@ -33,9 +34,6 @@ interface SearchCriteria {
 
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
-  // TODO: make it configurable
-  protected defaultPageSize = 10;
-
   protected sub: Subscription;
 
   protected readonly RELEVANCE_ALLCATEGORIES = ':relevance:allCategories:';
@@ -46,7 +44,8 @@ export class ProductListComponentService {
     protected activatedRoute: ActivatedRoute,
     protected currencyService: CurrencyService,
     protected languageService: LanguageService,
-    protected router: Router
+    protected router: Router,
+    protected config: ProductConfig
   ) {}
 
   private searchResults$: Observable<
@@ -103,7 +102,8 @@ export class ProductListComponentService {
   ): SearchCriteria {
     return {
       query: queryParams.query || this.getQueryFromRouteParams(routeParams),
-      pageSize: queryParams.pageSize || this.defaultPageSize,
+      pageSize:
+        queryParams.pageSize || this.config.product.searchCriteria.pageSize,
       currentPage: queryParams.currentPage,
       sortCode: queryParams.sortCode,
     };

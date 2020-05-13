@@ -5,6 +5,7 @@ import {
   LanguageService,
   ProductSearchService,
   RoutingService,
+  ProductConfig,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { ProductListComponentService } from './product-list-component.service';
@@ -32,11 +33,20 @@ class MockLanguageService {
   }
 }
 
+const mockProductConfig = {
+  product: {
+    searchCriteria: {
+      pageSize: 10,
+    },
+  },
+};
+
 describe('ProductListComponentService', () => {
   let service: ProductListComponentService;
   let activatedRoute: ActivatedRoute;
   let productSearchService: ProductSearchService;
   let router: Router;
+  let config: ProductConfig;
   let routingState;
 
   function mockRoutingState(state: { params?: object; queryParams?: object }) {
@@ -68,6 +78,7 @@ describe('ProductListComponentService', () => {
         { provide: ProductSearchService, useClass: MockProductSearchService },
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: LanguageService, useClass: MockLanguageService },
+        { provide: ProductConfig, useValue: mockProductConfig },
       ],
     });
 
@@ -75,6 +86,7 @@ describe('ProductListComponentService', () => {
     router = TestBed.inject(Router);
     activatedRoute = TestBed.inject(ActivatedRoute);
     productSearchService = TestBed.inject(ProductSearchService);
+    config = TestBed.inject(ProductConfig);
   });
 
   it('setQuery should set query param "query" in the url and reset "currentPage"', () => {
@@ -116,7 +128,7 @@ describe('ProductListComponentService', () => {
         service.model$.subscribe();
 
         expect(productSearchService.search).toHaveBeenCalledWith(undefined, {
-          pageSize: 10,
+          pageSize: config.product.searchCriteria.pageSize,
         });
       });
 

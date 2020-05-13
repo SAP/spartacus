@@ -10,6 +10,7 @@ import {
   KymaConfig,
   OccConfig,
   PersonalizationConfig,
+  ProductConfig,
   RoutingConfig,
   SiteContextConfig,
   StateConfig,
@@ -51,4 +52,5 @@ export type StorefrontConfig =
   | SkipLinkConfig
   | PaginationConfig
   | StoreFinderConfig
-  | CartConfig;
+  | CartConfig
+  | ProductConfig;
