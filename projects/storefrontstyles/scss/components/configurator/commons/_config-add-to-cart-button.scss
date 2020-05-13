@@ -1,8 +1,23 @@
 %cx-config-add-to-cart-button {
+  padding: 15px;
+  margin-top: 15px;
+  justify-content: flex-end;
+  width: 100%;
+
+  @include media-breakpoint-down(sm) {
+    padding: 20px;
+  }
+
   .cx-config-add-to-cart-btn {
-    padding: 1rem 10px;
-    justify-content: flex-end;
-    display: flex;
-    flex-wrap: wrap;
+
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+      clear: both;
+    }
+
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 400px;
+    float: right;
   }
 }
