@@ -122,23 +122,15 @@ export class CheckoutStepService {
     return null;
   }
 
-  getCurrentStepIndex(activatedRoute: ActivatedRoute): number | null {
+  getCurrentStepIndex(activatedRoute: ActivatedRoute): number {
     const currentStepUrl: string = this.getStepUrlFromActivatedRoute(
       activatedRoute
     );
 
-    let stepIndex: number;
-    let index = 0;
-    for (const step of this.allSteps) {
-      if (
+    return this.allSteps.findIndex(
+      (step) =>
         currentStepUrl === `/${this.getStepUrlFromStepRoute(step.routeName)}`
-      ) {
-        stepIndex = index;
-      } else {
-        index++;
-      }
-    }
-    return stepIndex >= 0 ? stepIndex : null;
+    );
   }
 
   private getStepUrlFromActivatedRoute(
