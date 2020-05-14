@@ -269,15 +269,15 @@ describe('OrgUnitService', () => {
     });
 
     it('getChildUnits()', () => {
+      store.dispatch(new OrgUnitActions.LoadTreeSuccess(mockedTree));
       let unitNode: B2BUnitNode[];
       service
-        .getChildUnits(orgUnitId)
+        .getChildUnits(mockedTree.children[0].id)
         .subscribe((data) => {
           unitNode = data;
         })
         .unsubscribe();
-
-      expect(unitNode).toEqual(undefined);
+      expect(unitNode).toEqual(mockedTree.children[0].children);
     });
   });
 
