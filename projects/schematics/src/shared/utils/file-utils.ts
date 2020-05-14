@@ -392,8 +392,9 @@ function checkSuper(
   constructorNode: ts.Node,
   parameterClassTypes: ClassType[]
 ): boolean {
+  const constructorBlock = findNodes(constructorNode, ts.SyntaxKind.Block)[0];
   const callExpressions = findNodes(
-    constructorNode,
+    constructorBlock,
     ts.SyntaxKind.CallExpression
   );
   if (callExpressions.length === 0) {
@@ -707,8 +708,9 @@ function removeParamFromSuper(
   constructorNode: ts.Node,
   paramName: string
 ): Change[] {
+  const constructorBlock = findNodes(constructorNode, ts.SyntaxKind.Block)[0];
   const callExpressions = findNodes(
-    constructorNode,
+    constructorBlock,
     ts.SyntaxKind.CallExpression
   );
   if (callExpressions.length === 0) {
