@@ -1,98 +1,154 @@
+import { Injectable, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { of } from 'rxjs';
-import { QualtricsConfig } from './config/qualtrics-config';
-import { QualtricsLoaderService } from './qualtrics-loader.service';
+import {
+  QualtricsLoaderService,
+  QUALTRICS_EVENT_NAME,
+} from './qualtrics-loader.service';
 
-const isDataLoadedMethod = 'isDataLoaded';
-
-const mockQualtricsConfig: QualtricsConfig = {
-  qualtrics: {},
-};
-
-const mockWindowRef = {
-  nativeWindow: {
-    QSI: {
-      API: {
-        unload: (): void => {},
-        load: () => {
-          return {
-            done: (_intercept: Function) => {},
-          };
-        },
-        run: (): void => {},
-      },
+const mockQsiJsApi = {
+  API: {
+    unload: (): void => {},
+    load: () => {
+      return {
+        done: (_intercept: Function) => {},
+      };
     },
+    run: (): void => {},
   },
-  document: {},
 };
+
+const createElementSpy = jasmine.createSpy('createElement').and.returnValue({});
+
+class MockRendererFactory2 {
+  createRenderer() {
+    return {
+      createElement: createElementSpy,
+      appendChild() {},
+    };
+  }
+}
+
+const eventListener: Map<String, Function> = <Map<String, Function>>{};
+
+const loadQsi = () => {
+  eventListener[QUALTRICS_EVENT_NAME](new Event(QUALTRICS_EVENT_NAME));
+};
+
+@Injectable({
+  providedIn: 'root',
+})
+class CustomQualtricsLoaderService extends QualtricsLoaderService {
+  collectData() {
+    return of(true);
+  }
+  protected isDataLoaded() {
+    return this.collectData();
+  }
+}
 
 describe('QualtricsLoaderService', () => {
   let service: QualtricsLoaderService;
   let winRef: WindowRef;
 
   beforeEach(() => {
+    const mockedWindowRef = {
+      nativeWindow: {
+        addEventListener: (event, listener) => {
+          eventListener[event] = listener;
+        },
+        removeEventListener: jasmine.createSpy('removeEventListener'),
+        QSI: mockQsiJsApi,
+      },
+      document: {
+        querySelector: () => {},
+      },
+    };
+
     TestBed.configureTestingModule({
       providers: [
         QualtricsLoaderService,
-        { provide: QualtricsConfig, useValue: mockQualtricsConfig },
-        { provide: WindowRef, useValue: mockWindowRef },
+        CustomQualtricsLoaderService,
+        { provide: WindowRef, useValue: mockedWindowRef },
+        { provide: RendererFactory2, useClass: MockRendererFactory2 },
       ],
     });
 
     winRef = TestBed.inject(WindowRef);
     service = TestBed.inject(QualtricsLoaderService);
-
-    spyOn(winRef.nativeWindow['QSI'].API, 'unload').and.stub();
-    spyOn(winRef.nativeWindow['QSI'].API, 'load').and.callThrough();
-    spyOn(winRef.nativeWindow['QSI'].API, 'run').and.stub();
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should have qualtrics enabled', () => {
-    expect(winRef.nativeWindow['QSI']).toBeDefined();
-  });
+  describe('Consume Qualtrics API', () => {
+    let qsiRun: jasmine.Spy<any>;
+    let qsiUnload: jasmine.Spy<any>;
 
-  describe('load', () => {
-    describe('when isDataLoaded() returns true', () => {
-      it('should call Qualtrics API', () => {
-        spyOn<any>(service, 'isDataLoaded').and.returnValue(of(true));
+    beforeEach(() => {
+      qsiRun = spyOn(winRef.nativeWindow['QSI'].API, 'run').and.stub();
+      qsiUnload = spyOn(winRef.nativeWindow['QSI'].API, 'unload').and.stub();
+    });
 
-        service['qualtricsLoaded$'].next(true);
-        let result = false;
-        service
-          .load()
-          .subscribe((value) => (result = value))
-          .unsubscribe();
+    it('should not load Qualtrics when the qsi_js_loaded event is not triggered', () => {
+      expect(qsiRun).not.toHaveBeenCalled();
+    });
 
-        expect(result).toEqual(true);
-        expect(winRef.nativeWindow['QSI'].API.unload).toHaveBeenCalled();
-        expect(winRef.nativeWindow['QSI'].API.load).toHaveBeenCalled();
-        expect(winRef.nativeWindow['QSI'].API.run).toHaveBeenCalled();
+    describe('Qualtrics loaded', () => {
+      beforeEach(() => {
+        loadQsi();
+      });
+
+      it('should load Qualtrics API when the qsi_js_loaded event is triggered', () => {
+        expect(qsiRun).toHaveBeenCalledTimes(1);
+      });
+
+      it('should not unload Qualtrics API when the qsi_js_loaded event is triggered', () => {
+        expect(qsiUnload).not.toHaveBeenCalled();
+      });
+
+      it('should load twice when a the event is dispatched twice', () => {
+        loadQsi();
+        expect(qsiRun).toHaveBeenCalledTimes(2);
+      });
+
+      it('should unload when a script is alread in the DOM', () => {
+        spyOn(winRef.document, 'querySelector').and.returnValue({} as Element);
+        service.addScript('whatever.js');
+        expect(qsiUnload).toHaveBeenCalled();
       });
     });
-    describe('when isDataLoaded() returns false', () => {
-      it('should not call Qualtrics API', () => {
-        spyOn<any>(service, 'isDataLoaded').and.returnValue(of(false));
-        service['qualtricsLoaded$'].next(false);
+  });
 
-        service.load().subscribe().unsubscribe();
+  describe('addScript()', () => {
+    beforeEach(() => {
+      loadQsi();
+    });
 
-        expect(winRef.nativeWindow['QSI'].API.unload).not.toHaveBeenCalled();
-        expect(winRef.nativeWindow['QSI'].API.load).not.toHaveBeenCalled();
-        expect(winRef.nativeWindow['QSI'].API.run).not.toHaveBeenCalled();
-      });
+    it('should add the deployment script', () => {
+      service.addScript('whatever.js');
+      expect(createElementSpy).toHaveBeenCalledWith('script');
+    });
+
+    it('should not add the same script twice', () => {
+      createElementSpy.calls.reset();
+      // simulate script has been added
+      spyOn(winRef.document, 'querySelector').and.returnValue({} as Element);
+      service.addScript('whatever2.js');
+      expect(createElementSpy).not.toHaveBeenCalled();
     });
   });
 
-  describe('isDataLoadedMethod', () => {
-    it('return true by default', () => {
-      let result = false;
-      service[isDataLoadedMethod]().subscribe((value) => (result = value));
-      expect(result).toEqual(true);
+  describe('custom service', () => {
+    it('should invoke custom data collector', () => {
+      const customService = TestBed.inject(CustomQualtricsLoaderService);
+      spyOn(customService, 'collectData').and.callThrough();
+
+      eventListener[QUALTRICS_EVENT_NAME](new Event(QUALTRICS_EVENT_NAME));
+
+      expect(customService.collectData).toHaveBeenCalled();
     });
   });
 });

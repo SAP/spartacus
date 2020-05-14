@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   ActiveCartService,
@@ -12,8 +7,8 @@ import {
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, take, filter } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -27,7 +22,7 @@ export interface CardWithAddress {
   templateUrl: './shipping-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ShippingAddressComponent implements OnInit, OnDestroy {
+export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable<Address[]>;
   newAddressFormManuallyOpened = false;
   isLoading$: Observable<boolean>;
@@ -37,7 +32,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   isGuestCheckout = false;
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
-  selectedSub: Subscription;
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -136,13 +130,12 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   addAddress(address: Address): void {
-    if (!this.selectedSub) {
-      this.selectedSub = this.selectedAddress$.subscribe((selected) => {
-        if (selected && selected.shippingAddress) {
-          this.next();
-        }
-      });
-    }
+    this.selectedAddress$
+      .pipe(
+        filter((selected) => !!selected?.shippingAddress),
+        take(1)
+      )
+      .subscribe(() => this.next());
 
     this.forceLoader = true;
 
@@ -170,11 +163,5 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   back(): void {
     this.checkoutStepService.back(this.activatedRoute);
-  }
-
-  ngOnDestroy() {
-    if (this.selectedSub) {
-      this.selectedSub.unsubscribe();
-    }
   }
 }
