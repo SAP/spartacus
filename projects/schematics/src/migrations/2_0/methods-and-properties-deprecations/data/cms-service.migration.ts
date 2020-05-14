@@ -8,6 +8,7 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
+// projects/core/src/cms/facade/cms.service.ts
 export const CMS_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: CMS_SERVICE,

@@ -319,6 +319,7 @@ export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 
 export const IS_LAUNCH_IN_SMART_EDIT = 'isLaunchInSmartEdit';
 export const IS_LAUNCHED_IN_SMART_EDIT = 'isLaunchedInSmartEdit';
+export const ADD_DYNAMIC_ATTRIBUTES = 'addDynamicAttributes';
 /***** APIs end *****/
 
 /***** Misc start *****/
