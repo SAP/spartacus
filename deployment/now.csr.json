@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/(.*\\..*)", "destination": "/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
