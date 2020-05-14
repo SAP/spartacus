@@ -311,6 +311,92 @@ const CART_PAGE_LAYOUT_HANDLER_EXPECTED = `
       }
     }
 `;
+const ADD_PARAM_COMPLEX_CTOR = `
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Renderer2,
+} from '@angular/core';
+import {
+  CmsConfig,
+  CmsService,
+  ContentSlotData,
+  DynamicAttributeService,
+} from '@spartacus/core';
+import { BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import {PageSlotComponent} from '@spartacus/storefront';
+@Component({
+  selector: 'custom',
+  template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class CustomPageSlotComponent extends PageSlotComponent {
+  constructor(
+      protected cmsService: CmsService,
+      protected dynamicAttributeService: DynamicAttributeService,
+      protected renderer: Renderer2,
+      protected hostElement: ElementRef,
+      protected config?: CmsConfig
+  ) {
+    super(cmsService, dynamicAttributeService, renderer, hostElement, config);
+    of('position').pipe(
+        switchMap(position =>
+            this.cmsService.getContentSlot(position).pipe(
+                tap(slot => console.log(slot)),
+                map(slot => (slot && slot.components ? slot.components : [])),
+                distinctUntilChanged((a, b) => a.length === b.length)
+                )
+            )
+        )
+    );
+  }
+}
+`;
+const ADD_PARAM_COMPLEX_CTOR_EXPECTED = `
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Renderer2, ChangeDetectorRef,
+} from '@angular/core';
+import {
+  
+  CmsService,
+  ContentSlotData,
+  DynamicAttributeService,
+} from '@spartacus/core';
+import { BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import {PageSlotComponent, CmsComponentsService} from '@spartacus/storefront';
+@Component({
+  selector: 'custom',
+  template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class CustomPageSlotComponent extends PageSlotComponent {
+  constructor(
+      protected cmsService: CmsService,
+      protected dynamicAttributeService: DynamicAttributeService,
+      protected renderer: Renderer2,
+      protected hostElement: ElementRef
+      , cmsComponentsService: CmsComponentsService, changeDetectorRef: ChangeDetectorRef
+  ) {
+    super(cmsService, dynamicAttributeService, renderer, hostElement , cmsComponentsService, changeDetectorRef);
+    of('position').pipe(
+        switchMap(position =>
+            this.cmsService.getContentSlot(position).pipe(
+                tap(slot => console.log(slot)),
+                map(slot => (slot && slot.components ? slot.components : [])),
+                distinctUntilChanged((a, b) => a.length === b.length)
+                )
+            )
+        )
+    );
+  }
+}
+`;
 
 describe('constructor migrations', () => {
   let host: TempScopedNodeJsSyncHost;
@@ -577,6 +663,17 @@ describe('constructor migrations', () => {
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS);
+    });
+  });
+
+  describe('when the constructor has some complex logic in it', () => {
+    it('should add parameters', async () => {
+      writeFile(host, '/src/index.ts', ADD_PARAM_COMPLEX_CTOR);
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(ADD_PARAM_COMPLEX_CTOR_EXPECTED);
     });
   });
 });
