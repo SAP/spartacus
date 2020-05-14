@@ -163,6 +163,11 @@ export const organization = {
       message: 'Are you sure you want to disable this cost center?',
     },
   },
+  costCenterBudgets: {
+    header: 'Budgets in {{code}}',
+    back: 'Close',
+    assignBudgets: 'Manage Budgets',
+  },
   costCenterAssignBudgets: {
     header: 'Manage budgets in {{code}}',
     back: 'Close',

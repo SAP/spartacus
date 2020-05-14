@@ -136,6 +136,9 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   costCenterDetails: {
     paths: ['organization/costcenter/:code'],
   },
+  costCenterBudgets: {
+    paths: ['organization/costcenter/budgets/:code'],
+  },
   costCenterAssignBudgets: {
     paths: ['organization/costcenter/assign-budgets/:code'],
   },

@@ -26,6 +26,7 @@ export type ListingModel = {
 export abstract class AbstractListingComponent {
   cxRoute: string;
   data$: Observable<ListingModel>;
+  protected MAX_OCC_INTEGER_VALUE = 2147483647;
 
   protected queryParams$: Observable<
     B2BSearchConfig
@@ -36,6 +37,16 @@ export abstract class AbstractListingComponent {
     })),
     distinctUntilChanged(shallowEqualObjects),
     map(this.normalizeQueryParams)
+  );
+
+  protected queryParamsForAllItems$: Observable<
+    B2BSearchConfig
+  > = this.queryParams$.pipe(
+    map((queryParams) => ({
+      sort: queryParams.sort,
+      pageSize: this.MAX_OCC_INTEGER_VALUE,
+      currentPage: 0,
+    }))
   );
 
   protected params$: Observable<

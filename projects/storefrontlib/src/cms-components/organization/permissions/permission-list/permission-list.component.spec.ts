@@ -73,7 +73,13 @@ const mockPermissionList: EntitiesModel<Permission> = {
       orgUnit: { name: 'orgName', uid: 'orgUid2' },
     },
   ],
-  pagination: {},
+  pagination: {
+    currentPage: 0,
+    pageSize: 5,
+    sort: 'byName',
+    totalPages: 1,
+    totalResults: 2,
+  },
   sorts: [{ code: 'byName', selected: true }],
 };
 
@@ -96,7 +102,13 @@ const mockPermissionUIList = {
       uid: 'orgUid2',
     },
   ],
-  pagination: {},
+  pagination: {
+    currentPage: 0,
+    pageSize: 5,
+    sort: 'byName',
+    totalPages: 1,
+    totalResults: 2,
+  },
   sorts: [{ code: 'byName', selected: true }],
 };
 
