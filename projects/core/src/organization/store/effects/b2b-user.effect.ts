@@ -9,7 +9,7 @@ import { normalizeListPage } from '../../utils/serializer';
 import { B2BUser } from '../../../model/org-unit.model';
 import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
 import { Permission } from '../../../model/permission.model';
-import { UserGroup } from 'projects/core/src/model/user-group.model';
+import { UserGroup } from '../../../model/user-group.model';
 
 @Injectable()
 export class B2BUserEffects {
