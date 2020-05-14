@@ -153,8 +153,11 @@ function verifyMerchandisingCarouselRendersProducts(): void {
 }
 
 function verifyCarouselEvent(carouselEvent: any) {
+  // tslint:disable-next-line: no-unused-expression
   expect(carouselEvent['strategyId']).to.be.ok;
+  // tslint:disable-next-line: no-unused-expression
   expect(carouselEvent['carouselId']).to.be.ok;
+  // tslint:disable-next-line: no-unused-expression
   expect(carouselEvent['carouselName']).to.be.ok;
   expect(carouselEvent['mixCardId']).to.equal(
     STRATEGY_RESPONSE.metadata.mixcardId
@@ -171,6 +174,7 @@ function verifyCarouselViewEvent(carouselEvent: any) {
 
 function verifyCarouselClickEvent(productSku: string, carouselEvent: any) {
   verifyCarouselEvent(carouselEvent);
+  // tslint:disable-next-line: no-unused-expression
   expect(carouselEvent['imageUrl']).to.be.ok;
   expect(carouselEvent['sku']).to.equal(productSku);
 }
@@ -181,7 +185,7 @@ export function verifyRequestToStrategyService(
 ): void {
   cy.wait(`@${requestAlias}`).its('status').should('eq', 200);
 
-  cy.get(`@${requestAlias}`).then((request) => {
+  cy.get<Cypress.WaitXHR>(`@${requestAlias}`).then((request) => {
     expect(request.url).to.contain(`site=${site}`);
     expect(request.url).to.contain(
       `language=${

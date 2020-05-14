@@ -39,6 +39,6 @@ export const profileTagHelper = {
       'consentReferenceCreation'
     );
     clickAllowAllFromBanner();
-    cy.wait('@consentReferenceCreation');
+    cy.wait('@consentReferenceCreation').its('status').should('eq', 201);
   },
 };

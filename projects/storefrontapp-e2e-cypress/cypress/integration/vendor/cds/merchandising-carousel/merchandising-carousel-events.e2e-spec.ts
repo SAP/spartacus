@@ -1,3 +1,5 @@
+import { waitForPage } from '../../../../helpers/checkout-flow';
+import { navigation } from '../../../../helpers/navigation';
 import {
   cdsHelper,
   strategyRequestAlias,
@@ -9,6 +11,7 @@ context('Merchandising Carousel - events', () => {
   before(() => {
     cy.window().then((win) => {
       win.sessionStorage.clear();
+      win.localStorage.clear();
     });
   });
   beforeEach(() => {
@@ -19,13 +22,19 @@ context('Merchandising Carousel - events', () => {
 
   describe('with consent granted', () => {
     beforeEach(() => {
+      cy.window().then((win) => {
+        win.sessionStorage.clear();
+        win.localStorage.clear();
+      });
+
       cy.route('POST', '/edge/clickstreamEvents').as(
         merchandisingCarousel.carouselEventRequestAlias
       );
 
-      cy.visit(
-        `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}`
-      );
+      const homePage = waitForPage('homepage', 'getHomePage');
+      navigation.visitHomePage({});
+
+      cy.wait(`@${homePage}`).its('status').should('eq', 200);
 
       merchandisingCarousel.verifyRequestToStrategyService(
         strategyRequestAlias,
@@ -56,6 +65,7 @@ context('Merchandising Carousel - events', () => {
       merchandisingCarousel.navigateToCategory(
         merchandisingCarousel.filmCamerasCategoryName
       );
+
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
         strategyRequestAlias,
         merchandisingCarousel.filmCamerasCategoryCode,
