@@ -14,9 +14,9 @@ jobs:
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-      - name: zeit-url
+      - name: vercel-url
         uses: marlass/now-deployment@master
         with:
-          zeit-token: ${{ secrets.ZEIT_TOKEN }}
+          zeit-token: ${{ secrets.VERCEL_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           now-args: 'dist/storefrontapp --local-config ./deployment/now.csr.json'
