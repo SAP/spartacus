@@ -3,6 +3,7 @@
     <div class="col-md-9 col-lg-9">
       <div class="form-group">
         <input
+          type="number"
           [formControl]="attributeInputForm"
           [required]="attribute.required"
           class="form-control"
@@ -14,6 +15,17 @@
             uiKeyGenerator.createAriaLabelledBy('label', attribute.name)
           }}"
         />
+        <div
+          *ngIf="
+            attributeInputForm.invalid &&
+            (attributeInputForm.dirty || attributeInputForm.touched)
+          "
+          class="alert alert-danger"
+        >
+          <div *ngIf="attributeInputForm.errors.wrongFormat">
+            Wrong numeric format
+          </div>
+        </div>
       </div>
     </div>
   </div>

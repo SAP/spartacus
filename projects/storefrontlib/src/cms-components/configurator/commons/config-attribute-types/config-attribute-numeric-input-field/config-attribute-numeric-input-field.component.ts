@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
 import { ConfigFormUpdateEvent } from '../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
@@ -16,7 +16,9 @@ import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generat
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeNumericInputFieldComponent implements OnInit {
-  attributeInputForm = new FormControl('');
+  attributeInputForm = new FormControl('', [
+    this.numberFormatValidator(100000000),
+  ]);
 
   constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
@@ -32,7 +34,11 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
 
   onChange() {
     const event: ConfigFormUpdateEvent = this.createEventFromInput();
-    this.inputChange.emit(event);
+    console.log('CHHI is invalid: ' + this.attributeInputForm.invalid);
+    console.log('CHHI user input ' + this.attributeInputForm.value);
+    if (!this.attributeInputForm.invalid) {
+      this.inputChange.emit(event);
+    }
   }
 
   createEventFromInput(): ConfigFormUpdateEvent {
@@ -44,6 +50,18 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
         uiType: this.attribute.uiType,
       },
       groupId: this.group,
+    };
+  }
+
+  numberFormatValidator(numberDecimalPlaces: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const numericValue: number = control.value;
+      if (numericValue) {
+        const wrongFormat: boolean =
+          numericValue.valueOf() > numberDecimalPlaces;
+        return wrongFormat ? { wrongFormat: { value: control.value } } : null;
+      }
+      return null;
     };
   }
 }

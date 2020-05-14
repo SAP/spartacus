@@ -80,9 +80,9 @@ export class OccConfiguratorVariantNormalizer
       required: sourceAttribute.required,
       uiType: this.convertAttributeType(sourceAttribute.type),
       values: [],
-      userInput: sourceAttribute.formattedValue
-        ? sourceAttribute.formattedValue
-        : sourceAttribute.value,
+      //also for numeric attributes take from value, because UI expects to handle localization on its own,
+      //thus expects numeric
+      userInput: sourceAttribute.value,
       maxlength: sourceAttribute.maxlength,
       selectedSingleValue: null,
       images: [],
