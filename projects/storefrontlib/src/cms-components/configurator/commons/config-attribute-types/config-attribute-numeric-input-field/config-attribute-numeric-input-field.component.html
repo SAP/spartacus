@@ -3,7 +3,6 @@
     <div class="col-md-9 col-lg-9">
       <div class="form-group">
         <input
-          type="number"
           [formControl]="attributeInputForm"
           [required]="attribute.required"
           class="form-control"
@@ -23,7 +22,7 @@
           class="alert alert-danger"
         >
           <div *ngIf="attributeInputForm.errors.wrongFormat">
-            Wrong numeric format
+            Wrong numeric format {{ numericFormatPattern }}
           </div>
         </div>
       </div>

@@ -84,6 +84,8 @@ export class OccConfiguratorVariantNormalizer
       //thus expects numeric
       userInput: sourceAttribute.value,
       maxlength: sourceAttribute.maxlength,
+      numDecimalPlaces: sourceAttribute.numberScale,
+      numTotalLength: sourceAttribute.typeLength,
       selectedSingleValue: null,
       images: [],
     };
