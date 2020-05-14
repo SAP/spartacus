@@ -9,7 +9,7 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { CdsModule } from '@spartacus/cds';
-import { ConfigModule, TestConfigModule } from '@spartacus/core';
+import { TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   JsonLdBuilderModule,
@@ -48,7 +48,6 @@ if (!environment.production) {
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
-    ConfigModule,
   ],
 
   bootstrap: [StorefrontComponent],

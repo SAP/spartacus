@@ -281,7 +281,7 @@
               "browserTarget": "storefrontapp:build:cds.development"
             },
             "cds.ci.1905": {
-              "browserTarget": "storefrontapp:build:cds.ci.2005"
+              "browserTarget": "storefrontapp:build:cds.ci.1905"
             },
             "cds.ci.2005": {
               "browserTarget": "storefrontapp:build:cds.ci.2005"

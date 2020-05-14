@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
+  production: true,
   occBaseUrl: '',
   occApiPrefix: '/rest/v2/',
   cds: {
