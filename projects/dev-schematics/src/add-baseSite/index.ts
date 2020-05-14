@@ -1,7 +1,7 @@
-import { chain, Tree } from '@angular-devkit/schematics';
+import { chain, Rule, Tree } from '@angular-devkit/schematics';
 import { insertPropertyInStorefrontModuleCallExpression } from '../shared/utils/module-file-utils';
 
-function provideTestBaseSites() {
+function provideTestBaseSites(): Rule {
   return (tree: Tree) => {
     const insertion = `,
       context: {
@@ -23,7 +23,7 @@ function provideTestBaseSites() {
   };
 }
 
-export default function () {
+export default function (): Rule {
   return (_tree: Tree) => {
     return chain([provideTestBaseSites()]);
   };

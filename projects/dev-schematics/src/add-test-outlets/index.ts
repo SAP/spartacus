@@ -58,7 +58,7 @@ function provideTestOutletsModuleFiles(): Source {
   return apply(url('./files'), [renameTemplateFiles(), move('.', './src/app')]);
 }
 
-export default function (options: DevSpartacusOptions) {
+export default function (options: DevSpartacusOptions): Rule {
   return (_tree: Tree) => {
     return chain([
       provideTestOutletsModuleImports(options),
