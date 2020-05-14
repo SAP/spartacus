@@ -3,17 +3,23 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { Observable, of, throwError } from 'rxjs';
+import { ListModel } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
-import createSpy = jasmine.createSpy;
-
-import { B2BUnit, B2BUnitNode } from '../../../model/org-unit.model';
+import { Observable, of, throwError } from 'rxjs';
+import {
+  B2BAddress,
+  B2BApprovalProcess,
+  B2BUnit,
+  B2BUnitNode,
+} from '../../../model/org-unit.model';
 import { defaultOccOrganizationConfig } from '../../../occ/adapters/organization/default-occ-organization-config';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
+import { B2BSearchConfig } from '../../model';
 import { OrgUnitActions } from '../actions/index';
 import * as fromEffects from './org-unit.effect';
+import createSpy = jasmine.createSpy;
 
 const error = 'error';
 const userId = 'testUser';
@@ -25,6 +31,13 @@ const orgUnitNode: Partial<B2BUnitNode> = { id: orgUnitId };
 const orgUnitNode2: Partial<B2BUnitNode> = { id: 'testOrgUnit2' };
 
 const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
+
+const address: B2BAddress = { id: 'testAddressId' };
+const addressId = address.id;
+const orgCustomerId = 'testCustomerId';
+const roleId = 'testRoleId';
+const uid = 'testUid';
+const selected = true;
 
 class MockOrgUnitConnector {
   get = createSpy().and.returnValue(of(orgUnit));
@@ -187,6 +200,501 @@ describe('OrgUnit Effects', () => {
         orgUnitId,
         orgUnit
       );
+    });
+  });
+
+  describe('createAddress$', () => {
+    it('should return CreateAddressSuccess action', () => {
+      const action = new OrgUnitActions.CreateAddress({
+        userId,
+        orgUnitId,
+        address,
+      });
+      const completion = new OrgUnitActions.CreateAddressSuccess(address);
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.createAddress$).toBeObservable(expected);
+      expect(orgUnitConnector.createAddress).toHaveBeenCalledWith(
+        userId,
+        orgUnitId,
+        address
+      );
+    });
+
+    it('should return CreateAddressFail action if address is not loaded', () => {
+      orgUnitConnector.createAddress = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitActions.CreateAddress({
+        userId,
+        orgUnitId,
+        address,
+      });
+      const completion = new OrgUnitActions.CreateAddressFail({
+        addressId,
+        error,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.createAddress$).toBeObservable(expected);
+      expect(orgUnitConnector.createAddress).toHaveBeenCalledWith(
+        userId,
+        orgUnitId,
+        address
+      );
+    });
+  });
+
+  describe('updateAddress$', () => {
+    it('should return UpdateAddressSuccess action', () => {
+      const action = new OrgUnitActions.UpdateAddress({
+        userId,
+        orgUnitId,
+        addressId,
+        address,
+      });
+      const completion = new OrgUnitActions.UpdateAddressSuccess(address);
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.updateAddress$).toBeObservable(expected);
+      expect(orgUnitConnector.updateAddress).toHaveBeenCalledWith(
+        userId,
+        orgUnitId,
+        addressId,
+        address
+      );
+    });
+
+    it('should return UpdateAddressFail action if address is not loaded', () => {
+      orgUnitConnector.updateAddress = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitActions.UpdateAddress({
+        userId,
+        orgUnitId,
+        addressId,
+        address,
+      });
+      const completion = new OrgUnitActions.UpdateAddressFail({
+        addressId,
+        error,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.updateAddress$).toBeObservable(expected);
+      expect(orgUnitConnector.updateAddress).toHaveBeenCalledWith(
+        userId,
+        orgUnitId,
+        addressId,
+        address
+      );
+    });
+  });
+
+  describe('deleteAddress$', () => {
+    it('should return DeleteAddressSuccess action', () => {
+      const action = new OrgUnitActions.DeleteAddress({
+        userId,
+        orgUnitId,
+        addressId,
+      });
+      const completion = new OrgUnitActions.DeleteAddressSuccess(address);
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.deleteAddress$).toBeObservable(expected);
+      expect(orgUnitConnector.deleteAddress).toHaveBeenCalledWith(
+        userId,
+        orgUnitId,
+        addressId
+      );
+    });
+
+    it('should return DeleteAddressFail action if address is not loaded', () => {
+      orgUnitConnector.deleteAddress = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitActions.DeleteAddress({
+        userId,
+        orgUnitId,
+        addressId,
+      });
+      const completion = new OrgUnitActions.DeleteAddressFail({
+        addressId,
+        error,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.deleteAddress$).toBeObservable(expected);
+      expect(orgUnitConnector.deleteAddress).toHaveBeenCalledWith(
+        userId,
+        orgUnitId,
+        addressId
+      );
+    });
+  });
+
+  describe('AssignRoleToUser', () => {
+    it('should return AssignRoleSuccess action', () => {
+      const action = new OrgUnitActions.AssignRole({
+        userId,
+        orgCustomerId,
+        roleId,
+      });
+      const completion = new OrgUnitActions.AssignRoleSuccess({
+        uid,
+        roleId,
+        selected,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.assignRoleToUser).toBeObservable(expected);
+      expect(orgUnitConnector.assignRole).toHaveBeenCalledWith(
+        userId,
+        orgCustomerId,
+        roleId
+      );
+    });
+
+    it('should return AssignRoleFail action if address is not loaded', () => {
+      orgUnitConnector.assignRole = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitActions.AssignRole({
+        userId,
+        orgCustomerId,
+        roleId,
+      });
+      const completion = new OrgUnitActions.AssignRoleFail({
+        orgCustomerId,
+        error,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.assignRoleToUser).toBeObservable(expected);
+      expect(orgUnitConnector.assignRole).toHaveBeenCalledWith(
+        userId,
+        orgCustomerId,
+        roleId
+      );
+    });
+  });
+
+  describe('UnassignRoleToUser', () => {
+    it('should return UnassignRoleSuccess action', () => {
+      const action = new OrgUnitActions.UnassignRole({
+        userId,
+        orgCustomerId,
+        roleId,
+      });
+      const completion = new OrgUnitActions.UnassignRoleSuccess({
+        uid,
+        roleId,
+        selected,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.unassignRoleToUser$).toBeObservable(expected);
+      expect(orgUnitConnector.unassignRole).toHaveBeenCalledWith(
+        userId,
+        orgCustomerId,
+        roleId
+      );
+    });
+
+    it('should return UnassignRoleFail action if address is not loaded', () => {
+      orgUnitConnector.unassignRole = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitActions.UnassignRole({
+        userId,
+        orgCustomerId,
+        roleId,
+      });
+      const completion = new OrgUnitActions.UnassignRoleFail({
+        orgCustomerId,
+        error,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.unassignRoleToUser$).toBeObservable(expected);
+      expect(orgUnitConnector.unassignRole).toHaveBeenCalledWith(
+        userId,
+        orgCustomerId,
+        roleId
+      );
+    });
+  });
+
+  describe('AssignApprover', () => {
+    it('should return AssignApproverSuccess action', () => {
+      const action = new OrgUnitActions.AssignApprover({
+        userId,
+        orgUnitId,
+        orgCustomerId,
+        roleId,
+      });
+      const completion = new OrgUnitActions.AssignApproverSuccess({
+        uid,
+        roleId,
+        selected,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.assignApprover).toBeObservable(expected);
+      expect(orgUnitConnector.assignApprover).toHaveBeenCalledWith(
+        userId,
+        orgUnitId,
+        orgCustomerId,
+        roleId
+      );
+    });
+
+    it('should return AssignApproverFail action if address is not loaded', () => {
+      orgUnitConnector.assignApprover = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitActions.AssignApprover({
+        userId,
+        orgUnitId,
+        orgCustomerId,
+        roleId,
+      });
+      const completion = new OrgUnitActions.AssignApproverFail({
+        orgCustomerId,
+        error,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.assignApprover).toBeObservable(expected);
+      expect(orgUnitConnector.assignApprover).toHaveBeenCalledWith(
+        userId,
+        orgUnitId,
+        orgCustomerId,
+        roleId
+      );
+    });
+  });
+
+  describe('UnassignApprover', () => {
+    it('should return UnassignApproverSuccess action', () => {
+      const action = new OrgUnitActions.UnassignApprover({
+        userId,
+        orgUnitId,
+        orgCustomerId,
+        roleId,
+      });
+      const completion = new OrgUnitActions.UnassignApproverSuccess({
+        uid,
+        roleId,
+        selected,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.unassignApprover).toBeObservable(expected);
+      expect(orgUnitConnector.unassignApprover).toHaveBeenCalledWith(
+        userId,
+        orgUnitId,
+        orgCustomerId,
+        roleId
+      );
+    });
+
+    it('should return UnassignApproverFail action if address is not loaded', () => {
+      orgUnitConnector.unassignApprover = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitActions.UnassignApprover({
+        userId,
+        orgUnitId,
+        orgCustomerId,
+        roleId,
+      });
+      const completion = new OrgUnitActions.UnassignApproverFail({
+        orgCustomerId,
+        error,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.unassignApprover).toBeObservable(expected);
+      expect(orgUnitConnector.unassignApprover).toHaveBeenCalledWith(
+        userId,
+        orgUnitId,
+        orgCustomerId,
+        roleId
+      );
+    });
+  });
+
+  describe('LoadApprovalProcesses', () => {
+    const approvalProcess: B2BApprovalProcess = {
+      code: 'testCode',
+      name: 'testName',
+    };
+    const approvalProcesses: B2BApprovalProcess[] = [approvalProcess];
+
+    it('should return LoadApprovalProcessesSuccess action', () => {
+      const action = new OrgUnitActions.LoadApprovalProcesses({
+        userId,
+      });
+      const completion = new OrgUnitActions.LoadApprovalProcessesSuccess(
+        approvalProcesses
+      );
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.loadApprovalProcesses$).toBeObservable(expected);
+      expect(orgUnitConnector.getApprovalProcesses).toHaveBeenCalledWith(
+        userId
+      );
+    });
+
+    it('should return LoadApprovalProcessesFail action if address is not loaded', () => {
+      orgUnitConnector.getApprovalProcesses = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitActions.LoadApprovalProcesses({
+        userId,
+      });
+      const completion = new OrgUnitActions.LoadApprovalProcessesFail({
+        error,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.loadApprovalProcesses$).toBeObservable(expected);
+      expect(orgUnitConnector.getApprovalProcesses).toHaveBeenCalledWith(
+        userId
+      );
+    });
+  });
+
+  describe('LoadUsers', () => {
+    const params: B2BSearchConfig = { sort: 'code' };
+    const page: ListModel = {
+      ids: [addressId],
+      sorts: [{ code: 'code' }],
+    };
+
+    it('should return LoadUsersSuccess action', () => {
+      const action = new OrgUnitActions.LoadAssignedUsers({
+        userId,
+        orgUnitId,
+        roleId,
+        params,
+      });
+      const completion = new OrgUnitActions.LoadAssignedUsersSuccess({
+        orgUnitId,
+        roleId,
+        page,
+        params,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.loadUsers$).toBeObservable(expected);
+      expect(orgUnitConnector.getUsers).toHaveBeenCalledWith(
+        userId,
+        orgUnitId,
+        roleId,
+        params
+      );
+    });
+
+    it('should return LoadUsersFail action if address is not loaded', () => {
+      orgUnitConnector.getUsers = createSpy().and.returnValue(
+        throwError(error)
+      );
+      const action = new OrgUnitActions.LoadAssignedUsers({
+        userId,
+        orgUnitId,
+        roleId,
+        params,
+      });
+      const completion = new OrgUnitActions.LoadAssignedUsersFail({
+        orgUnitId,
+        roleId,
+        params,
+        error,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.loadUsers$).toBeObservable(expected);
+      expect(orgUnitConnector.getUsers).toHaveBeenCalledWith(
+        userId,
+        orgUnitId,
+        roleId,
+        params
+      );
+    });
+
+    /*it('should return LoadB2BUserSuccess action', () => {
+      const unit: B2BUnit = { uid: orgUnitId };
+      const user: B2BUser = {
+        approvers: [],
+        orgUnit: unit,
+        roles: [roleId],
+        selected: true,
+      };
+      const users: B2BUser[] = [user];
+
+      const action = new B2BUserActions.LoadB2BUser({ userId, orgCustomerId });
+      const completion = new B2BUserActions.LoadB2BUserSuccess(users);
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.loadUsers$).toBeObservable(expected);
+      expect(orgUnitConnector.getUsers).toHaveBeenCalledWith(
+        userId,
+        orgUnitId,
+        roleId,
+        params
+      );
+    }); */
+  });
+
+  describe('LoadTree', () => {
+    const unitNode: B2BUnitNode = { id: 'testUnitNode' };
+
+    it('should return LoadTreeSuccess action', () => {
+      const action = new OrgUnitActions.LoadTree({
+        userId,
+      });
+      const completion = new OrgUnitActions.LoadTreeSuccess(unitNode);
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.loadTree$).toBeObservable(expected);
+      expect(orgUnitConnector.getTree).toHaveBeenCalledWith(userId);
+    });
+
+    it('should return LoadTreeFail action if address is not loaded', () => {
+      orgUnitConnector.getTree = createSpy().and.returnValue(throwError(error));
+      const action = new OrgUnitActions.LoadTree({
+        userId,
+      });
+      const completion = new OrgUnitActions.LoadTreeFail({
+        error,
+      });
+      actions$ = hot('-a', { a: action });
+      expected = cold('-b', { b: completion });
+
+      expect(effects.loadTree$).toBeObservable(expected);
+      expect(orgUnitConnector.getTree).toHaveBeenCalledWith(userId);
     });
   });
 });

@@ -1,4 +1,4 @@
-import { ListModel } from '@spartacus/core';
+import { B2BSearchConfig, ListModel } from '@spartacus/core';
 import {
   B2BAddress,
   B2BApprovalProcess,
@@ -6,12 +6,14 @@ import {
   B2BUnitNode,
 } from '../../../model/org-unit.model';
 import { StateUtils } from '../../../state/utils/index';
+import { serializeB2BSearchConfig } from '../../utils/serializer';
 import {
   ADDRESS_ENTITIES,
   ADDRESS_LIST,
   B2B_USER_ENTITIES,
   ORG_UNIT_APPROVAL_PROCESSES,
   ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
+  ORG_UNIT_ASSIGNED_USERS,
   ORG_UNIT_ENTITIES,
   ORG_UNIT_NODES,
   ORG_UNIT_NODE_LIST,
@@ -36,6 +38,16 @@ const orgCustomerId = 'testCustomerId';
 const roleId = 'testRoleId';
 const uid = 'testUid';
 const selected = true;
+
+const address: B2BAddress = { id: 'testAddressId' };
+const addressId: string = address.id;
+const page: ListModel = {
+  ids: [addressId],
+  sorts: [{ code: 'code' }],
+};
+const params: B2BSearchConfig = { sort: 'code' };
+const unit: B2BUnit = { uid: 'testUid' };
+const unitCode: string = unit.uid;
 
 const userId = 'xxx@xxx.xxx';
 const error = 'anError';
@@ -175,10 +187,7 @@ describe('OrgUnit Actions', () => {
     });
   });
 
-  describe('Create, Update Unit Actions', () => {
-    const unit: B2BUnit = { uid: 'testUid' };
-    const unitCode: string = unit.uid;
-
+  describe('Create Unit Actions', () => {
     it('should execute Create Unit action', () => {
       const action = new OrgUnitActions.CreateUnit({
         userId,
@@ -214,7 +223,9 @@ describe('OrgUnit Actions', () => {
         meta: StateUtils.entitySuccessMeta(ORG_UNIT_ENTITIES, unitCode),
       });
     });
+  });
 
+  describe('Update Unit Actions', () => {
     it('should execute Update Unit action', () => {
       const action = new OrgUnitActions.UpdateUnit({
         userId,
@@ -253,14 +264,7 @@ describe('OrgUnit Actions', () => {
     });
   });
 
-  describe('Create, Update, Delete & Load Addresses Actions', () => {
-    const address: B2BAddress = { id: 'testAddressId' };
-    const addressId: string = address.id;
-    const page: ListModel = {
-      ids: [addressId],
-      sorts: [{ code: 'code' }],
-    };
-
+  describe('Create Address Actions', () => {
     it('should execute Create Address action', () => {
       const action = new OrgUnitActions.CreateAddress({
         userId,
@@ -297,7 +301,9 @@ describe('OrgUnit Actions', () => {
         meta: StateUtils.entitySuccessMeta(ADDRESS_ENTITIES, addressId),
       });
     });
+  });
 
+  describe('Update Address Actions', () => {
     it('should execute Update Address action', () => {
       const action = new OrgUnitActions.UpdateAddress({
         userId,
@@ -335,7 +341,9 @@ describe('OrgUnit Actions', () => {
         meta: StateUtils.entitySuccessMeta(ADDRESS_ENTITIES, addressId),
       });
     });
+  });
 
+  describe('Delete Address Actions', () => {
     it('should execute Delete Address action', () => {
       const action = new OrgUnitActions.DeleteAddress({
         userId,
@@ -372,7 +380,9 @@ describe('OrgUnit Actions', () => {
         meta: StateUtils.entitySuccessMeta(ADDRESS_ENTITIES, addressId),
       });
     });
+  });
 
+  describe('Load Addresses Actions', () => {
     it('should execute Load Addresses action', () => {
       const action = new OrgUnitActions.LoadAddresses({
         userId,
@@ -423,7 +433,7 @@ describe('OrgUnit Actions', () => {
     });
   });
 
-  describe('Assign, Unassign Role Actions', () => {
+  describe('Assign Role Actions', () => {
     it('should execute Assign Role action', () => {
       const action = new OrgUnitActions.AssignRole({
         userId,
@@ -468,7 +478,9 @@ describe('OrgUnit Actions', () => {
         meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, uid),
       });
     });
+  });
 
+  describe('Unassign Role Actions', () => {
     it('should execute Unassign Role action', () => {
       const action = new OrgUnitActions.UnassignRole({
         userId,
@@ -556,7 +568,7 @@ describe('OrgUnit Actions', () => {
     });
   });
 
-  describe('Assign, Unassign Approver Actions', () => {
+  describe('Assign Approver Actions', () => {
     it('should execute Assign Approver action', () => {
       const action = new OrgUnitActions.AssignApprover({
         userId,
@@ -602,7 +614,9 @@ describe('OrgUnit Actions', () => {
         meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, uid),
       });
     });
+  });
 
+  describe('Unassign Approver Actions', () => {
     it('should execute Unassign Approver action', () => {
       const action = new OrgUnitActions.UnassignApprover({
         userId,
@@ -646,6 +660,62 @@ describe('OrgUnit Actions', () => {
         type: OrgUnitActions.UNASSIGN_APPROVER_SUCCESS,
         payload: { uid, roleId, selected },
         meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, uid),
+      });
+    });
+  });
+
+  describe('LoadAssignedUsers Actions', () => {
+    it('should execute LoadAssignedUsers action', () => {
+      const action = new OrgUnitActions.LoadAssignedUsers({
+        userId,
+        orgUnitId,
+        roleId,
+        params,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.LOAD_ASSIGNED_USERS,
+        payload: { userId, orgUnitId, roleId, params },
+        meta: StateUtils.entityLoadMeta(
+          ORG_UNIT_ASSIGNED_USERS,
+          serializeB2BSearchConfig(params, `${orgUnitId},${roleId}`)
+        ),
+      });
+    });
+
+    it('should execute LoadAssignedUsersFail action', () => {
+      const action = new OrgUnitActions.LoadAssignedUsersFail({
+        orgUnitId,
+        roleId,
+        params,
+        error,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.LOAD_ASSIGNED_USERS_FAIL,
+        payload: { orgUnitId, roleId, params, error },
+        meta: StateUtils.entityFailMeta(
+          ORG_UNIT_ASSIGNED_USERS,
+          serializeB2BSearchConfig(params, `${orgUnitId},${roleId}`)
+        ),
+      });
+    });
+
+    it('should execute LoadAssignedUsersSuccess action', () => {
+      const action = new OrgUnitActions.LoadAssignedUsersSuccess({
+        orgUnitId,
+        roleId,
+        page,
+        params,
+      });
+
+      expect({ ...action }).toEqual({
+        type: OrgUnitActions.LOAD_ASSIGNED_USERS_SUCCESS,
+        payload: { orgUnitId, roleId, page, params },
+        meta: StateUtils.entitySuccessMeta(
+          ORG_UNIT_ASSIGNED_USERS,
+          serializeB2BSearchConfig(params, `${orgUnitId},${roleId}`)
+        ),
       });
     });
   });

@@ -20,7 +20,7 @@ import {
 } from '../../model/org-unit.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
-import { OrgUnitActions, B2BUserActions } from '../store/actions/index';
+import { B2BUserActions, OrgUnitActions } from '../store/actions/index';
 import * as fromReducers from '../store/reducers/index';
 import { OrgUnitService } from './org-unit.service';
 import createSpy = jasmine.createSpy;
@@ -86,6 +86,12 @@ const orgUnitNode: Partial<B2BUnitNode> = { id: orgUnitId };
 const orgUnitNode2: Partial<B2BUnitNode> = { id: 'testOrgUnit2' };
 
 const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
+
+const address: B2BAddress = { id: 'adrId' };
+const addressId = 'testAddressId';
+const orgCustomerId = 'testOrgCustomerId';
+const roleId = 'testRoleId';
+const unit: B2BUnit = { uid: 'testUid' };
 
 class MockAuthService {
   getOccUserId = createSpy().and.returnValue(of(userId));
@@ -296,10 +302,7 @@ describe('OrgUnitService', () => {
     });
   });
 
-  describe('create, update & delete Address', () => {
-    const address: B2BAddress = { id: 'adrId' };
-    const addressId = 'testAddressId';
-
+  describe('create Address', () => {
     it('should create address', () => {
       service.createAddress(orgUnitId, address);
 
@@ -308,7 +311,9 @@ describe('OrgUnitService', () => {
         new OrgUnitActions.CreateAddress({ userId, orgUnitId, address })
       );
     });
+  });
 
+  describe('update Address', () => {
     it('should update address', () => {
       service.updateAddress(orgUnitId, addressId, address);
 
@@ -322,7 +327,9 @@ describe('OrgUnitService', () => {
         })
       );
     });
+  });
 
+  describe('delete Address', () => {
     it('should delete address', () => {
       service.deleteAddress(orgUnitId, addressId);
 
@@ -337,10 +344,7 @@ describe('OrgUnitService', () => {
     });
   });
 
-  describe('assign, unassign role', () => {
-    const orgCustomerId = 'testOrgCustomerId';
-    const roleId = 'testRoleId';
-
+  describe('assign role', () => {
     it('should assign role', () => {
       service.assignRole(orgCustomerId, roleId);
 
@@ -353,7 +357,9 @@ describe('OrgUnitService', () => {
         })
       );
     });
+  });
 
+  describe('unassign role', () => {
     it('should unassign role', () => {
       service.unassignRole(orgCustomerId, roleId);
 
@@ -412,9 +418,7 @@ describe('OrgUnitService', () => {
     });
   });
 
-  describe('create & update unit', () => {
-    const unit: B2BUnit = { uid: 'testUid' };
-
+  describe('create unit', () => {
     it('should create unit', () => {
       service.create(unit);
 
@@ -426,7 +430,9 @@ describe('OrgUnitService', () => {
         })
       );
     });
+  });
 
+  describe('update unit', () => {
     it('should update unit', () => {
       const unitCode = 'testUnitCode';
 
@@ -512,6 +518,55 @@ describe('OrgUnitService', () => {
           roleId,
           params,
         })
+      );
+    });
+  });
+
+  describe('assign approver', () => {
+    it('should assign approver', () => {
+      service.assignApprover(orgUnitId, orgCustomerId, roleId);
+
+      expect(authService.getOccUserId).toHaveBeenCalledWith();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new OrgUnitActions.AssignApprover({
+          userId,
+          orgUnitId,
+          orgCustomerId,
+          roleId,
+        })
+      );
+    });
+  });
+
+  describe('unassign approver', () => {
+    it('should unassign approver', () => {
+      service.unassignApprover(orgUnitId, orgCustomerId, roleId);
+
+      expect(authService.getOccUserId).toHaveBeenCalledWith();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new OrgUnitActions.UnassignApprover({
+          userId,
+          orgUnitId,
+          orgCustomerId,
+          roleId,
+        })
+      );
+    });
+  });
+
+  describe('get active unit list', () => {
+    it('getActiveUnitList()', () => {
+      let unitNode: B2BUnitNode[];
+      service
+        .getList()
+        .subscribe((data) => {
+          unitNode = data;
+        })
+        .unsubscribe();
+
+      expect(unitNode).toEqual(undefined);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new OrgUnitActions.LoadOrgUnitNodes({ userId })
       );
     });
   });
