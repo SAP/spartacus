@@ -797,10 +797,9 @@ export function injectService(
     throw new SchematicsException(`No constructor found in ${path}.`);
   }
 
-  const constructorParameters = findNodes(
-    constructorNode,
-    ts.SyntaxKind.Parameter
-  );
+  const constructorParameters = constructorNode
+    .getChildren()
+    .filter((node) => node.kind === ts.SyntaxKind.SyntaxList);
 
   let toInsert = '';
   let position = constructorNode.getStart() + 'constructor('.length;
