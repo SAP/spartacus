@@ -33,6 +33,7 @@ const mockRouterState: any = {
     url: CONFIGURATOR_URL,
   },
 };
+let groupVisited = false;
 
 const config: Configurator.Configuration = {
   owner: {
@@ -131,6 +132,10 @@ class MockRouter {
 
 class MockConfiguratorGroupService {
   setMenuParentGroup() {}
+  getGroupStatus() {}
+  isGroupVisited() {
+    return of(groupVisited);
+  }
   findParentGroup() {
     return null;
   }
@@ -148,12 +153,6 @@ class MockConfiguratorGroupService {
 
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
-  }
-  hasConfiguration(): Observable<boolean> {
-    return of(false);
-  }
-  readConfiguration(): Observable<Configurator.Configuration> {
     return of(config);
   }
 }
@@ -218,6 +217,8 @@ describe('ConfigurationGroupMenuComponent', () => {
     configuratorUtils.setOwnerKey(config.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();
+    spyOn(configuratorGroupsService, 'getGroupStatus').and.stub();
+    spyOn(configuratorGroupsService, 'isGroupVisited').and.callThrough();
     spyOn(hamburgerMenuService, 'toggle').and.stub();
   });
 
@@ -240,7 +241,7 @@ describe('ConfigurationGroupMenuComponent', () => {
 
   it('should return 3 groups after groups have been compiled', () => {
     component.ngOnInit();
-    component.displayedGroups$.subscribe((groups) => {
+    component.displayedGroups$.pipe(take(1)).subscribe((groups) => {
       expect(groups.length).toBe(3);
     });
   });
@@ -296,5 +297,26 @@ describe('ConfigurationGroupMenuComponent', () => {
     //Display subgroups
     component.click(config.groups[0]);
     expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+  });
+
+  it('should not call status method if group has not been visited', () => {
+    component
+      .getGroupStatus(config.groups[0].id, config)
+      .pipe(take(1))
+      .subscribe();
+
+    expect(configuratorGroupsService.isGroupVisited).toHaveBeenCalled();
+    expect(configuratorGroupsService.getGroupStatus).toHaveBeenCalledTimes(0);
+  });
+
+  it('should call status method if group has been visited', () => {
+    groupVisited = true;
+    component
+      .getGroupStatus(config.groups[0].id, config)
+      .pipe(take(1))
+      .subscribe();
+
+    expect(configuratorGroupsService.isGroupVisited).toHaveBeenCalled();
+    expect(configuratorGroupsService.getGroupStatus).toHaveBeenCalled();
   });
 });
