@@ -397,6 +397,46 @@ export class CustomPageSlotComponent extends PageSlotComponent {
   }
 }
 `;
+const AT_INJECT_TEST = `
+import {
+  PageMetaService,
+  PageMetaResolver,
+  CmsService,
+  FeatureConfigService
+} from '@spartacus/core';
+import {Injectable, Inject} from '@angular/core';
+@Injectable({})
+export class SipPageMetaService extends PageMetaService {
+  constructor(
+      @Inject(PageMetaResolver)
+      protected resolvers: PageMetaResolver[],
+      protected cms: CmsService,
+      featureConfigService: FeatureConfigService
+  ) {
+      super(resolvers, cms, featureConfigService);
+  }
+}
+`;
+const AT_INJECT_EXPECTED = `
+import {
+  PageMetaService,
+  PageMetaResolver,
+  CmsService,
+  
+} from '@spartacus/core';
+import {Injectable, Inject} from '@angular/core';
+@Injectable({})
+export class SipPageMetaService extends PageMetaService {
+  constructor(
+      @Inject(PageMetaResolver)
+      protected resolvers: PageMetaResolver[],
+      protected cms: CmsService
+      
+  ) {
+      super(resolvers, cms );
+  }
+}
+`;
 
 describe('constructor migrations', () => {
   let host: TempScopedNodeJsSyncHost;
@@ -674,6 +714,17 @@ describe('constructor migrations', () => {
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(ADD_PARAM_COMPLEX_CTOR_EXPECTED);
+    });
+  });
+
+  describe('when the constructor contains @Inject()', () => {
+    it('should remove a parameter', async () => {
+      writeFile(host, '/src/index.ts', AT_INJECT_TEST);
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(AT_INJECT_EXPECTED);
     });
   });
 });
