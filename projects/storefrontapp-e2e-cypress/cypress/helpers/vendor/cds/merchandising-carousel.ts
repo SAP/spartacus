@@ -148,7 +148,7 @@ function verifyMerchandisingCarouselRendersProducts(): void {
      * This will then cause a view event to be sent without all the product skus, which then makes the tests flakey.
      * If we check the DOM for the carousel is as we expect first and then scroll it into view we get more reilable behaviour
      */
-    .scrollIntoView()
+    .scrollIntoView({ offset: { top: 50, left: 50 } })
     .should('be.visible');
 }
 
