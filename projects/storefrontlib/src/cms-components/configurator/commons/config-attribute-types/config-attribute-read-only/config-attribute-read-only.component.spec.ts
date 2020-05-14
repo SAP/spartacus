@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 import { ConfigAttributeReadOnlyComponent } from './config-attribute-read-only.component';
+import { ConfigComponentTestUtilsService } from '../../../generic/service/config-component-test-utils.service';
 
 describe('ConfigAttributeReadOnlyComponent', () => {
   let component: ConfigAttributeReadOnlyComponent;
@@ -55,11 +56,13 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   });
 
   it('should display selectedSingleValue for attribute without domain', () => {
-    expectElementPresent(
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-value-label-read-only'
     );
-    expectElementToContainText(
+    ConfigComponentTestUtilsService.expectElementToContainText(
+      expect,
       htmlElem,
       '.cx-config-attribute-value-label-read-only',
       'selectedValue'
@@ -69,11 +72,13 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   it('should display valueDisplay of selected value for attribute with domain', () => {
     component.attribute.values = myValues;
     fixture.detectChanges();
-    expectElementPresent(
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-value-label-read-only'
     );
-    expectElementToContainText(
+    ConfigComponentTestUtilsService.expectElementToContainText(
+      expect,
       htmlElem,
       '.cx-config-attribute-value-label-read-only',
       'Value 2'
@@ -84,7 +89,8 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     myValues[0].selected = true;
     component.attribute.values = myValues;
     fixture.detectChanges();
-    expectElementPresent(
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-value-label-read-only'
     );
@@ -94,26 +100,3 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     ).toBe(2);
   });
 });
-
-export function expectElementPresent(
-  htmlElement: Element,
-  querySelector: string
-) {
-  expect(htmlElement.querySelectorAll(querySelector).length).toBeGreaterThan(
-    0,
-    "expected element identified by selector '" +
-      querySelector +
-      "' to be present, but it is NOT! innerHtml: " +
-      htmlElement.innerHTML
-  );
-}
-
-export function expectElementToContainText(
-  htmlElement: Element,
-  querySelector: string,
-  expectedText: string
-) {
-  expect(htmlElement.querySelector(querySelector).textContent.trim()).toBe(
-    expectedText
-  );
-}
