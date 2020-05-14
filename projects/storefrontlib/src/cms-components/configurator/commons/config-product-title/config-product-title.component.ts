@@ -43,4 +43,12 @@ export class ConfigProductTitleComponent implements OnInit {
   click() {
     this.showMore = !this.showMore;
   }
+
+  getProductImageURL(product: Product): string {
+    return product.images?.PRIMARY?.['thumbnail']?.url;
+  }
+
+  getProductImageAlt(product: Product): string {
+    return product.images?.PRIMARY?.['thumbnail']?.altText;
+  }
 }

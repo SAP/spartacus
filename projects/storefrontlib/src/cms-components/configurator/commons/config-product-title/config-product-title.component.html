@@ -17,7 +17,10 @@
     </a>
 
     <div *ngIf="showMore === true" class="cx-config-product-title-details">
-      <img src="product.url" />
+      <img
+        [alt]="getProductImageAlt(product)"
+        [src]="getProductImageURL(product)"
+      />
     </div>
   </div>
 </ng-container>
