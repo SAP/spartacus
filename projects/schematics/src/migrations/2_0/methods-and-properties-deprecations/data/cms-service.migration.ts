@@ -7,7 +7,7 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-export const CMS_SELECTORS_MIGRATION: MethodPropertyDeprecation[] = [
+export const CMS_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: CMS_SERVICE,
     importPath: SPARTACUS_CORE,

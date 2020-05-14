@@ -295,7 +295,6 @@ export const ONLY_NUMBER_DIRECTIVE_MODULE = 'OnlyNumberDirectiveModule';
 export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
 export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
 export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
-
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -305,8 +304,6 @@ export const ANONYMOUS_CONSENTS = 'anonymousConsents';
 /***** Properties end *****/
 
 /***** APIs start *****/
-export const TODO_SPARTACUS = 'TODO:Spartacus -';
-
 export const GET_COMPONENT_STATE_OLD_API = 'getComponentState';
 export const GET_COMPONENTS_STATE_NEW_API = 'getComponentsState';
 
@@ -325,6 +322,7 @@ export const IS_LAUNCHED_IN_SMART_EDIT = 'isLaunchedInSmartEdit';
 /***** APIs end *****/
 
 /***** Misc start *****/
+export const TODO_SPARTACUS = 'TODO:Spartacus -';
 export const CSS_DOCS_URL =
   'https://sap.github.io/spartacus-docs/updating-to-version-2/css';
 /***** Misc end *****/

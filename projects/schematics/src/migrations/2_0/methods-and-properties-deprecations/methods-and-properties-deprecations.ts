@@ -21,13 +21,14 @@ export function migrate(): Rule {
       for (const data of METHOD_PROPERTY_DATA) {
         // 'source' has to be reloaded after each committed change
         const source = getTsSourceFile(tree, sourcePath);
-        if (isImported(source, data.deprecatedNode, data.importPath)) {
+        if (isImported(source, data.class, data.importPath)) {
           const changes = insertCommentAboveIdentifier(
             sourcePath,
             source,
             data.deprecatedNode,
-            data.comment ??
-              `${buildMethodComment(data.deprecatedNode, data.newNode)}\n`
+            data.comment
+              ? `${data.comment}\n`
+              : `${buildMethodComment(data.deprecatedNode, data.newNode)}\n`
           );
           commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
         }
