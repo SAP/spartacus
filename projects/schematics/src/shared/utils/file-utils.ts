@@ -544,10 +544,6 @@ function shouldRemoveImportAndParam(
     return true;
   }
 
-  const constructorParameters = findNodes(
-    constructorNode,
-    ts.SyntaxKind.Parameter
-  );
   const classDeclarationNode = nodes.find(
     (node) => node.kind === ts.SyntaxKind.ClassDeclaration
   );
@@ -555,6 +551,7 @@ function shouldRemoveImportAndParam(
     return true;
   }
 
+  const constructorParameters = getConstructorParameterList(constructorNode);
   for (const constructorParameter of constructorParameters) {
     if (constructorParameter.getText().includes(importToRemove.className)) {
       const paramVariableNode = constructorParameter
@@ -664,15 +661,19 @@ function getImportDeclarationNode(
   return importDeclarationNode;
 }
 
+function getConstructorParameterList(constructorNode: ts.Node): ts.Node[] {
+  const syntaxList = constructorNode
+    .getChildren()
+    .filter((node) => node.kind === ts.SyntaxKind.SyntaxList)[0];
+  return findNodes(syntaxList, ts.SyntaxKind.Parameter);
+}
+
 function removeConstructorParamInternal(
   sourcePath: string,
   constructorNode: ts.Node,
   importToRemove: ClassType
 ): Change[] {
-  const constructorParameters = findNodes(
-    constructorNode,
-    ts.SyntaxKind.Parameter
-  );
+  const constructorParameters = getConstructorParameterList(constructorNode);
 
   for (let i = 0; i < constructorParameters.length; i++) {
     const constructorParameter = constructorParameters[i];
@@ -797,9 +798,7 @@ export function injectService(
     throw new SchematicsException(`No constructor found in ${path}.`);
   }
 
-  const constructorParameters = constructorNode
-    .getChildren()
-    .filter((node) => node.kind === ts.SyntaxKind.SyntaxList);
+  const constructorParameters = getConstructorParameterList(constructorNode);
 
   let toInsert = '';
   let position = constructorNode.getStart() + 'constructor('.length;
