@@ -84,6 +84,18 @@ export class CheckoutStepService {
     }
   }
 
+  getCheckoutStep(currentStepType: CheckoutStepType): CheckoutStep {
+    return this.allSteps[this.getCheckoutStepIndex('type', currentStepType)];
+  }
+
+  getCheckoutStepRoute(currentStepType: CheckoutStepType): string {
+    return this.getCheckoutStep(currentStepType).routeName;
+  }
+
+  getFirstCheckoutStepRoute(): string {
+    return this.allSteps[0].routeName;
+  }
+
   getNextCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
     const stepIndex = this.getCurrentStepIndex(activatedRoute);
 
@@ -122,23 +134,15 @@ export class CheckoutStepService {
     return null;
   }
 
-  getCurrentStepIndex(activatedRoute: ActivatedRoute): number | null {
+  getCurrentStepIndex(activatedRoute: ActivatedRoute): number {
     const currentStepUrl: string = this.getStepUrlFromActivatedRoute(
       activatedRoute
     );
 
-    let stepIndex: number;
-    let index = 0;
-    for (const step of this.allSteps) {
-      if (
+    return this.allSteps.findIndex(
+      (step) =>
         currentStepUrl === `/${this.getStepUrlFromStepRoute(step.routeName)}`
-      ) {
-        stepIndex = index;
-      } else {
-        index++;
-      }
-    }
-    return stepIndex >= 0 ? stepIndex : null;
+    );
   }
 
   private getStepUrlFromActivatedRoute(
@@ -153,5 +157,13 @@ export class CheckoutStepService {
 
   private getStepUrlFromStepRoute(stepRoute: string): string {
     return this.routingConfigService.getRouteConfig(stepRoute).paths[0];
+  }
+
+  private getCheckoutStepIndex(key: string, value: any): number | null {
+    return key && value
+      ? this.allSteps.findIndex((step: CheckoutStep) =>
+          step[key].includes(value)
+        )
+      : null;
   }
 }

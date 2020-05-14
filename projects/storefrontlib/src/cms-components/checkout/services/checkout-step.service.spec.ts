@@ -153,6 +153,22 @@ describe('CheckoutStpService', () => {
     expect(steps[0].id).toEqual('step0');
   });
 
+  it('should get checkout step by type', () => {
+    expect(service.getCheckoutStep(CheckoutStepType.SHIPPING_ADDRESS)).toEqual(
+      checkoutConfigService.steps[1]
+    );
+  });
+
+  it('should get checkout step route by type', () => {
+    expect(
+      service.getCheckoutStepRoute(CheckoutStepType.SHIPPING_ADDRESS)
+    ).toEqual('route1');
+  });
+
+  it('should get first checkout step route', () => {
+    expect(service.getFirstCheckoutStepRoute()).toEqual('route0');
+  });
+
   it('should be able to get next enabled checkout step url', () => {
     const mockActivatedRoute = {
       snapshot: {

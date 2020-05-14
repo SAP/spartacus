@@ -22,14 +22,23 @@ export class CheckoutConfigService {
     private routingConfigService: RoutingConfigService
   ) {}
 
+  /**
+   * will be removed, there is same function in checkout-step.service
+   */
   getCheckoutStep(currentStepType: CheckoutStepType): CheckoutStep {
     return this.steps[this.getCheckoutStepIndex('type', currentStepType)];
   }
 
+  /**
+   * will be removed, there is same function in checkout-step.service
+   */
   getCheckoutStepRoute(currentStepType: CheckoutStepType): string {
     return this.getCheckoutStep(currentStepType).routeName;
   }
 
+  /**
+   * will be removed, there is same function in checkout-step.service
+   */
   getFirstCheckoutStepRoute(): string {
     return this.steps[0].routeName;
   }

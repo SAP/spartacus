@@ -25,7 +25,7 @@ import { Card } from '../../../../shared/components/card/card.component';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { CheckoutStep, CheckoutStepType } from '../../model/index';
-import { CheckoutConfigService } from '../../services/index';
+import { CheckoutStepService } from '../../services/index';
 import { ReviewSubmitComponent } from './review-submit.component';
 import createSpy = jasmine.createSpy;
 
@@ -126,7 +126,7 @@ const mockCheckoutStep: CheckoutStep = {
   type: [CheckoutStepType.SHIPPING_ADDRESS],
 };
 
-class MockCheckoutConfigService {
+class MockCheckoutStepService {
   getCheckoutStep(): CheckoutStep {
     return mockCheckoutStep;
   }
@@ -179,8 +179,8 @@ describe('ReviewSubmitComponent', () => {
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: ActiveCartService, useClass: MockActiveCartService },
         {
-          provide: CheckoutConfigService,
-          useClass: MockCheckoutConfigService,
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
         },
         {
           provide: PromotionService,
