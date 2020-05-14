@@ -1,6 +1,8 @@
 import { Observable, Subscriber, Subscription } from 'rxjs';
 import { share } from 'rxjs/operators';
 
+// PRIVATE API
+
 /**
  * Allows for dynamic adding and removing source observables
  * and exposes them as one merged observable at a property `output$`.
@@ -13,7 +15,7 @@ import { share } from 'rxjs/operators';
  * when not plan to emit values anymore. In particular closed event sources won't be
  * automatically removed.
  */
-export class MergedObservable<T> {
+export class MergingSubject<T> {
   /**
    * List of already added sources (but not removed yet)
    */

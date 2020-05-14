@@ -1,7 +1,7 @@
 import { Injectable, isDevMode, Type } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { MergedObservable } from './utils/merged-observable';
+import { MergingSubject } from './utils/merging-subject';
 
 /**
  * The object holds registered source observables as well as the merged result observable.
@@ -13,9 +13,9 @@ interface EventMeta<T> {
   inputSubject$: Subject<T>;
 
   /**
-   * A custom merged observable that allows for dynamic adding and removing sources
+   * A custom subject that allows for dynamic adding and removing sources to be merged as an output
    */
-  mergedObservable: MergedObservable<T>;
+  mergingSubject: MergingSubject<T>;
 }
 
 /**
@@ -49,7 +49,7 @@ export class EventService {
    */
   register<T>(eventType: Type<T>, source$: Observable<T>): () => void {
     const eventMeta = this.getEventMeta(eventType);
-    if (eventMeta.mergedObservable.has(source$)) {
+    if (eventMeta.mergingSubject.has(source$)) {
       if (isDevMode()) {
         console.warn(
           `EventService: the event source`,
@@ -59,10 +59,10 @@ export class EventService {
         );
       }
     } else {
-      eventMeta.mergedObservable.add(source$);
+      eventMeta.mergingSubject.add(source$);
     }
 
-    return () => eventMeta.mergedObservable.remove(source$);
+    return () => eventMeta.mergingSubject.remove(source$);
   }
 
   /**
@@ -70,7 +70,7 @@ export class EventService {
    * @param eventTypes event type
    */
   get<T>(eventType: Type<T>): Observable<T> {
-    let output$ = this.getEventMeta(eventType).mergedObservable.output$;
+    let output$ = this.getEventMeta(eventType).mergingSubject.output$;
     if (isDevMode()) {
       output$ = this.getValidatedEventStream(output$, eventType);
     }
@@ -121,7 +121,7 @@ export class EventService {
   private createEventMeta<T>(eventType: Type<T>): void {
     this.eventsMeta.set(eventType, {
       inputSubject$: null, // will be created lazily by the `dispatch` method
-      mergedObservable: new MergedObservable(),
+      mergingSubject: new MergingSubject(),
     });
   }
 
