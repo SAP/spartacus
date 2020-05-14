@@ -134,6 +134,8 @@ class MockConfiguratorCommonsService {
   }
 }
 
+//'a---a', 'xy', '--uv', '--(u|)');
+
 function checkConfigurationOverviewObs(
   component: ConfigOverviewFormComponent,
   routerMarbels: string,
@@ -233,21 +235,15 @@ describe('ConfigurationOverviewFormComponent', () => {
       'aa',
       '---xy',
       '---uv',
-      '-------(u|)'
+      '-------uv'
     );
   });
 
   it('should get 2 emissions of overview if configurations service emits fast', () => {
-    checkConfigurationOverviewObs(component, 'a---a', 'xy', '--uv', '--(u|)');
+    checkConfigurationOverviewObs(component, 'a---a', 'xy', '--uv', '--uv');
   });
 
   it('should get 2 emissions of overview if router and config service emit slowly', () => {
-    checkConfigurationOverviewObs(
-      component,
-      'a-----a',
-      '--x--y',
-      'uv',
-      '--(u|)'
-    );
+    checkConfigurationOverviewObs(component, 'a-----a', '--x--y', 'uv', '--uv');
   });
 });
