@@ -1,4 +1,4 @@
-import { verifyProductDetails } from '../../../helpers/product-details';
+import { verifyProductDetails } from '../../helpers/product-details';
 
 const DEFAULT_SCRIPT_LOCATION = '/assets/qualtricsIntegration.js';
 
