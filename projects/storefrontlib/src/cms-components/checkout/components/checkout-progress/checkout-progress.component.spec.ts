@@ -3,11 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutProgressComponent } from './checkout-progress.component';
 import { CheckoutStep, CheckoutStepType } from '../../model';
-import { BehaviorSubject } from 'rxjs';
 
 const mockCheckoutSteps: Array<CheckoutStep> = [
   {

@@ -1,6 +1,5 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
 import { RoutingService, RoutingConfigService } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 import { CheckoutStepType } from '../model';
@@ -16,30 +15,20 @@ class MockCheckoutConfigService {
       name: 'step 0',
       routeName: 'route0',
       type: [CheckoutStepType.PAYMENT_TYPES],
-      enabled: false,
     },
     {
       id: 'step1',
       name: 'step 1',
       routeName: 'route1',
       type: [CheckoutStepType.SHIPPING_ADDRESS],
-      enabled: true,
     },
     {
       id: 'step2',
       name: 'step 2',
       routeName: 'route2',
       type: [CheckoutStepType.DELIVERY_MODE],
-      enabled: true,
     },
   ];
-
-  getNextCheckoutStepUrl(): string {
-    return '';
-  }
-  getPreviousCheckoutStepUrl(): string {
-    return '';
-  }
 }
 
 class MockRoutingConfigService {
@@ -53,10 +42,6 @@ class MockRoutingConfigService {
     }
     return null;
   }
-}
-
-class MockActivatedRoute {
-  snapshot = of();
 }
 
 class MockRoutingService {
@@ -74,7 +59,6 @@ class MockRoutingService {
 
 describe('CheckoutStpService', () => {
   let service: CheckoutStepService;
-  let activatedRoute: ActivatedRoute;
   let routingService: RoutingService;
   let routingConfigService: RoutingConfigService;
   let checkoutConfigService: CheckoutConfigService;
@@ -84,13 +68,11 @@ describe('CheckoutStpService', () => {
       providers: [
         CheckoutStepService,
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
       ],
     });
 
-    activatedRoute = TestBed.inject(ActivatedRoute as Type<ActivatedRoute>);
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
     checkoutConfigService = TestBed.inject(
       CheckoutConfigService as Type<CheckoutConfigService>
@@ -116,31 +98,31 @@ describe('CheckoutStpService', () => {
     expect(index).toEqual(0);
   });
 
-  it('should be able to go back', () => {
-    service.back(activatedRoute);
-    expect(routingService.go).toHaveBeenCalledWith('');
-
-    spyOn(checkoutConfigService, 'getPreviousCheckoutStepUrl').and.returnValue(
-      null
-    );
-    service.back(activatedRoute);
+  it('should be able to go back to cart', () => {
+    spyOn(service, 'getPreviousCheckoutStepUrl').and.returnValue(null);
+    service.back(<any>{});
     expect(routingService.go).toHaveBeenCalledWith('cart');
   });
 
-  it('should be able to go next', () => {
-    service.next(activatedRoute);
-    expect(routingService.go).toHaveBeenCalledWith('');
+  it('should be able to go back to next step', () => {
+    spyOn(service, 'getPreviousCheckoutStepUrl').and.returnValue('back');
+    service.back(<any>{});
+    expect(routingService.go).toHaveBeenCalledWith('back');
   });
 
-  it('should be able to get back button text', () => {
-    expect(service.getBackBntText(activatedRoute)).toEqual('common.back');
+  it('should be able to go next', () => {
+    spyOn(service, 'getNextCheckoutStepUrl').and.returnValue('next');
+    service.next(<any>{});
+    expect(routingService.go).toHaveBeenCalledWith('next');
+  });
 
-    spyOn(checkoutConfigService, 'getPreviousCheckoutStepUrl').and.returnValue(
-      null
-    );
-    expect(service.getBackBntText(activatedRoute)).toEqual(
-      'checkout.backToCart'
-    );
+  it('should be able to get back button text: backToCart', () => {
+    spyOn(service, 'getPreviousCheckoutStepUrl').and.returnValue(null);
+    expect(service.getBackBntText(<any>{})).toEqual('checkout.backToCart');
+  });
+  it('should be able to get back button text: backToCart', () => {
+    spyOn(service, 'getPreviousCheckoutStepUrl').and.returnValue('back');
+    expect(service.getBackBntText(<any>{})).toEqual('common.back');
   });
 
   it('should be able to reset the steps', () => {
@@ -169,5 +151,64 @@ describe('CheckoutStpService', () => {
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(3);
     expect(steps[0].id).toEqual('step0');
+  });
+
+  it('should get checkout step by type', () => {
+    expect(service.getCheckoutStep(CheckoutStepType.SHIPPING_ADDRESS)).toEqual(
+      checkoutConfigService.steps[1]
+    );
+  });
+
+  it('should get checkout step route by type', () => {
+    expect(
+      service.getCheckoutStepRoute(CheckoutStepType.SHIPPING_ADDRESS)
+    ).toEqual('route1');
+  });
+
+  it('should get first checkout step route', () => {
+    expect(service.getFirstCheckoutStepRoute()).toEqual('route0');
+  });
+
+  it('should be able to get next enabled checkout step url', () => {
+    const mockActivatedRoute = {
+      snapshot: {
+        url: ['checkout', 'route0'],
+      },
+    };
+
+    expect(service.getNextCheckoutStepUrl(<any>mockActivatedRoute)).toBe(
+      'checkout/route1'
+    );
+    //disable step 1, then next step should be step 2
+    service.disableEnableStep(CheckoutStepType.SHIPPING_ADDRESS, true);
+    expect(service.getNextCheckoutStepUrl(<any>mockActivatedRoute)).toBe(
+      'checkout/route2'
+    );
+  });
+
+  it('should be able to get prevous enabled checkout step url', () => {
+    const mockActivatedRoute = {
+      snapshot: {
+        url: ['checkout', 'route2'],
+      },
+    };
+
+    expect(service.getPreviousCheckoutStepUrl(<any>mockActivatedRoute)).toBe(
+      'checkout/route1'
+    );
+    //disable step 1, then previous step should be step 0
+    service.disableEnableStep(CheckoutStepType.SHIPPING_ADDRESS, true);
+    expect(service.getPreviousCheckoutStepUrl(<any>mockActivatedRoute)).toBe(
+      'checkout/route0'
+    );
+  });
+
+  it('should return current step index', () => {
+    const mockActivatedRoute = {
+      snapshot: {
+        url: ['checkout', 'route2'],
+      },
+    };
+    expect(service.getCurrentStepIndex(<any>mockActivatedRoute)).toBe(2);
   });
 });

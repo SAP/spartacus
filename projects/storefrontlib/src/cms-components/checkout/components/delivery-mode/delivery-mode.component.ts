@@ -6,14 +6,11 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import {
-  CheckoutDeliveryService,
-  DeliveryMode,
-  RoutingService,
-} from '@spartacus/core';
+import { CheckoutDeliveryService, DeliveryMode } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
+import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({
   selector: 'cx-delivery-mode',
@@ -28,6 +25,8 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   checkoutStepUrlPrevious: string;
   private allowRedirect = false;
 
+  backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
+
   deliveryModeSub: Subscription;
 
   mode: FormGroup = this.fb.group({
@@ -37,19 +36,12 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private checkoutDeliveryService: CheckoutDeliveryService,
-    private routingService: RoutingService,
     private checkoutConfigService: CheckoutConfigService,
+    protected checkoutStepService: CheckoutStepService,
     private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
-      this.activatedRoute
-    );
-    this.checkoutStepUrlPrevious = this.checkoutConfigService.getPreviousCheckoutStepUrl(
-      this.activatedRoute
-    );
-
     this.supportedDeliveryModes$ = this.checkoutDeliveryService.getSupportedDeliveryModes();
 
     this.deliveryModeSub = this.supportedDeliveryModes$
@@ -75,7 +67,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
           !!code &&
           code === this.currentDeliveryModeId
         ) {
-          this.routingService.go(this.checkoutStepUrlNext);
+          this.checkoutStepService.next(this.activatedRoute);
         }
         this.currentDeliveryModeId = code;
         if (code) {
@@ -98,11 +90,11 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
       }
       this.checkoutDeliveryService.setDeliveryMode(this.currentDeliveryModeId);
     }
-    this.routingService.go(this.checkoutStepUrlNext);
+    this.checkoutStepService.next(this.activatedRoute);
   }
 
   back(): void {
-    this.routingService.go(this.checkoutStepUrlPrevious);
+    this.checkoutStepService.back(this.activatedRoute);
   }
 
   get deliveryModeInvalid(): boolean {
