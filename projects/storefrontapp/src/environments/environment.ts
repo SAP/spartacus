@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
-  occBaseUrl: '',
-  occApiPrefix: '/rest/v2/',
+  occBaseUrl: 'https://localhost:9002',
+  occApiPrefix: '/occ/v2/',
+  channel: 'b2b',
 };
