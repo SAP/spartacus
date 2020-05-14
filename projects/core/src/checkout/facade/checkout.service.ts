@@ -9,7 +9,9 @@ import { CheckoutActions } from '../store/actions/index';
 import { StateWithCheckout } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CheckoutService {
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,

@@ -20,7 +20,9 @@ import { MultiCartSelectors } from '../store/selectors/index';
 import { getWishlistName } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class WishListService {
   constructor(
     protected store: Store<StateWithMultiCart>,

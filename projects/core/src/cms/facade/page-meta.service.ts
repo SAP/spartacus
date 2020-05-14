@@ -1,10 +1,10 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { debounceTime, filter, map, switchMap } from 'rxjs/operators';
+import { resolveApplicable } from '../../util/applicable';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
-import { resolveApplicable } from '../../util/applicable';
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +56,9 @@ export class PageMetaService {
    * @param metaResolver
    */
   protected resolve(metaResolver: PageMetaResolver): Observable<PageMeta> {
-    const resolveMethods: any[] = Object.keys(this.resolverMethods)
+    const resolveMethods: Observable<PageMeta>[] = Object.keys(
+      this.resolverMethods
+    )
       .filter((key) => metaResolver[this.resolverMethods[key]])
       .map((key) =>
         metaResolver[this.resolverMethods[key]]().pipe(
@@ -67,6 +69,7 @@ export class PageMetaService {
       );
 
     return combineLatest(resolveMethods).pipe(
+      debounceTime(0), // avoid partial data emissions when all methods resolve at the same time
       map((data) => Object.assign({}, ...data))
     );
   }

@@ -17,7 +17,9 @@ import {
 } from '../../global-message/index';
 import { RoutingService } from '../../routing/index';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class StoreFinderService {
   private geolocationWatchId: number = null;
 

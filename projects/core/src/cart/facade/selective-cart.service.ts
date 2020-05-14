@@ -13,7 +13,9 @@ import { CartConfigService } from '../services/cart-config.service';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SelectiveCartService {
   private customerId: string;
   private userId: string;
