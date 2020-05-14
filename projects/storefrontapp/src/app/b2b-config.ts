@@ -14,6 +14,9 @@ export const b2bConfig: StorefrontConfig = {
       endpoints: {
         addEntries: 'orgUsers/${userId}/carts/${cartId}/entries',
         user: 'orgUsers/${userId}',
+        setDeliveryAddress:
+          'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
+        placeOrder: 'orgUsers/${userId}/orders?termsChecked=true',
       },
     },
   },
