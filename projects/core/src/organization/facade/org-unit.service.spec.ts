@@ -555,18 +555,56 @@ describe('OrgUnitService', () => {
   });
 
   describe('get active unit list', () => {
-    it('getActiveUnitList()', () => {
-      let unitNode: B2BUnitNode[];
+    it('getActiveUnitList() when active units are not present in the store', () => {
+      let unitNodes: B2BUnitNode[];
       service
-        .getList()
+        .getActiveUnitList()
+        .subscribe((data) => {
+          unitNodes = data;
+        })
+        .unsubscribe();
+
+      expect(unitNodes).toEqual(undefined);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new OrgUnitActions.LoadOrgUnitNodes({ userId })
+      );
+    });
+  });
+
+  describe('get tree', () => {
+    it('getTree() should trigger loadTree when they are not present in the store', () => {
+      let unitNode: B2BUnitNode;
+      service
+        .getTree()
         .subscribe((data) => {
           unitNode = data;
         })
         .unsubscribe();
 
+      expect(authService.getOccUserId).toHaveBeenCalledWith();
       expect(unitNode).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new OrgUnitActions.LoadOrgUnitNodes({ userId })
+        new OrgUnitActions.LoadTree({ userId })
+      );
+    });
+
+    it('getTree() should be able to get tree when they are present in the store', () => {
+      let resultUnitNode: B2BUnitNode;
+      const mockedUnitNode: B2BUnitNode = { id: 'testUnitNodeId' };
+
+      store.dispatch(new OrgUnitActions.LoadTreeSuccess(mockedUnitNode));
+
+      service
+        .getTree()
+        .subscribe((data) => {
+          resultUnitNode = data;
+        })
+        .unsubscribe();
+
+      expect(authService.getOccUserId).not.toHaveBeenCalled();
+      expect(resultUnitNode).toEqual(resultUnitNode);
+      expect(store.dispatch).not.toHaveBeenCalledWith(
+        new OrgUnitActions.LoadTree({ userId })
       );
     });
   });
