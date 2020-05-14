@@ -134,8 +134,6 @@ class MockConfiguratorCommonsService {
   }
 }
 
-//'a---a', 'xy', '--uv', '--(u|)');
-
 function checkConfigurationOverviewObs(
   component: ConfigOverviewFormComponent,
   routerMarbels: string,
