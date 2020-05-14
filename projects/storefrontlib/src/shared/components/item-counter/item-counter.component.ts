@@ -14,7 +14,7 @@ import { startWith } from 'rxjs/operators';
 
 /**
  * Provides a UI to manage the count of the quantity, typically by using
- * increase and decrease functinality. The item counter expects an input `FormControl`
+ * increase and decrease functionality. The item counter expects an input `FormControl`
  * so that the state of the control can be managed outside of this component.
  */
 @Component({
@@ -45,13 +45,13 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
 
   /**
    * The step is used to increment the count. It is supposed to be a
-   * positive inteteger or float.
+   * positive integer or float.
    * @default 1
    */
   @Input() step = 1;
 
   /**
-   * Inidicates that the input can be manually set to zero,
+   * Indicates that the input can be manually set to zero,
    * despite the fact that the input controls will be limited to
    * the minimum. The zero value can be used to remove an item.
    */
