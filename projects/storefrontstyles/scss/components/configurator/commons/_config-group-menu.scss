@@ -42,13 +42,16 @@
           color: var(--cx-color-primary);
         }
 
-        cx-icon {
+        .groupIndicator {
           margin-top: 5px;
           float: right;
         }
       }
     }
 
+    cx-icon.hasSubgroups {
+      margin-left: 5px;
+    }
     cx-icon.ERROR,
     cx-icon.COMPLETE {
       display: none;
