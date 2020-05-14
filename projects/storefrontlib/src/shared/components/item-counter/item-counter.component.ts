@@ -68,10 +68,9 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
   @ViewChild('qty') private input: ElementRef<HTMLInputElement>;
 
   /**
-   * Subscription responsible for auto-correcting control's values
-   * that are out of range (min, max).
+   * Subscription responsible for auto-correcting control's value when it's invalid.
    */
-  protected sub: Subscription;
+  private sub: Subscription;
 
   @HostListener('click') handleClick() {
     this.input.nativeElement.focus();
