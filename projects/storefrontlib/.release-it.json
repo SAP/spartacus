@@ -22,5 +22,15 @@
     ],
     "releaseName": "@spartacus/storefront@${version}",
     "releaseNotes": "cd ../../ && npm run --silent release-notes:lib -- --to storefront-${version}"
+  },
+  "plugins": {
+    "@release-it/bumper": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": "peerDependencies.@spartacus/core"
+        }
+      ]
+    }
   }
 }

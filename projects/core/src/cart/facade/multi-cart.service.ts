@@ -9,7 +9,9 @@ import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class MultiCartService {
   constructor(protected store: Store<StateWithMultiCart>) {}
 
