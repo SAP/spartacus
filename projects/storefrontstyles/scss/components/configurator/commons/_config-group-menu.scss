@@ -45,29 +45,38 @@
         .groupIndicator {
           margin-top: 5px;
           float: right;
+          width: 50px;
+          display: flex;
+
+          .groupStatusIndicator {
+            width: 25px;
+            cx-icon.ERROR,
+            cx-icon.COMPLETE {
+              display: none;
+            }
+
+            cx-icon.ERROR {
+              color: var(--cx-color-danger);
+            }
+
+            cx-icon.COMPLETE {
+              color: var(--cx-color-text) !important;
+            }
+          }
+
+          .subGroupIndicator {
+            width: 25px;
+            cx-icon {
+              margin-left: 5px;
+            }
+          }
         }
       }
-    }
 
-    cx-icon.hasSubgroups {
-      margin-left: 5px;
-    }
-    cx-icon.ERROR,
-    cx-icon.COMPLETE {
-      display: none;
-    }
-
-    cx-icon.ERROR {
-      color: var(--cx-color-danger);
-    }
-
-    cx-icon.COMPLETE {
-      color: var(--cx-color-text) !important;
-    }
-
-    .cx-config-menu-item.ERROR cx-icon.ERROR,
-    .cx-config-menu-item.COMPLETE cx-icon.COMPLETE {
-      display: inline-block;
+      &.ERROR cx-icon.ERROR,
+      &.COMPLETE cx-icon.COMPLETE {
+        display: inline-block !important;
+      }
     }
   }
 
