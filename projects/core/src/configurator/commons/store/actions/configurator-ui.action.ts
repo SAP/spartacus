@@ -10,8 +10,8 @@ export const SET_MENU_PARENT_GROUP =
   '[Configurator] Set current parent group for menu to UI State';
 
 export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
-export const SET_GROUPS_COMPLETED = '[Configurator] Set group complete status';
-export const SET_GROUPS_ERROR = '[Configurator] Set group error status';
+export const SET_GROUPS_COMPLETED = '[Configurator] Set groups complete status';
+export const SET_GROUPS_ERROR = '[Configurator] Set groups error status';
 
 export class SetUiState implements StateEntityActions.EntityAction {
   readonly type = SET_UI_STATE;
