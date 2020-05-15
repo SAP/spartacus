@@ -129,7 +129,7 @@ export class B2BUserEffects {
         .getApprovers(payload.userId, payload.orgCustomerId, payload.params)
         .pipe(
           switchMap((approvers: EntitiesModel<B2BUser>) => {
-            const { values, page } = normalizeListPage(approvers, 'code');
+            const { values, page } = normalizeListPage(approvers, 'uid');
             return [
               new B2BUserActions.LoadB2BUserSuccess(values),
               new B2BUserActions.LoadB2BUserApproversSuccess({
@@ -201,7 +201,7 @@ export class B2BUserEffects {
         .getUserGroups(payload.userId, payload.orgCustomerId, payload.params)
         .pipe(
           switchMap((userGroups: EntitiesModel<UserGroup>) => {
-            const { values, page } = normalizeListPage(userGroups, 'code');
+            const { values, page } = normalizeListPage(userGroups, 'uid');
             return [
               new UserGroupActions.LoadUserGroupSuccess(values),
               new B2BUserActions.LoadB2BUserUserGroupsSuccess({
