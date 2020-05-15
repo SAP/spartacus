@@ -2,7 +2,7 @@ const nextGroupButtonSelector =
   'cx-config-previous-next-buttons div div:last button';
 const previousGroupButtonSelector =
   'cx-config-previous-next-buttons div div:first button';
-const addToCartButtonSelector = 'cx-config-add-to-cart-button div div button';
+const addToCartButtonSelector = 'cx-config-add-to-cart-button button';
 
 export function clickOnConfigureButton() {
   cy.get('cx-configure-product a').click({ force: true });
