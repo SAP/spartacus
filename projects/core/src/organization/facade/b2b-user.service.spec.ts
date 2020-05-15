@@ -10,24 +10,31 @@ import {
   StateWithOrganization,
 } from '@spartacus/core';
 import { B2BUserService } from './b2b-user.service';
-import { B2BUserActions } from '../store/actions/index';
-import { B2BUser } from '../../model/org-unit.model';
-import { Permission } from '../../model/permission.model';
-import { EntitiesModel } from '../../model/misc.model';
+import {
+  B2BUserActions,
+  PermissionActions,
+  UserGroupActions,
+} from '../store/actions/index';
 import { B2BSearchConfig } from '../model/search-config';
 import * as fromReducers from '../store/reducers/index';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserGroup } from '../../model/user-group.model';
+import { B2BUser } from '../../model/org-unit.model';
+import { Permission } from '../../model/permission.model';
+import { EntitiesModel } from '../../model/misc.model';
 
 const userId = 'currentUserId';
 const orgCustomerId = 'currentOrgCustomerId';
 const permissionId = 'permissionId';
+const permissionId2 = 'permissionId2';
 const params: B2BSearchConfig = { sort: 'code' };
 const permission: Permission = {
   active: true,
   code: permissionId,
 };
+const permission2: Permission = { ...permission, code: permissionId2 };
+
 const b2bUser: B2BUser = {
   active: true,
   uid: orgCustomerId,
@@ -47,7 +54,7 @@ const b2bUserList: EntitiesModel<B2BUser> = {
   sorts,
 };
 const permissionList: EntitiesModel<Permission> = {
-  values: [permission],
+  values: [permission, permission2],
   pagination,
   sorts,
 };
@@ -98,7 +105,7 @@ fdescribe('B2BUserService', () => {
     }
   ));
 
-  fdescribe('Load B2B User', () => {
+  describe('Load B2B User', () => {
     it('loadB2BUser() should should dispatch LoadB2BUser action', () => {
       service.loadB2BUser(orgCustomerId);
 
@@ -109,7 +116,7 @@ fdescribe('B2BUserService', () => {
     });
   });
 
-  fdescribe('Load B2B Users', () => {
+  describe('Load B2B Users', () => {
     it('loadB2BUsers() should should dispatch LoadB2BUsers action', () => {
       service.loadB2BUsers(params);
 
@@ -120,7 +127,7 @@ fdescribe('B2BUserService', () => {
     });
   });
 
-  fdescribe('get B2B user', () => {
+  describe('get B2B user', () => {
     it('get() should load B2B user when not present in the store', () => {
       let b2bUserDetails: B2BUser;
       service
@@ -157,7 +164,7 @@ fdescribe('B2BUserService', () => {
     });
   });
 
-  fdescribe('get users', () => {
+  describe('get users', () => {
     it('getList() should be able to get users when not present in the store', () => {
       let users: EntitiesModel<B2BUser>;
       service
@@ -203,7 +210,7 @@ fdescribe('B2BUserService', () => {
       );
     });
 
-    fdescribe('create B2B user', () => {
+    describe('create B2B user', () => {
       it('create() should should dispatch CreateBudget action', () => {
         service.create(b2bUser);
 
@@ -214,7 +221,7 @@ fdescribe('B2BUserService', () => {
       });
     });
 
-    fdescribe('update B2B user', () => {
+    describe('update B2B user', () => {
       it('update() should should dispatch UpdateB2BUser action', () => {
         service.update(orgCustomerId, b2bUser);
 
@@ -229,7 +236,7 @@ fdescribe('B2BUserService', () => {
       });
     });
 
-    fdescribe('load B2B user approvers', () => {
+    describe('load B2B user approvers', () => {
       it('loadB2BUserApprovers() should should dispatch LoadB2BUserApprovers action', () => {
         service.loadB2BUserApprovers(orgCustomerId, params);
 
@@ -244,7 +251,7 @@ fdescribe('B2BUserService', () => {
       });
     });
 
-    fdescribe('get B2BUser approvers', () => {
+    describe('get B2BUser approvers', () => {
       it('getB2BUserApprovers() should be able to get approvers when not present in the store', () => {
         let users: EntitiesModel<B2BUser>;
         service
@@ -267,6 +274,9 @@ fdescribe('B2BUserService', () => {
 
       it('getB2BUserApprovers() should be able to get approvers when present in the store', () => {
         store.dispatch(
+          new B2BUserActions.LoadB2BUserSuccess(b2bUserList.values)
+        );
+        store.dispatch(
           new B2BUserActions.LoadB2BUserApproversSuccess({
             orgCustomerId,
             page: {
@@ -277,15 +287,15 @@ fdescribe('B2BUserService', () => {
             params,
           })
         );
-        let users: EntitiesModel<B2BUser>;
+        let usersReceived: EntitiesModel<B2BUser>;
         service
           .getB2BUserApprovers(orgCustomerId, params)
           .subscribe((data) => {
-            users = data;
+            usersReceived = data;
           })
           .unsubscribe();
         expect(authService.getOccUserId).not.toHaveBeenCalled();
-        expect(users).toEqual(b2bUserList);
+        expect(usersReceived).toEqual(b2bUserList);
         expect(store.dispatch).not.toHaveBeenCalledWith(
           new B2BUserActions.LoadB2BUserApprovers({
             userId,
@@ -296,7 +306,7 @@ fdescribe('B2BUserService', () => {
       });
     });
 
-    fdescribe('assign approver', () => {
+    describe('assign approver', () => {
       it('assignApprover() should dispatch CreateB2BUserApprover action', () => {
         const approverId = 'approverId';
         service.assignApprover(orgCustomerId, approverId);
@@ -312,7 +322,7 @@ fdescribe('B2BUserService', () => {
       });
     });
 
-    fdescribe('unassign approver', () => {
+    describe('unassign approver', () => {
       it('unassignApprover() should dispatch DeleteB2BUserApprover action', () => {
         const approverId = 'approverId';
         service.unassignApprover(orgCustomerId, approverId);
@@ -328,7 +338,7 @@ fdescribe('B2BUserService', () => {
       });
     });
 
-    fdescribe('load B2B user permissions', () => {
+    describe('load B2B user permissions', () => {
       it('loadB2BUserPermissions() should dispatch LoadB2BUserPermissions action', () => {
         service.loadB2BUserPermissions(orgCustomerId, params);
         expect(authService.getOccUserId).toHaveBeenCalled();
@@ -341,18 +351,18 @@ fdescribe('B2BUserService', () => {
         );
       });
     });
-    fdescribe('get B2B user permissions', () => {
+    describe('get B2B user permissions', () => {
       it('getB2BUserPermissions() should be able to get permissions when not present in the store', () => {
-        let permissions: EntitiesModel<Permission>;
+        let permissionsReceived: EntitiesModel<Permission>;
         service
           .getB2BUserPermissions(orgCustomerId, params)
           .subscribe((data) => {
-            permissions = data;
+            permissionsReceived = data;
           })
           .unsubscribe();
 
         expect(authService.getOccUserId).toHaveBeenCalled();
-        expect(permissions).toEqual(undefined);
+        expect(permissionsReceived).toEqual(undefined);
         expect(store.dispatch).toHaveBeenCalledWith(
           new B2BUserActions.LoadB2BUserPermissions({
             userId,
@@ -364,10 +374,13 @@ fdescribe('B2BUserService', () => {
 
       it('getB2BUserPermissions() should be able to get permissions when present in the store', () => {
         store.dispatch(
+          new PermissionActions.LoadPermissionSuccess(permissionList.values)
+        );
+        store.dispatch(
           new B2BUserActions.LoadB2BUserPermissionsSuccess({
             orgCustomerId,
             page: {
-              ids: [permission.code, permission.code],
+              ids: [permission.code, permission2.code],
               pagination,
               sorts,
             },
@@ -393,7 +406,7 @@ fdescribe('B2BUserService', () => {
       });
     });
 
-    fdescribe('assign permission', () => {
+    describe('assign permission', () => {
       it('assignPermission() should should dispatch CreateB2BUserPermission action', () => {
         service.assignPermission(orgCustomerId, permissionId);
 
@@ -408,7 +421,7 @@ fdescribe('B2BUserService', () => {
       });
     });
 
-    fdescribe('unassign permission', () => {
+    describe('unassign permission', () => {
       it('unassignPermission() should should dispatch DeleteB2BUserPermission action', () => {
         service.unassignPermission(orgCustomerId, permissionId);
 
@@ -424,7 +437,7 @@ fdescribe('B2BUserService', () => {
     });
   });
 
-  fdescribe('load B2B User Groups', () => {
+  describe('load B2B User Groups', () => {
     it('loadB2BUserUserGroups() should should dispatch LoadB2BUserUserGroups action', () => {
       service.loadB2BUserUserGroups(orgCustomerId, params);
       expect(authService.getOccUserId).toHaveBeenCalled();
@@ -438,18 +451,18 @@ fdescribe('B2BUserService', () => {
     });
   });
 
-  fdescribe('get B2BUser usergroups', () => {
+  describe('get B2BUser usergroups', () => {
     it('getB2BUserUserGroups() should be able to get B2Buser usergroups when not present in the store', () => {
-      let userGroups: EntitiesModel<UserGroup>;
+      let userGroupsReceived: EntitiesModel<UserGroup>;
       service
         .getB2BUserUserGroups(orgCustomerId, params)
         .subscribe((data) => {
-          userGroups = data;
+          userGroupsReceived = data;
         })
         .unsubscribe();
 
       expect(authService.getOccUserId).toHaveBeenCalled();
-      expect(userGroups).toEqual(undefined);
+      expect(userGroupsReceived).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new B2BUserActions.LoadB2BUserUserGroups({
           userId,
@@ -460,6 +473,9 @@ fdescribe('B2BUserService', () => {
     });
 
     it('getB2BUserUserGroups() should be able to get B2Buser usergroups when present in the store', () => {
+      store.dispatch(
+        new UserGroupActions.LoadUserGroupSuccess(userGroupList.values)
+      );
       store.dispatch(
         new B2BUserActions.LoadB2BUserUserGroupsSuccess({
           orgCustomerId,
@@ -491,7 +507,7 @@ fdescribe('B2BUserService', () => {
     });
   });
 
-  fdescribe('assign user group', () => {
+  describe('assign user group', () => {
     const userGroupId = 'userGroupId';
 
     it('assignUserGroup() should should dispatch CreateB2BUserUserGroup action', () => {
@@ -507,7 +523,7 @@ fdescribe('B2BUserService', () => {
     });
   });
 
-  fdescribe('unassign user group', () => {
+  describe('unassign user group', () => {
     const userGroupId = 'userGroupId';
 
     it('unassignUserGroup() should should dispatch DeleteB2BUserUserGroup action', () => {
