@@ -55,7 +55,7 @@ export abstract class AbstractListingComponent {
     .getRouterState()
     .pipe(map((routingData: RouterState) => routingData.state.params));
 
-  protected code$: Observable<string> = this.params$.pipe(
+  public code$: Observable<string> = this.params$.pipe(
     map((params: Params) => params['code'])
   );
 
