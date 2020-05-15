@@ -70,7 +70,9 @@ Here are some examples how the `add-cms-component` schematic can be used:
 
 ## Prerequisites
 
-Install angular schematics globally: `npm install -g @angular-devkit/schematics-cli`
+Install angular schematics globally: `npm install -g @angular-devkit/schematics-cli`.
+
+Navigate to `$ cd projects/schematics` and install the dependencies using `$ yarn install`.
 
 ## Testing schematics
 
@@ -79,7 +81,8 @@ Install angular schematics globally: `npm install -g @angular-devkit/schematics-
 To run schematics unit tests:
 
 1. `$ cd projects/schematics`
-2. `yarn test`
+2. `$ yarn` - to install dependencies
+3. `$ yarn test`
 
 ### Integration testing
 
