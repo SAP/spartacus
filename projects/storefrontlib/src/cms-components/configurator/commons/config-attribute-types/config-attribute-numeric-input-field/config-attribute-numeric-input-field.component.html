@@ -15,15 +15,13 @@
           }}"
         />
         <div
-          *ngIf="
-            attributeInputForm.invalid &&
-            (attributeInputForm.dirty || attributeInputForm.touched)
-          "
-          class="alert alert-danger"
+          class="cx-config-attribute-numeric-input-validation-message"
+          *ngIf="mustDisplayValidationMessage()"
         >
-          <div *ngIf="attributeInputForm.errors.wrongFormat">
-            Wrong numeric format {{ numericFormatPattern }}
-          </div>
+          {{
+            'configurator.attribute.wrongNumericFormat'
+              | cxTranslate: { pattern: numericFormatPattern }
+          }}
         </div>
       </div>
     </div>

@@ -22,7 +22,7 @@ import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generat
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeNumericInputFieldComponent implements OnInit {
-  attributeInputForm;
+  attributeInputForm: FormControl;
   numericFormatPattern;
 
   constructor(
@@ -36,26 +36,53 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  compilePatternForValidationMessage() {
-    this.numericFormatPattern = '##,###.###';
+  mustDisplayValidationMessage(): boolean {
+    const wrongFormat: boolean =
+      (this.attributeInputForm.dirty || this.attributeInputForm.touched) &&
+      this.attributeInputForm.errors?.wrongFormat;
+    return wrongFormat;
+  }
+
+  compilePatternForValidationMessage(
+    decimalPipe: DecimalPipe,
+    decimalPlaces: number,
+    totalLength: number
+  ) {
+    let input: string = 10 ** totalLength - 1 + '';
+    if (decimalPlaces > 0) {
+      input =
+        input.substring(0, totalLength - decimalPlaces) +
+        '.' +
+        input.substring(totalLength - decimalPlaces, totalLength);
+    }
+    this.numericFormatPattern = decimalPipe
+      .transform(input, '1.' + decimalPlaces + '-' + decimalPlaces)
+      .replace(/9/g, '#');
   }
 
   ngOnInit() {
-    this.compilePatternForValidationMessage();
-
-    this.attributeInputForm = new FormControl('', [
-      this.numberFormatValidator(
-        this.attribute.numDecimalPlaces,
-        this.attribute.numTotalLength
-      ),
-    ]);
     this.languageService
       .getActive()
       .pipe(take(1))
       .subscribe((language) => {
         //locales based on languages only
-        const decimalPipe: DecimalPipe = new DecimalPipe(language);
+
+        this.attributeInputForm = new FormControl('', [
+          this.numberFormatValidator(
+            language,
+            this.attribute.numDecimalPlaces,
+            this.attribute.numTotalLength
+          ),
+        ]);
+
         const numDecimalPlaces = this.attribute.numDecimalPlaces;
+        const decimalPipe: DecimalPipe = new DecimalPipe(language);
+        this.compilePatternForValidationMessage(
+          decimalPipe,
+          numDecimalPlaces,
+          this.attribute.numTotalLength
+        );
+
         this.attributeInputForm.setValue(
           decimalPipe.transform(
             this.attribute.userInput,
@@ -86,31 +113,36 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
   }
 
   numberFormatValidator(
+    locale: string,
     numberDecimalPlaces: number,
     numberTotalPlaces: number
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      //const format = getLocaleNumberFormat('de-CH', NumberFormatStyle.Decimal);
-      const groupingSeparator = getLocaleNumberSymbol('en', NumberSymbol.Group);
+      const groupingSeparator = getLocaleNumberSymbol(
+        locale,
+        NumberSymbol.Group
+      );
       const decimalSeparator = getLocaleNumberSymbol(
-        'en',
+        locale,
         NumberSymbol.Decimal
       );
 
       const numericValue: string = control.value;
       if (numericValue) {
-        const woGrouping = numericValue.replace(groupingSeparator, '');
+        const search: RegExp = new RegExp('/' + groupingSeparator, 'g');
+        const woGrouping = numericValue.replace(search, '');
+
         const splitParts = woGrouping.split(decimalSeparator);
         if (splitParts.length > 2) {
-          return { wrongFormat: '' };
+          return { wrongFormat: { value: control.value } };
         }
         if (splitParts.length === 1) {
           return woGrouping.length > numberTotalPlaces
             ? { wrongFormat: { value: control.value } }
             : null;
         }
-        return woGrouping.length + splitParts[1].length > numberTotalPlaces ||
-          splitParts[1].length > numberDecimalPlaces
+        return splitParts[0].length + splitParts[1].length >
+          numberTotalPlaces || splitParts[1].length > numberDecimalPlaces
           ? { wrongFormat: { value: control.value } }
           : null;
       }
