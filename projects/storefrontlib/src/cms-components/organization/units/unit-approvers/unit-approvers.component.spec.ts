@@ -16,7 +16,6 @@ import {
   RoutingService,
   EntitiesModel,
   B2BSearchConfig,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
   OrgUnitService,
@@ -31,18 +30,12 @@ import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing
 import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
 
 const code = 'unitCode';
-const email = 'aaa@bbb';
 const roleId = 'b2bapprovergroup';
-const userRow = {
-  row: {
-    email,
-  },
-};
 
-const defaultParams: B2BSearchConfig = {
+const params: B2BSearchConfig = {
   sort: 'byName',
   currentPage: 0,
-  pageSize: 5,
+  pageSize: 2147483647,
 };
 
 const mockUserList: EntitiesModel<B2BUser> = {
@@ -71,17 +64,8 @@ const mockUserUIList = {
     {
       name: 'b1',
       email: 'aaa@bbb',
-      selected: true,
       parentUnit: 'orgName',
       uid: 'orgUid',
-      roles: [],
-    },
-    {
-      name: 'b2',
-      email: 'aaa2@bbb',
-      selected: false,
-      uid: 'orgUid2',
-      parentUnit: 'orgName2',
       roles: [],
     },
   ],
@@ -109,10 +93,6 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   loadUsers = createSpy('loadUsers');
 
   getUsers = createSpy('getUsers').and.returnValue(userList);
-
-  assignApprover = createSpy('assignApprover');
-
-  unassignApprover = createSpy('unassignApprover');
 }
 
 class MockRoutingService {
@@ -140,12 +120,6 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
 describe('UnitApproversComponent', () => {
   let component: UnitApproversComponent;
   let fixture: ComponentFixture<UnitApproversComponent>;
@@ -160,7 +134,6 @@ describe('UnitApproversComponent', () => {
         MockPaginationComponent,
       ],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -212,36 +185,14 @@ describe('UnitApproversComponent', () => {
       expect(orgUnitService.loadUsers).toHaveBeenCalledWith(
         code,
         roleId,
-        defaultParams
+        params
       );
       expect(orgUnitService.getUsers).toHaveBeenCalledWith(
         code,
         roleId,
-        defaultParams
+        params
       );
       expect(usersList).toEqual(mockUserUIList);
-    });
-  });
-
-  describe('assign', () => {
-    it('should assign approver', () => {
-      component.assign(userRow);
-      expect(orgUnitService.assignApprover).toHaveBeenCalledWith(
-        code,
-        userRow.row.email,
-        roleId
-      );
-    });
-  });
-
-  describe('unassign', () => {
-    it('should unassign approver', () => {
-      component.unassign(userRow);
-      expect(orgUnitService.unassignApprover).toHaveBeenCalledWith(
-        code,
-        userRow.row.email,
-        roleId
-      );
     });
   });
 });

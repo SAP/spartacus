@@ -11,7 +11,6 @@ import { Observable } from 'rxjs';
 
 import {
   RoutingService,
-  CxDatePipe,
   EntitiesModel,
   OrgUnitService,
   B2BUser,
@@ -33,8 +32,7 @@ export class UnitUsersComponent extends AbstractListingComponent
 
   constructor(
     protected routingService: RoutingService,
-    protected orgUnitsService: OrgUnitService,
-    protected cxDate: CxDatePipe
+    protected orgUnitsService: OrgUnitService
   ) {
     super(routingService);
   }
@@ -53,13 +51,15 @@ export class UnitUsersComponent extends AbstractListingComponent
           map((userList: EntitiesModel<B2BUser>) => ({
             sorts: userList.sorts,
             pagination: userList.pagination,
-            values: userList.values.map((user) => ({
-              email: user.uid,
-              name: user.name,
-              roles: user.roles,
-              parentUnit: user.orgUnit && user.orgUnit.name,
-              uid: user.orgUnit && user.orgUnit.uid,
-            })),
+            values: userList.values
+              .filter((user) => user.selected)
+              .map((user) => ({
+                email: user.uid,
+                name: user.name,
+                roles: user.roles,
+                parentUnit: user.orgUnit && user.orgUnit.name,
+                uid: user.orgUnit && user.orgUnit.uid,
+              })),
           }))
         )
       )

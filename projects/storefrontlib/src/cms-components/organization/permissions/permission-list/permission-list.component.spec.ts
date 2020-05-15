@@ -14,7 +14,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   B2BSearchConfig,
-  CxDatePipe,
   EntitiesModel,
   I18nTestingModule,
   Period,
@@ -148,12 +147,6 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
 describe('PermissionListComponent', () => {
   let component: PermissionListComponent;
   let fixture: ComponentFixture<PermissionListComponent>;
@@ -174,7 +167,6 @@ describe('PermissionListComponent', () => {
         MockUrlPipe,
       ],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: PermissionService, useClass: MockPermissionService },

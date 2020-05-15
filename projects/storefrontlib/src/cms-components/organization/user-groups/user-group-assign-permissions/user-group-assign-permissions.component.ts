@@ -11,7 +11,6 @@ import { Observable } from 'rxjs';
 
 import {
   RoutingService,
-  CxDatePipe,
   EntitiesModel,
   UserGroupService,
   Permission,
@@ -33,8 +32,7 @@ export class UserGroupAssignPermissionsComponent
 
   constructor(
     protected routingService: RoutingService,
-    protected userGroupService: UserGroupService,
-    protected cxDate: CxDatePipe
+    protected userGroupService: UserGroupService
   ) {
     super(routingService);
   }

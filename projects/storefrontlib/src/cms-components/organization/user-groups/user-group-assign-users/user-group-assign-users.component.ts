@@ -11,7 +11,6 @@ import { Observable } from 'rxjs';
 
 import {
   RoutingService,
-  CxDatePipe,
   EntitiesModel,
   UserGroupService,
   B2BUser,
@@ -32,8 +31,7 @@ export class UserGroupAssignUsersComponent extends AbstractListingComponent
 
   constructor(
     protected routingService: RoutingService,
-    protected userGroupService: UserGroupService,
-    protected cxDate: CxDatePipe
+    protected userGroupService: UserGroupService
   ) {
     super(routingService);
   }
