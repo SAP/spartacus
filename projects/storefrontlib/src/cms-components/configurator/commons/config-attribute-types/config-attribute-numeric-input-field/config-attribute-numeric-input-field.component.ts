@@ -1,8 +1,4 @@
-import {
-  DecimalPipe,
-  getLocaleNumberSymbol,
-  NumberSymbol,
-} from '@angular/common';
+import { getLocaleNumberSymbol, NumberSymbol } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,10 +8,10 @@ import {
   Output,
 } from '@angular/core';
 import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
-import { Configurator, LanguageService } from '@spartacus/core';
-import { take } from 'rxjs/operators';
+import { Configurator, CxDecimalPipe } from '@spartacus/core';
 import { ConfigFormUpdateEvent } from '../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
+
 @Component({
   selector: 'cx-config-attribute-numeric-input-field',
   templateUrl: './config-attribute-numeric-input-field.component.html',
@@ -27,7 +23,7 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
 
   constructor(
     public uiKeyGenerator: ConfigUIKeyGeneratorService,
-    public languageService: LanguageService
+    public cxDecimalPipe: CxDecimalPipe
   ) {}
 
   @Input() attribute: Configurator.Attribute;
@@ -40,11 +36,11 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
     const wrongFormat: boolean =
       (this.attributeInputForm.dirty || this.attributeInputForm.touched) &&
       this.attributeInputForm.errors?.wrongFormat;
+
     return wrongFormat;
   }
 
   compilePatternForValidationMessage(
-    decimalPipe: DecimalPipe,
     decimalPlaces: number,
     totalLength: number
   ) {
@@ -55,41 +51,35 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
         '.' +
         input.substring(totalLength - decimalPlaces, totalLength);
     }
-    this.numericFormatPattern = decimalPipe
+    this.numericFormatPattern = this.cxDecimalPipe
       .transform(input, '1.' + decimalPlaces + '-' + decimalPlaces)
       .replace(/9/g, '#');
   }
 
   ngOnInit() {
-    this.languageService
-      .getActive()
-      .pipe(take(1))
-      .subscribe((language) => {
-        //locales based on languages only
+    //locales based on languages only
 
-        this.attributeInputForm = new FormControl('', [
-          this.numberFormatValidator(
-            language,
-            this.attribute.numDecimalPlaces,
-            this.attribute.numTotalLength
-          ),
-        ]);
+    this.attributeInputForm = new FormControl('', [
+      this.numberFormatValidator(
+        this.cxDecimalPipe.getLang(),
+        this.attribute.numDecimalPlaces,
+        this.attribute.numTotalLength
+      ),
+    ]);
 
-        const numDecimalPlaces = this.attribute.numDecimalPlaces;
-        const decimalPipe: DecimalPipe = new DecimalPipe(language);
-        this.compilePatternForValidationMessage(
-          decimalPipe,
-          numDecimalPlaces,
-          this.attribute.numTotalLength
-        );
+    const numDecimalPlaces = this.attribute.numDecimalPlaces;
 
-        this.attributeInputForm.setValue(
-          decimalPipe.transform(
-            this.attribute.userInput,
-            '1.' + numDecimalPlaces + '-' + numDecimalPlaces
-          )
-        );
-      });
+    this.compilePatternForValidationMessage(
+      numDecimalPlaces,
+      this.attribute.numTotalLength
+    );
+
+    this.attributeInputForm.setValue(
+      this.cxDecimalPipe.transform(
+        this.attribute.userInput,
+        '1.' + numDecimalPlaces + '-' + numDecimalPlaces
+      )
+    );
   }
 
   onChange() {
@@ -141,6 +131,7 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
             ? { wrongFormat: { value: control.value } }
             : null;
         }
+
         return splitParts[0].length + splitParts[1].length >
           numberTotalPlaces || splitParts[1].length > numberDecimalPlaces
           ? { wrongFormat: { value: control.value } }

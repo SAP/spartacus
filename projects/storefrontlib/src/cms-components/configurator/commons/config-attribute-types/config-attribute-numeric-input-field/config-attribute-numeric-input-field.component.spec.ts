@@ -2,12 +2,12 @@ import { DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Configurator, LanguageService } from '@spartacus/core';
+import { Configurator, CxDecimalPipe, LanguageService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ConfigFormUpdateEvent } from '../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 import { ConfigAttributeNumericInputFieldComponent } from './config-attribute-numeric-input-field.component';
-import createSpy = jasmine.createSpy;
+
 @Pipe({
   name: 'cxTranslate',
 })
@@ -38,11 +38,19 @@ describe('ConfigAttributeInputFieldComponent', () => {
   let mockLanguageService;
   let htmlElem: HTMLElement;
   const decimalPipe: DecimalPipe = new DecimalPipe('en');
+  const mockCxDecimalPipe = {
+    transform(value: any, format: string): string {
+      return decimalPipe.transform(value, format, 'en');
+    },
+    getLang(): string {
+      return 'en';
+    },
+  };
   beforeEach(async(() => {
     mockLanguageService = {
       getAll: () => of([]),
-      getActive: createSpy().and.returnValue(of('en')),
-      setActive: createSpy(),
+      getActive: jasmine.createSpy().and.returnValue(of('en')),
+      setActive: jasmine.createSpy(),
     };
     TestBed.configureTestingModule({
       declarations: [
@@ -53,6 +61,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
       providers: [
         ConfigUIKeyGeneratorService,
         { provide: LanguageService, useValue: mockLanguageService },
+        { provide: CxDecimalPipe, useValue: mockCxDecimalPipe },
       ],
     })
       .overrideComponent(ConfigAttributeNumericInputFieldComponent, {
@@ -110,6 +119,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
   it('should display a validation issue if input contains to many decimal separators', () => {
     component.ngOnInit();
     component.attributeInputForm.setValue('234.23.12');
+
     checkForValidationMessage(component, fixture, htmlElem, 1);
   });
 
@@ -126,12 +136,12 @@ describe('ConfigAttributeInputFieldComponent', () => {
   });
 
   it('should compile pattern for validation message', () => {
-    component.compilePatternForValidationMessage(decimalPipe, 3, 10);
+    component.compilePatternForValidationMessage(3, 10);
     expect(component.numericFormatPattern).toBe('#,###,###.###');
   });
 
   it('should compile pattern for validation message in case no decimal places are present', () => {
-    component.compilePatternForValidationMessage(decimalPipe, 0, 10);
+    component.compilePatternForValidationMessage(0, 10);
     expect(component.numericFormatPattern).toBe('#,###,###,###');
   });
 });
