@@ -17,7 +17,7 @@ const attributeNamePrefix = 'attribute-prefix';
   `,
 })
 class TestComponent {
-  attributes: Map<string, string>;
+  attributes: { [attribute: string]: any };
   attributesNamePrefix: string;
 }
 
@@ -49,8 +49,7 @@ describe('cxAttributes directive', () => {
   });
 
   it('should add custom attributes with no prefix if only attributes are provided', () => {
-    const mockAttributes = new Map<string, string>();
-    mockAttributes.set(testAttributeName, testAttributeValue);
+    const mockAttributes = { [testAttributeName]: testAttributeValue };
 
     const expectedAttributes = {};
     expectedAttributes[testAttributeName] = testAttributeValue;
@@ -64,28 +63,7 @@ describe('cxAttributes directive', () => {
   });
 
   it('should add custom attributes with a prefix if both attributes and a prefix are provided', () => {
-    const mockAttributes = new Map<string, string>();
-    mockAttributes.set(testAttributeName, testAttributeValue);
-
-    const expectedAttributes = {};
-    expectedAttributes[
-      `${attributeNamePrefix}-${testAttributeName}`
-    ] = testAttributeValue;
-
-    testComponent.attributes = mockAttributes;
-    testComponent.attributesNamePrefix = attributeNamePrefix;
-
-    fixture.detectChanges();
-    expect(divWithDirective.attributes).toEqual(
-      jasmine.objectContaining(expectedAttributes)
-    );
-  });
-
-  it('should not add any custom attributes that have falsey keys', () => {
-    const mockAttributes = new Map<string, string>();
-    mockAttributes.set(testAttributeName, testAttributeValue);
-    mockAttributes.set(undefined, testAttributeValue);
-    mockAttributes.set(null, testAttributeValue);
+    const mockAttributes = { [testAttributeName]: testAttributeValue };
 
     const expectedAttributes = {};
     expectedAttributes[
@@ -102,10 +80,11 @@ describe('cxAttributes directive', () => {
   });
 
   it('should not add any custom attributes that have falsey values', () => {
-    const mockAttributes = new Map<string, string>();
-    mockAttributes.set(testAttributeName, testAttributeValue);
-    mockAttributes.set('undefined-attribute', undefined);
-    mockAttributes.set('null-attribute', null);
+    const mockAttributes = {
+      [testAttributeName]: testAttributeValue,
+      'undefined-attribute': undefined,
+      'null-attribute': null,
+    };
 
     const expectedAttributes = {};
     expectedAttributes[
