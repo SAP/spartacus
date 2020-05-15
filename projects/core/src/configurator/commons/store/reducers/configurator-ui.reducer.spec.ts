@@ -84,7 +84,7 @@ describe('Configurator UI reducer', () => {
   });
 
   describe('Group Status reducers', () => {
-    it('Group Visited Reducer initial state', () => {
+    it('should reduce Group Visited with initial state', () => {
       const { initialState } = uiReducer;
 
       const action = new ConfiguratorUiActions.SetGroupsVisited(PRODUCT_CODE, [
@@ -104,7 +104,7 @@ describe('Configurator UI reducer', () => {
       });
     });
 
-    it('Group Visited Reducer with existing state', () => {
+    it('should reduce Group Visited with existing state', () => {
       const { initialState } = uiReducer;
       initialState.groupsVisited = {
         entities: {
@@ -130,7 +130,7 @@ describe('Configurator UI reducer', () => {
       });
     });
 
-    it('Group Complete Reducer initial state', () => {
+    it('should reduce Group Complete Reducer with initial state', () => {
       const { initialState } = uiReducer;
 
       const action = new ConfiguratorUiActions.SetGroupCompleted(PRODUCT_CODE, [
@@ -150,7 +150,7 @@ describe('Configurator UI reducer', () => {
       });
     });
 
-    it('Group Complete Reducer with existing state', () => {
+    it('should reduce Group Complete Reducer with existing state', () => {
       const { initialState } = uiReducer;
       initialState.groupsStatus = {
         entities: {
@@ -176,7 +176,7 @@ describe('Configurator UI reducer', () => {
       });
     });
 
-    it('Group Error Reducer initial state', () => {
+    it('should reduce Group Error Reducer with initial state', () => {
       const { initialState } = uiReducer;
 
       const action = new ConfiguratorUiActions.SetGroupError(PRODUCT_CODE, [
@@ -196,7 +196,7 @@ describe('Configurator UI reducer', () => {
       });
     });
 
-    it('Group Error Reducer with existing state', () => {
+    it('should reduce Group Error Reducer with existing state', () => {
       const { initialState } = uiReducer;
       initialState.groupsStatus = {
         entities: {
