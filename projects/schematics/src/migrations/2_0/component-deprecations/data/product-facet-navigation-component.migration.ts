@@ -38,5 +38,17 @@ export const PRODUCT_FACET_NAVIGATION_COMPONENT_MIGRATION: ComponentData = {
       name: 'showMore',
       comment: `'showMore' method has been removed. Please refer to the migration guide on how to handle this change.`,
     },
+    {
+      name: 'showLess',
+      comment: `'showLess' method has been removed. Please refer to the migration guide on how to handle this change.`,
+    },
+    {
+      name: 'toggleFacet',
+      comment: `'toggleFacet' method has been removed. Please refer to the migration guide on how to handle this change.`,
+    },
+    {
+      name: 'openFilterModal',
+      comment: `'openFilterModal' method has been removed. Please refer to the migration guide on how to handle this change.`,
+    },
   ],
 };
