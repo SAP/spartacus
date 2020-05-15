@@ -17,5 +17,18 @@
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/cds@${version}",
     "releaseNotes": "cd ../.. && npm run --silent release-notes:cds -- --to cds-${version}"
+  },
+  "plugins": {
+    "@release-it/bumper": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/storefront"
+          ]
+        }
+      ]
+    }
   }
 }
