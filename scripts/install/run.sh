@@ -44,6 +44,11 @@ function pre_install {
         echo "Directory ${BASE_DIR} already exists, please remove it in order to start fresh installation."
         exit 1
     fi
+    VERDACCIO_PID=`lsof -nP -i4TCP:4873 | grep LISTEN | tr -s ' ' | cut -d ' ' -f 2`
+    if [[ -n ${VERDACCIO_PID} ]]; then
+        echo "It seems verdaccio is already running on PID: ${VERDACCIO_PID}. Please kill it first to continue."
+        exit 1
+    fi
 
     npm config set @spartacus:registry https://registry.npmjs.org/
 
@@ -71,9 +76,11 @@ function clone_repo {
 
 function update_projects_versions {
     projects=$@
+    if [[ "$SPARTACUS_VERSION" == "next" ]] || [[ "$SPARTACUS_VERSION" == "latest" ]]; then
+        SPARTACUS_VERSION="999.999.999"
+    fi
     for i in $projects
         do
-            echo $i;
             (cd "${CLONE_DIR}/projects/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
         done
 }
@@ -177,7 +184,7 @@ function local_install {
     echo "verdaccio PID: ${VERDACCIO_PID}"
 
     sleep 5
-    # cp ../../.npmignore ${CLONE_DIR}/
+
     printh "Creating core npm package"
     ( cd ${CLONE_DIR}/dist/core && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
@@ -197,9 +204,10 @@ function local_install {
 
     sleep 5
 
-    kill ${VERDACCIO_PID}
+    (kill ${VERDACCIO_PID} || echo "Verdaccio not running on PID ${VERDACCIO_PID}. Was it already runnig before starting the script?")
 
     npm set @spartacus:registry https://registry.npmjs.org/
+    echo "Finished: npm @spartacus:registry set back to https://registry.npmjs.org/"
 }
 
 function prestart_csr {
