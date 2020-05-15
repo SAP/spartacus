@@ -7,6 +7,22 @@ import {
 } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
 import { ConfigAttributeHeaderComponent } from './config-attribute-header.component';
+import {
+  ICON_TYPE,
+  IconLoaderService,
+  IconModule,
+} from '@spartacus/storefront';
+
+export class MockIconFontLoaderService {
+  useSvg(_iconType: ICON_TYPE) {
+    return false;
+  }
+  getStyleClasses(_iconType: ICON_TYPE): string {
+    return 'fas fa-exclamation-circle';
+  }
+  addLinkResource() {}
+  getHtml(_iconType: ICON_TYPE) {}
+}
 
 describe('ConfigAttributeHeaderComponent', () => {
   let classUnderTest: ConfigAttributeHeaderComponent;
@@ -24,9 +40,12 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, IconModule],
       declarations: [ConfigAttributeHeaderComponent],
-      providers: [ConfigUIKeyGeneratorService],
+      providers: [
+        ConfigUIKeyGeneratorService,
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+      ],
     })
       .overrideComponent(ConfigAttributeHeaderComponent, {
         set: {

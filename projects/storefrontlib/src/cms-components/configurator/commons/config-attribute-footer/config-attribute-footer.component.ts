@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator, GenericConfigurator } from '@spartacus/core';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 
 @Component({
   selector: 'cx-config-attribute-footer',
@@ -8,6 +9,7 @@ import { Configurator, GenericConfigurator } from '@spartacus/core';
 })
 export class ConfigAttributeFooterComponent {
   constructor() {}
+  iconTypes = ICON_TYPE;
 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerType: GenericConfigurator.OwnerType;

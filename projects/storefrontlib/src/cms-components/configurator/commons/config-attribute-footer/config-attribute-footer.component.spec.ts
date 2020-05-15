@@ -6,6 +6,22 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { ConfigAttributeFooterComponent } from './config-attribute-footer.component';
+import {
+  ICON_TYPE,
+  IconLoaderService,
+  IconModule,
+} from '@spartacus/storefront';
+
+export class MockIconFontLoaderService {
+  useSvg(_iconType: ICON_TYPE) {
+    return false;
+  }
+  getStyleClasses(_iconType: ICON_TYPE): string {
+    return 'fas fa-exclamation-circle';
+  }
+  addLinkResource() {}
+  getHtml(_iconType: ICON_TYPE) {}
+}
 
 describe('ConfigAttributeFooterComponent', () => {
   let classUnderTest: ConfigAttributeFooterComponent;
@@ -18,8 +34,11 @@ describe('ConfigAttributeFooterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, IconModule],
       declarations: [ConfigAttributeFooterComponent],
+      providers: [
+        { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+      ],
     })
       .overrideComponent(ConfigAttributeFooterComponent, {
         set: {

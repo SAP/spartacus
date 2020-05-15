@@ -5,6 +5,7 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 
 @Component({
   selector: 'cx-config-attribute-header',
@@ -17,6 +18,7 @@ export class ConfigAttributeHeaderComponent {
     protected translationService: TranslationService
   ) {}
 
+  iconTypes = ICON_TYPE;
   @Input() attribute: Configurator.Attribute;
   @Input() ownerType: GenericConfigurator.OwnerType;
 

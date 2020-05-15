@@ -16,6 +16,7 @@
   *ngIf="showRequiredMessage()"
   class="cx-config-attribute-label-required-error-msg"
 >
+  <cx-icon [type]="iconTypes.ERROR"></cx-icon>
   {{ getRequiredMessageKey() | cxTranslate }}
 </div>
 <img
