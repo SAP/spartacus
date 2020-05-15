@@ -201,6 +201,7 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     assignRoles: 'Manage Roles',
+    assignApprovers: 'Manage Approvers',
     manageAddresses: 'Manage Addresses',
     confirmDeactivation: {
       title: 'Disable Unit',
@@ -232,6 +233,10 @@ export const organization = {
   },
   unitAssignRoles: {
     header: 'Manage roles in {{code}}',
+    back: 'Close',
+  },
+  unitAssignApprovers: {
+    header: 'Manage approvers in {{code}}',
     back: 'Close',
   },
   unitManageAddresses: {

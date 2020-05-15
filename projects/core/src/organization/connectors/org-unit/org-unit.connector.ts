@@ -56,20 +56,46 @@ export class OrgUnitConnector {
 
   assignRole(
     userId: string,
-    orgUnitId: string,
     orgCustomerId: string,
     roleId: string
   ): Observable<any> {
-    return this.adapter.assignRole(userId, orgUnitId, orgCustomerId, roleId);
+    return this.adapter.assignRole(userId, orgCustomerId, roleId);
   }
 
   unassignRole(
+    userId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): Observable<any> {
+    return this.adapter.unassignRole(userId, orgCustomerId, roleId);
+  }
+
+  assignApprover(
     userId: string,
     orgUnitId: string,
     orgCustomerId: string,
     roleId: string
   ): Observable<any> {
-    return this.adapter.unassignRole(userId, orgUnitId, orgCustomerId, roleId);
+    return this.adapter.assignApprover(
+      userId,
+      orgUnitId,
+      orgCustomerId,
+      roleId
+    );
+  }
+
+  unassignApprover(
+    userId: string,
+    orgUnitId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): Observable<any> {
+    return this.adapter.unassignApprover(
+      userId,
+      orgUnitId,
+      orgCustomerId,
+      roleId
+    );
   }
 
   getAddresses(

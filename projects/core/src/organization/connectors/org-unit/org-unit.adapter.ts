@@ -45,12 +45,24 @@ export abstract class OrgUnitAdapter {
 
   abstract assignRole(
     userId: string,
-    orgUnitId: string,
     orgCustomerId: string,
     roleId: string
   ): Observable<any>;
 
   abstract unassignRole(
+    userId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): Observable<any>;
+
+  abstract assignApprover(
+    userId: string,
+    orgUnitId: string,
+    orgCustomerId: string,
+    roleId: string
+  ): Observable<any>;
+
+  abstract unassignApprover(
     userId: string,
     orgUnitId: string,
     orgCustomerId: string,

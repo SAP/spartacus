@@ -54,7 +54,7 @@ export class BudgetFormComponent extends AbstractFormComponent
   ngOnInit() {
     this.currencies$ = this.currencyService.getAll();
     this.orgUnitService.loadOrgUnitNodes();
-    this.businessUnits$ = this.orgUnitService.getList();
+    this.businessUnits$ = this.orgUnitService.getActiveUnitList();
     if (this.budgetData && Object.keys(this.budgetData).length !== 0) {
       this.form.patchValue(this.budgetData);
     }
