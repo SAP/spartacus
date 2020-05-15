@@ -7,7 +7,7 @@ import { CdsConfig } from '../../config/index';
 import {
   ConsentReferenceEvent,
   DebugEvent,
-  ProfileTagEventNames,
+  InternalProfileTagEventNames,
   ProfileTagWindowObject,
 } from '../model/index';
 import { ProfileTagEventService } from './profiletag-event.service';
@@ -34,8 +34,8 @@ describe('ProfileTagEventTracker', () => {
   let getActiveBehavior;
   let baseSiteService;
   let appendChildSpy;
-  const eventListener: Record<ProfileTagEventNames, Function> = <
-    Record<ProfileTagEventNames, Function>
+  const eventListener: Record<InternalProfileTagEventNames, Function> = <
+    Record<InternalProfileTagEventNames, Function>
   >{};
   let mockedWindowRef;
   let getConsentBehavior;
@@ -138,11 +138,11 @@ describe('ProfileTagEventTracker', () => {
       .subscribe();
 
     const debugEvent = <DebugEvent>(
-      new CustomEvent(ProfileTagEventNames.DEBUG_FLAG_CHANGED, {
+      new CustomEvent(InternalProfileTagEventNames.DEBUG_FLAG_CHANGED, {
         detail: { debug: true },
       })
     );
-    eventListener[ProfileTagEventNames.DEBUG_FLAG_CHANGED](debugEvent);
+    eventListener[InternalProfileTagEventNames.DEBUG_FLAG_CHANGED](debugEvent);
     subscription.unsubscribe();
 
     expect(timesCalled).toEqual(1);
@@ -156,20 +156,20 @@ describe('ProfileTagEventTracker', () => {
       .subscribe();
 
     let consentReferenceChangedEvent = <ConsentReferenceEvent>(
-      new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
+      new CustomEvent(InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
         detail: { consentReference: 'some_id' },
       })
     );
-    eventListener[ProfileTagEventNames.CONSENT_REFERENCE_LOADED](
+    eventListener[InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED](
       consentReferenceChangedEvent
     );
 
     consentReferenceChangedEvent = <ConsentReferenceEvent>(
-      new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
+      new CustomEvent(InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
         detail: { consentReference: 'another_id' },
       })
     );
-    eventListener[ProfileTagEventNames.CONSENT_REFERENCE_LOADED](
+    eventListener[InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED](
       consentReferenceChangedEvent
     );
     subscription.unsubscribe();
@@ -184,11 +184,11 @@ describe('ProfileTagEventTracker', () => {
       .getConsentReference()
       .subscribe((cr) => (cr1 = cr));
     const consentReferenceChangedEvent = <ConsentReferenceEvent>(
-      new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
+      new CustomEvent(InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
         detail: { consentReference: 'some_id' },
       })
     );
-    eventListener[ProfileTagEventNames.CONSENT_REFERENCE_LOADED](
+    eventListener[InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED](
       consentReferenceChangedEvent
     );
     const subscription2CR = profileTagEventTracker
