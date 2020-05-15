@@ -207,15 +207,15 @@ export const organization = {
     back: 'Back to list',
     active: 'Active',
     deactivated: 'Deactivated',
-    assignRoles: 'Manage Roles',
-    assignApprovers: 'Manage Approvers',
-    manageAddresses: 'Manage Addresses',
     confirmDeactivation: {
       title: 'Disable Unit',
       message: 'Are you sure you want to disable this unit?',
     },
     children: 'Child Units',
     costCenters: 'Cost Centers',
+    users: 'Users',
+    approvers: 'Approvers',
+    manageAddresses: 'Manage Addresses',
   },
   orgUnitForm: {
     create: 'Create Unit',
@@ -238,9 +238,19 @@ export const organization = {
       placeholder: 'Select approval process',
     },
   },
+  unitUsers: {
+    header: 'Users in {{code}}',
+    back: 'Close',
+    assignRoles: 'Manage Roles',
+  },
   unitAssignRoles: {
     header: 'Manage roles in {{code}}',
     back: 'Close',
+  },
+  unitApprovers: {
+    header: 'Approvers in {{code}}',
+    back: 'Close',
+    assignApprovers: 'Manage Approvers',
   },
   unitAssignApprovers: {
     header: 'Manage approvers in {{code}}',
