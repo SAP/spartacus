@@ -10,8 +10,11 @@
     </div>
   </div>
   <div class="cx-summary-row">
-    <div class="col-6 cx-summary-label">
-      {{ 'orderCost.estimatedShipping' | cxTranslate }}
+    <div
+      class="col-6 cx-summary-label"
+      *ngIf="cart.deliveryCost?.formattedValue; else estimatedShipping"
+    >
+      {{ 'orderCost.shipping' | cxTranslate }}
     </div>
     <div class="col-6 cx-summary-amount">
       {{
@@ -60,3 +63,9 @@
     [isReadOnly]="true"
   ></cx-applied-coupons>
 </ng-container>
+
+<ng-template #estimatedShipping>
+  <div class="col-6 cx-summary-label">
+    {{ 'orderCost.estimatedShipping' | cxTranslate }}
+  </div>
+</ng-template>

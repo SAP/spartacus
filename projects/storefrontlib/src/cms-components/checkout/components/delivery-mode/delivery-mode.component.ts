@@ -77,27 +77,25 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
         ) {
           this.routingService.go(this.checkoutStepUrlNext);
         }
-        this.currentDeliveryModeId = code;
         if (code) {
           this.mode.controls['deliveryModeId'].setValue(code);
+          if (code !== this.currentDeliveryModeId) {
+            this.checkoutDeliveryService.setDeliveryMode(code);
+          }
         }
+        this.currentDeliveryModeId = code;
       });
   }
 
   changeMode(code: string): void {
     if (code !== this.currentDeliveryModeId) {
       this.currentDeliveryModeId = code;
+      this.checkoutDeliveryService.setDeliveryMode(this.currentDeliveryModeId);
     }
   }
 
   next(): void {
     this.allowRedirect = true;
-    if (this.mode.valid && this.mode.value) {
-      if (!this.currentDeliveryModeId) {
-        this.currentDeliveryModeId = this.mode.value.deliveryModeId;
-      }
-      this.checkoutDeliveryService.setDeliveryMode(this.currentDeliveryModeId);
-    }
     this.routingService.go(this.checkoutStepUrlNext);
   }
 
