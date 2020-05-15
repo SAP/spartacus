@@ -1,16 +1,16 @@
 import { CdsConfig } from '@spartacus/cds';
-import { environment } from '../../environments/environment';
+import { cdsEnvironment } from '../../environments/cds/cds.environment';
 
 export const cdsConfig: CdsConfig = {
   cds: {
     tenant: 'argotest',
-    baseUrl: environment.cds.baseUrl,
+    baseUrl: cdsEnvironment.baseUrl,
     endpoints: {
       strategyProducts: '/strategy/${tenant}/strategies/${strategyId}/products',
     },
     profileTag: {
-      javascriptUrl: environment.cds.profileTagConfigUrl,
-      configUrl: environment.cds.profileTagConfigUrl,
+      javascriptUrl: cdsEnvironment.profileTagConfigUrl,
+      configUrl: cdsEnvironment.profileTagConfigUrl,
       allowInsecureCookies: true,
     },
   },

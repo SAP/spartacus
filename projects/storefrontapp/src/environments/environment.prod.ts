@@ -1,11 +1,5 @@
-export const environment = {
+import { Environment } from './environment.types';
+
+export const environment: Environment = {
   production: true,
-  occBaseUrl: '',
-  occApiPrefix: '/rest/v2/',
-  cds: {
-    enabled: false,
-    baseUrl: '',
-    profileTagJavaScriptUrl: '',
-    profileTagConfigUrl: '',
-  },
 };

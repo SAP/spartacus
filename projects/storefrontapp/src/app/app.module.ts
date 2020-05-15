@@ -15,6 +15,7 @@ import {
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
+import { cdsEnvironment } from '../environments/cds/cds.environment';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { appConfig } from './configs/app-config';
@@ -23,9 +24,8 @@ registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
 
-// TODO:#unify - https://github.com/angular/angular/issues/36673#issuecomment-615142588
 const additionalImports = [];
-if (environment.cds.enabled) {
+if (cdsEnvironment.enabled) {
   additionalImports.push(CdsModule.forRoot(cdsConfig));
 }
 

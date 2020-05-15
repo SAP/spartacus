@@ -42,6 +42,10 @@
               ],
               "fileReplacements": [
                 {
+                  "replace": "projects/storefrontapp/src/environments/occ/occ.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/occ/occ.environment.1905.ts"
+                },
+                {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
                   "with": "projects/storefrontapp/src/environments/environment.prod.ts"
                 }
@@ -67,8 +71,12 @@
               ],
               "fileReplacements": [
                 {
+                  "replace": "projects/storefrontapp/src/environments/occ/occ.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/occ/occ.environment.1905.ts"
+                },
+                {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.ci.1905.ts"
+                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -91,8 +99,12 @@
               ],
               "fileReplacements": [
                 {
+                  "replace": "projects/storefrontapp/src/environments/occ/occ.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/occ/occ.environment.2005.ts"
+                },
+                {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.ci.2005.ts"
+                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -115,8 +127,12 @@
               ],
               "fileReplacements": [
                 {
+                  "replace": "projects/storefrontapp/src/environments/occ/occ.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/occ/occ.environment.ccv2.ts"
+                },
+                {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.ccv2.ts"
+                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -139,20 +155,14 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.ts"
+                  "replace": "projects/storefrontapp/src/environments/cds/cds.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.dev.ts"
+                },
+                {
+                  "replace": "projects/storefrontapp/src/environments/occ/occ.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/occ/occ.environment.1905.ts"
                 }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "tsConfig": "projects/storefrontapp/tsconfig.app.json"
+              ]
             },
             "cds.production": {
               "budgets": [
@@ -163,8 +173,12 @@
               ],
               "fileReplacements": [
                 {
+                  "replace": "projects/storefrontapp/src/environments/cds/cds.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.dev.ts"
+                },
+                {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.prod.ts"
+                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -188,8 +202,16 @@
               ],
               "fileReplacements": [
                 {
+                  "replace": "projects/storefrontapp/src/environments/cds/cds.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.dev.ts"
+                },
+                {
+                  "replace": "projects/storefrontapp/src/environments/occ/occ.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/occ/occ.environment.1905.ts"
+                },
+                {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.ci.1905.ts"
+                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -212,8 +234,16 @@
               ],
               "fileReplacements": [
                 {
+                  "replace": "projects/storefrontapp/src/environments/cds/cds.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.dev.ts"
+                },
+                {
+                  "replace": "projects/storefrontapp/src/environments/occ/occ.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/occ/occ.environment.2005.ts"
+                },
+                {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.ci.2005.ts"
+                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -236,8 +266,16 @@
               ],
               "fileReplacements": [
                 {
+                  "replace": "projects/storefrontapp/src/environments/cds/cds.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.dev.ts"
+                },
+                {
+                  "replace": "projects/storefrontapp/src/environments/occ/occ.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/occ/occ.environment.ccv2.ts"
+                },
+                {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.ccv2.ts"
+                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
