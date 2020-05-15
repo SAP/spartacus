@@ -28,7 +28,9 @@ import { MultiCartSelectors } from '../store/selectors/index';
 import { getCartIdByUserId, isTempCartId } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ActiveCartService {
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
     'PREVIOUS_USER_ID_INITIAL_VALUE';
