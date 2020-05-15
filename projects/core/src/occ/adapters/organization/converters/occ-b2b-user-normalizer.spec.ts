@@ -14,7 +14,7 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('BudgetNormalizer', () => {
+describe('B2BUserNormalizer', () => {
   let service: OccB2BUserNormalizer;
   const orgCustomerId = 'orgCustomerId';
   const orgCustomer: Occ.B2BUser = {
