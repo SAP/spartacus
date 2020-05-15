@@ -103,8 +103,14 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['organization/unit/edit/:code'],
     paramsMapping: { code: 'uid' },
   },
+  orgUnitUsers: {
+    paths: ['organization/unit/users/:code'],
+  },
   orgUnitAssignRoles: {
     paths: ['organization/unit/assign-roles/:code/:roleId'],
+  },
+  orgUnitApprovers: {
+    paths: ['organization/unit/approvers/:code'],
   },
   orgUnitAssignApprovers: {
     paths: ['organization/unit/assign-approvers/:code'],
