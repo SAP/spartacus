@@ -62,7 +62,7 @@ export function insertPropertyInStorefrontModuleCallExpression(
   host: Tree,
   modulePath: string,
   insertion: string
-) {
+): void {
   const appModuleSourceFile = getTsSourceFile(host, modulePath);
 
   getDecoratorMetadata(appModuleSourceFile, 'NgModule', ANGULAR_CORE).forEach(
