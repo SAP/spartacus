@@ -20,7 +20,7 @@ export const PRODUCT_FACET_NAVIGATION_COMPONENT_MIGRATION: ComponentData = {
     },
     {
       name: 'minPerFacet',
-      comment: `'minPerFacet' method has been removed. Please refer to the migration guide on how to handle this change.`,
+      comment: `'minPerFacet' property has been removed. Please refer to the migration guide on how to handle this change.`,
     },
     {
       name: 'showAllPerFacetMap',
