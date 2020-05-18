@@ -35,7 +35,7 @@ export const appConfig: StorefrontConfig = {
     fallbackLang: 'en',
   },
   features: {
-    level: '1.5',
+    level: '2.0',
   },
   cart: {
     selectiveCart: {

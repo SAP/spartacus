@@ -157,10 +157,6 @@
                 {
                   "replace": "projects/storefrontapp/src/environments/cds/cds.environment.ts",
                   "with": "projects/storefrontapp/src/environments/cds/cds.environment.dev.ts"
-                },
-                {
-                  "replace": "projects/storefrontapp/src/environments/occ/occ.environment.ts",
-                  "with": "projects/storefrontapp/src/environments/occ/occ.environment.1905.ts"
                 }
               ]
             },
@@ -179,6 +175,10 @@
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
                   "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "projects/storefrontapp/src/environments/occ/occ.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/occ/occ.environment.1905.ts"
                 }
               ],
               "optimization": true,
