@@ -1,4 +1,8 @@
-import { getLocaleNumberSymbol, NumberSymbol } from '@angular/common';
+import {
+  formatNumber,
+  getLocaleNumberSymbol,
+  NumberSymbol,
+} from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,7 +12,7 @@ import {
   Output,
 } from '@angular/core';
 import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
-import { Configurator, CxDecimalPipe } from '@spartacus/core';
+import { Configurator, LanguageService } from '@spartacus/core';
 import { ConfigFormUpdateEvent } from '../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 
@@ -20,10 +24,11 @@ import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generat
 export class ConfigAttributeNumericInputFieldComponent implements OnInit {
   attributeInputForm: FormControl;
   numericFormatPattern;
+  locale: string;
 
   constructor(
     public uiKeyGenerator: ConfigUIKeyGeneratorService,
-    public cxDecimalPipe: CxDecimalPipe
+    public languageService: LanguageService
   ) {}
 
   @Input() attribute: Configurator.Attribute;
@@ -40,6 +45,14 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
     return wrongFormat;
   }
 
+  determineCurrentLocale() {
+    //locales are available as languages in the commerce backend
+    this.languageService
+      .getActive()
+      .subscribe((language) => (this.locale = language))
+      .unsubscribe();
+  }
+
   compilePatternForValidationMessage(
     decimalPlaces: number,
     totalLength: number
@@ -51,17 +64,20 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
         '.' +
         input.substring(totalLength - decimalPlaces, totalLength);
     }
-    this.numericFormatPattern = this.cxDecimalPipe
-      .transform(input, '1.' + decimalPlaces + '-' + decimalPlaces)
-      .replace(/9/g, '#');
+    const inputAsNumber: number = Number(input);
+    this.numericFormatPattern = formatNumber(
+      inputAsNumber,
+      this.locale,
+      '1.' + decimalPlaces + '-' + decimalPlaces
+    ).replace(/9/g, '#');
   }
 
   ngOnInit() {
-    //locales based on languages only
+    this.determineCurrentLocale();
 
     this.attributeInputForm = new FormControl('', [
       this.numberFormatValidator(
-        this.cxDecimalPipe.getLang(),
+        this.locale,
         this.attribute.numDecimalPlaces,
         this.attribute.numTotalLength
       ),
@@ -75,8 +91,9 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
     );
 
     this.attributeInputForm.setValue(
-      this.cxDecimalPipe.transform(
-        this.attribute.userInput,
+      formatNumber(
+        Number(this.attribute.userInput),
+        this.locale,
         '1.' + numDecimalPlaces + '-' + numDecimalPlaces
       )
     );
@@ -102,40 +119,67 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
     };
   }
 
+  createValidationError(isError: boolean): { [key: string]: any } | null {
+    return isError ? { wrongFormat: {} } : null;
+  }
+
+  performValidationAccordingToMetaData(
+    input: string,
+    groupingSeparator: string,
+    decimalSeparator: string,
+    numberTotalPlaces: number,
+    numberDecimalPlaces: number
+  ): boolean {
+    const search: RegExp = new RegExp(groupingSeparator, 'g');
+    const woGrouping = input.replace(search, '');
+
+    const splitParts = woGrouping.split(decimalSeparator);
+    if (splitParts.length > 2) {
+      return true;
+    }
+    if (splitParts.length === 1) {
+      return woGrouping.length > numberTotalPlaces;
+    }
+    return (
+      splitParts[0].length + splitParts[1].length > numberTotalPlaces ||
+      splitParts[1].length > numberDecimalPlaces
+    );
+  }
+
   numberFormatValidator(
     locale: string,
     numberDecimalPlaces: number,
     numberTotalPlaces: number
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const groupingSeparator = getLocaleNumberSymbol(
-        locale,
-        NumberSymbol.Group
-      );
-      const decimalSeparator = getLocaleNumberSymbol(
-        locale,
-        NumberSymbol.Decimal
-      );
+      const input: string = control.value;
+      if (input) {
+        //allowed: only numbers and separators
 
-      const numericValue: string = control.value;
-      if (numericValue) {
-        const search: RegExp = new RegExp('/' + groupingSeparator, 'g');
-        const woGrouping = numericValue.replace(search, '');
+        const groupingSeparator = getLocaleNumberSymbol(
+          locale,
+          NumberSymbol.Group
+        );
+        const decimalSeparator = getLocaleNumberSymbol(
+          locale,
+          NumberSymbol.Decimal
+        );
 
-        const splitParts = woGrouping.split(decimalSeparator);
-        if (splitParts.length > 2) {
-          return { wrongFormat: { value: control.value } };
+        const expressionOnlyNumericalInput: RegExp = new RegExp(
+          '^[0123456789' + groupingSeparator + decimalSeparator + ']+$'
+        );
+        if (!expressionOnlyNumericalInput.test(input)) {
+          return this.createValidationError(true);
         }
-        if (splitParts.length === 1) {
-          return woGrouping.length > numberTotalPlaces
-            ? { wrongFormat: { value: control.value } }
-            : null;
-        }
-
-        return splitParts[0].length + splitParts[1].length >
-          numberTotalPlaces || splitParts[1].length > numberDecimalPlaces
-          ? { wrongFormat: { value: control.value } }
-          : null;
+        return this.createValidationError(
+          this.performValidationAccordingToMetaData(
+            input,
+            groupingSeparator,
+            decimalSeparator,
+            numberTotalPlaces,
+            numberDecimalPlaces
+          )
+        );
       }
       return null;
     };

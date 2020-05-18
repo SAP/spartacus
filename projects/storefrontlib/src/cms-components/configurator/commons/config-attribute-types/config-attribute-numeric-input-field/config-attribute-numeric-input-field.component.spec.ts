@@ -1,8 +1,7 @@
-import { DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Configurator, CxDecimalPipe, LanguageService } from '@spartacus/core';
+import { Configurator, LanguageService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ConfigFormUpdateEvent } from '../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
@@ -37,15 +36,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
   let fixture: ComponentFixture<ConfigAttributeNumericInputFieldComponent>;
   let mockLanguageService;
   let htmlElem: HTMLElement;
-  const decimalPipe: DecimalPipe = new DecimalPipe('en');
-  const mockCxDecimalPipe = {
-    transform(value: any, format: string): string {
-      return decimalPipe.transform(value, format, 'en');
-    },
-    getLang(): string {
-      return 'en';
-    },
-  };
+
   beforeEach(async(() => {
     mockLanguageService = {
       getAll: () => of([]),
@@ -61,7 +52,6 @@ describe('ConfigAttributeInputFieldComponent', () => {
       providers: [
         ConfigUIKeyGeneratorService,
         { provide: LanguageService, useValue: mockLanguageService },
-        { provide: CxDecimalPipe, useValue: mockCxDecimalPipe },
       ],
     })
       .overrideComponent(ConfigAttributeNumericInputFieldComponent, {
@@ -110,28 +100,16 @@ describe('ConfigAttributeInputFieldComponent', () => {
     checkForValidationMessage(component, fixture, htmlElem, 0);
   });
 
-  it('should display no validation issue if no separators are present and maximum length not reached', () => {
+  it('should display a validation issue if alphanumeric characters occur', () => {
     component.ngOnInit();
-    component.attributeInputForm.setValue('2');
-    checkForValidationMessage(component, fixture, htmlElem, 0);
-  });
-
-  it('should display a validation issue if input contains to many decimal separators', () => {
-    component.ngOnInit();
-    component.attributeInputForm.setValue('234.23.12');
+    component.attributeInputForm.setValue('122A23');
 
     checkForValidationMessage(component, fixture, htmlElem, 1);
   });
 
   it('should display a validation issue if input is too long', () => {
     component.ngOnInit();
-    component.attributeInputForm.setValue('23234576654345');
-    checkForValidationMessage(component, fixture, htmlElem, 1);
-  });
-
-  it('should display a validation issue if input including decimal places is too long', () => {
-    component.ngOnInit();
-    component.attributeInputForm.setValue('232345766543.45');
+    component.attributeInputForm.setValue('23234,576654345');
     checkForValidationMessage(component, fixture, htmlElem, 1);
   });
 
@@ -143,5 +121,42 @@ describe('ConfigAttributeInputFieldComponent', () => {
   it('should compile pattern for validation message in case no decimal places are present', () => {
     component.compilePatternForValidationMessage(0, 10);
     expect(component.numericFormatPattern).toBe('#,###,###,###');
+  });
+
+  it('should accept integer that exactly matches the maximum length ', () => {
+    expect(
+      component.performValidationAccordingToMetaData('1,234', ',', '.', 4, 0)
+    ).toBe(false);
+  });
+
+  it('should accept multiple thousand separators', () => {
+    expect(
+      component.performValidationAccordingToMetaData('1,23,4', ',', '.', 4, 0)
+    ).toBe(false);
+  });
+
+  it('should not accept multiple decimal separators', () => {
+    expect(
+      component.performValidationAccordingToMetaData(
+        '1234.22.22',
+        ',',
+        '.',
+        9,
+        4
+      )
+    ).toBe(true);
+  });
+
+  it('should not accept integer that exceeds the maximum length ', () => {
+    expect(
+      component.performValidationAccordingToMetaData('1,234', ',', '.', 3, 0)
+    ).toBe(true);
+  });
+
+  it('should not accept if numeric input is malformed according to swiss locale settings', () => {
+    const input = '1,234';
+    expect(
+      component.performValidationAccordingToMetaData(input, "'", '.', 4, 0)
+    ).toBe(true);
   });
 });
