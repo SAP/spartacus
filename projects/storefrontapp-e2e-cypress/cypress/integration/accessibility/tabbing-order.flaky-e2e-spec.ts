@@ -204,13 +204,13 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
     });
   });
 
-  context('Product Page', () => {
+  context.skip('Product Page', () => {
     it('should allow to navigate with tab key', () => {
       productPageTabbingOrder(config.productPage);
     });
   });
 
-  context('Product Page Tabs', () => {
+  context.skip('Product Page Tabs', () => {
     it('should allow to navigate with tab key', () => {
       productPageTabsTabbingOrder();
     });
@@ -430,7 +430,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  context.skip('Order Details', () => {
+  context('Order Details', () => {
     it('should allow to navigate with tab key', () => {
       orderDetailsTabbingOrder(config.orderDetails);
     });
@@ -448,7 +448,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  context('My Interest', () => {
+  context.skip('My Interest', () => {
     it('should allow to navigate with tab key', () => {
       myInterestTabbingOrder(config.myInterests);
     });
@@ -464,7 +464,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
   });
 
-  context('My-coupons', () => {
+  context.skip('My-coupons', () => {
     it('should allow to navigate with tab key', () => {
       checkoutMyCouponsTabbingOrder(config.myCoupons);
     });
