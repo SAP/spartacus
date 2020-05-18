@@ -30,6 +30,9 @@ describe('Spartacus Schematics: ng-add', () => {
 
   const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
+    'default-base-sites': '',
+    'default-routing': '',
+    'test-outlets': '',
   };
 
   beforeEach(async () => {

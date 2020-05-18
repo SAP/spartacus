@@ -13,8 +13,7 @@ function provideTestBaseSites(): Rule {
           'apparel-uk',
           'apparel-uk-spa',
         ],
-      }
-    `;
+      }`;
     insertPropertyInStorefrontModuleCallExpression(
       tree,
       'src/app/app.module.ts',

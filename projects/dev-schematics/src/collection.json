@@ -9,17 +9,20 @@
       "hidden": true,
       "aliases": ["install"]
     },
-    "add-baseSite": {
+    "add-baseSites": {
       "description": "Add base site to app module.",
-      "factory": "./add-baseSite/index"
+      "factory": "./add-baseSite/index",
+      "schema": "./ng-add/schema.json"
     },
     "add-routing": {
       "description": "Add routing to app module.",
-      "factory": "./add-routing/index"
+      "factory": "./add-routing/index",
+      "schema": "./ng-add/schema.json"
     },
     "add-test-outlets": {
       "description": "Add test outlets to app module.",
-      "factory": "./add-test-outlets/index"
+      "factory": "./add-test-outlets/index",
+      "schema": "./ng-add/schema.json"
     }
   }
 }
