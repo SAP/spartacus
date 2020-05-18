@@ -71,8 +71,8 @@ import {
   URL_MATCHER_FACTORY_SERVICE,
   URL_MATCHER_SERVICE,
   WISHLIST_EFFECTS,
-} from '../../shared/constants';
-import { DeprecatedNode } from '../../shared/utils/file-utils';
+} from '../../../shared/constants';
+import { DeprecatedNode } from '../../../shared/utils/file-utils';
 
 export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   // projects/core/src/cart/store/effects/cart.effect.ts
