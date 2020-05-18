@@ -189,8 +189,14 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   userGroupEdit: {
     paths: ['organization/usergroup/edit/:code'],
   },
+  userGroupPermissions: {
+    paths: ['organization/usergroup/permissions/:code'],
+  },
   userGroupAssignPermissions: {
     paths: ['organization/usergroup/assign-permissions/:code'],
+  },
+  userGroupUsers: {
+    paths: ['organization/usergroup/users/:code'],
   },
   userGroupAssignUsers: {
     paths: ['organization/usergroup/assign-users/:code'],

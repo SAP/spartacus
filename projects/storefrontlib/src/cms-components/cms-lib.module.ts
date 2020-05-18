@@ -89,7 +89,9 @@ import {
   UserGroupCreateModule,
   UserGroupDetailsModule,
   UserGroupEditModule,
+  UserGroupPermissionsModule,
   UserGroupAssignPermissionsModule,
+  UserGroupUsersModule,
   UserGroupAssignUsersModule,
 } from './organization/index';
 
@@ -177,7 +179,9 @@ import {
     UserGroupCreateModule,
     UserGroupDetailsModule,
     UserGroupEditModule,
+    UserGroupPermissionsModule,
     UserGroupAssignPermissionsModule,
+    UserGroupUsersModule,
     UserGroupAssignUsersModule,
   ],
 })

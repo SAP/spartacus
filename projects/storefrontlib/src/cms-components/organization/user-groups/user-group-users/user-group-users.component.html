@@ -1,9 +1,9 @@
 <cx-interactive-table
   [data$]="data$"
-  [header]="'unitApprovers.header' | cxTranslate: { code: code }"
+  [header]="'userGroupUsers.header' | cxTranslate: { code: code$ | async }"
   [sortLabels]="{
-    byName: 'usersList.sorting.byName' | cxTranslate,
-    byUnit: 'usersList.sorting.byUnitName' | cxTranslate
+    byUnit: 'usersList.sorting.byUnitName' | cxTranslate,
+    byName: 'usersList.sorting.byName' | cxTranslate
   }"
   [columns]="[
     {
@@ -12,7 +12,6 @@
       cxRoute: 'userDetails'
     },
     { key: 'name', value: 'usersList.name' | cxTranslate },
-    { key: 'roles', value: 'usersList.roles' | cxTranslate },
     {
       key: 'parentUnit',
       value: 'usersList.parentUnit' | cxTranslate,
@@ -26,22 +25,12 @@
       <div class="col-12 cx-textalign">
         <a
           [routerLink]="
-            {
-              cxRoute: 'orgUnitAssignApprovers',
-              params: { code: code }
-            } | cxUrl
+            { cxRoute: 'userGroupDetails', params: { code: code$ | async } }
+              | cxUrl
           "
           class="btn btn-primary btn-block"
         >
-          {{ 'unitApprovers.assignApprovers' | cxTranslate }}
-        </a>
-        <a
-          [routerLink]="
-            { cxRoute: 'orgUnitDetails', params: { uid: code } } | cxUrl
-          "
-          class="btn btn-secondary btn-block"
-        >
-          {{ 'unitApprovers.back' | cxTranslate }}
+          {{ 'userGroupUsers.back' | cxTranslate }}
         </a>
       </div>
     </div>
