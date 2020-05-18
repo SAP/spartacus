@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.server.json",
+  "compilerOptions": {
+    "paths": {
+      "@spartacus/core": ["../../dist/core"],
+      "@spartacus/storefront": ["../../dist/storefrontlib"],
+      "@spartacus/gigya": ["../../dist/gigya"],
+      "@spartacus/assets": ["../../dist/assets"]
+    }
+  }
+}

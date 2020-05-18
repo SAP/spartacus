@@ -99,7 +99,12 @@
     "build:cds:ssr": "ng run storefrontapp-cds-integration:server:production",
     "prerender:cds": "ng run storefrontapp-cds-integration:prerender",
     "release:cds:with-changelog": "cd projects/cds && release-it && cd ../..",
-    "release-notes:cds": "ts-node ./scripts/changelog.ts --verbose --lib cds"
+    "release-notes:cds": "ts-node ./scripts/changelog.ts --verbose --lib cds",
+    "build:gigya": "ng build storefrontapp-gigya-integration --prod",
+    "build:core:lib:gigya": "yarn build:core:lib && ng build gigya",
+    "start:gigya": "ng serve storefrontapp-gigya-integration",
+    "start:gigya:prod": "ng serve storefrontapp-gigya-integration --prod",
+    "start:gigya:ssl": "ng serve storefrontapp-gigya-integration --ssl"
   },
   "private": false,
   "dependencies": {

@@ -1,0 +1,14 @@
+<div *ngIf="component.data$ | async as data">
+  <div *ngIf="data.embed === 'true'" id="{{ data.containerID }}">
+    {{ displayScreenSetInEmbedMode(data) }}
+  </div>
+  <div *ngIf="data.embed === 'false'">
+    <a
+      class="popup-link"
+      [attr.data-gigya-id]="data.uid"
+      [attr.data-profile-edit]="data.profileEdit"
+      (click)="displayScreenSetInPopupMode(data)"
+      >{{ data.linkText }}</a
+    >
+  </div>
+</div>
