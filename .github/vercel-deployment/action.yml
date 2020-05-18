@@ -1,0 +1,32 @@
+name: 'Vercel Deployment'
+description: 'This action make a deployment with github actions instead of Vercel github integration.'
+inputs:
+  vercel-token:
+    description: 'vercel.com token'
+    required: true
+  vercel-team-id:
+    description: ' This is required if your deployment is made on team project.'
+    required: false
+  now-args:
+    description: ''
+    required: false
+    default: ''
+
+  github-token:
+    required: true
+  github-deployment:
+    required: false
+    default: 'false'
+    description: 'If you want to create github deployment, set true, default: false'
+
+outputs:
+  preview-url:
+    description: 'Deployment preview URL'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+
+branding:
+  icon: 'check'
+  color: 'black'
