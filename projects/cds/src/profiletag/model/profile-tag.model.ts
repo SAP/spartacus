@@ -3,7 +3,7 @@ import { Cart } from '@spartacus/core';
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
     q?: ProfileTagJsConfig[][];
-    eventLayer?: PushEvent[];
+    eventLayer?: ProfileTagEvent[];
   };
 }
 
@@ -29,7 +29,7 @@ export interface DebugEvent extends CustomEvent {
   };
 }
 
-export enum ProfileTagEventNames {
+export enum InternalProfileTagEventNames {
   CONSENT_REFERENCE_LOADED = 'profiletag_consentReferenceLoaded',
   DEBUG_FLAG_CHANGED = 'profiletag_debugFlagChanged',
 }
@@ -38,36 +38,25 @@ interface ProfileTagCart {
   cart: Cart;
 }
 
-export enum PushEventNames {
-  NAVIGATED = 'Navigated',
-  CONSENT_CHANGED = 'ConsentChanged',
-  CART_CHANGED = 'CartSnapshot',
-}
-
-interface ProfiletagPushEvent {
-  name: PushEventNames;
+export interface ProfileTagEvent {
+  name: string;
   data?: any;
 }
 
-export type PushEvent =
-  | NavigatedPushEvent
-  | ConsentChangedPushEvent
-  | CartChangedPushEvent;
-
-export class NavigatedPushEvent implements ProfiletagPushEvent {
-  name = PushEventNames.NAVIGATED;
+export class NavigatedPushEvent implements ProfileTagEvent {
+  name = 'Navigated';
 }
 
-export class ConsentChangedPushEvent implements ProfiletagPushEvent {
-  name = PushEventNames.CONSENT_CHANGED;
+export class ConsentChangedPushEvent implements ProfileTagEvent {
+  name = 'ConsentChanged';
   data: { granted: boolean } = { granted: undefined };
   constructor(granted: boolean) {
     this.data.granted = granted;
   }
 }
 
-export class CartChangedPushEvent implements ProfiletagPushEvent {
-  name: PushEventNames = PushEventNames.CART_CHANGED;
+export class CartChangedPushEvent implements ProfileTagEvent {
+  name = 'CartSnapshot';
   data: ProfileTagCart;
   constructor(data: ProfileTagCart) {
     this.data = data;
