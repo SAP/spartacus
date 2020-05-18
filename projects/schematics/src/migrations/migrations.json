@@ -5,19 +5,19 @@
       "factory": "./2_0/validate#validate",
       "description": "Performs some validations before proceeding to upgrade Spartacus to v2"
     },
-    "migration-v2-update-cms-component-state-02": {
-      "version": "2-next.0",
-      "factory": "./2_0/update-cms-component-state#migrate",
-      "description": "Update CMS components state to v2"
+    "migration-v2-methods-and-properties-deprecations-02": {
+      "version": "2-rc.2",
+      "factory": "./2_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
+      "description": "Comment about usage of remove public methods or properties"
     },
     "migration-v2-constructor-deprecations-03": {
       "version": "2-rc.2",
       "factory": "./2_0/constructor-deprecations/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
     },
-    "migration-v2-removed-public-api-04": {
+    "migration-v2-removed-public-api-deprecation-04": {
       "version": "2-rc.2",
-      "factory": "./2_0/removed-public-api#migrate",
+      "factory": "./2_0/removed-public-api-deprecations/removed-public-api-deprecation#migrate",
       "description": "Comment about usage of removed public api"
     },
     "migration-v2-component-deprecations-05": {
