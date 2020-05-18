@@ -133,11 +133,10 @@ describe('Configurator UI reducer', () => {
     it('should reduce Group Complete Reducer with initial state', () => {
       const { initialState } = uiReducer;
 
-      const action = new ConfiguratorUiActions.SetGroupCompleted(PRODUCT_CODE, [
-        'group1',
-        'group2',
-        'group3',
-      ]);
+      const action = new ConfiguratorUiActions.SetGroupsCompleted(
+        PRODUCT_CODE,
+        ['group1', 'group2', 'group3']
+      );
 
       const state = uiReducer.reducer(initialState, action);
 
@@ -160,9 +159,10 @@ describe('Configurator UI reducer', () => {
         },
       };
 
-      const action = new ConfiguratorUiActions.SetGroupCompleted(PRODUCT_CODE, [
-        'group4',
-      ]);
+      const action = new ConfiguratorUiActions.SetGroupsCompleted(
+        PRODUCT_CODE,
+        ['group4']
+      );
 
       const state = uiReducer.reducer(initialState, action);
 
@@ -179,7 +179,7 @@ describe('Configurator UI reducer', () => {
     it('should reduce Group Error Reducer with initial state', () => {
       const { initialState } = uiReducer;
 
-      const action = new ConfiguratorUiActions.SetGroupError(PRODUCT_CODE, [
+      const action = new ConfiguratorUiActions.SetGroupsError(PRODUCT_CODE, [
         'group1',
         'group2',
         'group3',
@@ -206,7 +206,7 @@ describe('Configurator UI reducer', () => {
         },
       };
 
-      const action = new ConfiguratorUiActions.SetGroupError(PRODUCT_CODE, [
+      const action = new ConfiguratorUiActions.SetGroupsError(PRODUCT_CODE, [
         'group4',
       ]);
 
