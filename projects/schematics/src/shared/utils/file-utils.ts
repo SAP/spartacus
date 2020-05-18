@@ -58,6 +58,14 @@ export interface ConstructorDeprecation {
   removeParams?: ClassType[];
 }
 
+export interface MethodPropertyDeprecation {
+  class: string;
+  importPath: string;
+  deprecatedNode: string;
+  newNode?: string;
+  comment?: string;
+}
+
 export interface DeprecatedNode {
   node: string;
   importPath: string;
@@ -433,8 +441,9 @@ function checkSuper(
   constructorNode: ts.Node,
   parameterClassTypes: ClassType[]
 ): boolean {
+  const constructorBlock = findNodes(constructorNode, ts.SyntaxKind.Block)[0];
   const callExpressions = findNodes(
-    constructorNode,
+    constructorBlock,
     ts.SyntaxKind.CallExpression
   );
   if (callExpressions.length === 0) {
@@ -584,10 +593,6 @@ function shouldRemoveImportAndParam(
     return true;
   }
 
-  const constructorParameters = findNodes(
-    constructorNode,
-    ts.SyntaxKind.Parameter
-  );
   const classDeclarationNode = nodes.find(
     (node) => node.kind === ts.SyntaxKind.ClassDeclaration
   );
@@ -595,6 +600,7 @@ function shouldRemoveImportAndParam(
     return true;
   }
 
+  const constructorParameters = getConstructorParameterList(constructorNode);
   for (const constructorParameter of constructorParameters) {
     if (constructorParameter.getText().includes(importToRemove.className)) {
       const paramVariableNode = constructorParameter
@@ -704,15 +710,19 @@ function getImportDeclarationNode(
   return importDeclarationNode;
 }
 
+function getConstructorParameterList(constructorNode: ts.Node): ts.Node[] {
+  const syntaxList = constructorNode
+    .getChildren()
+    .filter((node) => node.kind === ts.SyntaxKind.SyntaxList)[0];
+  return findNodes(syntaxList, ts.SyntaxKind.Parameter);
+}
+
 function removeConstructorParamInternal(
   sourcePath: string,
   constructorNode: ts.Node,
   importToRemove: ClassType
 ): Change[] {
-  const constructorParameters = findNodes(
-    constructorNode,
-    ts.SyntaxKind.Parameter
-  );
+  const constructorParameters = getConstructorParameterList(constructorNode);
 
   for (let i = 0; i < constructorParameters.length; i++) {
     const constructorParameter = constructorParameters[i];
@@ -748,8 +758,9 @@ function removeParamFromSuper(
   constructorNode: ts.Node,
   paramName: string
 ): Change[] {
+  const constructorBlock = findNodes(constructorNode, ts.SyntaxKind.Block)[0];
   const callExpressions = findNodes(
-    constructorNode,
+    constructorBlock,
     ts.SyntaxKind.CallExpression
   );
   if (callExpressions.length === 0) {
@@ -836,10 +847,7 @@ export function injectService(
     throw new SchematicsException(`No constructor found in ${path}.`);
   }
 
-  const constructorParameters = findNodes(
-    constructorNode,
-    ts.SyntaxKind.Parameter
-  );
+  const constructorParameters = getConstructorParameterList(constructorNode);
 
   let toInsert = '';
   let position = constructorNode.getStart() + 'constructor('.length;
