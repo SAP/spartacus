@@ -4,15 +4,17 @@ import {
   HostBinding,
   HostListener,
   Input,
+  OnDestroy,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 
 /**
  * Provides a UI to manage the count of the quantity, typically by using
- * increase and decrease functinality. The item counter expects an input `FormControl`
+ * increase and decrease functionality. The item counter expects an input `FormControl`
  * so that the state of the control can be managed outside of this component.
  */
 @Component({
@@ -23,7 +25,7 @@ import { map, startWith, tap } from 'rxjs/operators';
   // disabled state in order to ensure that the control cannot be used while
   // the cart is updated.
 })
-export class ItemCounterComponent {
+export class ItemCounterComponent implements OnInit, OnDestroy {
   /**
    * Holds the value of the counter, the state of the `FormControl`
    * can be managed outside of the item counter.
@@ -43,19 +45,17 @@ export class ItemCounterComponent {
 
   /**
    * The step is used to increment the count. It is supposed to be a
-   * positive inteteger or float.
+   * positive integer or float.
    * @default 1
    */
   @Input() step = 1;
 
   /**
-   * Inidicates that the input can be manually set to zero,
+   * Indicates that the input can be manually set to zero,
    * despite the fact that the input controls will be limited to
    * the minimum. The zero value can be used to remove an item.
    */
   @Input() allowZero = false;
-
-  private _control$: Observable<FormControl>;
 
   /**
    * In readonly mode the item counter will only be shown as a label,
@@ -67,8 +67,27 @@ export class ItemCounterComponent {
 
   @ViewChild('qty') private input: ElementRef<HTMLInputElement>;
 
+  /**
+   * Subscription responsible for auto-correcting control's value when it's invalid.
+   */
+  private sub: Subscription;
+
   @HostListener('click') handleClick() {
     this.input.nativeElement.focus();
+  }
+
+  ngOnInit() {
+    this.sub = this.control.valueChanges
+      .pipe(startWith(this.control.value))
+      .subscribe((value) =>
+        this.control.setValue(this.getValidCount(value), { emitEvent: false })
+      );
+  }
+
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   increment() {
@@ -81,23 +100,6 @@ export class ItemCounterComponent {
   decrement() {
     this.control.setValue(this.control.value - this.step);
     this.control.markAsDirty();
-  }
-
-  /**
-   * Returns an observable with the control. The value changes of the
-   * control are intercepted in order to suppress invalid values.
-   */
-  getControl(): Observable<FormControl> {
-    if (!this._control$) {
-      this._control$ = this.control.valueChanges.pipe(
-        startWith(this.control.value),
-        tap((value) =>
-          this.control.setValue(this.getValidCount(value), { emitEvent: false })
-        ),
-        map(() => this.control)
-      );
-    }
-    return this._control$;
   }
 
   /**
