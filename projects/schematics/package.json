@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "2.0.0-next.7",
+  "version": "2.1.0-dev.0",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -28,6 +28,9 @@
     "jasmine": "^3.5.0",
     "shelljs": "^0.8.3",
     "typescript": "~3.8.3"
+  },
+  "ng-add": {
+    "save": "devDependencies"
   },
   "ng-update": {
     "migrations": "./src/migrations/migrations.json",
