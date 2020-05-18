@@ -1,6 +1,7 @@
 import { experimental, strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getProjectTargetOptions } from '@angular/cdk/schematics';
+import { Attribute, Element, HtmlParser, Node } from '@angular/compiler';
 import {
   findNode,
   findNodes,
@@ -171,13 +172,61 @@ function buildSelector(selector: string): string {
   return `<${selector}`;
 }
 
+function visitHtmlNodesRecursively(
+  nodes: Node[],
+  propertyName: string,
+  resultingElements: Node[] = [],
+  parentElement?: Element
+): void {
+  nodes.forEach((node) => {
+    if (node instanceof Attribute && parentElement) {
+      if (
+        node.name.includes(propertyName) ||
+        node.value.includes(propertyName)
+      ) {
+        resultingElements.push(parentElement);
+      }
+    }
+    if (node instanceof Element) {
+      visitHtmlNodesRecursively(
+        node.attrs,
+        propertyName,
+        resultingElements,
+        node
+      );
+      visitHtmlNodesRecursively(
+        node.children,
+        propertyName,
+        resultingElements,
+        node
+      );
+    }
+  });
+}
+
 export function insertHtmlComment(
   content: string,
   componentProperty: ComponentProperty
 ): string | undefined {
   const comment = buildHtmlComment(componentProperty.comment);
-  const propertyRegExp = new RegExp(`(<.+${componentProperty.name})`, 'g');
-  return content.replace(propertyRegExp, `${comment}\$1`);
+  const result = new HtmlParser().parse(content, '');
+
+  const resultingElements: Node[] = [];
+  visitHtmlNodesRecursively(
+    result.rootNodes,
+    componentProperty.name,
+    resultingElements
+  );
+
+  resultingElements
+    .map((node: Element) => node.sourceSpan.start.line)
+    .forEach((line, i) => {
+      const split = content.split('\n');
+      split.splice(line + i, 0, comment);
+      content = split.join('\n');
+    });
+
+  return content;
 }
 
 function buildHtmlComment(commentText: string): string {

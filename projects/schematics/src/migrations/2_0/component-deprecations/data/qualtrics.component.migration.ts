@@ -1,8 +1,8 @@
 import { QUALTRICS_COMPONENT } from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
+// projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics.component.ts
 export const QUALTRICS_COMPONENT_MIGRATION: ComponentData = {
-  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics.component.ts
   selector: 'cx-qualtrics',
   componentClassName: QUALTRICS_COMPONENT,
   removedProperties: [
