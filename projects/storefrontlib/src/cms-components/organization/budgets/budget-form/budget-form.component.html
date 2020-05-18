@@ -61,6 +61,18 @@
       </div>
 
       <div class="form-group">
+        <label aria-required="true">
+          <span class="label-content required">{{
+            'budgetForm.timezone' | cxTranslate
+          }}</span>
+          <cx-select-timezone
+            [fg]="form"
+            [controlName]="'timezoneOffset'"
+          ></cx-select-timezone>
+        </label>
+      </div>
+
+      <div class="form-group">
         <label>
           <span class="label-content">{{
             'budgetForm.startDate' | cxTranslate
@@ -68,7 +80,13 @@
           <cx-date-picker
             formControlName="startDate"
             [max]="form.controls.endDate.value"
-            (change)="form.controls.endDate.updateValueAndValidity()"
+            (change)="
+              patchDateWithOffset(
+                form.controls.startDate,
+                form.controls.timezoneOffset.value
+              );
+              form.controls.endDate.updateValueAndValidity()
+            "
             [invalid]="isNotValid('startDate')"
           ></cx-date-picker>
           <cx-form-errors
@@ -86,7 +104,13 @@
           <cx-date-picker
             formControlName="endDate"
             [min]="form.controls.startDate.value"
-            (change)="form.controls.startDate.updateValueAndValidity()"
+            (change)="
+              form.controls.startDate.updateValueAndValidity();
+              patchDateWithOffset(
+                form.controls.endDate,
+                form.controls.timezoneOffset.value
+              )
+            "
             [endOfDay]="true"
             [invalid]="isNotValid('endDate')"
           ></cx-date-picker>

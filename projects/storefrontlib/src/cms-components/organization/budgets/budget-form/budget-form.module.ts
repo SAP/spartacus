@@ -12,6 +12,7 @@ import {
 import { BudgetFormComponent } from './budget-form.component';
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { FormErrorsModule } from '../../../../shared/components/form/form-errors/form-errors.module';
+import { SelectTimezoneModule } from '../../../../shared/components/select-timezone/select-timezone.module';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { FormErrorsModule } from '../../../../shared/components/form/form-errors
     ReactiveFormsModule,
     DatePickerModule,
     FormErrorsModule,
+    SelectTimezoneModule,
   ],
   declarations: [BudgetFormComponent],
   exports: [BudgetFormComponent],

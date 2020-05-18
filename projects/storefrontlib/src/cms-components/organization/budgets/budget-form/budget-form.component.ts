@@ -4,9 +4,13 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { Observable } from 'rxjs';
-
 import {
   Budget,
   Currency,
@@ -41,6 +45,7 @@ export class BudgetFormComponent extends AbstractFormComponent
       isocode: [null, Validators.required],
     }),
     budget: ['', Validators.required],
+    timezoneOffset: [this.getLocalTimezoneOffset(), Validators.required],
   });
 
   constructor(
@@ -58,5 +63,22 @@ export class BudgetFormComponent extends AbstractFormComponent
     if (this.budgetData && Object.keys(this.budgetData).length !== 0) {
       this.form.patchValue(this.budgetData);
     }
+  }
+
+  getLocalTimezoneOffset(): string {
+    const offset = new Date().getTimezoneOffset() * -1;
+    const hours = this.padWithZeroes(Math.floor(offset / 60).toString(), 2);
+    const minutes = this.padWithZeroes((offset % 60).toString(), 2);
+    return offset >= 0 ? `+${hours}:${minutes}` : `-${hours}:${minutes}`;
+  }
+
+  patchDateWithOffset(control: FormControl, offset: number) {
+    const dateWithOffset = control.value.replace('+0000', offset);
+    control.patchValue(dateWithOffset);
+  }
+
+  padWithZeroes(str: string, max: number) {
+    str = str.toString();
+    return str.length < max ? this.padWithZeroes('0' + str, max) : str;
   }
 }

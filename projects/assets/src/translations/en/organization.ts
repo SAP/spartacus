@@ -70,6 +70,7 @@ export const organization = {
       label: 'Budget amount',
       placeholder: 'Amount',
     },
+    timezone: 'Timezone',
   },
   permissionsList: {
     code: 'Code',

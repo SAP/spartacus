@@ -8,3 +8,4 @@ export * from './modal/index';
 export * from './spinner/index';
 export * from './star-rating/index';
 export * from './form/form-errors/index';
+export * from './select-timezone/index';
