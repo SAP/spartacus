@@ -178,28 +178,28 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paramsMapping: { code: 'email' },
   },
   userGroups: {
-    paths: ['organization/usergroups'],
+    paths: ['organization/user-groups'],
   },
   userGroupCreate: {
-    paths: ['organization/usergroups/create'],
+    paths: ['organization/user-groups/create'],
   },
   userGroupDetails: {
-    paths: ['organization/usergroup/:code'],
+    paths: ['organization/user-group/:code'],
   },
   userGroupEdit: {
-    paths: ['organization/usergroup/edit/:code'],
+    paths: ['organization/user-group/edit/:code'],
   },
   userGroupPermissions: {
-    paths: ['organization/usergroup/purchase-limits/:code'],
+    paths: ['organization/user-group/purchase-limits/:code'],
   },
   userGroupAssignPermissions: {
-    paths: ['organization/usergroup/assign-purchase-limits/:code'],
+    paths: ['organization/user-group/assign-purchase-limits/:code'],
   },
   userGroupUsers: {
-    paths: ['organization/usergroup/users/:code'],
+    paths: ['organization/user-group/users/:code'],
   },
   userGroupAssignUsers: {
-    paths: ['organization/usergroup/assign-users/:code'],
+    paths: ['organization/user-group/assign-users/:code'],
   },
 };
 
