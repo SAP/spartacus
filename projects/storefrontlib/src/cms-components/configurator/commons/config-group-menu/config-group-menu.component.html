@@ -30,12 +30,20 @@
             >
               <a [class.active]="currentGroup.id === group.id" role="link"
                 >{{ group.description }}
-                <cx-icon class="ERROR" [type]="iconTypes.ERROR"></cx-icon>
-                <cx-icon class="COMPLETE" [type]="iconTypes.SUCCESS"></cx-icon>
-                <cx-icon
-                  *ngIf="configuratorGroupsService.hasSubGroups(group)"
-                  [type]="iconTypes.CARET_RIGHT"
-                ></cx-icon
+                <div class="groupIndicator">
+                  <div class="groupStatusIndicator">
+                    <cx-icon class="ERROR" [type]="iconTypes.ERROR"></cx-icon>
+                    <cx-icon
+                      class="COMPLETE"
+                      [type]="iconTypes.SUCCESS"
+                    ></cx-icon>
+                  </div>
+                  <div class="subGroupIndicator">
+                    <cx-icon
+                      *ngIf="configuratorGroupsService.hasSubGroups(group)"
+                      [type]="iconTypes.CARET_RIGHT"
+                    ></cx-icon>
+                  </div></div
               ></a>
             </li>
           </ng-container>

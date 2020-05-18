@@ -1,3 +1,4 @@
+import { Configurator } from 'projects/core/src/model';
 import { ConfiguratorUiActions } from '../actions/index';
 import * as uiReducer from './configurator-ui.reducer';
 
@@ -79,6 +80,146 @@ describe('Configurator UI reducer', () => {
       const state = uiReducer.reducer(initialState, action);
 
       expect(state.currentGroup).toEqual(null);
+    });
+  });
+
+  describe('Group Status reducers', () => {
+    it('should reduce Group Visited with initial state', () => {
+      const { initialState } = uiReducer;
+
+      const action = new ConfiguratorUiActions.SetGroupsVisited(PRODUCT_CODE, [
+        'group1',
+        'group2',
+        'group3',
+      ]);
+
+      const state = uiReducer.reducer(initialState, action);
+
+      expect(state.groupsVisited).toEqual({
+        entities: {
+          group1: true,
+          group2: true,
+          group3: true,
+        },
+      });
+    });
+
+    it('should reduce Group Visited with existing state', () => {
+      const { initialState } = uiReducer;
+      initialState.groupsVisited = {
+        entities: {
+          group1: true,
+          group2: true,
+          group3: true,
+        },
+      };
+
+      const action = new ConfiguratorUiActions.SetGroupsVisited(PRODUCT_CODE, [
+        'group4',
+      ]);
+
+      const state = uiReducer.reducer(initialState, action);
+
+      expect(state.groupsVisited).toEqual({
+        entities: {
+          group1: true,
+          group2: true,
+          group3: true,
+          group4: true,
+        },
+      });
+    });
+
+    it('should reduce Group Complete Reducer with initial state', () => {
+      const { initialState } = uiReducer;
+
+      const action = new ConfiguratorUiActions.SetGroupCompleted(PRODUCT_CODE, [
+        'group1',
+        'group2',
+        'group3',
+      ]);
+
+      const state = uiReducer.reducer(initialState, action);
+
+      expect(state.groupsStatus).toEqual({
+        entities: {
+          group1: Configurator.GroupStatus.COMPLETE,
+          group2: Configurator.GroupStatus.COMPLETE,
+          group3: Configurator.GroupStatus.COMPLETE,
+        },
+      });
+    });
+
+    it('should reduce Group Complete Reducer with existing state', () => {
+      const { initialState } = uiReducer;
+      initialState.groupsStatus = {
+        entities: {
+          group1: Configurator.GroupStatus.COMPLETE,
+          group2: Configurator.GroupStatus.ERROR,
+          group3: Configurator.GroupStatus.COMPLETE,
+        },
+      };
+
+      const action = new ConfiguratorUiActions.SetGroupCompleted(PRODUCT_CODE, [
+        'group4',
+      ]);
+
+      const state = uiReducer.reducer(initialState, action);
+
+      expect(state.groupsStatus).toEqual({
+        entities: {
+          group1: Configurator.GroupStatus.COMPLETE,
+          group2: Configurator.GroupStatus.ERROR,
+          group3: Configurator.GroupStatus.COMPLETE,
+          group4: Configurator.GroupStatus.COMPLETE,
+        },
+      });
+    });
+
+    it('should reduce Group Error Reducer with initial state', () => {
+      const { initialState } = uiReducer;
+
+      const action = new ConfiguratorUiActions.SetGroupError(PRODUCT_CODE, [
+        'group1',
+        'group2',
+        'group3',
+      ]);
+
+      const state = uiReducer.reducer(initialState, action);
+
+      expect(state.groupsStatus).toEqual({
+        entities: {
+          group1: Configurator.GroupStatus.ERROR,
+          group2: Configurator.GroupStatus.ERROR,
+          group3: Configurator.GroupStatus.ERROR,
+        },
+      });
+    });
+
+    it('should reduce Group Error Reducer with existing state', () => {
+      const { initialState } = uiReducer;
+      initialState.groupsStatus = {
+        entities: {
+          group1: Configurator.GroupStatus.ERROR,
+          group2: Configurator.GroupStatus.COMPLETE,
+          group3: Configurator.GroupStatus.ERROR,
+        },
+      };
+
+      const action = new ConfiguratorUiActions.SetGroupError(PRODUCT_CODE, [
+        'group4',
+      ]);
+
+      const state = uiReducer.reducer(initialState, action);
+
+      expect(state.groupsStatus).toEqual({
+        entities: {
+          group1: Configurator.GroupStatus.ERROR,
+          group2: Configurator.GroupStatus.COMPLETE,
+          group3: Configurator.GroupStatus.ERROR,
+          group4: Configurator.GroupStatus.ERROR,
+        },
+      });
     });
   });
 });
