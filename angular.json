@@ -397,7 +397,15 @@
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.prod.ts"
+                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+                },
+                {
+                  "replace": "projects/storefrontapp/src/environments/occ/occ.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/occ/occ.environment.1905.ts"
+                },
+                {
+                  "replace": "projects/storefrontapp/src/environments/cds/cds.environment.ts",
+                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.dev.ts"
                 }
               ],
               "sourceMap": false,
@@ -429,12 +437,7 @@
             "production": {
               "browserTarget": "storefrontapp:build:cds.production",
               "serverTarget": "storefrontapp:server-cds:production",
-              "fileReplacements": [
-                {
-                  "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.prod.ts"
-                }
-              ]
+              "fileReplacements": []
             }
           }
         },
