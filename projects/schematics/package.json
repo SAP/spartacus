@@ -21,15 +21,15 @@
     "@angular/localize": "^9.1.0",
     "@nguniversal/express-engine": "^9.1.0",
     "@schematics/angular": "^9.1.0",
-    "@schematics/update": "^0.901.0",
-    "jasmine": "^3.5.0",
-    "shelljs": "^0.8.3",
-    "typescript": "~3.8.3"
+    "@schematics/update": "^0.901.0"
   },
   "devDependencies": {
     "@types/jasmine": "^3.5.0",
     "@types/node": "^12.11.1",
-    "@types/shelljs": "^0.8.7"
+    "@types/shelljs": "^0.8.7",
+    "jasmine": "^3.5.0",
+    "shelljs": "^0.8.3",
+    "typescript": "~3.8.3"
   },
   "ng-add": {
     "save": "devDependencies"
