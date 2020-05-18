@@ -40,10 +40,21 @@
       <div class="col-12 cx-textalign">
         <a
           [routerLink]="
+            {
+              cxRoute: 'userGroupAssignPermissions',
+              params: { code: code$ | async }
+            } | cxUrl
+          "
+          class="btn btn-primary btn-block"
+        >
+          {{ 'userGroupPermissions.assignPermissions' | cxTranslate }}
+        </a>
+        <a
+          [routerLink]="
             { cxRoute: 'userGroupDetails', params: { code: code$ | async } }
               | cxUrl
           "
-          class="btn btn-primary btn-block"
+          class="btn btn-secondary btn-block"
         >
           {{ 'userGroupPermissions.back' | cxTranslate }}
         </a>

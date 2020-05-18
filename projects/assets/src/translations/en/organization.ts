@@ -366,8 +366,8 @@ export const organization = {
     parentUnit: 'Parent Unit',
     edit: 'Edit',
     back: 'Back to list',
-    assignPermissions: 'Manage Permissions',
-    assignUsers: 'Manage Users',
+    permissions: 'Permissions',
+    users: 'Users',
   },
   userGroupForm: {
     create: 'Create User Group',
@@ -385,6 +385,16 @@ export const organization = {
       label: 'Parent business unit',
       placeholder: 'Select business unit',
     },
+  },
+  userGroupPermissions: {
+    header: 'Permissions in {{code}}',
+    assignPermissions: 'Manage Permissions',
+    back: 'Close',
+  },
+  userGroupUsers: {
+    header: 'Users in {{code}}',
+    assignUsers: 'Manage Users',
+    back: 'Close',
   },
   userGroupAssignPermissions: {
     header: 'Manage permissions in {{code}}',

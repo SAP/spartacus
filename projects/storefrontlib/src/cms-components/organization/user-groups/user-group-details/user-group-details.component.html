@@ -61,26 +61,26 @@
       <a
         [routerLink]="
           {
-            cxRoute: 'userGroupAssignPermissions',
+            cxRoute: 'userGroupPermissions',
             params: userGroup
           } | cxUrl
         "
         class="btn btn-primary btn-block"
       >
-        {{ 'userGroup.assignPermissions' | cxTranslate }}
+        {{ 'userGroup.permissions' | cxTranslate }}
       </a>
     </div>
     <div class="col-md-12 col-lg-6">
       <a
         [routerLink]="
           {
-            cxRoute: 'userGroupAssignUsers',
+            cxRoute: 'userGroupUsers',
             params: userGroup
           } | cxUrl
         "
         class="btn btn-primary btn-block"
       >
-        {{ 'userGroup.assignUsers' | cxTranslate }}
+        {{ 'userGroup.users' | cxTranslate }}
       </a>
     </div>
   </div>
