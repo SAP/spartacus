@@ -250,14 +250,14 @@ export class ConfiguratorGroupsService {
     );
 
     this.store.dispatch(
-      new ConfiguratorUiActions.SetGroupCompleted(
+      new ConfiguratorUiActions.SetGroupsCompleted(
         configuration.owner.key,
         completedGroupIds
       )
     );
 
     this.store.dispatch(
-      new ConfiguratorUiActions.SetGroupError(
+      new ConfiguratorUiActions.SetGroupsError(
         configuration.owner.key,
         uncompletedOrErrorGroupdIds
       )

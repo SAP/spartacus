@@ -60,7 +60,7 @@ export class SetGroupsVisited implements StateEntityActions.EntityAction {
   }
 }
 
-export class SetGroupCompleted implements StateEntityActions.EntityAction {
+export class SetGroupsCompleted implements StateEntityActions.EntityAction {
   readonly type = SET_GROUPS_COMPLETED;
   readonly meta: StateEntityActions.EntityMeta;
   constructor(entityKey: string, public completedGroups: string[]) {
@@ -68,7 +68,7 @@ export class SetGroupCompleted implements StateEntityActions.EntityAction {
   }
 }
 
-export class SetGroupError implements StateEntityActions.EntityAction {
+export class SetGroupsError implements StateEntityActions.EntityAction {
   readonly type = SET_GROUPS_ERROR;
   readonly meta: StateEntityActions.EntityMeta;
   constructor(entityKey: string, public errorGroups: string[]) {
@@ -84,5 +84,5 @@ export type ConfiguratorUiAction =
   | CreateUiState
   | SetCurrentGroup
   | SetGroupsVisited
-  | SetGroupCompleted
-  | SetGroupError;
+  | SetGroupsCompleted
+  | SetGroupsError;

@@ -334,7 +334,7 @@ describe('ConfiguratorGroupsService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 
-    it('should get all parent group, when lowest subgroup are visited', () => {
+    it('should get all parent groups, when lowest subgroup are visited', () => {
       spyOn(store, 'select').and.returnValue(of(true));
 
       serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_8, true);
