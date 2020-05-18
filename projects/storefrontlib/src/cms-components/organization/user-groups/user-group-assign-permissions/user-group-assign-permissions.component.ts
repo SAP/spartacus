@@ -59,8 +59,8 @@ export class UserGroupAssignPermissionsComponent
               values: permissionsList.values.map((permission) => ({
                 selected: permission.selected,
                 code: permission.code,
-                threshold: `${permission.threshold || ''} ${
-                  (permission.currency && permission.currency.symbol) || ''
+                threshold: `${permission.threshold ?? ''} ${
+                  (permission.currency && permission.currency.symbol) ?? ''
                 }`,
                 orderType:
                   permission.orderApprovalPermissionType &&

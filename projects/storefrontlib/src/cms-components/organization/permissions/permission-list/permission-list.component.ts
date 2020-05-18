@@ -43,7 +43,7 @@ export class PermissionListComponent extends AbstractListingComponent
             values: permissionsList.values.map((permission) => ({
               code: permission.code,
               threshold: `${permission.threshold ?? ''} ${
-                (permission.currency && permission.currency.symbol) || ''
+                (permission.currency && permission.currency.symbol) ?? ''
               }`,
               orderType:
                 permission.orderApprovalPermissionType &&
