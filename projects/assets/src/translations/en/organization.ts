@@ -38,10 +38,6 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     costCenters: 'Cost Centers',
-    costCenter: {
-      code: 'Code',
-      name: 'Name',
-    },
     confirmDeactivation: {
       title: 'Disable Budget',
       message: 'Are you sure you want to disable this budget?',
@@ -70,6 +66,12 @@ export const organization = {
       label: 'Budget amount',
       placeholder: 'Amount',
     },
+  },
+  budgetCostCenters: {
+    header: 'Cost centers of {{code}}',
+    back: 'Back',
+    code: 'Code',
+    name: 'Name',
   },
   permissionsList: {
     code: 'Code',
@@ -161,6 +163,11 @@ export const organization = {
       message: 'Are you sure you want to disable this cost center?',
     },
   },
+  costCenterBudgets: {
+    header: 'Budgets in {{code}}',
+    back: 'Close',
+    assignBudgets: 'Manage Budgets',
+  },
   costCenterAssignBudgets: {
     header: 'Manage budgets in {{code}}',
     back: 'Close',
@@ -200,15 +207,15 @@ export const organization = {
     back: 'Back to list',
     active: 'Active',
     deactivated: 'Deactivated',
-    assignRoles: 'Manage Roles',
-    assignApprovers: 'Manage Approvers',
-    manageAddresses: 'Manage Addresses',
     confirmDeactivation: {
       title: 'Disable Unit',
       message: 'Are you sure you want to disable this unit?',
     },
     children: 'Child Units',
     costCenters: 'Cost Centers',
+    users: 'Users',
+    approvers: 'Approvers',
+    manageAddresses: 'Manage Addresses',
   },
   orgUnitForm: {
     create: 'Create Unit',
@@ -231,9 +238,19 @@ export const organization = {
       placeholder: 'Select approval process',
     },
   },
+  unitUsers: {
+    header: 'Users in {{code}}',
+    back: 'Close',
+    assignRoles: 'Manage Roles',
+  },
   unitAssignRoles: {
     header: 'Manage roles in {{code}}',
     back: 'Close',
+  },
+  unitApprovers: {
+    header: 'Approvers in {{code}}',
+    back: 'Close',
+    assignApprovers: 'Manage Approvers',
   },
   unitAssignApprovers: {
     header: 'Manage approvers in {{code}}',
@@ -349,8 +366,8 @@ export const organization = {
     parentUnit: 'Parent Unit',
     edit: 'Edit',
     back: 'Back to list',
-    assignPermissions: 'Manage Permissions',
-    assignUsers: 'Manage Users',
+    permissions: 'Permissions',
+    users: 'Users',
   },
   userGroupForm: {
     create: 'Create User Group',
@@ -368,6 +385,16 @@ export const organization = {
       label: 'Parent business unit',
       placeholder: 'Select business unit',
     },
+  },
+  userGroupPermissions: {
+    header: 'Permissions in {{code}}',
+    assignPermissions: 'Manage Permissions',
+    back: 'Close',
+  },
+  userGroupUsers: {
+    header: 'Users in {{code}}',
+    assignUsers: 'Manage Users',
+    back: 'Close',
   },
   userGroupAssignPermissions: {
     header: 'Manage permissions in {{code}}',

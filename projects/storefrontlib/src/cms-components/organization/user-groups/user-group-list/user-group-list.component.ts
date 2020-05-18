@@ -4,7 +4,6 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import {
   RoutingService,
-  CxDatePipe,
   EntitiesModel,
   UserGroupService,
   UserGroup,
@@ -25,8 +24,7 @@ export class UserGroupListComponent extends AbstractListingComponent
 
   constructor(
     protected routingService: RoutingService,
-    protected userGroupsService: UserGroupService,
-    protected cxDate: CxDatePipe
+    protected userGroupsService: UserGroupService
   ) {
     super(routingService);
   }

@@ -103,8 +103,14 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['organization/unit/edit/:code'],
     paramsMapping: { code: 'uid' },
   },
+  orgUnitUsers: {
+    paths: ['organization/unit/users/:code'],
+  },
   orgUnitAssignRoles: {
     paths: ['organization/unit/assign-roles/:code/:roleId'],
+  },
+  orgUnitApprovers: {
+    paths: ['organization/unit/approvers/:code'],
   },
   orgUnitAssignApprovers: {
     paths: ['organization/unit/assign-approvers/:code'],
@@ -135,6 +141,9 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   costCenterDetails: {
     paths: ['organization/costcenter/:code'],
+  },
+  costCenterBudgets: {
+    paths: ['organization/costcenter/budgets/:code'],
   },
   costCenterAssignBudgets: {
     paths: ['organization/costcenter/assign-budgets/:code'],
@@ -180,8 +189,14 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   userGroupEdit: {
     paths: ['organization/usergroup/edit/:code'],
   },
+  userGroupPermissions: {
+    paths: ['organization/usergroup/permissions/:code'],
+  },
   userGroupAssignPermissions: {
     paths: ['organization/usergroup/assign-permissions/:code'],
+  },
+  userGroupUsers: {
+    paths: ['organization/usergroup/users/:code'],
   },
   userGroupAssignUsers: {
     paths: ['organization/usergroup/assign-users/:code'],

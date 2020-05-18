@@ -5,7 +5,6 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  CxDatePipe,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
@@ -39,7 +38,7 @@ import { InteractiveTableModule } from '../../../../shared/components/interactiv
   ],
   declarations: [UserGroupAssignPermissionsComponent],
   exports: [UserGroupAssignPermissionsComponent],
-  providers: [CxDatePipe],
+  providers: [],
   entryComponents: [UserGroupAssignPermissionsComponent],
 })
 export class UserGroupAssignPermissionsModule {}

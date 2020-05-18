@@ -1,0 +1,57 @@
+<ng-container class="container" *ngIf="data$ | async as data">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+      <div class="cx-header">
+        <h3>
+          {{
+            'budgetCostCenters.header' | cxTranslate: { code: code$ | async }
+          }}
+        </h3>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-3">
+      <div class="row cx-search-links mb-3">
+        <div class="col-12 cx-textalign">
+          <!--          back-->
+          <a
+            [routerLink]="
+              { cxRoute: 'budgetDetails', params: { code: code$ | async } }
+                | cxUrl
+            "
+            class="btn btn-primary btn-block"
+          >
+            {{ 'budgetCostCenters.back' | cxTranslate }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cx-table-body">
+    <ng-container *ngIf="data?.length > 0; else noData">
+      <cx-table
+        [columns]="[
+          {
+            key: 'code',
+            value: 'budgetCostCenters.code' | cxTranslate,
+            cxRoute: 'costCenterDetails'
+          },
+          {
+            key: 'name',
+            value: 'budgetCostCenters.name' | cxTranslate
+          }
+        ]"
+        [tableData]="data"
+      ></cx-table>
+    </ng-container>
+
+    <!-- NO ORDER CONTAINER -->
+    <ng-template #noData>
+      <div class="cx-no-items row">
+        <div class="col-sm-12 col-md-6 col-lg-4">
+          <div>{{ 'common.noData' | cxTranslate }}</div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</ng-container>
