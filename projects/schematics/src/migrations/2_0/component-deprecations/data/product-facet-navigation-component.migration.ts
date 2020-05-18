@@ -15,8 +15,8 @@ export const PRODUCT_FACET_NAVIGATION_COMPONENT_MIGRATION: ComponentData = {
       comment: `'visibleFacets$' property has been removed. Please refer to the migration guide on how to handle this change.`,
     },
     {
-      name: 'toggleValue',
-      comment: `'toggleValue' method has been removed. Please refer to the migration guide on how to handle this change.`,
+      name: 'activeFacetValueCode',
+      comment: `'activeFacetValueCode' property has been removed. Please refer to the migration guide on how to handle this change.`,
     },
     {
       name: 'minPerFacet',
@@ -24,7 +24,11 @@ export const PRODUCT_FACET_NAVIGATION_COMPONENT_MIGRATION: ComponentData = {
     },
     {
       name: 'showAllPerFacetMap',
-      comment: `'showAllPerFacetMap' method has been removed. Please refer to the migration guide on how to handle this change.`,
+      comment: `'showAllPerFacetMap' property has been removed. Please refer to the migration guide on how to handle this change.`,
+    },
+    {
+      name: 'toggleValue',
+      comment: `'toggleValue' method has been removed. Please refer to the migration guide on how to handle this change.`,
     },
     {
       name: 'isFacetCollapsed',
