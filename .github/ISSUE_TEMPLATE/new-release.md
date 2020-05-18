@@ -12,7 +12,6 @@ assignees: ''
 - [ ] Announce new maintenance branch (Set topic in tribe channel)
 - [ ] Create release branch `release/x.y.z` from the corresponding branch (develop/maintenance)
 - [ ] [Bump versions for schematics migration](https://github.com/SAP/spartacus/blob/develop/projects/schematics/README.md#releasing-update-schematics)
-- [ ] Bump peer dependencies versions
 - [ ] Run all e2e tests on release branch (Pro tip: run mobile, regression, smoke scripts in parallel to get all the results faster, after that retry failed tests in open mode)
 - [ ] Build app on this branch using [this script](https://github.tools.sap/cx-commerce/spartacus-installation). (Use the following `config.sh`):
 
