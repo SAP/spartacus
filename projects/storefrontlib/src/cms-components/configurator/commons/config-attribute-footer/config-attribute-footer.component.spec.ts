@@ -7,6 +7,7 @@ import {
 } from '../../../../cms-components/misc/icon/index';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { ConfigAttributeFooterComponent } from './config-attribute-footer.component';
+import { ConfigComponentTestUtilsService } from '../../generic/service/config-component-test-utils.service';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
@@ -63,7 +64,8 @@ describe('ConfigAttributeFooterComponent', () => {
   it('should render a required message if attribute has no value, yet.', () => {
     classUnderTest.attribute.required = true;
     fixture.detectChanges();
-    expectElementPresent(
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-footer-required-message'
     );
@@ -73,7 +75,8 @@ describe('ConfigAttributeFooterComponent', () => {
     classUnderTest.attribute.required = false;
     classUnderTest.attribute.incomplete = true;
     fixture.detectChanges();
-    expectElementNotPresent(
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-footer-required-message'
     );
@@ -107,29 +110,3 @@ describe('ConfigAttributeFooterComponent', () => {
     );
   });
 });
-
-export function expectElementPresent(
-  htmlElement: Element,
-  querySelector: string
-) {
-  expect(htmlElement.querySelectorAll(querySelector).length).toBeGreaterThan(
-    0,
-    "expected element identified by selector '" +
-      querySelector +
-      "' to be present, but it is NOT! innerHtml: " +
-      htmlElement.innerHTML
-  );
-}
-
-export function expectElementNotPresent(
-  htmlElement: Element,
-  querySelector: string
-) {
-  expect(htmlElement.querySelectorAll(querySelector).length).toBe(
-    0,
-    "expected element identified by selector '" +
-      querySelector +
-      "' to be NOT present, but it is! innerHtml: " +
-      htmlElement.innerHTML
-  );
-}

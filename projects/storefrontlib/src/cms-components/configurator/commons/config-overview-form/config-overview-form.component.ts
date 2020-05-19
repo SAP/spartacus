@@ -41,8 +41,7 @@ export class ConfigOverviewFormComponent implements OnInit {
           (configuration) =>
             configuration.overview !== undefined &&
             configuration.overview !== null
-        ),
-        take(1)
+        )
       );
   }
 
