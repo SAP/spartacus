@@ -107,26 +107,26 @@
     <a
       [routerLink]="
         {
-          cxRoute: 'orgUnitAssignRoles',
-          params: { code: orgUnit.uid, roleId: 'b2bcustomergroup' }
+          cxRoute: 'orgUnitUsers',
+          params: { code: orgUnit.uid }
         } | cxUrl
       "
       class="btn btn-primary btn-block"
     >
-      {{ 'orgUnit.assignRoles' | cxTranslate }}
+      {{ 'orgUnit.users' | cxTranslate }}
     </a>
   </div>
   <div class="col-md-12 col-lg-6">
     <a
       [routerLink]="
         {
-          cxRoute: 'orgUnitAssignApprovers',
+          cxRoute: 'orgUnitApprovers',
           params: { code: orgUnit.uid }
         } | cxUrl
       "
       class="btn btn-primary btn-block"
     >
-      {{ 'orgUnit.assignApprovers' | cxTranslate }}
+      {{ 'orgUnit.approvers' | cxTranslate }}
     </a>
   </div>
   <div class="col-md-12 col-lg-6">

@@ -7,7 +7,6 @@ import {
   I18nTestingModule,
   RoutingService,
   OrgUnitService,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
   B2BUnit,
@@ -60,12 +59,6 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
 describe('UnitDetailsComponent', () => {
   let component: UnitDetailsComponent;
   let fixture: ComponentFixture<UnitDetailsComponent>;
@@ -77,7 +70,6 @@ describe('UnitDetailsComponent', () => {
       imports: [RouterTestingModule, TableModule, I18nTestingModule],
       declarations: [UnitDetailsComponent, MockUrlPipe],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },

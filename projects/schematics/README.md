@@ -180,10 +180,12 @@ This section is for developers who do the release, and it specifies how to manag
 The migration scripts that are listed here should be executed each time customers perform the automatic upgrade by running `ng update @spartacus/schematics --next`:
 
 - `migration-v2-validate-01`
+- `migration-v2-methods-and-properties-deprecations-02`
 - `migration-v2-constructor-deprecations-03`
-- `migration-v2-removed-public-api-04`
+- `migration-v2-removed-public-api-deprecation-04`
 - `migration-v2-component-deprecations-05`
 - `migration-v2-css-06`
+- `migration-v2-config-deprecations-09`
 
 Please bump the `version` in `migration.json` only for the migration scripts listed above, and _do not change the other script's versions_.
 

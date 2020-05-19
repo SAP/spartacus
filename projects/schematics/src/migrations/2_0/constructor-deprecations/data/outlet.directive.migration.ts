@@ -1,9 +1,9 @@
 import {
+  ANGULAR_CORE,
   DEFER_LOADER_SERVICE,
   OUTLET_DIRECTIVE,
   OUTLET_RENDERER_SERVICE,
   OUTLET_SERVICE,
-  SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
   TEMPLATE_REF,
   VIEW_CONTAINER_REF,
@@ -18,11 +18,11 @@ export const OUTLET_DIRECTIVE_MIGRATION: ConstructorDeprecation[] = [
     deprecatedParams: [
       {
         className: VIEW_CONTAINER_REF,
-        importPath: SPARTACUS_CORE,
+        importPath: ANGULAR_CORE,
       },
       {
         className: TEMPLATE_REF,
-        importPath: SPARTACUS_CORE,
+        importPath: ANGULAR_CORE,
       },
       {
         className: OUTLET_SERVICE,
@@ -46,11 +46,11 @@ export const OUTLET_DIRECTIVE_MIGRATION: ConstructorDeprecation[] = [
     deprecatedParams: [
       {
         className: VIEW_CONTAINER_REF,
-        importPath: SPARTACUS_CORE,
+        importPath: ANGULAR_CORE,
       },
       {
         className: TEMPLATE_REF,
-        importPath: SPARTACUS_CORE,
+        importPath: ANGULAR_CORE,
       },
       {
         className: OUTLET_SERVICE,
