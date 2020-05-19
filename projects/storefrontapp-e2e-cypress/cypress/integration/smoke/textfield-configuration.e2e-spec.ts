@@ -15,6 +15,12 @@ function goToProductDetailsPage(testProduct) {
   cy.wait(2000);
 }
 
+function addToCartAndVerify(product: string) {
+  configuration.clickAddToCartButton();
+  cart.verifyCartNotEmpty();
+  configuration.verifyTextfieldProductInCart(product);
+}
+
 context('Textfield Configuration', () => {
   before(() => {
     cy.visit('/');
@@ -36,9 +42,12 @@ context('Textfield Configuration', () => {
     it('should be able to navigate from the cart', () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
-      configuration.clickAddToCartButton();
-      cart.verifyCartNotEmpty();
-      configuration.verifyTextfieldProductInCart(testProduct);
+      addToCartAndVerify(testProduct);
+      configuration.clickOnEditConfigurationButton();
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.verifyAttributeIsDisplayed('Engraved Text');
+      configuration.selectAttribute('Engraved Text', 'Hallo');
+      addToCartAndVerify(testProduct);
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
@@ -46,6 +55,10 @@ context('Textfield Configuration', () => {
       configuration.clickOnAddToCartButtonOnProductDetails();
       configuration.clickOnViewCartButtonOnProductDetails();
       cart.verifyCartNotEmpty();
+      configuration.verifyTextfieldProductInCart(testProduct);
+      configuration.clickOnEditConfigurationButton();
+      configuration.verifyConfigurationPageIsDisplayed();
+      addToCartAndVerify(testProduct);
     });
   });
 
@@ -55,9 +68,7 @@ context('Textfield Configuration', () => {
       configuration.verifyConfigurationPageIsDisplayed();
       configuration.verifyAttributeIsDisplayed('Engraved Text');
       configuration.selectAttribute('Engraved Text', 'Hallo');
-      configuration.clickAddToCartButton();
-      cart.verifyCartNotEmpty();
-      configuration.verifyTextfieldProductInCart(testProduct);
+      addToCartAndVerify(testProduct);
     });
   });
 });
