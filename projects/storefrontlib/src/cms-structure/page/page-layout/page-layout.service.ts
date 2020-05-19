@@ -11,7 +11,9 @@ import {
 } from '../../../layout/config/layout-config';
 import { PageLayoutHandler, PAGE_LAYOUT_HANDLER } from './page-layout-handler';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PageLayoutService {
   constructor(
     private cms: CmsService,

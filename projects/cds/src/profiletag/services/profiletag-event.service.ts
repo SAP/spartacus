@@ -13,10 +13,10 @@ import { CdsConfig } from '../../config/index';
 import {
   ConsentReferenceEvent,
   DebugEvent,
-  ProfileTagEventNames,
+  InternalProfileTagEventNames,
+  ProfileTagEvent,
   ProfileTagJsConfig,
   ProfileTagWindowObject,
-  PushEvent,
 } from '../model/profile-tag.model';
 
 @Injectable({
@@ -45,7 +45,7 @@ export class ProfileTagEventService {
     if (!this.consentReference$) {
       this.consentReference$ = fromEvent(
         this.winRef.nativeWindow,
-        ProfileTagEventNames.CONSENT_REFERENCE_LOADED
+        InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED
       ).pipe(
         map((event) => <ConsentReferenceEvent>event),
         map((event) => event.detail.consentReference),
@@ -77,7 +77,7 @@ export class ProfileTagEventService {
   private debugModeChanged(): Observable<DebugEvent> {
     return fromEvent(
       this.winRef.nativeWindow,
-      ProfileTagEventNames.DEBUG_FLAG_CHANGED
+      InternalProfileTagEventNames.DEBUG_FLAG_CHANGED
     ).pipe(
       map((event) => <DebugEvent>event),
       tap((event) => (this.profileTagDebug = event.detail.debug))
@@ -119,7 +119,7 @@ export class ProfileTagEventService {
     this.profileTagWindow.Y_TRACKING.q = q;
   }
 
-  notifyProfileTagOfEventOccurence(event: PushEvent): void {
+  notifyProfileTagOfEventOccurence(event: ProfileTagEvent): void {
     try {
       this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
     } catch (e) {

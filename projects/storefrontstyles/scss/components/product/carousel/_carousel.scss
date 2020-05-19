@@ -39,10 +39,13 @@
         flex-wrap: nowrap;
         justify-content: flex-start;
 
-        &:not(:last-child) {
-          // we keep the last slide non-absolute, so the height
-          //  of the parent size is based on contetn
+        &:not(.active) {
+          // we keep the active slide non-absolute, so the height
+          // of the parent is based on the displayed slide
           position: absolute;
+          opacity: 0;
+          z-index: -1;
+          transition: none;
         }
 
         .item {
