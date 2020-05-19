@@ -29,11 +29,17 @@ export class ActiveFacetsComponent {
 
   /**
    * The focus key is used to persist the focus on the facet when the DOM is being
-   * recreated. We only apply the focus key for the given facet when there are no
-   * facets available. This is a great experience for the keyboard user, who keep the
-   * focus on the activated facet all the time.
+   * recreated. We only apply the focus key for the given _active_ facet when there
+   * the original facets is not available. This happens for non multi-valued facets.
+   *
+   * With this approach, the we keep the focus, either at the facet list or on the
+   * active facets.
    */
   getFocusKey(facetList: FacetList, facet: Breadcrumb) {
-    return !facetList.facets?.length ? facet.facetValueName : '';
+    return facetList.facets?.find((f) =>
+      f.values?.find((val) => val.name === facet.facetValueName)
+    )
+      ? ''
+      : facet.facetValueName;
   }
 }

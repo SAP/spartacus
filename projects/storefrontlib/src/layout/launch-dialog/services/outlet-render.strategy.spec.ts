@@ -1,16 +1,20 @@
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { OutletPosition, OutletService } from '../../../cms-structure/index';
 import { OutletRendererService } from '../../../cms-structure/outlet/outlet-renderer.service';
-import { LaunchConfig, LaunchOutletDialog, LAUNCH_CALLER } from '../config';
+import { LayoutConfig } from '../../config/layout-config';
+import { LaunchOutletDialog, LAUNCH_CALLER } from '../config';
 import { OutletRenderStrategy } from './outlet-render.strategy';
 
 @Component({
-  template: '',
+  template: 'test',
 })
-class TestContainerComponent {}
+class TestContainerComponent {
+  componentType = 'TestContainerComponent';
+}
 
-const mockLaunchConfig: LaunchConfig = {
+const mockLaunchConfig: LayoutConfig = {
   launch: {
     TEST_OUTLET: {
       outlet: 'cx-outlet-test',
@@ -24,6 +28,15 @@ const mockLaunchConfig: LaunchConfig = {
   },
 };
 
+class MockOutletDirective {
+  renderedComponents = new Map<OutletPosition, any>().set(
+    OutletPosition.AFTER,
+    [
+      { componentType: 'TestContainerComponent' },
+      { componentType: 'TestOtherComponent' },
+    ]
+  );
+}
 const testTemplate = {} as any;
 
 class MockOutletService {
@@ -31,7 +44,8 @@ class MockOutletService {
 }
 
 class MockOutletRendererService {
-  render(_outlet: string) {}
+  render() {}
+  getOutletRef() {}
 }
 
 class MockComponentFactoryResolver {
@@ -64,6 +78,9 @@ describe('OutletRenderStrategy', () => {
 
     spyOn(outletService, 'add');
     spyOn(outletRendererService, 'render');
+    spyOn(outletRendererService, 'getOutletRef').and.returnValue(
+      of(new MockOutletDirective() as any)
+    );
   });
 
   it('should be created', () => {

@@ -39,6 +39,13 @@ const mockDataWithMultiplePictures: Product = {
   },
 };
 
+const mockDataWitoutPrimaryPictures: Product = {
+  name: 'mockProduct1',
+  images: {
+    GALLERY: [firstImage, secondImage],
+  },
+};
+
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
     return of();
@@ -177,6 +184,38 @@ describe('ProductImagesComponent', () => {
 
         const carousel = fixture.debugElement.query(By.css('cx-carousel'));
         expect(carousel).toBeNull();
+      });
+    });
+  });
+
+  describe('without pictures', () => {
+    beforeEach(() => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockDataWitoutPrimaryPictures)
+      );
+
+      fixture = TestBed.createComponent(ProductImagesComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should be created', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should have mainImage$', () => {
+      let result: any;
+      component.mainImage$.subscribe((value) => (result = value)).unsubscribe();
+      expect(result).toEqual({});
+    });
+
+    describe('(UI test)', () => {
+      it('should render cx-media for GALLERY image', () => {
+        component.thumbs$.subscribe();
+        fixture.detectChanges();
+
+        const media = fixture.debugElement.query(By.css('cx-media'));
+        expect(media).toBeDefined();
       });
     });
   });
