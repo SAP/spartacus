@@ -49,8 +49,8 @@ export class UserGroupPermissionsComponent extends AbstractListingComponent
                 .filter((permission) => permission.selected)
                 .map((permission) => ({
                   code: permission.code,
-                  threshold: `${permission.threshold || ''} ${
-                    (permission.currency && permission.currency.symbol) || ''
+                  threshold: `${permission.threshold ?? ''} ${
+                    (permission.currency && permission.currency.symbol) ?? ''
                   }`,
                   orderType:
                     permission.orderApprovalPermissionType &&

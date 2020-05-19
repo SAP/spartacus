@@ -75,7 +75,7 @@ export const organization = {
   },
   permissionsList: {
     code: 'Code',
-    permissionManagement: 'Persmission Management',
+    permissionManagement: 'Purchase limits',
     threshold: 'Threshold Value',
     type: 'Type',
     timePeriod: 'Time Period',
@@ -87,13 +87,13 @@ export const organization = {
       byCode: 'Code',
       byValue: 'Value',
     },
-    create: 'Create new Permission',
+    create: 'New purchase limit',
     assign: 'Assign',
   },
   permission: {
-    details: 'Permission details',
+    details: 'Details for {{code}}',
     id: 'ID',
-    name: 'Permission Name',
+    name: 'Name',
     currency: 'Currency',
     parentUnit: 'Parent Unit',
     edit: 'Edit',
@@ -105,16 +105,17 @@ export const organization = {
     deactivated: 'Deactivated',
     threshold: 'Threshold Amount',
     confirmDeactivation: {
-      title: 'Disable Permission',
-      message: 'Are you sure you want to disable this permission?',
+      title: 'Confirm disable purchase limit',
+      message: 'Are you sure you want to disable this purchase limit?',
     },
   },
   permissionForm: {
-    create: 'Create Permission',
-    edit: 'Edit Permission',
-    update: 'Update Permission',
+    createHeader: 'New purchase limit',
+    editHeader: 'Edit {{code}}',
+    update: 'Save',
+    create: 'Save',
     code: {
-      label: 'Permission ID',
+      label: 'ID',
       placeholder: 'Code',
     },
     businessUnits: {
@@ -125,7 +126,7 @@ export const organization = {
     type: 'Type',
     currency: 'Currency',
     threshold: {
-      label: 'Permission threshold',
+      label: 'Threshold',
       placeholder: 'Amount',
     },
   },
@@ -366,7 +367,7 @@ export const organization = {
     parentUnit: 'Parent Unit',
     edit: 'Edit',
     back: 'Back to list',
-    permissions: 'Permissions',
+    permissions: 'Purchase limits',
     users: 'Users',
   },
   userGroupForm: {
@@ -387,8 +388,8 @@ export const organization = {
     },
   },
   userGroupPermissions: {
-    header: 'Permissions in {{code}}',
-    assignPermissions: 'Manage Permissions',
+    header: 'Purchase limits assigned to in {{code}}',
+    assignPermissions: 'Manage limits',
     back: 'Close',
   },
   userGroupUsers: {
@@ -397,7 +398,7 @@ export const organization = {
     back: 'Close',
   },
   userGroupAssignPermissions: {
-    header: 'Manage permissions in {{code}}',
+    header: 'Manage purchase limits in {{code}}',
     back: 'Close',
   },
   userGroupAssignUsers: {
