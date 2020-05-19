@@ -24,6 +24,7 @@ export class ConfigGroupMenuComponent implements OnInit {
   displayedGroups$: Observable<Configurator.Group[]>;
 
   iconTypes = ICON_TYPE;
+  GROUPSTATUS = Configurator.GroupStatus;
 
   constructor(
     private routingService: RoutingService,
@@ -154,6 +155,26 @@ export class ConfigGroupMenuComponent implements OnInit {
         return group;
       }
     });
+  }
+
+  getGroupStatus(
+    groupId: string,
+    configuration: Configurator.Configuration
+  ): Observable<string> {
+    return this.configuratorGroupsService
+      .isGroupVisited(configuration.owner, groupId)
+      .pipe(
+        switchMap((isVisited) => {
+          if (isVisited) {
+            return this.configuratorGroupsService.getGroupStatus(
+              configuration.owner,
+              groupId
+            );
+          } else {
+            return of(null);
+          }
+        })
+      );
   }
 
   scrollToVariantConfigurationHeader() {

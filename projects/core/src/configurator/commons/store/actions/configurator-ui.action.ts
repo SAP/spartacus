@@ -9,6 +9,10 @@ export const SET_CURRENT_GROUP = '[Configurator] Set current group to UI State';
 export const SET_MENU_PARENT_GROUP =
   '[Configurator] Set current parent group for menu to UI State';
 
+export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
+export const SET_GROUPS_COMPLETED = '[Configurator] Set groups complete status';
+export const SET_GROUPS_ERROR = '[Configurator] Set groups error status';
+
 export class SetUiState implements StateEntityActions.EntityAction {
   readonly type = SET_UI_STATE;
   readonly meta: StateEntityActions.EntityMeta;
@@ -48,10 +52,37 @@ export class RemoveUiState extends StateEntityActions.EntityRemoveAction {
   }
 }
 
+export class SetGroupsVisited implements StateEntityActions.EntityAction {
+  readonly type = SET_GROUPS_VISITED;
+  readonly meta: StateEntityActions.EntityMeta;
+  constructor(entityKey: string, public payload: string[]) {
+    this.meta = StateEntityActions.entityMeta(CONFIGURATION_UI_DATA, entityKey);
+  }
+}
+
+export class SetGroupsCompleted implements StateEntityActions.EntityAction {
+  readonly type = SET_GROUPS_COMPLETED;
+  readonly meta: StateEntityActions.EntityMeta;
+  constructor(entityKey: string, public completedGroups: string[]) {
+    this.meta = StateEntityActions.entityMeta(CONFIGURATION_UI_DATA, entityKey);
+  }
+}
+
+export class SetGroupsError implements StateEntityActions.EntityAction {
+  readonly type = SET_GROUPS_ERROR;
+  readonly meta: StateEntityActions.EntityMeta;
+  constructor(entityKey: string, public errorGroups: string[]) {
+    this.meta = StateEntityActions.entityMeta(CONFIGURATION_UI_DATA, entityKey);
+  }
+}
+
 // action types
 export type ConfiguratorUiAction =
   | SetUiState
   | SetMenuParentGroup
   | RemoveUiState
   | CreateUiState
-  | SetCurrentGroup;
+  | SetCurrentGroup
+  | SetGroupsVisited
+  | SetGroupsCompleted
+  | SetGroupsError;

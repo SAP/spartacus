@@ -4,9 +4,11 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import { ConfiguratorUiActions } from '../store';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration } from '../store/configuration-state';
+import * as UiSelectors from '../store/selectors/configurator-ui.selector';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 /**
@@ -18,6 +20,22 @@ export class ConfiguratorGroupsService {
     private store: Store<StateWithConfiguration>,
     private configuratorCommonsService: ConfiguratorCommonsService
   ) {}
+
+  subscribeToUpdateConfiguration(owner: GenericConfigurator.Owner): void {
+    // TODO: Cancel previous subscriptions of the configuration state
+    // Set Group Status on each update of the configuration state
+    // This will be called every time something in the configuration is changed, prices,
+    // attributes groups etc.
+    this.configuratorCommonsService
+      .getConfiguration(owner)
+      .subscribe((configuration) =>
+        this.getCurrentGroup(owner)
+          .pipe(take(1))
+          .subscribe((currentGroup) =>
+            this.setGroupStatus(configuration, currentGroup.id, false)
+          )
+      );
+  }
 
   getCurrentGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getUiState(owner).pipe(
@@ -82,7 +100,200 @@ export class ConfiguratorGroupsService {
     );
   }
 
+  isGroupVisited(
+    owner: GenericConfigurator.Owner,
+    groupId: string
+  ): Observable<Boolean> {
+    return this.store.select(UiSelectors.isGroupVisited(owner.key, groupId));
+  }
+
+  getGroupStatus(
+    owner: GenericConfigurator.Owner,
+    groupId: string
+  ): Observable<Configurator.GroupStatus> {
+    return this.store.select(UiSelectors.getGroupStatus(owner.key, groupId));
+  }
+
+  areGroupsVisited(
+    owner: GenericConfigurator.Owner,
+    groupIds: string[]
+  ): Observable<Boolean> {
+    return this.store.select(UiSelectors.areGroupsVisited(owner.key, groupIds));
+  }
+
+  checkIsGroupComplete(group: Configurator.Group): Boolean {
+    let isGroupComplete = true;
+
+    //Only required attributes need to be checked
+    group.attributes.forEach((attribute) => {
+      if (attribute.required && isGroupComplete && attribute.incomplete) {
+        isGroupComplete = false;
+      }
+    });
+
+    return isGroupComplete;
+  }
+
+  getParentGroupStatusCompleted(
+    configuration: Configurator.Configuration,
+    parentGroup: Configurator.Group,
+    completedGroupIds: string[],
+    uncompletedGroupdIds: string[]
+  ) {
+    if (parentGroup === null) {
+      return;
+    }
+
+    let allSubGroupsComplete = true;
+    parentGroup.subGroups.forEach((subGroup) => {
+      if (!this.checkIsGroupComplete(subGroup)) {
+        allSubGroupsComplete = false;
+      }
+    });
+
+    if (allSubGroupsComplete) {
+      completedGroupIds.push(parentGroup.id);
+    } else {
+      uncompletedGroupdIds.push(parentGroup.id);
+    }
+
+    this.getParentGroupStatusCompleted(
+      configuration,
+      this.findParentGroup(
+        configuration.groups,
+        this.findCurrentGroup(configuration.groups, parentGroup.id),
+        null
+      ),
+      completedGroupIds,
+      uncompletedGroupdIds
+    );
+  }
+
+  getParentGroupStatusVisited(
+    configuration: Configurator.Configuration,
+    groupId: string,
+    parentGroup: Configurator.Group,
+    visitedGroupIds: string[]
+  ) {
+    if (parentGroup === null) {
+      return;
+    }
+
+    const subGroups = [];
+    parentGroup.subGroups.forEach((subGroup) => {
+      //The current group is not set to visited yet, therefor we have to exclude it in the check
+      if (subGroup.id === groupId) {
+        return;
+      }
+      subGroups.push(subGroup.id);
+    });
+
+    this.areGroupsVisited(configuration.owner, subGroups)
+      .pipe(take(1))
+      .subscribe((isVisited) => {
+        if (isVisited) {
+          visitedGroupIds.push(parentGroup.id);
+
+          this.getParentGroupStatusVisited(
+            configuration,
+            parentGroup.id,
+            this.findParentGroup(
+              configuration.groups,
+              this.findCurrentGroup(configuration.groups, parentGroup.id),
+              null
+            ),
+            visitedGroupIds
+          );
+        }
+      });
+  }
+
+  setGroupStatus(
+    configuration: Configurator.Configuration,
+    groupId: string,
+    setGroupVisited: Boolean
+  ) {
+    const group = this.getGroup(configuration.groups, groupId);
+    const parentGroup = this.findParentGroup(
+      configuration.groups,
+      this.findCurrentGroup(configuration.groups, groupId),
+      null
+    );
+
+    this.setGroupStatusCompletedOrError(configuration, group, parentGroup);
+
+    if (setGroupVisited) {
+      this.setGroupStatusVisited(configuration, group, parentGroup);
+    }
+  }
+
+  setGroupStatusCompletedOrError(
+    configuration: Configurator.Configuration,
+    group: Configurator.Group,
+    parentGroup: Configurator.Group
+  ) {
+    const completedGroupIds = [];
+    const uncompletedOrErrorGroupdIds = [];
+
+    //Currently only check for completness, no validation of input types
+    if (this.checkIsGroupComplete(group)) {
+      completedGroupIds.push(group.id);
+    } else {
+      uncompletedOrErrorGroupdIds.push(group.id);
+    }
+
+    this.getParentGroupStatusCompleted(
+      configuration,
+      parentGroup,
+      completedGroupIds,
+      uncompletedOrErrorGroupdIds
+    );
+
+    this.store.dispatch(
+      new ConfiguratorUiActions.SetGroupsCompleted(
+        configuration.owner.key,
+        completedGroupIds
+      )
+    );
+
+    this.store.dispatch(
+      new ConfiguratorUiActions.SetGroupsError(
+        configuration.owner.key,
+        uncompletedOrErrorGroupdIds
+      )
+    );
+  }
+
+  setGroupStatusVisited(
+    configuration: Configurator.Configuration,
+    group: Configurator.Group,
+    parentGroup: Configurator.Group
+  ) {
+    const visitedGroupIds = [];
+    visitedGroupIds.push(group.id);
+    this.getParentGroupStatusVisited(
+      configuration,
+      group.id,
+      parentGroup,
+      visitedGroupIds
+    );
+
+    this.store.dispatch(
+      new ConfiguratorUiActions.SetGroupsVisited(
+        configuration.owner.key,
+        visitedGroupIds
+      )
+    );
+  }
+
   navigateToGroup(configuration: Configurator.Configuration, groupId: string) {
+    //Set Group status for current group
+    this.getCurrentGroup(configuration.owner)
+      .pipe(take(1))
+      .subscribe((currentGroup) => {
+        this.setGroupStatus(configuration, currentGroup.id, true);
+      });
+
     const parentGroup = this.findParentGroup(
       configuration.groups,
       this.findCurrentGroup(configuration.groups, groupId),
@@ -168,6 +379,17 @@ export class ConfiguratorGroupsService {
 
     return groups
       .map((group) => this.findCurrentGroup(group.subGroups, groupId))
+      .filter((foundGroup) => foundGroup)
+      .pop();
+  }
+
+  getGroup(groups: Configurator.Group[], groupId: string): Configurator.Group {
+    if (groups.find((value) => value.id === groupId)) {
+      return groups.find((value) => value.id === groupId);
+    }
+
+    return groups
+      .map((currentGroup) => this.getGroup(currentGroup.subGroups, groupId))
       .filter((foundGroup) => foundGroup)
       .pop();
   }
