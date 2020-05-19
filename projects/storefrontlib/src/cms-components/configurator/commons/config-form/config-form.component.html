@@ -8,6 +8,7 @@
         <div class="cx-config-attribute-header">
           <cx-config-attribute-header
             [attribute]="attribute"
+            [ownerType]="configuration.owner.type"
           ></cx-config-attribute-header>
         </div>
         <div
@@ -34,6 +35,7 @@
             *ngIf="attribute.uiType === UiType.STRING"
             [attribute]="attribute"
             [group]="currentGroup.id"
+            [ownerType]="configuration.owner.type"
             [ownerKey]="configuration.owner.key"
             (inputChange)="updateConfiguration($event)"
           ></cx-config-attribute-input-field>
@@ -70,6 +72,7 @@
         <div class="cx-config-attribute-footer">
           <cx-config-attribute-footer
             [attribute]="attribute"
+            [ownerType]="configuration.owner.type"
           ></cx-config-attribute-footer>
         </div></div
     ></ng-container>

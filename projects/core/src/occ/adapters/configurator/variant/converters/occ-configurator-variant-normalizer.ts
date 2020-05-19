@@ -102,8 +102,7 @@ export class OccConfiguratorVariantNormalizer
     }
 
     //Has to be called after setSelectedSingleValue because it depends on the value of this property
-    this.setIncomplete(attribute);
-
+    this.compileAttributeIncomplete(attribute);
     attributeList.push(attribute);
   }
 
@@ -243,7 +242,7 @@ export class OccConfiguratorVariantNormalizer
     }
   }
 
-  setIncomplete(attribute: Configurator.Attribute) {
+  compileAttributeIncomplete(attribute: Configurator.Attribute) {
     //Default value for incomplete is false
     attribute.incomplete = false;
 
@@ -266,12 +265,10 @@ export class OccConfiguratorVariantNormalizer
 
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.MULTI_SELECTION_IMAGE: {
-        let isOneValueSelected = false;
-        attribute.values.forEach((value) => {
-          if (value.selected) {
-            isOneValueSelected = true;
-          }
-        });
+        const isOneValueSelected =
+          attribute.values.find((value) => value.selected) !== undefined
+            ? true
+            : false;
 
         if (!isOneValueSelected) {
           attribute.incomplete = true;
