@@ -86,6 +86,10 @@ export class OccConfiguratorVariantNormalizer
       maxlength: sourceAttribute.maxlength,
       numDecimalPlaces: sourceAttribute.numberScale,
       numTotalLength: sourceAttribute.typeLength,
+      //This is only relevant for read-only attributes
+      //TODO: improve by enriching OCC API
+      isNumeric:
+        sourceAttribute.value === Number.parseFloat(sourceAttribute.value) + '',
       selectedSingleValue: null,
       images: [],
     };

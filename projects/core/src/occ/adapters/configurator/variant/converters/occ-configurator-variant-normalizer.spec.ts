@@ -272,6 +272,20 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(attributes[0].name).toBe(attributeName);
   });
 
+  it('should tell if attribute is numeric', () => {
+    const attributes: Configurator.Attribute[] = [];
+    const numericOccAttribute: OccConfigurator.Attribute = {
+      value: '23.234',
+      type: OccConfigurator.UiType.READ_ONLY,
+    };
+    occConfiguratorVariantNormalizer.convertAttribute(
+      numericOccAttribute,
+      attributes
+    );
+
+    expect(attributes[0].isNumeric).toBe(true);
+  });
+
   it('should convert a standard group', () => {
     occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
     expect(groups[0].description).toBe(groupDescription);

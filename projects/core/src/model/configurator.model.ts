@@ -17,6 +17,7 @@ export namespace Configurator {
     isLineItem?: boolean;
     maxlength?: number;
     images?: Image[];
+    isNumeric?: boolean;
     numDecimalPlaces?: number;
     numTotalLength?: number;
   }
