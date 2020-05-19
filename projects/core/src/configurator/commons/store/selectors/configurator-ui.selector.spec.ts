@@ -17,6 +17,8 @@ describe('Configurator selectors', () => {
   const uiState: UiState = {
     currentGroup: GROUP_ID,
     menuParentGroup: null,
+    groupsStatus: { entities: {} },
+    groupsVisited: { entities: {} },
   };
 
   beforeEach(() => {
@@ -37,7 +39,7 @@ describe('Configurator selectors', () => {
   it('should return empty content when selecting with content selector initially', () => {
     let result: UiState;
     store
-      .pipe(select(ConfiguratorUiSelectors.getUiStateForProduct(PRODUCT_CODE)))
+      .pipe(select(ConfiguratorUiSelectors.getUiStateForOwner(PRODUCT_CODE)))
       .subscribe((value) => (result = value));
 
     expect(result).toEqual(undefined);
@@ -46,7 +48,7 @@ describe('Configurator selectors', () => {
   it('should return configuration content when selecting with content selector when action was successful', () => {
     store.dispatch(new ConfiguratorUiActions.SetUiState(PRODUCT_CODE, uiState));
     store
-      .pipe(select(ConfiguratorUiSelectors.getUiStateForProduct(PRODUCT_CODE)))
+      .pipe(select(ConfiguratorUiSelectors.getUiStateForOwner(PRODUCT_CODE)))
       .subscribe((value) => expect(value).toEqual(uiState));
   });
 

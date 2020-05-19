@@ -1,4 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { Configurator } from '../../../../model/configurator.model';
 import {
   EntityState,
   StateEntitySelectors,
@@ -18,19 +19,62 @@ const getUiState: MemoizedSelector<
   (state: ConfigurationState) => state.uiState
 );
 
-export const getUiStateForProduct = (
-  code: string
+export const getUiStateForOwner = (
+  ownerKey: string
 ): MemoizedSelector<StateWithConfiguration, UiState> => {
   return createSelector(getUiState, (details) =>
-    StateEntitySelectors.entitySelector(details, code)
+    StateEntitySelectors.entitySelector(details, ownerKey)
   );
 };
 
 export const getCurrentGroupForProduct = (
-  code: string
+  ownerKey: string
 ): MemoizedSelector<StateWithConfiguration, string> => {
   return createSelector(
-    getUiStateForProduct(code),
+    getUiStateForOwner(ownerKey),
     (details) => details.currentGroup
   );
+};
+
+export const getGroupStatus = (
+  ownerKey: string,
+  groupId: string
+): MemoizedSelector<StateWithConfiguration, Configurator.GroupStatus> => {
+  return createSelector(getUiStateForOwner(ownerKey), (details) =>
+    StateEntitySelectors.entitySelector(details.groupsStatus, groupId)
+  );
+};
+
+export const isGroupVisited = (
+  ownerKey: string,
+  groupId: string
+): MemoizedSelector<StateWithConfiguration, Boolean> => {
+  return createSelector(getUiStateForOwner(ownerKey), (details) =>
+    StateEntitySelectors.entitySelector(details.groupsVisited, groupId)
+  );
+};
+
+export const areGroupsVisited = (
+  ownerKey: string,
+  groupIds: string[]
+): MemoizedSelector<StateWithConfiguration, Boolean> => {
+  return createSelector(getUiStateForOwner(ownerKey), (details) => {
+    let isVisited: Boolean = true;
+    groupIds.forEach((groupId) => {
+      if (!isVisited) {
+        return;
+      }
+
+      isVisited = StateEntitySelectors.entitySelector(
+        details.groupsVisited,
+        groupId
+      );
+
+      if (isVisited === undefined) {
+        isVisited = false;
+      }
+    });
+
+    return isVisited;
+  });
 };
