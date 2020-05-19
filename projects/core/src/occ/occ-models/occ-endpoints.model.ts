@@ -295,9 +295,13 @@ export interface OccEndpoints {
    */
   addConfigurationTextfieldToCart?: string;
   /**
-   * Endpoint for reading textfieldconfiguration attached to the cart entry
+   * Endpoint for reading textfield configuration attached to the cart entry
    */
   readConfigurationTextfieldForCartEntry?: string;
+  /**
+   * Endpoint for updating textfield configuration attached to the cart entry
+   */
+  updateConfigurationTextfieldForCartEntry?: string;
   /**
    * Endpoint to read configuration
    *

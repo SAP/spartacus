@@ -24,6 +24,7 @@ export class ConfigGroupMenuComponent implements OnInit {
   displayedGroups$: Observable<Configurator.Group[]>;
 
   iconTypes = ICON_TYPE;
+  GROUPSTATUS = Configurator.GroupStatus;
 
   constructor(
     private routingService: RoutingService,
@@ -82,6 +83,7 @@ export class ConfigGroupMenuComponent implements OnInit {
   click(group: Configurator.Group) {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
+        this.scrollToVariantConfigurationHeader();
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
       } else {
@@ -153,5 +155,34 @@ export class ConfigGroupMenuComponent implements OnInit {
         return group;
       }
     });
+  }
+
+  getGroupStatus(
+    groupId: string,
+    configuration: Configurator.Configuration
+  ): Observable<string> {
+    return this.configuratorGroupsService
+      .isGroupVisited(configuration.owner, groupId)
+      .pipe(
+        switchMap((isVisited) => {
+          if (isVisited) {
+            return this.configuratorGroupsService.getGroupStatus(
+              configuration.owner,
+              groupId
+            );
+          } else {
+            return of(null);
+          }
+        })
+      );
+  }
+
+  scrollToVariantConfigurationHeader() {
+    const theElement = document.querySelector('.VariantConfigurationTemplate');
+    let topOffset = 0;
+    if (theElement instanceof HTMLElement) {
+      topOffset = theElement.offsetTop;
+    }
+    window.scroll(0, topOffset);
   }
 }

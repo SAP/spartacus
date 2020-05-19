@@ -103,7 +103,6 @@ export class OccConfiguratorVariantNormalizer
 
     //Has to be called after setSelectedSingleValue because it depends on the value of this property
     this.compileAttributeIncomplete(attribute);
-
     attributeList.push(attribute);
   }
 

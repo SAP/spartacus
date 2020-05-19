@@ -11,6 +11,7 @@ import {
   IconLoaderService,
   IconModule,
 } from '@spartacus/storefront';
+import { ConfigComponentTestUtilsService } from '../../generic/service/config-component-test-utils.service';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
@@ -69,7 +70,8 @@ describe('ConfigAttributeFooterComponent', () => {
 
   it('should render a required message if attribute has no value, yet.', () => {
     fixture.detectChanges();
-    expectElementPresent(
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-footer-required-error-msg'
     );
@@ -78,7 +80,8 @@ describe('ConfigAttributeFooterComponent', () => {
   it("shouldn't render a required message because attribute has not been added to the cart yet.", () => {
     classUnderTest.ownerType = GenericConfigurator.OwnerType.PRODUCT;
     fixture.detectChanges();
-    expectElementNotPresent(
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-footer-required-error-msg'
     );
@@ -87,7 +90,8 @@ describe('ConfigAttributeFooterComponent', () => {
   it("shouldn't render a required message if attribute is not required.", () => {
     classUnderTest.attribute.required = false;
     fixture.detectChanges();
-    expectElementNotPresent(
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-footer-required-error-msg'
     );
@@ -96,7 +100,8 @@ describe('ConfigAttributeFooterComponent', () => {
   it('should render a required message if attribute is completed.', () => {
     classUnderTest.attribute.incomplete = false;
     fixture.detectChanges();
-    expectElementNotPresent(
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-footer-required-error-msg'
     );
@@ -105,7 +110,8 @@ describe('ConfigAttributeFooterComponent', () => {
   it("shouldn't render a required message because attribute type is a drop-down list.", () => {
     classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
     fixture.detectChanges();
-    expectElementNotPresent(
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-footer-required-error-msg'
     );
@@ -114,7 +120,8 @@ describe('ConfigAttributeFooterComponent', () => {
   it("shouldn't render a required message because user input is set.", () => {
     classUnderTest.attribute.userInput = 'test';
     fixture.detectChanges();
-    expectElementNotPresent(
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-footer-required-error-msg'
     );
@@ -126,29 +133,3 @@ describe('ConfigAttributeFooterComponent', () => {
     );
   });
 });
-
-export function expectElementPresent(
-  htmlElement: Element,
-  querySelector: string
-) {
-  expect(htmlElement.querySelectorAll(querySelector).length).toBeGreaterThan(
-    0,
-    "expected element identified by selector '" +
-      querySelector +
-      "' to be present, but it is NOT! innerHtml: " +
-      htmlElement.innerHTML
-  );
-}
-
-export function expectElementNotPresent(
-  htmlElement: Element,
-  querySelector: string
-) {
-  expect(htmlElement.querySelectorAll(querySelector).length).toBe(
-    0,
-    "expected element identified by selector '" +
-      querySelector +
-      "' to be NOT present, but it is! innerHtml: " +
-      htmlElement.innerHTML
-  );
-}

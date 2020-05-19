@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { CartActions } from '../../../../cart/store/actions/';
-import { CartModification } from '../../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
 import {
   AddToCart,
+  AddToCartFail,
   ADD_TO_CART,
   CreateConfiguration,
   CreateConfigurationFail,
@@ -20,7 +19,11 @@ import {
   ReadCartEntryConfigurationSuccess,
   READ_CART_ENTRY_CONFIGURATION,
   RemoveConfiguration,
+  UpdateCartEntryConfiguration,
+  UpdateCartEntryConfigurationFail,
+  UPDATE_CART_ENTRY_CONFIGURATION,
 } from '../actions/configurator-textfield.action';
+import { CartActions } from './../../../../cart/store/actions';
 
 @Injectable()
 export class ConfiguratorTextfieldEffects {
@@ -45,48 +48,56 @@ export class ConfiguratorTextfieldEffects {
   );
 
   @Effect()
-  addToCartCartProcessIncrement$: Observable<
-    CartActions.CartProcessesIncrement
-  > = this.actions$.pipe(
-    ofType(ADD_TO_CART),
-    map((action: AddToCart) => action.payload),
-    map(
-      (payload: ConfiguratorTextfield.AddToCartParameters) =>
-        new CartActions.CartProcessesIncrement(payload.cartId)
-    )
-  );
-
-  @Effect()
   addToCart$: Observable<
-    | RemoveConfiguration
-    | CartActions.CartAddEntrySuccess
-    | CartActions.CartAddEntryFail
+    RemoveConfiguration | AddToCartFail | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(ADD_TO_CART),
     map((action: AddToCart) => action.payload),
     mergeMap((payload) => {
       return this.configuratorTextfieldConnector.addToCart(payload).pipe(
-        switchMap((entry: CartModification) => {
+        switchMap(() => {
           return [
             new RemoveConfiguration(payload),
-            new CartActions.CartAddEntrySuccess({
-              ...entry,
-              userId: payload.userId,
+            new CartActions.LoadCart({
               cartId: payload.cartId,
-              productCode: payload.productCode,
-              quantity: entry.quantity,
-              deliveryModeChanged: entry.deliveryModeChanged,
-              entry: entry.entry,
-              quantityAdded: entry.quantityAdded,
-              statusCode: entry.statusCode,
-              statusMessage: entry.statusMessage,
+              userId: payload.userId,
             }),
           ];
         }),
         catchError((error) =>
-          of(new CartActions.CartAddEntryFail(makeErrorSerializable(error)))
+          of(new AddToCartFail(makeErrorSerializable(error)))
         )
       );
+    })
+  );
+
+  @Effect()
+  updateCartEntry$: Observable<
+    | RemoveConfiguration
+    | UpdateCartEntryConfigurationFail
+    | CartActions.LoadCart
+  > = this.actions$.pipe(
+    ofType(UPDATE_CART_ENTRY_CONFIGURATION),
+    map((action: UpdateCartEntryConfiguration) => action.payload),
+    mergeMap((payload) => {
+      return this.configuratorTextfieldConnector
+        .updateConfigurationForCartEntry(payload)
+        .pipe(
+          switchMap(() => {
+            return [
+              new RemoveConfiguration(payload),
+              new CartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+            ];
+          }),
+          catchError((error) =>
+            of(
+              new UpdateCartEntryConfigurationFail(makeErrorSerializable(error))
+            )
+          )
+        );
     })
   );
 

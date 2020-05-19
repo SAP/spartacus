@@ -12,6 +12,7 @@ import {
   IconLoaderService,
   IconModule,
 } from '@spartacus/storefront';
+import { ConfigComponentTestUtilsService } from '../../generic/service/config-component-test-utils.service';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
@@ -80,8 +81,13 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   it('should render a label', () => {
-    expectElementPresent(htmlElem, 'label');
-    expectElementToContainText(
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'label'
+    );
+    ConfigComponentTestUtilsService.expectElementToContainText(
+      expect,
       htmlElem,
       '.cx-config-attribute-label',
       'label of attribute'
@@ -98,7 +104,8 @@ describe('ConfigAttributeHeaderComponent', () => {
         .querySelector('.cx-config-attribute-label')
         .getAttribute('aria-label')
     ).toEqual(classUnderTest.attribute.label);
-    expectElementNotPresent(
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-label-required-icon'
     );
@@ -107,11 +114,19 @@ describe('ConfigAttributeHeaderComponent', () => {
   it('should render a label as required', () => {
     classUnderTest.attribute.required = true;
     fixture.detectChanges();
-    expectElementPresent(htmlElem, '.cx-config-attribute-label-required-icon');
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-config-attribute-label-required-icon'
+    );
   });
 
   it('should render an image', () => {
-    expectElementPresent(htmlElem, '.cx-config-attribute-img');
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-config-attribute-img'
+    );
   });
 
   it('should return a single-select message key for radio button attribute type', () => {
@@ -163,7 +178,8 @@ describe('ConfigAttributeHeaderComponent', () => {
     classUnderTest.attribute.required = true;
     classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
     fixture.detectChanges();
-    expectElementPresent(
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-label-required-error-msg'
     );
@@ -172,7 +188,8 @@ describe('ConfigAttributeHeaderComponent', () => {
   it("shouldn't render a required message if attribute has not been added to the cart yet.", () => {
     classUnderTest.ownerType = GenericConfigurator.OwnerType.PRODUCT;
     fixture.detectChanges();
-    expectElementNotPresent(
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-label-required-error-msg'
     );
@@ -181,7 +198,8 @@ describe('ConfigAttributeHeaderComponent', () => {
   it("shouldn't render a required message if attribute is not required.", () => {
     classUnderTest.attribute.required = false;
     fixture.detectChanges();
-    expectElementNotPresent(
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-label-required-error-msg'
     );
@@ -190,7 +208,8 @@ describe('ConfigAttributeHeaderComponent', () => {
   it("shouldn't render a required message if attribute is complete.", () => {
     classUnderTest.attribute.incomplete = true;
     fixture.detectChanges();
-    expectElementNotPresent(
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-label-required-error-msg'
     );
@@ -199,45 +218,10 @@ describe('ConfigAttributeHeaderComponent', () => {
   it("shouldn't render a required message if ui type is string.", () => {
     classUnderTest.attribute.uiType = Configurator.UiType.STRING;
     fixture.detectChanges();
-    expectElementNotPresent(
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
       htmlElem,
       '.cx-config-attribute-label-required-error-msg'
     );
   });
 });
-
-export function expectElementPresent(
-  htmlElement: Element,
-  querySelector: string
-) {
-  expect(htmlElement.querySelectorAll(querySelector).length).toBeGreaterThan(
-    0,
-    "expected element identified by selector '" +
-      querySelector +
-      "' to be present, but it is NOT! innerHtml: " +
-      htmlElement.innerHTML
-  );
-}
-
-export function expectElementToContainText(
-  htmlElement: Element,
-  querySelector: string,
-  expectedText: string
-) {
-  expect(htmlElement.querySelector(querySelector).textContent.trim()).toBe(
-    expectedText
-  );
-}
-
-export function expectElementNotPresent(
-  htmlElement: Element,
-  querySelector: string
-) {
-  expect(htmlElement.querySelectorAll(querySelector).length).toBe(
-    0,
-    "expected element identified by selector '" +
-      querySelector +
-      "' to be NOT present, but it is! innerHtml: " +
-      htmlElement.innerHTML
-  );
-}

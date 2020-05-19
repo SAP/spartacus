@@ -1,42 +1,40 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <div class="cx-config-add-to-cart-btn">
-    <div class="col-sm-6 col-md-4">
-      <ng-container *ngIf="routerData$ | async as routerData">
-        <button
-          class="cx-btn btn btn-block btn-primary"
-          (click)="
-            onAddToCart(
-              configuration,
-              routerData.configuratorType,
-              routerData.pageType
-            )
+    <ng-container *ngIf="routerData$ | async as routerData">
+      <button
+        class="cx-btn btn btn-block btn-primary"
+        (click)="
+          onAddToCart(
+            configuration,
+            routerData.configuratorType,
+            routerData.pageType
+          )
+        "
+      >
+        <ng-container
+          *ngIf="
+            routerData.isOwnerCartEntry &&
+            configuration.isCartEntryUpdateRequired
           "
         >
-          <ng-container
-            *ngIf="
-              routerData.isOwnerCartEntry &&
-              configuration.isCartEntryUpdateRequired
-            "
-          >
-            {{
-              'configurator.addToCart.buttonUpdateCart' | cxTranslate
-            }}</ng-container
-          >
-          <ng-container
-            *ngIf="
-              routerData.isOwnerCartEntry &&
-              !configuration.isCartEntryUpdateRequired
-            "
-          >
-            {{
-              'configurator.addToCart.buttonAfterAddToCart' | cxTranslate
-            }}</ng-container
-          >
-          <ng-container *ngIf="!routerData.isOwnerCartEntry">
-            {{ 'configurator.addToCart.button' | cxTranslate }}</ng-container
-          >
-        </button>
-      </ng-container>
-    </div>
+          {{
+            'configurator.addToCart.buttonUpdateCart' | cxTranslate
+          }}</ng-container
+        >
+        <ng-container
+          *ngIf="
+            routerData.isOwnerCartEntry &&
+            !configuration.isCartEntryUpdateRequired
+          "
+        >
+          {{
+            'configurator.addToCart.buttonAfterAddToCart' | cxTranslate
+          }}</ng-container
+        >
+        <ng-container *ngIf="!routerData.isOwnerCartEntry">
+          {{ 'configurator.addToCart.button' | cxTranslate }}</ng-container
+        >
+      </button>
+    </ng-container>
   </div>
 </ng-container>

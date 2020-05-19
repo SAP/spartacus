@@ -7,6 +7,7 @@ import { ConfiguratorTextfieldAdapter } from '../../../../configurator/textfield
 import {
   CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER,
   CONFIGURATION_TEXTFIELD_NORMALIZER,
+  CONFIGURATION_TEXTFIELD_UPDATE_CART_ENTRY_SERIALIZER,
 } from '../../../../configurator/textfield/connectors/converters';
 import { CartModification } from '../../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
@@ -84,5 +85,29 @@ export class OccConfiguratorTextfieldAdapter
         };
       })
     );
+  }
+  updateConfigurationForCartEntry(
+    parameters: ConfiguratorTextfield.UpdateCartEntryParameters
+  ): Observable<CartModification> {
+    const url = this.occEndpointsService.getUrl(
+      'updateConfigurationTextfieldForCartEntry',
+      {
+        userId: parameters.userId,
+        cartId: parameters.cartId,
+        cartEntryNumber: parameters.cartEntryNumber,
+      }
+    );
+
+    const occUpdateCartEntryParameters = this.converterService.convert(
+      parameters,
+      CONFIGURATION_TEXTFIELD_UPDATE_CART_ENTRY_SERIALIZER
+    );
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http
+      .post<CartModification>(url, occUpdateCartEntryParameters, { headers })
+      .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 }

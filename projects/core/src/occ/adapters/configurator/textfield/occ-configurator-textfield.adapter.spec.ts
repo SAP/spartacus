@@ -23,6 +23,7 @@ class MockOccEndpointsService {
 const productCode = 'CONF_LAPTOP';
 const USER_ID = 'theUser';
 const CART_ID = '98876';
+const CART_ENTRY_NUMBER = '1';
 const PRODUCT_CODE = 'CPQ_LAPTOP';
 const QUANTITY = 1;
 const LABEL1 = 'LABEL1';
@@ -46,6 +47,12 @@ const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
   configuration: configuration,
 };
 
+const updateCartEntryParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
+  userId: USER_ID,
+  cartId: CART_ID,
+  cartEntryNumber: CART_ENTRY_NUMBER,
+  configuration: configuration,
+};
 const readParams: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
   userId: USER_ID,
   cartId: CART_ID,
@@ -149,6 +156,34 @@ describe('OccConfigurationTextfieldAdapter', () => {
       {
         userId: USER_ID,
         cartId: CART_ID,
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CART_MODIFICATION_NORMALIZER
+    );
+  });
+
+  it('should call correct endpoint when update cart entry is triggered', () => {
+    occConfiguratorVariantAdapter
+      .updateConfigurationForCartEntry(updateCartEntryParameters)
+      .subscribe();
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'POST' &&
+        req.url === 'updateConfigurationTextfieldForCartEntry'
+      );
+    });
+
+    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      'updateConfigurationTextfieldForCartEntry',
+      {
+        userId: USER_ID,
+        cartId: CART_ID,
+        cartEntryNumber: CART_ENTRY_NUMBER,
       }
     );
 
