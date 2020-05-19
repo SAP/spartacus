@@ -268,7 +268,7 @@ export class B2BUserEffects {
     map((action: B2BUserActions.DeleteB2BUserApprover) => action.payload),
     switchMap((payload) =>
       this.b2bUserConnector
-        .assignApprover(
+        .unassignApprover(
           payload.userId,
           payload.orgCustomerId,
           payload.approverId

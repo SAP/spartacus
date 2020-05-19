@@ -29,7 +29,7 @@ const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
 const page = { ids: [orgCustomerId], pagination, sorts };
 
-fdescribe('B2BUser Actions', () => {
+describe('B2BUser Actions', () => {
   describe('LoadB2BUser Actions', () => {
     describe('LoadB2BUser', () => {
       it('should create the action', () => {
