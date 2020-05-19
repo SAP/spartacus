@@ -90,13 +90,16 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
       this.attribute.numTotalLength
     );
 
-    this.attributeInputForm.setValue(
-      formatNumber(
-        Number(this.attribute.userInput),
-        this.locale,
-        '1.' + numDecimalPlaces + '-' + numDecimalPlaces
-      )
-    );
+    if (this.attribute.userInput) {
+      this.attributeInputForm.setValue(
+        formatNumber(
+          Number(this.attribute.userInput),
+
+          this.locale,
+          '1.' + numDecimalPlaces + '-' + numDecimalPlaces
+        )
+      );
+    }
   }
 
   onChange() {
@@ -166,7 +169,7 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
         );
 
         const expressionOnlyNumericalInput: RegExp = new RegExp(
-          '^[0123456789' + groupingSeparator + decimalSeparator + ']+$'
+          '^-?[0123456789' + groupingSeparator + decimalSeparator + ']+$'
         );
         if (!expressionOnlyNumericalInput.test(input)) {
           return this.createValidationError(true);

@@ -107,6 +107,12 @@ describe('ConfigAttributeInputFieldComponent', () => {
     checkForValidationMessage(component, fixture, htmlElem, 1);
   });
 
+  it('should not set control value in case the model attribute does not carry a value', () => {
+    component.attribute.userInput = null;
+    component.ngOnInit();
+    expect(component.attributeInputForm.value).toBe('');
+  });
+
   it('should display a validation issue if input is too long', () => {
     component.ngOnInit();
     component.attributeInputForm.setValue('23234,576654345');
