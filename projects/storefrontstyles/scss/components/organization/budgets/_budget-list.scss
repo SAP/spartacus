@@ -1,8 +1,5 @@
+@import '../organization-list';
+
 %cx-budget-list {
-  .cx-textalign {
-    @include media-breakpoint-down(xs) {
-      text-align: center;
-      margin: auto;
-    }
-  }
+  @extend %cx-organization-list;
 }

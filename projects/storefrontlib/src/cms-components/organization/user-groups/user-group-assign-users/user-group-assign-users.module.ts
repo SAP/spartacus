@@ -5,7 +5,6 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  CxDatePipe,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
@@ -39,7 +38,7 @@ import { UserGroupAssignUsersComponent } from './user-group-assign-users.compone
   ],
   declarations: [UserGroupAssignUsersComponent],
   exports: [UserGroupAssignUsersComponent],
-  providers: [CxDatePipe],
+  providers: [],
   entryComponents: [UserGroupAssignUsersComponent],
 })
 export class UserGroupAssignUsersModule {}
