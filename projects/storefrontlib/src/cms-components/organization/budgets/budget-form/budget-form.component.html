@@ -1,4 +1,17 @@
-<form [formGroup]="form" (ngSubmit)="verifyAndSubmit()">
+<form
+  [formGroup]="form"
+  (ngSubmit)="
+    patchDateWithOffset(
+      form.controls.startDate,
+      form.controls.timezoneOffset.value
+    );
+    patchDateWithOffset(
+      form.controls.endDate,
+      form.controls.timezoneOffset.value
+    );
+    verifyAndSubmit()
+  "
+>
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="form-group">
@@ -80,13 +93,7 @@
           <cx-date-picker
             formControlName="startDate"
             [max]="form.controls.endDate.value"
-            (change)="
-              patchDateWithOffset(
-                form.controls.startDate,
-                form.controls.timezoneOffset.value
-              );
-              form.controls.endDate.updateValueAndValidity()
-            "
+            (change)="form.controls.endDate.updateValueAndValidity()"
             [invalid]="isNotValid('startDate')"
           ></cx-date-picker>
           <cx-form-errors
@@ -104,13 +111,7 @@
           <cx-date-picker
             formControlName="endDate"
             [min]="form.controls.startDate.value"
-            (change)="
-              form.controls.startDate.updateValueAndValidity();
-              patchDateWithOffset(
-                form.controls.endDate,
-                form.controls.timezoneOffset.value
-              )
-            "
+            (change)="form.controls.startDate.updateValueAndValidity()"
             [endOfDay]="true"
             [invalid]="isNotValid('endDate')"
           ></cx-date-picker>

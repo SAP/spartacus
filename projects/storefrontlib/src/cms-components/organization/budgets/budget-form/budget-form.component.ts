@@ -8,7 +8,7 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  FormControl,
+  AbstractControl,
 } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {
@@ -61,18 +61,38 @@ export class BudgetFormComponent extends AbstractFormComponent
     this.orgUnitService.loadOrgUnitNodes();
     this.businessUnits$ = this.orgUnitService.getList();
     if (this.budgetData && Object.keys(this.budgetData).length !== 0) {
-      this.form.patchValue(this.budgetData);
+      const localOffset = this.getLocalTimezoneOffset(true);
+
+      this.form.patchValue({
+        ...this.budgetData,
+        startDate: new Date(
+          this.budgetData.startDate.replace('+0000', localOffset)
+        )
+          .toISOString()
+          .replace('.', '+')
+          .replace('Z', '0'),
+        endDate: new Date(this.budgetData.endDate.replace('+0000', localOffset))
+          .toISOString()
+          .replace('.', '+')
+          .replace('Z', '0'),
+      });
     }
   }
 
-  getLocalTimezoneOffset(): string {
+  getLocalTimezoneOffset(invert?: boolean): string {
     const offset = new Date().getTimezoneOffset() * -1;
     const hours = this.padWithZeroes(Math.floor(offset / 60).toString(), 2);
     const minutes = this.padWithZeroes((offset % 60).toString(), 2);
-    return offset >= 0 ? `+${hours}:${minutes}` : `-${hours}:${minutes}`;
+    return offset >= 0
+      ? !invert
+        ? `+${hours}:${minutes}`
+        : `-${hours}:${minutes}`
+      : !invert
+      ? `-${hours}:${minutes}`
+      : `+${hours}:${minutes}`;
   }
 
-  patchDateWithOffset(control: FormControl, offset: number) {
+  patchDateWithOffset(control: AbstractControl, offset: number) {
     const dateWithOffset = control.value.replace('+0000', offset);
     control.patchValue(dateWithOffset);
   }
