@@ -33,7 +33,6 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
       this.ownerType === GenericConfigurator.OwnerType.CART_ENTRY &&
       this.attribute.required &&
       this.attribute.incomplete &&
-      this.attribute.uiType === Configurator.UiType.STRING &&
       !this.attributeInputForm.value
     ) {
       this.attributeInputForm.markAsTouched();
