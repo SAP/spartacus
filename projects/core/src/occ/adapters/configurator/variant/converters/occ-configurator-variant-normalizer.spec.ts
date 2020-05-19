@@ -209,10 +209,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
       ],
     });
 
-    occConfiguratorVariantNormalizer = TestBed.get(
+    occConfiguratorVariantNormalizer = TestBed.inject(
       OccConfiguratorVariantNormalizer as Type<OccConfiguratorVariantNormalizer>
     );
-    occConfig = TestBed.get(OccConfig as Type<OccConfig>);
+    occConfig = TestBed.inject(OccConfig as Type<OccConfig>);
     groups = [];
     flatGroups = [];
   });
@@ -342,6 +342,22 @@ describe('OccConfiguratorVariantNormalizer', () => {
         OccConfigurator.UiType.RADIO_BUTTON
       )
     ).toBe(Configurator.UiType.RADIOBUTTON);
+  });
+
+  it('should convert numeric attribute type correctly', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.NUMERIC
+      )
+    ).toBe(Configurator.UiType.NUMERIC);
+  });
+
+  it('should convert read-only attribute type correctly', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.READ_ONLY
+      )
+    ).toBe(Configurator.UiType.READ_ONLY);
   });
 
   it('should return UIType Drop Down for Drop Down occ configurator type', () => {

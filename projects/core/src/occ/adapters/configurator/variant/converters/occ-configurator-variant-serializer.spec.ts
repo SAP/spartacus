@@ -4,7 +4,7 @@ import { Configurator } from '../../../../../model/configurator.model';
 import { OccConfigurator } from '../occ-configurator.models';
 import { OccConfiguratorVariantSerializer } from './occ-configurator-variant-serializer';
 
-describe('OccConfiguratorVariantNormalizer', () => {
+describe('OccConfiguratorVariantSerializer', () => {
   let occConfiguratorVariantSerializer: OccConfiguratorVariantSerializer;
   const GROUP_ID = '1-CPQ_LAPTOP.1';
 
@@ -132,7 +132,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       providers: [OccConfiguratorVariantSerializer],
     });
 
-    occConfiguratorVariantSerializer = TestBed.get(
+    occConfiguratorVariantSerializer = TestBed.inject(
       OccConfiguratorVariantSerializer as Type<OccConfiguratorVariantSerializer>
     );
   });
@@ -190,4 +190,66 @@ describe('OccConfiguratorVariantNormalizer', () => {
       )
     ).toBe(OccConfigurator.GroupType.INSTANCE);
   });
+
+  it('should fill formatted value for numeric attributes', () => {
+    const numericAttribute: Configurator.Attribute={
+      name: 'attr',
+      userInput:'12.21',
+      uiType: Configurator.UiType.NUMERIC
+    }
+    const occAttributes = [];
+    occConfiguratorVariantSerializer.convertAttribute(numericAttribute, occAttributes);
+    expect(occAttributes[0].formattedValue).toBe(numericAttribute.userInput); 
+  });
+
+  it('should map ui types properly', () => {
+    expect(
+      occConfiguratorVariantSerializer.convertCharacteristicType(
+        Configurator.UiType.NUMERIC
+      )
+    ).toBe(OccConfigurator.UiType.NUMERIC);
+
+    expect(
+      occConfiguratorVariantSerializer.convertCharacteristicType(
+        Configurator.UiType.RADIOBUTTON
+      )
+    ).toBe(OccConfigurator.UiType.RADIO_BUTTON);
+
+    expect(
+      occConfiguratorVariantSerializer.convertCharacteristicType(
+        Configurator.UiType.READ_ONLY
+      )
+    ).toBe(OccConfigurator.UiType.NOT_IMPLEMENTED);
+
+    expect(
+      occConfiguratorVariantSerializer.convertCharacteristicType(
+        Configurator.UiType.DROPDOWN
+      )
+    ).toBe(OccConfigurator.UiType.DROPDOWN);
+    
+    expect(
+      occConfiguratorVariantSerializer.convertCharacteristicType(
+        Configurator.UiType.STRING
+      )
+    ).toBe(OccConfigurator.UiType.STRING);
+
+    expect(
+      occConfiguratorVariantSerializer.convertCharacteristicType(
+        Configurator.UiType.CHECKBOX
+      )
+    ).toBe(OccConfigurator.UiType.CHECK_BOX_LIST);
+    
+    expect(
+      occConfiguratorVariantSerializer.convertCharacteristicType(
+        Configurator.UiType.MULTI_SELECTION_IMAGE
+      )
+    ).toBe(OccConfigurator.UiType.MULTI_SELECTION_IMAGE);
+    
+    expect(
+      occConfiguratorVariantSerializer.convertCharacteristicType(
+        Configurator.UiType.SINGLE_SELECTION_IMAGE
+      )
+    ).toBe(OccConfigurator.UiType.SINGLE_SELECTION_IMAGE);    
+ 
+  });  
 });
