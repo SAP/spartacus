@@ -19,7 +19,7 @@
     "releaseNotes": "cd ../.. && npm run --silent release-notes:cds -- --to cds-${version}"
   },
   "plugins": {
-    "@release-it/bumper": {
+    "../../scripts/release-it/bumper.js": {
       "out": [
         {
           "file": "package.json",
