@@ -182,7 +182,7 @@ describe('ProductCarouselComponent', () => {
 
     it('should not render product primary image for the 2nd item', async(() => {
       const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
-      expect(el).toBeNull();
+      expect(el.nativeElement).toBeTruthy();
     }));
   });
 });
