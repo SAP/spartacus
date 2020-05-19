@@ -528,7 +528,7 @@ describe('B2B User Effects', () => {
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.assignApproverToB2BUser$).toBeObservable(expected);
+      expect(effects.assignPermissionToB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.assignPermission).toHaveBeenCalledWith(
         userId,
         orgCustomerId,
@@ -546,7 +546,7 @@ describe('B2B User Effects', () => {
       });
       const completion = new B2BUserActions.DeleteB2BUserPermissionSuccess({
         permissionId,
-        selected: true,
+        selected: false,
       });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
@@ -607,7 +607,7 @@ describe('B2B User Effects', () => {
       );
     });
 
-    it('should return DeleteB2BUserPermissionFail action if UserGroup was not assigned', () => {
+    it('should return CreateB2BUserUserGroupFail action if UserGroup was not assigned', () => {
       b2bUserConnector.assignUserGroup = createSpy().and.returnValue(
         throwError(error)
       );
@@ -624,7 +624,7 @@ describe('B2B User Effects', () => {
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
-      expect(effects.assignApproverToB2BUser$).toBeObservable(expected);
+      expect(effects.assignUserGroupToB2BUser$).toBeObservable(expected);
       expect(b2bUserConnector.assignUserGroup).toHaveBeenCalledWith(
         userId,
         orgCustomerId,
@@ -642,7 +642,7 @@ describe('B2B User Effects', () => {
       });
       const completion = new B2BUserActions.DeleteB2BUserUserGroupSuccess({
         userGroupId,
-        selected: true,
+        selected: false,
       });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
@@ -656,7 +656,7 @@ describe('B2B User Effects', () => {
     });
 
     it('should return DeleteB2BUserUserGroupFail action if UserGroup was not unassigned', () => {
-      b2bUserConnector.assignUserGroup = createSpy().and.returnValue(
+      b2bUserConnector.unassignUserGroup = createSpy().and.returnValue(
         throwError(error)
       );
       const action = new B2BUserActions.DeleteB2BUserUserGroup({
@@ -664,7 +664,7 @@ describe('B2B User Effects', () => {
         orgCustomerId,
         userGroupId,
       });
-      const completion = new B2BUserActions.CreateB2BUserUserGroupFail({
+      const completion = new B2BUserActions.DeleteB2BUserUserGroupFail({
         orgCustomerId,
         userGroupId,
         error,

@@ -299,7 +299,7 @@ export class B2BUserEffects {
     | B2BUserActions.CreateB2BUserPermissionSuccess
     | B2BUserActions.CreateB2BUserPermissionFail
   > = this.actions$.pipe(
-    ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
+    ofType(B2BUserActions.CREATE_B2B_USER_PERMISSION),
     map((action: B2BUserActions.CreateB2BUserPermission) => action.payload),
     switchMap((payload) =>
       this.b2bUserConnector
@@ -334,11 +334,11 @@ export class B2BUserEffects {
     | B2BUserActions.DeleteB2BUserPermissionSuccess
     | B2BUserActions.DeleteB2BUserPermissionFail
   > = this.actions$.pipe(
-    ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
+    ofType(B2BUserActions.DELETE_B2B_USER_PERMISSION),
     map((action: B2BUserActions.DeleteB2BUserPermission) => action.payload),
     switchMap((payload) =>
       this.b2bUserConnector
-        .assignPermission(
+        .unassignPermission(
           payload.userId,
           payload.orgCustomerId,
           payload.permissionId
@@ -369,7 +369,7 @@ export class B2BUserEffects {
     | B2BUserActions.CreateB2BUserUserGroupSuccess
     | B2BUserActions.CreateB2BUserUserGroupFail
   > = this.actions$.pipe(
-    ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
+    ofType(B2BUserActions.CREATE_B2B_USER_USER_GROUP),
     map((action: B2BUserActions.CreateB2BUserUserGroup) => action.payload),
     switchMap((payload) =>
       this.b2bUserConnector
@@ -404,11 +404,11 @@ export class B2BUserEffects {
     | B2BUserActions.DeleteB2BUserUserGroupSuccess
     | B2BUserActions.DeleteB2BUserUserGroupFail
   > = this.actions$.pipe(
-    ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
+    ofType(B2BUserActions.DELETE_B2B_USER_USER_GROUP),
     map((action: B2BUserActions.DeleteB2BUserUserGroup) => action.payload),
     switchMap((payload) =>
       this.b2bUserConnector
-        .assignUserGroup(
+        .unassignUserGroup(
           payload.userId,
           payload.orgCustomerId,
           payload.userGroupId
