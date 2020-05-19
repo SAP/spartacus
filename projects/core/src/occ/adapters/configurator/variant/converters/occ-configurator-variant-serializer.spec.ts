@@ -192,14 +192,17 @@ describe('OccConfiguratorVariantSerializer', () => {
   });
 
   it('should fill formatted value for numeric attributes', () => {
-    const numericAttribute: Configurator.Attribute={
+    const numericAttribute: Configurator.Attribute = {
       name: 'attr',
-      userInput:'12.21',
-      uiType: Configurator.UiType.NUMERIC
-    }
+      userInput: '12.21',
+      uiType: Configurator.UiType.NUMERIC,
+    };
     const occAttributes = [];
-    occConfiguratorVariantSerializer.convertAttribute(numericAttribute, occAttributes);
-    expect(occAttributes[0].formattedValue).toBe(numericAttribute.userInput); 
+    occConfiguratorVariantSerializer.convertAttribute(
+      numericAttribute,
+      occAttributes
+    );
+    expect(occAttributes[0].formattedValue).toBe(numericAttribute.userInput);
   });
 
   it('should map ui types properly', () => {
@@ -226,7 +229,7 @@ describe('OccConfiguratorVariantSerializer', () => {
         Configurator.UiType.DROPDOWN
       )
     ).toBe(OccConfigurator.UiType.DROPDOWN);
-    
+
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.STRING
@@ -238,18 +241,17 @@ describe('OccConfiguratorVariantSerializer', () => {
         Configurator.UiType.CHECKBOX
       )
     ).toBe(OccConfigurator.UiType.CHECK_BOX_LIST);
-    
+
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.MULTI_SELECTION_IMAGE
       )
     ).toBe(OccConfigurator.UiType.MULTI_SELECTION_IMAGE);
-    
+
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.SINGLE_SELECTION_IMAGE
       )
-    ).toBe(OccConfigurator.UiType.SINGLE_SELECTION_IMAGE);    
- 
-  });  
+    ).toBe(OccConfigurator.UiType.SINGLE_SELECTION_IMAGE);
+  });
 });
