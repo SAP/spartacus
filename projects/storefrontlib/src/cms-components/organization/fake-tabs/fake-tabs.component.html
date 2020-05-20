@@ -1,7 +1,7 @@
 <cx-fake-tabs-desktop [code]="code" [links]="getLinks()"></cx-fake-tabs-desktop>
 <div class="container"><ng-content></ng-content></div>
 <cx-fake-tabs-mobile [code]="code" [links]="getLinks()"></cx-fake-tabs-mobile>
-<div class="mt-3 col-md-12 col-lg-6">
+<div class="mt-3 mb-3 col-md-12 col-lg-6">
   <a [routerLink]="routerBackLink | cxUrl" class="btn btn-secondary btn-block">
     {{ routerBackLink.name | cxTranslate }}
   </a>
