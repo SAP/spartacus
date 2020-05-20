@@ -1,0 +1,184 @@
+$intialExpandedFacets: 0 !default;
+$intialExpandedFacetsLarge: 3 !default;
+
+%facet-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 0.4rem 0;
+  padding: 0.4rem;
+  width: 100%;
+
+  border-bottom: 1px solid var(--cx-color-light);
+
+  cursor: pointer;
+
+  font-weight: var(--cx-font-weight-semi);
+
+  &:hover,
+  &:focus {
+    color: var(--cx-color-primary);
+  }
+
+  cx-icon {
+    font-size: 1rem;
+  }
+
+  @include media-breakpoint-down(md) {
+    cx-icon {
+      font-size: 1.3rem;
+    }
+  }
+}
+
+%cx-facet {
+  button.heading {
+    @extend %facet-heading !optional;
+  }
+
+  display: block;
+
+  @include media-breakpoint-down(md) {
+    &:nth-of-type(-n + #{$intialExpandedFacets}) {
+      &.collapsed {
+        .collapse-icon,
+        a,
+        button:not(.heading) {
+          display: none;
+        }
+      }
+      &:not(.collapsed) .expand-icon {
+        display: none;
+      }
+    }
+    &:nth-of-type(n + #{$intialExpandedFacets + 1}) {
+      &:not(.expanded) {
+        .collapse-icon,
+        a,
+        button:not(.heading) {
+          display: none;
+        }
+      }
+      &.expanded .expand-icon {
+        display: none;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    // first number of facets
+    &:nth-of-type(-n + #{$intialExpandedFacetsLarge}) {
+      &.collapsed {
+        .collapse-icon,
+        a,
+        button:not(.heading) {
+          display: none;
+        }
+      }
+      &:not(.collapsed) .expand-icon {
+        display: none;
+      }
+    }
+
+    // other facets lower in the list
+    &:nth-of-type(n + #{$intialExpandedFacetsLarge + 1}) {
+      &:not(.expanded) {
+        .collapse-icon,
+        a,
+        button:not(.heading) {
+          display: none;
+        }
+      }
+      &.expanded .expand-icon {
+        display: none;
+      }
+    }
+  }
+
+  a,
+  button {
+    display: flex;
+    align-items: baseline;
+    padding: 0.4rem;
+
+    cursor: pointer;
+
+    color: var(--cx-color-text);
+
+    &.value {
+      &:hover {
+        text-decoration: none;
+        color: var(--cx-color-primary);
+      }
+
+      // In mobile view, we keep the facet values on a single line to avoid a lot
+      // of space being used. Multi-line facet will not flow over.
+      @include media-breakpoint-down(md) {
+        > span {
+          display: flex;
+          width: calc(100% - 1.8rem);
+        }
+        .label {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+      .count {
+        margin-inline-start: 5px;
+        &::before {
+          content: '(';
+        }
+        &::after {
+          content: ')';
+        }
+      }
+    }
+  }
+
+  button {
+    background: none;
+    border: none;
+    display: inline-flex;
+    &:hover {
+      color: var(--cx-color-primary);
+    }
+  }
+
+  &.multi-select a.value {
+    &:hover {
+      &:not(.selected)::before {
+        border-color: var(--cx-color-primary);
+      }
+    }
+
+    &::before {
+      content: '✓';
+      color: transparent;
+
+      flex-shrink: 0;
+
+      font-size: 1rem;
+      font-weight: bold;
+
+      width: 1.3rem;
+      height: 1.35rem;
+
+      border-radius: 0.2rem;
+      border: solid 1px var(--cx-color-light);
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      margin-inline-end: 0.5rem;
+    }
+
+    &.selected::before {
+      background-color: var(--cx-color-primary);
+      border-color: var(--cx-color-primary);
+      color: var(--cx-color-inverse);
+    }
+  }
+}

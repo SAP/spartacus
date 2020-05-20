@@ -1,4 +1,4 @@
-import { StateEntityActions } from '../../../../state/utils/index';
+import { StateUtils } from '../../../../state/utils';
 import { CONFIGURATION_UI_DATA } from '../configuration-state';
 
 export const SET_UI_STATE = '[Configurator] Set UI State';
@@ -13,66 +13,66 @@ export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
 export const SET_GROUPS_COMPLETED = '[Configurator] Set groups complete status';
 export const SET_GROUPS_ERROR = '[Configurator] Set groups error status';
 
-export class SetUiState implements StateEntityActions.EntityAction {
+export class SetUiState implements StateUtils.EntityAction {
   readonly type = SET_UI_STATE;
-  readonly meta: StateEntityActions.EntityMeta;
+  readonly meta: StateUtils.EntityMeta;
   constructor(entityKey: string | string[], public payload: any) {
-    this.meta = StateEntityActions.entityMeta(CONFIGURATION_UI_DATA, entityKey);
+    this.meta = StateUtils.entityMeta(CONFIGURATION_UI_DATA, entityKey);
   }
 }
 
-export class SetCurrentGroup implements StateEntityActions.EntityAction {
+export class SetCurrentGroup implements StateUtils.EntityAction {
   readonly type = SET_CURRENT_GROUP;
-  readonly meta: StateEntityActions.EntityMeta;
+  readonly meta: StateUtils.EntityMeta;
   constructor(entityKey: string | string[], public payload: any) {
-    this.meta = StateEntityActions.entityMeta(CONFIGURATION_UI_DATA, entityKey);
+    this.meta = StateUtils.entityMeta(CONFIGURATION_UI_DATA, entityKey);
   }
 }
 
-export class SetMenuParentGroup implements StateEntityActions.EntityAction {
+export class SetMenuParentGroup implements StateUtils.EntityAction {
   readonly type = SET_MENU_PARENT_GROUP;
-  readonly meta: StateEntityActions.EntityMeta;
+  readonly meta: StateUtils.EntityMeta;
   constructor(entityKey: string | string[], public payload: any) {
-    this.meta = StateEntityActions.entityMeta(CONFIGURATION_UI_DATA, entityKey);
+    this.meta = StateUtils.entityMeta(CONFIGURATION_UI_DATA, entityKey);
   }
 }
 
-export class CreateUiState implements StateEntityActions.EntityAction {
+export class CreateUiState implements StateUtils.EntityAction {
   readonly type = CREATE_UI_STATE;
-  readonly meta: StateEntityActions.EntityMeta;
+  readonly meta: StateUtils.EntityMeta;
   constructor(entityKey: string | string[]) {
-    this.meta = StateEntityActions.entityMeta(CONFIGURATION_UI_DATA, entityKey);
+    this.meta = StateUtils.entityMeta(CONFIGURATION_UI_DATA, entityKey);
   }
 }
 
-export class RemoveUiState extends StateEntityActions.EntityRemoveAction {
+export class RemoveUiState extends StateUtils.EntityRemoveAction {
   readonly type = REMOVE_UI_STATE;
   constructor(entityKey: string | string[]) {
     super(CONFIGURATION_UI_DATA, entityKey);
   }
 }
 
-export class SetGroupsVisited implements StateEntityActions.EntityAction {
+export class SetGroupsVisited implements StateUtils.EntityAction {
   readonly type = SET_GROUPS_VISITED;
-  readonly meta: StateEntityActions.EntityMeta;
+  readonly meta: StateUtils.EntityMeta;
   constructor(entityKey: string, public payload: string[]) {
-    this.meta = StateEntityActions.entityMeta(CONFIGURATION_UI_DATA, entityKey);
+    this.meta = StateUtils.entityMeta(CONFIGURATION_UI_DATA, entityKey);
   }
 }
 
-export class SetGroupsCompleted implements StateEntityActions.EntityAction {
+export class SetGroupsCompleted implements StateUtils.EntityAction {
   readonly type = SET_GROUPS_COMPLETED;
-  readonly meta: StateEntityActions.EntityMeta;
+  readonly meta: StateUtils.EntityMeta;
   constructor(entityKey: string, public completedGroups: string[]) {
-    this.meta = StateEntityActions.entityMeta(CONFIGURATION_UI_DATA, entityKey);
+    this.meta = StateUtils.entityMeta(CONFIGURATION_UI_DATA, entityKey);
   }
 }
 
-export class SetGroupsError implements StateEntityActions.EntityAction {
+export class SetGroupsError implements StateUtils.EntityAction {
   readonly type = SET_GROUPS_ERROR;
-  readonly meta: StateEntityActions.EntityMeta;
+  readonly meta: StateUtils.EntityMeta;
   constructor(entityKey: string, public errorGroups: string[]) {
-    this.meta = StateEntityActions.entityMeta(CONFIGURATION_UI_DATA, entityKey);
+    this.meta = StateUtils.entityMeta(CONFIGURATION_UI_DATA, entityKey);
   }
 }
 

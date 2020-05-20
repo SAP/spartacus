@@ -115,9 +115,12 @@ export function addDifferentProducts(isMobile: Boolean = false) {
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
   cy.server();
-  cy.route('GET', '/rest/v2/electronics-spa/users/anonymous/carts/*').as(
-    'getRefreshedCart'
-  );
+  cy.route(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/anonymous/carts/*`
+  ).as('getRefreshedCart');
 
   // delete a product and check if the total is updated
   cy.get('cx-cart-item-list .cx-item-list-items')

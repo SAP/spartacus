@@ -17,7 +17,9 @@ import {
 } from '../../global-message/index';
 import { RoutingService } from '../../routing/index';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class StoreFinderService {
   private geolocationWatchId: number = null;
 
@@ -67,13 +69,15 @@ export class StoreFinderService {
    * @param longitudeLatitude longitude and latitude coordinates
    * @param countryIsoCode country ISO code
    * @param useMyLocation current location coordinates
+   * @param radius radius of the scope from the center point
    */
   findStoresAction(
     queryText: string,
     searchConfig?: StoreFinderSearchConfig,
     longitudeLatitude?: GeoPoint,
     countryIsoCode?: string,
-    useMyLocation?: boolean
+    useMyLocation?: boolean,
+    radius?: number
   ) {
     if (useMyLocation && this.winRef.nativeWindow) {
       this.clearWatchGeolocation(new StoreFinderActions.FindStoresOnHold());
@@ -90,6 +94,7 @@ export class StoreFinderService {
               searchConfig: searchConfig,
               longitudeLatitude: position,
               countryIsoCode: countryIsoCode,
+              radius: radius,
             })
           );
         },
@@ -108,6 +113,7 @@ export class StoreFinderService {
           searchConfig: searchConfig,
           longitudeLatitude: longitudeLatitude,
           countryIsoCode: countryIsoCode,
+          radius: radius,
         })
       );
     }

@@ -28,7 +28,9 @@ import { MultiCartSelectors } from '../store/selectors/index';
 import { getCartIdByUserId, isTempCartId } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ActiveCartService {
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
     'PREVIOUS_USER_ID_INITIAL_VALUE';
@@ -139,6 +141,16 @@ export class ActiveCartService {
   getEntries(): Observable<OrderEntry[]> {
     return this.activeCartId$.pipe(
       switchMap((cartId) => this.multiCartService.getEntries(cartId)),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
+   * Returns cart loading state
+   */
+  getLoading(): Observable<boolean> {
+    return this.cartSelector$.pipe(
+      map((cartEntity) => cartEntity.loading),
       distinctUntilChanged()
     );
   }

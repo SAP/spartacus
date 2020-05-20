@@ -1,4 +1,4 @@
-import { StateEntityActions } from '../../../../state/utils/index';
+import { StateUtils } from '../../../../state/utils';
 import { CONFIGURATION_UI_DATA } from '../configuration-state';
 import * as ConfiguratorUiActions from './configurator-ui.action';
 
@@ -18,10 +18,7 @@ describe('ConfiguratorUiActions', () => {
       expect({ ...action }).toEqual({
         type: ConfiguratorUiActions.SET_UI_STATE,
         payload: PAYLOAD,
-        meta: StateEntityActions.entityMeta(
-          CONFIGURATION_UI_DATA,
-          PRODUCT_CODE
-        ),
+        meta: StateUtils.entityMeta(CONFIGURATION_UI_DATA, PRODUCT_CODE),
       });
     });
 
@@ -34,10 +31,7 @@ describe('ConfiguratorUiActions', () => {
         expect({ ...action }).toEqual({
           type: ConfiguratorUiActions.SET_CURRENT_GROUP,
           payload: GROUP_ID,
-          meta: StateEntityActions.entityMeta(
-            CONFIGURATION_UI_DATA,
-            PRODUCT_CODE
-          ),
+          meta: StateUtils.entityMeta(CONFIGURATION_UI_DATA, PRODUCT_CODE),
         });
       });
     });
@@ -47,10 +41,7 @@ describe('ConfiguratorUiActions', () => {
         const action = new ConfiguratorUiActions.CreateUiState(PRODUCT_CODE);
         expect({ ...action }).toEqual({
           type: ConfiguratorUiActions.CREATE_UI_STATE,
-          meta: StateEntityActions.entityMeta(
-            CONFIGURATION_UI_DATA,
-            PRODUCT_CODE
-          ),
+          meta: StateUtils.entityMeta(CONFIGURATION_UI_DATA, PRODUCT_CODE),
         });
       });
     });
@@ -60,7 +51,7 @@ describe('ConfiguratorUiActions', () => {
         const action = new ConfiguratorUiActions.RemoveUiState(PRODUCT_CODE);
         expect({ ...action }).toEqual({
           type: ConfiguratorUiActions.REMOVE_UI_STATE,
-          meta: StateEntityActions.entityRemoveMeta(
+          meta: StateUtils.entityRemoveMeta(
             CONFIGURATION_UI_DATA,
             PRODUCT_CODE
           ),

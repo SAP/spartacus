@@ -1,5 +1,9 @@
 %LoginPageTemplate {
   padding-bottom: 3rem;
+
+  .cx-section-title {
+    margin: 40px 0 15px;
+  }
   cx-page-slot {
     max-width: 1140px;
     padding: 3rem 1.5rem 0 1.5rem;

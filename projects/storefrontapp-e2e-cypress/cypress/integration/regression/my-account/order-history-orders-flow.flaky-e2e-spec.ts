@@ -22,12 +22,28 @@ describe('Order History with orders', () => {
 });
 
 describe('Order details page', () => {
-  before(() => {
+  beforeEach(() => {
     cy.requireLoggedIn();
   });
-  it('should display order details page', () => {
+  it('should display order details page with unconsigned entries', () => {
     doPlaceOrder().then((orderData: any) => {
-      cy.waitForOrderToBePlacedRequest(orderData.body.code);
+      cy.visit(`/my-account/order/${orderData.body.code}`);
+      cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
+      cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
+      cy.get('.cx-summary-total > .cx-summary-amount').should(
+        'contain',
+        orderData.body.totalPrice.formattedValue
+      );
+    });
+  });
+
+  it('should display order details page with consigned entries', () => {
+    doPlaceOrder().then((orderData: any) => {
+      cy.waitForOrderToBePlacedRequest(
+        undefined,
+        undefined,
+        orderData.body.code
+      );
       cy.visit('/my-account/orders');
       cy.get('.cx-order-history-code > .cx-order-history-value')
         .then((el) => {

@@ -2,7 +2,7 @@ import {
   AnonymousConsent,
   ConsentTemplate,
 } from '../../../model/consent.model';
-import { StateLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { ANONYMOUS_CONSENTS } from '../anonymous-consents-state';
 
 export const LOAD_ANONYMOUS_CONSENT_TEMPLATES =
@@ -30,27 +30,27 @@ export const TOGGLE_ANONYMOUS_CONSENTS_BANNER_DISMISSED =
 export const TOGGLE_ANONYMOUS_CONSENT_TEMPLATES_UPDATED =
   '[Anonymous Consents] Anonymous Consent Templates Updated';
 
-export class LoadAnonymousConsentTemplates extends StateLoaderActions.LoaderLoadAction {
+export class LoadAnonymousConsentTemplates extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_ANONYMOUS_CONSENT_TEMPLATES;
   constructor() {
     super(ANONYMOUS_CONSENTS);
   }
 }
 
-export class LoadAnonymousConsentTemplatesSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class LoadAnonymousConsentTemplatesSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_ANONYMOUS_CONSENT_TEMPLATES_SUCCESS;
   constructor(public payload: ConsentTemplate[]) {
     super(ANONYMOUS_CONSENTS);
   }
 }
-export class LoadAnonymousConsentTemplatesFail extends StateLoaderActions.LoaderFailAction {
+export class LoadAnonymousConsentTemplatesFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_ANONYMOUS_CONSENT_TEMPLATES_FAIL;
   constructor(payload: any) {
     super(ANONYMOUS_CONSENTS, payload);
   }
 }
 
-export class ResetLoadAnonymousConsentTemplates extends StateLoaderActions.LoaderResetAction {
+export class ResetLoadAnonymousConsentTemplates extends StateUtils.LoaderResetAction {
   readonly type = RESET_LOAD_ANONYMOUS_CONSENT_TEMPLATES;
   constructor() {
     super(ANONYMOUS_CONSENTS);

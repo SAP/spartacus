@@ -50,13 +50,6 @@ describe('HttpErrorInterceptor', () => {
           useClass: HttpErrorHandler,
           multi: true,
         },
-        BadGatewayHandler,
-        BadRequestHandler,
-        ConflictHandler,
-        ForbiddenHandler,
-        GatewayTimeoutHandler,
-        NotFoundHandler,
-        UnknownErrorHandler,
         {
           provide: HttpErrorHandler,
           useExisting: UnknownErrorHandler,

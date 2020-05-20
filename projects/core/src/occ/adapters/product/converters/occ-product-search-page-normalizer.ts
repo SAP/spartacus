@@ -43,6 +43,7 @@ export class OccProductSearchPageNormalizer
     this.normalizeFacetValues(target);
     this.normalizeUselessFacets(target);
   }
+
   /**
    * The (current) backend returns facets with values that do not contribute
    * to the facet navigation much, as the number in the result list will not get

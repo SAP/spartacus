@@ -1,7 +1,9 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { I18nConfig } from './config/i18n-config';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TranslationChunkService {
   protected duplicates: { [key: string]: string[] } = {};
   protected chunks: { [key: string]: string } = {};

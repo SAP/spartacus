@@ -4,11 +4,8 @@ import {
   MemoizedSelector,
 } from '@ngrx/store';
 import { Configurator } from '../../../../model/configurator.model';
+import { StateUtils } from '../../../../state/utils';
 import { EntityLoaderState } from '../../../../state/utils/entity-loader/entity-loader-state';
-import {
-  StateEntityProcessesLoaderSelectors,
-  StateLoaderSelectors,
-} from '../../../../state/utils/index';
 import { ProcessesLoaderState } from '../../../../state/utils/processes-loader/processes-loader-state';
 import {
   ConfigurationState,
@@ -39,10 +36,7 @@ export const getConfigurationProcessLoaderStateFactory = (
   ProcessesLoaderState<Configurator.Configuration>
 > => {
   return createSelector(getConfigurationState, (details) =>
-    StateEntityProcessesLoaderSelectors.entityProcessesLoaderStateSelector(
-      details,
-      code
-    )
+    StateUtils.entityProcessesLoaderStateSelector(details, code)
   );
 };
 
@@ -50,10 +44,7 @@ export const hasPendingChanges = (
   code: string
 ): MemoizedSelector<StateWithConfiguration, boolean> => {
   return createSelector(getConfigurationState, (details) =>
-    StateEntityProcessesLoaderSelectors.entityHasPendingProcessesSelector(
-      details,
-      code
-    )
+    StateUtils.entityHasPendingProcessesSelector(details, code)
   );
 };
 
@@ -62,7 +53,6 @@ export const getConfigurationFactory = (
 ): MemoizedSelector<StateWithConfiguration, Configurator.Configuration> => {
   return createSelector(
     getConfigurationProcessLoaderStateFactory(code),
-    (configurationState) =>
-      StateLoaderSelectors.loaderValueSelector(configurationState)
+    (configurationState) => StateUtils.loaderValueSelector(configurationState)
   );
 };

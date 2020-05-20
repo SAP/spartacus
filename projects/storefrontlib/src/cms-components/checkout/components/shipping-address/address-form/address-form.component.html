@@ -41,7 +41,6 @@
                 [items]="titles"
                 bindLabel="name"
                 bindValue="code"
-                (change)="titleSelected($event)"
               >
               </ng-select>
             </label>
@@ -163,7 +162,6 @@
                   bindLabel="{{ regions[0].name ? 'name' : 'isocode' }}"
                   bindValue="{{ regions[0].name ? 'isocode' : 'region' }}"
                   placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
-                  (change)="regionSelected($event)"
                 >
                 </ng-select>
                 <cx-form-errors
@@ -180,7 +178,7 @@
             'addressForm.phoneNumber.label' | cxTranslate
           }}</span>
           <input
-            type="text"
+            type="tel"
             class="form-control"
             placeholder="{{
               'addressForm.phoneNumber.placeholder' | cxTranslate
