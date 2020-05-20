@@ -123,7 +123,7 @@ update Spartacus from v2 to v3, then make sure that the version in `package.json
 - To publish the changes, navigate to the `projects/schematics` folder and run the following: `yarn build && npm publish --registry http://localhost:4873`
 
 Now create a new angular project:
-
+ 
 - `ng new spartacus-update-schematic-test` and `cd spartacus-update-schematic-test`
 - add Spartacus by running e.g. `ng add @spartacus/schematics@1.5 --baseUrl https://storefront.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com --baseSite electronics-spa`. Note that the version `1.5` is specified in `ng add @spartacus/schematics@1.5`.
 - create `.npmrc` in the root of the project and paste the following content to it: `@spartacus:registry=http://localhost:4873` to point to the local npm server only for the `@spartacus` scope. From this moment on, `@spartacus` scoped packages will use the local npm registry.
