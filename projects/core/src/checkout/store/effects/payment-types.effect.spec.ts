@@ -43,12 +43,12 @@ describe('Payment Types effect', () => {
     );
 
     spyOn(service, 'getPaymentTypes').and.returnValue(of(mockPaymentTypes));
+    spyOn(service, 'setPaymentType').and.returnValue(
+      of({
+        code: 'testCart',
+      })
+    );
   });
-  spyOn(service, 'setPaymentType').and.returnValue(
-    of({
-      code: 'testCart',
-    })
-  );
 
   describe('loadPaymentTypes$', () => {
     it('should load the payment types', () => {
