@@ -40,7 +40,7 @@ export class UnitUsersComponent extends AbstractListingComponent
   ngOnInit(): void {
     this.code$.pipe(take(1)).subscribe((code) => (this.code = code));
 
-    this.data$ = <Observable<ListingModel>>this.queryParamsForAllItems$.pipe(
+    this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
       withLatestFrom(this.code$),
       tap(([queryParams, code]) =>
         this.orgUnitsService.loadUsers(code, this.roleId, queryParams)
@@ -51,15 +51,13 @@ export class UnitUsersComponent extends AbstractListingComponent
           map((userList: EntitiesModel<B2BUser>) => ({
             sorts: userList.sorts,
             pagination: userList.pagination,
-            values: userList.values
-              .filter((user) => user.selected)
-              .map((user) => ({
-                email: user.uid,
-                name: user.name,
-                roles: user.roles,
-                parentUnit: user.orgUnit && user.orgUnit.name,
-                uid: user.orgUnit && user.orgUnit.uid,
-              })),
+            values: userList.values.map((user) => ({
+              email: user.uid,
+              name: user.name,
+              roles: user.roles,
+              parentUnit: user.orgUnit && user.orgUnit.name,
+              uid: user.orgUnit && user.orgUnit.uid,
+            })),
           }))
         )
       )
