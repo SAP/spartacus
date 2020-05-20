@@ -7,7 +7,7 @@ import * as fromReducers from '../reducers/index';
 import { ProductSelectors } from '../selectors/index';
 import { Subscription } from 'rxjs';
 
-describe('Cms Component Selectors', () => {
+describe('Product Selectors', () => {
   let store: Store<StateWithProduct>;
 
   const code = 'testCode';
@@ -36,19 +36,6 @@ describe('Cms Component Selectors', () => {
       subscription.unsubscribe();
       subscription = undefined;
     }
-  });
-
-  describe('getSelectedProductsFactory', () => {
-    it('should return product by code', () => {
-      let result: Product[];
-      subscription = store
-        .pipe(select(ProductSelectors.getSelectedProductsFactory(['testCode'])))
-        .subscribe((value) => (result = value));
-
-      store.dispatch(new ProductActions.LoadProductSuccess(product));
-
-      expect(result).toEqual([product]);
-    });
   });
 
   describe('getAllProductCodes', () => {

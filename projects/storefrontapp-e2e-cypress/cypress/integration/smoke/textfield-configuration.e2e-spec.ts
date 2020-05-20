@@ -33,18 +33,15 @@ context('Textfield Configuration', () => {
       configuration.verifyConfigurationPageIsDisplayed();
     });
 
-    it.skip('should be able to navigate from the cart', () => {
-      //TODO: currently not possible
+    it('should be able to navigate from the cart', () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
       configuration.clickAddToCartButton();
       cart.verifyCartNotEmpty();
       configuration.verifyTextfieldProductInCart(testProduct);
-      // go back to textfield configuration
-      // configuration.verifyConfigurationPageIsDisplayed();
     });
 
-    it.skip('should be able to navigate from the cart after adding product directly to the cart', () => {
+    it('should be able to navigate from the cart after adding product directly to the cart', () => {
       goToProductDetailsPage(testProduct);
       configuration.clickOnAddToCartButtonOnProductDetails();
       configuration.clickOnViewCartButtonOnProductDetails();

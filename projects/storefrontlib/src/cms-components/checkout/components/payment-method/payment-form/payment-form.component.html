@@ -17,7 +17,6 @@
                   bindLabel="name"
                   bindValue="code"
                   placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}"
-                  (change)="paymentSelected($event)"
                   formControlName="code"
                 >
                 </ng-select>
@@ -28,6 +27,7 @@
             </div>
           </ng-container>
         </div>
+
         <div class="form-group">
           <label>
             <span class="label-content">{{
@@ -46,6 +46,7 @@
             ></cx-form-errors>
           </label>
         </div>
+
         <div class="form-group">
           <label>
             <span class="label-content">{{
@@ -75,7 +76,6 @@
                     [clearable]="false"
                     [items]="months"
                     placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}"
-                    (change)="monthSelected($event)"
                     formControlName="expiryMonth"
                   >
                   </ng-select>
@@ -89,7 +89,6 @@
                     [clearable]="false"
                     [items]="years"
                     placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}"
-                    (change)="yearSelected($event)"
                     formControlName="expiryYear"
                   >
                   </ng-select>
@@ -100,6 +99,7 @@
               </div>
             </label>
           </div>
+
           <div class="form-group col-md-4">
             <label>
               <span class="label-content">
@@ -147,7 +147,7 @@
           </div>
 
           <!-- SAME AS SHIPPING CHECKBOX -->
-          <ng-container *ngIf="showSameAsShippingAddressCheckbox() | async">
+          <ng-container *ngIf="showSameAsShippingAddressCheckbox$ | async">
             <div class="form-group">
               <div class="form-check">
                 <label>
@@ -336,7 +336,6 @@
                           placeholder="{{
                             'addressForm.selectOne' | cxTranslate
                           }}"
-                          (change)="regionSelected($event)"
                         >
                         </ng-select>
                         <cx-form-errors

@@ -30,6 +30,7 @@ const mockMissingImageContainer = null;
 describe('MediaComponent', () => {
   let component: MediaComponent;
   let fixture: ComponentFixture<MediaComponent>;
+  let service: MediaService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -40,6 +41,7 @@ describe('MediaComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MediaComponent);
+    service = TestBed.inject(MediaService);
     component = fixture.componentInstance;
     component.container = mockImageContainer;
 
@@ -83,7 +85,8 @@ describe('MediaComponent', () => {
     ).toContain('is-initialized');
   });
 
-  it('should have is-missing class when theres no image', () => {
+  it('should have is-missing class when there is no image', () => {
+    spyOn(service, 'getMedia').and.returnValue(null);
     component.container = mockMissingImageContainer;
 
     component.ngOnChanges();

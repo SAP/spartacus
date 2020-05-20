@@ -1,8 +1,9 @@
-import * as path from 'path';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import * as path from 'path';
+import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -27,10 +28,8 @@ describe('Spartacus Schematics: add-pwa', () => {
     skipTests: false,
   };
 
-  const defaultOptions = {
+  const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    target: 'build',
-    configuration: 'production',
   };
 
   beforeEach(async () => {

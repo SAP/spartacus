@@ -9,7 +9,7 @@ export const initialState: ComponentsContext = {
 };
 
 function componentExistsReducer<T>(
-  state = false,
+  state: boolean | undefined,
   action: CmsActions.CmsComponentAction<T>
 ): boolean {
   switch (action.type) {

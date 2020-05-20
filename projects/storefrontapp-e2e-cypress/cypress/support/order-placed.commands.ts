@@ -10,7 +10,7 @@ declare global {
        *
        * @example
         ```
-        cy.waitForOrderToBePlacedRequest(orderNumber, contentCatalog);
+        cy.waitForOrderToBePlacedRequest(contentCatalog, currency, orderNumber);
         ```
        */
       waitForOrderToBePlacedRequest: (

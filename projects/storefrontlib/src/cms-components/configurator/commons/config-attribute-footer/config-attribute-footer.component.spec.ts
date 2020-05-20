@@ -1,12 +1,16 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Configurator, I18nTestingModule } from '@spartacus/core';
 import {
+  Configurator,
+  GenericConfigurator,
+  I18nTestingModule,
+} from '@spartacus/core';
+import { ConfigAttributeFooterComponent } from './config-attribute-footer.component';
+import {
+  ICON_TYPE,
   IconLoaderService,
   IconModule,
-} from '../../../../cms-components/misc/icon/index';
-import { ICON_TYPE } from '../../../misc/icon/icon.model';
-import { ConfigAttributeFooterComponent } from './config-attribute-footer.component';
+} from '@spartacus/storefront';
 import { ConfigComponentTestUtilsService } from '../../generic/service/config-component-test-utils.service';
 
 export class MockIconFontLoaderService {
@@ -14,7 +18,7 @@ export class MockIconFontLoaderService {
     return false;
   }
   getStyleClasses(_iconType: ICON_TYPE): string {
-    return 'fas fa-exclamation-triangle';
+    return 'fas fa-exclamation-circle';
   }
   addLinkResource() {}
   getHtml(_iconType: ICON_TYPE) {}
@@ -52,8 +56,11 @@ describe('ConfigAttributeFooterComponent', () => {
     classUnderTest.attribute = currentAttribute;
     classUnderTest.attribute.label = 'label of attribute';
     classUnderTest.attribute.name = '123';
+    classUnderTest.ownerType = GenericConfigurator.OwnerType.CART_ENTRY;
+    classUnderTest.attribute.required = true;
     classUnderTest.attribute.incomplete = true;
-    classUnderTest.attribute.required = false;
+    classUnderTest.attribute.uiType = Configurator.UiType.STRING;
+    classUnderTest.attribute.userInput = undefined;
     fixture.detectChanges();
   });
 
@@ -62,51 +69,67 @@ describe('ConfigAttributeFooterComponent', () => {
   });
 
   it('should render a required message if attribute has no value, yet.', () => {
-    classUnderTest.attribute.required = true;
     fixture.detectChanges();
     ConfigComponentTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      '.cx-config-attribute-footer-required-message'
+      '.cx-config-attribute-footer-required-error-msg'
     );
   });
 
-  it("shouldn't render a required message if  attribute is incomplete, but  not required.", () => {
-    classUnderTest.attribute.required = false;
-    classUnderTest.attribute.incomplete = true;
+  it("shouldn't render a required message because attribute has not been added to the cart yet.", () => {
+    classUnderTest.ownerType = GenericConfigurator.OwnerType.PRODUCT;
     fixture.detectChanges();
     ConfigComponentTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
-      '.cx-config-attribute-footer-required-message'
+      '.cx-config-attribute-footer-required-error-msg'
     );
   });
 
-  // Unit Tests
+  it("shouldn't render a required message if attribute is not required.", () => {
+    classUnderTest.attribute.required = false;
+    fixture.detectChanges();
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-config-attribute-footer-required-error-msg'
+    );
+  });
+
+  it('should render a required message if attribute is completed.', () => {
+    classUnderTest.attribute.incomplete = false;
+    fixture.detectChanges();
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-config-attribute-footer-required-error-msg'
+    );
+  });
+
+  it("shouldn't render a required message because attribute type is a drop-down list.", () => {
+    classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
+    fixture.detectChanges();
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-config-attribute-footer-required-error-msg'
+    );
+  });
+
+  it("shouldn't render a required message because user input is set.", () => {
+    classUnderTest.attribute.userInput = 'test';
+    fixture.detectChanges();
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-config-attribute-footer-required-error-msg'
+    );
+  });
+
   it('should return default message key for input string attributes', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.STRING;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'defaultRequiredMessage'
-    );
-  });
-  it('should return single select message key for radio button attributes', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
-    expect(classUnderTest.getRequiredMessageKey()).toContain(
-      'singleSelectRequiredMessage'
-    );
-  });
-
-  it('should return single select message key for ddlb attributes', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
-    expect(classUnderTest.getRequiredMessageKey()).toContain(
-      'singleSelectRequiredMessage'
-    );
-  });
-
-  it('should return multi select message key for check box list attributes', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOX;
-    expect(classUnderTest.getRequiredMessageKey()).toContain(
-      'multiSelectRequiredMessage'
     );
   });
 });
