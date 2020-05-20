@@ -1,0 +1,18 @@
+<section>
+  <div class="cx-nav d-none d-lg-block d-xl-block">
+    <ul class="cx-list">
+      <li class="cx-item" *ngFor="let link of links; let i = index">
+        <a
+          [routerLink]="
+            { cxRoute: link.routeName, params: { code: code } } | cxUrl
+          "
+          class="cx-link"
+          [class.active]="link.active"
+          [class.disabled]="link.active"
+        >
+          {{ link.name | cxTranslate }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>

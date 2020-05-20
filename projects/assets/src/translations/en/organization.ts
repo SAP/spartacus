@@ -196,7 +196,7 @@ export const organization = {
     create: 'Create new Unit',
   },
   orgUnit: {
-    details: 'Unit Details',
+    header: 'Unit Details',
     uid: 'ID',
     name: 'Name',
     approvalProcess: 'Approval process',
@@ -212,11 +212,12 @@ export const organization = {
       title: 'Disable Unit',
       message: 'Are you sure you want to disable this unit?',
     },
+    details: 'Details',
     children: 'Child Units',
     costCenters: 'Cost Centers',
     users: 'Users',
     approvers: 'Approvers',
-    manageAddresses: 'Manage Addresses',
+    manageAddresses: 'Addresses',
   },
   orgUnitForm: {
     create: 'Create Unit',
