@@ -62,19 +62,16 @@ export class BudgetFormComponent extends AbstractFormComponent
     this.businessUnits$ = this.orgUnitService.getList();
     if (this.budgetData && Object.keys(this.budgetData).length !== 0) {
       const localOffset = this.getLocalTimezoneOffset(true);
-
       this.form.patchValue({
         ...this.budgetData,
-        startDate: new Date(
-          this.budgetData.startDate.replace('+0000', localOffset)
-        )
-          .toISOString()
-          .replace('.', '+')
-          .replace('Z', '0'),
-        endDate: new Date(this.budgetData.endDate.replace('+0000', localOffset))
-          .toISOString()
-          .replace('.', '+')
-          .replace('Z', '0'),
+        startDate: this.formatDateStringWithTimezone(
+          this.budgetData.startDate,
+          localOffset
+        ),
+        endDate: this.formatDateStringWithTimezone(
+          this.budgetData.endDate,
+          localOffset
+        ),
       });
     }
   }
@@ -92,7 +89,14 @@ export class BudgetFormComponent extends AbstractFormComponent
       : `+${hours}:${minutes}`;
   }
 
-  patchDateWithOffset(control: AbstractControl, offset: number) {
+  formatDateStringWithTimezone(dateString: string, offset: string) {
+    return new Date(dateString.replace('+0000', offset))
+      .toISOString()
+      .replace('.', '+')
+      .replace('Z', '0');
+  }
+
+  patchDateWithOffset(control: AbstractControl, offset: number): void {
     const dateWithOffset = control.value.replace('+0000', offset);
     control.patchValue(dateWithOffset);
   }
