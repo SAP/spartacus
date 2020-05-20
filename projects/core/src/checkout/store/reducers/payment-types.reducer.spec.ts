@@ -38,6 +38,19 @@ describe('Payment Types Reducer', () => {
     });
   });
 
+  describe('SET_PAYMENT_TYPE action', () => {
+    it('should populate the selected field', () => {
+      const { initialState } = fromReducer;
+      const action = new CheckoutActions.SetPaymentType({
+        userId: 'testUser',
+        cartId: 'testCart',
+        typeCode: 'CARD',
+      });
+      const state = fromReducer.reducer(initialState, action);
+      expect(state.selected).toEqual('CARD');
+    });
+  });
+
   describe('CHECKOUT_CLEAR_MISCS_DATA action', () => {
     it('should clear the mics data', () => {
       const { initialState } = fromReducer;

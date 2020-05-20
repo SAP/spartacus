@@ -37,6 +37,7 @@ export interface CheckoutStepsState {
 
 export interface PaymentTypesState {
   entities: { [code: string]: PaymentType };
+  selected: string;
 }
 
 export interface CheckoutState {

@@ -4,7 +4,11 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConverterService, PAYMENT_TYPE_NORMALIZER } from '@spartacus/core';
+import {
+  ConverterService,
+  PAYMENT_TYPE_NORMALIZER,
+  Cart,
+} from '@spartacus/core';
 import { Occ, OccConfig } from '../../index';
 import { OccCheckoutPaymentTypeAdapter } from './occ-checkout-payment-type.adapter';
 
@@ -19,6 +23,15 @@ const MockOccModuleConfig: OccConfig = {
     baseSite: [''],
   },
 };
+const userId = '123';
+const cartId = '456';
+const cartData: Cart = {
+  store: 'electronics',
+  guid: '1212121',
+};
+
+const usersEndpoint = '/users';
+const cartsEndpoint = '/carts/';
 
 describe('OccCheckoutPaymentTypeAdapter', () => {
   let service: OccCheckoutPaymentTypeAdapter;
@@ -84,6 +97,35 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       expect(converter.pipeableMany).toHaveBeenCalledWith(
         PAYMENT_TYPE_NORMALIZER
       );
+    });
+  });
+
+  describe('setPaymentType', () => {
+    it('should set payment type to cart', () => {
+      const typeCode = 'CARD';
+
+      let result;
+      service
+        .setPaymentType(userId, cartId, typeCode)
+        .subscribe((res) => (result = res));
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'PUT' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/paymenttype'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.params.get('paymentType')).toEqual(typeCode);
+      mockReq.flush(cartData);
+      expect(result).toEqual(cartData);
     });
   });
 });

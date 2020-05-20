@@ -43,6 +43,11 @@ describe('Payment Types effect', () => {
     );
 
     spyOn(service, 'getPaymentTypes').and.returnValue(of(mockPaymentTypes));
+    spyOn(service, 'setPaymentType').and.returnValue(
+      of({
+        code: 'testCart',
+      })
+    );
   });
 
   describe('loadPaymentTypes$', () => {
@@ -56,6 +61,24 @@ describe('Payment Types effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effect.loadPaymentTypes$).toBeObservable(expected);
+    });
+  });
+
+  describe('setPaymentType$', () => {
+    it('should set the payment type to cart', () => {
+      const action = new CheckoutActions.SetPaymentType({
+        userId: 'testUser',
+        cartId: 'testCart',
+        typeCode: 'ACCOUNT',
+      });
+      const completion = new CheckoutActions.SetPaymentTypeSuccess({
+        code: 'testCart',
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effect.setPaymentType$).toBeObservable(expected);
     });
   });
 });
