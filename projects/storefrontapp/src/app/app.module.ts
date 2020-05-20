@@ -8,25 +8,23 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { CdsModule } from '@spartacus/cds';
 import { TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
-import { cdsEnvironment } from '../environments/cds/cds.environment';
+import { cdsFeature } from '../environments/cds/cds.environment';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { appConfig } from './configs/app-config';
-import { cdsConfig } from './configs/cds-config';
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
 
 const additionalImports = [];
-if (cdsEnvironment.enabled) {
-  additionalImports.push(CdsModule.forRoot(cdsConfig));
+if (cdsFeature.enabled) {
+  additionalImports.push(cdsFeature.feature);
 }
 
 const devImports = [];

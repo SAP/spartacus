@@ -3,8 +3,10 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `angular.json`.
 
-import { Environment } from './environment.types';
+import { Environment } from './models/environment.model';
 
 export const environment: Environment = {
   production: false,
+  occBaseUrl: '',
+  occApiPrefix: '/rest/v2/',
 };

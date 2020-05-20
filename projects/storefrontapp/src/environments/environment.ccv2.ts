@@ -1,6 +1,7 @@
-import { OccEnvironment } from './occ.environment.types';
+import { Environment } from './models/environment.model';
 
-export const occEnvironment: OccEnvironment = {
+export const environment: Environment = {
+  production: true,
   occBaseUrl:
     'https://api.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com',
   occApiPrefix: '/rest/v2/',

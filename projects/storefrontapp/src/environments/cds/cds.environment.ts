@@ -1,5 +1,5 @@
-import { CdsEnvironment } from './cds.environment.types';
+import { FeatureEnvironment } from '../models/feature.environment.model';
 
-export const cdsEnvironment: CdsEnvironment = {
+export const cdsFeature: FeatureEnvironment = {
   enabled: false,
 };

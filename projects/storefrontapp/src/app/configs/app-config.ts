@@ -1,12 +1,12 @@
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { StorefrontConfig } from '@spartacus/storefront';
-import { occEnvironment } from '../../environments/occ/occ.environment';
+import { environment } from '../../environments/environment';
 
 export const appConfig: StorefrontConfig = {
   backend: {
     occ: {
-      baseUrl: occEnvironment.occBaseUrl,
-      prefix: occEnvironment.occApiPrefix,
+      baseUrl: environment.occBaseUrl,
+      prefix: environment.occApiPrefix,
     },
   },
   context: {
