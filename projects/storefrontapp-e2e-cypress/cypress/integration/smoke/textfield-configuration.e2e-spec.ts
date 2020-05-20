@@ -45,9 +45,6 @@ context('Textfield Configuration', () => {
       addToCartAndVerify(testProduct);
       configuration.clickOnEditConfigurationButton();
       configuration.verifyConfigurationPageIsDisplayed();
-      configuration.verifyAttributeIsDisplayed('Engraved Text');
-      configuration.selectAttribute('Engraved Text', 'Hallo');
-      addToCartAndVerify(testProduct);
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
@@ -56,15 +53,23 @@ context('Textfield Configuration', () => {
       configuration.clickOnViewCartButtonOnProductDetails();
       cart.verifyCartNotEmpty();
       configuration.verifyTextfieldProductInCart(testProduct);
-      configuration.clickOnEditConfigurationButton();
-      configuration.verifyConfigurationPageIsDisplayed();
-      addToCartAndVerify(testProduct);
     });
   });
 
   describe('Configure Product and add to cart', () => {
     it('should enter value and add textfield product to cart', () => {
       goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.verifyAttributeIsDisplayed('Engraved Text');
+      configuration.selectAttribute('Engraved Text', 'Hallo');
+      addToCartAndVerify(testProduct);
+    });
+
+    it('should be able to update a configured product from the cart', () => {
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+      addToCartAndVerify(testProduct);
+      configuration.clickOnEditConfigurationButton();
       configuration.verifyConfigurationPageIsDisplayed();
       configuration.verifyAttributeIsDisplayed('Engraved Text');
       configuration.selectAttribute('Engraved Text', 'Hallo');
