@@ -49,7 +49,7 @@ describe('Payment Types Selectors', () => {
     it('should return the selected payment type', () => {
       let result: string;
       store
-        .pipe(select(CheckoutSelectors.getSelectedType))
+        .pipe(select(CheckoutSelectors.getSelectedPaymentType))
         .subscribe((value) => (result = value));
       expect(result).toEqual('');
 

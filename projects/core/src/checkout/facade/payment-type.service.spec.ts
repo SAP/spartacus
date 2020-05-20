@@ -114,4 +114,38 @@ describe('PaymentTypeService', () => {
       })
     );
   });
+
+  it('should be able to get selected payment type if data exist', () => {
+    store.dispatch(
+      new CheckoutActions.LoadPaymentTypesSuccess([
+        { code: 'account', displayName: 'account' },
+        { code: 'card', displayName: 'masterCard' },
+      ])
+    );
+    store.dispatch(
+      new CheckoutActions.SetPaymentType({
+        userId: userId,
+        cartId: cart.code,
+        typeCode: 'CARD',
+      })
+    );
+
+    let selected: string;
+    service.getSelectedPaymentType().subscribe((data) => {
+      selected = data;
+    });
+    expect(selected).toEqual('CARD');
+  });
+
+  it('should be able to set the default payment type if data not exist', () => {
+    service.getSelectedPaymentType().subscribe();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.SetPaymentType({
+        userId: userId,
+        cartId: cart.code,
+        typeCode: 'ACCOUNT',
+        poNumber: undefined,
+      })
+    );
+  });
 });

@@ -19,6 +19,8 @@ import { CheckoutSelectors } from '../store/selectors/index';
   providedIn: 'root',
 })
 export class PaymentTypeService {
+  readonly ACCOUNT_PAYMENT = 'ACCOUNT';
+
   constructor(
     protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
     protected authService: AuthService,
@@ -85,6 +87,21 @@ export class PaymentTypeService {
         );
       }
     }
+  }
+
+  /**
+   * Get the selected payment type
+   */
+  getSelectedPaymentType(): Observable<string> {
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getSelectedPaymentType),
+      tap((selected) => {
+        // if there is no select type, we set it to the default one 'ACCOUNT'
+        if (selected === '') {
+          this.setPaymentType(this.ACCOUNT_PAYMENT);
+        }
+      })
+    );
   }
 
   protected actionAllowed(): boolean {
