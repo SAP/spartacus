@@ -7,7 +7,9 @@ import { switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../../facade/auth.service';
 import { ClientToken } from '../../models/token-types.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ClientErrorHandlingService {
   constructor(protected authService: AuthService) {}
 

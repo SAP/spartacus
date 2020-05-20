@@ -19,7 +19,7 @@ import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { withdrawOn } from '../../../util/withdraw-on';
 import { CartConnector } from '../../connectors/cart/cart.connector';
-import { getCartIdByUserId } from '../../utils/utils';
+import { getCartIdByUserId, isCartNotFoundError } from '../../utils/utils';
 import { CartActions } from '../actions/index';
 import { StateWithMultiCart } from '../multi-cart-state';
 import { getCartHasPendingProcessesSelectorFactory } from '../selectors/multi-cart.selector';
@@ -98,10 +98,12 @@ export class CartEffects {
                 }
 
                 const cartNotFoundErrors = error.error.errors.filter(
-                  (err) => err.reason === 'notFound' || 'UnknownResourceError'
+                  (err) =>
+                    isCartNotFoundError(err) ||
+                    err.reason === 'UnknownResourceError'
                 );
                 if (cartNotFoundErrors.length > 0) {
-                  // Remove cart as it doesn't exist on backend.
+                  // Remove cart as it doesn't exist on backend (selective cart always exists).
                   return of(
                     new CartActions.RemoveCart({ cartId: payload.cartId })
                   );

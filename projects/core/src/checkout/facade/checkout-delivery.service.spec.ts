@@ -2,7 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
-  LoaderState,
+  StateUtils,
   PROCESS_FEATURE,
 } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -170,7 +170,7 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should be able to get the set delivery address process', () => {
-    let loaderState: LoaderState<any>;
+    let loaderState: StateUtils.LoaderState<any>;
     service
       .getSetDeliveryAddressProcess()
       .subscribe((data) => {
@@ -188,7 +188,7 @@ describe('CheckoutDeliveryService', () => {
   it('should be able to get the set delivery address process during loading state', () => {
     service.setDeliveryAddress(address);
 
-    let loaderState: LoaderState<any>;
+    let loaderState: StateUtils.LoaderState<any>;
     service
       .getSetDeliveryAddressProcess()
       .subscribe((data) => {
@@ -212,7 +212,7 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should be able to get the set delivery mode status', () => {
-    let loaderState: LoaderState<any>;
+    let loaderState: StateUtils.LoaderState<any>;
     service
       .getSetDeliveryModeProcess()
       .subscribe((data) => {
@@ -231,7 +231,7 @@ describe('CheckoutDeliveryService', () => {
     const modeId = 'testId';
     service.setDeliveryMode(modeId);
 
-    let loaderState: LoaderState<any>;
+    let loaderState: StateUtils.LoaderState<any>;
     service
       .getSetDeliveryModeProcess()
       .subscribe((data) => {
@@ -263,7 +263,7 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should be able to get load supported delivery mode status', () => {
-    let loaderState: LoaderState<any>;
+    let loaderState: StateUtils.LoaderState<any>;
     service
       .getLoadSupportedDeliveryModeProcess()
       .subscribe((data) => {
@@ -281,7 +281,7 @@ describe('CheckoutDeliveryService', () => {
   it('should be able to get the load supported delivery mode status during loading state', () => {
     service.loadSupportedDeliveryModes();
 
-    let loaderState: LoaderState<any>;
+    let loaderState: StateUtils.LoaderState<any>;
     service
       .getLoadSupportedDeliveryModeProcess()
       .subscribe((data) => {

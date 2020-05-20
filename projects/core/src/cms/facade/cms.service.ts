@@ -27,8 +27,6 @@ import { serializePageContext } from '../utils/cms-utils';
   providedIn: 'root',
 })
 export class CmsService {
-  private _launchInSmartEdit = false;
-
   private components: {
     [uid: string]: {
       [pageContext: string]: Observable<CmsComponent>;
@@ -39,20 +37,6 @@ export class CmsService {
     protected store: Store<StateWithCms>,
     protected routingService: RoutingService
   ) {}
-
-  /**
-   * Set _launchInSmartEdit value
-   */
-  set launchInSmartEdit(value: boolean) {
-    this._launchInSmartEdit = value;
-  }
-
-  /**
-   * Whether the app launched in smart edit
-   */
-  isLaunchInSmartEdit(): boolean {
-    return this._launchInSmartEdit;
-  }
 
   /**
    * Get current CMS page data
@@ -80,7 +64,7 @@ export class CmsService {
    * @param uid CMS component uid
    * @param pageContext if provided, it will be used to lookup the component data.
    */
-  getComponentData<T extends CmsComponent>(
+  getComponentData<T extends CmsComponent | null>(
     uid: string,
     pageContext?: PageContext
   ): Observable<T> {
@@ -141,13 +125,8 @@ export class CmsService {
 
     const component$ = this.store.pipe(
       select(CmsSelectors.componentsSelectorFactory(uid, context)),
-      // TODO(issue:6431) - this `filter` should be removed.
-      // The reason for removal: with `filter` in place, when moving to a page that has restrictions, the component data will still emit the previous value.
-      // Removing it causes some components to fail, because they are not checking
-      // if the data is actually there. I noticed these that this component is failing, but there are possibly more:
-      // - `tab-paragraph-container.component.ts` when visiting any PDP page
-      filter((component) => !!component)
-    ) as Observable<T>;
+      filter((component) => component !== undefined)
+    ) as Observable<T | null>;
 
     return using(
       () => loading$.subscribe(),

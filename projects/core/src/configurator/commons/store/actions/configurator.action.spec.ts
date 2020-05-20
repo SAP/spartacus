@@ -2,10 +2,7 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Configurator } from '../../../../model/configurator.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import {
-  StateEntityLoaderActions,
-  StateEntityProcessesLoaderActions,
-} from '../../../../state/utils/index';
+import { StateUtils } from '../../../../state/utils';
 import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import { CONFIGURATION_DATA } from '../configuration-state';
 import * as ConfiguratorActions from './configurator.action';
@@ -55,7 +52,7 @@ describe('ConfiguratorActions', () => {
           type: ConfiguratorActions.READ_CONFIGURATION,
           configuration: CONFIGURATION,
           groupId: GROUP_ID,
-          meta: StateEntityLoaderActions.entityLoadMeta(
+          meta: StateUtils.entityLoadMeta(
             CONFIGURATION_DATA,
             CONFIGURATION.owner.key
           ),
@@ -73,7 +70,7 @@ describe('ConfiguratorActions', () => {
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.READ_CONFIGURATION_FAIL,
           payload: error,
-          meta: StateEntityLoaderActions.entityFailMeta(
+          meta: StateUtils.entityFailMeta(
             CONFIGURATION_DATA,
             PRODUCT_CODE,
             error
@@ -90,7 +87,7 @@ describe('ConfiguratorActions', () => {
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.READ_CONFIGURATION_SUCCESS,
           payload: CONFIGURATION,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
+          meta: StateUtils.entitySuccessMeta(
             CONFIGURATION_DATA,
             CONFIGURATION.owner.key
           ),
@@ -148,7 +145,7 @@ describe('ConfiguratorActions', () => {
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS,
           payload: CONFIGURATION,
-          meta: StateEntityProcessesLoaderActions.entityProcessesDecrementMeta(
+          meta: StateUtils.entityProcessesDecrementMeta(
             CONFIGURATION_DATA,
             CONFIGURATION.owner.key
           ),
@@ -169,7 +166,7 @@ describe('ConfiguratorActions', () => {
         type: ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY,
         payload: CONFIGURATION,
         cartEntryNo: cartEntryNo,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
+        meta: StateUtils.entitySuccessMeta(
           CONFIGURATION_DATA,
           CONFIGURATION.owner.key
         ),
@@ -188,7 +185,7 @@ describe('ConfiguratorActions', () => {
         type: ConfiguratorActions.UPDATE_CART_ENTRY,
         payload: params,
 
-        meta: StateEntityLoaderActions.entityLoadMeta(
+        meta: StateUtils.entityLoadMeta(
           CONFIGURATION_DATA,
           CONFIGURATION.owner.key
         ),

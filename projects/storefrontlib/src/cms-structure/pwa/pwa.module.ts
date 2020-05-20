@@ -29,7 +29,6 @@ export function pwaFactory(addToHomeScreenService): any {
   ],
   providers: [
     provideDefaultConfig(defaultPWAModuleConfig),
-    { provide: PWAModuleConfig, useExisting: Config },
     {
       provide: SwRegistrationOptions,
       useFactory: pwaConfigurationFactory,
@@ -41,7 +40,6 @@ export function pwaFactory(addToHomeScreenService): any {
       deps: [AddToHomeScreenService],
       multi: true,
     },
-    AddToHomeScreenService,
   ],
   declarations: [AddToHomeScreenBtnComponent, AddToHomeScreenBannerComponent],
   exports: [AddToHomeScreenBtnComponent, AddToHomeScreenBannerComponent],

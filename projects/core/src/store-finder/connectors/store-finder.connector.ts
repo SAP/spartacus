@@ -16,9 +16,10 @@ export class StoreFinderConnector {
   search(
     query: string,
     searchConfig: StoreFinderSearchConfig,
-    longitudeLatitude?: GeoPoint
+    longitudeLatitude?: GeoPoint,
+    radius?: number
   ): Observable<StoreFinderSearchPage> {
-    return this.adapter.search(query, searchConfig, longitudeLatitude);
+    return this.adapter.search(query, searchConfig, longitudeLatitude, radius);
   }
 
   getCounts(): Observable<StoreCount[]> {

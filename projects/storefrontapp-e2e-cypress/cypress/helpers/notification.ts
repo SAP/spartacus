@@ -1,7 +1,6 @@
-import { generateMail, randomString } from './user';
-import { login } from './auth-forms';
 import { standardUser } from '../sample-data/shared-users';
-import { apiUrl } from '../support/utils/login';
+import { login } from './auth-forms';
+import { generateMail, randomString } from './user';
 
 export const normalProductCode = '872912';
 export const firstProductCodeSelector =
@@ -83,17 +82,17 @@ export function verifyEmailChannel(email: String) {
 //stock notification
 export function verifyStockNotificationAsGuest() {
   navigateToPDP(normalProductCode);
-  cy.get('.stock-notification-notes > label > a').click();
+  cy.get('.stock-notification-notes > p > a').click();
   cy.location('pathname').should('contain', '/login');
 }
 
 export function navigateToPDP(productCode: string) {
-  cy.visit(`/electronics-spa/en/USD/product/${productCode}`);
+  cy.visit(`/${Cypress.env('BASE_SITE')}/en/USD/product/${productCode}`);
 }
 
 export function verifyStockNotificationWithoutChannel() {
   navigateToPDP(normalProductCode);
-  cy.get('.stock-notification-notes > label > a').click();
+  cy.get('.stock-notification-notes > p > a').click();
   cy.location('pathname').should('contain', '/notification-preference');
 }
 
@@ -120,9 +119,7 @@ export function clickNotifyMeBtn(productCode: string) {
   cy.get('cx-stock-notification > .btn')
     .should('contain', 'NOTIFY ME')
     .should('not.be.disabled')
-    .then((el) => {
-      cy.wrap(el).click();
-    });
+    .click();
 }
 
 export function verifyStockNotification() {
@@ -204,12 +201,22 @@ export function stubForPaginableMyInterests(jsonfile: string, url: string) {
 
 export function verifyPagingAndSorting() {
   stubForPaginableMyInterests(
+    'myinterestpage0.json',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:asc&pageSize=10&lang=en&curr=USD`
+  );
+  stubForPaginableMyInterests(
     'myinterestpage1.json',
-    `${apiUrl}/rest/v2/electronics-spa/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&lang=en&curr=USD`
   );
   stubForPaginableMyInterests(
     'myinterestpage2.json',
-    `${apiUrl}/rest/v2/electronics-spa/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&currentPage=1&lang=en&curr=USD`
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/productinterests?fields=sorts,pagination,results(productInterestEntry,product(code))&sort=name:desc&pageSize=10&currentPage=1&lang=en&curr=USD`
   );
   navigateToMyInterestsPage();
   cy.get(firstProductCodeSelector).should('contain', firstProductAscending);

@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageType } from '../../model/cms.model';
 import { PageContext, RoutingService } from '../../routing/index';
-import { LoaderState } from '../../state';
+import { StateUtils } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
@@ -92,7 +92,7 @@ describe('CmsService', () => {
             of(nextPageContext)
           );
 
-          const mockLoaderState: LoaderState<boolean> = {
+          const mockLoaderState: StateUtils.LoaderState<boolean> = {
             success: false,
             loading: false,
             error: false,
@@ -139,7 +139,7 @@ describe('CmsService', () => {
             of(nextPageContext)
           );
 
-          const mockLoaderState: LoaderState<boolean> = {
+          const mockLoaderState: StateUtils.LoaderState<boolean> = {
             success: false,
             loading: false,
             error: false,
@@ -347,7 +347,7 @@ describe('CmsService', () => {
     it('should dispatch a load action if the load was not attempted', inject(
       [CmsService],
       (service: CmsService) => {
-        const mockedEntity: LoaderState<string> = {};
+        const mockedEntity: StateUtils.LoaderState<string> = {};
         const mockSelect = createSpy('select').and.returnValue(() =>
           of(mockedEntity)
         );
@@ -364,7 +364,7 @@ describe('CmsService', () => {
     it('should NOT dispatch a load action if the load was attempted', inject(
       [CmsService],
       (service: CmsService) => {
-        const mockedEntity: LoaderState<string> = { success: true };
+        const mockedEntity: StateUtils.LoaderState<string> = { success: true };
         const mockSelect = createSpy('select').and.returnValue(() =>
           of(mockedEntity)
         );
@@ -382,7 +382,7 @@ describe('CmsService', () => {
       it('should dispatch a load action if the load was not attempted', inject(
         [CmsService],
         (service: CmsService) => {
-          const mockedEntity: LoaderState<string> = {};
+          const mockedEntity: StateUtils.LoaderState<string> = {};
           const mockSelect = createSpy('select').and.returnValue(() =>
             of(mockedEntity)
           );
@@ -399,7 +399,9 @@ describe('CmsService', () => {
       it('should dispatch a load action with if the load was attempted', inject(
         [CmsService],
         (service: CmsService) => {
-          const mockedEntity: LoaderState<string> = { success: true };
+          const mockedEntity: StateUtils.LoaderState<string> = {
+            success: true,
+          };
           const mockSelect = createSpy('select').and.returnValue(() =>
             of(mockedEntity)
           );
@@ -417,7 +419,10 @@ describe('CmsService', () => {
     it('should return true if the load was successful', inject(
       [CmsService],
       (service: CmsService) => {
-        const mockedEntity: LoaderState<string> = { success: true, value: '' };
+        const mockedEntity: StateUtils.LoaderState<string> = {
+          success: true,
+          value: '',
+        };
         const mockSelect = createSpy('select').and.returnValue(() =>
           of(mockedEntity)
         );
@@ -436,7 +441,7 @@ describe('CmsService', () => {
     it('should return false if the there was an error', inject(
       [CmsService],
       (service: CmsService) => {
-        const mockedEntity: LoaderState<string> = {
+        const mockedEntity: StateUtils.LoaderState<string> = {
           success: false,
           error: true,
           value: undefined,

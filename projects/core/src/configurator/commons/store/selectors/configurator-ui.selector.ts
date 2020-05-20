@@ -1,9 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { Configurator } from '../../../../model/configurator.model';
-import {
-  EntityState,
-  StateEntitySelectors,
-} from '../../../../state/utils/index';
+import { StateUtils } from '../../../../state/utils';
 import {
   ConfigurationState,
   StateWithConfiguration,
@@ -13,7 +10,7 @@ import { getConfigurationsState } from './configurator.selector';
 
 const getUiState: MemoizedSelector<
   StateWithConfiguration,
-  EntityState<UiState>
+  StateUtils.EntityState<UiState>
 > = createSelector(
   getConfigurationsState,
   (state: ConfigurationState) => state.uiState
@@ -23,7 +20,7 @@ export const getUiStateForOwner = (
   ownerKey: string
 ): MemoizedSelector<StateWithConfiguration, UiState> => {
   return createSelector(getUiState, (details) =>
-    StateEntitySelectors.entitySelector(details, ownerKey)
+    StateUtils.entitySelector(details, ownerKey)
   );
 };
 
@@ -41,7 +38,7 @@ export const getGroupStatus = (
   groupId: string
 ): MemoizedSelector<StateWithConfiguration, Configurator.GroupStatus> => {
   return createSelector(getUiStateForOwner(ownerKey), (details) =>
-    StateEntitySelectors.entitySelector(details.groupsStatus, groupId)
+    StateUtils.entitySelector(details.groupsStatus, groupId)
   );
 };
 
@@ -50,7 +47,7 @@ export const isGroupVisited = (
   groupId: string
 ): MemoizedSelector<StateWithConfiguration, Boolean> => {
   return createSelector(getUiStateForOwner(ownerKey), (details) =>
-    StateEntitySelectors.entitySelector(details.groupsVisited, groupId)
+    StateUtils.entitySelector(details.groupsVisited, groupId)
   );
 };
 
@@ -65,10 +62,7 @@ export const areGroupsVisited = (
         return;
       }
 
-      isVisited = StateEntitySelectors.entitySelector(
-        details.groupsVisited,
-        groupId
-      );
+      isVisited = StateUtils.entitySelector(details.groupsVisited, groupId);
 
       if (isVisited === undefined) {
         isVisited = false;

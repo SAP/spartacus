@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { ConsentTemplate } from '../../../model/index';
-import { LoaderState } from '../../../state/index';
+import { StateUtils } from '../../../state/index';
 import { AnonymousConsentsActions } from '../actions/index';
 import {
   ANONYMOUS_CONSENTS_STORE_FEATURE,
@@ -45,7 +45,7 @@ describe('anonymous consent templates selectors', () => {
         )
       );
 
-      let result: LoaderState<ConsentTemplate[]>;
+      let result: StateUtils.LoaderState<ConsentTemplate[]>;
       store
         .pipe(
           select(AnonymousConsentsSelectors.getAnonymousConsentTemplatesState)

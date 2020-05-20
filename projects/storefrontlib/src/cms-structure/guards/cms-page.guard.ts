@@ -1,11 +1,11 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
-  Config,
-  isFeatureEnabled,
   ProtectedRoutesGuard,
+  RouteLoadStrategy,
+  RoutingConfigService,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -23,7 +23,7 @@ export class CmsPageGuard implements CanActivate {
     protected cmsService: CmsService,
     protected protectedRoutesGuard: ProtectedRoutesGuard,
     protected service: CmsPageGuardService,
-    @Inject(Config) protected config: any
+    protected routingConfig: RoutingConfigService
   ) {}
 
   /**
@@ -46,25 +46,23 @@ export class CmsPageGuard implements CanActivate {
         canActivate
           ? this.routingService.getNextPageContext().pipe(
               switchMap((pageContext) =>
-                this.cmsService
-                  .getPage(pageContext, this.shouldReloadCmsData())
-                  .pipe(
-                    first(),
-                    switchMap((pageData) =>
-                      pageData
-                        ? this.service.canActivatePage(
-                            pageContext,
-                            pageData,
-                            route,
-                            state
-                          )
-                        : this.service.canActivateNotFoundPage(
-                            pageContext,
-                            route,
-                            state
-                          )
-                    )
+                this.cmsService.getPage(pageContext, this.shouldReload()).pipe(
+                  first(),
+                  switchMap((pageData) =>
+                    pageData
+                      ? this.service.canActivatePage(
+                          pageContext,
+                          pageData,
+                          route,
+                          state
+                        )
+                      : this.service.canActivateNotFoundPage(
+                          pageContext,
+                          route,
+                          state
+                        )
                   )
+                )
               )
             )
           : of(false)
@@ -75,7 +73,7 @@ export class CmsPageGuard implements CanActivate {
   /**
    * Returns whether we should reload the CMS page data, even when it was loaded before.
    */
-  private shouldReloadCmsData(): boolean {
-    return !isFeatureEnabled(this.config, 'cmsPageLoadOnce');
+  private shouldReload(): boolean {
+    return this.routingConfig.getLoadStrategy() !== RouteLoadStrategy.ONCE;
   }
 }
