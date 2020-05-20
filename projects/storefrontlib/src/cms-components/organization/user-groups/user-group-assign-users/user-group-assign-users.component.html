@@ -34,14 +34,12 @@
         [routerLink]="
           { cxRoute: 'userGroupDetails', params: { code: code } } | cxUrl
         "
-        class="btn btn-primary btn-block"
+        class="btn btn-secondary btn-block"
       >
         {{ 'userGroupAssignUsers.back' | cxTranslate }}
       </a>
     </div>
-  </div>
-  <div class="row cx-search-links mb-3">
-    <div class="col-12 cx-textalign">
+    <div class="col-md-12 col-lg-6 float-right">
       <button (click)="unassignAll()" class="btn btn-primary btn-block">
         {{ 'userGroupAssignUsers.unassignAll' | cxTranslate }}
       </button>
