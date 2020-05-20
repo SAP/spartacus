@@ -1,14 +1,14 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { TODO_SPARTACUS } from '../../shared/constants';
+import { TODO_SPARTACUS } from '../../../shared/constants';
 import {
   commitChanges,
   getAllTsSourceFiles,
   getTsSourceFile,
   insertCommentAboveImportIdentifier,
   InsertDirection,
-} from '../../shared/utils/file-utils';
-import { getSourceRoot } from '../../shared/utils/workspace-utils';
-import { REMOVED_PUBLIC_API_DATA } from './removed-public-api-data';
+} from '../../../shared/utils/file-utils';
+import { getSourceRoot } from '../../../shared/utils/workspace-utils';
+import { REMOVED_PUBLIC_API_DATA } from './removed-public-api-deprecation-data';
 
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -40,6 +40,6 @@ export function migrate(): Rule {
   };
 }
 
-export function buildComment(content: string): string {
+function buildComment(content: string): string {
   return `// ${TODO_SPARTACUS} ${content}\n`;
 }
