@@ -15,7 +15,7 @@
   </div>
 
   <div class="cx-table-body">
-    <ng-container *ngIf="data.pagination?.totalResults > 0; else noData">
+    <ng-container *ngIf="data.values?.length > 0; else noData">
       <div class="cx-sort top row">
         <div
           class="cx-form-group form-group col-xs-12 col-sm-12 col-md-4 col-lg-4"
@@ -23,7 +23,7 @@
           <cx-sorting
             [sortOptions]="data.sorts"
             [sortLabels]="sortLabels"
-            [selectedOption]="data.pagination.sort"
+            [selectedOption]="data.pagination?.sort"
             (sortListEvent)="sortListEvent($event)"
           ></cx-sorting>
         </div>

@@ -1,0 +1,6 @@
+%cx-organization-form {
+  max-width: var(--cx-max-width, 50%);
+  @include media-breakpoint-down(md) {
+    max-width: var(--cx-max-width, 75%);
+  }
+}

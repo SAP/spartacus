@@ -16,7 +16,6 @@ import {
   RoutingService,
   EntitiesModel,
   B2BSearchConfig,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
   UserGroupService,
@@ -136,12 +135,6 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
 describe('UserGroupAssignUsersComponent', () => {
   let component: UserGroupAssignUsersComponent;
   let fixture: ComponentFixture<UserGroupAssignUsersComponent>;
@@ -156,7 +149,6 @@ describe('UserGroupAssignUsersComponent', () => {
         MockPaginationComponent,
       ],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         {

@@ -14,7 +14,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   B2BSearchConfig,
-  CxDatePipe,
   EntitiesModel,
   I18nTestingModule,
   Period,
@@ -73,7 +72,13 @@ const mockPermissionList: EntitiesModel<Permission> = {
       orgUnit: { name: 'orgName', uid: 'orgUid2' },
     },
   ],
-  pagination: {},
+  pagination: {
+    currentPage: 0,
+    pageSize: 5,
+    sort: 'byName',
+    totalPages: 1,
+    totalResults: 2,
+  },
   sorts: [{ code: 'byName', selected: true }],
 };
 
@@ -96,7 +101,13 @@ const mockPermissionUIList = {
       uid: 'orgUid2',
     },
   ],
-  pagination: {},
+  pagination: {
+    currentPage: 0,
+    pageSize: 5,
+    sort: 'byName',
+    totalPages: 1,
+    totalResults: 2,
+  },
   sorts: [{ code: 'byName', selected: true }],
 };
 
@@ -136,12 +147,6 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
 describe('PermissionListComponent', () => {
   let component: PermissionListComponent;
   let fixture: ComponentFixture<PermissionListComponent>;
@@ -162,7 +167,6 @@ describe('PermissionListComponent', () => {
         MockUrlPipe,
       ],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: PermissionService, useClass: MockPermissionService },

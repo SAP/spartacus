@@ -1,0 +1,5 @@
+@import '../organization-list';
+
+%cx-unit-children {
+  @extend %cx-organization-list;
+}
