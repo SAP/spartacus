@@ -2,7 +2,7 @@ import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
   BrowserModule,
   BrowserTransferStateModule,
@@ -22,7 +22,7 @@ registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
 
-const additionalImports = [];
+const additionalImports: ModuleWithProviders<any>[] = [];
 if (cdsFeature.enabled) {
   additionalImports.push(cdsFeature.feature);
 }

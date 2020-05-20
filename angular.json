@@ -144,35 +144,6 @@
                 }
               ]
             },
-            "cds.production": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "projects/storefrontapp/src/environments/cds/cds.environment.ts",
-                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.enabled.ts"
-                },
-                {
-                  "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.1905.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "serviceWorker": true,
-              "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
-            },
             "cds.ci.1905": {
               "budgets": [
                 {
