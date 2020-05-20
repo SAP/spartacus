@@ -15,18 +15,14 @@ export class PaymentTypeComponent {
 
   paymentTypes$: Observable<
     PaymentType[]
-  > = this.paymentTypeService.getPaymentTypes().pipe(
-    tap((paymentTypes) => {
-      if (paymentTypes && paymentTypes.length > 0) {
-        // Now we use the first type as the default selected type
-        // This value should be read from cart.
-        // The `set PaymentType to cart` will be implemented in #6655
-        this.typeSelected = paymentTypes[0].code;
-      }
-    })
-  );
+  > = this.paymentTypeService.getPaymentTypes();
 
-  typeSelected: string;
+  typeSelected;
+  typeSelected$: Observable<
+    string
+  > = this.paymentTypeService
+    .getSelectedPaymentType()
+    .pipe(tap((selected) => (this.typeSelected = selected)));
 
   constructor(
     protected paymentTypeService: PaymentTypeService,
@@ -34,10 +30,9 @@ export class PaymentTypeComponent {
   ) {}
 
   changeType(code: string): void {
-    this.typeSelected = code;
+    this.paymentTypeService.setPaymentType(code);
 
     this.checkoutStepService.resetSteps();
-
     this.checkoutStepService.disableEnableStep(
       CheckoutStepType.PAYMENT_DETAILS,
       this.typeSelected === this.ACCOUNT_PAYMENT

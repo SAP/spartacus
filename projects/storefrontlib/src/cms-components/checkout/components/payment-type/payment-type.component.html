@@ -9,7 +9,7 @@
         aria-checked="true"
         (change)="changeType(type.code)"
         [value]="type.code"
-        [checked]="type.code == typeSelected"
+        [checked]="type.code == (typeSelected$ | async)"
       />
       <label class="" for="deliveryMode-{{ type.code }}">
         <div class="">{{ type.displayName }}</div>
