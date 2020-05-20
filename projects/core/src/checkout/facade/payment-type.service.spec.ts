@@ -136,4 +136,16 @@ describe('PaymentTypeService', () => {
     });
     expect(selected).toEqual('CARD');
   });
+
+  it('should be able to set the default payment type if data not exist', () => {
+    service.getSelectedPaymentType().subscribe();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.SetPaymentType({
+        userId: userId,
+        cartId: cart.code,
+        typeCode: 'ACCOUNT',
+        poNumber: undefined,
+      })
+    );
+  });
 });
