@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Configurator,
+  ConfiguratorGroupsService,
   GenericConfigurator,
   I18nTestingModule,
 } from '@spartacus/core';
@@ -12,6 +13,7 @@ import {
   IconModule,
 } from '@spartacus/storefront';
 import { ConfigComponentTestUtilsService } from '../../generic/service/config-component-test-utils.service';
+import { of } from 'rxjs/internal/observable/of';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
@@ -24,14 +26,28 @@ export class MockIconFontLoaderService {
   getHtml(_iconType: ICON_TYPE) {}
 }
 
+let isGroupVisited = false;
+
+class MockConfiguratorGroupService {
+  isGroupVisited() {
+    return of(isGroupVisited);
+  }
+}
+
 describe('ConfigAttributeFooterComponent', () => {
   let classUnderTest: ConfigAttributeFooterComponent;
   let fixture: ComponentFixture<ConfigAttributeFooterComponent>;
+
   const currentAttribute: Configurator.Attribute = {
     name: 'attributeId',
     uiType: Configurator.UiType.RADIOBUTTON,
   };
   let htmlElem: HTMLElement;
+
+  const owner: GenericConfigurator.Owner = {
+    id: 'PRODUCT_CODE',
+    type: GenericConfigurator.OwnerType.CART_ENTRY,
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,6 +55,10 @@ describe('ConfigAttributeFooterComponent', () => {
       declarations: [ConfigAttributeFooterComponent],
       providers: [
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupService,
+        },
       ],
     })
       .overrideComponent(ConfigAttributeFooterComponent, {
@@ -56,7 +76,8 @@ describe('ConfigAttributeFooterComponent', () => {
     classUnderTest.attribute = currentAttribute;
     classUnderTest.attribute.label = 'label of attribute';
     classUnderTest.attribute.name = '123';
-    classUnderTest.ownerType = GenericConfigurator.OwnerType.CART_ENTRY;
+    classUnderTest.owner = owner;
+    classUnderTest.groupId = 'testGroup';
     classUnderTest.attribute.required = true;
     classUnderTest.attribute.incomplete = true;
     classUnderTest.attribute.uiType = Configurator.UiType.STRING;
@@ -77,15 +98,27 @@ describe('ConfigAttributeFooterComponent', () => {
     );
   });
 
-  it("shouldn't render a required message because attribute has not been added to the cart yet.", () => {
-    classUnderTest.ownerType = GenericConfigurator.OwnerType.PRODUCT;
+  it('should render a required message because the group has already been visited.', () => {
+    classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
+    isGroupVisited = true;
+    fixture.detectChanges();
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-config-attribute-footer-required-error-msg'
+    );
+  });
+
+  /**it("shouldn't render a required message because attribute has not been added to the cart yet.", () => {
+    classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
+    isGroupVisited = false;
     fixture.detectChanges();
     ConfigComponentTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,
       '.cx-config-attribute-footer-required-error-msg'
     );
-  });
+  });*/
 
   it("shouldn't render a required message if attribute is not required.", () => {
     classUnderTest.attribute.required = false;

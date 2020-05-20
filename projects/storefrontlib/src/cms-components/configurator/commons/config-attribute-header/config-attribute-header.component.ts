@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   Configurator,
+  ConfiguratorGroupsService,
   GenericConfigurator,
-  TranslationService,
 } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
@@ -15,16 +15,31 @@ import { ICON_TYPE } from '../../../misc/icon/icon.model';
 export class ConfigAttributeHeaderComponent {
   constructor(
     private uiKeyGen: ConfigUIKeyGeneratorService,
-    protected translationService: TranslationService
+    private configuratorGroupsService: ConfiguratorGroupsService
   ) {}
 
   iconTypes = ICON_TYPE;
+
   @Input() attribute: Configurator.Attribute;
-  @Input() ownerType: GenericConfigurator.OwnerType;
+  @Input() owner: GenericConfigurator.Owner;
+  @Input() groupId: string;
+
+  isGroupVisited() {
+    let isVisited = false;
+    this.configuratorGroupsService
+      .isGroupVisited(this.owner, this.groupId)
+      .subscribe((result) => {
+        result !== undefined
+          ? (isVisited = result.valueOf())
+          : (isVisited = false);
+      });
+    return isVisited;
+  }
 
   showRequiredMessage(): boolean {
     if (
-      this.ownerType === GenericConfigurator.OwnerType.CART_ENTRY &&
+      (this.owner.type === GenericConfigurator.OwnerType.CART_ENTRY ||
+        this.isGroupVisited()) &&
       this.attribute.required &&
       this.attribute.incomplete &&
       this.attribute.uiType !== Configurator.UiType.NOT_IMPLEMENTED
