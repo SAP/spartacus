@@ -51,7 +51,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'checkoutReview',
     'checkoutShipping',
     'checkoutProgress',
-    'checkoutType',
+    'checkoutPO',
   ],
   product: [
     'productDetails',

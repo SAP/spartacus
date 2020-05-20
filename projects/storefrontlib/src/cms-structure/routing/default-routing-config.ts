@@ -14,7 +14,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   checkoutLogin: { paths: ['checkout-login'] },
 
   checkout: { paths: ['checkout'] },
-  checkoutPaymentType: { paths: ['checkout/payment-type'] },
+  checkoutPoNumber: { paths: ['checkout/po-number'] },
   checkoutShippingAddress: { paths: ['checkout/shipping-address'] },
   checkoutDeliveryMode: { paths: ['checkout/delivery-mode'] },
   checkoutPaymentDetails: { paths: ['checkout/payment-details'] },
