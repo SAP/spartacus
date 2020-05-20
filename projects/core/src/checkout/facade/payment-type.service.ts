@@ -87,6 +87,15 @@ export class PaymentTypeService {
     }
   }
 
+  /**
+   * Get the selected payment type
+   */
+  getSelectedPaymentType(): Observable<string> {
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getSelectedPaymentType)
+    );
+  }
+
   protected actionAllowed(): boolean {
     let userId;
     this.authService
