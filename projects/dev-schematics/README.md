@@ -18,7 +18,7 @@ Run the following command from your project root:
 
 > NOTE: Please be aware that dev-schematics without params is an empty shell that doesn't perform any actions.
 
-Alternative method of installing dev-schematics can be achieved through *verdaccio*, about which you can read more here: [Using verdaccio for local development](https://github.com/SAP/spartacus/tree/develop/projects/schematics#testing-update-schematic)
+Alternative method of installing dev-schematics can be achieved through *verdaccio*, about which you can read more here: [Using verdaccio for local development](https://github.com/SAP/spartacus/tree/develop/projects/schematics#verdaccio-setup)
 
 ### Available options
 
@@ -43,13 +43,19 @@ Providing configuration/functionality via params for `ng add` is the main course
 
 1. Run bash script from source, ensuring up to date test outlets files
     - `cd projects/dev-schematics/scripts && ./outlet-template-files.sh`
-1. Build and pack dev-schematics project from source:
+2. Build and pack dev-schematics project from source:
     - `cd projects/dev-schematics && yarn build && npm pack`
-2. Create new Angular app (or go to existing one):
+3. Create new Angular app (or use an existing one):
     - `ng new test-dev-schematics-app --style=scss`
-3. Apply Spartacus lib (no matter if 1.5 or 2.0, should be applicable to both)
+4. Apply Spartacus lib (no matter if 1.5 or 2.0, should be applicable to both)
     - `ng add @spartacus/schematics`
-4. Add built dev-schematics package from local machine:
+5. Add built dev-schematics package from local machine:
     - `ng add <path-to-spartacus-dev-schematics-x.x.x.tgz --baseSites --routing --outlets`
 
+
+### Available scripts
+
+For ease of usage we provide scripts for smoother installation process:
+
+`./outlet-template-files.sh` - takes care of copying and moving up to date test outlets module files from `projects/storefrontapp`.
 
