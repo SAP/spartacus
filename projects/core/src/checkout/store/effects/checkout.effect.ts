@@ -152,13 +152,13 @@ export class CheckoutEffects {
   clearCheckoutMiscsDataOnLanguageChange$: Observable<
     | CheckoutActions.CheckoutClearMiscsData
     | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
-    | CheckoutActions.ResetLoadPaymentTypeProcess
+    | CheckoutActions.ResetLoadPaymentTypesProcess
   > = this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
     mergeMap(() => [
       new CheckoutActions.CheckoutClearMiscsData(),
       new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
-      new CheckoutActions.ResetLoadPaymentTypeProcess(),
+      new CheckoutActions.ResetLoadPaymentTypesProcess(),
     ])
   );
 

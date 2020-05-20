@@ -1,14 +1,34 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
 import { PaymentType } from '../../model/cart.model';
 import { CheckoutActions } from '../store/actions/index';
+import { AuthService } from '../../auth';
+import { ActiveCartService } from '../../cart';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { PROCESS_FEATURE } from '@spartacus/core';
 import { PaymentTypeService } from './payment-type.service';
 import * as fromProcessReducers from '../../process/store/reducers/index';
 
+const userId = 'testUserId';
+const cart = { code: 'testCartId', guid: 'testGuid' };
+
+class ActiveCartServiceStub {
+  cart;
+
+  getActiveCartId() {
+    return of(cart.code);
+  }
+}
+
+class AuthServiceStub {
+  userId;
+  getOccUserId() {
+    return of(userId);
+  }
+}
 describe('PaymentTypeService', () => {
   let service: PaymentTypeService;
   let store: Store<CheckoutState>;
@@ -23,7 +43,11 @@ describe('PaymentTypeService', () => {
           fromProcessReducers.getReducers()
         ),
       ],
-      providers: [PaymentTypeService],
+      providers: [
+        PaymentTypeService,
+        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: AuthService, useClass: AuthServiceStub },
+      ],
     });
 
     service = TestBed.inject(PaymentTypeService as Type<PaymentTypeService>);
@@ -76,6 +100,18 @@ describe('PaymentTypeService', () => {
     service.loadPaymentTypes();
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.LoadPaymentTypes()
+    );
+  });
+
+  it('should be able to set selected payment type to cart', () => {
+    service.setPaymentType('typeCode', 'poNumber');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.SetPaymentType({
+        userId: userId,
+        cartId: cart.code,
+        typeCode: 'typeCode',
+        poNumber: 'poNumber',
+      })
     );
   });
 });
