@@ -1,50 +1,57 @@
 import { product } from '../sample-data/checkout-flow';
-import { waitForOrderWithConsignmentToBePlacedRequest } from '../support/utils/order-placed';
+import {
+  waitForOrderToBeDisplayedInOrderHistoryPage,
+  waitForStatusToBeDisplayed,
+} from '../support/utils/order-placed';
 import { doPlaceOrder } from './order-history';
 
-export const placeOrderAndVerifyHistory = () => {
+export const placeOrder = () => {
   let orderCode: string;
 
-  doPlaceOrder().then((orderData: any) => {
-    cy.waitForOrderToBePlacedRequest(undefined, undefined, orderData.body.code);
-    cy.visit('/my-account/orders');
+  doPlaceOrder()
+    .then((orderData: any): void => {
+      cy.log(orderData.body.code);
+      orderCode = orderData.body.code;
+      cy.waitForOrderToBePlacedRequest(
+        undefined,
+        undefined,
+        orderData.body.code
+      );
+      cy.visit('/my-account/orders');
 
-    cy.get('.cx-order-history-code > .cx-order-history-value')
-      .then(
-        (el: JQuery<HTMLElement>): Cypress.Chainable<JQuery<HTMLElement>> => {
-          const orderNumber: string = el.text().match(/\d+/).shift();
-          orderCode = orderNumber;
+      waitForOrderToBeDisplayedInOrderHistoryPage(orderCode);
+    })
+    .then(() => {
+      cy.get('.cx-order-history-status > .cx-order-history-value')
+        .first()
+        .should('contain.text', 'Pending');
 
-          waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
-          return cy.wrap(el);
-        }
-      )
-      .first()
-      .click();
-
-    cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
-    cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
-    cy.get('.cx-summary-total > .cx-summary-amount').should(
-      'contain',
-      orderData.body.totalPrice.formattedValue
-    );
-  });
+      cy.get('.cx-order-history-code > .cx-order-history-value')
+        .should('contain', orderCode)
+        .first()
+        .click();
+    });
 
   return orderCode;
 };
 
-export const cancelOrder = (orderCode: string) => {
-  cy.get('cx-order-details-actions a[data-cy-cancel-button="cancelButton"]')
-    .should('exist')
-    .click();
+export const fullyCancelOrder = (orderCode: string) => {
+  console.log(orderCode);
+  cy.get('cx-order-details-actions a.btn-action').should('exist').click();
 
   cy.get('cx-amend-order-items .cx-name')
     .should('exist')
     .should('contain.text', product.name);
 
-  cy.get('cx-item-counter button').eq(1).should('exist').click();
+  cy.get('cx-amend-order-items button.cx-action-link')
+    .should('contain', 'Set all quantities to maximum')
+    .click();
 
-  cy.get('cx-amend-order-actions').first().get('a.btn-primary').first().click();
+  cy.get('cx-amend-order-actions')
+    .first()
+    .get('button.btn-primary')
+    .first()
+    .click();
 
   cy.get('cx-amend-order-actions')
     .first()
@@ -54,11 +61,9 @@ export const cancelOrder = (orderCode: string) => {
 
   cy.visit('/my-account/orders');
 
+  waitForStatusToBeDisplayed('Cancelled');
+
   cy.get('.cx-order-history-status > .cx-order-history-value')
     .first()
-    .then((element: JQuery<HTMLElement>) => {
-      const status = element.text();
-      cy.log(status);
-      // expect(status).to.eq('Cancelled') uncomment when GH-7277 gets fixed
-    });
+    .should('contain', 'Cancelled');
 };
