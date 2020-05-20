@@ -1,5 +1,13 @@
 @import '../../theme';
+%cx-fake-tabs {
 
+  .container {
+    padding: 1.25rem 0;
+    border-width: 1px 0 1px 0;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+  }
+}
 %cx-fake-tabs-desktop,
 %cx-fake-tabs-mobile {
   .cx-nav {
@@ -40,6 +48,7 @@
         content: '';
       }
     }
+
   }
 
   .cx-link,

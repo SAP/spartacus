@@ -28,25 +28,23 @@
   (check)="assign($event)"
   (uncheck)="unassign($event)"
 >
-  <div class="col-md-12 col-lg-3">
-    <div class="row cx-search-links mb-3">
-      <div class="col-12 cx-textalign">
-        <a
-          [routerLink]="
-            { cxRoute: 'userGroupDetails', params: { code: code } } | cxUrl
-          "
-          class="btn btn-primary btn-block"
-        >
-          {{ 'userGroupAssignUsers.back' | cxTranslate }}
-        </a>
-      </div>
+  <div class="col-md-12 col-lg-6">
+    <div class="col-md-12 col-lg-6 float-right">
+      <a
+        [routerLink]="
+          { cxRoute: 'userGroupDetails', params: { code: code } } | cxUrl
+        "
+        class="btn btn-primary btn-block"
+      >
+        {{ 'userGroupAssignUsers.back' | cxTranslate }}
+      </a>
     </div>
-    <div class="row cx-search-links mb-3">
-      <div class="col-12 cx-textalign">
-        <button (click)="unassignAll()" class="btn btn-primary btn-block">
-          {{ 'userGroupAssignUsers.unassignAll' | cxTranslate }}
-        </button>
-      </div>
+  </div>
+  <div class="row cx-search-links mb-3">
+    <div class="col-12 cx-textalign">
+      <button (click)="unassignAll()" class="btn btn-primary btn-block">
+        {{ 'userGroupAssignUsers.unassignAll' | cxTranslate }}
+      </button>
     </div>
   </div>
 </cx-interactive-table>

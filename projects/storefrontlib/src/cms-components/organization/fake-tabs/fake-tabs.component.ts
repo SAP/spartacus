@@ -14,5 +14,17 @@ export class FakeTabsComponent {
   links: Array<TabLink>;
 
   @Input()
-  code: string;
+  code?: string;
+
+  @Input()
+  routerBackLink: TabLink;
+
+  getLinks() {
+    return this.code
+      ? this.links.map((link) => ({
+          ...link,
+          params: link.params ?? { code: this.code },
+        }))
+      : this.links;
+  }
 }

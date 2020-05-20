@@ -14,5 +14,5 @@ export class FakeTabsDesktopComponent {
   links: Array<TabLink>;
 
   @Input()
-  code: string;
+  code?: string;
 }

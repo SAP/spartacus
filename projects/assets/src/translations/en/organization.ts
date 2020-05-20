@@ -205,7 +205,7 @@ export const organization = {
     disable: 'Disable',
     enable: 'Enable',
     status: 'Status',
-    back: 'Back to list',
+    back: 'Show Units',
     active: 'Active',
     deactivated: 'Deactivated',
     confirmDeactivation: {

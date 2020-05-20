@@ -14,5 +14,5 @@ export class FakeTabsMobileComponent {
   links: Array<TabLink>;
 
   @Input()
-  code: string;
+  code?: string;
 }

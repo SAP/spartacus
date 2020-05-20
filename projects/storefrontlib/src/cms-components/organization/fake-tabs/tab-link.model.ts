@@ -1,5 +1,6 @@
 export interface TabLink {
   name: string;
-  routeName: string;
+  cxRoute: string;
   active?: boolean;
+  params?;
 }

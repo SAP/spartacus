@@ -1,15 +1,21 @@
-<ng-container class="container" *ngIf="orgUnit$ | async as orgUnit">
-  <cx-fake-tabs
-    [code]="orgUnit.uid"
-    [links]="[
-      { routeName: 'orgUnitDetails', name: 'orgUnit.details', active: true },
-      { routeName: 'orgUnitUsers', name: 'orgUnit.users' },
-      { routeName: 'orgUnitApprovers', name: 'orgUnit.approvers' },
-      { routeName: 'orgUnitManageAddresses', name: 'orgUnit.manageAddresses' },
-      { routeName: 'orgUnitChildren', name: 'orgUnit.children' },
-      { routeName: 'orgUnitCostCenters', name: 'orgUnit.costCenters' }
-    ]"
-  >
+<cx-fake-tabs
+  [code]="orgUnitCode$ | async"
+  [links]="[
+    {
+      cxRoute: 'orgUnitDetails',
+      name: 'orgUnit.details',
+      active: true,
+      params: { uid: orgUnitCode$ | async }
+    },
+    { cxRoute: 'orgUnitUsers', name: 'orgUnit.users' },
+    { cxRoute: 'orgUnitApprovers', name: 'orgUnit.approvers' },
+    { cxRoute: 'orgUnitManageAddresses', name: 'orgUnit.manageAddresses' },
+    { cxRoute: 'orgUnitChildren', name: 'orgUnit.children' },
+    { cxRoute: 'orgUnitCostCenters', name: 'orgUnit.costCenters' }
+  ]"
+  [routerBackLink]="{ cxRoute: 'orgUnits', name: 'orgUnit.back' }"
+>
+  <ng-container class="container" *ngIf="orgUnit$ | async as orgUnit">
     <div class="row">
       <div class="col-md-12 col-lg-6">
         <div class="cx-header">
@@ -52,6 +58,8 @@
             }}
           </div>
         </div>
+      </div>
+      <div class="col-md-12 col-lg-6">
         <div class="row">
           <div *ngIf="orgUnit.active; else enable" class="col-md-12 col-lg-6">
             <button
@@ -81,10 +89,6 @@
               </button>
             </div>
           </ng-template>
-        </div>
-      </div>
-      <div class="col-md-12 col-lg-6">
-        <div class="row">
           <div class="col-md-12 col-lg-6">
             <a
               [class.disabled]="!orgUnit.active"
@@ -99,20 +103,8 @@
               {{ 'orgUnit.edit' | cxTranslate }}
             </a>
           </div>
-          <div class="col-md-12 col-lg-6">
-            <a
-              [routerLink]="
-                {
-                  cxRoute: 'orgUnits'
-                } | cxUrl
-              "
-              class="btn btn-secondary btn-block"
-            >
-              {{ 'orgUnit.back' | cxTranslate }}
-            </a>
-          </div>
         </div>
       </div>
     </div>
-  </cx-fake-tabs>
-</ng-container>
+  </ng-container>
+</cx-fake-tabs>
