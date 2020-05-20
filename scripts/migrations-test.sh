@@ -45,7 +45,7 @@ if [[ -z "$SKIP_BUILD" ]]; then
 fi
 
 cd ../projects/schematics
-yarn && yarn build 
+yarn && yarn build
 cd ../../dist
 
 doItFor "assets"
