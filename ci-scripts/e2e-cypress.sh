@@ -57,7 +57,7 @@ yarn
 
 echo '-----'
 echo 'Building Spartacus libraries'
-yarn build:core:lib:cds && yarn build"${INTEGRATION}" 2>&1 | tee build.log
+yarn build:core:lib && yarn build"${INTEGRATION}" 2>&1 | tee build.log
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "${results}" ]]; then
