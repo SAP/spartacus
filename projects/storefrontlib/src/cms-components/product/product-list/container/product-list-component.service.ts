@@ -93,10 +93,6 @@ export class ProductListComponentService {
     this.searchByRouting$,
   ]).pipe(pluck(0), shareReplay({ bufferSize: 1, refCount: true }));
 
-  clearSearchResults(): void {
-    this.productSearchService.clearResults();
-  }
-
   private getCriteriaFromRoute(
     routeParams: ProductListRouteParams,
     queryParams: SearchCriteria

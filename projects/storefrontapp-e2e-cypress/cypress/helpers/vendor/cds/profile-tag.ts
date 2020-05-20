@@ -1,3 +1,5 @@
+import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
+
 export const profileTagHelper = {
   interceptProfileTagJs(contentWindow) {
     const oldAppendChild = contentWindow.document.head.appendChild;
@@ -31,4 +33,12 @@ export const profileTagHelper = {
   },
   testCr: '123-1bc',
   profileTagScriptResponse: {},
+
+  grantConsent() {
+    cy.route('POST', '/consent/*/consentReferences').as(
+      'consentReferenceCreation'
+    );
+    clickAllowAllFromBanner();
+    cy.wait('@consentReferenceCreation').its('status').should('eq', 201);
+  },
 };

@@ -6,10 +6,10 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as shx from 'shelljs';
-import { TODO_SPARTACUS } from '../../shared/constants';
-import { runMigration, writeFile } from '../../shared/utils/test-utils';
+import { TODO_SPARTACUS } from '../../../shared/constants';
+import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
-const MIGRATION_SCRIPT_NAME = 'migration-v2-removed-public-api-04';
+const MIGRATION_SCRIPT_NAME = 'migration-v2-removed-public-api-deprecation-04';
 
 const REMOVED_NODE_USED_VALID_TEST = `
 import { Dummy } from '@angular/core';
@@ -75,7 +75,7 @@ describe('removed public api migrations', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../migrations.json')
+      require.resolve('../../migrations.json')
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));
