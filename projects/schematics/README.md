@@ -113,17 +113,17 @@ The next step is to publish libraries to _verdaccio_.
 
 ### Publishing to verdaccio
 
-The simplest way to publish Spartacus libraries to _verdaccio_ is to use `scripts/doc/schematics-readme.sh` script.
+The simplest way to publish Spartacus libraries to _verdaccio_ is to use `scripts/publish-schematics-verdaccio.sh` script.
 
 > Before running the script, make sure _verdaccio_ is running: `$ verdaccio`.
 
-To use it, just run `./doc/schematics-readme.sh`. This will build _all_ the relevant spartacus libs and publish them to _verdaccio_.
+To use it, just run `./publish-schematics-verdaccio.sh`. This will build _all_ the relevant spartacus libs and publish them to _verdaccio_.
 
 > NOTE: if _verdaccio_ refuses to publish libraries, and shows an error that says that the lib is already published with the same version, the quickest way around this seems to be [this](https://github.com/verdaccio/verdaccio/issues/1203#issuecomment-457361429) - open `nano ~/.config/verdaccio/config.yaml` and under `packages: '@*/*':` sections, comment out the `proxy: npmjs` line. After doing this, you should be able to publish the packages.
 
 #### Iterative development
 
-As building all the Spartacus libraries every time you make a change to the schematics project takes time, it's not very convenient for iterative development. For this reason, you can run the script with `skip` flag - `./doc/schematics-readme.sh skip`. This will skip building of all Spartacus libraries except the schematics, and it will unpublish and publish all the libraries again to _verdaccio_.
+As building all the Spartacus libraries every time you make a change to the schematics project takes time, it's not very convenient for iterative development. For this reason, you can run the script with `skip` flag - `./publish-schematics-verdaccio.sh skip`. This will skip building of all Spartacus libraries except the schematics, and it will unpublish and publish all the libraries again to _verdaccio_.
 
 When doing iterative development of the update schematics, it's for the best to do the following before testing the changes:
 
