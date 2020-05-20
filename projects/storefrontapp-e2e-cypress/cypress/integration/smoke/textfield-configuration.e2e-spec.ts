@@ -15,10 +15,10 @@ function goToProductDetailsPage(testProduct) {
   cy.wait(2000);
 }
 
-function addToCartAndVerify(product: string) {
+function addToCartAndVerify(testProduct) {
   configuration.clickAddToCartButton();
   cart.verifyCartNotEmpty();
-  configuration.verifyTextfieldProductInCart(product);
+  configuration.verifyTextfieldProductInCart(testProduct);
 }
 
 context('Textfield Configuration', () => {
