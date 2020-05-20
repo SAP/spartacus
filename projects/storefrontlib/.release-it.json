@@ -24,7 +24,7 @@
     "releaseNotes": "cd ../../ && npm run --silent release-notes:lib -- --to storefront-${version}"
   },
   "plugins": {
-    "@release-it/bumper": {
+    "../../scripts/release-it/bumper.js": {
       "out": [
         {
           "file": "package.json",
