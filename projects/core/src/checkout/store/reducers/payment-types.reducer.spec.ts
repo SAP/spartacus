@@ -38,25 +38,15 @@ describe('Payment Types Reducer', () => {
     });
   });
 
-  describe('SET_PAYMENT_TYPE action', () => {
+  describe('SET_PAYMENT_TYPE_SUCCESS action', () => {
     it('should populate the selected field', () => {
       const { initialState } = fromReducer;
-      const action = new CheckoutActions.SetPaymentType({
-        userId: 'testUser',
-        cartId: 'testCart',
-        typeCode: 'CARD',
+      const action = new CheckoutActions.SetPaymentTypeSuccess({
+        code: 'testCart',
+        paymentType: { code: 'CARD' },
       });
       const state = fromReducer.reducer(initialState, action);
       expect(state.selected).toEqual('CARD');
-    });
-  });
-
-  describe('SET_SELECTED_PAYMENT_TYPE_FLAG action', () => {
-    it('should populate the selected field', () => {
-      const { initialState } = fromReducer;
-      const action = new CheckoutActions.SetSelectedPaymentTypeFlag('ACCOUNT');
-      const state = fromReducer.reducer(initialState, action);
-      expect(state.selected).toEqual('ACCOUNT');
     });
   });
 

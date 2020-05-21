@@ -28,7 +28,7 @@ describe('Payment Types Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithCheckout>>);
+    store = TestBed.inject(Store as Type<Store<StateWithCheckout>>);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -54,10 +54,9 @@ describe('Payment Types Selectors', () => {
       expect(result).toEqual('');
 
       store.dispatch(
-        new CheckoutActions.SetPaymentType({
-          userId: 'userId',
-          cartId: 'cartId',
-          typeCode: 'test',
+        new CheckoutActions.SetPaymentTypeSuccess({
+          code: 'testCart',
+          paymentType: { code: 'test' },
         })
       );
       expect(result).toEqual('test');

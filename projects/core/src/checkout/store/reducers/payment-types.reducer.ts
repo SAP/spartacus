@@ -38,17 +38,10 @@ export function reducer(
       };
     }
 
-    case CheckoutActions.SET_PAYMENT_TYPE: {
+    case CheckoutActions.SET_PAYMENT_TYPE_SUCCESS: {
       return {
         ...state,
-        selected: action.payload.typeCode,
-      };
-    }
-
-    case CheckoutActions.SET_SELECTED_PAYMENT_TYPE_FLAG: {
-      return {
-        ...state,
-        selected: action.payload,
+        selected: action.payload.paymentType.code,
       };
     }
 

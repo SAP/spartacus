@@ -26,6 +26,9 @@ export interface CardTypesState {
 }
 
 export interface CheckoutStepsState {
+  poNumber: {
+    po: string;
+  };
   address: Address;
   deliveryMode: {
     supported: { [code: string]: DeliveryMode };

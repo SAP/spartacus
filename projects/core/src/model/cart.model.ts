@@ -106,6 +106,7 @@ export interface Cart {
   potentialOrderPromotions?: PromotionResult[];
   potentialProductPromotions?: PromotionResult[];
   productDiscounts?: Price;
+  purchaseOrderNumber?: string;
   saveTime?: Date;
   savedBy?: Principal;
   site?: string;
