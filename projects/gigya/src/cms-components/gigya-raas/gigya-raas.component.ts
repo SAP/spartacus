@@ -35,7 +35,6 @@ window.gigyaSpaProfileUpdate = function (response) {
 })
 export class GigyaRaasComponent {
   renderScreenSet: boolean;
-  embedScreenSet: boolean;
 
   public constructor(
     public component: CmsComponentData<GigyaRaasComponentData>,

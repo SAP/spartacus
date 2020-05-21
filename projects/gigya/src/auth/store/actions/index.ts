@@ -1,2 +1,2 @@
-import * as GigyaAuthActions from './user-token.action';
+import * as GigyaAuthActions from './gigya-user-token.action';
 export { GigyaAuthActions };

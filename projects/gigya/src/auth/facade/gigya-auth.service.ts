@@ -60,6 +60,12 @@ export class GigyaAuthService extends AuthService {
       });
 
     // trigger logout from cdc
+    this.logoutFromGigya();
+  }
+  /**
+   * Logout user from gigya 
+   */
+  logoutFromGigya(): void {
     gigya.accounts.logout();
   }
 }

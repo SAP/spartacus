@@ -24,6 +24,15 @@ export class GigyaUserAuthenticationTokenService {
     protected occEndpointsService?: OccEndpointsService
   ) {}
 
+  /**
+   * Load User token using custom oauth flow
+   * 
+   * @param UID - UID received from CDC on login event
+   * @param UIDSignature - UIDSignature received from CDC on login event
+   * @param signatureTimestamp - signatureTimestamp received from CDC on login event
+   * @param idToken - idToken received from CDC on login event
+   * @param baseSite - baseSite received from CDC on login event
+   */
   loadTokenUsingCustomFlow(
     UID: string,
     UIDSignature: string,

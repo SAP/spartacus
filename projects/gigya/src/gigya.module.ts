@@ -3,7 +3,7 @@ import { GigyaMainModule } from './layout/gigya.main.module';
 import { GigyaRaasModule } from './cms-components/gigya-raas/gigya-raas.module';
 import { GigyaJsModule } from './cms-components/gigya-js/gigya-js.module';
 import { GigyaConfig } from './config/gigya-config';
-import { provideConfig, Config, AuthService } from '@spartacus/core';
+import { provideConfig, Config, AuthService, provideDefaultConfig } from '@spartacus/core';
 import { DEFAULT_GIGYA_CONFIG } from './config/default-gigya-config';
 import { GigyaUserTokenEffects } from './auth/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -25,7 +25,7 @@ export class GigyaModule {
     return {
       ngModule: GigyaModule,
       providers: [
-        provideConfig(DEFAULT_GIGYA_CONFIG),
+        provideDefaultConfig(DEFAULT_GIGYA_CONFIG),
         provideConfig(config),
         { provide: GigyaConfig, useExisting: Config },
       ],

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { WindowRef, BaseSiteService, LanguageService } from '@spartacus/core';
+import { BaseSiteService, LanguageService, ExternalJsFileLoader } from '@spartacus/core';
 import { GigyaConfig } from '../../config/gigya-config';
 
 declare var gigya: any;
@@ -21,6 +21,7 @@ window.gigyaSpaLogin = function (response) {
   );
 };
 
+
 @Component({
   selector: 'cx-gigya-js',
   templateUrl: './gigya-js.component.html',
@@ -29,11 +30,12 @@ export class GigyaJsComponent implements OnInit {
   registerEventListener?: boolean;
 
   constructor(
-    private winRef: WindowRef,
+    // private winRef: WindowRef,
     private cdRef: ChangeDetectorRef,
     private gigyaConfig: GigyaConfig,
     private baseSiteService: BaseSiteService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private externalJsFileLoader: ExternalJsFileLoader,
   ) {
     this.registerEventListener = true;
   }
@@ -50,20 +52,22 @@ export class GigyaJsComponent implements OnInit {
       let javascriptUrl = this.getJavascriptUrlForCurrentSite(baseSite);
       this.languageService.getActive().subscribe((language) => {
         javascriptUrl = javascriptUrl + '&lang=' + language;
-        const gigyaJsScript = this.winRef.document.createElement('script');
-        gigyaJsScript.type = 'text/javascript';
-        gigyaJsScript.defer = true;
-        gigyaJsScript.src = javascriptUrl;
+        this.externalJsFileLoader.load(javascriptUrl);
 
-        const idScript = this.winRef.document.createElement('div');
+        // const gigyaJsScript = this.winRef.document.createElement('script');
+        // gigyaJsScript.type = 'text/javascript';
+        // gigyaJsScript.defer = true;
+        // gigyaJsScript.src = javascriptUrl;
 
-        this.winRef.document
-          .getElementsByTagName('head')[0]
-          .appendChild(gigyaJsScript);
+        // const idScript = this.winRef.document.createElement('div');
 
-        this.winRef.document
-          .getElementsByTagName('head')[0]
-          .appendChild(idScript);
+        // this.winRef.document
+        //   .getElementsByTagName('head')[0]
+        //   .appendChild(gigyaJsScript);
+
+        // this.winRef.document
+        //   .getElementsByTagName('head')[0]
+        //   .appendChild(idScript);
       });
     });
   }
@@ -83,11 +87,21 @@ export class GigyaJsComponent implements OnInit {
    */
   registerEventListeners(): void {
     if (this.registerEventListener && window.gigya !== undefined) {
-      gigya.accounts.addEventHandlers({
-        onLogin: window.gigyaSpaLogin,
-      });
+      // gigya.accounts.addEventHandlers({
+      //   onLogin: window.gigyaSpaLogin,
+      // });
+      this.addGigyaEventHandlers();
       this.registerEventListener = false;
       this.cdRef.detectChanges();
     }
+  }
+
+  /**
+   * Method to register gigya's event handlers
+   */
+  addGigyaEventHandlers(): void {
+    gigya.accounts.addEventHandlers({
+      onLogin: window.gigyaSpaLogin,
+    });
   }
 }

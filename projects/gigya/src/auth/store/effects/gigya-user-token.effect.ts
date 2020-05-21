@@ -81,7 +81,7 @@ export class GigyaUserTokenEffects {
         reason: error.stack,
       } as ErrorModel;
     }
-
+    
     if (error instanceof HttpErrorResponse) {
       let serializableError = error.error;
       if (this.isObject(error.error)) {
