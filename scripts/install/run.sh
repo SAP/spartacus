@@ -25,29 +25,25 @@ function integrate_with_smartedit {
 }
 
 function delete_dir {
-    if [ -d "${1}" ]; then
-        echo "deleting ./${1}"
-        rm -rf ${1}
+    local dir="$1"
+    if [ -d $dir ]; then
+        echo "deleting ./${dir}"
+        rm -rf $dir
     fi
 }
 
 function cmd_clean {
     printh "Cleaning Spartacus installation workspace"
 
-    delete_dir $CLONE_DIR
-    delete_dir $INSTALLATION_DIR
+    delete_dir $BASE_DIR
     delete_dir storage
 }
 
 function pre_install {
-    if [ -d $BASE_DIR ]; then
-        echo "Directory ${BASE_DIR} already exists, please remove it in order to start fresh installation."
-        exit 1
-    fi
     VERDACCIO_PID=`lsof -nP -i4TCP:4873 | grep LISTEN | tr -s ' ' | cut -d ' ' -f 2`
     if [[ -n ${VERDACCIO_PID} ]]; then
-        echo "It seems verdaccio is already running on PID: ${VERDACCIO_PID}. Please kill it first to continue."
-        exit 1
+        echo "It seems verdaccio is already running on PID: ${VERDACCIO_PID}. Killing it."
+        kill $VERDACCIO_PID
     fi
 
     npm config set @spartacus:registry https://registry.npmjs.org/
@@ -114,11 +110,11 @@ function create_ssr_pwa {
 }
 
 function add_spartacus_csr {
-    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite electronics-spa --baseUrl ${BACKEND_URL} )
+    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite electronics-spa --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} )
 }
 
 function add_spartacus_ssr {
-    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite electronics-spa --baseUrl ${BACKEND_URL} --ssr )
+    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite electronics-spa --baseUrl ${BACKEND_URL} --ssr --occPrefix ${OCC_PREFIX} )
 }
 
 function add_spartacus_pwa {
@@ -183,7 +179,7 @@ function local_install {
     VERDACCIO_PID=$!
     echo "verdaccio PID: ${VERDACCIO_PID}"
 
-    sleep 5
+    sleep 15
 
     printh "Creating core npm package"
     ( cd ${CLONE_DIR}/dist/core && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )

@@ -23,9 +23,20 @@ fi
 ```
 so it's one level above the spartacus project root. To change the output directory `$BASE_DIR` can be overriden in the `config.sh` file.
 
-All script's commands should be run while being in it's root directory.
+All script's commands should be run while being in it's root directory:
 ```bash
-cd ./scripts/install && ./run.sh install
+cd ./scripts/install
+```
+Before running the main script, please ensure that:
+- line `//localhost:4873/:_authToken="VNOlucnBmPrXVjzHVEHtWQ=="` is added to the `~/.npmrc` file
+- `ANGULAR_CLI_VERSION` variable is set properly in the `config.sh` file (it must meet project's `package.json` `@angular/cli` version requirement)
+- `OCC_PREFIX` variable is set to proper value (depends on backend version)
+- adjust any other variables available in the `config.default.sh` if needed (by setting them up in the `config.sh`)
+
+Once ready start the installation as below:
+
+```bash
+ ./run.sh install
 ```
 
 The script will build the libraries from source, create a new shell app and install the libraries in it.
