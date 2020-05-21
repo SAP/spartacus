@@ -90,7 +90,6 @@ if (!environment.production) {
 
     ...devImports,
     ConfigModule,
-    //note: will remove (but we do not need to setup the cds for root because we will mock the request in the e2e
   ],
 
   bootstrap: [GigyaStorefrontComponent],
