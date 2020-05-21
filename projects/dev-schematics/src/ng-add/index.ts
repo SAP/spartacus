@@ -19,17 +19,13 @@ export default function (options: DevSpartacusOptions): Rule {
     }
 
     return chain([
-      options['default-base-sites'] && options['default-base-sites']
+      options['default-base-sites']
         ? schematic('add-baseSites', options)
         : noop(),
 
-      options['default-routing'] && options['default-routing']
-        ? schematic('add-routing', options)
-        : noop(),
+      options['default-routing'] ? schematic('add-routing', options) : noop(),
 
-      options['test-outlets'] && options['test-outlets']
-        ? schematic('add-test-outlets', options)
-        : noop(),
+      options['test-outlets'] ? schematic('add-test-outlets', options) : noop(),
     ])(host, context);
   };
 }
