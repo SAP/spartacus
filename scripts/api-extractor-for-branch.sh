@@ -58,8 +58,6 @@ cp "$ASSETS_CONFIG_PATH" ./dist/assets/api-extractor.json
 )
 
 # @spartacus/core
-# Disabled because of the issue with `import * as `
-
 cp "$CORE_CONFIG_PATH" ./dist/core/api-extractor.json
 (
   cd ./dist/core && \
