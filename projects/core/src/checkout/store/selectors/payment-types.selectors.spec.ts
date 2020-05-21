@@ -44,4 +44,23 @@ describe('Payment Types Selectors', () => {
       expect(result).toEqual(paymentTypes);
     });
   });
+
+  describe('getSelectedType', () => {
+    it('should return the selected payment type', () => {
+      let result: string;
+      store
+        .pipe(select(CheckoutSelectors.getSelectedPaymentType))
+        .subscribe((value) => (result = value));
+      expect(result).toEqual('');
+
+      store.dispatch(
+        new CheckoutActions.SetPaymentType({
+          userId: 'userId',
+          cartId: 'cartId',
+          typeCode: 'test',
+        })
+      );
+      expect(result).toEqual('test');
+    });
+  });
 });

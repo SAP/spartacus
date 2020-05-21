@@ -27,3 +27,8 @@ export const getAllPaymentTypes: MemoizedSelector<
 > = createSelector(getPaymentTypesEntites, (entites) => {
   return Object.keys(entites).map((code) => entites[code]);
 });
+
+export const getSelectedPaymentType: MemoizedSelector<
+  StateWithCheckout,
+  string
+> = createSelector(getPaymentTypesState, fromReducer.getSelectedPaymentType);

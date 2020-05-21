@@ -12,4 +12,13 @@ export class PaymentTypeConnector {
   getPaymentTypes(): Observable<PaymentType[]> {
     return this.adapter.loadPaymentTypes();
   }
+
+  setPaymentType(
+    userId: string,
+    cartId: string,
+    typeCode: string,
+    poNumber?: string
+  ): Observable<any> {
+    return this.adapter.setPaymentType(userId, cartId, typeCode, poNumber);
+  }
 }

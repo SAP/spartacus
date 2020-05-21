@@ -10,6 +10,7 @@ describe('PaymentTypeConnector', () => {
 
   class MockPaymentTypeAdapter implements PaymentTypeAdapter {
     loadPaymentTypes = createSpy().and.returnValue(of([]));
+    setPaymentType = createSpy().and.returnValue(of({}));
   }
 
   let service: PaymentTypeConnector;
@@ -40,5 +41,17 @@ describe('PaymentTypeConnector', () => {
     service.getPaymentTypes().subscribe((res) => (result = res));
     expect(result).toEqual([]);
     expect(adapter.loadPaymentTypes).toHaveBeenCalledWith();
+  });
+
+  it('setPaymentType should call adapter', () => {
+    service
+      .setPaymentType('userId', 'cartId', 'typeCode', 'poNumber')
+      .subscribe();
+    expect(adapter.setPaymentType).toHaveBeenCalledWith(
+      'userId',
+      'cartId',
+      'typeCode',
+      'poNumber'
+    );
   });
 });

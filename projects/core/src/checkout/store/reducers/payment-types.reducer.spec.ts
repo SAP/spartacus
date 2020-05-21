@@ -38,12 +38,52 @@ describe('Payment Types Reducer', () => {
     });
   });
 
+  describe('SET_PAYMENT_TYPE action', () => {
+    it('should populate the selected field', () => {
+      const { initialState } = fromReducer;
+      const action = new CheckoutActions.SetPaymentType({
+        userId: 'testUser',
+        cartId: 'testCart',
+        typeCode: 'CARD',
+      });
+      const state = fromReducer.reducer(initialState, action);
+      expect(state.selected).toEqual('CARD');
+    });
+  });
+
+  describe('SET_SELECTED_PAYMENT_TYPE_FLAG action', () => {
+    it('should populate the selected field', () => {
+      const { initialState } = fromReducer;
+      const action = new CheckoutActions.SetSelectedPaymentTypeFlag('ACCOUNT');
+      const state = fromReducer.reducer(initialState, action);
+      expect(state.selected).toEqual('ACCOUNT');
+    });
+  });
+
   describe('CHECKOUT_CLEAR_MISCS_DATA action', () => {
     it('should clear the mics data', () => {
       const { initialState } = fromReducer;
-      const action = new CheckoutActions.CheckoutClearMiscsData();
+      const action = new CheckoutActions.ClearCheckoutData();
       const state = fromReducer.reducer(initialState, action);
       expect(state).toEqual(initialState);
+    });
+  });
+
+  describe('CLEAR_CHECKOUT_DATA action', () => {
+    it('should clear checkout data', () => {
+      const { initialState } = fromReducer;
+      fromReducer.reducer(
+        initialState,
+        new CheckoutActions.SetPaymentType({
+          userId: 'testUser',
+          cartId: 'testCart',
+          typeCode: 'CARD',
+        })
+      );
+
+      const action = new CheckoutActions.ClearCheckoutData();
+      const state = fromReducer.reducer(initialState, action);
+      expect(state.selected).toEqual('');
     });
   });
 });

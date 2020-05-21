@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { pluck, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
-import { PaymentType } from '../../model/cart.model';
+import { pluck, shareReplay, tap, withLatestFrom, take } from 'rxjs/operators';
+import { PaymentType, Cart } from '../../model/cart.model';
 import { StateWithProcess } from '../../process/store/process-state';
+import { AuthService } from '../../auth/facade/auth.service';
+import { ActiveCartService } from '../../cart/facade/active-cart.service';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { getProcessStateFactory } from '../../process/store/selectors/process-group.selectors';
 import { CheckoutActions } from '../store/actions/index';
 import {
@@ -16,8 +19,12 @@ import { CheckoutSelectors } from '../store/selectors/index';
   providedIn: 'root',
 })
 export class PaymentTypeService {
+  readonly ACCOUNT_PAYMENT = 'ACCOUNT';
+
   constructor(
-    protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>
+    protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
+    protected authService: AuthService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   /**
@@ -48,5 +55,76 @@ export class PaymentTypeService {
    */
   loadPaymentTypes(): void {
     this.checkoutStore.dispatch(new CheckoutActions.LoadPaymentTypes());
+  }
+
+  /**
+   * Set payment type to cart
+   * @param typeCode
+   * @param poNumber : purchase order number
+   */
+  setPaymentType(typeCode: string, poNumber?: string): void {
+    if (this.actionAllowed()) {
+      let userId;
+      this.authService
+        .getOccUserId()
+        .pipe(take(1))
+        .subscribe((occUserId) => (userId = occUserId));
+
+      let cartId;
+      this.activeCartService
+        .getActiveCartId()
+        .pipe(take(1))
+        .subscribe((activeCartId) => (cartId = activeCartId));
+
+      if (userId && cartId) {
+        this.checkoutStore.dispatch(
+          new CheckoutActions.SetPaymentType({
+            userId: userId,
+            cartId: cartId,
+            typeCode: typeCode,
+            poNumber: poNumber,
+          })
+        );
+      }
+    }
+  }
+
+  /**
+   * Get the selected payment type
+   */
+  getSelectedPaymentType(): Observable<string> {
+    let cart: Cart;
+    this.activeCartService
+      .getActive()
+      .pipe(take(1))
+      .subscribe((data) => (cart = data));
+
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getSelectedPaymentType),
+      tap((selected) => {
+        if (selected === '') {
+          // cart has payment type, so only need to set the flag
+          if (cart && cart.paymentType) {
+            this.checkoutStore.dispatch(
+              new CheckoutActions.SetSelectedPaymentTypeFlag(
+                cart.paymentType.code
+              )
+            );
+          } else {
+            // set to the default type: account
+            this.setPaymentType(this.ACCOUNT_PAYMENT);
+          }
+        }
+      })
+    );
+  }
+
+  protected actionAllowed(): boolean {
+    let userId;
+    this.authService
+      .getOccUserId()
+      .subscribe((occUserId) => (userId = occUserId))
+      .unsubscribe();
+    return userId && userId !== OCC_USER_ID_ANONYMOUS;
   }
 }

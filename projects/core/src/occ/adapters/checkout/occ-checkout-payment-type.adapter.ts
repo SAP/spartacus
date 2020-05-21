@@ -4,10 +4,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PaymentTypeAdapter } from '../../../checkout/connectors/payment-type/payment-type.adapter';
 import { PAYMENT_TYPE_NORMALIZER } from '../../../checkout/connectors/payment-type/converters';
-import { PaymentType } from '../../../model/cart.model';
+import { PaymentType, Cart } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { CART_NORMALIZER } from '../../../cart/connectors/cart/converters';
 
 const ENDPOINT_PAYMENT_TYPES = 'paymenttypes';
 
@@ -28,5 +29,30 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
         map((paymentTypeList) => paymentTypeList.paymentTypes),
         this.converter.pipeableMany(PAYMENT_TYPE_NORMALIZER)
       );
+  }
+
+  setPaymentType(
+    userId: string,
+    cartId: string,
+    paymentType: string,
+    purchaseOrderNumber?: string
+  ): Observable<Cart> {
+    return this.http
+      .put(
+        this.getCartEndpoint(userId) + cartId + '/paymenttype',
+        {},
+        {
+          params: {
+            paymentType: paymentType,
+            purchaseOrderNumber: purchaseOrderNumber,
+          },
+        }
+      )
+      .pipe(this.converter.pipeable(CART_NORMALIZER));
+  }
+
+  protected getCartEndpoint(userId: string): string {
+    const cartEndpoint = 'users/' + userId + '/carts/';
+    return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 }

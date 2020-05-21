@@ -31,6 +31,33 @@ export class PaymentTypesEffects {
     })
   );
 
+  @Effect()
+  setPaymentType$: Observable<
+    CheckoutActions.SetPaymentTypeSuccess | CheckoutActions.SetPaymentTypeFail
+  > = this.actions$.pipe(
+    ofType(CheckoutActions.SET_PAYMENT_TYPE),
+    map((action: CheckoutActions.SetPaymentType) => action.payload),
+    switchMap((payload) => {
+      return this.paymentTypeConnector
+        .setPaymentType(
+          payload.userId,
+          payload.cartId,
+          payload.typeCode,
+          payload.poNumber
+        )
+        .pipe(
+          map((data) => new CheckoutActions.SetPaymentTypeSuccess(data)),
+          catchError((error) =>
+            of(
+              new CheckoutActions.SetPaymentTypeFail(
+                makeErrorSerializable(error)
+              )
+            )
+          )
+        );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private paymentTypeConnector: PaymentTypeConnector

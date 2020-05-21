@@ -76,6 +76,11 @@ export interface SaveCartResult {
   savedCartData?: Cart;
 }
 
+export interface B2BPaymentType {
+  code?: string;
+  displayName?: string;
+}
+
 export interface Cart {
   appliedOrderPromotions?: PromotionResult[];
   appliedProductPromotions?: PromotionResult[];
@@ -95,6 +100,7 @@ export interface Cart {
   net?: boolean;
   orderDiscounts?: Price;
   paymentInfo?: PaymentDetails;
+  paymentType?: B2BPaymentType;
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];
   potentialOrderPromotions?: PromotionResult[];
