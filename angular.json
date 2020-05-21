@@ -398,13 +398,9 @@
           "builder": "@nguniversal/builders:ssr-dev-server",
           "options": {
             "browserTarget": "storefrontapp:build:cds.development",
-            "serverTarget": "storefrontapp:server-cds"
+            "serverTarget": "storefrontapp:server-cds:cds.development"
           },
           "configurations": {
-            "cds.development": {
-              "browserTarget": "storefrontapp:build:cds.development",
-              "serverTarget": "storefrontapp:server-cds:cds.development"
-            },
             "production": {
               "browserTarget": "storefrontapp:build:cds.ci.1905",
               "serverTarget": "storefrontapp:server-cds:production",
