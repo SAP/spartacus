@@ -1,7 +1,7 @@
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { B2cStorefrontModule } from '@spartacus/storefront';
-import { environment } from '../../environments/environment';
-import { FeatureEnvironment } from '../models/feature.environment.model';
+import { environment } from '../environment';
+import { FeatureEnvironment } from '../models/feature.model';
 
 export const b2cFeature: FeatureEnvironment = {
   imports: [

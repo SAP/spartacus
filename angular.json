@@ -163,8 +163,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "projects/storefrontapp/src/environments/cds/cds.environment.ts",
-                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.enabled.ts"
+                  "replace": "projects/storefrontapp/src/environments/cds/cds.feature.ts",
+                  "with": "projects/storefrontapp/src/environments/cds/cds.feature.enabled.ts"
                 }
               ]
             },
@@ -177,8 +177,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "projects/storefrontapp/src/environments/cds/cds.environment.ts",
-                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.enabled.ts"
+                  "replace": "projects/storefrontapp/src/environments/cds/cds.feature.ts",
+                  "with": "projects/storefrontapp/src/environments/cds/cds.feature.enabled.ts"
                 },
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
@@ -205,8 +205,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "projects/storefrontapp/src/environments/cds/cds.environment.ts",
-                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.enabled.ts"
+                  "replace": "projects/storefrontapp/src/environments/cds/cds.feature.ts",
+                  "with": "projects/storefrontapp/src/environments/cds/cds.feature.enabled.ts"
                 },
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
@@ -233,8 +233,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "projects/storefrontapp/src/environments/cds/cds.environment.ts",
-                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.enabled.ts"
+                  "replace": "projects/storefrontapp/src/environments/cds/cds.feature.ts",
+                  "with": "projects/storefrontapp/src/environments/cds/cds.feature.enabled.ts"
                 },
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
@@ -359,8 +359,8 @@
               "outputHashing": "media",
               "fileReplacements": [
                 {
-                  "replace": "projects/storefrontapp/src/environments/cds/cds.environment.ts",
-                  "with": "projects/storefrontapp/src/environments/cds/cds.environment.enabled.ts"
+                  "replace": "projects/storefrontapp/src/environments/cds/cds.feature.ts",
+                  "with": "projects/storefrontapp/src/environments/cds/cds.feature.enabled.ts"
                 },
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",

@@ -1,5 +1,5 @@
 import { CdsModule } from '@spartacus/cds';
-import { FeatureEnvironment } from '../models/feature.environment.model';
+import { FeatureEnvironment } from '../models/feature.model';
 
 export const cdsFeature: FeatureEnvironment = {
   imports: [
