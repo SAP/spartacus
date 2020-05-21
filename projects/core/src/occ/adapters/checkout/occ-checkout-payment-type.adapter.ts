@@ -8,6 +8,7 @@ import { PaymentType, Cart } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
+import { CART_NORMALIZER } from '../../../cart/connectors/cart/converters';
 
 const ENDPOINT_PAYMENT_TYPES = 'paymenttypes';
 
@@ -36,16 +37,18 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
     paymentType: string,
     purchaseOrderNumber?: string
   ): Observable<Cart> {
-    return this.http.put(
-      this.getCartEndpoint(userId) + cartId + '/paymenttype',
-      {},
-      {
-        params: {
-          paymentType: paymentType,
-          purchaseOrderNumber: purchaseOrderNumber,
-        },
-      }
-    );
+    return this.http
+      .put(
+        this.getCartEndpoint(userId) + cartId + '/paymenttype',
+        {},
+        {
+          params: {
+            paymentType: paymentType,
+            purchaseOrderNumber: purchaseOrderNumber,
+          },
+        }
+      )
+      .pipe(this.converter.pipeable(CART_NORMALIZER));
   }
 
   protected getCartEndpoint(userId: string): string {

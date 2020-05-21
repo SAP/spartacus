@@ -17,9 +17,11 @@ const cart = { code: 'testCartId', guid: 'testGuid' };
 
 class ActiveCartServiceStub {
   cart;
-
   getActiveCartId() {
     return of(cart.code);
+  }
+  getActive() {
+    return of({ code: 'testCart', paymentType: { code: 'ACCOUNT' } });
   }
 }
 
@@ -137,15 +139,10 @@ describe('PaymentTypeService', () => {
     expect(selected).toEqual('CARD');
   });
 
-  it('should be able to set the default payment type if data not exist', () => {
+  it('should be able to set the seleced filed if cart has payment type', () => {
     service.getSelectedPaymentType().subscribe();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.SetPaymentType({
-        userId: userId,
-        cartId: cart.code,
-        typeCode: 'ACCOUNT',
-        poNumber: undefined,
-      })
+      new CheckoutActions.SetSelectedPaymentTypeFlag('ACCOUNT')
     );
   });
 });
