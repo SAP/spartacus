@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PaymentTypeService, PaymentType } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutStepType } from '../../model/checkout-step.model';
 
@@ -15,14 +15,24 @@ export class PaymentTypeComponent {
 
   paymentTypes$: Observable<
     PaymentType[]
-  > = this.paymentTypeService.getPaymentTypes();
+  > = this.paymentTypeService
+    .getPaymentTypes()
+    .pipe(tap((data) => console.log(data)));
 
-  typeSelected;
+  //typeSelected;
   typeSelected$: Observable<
     string
-  > = this.paymentTypeService
-    .getSelectedPaymentType()
-    .pipe(tap((selected) => (this.typeSelected = selected)));
+  > = this.paymentTypeService.getSelectedPaymentType().pipe(
+    filter((selected) => selected !== ''),
+    tap((selected) => {
+      console.log('selected: ', selected);
+      this.checkoutStepService.resetSteps();
+      this.checkoutStepService.disableEnableStep(
+        CheckoutStepType.PAYMENT_DETAILS,
+        selected === this.ACCOUNT_PAYMENT
+      );
+    })
+  );
 
   constructor(
     protected paymentTypeService: PaymentTypeService,
@@ -32,10 +42,10 @@ export class PaymentTypeComponent {
   changeType(code: string): void {
     this.paymentTypeService.setPaymentType(code);
 
-    this.checkoutStepService.resetSteps();
+    /*this.checkoutStepService.resetSteps();
     this.checkoutStepService.disableEnableStep(
       CheckoutStepType.PAYMENT_DETAILS,
       this.typeSelected === this.ACCOUNT_PAYMENT
-    );
+    );*/
   }
 }

@@ -1,6 +1,11 @@
 <div class="row">
   {{ 'checkoutProgress.paymentType' | cxTranslate }}
-  <ng-container *ngIf="(paymentTypes$ | async)?.length; else loading">
+  <ng-container
+    *ngIf="
+      (paymentTypes$ | async)?.length && typeSelected$ | async as typeSelected;
+      else loading
+    "
+  >
     <div class="form-check" *ngFor="let type of paymentTypes$ | async">
       <input
         class="form-check-input"
@@ -9,7 +14,7 @@
         aria-checked="true"
         (change)="changeType(type.code)"
         [value]="type.code"
-        [checked]="type.code == (typeSelected$ | async)"
+        [checked]="type.code == typeSelected"
       />
       <label class="" for="deliveryMode-{{ type.code }}">
         <div class="">{{ type.displayName }}</div>
