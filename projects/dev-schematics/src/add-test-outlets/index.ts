@@ -22,7 +22,7 @@ import {
   getTsSourceFile,
   addImport,
   addToModuleImportsAndCommitChanges,
-} from '@spartacus/schematics/public_api';
+} from '@spartacus/schematics';
 import { isImported } from '@schematics/angular/utility/ast-utils';
 
 function provideTestOutletsModuleImports(options: DevSpartacusOptions): Rule {

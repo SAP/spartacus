@@ -10,7 +10,7 @@ import {
   InsertDirection,
   getTsSourceFile,
   commitChanges,
-} from '@spartacus/schematics/public_api';
+} from '@spartacus/schematics';
 
 export function insertPropertyInStorefrontModuleCallExpression(
   host: Tree,
