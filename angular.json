@@ -224,7 +224,7 @@
               "buildOptimizer": true,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
-            "cds.ccv2": {
+            "cds.ci.ccv2": {
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -287,8 +287,8 @@
             "cds.ci.2005": {
               "browserTarget": "storefrontapp:build:cds.ci.2005"
             },
-            "cds.ccv2": {
-              "browserTarget": "storefrontapp:build:cds.ccv2"
+            "cds.ci.ccv2": {
+              "browserTarget": "storefrontapp:build:cds.ci.ccv2"
             }
           }
         },
