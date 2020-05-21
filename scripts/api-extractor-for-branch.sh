@@ -12,7 +12,7 @@ if [ "$2" != "" ] ; then
   DIR=$2
 fi
 
-npm i -g @microsoft/api-extractor # @beta
+npm i -g @microsoft/api-extractor
 
 if [ "$DIR" != "self" ] ; then
   CLONE_DIR="$DIR-branch-clone"
