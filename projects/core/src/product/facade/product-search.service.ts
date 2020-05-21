@@ -7,7 +7,9 @@ import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ProductSearchService {
   constructor(protected store: Store<StateWithProduct>) {}
 
