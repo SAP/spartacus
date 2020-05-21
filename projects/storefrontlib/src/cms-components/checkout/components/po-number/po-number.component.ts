@@ -1,42 +1,39 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   ViewChild,
   ElementRef,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PaymentTypeService, PaymentType } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
+import { PaymentTypeService } from '@spartacus/core';
 import { CheckoutStepService } from '../../services/checkout-step.service';
-import { CheckoutStepType } from '../../model/checkout-step.model';
 
 @Component({
   selector: 'cx-po-number',
   templateUrl: './po-number.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PoNumberComponent implements OnInit {
+export class PoNumberComponent {
   readonly ACCOUNT_PAYMENT = 'ACCOUNT';
-
-  paymentTypes$: Observable<
-    PaymentType[]
-  > = this.paymentTypeService.getPaymentTypes().pipe(
-    tap((paymentTypes) => {
-      if (paymentTypes && paymentTypes.length > 0) {
-        // Now we use the first type as the default selected type
-        // This value should be read from cart.
-        // The `set PaymentType to cart` will be implemented in #6655
-        this.typeSelected = paymentTypes[0].code;
-      }
-    })
-  );
 
   @ViewChild('poNumber', { static: false })
   poNumberInput: ElementRef;
 
-  typeSelected: string;
+  typeCode: string;
+  typeSelected$: Observable<
+    string
+  > = this.paymentTypeService.getSelectedPaymentType().pipe(
+    filter((selected) => selected !== ''),
+    tap((selected) => (this.typeCode = selected))
+  );
+
+  poNumber: string;
+  poNumber$: Observable<string> = this.paymentTypeService.getPoNumber().pipe(
+    filter((po) => !!po),
+    tap((po) => (this.poNumber = po))
+  );
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
@@ -46,21 +43,12 @@ export class PoNumberComponent implements OnInit {
     protected activatedRoute: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
-    this.checkoutStepService.resetSteps();
-  }
-
-  changeType(code: string): void {
-    this.typeSelected = code;
-
-    this.checkoutStepService.disableEnableStep(
-      CheckoutStepType.PAYMENT_DETAILS,
-      this.typeSelected === this.ACCOUNT_PAYMENT
-    );
-  }
-
   next(): void {
-    // here need set po number, and set cost center
+    const poNumInput = this.poNumberInput.nativeElement.value;
+    console.log('input', poNumInput);
+    if (this.typeCode && poNumInput !== this.poNumber) {
+      this.paymentTypeService.setPaymentType(this.typeCode, poNumInput);
+    }
     this.checkoutStepService.next(this.activatedRoute);
   }
 

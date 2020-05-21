@@ -4,12 +4,20 @@
       <span class="label-content">{{
         'checkoutPO.poNumber' | cxTranslate
       }}</span>
-      <input #poNumber class="form-control" type="text" />
+      <input
+        #poNumber
+        class="form-control"
+        type="text"
+        value="{{ poNumber$ | async }}"
+      />
     </label>
 
-    <label aria-required="true" *ngIf="typeSelected === ACCOUNT_PAYMENT">
+    <label
+      aria-required="true"
+      *ngIf="(typeSelected$ | async) === ACCOUNT_PAYMENT"
+    >
       <span class="label-content required">{{
-        'checkoutType.costCenter' | cxTranslate
+        'checkoutPO.costCenter' | cxTranslate
       }}</span>
       <select class="form-control">
         <option value=""></option>

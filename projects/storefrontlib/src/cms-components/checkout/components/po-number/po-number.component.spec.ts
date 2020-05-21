@@ -3,16 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  PaymentTypeService,
-  I18nTestingModule,
-  PaymentType,
-} from '@spartacus/core';
+import { PaymentTypeService, I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { PoNumberComponent } from './po-number.component';
-import { CheckoutStepType } from '../../model/checkout-step.model';
-
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -22,14 +16,12 @@ import createSpy = jasmine.createSpy;
 class MockSpinnerComponent {}
 
 class MockPaymentTypeService {
-  getPaymentTypes(): Observable<PaymentType[]> {
-    return of();
+  getSelectedPaymentType(): Observable<string> {
+    return of('ACCOUNT');
   }
 }
 
 class MockCheckoutStepService {
-  disableEnableStep = createSpy();
-  resetSteps = createSpy();
   next = createSpy();
   back = createSpy();
   getBackBntText(): string {
@@ -43,16 +35,11 @@ const mockActivatedRoute = {
   },
 };
 
-const mockPaymentTypes: PaymentType[] = [
-  { code: 'card', displayName: 'card' },
-  { code: 'account', displayName: 'account' },
-];
-
 describe('PoNumberComponent', () => {
   let component: PoNumberComponent;
   let fixture: ComponentFixture<PoNumberComponent>;
 
-  let paymentTypeService: PaymentTypeService;
+  //let paymentTypeService: PaymentTypeService;
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(async(() => {
@@ -72,37 +59,21 @@ describe('PoNumberComponent', () => {
       ],
     }).compileComponents();
 
-    paymentTypeService = TestBed.inject(
+    /*paymentTypeService = TestBed.inject(
       PaymentTypeService as Type<PaymentTypeService>
-    );
+    );*/
     checkoutStepService = TestBed.inject(
       CheckoutStepService as Type<CheckoutStepService>
-    );
-
-    spyOn(paymentTypeService, 'getPaymentTypes').and.returnValue(
-      of(mockPaymentTypes)
     );
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PoNumberComponent);
     component = fixture.componentInstance;
-
-    component.ngOnInit();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should get all supported payment types', () => {
-    component.paymentTypes$.subscribe((types) => {
-      expect(types).toBe(mockPaymentTypes);
-    });
-  });
-
-  it('should reset checkout steps', () => {
-    expect(checkoutStepService.resetSteps).toHaveBeenCalled();
   });
 
   it('should be able to go to next step', () => {
@@ -112,28 +83,14 @@ describe('PoNumberComponent', () => {
     );
   });
 
-  it('should set the selected payment type to cart after invoking next()', () => {
-    // will implmented in #6655
+  it('should set the po to cart after invoking next()', () => {
+    // will implmented
   });
 
-  it('should cbe able to go to previous step', () => {
+  it('should be able to go to previous step', () => {
     component.back();
     expect(checkoutStepService.back).toHaveBeenCalledWith(
       <any>mockActivatedRoute
-    );
-  });
-
-  it('should disable PAYMENT_DETAILS step when choosing type Account', () => {
-    component.changeType('ACCOUNT');
-    expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
-      CheckoutStepType.PAYMENT_DETAILS,
-      true
-    );
-
-    component.changeType('CARD');
-    expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
-      CheckoutStepType.PAYMENT_DETAILS,
-      false
     );
   });
 

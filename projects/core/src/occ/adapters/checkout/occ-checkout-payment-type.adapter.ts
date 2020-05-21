@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -37,15 +37,16 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
     paymentType: string,
     purchaseOrderNumber?: string
   ): Observable<Cart> {
+    let httpParams = new HttpParams().set('paymentType', paymentType);
+    if (purchaseOrderNumber !== undefined) {
+      httpParams = httpParams.set('purchaseOrderNumber', purchaseOrderNumber);
+    }
     return this.http
       .put(
         this.getCartEndpoint(userId) + cartId + '/paymenttype',
         {},
         {
-          params: {
-            paymentType: paymentType,
-            purchaseOrderNumber: purchaseOrderNumber,
-          },
+          params: httpParams,
         }
       )
       .pipe(this.converter.pipeable(CART_NORMALIZER));
