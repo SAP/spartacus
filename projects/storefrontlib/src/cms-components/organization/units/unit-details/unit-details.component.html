@@ -61,7 +61,10 @@
       </div>
       <div class="col-md-12 col-lg-6">
         <div class="row">
-          <div *ngIf="orgUnit.active; else enable" class="col-md-12 col-lg-6">
+          <div
+            *ngIf="orgUnit.active; else enable"
+            class="pb-mobile-2 col-md-12 col-lg-6"
+          >
             <button
               class="btn btn-secondary btn-block"
               (click)="openModal(confirmDisable)"
