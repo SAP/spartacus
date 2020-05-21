@@ -355,6 +355,14 @@
             "tsConfig": "projects/storefrontapp/tsconfig.server.json"
           },
           "configurations": {
+            "cds.development": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/cds/cds.feature.ts",
+                  "with": "projects/storefrontapp/src/environments/cds/cds.feature.enabled.ts"
+                }
+              ]
+            },
             "production": {
               "outputHashing": "media",
               "fileReplacements": [
@@ -393,6 +401,16 @@
             "serverTarget": "storefrontapp:server-cds"
           },
           "configurations": {
+            "cds.development": {
+              "browserTarget": "storefrontapp:build:cds.development",
+              "serverTarget": "storefrontapp:server-cds:cds.development",
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/cds/cds.feature.ts",
+                  "with": "projects/storefrontapp/src/environments/cds/cds.feature.enabled.ts"
+                }
+              ]
+            },
             "production": {
               "browserTarget": "storefrontapp:build:cds.ci.1905",
               "serverTarget": "storefrontapp:server-cds:production",
