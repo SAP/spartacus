@@ -1,5 +1,5 @@
 import { FeatureEnvironment } from '../models/feature.environment.model';
 
-export const cdsFeature: FeatureEnvironment = {
+export const b2bFeature: FeatureEnvironment = {
   imports: [],
 };

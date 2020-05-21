@@ -80,8 +80,9 @@
     "release-notes:schematics": "ts-node ./scripts/changelog.ts --verbose --lib schematics",
     "release-notes:incubator": "ts-node ./scripts/changelog.ts --verbose --lib incubator",
     "publish:docs": "gh-pages -d documentation -m \"Compodocs updates\"",
-    "build:cds": "ng build cds --prod",
-    "build:core:lib:cds": "yarn build:core:lib && yarn build:cds",
+    "build:cds": "ng build storefrontapp -c=cds.ci.1905",
+    "build:cds:lib": "ng build cds --prod",
+    "build:core:lib:cds": "yarn build:core:lib && yarn build:cds:lib",
     "e2e:cy:cds:run:vendor": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:cds:run:vendor",
     "e2e:cy:cds:start-open": "start-server-and-test start:cds:ci:1905 http-get://localhost:4200 e2e:cy:open",
     "e2e:cy:cds:start-run": "start-server-and-test start:cds:ci:1905 http-get://localhost:4200 e2e:cy:run",
@@ -98,7 +99,8 @@
     "build:cds:ssr": "ng run storefrontapp:server-cds:production",
     "prerender:cds": "ng run storefrontapp:prerender-cds",
     "release:cds:with-changelog": "cd projects/cds && release-it && cd ../..",
-    "release-notes:cds": "ts-node ./scripts/changelog.ts --verbose --lib cds"
+    "release-notes:cds": "ts-node ./scripts/changelog.ts --verbose --lib cds",
+    "start:b2b:ci:2005": "ng serve -c=b2b.ci.2005 --prod"
   },
   "private": false,
   "dependencies": {

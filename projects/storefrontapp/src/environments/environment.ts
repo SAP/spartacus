@@ -9,4 +9,5 @@ export const environment: Environment = {
   production: false,
   occBaseUrl: '',
   occApiPrefix: '/rest/v2/',
+  b2b: false,
 };

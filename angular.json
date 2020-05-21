@@ -130,6 +130,30 @@
               "buildOptimizer": true,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
+            "b2b.ci.2005": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/environment.ts",
+                  "with": "projects/storefrontapp/src/environments/environment.b2b.2005.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
+            },
             "cds.development": {
               "budgets": [
                 {
@@ -251,8 +275,8 @@
             "ccv2": {
               "browserTarget": "storefrontapp:build:ccv2"
             },
-            "cds.production": {
-              "browserTarget": "storefrontapp:build:cds.production"
+            "b2b.ci.2005": {
+              "browserTarget": "storefrontapp:build:b2b.ci.2005"
             },
             "cds.development": {
               "browserTarget": "storefrontapp:build:cds.development"
@@ -370,7 +394,7 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "storefrontapp:build:cds.production",
+              "browserTarget": "storefrontapp:build:cds.ci.1905",
               "serverTarget": "storefrontapp:server-cds:production",
               "fileReplacements": []
             }
@@ -390,7 +414,7 @@
         "prerender-cds": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "browserTarget": "storefrontapp:build:cds.production",
+            "browserTarget": "storefrontapp:build:cds.ci.1905",
             "serverTarget": "storefrontapp:server-cds:production",
             "routes": ["/"]
           },
