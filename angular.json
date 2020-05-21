@@ -338,7 +338,7 @@
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+                  "with": "projects/storefrontapp/src/environments/environment.1905.ts"
                 }
               ],
               "sourceMap": false,
