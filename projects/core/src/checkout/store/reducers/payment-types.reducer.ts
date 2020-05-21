@@ -9,7 +9,10 @@ export const initialState: PaymentTypesState = {
 
 export function reducer(
   state = initialState,
-  action: CheckoutActions.PaymentTypesAction | CheckoutActions.ClearCheckoutData
+  action:
+    | CheckoutActions.PaymentTypesAction
+    | CheckoutActions.ClearCheckoutData
+    | CheckoutActions.CheckoutClearMiscsData
 ): PaymentTypesState {
   switch (action.type) {
     case CheckoutActions.LOAD_PAYMENT_TYPES_SUCCESS: {
@@ -50,6 +53,13 @@ export function reducer(
     }
 
     case CheckoutActions.CLEAR_CHECKOUT_DATA: {
+      return {
+        ...state,
+        selected: '',
+      };
+    }
+
+    case CheckoutActions.CHECKOUT_CLEAR_MISCS_DATA: {
       return initialState;
     }
   }
