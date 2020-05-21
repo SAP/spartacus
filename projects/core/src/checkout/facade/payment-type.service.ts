@@ -67,14 +67,14 @@ export class PaymentTypeService {
       let userId;
       this.authService
         .getOccUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
+        .pipe(take(1))
+        .subscribe((occUserId) => (userId = occUserId));
 
       let cartId;
       this.activeCartService
         .getActiveCartId()
-        .subscribe((activeCartId) => (cartId = activeCartId))
-        .unsubscribe();
+        .pipe(take(1))
+        .subscribe((activeCartId) => (cartId = activeCartId));
 
       if (userId && cartId) {
         this.checkoutStore.dispatch(
