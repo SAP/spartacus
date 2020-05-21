@@ -41,6 +41,7 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
     if (purchaseOrderNumber !== undefined) {
       httpParams = httpParams.set('purchaseOrderNumber', purchaseOrderNumber);
     }
+
     return this.http
       .put(
         this.getCartEndpoint(userId) + cartId + '/paymenttype',

@@ -13,11 +13,15 @@ import { PaymentTypeService } from './payment-type.service';
 import * as fromProcessReducers from '../../process/store/reducers/index';
 
 const userId = 'testUserId';
+<<<<<<< HEAD
 const cart = {
   code: 'testCart',
   paymentType: { code: 'ACCOUNT' },
   purchaseOrderNumber: 'testNumber',
 };
+=======
+const cart = { code: 'testCartId', guid: 'testGuid' };
+>>>>>>> epic/b2bcheckout
 
 class ActiveCartServiceStub {
   cart;
@@ -25,7 +29,11 @@ class ActiveCartServiceStub {
     return of(cart.code);
   }
   getActive() {
+<<<<<<< HEAD
     return of(cart);
+=======
+    return of({ code: 'testCart', paymentType: { code: 'ACCOUNT' } });
+>>>>>>> epic/b2bcheckout
   }
 }
 
@@ -122,17 +130,39 @@ describe('PaymentTypeService', () => {
   });
 
   it('should be able to get selected payment type if data exist', () => {
+<<<<<<< HEAD
     store.dispatch(new CheckoutActions.SetPaymentTypeSuccess(cart));
+=======
+    store.dispatch(
+      new CheckoutActions.LoadPaymentTypesSuccess([
+        { code: 'account', displayName: 'account' },
+        { code: 'card', displayName: 'masterCard' },
+      ])
+    );
+    store.dispatch(
+      new CheckoutActions.SetPaymentType({
+        userId: userId,
+        cartId: cart.code,
+        typeCode: 'CARD',
+      })
+    );
+
+>>>>>>> epic/b2bcheckout
     let selected: string;
     service.getSelectedPaymentType().subscribe((data) => {
       selected = data;
     });
+<<<<<<< HEAD
     expect(selected).toEqual('ACCOUNT');
+=======
+    expect(selected).toEqual('CARD');
+>>>>>>> epic/b2bcheckout
   });
 
   it('should be able to set the seleced filed if cart has payment type', () => {
     service.getSelectedPaymentType().subscribe();
     expect(store.dispatch).toHaveBeenCalledWith(
+<<<<<<< HEAD
       new CheckoutActions.SetPaymentTypeSuccess(cart)
     );
   });
@@ -151,6 +181,9 @@ describe('PaymentTypeService', () => {
     service.getPoNumber().subscribe();
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.SetPaymentTypeSuccess(cart)
+=======
+      new CheckoutActions.SetSelectedPaymentTypeFlag('ACCOUNT')
+>>>>>>> epic/b2bcheckout
     );
   });
 });

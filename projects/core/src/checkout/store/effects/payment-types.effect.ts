@@ -36,7 +36,7 @@ export class PaymentTypesEffects {
     CheckoutActions.SetPaymentTypeSuccess | CheckoutActions.SetPaymentTypeFail
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_PAYMENT_TYPE),
-    map((action: any) => action.payload),
+    map((action: CheckoutActions.SetPaymentType) => action.payload),
     switchMap((payload) => {
       return this.paymentTypeConnector
         .setPaymentType(
