@@ -16,11 +16,9 @@ import { Schema as DevSpartacusOptions } from '../ng-add/schema';
 import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
+  SPARTACUS_CORE,
   TEST_CONFIG_MODULE,
   TEST_OUTLET_MODULE,
-} from '../shared/constants';
-import {
-  SPARTACUS_CORE,
   getTsSourceFile,
   addImport,
   addToModuleImportsAndCommitChanges,

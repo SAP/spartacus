@@ -218,6 +218,9 @@ export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
   'AnonymousConsentLaunchDialogService';
 export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT =
   'AnonymousConsentOpenDialogComponent';
+
+export const TEST_OUTLET_MODULE = 'TestOutletModule';
+export const TEST_CONFIG_MODULE = 'TestConfigModule';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

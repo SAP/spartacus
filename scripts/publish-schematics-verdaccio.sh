@@ -1,9 +1,13 @@
 ###########################################################
 # This script builds the relevant spartacus libraries
 # and publishes them to the local npm registry.
+#
 # The building part can be skipped by providing the
 # `skip` argument when calling the script:
-# `./migrations-test.sh skip`
+# `./publish-schematics-verdaccio.sh skip`
+#
+# Building and publishing dev-schematics require `dev` param:
+# `./publish-schematics-verdaccio.sh dev`
 ###########################################################
 
 unpublish () {

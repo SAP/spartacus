@@ -4,7 +4,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import path from 'path';
 import { Schema as SpartacusOptions } from '../ng-add/schema';
-import { TEST_CONFIG_MODULE, TEST_OUTLET_MODULE } from '../shared/constants';
+import { TEST_CONFIG_MODULE, TEST_OUTLET_MODULE } from '@spartacus/schematics/public_api';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
