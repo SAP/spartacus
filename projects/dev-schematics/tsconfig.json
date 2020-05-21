@@ -1,4 +1,5 @@
 {
+  "extends": "../../tslint.json",
   "compilerOptions": {
     "baseUrl": "tsconfig",
     "lib": ["es2018", "dom"],

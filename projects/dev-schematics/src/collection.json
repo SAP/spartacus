@@ -11,7 +11,7 @@
     },
     "add-baseSites": {
       "description": "Add base site to app module.",
-      "factory": "./add-baseSite/index",
+      "factory": "./add-baseSites/index",
       "schema": "./ng-add/schema.json"
     },
     "add-routing": {

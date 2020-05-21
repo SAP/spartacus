@@ -1,5 +1,5 @@
 import { Tree } from '@angular-devkit/schematics';
-import { SPARTACUS_CORE, UTF_8 } from '../constants';
+import { SPARTACUS_CORE, UTF_8 } from '@spartacus/schematics/public_api';
 
 export function getSpartacusVersion(tree: Tree): string {
   const buffer = tree.read('package.json');

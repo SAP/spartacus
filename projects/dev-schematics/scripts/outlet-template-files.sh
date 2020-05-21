@@ -21,6 +21,10 @@ function add_template_ext_in_dir {
   fi
 }
 
+if [[ ! -d $OUTLETS_PARENT_DIR ]]; then
+  mkdir $OUTLETS_PARENT_DIR
+fi
+
 cd $OUTLETS_PARENT_DIR
 delete_dir ./test-outlets
 copy_dir $RELATIVE_OUTLETS_SOURCE_DIR test-outlets

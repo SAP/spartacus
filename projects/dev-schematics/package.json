@@ -17,7 +17,8 @@
   "dependencies": {
     "@angular-devkit/core": "^9.1.0",
     "@angular-devkit/schematics": "^9.1.0",
-    "@schematics/angular": "^9.1.0"
+    "@schematics/angular": "^9.1.0",
+    "@spartacus/schematics": "^v2.1.0-dev.1"
   },
   "devDependencies": {
     "@types/jasmine": "^3.5.0",

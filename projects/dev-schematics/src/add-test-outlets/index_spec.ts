@@ -30,9 +30,9 @@ describe('Spartacus Schematics: ng-add', () => {
 
   const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    'default-base-sites': '',
-    'default-routing': '',
-    'test-outlets': '',
+    'default-base-sites': false,
+    'default-routing': false,
+    'test-outlets': true,
   };
 
   beforeEach(async () => {
@@ -65,7 +65,7 @@ describe('Spartacus Schematics: ng-add', () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         'ng-add',
-        { ...defaultOptions, 'test-outlets': true },
+        defaultOptions,
         appTree
       )
       .toPromise();
