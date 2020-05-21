@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { pluck, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
-import { PaymentType } from '../../model/cart.model';
+import { pluck, shareReplay, tap, withLatestFrom, take } from 'rxjs/operators';
+import { PaymentType, Cart } from '../../model/cart.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
@@ -93,12 +93,27 @@ export class PaymentTypeService {
    * Get the selected payment type
    */
   getSelectedPaymentType(): Observable<string> {
+    let cart: Cart;
+    this.activeCartService
+      .getActive()
+      .pipe(take(1))
+      .subscribe((data) => (cart = data));
+
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getSelectedPaymentType),
       tap((selected) => {
-        // if there is no select type, we set it to the default one 'ACCOUNT'
         if (selected === '') {
-          this.setPaymentType(this.ACCOUNT_PAYMENT);
+          // cart has payment type, so only need to set the flag
+          if (cart && cart.paymentType) {
+            this.checkoutStore.dispatch(
+              new CheckoutActions.SetSelectedPaymentTypeFlag(
+                cart.paymentType.code
+              )
+            );
+          } else {
+            // set to the default type: account
+            this.setPaymentType(this.ACCOUNT_PAYMENT);
+          }
         }
       })
     );
