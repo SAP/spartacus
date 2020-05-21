@@ -68,7 +68,7 @@ cd ../../dist
 if [[ "$1" == "dev" ]] || [[ "$2" == "dev" ]]; then
   cd ../projects/dev-schematics
   unpublish "dev-schematics"
-  yarn build
+  yarn && yarn build
   publish "dev-schematics"
   cd ../../dist
 fi

@@ -58,7 +58,7 @@ describe('Spartacus Schematics: ng-add', () => {
       .runExternalSchematicAsync(
         '@spartacus/schematics',
         'ng-add',
-        defaultOptions,
+        { ...defaultOptions, name: 'schematics-test' },
         appTree
       )
       .toPromise();

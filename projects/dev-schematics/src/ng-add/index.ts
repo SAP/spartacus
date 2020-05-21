@@ -8,8 +8,9 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { getSpartacusVersion } from '../shared/utils/package-utils';
+import { Schema as DevSpartacusOptions } from './schema';
 
-export default function (options: any): Rule {
+export default function (options: DevSpartacusOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
     if (!getSpartacusVersion(host)) {
       throw new SchematicsException(
@@ -17,18 +18,16 @@ export default function (options: any): Rule {
       );
     }
 
-    context.logger.info(options);
-
     return chain([
-      options['default-base-sites'] && JSON.parse(options['default-base-sites'])
+      options['default-base-sites'] && options['default-base-sites']
         ? schematic('add-baseSites', options)
         : noop(),
 
-      options['default-routing'] && JSON.parse(options['default-routing'])
+      options['default-routing'] && options['default-routing']
         ? schematic('add-routing', options)
         : noop(),
 
-      options['test-outlets'] && JSON.parse(options['test-outlets'])
+      options['test-outlets'] && options['test-outlets']
         ? schematic('add-test-outlets', options)
         : noop(),
     ])(host, context);

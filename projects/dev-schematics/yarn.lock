@@ -235,8 +235,8 @@
 
 "@spartacus/schematics@^v2.1.0-dev.1":
   version "2.1.0-dev.0"
-  resolved "http://localhost:4873/@spartacus%2fschematics/-/schematics-2.1.0-dev.0.tgz#5a43858a2c851c8652ffebd8285260a4aea5f8ed"
-  integrity sha512-sf2XCmPwZcvGD+68cH2wt4Kgfez5B6qHzTaapLAM0/i/IrLEBvVTuTIEyvQ5DjNuMBDYr5WqUTXKmCLJV6gPoQ==
+  resolved "http://localhost:4873/@spartacus%2fschematics/-/schematics-2.1.0-dev.0.tgz#5e1324ad69d775f63b6029ce23cb2a8c2ae79d4a"
+  integrity sha512-Dacl5VlHD/QG949BgEqcfXH3Toa5j0DUH2nwXNIt8R5ULRFa77JpPYkTGa5UGTL577GZtBalKzDr3KnVUs9wqg==
   dependencies:
     "@angular-devkit/core" "^9.1.0"
     "@angular-devkit/schematics" "^9.1.0"
