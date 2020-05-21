@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
@@ -10,7 +9,6 @@ import { PaymentTypeComponent } from './payment-type.component';
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     I18nModule,
     SpinnerModule,
     ConfigModule.withConfig(<CmsConfig>{

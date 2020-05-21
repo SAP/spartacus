@@ -13,7 +13,7 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
     id: 'step0',
     name: 'step 0',
     routeName: 'route0',
-    type: [CheckoutStepType.PAYMENT_TYPES],
+    type: [CheckoutStepType.PO_NUMBER],
   },
   {
     id: 'step1',

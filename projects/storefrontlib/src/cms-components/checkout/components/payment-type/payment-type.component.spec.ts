@@ -1,8 +1,5 @@
 import { Component, Type } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import {
   PaymentTypeService,
   I18nTestingModule,
@@ -25,23 +22,16 @@ class MockPaymentTypeService {
   getPaymentTypes(): Observable<PaymentType[]> {
     return of();
   }
+  setPaymentType(): void {}
+  getSelectedPaymentType(): Observable<string> {
+    return of('ACCOUNT');
+  }
 }
 
 class MockCheckoutStepService {
   disableEnableStep = createSpy();
   resetSteps = createSpy();
-  next = createSpy();
-  back = createSpy();
-  getBackBntText(): string {
-    return '';
-  }
 }
-
-const mockActivatedRoute = {
-  snapshot: {
-    url: ['checkout', 'payment-type'],
-  },
-};
 
 const mockPaymentTypes: PaymentType[] = [
   { code: 'card', displayName: 'card' },
@@ -57,7 +47,7 @@ describe('PaymentTypeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
+      imports: [I18nTestingModule],
       declarations: [PaymentTypeComponent, MockSpinnerComponent],
       providers: [
         {
@@ -68,7 +58,6 @@ describe('PaymentTypeComponent', () => {
           provide: CheckoutStepService,
           useClass: MockCheckoutStepService,
         },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
     }).compileComponents();
 
@@ -87,8 +76,6 @@ describe('PaymentTypeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentTypeComponent);
     component = fixture.componentInstance;
-
-    component.ngOnInit();
   });
 
   it('should be created', () => {
@@ -101,65 +88,21 @@ describe('PaymentTypeComponent', () => {
     });
   });
 
-  it('should reset checkout steps', () => {
-    expect(checkoutStepService.resetSteps).toHaveBeenCalled();
-  });
-
-  it('should be able to go to next step', () => {
-    component.next();
-    expect(checkoutStepService.next).toHaveBeenCalledWith(
-      <any>mockActivatedRoute
-    );
-  });
-
-  it('should set the selected payment type to cart after invoking next()', () => {
-    // will implmented in #6655
-  });
-
-  it('should cbe able to go to previous step', () => {
-    component.back();
-    expect(checkoutStepService.back).toHaveBeenCalledWith(
-      <any>mockActivatedRoute
-    );
-  });
-
-  it('should disable PAYMENT_DETAILS step when choosing type Account', () => {
-    component.changeType('ACCOUNT');
+  it('should get selected paymen type', () => {
+    let selected: string;
+    component.typeSelected$.subscribe((data) => {
+      selected = data;
+    });
+    expect(selected).toBe('ACCOUNT');
     expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
       CheckoutStepType.PAYMENT_DETAILS,
       true
     );
-
-    component.changeType('CARD');
-    expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
-      CheckoutStepType.PAYMENT_DETAILS,
-      false
-    );
   });
 
-  describe('UI back button', () => {
-    const getContinueBtn = () =>
-      fixture.debugElement.query(By.css('.cx-checkout-btns .btn-action'));
-
-    it('should call "back" function after being clicked', () => {
-      spyOn(component, 'back');
-      getContinueBtn().nativeElement.click();
-      fixture.detectChanges();
-
-      expect(component.back).toHaveBeenCalled();
-    });
-  });
-
-  describe('UI continue button', () => {
-    const getContinueBtn = () =>
-      fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
-
-    it('should call "next" function after being clicked', () => {
-      spyOn(component, 'next');
-      getContinueBtn().nativeElement.click();
-      fixture.detectChanges();
-
-      expect(component.next).toHaveBeenCalled();
-    });
+  it('should set payment type when changeType is called', () => {
+    spyOn(paymentTypeService, 'setPaymentType').and.callThrough();
+    component.changeType('ACCOUNT');
+    expect(paymentTypeService.setPaymentType).toHaveBeenCalledWith('ACCOUNT');
   });
 });
