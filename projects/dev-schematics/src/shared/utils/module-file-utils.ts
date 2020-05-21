@@ -5,7 +5,12 @@ import {
 } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
 import * as ts from 'typescript';
-import { ANGULAR_CORE, InsertDirection, getTsSourceFile, commitChanges } from "@spartacus/schematics/public_api";
+import {
+  ANGULAR_CORE,
+  InsertDirection,
+  getTsSourceFile,
+  commitChanges,
+} from '@spartacus/schematics/public_api';
 
 export function insertPropertyInStorefrontModuleCallExpression(
   host: Tree,

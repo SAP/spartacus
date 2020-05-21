@@ -9,7 +9,6 @@ import {
 } from '@angular-devkit/schematics';
 import { getSpartacusVersion } from '../shared/utils/package-utils';
 
-
 export default function (options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
     if (!getSpartacusVersion(host)) {

@@ -4,7 +4,10 @@ import {
 } from '@angular-devkit/schematics/testing';
 import path from 'path';
 import { Schema as SpartacusOptions } from '../ng-add/schema';
-import { TEST_CONFIG_MODULE, TEST_OUTLET_MODULE } from '@spartacus/schematics/public_api';
+import {
+  TEST_CONFIG_MODULE,
+  TEST_OUTLET_MODULE,
+} from '@spartacus/schematics/public_api';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -63,11 +66,7 @@ describe('Spartacus Schematics: ng-add', () => {
 
   it('should add outlets module and config', async () => {
     const tree = await schematicRunner
-      .runSchematicAsync(
-        'ng-add',
-        defaultOptions,
-        appTree
-      )
+      .runSchematicAsync('ng-add', defaultOptions, appTree)
       .toPromise();
 
     const appModule = tree.readContent('/src/app/app.module.ts');

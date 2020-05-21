@@ -62,11 +62,7 @@ describe('Spartacus Schematics: ng-add', () => {
 
   it('should add pre-defined base sites', async () => {
     const tree = await schematicRunner
-      .runSchematicAsync(
-        'ng-add',
-        defaultOptions,
-        appTree
-      )
+      .runSchematicAsync('ng-add', defaultOptions, appTree)
       .toPromise();
 
     const appModule = tree.readContent('/src/app/app.module.ts');
