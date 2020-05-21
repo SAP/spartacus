@@ -39,7 +39,7 @@ Toolkit.run(
       'target',
     ]);
 
-    const libraries = ['assets', 'storefront', 'cds'];
+    const libraries = ['assets', 'storefront', 'cds', 'core'];
 
     const libsDiffs = libraries.map((library) => {
       const sourceBranchReportDirectory = `etc`;
@@ -73,11 +73,11 @@ Toolkit.run(
                 ? 'nothing changed ;)'
                 : '``` diff\n' + libDiff.diff + '\n```')
           )
-          .join('\n') +
-        '\n' +
-        '### @spartacus/core public API diff\n' +
-        'unable to analyze this library :(\n' +
-        'Please check changes in public API manually.'
+          .join('\n') // +
+        // '\n' +
+        // '### @spartacus/core public API diff\n' +
+        // 'unable to analyze this library :(\n' +
+        // 'Please check changes in public API manually.'
       );
     }
 

@@ -12,7 +12,7 @@ if [ "$2" != "" ] ; then
   DIR=$2
 fi
 
-npm i -g @microsoft/api-extractor
+npm i -g @microsoft/api-extractor@beta
 
 if [ "$DIR" != "self" ] ; then
   CLONE_DIR="$DIR-branch-clone"
@@ -59,12 +59,12 @@ cp "$ASSETS_CONFIG_PATH" ./dist/assets/api-extractor.json
 
 # @spartacus/core
 # Disabled because of the issue with `import * as `
-#
-# cp "$CORE_CONFIG_PATH" ./dist/core/api-extractor.json
-# (
-#   cd ./dist/core && \
-#   api-extractor run --local --verbose
-# )
+
+cp "$CORE_CONFIG_PATH" ./dist/core/api-extractor.json
+(
+  cd ./dist/core && \
+  api-extractor run --local --verbose
+)
 
 # @spartacus/storefront
 cp "$STOREFRONT_CONFIG_PATH" ./dist/storefrontlib/api-extractor.json
