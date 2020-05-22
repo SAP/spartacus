@@ -1,48 +1,66 @@
-<cx-interactive-table
-  [data$]="data$"
-  [header]="'userGroupAssignUsers.header' | cxTranslate: { code: code }"
-  [sortLabels]="{
-    byUnit: 'usersList.sorting.byUnitName' | cxTranslate,
-    byName: 'usersList.sorting.byName' | cxTranslate
-  }"
-  [columns]="[
+<cx-fake-tabs
+  [code]="code$ | async"
+  [links]="[
     {
-      key: 'selected',
-      value: 'usersList.assign' | cxTranslate,
-      checkBox: true
+      cxRoute: 'userGroupDetails',
+      name: 'userGroup.details'
     },
     {
-      key: 'email',
-      value: 'usersList.uid' | cxTranslate,
-      cxRoute: 'userDetails'
+      cxRoute: 'userGroupPermissions',
+      name: 'userGroup.permissions'
     },
-    { key: 'name', value: 'usersList.name' | cxTranslate },
-    {
-      key: 'parentUnit',
-      value: 'usersList.parentUnit' | cxTranslate,
-      cxRoute: 'orgUnitDetails'
-    }
+    { cxRoute: 'userGroupUsers', name: 'userGroup.users', active: true }
   ]"
-  (pageChange)="pageChange($event)"
-  (changeSortCode)="changeSortCode($event)"
-  (check)="assign($event)"
-  (uncheck)="unassign($event)"
+  [routerBackLink]="{ cxRoute: 'userGroups', name: 'userGroup.back' }"
 >
-  <div class="col-md-12 col-lg-6">
-    <div class="col-md-12 col-lg-6 float-right">
-      <a
-        [routerLink]="
-          { cxRoute: 'userGroupDetails', params: { code: code } } | cxUrl
-        "
-        class="btn btn-secondary btn-block"
-      >
-        {{ 'userGroupAssignUsers.back' | cxTranslate }}
-      </a>
+  <cx-interactive-table
+    [data$]="data$"
+    [header]="'userGroupAssignUsers.header' | cxTranslate: { code: code }"
+    [sortLabels]="{
+      byUnit: 'usersList.sorting.byUnitName' | cxTranslate,
+      byName: 'usersList.sorting.byName' | cxTranslate
+    }"
+    [columns]="[
+      {
+        key: 'selected',
+        value: 'usersList.assign' | cxTranslate,
+        checkBox: true
+      },
+      {
+        key: 'email',
+        value: 'usersList.uid' | cxTranslate,
+        cxRoute: 'userDetails'
+      },
+      { key: 'name', value: 'usersList.name' | cxTranslate },
+      {
+        key: 'parentUnit',
+        value: 'usersList.parentUnit' | cxTranslate,
+        cxRoute: 'orgUnitDetails'
+      }
+    ]"
+    (pageChange)="pageChange($event)"
+    (changeSortCode)="changeSortCode($event)"
+    (check)="assign($event)"
+    (uncheck)="unassign($event)"
+  >
+    <div class="col-md-12 col-lg-6">
+      <div class="row">
+        <div class="pb-mobile-2 col-md-12 col-lg-6">
+          <a
+            [routerLink]="
+              { cxRoute: 'userGroupUsers', params: { code: code } } | cxUrl
+            "
+            class="btn btn-secondary btn-block"
+          >
+            {{ 'userGroupAssignUsers.back' | cxTranslate }}
+          </a>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <button (click)="unassignAll()" class="btn btn-primary btn-block">
+            {{ 'userGroupAssignUsers.unassignAll' | cxTranslate }}
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="col-md-12 col-lg-6 float-right">
-      <button (click)="unassignAll()" class="btn btn-primary btn-block">
-        {{ 'userGroupAssignUsers.unassignAll' | cxTranslate }}
-      </button>
-    </div>
-  </div>
-</cx-interactive-table>
+  </cx-interactive-table>
+</cx-fake-tabs>

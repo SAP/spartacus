@@ -68,7 +68,10 @@
       </div>
       <div class="col-md-12 col-lg-6">
         <div class="row">
-          <div *ngIf="budget.active; else enable" class="col-md-12 col-lg-6">
+          <div
+            *ngIf="budget.active; else enable"
+            class="pb-mobile-2 col-md-12 col-lg-6"
+          >
             <button
               class="btn btn-secondary btn-block"
               (click)="openModal(confirmDisable)"
@@ -85,7 +88,7 @@
             </ng-template>
           </div>
           <ng-template #enable>
-            <div class="col-md-12 col-lg-6">
+            <div class="pb-mobile-2 col-md-12 col-lg-6">
               <button
                 class="btn btn-primary btn-block"
                 [disabled]="!budget.orgUnit?.active"

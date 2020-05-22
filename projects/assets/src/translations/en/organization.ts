@@ -365,7 +365,8 @@ export const organization = {
     },
   },
   userGroup: {
-    details: 'User Group details',
+    header: 'Details for {{code}}',
+    details: 'Details',
     id: 'ID',
     name: 'User Group Name',
     parentUnit: 'Parent Unit',
