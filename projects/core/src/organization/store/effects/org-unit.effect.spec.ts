@@ -3,7 +3,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { ListModel } from '@spartacus/core';
+import { EntitiesModel, ListModel } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
@@ -12,6 +12,7 @@ import {
   B2BApprovalProcess,
   B2BUnit,
   B2BUnitNode,
+  B2BUser,
 } from '../../../model/org-unit.model';
 import { defaultOccOrganizationConfig } from '../../../occ/adapters/organization/default-occ-organization-config';
 import { OccConfig } from '../../../occ/config/occ-config';
@@ -36,14 +37,29 @@ const address: B2BAddress = { id: 'testAddressId' };
 const addressId = address.id;
 const orgCustomerId = 'testCustomerId';
 const roleId = 'testRoleId';
-const uid = 'testUid';
-const selected = true;
+const approvalProcess: B2BApprovalProcess = {
+  code: 'testCode',
+  name: 'testName',
+};
+const approvalProcesses: B2BApprovalProcess[] = [approvalProcess];
+const unitNode: B2BUnitNode = { id: 'testUnitNode' };
+const users: EntitiesModel<B2BUser> = { values: [{}] };
 
 class MockOrgUnitConnector {
   get = createSpy().and.returnValue(of(orgUnit));
   getList = createSpy().and.returnValue(of(orgUnitList));
   create = createSpy().and.returnValue(of(orgUnit));
   update = createSpy().and.returnValue(of(orgUnit));
+  createAddress = createSpy().and.returnValue(of(address));
+  updateAddress = createSpy().and.returnValue(of(address));
+  deleteAddress = createSpy().and.returnValue(of(address));
+  assignRole = createSpy().and.returnValue(of(roleId));
+  unassignRole = createSpy().and.returnValue(of(roleId));
+  assignApprover = createSpy().and.returnValue(of(roleId));
+  unassignApprover = createSpy().and.returnValue(of(roleId));
+  getApprovalProcesses = createSpy().and.returnValue(of(approvalProcesses));
+  getUsers = createSpy().and.returnValue(of(users));
+  getTree = createSpy().and.returnValue(of(unitNode));
 }
 
 describe('OrgUnit Effects', () => {
@@ -259,6 +275,7 @@ describe('OrgUnit Effects', () => {
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
+      //effect -> updateAddress is triggering LoadAddresses instead of UpdateAddressSuccess
       expect(effects.updateAddress$).toBeObservable(expected);
       expect(orgUnitConnector.updateAddress).toHaveBeenCalledWith(
         userId,
@@ -347,9 +364,9 @@ describe('OrgUnit Effects', () => {
         roleId,
       });
       const completion = new OrgUnitActions.AssignRoleSuccess({
-        uid,
+        uid: orgCustomerId,
         roleId,
-        selected,
+        selected: true,
       });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
@@ -395,9 +412,9 @@ describe('OrgUnit Effects', () => {
         roleId,
       });
       const completion = new OrgUnitActions.UnassignRoleSuccess({
-        uid,
+        uid: orgCustomerId,
         roleId,
-        selected,
+        selected: false,
       });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
@@ -444,9 +461,9 @@ describe('OrgUnit Effects', () => {
         roleId,
       });
       const completion = new OrgUnitActions.AssignApproverSuccess({
-        uid,
+        uid: orgCustomerId,
         roleId,
-        selected,
+        selected: true,
       });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
@@ -496,9 +513,9 @@ describe('OrgUnit Effects', () => {
         roleId,
       });
       const completion = new OrgUnitActions.UnassignApproverSuccess({
-        uid,
+        uid: orgCustomerId,
         roleId,
-        selected,
+        selected: false,
       });
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
@@ -540,12 +557,6 @@ describe('OrgUnit Effects', () => {
   });
 
   describe('LoadApprovalProcesses', () => {
-    const approvalProcess: B2BApprovalProcess = {
-      code: 'testCode',
-      name: 'testName',
-    };
-    const approvalProcesses: B2BApprovalProcess[] = [approvalProcess];
-
     it('should return LoadApprovalProcessesSuccess action', () => {
       const action = new OrgUnitActions.LoadApprovalProcesses({
         userId,
@@ -668,8 +679,6 @@ describe('OrgUnit Effects', () => {
   });
 
   describe('LoadTree', () => {
-    const unitNode: B2BUnitNode = { id: 'testUnitNode' };
-
     it('should return LoadTreeSuccess action', () => {
       const action = new OrgUnitActions.LoadTree({
         userId,
