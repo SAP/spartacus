@@ -36,7 +36,7 @@ For Mac:
 
 For Windows:
 
-- [ ] Cleanup repo, build and generate compodocs and publish on github pages (`yarn generate:docs` and `yarn publish:docs` for patch stable/releases)
+- [ ] Cleanup repo, build and generate compodocs and publish on github pages (`yarn build:core:lib:cds && yarn generate:docs` and `yarn publish:docs` for patch stable/releases)
 - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/develop.zip` -> `spartacussampleaddon.zip`
 - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/develop.tar.gz` -> `spartacussampleaddon.tar.gz`
 
@@ -50,7 +50,7 @@ For Windows:
   - [ ] `npm run release:cds:with-changelog`
   - [ ] `npm run release:schematics:with-changelog`
 - [ ] Check that release-notes are populated on github (if not, update them)
-- [ ] Check tags on npm (`next` tag should always point to the highest version, `latest` for the last stable verion, you can leave `rc` tag until we release stable release)
+- [ ] Check tags on npm (`next` tag should always point to the highest version, `latest` for the last stable verion, you can leave `rc` tag until we release stable release). Use `npm dist-tag` for updates.
 - [ ] Check libs from a new shell app (install-script) `./run.sh install_npm` (change config's `SPARTACUS_VERSION` to `next/latest`)
 - [ ]  merge release branch (PR from release/x.y.z) to maintenance branch
 - [ ]  inform PO about libraries successfully released
