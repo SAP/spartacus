@@ -128,4 +128,36 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       expect(result).toEqual(cartData);
     });
   });
+
+  describe('setPaymentType (set po number to cart)', () => {
+    it('should set payment type to cart', () => {
+      const typeCode = 'CARD';
+
+      let result;
+      service
+        .setPaymentType(userId, cartId, typeCode, 'test-number')
+        .subscribe((res) => (result = res));
+
+      const mockReq = httpMock.expectOne((req) => {
+        return (
+          req.method === 'PUT' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/paymenttype'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.params.get('paymentType')).toEqual(typeCode);
+      expect(mockReq.request.params.get('purchaseOrderNumber')).toEqual(
+        'test-number'
+      );
+      mockReq.flush(cartData);
+      expect(result).toEqual(cartData);
+    });
+  });
 });

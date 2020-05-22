@@ -39,7 +39,7 @@ const mockActivatedRoute = {
   },
 };
 
-fdescribe('PoNumberComponent', () => {
+describe('PoNumberComponent', () => {
   let component: PoNumberComponent;
   let fixture: ComponentFixture<PoNumberComponent>;
   let checkoutStepService: CheckoutStepService;
