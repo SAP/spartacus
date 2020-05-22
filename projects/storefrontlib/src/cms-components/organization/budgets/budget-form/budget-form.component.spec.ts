@@ -32,7 +32,7 @@ const mockBudget: Budget = {
     symbol: '$',
   },
   startDate: '2010-01-01T00:00:00+0000',
-  endDate: '2034-07-12T00:59:59+0000',
+  endDate: '2034-07-12T23:59:59+0000',
   orgUnit: { name: 'Org Unit 1', uid: 'unitNode1' },
   costCenters: [
     { name: 'costCenter1', code: 'cc1', originalCode: 'Cost Center 1' },
