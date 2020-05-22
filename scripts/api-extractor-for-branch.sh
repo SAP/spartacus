@@ -73,7 +73,7 @@ cp "$STOREFRONT_CONFIG_PATH" ./dist/storefrontlib/api-extractor.json
   api-extractor run --local --verbose
 )
 
-# @spartacus/storefront
+# @spartacus/cds
 cp "$CDS_CONFIG_PATH" ./dist/cds/api-extractor.json
 (
   cd ./dist/cds && \
