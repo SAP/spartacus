@@ -30,7 +30,7 @@ CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
-ANGULAR_CLI_VERSION='~9.0.0'
+ANGULAR_CLI_VERSION='~9.1.0'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"
