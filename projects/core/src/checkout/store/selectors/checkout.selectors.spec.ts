@@ -186,7 +186,7 @@ describe('Checkout Selectors', () => {
       store
         .pipe(select(CheckoutSelectors.getPoNumer))
         .subscribe((value) => (result = value));
-      expect(result).toEqual('');
+      expect(result).toEqual(undefined);
 
       store.dispatch(
         new CheckoutActions.SetPaymentTypeSuccess({

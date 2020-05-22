@@ -25,7 +25,7 @@ export class PoNumberComponent {
   typeSelected$: Observable<
     string
   > = this.paymentTypeService.getSelectedPaymentType().pipe(
-    filter((selected) => selected !== ''),
+    filter((selected) => selected !== undefined),
     tap((selected) => (this.typeCode = selected))
   );
 
@@ -45,7 +45,6 @@ export class PoNumberComponent {
 
   next(): void {
     const poNumInput = this.poNumberInput.nativeElement.value;
-    console.log('input', poNumInput);
     if (this.typeCode && poNumInput !== this.poNumber) {
       this.paymentTypeService.setPaymentType(this.typeCode, poNumInput);
     }

@@ -19,6 +19,10 @@ class MockPaymentTypeService {
   getSelectedPaymentType(): Observable<string> {
     return of('ACCOUNT');
   }
+  getPoNumber(): Observable<string> {
+    return of('test-number');
+  }
+  setPaymentType(): void {}
 }
 
 class MockCheckoutStepService {
@@ -35,11 +39,9 @@ const mockActivatedRoute = {
   },
 };
 
-describe('PoNumberComponent', () => {
+fdescribe('PoNumberComponent', () => {
   let component: PoNumberComponent;
   let fixture: ComponentFixture<PoNumberComponent>;
-
-  //let paymentTypeService: PaymentTypeService;
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(async(() => {
@@ -59,9 +61,6 @@ describe('PoNumberComponent', () => {
       ],
     }).compileComponents();
 
-    /*paymentTypeService = TestBed.inject(
-      PaymentTypeService as Type<PaymentTypeService>
-    );*/
     checkoutStepService = TestBed.inject(
       CheckoutStepService as Type<CheckoutStepService>
     );
@@ -77,13 +76,14 @@ describe('PoNumberComponent', () => {
   });
 
   it('should be able to go to next step', () => {
+    fixture.detectChanges();
     component.next();
     expect(checkoutStepService.next).toHaveBeenCalledWith(
       <any>mockActivatedRoute
     );
   });
 
-  it('should set the po to cart after invoking next()', () => {
+  it('should set the po and cost center to cart after invoking next()', () => {
     // will implmented
   });
 

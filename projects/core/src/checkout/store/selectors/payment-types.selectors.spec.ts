@@ -51,7 +51,7 @@ describe('Payment Types Selectors', () => {
       store
         .pipe(select(CheckoutSelectors.getSelectedPaymentType))
         .subscribe((value) => (result = value));
-      expect(result).toEqual('');
+      expect(result).toEqual(undefined);
 
       store.dispatch(
         new CheckoutActions.SetPaymentTypeSuccess({
