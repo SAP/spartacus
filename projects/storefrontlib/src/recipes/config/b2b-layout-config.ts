@@ -58,7 +58,7 @@ export const b2bLayoutConfig: LayoutConfig = {
     },
     ProductDetailsPageTemplate: {
       slots: [
-        'TopHeaderSlot',
+        // 'TopHeaderSlot',
         'Summary',
         'UpSelling',
         'CrossSelling',
