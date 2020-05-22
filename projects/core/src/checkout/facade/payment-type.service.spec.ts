@@ -13,7 +13,11 @@ import { PaymentTypeService } from './payment-type.service';
 import * as fromProcessReducers from '../../process/store/reducers/index';
 
 const userId = 'testUserId';
-const cart = { code: 'testCartId', guid: 'testGuid' };
+const cart = {
+  code: 'testCart',
+  paymentType: { code: 'ACCOUNT' },
+  purchaseOrderNumber: 'testNumber',
+};
 
 class ActiveCartServiceStub {
   cart;
@@ -21,7 +25,7 @@ class ActiveCartServiceStub {
     return of(cart.code);
   }
   getActive() {
-    return of({ code: 'testCart', paymentType: { code: 'ACCOUNT' } });
+    return of(cart);
   }
 }
 
@@ -118,31 +122,35 @@ describe('PaymentTypeService', () => {
   });
 
   it('should be able to get selected payment type if data exist', () => {
-    store.dispatch(
-      new CheckoutActions.LoadPaymentTypesSuccess([
-        { code: 'account', displayName: 'account' },
-        { code: 'card', displayName: 'masterCard' },
-      ])
-    );
-    store.dispatch(
-      new CheckoutActions.SetPaymentType({
-        userId: userId,
-        cartId: cart.code,
-        typeCode: 'CARD',
-      })
-    );
-
+    store.dispatch(new CheckoutActions.SetPaymentTypeSuccess(cart));
     let selected: string;
     service.getSelectedPaymentType().subscribe((data) => {
       selected = data;
     });
-    expect(selected).toEqual('CARD');
+    expect(selected).toEqual('ACCOUNT');
   });
 
   it('should be able to set the seleced filed if cart has payment type', () => {
     service.getSelectedPaymentType().subscribe();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.SetSelectedPaymentTypeFlag('ACCOUNT')
+      new CheckoutActions.SetPaymentTypeSuccess(cart)
+    );
+  });
+
+  it('should be able to get po number if data exist', () => {
+    store.dispatch(new CheckoutActions.SetPaymentTypeSuccess(cart));
+
+    let po: string;
+    service.getPoNumber().subscribe((data) => {
+      po = data;
+    });
+    expect(po).toEqual('testNumber');
+  });
+
+  it('should be able to set po if cart has it', () => {
+    service.getPoNumber().subscribe();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CheckoutActions.SetPaymentTypeSuccess(cart)
     );
   });
 });

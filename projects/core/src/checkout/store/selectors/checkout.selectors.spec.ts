@@ -179,4 +179,23 @@ describe('Checkout Selectors', () => {
       expect(result).toEqual(orderDetails);
     });
   });
+
+  describe('getPoNumer', () => {
+    it('should get the po number', () => {
+      let result: string;
+      store
+        .pipe(select(CheckoutSelectors.getPoNumer))
+        .subscribe((value) => (result = value));
+      expect(result).toEqual(undefined);
+
+      store.dispatch(
+        new CheckoutActions.SetPaymentTypeSuccess({
+          code: 'testCart',
+          purchaseOrderNumber: 'testNumber',
+          paymentType: { code: 'ACCOUNT' },
+        })
+      );
+      expect(result).toEqual('testNumber');
+    });
+  });
 });

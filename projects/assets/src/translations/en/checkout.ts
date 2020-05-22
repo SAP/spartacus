@@ -43,12 +43,13 @@ export const checkout = {
   checkout: {
     backToCart: 'Back to cart',
   },
-  checkoutType: {
-    poNumber: 'P.O. NO.',
+  checkoutPO: {
+    poNumber: 'Purchase order number (optional)',
     costCenter: 'Cost Center',
   },
   checkoutProgress: {
-    paymentType: 'Payment Type',
+    paymentType: 'Payment Method:',
+    poNumber: 'P.O. NO.',
     shippingAddress: 'Shipping Address',
     deliveryMode: 'Delivery mode',
     paymentDetails: 'Payment details',

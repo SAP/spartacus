@@ -102,17 +102,38 @@ export class PaymentTypeService {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getSelectedPaymentType),
       tap((selected) => {
-        if (selected === '') {
-          // cart has payment type, so only need to set the flag
+        if (selected === undefined) {
           if (cart && cart.paymentType) {
             this.checkoutStore.dispatch(
-              new CheckoutActions.SetSelectedPaymentTypeFlag(
-                cart.paymentType.code
-              )
+              new CheckoutActions.SetPaymentTypeSuccess(cart)
             );
           } else {
             // set to the default type: account
             this.setPaymentType(this.ACCOUNT_PAYMENT);
+          }
+        }
+      })
+    );
+  }
+
+  /**
+   * Get PO Number
+   */
+  getPoNumber(): Observable<string> {
+    let cart: Cart;
+    this.activeCartService
+      .getActive()
+      .pipe(take(1))
+      .subscribe((data) => (cart = data));
+
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getPoNumer),
+      tap((po) => {
+        if (po === undefined) {
+          if (cart && cart.purchaseOrderNumber) {
+            this.checkoutStore.dispatch(
+              new CheckoutActions.SetPaymentTypeSuccess(cart)
+            );
           }
         }
       })

@@ -16,6 +16,19 @@ describe('Checkout reducer', () => {
     });
   });
 
+  describe('SET_PAYMENT_TYPE_SUCCESS action', () => {
+    it('should set po number to cart', () => {
+      const { initialState } = fromCheckout;
+
+      const action = new CheckoutActions.SetPaymentTypeSuccess({
+        code: 'testCart',
+        purchaseOrderNumber: 'testNumber',
+      });
+      const state = fromCheckout.reducer(initialState, action);
+      expect(state.poNumber.po).toEqual('testNumber');
+    });
+  });
+
   describe('ADD_DELIVERY_ADDRESS_SUCCESS or SET_DELIVERY_ADDRESS_SUCCESS action', () => {
     it('should add delivery address', () => {
       const address: Address = {

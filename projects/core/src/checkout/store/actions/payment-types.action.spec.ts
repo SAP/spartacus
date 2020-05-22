@@ -107,16 +107,6 @@ describe('Payment Types Actions', () => {
           });
         });
       });
-
-      describe('SetSelectedPaymentTypeFlag', () => {
-        it('should create the action', () => {
-          const action = new CheckoutActions.SetSelectedPaymentTypeFlag('CARD');
-          expect({ ...action }).toEqual({
-            type: CheckoutActions.SET_SELECTED_PAYMENT_TYPE_FLAG,
-            payload: 'CARD',
-          });
-        });
-      });
     });
   });
 });

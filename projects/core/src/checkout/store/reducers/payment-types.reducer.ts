@@ -4,7 +4,7 @@ import { PaymentTypesState } from '../checkout-state';
 
 export const initialState: PaymentTypesState = {
   entities: {},
-  selected: '',
+  selected: undefined,
 };
 
 export function reducer(
@@ -38,24 +38,17 @@ export function reducer(
       };
     }
 
-    case CheckoutActions.SET_PAYMENT_TYPE: {
+    case CheckoutActions.SET_PAYMENT_TYPE_SUCCESS: {
       return {
         ...state,
-        selected: action.payload.typeCode,
-      };
-    }
-
-    case CheckoutActions.SET_SELECTED_PAYMENT_TYPE_FLAG: {
-      return {
-        ...state,
-        selected: action.payload,
+        selected: action.payload.paymentType.code,
       };
     }
 
     case CheckoutActions.CLEAR_CHECKOUT_DATA: {
       return {
         ...state,
-        selected: '',
+        selected: undefined,
       };
     }
 

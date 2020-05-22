@@ -20,9 +20,6 @@ export const SET_PAYMENT_TYPE = '[Checkout] Set Payment Type';
 export const SET_PAYMENT_TYPE_FAIL = '[Checkout] Set Payment Type Fail';
 export const SET_PAYMENT_TYPE_SUCCESS = '[Checkout] Set Payment Type Success';
 
-export const SET_SELECTED_PAYMENT_TYPE_FLAG =
-  '[Checkout] Set the Selected Payment Type Flag';
-
 export class LoadPaymentTypes extends EntityLoadAction {
   readonly type = LOAD_PAYMENT_TYPES;
   constructor() {
@@ -73,11 +70,6 @@ export class SetPaymentTypeSuccess implements Action {
   constructor(public payload: Cart) {}
 }
 
-export class SetSelectedPaymentTypeFlag implements Action {
-  readonly type = SET_SELECTED_PAYMENT_TYPE_FLAG;
-  constructor(public payload: string) {}
-}
-
 export type PaymentTypesAction =
   | LoadPaymentTypes
   | LoadPaymentTypesFail
@@ -85,5 +77,4 @@ export type PaymentTypesAction =
   | ResetLoadPaymentTypesProcess
   | SetPaymentType
   | SetPaymentTypeFail
-  | SetPaymentTypeSuccess
-  | SetSelectedPaymentTypeFlag;
+  | SetPaymentTypeSuccess;

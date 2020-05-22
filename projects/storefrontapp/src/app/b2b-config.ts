@@ -43,10 +43,10 @@ export const b2bConfig: StorefrontConfig = {
   checkout: {
     steps: [
       {
-        id: 'paymentType',
-        name: 'checkoutProgress.paymentType',
-        routeName: 'checkoutPaymentType',
-        type: [CheckoutStepType.PAYMENT_TYPES],
+        id: 'poNumber',
+        name: 'checkoutProgress.poNumber',
+        routeName: 'checkoutPoNumber',
+        type: [CheckoutStepType.PO_NUMBER],
       },
       {
         id: 'shippingAddress',

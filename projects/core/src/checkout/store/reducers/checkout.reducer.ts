@@ -1,9 +1,11 @@
 import { Address } from '../../../model/address.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
+import { Cart } from '../../../model/cart.model';
 import { CheckoutStepsState } from '../checkout-state';
 import { CheckoutActions } from './../actions/index';
 
 export const initialState: CheckoutStepsState = {
+  poNumber: { po: undefined },
   address: {},
   deliveryMode: {
     supported: {},
@@ -18,8 +20,19 @@ export function reducer(
   action:
     | CheckoutActions.CheckoutAction
     | CheckoutActions.CheckoutClearMiscsData
+    | CheckoutActions.SetPaymentTypeSuccess
 ): CheckoutStepsState {
   switch (action.type) {
+    case CheckoutActions.SET_PAYMENT_TYPE_SUCCESS: {
+      const cart: Cart = action.payload;
+      return {
+        ...state,
+        poNumber: {
+          po: cart.purchaseOrderNumber,
+        },
+      };
+    }
+
     case CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS:
     case CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS: {
       const address: Address = action.payload;

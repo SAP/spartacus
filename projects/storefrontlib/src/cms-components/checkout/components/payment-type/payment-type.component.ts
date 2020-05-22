@@ -1,14 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PaymentTypeService, PaymentType } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutStepType } from '../../model/checkout-step.model';
 
@@ -17,54 +10,35 @@ import { CheckoutStepType } from '../../model/checkout-step.model';
   templateUrl: './payment-type.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaymentTypeComponent implements OnInit {
+export class PaymentTypeComponent {
   readonly ACCOUNT_PAYMENT = 'ACCOUNT';
 
   paymentTypes$: Observable<
     PaymentType[]
-  > = this.paymentTypeService.getPaymentTypes().pipe(
-    tap((paymentTypes) => {
-      if (paymentTypes && paymentTypes.length > 0) {
-        // Now we use the first type as the default selected type
-        // This value should be read from cart.
-        // The `set PaymentType to cart` will be implemented in #6655
-        this.typeSelected = paymentTypes[0].code;
-      }
+  > = this.paymentTypeService.getPaymentTypes();
+
+  typeSelected: string;
+  typeSelected$: Observable<
+    string
+  > = this.paymentTypeService.getSelectedPaymentType().pipe(
+    filter((selected) => selected !== undefined),
+    tap((selected) => {
+      this.typeSelected = selected;
+      this.checkoutStepService.resetSteps();
+      this.checkoutStepService.disableEnableStep(
+        CheckoutStepType.PAYMENT_DETAILS,
+        selected === this.ACCOUNT_PAYMENT
+      );
     })
   );
 
-  @ViewChild('poNumber', { static: false })
-  poNumberInput: ElementRef;
-
-  typeSelected: string;
-
-  backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
-
   constructor(
     protected paymentTypeService: PaymentTypeService,
-    protected checkoutStepService: CheckoutStepService,
-    protected activatedRoute: ActivatedRoute
+    protected checkoutStepService: CheckoutStepService
   ) {}
 
-  ngOnInit(): void {
-    this.checkoutStepService.resetSteps();
-  }
-
   changeType(code: string): void {
+    this.paymentTypeService.setPaymentType(code);
     this.typeSelected = code;
-
-    this.checkoutStepService.disableEnableStep(
-      CheckoutStepType.PAYMENT_DETAILS,
-      this.typeSelected === this.ACCOUNT_PAYMENT
-    );
-  }
-
-  next(): void {
-    // here need set payment type, will implemented in #6655
-    this.checkoutStepService.next(this.activatedRoute);
-  }
-
-  back(): void {
-    this.checkoutStepService.back(this.activatedRoute);
   }
 }

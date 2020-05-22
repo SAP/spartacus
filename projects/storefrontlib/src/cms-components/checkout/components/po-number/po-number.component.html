@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-12 col-lg-9">
+    <label>
+      <span class="label-content">{{
+        'checkoutPO.poNumber' | cxTranslate
+      }}</span>
+      <input
+        #poNumber
+        class="form-control"
+        type="text"
+        value="{{ poNumber$ | async }}"
+      />
+    </label>
+
+    <label
+      aria-required="true"
+      *ngIf="(typeSelected$ | async) === ACCOUNT_PAYMENT"
+    >
+      <span class="label-content required">{{
+        'checkoutPO.costCenter' | cxTranslate
+      }}</span>
+      <select class="form-control">
+        <option value=""></option>
+        <option value=""></option>
+      </select>
+    </label>
+  </div>
+</div>
+
+<div class="row cx-checkout-btns">
+  <div class="col-md-12 col-lg-6">
+    <button class="btn btn-block btn-action" (click)="back()">
+      {{ backBtnText | cxTranslate }}
+    </button>
+  </div>
+  <div class="col-md-12 col-lg-6">
+    <button class="btn btn-block btn-primary" (click)="next()">
+      {{ 'common.continue' | cxTranslate }}
+    </button>
+  </div>
+</div>
