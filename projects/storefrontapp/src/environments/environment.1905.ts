@@ -1,7 +1,6 @@
 /************* TODO:b2b REVERT THIS FILE BEFORE MERGING **************/
 /** The contents should be:
 import { Environment } from './models/environment.model';
-
 export const environment: Environment = {
   production: true,
   occBaseUrl: 'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002',
