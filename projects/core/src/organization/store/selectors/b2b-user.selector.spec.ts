@@ -11,8 +11,8 @@ import {
 import * as fromReducers from '../reducers/index';
 import { B2BUserSelectors } from '../selectors/index';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
-import { B2BUser } from 'projects/core/src/model/org-unit.model';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { B2BUser } from '../../../model/org-unit.model';
 
 describe('B2BUser Selectors', () => {
   let store: Store<StateWithOrganization>;
