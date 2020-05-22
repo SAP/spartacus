@@ -16,9 +16,7 @@ import { Permission, PermissionService, RoutingService } from '@spartacus/core';
 })
 export class PermissionDetailsComponent implements OnInit {
   permission$: Observable<Permission>;
-  permissionCode$: Observable<
-    string
-  > = this.routingService
+  code$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(map((routingData) => routingData.state.params['code']));
 
@@ -29,7 +27,7 @@ export class PermissionDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.permission$ = this.permissionCode$.pipe(
+    this.permission$ = this.code$.pipe(
       tap((code) => this.permissionsService.loadPermission(code)),
       switchMap((code) => this.permissionsService.get(code)),
       filter(Boolean),
@@ -40,7 +38,7 @@ export class PermissionDetailsComponent implements OnInit {
   }
 
   update(permission: Permission) {
-    this.permissionCode$
+    this.code$
       .pipe(take(1))
       .subscribe((permissionCode) =>
         this.permissionsService.update(permissionCode, permission)

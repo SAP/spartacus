@@ -92,7 +92,8 @@ export const organization = {
     assign: 'Assign',
   },
   permission: {
-    details: 'Details for {{code}}',
+    header: 'Details for {{code}}',
+    details: 'Details',
     id: 'ID',
     name: 'Name',
     currency: 'Currency',
