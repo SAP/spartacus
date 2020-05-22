@@ -312,7 +312,7 @@ export function fillPaymentFormWithCheapProduct(
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
-    .should('contain', cartData.totalAndShipping + 'abc');
+    .should('contain', cartData.totalAndShipping);
   const reivewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
   cy.wait(`@${reivewPage}`).its('status').should('eq', 200);
