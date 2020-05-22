@@ -7,6 +7,7 @@ import {
   StateWithOrganization,
   B2BUserManagement,
   B2B_USER_FEATURE,
+  USER_GROUP_FEATURE,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
 import {
@@ -18,8 +19,8 @@ import { B2BUser } from '../../../model/org-unit.model';
 import { B2BSearchConfig } from '../../model/search-config';
 import { Permission } from '../../../model/permission.model';
 import { UserGroup } from '../../../model/user-group.model';
-import { getUserGroupsState } from './user-group.selector';
 import { getPermissionsState } from './permission.selector';
+// import { getUserGroupsState } from './user-group.selector';
 
 export const getB2BUserManagementState: MemoizedSelector<
   StateWithOrganization,
@@ -81,6 +82,15 @@ export const getB2BUserPermissions = (
     (state: B2BUserManagement, permissions: EntityLoaderState<Permission>) =>
       denormalizeCustomB2BSearch(state.permissions, permissions, params, code)
   );
+
+// avoid circular dependency
+const getUserGroupsState: MemoizedSelector<
+  StateWithOrganization,
+  EntityLoaderState<UserGroup>
+> = createSelector(
+  getOrganizationState,
+  (state: OrganizationState) => state[USER_GROUP_FEATURE].entities
+);
 
 export const getB2BUserUserGroups = (
   code: string,
