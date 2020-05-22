@@ -36,9 +36,9 @@ For Mac:
 
 For Windows:
 
-- [ ] Cleanup repo, build and generate compodocs and publish on github pages (`yarn build:core:lib:cds && yarn generate:docs` and `yarn publish:docs` for patch stable/releases)
-- [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/develop.zip` -> `spartacussampleaddon.zip`
-- [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/develop.tar.gz` -> `spartacussampleaddon.tar.gz`
+- [ ] Cleanup repo, build and generate compodocs and publish on github pages (`yarn generate:docs` and `yarn publish:docs` for patch stable/releases)
+- [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/develop.zip` -> `spartacussampledataaddon.zip`
+- [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/develop.tar.gz` -> `spartacussampledataaddon.tar.gz`
 
 ---
 
