@@ -1,6 +1,7 @@
 import { Injectable, isDevMode, Type } from '@angular/core';
-import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
-import { share, switchMap, tap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { MergingSubject } from './utils/merging-subject';
 
 /**
  * The object holds registered source observables as well as the merged result observable.
@@ -12,14 +13,9 @@ interface EventMeta<T> {
   inputSubject$: Subject<T>;
 
   /**
-   * Observable with array of sources of the event
+   * A custom subject that allows for dynamic adding and removing sources to be merged as an output
    */
-  sources$: BehaviorSubject<Observable<T>[]>;
-
-  /**
-   * Output observable with merged all event sources
-   */
-  output$: Observable<T>;
+  mergingSubject: MergingSubject<T>;
 }
 
 /**
@@ -52,9 +48,8 @@ export class EventService {
    * @returns a teardown function which unregisters the given event source
    */
   register<T>(eventType: Type<T>, source$: Observable<T>): () => void {
-    const event = this.getEventMeta(eventType);
-    const sources: Observable<T>[] = event.sources$.value;
-    if (sources.includes(source$)) {
+    const eventMeta = this.getEventMeta(eventType);
+    if (eventMeta.mergingSubject.has(source$)) {
       if (isDevMode()) {
         console.warn(
           `EventService: the event source`,
@@ -64,24 +59,10 @@ export class EventService {
         );
       }
     } else {
-      event.sources$.next([...sources, source$]);
+      eventMeta.mergingSubject.add(source$);
     }
 
-    return () => this.unregister(eventType, source$);
-  }
-
-  /**
-   * Unregisters an event source for the given event type
-   *
-   * @param eventType the event type
-   * @param source$ an observable that represents the source
-   */
-  private unregister<T>(eventType: Type<T>, source$: Observable<T>): void {
-    const event = this.getEventMeta(eventType);
-    const newSources: Observable<T>[] = event.sources$.value.filter(
-      (s$) => s$ !== source$
-    );
-    event.sources$.next(newSources);
+    return () => eventMeta.mergingSubject.remove(source$);
   }
 
   /**
@@ -89,15 +70,15 @@ export class EventService {
    * @param eventTypes event type
    */
   get<T>(eventType: Type<T>): Observable<T> {
-    return this.getEventMeta(eventType).output$;
+    let output$ = this.getEventMeta(eventType).mergingSubject.output$;
+    if (isDevMode()) {
+      output$ = this.getValidatedEventStream(output$, eventType);
+    }
+    return output$;
   }
 
   /**
-   * Dispatches a single event.
-   *
-   * However, it's recommended to use method `register` instead, whenever the event can come from some stream.
-   *  It allows for lazy computations in the event source stream -
-   *  if no one subscribes to the event, the logic of the event source stream won't be evaluated.
+   * Dispatches an instance of an individual event.
    */
   dispatch(event: Object): void {
     const eventType = event.constructor as Type<any>;
@@ -138,20 +119,9 @@ export class EventService {
    * Creates the event meta object for the given event type
    */
   private createEventMeta<T>(eventType: Type<T>): void {
-    const sources$ = new BehaviorSubject<Observable<T>[]>([]);
-    let output$ = sources$.pipe(
-      switchMap((sources: Observable<T>[]) => merge(...sources)),
-      share() // share the result observable to avoid merging sources for each subscriber
-    );
-
-    if (isDevMode()) {
-      output$ = this.getValidatedEventStream(output$, eventType);
-    }
-
     this.eventsMeta.set(eventType, {
       inputSubject$: null, // will be created lazily by the `dispatch` method
-      sources$,
-      output$,
+      mergingSubject: new MergingSubject(),
     });
   }
 
