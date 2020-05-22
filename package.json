@@ -100,6 +100,7 @@
     "prerender:cds": "ng run storefrontapp:prerender-cds",
     "release:cds:with-changelog": "cd projects/cds && release-it && cd ../..",
     "release-notes:cds": "ts-node ./scripts/changelog.ts --verbose --lib cds",
+    "start:b2b": "ng serve -c=b2b.development --proxy-config mock-server/proxy.backend.js",
     "start:b2b:ci:2005": "ng serve -c=b2b.ci.2005 --prod"
   },
   "private": false,

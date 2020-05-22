@@ -130,6 +130,20 @@
               "buildOptimizer": true,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },
+            "b2b.development": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/environment.ts",
+                  "with": "projects/storefrontapp/src/environments/b2b.environment.ts"
+                }
+              ]
+            },
             "b2b.ci.2005": {
               "budgets": [
                 {
@@ -140,7 +154,7 @@
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.b2b.2005.ts"
+                  "with": "projects/storefrontapp/src/environments/b2b.environment.2005.ts"
                 }
               ],
               "optimization": true,
@@ -274,6 +288,9 @@
             },
             "ccv2": {
               "browserTarget": "storefrontapp:build:ccv2"
+            },
+            "b2b.development": {
+              "browserTarget": "storefrontapp:build:b2b.development"
             },
             "b2b.ci.2005": {
               "browserTarget": "storefrontapp:build:b2b.ci.2005"
