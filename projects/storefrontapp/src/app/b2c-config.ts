@@ -19,7 +19,6 @@ export const b2cConfig: StorefrontConfig = {
       'apparel-uk-spa',
     ],
   },
-
   // custom routing configuration for e2e testing
   routing: {
     routes: {
