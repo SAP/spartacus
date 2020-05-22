@@ -42,7 +42,7 @@ For Windows:
 
 ---
 
-- [ ] Release libraries with release-it scripts (set GITHUB_TOKEN env variable, check if you are loggin in with `npm whoami` (if not logged, then login with `npm login`); for each package select version when prompted):
+- [ ] Release libraries with release-it scripts (set GITHUB_TOKEN env variable, check if you are loggin in with `npm whoami` (if not logged, then login with `npm login`); for each package select/type version when prompted):
   - [ ] `npm run release:assets:with-changelog`
   - [ ] `npm run release:styles:with-changelog`
   - [ ] `npm run release:lib:with-changelog`
@@ -51,7 +51,7 @@ For Windows:
   - [ ] `npm run release:schematics:with-changelog`
 - [ ] Check that release-notes are populated on github (if not, update them)
 - [ ] Check tags on npm (`next` tag should always point to the highest version, `latest` for the last stable verion, you can leave `rc` tag until we release stable release). Use `npm dist-tag` for updates.
-- [ ] Check libs from a new shell app (install-script) `./run.sh install_npm` (change config's `SPARTACUS_VERSION` to `next/latest`)
+- [ ] Check libs from a new shell app (install-script) `./run.sh install_npm` (run the script from `scripts/install` directory and change config's `SPARTACUS_VERSION` to `next/latest`)
 - [ ]  merge release branch (PR from release/x.y.z) to maintenance branch
 - [ ]  inform PO about libraries successfully released
 - [ ]  Announce the new release on tribe channel
