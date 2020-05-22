@@ -13,6 +13,7 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { TableModule } from '../../../../shared/components/table/table.module';
 import { ConfirmModalModule } from '../../../../shared/components/modal/confirm-modal/confirm-modal.module';
+import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { ConfirmModalModule } from '../../../../shared/components/modal/confirm-
     I18nModule,
     TableModule,
     ConfirmModalModule,
+    FakeTabsModule,
   ],
   declarations: [BudgetDetailsComponent],
   exports: [BudgetDetailsComponent],
