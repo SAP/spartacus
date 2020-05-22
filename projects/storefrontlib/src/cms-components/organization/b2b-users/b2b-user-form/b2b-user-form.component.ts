@@ -23,10 +23,12 @@ export class B2BUserFormComponent extends AbstractFormComponent
 
   form: FormGroup = this.fb.group({
     uid: ['', Validators.required],
-    name: ['', Validators.required],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
     orgUnit: this.fb.group({
       uid: [null, Validators.required],
     }),
+    roles: [''],
   });
 
   constructor(
