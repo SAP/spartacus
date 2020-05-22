@@ -17,11 +17,13 @@ export class PaymentTypeComponent {
     PaymentType[]
   > = this.paymentTypeService.getPaymentTypes();
 
+  typeSelected: string;
   typeSelected$: Observable<
     string
   > = this.paymentTypeService.getSelectedPaymentType().pipe(
-    filter((selected) => selected !== ''),
+    filter((selected) => selected !== undefined),
     tap((selected) => {
+      this.typeSelected = selected;
       this.checkoutStepService.resetSteps();
       this.checkoutStepService.disableEnableStep(
         CheckoutStepType.PAYMENT_DETAILS,
@@ -37,5 +39,6 @@ export class PaymentTypeComponent {
 
   changeType(code: string): void {
     this.paymentTypeService.setPaymentType(code);
+    this.typeSelected = code;
   }
 }

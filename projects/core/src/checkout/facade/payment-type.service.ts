@@ -102,7 +102,7 @@ export class PaymentTypeService {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getSelectedPaymentType),
       tap((selected) => {
-        if (selected === '') {
+        if (selected === undefined) {
           if (cart && cart.paymentType) {
             this.checkoutStore.dispatch(
               new CheckoutActions.SetPaymentTypeSuccess(cart)
@@ -129,7 +129,7 @@ export class PaymentTypeService {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getPoNumer),
       tap((po) => {
-        if (po === '') {
+        if (po === undefined) {
           if (cart && cart.purchaseOrderNumber) {
             this.checkoutStore.dispatch(
               new CheckoutActions.SetPaymentTypeSuccess(cart)

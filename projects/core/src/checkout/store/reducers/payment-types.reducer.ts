@@ -4,7 +4,7 @@ import { PaymentTypesState } from '../checkout-state';
 
 export const initialState: PaymentTypesState = {
   entities: {},
-  selected: '',
+  selected: undefined,
 };
 
 export function reducer(
@@ -48,7 +48,7 @@ export function reducer(
     case CheckoutActions.CLEAR_CHECKOUT_DATA: {
       return {
         ...state,
-        selected: '',
+        selected: undefined,
       };
     }
 

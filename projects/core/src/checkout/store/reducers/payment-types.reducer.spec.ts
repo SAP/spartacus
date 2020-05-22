@@ -73,7 +73,7 @@ describe('Payment Types Reducer', () => {
 
       const action = new CheckoutActions.ClearCheckoutData();
       const state = fromReducer.reducer(initialState, action);
-      expect(state.selected).toEqual('');
+      expect(state.selected).toEqual(undefined);
     });
   });
 });

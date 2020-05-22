@@ -5,7 +5,7 @@ import { CheckoutStepsState } from '../checkout-state';
 import { CheckoutActions } from './../actions/index';
 
 export const initialState: CheckoutStepsState = {
-  poNumber: { po: '' },
+  poNumber: { po: undefined },
   address: {},
   deliveryMode: {
     supported: {},

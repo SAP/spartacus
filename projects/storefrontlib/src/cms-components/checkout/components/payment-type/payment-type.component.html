@@ -2,7 +2,7 @@
   {{ 'checkoutProgress.paymentType' | cxTranslate }}
   <ng-container
     *ngIf="
-      (paymentTypes$ | async)?.length && typeSelected$ | async as typeSelected;
+      (paymentTypes$ | async)?.length && typeSelected$ | async;
       else loading
     "
   >
