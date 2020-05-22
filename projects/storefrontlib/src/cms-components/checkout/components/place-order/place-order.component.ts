@@ -1,15 +1,13 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
+  Component,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CheckoutService, RoutingService } from '@spartacus/core';
-
-import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { FormBuilder, Validators } from '@angular/forms';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-place-order',
@@ -19,7 +17,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class PlaceOrderComponent implements OnInit, OnDestroy {
   placeOrderSubscription: Subscription;
 
-  checkoutSubmitForm = this.fb.group({
+  checkoutSubmitForm: FormGroup = this.fb.group({
     termsAndConditions: [false, Validators.requiredTrue],
   });
 

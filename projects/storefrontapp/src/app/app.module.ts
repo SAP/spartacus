@@ -8,34 +8,24 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { ConfigModule, TestConfigModule } from '@spartacus/core';
+import { TestConfigModule } from '@spartacus/core';
 import {
-  B2cStorefrontModule,
-  B2bStorefrontModule,
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
+import { b2bFeature } from '../environments/b2c/b2b.feature';
+import { b2cFeature } from '../environments/b2c/b2c.feature';
+import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
-
-import { b2cConfig } from './b2c-config';
-import { b2bConfig } from './b2b-config';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
 
 const devImports = [];
-
 if (!environment.production) {
   devImports.push(StoreDevtoolsModule.instrument());
-}
-
-const channelImports = [];
-if (environment.channel === 'b2b') {
-  channelImports.push(B2bStorefrontModule.withConfig(b2bConfig));
-} else {
-  channelImports.push(B2cStorefrontModule.withConfig(b2cConfig));
 }
 
 @NgModule({
@@ -43,14 +33,15 @@ if (environment.channel === 'b2b') {
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
 
+    ...(environment.b2b ? b2bFeature.imports : b2cFeature.imports),
     JsonLdBuilderModule,
+
+    ...cdsFeature.imports,
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
-    ...channelImports,
     ...devImports,
-    ConfigModule,
   ],
 
   bootstrap: [StorefrontComponent],
