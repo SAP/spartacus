@@ -2,6 +2,7 @@
 
 %cx-delivery-mode {
   @include checkout-media-style();
+  padding-top: 10px;
 
   .form-check {
     display: flex;
@@ -16,12 +17,13 @@
       justify-content: space-between;
       flex-wrap: wrap;
 
-      .cx-delivery-shipping {
-        flex: 50%;
+      .cx-delivery-mode {
+        flex: auto;
+        text-align: left;
       }
 
       .cx-delivery-price {
-        flex: 50%;
+        flex: auto;
         text-align: right;
       }
 

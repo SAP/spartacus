@@ -241,7 +241,8 @@ const HTML_EXAMPLE_EXPECTED = `<!-- 'isLevel13' property has been removed. --><c
 <div>test</div>
 <!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
 const HTML_EXAMPLE_NGIF = `<div *ngIf="isThumbsEmpty">test</div>`;
-const HTML_EXAMPLE_NGIF_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. --><div *ngIf="isThumbsEmpty">test</div>`;
+const HTML_EXAMPLE_NGIF_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. -->
+<div *ngIf="isThumbsEmpty">test</div>`;
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
