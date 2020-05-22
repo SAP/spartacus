@@ -42,7 +42,7 @@ For Windows:
 
 ---
 
-- [ ] Release libraries with release-it scripts (set GITHUB_TOKEN env variable, check if you are loggin in with `npm whoami` (if not logged, then login with `npm login`); for each package select version when prompted - when prompted):
+- [ ] Release libraries with release-it scripts (set GITHUB_TOKEN env variable, check if you are loggin in with `npm whoami` (if not logged, then login with `npm login`); for each package select version when prompted):
   - [ ] `npm run release:assets:with-changelog`
   - [ ] `npm run release:styles:with-changelog`
   - [ ] `npm run release:lib:with-changelog`
