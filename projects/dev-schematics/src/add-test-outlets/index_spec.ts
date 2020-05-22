@@ -7,7 +7,7 @@ import { Schema as SpartacusOptions } from '../ng-add/schema';
 import {
   TEST_CONFIG_MODULE,
   TEST_OUTLET_MODULE,
-} from '@spartacus/schematics/public_api';
+} from '@spartacus/schematics';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
