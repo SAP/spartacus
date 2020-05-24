@@ -3,6 +3,7 @@ import {
   provideConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
+  OrganizationModule,
 } from '@spartacus/core';
 import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { StorefrontConfig } from '../storefront-config';
@@ -12,6 +13,7 @@ import { StorefrontModule } from './storefront.module';
 
 @NgModule({
   imports: [
+    OrganizationModule.forRoot(),
     StorefrontModule,
 
     // the cms lib module contains all components that added in the bundle
