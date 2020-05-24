@@ -37,6 +37,11 @@ export function migrate(): Rule {
       ts.SyntaxKind.StringLiteral
     )[0] as ts.StringLiteral;
 
+    if (!currentFeatureLevelNode) {
+      context.logger.debug(`No 'features.level' config found.`);
+      return tree;
+    }
+
     if (Number(spartacusVersion) > Number(currentFeatureLevelNode.text)) {
       context.logger.info(
         `Bumping the Spartacus feature level version to: ${spartacusVersion}`

@@ -22,16 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 `;
 
-// const NO_FEATURE_SPECIFIED = `
-// import { NgModule } from '@angular/core';
-// import { B2cStorefrontModule } from '@spartacus/storefront';
-// @NgModule({
-//   imports: [
-//     B2cStorefrontModule.withConfig({}),
-//   ],
-// })
-// export class AppModule {}
-// `;
+const NO_FEATURE_SPECIFIED = `
+import { NgModule } from '@angular/core';
+import { B2cStorefrontModule } from '@spartacus/storefront';
+@NgModule({
+  imports: [
+    B2cStorefrontModule.withConfig({}),
+  ],
+})
+export class AppModule {}
+`;
 const V1_5 = `
 import { NgModule } from '@angular/core';
 import { B2cStorefrontModule } from '@spartacus/storefront';
@@ -70,6 +70,20 @@ export class AppModule {}
 //     B2cStorefrontModule.withConfig({
 //       features: {
 //         level: '999',
+//       },
+//     }),
+//   ],
+// })
+// export class AppModule {}
+// `;
+// const V_START= `
+// import { NgModule } from '@angular/core';
+// import { B2cStorefrontModule } from '@spartacus/storefront';
+// @NgModule({
+//   imports: [
+//     B2cStorefrontModule.withConfig({
+//       features: {
+//         level: '*',
 //       },
 //     }),
 //   ],
@@ -135,15 +149,37 @@ describe('feature level flag migration', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  it('upgrading from v1 to v2', async () => {
-    spyOn(fromPackageUtils, 'getSpartacusCurrentFeatureLevel').and.returnValue(
-      '2.0'
-    );
-    writeFile(host, `${PROJECT_NAME}/${APP_MODULE_PATH}`, V1_5);
+  describe('when there is no featureLevel config', () => {
+    it('should not do any changes', async () => {
+      spyOn(
+        fromPackageUtils,
+        'getSpartacusCurrentFeatureLevel'
+      ).and.returnValue('2.0');
+      writeFile(
+        host,
+        `${PROJECT_NAME}/${APP_MODULE_PATH}`,
+        NO_FEATURE_SPECIFIED
+      );
 
-    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
-    const content = appTree.readContent(`${PROJECT_NAME}/${APP_MODULE_PATH}`);
-    expect(content).toEqual(V1_5_EXPECTED);
+      const content = appTree.readContent(`${PROJECT_NAME}/${APP_MODULE_PATH}`);
+      expect(content).toEqual(NO_FEATURE_SPECIFIED);
+    });
+  });
+
+  describe('upgrading from v1 to v2', () => {
+    it('should bump the version to 2.0', async () => {
+      spyOn(
+        fromPackageUtils,
+        'getSpartacusCurrentFeatureLevel'
+      ).and.returnValue('2.0');
+      writeFile(host, `${PROJECT_NAME}/${APP_MODULE_PATH}`, V1_5);
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent(`${PROJECT_NAME}/${APP_MODULE_PATH}`);
+      expect(content).toEqual(V1_5_EXPECTED);
+    });
   });
 });
