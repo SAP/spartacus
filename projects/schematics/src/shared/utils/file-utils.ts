@@ -871,6 +871,71 @@ export function buildSpartacusComment(comment: string): string {
   return `// ${TODO_SPARTACUS} ${comment}\n`;
 }
 
+function findConfigPropertyAssignmentNodes(source: ts.SourceFile): ts.Node[] {
+  const allNodes = getSourceNodes(source);
+
+  const objectLiteralMap = new Map<number, ts.Node>();
+  for (const node of allNodes) {
+    findNodes(
+      node,
+      ts.SyntaxKind.ObjectLiteralExpression
+    ).forEach((objectLiteral) =>
+      objectLiteralMap.set(objectLiteral.pos, objectLiteral)
+    );
+  }
+
+  const propertyAssignmentMap = new Map<number, ts.Node>();
+  for (const objectLiteralNode of objectLiteralMap.values()) {
+    findNodes(
+      objectLiteralNode,
+      ts.SyntaxKind.PropertyAssignment
+    ).forEach((propertyAssignmentNode) =>
+      propertyAssignmentMap.set(
+        propertyAssignmentNode.pos,
+        propertyAssignmentNode
+      )
+    );
+  }
+
+  const orphans = new Array(...propertyAssignmentMap.values()).filter(
+    (propertyAssignmentNode) =>
+      findNodes(
+        propertyAssignmentNode,
+        ts.SyntaxKind.PropertyAssignment,
+        undefined,
+        true
+      ).length === 1
+  );
+  return orphans;
+}
+
+export function findConfigProperty(
+  source: ts.SourceFile,
+  identifierName: string
+): ts.Node[] {
+  return findConfigPropertyAssignmentNodes(source).filter((node) =>
+    node.getText().includes(`${identifierName}:`)
+  );
+}
+
+export function bumpFeatureLevel(
+  filePath: string,
+  featureLevelNode: ts.Node,
+  newFeatureLevel: string
+): ReplaceChange {
+  const currentFeatureLevelStringLiteralNode = findNodes(
+    featureLevelNode,
+    ts.SyntaxKind.StringLiteral
+  )[0] as ts.StringLiteral;
+
+  return new ReplaceChange(
+    filePath,
+    currentFeatureLevelStringLiteralNode.getStart(),
+    currentFeatureLevelStringLiteralNode.getText(),
+    `'${newFeatureLevel}'`
+  );
+}
+
 export function insertCommentAboveConfigProperty(
   sourcePath: string,
   source: ts.SourceFile,
@@ -878,13 +943,11 @@ export function insertCommentAboveConfigProperty(
   comment: string
 ): Change[] {
   const identifierNodes = new Set<ts.Node>();
-  getSourceNodes(source)
-    .filter((node) => node.kind === ts.SyntaxKind.ObjectLiteralExpression)
-    .forEach((objectLiteralNode) =>
-      findNodes(objectLiteralNode, ts.SyntaxKind.Identifier)
-        .filter((node) => node.getText() === identifierName)
-        .forEach((idNode) => identifierNodes.add(idNode))
-    );
+  findConfigPropertyAssignmentNodes(source).forEach((propertyAssignmentNode) =>
+    findNodes(propertyAssignmentNode, ts.SyntaxKind.Identifier).filter(
+      (node) => node.getText() === identifierName
+    )
+  );
 
   const changes: Change[] = [];
   identifierNodes.forEach((n) =>

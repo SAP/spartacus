@@ -122,6 +122,7 @@ The migration scripts that are listed here should be executed each time customer
 - `migration-v2-component-deprecations-05`
 - `migration-v2-css-06`
 - `migration-v2-config-deprecations-09`
+- `migration-v2-feature-level-10`
 
 Please bump the `version` in `migration.json` only for the migration scripts listed above, and _do not change the other script's versions_.
 

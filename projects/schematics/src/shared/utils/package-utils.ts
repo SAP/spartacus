@@ -22,12 +22,16 @@ export function getMajorVersionNumber(versionString: string): number {
     throw new Error('versionString is undefined.');
   }
 
-  let majorVersion = versionString.charAt(0);
-  if (isNaN(Number(majorVersion))) {
-    majorVersion = versionString.charAt(1);
-  }
+  versionString = stripLeadingNaN(versionString).charAt(0);
+  return Number(versionString);
+}
 
-  return Number(majorVersion);
+function stripLeadingNaN(versionString: string): string {
+  const firstCharacter = versionString.charAt(0);
+  if (isNaN(Number(firstCharacter))) {
+    versionString = versionString.slice(1);
+  }
+  return versionString;
 }
 
 export function getSpartacusSchematicsVersion(): string {
@@ -35,7 +39,8 @@ export function getSpartacusSchematicsVersion(): string {
 }
 
 export function getSpartacusCurrentFeatureLevel(): string {
-  return version.split('.').slice(0, 2).join('.');
+  const versionString = getSpartacusSchematicsVersion();
+  return stripLeadingNaN(versionString).split('.').slice(0, 2).join('.');
 }
 
 export function isAngularLocalizeInstalled(tree: Tree): boolean {
