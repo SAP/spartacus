@@ -32,7 +32,7 @@ import { B2cStorefrontModule } from '@spartacus/storefront';
 })
 export class AppModule {}
 `;
-const V1_5 = `
+const V1_5_TO_V2 = `
 import { NgModule } from '@angular/core';
 import { B2cStorefrontModule } from '@spartacus/storefront';
 @NgModule({
@@ -47,7 +47,7 @@ import { B2cStorefrontModule } from '@spartacus/storefront';
 })
 export class AppModule {}
 `;
-const V1_5_EXPECTED = `
+const V1_5_TO_V2_EXPECTED = `
 import { NgModule } from '@angular/core';
 import { B2cStorefrontModule } from '@spartacus/storefront';
 @NgModule({
@@ -62,34 +62,34 @@ import { B2cStorefrontModule } from '@spartacus/storefront';
 })
 export class AppModule {}
 `;
-// const V999 = `
-// import { NgModule } from '@angular/core';
-// import { B2cStorefrontModule } from '@spartacus/storefront';
-// @NgModule({
-//   imports: [
-//     B2cStorefrontModule.withConfig({
-//       features: {
-//         level: '999',
-//       },
-//     }),
-//   ],
-// })
-// export class AppModule {}
-// `;
-// const V_START= `
-// import { NgModule } from '@angular/core';
-// import { B2cStorefrontModule } from '@spartacus/storefront';
-// @NgModule({
-//   imports: [
-//     B2cStorefrontModule.withConfig({
-//       features: {
-//         level: '*',
-//       },
-//     }),
-//   ],
-// })
-// export class AppModule {}
-// `;
+const V999 = `
+import { NgModule } from '@angular/core';
+import { B2cStorefrontModule } from '@spartacus/storefront';
+@NgModule({
+  imports: [
+    B2cStorefrontModule.withConfig({
+      features: {
+        level: '999',
+      },
+    }),
+  ],
+})
+export class AppModule {}
+`;
+const V_STAR = `
+import { NgModule } from '@angular/core';
+import { B2cStorefrontModule } from '@spartacus/storefront';
+@NgModule({
+  imports: [
+    B2cStorefrontModule.withConfig({
+      features: {
+        level: '*',
+      },
+    }),
+  ],
+})
+export class AppModule {}
+`;
 
 describe('feature level flag migration', () => {
   let host: TempScopedNodeJsSyncHost;
@@ -174,12 +174,42 @@ describe('feature level flag migration', () => {
         fromPackageUtils,
         'getSpartacusCurrentFeatureLevel'
       ).and.returnValue('2.0');
-      writeFile(host, `${PROJECT_NAME}/${APP_MODULE_PATH}`, V1_5);
+      writeFile(host, `${PROJECT_NAME}/${APP_MODULE_PATH}`, V1_5_TO_V2);
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent(`${PROJECT_NAME}/${APP_MODULE_PATH}`);
-      expect(content).toEqual(V1_5_EXPECTED);
+      expect(content).toEqual(V1_5_TO_V2_EXPECTED);
+    });
+  });
+
+  describe('when the current feature level is greater than the new feature level', () => {
+    it('should not do any changes', async () => {
+      spyOn(
+        fromPackageUtils,
+        'getSpartacusCurrentFeatureLevel'
+      ).and.returnValue('2.0');
+      writeFile(host, `${PROJECT_NAME}/${APP_MODULE_PATH}`, V999);
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent(`${PROJECT_NAME}/${APP_MODULE_PATH}`);
+      expect(content).toEqual(V999);
+    });
+  });
+
+  describe(`when the feature level is a '*' symbol`, () => {
+    it('should not do any changes', async () => {
+      spyOn(
+        fromPackageUtils,
+        'getSpartacusCurrentFeatureLevel'
+      ).and.returnValue('2.0');
+      writeFile(host, `${PROJECT_NAME}/${APP_MODULE_PATH}`, V_STAR);
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent(`${PROJECT_NAME}/${APP_MODULE_PATH}`);
+      expect(content).toEqual(V_STAR);
     });
   });
 });

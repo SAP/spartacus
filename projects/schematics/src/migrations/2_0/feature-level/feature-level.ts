@@ -37,8 +37,13 @@ export function migrate(): Rule {
       ts.SyntaxKind.StringLiteral
     )[0] as ts.StringLiteral;
 
-    if (!currentFeatureLevelNode) {
-      context.logger.debug(`No 'features.level' config found.`);
+    if (
+      !currentFeatureLevelNode ||
+      isNaN(Number(currentFeatureLevelNode.text))
+    ) {
+      context.logger.debug(
+        `No 'features.level' config found, or the level is not a number`
+      );
       return tree;
     }
 
