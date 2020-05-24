@@ -942,23 +942,21 @@ export function insertCommentAboveConfigProperty(
   identifierName: string,
   comment: string
 ): Change[] {
-  const identifierNodes = new Set<ts.Node>();
+  const changes: Change[] = [];
   findConfigPropertyAssignmentNodes(source).forEach((propertyAssignmentNode) =>
-    findNodes(propertyAssignmentNode, ts.SyntaxKind.Identifier).filter(
-      (node) => node.getText() === identifierName
-    )
+    findNodes(propertyAssignmentNode, ts.SyntaxKind.Identifier)
+      .filter((node) => node.getText() === identifierName)
+      .forEach((n) => {
+        changes.push(
+          new InsertChange(
+            sourcePath,
+            getLineStartFromTSFile(source, n.getStart()),
+            `${comment}`
+          )
+        );
+      })
   );
 
-  const changes: Change[] = [];
-  identifierNodes.forEach((n) =>
-    changes.push(
-      new InsertChange(
-        sourcePath,
-        getLineStartFromTSFile(source, n.getStart()),
-        `${comment}`
-      )
-    )
-  );
   return changes;
 }
 
