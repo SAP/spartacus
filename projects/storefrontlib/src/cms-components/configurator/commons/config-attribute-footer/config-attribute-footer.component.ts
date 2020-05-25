@@ -5,8 +5,8 @@ import {
   GenericConfigurator,
 } from '@spartacus/core';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
-import { map, take } from "rxjs/operators";
-import { Observable } from "rxjs";
+import { map, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-config-attribute-footer',
@@ -24,8 +24,9 @@ export class ConfigAttributeFooterComponent {
   showRequiredMessage(): Observable<boolean> {
     return this.configuratorGroupsService
       .isGroupVisited(this.owner, this.groupId)
-      .pipe(take(1),
-        map(result => {
+      .pipe(
+        take(1),
+        map((result) => {
           if (
             (this.owner.type === GenericConfigurator.OwnerType.CART_ENTRY ||
               result) &&
@@ -37,7 +38,8 @@ export class ConfigAttributeFooterComponent {
             return true;
           }
           return false;
-        }));
+        })
+      );
   }
 
   getRequiredMessageKey(): string {

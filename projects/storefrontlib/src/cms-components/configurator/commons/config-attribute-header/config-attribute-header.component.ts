@@ -6,8 +6,8 @@ import {
 } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
-import { Observable } from "rxjs";
-import { map, take } from "rxjs/operators";
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-attribute-header',
@@ -29,8 +29,9 @@ export class ConfigAttributeHeaderComponent {
   showRequiredMessage(): Observable<boolean> {
     return this.configuratorGroupsService
       .isGroupVisited(this.owner, this.groupId)
-      .pipe(take(1),
-        map(result => {
+      .pipe(
+        take(1),
+        map((result) => {
           if (
             (this.owner.type === GenericConfigurator.OwnerType.CART_ENTRY ||
               result) &&
@@ -41,7 +42,8 @@ export class ConfigAttributeHeaderComponent {
             return true;
           }
           return false;
-        }));
+        })
+      );
   }
 
   isSingleSelection(): boolean {
