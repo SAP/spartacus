@@ -3,14 +3,10 @@
     <div class="cx-media">
       <div *ngFor="let link of links">
         <div class="cx-list-media" *ngIf="!link.active">
-          <!--          <div>{{ link.name | cxTranslate }}</div>-->
           <a class="btn btn-link" [routerLink]="link | cxUrl">
             {{ link.name | cxTranslate }}
           </a>
         </div>
-        <!--        <div class="cx-list-media is-active" *ngIf="i === activeStepIndex">-->
-        <!--          <div>{{ step.name | cxTranslate }}</div>-->
-        <!--        </div>-->
       </div>
     </div>
   </div>

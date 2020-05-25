@@ -1,7 +1,7 @@
 <section>
   <div class="cx-nav d-none d-lg-block d-xl-block">
     <ul class="cx-list">
-      <li class="cx-item" *ngFor="let link of links; let i = index">
+      <li class="cx-item" *ngFor="let link of links">
         <a
           [routerLink]="link | cxUrl"
           class="cx-link"
