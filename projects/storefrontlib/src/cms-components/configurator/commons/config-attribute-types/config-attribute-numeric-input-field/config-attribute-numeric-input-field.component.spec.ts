@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Configurator, LanguageService } from '@spartacus/core';
 import { of } from 'rxjs';
-import { ConfigFormUpdateEvent } from '../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 import { ConfigAttributeNumericInputFieldComponent } from './config-attribute-numeric-input-field.component';
 
@@ -35,12 +34,13 @@ describe('ConfigAttributeInputFieldComponent', () => {
   const userInput = '345.00';
   let fixture: ComponentFixture<ConfigAttributeNumericInputFieldComponent>;
   let mockLanguageService;
+  let locale = 'en';
   let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
     mockLanguageService = {
       getAll: () => of([]),
-      getActive: jasmine.createSpy().and.returnValue(of('en')),
+      getActive: jasmine.createSpy().and.returnValue(of(locale)),
       setActive: jasmine.createSpy(),
     };
     TestBed.configureTestingModule({
@@ -87,14 +87,14 @@ describe('ConfigAttributeInputFieldComponent', () => {
     expect(component.attributeInputForm.value).toEqual(userInput);
   });
 
-  it('should be able to create an event from the user input', () => {
-    const event: ConfigFormUpdateEvent = component.createEventFromInput();
-    expect(event).toBeDefined();
-    expect(event.changedAttribute).toBeDefined();
-    expect(event.changedAttribute.userInput).toBe(userInput);
+  it('should display no validation issue if input is fine', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+    checkForValidationMessage(component, fixture, htmlElem, 0);
   });
 
-  it('should display no validation issue if input is fine', () => {
+  it('should display no validation issue if input is fine, an unknown locale was requested, and we fall back to en locale', () => {
+    locale = 'Unkonwn';
     component.ngOnInit();
     fixture.detectChanges();
     checkForValidationMessage(component, fixture, htmlElem, 0);

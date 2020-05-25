@@ -1,13 +1,17 @@
+import { getLocaleId } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
+  isDevMode,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Configurator, LanguageService } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 import { ConfigFormUpdateEvent } from '../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 import { ConfigAttributeNumericInputFieldService } from './config-attribute-numeric-input-field.service';
@@ -17,10 +21,12 @@ import { ConfigAttributeNumericInputFieldService } from './config-attribute-nume
   templateUrl: './config-attribute-numeric-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigAttributeNumericInputFieldComponent implements OnInit {
+export class ConfigAttributeNumericInputFieldComponent
+  implements OnInit, OnDestroy {
   attributeInputForm: FormControl;
   numericFormatPattern;
   locale: string;
+  subscriptions = new Subscription();
 
   constructor(
     public uiKeyGenerator: ConfigUIKeyGeneratorService,
@@ -34,7 +40,7 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  mustDisplayValidationMessage(): boolean {
+  public mustDisplayValidationMessage(): boolean {
     const wrongFormat: boolean =
       (this.attributeInputForm.dirty || this.attributeInputForm.touched) &&
       this.attributeInputForm.errors?.wrongFormat;
@@ -42,42 +48,39 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
     return wrongFormat;
   }
 
-  determineCurrentLocale() {
+  ngOnInit() {
     //locales are available as languages in the commerce backend
-    this.languageService
-      .getActive()
-      .subscribe((language) => (this.locale = language))
-      .unsubscribe();
+    this.subscriptions.add(
+      this.languageService.getActive().subscribe((language) => {
+        this.locale = this.getLanguage(language);
+        this.attributeInputForm = new FormControl('', [
+          this.configAttributeNumericInputFieldService.getNumberFormatValidator(
+            this.locale,
+            this.attribute.numDecimalPlaces,
+            this.attribute.numTotalLength
+          ),
+        ]);
+        const numDecimalPlaces = this.attribute.numDecimalPlaces;
+        this.numericFormatPattern = this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
+          numDecimalPlaces,
+          this.attribute.numTotalLength,
+          this.locale
+        );
+        if (this.attribute.userInput) {
+          this.attributeInputForm.setValue(
+            this.configAttributeNumericInputFieldService.getFormattedInput(
+              this.attribute.userInput,
+              this.locale,
+              numDecimalPlaces
+            )
+          );
+        }
+      })
+    );
   }
 
-  ngOnInit() {
-    this.determineCurrentLocale();
-
-    this.attributeInputForm = new FormControl('', [
-      this.configAttributeNumericInputFieldService.getNumberFormatValidator(
-        this.locale,
-        this.attribute.numDecimalPlaces,
-        this.attribute.numTotalLength
-      ),
-    ]);
-
-    const numDecimalPlaces = this.attribute.numDecimalPlaces;
-
-    this.numericFormatPattern = this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
-      numDecimalPlaces,
-      this.attribute.numTotalLength,
-      this.locale
-    );
-
-    if (this.attribute.userInput) {
-      this.attributeInputForm.setValue(
-        this.configAttributeNumericInputFieldService.getFormattedInput(
-          this.attribute.userInput,
-          this.locale,
-          numDecimalPlaces
-        )
-      );
-    }
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   onChange() {
@@ -88,7 +91,7 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
     }
   }
 
-  createEventFromInput(): ConfigFormUpdateEvent {
+  protected createEventFromInput(): ConfigFormUpdateEvent {
     return {
       productCode: this.ownerKey,
       changedAttribute: {
@@ -98,5 +101,23 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
       },
       groupId: this.group,
     };
+  }
+
+  private getLanguage(locale: string): string {
+    try {
+      getLocaleId(locale);
+      return locale;
+    } catch {
+      this.reportMissingLocaleData(locale);
+      return 'en';
+    }
+  }
+
+  private reportMissingLocaleData(lang: string) {
+    if (isDevMode()) {
+      console.warn(
+        `ConfigAttributeNumericInputFieldComponent: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
+      );
+    }
   }
 }
