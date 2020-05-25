@@ -6,6 +6,8 @@ import {
 } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
+import { Observable } from "rxjs";
+import { map, take } from "rxjs/operators";
 
 @Component({
   selector: 'cx-config-attribute-header',
@@ -24,29 +26,22 @@ export class ConfigAttributeHeaderComponent {
   @Input() owner: GenericConfigurator.Owner;
   @Input() groupId: string;
 
-  isGroupVisited() {
-    let isVisited = false;
-    this.configuratorGroupsService
+  showRequiredMessage(): Observable<boolean> {
+    return this.configuratorGroupsService
       .isGroupVisited(this.owner, this.groupId)
-      .subscribe((result) => {
-        result !== undefined
-          ? (isVisited = result.valueOf())
-          : (isVisited = false);
-      });
-    return isVisited;
-  }
-
-  showRequiredMessage(): boolean {
-    if (
-      (this.owner.type === GenericConfigurator.OwnerType.CART_ENTRY ||
-        this.isGroupVisited()) &&
-      this.attribute.required &&
-      this.attribute.incomplete &&
-      this.attribute.uiType !== Configurator.UiType.NOT_IMPLEMENTED
-    ) {
-      return true;
-    }
-    return false;
+      .pipe(take(1),
+        map(result => {
+          if (
+            (this.owner.type === GenericConfigurator.OwnerType.CART_ENTRY ||
+              result) &&
+            this.attribute.required &&
+            this.attribute.incomplete &&
+            this.attribute.uiType !== Configurator.UiType.NOT_IMPLEMENTED
+          ) {
+            return true;
+          }
+          return false;
+        }));
   }
 
   isSingleSelection(): boolean {

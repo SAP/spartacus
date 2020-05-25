@@ -109,17 +109,6 @@ describe('ConfigAttributeFooterComponent', () => {
     );
   });
 
-  /**it("shouldn't render a required message because attribute has not been added to the cart yet.", () => {
-    classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
-    isGroupVisited = false;
-    fixture.detectChanges();
-    ConfigComponentTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-config-attribute-footer-required-error-msg'
-    );
-  });*/
-
   it("shouldn't render a required message if attribute is not required.", () => {
     classUnderTest.attribute.required = false;
     fixture.detectChanges();

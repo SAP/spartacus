@@ -2,7 +2,7 @@
   id="{{ uiKeyGenerator.createAttributeUiKey('label', attribute.name) }}"
   class="cx-config-attribute-label"
   [class.cx-config-attribute-label-required-icon]="attribute.required"
-  [class.cx-config-attribute-label-required-error]="showRequiredMessage()"
+  [class.cx-config-attribute-label-required-error]="showRequiredMessage() | async"
   [attr.aria-label]="
     !attribute.required
       ? attribute.label
@@ -13,7 +13,7 @@
   >{{ attribute.label }}</label
 >
 <div
-  *ngIf="showRequiredMessage()"
+  *ngIf="showRequiredMessage() | async"
   class="cx-config-attribute-label-required-error-msg"
 >
   <cx-icon [type]="iconTypes.ERROR"></cx-icon>
