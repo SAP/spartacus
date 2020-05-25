@@ -55,6 +55,18 @@ const MockBadCartResponse = {
   },
 } as HttpErrorResponse;
 
+const MockBadCartResponseForSelectiveCart = {
+  error: {
+    errors: [
+      {
+        subjectType: 'cart',
+        subject: 'selectivecart-electronics-12345',
+        reason: 'notFound',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
 const MockValidationErrorResponse = {
   error: {
     errors: [
@@ -62,6 +74,17 @@ const MockValidationErrorResponse = {
         type: 'ValidationError',
         reason: 'the_reason',
         subject: 'the_subject',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
+const MockVoucherOperationErrorResponse = {
+  error: {
+    errors: [
+      {
+        type: 'VoucherOperationError',
+        message: 'coupon.invalid.code.provided',
       },
     ],
   },
@@ -140,11 +163,26 @@ describe('BadRequestHandler', () => {
     );
   });
 
+  it('should handle voucher operation error', () => {
+    service.handleError(MockRequest, MockVoucherOperationErrorResponse);
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: `httpHandlers.invalidCodeProvided`,
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
   it('should handle bad cart error', () => {
     service.handleError(MockRequest, MockBadCartResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.cartNotFound' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
+  });
+
+  it('should not handle bad cart error for selective cart', () => {
+    service.handleError(MockRequest, MockBadCartResponseForSelectiveCart);
+    expect(globalMessageService.add).not.toHaveBeenCalled();
   });
 });

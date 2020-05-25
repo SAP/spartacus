@@ -10,4 +10,15 @@
       display: block;
     }
   }
+
+  .textpage-faqs {
+    td {
+      padding-bottom: 26px;
+      vertical-align: baseline;
+
+      &:first-child {
+        padding-right: 10px;
+      }
+    }
+  }
 }

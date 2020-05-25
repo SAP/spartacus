@@ -1,78 +1,133 @@
-import { Injectable } from '@angular/core';
+import {
+  Injectable,
+  isDevMode,
+  Renderer2,
+  RendererFactory2,
+} from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { BehaviorSubject, fromEvent, Observable, of } from 'rxjs';
-import { distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
-import { QualtricsConfig } from './config/qualtrics-config';
+import { fromEvent, Observable, of } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
+export const QUALTRICS_EVENT_NAME = 'qsi_js_loaded';
+
+/**
+ * Service to integration Qualtrics.
+ *
+ * The integration observes the Qualtrics API, and when available, it runs the QSI API
+ * to let Qualtrics evaluate the application.
+ *
+ * The service supports an additional _hook_ (`isDataLoaded()`) that can be used to load application
+ * data before pulling the QSI API. This is beneficial in a single page application when additional
+ * data is required before the Qualtrics _creatives_ run.
+ *
+ * This service also supports the creation of the Qualtrics deployment script. This is optional, as
+ * the script can be added in alternatives ways.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class QualtricsLoaderService {
-  private qualtricsLoaded$ = new BehaviorSubject<boolean>(false);
+  /**
+   * Reference to the QSI API.
+   */
+  protected qsiApi: any;
 
-  constructor(private winRef: WindowRef, private config: QualtricsConfig) {
-    if (
-      Boolean(this.winRef.nativeWindow) &&
-      Boolean(this.winRef.document) &&
-      this.isQualtricsConfigured()
-    ) {
-      this.initialize();
-      this.setup();
-    }
-  }
+  /**
+   * QSI load event that happens when the QSI JS file is loaded.
+   */
+  private qsiLoaded$: Observable<any> = this.winRef?.nativeWindow
+    ? fromEvent(this.winRef.nativeWindow, QUALTRICS_EVENT_NAME)
+    : of();
 
-  private initialize(): void {
-    fromEvent(this.winRef.nativeWindow, 'qsi_js_loaded').subscribe(() =>
-      this.qualtricsLoaded$.next(true)
-    );
-  }
+  /**
+   * Emits the Qualtrics Site Intercept (QSI) JavaScript API whenever available.
+   *
+   * The API is emitted when the JavaScript resource holding this API is fully loaded.
+   * The API is also stored locally in the service, in case it's required later on.
+   */
+  protected qsi$: Observable<any> = this.qsiLoaded$.pipe(
+    switchMap(() => this.isDataLoaded()),
+    map(() => this.winRef?.nativeWindow['QSI']),
+    filter((api) => Boolean(api)),
+    tap((qsi) => (this.qsiApi = qsi))
+  );
 
-  private setup(): void {
-    const qualtricsScript = this.winRef.document.createElement('script');
-    qualtricsScript.type = 'text/javascript';
-    qualtricsScript.defer = true;
-    qualtricsScript.src = 'assets/qualtricsIntegration.js';
-
-    const idScript = this.winRef.document.createElement('div');
-    idScript.id = this.config.qualtrics.projectId;
-
-    this.winRef.document
-      .getElementsByTagName('head')[0]
-      .appendChild(qualtricsScript);
-
-    this.winRef.document.getElementsByTagName('head')[0].appendChild(idScript);
-  }
-
-  private isQualtricsConfigured(): boolean {
-    return (
-      Boolean(this.config.qualtrics) && Boolean(this.config.qualtrics.projectId)
-    );
-  }
-
-  load(): Observable<boolean> {
-    return this.qualtricsLoaded$.pipe(
-      filter((loaded) => loaded),
-      switchMap(() => {
-        const qsi = this.winRef.nativeWindow['QSI'];
-        return this.isDataLoaded().pipe(
-          distinctUntilChanged(),
-          tap((dataLoaded) => {
-            if (dataLoaded) {
-              qsi.API.unload();
-              qsi.API.load().done(qsi.API.run());
-            }
-          })
-        );
-      })
-    );
+  constructor(
+    protected winRef: WindowRef,
+    protected rendererFactory: RendererFactory2
+  ) {
+    this.initialize();
   }
 
   /**
-   * This logic exist in order to let the client(s) add their own logic to wait for any kind of page data
-   * If client(s) does not extend this service to override this implementation, it returns true
-   * Return false otherwise.
+   * Starts observing the Qualtrics integration. The integration is based on a
+   * Qualtrics specific event (`qsi_js_loaded`). As soon as this events happens,
+   * we run the API.
+   */
+  protected initialize() {
+    this.qsi$.subscribe(() => this.run());
+  }
+
+  /**
+   * Evaluates the Qualtrics project code for the application.
+   *
+   * In order to reload the evaluation in Qualtrics, the API requires to unload the API before
+   * running it again. We don't do this by default, but offer a flag to conditionally unload the API.
+   */
+  protected run(reload = false): void {
+    if (!this.qsiApi?.API) {
+      if (isDevMode()) {
+        console.log('The QSI api is not available');
+      }
+      return;
+    }
+
+    if (reload) {
+      // Removes any currently displaying creatives
+      this.qsiApi.API.unload();
+    }
+
+    // Starts the intercept code evaluation right after loading the Site Intercept
+    // code for any defined intercepts or creatives
+    this.qsiApi.API.load().done(this.qsiApi.API.run());
+  }
+
+  /**
+   * Adds the deployment script to the DOM.
+   *
+   * The script will not be added twice if it was loaded before. In that case, we use
+   * the Qualtrics API directly to _unload_ and _run_ the project.
+   */
+  addScript(scriptSource: string): void {
+    if (this.hasScript(scriptSource)) {
+      this.run(true);
+    } else {
+      const script: HTMLScriptElement = this.renderer.createElement('script');
+      script.type = 'text/javascript';
+      script.defer = true;
+      script.src = scriptSource;
+      this.renderer.appendChild(this.winRef.document.body, script);
+    }
+  }
+
+  /**
+   * This logic exist in order to let the client(s) add their own logic to wait for any kind of page data.
+   * You can observe any data in this method.
+   *
+   * Defaults to true.
    */
   protected isDataLoaded(): Observable<boolean> {
     return of(true);
+  }
+
+  /**
+   * Indicates if the script is already added to the DOM.
+   */
+  protected hasScript(source?: string): boolean {
+    return !!this.winRef.document.querySelector(`script[src="${source}"]`);
+  }
+
+  protected get renderer(): Renderer2 {
+    return this.rendererFactory.createRenderer(null, null);
   }
 }

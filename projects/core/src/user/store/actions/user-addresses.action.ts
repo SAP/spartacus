@@ -1,5 +1,5 @@
 import { Address } from '../../../model/address.model';
-import { StateLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { USER_ADDRESSES } from '../user-state';
 
 export const LOAD_USER_ADDRESSES = '[User] Load User Addresses';
@@ -18,21 +18,21 @@ export const DELETE_USER_ADDRESS = '[User] Delete User Address';
 export const DELETE_USER_ADDRESS_FAIL = '[User] Delete User Address Fail';
 export const DELETE_USER_ADDRESS_SUCCESS = '[User] Delete User Address Success';
 
-export class LoadUserAddresses extends StateLoaderActions.LoaderLoadAction {
+export class LoadUserAddresses extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_USER_ADDRESSES;
   constructor(public payload: string) {
     super(USER_ADDRESSES);
   }
 }
 
-export class LoadUserAddressesFail extends StateLoaderActions.LoaderFailAction {
+export class LoadUserAddressesFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_USER_ADDRESSES_FAIL;
   constructor(public payload: any) {
     super(USER_ADDRESSES, payload);
   }
 }
 
-export class LoadUserAddressesSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class LoadUserAddressesSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_USER_ADDRESSES_SUCCESS;
   constructor(public payload: Address[]) {
     super(USER_ADDRESSES);
@@ -40,21 +40,21 @@ export class LoadUserAddressesSuccess extends StateLoaderActions.LoaderSuccessAc
 }
 
 // Adding address actions
-export class AddUserAddress extends StateLoaderActions.LoaderLoadAction {
+export class AddUserAddress extends StateUtils.LoaderLoadAction {
   readonly type = ADD_USER_ADDRESS;
   constructor(public payload: { userId: string; address: Address }) {
     super(USER_ADDRESSES);
   }
 }
 
-export class AddUserAddressFail extends StateLoaderActions.LoaderFailAction {
+export class AddUserAddressFail extends StateUtils.LoaderFailAction {
   readonly type = ADD_USER_ADDRESS_FAIL;
   constructor(public payload: any) {
     super(USER_ADDRESSES, payload);
   }
 }
 
-export class AddUserAddressSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class AddUserAddressSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = ADD_USER_ADDRESS_SUCCESS;
   constructor(public payload: any) {
     super(USER_ADDRESSES);
@@ -62,7 +62,7 @@ export class AddUserAddressSuccess extends StateLoaderActions.LoaderSuccessActio
 }
 
 // Updating address actions
-export class UpdateUserAddress extends StateLoaderActions.LoaderLoadAction {
+export class UpdateUserAddress extends StateUtils.LoaderLoadAction {
   readonly type = UPDATE_USER_ADDRESS;
   constructor(
     public payload: { userId: string; addressId: string; address: Address }
@@ -71,14 +71,14 @@ export class UpdateUserAddress extends StateLoaderActions.LoaderLoadAction {
   }
 }
 
-export class UpdateUserAddressFail extends StateLoaderActions.LoaderFailAction {
+export class UpdateUserAddressFail extends StateUtils.LoaderFailAction {
   readonly type = UPDATE_USER_ADDRESS_FAIL;
   constructor(public payload: any) {
     super(USER_ADDRESSES, payload);
   }
 }
 
-export class UpdateUserAddressSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class UpdateUserAddressSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = UPDATE_USER_ADDRESS_SUCCESS;
   constructor(public payload: any) {
     super(USER_ADDRESSES);
@@ -86,21 +86,21 @@ export class UpdateUserAddressSuccess extends StateLoaderActions.LoaderSuccessAc
 }
 
 // Deleting address actions
-export class DeleteUserAddress extends StateLoaderActions.LoaderLoadAction {
+export class DeleteUserAddress extends StateUtils.LoaderLoadAction {
   readonly type = DELETE_USER_ADDRESS;
   constructor(public payload: any) {
     super(USER_ADDRESSES);
   }
 }
 
-export class DeleteUserAddressFail extends StateLoaderActions.LoaderFailAction {
+export class DeleteUserAddressFail extends StateUtils.LoaderFailAction {
   readonly type = DELETE_USER_ADDRESS_FAIL;
   constructor(public payload: any) {
     super(USER_ADDRESSES, payload);
   }
 }
 
-export class DeleteUserAddressSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class DeleteUserAddressSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = DELETE_USER_ADDRESS_SUCCESS;
   constructor(public payload: any) {
     super(USER_ADDRESSES);

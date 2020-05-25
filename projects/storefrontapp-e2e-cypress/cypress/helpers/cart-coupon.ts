@@ -52,9 +52,9 @@ export function ApplyMyCoupons(couponCode: string) {
 export function claimCoupon(couponCode: string) {
   cy.request({
     method: 'POST',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/current/customercoupons/${couponCode}/claim`,
+    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/customercoupons/${couponCode}/claim`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
@@ -99,7 +99,7 @@ export function removeCoupon(couponCode: string) {
 
 export function applyWrongCoupon() {
   applyCartCoupon('wrongCouponCode');
-  cy.get('cx-global-message').should('contain', 'coupon.invalid.code.provided');
+  cy.get('cx-global-message').should('contain', 'Invalid code provided.');
 }
 
 export function placeOrder(stateAuth: any) {

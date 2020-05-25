@@ -45,6 +45,7 @@ import {
 import { OrderConfirmationModule } from './order-confirmation/index';
 import {
   ProductCarouselModule,
+  ProductFacetNavigationModule,
   ProductIntroModule,
   ProductListModule,
   ProductReferencesModule,
@@ -80,6 +81,7 @@ import { WishListModule } from './wish-list/wish-list.module';
     ReturnRequestListModule,
     ReturnRequestDetailModule,
     ProductListModule,
+    ProductFacetNavigationModule,
     ProductTabsModule,
     ProductCarouselModule,
     ProductReferencesModule,

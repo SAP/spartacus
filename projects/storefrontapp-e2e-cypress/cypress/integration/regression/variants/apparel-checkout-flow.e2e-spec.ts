@@ -17,6 +17,7 @@ import {
 context('Apparel - checkout flow', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
+    Cypress.env('BASE_SITE', APPAREL_BASESITE);
   });
 
   beforeEach(() => {
@@ -30,12 +31,12 @@ context('Apparel - checkout flow', () => {
 
   describe('when adding a single variant product to cart and completing checkout.', () => {
     it('should register successfully', () => {
-      checkout.visitHomePage('', APPAREL_BASESITE);
-      checkout.registerUser(false, variantUser, APPAREL_BASESITE);
+      checkout.visitHomePage();
+      checkout.registerUser(false, variantUser);
     });
 
     it('should go to product page add the variant style of the product from category page', () => {
-      checkout.goToCheapProductDetailsPage(APPAREL_BASESITE, products[0]);
+      checkout.goToCheapProductDetailsPage(products[0]);
       addVariantOfSameProductToCart();
     });
 
@@ -45,37 +46,26 @@ context('Apparel - checkout flow', () => {
     });
 
     it('should go to product page, and add product to cart from category page and proceed to checkout', () => {
-      checkout.goToCheapProductDetailsPage(APPAREL_BASESITE, products[0]);
-      checkout.addCheapProductToCartAndLogin(
-        APPAREL_BASESITE,
-        variantUser,
-        products[0]
-      );
+      checkout.goToCheapProductDetailsPage(products[0]);
+      checkout.addCheapProductToCartAndLogin(variantUser, products[0]);
     });
 
     it('should fill in address form', () => {
       checkout.fillAddressFormWithCheapProduct(
         variantUser,
-        cartWithTotalVariantProduct,
-        APPAREL_BASESITE
+        cartWithTotalVariantProduct
       );
     });
 
     it('should choose delivery', () => {
-      checkout.verifyDeliveryMethod(
-        APPAREL_BASESITE,
-        APPAREL_DEFAULT_DELIVERY_MODE
-      );
+      checkout.verifyDeliveryMethod(APPAREL_DEFAULT_DELIVERY_MODE);
     });
 
     it('should fill in payment form', () => {
-      cy.wait(3000);
-
       checkout.fillPaymentFormWithCheapProduct(
         variantUser,
         undefined,
-        cartWithTotalVariantProduct,
-        APPAREL_BASESITE
+        cartWithTotalVariantProduct
       );
     });
 
@@ -83,7 +73,6 @@ context('Apparel - checkout flow', () => {
       checkout.placeOrderWithCheapProduct(
         variantUser,
         cartWithTotalVariantProduct,
-        APPAREL_BASESITE,
         APPAREL_CURRENCY
       );
     });
@@ -103,10 +92,7 @@ context('Apparel - checkout flow', () => {
         option: 'Personal Details',
       });
       cy.waitForOrderToBePlacedRequest(APPAREL_BASESITE, APPAREL_CURRENCY);
-      checkout.viewOrderHistoryWithCheapProduct(
-        APPAREL_BASESITE,
-        cartWithTotalVariantProduct
-      );
+      checkout.viewOrderHistoryWithCheapProduct(cartWithTotalVariantProduct);
     });
 
     after(() => {

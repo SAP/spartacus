@@ -12,9 +12,10 @@ Run the following command from your project root:
 
 - `baseUrl`: Base url of your CX OCC backend
 - `baseSite`: Name of your base site
+- `occPrefix`: The OCC API prefix. E.g.: /occ/v2/
 - `useMetaTags`: Whether or not to configure baseUrl and mediaUrl in the meta tags from `index.html`
-- `featureLevel`: Application feature level. (default: _1.3_)
-- `overwriteAppComponent`: Overwrite content of app.component.html file. (default: false)
+- `featureLevel`: Application feature level. (default: _2.0_)
+- `overwriteAppComponent`: Overwrite content of app.component.html file. (default: true)
 - `pwa`: Include PWA features while constructing application.
 - `ssr`: Include Server-side Rendering configuration.
 
@@ -100,12 +101,7 @@ The `projects/schematics/src/migrations/migrations.json` file contains all migra
   - _migration-feature-name_ is a short name that describes what the migration is doing.
   - _sequence-number_ is the sequence number in which the migrations should be executed
   - An example is _migration-v2-update-cms-component-state-02_.
-- _version_ is _really_ important for the Angular's update mechanism, as it is used to automatically execute the required migration scripts for the current project's version.
-It's also important to note that after we release a Spartacus _next.x_, or an _rc.x_ version, all the migration scripts that are written after the release _have_ to specify the future release version.
-E.g. if Spartacus _2.0.0-next.1_ has been released, then the future migration scripts should specify the next version - _2.0.0-next.2_.
-This is required for clients that upgrade frequently and it will make angular to run only the new migration scripts for them.
-At the same time, all the scripts are going to be ran for the clients that do the upgrade for the first time.
-However, there are exceptions from this rule - as we have data-driven generic mechanisms for e.g. constructor deprecation, we have to bump the version in `migrations.json` for those scripts.
+- _version_ is _really_ important for the Angular's update mechanism, as it is used to automatically execute the required migration scripts for the current project's version. For more information about this, please check [releasing update schematics](#releasing-update-schematics) section.
 - _factory_ - points to the specific migration script.
 - _description_ - a short free-form description field for developers.
 
@@ -176,3 +172,25 @@ Similar to [constructor deprecation](#Constructor-deprecation), `projects/schema
 #### CSS
 
 To handle CSS changes, we are printing a link to the CSS docs, where customers can look up which CSS selectors have changed between Spartacus versions. For this reason, if making a change to a CSS selector, please update this docs. (link to follow).
+
+### Releasing update schematics
+
+This section is for developers who do the release, and it specifies how to manage the versions in `projects/schematics/src/migrations/migrations.json`.
+
+The migration scripts that are listed here should be executed each time customers perform the automatic upgrade by running `ng update @spartacus/schematics --next`:
+
+- `migration-v2-validate-01`
+- `migration-v2-methods-and-properties-deprecations-02`
+- `migration-v2-constructor-deprecations-03`
+- `migration-v2-removed-public-api-deprecation-04`
+- `migration-v2-component-deprecations-05`
+- `migration-v2-css-06`
+- `migration-v2-config-deprecations-09`
+
+Please bump the `version` in `migration.json` only for the migration scripts listed above, and _do not change the other script's versions_.
+
+This is _really_ important for the Angular's update mechanism, as it is used to automatically execute the required migration scripts for the current project's version.
+It's also important to note that after we release a Spartacus _next.x_, or an _rc.x_ version, all the migration scripts that are written after the release _have_ to specify the future release version.
+E.g. if Spartacus _2.0.0-next.1_ has been released, then the _new_ migration scripts (added after it _2.0.0-next.1_) should specify the next version (e.g. _2.0.0-next.2_).
+This is required for clients that upgrade frequently and it will make angular to run only the new migration scripts for them, avoiding the same scripts to run twice.
+However, there are exceptions from this rule - as we have data-driven generic mechanisms for e.g. constructor deprecation, we have to bump the version in `migrations.json` for those scripts.

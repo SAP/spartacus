@@ -8,10 +8,7 @@ import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
 } from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
-import {
-  StateEntityLoaderActions,
-  StateLoaderActions,
-} from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { CheckoutDetails } from '../../models/checkout.model';
 import {
   CHECKOUT_DETAILS,
@@ -117,7 +114,7 @@ export class AddDeliveryAddressSuccess implements Action {
   constructor(public payload: Address) {}
 }
 
-export class SetDeliveryAddress extends StateEntityLoaderActions.EntityLoadAction {
+export class SetDeliveryAddress extends StateUtils.EntityLoadAction {
   readonly type = SET_DELIVERY_ADDRESS;
   constructor(
     public payload: { userId: string; cartId: string; address: Address }
@@ -126,56 +123,56 @@ export class SetDeliveryAddress extends StateEntityLoaderActions.EntityLoadActio
   }
 }
 
-export class SetDeliveryAddressFail extends StateEntityLoaderActions.EntityFailAction {
+export class SetDeliveryAddressFail extends StateUtils.EntityFailAction {
   readonly type = SET_DELIVERY_ADDRESS_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, SET_DELIVERY_ADDRESS_PROCESS_ID, payload);
   }
 }
 
-export class SetDeliveryAddressSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class SetDeliveryAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = SET_DELIVERY_ADDRESS_SUCCESS;
   constructor(public payload: Address) {
     super(PROCESS_FEATURE, SET_DELIVERY_ADDRESS_PROCESS_ID);
   }
 }
 
-export class ResetSetDeliveryAddressProcess extends StateEntityLoaderActions.EntityResetAction {
+export class ResetSetDeliveryAddressProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_SET_DELIVERY_ADDRESS_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, SET_DELIVERY_ADDRESS_PROCESS_ID);
   }
 }
 
-export class LoadSupportedDeliveryModes extends StateEntityLoaderActions.EntityLoadAction {
+export class LoadSupportedDeliveryModes extends StateUtils.EntityLoadAction {
   readonly type = LOAD_SUPPORTED_DELIVERY_MODES;
   constructor(public payload: { userId: string; cartId: string }) {
     super(PROCESS_FEATURE, SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID);
   }
 }
 
-export class LoadSupportedDeliveryModesFail extends StateEntityLoaderActions.EntityFailAction {
+export class LoadSupportedDeliveryModesFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_SUPPORTED_DELIVERY_MODES_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID);
   }
 }
 
-export class LoadSupportedDeliveryModesSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class LoadSupportedDeliveryModesSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS;
   constructor(public payload: DeliveryMode[]) {
     super(PROCESS_FEATURE, SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID);
   }
 }
 
-export class ResetLoadSupportedDeliveryModesProcess extends StateEntityLoaderActions.EntityResetAction {
+export class ResetLoadSupportedDeliveryModesProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID);
   }
 }
 
-export class SetDeliveryMode extends StateEntityLoaderActions.EntityLoadAction {
+export class SetDeliveryMode extends StateUtils.EntityLoadAction {
   readonly type = SET_DELIVERY_MODE;
   constructor(
     public payload: { userId: string; cartId: string; selectedModeId: string }
@@ -184,28 +181,28 @@ export class SetDeliveryMode extends StateEntityLoaderActions.EntityLoadAction {
   }
 }
 
-export class SetDeliveryModeFail extends StateEntityLoaderActions.EntityFailAction {
+export class SetDeliveryModeFail extends StateUtils.EntityFailAction {
   readonly type = SET_DELIVERY_MODE_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, SET_DELIVERY_MODE_PROCESS_ID, payload);
   }
 }
 
-export class SetDeliveryModeSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class SetDeliveryModeSuccess extends StateUtils.EntitySuccessAction {
   readonly type = SET_DELIVERY_MODE_SUCCESS;
   constructor(public payload: string) {
     super(PROCESS_FEATURE, SET_DELIVERY_MODE_PROCESS_ID);
   }
 }
 
-export class ResetSetDeliveryModeProcess extends StateEntityLoaderActions.EntityResetAction {
+export class ResetSetDeliveryModeProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_SET_DELIVERY_MODE_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, SET_DELIVERY_MODE_PROCESS_ID);
   }
 }
 
-export class CreatePaymentDetails extends StateEntityLoaderActions.EntityLoadAction {
+export class CreatePaymentDetails extends StateUtils.EntityLoadAction {
   readonly type = CREATE_PAYMENT_DETAILS;
   constructor(
     public payload: {
@@ -218,7 +215,7 @@ export class CreatePaymentDetails extends StateEntityLoaderActions.EntityLoadAct
   }
 }
 
-export class CreatePaymentDetailsFail extends StateEntityLoaderActions.EntityFailAction {
+export class CreatePaymentDetailsFail extends StateUtils.EntityFailAction {
   readonly type = CREATE_PAYMENT_DETAILS_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
@@ -230,14 +227,14 @@ export class CreatePaymentDetailsSuccess implements Action {
   constructor(public payload: PaymentDetails) {}
 }
 
-export class PaymentProcessSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class PaymentProcessSuccess extends StateUtils.EntitySuccessAction {
   readonly type = PAYMENT_PROCESS_SUCCESS;
   constructor() {
     super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
   }
 }
 
-export class SetPaymentDetails extends StateEntityLoaderActions.EntityLoadAction {
+export class SetPaymentDetails extends StateUtils.EntityLoadAction {
   readonly type = SET_PAYMENT_DETAILS;
   constructor(
     public payload: {
@@ -250,21 +247,21 @@ export class SetPaymentDetails extends StateEntityLoaderActions.EntityLoadAction
   }
 }
 
-export class SetPaymentDetailsFail extends StateEntityLoaderActions.EntityFailAction {
+export class SetPaymentDetailsFail extends StateUtils.EntityFailAction {
   readonly type = SET_PAYMENT_DETAILS_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID, payload);
   }
 }
 
-export class SetPaymentDetailsSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class SetPaymentDetailsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = SET_PAYMENT_DETAILS_SUCCESS;
   constructor(public payload: PaymentDetails) {
     super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
   }
 }
 
-export class ResetSetPaymentDetailsProcess extends StateEntityLoaderActions.EntityResetAction {
+export class ResetSetPaymentDetailsProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_SET_PAYMENT_DETAILS_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, SET_PAYMENT_DETAILS_PROCESS_ID);
@@ -299,21 +296,21 @@ export class ClearCheckoutData implements Action {
   readonly type = CLEAR_CHECKOUT_DATA;
 }
 
-export class LoadCheckoutDetails extends StateLoaderActions.LoaderLoadAction {
+export class LoadCheckoutDetails extends StateUtils.LoaderLoadAction {
   readonly type = LOAD_CHECKOUT_DETAILS;
   constructor(public payload: { userId: string; cartId: string }) {
     super(CHECKOUT_DETAILS);
   }
 }
 
-export class LoadCheckoutDetailsFail extends StateLoaderActions.LoaderFailAction {
+export class LoadCheckoutDetailsFail extends StateUtils.LoaderFailAction {
   readonly type = LOAD_CHECKOUT_DETAILS_FAIL;
   constructor(public payload: any) {
     super(CHECKOUT_DETAILS, payload);
   }
 }
 
-export class LoadCheckoutDetailsSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class LoadCheckoutDetailsSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = LOAD_CHECKOUT_DETAILS_SUCCESS;
   constructor(public payload: CheckoutDetails) {
     super(CHECKOUT_DETAILS);

@@ -23,33 +23,13 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ViewModes = ViewModes;
 
   constructor(
-    pageLayoutService: PageLayoutService,
-    productListComponentService: ProductListComponentService,
-    // tslint:disable-next-line: unified-signatures
-    scrollConfig: ViewConfig
-  );
-
-  /**
-   * @deprecated since version 1.x
-   *  Use constructor(pageLayoutService: PageLayoutService,
-   *  productListComponentService: ProductListComponentService,
-   *  ref: ChangeDetectorRef,
-   *  scrollConfig: ViewConfig) instead
-   */
-  constructor(
-    pageLayoutService: PageLayoutService,
-    productListComponentService: ProductListComponentService
-  );
-  constructor(
     private pageLayoutService: PageLayoutService,
     private productListComponentService: ProductListComponentService,
-    public scrollConfig?: ViewConfig
+    public scrollConfig: ViewConfig
   ) {}
 
   ngOnInit(): void {
     this.isInfiniteScroll = this.scrollConfig.view.infiniteScroll.active;
-
-    this.productListComponentService.clearSearchResults();
 
     this.subscription.add(
       this.pageLayoutService.templateName$

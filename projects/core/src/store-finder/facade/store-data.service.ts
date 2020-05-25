@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { PointOfService } from '../../model/point-of-service.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class StoreDataService {
   readonly DECIMAL_BASE: 10;
   readonly weekDays = {
