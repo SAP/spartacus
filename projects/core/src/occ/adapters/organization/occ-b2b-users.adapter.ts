@@ -88,8 +88,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     approverId: string
   ): Observable<any> {
     return this.http.delete<any>(
-      this.getApproverEndpoint(userId, orgCustomerId, approverId),
-      null
+      this.getApproverEndpoint(userId, orgCustomerId, approverId)
     );
   }
 
@@ -144,7 +143,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     userGroupId: string
   ): Observable<any> {
     return this.http.post<any>(
-      this.getApproverEndpoint(userId, orgCustomerId, userGroupId),
+      this.getUserGroupEndpoint(userId, orgCustomerId, userGroupId),
       null
     );
   }
@@ -155,7 +154,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     userGroupId: string
   ): Observable<any> {
     return this.http.delete<any>(
-      this.getApproverEndpoint(userId, orgCustomerId, userGroupId)
+      this.getUserGroupEndpoint(userId, orgCustomerId, userGroupId)
     );
   }
 

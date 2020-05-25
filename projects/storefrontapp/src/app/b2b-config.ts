@@ -7,6 +7,10 @@ export const b2bConfig: StorefrontConfig = {
     occ: {
       baseUrl: environment.occBaseUrl,
       prefix: environment.occApiPrefix,
+      endpoints: {
+        addEntries: 'orgUsers/${userId}/carts/${cartId}/entries',
+        user: 'orgUsers/${userId}',
+      },
     },
   },
   context: {
@@ -27,5 +31,9 @@ export const b2bConfig: StorefrontConfig = {
     resources: translations,
     chunks: translationChunksConfig,
     fallbackLang: 'en',
+  },
+
+  features: {
+    level: '1.5',
   },
 };
