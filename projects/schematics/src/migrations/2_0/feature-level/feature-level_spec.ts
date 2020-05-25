@@ -166,10 +166,9 @@ describe('feature level flag migration', () => {
 
   describe('when there is no featureLevel config', () => {
     it('should not do any changes', async () => {
-      spyOn(
-        fromPackageUtils,
-        'getSpartacusCurrentFeatureLevel'
-      ).and.returnValue('2.0');
+      spyOn(fromPackageUtils, 'getNewSpartacusFeatureLevel').and.returnValue(
+        '2.0'
+      );
       writeFile(
         host,
         `${PROJECT_NAME}/${APP_MODULE_PATH}`,
@@ -185,10 +184,9 @@ describe('feature level flag migration', () => {
 
   describe('upgrading from v1 to v2', () => {
     it('should bump the version to 2.0', async () => {
-      spyOn(
-        fromPackageUtils,
-        'getSpartacusCurrentFeatureLevel'
-      ).and.returnValue('2.0');
+      spyOn(fromPackageUtils, 'getNewSpartacusFeatureLevel').and.returnValue(
+        '2.0'
+      );
       writeFile(host, `${PROJECT_NAME}/${APP_MODULE_PATH}`, V1_5_TO_V2);
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -200,10 +198,9 @@ describe('feature level flag migration', () => {
 
   describe('upgrading from v2.0 to v2.1', () => {
     it('should NOT make any changes', async () => {
-      spyOn(
-        fromPackageUtils,
-        'getSpartacusCurrentFeatureLevel'
-      ).and.returnValue('2.1');
+      spyOn(fromPackageUtils, 'getNewSpartacusFeatureLevel').and.returnValue(
+        '2.1'
+      );
       writeFile(host, `${PROJECT_NAME}/${APP_MODULE_PATH}`, V2_0_TO_V2_1);
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -215,10 +212,9 @@ describe('feature level flag migration', () => {
 
   describe('when the current feature level is greater than the new feature level', () => {
     it('should not do any changes', async () => {
-      spyOn(
-        fromPackageUtils,
-        'getSpartacusCurrentFeatureLevel'
-      ).and.returnValue('2.0');
+      spyOn(fromPackageUtils, 'getNewSpartacusFeatureLevel').and.returnValue(
+        '2.0'
+      );
       writeFile(host, `${PROJECT_NAME}/${APP_MODULE_PATH}`, V999);
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
@@ -230,10 +226,9 @@ describe('feature level flag migration', () => {
 
   describe(`when the feature level is a '*' symbol`, () => {
     it('should not do any changes', async () => {
-      spyOn(
-        fromPackageUtils,
-        'getSpartacusCurrentFeatureLevel'
-      ).and.returnValue('2.0');
+      spyOn(fromPackageUtils, 'getNewSpartacusFeatureLevel').and.returnValue(
+        '2.0'
+      );
       writeFile(host, `${PROJECT_NAME}/${APP_MODULE_PATH}`, V_STAR);
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);

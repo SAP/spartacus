@@ -11,19 +11,22 @@ import {
 } from '../../../shared/utils/file-utils';
 import {
   getMajorVersionNumber,
-  getSpartacusCurrentFeatureLevel,
+  getNewSpartacusFeatureLevel,
 } from '../../../shared/utils/package-utils';
 import { getDefaultProjectNameFromWorkspace } from '../../../shared/utils/workspace-utils';
 
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = getSpartacusCurrentFeatureLevel();
+    const newSpartacusVersion = getNewSpartacusFeatureLevel();
+    const newMajorVersion = getMajorVersionNumber(newSpartacusVersion);
+    const newMajorVersionString = `${newMajorVersion}.0`;
+
     const defaultProject = getDefaultProjectNameFromWorkspace(tree);
     const projectTargets = getProjectTargets(tree, defaultProject);
     if (!projectTargets.build) {
       context.logger.warn(`Project target "build" not found.`);
       context.logger.warn(
-        `Please manually increment 'features.level' config property to ${spartacusVersion}.`
+        `Please manually increment 'features.level' config property to ${newMajorVersionString}.`
       );
       return tree;
     }
@@ -50,16 +53,15 @@ export function migrate(): Rule {
       return tree;
     }
 
-    const majorVersionNew = getMajorVersionNumber(spartacusVersion);
-    const majorVersionOld = getMajorVersionNumber(currentFeatureLevelNode.text);
-    if (majorVersionNew > majorVersionOld) {
+    const oldMajorVersion = getMajorVersionNumber(currentFeatureLevelNode.text);
+    if (newMajorVersion > oldMajorVersion) {
       context.logger.info(
-        `Bumping the Spartacus feature level version to: ${spartacusVersion}`
+        `Bumping the Spartacus feature level version to: ${newMajorVersionString}`
       );
       const change = bumpFeatureLevel(
         appModulePath,
         currentFeatureLevelNode,
-        spartacusVersion
+        newMajorVersionString
       );
       commitChanges(tree, appModulePath, [change]);
     }
