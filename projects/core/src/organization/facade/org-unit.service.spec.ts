@@ -451,7 +451,6 @@ describe('OrgUnitService', () => {
 
   describe('get Users', () => {
     const params: B2BSearchConfig = { sort: 'code' };
-    const roleId = 'testRoleId';
     const customerId = 'customerId';
     const customerId2 = 'customerId2';
     const user1 = {
