@@ -76,6 +76,21 @@ import { B2cStorefrontModule } from '@spartacus/storefront';
 })
 export class AppModule {}
 `;
+const V2_0_TO_V2_1 = `
+import { NgModule } from '@angular/core';
+import { B2cStorefrontModule } from '@spartacus/storefront';
+@NgModule({
+  imports: [
+    B2cStorefrontModule.withConfig({
+      features: {
+        level: '2.0',
+        anonymousConsents: true
+      },
+    }),
+  ],
+})
+export class AppModule {}
+`;
 const V_STAR = `
 import { NgModule } from '@angular/core';
 import { B2cStorefrontModule } from '@spartacus/storefront';
@@ -180,6 +195,21 @@ describe('feature level flag migration', () => {
 
       const content = appTree.readContent(`${PROJECT_NAME}/${APP_MODULE_PATH}`);
       expect(content).toEqual(V1_5_TO_V2_EXPECTED);
+    });
+  });
+
+  describe('upgrading from v2.0 to v2.1', () => {
+    it('should NOT make any changes', async () => {
+      spyOn(
+        fromPackageUtils,
+        'getSpartacusCurrentFeatureLevel'
+      ).and.returnValue('2.1');
+      writeFile(host, `${PROJECT_NAME}/${APP_MODULE_PATH}`, V2_0_TO_V2_1);
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent(`${PROJECT_NAME}/${APP_MODULE_PATH}`);
+      expect(content).toEqual(V2_0_TO_V2_1);
     });
   });
 

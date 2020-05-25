@@ -38,6 +38,7 @@ export function getSpartacusSchematicsVersion(): string {
   return version;
 }
 
+// TODO:#feature - rename to `getNewSpartacusVersion`
 export function getSpartacusCurrentFeatureLevel(): string {
   const versionString = getSpartacusSchematicsVersion();
   return stripLeadingNaN(versionString).split('.').slice(0, 2).join('.');

@@ -9,7 +9,10 @@ import {
   findConfigProperty,
   getTsSourceFile,
 } from '../../../shared/utils/file-utils';
-import { getSpartacusCurrentFeatureLevel } from '../../../shared/utils/package-utils';
+import {
+  getMajorVersionNumber,
+  getSpartacusCurrentFeatureLevel,
+} from '../../../shared/utils/package-utils';
 import { getDefaultProjectNameFromWorkspace } from '../../../shared/utils/workspace-utils';
 
 export function migrate(): Rule {
@@ -47,7 +50,9 @@ export function migrate(): Rule {
       return tree;
     }
 
-    if (Number(spartacusVersion) > Number(currentFeatureLevelNode.text)) {
+    const majorVersionNew = getMajorVersionNumber(spartacusVersion);
+    const majorVersionOld = getMajorVersionNumber(currentFeatureLevelNode.text);
+    if (majorVersionNew > majorVersionOld) {
       context.logger.info(
         `Bumping the Spartacus feature level version to: ${spartacusVersion}`
       );
