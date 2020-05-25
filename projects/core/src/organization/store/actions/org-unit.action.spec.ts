@@ -696,7 +696,8 @@ describe('OrgUnit Actions', () => {
         payload: { orgUnitId, roleId, params, error },
         meta: StateUtils.entityFailMeta(
           ORG_UNIT_ASSIGNED_USERS,
-          serializeB2BSearchConfig(params, `${orgUnitId},${roleId}`)
+          serializeB2BSearchConfig(params, `${orgUnitId},${roleId}`),
+          error
         ),
       });
     });

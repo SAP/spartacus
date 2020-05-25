@@ -18,7 +18,7 @@ import { defaultOccOrganizationConfig } from '../../../occ/adapters/organization
 import { OccConfig } from '../../../occ/config/occ-config';
 import { OrgUnitConnector } from '../../connectors/org-unit/org-unit.connector';
 import { B2BSearchConfig } from '../../model';
-import { OrgUnitActions } from '../actions/index';
+import { OrgUnitActions, B2BUserActions } from '../actions/index';
 import * as fromEffects from './org-unit.effect';
 import createSpy = jasmine.createSpy;
 
@@ -43,7 +43,13 @@ const approvalProcess: B2BApprovalProcess = {
 };
 const approvalProcesses: B2BApprovalProcess[] = [approvalProcess];
 const unitNode: B2BUnitNode = { id: 'testUnitNode' };
-const users: EntitiesModel<B2BUser> = { values: [{}] };
+
+const user = { uid: userId };
+const users: EntitiesModel<B2BUser> = {
+  values: [user],
+  pagination: { totalResults: 1 },
+  sorts: [{ code: 'code' }],
+};
 
 class MockOrgUnitConnector {
   get = createSpy().and.returnValue(of(orgUnit));
@@ -271,7 +277,13 @@ describe('OrgUnit Effects', () => {
         addressId,
         address,
       });
-      const completion = new OrgUnitActions.UpdateAddressSuccess(address);
+      // TODO: Workaround for empty PATCH response:
+      // const completion = new OrgUnitActions.UpdateAddressSuccess(address);
+      const completion = new OrgUnitActions.LoadAddresses({
+        userId,
+        orgUnitId,
+      });
+
       actions$ = hot('-a', { a: action });
       expected = cold('-b', { b: completion });
 
@@ -596,7 +608,8 @@ describe('OrgUnit Effects', () => {
   describe('LoadUsers', () => {
     const params: B2BSearchConfig = { sort: 'code' };
     const page: ListModel = {
-      ids: [addressId],
+      ids: [userId],
+      pagination: { totalResults: 1 },
       sorts: [{ code: 'code' }],
     };
 
@@ -607,14 +620,15 @@ describe('OrgUnit Effects', () => {
         roleId,
         params,
       });
-      const completion = new OrgUnitActions.LoadAssignedUsersSuccess({
+      const completion1 = new B2BUserActions.LoadB2BUserSuccess([user]);
+      const completion2 = new OrgUnitActions.LoadAssignedUsersSuccess({
         orgUnitId,
         roleId,
         page,
         params,
       });
       actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
+      expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effects.loadUsers$).toBeObservable(expected);
       expect(orgUnitConnector.getUsers).toHaveBeenCalledWith(
