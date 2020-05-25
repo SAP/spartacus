@@ -39,7 +39,7 @@
     "e2e:cy:start-run-regression": "start-server-and-test start http-get://localhost:4200 e2e:cy:run:regression",
     "e2e:cy:start-run-regression-ci": "start-server-and-test start:ci:1905 http-get://localhost:4200 e2e:cy:run:regression:ci",
     "generate:changelog": "ts-node ./scripts/changelog.ts",
-    "generate:docs": "npx compodoc -p tsconfig.compodoc.json && ./scripts/zip-docs.sh",
+    "generate:docs": "npx @compodoc/compodoc -p tsconfig.compodoc.json && ./scripts/zip-docs.sh",
     "generate:publish:docs": "yarn generate:docs && yarn publish:docs",
     "generate:translations:ts-2-json": "ts-node ./scripts/generate-translations-ts-2-json",
     "generate:translations:ts-2-properties": "ts-node ./scripts/generate-translations-ts-2-properties",
