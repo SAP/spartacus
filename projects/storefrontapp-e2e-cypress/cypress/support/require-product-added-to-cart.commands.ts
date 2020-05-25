@@ -13,12 +13,15 @@ declare global {
         cy.requireProductAddedToCart(auth);
         ```
        */
-      requireProductAddedToCart: (auth: {}) => Cypress.Chainable<any>;
+      requireProductAddedToCart: (
+        auth: {},
+        qty: number
+      ) => Cypress.Chainable<any>;
     }
   }
 }
 
-Cypress.Commands.add('requireProductAddedToCart', (auth) => {
+Cypress.Commands.add('requireProductAddedToCart', (auth, qty: number = 1) => {
   function createCart() {
     return cy.request({
       method: 'POST',
@@ -43,7 +46,7 @@ Cypress.Commands.add('requireProductAddedToCart', (auth) => {
       )}/${Cypress.env('BASE_SITE')}/users/current/carts/${cartCode}/entries`,
       body: {
         code: productData.code,
-        qty: 1,
+        qty,
       },
       form: true,
       headers: {

@@ -5,7 +5,7 @@ import { switchLanguage } from './language';
 
 const orderHistoryLink = '/my-account/orders';
 
-export function doPlaceOrder() {
+export function doPlaceOrder(qty: number = 1) {
   let stateAuth: any;
 
   return cy
@@ -13,7 +13,7 @@ export function doPlaceOrder() {
     .then((win) => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
     .then(({ auth }) => {
       stateAuth = auth;
-      return cy.requireProductAddedToCart(stateAuth);
+      return cy.requireProductAddedToCart(stateAuth, qty);
     })
     .then(({ cartId }) => {
       cy.requireShippingAddressAdded(user.address, stateAuth);
