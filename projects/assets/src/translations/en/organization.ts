@@ -42,6 +42,8 @@ export const organization = {
       title: 'Disable Budget',
       message: 'Are you sure you want to disable this budget?',
     },
+    timezoneInaccuracyDisclaimer:
+      'Note: Dates may appear inaccurate depending on your local timezone.',
   },
   budgetForm: {
     create: 'Create Budget',
