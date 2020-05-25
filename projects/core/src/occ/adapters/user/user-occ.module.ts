@@ -25,6 +25,8 @@ import { OccUserInterestsNormalizer } from './converters/occ-user-interests-norm
 import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests/converters';
 import { ORDER_RETURN_REQUEST_NORMALIZER } from '../../../user/connectors/order/converters';
 import { OccReturnRequestNormalizer } from './converters/index';
+import { UserCostCenterAdapter } from '../../../user/connectors/cost-center/user-cost-center.adapter';
+import { OccCostCenterAdapter } from '../organization/occ-cost-center.adapter';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -48,6 +50,7 @@ import { OccReturnRequestNormalizer } from './converters/index';
       useClass: OccUserNotificationPreferenceAdapter,
     },
     { provide: UserInterestsAdapter, useClass: OccUserInterestsAdapter },
+    { provide: UserCostCenterAdapter, useClass: OccCostCenterAdapter },
     {
       provide: PRODUCT_INTERESTS_NORMALIZER,
       useExisting: OccUserInterestsNormalizer,
