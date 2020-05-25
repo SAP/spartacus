@@ -119,50 +119,17 @@ describe('ConfigAttributeInputFieldComponent', () => {
     checkForValidationMessage(component, fixture, htmlElem, 1);
   });
 
-  it('should compile pattern for validation message', () => {
-    component.compilePatternForValidationMessage(3, 10);
-    expect(component.numericFormatPattern).toBe('#,###,###.###');
+  it('should raise event in case input was changed', () => {
+    spyOn(component.inputChange, 'emit').and.callThrough();
+    component.onChange();
+    expect(component.inputChange.emit).toHaveBeenCalled();
   });
 
-  it('should compile pattern for validation message in case no decimal places are present', () => {
-    component.compilePatternForValidationMessage(0, 10);
-    expect(component.numericFormatPattern).toBe('#,###,###,###');
-  });
-
-  it('should accept integer that exactly matches the maximum length ', () => {
-    expect(
-      component.performValidationAccordingToMetaData('1,234', ',', '.', 4, 0)
-    ).toBe(false);
-  });
-
-  it('should accept multiple thousand separators', () => {
-    expect(
-      component.performValidationAccordingToMetaData('1,23,4', ',', '.', 4, 0)
-    ).toBe(false);
-  });
-
-  it('should not accept multiple decimal separators', () => {
-    expect(
-      component.performValidationAccordingToMetaData(
-        '1234.22.22',
-        ',',
-        '.',
-        9,
-        4
-      )
-    ).toBe(true);
-  });
-
-  it('should not accept integer that exceeds the maximum length ', () => {
-    expect(
-      component.performValidationAccordingToMetaData('1,234', ',', '.', 3, 0)
-    ).toBe(true);
-  });
-
-  it('should not accept if numeric input is malformed according to swiss locale settings', () => {
-    const input = '1,234';
-    expect(
-      component.performValidationAccordingToMetaData(input, "'", '.', 4, 0)
-    ).toBe(true);
+  it('should raise no event in case input was changed and control is invalid', () => {
+    spyOn(component.inputChange, 'emit').and.callThrough();
+    component.ngOnInit();
+    component.attributeInputForm.setValue('122A23');
+    component.onChange();
+    expect(component.inputChange.emit).toHaveBeenCalledTimes(0);
   });
 });
