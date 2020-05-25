@@ -9,7 +9,7 @@ import {
   FormControl,
 } from '@angular/forms';
 
-fdescribe('Select Timezone Component', () => {
+describe('Select Timezone Component', () => {
   let component: SelectTimezoneComponent;
   let fixture: ComponentFixture<SelectTimezoneComponent>;
 

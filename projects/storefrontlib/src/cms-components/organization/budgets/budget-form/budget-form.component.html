@@ -1,11 +1,11 @@
 <form
   [formGroup]="form"
   (ngSubmit)="
-    patchDateWithOffset(
+    patchDateControlWithOffset(
       form.controls.startDate,
       form.controls.timezoneOffset.value
     );
-    patchDateWithOffset(
+    patchDateControlWithOffset(
       form.controls.endDate,
       form.controls.timezoneOffset.value
     );

@@ -133,6 +133,10 @@ describe('BudgetFormComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    beforeEach(() => {
+      spyOn(component, 'getLocalTimezoneOffset').and.returnValue('+00:00');
+    });
+
     it('should load currencies', () => {
       component.ngOnInit();
       let currencies: any;
@@ -164,6 +168,7 @@ describe('BudgetFormComponent', () => {
       component.ngOnInit();
       expect(component.form.patchValue).not.toHaveBeenCalled();
       expect(component.form.valid).toBeFalsy();
+      expect(component.getLocalTimezoneOffset).not.toHaveBeenCalled();
     });
 
     it('should setup form for update', () => {
@@ -172,26 +177,37 @@ describe('BudgetFormComponent', () => {
       component.ngOnInit();
       expect(component.form.patchValue).toHaveBeenCalledWith(mockBudget);
       expect(component.form.valid).toBeTruthy();
+      expect(component.getLocalTimezoneOffset).toHaveBeenCalledWith(true);
     });
   });
 
   describe('verifyBudget', () => {
+    beforeEach(() => {
+      spyOn(component, 'getLocalTimezoneOffset').and.returnValue('+00:00');
+    });
+
     it('should not emit value if form is invalid', () => {
       spyOn(component.submitForm, 'emit');
+      spyOn(component, 'patchDateControlWithOffset').and.callThrough();
       const form = fixture.debugElement.query(By.css('form'));
+      expect(component.patchDateControlWithOffset).not.toHaveBeenCalled();
       form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).not.toHaveBeenCalled();
+      expect(component.patchDateControlWithOffset).toHaveBeenCalledTimes(2);
     });
 
     it('should emit value if form is valid', () => {
       spyOn(component.submitForm, 'emit');
+      spyOn(component, 'patchDateControlWithOffset').and.callThrough();
       component.budgetData = mockBudget;
       component.ngOnInit();
       const form = fixture.debugElement.query(By.css('form'));
+      expect(component.patchDateControlWithOffset).not.toHaveBeenCalled();
       form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).toHaveBeenCalledWith(
         component.form.value
       );
+      expect(component.patchDateControlWithOffset).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -200,6 +216,65 @@ describe('BudgetFormComponent', () => {
       spyOn(component.clickBack, 'emit');
       component.back();
       expect(component.clickBack.emit).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('getLocalTimezoneOffset()', () => {
+    it('should return utc-0 offset string', () => {
+      // Use UTC-0 timezone
+      Date.prototype.getTimezoneOffset = () => {
+        return 0;
+      };
+      spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
+      expect(component.getLocalTimezoneOffset()).toEqual('+00:00');
+    });
+
+    it('should return past offset string', () => {
+      // Use 2 hours in future timezone
+      Date.prototype.getTimezoneOffset = () => {
+        return 120;
+      };
+      spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
+      expect(component.getLocalTimezoneOffset()).toEqual('-02:00');
+    });
+
+    it('should return future offset string', () => {
+      // Use 3 hours in past timezone
+      Date.prototype.getTimezoneOffset = () => {
+        return -180;
+      };
+      spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
+      expect(component.getLocalTimezoneOffset()).toEqual('+03:00');
+    });
+
+    it('should invert past offset string', () => {
+      // Use 2 hours in future timezone
+      Date.prototype.getTimezoneOffset = () => {
+        return 120;
+      };
+      spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
+      expect(component.getLocalTimezoneOffset(true)).toEqual('+02:00');
+    });
+
+    it('should invert future offset string', () => {
+      // Use 3 hours in past timezone
+      Date.prototype.getTimezoneOffset = () => {
+        return -180;
+      };
+      spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
+      expect(component.getLocalTimezoneOffset(true)).toEqual('-03:00');
+    });
+  });
+
+  describe('patchDateControlWithOffset()', () => {
+    it('should patch date control with offset', () => {
+      const control = component.form.controls.startDate;
+      const offset = '+02:00';
+      const dateWithOffset = control.value.replace('+0000', offset);
+      spyOn(control, 'patchValue');
+      spyOn(component, 'patchDateControlWithOffset').and.callThrough();
+      component.patchDateControlWithOffset(control, offset);
+      expect(control.patchValue).toHaveBeenCalledWith(dateWithOffset);
     });
   });
 });

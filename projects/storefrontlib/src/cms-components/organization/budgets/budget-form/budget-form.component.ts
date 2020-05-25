@@ -78,7 +78,10 @@ export class BudgetFormComponent extends AbstractFormComponent
 
   getLocalTimezoneOffset(invert?: boolean): string {
     const offset = new Date().getTimezoneOffset() * -1;
-    const hours = this.padWithZeroes(Math.floor(offset / 60).toString(), 2);
+    const hours = this.padWithZeroes(
+      Math.abs(Math.floor(offset / 60)).toString(),
+      2
+    );
     const minutes = this.padWithZeroes((offset % 60).toString(), 2);
     return offset >= 0
       ? !invert
@@ -89,19 +92,19 @@ export class BudgetFormComponent extends AbstractFormComponent
       : `+${hours}:${minutes}`;
   }
 
-  formatDateStringWithTimezone(dateString: string, offset: string) {
+  patchDateControlWithOffset(control: AbstractControl, offset: string): void {
+    const dateWithOffset = control.value.replace('+0000', offset);
+    control.patchValue(dateWithOffset);
+  }
+
+  protected formatDateStringWithTimezone(dateString: string, offset: string) {
     return new Date(dateString.replace('+0000', offset))
       .toISOString()
       .replace('.', '+')
       .replace('Z', '0');
   }
 
-  patchDateWithOffset(control: AbstractControl, offset: number): void {
-    const dateWithOffset = control.value.replace('+0000', offset);
-    control.patchValue(dateWithOffset);
-  }
-
-  padWithZeroes(str: string, max: number) {
+  protected padWithZeroes(str: string, max: number) {
     str = str.toString();
     return str.length < max ? this.padWithZeroes('0' + str, max) : str;
   }
