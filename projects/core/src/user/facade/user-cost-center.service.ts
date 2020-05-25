@@ -9,6 +9,7 @@ import { CostCenter } from '../../model/org-unit.model';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -20,9 +21,11 @@ export class UserCostCenterService {
   ) {}
 
   loadActiveCostCenters(): void {
-    this.withUserId((userId) =>
-      this.store.dispatch(new UserActions.LoadActiveCostCenters(userId))
-    );
+    this.withUserId((userId) => {
+      if (userId && userId !== OCC_USER_ID_ANONYMOUS) {
+        this.store.dispatch(new UserActions.LoadActiveCostCenters(userId));
+      }
+    });
   }
 
   private getCostCentersState(): Observable<LoaderState<CostCenter[]>> {

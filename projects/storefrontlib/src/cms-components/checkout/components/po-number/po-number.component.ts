@@ -7,7 +7,11 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { PaymentTypeService } from '@spartacus/core';
+import {
+  PaymentTypeService,
+  UserCostCenterService,
+  CostCenter,
+} from '@spartacus/core';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({
@@ -35,11 +39,16 @@ export class PoNumberComponent {
     tap((po) => (this.poNumber = po))
   );
 
+  costCenters$: Observable<
+    CostCenter[]
+  > = this.costCenterService.getActiveCostCenters();
+
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
   constructor(
     protected paymentTypeService: PaymentTypeService,
     protected checkoutStepService: CheckoutStepService,
+    protected costCenterService: UserCostCenterService,
     protected activatedRoute: ActivatedRoute
   ) {}
 

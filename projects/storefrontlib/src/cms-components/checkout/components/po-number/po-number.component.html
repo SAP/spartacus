@@ -1,5 +1,6 @@
 <div class="row">
   <div class="col-md-12 col-lg-9">
+    <!-- PO number -->
     <label>
       <span class="label-content">{{
         'checkoutPO.poNumber' | cxTranslate
@@ -11,18 +12,23 @@
         value="{{ poNumber$ | async }}"
       />
     </label>
-
+    <!-- cost centers -->
     <label
       aria-required="true"
       *ngIf="(typeSelected$ | async) === ACCOUNT_PAYMENT"
     >
-      <span class="label-content required">{{
-        'checkoutPO.costCenter' | cxTranslate
-      }}</span>
-      <select class="form-control">
-        <option value=""></option>
-        <option value=""></option>
-      </select>
+      <ng-container *ngIf="costCenters$ | async as costCenters">
+        <div *ngIf="costCenters.length !== 0">
+          <span class="label-content required">{{
+            'checkoutPO.costCenter' | cxTranslate
+          }}</span>
+          <select class="form-control">
+            <option *ngFor="let cc of costCenters" value="{{ cc.code }}">{{
+              cc.name
+            }}</option>
+          </select>
+        </div>
+      </ng-container>
     </label>
   </div>
 </div>
