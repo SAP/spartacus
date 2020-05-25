@@ -1,6 +1,2 @@
-projects/backend/mockgenerator/datasets
-projects/backend/mockgenerator/dist
-projects/backend/occ-client
 projects/storefrontapp/src/webApplicationInjector.js
-projects/storefrontapp-cds-integration/src/webApplicationInjector.js
 **/*.md
