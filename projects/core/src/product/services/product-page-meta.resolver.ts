@@ -130,7 +130,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
   resolveImage(): Observable<string> {
     return this.product$.pipe(
       map((p: Product) =>
-        (<any>p.images?.PRIMARY).zoom?.url
+        (<any>p.images?.PRIMARY)?.zoom?.url
           ? (<any>p.images.PRIMARY).zoom.url
           : null
       )

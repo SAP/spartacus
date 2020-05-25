@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { ConfiguratorTextfield } from '../../../../model/configurator-textfield.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import { StateLoaderActions } from '../../../../state/utils/index';
+import { StateUtils } from '../../../../state/utils';
 import { CONFIGURATION_TEXTFIELD_DATA } from '../configuration-textfield-state';
 
 export const CREATE_CONFIGURATION =
@@ -28,21 +28,21 @@ export const UPDATE_CART_ENTRY_CONFIGURATION_FAIL =
 export const REMOVE_CONFIGURATION =
   '[Configurator] Remove Configuration Textfield';
 
-export class CreateConfiguration extends StateLoaderActions.LoaderLoadAction {
+export class CreateConfiguration extends StateUtils.LoaderLoadAction {
   readonly type = CREATE_CONFIGURATION;
   constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class CreateConfigurationFail extends StateLoaderActions.LoaderFailAction {
+export class CreateConfigurationFail extends StateUtils.LoaderFailAction {
   readonly type = CREATE_CONFIGURATION_FAIL;
   constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA, payload);
   }
 }
 
-export class CreateConfigurationSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class CreateConfigurationSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = CREATE_CONFIGURATION_SUCCESS;
   constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA);
@@ -54,35 +54,35 @@ export class UpdateConfiguration implements Action {
   constructor(public payload: any) {}
 }
 
-export class AddToCart extends StateLoaderActions.LoaderLoadAction {
+export class AddToCart extends StateUtils.LoaderLoadAction {
   readonly type = ADD_TO_CART;
   constructor(public payload: ConfiguratorTextfield.AddToCartParameters) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class AddToCartFail extends StateLoaderActions.LoaderFailAction {
+export class AddToCartFail extends StateUtils.LoaderFailAction {
   readonly type = ADD_TO_CART_FAIL;
   constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class UpdateCartEntryConfiguration extends StateLoaderActions.LoaderLoadAction {
+export class UpdateCartEntryConfiguration extends StateUtils.LoaderLoadAction {
   readonly type = UPDATE_CART_ENTRY_CONFIGURATION;
   constructor(public payload: ConfiguratorTextfield.UpdateCartEntryParameters) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class UpdateCartEntryConfigurationFail extends StateLoaderActions.LoaderFailAction {
+export class UpdateCartEntryConfigurationFail extends StateUtils.LoaderFailAction {
   readonly type = UPDATE_CART_ENTRY_CONFIGURATION_FAIL;
   constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class ReadCartEntryConfiguration extends StateLoaderActions.LoaderLoadAction {
+export class ReadCartEntryConfiguration extends StateUtils.LoaderLoadAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION;
   constructor(
     public payload: GenericConfigurator.ReadConfigurationFromCartEntryParameters
@@ -91,21 +91,21 @@ export class ReadCartEntryConfiguration extends StateLoaderActions.LoaderLoadAct
   }
 }
 
-export class ReadCartEntryConfigurationSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class ReadCartEntryConfigurationSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION_SUCCESS;
   constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class ReadCartEntryConfigurationFail extends StateLoaderActions.LoaderFailAction {
+export class ReadCartEntryConfigurationFail extends StateUtils.LoaderFailAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
   constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class RemoveConfiguration extends StateLoaderActions.LoaderResetAction {
+export class RemoveConfiguration extends StateUtils.LoaderResetAction {
   readonly type = REMOVE_CONFIGURATION;
   constructor(public payload: any) {
     super(CONFIGURATION_TEXTFIELD_DATA);

@@ -72,7 +72,10 @@ describe('User Orders effect', () => {
 
   describe('resetUserOrders$', () => {
     it('should return a reset action', () => {
-      const action = new SiteContextActions.LanguageChange();
+      const action = new SiteContextActions.LanguageChange({
+        previous: 'previous',
+        current: 'current',
+      });
 
       const completion = new UserActions.ClearUserOrders();
 
