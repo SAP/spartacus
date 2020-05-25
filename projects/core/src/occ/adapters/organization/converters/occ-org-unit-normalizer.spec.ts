@@ -18,7 +18,6 @@ describe('OccOrgUnitNormalizer', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      //imports: [HttpClientTestingModule],
       providers: [
         OccOrgUnitNormalizer,
         {

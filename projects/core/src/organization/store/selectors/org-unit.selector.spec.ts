@@ -17,6 +17,7 @@ import {
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
 import { OrgUnitSelectors } from '../selectors/index';
+import { ListModel } from '../../../model/misc.model';
 
 describe('OrgUnit Selectors', () => {
   let store: Store<StateWithOrganization>;
@@ -42,10 +43,10 @@ describe('OrgUnit Selectors', () => {
   const b2bAddress: B2BAddress = { id: 'addressId' };
   const addressId: string = b2bAddress.id;
 
-  /*const page: ListModel = {
+  const page: ListModel = {
     ids: [addressId],
     sorts: [{ code: 'code' }],
-  };*/
+  };
 
   const addressEntities = {
     [addressId]: {
@@ -124,7 +125,7 @@ describe('OrgUnit Selectors', () => {
     });
   });
 
-  /*describe('getAddressesState', () => {
+  describe('getAddressesState', () => {
     it('should get addresses state', () => {
       let result: EntityLoaderState<B2BAddress>;
       store
@@ -135,10 +136,10 @@ describe('OrgUnit Selectors', () => {
         new OrgUnitActions.LoadAddressesSuccess({ page, orgUnitId })
       );
       expect(result).toEqual({
-      entities: { [addressId]: address },
+        entities: {},
       });
     });
-  });*/
+  });
 
   describe('getB2BAddress', () => {
     it('should get B2B Address', () => {

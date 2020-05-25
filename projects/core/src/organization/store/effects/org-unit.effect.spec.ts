@@ -666,30 +666,6 @@ describe('OrgUnit Effects', () => {
         params
       );
     });
-
-    /*it('should return LoadB2BUserSuccess action', () => {
-      const unit: B2BUnit = { uid: orgUnitId };
-      const user: B2BUser = {
-        approvers: [],
-        orgUnit: unit,
-        roles: [roleId],
-        selected: true,
-      };
-      const users: B2BUser[] = [user];
-
-      const action = new B2BUserActions.LoadB2BUser({ userId, orgCustomerId });
-      const completion = new B2BUserActions.LoadB2BUserSuccess(users);
-      actions$ = hot('-a', { a: action });
-      expected = cold('-b', { b: completion });
-
-      expect(effects.loadUsers$).toBeObservable(expected);
-      expect(orgUnitConnector.getUsers).toHaveBeenCalledWith(
-        userId,
-        orgUnitId,
-        roleId,
-        params
-      );
-    }); */
   });
 
   describe('LoadTree', () => {

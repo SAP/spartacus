@@ -18,7 +18,6 @@ describe('OccOrgUnitAddressListNormalizer', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      //imports: [HttpClientTestingModule],
       providers: [
         OccOrgUnitAddressListNormalizer,
         {

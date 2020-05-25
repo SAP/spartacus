@@ -18,7 +18,6 @@ describe('OccOrgUnitApprovalProcessNormalizer', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      //imports: [HttpClientTestingModule],
       providers: [
         OccOrgUnitApprovalProcessNormalizer,
         {
