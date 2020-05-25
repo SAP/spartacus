@@ -49,7 +49,7 @@
     "mockserver": "cd ./projects/backend/mockgenerator && npm run start",
     "prettier": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss,.html}\"",
     "prettier:fix": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss,.html}\" --write",
-    "start": "ng serve --proxy-config mock-server/proxy.backend.js",
+    "start": "ng serve",
     "start:mock": "ng serve --proxy-config mock-server/proxy.mock.js",
     "start:ci:1905": "yarn start:prod -c=ci.1905",
     "start:ci:2005": "yarn start:prod -c=ci.2005",
@@ -135,7 +135,9 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.901.0",
+    "@angular-builders/custom-webpack": "^9.1.0",
+    "@angular-builders/dev-server": "^7.3.1",
+    "@angular-devkit/build-angular": "^0.901.7",
     "@angular-devkit/build-ng-packagr": "~0.901.0",
     "@angular/cli": "~9.1.0",
     "@angular/compiler-cli": "~9.1.0",
