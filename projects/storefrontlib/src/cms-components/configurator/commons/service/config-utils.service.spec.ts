@@ -19,7 +19,7 @@ class MockConfiguratorGroupsService {
 describe('ConfigUtilsService', () => {
   let classUnderTest: ConfigUtilsService;
   let configurationGroupService: ConfiguratorGroupsService;
-  const groupId: string = 'group_01';
+  const groupId = 'group_01';
   const owner: GenericConfigurator.Owner = {
     id: 'testProduct',
     type: GenericConfigurator.OwnerType.PRODUCT,
