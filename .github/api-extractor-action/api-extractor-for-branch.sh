@@ -17,7 +17,7 @@ npm i -g @microsoft/api-extractor
 if [ "$DIR" != "self" ] ; then
   CLONE_DIR="$DIR-branch-clone"
   rm -rf $CLONE_DIR
-  git clone --single-branch --branch $BRANCH https://github.com/SAP/cloud-commerce-spartacus-storefront.git $CLONE_DIR --depth 1
+  git clone --single-branch --branch $BRANCH https://github.com/SAP/spartacus.git $CLONE_DIR --depth 1
   cd $CLONE_DIR
 fi
 
@@ -30,24 +30,24 @@ yarn build:core:lib:cds
 rm -rf etc
 mkdir etc
 
-ASSETS_CONFIG_PATH="./../scripts/api-extractor-configs/api-extractor-assets.json"
+ASSETS_CONFIG_PATH="./../.github/api-extractor-action/api-extractor-configs/api-extractor-assets.json"
 if [ "$DIR" = "self" ] ; then
-  ASSETS_CONFIG_PATH="./scripts/api-extractor-configs/api-extractor-assets.json"
+  ASSETS_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor-assets.json"
 fi
 
-CORE_CONFIG_PATH="./../scripts/api-extractor-configs/api-extractor-core.json"
+CORE_CONFIG_PATH="./../.github/api-extractor-action/api-extractor-configs/api-extractor-core.json"
 if [ "$DIR" = "self" ] ; then
-  CORE_CONFIG_PATH="./scripts/api-extractor-configs/api-extractor-core.json"
+  CORE_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor-core.json"
 fi
 
-STOREFRONT_CONFIG_PATH="./../scripts/api-extractor-configs/api-extractor-storefrontlib.json"
+STOREFRONT_CONFIG_PATH="./../.github/api-extractor-action/api-extractor-configs/api-extractor-storefrontlib.json"
 if [ "$DIR" = "self" ] ; then
-  STOREFRONT_CONFIG_PATH="./scripts/api-extractor-configs/api-extractor-storefrontlib.json"
+  STOREFRONT_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor-storefrontlib.json"
 fi
 
-CDS_CONFIG_PATH="./../scripts/api-extractor-configs/api-extractor-cds.json"
+CDS_CONFIG_PATH="./../.github/api-extractor-action/api-extractor-configs/api-extractor-cds.json"
 if [ "$DIR" = "self" ] ; then
-  CDS_CONFIG_PATH="./scripts/api-extractor-configs/api-extractor-cds.json"
+  CDS_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor-cds.json"
 fi
 
 # @spartacus/assets
