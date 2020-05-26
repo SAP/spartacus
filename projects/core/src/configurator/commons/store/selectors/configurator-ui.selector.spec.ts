@@ -63,7 +63,7 @@ describe('Configurator selectors', () => {
       .subscribe((value) => expect(value).toEqual(GROUP_ID));
   });
 
-  it('should get Visited Status for group - initial', () => {
+  it('should get visited status for group - initial', () => {
     store
       .pipe(
         select(ConfiguratorUiSelectors.isGroupVisited(PRODUCT_CODE, GROUP_ID))
@@ -71,7 +71,7 @@ describe('Configurator selectors', () => {
       .subscribe((value) => expect(value).toEqual(undefined));
   });
 
-  it('should get Visited Status for group', () => {
+  it('should get visited status for group', () => {
     store.dispatch(
       new ConfiguratorUiActions.SetGroupsVisited(PRODUCT_CODE, [GROUP_ID])
     );
@@ -82,7 +82,7 @@ describe('Configurator selectors', () => {
       .subscribe((value) => expect(value).toEqual(true));
   });
 
-  it('should get Visited Status for group many groups, not all visited', () => {
+  it('should get visited status for group many groups, not all visited', () => {
     store.dispatch(
       new ConfiguratorUiActions.SetGroupsVisited(PRODUCT_CODE, [GROUP_ID])
     );
@@ -98,7 +98,7 @@ describe('Configurator selectors', () => {
       .subscribe((value) => expect(value).toEqual(false));
   });
 
-  it('should get Visited Status for group many groups, all visited', () => {
+  it('should get visited status for group many groups, all visited', () => {
     store.dispatch(
       new ConfiguratorUiActions.SetGroupsVisited(PRODUCT_CODE, [
         GROUP_ID,
@@ -117,7 +117,7 @@ describe('Configurator selectors', () => {
       .subscribe((value) => expect(value).toEqual(true));
   });
 
-  it('should get group Status for group', () => {
+  it('should get group status for group', () => {
     store.dispatch(
       new ConfiguratorUiActions.SetGroupsError(PRODUCT_CODE, [GROUP_ID])
     );
