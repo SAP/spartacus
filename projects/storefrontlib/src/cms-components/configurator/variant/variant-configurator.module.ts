@@ -47,14 +47,9 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigurationMessageLoaderModule,
     RouterModule.forChild([
       {
-        path: 'configureCPQCONFIGURATOR/:ownerType',
-        children: [
-          {
-            path: 'entityKey/:entityKey',
-            component: PageLayoutComponent,
-            data: { pageLabel: '/configureCPQCONFIGURATOR' },
-          },
-        ],
+        path: 'configureCPQCONFIGURATOR/:ownerType/entityKey/:entityKey',
+        data: { pageLabel: '/configureCPQCONFIGURATOR' },
+        component: PageLayoutComponent,
         canActivate: [CmsPageGuard],
       },
     ]),
