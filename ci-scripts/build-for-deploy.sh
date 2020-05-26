@@ -8,4 +8,4 @@ yarn build:core:lib:cds
 
 echo "-----"
 echo "Building SPA app"
-cross-env SPARTACUS_BASE_URL=https://api.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com ng build storefrontapp --base-href "https://storefront.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com"
+cross-env SPARTACUS_BASE_URL=https://api.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com ng build storefrontapp
