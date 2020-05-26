@@ -20,7 +20,7 @@ describe('ConfigUtilsService', () => {
   let classUnderTest: ConfigUtilsService;
   let configurationGroupService: ConfiguratorGroupsService;
   const groupId: string = 'group_01';
-  let owner: GenericConfigurator.Owner = {
+  const owner: GenericConfigurator.Owner = {
     id: 'testProduct',
     type: GenericConfigurator.OwnerType.PRODUCT,
   };

@@ -29,7 +29,7 @@ export class MockIconFontLoaderService {
   getHtml(_iconType: ICON_TYPE) {}
 }
 
-let isCartEntryOrGroupVisited = true;
+const isCartEntryOrGroupVisited = true;
 class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
     return of(isCartEntryOrGroupVisited);

@@ -202,7 +202,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     );
   });
 
-  it('should render a required message if the group has already been visited..', () => {
+  it('should render a required message if the group has already been visited.', () => {
     classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
     isCartEntryOrGroupVisited = true;
     fixture.detectChanges();
