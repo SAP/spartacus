@@ -32,9 +32,11 @@ Toolkit.run(
         .trim();
     }
 
-    await tools.runInWorkspace('sh', ['./scripts/api-extractor-for-branch.sh']);
     await tools.runInWorkspace('sh', [
-      './scripts/api-extractor-for-branch.sh',
+      './.github/api-extractor-action/api-extractor-for-branch.sh',
+    ]);
+    await tools.runInWorkspace('sh', [
+      './.github/api-extractor-action/api-extractor-for-branch.sh',
       targetBranch,
       'target',
     ]);
