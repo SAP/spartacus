@@ -1,5 +1,3 @@
-/// <reference path="../../../../../types/typings.d.ts" />
-
 import { CdsModule } from '@spartacus/cds';
 import { FeatureEnvironment } from '../models/feature.model';
 
