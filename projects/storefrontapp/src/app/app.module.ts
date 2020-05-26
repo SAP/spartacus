@@ -7,6 +7,7 @@ import {
   BrowserModule,
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TestConfigModule } from '@spartacus/core';
 import {
@@ -37,6 +38,8 @@ if (!environment.production) {
     JsonLdBuilderModule,
 
     ...cdsFeature.imports,
+
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: true }),
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
