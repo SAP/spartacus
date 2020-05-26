@@ -17,9 +17,9 @@ import {
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
+import { FormErrorsModule } from '../../../../../shared/index';
 import { AddressFormComponent } from './address-form.component';
 import createSpy = jasmine.createSpy;
-import { FormErrorsModule } from '../../../../../shared/index';
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -38,6 +38,10 @@ class MockUserAddressService {
 
   getRegions(): Observable<Region[]> {
     return of();
+  }
+
+  getAddresses(): Observable<Address[]> {
+    return of([]);
   }
 }
 
@@ -186,6 +190,8 @@ describe('AddressFormComponent', () => {
     spyOn(userService, 'loadTitles').and.stub();
 
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+
+    spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
 
     spyOn(
       mockCheckoutDeliveryService,
