@@ -21,6 +21,7 @@ import { withdrawOn } from '../../../util/withdraw-on';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-delivery.connector';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
+import { CheckoutCostCenterConnector } from '../../connectors/cost-center/checkout-cost-center.connector';
 import { CheckoutActions } from '../actions/index';
 
 @Injectable()
@@ -414,10 +415,47 @@ export class CheckoutEffects {
     withdrawOn(this.contextChange$)
   );
 
+  @Effect()
+  setCostCentere$: Observable<
+    | CheckoutActions.SetCostCenterSuccess
+    | CheckoutActions.SetCostCenterFail
+    | CheckoutActions.ClearCheckoutDeliveryMode
+    | CheckoutActions.ClearCheckoutDeliveryAddress
+  > = this.actions$.pipe(
+    ofType(CheckoutActions.SET_COST_CENTER),
+    map((action: any) => action.payload),
+    mergeMap((payload) => {
+      return this.checkoutCostCenterConnector
+        .setCostCenter(payload.userId, payload.cartId, payload.costCenterId)
+        .pipe(
+          mergeMap((data) => [
+            new CheckoutActions.SetCostCenterSuccess(data),
+            new CheckoutActions.ClearCheckoutDeliveryMode({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            }),
+            new CheckoutActions.ClearCheckoutDeliveryAddress({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            }),
+          ]),
+          catchError((error) =>
+            of(
+              new CheckoutActions.SetCostCenterFail(
+                makeErrorSerializable(error)
+              )
+            )
+          )
+        );
+    }),
+    withdrawOn(this.contextChange$)
+  );
+
   constructor(
     private actions$: Actions,
     private checkoutDeliveryConnector: CheckoutDeliveryConnector,
     private checkoutPaymentConnector: CheckoutPaymentConnector,
+    private checkoutCostCenterConnector: CheckoutCostCenterConnector,
     private checkoutConnector: CheckoutConnector
   ) {}
 }

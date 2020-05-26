@@ -7,6 +7,7 @@ import {
   PromotionOrderEntryConsumed,
 } from './order.model';
 import { Price, Promotion } from './product.model';
+import { CostCenter } from './org-unit.model';
 
 export interface PromotionResult {
   consumedEntries?: PromotionOrderEntryConsumed[];
@@ -87,6 +88,7 @@ export interface Cart {
   appliedVouchers?: Voucher[];
   calculated?: boolean;
   code?: string;
+  costCenter: CostCenter;
   deliveryAddress?: Address;
   deliveryCost?: Price;
   deliveryItemsQuantity?: number;
