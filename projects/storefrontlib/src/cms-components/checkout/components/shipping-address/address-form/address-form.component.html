@@ -187,7 +187,10 @@
           />
         </label>
       </div>
-      <div class="form-group" *ngIf="setAsDefaultField">
+      <div
+        class="form-group"
+        *ngIf="!(addresses$ | async).length && setAsDefaultField"
+      >
         <div class="form-check">
           <label>
             <input
