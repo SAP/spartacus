@@ -46,9 +46,11 @@ export const isGroupVisited = (
   ownerKey: string,
   groupId: string
 ): MemoizedSelector<StateWithConfiguration, Boolean> => {
-  return createSelector(getUiStateForOwner(ownerKey), (details) =>
-    StateUtils.entitySelector(details.groupsVisited, groupId)
-  );
+  return createSelector(getUiStateForOwner(ownerKey), (details) => {
+    if (details) {
+      return StateUtils.entitySelector(details.groupsVisited, groupId);
+    }
+  });
 };
 
 export const areGroupsVisited = (
