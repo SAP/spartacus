@@ -1,13 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import {
-  Configurator,
-  ConfiguratorGroupsService,
-  GenericConfigurator,
-} from '@spartacus/core';
+import { Configurator, GenericConfigurator } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { ConfigUtilsService } from '../service/config-utils.service';
 
 @Component({
   selector: 'cx-config-attribute-header',
@@ -17,7 +14,7 @@ import { map, take } from 'rxjs/operators';
 export class ConfigAttributeHeaderComponent {
   constructor(
     private uiKeyGen: ConfigUIKeyGeneratorService,
-    private configuratorGroupsService: ConfiguratorGroupsService
+    private configUtils: ConfigUtilsService
   ) {}
 
   iconTypes = ICON_TYPE;
@@ -27,14 +24,12 @@ export class ConfigAttributeHeaderComponent {
   @Input() groupId: string;
 
   showRequiredMessage(): Observable<boolean> {
-    return this.configuratorGroupsService
-      .isGroupVisited(this.owner, this.groupId)
+    return this.configUtils
+      .isCartEntryOrGroupVisited(this.owner, this.groupId)
       .pipe(
-        take(1),
         map((result) => {
           if (
-            (this.owner.type === GenericConfigurator.OwnerType.CART_ENTRY ||
-              result) &&
+            result &&
             this.attribute.required &&
             this.attribute.incomplete &&
             this.attribute.uiType !== Configurator.UiType.NOT_IMPLEMENTED

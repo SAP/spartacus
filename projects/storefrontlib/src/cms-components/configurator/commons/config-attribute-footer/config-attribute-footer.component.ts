@@ -1,12 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import {
-  Configurator,
-  ConfiguratorGroupsService,
-  GenericConfigurator,
-} from '@spartacus/core';
+import { Configurator, GenericConfigurator } from '@spartacus/core';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { ConfigUtilsService } from '../service/config-utils.service';
 
 @Component({
   selector: 'cx-config-attribute-footer',
@@ -14,7 +11,8 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeFooterComponent {
-  constructor(private configuratorGroupsService: ConfiguratorGroupsService) {}
+  constructor(private configUtils: ConfigUtilsService) {}
+
   iconTypes = ICON_TYPE;
 
   @Input() attribute: Configurator.Attribute;
@@ -22,14 +20,12 @@ export class ConfigAttributeFooterComponent {
   @Input() groupId: string;
 
   showRequiredMessage(): Observable<boolean> {
-    return this.configuratorGroupsService
-      .isGroupVisited(this.owner, this.groupId)
+    return this.configUtils
+      .isCartEntryOrGroupVisited(this.owner, this.groupId)
       .pipe(
-        take(1),
         map((result) => {
           if (
-            (this.owner.type === GenericConfigurator.OwnerType.CART_ENTRY ||
-              result) &&
+            result &&
             this.attribute.required &&
             this.attribute.incomplete &&
             this.attribute.uiType === Configurator.UiType.STRING &&

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Configurator,
-  ConfiguratorGroupsService,
   GenericConfigurator,
   I18nTestingModule,
 } from '@spartacus/core';
@@ -14,7 +13,8 @@ import {
   IconModule,
 } from '@spartacus/storefront';
 import { ConfigComponentTestUtilsService } from '../../generic/service/config-component-test-utils.service';
-import { of } from 'rxjs/internal/observable/of';
+import { ConfigUtilsService } from '../service/config-utils.service';
+import { Observable, of } from 'rxjs';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
@@ -27,11 +27,10 @@ export class MockIconFontLoaderService {
   getHtml(_iconType: ICON_TYPE) {}
 }
 
-let isGroupVisited = false;
-
-class MockConfiguratorGroupService {
-  isGroupVisited() {
-    return of(isGroupVisited);
+let isCartEntryOrGroupVisited = true;
+class MockConfigUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(isCartEntryOrGroupVisited);
   }
 }
 
@@ -62,10 +61,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       providers: [
         ConfigUIKeyGeneratorService,
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-        {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupService,
-        },
+        { provide: ConfigUtilsService, useClass: MockConfigUtilsService },
       ],
     })
       .overrideComponent(ConfigAttributeHeaderComponent, {
@@ -208,7 +204,7 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   it('should render a required message if the group has already been visited..', () => {
     classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
-    isGroupVisited = true;
+    isCartEntryOrGroupVisited = true;
     fixture.detectChanges();
     ConfigComponentTestUtilsService.expectElementNotPresent(
       expect,
