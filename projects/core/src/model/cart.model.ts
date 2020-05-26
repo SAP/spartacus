@@ -88,7 +88,7 @@ export interface Cart {
   appliedVouchers?: Voucher[];
   calculated?: boolean;
   code?: string;
-  costCenter: CostCenter;
+  costCenter?: CostCenter;
   deliveryAddress?: Address;
   deliveryCost?: Price;
   deliveryItemsQuantity?: number;

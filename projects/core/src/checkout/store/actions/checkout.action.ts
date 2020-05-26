@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { MULTI_CART_DATA } from '../../../cart/store/multi-cart-state';
 import { Address } from '../../../model/address.model';
-import { PaymentDetails, Cart } from '../../../model/cart.model';
+import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {

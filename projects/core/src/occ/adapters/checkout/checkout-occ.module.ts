@@ -13,6 +13,8 @@ import { PaymentTypeAdapter } from '../../../checkout/connectors/payment-type/pa
 import { OccCheckoutPaymentTypeAdapter } from './occ-checkout-payment-type.adapter';
 import { provideDefaultConfig } from '../../../config/config.module';
 import { defaultOccCheckoutConfig } from './default-occ-checkout-config';
+import { CheckoutCostCenterAdapter } from '../../../checkout/connectors/cost-center/checkout-cost-center.adapter';
+import { OccCheckoutCostCenterAdapter } from './occ-checkout-cost-center.adapter';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -34,6 +36,10 @@ import { defaultOccCheckoutConfig } from './default-occ-checkout-config';
     {
       provide: PaymentTypeAdapter,
       useClass: OccCheckoutPaymentTypeAdapter,
+    },
+    {
+      provide: CheckoutCostCenterAdapter,
+      useClass: OccCheckoutCostCenterAdapter,
     },
   ],
 })
