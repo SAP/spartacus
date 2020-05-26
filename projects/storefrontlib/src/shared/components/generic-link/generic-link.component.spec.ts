@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { GenericLinkComponent } from './generic-link.component';
 
 /**
- * Helper function to produce simple change for the `url input
+ * Helper function to produce simple change for the `url` `@Input`
  */
 function changeUrl(url: string | any[]): SimpleChanges {
   return {
