@@ -5,6 +5,7 @@ import {
 import { Style } from '@angular/cli/lib/config/schema';
 import { Schema as ApplicationOptions } from '@schematics/angular/application/schema';
 import * as path from 'path';
+import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { UTF_8 } from '../shared/constants';
 import { getPathResultsForFile } from '../shared/utils/file-utils';
 
@@ -30,10 +31,8 @@ describe('add-ssr', () => {
     projectRoot: '',
   };
 
-  const defaultOptions = {
+  const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    target: 'build',
-    configuration: 'production',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
   };

@@ -22,13 +22,13 @@ import { AddToCartModule } from '../../cart/index';
 import { GenericConfiguratorModule } from '../../configurator/generic/generic-configurator.module';
 import { IconModule } from '../../misc/icon/index';
 import { defaultScrollConfig } from '../config/default-scroll-config';
+import { ProductVariantsModule } from '../product-variants/product-variants.module';
 import { ProductListComponent } from './container/product-list.component';
 import { ProductScrollComponent } from './container/product-scroll/product-scroll.component';
 import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductViewComponent } from './product-view/product-view.component';
-import { ProductVariantsModule } from '../product-variants/product-variants.module';
 
 @NgModule({
   imports: [
@@ -62,15 +62,11 @@ import { ProductVariantsModule } from '../product-variants/product-variants.modu
         SearchResultsListComponent: {
           component: ProductListComponent,
         },
-        ProductRefinementComponent: {
-          component: ProductFacetNavigationComponent,
-        },
       },
     }),
   ],
   declarations: [
     ProductListComponent,
-    ProductFacetNavigationComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
     ProductViewComponent,
@@ -78,7 +74,6 @@ import { ProductVariantsModule } from '../product-variants/product-variants.modu
   ],
   exports: [
     ProductListComponent,
-    ProductFacetNavigationComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
     ProductViewComponent,

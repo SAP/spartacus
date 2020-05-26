@@ -38,18 +38,8 @@ export class CartVoucherEffects {
               ...payload,
             });
           }),
-          catchError((error) => {
-            if (error?.error?.errors) {
-              error.error.errors.forEach((err) => {
-                if (err.message) {
-                  this.messageService.add(
-                    err.message,
-                    GlobalMessageType.MSG_TYPE_ERROR
-                  );
-                }
-              });
-            }
-            return from([
+          catchError((error) =>
+            from([
               new CartActions.CartAddVoucherFail({
                 ...payload,
                 error: makeErrorSerializable(error),
@@ -59,8 +49,8 @@ export class CartVoucherEffects {
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
-            ]);
-          })
+            ])
+          )
         );
     })
   );

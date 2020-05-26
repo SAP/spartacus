@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Configurator } from '@spartacus/core';
+import { Configurator, GenericConfigurator } from '@spartacus/core';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 
 @Component({
@@ -12,23 +12,22 @@ export class ConfigAttributeFooterComponent {
   iconTypes = ICON_TYPE;
 
   @Input() attribute: Configurator.Attribute;
+  @Input() ownerType: GenericConfigurator.OwnerType;
 
   showRequiredMessage(): boolean {
-    return this.attribute.required && this.attribute.incomplete;
-  }
-  getRequiredMessageKey(): string {
-    let msgKey = 'configurator.attribute.';
-    const uiType = this.attribute.uiType;
     if (
-      uiType === Configurator.UiType.RADIOBUTTON ||
-      uiType === Configurator.UiType.DROPDOWN
+      this.ownerType === GenericConfigurator.OwnerType.CART_ENTRY &&
+      this.attribute.required &&
+      this.attribute.incomplete &&
+      this.attribute.uiType === Configurator.UiType.STRING &&
+      !this.attribute.userInput
     ) {
-      msgKey += 'singleSelectRequiredMessage';
-    } else if (uiType === Configurator.UiType.CHECKBOX) {
-      msgKey += 'multiSelectRequiredMessage';
-    } else {
-      msgKey += 'defaultRequiredMessage';
+      return true;
     }
-    return msgKey;
+    return false;
+  }
+
+  getRequiredMessageKey(): string {
+    return 'configurator.attribute.defaultRequiredMessage';
   }
 }

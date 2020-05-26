@@ -9,7 +9,7 @@ import {
   ReturnRequest,
   ReturnRequestList,
 } from '../../model/order.model';
-import { LoaderState } from '../../state';
+import { StateUtils } from '../../state';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { NotificationPreference } from '../../model';
 import { ProductInterestSearchResult } from '../../model/product-interest.model';
@@ -52,22 +52,22 @@ export interface StateWithUser {
 
 export interface UserState {
   account: UserDetailsState;
-  addresses: LoaderState<Address[]>;
-  consents: LoaderState<ConsentTemplate[]>;
+  addresses: StateUtils.LoaderState<Address[]>;
+  consents: StateUtils.LoaderState<ConsentTemplate[]>;
   billingCountries: BillingCountriesState;
   countries: DeliveryCountriesState;
-  payments: LoaderState<PaymentDetails[]>;
-  orders: LoaderState<OrderHistoryList>;
-  order: LoaderState<Order>;
-  orderReturn: LoaderState<ReturnRequest>;
-  orderReturnList: LoaderState<ReturnRequestList>;
+  payments: StateUtils.LoaderState<PaymentDetails[]>;
+  orders: StateUtils.LoaderState<OrderHistoryList>;
+  order: StateUtils.LoaderState<Order>;
+  orderReturn: StateUtils.LoaderState<ReturnRequest>;
+  orderReturnList: StateUtils.LoaderState<ReturnRequestList>;
   titles: TitlesState;
-  regions: LoaderState<RegionsState>;
+  regions: StateUtils.LoaderState<RegionsState>;
   resetPassword: boolean;
   consignmentTracking: ConsignmentTrackingState;
-  customerCoupons: LoaderState<CustomerCouponSearchResult>;
-  notificationPreferences: LoaderState<NotificationPreference[]>;
-  productInterests: LoaderState<ProductInterestSearchResult>;
+  customerCoupons: StateUtils.LoaderState<CustomerCouponSearchResult>;
+  notificationPreferences: StateUtils.LoaderState<NotificationPreference[]>;
+  productInterests: StateUtils.LoaderState<ProductInterestSearchResult>;
 }
 
 export interface RegionsState {

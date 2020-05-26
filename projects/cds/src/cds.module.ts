@@ -1,6 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
-  Config,
   provideConfig,
   provideConfigValidator,
   provideDefaultConfig,
@@ -24,7 +23,6 @@ export class CdsModule {
         provideDefaultConfig(DEFAULT_CDS_CONFIG),
         provideConfig(config),
         provideConfigValidator(cdsConfigValidator),
-        { provide: CdsConfig, useExisting: Config },
       ],
     };
   }

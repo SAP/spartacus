@@ -1,84 +1,63 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { Product } from '../../../model/product.model';
-import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
-import {
-  initialLoaderState,
-  StateEntityLoaderSelectors,
-  StateLoaderSelectors,
-} from '../../../state/utils/index';
-import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { StateUtils } from '../../../state/utils/index';
 import { ProductsState, StateWithProduct } from '../product-state';
 import { getProductsState } from './feature.selector';
 
 export const getProductState: MemoizedSelector<
   StateWithProduct,
-  EntityLoaderState<Product>
+  StateUtils.EntityLoaderState<Product>
 > = createSelector(getProductsState, (state: ProductsState) => state.details);
-
-export const getSelectedProductsFactory = (
-  codes: string[]
-): MemoizedSelector<StateWithProduct, Product[]> => {
-  return createSelector(
-    getProductState,
-    (details: EntityLoaderState<Product>) => {
-      return codes
-        .map((code) =>
-          details.entities[code] ? details.entities[code].value : undefined
-        )
-        .filter((product) => product !== undefined);
-    }
-  );
-};
 
 export const getSelectedProductStateFactory = (
   code: string,
-  scope?: string
-): MemoizedSelector<StateWithProduct, LoaderState<Product>> => {
-  return createSelector(getProductState, (details) =>
-    scope
-      ? StateEntityLoaderSelectors.entityStateSelector(details, code)[scope] ||
-        initialLoaderState
-      : StateEntityLoaderSelectors.entityStateSelector(details, code)
+  scope = ''
+): MemoizedSelector<StateWithProduct, StateUtils.LoaderState<Product>> => {
+  return createSelector(
+    getProductState,
+    (details) =>
+      StateUtils.entityLoaderStateSelector(details, code)[scope] ||
+      StateUtils.initialLoaderState
   );
 };
 
 export const getSelectedProductFactory = (
   code: string,
-  scope?: string
+  scope = ''
 ): MemoizedSelector<StateWithProduct, Product> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
-    (productState) => StateLoaderSelectors.loaderValueSelector(productState)
+    (productState) => StateUtils.loaderValueSelector(productState)
   );
 };
 
 export const getSelectedProductLoadingFactory = (
   code: string,
-  scope?: string
+  scope = ''
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
-    (productState) => StateLoaderSelectors.loaderLoadingSelector(productState)
+    (productState) => StateUtils.loaderLoadingSelector(productState)
   );
 };
 
 export const getSelectedProductSuccessFactory = (
   code: string,
-  scope?: string
+  scope = ''
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
-    (productState) => StateLoaderSelectors.loaderSuccessSelector(productState)
+    (productState) => StateUtils.loaderSuccessSelector(productState)
   );
 };
 
 export const getSelectedProductErrorFactory = (
   code: string,
-  scope?: string
+  scope = ''
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code, scope),
-    (productState) => StateLoaderSelectors.loaderErrorSelector(productState)
+    (productState) => StateUtils.loaderErrorSelector(productState)
   );
 };
 

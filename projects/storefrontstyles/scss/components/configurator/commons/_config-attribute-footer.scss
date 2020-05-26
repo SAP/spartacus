@@ -1,9 +1,6 @@
 %cx-config-attribute-footer {
-  .cx-config-attribute-footer-required-message {
+  .cx-config-attribute-footer-required-error-msg {
     color: var(--cx-color-danger);
-  }
-
-  .cx-config-attribute-footer-required-message-icon {
-    padding-right: 6px;
+    font-size: 14px;
   }
 }

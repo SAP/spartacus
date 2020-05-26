@@ -5,6 +5,10 @@ export function clickOnConfigureButton() {
   cy.get('cx-configure-product a').click({ force: true });
 }
 
+export function clickOnEditConfigurationButton() {
+  cy.get('cx-configure-cart-entry a').click({ force: true });
+}
+
 export function verifyConfigurationPageIsDisplayed() {
   cy.get('cx-config-textfield-form').should('be.visible');
 }

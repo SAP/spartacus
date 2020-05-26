@@ -131,7 +131,7 @@ export function verifySortingResetsList() {
 }
 
 export function verifyFilterResetsList() {
-  clickFacet('Brand');
+  clickFacet('Brand', '');
 
   cy.wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
     .its('status')
