@@ -19,7 +19,6 @@ class MockConfiguratorGroupsService {
 describe('ConfigUtilsService', () => {
   let classUnderTest: ConfigUtilsService;
   let configurationGroupService: ConfiguratorGroupsService;
-  const groupId = 'group_01';
   const owner: GenericConfigurator.Owner = {
     id: 'testProduct',
     type: GenericConfigurator.OwnerType.PRODUCT,
@@ -48,33 +47,26 @@ describe('ConfigUtilsService', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
-  it('should return false because the product has not been added to the cart and the current group was not visited', () => {
+  function getActualResult() {
     let result: boolean;
-    const subscription = classUnderTest
-      .isCartEntryOrGroupVisited(owner, groupId)
-      .subscribe((data) => (result = Boolean(data)));
-    expect(result).toBe(false);
-    subscription.unsubscribe();
+    classUnderTest
+      .isCartEntryOrGroupVisited(owner, 'group_01')
+      .subscribe((data) => (result = Boolean(data)))
+      .unsubscribe();
+    return result;
+  }
+
+  it('should return false because the product has not been added to the cart and the current group was not visited', () => {
+    expect(getActualResult()).toBe(false);
   });
 
   it('should return true because the product has been added to the cart', () => {
     owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
-
-    let result: boolean;
-    const subscription = classUnderTest
-      .isCartEntryOrGroupVisited(owner, groupId)
-      .subscribe((data) => (result = Boolean(data)));
-    expect(result).toBe(true);
-    subscription.unsubscribe();
+    expect(getActualResult()).toBe(true);
   });
 
   it('should return true because the current group was visited', () => {
     isGroupVisited = of(true);
-    let result: boolean;
-    const subscription = classUnderTest
-      .isCartEntryOrGroupVisited(owner, groupId)
-      .subscribe((data) => (result = Boolean(data)));
-    expect(result).toBe(true);
-    subscription.unsubscribe();
+    expect(getActualResult()).toBe(true);
   });
 });

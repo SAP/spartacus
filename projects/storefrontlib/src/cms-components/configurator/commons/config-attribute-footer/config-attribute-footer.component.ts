@@ -24,13 +24,7 @@ export class ConfigAttributeFooterComponent {
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
       .pipe(
         map((result) => {
-          if (
-            result &&
-            this.attribute.required &&
-            this.attribute.incomplete &&
-            this.attribute.uiType === Configurator.UiType.STRING &&
-            !this.attribute.userInput
-          ) {
+          if (result && this.attribute.required && !this.attribute.userInput) {
             return true;
           }
           return false;

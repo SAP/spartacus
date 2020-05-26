@@ -117,26 +117,6 @@ describe('ConfigAttributeFooterComponent', () => {
     );
   });
 
-  it('should render a required message if attribute is completed.', () => {
-    classUnderTest.attribute.incomplete = false;
-    fixture.detectChanges();
-    ConfigComponentTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-config-attribute-footer-required-error-msg'
-    );
-  });
-
-  it("shouldn't render a required message because attribute type is a drop-down list.", () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
-    fixture.detectChanges();
-    ConfigComponentTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-config-attribute-footer-required-error-msg'
-    );
-  });
-
   it("shouldn't render a required message because user input is set.", () => {
     classUnderTest.attribute.userInput = 'test';
     fixture.detectChanges();
