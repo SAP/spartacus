@@ -330,6 +330,7 @@ export const organization = {
     customer: 'Customer',
     create: 'Create new user',
   },
+
   b2bUser: {
     details: 'User details',
     id: 'ID',
@@ -354,6 +355,14 @@ export const organization = {
       label: 'User name',
       placeholder: 'Name',
     },
+    firstName: {
+      label: 'First name',
+      placeholder: 'First name',
+    },
+    lastName: {
+      label: 'Last name',
+      placeholder: 'Last name',
+    },
     businessUnits: {
       label: 'Parent business unit',
       placeholder: 'Select business unit',
@@ -361,6 +370,14 @@ export const organization = {
     message: {
       required: 'Value is required',
     },
+    roles: {
+      label: 'Roles',
+      buyer: 'Buyer',
+      manager: 'Manager',
+      approver: 'Approver',
+      administrator: 'Administrator',
+    },
+    title: 'Title',
   },
 
   userGroupsList: {

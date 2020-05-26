@@ -14,6 +14,27 @@
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="form-group">
+        <ng-container *ngIf="titles$ | async as titles">
+          <div *ngIf="titles.length !== 0">
+            <label aria-required="true">
+              <span class="label-content required">{{
+                'b2bUserForm.title' | cxTranslate
+              }}</span>
+              <ng-select
+                formControlName="titleCode"
+                [searchable]="false"
+                [clearable]="false"
+                [items]="titles"
+                bindLabel="name"
+                bindValue="code"
+              >
+              </ng-select>
+            </label>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-group">
         <label>
           <span class="label-content required">{{
             'b2bUserForm.code.label' | cxTranslate
@@ -113,11 +134,72 @@
           </div>
         </ng-container>
       </div>
+
+      <div class="form-group">
+        <label aria-required="true">
+          <span class="label-content required">
+            {{'b2bUserForm.roles.label' | cxTranslate}}
+          </span>
+        </label>
+
+        <div class="form-check">
+          <label>
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="buyer"
+            />
+            <span class="form-check-label">
+              {{
+                'b2bUserForm.roles.buyer' | cxTranslate
+              }}
+            </span>
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              class="form-check-input"
+            />
+            <span class="form-check-label">
+              {{
+                'b2bUserForm.roles.manager' | cxTranslate
+              }}
+            </span>
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              class="form-check-input"
+            />
+            <span class="form-check-label">
+              {{
+                'b2bUserForm.roles.approver' | cxTranslate
+              }}
+            </span>
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              class="form-check-input"
+            />
+            <span class="form-check-label">
+              {{
+                'b2bUserForm.roles.administrator' | cxTranslate
+              }}
+            </span>
+          </label>
+        </div>
+      </div>
+
+
     </div>
   </div>
   <div class="row buttons">
     <div class="col-md-12 col-lg-6 mb-3">
-      <button class="btn btn-block btn-primary" (click)="verifyAndSubmit()">
+      <button class="btn btn-block btn-primary" (click)="testing()">
         {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
       </button>
     </div>
