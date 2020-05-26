@@ -1,13 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { Configurator } from '../../../../model/configurator.model';
-<<<<<<< HEAD
-import {
-  EntityState,
-  StateEntitySelectors,
-} from '../../../../state/utils/index';
-=======
 import { StateUtils } from '../../../../state/utils';
->>>>>>> epic/product-configuration
 import {
   ConfigurationState,
   StateWithConfiguration,
