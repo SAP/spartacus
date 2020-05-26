@@ -1,11 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { UrlParsingService } from '@spartacus/core';
 
 // private
 interface RouteParts {
   /** Path in the Angular-like array format */
-  path: string[];
+  path?: string[];
 
   /** Query params */
   queryParams?: Params;
@@ -22,10 +21,7 @@ interface RouteParts {
   templateUrl: './generic-link.component.html',
 })
 export class GenericLinkComponent implements OnChanges {
-  constructor(
-    protected router: Router,
-    protected urlParser: UrlParsingService
-  ) {}
+  constructor(protected router: Router) {}
 
   /**
    * Pattern matching string starting with `http://` or `https://`.
@@ -44,7 +40,7 @@ export class GenericLinkComponent implements OnChanges {
    * It should not be used when the `url` is external.
    * @see `url`
    */
-  private routeParts: RouteParts;
+  private routeParts: RouteParts = {};
 
   @Input() url: string | any[];
   @Input() target: string;
