@@ -3,7 +3,7 @@
 .pb-mobile-2 {
   padding-bottom: 0;
   @include media-breakpoint-only(xs) {
-    padding-bottom: $spacer * .5
+    padding-bottom: $spacer * 0.5;
   }
 }
 
