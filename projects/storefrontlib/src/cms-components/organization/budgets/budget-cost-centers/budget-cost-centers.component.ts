@@ -29,7 +29,7 @@ export class BudgetCostCentersComponent implements OnInit {
       tap((code) => this.budgetsService.loadBudget(code)),
       switchMap((code) => this.budgetsService.get(code)),
       filter(Boolean),
-      map((budget: Budget) => budget.costCenters)
+      map((budget: Budget) => budget.costCenters ?? [])
     );
   }
 }

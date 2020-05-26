@@ -20,7 +20,7 @@ export const organization = {
     },
   },
   budget: {
-    details: 'Budget details',
+    header: 'Details for {{code}}',
     id: 'ID',
     name: 'Budget Name',
     amount: 'Amount',
@@ -34,9 +34,10 @@ export const organization = {
     disable: 'Disable',
     enable: 'Enable',
     status: 'Status',
-    back: 'Back to list',
+    back: 'Back to budgets',
     active: 'Active',
     deactivated: 'Deactivated',
+    details: 'Details',
     costCenters: 'Cost Centers',
     confirmDeactivation: {
       title: 'Disable Budget',
@@ -91,7 +92,8 @@ export const organization = {
     assign: 'Assign',
   },
   permission: {
-    details: 'Details for {{code}}',
+    header: 'Details for {{code}}',
+    details: 'Details',
     id: 'ID',
     name: 'Name',
     currency: 'Currency',
@@ -145,8 +147,8 @@ export const organization = {
     create: 'Create new Cost Center',
   },
   costCenter: {
+    header: 'Details for {{code}}',
     code: 'Code',
-    details: 'Cost Center Details',
     name: 'Name',
     currency: 'Currency',
     parentUnit: 'Parent Unit',
@@ -158,6 +160,7 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     budgets: 'Budgets',
+    details: 'Details',
     assignBudgets: 'Manage Budgets',
     confirmDeactivation: {
       title: 'Disable Cost Center',
@@ -196,7 +199,7 @@ export const organization = {
     create: 'Create new Unit',
   },
   orgUnit: {
-    details: 'Unit Details',
+    header: 'Details for {{code}}',
     uid: 'ID',
     name: 'Name',
     approvalProcess: 'Approval process',
@@ -205,18 +208,19 @@ export const organization = {
     disable: 'Disable',
     enable: 'Enable',
     status: 'Status',
-    back: 'Back to list',
+    back: 'Show Units',
     active: 'Active',
     deactivated: 'Deactivated',
     confirmDeactivation: {
       title: 'Disable Unit',
       message: 'Are you sure you want to disable this unit?',
     },
+    details: 'Details',
     children: 'Child Units',
     costCenters: 'Cost Centers',
     users: 'Users',
     approvers: 'Approvers',
-    manageAddresses: 'Manage Addresses',
+    manageAddresses: 'Addresses',
   },
   orgUnitForm: {
     create: 'Create Unit',
@@ -323,7 +327,7 @@ export const organization = {
     name: 'Name',
   },
   unitChildren: {
-    header: 'Child units in {{code}}',
+    header: 'Child Units in {{code}}',
     back: 'Close',
     create: 'Create',
     id: 'ID',
@@ -361,7 +365,8 @@ export const organization = {
     },
   },
   userGroup: {
-    details: 'User Group details',
+    header: 'Details for {{code}}',
+    details: 'Details',
     id: 'ID',
     name: 'User Group Name',
     parentUnit: 'Parent Unit',

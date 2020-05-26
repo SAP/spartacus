@@ -35,7 +35,7 @@ const roleId = 'b2bcustomergroup';
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
   currentPage: 0,
-  pageSize: 2147483647,
+  pageSize: 5,
 };
 
 const mockUserList: EntitiesModel<B2BUser> = {
@@ -66,6 +66,13 @@ const mockUserUIList = {
       email: 'aaa@bbb',
       parentUnit: 'orgName',
       uid: 'orgUid',
+      roles: [],
+    },
+    {
+      name: 'b2',
+      email: 'aaa2@bbb',
+      parentUnit: 'orgName2',
+      uid: 'orgUid2',
       roles: [],
     },
   ],

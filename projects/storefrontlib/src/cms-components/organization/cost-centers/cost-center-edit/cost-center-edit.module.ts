@@ -11,6 +11,7 @@ import { CostCenterFormModule } from '../cost-center-form/cost-center-form.modul
 import { RouterModule } from '@angular/router';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
+import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
     }),
     CostCenterFormModule,
     I18nModule,
+    FakeTabsModule,
   ],
   declarations: [CostCenterEditComponent],
   exports: [CostCenterEditComponent],

@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { UserGroupFormModule } from '../user-group-form/user-group-form.module';
+import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { UserGroupFormModule } from '../user-group-form/user-group-form.module';
     }),
     UserGroupFormModule,
     I18nModule,
+    FakeTabsModule,
   ],
   declarations: [UserGroupEditComponent],
   exports: [UserGroupEditComponent],

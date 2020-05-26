@@ -10,7 +10,7 @@ import { Budget, BudgetService, RoutingService } from '@spartacus/core';
 })
 export class BudgetEditComponent implements OnInit {
   budget$: Observable<Budget>;
-  budgetCode$: Observable<string> = this.routingService
+  code$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(map((routingData) => routingData.state.params['code']));
 
@@ -20,14 +20,14 @@ export class BudgetEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.budget$ = this.budgetCode$.pipe(
+    this.budget$ = this.code$.pipe(
       tap((code) => this.budgetsService.loadBudget(code)),
       switchMap((code) => this.budgetsService.get(code))
     );
   }
 
   updateBudget(budget: Budget) {
-    this.budgetCode$
+    this.code$
       .pipe(take(1))
       .subscribe((budgetCode) =>
         this.budgetsService.update(budgetCode, budget)
