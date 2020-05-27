@@ -54,7 +54,7 @@ export class CheckoutCostCenterService {
   /**
    * Get cost center id from cart
    */
-  getCartCostCenter(): Observable<string> {
+  getCostCenter(): Observable<string> {
     let cart: Cart;
     this.activeCartService
       .getActive()

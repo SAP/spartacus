@@ -10,6 +10,7 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CheckoutActions } from '../actions/index';
+import { CartActions } from '../../../cart/store/actions/index';
 import { PaymentTypesEffects } from './payment-types.effect';
 
 const mockPaymentTypes: PaymentType[] = [
@@ -71,12 +72,16 @@ describe('Payment Types effect', () => {
         cartId: 'testCart',
         typeCode: 'ACCOUNT',
       });
-      const completion = new CheckoutActions.SetPaymentTypeSuccess({
+      const completion1 = new CheckoutActions.SetPaymentTypeSuccess({
         code: 'testCart',
+      });
+      const completion2 = new CartActions.LoadCart({
+        userId: 'testUser',
+        cartId: 'testCart',
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(effect.setPaymentType$).toBeObservable(expected);
     });

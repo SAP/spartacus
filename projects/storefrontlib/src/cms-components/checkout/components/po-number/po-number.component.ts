@@ -68,7 +68,7 @@ export class PoNumberComponent {
   }
 
   get cartCostCenter$(): Observable<string> {
-    return this.checkoutCostCenterService.getCartCostCenter().pipe(
+    return this.checkoutCostCenterService.getCostCenter().pipe(
       filter((cc) => !!cc),
       tap((cc) => {
         this.cartCostCenterId = cc;

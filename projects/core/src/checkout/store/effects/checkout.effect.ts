@@ -416,7 +416,7 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  setCostCentere$: Observable<
+  setCostCenter$: Observable<
     | CheckoutActions.SetCostCenterSuccess
     | CheckoutActions.SetCostCenterFail
     | CheckoutActions.ClearCheckoutDeliveryMode
