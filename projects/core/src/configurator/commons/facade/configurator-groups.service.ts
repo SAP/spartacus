@@ -301,11 +301,11 @@ export class ConfiguratorGroupsService {
     );
 
     this.store.dispatch(
-      new ConfiguratorActions.ChangeGroup(
-        configuration,
-        groupId,
-        parentGroup ? parentGroup.id : null
-      )
+      new ConfiguratorActions.ChangeGroup({
+        configuration: configuration,
+        groupId: groupId,
+        parentGroupId: parentGroup ? parentGroup.id : null,
+      })
     );
   }
 

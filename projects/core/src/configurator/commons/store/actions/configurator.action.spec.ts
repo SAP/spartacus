@@ -61,10 +61,10 @@ describe('ConfiguratorActions', () => {
     describe('ReadConfigurationFail', () => {
       it('Should create the action', () => {
         const error = 'anError';
-        const action = new ConfiguratorActions.ReadConfigurationFail(
-          PRODUCT_CODE,
-          error
-        );
+        const action = new ConfiguratorActions.ReadConfigurationFail({
+          ownerKey: PRODUCT_CODE,
+          error: error,
+        });
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.READ_CONFIGURATION_FAIL,
           payload: error,
@@ -117,10 +117,10 @@ describe('ConfiguratorActions', () => {
     describe('UpdateConfigurationFail', () => {
       it('Should create the action', () => {
         const error = 'anError';
-        const action = new ConfiguratorActions.UpdateConfigurationFail(
-          CONFIGURATION.owner.key,
-          error
-        );
+        const action = new ConfiguratorActions.UpdateConfigurationFail({
+          configuration: CONFIGURATION,
+          error: error,
+        });
 
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION_FAIL,

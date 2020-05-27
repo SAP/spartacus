@@ -167,7 +167,9 @@ export class ConfiguratorCommonsService {
   }
 
   removeConfiguration(owner: GenericConfigurator.Owner) {
-    this.store.dispatch(new ConfiguratorActions.RemoveConfiguration(owner.key));
+    this.store.dispatch(
+      new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
+    );
   }
 
   addToCart(productCode: string, configId: string, ownerKey: string) {

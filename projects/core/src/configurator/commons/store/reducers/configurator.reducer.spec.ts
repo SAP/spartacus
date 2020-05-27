@@ -80,10 +80,10 @@ describe('Configurator reducer', () => {
   describe('UpdateConfigurationFail action', () => {
     it('should not put configuration into the state', () => {
       const { initialState } = StateReduce;
-      const action: ConfiguratorAction = new UpdateConfigurationFail(
-        configuration.productCode,
-        configuration
-      );
+      const action: ConfiguratorAction = new UpdateConfigurationFail({
+        configuration: configuration,
+        error: null,
+      });
       const state = StateReduce.reducer(undefined, action);
 
       expect(state).toEqual(initialState);
@@ -152,9 +152,9 @@ describe('Configurator reducer', () => {
 
       expect(state.configId).toEqual('ds');
 
-      const action2: ConfiguratorAction = new RemoveConfiguration(
-        configuration.productCode
-      );
+      const action2: ConfiguratorAction = new RemoveConfiguration({
+        ownerKey: configuration.productCode,
+      });
       state = StateReduce.reducer(undefined, action2);
 
       expect(state.configId).toEqual('');

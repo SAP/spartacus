@@ -103,10 +103,10 @@ export class ConfiguratorEffects {
             return [new ReadConfigurationSuccess(configuration)];
           }),
           catchError((error) => [
-            new ReadConfigurationFail(
-              action.payload.configuration.owner.key,
-              makeErrorSerializable(error)
-            ),
+            new ReadConfigurationFail({
+              ownerKey: action.payload.configuration.owner.key,
+              error: makeErrorSerializable(error),
+            }),
           ])
         );
     })
@@ -132,7 +132,10 @@ export class ConfiguratorEffects {
             const errorPayload = makeErrorSerializable(error);
             errorPayload.configId = payload.configId;
             return [
-              new UpdateConfigurationFail(payload.owner.key, errorPayload),
+              new UpdateConfigurationFail({
+                configuration: payload,
+                error: errorPayload,
+              }),
             ];
           })
         );
@@ -156,7 +159,12 @@ export class ConfiguratorEffects {
         catchError((error) => {
           const errorPayload = makeErrorSerializable(error);
           errorPayload.configId = payload.configId;
-          return [new UpdatePriceSummaryFail(payload.owner.key, errorPayload)];
+          return [
+            new UpdatePriceSummaryFail({
+              ownerKey: payload.owner.key,
+              error: errorPayload,
+            }),
+          ];
         })
       );
     })
@@ -227,10 +235,14 @@ export class ConfiguratorEffects {
     map((action: UpdateConfigurationFail) => action.payload),
     mergeMap((payload) => {
       return this.store.pipe(
-        select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
+        select(
+          ConfiguratorSelectors.hasPendingChanges(
+            payload.configuration.owner.key
+          )
+        ),
         take(1),
         filter((hasPendingChanges) => hasPendingChanges === false),
-        map(() => new UpdateConfigurationFinalizeFail(payload))
+        map(() => new UpdateConfigurationFinalizeFail(payload.configuration))
       );
     })
   );
@@ -257,7 +269,7 @@ export class ConfiguratorEffects {
       return this.store.pipe(
         select(
           ConfiguratorSelectors.hasPendingChanges(
-            action.configuration.owner.key
+            action.payload.configuration.owner.key
           )
         ),
         take(1),
@@ -265,29 +277,29 @@ export class ConfiguratorEffects {
         switchMap(() => {
           return this.configuratorCommonsConnector
             .readConfiguration(
-              action.configuration.configId,
-              action.groupId,
-              action.configuration.owner
+              action.payload.configuration.configId,
+              action.payload.groupId,
+              action.payload.configuration.owner
             )
             .pipe(
               switchMap((configuration: Configurator.Configuration) => {
                 return [
                   new ConfiguratorUiActions.SetCurrentGroup(
-                    action.configuration.owner.key,
-                    action.groupId
+                    action.payload.configuration.owner.key,
+                    action.payload.groupId
                   ),
                   new ConfiguratorUiActions.SetMenuParentGroup(
-                    action.configuration.owner.key,
-                    action.parentGroupId
+                    action.payload.configuration.owner.key,
+                    action.payload.parentGroupId
                   ),
                   new ReadConfigurationSuccess(configuration),
                 ];
               }),
               catchError((error) => [
-                new ReadConfigurationFail(
-                  action.configuration.owner.key,
-                  makeErrorSerializable(error)
-                ),
+                new ReadConfigurationFail({
+                  ownerKey: action.payload.configuration.owner.key,
+                  error: makeErrorSerializable(error),
+                }),
               ])
             );
         })

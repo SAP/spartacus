@@ -380,10 +380,10 @@ describe('ConfiguratorEffect', () => {
   describe('Effect updateConfigurationFail', () => {
     it('should raise UpdateConfigurationFinalizeFail on UpdateConfigurationFail in case no changes are pending', () => {
       const payloadInput = productConfiguration;
-      const action = new ConfiguratorActions.UpdateConfigurationFail(
-        productConfiguration.productCode,
-        payloadInput
-      );
+      const action = new ConfiguratorActions.UpdateConfigurationFail({
+        configuration: payloadInput,
+        error: undefined,
+      });
       const completion = new ConfiguratorActions.UpdateConfigurationFinalizeFail(
         productConfiguration
       );
@@ -428,11 +428,11 @@ describe('ConfiguratorEffect', () => {
         productCode: productCode,
         owner: owner,
       };
-      const action = new ConfiguratorActions.ChangeGroup(
-        payloadInput,
-        groupId,
-        null
-      );
+      const action = new ConfiguratorActions.ChangeGroup({
+        configuration: payloadInput,
+        groupId: groupId,
+        parentGroupId: null,
+      });
       const readConfigurationSuccess = new ConfiguratorActions.ReadConfigurationSuccess(
         productConfiguration
       );
@@ -462,14 +462,16 @@ describe('ConfiguratorEffect', () => {
         productCode: productCode,
         owner: owner,
       };
-      const action = new ConfiguratorActions.ChangeGroup(
-        payloadInput,
-        groupId,
-        null
-      );
+      const action = new ConfiguratorActions.ChangeGroup({
+        configuration: payloadInput,
+        groupId: groupId,
+        parentGroupId: null,
+      });
       const readConfigurationFail = new ConfiguratorActions.ReadConfigurationFail(
-        productConfiguration.owner.key,
-        makeErrorSerializable(errorResponse)
+        {
+          ownerKey: productConfiguration.owner.key,
+          error: makeErrorSerializable(errorResponse),
+        }
       );
 
       actions$ = hot('-a', { a: action });
