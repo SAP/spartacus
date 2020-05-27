@@ -8,7 +8,7 @@ export function reducer(
   action: UserActions.UserCostCenterAction
 ): CostCenter[] {
   switch (action.type) {
-    case UserActions.LOAD_ACTIVT_COST_CENTERS_FAIL: {
+    case UserActions.LOAD_ACTIVE_COST_CENTERS_FAIL: {
       return initialState;
     }
 
