@@ -143,31 +143,33 @@ describe('ConfigAttributeFooterComponent', () => {
     );
   });
 
-  it('should return false because user input is undefined', () => {
-    classUnderTest.attribute.userInput = undefined;
-    expect(
-      classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
-    ).toBe(false);
-  });
+  describe('isUserInputEmpty()', () => {
+    it('should return false because user input is undefined', () => {
+      classUnderTest.attribute.userInput = undefined;
+      expect(
+        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
+      ).toBe(false);
+    });
 
-  it('should return true because user input contains a number of whitespaces', () => {
-    classUnderTest.attribute.userInput = '   ';
-    expect(
-      classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
-    ).toBe(true);
-  });
+    it('should return true because user input contains a number of whitespaces', () => {
+      classUnderTest.attribute.userInput = '   ';
+      expect(
+        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
+      ).toBe(true);
+    });
 
-  it('should return true because user input contains an empty string', () => {
-    classUnderTest.attribute.userInput = '';
-    expect(
-      classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
-    ).toBe(true);
-  });
+    it('should return true because user input contains an empty string', () => {
+      classUnderTest.attribute.userInput = '';
+      expect(
+        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
+      ).toBe(true);
+    });
 
-  it('should return false because user input is defined and contains a string', () => {
-    classUnderTest.attribute.userInput = 'user input string';
-    expect(
-      classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
-    ).toBe(false);
+    it('should return false because user input is defined and contains a string', () => {
+      classUnderTest.attribute.userInput = 'user input string';
+      expect(
+        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
+      ).toBe(false);
+    });
   });
 });
