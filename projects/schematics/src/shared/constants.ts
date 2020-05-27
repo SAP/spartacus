@@ -165,7 +165,7 @@ export const URL_MATCHER_SERVICE = 'UrlMatcherService';
 export const CONFIGURABLE_ROUTES_SERVICE = 'ConfigurableRoutesService';
 export const EXTERNAL_ROUTES_SERVICE = 'ExternalRoutesService';
 export const EXTERNAL_ROUTES_CONFIG = 'ExternalRoutesConfig';
-export const PAGE_SLOT_COMPONENT = 'PageSlotComponent;';
+export const PAGE_SLOT_COMPONENT = 'PageSlotComponent';
 export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
 export const OUTLET_DIRECTIVE = 'OutletDirective';
 export const OUTLET_SERVICE = 'OutletService';
@@ -295,22 +295,19 @@ export const ONLY_NUMBER_DIRECTIVE_MODULE = 'OnlyNumberDirectiveModule';
 export const ONLY_NUMBER_DIRECTIVE = 'OnlyNumberDirective';
 export const AUTO_FOCUS_DIRECTIVE = 'AutoFocusDirective';
 export const AUTO_FOCUS_DIRECTIVE_MODULE = 'AutoFocusDirectiveModule';
-
 /***** Removed public api end *****/
 
 /***** Properties start *****/
 export const CMS_COMPONENT_DATA_PROPERTY_NAME = 'componentData';
 export const KYMA_ENABLED = 'kyma_enabled';
+export const ANONYMOUS_CONSENTS = 'anonymousConsents';
 /***** Properties end *****/
 
 /***** APIs start *****/
-export const TODO_SPARTACUS = 'TODO:Spartacus -';
-
 export const GET_COMPONENT_STATE_OLD_API = 'getComponentState';
 export const GET_COMPONENTS_STATE_NEW_API = 'getComponentsState';
 
 export const GET_COMPONENT_ENTITIES_OLD_API = 'getComponentEntities';
-export const GET_COMPONENT_ENTITIES_COMMENT = `// ${TODO_SPARTACUS} '${GET_COMPONENT_ENTITIES_OLD_API}' has been removed, please use some of the newer API methods.`;
 
 export const COMPONENT_STATE_SELECTOR_FACTORY_OLD_API =
   'componentStateSelectorFactory';
@@ -319,9 +316,19 @@ export const COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API =
 
 export const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
 export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
+
+export const IS_LAUNCH_IN_SMART_EDIT = 'isLaunchInSmartEdit';
+export const IS_LAUNCHED_IN_SMART_EDIT = 'isLaunchedInSmartEdit';
+export const ADD_DYNAMIC_ATTRIBUTES = 'addDynamicAttributes';
+export const GET_FALSY_URL_MATCHER = 'getFalsyUrlMatcher';
+export const GET_MULTIPLE_PATHS_URL_MATCHER = 'getMultiplePathsUrlMatcher';
+export const GET_PATH_URL_MATCHER = 'getPathUrlMatcher';
+export const GET_OPPOSITE_URL_MATCHER = 'getOppositeUrlMatcher';
+export const GET_GLOB_URL_MATCHER = 'getGlobUrlMatcher';
 /***** APIs end *****/
 
 /***** Misc start *****/
+export const TODO_SPARTACUS = 'TODO:Spartacus -';
 export const CSS_DOCS_URL =
   'https://sap.github.io/spartacus-docs/updating-to-version-2/css';
 /***** Misc end *****/

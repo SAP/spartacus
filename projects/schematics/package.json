@@ -7,8 +7,9 @@
     "schematics"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "test": "tsc -p tsconfig.json && jasmine \"src/**/*_spec.js\""
+    "clean": "rm -rf src/**/*.js src/**/*.js.map src/**/*.d.ts",
+    "build": "yarn clean && tsc -p tsconfig.json",
+    "test": "yarn build && jasmine \"src/**/*_spec.js\""
   },
   "author": "",
   "license": "MIT",
@@ -21,13 +22,18 @@
     "@angular/localize": "^9.1.0",
     "@nguniversal/express-engine": "^9.1.0",
     "@schematics/angular": "^9.1.0",
-    "@schematics/update": "^0.901.0",
+    "@schematics/update": "^0.901.0"
+  },
+  "devDependencies": {
     "@types/jasmine": "^3.5.0",
     "@types/node": "^12.11.1",
     "@types/shelljs": "^0.8.7",
     "jasmine": "^3.5.0",
     "shelljs": "^0.8.3",
     "typescript": "~3.8.3"
+  },
+  "ng-add": {
+    "save": "devDependencies"
   },
   "ng-update": {
     "migrations": "./src/migrations/migrations.json",
