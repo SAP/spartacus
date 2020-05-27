@@ -73,7 +73,7 @@ export class ConfiguratorCommonsService {
         ) {
           if (owner.type === GenericConfigurator.OwnerType.PRODUCT) {
             this.store.dispatch(
-              new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
+              new ConfiguratorActions.CreateConfiguration(owner)
             );
           } else {
             localOwner.hasObsoleteState = false;

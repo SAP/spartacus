@@ -27,27 +27,25 @@ describe('ConfiguratorActions', () => {
   }));
   it('should provide create action with proper type', () => {
     const createAction = new ConfiguratorActions.CreateConfiguration(
-      PRODUCT_CODE,
-      PRODUCT_CODE
+      CONFIGURATION.owner
     );
     expect(createAction.type).toBe(ConfiguratorActions.CREATE_CONFIGURATION);
   });
 
   it('should provide create action that carries productCode as a payload', () => {
     const createAction = new ConfiguratorActions.CreateConfiguration(
-      PRODUCT_CODE,
-      PRODUCT_CODE
+      CONFIGURATION.owner
     );
-    expect(createAction.productCode).toBe(PRODUCT_CODE);
+    expect(createAction.payload.id).toBe(PRODUCT_CODE);
   });
 
   describe('ReadConfiguration Actions', () => {
     describe('ReadConfiguration', () => {
       it('Should create the action', () => {
-        const action = new ConfiguratorActions.ReadConfiguration(
-          CONFIGURATION,
-          GROUP_ID
-        );
+        const action = new ConfiguratorActions.ReadConfiguration({
+          configuration: CONFIGURATION,
+          groupId: GROUP_ID,
+        });
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.READ_CONFIGURATION,
           configuration: CONFIGURATION,

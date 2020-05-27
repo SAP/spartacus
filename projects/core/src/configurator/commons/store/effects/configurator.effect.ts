@@ -68,7 +68,7 @@ export class ConfiguratorEffects {
     ofType(CREATE_CONFIGURATION),
     mergeMap((action: CreateConfiguration) => {
       return this.configuratorCommonsConnector
-        .createConfiguration(action.productCode)
+        .createConfiguration(action.payload.id)
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
             this.store.dispatch(new UpdatePriceSummary(configuration));
@@ -76,10 +76,10 @@ export class ConfiguratorEffects {
             return [new CreateConfigurationSuccess(configuration)];
           }),
           catchError((error) => [
-            new CreateConfigurationFail(
-              action.ownerKey,
-              makeErrorSerializable(error)
-            ),
+            new CreateConfigurationFail({
+              ownerKey: action.payload.key,
+              error: makeErrorSerializable(error),
+            }),
           ])
         );
     })
@@ -94,9 +94,9 @@ export class ConfiguratorEffects {
     mergeMap((action: ReadConfiguration) => {
       return this.configuratorCommonsConnector
         .readConfiguration(
-          action.configuration.configId,
-          action.groupId,
-          action.configuration.owner
+          action.payload.configuration.configId,
+          action.payload.groupId,
+          action.payload.configuration.owner
         )
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
@@ -104,7 +104,7 @@ export class ConfiguratorEffects {
           }),
           catchError((error) => [
             new ReadConfigurationFail(
-              action.configuration.owner.key,
+              action.payload.configuration.owner.key,
               makeErrorSerializable(error)
             ),
           ])
@@ -239,7 +239,10 @@ export class ConfiguratorEffects {
   handleErrorOnUpdate$: Observable<ReadConfiguration> = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_FINALIZE_FAIL),
     map((action: UpdateConfigurationFinalizeFail) => action.payload),
-    map((payload) => new ReadConfiguration(payload, ''))
+    map(
+      (payload) =>
+        new ReadConfiguration({ configuration: payload, groupId: undefined })
+    )
   );
 
   @Effect()
@@ -442,10 +445,10 @@ export class ConfiguratorEffects {
             new UpdatePriceSummary(result),
           ]),
           catchError((error) => [
-            new ReadCartEntryConfigurationFail(
-              action.payload.owner.key,
-              makeErrorSerializable(error)
-            ),
+            new ReadCartEntryConfigurationFail({
+              ownerKey: action.payload.owner.key,
+              error: makeErrorSerializable(error),
+            }),
           ])
         );
     })

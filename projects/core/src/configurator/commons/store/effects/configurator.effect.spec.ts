@@ -165,8 +165,7 @@ describe('ConfiguratorEffect', () => {
 
   it('should emit a success action with content for an action of type createConfiguration', () => {
     const action = new ConfiguratorActions.CreateConfiguration(
-      productCode,
-      productCode
+      productConfiguration.owner
     );
 
     const completion = new ConfiguratorActions.CreateConfigurationSuccess(
@@ -191,14 +190,13 @@ describe('ConfiguratorEffect', () => {
     createMock.and.returnValue(throwError(errorResponse));
 
     const action = new ConfiguratorActions.CreateConfiguration(
-      productCode,
-      productCode
+      productConfiguration.owner
     );
 
-    const completionFailure = new ConfiguratorActions.CreateConfigurationFail(
-      productCode,
-      makeErrorSerializable(errorResponse)
-    );
+    const completionFailure = new ConfiguratorActions.CreateConfigurationFail({
+      ownerKey: productConfiguration.owner.key,
+      error: makeErrorSerializable(errorResponse),
+    });
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });
 
@@ -210,7 +208,10 @@ describe('ConfiguratorEffect', () => {
       configId: configId,
       owner: owner,
     };
-    const action = new ConfiguratorActions.ReadConfiguration(payloadInput, '');
+    const action = new ConfiguratorActions.ReadConfiguration({
+      configuration: payloadInput,
+      groupId: '',
+    });
 
     const completion = new ConfiguratorActions.ReadConfigurationSuccess(
       productConfiguration
@@ -334,8 +335,10 @@ describe('ConfiguratorEffect', () => {
       );
 
       const completion = new ConfiguratorActions.ReadCartEntryConfigurationFail(
-        productConfiguration.owner.key,
-        makeErrorSerializable(errorResponse)
+        {
+          ownerKey: productConfiguration.owner.key,
+          error: makeErrorSerializable(errorResponse),
+        }
       );
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -409,10 +412,10 @@ describe('ConfiguratorEffect', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeFail(
         payloadInput
       );
-      const completion = new ConfiguratorActions.ReadConfiguration(
-        productConfiguration,
-        ''
-      );
+      const completion = new ConfiguratorActions.ReadConfiguration({
+        configuration: productConfiguration,
+        groupId: '',
+      });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(configEffects.handleErrorOnUpdate$).toBeObservable(expected);

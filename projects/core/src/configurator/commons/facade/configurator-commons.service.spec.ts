@@ -700,10 +700,7 @@ describe('ConfiguratorCommonsService', () => {
 
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.CreateConfiguration(
-          OWNER_PRODUCT.key,
-          PRODUCT_CODE
-        )
+        new ConfiguratorActions.CreateConfiguration(OWNER_PRODUCT)
       );
     });
 
