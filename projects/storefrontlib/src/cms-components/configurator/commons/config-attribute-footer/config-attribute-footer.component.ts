@@ -24,12 +24,21 @@ export class ConfigAttributeFooterComponent {
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
       .pipe(
         map((result) => {
-          if (result && this.attribute.required && !this.attribute.userInput) {
+          if (
+            result &&
+            this.attribute.required &&
+            this.attribute.incomplete &&
+            this.isUserInputEmpty(this.attribute.userInput)
+          ) {
             return true;
           }
           return false;
         })
       );
+  }
+
+  isUserInputEmpty(input: string) {
+    return input !== undefined && (!input.trim() || 0 === input.length);
   }
 
   getRequiredMessageKey(): string {

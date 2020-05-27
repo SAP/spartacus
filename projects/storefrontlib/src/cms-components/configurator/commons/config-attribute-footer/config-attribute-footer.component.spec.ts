@@ -80,7 +80,7 @@ describe('ConfigAttributeFooterComponent', () => {
     classUnderTest.attribute.required = true;
     classUnderTest.attribute.incomplete = true;
     classUnderTest.attribute.uiType = Configurator.UiType.STRING;
-    classUnderTest.attribute.userInput = undefined;
+    classUnderTest.attribute.userInput = '';
     fixture.detectChanges();
   });
 
@@ -99,6 +99,16 @@ describe('ConfigAttributeFooterComponent', () => {
 
   it('should render a required message because the group has already been visited.', () => {
     classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
+    fixture.detectChanges();
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-config-attribute-footer-required-error-msg'
+    );
+  });
+
+  it('should render a required message because user input is an empty string.', () => {
+    classUnderTest.attribute.userInput = '  ';
     fixture.detectChanges();
     ConfigComponentTestUtilsService.expectElementPresent(
       expect,
@@ -131,5 +141,35 @@ describe('ConfigAttributeFooterComponent', () => {
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'defaultRequiredMessage'
     );
+  });
+
+  describe('isUserInputEmpty()', () => {
+    it('should return false because user input is undefined', () => {
+      classUnderTest.attribute.userInput = undefined;
+      expect(
+        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
+      ).toBe(false);
+    });
+
+    it('should return true because user input contains a number of whitespaces', () => {
+      classUnderTest.attribute.userInput = '   ';
+      expect(
+        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
+      ).toBe(true);
+    });
+
+    it('should return true because user input contains an empty string', () => {
+      classUnderTest.attribute.userInput = '';
+      expect(
+        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
+      ).toBe(true);
+    });
+
+    it('should return false because user input is defined and contains a string', () => {
+      classUnderTest.attribute.userInput = 'user input string';
+      expect(
+        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
+      ).toBe(false);
+    });
   });
 });
