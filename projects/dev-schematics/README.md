@@ -41,15 +41,13 @@ Providing configuration/functionality via params for `ng add` is the main course
 
 ## Example of full dev-schematics implementation for Spartacus project
 
-1. Run bash script from source, ensuring up to date test outlets files
-    - `cd projects/dev-schematics/scripts && ./outlet-template-files.sh`
-2. Build and pack dev-schematics project from source:
+1. Build and pack dev-schematics project from source:
     - `cd projects/dev-schematics && yarn build && npm pack`
-3. Create new Angular app (or use an existing one):
+2. Create new Angular app (or use an existing one):
     - `ng new test-dev-schematics-app --style=scss`
-4. Apply Spartacus lib (no matter if 1.5 or 2.0, should be applicable to both)
+3. Apply Spartacus lib (no matter if 1.5 or 2.0, should be applicable to both)
     - `ng add @spartacus/schematics`
-5. Add built dev-schematics package from local machine:
+4. Add built dev-schematics package from local machine:
     - `ng add <path-to-spartacus-dev-schematics-x.x.x.tgz --baseSites --routing --outlets`
 
 
@@ -58,4 +56,16 @@ Providing configuration/functionality via params for `ng add` is the main course
 For ease of usage we provide scripts for smoother installation process:
 
 `./outlet-template-files.sh` - takes care of copying and moving up to date test outlets module files from `projects/storefrontapp`.
+
+## Testing dev-schematics locally
+
+There might be situatons, where you want to add new entities to/from public API of schematics, but the @spartacus/schematics hasn't been released yet. You can test it locally by following steps:
+
+1. Launch local verdaccio in yours terminal with command `verdaccio` 
+2. Second step has 2 possible ways:
+    - from project root go to scripts/ and run `./publish-schematics-verdaccio.sh` script, which will automatically do all the work for you with building and publishing your changes to local verdaccio
+    - go to `/project/schematics` and run `yarn build && npm publish --registry http://localhost:4873`
+3. Go to dev-schematics project folder and create new file `.npmrc` with content: `@spartacus:registry=http://localhost:4873`
+4. With verdaccio launched, local schematics published to it, we can install new version for testing: `rm -rf node_modules && yarn`
+    
 
