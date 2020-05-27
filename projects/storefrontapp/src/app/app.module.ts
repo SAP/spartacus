@@ -13,7 +13,7 @@ import {
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
-import { b2bFeature } from '../environments/b2c/b2b.feature';
+import { b2bFeature } from '../environments/b2b/b2b.feature';
 import { b2cFeature } from '../environments/b2c/b2c.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';

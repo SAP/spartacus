@@ -11,6 +11,6 @@ interface BuildProcess {
 interface Env {
   SPARTACUS_BASE_URL: string;
   SPARTACUS_API_PREFIX: string;
-  SPARTACUS_CDS: string;
-  SPARTACUS_B2B: string;
+  SPARTACUS_CDS: boolean;
+  SPARTACUS_B2B: boolean;
 }
