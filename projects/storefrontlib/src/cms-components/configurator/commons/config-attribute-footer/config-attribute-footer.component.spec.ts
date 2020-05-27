@@ -12,26 +12,44 @@ import {
   IconModule,
 } from '@spartacus/storefront';
 import { ConfigComponentTestUtilsService } from '../../generic/service/config-component-test-utils.service';
+import { ConfigUtilsService } from '../service/config-utils.service';
+import { Observable, of } from 'rxjs';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
     return false;
   }
+
   getStyleClasses(_iconType: ICON_TYPE): string {
     return 'fas fa-exclamation-circle';
   }
+
   addLinkResource() {}
+
   getHtml(_iconType: ICON_TYPE) {}
+}
+
+const isCartEntryOrGroupVisited = true;
+class MockConfigUtilsService {
+  isCartEntryOrGroupVisited(): Observable<boolean> {
+    return of(isCartEntryOrGroupVisited);
+  }
 }
 
 describe('ConfigAttributeFooterComponent', () => {
   let classUnderTest: ConfigAttributeFooterComponent;
   let fixture: ComponentFixture<ConfigAttributeFooterComponent>;
+
   const currentAttribute: Configurator.Attribute = {
     name: 'attributeId',
     uiType: Configurator.UiType.RADIOBUTTON,
   };
   let htmlElem: HTMLElement;
+
+  const owner: GenericConfigurator.Owner = {
+    id: 'PRODUCT_CODE',
+    type: GenericConfigurator.OwnerType.CART_ENTRY,
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -39,6 +57,7 @@ describe('ConfigAttributeFooterComponent', () => {
       declarations: [ConfigAttributeFooterComponent],
       providers: [
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+        { provide: ConfigUtilsService, useClass: MockConfigUtilsService },
       ],
     })
       .overrideComponent(ConfigAttributeFooterComponent, {
@@ -56,11 +75,12 @@ describe('ConfigAttributeFooterComponent', () => {
     classUnderTest.attribute = currentAttribute;
     classUnderTest.attribute.label = 'label of attribute';
     classUnderTest.attribute.name = '123';
-    classUnderTest.ownerType = GenericConfigurator.OwnerType.CART_ENTRY;
+    classUnderTest.owner = owner;
+    classUnderTest.groupId = 'testGroup';
     classUnderTest.attribute.required = true;
     classUnderTest.attribute.incomplete = true;
     classUnderTest.attribute.uiType = Configurator.UiType.STRING;
-    classUnderTest.attribute.userInput = undefined;
+    classUnderTest.attribute.userInput = '';
     fixture.detectChanges();
   });
 
@@ -77,10 +97,20 @@ describe('ConfigAttributeFooterComponent', () => {
     );
   });
 
-  it("shouldn't render a required message because attribute has not been added to the cart yet.", () => {
-    classUnderTest.ownerType = GenericConfigurator.OwnerType.PRODUCT;
+  it('should render a required message because the group has already been visited.', () => {
+    classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
     fixture.detectChanges();
-    ConfigComponentTestUtilsService.expectElementNotPresent(
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-config-attribute-footer-required-error-msg'
+    );
+  });
+
+  it('should render a required message because user input is an empty string.', () => {
+    classUnderTest.attribute.userInput = '  ';
+    fixture.detectChanges();
+    ConfigComponentTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
       '.cx-config-attribute-footer-required-error-msg'
@@ -89,26 +119,6 @@ describe('ConfigAttributeFooterComponent', () => {
 
   it("shouldn't render a required message if attribute is not required.", () => {
     classUnderTest.attribute.required = false;
-    fixture.detectChanges();
-    ConfigComponentTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-config-attribute-footer-required-error-msg'
-    );
-  });
-
-  it('should render a required message if attribute is completed.', () => {
-    classUnderTest.attribute.incomplete = false;
-    fixture.detectChanges();
-    ConfigComponentTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-config-attribute-footer-required-error-msg'
-    );
-  });
-
-  it("shouldn't render a required message because attribute type is a drop-down list.", () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
     fixture.detectChanges();
     ConfigComponentTestUtilsService.expectElementNotPresent(
       expect,
@@ -131,5 +141,35 @@ describe('ConfigAttributeFooterComponent', () => {
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'defaultRequiredMessage'
     );
+  });
+
+  describe('isUserInputEmpty()', () => {
+    it('should return false because user input is undefined', () => {
+      classUnderTest.attribute.userInput = undefined;
+      expect(
+        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
+      ).toBe(false);
+    });
+
+    it('should return true because user input contains a number of whitespaces', () => {
+      classUnderTest.attribute.userInput = '   ';
+      expect(
+        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
+      ).toBe(true);
+    });
+
+    it('should return true because user input contains an empty string', () => {
+      classUnderTest.attribute.userInput = '';
+      expect(
+        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
+      ).toBe(true);
+    });
+
+    it('should return false because user input is defined and contains a string', () => {
+      classUnderTest.attribute.userInput = 'user input string';
+      expect(
+        classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
+      ).toBe(false);
+    });
   });
 });

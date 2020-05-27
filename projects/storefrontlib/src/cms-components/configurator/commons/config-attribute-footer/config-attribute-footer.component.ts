@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator, GenericConfigurator } from '@spartacus/core';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { ConfigUtilsService } from '../service/config-utils.service';
 
 @Component({
   selector: 'cx-config-attribute-footer',
@@ -8,23 +11,34 @@ import { ICON_TYPE } from '../../../misc/icon/icon.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeFooterComponent {
-  constructor() {}
+  constructor(private configUtils: ConfigUtilsService) {}
+
   iconTypes = ICON_TYPE;
 
   @Input() attribute: Configurator.Attribute;
-  @Input() ownerType: GenericConfigurator.OwnerType;
+  @Input() owner: GenericConfigurator.Owner;
+  @Input() groupId: string;
 
-  showRequiredMessage(): boolean {
-    if (
-      this.ownerType === GenericConfigurator.OwnerType.CART_ENTRY &&
-      this.attribute.required &&
-      this.attribute.incomplete &&
-      this.attribute.uiType === Configurator.UiType.STRING &&
-      !this.attribute.userInput
-    ) {
-      return true;
-    }
-    return false;
+  showRequiredMessage(): Observable<boolean> {
+    return this.configUtils
+      .isCartEntryOrGroupVisited(this.owner, this.groupId)
+      .pipe(
+        map((result) => {
+          if (
+            result &&
+            this.attribute.required &&
+            this.attribute.incomplete &&
+            this.isUserInputEmpty(this.attribute.userInput)
+          ) {
+            return true;
+          }
+          return false;
+        })
+      );
+  }
+
+  isUserInputEmpty(input: string) {
+    return input !== undefined && (!input.trim() || 0 === input.length);
   }
 
   getRequiredMessageKey(): string {
