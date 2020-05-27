@@ -97,7 +97,7 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a success action with content for an action of type createConfiguration', () => {
-    const payloadInput = { productCode: productCode };
+    const payloadInput = { productCode: productCode, owner: undefined };
     const action = new ConfiguratorActions.CreateConfiguration(payloadInput);
 
     const completion = new ConfiguratorActions.CreateConfigurationSuccess(
@@ -111,7 +111,7 @@ describe('ConfiguratorTextfieldEffect', () => {
 
   it('should emit a fail action in case something goes wrong', () => {
     createMock.and.returnValue(throwError(errorResponse));
-    const payloadInput = { productCode: productCode };
+    const payloadInput = { productCode: productCode, owner: undefined };
     const action = new ConfiguratorActions.CreateConfiguration(payloadInput);
 
     const completionFailure = new ConfiguratorActions.CreateConfigurationFail(

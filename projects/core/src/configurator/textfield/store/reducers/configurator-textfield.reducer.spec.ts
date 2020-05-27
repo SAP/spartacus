@@ -6,7 +6,6 @@ import { reducer } from './configurator-textfield.reducer';
 describe('ConfiguratorTextfieldReducer', () => {
   const configurationState: ConfigurationTextfieldState = {
     content: null,
-    refresh: false,
   };
   const productCode = 'CONF_LAPTOP';
   const attributeName = 'attributeName';
@@ -16,7 +15,10 @@ describe('ConfiguratorTextfieldReducer', () => {
   it('should not change state in case action is not covered in reducer', () => {
     const result = reducer(
       configurationState,
-      new ConfiguratorTextfieldActions.CreateConfiguration(productCode)
+      new ConfiguratorTextfieldActions.CreateConfiguration({
+        productCode: productCode,
+        owner: undefined,
+      })
     );
     expect(result).toBeDefined();
     expect(result.content).toBe(null);

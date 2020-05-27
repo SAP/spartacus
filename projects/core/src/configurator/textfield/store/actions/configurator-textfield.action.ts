@@ -30,7 +30,9 @@ export const REMOVE_CONFIGURATION =
 
 export class CreateConfiguration extends StateUtils.LoaderLoadAction {
   readonly type = CREATE_CONFIGURATION;
-  constructor(public payload: any) {
+  constructor(
+    public payload: { productCode: string; owner: GenericConfigurator.Owner }
+  ) {
     super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }

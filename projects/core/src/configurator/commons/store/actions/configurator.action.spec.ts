@@ -49,8 +49,10 @@ describe('ConfiguratorActions', () => {
         });
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.READ_CONFIGURATION,
-          configuration: CONFIGURATION,
-          groupId: GROUP_ID,
+          payload: {
+            configuration: CONFIGURATION,
+            groupId: GROUP_ID,
+          },
           meta: StateUtils.entityLoadMeta(
             CONFIGURATION_DATA,
             CONFIGURATION.owner.key
@@ -68,7 +70,10 @@ describe('ConfiguratorActions', () => {
         });
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.READ_CONFIGURATION_FAIL,
-          payload: error,
+          payload: {
+            ownerKey: PRODUCT_CODE,
+            error: error,
+          },
           meta: StateUtils.entityFailMeta(
             CONFIGURATION_DATA,
             PRODUCT_CODE,
@@ -125,7 +130,10 @@ describe('ConfiguratorActions', () => {
 
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION_FAIL,
-          payload: error,
+          payload: {
+            configuration: CONFIGURATION,
+            error: error,
+          },
           meta: {
             entityType: CONFIGURATION_DATA,
             entityId: CONFIGURATION.owner.key,
@@ -163,8 +171,7 @@ describe('ConfiguratorActions', () => {
 
       expect({ ...action }).toEqual({
         type: ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY,
-        payload: CONFIGURATION,
-        cartEntryNo: cartEntryNo,
+        payload: { configuration: CONFIGURATION, cartEntryNo: cartEntryNo },
         meta: StateUtils.entitySuccessMeta(
           CONFIGURATION_DATA,
           CONFIGURATION.owner.key

@@ -3,7 +3,7 @@ import * as ConfiguratorTextfieldActions from './configurator-textfield.action';
 describe('ConfiguratorTextfieldActions', () => {
   it('should provide create action with proper type', () => {
     const createAction: ConfiguratorTextfieldActions.ConfiguratorAction = new ConfiguratorTextfieldActions.CreateConfiguration(
-      {}
+      { productCode: undefined, owner: undefined }
     );
     expect(createAction.type).toBe(
       ConfiguratorTextfieldActions.CREATE_CONFIGURATION
@@ -41,6 +41,7 @@ describe('ConfiguratorTextfieldActions', () => {
     const productCode = 'CONF_LAPTOP';
     const createAction = new ConfiguratorTextfieldActions.CreateConfiguration({
       productCode: productCode,
+      owner: undefined,
     });
     expect(createAction.payload.productCode).toBe(productCode);
   });

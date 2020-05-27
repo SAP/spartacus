@@ -414,7 +414,7 @@ describe('ConfiguratorEffect', () => {
       );
       const completion = new ConfiguratorActions.ReadConfiguration({
         configuration: productConfiguration,
-        groupId: '',
+        groupId: undefined,
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

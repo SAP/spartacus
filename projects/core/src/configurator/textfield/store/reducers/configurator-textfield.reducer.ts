@@ -3,7 +3,6 @@ import { ConfigurationTextfieldState } from '../configuration-textfield-state';
 
 export const initialState: ConfigurationTextfieldState = {
   content: null,
-  refresh: false,
 };
 
 export function reducer(
@@ -23,7 +22,6 @@ export function reducer(
 
       return {
         content: content,
-        refresh: false,
       };
     }
     case ConfiguratorActions.REMOVE_CONFIGURATION: {
