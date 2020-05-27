@@ -310,10 +310,10 @@ export class B2BUserEffects {
         )
         .pipe(
           map(
-            () =>
+            (data) =>
               new B2BUserActions.CreateB2BUserPermissionSuccess({
-                permissionId: payload.permissionId,
-                selected: true,
+                permissionId: data.id,
+                selected: data.selected,
               })
           ),
           catchError((error) =>
@@ -345,10 +345,10 @@ export class B2BUserEffects {
         )
         .pipe(
           map(
-            () =>
+            (data) =>
               new B2BUserActions.DeleteB2BUserPermissionSuccess({
-                permissionId: payload.permissionId,
-                selected: false,
+                permissionId: data.id,
+                selected: data.selected,
               })
           ),
           catchError((error) =>

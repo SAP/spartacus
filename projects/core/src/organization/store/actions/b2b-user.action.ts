@@ -11,6 +11,7 @@ import {
   B2B_USER_APPROVERS,
   B2B_USER_PERMISSIONS,
   B2B_USER_USER_GROUPS,
+  PERMISSION_ENTITIES,
 } from '../organization-state';
 import { ListModel } from '../../../model/misc.model';
 import { B2BUser } from '../../../model/org-unit.model';
@@ -367,7 +368,7 @@ export class CreateB2BUserPermission extends EntityLoadAction {
       permissionId: string;
     }
   ) {
-    super(B2B_USER_PERMISSIONS, payload.permissionId);
+    super(PERMISSION_ENTITIES, payload.permissionId);
   }
 }
 
@@ -380,7 +381,7 @@ export class CreateB2BUserPermissionFail extends EntityFailAction {
       error: any;
     }
   ) {
-    super(B2B_USER_PERMISSIONS, payload.permissionId, payload.error);
+    super(PERMISSION_ENTITIES, payload.permissionId, payload.error);
   }
 }
 
@@ -392,7 +393,7 @@ export class CreateB2BUserPermissionSuccess extends EntitySuccessAction {
       selected: boolean;
     }
   ) {
-    super(B2B_USER_PERMISSIONS, payload.permissionId, payload);
+    super(PERMISSION_ENTITIES, payload.permissionId, payload);
   }
 }
 
@@ -405,7 +406,7 @@ export class DeleteB2BUserPermission extends EntityLoadAction {
       permissionId: string;
     }
   ) {
-    super(B2B_USER_PERMISSIONS, payload.permissionId);
+    super(PERMISSION_ENTITIES, payload.permissionId);
   }
 }
 
@@ -418,7 +419,7 @@ export class DeleteB2BUserPermissionFail extends EntityFailAction {
       error: any;
     }
   ) {
-    super(B2B_USER_PERMISSIONS, payload.permissionId, payload.error);
+    super(PERMISSION_ENTITIES, payload.permissionId, payload.error);
   }
 }
 
@@ -430,7 +431,7 @@ export class DeleteB2BUserPermissionSuccess extends EntitySuccessAction {
       selected: boolean;
     }
   ) {
-    super(B2B_USER_PERMISSIONS, payload.permissionId, payload);
+    super(PERMISSION_ENTITIES, payload.permissionId, payload);
   }
 }
 
