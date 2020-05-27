@@ -181,16 +181,19 @@ export class ConfiguratorEffects {
         .getConfigurationOverview(payload.configId)
         .pipe(
           map((overview: Configurator.Overview) => {
-            return new GetConfigurationOverviewSuccess(
-              payload.owner.key,
-              overview
-            );
+            return new GetConfigurationOverviewSuccess({
+              ownerKey: payload.owner.key,
+              overview: overview,
+            });
           }),
           catchError((error) => {
             const errorPayload = makeErrorSerializable(error);
             errorPayload.configId = payload.owner.id;
             return [
-              new GetConfigurationOverviewFail(payload.owner.key, errorPayload),
+              new GetConfigurationOverviewFail({
+                ownerKey: payload.owner.key,
+                error: errorPayload,
+              }),
             ];
           })
         );
@@ -324,10 +327,10 @@ export class ConfiguratorEffects {
           return this.configuratorCommonsConnector.addToCart(payload).pipe(
             switchMap((entry: CartModification) => {
               return [
-                new ConfiguratorActions.AddNextOwner(
-                  payload.ownerKey,
-                  '' + entry.entry.entryNumber
-                ),
+                new ConfiguratorActions.AddNextOwner({
+                  ownerKey: payload.ownerKey,
+                  cartEntryNo: '' + entry.entry.entryNumber,
+                }),
                 new CartActions.CartAddEntrySuccess({
                   ...entry,
                   userId: payload.userId,
@@ -435,15 +438,17 @@ export class ConfiguratorEffects {
     ofType(ADD_NEXT_OWNER),
     switchMap((action: AddNextOwner) => {
       return this.store.pipe(
-        select(ConfiguratorSelectors.getConfigurationFactory(action.ownerKey)),
+        select(
+          ConfiguratorSelectors.getConfigurationFactory(action.payload.ownerKey)
+        ),
         take(1),
 
         map(
           (configuration) =>
-            new ConfiguratorActions.SetNextOwnerCartEntry(
-              configuration,
-              action.cartEntryNo
-            )
+            new ConfiguratorActions.SetNextOwnerCartEntry({
+              configuration: configuration,
+              cartEntryNo: action.payload.cartEntryNo,
+            })
         )
       );
     })

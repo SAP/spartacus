@@ -156,10 +156,10 @@ describe('ConfiguratorActions', () => {
   describe('SetNextOwnerCartEntry', () => {
     const cartEntryNo = '3';
     it('should carry expected meta data', () => {
-      const action = new ConfiguratorActions.SetNextOwnerCartEntry(
-        CONFIGURATION,
-        cartEntryNo
-      );
+      const action = new ConfiguratorActions.SetNextOwnerCartEntry({
+        configuration: CONFIGURATION,
+        cartEntryNo: cartEntryNo,
+      });
 
       expect({ ...action }).toEqual({
         type: ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY,

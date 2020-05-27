@@ -244,10 +244,10 @@ describe('ConfiguratorEffect', () => {
       payloadInput
     );
 
-    const completion = new ConfiguratorActions.GetConfigurationOverviewSuccess(
-      owner.key,
-      productConfiguration.overview
-    );
+    const completion = new ConfiguratorActions.GetConfigurationOverviewSuccess({
+      ownerKey: owner.key,
+      overview: productConfiguration.overview,
+    });
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
 
@@ -255,10 +255,10 @@ describe('ConfiguratorEffect', () => {
   });
 
   it('must not emit anything in case source action is not covered, getConfigurationOverview', () => {
-    const action = new ConfiguratorActions.GetConfigurationOverviewSuccess(
-      owner.key,
-      {}
-    );
+    const action = new ConfiguratorActions.GetConfigurationOverviewSuccess({
+      ownerKey: owner.key,
+      overview: {},
+    });
     actions$ = hot('-a', { a: action });
 
     configEffects.getOverview$.subscribe((emitted) => fail(emitted));
@@ -507,13 +507,13 @@ describe('ConfiguratorEffect', () => {
         statusMessage: cartModification.statusMessage,
       });
 
-      const removeConfiguration = new ConfiguratorActions.AddNextOwner(
-        owner.key,
-        '' + entryNumber
-      );
+      const addNextOwner = new ConfiguratorActions.AddNextOwner({
+        ownerKey: owner.key,
+        cartEntryNo: '' + entryNumber,
+      });
       actions$ = hot('-a', { a: action });
       const expected = cold('-(cd)', {
-        c: removeConfiguration,
+        c: addNextOwner,
         d: cartAddEntrySuccess,
       });
       expect(configEffects.addToCart$).toBeObservable(expected);

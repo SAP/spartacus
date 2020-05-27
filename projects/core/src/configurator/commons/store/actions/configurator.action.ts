@@ -259,31 +259,35 @@ export class GetConfigurationOverview extends StateUtils.EntityLoadAction {
 
 export class GetConfigurationOverviewFail extends StateUtils.EntityFailAction {
   readonly type = GET_CONFIGURATION_OVERVIEW_FAIL;
-  constructor(public ownerKey: string, public payload: any) {
-    super(CONFIGURATION_DATA, ownerKey, payload);
+  constructor(public payload: { ownerKey: string; error: any }) {
+    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
   }
 }
 
 export class GetConfigurationOverviewSuccess extends StateUtils.EntitySuccessAction {
   readonly type = GET_CONFIGURATION_OVERVIEW_SUCCESS;
-  constructor(public ownerKey: string, public payload: Configurator.Overview) {
-    super(CONFIGURATION_DATA, ownerKey);
+  constructor(
+    public payload: { ownerKey: string; overview: Configurator.Overview }
+  ) {
+    super(CONFIGURATION_DATA, payload.ownerKey);
   }
 }
 
 export class AddNextOwner implements Action {
   readonly type = ADD_NEXT_OWNER;
-  constructor(public ownerKey: string, public cartEntryNo: string) {}
+  constructor(public payload: { ownerKey: string; cartEntryNo: string }) {}
 }
 
 export class SetNextOwnerCartEntry extends StateUtils.EntitySuccessAction {
   readonly type = SET_NEXT_OWNER_CART_ENTRY;
 
   constructor(
-    public payload: Configurator.Configuration,
-    public cartEntryNo: string
+    public payload: {
+      configuration: Configurator.Configuration;
+      cartEntryNo: string;
+    }
   ) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATION_DATA, payload.configuration.owner.key);
   }
 }
 export type ConfiguratorAction =
