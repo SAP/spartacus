@@ -174,71 +174,71 @@ context('Product Configuration', () => {
       configuration.verifyNoStatusIconDisplayed('Lens');
       configuration.verifyNoStatusIconDisplayed('Options');
     });
-  });
 
-  it('should set group status for multi level product', () => {
-    goToConfigurationPage(configurator, testProductMultiLevel);
-    configuration.verifyConfigurationPageIsDisplayed();
-    configuration.verifyGroupMenuIsDisplayed();
+    it('should set group status for multi level product', () => {
+      goToConfigurationPage(configurator, testProductMultiLevel);
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.verifyGroupMenuIsDisplayed();
 
-    // no status should be displayed initially
-    configuration.verifyNoStatusIconDisplayed('General');
-    configuration.verifyNoStatusIconDisplayed('Video System');
-    configuration.verifyNoStatusIconDisplayed('Audio System');
-    configuration.verifyNoStatusIconDisplayed('Source Components');
+      // no status should be displayed initially
+      configuration.verifyNoStatusIconDisplayed('General');
+      configuration.verifyNoStatusIconDisplayed('Video System');
+      configuration.verifyNoStatusIconDisplayed('Audio System');
+      configuration.verifyNoStatusIconDisplayed('Source Components');
 
-    // navigate to video system subgroup, no status initially
-    configuration.clickOnNextGroupButton('PROJECTOR_TYPE', 'radioGroup');
-    configuration.verifyNoStatusIconDisplayed('Projector');
-    configuration.verifyNoStatusIconDisplayed('Flat-panel TV');
+      // navigate to video system subgroup, no status initially
+      configuration.clickOnNextGroupButton('PROJECTOR_TYPE', 'radioGroup');
+      configuration.verifyNoStatusIconDisplayed('Projector');
+      configuration.verifyNoStatusIconDisplayed('Flat-panel TV');
 
-    // navigate to flat-panel TV, group projector should be completed
-    configuration.clickOnNextGroupButton('FLAT_PANEL_TV', 'radioGroup');
-    configuration.verifyStatusIconDisplayed('Projector', 'COMPLETE');
-    configuration.verifyNoStatusIconDisplayed('Flat-panel TV');
+      // navigate to flat-panel TV, group projector should be completed
+      configuration.clickOnNextGroupButton('FLAT_PANEL_TV', 'radioGroup');
+      configuration.verifyStatusIconDisplayed('Projector', 'COMPLETE');
+      configuration.verifyNoStatusIconDisplayed('Flat-panel TV');
 
-    // navigate back to group projector, status should be completed
-    configuration.clickOnPreviousGroupButton('PROJECTOR_TYPE', 'radioGroup');
-    configuration.verifyStatusIconDisplayed('Projector', 'COMPLETE');
-    configuration.verifyStatusIconDisplayed('Flat-panel TV', 'COMPLETE');
+      // navigate back to group projector, status should be completed
+      configuration.clickOnPreviousGroupButton('PROJECTOR_TYPE', 'radioGroup');
+      configuration.verifyStatusIconDisplayed('Projector', 'COMPLETE');
+      configuration.verifyStatusIconDisplayed('Flat-panel TV', 'COMPLETE');
 
-    // navigate back to General, check completed status
-    configuration.clickOnPreviousGroupButton('ROOM_SIZE', 'radioGroup');
-    configuration.verifyStatusIconDisplayed('General', 'COMPLETE');
-    configuration.verifyStatusIconDisplayed('Video System', 'COMPLETE');
+      // navigate back to General, check completed status
+      configuration.clickOnPreviousGroupButton('ROOM_SIZE', 'radioGroup');
+      configuration.verifyStatusIconDisplayed('General', 'COMPLETE');
+      configuration.verifyStatusIconDisplayed('Video System', 'COMPLETE');
 
-    // navigate to Audio System subgroup, verify no status is displayed initially
-    configuration.clickOnNextGroupButton('PROJECTOR_TYPE', 'radioGroup');
-    configuration.clickOnNextGroupButton('FLAT_PANEL_TV', 'radioGroup');
-    configuration.clickOnNextGroupButton('SPEAKER_TYPE_FRONT', 'radioGroup');
-    configuration.verifyNoStatusIconDisplayed('Front Speakers');
-    configuration.verifyNoStatusIconDisplayed('Center Speaker');
-    configuration.verifyNoStatusIconDisplayed('Rear Speakers');
-    configuration.verifyNoStatusIconDisplayed('Subwoofer');
+      // navigate to Audio System subgroup, verify no status is displayed initially
+      configuration.clickOnNextGroupButton('PROJECTOR_TYPE', 'radioGroup');
+      configuration.clickOnNextGroupButton('FLAT_PANEL_TV', 'radioGroup');
+      configuration.clickOnNextGroupButton('SPEAKER_TYPE_FRONT', 'radioGroup');
+      configuration.verifyNoStatusIconDisplayed('Front Speakers');
+      configuration.verifyNoStatusIconDisplayed('Center Speaker');
+      configuration.verifyNoStatusIconDisplayed('Rear Speakers');
+      configuration.verifyNoStatusIconDisplayed('Subwoofer');
 
-    // navigate to Center Speaker
-    configuration.clickOnNextGroupButton('SPEAKER_TYPE', 'radioGroup');
-    configuration.verifyStatusIconDisplayed('Front Speakers', 'COMPLETE');
+      // navigate to Center Speaker
+      configuration.clickOnNextGroupButton('SPEAKER_TYPE', 'radioGroup');
+      configuration.verifyStatusIconDisplayed('Front Speakers', 'COMPLETE');
 
-    // navigate back to Front Speaker, check completed status
-    configuration.clickOnPreviousGroupButton(
-      'SPEAKER_TYPE_FRONT',
-      'radioGroup'
-    );
-    configuration.verifyStatusIconDisplayed('Front Speakers', 'COMPLETE');
-    configuration.verifyStatusIconDisplayed('Center Speaker', 'COMPLETE');
-    configuration.verifyNoStatusIconDisplayed('Rear Speakers');
-    configuration.verifyNoStatusIconDisplayed('Subwoofer');
+      // navigate back to Front Speaker, check completed status
+      configuration.clickOnPreviousGroupButton(
+        'SPEAKER_TYPE_FRONT',
+        'radioGroup'
+      );
+      configuration.verifyStatusIconDisplayed('Front Speakers', 'COMPLETE');
+      configuration.verifyStatusIconDisplayed('Center Speaker', 'COMPLETE');
+      configuration.verifyNoStatusIconDisplayed('Rear Speakers');
+      configuration.verifyNoStatusIconDisplayed('Subwoofer');
 
-    // navigate back to General group, verify that Audio system is not fully completed
-    configuration.clickOnPreviousGroupButton('FLAT_PANEL_TV', 'radioGroup');
-    configuration.clickOnPreviousGroupButton('PROJECTOR_TYPE', 'radioGroup');
-    configuration.clickOnPreviousGroupButton('ROOM_SIZE', 'radioGroup');
+      // navigate back to General group, verify that Audio system is not fully completed
+      configuration.clickOnPreviousGroupButton('FLAT_PANEL_TV', 'radioGroup');
+      configuration.clickOnPreviousGroupButton('PROJECTOR_TYPE', 'radioGroup');
+      configuration.clickOnPreviousGroupButton('ROOM_SIZE', 'radioGroup');
 
-    configuration.verifyStatusIconDisplayed('General', 'COMPLETE');
-    configuration.verifyStatusIconDisplayed('Video System', 'COMPLETE');
-    configuration.verifyNoStatusIconDisplayed('Audio System');
-    configuration.verifyNoStatusIconDisplayed('Source Components');
+      configuration.verifyStatusIconDisplayed('General', 'COMPLETE');
+      configuration.verifyStatusIconDisplayed('Video System', 'COMPLETE');
+      configuration.verifyNoStatusIconDisplayed('Audio System');
+      configuration.verifyNoStatusIconDisplayed('Source Components');
+    });
   });
 
   describe.skip('Group handling', () => {
