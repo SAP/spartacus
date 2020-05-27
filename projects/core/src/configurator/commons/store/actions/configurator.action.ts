@@ -1,7 +1,9 @@
 import { Action } from '@ngrx/store';
+import { MULTI_CART_DATA } from '../../../../cart/store/multi-cart-state';
 import { Configurator } from '../../../../model/configurator.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import { StateUtils } from '../../../../state/utils';
+import { EntityProcessesIncrementAction } from '../../../../state/utils/entity-processes-loader/entity-processes-loader.action';
 import { CONFIGURATION_DATA } from '../configuration-state';
 
 export const CREATE_CONFIGURATION = '[Configurator] Create Configuration';
@@ -218,19 +220,19 @@ export class ChangeGroupFinalize extends StateUtils.EntityLoadAction {
   }
 }
 
-export class AddToCart extends StateUtils.EntityLoadAction {
+export class AddToCart extends EntityProcessesIncrementAction {
   readonly type = ADD_TO_CART;
   constructor(public payload: Configurator.AddToCartParameters) {
-    super(CONFIGURATION_DATA, payload.ownerKey);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
-export class UpdateCartEntry extends StateUtils.EntityLoadAction {
+export class UpdateCartEntry extends EntityProcessesIncrementAction {
   readonly type = UPDATE_CART_ENTRY;
   constructor(
     public payload: Configurator.UpdateConfigurationForCartEntryParameters
   ) {
-    super(CONFIGURATION_DATA, payload.configuration.owner.key);
+    super(MULTI_CART_DATA, payload.cartId);
   }
 }
 

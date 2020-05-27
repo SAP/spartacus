@@ -587,50 +587,6 @@ describe('ConfiguratorEffect', () => {
     });
   });
 
-  describe('Effect addToCartCartProcessIncrement', () => {
-    it('should emit CartProcessesIncrement on addToCart in case no changes are pending', () => {
-      const payloadInput: Configurator.AddToCartParameters = {
-        userId: userId,
-        cartId: cartId,
-        productCode: productCode,
-        quantity: quantity,
-        configId: configId,
-        ownerKey: owner.key,
-      };
-      const action = new ConfiguratorActions.AddToCart(payloadInput);
-      const cartProcessIncrement = new CartActions.CartProcessesIncrement(
-        cartId
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-d', {
-        d: cartProcessIncrement,
-      });
-      expect(configEffects.addToCartCartProcessIncrement$).toBeObservable(
-        expected
-      );
-    });
-  });
-
-  describe('Effect updateCartEntryCartProcessIncrement', () => {
-    it('should emit CartProcessesIncrement on updateCartEntry in case no changes are pending', () => {
-      const action = new ConfiguratorActions.UpdateCartEntry(
-        payloadInputUpdateConfiguration
-      );
-      const cartProcessIncrement = new CartActions.CartProcessesIncrement(
-        cartId
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-d', {
-        d: cartProcessIncrement,
-      });
-      expect(configEffects.updateCartEntryCartProcessIncrement$).toBeObservable(
-        expected
-      );
-    });
-  });
-
   describe('getGroupWithAttributes', () => {
     it('should find group in single level config', () => {
       expect(

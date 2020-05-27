@@ -308,44 +308,6 @@ export class ConfiguratorEffects {
   );
 
   @Effect()
-  addToCartCartProcessIncrement$: Observable<
-    CartActions.CartProcessesIncrement
-  > = this.actions$.pipe(
-    ofType(ADD_TO_CART),
-    map((action: AddToCart) => action.payload),
-    switchMap((payload: Configurator.AddToCartParameters) => {
-      return this.store.pipe(
-        select(ConfiguratorSelectors.hasPendingChanges(payload.ownerKey)),
-        take(1),
-        filter((hasPendingChanges) => hasPendingChanges === false),
-        map(() => new CartActions.CartProcessesIncrement(payload.cartId))
-      );
-    })
-  );
-
-  @Effect()
-  updateCartEntryCartProcessIncrement$: Observable<
-    CartActions.CartProcessesIncrement
-  > = this.actions$.pipe(
-    ofType(UPDATE_CART_ENTRY),
-    map((action: UpdateCartEntry) => action.payload),
-    switchMap(
-      (payload: Configurator.UpdateConfigurationForCartEntryParameters) => {
-        return this.store.pipe(
-          select(
-            ConfiguratorSelectors.hasPendingChanges(
-              payload.configuration.owner.key
-            )
-          ),
-          take(1),
-          filter((hasPendingChanges) => hasPendingChanges === false),
-          map(() => new CartActions.CartProcessesIncrement(payload.cartId))
-        );
-      }
-    )
-  );
-
-  @Effect()
   addToCart$: Observable<
     | ConfiguratorActions.AddNextOwner
     | CartActions.CartAddEntrySuccess
