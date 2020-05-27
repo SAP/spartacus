@@ -46,5 +46,5 @@
       "@spartacus/incubator"
     ]
   },
-  "main": "./public_api.js"
+  "main": "src/public_api.js"
 }
