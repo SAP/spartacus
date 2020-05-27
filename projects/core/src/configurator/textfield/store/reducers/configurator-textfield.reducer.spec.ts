@@ -56,7 +56,7 @@ describe('ConfiguratorTextfieldReducer', () => {
   it('should remove state on RemoveConfiguration ', () => {
     const result = reducer(
       configurationState,
-      new ConfiguratorTextfieldActions.RemoveConfiguration(null)
+      new ConfiguratorTextfieldActions.RemoveConfiguration()
     );
     expect(result).toBeDefined();
     expect(result.content).toBeNull();

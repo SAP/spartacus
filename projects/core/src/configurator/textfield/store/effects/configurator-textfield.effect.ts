@@ -57,7 +57,7 @@ export class ConfiguratorTextfieldEffects {
       return this.configuratorTextfieldConnector.addToCart(payload).pipe(
         switchMap(() => {
           return [
-            new RemoveConfiguration(payload),
+            new RemoveConfiguration(),
             new CartActions.LoadCart({
               cartId: payload.cartId,
               userId: payload.userId,
@@ -85,7 +85,7 @@ export class ConfiguratorTextfieldEffects {
         .pipe(
           switchMap(() => {
             return [
-              new RemoveConfiguration(payload),
+              new RemoveConfiguration(),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
                 userId: payload.userId,

@@ -12,7 +12,7 @@ describe('ConfiguratorTextfieldActions', () => {
 
   it('should provide create success action with proper type', () => {
     const createAction: ConfiguratorTextfieldActions.ConfiguratorAction = new ConfiguratorTextfieldActions.CreateConfigurationSuccess(
-      {}
+      { configurationInfos: [] }
     );
     expect(createAction.type).toBe(
       ConfiguratorTextfieldActions.CREATE_CONFIGURATION_SUCCESS
@@ -30,7 +30,7 @@ describe('ConfiguratorTextfieldActions', () => {
 
   it('should provide update action with proper type', () => {
     const updateAction: ConfiguratorTextfieldActions.ConfiguratorAction = new ConfiguratorTextfieldActions.UpdateConfiguration(
-      {}
+      { configurationInfos: [] }
     );
     expect(updateAction.type).toBe(
       ConfiguratorTextfieldActions.UPDATE_CONFIGURATION

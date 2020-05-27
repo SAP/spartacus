@@ -159,10 +159,9 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('must not emit anything in case source action is not covered, createConfiguration', () => {
-    const payloadInput = { productCode: productCode };
-    const action = new ConfiguratorActions.CreateConfigurationSuccess(
-      payloadInput
-    );
+    const action = new ConfiguratorActions.CreateConfigurationSuccess({
+      configurationInfos: [],
+    });
     actions$ = hot('-a', { a: action });
 
     configEffects.createConfiguration$.subscribe((emitted) => fail(emitted));
@@ -183,9 +182,7 @@ describe('ConfiguratorTextfieldEffect', () => {
         userId: userId,
       });
 
-      const removeConfiguration = new ConfiguratorActions.RemoveConfiguration(
-        payloadInput
-      );
+      const removeConfiguration = new ConfiguratorActions.RemoveConfiguration();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -234,9 +231,7 @@ describe('ConfiguratorTextfieldEffect', () => {
         cartId: cartId,
       });
 
-      const removeConfiguration = new ConfiguratorActions.RemoveConfiguration(
-        payloadInput
-      );
+      const removeConfiguration = new ConfiguratorActions.RemoveConfiguration();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
