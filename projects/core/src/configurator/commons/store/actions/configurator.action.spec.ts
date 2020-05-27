@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
+import { MULTI_CART_DATA } from '../../../../cart/store/multi-cart-state';
 import { Configurator } from '../../../../model/configurator.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import { StateUtils } from '../../../../state/utils';
@@ -185,9 +186,33 @@ describe('ConfiguratorActions', () => {
         type: ConfiguratorActions.UPDATE_CART_ENTRY,
         payload: params,
 
-        meta: StateUtils.entityLoadMeta(
-          CONFIGURATION_DATA,
-          CONFIGURATION.owner.key
+        meta: StateUtils.entityProcessesIncrementMeta(
+          MULTI_CART_DATA,
+          params.cartId
+        ),
+      });
+    });
+  });
+
+  describe('AddToCart', () => {
+    const params: Configurator.AddToCartParameters = {
+      userId: 'U',
+      cartId: '123',
+      productCode: PRODUCT_CODE,
+      quantity: 1,
+      configId: CONFIGURATION.configId,
+      ownerKey: CONFIGURATION.owner.key,
+    };
+    it('should carry expected meta data', () => {
+      const action = new ConfiguratorActions.AddToCart(params);
+
+      expect({ ...action }).toEqual({
+        type: ConfiguratorActions.ADD_TO_CART,
+        payload: params,
+
+        meta: StateUtils.entityProcessesIncrementMeta(
+          MULTI_CART_DATA,
+          params.cartId
         ),
       });
     });
