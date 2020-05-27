@@ -5,18 +5,19 @@
     padding-right: 6px;
     display: block;
     max-width: 66%;
-
-    &.cx-config-attribute-label-error {
-      color: var(--cx-color-danger);
-      font-weight: bold;
-    }
   }
 
   .cx-config-attribute-label-required-icon {
     display: inline-block;
+
     &:after {
       content: '*';
       color: var(--cx-color-danger);
     }
+  }
+
+  .cx-config-attribute-label-required-error-msg {
+    color: var(--cx-color-danger);
+    font-size: 14px;
   }
 }

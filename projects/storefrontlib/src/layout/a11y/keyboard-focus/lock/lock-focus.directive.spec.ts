@@ -332,7 +332,7 @@ describe('LockFocusDirective', () => {
       fixture.detectChanges();
     });
 
-    it('should autofocus first focusable by default', () => {
+    it('should autofocus first focusable by default', fakeAsync(() => {
       const host = fixture.debugElement.query(By.css('#a'));
       const f1 = fixture.debugElement.query(By.css('#a1')).nativeElement;
       const f2 = fixture.debugElement.query(By.css('#a2')).nativeElement;
@@ -344,11 +344,13 @@ describe('LockFocusDirective', () => {
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
 
+      tick(100);
+
       expect(f1.focus).toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
-    });
+    }));
 
-    it('should autofocus if lock=true', () => {
+    it('should autofocus if lock=true', fakeAsync(() => {
       const host = fixture.debugElement.query(By.css('#b'));
       const f1 = fixture.debugElement.query(By.css('#b1')).nativeElement;
       const f2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
@@ -360,9 +362,11 @@ describe('LockFocusDirective', () => {
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
 
+      tick(100);
+
       expect(f1.focus).toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
-    });
+    }));
 
     it('should not autofocus if lock=false', () => {
       const host = fixture.debugElement.query(By.css('#c'));
@@ -396,12 +400,14 @@ describe('LockFocusDirective', () => {
       expect(f2.focus).not.toHaveBeenCalled();
     });
 
-    it('should find focusable with configured autofocus selector', () => {
+    it('should find focusable with configured autofocus selector', fakeAsync(() => {
       const host = fixture.debugElement.query(By.css('#e'));
       spyOn(service, 'findFirstFocusable');
 
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
+
+      tick(100);
 
       const hostConfig = {
         lock: true,
@@ -414,6 +420,6 @@ describe('LockFocusDirective', () => {
         hostConfig
       );
       expect(service.findFirstFocusable).toHaveBeenCalledTimes(1);
-    });
+    }));
   });
 });

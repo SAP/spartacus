@@ -3,14 +3,13 @@ import {
   ActiveCartService,
   AuthService,
   Cart,
-  FeatureConfigService,
   OrderEntry,
   PromotionLocation,
   PromotionResult,
   RoutingService,
   SelectiveCartService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 import { Item } from '../cart-shared/cart-item/cart-item.component';
@@ -28,14 +27,14 @@ export class CartDetailsComponent implements OnInit {
   orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   promotions$: Observable<PromotionResult[]>;
+  selectiveCartEnabled: boolean;
 
   constructor(
     protected activeCartService: ActiveCartService,
     protected promotionService: PromotionService,
     protected selectiveCartService: SelectiveCartService,
-    private authService: AuthService,
-    private routingService: RoutingService,
-    private featureConfig: FeatureConfigService
+    protected authService: AuthService,
+    protected routingService: RoutingService
   ) {}
 
   ngOnInit() {
@@ -46,37 +45,27 @@ export class CartDetailsComponent implements OnInit {
       .getEntries()
       .pipe(filter((entries) => entries.length > 0));
 
-    if (this.isSaveForLaterEnabled()) {
-      this.cartLoaded$ = combineLatest([
-        this.activeCartService.isStable(),
-        this.selectiveCartService.getLoaded(),
-        this.authService.isUserLoggedIn(),
-      ]).pipe(
-        tap(([, , loggedIn]) => (this.loggedIn = loggedIn)),
-        map(([cartLoaded, sflLoaded, loggedIn]) =>
-          loggedIn ? cartLoaded && sflLoaded : cartLoaded
-        )
-      );
-    }
-    //TODO remove for #5958
-    else {
-      this.cartLoaded$ = this.activeCartService.isStable();
-    }
-    //TODO  remove for #5958 end
+    this.selectiveCartEnabled = this.selectiveCartService.isEnabled();
+
+    this.cartLoaded$ = combineLatest([
+      this.activeCartService.isStable(),
+      this.selectiveCartEnabled
+        ? this.selectiveCartService.getLoaded()
+        : of(false),
+      this.authService.isUserLoggedIn(),
+    ]).pipe(
+      tap(([, , loggedIn]) => (this.loggedIn = loggedIn)),
+      map(([cartLoaded, sflLoaded, loggedIn]) =>
+        loggedIn && this.selectiveCartEnabled
+          ? cartLoaded && sflLoaded
+          : cartLoaded
+      )
+    );
 
     this.orderPromotions$ = this.promotionService.getOrderPromotions(
       this.promotionLocation
     );
   }
-
-  //TODO remove feature flag for #5958
-  isSaveForLaterEnabled(): boolean {
-    if (this.featureConfig) {
-      return this.featureConfig.isEnabled('saveForLater');
-    }
-    return false;
-  }
-  //TODO remove feature flag for #5958 end
 
   saveForLater(item: Item) {
     if (this.loggedIn) {

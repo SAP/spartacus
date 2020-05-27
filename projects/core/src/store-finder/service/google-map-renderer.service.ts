@@ -4,7 +4,9 @@ import { Injectable } from '@angular/core';
 import { StoreDataService } from '../facade/store-data.service';
 import { StoreFinderConfig } from '../config/store-finder-config';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class GoogleMapRendererService {
   private googleMap: google.maps.Map = null;
   private markers: google.maps.Marker[];

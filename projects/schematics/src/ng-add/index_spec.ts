@@ -3,6 +3,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
+import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { UTF_8 } from '../shared/constants';
 import { getPathResultsForFile } from '../shared/utils/file-utils';
 
@@ -29,10 +30,8 @@ describe('Spartacus Schematics: ng-add', () => {
     projectRoot: '',
   };
 
-  const defaultOptions = {
+  const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    target: 'build',
-    configuration: 'production',
   };
 
   beforeEach(async () => {

@@ -1,11 +1,22 @@
 import * as merchandisingCarousel from './merchandising-carousel';
 
+export const strategyRequestAlias = 'strategyProductsApiRequest';
+
 export const cdsHelper = {
-  setUpMocks() {
+  setUpMocks(alias: string): void {
     cy.route(
       'GET',
       '/strategy/*/strategies/*/products**',
       merchandisingCarousel.STRATEGY_RESPONSE
-    );
+    ).as(alias);
+  },
+  allowInsecureCookies(): void {
+    cy.cxConfig({
+      cds: {
+        profileTag: {
+          allowInsecureCookies: true,
+        },
+      },
+    });
   },
 };

@@ -89,7 +89,7 @@ describe('ConfigurationMessageComponent', () => {
     fixture = TestBed.createComponent(ConfigMessageComponent);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
-    configuratorUtils = TestBed.get(
+    configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(owner);

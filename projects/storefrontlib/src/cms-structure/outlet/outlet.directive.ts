@@ -1,6 +1,8 @@
 import {
   ComponentFactory,
+  ComponentRef,
   Directive,
+  EmbeddedViewRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -22,6 +24,10 @@ import { OutletService } from './outlet.service';
 })
 export class OutletDirective implements OnDestroy, OnChanges {
   private renderedTemplate = [];
+  public renderedComponents = new Map<
+    OutletPosition,
+    Array<ComponentRef<any> | EmbeddedViewRef<any>>
+  >();
 
   @Input() cxOutlet: string;
 
@@ -37,37 +43,21 @@ export class OutletDirective implements OnDestroy, OnChanges {
   subscription = new Subscription();
 
   constructor(
-    vcr: ViewContainerRef,
-    templateRef: TemplateRef<any>,
-    outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>,
-    // tslint:disable-next-line: unified-signatures
-    intersectionService: DeferLoaderService
-  );
-  /**
-   * @deprecated since version 1.4
-   * Use constructor(vcr: ViewContainerRef, templateRef: TemplateRef<any>, outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>, intersectionService?: IntersectionService) instead
-   */
-  constructor(
-    vcr: ViewContainerRef,
-    templateRef: TemplateRef<any>,
-    outletService: OutletService<TemplateRef<any> | ComponentFactory<any>>
-  );
-  constructor(
     private vcr: ViewContainerRef,
     private templateRef: TemplateRef<any>,
     private outletService: OutletService<
       TemplateRef<any> | ComponentFactory<any>
     >,
-    private deferLoaderService?: DeferLoaderService,
-    private outletRendererService?: OutletRendererService
+    private deferLoaderService: DeferLoaderService,
+    private outletRendererService: OutletRendererService
   ) {}
 
   public render(): void {
     this.vcr.clear();
     this.renderedTemplate = [];
+    this.renderedComponents.clear();
     this.subscription.unsubscribe();
     this.subscription = new Subscription();
-    this.outletRendererService.register(this.cxOutlet, this);
 
     if (this.cxOutletDefer) {
       this.deferLoading();
@@ -79,6 +69,7 @@ export class OutletDirective implements OnDestroy, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cxOutlet) {
       this.render();
+      this.outletRendererService.register(this.cxOutlet, this);
     }
   }
 
@@ -121,14 +112,21 @@ export class OutletDirective implements OnDestroy, OnChanges {
       templates = [templates];
     }
 
+    const components = [];
     templates.forEach((obj) => {
-      this.create(obj);
+      const component = this.create(obj);
+      components.push(component);
     });
+
+    this.renderedComponents.set(position, components);
   }
 
-  private create(tmplOrFactory: any): void {
+  private create(tmplOrFactory: any): ComponentRef<any> | EmbeddedViewRef<any> {
+    this.renderedTemplate.push(tmplOrFactory);
+
     if (tmplOrFactory instanceof ComponentFactory) {
-      this.vcr.createComponent(tmplOrFactory);
+      const component = this.vcr.createComponent(tmplOrFactory);
+      return component;
     } else if (tmplOrFactory instanceof TemplateRef) {
       const view = this.vcr.createEmbeddedView(
         <TemplateRef<any>>tmplOrFactory,
@@ -140,21 +138,25 @@ export class OutletDirective implements OnDestroy, OnChanges {
       // we do not know if content is created dynamically or not
       // so we apply change detection anyway
       view.markForCheck();
+      return view;
     }
-    this.renderedTemplate.push(tmplOrFactory);
   }
 
   /**
    * Returns the closest `HtmlElement`, by iterating over the
-   * parent elements of the given element.
+   * parent nodes of the given element.
+   *
+   * We avoid traversing the parent _elements_, as this is blocking
+   * ie11 implementations. One of the spare exclusions we make to not
+   * supporting ie11.
    *
    * @param element
    */
-  private getHostElement(element: Element): HTMLElement {
+  private getHostElement(element: Node): HTMLElement {
     if (element instanceof HTMLElement) {
       return element;
     }
-    return this.getHostElement(element.parentElement);
+    return this.getHostElement(element.parentNode);
   }
 
   ngOnDestroy() {

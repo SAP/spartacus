@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { debounceTime, map, mergeMap, startWith } from 'rxjs/operators';
+import { debounceTime, map, mergeMap } from 'rxjs/operators';
 import { MerchandisingUserContext } from '../model/merchandising-user-context.model';
 import { StrategyProducts } from '../model/strategy-products.model';
 import { MerchandisingStrategyConnector } from './../connectors/strategy/merchandising-strategy.connector';
@@ -24,7 +24,7 @@ export class CdsMerchandisingProductService {
   ): Observable<StrategyProducts> {
     return combineLatest([
       this.merchandisingSiteContextService.getSiteContext(),
-      this.merchandisingUserContextService.getUserContext().pipe(startWith({})),
+      this.merchandisingUserContextService.getUserContext(),
     ]).pipe(
       debounceTime(0),
       map(
