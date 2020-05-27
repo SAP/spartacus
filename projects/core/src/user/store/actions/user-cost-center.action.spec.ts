@@ -25,7 +25,7 @@ describe('User Cost Centers Actions', () => {
       const action = new UserActions.LoadActiveCostCentersFail(error);
 
       expect({ ...action }).toEqual({
-        type: UserActions.LOAD_ACTIVT_COST_CENTERS_FAIL,
+        type: UserActions.LOAD_ACTIVE_COST_CENTERS_FAIL,
         payload: error,
         meta: StateUtils.failMeta(USER_COST_CENTERS, error),
       });

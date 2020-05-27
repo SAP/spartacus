@@ -25,7 +25,7 @@ describe('User Cost Centers Reducer', () => {
     });
   });
 
-  describe('LOAD_ACTIVT_COST_CENTERS_FAIL action', () => {
+  describe('LOAD_ACTIVE_COST_CENTERS_FAIL action', () => {
     it('should return the initial state', () => {
       const { initialState } = fromUserCostCenterReducer;
       const action = new UserActions.LoadActiveCostCentersFail({});
