@@ -23,12 +23,18 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
 export class PoNumberComponent {
   readonly ACCOUNT_PAYMENT = 'ACCOUNT';
 
-  typeCode: string;
-
   @ViewChild('poNumber', { static: false })
-  poNumberInput: ElementRef;
-  costCenterId: string;
+  private _poNumberInput: ElementRef;
 
+  private _costCenterId: string;
+  set costCenterId(code: string) {
+    this._costCenterId = code;
+  }
+  get costCenterId(): string {
+    return this._costCenterId;
+  }
+
+  paymentTypeCode: string;
   cartPoNumber: string;
   cartCostCenterId: string;
 
@@ -45,13 +51,13 @@ export class PoNumberComponent {
   get typeSelected$(): Observable<string> {
     return this.paymentTypeService.getSelectedPaymentType().pipe(
       filter((selected) => selected !== undefined),
-      tap((selected) => (this.typeCode = selected))
+      tap((selected) => (this.paymentTypeCode = selected))
     );
   }
 
-  get poNumber$(): Observable<string> {
+  get cartPoNumber$(): Observable<string> {
     return this.paymentTypeService.getPoNumber().pipe(
-      filter((po) => !!po),
+      filter((po) => po !== undefined),
       tap((po) => (this.cartPoNumber = po))
     );
   }
@@ -60,8 +66,8 @@ export class PoNumberComponent {
     return this.userCostCenterService.getActiveCostCenters().pipe(
       filter((costCenters) => costCenters && costCenters.length > 0),
       tap((costCenters) => {
-        if (this.costCenterId === undefined) {
-          this.costCenterId = costCenters[0].code;
+        if (this._costCenterId === undefined) {
+          this._costCenterId = costCenters[0].code;
         }
       })
     );
@@ -73,7 +79,7 @@ export class PoNumberComponent {
       tap((cc) => {
         this.cartCostCenterId = cc;
         if (
-          this.costCenterId === this.cartCostCenterId &&
+          this._costCenterId === this.cartCostCenterId &&
           !this.allowRedirect
         ) {
           this.allowRedirect = true;
@@ -83,25 +89,21 @@ export class PoNumberComponent {
     );
   }
 
-  set cartCostCenter(code: string) {
-    this.costCenterId = code;
-  }
-
   get backBtnText(): string {
     return this.checkoutStepService.getBackBntText(this.activatedRoute);
   }
 
   next(): void {
     // set po number to cart
-    const poNumInput = this.poNumberInput.nativeElement.value;
-    if (this.typeCode && poNumInput !== this.cartPoNumber) {
-      this.paymentTypeService.setPaymentType(this.typeCode, poNumInput);
+    const poNumInput = this._poNumberInput.nativeElement.value;
+    if (this.paymentTypeCode && poNumInput !== this.cartPoNumber) {
+      this.paymentTypeService.setPaymentType(this.paymentTypeCode, poNumInput);
     }
 
     // set cost center to cart
-    if (this.costCenterId && this.costCenterId !== this.cartCostCenterId) {
+    if (this._costCenterId && this._costCenterId !== this.cartCostCenterId) {
       this.allowRedirect = false;
-      this.checkoutCostCenterService.setCostCenter(this.costCenterId);
+      this.checkoutCostCenterService.setCostCenter(this._costCenterId);
     }
 
     if (this.allowRedirect) {

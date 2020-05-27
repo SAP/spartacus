@@ -9,7 +9,7 @@
         #poNumber
         class="form-control"
         type="text"
-        value="{{ poNumber$ | async }}"
+        value="{{ cartPoNumber$ | async }}"
       />
     </label>
     <!-- cost centers -->
@@ -22,7 +22,7 @@
           <span class="label-content required">{{
             'checkoutPO.costCenter' | cxTranslate
           }}</span>
-          <select (change)="cartCostCenter = $event.target.value">
+          <select (change)="costCenterId = $event.target.value">
             <option
               *ngFor="let cc of costCenters"
               value="{{ cc.code }}"
