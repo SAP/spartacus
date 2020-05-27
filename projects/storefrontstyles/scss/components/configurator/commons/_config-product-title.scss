@@ -7,7 +7,20 @@
     font-weight: bold;
     text-align: center;
 
-    .cx-config-product-title {
+    .cx-config-product-title-details {
+      max-height: 0;
+      overflow: hidden;
+
+      transition: all 1s ease-in-out;
+      -webkit-transition: all 1s ease-in-out;
+
+      &.open {
+        /* 
+          A larger value than the details need, this will be used to animate the closing/opening. 
+          If the value is to large the closing will "delay" as the max-height will be reduced from the specified value down to 0.
+        */
+        max-height: 1000px;
+      }
     }
 
     a {

@@ -16,7 +16,10 @@
       ></ng-container>
     </a>
 
-    <div *ngIf="showMore === true" class="cx-config-product-title-details">
+    <div
+      class="cx-config-product-title-details"
+      [class.open]="showMore === true"
+    >
       <img
         [alt]="getProductImageAlt(product)"
         [src]="getProductImageURL(product)"
