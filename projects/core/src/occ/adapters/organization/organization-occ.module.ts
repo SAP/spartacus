@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { ConfigModule } from '../../../config/config.module';
 import { COST_CENTERS_NORMALIZER } from '../../../organization/connectors/cost-center/converters';
 import { CostCenterAdapter } from '../../../organization/connectors/cost-center/cost-center.adapter';
-import { OccCostCenterListNormalizer } from './converters/index';
+import { OccCostCenterListNormalizer } from './converters/occ-cost-center-list-normalizer';
 import { defaultOccOrganizationConfig } from './default-occ-organization-config';
 import { OccCostCenterAdapter } from './occ-cost-center.adapter';
 
