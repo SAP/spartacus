@@ -18,6 +18,7 @@ import {
   ReturnRequest,
   Order,
 } from '../../../model/order.model';
+import { CostCenter } from '../../../model/org-unit.model';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import {
   REGIONS,
@@ -33,6 +34,7 @@ import {
   USER_RETURN_REQUESTS,
   USER_ORDER_DETAILS,
   USER_RETURN_REQUEST_DETAILS,
+  USER_COST_CENTERS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
@@ -50,6 +52,7 @@ import * as fromUserOrdersReducer from './user-orders.reducer';
 import * as fromCustomerCouponReducer from './customer-coupon.reducer';
 import * as fromInterestsReducer from './product-interests.reducer';
 import * as fromOrderReturnRequestReducer from './order-return-request.reducer';
+import * as fromCostCenterReducer from './user-cost-center.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -98,6 +101,10 @@ export function getReducers(): ActionReducerMap<UserState> {
     productInterests: loaderReducer<ProductInterestSearchResult>(
       PRODUCT_INTERESTS,
       fromInterestsReducer.reducer
+    ),
+    costCenters: loaderReducer<CostCenter[]>(
+      USER_COST_CENTERS,
+      fromCostCenterReducer.reducer
     ),
   };
 }

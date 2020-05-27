@@ -11,6 +11,7 @@ import { SiteContextOccModule } from './adapters/site-context/site-context-occ.m
 import { StoreFinderOccModule } from './adapters/store-finder/store-finder-occ.module';
 import { UserOccModule } from './adapters/user/user-occ.module';
 import { OccConfigLoaderModule } from './config-loader/occ-config-loader.module';
+import { OrganizationOccModule } from './adapters/organization/organization-occ.module';
 import { defaultOccConfig } from './config/default-occ-config';
 import { occConfigValidator } from './config/occ-config-validator';
 import { WithCredentialsInterceptor } from './interceptors/with-credentials.interceptor';
@@ -26,6 +27,7 @@ import { WithCredentialsInterceptor } from './interceptors/with-credentials.inte
     StoreFinderOccModule,
     UserOccModule,
     OccConfigLoaderModule.forRoot(),
+    OrganizationOccModule,
   ],
 })
 export class OccModule {

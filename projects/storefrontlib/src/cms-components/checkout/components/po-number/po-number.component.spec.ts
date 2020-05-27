@@ -3,7 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { PaymentTypeService, I18nTestingModule } from '@spartacus/core';
+import {
+  PaymentTypeService,
+  UserCostCenterService,
+  I18nTestingModule,
+  CostCenter,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { PoNumberComponent } from './po-number.component';
@@ -33,6 +38,12 @@ class MockCheckoutStepService {
   }
 }
 
+class MockUserCostCenterService {
+  getActiveCostCenters(): Observable<CostCenter[]> {
+    return of([{ code: 'test', name: 'test cost center' }]);
+  }
+}
+
 const mockActivatedRoute = {
   snapshot: {
     url: ['checkout', 'payment-type'],
@@ -56,6 +67,10 @@ describe('PoNumberComponent', () => {
         {
           provide: CheckoutStepService,
           useClass: MockCheckoutStepService,
+        },
+        {
+          provide: UserCostCenterService,
+          useClass: MockUserCostCenterService,
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
