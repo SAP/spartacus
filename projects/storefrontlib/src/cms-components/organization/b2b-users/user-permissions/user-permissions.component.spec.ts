@@ -94,6 +94,8 @@ class MockUrlPipe implements PipeTransform {
 const permissionList = new BehaviorSubject(mockPermissionList);
 
 class MockB2BUserService implements Partial<B2BUserService> {
+  get = createSpy('get').and.returnValue(of({ email: 'test@bbb' }));
+
   loadB2BUserPermissions = createSpy('loadB2BUserPermissions');
 
   getB2BUserPermissions = createSpy('getB2BUserPermissions').and.returnValue(
