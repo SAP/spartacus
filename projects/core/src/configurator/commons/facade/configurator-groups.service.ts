@@ -76,7 +76,7 @@ export class ConfiguratorGroupsService {
           .getConfiguration(owner)
           .pipe(
             map((configuration) =>
-              this.configuratorGroupUtilsService.findCurrentGroup(
+              this.configuratorGroupUtilsService.getGroupById(
                 configuration.groups,
                 parentGroupId
               )
@@ -102,7 +102,7 @@ export class ConfiguratorGroupsService {
           .getConfiguration(owner)
           .pipe(
             map((configuration) =>
-              this.configuratorGroupUtilsService.findCurrentGroup(
+              this.configuratorGroupUtilsService.getGroupById(
                 configuration.groups,
                 currentGroupId
               )
@@ -124,9 +124,9 @@ export class ConfiguratorGroupsService {
         );
       });
 
-    const parentGroup = this.configuratorGroupUtilsService.findParentGroup(
+    const parentGroup = this.configuratorGroupUtilsService.getParentGroup(
       configuration.groups,
-      this.configuratorGroupUtilsService.findCurrentGroup(
+      this.configuratorGroupUtilsService.getGroupById(
         configuration.groups,
         groupId
       ),

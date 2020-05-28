@@ -126,7 +126,7 @@ export class ConfigGroupMenuComponent implements OnInit {
   getParentGroup(group: Configurator.Group): Observable<Configurator.Group> {
     return this.configuration$.pipe(
       map((configuration) =>
-        this.configGroupUtilsService.findParentGroup(
+        this.configGroupUtilsService.getParentGroup(
           configuration.groups,
           group,
           null

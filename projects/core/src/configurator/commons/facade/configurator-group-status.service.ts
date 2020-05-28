@@ -76,9 +76,9 @@ export class ConfiguratorGroupStatusService {
 
     this.getParentGroupStatusCompleted(
       configuration,
-      this.configuratorGroupUtilsService.findParentGroup(
+      this.configuratorGroupUtilsService.getParentGroup(
         configuration.groups,
-        this.configuratorGroupUtilsService.findCurrentGroup(
+        this.configuratorGroupUtilsService.getGroupById(
           configuration.groups,
           parentGroup.id
         ),
@@ -117,9 +117,9 @@ export class ConfiguratorGroupStatusService {
           this.getParentGroupStatusVisited(
             configuration,
             parentGroup.id,
-            this.configuratorGroupUtilsService.findParentGroup(
+            this.configuratorGroupUtilsService.getParentGroup(
               configuration.groups,
-              this.configuratorGroupUtilsService.findCurrentGroup(
+              this.configuratorGroupUtilsService.getGroupById(
                 configuration.groups,
                 parentGroup.id
               ),
@@ -136,13 +136,13 @@ export class ConfiguratorGroupStatusService {
     groupId: string,
     setGroupVisited: Boolean
   ) {
-    const group = this.configuratorGroupUtilsService.getGroup(
+    const group = this.configuratorGroupUtilsService.getGroupById(
       configuration.groups,
       groupId
     );
-    const parentGroup = this.configuratorGroupUtilsService.findParentGroup(
+    const parentGroup = this.configuratorGroupUtilsService.getParentGroup(
       configuration.groups,
-      this.configuratorGroupUtilsService.findCurrentGroup(
+      this.configuratorGroupUtilsService.getGroupById(
         configuration.groups,
         groupId
       ),

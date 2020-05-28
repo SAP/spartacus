@@ -8,7 +8,7 @@ import { Configurator } from './../../../model/configurator.model';
 export class ConfiguratorGroupUtilsService {
   constructor() {}
 
-  findParentGroup(
+  getParentGroup(
     groups: Configurator.Group[],
     group: Configurator.Group,
     parentGroup: Configurator.Group
@@ -19,34 +19,20 @@ export class ConfiguratorGroupUtilsService {
 
     return groups
       .map((currentGroup) =>
-        this.findParentGroup(currentGroup.subGroups, group, currentGroup)
+        this.getParentGroup(currentGroup.subGroups, group, currentGroup)
       )
       .filter((foundGroup) => foundGroup)
       .pop();
   }
 
-  findCurrentGroup(
-    groups: Configurator.Group[],
-    groupId: String
-  ): Configurator.Group {
+  getGroupById(groups: Configurator.Group[], groupId: string): Configurator.Group {
     const currentGroup = groups.find((group) => group.id === groupId);
     if (currentGroup) {
       return currentGroup;
     }
 
     return groups
-      .map((group) => this.findCurrentGroup(group.subGroups, groupId))
-      .filter((foundGroup) => foundGroup)
-      .pop();
-  }
-
-  getGroup(groups: Configurator.Group[], groupId: string): Configurator.Group {
-    if (groups.find((value) => value.id === groupId)) {
-      return groups.find((value) => value.id === groupId);
-    }
-
-    return groups
-      .map((currentGroup) => this.getGroup(currentGroup.subGroups, groupId))
+      .map((currentGroup) => this.getGroupById(currentGroup.subGroups, groupId))
       .filter((foundGroup) => foundGroup)
       .pop();
   }

@@ -137,7 +137,7 @@ describe('ConfiguratorGroupUtilsService', () => {
   });
 
   it('should find group from group Id', () => {
-    const group = classUnderTest.findCurrentGroup(
+    const group = classUnderTest.getGroupById(
       productConfiguration.groups,
       GROUP_ID_2
     );
@@ -146,7 +146,7 @@ describe('ConfiguratorGroupUtilsService', () => {
   });
 
   it('should find parent group from group', () => {
-    const parentGroup = classUnderTest.findParentGroup(
+    const parentGroup = classUnderTest.getParentGroup(
       productConfiguration.groups,
       productConfiguration.groups[2].subGroups[0],
       null
