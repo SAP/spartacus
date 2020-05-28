@@ -1,8 +1,7 @@
+SCHEMATICS_VERSION=""
 
-
-if [ $# -eq 0 ]; then
-  echo "ERROR: Spartacus schematics version not provided. Aborting."
-  exit 1
+if [ "$1" ]; then
+  SCHEMATICS_VERSION="@$1"
 fi
 
 cd ../../schematics
@@ -12,4 +11,4 @@ cd ../dev-schematics
 echo "@spartacus:registry=http://localhost:4873" > .npmrc
 npm uninstall @spartacus/schematics
 rm -rf node_modules && yarn
-npm i @spartacus/schematics@$1
+npm i @spartacus/schematics$SCHEMATICS_VERSION

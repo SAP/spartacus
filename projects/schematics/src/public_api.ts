@@ -1,4 +1,4 @@
 /*
  * Public API Surface of schematics
  */
-export * from './shared';
+export * from './shared/index';

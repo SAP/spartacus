@@ -62,9 +62,9 @@ For ease of usage we provide scripts for smoother installation process:
 There might be situatons, where you want to add new entities to/from public API of schematics, but the @spartacus/schematics hasn't been released yet. You can test it locally by following steps:
 
 1. Launch local verdaccio in yours terminal with command `verdaccio` 
-2. From project root go to `/projects/schematics` and change lib version in package.json file (for local testing purposes only, please remember to revert it before committing any changes)
-3. Now go to dev-schematics scripts: `/projects/dev-schematics/scripts`
-4. Run `./test-dev-schematics-local.sh <version>` where `<version>` should be the same value provided in `projects/schematics/package.json`
+2. **(Optional step)**: From project root go to `/projects/schematics` and change lib version in package.json file (for local testing purposes only, please remember to revert it before committing any changes)
+3. Now (in new terminal or tab) go to dev-schematics scripts: `/projects/dev-schematics/scripts`
+4. Run `./test-dev-schematics-local.sh <version>` where `<version>` is **optional** argument for providing schematics version if it was changed in optional step (`projects/schematics/package.json`).
 
 Above script will perform all necessary steps to ensure up to date schematics version on your local verdaccio. When script will complete, you should be ready to test your dev-schematics.
 
