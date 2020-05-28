@@ -96,7 +96,7 @@ describe('B2BUser Selectors', () => {
     it('should return B2B User state', () => {
       let result: LoaderState<B2BUser>;
       store
-        .pipe(select(B2BUserSelectors.getB2BUserState(orgCustomerId)))
+        .pipe(select(B2BUserSelectors.getB2BUserState(customerId)))
         .subscribe((value) => (result = value));
 
       store.dispatch(
@@ -124,7 +124,7 @@ describe('B2BUser Selectors', () => {
     it('should return B2B User state', () => {
       let result: LoaderState<B2BUser>;
       store
-        .pipe(select(B2BUserSelectors.getB2BUserState(orgCustomerId)))
+        .pipe(select(B2BUserSelectors.getB2BUserState(customerId)))
         .subscribe((value) => (result = value));
 
       store.dispatch(new B2BUserActions.LoadB2BUserSuccess([orgCustomer]));

@@ -36,7 +36,8 @@ const permission = {
 };
 const customerId = 'customerId';
 const customer = {
-  uid: customerId,
+  uid: 'aaa@bbb',
+  customerId,
 };
 
 class MockUserGroupConnector implements Partial<UserGroupConnector> {
