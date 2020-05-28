@@ -7,6 +7,7 @@ import {
   EntitiesModel,
   B2BUserService,
   Permission,
+  B2BUser,
 } from '@spartacus/core';
 import {
   AbstractListingComponent,
@@ -20,6 +21,7 @@ import {
 export class UserPermissionsComponent extends AbstractListingComponent
   implements OnInit {
   cxRoute = 'userPermissions';
+  uid$: Observable<string>;
 
   constructor(
     protected routingService: RoutingService,
@@ -29,6 +31,13 @@ export class UserPermissionsComponent extends AbstractListingComponent
   }
 
   ngOnInit(): void {
+    this.uid$ = <Observable<string>>(
+      this.code$.pipe(
+        switchMap((code) =>
+          this.userService.get(code).pipe(map((user: B2BUser) => user.uid))
+        )
+      )
+    );
     this.data$ = <Observable<ListingModel>>this.queryParamsForAllItems$.pipe(
       withLatestFrom(this.code$),
       tap(([queryParams, code]) =>

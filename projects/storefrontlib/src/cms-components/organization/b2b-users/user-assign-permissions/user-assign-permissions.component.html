@@ -6,16 +6,26 @@
       name: 'user.details'
     },
     {
+      cxRoute: 'userApprovers',
+      name: 'user.approvers'
+    },
+    {
       cxRoute: 'userPermissions',
       name: 'user.permissions',
       active: true
+    },
+    {
+      cxRoute: 'userUserGroups',
+      name: 'user.userGroups'
     }
   ]"
   [routerBackLink]="{ cxRoute: 'users', name: 'user.back' }"
 >
   <cx-interactive-table
     [data$]="data$"
-    [header]="'userAssignPermissions.header' | cxTranslate: { code: code }"
+    [header]="
+      'userAssignPermissions.header' | cxTranslate: { code: uid$ | async }
+    "
     [sortLabels]="{
       byUnitName: 'permissionsList.sorting.byUnitName' | cxTranslate,
       byName: 'permissionsList.sorting.byName' | cxTranslate,
