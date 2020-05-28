@@ -142,21 +142,23 @@
           </span>
         </label>
 
-        <div class="form-check">
+        <div *ngFor="let role of roles; let i=index" class="form-check">
           <label>
             <input
               type="checkbox"
               class="form-check-input"
-              formControlName="buyer"
+              [value]="role.id"
+              [checked]="role.selected"
+              (change)="onRoleChange($event)"
             />
             <span class="form-check-label">
               {{
-                'b2bUserForm.roles.buyer' | cxTranslate
+                ('b2bUserForm.roles.' + role.name) | cxTranslate
               }}
             </span>
           </label>
 
-          <label>
+          <!-- <label>
             <input
               type="checkbox"
               class="form-check-input"
@@ -190,7 +192,7 @@
                 'b2bUserForm.roles.administrator' | cxTranslate
               }}
             </span>
-          </label>
+          </label> -->
         </div>
       </div>
 

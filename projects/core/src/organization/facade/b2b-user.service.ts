@@ -261,6 +261,18 @@ export class B2BUserService {
     );
   }
 
+  getB2BUserRoles() {
+    // TODO: get the roles via the roles endpoint when they are available
+    let roles = [
+      {name: 'buyer', id: 'b2bcustomergroup', selected: false},
+      {name: 'manager', id: 'b2bmanagergroup', selected: false},
+      {name: 'approver', id: 'b2bapprovergroup', selected: false},
+      {name: 'administrator', id: 'b2badmingroup', selected: false},
+    ]
+
+    return roles;
+  }
+
   private getB2BUserApproverList(
     orgCustomerId: string,
     params
