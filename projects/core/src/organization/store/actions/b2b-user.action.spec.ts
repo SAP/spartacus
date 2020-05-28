@@ -4,6 +4,7 @@ import {
   B2B_USER_APPROVERS,
   B2B_USER_PERMISSIONS,
   B2B_USER_USER_GROUPS,
+  PERMISSION_ENTITIES,
 } from '../organization-state';
 import { B2BUser } from '../../../model/org-unit.model';
 import { B2BUserActions } from './index';
@@ -12,7 +13,8 @@ import { StateUtils } from '../../../state/utils/index';
 const orgCustomerId = 'orgCustomerId';
 const orgCustomer: B2BUser = {
   active: true,
-  uid: orgCustomerId,
+  customerId: orgCustomerId,
+  uid: 'aaa@bbb',
   name: 'test',
 };
 
@@ -480,7 +482,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.CREATE_B2B_USER_PERMISSION,
           payload: { userId, orgCustomerId, permissionId },
-          meta: StateUtils.entityLoadMeta(B2B_USER_PERMISSIONS, permissionId),
+          meta: StateUtils.entityLoadMeta(PERMISSION_ENTITIES, permissionId),
         });
       });
     });
@@ -501,7 +503,7 @@ describe('B2BUser Actions', () => {
             error,
           },
           meta: StateUtils.entityFailMeta(
-            B2B_USER_PERMISSIONS,
+            PERMISSION_ENTITIES,
             permissionId,
             error
           ),
@@ -519,10 +521,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.CREATE_B2B_USER_PERMISSION_SUCCESS,
           payload: { permissionId, selected },
-          meta: StateUtils.entitySuccessMeta(
-            B2B_USER_PERMISSIONS,
-            permissionId
-          ),
+          meta: StateUtils.entitySuccessMeta(PERMISSION_ENTITIES, permissionId),
         });
       });
     });
@@ -538,7 +537,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.DELETE_B2B_USER_PERMISSION,
           payload: { userId, orgCustomerId, permissionId },
-          meta: StateUtils.entityLoadMeta(B2B_USER_PERMISSIONS, permissionId),
+          meta: StateUtils.entityLoadMeta(PERMISSION_ENTITIES, permissionId),
         });
       });
     });
@@ -559,7 +558,7 @@ describe('B2BUser Actions', () => {
             error,
           },
           meta: StateUtils.entityFailMeta(
-            B2B_USER_PERMISSIONS,
+            PERMISSION_ENTITIES,
             permissionId,
             error
           ),
@@ -577,10 +576,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.DELETE_B2B_USER_PERMISSION_SUCCESS,
           payload: { permissionId, selected },
-          meta: StateUtils.entitySuccessMeta(
-            B2B_USER_PERMISSIONS,
-            permissionId
-          ),
+          meta: StateUtils.entitySuccessMeta(PERMISSION_ENTITIES, permissionId),
         });
       });
     });

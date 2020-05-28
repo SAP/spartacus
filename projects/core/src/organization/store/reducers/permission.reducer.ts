@@ -1,6 +1,10 @@
 import { Permission } from '../../../model/permission.model';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
-import { PermissionActions, UserGroupActions } from '../actions/index';
+import {
+  PermissionActions,
+  UserGroupActions,
+  B2BUserActions,
+} from '../actions/index';
 
 export const permissionInitialState = {};
 export const permissionsInitialState = undefined;
@@ -16,6 +20,8 @@ export function permissionsEntitiesReducer(
       return action.payload;
     case UserGroupActions.USER_GROUP_ASSIGN_PERMISSION_SUCCESS:
     case UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION_SUCCESS:
+    case B2BUserActions.CREATE_B2B_USER_PERMISSION_SUCCESS:
+    case B2BUserActions.DELETE_B2B_USER_PERMISSION_SUCCESS:
       return {
         ...state,
         ...action.payload,

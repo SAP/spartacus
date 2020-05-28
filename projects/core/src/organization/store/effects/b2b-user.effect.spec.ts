@@ -25,9 +25,11 @@ import { UserGroup } from '../../../model/user-group.model';
 const error = 'error';
 const userId = 'testUser';
 const orgCustomerId = 'orgCustomerId';
+
 const orgCustomer: B2BUser = {
   active: true,
-  uid: orgCustomerId,
+  customerId: orgCustomerId,
+  uid: 'aaa@bbb',
   name: 'test',
 };
 const permissionId = 'permissionId';
@@ -45,7 +47,7 @@ const userGroup: UserGroup = {
 const approverId = 'approverId';
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
-const page = { ids: [orgCustomer.uid], pagination, sorts };
+const page = { ids: [orgCustomer.customerId], pagination, sorts };
 const params: B2BSearchConfig = { sort: 'code' };
 
 class MockB2BUserConnector {
@@ -63,22 +65,22 @@ class MockB2BUserConnector {
     of({ values: [permission], pagination, sorts })
   );
   assignApprover = createSpy().and.returnValue(
-    of({ values: [userId, orgCustomerId, approverId] })
+    of({ id: approverId, selected: true })
   );
   unassignApprover = createSpy().and.returnValue(
-    of({ values: [userId, orgCustomerId, approverId] })
+    of({ id: approverId, selected: false })
   );
   assignPermission = createSpy().and.returnValue(
-    of({ values: [userId, orgCustomerId, permissionId] })
+    of({ id: permissionId, selected: true })
   );
   unassignPermission = createSpy().and.returnValue(
-    of({ values: [userId, orgCustomerId, permissionId] })
+    of({ id: permissionId, selected: false })
   );
   assignUserGroup = createSpy().and.returnValue(
-    of({ values: [userId, orgCustomerId, userGroupId] })
+    of({ id: userGroupId, selected: true })
   );
   unassignUserGroup = createSpy().and.returnValue(
-    of({ values: [userId, orgCustomerId, userGroupId] })
+    of({ id: userGroupId, selected: false })
   );
   create = createSpy().and.returnValue(of(orgCustomer));
   update = createSpy().and.returnValue(of(orgCustomer));

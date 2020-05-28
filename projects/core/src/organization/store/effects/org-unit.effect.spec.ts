@@ -35,7 +35,7 @@ const orgUnitList: B2BUnitNode[] = [orgUnitNode, orgUnitNode2];
 
 const address: B2BAddress = { id: 'testAddressId' };
 const addressId = address.id;
-const orgCustomerId = 'testCustomerId';
+const orgCustomerId = 'testOrgCustomerId';
 const roleId = 'testRoleId';
 const approvalProcess: B2BApprovalProcess = {
   code: 'testCode',
@@ -44,7 +44,7 @@ const approvalProcess: B2BApprovalProcess = {
 const approvalProcesses: B2BApprovalProcess[] = [approvalProcess];
 const unitNode: B2BUnitNode = { id: 'testUnitNode' };
 
-const user = { uid: userId };
+const user = { uid: 'aaa@bbb', customerId: userId };
 const users: EntitiesModel<B2BUser> = {
   values: [user],
   pagination: { totalResults: 1 },

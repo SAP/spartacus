@@ -65,7 +65,7 @@ export class B2BUserConnector {
     orgUnitCustomerId: string,
     params?: B2BSearchConfig
   ): Observable<EntitiesModel<Permission>> {
-    return this.adapter.loadApprovers(userId, orgUnitCustomerId, params);
+    return this.adapter.loadPermissions(userId, orgUnitCustomerId, params);
   }
 
   assignPermission(

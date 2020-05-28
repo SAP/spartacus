@@ -454,12 +454,14 @@ describe('OrgUnitService', () => {
     const customerId = 'customerId';
     const customerId2 = 'customerId2';
     const user1 = {
-      uid: customerId,
+      uid: 'aaa@bb',
+      customerId,
       orgUnit: orgUnit,
       roles: [roleId],
     };
     const user2 = {
-      uid: customerId2,
+      uid: 'bb@aa',
+      customerId: customerId2,
       orgUnit: orgUnit,
       roles: [roleId],
     };

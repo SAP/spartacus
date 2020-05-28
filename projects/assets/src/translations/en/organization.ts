@@ -411,4 +411,19 @@ export const organization = {
     back: 'Close',
     unassignAll: 'Unassign All',
   },
+  user: {
+    details: 'Details',
+    approvers: 'Approvers',
+    permissions: 'Purchase limits',
+    userGroups: 'User groups',
+    back: 'Back to user list',
+  },
+  userPermissions: {
+    header: 'Purchase limits assigned to {{code}}',
+    assignPermissions: 'Manage limits',
+  },
+  userAssignPermissions: {
+    header: 'Manage purchase limits for {{code}}',
+    back: 'Close',
+  },
 };
