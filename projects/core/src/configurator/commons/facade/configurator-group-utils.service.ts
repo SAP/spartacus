@@ -26,9 +26,9 @@ export class ConfiguratorGroupUtilsService {
   }
 
   getGroupById(groups: Configurator.Group[], groupId: string): Configurator.Group {
-    const currentGroup = groups.find((group) => group.id === groupId);
-    if (currentGroup) {
-      return currentGroup;
+    const group = groups.find((group) => group.id === groupId);
+    if (group) {
+      return group;
     }
 
     return groups
