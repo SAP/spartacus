@@ -65,6 +65,16 @@ export abstract class ConfiguratorCommonsAdapter {
   ): Observable<CartModification>;
 
   /**
+   * Abstract method to read a configuration for an order entry
+   *
+   * @param parameters read from order entry parameters object
+   * @returns configuration with only the overview aspect provided
+   */
+  abstract readConfigurationForOrderEntry(
+    parameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable<Configurator.Configuration>;
+
+  /**
    * Abstract method to read a configuration price
    *
    * @param configId configuration id

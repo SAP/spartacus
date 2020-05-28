@@ -163,7 +163,7 @@ export class OccConfiguratorVariantAdapter
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
-  readConfigurationOverviewForOrderEntry(
+  readConfigurationForOrderEntry(
     parameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<Configurator.Configuration> {
     const url = this.occEndpointsService.getUrl(

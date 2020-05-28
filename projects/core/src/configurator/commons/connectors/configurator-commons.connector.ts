@@ -62,6 +62,12 @@ export class ConfiguratorCommonsConnector {
     return this.adapter.updateConfigurationForCartEntry(parameters);
   }
 
+  readConfigurationForOrderEntry(
+    parameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.adapter.readConfigurationForOrderEntry(parameters);
+  }
+
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {

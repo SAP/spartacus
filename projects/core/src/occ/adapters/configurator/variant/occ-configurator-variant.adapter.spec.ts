@@ -218,7 +218,7 @@ describe('OccConfigurationVariantAdapter', () => {
       orderEntryNumber: documentEntryNumber,
     };
     occConfiguratorVariantAdapter
-      .readConfigurationOverviewForOrderEntry(params)
+      .readConfigurationForOrderEntry(params)
       .subscribe();
 
     const mockReq = httpMock.expectOne((req) => {
