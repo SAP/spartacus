@@ -33,6 +33,11 @@ export const common = {
       heading: '{{heading}}',
       title: '{{title}}',
     },
+    organization: {
+      description: '{{description}}',
+      heading: '{{heading}}',
+      title: '{{title}}',
+    },
   },
   spinner: {
     loading: 'Loading...',
