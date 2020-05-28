@@ -1,0 +1,5 @@
+@import '../organization-list';
+
+%cx-unit-assign-approvers {
+  @extend %cx-organization-list;
+}

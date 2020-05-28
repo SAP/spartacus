@@ -4,11 +4,16 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { EntitiesModel } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { B2BUserActions, PermissionActions } from '../actions/index';
+import {
+  B2BUserActions,
+  PermissionActions,
+  UserGroupActions,
+} from '../actions/index';
 import { normalizeListPage } from '../../utils/serializer';
 import { B2BUser } from '../../../model/org-unit.model';
 import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
 import { Permission } from '../../../model/permission.model';
+import { UserGroup } from '../../../model/user-group.model';
 
 @Injectable()
 export class B2BUserEffects {
@@ -47,7 +52,7 @@ export class B2BUserEffects {
         catchError((error) =>
           of(
             new B2BUserActions.CreateB2BUserFail({
-              orgCustomerId: payload.orgCustomer.uid,
+              orgCustomerId: payload.orgCustomer.customerId,
               error: makeErrorSerializable(error),
             })
           )
@@ -70,7 +75,7 @@ export class B2BUserEffects {
           catchError((error) =>
             of(
               new B2BUserActions.UpdateB2BUserFail({
-                orgCustomerId: payload.orgCustomer.uid,
+                orgCustomerId: payload.orgCustomer.customerId,
                 error: makeErrorSerializable(error),
               })
             )
@@ -90,7 +95,7 @@ export class B2BUserEffects {
     switchMap((payload) =>
       this.b2bUserConnector.getList(payload.userId, payload.params).pipe(
         switchMap((b2bUsers: EntitiesModel<B2BUser>) => {
-          const { values, page } = normalizeListPage(b2bUsers, 'uid');
+          const { values, page } = normalizeListPage(b2bUsers, 'customerId');
           return [
             new B2BUserActions.LoadB2BUserSuccess(values),
             new B2BUserActions.LoadB2BUsersSuccess({
@@ -124,7 +129,7 @@ export class B2BUserEffects {
         .getApprovers(payload.userId, payload.orgCustomerId, payload.params)
         .pipe(
           switchMap((approvers: EntitiesModel<B2BUser>) => {
-            const { values, page } = normalizeListPage(approvers, 'code');
+            const { values, page } = normalizeListPage(approvers, 'customerId');
             return [
               new B2BUserActions.LoadB2BUserSuccess(values),
               new B2BUserActions.LoadB2BUserApproversSuccess({
@@ -149,8 +154,8 @@ export class B2BUserEffects {
 
   @Effect()
   loadB2BUserPermissions$: Observable<
-    | B2BUserActions.LoadB2BUserApproversSuccess
-    | B2BUserActions.LoadB2BUserApproversFail
+    | B2BUserActions.LoadB2BUserPermissionsSuccess
+    | B2BUserActions.LoadB2BUserPermissionsFail
     | PermissionActions.LoadPermissionSuccess
   > = this.actions$.pipe(
     ofType(B2BUserActions.LOAD_B2B_USER_PERMISSIONS),
@@ -163,7 +168,7 @@ export class B2BUserEffects {
             const { values, page } = normalizeListPage(permissions, 'code');
             return [
               new PermissionActions.LoadPermissionSuccess(values),
-              new B2BUserActions.LoadB2BUserApproversSuccess({
+              new B2BUserActions.LoadB2BUserPermissionsSuccess({
                 orgCustomerId: payload.orgCustomerId,
                 page,
                 params: payload.params,
@@ -172,7 +177,43 @@ export class B2BUserEffects {
           }),
           catchError((error) =>
             of(
-              new B2BUserActions.LoadB2BUserApproversFail({
+              new B2BUserActions.LoadB2BUserPermissionsFail({
+                orgCustomerId: payload.orgCustomerId,
+                params: payload.params,
+                error: makeErrorSerializable(error),
+              })
+            )
+          )
+        )
+    )
+  );
+
+  @Effect()
+  loadB2BUserUserGroups$: Observable<
+    | B2BUserActions.LoadB2BUserUserGroupsSuccess
+    | B2BUserActions.LoadB2BUserUserGroupsFail
+    | UserGroupActions.LoadUserGroupSuccess
+  > = this.actions$.pipe(
+    ofType(B2BUserActions.LOAD_B2B_USER_USER_GROUPS),
+    map((action: B2BUserActions.LoadB2BUserUserGroups) => action.payload),
+    switchMap((payload) =>
+      this.b2bUserConnector
+        .getUserGroups(payload.userId, payload.orgCustomerId, payload.params)
+        .pipe(
+          switchMap((userGroups: EntitiesModel<UserGroup>) => {
+            const { values, page } = normalizeListPage(userGroups, 'uid');
+            return [
+              new UserGroupActions.LoadUserGroupSuccess(values),
+              new B2BUserActions.LoadB2BUserUserGroupsSuccess({
+                orgCustomerId: payload.orgCustomerId,
+                page,
+                params: payload.params,
+              }),
+            ];
+          }),
+          catchError((error) =>
+            of(
+              new B2BUserActions.LoadB2BUserUserGroupsFail({
                 orgCustomerId: payload.orgCustomerId,
                 params: payload.params,
                 error: makeErrorSerializable(error),
@@ -227,7 +268,7 @@ export class B2BUserEffects {
     map((action: B2BUserActions.DeleteB2BUserApprover) => action.payload),
     switchMap((payload) =>
       this.b2bUserConnector
-        .assignApprover(
+        .unassignApprover(
           payload.userId,
           payload.orgCustomerId,
           payload.approverId
@@ -258,7 +299,7 @@ export class B2BUserEffects {
     | B2BUserActions.CreateB2BUserPermissionSuccess
     | B2BUserActions.CreateB2BUserPermissionFail
   > = this.actions$.pipe(
-    ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
+    ofType(B2BUserActions.CREATE_B2B_USER_PERMISSION),
     map((action: B2BUserActions.CreateB2BUserPermission) => action.payload),
     switchMap((payload) =>
       this.b2bUserConnector
@@ -269,10 +310,10 @@ export class B2BUserEffects {
         )
         .pipe(
           map(
-            () =>
+            (data) =>
               new B2BUserActions.CreateB2BUserPermissionSuccess({
-                permissionId: payload.permissionId,
-                selected: true,
+                permissionId: data.id,
+                selected: data.selected,
               })
           ),
           catchError((error) =>
@@ -293,21 +334,21 @@ export class B2BUserEffects {
     | B2BUserActions.DeleteB2BUserPermissionSuccess
     | B2BUserActions.DeleteB2BUserPermissionFail
   > = this.actions$.pipe(
-    ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
+    ofType(B2BUserActions.DELETE_B2B_USER_PERMISSION),
     map((action: B2BUserActions.DeleteB2BUserPermission) => action.payload),
     switchMap((payload) =>
       this.b2bUserConnector
-        .assignPermission(
+        .unassignPermission(
           payload.userId,
           payload.orgCustomerId,
           payload.permissionId
         )
         .pipe(
           map(
-            () =>
+            (data) =>
               new B2BUserActions.DeleteB2BUserPermissionSuccess({
-                permissionId: payload.permissionId,
-                selected: false,
+                permissionId: data.id,
+                selected: data.selected,
               })
           ),
           catchError((error) =>
@@ -328,7 +369,7 @@ export class B2BUserEffects {
     | B2BUserActions.CreateB2BUserUserGroupSuccess
     | B2BUserActions.CreateB2BUserUserGroupFail
   > = this.actions$.pipe(
-    ofType(B2BUserActions.CREATE_B2B_USER_APPROVER),
+    ofType(B2BUserActions.CREATE_B2B_USER_USER_GROUP),
     map((action: B2BUserActions.CreateB2BUserUserGroup) => action.payload),
     switchMap((payload) =>
       this.b2bUserConnector
@@ -363,11 +404,11 @@ export class B2BUserEffects {
     | B2BUserActions.DeleteB2BUserUserGroupSuccess
     | B2BUserActions.DeleteB2BUserUserGroupFail
   > = this.actions$.pipe(
-    ofType(B2BUserActions.DELETE_B2B_USER_APPROVER),
+    ofType(B2BUserActions.DELETE_B2B_USER_USER_GROUP),
     map((action: B2BUserActions.DeleteB2BUserUserGroup) => action.payload),
     switchMap((payload) =>
       this.b2bUserConnector
-        .assignUserGroup(
+        .unassignUserGroup(
           payload.userId,
           payload.orgCustomerId,
           payload.userGroupId

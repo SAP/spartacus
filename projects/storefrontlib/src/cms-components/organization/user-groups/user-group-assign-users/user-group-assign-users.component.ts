@@ -11,7 +11,6 @@ import { Observable } from 'rxjs';
 
 import {
   RoutingService,
-  CxDatePipe,
   EntitiesModel,
   UserGroupService,
   B2BUser,
@@ -32,8 +31,7 @@ export class UserGroupAssignUsersComponent extends AbstractListingComponent
 
   constructor(
     protected routingService: RoutingService,
-    protected userGroupService: UserGroupService,
-    protected cxDate: CxDatePipe
+    protected userGroupService: UserGroupService
   ) {
     super(routingService);
   }
@@ -58,6 +56,7 @@ export class UserGroupAssignUsersComponent extends AbstractListingComponent
               name: user.name,
               parentUnit: user.orgUnit && user.orgUnit.name,
               uid: user.orgUnit && user.orgUnit.uid,
+              customerId: user.customerId,
             })),
           }))
         )
@@ -66,11 +65,11 @@ export class UserGroupAssignUsersComponent extends AbstractListingComponent
   }
 
   assign({ row }) {
-    this.userGroupService.assignMember(this.code, row.email);
+    this.userGroupService.assignMember(this.code, row.customerId);
   }
 
   unassign({ row }) {
-    this.userGroupService.unassignMember(this.code, row.email);
+    this.userGroupService.unassignMember(this.code, row.customerId);
   }
 
   unassignAll() {

@@ -10,9 +10,7 @@ import { RoutingService, UserGroup, UserGroupService } from '@spartacus/core';
 })
 export class UserGroupDetailsComponent implements OnInit {
   userGroup$: Observable<UserGroup>;
-  userGroupCode$: Observable<
-    string
-  > = this.routingService
+  code$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(map((routingData) => routingData.state.params['code']));
 
@@ -22,7 +20,7 @@ export class UserGroupDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userGroup$ = this.userGroupCode$.pipe(
+    this.userGroup$ = this.code$.pipe(
       tap((code) => this.userGroupsService.loadUserGroup(code)),
       switchMap((code) => this.userGroupsService.get(code)),
       filter(Boolean),

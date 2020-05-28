@@ -163,9 +163,6 @@ export function removeImportsInMainServerFile(): Rule {
       throw new SchematicsException('Could not find main.server.ts');
     }
 
-    const exportLineToRemove =
-      'export const ngExpressEngine = NgExpressEngineDecorator.get(engine);';
-    const fileContent = buffer.toString(UTF_8);
     const recorder = tree.beginUpdate(mainServerTsPath);
     const mainServerTsSourceFile = createSourceFileWithStrippedBOM(
       tree,
@@ -187,9 +184,11 @@ export function removeImportsInMainServerFile(): Rule {
       recorder,
       '@spartacus/core'
     );
-    recorder.remove(
-      fileContent.indexOf(exportLineToRemove),
-      exportLineToRemove.length
+
+    removeFullLineWithCallExpressionByModuleName(
+      mainServerTsSourceFile,
+      recorder,
+      'NgExpressEngineDecorator.get'
     );
 
     tree.commitUpdate(recorder);
@@ -372,6 +371,29 @@ function removeFullLineFromExportDeclarationsByModuleName(
         s.moduleSpecifier &&
         ts.isStringLiteral(s.moduleSpecifier) &&
         s.moduleSpecifier.text === moduleNameString
+    )
+    .forEach((node) => {
+      const index = node.getFullStart();
+      const length = node.getFullWidth();
+      treeRecorder.remove(index, length);
+    });
+}
+
+function removeFullLineWithCallExpressionByModuleName(
+  sourceTsFile: ts.SourceFile,
+  treeRecorder: UpdateRecorder,
+  moduleCallExpression: string
+): void {
+  sourceTsFile.statements
+    .filter(
+      (s) =>
+        ts.isVariableStatement(s) &&
+        ts.isVariableDeclarationList(s.declarationList) &&
+        s.declarationList.declarations.length === 1 &&
+        !!s.declarationList.declarations[0].initializer &&
+        s.declarationList.declarations[0].initializer
+          .getText()
+          .indexOf(moduleCallExpression) !== -1
     )
     .forEach((node) => {
       const index = node.getFullStart();

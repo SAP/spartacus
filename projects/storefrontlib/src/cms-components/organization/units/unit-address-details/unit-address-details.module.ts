@@ -11,6 +11,7 @@ import { UnitAddressDetailsComponent } from './unit-address-details.component';
 import { RouterModule } from '@angular/router';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
+import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
     }),
     UrlModule,
     I18nModule,
+    FakeTabsModule,
   ],
   declarations: [UnitAddressDetailsComponent],
   exports: [UnitAddressDetailsComponent],

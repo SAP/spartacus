@@ -11,7 +11,6 @@ import { Observable } from 'rxjs';
 
 import {
   RoutingService,
-  CxDatePipe,
   EntitiesModel,
   OrgUnitService,
   B2BUser,
@@ -32,8 +31,7 @@ export class UnitAssignApproversComponent extends AbstractListingComponent
 
   constructor(
     protected routingService: RoutingService,
-    protected orgUnitsService: OrgUnitService,
-    protected cxDate: CxDatePipe
+    protected orgUnitsService: OrgUnitService
   ) {
     super(routingService);
   }
@@ -67,6 +65,7 @@ export class UnitAssignApproversComponent extends AbstractListingComponent
                 roles: user.roles,
                 parentUnit: user.orgUnit && user.orgUnit.name,
                 uid: user.orgUnit && user.orgUnit.uid,
+                customerId: user.customerId,
               })),
             }))
           )
@@ -77,7 +76,7 @@ export class UnitAssignApproversComponent extends AbstractListingComponent
   assign({ row }) {
     this.orgUnitsService.assignApprover(
       this.code,
-      row.email,
+      row.customerId,
       this.APPROVERS_ROLE_ID
     );
   }
@@ -85,7 +84,7 @@ export class UnitAssignApproversComponent extends AbstractListingComponent
   unassign({ row }) {
     this.orgUnitsService.unassignApprover(
       this.code,
-      row.email,
+      row.customerId,
       this.APPROVERS_ROLE_ID
     );
   }

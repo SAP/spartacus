@@ -16,7 +16,6 @@ import {
   RoutingService,
   EntitiesModel,
   B2BSearchConfig,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
   OrgUnitService,
@@ -31,11 +30,11 @@ import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing
 import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
 
 const code = 'unitCode';
-const email = 'aaa@bbb';
 const roleId = 'b2bapprovergroup';
+const customerId = 'customerId1';
 const userRow = {
   row: {
-    email,
+    customerId,
   },
 };
 
@@ -50,6 +49,7 @@ const mockUserList: EntitiesModel<B2BUser> = {
     {
       name: 'b1',
       uid: 'aaa@bbb',
+      customerId,
       selected: true,
       orgUnit: { uid: 'orgUid', name: 'orgName' },
       roles: [],
@@ -57,6 +57,7 @@ const mockUserList: EntitiesModel<B2BUser> = {
     {
       name: 'b2',
       uid: 'aaa2@bbb',
+      customerId: 'customerId2',
       selected: false,
       orgUnit: { uid: 'orgUid2', name: 'orgName2' },
       roles: [],
@@ -74,6 +75,7 @@ const mockUserUIList = {
       selected: true,
       parentUnit: 'orgName',
       uid: 'orgUid',
+      customerId,
       roles: [],
     },
     {
@@ -81,6 +83,7 @@ const mockUserUIList = {
       email: 'aaa2@bbb',
       selected: false,
       uid: 'orgUid2',
+      customerId: 'customerId2',
       parentUnit: 'orgName2',
       roles: [],
     },
@@ -140,12 +143,6 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
 describe('UnitAssignApproversComponent', () => {
   let component: UnitAssignApproversComponent;
   let fixture: ComponentFixture<UnitAssignApproversComponent>;
@@ -160,7 +157,6 @@ describe('UnitAssignApproversComponent', () => {
         MockPaginationComponent,
       ],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -228,7 +224,7 @@ describe('UnitAssignApproversComponent', () => {
       component.assign(userRow);
       expect(orgUnitService.assignApprover).toHaveBeenCalledWith(
         code,
-        userRow.row.email,
+        userRow.row.customerId,
         roleId
       );
     });
@@ -239,7 +235,7 @@ describe('UnitAssignApproversComponent', () => {
       component.unassign(userRow);
       expect(orgUnitService.unassignApprover).toHaveBeenCalledWith(
         code,
-        userRow.row.email,
+        userRow.row.customerId,
         roleId
       );
     });

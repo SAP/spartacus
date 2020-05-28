@@ -16,7 +16,6 @@ import {
 import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { TableModule } from '../../../../shared/components/table/table.module';
 
 const code = 'b1';
 
@@ -102,7 +101,7 @@ describe('BudgetDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TableModule, I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [BudgetDetailsComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },

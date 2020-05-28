@@ -42,8 +42,8 @@ export class PermissionListComponent extends AbstractListingComponent
             pagination: permissionsList.pagination,
             values: permissionsList.values.map((permission) => ({
               code: permission.code,
-              threshold: `${permission.threshold || ''} ${
-                (permission.currency && permission.currency.symbol) || ''
+              threshold: `${permission.threshold ?? ''} ${
+                (permission.currency && permission.currency.symbol) ?? ''
               }`,
               orderType:
                 permission.orderApprovalPermissionType &&

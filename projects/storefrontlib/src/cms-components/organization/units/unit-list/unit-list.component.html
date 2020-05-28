@@ -1,20 +1,18 @@
 <ng-container>
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
       <div class="cx-table-header cx-textalign">
         <h3>{{ 'orgUnitsList.orgUnitManagement' | cxTranslate }}</h3>
       </div>
     </div>
-    <div class="col-md-12 col-lg-3">
-      <div class="row cx-search-links mb-3">
-        <div class="col-12 cx-textalign">
-          <a
-            [routerLink]="{ cxRoute: 'orgUnitCreate' } | cxUrl"
-            class="btn btn-primary btn-block"
-          >
-            {{ 'orgUnitsList.create' | cxTranslate }}
-          </a>
-        </div>
+    <div class="col-md-12 col-lg-6">
+      <div class="col-md-12 col-lg-6 float-right">
+        <a
+          [routerLink]="{ cxRoute: 'orgUnitCreate' } | cxUrl"
+          class="btn btn-primary btn-block"
+        >
+          {{ 'orgUnitsList.create' | cxTranslate }}
+        </a>
       </div>
     </div>
   </div>

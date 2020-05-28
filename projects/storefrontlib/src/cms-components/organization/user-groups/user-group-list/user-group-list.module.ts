@@ -5,7 +5,6 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  CxDatePipe,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
@@ -40,7 +39,7 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
   ],
   declarations: [UserGroupListComponent],
   exports: [UserGroupListComponent],
-  providers: [CxDatePipe],
+  providers: [],
   entryComponents: [UserGroupListComponent],
 })
 export class UserGroupListModule {}

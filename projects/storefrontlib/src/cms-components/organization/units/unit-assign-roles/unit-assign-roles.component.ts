@@ -11,7 +11,6 @@ import { combineLatest, Observable } from 'rxjs';
 
 import {
   RoutingService,
-  CxDatePipe,
   EntitiesModel,
   OrgUnitService,
   B2BUser,
@@ -33,8 +32,7 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
 
   constructor(
     protected routingService: RoutingService,
-    protected orgUnitsService: OrgUnitService,
-    protected cxDate: CxDatePipe
+    protected orgUnitsService: OrgUnitService
   ) {
     super(routingService);
   }
@@ -67,6 +65,7 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
               roles: user.roles,
               parentUnit: user.orgUnit && user.orgUnit.name,
               uid: user.orgUnit && user.orgUnit.uid,
+              customerId: user.customerId,
             })),
           }))
         )
@@ -77,13 +76,17 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
   assign({ row }) {
     this.role$
       .pipe(take(1))
-      .subscribe((role) => this.orgUnitsService.assignRole(row.email, role));
+      .subscribe((role) =>
+        this.orgUnitsService.assignRole(row.customerId, role)
+      );
   }
 
   unassign({ row }) {
     this.role$
       .pipe(take(1))
-      .subscribe((role) => this.orgUnitsService.unassignRole(row.email, role));
+      .subscribe((role) =>
+        this.orgUnitsService.unassignRole(row.customerId, role)
+      );
   }
 
   changeRole({ roleId }: { roleId: string }) {

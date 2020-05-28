@@ -1,36 +1,50 @@
-<ng-container class="container" *ngIf="userGroup$ | async as userGroup">
-  <div class="row">
-    <div class="col-md-12 col-lg-6">
-      <div class="cx-header">
-        <h3>{{ 'userGroup.details' | cxTranslate }}</h3>
-      </div>
-      <div class="row">
-        <div class="col-6">{{ 'userGroup.id' | cxTranslate }}</div>
-        <div class="col-6">{{ userGroup.uid }}</div>
-      </div>
-      <div class="row">
-        <div class="col-6">{{ 'userGroup.parentUnit' | cxTranslate }}</div>
-        <div class="col-6">
-          <a
-            [routerLink]="
-              {
-                cxRoute: 'orgUnitDetails',
-                params: userGroup.orgUnit
-              } | cxUrl
-            "
-          >
-            {{ userGroup.orgUnit?.name }}
-          </a>
+<cx-fake-tabs
+  [code]="code$ | async"
+  [links]="[
+    {
+      cxRoute: 'userGroupDetails',
+      name: 'userGroup.details',
+      active: true
+    },
+    { cxRoute: 'userGroupPermissions', name: 'userGroup.permissions' },
+    { cxRoute: 'userGroupUsers', name: 'userGroup.users' }
+  ]"
+  [routerBackLink]="{ cxRoute: 'userGroups', name: 'userGroup.back' }"
+>
+  <ng-container class="container" *ngIf="userGroup$ | async as userGroup">
+    <div class="row">
+      <div class="col-md-12 col-lg-6">
+        <div class="cx-header">
+          <h3>
+            {{ 'userGroup.header' | cxTranslate: { code: userGroup.uid } }}
+          </h3>
+        </div>
+        <div class="row">
+          <div class="col-6">{{ 'userGroup.id' | cxTranslate }}</div>
+          <div class="col-6">{{ userGroup.uid }}</div>
+        </div>
+        <div class="row">
+          <div class="col-6">{{ 'userGroup.parentUnit' | cxTranslate }}</div>
+          <div class="col-6">
+            <a
+              [routerLink]="
+                {
+                  cxRoute: 'orgUnitDetails',
+                  params: userGroup.orgUnit
+                } | cxUrl
+              "
+            >
+              {{ userGroup.orgUnit?.name }}
+            </a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">{{ 'userGroup.name' | cxTranslate }}</div>
+          <div class="col-6 cx-label">{{ userGroup.name }}</div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-6">{{ 'userGroup.name' | cxTranslate }}</div>
-        <div class="col-6 cx-label">{{ userGroup.name }}</div>
-      </div>
-    </div>
-    <div class="col-md-12 col-lg-6">
-      <div class="row">
-        <div class="col-md-12 col-lg-6">
+      <div class="col-md-12 col-lg-6">
+        <div class="col-md-12 col-lg-6 float-right">
           <a
             [routerLink]="
               {
@@ -43,45 +57,7 @@
             {{ 'userGroup.edit' | cxTranslate }}
           </a>
         </div>
-        <div class="col-md-12 col-lg-6">
-          <a
-            [routerLink]="
-              {
-                cxRoute: 'userGroups'
-              } | cxUrl
-            "
-            class="btn btn-secondary btn-block"
-          >
-            {{ 'userGroup.back' | cxTranslate }}
-          </a>
-        </div>
       </div>
     </div>
-    <div class="col-md-12 col-lg-6">
-      <a
-        [routerLink]="
-          {
-            cxRoute: 'userGroupAssignPermissions',
-            params: userGroup
-          } | cxUrl
-        "
-        class="btn btn-primary btn-block"
-      >
-        {{ 'userGroup.assignPermissions' | cxTranslate }}
-      </a>
-    </div>
-    <div class="col-md-12 col-lg-6">
-      <a
-        [routerLink]="
-          {
-            cxRoute: 'userGroupAssignUsers',
-            params: userGroup
-          } | cxUrl
-        "
-        class="btn btn-primary btn-block"
-      >
-        {{ 'userGroup.assignUsers' | cxTranslate }}
-      </a>
-    </div>
-  </div>
-</ng-container>
+  </ng-container>
+</cx-fake-tabs>

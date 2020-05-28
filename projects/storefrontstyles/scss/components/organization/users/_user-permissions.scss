@@ -1,0 +1,5 @@
+@import '../organization-list';
+
+%cx-user-permissions {
+  @extend %cx-organization-list;
+}

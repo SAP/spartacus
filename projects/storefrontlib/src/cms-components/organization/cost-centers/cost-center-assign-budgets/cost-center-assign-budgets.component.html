@@ -1,47 +1,57 @@
-<cx-interactive-table
-  [data$]="data$"
-  [header]="'costCenterAssignBudgets.header' | cxTranslate: { code: code }"
-  [sortLabels]="{
-    byUnitName: 'budgetsList.sorting.byUnitName' | cxTranslate,
-    byName: 'budgetsList.sorting.byName' | cxTranslate,
-    byCode: 'budgetsList.sorting.byCode' | cxTranslate,
-    byValue: 'budgetsList.sorting.byValue' | cxTranslate
-  }"
-  [columns]="[
+<cx-fake-tabs
+  [code]="code$ | async"
+  [links]="[
     {
-      key: 'selected',
-      value: 'budgetsList.assign' | cxTranslate,
-      checkBox: true
+      cxRoute: 'costCenterDetails',
+      name: 'costCenter.details'
     },
-    {
-      key: 'code',
-      value: 'budgetsList.code' | cxTranslate,
-      cxRoute: 'budgetDetails'
-    },
-    { key: 'name', value: 'budgetsList.name' | cxTranslate },
-    { key: 'amount', value: 'budgetsList.amount' | cxTranslate },
-    {
-      key: 'startEndDate',
-      value: 'budgetsList.startEndDate' | cxTranslate
-    },
-    {
-      key: 'parentUnit',
-      value: 'budgetsList.parentUnit' | cxTranslate,
-      cxRoute: 'orgUnitDetails'
-    }
+    { cxRoute: 'costCenterBudgets', name: 'costCenter.budgets', active: true }
   ]"
-  (pageChange)="pageChange($event)"
-  (changeSortCode)="changeSortCode($event)"
-  (check)="assign($event)"
-  (uncheck)="unassign($event)"
+  [routerBackLink]="{ cxRoute: 'costCenters', name: 'costCenter.back' }"
 >
-  <div class="col-md-12 col-lg-3">
-    <div class="row cx-search-links mb-3">
-      <div class="col-12 cx-textalign">
+  <cx-interactive-table
+    [data$]="data$"
+    [header]="'costCenterAssignBudgets.header' | cxTranslate: { code: code }"
+    [sortLabels]="{
+      byUnitName: 'budgetsList.sorting.byUnitName' | cxTranslate,
+      byName: 'budgetsList.sorting.byName' | cxTranslate,
+      byCode: 'budgetsList.sorting.byCode' | cxTranslate,
+      byValue: 'budgetsList.sorting.byValue' | cxTranslate
+    }"
+    [columns]="[
+      {
+        key: 'selected',
+        value: 'budgetsList.assign' | cxTranslate,
+        checkBox: true
+      },
+      {
+        key: 'code',
+        value: 'budgetsList.code' | cxTranslate,
+        cxRoute: 'budgetDetails'
+      },
+      { key: 'name', value: 'budgetsList.name' | cxTranslate },
+      { key: 'amount', value: 'budgetsList.amount' | cxTranslate },
+      {
+        key: 'startEndDate',
+        value: 'budgetsList.startEndDate' | cxTranslate
+      },
+      {
+        key: 'parentUnit',
+        value: 'budgetsList.parentUnit' | cxTranslate,
+        cxRoute: 'orgUnitDetails'
+      }
+    ]"
+    (pageChange)="pageChange($event)"
+    (changeSortCode)="changeSortCode($event)"
+    (check)="assign($event)"
+    (uncheck)="unassign($event)"
+  >
+    <div class="col-md-12 col-lg-6">
+      <div class="col-md-12 col-lg-6 float-right">
         <!--          back-->
         <a
           [routerLink]="
-            { cxRoute: 'costCenterDetails', params: { code: code } } | cxUrl
+            { cxRoute: 'costCenterBudgets', params: { code: code } } | cxUrl
           "
           class="btn btn-primary btn-block"
         >
@@ -49,5 +59,5 @@
         </a>
       </div>
     </div>
-  </div>
-</cx-interactive-table>
+  </cx-interactive-table>
+</cx-fake-tabs>

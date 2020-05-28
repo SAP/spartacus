@@ -1,63 +1,72 @@
-<ng-container class="container" *ngIf="data$ | async as data">
-  <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9">
-      <div class="cx-table-header cx-textalign">
-        <h3>
-          {{ 'unitChildren.header' | cxTranslate: { code: code$ | async } }}
-        </h3>
-      </div>
-    </div>
-    <div class="col-md-12 col-lg-3">
-      <div class="row cx-search-links mb-3">
-        <a
-          [routerLink]="
-            { cxRoute: 'orgUnitDetails', params: { uid: code$ | async } }
-              | cxUrl
-          "
-          class="btn btn-secondary btn-block"
-        >
-          {{ 'unitChildren.back' | cxTranslate }}
-        </a>
-      </div>
-      <div class="row cx-search-links mb-3">
-        <a
-          [routerLink]="{ cxRoute: 'orgUnitCreate' } | cxUrl"
-          [queryParams]="{ parentUnit: code$ | async }"
-          class="btn btn-primary btn-block"
-        >
-          {{ 'unitChildren.create' | cxTranslate }}
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <div class="cx-table-body">
-    <ng-container *ngIf="data?.length > 0; else noData">
-      <!-- TABLE -->
-      <cx-table
-        [tableData]="data"
-        [columns]="[
-          {
-            key: 'id',
-            value: 'unitChildren.id' | cxTranslate,
-            cxRoute: 'orgUnitDetails'
-          },
-          {
-            key: 'name',
-            value: 'unitChildren.name' | cxTranslate
-          }
-        ]"
-      >
-      </cx-table>
-    </ng-container>
-
-    <!-- NO ORDER CONTAINER -->
-    <ng-template #noData>
-      <div class="cx-no-items row">
-        <div class="col-sm-12 col-md-6 col-lg-4">
-          <div>{{ 'common.noData' | cxTranslate }}</div>
+<cx-fake-tabs
+  [code]="code$ | async"
+  [links]="[
+    {
+      cxRoute: 'orgUnitDetails',
+      name: 'orgUnit.details',
+      params: { uid: code$ | async }
+    },
+    { cxRoute: 'orgUnitUsers', name: 'orgUnit.users' },
+    { cxRoute: 'orgUnitApprovers', name: 'orgUnit.approvers' },
+    {
+      cxRoute: 'orgUnitManageAddresses',
+      name: 'orgUnit.manageAddresses'
+    },
+    { cxRoute: 'orgUnitChildren', name: 'orgUnit.children', active: true },
+    { cxRoute: 'orgUnitCostCenters', name: 'orgUnit.costCenters' }
+  ]"
+  [routerBackLink]="{ cxRoute: 'orgUnits', name: 'orgUnit.back' }"
+>
+  <ng-container class="container" *ngIf="data$ | async as data">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+        <div class="cx-table-header cx-textalign">
+          <h3>
+            {{ 'unitChildren.header' | cxTranslate: { code: code$ | async } }}
+          </h3>
         </div>
       </div>
-    </ng-template>
-  </div>
-</ng-container>
+      <div class="col-md-12 col-lg-6">
+        <div class="col-md-12 col-lg-6 float-right">
+          <a
+            [routerLink]="{ cxRoute: 'orgUnitCreate' } | cxUrl"
+            [queryParams]="{ parentUnit: code$ | async }"
+            class="btn btn-primary btn-block"
+          >
+            {{ 'unitChildren.create' | cxTranslate }}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="cx-table-body">
+      <ng-container *ngIf="data?.length > 0; else noData">
+        <!-- TABLE -->
+        <cx-table
+          [tableData]="data"
+          [columns]="[
+            {
+              key: 'id',
+              value: 'unitChildren.id' | cxTranslate,
+              cxRoute: 'orgUnitDetails'
+            },
+            {
+              key: 'name',
+              value: 'unitChildren.name' | cxTranslate
+            }
+          ]"
+        >
+        </cx-table>
+      </ng-container>
+
+      <!-- NO ORDER CONTAINER -->
+      <ng-template #noData>
+        <div class="cx-no-items row">
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div>{{ 'common.noData' | cxTranslate }}</div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </ng-container>
+</cx-fake-tabs>

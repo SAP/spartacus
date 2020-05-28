@@ -12,6 +12,8 @@ import { RouterModule } from '@angular/router';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { TableModule } from '../../../../shared/components/table/table.module';
+import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -34,6 +36,7 @@ import { TableModule } from '../../../../shared/components/table/table.module';
     UrlModule,
     I18nModule,
     TableModule,
+    FakeTabsModule,
   ],
   declarations: [UnitCostCentersComponent],
   exports: [UnitCostCentersComponent],

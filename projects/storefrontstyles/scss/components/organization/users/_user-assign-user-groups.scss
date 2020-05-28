@@ -1,0 +1,5 @@
+@import '../organization-list';
+
+%cx-user-assign-user-groups {
+  @extend %cx-organization-list;
+}

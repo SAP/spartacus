@@ -1,52 +1,67 @@
-<cx-interactive-table
-  [data$]="data$"
-  [header]="'userGroupAssignPermissions.header' | cxTranslate: { code: code }"
-  [sortLabels]="{
-    byUnitName: 'permissionsList.sorting.byUnitName' | cxTranslate,
-    byName: 'permissionsList.sorting.byName' | cxTranslate,
-    byCode: 'permissionsList.sorting.byCode' | cxTranslate,
-    byValue: 'permissionsList.sorting.byValue' | cxTranslate
-  }"
-  [columns]="[
+<cx-fake-tabs
+  [code]="code$ | async"
+  [links]="[
     {
-      key: 'selected',
-      value: 'permissionsList.assign' | cxTranslate,
-      checkBox: true
+      cxRoute: 'userGroupDetails',
+      name: 'userGroup.details'
     },
     {
-      key: 'code',
-      value: 'permissionsList.code' | cxTranslate,
-      cxRoute: 'permissionDetails'
+      cxRoute: 'userGroupPermissions',
+      name: 'userGroup.permissions',
+      active: true
     },
-    {
-      key: 'orderType',
-      value: 'permissionsList.type' | cxTranslate
-    },
-    {
-      key: 'threshold',
-      value: 'permissionsList.threshold' | cxTranslate
-    },
-    {
-      key: 'parentUnit',
-      value: 'permissionsList.parentUnit' | cxTranslate,
-      cxRoute: 'orgUnitDetails'
-    },
-    {
-      key: 'timePeriod',
-      value: 'permissionsList.timePeriod' | cxTranslate
-    }
+    { cxRoute: 'userGroupUsers', name: 'userGroup.users' }
   ]"
-  (pageChange)="pageChange($event)"
-  (changeSortCode)="changeSortCode($event)"
-  (check)="assign($event)"
-  (uncheck)="unassign($event)"
+  [routerBackLink]="{ cxRoute: 'userGroups', name: 'userGroup.back' }"
 >
-  <div class="col-md-12 col-lg-3">
-    <div class="row cx-search-links mb-3">
-      <div class="col-12 cx-textalign">
+  <cx-interactive-table
+    [data$]="data$"
+    [header]="'userGroupAssignPermissions.header' | cxTranslate: { code: code }"
+    [sortLabels]="{
+      byUnitName: 'permissionsList.sorting.byUnitName' | cxTranslate,
+      byName: 'permissionsList.sorting.byName' | cxTranslate,
+      byCode: 'permissionsList.sorting.byCode' | cxTranslate,
+      byValue: 'permissionsList.sorting.byValue' | cxTranslate
+    }"
+    [columns]="[
+      {
+        key: 'selected',
+        value: 'permissionsList.assign' | cxTranslate,
+        checkBox: true
+      },
+      {
+        key: 'code',
+        value: 'permissionsList.code' | cxTranslate,
+        cxRoute: 'permissionDetails'
+      },
+      {
+        key: 'orderType',
+        value: 'permissionsList.type' | cxTranslate
+      },
+      {
+        key: 'threshold',
+        value: 'permissionsList.threshold' | cxTranslate
+      },
+      {
+        key: 'timePeriod',
+        value: 'permissionsList.timePeriod' | cxTranslate
+      },
+      {
+        key: 'parentUnit',
+        value: 'permissionsList.parentUnit' | cxTranslate,
+        cxRoute: 'orgUnitDetails'
+      }
+    ]"
+    (pageChange)="pageChange($event)"
+    (changeSortCode)="changeSortCode($event)"
+    (check)="assign($event)"
+    (uncheck)="unassign($event)"
+  >
+    <div class="col-md-12 col-lg-6">
+      <div class="col-md-12 col-lg-6 float-right">
         <a
           [routerLink]="
-            { cxRoute: 'userGroupDetails', params: { code: code } } | cxUrl
+            { cxRoute: 'userGroupPermissions', params: { code: code } } | cxUrl
           "
           class="btn btn-primary btn-block"
         >
@@ -54,5 +69,5 @@
         </a>
       </div>
     </div>
-  </div>
-</cx-interactive-table>
+  </cx-interactive-table>
+</cx-fake-tabs>

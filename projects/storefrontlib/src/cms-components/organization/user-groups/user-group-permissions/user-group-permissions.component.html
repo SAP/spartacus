@@ -1,0 +1,70 @@
+<cx-fake-tabs
+  [code]="code$ | async"
+  [links]="[
+    {
+      cxRoute: 'userGroupDetails',
+      name: 'userGroup.details'
+    },
+    {
+      cxRoute: 'userGroupPermissions',
+      name: 'userGroup.permissions',
+      active: true
+    },
+    { cxRoute: 'userGroupUsers', name: 'userGroup.users' }
+  ]"
+  [routerBackLink]="{ cxRoute: 'userGroups', name: 'userGroup.back' }"
+>
+  <cx-interactive-table
+    [data$]="data$"
+    [header]="
+      'userGroupPermissions.header' | cxTranslate: { code: code$ | async }
+    "
+    [sortLabels]="{
+      byUnitName: 'permissionsList.sorting.byUnitName' | cxTranslate,
+      byName: 'permissionsList.sorting.byName' | cxTranslate,
+      byCode: 'permissionsList.sorting.byCode' | cxTranslate,
+      byValue: 'permissionsList.sorting.byValue' | cxTranslate
+    }"
+    [columns]="[
+      {
+        key: 'code',
+        value: 'permissionsList.code' | cxTranslate,
+        cxRoute: 'permissionDetails'
+      },
+      {
+        key: 'orderType',
+        value: 'permissionsList.type' | cxTranslate
+      },
+      {
+        key: 'threshold',
+        value: 'permissionsList.threshold' | cxTranslate
+      },
+      {
+        key: 'timePeriod',
+        value: 'permissionsList.timePeriod' | cxTranslate
+      },
+      {
+        key: 'parentUnit',
+        value: 'permissionsList.parentUnit' | cxTranslate,
+        cxRoute: 'orgUnitDetails'
+      }
+    ]"
+    (changeSortCode)="changeSortCode($event)"
+  >
+    <div class="col-md-12 col-lg-6">
+      <div class="col-md-12 col-lg-6 float-right">
+        <a
+          [routerLink]="
+            {
+              cxRoute: 'userGroupAssignPermissions',
+              params: { code: code$ | async }
+            } | cxUrl
+          "
+          class="btn btn-primary btn-block"
+        >
+          {{ 'userGroupPermissions.assignPermissions' | cxTranslate }}
+        </a>
+      </div>
+    </div>
+  </cx-interactive-table>
+</cx-fake-tabs>

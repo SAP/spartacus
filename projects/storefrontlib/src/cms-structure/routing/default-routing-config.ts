@@ -84,7 +84,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['organization/budget/:code'],
   },
   budgetCostCenters: {
-    paths: ['organization/budget/costcenters/:code'],
+    paths: ['organization/budget/cost-centers/:code'],
   },
   budgetEdit: {
     paths: ['organization/budget/edit/:code'],
@@ -103,8 +103,14 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['organization/unit/edit/:code'],
     paramsMapping: { code: 'uid' },
   },
+  orgUnitUsers: {
+    paths: ['organization/unit/users/:code'],
+  },
   orgUnitAssignRoles: {
     paths: ['organization/unit/assign-roles/:code/:roleId'],
+  },
+  orgUnitApprovers: {
+    paths: ['organization/unit/approvers/:code'],
   },
   orgUnitAssignApprovers: {
     paths: ['organization/unit/assign-approvers/:code'],
@@ -116,7 +122,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['organization/unit/children/:code'],
   },
   orgUnitCostCenters: {
-    paths: ['organization/unit/costcenters/:code'],
+    paths: ['organization/unit/cost-centers/:code'],
   },
   orgUnitAddressEdit: {
     paths: ['organization/unit/address/edit/:code/:id'],
@@ -128,31 +134,34 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['organization/unit/addresses/create/:code'],
   },
   costCenters: {
-    paths: ['organization/costcenters'],
+    paths: ['organization/cost-centers'],
   },
   costCenterCreate: {
-    paths: ['organization/costcenters/create'],
+    paths: ['organization/cost-centers/create'],
   },
   costCenterDetails: {
-    paths: ['organization/costcenter/:code'],
+    paths: ['organization/cost-center/:code'],
+  },
+  costCenterBudgets: {
+    paths: ['organization/cost-center/budgets/:code'],
   },
   costCenterAssignBudgets: {
-    paths: ['organization/costcenter/assign-budgets/:code'],
+    paths: ['organization/cost-center/assign-budgets/:code'],
   },
   costCenterEdit: {
-    paths: ['organization/costcenter/edit/:code'],
+    paths: ['organization/cost-center/edit/:code'],
   },
   permissions: {
-    paths: ['organization/permissions'],
+    paths: ['organization/purchase-limits'],
   },
   permissionCreate: {
-    paths: ['organization/permissions/create'],
+    paths: ['organization/purchase-limits/create'],
   },
   permissionDetails: {
-    paths: ['organization/permission/:code'],
+    paths: ['organization/purchase-limit/:code'],
   },
   permissionEdit: {
-    paths: ['organization/permission/edit/:code'],
+    paths: ['organization/purchase-limit/edit/:code'],
   },
   users: {
     paths: ['organization/users'],
@@ -165,24 +174,49 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   userEdit: {
     paths: ['organization/user/edit/:code'],
+    paramsMapping: { code: 'customerId' },
+  },
+  userApprovers: {
+    paths: ['organization/user/approvers/:code'],
+  },
+  userAssignApprovers: {
+    paths: ['organization/user/assign-approvers/:code'],
+  },
+  userPermissions: {
+    paths: ['organization/user/purchase-limits/:code'],
+  },
+  userAssignPermissions: {
+    paths: ['organization/user/assign-purchase-limits/:code'],
+  },
+  userUserGroups: {
+    paths: ['organization/user/user-groups/:code'],
+  },
+  userAssignUserGroups: {
+    paths: ['organization/user/assign-user-groups/:code'],
   },
   userGroups: {
-    paths: ['organization/usergroups'],
+    paths: ['organization/user-groups'],
   },
   userGroupCreate: {
-    paths: ['organization/usergroups/create'],
+    paths: ['organization/user-groups/create'],
   },
   userGroupDetails: {
-    paths: ['organization/usergroup/:code'],
+    paths: ['organization/user-group/:code'],
   },
   userGroupEdit: {
-    paths: ['organization/usergroup/edit/:code'],
+    paths: ['organization/user-group/edit/:code'],
+  },
+  userGroupPermissions: {
+    paths: ['organization/user-group/purchase-limits/:code'],
   },
   userGroupAssignPermissions: {
-    paths: ['organization/usergroup/assign-permissions/:code'],
+    paths: ['organization/user-group/assign-purchase-limits/:code'],
+  },
+  userGroupUsers: {
+    paths: ['organization/user-group/users/:code'],
   },
   userGroupAssignUsers: {
-    paths: ['organization/usergroup/assign-users/:code'],
+    paths: ['organization/user-group/assign-users/:code'],
   },
 };
 

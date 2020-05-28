@@ -1,15 +1,23 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import {
+  B2BAddress,
+  B2BApprovalProcess,
+  B2BSearchConfig,
+} from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
-import createSpy = jasmine.createSpy;
-
 import { OrgUnitAdapter } from './org-unit.adapter';
 import { OrgUnitConnector } from './org-unit.connector';
-import { B2BApprovalProcess } from '@spartacus/core';
+import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const orgUnitId = 'orgUnitId';
 const approvalProcessCode = 'approvalProcessCode';
+const roleId = 'testRoleId';
+const params: B2BSearchConfig = { sort: 'code' };
+const orgCustomerId = 'testCustomerId';
+const address: B2BAddress = { id: 'testAddressId' };
+const addressId: string = address.id;
 
 const orgUnitNode = {
   id: orgUnitId,
@@ -82,5 +90,96 @@ describe('OrgUnitConnector', () => {
   it('should update orgUnit', () => {
     service.update(userId, orgUnitId, orgUnit);
     expect(adapter.update).toHaveBeenCalledWith(userId, orgUnitId, orgUnit);
+  });
+
+  it('should get approval processes', () => {
+    service.getApprovalProcesses(userId);
+    expect(adapter.loadApprovalProcesses).toHaveBeenCalledWith(userId);
+  });
+
+  it('should get tree', () => {
+    service.getTree(userId);
+    expect(adapter.loadTree).toHaveBeenCalledWith(userId);
+  });
+
+  it('should get users', () => {
+    service.getUsers(userId, orgUnitId, roleId, params);
+    expect(adapter.loadUsers).toHaveBeenCalledWith(
+      userId,
+      orgUnitId,
+      roleId,
+      params
+    );
+  });
+
+  it('should assign role', () => {
+    service.assignRole(userId, orgCustomerId, roleId);
+    expect(adapter.assignRole).toHaveBeenCalledWith(
+      userId,
+      orgCustomerId,
+      roleId
+    );
+  });
+
+  it('should unassign role', () => {
+    service.unassignRole(userId, orgCustomerId, roleId);
+    expect(adapter.unassignRole).toHaveBeenCalledWith(
+      userId,
+      orgCustomerId,
+      roleId
+    );
+  });
+
+  it('should assign approver', () => {
+    service.assignApprover(userId, orgUnitId, orgCustomerId, roleId);
+    expect(adapter.assignApprover).toHaveBeenCalledWith(
+      userId,
+      orgUnitId,
+      orgCustomerId,
+      roleId
+    );
+  });
+
+  it('should unassign approver', () => {
+    service.unassignApprover(userId, orgUnitId, orgCustomerId, roleId);
+    expect(adapter.unassignApprover).toHaveBeenCalledWith(
+      userId,
+      orgUnitId,
+      orgCustomerId,
+      roleId
+    );
+  });
+
+  it('should get addresses', () => {
+    service.getAddresses(userId, orgUnitId);
+    expect(adapter.loadAddresses).toHaveBeenCalledWith(userId, orgUnitId);
+  });
+
+  it('should create address', () => {
+    service.createAddress(userId, orgUnitId, address);
+    expect(adapter.createAddress).toHaveBeenCalledWith(
+      userId,
+      orgUnitId,
+      address
+    );
+  });
+
+  it('should update address', () => {
+    service.updateAddress(userId, orgUnitId, addressId, address);
+    expect(adapter.updateAddress).toHaveBeenCalledWith(
+      userId,
+      orgUnitId,
+      addressId,
+      address
+    );
+  });
+
+  it('should delete address', () => {
+    service.deleteAddress(userId, orgUnitId, addressId);
+    expect(adapter.deleteAddress).toHaveBeenCalledWith(
+      userId,
+      orgUnitId,
+      addressId
+    );
   });
 });
