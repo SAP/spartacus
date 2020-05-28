@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { ConfigUtilsService } from './config-utils.service';
 import { Observable, of } from 'rxjs';
 import {
-  ConfiguratorGroupsService,
   ConfiguratorGroupStatusService,
   GenericConfigurator,
 } from '@spartacus/core';
@@ -11,7 +10,7 @@ import { Type } from '@angular/core';
 
 let isGroupVisited: Observable<Boolean> = of(false);
 
-class MockConfiguratorGroupsService {
+class MockConfiguratorGroupStatusService {
   isGroupVisited(): Observable<Boolean> {
     return isGroupVisited;
   }
@@ -29,8 +28,8 @@ describe('ConfigUtilsService', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
+          provide: ConfiguratorGroupStatusService,
+          useClass: MockConfiguratorGroupStatusService,
         },
       ],
     });

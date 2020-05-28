@@ -14,7 +14,7 @@ import { Configurator, GenericConfigurator } from '../../../model';
 export class ConfiguratorGroupStatusService {
   constructor(
     private store: Store<StateWithConfiguration>,
-    private configGroupUtilsService: ConfiguratorGroupUtilsService
+    private configuratorGroupUtilsService: ConfiguratorGroupUtilsService
   ) {}
 
   isGroupVisited(
@@ -76,9 +76,9 @@ export class ConfiguratorGroupStatusService {
 
     this.getParentGroupStatusCompleted(
       configuration,
-      this.configGroupUtilsService.findParentGroup(
+      this.configuratorGroupUtilsService.findParentGroup(
         configuration.groups,
-        this.configGroupUtilsService.findCurrentGroup(
+        this.configuratorGroupUtilsService.findCurrentGroup(
           configuration.groups,
           parentGroup.id
         ),
@@ -117,9 +117,9 @@ export class ConfiguratorGroupStatusService {
           this.getParentGroupStatusVisited(
             configuration,
             parentGroup.id,
-            this.configGroupUtilsService.findParentGroup(
+            this.configuratorGroupUtilsService.findParentGroup(
               configuration.groups,
-              this.configGroupUtilsService.findCurrentGroup(
+              this.configuratorGroupUtilsService.findCurrentGroup(
                 configuration.groups,
                 parentGroup.id
               ),
@@ -136,13 +136,13 @@ export class ConfiguratorGroupStatusService {
     groupId: string,
     setGroupVisited: Boolean
   ) {
-    const group = this.configGroupUtilsService.getGroup(
+    const group = this.configuratorGroupUtilsService.getGroup(
       configuration.groups,
       groupId
     );
-    const parentGroup = this.configGroupUtilsService.findParentGroup(
+    const parentGroup = this.configuratorGroupUtilsService.findParentGroup(
       configuration.groups,
-      this.configGroupUtilsService.findCurrentGroup(
+      this.configuratorGroupUtilsService.findCurrentGroup(
         configuration.groups,
         groupId
       ),

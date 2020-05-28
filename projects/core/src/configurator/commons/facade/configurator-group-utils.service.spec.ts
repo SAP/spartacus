@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
@@ -120,8 +120,13 @@ const productConfiguration: Configurator.Configuration = {
 describe('ConfiguratorGroupUtilsService', () => {
   let classUnderTest: ConfiguratorGroupUtilsService;
 
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      providers: [ConfiguratorGroupUtilsService],
+    }).compileComponents();
+  }));
+
   beforeEach(() => {
-    TestBed.configureTestingModule({});
     classUnderTest = TestBed.inject(
       ConfiguratorGroupUtilsService as Type<ConfiguratorGroupUtilsService>
     );

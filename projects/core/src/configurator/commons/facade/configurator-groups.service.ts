@@ -18,9 +18,9 @@ import { ConfiguratorGroupStatusService } from './configurator-group-status.serv
 export class ConfiguratorGroupsService {
   constructor(
     private store: Store<StateWithConfiguration>,
-    private configCommonsService: ConfiguratorCommonsService,
-    private configGroupUtilsService: ConfiguratorGroupUtilsService,
-    private configGroupStatusService: ConfiguratorGroupStatusService
+    private configuratorCommonsService: ConfiguratorCommonsService,
+    private configuratorGroupUtilsService: ConfiguratorGroupUtilsService,
+    private configuratorGroupStatusService: ConfiguratorGroupStatusService
   ) {}
 
   subscribeToUpdateConfiguration(owner: GenericConfigurator.Owner): void {
@@ -28,13 +28,13 @@ export class ConfiguratorGroupsService {
     // Set Group Status on each update of the configuration state
     // This will be called every time something in the configuration is changed, prices,
     // attributes groups etc.
-    this.configCommonsService
+    this.configuratorCommonsService
       .getConfiguration(owner)
       .subscribe((configuration) =>
         this.getCurrentGroup(owner)
           .pipe(take(1))
           .subscribe((currentGroup) =>
-            this.configGroupStatusService.setGroupStatus(
+            this.configuratorGroupStatusService.setGroupStatus(
               configuration,
               currentGroup.id,
               false
@@ -44,12 +44,12 @@ export class ConfiguratorGroupsService {
   }
 
   getCurrentGroupId(owner: GenericConfigurator.Owner): Observable<string> {
-    return this.configCommonsService.getUiState(owner).pipe(
+    return this.configuratorCommonsService.getUiState(owner).pipe(
       switchMap((uiState) => {
         if (uiState && uiState.currentGroup) {
           return of(uiState.currentGroup);
         } else {
-          return this.configCommonsService
+          return this.configuratorCommonsService
             .getConfiguration(owner)
             .pipe(
               map((configuration) =>
@@ -68,15 +68,15 @@ export class ConfiguratorGroupsService {
   getMenuParentGroup(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
-    return this.configCommonsService.getUiState(owner).pipe(
+    return this.configuratorCommonsService.getUiState(owner).pipe(
       map((uiState) => uiState.menuParentGroup),
 
       switchMap((parentGroupId) => {
-        return this.configCommonsService
+        return this.configuratorCommonsService
           .getConfiguration(owner)
           .pipe(
             map((configuration) =>
-              this.configGroupUtilsService.findCurrentGroup(
+              this.configuratorGroupUtilsService.findCurrentGroup(
                 configuration.groups,
                 parentGroupId
               )
@@ -98,11 +98,11 @@ export class ConfiguratorGroupsService {
         if (!currentGroupId) {
           return of(null);
         }
-        return this.configCommonsService
+        return this.configuratorCommonsService
           .getConfiguration(owner)
           .pipe(
             map((configuration) =>
-              this.configGroupUtilsService.findCurrentGroup(
+              this.configuratorGroupUtilsService.findCurrentGroup(
                 configuration.groups,
                 currentGroupId
               )
@@ -117,16 +117,16 @@ export class ConfiguratorGroupsService {
     this.getCurrentGroup(configuration.owner)
       .pipe(take(1))
       .subscribe((currentGroup) => {
-        this.configGroupStatusService.setGroupStatus(
+        this.configuratorGroupStatusService.setGroupStatus(
           configuration,
           currentGroup.id,
           true
         );
       });
 
-    const parentGroup = this.configGroupUtilsService.findParentGroup(
+    const parentGroup = this.configuratorGroupUtilsService.findParentGroup(
       configuration.groups,
-      this.configGroupUtilsService.findCurrentGroup(
+      this.configuratorGroupUtilsService.findCurrentGroup(
         configuration.groups,
         groupId
       ),
@@ -153,7 +153,7 @@ export class ConfiguratorGroupsService {
           return of(null);
         }
 
-        return this.configCommonsService.getConfiguration(owner).pipe(
+        return this.configuratorCommonsService.getConfiguration(owner).pipe(
           map((configuration) => {
             let nextGroup = null;
             configuration.flatGroups.forEach((group, index) => {
@@ -179,7 +179,7 @@ export class ConfiguratorGroupsService {
           return of(null);
         }
 
-        return this.configCommonsService.getConfiguration(owner).pipe(
+        return this.configuratorCommonsService.getConfiguration(owner).pipe(
           map((configuration) => {
             let nextGroup = null;
             configuration.flatGroups.forEach((group, index) => {

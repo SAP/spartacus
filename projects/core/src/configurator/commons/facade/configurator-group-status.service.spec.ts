@@ -2,6 +2,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
+import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
 import { of } from 'rxjs';
 import { StateWithConfiguration, UiState } from '../store/configuration-state';
 import { Store, StoreModule } from '@ngrx/store';
@@ -131,8 +132,13 @@ describe('ConfiguratorGroupStatusService', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
+      providers: [
+        ConfiguratorGroupUtilsService,
+        ConfiguratorGroupStatusService,
+      ],
     }).compileComponents();
   }));
+
   beforeEach(() => {
     classUnderTest = TestBed.inject(
       ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>

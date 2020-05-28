@@ -10,6 +10,7 @@ import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupsService } from './configurator-groups.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
+import { ConfiguratorGroupUtilsService } from '@spartacus/core';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const GROUP_ID_1 = '1234-56-7891';
@@ -141,6 +142,8 @@ describe('ConfiguratorGroupsService', () => {
       providers: [
         ConfiguratorGroupsService,
         ConfiguratorCommonsService,
+        ConfiguratorGroupStatusService,
+        ConfiguratorGroupUtilsService,
         {
           provide: ActiveCartService,
           useClass: MockActiveCartService,
