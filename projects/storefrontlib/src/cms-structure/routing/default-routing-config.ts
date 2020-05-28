@@ -177,11 +177,23 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['organization/user/edit/:code'],
     paramsMapping: { code: 'email' },
   },
+  userApprovers: {
+    paths: ['organization/user/approvers/:code'],
+  },
+  userAssignApprovers: {
+    paths: ['organization/user/assign-approvers/:code'],
+  },
   userPermissions: {
     paths: ['organization/user/purchase-limits/:code'],
   },
   userAssignPermissions: {
     paths: ['organization/user/assign-purchase-limits/:code'],
+  },
+  userUserGroups: {
+    paths: ['organization/user/user-groups/:code'],
+  },
+  userAssignUserGroups: {
+    paths: ['organization/user/assign-user-groups/:code'],
   },
   userGroups: {
     paths: ['organization/user-groups'],
