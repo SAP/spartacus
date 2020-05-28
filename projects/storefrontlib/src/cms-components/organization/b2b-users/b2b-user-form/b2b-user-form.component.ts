@@ -46,7 +46,8 @@ export class B2BUserFormComponent extends AbstractFormComponent
       roles: this.fb.array([]),
       titleCode: [''],
     });
-    this.roles = this.b2bUserService.getB2BUserRoles();
+
+    this.roles = this.initRoles(this.b2bUserData);
 
     this.titles$ = this.userService.getTitles().pipe(
       tap((titles: Title[]) => {
@@ -67,12 +68,29 @@ export class B2BUserFormComponent extends AbstractFormComponent
     }
   }
 
+  initRoles(b2bUser? : B2BUser) {
+    const roles = this.b2bUserService.getB2BUserRoles();
+    const rolesArray: FormArray = this.form.get('roles') as FormArray;
+
+    if (!b2bUser) {
+      return roles;
+    } else {
+      let newRoles = roles.map(r => {
+        if (b2bUser.roles.includes(r.id)) {
+          rolesArray.push(new FormControl(r.id));
+          return { name: r.name, id: r.id, selected: true };
+        } else {
+          return r;
+        }
+      });
+
+      return newRoles;
+    }
+  }
+
   onRoleChange(event) {
     const rolesArray: FormArray = this.form.get('roles') as FormArray;
-    console.log('roles array: ', rolesArray);
     if(event.target.checked) {
-    console.log('target: ', event.target.value);
-
       rolesArray.push(new FormControl(event.target.value));
       return;
     } else {
@@ -85,9 +103,5 @@ export class B2BUserFormComponent extends AbstractFormComponent
         i++;
       })
     }
-  }
-
-  testing() {
-    console.log('FORM: ', this.form)
   }
 }

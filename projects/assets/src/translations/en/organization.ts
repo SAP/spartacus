@@ -347,13 +347,9 @@ export const organization = {
     create: 'Create User',
     edit: 'Edit User',
     update: 'Update User',
-    code: {
+    email: {
       label: 'Email address',
       placeholder: 'Email',
-    },
-    name: {
-      label: 'User name',
-      placeholder: 'Name',
     },
     firstName: {
       label: 'First name',

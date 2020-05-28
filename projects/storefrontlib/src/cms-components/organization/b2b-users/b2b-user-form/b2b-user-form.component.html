@@ -37,29 +37,6 @@
       <div class="form-group">
         <label>
           <span class="label-content required">{{
-            'b2bUserForm.code.label' | cxTranslate
-          }}</span>
-          <input
-            class="form-control"
-            type="text"
-            required
-            placeholder="{{ 'b2bUserForm.code.placeholder' | cxTranslate }}"
-            formControlName="uid"
-            [class.is-invalid]="isNotValid('uid')"
-          />
-          <ng-container
-            *ngIf="isNotValid('uid')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.uid
-            }"
-          ></ng-container>
-        </label>
-      </div>
-
-      <div class="form-group">
-        <label>
-          <span class="label-content required">{{
             'b2bUserForm.firstName.label' | cxTranslate
           }}</span>
           <input
@@ -98,6 +75,29 @@
             [ngTemplateOutlet]="validation"
             [ngTemplateOutletContext]="{
               control: form.controls.lastName
+            }"
+          ></ng-container>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <span class="label-content required">{{
+            'b2bUserForm.email.label' | cxTranslate
+          }}</span>
+          <input
+            class="form-control"
+            type="text"
+            required
+            placeholder="{{ 'b2bUserForm.email.placeholder' | cxTranslate }}"
+            formControlName="uid"
+            [class.is-invalid]="isNotValid('uid')"
+          />
+          <ng-container
+            *ngIf="isNotValid('uid')"
+            [ngTemplateOutlet]="validation"
+            [ngTemplateOutletContext]="{
+              control: form.controls.uid
             }"
           ></ng-container>
         </label>
@@ -157,42 +157,6 @@
               }}
             </span>
           </label>
-
-          <!-- <label>
-            <input
-              type="checkbox"
-              class="form-check-input"
-            />
-            <span class="form-check-label">
-              {{
-                'b2bUserForm.roles.manager' | cxTranslate
-              }}
-            </span>
-          </label>
-
-          <label>
-            <input
-              type="checkbox"
-              class="form-check-input"
-            />
-            <span class="form-check-label">
-              {{
-                'b2bUserForm.roles.approver' | cxTranslate
-              }}
-            </span>
-          </label>
-
-          <label>
-            <input
-              type="checkbox"
-              class="form-check-input"
-            />
-            <span class="form-check-label">
-              {{
-                'b2bUserForm.roles.administrator' | cxTranslate
-              }}
-            </span>
-          </label> -->
         </div>
       </div>
 
@@ -201,7 +165,7 @@
   </div>
   <div class="row buttons">
     <div class="col-md-12 col-lg-6 mb-3">
-      <button class="btn btn-block btn-primary" (click)="testing()">
+      <button class="btn btn-block btn-primary" (click)="verifyAndSubmit()">
         {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
       </button>
     </div>
