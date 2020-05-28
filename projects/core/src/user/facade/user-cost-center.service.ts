@@ -5,7 +5,7 @@ import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
-import { CostCenter } from '../../model/org-unit.model';
+import { CostCenter, B2BAddress } from '../../model/org-unit.model';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
@@ -44,6 +44,12 @@ export class UserCostCenterService {
         (process: LoaderState<CostCenter[]>) => process.success || process.error
       ),
       map((result) => result.value)
+    );
+  }
+
+  getCostCenterAddresses(costCenterId: string): Observable<B2BAddress[]> {
+    return this.store.select(
+      UsersSelectors.getCostCenterAddressesFactory(costCenterId)
     );
   }
 
