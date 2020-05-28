@@ -47,6 +47,7 @@ export class UserGroupUsersComponent extends AbstractListingComponent
                 name: user.name,
                 parentUnit: user.orgUnit && user.orgUnit.name,
                 uid: user.orgUnit && user.orgUnit.uid,
+                customerId: user.customerId,
               })),
           }))
         )
