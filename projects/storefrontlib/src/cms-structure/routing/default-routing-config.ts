@@ -171,11 +171,10 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   userDetails: {
     paths: ['organization/user/:code'],
-    paramsMapping: { code: 'email' },
+    paramsMapping: { code: 'customerId' },
   },
   userEdit: {
     paths: ['organization/user/edit/:code'],
-    paramsMapping: { code: 'email' },
   },
   userApprovers: {
     paths: ['organization/user/approvers/:code'],

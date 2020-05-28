@@ -131,7 +131,7 @@ export class UserGroupEffects {
         )
         .pipe(
           switchMap((customers: EntitiesModel<B2BUser>) => {
-            const { values, page } = normalizeListPage(customers, 'uid');
+            const { values, page } = normalizeListPage(customers, 'customerId');
             return [
               new B2BUserActions.LoadB2BUserSuccess(values),
               new UserGroupActions.LoadAvailableOrgCustomersSuccess({
