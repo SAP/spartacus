@@ -25,9 +25,11 @@ import { UserGroup } from '../../../model/user-group.model';
 const error = 'error';
 const userId = 'testUser';
 const orgCustomerId = 'orgCustomerId';
+
 const orgCustomer: B2BUser = {
   active: true,
-  uid: orgCustomerId,
+  customerId: orgCustomerId,
+  uid: 'aaa@bbb',
   name: 'test',
 };
 const permissionId = 'permissionId';
@@ -45,7 +47,7 @@ const userGroup: UserGroup = {
 const approverId = 'approverId';
 const pagination = { currentPage: 1 };
 const sorts = [{ selected: true, name: 'code' }];
-const page = { ids: [orgCustomer.uid], pagination, sorts };
+const page = { ids: [orgCustomer.customerId], pagination, sorts };
 const params: B2BSearchConfig = { sort: 'code' };
 
 class MockB2BUserConnector {

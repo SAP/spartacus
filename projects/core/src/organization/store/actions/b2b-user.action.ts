@@ -113,7 +113,7 @@ export class LoadB2BUserSuccess extends EntitySuccessAction {
 export class CreateB2BUser extends EntityLoadAction {
   readonly type = CREATE_B2B_USER;
   constructor(public payload: { userId: string; orgCustomer: B2BUser }) {
-    super(B2B_USER_ENTITIES, payload.orgCustomer.uid);
+    super(B2B_USER_ENTITIES, payload.orgCustomer.customerId);
   }
 }
 
@@ -127,7 +127,7 @@ export class CreateB2BUserFail extends EntityFailAction {
 export class CreateB2BUserSuccess extends EntitySuccessAction {
   readonly type = CREATE_B2B_USER_SUCCESS;
   constructor(public payload: B2BUser) {
-    super(B2B_USER_ENTITIES, payload.uid, payload);
+    super(B2B_USER_ENTITIES, payload.customerId, payload);
   }
 }
 
@@ -140,7 +140,7 @@ export class UpdateB2BUser extends EntityLoadAction {
       orgCustomer: B2BUser;
     }
   ) {
-    super(B2B_USER_ENTITIES, payload.orgCustomer.uid);
+    super(B2B_USER_ENTITIES, payload.orgCustomer.customerId);
   }
 }
 
@@ -154,7 +154,7 @@ export class UpdateB2BUserFail extends EntityFailAction {
 export class UpdateB2BUserSuccess extends EntitySuccessAction {
   readonly type = UPDATE_B2B_USER_SUCCESS;
   constructor(public payload: B2BUser) {
-    super(B2B_USER_ENTITIES, payload.uid, payload);
+    super(B2B_USER_ENTITIES, payload.customerId, payload);
   }
 }
 

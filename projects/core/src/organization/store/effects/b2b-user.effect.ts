@@ -52,7 +52,7 @@ export class B2BUserEffects {
         catchError((error) =>
           of(
             new B2BUserActions.CreateB2BUserFail({
-              orgCustomerId: payload.orgCustomer.uid,
+              orgCustomerId: payload.orgCustomer.customerId,
               error: makeErrorSerializable(error),
             })
           )
@@ -75,7 +75,7 @@ export class B2BUserEffects {
           catchError((error) =>
             of(
               new B2BUserActions.UpdateB2BUserFail({
-                orgCustomerId: payload.orgCustomer.uid,
+                orgCustomerId: payload.orgCustomer.customerId,
                 error: makeErrorSerializable(error),
               })
             )
@@ -95,7 +95,7 @@ export class B2BUserEffects {
     switchMap((payload) =>
       this.b2bUserConnector.getList(payload.userId, payload.params).pipe(
         switchMap((b2bUsers: EntitiesModel<B2BUser>) => {
-          const { values, page } = normalizeListPage(b2bUsers, 'uid');
+          const { values, page } = normalizeListPage(b2bUsers, 'customerId');
           return [
             new B2BUserActions.LoadB2BUserSuccess(values),
             new B2BUserActions.LoadB2BUsersSuccess({
@@ -129,7 +129,7 @@ export class B2BUserEffects {
         .getApprovers(payload.userId, payload.orgCustomerId, payload.params)
         .pipe(
           switchMap((approvers: EntitiesModel<B2BUser>) => {
-            const { values, page } = normalizeListPage(approvers, 'uid');
+            const { values, page } = normalizeListPage(approvers, 'customerId');
             return [
               new B2BUserActions.LoadB2BUserSuccess(values),
               new B2BUserActions.LoadB2BUserApproversSuccess({

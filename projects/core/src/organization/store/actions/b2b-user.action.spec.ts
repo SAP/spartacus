@@ -13,7 +13,8 @@ import { StateUtils } from '../../../state/utils/index';
 const orgCustomerId = 'orgCustomerId';
 const orgCustomer: B2BUser = {
   active: true,
-  uid: orgCustomerId,
+  customerId: orgCustomerId,
+  uid: 'aaa@bbb',
   name: 'test',
 };
 
