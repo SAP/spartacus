@@ -24,7 +24,7 @@ describe('ConfigAttributeNumericInputFieldService', () => {
     ).toBe(false);
   });
 
-  it('should accept multiple thousand separators', () => {
+  it('should accept multiple grouping separators', () => {
     expect(
       serviceUnderTest.performValidationAccordingToMetaData(
         '1,23,4',
@@ -42,6 +42,18 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         '1234.22.22',
         ',',
         '.',
+        9,
+        4
+      )
+    ).toBe(true);
+  });
+
+  it('should not accept multiple decimal separators in case grouping separator needs escaping', () => {
+    expect(
+      serviceUnderTest.performValidationAccordingToMetaData(
+        '1234,22,22',
+        '.',
+        ',',
         9,
         4
       )

@@ -52,16 +52,18 @@ export class ConfigAttributeNumericInputFieldService {
     numberTotalPlaces: number,
     numberDecimalPlaces: number
   ): boolean {
-    const search: RegExp = new RegExp(groupingSeparator, 'g');
+    const escape = '\\';
+    const search: RegExp = new RegExp(escape + groupingSeparator, 'g');
     const woGrouping = input.replace(search, '');
-
     const splitParts = woGrouping.split(decimalSeparator);
+
     if (splitParts.length > 2) {
       return true;
     }
     if (splitParts.length === 1) {
       return woGrouping.length > numberTotalPlaces;
     }
+
     return (
       splitParts[0].length + splitParts[1].length > numberTotalPlaces ||
       splitParts[1].length > numberDecimalPlaces
