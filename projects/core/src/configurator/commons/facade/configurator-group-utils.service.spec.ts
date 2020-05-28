@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-
+import { Configurator, GenericConfigurator } from '@spartacus/core';
 import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
-import { Configurator, GenericConfigurator, UiState } from '@spartacus/core';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const GROUP_ID_1 = '1234-56-7891';
