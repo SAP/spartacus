@@ -110,13 +110,11 @@ class MockUrlPipe implements PipeTransform {
 const permissionList = new BehaviorSubject(mockPermissionList);
 
 class MockB2BUserService implements Partial<B2BUserService> {
-  loadAvailableOrderApprovalPermissions = createSpy(
-    'loadAvailableOrderApprovalPermissions'
-  );
+  loadB2BUserPermissions = createSpy('loadB2BUserPermissions');
 
-  getAvailableOrderApprovalPermissions = createSpy(
-    'getAvailableOrderApprovalPermissions'
-  ).and.returnValue(permissionList);
+  getB2BUserPermissions = createSpy('getB2BUserPermissions').and.returnValue(
+    permissionList
+  );
 
   assignPermission = createSpy('assign');
 
@@ -212,10 +210,11 @@ describe('UserAssignPermissionsComponent', () => {
         permissionsList = value;
       });
 
-      expect(
-        service.loadAvailableOrderApprovalPermissions
-      ).toHaveBeenCalledWith(code, defaultParams);
-      expect(service.getAvailableOrderApprovalPermissions).toHaveBeenCalledWith(
+      expect(service.loadB2BUserPermissions).toHaveBeenCalledWith(
+        code,
+        defaultParams
+      );
+      expect(service.getB2BUserPermissions).toHaveBeenCalledWith(
         code,
         defaultParams
       );
