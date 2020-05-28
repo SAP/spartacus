@@ -25,14 +25,17 @@ export class ConfiguratorGroupUtilsService {
       .pop();
   }
 
-  getGroupById(groups: Configurator.Group[], groupId: string): Configurator.Group {
-    const group = groups.find((group) => group.id === groupId);
-    if (group) {
-      return group;
+  getGroupById(
+    groups: Configurator.Group[],
+    groupId: string
+  ): Configurator.Group {
+    const currentGroup = groups.find((group) => group.id === groupId);
+    if (currentGroup) {
+      return currentGroup;
     }
 
     return groups
-      .map((currentGroup) => this.getGroupById(currentGroup.subGroups, groupId))
+      .map((group) => this.getGroupById(group.subGroups, groupId))
       .filter((foundGroup) => foundGroup)
       .pop();
   }
