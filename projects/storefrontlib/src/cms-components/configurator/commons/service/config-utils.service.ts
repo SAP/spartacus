@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { GenericConfigurator } from '@spartacus/core';
+import {
+  ConfiguratorGroupStatusService,
+  GenericConfigurator,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { ConfiguratorGroupStatusService } from '../../../../../../core/src/configurator/commons/facade';
 
 @Injectable({
   providedIn: 'root',

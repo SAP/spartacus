@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { Configurator, GenericConfigurator } from '@spartacus/core';
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
+import { Type } from '@angular/core';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const GROUP_ID_1 = '1234-56-7891';
@@ -14,6 +16,7 @@ const GROUP_ID_8 = '1234-56-7898';
 const GROUP_ID_9 = '1234-56-7899';
 const GROUP_ID_10 = '1234-56-7900';
 const CONFIG_ID = '1234-56-7890';
+
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -119,7 +122,9 @@ describe('ConfiguratorGroupUtilsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    classUnderTest = TestBed.inject(ConfiguratorGroupUtilsService);
+    classUnderTest = TestBed.inject(
+      ConfiguratorGroupUtilsService as Type<ConfiguratorGroupUtilsService>
+    );
   });
 
   it('should be created', () => {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Configurator } from '../../../model';
+import { Configurator } from './../../../model/configurator.model';
 
 /**
  * Service for handling general group utils

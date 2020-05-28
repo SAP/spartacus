@@ -4,6 +4,7 @@ import {
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   ConfiguratorGroupStatusService,
+  ConfiguratorGroupUtilsService,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -11,7 +12,6 @@ import { delay, map, switchMap, take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
-import { ConfiguratorGroupUtilsService } from '../../../../../../core/src/configurator/commons/facade';
 
 @Component({
   selector: 'cx-config-group-menu',

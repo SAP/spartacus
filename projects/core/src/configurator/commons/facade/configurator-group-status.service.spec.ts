@@ -1,16 +1,12 @@
 import { async, TestBed } from '@angular/core/testing';
-
+import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
-import * as UiActions from '../store/actions/configurator-ui.action';
 import { of } from 'rxjs';
+import { StateWithConfiguration, UiState } from '../store/configuration-state';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  Configurator,
-  GenericConfigurator,
-  StateWithConfiguration,
-  UiState,
-} from '@spartacus/core';
 import { Type } from '@angular/core';
+import * as UiActions from '../store/actions/configurator-ui.action';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const GROUP_ID_1 = '1234-56-7891';
