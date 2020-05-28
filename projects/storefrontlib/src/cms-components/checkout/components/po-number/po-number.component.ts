@@ -101,7 +101,11 @@ export class PoNumberComponent {
     }
 
     // set cost center to cart
-    if (this._costCenterId && this._costCenterId !== this.cartCostCenterId) {
+    if (
+      this.paymentTypeCode === this.ACCOUNT_PAYMENT &&
+      this._costCenterId &&
+      this._costCenterId !== this.cartCostCenterId
+    ) {
       this.allowRedirect = false;
       this.checkoutCostCenterService.setCostCenter(this._costCenterId);
     }
