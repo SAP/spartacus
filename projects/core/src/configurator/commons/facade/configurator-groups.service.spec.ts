@@ -9,6 +9,7 @@ import { StateWithConfiguration, UiState } from '../store/configuration-state';
 import { Configurator } from './../../../model/configurator.model';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupsService } from './configurator-groups.service';
+import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const GROUP_ID_1 = '1234-56-7891';
@@ -132,6 +133,7 @@ describe('ConfiguratorGroupsService', () => {
   let serviceUnderTest: ConfiguratorGroupsService;
   let store: Store<StateWithConfiguration>;
   let configuratorCommonsService: ConfiguratorCommonsService;
+  let configGroupStatusService: ConfiguratorGroupStatusService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -154,6 +156,9 @@ describe('ConfiguratorGroupsService', () => {
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
+    configGroupStatusService = TestBed.inject(
+      ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>
+    );
 
     spyOn(store, 'dispatch').and.stub();
     spyOn(store, 'pipe').and.returnValue(of(uiState));
@@ -162,7 +167,7 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)
     );
-    spyOn(serviceUnderTest, 'setGroupStatus').and.callThrough();
+    spyOn(configGroupStatusService, 'setGroupStatus').and.callThrough();
   });
 
   it('should create service', () => {
@@ -255,122 +260,12 @@ describe('ConfiguratorGroupsService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
-  it('should find group from group Id', () => {
-    const group = serviceUnderTest.findCurrentGroup(
-      productConfiguration.groups,
-      GROUP_ID_2
+  it('should call group status in navigate to different group', () => {
+    serviceUnderTest.navigateToGroup(
+      productConfiguration,
+      productConfiguration.groups[2].id
     );
 
-    expect(group).toBe(productConfiguration.groups[1]);
-  });
-
-  it('should find parent group from group', () => {
-    const parentGroup = serviceUnderTest.findParentGroup(
-      productConfiguration.groups,
-      productConfiguration.groups[2].subGroups[0],
-      null
-    );
-
-    expect(parentGroup).toBe(productConfiguration.groups[2]);
-  });
-
-  it('should check if subgroups exist', () => {
-    expect(serviceUnderTest.hasSubGroups(productConfiguration.groups[0])).toBe(
-      false
-    );
-    expect(serviceUnderTest.hasSubGroups(productConfiguration.groups[2])).toBe(
-      true
-    );
-  });
-
-  describe('Group Status Tests', () => {
-    it('should call group status in navigate to different group', () => {
-      serviceUnderTest.navigateToGroup(
-        productConfiguration,
-        productConfiguration.groups[2].id
-      );
-
-      expect(serviceUnderTest.setGroupStatus).toHaveBeenCalled();
-    });
-
-    it('should call setGroupVisisted action on setGroupStatus method call', () => {
-      serviceUnderTest.setGroupStatus(
-        productConfiguration,
-        productConfiguration.groups[0].id,
-        true
-      );
-
-      const expectedAction = new UiActions.SetGroupsVisited(
-        productConfiguration.owner.key,
-        [GROUP_ID_1]
-      );
-
-      expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-    });
-
-    it('should get parent group, when all subgroups are visited', () => {
-      spyOn(store, 'select').and.returnValue(of(true));
-      serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_4, true);
-
-      const expectedAction = new UiActions.SetGroupsVisited(
-        productConfiguration.owner.key,
-        [GROUP_ID_4, GROUP_ID_3]
-      );
-
-      expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-    });
-
-    it('should not get parent group, when not all subgroups are visited', () => {
-      //Not all subgroups are visited
-      spyOn(store, 'select').and.returnValue(of(false));
-
-      serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_6, true);
-
-      const expectedAction = new UiActions.SetGroupsVisited(
-        productConfiguration.owner.key,
-        [GROUP_ID_6]
-      );
-
-      expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-    });
-
-    it('should get all parent groups, when lowest subgroup are visited', () => {
-      spyOn(store, 'select').and.returnValue(of(true));
-
-      serviceUnderTest.setGroupStatus(productConfiguration, GROUP_ID_8, true);
-
-      const expectedAction = new UiActions.SetGroupsVisited(
-        productConfiguration.owner.key,
-        [GROUP_ID_8, GROUP_ID_7, GROUP_ID_5]
-      );
-
-      expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
-    });
-
-    it('should return status completed if required fields are filled', () => {
-      // required checkbox not filled
-      expect(
-        serviceUnderTest.checkIsGroupComplete(productConfiguration.groups[0])
-      ).toBe(false);
-      //no required attributes in group
-      expect(
-        serviceUnderTest.checkIsGroupComplete(productConfiguration.groups[1])
-      ).toBe(true);
-      // two required attributes, only one is filled
-      expect(
-        serviceUnderTest.checkIsGroupComplete(productConfiguration.groups[3])
-      ).toBe(false);
-      //required single selection image not filled
-      expect(
-        serviceUnderTest.checkIsGroupComplete(productConfiguration.groups[2])
-      ).toBe(false);
-    });
-
-    it('should return status completed if required fields are filled', () => {
-      // required checkbox not filled
-      expect(
-        serviceUnderTest.checkIsGroupComplete(productConfiguration.groups[0])
-      ).toBe(false);
-    });
+    expect(configGroupStatusService.setGroupStatus).toHaveBeenCalled();
   });
 });

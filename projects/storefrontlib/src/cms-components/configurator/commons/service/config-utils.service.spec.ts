@@ -4,6 +4,7 @@ import { ConfigUtilsService } from './config-utils.service';
 import { Observable, of } from 'rxjs';
 import {
   ConfiguratorGroupsService,
+  ConfiguratorGroupStatusService,
   GenericConfigurator,
 } from '@spartacus/core';
 import { Type } from '@angular/core';
@@ -18,7 +19,7 @@ class MockConfiguratorGroupsService {
 
 describe('ConfigUtilsService', () => {
   let classUnderTest: ConfigUtilsService;
-  let configurationGroupService: ConfiguratorGroupsService;
+  let configuratorGroupStatusService: ConfiguratorGroupStatusService;
   const owner: GenericConfigurator.Owner = {
     id: 'testProduct',
     type: GenericConfigurator.OwnerType.PRODUCT,
@@ -35,10 +36,10 @@ describe('ConfigUtilsService', () => {
     });
 
     classUnderTest = TestBed.inject(ConfigUtilsService);
-    configurationGroupService = TestBed.inject(
-      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+    configuratorGroupStatusService = TestBed.inject(
+      ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>
     );
-    spyOn(configurationGroupService, 'isGroupVisited').and.returnValue(
+    spyOn(configuratorGroupStatusService, 'isGroupVisited').and.returnValue(
       isGroupVisited
     );
   });

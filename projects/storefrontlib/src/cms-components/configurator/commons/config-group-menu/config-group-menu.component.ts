@@ -2,14 +2,15 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
-  RoutingService,
-} from '@spartacus/core';
+  ConfiguratorGroupsService, ConfiguratorGroupStatusService,
+  RoutingService
+} from "@spartacus/core";
 import { Observable, of } from 'rxjs';
 import { delay, map, switchMap, take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
+import { ConfiguratorGroupUtilsService } from "../../../../../../core/src/configurator/commons/facade";
 
 @Component({
   selector: 'cx-config-group-menu',
@@ -24,22 +25,24 @@ export class ConfigGroupMenuComponent implements OnInit {
   displayedGroups$: Observable<Configurator.Group[]>;
 
   iconTypes = ICON_TYPE;
-  GROUPSTATUS = Configurator.GroupStatus;
-
   constructor(
     private routingService: RoutingService,
-    private configuratorCommonsService: ConfiguratorCommonsService,
-    public configuratorGroupsService: ConfiguratorGroupsService,
+    private configCommonsService: ConfiguratorCommonsService,
+    public configGroupUtilsService: ConfiguratorGroupUtilsService,
+    private configGroupStatusService: ConfiguratorGroupStatusService,
+    private configuratorGroupsService: ConfiguratorGroupsService,
     private hamburgerMenuService: HamburgerMenuService,
-    private configRouterExtractorService: ConfigRouterExtractorService
+    private configRouterExtractorService: ConfigRouterExtractorService,
   ) {}
+
+  GROUPSTATUS = Configurator.GroupStatus;
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
       .extractRouterData(this.routingService)
       .pipe(
         switchMap((routerData) =>
-          this.configuratorCommonsService.getConfiguration(routerData.owner)
+          this.configCommonsService.getConfiguration(routerData.owner)
         )
       );
 
@@ -82,7 +85,11 @@ export class ConfigGroupMenuComponent implements OnInit {
 
   click(group: Configurator.Group) {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
-      if (!this.configuratorGroupsService.hasSubGroups(group)) {
+      if (
+        !this.configGroupUtilsService.hasSubGroups(
+          group
+        )
+      ) {
         this.scrollToVariantConfigurationHeader();
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
@@ -122,7 +129,7 @@ export class ConfigGroupMenuComponent implements OnInit {
   getParentGroup(group: Configurator.Group): Observable<Configurator.Group> {
     return this.configuration$.pipe(
       map((configuration) =>
-        this.configuratorGroupsService.findParentGroup(
+        this.configGroupUtilsService.findParentGroup(
           configuration.groups,
           group,
           null
@@ -161,12 +168,12 @@ export class ConfigGroupMenuComponent implements OnInit {
     groupId: string,
     configuration: Configurator.Configuration
   ): Observable<string> {
-    return this.configuratorGroupsService
+    return this.configGroupStatusService
       .isGroupVisited(configuration.owner, groupId)
       .pipe(
         switchMap((isVisited) => {
           if (isVisited) {
-            return this.configuratorGroupsService.getGroupStatus(
+            return this.configGroupStatusService.getGroupStatus(
               configuration.owner,
               groupId
             );
