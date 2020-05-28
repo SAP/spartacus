@@ -9,6 +9,7 @@
 BACKEND_URL="https://localhost:9002"
 
 BASE_SITE="electronics-spa"
+OCC_PREFIX="/occ/v2/"
 
 SPARTACUS_PROJECTS=(
         "core"
