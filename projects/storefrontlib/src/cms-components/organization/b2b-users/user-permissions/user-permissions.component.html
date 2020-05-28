@@ -3,7 +3,8 @@
   [links]="[
     {
       cxRoute: 'userDetails',
-      name: 'user.details'
+      name: 'user.details',
+      params: { customerId: code$ | async }
     },
     {
       cxRoute: 'userApprovers',
