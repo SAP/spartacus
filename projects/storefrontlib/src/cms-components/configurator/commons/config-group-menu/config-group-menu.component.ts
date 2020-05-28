@@ -2,15 +2,16 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
-  ConfiguratorGroupsService, ConfiguratorGroupStatusService,
-  RoutingService
-} from "@spartacus/core";
+  ConfiguratorGroupsService,
+  ConfiguratorGroupStatusService,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { delay, map, switchMap, take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
-import { ConfiguratorGroupUtilsService } from "../../../../../../core/src/configurator/commons/facade";
+import { ConfiguratorGroupUtilsService } from '../../../../../../core/src/configurator/commons/facade';
 
 @Component({
   selector: 'cx-config-group-menu',
@@ -32,7 +33,7 @@ export class ConfigGroupMenuComponent implements OnInit {
     private configGroupStatusService: ConfiguratorGroupStatusService,
     private configuratorGroupsService: ConfiguratorGroupsService,
     private hamburgerMenuService: HamburgerMenuService,
-    private configRouterExtractorService: ConfigRouterExtractorService,
+    private configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
   GROUPSTATUS = Configurator.GroupStatus;
@@ -85,11 +86,7 @@ export class ConfigGroupMenuComponent implements OnInit {
 
   click(group: Configurator.Group) {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
-      if (
-        !this.configGroupUtilsService.hasSubGroups(
-          group
-        )
-      ) {
+      if (!this.configGroupUtilsService.hasSubGroups(group)) {
         this.scrollToVariantConfigurationHeader();
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
