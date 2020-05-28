@@ -18,8 +18,16 @@ export namespace GenericConfigurator {
     owner?: GenericConfigurator.Owner;
   }
 
+  export interface ReadConfigurationFromOrderEntryParameters {
+    userId?: string;
+    orderId?: string;
+    orderEntryNumber?: string;
+    owner?: GenericConfigurator.Owner;
+  }
+
   export enum OwnerType {
     PRODUCT = 'product',
     CART_ENTRY = 'cartEntry',
+    ORDER_ENTRY = 'orderEntry',
   }
 }

@@ -15,6 +15,7 @@ export class OccConfiguratorVariantOverviewNormalizer
     target?: Configurator.Overview
   ): Configurator.Overview {
     target = {
+      configId: source.id,
       groups: source.groups.flatMap((group) => this.convertGroup(group)),
     };
 

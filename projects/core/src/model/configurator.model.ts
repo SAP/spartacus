@@ -58,6 +58,7 @@ export namespace Configurator {
   }
 
   export interface Overview {
+    configId?: string;
     groups?: GroupOverview[];
   }
 

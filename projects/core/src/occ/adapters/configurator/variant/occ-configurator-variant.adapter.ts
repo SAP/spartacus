@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { CART_MODIFICATION_NORMALIZER } from '../../../../cart/connectors/entry/converters';
 import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
 import {
@@ -161,6 +161,36 @@ export class OccConfiguratorVariantAdapter
     return this.http
       .put<CartModification>(url, occUpdateCartEntryParameters, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+  }
+
+  readConfigurationOverviewForOrderEntry(
+    parameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable<Configurator.Configuration> {
+    const url = this.occEndpointsService.getUrl(
+      'readConfigurationOverviewForOrderEntry',
+      {
+        userId: parameters.userId,
+        orderId: parameters.orderId,
+        orderEntryNumber: parameters.orderEntryNumber,
+      }
+    );
+
+    return this.http.get<Configurator.Overview>(url).pipe(
+      this.converterService.pipeable(CONFIGURATION_OVERVIEW_NORMALIZER),
+      map((overview) => {
+        const configuration: Configurator.Configuration = {
+          configId: overview.configId,
+          overview: overview,
+        };
+        return configuration;
+      }),
+      tap((resultConfiguration) => {
+        resultConfiguration.owner = {
+          ...parameters.owner,
+          hasObsoleteState: false,
+        };
+      })
+    );
   }
 
   readPriceSummary(
