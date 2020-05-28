@@ -87,7 +87,9 @@ export default async function run(
     return gitRawCommits({
       from: fromToken,
       to,
-      path: args.library ? libraryPaths[args.library] : '.',
+      path: args.library
+        ? path.join(__dirname, '..', libraryPaths[args.library])
+        : path.join(__dirname, '..'),
       format:
         '%B%n-hash-%n%H%n-gitTags-%n%D%n-committerDate-%n%ci%n-authorName-%n%aN%n',
     }) as NodeJS.ReadStream;
@@ -172,7 +174,7 @@ export default async function run(
         include: (x: string, v: {}) =>
           ejs.render(
             fs.readFileSync(
-              path.join(__dirname, './templattes', `${x}.ejs`),
+              path.join(__dirname, './templates', `${x}.ejs`),
               'utf-8'
             ),
             v
