@@ -72,6 +72,7 @@ export class OrganizationMetaResolver extends PageMetaResolver
         link: `/${url.path}`,
       });
     }
+    breadcrumbs.pop();
     return breadcrumbs;
   }
 
