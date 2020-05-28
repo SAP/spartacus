@@ -15,5 +15,9 @@
   "angularCompilerOptions": {
     "entryModule": "src/app/app.server.module#AppServerModule"
   },
-  "files": ["src/main.server.ts", "server.ts"]
+  "files": [
+    "src/main.server.ts",
+    "server.ts",
+    "src/environments/models.build.process.env.d.ts"
+  ]
 }
