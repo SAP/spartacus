@@ -63,22 +63,22 @@ class MockB2BUserConnector {
     of({ values: [permission], pagination, sorts })
   );
   assignApprover = createSpy().and.returnValue(
-    of({ values: [userId, orgCustomerId, approverId] })
+    of({ id: approverId, selected: true })
   );
   unassignApprover = createSpy().and.returnValue(
-    of({ values: [userId, orgCustomerId, approverId] })
+    of({ id: approverId, selected: false })
   );
   assignPermission = createSpy().and.returnValue(
-    of({ values: [userId, orgCustomerId, permissionId] })
+    of({ id: permissionId, selected: true })
   );
   unassignPermission = createSpy().and.returnValue(
-    of({ values: [userId, orgCustomerId, permissionId] })
+    of({ id: permissionId, selected: false })
   );
   assignUserGroup = createSpy().and.returnValue(
-    of({ values: [userId, orgCustomerId, userGroupId] })
+    of({ id: userGroupId, selected: true })
   );
   unassignUserGroup = createSpy().and.returnValue(
-    of({ values: [userId, orgCustomerId, userGroupId] })
+    of({ id: userGroupId, selected: false })
   );
   create = createSpy().and.returnValue(of(orgCustomer));
   update = createSpy().and.returnValue(of(orgCustomer));

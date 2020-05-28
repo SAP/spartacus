@@ -50,13 +50,21 @@ class MockUserGroupConnector implements Partial<UserGroupConnector> {
   getAvailableOrderApprovalPermissions = createSpy().and.returnValue(
     of({ values: [permission], pagination, sorts })
   );
-  assignOrderApprovalPermission = createSpy().and.returnValue(of(null));
-  unassignOrderApprovalPermission = createSpy().and.returnValue(of(null));
+  assignOrderApprovalPermission = createSpy().and.returnValue(
+    of({ id: permissionUid, selected: true })
+  );
+  unassignOrderApprovalPermission = createSpy().and.returnValue(
+    of({ id: permissionUid, selected: false })
+  );
   getAvailableOrgCustomers = createSpy().and.returnValue(
     of({ values: [customer], pagination, sorts })
   );
-  assignMember = createSpy().and.returnValue(of(null));
-  unassignMember = createSpy().and.returnValue(of(null));
+  assignMember = createSpy().and.returnValue(
+    of({ id: customerId, selected: true })
+  );
+  unassignMember = createSpy().and.returnValue(
+    of({ id: customerId, selected: false })
+  );
   unassignAllMembers = createSpy().and.returnValue(of(null));
 }
 
