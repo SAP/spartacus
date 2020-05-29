@@ -4,14 +4,18 @@ Spartacus dev-schematics is a set of collections including pre-defined configura
 
 ## Prerequisites
 
-There might be situations, where you want to use the `@spartacus/schematics` that hasn't been released yet (e.g. the public API is not up-to-date). You can test it locally by following steps:
+For dev-schematics to be applied properly, you need an Angular application with Spartacus installed.
+
+### Prerequisites for local testing
+
+There might be a situation where you want to use the `@spartacus/schematics` that hasn't been released yet (e.g. its public API is not up-to-date).
+
+These are the steps to take in order to test both `@spartacus/schematics` and `spartacus/dev-schematics` locally:
 
 1. Launch local verdaccio in yours terminal with command `verdaccio`
 2. **(Optional step)**: From project root go to `/projects/schematics` and change lib version in package.json file (for local testing purposes only, please remember to revert it before committing any changes)
 3. Now (in new terminal or tab) go to dev-schematics scripts: `/projects/dev-schematics/scripts`
 4. Run `./test-dev-schematics-local.sh <version>` where `<version>` is **optional** argument for providing schematics version if it was changed in optional step (`projects/schematics/package.json`). The script will perform all necessary steps to ensure up to date schematics version on your local verdaccio. When the script finishes running, you should be ready to test your dev-schematics.
-
-For dev-schematics to be applied properly, you need an Angular application with Spartacus installed.
 
 ## Adding dev-schematics to your Spartacus project
 

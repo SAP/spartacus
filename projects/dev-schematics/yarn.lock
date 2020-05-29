@@ -205,10 +205,10 @@
     semver "7.1.3"
     semver-intersect "1.4.0"
 
-"@spartacus/schematics@^2.0.0-rc.2":
-  version "2.0.0-rc.3"
-  resolved "https://registry.yarnpkg.com/@spartacus/schematics/-/schematics-2.0.0-rc.3.tgz#e0076522b4a8d583869e8854813e9c87510ca02d"
-  integrity sha512-DHKZV+hT1sh2u4E6HD9f56rnx1i5DgiitwqJgBrxLRR8NplC648uXoHmB3Y+X7DKfOSE8YTSbak+BqL3sO4alw==
+"@spartacus/schematics@^2.0.0-rc.4":
+  version "2.0.0-rc.4"
+  resolved "https://registry.yarnpkg.com/@spartacus/schematics/-/schematics-2.0.0-rc.4.tgz#ce1a7970097b4f21edd2a0529257c586c50590d5"
+  integrity sha512-+wK8tMGYjI500CnO9/uSDSftkgUDarwYslViIpmnaJ/5imvcWnXJg1j079x9N0OUsVzhlvppN0wivBPyGNeCcQ==
   dependencies:
     "@angular-devkit/core" "^9.1.0"
     "@angular-devkit/schematics" "^9.1.0"

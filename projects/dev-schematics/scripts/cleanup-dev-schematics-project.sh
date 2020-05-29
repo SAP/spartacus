@@ -5,5 +5,5 @@
 
 cd ../
 rm .npmrc
-git reset -- yarn.lock package.json
+git checkout HEAD -- yarn.lock package.json
 yarn
