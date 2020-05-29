@@ -4,11 +4,13 @@
   max-width: 1700px;
   margin: auto;
 
-  cx-banner {
-    cx-media {
-      img {
-        display: flex;
-        height: auto;
+  cx-page-slot {
+    cx-banner {
+      cx-media {
+        img {
+          display: flex;
+          height: auto;
+        }
       }
     }
 
