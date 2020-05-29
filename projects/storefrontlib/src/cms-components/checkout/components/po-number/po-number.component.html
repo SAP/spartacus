@@ -9,7 +9,7 @@
         #poNumber
         class="form-control"
         type="text"
-        value="{{ poNumber$ | async }}"
+        value="{{ cartPoNumber$ | async }}"
       />
     </label>
     <!-- cost centers -->
@@ -22,10 +22,13 @@
           <span class="label-content required">{{
             'checkoutPO.costCenter' | cxTranslate
           }}</span>
-          <select class="form-control">
-            <option *ngFor="let cc of costCenters" value="{{ cc.code }}">{{
-              cc.name
-            }}</option>
+          <select (change)="costCenterId = $event.target.value">
+            <option
+              *ngFor="let cc of costCenters"
+              value="{{ cc.code }}"
+              [selected]="(cartCostCenter$ | async) === cc.code"
+              >{{ cc.name }}</option
+            >
           </select>
         </div>
       </ng-container>

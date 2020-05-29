@@ -9,6 +9,7 @@ import { CartActions } from '../../../cart/store/actions/index';
 import {
   CheckoutDeliveryConnector,
   CheckoutPaymentConnector,
+  CheckoutCostCenterConnector,
 } from '../../../checkout/connectors';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
@@ -60,6 +61,10 @@ class MockCheckoutPaymentConnector {
   create = createSpy().and.returnValue(of(paymentDetails));
 }
 
+class MockCheckoutCostCenterConnector {
+  setCostCenter = createSpy().and.returnValue(of({}));
+}
+
 class MockCheckoutConnector {
   loadCheckoutDetails = createSpy().and.returnValue(of(details));
   placeOrder = () => of({});
@@ -83,6 +88,10 @@ describe('Checkout effect', () => {
         {
           provide: CheckoutPaymentConnector,
           useClass: MockCheckoutPaymentConnector,
+        },
+        {
+          provide: CheckoutCostCenterConnector,
+          useClass: MockCheckoutCostCenterConnector,
         },
         { provide: CheckoutConnector, useClass: MockCheckoutConnector },
         fromEffects.CheckoutEffects,
@@ -420,6 +429,36 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.clearCheckoutDeliveryMode$).toBeObservable(expected);
+    });
+  });
+
+  describe('setCostCenter$', () => {
+    it('should set cost center to cart', () => {
+      const action = new CheckoutActions.SetCostCenter({
+        userId: userId,
+        cartId: cartId,
+        costCenterId: 'testId',
+      });
+      const completion1 = new CheckoutActions.SetCostCenterSuccess('testId');
+      const completion2 = new CheckoutActions.ClearCheckoutDeliveryMode({
+        userId,
+        cartId,
+      });
+      const completion3 = new CheckoutActions.ClearCheckoutDeliveryAddress({
+        userId,
+        cartId,
+      });
+      const completion4 = new CartActions.LoadCart({ userId, cartId });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcde)', {
+        b: completion1,
+        c: completion2,
+        d: completion3,
+        e: completion4,
+      });
+
+      expect(entryEffects.setCostCenter$).toBeObservable(expected);
     });
   });
 });

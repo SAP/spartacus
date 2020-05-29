@@ -12,6 +12,7 @@ export const SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID =
   'setSupportedDeliveryMode';
 export const SET_PAYMENT_DETAILS_PROCESS_ID = 'setPaymentDetails';
 export const GET_PAYMENT_TYPES_PROCESS_ID = 'getPaymentTypes';
+export const SET_COST_CENTER_PROCESS_ID = 'setCostCenter';
 
 export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;
@@ -28,6 +29,7 @@ export interface CardTypesState {
 export interface CheckoutStepsState {
   poNumber: {
     po: string;
+    costCenter: string;
   };
   address: Address;
   deliveryMode: {
