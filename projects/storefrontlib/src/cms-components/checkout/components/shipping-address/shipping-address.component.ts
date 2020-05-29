@@ -3,12 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import {
   ActiveCartService,
   Address,
+  B2BAddress,
   CheckoutDeliveryService,
   TranslationService,
   UserAddressService,
+  PaymentTypeService,
+  UserCostCenterService,
+  CheckoutCostCenterService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, take } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -23,6 +27,7 @@ export interface CardWithAddress {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShippingAddressComponent implements OnInit {
+  paymentType = '';
   addressFormEnabled = false;
   forceLoader = false; // this helps with smoother steps transition
   selectedAddress: Address;
@@ -33,11 +38,18 @@ export class ShippingAddressComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
-    protected checkoutStepService: CheckoutStepService
+    protected checkoutStepService: CheckoutStepService,
+    protected paymentTypeService: PaymentTypeService,
+    protected userCostCenterService: UserCostCenterService,
+    protected checkoutCostCenterService: CheckoutCostCenterService
   ) {}
 
   get isGuestCheckout(): boolean {
     return this.activeCartService.isGuestCart();
+  }
+
+  get isAccount(): boolean {
+    return this.paymentType === this.paymentTypeService.ACCOUNT_PAYMENT;
   }
 
   get backBtnText(): string {
@@ -67,24 +79,17 @@ export class ShippingAddressComponent implements OnInit {
 
   get cards$(): Observable<CardWithAddress[]> {
     return combineLatest([
-      this.userAddressService.getAddresses(),
+      this.getSupportedAddresses(this.isAccount),
       this.selectedAddress$,
       this.translation.translate('checkoutAddress.defaultShippingAddress'),
       this.translation.translate('checkoutAddress.shipToThisAddress'),
       this.translation.translate('addressCard.selected'),
     ]).pipe(
-      tap(([addresses, selected]) => {
-        // Select default address if none selected
-        if (
-          addresses.length &&
-          (!selected || Object.keys(selected).length === 0)
-        ) {
-          selected = addresses.find((address) => address.defaultAddress);
-          this.selectAddress(selected);
-        }
-      }),
+      tap(([addresses, selected]) =>
+        this.setDefaultAddress(this.isAccount, addresses, selected)
+      ),
       map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
-        addresses.map((address) => ({
+        (<any>addresses).map((address) => ({
           address,
           card: this.getCardContent(
             address,
@@ -98,8 +103,50 @@ export class ShippingAddressComponent implements OnInit {
     );
   }
 
+  getSupportedAddresses(
+    isAccount: boolean
+  ): Observable<Address[] | B2BAddress[]> {
+    if (isAccount) {
+      let costCenterId: string;
+      this.checkoutCostCenterService
+        .getCostCenter()
+        .pipe(take(1))
+        .subscribe((selected) => (costCenterId = selected));
+      return this.userCostCenterService.getCostCenterAddresses(costCenterId);
+    } else {
+      return this.userAddressService.getAddresses();
+    }
+  }
+
+  setDefaultAddress(
+    isAccount: boolean,
+    addresses: Address[] | B2BAddress[],
+    selected: Address
+  ) {
+    if (
+      addresses &&
+      addresses.length &&
+      (!selected || Object.keys(selected).length === 0)
+    ) {
+      if (isAccount) {
+        if (addresses.length === 1) {
+          selected = addresses[0];
+          this.selectAddress(selected);
+        }
+      } else {
+        selected = addresses.find((address) => address.defaultAddress);
+        this.selectAddress(selected);
+      }
+    }
+  }
+
   ngOnInit(): void {
-    if (!this.isGuestCheckout) {
+    this.paymentTypeService
+      .getSelectedPaymentType()
+      .pipe(take(1))
+      .subscribe((selected) => (this.paymentType = selected));
+
+    if (!this.isGuestCheckout && !this.isAccount) {
       this.userAddressService.loadAddresses();
     }
   }

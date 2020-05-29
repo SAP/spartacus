@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { CostCenter, B2BAddress } from '../../../model/org-unit.model';
+import { CostCenter } from '../../../model/org-unit.model';
 import { StateUtils } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { StateWithUser, UserState } from '../user-state';
@@ -16,14 +16,3 @@ export const getCostCenters: MemoizedSelector<
 > = createSelector(getCostCentersState, (state: LoaderState<CostCenter[]>) =>
   StateUtils.loaderValueSelector(state)
 );
-
-export const getCostCenterAddressesFactory = (
-  costCenterId: string
-): MemoizedSelector<StateWithUser, B2BAddress[]> =>
-  createSelector(getCostCenters, (costCenters) => {
-    const costCenter = costCenters.find((cc) => cc.code === costCenterId);
-    if (costCenter.unit) {
-      return costCenter.unit.addresses;
-    }
-    return [];
-  });

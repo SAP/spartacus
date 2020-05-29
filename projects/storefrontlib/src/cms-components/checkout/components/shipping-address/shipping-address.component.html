@@ -9,7 +9,7 @@
       <p class="cx-checkout-text">
         {{ 'checkoutAddress.selectYourShippingAddress' | cxTranslate }}
       </p>
-      <div class="cx-checkout-btns row">
+      <div class="cx-checkout-btns row" *ngIf="!isAccount">
         <div class="col-sm-12 col-md-12 col-lg-6">
           <button
             class="btn btn-block btn-action"

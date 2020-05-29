@@ -48,8 +48,15 @@ export class UserCostCenterService {
   }
 
   getCostCenterAddresses(costCenterId: string): Observable<B2BAddress[]> {
-    return this.store.select(
-      UsersSelectors.getCostCenterAddressesFactory(costCenterId)
+    return this.getActiveCostCenters().pipe(
+      map((costCenters) => {
+        const costCenter = costCenters.find((cc) => cc.code === costCenterId);
+        if (costCenter && costCenter.unit) {
+          return costCenter.unit.addresses;
+        } else {
+          return [];
+        }
+      })
     );
   }
 }
