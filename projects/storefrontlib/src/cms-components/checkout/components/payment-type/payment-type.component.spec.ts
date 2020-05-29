@@ -1,14 +1,14 @@
 import { Component, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  PaymentTypeService,
   I18nTestingModule,
   PaymentType,
+  PaymentTypeService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { CheckoutStepType } from '../../model/checkout-step.model';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { PaymentTypeComponent } from './payment-type.component';
-import { CheckoutStepType } from '../../model/checkout-step.model';
 
 import createSpy = jasmine.createSpy;
 
@@ -31,6 +31,7 @@ class MockPaymentTypeService {
 class MockCheckoutStepService {
   disableEnableStep = createSpy();
   resetSteps = createSpy();
+  gotToStep = createSpy();
 }
 
 const mockPaymentTypes: PaymentType[] = [
@@ -104,5 +105,6 @@ describe('PaymentTypeComponent', () => {
     spyOn(paymentTypeService, 'setPaymentType').and.callThrough();
     component.changeType('ACCOUNT');
     expect(paymentTypeService.setPaymentType).toHaveBeenCalledWith('ACCOUNT');
+    expect(checkoutStepService.gotToStep).toHaveBeenCalledWith(0);
   });
 });

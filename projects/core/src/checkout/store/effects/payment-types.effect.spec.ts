@@ -9,8 +9,8 @@ import {
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CheckoutActions } from '../actions/index';
 import { CartActions } from '../../../cart/store/actions/index';
+import { CheckoutActions } from '../actions/index';
 import { PaymentTypesEffects } from './payment-types.effect';
 
 const mockPaymentTypes: PaymentType[] = [
@@ -72,16 +72,21 @@ describe('Payment Types effect', () => {
         cartId: 'testCart',
         typeCode: 'ACCOUNT',
       });
-      const completion1 = new CheckoutActions.SetPaymentTypeSuccess({
+      const completion1 = new CheckoutActions.ClearCheckoutData();
+      const completion2 = new CheckoutActions.SetPaymentTypeSuccess({
         code: 'testCart',
       });
-      const completion2 = new CartActions.LoadCart({
+      const completion3 = new CartActions.LoadCart({
         userId: 'testUser',
         cartId: 'testCart',
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion1, c: completion2 });
+      const expected = cold('-(bcd)', {
+        b: completion1,
+        c: completion2,
+        d: completion3,
+      });
 
       expect(effect.setPaymentType$).toBeObservable(expected);
     });

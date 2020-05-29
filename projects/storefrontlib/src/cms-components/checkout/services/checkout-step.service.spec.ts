@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { RoutingService, RoutingConfigService } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
+import { RoutingConfigService, RoutingService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { CheckoutStepType } from '../model';
 import { CheckoutConfigService } from './checkout-config.service';
 import { CheckoutStepService } from './checkout-step.service';
@@ -210,5 +210,12 @@ describe('CheckoutStpService', () => {
       },
     };
     expect(service.getCurrentStepIndex(<any>mockActivatedRoute)).toBe(2);
+  });
+
+  it('should go to the requested step', () => {
+    service.gotToStep(0);
+    expect(routingService.go).toHaveBeenCalledWith('checkout/route0');
+    service.gotToStep(2);
+    expect(routingService.go).toHaveBeenCalledWith('checkout/route2');
   });
 });
