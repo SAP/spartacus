@@ -26,5 +26,8 @@
     "@types/node": "^12.11.1",
     "jasmine": "^3.5.0",
     "typescript": "~3.8.3"
+  },
+  "ng-add": {
+    "save": "devDependencies"
   }
 }
