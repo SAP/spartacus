@@ -43,7 +43,9 @@
             type="text"
             class="form-control"
             required
-            placeholder="{{ 'b2bUserForm.firstName.placeholder' | cxTranslate }}"
+            placeholder="{{
+              'b2bUserForm.firstName.placeholder' | cxTranslate
+            }}"
             formControlName="firstName"
             [class.is-invalid]="isNotValid('firstName')"
           />
@@ -138,11 +140,11 @@
       <div class="form-group">
         <label aria-required="true">
           <span class="label-content required">
-            {{'b2bUserForm.roles.label' | cxTranslate}}
+            {{ 'b2bUserForm.roles.label' | cxTranslate }}
           </span>
         </label>
 
-        <div *ngFor="let role of roles; let i=index" class="form-check">
+        <div *ngFor="let role of roles; let i = index" class="form-check">
           <label>
             <input
               type="checkbox"
@@ -152,15 +154,11 @@
               (change)="onRoleChange($event)"
             />
             <span class="form-check-label">
-              {{
-                ('b2bUserForm.roles.' + role.name) | cxTranslate
-              }}
+              {{ 'b2bUserForm.roles.' + role.name | cxTranslate }}
             </span>
           </label>
         </div>
       </div>
-
-
     </div>
   </div>
   <div class="row buttons">

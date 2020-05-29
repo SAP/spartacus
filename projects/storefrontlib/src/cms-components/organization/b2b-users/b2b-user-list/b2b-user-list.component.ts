@@ -37,10 +37,7 @@ export class B2BUserListComponent extends AbstractListingComponent
       switchMap((queryParams) =>
         this.b2bUsersService.getList(queryParams).pipe(
           filter(Boolean),
-          map((b2bUsersList: EntitiesModel<B2BUser>) => {
-            console.log(b2bUsersList);
-            console.log('sorts: ', b2bUsersList.sorts);
-            return ({
+          map((b2bUsersList: EntitiesModel<B2BUser>) => ({
             sorts: b2bUsersList.sorts,
             pagination: b2bUsersList.pagination,
             values: b2bUsersList.values.map((b2bUser) => ({
@@ -50,8 +47,7 @@ export class B2BUserListComponent extends AbstractListingComponent
               parentUnit: b2bUser.orgUnit && b2bUser.orgUnit.name,
               uid: b2bUser.orgUnit && b2bUser.orgUnit.uid,
             })),
-          })}
-          )
+          }))
         )
       )
     );

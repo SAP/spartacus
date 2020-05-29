@@ -4,9 +4,22 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormArray,
+  FormControl,
+} from '@angular/forms';
 import { Observable } from 'rxjs';
-import { B2BUser, B2BUnitNode, OrgUnitService, Title, UserService, B2BUserService } from '@spartacus/core';
+import {
+  B2BUser,
+  B2BUnitNode,
+  OrgUnitService,
+  Title,
+  UserService,
+  B2BUserService,
+} from '@spartacus/core';
 import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
 import { sortTitles } from '../../../../shared/utils/forms/title-utils';
 import { tap, map } from 'rxjs/operators';
@@ -30,7 +43,7 @@ export class B2BUserFormComponent extends AbstractFormComponent
     protected fb: FormBuilder,
     protected orgUnitService: OrgUnitService,
     protected userService: UserService,
-    protected b2bUserService: B2BUserService,
+    protected b2bUserService: B2BUserService
   ) {
     super();
   }
@@ -68,14 +81,14 @@ export class B2BUserFormComponent extends AbstractFormComponent
     }
   }
 
-  initRoles(b2bUser? : B2BUser) {
+  initRoles(b2bUser?: B2BUser) {
     const roles = this.b2bUserService.getB2BUserRoles();
     const rolesArray: FormArray = this.form.get('roles') as FormArray;
 
     if (!b2bUser) {
       return roles;
     } else {
-      let newRoles = roles.map(r => {
+      let newRoles = roles.map((r) => {
         if (b2bUser.roles.includes(r.id)) {
           rolesArray.push(new FormControl(r.id));
           return { name: r.name, id: r.id, selected: true };
@@ -90,18 +103,18 @@ export class B2BUserFormComponent extends AbstractFormComponent
 
   onRoleChange(event) {
     const rolesArray: FormArray = this.form.get('roles') as FormArray;
-    if(event.target.checked) {
+    if (event.target.checked) {
       rolesArray.push(new FormControl(event.target.value));
       return;
     } else {
       let i: number = 0;
       rolesArray.controls.forEach((ctrl: FormControl) => {
-        if(ctrl.value == event.target.value) {
+        if (ctrl.value == event.target.value) {
           rolesArray.removeAt(i);
           return;
         }
         i++;
-      })
+      });
     }
   }
 }
