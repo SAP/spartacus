@@ -171,6 +171,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   userDetails: {
     paths: ['organization/user/:code'],
+    paramsMapping: { code: 'customerId' },
   },
   userEdit: {
     paths: ['organization/user/edit/:code'],

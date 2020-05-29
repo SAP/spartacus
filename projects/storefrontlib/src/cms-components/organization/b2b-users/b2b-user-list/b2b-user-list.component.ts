@@ -46,6 +46,7 @@ export class B2BUserListComponent extends AbstractListingComponent
               roles: b2bUser.roles,
               parentUnit: b2bUser.orgUnit && b2bUser.orgUnit.name,
               uid: b2bUser.orgUnit && b2bUser.orgUnit.uid,
+              customerId: b2bUser.customerId,
             })),
           }))
         )
