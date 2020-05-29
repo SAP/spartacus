@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import {
   Address,
+  B2BOrder,
   DeliveryMode,
   Order,
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
-import { Card } from '../../../../../shared/components/card/card.component';
-import { OrderDetailsService } from '../order-details.service';
+import { Card } from '@spartacus/storefront';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { OrderDetailsService } from '../order-details.service';
 
 @Component({
   selector: 'cx-order-details-shipping',
@@ -21,7 +22,7 @@ export class OrderDetailShippingComponent implements OnInit {
     private translation: TranslationService
   ) {}
 
-  order$: Observable<Order>;
+  order$: Observable<Order | B2BOrder>;
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();
@@ -78,6 +79,26 @@ export class OrderDetailShippingComponent implements OnInit {
           title: textTitle,
           textBold: payment.accountHolderName,
           text: [payment.cardType.name, payment.cardNumber, textExpires],
+        };
+      })
+    );
+  }
+
+  getAccountPaymentCardContent(order: Order | B2BOrder): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('orderDetails.accountPayment'),
+      this.translation.translate('orderDetails.purchaseOrderId'),
+      this.translation.translate('orderDetails.costCenter'),
+      this.translation.translate('orderDetails.unit'),
+    ]).pipe(
+      map(([textTitle, textPurchaseOrderId, textCostCenter, textUnit]) => {
+        return {
+          title: textTitle,
+          text: [
+            `${textPurchaseOrderId}: ${order.purchaseOrderNumber}`,
+            `${textCostCenter}: ${order.costCenter.name}`,
+            `${textUnit}: ${order.orgCustomer.orgUnit.name}`,
+          ],
         };
       })
     );

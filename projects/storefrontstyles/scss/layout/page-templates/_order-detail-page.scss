@@ -12,9 +12,13 @@
       border: 1px solid;
       border-color: var(--cx-color-light);
       padding: 30px 30px 20px 30px;
-      margin-bottom: 30px;
       margin-left: 0;
       margin-right: 0;
+
+      &:last-child {
+        border-top: none;
+        margin-bottom: 30px;
+      }
 
       @include media-breakpoint-down(sm) {
         border: none;

@@ -1,5 +1,3 @@
-import { Price, Product } from './product.model';
-import { PaginationModel, SortModel } from './misc.model';
 import { Address } from './address.model';
 import {
   DeliveryOrderEntryGroup,
@@ -8,7 +6,10 @@ import {
   PromotionResult,
   Voucher,
 } from './cart.model';
+import { PaginationModel, SortModel } from './misc.model';
+import { B2BUser, CostCenter } from './org-unit.model';
 import { PointOfService } from './point-of-service.model';
+import { Price, Product } from './product.model';
 
 export interface DeliveryMode {
   code?: string;
@@ -161,4 +162,14 @@ export interface Order {
   user?: Principal;
   returnable?: boolean;
   cancellable?: boolean;
+}
+
+/**
+ * TODO: move out to separate interface for FUTURE
+ * https://cxwiki.sap.com/pages/viewpage.action?pageId=514209363
+ */
+export interface B2BOrder extends Order {
+  costCenter: CostCenter;
+  orgCustomer: B2BUser;
+  purchaseOrderNumber: string;
 }

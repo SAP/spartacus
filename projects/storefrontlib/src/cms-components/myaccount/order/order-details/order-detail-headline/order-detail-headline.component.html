@@ -24,4 +24,45 @@
       </div>
     </div>
   </div>
+  <div class="cx-header row">
+    <div class="cx-detail col-sm-12 col-md-4">
+      <div class="cx-detail-label">
+        {{ 'orderDetails.purchaseOrderId' | cxTranslate }}
+      </div>
+      <div class="cx-detail-value">
+        {{
+          order?.purchaseOrderNumber
+            ? order?.purchaseOrderNumber
+            : ('orderDetails.emptyPurchaseOrderId' | cxTranslate)
+        }}
+      </div>
+    </div>
+    <div class="cx-detail col-sm-12 col-md-4">
+      <div class="cx-detail-label">
+        {{ 'orderDetails.placedBy' | cxTranslate }}
+      </div>
+      <div class="cx-detail-value">{{ order?.user?.name }}</div>
+    </div>
+    <div class="cx-detail col-sm-12 col-md-4">
+      <div class="cx-detail-label">
+        {{
+          order?.costCenter
+            ? ('orderDetails.costCenterAndUnit' | cxTranslate)
+            : ('orderDetails.costCenter' | cxTranslate)
+        }}
+      </div>
+      <div class="cx-detail-value">
+        {{
+          order?.costCenter
+            ? ('orderDetails.costCenterAndUnitValue'
+              | cxTranslate
+                : {
+                    costCenterName: order?.costCenter?.name,
+                    unitName: order?.orgCustomer?.orgUnit?.name
+                  })
+            : order?.orgCustomer?.orgUnit?.name
+        }}
+      </div>
+    </div>
+  </div>
 </ng-container>
