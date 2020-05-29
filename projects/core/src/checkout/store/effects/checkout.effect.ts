@@ -424,8 +424,8 @@ export class CheckoutEffects {
     | CartActions.LoadCart
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_COST_CENTER),
-    map((action: any) => action.payload),
-    mergeMap((payload) => {
+    map((action: CheckoutActions.SetCostCenter) => action.payload),
+    switchMap((payload) => {
       return this.checkoutCostCenterConnector
         .setCostCenter(payload.userId, payload.cartId, payload.costCenterId)
         .pipe(

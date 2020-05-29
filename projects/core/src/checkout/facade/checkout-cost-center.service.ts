@@ -26,20 +26,14 @@ export class CheckoutCostCenterService {
    * @param costCenterId : cost center id
    */
   setCostCenter(costCenterId: string): void {
-    if (this.actionAllowed()) {
-      let userId;
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe((occUserId) => (userId = occUserId));
+    let cartId;
+    this.activeCartService
+      .getActiveCartId()
+      .pipe(take(1))
+      .subscribe((activeCartId) => (cartId = activeCartId));
 
-      let cartId;
-      this.activeCartService
-        .getActiveCartId()
-        .pipe(take(1))
-        .subscribe((activeCartId) => (cartId = activeCartId));
-
-      if (userId && cartId) {
+    this.authService.invokeWithUserId((userId) => {
+      if (userId && userId !== OCC_USER_ID_ANONYMOUS && cartId) {
         this.checkoutStore.dispatch(
           new CheckoutActions.SetCostCenter({
             userId: userId,
@@ -48,7 +42,7 @@ export class CheckoutCostCenterService {
           })
         );
       }
-    }
+    });
   }
 
   /**
@@ -73,14 +67,5 @@ export class CheckoutCostCenterService {
         }
       })
     );
-  }
-
-  protected actionAllowed(): boolean {
-    let userId;
-    this.authService
-      .getOccUserId()
-      .subscribe((occUserId) => (userId = occUserId))
-      .unsubscribe();
-    return userId && userId !== OCC_USER_ID_ANONYMOUS;
   }
 }

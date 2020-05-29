@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
@@ -21,7 +21,7 @@ export class UserCostCenterService {
   ) {}
 
   loadActiveCostCenters(): void {
-    this.withUserId((userId) => {
+    this.authService.invokeWithUserId((userId) => {
       if (userId && userId !== OCC_USER_ID_ANONYMOUS) {
         this.store.dispatch(new UserActions.LoadActiveCostCenters(userId));
       }
@@ -45,12 +45,5 @@ export class UserCostCenterService {
       ),
       map((result) => result.value)
     );
-  }
-
-  private withUserId(callback: (userId: string) => void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) => callback(userId));
   }
 }

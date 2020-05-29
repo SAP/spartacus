@@ -30,8 +30,8 @@ class ActiveCartServiceStub {
 
 class AuthServiceStub {
   userId;
-  getOccUserId() {
-    return of(userId);
+  invokeWithUserId(cb) {
+    cb(userId);
   }
 }
 describe('CheckoutCostCenterService', () => {
