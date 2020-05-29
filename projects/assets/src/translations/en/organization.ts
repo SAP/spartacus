@@ -334,12 +334,10 @@ export const organization = {
     name: 'Name',
   },
   b2bUsersList: {
-    b2bUserManagement: 'User Management',
+    b2bUserManagement: 'Users',
     sorting: {
       byName: 'Name',
-      byUserName: 'Name',
-      byID: 'Email',
-      byUserID: 'Email',
+      byUnit: 'Unit',
     },
     id: 'Email',
     name: 'Name',

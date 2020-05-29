@@ -2,17 +2,17 @@
   [data$]="data$"
   [header]="'b2bUsersList.b2bUserManagement' | cxTranslate"
   [sortLabels]="{
-    byUnitName: 'b2bUsersList.sorting.byUserName' | cxTranslate,
-    byGroupID: 'b2bUsersList.sorting.byUserID' | cxTranslate,
-    byName: 'b2bUsersList.sorting.byName' | cxTranslate
+    byName: 'b2bUsersList.sorting.byName' | cxTranslate,
+    byUnit: 'b2bUsersList.sorting.byUnit' | cxTranslate
   }"
   [columns]="[
+    { key: 'name', value: 'b2bUsersList.name' | cxTranslate },
     {
       key: 'code',
       value: 'b2bUsersList.id' | cxTranslate,
       cxRoute: 'userDetails'
     },
-    { key: 'name', value: 'b2bUsersList.name' | cxTranslate },
+    { key: 'roles', value: 'b2bUsersList.roles' | cxTranslate },
     {
       key: 'parentUnit',
       value: 'b2bUsersList.parentUnit' | cxTranslate,
