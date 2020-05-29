@@ -41,25 +41,21 @@ Providing configuration/functionality via params for `ng add` is the main course
 
 ## Example of full dev-schematics implementation for Spartacus project
 
-1. Build and pack dev-schematics project from source:
-    - `cd projects/dev-schematics && yarn build && npm pack`
-2. Create new Angular app (or use an existing one):
+1. Run `verdaccio` locally in separte terminal / tab
+2. Go to dev-schematics scripts and run script responsible for preparing necessary dependencies (including public api from schematics lib):
+    - `cd /projects/dev-schematics/scripts && ./test-dev-schematics-local.sh`
+3. Build and pack dev-schematics project from source:
+    - `cd .. && yarn && yarn build && npm pack`
+4. Create new Angular app (or use an existing one):
     - `ng new test-dev-schematics-app --style=scss`
-3. Apply Spartacus lib (no matter if 1.5 or 2.0, should be applicable to both)
+5. Apply Spartacus lib (no matter if 1.5 or 2.0, should be applicable to both)
     - `ng add @spartacus/schematics`
-4. Add built dev-schematics package from local machine:
+6. Add built dev-schematics package from local machine:
     - `ng add <path-to-spartacus-dev-schematics-x.x.x.tgz --baseSites --routing --outlets`
-
-
-### Available scripts
-
-For ease of usage we provide scripts for smoother installation process:
-
-`./outlet-template-files.sh` - takes care of copying and moving up to date test outlets module files from `projects/storefrontapp`.
-
+ 
 ## Testing dev-schematics locally
 
-There might be situatons, where you want to add new entities to/from public API of schematics, but the @spartacus/schematics hasn't been released yet. You can test it locally by following steps:
+There might be situations, where you want to add new entities to/from public API of schematics, but the @spartacus/schematics hasn't been released yet. You can test it locally by following steps:
 
 1. Launch local verdaccio in yours terminal with command `verdaccio` 
 2. **(Optional step)**: From project root go to `/projects/schematics` and change lib version in package.json file (for local testing purposes only, please remember to revert it before committing any changes)
@@ -69,3 +65,10 @@ There might be situatons, where you want to add new entities to/from public API 
 Above script will perform all necessary steps to ensure up to date schematics version on your local verdaccio. When script will complete, you should be ready to test your dev-schematics.
 
 
+### Available scripts
+
+For ease of usage we provide scripts for smoother installation process:
+
+`./outlet-template-files.sh` - takes care of copying and moving up to date test outlets module files from `projects/storefrontapp`.
+
+`./test-dev-schematics-local.sh` - performs all necessary steps for testing dev-schematics locally including re-publishing schematics to local verdaccio, changing registry to local and installing spartacus schematics. Requires verdaccio running locally.
