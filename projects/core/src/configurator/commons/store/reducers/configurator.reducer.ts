@@ -33,7 +33,7 @@ export function reducer(
       return takeOverChanges(action, state);
     }
     case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS: {
-      const content = { ...action.payload };
+      const content = { ...action.payload.overview };
 
       const result = {
         ...state,
@@ -43,10 +43,10 @@ export function reducer(
       return result;
     }
     case ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY: {
-      const content = { ...action.payload };
+      const content = { ...action.payload.configuration };
       content.nextOwner = {
         type: GenericConfigurator.OwnerType.CART_ENTRY,
-        id: action.cartEntryNo,
+        id: action.payload.cartEntryNo,
       };
       const result = {
         ...state,

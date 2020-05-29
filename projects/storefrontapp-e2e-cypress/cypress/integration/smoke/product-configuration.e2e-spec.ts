@@ -121,6 +121,128 @@ context('Product Configuration', () => {
     });
   });
 
+  describe('Group Status', () => {
+    it('should set group status for single level product', () => {
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.verifyGroupMenuIsDisplayed();
+
+      //verify that no status is displayed initially
+      configuration.verifyNoStatusIconDisplayed('Basics');
+      configuration.verifyNoStatusIconDisplayed('Specification');
+      configuration.verifyNoStatusIconDisplayed('Display');
+      configuration.verifyNoStatusIconDisplayed('Lens');
+      configuration.verifyNoStatusIconDisplayed('Options');
+
+      // navigate to Specification, verify that Basics status changes to Error
+      configuration.clickOnNextGroupButton('CAMERA_PIXELS', 'radioGroup');
+      configuration.verifyStatusIconDisplayed('Basics', 'ERROR');
+      configuration.verifyNoStatusIconDisplayed('Specification');
+      configuration.verifyNoStatusIconDisplayed('Display');
+      configuration.verifyNoStatusIconDisplayed('Lens');
+      configuration.verifyNoStatusIconDisplayed('Options');
+
+      // navigate to Display, verify that Specification status changes to Error
+      configuration.clickOnNextGroupButton('CAMERA_DISPLAY', 'radioGroup');
+      configuration.verifyStatusIconDisplayed('Basics', 'ERROR');
+      configuration.verifyStatusIconDisplayed('Specification', 'ERROR');
+      configuration.verifyNoStatusIconDisplayed('Display');
+      configuration.verifyNoStatusIconDisplayed('Lens');
+      configuration.verifyNoStatusIconDisplayed('Options');
+
+      // complete group Display, navigate back, verify status changes to Complete
+      configuration.selectAttribute('CAMERA_DISPLAY', 'radioGroup', 'P5');
+      cy.wait(1500);
+
+      configuration.clickOnPreviousGroupButton('CAMERA_PIXELS', 'radioGroup');
+      configuration.verifyStatusIconDisplayed('Basics', 'ERROR');
+      configuration.verifyStatusIconDisplayed('Specification', 'ERROR');
+      configuration.verifyStatusIconDisplayed('Display', 'COMPLETE');
+      configuration.verifyNoStatusIconDisplayed('Lens');
+      configuration.verifyNoStatusIconDisplayed('Options');
+
+      // select mandatory field in group Specification
+      // and check wheter status changes to complete
+      configuration.selectAttribute(
+        'CAMERA_FORMAT_PICTURES',
+        'radioGroup',
+        'RAW'
+      );
+      cy.wait(1500);
+
+      configuration.verifyStatusIconDisplayed('Basics', 'ERROR');
+      configuration.verifyStatusIconDisplayed('Specification', 'COMPLETE');
+      configuration.verifyStatusIconDisplayed('Display', 'COMPLETE');
+      configuration.verifyNoStatusIconDisplayed('Lens');
+      configuration.verifyNoStatusIconDisplayed('Options');
+    });
+
+    it('should set group status for multi level product', () => {
+      goToConfigurationPage(configurator, testProductMultiLevel);
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.verifyGroupMenuIsDisplayed();
+
+      // no status should be displayed initially
+      configuration.verifyNoStatusIconDisplayed('General');
+      configuration.verifyNoStatusIconDisplayed('Video System');
+      configuration.verifyNoStatusIconDisplayed('Audio System');
+      configuration.verifyNoStatusIconDisplayed('Source Components');
+
+      // navigate to video system subgroup, no status initially
+      configuration.clickOnNextGroupButton('PROJECTOR_TYPE', 'radioGroup');
+      configuration.verifyNoStatusIconDisplayed('Projector');
+      configuration.verifyNoStatusIconDisplayed('Flat-panel TV');
+
+      // navigate to flat-panel TV, group projector should be completed
+      configuration.clickOnNextGroupButton('FLAT_PANEL_TV', 'radioGroup');
+      configuration.verifyStatusIconDisplayed('Projector', 'COMPLETE');
+      configuration.verifyNoStatusIconDisplayed('Flat-panel TV');
+
+      // navigate back to group projector, status should be completed
+      configuration.clickOnPreviousGroupButton('PROJECTOR_TYPE', 'radioGroup');
+      configuration.verifyStatusIconDisplayed('Projector', 'COMPLETE');
+      configuration.verifyStatusIconDisplayed('Flat-panel TV', 'COMPLETE');
+
+      // navigate back to General, check completed status
+      configuration.clickOnPreviousGroupButton('ROOM_SIZE', 'radioGroup');
+      configuration.verifyStatusIconDisplayed('General', 'COMPLETE');
+      configuration.verifyStatusIconDisplayed('Video System', 'COMPLETE');
+
+      // navigate to Audio System subgroup, verify no status is displayed initially
+      configuration.clickOnNextGroupButton('PROJECTOR_TYPE', 'radioGroup');
+      configuration.clickOnNextGroupButton('FLAT_PANEL_TV', 'radioGroup');
+      configuration.clickOnNextGroupButton('SPEAKER_TYPE_FRONT', 'radioGroup');
+      configuration.verifyNoStatusIconDisplayed('Front Speakers');
+      configuration.verifyNoStatusIconDisplayed('Center Speaker');
+      configuration.verifyNoStatusIconDisplayed('Rear Speakers');
+      configuration.verifyNoStatusIconDisplayed('Subwoofer');
+
+      // navigate to Center Speaker
+      configuration.clickOnNextGroupButton('SPEAKER_TYPE', 'radioGroup');
+      configuration.verifyStatusIconDisplayed('Front Speakers', 'COMPLETE');
+
+      // navigate back to Front Speaker, check completed status
+      configuration.clickOnPreviousGroupButton(
+        'SPEAKER_TYPE_FRONT',
+        'radioGroup'
+      );
+      configuration.verifyStatusIconDisplayed('Front Speakers', 'COMPLETE');
+      configuration.verifyStatusIconDisplayed('Center Speaker', 'COMPLETE');
+      configuration.verifyNoStatusIconDisplayed('Rear Speakers');
+      configuration.verifyNoStatusIconDisplayed('Subwoofer');
+
+      // navigate back to General group, verify that Audio system is not fully completed
+      configuration.clickOnPreviousGroupButton('FLAT_PANEL_TV', 'radioGroup');
+      configuration.clickOnPreviousGroupButton('PROJECTOR_TYPE', 'radioGroup');
+      configuration.clickOnPreviousGroupButton('ROOM_SIZE', 'radioGroup');
+
+      configuration.verifyStatusIconDisplayed('General', 'COMPLETE');
+      configuration.verifyStatusIconDisplayed('Video System', 'COMPLETE');
+      configuration.verifyNoStatusIconDisplayed('Audio System');
+      configuration.verifyNoStatusIconDisplayed('Source Components');
+    });
+  });
+
   describe.skip('Group handling', () => {
     it('should navigate between groups', () => {
       goToConfigurationPage(configurator, testProduct);
