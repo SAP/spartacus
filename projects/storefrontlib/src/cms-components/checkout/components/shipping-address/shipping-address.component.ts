@@ -8,7 +8,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, take, filter } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -23,15 +23,9 @@ export interface CardWithAddress {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShippingAddressComponent implements OnInit {
-  existingAddresses$: Observable<Address[]>;
-  newAddressFormManuallyOpened = false;
-  isLoading$: Observable<boolean>;
-  cards$: Observable<CardWithAddress[]>;
-  selectedAddress$: Observable<Address>;
+  addressFormEnabled = false;
   forceLoader = false; // this helps with smoother steps transition
-  isGuestCheckout = false;
-
-  backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
+  selectedAddress: Address;
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -42,58 +36,71 @@ export class ShippingAddressComponent implements OnInit {
     protected checkoutStepService: CheckoutStepService
   ) {}
 
-  ngOnInit() {
-    this.isLoading$ = this.userAddressService.getAddressesLoading();
-    this.existingAddresses$ = this.userAddressService.getAddresses();
-    this.selectedAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
+  get isGuestCheckout(): boolean {
+    return this.activeCartService.isGuestCart();
+  }
 
-    this.cards$ = combineLatest([
-      this.existingAddresses$,
+  get backBtnText(): string {
+    return this.checkoutStepService.getBackBntText(this.activatedRoute);
+  }
+
+  get isLoading$(): Observable<boolean> {
+    return this.userAddressService.getAddressesLoading();
+  }
+
+  get selectedAddress$(): Observable<Address> {
+    return this.checkoutDeliveryService.getDeliveryAddress().pipe(
+      tap((address) => {
+        if (
+          address &&
+          (this.selectedAddress === undefined ||
+            this.selectedAddress.id !== address.id)
+        ) {
+          this.selectedAddress = address;
+          if (this.forceLoader) {
+            this.next();
+          }
+        }
+      })
+    );
+  }
+
+  get cards$(): Observable<CardWithAddress[]> {
+    return combineLatest([
+      this.userAddressService.getAddresses(),
       this.selectedAddress$,
       this.translation.translate('checkoutAddress.defaultShippingAddress'),
       this.translation.translate('checkoutAddress.shipToThisAddress'),
       this.translation.translate('addressCard.selected'),
     ]).pipe(
-      map(
-        ([
-          addresses,
-          selected,
-          textDefaultShippingAddress,
-          textShipToThisAddress,
-          textSelected,
-        ]) => {
-          // Select default address if none selected
-          if (
-            addresses.length &&
-            (!selected || Object.keys(selected).length === 0)
-          ) {
-            const defaultAddress = addresses.find(
-              (address) => address.defaultAddress
-            );
-            selected = defaultAddress;
-            this.selectAddress(defaultAddress);
-          }
-          return addresses.map((address) => {
-            const card = this.getCardContent(
-              address,
-              selected,
-              textDefaultShippingAddress,
-              textShipToThisAddress,
-              textSelected
-            );
-            return {
-              address,
-              card,
-            };
-          });
+      tap(([addresses, selected]) => {
+        // Select default address if none selected
+        if (
+          addresses.length &&
+          (!selected || Object.keys(selected).length === 0)
+        ) {
+          selected = addresses.find((address) => address.defaultAddress);
+          this.selectAddress(selected);
         }
+      }),
+      map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
+        addresses.map((address) => ({
+          address,
+          card: this.getCardContent(
+            address,
+            selected,
+            textDefault,
+            textShipTo,
+            textSelected
+          ),
+        }))
       )
     );
+  }
 
-    if (!this.activeCartService.isGuestCart()) {
+  ngOnInit(): void {
+    if (!this.isGuestCheckout) {
       this.userAddressService.loadAddresses();
-    } else {
-      this.isGuestCheckout = true;
     }
   }
 
@@ -105,7 +112,6 @@ export class ShippingAddressComponent implements OnInit {
     textSelected: string
   ): Card {
     let region = '';
-
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
     }
@@ -130,28 +136,16 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   addAddress(address: Address): void {
-    this.selectedAddress$
-      .pipe(
-        filter((selected) => !!selected?.shippingAddress),
-        take(1)
-      )
-      .subscribe(() => this.next());
-
     this.forceLoader = true;
-
-    this.existingAddresses$.pipe(take(1)).subscribe((addresses) => {
-      addresses.includes(address)
-        ? this.selectAddress(address)
-        : this.checkoutDeliveryService.createAndSetAddress(address);
-    });
+    this.checkoutDeliveryService.createAndSetAddress(address);
   }
 
   showNewAddressForm(): void {
-    this.newAddressFormManuallyOpened = true;
+    this.addressFormEnabled = true;
   }
 
   hideNewAddressForm(goPrevious: boolean = false): void {
-    this.newAddressFormManuallyOpened = false;
+    this.addressFormEnabled = false;
     if (goPrevious) {
       this.back();
     }

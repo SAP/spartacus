@@ -38,7 +38,7 @@ export class PoNumberComponent {
   cartPoNumber: string;
   cartCostCenterId: string;
 
-  private allowRedirect = true;
+  allowRedirect = true;
 
   constructor(
     protected paymentTypeService: PaymentTypeService,

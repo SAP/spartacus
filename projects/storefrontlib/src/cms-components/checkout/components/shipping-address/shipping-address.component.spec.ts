@@ -241,12 +241,12 @@ describe('ShippingAddressComponent', () => {
 
   it('should call showNewAddressForm()', () => {
     component.showNewAddressForm();
-    expect(component.newAddressFormManuallyOpened).toEqual(true);
+    expect(component.addressFormEnabled).toEqual(true);
   });
 
   it('should call hideNewAddressForm()', () => {
     component.hideNewAddressForm();
-    expect(component.newAddressFormManuallyOpened).toEqual(false);
+    expect(component.addressFormEnabled).toEqual(false);
   });
 
   it('should be able to go to next step', () => {
