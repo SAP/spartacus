@@ -382,7 +382,7 @@ export class B2BUserEffects {
           map(
             () =>
               new B2BUserActions.CreateB2BUserUserGroupSuccess({
-                userGroupId: payload.userGroupId,
+                uid: payload.userGroupId,
                 selected: true,
               })
           ),
@@ -417,7 +417,7 @@ export class B2BUserEffects {
           map(
             () =>
               new B2BUserActions.DeleteB2BUserUserGroupSuccess({
-                userGroupId: payload.userGroupId,
+                uid: payload.userGroupId,
                 selected: false,
               })
           ),
