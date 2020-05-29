@@ -13,7 +13,7 @@ There might be a situation where you want to use the `@spartacus/schematics` tha
 These are the steps to take in order to test both `@spartacus/schematics` and `spartacus/dev-schematics` locally:
 
 1. Launch local verdaccio in yours terminal with command `verdaccio`
-2. **(Optional step)**: From project root go to `/projects/schematics` and change lib version in package.json file (for local testing purposes only, please remember to revert it before committing any changes)
+2. **(Optional step)**: From the project root go to `/projects/schematics` and change lib version in package.json file (for local testing purposes only, please remember to revert it before committing any changes)
 3. Now (in new terminal or tab) go to dev-schematics scripts: `/projects/dev-schematics/scripts`
 4. Run `./test-dev-schematics-local.sh <version>` where `<version>` is **optional** argument for providing schematics version if it was changed in optional step (`projects/schematics/package.json`). The script will perform all necessary steps to ensure up to date schematics version on your local verdaccio. When the script finishes running, you should be ready to test your dev-schematics.
 
@@ -47,7 +47,8 @@ Providing configuration/functionality via params for `ng add` is the main course
 
 ### Available scripts
 
-For ease of usage we provide scripts for smoother installation process:
+For ease of usage we provide scripts for a smoother installation process:
 
 `./outlet-template-files.sh` - takes care of copying and moving up to date test outlets module files from `projects/storefrontapp`.
-This script is ran as part of the `build` script (see `projects/dev-schematics/package.json`), and there's no need to run it manually.
+
+`./test-dev-schematics-local.sh` - performs all necessary steps for testing dev-schematics locally including re-publishing schematics to local verdaccio, changing the registry to local, and installing Spartacus schematics. Requires verdaccio running locally.
