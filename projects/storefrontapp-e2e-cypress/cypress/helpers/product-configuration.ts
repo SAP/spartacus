@@ -91,10 +91,6 @@ export function verifyStatusIconDisplayed(groupName: string, status: string) {
       `${groupName}` +
       ')'
   ).should('exist');
-
-  //cy.get('.ERROR.cx-config-menu-item').should('not.be.visible');
-  //cy.get('cx-config-menu-item').should('be.visible');
-  //cy.get(locator1).should('be.not.visible');
 }
 
 export function verifyAttributeIsDisplayed(

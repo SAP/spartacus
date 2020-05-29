@@ -119,7 +119,9 @@ context('Product Configuration', () => {
       configuration.clickOnNextGroupButton('CAMERA_PIXELS', 'radioGroup');
       configuration.verifyCheckboxIsSelected('CAMERA_SD_CARD', 'SDHC');
     });
+  });
 
+  describe('Group Status', () => {
     it('should set group status for single level product', () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
