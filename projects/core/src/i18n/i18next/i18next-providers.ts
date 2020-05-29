@@ -1,22 +1,25 @@
-import { HttpClient } from '@angular/common/http';
-import { APP_INITIALIZER, Optional, Provider } from '@angular/core';
-import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
-import { LanguageService } from '../../site-context/facade/language.service';
-import { SERVER_REQUEST_ORIGIN } from '../../ssr/ssr.providers';
-import { i18nextInit } from './i18next-init';
-import { I18NEXT_INSTANCE } from './i18next-instance';
+import { APP_INITIALIZER, Provider } from '@angular/core';
+import { TranslationService } from '../translation.service';
+import { I18nextInitializer } from './i18next-init';
+import { I18nextTranslationService } from './i18next-translation.service';
+
+export function initializeI18next(
+  i18nextInitializer: I18nextInitializer
+): () => Promise<any> {
+  const result = () => i18nextInitializer.init();
+  return result;
+}
 
 export const i18nextProviders: Provider[] = [
   {
+    provide: TranslationService,
+    useExisting: I18nextTranslationService,
+  },
+
+  {
     provide: APP_INITIALIZER,
-    useFactory: i18nextInit,
-    deps: [
-      I18NEXT_INSTANCE,
-      ConfigInitializerService,
-      LanguageService,
-      HttpClient,
-      [new Optional(), SERVER_REQUEST_ORIGIN],
-    ],
+    useFactory: initializeI18next,
+    deps: [I18nextInitializer],
     multi: true,
   },
 ];
