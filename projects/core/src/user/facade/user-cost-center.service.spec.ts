@@ -1,6 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
@@ -13,8 +12,8 @@ import { CostCenter } from '../../model/org-unit.model';
 const userId = 'testUserId';
 class MockAuthService {
   userId;
-  getOccUserId() {
-    return of(userId);
+  invokeWithUserId(cb) {
+    cb(userId);
   }
 }
 describe('PaymentTypeService', () => {

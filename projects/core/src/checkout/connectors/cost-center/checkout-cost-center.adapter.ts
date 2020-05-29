@@ -5,8 +5,8 @@ export abstract class CheckoutCostCenterAdapter {
   /**
    * Abstract method used to set cost center to cart
    *
-   * @param userId
-   * @param cartId
+   * @param userId: user id
+   * @param cartId: cart id
    * @param costCenterId: cost center id
    */
   abstract setCostCenter(

@@ -63,20 +63,14 @@ export class PaymentTypeService {
    * @param poNumber : purchase order number
    */
   setPaymentType(typeCode: string, poNumber?: string): void {
-    if (this.actionAllowed()) {
-      let userId;
-      this.authService
-        .getOccUserId()
-        .pipe(take(1))
-        .subscribe((occUserId) => (userId = occUserId));
+    let cartId;
+    this.activeCartService
+      .getActiveCartId()
+      .pipe(take(1))
+      .subscribe((activeCartId) => (cartId = activeCartId));
 
-      let cartId;
-      this.activeCartService
-        .getActiveCartId()
-        .pipe(take(1))
-        .subscribe((activeCartId) => (cartId = activeCartId));
-
-      if (userId && cartId) {
+    this.authService.invokeWithUserId((userId) => {
+      if (userId && userId !== OCC_USER_ID_ANONYMOUS && cartId) {
         this.checkoutStore.dispatch(
           new CheckoutActions.SetPaymentType({
             userId: userId,
@@ -86,7 +80,7 @@ export class PaymentTypeService {
           })
         );
       }
-    }
+    });
   }
 
   /**
@@ -138,14 +132,5 @@ export class PaymentTypeService {
         }
       })
     );
-  }
-
-  protected actionAllowed(): boolean {
-    let userId;
-    this.authService
-      .getOccUserId()
-      .subscribe((occUserId) => (userId = occUserId))
-      .unsubscribe();
-    return userId && userId !== OCC_USER_ID_ANONYMOUS;
   }
 }
