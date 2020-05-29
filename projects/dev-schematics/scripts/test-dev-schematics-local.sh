@@ -9,6 +9,13 @@ npm unpublish @spartacus/schematics --registry http://localhost:4873 --force
 yarn build && npm publish --registry http://localhost:4873
 cd ../dev-schematics
 echo "@spartacus:registry=http://localhost:4873" > .npmrc
-npm uninstall @spartacus/schematics
+yarn remove @spartacus/schematics
 rm -rf node_modules && yarn
-npm i @spartacus/schematics$SCHEMATICS_VERSION
+yarn add @spartacus/schematics$SCHEMATICS_VERSION
+npm unpublish @spartacus/dev-schematics --registry http://localhost:4873 --force
+yarn build && npm publish --registry http://localhost:4873
+
+# cleanup the files
+rm .npmrc
+git checkout HEAD -- yarn.lock package.json
+yarn
