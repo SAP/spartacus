@@ -65,10 +65,7 @@ export class I18nextInitializer implements OnDestroy {
       },
     };
     if (config.i18n.backend) {
-      const loadPath = this.getLoadPath(
-        config.i18n.backend.loadPath,
-        this.serverRequestOrigin
-      );
+      const loadPath = this.getSSRSafeLoadPath(config.i18n.backend.loadPath);
       const backend = {
         loadPath,
         ajax: this.i18nextHttpClient,
@@ -116,18 +113,18 @@ export class I18nextInitializer implements OnDestroy {
    * - https://github.com/angular/angular/issues/19224
    * - https://github.com/angular/universal/issues/858
    */
-  private getLoadPath(path: string, serverRequestOrigin: string): string {
+  private getSSRSafeLoadPath(path: string): string {
     if (!path) {
       return undefined;
     }
-    if (serverRequestOrigin && !path.match(/^http(s)?:\/\//)) {
+    if (this.serverRequestOrigin && !path.match(/^http(s)?:\/\//)) {
       if (path.startsWith('/')) {
         path = path.slice(1);
       }
       if (path.startsWith('./')) {
         path = path.slice(2);
       }
-      const result = `${serverRequestOrigin}/${path}`;
+      const result = `${this.serverRequestOrigin}/${path}`;
       return result;
     }
     return path;

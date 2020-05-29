@@ -5,7 +5,7 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { getLoadPath, i18nextGetHttpClient } from './i18next-init';
+import { getLoadPath, i18nextGetHttpClient } from './i18next-initializer';
 
 describe('i18nextGetHttpClient should return a http client that', () => {
   let httpMock: HttpTestingController;

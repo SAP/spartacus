@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, Provider } from '@angular/core';
 import { TranslationService } from '../translation.service';
-import { I18nextInitializer } from './i18next-init';
+import { I18nextInitializer } from './i18next-initializer';
 import { I18nextTranslationService } from './i18next-translation.service';
 
 export function initializeI18next(
