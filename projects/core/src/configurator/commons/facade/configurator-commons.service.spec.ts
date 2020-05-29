@@ -283,9 +283,9 @@ describe('ConfiguratorCommonsService', () => {
     spyOn(store, 'dispatch').and.callThrough();
     serviceUnderTest.removeConfiguration(productConfiguration.owner);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.RemoveConfiguration(
-        productConfiguration.owner.key
-      )
+      new ConfiguratorActions.RemoveConfiguration({
+        ownerKey: productConfiguration.owner.key,
+      })
     );
   });
 
@@ -700,10 +700,7 @@ describe('ConfiguratorCommonsService', () => {
 
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.CreateConfiguration(
-          OWNER_PRODUCT.key,
-          PRODUCT_CODE
-        )
+        new ConfiguratorActions.CreateConfiguration(OWNER_PRODUCT)
       );
     });
 

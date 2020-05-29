@@ -28,31 +28,31 @@ describe('ConfiguratorActions', () => {
   }));
   it('should provide create action with proper type', () => {
     const createAction = new ConfiguratorActions.CreateConfiguration(
-      PRODUCT_CODE,
-      PRODUCT_CODE
+      CONFIGURATION.owner
     );
     expect(createAction.type).toBe(ConfiguratorActions.CREATE_CONFIGURATION);
   });
 
   it('should provide create action that carries productCode as a payload', () => {
     const createAction = new ConfiguratorActions.CreateConfiguration(
-      PRODUCT_CODE,
-      PRODUCT_CODE
+      CONFIGURATION.owner
     );
-    expect(createAction.productCode).toBe(PRODUCT_CODE);
+    expect(createAction.payload.id).toBe(PRODUCT_CODE);
   });
 
   describe('ReadConfiguration Actions', () => {
     describe('ReadConfiguration', () => {
       it('Should create the action', () => {
-        const action = new ConfiguratorActions.ReadConfiguration(
-          CONFIGURATION,
-          GROUP_ID
-        );
-        expect({ ...action }).toEqual({
-          type: ConfiguratorActions.READ_CONFIGURATION,
+        const action = new ConfiguratorActions.ReadConfiguration({
           configuration: CONFIGURATION,
           groupId: GROUP_ID,
+        });
+        expect({ ...action }).toEqual({
+          type: ConfiguratorActions.READ_CONFIGURATION,
+          payload: {
+            configuration: CONFIGURATION,
+            groupId: GROUP_ID,
+          },
           meta: StateUtils.entityLoadMeta(
             CONFIGURATION_DATA,
             CONFIGURATION.owner.key
@@ -64,13 +64,16 @@ describe('ConfiguratorActions', () => {
     describe('ReadConfigurationFail', () => {
       it('Should create the action', () => {
         const error = 'anError';
-        const action = new ConfiguratorActions.ReadConfigurationFail(
-          PRODUCT_CODE,
-          error
-        );
+        const action = new ConfiguratorActions.ReadConfigurationFail({
+          ownerKey: PRODUCT_CODE,
+          error: error,
+        });
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.READ_CONFIGURATION_FAIL,
-          payload: error,
+          payload: {
+            ownerKey: PRODUCT_CODE,
+            error: error,
+          },
           meta: StateUtils.entityFailMeta(
             CONFIGURATION_DATA,
             PRODUCT_CODE,
@@ -120,14 +123,17 @@ describe('ConfiguratorActions', () => {
     describe('UpdateConfigurationFail', () => {
       it('Should create the action', () => {
         const error = 'anError';
-        const action = new ConfiguratorActions.UpdateConfigurationFail(
-          CONFIGURATION.owner.key,
-          error
-        );
+        const action = new ConfiguratorActions.UpdateConfigurationFail({
+          configuration: CONFIGURATION,
+          error: error,
+        });
 
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.UPDATE_CONFIGURATION_FAIL,
-          payload: error,
+          payload: {
+            configuration: CONFIGURATION,
+            error: error,
+          },
           meta: {
             entityType: CONFIGURATION_DATA,
             entityId: CONFIGURATION.owner.key,
@@ -158,15 +164,14 @@ describe('ConfiguratorActions', () => {
   describe('SetNextOwnerCartEntry', () => {
     const cartEntryNo = '3';
     it('should carry expected meta data', () => {
-      const action = new ConfiguratorActions.SetNextOwnerCartEntry(
-        CONFIGURATION,
-        cartEntryNo
-      );
+      const action = new ConfiguratorActions.SetNextOwnerCartEntry({
+        configuration: CONFIGURATION,
+        cartEntryNo: cartEntryNo,
+      });
 
       expect({ ...action }).toEqual({
         type: ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY,
-        payload: CONFIGURATION,
-        cartEntryNo: cartEntryNo,
+        payload: { configuration: CONFIGURATION, cartEntryNo: cartEntryNo },
         meta: StateUtils.entitySuccessMeta(
           CONFIGURATION_DATA,
           CONFIGURATION.owner.key
