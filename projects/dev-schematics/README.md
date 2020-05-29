@@ -18,7 +18,7 @@ Run the following command from your project root:
 
 > NOTE: Please be aware that dev-schematics without params is an empty shell that doesn't perform any actions.
 
-Alternative method of installing dev-schematics can be achieved through *verdaccio*, about which you can read more here: [Using verdaccio for local development](https://github.com/SAP/spartacus/tree/develop/projects/schematics#verdaccio-setup)
+An alternative method of installing dev-schematics can be achieved through *verdaccio*, about which you can read more here: [Using verdaccio for local development](https://github.com/SAP/spartacus/tree/develop/projects/schematics#verdaccio-setup)
 
 ### Available options
 
@@ -55,20 +55,20 @@ Providing configuration/functionality via params for `ng add` is the main course
  
 ## Testing dev-schematics locally
 
-There might be situations, where you want to add new entities to/from public API of schematics, but the @spartacus/schematics hasn't been released yet. You can test it locally by following steps:
+There might be situations, where you want to add new entities to/from public API of schematics, but the @spartacus/schematics hasn't been released yet. You can test it locally by the following steps:
 
 1. Launch local verdaccio in yours terminal with command `verdaccio` 
-2. **(Optional step)**: From project root go to `/projects/schematics` and change lib version in package.json file (for local testing purposes only, please remember to revert it before committing any changes)
+2. **(Optional step)**: From the project root go to `/projects/schematics` and change lib version in package.json file (for local testing purposes only, please remember to revert it before committing any changes)
 3. Now (in new terminal or tab) go to dev-schematics scripts: `/projects/dev-schematics/scripts`
 4. Run `./test-dev-schematics-local.sh <version>` where `<version>` is **optional** argument for providing schematics version if it was changed in optional step (`projects/schematics/package.json`).
 
-Above script will perform all necessary steps to ensure up to date schematics version on your local verdaccio. When script will complete, you should be ready to test your dev-schematics.
+The above script will perform all necessary steps to ensure up to date schematics version on your local verdaccio. When the script will complete, you should be ready to test your dev-schematics.
 
 
 ### Available scripts
 
-For ease of usage we provide scripts for smoother installation process:
+For ease of usage we provide scripts for a smoother installation process:
 
 `./outlet-template-files.sh` - takes care of copying and moving up to date test outlets module files from `projects/storefrontapp`.
 
-`./test-dev-schematics-local.sh` - performs all necessary steps for testing dev-schematics locally including re-publishing schematics to local verdaccio, changing registry to local and installing spartacus schematics. Requires verdaccio running locally.
+`./test-dev-schematics-local.sh` - performs all necessary steps for testing dev-schematics locally including re-publishing schematics to local verdaccio, changing the registry to local, and installing Spartacus schematics. Requires verdaccio running locally.
