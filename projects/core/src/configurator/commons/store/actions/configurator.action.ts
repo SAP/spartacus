@@ -59,8 +59,27 @@ export const GET_CONFIGURATION_OVERVIEW_SUCCESS =
 
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
-  constructor(public ownerKey: string, public productCode: string) {
-    super(CONFIGURATION_DATA, ownerKey);
+  constructor(public payload: GenericConfigurator.Owner) {
+    super(CONFIGURATION_DATA, payload.key);
+  }
+}
+
+export class CreateConfigurationFail extends StateUtils.EntityFailAction {
+  readonly type = CREATE_CONFIGURATION_FAIL;
+  constructor(
+    public payload: {
+      ownerKey: string;
+      error: any;
+    }
+  ) {
+    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
+  }
+}
+
+export class CreateConfigurationSuccess extends StateUtils.EntitySuccessAction {
+  readonly type = CREATE_CONFIGURATION_SUCCESS;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.owner.key);
   }
 }
 
@@ -82,39 +101,32 @@ export class ReadCartEntryConfigurationSuccess extends StateUtils.EntitySuccessA
 
 export class ReadCartEntryConfigurationFail extends StateUtils.EntityFailAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
-  constructor(ownerkey: string, public payload: any) {
-    super(CONFIGURATION_DATA, ownerkey, payload);
-  }
-}
-
-export class CreateConfigurationFail extends StateUtils.EntityFailAction {
-  readonly type = CREATE_CONFIGURATION_FAIL;
-  constructor(public ownerKey: string, public payload: any) {
-    super(CONFIGURATION_DATA, ownerKey, payload);
-  }
-}
-
-export class CreateConfigurationSuccess extends StateUtils.EntitySuccessAction {
-  readonly type = CREATE_CONFIGURATION_SUCCESS;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+  constructor(
+    public payload: {
+      ownerKey: string;
+      error: any;
+    }
+  ) {
+    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
   }
 }
 
 export class ReadConfiguration extends StateUtils.EntityLoadAction {
   readonly type = READ_CONFIGURATION;
   constructor(
-    public configuration: Configurator.Configuration,
-    public groupId: string
+    public payload: {
+      configuration: Configurator.Configuration;
+      groupId: string;
+    }
   ) {
-    super(CONFIGURATION_DATA, configuration.owner.key);
+    super(CONFIGURATION_DATA, payload.configuration.owner.key);
   }
 }
 
 export class ReadConfigurationFail extends StateUtils.EntityFailAction {
   readonly type = READ_CONFIGURATION_FAIL;
-  constructor(ownerkey: string, public payload: any) {
-    super(CONFIGURATION_DATA, ownerkey, payload);
+  constructor(public payload: { ownerKey: string; error: any }) {
+    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
   }
 }
 
@@ -137,10 +149,12 @@ export class UpdateConfiguration extends StateUtils.EntityProcessesIncrementActi
 
 export class UpdateConfigurationFail extends StateUtils.EntityProcessesDecrementAction {
   readonly type = UPDATE_CONFIGURATION_FAIL;
-  constructor(ownerKey: string, public payload: any) {
-    super(CONFIGURATION_DATA, ownerKey);
+  constructor(
+    public payload: { configuration: Configurator.Configuration; error: any }
+  ) {
+    super(CONFIGURATION_DATA, payload.configuration.owner.key);
     this.meta.loader = {
-      error: payload,
+      error: payload.error,
     };
   }
 }
@@ -174,8 +188,8 @@ export class UpdatePriceSummary extends StateUtils.EntityLoadAction {
 }
 export class UpdatePriceSummaryFail extends StateUtils.EntityFailAction {
   readonly type = UPDATE_PRICE_SUMMARY_FAIL;
-  constructor(ownerKey: string, public payload: any) {
-    super(CONFIGURATION_DATA, ownerKey, payload);
+  constructor(public payload: { ownerKey: string; error: any }) {
+    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
   }
 }
 
@@ -189,11 +203,13 @@ export class UpdatePriceSummarySuccess extends StateUtils.EntitySuccessAction {
 export class ChangeGroup extends StateUtils.EntityLoadAction {
   readonly type = CHANGE_GROUP;
   constructor(
-    public configuration: Configurator.Configuration,
-    public groupId: string,
-    public parentGroupId: string
+    public payload: {
+      configuration: Configurator.Configuration;
+      groupId: string;
+      parentGroupId: string;
+    }
   ) {
-    super(CONFIGURATION_DATA, configuration.owner.key);
+    super(CONFIGURATION_DATA, payload.configuration.owner.key);
   }
 }
 
@@ -229,8 +245,8 @@ export class UpdateCartEntrySuccess extends StateUtils.EntitySuccessAction {
 
 export class RemoveConfiguration extends StateUtils.EntityLoaderResetAction {
   readonly type = REMOVE_CONFIGURATION;
-  constructor(ownerKey: string | string[]) {
-    super(CONFIGURATION_DATA, ownerKey);
+  constructor(public payload: { ownerKey: string }) {
+    super(CONFIGURATION_DATA, payload.ownerKey);
   }
 }
 
@@ -243,31 +259,35 @@ export class GetConfigurationOverview extends StateUtils.EntityLoadAction {
 
 export class GetConfigurationOverviewFail extends StateUtils.EntityFailAction {
   readonly type = GET_CONFIGURATION_OVERVIEW_FAIL;
-  constructor(public ownerKey: string, public payload: any) {
-    super(CONFIGURATION_DATA, ownerKey, payload);
+  constructor(public payload: { ownerKey: string; error: any }) {
+    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
   }
 }
 
 export class GetConfigurationOverviewSuccess extends StateUtils.EntitySuccessAction {
   readonly type = GET_CONFIGURATION_OVERVIEW_SUCCESS;
-  constructor(public ownerKey: string, public payload: Configurator.Overview) {
-    super(CONFIGURATION_DATA, ownerKey);
+  constructor(
+    public payload: { ownerKey: string; overview: Configurator.Overview }
+  ) {
+    super(CONFIGURATION_DATA, payload.ownerKey);
   }
 }
 
 export class AddNextOwner implements Action {
   readonly type = ADD_NEXT_OWNER;
-  constructor(public ownerKey: string, public cartEntryNo: string) {}
+  constructor(public payload: { ownerKey: string; cartEntryNo: string }) {}
 }
 
 export class SetNextOwnerCartEntry extends StateUtils.EntitySuccessAction {
   readonly type = SET_NEXT_OWNER_CART_ENTRY;
 
   constructor(
-    public payload: Configurator.Configuration,
-    public cartEntryNo: string
+    public payload: {
+      configuration: Configurator.Configuration;
+      cartEntryNo: string;
+    }
   ) {
-    super(CONFIGURATION_DATA, payload.owner.key);
+    super(CONFIGURATION_DATA, payload.configuration.owner.key);
   }
 }
 export type ConfiguratorAction =

@@ -15,5 +15,4 @@ export interface ConfigurationTextfieldLoaderState {
 
 export interface ConfigurationTextfieldState {
   content: ConfiguratorTextfield.Configuration;
-  refresh: boolean;
 }

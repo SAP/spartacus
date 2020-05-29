@@ -73,7 +73,7 @@ export class ConfiguratorCommonsService {
         ) {
           if (owner.type === GenericConfigurator.OwnerType.PRODUCT) {
             this.store.dispatch(
-              new ConfiguratorActions.CreateConfiguration(owner.key, owner.id)
+              new ConfiguratorActions.CreateConfiguration(owner)
             );
           } else {
             localOwner.hasObsoleteState = false;
@@ -167,7 +167,9 @@ export class ConfiguratorCommonsService {
   }
 
   removeConfiguration(owner: GenericConfigurator.Owner) {
-    this.store.dispatch(new ConfiguratorActions.RemoveConfiguration(owner.key));
+    this.store.dispatch(
+      new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
+    );
   }
 
   addToCart(productCode: string, configId: string, ownerKey: string) {
