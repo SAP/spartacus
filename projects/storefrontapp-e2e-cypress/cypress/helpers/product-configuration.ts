@@ -65,6 +65,34 @@ export function verifyNextGroupButtonIsDisabled() {
   cy.get(nextGroupButtonSelector).should('be.disabled');
 }
 
+export function verifyNoStatusIconDisplayed(groupName: string) {
+  cy.get(
+    '.' +
+      `${'ERROR'}` +
+      '.cx-config-menu-item>a:contains(' +
+      `${groupName}` +
+      ')'
+  ).should('not.exist');
+
+  cy.get(
+    '.' +
+      `${'COMPLETE'}` +
+      '.cx-config-menu-item>a:contains(' +
+      `${groupName}` +
+      ')'
+  ).should('not.exist');
+}
+
+export function verifyStatusIconDisplayed(groupName: string, status: string) {
+  cy.get(
+    '.' +
+      `${status}` +
+      '.cx-config-menu-item>a:contains(' +
+      `${groupName}` +
+      ')'
+  ).should('exist');
+}
+
 export function verifyAttributeIsDisplayed(
   attributeName: string,
   uiType: string
