@@ -7,10 +7,11 @@
     "dev-schematics"
   ],
   "scripts": {
-    "clean": "rm -rf src/**/*.js src/**/*.js.map src/**/*.d.ts",
-    "build": "yarn clean && yarn copy-outlets-files && tsc -p tsconfig.json",
+    "clean": "rm -rf src/**/*.js src/**/*.js.map src/**/*.d.ts && yarn cleanup:before:commit",
+    "cleanup:before:commit": "cd ./scripts && ./cleanup-dev-schematics-project.sh",
+    "build": "yarn clean && yarn copy:outlets:files && tsc -p tsconfig.json",
     "test": "yarn build && jasmine \"src/**/*_spec.js\"",
-    "copy-outlets-files": "cd ./scripts && ./outlet-template-files.sh && cd .."
+    "copy:outlets:files": "cd ./scripts && ./outlet-template-files.sh && cd .."
   },
   "author": "",
   "license": "MIT",
@@ -19,7 +20,7 @@
     "@angular-devkit/core": "^9.1.0",
     "@angular-devkit/schematics": "^9.1.0",
     "@schematics/angular": "^9.1.0",
-    "@spartacus/schematics": "^2.0.0-rc.2"
+    "@spartacus/schematics": "^2.1.0-dev.0"
   },
   "devDependencies": {
     "@types/jasmine": "^3.5.0",
