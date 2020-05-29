@@ -28,7 +28,7 @@ export interface CardWithAddress {
 })
 export class ShippingAddressComponent implements OnInit {
   paymentType = '';
-  addressFormEnabled = false;
+  addressFormOpened = false;
   forceLoader = false; // this helps with smoother steps transition
   selectedAddress: Address;
 
@@ -188,11 +188,11 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   showNewAddressForm(): void {
-    this.addressFormEnabled = true;
+    this.addressFormOpened = true;
   }
 
   hideNewAddressForm(goPrevious: boolean = false): void {
-    this.addressFormEnabled = false;
+    this.addressFormOpened = false;
     if (goPrevious) {
       this.back();
     }
