@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PaymentTypeService, PaymentType } from '@spartacus/core';
+import { PaymentType, PaymentTypeService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap, filter } from 'rxjs/operators';
-import { CheckoutStepService } from '../../services/checkout-step.service';
+import { filter, tap } from 'rxjs/operators';
 import { CheckoutStepType } from '../../model/checkout-step.model';
+import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({
   selector: 'cx-payment-type',
@@ -40,5 +40,6 @@ export class PaymentTypeComponent {
   changeType(code: string): void {
     this.paymentTypeService.setPaymentType(code);
     this.typeSelected = code;
+    this.checkoutStepService.gotToStep(0);
   }
 }
