@@ -7,7 +7,7 @@
     "dev-schematics"
   ],
   "scripts": {
-    "clean": "rm -rf src/**/*.js src/**/*.js.map src/**/*.d.ts && yarn cleanup:before:commit",
+    "clean": "rm -rf src/**/*.js src/**/*.js.map src/**/*.d.ts",
     "cleanup:before:commit": "cd ./scripts && ./cleanup-dev-schematics-project.sh",
     "build": "yarn clean && yarn copy:outlets:files && tsc -p tsconfig.json",
     "test": "yarn build && jasmine \"src/**/*_spec.js\"",
