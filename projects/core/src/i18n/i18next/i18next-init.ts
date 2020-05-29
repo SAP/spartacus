@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import i18next, { InitOptions } from 'i18next';
+import { InitOptions, i18n as I18Next } from 'i18next';
 import i18nextXhrBackend from 'i18next-xhr-backend';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { TranslationResources } from '../translation-resources';
 
 export function i18nextInit(
+  i18next: I18Next,
   configInit: ConfigInitializerService,
   languageService: LanguageService,
   httpClient: HttpClient,
@@ -37,13 +38,16 @@ export function i18nextInit(
       return i18next.init(i18nextConfig, () => {
         // Don't use i18next's 'resources' config key for adding static translations,
         // because it will disable loading chunks from backend. We add resources here, in the init's callback.
-        i18nextAddTranslations(config.i18n.resources);
-        syncI18nextWithSiteContext(languageService);
+        i18nextAddTranslations(i18next, config.i18n.resources);
+        syncI18nextWithSiteContext(i18next, languageService);
       });
     });
 }
 
-export function i18nextAddTranslations(resources: TranslationResources = {}) {
+export function i18nextAddTranslations(
+  i18next: I18Next,
+  resources: TranslationResources = {}
+) {
   Object.keys(resources).forEach((lang) => {
     Object.keys(resources[lang]).forEach((chunkName) => {
       i18next.addResourceBundle(
@@ -57,7 +61,10 @@ export function i18nextAddTranslations(resources: TranslationResources = {}) {
   });
 }
 
-export function syncI18nextWithSiteContext(language: LanguageService) {
+export function syncI18nextWithSiteContext(
+  i18next: I18Next,
+  language: LanguageService
+) {
   // always update language of i18next on site context (language) change
   language.getActive().subscribe((lang) => i18next.changeLanguage(lang));
 }
