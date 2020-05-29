@@ -3,14 +3,14 @@ import { TestBed } from '@angular/core/testing';
 import { ConfigUtilsService } from './config-utils.service';
 import { Observable, of } from 'rxjs';
 import {
-  ConfiguratorGroupStatusService,
+  ConfiguratorGroupsService,
   GenericConfigurator,
 } from '@spartacus/core';
 import { Type } from '@angular/core';
 
 let isGroupVisited: Observable<Boolean> = of(false);
 
-class MockConfiguratorGroupStatusService {
+class MockConfiguratorGroupsService {
   isGroupVisited(): Observable<Boolean> {
     return isGroupVisited;
   }
@@ -18,7 +18,7 @@ class MockConfiguratorGroupStatusService {
 
 describe('ConfigUtilsService', () => {
   let classUnderTest: ConfigUtilsService;
-  let configuratorGroupStatusService: ConfiguratorGroupStatusService;
+  let configuratorGroupsService: ConfiguratorGroupsService;
   const owner: GenericConfigurator.Owner = {
     id: 'testProduct',
     type: GenericConfigurator.OwnerType.PRODUCT,
@@ -28,17 +28,17 @@ describe('ConfigUtilsService', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: ConfiguratorGroupStatusService,
-          useClass: MockConfiguratorGroupStatusService,
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
         },
       ],
     });
 
     classUnderTest = TestBed.inject(ConfigUtilsService);
-    configuratorGroupStatusService = TestBed.inject(
-      ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>
+    configuratorGroupsService = TestBed.inject(
+      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
-    spyOn(configuratorGroupStatusService, 'isGroupVisited').and.returnValue(
+    spyOn(configuratorGroupsService, 'isGroupVisited').and.returnValue(
       isGroupVisited
     );
   });

@@ -56,31 +56,54 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(store, 'pipe').and.returnValue(of(uiState));
 
     spyOn(configuratorCommonsService, 'setUiState').and.stub();
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(productConfiguration)
-    );
     spyOn(configGroupStatusService, 'setGroupStatus').and.callThrough();
   });
 
   it('should create service', () => {
+    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      of(productConfiguration)
+    );
     expect(serviceUnderTest).toBeDefined();
   });
 
-  it('should get the currentGroup from uiState', () => {
-    spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
-      of(uiState)
-    );
-    const currentGroup = serviceUnderTest.getCurrentGroupId(
-      productConfiguration.owner
-    );
+  describe('getCurrentGroupId', () => {
+    it('should return a current group ID from uiState', () => {
+      spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
+        of(uiState)
+      );
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfiguration)
+      );
+      const currentGroup = serviceUnderTest.getCurrentGroupId(
+        productConfiguration.owner
+      );
 
-    expect(currentGroup).toBeDefined();
-    currentGroup.subscribe((groupId) => {
-      expect(groupId).toBe(GROUP_ID_2);
+      expect(currentGroup).toBeDefined();
+      currentGroup.subscribe((groupId) => {
+        expect(groupId).toBe(GROUP_ID_2);
+      });
+    });
+
+    it('should return a current group ID from configuration', () => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfiguration)
+      );
+      spyOn(configuratorCommonsService, 'getUiState').and.returnValue(of(null));
+      const currentGroup = serviceUnderTest.getCurrentGroupId(
+        productConfiguration.owner
+      );
+
+      expect(currentGroup).toBeDefined();
+      currentGroup.subscribe((groupId) => {
+        expect(groupId).toBe(GROUP_ID_1);
+      });
     });
   });
 
   it('should get the parentGroup from uiState', () => {
+    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      of(productConfiguration)
+    );
     spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
       of(uiState)
     );
@@ -94,47 +117,65 @@ describe('ConfiguratorGroupsService', () => {
     });
   });
 
-  it('should get the currentGroup from configuration', () => {
-    spyOn(configuratorCommonsService, 'getUiState').and.returnValue(of(null));
-    const currentGroup = serviceUnderTest.getCurrentGroupId(
-      productConfiguration.owner
-    );
+  describe('getNextGroupId', () => {
+    it('should return a next group', () => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfiguration)
+      );
+      spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
+        of(uiState)
+      );
+      const currentGroup = serviceUnderTest.getNextGroupId(
+        productConfiguration.owner
+      );
 
-    expect(currentGroup).toBeDefined();
-    currentGroup.subscribe((groupId) => {
-      expect(groupId).toBe(GROUP_ID_1);
+      expect(currentGroup).toBeDefined();
+      currentGroup.subscribe((groupId) => {
+        expect(groupId).toBe(GROUP_ID_4);
+      });
     });
   });
 
-  it('should get the next group', () => {
-    spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
-      of(uiState)
-    );
-    const currentGroup = serviceUnderTest.getNextGroupId(
-      productConfiguration.owner
-    );
+  describe('getPreviousGroupId', () => {
+    it('should return null', () => {
+      spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
+        of(undefined)
+      );
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(undefined)
+      );
+      const currentGroup = serviceUnderTest.getPreviousGroupId(
+        productConfiguration.owner
+      );
 
-    expect(currentGroup).toBeDefined();
-    currentGroup.subscribe((groupId) => {
-      expect(groupId).toBe(GROUP_ID_4);
+      expect(currentGroup).toBeDefined();
+      currentGroup.subscribe((groupId) => {
+        expect(groupId).toEqual(null);
+      });
     });
-  });
 
-  it('should get the previous group', () => {
-    spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
-      of(uiState)
-    );
-    const currentGroup = serviceUnderTest.getPreviousGroupId(
-      productConfiguration.owner
-    );
+    it('should return a previous group ID', () => {
+      spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
+        of(uiState)
+      );
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfiguration)
+      );
+      const currentGroup = serviceUnderTest.getPreviousGroupId(
+        productConfiguration.owner
+      );
 
-    expect(currentGroup).toBeDefined();
-    currentGroup.subscribe((groupId) => {
-      expect(groupId).toBe(GROUP_ID_1);
+      expect(currentGroup).toBeDefined();
+      currentGroup.subscribe((groupId) => {
+        expect(groupId).toBe(GROUP_ID_1);
+      });
     });
   });
 
   it('should delegate setting the current group to the store', () => {
+    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      of(productConfiguration)
+    );
     serviceUnderTest.setCurrentGroup(productConfiguration.owner, GROUP_ID_1);
     const expectedAction = new UiActions.SetCurrentGroup(
       productConfiguration.owner.key,
@@ -144,6 +185,9 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   it('should delegate setting the parent group to the store', () => {
+    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      of(productConfiguration)
+    );
     serviceUnderTest.setMenuParentGroup(productConfiguration.owner, GROUP_ID_1);
     const expectedAction = new UiActions.SetMenuParentGroup(
       productConfiguration.owner.key,
@@ -153,6 +197,9 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   it('should call group status in navigate to different group', () => {
+    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      of(productConfiguration)
+    );
     serviceUnderTest.navigateToGroup(
       productConfiguration,
       productConfiguration.groups[2].id

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  ConfiguratorGroupStatusService,
+  ConfiguratorGroupsService,
   GenericConfigurator,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -10,27 +10,20 @@ import { map, take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ConfigUtilsService {
-  constructor(
-    private configuratorGroupStatusService: ConfiguratorGroupStatusService
-  ) {}
+  constructor(private configuratorGroupsService: ConfiguratorGroupsService) {}
 
   isCartEntryOrGroupVisited(
     owner: GenericConfigurator.Owner,
     groupId: string
   ): Observable<boolean> {
-    return this.configuratorGroupStatusService
-      .isGroupVisited(owner, groupId)
-      .pipe(
-        take(1),
-        map((result) => {
-          if (
-            owner.type === GenericConfigurator.OwnerType.CART_ENTRY ||
-            result
-          ) {
-            return true;
-          }
-          return false;
-        })
-      );
+    return this.configuratorGroupsService.isGroupVisited(owner, groupId).pipe(
+      take(1),
+      map((result) => {
+        if (owner.type === GenericConfigurator.OwnerType.CART_ENTRY || result) {
+          return true;
+        }
+        return false;
+      })
+    );
   }
 }

@@ -197,4 +197,34 @@ export class ConfiguratorGroupsService {
       })
     );
   }
+
+  isGroupVisited(
+    owner: GenericConfigurator.Owner,
+    groupId: string
+  ): Observable<Boolean> {
+    return this.configuratorGroupStatusService.isGroupVisited(owner, groupId);
+  }
+
+  getGroupStatus(
+    owner: GenericConfigurator.Owner,
+    groupId: string
+  ): Observable<Configurator.GroupStatus> {
+    return this.configuratorGroupStatusService.getGroupStatus(owner, groupId);
+  }
+
+  getParentGroup(
+    groups: Configurator.Group[],
+    group: Configurator.Group,
+    parentGroup: Configurator.Group
+  ): Configurator.Group {
+    return this.configuratorGroupUtilsService.getParentGroup(
+      groups,
+      group,
+      parentGroup
+    );
+  }
+
+  hasSubGroups(group: Configurator.Group): boolean {
+    return this.configuratorGroupUtilsService.hasSubGroups(group);
+  }
 }

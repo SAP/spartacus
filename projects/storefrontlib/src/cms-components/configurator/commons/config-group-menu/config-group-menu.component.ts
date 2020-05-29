@@ -3,8 +3,6 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
-  ConfiguratorGroupStatusService,
-  ConfiguratorGroupUtilsService,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -29,9 +27,7 @@ export class ConfigGroupMenuComponent implements OnInit {
   constructor(
     private routingService: RoutingService,
     private configCommonsService: ConfiguratorCommonsService,
-    public configGroupUtilsService: ConfiguratorGroupUtilsService,
-    private configGroupStatusService: ConfiguratorGroupStatusService,
-    private configuratorGroupsService: ConfiguratorGroupsService,
+    public configuratorGroupsService: ConfiguratorGroupsService,
     private hamburgerMenuService: HamburgerMenuService,
     private configRouterExtractorService: ConfigRouterExtractorService
   ) {}
@@ -86,7 +82,7 @@ export class ConfigGroupMenuComponent implements OnInit {
 
   click(group: Configurator.Group) {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
-      if (!this.configGroupUtilsService.hasSubGroups(group)) {
+      if (!this.configuratorGroupsService.hasSubGroups(group)) {
         this.scrollToVariantConfigurationHeader();
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
@@ -126,7 +122,7 @@ export class ConfigGroupMenuComponent implements OnInit {
   getParentGroup(group: Configurator.Group): Observable<Configurator.Group> {
     return this.configuration$.pipe(
       map((configuration) =>
-        this.configGroupUtilsService.getParentGroup(
+        this.configuratorGroupsService.getParentGroup(
           configuration.groups,
           group,
           null
@@ -165,12 +161,12 @@ export class ConfigGroupMenuComponent implements OnInit {
     groupId: string,
     configuration: Configurator.Configuration
   ): Observable<string> {
-    return this.configGroupStatusService
+    return this.configuratorGroupsService
       .isGroupVisited(configuration.owner, groupId)
       .pipe(
         switchMap((isVisited) => {
           if (isVisited) {
-            return this.configGroupStatusService.getGroupStatus(
+            return this.configuratorGroupsService.getGroupStatus(
               configuration.owner,
               groupId
             );
