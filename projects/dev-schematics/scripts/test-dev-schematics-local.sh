@@ -14,3 +14,8 @@ rm -rf node_modules && yarn
 yarn add @spartacus/schematics$SCHEMATICS_VERSION
 npm unpublish @spartacus/dev-schematics --registry http://localhost:4873 --force
 yarn build && npm publish --registry http://localhost:4873
+
+# cleanup the files
+rm .npmrc
+git checkout HEAD -- yarn.lock package.json
+yarn
