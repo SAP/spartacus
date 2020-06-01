@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, TemplateRef } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap, take } from 'rxjs/operators';
 import { RoutingService, B2BUser, B2BUserService } from '@spartacus/core';
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 
 @Component({
   selector: 'cx-b2b-user-details',
@@ -16,7 +17,8 @@ export class B2BUserDetailsComponent implements OnInit {
 
   constructor(
     protected routingService: RoutingService,
-    protected b2bUsersService: B2BUserService
+    protected b2bUsersService: B2BUserService,
+    protected modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -29,5 +31,20 @@ export class B2BUserDetailsComponent implements OnInit {
         code: b2bUser.uid,
       }))
     );
+  }
+
+
+  update(b2bUser: B2BUser) {
+    this.b2bUserCode$
+      .pipe(take(1))
+      .subscribe((code) =>
+        this.b2bUsersService.update(code, b2bUser)
+      );
+  }
+
+  openModal(template: TemplateRef<any>): void {
+    this.modalService.open(template, {
+      centered: true,
+    });
   }
 }

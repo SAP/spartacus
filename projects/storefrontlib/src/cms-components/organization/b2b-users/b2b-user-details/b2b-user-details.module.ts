@@ -13,6 +13,7 @@ import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { TableModule } from '../../../../shared/components/table/table.module';
 import { B2BUserDetailsComponent } from './b2b-user-details.component';
 import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
+import { ConfirmModalModule } from '../../../../shared/components/modal/confirm-modal/confirm-modal.module';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
     I18nModule,
     TableModule,
     FakeTabsModule,
+    ConfirmModalModule,
   ],
   declarations: [B2BUserDetailsComponent],
   exports: [B2BUserDetailsComponent],
