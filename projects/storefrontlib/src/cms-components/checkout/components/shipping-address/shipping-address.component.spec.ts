@@ -301,12 +301,12 @@ fdescribe('ShippingAddressComponent', () => {
 
   describe('should automatically select default shipping address when there is no current selection', () => {
     it('if payment type is credit card', () => {
-      component.setDefaultAddress(false, mockAddresses, undefined);
+      component.selectDefaultAddress(false, mockAddresses, undefined);
       expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
     });
 
     it('if payment type is account', () => {
-      component.setDefaultAddress(true, [{ id: 'test addrss' }], undefined);
+      component.selectDefaultAddress(true, [{ id: 'test addrss' }], undefined);
       expect(component.selectAddress).toHaveBeenCalledWith({
         id: 'test addrss',
       });

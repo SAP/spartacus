@@ -86,7 +86,7 @@ export class ShippingAddressComponent implements OnInit {
       this.translation.translate('addressCard.selected'),
     ]).pipe(
       tap(([addresses, selected]) =>
-        this.setDefaultAddress(this.isAccount, addresses, selected)
+        this.selectDefaultAddress(this.isAccount, addresses, selected)
       ),
       map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
         (<any>addresses).map((address) => ({
@@ -116,7 +116,7 @@ export class ShippingAddressComponent implements OnInit {
     }
   }
 
-  setDefaultAddress(
+  selectDefaultAddress(
     isAccount: boolean,
     addresses: Address[] | B2BAddress[],
     selected: Address
