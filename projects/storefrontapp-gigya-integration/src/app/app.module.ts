@@ -13,11 +13,11 @@ import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   B2cStorefrontModule,
   JsonLdBuilderModule,
+  StorefrontComponent,
 } from '@spartacus/storefront';
+import { GigyaModule } from 'projects/gigya/public_api';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
-import { GigyaModule } from 'projects/gigya/public_api';
-import { GigyaStorefrontComponent } from 'projects/gigya/src/layout/gigya.storefront/gigya.storefront.component';
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
@@ -92,6 +92,6 @@ if (!environment.production) {
     ConfigModule,
   ],
 
-  bootstrap: [GigyaStorefrontComponent],
+  bootstrap: [StorefrontComponent],
 })
 export class AppModule {}

@@ -1,31 +1,20 @@
-import { Component, NgZone, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   AuthRedirectService,
-  GlobalMessageType,
-  GlobalMessageService,
   BaseSiteService,
+  GlobalMessageService,
+  GlobalMessageType,
+  User,
+  UserService,
 } from '@spartacus/core';
-import { UserService, User } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
+import { filter, take } from 'rxjs/operators';
+import { GigyaAuthService } from '../../auth/facade/gigya-auth.service';
 import { GigyaConfig } from '../../config';
 import { GigyaRaasComponentData } from '../cms.model';
-import { GigyaAuthService } from '../../auth/facade/gigya-auth.service';
+import { GigyaJsService } from '../gigya-js/gigya-js.service';
 
 declare var gigya: any;
-declare var window: Window;
-
-interface Window {
-  gigyaSpaProfileUpdate?: any;
-  GigyaRaasComponentReference?: any;
-}
-
-window.gigyaSpaProfileUpdate = function (response) {
-  window.GigyaRaasComponentReference.zone.run(() =>
-    window.GigyaRaasComponentReference.component.onProfileUpdateEventHandler(
-      response
-    )
-  );
-};
 
 @Component({
   selector: 'cx-gigya-raas',
@@ -38,21 +27,24 @@ export class GigyaRaasComponent {
 
   public constructor(
     public component: CmsComponentData<GigyaRaasComponentData>,
-    private zone: NgZone,
     private auth: GigyaAuthService,
     private userService: UserService,
     private authRedirectService: AuthRedirectService,
     private globalMessageService: GlobalMessageService,
     private baseSiteService: BaseSiteService,
-    private gigyaConfig: GigyaConfig
+    private gigyaConfig: GigyaConfig,
+    protected gigyaJsService: GigyaJsService
   ) {
     this.renderScreenSet = true;
-    window['GigyaRaasComponentReference'] = {
-      zone: this.zone,
-      onLoginEventHandlerGlobal: this.onLoginEventHandler(null),
-      onProfileUpdateEventHandlerGlobal: this.onProfileUpdateEventHandler(null),
-      component: this,
-    };
+
+    gigyaJsService.loaded$.pipe(filter(Boolean), take(1)).subscribe(() => {
+      if (gigyaJsService.eventListenersAdded) {
+        return;
+      }
+      gigya.accounts.addEventHandlers({
+        onLogin: (response) => this.onLoginEventHandler(response),
+      });
+    });
   }
 
   /**
@@ -74,7 +66,8 @@ export class GigyaRaasComponent {
           screenSet: data.screenSet,
           startScreen: data.startScreen,
           containerID: data.containerID,
-          onAfterSubmit: window.gigyaSpaProfileUpdate,
+          onAfterSubmit: (response) =>
+            this.onProfileUpdateEventHandler(response),
         });
       }
     }
@@ -97,7 +90,7 @@ export class GigyaRaasComponent {
       gigya.accounts.showScreenSet({
         screenSet: data.screenSet,
         startScreen: data.startScreen,
-        onAfterSubmit: window.gigyaSpaProfileUpdate,
+        onAfterSubmit: (response) => this.onProfileUpdateEventHandler(response),
       });
     }
   }
