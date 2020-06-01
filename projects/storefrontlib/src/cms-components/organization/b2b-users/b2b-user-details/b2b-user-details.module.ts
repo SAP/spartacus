@@ -12,6 +12,7 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { TableModule } from '../../../../shared/components/table/table.module';
 import { B2BUserDetailsComponent } from './b2b-user-details.component';
+import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { B2BUserDetailsComponent } from './b2b-user-details.component';
     UrlModule,
     I18nModule,
     TableModule,
+    FakeTabsModule,
   ],
   declarations: [B2BUserDetailsComponent],
   exports: [B2BUserDetailsComponent],
