@@ -46,25 +46,19 @@ const defaultParams: B2BSearchConfig = {
 const mockUserGroupList: EntitiesModel<UserGroup> = {
   values: [
     {
-      code: '1',
+      uid: '1',
+      name: 'b1',
+      orgUnit: { name: 'orgName', uid: 'orgUid' },
       selected: true,
-      currency: {
-        isocode: 'USD',
-        symbol: '$',
-      },
-      orgUnit: { uid: 'orgUid', name: 'orgName' },
     },
     {
-      code: '2',
-      selected: true,
-      currency: {
-        isocode: 'USD',
-        symbol: '$',
-      },
-      orgUnit: { uid: 'orgUid2', name: 'orgName2' },
+      uid: '2',
+      name: 'b2',
+      orgUnit: { name: 'orgName', uid: 'orgUid' },
+      selected: false,
     },
   ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
+  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 
@@ -72,24 +66,20 @@ const mockUserGroupUIList = {
   values: [
     {
       code: '1',
-      selected: true,
+      name: 'b1',
       parentUnit: 'orgName',
       uid: 'orgUid',
-      threshold: ' $',
-      orderType: undefined,
-      timePeriod: undefined,
+      selected: true,
     },
     {
       code: '2',
-      selected: true,
-      parentUnit: 'orgName2',
-      uid: 'orgUid2',
-      threshold: ' $',
-      orderType: undefined,
-      timePeriod: undefined,
+      name: 'b2',
+      parentUnit: 'orgName',
+      uid: 'orgUid',
+      selected: false,
     },
   ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
+  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 @Component({

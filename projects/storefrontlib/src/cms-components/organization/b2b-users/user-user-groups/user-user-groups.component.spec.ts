@@ -18,8 +18,8 @@ import {
   B2BSearchConfig,
   RoutesConfig,
   RoutingConfig,
-  Permission,
   B2BUserService,
+  UserGroup,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -27,7 +27,7 @@ import { InteractiveTableModule } from '../../../../shared/components/interactiv
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
-import { UserUserGroupsComponent } from './user-userGroup.component';
+import { UserUserGroupsComponent } from './user-user-groups.component';
 
 const code = 'userCode';
 
@@ -37,43 +37,35 @@ const params: B2BSearchConfig = {
   pageSize: 2147483647,
 };
 
-const mockPermissionList: EntitiesModel<Permission> = {
+const mockUserGroupList: EntitiesModel<UserGroup> = {
   values: [
     {
-      code: '1',
+      uid: '1',
+      name: 'b1',
+      orgUnit: { name: 'orgName', uid: 'orgUid' },
       selected: true,
-      currency: {
-        isocode: 'USD',
-        symbol: '$',
-      },
-      orgUnit: { uid: 'orgUid', name: 'orgName' },
     },
     {
-      code: '2',
+      uid: '2',
+      name: 'b2',
+      orgUnit: { name: 'orgName', uid: 'orgUid' },
       selected: false,
-      currency: {
-        isocode: 'USD',
-        symbol: '$',
-      },
-      orgUnit: { uid: 'orgUid2', name: 'orgName2' },
     },
   ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
+  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 
-const mockPermissionUIList = {
+const mockUserGroupUIList = {
   values: [
     {
       code: '1',
+      name: 'b1',
       parentUnit: 'orgName',
       uid: 'orgUid',
-      threshold: ' $',
-      orderType: undefined,
-      timePeriod: undefined,
     },
   ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
+  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 @Component({
@@ -91,20 +83,14 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-const userGroupList = new BehaviorSubject(mockPermissionList);
+const userGroupList = new BehaviorSubject(mockUserGroupList);
 
-class MockB2BUserService implements Partial<B2BUserService> {
-  get = createSpy('get').and.returnValue(of({ email: 'test@bbb' }));
-
+class MockUserService implements Partial<B2BUserService> {
   loadB2BUserUserGroups = createSpy('loadB2BUserUserGroups');
-
   getB2BUserUserGroups = createSpy('getB2BUserUserGroups').and.returnValue(
     userGroupList
   );
-
-  assignPermission = createSpy('assign');
-
-  unassignPermission = createSpy('unassign');
+  get = createSpy('get').and.returnValue(of({}));
 }
 
 class MockRoutingService {
@@ -124,6 +110,7 @@ class MockRoutingService {
     });
   }
 }
+
 const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 class MockRoutingConfig {
   getRouteConfig(routeName: string) {
@@ -134,7 +121,7 @@ class MockRoutingConfig {
 describe('UserUserGroupsComponent', () => {
   let component: UserUserGroupsComponent;
   let fixture: ComponentFixture<UserUserGroupsComponent>;
-  let service: MockB2BUserService;
+  let service: MockUserService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -149,7 +136,7 @@ describe('UserUserGroupsComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         {
           provide: B2BUserService,
-          useClass: MockB2BUserService,
+          useClass: MockUserService,
         },
         {
           provide: PaginationConfig,
@@ -166,7 +153,7 @@ describe('UserUserGroupsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UserUserGroupsComponent);
     component = fixture.componentInstance;
-    userGroupList.next(mockPermissionList);
+    userGroupList.next(mockUserGroupList);
     fixture.detectChanges();
   });
 
@@ -175,13 +162,13 @@ describe('UserUserGroupsComponent', () => {
   });
 
   it('should display No userGroup found page if no userGroup are found', () => {
-    const emptyPermissionList: EntitiesModel<Permission> = {
+    const emptyUserGroupList: EntitiesModel<UserGroup> = {
       values: [],
       pagination: { totalResults: 0, sort: 'byName' },
       sorts: [{ code: 'byName', selected: true }],
     };
 
-    userGroupList.next(emptyPermissionList);
+    userGroupList.next(emptyUserGroupList);
     fixture.detectChanges();
 
     expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
@@ -198,7 +185,7 @@ describe('UserUserGroupsComponent', () => {
 
       expect(service.loadB2BUserUserGroups).toHaveBeenCalledWith(code, params);
       expect(service.getB2BUserUserGroups).toHaveBeenCalledWith(code, params);
-      expect(userGroupList).toEqual(mockPermissionUIList);
+      expect(userGroupList).toEqual(mockUserGroupUIList);
     });
   });
 });
