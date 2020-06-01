@@ -33,7 +33,7 @@ Options are provided as flags for main install command as `--<option>`:
 
 - `baseSites`: Adds pre-defined base site list to the app module
 - `routing`: Adds pre-defined routing to the app module
-- `outlets`: Adds testing outlets module to app module. **NOTE:** If you plan to use testing outlets module, please remember to run `outlet-template-files.sh` bash script beforehand, as it will ensure up to date testing module files to be applied.
+- `outlets`: Adds testing outlets module to app module with all necessary files within that module. **NOTE:** We provide `outlet-template-files.sh` bash script, allowing you to manually update outlets files/folders if needed.
 
 ### Other commands (extending existing apps)
 
