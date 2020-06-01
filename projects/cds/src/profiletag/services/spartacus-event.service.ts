@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { ActiveCartService, Cart, ConsentService } from '@spartacus/core';
+import { ActionsSubject } from '@ngrx/store';
+import {
+  ActiveCartService,
+  AuthActions,
+  Cart,
+  ConsentService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, mapTo, skipWhile, take } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
@@ -13,12 +19,13 @@ export class SpartacusEventService {
     protected consentService: ConsentService,
     protected router: Router,
     protected config: CdsConfig,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    private actionsSubject: ActionsSubject
   ) {}
 
   navigated(): Observable<boolean> {
     return this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
+      filter((event) => event instanceof NavigationEnd),
       mapTo(true)
     );
   }
@@ -31,7 +38,7 @@ export class SpartacusEventService {
       .getConsent(this.config.cds.consentTemplateId)
       .pipe(
         filter(Boolean),
-        filter(profileConsent => {
+        filter((profileConsent) => {
           return this.consentService.isConsentGiven(profileConsent);
         }),
         mapTo(true),
@@ -44,10 +51,17 @@ export class SpartacusEventService {
    */
   cartChanged(): Observable<{ cart: Cart }> {
     return this.activeCartService.getActive().pipe(
-      skipWhile(cart => !Boolean(cart.entries) || cart.entries.length === 0),
-      map(cart => ({
+      skipWhile((cart) => !Boolean(cart.entries) || cart.entries.length === 0),
+      map((cart) => ({
         cart,
       }))
+    );
+  }
+
+  loginSuccessful(): Observable<boolean> {
+    return this.actionsSubject.pipe(
+      filter((action) => action.type === AuthActions.LOGIN),
+      mapTo(true)
     );
   }
 }

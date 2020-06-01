@@ -12,6 +12,7 @@ import * as path from 'path';
 import * as ts from 'typescript';
 import { COMPONENT_DEPRECATION_DATA } from '../../migrations/2_0/component-deprecations/component-deprecations-data';
 import {
+  ANONYMOUS_CONSENTS,
   AUTH_SERVICE,
   FEATURE_CONFIG_SERVICE,
   NGRX_STORE,
@@ -28,13 +29,16 @@ import {
   commitChanges,
   defineProperty,
   findConstructor,
-  getAllHtmlFiles,
   getAllTsSourceFiles,
+  getHtmlFiles,
   getIndexHtmlPath,
+  getLineFromTSFile,
   getPathResultsForFile,
   getTsSourceFile,
   injectService,
+  insertCommentAboveConfigProperty,
   insertCommentAboveIdentifier,
+  insertComponentSelectorComment,
   InsertDirection,
   insertHtmlComment,
   isCandidateForConstructorDeprecation,
@@ -198,6 +202,35 @@ const VALID_REMOVE_CONSTRUCTOR_PARAM_CLASS = `
       }
     }
 `;
+const CONFIG_DEPRECATION_TEST = `
+const config = {
+  features: {
+    level: '1.5',
+    anonymousConsents: true
+  }
+};
+
+@NgModule({
+  imports: [
+    B2cStorefrontModule.withConfig({
+      features: {
+        level: '1.5',
+        anonymousConsents: true
+      }
+    }),
+  ],
+  providers: [
+    provideConfig(config),
+    provideConfig({
+      features: {
+        level: '1.5',
+        anonymousConsents: true
+      }
+    }),
+  ]
+})
+export class AppModule {}
+`;
 const INHERITANCE_VALID_TEST_CLASS = `
 export class Test extends UserAddressService {}
 `;
@@ -208,7 +241,8 @@ const HTML_EXAMPLE_EXPECTED = `<!-- 'isLevel13' property has been removed. --><c
 <div>test</div>
 <!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
 const HTML_EXAMPLE_NGIF = `<div *ngIf="isThumbsEmpty">test</div>`;
-const HTML_EXAMPLE_NGIF_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. --><div *ngIf="isThumbsEmpty">test</div>`;
+const HTML_EXAMPLE_NGIF_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. -->
+<div *ngIf="isThumbsEmpty">test</div>`;
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -282,41 +316,45 @@ describe('File utils', () => {
 
   describe('getPathResultsForFile', () => {
     it('should return proper path for file', async () => {
-      const pathsToFile = getPathResultsForFile(appTree, 'test.ts', 'src');
+      const pathsToFiles = getPathResultsForFile(appTree, 'test.ts', 'src');
 
-      expect(pathsToFile.length).toBeGreaterThan(0);
-      expect(pathsToFile[0]).toEqual('/src/test.ts');
+      expect(pathsToFiles.length).toBeGreaterThan(0);
+      expect(pathsToFiles[0]).toEqual('/src/test.ts');
     });
   });
 
   describe('getAllHtmlFiles', () => {
     it('should return proper path for file', async () => {
-      const pathsToFile = getAllHtmlFiles(appTree, 'src');
+      let pathsToFiles = getHtmlFiles(appTree, undefined, 'src');
+      expect(pathsToFiles).toBeTruthy();
 
-      expect(pathsToFile.length).toEqual(2);
-      expect(pathsToFile[0]).toEqual('/src/index.html');
-      expect(pathsToFile[1]).toEqual('/src/app/app.component.html');
+      pathsToFiles = pathsToFiles || [];
+      expect(pathsToFiles.length).toEqual(2);
+      expect(pathsToFiles[0]).toEqual('/src/index.html');
+      expect(pathsToFiles[1]).toEqual('/src/app/app.component.html');
     });
   });
 
-  describe('insertHtmlComment', () => {
+  describe('insertComponentSelectorComment', () => {
     it('should insert the comment', async () => {
       const componentDeprecation = COMPONENT_DEPRECATION_DATA[0];
-      const result = insertHtmlComment(
+      const result = insertComponentSelectorComment(
         HTML_EXAMPLE,
         componentDeprecation.selector,
-        componentDeprecation.removedProperties[0]
+        (componentDeprecation.removedProperties || [])[0]
       );
 
       expect(result).toBeTruthy();
       expect(result).toEqual(HTML_EXAMPLE_EXPECTED);
     });
-    xit('should insert the comment (with *ngIf)', async () => {
-      const componentDeprecation = COMPONENT_DEPRECATION_DATA[1];
+  });
+
+  describe('insertHtmlComment', () => {
+    it('should insert the comment with *ngIf', async () => {
+      const componentDeprecation = COMPONENT_DEPRECATION_DATA[2];
       const result = insertHtmlComment(
         HTML_EXAMPLE_NGIF,
-        componentDeprecation.selector,
-        componentDeprecation.removedProperties[0]
+        (componentDeprecation.removedProperties || [])[0]
       );
 
       expect(result).toBeTruthy();
@@ -755,6 +793,27 @@ describe('File utils', () => {
     });
   });
 
+  describe('insertCommentAboveConfigProperty', () => {
+    it('should return the InsertChanges', async () => {
+      const filePath = 'xxx.ts';
+      const source = ts.createSourceFile(
+        filePath,
+        CONFIG_DEPRECATION_TEST,
+        ts.ScriptTarget.Latest,
+        true
+      );
+
+      const testComment = `// test comment\n`;
+      const changes = insertCommentAboveConfigProperty(
+        filePath,
+        source,
+        ANONYMOUS_CONSENTS,
+        testComment
+      );
+      expect(changes.length).toEqual(3);
+    });
+  });
+
   describe('insertCommentAboveIdentifier', () => {
     it('should return the InsertChanges', async () => {
       const filePath = '/src/app/app.component.ts';
@@ -785,6 +844,24 @@ describe('File utils', () => {
       expect(changes).toEqual([
         new ReplaceChange(filePath, 174, oldName, newName),
       ]);
+    });
+  });
+
+  describe('getLineFromTSFile', () => {
+    it('should return the ReplaceChange', async () => {
+      const lineFileTestContent =
+        "import test1 from '@test-lib';\nimport test2 from '@another-test-lib';\nconst test = new Test();";
+      const lineFilePath = '/line-test.ts';
+      const testLine = "import test2 from '@another-test-lib'";
+      appTree.create(lineFilePath, lineFileTestContent);
+      const content = appTree.readContent(lineFilePath);
+      const lines = getLineFromTSFile(
+        appTree,
+        lineFilePath,
+        content.indexOf(testLine)
+      );
+
+      expect(lines[0]).toEqual(content.indexOf(testLine));
     });
   });
 });

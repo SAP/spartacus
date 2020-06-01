@@ -16,10 +16,8 @@ import {
   RoutingService,
   EntitiesModel,
   B2BSearchConfig,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
-  Budget,
   OrgUnitService,
   B2BUser,
 } from '@spartacus/core';
@@ -32,11 +30,11 @@ import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing
 import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
 
 const code = 'unitCode';
-const email = 'aaa@bbb';
 const roleId = 'b2bcustomergroup';
+const customerId = 'customerId1';
 const userRow = {
   row: {
-    email,
+    customerId,
   },
 };
 
@@ -51,6 +49,7 @@ const mockUserList: EntitiesModel<B2BUser> = {
     {
       name: 'b1',
       uid: 'aaa@bbb',
+      customerId,
       selected: true,
       orgUnit: { uid: 'orgUid', name: 'orgName' },
       roles: [],
@@ -58,6 +57,7 @@ const mockUserList: EntitiesModel<B2BUser> = {
     {
       name: 'b2',
       uid: 'aaa2@bbb',
+      customerId: 'customerId2',
       selected: false,
       orgUnit: { uid: 'orgUid2', name: 'orgName2' },
       roles: [],
@@ -75,6 +75,7 @@ const mockUserUIList = {
       selected: true,
       parentUnit: 'orgName',
       uid: 'orgUid',
+      customerId,
       roles: [],
     },
     {
@@ -83,6 +84,7 @@ const mockUserUIList = {
       selected: false,
       uid: 'orgUid2',
       parentUnit: 'orgName2',
+      customerId: 'customerId2',
       roles: [],
     },
   ],
@@ -111,9 +113,9 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
 
   getUsers = createSpy('getUsers').and.returnValue(userList);
 
-  assignRole = createSpy('assign');
+  assignRole = createSpy('assignRole');
 
-  unassignRole = createSpy('unassign');
+  unassignRole = createSpy('unassignRole');
 }
 
 class MockRoutingService {
@@ -141,12 +143,6 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
 describe('UnitAssignRolesComponent', () => {
   let component: UnitAssignRolesComponent;
   let fixture: ComponentFixture<UnitAssignRolesComponent>;
@@ -161,7 +157,6 @@ describe('UnitAssignRolesComponent', () => {
         MockPaginationComponent,
       ],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -188,8 +183,8 @@ describe('UnitAssignRolesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display No budgets found page if no budgets are found', () => {
-    const emptyBudgetList: EntitiesModel<Budget> = {
+  it('should display No users found page if no users are found', () => {
+    const emptyBudgetList: EntitiesModel<B2BUser> = {
       values: [],
       pagination: { totalResults: 0, sort: 'byName' },
       sorts: [{ code: 'byName', selected: true }],
@@ -202,11 +197,11 @@ describe('UnitAssignRolesComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should read budget list', () => {
+    it('should read user list', () => {
       component.ngOnInit();
 
       let usersList: any;
-      component.data$.subscribe(value => {
+      component.data$.subscribe((value) => {
         usersList = value;
       });
 
@@ -225,22 +220,20 @@ describe('UnitAssignRolesComponent', () => {
   });
 
   describe('assign', () => {
-    it('should assign budget', () => {
+    it('should assign user', () => {
       component.assign(userRow);
       expect(orgUnitService.assignRole).toHaveBeenCalledWith(
-        code,
-        userRow.row.email,
+        userRow.row.customerId,
         roleId
       );
     });
   });
 
   describe('unassign', () => {
-    it('should unassign budget', () => {
+    it('should unassign user', () => {
       component.unassign(userRow);
       expect(orgUnitService.unassignRole).toHaveBeenCalledWith(
-        code,
-        userRow.row.email,
+        userRow.row.customerId,
         roleId
       );
     });

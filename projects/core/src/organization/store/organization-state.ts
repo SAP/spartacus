@@ -1,14 +1,15 @@
 import {
+  B2BAddress,
+  B2BApprovalProcess,
+  B2BUnit,
+  B2BUnitNode,
+  B2BUser,
   Budget,
   CostCenter,
   ListModel,
-  B2BUnitNode,
+  OrderApprovalPermissionType,
   Permission,
   UserGroup,
-  B2BUnit,
-  B2BApprovalProcess,
-  B2BUser,
-  B2BAddress,
 } from '../../model';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
@@ -26,6 +27,9 @@ export const COST_CENTER_ASSIGNED_BUDGETS = 'costCenter-assigned-budgets';
 export const PERMISSION_FEATURE = 'permission';
 export const PERMISSION_ENTITIES = 'permission-entities';
 export const PERMISSION_LIST = 'permission-list';
+
+export const PERMISSION_TYPES = 'permission-types';
+export const PERMISSION_TYPES_LIST = 'permission-types-list';
 
 export const ORG_UNIT_FEATURE = 'orgUnit';
 export const ORG_UNIT_NODE_ENTITIES = 'orgUnitNode-entities';
@@ -79,7 +83,9 @@ export interface UserGroupManagement extends Management<UserGroup> {
   customers: EntityLoaderState<ListModel>;
 }
 
-export interface PermissionManagement extends Management<Permission> {}
+export interface PermissionManagement extends Management<Permission> {
+  permissionTypes: EntityLoaderState<OrderApprovalPermissionType[]>;
+}
 
 export interface CostCenterManagement extends Management<CostCenter> {
   budgets: EntityLoaderState<ListModel>;

@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
+import { entityLoaderStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
@@ -7,6 +7,7 @@ import {
   StateWithOrganization,
   B2BUserManagement,
   B2B_USER_FEATURE,
+  USER_GROUP_FEATURE,
 } from '../organization-state';
 import { getOrganizationState } from './feature.selector';
 import {
@@ -18,6 +19,8 @@ import { B2BUser } from '../../../model/org-unit.model';
 import { B2BSearchConfig } from '../../model/search-config';
 import { Permission } from '../../../model/permission.model';
 import { UserGroup } from '../../../model/user-group.model';
+import { getPermissionsState } from './permission.selector';
+// import { getUserGroupsState } from './user-group.selector';
 
 export const getB2BUserManagementState: MemoizedSelector<
   StateWithOrganization,
@@ -39,7 +42,7 @@ export const getB2BUserState = (
   orgCustomerId: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<B2BUser>> =>
   createSelector(getB2BUsersState, (state: EntityLoaderState<B2BUser>) =>
-    entityStateSelector(state, orgCustomerId)
+    entityLoaderStateSelector(state, orgCustomerId)
   );
 
 export const getUserList = (
@@ -75,10 +78,19 @@ export const getB2BUserPermissions = (
 > =>
   createSelector(
     getB2BUserManagementState,
-    getB2BUsersState,
+    getPermissionsState,
     (state: B2BUserManagement, permissions: EntityLoaderState<Permission>) =>
       denormalizeCustomB2BSearch(state.permissions, permissions, params, code)
   );
+
+// avoid circular dependency
+const getUserGroupsState: MemoizedSelector<
+  StateWithOrganization,
+  EntityLoaderState<UserGroup>
+> = createSelector(
+  getOrganizationState,
+  (state: OrganizationState) => state[USER_GROUP_FEATURE].entities
+);
 
 export const getB2BUserUserGroups = (
   code: string,
@@ -89,7 +101,7 @@ export const getB2BUserUserGroups = (
 > =>
   createSelector(
     getB2BUserManagementState,
-    getB2BUsersState,
+    getUserGroupsState,
     (state: B2BUserManagement, userGroups: EntityLoaderState<UserGroup>) =>
       denormalizeCustomB2BSearch(state.userGroups, userGroups, params, code)
   );

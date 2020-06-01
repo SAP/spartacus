@@ -14,7 +14,7 @@ export const PRODUCT_CAROUSEL_COMPONENT_MIGRATION: ConstructorDeprecation = {
   deprecatedParams: [
     {
       className: CMS_COMPONENT_DATA_CLASS,
-      importPath: SPARTACUS_CORE,
+      importPath: SPARTACUS_STOREFRONTLIB,
     },
     {
       className: PRODUCT_SERVICE,

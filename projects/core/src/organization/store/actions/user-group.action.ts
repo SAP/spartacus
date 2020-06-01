@@ -98,7 +98,7 @@ export class LoadUserGroupSuccess extends EntitySuccessAction {
   constructor(public payload: UserGroup[]) {
     super(
       USER_GROUP_ENTITIES,
-      payload.map(userGroup => userGroup.uid)
+      payload.map((userGroup) => userGroup.uid)
     );
   }
 }

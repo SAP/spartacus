@@ -1,7 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { Permission, PermissionService, RoutingService } from '@spartacus/core';
 
 @Component({
@@ -11,21 +16,20 @@ import { Permission, PermissionService, RoutingService } from '@spartacus/core';
 })
 export class PermissionDetailsComponent implements OnInit {
   permission$: Observable<Permission>;
-  permissionCode$: Observable<
-    string
-  > = this.routingService
+  code$: Observable<string> = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['code']));
+    .pipe(map((routingData) => routingData.state.params['code']));
 
   constructor(
     protected routingService: RoutingService,
-    protected permissionsService: PermissionService
+    protected permissionsService: PermissionService,
+    protected modalService: ModalService
   ) {}
 
   ngOnInit(): void {
-    this.permission$ = this.permissionCode$.pipe(
-      tap(code => this.permissionsService.loadPermission(code)),
-      switchMap(code => this.permissionsService.get(code)),
+    this.permission$ = this.code$.pipe(
+      tap((code) => this.permissionsService.loadPermission(code)),
+      switchMap((code) => this.permissionsService.get(code)),
       filter(Boolean),
       map((permission: Permission) => ({
         ...permission,
@@ -34,10 +38,16 @@ export class PermissionDetailsComponent implements OnInit {
   }
 
   update(permission: Permission) {
-    this.permissionCode$
+    this.code$
       .pipe(take(1))
-      .subscribe(permissionCode =>
+      .subscribe((permissionCode) =>
         this.permissionsService.update(permissionCode, permission)
       );
+  }
+
+  openModal(template: TemplateRef<any>): void {
+    this.modalService.open(template, {
+      centered: true,
+    });
   }
 }

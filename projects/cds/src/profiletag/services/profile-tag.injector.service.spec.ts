@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Cart, OrderEntry } from '@spartacus/core';
-import { of, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, of, ReplaySubject, Subject } from 'rxjs';
+import { CdsBackendConnector } from '../connectors/cds-backend-connector';
 import {
   CartChangedPushEvent,
   ConsentChangedPushEvent,
@@ -11,6 +12,7 @@ import { ProfileTagEventService } from './profiletag-event.service';
 import { SpartacusEventService } from './spartacus-event.service';
 
 describe('ProfileTagInjector', () => {
+  let postBehaviour: Subject<boolean>;
   let profileTagInjector: ProfileTagInjectorService;
   let addTrackerBehavior: Subject<Event>;
   let profileTagEventTrackerMock: ProfileTagEventService;
@@ -18,32 +20,42 @@ describe('ProfileTagInjector', () => {
   let consentBehavior: Subject<boolean>;
   let navigatedBehavior: Subject<boolean>;
   let spartacusEventTrackerMock: SpartacusEventService;
+  let cdsBackendConnectorMock: CdsBackendConnector;
   function setVariables() {
     cartBehavior = new ReplaySubject<{ cart: Cart }>();
     consentBehavior = new ReplaySubject<boolean>();
     navigatedBehavior = new ReplaySubject<boolean>();
     addTrackerBehavior = new ReplaySubject<Event>();
+    postBehaviour = new ReplaySubject<boolean>();
+    cdsBackendConnectorMock = <CdsBackendConnector>(<any>{
+      notifySuccessfulLogin: jasmine
+        .createSpy('cdsBackendConnectorMock')
+        .and.returnValue(new BehaviorSubject(true)),
+    });
     spartacusEventTrackerMock = <SpartacusEventService>(<unknown>{
       consentGranted: jasmine
         .createSpy('consentGranted')
-        .and.callFake(_ => consentBehavior),
+        .and.callFake(() => consentBehavior),
       navigated: jasmine
         .createSpy('navigated')
-        .and.callFake(_ => navigatedBehavior),
+        .and.callFake(() => navigatedBehavior),
       cartChanged: jasmine
         .createSpy('cartChanged')
-        .and.callFake(_ => cartBehavior),
+        .and.callFake((_) => cartBehavior),
+      loginSuccessful: jasmine
+        .createSpy('loginSuccessful')
+        .and.callFake((_) => postBehaviour),
     });
     profileTagEventTrackerMock = <ProfileTagEventService>(<unknown>{
       addTracker: jasmine
         .createSpy('addTracker')
-        .and.callFake(_ => addTrackerBehavior),
+        .and.callFake(() => addTrackerBehavior),
       notifyProfileTagOfEventOccurence: jasmine.createSpy(
         'notifyProfileTagOfEventOccurence'
       ),
       getProfileTagEvents: jasmine
         .createSpy('getProfileTagEvents')
-        .and.callFake(_ => of()),
+        .and.callFake(() => of()),
     });
   }
   beforeEach(() => {
@@ -57,6 +69,10 @@ describe('ProfileTagInjector', () => {
         {
           provide: SpartacusEventService,
           useValue: spartacusEventTrackerMock,
+        },
+        {
+          provide: CdsBackendConnector,
+          useValue: cdsBackendConnectorMock,
         },
       ],
     });
@@ -110,5 +126,13 @@ describe('ProfileTagInjector', () => {
     expect(
       profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
     ).toHaveBeenCalledWith(new NavigatedPushEvent());
+  });
+
+  it('Should notify profile tag of successful login', () => {
+    const subscription = profileTagInjector.track().subscribe();
+    addTrackerBehavior.next(new CustomEvent('test'));
+    postBehaviour.next(true);
+    subscription.unsubscribe();
+    expect(cdsBackendConnectorMock.notifySuccessfulLogin).toHaveBeenCalled();
   });
 });

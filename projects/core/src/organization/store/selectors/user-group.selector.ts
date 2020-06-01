@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
+import { entityLoaderStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
@@ -34,11 +34,11 @@ export const getUserGroupsState: MemoizedSelector<
   (state: UserGroupManagement) => state && state.entities
 );
 
-export const getUserGroupState = (
+export const getUserGroup = (
   userGroupId: string
 ): MemoizedSelector<StateWithOrganization, LoaderState<UserGroup>> =>
   createSelector(getUserGroupsState, (state: EntityLoaderState<UserGroup>) =>
-    entityStateSelector(state, userGroupId)
+    entityLoaderStateSelector(state, userGroupId)
   );
 
 export const getUserGroupList = (

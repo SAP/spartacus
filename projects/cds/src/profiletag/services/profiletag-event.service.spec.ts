@@ -7,7 +7,7 @@ import { CdsConfig } from '../../config/index';
 import {
   ConsentReferenceEvent,
   DebugEvent,
-  ProfileTagEventNames,
+  InternalProfileTagEventNames,
   ProfileTagWindowObject,
 } from '../model/index';
 import { ProfileTagEventService } from './profiletag-event.service';
@@ -34,8 +34,8 @@ describe('ProfileTagEventTracker', () => {
   let getActiveBehavior;
   let baseSiteService;
   let appendChildSpy;
-  const eventListener: Record<ProfileTagEventNames, Function> = <
-    Record<ProfileTagEventNames, Function>
+  const eventListener: Record<InternalProfileTagEventNames, Function> = <
+    Record<InternalProfileTagEventNames, Function>
   >{};
   let mockedWindowRef;
   let getConsentBehavior;
@@ -122,7 +122,7 @@ describe('ProfileTagEventTracker', () => {
     let loaded = 0;
     const subscription = profileTagEventTracker
       .addTracker()
-      .pipe(tap(_ => loaded++))
+      .pipe(tap(() => loaded++))
       .subscribe();
     getActiveBehavior.next('electronics-test');
     subscription.unsubscribe();
@@ -134,15 +134,15 @@ describe('ProfileTagEventTracker', () => {
     let timesCalled = 0;
     const subscription = profileTagEventTracker
       .getProfileTagEvents()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
 
     const debugEvent = <DebugEvent>(
-      new CustomEvent(ProfileTagEventNames.DEBUG_FLAG_CHANGED, {
+      new CustomEvent(InternalProfileTagEventNames.DEBUG_FLAG_CHANGED, {
         detail: { debug: true },
       })
     );
-    eventListener[ProfileTagEventNames.DEBUG_FLAG_CHANGED](debugEvent);
+    eventListener[InternalProfileTagEventNames.DEBUG_FLAG_CHANGED](debugEvent);
     subscription.unsubscribe();
 
     expect(timesCalled).toEqual(1);
@@ -152,24 +152,24 @@ describe('ProfileTagEventTracker', () => {
     let timesCalled = 0;
     const subscription = profileTagEventTracker
       .getProfileTagEvents()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
 
     let consentReferenceChangedEvent = <ConsentReferenceEvent>(
-      new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
+      new CustomEvent(InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
         detail: { consentReference: 'some_id' },
       })
     );
-    eventListener[ProfileTagEventNames.CONSENT_REFERENCE_LOADED](
+    eventListener[InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED](
       consentReferenceChangedEvent
     );
 
     consentReferenceChangedEvent = <ConsentReferenceEvent>(
-      new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
+      new CustomEvent(InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
         detail: { consentReference: 'another_id' },
       })
     );
-    eventListener[ProfileTagEventNames.CONSENT_REFERENCE_LOADED](
+    eventListener[InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED](
       consentReferenceChangedEvent
     );
     subscription.unsubscribe();
@@ -182,21 +182,21 @@ describe('ProfileTagEventTracker', () => {
     let cr3 = null;
     const subscription1CR = profileTagEventTracker
       .getConsentReference()
-      .subscribe(cr => (cr1 = cr));
+      .subscribe((cr) => (cr1 = cr));
     const consentReferenceChangedEvent = <ConsentReferenceEvent>(
-      new CustomEvent(ProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
+      new CustomEvent(InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED, {
         detail: { consentReference: 'some_id' },
       })
     );
-    eventListener[ProfileTagEventNames.CONSENT_REFERENCE_LOADED](
+    eventListener[InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED](
       consentReferenceChangedEvent
     );
     const subscription2CR = profileTagEventTracker
       .getConsentReference()
-      .subscribe(cr => (cr2 = cr));
+      .subscribe((cr) => (cr2 = cr));
     const subscription3CR = profileTagEventTracker
       .getConsentReference()
-      .subscribe(cr => (cr3 = cr));
+      .subscribe((cr) => (cr3 = cr));
     subscription1CR.unsubscribe();
     subscription2CR.unsubscribe();
     subscription3CR.unsubscribe();

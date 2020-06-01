@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { CostCenter } from '../../../model/cost-center.model';
+import { CostCenter } from '../../../model/org-unit.model';
 import { CostCenterActions } from '../actions/index';
 import {
   ORGANIZATION_FEATURE,
@@ -10,7 +10,8 @@ import {
 } from '../organization-state';
 import * as fromReducers from '../reducers/index';
 import { CostCenterSelectors } from '../selectors/index';
-import { EntityLoaderState, LoaderState } from '@spartacus/core';
+import { EntityLoaderState } from '../../../state/utils/entity-loader/index';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 
 describe('CostCenter Selectors', () => {
   let store: Store<StateWithOrganization>;
@@ -60,7 +61,7 @@ describe('CostCenter Selectors', () => {
       let result: CostCenterManagement;
       store
         .pipe(select(CostCenterSelectors.getCostCenterManagementState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2])
@@ -78,7 +79,7 @@ describe('CostCenter Selectors', () => {
       let result: EntityLoaderState<CostCenter>;
       store
         .pipe(select(CostCenterSelectors.getCostCentersState))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2])
@@ -91,8 +92,8 @@ describe('CostCenter Selectors', () => {
     it('should return costCenter by id', () => {
       let result: LoaderState<CostCenter>;
       store
-        .pipe(select(CostCenterSelectors.getCostCenterState(code)))
-        .subscribe(value => (result = value));
+        .pipe(select(CostCenterSelectors.getCostCenter(code)))
+        .subscribe((value) => (result = value));
 
       store.dispatch(
         new CostCenterActions.LoadCostCenterSuccess([costCenter, costCenter2])

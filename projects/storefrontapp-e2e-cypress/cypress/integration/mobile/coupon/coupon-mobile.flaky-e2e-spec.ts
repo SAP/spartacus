@@ -3,7 +3,7 @@ import { formats } from '../../../sample-data/viewports';
 
 describe('Cart Coupon', () => {
   beforeEach(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.requireLoggedIn();
     cy.visit('/');
@@ -20,7 +20,7 @@ describe('Cart Coupon', () => {
       '$104.12',
       '$10'
     );
-    cartCoupon.placeOrder(stateAuth).then(orderData => {
+    cartCoupon.placeOrder(stateAuth).then((orderData) => {
       cartCoupon.verifyOrderHistory(
         orderData,
         cartCoupon.couponCode1,
@@ -40,7 +40,7 @@ describe('Cart Coupon', () => {
       '$88.84',
       '$29.61'
     );
-    cartCoupon.placeOrder(stateAuth).then(orderData => {
+    cartCoupon.placeOrder(stateAuth).then((orderData) => {
       cartCoupon.verifyOrderHistory(
         orderData,
         cartCoupon.couponCode2,
@@ -62,7 +62,7 @@ describe('Cart Coupon', () => {
       '$1,914.23',
       '$20'
     );
-    cartCoupon.placeOrder(stateAuth).then(orderData => {
+    cartCoupon.placeOrder(stateAuth).then((orderData) => {
       cartCoupon.verifyOrderHistory(
         orderData,
         cartCoupon.couponCode3,
@@ -92,7 +92,7 @@ describe('Cart Coupon', () => {
     cartCoupon.navigateToCartPage();
     cartCoupon.removeCoupon(cartCoupon.couponCode1);
 
-    cartCoupon.placeOrder(stateAuth).then(orderData => {
+    cartCoupon.placeOrder(stateAuth).then((orderData) => {
       cartCoupon.verifyOrderHistory(orderData);
     });
   });

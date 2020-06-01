@@ -34,7 +34,7 @@ describe('User Details Selectors', () => {
       let result: User;
       store
         .pipe(select(UsersSelectors.getDetails))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual({});
 

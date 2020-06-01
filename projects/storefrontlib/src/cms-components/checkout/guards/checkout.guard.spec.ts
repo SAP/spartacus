@@ -71,11 +71,11 @@ describe(`CheckoutGuard`, () => {
     cartService = TestBed.inject(ActiveCartService);
   });
 
-  it(`should redirect to first checkout step if express checkout is turned off`, done => {
+  it(`should redirect to first checkout step if express checkout is turned off`, (done) => {
     isExpressCheckoutSet.next(false);
     guard
       .canActivate()
-      .subscribe(result => {
+      .subscribe((result) => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
@@ -88,13 +88,13 @@ describe(`CheckoutGuard`, () => {
       .unsubscribe();
   });
 
-  it(`should redirect to first checkout step if is guest checkout`, done => {
+  it(`should redirect to first checkout step if is guest checkout`, (done) => {
     isExpressCheckoutSet.next(true);
     spyOn(cartService, 'isGuestCart').and.returnValue(true);
 
     guard
       .canActivate()
-      .subscribe(result => {
+      .subscribe((result) => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
@@ -107,12 +107,12 @@ describe(`CheckoutGuard`, () => {
       .unsubscribe();
   });
 
-  it(`should redirect to first checkout step if express checkout is not possible`, done => {
+  it(`should redirect to first checkout step if express checkout is not possible`, (done) => {
     isExpressCheckoutSet.next(true);
     setDefaultCheckoutDetailsSuccess.next(false);
     guard
       .canActivate()
-      .subscribe(result => {
+      .subscribe((result) => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
@@ -125,12 +125,12 @@ describe(`CheckoutGuard`, () => {
       .unsubscribe();
   });
 
-  it(`should redirect to review order`, done => {
+  it(`should redirect to review order`, (done) => {
     isExpressCheckoutSet.next(true);
     setDefaultCheckoutDetailsSuccess.next(true);
     guard
       .canActivate()
-      .subscribe(result => {
+      .subscribe((result) => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(

@@ -20,7 +20,9 @@ class MockRouter {
 const combinedUrlMatcher: UrlMatcher = () => null;
 
 class MockUrlMatcherService implements Partial<UrlMatcherService> {
-  getFromPaths = jasmine.createSpy('getFromPaths').and.callFake(paths => paths);
+  getFromPaths = jasmine
+    .createSpy('getFromPaths')
+    .and.callFake((paths) => paths);
   getFalsy = jasmine.createSpy('getFalsy').and.returnValue(false);
   getCombined = jasmine
     .createSpy('getCombined')

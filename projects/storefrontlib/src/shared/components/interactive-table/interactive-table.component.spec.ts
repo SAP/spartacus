@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BehaviorSubject, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import { TranslationService } from '@spartacus/core';
 import { TableModule } from '../table/table.module';
@@ -45,11 +45,9 @@ const mockList: ListingModel = {
       },
     },
   ],
-  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
+  pagination: { pageSize: 5, totalPages: 1, totalResults: 2, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
-
-const genericList = new BehaviorSubject(mockList);
 
 describe('InteractiveTableComponent', () => {
   let component: InteractiveTableComponent;
@@ -74,7 +72,6 @@ describe('InteractiveTableComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InteractiveTableComponent);
     component = fixture.componentInstance;
-    genericList.next(mockList);
     component.data$ = of(mockList);
     fixture.detectChanges();
   });
@@ -89,10 +86,8 @@ describe('InteractiveTableComponent', () => {
       pagination: { totalResults: 0, sort: 'byName' },
       sorts: [{ code: 'byName', selected: true }],
     };
-
-    genericList.next(emptyList);
+    component.data$ = of(emptyList);
     fixture.detectChanges();
-
     const notFoundElement = fixture.debugElement.query(By.css('.cx-no-items'));
     expect(notFoundElement).not.toBeNull();
     expect(notFoundElement.nativeElement.textContent).toContain(
@@ -103,7 +98,7 @@ describe('InteractiveTableComponent', () => {
   it('should read list', () => {
     let testList: any;
     component.data$
-      .subscribe(value => {
+      .subscribe((value) => {
         testList = value;
       })
       .unsubscribe();

@@ -36,11 +36,11 @@ export class LockFocusDirective extends TrapFocusDirective
    * CSS class `focus-lock`.
    */
   @HostBinding('class.focus-lock') shouldLock: boolean;
+
   /**
    * Indicates that the host is locked. This is available as a CSS class `is-locked`.
    */
-  @HostBinding('class.is-locked')
-  isLocked: boolean;
+  @HostBinding('class.is-locked') isLocked: boolean;
 
   /**
    * Emits an event when the host is unlocked.
@@ -56,6 +56,7 @@ export class LockFocusDirective extends TrapFocusDirective
   handleEnter(event: KeyboardEvent) {
     if (this.shouldLock && this.host === (event.target as HTMLElement)) {
       this.unlockFocus(event);
+      event.preventDefault();
       event.stopPropagation();
     }
   }
@@ -89,7 +90,11 @@ export class LockFocusDirective extends TrapFocusDirective
     this.addTabindexToChildren(0);
     // we focus the host if the event was triggered from a child
     if (event?.target === this.host) {
-      super.handleFocus(event as KeyboardEvent);
+      // we wait a few milliseconds, mainly because firefox will otherwise apply
+      // the mouse event on the new focused child element
+      setTimeout(() => {
+        super.handleFocus(event as KeyboardEvent);
+      }, 100);
     }
   }
 
@@ -118,12 +123,12 @@ export class LockFocusDirective extends TrapFocusDirective
   ngAfterViewInit() {
     if (this.shouldLock) {
       /**
-       * If the component hosts a group of focusable children elmenents,
+       * If the component hosts a group of focusable children elements,
        * we persist the group key to the children, so that they can taken this
        * into account when they persist their focus state.
        */
       if (!!this.group) {
-        this.service.findFocusable(this.host).forEach(el =>
+        this.service.findFocusable(this.host).forEach((el) =>
           // we must do this in after view init as
           this.renderer.setAttribute(el, FOCUS_GROUP_ATTR, this.group)
         );
@@ -175,7 +180,7 @@ export class LockFocusDirective extends TrapFocusDirective
     if (this.shouldLock) {
       this.isLocked = i === -1;
       if (!(this.hasFocusableChildren && i === 0) || i === 0) {
-        this.focusable.forEach(el =>
+        this.focusable.forEach((el) =>
           this.renderer.setAttribute(el, 'tabindex', i.toString())
         );
       }

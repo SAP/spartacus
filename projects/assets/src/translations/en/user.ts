@@ -31,7 +31,7 @@ export const user = {
     forgotPassword: 'Forgot password?',
     signIn: 'Sign In',
     register: 'Register',
-    dontHaveAccount: 'Don’t have an account',
+    dontHaveAccount: 'Don’t have an account?',
     emailAddress: {
       label: 'Email address',
       placeholder: 'Enter email',

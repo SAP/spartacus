@@ -37,6 +37,7 @@ export class UserGroupFormComponent extends AbstractFormComponent
   }
 
   ngOnInit() {
+    this.orgUnitService.loadOrgUnitNodes();
     this.businessUnits$ = this.orgUnitService.getList();
     if (this.userGroupData && Object.keys(this.userGroupData).length !== 0) {
       this.form.patchValue(this.userGroupData);

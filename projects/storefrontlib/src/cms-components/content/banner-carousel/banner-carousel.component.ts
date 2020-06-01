@@ -25,8 +25,8 @@ export class BannerCarouselComponent {
   private items$: Observable<
     Observable<ContentSlotComponentData>[]
   > = this.componentData$.pipe(
-    map(data => data.banners.trim().split(' ')),
-    map(codes => codes.map(code => this.cmsService.getComponentData(code)))
+    map((data) => data.banners.trim().split(' ')),
+    map((codes) => codes.map((code) => this.cmsService.getComponentData(code)))
   );
 
   /**

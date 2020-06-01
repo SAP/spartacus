@@ -72,6 +72,14 @@ export const UNASSIGN_ROLE = '[B2BUnit] Unassign Role';
 export const UNASSIGN_ROLE_SUCCESS = '[B2BUnit] Unassign Role success';
 export const UNASSIGN_ROLE_FAIL = '[B2BUnit] Unassign Role fail';
 
+export const ASSIGN_APPROVER = '[B2BUnit] Assign Approver';
+export const ASSIGN_APPROVER_SUCCESS = '[B2BUnit] Assign Approver success';
+export const ASSIGN_APPROVER_FAIL = '[B2BUnit] Assign Approver fail';
+
+export const UNASSIGN_APPROVER = '[B2BUnit] Unassign Approver';
+export const UNASSIGN_APPROVER_SUCCESS = '[B2BUnit] Unassign Approver success';
+export const UNASSIGN_APPROVER_FAIL = '[B2BUnit] Unassign Approver fail';
+
 export const CREATE_ADDRESS = '[B2BUnit] Create address';
 export const CREATE_ADDRESS_SUCCESS = '[B2BUnit] Create address success';
 export const CREATE_ADDRESS_FAIL = '[B2BUnit] Create address fail';
@@ -110,7 +118,7 @@ export class LoadOrgUnitSuccess extends EntitySuccessAction {
   constructor(public payload: B2BUnit[]) {
     super(
       ORG_UNIT_ENTITIES,
-      payload.map(orgUnit => orgUnit.uid)
+      payload.map((orgUnit) => orgUnit.uid)
     );
   }
 }
@@ -298,7 +306,6 @@ export class AssignRole extends EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      orgUnitId: string;
       orgCustomerId: string;
       roleId: string;
     }
@@ -333,7 +340,6 @@ export class UnassignRole extends EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      orgUnitId: string;
       orgCustomerId: string;
       roleId: string;
     }
@@ -356,6 +362,76 @@ export class UnassignRoleFail extends EntityFailAction {
 
 export class UnassignRoleSuccess extends EntitySuccessAction {
   readonly type = UNASSIGN_ROLE_SUCCESS;
+  constructor(
+    public payload: { uid: string; roleId: string; selected: boolean }
+  ) {
+    super(B2B_USER_ENTITIES, payload.uid, payload);
+  }
+}
+
+export class AssignApprover extends EntityLoadAction {
+  readonly type = ASSIGN_APPROVER;
+  constructor(
+    public payload: {
+      userId: string;
+      orgUnitId: string;
+      orgCustomerId: string;
+      roleId: string;
+    }
+  ) {
+    super(B2B_USER_ENTITIES, payload.orgCustomerId);
+  }
+}
+
+export class AssignApproverFail extends EntityFailAction {
+  readonly type = ASSIGN_APPROVER_FAIL;
+  constructor(
+    public payload: {
+      orgCustomerId: string;
+      error: any;
+    }
+  ) {
+    super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
+  }
+}
+
+export class AssignApproverSuccess extends EntitySuccessAction {
+  readonly type = ASSIGN_APPROVER_SUCCESS;
+  constructor(
+    public payload: { uid: string; roleId: string; selected: boolean }
+  ) {
+    super(B2B_USER_ENTITIES, payload.uid, payload);
+  }
+}
+
+export class UnassignApprover extends EntityLoadAction {
+  readonly type = UNASSIGN_APPROVER;
+  constructor(
+    public payload: {
+      userId: string;
+      orgUnitId: string;
+      orgCustomerId: string;
+      roleId: string;
+    }
+  ) {
+    super(B2B_USER_ENTITIES, payload.orgCustomerId);
+  }
+}
+
+export class UnassignApproverFail extends EntityFailAction {
+  readonly type = UNASSIGN_APPROVER_FAIL;
+  constructor(
+    public payload: {
+      orgCustomerId: string;
+      error: any;
+    }
+  ) {
+    super(B2B_USER_ENTITIES, payload.orgCustomerId, payload.error);
+  }
+}
+
+export class UnassignApproverSuccess extends EntitySuccessAction {
+  readonly type = UNASSIGN_APPROVER_SUCCESS;
   constructor(
     public payload: { uid: string; roleId: string; selected: boolean }
   ) {
@@ -446,7 +522,7 @@ export class LoadAddressSuccess extends EntitySuccessAction {
   constructor(public payload: B2BAddress[]) {
     super(
       ADDRESS_ENTITIES,
-      payload.map(address => address.id)
+      payload.map((address) => address.id)
     );
   }
 }
@@ -501,7 +577,13 @@ export type OrgUnitAction =
   | AssignRoleFail
   | UnassignRole
   | UnassignRoleSuccess
-  | UnassignRoleSuccess
+  | UnassignRoleFail
+  | AssignApprover
+  | AssignApproverSuccess
+  | AssignApproverFail
+  | UnassignApprover
+  | UnassignApproverSuccess
+  | UnassignApproverFail
   | CreateAddress
   | CreateAddressSuccess
   | CreateAddressFail

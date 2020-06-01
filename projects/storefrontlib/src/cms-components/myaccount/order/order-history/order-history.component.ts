@@ -43,8 +43,8 @@ export class OrderHistoryComponent implements OnDestroy {
    * TabParagraphContainerComponent. This can be read from TabParagraphContainer.
    */
   tabTitleParam$: Observable<number> = this.orders$.pipe(
-    map(order => order.pagination.totalResults),
-    filter(totalResults => totalResults !== undefined),
+    map((order) => order.pagination.totalResults),
+    filter((totalResults) => totalResults !== undefined),
     take(1)
   );
 

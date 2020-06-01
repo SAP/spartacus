@@ -39,6 +39,13 @@ const mockDataWithMultiplePictures: Product = {
   },
 };
 
+const mockDataWitoutPrimaryPictures: Product = {
+  name: 'mockProduct1',
+  images: {
+    GALLERY: [firstImage, secondImage],
+  },
+};
+
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
     return of();
@@ -110,21 +117,21 @@ describe('ProductImagesComponent', () => {
 
     it('should have mainImage$', () => {
       let result: any;
-      component.mainImage$.subscribe(value => (result = value)).unsubscribe();
+      component.mainImage$.subscribe((value) => (result = value)).unsubscribe();
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
     it('should have 2 thumbnails', async(() => {
       let items: Observable<Product>[];
-      component.thumbs$.subscribe(i => (items = i));
+      component.thumbs$.subscribe((i) => (items = i));
       expect(items.length).toBe(2);
     }));
 
     it('should have thumb with url in first product', async(() => {
       let thumbs: Observable<Product>[];
-      component.thumbs$.subscribe(i => (thumbs = i));
+      component.thumbs$.subscribe((i) => (thumbs = i));
       let thumb: any;
-      thumbs[0].subscribe(p => (thumb = p));
+      thumbs[0].subscribe((p) => (thumb = p));
       expect(thumb.container.thumbnail.url).toEqual('thumb-1.jpg');
     }));
 
@@ -160,13 +167,13 @@ describe('ProductImagesComponent', () => {
 
     it('should have mainImage$', () => {
       let result: any;
-      component.mainImage$.subscribe(value => (result = value)).unsubscribe();
+      component.mainImage$.subscribe((value) => (result = value)).unsubscribe();
       expect(result.zoom.url).toEqual('zoom-1.jpg');
     });
 
     it('should not have thumbnails in case there is only one GALLERY image', async(() => {
       let items: Observable<Product>[];
-      component.thumbs$.subscribe(i => (items = i));
+      component.thumbs$.subscribe((i) => (items = i));
       expect(items.length).toBe(0);
     }));
 
@@ -177,6 +184,38 @@ describe('ProductImagesComponent', () => {
 
         const carousel = fixture.debugElement.query(By.css('cx-carousel'));
         expect(carousel).toBeNull();
+      });
+    });
+  });
+
+  describe('without pictures', () => {
+    beforeEach(() => {
+      spyOn(currentProductService, 'getProduct').and.returnValue(
+        of(mockDataWitoutPrimaryPictures)
+      );
+
+      fixture = TestBed.createComponent(ProductImagesComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should be created', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should have mainImage$', () => {
+      let result: any;
+      component.mainImage$.subscribe((value) => (result = value)).unsubscribe();
+      expect(result).toEqual({});
+    });
+
+    describe('(UI test)', () => {
+      it('should render cx-media for GALLERY image', () => {
+        component.thumbs$.subscribe();
+        fixture.detectChanges();
+
+        const media = fixture.debugElement.query(By.css('cx-media'));
+        expect(media).toBeDefined();
       });
     });
   });

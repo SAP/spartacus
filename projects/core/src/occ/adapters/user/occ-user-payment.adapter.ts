@@ -28,7 +28,7 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
       .get<Occ.PaymentDetailsList>(url, { headers })
       .pipe(
         catchError((error: any) => throwError(error)),
-        map(methodList => methodList.payments),
+        map((methodList) => methodList.payments),
         this.converter.pipeableMany(PAYMENT_DETAILS_NORMALIZER)
       );
   }

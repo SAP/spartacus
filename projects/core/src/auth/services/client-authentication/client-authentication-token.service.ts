@@ -5,24 +5,14 @@ import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service
 import { AuthConfig } from '../../config/auth-config';
 import { ClientToken } from '../../models/token-types.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ClientAuthenticationTokenService {
-  constructor(
-    config: AuthConfig,
-    http: HttpClient,
-    // tslint:disable-next-line:unified-signatures
-    occEndpointsService: OccEndpointsService
-  );
-
-  /**
-   * @deprecated since version 1.1
-   * Use constructor(http: HttpClient, config: AuthConfig, occEndpointsService: OccEndpointsService) instead
-   */
-  constructor(config: AuthConfig, http: HttpClient);
   constructor(
     protected config: AuthConfig,
     protected http: HttpClient,
-    protected occEndpointsService?: OccEndpointsService
+    protected occEndpointsService: OccEndpointsService
   ) {}
 
   loadClientAuthenticationToken(): Observable<ClientToken> {

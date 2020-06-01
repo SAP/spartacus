@@ -17,7 +17,6 @@ import {
   UserGroupService,
   EntitiesModel,
   B2BSearchConfig,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
   UserGroup,
@@ -114,12 +113,6 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
 describe('UserGroupListComponent', () => {
   let component: UserGroupListComponent;
   let fixture: ComponentFixture<UserGroupListComponent>;
@@ -135,7 +128,6 @@ describe('UserGroupListComponent', () => {
         MockPaginationComponent,
       ],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserGroupService, useClass: MockUserGroupService },
@@ -184,7 +176,7 @@ describe('UserGroupListComponent', () => {
       component.ngOnInit();
       let userGroupsList: any;
       component.data$
-        .subscribe(value => {
+        .subscribe((value) => {
           userGroupsList = value;
         })
         .unsubscribe();

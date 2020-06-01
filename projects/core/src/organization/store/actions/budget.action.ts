@@ -44,7 +44,7 @@ export class LoadBudgetSuccess extends EntitySuccessAction {
   constructor(public payload: Budget[]) {
     super(
       BUDGET_ENTITIES,
-      payload.map(budget => budget.code)
+      payload.map((budget) => budget.code)
     );
   }
 }

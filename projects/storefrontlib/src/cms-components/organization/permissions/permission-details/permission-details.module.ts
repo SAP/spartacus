@@ -11,6 +11,8 @@ import { PermissionDetailsComponent } from './permission-details.component';
 import { RouterModule } from '@angular/router';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
+import { ConfirmModalModule } from '../../../../shared/components/modal/confirm-modal/confirm-modal.module';
+import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 
 @NgModule({
   imports: [
@@ -33,6 +35,8 @@ import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
     }),
     UrlModule,
     I18nModule,
+    ConfirmModalModule,
+    FakeTabsModule,
   ],
   declarations: [PermissionDetailsComponent],
   exports: [PermissionDetailsComponent],

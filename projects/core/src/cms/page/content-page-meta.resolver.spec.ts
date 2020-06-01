@@ -58,7 +58,7 @@ describe('ContentPageMetaResolver', () => {
 
     service
       .resolveTitle()
-      .subscribe(meta => {
+      .subscribe((meta) => {
         result = meta;
       })
       .unsubscribe();
@@ -70,7 +70,7 @@ describe('ContentPageMetaResolver', () => {
     let result: BreadcrumbMeta[];
     service
       .resolveBreadcrumbs()
-      .subscribe(meta => {
+      .subscribe((meta) => {
         result = meta;
       })
       .unsubscribe();

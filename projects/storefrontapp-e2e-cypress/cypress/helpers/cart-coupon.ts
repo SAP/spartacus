@@ -1,4 +1,5 @@
 import { user } from '../sample-data/checkout-flow';
+import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 
 export const productCode1 = '300938';
 export const couponCode1 = 'CouponForCart';
@@ -14,7 +15,7 @@ export const myCouponCode2 = 'midautumn';
 
 export function addProductToCart(productCode: string) {
   cy.get('cx-searchbox input')
-    .clear()
+    .clear({ force: true })
     .type(`${productCode}{enter}`, { force: true });
   cy.get('cx-add-to-cart')
     .getAllByText(/Add To Cart/i)
@@ -38,9 +39,7 @@ export function verifyMyCoupons() {
 
 export function ApplyMyCoupons(couponCode: string) {
   cy.get('.cx-available-coupon').within(() => {
-    cy.getByText(couponCode)
-      .parent()
-      .click();
+    cy.getByText(couponCode).parent().click();
   });
   cy.get('cx-global-message').should(
     'contain',
@@ -53,31 +52,38 @@ export function ApplyMyCoupons(couponCode: string) {
 export function claimCoupon(couponCode: string) {
   cy.request({
     method: 'POST',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/current/customercoupons/${couponCode}/claim`,
+    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/customercoupons/${couponCode}/claim`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
           .token.access_token
       }`,
     },
-  }).then(response => {
+  }).then((response) => {
     expect(response.status).to.eq(201);
   });
 }
 
+const cartCouponInput = 'input.input-coupon-code';
+const cartCouponButton = 'button.apply-coupon-button';
+const applyCartCoupon = (code: string) => {
+  cy.get('cx-cart-coupon').within(() => {
+    cy.get(cartCouponInput).type(code);
+    cy.get(cartCouponButton).click();
+  });
+};
+
 export function applyMyCouponAsAnonymous(couponCode: string) {
   addProductToCart(productCode4);
-  cy.get('#applyVoucher').type(couponCode);
-  cy.get('.col-md-4 > .btn').click();
+  applyCartCoupon(couponCode);
   getCouponItemFromCart(couponCode).should('not.exist');
   cy.get('cx-global-message .alert').should('exist');
 }
 
 export function applyCoupon(couponCode: string) {
-  cy.get('#applyVoucher').type(couponCode);
-  cy.get('.col-md-4 > .btn').click();
+  applyCartCoupon(couponCode);
   cy.get('cx-global-message').should(
     'contain',
     `${couponCode} has been applied`
@@ -92,16 +98,15 @@ export function removeCoupon(couponCode: string) {
 }
 
 export function applyWrongCoupon() {
-  cy.get('#applyVoucher').type('error');
-  cy.get('.col-md-4 > .btn').click();
-  cy.get('cx-global-message').should('contain', 'coupon.invalid.code.provided');
+  applyCartCoupon('wrongCouponCode');
+  cy.get('cx-global-message').should('contain', 'Invalid code provided.');
 }
 
 export function placeOrder(stateAuth: any) {
   return cy
     .get('.cx-total')
     .first()
-    .then($cart => {
+    .then(($cart) => {
       const cartId = $cart.text().match(/[0-9]+/)[0];
       cy.requireShippingAddressAdded(user.address, stateAuth);
       cy.requireShippingMethodSelected(stateAuth);
@@ -115,6 +120,7 @@ export function verifyOrderHistory(
   totalPrice?: string,
   savedPrice?: string
 ) {
+  waitForOrderToBePlacedRequest(orderData.body.code);
   navigateToOrderHistoryPage(orderData);
   if (couponCode) {
     verifyCouponInOrderHistory(couponCode, totalPrice, savedPrice);
@@ -169,6 +175,7 @@ export function verifyOrderHistoryForCouponAndPrice(
   couponCode?: string,
   savedPrice?: string
 ) {
+  waitForOrderToBePlacedRequest(orderData.body.code);
   navigateToOrderHistoryPage(orderData);
   if (couponCode) {
     verifyCouponAndSavedPriceInOrder(couponCode, savedPrice);
@@ -262,7 +269,7 @@ export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
   //don't verify the total price which easy to changed by sample data
   verifyCouponAndSavedPrice(myCouponCode2, '$30');
 
-  placeOrder(stateAuth).then(orderData => {
+  placeOrder(stateAuth).then((orderData: any) => {
     verifyOrderHistoryForCouponAndPrice(orderData, myCouponCode2, '$30');
     getCouponItemOrderSummary(couponCode1).should('exist');
   });
@@ -280,7 +287,7 @@ export function verifyCustomerCouponRemoving() {
   navigateToCartPage();
   removeCoupon(myCouponCode2);
 
-  placeOrder(stateAuth).then(orderData => {
+  placeOrder(stateAuth).then((orderData: any) => {
     verifyOrderHistory(orderData);
   });
 }

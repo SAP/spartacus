@@ -20,7 +20,7 @@ export const organization = {
     },
   },
   budget: {
-    details: 'Budget details',
+    header: 'Details for {{code}}',
     id: 'ID',
     name: 'Budget Name',
     amount: 'Amount',
@@ -34,13 +34,14 @@ export const organization = {
     disable: 'Disable',
     enable: 'Enable',
     status: 'Status',
-    back: 'Back to list',
+    back: 'Back to budgets',
     active: 'Active',
     deactivated: 'Deactivated',
+    details: 'Details',
     costCenters: 'Cost Centers',
-    costCenter: {
-      code: 'Code',
-      name: 'Name',
+    confirmDeactivation: {
+      title: 'Disable Budget',
+      message: 'Are you sure you want to disable this budget?',
     },
   },
   budgetForm: {
@@ -66,15 +67,16 @@ export const organization = {
       label: 'Budget amount',
       placeholder: 'Amount',
     },
-    message: {
-      required: 'Value is required',
-      rangeOverflow: 'Date must be before {{date}}',
-      rangeUnderflow: 'Date must be after {{date}}',
-    },
+  },
+  budgetCostCenters: {
+    header: 'Cost centers of {{code}}',
+    back: 'Back',
+    code: 'Code',
+    name: 'Name',
   },
   permissionsList: {
     code: 'Code',
-    permissionManagement: 'Persmission Management',
+    permissionManagement: 'Purchase limits',
     threshold: 'Threshold Value',
     type: 'Type',
     timePeriod: 'Time Period',
@@ -86,13 +88,14 @@ export const organization = {
       byCode: 'Code',
       byValue: 'Value',
     },
-    create: 'Create new Permission',
+    create: 'New purchase limit',
     assign: 'Assign',
   },
   permission: {
-    details: 'Permission details',
+    header: 'Details for {{code}}',
+    details: 'Details',
     id: 'ID',
-    name: 'Permission Name',
+    name: 'Name',
     currency: 'Currency',
     parentUnit: 'Parent Unit',
     edit: 'Edit',
@@ -103,13 +106,18 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     threshold: 'Threshold Amount',
+    confirmDeactivation: {
+      title: 'Confirm disable purchase limit',
+      message: 'Are you sure you want to disable this purchase limit?',
+    },
   },
   permissionForm: {
-    create: 'Create Permission',
-    edit: 'Edit Permission',
-    update: 'Update Permission',
+    createHeader: 'New purchase limit',
+    editHeader: 'Edit {{code}}',
+    update: 'Save',
+    create: 'Save',
     code: {
-      label: 'Permission ID',
+      label: 'ID',
       placeholder: 'Code',
     },
     businessUnits: {
@@ -120,11 +128,8 @@ export const organization = {
     type: 'Type',
     currency: 'Currency',
     threshold: {
-      label: 'Permission threshold',
+      label: 'Threshold',
       placeholder: 'Amount',
-    },
-    message: {
-      required: 'Value is required',
     },
   },
   costCentersList: {
@@ -142,8 +147,8 @@ export const organization = {
     create: 'Create new Cost Center',
   },
   costCenter: {
+    header: 'Details for {{code}}',
     code: 'Code',
-    details: 'Cost Center Details',
     name: 'Name',
     currency: 'Currency',
     parentUnit: 'Parent Unit',
@@ -155,6 +160,16 @@ export const organization = {
     active: 'Active',
     deactivated: 'Deactivated',
     budgets: 'Budgets',
+    details: 'Details',
+    assignBudgets: 'Manage Budgets',
+    confirmDeactivation: {
+      title: 'Disable Cost Center',
+      message: 'Are you sure you want to disable this cost center?',
+    },
+  },
+  costCenterBudgets: {
+    header: 'Budgets in {{code}}',
+    back: 'Close',
     assignBudgets: 'Manage Budgets',
   },
   costCenterAssignBudgets: {
@@ -178,16 +193,13 @@ export const organization = {
       placeholder: 'Select business unit',
     },
     currency: 'Currency',
-    message: {
-      required: 'Value is required',
-    },
   },
   orgUnitsList: {
     orgUnitManagement: 'Organization Units Management',
     create: 'Create new Unit',
   },
   orgUnit: {
-    details: 'Unit Details',
+    header: 'Details for {{code}}',
     uid: 'ID',
     name: 'Name',
     approvalProcess: 'Approval process',
@@ -196,10 +208,19 @@ export const organization = {
     disable: 'Disable',
     enable: 'Enable',
     status: 'Status',
-    back: 'Back to list',
+    back: 'Show Units',
     active: 'Active',
     deactivated: 'Deactivated',
-    assignRoles: 'Manage Roles',
+    confirmDeactivation: {
+      title: 'Disable Unit',
+      message: 'Are you sure you want to disable this unit?',
+    },
+    details: 'Details',
+    children: 'Child Units',
+    costCenters: 'Cost Centers',
+    users: 'Users',
+    approvers: 'Approvers',
+    manageAddresses: 'Addresses',
   },
   orgUnitForm: {
     create: 'Create Unit',
@@ -221,13 +242,96 @@ export const organization = {
       label: 'Approval process',
       placeholder: 'Select approval process',
     },
-    message: {
-      required: 'Value is required',
-    },
+  },
+  unitUsers: {
+    header: 'Users in {{code}}',
+    back: 'Close',
+    assignRoles: 'Manage Roles',
   },
   unitAssignRoles: {
     header: 'Manage roles in {{code}}',
     back: 'Close',
+  },
+  unitApprovers: {
+    header: 'Approvers in {{code}}',
+    back: 'Close',
+    assignApprovers: 'Manage Approvers',
+  },
+  unitAssignApprovers: {
+    header: 'Manage approvers in {{code}}',
+    back: 'Close',
+  },
+  unitManageAddresses: {
+    header: 'Manage addresses in {{code}}',
+    create: 'Create new Address',
+    back: 'Back to unit',
+    id: 'ID',
+    name: 'Name',
+    formattedAddress: 'Details',
+  },
+  unitAddressDetails: {
+    header: 'Addresses details',
+    edit: 'Edit',
+    delete: 'Delete',
+    back: 'Back',
+    id: 'ID',
+    name: 'Name',
+    unit: 'Unit',
+    details: 'Details',
+  },
+  unitAddressCreate: {
+    header: 'Address create',
+    create: 'Create',
+  },
+  unitAddressEdit: {
+    header: 'Address edit',
+    update: 'Update',
+  },
+  unitAddressForm: {
+    title: 'Title',
+    firstName: {
+      label: 'First name',
+      placeholder: 'First Name',
+    },
+    lastName: {
+      label: 'Last name',
+      placeholder: 'Last Name',
+    },
+    address1: 'Address 1',
+    address2: 'Address 2 (optional)',
+    country: 'Country',
+    city: {
+      label: 'City',
+      placeholder: 'City',
+    },
+    state: 'State',
+    zipCode: {
+      label: 'Zip code',
+      placeholder: 'Postal Code/Zip',
+    },
+    phoneNumber: {
+      label: 'Phone number (optional)',
+      placeholder: '(555) 555 - 0123',
+    },
+    saveAsDefault: 'Save as default',
+    chooseAddress: 'Choose address',
+    streetAddress: 'Street Address',
+    aptSuite: 'Apt, Suite',
+    selectOne: 'Select One...',
+  },
+  unitCostCenters: {
+    header: 'Cost centers in {{code}}',
+    back: 'Close',
+    create: 'Create',
+    code: 'Code',
+    name: 'Name',
+  },
+  unitChildren: {
+    header: 'Child Units in {{code}}',
+    back: 'Close',
+    create: 'Create',
+    id: 'ID',
+    name: 'Name',
   },
   usersList: {
     sorting: {
@@ -261,14 +365,15 @@ export const organization = {
     },
   },
   userGroup: {
-    details: 'User Group details',
+    header: 'Details for {{code}}',
+    details: 'Details',
     id: 'ID',
     name: 'User Group Name',
     parentUnit: 'Parent Unit',
     edit: 'Edit',
     back: 'Back to list',
-    assignPermissions: 'Manage Permissions',
-    assignUsers: 'Manage Users',
+    permissions: 'Purchase limits',
+    users: 'Users',
   },
   userGroupForm: {
     create: 'Create User Group',
@@ -286,17 +391,39 @@ export const organization = {
       label: 'Parent business unit',
       placeholder: 'Select business unit',
     },
-    message: {
-      required: 'Value is required',
-    },
+  },
+  userGroupPermissions: {
+    header: 'Purchase limits assigned to in {{code}}',
+    assignPermissions: 'Manage limits',
+    back: 'Close',
+  },
+  userGroupUsers: {
+    header: 'Users in {{code}}',
+    assignUsers: 'Manage Users',
+    back: 'Close',
   },
   userGroupAssignPermissions: {
-    header: 'Manage permissions in {{code}}',
+    header: 'Manage purchase limits in {{code}}',
     back: 'Close',
   },
   userGroupAssignUsers: {
     header: 'Manage users in {{code}}',
     back: 'Close',
     unassignAll: 'Unassign All',
+  },
+  user: {
+    details: 'Details',
+    approvers: 'Approvers',
+    permissions: 'Purchase limits',
+    userGroups: 'User groups',
+    back: 'Back to user list',
+  },
+  userPermissions: {
+    header: 'Purchase limits assigned to {{code}}',
+    assignPermissions: 'Manage limits',
+  },
+  userAssignPermissions: {
+    header: 'Manage purchase limits for {{code}}',
+    back: 'Close',
   },
 };

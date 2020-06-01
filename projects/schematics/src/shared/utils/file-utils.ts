@@ -1,6 +1,7 @@
 import { experimental, strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getProjectTargetOptions } from '@angular/cdk/schematics';
+import { Attribute, Element, HtmlParser, Node } from '@angular/compiler';
 import {
   findNode,
   findNodes,
@@ -35,9 +36,14 @@ export interface ComponentProperty {
   comment: string;
 }
 export interface ComponentData {
+  /** a component's selector, e.g. cx-start-rating */
   selector: string;
+  /** a component.ts' class name */
   componentClassName: string;
-  removedProperties: ComponentProperty[];
+  /** only `@Input` and `@Output` properties should be listed here */
+  removedInputOutputProperties?: ComponentProperty[];
+  /** all other removed component properties should be listed here */
+  removedProperties?: ComponentProperty[];
 }
 
 export interface ConstructorDeprecation {
@@ -52,10 +58,23 @@ export interface ConstructorDeprecation {
   removeParams?: ClassType[];
 }
 
+export interface MethodPropertyDeprecation {
+  class: string;
+  importPath: string;
+  deprecatedNode: string;
+  newNode?: string;
+  comment?: string;
+}
+
 export interface DeprecatedNode {
   node: string;
   importPath: string;
   comment?: string;
+}
+
+export interface ConfigDeprecation {
+  propertyName: string;
+  comment: string;
 }
 
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
@@ -79,13 +98,13 @@ export function getAllTsSourceFiles(
   basePath: string
 ): ts.SourceFile[] {
   const results: string[] = [];
-  tree.getDir(basePath).visit(filePath => {
+  tree.getDir(basePath).visit((filePath) => {
     if (filePath.endsWith('.ts')) {
       results.push(filePath);
     }
   });
 
-  return results.map(f => getTsSourceFile(tree, f));
+  return results.map((f) => getTsSourceFile(tree, f));
 }
 
 export function getIndexHtmlPath(
@@ -108,7 +127,7 @@ export function getPathResultsForFile(
   const results: string[] = [];
   const dir = directory || '/';
 
-  tree.getDir(dir).visit(filePath => {
+  tree.getDir(dir).visit((filePath) => {
     if (filePath.endsWith(file)) {
       results.push(filePath);
     }
@@ -117,28 +136,103 @@ export function getPathResultsForFile(
   return results;
 }
 
-export function getAllHtmlFiles(tree: Tree, directory?: string): string[] {
-  return getPathResultsForFile(tree, '.html', directory);
+export function getHtmlFiles(
+  tree: Tree,
+  fileName = '.html',
+  directory?: string
+): string[] {
+  return getPathResultsForFile(tree, fileName || '.html', directory);
 }
 
-export function insertHtmlComment(
+export function insertComponentSelectorComment(
   content: string,
   componentSelector: string,
   componentProperty: ComponentProperty
 ): string | undefined {
-  // const oldContent = content;
+  const selector = buildSelector(componentSelector);
   const comment = buildHtmlComment(componentProperty.comment);
 
-  // for cases like: <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
-  const selectorRegExp = new RegExp(`(<${componentSelector}[^>]*>)`, 'gi');
-  content = content.replace(selectorRegExp, `${comment}\$1`);
+  let index: number | undefined = 0;
+  let newContent = content;
+  while (true) {
+    index = getTextPosition(newContent, selector, index);
+    if (index == null) {
+      break;
+    }
 
-  // // for cases like: <div *ngIf="isThumbsEmpty">test</div>
-  // if (oldContent === content) {
-  //   // content hasn't been changed by the above selector regexp
-  //   const propertyRegExp = new RegExp(`(<.+${componentProperty.name})`, 'g');
-  //   content = content.replace(propertyRegExp, `${comment}\$1`);
-  // }
+    newContent = newContent.slice(0, index) + comment + newContent.slice(index);
+    index += comment.length + componentSelector.length;
+  }
+
+  return newContent;
+}
+
+function getTextPosition(
+  content: string,
+  text: string,
+  startingPosition = 0
+): number | undefined {
+  const index = content.indexOf(text, startingPosition);
+  return index !== -1 ? index : undefined;
+}
+
+function buildSelector(selector: string): string {
+  return `<${selector}`;
+}
+
+function visitHtmlNodesRecursively(
+  nodes: Node[],
+  propertyName: string,
+  resultingElements: Node[] = [],
+  parentElement?: Element
+): void {
+  nodes.forEach((node) => {
+    if (node instanceof Attribute && parentElement) {
+      if (
+        node.name.includes(propertyName) ||
+        node.value.includes(propertyName)
+      ) {
+        resultingElements.push(parentElement);
+      }
+    }
+    if (node instanceof Element) {
+      visitHtmlNodesRecursively(
+        node.attrs,
+        propertyName,
+        resultingElements,
+        node
+      );
+      visitHtmlNodesRecursively(
+        node.children,
+        propertyName,
+        resultingElements,
+        node
+      );
+    }
+  });
+}
+
+export function insertHtmlComment(
+  content: string,
+  componentProperty: ComponentProperty
+): string | undefined {
+  const comment = buildHtmlComment(componentProperty.comment);
+  const result = new HtmlParser().parse(content, '');
+
+  const resultingElements: Node[] = [];
+  visitHtmlNodesRecursively(
+    result.rootNodes,
+    componentProperty.name,
+    resultingElements
+  );
+
+  resultingElements
+    .map((node: Element) => node.sourceSpan.start.line)
+    .forEach((line, i) => {
+      const split = content.split('\n');
+      split.splice(line + i, 0, comment);
+      content = split.join('\n');
+    });
 
   return content;
 }
@@ -158,7 +252,7 @@ export function commitChanges(
   }
 
   const recorder = host.beginUpdate(path);
-  changes.forEach(change => {
+  changes.forEach((change) => {
     if (change instanceof InsertChange) {
       const pos = change.pos;
       const toAdd = change.toAdd;
@@ -188,7 +282,7 @@ export function commitChanges(
 }
 
 export function findConstructor(nodes: ts.Node[]): ts.Node | undefined {
-  return nodes.find(n => n.kind === ts.SyntaxKind.Constructor);
+  return nodes.find((n) => n.kind === ts.SyntaxKind.Constructor);
 }
 
 export function defineProperty(
@@ -272,7 +366,7 @@ export function isInheriting(
   inheritedClass: string
 ): boolean {
   const heritageClauseNodes = nodes.filter(
-    node => node.kind === ts.SyntaxKind.HeritageClause
+    (node) => node.kind === ts.SyntaxKind.HeritageClause
   );
   const heritageNodes = findMultiLevelNodesByTextAndKind(
     heritageClauseNodes,
@@ -309,7 +403,7 @@ function checkConstructorParameters(
       const constructorParameterType = findNodes(
         constructorParameter,
         ts.SyntaxKind.Identifier
-      ).filter(node => node.getText() === parameterClassType.className);
+      ).filter((node) => node.getText() === parameterClassType.className);
 
       if (constructorParameterType.length !== 0) {
         foundClassTypes.push(parameterClassType);
@@ -333,7 +427,7 @@ function isInjected(
     const constructorParameterType = findNodes(
       constructorParameter,
       ts.SyntaxKind.Identifier
-    ).filter(node => node.getText() === parameterClassType.className);
+    ).filter((node) => node.getText() === parameterClassType.className);
 
     if (constructorParameterType.length > 0) {
       return true;
@@ -347,8 +441,9 @@ function checkSuper(
   constructorNode: ts.Node,
   parameterClassTypes: ClassType[]
 ): boolean {
+  const constructorBlock = findNodes(constructorNode, ts.SyntaxKind.Block)[0];
   const callExpressions = findNodes(
-    constructorNode,
+    constructorBlock,
     ts.SyntaxKind.CallExpression
   );
   if (callExpressions.length === 0) {
@@ -467,7 +562,7 @@ function getParamName(
     ts.SyntaxKind.Parameter
   );
   const classDeclarationNode = nodes.find(
-    node => node.kind === ts.SyntaxKind.ClassDeclaration
+    (node) => node.kind === ts.SyntaxKind.ClassDeclaration
   );
   if (!classDeclarationNode) {
     return undefined;
@@ -477,7 +572,7 @@ function getParamName(
     if (constructorParameter.getText().includes(classType.className)) {
       const paramVariableNode = constructorParameter
         .getChildren()
-        .find(node => node.kind === ts.SyntaxKind.Identifier);
+        .find((node) => node.kind === ts.SyntaxKind.Identifier);
       const paramName = paramVariableNode
         ? paramVariableNode.getText()
         : undefined;
@@ -498,28 +593,25 @@ function shouldRemoveImportAndParam(
     return true;
   }
 
-  const constructorParameters = findNodes(
-    constructorNode,
-    ts.SyntaxKind.Parameter
-  );
   const classDeclarationNode = nodes.find(
-    node => node.kind === ts.SyntaxKind.ClassDeclaration
+    (node) => node.kind === ts.SyntaxKind.ClassDeclaration
   );
   if (!classDeclarationNode) {
     return true;
   }
 
+  const constructorParameters = getConstructorParameterList(constructorNode);
   for (const constructorParameter of constructorParameters) {
     if (constructorParameter.getText().includes(importToRemove.className)) {
       const paramVariableNode = constructorParameter
         .getChildren()
-        .find(node => node.kind === ts.SyntaxKind.Identifier);
+        .find((node) => node.kind === ts.SyntaxKind.Identifier);
       const paramName = paramVariableNode ? paramVariableNode.getText() : '';
 
       const paramUsages = findNodes(
         classDeclarationNode,
         ts.SyntaxKind.Identifier
-      ).filter(node => node.getText() === paramName);
+      ).filter((node) => node.getText() === paramName);
       // if there are more than two usages (injection and passing to super), then the param is used elsewhere in the class
       if (paramUsages.length > 2) {
         return false;
@@ -569,7 +661,7 @@ function removeImport(
           i,
         };
       })
-      .filter(result => result.importNode)[0];
+      .filter((result) => result.importNode)[0];
 
     if (!importSpecifier.importNode) {
       return new NoopChange();
@@ -607,7 +699,7 @@ function getImportDeclarationNode(
       ts.SyntaxKind.Identifier
     );
     const found = importIdentifiers.find(
-      node => node.getText() === importToCheck.className
+      (node) => node.getText() === importToCheck.className
     );
     if (found) {
       importDeclarationNode = currentImportDeclaration;
@@ -618,15 +710,19 @@ function getImportDeclarationNode(
   return importDeclarationNode;
 }
 
+function getConstructorParameterList(constructorNode: ts.Node): ts.Node[] {
+  const syntaxList = constructorNode
+    .getChildren()
+    .filter((node) => node.kind === ts.SyntaxKind.SyntaxList)[0];
+  return findNodes(syntaxList, ts.SyntaxKind.Parameter);
+}
+
 function removeConstructorParamInternal(
   sourcePath: string,
   constructorNode: ts.Node,
   importToRemove: ClassType
 ): Change[] {
-  const constructorParameters = findNodes(
-    constructorNode,
-    ts.SyntaxKind.Parameter
-  );
+  const constructorParameters = getConstructorParameterList(constructorNode);
 
   for (let i = 0; i < constructorParameters.length; i++) {
     const constructorParameter = constructorParameters[i];
@@ -662,8 +758,9 @@ function removeParamFromSuper(
   constructorNode: ts.Node,
   paramName: string
 ): Change[] {
+  const constructorBlock = findNodes(constructorNode, ts.SyntaxKind.Block)[0];
   const callExpressions = findNodes(
-    constructorNode,
+    constructorBlock,
     ts.SyntaxKind.CallExpression
   );
   if (callExpressions.length === 0) {
@@ -750,10 +847,7 @@ export function injectService(
     throw new SchematicsException(`No constructor found in ${path}.`);
   }
 
-  const constructorParameters = findNodes(
-    constructorNode,
-    ts.SyntaxKind.Parameter
-  );
+  const constructorParameters = getConstructorParameterList(constructorNode);
 
   let toInsert = '';
   let position = constructorNode.getStart() + 'constructor('.length;
@@ -777,6 +871,34 @@ export function buildSpartacusComment(comment: string): string {
   return `// ${TODO_SPARTACUS} ${comment}\n`;
 }
 
+export function insertCommentAboveConfigProperty(
+  sourcePath: string,
+  source: ts.SourceFile,
+  identifierName: string,
+  comment: string
+): Change[] {
+  const identifierNodes = new Set<ts.Node>();
+  getSourceNodes(source)
+    .filter((node) => node.kind === ts.SyntaxKind.ObjectLiteralExpression)
+    .forEach((objectLiteralNode) =>
+      findNodes(objectLiteralNode, ts.SyntaxKind.Identifier)
+        .filter((node) => node.getText() === identifierName)
+        .forEach((idNode) => identifierNodes.add(idNode))
+    );
+
+  const changes: Change[] = [];
+  identifierNodes.forEach((n) =>
+    changes.push(
+      new InsertChange(
+        sourcePath,
+        getLineStartFromTSFile(source, n.getStart()),
+        `${comment}`
+      )
+    )
+  );
+  return changes;
+}
+
 export function insertCommentAboveIdentifier(
   sourcePath: string,
   source: ts.SourceFile,
@@ -785,18 +907,18 @@ export function insertCommentAboveIdentifier(
   identifierType = ts.SyntaxKind.Identifier
 ): Change[] {
   const classNode = getSourceNodes(source).find(
-    node => node.kind === ts.SyntaxKind.ClassDeclaration
+    (node) => node.kind === ts.SyntaxKind.ClassDeclaration
   );
   if (!classNode) {
     return [new NoopChange()];
   }
 
   const identifierNodes = findNodes(classNode, identifierType).filter(
-    node => node.getText() === identifierName
+    (node) => node.getText() === identifierName
   );
 
   const changes: InsertChange[] = [];
-  identifierNodes.forEach(n =>
+  identifierNodes.forEach((n) =>
     changes.push(
       new InsertChange(
         sourcePath,
@@ -813,9 +935,9 @@ function getImportDeclarations(
   importPath: string
 ): ts.ImportDeclaration[] {
   const imports = getSourceNodes(source).filter(
-    node => node.kind === ts.SyntaxKind.ImportDeclaration
+    (node) => node.kind === ts.SyntaxKind.ImportDeclaration
   );
-  return imports.filter(imp =>
+  return imports.filter((imp) =>
     ((imp as ts.ImportDeclaration).moduleSpecifier as ts.StringLiteral)
       .getText()
       .includes(importPath)
@@ -826,7 +948,7 @@ function filterNamespacedImports(
   imports: ts.ImportDeclaration[]
 ): ts.ImportDeclaration[] {
   return imports
-    .filter(imp => (imp.importClause?.namedBindings as any)?.name)
+    .filter((imp) => (imp.importClause?.namedBindings as any)?.name)
     .filter(Boolean);
 }
 
@@ -834,7 +956,7 @@ function filterNamedImports(
   imports: ts.ImportDeclaration[]
 ): ts.ImportDeclaration[] {
   return imports
-    .filter(imp => (imp.importClause?.namedBindings as any)?.elements)
+    .filter((imp) => (imp.importClause?.namedBindings as any)?.elements)
     .filter(Boolean);
 }
 
@@ -850,28 +972,28 @@ export function insertCommentAboveImportIdentifier(
   const namespacedImports = filterNamespacedImports(imports);
 
   const namespacedIdentifiers = namespacedImports
-    .map(imp => (imp.importClause?.namedBindings as any)?.name?.escapedText)
+    .map((imp) => (imp.importClause?.namedBindings as any)?.name?.escapedText)
     .filter(Boolean);
-  const namedImportsWithIdentifierName = namedImports.filter(imp =>
+  const namedImportsWithIdentifierName = namedImports.filter((imp) =>
     findNodes(imp, ts.SyntaxKind.ImportSpecifier).find(
-      node => (node as any).name.escapedText === identifierName
+      (node) => (node as any).name.escapedText === identifierName
     )
   );
 
   const propertyAccessExpressions = getSourceNodes(source).filter(
-    node => node.kind === ts.SyntaxKind.PropertyAccessExpression
+    (node) => node.kind === ts.SyntaxKind.PropertyAccessExpression
   );
 
   const accessPropertiesToIdentifierName = propertyAccessExpressions
-    .filter(member =>
+    .filter((member) =>
       namespacedIdentifiers.includes((member as any)?.expression?.escapedText)
     )
-    .filter(member => identifierName === (member as any)?.name?.escapedText)
+    .filter((member) => identifierName === (member as any)?.name?.escapedText)
     .filter(Boolean);
 
   const changes: InsertChange[] = [];
 
-  namedImportsWithIdentifierName.forEach(n =>
+  namedImportsWithIdentifierName.forEach((n) =>
     changes.push(
       new InsertChange(
         sourcePath,
@@ -881,7 +1003,7 @@ export function insertCommentAboveImportIdentifier(
     )
   );
 
-  accessPropertiesToIdentifierName.forEach(n =>
+  accessPropertiesToIdentifierName.forEach((n) =>
     changes.push(
       new InsertChange(
         sourcePath,
@@ -906,7 +1028,7 @@ export function renameIdentifierNode(
     ts.SyntaxKind.Identifier
   );
   const changes: ReplaceChange[] = [];
-  identifierNodes.forEach(n =>
+  identifierNodes.forEach((n) =>
     changes.push(new ReplaceChange(sourcePath, n.getStart(), oldName, newName))
   );
   return changes;
@@ -927,8 +1049,8 @@ function findLevel1NodesByTextAndKind(
   syntaxKind: ts.SyntaxKind
 ): ts.Node[] {
   return nodes
-    .filter(n => n.kind === syntaxKind)
-    .filter(n => n.getText() === text);
+    .filter((n) => n.kind === syntaxKind)
+    .filter((n) => n.getText() === text);
 }
 
 function findMultiLevelNodesByTextAndKind(
@@ -939,7 +1061,7 @@ function findMultiLevelNodesByTextAndKind(
   const result: ts.Node[] = [];
   for (const node of nodes) {
     result.push(
-      ...findNodes(node, syntaxKind).filter(n => n.getText() === text)
+      ...findNodes(node, syntaxKind).filter((n) => n.getText() === text)
     );
   }
   return result;
@@ -960,7 +1082,7 @@ export function getMetadataProperty(
 ): ts.PropertyAssignment {
   const properties = (metadata as ts.ObjectLiteralExpression).properties;
   const property = properties
-    .filter(prop => prop.kind === ts.SyntaxKind.PropertyAssignment)
+    .filter((prop) => prop.kind === ts.SyntaxKind.PropertyAssignment)
     .filter((prop: ts.PropertyAssignment) => {
       const name = prop.name;
       switch (name.kind) {
@@ -974,4 +1096,18 @@ export function getMetadataProperty(
     })[0];
 
   return property as ts.PropertyAssignment;
+}
+
+export function getLineFromTSFile(
+  host: Tree,
+  path: string,
+  position: number
+): [number, number] {
+  const tsFile = getTsSourceFile(host, path);
+
+  const lac = tsFile.getLineAndCharacterOfPosition(position);
+  const lineStart = tsFile.getPositionOfLineAndCharacter(lac.line, 0);
+  const nextLineStart = tsFile.getPositionOfLineAndCharacter(lac.line + 1, 0);
+
+  return [lineStart, nextLineStart - lineStart];
 }

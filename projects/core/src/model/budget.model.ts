@@ -1,6 +1,5 @@
 import { Currency } from './misc.model';
-import { B2BUnit } from './org-unit.model';
-import { CostCenter } from './cost-center.model';
+import { B2BUnit, CostCenter } from './org-unit.model';
 
 export interface Budget {
   active?: boolean;

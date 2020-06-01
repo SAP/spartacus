@@ -13,6 +13,7 @@ import {
   AddressValidation,
   CheckoutDeliveryService,
   Country,
+  ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
   Region,
@@ -26,8 +27,8 @@ import {
   ModalRef,
   ModalService,
 } from '../../../../../shared/components/modal/index';
-import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { sortTitles } from '../../../../../shared/utils/forms/title-utils';
+import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 
 @Component({
   selector: 'cx-address-form',
@@ -50,7 +51,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   cancelBtnLabel: string;
 
   @Input()
-  setAsDefaultField: boolean;
+  setAsDefaultField = true;
 
   @Input()
   showTitleCode: boolean;
@@ -68,8 +69,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   regionsSub: Subscription;
   suggestedAddressModalRef: ModalRef;
 
-  address: FormGroup = this.fb.group({
-    defaultAddress: [false],
+  addressForm: FormGroup = this.fb.group({
+    country: this.fb.group({
+      isocode: [null, Validators.required],
+    }),
     titleCode: [''],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
@@ -79,26 +82,24 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     region: this.fb.group({
       isocode: [null, Validators.required],
     }),
-    country: this.fb.group({
-      isocode: [null, Validators.required],
-    }),
     postalCode: ['', Validators.required],
     phone: '',
+    defaultAddress: [false],
   });
 
   constructor(
-    private fb: FormBuilder,
+    protected fb: FormBuilder,
     protected checkoutDeliveryService: CheckoutDeliveryService,
     protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
-    private modalService: ModalService
+    protected modalService: ModalService
   ) {}
 
   ngOnInit() {
     // Fetching countries
     this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
-      tap(countries => {
+      tap((countries: Country[]) => {
         if (Object.keys(countries).length === 0) {
           this.userAddressService.loadDeliveryCountries();
         }
@@ -107,12 +108,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     // Fetching titles
     this.titles$ = this.userService.getTitles().pipe(
-      tap(titles => {
+      tap((titles: Title[]) => {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
         }
       }),
-      map(titles => {
+      map((titles) => {
         titles.sort(sortTitles);
         const noneTitle = { code: '', name: 'Title' };
         return [noneTitle, ...titles];
@@ -121,9 +122,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
     // Fetching regions
     this.regions$ = this.selectedCountry$.pipe(
-      switchMap(country => this.userAddressService.getRegions(country)),
-      tap(regions => {
-        const regionControl = this.address.get('region.isocode');
+      switchMap((country) => this.userAddressService.getRegions(country)),
+      tap((regions: Region[]) => {
+        const regionControl = this.addressForm.get('region.isocode');
         if (regions && regions.length > 0) {
           regionControl.enable();
         } else {
@@ -139,11 +140,13 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         if (results.decision === 'FAIL') {
           this.checkoutDeliveryService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
-          this.submitAddress.emit(this.address.value);
+          this.submitAddress.emit(this.addressForm.value);
         } else if (results.decision === 'REJECT') {
           // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
           if (
-            results.errors.errors.some(error => error.subject === 'titleCode')
+            results.errors.errors.some(
+              (error: ErrorModel) => error.subject === 'titleCode'
+            )
           ) {
             this.globalMessageService.add(
               { key: 'addressForm.titleRequired' },
@@ -162,7 +165,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       });
 
     if (this.addressData && Object.keys(this.addressData).length !== 0) {
-      this.address.patchValue(this.addressData);
+      this.addressForm.patchValue(this.addressData);
 
       this.countrySelected(this.addressData.country);
       if (this.addressData.region) {
@@ -171,26 +174,22 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  titleSelected(title: Title): void {
-    this.address['controls'].titleCode.setValue(title.code);
-  }
-
   countrySelected(country: Country): void {
-    this.address['controls'].country['controls'].isocode.setValue(
+    this.addressForm['controls'].country['controls'].isocode.setValue(
       country.isocode
     );
     this.selectedCountry$.next(country.isocode);
   }
 
   regionSelected(region: Region): void {
-    this.address['controls'].region['controls'].isocode.setValue(
+    this.addressForm['controls'].region['controls'].isocode.setValue(
       region.isocode
     );
   }
 
   toggleDefaultAddress(): void {
-    this.address['controls'].defaultAddress.setValue(
-      this.address.value.defaultAddress
+    this.addressForm['controls'].defaultAddress.setValue(
+      this.addressForm.value.defaultAddress
     );
   }
 
@@ -199,24 +198,29 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   verifyAddress(): void {
-    if (this.address.controls['region'].value.isocode) {
-      this.regionsSub = this.regions$.pipe(take(1)).subscribe(regions => {
-        const obj = regions.find(
-          region =>
-            region.isocode === this.address.controls['region'].value.isocode
-        );
-        Object.assign(this.address.value.region, {
-          isocodeShort: obj.isocodeShort,
+    if (this.addressForm.valid) {
+      if (this.addressForm.get('region').value.isocode) {
+        this.regionsSub = this.regions$.pipe(take(1)).subscribe((regions) => {
+          const obj = regions.find(
+            (region) =>
+              region.isocode ===
+              this.addressForm.controls['region'].value.isocode
+          );
+          Object.assign(this.addressForm.value.region, {
+            isocodeShort: obj.isocodeShort,
+          });
         });
-      });
-    }
+      }
 
-    if (this.address.dirty) {
-      this.checkoutDeliveryService.verifyAddress(this.address.value);
+      if (this.addressForm.dirty) {
+        this.checkoutDeliveryService.verifyAddress(this.addressForm.value);
+      } else {
+        // address form value not changed
+        // ignore duplicate address
+        this.submitAddress.emit(undefined);
+      }
     } else {
-      // address form value not changed
-      // ignore duplicate address
-      this.submitAddress.emit(undefined);
+      this.addressForm.markAllAsTouched();
     }
   }
 
@@ -226,17 +230,17 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         SuggestedAddressDialogComponent,
         { centered: true, size: 'lg' }
       );
-      this.suggestedAddressModalRef.componentInstance.enteredAddress = this.address.value;
+      this.suggestedAddressModalRef.componentInstance.enteredAddress = this.addressForm.value;
       this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
         results.suggestedAddresses;
       this.suggestedAddressModalRef.result
-        .then(address => {
+        .then((address) => {
           this.checkoutDeliveryService.clearAddressVerificationResults();
           if (address) {
             address = Object.assign(
               {
-                titleCode: this.address.value.titleCode,
-                phone: this.address.value.phone,
+                titleCode: this.addressForm.value.titleCode,
+                phone: this.addressForm.value.phone,
                 selected: true,
               },
               address
@@ -252,7 +256,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             {
               selected: true,
             },
-            this.address.value
+            this.addressForm.value
           );
           this.submitAddress.emit(address);
           this.suggestedAddressModalRef = null;

@@ -1,9 +1,9 @@
 <div class="cx-header">
-  <h3>{{ 'permissionForm.create' | cxTranslate }}</h3>
+  <h3>{{ 'permissionForm.createHeader' | cxTranslate }}</h3>
 </div>
 <cx-permission-form
   [actionBtnLabel]="'permissionForm.create' | cxTranslate"
   [routerBackLink]="{ cxRoute: 'permissions' }"
-  (submit)="createPermission($event)"
+  (submitForm)="createPermission($event)"
 >
 </cx-permission-form>

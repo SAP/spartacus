@@ -5,8 +5,10 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
+import { Action, ActionsSubject } from '@ngrx/store';
 import {
   ActiveCartService,
+  AuthActions,
   Cart,
   ConsentService,
   OrderEntry,
@@ -25,6 +27,8 @@ describe('SpartacusEventTracker', () => {
   let consentsService;
   let activeCartService;
   let cartBehavior;
+  let mockActionsSubject: ReplaySubject<Action>;
+
   const mockCDSConfig: CdsConfig = {
     cds: {
       consentTemplateId: 'PROFILE',
@@ -37,6 +41,7 @@ describe('SpartacusEventTracker', () => {
       new NavigationStart(0, 'test.com', 'popstate')
     );
     cartBehavior = new ReplaySubject<Cart>();
+    mockActionsSubject = new ReplaySubject<Action>();
     consentsService = {
       getConsent: () => getConsentBehavior,
       isConsentGiven: () => isConsentGivenValue,
@@ -65,6 +70,10 @@ describe('SpartacusEventTracker', () => {
           provide: CdsConfig,
           useValue: mockCDSConfig,
         },
+        {
+          provide: ActionsSubject,
+          useValue: mockActionsSubject,
+        },
       ],
     });
     spartacusEventTracker = TestBed.inject(SpartacusEventService);
@@ -79,7 +88,7 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .consentGranted()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     isConsentGivenValue = false;
     getConsentBehavior.next({ consent: 'test' });
@@ -100,7 +109,7 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .navigated()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     getConsentBehavior.next({ consent: 'test' });
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
@@ -119,7 +128,7 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .cartChanged()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     const mockOrderEntry: OrderEntry[] = [{ entryNumber: 7 }];
     const mockOrderEntries: OrderEntry[] = [
@@ -141,7 +150,7 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .cartChanged()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     subscription.unsubscribe();
     expect(timesCalled).toEqual(0);
@@ -151,7 +160,7 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .cartChanged()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     cartBehavior.next({ id: 123, entries: [] });
     cartBehavior.next({ id: 13, entries: [] });
@@ -163,7 +172,7 @@ describe('SpartacusEventTracker', () => {
     let timesCalled = 0;
     const subscription = spartacusEventTracker
       .cartChanged()
-      .pipe(tap(_ => timesCalled++))
+      .pipe(tap(() => timesCalled++))
       .subscribe();
     const mockOrderEntry: OrderEntry[] = [{ entryNumber: 7 }];
     cartBehavior.next({ id: 123, entries: [] });
@@ -175,5 +184,21 @@ describe('SpartacusEventTracker', () => {
     cartBehavior.next({ id: 123, entries: [] });
     subscription.unsubscribe();
     expect(timesCalled).toEqual(4);
+  });
+
+  it(`Should call the push method first time a login is successful`, () => {
+    let timesCalled = 0;
+    const subscription = spartacusEventTracker
+      .loginSuccessful()
+      .pipe(tap((_) => timesCalled++))
+      .subscribe();
+    mockActionsSubject.next({ type: AuthActions.LOGOUT });
+    mockActionsSubject.next({ type: AuthActions.LOGIN });
+    mockActionsSubject.next({ type: AuthActions.LOGOUT });
+    mockActionsSubject.next({ type: AuthActions.LOGOUT });
+    mockActionsSubject.next({ type: AuthActions.LOGIN });
+    mockActionsSubject.next({ type: AuthActions.LOGOUT });
+    subscription.unsubscribe();
+    expect(timesCalled).toEqual(2);
   });
 });

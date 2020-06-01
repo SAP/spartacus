@@ -1,5 +1,4 @@
-export * from './component/component-wrapper.directive';
-export * from './component/page-component.module';
+export * from './component/index';
 export * from './model/index';
 export * from './page-layout/page-layout.component';
 export * from './page-layout/page-layout.module';

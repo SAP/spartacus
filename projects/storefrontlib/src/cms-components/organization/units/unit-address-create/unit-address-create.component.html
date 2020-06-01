@@ -1,0 +1,34 @@
+<cx-fake-tabs
+  *ngIf="orgUnitCode$ | async as orgUnitCode"
+  [code]="orgUnitCode"
+  [links]="[
+    {
+      cxRoute: 'orgUnitDetails',
+      name: 'orgUnit.details',
+      params: { uid: orgUnitCode }
+    },
+    { cxRoute: 'orgUnitUsers', name: 'orgUnit.users' },
+    { cxRoute: 'orgUnitApprovers', name: 'orgUnit.approvers' },
+    {
+      cxRoute: 'orgUnitManageAddresses',
+      name: 'orgUnit.manageAddresses',
+      active: true
+    },
+    { cxRoute: 'orgUnitChildren', name: 'orgUnit.children' },
+    { cxRoute: 'orgUnitCostCenters', name: 'orgUnit.costCenters' }
+  ]"
+  [routerBackLink]="{ cxRoute: 'orgUnits', name: 'orgUnit.back' }"
+>
+  <div class="cx-header">
+    <h3>{{ 'unitAddressCreate.header' | cxTranslate }}</h3>
+  </div>
+  <cx-unit-address-form
+    [actionBtnLabel]="'unitAddressCreate.create' | cxTranslate"
+    [routerBackLink]="{
+      cxRoute: 'orgUnitManageAddresses',
+      params: { code: orgUnitCode }
+    }"
+    (submitForm)="createAddress($event)"
+  >
+  </cx-unit-address-form>
+</cx-fake-tabs>

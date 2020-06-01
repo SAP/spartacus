@@ -20,7 +20,7 @@ export class OccBudgetListNormalizer
     if (target === undefined) {
       target = {
         ...(source as any),
-        values: source.budgets.map(budget => ({
+        values: source.budgets.map((budget) => ({
           ...this.converter.convert(budget, BUDGET_NORMALIZER),
         })),
       };

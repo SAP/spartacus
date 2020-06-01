@@ -25,7 +25,6 @@ describe('AsmAuthService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
       ],
-      providers: [AsmAuthService],
     });
 
     service = TestBed.inject(AsmAuthService);
@@ -44,7 +43,7 @@ describe('AsmAuthService', () => {
     let result: UserToken;
     const subscription = service
       .getCustomerSupportAgentToken()
-      .subscribe(token => {
+      .subscribe((token) => {
         result = token;
       });
     subscription.unsubscribe();
@@ -56,7 +55,7 @@ describe('AsmAuthService', () => {
     let result: boolean;
     service
       .getCustomerSupportAgentTokenLoading()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);
   });

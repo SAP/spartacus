@@ -11,7 +11,6 @@ import { combineLatest, Observable } from 'rxjs';
 
 import {
   RoutingService,
-  CxDatePipe,
   EntitiesModel,
   OrgUnitService,
   B2BUser,
@@ -29,13 +28,11 @@ import { Params } from '@angular/router';
 export class UnitAssignRolesComponent extends AbstractListingComponent
   implements OnInit {
   code: string;
-  roleId: string;
   cxRoute = 'orgUnitAssignRoles';
 
   constructor(
     protected routingService: RoutingService,
-    protected orgUnitsService: OrgUnitService,
-    protected cxDate: CxDatePipe
+    protected orgUnitsService: OrgUnitService
   ) {
     super(routingService);
   }
@@ -45,8 +42,7 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
   );
 
   ngOnInit(): void {
-    this.code$.pipe(take(1)).subscribe(code => (this.code = code));
-    this.role$.pipe(take(1)).subscribe(role => (this.roleId = role));
+    this.code$.pipe(take(1)).subscribe((code) => (this.code = code));
 
     this.data$ = <Observable<ListingModel>>combineLatest([
       this.queryParams$,
@@ -62,13 +58,14 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
           map((userList: EntitiesModel<B2BUser>) => ({
             sorts: userList.sorts,
             pagination: userList.pagination,
-            values: userList.values.map(user => ({
+            values: userList.values.map((user) => ({
               selected: user.selected,
               email: user.uid,
               name: user.name,
               roles: user.roles,
               parentUnit: user.orgUnit && user.orgUnit.name,
               uid: user.orgUnit && user.orgUnit.uid,
+              customerId: user.customerId,
             })),
           }))
         )
@@ -77,11 +74,19 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
   }
 
   assign({ row }) {
-    this.orgUnitsService.assignRole(this.code, row.email, this.roleId);
+    this.role$
+      .pipe(take(1))
+      .subscribe((role) =>
+        this.orgUnitsService.assignRole(row.customerId, role)
+      );
   }
 
   unassign({ row }) {
-    this.orgUnitsService.unassignRole(this.code, row.email, this.roleId);
+    this.role$
+      .pipe(take(1))
+      .subscribe((role) =>
+        this.orgUnitsService.unassignRole(row.customerId, role)
+      );
   }
 
   changeRole({ roleId }: { roleId: string }) {

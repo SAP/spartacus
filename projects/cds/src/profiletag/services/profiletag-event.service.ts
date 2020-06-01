@@ -13,10 +13,10 @@ import { CdsConfig } from '../../config/index';
 import {
   ConsentReferenceEvent,
   DebugEvent,
-  ProfileTagEventNames,
+  InternalProfileTagEventNames,
+  ProfileTagEvent,
   ProfileTagJsConfig,
   ProfileTagWindowObject,
-  PushEvent,
 } from '../model/profile-tag.model';
 
 @Injectable({
@@ -45,10 +45,10 @@ export class ProfileTagEventService {
     if (!this.consentReference$) {
       this.consentReference$ = fromEvent(
         this.winRef.nativeWindow,
-        ProfileTagEventNames.CONSENT_REFERENCE_LOADED
+        InternalProfileTagEventNames.CONSENT_REFERENCE_LOADED
       ).pipe(
-        map(event => <ConsentReferenceEvent>event),
-        map(event => event.detail.consentReference),
+        map((event) => <ConsentReferenceEvent>event),
+        map((event) => event.detail.consentReference),
         shareReplay(1)
       );
     }
@@ -57,28 +57,30 @@ export class ProfileTagEventService {
 
   addTracker(): Observable<string> {
     return this.baseSiteService.getActive().pipe(
-      filter(_ => isPlatformBrowser(this.platform)),
+      filter(() => isPlatformBrowser(this.platform)),
       filter((siteId: string) => Boolean(siteId)),
       distinctUntilChanged(),
-      tap(_ => this.addScript()),
-      tap(_ => this.initWindow()),
+      tap(() => this.addScript()),
+      tap(() => this.initWindow()),
       tap((siteId: string) => this.createConfig(siteId))
     );
   }
 
   private setConsentReference(): Observable<string> {
     return this.getConsentReference().pipe(
-      tap(consentReference => (this.latestConsentReference = consentReference))
+      tap(
+        (consentReference) => (this.latestConsentReference = consentReference)
+      )
     );
   }
 
   private debugModeChanged(): Observable<DebugEvent> {
     return fromEvent(
       this.winRef.nativeWindow,
-      ProfileTagEventNames.DEBUG_FLAG_CHANGED
+      InternalProfileTagEventNames.DEBUG_FLAG_CHANGED
     ).pipe(
-      map(event => <DebugEvent>event),
-      tap(event => (this.profileTagDebug = event.detail.debug))
+      map((event) => <DebugEvent>event),
+      tap((event) => (this.profileTagDebug = event.detail.debug))
     );
   }
 
@@ -117,7 +119,7 @@ export class ProfileTagEventService {
     this.profileTagWindow.Y_TRACKING.q = q;
   }
 
-  notifyProfileTagOfEventOccurence(event: PushEvent): void {
+  notifyProfileTagOfEventOccurence(event: ProfileTagEvent): void {
     try {
       this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
     } catch (e) {

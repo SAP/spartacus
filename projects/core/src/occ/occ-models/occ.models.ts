@@ -2920,60 +2920,6 @@ export namespace Occ {
     uid?: string;
   }
 
-  /**
-   *
-   * An interface representing UserGroupList.
-   */
-  export interface UserGroupList {
-    /**
-     * @member {number} [currentPage]
-     */
-    currentPage?: number;
-    /**
-     * @member {number} [numberOfPages]
-     */
-    numberOfPages?: number;
-    /**
-     * @member {number} [pageSize]
-     */
-    pageSize?: number;
-    /**
-     * @member {number} [totalNumber]
-     */
-    totalNumber?: number;
-    /**
-     * @member {UserGroup[]} [userGroups]
-     */
-    userGroups?: UserGroup[];
-  }
-
-  /**
-   *
-   * An interface representing UserSignUp.
-   */
-  export interface UserSignUp {
-    /**
-     * @member {string} [firstName]
-     */
-    firstName?: string;
-    /**
-     * @member {string} [lastName]
-     */
-    lastName?: string;
-    /**
-     * @member {string} [password]
-     */
-    password?: string;
-    /**
-     * @member {string} [titleCode]
-     */
-    titleCode?: string;
-    /**
-     * @member {string} [uid]
-     */
-    uid?: string;
-  }
-
   export interface StoreCount {
     count?: number;
     isoCode?: string;
@@ -4144,12 +4090,6 @@ export namespace Occ {
     BACK_IN_STOCK = 'BACK_IN_STOCK',
   }
 
-  export interface BudgetsList {
-    budgets?: Budget[];
-    pagination?: PaginationModel;
-    sorts?: SortModel[];
-  }
-
   export interface Budget {
     active?: boolean;
     budget?: number;
@@ -4162,6 +4102,12 @@ export namespace Occ {
     costCenters?: CostCenter[];
   }
 
+  export interface BudgetsList {
+    budgets?: Budget[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
+
   export interface CostCenter {
     active?: string;
     activeFlag?: boolean;
@@ -4172,17 +4118,28 @@ export namespace Occ {
     unit?: B2BUnit;
   }
 
-  export interface OrgUnitUserGroup {
-    name?: string;
-    uid?: string;
-    members?: B2BUser[];
-    orgUnit?: B2BUnit;
-    permissions?: Permission[];
-    selected?: boolean;
+  export interface CostCentersList {
+    costCenters: CostCenter[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
   }
 
-  export interface B2BAddressList {
-    addresses?: B2BAddress[];
+  export interface OrgUnitUserGroup {
+    members?: B2BUser[];
+    membersCoun?: number;
+    name?: string;
+    orgUnit?: B2BUnit;
+    permissions?: Permission[];
+    roles?: any;
+    selected?: boolean;
+    subGroups?: any;
+    uid?: string;
+  }
+
+  export interface OrgUnitUserGroupList {
+    orgUnitUserGroups: OrgUnitUserGroup[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
   }
 
   export interface B2BAddress {
@@ -4216,8 +4173,8 @@ export namespace Occ {
     visibleInAddressBook?: true;
   }
 
-  export interface B2BUnitNodeList {
-    unitNodes?: B2BUnitNode[];
+  export interface B2BAddressList {
+    addresses?: B2BAddress[];
   }
 
   export interface B2BUnitNode {
@@ -4228,12 +4185,22 @@ export namespace Occ {
     parent?: string;
   }
 
+  export interface B2BUnitNodeList {
+    unitNodes?: B2BUnitNode[];
+  }
+
   export interface B2BUser extends User {
     active?: boolean;
     approvers?: [];
     orgUnit?: B2BUnit;
     roles?: string[];
     selected?: boolean;
+  }
+
+  export interface OrgUnitUserList {
+    users: B2BUser[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
   }
 
   export interface B2BApprovalProcess {
@@ -4262,6 +4229,10 @@ export namespace Occ {
     name?: string;
   }
 
+  export interface OrderApprovalPermissionTypeList {
+    orderApprovalPermissionTypes?: OrderApprovalPermissionType[];
+  }
+
   export enum Period {
     DAY = 'DAY',
     WEEK = 'WEEK',
@@ -4283,24 +4254,6 @@ export namespace Occ {
 
   export interface PermissionsList {
     orderApprovalPermissions?: Permission[];
-    pagination?: PaginationModel;
-    sorts?: SortModel[];
-  }
-
-  export interface CostCentersList {
-    costCenters: CostCenter[];
-    pagination?: PaginationModel;
-    sorts?: SortModel[];
-  }
-
-  export interface OrgUnitUserGroupList {
-    orgUnitUserGroups: OrgUnitUserGroup[];
-    pagination?: PaginationModel;
-    sorts?: SortModel[];
-  }
-
-  export interface OrgUnitUserList {
-    users: B2BUser[];
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }

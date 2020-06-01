@@ -9,11 +9,9 @@ import { UserGroup, UserGroupService, RoutingService } from '@spartacus/core';
 })
 export class UserGroupEditComponent implements OnInit {
   userGroup$: Observable<UserGroup>;
-  userGroupCode$: Observable<
-    string
-  > = this.routingService
+  code$: Observable<string> = this.routingService
     .getRouterState()
-    .pipe(map(routingData => routingData.state.params['code']));
+    .pipe(map((routingData) => routingData.state.params['code']));
 
   constructor(
     protected routingService: RoutingService,
@@ -21,16 +19,16 @@ export class UserGroupEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userGroup$ = this.userGroupCode$.pipe(
-      tap(code => this.userGroupsService.loadUserGroup(code)),
-      switchMap(code => this.userGroupsService.get(code))
+    this.userGroup$ = this.code$.pipe(
+      tap((code) => this.userGroupsService.loadUserGroup(code)),
+      switchMap((code) => this.userGroupsService.get(code))
     );
   }
 
   updateUserGroup(userGroup: UserGroup) {
-    this.userGroupCode$
+    this.code$
       .pipe(take(1))
-      .subscribe(userGroupCode =>
+      .subscribe((userGroupCode) =>
         this.userGroupsService.update(userGroupCode, userGroup)
       );
     this.routingService.go({

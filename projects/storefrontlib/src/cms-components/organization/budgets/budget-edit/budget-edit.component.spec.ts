@@ -54,7 +54,10 @@ const mockOrgUnits: B2BUnitNode[] = [
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
-  getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
+  getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
+    of(mockOrgUnits)
+  );
+  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 class MockBudgetService implements Partial<BudgetService> {
@@ -151,11 +154,11 @@ describe('BudgetEditComponent', () => {
       component.ngOnInit();
       let budget: any;
       component.budget$
-        .subscribe(value => {
+        .subscribe((value) => {
           budget = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(budgetsService.loadBudget).toHaveBeenCalledWith(code);
       expect(budgetsService.get).toHaveBeenCalledWith(code);
       expect(budget).toEqual(mockBudget);

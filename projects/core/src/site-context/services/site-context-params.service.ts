@@ -20,7 +20,7 @@ export class SiteContextParamsService {
   getContextParameters(): string[] {
     if (this.config.context) {
       return Object.keys(this.config.context).filter(
-        param => param !== 'urlParameters'
+        (param) => param !== 'urlParameters'
       );
     }
     return [];
@@ -51,7 +51,7 @@ export class SiteContextParamsService {
     if (service) {
       service
         .getActive()
-        .subscribe(val => (value = val))
+        .subscribe((val) => (value = val))
         .unsubscribe();
     }
 
@@ -78,11 +78,11 @@ export class SiteContextParamsService {
     }
 
     return combineLatest(
-      params.map(param =>
+      params.map((param) =>
         this.getSiteContextService(param)
           .getActive()
           .pipe(distinctUntilChanged())
       )
-    ).pipe(filter(value => value.every(param => !!param)));
+    ).pipe(filter((value) => value.every((param) => !!param)));
   }
 }

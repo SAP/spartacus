@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { StateLoaderSelectors } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   FindStoresState,
@@ -19,13 +19,13 @@ export const getFindStoresState: MemoizedSelector<
 export const getFindStoresEntities: MemoizedSelector<
   StateWithStoreFinder,
   FindStoresState
-> = createSelector(getFindStoresState, state =>
-  StateLoaderSelectors.loaderValueSelector(state)
+> = createSelector(getFindStoresState, (state) =>
+  StateUtils.loaderValueSelector(state)
 );
 
 export const getStoresLoading: MemoizedSelector<
   StateWithStoreFinder,
   boolean
-> = createSelector(getFindStoresState, state =>
-  StateLoaderSelectors.loaderLoadingSelector(state)
+> = createSelector(getFindStoresState, (state) =>
+  StateUtils.loaderLoadingSelector(state)
 );

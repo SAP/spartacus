@@ -7,7 +7,6 @@ import {
   I18nTestingModule,
   RoutingService,
   PermissionService,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
   Permission,
@@ -80,12 +79,6 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
 describe('PermissionDetailsComponent', () => {
   let component: PermissionDetailsComponent;
   let fixture: ComponentFixture<PermissionDetailsComponent>;
@@ -97,7 +90,6 @@ describe('PermissionDetailsComponent', () => {
       imports: [RouterTestingModule, TableModule, I18nTestingModule],
       declarations: [PermissionDetailsComponent, MockUrlPipe],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: PermissionService, useClass: MockPermissionService },
@@ -125,11 +117,11 @@ describe('PermissionDetailsComponent', () => {
       component.ngOnInit();
       let permission: any;
       component.permission$
-        .subscribe(value => {
+        .subscribe((value) => {
           permission = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(permissionsService.loadPermission).toHaveBeenCalledWith(code);
       expect(permissionsService.get).toHaveBeenCalledWith(code);
       expect(permission).toEqual(mockPermissionUI);

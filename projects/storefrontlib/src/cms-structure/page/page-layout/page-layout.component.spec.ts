@@ -28,9 +28,7 @@ class MockPageTemplateComponent {}
 
 @Component({
   selector: 'cx-page-header-test',
-  template: `
-    <cx-page-layout section="header"> </cx-page-layout>
-  `,
+  template: ` <cx-page-layout section="header"> </cx-page-layout> `,
 })
 class MockHeaderComponent {}
 

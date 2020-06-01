@@ -45,7 +45,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       PAYMENT_DETAILS_SERIALIZER
     );
     return this.getProviderSubInfo(userId, cartId).pipe(
-      map(data => {
+      map((data) => {
         const labelsMap = this.convertToMap(data.mappingLabels.entry);
         return {
           url: data.postUrl,
@@ -57,11 +57,11 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
           mappingLabels: labelsMap,
         };
       }),
-      mergeMap(sub => {
+      mergeMap((sub) => {
         // create a subscription directly with payment provider
         return this.createSubWithProvider(sub.url, sub.parameters).pipe(
-          map(response => this.extractPaymentDetailsFromHtml(response)),
-          mergeMap(fromPaymentProvider => {
+          map((response) => this.extractPaymentDetailsFromHtml(response)),
+          mergeMap((fromPaymentProvider) => {
             fromPaymentProvider['defaultPayment'] =
               paymentDetails.defaultPayment;
             fromPaymentProvider['savePaymentInfo'] = true;
@@ -94,7 +94,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     return this.http
       .get<Occ.CardTypeList>(this.occEndpoints.getEndpoint(ENDPOINT_CARD_TYPES))
       .pipe(
-        map(cardTypeList => cardTypeList.cardTypes),
+        map((cardTypeList) => cardTypeList.cardTypes),
         this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
       );
   }
@@ -119,7 +119,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       Accept: 'text/html',
     });
     let httpParams = new HttpParams({ encoder: new CustomEncoder() });
-    Object.keys(parameters).forEach(key => {
+    Object.keys(parameters).forEach((key) => {
       httpParams = httpParams.append(key, parameters[key]);
     });
 
@@ -135,7 +135,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     parameters: any
   ): Observable<PaymentDetails> {
     let httpParams = new HttpParams({ encoder: new CustomEncoder() });
-    Object.keys(parameters).forEach(key => {
+    Object.keys(parameters).forEach((key) => {
       httpParams = httpParams.append(key, parameters[key]);
     });
 
@@ -217,7 +217,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   }
 
   private convertToMap(paramList: { key; value }[]) {
-    return paramList.reduce(function(result, item) {
+    return paramList.reduce(function (result, item) {
       const key = item.key;
       result[key] = item.value;
       return result;

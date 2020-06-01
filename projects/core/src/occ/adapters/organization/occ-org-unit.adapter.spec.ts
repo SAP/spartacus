@@ -5,9 +5,16 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  ConverterService,
+  B2BAddress,
+  B2BSearchConfig,
+  B2BUNIT_APPROVAL_PROCESSES_NORMALIZER,
   B2BUNIT_NODE_LIST_NORMALIZER,
+  B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NORMALIZER,
+  B2B_ADDRESS_LIST_NORMALIZER,
+  B2B_ADDRESS_NORMALIZER,
+  B2B_USERS_NORMALIZER,
+  ConverterService,
 } from '@spartacus/core';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
@@ -20,6 +27,11 @@ const orgUnit = {
   id: orgUnitId,
   name: 'testOrgUnit',
 };
+const roleId = 'testRoleId';
+const params: B2BSearchConfig = { sort: 'code' };
+const orgCustomerId = 'testCustomerId';
+const address: B2BAddress = { id: 'testAddressId' };
+const addressId: string = address.id;
 
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
@@ -64,7 +76,7 @@ describe('OccOrgUnitAdapter', () => {
     it('should load orgUnit details for given orgUnit id', () => {
       service.load(userId, orgUnitId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'orgUnit' + orgUnitId
+        (req) => req.method === 'GET' && req.url === 'orgUnit' + orgUnitId
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -79,7 +91,7 @@ describe('OccOrgUnitAdapter', () => {
     it('should load orgUnit list', () => {
       service.loadList(userId).subscribe();
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'orgUnitsAvailable'
+        (req) => req.method === 'GET' && req.url === 'orgUnitsAvailable'
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -94,7 +106,7 @@ describe('OccOrgUnitAdapter', () => {
     it('should create orgUnit', () => {
       service.create(userId, orgUnit).subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'POST' &&
           req.url === 'orgUnits' &&
           req.body.id === orgUnit.id
@@ -112,7 +124,7 @@ describe('OccOrgUnitAdapter', () => {
     it('should update orgUnit', () => {
       service.update(userId, orgUnitId, orgUnit).subscribe();
       const mockReq = httpMock.expectOne(
-        req =>
+        (req) =>
           req.method === 'PATCH' &&
           req.url === 'orgUnit' + orgUnitId &&
           req.body.id === orgUnit.id
@@ -122,6 +134,166 @@ describe('OccOrgUnitAdapter', () => {
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
         B2BUNIT_NORMALIZER
+      );
+    });
+  });
+
+  describe('load tree', () => {
+    it('should load tree', () => {
+      service.loadTree(userId).subscribe();
+      const mockReq = httpMock.expectOne(
+        (req) => req.method === 'GET' && req.url === 'orgUnitsTree'
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(orgUnit);
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        B2BUNIT_NODE_NORMALIZER
+      );
+    });
+  });
+
+  describe('load approval processes', () => {
+    it('should load approval processes', () => {
+      service.loadApprovalProcesses(userId).subscribe();
+      const mockReq = httpMock.expectOne(
+        (req) => req.method === 'GET' && req.url === 'orgUnitsApprovalProcesses'
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(orgUnit);
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        B2BUNIT_APPROVAL_PROCESSES_NORMALIZER
+      );
+    });
+  });
+
+  describe('load users', () => {
+    it('should load users', () => {
+      service.loadUsers(userId, orgUnitId, roleId, params).subscribe();
+      const mockReq = httpMock.expectOne(
+        (req) => req.method === 'GET' && req.url === 'orgUnitUsers'
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(orgUnit);
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        B2B_USERS_NORMALIZER
+      );
+    });
+  });
+
+  describe('Assign Role', () => {
+    it('should assign role', () => {
+      service.assignRole(userId, orgCustomerId, roleId).subscribe();
+      const mockReq = httpMock.expectOne(
+        (req) => req.method === 'POST' && req.url === 'orgUnitUserRoles'
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(orgUnit);
+    });
+  });
+
+  describe('Unassign Role', () => {
+    it('should unassign role', () => {
+      service.unassignRole(userId, orgCustomerId, roleId).subscribe();
+      const mockReq = httpMock.expectOne(
+        (req) => req.method === 'DELETE' && req.url === 'orgUnitUserRole'
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(orgUnit);
+    });
+  });
+
+  describe('Assign Approver', () => {
+    it('should assign approver', () => {
+      service
+        .assignApprover(userId, orgUnitId, orgCustomerId, roleId)
+        .subscribe();
+      const mockReq = httpMock.expectOne(
+        (req) => req.method === 'POST' && req.url === 'orgUnitApprovers'
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(orgUnit);
+    });
+  });
+
+  describe('Unassign Approver', () => {
+    it('should unassign approver', () => {
+      service
+        .unassignApprover(userId, orgUnitId, orgCustomerId, roleId)
+        .subscribe();
+      const mockReq = httpMock.expectOne(
+        (req) => req.method === 'DELETE' && req.url === 'orgUnitApprover'
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(orgUnit);
+    });
+  });
+
+  describe('load addresses', () => {
+    it('should load addresses', () => {
+      service.loadAddresses(userId, orgUnitId).subscribe();
+      const mockReq = httpMock.expectOne(
+        (req) => req.method === 'GET' && req.url === 'orgUnitsAddresses'
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(orgUnit);
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        B2B_ADDRESS_LIST_NORMALIZER
+      );
+    });
+  });
+
+  describe('create address', () => {
+    it('should create address', () => {
+      service.createAddress(userId, orgUnitId, address).subscribe();
+      const mockReq = httpMock.expectOne(
+        (req) =>
+          req.method === 'POST' &&
+          req.url === 'orgUnitsAddresses' &&
+          req.body.id === address.id
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(orgUnit);
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        B2B_ADDRESS_NORMALIZER
+      );
+    });
+  });
+
+  describe('update address', () => {
+    it('should update address', () => {
+      service.updateAddress(userId, orgUnitId, addressId, address).subscribe();
+      const mockReq = httpMock.expectOne(
+        (req) => req.method === 'PATCH' && req.url === 'orgUnitsAddress'
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(orgUnit);
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        B2B_ADDRESS_NORMALIZER
+      );
+    });
+  });
+
+  describe('delete address', () => {
+    it('should delete address', () => {
+      service.deleteAddress(userId, orgUnitId, addressId).subscribe();
+      const mockReq = httpMock.expectOne(
+        (req) => req.method === 'DELETE' && req.url === 'orgUnitsAddress'
+      );
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(orgUnit);
+      expect(converterService.pipeable).toHaveBeenCalledWith(
+        B2B_ADDRESS_NORMALIZER
       );
     });
   });

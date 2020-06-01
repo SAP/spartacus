@@ -6,7 +6,7 @@ import {
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { DeliveryMode, Order } from '../../../model/order.model';
-import { StateLoaderSelectors } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   CheckoutState,
@@ -39,8 +39,8 @@ export const getCheckoutStepsState: MemoizedSelector<
 export const getCheckoutSteps: MemoizedSelector<
   StateWithCheckout,
   CheckoutStepsState
-> = createSelector(getCheckoutStepsState, state =>
-  StateLoaderSelectors.loaderValueSelector(state)
+> = createSelector(getCheckoutStepsState, (state) =>
+  StateUtils.loaderValueSelector(state)
 );
 
 export const getDeliveryAddress: MemoizedSelector<
@@ -59,11 +59,11 @@ export const getDeliveryMode: MemoizedSelector<
 export const getSupportedDeliveryModes: MemoizedSelector<
   StateWithCheckout,
   DeliveryMode[]
-> = createSelector(getDeliveryMode, deliveryMode => {
+> = createSelector(getDeliveryMode, (deliveryMode) => {
   return (
     deliveryMode &&
     Object.keys(deliveryMode.supported).map(
-      code => deliveryMode.supported[code]
+      (code) => deliveryMode.supported[code]
     )
   );
 });
@@ -71,14 +71,14 @@ export const getSupportedDeliveryModes: MemoizedSelector<
 export const getSelectedDeliveryModeCode: MemoizedSelector<
   StateWithCheckout,
   string
-> = createSelector(getDeliveryMode, deliveryMode => {
+> = createSelector(getDeliveryMode, (deliveryMode) => {
   return deliveryMode && deliveryMode.selected;
 });
 
 export const getSelectedDeliveryMode: MemoizedSelector<
   StateWithCheckout,
   DeliveryMode
-> = createSelector(getDeliveryMode, deliveryMode => {
+> = createSelector(getDeliveryMode, (deliveryMode) => {
   if (deliveryMode.selected !== '') {
     if (Object.keys(deliveryMode.supported).length === 0) {
       return null;
@@ -102,7 +102,7 @@ export const getCheckoutDetailsLoaded: MemoizedSelector<
   boolean
 > = createSelector(
   getCheckoutStepsState,
-  state =>
-    StateLoaderSelectors.loaderSuccessSelector(state) &&
-    !StateLoaderSelectors.loaderLoadingSelector(state)
+  (state) =>
+    StateUtils.loaderSuccessSelector(state) &&
+    !StateUtils.loaderLoadingSelector(state)
 );

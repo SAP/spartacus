@@ -1,11 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { OrderApprovalPermissionType } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
-import createSpy = jasmine.createSpy;
-
+import { B2BSearchConfig } from '../../model/search-config';
 import { PermissionAdapter } from './permission.adapter';
 import { PermissionConnector } from './permission.connector';
-import { B2BSearchConfig } from '../../model/search-config';
+import createSpy = jasmine.createSpy;
 
 const userId = 'userId';
 const permissionCode = 'permissionCode';
@@ -13,6 +13,8 @@ const permissionCode = 'permissionCode';
 const permission = {
   code: permissionCode,
 };
+
+const types: OrderApprovalPermissionType[] = [{ code: 'test', name: 'name' }];
 
 class MockPermissionAdapter implements PermissionAdapter {
   load = createSpy('PermissionAdapter.load').and.returnValue(of(permission));
@@ -24,6 +26,9 @@ class MockPermissionAdapter implements PermissionAdapter {
   );
   update = createSpy('PermissionAdapter.update').and.returnValue(
     of(permission)
+  );
+  loadTypes = createSpy('PermissionAdapter.loadTypes').and.returnValue(
+    of(types)
   );
 }
 
@@ -70,5 +75,10 @@ describe('PermissionConnector', () => {
       permissionCode,
       permission
     );
+  });
+
+  it('should get permission types', () => {
+    service.getTypes();
+    expect(adapter.loadTypes).toHaveBeenCalledWith();
   });
 });

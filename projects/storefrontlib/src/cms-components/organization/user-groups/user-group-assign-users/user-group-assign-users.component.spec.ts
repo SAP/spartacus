@@ -16,7 +16,6 @@ import {
   RoutingService,
   EntitiesModel,
   B2BSearchConfig,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
   UserGroupService,
@@ -31,10 +30,10 @@ import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/l
 import { UserGroupAssignUsersComponent } from './user-group-assign-users.component';
 
 const code = 'userGroupCode';
-const email = '1';
+const customerId = 'customerId1';
 const userRow = {
   row: {
-    email,
+    customerId,
   },
 };
 
@@ -48,12 +47,14 @@ const mockUserList: EntitiesModel<B2BUser> = {
   values: [
     {
       uid: '1',
+      customerId,
       selected: true,
       name: 'User 1',
       orgUnit: { uid: 'orgUid', name: 'orgName' },
     },
     {
       uid: '2',
+      customerId: 'customerId2',
       selected: true,
       name: 'User 2',
       orgUnit: { uid: 'orgUid2', name: 'orgName2' },
@@ -71,6 +72,7 @@ const mockUserUIList = {
       name: 'User 1',
       parentUnit: 'orgName',
       uid: 'orgUid',
+      customerId,
     },
     {
       email: '2',
@@ -78,6 +80,7 @@ const mockUserUIList = {
       name: 'User 2',
       parentUnit: 'orgName2',
       uid: 'orgUid2',
+      customerId: 'customerId2',
     },
   ],
   pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
@@ -136,12 +139,6 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
 describe('UserGroupAssignUsersComponent', () => {
   let component: UserGroupAssignUsersComponent;
   let fixture: ComponentFixture<UserGroupAssignUsersComponent>;
@@ -156,7 +153,6 @@ describe('UserGroupAssignUsersComponent', () => {
         MockPaginationComponent,
       ],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         {
@@ -204,7 +200,7 @@ describe('UserGroupAssignUsersComponent', () => {
       component.ngOnInit();
 
       let usersList: any;
-      component.data$.subscribe(value => {
+      component.data$.subscribe((value) => {
         usersList = value;
       });
 
@@ -225,7 +221,7 @@ describe('UserGroupAssignUsersComponent', () => {
       component.assign(userRow);
       expect(service.assignMember).toHaveBeenCalledWith(
         code,
-        userRow.row.email
+        userRow.row.customerId
       );
     });
   });
@@ -235,7 +231,7 @@ describe('UserGroupAssignUsersComponent', () => {
       component.unassign(userRow);
       expect(service.unassignMember).toHaveBeenCalledWith(
         code,
-        userRow.row.email
+        userRow.row.customerId
       );
     });
   });

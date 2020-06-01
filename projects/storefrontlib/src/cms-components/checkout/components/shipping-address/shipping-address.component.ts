@@ -9,7 +9,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, take, filter } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 
@@ -68,12 +68,12 @@ export class ShippingAddressComponent implements OnInit {
             (!selected || Object.keys(selected).length === 0)
           ) {
             const defaultAddress = addresses.find(
-              address => address.defaultAddress
+              (address) => address.defaultAddress
             );
             selected = defaultAddress;
             this.selectAddress(defaultAddress);
           }
-          return addresses.map(address => {
+          return addresses.map((address) => {
             const card = this.getCardContent(
               address,
               selected,
@@ -130,16 +130,16 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   addAddress(address: Address): void {
-    const selectedSub = this.selectedAddress$.subscribe(selected => {
-      if (selected && selected.shippingAddress) {
-        this.goNext();
-        selectedSub.unsubscribe();
-      }
-    });
+    this.selectedAddress$
+      .pipe(
+        filter((selected) => !!selected?.shippingAddress),
+        take(1)
+      )
+      .subscribe(() => this.goNext());
 
     this.forceLoader = true;
 
-    this.existingAddresses$.pipe(take(1)).subscribe(addresses => {
+    this.existingAddresses$.pipe(take(1)).subscribe((addresses) => {
       addresses.includes(address)
         ? this.selectAddress(address)
         : this.checkoutDeliveryService.createAndSetAddress(address);

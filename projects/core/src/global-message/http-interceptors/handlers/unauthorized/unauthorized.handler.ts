@@ -4,6 +4,7 @@ import { GlobalMessageService } from '../../../facade/global-message.service';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from './../http-error.handler';
+import { Priority } from '../../../../util/applicable';
 
 /**
  * Handles Oauth client errors when a 401 is returned. This is the case for failing
@@ -39,5 +40,9 @@ export class UnauthorizedErrorHandler extends HttpErrorHandler {
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }
+  }
+
+  getPriority() {
+    return Priority.LOW;
   }
 }

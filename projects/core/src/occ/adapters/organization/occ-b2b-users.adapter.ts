@@ -11,8 +11,11 @@ import {
   B2B_USER_NORMALIZER,
   B2B_USERS_NORMALIZER,
 } from '../../../organization/connectors/b2b-user';
+import { PERMISSIONS_NORMALIZER } from '../../../organization/connectors/permission';
+import { USER_GROUPS_NORMALIZER } from '../../../organization/connectors/user-group/converters';
 import { EntitiesModel } from '../../../model/misc.model';
 import { B2BUser } from '../../../model/org-unit.model';
+import { UserGroup } from '../../../model/user-group.model';
 
 @Injectable()
 export class OccB2BUserAdapter implements B2BUserAdapter {
@@ -85,8 +88,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     approverId: string
   ): Observable<any> {
     return this.http.delete<any>(
-      this.getApproverEndpoint(userId, orgCustomerId, approverId),
-      null
+      this.getApproverEndpoint(userId, orgCustomerId, approverId)
     );
   }
 
@@ -99,7 +101,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
       .get<Occ.OrgUnitUserList>(
         this.getPermissionsEndpoint(userId, orgCustomerId, params)
       )
-      .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
+      .pipe(this.converter.pipeable(PERMISSIONS_NORMALIZER));
   }
 
   assignPermission(
@@ -127,12 +129,12 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     userId: string,
     orgCustomerId: string,
     params?: B2BSearchConfig
-  ): Observable<EntitiesModel<B2BUser>> {
+  ): Observable<EntitiesModel<UserGroup>> {
     return this.http
       .get<Occ.OrgUnitUserList>(
         this.getUserGroupsEndpoint(userId, orgCustomerId, params)
       )
-      .pipe(this.converter.pipeable(B2B_USERS_NORMALIZER));
+      .pipe(this.converter.pipeable(USER_GROUPS_NORMALIZER));
   }
 
   assignUserGroup(
@@ -141,7 +143,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     userGroupId: string
   ): Observable<any> {
     return this.http.post<any>(
-      this.getApproverEndpoint(userId, orgCustomerId, userGroupId),
+      this.getUserGroupEndpoint(userId, orgCustomerId, userGroupId),
       null
     );
   }
@@ -152,7 +154,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
     userGroupId: string
   ): Observable<any> {
     return this.http.delete<any>(
-      this.getApproverEndpoint(userId, orgCustomerId, userGroupId)
+      this.getUserGroupEndpoint(userId, orgCustomerId, userGroupId)
     );
   }
 

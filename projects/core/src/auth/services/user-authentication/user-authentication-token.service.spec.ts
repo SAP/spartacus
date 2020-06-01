@@ -83,11 +83,11 @@ describe('UserAuthenticationTokenService', () => {
 
   describe('load user token', () => {
     it('should load user token for given username and password', () => {
-      authTokenService.loadToken(username, password).subscribe(result => {
+      authTokenService.loadToken(username, password).subscribe((result) => {
         expect(result).toEqual(token);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST' && req.url === loginEndpoint;
       });
 
@@ -99,11 +99,11 @@ describe('UserAuthenticationTokenService', () => {
 
   describe('refresh user token', () => {
     it('should refresh user token for a given refresh_token', () => {
-      authTokenService.refreshToken(refreshToken).subscribe(result => {
+      authTokenService.refreshToken(refreshToken).subscribe((result) => {
         expect(result).toEqual(token);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST' && req.url === loginEndpoint;
       });
 
@@ -115,14 +115,14 @@ describe('UserAuthenticationTokenService', () => {
 
     it('should catch refresh error', () => {
       authTokenService.refreshToken('invalid token').subscribe(
-        _result => {},
+        (_result) => {},
         (error: HttpErrorResponse) => {
           expect(error.status).toBe(400);
           expect(error.statusText).toEqual('Error');
         }
       );
 
-      const mockReq: TestRequest = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne((req) => {
         return req.method === 'POST' && req.url === loginEndpoint;
       });
 
@@ -140,7 +140,7 @@ describe('UserAuthenticationTokenService', () => {
     it('should make a revocation request for given user token', () => {
       authTokenService.revoke(token).subscribe();
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST';
       });
 

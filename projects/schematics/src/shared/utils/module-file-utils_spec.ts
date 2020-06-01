@@ -3,6 +3,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
+import * as ts from 'typescript';
 import { UTF_8 } from '../constants';
 import { getPathResultsForFile } from './file-utils';
 import {
@@ -11,11 +12,31 @@ import {
   addToModuleEntryComponents,
   addToModuleExports,
   addToModuleImports,
+  getTemplateInfo,
   stripTsFromImport,
 } from './module-file-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+
+const TEMPLATE_NAME = 'template.html';
+const COMPONENT_TEMPLATE_URL = `
+import { Component } from '@angular/core';
+@Component({
+  selector: 'cx-consent-management-form',
+  templateUrl: './${TEMPLATE_NAME}',
+})
+export class Test {}
+`;
+const TEMPLATE = '<div>test</div>';
+const COMPONENT_INLINE_TEMPLATE = `
+import { Component } from '@angular/core';
+@Component({
+  selector: 'cx-consent-management-form',
+  template: \`${TEMPLATE}\`,
+})
+export class Test {}
+`;
 
 describe('Module file utils', () => {
   let appTree: UnitTestTree;
@@ -167,6 +188,44 @@ describe('Module file utils', () => {
         expect(resultChange).toBeTruthy();
         expect(resultChange.length).toEqual(1);
         expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
+      });
+    });
+  });
+
+  describe('getTemplateInfo', () => {
+    describe('when the templateUrl is specified', () => {
+      it('should return the template path', () => {
+        const source = ts.createSourceFile(
+          'component.ts',
+          COMPONENT_TEMPLATE_URL,
+          ts.ScriptTarget.Latest,
+          true
+        );
+        const result = getTemplateInfo(source);
+        expect(result).toBeTruthy();
+        if (result) {
+          expect(result.templateUrl).toEqual(TEMPLATE_NAME);
+          expect(result.inlineTemplateContent).toBeUndefined();
+          expect(result.inlineTemplateStart).toBeUndefined();
+        }
+      });
+    });
+
+    describe('when the inline template is defined', () => {
+      it('should return the template path', () => {
+        const source = ts.createSourceFile(
+          'component.ts',
+          COMPONENT_INLINE_TEMPLATE,
+          ts.ScriptTarget.Latest,
+          true
+        );
+        const result = getTemplateInfo(source);
+        expect(result).toBeTruthy();
+        if (result) {
+          expect(result.inlineTemplateContent).toEqual(TEMPLATE);
+          expect(result.inlineTemplateStart).toEqual(112);
+          expect(result.templateUrl).toBeUndefined();
+        }
       });
     });
   });

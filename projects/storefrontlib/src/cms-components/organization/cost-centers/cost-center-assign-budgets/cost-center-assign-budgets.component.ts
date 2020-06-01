@@ -39,7 +39,7 @@ export class CostCenterAssignBudgetsComponent extends AbstractListingComponent
   }
 
   ngOnInit(): void {
-    this.code$.pipe(take(1)).subscribe(code => (this.code = code));
+    this.code$.pipe(take(1)).subscribe((code) => (this.code = code));
 
     this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
       withLatestFrom(this.code$),
@@ -52,12 +52,13 @@ export class CostCenterAssignBudgetsComponent extends AbstractListingComponent
           map((budgetsList: EntitiesModel<Budget>) => ({
             sorts: budgetsList.sorts,
             pagination: budgetsList.pagination,
-            values: budgetsList.values.map(budget => ({
+            values: budgetsList.values.map((budget) => ({
               selected: budget.selected,
               code: budget.code,
               name: budget.name,
-              amount: `${budget.budget} ${budget.currency &&
-                budget.currency.symbol}`,
+              amount: `${budget.budget} ${
+                budget.currency && budget.currency.symbol
+              }`,
               startEndDate: `${this.cxDate.transform(
                 budget.startDate
               )} - ${this.cxDate.transform(budget.endDate)}`,

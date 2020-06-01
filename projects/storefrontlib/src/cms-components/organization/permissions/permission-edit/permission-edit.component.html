@@ -1,11 +1,26 @@
-<div class="cx-header">
-  <h3>{{ 'permissionForm.edit' | cxTranslate }}</h3>
-</div>
-<cx-permission-form
-  *ngIf="permission$ | async as permission"
-  [actionBtnLabel]="'permissionForm.update' | cxTranslate"
-  [permissionData]="permission"
-  [routerBackLink]="{ cxRoute: 'permissions' }"
-  (submit)="updatePermission($event)"
+<cx-fake-tabs
+  [code]="code$ | async"
+  [links]="[
+    {
+      cxRoute: 'permissionDetails',
+      name: 'permission.details',
+      active: true
+    }
+  ]"
+  [routerBackLink]="{ cxRoute: 'permissions', name: 'permission.back' }"
 >
-</cx-permission-form>
+  <div class="cx-header">
+    <h3>
+      {{ 'permissionForm.editHeader' | cxTranslate: { code: code$ | async } }}
+    </h3>
+  </div>
+
+  <cx-permission-form
+    *ngIf="permission$ | async as permission"
+    [actionBtnLabel]="'permissionForm.update' | cxTranslate"
+    [permissionData]="permission"
+    [routerBackLink]="{ cxRoute: 'permissionDetails', params: permission }"
+    (submitForm)="updatePermission($event)"
+  >
+  </cx-permission-form>
+</cx-fake-tabs>

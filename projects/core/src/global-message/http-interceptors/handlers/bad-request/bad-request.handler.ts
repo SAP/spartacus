@@ -1,6 +1,8 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { isCartNotFoundError } from '../../../../cart/utils/utils';
 import { ErrorModel } from '../../../../model/misc.model';
+import { Priority } from '../../../../util/applicable';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
@@ -18,6 +20,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.handleBadLoginResponse(request, response);
     this.handleBadCartRequest(request, response);
     this.handleValidationError(request, response);
+    this.handleVoucherOperationError(request, response);
   }
 
   protected handleBadPassword(
@@ -48,7 +51,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     response: HttpErrorResponse
   ) {
     this.getErrors(response)
-      .filter(error => error.type === 'PasswordMismatchError')
+      .filter((error) => error.type === 'PasswordMismatchError')
       .forEach(() => {
         this.globalMessageService.add(
           { key: 'httpHandlers.badRequestOldPasswordIncorrect' },
@@ -62,8 +65,8 @@ export class BadRequestHandler extends HttpErrorHandler {
     response: HttpErrorResponse
   ): void {
     this.getErrors(response)
-      .filter(e => e.type === 'ValidationError')
-      .forEach(error => {
+      .filter((e) => e.type === 'ValidationError')
+      .forEach((error) => {
         this.globalMessageService.add(
           {
             key: `httpHandlers.validationErrors.${error.reason}.${error.subject}`,
@@ -78,7 +81,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     response: HttpErrorResponse
   ): void {
     this.getErrors(response)
-      .filter(e => e.subjectType === 'cart' && e.reason === 'notFound')
+      .filter((e) => isCartNotFoundError(e))
       .forEach(() => {
         this.globalMessageService.add(
           { key: 'httpHandlers.cartNotFound' },
@@ -87,9 +90,31 @@ export class BadRequestHandler extends HttpErrorHandler {
       });
   }
 
+  protected handleVoucherOperationError(
+    _request: HttpRequest<any>,
+    response: HttpErrorResponse
+  ): void {
+    this.getErrors(response)
+      .filter(
+        (e) =>
+          e.message === 'coupon.invalid.code.provided' &&
+          e.type === 'VoucherOperationError'
+      )
+      .forEach(() => {
+        this.globalMessageService.add(
+          { key: 'httpHandlers.invalidCodeProvided' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      error => error.type !== 'JaloObjectNoLongerValidError'
+      (error) => error.type !== 'JaloObjectNoLongerValidError'
     );
+  }
+
+  getPriority(): Priority {
+    return Priority.LOW;
   }
 }

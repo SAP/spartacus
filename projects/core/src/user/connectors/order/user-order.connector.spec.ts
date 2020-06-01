@@ -9,9 +9,9 @@ class MockOrderAdapter implements UserOrderAdapter {
     of(`order-${userId}-${orderCode}`)
   );
 
-  loadHistory = createSpy('UserOrderAdapter.loadHistory').and.callFake(userId =>
-    of(`orderHistory-${userId}`)
-  );
+  loadHistory = createSpy(
+    'UserOrderAdapter.loadHistory'
+  ).and.callFake((userId) => of(`orderHistory-${userId}`));
 
   getConsignmentTracking = createSpy(
     'UserOrderAdapter.getConsignmentTracking'
@@ -25,7 +25,7 @@ class MockOrderAdapter implements UserOrderAdapter {
 
   loadReturnRequestList = createSpy(
     'UserOrderAdapter.loadReturnRequestList'
-  ).and.callFake(userId => of(`loadReturnRequestList-${userId}`));
+  ).and.callFake((userId) => of(`loadReturnRequestList-${userId}`));
 
   loadReturnRequestDetail = createSpy(
     'UserOrderAdapter.loadReturnRequestDetail'
@@ -65,14 +65,14 @@ describe('UserOrderConnector', () => {
 
   it('get should call adapter', () => {
     let result;
-    service.get('user2', 'order2').subscribe(res => (result = res));
+    service.get('user2', 'order2').subscribe((res) => (result = res));
     expect(result).toBe('order-user2-order2');
     expect(adapter.load).toHaveBeenCalledWith('user2', 'order2');
   });
 
   it('getHistory should call adapter', () => {
     let result;
-    service.getHistory('user3').subscribe(res => (result = res));
+    service.getHistory('user3').subscribe((res) => (result = res));
     expect(result).toBe('orderHistory-user3');
     expect(adapter.loadHistory).toHaveBeenCalledWith(
       'user3',
@@ -86,7 +86,7 @@ describe('UserOrderConnector', () => {
     let result;
     service
       .getConsignmentTracking('orderCode', 'consignmentCode', 'userId')
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toBe('consignmentTracking-userId-orderCode-consignmentCode');
     expect(adapter.getConsignmentTracking).toHaveBeenCalledWith(
       'orderCode',
@@ -97,21 +97,23 @@ describe('UserOrderConnector', () => {
 
   it('cancel should call adapter', () => {
     let result;
-    service.cancel('userId', 'orderCode', {}).subscribe(res => (result = res));
+    service
+      .cancel('userId', 'orderCode', {})
+      .subscribe((res) => (result = res));
     expect(result).toBe('cancel-userId-orderCode');
     expect(adapter.cancel).toHaveBeenCalledWith('userId', 'orderCode', {});
   });
 
   it('return should call adapter', () => {
     let result;
-    service.return('userId', {}).subscribe(res => (result = res));
+    service.return('userId', {}).subscribe((res) => (result = res));
     expect(result).toBe('orderReturnRequest-userId');
     expect(adapter.createReturnRequest).toHaveBeenCalledWith('userId', {});
   });
 
   it('getReturnRequestList should call adapter', () => {
     let result;
-    service.getReturnRequestList('userId').subscribe(res => (result = res));
+    service.getReturnRequestList('userId').subscribe((res) => (result = res));
     expect(result).toBe('loadReturnRequestList-userId');
     expect(adapter.loadReturnRequestList).toHaveBeenCalledWith(
       'userId',
@@ -125,7 +127,7 @@ describe('UserOrderConnector', () => {
     let result;
     service
       .getReturnRequestDetail('userId', 'returnRequestCode')
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toBe('loadReturnRequestDetail-userId-returnRequestCode');
     expect(adapter.loadReturnRequestDetail).toHaveBeenCalledWith(
       'userId',
@@ -139,7 +141,7 @@ describe('UserOrderConnector', () => {
       .cancelReturnRequest('userId', 'returnRequestCode', {
         status: 'CANCELLING',
       })
-      .subscribe(res => (result = res));
+      .subscribe((res) => (result = res));
     expect(result).toBe('cancelReturnRequest-userId-returnRequestCode');
     expect(adapter.cancelReturnRequest).toHaveBeenCalledWith(
       'userId',

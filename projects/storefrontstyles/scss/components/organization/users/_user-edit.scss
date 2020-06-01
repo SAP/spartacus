@@ -1,0 +1,5 @@
+@import '../organization-form';
+
+%cx-user-edit {
+  @extend %cx-organization-form;
+}

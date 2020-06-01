@@ -17,16 +17,20 @@ export function b2bUserEntitiesReducer(
     case B2BUserActions.LOAD_B2B_USER_SUCCESS:
       return action.payload;
     case OrgUnitActions.ASSIGN_ROLE_SUCCESS:
+    case OrgUnitActions.ASSIGN_APPROVER_SUCCESS:
       return {
         ...state,
         selected: action.payload.selected,
         roles: [...state.roles, action.payload.roleId],
       };
     case OrgUnitActions.UNASSIGN_ROLE_SUCCESS:
+    case OrgUnitActions.UNASSIGN_APPROVER_SUCCESS:
       return {
         ...state,
         selected: action.payload.selected,
-        roles: [...state.roles].filter(role => role !== action.payload.roleId),
+        roles: [...state.roles].filter(
+          (role) => role !== action.payload.roleId
+        ),
       };
     case UserGroupActions.USER_GROUP_ASSIGN_MEMBER_SUCCESS:
     case UserGroupActions.USER_GROUP_UNASSIGN_MEMBER_SUCCESS:

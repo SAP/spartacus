@@ -11,6 +11,7 @@ import { EntitiesModel } from '../../../model/misc.model';
 export const B2BUNIT_NODE_NORMALIZER = new InjectionToken<
   Converter<any, B2BUnitNode>
 >('B2BUnitNodeNormalizer');
+
 export const B2BUNIT_NODE_LIST_NORMALIZER = new InjectionToken<
   Converter<any, B2BUnitNode[]>
 >('B2BUnitNodeListNormalizer');

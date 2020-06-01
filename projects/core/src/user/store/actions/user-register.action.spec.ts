@@ -1,6 +1,6 @@
 import { UserSignUp } from '../../../model/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
+import { StateUtils } from '../../../state/utils/index';
 import {
   REGISTER_USER_PROCESS_ID,
   REMOVE_USER_PROCESS_ID,
@@ -23,7 +23,7 @@ describe('User Register Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.REGISTER_USER,
         payload: user,
-        meta: StateEntityLoaderActions.entityLoadMeta(
+        meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
           REGISTER_USER_PROCESS_ID
         ),
@@ -39,7 +39,7 @@ describe('User Register Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.REGISTER_USER_FAIL,
         payload: error,
-        meta: StateEntityLoaderActions.entityFailMeta(
+        meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           REGISTER_USER_PROCESS_ID,
           error
@@ -54,7 +54,7 @@ describe('User Register Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.REGISTER_USER_SUCCESS,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
+        meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
           REGISTER_USER_PROCESS_ID
         ),
@@ -108,7 +108,7 @@ describe('Remove User Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.REMOVE_USER,
         payload: 'testUserId',
-        meta: StateEntityLoaderActions.entityLoadMeta(
+        meta: StateUtils.entityLoadMeta(
           PROCESS_FEATURE,
           REMOVE_USER_PROCESS_ID
         ),
@@ -124,7 +124,7 @@ describe('Remove User Actions', () => {
       expect({ ...action }).toEqual({
         type: UserActions.REMOVE_USER_FAIL,
         payload: error,
-        meta: StateEntityLoaderActions.entityFailMeta(
+        meta: StateUtils.entityFailMeta(
           PROCESS_FEATURE,
           REMOVE_USER_PROCESS_ID,
           error
@@ -139,7 +139,7 @@ describe('Remove User Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.REMOVE_USER_SUCCESS,
-        meta: StateEntityLoaderActions.entitySuccessMeta(
+        meta: StateUtils.entitySuccessMeta(
           PROCESS_FEATURE,
           REMOVE_USER_PROCESS_ID
         ),
@@ -154,7 +154,7 @@ describe('Remove User Actions', () => {
 
       expect({ ...action }).toEqual({
         type: UserActions.REMOVE_USER_RESET,
-        meta: StateEntityLoaderActions.entityResetMeta(
+        meta: StateUtils.entityResetMeta(
           PROCESS_FEATURE,
           REMOVE_USER_PROCESS_ID
         ),

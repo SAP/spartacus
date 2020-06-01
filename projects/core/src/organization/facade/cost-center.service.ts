@@ -5,12 +5,12 @@ import { filter, map, observeOn, take, tap } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { AuthService } from '../../auth/facade/auth.service';
-import { CostCenter } from '../../model/cost-center.model';
+import { CostCenter } from '../../model/org-unit.model';
 import { EntitiesModel } from '../../model/misc.model';
 import { StateWithOrganization } from '../store/organization-state';
 import { CostCenterActions } from '../store/actions/index';
 import {
-  getCostCenterState,
+  getCostCenter,
   getCostCenterList,
   getAssignedBudgets,
 } from '../store/selectors/cost-center.selector';
@@ -25,7 +25,7 @@ export class CostCenterService {
   ) {}
 
   loadCostCenter(costCenterCode: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
       )
@@ -33,17 +33,17 @@ export class CostCenterService {
   }
 
   loadCostCenters(params?: B2BSearchConfig): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.LoadCostCenters({ userId, params })
       )
     );
   }
 
-  private getCostCenterState(
+  private getCostCenter(
     costCenterCode: string
   ): Observable<LoaderState<CostCenter>> {
-    return this.store.select(getCostCenterState(costCenterCode));
+    return this.store.select(getCostCenter(costCenterCode));
   }
 
   private getCostCenterList(
@@ -59,15 +59,15 @@ export class CostCenterService {
   }
 
   get(costCenterCode: string): Observable<CostCenter> {
-    return this.getCostCenterState(costCenterCode).pipe(
+    return this.getCostCenter(costCenterCode).pipe(
       observeOn(queueScheduler),
-      tap(state => {
+      tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.loadCostCenter(costCenterCode);
         }
       }),
-      filter(state => state.success || state.error),
-      map(state => state.value)
+      filter((state) => state.success || state.error),
+      map((state) => state.value)
     );
   }
 
@@ -83,12 +83,12 @@ export class CostCenterService {
         (process: LoaderState<EntitiesModel<CostCenter>>) =>
           process.success || process.error
       ),
-      map(result => result.value)
+      map((result) => result.value)
     );
   }
 
   create(costCenter: CostCenter): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.CreateCostCenter({ userId, costCenter })
       )
@@ -96,7 +96,7 @@ export class CostCenterService {
   }
 
   update(costCenterCode: string, costCenter: CostCenter): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.UpdateCostCenter({
           userId,
@@ -108,7 +108,7 @@ export class CostCenterService {
   }
 
   loadBudgets(costCenterCode: string, params: B2BSearchConfig): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.LoadAssignedBudgets({
           userId,
@@ -134,12 +134,12 @@ export class CostCenterService {
         (process: LoaderState<EntitiesModel<Budget>>) =>
           process.success || process.error
       ),
-      map(result => result.value)
+      map((result) => result.value)
     );
   }
 
   assignBudget(costCenterCode: string, budgetCode: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.AssignBudget({
           userId,
@@ -151,7 +151,7 @@ export class CostCenterService {
   }
 
   unassignBudget(costCenterCode: string, budgetCode: string): void {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.UnassignBudget({
           userId,
@@ -166,6 +166,6 @@ export class CostCenterService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(userId => callback(userId));
+      .subscribe((userId) => callback(userId));
   }
 }

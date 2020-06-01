@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { CostCenter } from '../../../model/cost-center.model';
+import { CostCenter } from '../../../model/org-unit.model';
 import { B2BSearchConfig } from '../../model/search-config';
 import { EntitiesModel } from '../../../model/misc.model';
 import { Budget } from '../../../model/budget.model';

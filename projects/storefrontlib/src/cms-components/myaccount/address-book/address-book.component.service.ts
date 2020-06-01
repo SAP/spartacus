@@ -6,7 +6,9 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AddressBookComponentService {
   constructor(
     protected userAddressService: UserAddressService,

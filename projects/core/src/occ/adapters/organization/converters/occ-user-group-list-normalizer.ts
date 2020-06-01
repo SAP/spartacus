@@ -20,7 +20,7 @@ export class OccUserGroupListNormalizer
     if (target === undefined) {
       target = {
         ...(source as any),
-        values: source.orgUnitUserGroups.map(userGroup => ({
+        values: source.orgUnitUserGroups.map((userGroup) => ({
           ...this.converter.convert(userGroup, USER_GROUP_NORMALIZER),
         })),
       };

@@ -27,6 +27,9 @@ export class UnitFormComponent extends AbstractFormComponent implements OnInit {
   @Input()
   orgUnitData: B2BUnitNode;
 
+  @Input()
+  readonlyParent = false;
+
   form: FormGroup = this.fb.group({
     uid: ['', Validators.required],
     name: ['', Validators.required],
@@ -34,7 +37,7 @@ export class UnitFormComponent extends AbstractFormComponent implements OnInit {
       uid: [null, Validators.required],
     }),
     approvalProcess: this.fb.group({
-      code: [null, Validators.required],
+      code: [null],
     }),
   });
 
@@ -48,7 +51,8 @@ export class UnitFormComponent extends AbstractFormComponent implements OnInit {
 
   ngOnInit() {
     this.approvalProcesses$ = this.orgUnitService.getApprovalProcesses();
-    this.businessUnits$ = this.orgUnitService.getList();
+    this.orgUnitService.loadOrgUnitNodes();
+    this.businessUnits$ = this.orgUnitService.getActiveUnitList();
     if (this.orgUnitData && Object.keys(this.orgUnitData).length !== 0) {
       this.form.patchValue(this.orgUnitData);
     }

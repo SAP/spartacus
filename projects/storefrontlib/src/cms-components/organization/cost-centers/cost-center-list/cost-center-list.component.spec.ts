@@ -17,7 +17,6 @@ import {
   CostCenterService,
   EntitiesModel,
   B2BSearchConfig,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
   CostCenter,
@@ -126,12 +125,6 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
 describe('CostCenterListComponent', () => {
   let component: CostCenterListComponent;
   let fixture: ComponentFixture<CostCenterListComponent>;
@@ -147,7 +140,6 @@ describe('CostCenterListComponent', () => {
         MockPaginationComponent,
       ],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CostCenterService, useClass: MockCostCenterService },
@@ -201,7 +193,7 @@ describe('CostCenterListComponent', () => {
       component.ngOnInit();
       let costCentersList: any;
       component.data$
-        .subscribe(value => {
+        .subscribe((value) => {
           costCentersList = value;
         })
         .unsubscribe();

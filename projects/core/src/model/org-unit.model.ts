@@ -1,4 +1,14 @@
-import { User } from './misc.model';
+import { Currency, User } from './misc.model';
+
+export interface CostCenter {
+  active?: string;
+  activeFlag?: boolean;
+  code?: string;
+  name?: string;
+  originalCode?: string;
+  unit?: B2BUnit;
+  currency?: Currency;
+}
 
 export interface B2BUnitNode {
   active?: boolean;
@@ -18,6 +28,7 @@ export interface B2BUnit {
   administrators?: B2BUser[];
   approvers?: B2BUser[];
   customers?: B2BUser[];
+  costCenters?: CostCenter[];
   managers?: B2BUser[];
 }
 

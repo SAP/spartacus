@@ -95,7 +95,7 @@ describe('StoreFinderDisplayListComponent', () => {
 
   it('should select store from list', () => {
     const itemNumber = 4;
-    const storeListItemMock = { scrollIntoView: function() {} };
+    const storeListItemMock = { scrollIntoView: function () {} };
     spyOn(document, 'getElementById').and.returnValue(storeListItemMock as any);
     spyOn(storeListItemMock, 'scrollIntoView');
 

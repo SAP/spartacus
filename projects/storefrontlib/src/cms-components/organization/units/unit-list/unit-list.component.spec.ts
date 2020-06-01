@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   OrgUnitService,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
   B2BUnitNode,
@@ -47,13 +46,7 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
-xdescribe('OrgUnitListComponent', () => {
+xdescribe('UnitListComponent', () => {
   let component: ManageUnitsListComponent;
   let fixture: ComponentFixture<ManageUnitsListComponent>;
   let orgUnitsService: MockOrgUnitService;
@@ -63,7 +56,6 @@ xdescribe('OrgUnitListComponent', () => {
       imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
       declarations: [ManageUnitsListComponent, MockUrlPipe],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
       ],
@@ -88,7 +80,7 @@ xdescribe('OrgUnitListComponent', () => {
       component.ngOnInit();
       let orgUnitsList: any;
       component.data$
-        .subscribe(value => {
+        .subscribe((value) => {
           orgUnitsList = value;
         })
         .unsubscribe();

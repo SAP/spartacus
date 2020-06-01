@@ -41,9 +41,12 @@ const mockOrgUnits: B2BUnitNode[] = [
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
-  getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
+  getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
+    of(mockOrgUnits)
+  );
   create = createSpy('create');
   getApprovalProcesses = createSpy('getApprovalProcesses');
+  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 const mockRouterState = {
@@ -92,7 +95,7 @@ class LanguageServiceStub {
   }
 }
 
-describe('OrgUnitCreateComponent', () => {
+describe('UnitCreateComponent', () => {
   let component: UnitCreateComponent;
   let fixture: ComponentFixture<UnitCreateComponent>;
   let orgUnitsService: MockOrgUnitService;

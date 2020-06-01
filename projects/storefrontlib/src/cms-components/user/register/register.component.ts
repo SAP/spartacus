@@ -20,8 +20,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { sortTitles } from '../../../shared/utils/forms/title-utils';
-import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
+import { sortTitles, CustomFormValidators } from '../../../shared/index';
 
 @Component({
   selector: 'cx-register',
@@ -37,7 +36,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     template: string;
   }>;
 
-  userRegistrationForm: FormGroup = this.fb.group(
+  registerForm: FormGroup = this.fb.group(
     {
       titleCode: [''],
       firstName: ['', Validators.required],
@@ -54,7 +53,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
       }),
       termsandconditions: [false, Validators.requiredTrue],
     },
-    { validator: CustomFormValidators.matchPassword }
+    {
+      validators: CustomFormValidators.passwordsMustMatch(
+        'password',
+        'passwordconf'
+      ),
+    }
   );
 
   constructor(
@@ -68,12 +72,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.titles$ = this.userService.getTitles().pipe(
-      tap(titles => {
+      tap((titles) => {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
         }
       }),
-      map(titles => {
+      map((titles) => {
         return titles.sort(sortTitles);
       })
     );
@@ -85,7 +89,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.globalMessageService
         .get()
-        .pipe(filter(messages => !!Object.keys(messages).length))
+        .pipe(filter((messages) => !!Object.keys(messages).length))
         .subscribe((globalMessageEntities: GlobalMessageEntities) => {
           const messages =
             globalMessageEntities &&
@@ -93,7 +97,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
           if (
             messages &&
-            messages.some(message => message === 'This field is required.')
+            messages.some((message) => message === 'This field is required.')
           ) {
             this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
             this.globalMessageService.add(
@@ -119,20 +123,28 @@ export class RegisterComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.userRegistrationForm.get('newsletter').valueChanges.subscribe(() => {
+      this.registerForm.get('newsletter').valueChanges.subscribe(() => {
         this.toggleAnonymousConsent();
       })
     );
   }
 
-  submit(): void {
+  submitForm(): void {
+    if (this.registerForm.valid) {
+      this.registerUser();
+    } else {
+      this.registerForm.markAllAsTouched();
+    }
+  }
+
+  registerUser(): void {
     this.userService.register(
-      this.collectDataFromRegisterForm(this.userRegistrationForm.value)
+      this.collectDataFromRegisterForm(this.registerForm.value)
     );
   }
 
   titleSelected(title: Title): void {
-    this.userRegistrationForm['controls'].titleCode.setValue(title.code);
+    this.registerForm['controls'].titleCode.setValue(title.code);
   }
 
   collectDataFromRegisterForm(formData: any): UserSignUp {
@@ -177,7 +189,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   toggleAnonymousConsent(): void {
     const { registerConsent } = this.anonymousConsentsConfig.anonymousConsents;
 
-    if (Boolean(this.userRegistrationForm.get('newsletter').value)) {
+    if (Boolean(this.registerForm.get('newsletter').value)) {
       this.anonymousConsentsService.giveConsent(registerConsent);
     } else {
       this.anonymousConsentsService.withdrawConsent(registerConsent);
@@ -187,7 +199,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private registerUserProcessInit(): void {
     this.userService.resetRegisterUserProcessState();
     this.subscription.add(
-      this.userService.getRegisterUserResultSuccess().subscribe(success => {
+      this.userService.getRegisterUserResultSuccess().subscribe((success) => {
         this.onRegisterUserSuccess(success);
       })
     );

@@ -11,7 +11,9 @@ import {
 } from '../../../layout/config/layout-config';
 import { PageLayoutHandler, PAGE_LAYOUT_HANDLER } from './page-layout-handler';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PageLayoutService {
   constructor(
     private cms: CmsService,
@@ -64,7 +66,7 @@ export class PageLayoutService {
    */
   getPageFoldSlot(pageTemplate: string): Observable<string> {
     return this.breakpointService.breakpoint$.pipe(
-      map(breakpoint => {
+      map((breakpoint) => {
         if (!this.config.layoutSlots) {
           // no layout config available
           return null;
@@ -89,7 +91,7 @@ export class PageLayoutService {
     );
     if (config && config.slots) {
       const pageSlots = Object.keys(page.slots);
-      return config.slots.filter(slot => pageSlots.includes(slot));
+      return config.slots.filter((slot) => pageSlots.includes(slot));
     } else if (!section) {
       this.logMissingLayoutConfig(page);
       return Object.keys(page.slots);
@@ -100,12 +102,12 @@ export class PageLayoutService {
   }
 
   get page$(): Observable<Page> {
-    return this.cms.getCurrentPage().pipe(filter(page => !!page));
+    return this.cms.getCurrentPage().pipe(filter((page) => !!page));
   }
 
   get templateName$(): Observable<string> {
     return this.page$.pipe(
-      filter(page => !!page.template),
+      filter((page) => !!page.template),
       map((page: Page) => page.template)
     );
   }

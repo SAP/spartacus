@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { ActiveCartService } from '../../cart';
+import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { PageRobotsMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
@@ -36,7 +36,7 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
 
   resolveTitle(): Observable<string> {
     return this.cart$.pipe(
-      switchMap(c =>
+      switchMap((c) =>
         this.translation.translate('pageMetaResolver.checkout.title', {
           count: c.totalItems,
         })

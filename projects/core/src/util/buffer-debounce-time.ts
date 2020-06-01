@@ -9,7 +9,7 @@ export function bufferDebounceTime<T>(
     let bufferedValues: T[] = [];
 
     return source.pipe(
-      tap(value => bufferedValues.push(value)),
+      tap((value) => bufferedValues.push(value)),
       debounceTime(time, scheduler),
       map(() => bufferedValues),
       tap(() => (bufferedValues = []))

@@ -1,7 +1,7 @@
 import { BUDGET_ENTITIES, BUDGET_LIST } from '../organization-state';
 import { Budget } from '../../../model/budget.model';
-import { StateEntityLoaderActions } from '../../../state/utils/index';
 import { BudgetActions } from './index';
+import { StateUtils } from '../../../state/utils/index';
 
 const budgetCode = 'testBudgetId';
 const budget: Budget = {
@@ -28,10 +28,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGET,
           payload: { userId, budgetCode },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            BUDGET_ENTITIES,
-            budgetCode
-          ),
+          meta: StateUtils.entityLoadMeta(BUDGET_ENTITIES, budgetCode),
         });
       });
     });
@@ -43,11 +40,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGET_FAIL,
           payload: { budgetCode, error },
-          meta: StateEntityLoaderActions.entityFailMeta(
-            BUDGET_ENTITIES,
-            budgetCode,
-            error
-          ),
+          meta: StateUtils.entityFailMeta(BUDGET_ENTITIES, budgetCode, error),
         });
       });
     });
@@ -59,9 +52,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGET_SUCCESS,
           payload: [budget],
-          meta: StateEntityLoaderActions.entitySuccessMeta(BUDGET_ENTITIES, [
-            budgetCode,
-          ]),
+          meta: StateUtils.entitySuccessMeta(BUDGET_ENTITIES, [budgetCode]),
         });
       });
     });
@@ -78,7 +69,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGETS,
           payload: { userId, params },
-          meta: StateEntityLoaderActions.entityLoadMeta(BUDGET_LIST, query),
+          meta: StateUtils.entityLoadMeta(BUDGET_LIST, query),
         });
       });
     });
@@ -93,7 +84,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGETS_FAIL,
           payload: { params, error: { error } },
-          meta: StateEntityLoaderActions.entityFailMeta(BUDGET_LIST, query, {
+          meta: StateUtils.entityFailMeta(BUDGET_LIST, query, {
             error,
           }),
         });
@@ -110,7 +101,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGETS_SUCCESS,
           payload: { page, params },
-          meta: StateEntityLoaderActions.entitySuccessMeta(BUDGET_LIST, query),
+          meta: StateUtils.entitySuccessMeta(BUDGET_LIST, query),
         });
       });
     });
@@ -124,10 +115,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.CREATE_BUDGET,
           payload: { userId, budget },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            BUDGET_ENTITIES,
-            budgetCode
-          ),
+          meta: StateUtils.entityLoadMeta(BUDGET_ENTITIES, budgetCode),
         });
       });
     });
@@ -145,11 +133,7 @@ describe('Budget Actions', () => {
             budgetCode,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
-            BUDGET_ENTITIES,
-            budgetCode,
-            error
-          ),
+          meta: StateUtils.entityFailMeta(BUDGET_ENTITIES, budgetCode, error),
         });
       });
     });
@@ -161,10 +145,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.CREATE_BUDGET_SUCCESS,
           payload: budget,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            BUDGET_ENTITIES,
-            budgetCode
-          ),
+          meta: StateUtils.entitySuccessMeta(BUDGET_ENTITIES, budgetCode),
         });
       });
     });
@@ -182,10 +163,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.UPDATE_BUDGET,
           payload: { userId, budgetCode, budget },
-          meta: StateEntityLoaderActions.entityLoadMeta(
-            BUDGET_ENTITIES,
-            budgetCode
-          ),
+          meta: StateUtils.entityLoadMeta(BUDGET_ENTITIES, budgetCode),
         });
       });
     });
@@ -203,11 +181,7 @@ describe('Budget Actions', () => {
             budgetCode,
             error,
           },
-          meta: StateEntityLoaderActions.entityFailMeta(
-            BUDGET_ENTITIES,
-            budgetCode,
-            error
-          ),
+          meta: StateUtils.entityFailMeta(BUDGET_ENTITIES, budgetCode, error),
         });
       });
     });
@@ -219,10 +193,7 @@ describe('Budget Actions', () => {
         expect({ ...action }).toEqual({
           type: BudgetActions.UPDATE_BUDGET_SUCCESS,
           payload: budget,
-          meta: StateEntityLoaderActions.entitySuccessMeta(
-            BUDGET_ENTITIES,
-            budgetCode
-          ),
+          meta: StateUtils.entitySuccessMeta(BUDGET_ENTITIES, budgetCode),
         });
       });
     });

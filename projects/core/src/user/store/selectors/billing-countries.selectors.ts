@@ -24,6 +24,6 @@ export const getBillingCountriesEntites: MemoizedSelector<
 export const getAllBillingCountries: MemoizedSelector<
   StateWithUser,
   Country[]
-> = createSelector(getBillingCountriesEntites, entites =>
-  Object.keys(entites).map(isocode => entites[isocode])
+> = createSelector(getBillingCountriesEntites, (entites) =>
+  Object.keys(entites).map((isocode) => entites[isocode])
 );

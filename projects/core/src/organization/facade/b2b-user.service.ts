@@ -18,6 +18,7 @@ import {
   getB2BUserUserGroups,
 } from '../store/selectors/b2b-user.selector';
 import { Permission } from '../../model/permission.model';
+import { UserGroup } from '../../model/user-group.model';
 
 @Injectable()
 export class B2BUserService {
@@ -27,7 +28,7 @@ export class B2BUserService {
   ) {}
 
   loadB2BUser(orgCustomerId: string) {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUser({
           userId,
@@ -38,7 +39,7 @@ export class B2BUserService {
   }
 
   loadB2BUsers(params?: B2BSearchConfig) {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(new B2BUserActions.LoadB2BUsers({ userId, params }))
     );
   }
@@ -46,13 +47,13 @@ export class B2BUserService {
   get(orgCustomerId: string): Observable<B2BUser> {
     return this.getB2BUserState(orgCustomerId).pipe(
       observeOn(queueScheduler),
-      tap(state => {
+      tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.loadB2BUser(orgCustomerId);
         }
       }),
-      filter(state => state.success || state.error),
-      map(state => state.value)
+      filter((state) => state.success || state.error),
+      map((state) => state.value)
     );
   }
 
@@ -68,12 +69,12 @@ export class B2BUserService {
         (process: LoaderState<EntitiesModel<B2BUser>>) =>
           process.success || process.error
       ),
-      map(result => result.value)
+      map((result) => result.value)
     );
   }
 
   create(orgCustomer: B2BUser) {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.CreateB2BUser({
           userId,
@@ -84,7 +85,7 @@ export class B2BUserService {
   }
 
   update(orgCustomerId: string, orgCustomer: B2BUser) {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.UpdateB2BUser({
           userId,
@@ -96,7 +97,7 @@ export class B2BUserService {
   }
 
   loadB2BUserApprovers(orgCustomerId: string, params: B2BSearchConfig) {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserApprovers({
           userId,
@@ -110,24 +111,24 @@ export class B2BUserService {
   getB2BUserApprovers(
     orgCustomerId: string,
     params: B2BSearchConfig
-  ): Observable<EntitiesModel<any>> {
+  ): Observable<EntitiesModel<B2BUser>> {
     return this.getB2BUserApproverList(orgCustomerId, params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<any>>) => {
+      tap((process: LoaderState<EntitiesModel<B2BUser>>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadB2BUserApprovers(orgCustomerId, params);
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<any>>) =>
+        (process: LoaderState<EntitiesModel<B2BUser>>) =>
           process.success || process.error
       ),
-      map(result => result.value)
+      map((result) => result.value)
     );
   }
 
   assignApprover(orgCustomerId: string, approverId: string) {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.CreateB2BUserApprover({
           userId,
@@ -139,7 +140,7 @@ export class B2BUserService {
   }
 
   unassignApprover(orgCustomerId: string, approverId: string) {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.DeleteB2BUserApprover({
           userId,
@@ -151,7 +152,7 @@ export class B2BUserService {
   }
 
   loadB2BUserPermissions(orgCustomerId: string, params: B2BSearchConfig) {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserPermissions({
           userId,
@@ -165,24 +166,24 @@ export class B2BUserService {
   getB2BUserPermissions(
     orgCustomerId: string,
     params: B2BSearchConfig
-  ): Observable<EntitiesModel<any>> {
+  ): Observable<EntitiesModel<Permission>> {
     return this.getB2BUserPermissionList(orgCustomerId, params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<any>>) => {
+      tap((process: LoaderState<EntitiesModel<Permission>>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadB2BUserPermissions(orgCustomerId, params);
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<any>>) =>
+        (process: LoaderState<EntitiesModel<Permission>>) =>
           process.success || process.error
       ),
-      map(result => result.value)
+      map((result) => result.value)
     );
   }
 
   assignPermission(orgCustomerId: string, permissionId: string) {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.CreateB2BUserPermission({
           userId,
@@ -194,7 +195,7 @@ export class B2BUserService {
   }
 
   unassignPermission(orgCustomerId: string, permissionId: string) {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.DeleteB2BUserPermission({
           userId,
@@ -206,7 +207,7 @@ export class B2BUserService {
   }
 
   loadB2BUserUserGroups(orgCustomerId: string, params: B2BSearchConfig) {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserUserGroups({
           userId,
@@ -220,24 +221,24 @@ export class B2BUserService {
   getB2BUserUserGroups(
     orgCustomerId: string,
     params: B2BSearchConfig
-  ): Observable<EntitiesModel<any>> {
+  ): Observable<EntitiesModel<UserGroup>> {
     return this.getB2BUserUserGroupList(orgCustomerId, params).pipe(
       observeOn(queueScheduler),
-      tap((process: LoaderState<EntitiesModel<any>>) => {
+      tap((process: LoaderState<EntitiesModel<UserGroup>>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadB2BUserUserGroups(orgCustomerId, params);
         }
       }),
       filter(
-        (process: LoaderState<EntitiesModel<any>>) =>
+        (process: LoaderState<EntitiesModel<UserGroup>>) =>
           process.success || process.error
       ),
-      map(result => result.value)
+      map((result) => result.value)
     );
   }
 
   assignUserGroup(orgCustomerId: string, userGroupId: string) {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.CreateB2BUserUserGroup({
           userId,
@@ -249,7 +250,7 @@ export class B2BUserService {
   }
 
   unassignUserGroup(orgCustomerId: string, userGroupId: string) {
-    this.withUserId(userId =>
+    this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.DeleteB2BUserUserGroup({
           userId,
@@ -277,7 +278,7 @@ export class B2BUserService {
   private getB2BUserUserGroupList(
     orgCustomerId: string,
     params
-  ): Observable<LoaderState<EntitiesModel<Permission>>> {
+  ): Observable<LoaderState<EntitiesModel<UserGroup>>> {
     return this.store.select(getB2BUserUserGroups(orgCustomerId, params));
   }
 
@@ -295,6 +296,6 @@ export class B2BUserService {
     this.authService
       .getOccUserId()
       .pipe(take(1))
-      .subscribe(userId => callback(userId));
+      .subscribe((userId) => callback(userId));
   }
 }

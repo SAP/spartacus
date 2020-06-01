@@ -1,22 +1,24 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
-import { Permission } from '../../model/permission.model';
-import { EntitiesModel } from '../../model/misc.model';
-import { PROCESS_FEATURE } from '../../process/store/process-state';
-import * as fromProcessReducers from '../../process/store/reducers';
-import { PermissionActions } from '../store/actions/index';
-import * as fromReducers from '../store/reducers/index';
-import { PermissionService } from './permission.service';
-import { B2BSearchConfig } from '../model/search-config';
 import {
   AuthService,
   ORGANIZATION_FEATURE,
   StateWithOrganization,
 } from '@spartacus/core';
+import { of } from 'rxjs';
+import { EntitiesModel } from '../../model/misc.model';
+import {
+  OrderApprovalPermissionType,
+  Permission,
+} from '../../model/permission.model';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
+import { B2BSearchConfig } from '../model/search-config';
+import { PermissionActions } from '../store/actions/index';
+import * as fromReducers from '../store/reducers/index';
+import { PermissionService } from './permission.service';
+import createSpy = jasmine.createSpy;
 
 const userId = 'current';
 const permissionCode = 'testPermission';
@@ -29,6 +31,11 @@ const permissionList: EntitiesModel<Permission> = {
   pagination,
   sorts,
 };
+const mockPermissionType: OrderApprovalPermissionType = {
+  code: 'testPermissionTypeCode',
+  name: 'testPermissionTypeName',
+};
+const mockPermissionTypes: OrderApprovalPermissionType[] = [mockPermissionType];
 
 class MockAuthService {
   getOccUserId = createSpy().and.returnValue(of(userId));
@@ -76,7 +83,7 @@ describe('PermissionService', () => {
       let permissionDetails: Permission;
       service
         .get(permissionCode)
-        .subscribe(data => {
+        .subscribe((data) => {
           permissionDetails = data;
         })
         .unsubscribe();
@@ -95,7 +102,7 @@ describe('PermissionService', () => {
       let permissionDetails: Permission;
       service
         .get(permissionCode)
-        .subscribe(data => {
+        .subscribe((data) => {
           permissionDetails = data;
         })
         .unsubscribe();
@@ -115,7 +122,7 @@ describe('PermissionService', () => {
       let permissions: EntitiesModel<Permission>;
       service
         .getList(params)
-        .subscribe(data => {
+        .subscribe((data) => {
           permissions = data;
         })
         .unsubscribe();
@@ -144,7 +151,7 @@ describe('PermissionService', () => {
       let permissions: EntitiesModel<Permission>;
       service
         .getList(params)
-        .subscribe(data => {
+        .subscribe((data) => {
           permissions = data;
         })
         .unsubscribe();
@@ -179,6 +186,41 @@ describe('PermissionService', () => {
           permissionCode,
           permission,
         })
+      );
+    });
+  });
+
+  describe('get permission types', () => {
+    it('getTypes() should trigger load permission types when they are not present in the store', () => {
+      let permisstionTypes: OrderApprovalPermissionType[];
+      service
+        .getTypes()
+        .subscribe((data) => {
+          permisstionTypes = data;
+        })
+        .unsubscribe();
+
+      expect(permisstionTypes).toEqual(undefined);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new PermissionActions.LoadPermissionTypes()
+      );
+    });
+
+    it('getTypes() should trigger load permission types when they are present in the store', () => {
+      store.dispatch(
+        new PermissionActions.LoadPermissionTypesSuccess(mockPermissionTypes)
+      );
+      let permissionTypesRecived: OrderApprovalPermissionType[];
+      service
+        .getTypes()
+        .subscribe((data) => {
+          permissionTypesRecived = data;
+        })
+        .unsubscribe();
+
+      expect(permissionTypesRecived).toEqual(mockPermissionTypes);
+      expect(store.dispatch).not.toHaveBeenCalledWith(
+        new PermissionActions.LoadPermissionTypes()
       );
     });
   });

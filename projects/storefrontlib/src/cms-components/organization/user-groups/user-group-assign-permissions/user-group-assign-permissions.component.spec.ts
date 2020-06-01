@@ -16,7 +16,6 @@ import {
   RoutingService,
   EntitiesModel,
   B2BSearchConfig,
-  CxDatePipe,
   RoutesConfig,
   RoutingConfig,
   Permission,
@@ -148,12 +147,6 @@ class MockRoutingConfig {
   }
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
-
 describe('UserGroupAssignPermissionsComponent', () => {
   let component: UserGroupAssignPermissionsComponent;
   let fixture: ComponentFixture<UserGroupAssignPermissionsComponent>;
@@ -168,7 +161,6 @@ describe('UserGroupAssignPermissionsComponent', () => {
         MockPaginationComponent,
       ],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         {
@@ -216,7 +208,7 @@ describe('UserGroupAssignPermissionsComponent', () => {
       component.ngOnInit();
 
       let permissionsList: any;
-      component.data$.subscribe(value => {
+      component.data$.subscribe((value) => {
         permissionsList = value;
       });
 

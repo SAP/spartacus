@@ -69,7 +69,7 @@ describe('AsmConnector', () => {
     let results: CustomerSearchPage;
     asmConnector
       .customerSearch(testSearchOptions)
-      .subscribe(value => (results = value))
+      .subscribe((value) => (results = value))
       .unsubscribe();
     expect(results).toEqual(testSearchResults);
   });

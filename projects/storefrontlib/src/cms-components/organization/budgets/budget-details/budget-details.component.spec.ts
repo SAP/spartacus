@@ -16,7 +16,6 @@ import {
 import { BudgetDetailsComponent } from './budget-details.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { TableModule } from '../../../../shared/components/table/table.module';
 
 const code = 'b1';
 
@@ -102,7 +101,7 @@ describe('BudgetDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TableModule, I18nTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [BudgetDetailsComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
@@ -131,11 +130,11 @@ describe('BudgetDetailsComponent', () => {
       component.ngOnInit();
       let budget: any;
       component.budget$
-        .subscribe(value => {
+        .subscribe((value) => {
           budget = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(budgetsService.loadBudget).toHaveBeenCalledWith(code);
       expect(budgetsService.get).toHaveBeenCalledWith(code);
       expect(budget).toEqual(mockBudgetUI);

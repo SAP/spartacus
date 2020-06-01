@@ -11,6 +11,7 @@ import { UnitFormModule } from '../unit-form/unit-form.module';
 import { RouterModule } from '@angular/router';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
+import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
     }),
     UnitFormModule,
     I18nModule,
+    FakeTabsModule,
   ],
   declarations: [UnitEditComponent],
   exports: [UnitEditComponent],

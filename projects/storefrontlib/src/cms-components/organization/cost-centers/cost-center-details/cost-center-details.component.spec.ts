@@ -120,11 +120,11 @@ describe('CostCenterDetailsComponent', () => {
       component.ngOnInit();
       let costCenter: any;
       component.costCenter$
-        .subscribe(value => {
+        .subscribe((value) => {
           costCenter = value;
         })
         .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalled();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
       expect(costCentersService.loadCostCenter).toHaveBeenCalledWith(code);
       expect(costCentersService.get).toHaveBeenCalledWith(code);
       expect(costCenter).toEqual(mockCostCenterUI);
