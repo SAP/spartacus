@@ -595,7 +595,7 @@ describe('B2B User Effects', () => {
         userGroupId,
       });
       const completion = new B2BUserActions.CreateB2BUserUserGroupSuccess({
-        userGroupId,
+        uid: userGroupId,
         selected: true,
       });
       actions$ = hot('-a', { a: action });
@@ -643,7 +643,7 @@ describe('B2B User Effects', () => {
         userGroupId,
       });
       const completion = new B2BUserActions.DeleteB2BUserUserGroupSuccess({
-        userGroupId,
+        uid: userGroupId,
         selected: false,
       });
       actions$ = hot('-a', { a: action });
