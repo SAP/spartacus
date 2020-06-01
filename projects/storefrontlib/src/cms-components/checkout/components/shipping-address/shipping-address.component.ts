@@ -39,9 +39,9 @@ export class ShippingAddressComponent implements OnInit {
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService,
-    protected paymentTypeService: PaymentTypeService,
-    protected userCostCenterService: UserCostCenterService,
-    protected checkoutCostCenterService: CheckoutCostCenterService
+    protected paymentTypeService?: PaymentTypeService,
+    protected userCostCenterService?: UserCostCenterService,
+    protected checkoutCostCenterService?: CheckoutCostCenterService
   ) {}
 
   get isGuestCheckout(): boolean {
@@ -49,7 +49,10 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   get isAccount(): boolean {
-    return this.paymentType === this.paymentTypeService.ACCOUNT_PAYMENT;
+    if (this.paymentTypeService) {
+      return this.paymentType === this.paymentTypeService.ACCOUNT_PAYMENT;
+    }
+    return false;
   }
 
   get backBtnText(): string {
