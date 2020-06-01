@@ -114,10 +114,6 @@ function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite ${BASE_SITE} --baseUrl ${BACKEND_URL} --ssr --occPrefix ${OCC_PREFIX} )
 }
 
-# function add_spartacus_pwa {
-#     ( cd ${INSTALLATION_DIR} && cd pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite electronics-spa --baseUrl ${BACKEND_URL} --pwa )
-# }
-
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite ${BASE_SITE} --baseUrl ${BACKEND_URL} --ssr --pwa --occPrefix ${OCC_PREFIX} )
 }
@@ -137,17 +133,10 @@ function create_apps {
         create_ssr
         add_spartacus_ssr
     fi
-    if [ -z "$PWA_PORT" ]; then
-        echo "Skipping pwa app install"
-    else
-        printh "Installing pwa app"
-        create_pwa
-        add_spartacus_pwa
-    fi
     if [ -z "$SSR_PWA_PORT" ]; then
         echo "Skipping ssr with pwa app install"
     else
-        printh "Installing ssr with pwa app"
+        printh "Installing ssr app (with pwa support)"
         create_ssr_pwa
         add_spartacus_ssr_pwa
     fi
@@ -165,6 +154,7 @@ function local_install {
     printh "Installing source dependencies."
     ( cd ${CLONE_DIR} && yarn install )
 
+    ng analytics off
     printh "Building spa libraries from source."
     ( cd ${CLONE_DIR} && yarn build:core:lib)
 
@@ -176,7 +166,7 @@ function local_install {
     VERDACCIO_PID=$!
     echo "verdaccio PID: ${VERDACCIO_PID}"
 
-    sleep 15
+    sleep 45
 
     printh "Creating core npm package"
     ( cd ${CLONE_DIR}/dist/core && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
@@ -208,7 +198,7 @@ function prestart_csr {
         echo "Skipping prestart csr script"
     else
         printh "Prestart setup for csr app"
-        ( cd ${INSTALLATION_DIR}/csr && yarn build --prod )
+        ( cd ${INSTALLATION_DIR}/csr && yarn build )
     fi
 }
 
@@ -217,7 +207,16 @@ function prestart_ssr {
         echo "Skipping prestart ssr script"
     else
         printh "Prestart setup for ssr app"
-        ( cd ${INSTALLATION_DIR}/ssr && yarn build --prod && yarn build:ssr )
+        ( cd ${INSTALLATION_DIR}/ssr && yarn build && yarn build:ssr )
+    fi
+}
+
+function prestart_ssr_pwa {
+    if [ -z "$SSR_PWA_PORT" ]; then
+        echo "Skipping prestart ssr script (with pwa support)"
+    else
+        printh "Prestart setup for ssr app (with pwa support)"
+        ( cd ${INSTALLATION_DIR}/ssr_pwa && yarn build && yarn build:ssr )
     fi
 }
 
@@ -241,14 +240,14 @@ function start_ssr_unix {
     fi
 }
 
-function start_pwa_unix {
-    printh "Starting pwa app"
-    # pm2 start serve .
-}
-
 function start_ssr_pwa_unix {
-    printh "Starting ssr with pwa app"
-    # pm2 start
+     if [ -z "$SSR_PWA_PORT" ]; then
+        echo "Skipping ssr (with pwa support) app start"
+    else
+        prestart_ssr_pwa
+        printh "Starting ssr app (with pwa support)"
+        ( cd ${INSTALLATION_DIR}/ssr_pwa && export PORT=${SSR_PWA_PORT} && pm2 start --name ssr_pwa dist/ssr/server/main.js )
+    fi
 }
 
 function start_windows_apps {
@@ -266,16 +265,14 @@ function start_apps {
     else
         start_csr_unix
         start_ssr_unix
-        # start_pwa_unix
-        # start_ssr_pwa_unix
+        start_ssr_pwa_unix
     fi
 }
 
 function stop_apps {
     pm2 stop csr
     pm2 stop ssr
-    # pm2 stop pwa
-    # pm2 stop ssr_pwa
+    pm2 stop ssr_pwa
 }
 
 function run_e2e_tests {

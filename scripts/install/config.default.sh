@@ -35,9 +35,5 @@ ANGULAR_CLI_VERSION='~9.1.0'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"
-# not yet supported
 SSR_PORT="4100"
-# not yet supported
-PWA_PORT=
-# not yet supported
 SSR_PWA_PORT=
