@@ -95,6 +95,8 @@ import {
   UserGroupAssignUsersModule,
   UserPermissionsModule,
   UserAssignPermissionsModule,
+  UserUserGroupsModule,
+  UserAssignUserGroupsModule,
 } from './organization/index';
 
 @NgModule({
@@ -187,6 +189,8 @@ import {
     UserGroupAssignUsersModule,
     UserPermissionsModule,
     UserAssignPermissionsModule,
+    UserUserGroupsModule,
+    UserAssignUserGroupsModule,
   ],
 })
 export class CmsLibModule {}
