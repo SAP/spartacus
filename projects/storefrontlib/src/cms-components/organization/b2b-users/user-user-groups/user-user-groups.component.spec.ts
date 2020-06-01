@@ -178,14 +178,14 @@ describe('UserUserGroupsComponent', () => {
     it('should read userGroup list', () => {
       component.ngOnInit();
 
-      let userGroupList: any;
+      let userGroupListData: any;
       component.data$.subscribe((value) => {
-        userGroupList = value;
+        userGroupListData = value;
       });
 
       expect(service.loadB2BUserUserGroups).toHaveBeenCalledWith(code, params);
       expect(service.getB2BUserUserGroups).toHaveBeenCalledWith(code, params);
-      expect(userGroupList).toEqual(mockUserGroupUIList);
+      expect(userGroupListData).toEqual(mockUserGroupUIList);
     });
   });
 });
