@@ -6,9 +6,9 @@ import {
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Card } from '../../../../../shared/components/card/card.component';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
