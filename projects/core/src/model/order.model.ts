@@ -124,6 +124,11 @@ export interface OrderHistoryList {
   sorts?: SortModel[];
 }
 
+/**
+ * TODO GH-7765: move out to separate interface new new lib gets created
+ * costCenter, orgCustomer, purchaseOrderNumber
+ * https://cxwiki.sap.com/pages/viewpage.action?pageId=514209363
+ */
 export interface Order {
   appliedOrderPromotions?: PromotionResult[];
   appliedProductPromotions?: PromotionResult[];
@@ -131,6 +136,7 @@ export interface Order {
   calculated?: boolean;
   code?: string;
   consignments?: Consignment[];
+  costCenter?: CostCenter;
   created?: Date;
   deliveryAddress?: Address;
   deliveryCost?: Price;
@@ -144,10 +150,12 @@ export interface Order {
   guid?: string;
   net?: boolean;
   orderDiscounts?: Price;
+  orgCustomer?: B2BUser;
   paymentInfo?: PaymentDetails;
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];
   productDiscounts?: Price;
+  purchaseOrderNumber?: string;
   site?: string;
   status?: string;
   statusDisplay?: string;
@@ -162,14 +170,4 @@ export interface Order {
   user?: Principal;
   returnable?: boolean;
   cancellable?: boolean;
-}
-
-/**
- * TODO: move out to separate interface for FUTURE
- * https://cxwiki.sap.com/pages/viewpage.action?pageId=514209363
- */
-export interface B2BOrder extends Order {
-  costCenter: CostCenter;
-  orgCustomer: B2BUser;
-  purchaseOrderNumber: string;
 }

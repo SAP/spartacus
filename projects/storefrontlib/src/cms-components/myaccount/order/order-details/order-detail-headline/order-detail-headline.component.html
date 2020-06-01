@@ -24,7 +24,7 @@
       </div>
     </div>
   </div>
-  <div class="cx-header row">
+  <div *ngIf="order?.orgCustomer" class="cx-header row">
     <div class="cx-detail col-sm-12 col-md-4">
       <div class="cx-detail-label">
         {{ 'orderDetails.purchaseOrderId' | cxTranslate }}

@@ -47,6 +47,18 @@ const mockOrder: Order = {
       },
     },
   },
+  user: {
+    name: 'Rivers',
+  },
+  costCenter: {
+    name: 'Rustic Global',
+  },
+  orgCustomer: {
+    orgUnit: {
+      name: 'Rustic',
+    },
+  },
+  purchaseOrderNumber: '123',
   created: new Date('2019-02-11T13:02:58+0000'),
   consignments: [
     {
@@ -103,12 +115,12 @@ describe('OrderDetailShippingComponent', () => {
     expect(order).toEqual(mockOrder);
   });
 
-  it('should order details shipping be rendered', () => {
+  it('should render shipping card', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-account-summary'))).toBeTruthy();
   });
 
-  it('should order details display "ship to" data', () => {
+  it('should display "ship to" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('div:nth-child(1) > cx-card .cx-card-label-container')
@@ -123,7 +135,7 @@ describe('OrderDetailShippingComponent', () => {
     );
   });
 
-  it('should order details display "bill to" data', () => {
+  it('should display "bill to" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('div:nth-child(2) > cx-card .cx-card-label-container')
@@ -138,7 +150,7 @@ describe('OrderDetailShippingComponent', () => {
     );
   });
 
-  it('should order details display "payment" data', () => {
+  it('should display "payment" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('div:nth-child(3) > cx-card .cx-card-label-container')
@@ -152,10 +164,27 @@ describe('OrderDetailShippingComponent', () => {
     );
   });
 
-  it('should order details display "shipping" data', () => {
+  /**
+   * TODO GH-7765: move out assertions to proper file when lib is created
+   * costCenter, orgCustomer, purchaseOrderNumber
+   * https://cxwiki.sap.com/pages/viewpage.action?pageId=514209363
+   */
+  it('should display "account payment" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('div:nth-child(4) > cx-card .cx-card-label-container')
+    );
+    expect(element.nativeElement.textContent).toContain(
+      mockOrder.purchaseOrderNumber &&
+        mockOrder.costCenter &&
+        mockOrder.orgCustomer.orgUnit.name
+    );
+  });
+
+  it('should display "shipping" data', () => {
+    fixture.detectChanges();
+    const element: DebugElement = el.query(
+      By.css('div:nth-child(5) > cx-card .cx-card-label-container')
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.deliveryMode.name && mockOrder.deliveryMode.description

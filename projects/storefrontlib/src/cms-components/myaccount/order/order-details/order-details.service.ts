@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  B2BOrder,
-  Order,
-  RoutingService,
-  UserOrderService,
-} from '@spartacus/core';
+import { Order, RoutingService, UserOrderService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 
@@ -35,7 +30,7 @@ export class OrderDetailsService {
     );
   }
 
-  getOrderDetails(): Observable<Order | B2BOrder> {
+  getOrderDetails(): Observable<Order> {
     return this.orderLoad$.pipe(
       switchMap(() => this.userOrderService.getOrderDetails())
     );

@@ -1,12 +1,10 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { B2BOrder, I18nTestingModule, Order } from '@spartacus/core';
+import { I18nTestingModule, Order } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailHeadlineComponent } from './order-detail-headline.component';
-
-
 
 const mockOrder: Order = {
   code: '1',
@@ -49,22 +47,19 @@ const mockOrder: Order = {
     },
   },
   user: {
-    name: 'Rivers'
+    name: 'Rivers',
   },
+  costCenter: {
+    name: 'Rustic Global',
+  },
+  orgCustomer: {
+    orgUnit: {
+      name: 'Rustic',
+    },
+  },
+  purchaseOrderNumber: '123',
   created: new Date('2019-02-11T13:02:58+0000'),
 };
-
-const mockB2BOrder: B2BOrder = {
-  costCenter: {
-    name: 'Rustic Global'
-  },
-  orgCustomer:{
-    orgUnit: {
-      name: 'Rustic'
-    }
-  },
-  purchaseOrderNumber: '123';
-}
 
 describe('OrderDetailHeadlineComponent', () => {
   let component: OrderDetailHeadlineComponent;
@@ -119,7 +114,9 @@ describe('OrderDetailHeadlineComponent', () => {
   it('should display correct order ID', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('.cx-header:nth-of-type(1) .cx-detail:first-of-type .cx-detail-value')
+      By.css(
+        '.cx-header:nth-of-type(1) .cx-detail:first-of-type .cx-detail-value'
+      )
     );
     expect(element.nativeElement.textContent).toEqual(mockOrder.code);
   });
@@ -135,20 +132,29 @@ describe('OrderDetailHeadlineComponent', () => {
   it('should display correct order status', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('.cx-header:nth-of-type(1) .cx-detail:last-of-type .cx-detail-value')
+      By.css(
+        '.cx-header:nth-of-type(1) .cx-detail:last-of-type .cx-detail-value'
+      )
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.statusDisplay
     );
   });
 
+  /**
+   * TODO GH-7765: move out assertions to proper file when lib is created
+   * costCenter, orgCustomer, purchaseOrderNumber
+   * https://cxwiki.sap.com/pages/viewpage.action?pageId=514209363
+   */
   it('should display correct purchase order number', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('.cx-header:nth-of-type(2) .cx-detail:first-of-type .cx-detail-value')
+      By.css(
+        '.cx-header:nth-of-type(2) .cx-detail:first-of-type .cx-detail-value'
+      )
     );
     expect(element.nativeElement.textContent).toContain(
-      mockB2BOrder.purchaseOrderNumber
+      mockOrder.purchaseOrderNumber
     );
   });
 
@@ -157,18 +163,18 @@ describe('OrderDetailHeadlineComponent', () => {
     const element: DebugElement = el.query(
       By.css('.cx-header:nth-of-type(2) div:nth-child(2) > div.cx-detail-value')
     );
-    expect(element.nativeElement.textContent).toContain(
-      mockOrder.user.name
-    );
+    expect(element.nativeElement.textContent).toContain(mockOrder.user.name);
   });
 
   it('should display correct unit', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('.cx-header:nth-of-type(2) .cx-detail:last-of-type .cx-detail-value')
+      By.css(
+        '.cx-header:nth-of-type(2) .cx-detail:last-of-type .cx-detail-value'
+      )
     );
     expect(element.nativeElement.textContent).toContain(
-      mockB2BOrder.orgCustomer.orgUnit.name
+      mockOrder.orgCustomer.orgUnit.name && mockOrder.costCenter.name
     );
   });
 });

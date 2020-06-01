@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
   Address,
-  B2BOrder,
   DeliveryMode,
   Order,
   PaymentDetails,
@@ -22,7 +21,7 @@ export class OrderDetailShippingComponent implements OnInit {
     private translation: TranslationService
   ) {}
 
-  order$: Observable<Order | B2BOrder>;
+  order$: Observable<Order>;
 
   ngOnInit() {
     this.order$ = this.orderDetailsService.getOrderDetails();
@@ -84,7 +83,7 @@ export class OrderDetailShippingComponent implements OnInit {
     );
   }
 
-  getAccountPaymentCardContent(order: Order | B2BOrder): Observable<Card> {
+  getAccountPaymentCardContent(order: Order): Observable<Card> {
     return combineLatest([
       this.translation.translate('orderDetails.accountPayment'),
       this.translation.translate('orderDetails.purchaseOrderId'),
