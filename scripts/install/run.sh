@@ -59,6 +59,7 @@ function pre_install {
     npm i -g @angular/cli@${ANGULAR_CLI_VERSION}
 
     mkdir -p ${INSTALLATION_DIR}
+    ng analytics off
 }
 
 function clone_repo {
@@ -154,7 +155,6 @@ function local_install {
     printh "Installing source dependencies."
     ( cd ${CLONE_DIR} && yarn install )
 
-    ng analytics off
     printh "Building spa libraries from source."
     ( cd ${CLONE_DIR} && yarn build:core:lib)
 
