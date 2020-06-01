@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { PaymentType, PaymentTypeService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, scan, tap } from 'rxjs/operators';
 import { CheckoutStepType } from '../../model/checkout-step.model';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -22,6 +23,7 @@ export class PaymentTypeComponent {
     string
   > = this.paymentTypeService.getSelectedPaymentType().pipe(
     filter((selected) => selected !== undefined),
+    distinctUntilChanged(),
     tap((selected) => {
       this.typeSelected = selected;
       this.checkoutStepService.resetSteps();
@@ -29,17 +31,23 @@ export class PaymentTypeComponent {
         CheckoutStepType.PAYMENT_DETAILS,
         selected === this.ACCOUNT_PAYMENT
       );
-    })
+    }),
+    scan((previous, current) => {
+      if (previous !== undefined) {
+        this.checkoutStepService.goToStepWithIndex(0, this.activatedRoute);
+      }
+      return current;
+    }, undefined)
   );
 
   constructor(
     protected paymentTypeService: PaymentTypeService,
-    protected checkoutStepService: CheckoutStepService
+    protected checkoutStepService: CheckoutStepService,
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   changeType(code: string): void {
     this.paymentTypeService.setPaymentType(code);
     this.typeSelected = code;
-    this.checkoutStepService.gotToStep(0);
   }
 }

@@ -213,9 +213,22 @@ describe('CheckoutStpService', () => {
   });
 
   it('should go to the requested step', () => {
-    service.gotToStep(0);
+    service.goToStepWithIndex(0);
     expect(routingService.go).toHaveBeenCalledWith('checkout/route0');
-    service.gotToStep(2);
+    service.goToStepWithIndex(2);
+    expect(routingService.go).toHaveBeenCalledWith('checkout/route2');
+  });
+
+  it('should go to the requested step, only if not already there', () => {
+    const mockActivatedRoute0 = {
+      snapshot: {
+        url: ['checkout', 'route0'],
+      },
+    };
+
+    service.goToStepWithIndex(0, <any>mockActivatedRoute0);
+    expect(routingService.go).not.toHaveBeenCalled();
+    service.goToStepWithIndex(2, <any>mockActivatedRoute0);
     expect(routingService.go).toHaveBeenCalledWith('checkout/route2');
   });
 });

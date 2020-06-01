@@ -57,10 +57,15 @@ export class CheckoutStepService {
     this.routingService.go(nextUrl);
   }
 
-  gotToStep(stepIndex: number): void {
-    this.routingService.go(
-      this.getStepUrlFromStepRoute(this.allSteps[stepIndex].routeName)
-    );
+  goToStepWithIndex(stepIndex: number, activatedRoute?: ActivatedRoute): void {
+    if (
+      !Boolean(activatedRoute) ||
+      this.getCurrentStepIndex(activatedRoute) !== stepIndex
+    ) {
+      this.routingService.go(
+        this.getStepUrlFromStepRoute(this.allSteps[stepIndex].routeName)
+      );
+    }
   }
 
   getBackBntText(activatedRoute: ActivatedRoute): string {
