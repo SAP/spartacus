@@ -23,7 +23,13 @@
         </div>
       </div>
 
-      <div class="cx-checkout-body row">
+      <div
+        class="cx-checkout-body row"
+        *ngIf="
+          !(changeSelectedAddressLoaderState$ | async).loading;
+          else loading
+        "
+      >
         <div
           class="cx-shipping-address-card col-md-12 col-lg-6"
           *ngFor="let card of cards; let i = index"
