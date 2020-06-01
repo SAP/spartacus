@@ -1,14 +1,13 @@
-import { products } from '../../sample-data/apparel-checkout-flow';
-import { addCheapProductToCart } from '../checkout-flow';
+import { products } from '../../../sample-data/apparel-checkout-flow';
+import { BASESITE_SPA } from '../../../sample-data/basesite-config';
+import { addCheapProductToCart } from '../../checkout-flow';
 
-export const APPAREL_BASESITE = 'apparel-uk-spa';
-export const APPAREL_CURRENCY = 'GBP';
 export const APPAREL_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-gross';
 
 export function configureProductWithVariants() {
   cy.cxConfig({
     context: {
-      baseSite: [APPAREL_BASESITE],
+      baseSite: [BASESITE_SPA.APPAREL],
       currency: ['GBP'],
     },
     checkout: { guest: true },
@@ -31,7 +30,7 @@ export function addVariantOfSameProductToCart() {
 
 export function visitProductWithoutVariantPage() {
   configureProductWithVariants();
-  cy.visit(`${APPAREL_BASESITE}/en/GBP/product/300611156`);
+  cy.visit(`${BASESITE_SPA.APPAREL}/en/GBP/product/300611156`);
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[2].code);
   });

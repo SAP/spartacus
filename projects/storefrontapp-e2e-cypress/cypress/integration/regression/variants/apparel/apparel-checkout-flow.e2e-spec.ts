@@ -1,23 +1,25 @@
-import * as checkout from '../../../helpers/checkout-flow';
+import * as checkout from '../../../../helpers/checkout-flow';
 import {
   addMutipleProductWithoutVariantToCart,
   addVariantOfSameProductToCart,
-  APPAREL_BASESITE,
-  APPAREL_CURRENCY,
   APPAREL_DEFAULT_DELIVERY_MODE,
   configureProductWithVariants,
   visitProductWithoutVariantPage,
-} from '../../../helpers/variants/apparel-checkout-flow';
+} from '../../../../helpers/variants/apparel/apparel-checkout-flow';
 import {
   cartWithTotalVariantProduct,
   products,
   variantUser,
-} from '../../../sample-data/apparel-checkout-flow';
+} from '../../../../sample-data/apparel-checkout-flow';
+import {
+  BASESITE_CURRENCY,
+  BASESITE_SPA,
+} from '../../../../sample-data/basesite-config';
 
 context('Apparel - checkout flow', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-    Cypress.env('BASE_SITE', APPAREL_BASESITE);
+    Cypress.env('BASE_SITE', BASESITE_SPA.APPAREL);
   });
 
   beforeEach(() => {
@@ -73,7 +75,7 @@ context('Apparel - checkout flow', () => {
       checkout.placeOrderWithCheapProduct(
         variantUser,
         cartWithTotalVariantProduct,
-        APPAREL_CURRENCY
+        BASESITE_CURRENCY.GPB
       );
     });
 
@@ -91,7 +93,10 @@ context('Apparel - checkout flow', () => {
       cy.selectUserMenuOption({
         option: 'Personal Details',
       });
-      cy.waitForOrderToBePlacedRequest(APPAREL_BASESITE, APPAREL_CURRENCY);
+      cy.waitForOrderToBePlacedRequest(
+        BASESITE_SPA.APPAREL,
+        BASESITE_CURRENCY.GPB
+      );
       checkout.viewOrderHistoryWithCheapProduct(cartWithTotalVariantProduct);
     });
 
