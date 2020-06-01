@@ -13,7 +13,7 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-describe('CardComponent', () => {
+fdescribe('CardComponent', () => {
   let component: CardComponent;
   let fixture: ComponentFixture<CardComponent>;
   let el: DebugElement;
@@ -232,6 +232,9 @@ describe('CardComponent', () => {
 
   it('should handle links', () => {
     function getLinkAction(elem: DebugElement): HTMLAnchorElement {
+      console.log(elem);
+      console.log(elem.nativeElement);
+      console.log(elem.query(By.css('.cx-card-actions .btn-link')));
       return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
     }
     const link: CardLinkAction = { link: '/test.html', name: 'Go to test' };
