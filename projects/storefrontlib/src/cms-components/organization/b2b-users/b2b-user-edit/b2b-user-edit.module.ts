@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { B2BUserFormModule } from '../b2b-user-form/b2b-user-form.module';
+import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { B2BUserFormModule } from '../b2b-user-form/b2b-user-form.module';
     }),
     B2BUserFormModule,
     I18nModule,
+    FakeTabsModule,
   ],
   declarations: [B2BUserEditComponent],
   exports: [B2BUserEditComponent],
