@@ -144,20 +144,39 @@ function installPackageJsonDependencies(): Rule {
   };
 }
 
+function mapContextArray(rawArray: string[] = []): string {
+  return rawArray.map((x) => `'${x}'`).join(', ');
+}
+
+function prepareSiteContextConfig(options: SpartacusOptions): string {
+  const currency = mapContextArray(options.currency).toUpperCase();
+  const language = mapContextArray(options.language).toLowerCase();
+  let context = `
+      context: {
+        currency: [${currency}],
+        language: [${language}],`;
+
+  if (options.baseSite && options.baseSite.length) {
+    const baseSites = mapContextArray(options.baseSite);
+    context += `
+        baseSite: [${baseSites}]`;
+  }
+  context += `
+      },`;
+
+  return context;
+}
+
 function getStorefrontConfig(options: SpartacusOptions): string {
   const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
-  const contextContent = !options.baseSite
-    ? ''
-    : `
-      context: {
-        baseSite: ['${options.baseSite}']
-      },`;
+  const context = prepareSiteContextConfig(options);
+
   return `{
       backend: {
         occ: {${options.useMetaTags ? '' : baseUrlPart}
           prefix: '${options.occPrefix}'
         }
-      },${contextContent}
+      },${context}
       i18n: {
         resources: translations,
         chunks: translationChunksConfig,
@@ -273,7 +292,7 @@ function updateMainComponent(
     }
 
     const htmlContent = buffer.toString();
-    const insertion = '\n' + `<cx-storefront></cx-storefront>\n`;
+    const insertion = `<cx-storefront></cx-storefront>\n`;
 
     if (htmlContent.includes(insertion)) {
       return;
@@ -285,7 +304,7 @@ function updateMainComponent(
       recorder.remove(0, htmlContent.length);
       recorder.insertLeft(0, insertion);
     } else {
-      recorder.insertLeft(htmlContent.length, insertion);
+      recorder.insertLeft(htmlContent.length, `\n${insertion}`);
     }
 
     host.commitUpdate(recorder);

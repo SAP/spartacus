@@ -2,7 +2,9 @@ export interface Schema {
   project: string;
   baseUrl?: string;
   occPrefix?: string;
-  baseSite?: string;
+  baseSite?: string[];
+  currency?: string[];
+  language?: string[];
   useMetaTags?: boolean;
   featureLevel?: string;
   overwriteAppComponent?: boolean;

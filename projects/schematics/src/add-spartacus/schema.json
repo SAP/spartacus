@@ -22,8 +22,18 @@
       "default": "/rest/v2/"
     },
     "baseSite": {
-      "type": "string",
-      "description": "The base site to use with spartacus"
+      "type": "array",
+      "description": "The base site(s) to use with spartacus"
+    },
+    "currency": {
+      "type": "array",
+      "description": "The default currency (or currencies) to use",
+      "default": ["USD"]
+    },
+    "language": {
+      "type": "array",
+      "description": "The default language(s) to use",
+      "default": ["en"]
     },
     "useMetaTags": {
       "type": "boolean",
