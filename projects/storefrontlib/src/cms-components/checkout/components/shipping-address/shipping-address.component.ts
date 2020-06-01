@@ -79,7 +79,7 @@ export class ShippingAddressComponent implements OnInit {
 
   get cards$(): Observable<CardWithAddress[]> {
     return combineLatest([
-      this.getSupportedAddresses(this.isAccount),
+      this.getSupportedAddresses(),
       this.selectedAddress$,
       this.translation.translate('checkoutAddress.defaultShippingAddress'),
       this.translation.translate('checkoutAddress.shipToThisAddress'),
@@ -103,10 +103,8 @@ export class ShippingAddressComponent implements OnInit {
     );
   }
 
-  getSupportedAddresses(
-    isAccount: boolean
-  ): Observable<Address[] | B2BAddress[]> {
-    if (isAccount) {
+  getSupportedAddresses(): Observable<Address[] | B2BAddress[]> {
+    if (this.isAccount) {
       let costCenterId: string;
       this.checkoutCostCenterService
         .getCostCenter()
