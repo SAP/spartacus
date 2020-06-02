@@ -15,14 +15,14 @@
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "^9.1.1",
-    "@angular-devkit/schematics": "^9.1.1",
-    "@angular/cdk": "^9.2.0",
-    "@angular/localize": "^9.1.1",
-    "@angular/pwa": "^0.901.1",
+    "@angular-devkit/core": "^9.1.7",
+    "@angular-devkit/schematics": "^9.1.7",
+    "@angular/cdk": "^9.2.4",
+    "@angular/localize": "^9.1.7",
+    "@angular/pwa": "^0.901.7",
     "@nguniversal/express-engine": "^9.1.1",
-    "@schematics/angular": "^9.1.1",
-    "@schematics/update": "^0.901.1"
+    "@schematics/angular": "^9.1.7",
+    "@schematics/update": "^0.901.7"
   },
   "devDependencies": {
     "@types/jasmine": "^3.5.0",

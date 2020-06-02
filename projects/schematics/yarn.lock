@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@angular-devkit/core@9.1.7", "@angular-devkit/core@^9.1.1":
+"@angular-devkit/core@9.1.7", "@angular-devkit/core@^9.1.7":
   version "9.1.7"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-9.1.7.tgz#f193ccbae4c80b34188bc9cc401c16b3ced50339"
   integrity sha512-guvolu9Cl+qYMTtedLZD9wCqustJjdqzJ2psD2C1Sr1LrX9T0mprmDldR/YnhsitThveJEb6sM/0EvqWxoSvKw==
@@ -13,7 +13,7 @@
     rxjs "6.5.4"
     source-map "0.7.3"
 
-"@angular-devkit/schematics@9.1.7", "@angular-devkit/schematics@^9.1.1":
+"@angular-devkit/schematics@9.1.7", "@angular-devkit/schematics@^9.1.7":
   version "9.1.7"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-9.1.7.tgz#45394a1c928db449b412dacf205c3ec78fb5ef0c"
   integrity sha512-oeHPJePBcPp/bd94jHQeFUnft93PGF5iJiKV9szxqS8WWC5OMZ5eK7icRY0PwvLyfenspAZxdZcNaqJqPMul5A==
@@ -22,14 +22,14 @@
     ora "4.0.3"
     rxjs "6.5.4"
 
-"@angular/cdk@^9.2.0":
-  version "9.2.0"
-  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-9.2.0.tgz#587e4a9d5046fa89a68d8eddaee6b185e2915842"
-  integrity sha512-jeeznvNDpR9POuxzz8Y0zFvMynG9HCJo3ZPTqOjlOq8Lj8876+rLsHDvKEMeLdwlkdi1EweYJW1CLQzI+TwqDA==
+"@angular/cdk@^9.2.4":
+  version "9.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-9.2.4.tgz#8413958bd275e4c34be3b96f56444671dd30ba93"
+  integrity sha512-iw2+qHMXHYVC6K/fttHeNHIieSKiTEodVutZoOEcBu9rmRTGbLB26V/CRsfIRmA1RBk+uFYWc6UQZnMC3RdnJQ==
   optionalDependencies:
     parse5 "^5.0.0"
 
-"@angular/localize@^9.1.1":
+"@angular/localize@^9.1.7":
   version "9.1.9"
   resolved "https://registry.yarnpkg.com/@angular/localize/-/localize-9.1.9.tgz#0867a82abcdeb6b88cbd4d61e1410f3c63a66ddb"
   integrity sha512-U/4axUr99GO3+dRuMIEyJ1FqXauT82x/w7GulWu05qk8ML8MaIQ58RcB/LTJJY1s1qfwdcsyzX2wZrZcwBLKlA==
@@ -38,7 +38,7 @@
     glob "7.1.2"
     yargs "15.3.0"
 
-"@angular/pwa@^0.901.1":
+"@angular/pwa@^0.901.7":
   version "0.901.7"
   resolved "https://registry.yarnpkg.com/@angular/pwa/-/pwa-0.901.7.tgz#2f272fd733cc937fbc0237cc2845c460ec30ae99"
   integrity sha512-soSZDb9YOqaXYT3uv7YZFDBjoBBcN8H2FgqGOFbFdnYJDRu9GJ1n4UQNCRGcyyZn1H5/1rPp1n1i8GsOBramFA==
@@ -182,7 +182,7 @@
   dependencies:
     "@nguniversal/common" "9.1.1"
 
-"@schematics/angular@9.1.7", "@schematics/angular@^9.1.1":
+"@schematics/angular@9.1.7", "@schematics/angular@^9.1.7":
   version "9.1.7"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-9.1.7.tgz#b7801a5e20f844da560db81d2971590e8ac090ff"
   integrity sha512-ld3WcoMWvup04V3OWioQ+AFGQBzz7IDM4Fxc5+Qc3wILWkDJnNkrc4EmJAow96Ab4/T1+Wl1vof3tV4At0BTzA==
@@ -190,7 +190,7 @@
     "@angular-devkit/core" "9.1.7"
     "@angular-devkit/schematics" "9.1.7"
 
-"@schematics/update@^0.901.1":
+"@schematics/update@^0.901.7":
   version "0.901.7"
   resolved "https://registry.yarnpkg.com/@schematics/update/-/update-0.901.7.tgz#164bff4e97383a0a7d266fe5eb2e1bf41f14dfe9"
   integrity sha512-6IpQVFvbu47CrXfqqHAzv2vi7AOdfi1S+SiayXU6FWTeA2wV47H8R60VjxurL8JkDGoVhFgC4+lK6KG++g3dQw==

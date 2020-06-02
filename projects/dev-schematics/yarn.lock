@@ -13,7 +13,7 @@
     rxjs "6.5.4"
     source-map "0.7.3"
 
-"@angular-devkit/core@9.1.7", "@angular-devkit/core@^9.1.1":
+"@angular-devkit/core@9.1.7", "@angular-devkit/core@^9.1.7":
   version "9.1.7"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-9.1.7.tgz#f193ccbae4c80b34188bc9cc401c16b3ced50339"
   integrity sha512-guvolu9Cl+qYMTtedLZD9wCqustJjdqzJ2psD2C1Sr1LrX9T0mprmDldR/YnhsitThveJEb6sM/0EvqWxoSvKw==
@@ -33,7 +33,7 @@
     ora "4.0.3"
     rxjs "6.5.4"
 
-"@angular-devkit/schematics@9.1.7", "@angular-devkit/schematics@^9.1.1":
+"@angular-devkit/schematics@9.1.7", "@angular-devkit/schematics@^9.1.7":
   version "9.1.7"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-9.1.7.tgz#45394a1c928db449b412dacf205c3ec78fb5ef0c"
   integrity sha512-oeHPJePBcPp/bd94jHQeFUnft93PGF5iJiKV9szxqS8WWC5OMZ5eK7icRY0PwvLyfenspAZxdZcNaqJqPMul5A==
@@ -210,7 +210,7 @@
     "@angular-devkit/core" "9.1.6"
     "@angular-devkit/schematics" "9.1.6"
 
-"@schematics/angular@^9.1.1":
+"@schematics/angular@^9.1.7":
   version "9.1.7"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-9.1.7.tgz#b7801a5e20f844da560db81d2971590e8ac090ff"
   integrity sha512-ld3WcoMWvup04V3OWioQ+AFGQBzz7IDM4Fxc5+Qc3wILWkDJnNkrc4EmJAow96Ab4/T1+Wl1vof3tV4At0BTzA==
