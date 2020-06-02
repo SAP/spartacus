@@ -20,6 +20,8 @@ export const configurator = {
       defaultRequiredMessage: 'Enter a value for the required field',
       singleSelectRequiredMessage: 'Select a value',
       multiSelectRequiredMessage: 'Select one or more values',
+      wrongNumericFormat:
+        'Wrong format, this numerical attribute should be entered according to pattern {{pattern}}',
     },
     button: {
       previous: 'Previous',

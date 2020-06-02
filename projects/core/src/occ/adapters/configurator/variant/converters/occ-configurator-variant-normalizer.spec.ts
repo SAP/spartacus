@@ -209,10 +209,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
       ],
     });
 
-    occConfiguratorVariantNormalizer = TestBed.get(
+    occConfiguratorVariantNormalizer = TestBed.inject(
       OccConfiguratorVariantNormalizer as Type<OccConfiguratorVariantNormalizer>
     );
-    occConfig = TestBed.get(OccConfig as Type<OccConfig>);
+    occConfig = TestBed.inject(OccConfig as Type<OccConfig>);
     groups = [];
     flatGroups = [];
   });
@@ -270,6 +270,20 @@ describe('OccConfiguratorVariantNormalizer', () => {
     occConfiguratorVariantNormalizer.convertAttribute(occAttribute, attributes);
     expect(attributes.length).toBe(1);
     expect(attributes[0].name).toBe(attributeName);
+  });
+
+  it('should tell if attribute is numeric', () => {
+    const attributes: Configurator.Attribute[] = [];
+    const numericOccAttribute: OccConfigurator.Attribute = {
+      value: '23.234',
+      type: OccConfigurator.UiType.READ_ONLY,
+    };
+    occConfiguratorVariantNormalizer.convertAttribute(
+      numericOccAttribute,
+      attributes
+    );
+
+    expect(attributes[0].isNumeric).toBe(true);
   });
 
   it('should convert a standard group', () => {
@@ -342,6 +356,22 @@ describe('OccConfiguratorVariantNormalizer', () => {
         OccConfigurator.UiType.RADIO_BUTTON
       )
     ).toBe(Configurator.UiType.RADIOBUTTON);
+  });
+
+  it('should convert numeric attribute type correctly', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.NUMERIC
+      )
+    ).toBe(Configurator.UiType.NUMERIC);
+  });
+
+  it('should convert read-only attribute type correctly', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.READ_ONLY
+      )
+    ).toBe(Configurator.UiType.READ_ONLY);
   });
 
   it('should return UIType Drop Down for Drop Down occ configurator type', () => {

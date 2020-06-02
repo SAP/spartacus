@@ -67,6 +67,8 @@ export class OccConfiguratorVariantSerializer
       targetAttribute.value = attribute.selectedSingleValue;
     } else if (attribute.uiType === Configurator.UiType.STRING) {
       targetAttribute.value = attribute.userInput;
+    } else if (attribute.uiType === Configurator.UiType.NUMERIC) {
+      targetAttribute.formattedValue = attribute.userInput;
     } else if (
       attribute.uiType === Configurator.UiType.CHECKBOX ||
       attribute.uiType === Configurator.UiType.MULTI_SELECTION_IMAGE
@@ -102,6 +104,10 @@ export class OccConfiguratorVariantSerializer
       }
       case Configurator.UiType.STRING: {
         uiType = OccConfigurator.UiType.STRING;
+        break;
+      }
+      case Configurator.UiType.NUMERIC: {
+        uiType = OccConfigurator.UiType.NUMERIC;
         break;
       }
       case Configurator.UiType.CHECKBOX: {

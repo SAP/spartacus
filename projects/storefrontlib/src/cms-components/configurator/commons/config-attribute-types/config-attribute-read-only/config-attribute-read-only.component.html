@@ -21,18 +21,39 @@
       </div>
     </ng-container>
   </ng-container>
-  <ng-template #noStaticDomain
-    ><div
-      id="{{
-        uiKeyGenerator.createValueUiKey(
-          'label',
-          attribute.name,
-          attribute.selectedSingleValue
-        )
-      }}"
-      class="cx-config-attribute-value-label-read-only"
-    >
-      {{ attribute.selectedSingleValue }}
-    </div></ng-template
-  >
+  <ng-template #noStaticDomain>
+    <ng-container *ngIf="attribute.selectedSingleValue"
+      ><div
+        id="{{
+          uiKeyGenerator.createValueUiKey(
+            'label',
+            attribute.name,
+            attribute.selectedSingleValue
+          )
+        }}"
+        class="cx-config-attribute-value-label-read-only"
+      >
+        {{ attribute.selectedSingleValue }}
+      </div>
+    </ng-container>
+    <ng-container *ngIf="attribute.userInput"
+      ><div
+        id="{{
+          uiKeyGenerator.createValueUiKey(
+            'label',
+            attribute.name,
+            attribute.userInput
+          )
+        }}"
+        class="cx-config-attribute-value-label-read-only"
+      >
+        <ng-container *ngIf="attribute.isNumeric">
+          {{ attribute.userInput | cxDecimal }}</ng-container
+        >
+        <ng-container *ngIf="!attribute.isNumeric">
+          {{ attribute.userInput }}</ng-container
+        >
+      </div>
+    </ng-container>
+  </ng-template>
 </div>

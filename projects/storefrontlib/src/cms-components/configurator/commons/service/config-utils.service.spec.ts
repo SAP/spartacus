@@ -18,7 +18,7 @@ class MockConfiguratorGroupsService {
 
 describe('ConfigUtilsService', () => {
   let classUnderTest: ConfigUtilsService;
-  let configurationGroupService: ConfiguratorGroupsService;
+  let configuratorGroupsService: ConfiguratorGroupsService;
   const owner: GenericConfigurator.Owner = {
     id: 'testProduct',
     type: GenericConfigurator.OwnerType.PRODUCT,
@@ -35,10 +35,10 @@ describe('ConfigUtilsService', () => {
     });
 
     classUnderTest = TestBed.inject(ConfigUtilsService);
-    configurationGroupService = TestBed.inject(
+    configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
-    spyOn(configurationGroupService, 'isGroupVisited').and.returnValue(
+    spyOn(configuratorGroupsService, 'isGroupVisited').and.returnValue(
       isGroupVisited
     );
   });

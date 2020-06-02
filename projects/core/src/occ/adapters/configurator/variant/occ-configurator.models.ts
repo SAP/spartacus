@@ -62,6 +62,8 @@ export namespace OccConfigurator {
     formattedValue?: string;
     maxlength?: number;
     images?: Image[];
+    typeLength?: number;
+    numberScale?: number;
   }
 
   export interface Value {
