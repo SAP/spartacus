@@ -59,6 +59,9 @@ validatestyles
 echo "Validating code linting"
 ng lint
 
+echo "-----"
+echo "Validating code formatting (using prettier)"
+
 # perform cleanup of *.js files
 pushd projects/schematics
 yarn
@@ -69,8 +72,6 @@ yarn
 yarn clean
 popd
 
-echo "-----"
-echo "Validating code formatting (using prettier)"
 yarn prettier 2>&1 |  tee prettier.log
 results=$(tail -1 prettier.log | grep projects || true)
 if [[ -z "$results" ]]; then
