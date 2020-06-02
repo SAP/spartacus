@@ -23,7 +23,7 @@ export class ConfiguratorGroupsService {
     private configuratorGroupStatusService: ConfiguratorGroupStatusService
   ) {}
 
-  subscribeToUpdateConfiguration(owner: GenericConfigurator.Owner): void {
+  public subscribeToUpdateConfiguration(owner: GenericConfigurator.Owner): void {
     // TODO: Cancel previous subscriptions of the configuration state
     // Set Group Status on each update of the configuration state
     // This will be called every time something in the configuration is changed, prices,
@@ -65,7 +65,7 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  getMenuParentGroup(
+  public getMenuParentGroup(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
     return this.configuratorCommonsService.getUiState(owner).pipe(
@@ -86,11 +86,11 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  setMenuParentGroup(owner: GenericConfigurator.Owner, groupId: string) {
+  public setMenuParentGroup(owner: GenericConfigurator.Owner, groupId: string) {
     this.store.dispatch(new UiActions.SetMenuParentGroup(owner.key, groupId));
   }
 
-  getCurrentGroup(
+  public getCurrentGroup(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
     return this.getCurrentGroupId(owner).pipe(
@@ -112,7 +112,7 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  navigateToGroup(configuration: Configurator.Configuration, groupId: string) {
+  public navigateToGroup(configuration: Configurator.Configuration, groupId: string) {
     //Set Group status for current group
     this.getCurrentGroup(configuration.owner)
       .pipe(take(1))
@@ -142,11 +142,11 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  setCurrentGroup(owner: GenericConfigurator.Owner, groupId: string) {
+  public setCurrentGroup(owner: GenericConfigurator.Owner, groupId: string) {
     this.store.dispatch(new UiActions.SetCurrentGroup(owner.key, groupId));
   }
 
-  getNextGroupId(owner: GenericConfigurator.Owner): Observable<string> {
+  public getNextGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.getCurrentGroupId(owner).pipe(
       switchMap((currentGroupId) => {
         if (!currentGroupId) {
@@ -172,7 +172,7 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  getPreviousGroupId(owner: GenericConfigurator.Owner): Observable<string> {
+  public getPreviousGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.getCurrentGroupId(owner).pipe(
       switchMap((currentGroupId) => {
         if (!currentGroupId) {
@@ -198,21 +198,21 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  isGroupVisited(
+  public isGroupVisited(
     owner: GenericConfigurator.Owner,
     groupId: string
   ): Observable<Boolean> {
     return this.configuratorGroupStatusService.isGroupVisited(owner, groupId);
   }
 
-  getGroupStatus(
+  public getGroupStatus(
     owner: GenericConfigurator.Owner,
     groupId: string
   ): Observable<Configurator.GroupStatus> {
     return this.configuratorGroupStatusService.getGroupStatus(owner, groupId);
   }
 
-  getParentGroup(
+  public getParentGroup(
     groups: Configurator.Group[],
     group: Configurator.Group,
     parentGroup: Configurator.Group
@@ -224,7 +224,7 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  hasSubGroups(group: Configurator.Group): boolean {
+  public hasSubGroups(group: Configurator.Group): boolean {
     return this.configuratorGroupUtilsService.hasSubGroups(group);
   }
 }

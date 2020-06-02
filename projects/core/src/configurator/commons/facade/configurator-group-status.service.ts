@@ -17,14 +17,14 @@ export class ConfiguratorGroupStatusService {
     private configuratorGroupUtilsService: ConfiguratorGroupUtilsService
   ) {}
 
-  isGroupVisited(
+  public isGroupVisited(
     owner: GenericConfigurator.Owner,
     groupId: string
   ): Observable<Boolean> {
     return this.store.select(UiSelectors.isGroupVisited(owner.key, groupId));
   }
 
-  getGroupStatus(
+  public getGroupStatus(
     owner: GenericConfigurator.Owner,
     groupId: string
   ): Observable<Configurator.GroupStatus> {
@@ -131,7 +131,7 @@ export class ConfiguratorGroupStatusService {
       });
   }
 
-  setGroupStatus(
+  public setGroupStatus(
     configuration: Configurator.Configuration,
     groupId: string,
     setGroupVisited: Boolean
