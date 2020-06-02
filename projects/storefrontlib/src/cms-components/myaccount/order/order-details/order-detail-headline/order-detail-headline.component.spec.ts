@@ -46,6 +46,11 @@ const mockOrder: Order = {
       },
     },
   },
+  created: new Date('2019-02-11T13:02:58+0000'),
+};
+
+const mockB2BOrder: Order = {
+  ...mockOrder,
   user: {
     name: 'Rivers',
   },
@@ -58,26 +63,25 @@ const mockOrder: Order = {
     },
   },
   purchaseOrderNumber: '123',
-  created: new Date('2019-02-11T13:02:58+0000'),
 };
+
+class MockOrderDetailsService {
+  getOrderDetails() {
+    return of(mockOrder);
+  }
+}
 
 describe('OrderDetailHeadlineComponent', () => {
   let component: OrderDetailHeadlineComponent;
   let fixture: ComponentFixture<OrderDetailHeadlineComponent>;
-  let mockOrderDetailsService: OrderDetailsService;
+  let orderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
   beforeEach(async(() => {
-    mockOrderDetailsService = <OrderDetailsService>{
-      getOrderDetails() {
-        return of(mockOrder);
-      },
-    };
-
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
-        { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+        { provide: OrderDetailsService, useClass: MockOrderDetailsService },
       ],
       declarations: [OrderDetailHeadlineComponent],
     }).compileComponents();
@@ -86,6 +90,8 @@ describe('OrderDetailHeadlineComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailHeadlineComponent);
     el = fixture.debugElement;
+
+    orderDetailsService = TestBed.inject(OrderDetailsService);
 
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -108,7 +114,12 @@ describe('OrderDetailHeadlineComponent', () => {
 
   it('should render info bar', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('.cx-header.row'))).toBeTruthy();
+    expect(el.query(By.css('.cx-header:nth-of-type(1)'))).toBeTruthy();
+  });
+
+  it('should not render info bar when orgCustomer is not available in order', () => {
+    fixture.detectChanges();
+    expect(el.query(By.css('.cx-header:nth-of-type(2)'))).toBeFalsy();
   });
 
   it('should display correct order ID', () => {
@@ -146,7 +157,12 @@ describe('OrderDetailHeadlineComponent', () => {
    * costCenter, orgCustomer, purchaseOrderNumber
    * https://cxwiki.sap.com/pages/viewpage.action?pageId=514209363
    */
+
   it('should display correct purchase order number', () => {
+    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+      of(mockB2BOrder)
+    );
+
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css(
@@ -154,19 +170,27 @@ describe('OrderDetailHeadlineComponent', () => {
       )
     );
     expect(element.nativeElement.textContent).toContain(
-      mockOrder.purchaseOrderNumber
+      mockB2BOrder.purchaseOrderNumber
     );
   });
 
   it('should display who ordered', () => {
+    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+      of(mockB2BOrder)
+    );
+
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('.cx-header:nth-of-type(2) div:nth-child(2) > div.cx-detail-value')
     );
-    expect(element.nativeElement.textContent).toContain(mockOrder.user.name);
+    expect(element.nativeElement.textContent).toContain(mockB2BOrder.user.name);
   });
 
   it('should display correct unit', () => {
+    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+      of(mockB2BOrder)
+    );
+
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css(
@@ -174,7 +198,7 @@ describe('OrderDetailHeadlineComponent', () => {
       )
     );
     expect(element.nativeElement.textContent).toContain(
-      mockOrder.orgCustomer.orgUnit.name && mockOrder.costCenter.name
+      mockB2BOrder.orgCustomer.orgUnit.name && mockB2BOrder.costCenter.name
     );
   });
 });

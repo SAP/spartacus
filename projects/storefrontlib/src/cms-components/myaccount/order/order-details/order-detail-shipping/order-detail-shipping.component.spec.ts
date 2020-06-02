@@ -47,6 +47,19 @@ const mockOrder: Order = {
       },
     },
   },
+  created: new Date('2019-02-11T13:02:58+0000'),
+  consignments: [
+    {
+      code: 'a00000341',
+      status: 'SHIPPED',
+      statusDate: new Date('2019-02-11T13:05:12+0000'),
+      entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
+    },
+  ],
+};
+
+const mockB2BOrder = {
+  ...mockOrder,
   user: {
     name: 'Rivers',
   },
@@ -59,34 +72,25 @@ const mockOrder: Order = {
     },
   },
   purchaseOrderNumber: '123',
-  created: new Date('2019-02-11T13:02:58+0000'),
-  consignments: [
-    {
-      code: 'a00000341',
-      status: 'SHIPPED',
-      statusDate: new Date('2019-02-11T13:05:12+0000'),
-      entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
-    },
-  ],
 };
+
+class MockOrderDetailsService {
+  getOrderDetails() {
+    return of(mockOrder);
+  }
+}
 
 describe('OrderDetailShippingComponent', () => {
   let component: OrderDetailShippingComponent;
   let fixture: ComponentFixture<OrderDetailShippingComponent>;
-  let mockOrderDetailsService: OrderDetailsService;
+  let orderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
   beforeEach(async(() => {
-    mockOrderDetailsService = <OrderDetailsService>{
-      getOrderDetails() {
-        return of(mockOrder);
-      },
-    };
-
     TestBed.configureTestingModule({
       imports: [CardModule, I18nTestingModule],
       providers: [
-        { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+        { provide: OrderDetailsService, useClass: MockOrderDetailsService },
       ],
       declarations: [OrderDetailShippingComponent],
     }).compileComponents();
@@ -95,6 +99,8 @@ describe('OrderDetailShippingComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailShippingComponent);
     el = fixture.debugElement;
+
+    orderDetailsService = TestBed.inject(OrderDetailsService);
 
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -164,30 +170,49 @@ describe('OrderDetailShippingComponent', () => {
     );
   });
 
+  it('should display "shipping" data', () => {
+    fixture.detectChanges();
+    const element: DebugElement = el.query(
+      By.css('div:nth-child(4) > cx-card .cx-card-label-container')
+    );
+    expect(element.nativeElement.textContent).toContain(
+      mockOrder.deliveryMode.name && mockOrder.deliveryMode.description
+    );
+  });
+
   /**
    * TODO GH-7765: move out assertions to proper file when lib is created
    * costCenter, orgCustomer, purchaseOrderNumber
    * https://cxwiki.sap.com/pages/viewpage.action?pageId=514209363
    */
   it('should display "account payment" data', () => {
+    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+      of(mockB2BOrder)
+    );
+
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('div:nth-child(4) > cx-card .cx-card-label-container')
     );
     expect(element.nativeElement.textContent).toContain(
-      mockOrder.purchaseOrderNumber &&
-        mockOrder.costCenter &&
-        mockOrder.orgCustomer.orgUnit.name
+      mockB2BOrder.purchaseOrderNumber &&
+        mockB2BOrder.costCenter &&
+        mockB2BOrder.orgCustomer.orgUnit.name
     );
   });
 
-  it('should display "shipping" data', () => {
+  it('should display "shipping" data column after "account payment" column when costCenter is available', () => {
+    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+      of(mockB2BOrder)
+    );
+
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('div:nth-child(5) > cx-card .cx-card-label-container')
     );
+
     expect(element.nativeElement.textContent).toContain(
-      mockOrder.deliveryMode.name && mockOrder.deliveryMode.description
+      mockB2BOrder.deliveryMode.name && mockB2BOrder.deliveryMode.description
     );
   });
 });
