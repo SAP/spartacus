@@ -61,9 +61,11 @@ ng lint
 
 # perform cleanup of *.js files
 pushd projects/schematics
+yarn
 yarn clean
 popd
 pushd projects/dev-schematics
+yarn
 yarn clean
 popd
 
