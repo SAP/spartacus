@@ -37,10 +37,17 @@ const permission2: Permission = { ...permission, code: permissionId2 };
 
 const b2bUser: B2BUser = {
   active: true,
-  uid: orgCustomerId,
+  customerId: orgCustomerId,
+  uid: 'aaa@bbb',
   name: 'test',
 };
-const b2bUser2: B2BUser = { ...b2bUser, uid: 'currentUserId2' };
+const b2bUser2: B2BUser = {
+  active: true,
+  customerId: 'OrgCustomerId2',
+  uid: 'bbb@aaa',
+  name: 'test2',
+};
+
 const userGroup: UserGroup = {
   uid: 'userGroupUid',
   permissions: [permission],
@@ -189,7 +196,7 @@ describe('B2BUserService', () => {
         new B2BUserActions.LoadB2BUsersSuccess({
           params,
           page: {
-            ids: [b2bUser.uid, b2bUser2.uid],
+            ids: [b2bUser.customerId, b2bUser2.customerId],
             pagination,
             sorts,
           },
@@ -280,7 +287,7 @@ describe('B2BUserService', () => {
           new B2BUserActions.LoadB2BUserApproversSuccess({
             orgCustomerId,
             page: {
-              ids: [b2bUser.uid, b2bUser2.uid],
+              ids: [b2bUser.customerId, b2bUser2.customerId],
               pagination,
               sorts,
             },

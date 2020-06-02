@@ -18,8 +18,8 @@ import {
   B2BSearchConfig,
   RoutesConfig,
   RoutingConfig,
-  UserGroupService,
-  B2BUser,
+  UserGroup,
+  B2BUserService,
 } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -27,13 +27,13 @@ import { InteractiveTableModule } from '../../../../shared/components/interactiv
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
-import { UserGroupAssignUsersComponent } from './user-group-assign-users.component';
+import { UserAssignUserGroupsComponent } from './user-assign-user-groups.component';
 
-const code = 'userGroupCode';
-const customerId = 'customerId1';
-const userRow = {
+const code = 'userCode';
+const userGroupCode = '1';
+const userGroupRow = {
   row: {
-    customerId,
+    code: userGroupCode,
   },
 };
 
@@ -43,47 +43,43 @@ const defaultParams: B2BSearchConfig = {
   pageSize: 5,
 };
 
-const mockUserList: EntitiesModel<B2BUser> = {
+const mockUserGroupList: EntitiesModel<UserGroup> = {
   values: [
     {
       uid: '1',
-      customerId,
+      name: 'b1',
+      orgUnit: { name: 'orgName', uid: 'orgUid' },
       selected: true,
-      name: 'User 1',
-      orgUnit: { uid: 'orgUid', name: 'orgName' },
     },
     {
       uid: '2',
-      customerId: 'customerId2',
-      selected: true,
-      name: 'User 2',
-      orgUnit: { uid: 'orgUid2', name: 'orgName2' },
+      name: 'b2',
+      orgUnit: { name: 'orgName', uid: 'orgUid' },
+      selected: false,
     },
   ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
+  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 
-const mockUserUIList = {
+const mockUserGroupUIList = {
   values: [
     {
-      email: '1',
-      selected: true,
-      name: 'User 1',
+      code: '1',
+      name: 'b1',
       parentUnit: 'orgName',
       uid: 'orgUid',
-      customerId,
+      selected: true,
     },
     {
-      email: '2',
-      selected: true,
-      name: 'User 2',
-      parentUnit: 'orgName2',
-      uid: 'orgUid2',
-      customerId: 'customerId2',
+      code: '2',
+      name: 'b2',
+      parentUnit: 'orgName',
+      uid: 'orgUid',
+      selected: false,
     },
   ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
+  pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
 };
 @Component({
@@ -101,18 +97,19 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-const userList = new BehaviorSubject(mockUserList);
+const userGroupList = new BehaviorSubject(mockUserGroupList);
 
-class MockUserGroupService implements Partial<UserGroupService> {
-  loadAvailableOrgCustomers = createSpy('loadAvailableOrgCustomers');
+class MockB2BUserService implements Partial<B2BUserService> {
+  get = createSpy('get').and.returnValue(of({ email: 'test@bbb' }));
+  loadB2BUserUserGroups = createSpy('loadB2BUserUserGroups');
 
-  getAvailableOrgCustomers = createSpy(
-    'getAvailableOrgCustomers'
-  ).and.returnValue(userList);
+  getB2BUserUserGroups = createSpy('getB2BUserUserGroups').and.returnValue(
+    userGroupList
+  );
 
-  assignMember = createSpy('assign');
-  unassignMember = createSpy('unassign');
-  unassignAllMembers = createSpy('unassignAll');
+  assignUserGroup = createSpy('assign');
+
+  unassignUserGroup = createSpy('unassign');
 }
 
 class MockRoutingService {
@@ -139,16 +136,16 @@ class MockRoutingConfig {
   }
 }
 
-describe('UserGroupAssignUsersComponent', () => {
-  let component: UserGroupAssignUsersComponent;
-  let fixture: ComponentFixture<UserGroupAssignUsersComponent>;
-  let service: MockUserGroupService;
+describe('UserAssignUserGroupsComponent', () => {
+  let component: UserAssignUserGroupsComponent;
+  let fixture: ComponentFixture<UserAssignUserGroupsComponent>;
+  let service: MockB2BUserService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
       declarations: [
-        UserGroupAssignUsersComponent,
+        UserAssignUserGroupsComponent,
         MockUrlPipe,
         MockPaginationComponent,
       ],
@@ -156,8 +153,8 @@ describe('UserGroupAssignUsersComponent', () => {
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
         {
-          provide: UserGroupService,
-          useClass: MockUserGroupService,
+          provide: B2BUserService,
+          useClass: MockB2BUserService,
         },
         {
           provide: PaginationConfig,
@@ -168,13 +165,13 @@ describe('UserGroupAssignUsersComponent', () => {
       ],
     }).compileComponents();
 
-    service = TestBed.get(UserGroupService as Type<UserGroupService>);
+    service = TestBed.get(B2BUserService as Type<B2BUserService>);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserGroupAssignUsersComponent);
+    fixture = TestBed.createComponent(UserAssignUserGroupsComponent);
     component = fixture.componentInstance;
-    userList.next(mockUserList);
+    userGroupList.next(mockUserGroupList);
     fixture.detectChanges();
   });
 
@@ -182,64 +179,57 @@ describe('UserGroupAssignUsersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display No users found page if no users are found', () => {
-    const emptyUserList: EntitiesModel<B2BUser> = {
+  it('should display No userGroups found page if no userGroups are found', () => {
+    const emptyUserGroupList: EntitiesModel<UserGroup> = {
       values: [],
       pagination: { totalResults: 0, sort: 'byName' },
       sorts: [{ code: 'byName', selected: true }],
     };
 
-    userList.next(emptyUserList);
+    userGroupList.next(emptyUserGroupList);
     fixture.detectChanges();
 
     expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
   });
 
   describe('ngOnInit', () => {
-    it('should read users list', () => {
+    it('should read userGroup list', () => {
       component.ngOnInit();
 
-      let usersList: any;
+      let userGroupsList: any;
       component.data$.subscribe((value) => {
-        usersList = value;
+        userGroupsList = value;
       });
 
-      expect(service.loadAvailableOrgCustomers).toHaveBeenCalledWith(
+      expect(service.loadB2BUserUserGroups).toHaveBeenCalledWith(
         code,
         defaultParams
       );
-      expect(service.getAvailableOrgCustomers).toHaveBeenCalledWith(
+      expect(service.getB2BUserUserGroups).toHaveBeenCalledWith(
         code,
         defaultParams
       );
-      expect(usersList).toEqual(mockUserUIList);
+      expect(userGroupsList).toEqual(mockUserGroupUIList);
     });
   });
 
   describe('assign', () => {
-    it('should assign user', () => {
-      component.assign(userRow);
-      expect(service.assignMember).toHaveBeenCalledWith(
+    it('should assign userGroup', () => {
+      component.assign(userGroupRow);
+      expect(service.assignUserGroup).toHaveBeenCalledWith(
         code,
-        userRow.row.customerId
+        userGroupRow.row.code
       );
     });
   });
 
   describe('unassign', () => {
-    it('should unassign user', () => {
-      component.unassign(userRow);
-      expect(service.unassignMember).toHaveBeenCalledWith(
+    it('should unassign userGroup', () => {
+      component.unassign(userGroupRow);
+      expect(service.unassignUserGroup).toHaveBeenCalledWith(
         code,
-        userRow.row.customerId
+        userGroupRow.row.code
       );
-    });
-  });
-
-  describe('unassignAll', () => {
-    it('should unassign all users', () => {
-      component.unassignAll();
-      expect(service.unassignAllMembers).toHaveBeenCalledWith(code);
     });
   });
 });

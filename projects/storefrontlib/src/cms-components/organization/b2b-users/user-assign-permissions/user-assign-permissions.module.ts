@@ -8,9 +8,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
-import { UnitApproversComponent } from './unit-approvers.component';
+import { UserAssignPermissionsComponent } from './user-assign-permissions.component';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
@@ -24,13 +22,13 @@ import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'orgUnitApprovers' },
+        data: { cxRoute: 'userAssignPermissions' },
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        UnitApproversComponent: {
-          component: UnitApproversComponent,
+        UserAssignPermissionsComponent: {
+          component: UserAssignPermissionsComponent,
           guards: [AuthGuard],
         },
       },
@@ -38,13 +36,11 @@ import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
     UrlModule,
     I18nModule,
     InteractiveTableModule,
-    NgSelectModule,
-    FormsModule,
     FakeTabsModule,
   ],
-  declarations: [UnitApproversComponent],
-  exports: [UnitApproversComponent],
+  declarations: [UserAssignPermissionsComponent],
+  exports: [UserAssignPermissionsComponent],
   providers: [],
-  entryComponents: [UnitApproversComponent],
+  entryComponents: [UserAssignPermissionsComponent],
 })
-export class UnitApproversModule {}
+export class UserAssignPermissionsModule {}

@@ -31,6 +31,7 @@ import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/l
 
 const code = 'unitCode';
 const roleId = 'b2bapprovergroup';
+const customerId = 'customerId1';
 
 const params: B2BSearchConfig = {
   sort: 'byName',
@@ -43,6 +44,7 @@ const mockUserList: EntitiesModel<B2BUser> = {
     {
       name: 'b1',
       uid: 'aaa@bbb',
+      customerId,
       selected: true,
       orgUnit: { uid: 'orgUid', name: 'orgName' },
       roles: [],
@@ -50,6 +52,7 @@ const mockUserList: EntitiesModel<B2BUser> = {
     {
       name: 'b2',
       uid: 'aaa2@bbb',
+      customerId: 'customerId2',
       selected: false,
       orgUnit: { uid: 'orgUid2', name: 'orgName2' },
       roles: [],
@@ -66,6 +69,7 @@ const mockUserUIList = {
       email: 'aaa@bbb',
       parentUnit: 'orgName',
       uid: 'orgUid',
+      customerId,
       roles: [],
     },
   ],
