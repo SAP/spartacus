@@ -1,14 +1,14 @@
 import { Component, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  PaymentTypeService,
   I18nTestingModule,
   PaymentType,
+  PaymentTypeService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CheckoutStepType } from '../../model/checkout-step.model';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { PaymentTypeComponent } from './payment-type.component';
-import { CheckoutStepType } from '../../model/checkout-step.model';
 
 import createSpy = jasmine.createSpy;
 
@@ -24,19 +24,22 @@ class MockPaymentTypeService {
   }
   setPaymentType(): void {}
   getSelectedPaymentType(): Observable<string> {
-    return of('ACCOUNT');
+    return selectedPaymentType$.asObservable();
   }
 }
 
 class MockCheckoutStepService {
   disableEnableStep = createSpy();
   resetSteps = createSpy();
+  goToStepWithIndex = createSpy();
 }
 
 const mockPaymentTypes: PaymentType[] = [
   { code: 'card', displayName: 'card' },
   { code: 'account', displayName: 'account' },
 ];
+
+const selectedPaymentType$ = new BehaviorSubject<string>('ACCOUNT');
 
 describe('PaymentTypeComponent', () => {
   let component: PaymentTypeComponent;
@@ -98,6 +101,18 @@ describe('PaymentTypeComponent', () => {
       CheckoutStepType.PAYMENT_DETAILS,
       true
     );
+  });
+
+  it('should go to checkout step 0 when payment type changes', () => {
+    let selected: string;
+    component.typeSelected$.subscribe((data) => {
+      selected = data;
+    });
+    expect(selected).toBe('ACCOUNT');
+    expect(checkoutStepService.goToStepWithIndex).not.toHaveBeenCalled();
+    selectedPaymentType$.next('CARD');
+    expect(selected).toBe('CARD');
+    expect(checkoutStepService.goToStepWithIndex).toHaveBeenCalledWith(0);
   });
 
   it('should set payment type when changeType is called', () => {

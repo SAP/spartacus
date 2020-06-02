@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RoutingService, RoutingConfigService } from '@spartacus/core';
+import { RoutingConfigService, RoutingService } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
@@ -55,6 +55,12 @@ export class CheckoutStepService {
   next(activatedRoute: ActivatedRoute): void {
     const nextUrl = this.getNextCheckoutStepUrl(activatedRoute);
     this.routingService.go(nextUrl);
+  }
+
+  goToStepWithIndex(stepIndex: number): void {
+    this.routingService.go(
+      this.getStepUrlFromStepRoute(this.allSteps[stepIndex].routeName)
+    );
   }
 
   getBackBntText(activatedRoute: ActivatedRoute): string {
