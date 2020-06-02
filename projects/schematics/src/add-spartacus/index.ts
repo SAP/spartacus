@@ -39,6 +39,7 @@ import {
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
 } from '../shared/utils/package-utils';
+import { parseCSV } from '../shared/utils/transform-utils';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 import { Schema as SpartacusOptions } from './schema';
 
@@ -142,20 +143,6 @@ function installPackageJsonDependencies(): Rule {
     context.logger.log('info', `🔍 Installing packages...`);
     return tree;
   };
-}
-
-function parseCSV(
-  raw: string | undefined,
-  defaultValues: string[] = []
-): string {
-  if (!raw) {
-    return defaultValues.map((x) => `'${x}'`).join(', ');
-  }
-
-  return raw
-    .split(',')
-    .map((x) => `'${x}'`)
-    .join(', ');
 }
 
 function prepareSiteContextConfig(options: SpartacusOptions): string {
