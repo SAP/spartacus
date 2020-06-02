@@ -29,12 +29,6 @@ import { PromotionService } from '../../../../shared/services/promotion/promotio
 })
 export class ReviewSubmitComponent {
   checkoutStepType = CheckoutStepType;
-
-  deliveryMode$: Observable<DeliveryMode>;
-  countryName$: Observable<string>;
-
-  paymentDetails$: Observable<PaymentDetails>;
-  orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   constructor(
@@ -63,6 +57,38 @@ export class ReviewSubmitComponent {
     return this.checkoutDeliveryService.getDeliveryAddress();
   }
 
+  get deliveryMode$(): Observable<DeliveryMode> {
+    return this.checkoutDeliveryService.getSelectedDeliveryMode().pipe(
+      tap((selected: DeliveryMode) => {
+        if (selected === null) {
+          this.checkoutDeliveryService.loadSupportedDeliveryModes();
+        }
+      })
+    );
+  }
+
+  get paymentDetails$(): Observable<PaymentDetails> {
+    return this.checkoutPaymentService.getPaymentDetails();
+  }
+
+  get orderPromotions$(): Observable<PromotionResult[]> {
+    return this.promotionService.getOrderPromotions(this.promotionLocation);
+  }
+
+  get countryName$(): Observable<string> {
+    return this.deliveryAddress$.pipe(
+      switchMap((address: Address) =>
+        this.userAddressService.getCountry(address?.country?.isocode)
+      ),
+      tap((country: Country) => {
+        if (country === null) {
+          this.userAddressService.loadDeliveryCountries();
+        }
+      }),
+      map((country: Country) => country && country.name)
+    );
+  }
+
   getShippingAddressCard(
     deliveryAddress: Address,
     countryName: string
@@ -72,11 +98,15 @@ export class ReviewSubmitComponent {
     ]).pipe(
       map(([textTitle]) => {
         if (!countryName) {
-          countryName = deliveryAddress.country.isocode;
+          countryName = deliveryAddress?.country?.isocode;
         }
 
         let region = '';
-        if (deliveryAddress.region && deliveryAddress.region.isocode) {
+        if (
+          deliveryAddress &&
+          deliveryAddress.region &&
+          deliveryAddress.region.isocode
+        ) {
           region = deliveryAddress.region.isocode + ', ';
         }
 
