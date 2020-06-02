@@ -73,7 +73,7 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Returns the menu parent group.
+   * Returns the parent group of the subgroup that is displayed in the group menu.
    *
    * @param owner - Configuration owner
    */
@@ -99,7 +99,7 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Determine the menu parent group by the group ID.
+   * Determines the parent group of the subgroup, specified by the group ID, that is displayed in the group menu.
    *
    * @param owner - Configuration owner
    * @param groupId - Group ID
@@ -109,7 +109,7 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Returns a current group.
+   * Returns the group that is currently visited.
    *
    * @param owner - Configuration owner
    */
@@ -136,7 +136,7 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Navigates to the group by the group ID.
+   * Navigates to the group, specified by its group ID.
    *
    * @param configuration - Configuration
    * @param groupId - Group ID
@@ -175,7 +175,8 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Determine the current group.
+   * Determines the current group.
+   * If nothing has been visited so far, the first group is chosen.
    *
    * @param owner - Configuration owner
    * @param groupId - Group ID
@@ -185,7 +186,7 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Returns a next group ID.
+   * Returns the group ID of the group that is coming after the current one in a sequential order.
    *
    * @param owner - Configuration owner
    */
@@ -216,7 +217,7 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Returns a previous group ID.
+   * Returns the group ID of the group that is preceding the current one in a sequential order.
    *
    * @param owner - Configuration owner
    */
