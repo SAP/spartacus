@@ -61,17 +61,6 @@ ng lint
 
 echo "-----"
 echo "Validating code formatting (using prettier)"
-
-# perform cleanup of *.js files
-pushd projects/schematics
-yarn
-yarn clean
-popd
-pushd projects/dev-schematics
-yarn
-yarn clean
-popd
-
 yarn prettier 2>&1 |  tee prettier.log
 results=$(tail -1 prettier.log | grep projects || true)
 if [[ -z "$results" ]]; then
