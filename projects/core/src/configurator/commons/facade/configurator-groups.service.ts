@@ -23,7 +23,14 @@ export class ConfiguratorGroupsService {
     private configuratorGroupStatusService: ConfiguratorGroupStatusService
   ) {}
 
-  public subscribeToUpdateConfiguration(owner: GenericConfigurator.Owner): void {
+  /**
+   * Subscribe to update the configuration by the given owner.
+   *
+   * @param owner - Configuration owner
+   */
+  public subscribeToUpdateConfiguration(
+    owner: GenericConfigurator.Owner
+  ): void {
     // TODO: Cancel previous subscriptions of the configuration state
     // Set Group Status on each update of the configuration state
     // This will be called every time something in the configuration is changed, prices,
@@ -65,6 +72,11 @@ export class ConfiguratorGroupsService {
     );
   }
 
+  /**
+   * Returns the menu parent group.
+   *
+   * @param owner - Configuration owner
+   */
   public getMenuParentGroup(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
@@ -86,10 +98,21 @@ export class ConfiguratorGroupsService {
     );
   }
 
+  /**
+   * Determine the menu parent group by the group ID.
+   *
+   * @param owner - Configuration owner
+   * @param groupId - Group ID
+   */
   public setMenuParentGroup(owner: GenericConfigurator.Owner, groupId: string) {
     this.store.dispatch(new UiActions.SetMenuParentGroup(owner.key, groupId));
   }
 
+  /**
+   * Returns a current group.
+   *
+   * @param owner - Configuration owner
+   */
   public getCurrentGroup(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
@@ -112,7 +135,16 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  public navigateToGroup(configuration: Configurator.Configuration, groupId: string) {
+  /**
+   * Navigates to the group by the group ID.
+   *
+   * @param configuration - Configuration
+   * @param groupId - Group ID
+   */
+  public navigateToGroup(
+    configuration: Configurator.Configuration,
+    groupId: string
+  ) {
     //Set Group status for current group
     this.getCurrentGroup(configuration.owner)
       .pipe(take(1))
@@ -142,10 +174,21 @@ export class ConfiguratorGroupsService {
     );
   }
 
+  /**
+   * Determine the current group.
+   *
+   * @param owner - Configuration owner
+   * @param groupId - Group ID
+   */
   public setCurrentGroup(owner: GenericConfigurator.Owner, groupId: string) {
     this.store.dispatch(new UiActions.SetCurrentGroup(owner.key, groupId));
   }
 
+  /**
+   * Returns a next group ID.
+   *
+   * @param owner - Configuration owner
+   */
   public getNextGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.getCurrentGroupId(owner).pipe(
       switchMap((currentGroupId) => {
@@ -172,7 +215,14 @@ export class ConfiguratorGroupsService {
     );
   }
 
-  public getPreviousGroupId(owner: GenericConfigurator.Owner): Observable<string> {
+  /**
+   * Returns a previous group ID.
+   *
+   * @param owner - Configuration owner
+   */
+  public getPreviousGroupId(
+    owner: GenericConfigurator.Owner
+  ): Observable<string> {
     return this.getCurrentGroupId(owner).pipe(
       switchMap((currentGroupId) => {
         if (!currentGroupId) {
@@ -198,6 +248,12 @@ export class ConfiguratorGroupsService {
     );
   }
 
+  /**
+   * Verifies whether the group has been visited
+   *
+   * @param owner - Configuration owner
+   * @param groupId - Group ID
+   */
   public isGroupVisited(
     owner: GenericConfigurator.Owner,
     groupId: string
@@ -205,6 +261,12 @@ export class ConfiguratorGroupsService {
     return this.configuratorGroupStatusService.isGroupVisited(owner, groupId);
   }
 
+  /**
+   * Returns a group status for the given group ID.
+   *
+   * @param owner - Configuration owner
+   * @param groupId - Group ID
+   */
   public getGroupStatus(
     owner: GenericConfigurator.Owner,
     groupId: string
@@ -212,6 +274,13 @@ export class ConfiguratorGroupsService {
     return this.configuratorGroupStatusService.getGroupStatus(owner, groupId);
   }
 
+  /**
+   * Returns a parent group for the given group.
+   *
+   * @param groups - List of groups
+   * @param group - Given group
+   * @param parentGroup - Parent group
+   */
   public getParentGroup(
     groups: Configurator.Group[],
     group: Configurator.Group,
@@ -224,6 +293,11 @@ export class ConfiguratorGroupsService {
     );
   }
 
+  /**
+   * Verifies whether the given group has a parent.
+   *
+   * @param group - Given group
+   */
   public hasSubGroups(group: Configurator.Group): boolean {
     return this.configuratorGroupUtilsService.hasSubGroups(group);
   }

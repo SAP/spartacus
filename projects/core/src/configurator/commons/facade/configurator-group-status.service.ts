@@ -24,6 +24,12 @@ export class ConfiguratorGroupStatusService {
     return this.store.select(UiSelectors.isGroupVisited(owner.key, groupId));
   }
 
+  /**
+   * Returns the group status by the group ID.
+   *
+   * @param owner - Configuration owner
+   * @param groupId - Group ID
+   */
   public getGroupStatus(
     owner: GenericConfigurator.Owner,
     groupId: string
@@ -131,6 +137,13 @@ export class ConfiguratorGroupStatusService {
       });
   }
 
+  /**
+   * Determines the group status by the group ID and the switcher that defines whether the group has been visited or not.
+   *
+   * @param configuration - Configuration
+   * @param groupId - Group ID
+   * @param setGroupVisited - Determines whether the group has to be set as visited or not
+   */
   public setGroupStatus(
     configuration: Configurator.Configuration,
     groupId: string,

@@ -23,7 +23,9 @@ export class ConfiguratorCommonsService {
     protected activeCartService: ActiveCartService
   ) {}
 
-  public hasPendingChanges(owner: GenericConfigurator.Owner): Observable<Boolean> {
+  public hasPendingChanges(
+    owner: GenericConfigurator.Owner
+  ): Observable<Boolean> {
     return this.store.pipe(
       select(ConfiguratorSelectors.hasPendingChanges(owner.key))
     );
@@ -127,7 +129,9 @@ export class ConfiguratorCommonsService {
       });
   }
 
-  public getConfigurationWithOverview(configuration: Configurator.Configuration) {
+  public getConfigurationWithOverview(
+    configuration: Configurator.Configuration
+  ) {
     this.store.dispatch(
       new ConfiguratorActions.GetConfigurationOverview(configuration)
     );
@@ -139,7 +143,9 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  public getOrCreateUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
+  public getOrCreateUiState(
+    owner: GenericConfigurator.Owner
+  ): Observable<UiState> {
     return this.store.pipe(
       select(UiSelectors.getUiStateForOwner(owner.key)),
       tap((uiState) => {
