@@ -8,9 +8,13 @@ import { GenericConfigurator, OrderEntry } from '@spartacus/core';
 })
 export class ConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
+  @Input() readOnly: boolean;
 
-  ownerTypeCartEntry: GenericConfigurator.OwnerType =
-    GenericConfigurator.OwnerType.CART_ENTRY;
+  public getOwnerType(): GenericConfigurator.OwnerType {
+    return this.readOnly
+      ? GenericConfigurator.OwnerType.ORDER_ENTRY
+      : GenericConfigurator.OwnerType.CART_ENTRY;
+  }
 
   constructor() {}
 }

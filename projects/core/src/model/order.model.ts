@@ -1,5 +1,3 @@
-import { Price, Product } from './product.model';
-import { PaginationModel, SortModel } from './misc.model';
 import { Address } from './address.model';
 import {
   DeliveryOrderEntryGroup,
@@ -8,7 +6,9 @@ import {
   PromotionResult,
   Voucher,
 } from './cart.model';
+import { PaginationModel, SortModel } from './misc.model';
 import { PointOfService } from './point-of-service.model';
+import { Price, Product } from './product.model';
 
 export interface DeliveryMode {
   code?: string;
@@ -18,6 +18,7 @@ export interface DeliveryMode {
 }
 
 export interface OrderEntry {
+  orderCode?: string;
   basePrice?: Price;
   deliveryMode?: DeliveryMode;
   deliveryPointOfService?: PointOfService;

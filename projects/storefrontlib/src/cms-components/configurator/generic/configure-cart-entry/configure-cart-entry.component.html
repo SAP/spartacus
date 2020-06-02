@@ -4,7 +4,7 @@
       {
         cxRoute: 'configure' + cartEntry.product.configuratorType,
         params: {
-          ownerType: ownerTypeCartEntry,
+          ownerType: getOwnerType(),
           entityKey: cartEntry.entryNumber
         }
       } | cxUrl
