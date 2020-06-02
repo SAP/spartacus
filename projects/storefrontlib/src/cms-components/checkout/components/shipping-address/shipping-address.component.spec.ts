@@ -10,6 +10,7 @@ import {
   RoutingService,
   UserAddressService,
 } from '@spartacus/core';
+import { LoaderState } from 'projects/core/src/state/utils/loader';
 import { Observable, of } from 'rxjs';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
@@ -37,6 +38,9 @@ class MockCheckoutDeliveryService {
   setDeliveryAddress = createSpy();
   getDeliveryAddress(): Observable<Address> {
     return of(null);
+  }
+  getLoadSupportedDeliveryModeProcess(): Observable<LoaderState<void>> {
+    return of({ loading: false });
   }
 }
 
