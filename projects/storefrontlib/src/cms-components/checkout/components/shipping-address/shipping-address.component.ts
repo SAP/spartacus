@@ -27,7 +27,7 @@ export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable<Address[]>;
   newAddressFormManuallyOpened = false;
   isLoading$: Observable<boolean>;
-  changeSelectedAddressLoaderState$: Observable<LoaderState<void>>;
+  changeSelectedAddressLoaderState$: Observable<any>;
   cards$: Observable<CardWithAddress[]>;
   selectedAddress$: Observable<Address>;
   forceLoader = false; // this helps with smoother steps transition
