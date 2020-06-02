@@ -15,6 +15,10 @@ export class GenericConfigUtilsService {
       if (!owner.id) {
         throw new Error('We expect a document entry Id!');
       }
+    } else if (owner.type === GenericConfigurator.OwnerType.ORDER_ENTRY) {
+      if (!owner.id) {
+        throw new Error('We expect a document entry Id!');
+      }
     } else {
       throw new Error('We expect an owner type!');
     }

@@ -2,7 +2,7 @@
   <a
     [routerLink]="
       {
-        cxRoute: 'configure' + cartEntry.product.configuratorType,
+        cxRoute: getRoute(),
         params: {
           ownerType: getOwnerType(),
           entityKey: getEntityKey()
