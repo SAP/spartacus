@@ -31,6 +31,7 @@ export class ShippingAddressComponent implements OnInit {
   addressFormOpened = false;
   forceLoader = false; // this helps with smoother steps transition
   selectedAddress: Address;
+  autoSelect = false;
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -125,6 +126,7 @@ export class ShippingAddressComponent implements OnInit {
     selected: Address
   ) {
     if (
+      !this.autoSelect &&
       addresses &&
       addresses.length &&
       (!selected || Object.keys(selected).length === 0)
@@ -139,6 +141,7 @@ export class ShippingAddressComponent implements OnInit {
         this.selectAddress(selected);
       }
     }
+    this.autoSelect = true;
   }
 
   ngOnInit(): void {
@@ -180,6 +183,7 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   selectAddress(address: Address): void {
+    console.log('select delivery address');
     this.checkoutDeliveryService.setDeliveryAddress(address);
   }
 
