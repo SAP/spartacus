@@ -16,6 +16,8 @@
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
+    "@angular/cli": "~9.1.7",
+    "@angular/compiler-cli": "~9.1.7",
     "@angular-devkit/core": "^9.1.7",
     "@angular-devkit/schematics": "^9.1.7",
     "@schematics/angular": "^9.1.7",
