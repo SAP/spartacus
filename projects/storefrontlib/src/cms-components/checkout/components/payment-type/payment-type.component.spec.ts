@@ -1,6 +1,5 @@
 import { Component, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
 import {
   I18nTestingModule,
   PaymentType,
@@ -28,12 +27,6 @@ class MockPaymentTypeService {
     return selectedPaymentType$.asObservable();
   }
 }
-
-const mockActivatedRoute = {
-  snapshot: {
-    url: ['checkout', 'payment-type'],
-  },
-};
 
 class MockCheckoutStepService {
   disableEnableStep = createSpy();
@@ -68,7 +61,6 @@ describe('PaymentTypeComponent', () => {
           provide: CheckoutStepService,
           useClass: MockCheckoutStepService,
         },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
     }).compileComponents();
 
@@ -120,10 +112,7 @@ describe('PaymentTypeComponent', () => {
     expect(checkoutStepService.goToStepWithIndex).not.toHaveBeenCalled();
     selectedPaymentType$.next('CARD');
     expect(selected).toBe('CARD');
-    expect(checkoutStepService.goToStepWithIndex).toHaveBeenCalledWith(
-      0,
-      <any>mockActivatedRoute
-    );
+    expect(checkoutStepService.goToStepWithIndex).toHaveBeenCalledWith(0);
   });
 
   it('should set payment type when changeType is called', () => {

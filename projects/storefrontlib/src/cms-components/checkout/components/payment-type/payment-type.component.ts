@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { PaymentType, PaymentTypeService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, scan, tap } from 'rxjs/operators';
@@ -34,7 +33,7 @@ export class PaymentTypeComponent {
     }),
     scan((previous, current) => {
       if (previous !== undefined) {
-        this.checkoutStepService.goToStepWithIndex(0, this.activatedRoute);
+        this.checkoutStepService.goToStepWithIndex(0);
       }
       return current;
     }, undefined)
@@ -42,8 +41,7 @@ export class PaymentTypeComponent {
 
   constructor(
     protected paymentTypeService: PaymentTypeService,
-    protected checkoutStepService: CheckoutStepService,
-    protected activatedRoute: ActivatedRoute
+    protected checkoutStepService: CheckoutStepService
   ) {}
 
   changeType(code: string): void {
