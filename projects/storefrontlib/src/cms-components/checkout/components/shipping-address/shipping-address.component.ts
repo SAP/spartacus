@@ -8,9 +8,9 @@ import {
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
-import { LoaderState } from 'projects/core/src/state/utils/loader';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
+import { LoaderState } from '../../../../../../core/src/state/utils/loader';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 
