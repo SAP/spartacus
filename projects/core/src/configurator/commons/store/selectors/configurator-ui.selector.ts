@@ -65,7 +65,6 @@ export const areGroupsVisited = (
       }
 
       isVisited = StateUtils.entitySelector(details.groupsVisited, groupId);
-
       if (isVisited === undefined) {
         isVisited = false;
       }

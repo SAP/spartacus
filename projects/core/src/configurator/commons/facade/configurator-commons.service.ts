@@ -23,13 +23,15 @@ export class ConfiguratorCommonsService {
     protected activeCartService: ActiveCartService
   ) {}
 
-  hasPendingChanges(owner: GenericConfigurator.Owner): Observable<Boolean> {
+  public hasPendingChanges(
+    owner: GenericConfigurator.Owner
+  ): Observable<Boolean> {
     return this.store.pipe(
       select(ConfiguratorSelectors.hasPendingChanges(owner.key))
     );
   }
 
-  configurationIsLoading(
+  public configurationIsLoading(
     owner: GenericConfigurator.Owner
   ): Observable<Boolean> {
     return this.store.pipe(
@@ -42,7 +44,7 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  getConfiguration(
+  public getConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
@@ -51,7 +53,7 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  getOrCreateConfiguration(
+  public getOrCreateConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     const localOwner: GenericConfigurator.Owner = {
@@ -88,7 +90,7 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  readConfigurationForCartEntry(owner: GenericConfigurator.Owner) {
+  public readConfigurationForCartEntry(owner: GenericConfigurator.Owner) {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const readFromCartEntryParameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
         userId: this.getUserId(cartState.value),
@@ -104,7 +106,7 @@ export class ConfiguratorCommonsService {
     });
   }
 
-  updateConfiguration(
+  public updateConfiguration(
     ownerKey: string,
     groupId: string,
     changedAttribute: Configurator.Attribute
@@ -127,7 +129,9 @@ export class ConfiguratorCommonsService {
       });
   }
 
-  getConfigurationWithOverview(configuration: Configurator.Configuration) {
+  public getConfigurationWithOverview(
+    configuration: Configurator.Configuration
+  ) {
     this.store.dispatch(
       new ConfiguratorActions.GetConfigurationOverview(configuration)
     );
@@ -139,7 +143,9 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  getOrCreateUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
+  public getOrCreateUiState(
+    owner: GenericConfigurator.Owner
+  ): Observable<UiState> {
     return this.store.pipe(
       select(UiSelectors.getUiStateForOwner(owner.key)),
       tap((uiState) => {
@@ -151,28 +157,28 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  getUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
+  public getUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
     return this.store.pipe(
       select(UiSelectors.getUiStateForOwner(owner.key)),
       filter((uiState) => this.isUiStateCreated(uiState))
     );
   }
 
-  setUiState(owner: GenericConfigurator.Owner, state: UiState) {
+  public setUiState(owner: GenericConfigurator.Owner, state: UiState) {
     this.store.dispatch(new UiActions.SetUiState(owner.key, state));
   }
 
-  removeUiState(owner: GenericConfigurator.Owner) {
+  public removeUiState(owner: GenericConfigurator.Owner) {
     this.store.dispatch(new UiActions.RemoveUiState(owner.key));
   }
 
-  removeConfiguration(owner: GenericConfigurator.Owner) {
+  public removeConfiguration(owner: GenericConfigurator.Owner) {
     this.store.dispatch(
       new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
     );
   }
 
-  addToCart(productCode: string, configId: string, ownerKey: string) {
+  public addToCart(productCode: string, configId: string, ownerKey: string) {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const addToCartParameters: Configurator.AddToCartParameters = {
         userId: this.getUserId(cartState.value),
@@ -188,7 +194,7 @@ export class ConfiguratorCommonsService {
     });
   }
 
-  updateCartEntry(configuration: Configurator.Configuration) {
+  public updateCartEntry(configuration: Configurator.Configuration) {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
         userId: this.getUserId(cartState.value),
