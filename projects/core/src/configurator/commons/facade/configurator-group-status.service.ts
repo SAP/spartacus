@@ -17,6 +17,12 @@ export class ConfiguratorGroupStatusService {
     private configuratorGroupUtilsService: ConfiguratorGroupUtilsService
   ) {}
 
+  /**
+   * Verifies whether the group has been visited.
+   *
+   * @param owner - Configuration owner
+   * @param groupId - Group ID
+   */
   public isGroupVisited(
     owner: GenericConfigurator.Owner,
     groupId: string

@@ -20,10 +20,11 @@ import {
 class MockActiveCartService {}
 
 describe('ConfiguratorGroupsService', () => {
-  let serviceUnderTest: ConfiguratorGroupsService;
+  let classUnderTest: ConfiguratorGroupsService;
   let store: Store<StateWithConfiguration>;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configGroupStatusService: ConfiguratorGroupStatusService;
+  let configGroupUtilsService: ConfiguratorGroupUtilsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -41,7 +42,7 @@ describe('ConfiguratorGroupsService', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    serviceUnderTest = TestBed.inject(
+    classUnderTest = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
     store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
@@ -51,19 +52,26 @@ describe('ConfiguratorGroupsService', () => {
     configGroupStatusService = TestBed.inject(
       ConfiguratorGroupStatusService as Type<ConfiguratorGroupStatusService>
     );
+    configGroupUtilsService = TestBed.inject(
+      ConfiguratorGroupUtilsService as Type<ConfiguratorGroupUtilsService>
+    );
 
     spyOn(store, 'dispatch').and.stub();
     spyOn(store, 'pipe').and.returnValue(of(uiState));
 
     spyOn(configuratorCommonsService, 'setUiState').and.stub();
     spyOn(configGroupStatusService, 'setGroupStatus').and.callThrough();
+    spyOn(configGroupStatusService, 'getGroupStatus').and.callThrough();
+    spyOn(configGroupStatusService, 'isGroupVisited').and.callThrough();
+    spyOn(configGroupUtilsService, 'getParentGroup').and.callThrough();
+    spyOn(configGroupUtilsService, 'hasSubGroups').and.callThrough();
   });
 
   it('should create service', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)
     );
-    expect(serviceUnderTest).toBeDefined();
+    expect(classUnderTest).toBeDefined();
   });
 
   describe('getCurrentGroupId', () => {
@@ -74,7 +82,7 @@ describe('ConfiguratorGroupsService', () => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(productConfiguration)
       );
-      const currentGroup = serviceUnderTest.getCurrentGroupId(
+      const currentGroup = classUnderTest.getCurrentGroupId(
         productConfiguration.owner
       );
 
@@ -89,7 +97,7 @@ describe('ConfiguratorGroupsService', () => {
         of(productConfiguration)
       );
       spyOn(configuratorCommonsService, 'getUiState').and.returnValue(of(null));
-      const currentGroup = serviceUnderTest.getCurrentGroupId(
+      const currentGroup = classUnderTest.getCurrentGroupId(
         productConfiguration.owner
       );
 
@@ -107,7 +115,7 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
       of(uiState)
     );
-    const parentGroup = serviceUnderTest.getMenuParentGroup(
+    const parentGroup = classUnderTest.getMenuParentGroup(
       productConfiguration.owner
     );
 
@@ -125,7 +133,7 @@ describe('ConfiguratorGroupsService', () => {
       spyOn(configuratorCommonsService, 'getUiState').and.returnValue(
         of(uiState)
       );
-      const currentGroup = serviceUnderTest.getNextGroupId(
+      const currentGroup = classUnderTest.getNextGroupId(
         productConfiguration.owner
       );
 
@@ -144,7 +152,7 @@ describe('ConfiguratorGroupsService', () => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(undefined)
       );
-      const currentGroup = serviceUnderTest.getPreviousGroupId(
+      const currentGroup = classUnderTest.getPreviousGroupId(
         productConfiguration.owner
       );
 
@@ -161,7 +169,7 @@ describe('ConfiguratorGroupsService', () => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(productConfiguration)
       );
-      const currentGroup = serviceUnderTest.getPreviousGroupId(
+      const currentGroup = classUnderTest.getPreviousGroupId(
         productConfiguration.owner
       );
 
@@ -176,7 +184,7 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)
     );
-    serviceUnderTest.setCurrentGroup(productConfiguration.owner, GROUP_ID_1);
+    classUnderTest.setCurrentGroup(productConfiguration.owner, GROUP_ID_1);
     const expectedAction = new UiActions.SetCurrentGroup(
       productConfiguration.owner.key,
       GROUP_ID_1
@@ -188,7 +196,7 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)
     );
-    serviceUnderTest.setMenuParentGroup(productConfiguration.owner, GROUP_ID_1);
+    classUnderTest.setMenuParentGroup(productConfiguration.owner, GROUP_ID_1);
     const expectedAction = new UiActions.SetMenuParentGroup(
       productConfiguration.owner.key,
       GROUP_ID_1
@@ -200,11 +208,51 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)
     );
-    serviceUnderTest.navigateToGroup(
+    classUnderTest.navigateToGroup(
       productConfiguration,
       productConfiguration.groups[2].id
     );
 
     expect(configGroupStatusService.setGroupStatus).toHaveBeenCalled();
+  });
+
+  it('should check whether isGroupVisited has been called by the configuration group utils service', () => {
+    classUnderTest.isGroupVisited(productConfiguration.owner, GROUP_ID_4);
+    expect(configGroupStatusService.isGroupVisited).toHaveBeenCalledWith(
+      productConfiguration.owner,
+      GROUP_ID_4
+    );
+    expect(configGroupStatusService.isGroupVisited).toHaveBeenCalled();
+  });
+
+  it('should check whether getGroupStatus has been called by the configuration group utils service', () => {
+    classUnderTest.getGroupStatus(productConfiguration.owner, GROUP_ID_4);
+    expect(configGroupStatusService.getGroupStatus).toHaveBeenCalledWith(
+      productConfiguration.owner,
+      GROUP_ID_4
+    );
+    expect(configGroupStatusService.getGroupStatus).toHaveBeenCalled();
+  });
+
+  it('should check whether getParentGroup has been called by the configuration group utils service', () => {
+    classUnderTest.getParentGroup(
+      productConfiguration.groups,
+      productConfiguration.groups[2].subGroups[0],
+      null
+    );
+    expect(configGroupUtilsService.getParentGroup).toHaveBeenCalledWith(
+      productConfiguration.groups,
+      productConfiguration.groups[2].subGroups[0],
+      null
+    );
+    expect(configGroupUtilsService.getParentGroup).toHaveBeenCalled();
+  });
+
+  it('should check whether hasSubGroups has been called by the configuration group utils service', () => {
+    classUnderTest.hasSubGroups(productConfiguration.groups[2]);
+    expect(configGroupUtilsService.hasSubGroups).toHaveBeenCalledWith(
+      productConfiguration.groups[2]
+    );
+    expect(configGroupUtilsService.hasSubGroups).toHaveBeenCalled();
   });
 });
