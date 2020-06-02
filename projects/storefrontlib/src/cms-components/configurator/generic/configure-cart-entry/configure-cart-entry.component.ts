@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { GenericConfigurator, OrderEntry } from '@spartacus/core';
+import {
+  GenericConfigurator,
+  GenericConfigUtilsService,
+  OrderEntry,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-configure-cart-entry',
@@ -17,7 +21,12 @@ export class ConfigureCartEntryComponent {
   }
 
   public getEntityKey(): string {
-    return '' + this.cartEntry.entryNumber;
+    return this.readOnly
+      ? this.genericConfigUtilsService.getComposedOwnerId(
+          this.cartEntry.orderCode,
+          this.cartEntry.entryNumber
+        )
+      : '' + this.cartEntry.entryNumber;
   }
 
   public getRoute(): string {
@@ -27,5 +36,5 @@ export class ConfigureCartEntryComponent {
       : 'configure' + configuratorType;
   }
 
-  constructor() {}
+  constructor(private genericConfigUtilsService: GenericConfigUtilsService) {}
 }

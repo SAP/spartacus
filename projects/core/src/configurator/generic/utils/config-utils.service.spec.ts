@@ -4,6 +4,8 @@ import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { GenericConfigUtilsService } from './config-utils.service';
 
 const productCode = 'CONF_LAPTOP';
+const documentId = '12344';
+const entryNumber = 4;
 let owner: GenericConfigurator.Owner = null;
 
 describe('GenericConfigUtilsService', () => {
@@ -60,6 +62,26 @@ describe('GenericConfigUtilsService', () => {
     owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
     expect(function () {
       serviceUnderTest.setOwnerKey(owner);
+    }).toThrow();
+  });
+
+  it('should compose an owner ID from 2 attributes', () => {
+    expect(serviceUnderTest.getComposedOwnerId(documentId, entryNumber)).toBe(
+      documentId + '+' + entryNumber
+    );
+  });
+
+  it('should decompose an owner ID properly', () => {
+    const decompose = serviceUnderTest.decomposeOwnerId(
+      serviceUnderTest.getComposedOwnerId(documentId, entryNumber)
+    );
+    expect(decompose.documentId).toBe(documentId);
+    expect(decompose.entryNumber).toBe('' + entryNumber);
+  });
+
+  it('should throw an error in case ownerId is malformed', () => {
+    expect(function () {
+      serviceUnderTest.decomposeOwnerId(documentId);
     }).toThrow();
   });
 });

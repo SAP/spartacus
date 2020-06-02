@@ -10,6 +10,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
 } from '../../../occ/utils/occ-constants';
+import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
 import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration, UiState } from '../store/configuration-state';
@@ -20,7 +21,8 @@ import * as ConfiguratorSelectors from '../store/selectors/configurator.selector
 export class ConfiguratorCommonsService {
   constructor(
     protected store: Store<StateWithConfiguration>,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected genericConfigUtilsService: GenericConfigUtilsService
   ) {}
 
   public hasPendingChanges(
@@ -77,9 +79,11 @@ export class ConfiguratorCommonsService {
             this.store.dispatch(
               new ConfiguratorActions.CreateConfiguration(owner)
             );
-          } else {
+          } else if (owner.type === GenericConfigurator.OwnerType.CART_ENTRY) {
             localOwner.hasObsoleteState = false;
             this.readConfigurationForCartEntry(owner);
+          } else {
+            this.readConfigurationForOrderEntry(owner);
           }
         }
       }),
@@ -87,6 +91,23 @@ export class ConfiguratorCommonsService {
         this.isConfigurationCreated(configurationState.value)
       ),
       map((configurationState) => configurationState.value)
+    );
+  }
+
+  public readConfigurationForOrderEntry(owner: GenericConfigurator.Owner) {
+    const ownerIdParts = this.genericConfigUtilsService.decomposeOwnerId(
+      owner.id
+    );
+    const readFromOrderEntryParameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters = {
+      userId: OCC_USER_ID_CURRENT,
+      orderId: ownerIdParts.documentId,
+      orderEntryNumber: ownerIdParts.entryNumber,
+      owner: owner,
+    };
+    this.store.dispatch(
+      new ConfiguratorActions.ReadOrderEntryConfiguration(
+        readFromOrderEntryParameters
+      )
     );
   }
 
