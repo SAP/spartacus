@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   Address,
   Cart,
@@ -13,6 +13,8 @@ import {
   UserAddressService,
   PromotionResult,
   PromotionLocation,
+  PaymentTypeService,
+  CheckoutCostCenterService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
@@ -38,7 +40,9 @@ export class ReviewSubmitComponent {
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
     protected checkoutStepService: CheckoutStepService,
-    protected promotionService: PromotionService
+    protected promotionService: PromotionService,
+    protected paymentTypeService: PaymentTypeService,
+    protected checkoutCostCenterService: CheckoutCostCenterService
   ) {}
 
   get cart$(): Observable<Cart> {
@@ -87,6 +91,14 @@ export class ReviewSubmitComponent {
       }),
       map((country: Country) => country && country.name)
     );
+  }
+
+  get poNumber$(): Observable<string> {
+    return this.paymentTypeService.getPoNumber();
+  }
+
+  get costCenter$(): Observable<string> {
+    return this.checkoutCostCenterService.getCostCenter();
   }
 
   getShippingAddressCard(
@@ -152,6 +164,20 @@ export class ReviewSubmitComponent {
           title: textTitle,
           textBold: paymentDetails.accountHolderName,
           text: [paymentDetails.cardNumber, textExpires],
+        };
+      })
+    );
+  }
+
+  getPoNumberCard(poNumber: string, costCenter: string): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('checkoutProgress.poNumber'),
+    ]).pipe(
+      map(([textTitle]) => {
+        return {
+          title: textTitle,
+          textBold: poNumber,
+          text: [costCenter ? 'cost center: ' + costCenter : ''],
         };
       })
     );
