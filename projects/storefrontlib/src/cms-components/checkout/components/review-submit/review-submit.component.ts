@@ -16,6 +16,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { CheckoutStep } from '../../model/checkout-step.model';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutStepType } from '../../model/index';
 import { CheckoutStepService } from '../../services/index';
@@ -26,13 +27,12 @@ import { PromotionService } from '../../../../shared/services/promotion/promotio
   templateUrl: './review-submit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReviewSubmitComponent implements OnInit {
+export class ReviewSubmitComponent {
   checkoutStepType = CheckoutStepType;
-  entries$: Observable<OrderEntry[]>;
-  cart$: Observable<Cart>;
+
   deliveryMode$: Observable<DeliveryMode>;
   countryName$: Observable<string>;
-  deliveryAddress$: Observable<Address>;
+
   paymentDetails$: Observable<PaymentDetails>;
   orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
@@ -47,36 +47,20 @@ export class ReviewSubmitComponent implements OnInit {
     protected promotionService: PromotionService
   ) {}
 
-  ngOnInit() {
-    this.cart$ = this.activeCartService.getActive();
-    this.entries$ = this.activeCartService.getEntries();
-    this.deliveryAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
-    this.paymentDetails$ = this.checkoutPaymentService.getPaymentDetails();
-    this.orderPromotions$ = this.promotionService.getOrderPromotions(
-      this.promotionLocation
-    );
+  get cart$(): Observable<Cart> {
+    return this.activeCartService.getActive();
+  }
 
-    this.deliveryMode$ = this.checkoutDeliveryService
-      .getSelectedDeliveryMode()
-      .pipe(
-        tap((selected: DeliveryMode) => {
-          if (selected === null) {
-            this.checkoutDeliveryService.loadSupportedDeliveryModes();
-          }
-        })
-      );
+  get entries$(): Observable<OrderEntry[]> {
+    return this.activeCartService.getEntries();
+  }
 
-    this.countryName$ = this.deliveryAddress$.pipe(
-      switchMap((address: Address) =>
-        this.userAddressService.getCountry(address.country.isocode)
-      ),
-      tap((country: Country) => {
-        if (country === null) {
-          this.userAddressService.loadDeliveryCountries();
-        }
-      }),
-      map((country: Country) => country && country.name)
-    );
+  get steps$(): Observable<CheckoutStep[]> {
+    return this.checkoutStepService.steps$;
+  }
+
+  get deliveryAddress$(): Observable<Address> {
+    return this.checkoutDeliveryService.getDeliveryAddress();
   }
 
   getShippingAddressCard(

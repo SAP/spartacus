@@ -3,74 +3,43 @@
   <h3 class="cx-review-title d-none d-lg-block d-xl-block">
     {{ 'checkoutReview.review' | cxTranslate }}
   </h3>
+
   <div class="cx-review-summary row">
-    <!-- SHIPPING ADDRESS SECTION -->
-    <div class="col-md-12 col-lg-6 col-xl-4">
-      <div class="cx-review-summary-wrapper">
-        <div class="cx-review-summary-card cx-review-card-address">
-          <cx-card
-            [content]="
-              getShippingAddressCard(
-                deliveryAddress$ | async,
-                countryName$ | async
-              ) | async
-            "
-          ></cx-card>
-        </div>
-        <div *cxFeatureLevel="'1.1'" class="cx-review-summary-edit-step">
-          <a
-            [routerLink]="
-              {
-                cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)
-              } | cxUrl
-            "
-            >{{ 'checkoutReview.editShippingAddress' | cxTranslate }}</a
-          >
-        </div>
-      </div>
-    </div>
-
-    <!-- DELIVERY MODE SECTION -->
-    <div class="col-md-12 col-lg-6 col-xl-4">
-      <div class="cx-review-summary-wrapper">
-        <div class="cx-review-summary-card cx-review-card-shipping">
-          <cx-card
-            *ngIf="deliveryMode$ | async as deliveryMode"
-            [content]="getDeliveryModeCard(deliveryMode) | async"
-          ></cx-card>
-        </div>
-        <div *cxFeatureLevel="'1.1'" class="cx-review-summary-edit-step">
-          <a
-            [routerLink]="
-              { cxRoute: getCheckoutStepUrl(checkoutStepType.DELIVERY_MODE) }
-                | cxUrl
-            "
-            >{{ 'checkoutReview.editShippingMethod' | cxTranslate }}</a
-          >
-        </div>
-      </div>
-    </div>
-
-    <!-- PAYMENT METHOD SECTION -->
-    <div class="col-md-12 col-lg-6 col-xl-4">
-      <div class="cx-review-summary-wrapper">
-        <div class="cx-review-summary-card cx-review-card-payment">
-          <cx-card
-            [content]="getPaymentMethodCard(paymentDetails$ | async) | async"
-          ></cx-card>
-        </div>
-        <div *cxFeatureLevel="'1.1'" class="cx-review-summary-edit-step">
-          <a
-            [routerLink]="
-              { cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_DETAILS) }
-                | cxUrl
-            "
-            >{{ 'checkoutReview.editPaymentMethod' | cxTranslate }}</a
-          >
-        </div>
+    <div
+      class="col-md-12 col-lg-6 col-xl-4"
+      *ngFor="let step of (steps$ | async).slice(0, -1)"
+    >
+      <div class="cx-review-summary-wrapper" [ngSwitch]="step.type[0]">
+        <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
+          <div *ngTemplateOutlet="shippingAddress"></div>
+        </ng-container>
       </div>
     </div>
   </div>
+
+  <!-- SHIPPING ADDRESS SECTION -->
+  <ng-template #shippingAddress>
+    <div class="cx-review-summary-card cx-review-card-address">
+      <cx-card
+        [content]="
+          getShippingAddressCard(
+            deliveryAddress$ | async,
+            countryName$ | async
+          ) | async
+        "
+      ></cx-card>
+    </div>
+    <div *cxFeatureLevel="'1.1'" class="cx-review-summary-edit-step">
+      <a
+        [routerLink]="
+          {
+            cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)
+          } | cxUrl
+        "
+        >{{ 'checkoutReview.editShippingAddress' | cxTranslate }}</a
+      >
+    </div>
+  </ng-template>
 
   <!-- CART ITEM SECTION -->
   <ng-container *ngIf="cart$ | async as cart">
