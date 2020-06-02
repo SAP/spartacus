@@ -9,6 +9,7 @@
     }
 
     .cx-header {
+      display: flex;
       border: 1px solid;
       border-color: var(--cx-color-light);
       padding: 30px 30px 20px 30px;
@@ -20,11 +21,13 @@
       }
 
       @include media-breakpoint-down(sm) {
+        flex-direction: column;
         border: none;
         padding: 0;
       }
 
       .cx-detail {
+        flex: 1;
         border-right: 1px solid var(--cx-color-light);
 
         &:last-child {
@@ -98,6 +101,9 @@
     }
 
     .cx-account-summary {
+      display: flex;
+      flex-wrap: wrap;
+
       background-color: var(--cx-color-background);
 
       @include media-breakpoint-up(md) {
@@ -105,7 +111,16 @@
       }
 
       @include media-breakpoint-down(sm) {
+        flex-direction: column;
         margin: 0 -24px;
+      }
+
+      .cx-summary-card {
+        flex: 0 0 33%;
+
+        @include media-breakpoint-down(sm) {
+          flex: 1;
+        }
       }
 
       .cx-card-title {
