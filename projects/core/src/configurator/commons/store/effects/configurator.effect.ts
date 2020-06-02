@@ -450,10 +450,10 @@ export class ConfiguratorEffects {
             new ReadOrderEntryConfigurationSuccess(result),
           ]),
           catchError((error) => [
-            new ReadOrderEntryConfigurationFail(
-              action.payload.owner.key,
-              makeErrorSerializable(error)
-            ),
+            new ReadOrderEntryConfigurationFail({
+              ownerKey: action.payload.owner.key,
+              error: makeErrorSerializable(error),
+            }),
           ])
         );
     })

@@ -390,8 +390,10 @@ describe('ConfiguratorEffect', () => {
       );
 
       const completion = new ConfiguratorActions.ReadOrderEntryConfigurationFail(
-        productConfiguration.owner.key,
-        makeErrorSerializable(errorResponse)
+        {
+          ownerKey: productConfiguration.owner.key,
+          error: makeErrorSerializable(errorResponse),
+        }
       );
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

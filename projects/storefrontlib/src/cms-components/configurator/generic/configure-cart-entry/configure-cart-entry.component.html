@@ -5,13 +5,21 @@
         cxRoute: 'configure' + cartEntry.product.configuratorType,
         params: {
           ownerType: getOwnerType(),
-          entityKey: cartEntry.entryNumber
+          entityKey: getEntityKey()
         }
       } | cxUrl
     "
     [queryParams]="{ forceReload: true }"
     class=""
     cxAutoFocus
-    >{{ 'configurator.header.editConfiguration' | cxTranslate }}</a
   >
+    <ng-container *ngIf="readOnly">
+      {{
+        'configurator.header.displayConfiguration' | cxTranslate
+      }}</ng-container
+    >
+    <ng-container *ngIf="!readOnly">
+      {{ 'configurator.header.editConfiguration' | cxTranslate }}</ng-container
+    >
+  </a>
 </ng-container>

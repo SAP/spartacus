@@ -107,8 +107,8 @@ export class ReadCartEntryConfigurationSuccess extends StateUtils.EntitySuccessA
 
 export class ReadCartEntryConfigurationFail extends StateUtils.EntityFailAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
-  constructor(public payload: { ownerkey: string; error: any }) {
-    super(CONFIGURATION_DATA, payload.ownerkey, payload.error);
+  constructor(public payload: { ownerKey: string; error: any }) {
+    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
   }
 }
 
@@ -130,8 +130,8 @@ export class ReadOrderEntryConfigurationSuccess extends StateUtils.EntitySuccess
 
 export class ReadOrderEntryConfigurationFail extends StateUtils.EntityFailAction {
   readonly type = READ_ORDER_ENTRY_CONFIGURATION_FAIL;
-  constructor(public payload: { ownerkey: string; error: any }) {
-    super(CONFIGURATION_DATA, payload.ownerkey, payload.error);
+  constructor(public payload: { ownerKey: string; error: any }) {
+    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
   }
 }
 

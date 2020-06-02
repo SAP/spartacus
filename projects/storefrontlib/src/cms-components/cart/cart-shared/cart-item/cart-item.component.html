@@ -26,8 +26,6 @@
           {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
         </div>
         <!-- Generic Configuration-->
-        Before cx-configure {{ item.product.configurable }} Before cx-configure
-        {{ readonly }}
         <cx-configure-cart-entry
           *ngIf="item.product.configurable"
           [cartEntry]="item"

@@ -16,5 +16,16 @@ export class ConfigureCartEntryComponent {
       : GenericConfigurator.OwnerType.CART_ENTRY;
   }
 
+  public getEntityKey(): string {
+    return '' + this.cartEntry.entryNumber;
+  }
+
+  public getRoute(): string {
+    const configuratorType = this.cartEntry.product.configuratorType;
+    return this.readOnly
+      ? 'configureOverview' + configuratorType
+      : 'configure' + configuratorType;
+  }
+
   constructor() {}
 }
