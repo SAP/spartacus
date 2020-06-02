@@ -82,8 +82,6 @@ describe('PaymentTypeService', () => {
   });
 
   it('should be able to get the unit addresses of the cost center', () => {
-    //spyOn(service, 'getCostCenterAddresses').and.callThrough();
-
     store.dispatch(
       new UserActions.LoadActiveCostCentersSuccess([
         { code: 'account', unit: { addresses: [{ id: 'test-address' }] } },

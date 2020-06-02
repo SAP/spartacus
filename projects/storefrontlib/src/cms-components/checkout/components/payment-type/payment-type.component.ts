@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PaymentTypeService, PaymentType } from '@spartacus/core';
+import { PaymentType, PaymentTypeService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap, filter } from 'rxjs/operators';
-import { CheckoutStepService } from '../../services/checkout-step.service';
+import { distinctUntilChanged, filter, scan, tap } from 'rxjs/operators';
 import { CheckoutStepType } from '../../model/checkout-step.model';
+import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({
   selector: 'cx-payment-type',
@@ -22,6 +22,7 @@ export class PaymentTypeComponent {
     string
   > = this.paymentTypeService.getSelectedPaymentType().pipe(
     filter((selected) => selected !== undefined),
+    distinctUntilChanged(),
     tap((selected) => {
       this.typeSelected = selected;
       this.checkoutStepService.resetSteps();
@@ -29,7 +30,13 @@ export class PaymentTypeComponent {
         CheckoutStepType.PAYMENT_DETAILS,
         selected === this.ACCOUNT_PAYMENT
       );
-    })
+    }),
+    scan((previous, current) => {
+      if (previous !== undefined) {
+        this.checkoutStepService.goToStepWithIndex(0);
+      }
+      return current;
+    }, undefined)
   );
 
   constructor(

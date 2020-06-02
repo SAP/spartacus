@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { CartActions } from '../../../cart/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { PaymentTypeConnector } from '../../connectors/payment-type/payment-type.connector';
 import { CheckoutActions } from '../actions/index';
-import { CartActions } from '../../../cart/store/actions/index';
 
 @Injectable()
 export class PaymentTypesEffects {
@@ -37,6 +37,7 @@ export class PaymentTypesEffects {
     | CheckoutActions.SetPaymentTypeSuccess
     | CheckoutActions.SetPaymentTypeFail
     | CartActions.LoadCart
+    | CheckoutActions.ClearCheckoutData
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_PAYMENT_TYPE),
     map((action: CheckoutActions.SetPaymentType) => action.payload),
@@ -51,6 +52,7 @@ export class PaymentTypesEffects {
         .pipe(
           mergeMap((data) => {
             return [
+              new CheckoutActions.ClearCheckoutData(),
               new CheckoutActions.SetPaymentTypeSuccess(data),
               new CartActions.LoadCart({
                 userId: payload.userId,
