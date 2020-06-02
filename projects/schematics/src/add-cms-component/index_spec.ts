@@ -96,7 +96,7 @@ describe('add-cms-component', () => {
 
   const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    baseSite: ['electronics'],
+    baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
   };
 

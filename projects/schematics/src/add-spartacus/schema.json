@@ -22,18 +22,18 @@
       "default": "/rest/v2/"
     },
     "baseSite": {
-      "type": "array",
-      "description": "The base site(s) to use with spartacus"
+      "type": "string",
+      "description": "A comma-separated list of base site(s) to use with Spartacus"
     },
     "currency": {
-      "type": "array",
-      "description": "The default currency (or currencies) to use",
-      "default": ["USD"]
+      "type": "string",
+      "description": "A comma-separated list of currencies to use in Spartacus",
+      "default": "USD"
     },
     "language": {
-      "type": "array",
-      "description": "The default language(s) to use",
-      "default": ["en"]
+      "type": "string",
+      "description": "A comma-separated list of languages to use in Spartacus",
+      "default": "en"
     },
     "useMetaTags": {
       "type": "boolean",

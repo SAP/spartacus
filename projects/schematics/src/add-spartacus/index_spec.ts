@@ -30,7 +30,7 @@ describe('add-spartacus', () => {
   const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     occPrefix: 'xxx',
-    baseSite: ['electronics'],
+    baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
   };
 
@@ -130,7 +130,7 @@ describe('add-spartacus', () => {
           const tree = await schematicRunner
             .runSchematicAsync(
               'add-spartacus',
-              { ...defaultOptions, baseSite: ['test-site'] },
+              { ...defaultOptions, baseSite: 'test-site' },
               appTree
             )
             .toPromise();
@@ -146,13 +146,8 @@ describe('add-spartacus', () => {
               'add-spartacus',
               {
                 ...defaultOptions,
-                baseSite: [
-                  'electronics-spa',
-                  'apparel-uk-spa',
-                  'apparel-uk',
-                  'electronics',
-                  'apparel-de',
-                ],
+                baseSite:
+                  'electronics-spa,apparel-uk-spa,apparel-uk,electronics,apparel-de',
               },
               appTree
             )
@@ -175,7 +170,7 @@ describe('add-spartacus', () => {
             'add-spartacus',
             {
               ...defaultOptions,
-              baseSite: [],
+              baseSite: '',
             },
             appTree
           )
@@ -211,7 +206,7 @@ describe('add-spartacus', () => {
             'add-spartacus',
             {
               ...defaultOptions,
-              currency: ['rsd'],
+              currency: 'rsd',
             },
             appTree
           )
@@ -228,7 +223,7 @@ describe('add-spartacus', () => {
             'add-spartacus',
             {
               ...defaultOptions,
-              currency: ['CAD', 'rsd'],
+              currency: 'CAD,rsd',
             },
             appTree
           )
@@ -263,7 +258,7 @@ describe('add-spartacus', () => {
             'add-spartacus',
             {
               ...defaultOptions,
-              language: ['SR'],
+              language: 'SR',
             },
             appTree
           )
@@ -280,7 +275,7 @@ describe('add-spartacus', () => {
             'add-spartacus',
             {
               ...defaultOptions,
-              language: ['EN', 'SR'],
+              language: 'EN,SR',
             },
             appTree
           )
@@ -300,15 +295,10 @@ describe('add-spartacus', () => {
             'add-spartacus',
             {
               ...defaultOptions,
-              baseSite: [
-                'electronics-spa',
-                'apparel-uk-spa',
-                'apparel-uk',
-                'electronics',
-                'apparel-de',
-              ],
-              currency: ['CAD', 'rsd'],
-              language: ['EN', 'SR'],
+              baseSite:
+                'electronics-spa,apparel-uk-spa,apparel-uk,electronics,apparel-de',
+              currency: 'CAD,rsd',
+              language: 'EN,SR',
             },
             appTree
           )

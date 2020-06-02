@@ -33,7 +33,7 @@ describe('add-ssr', () => {
 
   const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    baseSite: ['electronics'],
+    baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
   };
 

@@ -144,20 +144,30 @@ function installPackageJsonDependencies(): Rule {
   };
 }
 
-function mapContextArray(rawArray: string[] = []): string {
-  return rawArray.map((x) => `'${x}'`).join(', ');
+function parseCSV(
+  raw: string | undefined,
+  defaultValues: string[] = []
+): string {
+  if (!raw) {
+    return defaultValues.map((x) => `'${x}'`).join(', ');
+  }
+
+  return raw
+    .split(',')
+    .map((x) => `'${x}'`)
+    .join(', ');
 }
 
 function prepareSiteContextConfig(options: SpartacusOptions): string {
-  const currency = mapContextArray(options.currency).toUpperCase();
-  const language = mapContextArray(options.language).toLowerCase();
+  const currency = parseCSV(options.currency, ['USD']).toUpperCase();
+  const language = parseCSV(options.language, ['en']).toLowerCase();
   let context = `
       context: {
         currency: [${currency}],
         language: [${language}],`;
 
-  if (options.baseSite && options.baseSite.length) {
-    const baseSites = mapContextArray(options.baseSite);
+  if (options.baseSite) {
+    const baseSites = parseCSV(options.baseSite);
     context += `
         baseSite: [${baseSites}]`;
   }
