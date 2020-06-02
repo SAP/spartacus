@@ -140,8 +140,8 @@ export class ShippingAddressComponent implements OnInit {
         selected = addresses.find((address) => address.defaultAddress);
         this.selectAddress(selected);
       }
+      this.doneAutoSelect = true;
     }
-    this.doneAutoSelect = true;
   }
 
   ngOnInit(): void {
