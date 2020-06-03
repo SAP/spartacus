@@ -1,33 +1,38 @@
 # Installation Script for Spartacus
 
-Utilities and scripts to automate the Spartacus installation steps. Some of them are:
+Installation script does the following:
 
 - Build Spartacus libraries from source
 - Create a new shell app for the Spartacus libraries
 - Install the libraries in the new shell app
 - Add custom configurations to the shell app
+
+It can also:
+
 - Install spartacus in production mode
 - Install Spartacus in SSR mode
-- Install Spartacus in remote servers (using Ansible)
 
-To use the scripts, clone this git repo and follow the usage indications below.
+## How to install
 
-## Install Spartacus
+Installation directory for SpartacusScript's output directory is set as below (related to script's root, `./scripts/install`):
 
-Script's output directory is set as below (related to script's root, `./scripts/install`):
 ```bash
 # top directory for the installation output (must be outside of the project)
 if [ -z $BASE_DIR ]; then
     BASE_DIR="../../../spartacus-${SPARTACUS_VERSION}"
 fi
 ```
+
 so it's one level above the spartacus project root. To change the output directory `$BASE_DIR` can be overriden in the `config.sh` file.
 
 All script's commands should be run while being in it's root directory:
+
 ```bash
 cd ./scripts/install
 ```
+
 Before running the main script, please ensure that:
+
 - line `//localhost:4873/:_authToken="VNOlucnBmPrXVjzHVEHtWQ=="` is added to the `~/.npmrc` file
 - `ANGULAR_CLI_VERSION` variable is set properly in the `config.sh` file (it must meet project's `package.json` `@angular/cli` version requirement)
 - `OCC_PREFIX` variable is set to proper value (depends on backend version)

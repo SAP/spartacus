@@ -25,10 +25,10 @@ function integrate_with_smartedit {
 }
 
 function delete_dir {
-    local dir="$1"
-    if [ -d $dir ]; then
-        echo "deleting ./${dir}"
-        rm -rf $dir
+    local dir="${1}"
+    if [ -d ${dir} ]; then
+        echo "deleting directory ./${dir}"
+        rm -rf ${dir}
     fi
 }
 
@@ -37,20 +37,20 @@ function cmd_clean {
 
     delete_dir $BASE_DIR
     delete_dir storage
+
+    yarn cache clean
 }
 
 function pre_install {
     VERDACCIO_PID=`lsof -nP -i4TCP:4873 | grep LISTEN | tr -s ' ' | cut -d ' ' -f 2`
     if [[ -n ${VERDACCIO_PID} ]]; then
-        echo "It seems verdaccio is already running on PID: ${VERDACCIO_PID}. Killing it."
+        echo "It seems Verdaccio is already running on PID: ${VERDACCIO_PID}. Killing it."
         kill $VERDACCIO_PID
     fi
 
     npm config set @spartacus:registry https://registry.npmjs.org/
 
     cmd_clean
-
-    yarn cache clean
 
     npm i -g verdaccio
     npm i -g serve
@@ -63,10 +63,9 @@ function pre_install {
 }
 
 function clone_repo {
-    printh "Cloning Spartacus installation repo"
+    printh "Cloning Spartacus installation repo."
 
     echo "Cloning from ${SPARTACUS_REPO_URL}"
-    echo "Branch: ${BRANCH}"
 
     git clone -b ${BRANCH} ${SPARTACUS_REPO_URL} ${CLONE_DIR} --depth 1
 }
