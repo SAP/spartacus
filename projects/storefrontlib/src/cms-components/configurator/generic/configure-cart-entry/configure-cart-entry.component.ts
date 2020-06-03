@@ -15,13 +15,14 @@ export class ConfigureCartEntryComponent {
   @Input() readOnly: boolean;
 
   public getOwnerType(): GenericConfigurator.OwnerType {
-    return this.readOnly
+    console.log('CHHI order  code: ' + this.cartEntry.orderCode);
+    return this.cartEntry.orderCode !== undefined
       ? GenericConfigurator.OwnerType.ORDER_ENTRY
       : GenericConfigurator.OwnerType.CART_ENTRY;
   }
 
   public getEntityKey(): string {
-    return this.readOnly
+    return this.cartEntry.orderCode !== undefined
       ? this.genericConfigUtilsService.getComposedOwnerId(
           this.cartEntry.orderCode,
           this.cartEntry.entryNumber
