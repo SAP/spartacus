@@ -100,12 +100,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../classes/KymaConfig.html">KymaConfig</a>, http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>)</code>
+<code>constructor(config: <a href="../injectables/KymaConfig.html">KymaConfig</a>, http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/kyma/services/open-id-token/open-id-token.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/kyma/services/open-id-token/open-id-token.service.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -126,7 +126,7 @@
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/KymaConfig.html" target="_self" >KymaConfig</a></code>
+                                                                        <code><a href="../injectables/KymaConfig.html" target="_self" >KymaConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -184,8 +184,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/core/src/kyma/services/open-id-token/open-id-token.service.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">projects/core/src/kyma/services/open-id-token/open-id-token.service.ts:43</a></div>
                 </td>
             </tr>
 
@@ -223,8 +223,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">projects/core/src/kyma/services/open-id-token/open-id-token.service.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/core/src/kyma/services/open-id-token/open-id-token.service.ts:16</a></div>
                 </td>
             </tr>
 
@@ -298,7 +298,9 @@ import { OpenIdToken } from &#x27;../../models/kyma-token-types.model&#x27;;
 
 const OAUTH_ENDPOINT &#x3D; &#x27;/authorizationserver/oauth/token&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class OpenIdAuthenticationTokenService {
   constructor(private config: KymaConfig, private http: HttpClient) {}
 

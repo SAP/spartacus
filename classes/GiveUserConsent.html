@@ -111,7 +111,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/core/src/user/store/actions/user-consents.action.ts:61</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/core/src/user/store/actions/user-consents.action.ts:58</a></div>
                             </td>
                         </tr>
 
@@ -175,7 +175,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/core/src/user/store/actions/user-consents.action.ts:63</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/core/src/user/store/actions/user-consents.action.ts:60</a></div>
                             </td>
                         </tr>
 
@@ -202,7 +202,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/core/src/user/store/actions/user-consents.action.ts:61</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/core/src/user/store/actions/user-consents.action.ts:58</a></div>
                             </td>
                         </tr>
 
@@ -223,10 +223,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ConsentTemplate } from &#x27;../../../model/consent.model&#x27;;
 import { PROCESS_FEATURE } from &#x27;../../../process/store/process-state&#x27;;
-import {
-  StateEntityLoaderActions,
-  StateLoaderActions,
-} from &#x27;../../../state/utils/index&#x27;;
+import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
 import {
   GIVE_CONSENT_PROCESS_ID,
   USER_CONSENTS,
@@ -252,35 +249,35 @@ export const WITHDRAW_USER_CONSENT_SUCCESS &#x3D;
 export const RESET_WITHDRAW_USER_CONSENT_PROCESS &#x3D;
   &#x27;[User] Reset Withdraw User Consent Process&#x27;;
 
-export class LoadUserConsents extends StateLoaderActions.LoaderLoadAction {
+export class LoadUserConsents extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; LOAD_USER_CONSENTS;
   constructor(public payload: string) {
     super(USER_CONSENTS);
   }
 }
 
-export class LoadUserConsentsFail extends StateLoaderActions.LoaderFailAction {
+export class LoadUserConsentsFail extends StateUtils.LoaderFailAction {
   readonly type &#x3D; LOAD_USER_CONSENTS_FAIL;
   constructor(public payload: any) {
     super(USER_CONSENTS, payload);
   }
 }
 
-export class LoadUserConsentsSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class LoadUserConsentsSuccess extends StateUtils.LoaderSuccessAction {
   readonly type &#x3D; LOAD_USER_CONSENTS_SUCCESS;
   constructor(public payload: ConsentTemplate[]) {
     super(USER_CONSENTS);
   }
 }
 
-export class ResetLoadUserConsents extends StateLoaderActions.LoaderResetAction {
+export class ResetLoadUserConsents extends StateUtils.LoaderResetAction {
   readonly type &#x3D; RESET_LOAD_USER_CONSENTS;
   constructor() {
     super(USER_CONSENTS);
   }
 }
 
-export class GiveUserConsent extends StateEntityLoaderActions.EntityLoadAction {
+export class GiveUserConsent extends StateUtils.EntityLoadAction {
   readonly type &#x3D; GIVE_USER_CONSENT;
   constructor(
     public payload: {
@@ -293,21 +290,21 @@ export class GiveUserConsent extends StateEntityLoaderActions.EntityLoadAction {
   }
 }
 
-export class GiveUserConsentFail extends StateEntityLoaderActions.EntityFailAction {
+export class GiveUserConsentFail extends StateUtils.EntityFailAction {
   readonly type &#x3D; GIVE_USER_CONSENT_FAIL;
   constructor(payload: any) {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID, payload);
   }
 }
 
-export class GiveUserConsentSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class GiveUserConsentSuccess extends StateUtils.EntitySuccessAction {
   readonly type &#x3D; GIVE_USER_CONSENT_SUCCESS;
   constructor(public consentTemplate: ConsentTemplate) {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);
   }
 }
 
-export class ResetGiveUserConsentProcess extends StateEntityLoaderActions.EntityResetAction {
+export class ResetGiveUserConsentProcess extends StateUtils.EntityLoaderResetAction {
   readonly type &#x3D; RESET_GIVE_USER_CONSENT_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);
@@ -325,7 +322,7 @@ export class TransferAnonymousConsent {
   ) {}
 }
 
-export class WithdrawUserConsent extends StateEntityLoaderActions.EntityLoadAction {
+export class WithdrawUserConsent extends StateUtils.EntityLoadAction {
   readonly type &#x3D; WITHDRAW_USER_CONSENT;
   constructor(
     public payload: {
@@ -337,21 +334,21 @@ export class WithdrawUserConsent extends StateEntityLoaderActions.EntityLoadActi
   }
 }
 
-export class WithdrawUserConsentFail extends StateEntityLoaderActions.EntityFailAction {
+export class WithdrawUserConsentFail extends StateUtils.EntityFailAction {
   readonly type &#x3D; WITHDRAW_USER_CONSENT_FAIL;
   constructor(payload: any) {
     super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID, payload);
   }
 }
 
-export class WithdrawUserConsentSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class WithdrawUserConsentSuccess extends StateUtils.EntitySuccessAction {
   readonly type &#x3D; WITHDRAW_USER_CONSENT_SUCCESS;
   constructor() {
     super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID);
   }
 }
 
-export class ResetWithdrawUserConsentProcess extends StateEntityLoaderActions.EntityResetAction {
+export class ResetWithdrawUserConsentProcess extends StateUtils.EntityLoaderResetAction {
   readonly type &#x3D; RESET_WITHDRAW_USER_CONSENT_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID);

@@ -126,7 +126,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LoaderState } from &#x27;../../state&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateUtils } from &#x27;../../state/utils&#x27;;
 import { StoreEntities } from &#x27;../model&#x27;;
 
 export const STORE_FINDER_FEATURE &#x3D; &#x27;stores&#x27;;
@@ -137,8 +137,8 @@ export interface StateWithStoreFinder {
 }
 
 export interface StoresState {
-  findStores: LoaderState&lt;FindStoresState&gt;;
-  viewAllStores: LoaderState&lt;ViewAllStoresState&gt;;
+  findStores: StateUtils.LoaderState&lt;FindStoresState&gt;;
+  viewAllStores: StateUtils.LoaderState&lt;ViewAllStoresState&gt;;
 }
 
 export interface FindStoresState {

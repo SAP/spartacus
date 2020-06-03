@@ -132,7 +132,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../classes/I18nConfig.html">I18nConfig</a>, translationChunk: <a href="../injectables/TranslationChunkService.html">TranslationChunkService</a>)</code>
+<code>constructor(config: <a href="../injectables/I18nConfig.html">I18nConfig</a>, translationChunk: <a href="../injectables/TranslationChunkService.html">TranslationChunkService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -158,7 +158,7 @@
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/I18nConfig.html" target="_self" >I18nConfig</a></code>
+                                                                        <code><a href="../injectables/I18nConfig.html" target="_self" >I18nConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -216,8 +216,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:69</a></div>
                 </td>
             </tr>
 
@@ -290,8 +290,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:81</a></div>
                 </td>
             </tr>
 
@@ -372,8 +372,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:61</a></div>
                 </td>
             </tr>
 
@@ -444,8 +444,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">projects/core/src/i18n/i18next/i18next-translation.service.ts:73</a></div>
                 </td>
             </tr>
 
@@ -682,13 +682,13 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode } from &#x27;@angular/core&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { TranslationService } from &#x27;../translation.service&#x27;;
 import i18next from &#x27;i18next&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
 import { I18nConfig } from &#x27;../config/i18n-config&#x27;;
 import { TranslationChunkService } from &#x27;../translation-chunk.service&#x27;;
+import { TranslationService } from &#x27;../translation.service&#x27;;
 
-@Injectable()
+@Injectable({ providedIn: &#x27;root&#x27; })
 export class I18nextTranslationService implements TranslationService {
   private readonly NON_BREAKING_SPACE &#x3D; String.fromCharCode(160);
   protected readonly NAMESPACE_SEPARATOR &#x3D; &#x27;:&#x27;;
@@ -715,6 +715,9 @@ export class I18nextTranslationService implements TranslationService {
 
     return new Observable&lt;string&gt;((subscriber) &#x3D;&gt; {
       const translate &#x3D; () &#x3D;&gt; {
+        if (!i18next.isInitialized) {
+          return;
+        }
         if (i18next.exists(namespacedKey, options)) {
           subscriber.next(i18next.t(namespacedKey, options));
         } else {

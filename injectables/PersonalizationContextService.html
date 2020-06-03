@@ -100,7 +100,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../classes/PersonalizationConfig.html">PersonalizationConfig</a>, cmsService: <a href="../injectables/CmsService.html">CmsService</a>)</code>
+<code>constructor(config: <a href="../injectables/PersonalizationConfig.html">PersonalizationConfig</a>, cmsService: <a href="../injectables/CmsService.html">CmsService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -126,7 +126,7 @@
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/PersonalizationConfig.html" target="_self" >PersonalizationConfig</a></code>
+                                                                        <code><a href="../injectables/PersonalizationConfig.html" target="_self" >PersonalizationConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -280,12 +280,12 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { filter, map } from &#x27;rxjs/operators&#x27;;
+import { CmsService } from &#x27;../../cms/facade/cms.service&#x27;;
+import { ContentSlotComponentData } from &#x27;../../cms/model/content-slot-component-data.model&#x27;;
+import { ContentSlotData } from &#x27;../../cms/model/content-slot-data.model&#x27;;
+import { Page } from &#x27;../../cms/model/page.model&#x27;;
 import { PersonalizationConfig } from &#x27;../config/personalization-config&#x27;;
 import { PersonalizationContext } from &#x27;../model/personalization-context.model&#x27;;
-import { CmsService } from &#x27;../../cms/facade/cms.service&#x27;;
-import { Page } from &#x27;../../cms/model/page.model&#x27;;
-import { ContentSlotData } from &#x27;../../cms/model/content-slot-data.model&#x27;;
-import { ContentSlotComponentData } from &#x27;../../cms/model/content-slot-component-data.model&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,

@@ -181,8 +181,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">projects/core/src/site-context/site-context.module.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">projects/core/src/site-context/site-context.module.ts:17</a></div>
                 </td>
             </tr>
 
@@ -204,12 +204,11 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { Config, provideDefaultConfigFactory } from &#x27;../config/config.module&#x27;;
+import { provideDefaultConfigFactory } from &#x27;../config/config.module&#x27;;
 import { provideConfigValidator } from &#x27;../config/config-validator/config-validator&#x27;;
 import { StateModule } from &#x27;../state/index&#x27;;
 import { baseSiteConfigValidator } from &#x27;./config/base-site-config-validator&#x27;;
 import { defaultSiteContextConfigFactory } from &#x27;./config/default-site-context-config&#x27;;
-import { SiteContextConfig } from &#x27;./config/site-context-config&#x27;;
 import { contextServiceMapProvider } from &#x27;./providers/context-service-map&#x27;;
 import { contextServiceProviders } from &#x27;./providers/context-service-providers&#x27;;
 import { siteContextParamsProviders } from &#x27;./providers/site-context-params-providers&#x27;;
@@ -228,7 +227,6 @@ export class SiteContextModule {
         contextServiceMapProvider,
         ...contextServiceProviders,
         ...siteContextParamsProviders,
-        { provide: SiteContextConfig, useExisting: Config },
         provideConfigValidator(baseSiteConfigValidator),
       ],
     };

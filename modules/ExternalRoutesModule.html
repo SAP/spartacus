@@ -101,8 +101,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">projects/core/src/routing/external-routes/external-routes.module.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="10"
+                            class="link-to-prism">projects/core/src/routing/external-routes/external-routes.module.ts:10</a></div>
                 </td>
             </tr>
 
@@ -124,8 +124,6 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { APP_INITIALIZER, ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;../../config/config.module&#x27;;
-import { ExternalRoutesConfig } from &#x27;./external-routes-config&#x27;;
 import { addExternalRoutesFactory } from &#x27;./external-routes.providers&#x27;;
 import { ExternalRoutesService } from &#x27;./external-routes.service&#x27;;
 
@@ -138,8 +136,6 @@ export class ExternalRoutesModule {
     return {
       ngModule: ExternalRoutesModule,
       providers: [
-        ExternalRoutesService,
-        { provide: ExternalRoutesConfig, useExisting: Config },
         {
           provide: APP_INITIALIZER,
           multi: true,

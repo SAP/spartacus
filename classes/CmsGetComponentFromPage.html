@@ -223,7 +223,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CmsComponent } from &#x27;../../../model/cms.model&#x27;;
 import { PageContext } from &#x27;../../../routing/index&#x27;;
-import { StateEntityLoaderActions } from &#x27;../../../state/utils/index&#x27;;
+import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
 import { COMPONENT_ENTITY } from &#x27;../cms-state&#x27;;
 
 export const LOAD_CMS_COMPONENT &#x3D; &#x27;[Cms] Load Component&#x27;;
@@ -231,7 +231,7 @@ export const LOAD_CMS_COMPONENT_FAIL &#x3D; &#x27;[Cms] Load Component Fail&#x27
 export const LOAD_CMS_COMPONENT_SUCCESS &#x3D; &#x27;[Cms] Load Component Success&#x27;;
 export const CMS_GET_COMPONENT_FROM_PAGE &#x3D; &#x27;[Cms] Get Component from Page&#x27;;
 
-export class LoadCmsComponent extends StateEntityLoaderActions.EntityLoadAction {
+export class LoadCmsComponent extends StateUtils.EntityLoadAction {
   readonly type &#x3D; LOAD_CMS_COMPONENT;
   constructor(
     public payload: {
@@ -243,10 +243,10 @@ export class LoadCmsComponent extends StateEntityLoaderActions.EntityLoadAction 
   }
 }
 
-export class LoadCmsComponentFail extends StateEntityLoaderActions.EntityFailAction {
+export class LoadCmsComponentFail extends StateUtils.EntityFailAction {
   readonly type &#x3D; LOAD_CMS_COMPONENT_FAIL;
   constructor(
-    public payload: { uid: string; error: any; pageContext: PageContext }
+    public payload: { uid: string; error?: any; pageContext: PageContext }
   ) {
     super(COMPONENT_ENTITY, payload.uid, payload.error);
   }
@@ -254,7 +254,7 @@ export class LoadCmsComponentFail extends StateEntityLoaderActions.EntityFailAct
 
 export class LoadCmsComponentSuccess&lt;
   T extends CmsComponent
-&gt; extends StateEntityLoaderActions.EntitySuccessAction {
+&gt; extends StateUtils.EntitySuccessAction {
   readonly type &#x3D; LOAD_CMS_COMPONENT_SUCCESS;
   constructor(
     public payload: {
@@ -269,7 +269,7 @@ export class LoadCmsComponentSuccess&lt;
 
 export class CmsGetComponentFromPage&lt;
   T extends CmsComponent
-&gt; extends StateEntityLoaderActions.EntitySuccessAction {
+&gt; extends StateUtils.EntitySuccessAction {
   readonly type &#x3D; CMS_GET_COMPONENT_FROM_PAGE;
   constructor(
     public payload:

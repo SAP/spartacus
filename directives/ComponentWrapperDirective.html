@@ -58,6 +58,13 @@
             <code>projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Directive used to facilitate instantiation of CMS driven dynamic components</p>
+
+            </p>
 
             <p class="comment">
                 <h3>Implements</h3>
@@ -95,10 +102,13 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Optional</span>
                                 <a href="#cmpRef">cmpRef</a>
                             </li>
                             <li>
-                                <a href="#webElement">webElement</a>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#launcherResource">launcherResource</a>
                             </li>
                         </ul>
                     </td>
@@ -114,34 +124,17 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#addSmartEditContract">addSmartEditContract</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getCmsDataForComponent">getCmsDataForComponent</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getInjectorForComponent">getInjectorForComponent</a>
+                                <a href="#decorate">decorate</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
                                 <a href="#launchComponent">launchComponent</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                    <span class="modifier">Async</span>
-                                <a href="#launchWebComponent">launchWebComponent</a>
-                            </li>
-                            <li>
                                 <a href="#ngOnDestroy">ngOnDestroy</a>
                             </li>
                             <li>
                                 <a href="#ngOnInit">ngOnInit</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#shouldRenderComponent">shouldRenderComponent</a>
                             </li>
                         </ul>
                     </td>
@@ -175,12 +168,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(vcr: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, componentMapper: <a href="../injectables/ComponentMapperService.html">ComponentMapperService</a>, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>, cmsService: <a href="../injectables/CmsService.html">CmsService</a>, dynamicAttributeService: <a href="../injectables/DynamicAttributeService.html">DynamicAttributeService</a>, renderer: <a href="https://angular.io/api/core/Renderer2" target="_blank">Renderer2</a>, config: <a href="../classes/CmsConfig.html">CmsConfig</a>, platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>)</code>
+<code>constructor(vcr: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, cmsComponentsService: <a href="../injectables/CmsComponentsService.html">CmsComponentsService</a>, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>, dynamicAttributeService: <a href="../injectables/DynamicAttributeService.html">DynamicAttributeService</a>, renderer: <a href="https://angular.io/api/core/Renderer2" target="_blank">Renderer2</a>, componentHandler: <a href="../injectables/ComponentHandlerService.html">ComponentHandlerService</a>, cmsInjector: <a href="../injectables/CmsInjectorService.html">CmsInjectorService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:32</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:39</a></div>
                             </td>
                         </tr>
 
@@ -210,10 +203,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>componentMapper</td>
+                                                        <td>cmsComponentsService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/ComponentMapperService.html" target="_self" >ComponentMapperService</a></code>
+                                                                        <code><a href="../injectables/CmsComponentsService.html" target="_self" >CmsComponentsService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -226,18 +219,6 @@
                                                   
                                                         <td>
                                                                         <code><a href="https://angular.io/api/core/Injector" target="_blank" >Injector</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>cmsService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/CmsService.html" target="_self" >CmsService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -270,10 +251,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>config</td>
+                                                        <td>componentHandler</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/CmsConfig.html" target="_self" >CmsConfig</a></code>
+                                                                        <code><a href="../injectables/ComponentHandlerService.html" target="_self" >ComponentHandlerService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -282,10 +263,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>platformId</td>
+                                                        <td>cmsInjector</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank" >Object</a></code>
+                                                                        <code><a href="../injectables/CmsInjectorService.html" target="_self" >CmsInjectorService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -320,7 +301,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:29</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:28</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -338,28 +319,28 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="addSmartEditContract"></a>
+                    <a name="decorate"></a>
                     <span class="name">
                         <b>
                             <span class="modifier">Private</span>
-                            addSmartEditContract
+                            decorate
                         </b>
-                        <a href="#addSmartEditContract"><span class="icon ion-ios-link"></span></a>
+                        <a href="#decorate"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>addSmartEditContract(element: Element)</code>
+                    <code>decorate(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="134"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:134</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:90</a></div>
                 </td>
             </tr>
 
@@ -379,9 +360,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>element</td>
+                                    <td>elementRef</td>
                                     <td>
-                                            <code>Element</code>
+                                                <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
                                     </td>
 
                                     <td>
@@ -401,96 +382,6 @@
                     </div>
                     <div class="io-description">
                         
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getCmsDataForComponent"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            getCmsDataForComponent
-                        </b>
-                        <a href="#getCmsDataForComponent"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getCmsDataForComponent()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:109</a></div>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <b>Type parameters :</b>
-                    <ul class="type-parameters">
-                        <li>T</li>
-                    </ul>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/CmsComponentData.html" target="_self" >CmsComponentData&lt;T&gt;</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getInjectorForComponent"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            getInjectorForComponent
-                        </b>
-                        <a href="#getInjectorForComponent"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getInjectorForComponent()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:118</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://angular.io/api/core/Injector" target="_blank" >Injector</a></code>
-
                     </div>
                 </td>
             </tr>
@@ -520,8 +411,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:65</a></div>
                 </td>
             </tr>
 
@@ -531,48 +422,6 @@
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="launchWebComponent"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            <span class="modifier">Async</span>
-                            launchWebComponent
-                        </b>
-                        <a href="#launchWebComponent"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>launchWebComponent()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:82</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                     </div>
                 </td>
@@ -601,8 +450,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="142"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:142</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:98</a></div>
                 </td>
             </tr>
 
@@ -640,8 +489,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:51</a></div>
                 </td>
             </tr>
 
@@ -651,47 +500,6 @@
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="shouldRenderComponent"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            shouldRenderComponent
-                        </b>
-                        <a href="#shouldRenderComponent"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>shouldRenderComponent()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:56</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                     </div>
                 </td>
@@ -711,6 +519,7 @@
                         <a name="cmpRef"></a>
                         <span class="name">
                             <b>
+                                <span class="modifier">Optional</span>
                             cmpRef</b>
                             <a href="#cmpRef"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -724,7 +533,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:31</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -735,23 +544,25 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="webElement"></a>
+                        <a name="launcherResource"></a>
                         <span class="name">
                             <b>
-                            webElement</b>
-                            <a href="#webElement"><span class="icon ion-ios-link"></span></a>
+                                <span class="modifier">Private</span>
+                                <span class="modifier">Optional</span>
+                            launcherResource</b>
+                            <a href="#launcherResource"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                            <i>Type : </i>    <code>Subscription</code>
 
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:32</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:39</a></div>
                             </td>
                         </tr>
 
@@ -765,153 +576,106 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { isPlatformServer } from &#x27;@angular/common&#x27;;
-import {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   ComponentRef,
   Directive,
-  Inject,
+  ElementRef,
   Injector,
   Input,
   OnDestroy,
   OnInit,
-  PLATFORM_ID,
   Renderer2,
   ViewContainerRef,
 } from &#x27;@angular/core&#x27;;
 import {
-  CmsComponent,
-  CmsConfig,
-  CmsService,
   ContentSlotComponentData,
   DynamicAttributeService,
 } from &#x27;@spartacus/core&#x27;;
-import { CmsComponentData } from &#x27;../model/cms-component-data&#x27;;
-import { ComponentMapperService } from &#x27;./component-mapper.service&#x27;;
-import { CxApiService } from &#x27;./cx-api.service&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
+import { CmsComponentsService } from &#x27;../../services/cms-components.service&#x27;;
+import { CmsInjectorService } from &#x27;./services/cms-injector.service&#x27;;
+import { ComponentHandlerService } from &#x27;./services/component-handler.service&#x27;;
 
+/**
+ * Directive used to facilitate instantiation of CMS driven dynamic components
+ */
 @Directive({
   selector: &#x27;[cxComponentWrapper]&#x27;,
 })
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input() cxComponentWrapper: ContentSlotComponentData;
 
-  cmpRef: ComponentRef&lt;any&gt;;
-  webElement: any;
+  /**
+   * @deprecated since 2.0
+   *
+   * This property in unsafe, i.e.
+   * - cmpRef can be set later because of lazy loading or deferred loading
+   * - cmpRef can be not set at all if for example, web components are used as cms components
+   */
+  cmpRef?: ComponentRef&lt;any&gt;;
+
+  private launcherResource?: Subscription;
 
   constructor(
-    private vcr: ViewContainerRef,
-    private componentMapper: ComponentMapperService,
-    private injector: Injector,
-    private cmsService: CmsService,
-    private dynamicAttributeService: DynamicAttributeService,
-    private renderer: Renderer2,
-    private config: CmsConfig,
-    @Inject(PLATFORM_ID) private platformId: Object
+    protected vcr: ViewContainerRef,
+    protected cmsComponentsService: CmsComponentsService,
+    protected injector: Injector,
+    protected dynamicAttributeService: DynamicAttributeService,
+    protected renderer: Renderer2,
+    protected componentHandler: ComponentHandlerService,
+    protected cmsInjector: CmsInjectorService
   ) {}
 
   ngOnInit() {
-    if (!this.shouldRenderComponent()) {
-      return;
-    }
-    if (this.componentMapper.isWebComponent(this.cxComponentWrapper.flexType)) {
-      this.launchWebComponent();
-    } else {
-      this.launchComponent();
-    }
-  }
-
-  private shouldRenderComponent(): boolean {
-    const isSSR &#x3D; isPlatformServer(this.platformId);
-    const isComponentDisabledInSSR &#x3D; (
-      this.config.cmsComponents[this.cxComponentWrapper.flexType] || {}
-    ).disableSSR;
-    return !(isSSR &amp;&amp; isComponentDisabledInSSR);
+    this.cmsComponentsService
+      .determineMappings([this.cxComponentWrapper.flexType])
+      .subscribe(() &#x3D;&gt; {
+        if (
+          this.cmsComponentsService.shouldRender(
+            this.cxComponentWrapper.flexType
+          )
+        ) {
+          this.launchComponent();
+        }
+      });
   }
 
   private launchComponent() {
-    const factory &#x3D; this.componentMapper.getComponentFactoryByCode(
+    const componentMapping &#x3D; this.cmsComponentsService.getMapping(
       this.cxComponentWrapper.flexType
     );
 
-    if (factory) {
-      this.cmpRef &#x3D; this.vcr.createComponent(
-        factory,
-        undefined,
-        this.getInjectorForComponent()
-      );
-
-      if (this.cmsService.isLaunchInSmartEdit()) {
-        this.addSmartEditContract(this.cmpRef.location.nativeElement);
-      }
+    if (!componentMapping) {
+      return;
     }
+
+    this.launcherResource &#x3D; this.componentHandler
+      .getLauncher(
+        componentMapping,
+        this.vcr,
+        this.cmsInjector.getInjector(
+          this.cxComponentWrapper.flexType,
+          this.cxComponentWrapper.uid,
+          this.injector
+        )
+      )
+      ?.subscribe(({ elementRef, componentRef }) &#x3D;&gt; {
+        this.cmpRef &#x3D; componentRef;
+        this.decorate(elementRef);
+      });
   }
 
-  private async launchWebComponent() {
-    const elementName &#x3D; await this.componentMapper.initWebComponent(
-      this.cxComponentWrapper.flexType,
-      this.renderer
-    );
-
-    if (elementName) {
-      this.webElement &#x3D; this.renderer.createElement(elementName);
-
-      const cmsComponentData &#x3D; this.getCmsDataForComponent();
-
-      this.webElement.cxApi &#x3D; {
-        ...this.injector.get(CxApiService),
-        cmsComponentData,
-      };
-
-      this.renderer.appendChild(
-        this.vcr.element.nativeElement.parentElement,
-        this.webElement
-      );
-
-      if (this.cmsService.isLaunchInSmartEdit()) {
-        this.addSmartEditContract(this.webElement);
-      }
-    }
-  }
-
-  private getCmsDataForComponent&lt;T extends CmsComponent&gt;(): CmsComponentData&lt;
-    T
-  &gt; {
-    return {
-      uid: this.cxComponentWrapper.uid,
-      data$: this.cmsService.getComponentData(this.cxComponentWrapper.uid),
-    };
-  }
-
-  private getInjectorForComponent(): Injector {
-    const configProviders &#x3D;
-      (this.config.cmsComponents[this.cxComponentWrapper.flexType] || {})
-        .providers || [];
-    return Injector.create({
-      providers: [
-        {
-          provide: CmsComponentData,
-          useValue: this.getCmsDataForComponent(),
-        },
-        ...configProviders,
-      ],
-      parent: this.injector,
-    });
-  }
-
-  private addSmartEditContract(element: Element) {
+  private decorate(elementRef: ElementRef): void {
     this.dynamicAttributeService.addDynamicAttributes(
-      this.cxComponentWrapper.properties,
-      element,
-      this.renderer
+      elementRef.nativeElement,
+      this.renderer,
+      { componentData: this.cxComponentWrapper }
     );
   }
 
   ngOnDestroy() {
-    if (this.cmpRef) {
-      this.cmpRef.destroy();
-    }
-    if (this.webElement) {
-      this.webElement.remove();
+    if (this.launcherResource) {
+      this.launcherResource.unsubscribe();
     }
   }
 }

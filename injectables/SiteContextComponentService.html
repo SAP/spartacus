@@ -864,7 +864,7 @@ export class SiteContextComponentService {
     context?: SiteContextType
   ): Observable&lt;SiteContext&lt;any&gt;&gt; {
     return this.getContext(context).pipe(
-      map((ctx: string) &#x3D;&gt; this.getInjectedService(ctx)),
+      map((ctx: string) &#x3D;&gt; (ctx ? this.getInjectedService(ctx) : undefined)),
       filter((s) &#x3D;&gt; !!s)
     );
   }
@@ -874,7 +874,7 @@ export class SiteContextComponentService {
       return of(context);
     } else if (this.componentData) {
       return this.componentData.data$.pipe(
-        map((data) &#x3D;&gt; data.context),
+        map((data) &#x3D;&gt; data?.context),
         map((ctx) &#x3D;&gt; {
           switch (ctx) {
             case &#x27;LANGUAGE&#x27;:

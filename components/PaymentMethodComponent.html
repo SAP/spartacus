@@ -128,26 +128,22 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#allowRouting">allowRouting</a>
+                                <a href="#cards$">cards$</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#checkoutStepUrlNext">checkoutStepUrlNext</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#checkoutStepUrlPrevious">checkoutStepUrlPrevious</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#deliveryAddress">deliveryAddress</a>
                             </li>
                             <li>
                                 <a href="#existingPaymentMethods$">existingPaymentMethods$</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getPaymentDetailsSub">getPaymentDetailsSub</a>
                             </li>
                             <li>
                                 <a href="#iconTypes">iconTypes</a>
@@ -162,7 +158,11 @@
                                 <a href="#newPaymentFormManuallyOpened">newPaymentFormManuallyOpened</a>
                             </li>
                             <li>
-                                <a href="#selectedPayment">selectedPayment</a>
+                                <a href="#selectedMethod$">selectedMethod$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#shouldRedirect">shouldRedirect</a>
                             </li>
                         </ul>
                     </td>
@@ -179,9 +179,6 @@
                             <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#createCard">createCard</a>
-                            </li>
-                            <li>
-                                <a href="#getCardContent">getCardContent</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -238,7 +235,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -410,90 +407,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createCard(paymentDetails, cardLabels)</code>
+                    <code>createCard(paymentDetails: <a href="../interfaces/PaymentDetails.html">PaymentDetails</a>, cardLabels: literal type, selected: <a href="../interfaces/PaymentDetails.html">PaymentDetails</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="210"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:210</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>paymentDetails</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>cardLabels</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#header" target="_self" >{ title: any; textBold: any; text: {}; img: string; actions: {}; header: any; }</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getCardContent"></a>
-                    <span class="name">
-                        <b>
-                            getCardContent
-                        </b>
-                        <a href="#getCardContent"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getCardContent(payment: <a href="../interfaces/PaymentDetails.html">PaymentDetails</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="110"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:110</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="225"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:225</a></div>
                 </td>
             </tr>
 
@@ -513,7 +435,31 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>payment</td>
+                                    <td>paymentDetails</td>
+                                    <td>
+                                                <code><a href="../interfaces/PaymentDetails.html" target="_self" >PaymentDetails</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>cardLabels</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>selected</td>
                                     <td>
                                                 <code><a href="../interfaces/PaymentDetails.html" target="_self" >PaymentDetails</a></code>
                                     </td>
@@ -530,7 +476,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Card.html" target="_self" >Observable&lt;Card&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Card.html" target="_self" >Card</a></code>
 
                     </div>
                     <div class="io-description">
@@ -564,8 +510,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="183"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:183</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="198"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:198</a></div>
                 </td>
             </tr>
 
@@ -634,8 +580,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="226"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:226</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="250"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:250</a></div>
                 </td>
             </tr>
 
@@ -673,8 +619,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="233"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:233</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="254"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:254</a></div>
                 </td>
             </tr>
 
@@ -712,8 +658,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="150"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:150</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="177"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:177</a></div>
                 </td>
             </tr>
 
@@ -751,8 +697,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="175"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:175</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="194"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:194</a></div>
                 </td>
             </tr>
 
@@ -790,8 +736,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:59</a></div>
                 </td>
             </tr>
 
@@ -829,8 +775,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="142"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:142</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="169"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:169</a></div>
                 </td>
             </tr>
 
@@ -894,15 +840,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>sendPaymentMethodFailGlobalMessage(msg: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>sendPaymentMethodFailGlobalMessage(field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="200"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:200</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="215"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:215</a></div>
                 </td>
             </tr>
 
@@ -922,7 +868,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>msg</td>
+                                    <td>field</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -971,8 +917,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="154"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:154</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="181"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:181</a></div>
                 </td>
             </tr>
 
@@ -1040,8 +986,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="146"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:146</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="173"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:173</a></div>
                 </td>
             </tr>
 
@@ -1067,23 +1013,23 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="allowRouting"></a>
+                        <a name="cards$"></a>
                         <span class="name">
                             <b>
-                            allowRouting</b>
-                            <a href="#allowRouting"><span class="icon ion-ios-link"></span></a>
+                            cards$</b>
+                            <a href="#cards$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                            <i>Type : </i>    <code>Observable&lt;literal type[]&gt;</code>
 
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -1097,9 +1043,37 @@
                         <a name="checkoutStepUrlNext"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Private</span>
+                                <span class="modifier">Protected</span>
                             checkoutStepUrlNext</b>
                             <a href="#checkoutStepUrlNext"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:43</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="checkoutStepUrlPrevious"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            checkoutStepUrlPrevious</b>
+                            <a href="#checkoutStepUrlPrevious"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
@@ -1122,38 +1096,10 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="checkoutStepUrlPrevious"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            checkoutStepUrlPrevious</b>
-                            <a href="#checkoutStepUrlPrevious"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:45</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
                         <a name="deliveryAddress"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Private</span>
+                                <span class="modifier">Protected</span>
                             deliveryAddress</b>
                             <a href="#deliveryAddress"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -1167,7 +1113,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:43</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:42</a></div>
                             </td>
                         </tr>
 
@@ -1194,35 +1140,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:35</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="getPaymentDetailsSub"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            getPaymentDetailsSub</b>
-                            <a href="#getPaymentDetailsSub"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>    <code>Subscription</code>
-
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:41</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -1274,7 +1192,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:39</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -1301,7 +1219,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:36</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -1327,7 +1245,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:34</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:39</a></div>
                             </td>
                         </tr>
 
@@ -1338,23 +1256,51 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="selectedPayment"></a>
+                        <a name="selectedMethod$"></a>
                         <span class="name">
                             <b>
-                            selectedPayment</b>
-                            <a href="#selectedPayment"><span class="icon ion-ios-link"></span></a>
+                            selectedMethod$</b>
+                            <a href="#selectedMethod$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../interfaces/PaymentDetails.html" target="_self" >PaymentDetails</a></code>
+                            <i>Type : </i>    <code>Observable&lt;PaymentDetails&gt;</code>
 
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
                                     <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:37</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="shouldRedirect"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            shouldRedirect</b>
+                            <a href="#shouldRedirect"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts:41</a></div>
                             </td>
                         </tr>
 
@@ -1387,8 +1333,8 @@ import {
   TranslationService,
   UserPaymentService,
 } from &#x27;@spartacus/core&#x27;;
-import { combineLatest, Observable, Subscription } from &#x27;rxjs&#x27;;
-import { filter, map, take } from &#x27;rxjs/operators&#x27;;
+import { combineLatest, Observable, of } from &#x27;rxjs&#x27;;
+import { map, switchMap, take, tap } from &#x27;rxjs/operators&#x27;;
 import { Card } from &#x27;../../../../shared/components/card/card.component&#x27;;
 import { ICON_TYPE } from &#x27;../../../misc/icon&#x27;;
 import { CheckoutConfigService } from &#x27;../../services/checkout-config.service&#x27;;
@@ -1400,18 +1346,17 @@ import { CheckoutConfigService } from &#x27;../../services/checkout-config.servi
 })
 export class PaymentMethodComponent implements OnInit, OnDestroy {
   iconTypes &#x3D; ICON_TYPE;
-  newPaymentFormManuallyOpened &#x3D; false;
   existingPaymentMethods$: Observable&lt;PaymentDetails[]&gt;;
   isLoading$: Observable&lt;boolean&gt;;
-  selectedPayment: PaymentDetails;
-  allowRouting: boolean;
+  cards$: Observable&lt;{ content: Card; paymentMethod: PaymentDetails }[]&gt;;
+  selectedMethod$: Observable&lt;PaymentDetails&gt;;
   isGuestCheckout &#x3D; false;
+  newPaymentFormManuallyOpened &#x3D; false;
 
-  private getPaymentDetailsSub: Subscription;
-
-  private deliveryAddress: Address;
-  private checkoutStepUrlNext: string;
-  private checkoutStepUrlPrevious: string;
+  protected shouldRedirect: boolean;
+  protected deliveryAddress: Address;
+  protected checkoutStepUrlNext: string;
+  protected checkoutStepUrlPrevious: string;
 
   constructor(
     protected userPaymentService: UserPaymentService,
@@ -1427,7 +1372,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.allowRouting &#x3D; false;
+    this.shouldRedirect &#x3D; false;
     this.isLoading$ &#x3D; this.userPaymentService.getPaymentMethodsLoading();
 
     if (!this.activeCartService.isGuestCart()) {
@@ -1452,64 +1397,92 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       });
 
     this.existingPaymentMethods$ &#x3D; this.userPaymentService.getPaymentMethods();
-    this.getPaymentDetailsSub &#x3D; this.checkoutPaymentService
-      .getPaymentDetails()
-      .pipe(
-        filter(
-          (paymentInfo) &#x3D;&gt; paymentInfo &amp;&amp; !!Object.keys(paymentInfo).length
-        )
-      )
-      .subscribe((paymentInfo) &#x3D;&gt; {
-        if (this.allowRouting) {
-          this.routingService.go(this.checkoutStepUrlNext);
-        }
-        if (!paymentInfo[&#x27;hasError&#x27;]) {
-          this.selectedPayment &#x3D; paymentInfo;
-        } else {
-          Object.keys(paymentInfo).forEach((key) &#x3D;&gt; {
-            if (key.startsWith(&#x27;InvalidField&#x27;)) {
-              this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
-            }
-          });
-          this.checkoutService.clearCheckoutStep(3);
-        }
-      });
-  }
 
-  getCardContent(payment: PaymentDetails): Observable&lt;Card&gt; {
-    if (!this.selectedPayment &amp;&amp; payment.defaultPayment) {
-      this.selectedPayment &#x3D; payment;
-    }
+    this.selectedMethod$ &#x3D; this.checkoutPaymentService.getPaymentDetails().pipe(
+      tap((paymentInfo) &#x3D;&gt; {
+        if (paymentInfo &amp;&amp; !!Object.keys(paymentInfo).length) {
+          if (paymentInfo[&#x27;hasError&#x27;]) {
+            Object.keys(paymentInfo).forEach((key) &#x3D;&gt; {
+              if (key.startsWith(&#x27;InvalidField&#x27;)) {
+                this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
+              }
+            });
+            this.checkoutService.clearCheckoutStep(3);
+          } else if (this.shouldRedirect) {
+            this.routingService.go(this.checkoutStepUrlNext);
+          }
+        }
+      })
+    );
 
-    return combineLatest([
-      this.translation.translate(&#x27;paymentCard.expires&#x27;, {
-        month: payment.expiryMonth,
-        year: payment.expiryYear,
-      }),
+    this.cards$ &#x3D; combineLatest([
+      this.existingPaymentMethods$.pipe(
+        switchMap((methods) &#x3D;&gt; {
+          return !methods?.length
+            ? of([])
+            : combineLatest(
+                methods.map((method) &#x3D;&gt;
+                  combineLatest([
+                    of(method),
+                    this.translation.translate(&#x27;paymentCard.expires&#x27;, {
+                      month: method.expiryMonth,
+                      year: method.expiryYear,
+                    }),
+                  ]).pipe(
+                    map(([payment, translation]) &#x3D;&gt; ({
+                      payment,
+                      expiryTranslation: translation,
+                    }))
+                  )
+                )
+              );
+        })
+      ),
+      this.selectedMethod$,
       this.translation.translate(&#x27;paymentForm.useThisPayment&#x27;),
       this.translation.translate(&#x27;paymentCard.defaultPaymentMethod&#x27;),
       this.translation.translate(&#x27;paymentCard.selected&#x27;),
     ]).pipe(
       map(
         ([
-          textExpires,
+          paymentMethods,
+          selectedMethod,
           textUseThisPayment,
           textDefaultPaymentMethod,
           textSelected,
         ]) &#x3D;&gt; {
-          return this.createCard(payment, {
-            textExpires,
-            textUseThisPayment,
-            textDefaultPaymentMethod,
-            textSelected,
-          });
+          if (
+            paymentMethods.length &amp;&amp;
+            (!selectedMethod || Object.keys(selectedMethod).length &#x3D;&#x3D;&#x3D; 0)
+          ) {
+            const defaultPaymentMethod &#x3D; paymentMethods.find(
+              (paymentMethod) &#x3D;&gt; paymentMethod.payment.defaultPayment
+            );
+            if (defaultPaymentMethod) {
+              selectedMethod &#x3D; defaultPaymentMethod.payment;
+              this.checkoutPaymentService.setPaymentDetails(selectedMethod);
+            }
+          }
+          return paymentMethods.map((payment) &#x3D;&gt; ({
+            content: this.createCard(
+              payment.payment,
+              {
+                textExpires: payment.expiryTranslation,
+                textUseThisPayment,
+                textDefaultPaymentMethod,
+                textSelected,
+              },
+              selectedMethod
+            ),
+            paymentMethod: payment.payment,
+          }));
         }
       )
     );
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
-    this.selectedPayment &#x3D; paymentDetails;
+    this.checkoutPaymentService.setPaymentDetails(paymentDetails);
   }
 
   showNewPaymentForm(): void {
@@ -1523,29 +1496,17 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   setPaymentDetails({
     paymentDetails,
     billingAddress,
-    isNewPayment &#x3D; true,
   }: {
     paymentDetails: PaymentDetails;
     billingAddress?: Address;
-    isNewPayment?: boolean;
   }): void {
     const details: PaymentDetails &#x3D; { ...paymentDetails };
     details.billingAddress &#x3D; billingAddress || this.deliveryAddress;
-
-    if (isNewPayment) {
-      this.checkoutPaymentService.createPaymentDetails(details);
-    } else if (this.selectedPayment &amp;&amp; this.selectedPayment.id &#x3D;&#x3D;&#x3D; details.id) {
-      this.checkoutPaymentService.setPaymentDetails(details);
-    }
-
-    this.allowRouting &#x3D; true;
+    this.checkoutPaymentService.createPaymentDetails(details);
+    this.shouldRedirect &#x3D; true;
   }
 
   ngOnDestroy(): void {
-    if (this.getPaymentDetailsSub) {
-      this.getPaymentDetailsSub.unsubscribe();
-    }
-
     this.checkoutPaymentService.paymentProcessSuccess();
   }
 
@@ -1566,17 +1527,26 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     return ccIcon;
   }
 
-  protected sendPaymentMethodFailGlobalMessage(msg: string) {
+  protected sendPaymentMethodFailGlobalMessage(field: string) {
     this.globalMessageService.add(
       {
         key: &#x27;paymentMethods.invalidField&#x27;,
-        params: { field: msg },
+        params: { field },
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   }
 
-  protected createCard(paymentDetails, cardLabels) {
+  protected createCard(
+    paymentDetails: PaymentDetails,
+    cardLabels: {
+      textDefaultPaymentMethod: string;
+      textExpires: string;
+      textUseThisPayment: string;
+      textSelected: string;
+    },
+    selected: PaymentDetails
+  ): Card {
     return {
       title: paymentDetails.defaultPayment
         ? cardLabels.textDefaultPaymentMethod
@@ -1586,17 +1556,14 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       img: this.getCardIcon(paymentDetails.cardType.code),
       actions: [{ name: cardLabels.textUseThisPayment, event: &#x27;send&#x27; }],
       header:
-        this.selectedPayment &amp;&amp; this.selectedPayment.id &#x3D;&#x3D;&#x3D; paymentDetails.id
+        selected?.id &#x3D;&#x3D;&#x3D; paymentDetails.id
           ? cardLabels.textSelected
           : undefined,
     };
   }
 
   goNext(): void {
-    this.setPaymentDetails({
-      paymentDetails: this.selectedPayment,
-      isNewPayment: false,
-    });
+    this.routingService.go(this.checkoutStepUrlNext);
   }
 
   goPrevious(): void {
@@ -1607,15 +1574,14 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;ng-container *ngIf&#x3D;&quot;existingPaymentMethods$ | async as existingPaymentMethods&quot;&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;ng-container *ngIf&#x3D;&quot;cards$ | async as cards&quot;&gt;
   &lt;h3 class&#x3D;&quot;cx-checkout-title d-none d-lg-block d-xl-block&quot;&gt;
     {{ &#x27;paymentForm.payment&#x27; | cxTranslate }}
   &lt;/h3&gt;
   &lt;ng-container *ngIf&#x3D;&quot;!(isLoading$ | async); else loading&quot;&gt;
     &lt;ng-container
       *ngIf&#x3D;&quot;
-        (existingPaymentMethods$ | async).length &amp;&amp;
-          !newPaymentFormManuallyOpened;
+        cards?.length &amp;&amp; !newPaymentFormManuallyOpened;
         else newPaymentForm
       &quot;
     &gt;
@@ -1636,14 +1602,14 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       &lt;div class&#x3D;&quot;cx-checkout-body row&quot;&gt;
         &lt;div
           class&#x3D;&quot;cx-payment-card col-md-12 col-lg-6&quot;
-          *ngFor&#x3D;&quot;let method of existingPaymentMethods; let i &#x3D; index&quot;
+          *ngFor&#x3D;&quot;let card of cards; let i &#x3D; index&quot;
         &gt;
           &lt;div class&#x3D;&quot;cx-payment-card-inner&quot;&gt;
             &lt;cx-card
               [border]&#x3D;&quot;true&quot;
               [fitToContainer]&#x3D;&quot;true&quot;
-              [content]&#x3D;&quot;getCardContent(method) | async&quot;
-              (sendCard)&#x3D;&quot;selectPaymentMethod(method)&quot;
+              [content]&#x3D;&quot;card.content&quot;
+              (sendCard)&#x3D;&quot;selectPaymentMethod(card.paymentMethod)&quot;
             &gt;&lt;/cx-card&gt;
           &lt;/div&gt;
         &lt;/div&gt;
@@ -1658,7 +1624,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
         &lt;div class&#x3D;&quot;col-md-12 col-lg-6&quot;&gt;
           &lt;button
             class&#x3D;&quot;btn btn-block btn-primary&quot;
-            [disabled]&#x3D;&quot;!selectedPayment&quot;
+            [disabled]&#x3D;&quot;!(selectedMethod$ | async)?.id&quot;
             (click)&#x3D;&quot;goNext()&quot;
           &gt;
             {{ &#x27;common.continue&#x27; | cxTranslate }}
@@ -1672,7 +1638,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
         (setPaymentDetails)&#x3D;&quot;setPaymentDetails($event)&quot;
         (closeForm)&#x3D;&quot;hideNewPaymentForm()&quot;
         (goBack)&#x3D;&quot;goPrevious()&quot;
-        [paymentMethodsCount]&#x3D;&quot;existingPaymentMethods?.length || 0&quot;
+        [paymentMethodsCount]&#x3D;&quot;cards?.length || 0&quot;
         [setAsDefaultField]&#x3D;&quot;!isGuestCheckout&quot;
       &gt;&lt;/cx-payment-form&gt;
     &lt;/ng-template&gt;
@@ -1711,8 +1677,8 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="existingPaymentMethods$ | async as existingPaymentMethods">  <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">    {{ \'paymentForm.payment\' | cxTranslate }}  </h3>  <ng-container *ngIf="!(isLoading$ | async); else loading">    <ng-container      *ngIf="        (existingPaymentMethods$ | async).length &&          !newPaymentFormManuallyOpened;        else newPaymentForm      "    >      <p class="cx-checkout-text">        {{ \'paymentForm.choosePaymentMethod\' | cxTranslate }}      </p>      <div class="cx-checkout-btns row">        <div class="col-md-12 col-lg-6">          <button            class="btn btn-block btn-action"            (click)="showNewPaymentForm()"          >            {{ \'paymentForm.addNewPayment\' | cxTranslate }}          </button>        </div>      </div>      <div class="cx-checkout-body row">        <div          class="cx-payment-card col-md-12 col-lg-6"          *ngFor="let method of existingPaymentMethods; let i = index"        >          <div class="cx-payment-card-inner">            <cx-card              [border]="true"              [fitToContainer]="true"              [content]="getCardContent(method) | async"              (sendCard)="selectPaymentMethod(method)"            ></cx-card>          </div>        </div>      </div>      <div class="row cx-checkout-btns">        <div class="col-md-12 col-lg-6">          <button class="btn btn-block btn-action" (click)="goPrevious()">            {{ \'common.back\' | cxTranslate }}          </button>        </div>        <div class="col-md-12 col-lg-6">          <button            class="btn btn-block btn-primary"            [disabled]="!selectedPayment"            (click)="goNext()"          >            {{ \'common.continue\' | cxTranslate }}          </button>        </div>      </div>    </ng-container>    <ng-template #newPaymentForm>      <cx-payment-form        (setPaymentDetails)="setPaymentDetails($event)"        (closeForm)="hideNewPaymentForm()"        (goBack)="goPrevious()"        [paymentMethodsCount]="existingPaymentMethods?.length || 0"        [setAsDefaultField]="!isGuestCheckout"      ></cx-payment-form>    </ng-template>  </ng-container>  <ng-template #loading>    <div class="cx-spinner"><cx-spinner></cx-spinner></div>  </ng-template></ng-container></div>'
-    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
+        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="cards$ | async as cards">  <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">    {{ \'paymentForm.payment\' | cxTranslate }}  </h3>  <ng-container *ngIf="!(isLoading$ | async); else loading">    <ng-container      *ngIf="        cards?.length && !newPaymentFormManuallyOpened;        else newPaymentForm      "    >      <p class="cx-checkout-text">        {{ \'paymentForm.choosePaymentMethod\' | cxTranslate }}      </p>      <div class="cx-checkout-btns row">        <div class="col-md-12 col-lg-6">          <button            class="btn btn-block btn-action"            (click)="showNewPaymentForm()"          >            {{ \'paymentForm.addNewPayment\' | cxTranslate }}          </button>        </div>      </div>      <div class="cx-checkout-body row">        <div          class="cx-payment-card col-md-12 col-lg-6"          *ngFor="let card of cards; let i = index"        >          <div class="cx-payment-card-inner">            <cx-card              [border]="true"              [fitToContainer]="true"              [content]="card.content"              (sendCard)="selectPaymentMethod(card.paymentMethod)"            ></cx-card>          </div>        </div>      </div>      <div class="row cx-checkout-btns">        <div class="col-md-12 col-lg-6">          <button class="btn btn-block btn-action" (click)="goPrevious()">            {{ \'common.back\' | cxTranslate }}          </button>        </div>        <div class="col-md-12 col-lg-6">          <button            class="btn btn-block btn-primary"            [disabled]="!(selectedMethod$ | async)?.id"            (click)="goNext()"          >            {{ \'common.continue\' | cxTranslate }}          </button>        </div>      </div>    </ng-container>    <ng-template #newPaymentForm>      <cx-payment-form        (setPaymentDetails)="setPaymentDetails($event)"        (closeForm)="hideNewPaymentForm()"        (goBack)="goPrevious()"        [paymentMethodsCount]="cards?.length || 0"        [setAsDefaultField]="!isGuestCheckout"      ></cx-payment-form>    </ng-template>  </ng-container>  <ng-template #loading>    <div class="cx-spinner"><cx-spinner></cx-spinner></div>  </ng-template></ng-container></div>'
+    var COMPONENTS = [{'name': 'ActiveFacetsComponent', 'selector': 'cx-active-facets'},{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FacetComponent', 'selector': 'cx-facet'},{'name': 'FacetListComponent', 'selector': 'cx-facet-list'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'FormErrorsComponent', 'selector': 'cx-form-errors'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailHeadlineComponent', 'selector': 'cx-order-details-headline'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
     var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'FocusDirective', 'selector': '[cxFocus]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
     var ACTUAL_COMPONENT = {'name': 'PaymentMethodComponent'};
 </script>

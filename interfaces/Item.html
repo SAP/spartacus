@@ -286,11 +286,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Input, OnInit, Output } from &#x27;@angular/core&#x27;;
 import { FormControl } from &#x27;@angular/forms&#x27;;
-import {
-  FeatureConfigService,
-  PromotionLocation,
-  PromotionResult,
-} from &#x27;@spartacus/core&#x27;;
+import { PromotionLocation, PromotionResult } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { PromotionService } from &#x27;../../../../shared/services/promotion/promotion.service&#x27;;
 
@@ -329,22 +325,7 @@ export class CartItemComponent implements OnInit {
 
   appliedProductPromotions$: Observable&lt;PromotionResult[]&gt;;
 
-  constructor(
-    promotionService: PromotionService,
-    // tslint:disable-next-line:unified-signatures
-    featureConfig: FeatureConfigService
-  );
-  /**
-   * @deprecated Since 1.5
-   * Add featureConfig for save for later.
-   * Remove issue: #5958
-   */
-  constructor(promotionService: PromotionService);
-
-  constructor(
-    protected promotionService: PromotionService,
-    private featureConfig?: FeatureConfigService
-  ) {}
+  constructor(protected promotionService: PromotionService) {}
 
   ngOnInit() {
     this.appliedProductPromotions$ &#x3D; this.promotionService.getProductPromotionForEntry(
@@ -352,15 +333,6 @@ export class CartItemComponent implements OnInit {
       this.promotionLocation
     );
   }
-
-  //TODO remove feature flag for #5958
-  isSaveForLaterEnabled(): boolean {
-    if (this.featureConfig) {
-      return this.featureConfig.isEnabled(&#x27;saveForLater&#x27;);
-    }
-    return false;
-  }
-  //TODO remove feature flag for #5958
 
   isProductOutOfStock(product: any) {
     // TODO Move stocklevelstatuses across the app to an enum

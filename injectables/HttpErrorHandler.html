@@ -75,7 +75,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Abstract</span>
+                                    <span class="modifier">Optional</span>
                                 <a href="#responseStatus">responseStatus</a>
                             </li>
                         </ul>
@@ -92,7 +92,15 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Abstract</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#getPriority">getPriority</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
                                 <a href="#handleError">handleError</a>
+                            </li>
+                            <li>
+                                <a href="#hasMatch">hasMatch</a>
                             </li>
                         </ul>
                     </td>
@@ -117,7 +125,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/http-error.handler.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/http-error.handler.ts:9</a></div>
                             </td>
                         </tr>
 
@@ -164,6 +172,48 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getPriority"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Abstract</span>
+                            <span class="modifier">Optional</span>
+                            getPriority
+                        </b>
+                        <a href="#getPriority"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getPriority()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/http-error.handler.ts:37</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#Priority" target="_self" >Priority</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="handleError"></a>
                     <span class="name">
                         <b>
@@ -184,8 +234,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/http-error.handler.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/http-error.handler.ts:24</a></div>
                 </td>
             </tr>
 
@@ -255,6 +305,79 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasMatch"></a>
+                    <span class="name">
+                        <b>
+                            hasMatch
+                        </b>
+                        <a href="#hasMatch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>hasMatch(errorResponse: <a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank">HttpErrorResponse</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/http-error.handler.ts:33</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Error handlers are matched by the error <code>responseStatus</code> (i.e. 404). On top of the matching status
+a priority can be added to distinguish multiple handles for the same response status.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>errorResponse</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank" >HttpErrorResponse</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
             <section>
     
@@ -268,7 +391,7 @@
                         <a name="responseStatus"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Abstract</span>
+                                <span class="modifier">Optional</span>
                             responseStatus</b>
                             <a href="#responseStatus"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -282,7 +405,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/http-error.handler.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/http-error.handler.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -306,11 +429,12 @@ the handler can be found by the error interceptor.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpErrorResponse, HttpRequest } from &#x27;@angular/common/http&#x27;;
 import { GlobalMessageService } from &#x27;../../facade/global-message.service&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
+import { Applicable, Priority } from &#x27;../../../util/applicable&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export abstract class HttpErrorHandler {
+export abstract class HttpErrorHandler implements Applicable {
   constructor(protected globalMessageService: GlobalMessageService) {}
 
   /**
@@ -318,7 +442,7 @@ export abstract class HttpErrorHandler {
    * Implementations can set the response status number, i.e. 404, so that
    * the handler can be found by the error interceptor.
    */
-  abstract responseStatus: number;
+  responseStatus?: number;
 
   /**
    * Handles the error response for the respose status that is register for the handler
@@ -329,6 +453,16 @@ export abstract class HttpErrorHandler {
     request: HttpRequest&lt;any&gt;,
     errorResponse: HttpErrorResponse
   ): void;
+
+  /**
+   * Error handlers are matched by the error &#x60;responseStatus&#x60; (i.e. 404). On top of the matching status
+   * a priority can be added to distinguish multiple handles for the same response status.
+   */
+  hasMatch(errorResponse: HttpErrorResponse): boolean {
+    return errorResponse.status &#x3D;&#x3D;&#x3D; this.responseStatus;
+  }
+
+  abstract getPriority?(): Priority;
 }
 </code></pre>
     </div>

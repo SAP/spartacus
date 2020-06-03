@@ -95,6 +95,14 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#renderedComponents">renderedComponents</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#renderedTemplate">renderedTemplate</a>
+                            </li>
+                            <li>
                                 <a href="#subscription">subscription</a>
                             </li>
                         </ul>
@@ -111,6 +119,14 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Private</span>
+                                <a href="#build">build</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#buildOutlet">buildOutlet</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
                                 <a href="#create">create</a>
                             </li>
                             <li>
@@ -122,22 +138,14 @@
                                 <a href="#getHostElement">getHostElement</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#initializeOutlet">initializeOutlet</a>
-                            </li>
-                            <li>
                                 <a href="#ngOnChanges">ngOnChanges</a>
                             </li>
                             <li>
                                 <a href="#ngOnDestroy">ngOnDestroy</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Public</span>
                                 <a href="#render">render</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#renderOutlet">renderOutlet</a>
                             </li>
                         </ul>
                     </td>
@@ -191,12 +199,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(vcr: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, templateRef: TemplateRef<any>, outletService: <a href="../injectables/OutletService.html">OutletService<TemplateRef | ComponentFactory></a>, deferLoaderService?: <a href="../injectables/DeferLoaderService.html">DeferLoaderService</a>)</code>
+<code>constructor(vcr: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, templateRef: TemplateRef<any>, outletService: <a href="../injectables/OutletService.html">OutletService<TemplateRef | ComponentFactory></a>, deferLoaderService: <a href="../injectables/DeferLoaderService.html">DeferLoaderService</a>, outletRendererService: <a href="../injectables/OutletRendererService.html">OutletRendererService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:51</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:43</a></div>
                             </td>
                         </tr>
 
@@ -257,7 +265,19 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>outletRendererService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/OutletRendererService.html" target="_self" >OutletRendererService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -288,7 +308,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:32</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -309,7 +329,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:34</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -330,7 +350,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:30</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:39</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -360,7 +380,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:32</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:41</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -373,6 +393,119 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="build"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            build
+                        </b>
+                        <a href="#build"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>build()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="92"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:92</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buildOutlet"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            buildOutlet
+                        </b>
+                        <a href="#buildOutlet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>buildOutlet(position: <a href="../undefineds/OutletPosition.html">OutletPosition</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:98</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>position</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/enumerations.html#OutletPosition" target="_self" >OutletPosition</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -397,8 +530,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="124"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:124</a></div>
                 </td>
             </tr>
 
@@ -435,7 +568,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Component.html" target="_self" >ComponentRef | EmbeddedViewRef</a></code>
 
                     </div>
                     <div class="io-description">
@@ -469,8 +602,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="79"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:79</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:76</a></div>
                 </td>
             </tr>
 
@@ -503,15 +636,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getHostElement(element: Element)</code>
+                    <code>getHostElement(element: Node)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="144"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:144</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:155</a></div>
                 </td>
             </tr>
 
@@ -519,7 +652,10 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Returns the closest <code>HtmlElement</code>, by iterating over the
-parent elements of the given element.</p>
+parent nodes of the given element.</p>
+<p>We avoid traversing the parent <em>elements</em>, as this is blocking
+ie11 implementations. One of the spare exclusions we make to not
+supporting ie11.</p>
 </div>
 
                     <div class="io-description">
@@ -536,7 +672,7 @@ parent elements of the given element.</p>
                                 <tr>
                                     <td>element</td>
                                     <td>
-                                            <code>Element</code>
+                                            <code>Node</code>
                                     </td>
 
                                     <td>
@@ -565,47 +701,6 @@ parent elements of the given element.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="initializeOutlet"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            initializeOutlet
-                        </b>
-                        <a href="#initializeOutlet"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>initializeOutlet()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:61</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="ngOnChanges"></a>
                     <span class="name">
                         <b>
@@ -624,8 +719,8 @@ parent elements of the given element.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:69</a></div>
                 </td>
             </tr>
 
@@ -694,8 +789,8 @@ parent elements of the given element.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:151</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:162</a></div>
                 </td>
             </tr>
 
@@ -718,7 +813,7 @@ parent elements of the given element.</p>
                     <a name="render"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Public</span>
                             render
                         </b>
                         <a href="#render"><span class="icon ion-ios-link"></span></a>
@@ -735,8 +830,8 @@ parent elements of the given element.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:55</a></div>
                 </td>
             </tr>
 
@@ -747,78 +842,6 @@ parent elements of the given element.</p>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="renderOutlet"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            renderOutlet
-                        </b>
-                        <a href="#renderOutlet"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>renderOutlet(position: <a href="../undefineds/OutletPosition.html">OutletPosition</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:101</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>position</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/enumerations.html#OutletPosition" target="_self" >OutletPosition</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -830,6 +853,69 @@ parent elements of the given element.</p>
         <h3 id="inputs">
             Properties
         </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="renderedComponents"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            renderedComponents</b>
+                            <a href="#renderedComponents"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Map&lt;
+    OutletPosition,
+    Array&lt;ComponentRef&lt;any&gt; | EmbeddedViewRef&lt;any&gt;&gt;
+  &gt;()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:27</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="renderedTemplate"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            renderedTemplate</b>
+                            <a href="#renderedTemplate"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:26</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -849,7 +935,7 @@ parent elements of the given element.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:34</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.directive.ts:43</a></div>
                             </td>
                         </tr>
 
@@ -865,7 +951,9 @@ parent elements of the given element.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   ComponentFactory,
+  ComponentRef,
   Directive,
+  EmbeddedViewRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -878,6 +966,7 @@ parent elements of the given element.</p>
 import { Subscription } from &#x27;rxjs&#x27;;
 import { DeferLoaderService } from &#x27;../../layout/loading/defer-loader.service&#x27;;
 import { IntersectionOptions } from &#x27;../../layout/loading/intersection.model&#x27;;
+import { OutletRendererService } from &#x27;./outlet-renderer.service&#x27;;
 import { OutletPosition, USE_STACKED_OUTLETS } from &#x27;./outlet.model&#x27;;
 import { OutletService } from &#x27;./outlet.service&#x27;;
 
@@ -885,6 +974,12 @@ import { OutletService } from &#x27;./outlet.service&#x27;;
   selector: &#x27;[cxOutlet]&#x27;,
 })
 export class OutletDirective implements OnDestroy, OnChanges {
+  private renderedTemplate &#x3D; [];
+  public renderedComponents &#x3D; new Map&lt;
+    OutletPosition,
+    Array&lt;ComponentRef&lt;any&gt; | EmbeddedViewRef&lt;any&gt;&gt;
+  &gt;();
+
   @Input() cxOutlet: string;
 
   @Input() cxOutletContext: any;
@@ -899,45 +994,33 @@ export class OutletDirective implements OnDestroy, OnChanges {
   subscription &#x3D; new Subscription();
 
   constructor(
-    vcr: ViewContainerRef,
-    templateRef: TemplateRef&lt;any&gt;,
-    outletService: OutletService&lt;TemplateRef&lt;any&gt; | ComponentFactory&lt;any&gt;&gt;,
-    // tslint:disable-next-line: unified-signatures
-    intersectionService: DeferLoaderService
-  );
-  /**
-   * @deprecated since version 1.4
-   * Use constructor(vcr: ViewContainerRef, templateRef: TemplateRef&lt;any&gt;, outletService: OutletService&lt;TemplateRef&lt;any&gt; | ComponentFactory&lt;any&gt;&gt;, intersectionService?: IntersectionService) instead
-   */
-  constructor(
-    vcr: ViewContainerRef,
-    templateRef: TemplateRef&lt;any&gt;,
-    outletService: OutletService&lt;TemplateRef&lt;any&gt; | ComponentFactory&lt;any&gt;&gt;
-  );
-  constructor(
     private vcr: ViewContainerRef,
     private templateRef: TemplateRef&lt;any&gt;,
     private outletService: OutletService&lt;
       TemplateRef&lt;any&gt; | ComponentFactory&lt;any&gt;
     &gt;,
-    private deferLoaderService?: DeferLoaderService
+    private deferLoaderService: DeferLoaderService,
+    private outletRendererService: OutletRendererService
   ) {}
 
-  private initializeOutlet(): void {
+  public render(): void {
     this.vcr.clear();
+    this.renderedTemplate &#x3D; [];
+    this.renderedComponents.clear();
     this.subscription.unsubscribe();
     this.subscription &#x3D; new Subscription();
 
     if (this.cxOutletDefer) {
       this.deferLoading();
     } else {
-      this.render();
+      this.build();
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.cxOutlet) {
-      this.initializeOutlet();
+      this.render();
+      this.outletRendererService.register(this.cxOutlet, this);
     }
   }
 
@@ -951,22 +1034,24 @@ export class OutletDirective implements OnDestroy, OnChanges {
       this.deferLoaderService
         .load(hostElement, this.cxOutletDefer)
         .subscribe(() &#x3D;&gt; {
-          this.render();
+          this.build();
           this.loaded.emit(true);
         })
     );
   }
 
-  private render() {
-    this.renderOutlet(OutletPosition.BEFORE);
-    this.renderOutlet(OutletPosition.REPLACE);
-    this.renderOutlet(OutletPosition.AFTER);
+  private build() {
+    this.buildOutlet(OutletPosition.BEFORE);
+    this.buildOutlet(OutletPosition.REPLACE);
+    this.buildOutlet(OutletPosition.AFTER);
   }
 
-  private renderOutlet(position: OutletPosition): void {
+  private buildOutlet(position: OutletPosition): void {
     let templates: any[] &#x3D; &lt;any[]&gt;(
       this.outletService.get(this.cxOutlet, position, USE_STACKED_OUTLETS)
     );
+
+    templates &#x3D; templates?.filter((el) &#x3D;&gt; !this.renderedTemplate.includes(el));
 
     if (!templates &amp;&amp; position &#x3D;&#x3D;&#x3D; OutletPosition.REPLACE) {
       templates &#x3D; [this.templateRef];
@@ -978,14 +1063,21 @@ export class OutletDirective implements OnDestroy, OnChanges {
       templates &#x3D; [templates];
     }
 
+    const components &#x3D; [];
     templates.forEach((obj) &#x3D;&gt; {
-      this.create(obj);
+      const component &#x3D; this.create(obj);
+      components.push(component);
     });
+
+    this.renderedComponents.set(position, components);
   }
 
-  private create(tmplOrFactory: any): void {
+  private create(tmplOrFactory: any): ComponentRef&lt;any&gt; | EmbeddedViewRef&lt;any&gt; {
+    this.renderedTemplate.push(tmplOrFactory);
+
     if (tmplOrFactory instanceof ComponentFactory) {
-      this.vcr.createComponent(tmplOrFactory);
+      const component &#x3D; this.vcr.createComponent(tmplOrFactory);
+      return component;
     } else if (tmplOrFactory instanceof TemplateRef) {
       const view &#x3D; this.vcr.createEmbeddedView(
         &lt;TemplateRef&lt;any&gt;&gt;tmplOrFactory,
@@ -997,20 +1089,25 @@ export class OutletDirective implements OnDestroy, OnChanges {
       // we do not know if content is created dynamically or not
       // so we apply change detection anyway
       view.markForCheck();
+      return view;
     }
   }
 
   /**
    * Returns the closest &#x60;HtmlElement&#x60;, by iterating over the
-   * parent elements of the given element.
+   * parent nodes of the given element.
+   *
+   * We avoid traversing the parent _elements_, as this is blocking
+   * ie11 implementations. One of the spare exclusions we make to not
+   * supporting ie11.
    *
    * @param element
    */
-  private getHostElement(element: Element): HTMLElement {
+  private getHostElement(element: Node): HTMLElement {
     if (element instanceof HTMLElement) {
       return element;
     }
-    return this.getHostElement(element.parentElement);
+    return this.getHostElement(element.parentNode);
   }
 
   ngOnDestroy() {

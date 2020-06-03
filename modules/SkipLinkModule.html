@@ -253,7 +253,6 @@ import {
   NgModule,
 } from &#x27;@angular/core&#x27;;
 import {
-  Config,
   ConfigModule,
   I18nModule,
   provideDefaultConfig,
@@ -263,7 +262,6 @@ import { OutletService } from &#x27;../../../cms-structure/outlet/outlet.service
 import { KeyboardFocusModule } from &#x27;../keyboard-focus/keyboard-focus.module&#x27;;
 import { SkipLinkComponent } from &#x27;./component/skip-link.component&#x27;;
 import { defaultSkipLinkConfig } from &#x27;./config/default-skip-link.config&#x27;;
-import { SkipLinkConfig } from &#x27;./config/skip-link.config&#x27;;
 import { SkipLinkDirective } from &#x27;./directive/skip-link.directive&#x27;;
 
 @NgModule({
@@ -279,7 +277,6 @@ import { SkipLinkDirective } from &#x27;./directive/skip-link.directive&#x27;;
 
   providers: [
     provideDefaultConfig(defaultSkipLinkConfig),
-    { provide: SkipLinkConfig, useExisting: Config },
     {
       provide: APP_INITIALIZER,
       useFactory: skipLinkFactory,

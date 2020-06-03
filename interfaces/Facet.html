@@ -84,6 +84,10 @@
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
+                                        <a href="#expanded">expanded</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#multiSelect">multiSelect</a>
                                 </li>
                                 <li>
@@ -153,6 +157,48 @@
 
 
 
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="expanded"></a>
+                                        <span class="name"><b>expanded</b><a href="#expanded"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>expanded:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Indicates whether the facet group is expanded in the UI. An expanded
+does not necessarily show all facet value at once, this can be limited
+by the so-called <code>topValueCount</code>.</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-sm table-bordered">
@@ -334,7 +380,6 @@ controlled by business users per facet.</p>
                                 <td class="col-md-4">
                                     <div class="io-description"><p>The OCC backend has topValues with duplicated facet data.
 This is not used in the UI, but normalized in the <code>topValueCount</code> property.</p>
-<p>TODO: once we implement a dedicated UI model, we should remove the <code>topValues</code>.</p>
 </div>
                                 </td>
                             </tr>
@@ -450,6 +495,13 @@ export interface Facet {
   visible?: boolean;
 
   /**
+   * Indicates whether the facet group is expanded in the UI. An expanded
+   * does not necessarily show all facet value at once, this can be limited
+   * by the so-called &#x60;topValueCount&#x60;.
+   */
+  expanded?: boolean;
+
+  /**
    * Indicates the top values that will be shown instantly. The top values can be
    * controlled by business users per facet.
    */
@@ -458,8 +510,6 @@ export interface Facet {
   /**
    * The OCC backend has topValues with duplicated facet data.
    * This is not used in the UI, but normalized in the &#x60;topValueCount&#x60; property.
-   *
-   * TODO: once we implement a dedicated UI model, we should remove the &#x60;topValues&#x60;.
    */
   topValues?: FacetValue[];
 }

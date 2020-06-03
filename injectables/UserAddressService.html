@@ -117,10 +117,6 @@
                             <li>
                                 <a href="#updateUserAddress">updateUserAddress</a>
                             </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#withUserId">withUserId</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -1029,78 +1025,6 @@
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="withUserId"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            withUserId
-                        </b>
-                        <a href="#withUserId"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>withUserId(callback: (userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="178"
-                            class="link-to-prism">projects/core/src/user/facade/user-address.service.ts:178</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>callback</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>
 
     </div>
@@ -1110,7 +1034,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { map, take } from &#x27;rxjs/operators&#x27;;
+import { map } from &#x27;rxjs/operators&#x27;;
 import { AuthService } from &#x27;../../auth/facade/auth.service&#x27;;
 import { Address, Country, Region } from &#x27;../../model/address.model&#x27;;
 import { StateWithProcess } from &#x27;../../process/store/process-state&#x27;;
@@ -1131,9 +1055,9 @@ export class UserAddressService {
    * Retrieves user&#x27;s addresses
    */
   loadAddresses(): void {
-    this.withUserId((userId) &#x3D;&gt;
-      this.store.dispatch(new UserActions.LoadUserAddresses(userId))
-    );
+    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
+      this.store.dispatch(new UserActions.LoadUserAddresses(userId));
+    });
   }
 
   /**
@@ -1141,14 +1065,14 @@ export class UserAddressService {
    * @param address a user address
    */
   addUserAddress(address: Address): void {
-    this.withUserId((userId) &#x3D;&gt;
+    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.AddUserAddress({
           userId,
           address,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -1156,15 +1080,15 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   setAddressAsDefault(addressId: string): void {
-    this.withUserId((userId) &#x3D;&gt;
+    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.UpdateUserAddress({
           userId,
           addressId,
           address: { defaultAddress: true },
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -1173,15 +1097,15 @@ export class UserAddressService {
    * @param address a user address
    */
   updateUserAddress(addressId: string, address: Address): void {
-    this.withUserId((userId) &#x3D;&gt;
+    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.UpdateUserAddress({
           userId,
           addressId,
           address,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -1189,14 +1113,14 @@ export class UserAddressService {
    * @param addressId a user address ID
    */
   deleteUserAddress(addressId: string): void {
-    this.withUserId((userId) &#x3D;&gt;
+    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.DeleteUserAddress({
           userId,
           addressId,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -1279,16 +1203,6 @@ export class UserAddressService {
         return regions;
       })
     );
-  }
-
-  /*
-   * Utility method to distinquish user id in a convenient way
-   */
-  private withUserId(callback: (userId: string) &#x3D;&gt; void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) &#x3D;&gt; callback(userId));
   }
 }
 </code></pre>

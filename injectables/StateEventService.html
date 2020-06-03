@@ -116,7 +116,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/state/event/state-event.service.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/state/event/state-event.service.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -195,8 +195,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/core/src/state/event/state-event.service.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">projects/core/src/state/event/state-event.service.ts:62</a></div>
                 </td>
             </tr>
 
@@ -315,8 +315,8 @@ as the argument for the event&#39;s constructor.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/core/src/state/event/state-event.service.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">projects/core/src/state/event/state-event.service.ts:41</a></div>
                 </td>
             </tr>
 
@@ -400,8 +400,8 @@ as the argument for the event&#39;s constructor.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">projects/core/src/state/event/state-event.service.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">projects/core/src/state/event/state-event.service.ts:30</a></div>
                 </td>
             </tr>
 
@@ -476,7 +476,8 @@ import { ofType } from &#x27;@ngrx/effects&#x27;;
 import { ActionsSubject } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
-import { EventService } from &#x27;../../event/index&#x27;;
+import { EventService } from &#x27;../../event/event.service&#x27;;
+import { createFrom } from &#x27;../../util/create-from&#x27;;
 import { ActionToEventMapping } from &#x27;./action-to-event-mapping&#x27;;
 
 /**
@@ -536,7 +537,9 @@ export class StateEventService {
     eventType: Type&lt;T&gt;,
     factory?: (action: any) &#x3D;&gt; T
   ): T {
-    return factory ? factory(action) : new eventType(action.payload ?? {});
+    return factory
+      ? factory(action)
+      : createFrom(eventType, action.payload ?? {});
   }
 }
 </code></pre>

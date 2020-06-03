@@ -124,12 +124,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(payload: literal type)</code>
+<code>constructor(payload: <a href="../interfaces/LoadWishListSuccessPayload.html">LoadWishListSuccessPayload</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/core/src/cart/store/actions/wish-list.action.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/core/src/cart/store/actions/wish-list.action.ts:87</a></div>
                             </td>
                         </tr>
 
@@ -150,7 +150,7 @@
                                                         <td>payload</td>
                                                   
                                                         <td>
-                                                                    <code>literal type</code>
+                                                                        <code><a href="../interfaces/LoadWishListSuccessPayload.html" target="_self" >LoadWishListSuccessPayload</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -187,13 +187,13 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>literal type</code>
+                            <i>Type : </i>        <code><a href="../interfaces/LoadWishListSuccessPayload.html" target="_self" >LoadWishListSuccessPayload</a></code>
 
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/core/src/cart/store/actions/wish-list.action.ts:51</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">projects/core/src/cart/store/actions/wish-list.action.ts:88</a></div>
                             </td>
                         </tr>
 
@@ -220,7 +220,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/core/src/cart/store/actions/wish-list.action.ts:50</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/core/src/cart/store/actions/wish-list.action.ts:87</a></div>
                             </td>
                         </tr>
 
@@ -347,6 +347,7 @@
 import { Cart } from &#x27;../../../model/cart.model&#x27;;
 import {
   EntityFailAction,
+  EntityLoadAction,
   EntitySuccessAction,
 } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
 import { getCartIdByUserId } from &#x27;../../utils/utils&#x27;;
@@ -358,6 +359,7 @@ export const CREATE_WISH_LIST_SUCCESS &#x3D; &#x27;[Wish List] Create Wish List 
 
 export const LOAD_WISH_LIST &#x3D; &#x27;[Wish List] Load Wish List&#x27;;
 export const LOAD_WISH_LIST_SUCCESS &#x3D; &#x27;[Wish List] Load Wish List Success&#x27;;
+export const LOAD_WISH_LIST_FAIL &#x3D; &#x27;[Wish List] Load Wish List Fail&#x27;;
 
 export const RESET_WISH_LIST_DETAILS &#x3D; &#x27;[Wish List] Reset Wish List&#x27;;
 
@@ -386,15 +388,72 @@ export class CreateWishListFail extends EntityFailAction {
   }
 }
 
-export class LoadWishList implements Action {
+interface LoadWishListPayload {
+  userId: string;
+  /**
+   * Used to compute wishlist cart name and find it in list of all carts.
+   */
+  customerId: string;
+  /**
+   * When we try load wishlist for the first time we don&#x27;t know cart id.
+   * Instead we create temporary cart with id equal to wishlist name to keep track of loading/error state.
+   */
+  tempCartId: string;
+}
+
+export class LoadWishList extends EntityLoadAction {
   readonly type &#x3D; LOAD_WISH_LIST;
-  constructor(public payload: { userId: string; customerId: string }) {}
+  constructor(public payload: LoadWishListPayload) {
+    super(MULTI_CART_DATA, payload.tempCartId);
+  }
+}
+
+interface LoadWishListSuccessPayload {
+  cart: Cart;
+  userId: string;
+  /**
+   * When LoadWishListSuccess action was dispatched as an completion to LoadWishList action
+   * we get temporary cartId that was used to keep track of loading state.
+   * In case of loading wish list with known cartId this property will be empty.
+   */
+  tempCartId?: string;
+  /**
+   * Used to compute wishlist cart name and find it in list of all carts.
+   * In case of loading wish list with known cartId this property will be empty.
+   */
+  customerId?: string;
+  /**
+   * Wish list cart id. Extracted from cart content (code property).
+   */
+  cartId: string;
 }
 
 export class LoadWishListSuccess extends EntitySuccessAction {
   readonly type &#x3D; LOAD_WISH_LIST_SUCCESS;
-  constructor(public payload: { cart: Cart; userId: string; extraData?: any }) {
-    super(MULTI_CART_DATA, getCartIdByUserId(payload.cart, payload.userId));
+  constructor(public payload: LoadWishListSuccessPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+interface LoadWishListFailPayload {
+  userId: string;
+  /**
+   * Used to compute wishlist cart name and find it in list of all carts.
+   * In case of loading wish list with known cartId this property will be empty.
+   */
+  customerId?: string;
+  /**
+   * Cart id used as a store entity key. This could point either to some
+   * temporary cart used to track loading/error state or to normal wish list entity.
+   */
+  cartId: string;
+  error: any;
+}
+
+export class LoadWishListFail extends EntityFailAction {
+  readonly type &#x3D; LOAD_WISH_LIST_FAIL;
+  constructor(public payload: LoadWishListFailPayload) {
+    super(MULTI_CART_DATA, payload.cartId, payload.error);
   }
 }
 
@@ -403,7 +462,8 @@ export type WishListActions &#x3D;
   | CreateWishListSuccess
   | CreateWishListFail
   | LoadWishList
-  | LoadWishListSuccess;
+  | LoadWishListSuccess
+  | LoadWishListFail;
 </code></pre>
     </div>
 </div>

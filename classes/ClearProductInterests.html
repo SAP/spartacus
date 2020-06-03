@@ -261,7 +261,7 @@ import {
   EntityFailAction,
   EntityLoadAction,
   EntitySuccessAction,
-  EntityResetAction,
+  EntityLoaderResetAction,
 } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
 
 export const LOAD_PRODUCT_INTERESTS &#x3D; &#x27;Load Product Interests&#x27;;
@@ -366,14 +366,14 @@ export class AddProductInterestFail extends EntityFailAction {
   }
 }
 
-export class ResetAddInterestState extends EntityResetAction {
+export class ResetAddInterestState extends EntityLoaderResetAction {
   readonly type &#x3D; ADD_PRODUCT_INTEREST_RESET;
   constructor() {
     super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID);
   }
 }
 
-export class ResetRemoveInterestState extends EntityResetAction {
+export class ResetRemoveInterestState extends EntityLoaderResetAction {
   readonly type &#x3D; REMOVE_PRODUCT_INTEREST_RESET;
   constructor() {
     super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID);

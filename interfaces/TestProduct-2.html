@@ -301,7 +301,9 @@ export function waitForGetWishList() {
 
   cy.route(
     &#x27;GET&#x27;,
-    &#x60;/rest/v2/electronics-spa/users/*/carts/*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+    &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
+      &#x27;BASE_SITE&#x27;
+    )}/users/*/carts/*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
   ).as(&#x27;get_wish_list&#x27;);
 }
 
@@ -368,7 +370,7 @@ export function verifyProductInWishList(product: TestProduct) {
 export function removeProductFromWishListPage(product: TestProduct) {
   waitForGetWishList();
   getWishListItem(product.name).within(() &#x3D;&gt; {
-    cy.get(&#x27;.cx-return-button&gt;.btn-link&#x27;).click({ force: true });
+    cy.get(&#x27;.cx-return-button&gt;button&#x27;).click({ force: true });
   });
   cy.wait(&#x27;@get_wish_list&#x27;);
   getWishListItem(product.name).should(&#x27;not.exist&#x27;);
@@ -389,7 +391,9 @@ export function addProductToCart(product: TestProduct) {
 
   cy.route(
     &#x27;POST&#x27;,
-    &#x60;/rest/v2/electronics-spa/users/*/carts/*/entries?code&#x3D;*&amp;qty&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+    &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
+      &#x27;BASE_SITE&#x27;
+    )}/users/*/carts/*/entries?code&#x3D;*&amp;qty&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
   ).as(&#x27;add_to_cart&#x27;);
 
   getWishListItem(product.name).within(() &#x3D;&gt; {
@@ -504,7 +508,7 @@ function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
     .should(
       &#x27;have.attr&#x27;,
       &#x27;href&#x27;,
-      &#x27;/electronics-spa/en/USD/terms-and-conditions&#x27;
+      &#x60;/${Cypress.env(&#x27;BASE_SITE&#x27;)}/en/USD/terms-and-conditions&#x60;
     );
   cy.get(&#x27;.form-check-input&#x27;).check();
   const orderConfirmationPage &#x3D; waitForPage(

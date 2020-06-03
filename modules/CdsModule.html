@@ -174,15 +174,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>forRoot(config: <a href="../classes/CdsConfig.html">CdsConfig</a>)</code>
+                    <code>forRoot(config: <a href="../injectables/CdsConfig.html">CdsConfig</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/cds/src/cds.module.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">projects/cds/src/cds.module.ts:19</a></div>
                 </td>
             </tr>
 
@@ -204,7 +204,7 @@
                                 <tr>
                                     <td>config</td>
                                     <td>
-                                                <code><a href="../classes/CdsConfig.html" target="_self" >CdsConfig</a></code>
+                                                <code><a href="../injectables/CdsConfig.html" target="_self" >CdsConfig</a></code>
                                     </td>
 
                                     <td>
@@ -236,7 +236,6 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
 import {
-  Config,
   provideConfig,
   provideConfigValidator,
   provideDefaultConfig,
@@ -260,7 +259,6 @@ export class CdsModule {
         provideDefaultConfig(DEFAULT_CDS_CONFIG),
         provideConfig(config),
         provideConfigValidator(cdsConfigValidator),
-        { provide: CdsConfig, useExisting: Config },
       ],
     };
   }

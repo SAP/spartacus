@@ -273,8 +273,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="165"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:165</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="167"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:167</a></div>
                 </td>
             </tr>
 
@@ -343,8 +343,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:40</a></div>
                 </td>
             </tr>
 
@@ -419,8 +419,8 @@ loaded so far.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:85</a></div>
                 </td>
             </tr>
 
@@ -525,8 +525,8 @@ loaded so far.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="142"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:142</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:144</a></div>
                 </td>
             </tr>
 
@@ -621,8 +621,8 @@ loaded so far.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="113"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:113</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:115</a></div>
                 </td>
             </tr>
 
@@ -713,10 +713,12 @@ export class NavigationService {
   ): Observable&lt;NavigationNode&gt; {
     return combineLatest([data$, this.getNavigationNode(data$)]).pipe(
       map(([data, nav]) &#x3D;&gt; {
-        return {
-          title: data.name,
-          children: [nav],
-        };
+        return data
+          ? {
+              title: data.name,
+              children: [nav],
+            }
+          : undefined;
       })
     );
   }

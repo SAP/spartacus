@@ -363,7 +363,7 @@ import {
 import {
   EntityFailAction,
   EntityLoadAction,
-  EntityResetAction,
+  EntityLoaderResetAction,
   EntitySuccessAction,
 } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
 import { PROCESS_FEATURE } from &#x27;../../../process/store&#x27;;
@@ -458,7 +458,7 @@ export class SubscribeCustomerCouponSuccess extends EntitySuccessAction {
   }
 }
 
-export class ResetSubscribeCustomerCouponProcess extends EntityResetAction {
+export class ResetSubscribeCustomerCouponProcess extends EntityLoaderResetAction {
   readonly type &#x3D; RESET_SUBSCRIBE_CUSTOMER_COUPON_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, SUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID);
@@ -491,7 +491,7 @@ export class UnsubscribeCustomerCouponSuccess extends EntitySuccessAction {
   }
 }
 
-export class ResetUnsubscribeCustomerCouponProcess extends EntityResetAction {
+export class ResetUnsubscribeCustomerCouponProcess extends EntityLoaderResetAction {
   readonly type &#x3D; RESET_UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, UNSUBSCRIBE_CUSTOMER_COUPON_PROCESS_ID);

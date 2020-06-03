@@ -107,7 +107,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>resources:         <code><a href="../interfaces/IconConfigResource.html" target="_self" >IconConfigResource[]</a></code>
+                                        <code>resources:         <code><a href="../injectables/IconConfig.html" target="_self" >IconConfigResource[]</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -115,7 +115,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/IconConfigResource.html" target="_self" >IconConfigResource[]</a></code>
+                                            <i>Type : </i>        <code><a href="../injectables/IconConfig.html" target="_self" >IconConfigResource[]</a></code>
 
                                         </td>
                                     </tr>
@@ -192,7 +192,10 @@ icon:</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export enum ICON_TYPE {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Config } from &#x27;@spartacus/core&#x27;;
+
+export enum ICON_TYPE {
   STAR &#x3D; &#x27;STAR&#x27;,
   SEARCH &#x3D; &#x27;SEARCH&#x27;,
   CART &#x3D; &#x27;CART&#x27;,
@@ -217,8 +220,13 @@ icon:</p>
   CIRCLE &#x3D; &#x27;CIRCLE&#x27;,
   HEART &#x3D; &#x27;HEART&#x27;,
   EMPTY_HEART &#x3D; &#x27;EMPTY_HEART&#x27;,
+  FILTER &#x3D; &#x27;FILTER&#x27;,
 }
 
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+  useExisting: Config,
+})
 export abstract class IconConfig {
   icon?: IconOptions;
 }

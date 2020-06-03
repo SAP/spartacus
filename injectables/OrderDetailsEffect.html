@@ -99,12 +99,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, orderConnector: <a href="../injectables/UserOrderConnector.html">UserOrderConnector</a>)</code>
+<code>constructor(actions$: Actions, orderConnector: <a href="../injectables/UserOrderConnector.html">UserOrderConnector</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/user/store/effects/order-details.effect.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/core/src/user/store/effects/order-details.effect.ts:57</a></div>
                             </td>
                         </tr>
 
@@ -138,6 +138,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/UserOrderConnector.html" target="_self" >UserOrderConnector</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>globalMessageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GlobalMessageService.html" target="_self" >GlobalMessageService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -188,9 +200,18 @@
         .cancel(payload.userId, payload.orderCode, payload.cancelRequestInput)
         .pipe(
           map(() &#x3D;&gt; new UserActions.CancelOrderSuccess()),
-          catchError((error) &#x3D;&gt;
-            of(new UserActions.CancelOrderFail(makeErrorSerializable(error)))
-          )
+          catchError((error) &#x3D;&gt; {
+            error.error?.errors.forEach((err) &#x3D;&gt;
+              this.globalMessageService.add(
+                err.message,
+                GlobalMessageType.MSG_TYPE_ERROR
+              )
+            );
+
+            return of(
+              new UserActions.CancelOrderFail(makeErrorSerializable(error))
+            );
+          })
         );
     })
   )</code>
@@ -207,7 +228,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/core/src/user/store/effects/order-details.effect.ts:31</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/user/store/effects/order-details.effect.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -261,7 +282,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/user/store/effects/order-details.effect.ts:13</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/user/store/effects/order-details.effect.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -282,6 +303,10 @@ import { Order } from &#x27;../../../model/order.model&#x27;;
 import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
 import { UserOrderConnector } from &#x27;../../connectors/order/user-order.connector&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+} from &#x27;../../../global-message/index&#x27;;
 
 @Injectable()
 export class OrderDetailsEffect {
@@ -312,16 +337,26 @@ export class OrderDetailsEffect {
         .cancel(payload.userId, payload.orderCode, payload.cancelRequestInput)
         .pipe(
           map(() &#x3D;&gt; new UserActions.CancelOrderSuccess()),
-          catchError((error) &#x3D;&gt;
-            of(new UserActions.CancelOrderFail(makeErrorSerializable(error)))
-          )
+          catchError((error) &#x3D;&gt; {
+            error.error?.errors.forEach((err) &#x3D;&gt;
+              this.globalMessageService.add(
+                err.message,
+                GlobalMessageType.MSG_TYPE_ERROR
+              )
+            );
+
+            return of(
+              new UserActions.CancelOrderFail(makeErrorSerializable(error))
+            );
+          })
         );
     })
   );
 
   constructor(
     private actions$: Actions,
-    private orderConnector: UserOrderConnector
+    private orderConnector: UserOrderConnector,
+    private globalMessageService: GlobalMessageService
   ) {}
 }
 </code></pre>

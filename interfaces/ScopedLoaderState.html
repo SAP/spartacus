@@ -98,11 +98,7 @@ export interface ScopedLoaderState&lt;T&gt; {
   [scope: string]: LoaderState&lt;T&gt;;
 }
 
-export type EntityScopedLoaderState&lt;T&gt; &#x3D; EntityState&lt;
-  | ScopedLoaderState&lt;T&gt;
-  /** TODO: deprecated since 1.4, remove, issue #5445 */
-  | LoaderState&lt;T&gt;
-&gt;;
+export type EntityScopedLoaderState&lt;T&gt; &#x3D; EntityState&lt;ScopedLoaderState&lt;T&gt;&gt;;
 </code></pre>
     </div>
 </div>

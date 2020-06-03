@@ -135,8 +135,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/core/src/store-finder/connectors/store-finder.adapter.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/core/src/store-finder/connectors/store-finder.adapter.ts:20</a></div>
                 </td>
             </tr>
 
@@ -207,8 +207,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">projects/core/src/store-finder/connectors/store-finder.adapter.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/core/src/store-finder/connectors/store-finder.adapter.ts:18</a></div>
                 </td>
             </tr>
 
@@ -241,7 +241,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>search(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/StoreFinderSearchConfig.html">StoreFinderSearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>)</code>
+                    <code>search(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/StoreFinderSearchConfig.html">StoreFinderSearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -304,6 +304,18 @@
 
 
                                 </tr>
+                                <tr>
+                                    <td>radius</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -343,7 +355,8 @@ export abstract class StoreFinderAdapter {
   abstract search(
     query: string,
     searchConfig: StoreFinderSearchConfig,
-    longitudeLatitude?: GeoPoint
+    longitudeLatitude?: GeoPoint,
+    radius?: number
   ): Observable&lt;StoreFinderSearchPage&gt;;
 
   abstract loadCounts(): Observable&lt;StoreCount[]&gt;;

@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/product/facade/product-reference.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/product/facade/product-reference.service.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -169,8 +169,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/core/src/product/facade/product-reference.service.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">projects/core/src/product/facade/product-reference.service.ts:42</a></div>
                 </td>
             </tr>
 
@@ -208,8 +208,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">projects/core/src/product/facade/product-reference.service.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/core/src/product/facade/product-reference.service.ts:16</a></div>
                 </td>
             </tr>
 
@@ -295,7 +295,9 @@ import { ProductActions } from &#x27;../store/actions/index&#x27;;
 import { StateWithProduct } from &#x27;../store/product-state&#x27;;
 import { ProductSelectors } from &#x27;../store/selectors/index&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class ProductReferenceService {
   constructor(protected store: Store&lt;StateWithProduct&gt;) {}
 

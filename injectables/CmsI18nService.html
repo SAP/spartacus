@@ -59,13 +59,6 @@
             <code>projects/storefrontlib/src/cms-structure/services/cms-i18n.service.ts</code>
         </p>
 
-            <p class="comment">
-                <h3>Description</h3>
-            </p>
-            <p class="comment">
-                <p>Please don&#39;t put that service in public API.</p>
-
-            </p>
 
 
 
@@ -83,7 +76,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#loadChunksForComponents">loadChunksForComponents</a>
+                                <a href="#loadForComponents">loadForComponents</a>
                             </li>
                         </ul>
                     </td>
@@ -103,12 +96,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cmsMapping: <a href="../injectables/CmsMappingService.html">CmsMappingService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>, translationChunk: <a href="../injectables/TranslationChunkService.html">TranslationChunkService</a>)</code>
+<code>constructor(cmsComponentsService: <a href="../injectables/CmsComponentsService.html">CmsComponentsService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>, translationChunk: <a href="../injectables/TranslationChunkService.html">TranslationChunkService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-i18n.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-i18n.service.ts:8</a></div>
                             </td>
                         </tr>
 
@@ -126,10 +119,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>cmsMapping</td>
+                                                        <td>cmsComponentsService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CmsMappingService.html" target="_self" >CmsMappingService</a></code>
+                                                                        <code><a href="../injectables/CmsComponentsService.html" target="_self" >CmsComponentsService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -179,26 +172,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="loadChunksForComponents"></a>
+                    <a name="loadForComponents"></a>
                     <span class="name">
                         <b>
-                            loadChunksForComponents
+                            loadForComponents
                         </b>
-                        <a href="#loadChunksForComponents"><span class="icon ion-ios-link"></span></a>
+                        <a href="#loadForComponents"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadChunksForComponents(componentTypes: string[])</code>
+<code>loadForComponents(componentTypes: string[])</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-i18n.service.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-i18n.service.ts:15</a></div>
                 </td>
             </tr>
 
@@ -252,24 +245,21 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { CmsMappingService } from &#x27;./cms-mapping.service&#x27;;
-import { TranslationService, TranslationChunkService } from &#x27;@spartacus/core&#x27;;
+import { TranslationChunkService, TranslationService } from &#x27;@spartacus/core&#x27;;
+import { CmsComponentsService } from &#x27;./cms-components.service&#x27;;
 
-/**
- * Please don&#x27;t put that service in public API.
- * */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class CmsI18nService {
   constructor(
-    private cmsMapping: CmsMappingService,
-    private translation: TranslationService,
-    private translationChunk: TranslationChunkService
+    protected cmsComponentsService: CmsComponentsService,
+    protected translation: TranslationService,
+    protected translationChunk: TranslationChunkService
   ) {}
 
-  loadChunksForComponents(componentTypes: string[]) {
-    const i18nKeys &#x3D; this.cmsMapping.getI18nKeysForComponents(componentTypes);
+  loadForComponents(componentTypes: string[]) {
+    const i18nKeys &#x3D; this.cmsComponentsService.getI18nKeys(componentTypes);
     const i18nChunks &#x3D; new Set&lt;string&gt;();
     for (const key of i18nKeys) {
       i18nChunks.add(this.translationChunk.getChunkNameForKey(key));

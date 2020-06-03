@@ -120,15 +120,11 @@ event type.</p>
                                 <a href="#getInputSubject">getInputSubject</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getValidatedEventStream">getValidatedEventStream</a>
+                            </li>
+                            <li>
                                 <a href="#register">register</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#unregister">unregister</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#validateEventStream">validateEventStream</a>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
@@ -176,8 +172,8 @@ event type.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="140"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:140</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:121</a></div>
                 </td>
             </tr>
 
@@ -256,18 +252,15 @@ event type.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:83</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Dispatches a single event.</p>
-<p>However, it&#39;s recommended to use method <code>register</code> instead, whenever the event can come from some stream.
-  It allows for lazy computations in the event source stream -
-  if no one subscribes to the event, the logic of the event source stream won&#39;t be evaluated.</p>
+                    <div class="io-description"><p>Dispatches an instance of an individual event.</p>
 </div>
 
                     <div class="io-description">
@@ -331,8 +324,8 @@ event type.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="91"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:91</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:72</a></div>
                 </td>
             </tr>
 
@@ -413,8 +406,8 @@ event type.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:107</a></div>
                 </td>
             </tr>
 
@@ -495,8 +488,8 @@ event type.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="113"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:113</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:94</a></div>
                 </td>
             </tr>
 
@@ -563,6 +556,101 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getValidatedEventStream"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getValidatedEventStream
+                        </b>
+                        <a href="#getValidatedEventStream"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getValidatedEventStream(source$: Observable<T>, eventType: <a href="../undefineds/Type.html">Type<T></a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="146"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:146</a></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Type parameters :</b>
+                    <ul class="type-parameters">
+                        <li>T</li>
+                    </ul>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the given event source with runtime validation whether the emitted values are instances of given event type.</p>
+<p>Should be used only in dev mode.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>source$</td>
+                                    <td>
+                                            <code>Observable&lt;T&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>eventType</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >Type&lt;T&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="register"></a>
                     <span class="name">
                         <b>
@@ -581,8 +669,8 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:50</a></div>
                 </td>
             </tr>
 
@@ -668,204 +756,6 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="unregister"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            unregister
-                        </b>
-                        <a href="#unregister"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>unregister(eventType: <a href="../undefineds/Type.html">Type<T></a>, source$: Observable<T>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="79"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:79</a></div>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <b>Type parameters :</b>
-                    <ul class="type-parameters">
-                        <li>T</li>
-                    </ul>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Unregisters an event source for the given event type</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>eventType</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >Type&lt;T&gt;</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>the event type</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>source$</td>
-                                    <td>
-                                            <code>Observable&lt;T&gt;</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>an observable that represents the source</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="validateEventStream"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            validateEventStream
-                        </b>
-                        <a href="#validateEventStream"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>validateEventStream(source$: Observable<T>, eventType: <a href="../undefineds/Type.html">Type<T></a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="176"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:176</a></div>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <b>Type parameters :</b>
-                    <ul class="type-parameters">
-                        <li>T</li>
-                    </ul>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Returns the given event source with runtime validation whether the emitted values are instances of given event type.</p>
-<p>Should be used only in dev mode.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>source$</td>
-                                    <td>
-                                            <code>Observable&lt;T&gt;</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>eventType</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >Type&lt;T&gt;</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;T&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="validateEventType"></a>
                     <span class="name">
                         <b>
@@ -886,8 +776,8 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="163"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:163</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="133"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:133</a></div>
                 </td>
             </tr>
 
@@ -971,7 +861,7 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/core/src/event/event.service.ts:40</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/event/event.service.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -991,8 +881,9 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode, Type } from &#x27;@angular/core&#x27;;
-import { BehaviorSubject, merge, Observable, Subject } from &#x27;rxjs&#x27;;
-import { share, switchMap, tap } from &#x27;rxjs/operators&#x27;;
+import { Observable, Subject } from &#x27;rxjs&#x27;;
+import { tap } from &#x27;rxjs/operators&#x27;;
+import { MergingSubject } from &#x27;./utils/merging-subject&#x27;;
 
 /**
  * The object holds registered source observables as well as the merged result observable.
@@ -1004,14 +895,9 @@ interface EventMeta&lt;T&gt; {
   inputSubject$: Subject&lt;T&gt;;
 
   /**
-   * Observable with array of sources of the event
+   * A custom subject that allows for dynamic adding and removing sources to be merged as an output
    */
-  sources$: BehaviorSubject&lt;Observable&lt;T&gt;[]&gt;;
-
-  /**
-   * Output observable with merged all event sources
-   */
-  output$: Observable&lt;T&gt;;
+  mergingSubject: MergingSubject&lt;T&gt;;
 }
 
 /**
@@ -1044,9 +930,8 @@ export class EventService {
    * @returns a teardown function which unregisters the given event source
    */
   register&lt;T&gt;(eventType: Type&lt;T&gt;, source$: Observable&lt;T&gt;): () &#x3D;&gt; void {
-    const event &#x3D; this.getEventMeta(eventType);
-    const sources: Observable&lt;T&gt;[] &#x3D; event.sources$.value;
-    if (sources.includes(source$)) {
+    const eventMeta &#x3D; this.getEventMeta(eventType);
+    if (eventMeta.mergingSubject.has(source$)) {
       if (isDevMode()) {
         console.warn(
           &#x60;EventService: the event source&#x60;,
@@ -1056,24 +941,10 @@ export class EventService {
         );
       }
     } else {
-      event.sources$.next([...sources, source$]);
+      eventMeta.mergingSubject.add(source$);
     }
 
-    return () &#x3D;&gt; this.unregister(eventType, source$);
-  }
-
-  /**
-   * Unregisters an event source for the given event type
-   *
-   * @param eventType the event type
-   * @param source$ an observable that represents the source
-   */
-  private unregister&lt;T&gt;(eventType: Type&lt;T&gt;, source$: Observable&lt;T&gt;): void {
-    const event &#x3D; this.getEventMeta(eventType);
-    const newSources: Observable&lt;T&gt;[] &#x3D; event.sources$.value.filter(
-      (s$) &#x3D;&gt; s$ !&#x3D;&#x3D; source$
-    );
-    event.sources$.next(newSources);
+    return () &#x3D;&gt; eventMeta.mergingSubject.remove(source$);
   }
 
   /**
@@ -1081,15 +952,15 @@ export class EventService {
    * @param eventTypes event type
    */
   get&lt;T&gt;(eventType: Type&lt;T&gt;): Observable&lt;T&gt; {
-    return this.getEventMeta(eventType).output$;
+    let output$ &#x3D; this.getEventMeta(eventType).mergingSubject.output$;
+    if (isDevMode()) {
+      output$ &#x3D; this.getValidatedEventStream(output$, eventType);
+    }
+    return output$;
   }
 
   /**
-   * Dispatches a single event.
-   *
-   * However, it&#x27;s recommended to use method &#x60;register&#x60; instead, whenever the event can come from some stream.
-   *  It allows for lazy computations in the event source stream -
-   *  if no one subscribes to the event, the logic of the event source stream won&#x27;t be evaluated.
+   * Dispatches an instance of an individual event.
    */
   dispatch(event: Object): void {
     const eventType &#x3D; event.constructor as Type&lt;any&gt;;
@@ -1130,20 +1001,9 @@ export class EventService {
    * Creates the event meta object for the given event type
    */
   private createEventMeta&lt;T&gt;(eventType: Type&lt;T&gt;): void {
-    const sources$ &#x3D; new BehaviorSubject&lt;Observable&lt;T&gt;[]&gt;([]);
-    let output$ &#x3D; sources$.pipe(
-      switchMap((sources: Observable&lt;T&gt;[]) &#x3D;&gt; merge(...sources)),
-      share() // share the result observable to avoid merging sources for each subscriber
-    );
-
-    if (isDevMode()) {
-      output$ &#x3D; this.validateEventStream(output$, eventType);
-    }
-
     this.eventsMeta.set(eventType, {
       inputSubject$: null, // will be created lazily by the &#x60;dispatch&#x60; method
-      sources$,
-      output$,
+      mergingSubject: new MergingSubject(),
     });
   }
 
@@ -1165,7 +1025,7 @@ export class EventService {
    *
    * Should be used only in dev mode.
    */
-  private validateEventStream&lt;T&gt;(
+  private getValidatedEventStream&lt;T&gt;(
     source$: Observable&lt;T&gt;,
     eventType: Type&lt;T&gt;
   ): Observable&lt;T&gt; {

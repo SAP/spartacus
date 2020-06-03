@@ -120,7 +120,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -221,8 +221,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:72</a></div>
                 </td>
             </tr>
 
@@ -291,8 +291,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:34</a></div>
                 </td>
             </tr>
 
@@ -385,8 +385,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:40</a></div>
                 </td>
             </tr>
 
@@ -426,8 +426,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="117"
-                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:117</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:126</a></div>
                 </td>
             </tr>
 
@@ -465,8 +465,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:116</a></div>
                 </td>
             </tr>
 
@@ -504,8 +504,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:62</a></div>
                 </td>
             </tr>
 
@@ -586,8 +586,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="85"
-                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:85</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">projects/core/src/cart/facade/wish-list.service.ts:94</a></div>
                 </td>
             </tr>
 
@@ -659,9 +659,12 @@ import { UserService } from &#x27;../../user/facade/user.service&#x27;;
 import { CartActions } from &#x27;../store/actions/index&#x27;;
 import { StateWithMultiCart } from &#x27;../store/multi-cart-state&#x27;;
 import { MultiCartSelectors } from &#x27;../store/selectors/index&#x27;;
+import { getWishlistName } from &#x27;../utils/utils&#x27;;
 import { MultiCartService } from &#x27;./multi-cart.service&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class WishListService {
   constructor(
     protected store: Store&lt;StateWithMultiCart&gt;,
@@ -699,7 +702,13 @@ export class WishListService {
   }
 
   loadWishList(userId: string, customerId: string): void {
-    this.store.dispatch(new CartActions.LoadWishList({ userId, customerId }));
+    this.store.dispatch(
+      new CartActions.LoadWishList({
+        userId,
+        customerId,
+        tempCartId: getWishlistName(customerId),
+      })
+    );
   }
 
   addEntry(productCode: string): void {

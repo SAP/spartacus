@@ -127,7 +127,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AnonymousConsent, ConsentTemplate } from &#x27;../../model/consent.model&#x27;;
-import { LoaderState } from &#x27;../../state&#x27;;
+import { StateUtils } from &#x27;../../state&#x27;;
 
 export const ANONYMOUS_CONSENTS_STORE_FEATURE &#x3D; &#x27;anonymous-consents&#x27;;
 export const ANONYMOUS_CONSENTS &#x3D; &#x27;[Anonymous Consents] Anonymous Consents&#x27;;
@@ -137,7 +137,7 @@ export interface StateWithAnonymousConsents {
 }
 
 export interface AnonymousConsentsState {
-  templates: LoaderState&lt;ConsentTemplate[]&gt;;
+  templates: StateUtils.LoaderState&lt;ConsentTemplate[]&gt;;
   consents: AnonymousConsent[];
   ui: {
     bannerDismissed: boolean;

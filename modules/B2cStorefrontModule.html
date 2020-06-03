@@ -206,8 +206,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/storefrontlib/src/recipes/b2c-storefront.module.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/storefrontlib/src/recipes/b2c-storefront.module.ts:34</a></div>
                 </td>
             </tr>
 
@@ -267,7 +267,7 @@ import {
 } from &#x27;@spartacus/core&#x27;;
 import { CmsLibModule } from &#x27;../cms-components/cms-lib.module&#x27;;
 import { StorefrontConfig } from &#x27;../storefront-config&#x27;;
-import { b2cLayoutConfig } from &#x27;./config/b2c-layout-config&#x27;;
+import { b2cLayoutConfig, mediaConfig } from &#x27;./config/index&#x27;;
 import { defaultCmsContentConfig } from &#x27;./config/static-cms-structure/default-cms-content.config&#x27;;
 import { StorefrontModule } from &#x27;./storefront.module&#x27;;
 
@@ -286,6 +286,7 @@ import { StorefrontModule } from &#x27;./storefront.module&#x27;;
       },
     }),
     provideDefaultConfig(b2cLayoutConfig),
+    provideDefaultConfig(mediaConfig),
     provideDefaultConfigFactory(defaultCmsContentConfig),
   ],
   exports: [StorefrontModule],

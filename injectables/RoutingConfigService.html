@@ -76,6 +76,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#getLoadStrategy">getLoadStrategy</a>
+                            </li>
+                            <li>
                                 <a href="#getRouteConfig">getRouteConfig</a>
                             </li>
                             <li>
@@ -100,7 +103,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../classes/RoutingConfig.html">RoutingConfig</a>)</code>
+<code>constructor(config: <a href="../injectables/RoutingConfig.html">RoutingConfig</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -126,7 +129,7 @@
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/RoutingConfig.html" target="_self" >RoutingConfig</a></code>
+                                                                        <code><a href="../injectables/RoutingConfig.html" target="_self" >RoutingConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -148,6 +151,45 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getLoadStrategy"></a>
+                    <span class="name">
+                        <b>
+                            getLoadStrategy
+                        </b>
+                        <a href="#getLoadStrategy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getLoadStrategy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/routing-config.service.ts:25</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#RouteLoadStrategy" target="_self" >RouteLoadStrategy</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -242,8 +284,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/core/src/routing/configurable-routes/routing-config.service.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">projects/core/src/routing/configurable-routes/routing-config.service.ts:19</a></div>
                 </td>
             </tr>
 
@@ -298,15 +340,14 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode } from &#x27;@angular/core&#x27;;
 import { RouteConfig } from &#x27;./routes-config&#x27;;
-import { RoutingConfig } from &#x27;./config/routing-config&#x27;;
+import { RouteLoadStrategy, RoutingConfig } from &#x27;./config/routing-config&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class RoutingConfigService {
   constructor(protected config: RoutingConfig) {}
 
   getRouteConfig(routeName: string): RouteConfig {
-    const routeConfig &#x3D;
-      this.config &amp;&amp; this.config.routing &amp;&amp; this.config.routing.routes;
+    const routeConfig &#x3D; this.config?.routing?.routes;
 
     const result &#x3D; routeConfig &amp;&amp; routeConfig[routeName];
     if (!routeConfig || result &#x3D;&#x3D;&#x3D; undefined) {
@@ -319,6 +360,10 @@ export class RoutingConfigService {
     if (isDevMode()) {
       console.warn(...args);
     }
+  }
+
+  getLoadStrategy(): RouteLoadStrategy {
+    return this.config?.routing?.loadStrategy ?? RouteLoadStrategy.ALWAYS;
   }
 }
 </code></pre>

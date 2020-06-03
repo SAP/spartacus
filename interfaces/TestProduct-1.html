@@ -202,8 +202,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { apiUrl } from &#x27;../support/utils/login&#x27;;
-import * as cart from &#x27;./cart&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as cart from &#x27;./cart&#x27;;
 import * as cartCoupon from &#x27;./cart-coupon&#x27;;
 
 interface TestProduct {
@@ -263,14 +262,18 @@ export function stubForCartsRefresh() {
   stubForCartRefresh();
   cy.route(
     &#x27;GET&#x27;,
-    &#x60;${apiUrl}/rest/v2/electronics-spa/users/*/carts/selectivecart*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+    &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
+      &#x27;BASE_SITE&#x27;
+    )}/users/*/carts/selectivecart*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
   ).as(&#x27;refresh_selectivecart&#x27;);
 }
 export function stubForCartRefresh() {
   cy.server();
   cy.route(
     &#x27;GET&#x27;,
-    &#x60;${apiUrl}/rest/v2/electronics-spa/users/*/carts/*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+    &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
+      &#x27;BASE_SITE&#x27;
+    )}/users/*/carts/*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
   ).as(&#x27;refresh_cart&#x27;);
 }
 

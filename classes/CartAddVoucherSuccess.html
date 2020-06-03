@@ -129,7 +129,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:51</a></div>
                             </td>
                         </tr>
 
@@ -193,7 +193,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:53</a></div>
                             </td>
                         </tr>
 
@@ -220,7 +220,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:51</a></div>
                             </td>
                         </tr>
 
@@ -347,7 +347,7 @@
 import {
   EntityFailAction,
   EntityLoadAction,
-  EntityResetAction,
+  EntityLoaderResetAction,
   EntitySuccessAction,
 } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
 import {
@@ -380,19 +380,34 @@ export class CartAddVoucher extends EntityLoadAction {
 
 export class CartAddVoucherFail extends EntityFailAction {
   readonly type &#x3D; CART_ADD_VOUCHER_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, payload);
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      voucherId: string;
+      error: any;
+    }
+  ) {
+    super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, payload.error);
   }
 }
 
 export class CartAddVoucherSuccess extends EntitySuccessAction {
   readonly type &#x3D; CART_ADD_VOUCHER_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {
+  constructor(
+    public payload: { userId: string; cartId: string; voucherId: string }
+  ) {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
   }
 }
 
-export class CartResetAddVoucher extends EntityResetAction {
+// TODO(#7241): Remove when switching to event system for vouchers
+/**
+ * Resets add voucher process
+ *
+ * @deprecated since 2.0
+ */
+export class CartResetAddVoucher extends EntityLoaderResetAction {
   readonly type &#x3D; CART_RESET_ADD_VOUCHER;
   constructor() {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);

@@ -286,8 +286,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/core/src/occ/occ.module.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">projects/core/src/occ/occ.module.ts:32</a></div>
                 </td>
             </tr>
 
@@ -308,9 +308,10 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { Config, provideDefaultConfig } from &#x27;../config/config.module&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HTTP_INTERCEPTORS } from &#x27;@angular/common/http&#x27;;
+import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
 import { provideConfigValidator } from &#x27;../config/config-validator/config-validator&#x27;;
+import { provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { AsmOccModule } from &#x27;./adapters/asm/asm-occ.module&#x27;;
 import { CartOccModule } from &#x27;./adapters/cart/cart-occ.module&#x27;;
 import { CheckoutOccModule } from &#x27;./adapters/checkout/checkout-occ.module&#x27;;
@@ -321,8 +322,8 @@ import { StoreFinderOccModule } from &#x27;./adapters/store-finder/store-finder-
 import { UserOccModule } from &#x27;./adapters/user/user-occ.module&#x27;;
 import { OccConfigLoaderModule } from &#x27;./config-loader/occ-config-loader.module&#x27;;
 import { defaultOccConfig } from &#x27;./config/default-occ-config&#x27;;
-import { OccConfig } from &#x27;./config/occ-config&#x27;;
 import { occConfigValidator } from &#x27;./config/occ-config-validator&#x27;;
+import { WithCredentialsInterceptor } from &#x27;./interceptors/with-credentials.interceptor&#x27;;
 
 @NgModule({
   imports: [
@@ -342,7 +343,11 @@ export class OccModule {
     return {
       ngModule: OccModule,
       providers: [
-        { provide: OccConfig, useExisting: Config },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useExisting: WithCredentialsInterceptor,
+          multi: true,
+        },
         provideDefaultConfig(defaultOccConfig),
         provideConfigValidator(occConfigValidator),
       ],

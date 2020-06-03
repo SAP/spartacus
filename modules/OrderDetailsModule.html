@@ -544,6 +544,7 @@ import { PageLayoutComponent } from &#x27;../../../../cms-structure/page/page-la
 import { CardModule } from &#x27;../../../../shared/components/card/card.module&#x27;;
 import { SpinnerModule } from &#x27;../../../../shared/components/spinner/spinner.module&#x27;;
 import { CartSharedModule } from &#x27;../../../cart/cart-shared/cart-shared.module&#x27;;
+import { PromotionsModule } from &#x27;../../../checkout/components/promotions/promotions.module&#x27;;
 import { OrderDetailActionsComponent } from &#x27;./order-detail-actions/order-detail-actions.component&#x27;;
 import { OrderDetailHeadlineComponent } from &#x27;./order-detail-headline/order-detail-headline.component&#x27;;
 import { TrackingEventsComponent } from &#x27;./order-detail-items/consignment-tracking/tracking-events/tracking-events.component&#x27;;
@@ -552,7 +553,6 @@ import { OrderDetailItemsComponent } from &#x27;./order-detail-items/order-detai
 import { OrderDetailShippingComponent } from &#x27;./order-detail-shipping/order-detail-shipping.component&#x27;;
 import { OrderDetailTotalsComponent } from &#x27;./order-detail-totals/order-detail-totals.component&#x27;;
 import { OrderDetailsService } from &#x27;./order-details.service&#x27;;
-import { PromotionsModule } from &#x27;../../../checkout/components/promotions/promotions.module&#x27;;
 
 const moduleComponents &#x3D; [
   OrderDetailActionsComponent,
@@ -577,7 +577,7 @@ const moduleComponents &#x3D; [
     RouterModule.forChild([
       {
         path: null,
-        canActivate: [CmsPageGuard],
+        canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { pageLabel: &#x27;order&#x27;, cxRoute: &#x27;orderGuest&#x27; },
       },

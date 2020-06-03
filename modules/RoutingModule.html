@@ -94,8 +94,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">projects/core/src/routing/routing.module.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/core/src/routing/routing.module.ts:36</a></div>
                 </td>
             </tr>
 
@@ -124,8 +124,6 @@ import {
   StoreRouterConnectingModule,
 } from &#x27;@ngrx/router-store&#x27;;
 import { StoreModule } from &#x27;@ngrx/store&#x27;;
-import { Config } from &#x27;../config/config.module&#x27;;
-import { RoutingConfig } from &#x27;./configurable-routes/config/routing-config&#x27;;
 import { ConfigurableRoutesService } from &#x27;./configurable-routes/configurable-routes.service&#x27;;
 import { effects } from &#x27;./store/effects/index&#x27;;
 import {
@@ -168,7 +166,6 @@ export class RoutingModule {
           deps: [ConfigurableRoutesService],
           multi: true,
         },
-        { provide: RoutingConfig, useExisting: Config },
       ],
     };
   }

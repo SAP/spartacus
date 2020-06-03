@@ -181,8 +181,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">projects/core/src/cms/cms.module.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">projects/core/src/cms/cms.module.ts:12</a></div>
                 </td>
             </tr>
 
@@ -204,9 +204,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { Config, provideDefaultConfig } from &#x27;../config/config.module&#x27;;
-import { CmsConfig } from &#x27;./config/cms-config&#x27;;
-import { CmsStructureConfig } from &#x27;./config/cms-structure.config&#x27;;
+import { provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { defaultCmsModuleConfig } from &#x27;./config/default-cms-config&#x27;;
 import { CmsService } from &#x27;./facade/cms.service&#x27;;
 import { CmsPageTitleModule } from &#x27;./page/page.module&#x27;;
@@ -219,12 +217,7 @@ export class CmsModule {
   static forRoot(): ModuleWithProviders&lt;CmsModule&gt; {
     return {
       ngModule: CmsModule,
-      providers: [
-        CmsService,
-        { provide: CmsConfig, useExisting: Config },
-        { provide: CmsStructureConfig, useExisting: Config },
-        provideDefaultConfig(defaultCmsModuleConfig),
-      ],
+      providers: [CmsService, provideDefaultConfig(defaultCmsModuleConfig)],
     };
   }
 }

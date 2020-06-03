@@ -78,11 +78,6 @@
                                     <span class="modifier">Private</span>
                                 <a href="#activeBaseSite">activeBaseSite</a>
                             </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                    <span class="modifier">Readonly</span>
-                                <a href="#SCOPE_SUFFIX">SCOPE_SUFFIX</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -129,7 +124,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../classes/OccConfig.html">OccConfig</a>, baseSiteService: <a href="../injectables/BaseSiteService.html">BaseSiteService</a>)</code>
+<code>constructor(config: <a href="../injectables/OccConfig.html">OccConfig</a>, baseSiteService: <a href="../injectables/BaseSiteService.html">BaseSiteService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -155,7 +150,7 @@
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/OccConfig.html" target="_self" >OccConfig</a></code>
+                                                                        <code><a href="../injectables/OccConfig.html" target="_self" >OccConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -324,15 +319,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getEndpointForScope(endpoint: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>getEndpointForScope(endpoint: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="127"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:127</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:130</a></div>
                 </td>
             </tr>
 
@@ -370,7 +365,7 @@
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
 
@@ -483,7 +478,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getUrl(endpoint: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, urlParams?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>, queryParams?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>, scope: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>getUrl(endpoint: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, urlParams?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>, queryParams?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>, scope?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -509,7 +504,6 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
-                                    <td>Default value</td>
                                     <td>Description</td>
                                 </tr>
                             </thead>
@@ -524,8 +518,6 @@
                                         No
                                     </td>
 
-                                    <td>
-                                    </td>
 
                                     <td>
                                         <p>Name of the OCC endpoint key config</p>
@@ -542,8 +534,6 @@
                                         Yes
                                     </td>
 
-                                    <td>
-                                    </td>
 
                                     <td>
                                         <p>URL parameters</p>
@@ -560,8 +550,6 @@
                                         Yes
                                     </td>
 
-                                    <td>
-                                    </td>
 
                                     <td>
                                         <p>Query parameters</p>
@@ -575,12 +563,9 @@
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
-                                    <td>
-                                        <code>&#x27;&#x27;</code>
-                                    </td>
 
                                     <td>
                                     </td>
@@ -628,40 +613,6 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:13</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="SCOPE_SUFFIX"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                                <span class="modifier">Readonly</span>
-                            SCOPE_SUFFIX</b>
-                            <a href="#SCOPE_SUFFIX"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>&#x27;_scopes&#x27;</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
                                     <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:15</a></div>
                             </td>
                         </tr>
@@ -681,15 +632,15 @@ import { DynamicTemplate } from &#x27;../../config/utils/dynamic-template&#x27;;
 import { getContextParameterDefault } from &#x27;../../site-context/config/context-config-utils&#x27;;
 import { BaseSiteService } from &#x27;../../site-context/facade/base-site.service&#x27;;
 import { BASE_SITE_CONTEXT_ID } from &#x27;../../site-context/providers/context-ids&#x27;;
+import { CustomEncoder } from &#x27;../adapters/cart/custom.encoder&#x27;;
 import { OccConfig } from &#x27;../config/occ-config&#x27;;
+import { DEFAULT_SCOPE } from &#x27;../occ-models/occ-endpoints.model&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class OccEndpointsService {
   private activeBaseSite: string;
-
-  private readonly SCOPE_SUFFIX &#x3D; &#x27;_scopes&#x27;;
 
   constructor(
     private config: OccConfig,
@@ -710,10 +661,10 @@ export class OccEndpointsService {
    * @param endpoint Endpoint suffix
    */
   getRawEndpoint(endpoint: string): string {
-    if (!this.config || !this.config.backend || !this.config.backend.occ) {
+    if (!this.config?.backend?.occ) {
       return &#x27;&#x27;;
     }
-    endpoint &#x3D; this.config.backend.occ.endpoints[endpoint];
+    endpoint &#x3D; this.config.backend.occ.endpoints?.[endpoint];
 
     if (!endpoint.startsWith(&#x27;/&#x27;)) {
       endpoint &#x3D; &#x27;/&#x27; + endpoint;
@@ -726,7 +677,7 @@ export class OccEndpointsService {
    * Returns base OCC endpoint (baseUrl + prefix + baseSite)
    */
   getBaseEndpoint(): string {
-    if (!this.config || !this.config.backend || !this.config.backend.occ) {
+    if (!this.config?.backend?.occ) {
       return &#x27;&#x27;;
     }
 
@@ -759,7 +710,7 @@ export class OccEndpointsService {
     endpoint: string,
     urlParams?: object,
     queryParams?: object,
-    scope &#x3D; &#x27;&#x27;
+    scope?: string
   ): string {
     endpoint &#x3D; this.getEndpointForScope(endpoint, scope);
 
@@ -771,13 +722,16 @@ export class OccEndpointsService {
     }
 
     if (queryParams) {
-      let httpParamsOptions;
+      let httpParamsOptions &#x3D; { encoder: new CustomEncoder() };
 
       if (endpoint.includes(&#x27;?&#x27;)) {
         let queryParamsFromEndpoint;
         [endpoint, queryParamsFromEndpoint] &#x3D; endpoint.split(&#x27;?&#x27;);
 
-        httpParamsOptions &#x3D; { fromString: queryParamsFromEndpoint };
+        httpParamsOptions &#x3D; {
+          ...httpParamsOptions,
+          ...{ fromString: queryParamsFromEndpoint },
+        };
       }
 
       let httpParams &#x3D; new HttpParams(httpParamsOptions);
@@ -801,16 +755,16 @@ export class OccEndpointsService {
     return this.getEndpoint(endpoint);
   }
 
-  private getEndpointForScope(endpoint: string, scope: string): string {
-    const endpointsConfig &#x3D;
-      this.config.backend &amp;&amp;
-      this.config.backend.occ &amp;&amp;
-      this.config.backend.occ.endpoints;
+  private getEndpointForScope(endpoint: string, scope?: string): string {
+    const endpointsConfig &#x3D; this.config.backend?.occ?.endpoints;
+    const endpointConfig &#x3D; endpointsConfig[endpoint];
 
     if (scope) {
-      const endpointConfig &#x3D; endpointsConfig[&#x60;${endpoint}${this.SCOPE_SUFFIX}&#x60;];
-      if (endpointConfig &amp;&amp; endpointConfig[scope]) {
-        return endpointConfig[scope];
+      if (endpointConfig?.[scope]) {
+        return endpointConfig?.[scope];
+      }
+      if (scope &#x3D;&#x3D;&#x3D; DEFAULT_SCOPE &amp;&amp; typeof endpointConfig &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+        return endpointConfig;
       }
       if (isDevMode()) {
         console.warn(
@@ -819,7 +773,11 @@ export class OccEndpointsService {
       }
     }
 
-    return endpointsConfig[endpoint] || endpoint;
+    return (
+      (typeof endpointConfig &#x3D;&#x3D;&#x3D; &#x27;string&#x27;
+        ? endpointConfig
+        : endpointConfig?.[DEFAULT_SCOPE]) || endpoint
+    );
   }
 }
 </code></pre>

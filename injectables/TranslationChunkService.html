@@ -124,12 +124,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../classes/I18nConfig.html">I18nConfig</a>)</code>
+<code>constructor(config: <a href="../injectables/I18nConfig.html">I18nConfig</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">projects/core/src/i18n/translation-chunk.service.ts:7</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/core/src/i18n/translation-chunk.service.ts:9</a></div>
                             </td>
                         </tr>
 
@@ -150,7 +150,7 @@
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/I18nConfig.html" target="_self" >I18nConfig</a></code>
+                                                                        <code><a href="../injectables/I18nConfig.html" target="_self" >I18nConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -194,8 +194,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">projects/core/src/i18n/translation-chunk.service.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">projects/core/src/i18n/translation-chunk.service.ts:31</a></div>
                 </td>
             </tr>
 
@@ -266,8 +266,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/core/src/i18n/translation-chunk.service.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">projects/core/src/i18n/translation-chunk.service.ts:41</a></div>
                 </td>
             </tr>
 
@@ -346,7 +346,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">projects/core/src/i18n/translation-chunk.service.ts:7</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/core/src/i18n/translation-chunk.service.ts:9</a></div>
                             </td>
                         </tr>
 
@@ -379,7 +379,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">projects/core/src/i18n/translation-chunk.service.ts:6</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/core/src/i18n/translation-chunk.service.ts:8</a></div>
                             </td>
                         </tr>
 
@@ -413,7 +413,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/i18n/translation-chunk.service.ts:27</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/i18n/translation-chunk.service.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -429,7 +429,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode } from &#x27;@angular/core&#x27;;
 import { I18nConfig } from &#x27;./config/i18n-config&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class TranslationChunkService {
   protected duplicates: { [key: string]: string[] } &#x3D; {};
   protected chunks: { [key: string]: string } &#x3D; {};

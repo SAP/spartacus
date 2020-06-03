@@ -202,7 +202,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PageContext } from &#x27;../../../routing/index&#x27;;
-import { StateEntityLoaderActions } from &#x27;../../../state/utils/index&#x27;;
+import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
 import { Page } from &#x27;../../model/page.model&#x27;;
 
 export const LOAD_CMS_PAGE_DATA &#x3D; &#x27;[Cms] Load Page Data&#x27;;
@@ -211,35 +211,35 @@ export const LOAD_CMS_PAGE_DATA_SUCCESS &#x3D; &#x27;[Cms] Load Page Data Succes
 export const CMS_SET_PAGE_SUCCESS_INDEX &#x3D; &#x27;[Cms] Set Page Success Index&#x27;;
 export const CMS_SET_PAGE_FAIL_INDEX &#x3D; &#x27;[Cms] Set Page Fail Index&#x27;;
 
-export class LoadCmsPageData extends StateEntityLoaderActions.EntityLoadAction {
+export class LoadCmsPageData extends StateUtils.EntityLoadAction {
   readonly type &#x3D; LOAD_CMS_PAGE_DATA;
   constructor(public payload: PageContext) {
     super(payload.type, payload.id);
   }
 }
 
-export class LoadCmsPageDataFail extends StateEntityLoaderActions.EntityFailAction {
+export class LoadCmsPageDataFail extends StateUtils.EntityFailAction {
   readonly type &#x3D; LOAD_CMS_PAGE_DATA_FAIL;
   constructor(pageContext: PageContext, error: any) {
     super(pageContext.type, pageContext.id, error);
   }
 }
 
-export class LoadCmsPageDataSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class LoadCmsPageDataSuccess extends StateUtils.EntitySuccessAction {
   readonly type &#x3D; LOAD_CMS_PAGE_DATA_SUCCESS;
   constructor(pageContext: PageContext, payload: Page) {
     super(pageContext.type, pageContext.id, payload);
   }
 }
 
-export class CmsSetPageSuccessIndex extends StateEntityLoaderActions.EntitySuccessAction {
+export class CmsSetPageSuccessIndex extends StateUtils.EntitySuccessAction {
   readonly type &#x3D; CMS_SET_PAGE_SUCCESS_INDEX;
   constructor(pageContext: PageContext, payload: Page) {
     super(pageContext.type, pageContext.id, payload);
   }
 }
 
-export class CmsSetPageFailIndex extends StateEntityLoaderActions.EntityFailAction {
+export class CmsSetPageFailIndex extends StateUtils.EntityFailAction {
   readonly type &#x3D; CMS_SET_PAGE_FAIL_INDEX;
   constructor(pageContext: PageContext, public payload: string) {
     super(pageContext.type, pageContext.id);

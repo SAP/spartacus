@@ -221,7 +221,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateLoaderActions } from &#x27;../../../state/utils/index&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
 import { ClientToken } from &#x27;../../models/token-types.model&#x27;;
 import { CLIENT_TOKEN_DATA } from &#x27;../auth-state&#x27;;
 
@@ -229,21 +229,21 @@ export const LOAD_CLIENT_TOKEN &#x3D; &#x27;[Token] Load Client Token&#x27;;
 export const LOAD_CLIENT_TOKEN_FAIL &#x3D; &#x27;[Token] Load Client Token Fail&#x27;;
 export const LOAD_CLIENT_TOKEN_SUCCESS &#x3D; &#x27;[Token] Load Client Token Success&#x27;;
 
-export class LoadClientToken extends StateLoaderActions.LoaderLoadAction {
+export class LoadClientToken extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; LOAD_CLIENT_TOKEN;
   constructor() {
     super(CLIENT_TOKEN_DATA);
   }
 }
 
-export class LoadClientTokenFail extends StateLoaderActions.LoaderFailAction {
+export class LoadClientTokenFail extends StateUtils.LoaderFailAction {
   readonly type &#x3D; LOAD_CLIENT_TOKEN_FAIL;
   constructor(public payload: any) {
     super(CLIENT_TOKEN_DATA, payload);
   }
 }
 
-export class LoadClientTokenSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class LoadClientTokenSuccess extends StateUtils.LoaderSuccessAction {
   readonly type &#x3D; LOAD_CLIENT_TOKEN_SUCCESS;
   constructor(public payload: ClientToken) {
     super(CLIENT_TOKEN_DATA);

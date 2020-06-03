@@ -367,9 +367,9 @@ export function registerCartRefreshRoute() {
 
   cy.route(
     &#x27;GET&#x27;,
-    &#x60;${Cypress.env(
-      &#x27;API_URL&#x27;
-    )}/rest/v2/electronics-spa/users/*/carts/*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+    &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
+      &#x27;BASE_SITE&#x27;
+    )}/users/*/carts/*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
   ).as(&#x27;refresh_cart&#x27;);
 }
 
@@ -378,9 +378,9 @@ export function registerCreateCartRoute() {
 
   cy.route(
     &#x27;POST&#x27;,
-    &#x60;${Cypress.env(
-      &#x27;API_URL&#x27;
-    )}/rest/v2/electronics-spa/users/*/carts?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+    &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
+      &#x27;BASE_SITE&#x27;
+    )}/users/*/carts?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
   ).as(&#x27;create_cart&#x27;);
 }
 
@@ -389,9 +389,9 @@ export function registerSaveCartRoute() {
 
   cy.route(
     &#x27;PATCH&#x27;,
-    &#x60;${Cypress.env(
-      &#x27;API_URL&#x27;
-    )}/rest/v2/electronics-spa/users/*/carts/*/save?lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+    &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
+      &#x27;BASE_SITE&#x27;
+    )}/users/*/carts/*/save?lang&#x3D;en&amp;curr&#x3D;USD&#x60;
   ).as(&#x27;save_cart&#x27;);
 }
 

@@ -82,7 +82,7 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#emailDomainValidator">emailDomainValidator</a>
+                                <a href="#emailsMustMatch">emailsMustMatch</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
@@ -90,11 +90,15 @@
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#matchPassword">matchPassword</a>
+                                <a href="#passwordsMustMatch">passwordsMustMatch</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
                                 <a href="#passwordValidator">passwordValidator</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#starRatingEmpty">starRatingEmpty</a>
                             </li>
                         </ul>
                     </td>
@@ -119,34 +123,37 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="emailDomainValidator"></a>
+                    <a name="emailsMustMatch"></a>
                     <span class="name">
                         <b>
                             <span class="modifier">Static</span>
-                            emailDomainValidator
+                            emailsMustMatch
                         </b>
-                        <a href="#emailDomainValidator"><span class="icon ion-ios-link"></span></a>
+                        <a href="#emailsMustMatch"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>emailDomainValidator(control: <a href="https://angular.io/api/forms/AbstractControl" target="_blank">AbstractControl</a>)</code>
+                    <code>emailsMustMatch(email: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, emailConfirmation: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="5"
-                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:5</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:94</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Checks if two email controls match</p>
+<p>NOTE: Use it as a form validator and pass email control names as parameters</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -156,13 +163,14 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>control</td>
+                                    <td>email</td>
                                     <td>
-                                                <code><a href="https://angular.io/api/forms/AbstractControl" target="_blank" >AbstractControl</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
 
                                     <td>
@@ -170,6 +178,26 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>First email control name</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>emailConfirmation</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Second email control name</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -177,11 +205,12 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>ValidationErrors | null</code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>Uses &#39;cxEmailsMustMatch&#39; validator error</p>
+
                     </div>
                 </td>
             </tr>
@@ -211,14 +240,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:15</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Checks control&#39;s value with predefined email regexp</p>
+<p>NOTE: Use it as a control validator</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -253,7 +285,8 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>Uses &#39;cxInvalidEmail&#39; validator error</p>
+
                     </div>
                 </td>
             </tr>
@@ -263,34 +296,37 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="matchPassword"></a>
+                    <a name="passwordsMustMatch"></a>
                     <span class="name">
                         <b>
                             <span class="modifier">Static</span>
-                            matchPassword
+                            passwordsMustMatch
                         </b>
-                        <a href="#matchPassword"><span class="icon ion-ios-link"></span></a>
+                        <a href="#passwordsMustMatch"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>matchPassword(control: <a href="https://angular.io/api/forms/AbstractControl" target="_blank">AbstractControl</a>)</code>
+                    <code>passwordsMustMatch(password: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, passwordConfirmation: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:68</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Checks if two password controls match</p>
+<p>NOTE: Use it as a form validator and pass password control names as parameters</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -300,13 +336,14 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>control</td>
+                                    <td>password</td>
                                     <td>
-                                                <code><a href="https://angular.io/api/forms/AbstractControl" target="_blank" >AbstractControl</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
 
                                     <td>
@@ -314,6 +351,26 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>First password control name</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>passwordConfirmation</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Second password control name</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -321,11 +378,12 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>literal type</code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>Uses &#39;cxPasswordsMustMatch&#39; validator error</p>
+
                     </div>
                 </td>
             </tr>
@@ -355,14 +413,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:33</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Checks control&#39;s value with predefined password regexp</p>
+<p>NOTE: Use it as a control validator</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -397,7 +458,84 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>Uses &#39;cxInvalidPassword&#39; validator error</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="starRatingEmpty"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            starRatingEmpty
+                        </b>
+                        <a href="#starRatingEmpty"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>starRatingEmpty(control: <a href="https://angular.io/api/forms/AbstractControl" target="_blank">AbstractControl</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">projects/storefrontlib/src/shared/utils/validators/custom-form-validators.ts:51</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Checks if control&#39;s value is between 1 and 5</p>
+<p>NOTE: Use it as a control validator</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>control</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/AbstractControl" target="_blank" >AbstractControl</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ValidationErrors | null</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Uses &#39;cxStarRatingEmpty&#39; validator error</p>
+
                     </div>
                 </td>
             </tr>
@@ -413,35 +551,136 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AbstractControl, ValidationErrors } from &#x27;@angular/forms&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AbstractControl, ValidationErrors, FormGroup } from &#x27;@angular/forms&#x27;;
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from &#x27;@spartacus/core&#x27;;
 
 export class CustomFormValidators {
-  static emailDomainValidator(
-    control: AbstractControl
-  ): ValidationErrors | null {
-    const email &#x3D; control.value as string;
-
-    return email.match(&#x27;[.][a-zA-Z]+$&#x27;) ? null : { InvalidEmail: true };
-  }
-
+  /**
+   * Checks control&#x27;s value with predefined email regexp
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses &#x27;cxInvalidEmail&#x27; validator error
+   * @memberof CustomFormValidators
+   */
   static emailValidator(control: AbstractControl): ValidationErrors | null {
     const email &#x3D; control.value as string;
 
-    return email.match(EMAIL_PATTERN) ? null : { InvalidEmail: true };
+    return !email.length || email.match(EMAIL_PATTERN)
+      ? null
+      : { cxInvalidEmail: true };
   }
 
+  /**
+   * Checks control&#x27;s value with predefined password regexp
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses &#x27;cxInvalidPassword&#x27; validator error
+   * @memberof CustomFormValidators
+   */
   static passwordValidator(control: AbstractControl): ValidationErrors | null {
     const password &#x3D; control.value as string;
-    return password.match(PASSWORD_PATTERN) ? null : { InvalidPassword: true };
+
+    return !password.length || password.match(PASSWORD_PATTERN)
+      ? null
+      : { cxInvalidPassword: true };
   }
 
-  static matchPassword(control: AbstractControl): { NotEqual: boolean } {
-    if (control.get(&#x27;password&#x27;).value !&#x3D;&#x3D; control.get(&#x27;passwordconf&#x27;).value) {
-      return { NotEqual: true };
-    }
-    return null;
+  /**
+   * Checks if control&#x27;s value is between 1 and 5
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses &#x27;cxStarRatingEmpty&#x27; validator error
+   * @memberof CustomFormValidators
+   */
+  static starRatingEmpty(control: AbstractControl): ValidationErrors | null {
+    const rating &#x3D; control.value as number;
+
+    return rating &gt;&#x3D; 1 &amp;&amp; rating &lt;&#x3D; 5 ? null : { cxStarRatingEmpty: true };
   }
+
+  /**
+   * Checks if two password controls match
+   *
+   * NOTE: Use it as a form validator and pass password control names as parameters
+   *
+   * @static
+   * @param {string} password First password control name
+   * @param {string} passwordConfirmation Second password control name
+   * @returns Uses &#x27;cxPasswordsMustMatch&#x27; validator error
+   * @memberof CustomFormValidators
+   */
+  static passwordsMustMatch(
+    password: string,
+    passwordConfirmation: string
+  ): any {
+    const validator &#x3D; (formGroup: FormGroup) &#x3D;&gt;
+      controlsMustMatch(
+        formGroup,
+        password,
+        passwordConfirmation,
+        &#x27;cxPasswordsMustMatch&#x27;
+      );
+
+    return validator;
+  }
+
+  /**
+   * Checks if two email controls match
+   *
+   * NOTE: Use it as a form validator and pass email control names as parameters
+   *
+   * @static
+   * @param {string} email First email control name
+   * @param {string} emailConfirmation Second email control name
+   * @returns Uses &#x27;cxEmailsMustMatch&#x27; validator error
+   * @memberof CustomFormValidators
+   */
+  static emailsMustMatch(email: string, emailConfirmation: string): any {
+    const validator &#x3D; (formGroup: FormGroup) &#x3D;&gt;
+      controlsMustMatch(
+        formGroup,
+        email,
+        emailConfirmation,
+        &#x27;cxEmailsMustMatch&#x27;
+      );
+
+    return validator;
+  }
+}
+
+/**
+ * Generic function for validators, which checks if two passed controls match.
+ *
+ * @param formGroup
+ * @param firstControlName First control to check
+ * @param secondControlName Second control to check
+ * @param errorName Error which will be returned by validator
+ */
+export function controlsMustMatch(
+  formGroup: FormGroup,
+  firstControlName: string,
+  secondControlName: string,
+  errorName: string
+): void {
+  const firstControl &#x3D; formGroup.controls[firstControlName];
+  const secondControl &#x3D; formGroup.controls[secondControlName];
+
+  if (secondControl.errors &amp;&amp; !secondControl.errors[errorName]) {
+    return;
+  }
+
+  secondControl.setErrors(
+    firstControl.value !&#x3D;&#x3D; secondControl.value ? { [errorName]: true } : null
+  );
 }
 </code></pre>
     </div>

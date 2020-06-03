@@ -59,6 +59,20 @@
             <code>projects/storefrontlib/src/shared/components/media/media.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Service which generates media URLs. It leverage the MediaContainer and MediaFormats so
+that URLs and sizes are generated for the same media. This helps to improve performance
+across difference devices and layouts.</p>
+<p>Media formats are optional, but highly recommended. The format will help the browser to
+identify the right media for the right experience.</p>
+<p>The MediaService will generate absolute URLs in case relative URLs are provided for the Media.
+The baseUrl is read from the <code>occConfig.backend.media.baseUrl</code> or
+<code>occConfig.backend.occ.baseUrl</code>.</p>
+
+            </p>
 
 
 
@@ -66,6 +80,25 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_reversedFormats">_reversedFormats</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_sortedFormats">_sortedFormats</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -76,31 +109,31 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getAlt">getAlt</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#getBaseUrl">getBaseUrl</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getHighestAvailableFormat">getHighestAvailableFormat</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getImageUrl">getImageUrl</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getMainImage">getMainImage</a>
                             </li>
                             <li>
                                 <a href="#getMedia">getMedia</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getSrcSet">getSrcSet</a>
+                                    <span class="modifier">Protected</span>
+                                <a href="#resolveAbsoluteUrl">resolveAbsoluteUrl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#resolveBestFormat">resolveBestFormat</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#resolveFormat">resolveFormat</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#resolveMedia">resolveMedia</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#resolveSrcSet">resolveSrcSet</a>
                             </li>
                         </ul>
                     </td>
@@ -119,7 +152,10 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                    <a href="#mediaFormats">mediaFormats</a>
+                                    <a href="#sortedFormats">sortedFormats</a>
+                                </li>
+                                <li>
+                                    <a href="#reversedFormats">reversedFormats</a>
                                 </li>
                             </ul>
                         </td>
@@ -134,12 +170,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../classes/OccConfig.html">OccConfig</a>, breakpointService: <a href="../injectables/BreakpointService.html">BreakpointService</a>)</code>
+<code>constructor(config: <a href="../s/Config.html">StorefrontConfig</a>, breakpointService: <a href="../injectables/BreakpointService.html">BreakpointService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -160,7 +196,7 @@
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/OccConfig.html" target="_self" >OccConfig</a></code>
+                                                                        <code><a href="../miscellaneous/variables.html#Config" target="_self" >StorefrontConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -198,93 +234,10 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getAlt"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            getAlt
-                        </b>
-                        <a href="#getAlt"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getAlt(media, format?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:82</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>media</td>
-                                    <td>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>format</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="getBaseUrl"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             getBaseUrl
                         </b>
                         <a href="#getBaseUrl"><span class="icon ion-ios-link"></span></a>
@@ -301,243 +254,23 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="170"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:170</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getHighestAvailableFormat"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            getHighestAvailableFormat
-                        </b>
-                        <a href="#getHighestAvailableFormat"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getHighestAvailableFormat(media)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:63</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>returns highest resolution format name from media formats</p>
+                    <div class="io-description"><p>The base URL is either driven by a specific <code>backend.media.baseUrl</code>, or by the
+<code>backend.occ.baseUrl</code>.</p>
+<p>The <code>backend.media.baseUrl</code> can be used to load media from a different location.</p>
+<p>In Commerce Cloud, a differnt location could mean a different &quot;aspect&quot;.</p>
 </div>
 
                     <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>media</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getImageUrl"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            getImageUrl
-                        </b>
-                        <a href="#getImageUrl"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getImageUrl(url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="114"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:114</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>url</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getMainImage"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            getMainImage
-                        </b>
-                        <a href="#getMainImage"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getMainImage(media, format?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:48</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>media</td>
-                                    <td>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>format</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -558,21 +291,24 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getMedia(container, format?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, alt?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>getMedia(mediaContainer: MediaContainer | Image, format?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, alt?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:45</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns a <code>Media</code> object with the main media (<code>src</code>) and various media (<code>src</code>)
+for specific formats.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -586,8 +322,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>container</td>
+                                    <td>mediaContainer</td>
                                     <td>
+                                            <code>MediaContainer | Image</code>
                                     </td>
 
                                     <td>
@@ -640,35 +377,36 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getSrcSet"></a>
+                    <a name="resolveAbsoluteUrl"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
-                            getSrcSet
+                            <span class="modifier">Protected</span>
+                            resolveAbsoluteUrl
                         </b>
-                        <a href="#getSrcSet"><span class="icon ion-ios-link"></span></a>
+                        <a href="#resolveAbsoluteUrl"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getSrcSet(media)</code>
+                    <code>resolveAbsoluteUrl(url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:155</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>builds a set of images aligned with the breakpoints</p>
+                    <div class="io-description"><p>Resolves the absolute URL for the given url. In most cases, this URL represents
+the relative URL on the backend. In that case, we prefix the url with the baseUrl.</p>
 </div>
 
                     <div class="io-description">
@@ -677,12 +415,339 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>url</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveBestFormat"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            resolveBestFormat
+                        </b>
+                        <a href="#resolveBestFormat"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resolveBestFormat(media: MediaContainer | Image)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:121</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the media format code with the best size.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
                                     <td>Optional</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>media</td>
+                                    <td>
+                                            <code>MediaContainer | Image</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveFormat"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            resolveFormat
+                        </b>
+                        <a href="#resolveFormat"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resolveFormat(mediaContainer: <a href="../interfaces/MediaContainer.html">MediaContainer</a>, format?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="106"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:106</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Validates the format against the given mediaContainer. If there is no format available,
+or if the mediaContainer doesn&#39;t contain a media for the given media, the most optimal
+format is resolved. If even that is not possible, the first format is returned.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>mediaContainer</td>
+                                    <td>
+                                                <code><a href="../interfaces/MediaContainer.html" target="_self" >MediaContainer</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>format</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveMedia"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            resolveMedia
+                        </b>
+                        <a href="#resolveMedia"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resolveMedia(media: <a href="../interfaces/MediaContainer.html">MediaContainer</a>, format?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:97</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Resolves the right media for the given format. The fo</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>media</td>
+                                    <td>
+                                                <code><a href="../interfaces/MediaContainer.html" target="_self" >MediaContainer</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>format</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Image.html" target="_self" >Image</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveSrcSet"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            resolveSrcSet
+                        </b>
+                        <a href="#resolveSrcSet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>resolveSrcSet(media: MediaContainer | Image)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:131</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns a set of media for the available media formats. Additionally, the congiured media
+format width is added to the srcset, so that browsers can select the appropriate media.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>media</td>
+                                    <td>
+                                            <code>MediaContainer | Image</code>
+                                    </td>
 
                                     <td>
                                         No
@@ -707,6 +772,75 @@
         </tbody>
     </table>
 </section>
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_reversedFormats"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            _reversedFormats</b>
+                            <a href="#_reversedFormats"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>literal type[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:29</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_sortedFormats"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            _sortedFormats</b>
+                            <a href="#_sortedFormats"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>literal type[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:28</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The media formats sorted by size. The media format representing the smallest
+size is sorted on top.</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
 
             <section>
     <h3 id="accessors">
@@ -716,21 +850,67 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="mediaFormats"></a>
-                        <span class="name"><b>mediaFormats</b><a href="#mediaFormats"><span class="icon ion-ios-link"></span></a></span>
+                        <a name="sortedFormats"></a>
+                        <span class="name"><b>sortedFormats</b><a href="#sortedFormats"><span class="icon ion-ios-link"></span></a></span>
                     </td>
                 </tr>
 
                 <tr>
                     <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>mediaFormats()</code></span>
+                        <span class="accessor"><b>get</b><code>sortedFormats()</code></span>
                     </td>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:70</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Creates the media formats in a logical sorted order. The map contains the
+format key and the format size information. We do this only once for performance
+benefits.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>literal type[]</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="reversedFormats"></a>
+                        <span class="name"><b>reversedFormats</b><a href="#reversedFormats"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>reversedFormats()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.service.ts:87</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Creates the media formats in a reversed sorted order.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>literal type[]</code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -739,111 +919,148 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { OccConfig } from &#x27;@spartacus/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable } from &#x27;@angular/core&#x27;;
+import { Config, Image, OccConfig } from &#x27;@spartacus/core&#x27;;
 import { BreakpointService } from &#x27;../../../layout/breakpoint/breakpoint.service&#x27;;
-import { BREAKPOINT } from &#x27;../../../layout/config/layout-config&#x27;;
-import { Media, MediaFormats } from &#x27;./media.model&#x27;;
+import { StorefrontConfig } from &#x27;../../../storefront-config&#x27;;
+import { MediaConfig } from &#x27;./media.config&#x27;;
+import { Media, MediaContainer, MediaFormatSize } from &#x27;./media.model&#x27;;
 
-/** the default format is used for browsers that do not support   */
-const DEFAULT_MEDIA_FORMAT &#x3D; &#x27;tablet&#x27;;
-
+/**
+ * Service which generates media URLs. It leverage the MediaContainer and MediaFormats so
+ * that URLs and sizes are generated for the same media. This helps to improve performance
+ * across difference devices and layouts.
+ *
+ * Media formats are optional, but highly recommended. The format will help the browser to
+ * identify the right media for the right experience.
+ *
+ * The MediaService will generate absolute URLs in case relative URLs are provided for the Media.
+ * The baseUrl is read from the &#x60;occConfig.backend.media.baseUrl&#x60; or
+ * &#x60;occConfig.backend.occ.baseUrl&#x60;.
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class MediaService {
+  /**
+   * The media formats sorted by size. The media format representing the smallest
+   * size is sorted on top.
+   */
+  private _sortedFormats: { code: string; size: MediaFormatSize }[];
+  private _reversedFormats: { code: string; size: MediaFormatSize }[];
+
   constructor(
-    protected config: OccConfig,
+    @Inject(Config) protected config: StorefrontConfig,
+    /**
+     * The BreakpointService is no longer used in version 2.0 as the different size formats are
+     * driven by configuration only. There&#x27;s however a change that this service will play a role
+     * in the near future, which is why we keep the constructor as-is.
+     */
     protected breakpointService: BreakpointService
   ) {}
 
-  private get mediaFormats(): MediaFormats[] {
-    return [
-      {
-        code: &#x27;mobile&#x27;,
-        threshold: this.breakpointService.getSize(BREAKPOINT.xs),
-      },
-      {
-        code: &#x27;tablet&#x27;,
-        threshold: this.breakpointService.getSize(BREAKPOINT.sm),
-      },
-      {
-        code: &#x27;desktop&#x27;,
-        threshold: this.breakpointService.getSize(BREAKPOINT.md),
-      },
-      {
-        code: &#x27;widescreen&#x27;,
-        threshold: this.breakpointService.getSize(BREAKPOINT.lg),
-      },
-    ];
-  }
+  /**
+   * Returns a &#x60;Media&#x60; object with the main media (&#x60;src&#x60;) and various media (&#x60;src&#x60;)
+   * for specific formats.
+   */
+  getMedia(
+    mediaContainer: MediaContainer | Image,
+    format?: string,
+    alt?: string
+  ): Media {
+    if (!mediaContainer) {
+      return;
+    }
 
-  getMedia(container, format?: string, alt?: string): Media {
+    const mainMedia: Image &#x3D; mediaContainer.url
+      ? mediaContainer
+      : this.resolveMedia(mediaContainer as MediaContainer, format);
+
     return {
-      src: this.getMainImage(container, format),
-      srcset: this.getSrcSet(container),
-      alt: alt || this.getAlt(container, format),
+      src: this.resolveAbsoluteUrl(mainMedia?.url),
+      alt: alt || mainMedia?.altText,
+      srcset: this.resolveSrcSet(mediaContainer),
     };
   }
 
-  private getMainImage(media, format?: string): string {
-    if (media &amp;&amp; media[format || DEFAULT_MEDIA_FORMAT]) {
-      return this.getImageUrl(media[format || DEFAULT_MEDIA_FORMAT].url);
-    } else if (media &amp;&amp; media.url) {
-      return this.getImageUrl(media.url);
-    } else if (media &amp;&amp; media[this.getHighestAvailableFormat(media)]) {
-      return this.getImageUrl(media[this.getHighestAvailableFormat(media)].url);
-    } else {
-      return null;
+  /**
+   * Creates the media formats in a logical sorted order. The map contains the
+   * format key and the format size information. We do this only once for performance
+   * benefits.
+   */
+  protected get sortedFormats(): { code: string; size: MediaFormatSize }[] {
+    if (!this._sortedFormats) {
+      this._sortedFormats &#x3D; Object.keys(
+        (this.config as MediaConfig).mediaFormats
+      )
+        .map((key) &#x3D;&gt; ({
+          code: key,
+          size: (this.config as MediaConfig).mediaFormats[key],
+        }))
+        .sort((a, b) &#x3D;&gt; (a.size.width &gt; b.size.width ? 1 : -1));
     }
+    return this._sortedFormats;
   }
 
   /**
-   * returns highest resolution format name from media formats
+   * Creates the media formats in a reversed sorted order.
    */
-  private getHighestAvailableFormat(media): string {
-    if (media) {
-      let mediaFormat: MediaFormats;
-
-      this.mediaFormats.forEach((format) &#x3D;&gt; {
-        if (
-          !mediaFormat ||
-          (mediaFormat.threshold &lt; format.threshold &amp;&amp; media[format.code])
-        ) {
-          mediaFormat &#x3D; format;
-        }
-      });
-
-      return mediaFormat.code;
+  protected get reversedFormats(): { code: string; size: MediaFormatSize }[] {
+    if (!this._reversedFormats) {
+      this._reversedFormats &#x3D; this.sortedFormats.slice().reverse();
     }
-
-    return null;
-  }
-
-  private getAlt(media, format?: string): string {
-    if (!media) {
-      return undefined;
-    } else if (media[format || DEFAULT_MEDIA_FORMAT]) {
-      return media[format || DEFAULT_MEDIA_FORMAT].altText;
-    } else if (media.altText) {
-      return media.altText;
-    }
+    return this._reversedFormats;
   }
 
   /**
-   * builds a set of images aligned with the breakpoints
+   * Resolves the right media for the given format. The fo
    */
-  private getSrcSet(media): string {
+  protected resolveMedia(media: MediaContainer, format?: string): Image {
+    return media[this.resolveFormat(media, format)];
+  }
+
+  /**
+   * Validates the format against the given mediaContainer. If there is no format available,
+   * or if the mediaContainer doesn&#x27;t contain a media for the given media, the most optimal
+   * format is resolved. If even that is not possible, the first format is returned.
+   */
+  protected resolveFormat(
+    mediaContainer: MediaContainer,
+    format?: string
+  ): string {
+    if (format &amp;&amp; mediaContainer[format]) {
+      return format;
+    }
+    return (
+      this.resolveBestFormat(mediaContainer) || Object.keys(mediaContainer)[0]
+    );
+  }
+
+  /**
+   * Returns the media format code with the best size.
+   */
+  protected resolveBestFormat(media: MediaContainer | Image): string {
+    return this.reversedFormats.find((format) &#x3D;&gt;
+      media.hasOwnProperty(format.code)
+    )?.code;
+  }
+
+  /**
+   * Returns a set of media for the available media formats. Additionally, the congiured media
+   * format width is added to the srcset, so that browsers can select the appropriate media.
+   */
+  protected resolveSrcSet(media: MediaContainer | Image): string {
     if (!media) {
       return undefined;
     }
-    const srcset &#x3D; this.mediaFormats.reduce((set, format) &#x3D;&gt; {
+
+    const srcset &#x3D; this.sortedFormats.reduce((set, format) &#x3D;&gt; {
       if (!!media[format.code]) {
         if (set) {
           set +&#x3D; &#x27;, &#x27;;
         }
-        set +&#x3D; &#x60;${this.getImageUrl(media[format.code].url)} ${
-          format.threshold
+        set +&#x3D; &#x60;${this.resolveAbsoluteUrl(media[format.code].url)} ${
+          format.size.width
         }w&#x60;;
       }
       return set;
@@ -852,16 +1069,30 @@ export class MediaService {
     return srcset &#x3D;&#x3D;&#x3D; &#x27;&#x27; ? undefined : srcset;
   }
 
-  private getImageUrl(url: string): string {
+  /**
+   * Resolves the absolute URL for the given url. In most cases, this URL represents
+   * the relative URL on the backend. In that case, we prefix the url with the baseUrl.
+   */
+  protected resolveAbsoluteUrl(url: string): string {
     if (!url) {
       return null;
     }
     return url.startsWith(&#x27;http&#x27;) ? url : this.getBaseUrl() + url;
   }
 
-  private getBaseUrl(): string {
+  /**
+   * The base URL is either driven by a specific &#x60;backend.media.baseUrl&#x60;, or by the
+   * &#x60;backend.occ.baseUrl&#x60;.
+   *
+   * The &#x60;backend.media.baseUrl&#x60; can be used to load media from a different location.
+   *
+   * In Commerce Cloud, a differnt location could mean a different &quot;aspect&quot;.
+   */
+  protected getBaseUrl(): string {
     return (
-      this.config.backend.media.baseUrl || this.config.backend.occ.baseUrl || &#x27;&#x27;
+      (this.config as OccConfig).backend.media.baseUrl ||
+      (this.config as OccConfig).backend.occ.baseUrl ||
+      &#x27;&#x27;
     );
   }
 }

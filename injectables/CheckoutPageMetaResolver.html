@@ -119,7 +119,13 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
                                 <a href="#resolveTitle">resolveTitle</a>
                             </li>
                             <li>
+                                <a href="#getPriority">getPriority</a>
+                            </li>
+                            <li>
                                 <a href="#getScore">getScore</a>
+                            </li>
+                            <li>
+                                <a href="#hasMatch">hasMatch</a>
                             </li>
                         </ul>
                     </td>
@@ -281,6 +287,82 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getPriority"></a>
+                    <span class="name">
+                        <b>
+                            getPriority
+                        </b>
+                        <a href="#getPriority"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getPriority(page: <a href="../interfaces/Page.html">Page</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/PageMetaResolver.html" target="_self" >PageMetaResolver</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:37</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>page</td>
+                                    <td>
+                                                <code><a href="../interfaces/Page.html" target="_self" >Page</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getScore"></a>
                     <span class="name">
                         <b>
@@ -305,7 +387,7 @@ the more generic <code>ContentPageMetaResolver</code> is overriden by this resol
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:21</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:22</a></code>
 </div>
                 </td>
             </tr>
@@ -347,6 +429,82 @@ the page type and page template.</p>
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasMatch"></a>
+                    <span class="name">
+                        <b>
+                            hasMatch
+                        </b>
+                        <a href="#hasMatch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>hasMatch(page: <a href="../interfaces/Page.html">Page</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/PageMetaResolver.html" target="_self" >PageMetaResolver</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:33</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>page</td>
+                                    <td>
+                                                <code><a href="../interfaces/Page.html" target="_self" >Page</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
                     </div>
                     <div class="io-description">
@@ -415,7 +573,7 @@ the page type and page template.</p>
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:15</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:16</a></code>
 </div>
                             </td>
                         </tr>
@@ -455,7 +613,7 @@ the page type and page template.</p>
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:12</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:13</a></code>
 </div>
                             </td>
                         </tr>
@@ -478,7 +636,7 @@ the page type and page template.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { switchMap } from &#x27;rxjs/operators&#x27;;
-import { ActiveCartService } from &#x27;../../cart&#x27;;
+import { ActiveCartService } from &#x27;../../cart/facade/active-cart.service&#x27;;
 import { PageRobotsMeta } from &#x27;../../cms/model/page.model&#x27;;
 import { PageMetaResolver } from &#x27;../../cms/page/page-meta.resolver&#x27;;
 import {

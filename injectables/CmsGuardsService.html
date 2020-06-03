@@ -59,13 +59,6 @@
             <code>projects/storefrontlib/src/cms-structure/services/cms-guards.service.ts</code>
         </p>
 
-            <p class="comment">
-                <h3>Description</h3>
-            </p>
-            <p class="comment">
-                <p>Please don&#39;t put that service in public API.</p>
-
-            </p>
 
 
 
@@ -103,12 +96,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cmsMapping: <a href="../injectables/CmsMappingService.html">CmsMappingService</a>, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
+<code>constructor(cmsComponentsService: <a href="../injectables/CmsComponentsService.html">CmsComponentsService</a>, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-guards.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-guards.service.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -126,10 +119,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>cmsMapping</td>
+                                                        <td>cmsComponentsService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CmsMappingService.html" target="_self" >CmsMappingService</a></code>
+                                                                        <code><a href="../injectables/CmsComponentsService.html" target="_self" >CmsComponentsService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -185,8 +178,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-guards.service.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-guards.service.ts:17</a></div>
                 </td>
             </tr>
 
@@ -264,22 +257,19 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Injector } from &#x27;@angular/core&#x27;;
-import { concat, from, isObservable, Observable, of } from &#x27;rxjs&#x27;;
 import { CanActivate, RouterStateSnapshot, UrlTree } from &#x27;@angular/router&#x27;;
 import { CmsActivatedRouteSnapshot } from &#x27;@spartacus/core&#x27;;
+import { concat, from, isObservable, Observable, of } from &#x27;rxjs&#x27;;
 import { endWith, first, skipWhile } from &#x27;rxjs/operators&#x27;;
-import { CmsMappingService } from &#x27;./cms-mapping.service&#x27;;
+import { CmsComponentsService } from &#x27;./cms-components.service&#x27;;
 
-/**
- * Please don&#x27;t put that service in public API.
- * */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class CmsGuardsService {
   constructor(
-    private cmsMapping: CmsMappingService,
-    private injector: Injector
+    protected cmsComponentsService: CmsComponentsService,
+    protected injector: Injector
   ) {}
 
   cmsPageCanActivate(
@@ -287,7 +277,7 @@ export class CmsGuardsService {
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable&lt;boolean | UrlTree&gt; {
-    const guards &#x3D; this.cmsMapping.getGuardsForComponents(componentTypes);
+    const guards &#x3D; this.cmsComponentsService.getGuards(componentTypes);
 
     if (guards.length) {
       const canActivateObservables &#x3D; guards.map((guardClass) &#x3D;&gt; {

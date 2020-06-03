@@ -548,9 +548,11 @@ function addPaymentMethod(paymentDetail: PaymentDetail) {
       const cartid &#x3D; $cart.text().match(/[0-9]+/)[0];
       cy.request({
         method: &#x27;POST&#x27;,
-        url: &#x60;${Cypress.env(
-          &#x27;API_URL&#x27;
-        )}/rest/v2/electronics-spa/users/current/carts/${cartid}/paymentdetails&#x60;,
+        url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
+          &#x27;OCC_PREFIX&#x27;
+        )}/${Cypress.env(
+          &#x27;BASE_SITE&#x27;
+        )}/users/current/carts/${cartid}/paymentdetails&#x60;,
         headers: {
           Authorization: &#x60;bearer ${
             JSON.parse(localStorage.getItem(&#x27;spartacus-local-data&#x27;)).auth

@@ -117,7 +117,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithUser | StateWithProcess>)</code>
+<code>constructor(store: Store<StateWithUser | StateWithProcess>, authService: <a href="../injectables/AuthService.html">AuthService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -144,6 +144,18 @@
                                                   
                                                         <td>
                                                                     <code>Store&lt;StateWithUser | StateWithProcess&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -187,8 +199,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:50</a></div>
                 </td>
             </tr>
 
@@ -228,8 +240,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:34</a></div>
                 </td>
             </tr>
 
@@ -269,8 +281,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:27</a></div>
                 </td>
             </tr>
 
@@ -310,8 +322,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:57</a></div>
                 </td>
             </tr>
 
@@ -351,8 +363,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:79</a></div>
                 </td>
             </tr>
 
@@ -392,8 +404,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:41</a></div>
                 </td>
             </tr>
 
@@ -433,8 +445,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="84"
-                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:84</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:89</a></div>
                 </td>
             </tr>
 
@@ -475,8 +487,8 @@ reset after the process concludes, regardless if it&#39;s a success or an error.
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">projects/core/src/user/facade/user-notification-preference.service.ts:65</a></div>
                 </td>
             </tr>
 
@@ -539,7 +551,8 @@ reset after the process concludes, regardless if it&#39;s a success or an error.
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { OCC_USER_ID_CURRENT } from &#x27;../../occ/utils/occ-constants&#x27;;
+import { AuthService } from &#x27;../../auth/facade/auth.service&#x27;;
+import { NotificationPreference } from &#x27;../../model/notification-preference.model&#x27;;
 import { StateWithProcess } from &#x27;../../process/store/process-state&#x27;;
 import { getProcessLoadingFactory } from &#x27;../../process/store/selectors/process.selectors&#x27;;
 import { UserActions } from &#x27;../store/actions/index&#x27;;
@@ -548,13 +561,15 @@ import {
   StateWithUser,
   UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID,
 } from &#x27;../store/user-state&#x27;;
-import { NotificationPreference } from &#x27;../../model/notification-preference.model&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class UserNotificationPreferenceService {
-  constructor(protected store: Store&lt;StateWithUser | StateWithProcess&lt;void&gt;&gt;) {}
+  constructor(
+    protected store: Store&lt;StateWithUser | StateWithProcess&lt;void&gt;&gt;,
+    protected authService: AuthService
+  ) {}
 
   /**
    * Returns all notification preferences.
@@ -574,9 +589,9 @@ export class UserNotificationPreferenceService {
    * Loads all notification preferences.
    */
   loadPreferences(): void {
-    this.store.dispatch(
-      new UserActions.LoadNotificationPreferences(OCC_USER_ID_CURRENT)
-    );
+    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
+      this.store.dispatch(new UserActions.LoadNotificationPreferences(userId));
+    });
   }
 
   /**
@@ -598,12 +613,14 @@ export class UserNotificationPreferenceService {
    * @param preferences a preference list
    */
   updatePreferences(preferences: NotificationPreference[]): void {
-    this.store.dispatch(
-      new UserActions.UpdateNotificationPreferences({
-        userId: OCC_USER_ID_CURRENT,
-        preferences: preferences,
-      })
-    );
+    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
+      this.store.dispatch(
+        new UserActions.UpdateNotificationPreferences({
+          userId,
+          preferences: preferences,
+        })
+      );
+    });
   }
 
   /**

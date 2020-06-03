@@ -63,15 +63,27 @@
             <code>projects/core/src/cart/store/actions/cart-voucher.action.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Resets add voucher process</p>
+
+            </p>
 
             <p class="comment">
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../classes/EntityResetAction.html" target="_self" >EntityResetAction</a></code>
+                        <code><a href="../classes/EntityLoaderResetAction.html" target="_self" >EntityLoaderResetAction</a></code>
             </p>
 
 
+            <p class="comment">
+                <h3>Example</h3>
+            </p>
+            <div class="io-description">
+            </div>
 
             <section>
     <h3 id="index">Index</h3>
@@ -120,7 +132,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:51</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:66</a></div>
                             </td>
                         </tr>
 
@@ -153,7 +165,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:51</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/core/src/cart/store/actions/cart-voucher.action.ts:66</a></div>
                             </td>
                         </tr>
 
@@ -181,13 +193,13 @@
                     </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Inherited from         <code><a href="../classes/EntityResetAction.html" target="_self" >EntityResetAction</a></code>
+                                    <div class="io-line">Inherited from         <code><a href="../classes/EntityLoaderResetAction.html" target="_self" >EntityLoaderResetAction</a></code>
 </div>
                                 </td>
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/EntityResetAction.html#source" target="_self" >EntityResetAction:90</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/EntityLoaderResetAction.html#source" target="_self" >EntityLoaderResetAction:90</a></code>
 </div>
                             </td>
                         </tr>
@@ -214,13 +226,13 @@
                     </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Inherited from         <code><a href="../classes/EntityResetAction.html" target="_self" >EntityResetAction</a></code>
+                                    <div class="io-line">Inherited from         <code><a href="../classes/EntityLoaderResetAction.html" target="_self" >EntityLoaderResetAction</a></code>
 </div>
                                 </td>
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/EntityResetAction.html#source" target="_self" >EntityResetAction:89</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/EntityLoaderResetAction.html#source" target="_self" >EntityLoaderResetAction:89</a></code>
 </div>
                             </td>
                         </tr>
@@ -244,7 +256,7 @@
 import {
   EntityFailAction,
   EntityLoadAction,
-  EntityResetAction,
+  EntityLoaderResetAction,
   EntitySuccessAction,
 } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
 import {
@@ -277,19 +289,34 @@ export class CartAddVoucher extends EntityLoadAction {
 
 export class CartAddVoucherFail extends EntityFailAction {
   readonly type &#x3D; CART_ADD_VOUCHER_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, payload);
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      voucherId: string;
+      error: any;
+    }
+  ) {
+    super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID, payload.error);
   }
 }
 
 export class CartAddVoucherSuccess extends EntitySuccessAction {
   readonly type &#x3D; CART_ADD_VOUCHER_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {
+  constructor(
+    public payload: { userId: string; cartId: string; voucherId: string }
+  ) {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);
   }
 }
 
-export class CartResetAddVoucher extends EntityResetAction {
+// TODO(#7241): Remove when switching to event system for vouchers
+/**
+ * Resets add voucher process
+ *
+ * @deprecated since 2.0
+ */
+export class CartResetAddVoucher extends EntityLoaderResetAction {
   readonly type &#x3D; CART_RESET_ADD_VOUCHER;
   constructor() {
     super(PROCESS_FEATURE, ADD_VOUCHER_PROCESS_ID);

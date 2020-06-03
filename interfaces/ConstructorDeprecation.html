@@ -281,6 +281,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { experimental, strings } from &#x27;@angular-devkit/core&#x27;;
 import { SchematicsException, Tree } from &#x27;@angular-devkit/schematics&#x27;;
 import { getProjectTargetOptions } from &#x27;@angular/cdk/schematics&#x27;;
+import { Attribute, Element, HtmlParser, Node } from &#x27;@angular/compiler&#x27;;
 import {
   findNode,
   findNodes,
@@ -337,10 +338,23 @@ export interface ConstructorDeprecation {
   removeParams?: ClassType[];
 }
 
+export interface MethodPropertyDeprecation {
+  class: string;
+  importPath: string;
+  deprecatedNode: string;
+  newNode?: string;
+  comment?: string;
+}
+
 export interface DeprecatedNode {
   node: string;
   importPath: string;
   comment?: string;
+}
+
+export interface ConfigDeprecation {
+  propertyName: string;
+  comment: string;
 }
 
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
@@ -446,13 +460,61 @@ function buildSelector(selector: string): string {
   return &#x60;&lt;${selector}&#x60;;
 }
 
+function visitHtmlNodesRecursively(
+  nodes: Node[],
+  propertyName: string,
+  resultingElements: Node[] &#x3D; [],
+  parentElement?: Element
+): void {
+  nodes.forEach((node) &#x3D;&gt; {
+    if (node instanceof Attribute &amp;&amp; parentElement) {
+      if (
+        node.name.includes(propertyName) ||
+        node.value.includes(propertyName)
+      ) {
+        resultingElements.push(parentElement);
+      }
+    }
+    if (node instanceof Element) {
+      visitHtmlNodesRecursively(
+        node.attrs,
+        propertyName,
+        resultingElements,
+        node
+      );
+      visitHtmlNodesRecursively(
+        node.children,
+        propertyName,
+        resultingElements,
+        node
+      );
+    }
+  });
+}
+
 export function insertHtmlComment(
   content: string,
   componentProperty: ComponentProperty
 ): string | undefined {
   const comment &#x3D; buildHtmlComment(componentProperty.comment);
-  const propertyRegExp &#x3D; new RegExp(&#x60;(&lt;.+${componentProperty.name})&#x60;, &#x27;g&#x27;);
-  return content.replace(propertyRegExp, &#x60;${comment}\$1&#x60;);
+  const result &#x3D; new HtmlParser().parse(content, &#x27;&#x27;);
+
+  const resultingElements: Node[] &#x3D; [];
+  visitHtmlNodesRecursively(
+    result.rootNodes,
+    componentProperty.name,
+    resultingElements
+  );
+
+  resultingElements
+    .map((node: Element) &#x3D;&gt; node.sourceSpan.start.line)
+    .forEach((line, i) &#x3D;&gt; {
+      const split &#x3D; content.split(&#x27;\n&#x27;);
+      split.splice(line + i, 0, comment);
+      content &#x3D; split.join(&#x27;\n&#x27;);
+    });
+
+  return content;
 }
 
 function buildHtmlComment(commentText: string): string {
@@ -659,8 +721,9 @@ function checkSuper(
   constructorNode: ts.Node,
   parameterClassTypes: ClassType[]
 ): boolean {
+  const constructorBlock &#x3D; findNodes(constructorNode, ts.SyntaxKind.Block)[0];
   const callExpressions &#x3D; findNodes(
-    constructorNode,
+    constructorBlock,
     ts.SyntaxKind.CallExpression
   );
   if (callExpressions.length &#x3D;&#x3D;&#x3D; 0) {
@@ -810,10 +873,6 @@ function shouldRemoveImportAndParam(
     return true;
   }
 
-  const constructorParameters &#x3D; findNodes(
-    constructorNode,
-    ts.SyntaxKind.Parameter
-  );
   const classDeclarationNode &#x3D; nodes.find(
     (node) &#x3D;&gt; node.kind &#x3D;&#x3D;&#x3D; ts.SyntaxKind.ClassDeclaration
   );
@@ -821,6 +880,7 @@ function shouldRemoveImportAndParam(
     return true;
   }
 
+  const constructorParameters &#x3D; getConstructorParameterList(constructorNode);
   for (const constructorParameter of constructorParameters) {
     if (constructorParameter.getText().includes(importToRemove.className)) {
       const paramVariableNode &#x3D; constructorParameter
@@ -930,15 +990,19 @@ function getImportDeclarationNode(
   return importDeclarationNode;
 }
 
+function getConstructorParameterList(constructorNode: ts.Node): ts.Node[] {
+  const syntaxList &#x3D; constructorNode
+    .getChildren()
+    .filter((node) &#x3D;&gt; node.kind &#x3D;&#x3D;&#x3D; ts.SyntaxKind.SyntaxList)[0];
+  return findNodes(syntaxList, ts.SyntaxKind.Parameter);
+}
+
 function removeConstructorParamInternal(
   sourcePath: string,
   constructorNode: ts.Node,
   importToRemove: ClassType
 ): Change[] {
-  const constructorParameters &#x3D; findNodes(
-    constructorNode,
-    ts.SyntaxKind.Parameter
-  );
+  const constructorParameters &#x3D; getConstructorParameterList(constructorNode);
 
   for (let i &#x3D; 0; i &lt; constructorParameters.length; i++) {
     const constructorParameter &#x3D; constructorParameters[i];
@@ -974,8 +1038,9 @@ function removeParamFromSuper(
   constructorNode: ts.Node,
   paramName: string
 ): Change[] {
+  const constructorBlock &#x3D; findNodes(constructorNode, ts.SyntaxKind.Block)[0];
   const callExpressions &#x3D; findNodes(
-    constructorNode,
+    constructorBlock,
     ts.SyntaxKind.CallExpression
   );
   if (callExpressions.length &#x3D;&#x3D;&#x3D; 0) {
@@ -1062,10 +1127,7 @@ export function injectService(
     throw new SchematicsException(&#x60;No constructor found in ${path}.&#x60;);
   }
 
-  const constructorParameters &#x3D; findNodes(
-    constructorNode,
-    ts.SyntaxKind.Parameter
-  );
+  const constructorParameters &#x3D; getConstructorParameterList(constructorNode);
 
   let toInsert &#x3D; &#x27;&#x27;;
   let position &#x3D; constructorNode.getStart() + &#x27;constructor(&#x27;.length;
@@ -1087,6 +1149,34 @@ export function injectService(
 
 export function buildSpartacusComment(comment: string): string {
   return &#x60;// ${TODO_SPARTACUS} ${comment}\n&#x60;;
+}
+
+export function insertCommentAboveConfigProperty(
+  sourcePath: string,
+  source: ts.SourceFile,
+  identifierName: string,
+  comment: string
+): Change[] {
+  const identifierNodes &#x3D; new Set&lt;ts.Node&gt;();
+  getSourceNodes(source)
+    .filter((node) &#x3D;&gt; node.kind &#x3D;&#x3D;&#x3D; ts.SyntaxKind.ObjectLiteralExpression)
+    .forEach((objectLiteralNode) &#x3D;&gt;
+      findNodes(objectLiteralNode, ts.SyntaxKind.Identifier)
+        .filter((node) &#x3D;&gt; node.getText() &#x3D;&#x3D;&#x3D; identifierName)
+        .forEach((idNode) &#x3D;&gt; identifierNodes.add(idNode))
+    );
+
+  const changes: Change[] &#x3D; [];
+  identifierNodes.forEach((n) &#x3D;&gt;
+    changes.push(
+      new InsertChange(
+        sourcePath,
+        getLineStartFromTSFile(source, n.getStart()),
+        &#x60;${comment}&#x60;
+      )
+    )
+  );
+  return changes;
 }
 
 export function insertCommentAboveIdentifier(
@@ -1286,6 +1376,20 @@ export function getMetadataProperty(
     })[0];
 
   return property as ts.PropertyAssignment;
+}
+
+export function getLineFromTSFile(
+  host: Tree,
+  path: string,
+  position: number
+): [number, number] {
+  const tsFile &#x3D; getTsSourceFile(host, path);
+
+  const lac &#x3D; tsFile.getLineAndCharacterOfPosition(position);
+  const lineStart &#x3D; tsFile.getPositionOfLineAndCharacter(lac.line, 0);
+  const nextLineStart &#x3D; tsFile.getPositionOfLineAndCharacter(lac.line + 1, 0);
+
+  return [lineStart, nextLineStart - lineStart];
 }
 </code></pre>
     </div>

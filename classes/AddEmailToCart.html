@@ -64,6 +64,12 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../classes/EntityProcessesIncrementAction.html" target="_self" >EntityProcessesIncrementAction</a></code>
+            </p>
 
 
 
@@ -85,6 +91,13 @@
                             </li>
                             <li>
                                     <span class="modifier">Readonly</span>
+                                <a href="#type">type</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#meta">meta</a>
+                            </li>
+                            <li>
                                 <a href="#type">type</a>
                             </li>
                         </ul>
@@ -111,7 +124,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:78</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:83</a></div>
                             </td>
                         </tr>
 
@@ -175,7 +188,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:80</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:85</a></div>
                             </td>
                         </tr>
 
@@ -202,7 +215,75 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:78</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:83</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="meta"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Readonly</span>
+                            meta</b>
+                            <a href="#meta"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/EntityProcessesLoaderMeta.html" target="_self" >EntityProcessesLoaderMeta</a></code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../classes/EntityProcessesIncrementAction.html" target="_self" >EntityProcessesIncrementAction</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../classes/EntityProcessesIncrementAction.html#source" target="_self" >EntityProcessesIncrementAction:66</a></code>
+</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="type"></a>
+                        <span class="name">
+                            <b>
+                            type</b>
+                            <a href="#type"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>ENTITY_PROCESSES_INCREMENT_ACTION</code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../classes/EntityProcessesIncrementAction.html" target="_self" >EntityProcessesIncrementAction</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../classes/EntityProcessesIncrementAction.html#source" target="_self" >EntityProcessesIncrementAction:65</a></code>
+</div>
                             </td>
                         </tr>
 
@@ -228,6 +309,12 @@ import {
   EntityLoadAction,
   EntitySuccessAction,
 } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
+import {
+  EntityProcessesDecrementAction,
+  EntityProcessesIncrementAction,
+} from &#x27;../../../state/utils/entity-processes-loader/entity-processes-loader.action&#x27;;
+import { EntityRemoveAction } from &#x27;../../../state/utils/entity/entity.action&#x27;;
+import { ProcessesLoaderResetAction } from &#x27;../../../state/utils/processes-loader/processes-loader.action&#x27;;
 import { MULTI_CART_DATA } from &#x27;../multi-cart-state&#x27;;
 
 export const CREATE_CART &#x3D; &#x27;[Cart] Create Cart&#x27;;
@@ -247,11 +334,10 @@ export const MERGE_CART_SUCCESS &#x3D; &#x27;[Cart] Merge Cart Success&#x27;;
 
 export const RESET_CART_DETAILS &#x3D; &#x27;[Cart] Reset Cart Details&#x27;;
 
-export const CLEAR_EXPIRED_COUPONS &#x3D; &#x27;[Cart] Clear Expired Coupon&#x27;;
-
-export const CLEAR_CART &#x3D; &#x27;[Cart] Clear Cart&#x27;;
+export const REMOVE_CART &#x3D; &#x27;[Cart] Remove Cart&#x27;;
 
 export const DELETE_CART &#x3D; &#x27;[Cart] Delete Cart&#x27;;
+export const DELETE_CART_SUCCESS &#x3D; &#x27;[Cart] Delete Cart Success&#x27;;
 export const DELETE_CART_FAIL &#x3D; &#x27;[Cart] Delete Cart Fail&#x27;;
 
 interface CreateCartPayload {
@@ -297,73 +383,142 @@ export class CreateCartSuccess extends EntitySuccessAction {
   }
 }
 
-export class AddEmailToCart {
+export class AddEmailToCart extends EntityProcessesIncrementAction {
   readonly type &#x3D; ADD_EMAIL_TO_CART;
   constructor(
     public payload: { userId: string; cartId: string; email: string }
-  ) {}
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
-export class AddEmailToCartFail {
+export class AddEmailToCartFail extends EntityProcessesDecrementAction {
   readonly type &#x3D; ADD_EMAIL_TO_CART_FAIL;
-  constructor(public payload: any) {}
-}
-
-export class AddEmailToCartSuccess {
-  readonly type &#x3D; ADD_EMAIL_TO_CART_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {}
-}
-
-export class LoadCart {
-  readonly type &#x3D; LOAD_CART;
   constructor(
-    public payload: { userId: string; cartId: string; extraData?: any }
-  ) {}
+    public payload: {
+      userId: string;
+      cartId: string;
+      error: any;
+      email: string;
+    }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
-export class LoadCartFail {
+export class AddEmailToCartSuccess extends EntityProcessesDecrementAction {
+  readonly type &#x3D; ADD_EMAIL_TO_CART_SUCCESS;
+  constructor(
+    public payload: { userId: string; cartId: string; email: string }
+  ) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+interface LoadCartPayload {
+  userId: string;
+  cartId: string;
+  extraData?: {
+    active?: boolean;
+  };
+}
+
+export class LoadCart extends EntityLoadAction {
+  readonly type &#x3D; LOAD_CART;
+  constructor(public payload: LoadCartPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+interface LoadCartFailPayload extends LoadCartPayload {
+  error: any;
+}
+
+export class LoadCartFail extends EntityFailAction {
   readonly type &#x3D; LOAD_CART_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: LoadCartFailPayload) {
+    super(MULTI_CART_DATA, payload.cartId, payload.error);
+  }
 }
 
-export class LoadCartSuccess {
+interface LoadCartSuccessPayload extends LoadCartPayload {
+  cart: Cart;
+}
+
+export class LoadCartSuccess extends EntitySuccessAction {
   readonly type &#x3D; LOAD_CART_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: LoadCartSuccessPayload) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+interface MergeCartPayload {
+  cartId: string;
+  userId: string;
+  extraData?: { active?: boolean };
+  /**
+   * MergeCart actions triggers CreateCart which requires this parameter, so that&#x27;s why it is required.
+   */
+  tempCartId: string;
 }
 
 export class MergeCart implements Action {
   readonly type &#x3D; MERGE_CART;
-  constructor(public payload: any) {}
+  constructor(public payload: MergeCartPayload) {}
 }
 
-export class MergeCartSuccess implements Action {
+interface MergeCartSuccessPayload extends MergeCartPayload {
+  /**
+   * Previous cart id which was merged with new/user cart.
+   * Needed to know which obsolete entity should be removed.
+   */
+  oldCartId: string;
+}
+
+export class MergeCartSuccess extends EntityRemoveAction {
   readonly type &#x3D; MERGE_CART_SUCCESS;
-  constructor(public payload: { cartId: string; userId: string }) {}
+  constructor(public payload: MergeCartSuccessPayload) {
+    super(MULTI_CART_DATA, payload.oldCartId);
+  }
 }
 
-export class ResetCartDetails implements Action {
+/**
+ * On site context change we want to keep current list of entities, but we want to clear the value and flags.
+ * With ProcessesLoaderResetAction we run it on every entity of this type.
+ */
+export class ResetCartDetails extends ProcessesLoaderResetAction {
   readonly type &#x3D; RESET_CART_DETAILS;
-  constructor() {}
+  constructor() {
+    super(MULTI_CART_DATA);
+  }
 }
 
-export class ClearExpiredCoupons implements Action {
-  readonly type &#x3D; CLEAR_EXPIRED_COUPONS;
-  constructor(public payload: any) {}
+/**
+ * Used for cleaning cart in local state, when we get information that it no longer exists in the backend.
+ * For removing particular cart in both places use DeleteCart actions.
+ */
+export class RemoveCart extends EntityRemoveAction {
+  readonly type &#x3D; REMOVE_CART;
+  constructor(public payload: { cartId: string }) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
 }
 
-export class ClearCart {
-  readonly type &#x3D; CLEAR_CART;
-  constructor() {}
-}
-
-export class DeleteCart {
+export class DeleteCart implements Action {
   readonly type &#x3D; DELETE_CART;
   constructor(public payload: { userId: string; cartId: string }) {}
 }
 
-export class DeleteCartFail {
+export class DeleteCartSuccess extends EntityRemoveAction {
+  readonly type &#x3D; DELETE_CART_SUCCESS;
+  constructor(public payload: { userId: string; cartId: string }) {
+    super(MULTI_CART_DATA, payload.cartId);
+  }
+}
+
+export class DeleteCartFail implements Action {
   readonly type &#x3D; DELETE_CART_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: { userId: string; cartId: string; error: any }) {}
 }
 
 export type CartAction &#x3D;
@@ -380,9 +535,9 @@ export type CartAction &#x3D;
   | AddEmailToCartFail
   | AddEmailToCartSuccess
   | DeleteCart
+  | DeleteCartSuccess
   | DeleteCartFail
-  | ClearExpiredCoupons
-  | ClearCart;
+  | RemoveCart;
 </code></pre>
     </div>
 </div>

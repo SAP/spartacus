@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/product/facade/product-search.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/product/facade/product-search.service.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -172,8 +172,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/core/src/product/facade/product-search.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">projects/core/src/product/facade/product-search.service.ts:29</a></div>
                 </td>
             </tr>
 
@@ -211,8 +211,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">projects/core/src/product/facade/product-search.service.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">projects/core/src/product/facade/product-search.service.ts:25</a></div>
                 </td>
             </tr>
 
@@ -250,8 +250,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">projects/core/src/product/facade/product-search.service.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/core/src/product/facade/product-search.service.ts:16</a></div>
                 </td>
             </tr>
 
@@ -325,7 +325,9 @@ import { ProductActions } from &#x27;../store/actions/index&#x27;;
 import { StateWithProduct } from &#x27;../store/product-state&#x27;;
 import { ProductSelectors } from &#x27;../store/selectors/index&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class ProductSearchService {
   constructor(protected store: Store&lt;StateWithProduct&gt;) {}
 

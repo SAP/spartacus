@@ -236,17 +236,25 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:47</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Initializes the two-way synchronization between the site context state and the URL.</p>
+</div>
 
+                    <div>
+                    </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Promise that is resolved when the site context state is initialized (updated for the first time) based on the URL.</p>
 
                     </div>
                 </td>
@@ -275,8 +283,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="138"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:138</a></div>
                 </td>
             </tr>
 
@@ -316,14 +324,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="92"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:92</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:131</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Updates the site context state based on the context params encoded in the given URL</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -333,6 +343,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -347,6 +358,10 @@
                                     </td>
 
 
+                                    <td>
+                                        <p>URL with encoded context params</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -388,14 +403,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:67</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>After each change of the site context state, it modifies the current URL in place.
+But it happens only for the parameters configured to be persisted in the URL.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -453,25 +471,66 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>subscribeRouting()</code>
+                    <code>subscribeRouting(onContextInitialized: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank">Function</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:98</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>After each Angular NavigationStart event it updates the site context state based on
+site context params encoded in the anticipated URL.</p>
+<p>In particular, it&#39;s responsible for initializing the state of the context params
+on page start, reading the values from the URL.</p>
+</div>
 
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>onContextInitialized</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank" >Function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>notify that the initialization of the context was done based on the URL</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -536,10 +595,20 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:34</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/core/src/site-context/services/site-context-routes-handler.ts:40</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Tells whether there is a pending navigation at the moment, so we can avoid an infinite loop caused by the cyclic dependency:</p>
+<ul>
+<li><code>subscribeChanges</code> method triggers a navigation on update of site context state</li>
+<li><code>subscribeRouting</code> method updates the site context state on navigation</li>
+</ul>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
@@ -665,21 +734,39 @@ export class SiteContextRoutesHandler implements OnDestroy {
 
   private router: Router;
   private location: Location;
+
+  /**
+   * Tells whether there is a pending navigation at the moment, so we can avoid an infinite loop caused by the cyclic dependency:
+   * - &#x60;subscribeChanges&#x60; method triggers a navigation on update of site context state
+   * - &#x60;subscribeRouting&#x60; method updates the site context state on navigation
+   */
   private isNavigating &#x3D; false;
 
-  init() {
-    this.router &#x3D; this.injector.get&lt;Router&gt;(Router);
+  /**
+   * Initializes the two-way synchronization between the site context state and the URL.
+   *
+   * @returns Promise that is resolved when the site context state is initialized (updated for the first time) based on the URL.
+   */
+  init(): Promise&lt;void&gt; {
+    return new Promise((resolve) &#x3D;&gt; {
+      this.router &#x3D; this.injector.get&lt;Router&gt;(Router);
 
-    this.location &#x3D; this.injector.get&lt;Location&gt;(Location);
-    const routingParams &#x3D; this.siteContextParams.getUrlEncodingParameters();
+      this.location &#x3D; this.injector.get&lt;Location&gt;(Location);
+      const routingParams &#x3D; this.siteContextParams.getUrlEncodingParameters();
 
-    if (routingParams.length) {
-      this.setContextParamsFromRoute(this.router.url);
-      this.subscribeChanges(routingParams);
-      this.subscribeRouting();
-    }
+      if (routingParams.length) {
+        this.subscribeChanges(routingParams);
+        this.subscribeRouting(resolve);
+      } else {
+        resolve();
+      }
+    });
   }
 
+  /**
+   * After each change of the site context state, it modifies the current URL in place.
+   * But it happens only for the parameters configured to be persisted in the URL.
+   */
   private subscribeChanges(params: string[]) {
     params.forEach((param) &#x3D;&gt; {
       const service &#x3D; this.siteContextParams.getSiteContextService(param);
@@ -702,7 +789,18 @@ export class SiteContextRoutesHandler implements OnDestroy {
     });
   }
 
-  private subscribeRouting() {
+  /**
+   * After each Angular NavigationStart event it updates the site context state based on
+   * site context params encoded in the anticipated URL.
+   *
+   * In particular, it&#x27;s responsible for initializing the state of the context params
+   * on page start, reading the values from the URL.
+   *
+   * @param onContextInitialized notify that the initialization of the context was done based on the URL
+   */
+  private subscribeRouting(onContextInitialized: Function) {
+    let contextInitialized &#x3D; false;
+
     this.subscription.add(
       this.router.events
         .pipe(
@@ -718,11 +816,21 @@ export class SiteContextRoutesHandler implements OnDestroy {
           this.isNavigating &#x3D; event instanceof NavigationStart;
           if (this.isNavigating) {
             this.setContextParamsFromRoute(event.url);
+
+            if (!contextInitialized) {
+              contextInitialized &#x3D; true;
+              onContextInitialized();
+            }
           }
         })
     );
   }
 
+  /**
+   * Updates the site context state based on the context params encoded in the given URL
+   *
+   * @param url URL with encoded context params
+   */
   private setContextParamsFromRoute(url: string) {
     const { params } &#x3D; this.serializer.urlExtractContextParameters(url);
     Object.keys(params).forEach((param) &#x3D;&gt;

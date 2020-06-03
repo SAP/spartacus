@@ -166,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">projects/core/src/asm/asm.module.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">projects/core/src/asm/asm.module.ts:13</a></div>
                 </td>
             </tr>
 
@@ -191,8 +191,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { HttpClientModule } from &#x27;@angular/common/http&#x27;;
 import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { Config, provideDefaultConfig } from &#x27;../config/config.module&#x27;;
-import { AsmConfig } from &#x27;./config/asm-config&#x27;;
+import { provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { defaultAsmConfig } from &#x27;./config/default-asm-config&#x27;;
 import { AsmStoreModule } from &#x27;./store/asm-store.module&#x27;;
 import { interceptors } from &#x27;./http-interceptors/index&#x27;;
@@ -204,11 +203,7 @@ export class AsmModule {
   static forRoot(): ModuleWithProviders&lt;AsmModule&gt; {
     return {
       ngModule: AsmModule,
-      providers: [
-        { provide: AsmConfig, useExisting: Config },
-        ...interceptors,
-        provideDefaultConfig(defaultAsmConfig),
-      ],
+      providers: [...interceptors, provideDefaultConfig(defaultAsmConfig)],
     };
   }
 }

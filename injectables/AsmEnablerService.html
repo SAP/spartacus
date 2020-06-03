@@ -75,21 +75,6 @@ of the UI and runtime performance for the ordinary production user.</p>
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <h6><b>Properties</b></h6>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <ul class="index-list">
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#isUiAdded">isUiAdded</a>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -100,18 +85,18 @@ of the UI and runtime performance for the ordinary production user.</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#addUi">addUi</a>
                             </li>
                             <li>
                                 <a href="#isEnabled">isEnabled</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#isLaunched">isLaunched</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#isUsedBefore">isUsedBefore</a>
                             </li>
                             <li>
@@ -135,12 +120,12 @@ of the UI and runtime performance for the ordinary production user.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(location: <a href="https://angular.io/api/common/Location" target="_blank">Location</a>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, componentFactoryResolver: <a href="../interfaces/Component.html">ComponentFactoryResolver</a>, outletService: <a href="../injectables/OutletService.html">OutletService<ComponentFactory<any>></a>)</code>
+<code>constructor(location: <a href="https://angular.io/api/common/Location" target="_blank">Location</a>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, launchDialogService: <a href="../injectables/LaunchDialogService.html">LaunchDialogService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -182,22 +167,10 @@ of the UI and runtime performance for the ordinary production user.</p>
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>componentFactoryResolver</td>
+                                                        <td>launchDialogService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../interfaces/Component.html" target="_self" >ComponentFactoryResolver</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>outletService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/OutletService.html" target="_self" >OutletService&lt;ComponentFactory&lt;any&gt;&gt;</a></code>
+                                                                        <code><a href="../injectables/LaunchDialogService.html" target="_self" >LaunchDialogService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -226,7 +199,7 @@ of the UI and runtime performance for the ordinary production user.</p>
                     <a name="addUi"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             addUi
                         </b>
                         <a href="#addUi"><span class="icon ion-ios-link"></span></a>
@@ -243,8 +216,8 @@ of the UI and runtime performance for the ordinary production user.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:67</a></div>
                 </td>
             </tr>
 
@@ -284,8 +257,8 @@ of the UI and runtime performance for the ordinary production user.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:36</a></div>
                 </td>
             </tr>
 
@@ -310,7 +283,7 @@ of the UI and runtime performance for the ordinary production user.</p>
                     <a name="isLaunched"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             isLaunched
                         </b>
                         <a href="#isLaunched"><span class="icon ion-ios-link"></span></a>
@@ -327,8 +300,8 @@ of the UI and runtime performance for the ordinary production user.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:49</a></div>
                 </td>
             </tr>
 
@@ -354,7 +327,7 @@ using the asm flag in the URL.</p>
                     <a name="isUsedBefore"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             isUsedBefore
                         </b>
                         <a href="#isUsedBefore"><span class="icon ion-ios-link"></span></a>
@@ -371,8 +344,8 @@ using the asm flag in the URL.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:57</a></div>
                 </td>
             </tr>
 
@@ -412,8 +385,8 @@ using the asm flag in the URL.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:27</a></div>
                 </td>
             </tr>
 
@@ -433,60 +406,17 @@ existence of a URL parameter or previous usage given by local storage.</p>
         </tbody>
     </table>
 </section>
-            <section>
-    
-        <h3 id="inputs">
-            Properties
-        </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="isUiAdded"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                            isUiAdded</b>
-                            <a href="#isUiAdded"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>false</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:22</a></div>
-                            </td>
-                        </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>indicates whether the ASM UI has been added already </p>
-</div>
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
-</section>
 
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Location } from &#x27;@angular/common&#x27;;
-import {
-  ComponentFactory,
-  ComponentFactoryResolver,
-  Injectable,
-} from &#x27;@angular/core&#x27;;
+import { Injectable } from &#x27;@angular/core&#x27;;
 import { WindowRef } from &#x27;@spartacus/core&#x27;;
-import { OutletPosition, OutletService } from &#x27;../../../cms-structure/index&#x27;;
+import { LAUNCH_CALLER } from &#x27;../../../layout/launch-dialog/config/index&#x27;;
+import { LaunchDialogService } from &#x27;../../../layout/launch-dialog/services/launch-dialog.service&#x27;;
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from &#x27;../asm-constants&#x27;;
-import { AsmMainUiComponent } from &#x27;../asm-main-ui/asm-main-ui.component&#x27;;
 
 /**
  * The AsmEnablerService is used to enable ASM for those scenario&#x27;s
@@ -497,14 +427,10 @@ import { AsmMainUiComponent } from &#x27;../asm-main-ui/asm-main-ui.component&#x
   providedIn: &#x27;root&#x27;,
 })
 export class AsmEnablerService {
-  /** indicates whether the ASM UI has been added already */
-  private isUiAdded &#x3D; false;
-
   constructor(
     protected location: Location,
     protected winRef: WindowRef,
-    protected componentFactoryResolver: ComponentFactoryResolver,
-    protected outletService: OutletService&lt;ComponentFactory&lt;any&gt;&gt;
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   /**
@@ -533,7 +459,7 @@ export class AsmEnablerService {
    * Indicates whether ASM is launched through the URL,
    * using the asm flag in the URL.
    */
-  private isLaunched(): boolean {
+  protected isLaunched(): boolean {
     const params &#x3D; this.location.path().split(&#x27;?&#x27;)[1];
     return params &amp;&amp; params.split(&#x27;&amp;&#x27;).includes(&#x27;asm&#x3D;true&#x27;);
   }
@@ -541,7 +467,7 @@ export class AsmEnablerService {
   /**
    * Evaluates local storage where we persist the usage of ASM.
    */
-  private isUsedBefore(): boolean {
+  protected isUsedBefore(): boolean {
     return (
       this.winRef.localStorage &amp;&amp;
       this.winRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY) &#x3D;&#x3D;&#x3D; &#x27;true&#x27;
@@ -551,15 +477,8 @@ export class AsmEnablerService {
   /**
    * Adds the ASM UI by using the &#x60;cx-storefront&#x60; outlet.
    */
-  private addUi(): void {
-    if (this.isUiAdded) {
-      return;
-    }
-    const factory &#x3D; this.componentFactoryResolver.resolveComponentFactory(
-      AsmMainUiComponent
-    );
-    this.outletService.add(&#x27;cx-storefront&#x27;, factory, OutletPosition.BEFORE);
-    this.isUiAdded &#x3D; true;
+  protected addUi(): void {
+    this.launchDialogService.launch(LAUNCH_CALLER.ASM);
   }
 }
 </code></pre>

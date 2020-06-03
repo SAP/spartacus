@@ -176,8 +176,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">projects/core/src/global-message/http-interceptors/http-error.interceptor.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/http-error.interceptor.ts:48</a></div>
                 </td>
             </tr>
 
@@ -251,8 +251,8 @@ If no handler is available, the UNKNOWN handler is returned.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">projects/core/src/global-message/http-interceptors/http-error.interceptor.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/http-error.interceptor.ts:34</a></div>
                 </td>
             </tr>
 
@@ -333,8 +333,8 @@ If no handler is available, the UNKNOWN handler is returned.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/core/src/global-message/http-interceptors/http-error.interceptor.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/http-error.interceptor.ts:20</a></div>
                 </td>
             </tr>
 
@@ -409,18 +409,14 @@ If no handler is available, the UNKNOWN handler is returned.</p>
 import { Inject, Injectable } from &#x27;@angular/core&#x27;;
 import { Observable, throwError } from &#x27;rxjs&#x27;;
 import { catchError } from &#x27;rxjs/operators&#x27;;
-import { HttpResponseStatus } from &#x27;../models/response-status.model&#x27;;
 import { HttpErrorHandler } from &#x27;./handlers/http-error.handler&#x27;;
+import { resolveApplicable } from &#x27;../../util/applicable&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(
     @Inject(HttpErrorHandler) protected handlers: HttpErrorHandler[]
-  ) {
-    // We reverse the handlers to allow for custom handlers
-    // that replace standard handlers
-    this.handlers.reverse();
-  }
+  ) {}
 
   intercept(
     request: HttpRequest&lt;any&gt;,
@@ -451,14 +447,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
    * If no handler is available, the UNKNOWN handler is returned.
    */
   protected getResponseHandler(response: HttpErrorResponse): HttpErrorHandler {
-    const status &#x3D; response.status;
-    let handler &#x3D; this.handlers.find((h) &#x3D;&gt; h.responseStatus &#x3D;&#x3D;&#x3D; status);
-    if (!handler) {
-      handler &#x3D; this.handlers.find(
-        (h) &#x3D;&gt; h.responseStatus &#x3D;&#x3D;&#x3D; HttpResponseStatus.UNKNOWN
-      );
-    }
-    return handler;
+    return resolveApplicable(this.handlers, [response]);
   }
 }
 </code></pre>

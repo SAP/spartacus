@@ -89,10 +89,7 @@
                                         <a href="#inputSubject$">inputSubject$</a>
                                 </li>
                                 <li>
-                                        <a href="#output$">output$</a>
-                                </li>
-                                <li>
-                                        <a href="#sources$">sources$</a>
+                                        <a href="#mergingSubject">mergingSubject</a>
                                 </li>
                             </ul>
                         </td>
@@ -144,13 +141,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="output$"></a>
-                                        <span class="name"><b>output$</b><a href="#output$"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="mergingSubject"></a>
+                                        <span class="name"><b>mergingSubject</b><a href="#mergingSubject"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>output$:     <code>Observable&lt;T&gt;</code>
+                                        <code>mergingSubject:         <code><a href="../classes/MergingSubject.html" target="_self" >MergingSubject&lt;T&gt;</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -158,7 +155,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code>Observable&lt;T&gt;</code>
+                                            <i>Type : </i>        <code><a href="../classes/MergingSubject.html" target="_self" >MergingSubject&lt;T&gt;</a></code>
 
                                         </td>
                                     </tr>
@@ -169,42 +166,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Output observable with merged all event sources</p>
-</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="sources$"></a>
-                                        <span class="name"><b>sources$</b><a href="#sources$"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>sources$:     <code>BehaviorSubject&lt;Observable[]&gt;</code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>    <code>BehaviorSubject&lt;Observable[]&gt;</code>
-
-                                        </td>
-                                    </tr>
-
-
-
-
-
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>Observable with array of sources of the event</p>
+                                    <div class="io-description"><p>A custom subject that allows for dynamic adding and removing sources to be merged as an output</p>
 </div>
                                 </td>
                             </tr>
@@ -216,8 +178,9 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode, Type } from &#x27;@angular/core&#x27;;
-import { BehaviorSubject, merge, Observable, Subject } from &#x27;rxjs&#x27;;
-import { share, switchMap, tap } from &#x27;rxjs/operators&#x27;;
+import { Observable, Subject } from &#x27;rxjs&#x27;;
+import { tap } from &#x27;rxjs/operators&#x27;;
+import { MergingSubject } from &#x27;./utils/merging-subject&#x27;;
 
 /**
  * The object holds registered source observables as well as the merged result observable.
@@ -229,14 +192,9 @@ interface EventMeta&lt;T&gt; {
   inputSubject$: Subject&lt;T&gt;;
 
   /**
-   * Observable with array of sources of the event
+   * A custom subject that allows for dynamic adding and removing sources to be merged as an output
    */
-  sources$: BehaviorSubject&lt;Observable&lt;T&gt;[]&gt;;
-
-  /**
-   * Output observable with merged all event sources
-   */
-  output$: Observable&lt;T&gt;;
+  mergingSubject: MergingSubject&lt;T&gt;;
 }
 
 /**
@@ -269,9 +227,8 @@ export class EventService {
    * @returns a teardown function which unregisters the given event source
    */
   register&lt;T&gt;(eventType: Type&lt;T&gt;, source$: Observable&lt;T&gt;): () &#x3D;&gt; void {
-    const event &#x3D; this.getEventMeta(eventType);
-    const sources: Observable&lt;T&gt;[] &#x3D; event.sources$.value;
-    if (sources.includes(source$)) {
+    const eventMeta &#x3D; this.getEventMeta(eventType);
+    if (eventMeta.mergingSubject.has(source$)) {
       if (isDevMode()) {
         console.warn(
           &#x60;EventService: the event source&#x60;,
@@ -281,24 +238,10 @@ export class EventService {
         );
       }
     } else {
-      event.sources$.next([...sources, source$]);
+      eventMeta.mergingSubject.add(source$);
     }
 
-    return () &#x3D;&gt; this.unregister(eventType, source$);
-  }
-
-  /**
-   * Unregisters an event source for the given event type
-   *
-   * @param eventType the event type
-   * @param source$ an observable that represents the source
-   */
-  private unregister&lt;T&gt;(eventType: Type&lt;T&gt;, source$: Observable&lt;T&gt;): void {
-    const event &#x3D; this.getEventMeta(eventType);
-    const newSources: Observable&lt;T&gt;[] &#x3D; event.sources$.value.filter(
-      (s$) &#x3D;&gt; s$ !&#x3D;&#x3D; source$
-    );
-    event.sources$.next(newSources);
+    return () &#x3D;&gt; eventMeta.mergingSubject.remove(source$);
   }
 
   /**
@@ -306,15 +249,15 @@ export class EventService {
    * @param eventTypes event type
    */
   get&lt;T&gt;(eventType: Type&lt;T&gt;): Observable&lt;T&gt; {
-    return this.getEventMeta(eventType).output$;
+    let output$ &#x3D; this.getEventMeta(eventType).mergingSubject.output$;
+    if (isDevMode()) {
+      output$ &#x3D; this.getValidatedEventStream(output$, eventType);
+    }
+    return output$;
   }
 
   /**
-   * Dispatches a single event.
-   *
-   * However, it&#x27;s recommended to use method &#x60;register&#x60; instead, whenever the event can come from some stream.
-   *  It allows for lazy computations in the event source stream -
-   *  if no one subscribes to the event, the logic of the event source stream won&#x27;t be evaluated.
+   * Dispatches an instance of an individual event.
    */
   dispatch(event: Object): void {
     const eventType &#x3D; event.constructor as Type&lt;any&gt;;
@@ -355,20 +298,9 @@ export class EventService {
    * Creates the event meta object for the given event type
    */
   private createEventMeta&lt;T&gt;(eventType: Type&lt;T&gt;): void {
-    const sources$ &#x3D; new BehaviorSubject&lt;Observable&lt;T&gt;[]&gt;([]);
-    let output$ &#x3D; sources$.pipe(
-      switchMap((sources: Observable&lt;T&gt;[]) &#x3D;&gt; merge(...sources)),
-      share() // share the result observable to avoid merging sources for each subscriber
-    );
-
-    if (isDevMode()) {
-      output$ &#x3D; this.validateEventStream(output$, eventType);
-    }
-
     this.eventsMeta.set(eventType, {
       inputSubject$: null, // will be created lazily by the &#x60;dispatch&#x60; method
-      sources$,
-      output$,
+      mergingSubject: new MergingSubject(),
     });
   }
 
@@ -390,7 +322,7 @@ export class EventService {
    *
    * Should be used only in dev mode.
    */
-  private validateEventStream&lt;T&gt;(
+  private getValidatedEventStream&lt;T&gt;(
     source$: Observable&lt;T&gt;,
     eventType: Type&lt;T&gt;
   ): Observable&lt;T&gt; {

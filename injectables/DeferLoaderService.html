@@ -122,7 +122,7 @@ until the elements are required for the user experience.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>, config: <a href="../classes/LayoutConfig.html">LayoutConfig</a>, intersectionService: <a href="../injectables/IntersectionService.html">IntersectionService</a>)</code>
+<code>constructor(platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>, config: <a href="../injectables/LayoutConfig.html">LayoutConfig</a>, intersectionService: <a href="../injectables/IntersectionService.html">IntersectionService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -160,7 +160,7 @@ until the elements are required for the user experience.</p>
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/LayoutConfig.html" target="_self" >LayoutConfig</a></code>
+                                                                        <code><a href="../injectables/LayoutConfig.html" target="_self" >LayoutConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -225,7 +225,7 @@ until the elements are required for the user experience.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Defer loading till the element intersects the viewport.</p>
-<p>We evalutes whether we instantly load the element for different reasons:</p>
+<p>We evaluate whether we instantly load the element for different reasons:</p>
 <ul>
 <li>we run in SSR mode</li>
 <li>there&#39;s no global strategy given</li>
@@ -428,7 +428,7 @@ export class DeferLoaderService {
   /**
    * Defer loading till the element intersects the viewport.
    *
-   * We evalutes whether we instantly load the element for different reasons:
+   * We evaluate whether we instantly load the element for different reasons:
    * - we run in SSR mode
    * - there&#x27;s no global strategy given
    * - the global loading strategy is set to INSTANT loading,

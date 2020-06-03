@@ -99,6 +99,7 @@
                                         <a href="#properties">properties</a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#slots">slots</a>
                                 </li>
                                 <li>
@@ -317,6 +318,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -440,7 +446,7 @@ export interface Page {
   title?: string;
   template?: string;
   loadTime?: number;
-  slots: { [key: string]: ContentSlotData };
+  slots?: { [key: string]: ContentSlotData };
   properties?: any;
   label?: string;
 }

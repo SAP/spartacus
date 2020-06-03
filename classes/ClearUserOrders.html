@@ -160,7 +160,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OrderHistoryList } from &#x27;../../../model/order.model&#x27;;
-import { StateLoaderActions } from &#x27;../../../state/utils/index&#x27;;
+import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
 import { USER_ORDERS } from &#x27;../user-state&#x27;;
 
 export const LOAD_USER_ORDERS &#x3D; &#x27;[User] Load User Orders&#x27;;
@@ -168,7 +168,7 @@ export const LOAD_USER_ORDERS_FAIL &#x3D; &#x27;[User] Load User Orders Fail&#x2
 export const LOAD_USER_ORDERS_SUCCESS &#x3D; &#x27;[User] Load User Orders Success&#x27;;
 export const CLEAR_USER_ORDERS &#x3D; &#x27;[User] Clear User Orders&#x27;;
 
-export class LoadUserOrders extends StateLoaderActions.LoaderLoadAction {
+export class LoadUserOrders extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; LOAD_USER_ORDERS;
   constructor(
     public payload: {
@@ -182,21 +182,21 @@ export class LoadUserOrders extends StateLoaderActions.LoaderLoadAction {
   }
 }
 
-export class LoadUserOrdersFail extends StateLoaderActions.LoaderFailAction {
+export class LoadUserOrdersFail extends StateUtils.LoaderFailAction {
   readonly type &#x3D; LOAD_USER_ORDERS_FAIL;
   constructor(public payload: any) {
     super(USER_ORDERS, payload);
   }
 }
 
-export class LoadUserOrdersSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class LoadUserOrdersSuccess extends StateUtils.LoaderSuccessAction {
   readonly type &#x3D; LOAD_USER_ORDERS_SUCCESS;
   constructor(public payload: OrderHistoryList) {
     super(USER_ORDERS);
   }
 }
 
-export class ClearUserOrders extends StateLoaderActions.LoaderResetAction {
+export class ClearUserOrders extends StateUtils.LoaderResetAction {
   readonly type &#x3D; CLEAR_USER_ORDERS;
   constructor() {
     super(USER_ORDERS);

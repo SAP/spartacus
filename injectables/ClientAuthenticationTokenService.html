@@ -96,12 +96,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../classes/AuthConfig.html">AuthConfig</a>, http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, occEndpointsService?: <a href="../injectables/OccEndpointsService.html">OccEndpointsService</a>)</code>
+<code>constructor(config: <a href="../injectables/AuthConfig.html">AuthConfig</a>, http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, occEndpointsService: <a href="../injectables/OccEndpointsService.html">OccEndpointsService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/core/src/auth/services/client-authentication/client-authentication-token.service.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/auth/services/client-authentication/client-authentication-token.service.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -122,7 +122,7 @@
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/AuthConfig.html" target="_self" >AuthConfig</a></code>
+                                                                        <code><a href="../injectables/AuthConfig.html" target="_self" >AuthConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -150,7 +150,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -190,8 +190,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">projects/core/src/auth/services/client-authentication/client-authentication-token.service.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/core/src/auth/services/client-authentication/client-authentication-token.service.ts:18</a></div>
                 </td>
             </tr>
 
@@ -220,24 +220,14 @@ import { OccEndpointsService } from &#x27;../../../occ/services/occ-endpoints.se
 import { AuthConfig } from &#x27;../../config/auth-config&#x27;;
 import { ClientToken } from &#x27;../../models/token-types.model&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class ClientAuthenticationTokenService {
-  constructor(
-    config: AuthConfig,
-    http: HttpClient,
-    // tslint:disable-next-line:unified-signatures
-    occEndpointsService: OccEndpointsService
-  );
-
-  /**
-   * @deprecated since version 1.1
-   * Use constructor(http: HttpClient, config: AuthConfig, occEndpointsService: OccEndpointsService) instead
-   */
-  constructor(config: AuthConfig, http: HttpClient);
   constructor(
     protected config: AuthConfig,
     protected http: HttpClient,
-    protected occEndpointsService?: OccEndpointsService
+    protected occEndpointsService: OccEndpointsService
   ) {}
 
   loadClientAuthenticationToken(): Observable&lt;ClientToken&gt; {

@@ -504,7 +504,7 @@ const GLOBAL_GROUP &#x3D; &#x27;_g_&#x27;;
 })
 export class PersistFocusService extends BaseFocusService {
   // this is going to fail as we have sub services. They will al have their own map.
-  // We must bring this to a singlton map.
+  // We must bring this to a singleton map.
   protected focus &#x3D; new Map&lt;string, string&gt;();
 
   get(group?: string): string {

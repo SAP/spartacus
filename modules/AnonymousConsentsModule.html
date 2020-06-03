@@ -166,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">projects/core/src/anonymous-consents/anonymous-consents.module.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">projects/core/src/anonymous-consents/anonymous-consents.module.ts:12</a></div>
                 </td>
             </tr>
 
@@ -189,8 +189,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { Config, provideDefaultConfig } from &#x27;../config/config.module&#x27;;
-import { AnonymousConsentsConfig } from &#x27;./config/anonymous-consents-config&#x27;;
+import { provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { defaultAnonymousConsentsConfig } from &#x27;./config/default-anonymous-consents-config&#x27;;
 import { AnonymousConsentsService } from &#x27;./facade/anonymous-consents.service&#x27;;
 import { interceptors } from &#x27;./http-interceptors/index&#x27;;
@@ -206,7 +205,6 @@ export class AnonymousConsentsModule {
       providers: [
         ...interceptors,
         AnonymousConsentsService,
-        { provide: AnonymousConsentsConfig, useExisting: Config },
         provideDefaultConfig(defaultAnonymousConsentsConfig),
       ],
     };

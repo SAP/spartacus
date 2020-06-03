@@ -106,7 +106,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">projects/core/src/store-finder/service/external-js-file-loader.service.ts:5</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">projects/core/src/store-finder/service/external-js-file-loader.service.ts:7</a></div>
                             </td>
                         </tr>
 
@@ -173,8 +173,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">projects/core/src/store-finder/service/external-js-file-loader.service.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/core/src/store-finder/service/external-js-file-loader.service.ts:16</a></div>
                 </td>
             </tr>
 
@@ -284,8 +284,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/core/src/store-finder/service/external-js-file-loader.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/core/src/store-finder/service/external-js-file-loader.service.ts:38</a></div>
                 </td>
             </tr>
 
@@ -348,7 +348,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable } from &#x27;@angular/core&#x27;;
 import { DOCUMENT } from &#x27;@angular/common&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class ExternalJsFileLoader {
   constructor(@Inject(DOCUMENT) protected document: any) {}
 

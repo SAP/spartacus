@@ -94,8 +94,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="7"
-                            class="link-to-prism">projects/storefrontlib/src/shared/config/view-config.module.ts:7</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="6"
+                            class="link-to-prism">projects/storefrontlib/src/shared/config/view-config.module.ts:6</a></div>
                 </td>
             </tr>
 
@@ -104,7 +104,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/ViewConfig.html" target="_self" >ModuleWithProviders&lt;ViewConfigModule&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../injectables/ViewConfig.html" target="_self" >ModuleWithProviders&lt;ViewConfigModule&gt;</a></code>
 
                     </div>
                 </td>
@@ -117,8 +117,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { ViewConfig } from &#x27;./view-config&#x27;;
-import { Config, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
+import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
 
 @NgModule({})
 export class ViewConfigModule {
@@ -129,10 +128,6 @@ export class ViewConfigModule {
         provideDefaultConfig({
           view: {},
         }),
-        {
-          provide: ViewConfig,
-          useExisting: Config,
-        },
       ],
     };
   }

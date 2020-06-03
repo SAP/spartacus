@@ -221,12 +221,10 @@ import { NgModule } from &#x27;@angular/core&#x27;;
 import { RouterModule } from &#x27;@angular/router&#x27;;
 import {
   CmsConfig,
-  Config,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from &#x27;@spartacus/core&#x27;;
-import { CheckoutConfig } from &#x27;../../config/checkout-config&#x27;;
 import { defaultCheckoutConfig } from &#x27;../../config/default-checkout-config&#x27;;
 import { CheckoutAuthGuard } from &#x27;../../guards/checkout-auth.guard&#x27;;
 import { CartNotEmptyGuard } from &#x27;./../../../../cms-components/cart/cart-not-empty.guard&#x27;;
@@ -247,7 +245,6 @@ import { CheckoutProgressComponent } from &#x27;./checkout-progress.component&#x
         },
       },
     }),
-    { provide: CheckoutConfig, useExisting: Config },
   ],
 })
 export class CheckoutProgressModule {}

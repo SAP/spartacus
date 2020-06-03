@@ -162,7 +162,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Action } from &#x27;@ngrx/store&#x27;;
 import { User } from &#x27;../../../model/misc.model&#x27;;
 import { PROCESS_FEATURE } from &#x27;../../../process/store/process-state&#x27;;
-import { StateEntityLoaderActions } from &#x27;../../../state/utils/index&#x27;;
+import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
 import { UPDATE_USER_DETAILS_PROCESS_ID } from &#x27;../user-state&#x27;;
 
 export const LOAD_USER_DETAILS &#x3D; &#x27;[User] Load User Details&#x27;;
@@ -189,28 +189,28 @@ export class LoadUserDetailsSuccess implements Action {
   constructor(public payload: User) {}
 }
 
-export class UpdateUserDetails extends StateEntityLoaderActions.EntityLoadAction {
+export class UpdateUserDetails extends StateUtils.EntityLoadAction {
   readonly type &#x3D; UPDATE_USER_DETAILS;
   constructor(public payload: { username: string; userDetails: User }) {
     super(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID);
   }
 }
 
-export class UpdateUserDetailsFail extends StateEntityLoaderActions.EntityFailAction {
+export class UpdateUserDetailsFail extends StateUtils.EntityFailAction {
   readonly type &#x3D; UPDATE_USER_DETAILS_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID, payload);
   }
 }
 
-export class UpdateUserDetailsSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class UpdateUserDetailsSuccess extends StateUtils.EntitySuccessAction {
   readonly type &#x3D; UPDATE_USER_DETAILS_SUCCESS;
   constructor(public userUpdates: User) {
     super(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID);
   }
 }
 
-export class ResetUpdateUserDetails extends StateEntityLoaderActions.EntityResetAction {
+export class ResetUpdateUserDetails extends StateUtils.EntityLoaderResetAction {
   readonly type &#x3D; RESET_USER_DETAILS;
   constructor() {
     super(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID);

@@ -124,7 +124,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/cart/store/actions/cart-entry.action.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/core/src/cart/store/actions/cart-entry.action.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -188,7 +188,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/core/src/cart/store/actions/cart-entry.action.ts:21</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/core/src/cart/store/actions/cart-entry.action.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -215,7 +215,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/cart/store/actions/cart-entry.action.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/core/src/cart/store/actions/cart-entry.action.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -302,7 +302,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OrderEntry } from &#x27;../../../model/order.model&#x27;;
+import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
 } from &#x27;../../../state/utils/entity-processes-loader/entity-processes-loader.action&#x27;;
@@ -336,7 +337,17 @@ export class CartAddEntry extends EntityProcessesIncrementAction {
 export class CartAddEntrySuccess extends EntityProcessesDecrementAction {
   readonly type &#x3D; CART_ADD_ENTRY_SUCCESS;
   constructor(
-    public payload: { userId: string; cartId: string; [key: string]: any }
+    public payload: {
+      userId: string;
+      cartId: string;
+      productCode: string;
+      quantity: number;
+      deliveryModeChanged: boolean;
+      entry: OrderEntry;
+      quantityAdded: number;
+      statusCode: string;
+      statusMessage: string;
+    }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -344,7 +355,15 @@ export class CartAddEntrySuccess extends EntityProcessesDecrementAction {
 
 export class CartAddEntryFail extends EntityProcessesDecrementAction {
   readonly type &#x3D; CART_ADD_ENTRY_FAIL;
-  constructor(public payload: { userId: string; cartId: string; error: any }) {
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      productCode: string;
+      quantity: number;
+      error: any;
+    }
+  ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
@@ -352,7 +371,7 @@ export class CartAddEntryFail extends EntityProcessesDecrementAction {
 export class CartRemoveEntry extends EntityProcessesIncrementAction {
   readonly type &#x3D; CART_REMOVE_ENTRY;
   constructor(
-    public payload: { cartId: string; userId: string; entry: string }
+    public payload: { cartId: string; userId: string; entryNumber: string }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
@@ -360,14 +379,23 @@ export class CartRemoveEntry extends EntityProcessesIncrementAction {
 
 export class CartRemoveEntrySuccess extends EntityProcessesDecrementAction {
   readonly type &#x3D; CART_REMOVE_ENTRY_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {
+  constructor(
+    public payload: { userId: string; cartId: string; entryNumber: string }
+  ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
 export class CartRemoveEntryFail extends EntityProcessesDecrementAction {
   readonly type &#x3D; CART_REMOVE_ENTRY_FAIL;
-  constructor(public payload: { error: any; cartId: string; userId: string }) {
+  constructor(
+    public payload: {
+      error: any;
+      cartId: string;
+      userId: string;
+      entryNumber: string;
+    }
+  ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
@@ -378,8 +406,8 @@ export class CartUpdateEntry extends EntityProcessesIncrementAction {
     public payload: {
       userId: string;
       cartId: string;
-      entry: string;
-      qty: number;
+      entryNumber: string;
+      quantity: number;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -388,14 +416,29 @@ export class CartUpdateEntry extends EntityProcessesIncrementAction {
 
 export class CartUpdateEntrySuccess extends EntityProcessesDecrementAction {
   readonly type &#x3D; CART_UPDATE_ENTRY_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      entryNumber: string;
+      quantity: number;
+    }
+  ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
 export class CartUpdateEntryFail extends EntityProcessesDecrementAction {
   readonly type &#x3D; CART_UPDATE_ENTRY_FAIL;
-  constructor(public payload: { error: any; userId: string; cartId: string }) {
+  constructor(
+    public payload: {
+      error: any;
+      userId: string;
+      cartId: string;
+      entryNumber: string;
+      quantity: number;
+    }
+  ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }

@@ -59,6 +59,14 @@
             <code>projects/core/src/global-message/http-interceptors/handlers/unknown-error/unknown-error.handler.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Unknown Error Handler works as an fallback, to handle errors that were
+not handled by any other error handlers</p>
+
+            </p>
 
             <p class="comment">
                 <h3>Extends</h3>
@@ -84,7 +92,7 @@
                                 <a href="#responseStatus">responseStatus</a>
                             </li>
                             <li>
-                                    <span class="modifier">Abstract</span>
+                                    <span class="modifier">Optional</span>
                                 <a href="#responseStatus">responseStatus</a>
                             </li>
                         </ul>
@@ -100,11 +108,25 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#getPriority">getPriority</a>
+                            </li>
+                            <li>
                                 <a href="#handleError">handleError</a>
+                            </li>
+                            <li>
+                                <a href="#hasMatch">hasMatch</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#getPriority">getPriority</a>
                             </li>
                             <li>
                                     <span class="modifier">Abstract</span>
                                 <a href="#handleError">handleError</a>
+                            </li>
+                            <li>
+                                <a href="#hasMatch">hasMatch</a>
                             </li>
                         </ul>
                     </td>
@@ -128,6 +150,47 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getPriority"></a>
+                    <span class="name">
+                        <b>
+                            getPriority
+                        </b>
+                        <a href="#getPriority"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getPriority()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/unknown-error/unknown-error.handler.ts:32</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Fallback priority assures that the handler is used as a last resort</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="handleError"></a>
                     <span class="name">
                         <b>
@@ -146,8 +209,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/unknown-error/unknown-error.handler.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/unknown-error/unknown-error.handler.ts:23</a></div>
                 </td>
             </tr>
 
@@ -157,6 +220,122 @@
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasMatch"></a>
+                    <span class="name">
+                        <b>
+                            hasMatch
+                        </b>
+                        <a href="#hasMatch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>hasMatch(_errorResponse)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/unknown-error/unknown-error.handler.ts:19</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>hasMatch always returns true, to mach all errors</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>_errorResponse</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPriority"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Abstract</span>
+                            <span class="modifier">Optional</span>
+                            getPriority
+                        </b>
+                        <a href="#getPriority"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getPriority()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../injectables/HttpErrorHandler.html" target="_self" >HttpErrorHandler</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:37</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#Priority" target="_self" >Priority</a></code>
 
                     </div>
                 </td>
@@ -193,7 +372,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:23</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:24</a></code>
 </div>
                 </td>
             </tr>
@@ -264,6 +443,85 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasMatch"></a>
+                    <span class="name">
+                        <b>
+                            hasMatch
+                        </b>
+                        <a href="#hasMatch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>hasMatch(errorResponse: <a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank">HttpErrorResponse</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../injectables/HttpErrorHandler.html" target="_self" >HttpErrorHandler</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:33</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Error handlers are matched by the error <code>responseStatus</code> (i.e. 404). On top of the matching status
+a priority can be added to distinguish multiple handles for the same response status.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>errorResponse</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/common/http/HttpErrorResponse" target="_blank" >HttpErrorResponse</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
             <section>
     
@@ -289,7 +547,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/unknown-error/unknown-error.handler.ts:9</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/unknown-error/unknown-error.handler.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -303,7 +561,7 @@
                         <a name="responseStatus"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Abstract</span>
+                                <span class="modifier">Optional</span>
                             responseStatus</b>
                             <a href="#responseStatus"><span class="icon ion-ios-link"></span></a>
                         </span>
@@ -323,7 +581,7 @@
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:16</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:17</a></code>
 </div>
                             </td>
                         </tr>
@@ -348,17 +606,36 @@ the handler can be found by the error interceptor.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode } from &#x27;@angular/core&#x27;;
 import { HttpResponseStatus } from &#x27;../../../models/response-status.model&#x27;;
 import { HttpErrorHandler } from &#x27;../http-error.handler&#x27;;
+import { Priority } from &#x27;../../../../util/applicable&#x27;;
 
+/**
+ * Unknown Error Handler works as an fallback, to handle errors that were
+ * not handled by any other error handlers
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class UnknownErrorHandler extends HttpErrorHandler {
   responseStatus &#x3D; HttpResponseStatus.UNKNOWN;
 
+  /**
+   * hasMatch always returns true, to mach all errors
+   */
+  hasMatch(_errorResponse): boolean {
+    return true;
+  }
+
   handleError() {
     if (isDevMode()) {
       console.warn(&#x60;Unknown http response error: ${this.responseStatus}&#x60;);
     }
+  }
+
+  /**
+   * Fallback priority assures that the handler is used as a last resort
+   */
+  getPriority() {
+    return Priority.FALLBACK;
   }
 }
 </code></pre>

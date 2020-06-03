@@ -113,7 +113,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -190,8 +190,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:30</a></div>
                 </td>
             </tr>
 
@@ -260,8 +260,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:18</a></div>
                 </td>
             </tr>
 
@@ -299,8 +299,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="22"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:22</a></div>
                 </td>
             </tr>
 
@@ -338,8 +338,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:26</a></div>
                 </td>
             </tr>
 
@@ -377,8 +377,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:34</a></div>
                 </td>
             </tr>
 
@@ -451,7 +451,9 @@ import {
 } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class AddressBookComponentService {
   constructor(
     protected userAddressService: UserAddressService,

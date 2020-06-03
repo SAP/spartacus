@@ -98,15 +98,7 @@
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#getCmsPage">getCmsPage</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#handleNotFoundPage">handleNotFoundPage</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#resolveCmsPageLogic">resolveCmsPageLogic</a>
+                                <a href="#shouldReload">shouldReload</a>
                             </li>
                         </ul>
                     </td>
@@ -126,12 +118,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, cmsService: <a href="../injectables/CmsService.html">CmsService</a>, cmsRoutes: <a href="../injectables/CmsRoutesService.html">CmsRoutesService</a>, cmsI18n: <a href="../injectables/CmsI18nService.html">CmsI18nService</a>, cmsGuards: <a href="../injectables/CmsGuardsService.html">CmsGuardsService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>, protectedRoutesGuard?: <a href="../guards/ProtectedRoutesGuard.html">ProtectedRoutesGuard</a>)</code>
+<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, cmsService: <a href="../injectables/CmsService.html">CmsService</a>, protectedRoutesGuard: <a href="../guards/ProtectedRoutesGuard.html">ProtectedRoutesGuard</a>, service: <a href="../injectables/CmsPageGuardService.html">CmsPageGuardService</a>, routingConfig: <a href="../injectables/RoutingConfigService.html">RoutingConfigService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -173,54 +165,6 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>cmsRoutes</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/CmsRoutesService.html" target="_self" >CmsRoutesService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>cmsI18n</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/CmsI18nService.html" target="_self" >CmsI18nService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>cmsGuards</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/CmsGuardsService.html" target="_self" >CmsGuardsService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>semanticPathService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/SemanticPathService.html" target="_self" >SemanticPathService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
                                                         <td>protectedRoutesGuard</td>
                                                   
                                                         <td>
@@ -228,7 +172,31 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>service</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CmsPageGuardService.html" target="_self" >CmsPageGuardService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>routingConfig</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/RoutingConfigService.html" target="_self" >RoutingConfigService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -268,14 +236,24 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts:40</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Tries to load the CMS page data for the anticipated route and returns:</p>
+<ul>
+<li><code>true</code> - if it can be activated</li>
+<li><code>false</code> - if it cannot be activated</li>
+<li><code>UrlTree</code> - if user should be redirected to a given <code>UrlTree</code></li>
+</ul>
+<p>If the route can be activated, it fires additional calculations on the CMS components present on this CMS page,
+based on their configuration (<code>cmsComponents</code> config).</p>
+<p>For more, see docs of the <code>CmsPageGuardService.canActivatePage</code>.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -332,285 +310,40 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getCmsPage"></a>
+                    <a name="shouldReload"></a>
                     <span class="name">
                         <b>
                             <span class="modifier">Private</span>
-                            getCmsPage
+                            shouldReload
                         </b>
-                        <a href="#getCmsPage"><span class="icon ion-ios-link"></span></a>
+                        <a href="#shouldReload"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getCmsPage(route: <a href="../interfaces/CmsActivatedRouteSnapshot.html">CmsActivatedRouteSnapshot</a>, state: <a href="https://angular.io/api/router/RouterStateSnapshot" target="_blank">RouterStateSnapshot</a>)</code>
+                    <code>shouldReload()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts:76</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns whether we should reload the CMS page data, even when it was loaded before.</p>
+</div>
 
                     <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>route</td>
-                                    <td>
-                                                <code><a href="../interfaces/CmsActivatedRouteSnapshot.html" target="_self" >CmsActivatedRouteSnapshot</a></code>
-                                    </td>
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>state</td>
-                                    <td>
-                                                <code><a href="https://angular.io/api/router/RouterStateSnapshot" target="_blank" >RouterStateSnapshot</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;boolean | UrlTree&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="handleNotFoundPage"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            handleNotFoundPage
-                        </b>
-                        <a href="#handleNotFoundPage"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>handleNotFoundPage(pageContext: <a href="../interfaces/Page.html">PageContext</a>, route: <a href="../interfaces/CmsActivatedRouteSnapshot.html">CmsActivatedRouteSnapshot</a>, state: <a href="https://angular.io/api/router/RouterStateSnapshot" target="_blank">RouterStateSnapshot</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="141"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts:141</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>pageContext</td>
-                                    <td>
-                                                <code><a href="../interfaces/Page.html" target="_self" >PageContext</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>route</td>
-                                    <td>
-                                                <code><a href="../interfaces/CmsActivatedRouteSnapshot.html" target="_self" >CmsActivatedRouteSnapshot</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>state</td>
-                                    <td>
-                                                <code><a href="https://angular.io/api/router/RouterStateSnapshot" target="_blank" >RouterStateSnapshot</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;boolean | UrlTree&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="resolveCmsPageLogic"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            resolveCmsPageLogic
-                        </b>
-                        <a href="#resolveCmsPageLogic"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>resolveCmsPageLogic(pageContext: <a href="../interfaces/Page.html">PageContext</a>, pageData: <a href="../interfaces/Page.html">Page</a>, route: <a href="../interfaces/CmsActivatedRouteSnapshot.html">CmsActivatedRouteSnapshot</a>, state: <a href="https://angular.io/api/router/RouterStateSnapshot" target="_blank">RouterStateSnapshot</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/guards/cms-page.guard.ts:104</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>pageContext</td>
-                                    <td>
-                                                <code><a href="../interfaces/Page.html" target="_self" >PageContext</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>pageData</td>
-                                    <td>
-                                                <code><a href="../interfaces/Page.html" target="_self" >Page</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>route</td>
-                                    <td>
-                                                <code><a href="../interfaces/CmsActivatedRouteSnapshot.html" target="_self" >CmsActivatedRouteSnapshot</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>state</td>
-                                    <td>
-                                                <code><a href="https://angular.io/api/router/RouterStateSnapshot" target="_blank" >RouterStateSnapshot</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;boolean | UrlTree&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -626,26 +359,14 @@ import { CanActivate, RouterStateSnapshot, UrlTree } from &#x27;@angular/router&
 import {
   CmsActivatedRouteSnapshot,
   CmsService,
-  Page,
-  PageContext,
-  PageType,
   ProtectedRoutesGuard,
+  RouteLoadStrategy,
+  RoutingConfigService,
   RoutingService,
-  SemanticPathService,
 } from &#x27;@spartacus/core&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
-import {
-  filter,
-  first,
-  map,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from &#x27;rxjs/operators&#x27;;
-import { CmsGuardsService } from &#x27;../services/cms-guards.service&#x27;;
-import { CmsI18nService } from &#x27;../services/cms-i18n.service&#x27;;
-import { CmsRoutesService } from &#x27;../services/cms-routes.service&#x27;;
+import { first, switchMap } from &#x27;rxjs/operators&#x27;;
+import { CmsPageGuardService } from &#x27;./cms-page-guard.service&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -654,143 +375,62 @@ export class CmsPageGuard implements CanActivate {
   static guardName &#x3D; &#x27;CmsPageGuard&#x27;;
 
   constructor(
-    routingService: RoutingService,
-    cmsService: CmsService,
-    cmsRoutes: CmsRoutesService,
-    cmsI18n: CmsI18nService,
-    cmsGuards: CmsGuardsService,
-    semanticPathService: SemanticPathService,
-    protectedRoutesGuard: ProtectedRoutesGuard // tslint:disable-line
-  );
-
-  /**
-   * @deprecated since version 1.2.0
-   * Use constructor with more dependencies and make them all required.
-   *
-   * TODO(issue:4646) deprecated since version 1.2.0
-   */
-  constructor(
-    routingService: RoutingService,
-    cmsService: CmsService,
-    cmsRoutes: CmsRoutesService,
-    cmsI18n: CmsI18nService,
-    cmsGuards: CmsGuardsService,
-    semanticPathService: SemanticPathService
-  );
-  constructor(
-    // expose as &#x60;protected&#x60; only services from public API:
     protected routingService: RoutingService,
     protected cmsService: CmsService,
-    private cmsRoutes: CmsRoutesService,
-    private cmsI18n: CmsI18nService,
-    private cmsGuards: CmsGuardsService,
-    protected semanticPathService: SemanticPathService,
-    protected protectedRoutesGuard?: ProtectedRoutesGuard
+    protected protectedRoutesGuard: ProtectedRoutesGuard,
+    protected service: CmsPageGuardService,
+    protected routingConfig: RoutingConfigService
   ) {}
 
+  /**
+   * Tries to load the CMS page data for the anticipated route and returns:
+   * - &#x60;true&#x60; - if it can be activated
+   * - &#x60;false&#x60; - if it cannot be activated
+   * - &#x60;UrlTree&#x60; - if user should be redirected to a given &#x60;UrlTree&#x60;
+   *
+   * If the route can be activated, it fires additional calculations on the CMS components present on this CMS page,
+   * based on their configuration (&#x60;cmsComponents&#x60; config).
+   *
+   * For more, see docs of the &#x60;CmsPageGuardService.canActivatePage&#x60;.
+   */
   canActivate(
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable&lt;boolean | UrlTree&gt; {
-    /**
-     * TODO(issue:4646) Expect that &#x60;ProtectedRoutesGuard&#x60; dependency is required (remove &#x60;if&#x60; logic)
-     */
-    return this.protectedRoutesGuard
-      ? this.protectedRoutesGuard
-          .canActivate(route)
-          .pipe(
-            switchMap((result) &#x3D;&gt;
-              result ? this.getCmsPage(route, state) : of(result)
+    return this.protectedRoutesGuard.canActivate(route).pipe(
+      switchMap((canActivate) &#x3D;&gt;
+        canActivate
+          ? this.routingService.getNextPageContext().pipe(
+              switchMap((pageContext) &#x3D;&gt;
+                this.cmsService.getPage(pageContext, this.shouldReload()).pipe(
+                  first(),
+                  switchMap((pageData) &#x3D;&gt;
+                    pageData
+                      ? this.service.canActivatePage(
+                          pageContext,
+                          pageData,
+                          route,
+                          state
+                        )
+                      : this.service.canActivateNotFoundPage(
+                          pageContext,
+                          route,
+                          state
+                        )
+                  )
+                )
+              )
             )
-          )
-      : this.getCmsPage(route, state);
-  }
-
-  private getCmsPage(
-    route: CmsActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable&lt;boolean | UrlTree&gt; {
-    return this.routingService.getNextPageContext().pipe(
-      switchMap((pageContext) &#x3D;&gt;
-        this.cmsService
-          .getPage(pageContext, true)
-          .pipe(first(), withLatestFrom(of(pageContext)))
-      ),
-      switchMap(([pageData, pageContext]) &#x3D;&gt;
-        pageData
-          ? this.resolveCmsPageLogic(pageContext, pageData, route, state)
-          : this.handleNotFoundPage(pageContext, route, state)
+          : of(false)
       )
     );
   }
 
-  private resolveCmsPageLogic(
-    pageContext: PageContext,
-    pageData: Page,
-    route: CmsActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable&lt;boolean | UrlTree&gt; {
-    return this.cmsService.getPageComponentTypes(pageContext).pipe(
-      take(1),
-      switchMap((componentTypes) &#x3D;&gt;
-        this.cmsGuards
-          .cmsPageCanActivate(componentTypes, route, state)
-          .pipe(withLatestFrom(of(componentTypes)))
-      ),
-      tap(([canActivate, componentTypes]) &#x3D;&gt; {
-        if (canActivate &#x3D;&#x3D;&#x3D; true) {
-          this.cmsI18n.loadChunksForComponents(componentTypes);
-        }
-      }),
-      map(([canActivate, componentTypes]) &#x3D;&gt; {
-        const pageLabel &#x3D; pageData.label || pageContext.id; // for content pages the page label returned from backend can be different than ID initially assumed from route
-        if (
-          canActivate &#x3D;&#x3D;&#x3D; true &amp;&amp;
-          !route.data.cxCmsRouteContext &amp;&amp;
-          !this.cmsRoutes.cmsRouteExist(pageLabel)
-        ) {
-          return this.cmsRoutes.handleCmsRoutesInGuard(
-            pageContext,
-            componentTypes,
-            state.url,
-            pageLabel
-          );
-        }
-        return canActivate;
-      })
-    );
-  }
-
-  private handleNotFoundPage(
-    pageContext: PageContext,
-    route: CmsActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable&lt;boolean | UrlTree&gt; {
-    const notFoundCmsPageContext: PageContext &#x3D; {
-      type: PageType.CONTENT_PAGE,
-      id: this.semanticPathService.get(&#x27;notFound&#x27;),
-    };
-    return this.cmsService.getPage(notFoundCmsPageContext).pipe(
-      switchMap((notFoundPage) &#x3D;&gt; {
-        if (notFoundPage) {
-          return this.cmsService.getPageIndex(notFoundCmsPageContext).pipe(
-            tap((notFoundIndex) &#x3D;&gt; {
-              this.cmsService.setPageFailIndex(pageContext, notFoundIndex);
-            }),
-            switchMap((notFoundIndex) &#x3D;&gt;
-              this.cmsService.getPageIndex(pageContext).pipe(
-                // we have to wait for page index update
-                filter((index) &#x3D;&gt; index &#x3D;&#x3D;&#x3D; notFoundIndex)
-              )
-            ),
-            switchMap(() &#x3D;&gt;
-              this.resolveCmsPageLogic(pageContext, notFoundPage, route, state)
-            )
-          );
-        }
-        return of(false);
-      })
-    );
+  /**
+   * Returns whether we should reload the CMS page data, even when it was loaded before.
+   */
+  private shouldReload(): boolean {
+    return this.routingConfig.getLoadStrategy() !&#x3D;&#x3D; RouteLoadStrategy.ONCE;
   }
 }
 </code></pre>

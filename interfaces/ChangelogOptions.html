@@ -289,7 +289,7 @@ import { packages } from &#x27;./packages&#x27;;
 import * as versionsHelper from &#x27;./versions&#x27;;
 
 const changelogTemplate &#x3D; ejs.compile(
-  fs.readFileSync(&#x27;./scripts/templates/changelog.ejs&#x27;, &#x27;utf-8&#x27;),
+  fs.readFileSync(path.join(__dirname, &#x27;./templates/changelog.ejs&#x27;), &#x27;utf-8&#x27;),
   { client: true }
 );
 
@@ -348,16 +348,16 @@ export default async function run(
   ).trim();
 
   const libraryPaths &#x3D; {
-    &#x27;@spartacus/storefront&#x27;: &#x27;./projects/storefrontlib&#x27;,
-    &#x27;@spartacus/core&#x27;: &#x27;./projects/core&#x27;,
-    &#x27;@spartacus/styles&#x27;: &#x27;./projects/storefrontstyles&#x27;,
-    &#x27;@spartacus/assets&#x27;: &#x27;./projects/assets&#x27;,
-    &#x27;@spartacus/schematics&#x27;: &#x27;./projects/schematics&#x27;,
-    &#x27;@spartacus/incubator&#x27;: &#x27;./projects/incubator&#x27;,
-    &#x27;@spartacus/cds&#x27;: &#x27;./projects/cds&#x27;,
+    &#x27;@spartacus/storefront&#x27;: &#x27;projects/storefrontlib&#x27;,
+    &#x27;@spartacus/core&#x27;: &#x27;projects/core&#x27;,
+    &#x27;@spartacus/styles&#x27;: &#x27;projects/storefrontstyles&#x27;,
+    &#x27;@spartacus/assets&#x27;: &#x27;projects/assets&#x27;,
+    &#x27;@spartacus/schematics&#x27;: &#x27;projects/schematics&#x27;,
+    &#x27;@spartacus/incubator&#x27;: &#x27;projects/incubator&#x27;,
+    &#x27;@spartacus/cds&#x27;: &#x27;projects/cds&#x27;,
   };
 
-  const duplexUtil &#x3D; through(function(chunk, _, callback) {
+  const duplexUtil &#x3D; through(function (chunk, _, callback) {
     this.push(chunk);
     callback();
   });
@@ -366,7 +366,9 @@ export default async function run(
     return gitRawCommits({
       from: fromToken,
       to,
-      path: args.library ? libraryPaths[args.library] : &#x27;.&#x27;,
+      path: args.library
+        ? path.join(__dirname, &#x27;..&#x27;, libraryPaths[args.library])
+        : path.join(__dirname, &#x27;..&#x27;),
       format:
         &#x27;%B%n-hash-%n%H%n-gitTags-%n%D%n-committerDate-%n%ci%n-authorName-%n%aN%n&#x27;,
     }) as NodeJS.ReadStream;
@@ -376,7 +378,7 @@ export default async function run(
     getRawCommitsStream(args.to)
       .on(&#x27;error&#x27;, () &#x3D;&gt; {
         getRawCommitsStream(&#x27;HEAD&#x27;)
-          .on(&#x27;error&#x27;, err &#x3D;&gt; {
+          .on(&#x27;error&#x27;, (err) &#x3D;&gt; {
             logger.fatal(&#x27;An error happened: &#x27; + err.message);
             return &#x27;&#x27;;
           })
@@ -387,7 +389,7 @@ export default async function run(
     return duplexUtil;
   }
 
-  return new Promise(resolve &#x3D;&gt; {
+  return new Promise((resolve) &#x3D;&gt; {
     getCommitsStream()
       .pipe(
         through((chunk: Buffer, _: string, callback: Function) &#x3D;&gt; {
@@ -417,12 +419,12 @@ export default async function run(
             const tags &#x3D; maybeTag &amp;&amp; maybeTag[1].split(/,/g);
             chunk[&#x27;tags&#x27;] &#x3D; tags;
             // tslint:disable-next-line:triple-equals
-            if (tags &amp;&amp; tags.find(x &#x3D;&gt; x &#x3D;&#x3D; args.to)) {
+            if (tags &amp;&amp; tags.find((x) &#x3D;&gt; x &#x3D;&#x3D; args.to)) {
               toSha &#x3D; chunk.hash as string;
             }
             const notes: any &#x3D; chunk.notes;
             if (Array.isArray(notes)) {
-              notes.forEach(note &#x3D;&gt; {
+              notes.forEach((note) &#x3D;&gt; {
                 if (breakingChangesKeywords.includes(note.title)) {
                   breakingChanges.push({
                     content: note.text,
@@ -451,7 +453,7 @@ export default async function run(
         include: (x: string, v: {}) &#x3D;&gt;
           ejs.render(
             fs.readFileSync(
-              path.join(&#x27;./scripts/templates&#x27;, &#x60;${x}.ejs&#x60;),
+              path.join(__dirname, &#x27;./templates&#x27;, &#x60;${x}.ejs&#x60;),
               &#x27;utf-8&#x27;
             ),
             v
@@ -468,9 +470,10 @@ export default async function run(
       }
 
       // Check if we need to edit or create a new one.
-      return ghGot(
-        &#x27;repos/SAP/cloud-commerce-spartacus-storefront/releases&#x27;
-      ).then((x: JsonObject) &#x3D;&gt; [x, markdown]);
+      return ghGot(&#x27;repos/SAP/spartacus/releases&#x27;).then((x: JsonObject) &#x3D;&gt; [
+        x,
+        markdown,
+      ]);
     })
     .then(([body, markdown]) &#x3D;&gt; {
       const json &#x3D; body.body;
@@ -482,20 +485,17 @@ export default async function run(
         prerelease: &#x27;&#x27;,
       };
 
-      return ghGot(
-        &#x27;repos/SAP/cloud-commerce-spartacus-storefront/releases&#x27; + id,
-        {
-          body: {
-            body: markdown,
-            draft: true,
-            name: args.to,
-            prerelease: semversion.prerelease.length &gt; 0,
-            tag_name: args.to,
-            ...(toSha ? { target_commitish: toSha } : {}),
-          },
-          token: githubToken,
-        }
-      );
+      return ghGot(&#x27;repos/SAP/spartacus/releases&#x27; + id, {
+        body: {
+          body: markdown,
+          draft: true,
+          name: args.to,
+          prerelease: semversion.prerelease.length &gt; 0,
+          tag_name: args.to,
+          ...(toSha ? { target_commitish: toSha } : {}),
+        },
+        token: githubToken,
+      });
     });
 }
 

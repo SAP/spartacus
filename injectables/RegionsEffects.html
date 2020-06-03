@@ -243,7 +243,7 @@
                             <i>Default value : </i><code>this.actions$.pipe(
     ofType(UserActions.CLEAR_USER_MISCS_DATA, UserActions.CLEAR_REGIONS),
     map(() &#x3D;&gt; {
-      return new StateLoaderActions.LoaderResetAction(REGIONS);
+      return new StateUtils.LoaderResetAction(REGIONS);
     })
   )</code>
                         </td>
@@ -278,7 +278,7 @@ import { Action } from &#x27;@ngrx/store&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, switchMap } from &#x27;rxjs/operators&#x27;;
 import { SiteConnector } from &#x27;../../../site-context/connectors/site.connector&#x27;;
-import { StateLoaderActions } from &#x27;../../../state/utils/index&#x27;;
+import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
 import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
 import { UserActions } from &#x27;../actions/index&#x27;;
 import { REGIONS } from &#x27;../user-state&#x27;;
@@ -311,7 +311,7 @@ export class RegionsEffects {
   resetRegions$: Observable&lt;Action&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.CLEAR_USER_MISCS_DATA, UserActions.CLEAR_REGIONS),
     map(() &#x3D;&gt; {
-      return new StateLoaderActions.LoaderResetAction(REGIONS);
+      return new StateUtils.LoaderResetAction(REGIONS);
     })
   );
 

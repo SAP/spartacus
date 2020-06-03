@@ -127,7 +127,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithSiteContext>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, config: <a href="../interfaces/SiteContext.html">SiteContextConfig</a>)</code>
+<code>constructor(store: Store<StateWithSiteContext>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, config: <a href="../injectables/SiteContextConfig.html">SiteContextConfig</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -177,7 +177,7 @@
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../interfaces/SiteContext.html" target="_self" >SiteContextConfig</a></code>
+                                                                        <code><a href="../injectables/SiteContextConfig.html" target="_self" >SiteContextConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -442,16 +442,16 @@ import { Observable } from &#x27;rxjs&#x27;;
 import { filter, take, tap } from &#x27;rxjs/operators&#x27;;
 import { Currency } from &#x27;../../model/misc.model&#x27;;
 import { WindowRef } from &#x27;../../window/window-ref&#x27;;
+import {
+  getContextParameterDefault,
+  getContextParameterValues,
+} from &#x27;../config/context-config-utils&#x27;;
+import { SiteContextConfig } from &#x27;../config/site-context-config&#x27;;
+import { CURRENCY_CONTEXT_ID } from &#x27;../providers/context-ids&#x27;;
 import { SiteContextActions } from &#x27;../store/actions/index&#x27;;
 import { SiteContextSelectors } from &#x27;../store/selectors/index&#x27;;
 import { StateWithSiteContext } from &#x27;../store/state&#x27;;
 import { SiteContext } from &#x27;./site-context.interface&#x27;;
-import { SiteContextConfig } from &#x27;../config/site-context-config&#x27;;
-import {
-  getContextParameterValues,
-  getContextParameterDefault,
-} from &#x27;../config/context-config-utils&#x27;;
-import { CURRENCY_CONTEXT_ID } from &#x27;../providers/context-ids&#x27;;
 
 /**
  * Facade that provides easy access to curreny state, actions and selectors.
@@ -514,6 +514,15 @@ export class CurrencyService implements SiteContext&lt;Currency&gt; {
    * default session currency of the store.
    */
   initialize() {
+    let value;
+    this.getActive()
+      .subscribe((val) &#x3D;&gt; (value &#x3D; val))
+      .unsubscribe();
+    if (value) {
+      // don&#x27;t initialize, if there is already a value (i.e. retrieved from route or transferred from SSR)
+      return;
+    }
+
     const sessionCurrency &#x3D;
       this.sessionStorage &amp;&amp; this.sessionStorage.getItem(&#x27;currency&#x27;);
     if (

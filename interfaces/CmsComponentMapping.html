@@ -368,11 +368,12 @@ in the viewport.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StaticProvider } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, StaticProvider } from &#x27;@angular/core&#x27;;
 import { Routes } from &#x27;@angular/router&#x27;;
 import { AuthConfig } from &#x27;../../auth/config/auth-config&#x27;;
 import { KymaConfig } from &#x27;../../kyma/config/kyma-config&#x27;;
 import { OccConfig } from &#x27;../../occ/config/occ-config&#x27;;
+import { Config } from &#x27;../../config/config.module&#x27;;
 
 export interface StandardCmsComponentConfig {
   CMSSiteContextComponent?: CmsComponentMapping;
@@ -433,16 +434,18 @@ export enum DeferLoadingStrategy {
 export interface CMSComponentConfig
   extends StandardCmsComponentConfig,
     JspIncludeCmsComponentConfig {
-  [_: string]: CmsComponentMapping;
+  [componentType: string]: CmsComponentMapping;
 }
 
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+  useExisting: Config,
+})
 export abstract class CmsConfig extends OccConfig
   implements AuthConfig, KymaConfig {
   authentication?: {
     client_id?: string;
     client_secret?: string;
-
-    kyma_enabled?: boolean;
     kyma_client_id?: string;
     kyma_client_secret?: string;
   };

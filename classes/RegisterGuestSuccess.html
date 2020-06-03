@@ -150,7 +150,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Action } from &#x27;@ngrx/store&#x27;;
 import { UserSignUp } from &#x27;../../../model/misc.model&#x27;;
 import { PROCESS_FEATURE } from &#x27;../../../process/store/process-state&#x27;;
-import { StateEntityLoaderActions } from &#x27;../../../state/utils/index&#x27;;
+import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
 import {
   REGISTER_USER_PROCESS_ID,
   REMOVE_USER_PROCESS_ID,
@@ -170,28 +170,28 @@ export const REMOVE_USER_FAIL &#x3D; &#x27;[User] Remove User Fail&#x27;;
 export const REMOVE_USER_SUCCESS &#x3D; &#x27;[User] Remove User Success&#x27;;
 export const REMOVE_USER_RESET &#x3D; &#x27;[User] Reset Remove User Process State&#x27;;
 
-export class RegisterUser extends StateEntityLoaderActions.EntityLoadAction {
+export class RegisterUser extends StateUtils.EntityLoadAction {
   readonly type &#x3D; REGISTER_USER;
   constructor(public payload: UserSignUp) {
     super(PROCESS_FEATURE, REGISTER_USER_PROCESS_ID);
   }
 }
 
-export class RegisterUserFail extends StateEntityLoaderActions.EntityFailAction {
+export class RegisterUserFail extends StateUtils.EntityFailAction {
   readonly type &#x3D; REGISTER_USER_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, REGISTER_USER_PROCESS_ID, payload);
   }
 }
 
-export class RegisterUserSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class RegisterUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type &#x3D; REGISTER_USER_SUCCESS;
   constructor() {
     super(PROCESS_FEATURE, REGISTER_USER_PROCESS_ID);
   }
 }
 
-export class ResetRegisterUserProcess extends StateEntityLoaderActions.EntityResetAction {
+export class ResetRegisterUserProcess extends StateUtils.EntityLoaderResetAction {
   readonly type &#x3D; RESET_REGISTER_USER_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, REGISTER_USER_PROCESS_ID);
@@ -212,28 +212,28 @@ export class RegisterGuestSuccess implements Action {
   readonly type &#x3D; REGISTER_GUEST_SUCCESS;
 }
 
-export class RemoveUser extends StateEntityLoaderActions.EntityLoadAction {
+export class RemoveUser extends StateUtils.EntityLoadAction {
   readonly type &#x3D; REMOVE_USER;
   constructor(public payload: string) {
     super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID);
   }
 }
 
-export class RemoveUserFail extends StateEntityLoaderActions.EntityFailAction {
+export class RemoveUserFail extends StateUtils.EntityFailAction {
   readonly type &#x3D; REMOVE_USER_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID, payload);
   }
 }
 
-export class RemoveUserSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class RemoveUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type &#x3D; REMOVE_USER_SUCCESS;
   constructor() {
     super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID);
   }
 }
 
-export class RemoveUserReset extends StateEntityLoaderActions.EntityResetAction {
+export class RemoveUserReset extends StateUtils.EntityLoaderResetAction {
   readonly type &#x3D; REMOVE_USER_RESET;
   constructor() {
     super(PROCESS_FEATURE, REMOVE_USER_PROCESS_ID);

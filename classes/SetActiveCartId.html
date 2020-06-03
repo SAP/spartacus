@@ -63,6 +63,13 @@
             <code>projects/core/src/cart/store/actions/multi-cart.action.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Only sets active cart property with id of active cart. Then services take care of loading that cart.</p>
+
+            </p>
 
 
             <p class="comment">
@@ -117,7 +124,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="149" class="link-to-prism">projects/core/src/cart/store/actions/multi-cart.action.ts:149</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/core/src/cart/store/actions/multi-cart.action.ts:62</a></div>
                             </td>
                         </tr>
 
@@ -181,7 +188,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="150" class="link-to-prism">projects/core/src/cart/store/actions/multi-cart.action.ts:150</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/core/src/cart/store/actions/multi-cart.action.ts:63</a></div>
                             </td>
                         </tr>
 
@@ -208,7 +215,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="149" class="link-to-prism">projects/core/src/cart/store/actions/multi-cart.action.ts:149</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/core/src/cart/store/actions/multi-cart.action.ts:62</a></div>
                             </td>
                         </tr>
 
@@ -229,58 +236,28 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Action } from &#x27;@ngrx/store&#x27;;
 import { Cart } from &#x27;../../../model/cart.model&#x27;;
-import {
-  EntityFailAction,
-  EntityLoadAction,
-  EntitySuccessAction,
-} from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
+import { EntitySuccessAction } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
 import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
-  EntityProcessesLoaderResetAction,
 } from &#x27;../../../state/utils/entity-processes-loader/entity-processes-loader.action&#x27;;
-import { EntityRemoveAction } from &#x27;../../../state/utils/entity/entity.action&#x27;;
-import { getCartIdByUserId } from &#x27;../../utils/utils&#x27;;
+import { EntityRemoveAllAction } from &#x27;../../../state/utils/entity/entity.action&#x27;;
 import { MULTI_CART_DATA } from &#x27;../multi-cart-state&#x27;;
 
-export const REMOVE_TEMP_CART &#x3D; &#x27;[Multi Cart] Remove Temp Cart&#x27;;
+export const SET_TEMP_CART &#x3D; &#x27;[Cart] Set Temp Cart&#x27;;
 
-export const LOAD_MULTI_CART &#x3D; &#x27;[Multi Cart] Load Cart&#x27;;
-export const LOAD_MULTI_CART_FAIL &#x3D; &#x27;[Multi Cart] Load Cart Fail&#x27;;
-export const LOAD_MULTI_CART_SUCCESS &#x3D; &#x27;[Multi Cart] Load Cart Success&#x27;;
+export const CART_PROCESSES_INCREMENT &#x3D; &#x27;[Cart] Cart Processes Increment&#x27;;
+export const CART_PROCESSES_DECREMENT &#x3D; &#x27;[Cart] Cart Processes Decrement&#x27;;
 
-export const MERGE_MULTI_CART &#x3D; &#x27;[Multi Cart] Merge Cart&#x27;;
-export const MERGE_MULTI_CART_SUCCESS &#x3D; &#x27;[Multi Cart] Merge Cart Success&#x27;;
+export const SET_ACTIVE_CART_ID &#x3D; &#x27;[Cart] Set Active Cart Id&#x27;;
 
-export const RESET_MULTI_CART_DETAILS &#x3D; &#x27;[Multi Cart] Reset Cart Details&#x27;;
-
-export const SET_TEMP_CART &#x3D; &#x27;[Multi Cart] Set Temp Cart&#x27;;
-
-export const REMOVE_CART &#x3D; &#x27;[Multi Cart] Remove Cart&#x27;;
-
-export const ADD_EMAIL_TO_MULTI_CART &#x3D; &#x27;[Multi Cart] Add Email&#x27;;
-export const ADD_EMAIL_TO_MULTI_CART_FAIL &#x3D; &#x27;[Multi Cart] Add Email Fail&#x27;;
-export const ADD_EMAIL_TO_MULTI_CART_SUCCESS &#x3D; &#x27;[Multi Cart] Add Email Success&#x27;;
-
-export const CART_PROCESSES_INCREMENT &#x3D; &#x27;[Multi Cart] Cart Processes Increment&#x27;;
-export const CART_PROCESSES_DECREMENT &#x3D; &#x27;[Multi Cart] Cart Processes Decrement&#x27;;
-
-export const SET_ACTIVE_CART_ID &#x3D; &#x27;[Multi Cart] Set Active Cart Id&#x27;;
-
-export const CLEAR_MULTI_CART_STATE &#x3D; &#x27;[Multi Cart] Clear Cart State&#x27;;
+export const CLEAR_CART_STATE &#x3D; &#x27;[Cart] Clear Cart State&#x27;;
 
 /**
  * To keep track of cart creation process we use cart with &#x60;temp-${uuid}&#x60; id.
  * After creating cart we switch to entity with &#x60;code&#x60; or &#x60;guid&#x60;.
  * We need &#x60;temp-${uuid}&#x60; cart entities for loading/error state.
  */
-export class RemoveTempCart extends EntityRemoveAction {
-  readonly type &#x3D; REMOVE_TEMP_CART;
-  constructor(public payload: { tempCartId: string }) {
-    super(MULTI_CART_DATA, payload.tempCartId);
-  }
-}
-
 export class SetTempCart extends EntitySuccessAction {
   readonly type &#x3D; SET_TEMP_CART;
   constructor(public payload: { cart: Cart; tempCartId: string }) {
@@ -288,78 +265,12 @@ export class SetTempCart extends EntitySuccessAction {
   }
 }
 
-export class LoadMultiCart extends EntityLoadAction {
-  readonly type &#x3D; LOAD_MULTI_CART;
-  constructor(public payload: { userId: string; cartId: string }) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
-export class LoadMultiCartFail extends EntityFailAction {
-  readonly type &#x3D; LOAD_MULTI_CART_FAIL;
-  constructor(public payload: { cartId: string; error?: any }) {
-    super(MULTI_CART_DATA, payload.cartId, payload.error);
-  }
-}
-
-export class LoadMultiCartSuccess extends EntitySuccessAction {
-  readonly type &#x3D; LOAD_MULTI_CART_SUCCESS;
-  constructor(public payload: { cart: Cart; userId: string; extraData?: any }) {
-    super(MULTI_CART_DATA, getCartIdByUserId(payload.cart, payload.userId));
-  }
-}
-
-export class MergeMultiCart implements Action {
-  readonly type &#x3D; MERGE_MULTI_CART;
-  constructor(public payload: any) {}
-}
-
-export class MergeMultiCartSuccess extends EntityRemoveAction {
-  readonly type &#x3D; MERGE_MULTI_CART_SUCCESS;
-  constructor(
-    public payload: { oldCartId: string; cartId: string; userId: string }
-  ) {
-    super(MULTI_CART_DATA, payload.oldCartId);
-  }
-}
-
-export class ResetMultiCartDetails extends EntityProcessesLoaderResetAction {
-  readonly type &#x3D; RESET_MULTI_CART_DETAILS;
-  constructor() {
-    super(MULTI_CART_DATA, undefined);
-  }
-}
-
-export class RemoveCart extends EntityRemoveAction {
-  readonly type &#x3D; REMOVE_CART;
-  constructor(public payload: string) {
-    super(MULTI_CART_DATA, payload);
-  }
-}
-
-export class AddEmailToMultiCart extends EntityLoadAction {
-  readonly type &#x3D; ADD_EMAIL_TO_MULTI_CART;
-  constructor(
-    public payload: { userId: string; cartId: string; email: string }
-  ) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
-export class AddEmailToMultiCartFail extends EntityFailAction {
-  readonly type &#x3D; ADD_EMAIL_TO_MULTI_CART_FAIL;
-  constructor(public payload: { userId: string; cartId: string; error: any }) {
-    super(MULTI_CART_DATA, payload.cartId, payload.error);
-  }
-}
-
-export class AddEmailToMultiCartSuccess extends EntitySuccessAction {
-  readonly type &#x3D; ADD_EMAIL_TO_MULTI_CART_SUCCESS;
-  constructor(public payload: { userId: string; cartId: string }) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
+// TODO(#7241): Remove when there won&#x27;t be any usage
+/**
+ * Increases process counter on cart entities
+ * All actions that cause computations on cart should extend EntityProcessesIncrementAction instead of dispatching this action.
+ * @deprecated since 2.0
+ */
 export class CartProcessesIncrement extends EntityProcessesIncrementAction {
   readonly type &#x3D; CART_PROCESSES_INCREMENT;
   constructor(public payload: string) {
@@ -367,6 +278,12 @@ export class CartProcessesIncrement extends EntityProcessesIncrementAction {
   }
 }
 
+// TODO(#7241): Remove when there won&#x27;t be any usage
+/**
+ * Decrement process counter on cart entities
+ * All actions that cause computations on cart should extend EntityProcessesDecrementAction instead of dispatching this action.
+ * @deprecated since 2.0
+ */
 export class CartProcessesDecrement extends EntityProcessesDecrementAction {
   readonly type &#x3D; CART_PROCESSES_DECREMENT;
   constructor(public payload: string) {
@@ -374,35 +291,30 @@ export class CartProcessesDecrement extends EntityProcessesDecrementAction {
   }
 }
 
+/**
+ * Only sets active cart property with id of active cart. Then services take care of loading that cart.
+ */
 export class SetActiveCartId implements Action {
   readonly type &#x3D; SET_ACTIVE_CART_ID;
   constructor(public payload: string) {}
 }
 
-export class ClearMultiCartState extends EntityRemoveAction {
-  readonly type &#x3D; CLEAR_MULTI_CART_STATE;
+/**
+ * Clear whole cart store state: all entities + reset rest of the cart state.
+ */
+export class ClearCartState extends EntityRemoveAllAction {
+  readonly type &#x3D; CLEAR_CART_STATE;
   constructor() {
-    super(MULTI_CART_DATA, null);
+    super(MULTI_CART_DATA);
   }
 }
 
 export type MultiCartActions &#x3D;
-  | RemoveTempCart
   | SetTempCart
-  | LoadMultiCart
-  | LoadMultiCartFail
-  | LoadMultiCartSuccess
-  | MergeMultiCart
-  | MergeMultiCartSuccess
-  | ResetMultiCartDetails
-  | RemoveCart
-  | AddEmailToMultiCart
-  | AddEmailToMultiCartFail
-  | AddEmailToMultiCartSuccess
   | CartProcessesIncrement
   | CartProcessesDecrement
   | SetActiveCartId
-  | ClearMultiCartState;
+  | ClearCartState;
 </code></pre>
     </div>
 </div>

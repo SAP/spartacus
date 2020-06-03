@@ -120,7 +120,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -209,8 +209,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:26</a></div>
                 </td>
             </tr>
 
@@ -293,8 +293,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="92"
+                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:92</a></div>
                 </td>
             </tr>
 
@@ -363,14 +363,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:55</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Get add voucher process error flag</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
@@ -402,14 +404,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:77</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Get add voucher process loading flag</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
@@ -441,14 +445,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:66</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Get add voucher process success flag</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
@@ -480,8 +486,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:38</a></div>
                 </td>
             </tr>
 
@@ -562,14 +568,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">projects/core/src/cart/facade/cart-voucher.service.ts:88</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Reset add voucher process</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -600,7 +608,9 @@ import { CartActions } from &#x27;../store/actions/index&#x27;;
 import { ADD_VOUCHER_PROCESS_ID } from &#x27;../store/multi-cart-state&#x27;;
 import { ActiveCartService } from &#x27;./active-cart.service&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class CartVoucherService {
   constructor(
     protected store: Store&lt;fromProcessStore.StateWithProcess&lt;void&gt;&gt;,
@@ -632,24 +642,44 @@ export class CartVoucherService {
     );
   }
 
+  // TODO(#7241): Remove when switching to event system for add voucher
+  /**
+   * Get add voucher process error flag
+   * @deprecated since 2.0
+   */
   getAddVoucherResultError(): Observable&lt;boolean&gt; {
     return this.store.pipe(
       select(getProcessErrorFactory(ADD_VOUCHER_PROCESS_ID))
     );
   }
 
+  // TODO(#7241): Remove when switching to event system for add voucher
+  /**
+   * Get add voucher process success flag
+   * @deprecated since 2.0
+   */
   getAddVoucherResultSuccess(): Observable&lt;boolean&gt; {
     return this.store.pipe(
       select(getProcessSuccessFactory(ADD_VOUCHER_PROCESS_ID))
     );
   }
 
+  // TODO(#7241): Remove when switching to event system for add voucher
+  /**
+   * Get add voucher process loading flag
+   * @deprecated since 2.0
+   */
   getAddVoucherResultLoading(): Observable&lt;boolean&gt; {
     return this.store.pipe(
       select(getProcessLoadingFactory(ADD_VOUCHER_PROCESS_ID))
     );
   }
 
+  // TODO(#7241): Remove when switching to event system for add voucher
+  /**
+   * Reset add voucher process
+   * @deprecated since 2.0
+   */
   resetAddVoucherProcessingState(): void {
     this.store.dispatch(new CartActions.CartResetAddVoucher());
   }

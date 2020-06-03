@@ -102,12 +102,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, anonymousConsentTemplatesConnector: <a href="../injectables/AnonymousConsentTemplatesConnector.html">AnonymousConsentTemplatesConnector</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, anonymousConsentsConfig: <a href="../classes/AnonymousConsentsConfig.html">AnonymousConsentsConfig</a>, anonymousConsentService: <a href="../injectables/AnonymousConsentsService.html">AnonymousConsentsService</a>, userConsentService: <a href="../injectables/UserConsentService.html">UserConsentService</a>)</code>
+<code>constructor(actions$: Actions, anonymousConsentTemplatesConnector: <a href="../injectables/AnonymousConsentTemplatesConnector.html">AnonymousConsentTemplatesConnector</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, anonymousConsentsConfig: <a href="../injectables/AnonymousConsentsConfig.html">AnonymousConsentsConfig</a>, anonymousConsentService: <a href="../injectables/AnonymousConsentsService.html">AnonymousConsentsService</a>, userConsentService: <a href="../injectables/UserConsentService.html">UserConsentService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="197" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:197</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="183" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:183</a></div>
                             </td>
                         </tr>
 
@@ -164,7 +164,7 @@
                                                         <td>anonymousConsentsConfig</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/AnonymousConsentsConfig.html" target="_self" >AnonymousConsentsConfig</a></code>
+                                                                        <code><a href="../injectables/AnonymousConsentsConfig.html" target="_self" >AnonymousConsentsConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -237,10 +237,6 @@
     ),
     filter(
       (action) &#x3D;&gt;
-        isFeatureEnabled(
-          this.anonymousConsentsConfig,
-          ANONYMOUS_CONSENTS_FEATURE
-        ) &amp;&amp;
         Boolean(this.anonymousConsentsConfig.anonymousConsents) &amp;&amp;
         Boolean(
           this.anonymousConsentsConfig.anonymousConsents.requiredConsents
@@ -304,7 +300,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="136" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:136</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:126</a></div>
                             </td>
                         </tr>
 
@@ -382,7 +378,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:30</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -413,13 +409,7 @@
     ofType&lt;AuthActions.LoadUserTokenSuccess&gt;(
       AuthActions.LOAD_USER_TOKEN_SUCCESS
     ),
-    filter(
-      () &#x3D;&gt;
-        isFeatureEnabled(
-          this.anonymousConsentsConfig,
-          ANONYMOUS_CONSENTS_FEATURE
-        ) &amp;&amp; Boolean(this.anonymousConsentsConfig.anonymousConsents)
-    ),
+    filter(() &#x3D;&gt; Boolean(this.anonymousConsentsConfig.anonymousConsents)),
     withLatestFrom(
       this.actions$.pipe(
         ofType&lt;UserActions.RegisterUserSuccess&gt;(
@@ -482,7 +472,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:72</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:68</a></div>
                             </td>
                         </tr>
 
@@ -509,10 +499,6 @@ import {
   withLatestFrom,
 } from &#x27;rxjs/operators&#x27;;
 import { AuthActions, AuthService } from &#x27;../../../auth/index&#x27;;
-import {
-  ANONYMOUS_CONSENTS_FEATURE,
-  isFeatureEnabled,
-} from &#x27;../../../features-config/index&#x27;;
 import { UserConsentService } from &#x27;../../../user/facade/user-consent.service&#x27;;
 import { UserActions } from &#x27;../../../user/store/actions/index&#x27;;
 import { makeErrorSerializable } from &#x27;../../../util/serialization-utils&#x27;;
@@ -572,13 +558,7 @@ export class AnonymousConsentsEffects {
     ofType&lt;AuthActions.LoadUserTokenSuccess&gt;(
       AuthActions.LOAD_USER_TOKEN_SUCCESS
     ),
-    filter(
-      () &#x3D;&gt;
-        isFeatureEnabled(
-          this.anonymousConsentsConfig,
-          ANONYMOUS_CONSENTS_FEATURE
-        ) &amp;&amp; Boolean(this.anonymousConsentsConfig.anonymousConsents)
-    ),
+    filter(() &#x3D;&gt; Boolean(this.anonymousConsentsConfig.anonymousConsents)),
     withLatestFrom(
       this.actions$.pipe(
         ofType&lt;UserActions.RegisterUserSuccess&gt;(
@@ -638,10 +618,6 @@ export class AnonymousConsentsEffects {
     ),
     filter(
       (action) &#x3D;&gt;
-        isFeatureEnabled(
-          this.anonymousConsentsConfig,
-          ANONYMOUS_CONSENTS_FEATURE
-        ) &amp;&amp;
         Boolean(this.anonymousConsentsConfig.anonymousConsents) &amp;&amp;
         Boolean(
           this.anonymousConsentsConfig.anonymousConsents.requiredConsents

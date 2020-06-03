@@ -170,16 +170,13 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { RouterModule } from &#x27;@angular/router&#x27;;
-import { Config, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
-import { defaultPaginationConfig, PaginationConfig } from &#x27;./config/index&#x27;;
+import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
+import { defaultPaginationConfig } from &#x27;./config/index&#x27;;
 import { PaginationComponent } from &#x27;./pagination.component&#x27;;
 
 @NgModule({
   imports: [CommonModule, RouterModule],
-  providers: [
-    provideDefaultConfig(defaultPaginationConfig),
-    { provide: PaginationConfig, useExisting: Config },
-  ],
+  providers: [provideDefaultConfig(defaultPaginationConfig)],
   declarations: [PaginationComponent],
   exports: [PaginationComponent],
 })

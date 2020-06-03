@@ -22,45 +22,29 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_GlobalMessageModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="32,-70 32,-195 464,-195 464,-70 32,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="144,-70 144,-195 352,-195 352,-70 144,-70"/>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_GlobalMessageModule_imports</title>
-<polygon fill="none" stroke="#000000" points="264,-78 264,-130 456,-130 456,-78 264,-78"/>
-</g>
-<g id="clust6" class="cluster">
-<title>cluster_GlobalMessageModule_providers</title>
-<polygon fill="none" stroke="#000000" points="40,-78 40,-130 256,-130 256,-78 40,-78"/>
+<polygon fill="none" stroke="#000000" points="152,-78 152,-130 344,-130 344,-78 152,-78"/>
 </g>
 <!-- GlobalMessageStoreModule -->
 <g id="node1" class="node">
 <title>GlobalMessageStoreModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="448.1783,-122 445.1783,-126 424.1783,-126 421.1783,-122 271.8217,-122 271.8217,-86 448.1783,-86 448.1783,-122"/>
-<text text-anchor="middle" x="360" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">GlobalMessageStoreModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="336.1783,-122 333.1783,-126 312.1783,-126 309.1783,-122 159.8217,-122 159.8217,-86 336.1783,-86 336.1783,-122"/>
+<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">GlobalMessageStoreModule</text>
 </g>
 <!-- GlobalMessageModule -->
 <g id="node2" class="node">
 <title>GlobalMessageModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="327.1303,-187 324.1303,-191 303.1303,-191 300.1303,-187 180.8697,-187 180.8697,-151 327.1303,-151 327.1303,-187"/>
-<text text-anchor="middle" x="254" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">GlobalMessageModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="321.1303,-187 318.1303,-191 297.1303,-191 294.1303,-187 174.8697,-187 174.8697,-151 321.1303,-151 321.1303,-187"/>
+<text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">GlobalMessageModule</text>
 </g>
 <!-- GlobalMessageStoreModule&#45;&gt;GlobalMessageModule -->
 <g id="edge1" class="edge">
 <title>GlobalMessageStoreModule&#45;&gt;GlobalMessageModule</title>
-<path fill="none" stroke="#000000" d="M299.6129,-122.1061C299.6129,-122.1061 299.6129,-140.991 299.6129,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="296.113,-140.9909 299.6129,-150.991 303.113,-140.991 296.113,-140.9909"/>
-</g>
-<!-- GlobalMessageService -->
-<g id="node3" class="node">
-<title>GlobalMessageService</title>
-<ellipse fill="#fdb462" stroke="#000000" cx="148" cy="-104" rx="100.1162" ry="18"/>
-<text text-anchor="middle" x="148" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">GlobalMessageService</text>
-</g>
-<!-- GlobalMessageService&#45;&gt;GlobalMessageModule -->
-<g id="edge2" class="edge">
-<title>GlobalMessageService&#45;&gt;GlobalMessageModule</title>
-<path fill="none" stroke="#000000" d="M214.3716,-117.7848C214.3716,-117.7848 214.3716,-140.5475 214.3716,-140.5475"/>
-<polygon fill="#000000" stroke="#000000" points="210.8717,-140.5474 214.3716,-150.5475 217.8717,-140.5475 210.8717,-140.5474"/>
+<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
 </g>
 </g>
 </svg>

@@ -507,11 +507,11 @@ export function verifyMerchandisingCarouselRendersOnPDPPage(
 }
 
 export function applyFacet(facetGroup: string, facetName: string): void {
-  cy.get(&#x27;.cx-facet-header&#x27;)
+  cy.get(&#x27;cx-facet .heading&#x27;)
     .contains(facetGroup)
-    .parents(&#x27;.cx-facet-group&#x27;)
+    .parents(&#x27;cx-facet&#x27;)
     .within(() &#x3D;&gt; {
-      cy.get(&#x27;.cx-facet-label&#x27;).contains(facetName).click();
+      cy.get(&#x27;a.value&#x27;).contains(facetName).click();
     });
 }
 

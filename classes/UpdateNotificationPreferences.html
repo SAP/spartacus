@@ -302,12 +302,12 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateLoaderActions } from &#x27;../../../state/utils/index&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
 import { PROCESS_FEATURE } from &#x27;../../../process/store/process-state&#x27;;
 import {
   EntityFailAction,
   EntityLoadAction,
-  EntityResetAction,
+  EntityLoaderResetAction,
   EntitySuccessAction,
 } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
 import {
@@ -333,21 +333,21 @@ export const RESET_NOTIFICATION_PREFERENCES &#x3D;
 export const CLEAR_NOTIFICATION_PREFERENCES &#x3D;
   &#x27;[User] Clear Notification Preferences&#x27;;
 
-export class LoadNotificationPreferences extends StateLoaderActions.LoaderLoadAction {
+export class LoadNotificationPreferences extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; LOAD_NOTIFICATION_PREFERENCES;
   constructor(public payload: string) {
     super(NOTIFICATION_PREFERENCES);
   }
 }
 
-export class LoadNotificationPreferencesFail extends StateLoaderActions.LoaderFailAction {
+export class LoadNotificationPreferencesFail extends StateUtils.LoaderFailAction {
   readonly type &#x3D; LOAD_NOTIFICATION_PREFERENCES_FAIL;
   constructor(public payload: any) {
     super(NOTIFICATION_PREFERENCES, payload);
   }
 }
 
-export class LoadNotificationPreferencesSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class LoadNotificationPreferencesSuccess extends StateUtils.LoaderSuccessAction {
   readonly type &#x3D; LOAD_NOTIFICATION_PREFERENCES_SUCCESS;
   constructor(public payload: NotificationPreference[]) {
     super(NOTIFICATION_PREFERENCES);
@@ -377,14 +377,14 @@ export class UpdateNotificationPreferencesSuccess extends EntitySuccessAction {
   }
 }
 
-export class ResetNotificationPreferences extends EntityResetAction {
+export class ResetNotificationPreferences extends EntityLoaderResetAction {
   readonly type &#x3D; RESET_NOTIFICATION_PREFERENCES;
   constructor() {
     super(PROCESS_FEATURE, UPDATE_NOTIFICATION_PREFERENCES_PROCESS_ID);
   }
 }
 
-export class ClearNotificationPreferences extends StateLoaderActions.LoaderResetAction {
+export class ClearNotificationPreferences extends StateUtils.LoaderResetAction {
   readonly type &#x3D; CLEAR_NOTIFICATION_PREFERENCES;
   constructor() {
     super(NOTIFICATION_PREFERENCES);

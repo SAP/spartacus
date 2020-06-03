@@ -112,12 +112,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(anonymousConsentsService: <a href="../injectables/AnonymousConsentsService.html">AnonymousConsentsService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, occEndpoints: <a href="../injectables/OccEndpointsService.html">OccEndpointsService</a>, config: <a href="../classes/AnonymousConsentsConfig.html">AnonymousConsentsConfig</a>)</code>
+<code>constructor(anonymousConsentsService: <a href="../injectables/AnonymousConsentsService.html">AnonymousConsentsService</a>, authService: <a href="../injectables/AuthService.html">AuthService</a>, occEndpoints: <a href="../injectables/OccEndpointsService.html">OccEndpointsService</a>, config: <a href="../injectables/AnonymousConsentsConfig.html">AnonymousConsentsConfig</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -174,7 +174,7 @@
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/AnonymousConsentsConfig.html" target="_self" >AnonymousConsentsConfig</a></code>
+                                                                        <code><a href="../injectables/AnonymousConsentsConfig.html" target="_self" >AnonymousConsentsConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -220,8 +220,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:109</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:101</a></div>
                 </td>
             </tr>
 
@@ -292,8 +292,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:79</a></div>
                 </td>
             </tr>
 
@@ -376,8 +376,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:56</a></div>
                 </td>
             </tr>
 
@@ -470,8 +470,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:28</a></div>
                 </td>
             </tr>
 
@@ -554,8 +554,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:97</a></div>
                 </td>
             </tr>
 
@@ -616,13 +616,9 @@
   HttpResponse,
 } from &#x27;@angular/common/http&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
-import { iif, Observable } from &#x27;rxjs&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
 import { switchMap, take, tap, withLatestFrom } from &#x27;rxjs/operators&#x27;;
 import { AuthService } from &#x27;../../auth/index&#x27;;
-import {
-  ANONYMOUS_CONSENTS_FEATURE,
-  isFeatureEnabled,
-} from &#x27;../../features-config/index&#x27;;
 import { AnonymousConsent, ANONYMOUS_CONSENT_STATUS } from &#x27;../../model/index&#x27;;
 import { OccEndpointsService } from &#x27;../../occ/index&#x27;;
 import { AnonymousConsentsConfig } from &#x27;../config/anonymous-consents-config&#x27;;
@@ -643,31 +639,27 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     request: HttpRequest&lt;any&gt;,
     next: HttpHandler
   ): Observable&lt;HttpEvent&lt;any&gt;&gt; {
-    return iif(
-      () &#x3D;&gt; isFeatureEnabled(this.config, ANONYMOUS_CONSENTS_FEATURE),
-      this.anonymousConsentsService.getConsents().pipe(
-        take(1),
-        withLatestFrom(this.authService.isUserLoggedIn()),
-        switchMap(([consents, isUserLoggedIn]) &#x3D;&gt; {
-          if (!this.isOccUrl(request.url)) {
-            return next.handle(request);
-          }
+    return this.anonymousConsentsService.getConsents().pipe(
+      take(1),
+      withLatestFrom(this.authService.isUserLoggedIn()),
+      switchMap(([consents, isUserLoggedIn]) &#x3D;&gt; {
+        if (!this.isOccUrl(request.url)) {
+          return next.handle(request);
+        }
 
-          const clonedRequest &#x3D; this.handleRequest(consents, request);
-          return next.handle(clonedRequest).pipe(
-            tap((event) &#x3D;&gt; {
-              if (event instanceof HttpResponse) {
-                this.handleResponse(
-                  isUserLoggedIn,
-                  event.headers.get(ANONYMOUS_CONSENTS_HEADER),
-                  consents
-                );
-              }
-            })
-          );
-        })
-      ),
-      next.handle(request)
+        const clonedRequest &#x3D; this.handleRequest(consents, request);
+        return next.handle(clonedRequest).pipe(
+          tap((event) &#x3D;&gt; {
+            if (event instanceof HttpResponse) {
+              this.handleResponse(
+                isUserLoggedIn,
+                event.headers.get(ANONYMOUS_CONSENTS_HEADER),
+                consents
+              );
+            }
+          })
+        );
+      })
     );
   }
 

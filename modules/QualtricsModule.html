@@ -154,9 +154,8 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { HttpClientModule } from &#x27;@angular/common/http&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
-import { CmsConfig, Config, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
+import { CmsConfig, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
 import { defaultQualtricsConfig } from &#x27;./config/default-qualtrics-config&#x27;;
-import { QualtricsConfig } from &#x27;./config/qualtrics-config&#x27;;
 import { QualtricsComponent } from &#x27;./qualtrics.component&#x27;;
 
 @NgModule({
@@ -172,11 +171,6 @@ import { QualtricsComponent } from &#x27;./qualtrics.component&#x27;;
       },
     }),
     provideDefaultConfig(defaultQualtricsConfig),
-
-    {
-      provide: QualtricsConfig,
-      useExisting: Config,
-    },
   ],
 })
 export class QualtricsModule {}

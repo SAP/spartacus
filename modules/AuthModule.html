@@ -166,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">projects/core/src/auth/auth.module.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">projects/core/src/auth/auth.module.ts:13</a></div>
                 </td>
             </tr>
 
@@ -191,11 +191,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { HttpClientModule } from &#x27;@angular/common/http&#x27;;
 import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { Config, provideDefaultConfig } from &#x27;../config/config.module&#x27;;
-import { AuthConfig } from &#x27;./config/auth-config&#x27;;
+import { provideDefaultConfig } from &#x27;../config/config.module&#x27;;
 import { defaultAuthConfig } from &#x27;./config/default-auth-config&#x27;;
 import { interceptors } from &#x27;./http-interceptors/index&#x27;;
-import { AuthServices } from &#x27;./services/index&#x27;;
 import { AuthStoreModule } from &#x27;./store/auth-store.module&#x27;;
 
 @NgModule({
@@ -205,12 +203,7 @@ export class AuthModule {
   static forRoot(): ModuleWithProviders&lt;AuthModule&gt; {
     return {
       ngModule: AuthModule,
-      providers: [
-        provideDefaultConfig(defaultAuthConfig),
-        ...interceptors,
-        ...AuthServices,
-        { provide: AuthConfig, useExisting: Config },
-      ],
+      providers: [provideDefaultConfig(defaultAuthConfig), ...interceptors],
     };
   }
 }

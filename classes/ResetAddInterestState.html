@@ -68,7 +68,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../classes/EntityResetAction.html" target="_self" >EntityResetAction</a></code>
+                        <code><a href="../classes/EntityLoaderResetAction.html" target="_self" >EntityLoaderResetAction</a></code>
             </p>
 
 
@@ -181,13 +181,13 @@
                     </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Inherited from         <code><a href="../classes/EntityResetAction.html" target="_self" >EntityResetAction</a></code>
+                                    <div class="io-line">Inherited from         <code><a href="../classes/EntityLoaderResetAction.html" target="_self" >EntityLoaderResetAction</a></code>
 </div>
                                 </td>
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/EntityResetAction.html#source" target="_self" >EntityResetAction:90</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/EntityLoaderResetAction.html#source" target="_self" >EntityLoaderResetAction:90</a></code>
 </div>
                             </td>
                         </tr>
@@ -214,13 +214,13 @@
                     </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Inherited from         <code><a href="../classes/EntityResetAction.html" target="_self" >EntityResetAction</a></code>
+                                    <div class="io-line">Inherited from         <code><a href="../classes/EntityLoaderResetAction.html" target="_self" >EntityLoaderResetAction</a></code>
 </div>
                                 </td>
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/EntityResetAction.html#source" target="_self" >EntityResetAction:89</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/EntityLoaderResetAction.html#source" target="_self" >EntityLoaderResetAction:89</a></code>
 </div>
                             </td>
                         </tr>
@@ -261,7 +261,7 @@ import {
   EntityFailAction,
   EntityLoadAction,
   EntitySuccessAction,
-  EntityResetAction,
+  EntityLoaderResetAction,
 } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
 
 export const LOAD_PRODUCT_INTERESTS &#x3D; &#x27;Load Product Interests&#x27;;
@@ -366,14 +366,14 @@ export class AddProductInterestFail extends EntityFailAction {
   }
 }
 
-export class ResetAddInterestState extends EntityResetAction {
+export class ResetAddInterestState extends EntityLoaderResetAction {
   readonly type &#x3D; ADD_PRODUCT_INTEREST_RESET;
   constructor() {
     super(PROCESS_FEATURE, ADD_PRODUCT_INTEREST_PROCESS_ID);
   }
 }
 
-export class ResetRemoveInterestState extends EntityResetAction {
+export class ResetRemoveInterestState extends EntityLoaderResetAction {
   readonly type &#x3D; REMOVE_PRODUCT_INTEREST_RESET;
   constructor() {
     super(PROCESS_FEATURE, REMOVE_PRODUCT_INTERESTS_PROCESS_ID);

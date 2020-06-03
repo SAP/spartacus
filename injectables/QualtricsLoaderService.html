@@ -59,6 +59,20 @@
             <code>projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Service to integration Qualtrics.</p>
+<p>The integration observes the Qualtrics API, and when available, it runs the QSI API
+to let Qualtrics evaluate the application.</p>
+<p>The service supports an additional <em>hook</em> (<code>isDataLoaded()</code>) that can be used to load application
+data before pulling the QSI API. This is beneficial in a single page application when additional
+data is required before the Qualtrics <em>creatives</em> run.</p>
+<p>This service also supports the creation of the Qualtrics deployment script. This is optional, as
+the script can be added in alternatives ways.</p>
+
+            </p>
 
 
 
@@ -75,8 +89,16 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#qsi$">qsi$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#qsiApi">qsiApi</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
-                                <a href="#qualtricsLoaded$">qualtricsLoaded$</a>
+                                <a href="#qsiLoaded$">qsiLoaded$</a>
                             </li>
                         </ul>
                     </td>
@@ -91,7 +113,14 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
+                                <a href="#addScript">addScript</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#hasScript">hasScript</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
                                 <a href="#initialize">initialize</a>
                             </li>
                             <li>
@@ -99,15 +128,8 @@
                                 <a href="#isDataLoaded">isDataLoaded</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#isQualtricsConfigured">isQualtricsConfigured</a>
-                            </li>
-                            <li>
-                                <a href="#load">load</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#setup">setup</a>
+                                    <span class="modifier">Protected</span>
+                                <a href="#run">run</a>
                             </li>
                         </ul>
                     </td>
@@ -117,6 +139,20 @@
 
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#renderer">renderer</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
         </tbody>
     </table>
 </section>
@@ -127,12 +163,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, config: <a href="../classes/QualtricsConfig.html">QualtricsConfig</a>)</code>
+<code>constructor(winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, rendererFactory: <a href="https://angular.io/api/core/RendererFactory2" target="_blank">RendererFactory2</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:53</a></div>
                             </td>
                         </tr>
 
@@ -162,10 +198,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>config</td>
+                                                        <td>rendererFactory</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/QualtricsConfig.html" target="_self" >QualtricsConfig</a></code>
+                                                                        <code><a href="https://angular.io/api/core/RendererFactory2" target="_blank" >RendererFactory2</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -191,10 +227,158 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="addScript"></a>
+                    <span class="name">
+                        <b>
+                            addScript
+                        </b>
+                        <a href="#addScript"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addScript(scriptSource: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:101</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Adds the deployment script to the DOM.</p>
+<p>The script will not be added twice if it was loaded before. In that case, we use
+the Qualtrics API directly to <em>unload</em> and <em>run</em> the project.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>scriptSource</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasScript"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            hasScript
+                        </b>
+                        <a href="#hasScript"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hasScript(source?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:126</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Indicates if the script is already added to the DOM.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>source</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="initialize"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             initialize
                         </b>
                         <a href="#initialize"><span class="icon ion-ios-link"></span></a>
@@ -211,14 +395,18 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:67</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Starts observing the Qualtrics integration. The integration is based on a
+Qualtrics specific event (<code>qsi_js_loaded</code>). As soon as this events happens,
+we run the API.</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -252,17 +440,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:119</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>This logic exist in order to let the client(s) add their own logic to wait for any kind of page data
-If client(s) does not extend this service to override this implementation, it returns true
-Return false otherwise.</p>
+                    <div class="io-description"><p>This logic exist in order to let the client(s) add their own logic to wait for any kind of page data.
+You can observe any data in this method.</p>
+<p>Defaults to true.</p>
 </div>
 
                     <div class="io-description">
@@ -277,118 +465,73 @@ Return false otherwise.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="isQualtricsConfigured"></a>
+                    <a name="run"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
-                            isQualtricsConfigured
+                            <span class="modifier">Protected</span>
+                            run
                         </b>
-                        <a href="#isQualtricsConfigured"><span class="icon ion-ios-link"></span></a>
+                        <a href="#run"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>isQualtricsConfigured()</code>
+                    <code>run(reload)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:46</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:77</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Evaluates the Qualtrics project code for the application.</p>
+<p>In order to reload the evaluation in Qualtrics, the API requires to unload the API before
+running it again. We don&#39;t do this by default, but offer a flag to conditionally unload the API.</p>
+</div>
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>reload</td>
 
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="load"></a>
-                    <span class="name">
-                        <b>
-                            load
-                        </b>
-                        <a href="#load"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>load()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:52</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;boolean&gt;</code>
-
+                    <div>
                     </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="setup"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            setup
-                        </b>
-                        <a href="#setup"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>setup()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:30</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -404,111 +547,287 @@ Return false otherwise.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="qualtricsLoaded$"></a>
+                        <a name="qsi$"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Private</span>
-                            qualtricsLoaded$</b>
-                            <a href="#qualtricsLoaded$"><span class="icon ion-ios-link"></span></a>
+                                <span class="modifier">Protected</span>
+                            qsi$</b>
+                            <a href="#qsi$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>new BehaviorSubject&lt;boolean&gt;(false)</code>
+                            <i>Type : </i>    <code>Observable&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.qsiLoaded$.pipe(
+    switchMap(() &#x3D;&gt; this.isDataLoaded()),
+    map(() &#x3D;&gt; this.winRef?.nativeWindow[&#x27;QSI&#x27;]),
+    filter((api) &#x3D;&gt; Boolean(api)),
+    tap((qsi) &#x3D;&gt; (this.qsiApi &#x3D; qsi))
+  )</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:11</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:48</a></div>
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Emits the Qualtrics Site Intercept (QSI) JavaScript API whenever available.</p>
+<p>The API is emitted when the JavaScript resource holding this API is fully loaded.
+The API is also stored locally in the service, in case it&#39;s required later on.</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="qsiApi"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            qsiApi</b>
+                            <a href="#qsiApi"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:33</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Reference to the QSI API.</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="qsiLoaded$"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            qsiLoaded$</b>
+                            <a href="#qsiLoaded$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.winRef?.nativeWindow
+    ? fromEvent(this.winRef.nativeWindow, QUALTRICS_EVENT_NAME)
+    : of()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:38</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>QSI load event that happens when the QSI JS file is loaded.</p>
+</div>
+                    </td>
+                </tr>
 
             </tbody>
         </table>
 </section>
 
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="renderer"></a>
+                        <span class="name"><b>renderer</b><a href="#renderer"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>renderer()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts:130</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Injectable,
+  isDevMode,
+  Renderer2,
+  RendererFactory2,
+} from &#x27;@angular/core&#x27;;
 import { WindowRef } from &#x27;@spartacus/core&#x27;;
-import { BehaviorSubject, fromEvent, Observable, of } from &#x27;rxjs&#x27;;
-import { distinctUntilChanged, filter, switchMap, tap } from &#x27;rxjs/operators&#x27;;
-import { QualtricsConfig } from &#x27;./config/qualtrics-config&#x27;;
+import { fromEvent, Observable, of } from &#x27;rxjs&#x27;;
+import { filter, map, switchMap, tap } from &#x27;rxjs/operators&#x27;;
 
+export const QUALTRICS_EVENT_NAME &#x3D; &#x27;qsi_js_loaded&#x27;;
+
+/**
+ * Service to integration Qualtrics.
+ *
+ * The integration observes the Qualtrics API, and when available, it runs the QSI API
+ * to let Qualtrics evaluate the application.
+ *
+ * The service supports an additional _hook_ (&#x60;isDataLoaded()&#x60;) that can be used to load application
+ * data before pulling the QSI API. This is beneficial in a single page application when additional
+ * data is required before the Qualtrics _creatives_ run.
+ *
+ * This service also supports the creation of the Qualtrics deployment script. This is optional, as
+ * the script can be added in alternatives ways.
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class QualtricsLoaderService {
-  private qualtricsLoaded$ &#x3D; new BehaviorSubject&lt;boolean&gt;(false);
+  /**
+   * Reference to the QSI API.
+   */
+  protected qsiApi: any;
 
-  constructor(private winRef: WindowRef, private config: QualtricsConfig) {
-    if (
-      Boolean(this.winRef.nativeWindow) &amp;&amp;
-      Boolean(this.winRef.document) &amp;&amp;
-      this.isQualtricsConfigured()
-    ) {
-      this.initialize();
-      this.setup();
-    }
-  }
+  /**
+   * QSI load event that happens when the QSI JS file is loaded.
+   */
+  private qsiLoaded$: Observable&lt;any&gt; &#x3D; this.winRef?.nativeWindow
+    ? fromEvent(this.winRef.nativeWindow, QUALTRICS_EVENT_NAME)
+    : of();
 
-  private initialize(): void {
-    fromEvent(this.winRef.nativeWindow, &#x27;qsi_js_loaded&#x27;).subscribe(() &#x3D;&gt;
-      this.qualtricsLoaded$.next(true)
-    );
-  }
+  /**
+   * Emits the Qualtrics Site Intercept (QSI) JavaScript API whenever available.
+   *
+   * The API is emitted when the JavaScript resource holding this API is fully loaded.
+   * The API is also stored locally in the service, in case it&#x27;s required later on.
+   */
+  protected qsi$: Observable&lt;any&gt; &#x3D; this.qsiLoaded$.pipe(
+    switchMap(() &#x3D;&gt; this.isDataLoaded()),
+    map(() &#x3D;&gt; this.winRef?.nativeWindow[&#x27;QSI&#x27;]),
+    filter((api) &#x3D;&gt; Boolean(api)),
+    tap((qsi) &#x3D;&gt; (this.qsiApi &#x3D; qsi))
+  );
 
-  private setup(): void {
-    const qualtricsScript &#x3D; this.winRef.document.createElement(&#x27;script&#x27;);
-    qualtricsScript.type &#x3D; &#x27;text/javascript&#x27;;
-    qualtricsScript.defer &#x3D; true;
-    qualtricsScript.src &#x3D; &#x27;assets/qualtricsIntegration.js&#x27;;
-
-    const idScript &#x3D; this.winRef.document.createElement(&#x27;div&#x27;);
-    idScript.id &#x3D; this.config.qualtrics.projectId;
-
-    this.winRef.document
-      .getElementsByTagName(&#x27;head&#x27;)[0]
-      .appendChild(qualtricsScript);
-
-    this.winRef.document.getElementsByTagName(&#x27;head&#x27;)[0].appendChild(idScript);
-  }
-
-  private isQualtricsConfigured(): boolean {
-    return (
-      Boolean(this.config.qualtrics) &amp;&amp; Boolean(this.config.qualtrics.projectId)
-    );
-  }
-
-  load(): Observable&lt;boolean&gt; {
-    return this.qualtricsLoaded$.pipe(
-      filter((loaded) &#x3D;&gt; loaded),
-      switchMap(() &#x3D;&gt; {
-        const qsi &#x3D; this.winRef.nativeWindow[&#x27;QSI&#x27;];
-        return this.isDataLoaded().pipe(
-          distinctUntilChanged(),
-          tap((dataLoaded) &#x3D;&gt; {
-            if (dataLoaded) {
-              qsi.API.unload();
-              qsi.API.load().done(qsi.API.run());
-            }
-          })
-        );
-      })
-    );
+  constructor(
+    protected winRef: WindowRef,
+    protected rendererFactory: RendererFactory2
+  ) {
+    this.initialize();
   }
 
   /**
-   * This logic exist in order to let the client(s) add their own logic to wait for any kind of page data
-   * If client(s) does not extend this service to override this implementation, it returns true
-   * Return false otherwise.
+   * Starts observing the Qualtrics integration. The integration is based on a
+   * Qualtrics specific event (&#x60;qsi_js_loaded&#x60;). As soon as this events happens,
+   * we run the API.
+   */
+  protected initialize() {
+    this.qsi$.subscribe(() &#x3D;&gt; this.run());
+  }
+
+  /**
+   * Evaluates the Qualtrics project code for the application.
+   *
+   * In order to reload the evaluation in Qualtrics, the API requires to unload the API before
+   * running it again. We don&#x27;t do this by default, but offer a flag to conditionally unload the API.
+   */
+  protected run(reload &#x3D; false): void {
+    if (!this.qsiApi?.API) {
+      if (isDevMode()) {
+        console.log(&#x27;The QSI api is not available&#x27;);
+      }
+      return;
+    }
+
+    if (reload) {
+      // Removes any currently displaying creatives
+      this.qsiApi.API.unload();
+    }
+
+    // Starts the intercept code evaluation right after loading the Site Intercept
+    // code for any defined intercepts or creatives
+    this.qsiApi.API.load().done(this.qsiApi.API.run());
+  }
+
+  /**
+   * Adds the deployment script to the DOM.
+   *
+   * The script will not be added twice if it was loaded before. In that case, we use
+   * the Qualtrics API directly to _unload_ and _run_ the project.
+   */
+  addScript(scriptSource: string): void {
+    if (this.hasScript(scriptSource)) {
+      this.run(true);
+    } else {
+      const script: HTMLScriptElement &#x3D; this.renderer.createElement(&#x27;script&#x27;);
+      script.type &#x3D; &#x27;text/javascript&#x27;;
+      script.defer &#x3D; true;
+      script.src &#x3D; scriptSource;
+      this.renderer.appendChild(this.winRef.document.body, script);
+    }
+  }
+
+  /**
+   * This logic exist in order to let the client(s) add their own logic to wait for any kind of page data.
+   * You can observe any data in this method.
+   *
+   * Defaults to true.
    */
   protected isDataLoaded(): Observable&lt;boolean&gt; {
     return of(true);
+  }
+
+  /**
+   * Indicates if the script is already added to the DOM.
+   */
+  protected hasScript(source?: string): boolean {
+    return !!this.winRef.document.querySelector(&#x60;script[src&#x3D;&quot;${source}&quot;]&#x60;);
+  }
+
+  protected get renderer(): Renderer2 {
+    return this.rendererFactory.createRenderer(null, null);
   }
 }
 </code></pre>

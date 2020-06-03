@@ -102,12 +102,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, config: <a href="../classes/AuthConfig.html">AuthConfig</a>, occEndpointsService?: <a href="../injectables/OccEndpointsService.html">OccEndpointsService</a>)</code>
+<code>constructor(http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, config: <a href="../injectables/AuthConfig.html">AuthConfig</a>, occEndpointsService: <a href="../injectables/OccEndpointsService.html">OccEndpointsService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/auth/services/user-authentication/user-authentication-token.service.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/auth/services/user-authentication/user-authentication-token.service.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -140,7 +140,7 @@
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/AuthConfig.html" target="_self" >AuthConfig</a></code>
+                                                                        <code><a href="../injectables/AuthConfig.html" target="_self" >AuthConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -156,7 +156,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -196,8 +196,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/core/src/auth/services/user-authentication/user-authentication-token.service.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">projects/core/src/auth/services/user-authentication/user-authentication-token.service.ts:23</a></div>
                 </td>
             </tr>
 
@@ -278,8 +278,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">projects/core/src/auth/services/user-authentication/user-authentication-token.service.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">projects/core/src/auth/services/user-authentication/user-authentication-token.service.ts:40</a></div>
                 </td>
             </tr>
 
@@ -348,8 +348,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">projects/core/src/auth/services/user-authentication/user-authentication-token.service.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">projects/core/src/auth/services/user-authentication/user-authentication-token.service.ts:62</a></div>
                 </td>
             </tr>
 
@@ -414,24 +414,14 @@ import {
 import { AuthConfig } from &#x27;../../config/auth-config&#x27;;
 import { UserToken } from &#x27;../../models/token-types.model&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class UserAuthenticationTokenService {
-  constructor(
-    http: HttpClient,
-    config: AuthConfig,
-    // tslint:disable-next-line:unified-signatures
-    occEndpointsService: OccEndpointsService
-  );
-
-  /**
-   * @deprecated since version 1.1
-   * Use constructor(http: HttpClient, config: AuthConfig, occEndpointsService: OccEndpointsService) instead
-   */
-  constructor(http: HttpClient, config: AuthConfig);
   constructor(
     protected http: HttpClient,
     protected config: AuthConfig,
-    protected occEndpointsService?: OccEndpointsService
+    protected occEndpointsService: OccEndpointsService
   ) {}
 
   loadToken(userId: string, password: string): Observable&lt;UserToken&gt; {

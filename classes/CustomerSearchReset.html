@@ -159,7 +159,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateLoaderActions } from &#x27;../../../state/utils/index&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
 import {
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -171,28 +171,28 @@ export const CUSTOMER_SEARCH_FAIL &#x3D; &#x27;[Asm] Customer Search Fail&#x27;;
 export const CUSTOMER_SEARCH_SUCCESS &#x3D; &#x27;[Asm] Customer Search Success&#x27;;
 export const CUSTOMER_SEARCH_RESET &#x3D; &#x27;[Asm] Customer Search Reset&#x27;;
 
-export class CustomerSearch extends StateLoaderActions.LoaderLoadAction {
+export class CustomerSearch extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; CUSTOMER_SEARCH;
   constructor(public payload: CustomerSearchOptions) {
     super(CUSTOMER_SEARCH_DATA);
   }
 }
 
-export class CustomerSearchFail extends StateLoaderActions.LoaderFailAction {
+export class CustomerSearchFail extends StateUtils.LoaderFailAction {
   readonly type &#x3D; CUSTOMER_SEARCH_FAIL;
   constructor(public payload: any) {
     super(CUSTOMER_SEARCH_DATA);
   }
 }
 
-export class CustomerSearchSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class CustomerSearchSuccess extends StateUtils.LoaderSuccessAction {
   readonly type &#x3D; CUSTOMER_SEARCH_SUCCESS;
   constructor(public payload: CustomerSearchPage) {
     super(CUSTOMER_SEARCH_DATA);
   }
 }
 
-export class CustomerSearchReset extends StateLoaderActions.LoaderResetAction {
+export class CustomerSearchReset extends StateUtils.LoaderResetAction {
   readonly type &#x3D; CUSTOMER_SEARCH_RESET;
   constructor() {
     super(CUSTOMER_SEARCH_DATA);

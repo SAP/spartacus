@@ -166,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/core/src/product/product.module.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/core/src/product/product.module.ts:36</a></div>
                 </td>
             </tr>
 
@@ -190,10 +190,6 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
 import { PageMetaResolver } from &#x27;../cms/page/page-meta.resolver&#x27;;
-import { ProductReferenceService } from &#x27;./facade/product-reference.service&#x27;;
-import { ProductReviewService } from &#x27;./facade/product-review.service&#x27;;
-import { ProductSearchService } from &#x27;./facade/product-search.service&#x27;;
-import { ProductService } from &#x27;./facade/product.service&#x27;;
 import { CategoryPageMetaResolver } from &#x27;./services/category-page-meta.resolver&#x27;;
 import { CouponSearchPageResolver } from &#x27;./services/coupon-search-page-meta.resolver&#x27;;
 import { ProductPageMetaResolver } from &#x27;./services/product-page-meta.resolver&#x27;;
@@ -230,13 +226,7 @@ export class ProductModule {
   static forRoot(): ModuleWithProviders&lt;ProductModule&gt; {
     return {
       ngModule: ProductModule,
-      providers: [
-        ProductService,
-        ProductSearchService,
-        ProductReviewService,
-        ProductReferenceService,
-        ...pageTitleResolvers,
-      ],
+      providers: [...pageTitleResolvers],
     };
   }
 }

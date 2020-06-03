@@ -221,7 +221,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateLoaderActions } from &#x27;../../../state/utils/index&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
 import { OpenIdToken } from &#x27;../../models/kyma-token-types.model&#x27;;
 import { OPEN_ID_TOKEN_DATA } from &#x27;../kyma-state&#x27;;
 
@@ -229,21 +229,21 @@ export const LOAD_OPEN_ID_TOKEN &#x3D; &#x27;[Kyma] Load Open ID Token&#x27;;
 export const LOAD_OPEN_ID_TOKEN_FAIL &#x3D; &#x27;[Kyma] Load Open ID Token Fail&#x27;;
 export const LOAD_OPEN_ID_TOKEN_SUCCESS &#x3D; &#x27;[Kyma] Load Open ID Token Success&#x27;;
 
-export class LoadOpenIdToken extends StateLoaderActions.LoaderLoadAction {
+export class LoadOpenIdToken extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; LOAD_OPEN_ID_TOKEN;
   constructor(public payload: { username: string; password: string }) {
     super(OPEN_ID_TOKEN_DATA);
   }
 }
 
-export class LoadOpenIdTokenFail extends StateLoaderActions.LoaderFailAction {
+export class LoadOpenIdTokenFail extends StateUtils.LoaderFailAction {
   readonly type &#x3D; LOAD_OPEN_ID_TOKEN_FAIL;
   constructor(public payload: any) {
     super(OPEN_ID_TOKEN_DATA, payload);
   }
 }
 
-export class LoadOpenIdTokenSuccess extends StateLoaderActions.LoaderSuccessAction {
+export class LoadOpenIdTokenSuccess extends StateUtils.LoaderSuccessAction {
   readonly type &#x3D; LOAD_OPEN_ID_TOKEN_SUCCESS;
   constructor(public payload: OpenIdToken) {
     super(OPEN_ID_TOKEN_DATA);

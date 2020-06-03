@@ -108,7 +108,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithSiteContext>, config: <a href="../interfaces/SiteContext.html">SiteContextConfig</a>)</code>
+<code>constructor(store: Store<StateWithSiteContext>, config: <a href="../injectables/SiteContextConfig.html">SiteContextConfig</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -146,7 +146,7 @@
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../interfaces/SiteContext.html" target="_self" >SiteContextConfig</a></code>
+                                                                        <code><a href="../injectables/SiteContextConfig.html" target="_self" >SiteContextConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -272,8 +272,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">projects/core/src/site-context/facade/base-site.service.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/core/src/site-context/facade/base-site.service.ts:71</a></div>
                 </td>
             </tr>
 
@@ -413,13 +413,13 @@ import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable, Subscription } from &#x27;rxjs&#x27;;
 import { filter, map, take, tap } from &#x27;rxjs/operators&#x27;;
 import { BaseSite } from &#x27;../../model/misc.model&#x27;;
+import { getContextParameterDefault } from &#x27;../config/context-config-utils&#x27;;
+import { SiteContextConfig } from &#x27;../config/site-context-config&#x27;;
+import { BASE_SITE_CONTEXT_ID } from &#x27;../providers/context-ids&#x27;;
 import { SiteContextActions } from &#x27;../store/actions/index&#x27;;
 import { SiteContextSelectors } from &#x27;../store/selectors/index&#x27;;
 import { StateWithSiteContext } from &#x27;../store/state&#x27;;
 import { SiteContext } from &#x27;./site-context.interface&#x27;;
-import { SiteContextConfig } from &#x27;../config/site-context-config&#x27;;
-import { getContextParameterDefault } from &#x27;../config/context-config-utils&#x27;;
-import { BASE_SITE_CONTEXT_ID } from &#x27;../providers/context-ids&#x27;;
 
 @Injectable()
 export class BaseSiteService implements SiteContext&lt;string&gt; {
@@ -461,6 +461,15 @@ export class BaseSiteService implements SiteContext&lt;string&gt; {
    * Initializes the active baseSite.
    */
   initialize(): void {
+    let value;
+    this.getActive()
+      .subscribe((val) &#x3D;&gt; (value &#x3D; val))
+      .unsubscribe();
+    if (value) {
+      // don&#x27;t initialize, if there is already a value (i.e. retrieved from route or transferred from SSR)
+      return;
+    }
+
     this.setActive(
       getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID)
     );

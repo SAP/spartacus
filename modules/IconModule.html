@@ -169,18 +169,14 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
-import { Config, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
+import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
 import { fontawesomeIconConfig } from &#x27;./fontawesome-icon.config&#x27;;
 import { IconComponent } from &#x27;./icon.component&#x27;;
-import { IconConfig } from &#x27;./icon.model&#x27;;
 
 @NgModule({
   declarations: [IconComponent],
   imports: [CommonModule],
-  providers: [
-    provideDefaultConfig(fontawesomeIconConfig),
-    { provide: IconConfig, useExisting: Config },
-  ],
+  providers: [provideDefaultConfig(fontawesomeIconConfig)],
   exports: [IconComponent],
 })
 export class IconModule {}

@@ -160,6 +160,9 @@
                             <a href="#LanguagesAction" title="projects/core/src/site-context/store/actions/languages.action.ts"><b>LanguagesAction</b>&nbsp;&nbsp;&nbsp;(projects/.../languages.action.ts)</a>
                         </li>
                         <li>
+                            <a href="#LaunchOptions" title="projects/storefrontlib/src/layout/launch-dialog/config/launch-config.ts"><b>LaunchOptions</b>&nbsp;&nbsp;&nbsp;(projects/.../launch-config.ts)</a>
+                        </li>
+                        <li>
                             <a href="#LayoutSections" title="projects/storefrontlib/src/layout/config/layout-config.ts"><b>LayoutSections</b>&nbsp;&nbsp;&nbsp;(projects/.../layout-config.ts)</a>
                         </li>
                         <li>
@@ -167,9 +170,6 @@
                         </li>
                         <li>
                             <a href="#LoginLogoutAction" title="projects/core/src/auth/store/actions/login-logout.action.ts"><b>LoginLogoutAction</b>&nbsp;&nbsp;&nbsp;(projects/.../login-logout.action.ts)</a>
-                        </li>
-                        <li>
-                            <a href="#monthType" title="projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-form/payment-form.component.ts"><b>monthType</b>&nbsp;&nbsp;&nbsp;(projects/.../payment-form.component.ts)</a>
                         </li>
                         <li>
                             <a href="#MultiCartActions" title="projects/core/src/cart/store/actions/multi-cart.action.ts"><b>MultiCartActions</b>&nbsp;&nbsp;&nbsp;(projects/.../multi-cart.action.ts)</a>
@@ -269,9 +269,6 @@
                         </li>
                         <li>
                             <a href="#WishListActions" title="projects/core/src/cart/store/actions/wish-list.action.ts"><b>WishListActions</b>&nbsp;&nbsp;&nbsp;(projects/.../wish-list.action.ts)</a>
-                        </li>
-                        <li>
-                            <a href="#yearType" title="projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-form/payment-form.component.ts"><b>yearType</b>&nbsp;&nbsp;&nbsp;(projects/.../payment-form.component.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -418,7 +415,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>    <code>CreateCart | CreateCartFail | CreateCartSuccess | LoadCart | LoadCartFail | LoadCartSuccess | MergeCart | MergeCartSuccess | ResetCartDetails | AddEmailToCart | AddEmailToCartFail | AddEmailToCartSuccess | DeleteCart | DeleteCartFail | ClearExpiredCoupons | ClearCart</code>
+                    <code>    <code>CreateCart | CreateCartFail | CreateCartSuccess | LoadCart | LoadCartFail | LoadCartSuccess | MergeCart | MergeCartSuccess | ResetCartDetails | AddEmailToCart | AddEmailToCartFail | AddEmailToCartSuccess | DeleteCart | DeleteCartSuccess | DeleteCartFail | RemoveCart</code>
 </code>
                 </td>
             </tr>
@@ -580,7 +577,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>    <code>EntityState&lt;ComponentsContext&gt;</code>
+                    <code>    <code>StateUtils.EntityState&lt;ComponentsContext&gt;</code>
 </code>
                 </td>
             </tr>
@@ -801,7 +798,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>    <code>EntityState&lt;ScopedLoaderState | LoaderState&gt;</code>
+                    <code>    <code>EntityState&lt;ScopedLoaderState&lt;T&gt;&gt;</code>
 </code>
                 </td>
             </tr>
@@ -897,6 +894,24 @@
             </tr>
         </tbody>
     </table>
+</section>    <h3>projects/storefrontlib/src/layout/launch-dialog/config/launch-config.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="LaunchOptions"></a>
+                    <span class="name"><b>LaunchOptions</b><a href="#LaunchOptions"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>LaunchOutletDialog | LaunchInlineDialog | LaunchRoute</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>    <h3>projects/storefrontlib/src/layout/config/layout-config.ts</h3>
     <section>
     <table class="table table-sm table-bordered">
@@ -981,40 +996,6 @@
             </tr>
         </tbody>
     </table>
-</section>    <h3>projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-form/payment-form.component.ts</h3>
-    <section>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="monthType"></a>
-                    <span class="name"><b>monthType</b><a href="#monthType"><span class="icon ion-ios-link"></span></a></span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <code>    <code>literal type</code>
-</code>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="yearType"></a>
-                    <span class="name"><b>yearType</b><a href="#yearType"><span class="icon ion-ios-link"></span></a></span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <code>    <code>literal type</code>
-</code>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>    <h3>projects/core/src/cart/store/actions/multi-cart.action.ts</h3>
     <section>
     <table class="table table-sm table-bordered">
@@ -1027,7 +1008,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>    <code>RemoveTempCart | SetTempCart | LoadMultiCart | LoadMultiCartFail | LoadMultiCartSuccess | MergeMultiCart | MergeMultiCartSuccess | ResetMultiCartDetails | RemoveCart | AddEmailToMultiCart | AddEmailToMultiCartFail | AddEmailToMultiCartSuccess | CartProcessesIncrement | CartProcessesDecrement | SetActiveCartId | ClearMultiCartState</code>
+                    <code>    <code>SetTempCart | CartProcessesIncrement | CartProcessesDecrement | SetActiveCartId | ClearCartState</code>
 </code>
                 </td>
             </tr>
@@ -1313,7 +1294,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >AnonymousConsentsConfig | AuthConfig | CmsConfig | OccConfig | QualtricsConfig | StateConfig | PWAModuleConfig | SiteContextConfig | LayoutConfig | RoutingConfig | I18nConfig | PersonalizationConfig | IconConfig | CheckoutConfig | KymaConfig | GlobalMessageConfig | ExternalRoutesConfig | ViewConfig | FeatureToggles | AsmConfig | SkipLinkConfig | PaginationConfig</a></code>
+                    <code>        <code><a href="../classes/SkipLink.html" target="_self" >AnonymousConsentsConfig | AuthConfig | CmsConfig | OccConfig | QualtricsConfig | StateConfig | PWAModuleConfig | SiteContextConfig | LayoutConfig | MediaConfig | RoutingConfig | I18nConfig | PersonalizationConfig | IconConfig | CheckoutConfig | KymaConfig | GlobalMessageConfig | ExternalRoutesConfig | ViewConfig | FeatureToggles | AsmConfig | SkipLinkConfig | PaginationConfig | StoreFinderConfig | CartConfig</a></code>
 </code>
                 </td>
             </tr>
@@ -1563,7 +1544,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <code>    <code>CreateWishList | CreateWishListSuccess | CreateWishListFail | LoadWishList | LoadWishListSuccess</code>
+                    <code>    <code>CreateWishList | CreateWishListSuccess | CreateWishListFail | LoadWishList | LoadWishListSuccess | LoadWishListFail</code>
 </code>
                 </td>
             </tr>

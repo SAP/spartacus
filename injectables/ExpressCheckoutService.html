@@ -268,8 +268,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="263"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:263</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="291"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:291</a></div>
                 </td>
             </tr>
 
@@ -309,8 +309,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="164"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:164</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="187"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:187</a></div>
                 </td>
             </tr>
 
@@ -350,8 +350,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:113</a></div>
                 </td>
             </tr>
 
@@ -432,8 +432,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="269"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:269</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="297"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:297</a></div>
                 </td>
             </tr>
 
@@ -557,7 +557,7 @@ import {
   PaymentDetails,
   DeliveryMode,
   CheckoutPaymentService,
-  LoaderState,
+  StateUtils,
 } from &#x27;@spartacus/core&#x27;;
 import { CheckoutConfigService } from &#x27;./checkout-config.service&#x27;;
 import { CheckoutDetailsService } from &#x27;./checkout-details.service&#x27;;
@@ -594,7 +594,7 @@ export class ExpressCheckoutService {
         ([, addressesLoadedSuccess]: [
           Address[],
           boolean,
-          LoaderState&lt;void&gt;
+          StateUtils.LoaderState&lt;void&gt;
         ]) &#x3D;&gt; {
           if (!addressesLoadedSuccess) {
             this.userAddressService.loadAddresses();
@@ -602,14 +602,17 @@ export class ExpressCheckoutService {
         }
       ),
       filter(
-        ([, addressesLoadedSuccess]: [Address[], boolean, LoaderState&lt;void&gt;]) &#x3D;&gt;
-          addressesLoadedSuccess
+        ([, addressesLoadedSuccess]: [
+          Address[],
+          boolean,
+          StateUtils.LoaderState&lt;void&gt;
+        ]) &#x3D;&gt; addressesLoadedSuccess
       ),
       switchMap(
         ([addresses, , setDeliveryAddressProcess]: [
           Address[],
           boolean,
-          LoaderState&lt;void&gt;
+          StateUtils.LoaderState&lt;void&gt;
         ]) &#x3D;&gt; {
           const defaultAddress &#x3D;
             addresses.find((address) &#x3D;&gt; address.defaultAddress) || addresses[0];
@@ -624,19 +627,27 @@ export class ExpressCheckoutService {
               this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
             }
             return of(setDeliveryAddressProcess).pipe(
-              filter((setDeliveryAddressProcessState: LoaderState&lt;void&gt;) &#x3D;&gt; {
-                return (
-                  (setDeliveryAddressProcessState.success ||
-                    setDeliveryAddressProcessState.error) &amp;&amp;
-                  !setDeliveryAddressProcessState.loading
-                );
-              }),
-              switchMap((setDeliveryAddressProcessState: LoaderState&lt;void&gt;) &#x3D;&gt; {
-                if (setDeliveryAddressProcessState.success) {
-                  return this.checkoutDetailsService.getDeliveryAddress();
+              filter(
+                (
+                  setDeliveryAddressProcessState: StateUtils.LoaderState&lt;void&gt;
+                ) &#x3D;&gt; {
+                  return (
+                    (setDeliveryAddressProcessState.success ||
+                      setDeliveryAddressProcessState.error) &amp;&amp;
+                    !setDeliveryAddressProcessState.loading
+                  );
                 }
-                return of(false);
-              }),
+              ),
+              switchMap(
+                (
+                  setDeliveryAddressProcessState: StateUtils.LoaderState&lt;void&gt;
+                ) &#x3D;&gt; {
+                  if (setDeliveryAddressProcessState.success) {
+                    return this.checkoutDetailsService.getDeliveryAddress();
+                  }
+                  return of(false);
+                }
+              ),
               map((data) &#x3D;&gt; Boolean(data &amp;&amp; Object.keys(data).length))
             );
           }
@@ -657,7 +668,7 @@ export class ExpressCheckoutService {
         ([, paymentMethodsLoadedSuccess]: [
           PaymentDetails[],
           boolean,
-          LoaderState&lt;void&gt;
+          StateUtils.LoaderState&lt;void&gt;
         ]) &#x3D;&gt; {
           if (!paymentMethodsLoadedSuccess) {
             this.userPaymentService.loadPaymentMethods();
@@ -665,13 +676,17 @@ export class ExpressCheckoutService {
         }
       ),
       filter(
-        ([, success]: [PaymentDetails[], boolean, LoaderState&lt;void&gt;]) &#x3D;&gt; success
+        ([, success]: [
+          PaymentDetails[],
+          boolean,
+          StateUtils.LoaderState&lt;void&gt;
+        ]) &#x3D;&gt; success
       ),
       switchMap(
         ([payments, , setPaymentDetailsProcess]: [
           PaymentDetails[],
           boolean,
-          LoaderState&lt;void&gt;
+          StateUtils.LoaderState&lt;void&gt;
         ]) &#x3D;&gt; {
           const defaultPayment &#x3D;
             payments.find((address) &#x3D;&gt; address.defaultPayment) || payments[0];
@@ -686,19 +701,27 @@ export class ExpressCheckoutService {
               this.checkoutPaymentService.setPaymentDetails(defaultPayment);
             }
             return of(setPaymentDetailsProcess).pipe(
-              filter((setPaymentDetailsProcessState: LoaderState&lt;void&gt;) &#x3D;&gt; {
-                return (
-                  (setPaymentDetailsProcessState.success ||
-                    setPaymentDetailsProcessState.error) &amp;&amp;
-                  !setPaymentDetailsProcessState.loading
-                );
-              }),
-              switchMap((setPaymentDetailsProcessState: LoaderState&lt;void&gt;) &#x3D;&gt; {
-                if (setPaymentDetailsProcessState.success) {
-                  return this.checkoutDetailsService.getPaymentDetails();
+              filter(
+                (
+                  setPaymentDetailsProcessState: StateUtils.LoaderState&lt;void&gt;
+                ) &#x3D;&gt; {
+                  return (
+                    (setPaymentDetailsProcessState.success ||
+                      setPaymentDetailsProcessState.error) &amp;&amp;
+                    !setPaymentDetailsProcessState.loading
+                  );
                 }
-                return of(false);
-              }),
+              ),
+              switchMap(
+                (
+                  setPaymentDetailsProcessState: StateUtils.LoaderState&lt;void&gt;
+                ) &#x3D;&gt; {
+                  if (setPaymentDetailsProcessState.success) {
+                    return this.checkoutDetailsService.getPaymentDetails();
+                  }
+                  return of(false);
+                }
+              ),
               map((data) &#x3D;&gt; Boolean(data &amp;&amp; Object.keys(data).length))
             );
           }
@@ -722,7 +745,12 @@ export class ExpressCheckoutService {
           supportedDeliveryModes,
           setDeliveryModeStatusFlag,
           loadSupportedDeliveryModeStatus,
-        ]: [boolean, DeliveryMode[], LoaderState&lt;void&gt;, LoaderState&lt;void&gt;]) &#x3D;&gt; {
+        ]: [
+          boolean,
+          DeliveryMode[],
+          StateUtils.LoaderState&lt;void&gt;,
+          StateUtils.LoaderState&lt;void&gt;
+        ]) &#x3D;&gt; {
           if (addressSet) {
             return of([
               supportedDeliveryModes,
@@ -732,15 +760,15 @@ export class ExpressCheckoutService {
               filter(
                 ([, , supportedDeliveryModeStatus]: [
                   DeliveryMode[],
-                  LoaderState&lt;void&gt;,
-                  LoaderState&lt;void&gt;
+                  StateUtils.LoaderState&lt;void&gt;,
+                  StateUtils.LoaderState&lt;void&gt;
                 ]) &#x3D;&gt; supportedDeliveryModeStatus.success
               ),
               switchMap(
                 ([deliveryModes, setDeliveryModeStatus, ,]: [
                   DeliveryMode[],
-                  LoaderState&lt;void&gt;,
-                  LoaderState&lt;void&gt;
+                  StateUtils.LoaderState&lt;void&gt;,
+                  StateUtils.LoaderState&lt;void&gt;
                 ]) &#x3D;&gt; {
                   if (Boolean(deliveryModes.length)) {
                     const preferredDeliveryMode &#x3D; this.checkoutConfigService.getPreferredDeliveryMode(
@@ -753,7 +781,7 @@ export class ExpressCheckoutService {
                       tap(
                         ([deliveryMode, deliveryModeLoadingStatus]: [
                           string,
-                          LoaderState&lt;void&gt;
+                          StateUtils.LoaderState&lt;void&gt;
                         ]) &#x3D;&gt; {
                           if (
                             deliveryMode &amp;&amp;
@@ -772,7 +800,7 @@ export class ExpressCheckoutService {
                       filter(
                         ([, deliveryModeLoadingStatus]: [
                           string,
-                          LoaderState&lt;void&gt;
+                          StateUtils.LoaderState&lt;void&gt;
                         ]) &#x3D;&gt; {
                           return (
                             (deliveryModeLoadingStatus.success ||
@@ -784,7 +812,7 @@ export class ExpressCheckoutService {
                       switchMap(
                         ([, deliveryModeLoadingStatus]: [
                           string,
-                          LoaderState&lt;void&gt;
+                          StateUtils.LoaderState&lt;void&gt;
                         ]) &#x3D;&gt; {
                           if (deliveryModeLoadingStatus.success) {
                             return this.checkoutDetailsService.getSelectedDeliveryModeCode();

@@ -113,7 +113,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/product/facade/product.service.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/product/facade/product.service.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -190,8 +190,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:34</a></div>
                 </td>
             </tr>
 
@@ -248,7 +248,7 @@ the data if not needed. You can provide more than one scope.</p>
                                     </td>
 
                                     <td>
-                                        <code>&#x27;&#x27;</code>
+                                        <code>DEFAULT_SCOPE</code>
                                     </td>
 
                                     <td>
@@ -294,8 +294,8 @@ the data if not needed. You can provide more than one scope.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:74</a></div>
                 </td>
             </tr>
 
@@ -384,8 +384,8 @@ the data if not needed. You can provide more than one scope.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:46</a></div>
                 </td>
             </tr>
 
@@ -474,8 +474,8 @@ the data if not needed. You can provide more than one scope.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:60</a></div>
                 </td>
             </tr>
 
@@ -564,8 +564,8 @@ the data if not needed. You can provide more than one scope.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:90</a></div>
                 </td>
             </tr>
 
@@ -649,8 +649,11 @@ import { StateWithProduct } from &#x27;../store/product-state&#x27;;
 import { ProductSelectors } from &#x27;../store/selectors/index&#x27;;
 import { ProductLoadingService } from &#x27;../services/product-loading.service&#x27;;
 import { ProductScope } from &#x27;../model/product-scope&#x27;;
+import { DEFAULT_SCOPE } from &#x27;../../occ/occ-models/occ-endpoints.model&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class ProductService {
   constructor(
     protected store: Store&lt;StateWithProduct&gt;,
@@ -672,7 +675,7 @@ export class ProductService {
    */
   get(
     productCode: string,
-    scopes: (ProductScope | string)[] | ProductScope | string &#x3D; &#x27;&#x27;
+    scopes: (ProductScope | string)[] | ProductScope | string &#x3D; DEFAULT_SCOPE
   ): Observable&lt;Product&gt; {
     return productCode
       ? this.productLoading.get(productCode, [].concat(scopes))

@@ -170,10 +170,24 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { ComponentWrapperDirective } from &#x27;./component-wrapper.directive&#x27;;
+import { ComponentHandler } from &#x27;./handlers/component-handler&#x27;;
+import { DefaultComponentHandler } from &#x27;./handlers/default-component.handler&#x27;;
+import { LazyComponentHandler } from &#x27;./handlers/lazy-component.handler&#x27;;
 
 @NgModule({
   imports: [CommonModule],
-  providers: [],
+  providers: [
+    {
+      provide: ComponentHandler,
+      useExisting: DefaultComponentHandler,
+      multi: true,
+    },
+    {
+      provide: ComponentHandler,
+      useExisting: LazyComponentHandler,
+      multi: true,
+    },
+  ],
   declarations: [ComponentWrapperDirective],
   exports: [ComponentWrapperDirective],
 })

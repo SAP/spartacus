@@ -111,6 +111,13 @@
                                 <a href="#get">get</a>
                             </li>
                             <li>
+                                <a href="#remove">remove</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#removeValueOrAll">removeValueOrAll</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#store">store</a>
                             </li>
@@ -580,6 +587,204 @@ depending on the <code>stacked</code> argument.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="remove"></a>
+                    <span class="name">
+                        <b>
+                            remove
+                        </b>
+                        <a href="#remove"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>remove(outlet: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, position: <a href="../undefineds/OutletPosition.html">OutletPosition</a>, value?: T)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.service.ts:82</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>outlet</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>position</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/enumerations.html#OutletPosition" target="_self" >OutletPosition</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>OutletPosition.REPLACE</code>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                            <code>T</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeValueOrAll"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            removeValueOrAll
+                        </b>
+                        <a href="#removeValueOrAll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeValueOrAll(store: Map<string | T[]>, outlet: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value?: T)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.service.ts:105</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>store</td>
+                                    <td>
+                                            <code>Map&lt;string | T[]&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>outlet</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                            <code>T</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="store"></a>
                     <span class="name">
                         <b>
@@ -600,8 +805,8 @@ depending on the <code>stacked</code> argument.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.service.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet.service.ts:99</a></div>
                 </td>
             </tr>
 
@@ -846,10 +1051,41 @@ export class OutletService&lt;T &#x3D; TemplateRef&lt;any&gt;&gt; {
     return templateRef;
   }
 
+  remove(
+    outlet: string,
+    position: OutletPosition &#x3D; OutletPosition.REPLACE,
+    value?: T
+  ): void {
+    switch (position) {
+      case OutletPosition.BEFORE:
+        this.removeValueOrAll(this.templatesRefsBefore, outlet, value);
+        break;
+      case OutletPosition.AFTER:
+        this.removeValueOrAll(this.templatesRefsAfter, outlet, value);
+        break;
+      default:
+        this.removeValueOrAll(this.templatesRefs, outlet, value);
+    }
+  }
+
   private store(store: Map&lt;string, T[]&gt;, outlet: string, value: T) {
     const existing &#x3D; store.get(outlet) || [];
     const newValue: T[] &#x3D; existing.concat([value]);
     store.set(outlet, newValue);
+  }
+
+  protected removeValueOrAll(
+    store: Map&lt;string, T[]&gt;,
+    outlet: string,
+    value?: T
+  ): void {
+    if (!value &amp;&amp; store.has(outlet)) {
+      store.delete(outlet);
+    } else if (value &amp;&amp; store.has(outlet)) {
+      let existing &#x3D; store.get(outlet);
+      existing &#x3D; existing.filter((val) &#x3D;&gt; val &#x3D;&#x3D;&#x3D; value);
+      store.set(outlet, existing);
+    }
   }
 }
 </code></pre>

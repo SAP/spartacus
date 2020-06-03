@@ -257,8 +257,8 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { ActiveCartService, SelectiveCartService } from &#x27;@spartacus/core&#x27;;
-import { combineLatest, Observable } from &#x27;rxjs&#x27;;
+import { ActiveCartService, Cart, SelectiveCartService } from &#x27;@spartacus/core&#x27;;
+import { combineLatest, Observable, of } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
 import { PageLayoutHandler } from &#x27;../../cms-structure/page/page-layout/page-layout-handler&#x27;;
 
@@ -280,23 +280,28 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
       return combineLatest([
         slots$,
         this.activeCartService.getActive(),
-        this.selectiveCartService.getCart(),
+        this.selectiveCartService.isEnabled()
+          ? this.selectiveCartService.getCart()
+          : of({} as Cart),
+        this.activeCartService.getLoading(),
       ]).pipe(
-        map(([slots, cart, selectiveCart]) &#x3D;&gt; {
-          if (cart.totalItems) {
-            return slots.filter((slot) &#x3D;&gt; slot !&#x3D;&#x3D; &#x27;EmptyCartMiddleContent&#x27;);
-          } else if (selectiveCart.totalItems) {
-            return slots.filter(
-              (slot) &#x3D;&gt;
-                slot !&#x3D;&#x3D; &#x27;EmptyCartMiddleContent&#x27; &amp;&amp;
-                slot !&#x3D;&#x3D; &#x27;CenterRightContentSlot&#x27;
-            );
-          } else {
-            return slots.filter(
-              (slot) &#x3D;&gt;
-                slot !&#x3D;&#x3D; &#x27;TopContent&#x27; &amp;&amp; slot !&#x3D;&#x3D; &#x27;CenterRightContentSlot&#x27;
-            );
-          }
+        map(([slots, cart, selectiveCart, loadingCart]) &#x3D;&gt; {
+          const exclude &#x3D; (arr, args) &#x3D;&gt;
+            arr.filter((item) &#x3D;&gt; args.every((arg) &#x3D;&gt; arg !&#x3D;&#x3D; item));
+          return Object.keys(cart).length &#x3D;&#x3D;&#x3D; 0 &amp;&amp; loadingCart
+            ? exclude(slots, [
+                &#x27;TopContent&#x27;,
+                &#x27;CenterRightContentSlot&#x27;,
+                &#x27;EmptyCartMiddleContent&#x27;,
+              ])
+            : cart.totalItems
+            ? exclude(slots, [&#x27;EmptyCartMiddleContent&#x27;])
+            : selectiveCart.totalItems
+            ? exclude(slots, [
+                &#x27;EmptyCartMiddleContent&#x27;,
+                &#x27;CenterRightContentSlot&#x27;,
+              ])
+            : exclude(slots, [&#x27;TopContent&#x27;, &#x27;CenterRightContentSlot&#x27;]);
         })
       );
     }

@@ -112,7 +112,7 @@ can be used to implement pre-loading and deferred loading of DOM content.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../classes/LayoutConfig.html">LayoutConfig</a>)</code>
+<code>constructor(config: <a href="../injectables/LayoutConfig.html">LayoutConfig</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -138,7 +138,7 @@ can be used to implement pre-loading and deferred loading of DOM content.</p>
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../classes/LayoutConfig.html" target="_self" >LayoutConfig</a></code>
+                                                                        <code><a href="../injectables/LayoutConfig.html" target="_self" >LayoutConfig</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -177,7 +177,7 @@ can be used to implement pre-loading and deferred loading of DOM content.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getRootMargin(options?: <a href="../interfaces/IntersectionOptions.html">IntersectionOptions</a>)</code>
+                    <code>getRootMargin(options: <a href="../interfaces/IntersectionOptions.html">IntersectionOptions</a>)</code>
                 </td>
             </tr>
 
@@ -201,6 +201,7 @@ can be used to implement pre-loading and deferred loading of DOM content.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -211,9 +212,12 @@ can be used to implement pre-loading and deferred loading of DOM content.</p>
                                     </td>
 
                                     <td>
-                                        Yes
+                                        No
                                     </td>
 
+                                    <td>
+                                        <code>{}</code>
+                                    </td>
 
                                 </tr>
                             </tbody>
@@ -222,7 +226,7 @@ can be used to implement pre-loading and deferred loading of DOM content.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                     </div>
                     <div class="io-description">
@@ -249,7 +253,7 @@ can be used to implement pre-loading and deferred loading of DOM content.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>intersects(element: HTMLElement, options?: <a href="../interfaces/IntersectionOptions.html">IntersectionOptions</a>)</code>
+                    <code>intersects(element: HTMLElement, options: <a href="../interfaces/IntersectionOptions.html">IntersectionOptions</a>)</code>
                 </td>
             </tr>
 
@@ -279,6 +283,7 @@ to introduce additional (css) render effects to the UI.</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -292,6 +297,8 @@ to introduce additional (css) render effects to the UI.</p>
                                         No
                                     </td>
 
+                                    <td>
+                                    </td>
 
                                 </tr>
                                 <tr>
@@ -301,9 +308,12 @@ to introduce additional (css) render effects to the UI.</p>
                                     </td>
 
                                     <td>
-                                        Yes
+                                        No
                                     </td>
 
+                                    <td>
+                                        <code>{}</code>
+                                    </td>
 
                                 </tr>
                             </tbody>
@@ -354,7 +364,7 @@ to introduce additional (css) render effects to the UI.</p>
                 <td class="col-md-4">
                     <div class="io-description"><p>Returns an Observable that emits only once a boolean value whenever
 the given element has shown in the view port.</p>
-<p>The returned obervable will only emit the first value. The
+<p>The returned observable will only emit the first value. The
 observable must be cleaned up either way, since the value might never emit; it
   depends on whether the element appears in the view port.</p>
 </div>
@@ -437,7 +447,7 @@ export class IntersectionService {
    * Returns an Observable that emits only once a boolean value whenever
    * the given element has shown in the view port.
    *
-   * The returned obervable will only emit the first value. The
+   * The returned observable will only emit the first value. The
    * observable must be cleaned up either way, since the value might never emit; it
    *  depends on whether the element appears in the view port.
    */
@@ -458,11 +468,11 @@ export class IntersectionService {
    */
   private intersects(
     element: HTMLElement,
-    options?: IntersectionOptions
+    options: IntersectionOptions &#x3D; {}
   ): Observable&lt;boolean&gt; {
     const elementVisible$ &#x3D; new Observable((observer) &#x3D;&gt; {
       const rootMargin &#x3D; this.getRootMargin(options);
-      const intersectOptions &#x3D; { rootMargin };
+      const intersectOptions &#x3D; { rootMargin, threshold: options.threshold };
       const intersectionObserver &#x3D; new IntersectionObserver((entries) &#x3D;&gt; {
         observer.next(entries);
       }, intersectOptions);
@@ -479,7 +489,7 @@ export class IntersectionService {
     return elementVisible$;
   }
 
-  private getRootMargin(options?: IntersectionOptions) {
+  private getRootMargin(options: IntersectionOptions &#x3D; {}): string {
     if (options.rootMargin) {
       return options.rootMargin;
     }

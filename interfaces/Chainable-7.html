@@ -153,11 +153,12 @@ declare global {
 }
 
 Cypress.Commands.add(&#x27;requireProductAddedToCart&#x27;, (auth) &#x3D;&gt; {
-  const apiUrl &#x3D; Cypress.env(&#x27;API_URL&#x27;);
   function createCart() {
     return cy.request({
       method: &#x27;POST&#x27;,
-      url: &#x60;${apiUrl}/rest/v2/electronics-spa/users/current/carts&#x60;,
+      url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
+        &#x27;OCC_PREFIX&#x27;
+      )}/${Cypress.env(&#x27;BASE_SITE&#x27;)}/users/current/carts&#x60;,
       body: {
         fields: &#x27;DEFAULT&#x27;,
       },
@@ -171,7 +172,9 @@ Cypress.Commands.add(&#x27;requireProductAddedToCart&#x27;, (auth) &#x3D;&gt; {
   function addToCart(cartCode: any, productData: any) {
     return cy.request({
       method: &#x27;POST&#x27;,
-      url: &#x60;${apiUrl}/rest/v2/electronics-spa/users/current/carts/${cartCode}/entries&#x60;,
+      url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
+        &#x27;OCC_PREFIX&#x27;
+      )}/${Cypress.env(&#x27;BASE_SITE&#x27;)}/users/current/carts/${cartCode}/entries&#x60;,
       body: {
         code: productData.code,
         qty: 1,

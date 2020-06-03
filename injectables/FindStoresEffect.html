@@ -209,7 +209,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/core/src/store-finder/store/effects/find-stores.effect.ts:55</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/core/src/store-finder/store/effects/find-stores.effect.ts:56</a></div>
                             </td>
                         </tr>
 
@@ -244,7 +244,8 @@
         .search(
           payload.queryText,
           payload.searchConfig,
-          payload.longitudeLatitude
+          payload.longitudeLatitude,
+          payload.radius
         )
         .pipe(
           map((data) &#x3D;&gt; {
@@ -322,7 +323,8 @@ export class FindStoresEffect {
         .search(
           payload.queryText,
           payload.searchConfig,
-          payload.longitudeLatitude
+          payload.longitudeLatitude,
+          payload.radius
         )
         .pipe(
           map((data) &#x3D;&gt; {

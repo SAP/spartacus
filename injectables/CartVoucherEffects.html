@@ -210,8 +210,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="106"
-                            class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:106</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:98</a></div>
                 </td>
             </tr>
 
@@ -322,30 +322,22 @@
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
             return new CartActions.CartAddVoucherSuccess({
-              userId: payload.userId,
-              cartId: payload.cartId,
+              ...payload,
             });
           }),
-          catchError((error) &#x3D;&gt; {
-            if (error?.error?.errors) {
-              error.error.errors.forEach((err) &#x3D;&gt; {
-                if (err.message) {
-                  this.messageService.add(
-                    err.message,
-                    GlobalMessageType.MSG_TYPE_ERROR
-                  );
-                }
-              });
-            }
-            return from([
-              new CartActions.CartAddVoucherFail(makeErrorSerializable(error)),
+          catchError((error) &#x3D;&gt;
+            from([
+              new CartActions.CartAddVoucherFail({
+                ...payload,
+                error: makeErrorSerializable(error),
+              }),
               new CartActions.CartProcessesDecrement(payload.cartId),
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
-            ]);
-          })
+            ])
+          )
         );
     })
   )</code>
@@ -438,7 +430,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:67</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/core/src/cart/store/effects/cart-voucher.effect.ts:59</a></div>
                             </td>
                         </tr>
 
@@ -488,30 +480,22 @@ export class CartVoucherEffects {
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
             return new CartActions.CartAddVoucherSuccess({
-              userId: payload.userId,
-              cartId: payload.cartId,
+              ...payload,
             });
           }),
-          catchError((error) &#x3D;&gt; {
-            if (error?.error?.errors) {
-              error.error.errors.forEach((err) &#x3D;&gt; {
-                if (err.message) {
-                  this.messageService.add(
-                    err.message,
-                    GlobalMessageType.MSG_TYPE_ERROR
-                  );
-                }
-              });
-            }
-            return from([
-              new CartActions.CartAddVoucherFail(makeErrorSerializable(error)),
+          catchError((error) &#x3D;&gt;
+            from([
+              new CartActions.CartAddVoucherFail({
+                ...payload,
+                error: makeErrorSerializable(error),
+              }),
               new CartActions.CartProcessesDecrement(payload.cartId),
               new CartActions.LoadCart({
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
-            ]);
-          })
+            ])
+          )
         );
     })
   );

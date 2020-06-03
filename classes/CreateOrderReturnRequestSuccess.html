@@ -319,7 +319,7 @@ import {
   LoaderSuccessAction,
   LoaderResetAction,
 } from &#x27;../../../state/utils/loader/loader.action&#x27;;
-import { StateEntityLoaderActions } from &#x27;../../../state/utils/index&#x27;;
+import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
 import { PROCESS_FEATURE } from &#x27;../../../process/store/process-state&#x27;;
 
 export const CREATE_ORDER_RETURN_REQUEST &#x3D; &#x27;[User] Create Order Return Request&#x27;;
@@ -407,7 +407,7 @@ export class LoadOrderReturnRequestSuccess extends LoaderSuccessAction {
   }
 }
 
-export class CancelOrderReturnRequest extends StateEntityLoaderActions.EntityLoadAction {
+export class CancelOrderReturnRequest extends StateUtils.EntityLoadAction {
   readonly type &#x3D; CANCEL_ORDER_RETURN_REQUEST;
   constructor(
     public payload: {
@@ -420,14 +420,14 @@ export class CancelOrderReturnRequest extends StateEntityLoaderActions.EntityLoa
   }
 }
 
-export class CancelOrderReturnRequestFail extends StateEntityLoaderActions.EntityFailAction {
+export class CancelOrderReturnRequestFail extends StateUtils.EntityFailAction {
   readonly type &#x3D; CANCEL_ORDER_RETURN_REQUEST_FAIL;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID, payload);
   }
 }
 
-export class CancelOrderReturnRequestSuccess extends StateEntityLoaderActions.EntitySuccessAction {
+export class CancelOrderReturnRequestSuccess extends StateUtils.EntitySuccessAction {
   readonly type &#x3D; CANCEL_ORDER_RETURN_REQUEST_SUCCESS;
   constructor() {
     super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID);
@@ -476,7 +476,7 @@ export class ClearOrderReturnRequestList extends LoaderResetAction {
   }
 }
 
-export class ResetCancelReturnProcess extends StateEntityLoaderActions.EntityResetAction {
+export class ResetCancelReturnProcess extends StateUtils.EntityLoaderResetAction {
   readonly type &#x3D; RESET_CANCEL_RETURN_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, CANCEL_RETURN_PROCESS_ID);

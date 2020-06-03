@@ -90,6 +90,54 @@
     </table>
 </section>
 
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(smartEditService: <a href="../injectables/SmartEditService.html">SmartEditService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:9</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>smartEditService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SmartEditService.html" target="_self" >SmartEditService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
 
             <section>
     
@@ -111,15 +159,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addDynamicAttributes(properties: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, element: Element, renderer: <a href="https://angular.io/api/core/Renderer2" target="_blank">Renderer2</a>)</code>
+<code>addDynamicAttributes(element: Element, renderer: <a href="https://angular.io/api/core/Renderer2" target="_blank">Renderer2</a>, cmsRenderingContext: literal type)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:20</a></div>
                 </td>
             </tr>
 
@@ -127,7 +175,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Add dynamic attributes to DOM. These attributes are extracted from the properties of cms items received from backend.
-There can by many different groups of properties, one of them is smaredit. But EC allows addons to create different groups.
+There can by many different groups of properties, one of them is smartedit. But EC allows addons to create different groups.
 For example, personalization may add &#39;script&#39; group etc.</p>
 </div>
 
@@ -143,22 +191,6 @@ For example, personalization may add &#39;script&#39; group etc.</p>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>properties</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>: properties in each cms item response data</p>
-
-                                    </td>
-                                </tr>
                                 <tr>
                                     <td>element</td>
                                     <td>
@@ -189,6 +221,22 @@ For example, personalization may add &#39;script&#39; group etc.</p>
                                     <td>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>cmsRenderingContext</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>: an object containing properties in each cms item response data</p>
+
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -212,25 +260,37 @@ For example, personalization may add &#39;script&#39; group etc.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Renderer2 } from &#x27;@angular/core&#x27;;
+import { SmartEditService } from &#x27;../../smart-edit/services/smart-edit.service&#x27;;
+import { ContentSlotComponentData } from &#x27;../model/content-slot-component-data.model&#x27;;
+import { ContentSlotData } from &#x27;../model/content-slot-data.model&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class DynamicAttributeService {
+  constructor(protected smartEditService: SmartEditService) {}
+
   /**
    * Add dynamic attributes to DOM. These attributes are extracted from the properties of cms items received from backend.
-   * There can by many different groups of properties, one of them is smaredit. But EC allows addons to create different groups.
+   * There can by many different groups of properties, one of them is smartedit. But EC allows addons to create different groups.
    * For example, personalization may add &#x27;script&#x27; group etc.
-   * @param properties: properties in each cms item response data
    * @param element: slot or cms component element
    * @param renderer
+   * @param cmsRenderingContext: an object containing properties in each cms item response data
    */
   addDynamicAttributes(
-    properties: any,
     element: Element,
-    renderer: Renderer2
+    renderer: Renderer2,
+    cmsRenderingContext: {
+      componentData?: ContentSlotComponentData;
+      slotData?: ContentSlotData;
+    }
   ): void {
-    if (properties) {
+    const properties &#x3D;
+      cmsRenderingContext.componentData?.properties ||
+      cmsRenderingContext.slotData?.properties;
+
+    if (properties &amp;&amp; this.smartEditService.isLaunchedInSmartEdit()) {
       // check each group of properties, e.g. smartedit
       Object.keys(properties).forEach((group) &#x3D;&gt; {
         const name &#x3D; &#x27;data-&#x27; + group + &#x27;-&#x27;;

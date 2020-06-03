@@ -59,13 +59,6 @@
             <code>projects/storefrontlib/src/cms-structure/services/cms-routes.service.ts</code>
         </p>
 
-            <p class="comment">
-                <h3>Description</h3>
-            </p>
-            <p class="comment">
-                <p>Please don&#39;t put that service in public API.</p>
-
-            </p>
 
 
 
@@ -83,14 +76,8 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#cmsRouteExist">cmsRouteExist</a>
-                            </li>
-                            <li>
+                                    <span class="modifier">Abstract</span>
                                 <a href="#handleCmsRoutesInGuard">handleCmsRoutesInGuard</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#updateRouting">updateRouting</a>
                             </li>
                         </ul>
                     </td>
@@ -104,66 +91,6 @@
     </table>
 </section>
 
-            <section>
-    <h3 id="constructor">Constructor</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-<code>constructor(router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, cmsMapping: <a href="../injectables/CmsMappingService.html">CmsMappingService</a>)</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-routes.service.ts:13</a></div>
-                            </td>
-                        </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                            <div>
-                                    <b>Parameters :</b>
-                                    <table class="params">
-                                        <thead>
-                                            <tr>
-                                                <td>Name</td>
-                                                    <td>Type</td>
-                                                <td>Optional</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td>router</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>cmsMapping</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/CmsMappingService.html" target="_self" >CmsMappingService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-</section>
 
             <section>
     
@@ -174,79 +101,10 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="cmsRouteExist"></a>
-                    <span class="name">
-                        <b>
-                            cmsRouteExist
-                        </b>
-                        <a href="#cmsRouteExist"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>cmsRouteExist(url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-routes.service.ts:16</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>url</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="handleCmsRoutesInGuard"></a>
                     <span class="name">
                         <b>
+                            <span class="modifier">Abstract</span>
                             handleCmsRoutesInGuard
                         </b>
                         <a href="#handleCmsRoutesInGuard"><span class="icon ion-ios-link"></span></a>
@@ -255,25 +113,22 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>handleCmsRoutesInGuard(pageContext: <a href="../interfaces/Page.html">PageContext</a>, componentTypes: string[], currentUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, currentPageLabel: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleCmsRoutesInGuard(pageContext: <a href="../interfaces/Page.html">PageContext</a>, componentTypes: string[], currentUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, currentPageLabel: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-routes.service.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-routes.service.ts:12</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Contains Cms driven routing logic intended for use use in guards, especially in canActivate method.</p>
-<p>Will return true, when logic wont have to modify routing (so canActivate could be easily resolved to true)
-or will return false, when routing configuration was updated and redirection to newly generated route was initiated.</p>
-</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -350,102 +205,6 @@ or will return false, when routing configuration was updated and redirection to 
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="updateRouting"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            updateRouting
-                        </b>
-                        <a href="#updateRouting"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateRouting(pageContext: <a href="../interfaces/Page.html">PageContext</a>, pageLabel: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, routes: Route[])</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/services/cms-routes.service.ts:61</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>pageContext</td>
-                                    <td>
-                                                <code><a href="../interfaces/Page.html" target="_self" >PageContext</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>pageLabel</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>routes</td>
-                                    <td>
-                                            <code>Route[]</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>
 
     </div>
@@ -453,93 +212,22 @@ or will return false, when routing configuration was updated and redirection to 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Route, Router } from &#x27;@angular/router&#x27;;
-import { CmsRoute, PageContext, PageType } from &#x27;@spartacus/core&#x27;;
-import { PageLayoutComponent } from &#x27;../page/page-layout/page-layout.component&#x27;;
-import { CmsMappingService } from &#x27;./cms-mapping.service&#x27;;
+import { PageContext } from &#x27;@spartacus/core&#x27;;
+import { CmsRoutesImplService } from &#x27;./cms-routes-impl.service&#x27;;
 
-/**
- * Please don&#x27;t put that service in public API.
- * */
+// Public injection token for the private implementation of the service &#x60;CmsRoutesImplService&#x60;.
+// After #7070, this class should be replaced with a real implementation.
 @Injectable({
   providedIn: &#x27;root&#x27;,
+  useExisting: CmsRoutesImplService,
 })
-export class CmsRoutesService {
-  constructor(private router: Router, private cmsMapping: CmsMappingService) {}
-
-  cmsRouteExist(url: string): boolean {
-    const isCmsDrivenRoute &#x3D; url.startsWith(&#x27;/&#x27;);
-
-    if (!isCmsDrivenRoute) {
-      return false;
-    }
-
-    const routePath &#x3D; url.substr(1);
-
-    return (
-      isCmsDrivenRoute &amp;&amp;
-      !!this.router.config.find(
-        (route: CmsRoute) &#x3D;&gt;
-          route.data &amp;&amp; route.data.cxCmsRouteContext &amp;&amp; route.path &#x3D;&#x3D;&#x3D; routePath
-      )
-    );
-  }
-
-  /**
-   * Contains Cms driven routing logic intended for use use in guards, especially in canActivate method.
-   *
-   * Will return true, when logic wont have to modify routing (so canActivate could be easily resolved to true)
-   * or will return false, when routing configuration was updated and redirection to newly generated route was initiated.
-   *
-   * @param pageContext
-   * @param currentUrl
-   */
-  handleCmsRoutesInGuard(
+export abstract class CmsRoutesService {
+  abstract handleCmsRoutesInGuard(
     pageContext: PageContext,
     componentTypes: string[],
     currentUrl: string,
     currentPageLabel: string
-  ): boolean {
-    const componentRoutes &#x3D; this.cmsMapping.getRoutesForComponents(
-      componentTypes
-    );
-    if (componentRoutes.length) {
-      if (this.updateRouting(pageContext, currentPageLabel, componentRoutes)) {
-        this.router.navigateByUrl(currentUrl);
-        return false;
-      }
-    }
-    return true;
-  }
-
-  private updateRouting(
-    pageContext: PageContext,
-    pageLabel: string,
-    routes: Route[]
-  ): boolean {
-    if (
-      pageContext.type &#x3D;&#x3D;&#x3D; PageType.CONTENT_PAGE &amp;&amp;
-      pageLabel.startsWith(&#x27;/&#x27;) &amp;&amp;
-      pageLabel.length &gt; 1
-    ) {
-      const newRoute: CmsRoute &#x3D; {
-        path: pageLabel.substr(1),
-        component: PageLayoutComponent,
-        children: routes,
-        data: {
-          cxCmsRouteContext: {
-            type: pageContext.type,
-            id: pageLabel,
-          },
-        },
-      };
-
-      this.router.resetConfig([newRoute, ...this.router.config]);
-      return true;
-    }
-
-    return false;
-  }
+  ): boolean;
 }
 </code></pre>
     </div>

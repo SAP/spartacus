@@ -174,10 +174,6 @@
                             <li>
                                 <a href="#updatePersonalDetails">updatePersonalDetails</a>
                             </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#withUserId">withUserId</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -1888,78 +1884,6 @@ concludes, regardless if it&#39;s a success or an error</p>
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="withUserId"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            withUserId
-                        </b>
-                        <a href="#withUserId"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>withUserId(callback: (userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="346"
-                            class="link-to-prism">projects/core/src/user/facade/user.service.ts:346</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>callback</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>
 
     </div>
@@ -1969,7 +1893,7 @@ concludes, regardless if it&#39;s a success or an error</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { take, tap } from &#x27;rxjs/operators&#x27;;
+import { tap } from &#x27;rxjs/operators&#x27;;
 import { AuthService } from &#x27;../../auth/facade/auth.service&#x27;;
 import { Title, User, UserSignUp } from &#x27;../../model/misc.model&#x27;;
 import { OCC_USER_ID_ANONYMOUS } from &#x27;../../occ/index&#x27;;
@@ -2015,7 +1939,7 @@ export class UserService {
    * Loads the user&#x27;s details
    */
   load(): void {
-    this.withUserId((userId) &#x3D;&gt; {
+    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
       if (userId !&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS) {
         this.store.dispatch(new UserActions.LoadUserDetails(userId));
       }
@@ -2079,9 +2003,9 @@ export class UserService {
    * Remove user account, that&#x27;s also called close user&#x27;s account
    */
   remove(): void {
-    this.withUserId((userId) &#x3D;&gt;
-      this.store.dispatch(new UserActions.RemoveUser(userId))
-    );
+    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
+      this.store.dispatch(new UserActions.RemoveUser(userId));
+    });
   }
 
   /**
@@ -2145,14 +2069,14 @@ export class UserService {
    * @param userDetails to be updated
    */
   updatePersonalDetails(userDetails: User): void {
-    this.withUserId((userId) &#x3D;&gt;
+    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.UpdateUserDetails({
           username: userId,
           userDetails,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -2211,15 +2135,15 @@ export class UserService {
    * Updates the user&#x27;s email
    */
   updateEmail(password: string, newUid: string): void {
-    this.withUserId((userId) &#x3D;&gt;
+    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.UpdateEmailAction({
           uid: userId,
           password,
           newUid,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -2262,15 +2186,15 @@ export class UserService {
    * @param newPassword the new password
    */
   updatePassword(oldPassword: string, newPassword: string): void {
-    this.withUserId((userId) &#x3D;&gt;
+    this.authService.invokeWithUserId((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.UpdatePassword({
           userId,
           oldPassword,
           newPassword,
         })
-      )
-    );
+      );
+    });
   }
 
   /**
@@ -2306,16 +2230,6 @@ export class UserService {
    */
   resetUpdatePasswordProcessState(): void {
     this.store.dispatch(new UserActions.UpdatePasswordReset());
-  }
-
-  /*
-   * Utility method to distinquish user id in a convenient way
-   */
-  private withUserId(callback: (userId: string) &#x3D;&gt; void): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe((userId) &#x3D;&gt; callback(userId));
   }
 }
 </code></pre>

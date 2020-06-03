@@ -1563,16 +1563,16 @@ export class CheckoutDeliveryService {
         .subscribe((occUserId) &#x3D;&gt; (userId &#x3D; occUserId))
         .unsubscribe();
 
-      let cart;
+      let cartId;
       this.activeCartService
-        .getActive()
-        .subscribe((activeCart) &#x3D;&gt; (cart &#x3D; activeCart))
+        .getActiveCartId()
+        .subscribe((activeCartId) &#x3D;&gt; (cartId &#x3D; activeCartId))
         .unsubscribe();
-      if (cart &amp;&amp; userId) {
+      if (cartId &amp;&amp; userId) {
         this.checkoutStore.dispatch(
           new CheckoutActions.SetDeliveryAddress({
             userId,
-            cartId: cart.code,
+            cartId,
             address: address,
           })
         );

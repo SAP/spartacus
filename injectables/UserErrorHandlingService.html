@@ -114,7 +114,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/core/src/auth/services/user-error/user-error-handling.service.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/auth/services/user-error/user-error-handling.service.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -193,8 +193,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">projects/core/src/auth/services/user-error/user-error-handling.service.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">projects/core/src/auth/services/user-error/user-error-handling.service.ts:55</a></div>
                 </td>
             </tr>
 
@@ -277,8 +277,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/core/src/auth/services/user-error/user-error-handling.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">projects/core/src/auth/services/user-error/user-error-handling.service.ts:29</a></div>
                 </td>
             </tr>
 
@@ -318,8 +318,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">projects/core/src/auth/services/user-error/user-error-handling.service.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/core/src/auth/services/user-error/user-error-handling.service.ts:34</a></div>
                 </td>
             </tr>
 
@@ -359,8 +359,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">projects/core/src/auth/services/user-error/user-error-handling.service.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/core/src/auth/services/user-error/user-error-handling.service.ts:18</a></div>
                 </td>
             </tr>
 
@@ -433,7 +433,9 @@ import { RoutingService } from &#x27;../../../routing/facade/routing.service&#x2
 import { AuthService } from &#x27;../../facade/auth.service&#x27;;
 import { UserToken } from &#x27;../../models/token-types.model&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class UserErrorHandlingService {
   constructor(
     protected authService: AuthService,

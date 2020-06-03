@@ -160,7 +160,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PROCESS_FEATURE } from &#x27;../../../process/store/process-state&#x27;;
-import { StateEntityLoaderActions } from &#x27;../../../state/utils/index&#x27;;
+import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
 import { UPDATE_EMAIL_PROCESS_ID } from &#x27;../user-state&#x27;;
 
 export const UPDATE_EMAIL &#x3D; &#x27;[User] Update Email&#x27;;
@@ -168,7 +168,7 @@ export const UPDATE_EMAIL_ERROR &#x3D; &#x27;[User] Update Email Error&#x27;;
 export const UPDATE_EMAIL_SUCCESS &#x3D; &#x27;[User] Update Email Success&#x27;;
 export const RESET_EMAIL &#x3D; &#x27;[User] Reset Email&#x27;;
 
-export class UpdateEmailAction extends StateEntityLoaderActions.EntityLoadAction {
+export class UpdateEmailAction extends StateUtils.EntityLoadAction {
   readonly type &#x3D; UPDATE_EMAIL;
   constructor(
     public payload: {
@@ -181,21 +181,21 @@ export class UpdateEmailAction extends StateEntityLoaderActions.EntityLoadAction
   }
 }
 
-export class UpdateEmailSuccessAction extends StateEntityLoaderActions.EntitySuccessAction {
+export class UpdateEmailSuccessAction extends StateUtils.EntitySuccessAction {
   readonly type &#x3D; UPDATE_EMAIL_SUCCESS;
   constructor(public newUid: string) {
     super(PROCESS_FEATURE, UPDATE_EMAIL_PROCESS_ID);
   }
 }
 
-export class UpdateEmailErrorAction extends StateEntityLoaderActions.EntityFailAction {
+export class UpdateEmailErrorAction extends StateUtils.EntityFailAction {
   readonly type &#x3D; UPDATE_EMAIL_ERROR;
   constructor(public payload: any) {
     super(PROCESS_FEATURE, UPDATE_EMAIL_PROCESS_ID, payload);
   }
 }
 
-export class ResetUpdateEmailAction extends StateEntityLoaderActions.EntityResetAction {
+export class ResetUpdateEmailAction extends StateUtils.EntityLoaderResetAction {
   readonly type &#x3D; RESET_EMAIL;
   constructor() {
     super(PROCESS_FEATURE, UPDATE_EMAIL_PROCESS_ID);

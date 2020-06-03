@@ -195,15 +195,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>callOccFindStores(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/StoreFinderSearchConfig.html">StoreFinderSearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>)</code>
+                    <code>callOccFindStores(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/StoreFinderSearchConfig.html">StoreFinderSearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">projects/core/src/occ/adapters/store-finder/occ-store-finder.adapter.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/core/src/occ/adapters/store-finder/occ-store-finder.adapter.ts:63</a></div>
                 </td>
             </tr>
 
@@ -258,6 +258,18 @@
 
 
                                 </tr>
+                                <tr>
+                                    <td>radius</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -296,8 +308,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">projects/core/src/occ/adapters/store-finder/occ-store-finder.adapter.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">projects/core/src/occ/adapters/store-finder/occ-store-finder.adapter.ts:55</a></div>
                 </td>
             </tr>
 
@@ -366,8 +378,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/core/src/occ/adapters/store-finder/occ-store-finder.adapter.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">projects/core/src/occ/adapters/store-finder/occ-store-finder.adapter.ts:44</a></div>
                 </td>
             </tr>
 
@@ -398,7 +410,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>search(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/StoreFinderSearchConfig.html">StoreFinderSearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>)</code>
+<code>search(query: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig: <a href="../interfaces/StoreFinderSearchConfig.html">StoreFinderSearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html">GeoPoint</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -461,6 +473,18 @@
 
 
                                 </tr>
+                                <tr>
+                                    <td>radius</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -515,11 +539,15 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
   search(
     query: string,
     searchConfig: StoreFinderSearchConfig,
-    longitudeLatitude?: GeoPoint
+    longitudeLatitude?: GeoPoint,
+    radius?: number
   ): Observable&lt;StoreFinderSearchPage&gt; {
-    return this.callOccFindStores(query, searchConfig, longitudeLatitude).pipe(
-      this.converterService.pipeable(STORE_FINDER_SEARCH_PAGE_NORMALIZER)
-    );
+    return this.callOccFindStores(
+      query,
+      searchConfig,
+      longitudeLatitude,
+      radius
+    ).pipe(this.converterService.pipeable(STORE_FINDER_SEARCH_PAGE_NORMALIZER));
   }
 
   loadCounts(): Observable&lt;StoreCount[]&gt; {
@@ -544,17 +572,19 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
   protected callOccFindStores(
     query: string,
     searchConfig: StoreFinderSearchConfig,
-    longitudeLatitude?: GeoPoint
+    longitudeLatitude?: GeoPoint,
+    radius?: number
   ): Observable&lt;Occ.StoreFinderSearchPage&gt; {
     const params &#x3D; {};
 
     if (longitudeLatitude) {
       params[&#x27;longitude&#x27;] &#x3D; String(longitudeLatitude.longitude);
       params[&#x27;latitude&#x27;] &#x3D; String(longitudeLatitude.latitude);
-      params[&#x27;radius&#x27;] &#x3D; String(&#x27;10000000&#x27;);
+      params[&#x27;radius&#x27;] &#x3D; String(radius);
     } else {
       params[&#x27;query&#x27;] &#x3D; query;
     }
+
     if (searchConfig.pageSize) {
       params[&#x27;pageSize&#x27;] &#x3D; String(searchConfig.pageSize);
     }
