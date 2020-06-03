@@ -1,13 +1,12 @@
-<div class="col-md-12 col-lg-6">
-  <div class="col-md-12 col-lg-6 float-right">
-    <a
-      [routerLink]="{ cxRoute: 'costCenterCreate' } | cxUrl"
-      class="btn btn-primary btn-block"
-    >
-      {{ 'costCentersList.create' | cxTranslate }}
-    </a>
-  </div>
-</div>
+<h3>
+  {{ 'orgUnitsList.orgUnitManagement' | cxTranslate }}
+  <a
+    [routerLink]="{ cxRoute: 'costCenterCreate' } | cxUrl"
+    class="btn btn-primary btn-block"
+  >
+    {{ 'costCentersList.create' | cxTranslate }}
+  </a>
+</h3>
 
 <cx-interactive-table
   [data$]="data$"

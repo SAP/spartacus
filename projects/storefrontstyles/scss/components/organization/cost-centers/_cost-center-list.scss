@@ -1,5 +1,12 @@
 @import '../organization-list';
+@import 'node_modules/bootstrap/scss/buttons';
 
 %cx-cost-center-list {
+  /* TODO: we can make this more generic for reusability cross b2b org */
+  h3 {
+    display: flex;
+    justify-content: space-between;
+  }
+
   @extend %cx-organization-list;
 }
