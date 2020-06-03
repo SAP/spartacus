@@ -400,6 +400,7 @@ export const organization = {
       administrator: 'Administrator',
     },
     title: 'Title',
+    assignAprover: 'Add user to the approver list for this user',
   },
 
   userGroupsList: {

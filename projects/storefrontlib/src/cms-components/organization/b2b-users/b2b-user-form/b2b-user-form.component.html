@@ -158,6 +158,20 @@
             </span>
           </label>
         </div>
+
+        <div class="form-check" *ngIf="isApprover()">
+          <label>
+            <input
+              type="checkbox"
+              class="form-check-input"
+              formControlName="isAssignedToApprovers"
+              [checked]="isApprover()"
+            />
+            <span class="form-check-label">{{
+              'b2bUserForm.assignAprover' | cxTranslate
+            }}</span>
+          </label>
+        </div>
       </div>
     </div>
   </div>

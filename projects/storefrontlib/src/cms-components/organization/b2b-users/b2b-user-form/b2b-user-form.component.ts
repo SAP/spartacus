@@ -58,6 +58,7 @@ export class B2BUserFormComponent extends AbstractFormComponent
       }),
       roles: this.fb.array([]),
       titleCode: [''],
+      isAssignedToApprovers: false,
     });
 
     this.roles = this.initRoles(this.b2bUserData);
@@ -115,6 +116,17 @@ export class B2BUserFormComponent extends AbstractFormComponent
         }
         i++;
       });
+    }
+  }
+
+  isApprover() {
+    const roles = this.form.get('roles').value;
+
+    if (roles.includes('b2bapprovergroup')) {
+      this.form.get('isAssignedToApprovers').setValue(true);
+      return true;
+    } else {
+      return false;
     }
   }
 }
