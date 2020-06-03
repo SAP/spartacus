@@ -478,6 +478,10 @@ export const organization = {
     status: 'Status',
     active: 'Enabled',
     deactivated: 'Disabled',
+    confirmDeactivation: {
+      title: 'Disable User',
+      message: 'Are you sure you want to disable this user?',
+    },
   },
   userPermissions: {
     header: 'Purchase limits assigned to {{code}}',
