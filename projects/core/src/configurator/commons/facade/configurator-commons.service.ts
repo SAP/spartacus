@@ -152,15 +152,20 @@ export class ConfiguratorCommonsService {
 
   public getConfigurationWithOverview(
     configuration: Configurator.Configuration
-  ) {
-    this.store.dispatch(
-      new ConfiguratorActions.GetConfigurationOverview(configuration)
-    );
-
+  ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
-      )
+      ),
+      filter((config) => this.isConfigurationCreated(config)),
+      tap((configurationState) => {
+        if (!this.hasConfigurationOverview(configurationState)) {
+          this.store.dispatch(
+            new ConfiguratorActions.GetConfigurationOverview(configuration)
+          );
+        }
+      }),
+      filter((config) => this.hasConfigurationOverview(config))
     );
   }
 
@@ -265,6 +270,12 @@ export class ConfiguratorCommonsService {
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
     const configId: String = configuration?.configId;
     return configId !== undefined && configId.length !== 0;
+  }
+
+  protected hasConfigurationOverview(
+    configuration: Configurator.Configuration
+  ): boolean {
+    return configuration.overview !== undefined;
   }
 
   createConfigurationExtract(

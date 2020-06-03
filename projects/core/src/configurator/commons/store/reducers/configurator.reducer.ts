@@ -18,6 +18,7 @@ export function reducer(
     case ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS: {
       const result: Configurator.Configuration = takeOverChanges(action, state);
       result.isCartEntryUpdateRequired = true;
+      result.overview = undefined;
       return result;
     }
     case ConfiguratorActions.UPDATE_CART_ENTRY: {

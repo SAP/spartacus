@@ -109,6 +109,7 @@ describe('Configurator reducer', () => {
       expect(state.configId).toEqual(configuration.configId);
       expect(state.productCode).toEqual(configuration.productCode);
     });
+
     it('should set attribute that states that a cart update is required', () => {
       const action: ConfiguratorAction = new UpdateConfigurationFinalizeSuccess(
         configuration
@@ -116,6 +117,19 @@ describe('Configurator reducer', () => {
       const state = StateReduce.reducer(undefined, action);
 
       expect(state.isCartEntryUpdateRequired).toEqual(true);
+    });
+
+    it('should remove the overview facet in order to trigger a re-read later on', () => {
+      const action: ConfiguratorAction = new UpdateConfigurationFinalizeSuccess(
+        configuration
+      );
+      const configurationWithOverview: Configurator.Configuration = {
+        configId: 'A',
+        overview: {},
+      };
+      const state = StateReduce.reducer(configurationWithOverview, action);
+
+      expect(state.overview).toBeUndefined();
     });
   });
 
