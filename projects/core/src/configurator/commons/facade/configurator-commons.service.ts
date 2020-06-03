@@ -21,9 +21,11 @@ export class ConfiguratorCommonsService {
   ) {}
 
   /**
-   * Verifies whether there are any configuration changes are pending.
+   * Verifies whether there are any pending configuration changes.
    *
    * @param owner - Configuration owner
+   *
+   * @returns {Observable<Boolean>} Returns true if there are any pending configuration changes, otherwise false
    */
   public hasPendingChanges(
     owner: GenericConfigurator.Owner
@@ -37,6 +39,8 @@ export class ConfiguratorCommonsService {
    * Verifies whether the configuration is loading.
    *
    * @param owner - Configuration owner
+   *
+   * @returns {Observable<Boolean>} Returns true if the configuration is loading, otherwise false
    */
   public isConfigurationLoading(
     owner: GenericConfigurator.Owner
@@ -55,6 +59,8 @@ export class ConfiguratorCommonsService {
    * Returns the configuration.
    *
    * @param owner - Configuration owner
+   *
+   * @returns {Observable<Configurator.Configuration>}
    */
   public getConfiguration(
     owner: GenericConfigurator.Owner
@@ -69,6 +75,8 @@ export class ConfiguratorCommonsService {
    * Returns a configuration if it exists or creates a new one.
    *
    * @param owner - Configuration owner
+   *
+   * @returns {Observable<Configurator.Configuration>}
    */
   public getOrCreateConfiguration(
     owner: GenericConfigurator.Owner
@@ -107,6 +115,11 @@ export class ConfiguratorCommonsService {
     );
   }
 
+  /**
+   * Reads the configuration for the cart entry.
+   *
+   * @param owner - Configuration owner
+   */
   public readConfigurationForCartEntry(owner: GenericConfigurator.Owner) {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const readFromCartEntryParameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
@@ -176,6 +189,8 @@ export class ConfiguratorCommonsService {
    * Returns a UI state if it exists or creates a new one.
    *
    * @param owner - Configuration owner
+   *
+   * @returns {Observable<UiState>}
    */
   public getOrCreateUiState(
     owner: GenericConfigurator.Owner
@@ -195,6 +210,8 @@ export class ConfiguratorCommonsService {
    * Returns a UI state.
    *
    * @param owner - Configuration owner
+   *
+   * @returns {Observable<UiState>}
    */
   public getUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
     return this.store.pipe(
@@ -234,7 +251,7 @@ export class ConfiguratorCommonsService {
   }
 
   /**
-   * Adds a configuration to the add, specified by the product code, a configuration ID and configuration owner key.
+   * Adds a configuration to the cart, specified by the product code, a configuration ID and configuration owner key.
    *
    * @param productCode - Product code
    * @param configId - Configuration ID

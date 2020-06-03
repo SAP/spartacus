@@ -24,6 +24,8 @@ export class ConfiguratorTextfieldService {
    * Creates a textfield configuration, specified by the configuration owner.
    *
    * @param owner - Configuration owner
+   *
+   * @returns {Observable<ConfiguratorTextfield.Configuration>}
    */
   public createConfiguration(
     owner: GenericConfigurator.Owner
@@ -61,7 +63,7 @@ export class ConfiguratorTextfieldService {
   }
 
   /**
-   * Adds the textfield configuration to the card, specified by its product code.
+   * Adds the textfield configuration to the cart, specified by its product code.
    *
    * @param productCode - Product code
    */
@@ -97,6 +99,8 @@ export class ConfiguratorTextfieldService {
    * Returns a textfield configuration from a cart entry.
    *
    * @param owner - Configuration owner
+   *
+   * @returns {Observable<ConfiguratorTextfield.Configuration>}
    */
   public readConfigurationForCartEntry(
     owner: GenericConfigurator.Owner
