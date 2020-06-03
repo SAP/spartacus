@@ -24,7 +24,7 @@ class MockSpinnerComponent {}
 class MockPaymentTypeService {
   readonly ACCOUNT_PAYMENT = 'ACCOUNT';
   getSelectedPaymentType(): Observable<string> {
-    return of('ACCOUNT');
+    return of(this.ACCOUNT_PAYMENT);
   }
   getPoNumber(): Observable<string> {
     return of('cart-po');

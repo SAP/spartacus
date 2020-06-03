@@ -27,10 +27,11 @@ export interface CardWithAddress {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShippingAddressComponent implements OnInit {
-  paymentType = '';
   addressFormOpened = false;
   forceLoader = false; // this helps with smoother steps transition
   selectedAddress: Address;
+  doneAutoSelect = false;
+  isAccountPayment = false;
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -46,13 +47,6 @@ export class ShippingAddressComponent implements OnInit {
 
   get isGuestCheckout(): boolean {
     return this.activeCartService.isGuestCart();
-  }
-
-  get isAccount(): boolean {
-    if (this.paymentTypeService) {
-      return this.paymentType === this.paymentTypeService.ACCOUNT_PAYMENT;
-    }
-    return false;
   }
 
   get backBtnText(): string {
@@ -89,7 +83,7 @@ export class ShippingAddressComponent implements OnInit {
       this.translation.translate('addressCard.selected'),
     ]).pipe(
       tap(([addresses, selected]) =>
-        this.selectDefaultAddress(this.isAccount, addresses, selected)
+        this.selectDefaultAddress(addresses, selected)
       ),
       map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
         (<any>addresses).map((address) => ({
@@ -107,7 +101,7 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   getSupportedAddresses(): Observable<Address[] | B2BAddress[]> {
-    if (this.isAccount) {
+    if (this.isAccountPayment) {
       let costCenterId: string;
       this.checkoutCostCenterService
         .getCostCenter()
@@ -119,35 +113,37 @@ export class ShippingAddressComponent implements OnInit {
     }
   }
 
-  selectDefaultAddress(
-    isAccount: boolean,
-    addresses: Address[] | B2BAddress[],
-    selected: Address
-  ) {
+  selectDefaultAddress(addresses: Address[] | B2BAddress[], selected: Address) {
     if (
+      !this.doneAutoSelect &&
       addresses &&
       addresses.length &&
       (!selected || Object.keys(selected).length === 0)
     ) {
-      if (isAccount) {
+      if (this.isAccountPayment) {
         if (addresses.length === 1) {
           selected = addresses[0];
           this.selectAddress(selected);
         }
       } else {
         selected = addresses.find((address) => address.defaultAddress);
-        this.selectAddress(selected);
+        if (selected) {
+          this.selectAddress(selected);
+        }
       }
+      this.doneAutoSelect = true;
     }
   }
 
   ngOnInit(): void {
-    this.paymentTypeService
-      .getSelectedPaymentType()
-      .pipe(take(1))
-      .subscribe((selected) => (this.paymentType = selected));
+    if (this.paymentTypeService) {
+      this.paymentTypeService
+        .isAccountPayment()
+        .pipe(take(1))
+        .subscribe((isAccount) => (this.isAccountPayment = isAccount));
+    }
 
-    if (!this.isGuestCheckout && !this.isAccount) {
+    if (!this.isGuestCheckout && !this.isAccountPayment) {
       this.userAddressService.loadAddresses();
     }
   }

@@ -137,6 +137,13 @@ describe('PaymentTypeService', () => {
     );
   });
 
+  it('should be able to get whether the selected payment type is ACCOUNT', () => {
+    store.dispatch(new CheckoutActions.SetPaymentTypeSuccess(cart));
+    let isAccount = false;
+    service.isAccountPayment().subscribe((data) => (isAccount = data));
+    expect(isAccount).toEqual(true);
+  });
+
   it('should be able to get po number if data exist', () => {
     store.dispatch(new CheckoutActions.SetPaymentTypeSuccess(cart));
 

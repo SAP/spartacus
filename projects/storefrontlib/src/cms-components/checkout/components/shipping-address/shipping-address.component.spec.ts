@@ -50,13 +50,10 @@ class MockCheckoutStepService {
   }
 }
 
-const paymentType: BehaviorSubject<string> = new BehaviorSubject<string>(
-  'ACCOUNT'
-);
+const isAccount: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 class MockPaymentTypeService {
-  readonly ACCOUNT_PAYMENT = 'ACCOUNT';
-  getSelectedPaymentType(): Observable<string> {
-    return paymentType;
+  isAccountPayment(): Observable<boolean> {
+    return isAccount;
   }
 }
 
@@ -200,39 +197,39 @@ fdescribe('ShippingAddressComponent', () => {
     expect(component.isGuestCheckout).toBeFalsy();
   });
 
-  it('should get isAccount', () => {
-    paymentType.next('CARD');
+  it('should get isAccountPayment', () => {
+    isAccount.next(false);
     component.ngOnInit();
-    expect(component.isAccount).toBeFalsy();
+    expect(component.isAccountPayment).toBeFalsy();
 
-    paymentType.next('ACCOUNT');
+    isAccount.next(true);
     component.ngOnInit();
-    expect(component.isAccount).toBeTruthy();
+    expect(component.isAccountPayment).toBeTruthy();
   });
 
   describe('should call ngOnInit', () => {
     it('for login user, should load user addresses if payment type is card', () => {
       spyOn(userAddressService, 'loadAddresses').and.stub();
-      paymentType.next('CARD');
+      isAccount.next(false);
 
       component.ngOnInit();
-      expect(component.paymentType).toEqual('CARD');
+      expect(component.isAccountPayment).toBeFalsy();
       expect(userAddressService.loadAddresses).toHaveBeenCalled();
     });
 
     it('for login user, should not load user addresses if payment type is account', () => {
       spyOn(userAddressService, 'loadAddresses').and.stub();
-      paymentType.next('ACCOUNT');
+      isAccount.next(true);
 
       component.ngOnInit();
-      expect(component.paymentType).toEqual('ACCOUNT');
+      expect(component.isAccountPayment).toBeTruthy();
       expect(userAddressService.loadAddresses).not.toHaveBeenCalled();
     });
 
     it('for guest user, should not load user addresses', () => {
       spyOn(activeCartService, 'isGuestCart').and.returnValue(true);
       spyOn(userAddressService, 'loadAddresses').and.stub();
-      paymentType.next('CARD');
+      isAccount.next(false);
 
       component.ngOnInit();
       expect(userAddressService.loadAddresses).not.toHaveBeenCalled();
@@ -301,12 +298,16 @@ fdescribe('ShippingAddressComponent', () => {
 
   describe('should automatically select default shipping address when there is no current selection', () => {
     it('if payment type is credit card', () => {
-      component.selectDefaultAddress(false, mockAddresses, undefined);
+      component.isAccountPayment = false;
+      component.doneAutoSelect = false;
+      component.selectDefaultAddress(mockAddresses, undefined);
       expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
     });
 
     it('if payment type is account', () => {
-      component.selectDefaultAddress(true, [{ id: 'test addrss' }], undefined);
+      component.isAccountPayment = true;
+      component.doneAutoSelect = false;
+      component.selectDefaultAddress([{ id: 'test addrss' }], undefined);
       expect(component.selectAddress).toHaveBeenCalledWith({
         id: 'test addrss',
       });
@@ -316,7 +317,7 @@ fdescribe('ShippingAddressComponent', () => {
   describe('should be able to get supported address', () => {
     it('for ACCOUNT payment', () => {
       spyOn(userCostCenterService, 'getCostCenterAddresses').and.stub();
-      paymentType.next('ACCOUNT');
+      isAccount.next(true);
       component.ngOnInit();
       component.getSupportedAddresses();
       expect(userCostCenterService.getCostCenterAddresses).toHaveBeenCalledWith(
@@ -326,7 +327,7 @@ fdescribe('ShippingAddressComponent', () => {
 
     it('for CARD payment', () => {
       spyOn(userAddressService, 'getAddresses').and.stub();
-      paymentType.next('CARD');
+      isAccount.next(false);
       component.ngOnInit();
       component.getSupportedAddresses();
       expect(userAddressService.getAddresses).toHaveBeenCalled();
