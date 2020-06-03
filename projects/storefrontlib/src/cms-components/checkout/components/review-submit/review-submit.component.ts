@@ -17,7 +17,7 @@ import {
   CheckoutCostCenterService,
   UserCostCenterService,
 } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, tap, filter } from 'rxjs/operators';
 import { CheckoutStep } from '../../model/checkout-step.model';
 import { Card } from '../../../../shared/components/card/card.component';

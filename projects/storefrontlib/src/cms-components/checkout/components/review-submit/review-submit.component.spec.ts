@@ -17,6 +17,10 @@ import {
   PaymentDetails,
   PromotionLocation,
   UserAddressService,
+  PaymentTypeService,
+  CheckoutCostCenterService,
+  UserCostCenterService,
+  CostCenter,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../..';
@@ -99,7 +103,6 @@ class MockCheckoutPaymentService {
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
   }
-
   paymentProcessSuccess(): void {}
 }
 
@@ -127,8 +130,40 @@ const mockCheckoutStep: CheckoutStep = {
 };
 
 class MockCheckoutStepService {
+  steps$ = of([
+    {
+      id: 'step1',
+      name: 'step1',
+      routeName: 'route1',
+      type: [CheckoutStepType.PO_NUMBER],
+    },
+    {
+      id: 'step2',
+      name: 'step2',
+      routeName: 'route2',
+      type: [CheckoutStepType.REVIEW_ORDER],
+    },
+  ]);
   getCheckoutStep(): CheckoutStep {
     return mockCheckoutStep;
+  }
+}
+
+class MockPaymentTypeService {
+  getPoNumber(): Observable<string> {
+    return of('test-po');
+  }
+}
+
+class MockCheckoutCostCenterService {
+  getCostCenter(): Observable<string> {
+    return of('test-cost-center');
+  }
+}
+
+class MockUserCostCenterService {
+  getActiveCostCenters(): Observable<CostCenter[]> {
+    return of([{ code: 'test-cost-center', name: 'test-cc-name' }]);
   }
 }
 
@@ -187,6 +222,18 @@ describe('ReviewSubmitComponent', () => {
           useClass: MockPromotionService,
         },
         {
+          provide: PaymentTypeService,
+          useClass: MockPaymentTypeService,
+        },
+        {
+          provide: CheckoutCostCenterService,
+          useClass: MockCheckoutCostCenterService,
+        },
+        {
+          provide: UserCostCenterService,
+          useClass: MockUserCostCenterService,
+        },
+        {
           provide: FeaturesConfig,
           useValue: {
             features: { level: '1.3' },
@@ -210,10 +257,7 @@ describe('ReviewSubmitComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get cart in ngOnInit', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
+  it('should be able to get cart', () => {
     let cart: Cart;
     component.cart$.subscribe((data: Cart) => {
       cart = data;
@@ -222,10 +266,7 @@ describe('ReviewSubmitComponent', () => {
     expect(cart).toEqual(mockCart);
   });
 
-  it('should get entries in ngOnInit', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
+  it('should be able to get entries', () => {
     let entries: OrderEntry[];
     component.entries$.subscribe((data: OrderEntry[]) => {
       entries = data;
@@ -234,10 +275,25 @@ describe('ReviewSubmitComponent', () => {
     expect(entries).toEqual(mockEntries);
   });
 
-  it('should get deliveryAddress in ngOnInit', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
+  it('should be able to get steps', () => {
+    let steps: CheckoutStep[];
+    component.steps$.subscribe((data) => (steps = data));
 
+    expect(steps[0]).toEqual({
+      id: 'step1',
+      name: 'step1',
+      routeName: 'route1',
+      type: [CheckoutStepType.PO_NUMBER],
+    });
+    expect(steps[1]).toEqual({
+      id: 'step2',
+      name: 'step2',
+      routeName: 'route2',
+      type: [CheckoutStepType.REVIEW_ORDER],
+    });
+  });
+
+  it('should be able to get deliveryAddress', () => {
     let deliveryAddress: Address;
     component.deliveryAddress$.subscribe((data: Address) => {
       deliveryAddress = data;
@@ -246,10 +302,7 @@ describe('ReviewSubmitComponent', () => {
     expect(deliveryAddress).toEqual(mockAddress);
   });
 
-  it('should get paymentDetails in ngOnInit', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
+  it('should be able to get paymentDetails', () => {
     let paymentDetails: PaymentDetails;
     component.paymentDetails$.subscribe((data: PaymentDetails) => {
       paymentDetails = data;
@@ -258,10 +311,7 @@ describe('ReviewSubmitComponent', () => {
     expect(paymentDetails).toEqual(mockPaymentDetails);
   });
 
-  it('should get deliveryMode in ngOnInit if a mode is selected', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
+  it('should be able to get deliveryMode if a mode is selected', () => {
     let deliveryMode: DeliveryMode;
     component.deliveryMode$.subscribe((data: DeliveryMode) => {
       deliveryMode = data;
@@ -270,26 +320,39 @@ describe('ReviewSubmitComponent', () => {
     expect(deliveryMode).toEqual(mockDeliveryMode);
   });
 
-  it('should load deliveryModes in ngOnInit if no modes selected', () => {
+  it('should be able to load deliveryModes if no modes selected', () => {
     deliveryModeBS.next(null);
-    component.ngOnInit();
-    fixture.detectChanges();
-
+    component.deliveryMode$.subscribe();
     expect(
       mockCheckoutDeliveryService.loadSupportedDeliveryModes
     ).toHaveBeenCalled();
   });
 
-  it('should get country in ngOnInit', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-
+  it('should be able to get country', () => {
     let countryName: string;
     component.countryName$.subscribe((data: string) => {
       countryName = data;
     });
 
     expect(countryName).toEqual(mockAddress.country.name);
+  });
+
+  it('should be able to get po number', () => {
+    let po: string;
+    component.poNumber$.subscribe((data: string) => {
+      po = data;
+    });
+
+    expect(po).toEqual('test-po');
+  });
+
+  it('should be able to get cost center name', () => {
+    let costCenterName: string;
+    component.costCenterName$.subscribe((data: string) => {
+      costCenterName = data;
+    });
+
+    expect(costCenterName).toEqual('test-cc-name');
   });
 
   it('should call getShippingAddressCard(deliveryAddress, countryName) to get address card data', () => {
@@ -332,6 +395,14 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
+  it('should call getPoNumberCard(po, costCenter) to get po card data', () => {
+    component.getPoNumberCard('test-po', 'test-cc').subscribe((card) => {
+      expect(card.title).toEqual('checkoutProgress.poNumber');
+      expect(card.textBold).toEqual('test-po');
+      expect(card.text).toEqual(['cost center: test-cc']);
+    });
+  });
+
   it('should get checkout step url', () => {
     expect(
       component.getCheckoutStepUrl(CheckoutStepType.SHIPPING_ADDRESS)
@@ -343,16 +414,13 @@ describe('ReviewSubmitComponent', () => {
       fixture.debugElement.query(By.css('.cx-review-cart-total')).nativeElement
         .textContent;
 
-    beforeEach(() => {
-      component.ngOnInit();
-      fixture.detectChanges();
-    });
-
     it('should contain total number of items', () => {
+      fixture.detectChanges();
       expect(getCartTotalText()).toContain(123);
     });
 
     it('should contain total price', () => {
+      fixture.detectChanges();
       expect(getCartTotalText()).toContain('$999.98');
     });
   });
@@ -360,11 +428,6 @@ describe('ReviewSubmitComponent', () => {
   describe('child cx-cart-item-list component', () => {
     const getCartItemList = () =>
       fixture.debugElement.query(By.css('cx-cart-item-list')).componentInstance;
-
-    beforeEach(() => {
-      component.ngOnInit();
-      fixture.detectChanges();
-    });
 
     it('should receive items attribute with cart entires', () => {
       fixture.detectChanges();

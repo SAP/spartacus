@@ -9,7 +9,7 @@ import {
   take,
   map,
 } from 'rxjs/operators';
-import { PaymentType, Cart } from '../../model/cart.model';
+import { PaymentType } from '../../model/cart.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
