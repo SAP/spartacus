@@ -1,8 +1,4 @@
 <ng-container class="container" *ngIf="data$ | async as data">
-  <div class="row">
-    <ng-content></ng-content>
-  </div>
-
   <div class="cx-table-body">
     <ng-container *ngIf="data.values?.length > 0; else noData">
       <div class="cx-sort top row">
