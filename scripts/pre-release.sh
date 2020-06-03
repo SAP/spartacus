@@ -42,7 +42,7 @@ function generate_docs {
 }
 
 function zipSamplesAddOn {
-    echo "--> Generating Spartacus samples addon zips"
+    echo "--> Generating Spartacus samples addon archives"
     delete_dir spartacussampledataaddon
     git clone https://github.tools.sap/cx-commerce/spartacussampledataaddon.git
     cd spartacussampledataaddon
