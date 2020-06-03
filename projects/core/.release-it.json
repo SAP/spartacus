@@ -18,9 +18,9 @@
       "../../docs.tar.gz",
       "../../docs.zip",
       "../../spartacussampledataaddon.zip",
-      "../../spartacussampledataaddon.tar"
+      "../../spartacussampledataaddon.tar.gz"
     ],
     "releaseName": "@spartacus/core@${version}",
-    "releaseNotes": "cd ../.. && npm run --silent release-notes:core -- --to core-${version}"
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib core --to core-${version}"
   }
 }

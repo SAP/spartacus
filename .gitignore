@@ -13,11 +13,9 @@ test-results.xml
 docs.tar.gz
 docs.zip
 
-# spartacussampleaddon
-spartacussampleaddon.zip
-spartacussampleaddon.tar.gz
+# spartacussampledataaddon
 spartacussampledataaddon.zip
-spartacussampledataaddon.tar
+spartacussampledataaddon.tar.gz
 
 # dependencies
 node_modules/
