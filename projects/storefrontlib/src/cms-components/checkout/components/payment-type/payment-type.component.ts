@@ -11,7 +11,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentTypeComponent {
-  readonly ACCOUNT_PAYMENT = 'ACCOUNT';
+  readonly ACCOUNT_PAYMENT = this.paymentTypeService.ACCOUNT_PAYMENT;
 
   paymentTypes$: Observable<
     PaymentType[]

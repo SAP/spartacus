@@ -7,7 +7,7 @@ import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserCostCenterService } from './user-cost-center.service';
-import { CostCenter } from '../../model/org-unit.model';
+import { CostCenter, B2BAddress } from '../../model/org-unit.model';
 
 const userId = 'testUserId';
 class MockAuthService {
@@ -79,5 +79,22 @@ describe('PaymentTypeService', () => {
       .unsubscribe();
     expect(costCenter).toEqual(undefined);
     expect(service.loadActiveCostCenters).toHaveBeenCalled();
+  });
+
+  it('should be able to get the unit addresses of the cost center', () => {
+    store.dispatch(
+      new UserActions.LoadActiveCostCentersSuccess([
+        { code: 'account', unit: { addresses: [{ id: 'test-address' }] } },
+      ])
+    );
+
+    let addresses: B2BAddress[];
+    service
+      .getCostCenterAddresses('account')
+      .subscribe((data) => {
+        addresses = data;
+      })
+      .unsubscribe();
+    expect(addresses).toEqual([{ id: 'test-address' }]);
   });
 });

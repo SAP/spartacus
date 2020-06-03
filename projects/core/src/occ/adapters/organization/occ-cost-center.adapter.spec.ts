@@ -105,6 +105,9 @@ describe('OccCostCenterAdapter', () => {
       );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.params.get('fields')).toEqual(
+        'DEFAULT,unit(BASIC,addresses(DEFAULT))'
+      );
       mockReq.flush([costCenter]);
       expect(converterService.pipeable).toHaveBeenCalledWith(
         COST_CENTERS_NORMALIZER

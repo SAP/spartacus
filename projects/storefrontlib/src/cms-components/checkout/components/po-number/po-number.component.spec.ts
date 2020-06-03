@@ -22,8 +22,9 @@ import createSpy = jasmine.createSpy;
 class MockSpinnerComponent {}
 
 class MockPaymentTypeService {
+  readonly ACCOUNT_PAYMENT = 'ACCOUNT';
   getSelectedPaymentType(): Observable<string> {
-    return of('ACCOUNT');
+    return of(this.ACCOUNT_PAYMENT);
   }
   getPoNumber(): Observable<string> {
     return of('cart-po');
@@ -104,6 +105,7 @@ describe('PoNumberComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PoNumberComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should be created', () => {
@@ -134,7 +136,7 @@ describe('PoNumberComponent', () => {
   });
 
   it('should go to next step if cart assigned cost center is the same as cost selected', () => {
-    component['allowRedirect'] = false;
+    component.allowRedirect = false;
     component.costCenterId = 'cart-cost-center';
 
     component.cartCostCenter$.subscribe();
@@ -167,7 +169,7 @@ describe('PoNumberComponent', () => {
     expect(checkoutCostCenterService.setCostCenter).toHaveBeenCalledWith(
       'cost-center'
     );
-    expect(component['allowRedirect']).toBeFalse();
+    expect(component.allowRedirect).toBeFalse();
   });
 
   it('should be able to go to previous step', () => {
@@ -184,8 +186,6 @@ describe('PoNumberComponent', () => {
     it('should call "back" function after being clicked', () => {
       spyOn(component, 'back');
       getContinueBtn().nativeElement.click();
-      fixture.detectChanges();
-
       expect(component.back).toHaveBeenCalled();
     });
   });
@@ -197,8 +197,6 @@ describe('PoNumberComponent', () => {
     it('should call "next" function after being clicked', () => {
       spyOn(component, 'next');
       getContinueBtn().nativeElement.click();
-      fixture.detectChanges();
-
       expect(component.next).toHaveBeenCalled();
     });
   });
