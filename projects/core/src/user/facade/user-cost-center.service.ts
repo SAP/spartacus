@@ -20,6 +20,9 @@ export class UserCostCenterService {
     protected authService: AuthService
   ) {}
 
+  /**
+   * Load all visible active cost centers for the currently login user
+   */
   loadActiveCostCenters(): void {
     this.authService.invokeWithUserId((userId) => {
       if (userId && userId !== OCC_USER_ID_ANONYMOUS) {
@@ -32,6 +35,9 @@ export class UserCostCenterService {
     return this.store.select(UsersSelectors.getCostCentersState);
   }
 
+  /**
+   * Get all visible active cost centers
+   */
   getActiveCostCenters(): Observable<CostCenter[]> {
     return this.getCostCentersState().pipe(
       observeOn(queueScheduler),
@@ -47,6 +53,10 @@ export class UserCostCenterService {
     );
   }
 
+  /**
+   * Get the addresses of the cost center's unit based on cost center id
+   * @param costCenterId cost center id
+   */
   getCostCenterAddresses(costCenterId: string): Observable<B2BAddress[]> {
     return this.getActiveCostCenters().pipe(
       map((costCenters) => {

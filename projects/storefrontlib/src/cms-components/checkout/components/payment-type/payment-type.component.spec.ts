@@ -19,6 +19,7 @@ import createSpy = jasmine.createSpy;
 class MockSpinnerComponent {}
 
 class MockPaymentTypeService {
+  readonly ACCOUNT_PAYMENT = 'ACCOUNT';
   getPaymentTypes(): Observable<PaymentType[]> {
     return of();
   }
