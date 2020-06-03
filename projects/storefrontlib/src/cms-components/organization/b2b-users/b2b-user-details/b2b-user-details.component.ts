@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit, TemplateRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  TemplateRef,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap, take } from 'rxjs/operators';
 import { RoutingService, B2BUser, B2BUserService } from '@spartacus/core';
@@ -33,13 +38,10 @@ export class B2BUserDetailsComponent implements OnInit {
     );
   }
 
-
   update(b2bUser: B2BUser) {
     this.b2bUserCode$
       .pipe(take(1))
-      .subscribe((code) =>
-        this.b2bUsersService.update(code, b2bUser)
-      );
+      .subscribe((code) => this.b2bUsersService.update(code, b2bUser));
   }
 
   openModal(template: TemplateRef<any>): void {
