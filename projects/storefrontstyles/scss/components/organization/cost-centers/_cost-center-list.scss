@@ -6,6 +6,10 @@
   h3 {
     display: flex;
     justify-content: space-between;
+
+    a {
+      @extend .btn, .btn-primary;
+    }
   }
 
   @extend %cx-organization-list;
