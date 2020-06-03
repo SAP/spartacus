@@ -1,16 +1,5 @@
 <ng-container class="container" *ngIf="data$ | async as data">
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-      <div class="cx-table-header cx-textalign">
-        <h3>{{ header }}</h3>
-      </div>
-
-      <!--        <cx-search-->
-      <!--          (searchEvent)="search($event)"-->
-      <!--          [placeholder]="searchBoxLabel"-->
-      <!--        >-->
-      <!--        </cx-search>-->
-    </div>
     <ng-content></ng-content>
   </div>
 

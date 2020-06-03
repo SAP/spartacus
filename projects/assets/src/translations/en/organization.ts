@@ -134,7 +134,7 @@ export const organization = {
   },
   costCentersList: {
     code: 'Code',
-    costCenterManagement: 'Cost Center Management',
+
     name: 'Name',
     currency: 'Currency',
     parentUnit: 'Parent Unit',
