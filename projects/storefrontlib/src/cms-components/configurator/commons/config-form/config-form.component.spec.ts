@@ -145,6 +145,7 @@ class MockConfiguratorGroupsService {
   getPreviousGroup() {
     return of('');
   }
+  subscribeToUpdateConfiguration() {}
 }
 function checkConfigurationObs(
   component: ConfigFormComponent,

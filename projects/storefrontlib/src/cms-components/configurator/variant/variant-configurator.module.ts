@@ -24,6 +24,7 @@ import { ConfigAttributeCheckBoxListComponent } from '../commons/config-attribut
 import { ConfigAttributeDropDownComponent } from '../commons/config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
 import { ConfigAttributeInputFieldComponent } from '../commons/config-attribute-types/config-attribute-input-field/config-attribute-input-field.component';
 import { ConfigAttributeMultiSelectionImageComponent } from '../commons/config-attribute-types/config-attribute-multi-selection-image/config-attribute-multi-selection-image.component';
+import { ConfigAttributeNumericInputFieldComponent } from '../commons/config-attribute-types/config-attribute-numeric-input-field/config-attribute-numeric-input-field.component';
 import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigAttributeReadOnlyComponent } from '../commons/config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigAttributeSingleSelectionImageComponent } from '../commons/config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
@@ -48,14 +49,9 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigurationMessageLoaderModule,
     RouterModule.forChild([
       {
-        path: 'configureCPQCONFIGURATOR/:ownerType',
-        children: [
-          {
-            path: 'entityKey/:entityKey',
-            component: PageLayoutComponent,
-            data: { pageLabel: '/configureCPQCONFIGURATOR' },
-          },
-        ],
+        path: 'configureCPQCONFIGURATOR/:ownerType/entityKey/:entityKey',
+        data: { pageLabel: '/configureCPQCONFIGURATOR' },
+        component: PageLayoutComponent,
         canActivate: [CmsPageGuard],
       },
     ]),
@@ -162,6 +158,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeMultiSelectionImageComponent,
     ConfigAttributeSingleSelectionImageComponent,
     ConfigAttributeInputFieldComponent,
+    ConfigAttributeNumericInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
@@ -182,6 +179,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeMultiSelectionImageComponent,
     ConfigAttributeSingleSelectionImageComponent,
     ConfigAttributeInputFieldComponent,
+    ConfigAttributeNumericInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
@@ -203,6 +201,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeMultiSelectionImageComponent,
     ConfigAttributeSingleSelectionImageComponent,
     ConfigAttributeInputFieldComponent,
+    ConfigAttributeNumericInputFieldComponent,
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,

@@ -15,6 +15,12 @@ function goToProductDetailsPage(testProduct) {
   cy.wait(2000);
 }
 
+function addToCartAndVerify(testProduct) {
+  configuration.clickAddToCartButton();
+  cart.verifyCartNotEmpty();
+  configuration.verifyTextfieldProductInCart(testProduct);
+}
+
 context('Textfield Configuration', () => {
   before(() => {
     cy.visit('/');
@@ -33,22 +39,20 @@ context('Textfield Configuration', () => {
       configuration.verifyConfigurationPageIsDisplayed();
     });
 
-    it.skip('should be able to navigate from the cart', () => {
-      //TODO: currently not possible
+    it('should be able to navigate from the cart', () => {
       goToConfigurationPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
-      configuration.clickAddToCartButton();
-      cart.verifyCartNotEmpty();
-      configuration.verifyTextfieldProductInCart(testProduct);
-      // go back to textfield configuration
-      // configuration.verifyConfigurationPageIsDisplayed();
+      addToCartAndVerify(testProduct);
+      configuration.clickOnEditConfigurationButton();
+      configuration.verifyConfigurationPageIsDisplayed();
     });
 
-    it.skip('should be able to navigate from the cart after adding product directly to the cart', () => {
+    it('should be able to navigate from the cart after adding product directly to the cart', () => {
       goToProductDetailsPage(testProduct);
       configuration.clickOnAddToCartButtonOnProductDetails();
       configuration.clickOnViewCartButtonOnProductDetails();
       cart.verifyCartNotEmpty();
+      configuration.verifyTextfieldProductInCart(testProduct);
     });
   });
 
@@ -58,9 +62,18 @@ context('Textfield Configuration', () => {
       configuration.verifyConfigurationPageIsDisplayed();
       configuration.verifyAttributeIsDisplayed('Engraved Text');
       configuration.selectAttribute('Engraved Text', 'Hallo');
-      configuration.clickAddToCartButton();
-      cart.verifyCartNotEmpty();
-      configuration.verifyTextfieldProductInCart(testProduct);
+      addToCartAndVerify(testProduct);
+    });
+
+    it('should be able to update a configured product from the cart', () => {
+      goToConfigurationPage(configurator, testProduct);
+      configuration.verifyConfigurationPageIsDisplayed();
+      addToCartAndVerify(testProduct);
+      configuration.clickOnEditConfigurationButton();
+      configuration.verifyConfigurationPageIsDisplayed();
+      configuration.verifyAttributeIsDisplayed('Engraved Text');
+      configuration.selectAttribute('Engraved Text', 'Hallo');
+      addToCartAndVerify(testProduct);
     });
   });
 });

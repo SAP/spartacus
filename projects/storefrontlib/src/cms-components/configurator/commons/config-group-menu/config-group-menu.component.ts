@@ -24,21 +24,22 @@ export class ConfigGroupMenuComponent implements OnInit {
   displayedGroups$: Observable<Configurator.Group[]>;
 
   iconTypes = ICON_TYPE;
-
   constructor(
     private routingService: RoutingService,
-    private configuratorCommonsService: ConfiguratorCommonsService,
+    private configCommonsService: ConfiguratorCommonsService,
     public configuratorGroupsService: ConfiguratorGroupsService,
     private hamburgerMenuService: HamburgerMenuService,
     private configRouterExtractorService: ConfigRouterExtractorService
   ) {}
+
+  GROUPSTATUS = Configurator.GroupStatus;
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
       .extractRouterData(this.routingService)
       .pipe(
         switchMap((routerData) =>
-          this.configuratorCommonsService.getConfiguration(routerData.owner)
+          this.configCommonsService.getConfiguration(routerData.owner)
         )
       );
 
@@ -121,7 +122,7 @@ export class ConfigGroupMenuComponent implements OnInit {
   getParentGroup(group: Configurator.Group): Observable<Configurator.Group> {
     return this.configuration$.pipe(
       map((configuration) =>
-        this.configuratorGroupsService.findParentGroup(
+        this.configuratorGroupsService.getParentGroup(
           configuration.groups,
           group,
           null
@@ -154,6 +155,26 @@ export class ConfigGroupMenuComponent implements OnInit {
         return group;
       }
     });
+  }
+
+  getGroupStatus(
+    groupId: string,
+    configuration: Configurator.Configuration
+  ): Observable<string> {
+    return this.configuratorGroupsService
+      .isGroupVisited(configuration.owner, groupId)
+      .pipe(
+        switchMap((isVisited) => {
+          if (isVisited) {
+            return this.configuratorGroupsService.getGroupStatus(
+              configuration.owner,
+              groupId
+            );
+          } else {
+            return of(null);
+          }
+        })
+      );
   }
 
   scrollToVariantConfigurationHeader() {

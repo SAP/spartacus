@@ -90,7 +90,6 @@ class MockProductListComponentService {
   setQuery = createSpy('setQuery');
   viewPage = createSpy('viewPage');
   sort = createSpy('sort');
-  clearSearchResults = createSpy('clearSearchResults');
   model$ = of({});
 }
 
@@ -174,10 +173,6 @@ describe('ProductListComponent', () => {
   describe('ngOnInit', () => {
     beforeEach(() => {
       component.ngOnInit();
-    });
-
-    it('should clear search results', () => {
-      expect(componentService.clearSearchResults).toHaveBeenCalled();
     });
 
     it('should get model from the service', () => {

@@ -229,9 +229,7 @@ describe('OutletDirective', () => {
       `,
     })
     class MockDeferredOutletComponent {
-      load(_eventValue: boolean) {
-        console.log('defer loading 2...', _eventValue);
-      }
+      load(_eventValue: boolean) {}
     }
 
     let deferLoaderService: DeferLoaderService;

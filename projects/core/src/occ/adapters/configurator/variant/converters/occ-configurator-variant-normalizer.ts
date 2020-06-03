@@ -80,10 +80,16 @@ export class OccConfiguratorVariantNormalizer
       required: sourceAttribute.required,
       uiType: this.convertAttributeType(sourceAttribute.type),
       values: [],
-      userInput: sourceAttribute.formattedValue
-        ? sourceAttribute.formattedValue
-        : sourceAttribute.value,
+      //also for numeric attributes take from value, because UI expects to handle localization on its own,
+      //thus expects numeric
+      userInput: sourceAttribute.value,
       maxlength: sourceAttribute.maxlength,
+      numDecimalPlaces: sourceAttribute.numberScale,
+      numTotalLength: sourceAttribute.typeLength,
+      //This is only relevant for read-only attributes
+      //TODO: improve by enriching OCC API
+      isNumeric:
+        sourceAttribute.value === Number.parseFloat(sourceAttribute.value) + '',
       selectedSingleValue: null,
       images: [],
     };
@@ -102,8 +108,7 @@ export class OccConfiguratorVariantNormalizer
     }
 
     //Has to be called after setSelectedSingleValue because it depends on the value of this property
-    this.setIncomplete(attribute);
-
+    this.compileAttributeIncomplete(attribute);
     attributeList.push(attribute);
   }
 
@@ -177,6 +182,10 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.STRING;
         break;
       }
+      case OccConfigurator.UiType.NUMERIC: {
+        uiType = Configurator.UiType.NUMERIC;
+        break;
+      }
       case OccConfigurator.UiType.READ_ONLY: {
         uiType = Configurator.UiType.READ_ONLY;
         break;
@@ -243,7 +252,7 @@ export class OccConfiguratorVariantNormalizer
     }
   }
 
-  setIncomplete(attribute: Configurator.Attribute) {
+  compileAttributeIncomplete(attribute: Configurator.Attribute) {
     //Default value for incomplete is false
     attribute.incomplete = false;
 
@@ -256,7 +265,7 @@ export class OccConfiguratorVariantNormalizer
         }
         break;
       }
-
+      case Configurator.UiType.NUMERIC:
       case Configurator.UiType.STRING: {
         if (!attribute.userInput) {
           attribute.incomplete = true;
@@ -266,12 +275,10 @@ export class OccConfiguratorVariantNormalizer
 
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.MULTI_SELECTION_IMAGE: {
-        let isOneValueSelected = false;
-        attribute.values.forEach((value) => {
-          if (value.selected) {
-            isOneValueSelected = true;
-          }
-        });
+        const isOneValueSelected =
+          attribute.values.find((value) => value.selected) !== undefined
+            ? true
+            : false;
 
         if (!isOneValueSelected) {
           attribute.incomplete = true;

@@ -165,8 +165,7 @@ describe('ConfiguratorEffect', () => {
 
   it('should emit a success action with content for an action of type createConfiguration', () => {
     const action = new ConfiguratorActions.CreateConfiguration(
-      productCode,
-      productCode
+      productConfiguration.owner
     );
 
     const completion = new ConfiguratorActions.CreateConfigurationSuccess(
@@ -191,14 +190,13 @@ describe('ConfiguratorEffect', () => {
     createMock.and.returnValue(throwError(errorResponse));
 
     const action = new ConfiguratorActions.CreateConfiguration(
-      productCode,
-      productCode
+      productConfiguration.owner
     );
 
-    const completionFailure = new ConfiguratorActions.CreateConfigurationFail(
-      productCode,
-      makeErrorSerializable(errorResponse)
-    );
+    const completionFailure = new ConfiguratorActions.CreateConfigurationFail({
+      ownerKey: productConfiguration.owner.key,
+      error: makeErrorSerializable(errorResponse),
+    });
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });
 
@@ -210,7 +208,10 @@ describe('ConfiguratorEffect', () => {
       configId: configId,
       owner: owner,
     };
-    const action = new ConfiguratorActions.ReadConfiguration(payloadInput, '');
+    const action = new ConfiguratorActions.ReadConfiguration({
+      configuration: payloadInput,
+      groupId: '',
+    });
 
     const completion = new ConfiguratorActions.ReadConfigurationSuccess(
       productConfiguration
@@ -243,10 +244,10 @@ describe('ConfiguratorEffect', () => {
       payloadInput
     );
 
-    const completion = new ConfiguratorActions.GetConfigurationOverviewSuccess(
-      owner.key,
-      productConfiguration.overview
-    );
+    const completion = new ConfiguratorActions.GetConfigurationOverviewSuccess({
+      ownerKey: owner.key,
+      overview: productConfiguration.overview,
+    });
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
 
@@ -254,10 +255,10 @@ describe('ConfiguratorEffect', () => {
   });
 
   it('must not emit anything in case source action is not covered, getConfigurationOverview', () => {
-    const action = new ConfiguratorActions.GetConfigurationOverviewSuccess(
-      owner.key,
-      {}
-    );
+    const action = new ConfiguratorActions.GetConfigurationOverviewSuccess({
+      ownerKey: owner.key,
+      overview: {},
+    });
     actions$ = hot('-a', { a: action });
 
     configEffects.getOverview$.subscribe((emitted) => fail(emitted));
@@ -334,8 +335,10 @@ describe('ConfiguratorEffect', () => {
       );
 
       const completion = new ConfiguratorActions.ReadCartEntryConfigurationFail(
-        productConfiguration.owner.key,
-        makeErrorSerializable(errorResponse)
+        {
+          ownerKey: productConfiguration.owner.key,
+          error: makeErrorSerializable(errorResponse),
+        }
       );
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -377,10 +380,10 @@ describe('ConfiguratorEffect', () => {
   describe('Effect updateConfigurationFail', () => {
     it('should raise UpdateConfigurationFinalizeFail on UpdateConfigurationFail in case no changes are pending', () => {
       const payloadInput = productConfiguration;
-      const action = new ConfiguratorActions.UpdateConfigurationFail(
-        productConfiguration.productCode,
-        payloadInput
-      );
+      const action = new ConfiguratorActions.UpdateConfigurationFail({
+        configuration: payloadInput,
+        error: undefined,
+      });
       const completion = new ConfiguratorActions.UpdateConfigurationFinalizeFail(
         productConfiguration
       );
@@ -409,10 +412,10 @@ describe('ConfiguratorEffect', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeFail(
         payloadInput
       );
-      const completion = new ConfiguratorActions.ReadConfiguration(
-        productConfiguration,
-        ''
-      );
+      const completion = new ConfiguratorActions.ReadConfiguration({
+        configuration: productConfiguration,
+        groupId: undefined,
+      });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(configEffects.handleErrorOnUpdate$).toBeObservable(expected);
@@ -425,11 +428,11 @@ describe('ConfiguratorEffect', () => {
         productCode: productCode,
         owner: owner,
       };
-      const action = new ConfiguratorActions.ChangeGroup(
-        payloadInput,
-        groupId,
-        null
-      );
+      const action = new ConfiguratorActions.ChangeGroup({
+        configuration: payloadInput,
+        groupId: groupId,
+        parentGroupId: null,
+      });
       const readConfigurationSuccess = new ConfiguratorActions.ReadConfigurationSuccess(
         productConfiguration
       );
@@ -459,14 +462,16 @@ describe('ConfiguratorEffect', () => {
         productCode: productCode,
         owner: owner,
       };
-      const action = new ConfiguratorActions.ChangeGroup(
-        payloadInput,
-        groupId,
-        null
-      );
+      const action = new ConfiguratorActions.ChangeGroup({
+        configuration: payloadInput,
+        groupId: groupId,
+        parentGroupId: null,
+      });
       const readConfigurationFail = new ConfiguratorActions.ReadConfigurationFail(
-        productConfiguration.owner.key,
-        makeErrorSerializable(errorResponse)
+        {
+          ownerKey: productConfiguration.owner.key,
+          error: makeErrorSerializable(errorResponse),
+        }
       );
 
       actions$ = hot('-a', { a: action });
@@ -502,13 +507,13 @@ describe('ConfiguratorEffect', () => {
         statusMessage: cartModification.statusMessage,
       });
 
-      const removeConfiguration = new ConfiguratorActions.AddNextOwner(
-        owner.key,
-        '' + entryNumber
-      );
+      const addNextOwner = new ConfiguratorActions.AddNextOwner({
+        ownerKey: owner.key,
+        cartEntryNo: '' + entryNumber,
+      });
       actions$ = hot('-a', { a: action });
       const expected = cold('-(cd)', {
-        c: removeConfiguration,
+        c: addNextOwner,
         d: cartAddEntrySuccess,
       });
       expect(configEffects.addToCart$).toBeObservable(expected);
@@ -579,50 +584,6 @@ describe('ConfiguratorEffect', () => {
         b: cartAddEntryFail,
       });
       expect(configEffects.updateCartEntry$).toBeObservable(expected);
-    });
-  });
-
-  describe('Effect addToCartCartProcessIncrement', () => {
-    it('should emit CartProcessesIncrement on addToCart in case no changes are pending', () => {
-      const payloadInput: Configurator.AddToCartParameters = {
-        userId: userId,
-        cartId: cartId,
-        productCode: productCode,
-        quantity: quantity,
-        configId: configId,
-        ownerKey: owner.key,
-      };
-      const action = new ConfiguratorActions.AddToCart(payloadInput);
-      const cartProcessIncrement = new CartActions.CartProcessesIncrement(
-        cartId
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-d', {
-        d: cartProcessIncrement,
-      });
-      expect(configEffects.addToCartCartProcessIncrement$).toBeObservable(
-        expected
-      );
-    });
-  });
-
-  describe('Effect updateCartEntryCartProcessIncrement', () => {
-    it('should emit CartProcessesIncrement on updateCartEntry in case no changes are pending', () => {
-      const action = new ConfiguratorActions.UpdateCartEntry(
-        payloadInputUpdateConfiguration
-      );
-      const cartProcessIncrement = new CartActions.CartProcessesIncrement(
-        cartId
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-d', {
-        d: cartProcessIncrement,
-      });
-      expect(configEffects.updateCartEntryCartProcessIncrement$).toBeObservable(
-        expected
-      );
     });
   });
 

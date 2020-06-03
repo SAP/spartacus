@@ -2,7 +2,7 @@ const nextGroupButtonSelector =
   'cx-config-previous-next-buttons div div:last button';
 const previousGroupButtonSelector =
   'cx-config-previous-next-buttons div div:first button';
-const addToCartButtonSelector = 'cx-config-add-to-cart-button div div button';
+const addToCartButtonSelector = 'cx-config-add-to-cart-button button';
 
 export function clickOnConfigureButton() {
   cy.get('cx-configure-product a').click({ force: true });
@@ -63,6 +63,34 @@ export function verifyNextGroupButtonIsEnabled() {
 
 export function verifyNextGroupButtonIsDisabled() {
   cy.get(nextGroupButtonSelector).should('be.disabled');
+}
+
+export function verifyNoStatusIconDisplayed(groupName: string) {
+  cy.get(
+    '.' +
+      `${'ERROR'}` +
+      '.cx-config-menu-item>a:contains(' +
+      `${groupName}` +
+      ')'
+  ).should('not.exist');
+
+  cy.get(
+    '.' +
+      `${'COMPLETE'}` +
+      '.cx-config-menu-item>a:contains(' +
+      `${groupName}` +
+      ')'
+  ).should('not.exist');
+}
+
+export function verifyStatusIconDisplayed(groupName: string, status: string) {
+  cy.get(
+    '.' +
+      `${status}` +
+      '.cx-config-menu-item>a:contains(' +
+      `${groupName}` +
+      ')'
+  ).should('exist');
 }
 
 export function verifyAttributeIsDisplayed(

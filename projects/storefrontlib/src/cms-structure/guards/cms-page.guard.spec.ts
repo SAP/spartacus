@@ -7,11 +7,11 @@ import {
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsService,
-  Config,
-  FeaturesConfig,
   Page,
   PageContext,
   ProtectedRoutesGuard,
+  RouteLoadStrategy,
+  RoutingConfigService,
   RoutingService,
 } from '@spartacus/core';
 import { NEVER, of } from 'rxjs';
@@ -35,6 +35,10 @@ class MockProtectedRoutesGuard implements Partial<ProtectedRoutesGuard> {
   canActivate = () => of(true);
 }
 
+class MockRoutingConfigService {
+  getLoadStrategy = () => {};
+}
+
 const mockActivatedRouteSnapshot: ActivatedRouteSnapshot = {} as any;
 const mockRouterStateSnapshot: RouterStateSnapshot = {} as any;
 
@@ -44,7 +48,6 @@ describe('CmsPageGuard', () => {
   let service: CmsPageGuardService;
   let protectedRoutesGuard: ProtectedRoutesGuard;
   let guard: CmsPageGuard;
-  let config: FeaturesConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -53,7 +56,10 @@ describe('CmsPageGuard', () => {
         { provide: CmsService, useClass: MockCmsService },
         { provide: CmsPageGuardService, useClass: MockCmsPageGuardService },
         { provide: ProtectedRoutesGuard, useClass: MockProtectedRoutesGuard },
-        { provide: Config, useValue: {} },
+        {
+          provide: RoutingConfigService,
+          useClass: MockRoutingConfigService,
+        },
       ],
       imports: [RouterTestingModule],
     });
@@ -63,25 +69,24 @@ describe('CmsPageGuard', () => {
     protectedRoutesGuard = TestBed.inject(ProtectedRoutesGuard);
     service = TestBed.inject(CmsPageGuardService);
     guard = TestBed.inject(CmsPageGuard);
-    config = TestBed.inject(Config);
   });
 
   describe('canActivate', () => {
-    // describe('when ProtectedRoutesGuard.canActivate emits false,', () => {
-    //   beforeEach(() => {
-    //     spyOn(protectedRoutesGuard, 'canActivate').and.returnValue(of(false));
-    //   });
+    describe('when ProtectedRoutesGuard.canActivate emits false,', () => {
+      beforeEach(() => {
+        spyOn(protectedRoutesGuard, 'canActivate').and.returnValue(of(false));
+      });
 
-    //   it('should emit false', () => {
-    //     let result: boolean | UrlTree;
-    //     guard
-    //       .canActivate(mockActivatedRouteSnapshot, mockRouterStateSnapshot)
-    //       .subscribe((value) => (result = value))
-    //       .unsubscribe();
+      it('should emit false', () => {
+        let result: boolean | UrlTree;
+        guard
+          .canActivate(mockActivatedRouteSnapshot, mockRouterStateSnapshot)
+          .subscribe((value) => (result = value))
+          .unsubscribe();
 
-    //     expect(result).toBe(false);
-    //   });
-    // });
+        expect(result).toBe(false);
+      });
+    });
 
     describe('when ProtectedRoutesGuard.canActivate emits true,', () => {
       beforeEach(() => {
@@ -102,11 +107,12 @@ describe('CmsPageGuard', () => {
         expect(cmsService.getPage).toHaveBeenCalledWith(pageContext, true);
       });
 
-      describe('and when `cmsPageLoadOnce` feature is configured on', () => {
+      describe('and when `loadStrategy` is set to ONCE', () => {
         beforeEach(() => {
-          config.features = {
-            cmsPageLoadOnce: true,
-          };
+          const routingConfig = TestBed.inject(RoutingConfigService);
+          spyOn(routingConfig, 'getLoadStrategy').and.returnValue(
+            RouteLoadStrategy.ONCE
+          );
         });
 
         it('should get (but not force reload) CMS page for the anticipated page context', () => {

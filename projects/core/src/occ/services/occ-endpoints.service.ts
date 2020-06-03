@@ -4,15 +4,15 @@ import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
+import { CustomEncoder } from '../adapters/cart/custom.encoder';
 import { OccConfig } from '../config/occ-config';
+import { DEFAULT_SCOPE } from '../occ-models/occ-endpoints.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OccEndpointsService {
   private activeBaseSite: string;
-
-  private readonly SCOPE_SUFFIX = '_scopes';
 
   constructor(
     private config: OccConfig,
@@ -33,10 +33,10 @@ export class OccEndpointsService {
    * @param endpoint Endpoint suffix
    */
   getRawEndpoint(endpoint: string): string {
-    if (!this.config || !this.config.backend || !this.config.backend.occ) {
+    if (!this.config?.backend?.occ) {
       return '';
     }
-    endpoint = this.config.backend.occ.endpoints[endpoint];
+    endpoint = this.config.backend.occ.endpoints?.[endpoint];
 
     if (!endpoint.startsWith('/')) {
       endpoint = '/' + endpoint;
@@ -49,7 +49,7 @@ export class OccEndpointsService {
    * Returns base OCC endpoint (baseUrl + prefix + baseSite)
    */
   getBaseEndpoint(): string {
-    if (!this.config || !this.config.backend || !this.config.backend.occ) {
+    if (!this.config?.backend?.occ) {
       return '';
     }
 
@@ -82,7 +82,7 @@ export class OccEndpointsService {
     endpoint: string,
     urlParams?: object,
     queryParams?: object,
-    scope = ''
+    scope?: string
   ): string {
     endpoint = this.getEndpointForScope(endpoint, scope);
 
@@ -94,13 +94,16 @@ export class OccEndpointsService {
     }
 
     if (queryParams) {
-      let httpParamsOptions;
+      let httpParamsOptions = { encoder: new CustomEncoder() };
 
       if (endpoint.includes('?')) {
         let queryParamsFromEndpoint;
         [endpoint, queryParamsFromEndpoint] = endpoint.split('?');
 
-        httpParamsOptions = { fromString: queryParamsFromEndpoint };
+        httpParamsOptions = {
+          ...httpParamsOptions,
+          ...{ fromString: queryParamsFromEndpoint },
+        };
       }
 
       let httpParams = new HttpParams(httpParamsOptions);
@@ -124,16 +127,16 @@ export class OccEndpointsService {
     return this.getEndpoint(endpoint);
   }
 
-  private getEndpointForScope(endpoint: string, scope: string): string {
-    const endpointsConfig =
-      this.config.backend &&
-      this.config.backend.occ &&
-      this.config.backend.occ.endpoints;
+  private getEndpointForScope(endpoint: string, scope?: string): string {
+    const endpointsConfig = this.config.backend?.occ?.endpoints;
+    const endpointConfig = endpointsConfig[endpoint];
 
     if (scope) {
-      const endpointConfig = endpointsConfig[`${endpoint}${this.SCOPE_SUFFIX}`];
-      if (endpointConfig && endpointConfig[scope]) {
-        return endpointConfig[scope];
+      if (endpointConfig?.[scope]) {
+        return endpointConfig?.[scope];
+      }
+      if (scope === DEFAULT_SCOPE && typeof endpointConfig === 'string') {
+        return endpointConfig;
       }
       if (isDevMode()) {
         console.warn(
@@ -142,6 +145,10 @@ export class OccEndpointsService {
       }
     }
 
-    return endpointsConfig[endpoint] || endpoint;
+    return (
+      (typeof endpointConfig === 'string'
+        ? endpointConfig
+        : endpointConfig?.[DEFAULT_SCOPE]) || endpoint
+    );
   }
 }

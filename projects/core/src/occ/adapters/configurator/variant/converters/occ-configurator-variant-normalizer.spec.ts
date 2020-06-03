@@ -209,10 +209,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
       ],
     });
 
-    occConfiguratorVariantNormalizer = TestBed.get(
+    occConfiguratorVariantNormalizer = TestBed.inject(
       OccConfiguratorVariantNormalizer as Type<OccConfiguratorVariantNormalizer>
     );
-    occConfig = TestBed.get(OccConfig as Type<OccConfig>);
+    occConfig = TestBed.inject(OccConfig as Type<OccConfig>);
     groups = [];
     flatGroups = [];
   });
@@ -270,6 +270,20 @@ describe('OccConfiguratorVariantNormalizer', () => {
     occConfiguratorVariantNormalizer.convertAttribute(occAttribute, attributes);
     expect(attributes.length).toBe(1);
     expect(attributes[0].name).toBe(attributeName);
+  });
+
+  it('should tell if attribute is numeric', () => {
+    const attributes: Configurator.Attribute[] = [];
+    const numericOccAttribute: OccConfigurator.Attribute = {
+      value: '23.234',
+      type: OccConfigurator.UiType.READ_ONLY,
+    };
+    occConfiguratorVariantNormalizer.convertAttribute(
+      numericOccAttribute,
+      attributes
+    );
+
+    expect(attributes[0].isNumeric).toBe(true);
   });
 
   it('should convert a standard group', () => {
@@ -342,6 +356,22 @@ describe('OccConfiguratorVariantNormalizer', () => {
         OccConfigurator.UiType.RADIO_BUTTON
       )
     ).toBe(Configurator.UiType.RADIOBUTTON);
+  });
+
+  it('should convert numeric attribute type correctly', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.NUMERIC
+      )
+    ).toBe(Configurator.UiType.NUMERIC);
+  });
+
+  it('should convert read-only attribute type correctly', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.READ_ONLY
+      )
+    ).toBe(Configurator.UiType.READ_ONLY);
   });
 
   it('should return UIType Drop Down for Drop Down occ configurator type', () => {
@@ -418,40 +448,58 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   describe('check the setting of incomplete', () => {
     it('should set incomplete by string type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncomplete(attributeStringWoValue);
-      occConfiguratorVariantNormalizer.setIncomplete(attributeStringWithValue);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeStringWoValue
+      );
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeStringWithValue
+      );
 
       expect(attributeStringWoValue.incomplete).toBe(true);
       expect(attributeStringWithValue.incomplete).toBe(false);
     });
 
     it('should set incomplete by radio button type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncomplete(attributeRBWoValues);
-      occConfiguratorVariantNormalizer.setIncomplete(attributeRBWithValues);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeRBWoValues
+      );
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeRBWithValues
+      );
 
       expect(attributeRBWoValues.incomplete).toBe(true);
       expect(attributeRBWithValues.incomplete).toBe(false);
     });
 
     it('should set incomplete by drop-down type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncomplete(attributeDDWoValues);
-      occConfiguratorVariantNormalizer.setIncomplete(attributeDDWithValues);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeDDWoValues
+      );
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeDDWithValues
+      );
 
       expect(attributeDDWoValues.incomplete).toBe(true);
       expect(attributeDDWithValues.incomplete).toBe(false);
     });
 
     it('should set incomplete by single-selection-image type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncomplete(attributeSSIWoValues);
-      occConfiguratorVariantNormalizer.setIncomplete(attributeSSIWithValues);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeSSIWoValues
+      );
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeSSIWithValues
+      );
 
       expect(attributeSSIWoValues.incomplete).toBe(true);
       expect(attributeSSIWithValues.incomplete).toBe(false);
     });
 
     it('should set incomplete by checkbox type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncomplete(attributeCheckboxWOValue);
-      occConfiguratorVariantNormalizer.setIncomplete(
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeCheckboxWOValue
+      );
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
         attributeCheckboxWithValue
       );
 
@@ -460,8 +508,12 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should set incomplete by multi-selection-image type correctly', () => {
-      occConfiguratorVariantNormalizer.setIncomplete(attributeMSIWOValue);
-      occConfiguratorVariantNormalizer.setIncomplete(attributeMSIWithValue);
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeMSIWOValue
+      );
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeMSIWithValue
+      );
 
       expect(attributeMSIWOValue.incomplete).toBe(true);
       expect(attributeMSIWithValue.incomplete).toBe(false);
