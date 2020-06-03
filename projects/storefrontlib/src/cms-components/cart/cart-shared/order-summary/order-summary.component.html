@@ -11,7 +11,12 @@
   </div>
   <div class="cx-summary-row">
     <div class="col-6 cx-summary-label">
-      {{ 'orderCost.estimatedShipping' | cxTranslate }}
+      {{
+        (cart.deliveryCost?.formattedValue
+          ? 'orderCost.shipping'
+          : 'orderCost.estimatedShipping'
+        ) | cxTranslate
+      }}
     </div>
     <div class="col-6 cx-summary-amount">
       {{
