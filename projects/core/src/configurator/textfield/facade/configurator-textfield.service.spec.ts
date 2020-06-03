@@ -274,25 +274,4 @@ describe('ConfiguratorTextfieldService', () => {
       )
     );
   });
-
-  describe('getCartId', () => {
-    it('should return cart guid if user is anonymous', () => {
-      expect(serviceUnderTest.getCartId(cart)).toBe(CART_GUID);
-    });
-
-    it('should return cart code if user is not anonymous', () => {
-      const namedCart: Cart = {
-        code: CART_CODE,
-        guid: CART_GUID,
-        user: { name: 'Ulf Becker', uid: 'ulf.becker@rustic-hw.com' },
-      };
-      expect(serviceUnderTest.getCartId(namedCart)).toBe(CART_CODE);
-    });
-  });
-
-  describe('getUserId', () => {
-    it('should return anonymous user id if user is anonymous', () => {
-      expect(serviceUnderTest.getUserId(cart)).toBe(OCC_USER_ID_ANONYMOUS);
-    });
-  });
 });

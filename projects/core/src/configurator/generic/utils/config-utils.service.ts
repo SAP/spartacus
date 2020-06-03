@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import { Cart } from '../../../model';
+import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../../occ';
 
 /**
  * Utilities: Creating the key for a configuration owner object
@@ -19,5 +21,15 @@ export class GenericConfigUtilsService {
       throw new Error('We expect an owner type!');
     }
     owner.key = owner.type + '/' + owner.id;
+  }
+
+  getCartId(cart: Cart): string {
+    return cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+  }
+
+  getUserId(cart: Cart): string {
+    return cart.user.uid === OCC_USER_ID_ANONYMOUS
+      ? cart.user.uid
+      : OCC_USER_ID_CURRENT;
   }
 }
