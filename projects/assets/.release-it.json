@@ -10,7 +10,7 @@
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/assets@${version}",
-    "releaseNotes": "cd ../.. && npm run --silent release-notes:assets -- --to assets-${version}"
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib assets --to assets-${version}"
   },
   "npm": {
     "publishPath": "./../../dist/assets"
