@@ -25,7 +25,7 @@ export class ConfiguratorCommonsService {
    *
    * @param owner - Configuration owner
    *
-   * @returns {Observable<Boolean>} Returns true if there are any pending configuration changes, otherwise false
+   * @returns {Observable<Boolean>} Returns true if there are any pending changes, otherwise false
    */
   public hasPendingChanges(
     owner: GenericConfigurator.Owner
