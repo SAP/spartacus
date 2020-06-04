@@ -21,6 +21,9 @@ export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
           updateConfigurationForCartEntry:
             'users/${userId}/carts/${cartId}/entries/${cartEntryNumber}/ccpconfigurator',
 
+          readConfigurationOverviewForOrderEntry:
+            'users/${userId}/orders/${orderId}/entries/${orderEntryNumber}/ccpconfigurator/configurationOverview',
+
           readPriceSummary: 'ccpconfigurator/${configId}/pricing',
 
           getConfigurationOverview:

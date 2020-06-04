@@ -1,10 +1,12 @@
 import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
+import { Cart, OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { GenericConfigUtilsService } from './config-utils.service';
-import { Cart, OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
 
 const productCode = 'CONF_LAPTOP';
+const documentId = '12344';
+const entryNumber = 4;
 let owner: GenericConfigurator.Owner = null;
 
 const CART_CODE = '0000009336';
@@ -66,10 +68,37 @@ describe('GenericConfigUtilsService', () => {
     }).toThrow();
   });
 
-  it('should throw an error if for owner type CART_ENTRY if no cart entry link is present', () => {
+  it('should throw an error if for owner type CART_ENTRY no cart entry link is present', () => {
     owner.type = GenericConfigurator.OwnerType.CART_ENTRY;
     expect(function () {
       classUnderTest.setOwnerKey(owner);
+    }).toThrow();
+  });
+
+  it('should throw an error if for owner type ORDER_ENTRY no order entry link is present', () => {
+    owner.type = GenericConfigurator.OwnerType.ORDER_ENTRY;
+    expect(function () {
+      classUnderTest.setOwnerKey(owner);
+    }).toThrow();
+  });
+
+  it('should compose an owner ID from 2 attributes', () => {
+    expect(classUnderTest.getComposedOwnerId(documentId, entryNumber)).toBe(
+      documentId + '+' + entryNumber
+    );
+  });
+
+  it('should decompose an owner ID properly', () => {
+    const decompose = classUnderTest.decomposeOwnerId(
+      classUnderTest.getComposedOwnerId(documentId, entryNumber)
+    );
+    expect(decompose.documentId).toBe(documentId);
+    expect(decompose.entryNumber).toBe('' + entryNumber);
+  });
+
+  it('should throw an error in case ownerId is malformed', () => {
+    expect(function () {
+      classUnderTest.decomposeOwnerId(documentId);
     }).toThrow();
   });
 
