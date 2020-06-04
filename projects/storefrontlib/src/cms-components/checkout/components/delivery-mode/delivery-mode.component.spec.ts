@@ -173,15 +173,8 @@ describe('DeliveryModeComponent', () => {
     component.mode.controls['deliveryModeId'].setValue('code');
     component.next();
 
-    expect(checkoutStepService.next).toHaveBeenCalledWith(
-      <any>mockActivatedRoute
-    );
-  });
-
-  it('should change step after invoking next()', () => {
-    component.next();
-    expect(checkoutStepService.next).toHaveBeenCalledWith(
-      <any>mockActivatedRoute
+    expect(mockCheckoutDeliveryService.setDeliveryMode).toHaveBeenCalledWith(
+      mockDeliveryMode1.code
     );
   });
 
