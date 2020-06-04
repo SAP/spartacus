@@ -42,9 +42,25 @@
         <div class="cx-config-product-code">
           {{ product.code }}
         </div>
-        <div *ngIf="product.priceRange" class="cx-config-product-price">
-          {{ product.priceRange?.minPrice }} -
-          {{ product.priceRange?.maxPrice }}
+
+        <div
+          *ngIf="
+            product.priceRange &&
+            (product.priceRange?.maxPrice || product.priceRange?.minPrice)
+          "
+          class="cx-config-product-price"
+        >
+          {{ product.priceRange?.minPrice?.formattedValue }} -
+          {{ product.priceRange?.maxPrice?.formattedValue }}
+        </div>
+        <div
+          *ngIf="
+            !product.priceRange ||
+            (!product.priceRange?.maxPrice && !product.priceRange?.minPrice)
+          "
+          class="cx-config-product-price"
+        >
+          {{ product.price?.formattedValue }}
         </div>
 
         <div class="cx-config-product-description">

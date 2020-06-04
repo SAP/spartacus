@@ -64,6 +64,10 @@
       margin-top: -25px;
       margin-right: 5px;
 
+      &:hover {
+        text-decoration: none;
+      }
+
       cx-icon {
         margin-left: 5px;
       }
