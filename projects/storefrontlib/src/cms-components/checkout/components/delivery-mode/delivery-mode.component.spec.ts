@@ -162,7 +162,7 @@ describe('DeliveryModeComponent', () => {
     expect(component.currentDeliveryModeId).toBe(mockDeliveryMode2.code);
   });
 
-  it('should set delivery mode and change step after invoking next()', () => {
+  it('should set delivery mode after invoking next()', () => {
     component.currentDeliveryModeId = mockDeliveryMode1.code;
     spyOn(
       mockCheckoutDeliveryService,
@@ -170,6 +170,7 @@ describe('DeliveryModeComponent', () => {
     ).and.returnValue(of(mockDeliveryMode1));
 
     component.ngOnInit();
+    component.mode.controls['deliveryModeId'].setValue('code');
     component.next();
 
     expect(checkoutStepService.next).toHaveBeenCalledWith(

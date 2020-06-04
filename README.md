@@ -50,7 +50,7 @@ See the [Release documentation](https://sap.github.io/cloud-commerce-spartacus-s
 
 To get up and running with Spartacus, the recommended approach is to build your storefront application from ready-made libraries. You can also clone and build from source, but upgrading is not as simple.
 
-Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs. In the future, you will be able to use Spartacus with a mock server.
+Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs. 
 
 For complete setup instructions, see [Building the Spartacus Storefront from Libraries](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/building-the-spartacus-storefront-from-libraries/).
 
