@@ -1,40 +1,75 @@
 <ng-container *ngIf="tableData">
-  <table class="table cx-table">
-    <thead class="cx-thead-mobile">
-      <th scope="col" *ngFor="let column of columns">
-        {{ column.value }}
-      </th>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of tableData">
-        <td class="cx-code" *ngFor="let column of columns">
-          <div class="d-md-none cx-label">
-            {{ column.value }}
-          </div>
-          <label *ngIf="column.checkBox; else link">
-            <input
-              type="checkbox"
-              [checked]="row[column.key]"
-              (change)="onToggle($event, row, column.key)"
-            />
-          </label>
-          <ng-template #link>
-            <a
-              *ngIf="column.cxRoute && row; else text"
-              [routerLink]="
-                {
-                  cxRoute: column.cxRoute,
-                  params: row
-                } | cxUrl
+  <div class="desktop mode">
+    <table class="table cx-table">
+      <thead>
+        <th scope="col" *ngFor="let column of columns">
+          {{ column.value }}
+        </th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of tableData">
+          <td class="cx-code" *ngFor="let column of columns">
+            <ng-container
+              *ngTemplateOutlet="
+                checkbox;
+                context: { row: row, column: column }
               "
-              class="cx-value"
-            >
-              {{ row[column.key] }}
-            </a>
-          </ng-template>
-          <ng-template #text>{{ row[column.key] }}</ng-template>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            ></ng-container>
+            <ng-container
+              *ngTemplateOutlet="link; context: { row: row, column: column }"
+            ></ng-container>
+            <ng-container
+              *ngTemplateOutlet="text; context: { row: row, column: column }"
+            ></ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="mobile mode">
+    <div class="cx-row" *ngFor="let row of tableData">
+      <div *ngFor="let column of columns">
+        <span class="cx-label">{{ column.value }}:</span>
+        <ng-container
+          *ngTemplateOutlet="checkbox; context: { row: row, column: column }"
+        ></ng-container>
+        <ng-container
+          *ngTemplateOutlet="link; context: { row: row, column: column }"
+        ></ng-container>
+        <ng-container
+          *ngTemplateOutlet="text; context: { row: row, column: column }"
+        ></ng-container>
+      </div>
+    </div>
+  </div>
 </ng-container>
+
+<!-- Template for rendering checkbox input if `checkBox` property exists in column data. -->
+<ng-template #checkbox let-row="row" let-column="column">
+  <ng-container *ngIf="column?.checkBox && row">
+    <input
+      type="checkbox"
+      [checked]="row[column.key]"
+      (change)="onToggle($event, row, column.key)"
+    />
+  </ng-container>
+</ng-template>
+
+<!-- Template for rendering link based on `cxRoute` property in column data. -->
+<ng-template #link let-row="row" let-column="column">
+  <ng-container *ngIf="column?.cxRoute && row">
+    <a
+      [routerLink]="{ cxRoute: column.cxRoute, params: row } | cxUrl"
+      class="cx-value"
+    >
+      {{ row[column.key] }}
+    </a>
+  </ng-container>
+</ng-template>
+
+<!-- Template for rendering plain text in case if any other custom properties not exist. -->
+<ng-template #text let-row="row" let-column="column">
+  <ng-container *ngIf="!column?.checkBox && !column?.cxRoute && row">
+    {{ row[column.key] || '-' }}
+  </ng-container>
+</ng-template>
