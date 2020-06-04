@@ -9,7 +9,7 @@ export const myAccount = {
     costCenter: 'Cost Center',
     costCenterAndUnit: 'Cost Center / Unit',
     costCenterAndUnitValue: '{{costCenterName}} / {{unitName}}',
-    accountPayment: 'Account Payment',
+    payByAccount: 'Pay by Account',
     status: 'Status',
     shippedOn: 'Shipped on',
     deliveryStatus_IN_TRANSIT: 'In Transit',

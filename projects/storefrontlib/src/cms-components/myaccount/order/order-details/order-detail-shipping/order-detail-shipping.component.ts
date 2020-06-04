@@ -85,21 +85,31 @@ export class OrderDetailShippingComponent implements OnInit {
 
   getAccountPaymentCardContent(order: Order): Observable<Card> {
     return combineLatest([
-      this.translation.translate('orderDetails.accountPayment'),
+      this.translation.translate('paymentForm.payment'),
+      this.translation.translate('orderDetails.payByAccount'),
       this.translation.translate('orderDetails.purchaseOrderId'),
       this.translation.translate('orderDetails.costCenter'),
       this.translation.translate('orderDetails.unit'),
     ]).pipe(
-      map(([textTitle, textPurchaseOrderId, textCostCenter, textUnit]) => {
-        return {
-          title: textTitle,
-          text: [
-            `${textPurchaseOrderId}: ${order.purchaseOrderNumber}`,
-            `${textCostCenter}: ${order.costCenter.name}`,
-            `${textUnit}: ${order.orgCustomer.orgUnit.name}`,
-          ],
-        };
-      })
+      map(
+        ([
+          textTitle,
+          textPayByAccount,
+          textPurchaseOrderId,
+          textCostCenter,
+          textUnit,
+        ]) => {
+          return {
+            title: textTitle,
+            textBold: textPayByAccount,
+            text: [
+              `${textPurchaseOrderId}: ${order.purchaseOrderNumber}`,
+              `${textCostCenter}: ${order.costCenter.name}`,
+              `${textUnit}: ${order.orgCustomer.orgUnit.name}`,
+            ],
+          };
+        }
+      )
     );
   }
 
