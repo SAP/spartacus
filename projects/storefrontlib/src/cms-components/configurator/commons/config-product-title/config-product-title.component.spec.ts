@@ -14,6 +14,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { ConfigComponentTestUtilsService } from '../../generic/service/config-component-test-utils.service';
 import { ConfigProductTitleComponent } from './config-product-title.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -43,6 +44,26 @@ const config: Configurator.Configuration = {
 
 const product: Product = {
   name: PRODUCT_NAME,
+  code: PRODUCT_CODE,
+  images: {
+    PRIMARY: {
+      thumbnail: {
+        url: 'some URL',
+        altText: 'some text',
+      },
+    },
+  },
+  price: {
+    formattedValue: '$1.500',
+  },
+  priceRange: {
+    maxPrice: {
+      formattedValue: '$1.500',
+    },
+    minPrice: {
+      formattedValue: '$1.000',
+    },
+  },
 };
 
 class MockRoutingService {
@@ -67,7 +88,7 @@ class MockConfiguratorCommonsService {
   }
 }
 
-describe('ConfigurationGroupMenuComponent', () => {
+describe('ConfigProductTitleComponent', () => {
   let component: ConfigProductTitleComponent;
   let fixture: ComponentFixture<ConfigProductTitleComponent>;
   let configuratorUtils: GenericConfigUtilsService;
@@ -123,66 +144,72 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('check initial rendering', () => {
-    expectElementPresent(htmlElem, '.cx-config-product-title');
-    expectElementToContainText(
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-config-product-title'
+    );
+    ConfigComponentTestUtilsService.expectElementToContainText(
+      expect,
       htmlElem,
       '.cx-config-product-title',
       PRODUCT_NAME
     );
 
-    expectElementPresent(htmlElem, '.cx-config-toogle-details-link');
-    expectElementToContainText(
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
       htmlElem,
-      '.cx-config-toogle-details-link',
+      '.cx-config-product-title-details.open'
+    );
+    ConfigComponentTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-config-toogle-details-link-text',
       'configurator.header.showMore' //Check translation key, because translation module is not available
     );
-
-    expectElementNotPresent(htmlElem, '.cx-config-product-title-details');
   });
 
-  it('check rendering in show more case', () => {
+  it('check rendering in show more case - default', () => {
     component.click();
     fixture.detectChanges();
 
     expect(component.showMore).toBe(true);
-
-    expectElementToContainText(
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
       htmlElem,
-      '.cx-config-toogle-details-link',
+      '.cx-config-product-title-details.open'
+    );
+
+    ConfigComponentTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-config-toogle-details-link-text',
       'configurator.header.showLess' //Check translation key, because translation module is not available
     );
 
-    expectElementPresent(htmlElem, '.cx-config-product-title-details');
-    expectElementPresent(htmlElem, '.cx-config-product-title-details img');
+    //Price Range should as default
+    ConfigComponentTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-config-product-price',
+      `${product.priceRange.minPrice.formattedValue} - ${product.priceRange.maxPrice.formattedValue}`
+    );
+  });
+
+  it('check rendering in show more case - no price range', () => {
+    //Delete pricerange
+    product.priceRange = null;
+
+    component.click();
+    fixture.detectChanges();
+    expect(component.showMore).toBe(true);
+
+    //Price should be used when price range is not available
+    ConfigComponentTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-config-product-price',
+      product.price.formattedValue
+    );
   });
 });
-
-function expectElementPresent(htmlElement: Element, querySelector: string) {
-  expect(htmlElement.querySelectorAll(querySelector).length).toBeGreaterThan(
-    0,
-    "expected element identified by selector '" +
-      querySelector +
-      "' to be present, but it is NOT! innerHtml: " +
-      htmlElement.innerHTML
-  );
-}
-
-function expectElementToContainText(
-  htmlElement: Element,
-  querySelector: string,
-  expectedText: string
-) {
-  expect(htmlElement.querySelector(querySelector).textContent.trim()).toBe(
-    expectedText
-  );
-}
-
-function expectElementNotPresent(htmlElement: Element, querySelector: string) {
-  expect(htmlElement.querySelectorAll(querySelector).length).toBe(
-    0,
-    "expected element identified by selector '" +
-      querySelector +
-      "' to be NOT present, but it is! innerHtml: " +
-      htmlElement.innerHTML
-  );
-}

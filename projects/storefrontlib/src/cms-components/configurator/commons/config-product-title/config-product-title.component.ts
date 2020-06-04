@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   ConfiguratorCommonsService,
   Product,
@@ -13,7 +13,6 @@ import { ConfigRouterExtractorService } from '../../generic/service/config-route
 @Component({
   selector: 'cx-config-product-title',
   templateUrl: './config-product-title.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigProductTitleComponent implements OnInit {
   product$: Observable<Product>;

@@ -10,14 +10,14 @@
       (click)="click()"
       tabindex="0"
     >
-      <ng-container *ngIf="showMore === false"
+      <ng-container *ngIf="!showMore"
         ><div class="cx-config-toogle-details-link-text">
           {{ 'configurator.header.showMore' | cxTranslate }}
         </div>
         <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon
       ></ng-container>
 
-      <ng-container *ngIf="showMore === true"
+      <ng-container *ngIf="showMore"
         ><div class="cx-config-toogle-details-link-text">
           {{ 'configurator.header.showLess' | cxTranslate }}
         </div>
@@ -25,10 +25,7 @@
       ></ng-container>
     </a>
 
-    <div
-      class="cx-config-product-title-details"
-      [class.open]="showMore === true"
-    >
+    <div class="cx-config-product-title-details" [class.open]="showMore">
       <div class="cx-config-product-title-details-image">
         <img
           [alt]="getProductImageAlt(product)"
