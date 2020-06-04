@@ -69,15 +69,19 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
         ) {
           this.checkoutStepService.next(this.activatedRoute);
         }
-        this.currentDeliveryModeId = code;
         if (code) {
           this.mode.controls['deliveryModeId'].setValue(code);
+          if (code !== this.currentDeliveryModeId) {
+            this.checkoutDeliveryService.setDeliveryMode(code);
+          }
         }
+        this.currentDeliveryModeId = code;
       });
   }
 
   changeMode(code: string): void {
     if (code !== this.currentDeliveryModeId) {
+      this.checkoutDeliveryService.setDeliveryMode(code);
       this.currentDeliveryModeId = code;
     }
   }
@@ -90,7 +94,6 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
       }
       this.checkoutDeliveryService.setDeliveryMode(this.currentDeliveryModeId);
     }
-    this.checkoutStepService.next(this.activatedRoute);
   }
 
   back(): void {
