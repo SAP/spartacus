@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Cart } from '../../../model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
+import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../../occ';
 
 /**
  * Utilities for generic configuration
@@ -52,5 +54,23 @@ export class GenericConfigUtilsService {
     }
     const result = { documentId: parts[0], entryNumber: parts[1] };
     return result;
+  }
+  /**
+   * Gets cart ID (which can be either its guid or its code)
+   * @param cart Cart
+   * @returns Cart identifier
+   */
+  public getCartId(cart: Cart): string {
+    return cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+  }
+  /**
+   * Gets cart user
+   * @param cart Cart
+   * @returns User identifier
+   */
+  public getUserId(cart: Cart): string {
+    return cart.user.uid === OCC_USER_ID_ANONYMOUS
+      ? cart.user.uid
+      : OCC_USER_ID_CURRENT;
   }
 }
