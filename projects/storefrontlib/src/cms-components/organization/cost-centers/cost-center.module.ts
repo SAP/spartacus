@@ -14,7 +14,6 @@ import { CostCenterDetailsModule } from './cost-center-details/cost-center-detai
 import { CostCenterListComponent } from './cost-center-list/cost-center-list.component';
 import { CostCenterListModule } from './cost-center-list/cost-center-list.module';
 import { CostCenterComponent } from './cost-center.component';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -27,7 +26,7 @@ import { CostCenterComponent } from './cost-center.component';
             paths: ['organization/cost-centers'],
           },
           costCenterDetails: {
-            paths: ['organization/cost-centers/details/:uid'],
+            paths: ['organization/cost-centers/:code'],
           },
         },
       },
@@ -47,7 +46,7 @@ import { CostCenterComponent } from './cost-center.component';
               component: CostCenterCreateComponent,
             },
             {
-              path: 'details/:id',
+              path: ':code',
               component: CostCenterDetailsComponent,
             },
           ],
