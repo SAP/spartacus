@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator, GenericConfigurator } from '@spartacus/core';
-import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
-import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
+import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
 import { ConfigUtilsService } from '../service/config-utils.service';
 
 @Component({
@@ -68,7 +68,8 @@ export class ConfigAttributeHeaderComponent {
     } else if (this.isMultiSelection()) {
       return 'configurator.attribute.multiSelectRequiredMessage';
     }
-    return;
+    //default
+    return 'configurator.attribute.singleSelectRequiredMessage';
   }
 
   get uiKeyGenerator() {
