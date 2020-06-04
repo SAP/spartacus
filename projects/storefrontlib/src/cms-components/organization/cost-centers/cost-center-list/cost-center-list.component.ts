@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  CostCenter,
+  CostCenterService,
+  EntitiesModel,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
-
-import {
-  CostCenterService,
-  RoutingService,
-  EntitiesModel,
-  CostCenter,
-} from '@spartacus/core';
-
 import {
   AbstractListingComponent,
   ListingModel,
