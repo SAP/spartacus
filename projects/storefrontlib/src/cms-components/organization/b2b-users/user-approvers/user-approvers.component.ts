@@ -27,7 +27,7 @@ export class UserApproversComponent extends AbstractListingComponent
   implements OnInit {
   code: string;
   cxRoute = 'userApprovers';
-  //uid$: Observable<string>;
+  uid$: Observable<string>;
 
   constructor(
     protected routingService: RoutingService,
@@ -39,13 +39,13 @@ export class UserApproversComponent extends AbstractListingComponent
   ngOnInit(): void {
     this.code$.pipe(take(1)).subscribe((code) => (this.code = code));
 
-    /*this.uid$ = <Observable<string>>(
+    this.uid$ = <Observable<string>>(
       this.code$.pipe(
         switchMap((code) =>
           this.userService.get(code).pipe(map((user: B2BUser) => user.uid))
         )
       )
-    );*/
+    );
 
     this.data$ = <Observable<ListingModel>>this.queryParamsForAllItems$.pipe(
       withLatestFrom(this.code$),

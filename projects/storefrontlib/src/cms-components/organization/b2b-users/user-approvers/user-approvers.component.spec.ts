@@ -24,7 +24,7 @@ import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/l
 import { BehaviorSubject, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
-import { UnitApproversComponent } from './user-approvers.component';
+import { UserApproversComponent } from './user-approvers.component';
 
 import createSpy = jasmine.createSpy;
 
@@ -124,15 +124,15 @@ class MockRoutingConfig {
 }
 
 describe('UnitApproversComponent', () => {
-  let component: UnitApproversComponent;
-  let fixture: ComponentFixture<UnitApproversComponent>;
+  let component: UserApproversComponent;
+  let fixture: ComponentFixture<UserApproversComponent>;
   let orgUnitService: MockOrgUnitService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
       declarations: [
-        UnitApproversComponent,
+        UserApproversComponent,
         MockUrlPipe,
         MockPaginationComponent,
       ],
@@ -153,7 +153,7 @@ describe('UnitApproversComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnitApproversComponent);
+    fixture = TestBed.createComponent(UserApproversComponent);
     component = fixture.componentInstance;
     userList.next(mockUserList);
     fixture.detectChanges();

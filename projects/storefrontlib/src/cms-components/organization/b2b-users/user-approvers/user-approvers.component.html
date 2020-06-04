@@ -24,7 +24,7 @@
 >
   <cx-interactive-table
     [data$]="data$"
-    [header]="'userApprovers.header' | cxTranslate: { code: code }"
+    [header]="'userApprovers.header' | cxTranslate: { code: uid$ | async }"
     [sortLabels]="{
       byName: 'usersList.sorting.byName' | cxTranslate,
       byUnit: 'usersList.sorting.byUnitName' | cxTranslate
@@ -40,7 +40,7 @@
       {
         key: 'parentUnit',
         value: 'usersList.parentUnit' | cxTranslate,
-        cxRoute: 'userDetails'
+        cxRoute: 'orgUnitDetails'
       }
     ]"
     (changeSortCode)="changeSortCode($event)"
