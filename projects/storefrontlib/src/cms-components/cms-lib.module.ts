@@ -82,7 +82,6 @@ import {
   UserGroupListModule,
   UserGroupPermissionsModule,
   UserGroupUsersModule,
-  UserGroupAssignUsersModule,
   B2BUserListModule,
   B2BUserCreateModule,
   B2BUserDetailsModule,
