@@ -118,6 +118,10 @@ export class ConfiguratorCommonsService {
     );
   }
 
+  /**
+   * Reads a configuratiom that is attached to an order entry, dispatching the respective action
+   * @param owner Configuration owner
+   */
   public readConfigurationForOrderEntry(owner: GenericConfigurator.Owner) {
     const ownerIdParts = this.genericConfigUtilsService.decomposeOwnerId(
       owner.id
@@ -135,6 +139,10 @@ export class ConfiguratorCommonsService {
     );
   }
 
+  /**
+   * Reads a configuratiom that is attached to a cart entry, dispatching the respective action
+   * @param owner Configuration owner
+   */
   public readConfigurationForCartEntry(owner: GenericConfigurator.Owner) {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const readFromCartEntryParameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
