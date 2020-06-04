@@ -1,0 +1,69 @@
+<cx-fake-tabs
+  [code]="code"
+  [links]="[
+    {
+      cxRoute: 'userDetails',
+      name: 'user.details',
+      params: { customerId: code$ | async }
+    },
+    {
+      cxRoute: 'userApprovers',
+      name: 'user.approvers',
+      active: true
+    },
+    {
+      cxRoute: 'userPermissions',
+      name: 'user.permissions'
+    },
+    {
+      cxRoute: 'userUserGroups',
+      name: 'user.userGroups'
+    }
+  ]"
+  [routerBackLink]="{ cxRoute: 'users', name: 'user.back' }"
+>
+  <cx-interactive-table
+    [data$]="data$"
+    [header]="'userAssignApprovers.header' | cxTranslate: { code: code }"
+    [sortLabels]="{
+      byName: 'usersList.sorting.byName' | cxTranslate,
+      byUnit: 'usersList.sorting.byUnitName' | cxTranslate
+    }"
+    [columns]="[
+      {
+        key: 'selected',
+        value: 'usersList.assign' | cxTranslate,
+        checkBox: true
+      },
+      {
+        key: 'email',
+        value: 'usersList.uid' | cxTranslate,
+        cxRoute: 'userDetails'
+      },
+      { key: 'name', value: 'usersList.name' | cxTranslate },
+      { key: 'roles', value: 'usersList.roles' | cxTranslate },
+      {
+        key: 'parentUnit',
+        value: 'usersList.parentUnit' | cxTranslate,
+        cxRoute: 'userDetails'
+      }
+    ]"
+    (pageChange)="pageChange($event)"
+    (changeSortCode)="changeSortCode($event)"
+    (check)="assign($event)"
+    (uncheck)="unassign($event)"
+  >
+    <div class="col-md-12 col-lg-6">
+      <div class="col-md-12 col-lg-6 float-right">
+        <a
+          [routerLink]="
+            { cxRoute: 'userApprovers', params: { code: code } } | cxUrl
+          "
+          class="btn btn-secondary btn-block"
+        >
+          {{ 'userAssignApprovers.back' | cxTranslate }}
+        </a>
+      </div>
+    </div>
+  </cx-interactive-table>
+</cx-fake-tabs>
