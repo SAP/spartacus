@@ -3,16 +3,12 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ActiveCartService } from '../../../cart/facade/active-cart.service';
-import { Cart } from '../../../model/cart.model';
 import { ConfiguratorTextfield } from '../../../model/configurator-textfield.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../../occ/utils/occ-constants';
 import * as ConfiguratorActions from '../store/actions/configurator-textfield.action';
 import { StateWithConfigurationTextfield } from '../store/configuration-textfield-state';
 import * as ConfiguratorSelectors from '../store/selectors/configurator-textfield.selector';
+import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
 
 const SUCCESS_STATUS = 'SUCCESS';
 
@@ -20,10 +16,18 @@ const SUCCESS_STATUS = 'SUCCESS';
 export class ConfiguratorTextfieldService {
   constructor(
     protected store: Store<StateWithConfigurationTextfield>,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected configuratorUtils: GenericConfigUtilsService
   ) {}
 
-  createConfiguration(
+  /**
+   * Creates a textfield configuration, specified by the configuration owner.
+   *
+   * @param owner - Configuration owner
+   *
+   * @returns {Observable<ConfiguratorTextfield.Configuration>}
+   */
+  public createConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     this.store.dispatch(
@@ -36,7 +40,12 @@ export class ConfiguratorTextfieldService {
     return this.store.select(ConfiguratorSelectors.getConfigurationContent);
   }
 
-  updateConfiguration(
+  /**
+   * Updates a textfiled configuration, specified by the changed attribute.
+   *
+   * @param changedAttribute - Changed attribute
+   */
+  public updateConfiguration(
     changedAttribute: ConfiguratorTextfield.ConfigurationInfo
   ): void {
     this.store
@@ -53,11 +62,16 @@ export class ConfiguratorTextfieldService {
       });
   }
 
-  addToCart(productCode: string) {
+  /**
+   * Adds the textfield configuration to the cart, specified by its product code.
+   *
+   * @param productCode - Product code
+   */
+  public addToCart(productCode: string) {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
-        userId: this.getUserId(cartState.value),
-        cartId: this.getCartId(cartState.value),
+        userId: this.configuratorUtils.getUserId(cartState.value),
+        cartId: this.configuratorUtils.getCartId(cartState.value),
         productCode: productCode,
         quantity: 1,
       };
@@ -65,24 +79,36 @@ export class ConfiguratorTextfieldService {
     });
   }
 
-  updateCartEntry(cartEntryNumber: string) {
+  /**
+   * Updates a cart entry, specified by its cart entry number.
+   *
+   * @param cartEntryNumber - Cart entry number
+   */
+  public updateCartEntry(cartEntryNumber: string) {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
-        userId: this.getUserId(cartState.value),
-        cartId: this.getCartId(cartState.value),
+        userId: this.configuratorUtils.getUserId(cartState.value),
+        cartId: this.configuratorUtils.getCartId(cartState.value),
         cartEntryNumber: cartEntryNumber,
       };
       this.callUpdateCartEntryActionWithConfigurationData(updateCartParameters);
     });
   }
 
-  readConfigurationForCartEntry(
+  /**
+   * Returns a textfield configuration from a cart entry.
+   *
+   * @param owner - Configuration owner
+   *
+   * @returns {Observable<ConfiguratorTextfield.Configuration>}
+   */
+  public readConfigurationForCartEntry(
     owner: GenericConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const readFromCartEntryParameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
-        userId: this.getUserId(cartState.value),
-        cartId: this.getCartId(cartState.value),
+        userId: this.configuratorUtils.getUserId(cartState.value),
+        cartId: this.configuratorUtils.getCartId(cartState.value),
         cartEntryNumber: owner.id,
         owner: owner,
       };
@@ -98,16 +124,6 @@ export class ConfiguratorTextfieldService {
   ////
   // Helper methods
   ////
-  getCartId(cart: Cart): string {
-    return cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
-  }
-
-  getUserId(cart: Cart): string {
-    return cart.user.uid === OCC_USER_ID_ANONYMOUS
-      ? cart.user.uid
-      : OCC_USER_ID_CURRENT;
-  }
-
   callAddToCartActionWithConfigurationData(
     addToCartParameters: ConfiguratorTextfield.AddToCartParameters
   ): void {

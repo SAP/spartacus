@@ -32,7 +32,7 @@
       }
 
       a {
-        display: block;
+        display: flow-root;
         &:hover {
           cursor: pointer;
           color: var(--cx-color-primary);
