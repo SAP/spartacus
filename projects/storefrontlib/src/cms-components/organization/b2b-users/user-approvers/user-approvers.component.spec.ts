@@ -93,6 +93,8 @@ class MockUrlPipe implements PipeTransform {
 const userList = new BehaviorSubject(mockUserList);
 
 class MockB2BUserService implements Partial<B2BUserService> {
+  get = createSpy('get').and.returnValue(of({ email: 'test@bbb' }));
+
   loadB2BUserApprovers = createSpy('loadB2BUserApprovers');
 
   getB2BUserApprovers = createSpy('getB2BUserApprovers').and.returnValue(
@@ -189,12 +191,10 @@ describe('UnitApproversComponent', () => {
 
       expect(userService.loadB2BUserApprovers).toHaveBeenCalledWith(
         code,
-        roleId,
         params
       );
       expect(userService.getB2BUserApprovers).toHaveBeenCalledWith(
         code,
-        roleId,
         params
       );
       expect(usersList).toEqual(mockUserUIList);

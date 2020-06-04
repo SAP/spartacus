@@ -29,7 +29,6 @@ import { UserAssignApproversComponent } from './user-assign-approvers.component'
 import createSpy = jasmine.createSpy;
 
 const code = 'unitCode';
-const roleId = 'b2bapprovergroup';
 const customerId = 'customerId1';
 const userRow = {
   row: {
@@ -108,6 +107,8 @@ class MockUrlPipe implements PipeTransform {
 const userList = new BehaviorSubject(mockUserList);
 
 class MockB2BUserService implements Partial<B2BUserService> {
+  get = createSpy('get').and.returnValue(of({ email: 'test@bbb' }));
+
   loadB2BUserApprovers = createSpy('loadB2BUserApprovers');
 
   getB2BUserApprovers = createSpy('getB2BUserApprovers').and.returnValue(
@@ -125,7 +126,6 @@ class MockRoutingService {
       state: {
         params: {
           code,
-          roleId,
         },
         queryParams: {
           sort: 'byName',
@@ -207,12 +207,10 @@ describe('UserAssignApproversComponent', () => {
 
       expect(userService.loadB2BUserApprovers).toHaveBeenCalledWith(
         code,
-        roleId,
         defaultParams
       );
       expect(userService.getB2BUserApprovers).toHaveBeenCalledWith(
         code,
-        roleId,
         defaultParams
       );
       expect(usersList).toEqual(mockUserUIList);
@@ -224,8 +222,7 @@ describe('UserAssignApproversComponent', () => {
       component.assign(userRow);
       expect(userService.assignApprover).toHaveBeenCalledWith(
         code,
-        userRow.row.customerId,
-        roleId
+        userRow.row.customerId
       );
     });
   });
@@ -235,8 +232,7 @@ describe('UserAssignApproversComponent', () => {
       component.unassign(userRow);
       expect(userService.unassignApprover).toHaveBeenCalledWith(
         code,
-        userRow.row.customerId,
-        roleId
+        userRow.row.customerId
       );
     });
   });
