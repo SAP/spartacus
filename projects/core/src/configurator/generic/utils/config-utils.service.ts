@@ -36,7 +36,7 @@ export class GenericConfigUtilsService {
    * Composes owner ID from document ID and entry number
    * @param documentId ID of document the entry is part of, like the order or quote code
    * @param entryNumber Entry number
-   * @returns owner ID
+   * @returns {string} owner ID
    */
   public getComposedOwnerId(documentId: string, entryNumber: number): string {
     return documentId + '+' + entryNumber;
@@ -45,7 +45,7 @@ export class GenericConfigUtilsService {
   /**
    * Decomposes an owner ID into documentId and entryNumber
    * @param ownerId ID of owner
-   * @returns object containing documentId and entryNumber
+   * @returns {any} object containing documentId and entryNumber
    */
   public decomposeOwnerId(ownerId: string): any {
     const parts: string[] = ownerId.split('+');
