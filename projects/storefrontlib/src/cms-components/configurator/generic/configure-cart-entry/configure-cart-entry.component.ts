@@ -15,7 +15,6 @@ export class ConfigureCartEntryComponent {
   @Input() readOnly: boolean;
 
   public getOwnerType(): GenericConfigurator.OwnerType {
-    console.log('CHHI order  code: ' + this.cartEntry.orderCode);
     return this.cartEntry.orderCode !== undefined
       ? GenericConfigurator.OwnerType.ORDER_ENTRY
       : GenericConfigurator.OwnerType.CART_ENTRY;
