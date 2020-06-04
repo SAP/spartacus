@@ -30,8 +30,9 @@
   <ng-template #poNumber>
     <div class="cx-review-summary-card">
       <cx-card
-        *ngIf="poNumber$ | async as po"
-        [content]="getPoNumberCard(po, costCenterName$ | async) | async"
+        [content]="
+          getPoNumberCard(poNumber$ | async, costCenterName$ | async) | async
+        "
       ></cx-card>
     </div>
     <div *cxFeatureLevel="'1.1'" class="cx-review-summary-edit-step">
