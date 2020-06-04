@@ -73,6 +73,7 @@ import {
   UserApproversModule,
   UserAssignApproversModule,
   UserAssignPermissionsModule,
+  UserAssignUserGroupsModule,
   UserGroupAssignPermissionsModule,
   UserGroupAssignUsersModule,
   UserGroupCreateModule,
@@ -82,6 +83,7 @@ import {
   UserGroupPermissionsModule,
   UserGroupUsersModule,
   UserPermissionsModule,
+  UserUserGroupsModule,
 } from './organization/index';
 import {
   ProductCarouselModule,
@@ -191,6 +193,8 @@ import { WishListModule } from './wish-list/wish-list.module';
     UserAssignPermissionsModule,
     UserApproversModule,
     UserAssignApproversModule,
+    UserUserGroupsModule,
+    UserAssignUserGroupsModule,
   ],
 })
 export class CmsLibModule {}

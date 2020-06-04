@@ -71,6 +71,7 @@ import {
   userGroupAvailableOrderApprovalPermissionsListReducer,
   userGroupAvailablOrgCustomersListReducer,
   userGroupsListReducer,
+  userGroupEntitiesReducer,
 } from './user-group.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
@@ -115,7 +116,10 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       addressEntities: entityLoaderReducer<B2BAddress>(ADDRESS_ENTITIES),
     }),
     [USER_GROUP_FEATURE]: combineReducers({
-      entities: entityLoaderReducer<UserGroup>(USER_GROUP_ENTITIES),
+      entities: entityLoaderReducer<UserGroup>(
+        USER_GROUP_ENTITIES,
+        userGroupEntitiesReducer
+      ),
       list: entityLoaderReducer<ListModel>(
         USER_GROUP_LIST,
         userGroupsListReducer
