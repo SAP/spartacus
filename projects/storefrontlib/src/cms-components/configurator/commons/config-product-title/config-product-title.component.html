@@ -1,17 +1,26 @@
 <ng-container *ngIf="product$ | async as product">
-  <div class="container">
-    <div class="cx-config-product-title" tabindex="0">
+  <div class="cx-config-container">
+    <div class="cx-config-product-title">
       {{ product.name }}
     </div>
 
-    <a class="cx-config-toogle-details-link" role="link" (click)="click()">
+    <a
+      class="cx-config-toogle-details-link"
+      role="link"
+      (click)="click()"
+      tabindex="0"
+    >
       <ng-container *ngIf="showMore === false"
-        >{{ 'configurator.header.showMore' | cxTranslate }}
+        ><div class="cx-config-toogle-details-link-text">
+          {{ 'configurator.header.showMore' | cxTranslate }}
+        </div>
         <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon
       ></ng-container>
 
       <ng-container *ngIf="showMore === true"
-        >{{ 'configurator.header.showLess' | cxTranslate }}
+        ><div class="cx-config-toogle-details-link-text">
+          {{ 'configurator.header.showLess' | cxTranslate }}
+        </div>
         <cx-icon [type]="iconTypes.CARET_UP"></cx-icon
       ></ng-container>
     </a>
@@ -20,10 +29,28 @@
       class="cx-config-product-title-details"
       [class.open]="showMore === true"
     >
-      <img
-        [alt]="getProductImageAlt(product)"
-        [src]="getProductImageURL(product)"
-      />
+      <div class="cx-config-product-title-details-image">
+        <img
+          [alt]="getProductImageAlt(product)"
+          [src]="getProductImageURL(product)"
+        />
+      </div>
+      <div class="cx-config-product-title-details-content">
+        <div class="cx-config-product-detail-title">
+          {{ product.name }}
+        </div>
+        <div class="cx-config-product-code">
+          {{ product.code }}
+        </div>
+        <div *ngIf="product.priceRange" class="cx-config-product-price">
+          {{ product.priceRange?.minPrice }} -
+          {{ product.priceRange?.maxPrice }}
+        </div>
+
+        <div class="cx-config-product-description">
+          {{ product.description }}
+        </div>
+      </div>
     </div>
   </div>
 </ng-container>
