@@ -13,9 +13,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   B2BSearchConfig,
   B2BUser,
+  B2BUserService,
   EntitiesModel,
   I18nTestingModule,
-  OrgUnitService,
   RoutesConfig,
   RoutingConfig,
   RoutingService,
@@ -24,7 +24,7 @@ import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/l
 import { BehaviorSubject, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
-import { UnitAssignApproversComponent } from './user-assign-approvers.component';
+import { UserAssignApproversComponent } from './user-assign-approvers.component';
 
 import createSpy = jasmine.createSpy;
 
@@ -107,11 +107,12 @@ class MockUrlPipe implements PipeTransform {
 
 const userList = new BehaviorSubject(mockUserList);
 
-class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadUsers = createSpy('loadUsers');
+class MockB2BUserService implements Partial<B2BUserService> {
+  loadB2BUserApprovers = createSpy('loadB2BUserApprovers');
 
-  getUsers = createSpy('getUsers').and.returnValue(userList);
-
+  getB2BUserApprovers = createSpy('getB2BUserApprovers').and.returnValue(
+    userList
+  );
   assignApprover = createSpy('assignApprover');
 
   unassignApprover = createSpy('unassignApprover');
@@ -142,23 +143,23 @@ class MockRoutingConfig {
   }
 }
 
-describe('UnitAssignApproversComponent', () => {
-  let component: UnitAssignApproversComponent;
-  let fixture: ComponentFixture<UnitAssignApproversComponent>;
-  let orgUnitService: MockOrgUnitService;
+describe('UserAssignApproversComponent', () => {
+  let component: UserAssignApproversComponent;
+  let fixture: ComponentFixture<UserAssignApproversComponent>;
+  let userService: MockB2BUserService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
       declarations: [
-        UnitAssignApproversComponent,
+        UserAssignApproversComponent,
         MockUrlPipe,
         MockPaginationComponent,
       ],
       providers: [
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
+        { provide: B2BUserService, useClass: MockB2BUserService },
         {
           provide: PaginationConfig,
           useValue: {
@@ -168,11 +169,11 @@ describe('UnitAssignApproversComponent', () => {
       ],
     }).compileComponents();
 
-    orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
+    userService = TestBed.get(B2BUserService as Type<B2BUserService>);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnitAssignApproversComponent);
+    fixture = TestBed.createComponent(UserAssignApproversComponent);
     component = fixture.componentInstance;
     userList.next(mockUserList);
     fixture.detectChanges();
@@ -204,12 +205,12 @@ describe('UnitAssignApproversComponent', () => {
         usersList = value;
       });
 
-      expect(orgUnitService.loadUsers).toHaveBeenCalledWith(
+      expect(userService.loadB2BUserApprovers).toHaveBeenCalledWith(
         code,
         roleId,
         defaultParams
       );
-      expect(orgUnitService.getUsers).toHaveBeenCalledWith(
+      expect(userService.getB2BUserApprovers).toHaveBeenCalledWith(
         code,
         roleId,
         defaultParams
@@ -221,7 +222,7 @@ describe('UnitAssignApproversComponent', () => {
   describe('assign', () => {
     it('should assign approver', () => {
       component.assign(userRow);
-      expect(orgUnitService.assignApprover).toHaveBeenCalledWith(
+      expect(userService.assignApprover).toHaveBeenCalledWith(
         code,
         userRow.row.customerId,
         roleId
@@ -232,7 +233,7 @@ describe('UnitAssignApproversComponent', () => {
   describe('unassign', () => {
     it('should unassign approver', () => {
       component.unassign(userRow);
-      expect(orgUnitService.unassignApprover).toHaveBeenCalledWith(
+      expect(userService.unassignApprover).toHaveBeenCalledWith(
         code,
         userRow.row.customerId,
         roleId

@@ -24,7 +24,9 @@
 >
   <cx-interactive-table
     [data$]="data$"
-    [header]="'userAssignApprovers.header' | cxTranslate: { code: code }"
+    [header]="
+      'userAssignApprovers.header' | cxTranslate: { code: uid$ | async }
+    "
     [sortLabels]="{
       byName: 'usersList.sorting.byName' | cxTranslate,
       byUnit: 'usersList.sorting.byUnitName' | cxTranslate

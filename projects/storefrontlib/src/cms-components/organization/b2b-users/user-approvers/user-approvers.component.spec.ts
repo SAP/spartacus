@@ -13,9 +13,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   B2BSearchConfig,
   B2BUser,
+  B2BUserService,
   EntitiesModel,
   I18nTestingModule,
-  OrgUnitService,
   RoutesConfig,
   RoutingConfig,
   RoutingService,
@@ -92,10 +92,12 @@ class MockUrlPipe implements PipeTransform {
 
 const userList = new BehaviorSubject(mockUserList);
 
-class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadUsers = createSpy('loadUsers');
+class MockB2BUserService implements Partial<B2BUserService> {
+  loadB2BUserApprovers = createSpy('loadB2BUserApprovers');
 
-  getUsers = createSpy('getUsers').and.returnValue(userList);
+  getB2BUserApprovers = createSpy('getB2BUserApprovers').and.returnValue(
+    userList
+  );
 }
 
 class MockRoutingService {
@@ -126,7 +128,7 @@ class MockRoutingConfig {
 describe('UnitApproversComponent', () => {
   let component: UserApproversComponent;
   let fixture: ComponentFixture<UserApproversComponent>;
-  let orgUnitService: MockOrgUnitService;
+  let userService: MockB2BUserService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -139,7 +141,7 @@ describe('UnitApproversComponent', () => {
       providers: [
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
+        { provide: B2BUserService, useClass: MockB2BUserService },
         {
           provide: PaginationConfig,
           useValue: {
@@ -149,7 +151,7 @@ describe('UnitApproversComponent', () => {
       ],
     }).compileComponents();
 
-    orgUnitService = TestBed.get(OrgUnitService as Type<OrgUnitService>);
+    userService = TestBed.get(B2BUserService as Type<B2BUserService>);
   }));
 
   beforeEach(() => {
@@ -185,12 +187,12 @@ describe('UnitApproversComponent', () => {
         usersList = value;
       });
 
-      expect(orgUnitService.loadUsers).toHaveBeenCalledWith(
+      expect(userService.loadB2BUserApprovers).toHaveBeenCalledWith(
         code,
         roleId,
         params
       );
-      expect(orgUnitService.getUsers).toHaveBeenCalledWith(
+      expect(userService.getB2BUserApprovers).toHaveBeenCalledWith(
         code,
         roleId,
         params
