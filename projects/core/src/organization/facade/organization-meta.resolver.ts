@@ -12,7 +12,7 @@ import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { RoutingService } from '../../routing/facade/routing.service';
-
+import { organization } from '../../../../../projects/assets/src/translations/en/organization';
 /**
  * Resolves the page data for Organization Pages.
  *
@@ -24,7 +24,7 @@ import { RoutingService } from '../../routing/facade/routing.service';
 export class OrganizationMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
   protected organizationPage$: Observable<
-    UrlSegment | Page
+    UrlSegment | Page | string
   > = this.cms.getCurrentPage().pipe(
     filter(Boolean),
     switchMap((page: Page) =>
@@ -49,7 +49,7 @@ export class OrganizationMetaResolver extends PageMetaResolver
       filter((urlSegment: UrlSegment) => !!urlSegment),
       switchMap((url: UrlSegment) =>
         this.translation.translate('pageMetaResolver.organization.title', {
-          title: url.path,
+          title: organization.breadcrumbs[url.path] || url.path,
         })
       )
     );
@@ -57,22 +57,34 @@ export class OrganizationMetaResolver extends PageMetaResolver
 
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
     return combineLatest([
-      this.organizationPage$.pipe(),
       this.translation.translate('common.home'),
-    ]).pipe(map(() => this.resolveBreadcrumbData()));
+      this.translation.translate('pageMetaResolver.organization.home'),
+    ]).pipe(
+      map(([homeLabel, organizationLabel]: [string, string]) =>
+        this.resolveBreadcrumbData(homeLabel, organizationLabel)
+      )
+    );
   }
 
-  protected resolveBreadcrumbData(): BreadcrumbMeta[] {
+  protected resolveBreadcrumbData(
+    homeLabel: string,
+    organizationLabel: string
+  ): BreadcrumbMeta[] {
     const breadcrumbs: BreadcrumbMeta[] = [];
-    breadcrumbs.push({ label: '', link: '/' });
+    breadcrumbs.push({ label: homeLabel, link: '/' });
+    breadcrumbs.push({ label: organizationLabel, link: '/organization' });
 
-    for (const url of this.route.snapshot.children[0].url) {
-      breadcrumbs.push({
-        label: url.path,
-        link: `/${url.path}`,
-      });
+    for (let i = 1; i < this.route.snapshot.children[0].url.length - 1; i++) {
+      const url = this.route.snapshot.children[0].url[i];
+      this.translation
+        .translate(`${organization.breadcrumbs[url.path]}`)
+        .subscribe((translation) =>
+          breadcrumbs.push({
+            label: translation || url.path,
+            link: `/${url.path}`,
+          })
+        );
     }
-    breadcrumbs.pop();
     return breadcrumbs;
   }
 

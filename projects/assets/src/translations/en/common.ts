@@ -34,6 +34,7 @@ export const common = {
       title: '{{title}}',
     },
     organization: {
+      home: 'Organization',
       description: '{{description}}',
       heading: '{{heading}}',
       title: '{{title}}',

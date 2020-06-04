@@ -434,4 +434,17 @@ export const organization = {
     header: 'Manage user groups for {{code}}',
     back: 'Close',
   },
+  breadcrumbs: {
+    organization: 'Organization',
+    units: 'Units',
+    users: 'Users',
+    budget: 'Budget',
+    budgets: 'Budgets',
+    'cost-center': 'Cost Center',
+    'cost-centers': 'Cost Centers',
+    'purchase-limit': 'Purchase Limit',
+    'purchase-limits': 'Purchase Limits',
+    'user-group': 'User Group',
+    'user-groups': 'User Groups',
+  },
 };
