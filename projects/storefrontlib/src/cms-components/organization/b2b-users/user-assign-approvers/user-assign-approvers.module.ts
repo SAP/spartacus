@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AuthGuard,
   CmsConfig,
@@ -8,13 +10,11 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
-import { UnitApproversComponent } from './unit-approvers.component';
-import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
+import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
 import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
+import { UserAssignApproversComponent } from './user-assign-approvers.component';
 
 @NgModule({
   imports: [
@@ -24,13 +24,13 @@ import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'orgUnitApprovers' },
+        data: { cxRoute: 'userAssignApprovers' },
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        UnitApproversComponent: {
-          component: UnitApproversComponent,
+        UserAssignApproversComponent: {
+          component: UserAssignApproversComponent,
           guards: [AuthGuard],
         },
       },
@@ -42,9 +42,9 @@ import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
     FormsModule,
     FakeTabsModule,
   ],
-  declarations: [UnitApproversComponent],
-  exports: [UnitApproversComponent],
+  declarations: [UserAssignApproversComponent],
+  exports: [UserAssignApproversComponent],
   providers: [],
-  entryComponents: [UnitApproversComponent],
+  entryComponents: [UserAssignApproversComponent],
 })
-export class UnitApproversModule {}
+export class UserAssignApproversModule {}
