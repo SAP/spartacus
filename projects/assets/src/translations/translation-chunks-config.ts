@@ -73,6 +73,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'checkoutLogin',
   ],
   organization: [
+    'breadcrumbs',
     'budgetsList',
     'budget',
     'budgetForm',
