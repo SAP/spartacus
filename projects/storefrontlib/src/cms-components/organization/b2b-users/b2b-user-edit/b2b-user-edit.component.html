@@ -30,7 +30,7 @@
     [actionBtnLabel]="'b2bUserForm.update' | cxTranslate"
     [b2bUserData]="b2bUser"
     [routerBackLink]="{ cxRoute: 'userDetails', params: { code: b2bUser.uid }}"
-    (submit)="updateB2BUser($event)"
+    (submitForm)="updateB2BUser($event)"
   >
   </cx-b2b-user-form>
 </cx-fake-tabs>
