@@ -60,13 +60,14 @@ const mockOrder: Order = {
 
 const mockB2BOrder = {
   ...mockOrder,
-  user: {
-    name: 'Rivers',
-  },
   costCenter: {
     name: 'Rustic Global',
+    unit: {
+      name: 'Rustic',
+    },
   },
   orgCustomer: {
+    name: 'Rivers',
     orgUnit: {
       name: 'Rustic',
     },
@@ -180,11 +181,6 @@ describe('OrderDetailShippingComponent', () => {
     );
   });
 
-  /**
-   * TODO GH-7765: move out assertions to proper file when lib is created
-   * costCenter, orgCustomer, purchaseOrderNumber
-   * https://cxwiki.sap.com/pages/viewpage.action?pageId=514209363
-   */
   it('should display "account payment" data', () => {
     spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
       of(mockB2BOrder)
@@ -197,7 +193,7 @@ describe('OrderDetailShippingComponent', () => {
     expect(element.nativeElement.textContent).toContain(
       mockB2BOrder.purchaseOrderNumber &&
         mockB2BOrder.costCenter &&
-        mockB2BOrder.orgCustomer.orgUnit.name
+        mockB2BOrder.costCenter.unit.name
     );
   });
 

@@ -124,11 +124,6 @@ export interface OrderHistoryList {
   sorts?: SortModel[];
 }
 
-/**
- * TODO GH-7765: move out to separate interface new new lib gets created
- * costCenter, orgCustomer, purchaseOrderNumber
- * https://cxwiki.sap.com/pages/viewpage.action?pageId=514209363
- */
 export interface Order {
   appliedOrderPromotions?: PromotionResult[];
   appliedProductPromotions?: PromotionResult[];

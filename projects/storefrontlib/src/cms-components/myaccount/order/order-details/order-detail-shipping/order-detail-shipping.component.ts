@@ -105,7 +105,7 @@ export class OrderDetailShippingComponent implements OnInit {
             text: [
               `${textPurchaseOrderId}: ${order.purchaseOrderNumber}`,
               `${textCostCenter}: ${order.costCenter.name}`,
-              `${textUnit}: ${order.orgCustomer.orgUnit.name}`,
+              `${textUnit}: ${order.costCenter.unit.name}`,
             ],
           };
         }

@@ -51,13 +51,14 @@ const mockOrder: Order = {
 
 const mockB2BOrder: Order = {
   ...mockOrder,
-  user: {
-    name: 'Rivers',
-  },
   costCenter: {
     name: 'Rustic Global',
+    unit: {
+      name: 'Rustic',
+    },
   },
   orgCustomer: {
+    name: 'Rivers',
     orgUnit: {
       name: 'Rustic',
     },
@@ -152,12 +153,6 @@ describe('OrderDetailHeadlineComponent', () => {
     );
   });
 
-  /**
-   * TODO GH-7765: move out assertions to proper file when lib is created
-   * costCenter, orgCustomer, purchaseOrderNumber
-   * https://cxwiki.sap.com/pages/viewpage.action?pageId=514209363
-   */
-
   it('should display correct purchase order number', () => {
     spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
       of(mockB2BOrder)
@@ -183,7 +178,9 @@ describe('OrderDetailHeadlineComponent', () => {
     const element: DebugElement = el.query(
       By.css('.cx-header:nth-of-type(2) div:nth-child(2) > div.cx-detail-value')
     );
-    expect(element.nativeElement.textContent).toContain(mockB2BOrder.user.name);
+    expect(element.nativeElement.textContent).toContain(
+      mockB2BOrder.orgCustomer.name
+    );
   });
 
   it('should display correct unit', () => {
@@ -198,7 +195,7 @@ describe('OrderDetailHeadlineComponent', () => {
       )
     );
     expect(element.nativeElement.textContent).toContain(
-      mockB2BOrder.orgCustomer.orgUnit.name && mockB2BOrder.costCenter.name
+      mockB2BOrder.costCenter.unit.name && mockB2BOrder.costCenter.name
     );
   });
 });
