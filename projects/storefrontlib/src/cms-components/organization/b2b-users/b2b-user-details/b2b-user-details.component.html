@@ -3,21 +3,21 @@
   [links]="[
     {
       cxRoute: 'userDetails',
-      name: 'user.details',
+      name: 'userForm.details',
       params: { customerId: b2bUserCode$ | async },
       active: true
     },
     {
       cxRoute: 'userApprovers',
-      name: 'user.approvers'
+      name: 'userForm.approvers'
     },
     {
       cxRoute: 'userPermissions',
-      name: 'user.permissions'
+      name: 'userForm.permissions'
     },
     {
       cxRoute: 'userUserGroups',
-      name: 'user.userGroups'
+      name: 'userForm.userGroups'
     }
   ]"
   [routerBackLink]="{ cxRoute: 'users', name: 'user.back' }"
@@ -26,26 +26,26 @@
     <div class="row">
       <div class="col-md-12 col-lg-6">
         <div class="cx-header">
-          <h3>{{ 'b2bUser.details' | cxTranslate }}</h3>
+          <h3>{{ 'userForm.details' | cxTranslate }}</h3>
         </div>
 
         <div class="row">
-          <div class="col-6">{{ 'b2bUser.name' | cxTranslate }}</div>
+          <div class="col-6">{{ 'user.name' | cxTranslate }}</div>
           <div class="col-6 cx-label">{{ user.name }}</div>
         </div>
 
         <div class="row">
-          <div class="col-6">{{ 'b2bUser.email' | cxTranslate }}</div>
+          <div class="col-6">{{ 'user.email' | cxTranslate }}</div>
           <div class="col-6">{{ user.uid }}</div>
         </div>
 
         <div class="row">
-          <div class="col-6">{{ 'b2bUser.role' | cxTranslate }}</div>
+          <div class="col-6">{{ 'user.role' | cxTranslate }}</div>
           <div class="col-6">{{ user.roles }}</div>
         </div>
 
         <div class="row">
-          <div class="col-6">{{ 'b2bUser.parentUnit' | cxTranslate }}</div>
+          <div class="col-6">{{ 'user.parentUnit' | cxTranslate }}</div>
           <div class="col-6">
             <a
               [routerLink]="
@@ -82,13 +82,13 @@
               class="btn btn-secondary btn-block"
               (click)="openModal(confirmDisable)"
             >
-              {{ 'user.disable' | cxTranslate }}
+              {{ 'userForm.disable' | cxTranslate }}
             </button>
 
             <ng-template #confirmDisable>
               <cx-confirm-modal
-                [title]="'user.confirmDeactivation.title' | cxTranslate"
-                [message]="'user.confirmDeactivation.message' | cxTranslate"
+                [title]="'userForm.confirmDeactivation.title' | cxTranslate"
+                [message]="'userForm.confirmDeactivation.message' | cxTranslate"
                 (confirm)="update({ active: false })"
               ></cx-confirm-modal>
             </ng-template>
@@ -100,7 +100,7 @@
                 [disabled]="!user.orgUnit?.active"
                 (click)="update({ active: true })"
               >
-                {{ 'user.enable' | cxTranslate }}
+                {{ 'userForm.enable' | cxTranslate }}
               </button>
             </div>
           </ng-template>
@@ -115,7 +115,7 @@
               "
               class="btn btn-primary btn-block"
             >
-              {{ 'user.edit' | cxTranslate }}
+              {{ 'userForm.edit' | cxTranslate }}
             </a>
           </div>
         </div>

@@ -3,31 +3,31 @@
   [links]="[
     {
       cxRoute: 'userDetails',
-      name: 'user.details',
+      name: 'userForm.details',
       params: { customerId: b2bUserCode$ | async },
       active: true
     },
     {
       cxRoute: 'userApprovers',
-      name: 'user.approvers'
+      name: 'userForm.approvers'
     },
     {
       cxRoute: 'userPermissions',
-      name: 'user.permissions'
+      name: 'userForm.permissions'
     },
     {
       cxRoute: 'userUserGroups',
-      name: 'user.userGroups'
+      name: 'userForm.userGroups'
     }
   ]"
   [routerBackLink]="{ cxRoute: 'users', name: 'user.back' }"
 >
   <div class="cx-header">
-    <h3>{{ 'b2bUserForm.edit' | cxTranslate }}</h3>
+    <h3>{{ 'userForm.edit' | cxTranslate }}</h3>
   </div>
   <cx-b2b-user-form
     *ngIf="b2bUser$ | async as b2bUser"
-    [actionBtnLabel]="'b2bUserForm.update' | cxTranslate"
+    [actionBtnLabel]="'userForm.update' | cxTranslate"
     [b2bUserData]="b2bUser"
     [routerBackLink]="{ cxRoute: 'userDetails', params: { code: b2bUser.uid }}"
     (submitForm)="updateB2BUser($event)"

@@ -333,14 +333,15 @@ export const organization = {
     id: 'ID',
     name: 'Name',
   },
-  b2bUsersList: {
-    b2bUserManagement: 'Users',
+
+  usersList: {
+    userManagement: 'Users',
     sorting: {
       byName: 'Name',
       byUnit: 'Unit',
     },
     code: 'Email',
-    id: 'Email',
+    uid: 'Email',
     name: 'Name',
     roles: 'Roles',
     assign: 'Assign',
@@ -349,30 +350,30 @@ export const organization = {
     manager: 'Manager',
     approver: 'Approver',
     customer: 'Customer',
-    create: 'Create new user',
+    create: 'New user...',
   },
-
-  b2bUser: {
-    details: 'User details',
-    id: 'ID',
+  user: {
     name: 'Name',
-    parentUnit: 'Parent Unit',
-    edit: 'Edit',
-    back: 'Back to list',
-    assignPermissions: 'Manage Permissions',
-    assignApprovers: 'Manage Approvers',
-    assignUserGroups: 'Manage User Groups',
-    status: 'Status',
     email: 'Email',
-    disable: 'Disable',
-    enable: 'Enable',
     role: 'Role',
+    parentUnit: 'Parent Unit',
+    back: 'Back to user list',
+    edit: 'Edit',
+    status: 'Status',
+    active: 'Enabled',
+    deactivated: 'Disabled',
   },
-
-  b2bUserForm: {
-    create: 'Create User',
+  userForm: {
+    create: 'New user',
+    save: 'Save',
     edit: 'Edit User',
     update: 'Update User',
+    disable: 'Disable',
+    enable: 'Enable',
+    details: 'Details',
+    approvers: 'Approvers',
+    permissions: 'Purchase limits',
+    userGroups: 'User groups',
     email: {
       label: 'Email address',
       placeholder: 'Email',
@@ -401,6 +402,34 @@ export const organization = {
     },
     title: 'Title',
     assignAprover: 'Add user to the approver list for this user',
+    confirmDeactivation: {
+      title: 'Disable User',
+      message: 'Are you sure you want to disable this user?',
+    },
+  },
+  userPermissions: {
+    header: 'Purchase limits assigned to {{code}}',
+    assignPermissions: 'Manage limits',
+  },
+  userAssignPermissions: {
+    header: 'Manage purchase limits for {{code}}',
+    back: 'Close',
+  },
+  userApprovers: {
+    header: 'User approvers assigned to {{code}}',
+    assignApprovers: 'Manage approvers',
+  },
+  userAssignApprovers: {
+    header: 'Manage user approvers for {{code}}',
+    back: 'Close',
+  },
+  userUserGroups: {
+    header: 'User groups of {{code}}',
+    assignUserGroups: 'Manage user groups',
+  },
+  userAssignUserGroups: {
+    header: 'Manage user groups for {{code}}',
+    back: 'Close',
   },
 
   userGroupsList: {
@@ -465,46 +494,5 @@ export const organization = {
     header: 'Manage users in {{code}}',
     back: 'Close',
     unassignAll: 'Unassign All',
-  },
-  user: {
-    details: 'Details',
-    approvers: 'Approvers',
-    permissions: 'Purchase limits',
-    userGroups: 'User groups',
-    back: 'Back to user list',
-    disable: 'Disable',
-    enable: 'Enable',
-    edit: 'Edit',
-    status: 'Status',
-    active: 'Enabled',
-    deactivated: 'Disabled',
-    confirmDeactivation: {
-      title: 'Disable User',
-      message: 'Are you sure you want to disable this user?',
-    },
-  },
-  userPermissions: {
-    header: 'Purchase limits assigned to {{code}}',
-    assignPermissions: 'Manage limits',
-  },
-  userAssignPermissions: {
-    header: 'Manage purchase limits for {{code}}',
-    back: 'Close',
-  },
-  userApprovers: {
-    header: 'User approvers assigned to {{code}}',
-    assignApprovers: 'Manage approvers',
-  },
-  userAssignApprovers: {
-    header: 'Manage user approvers for {{code}}',
-    back: 'Close',
-  },
-  userUserGroups: {
-    header: 'User groups of {{code}}',
-    assignUserGroups: 'Manage user groups',
-  },
-  userAssignUserGroups: {
-    header: 'Manage user groups for {{code}}',
-    back: 'Close',
   },
 };

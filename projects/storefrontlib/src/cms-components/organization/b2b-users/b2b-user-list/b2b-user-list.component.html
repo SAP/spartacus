@@ -1,21 +1,21 @@
 <cx-interactive-table
   [data$]="data$"
-  [header]="'b2bUsersList.b2bUserManagement' | cxTranslate"
+  [header]="'usersList.userManagement' | cxTranslate"
   [sortLabels]="{
-    byName: 'b2bUsersList.sorting.byName' | cxTranslate,
-    byUnit: 'b2bUsersList.sorting.byUnit' | cxTranslate
+    byName: 'usersList.sorting.byName' | cxTranslate,
+    byUnit: 'usersList.sorting.byUnit' | cxTranslate
   }"
   [columns]="[
-    { key: 'name', value: 'b2bUsersList.name' | cxTranslate },
+    { key: 'name', value: 'usersList.name' | cxTranslate },
     {
       key: 'code',
-      value: 'b2bUsersList.code' | cxTranslate,
+      value: 'usersList.code' | cxTranslate,
       cxRoute: 'userDetails'
     },
-    { key: 'roles', value: 'b2bUsersList.roles' | cxTranslate },
+    { key: 'roles', value: 'usersList.roles' | cxTranslate },
     {
       key: 'parentUnit',
-      value: 'b2bUsersList.parentUnit' | cxTranslate,
+      value: 'usersList.parentUnit' | cxTranslate,
       cxRoute: 'orgUnitDetails'
     }
   ]"
@@ -29,7 +29,7 @@
           [routerLink]="{ cxRoute: 'userCreate' } | cxUrl"
           class="btn btn-primary btn-block"
         >
-          {{ 'b2bUsersList.create' | cxTranslate }}
+          {{ 'usersList.create' | cxTranslate }}
         </a>
       </div>
     </div>

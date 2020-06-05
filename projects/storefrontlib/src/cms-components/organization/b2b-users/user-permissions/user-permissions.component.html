@@ -3,21 +3,21 @@
   [links]="[
     {
       cxRoute: 'userDetails',
-      name: 'user.details',
+      name: 'userForm.details',
       params: { customerId: code$ | async }
     },
     {
       cxRoute: 'userApprovers',
-      name: 'user.approvers'
+      name: 'userForm.approvers'
     },
     {
       cxRoute: 'userPermissions',
-      name: 'user.permissions',
+      name: 'userForm.permissions',
       active: true
     },
     {
       cxRoute: 'userUserGroups',
-      name: 'user.userGroups'
+      name: 'userForm.userGroups'
     }
   ]"
   [routerBackLink]="{ cxRoute: 'users', name: 'user.back' }"
@@ -26,7 +26,7 @@
     [data$]="data$"
     [header]="'userPermissions.header' | cxTranslate: { code: uid$ | async }"
     [sortLabels]="{
-      byUnitName: 'permissionsList.sorting.byUnitName' | cxTranslate,
+      byUnitName: 'permissionsList.sorting.byUnit' | cxTranslate,
       byName: 'permissionsList.sorting.byName' | cxTranslate,
       byCode: 'permissionsList.sorting.byCode' | cxTranslate,
       byValue: 'permissionsList.sorting.byValue' | cxTranslate

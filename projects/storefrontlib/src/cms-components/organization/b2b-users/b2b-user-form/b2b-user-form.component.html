@@ -5,7 +5,7 @@
 >
   <span class="is-invalid">
     <span *ngFor="let error of control.errors | keyvalue">
-      {{ 'b2bUserForm.message.' + error.key | cxTranslate: translationParams }}
+      {{ 'userForm.message.' + error.key | cxTranslate: translationParams }}
     </span>
   </span>
 </ng-template>
@@ -18,7 +18,7 @@
           <div *ngIf="titles.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
-                'b2bUserForm.title' | cxTranslate
+                'userForm.title' | cxTranslate
               }}</span>
               <ng-select
                 formControlName="titleCode"
@@ -37,14 +37,14 @@
       <div class="form-group">
         <label>
           <span class="label-content required">{{
-            'b2bUserForm.firstName.label' | cxTranslate
+            'userForm.firstName.label' | cxTranslate
           }}</span>
           <input
             type="text"
             class="form-control"
             required
             placeholder="{{
-              'b2bUserForm.firstName.placeholder' | cxTranslate
+              'userForm.firstName.placeholder' | cxTranslate
             }}"
             formControlName="firstName"
             [class.is-invalid]="isNotValid('firstName')"
@@ -62,13 +62,13 @@
       <div class="form-group">
         <label>
           <span class="label-content required">{{
-            'b2bUserForm.lastName.label' | cxTranslate
+            'userForm.lastName.label' | cxTranslate
           }}</span>
           <input
             type="text"
             class="form-control"
             required
-            placeholder="{{ 'b2bUserForm.lastName.placeholder' | cxTranslate }}"
+            placeholder="{{ 'userForm.lastName.placeholder' | cxTranslate }}"
             formControlName="lastName"
             [class.is-invalid]="isNotValid('lastName')"
           />
@@ -85,13 +85,13 @@
       <div class="form-group">
         <label>
           <span class="label-content required">{{
-            'b2bUserForm.email.label' | cxTranslate
+            'userForm.email.label' | cxTranslate
           }}</span>
           <input
             class="form-control"
             type="text"
             required
-            placeholder="{{ 'b2bUserForm.email.placeholder' | cxTranslate }}"
+            placeholder="{{ 'userForm.email.placeholder' | cxTranslate }}"
             formControlName="uid"
             [class.is-invalid]="isNotValid('uid')"
           />
@@ -113,7 +113,7 @@
           <div *ngIf="businessUnits.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
-                'b2bUserForm.businessUnits.label' | cxTranslate
+                'userForm.businessUnits.label' | cxTranslate
               }}</span>
               <ng-select
                 formControlName="uid"
@@ -140,7 +140,7 @@
       <div class="form-group">
         <label aria-required="true">
           <span class="label-content required">
-            {{ 'b2bUserForm.roles.label' | cxTranslate }}
+            {{ 'userForm.roles.label' | cxTranslate }}
           </span>
         </label>
 
@@ -154,7 +154,7 @@
               (change)="onRoleChange($event)"
             />
             <span class="form-check-label">
-              {{ 'b2bUserForm.roles.' + role.name | cxTranslate }}
+              {{ 'userForm.roles.' + role.name | cxTranslate }}
             </span>
           </label>
         </div>
@@ -168,7 +168,7 @@
               [checked]="isApprover()"
             />
             <span class="form-check-label">{{
-              'b2bUserForm.assignAprover' | cxTranslate
+              'userForm.assignAprover' | cxTranslate
             }}</span>
           </label>
         </div>
