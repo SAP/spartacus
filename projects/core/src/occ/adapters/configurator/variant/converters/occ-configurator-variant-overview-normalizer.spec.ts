@@ -20,6 +20,7 @@ class MockTranslationService {
 
 const convertedOverview: Configurator.Overview = {
   configId: configId,
+  priceSummary: {},
   groups: [
     {
       id: '1',
@@ -87,6 +88,7 @@ const generalGroup: OccConfigurator.GroupOverview = {
 
 const overview: OccConfigurator.Overview = {
   id: configId,
+  pricing: {},
   groups: [
     group1,
     {
@@ -107,7 +109,9 @@ const overview: OccConfigurator.Overview = {
 };
 
 class MockConverterService {
-  convert() {}
+  convert(source: any) {
+    return source;
+  }
 }
 
 describe('OccConfiguratorVariantNormalizer', () => {

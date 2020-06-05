@@ -1,14 +1,21 @@
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
+import { CONFIGURATION_PRICE_SUMMARY_NORMALIZER } from '../../../../../configurator/commons/connectors';
 import { TranslationService } from '../../../../../i18n/translation.service';
 import { Configurator } from '../../../../../model/configurator.model';
-import { Converter } from '../../../../../util/converter.service';
+import {
+  Converter,
+  ConverterService,
+} from '../../../../../util/converter.service';
 import { OccConfigurator } from '../occ-configurator.models';
 
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantOverviewNormalizer
   implements Converter<OccConfigurator.Overview, Configurator.Overview> {
-  constructor(protected translation: TranslationService) {}
+  constructor(
+    protected translation: TranslationService,
+    protected converterService: ConverterService
+  ) {}
 
   convert(
     source: OccConfigurator.Overview,
@@ -17,6 +24,10 @@ export class OccConfiguratorVariantOverviewNormalizer
     target = {
       configId: source.id,
       groups: source.groups.flatMap((group) => this.convertGroup(group)),
+      priceSummary: this.converterService.convert(
+        source.pricing,
+        CONFIGURATION_PRICE_SUMMARY_NORMALIZER
+      ),
     };
 
     return target;
