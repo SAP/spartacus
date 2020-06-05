@@ -436,6 +436,7 @@ export const organization = {
   },
   breadcrumbs: {
     organization: 'Organization',
+    unit: 'Unit',
     units: 'Units',
     users: 'Users',
     budget: 'Budget',

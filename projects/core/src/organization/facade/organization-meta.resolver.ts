@@ -46,11 +46,9 @@ export class OrganizationMetaResolver extends PageMetaResolver
   resolveTitle(): Observable<string> {
     return this.organizationPage$.pipe(
       filter((urlSegment: UrlSegment) => !!urlSegment),
-      switchMap((url: UrlSegment) =>
-        this.translation.translate('pageMetaResolver.organization.title', {
-          // title: `organization.breadcrumbs.${url.path}` || url.path,
-          title: url.path,
-        })
+      switchMap(
+        (url: UrlSegment) =>
+          this.translation.translate(`breadcrumbs.${url.path}`) || url.path
       )
     );
   }
@@ -76,7 +74,7 @@ export class OrganizationMetaResolver extends PageMetaResolver
     let path = '/organization';
     for (let i = 1; i < this.route.snapshot.children[0].url.length - 1; i++) {
       const url = this.route.snapshot.children[0].url[i];
-      path = path + '/' + url.path;
+      path = `${path}/${url.path}`;
       this.translation
         .translate(`breadcrumbs.${url.path}`)
         .subscribe((translation) =>
