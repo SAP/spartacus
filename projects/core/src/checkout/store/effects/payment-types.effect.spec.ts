@@ -72,13 +72,14 @@ describe('Payment Types effect', () => {
         cartId: 'testCart',
         typeCode: 'ACCOUNT',
       });
-      const completion1 = new CheckoutActions.ClearCheckoutData();
-      const completion2 = new CheckoutActions.SetPaymentTypeSuccess({
-        code: 'testCart',
-      });
-      const completion3 = new CartActions.LoadCart({
+      const completion1 = new CartActions.LoadCartSuccess({
         userId: 'testUser',
         cartId: 'testCart',
+        cart: { code: 'testCart' },
+      });
+      const completion2 = new CheckoutActions.ClearCheckoutData();
+      const completion3 = new CheckoutActions.SetPaymentTypeSuccess({
+        code: 'testCart',
       });
 
       actions$ = hot('-a', { a: action });

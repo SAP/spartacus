@@ -411,7 +411,7 @@ export class CheckoutEffects {
     | CheckoutActions.SetCostCenterFail
     | CheckoutActions.ClearCheckoutDeliveryMode
     | CheckoutActions.ClearCheckoutDeliveryAddress
-    | CartActions.LoadCart
+    | CartActions.LoadCartSuccess
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_COST_CENTER),
     map((action: CheckoutActions.SetCostCenter) => action.payload),
@@ -419,7 +419,12 @@ export class CheckoutEffects {
       return this.checkoutCostCenterConnector
         .setCostCenter(payload.userId, payload.cartId, payload.costCenterId)
         .pipe(
-          mergeMap(() => [
+          mergeMap((data) => [
+            new CartActions.LoadCartSuccess({
+              cart: data,
+              cartId: payload.cartId,
+              userId: payload.userId,
+            }),
             new CheckoutActions.SetCostCenterSuccess(payload.costCenterId),
             new CheckoutActions.ClearCheckoutDeliveryMode({
               userId: payload.userId,
@@ -428,10 +433,6 @@ export class CheckoutEffects {
             new CheckoutActions.ClearCheckoutDeliveryAddress({
               userId: payload.userId,
               cartId: payload.cartId,
-            }),
-            new CartActions.LoadCart({
-              cartId: payload.cartId,
-              userId: payload.userId,
             }),
           ]),
           catchError((error) =>

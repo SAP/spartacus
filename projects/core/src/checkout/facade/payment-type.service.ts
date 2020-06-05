@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import {
   pluck,
   shareReplay,
@@ -9,7 +9,7 @@ import {
   take,
   map,
 } from 'rxjs/operators';
-import { PaymentType, Cart } from '../../model/cart.model';
+import { PaymentType } from '../../model/cart.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
@@ -94,15 +94,11 @@ export class PaymentTypeService {
    * Get the selected payment type
    */
   getSelectedPaymentType(): Observable<string> {
-    let cart: Cart;
-    this.activeCartService
-      .getActive()
-      .pipe(take(1))
-      .subscribe((data) => (cart = data));
-
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getSelectedPaymentType),
-      tap((selected) => {
+    return combineLatest([
+      this.activeCartService.getActive(),
+      this.checkoutStore.pipe(select(CheckoutSelectors.getSelectedPaymentType)),
+    ]).pipe(
+      tap(([cart, selected]) => {
         if (selected === undefined) {
           if (cart && cart.paymentType) {
             this.checkoutStore.dispatch(
@@ -113,7 +109,8 @@ export class PaymentTypeService {
             this.setPaymentType(this.ACCOUNT_PAYMENT);
           }
         }
-      })
+      }),
+      map(([_, selected]) => selected)
     );
   }
 
@@ -130,23 +127,18 @@ export class PaymentTypeService {
    * Get PO Number
    */
   getPoNumber(): Observable<string> {
-    let cart: Cart;
-    this.activeCartService
-      .getActive()
-      .pipe(take(1))
-      .subscribe((data) => (cart = data));
-
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getPoNumer),
-      tap((po) => {
-        if (po === undefined) {
-          if (cart && cart.purchaseOrderNumber) {
-            this.checkoutStore.dispatch(
-              new CheckoutActions.SetPaymentTypeSuccess(cart)
-            );
-          }
+    return combineLatest([
+      this.activeCartService.getActive(),
+      this.checkoutStore.pipe(select(CheckoutSelectors.getPoNumer)),
+    ]).pipe(
+      tap(([cart, po]) => {
+        if (po === undefined && cart && cart.purchaseOrderNumber) {
+          this.checkoutStore.dispatch(
+            new CheckoutActions.SetPaymentTypeSuccess(cart)
+          );
         }
-      })
+      }),
+      map(([_, po]) => po)
     );
   }
 }

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { tap, take } from 'rxjs/operators';
-import { Cart } from '../../model/cart.model';
+import { Observable, combineLatest } from 'rxjs';
+import { tap, take, map } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
@@ -49,23 +48,18 @@ export class CheckoutCostCenterService {
    * Get cost center id from cart
    */
   getCostCenter(): Observable<string> {
-    let cart: Cart;
-    this.activeCartService
-      .getActive()
-      .pipe(take(1))
-      .subscribe((data) => (cart = data));
-
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getCostCenter),
-      tap((id) => {
-        if (id === undefined) {
-          if (cart && cart.costCenter) {
-            this.checkoutStore.dispatch(
-              new CheckoutActions.SetCostCenterSuccess(cart.costCenter.code)
-            );
-          }
+    return combineLatest([
+      this.activeCartService.getActive(),
+      this.checkoutStore.pipe(select(CheckoutSelectors.getCostCenter)),
+    ]).pipe(
+      tap(([cart, id]) => {
+        if (id === undefined && cart && cart.costCenter) {
+          this.checkoutStore.dispatch(
+            new CheckoutActions.SetCostCenterSuccess(cart.costCenter.code)
+          );
         }
-      })
+      }),
+      map(([_, po]) => po)
     );
   }
 }
