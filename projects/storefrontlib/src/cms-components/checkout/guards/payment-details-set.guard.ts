@@ -42,7 +42,7 @@ export class PaymentDetailsSetGuard implements CanActivate {
         )
       ),
       map(([_, paymentDetails]) => {
-        if (checkoutStep.disabled) {
+        if (checkoutStep && checkoutStep.disabled) {
           return true;
         } else {
           return paymentDetails && Object.keys(paymentDetails).length !== 0
