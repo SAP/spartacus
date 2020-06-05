@@ -272,9 +272,9 @@ function start_apps {
 }
 
 function stop_apps {
-    pm2 stop csr
-    pm2 stop ssr
-    pm2 stop ssr_pwa
+    pm2 stop "${BASE_SITE}-csr-${CSR_PORT}"
+    pm2 stop "${BASE_SITE}-ssr-${SSR_PORT}"
+    pm2 stop "${BASE_SITE}-ssr_pwa-${SSR_PORT}"
 }
 
 function run_e2e_tests {
