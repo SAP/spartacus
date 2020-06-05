@@ -13,6 +13,7 @@ import { InteractiveTableModule } from '../../../../shared/components/interactiv
 import { NavigationModule } from '../../../navigation/navigation/navigation.module';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
+import { UnitTreeNavigationUIModule } from '../unit-tree-navigation-ui/unit-tree-navigation-ui.module';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
     I18nModule,
     InteractiveTableModule,
     NavigationModule,
+    UnitTreeNavigationUIModule,
   ],
   declarations: [ManageUnitsListComponent],
   exports: [ManageUnitsListComponent],
