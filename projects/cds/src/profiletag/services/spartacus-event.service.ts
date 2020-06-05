@@ -6,9 +6,11 @@ import {
   AuthActions,
   Cart,
   ConsentService,
+  EventService,
 } from '@spartacus/core';
+import { ProductDetailsPageVisitedEvent } from 'projects/core/src/routing/event/routing.events';
 import { Observable } from 'rxjs';
-import { filter, map, mapTo, skipWhile, take } from 'rxjs/operators';
+import { filter, map, mapTo, skipWhile, take, tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 
 @Injectable({
@@ -20,7 +22,8 @@ export class SpartacusEventService {
     protected router: Router,
     protected config: CdsConfig,
     protected activeCartService: ActiveCartService,
-    private actionsSubject: ActionsSubject
+    private actionsSubject: ActionsSubject,
+    private eventService: EventService
   ) {}
 
   navigated(): Observable<boolean> {
@@ -62,6 +65,14 @@ export class SpartacusEventService {
     return this.actionsSubject.pipe(
       filter((action) => action.type === AuthActions.LOGIN),
       mapTo(true)
+    );
+  }
+
+  productDetailsPageView(): Observable<any> {
+    return this.eventService.get(ProductDetailsPageVisitedEvent).pipe(
+      tap((data) => {
+        console.log(data);
+      })
     );
   }
 }
