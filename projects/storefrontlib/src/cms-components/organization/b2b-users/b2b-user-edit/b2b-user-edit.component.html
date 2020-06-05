@@ -29,7 +29,7 @@
     *ngIf="b2bUser$ | async as b2bUser"
     [actionBtnLabel]="'b2bUserForm.update' | cxTranslate"
     [b2bUserData]="b2bUser"
-    [routerBackLink]="{ cxRoute: 'users' }"
+    [routerBackLink]="{ cxRoute: 'userDetails', params: { code: b2bUser.uid }}"
     (submit)="updateB2BUser($event)"
   >
   </cx-b2b-user-form>
