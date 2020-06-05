@@ -20,22 +20,40 @@ class MockCardComponent {
   content: Card;
 }
 
+const mockOrder: Order = {
+  code: 'test-code-412',
+  deliveryAddress: {
+    country: {},
+  },
+  deliveryMode: {},
+  paymentInfo: {
+    billingAddress: {
+      country: {},
+    },
+  },
+};
+
+const mockB2BOrder: Order = {
+  ...mockOrder,
+  user: {
+    name: 'Rivers',
+  },
+  costCenter: {
+    name: 'Rustic Global',
+  },
+  orgCustomer: {
+    orgUnit: {
+      name: 'Rustic',
+    },
+  },
+  purchaseOrderNumber: '123',
+};
+
 class MockCheckoutService {
   clearCheckoutData = createSpy();
 
   getOrderDetails(): Observable<Order> {
-    return of({
-      code: 'test-code-412',
-      deliveryAddress: {
-        country: {},
-      },
-      deliveryMode: {},
-      paymentInfo: {
-        billingAddress: {
-          country: {},
-        },
-      },
-    });
+    return of(mockOrder);
   }
 }
 
@@ -86,9 +104,10 @@ const mockPayment: PaymentDetails = {
   },
 };
 
-describe('OrderConfirmationOverviewComponent', () => {
+fdescribe('OrderConfirmationOverviewComponent', () => {
   let component: OrderConfirmationOverviewComponent;
   let fixture: ComponentFixture<OrderConfirmationOverviewComponent>;
+  let checkoutService: CheckoutService;
   let translationService: TranslationService;
 
   beforeEach(async(() => {
@@ -105,6 +124,7 @@ describe('OrderConfirmationOverviewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderConfirmationOverviewComponent);
     component = fixture.componentInstance;
+    checkoutService = TestBed.inject(CheckoutService);
     translationService = TestBed.inject(TranslationService);
   });
 
@@ -163,6 +183,20 @@ describe('OrderConfirmationOverviewComponent', () => {
     component.getPaymentInfoCardContent(mockPayment);
     expect(component.getPaymentInfoCardContent).toHaveBeenCalledWith(
       mockPayment
+    );
+  });
+
+  it('should call getAccountPaymentCardContent(order: Order)', () => {
+    spyOn(checkoutService, 'getOrderDetails').and.returnValue(of(mockB2BOrder));
+    spyOn(component, 'getAccountPaymentCardContent').and.callThrough();
+    spyOn(translationService, 'translate').and.returnValue(of('test'));
+    component.getAccountPaymentCardContent(mockB2BOrder).subscribe((data) => {
+      expect(data).toBeTruthy();
+      expect(data.title).toEqual('test');
+    });
+    component.getAccountPaymentCardContent(mockB2BOrder);
+    expect(component.getAccountPaymentCardContent).toHaveBeenCalledWith(
+      mockB2BOrder
     );
   });
 });
