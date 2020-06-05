@@ -399,7 +399,7 @@ describe('ReviewSubmitComponent', () => {
     component.getPoNumberCard('test-po', 'test-cc').subscribe((card) => {
       expect(card.title).toEqual('checkoutProgress.poNumber');
       expect(card.textBold).toEqual('test-po');
-      expect(card.text).toEqual(['cost center: test-cc']);
+      expect(card.text).toEqual(['checkoutPO.costCenter: test-cc']);
     });
   });
 

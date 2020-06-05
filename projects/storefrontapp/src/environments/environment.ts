@@ -7,7 +7,8 @@ import { Environment } from './models/environment.model';
 
 export const environment: Environment = {
   production: false,
-  occBaseUrl: '',
-  occApiPrefix: '/rest/v2/',
-  b2b: false,
+  occBaseUrl: build.process.env.SPARTACUS_BASE_URL,
+  occApiPrefix: '/occ/v2/',
+  b2b: build.process.env.SPARTACUS_B2B,
+  cds: false,
 };

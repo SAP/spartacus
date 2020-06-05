@@ -11,16 +11,16 @@
     >
       <div class="cx-review-summary-wrapper" [ngSwitch]="step.type[0]">
         <ng-container *ngSwitchCase="checkoutStepType.PO_NUMBER">
-          <div *ngTemplateOutlet="poNumber"></div>
+          <ng-container *ngTemplateOutlet="poNumber"></ng-container>
         </ng-container>
         <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
-          <div *ngTemplateOutlet="shippingAddress"></div>
+          <ng-container *ngTemplateOutlet="shippingAddress"></ng-container>
         </ng-container>
         <ng-container *ngSwitchCase="checkoutStepType.DELIVERY_MODE">
-          <div *ngTemplateOutlet="deliveryMode"></div>
+          <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>
         </ng-container>
         <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_DETAILS">
-          <div *ngTemplateOutlet="paymentMethod"></div>
+          <ng-container *ngTemplateOutlet="paymentMethod"></ng-container>
         </ng-container>
       </div>
     </div>
