@@ -36,7 +36,7 @@
   </div>
 </div>
 
-<div class="row cx-checkout-btns">
+<div class="row cx-checkout-btns" *ngIf="allowRedirect; else loading">
   <div class="col-md-12 col-lg-6">
     <button class="btn btn-block btn-action" (click)="back()">
       {{ backBtnText | cxTranslate }}
@@ -48,3 +48,9 @@
     </button>
   </div>
 </div>
+
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

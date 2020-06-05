@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { pluck, shareReplay, tap, withLatestFrom, take } from 'rxjs/operators';
+import {
+  pluck,
+  shareReplay,
+  tap,
+  withLatestFrom,
+  take,
+  map,
+} from 'rxjs/operators';
 import { PaymentType, Cart } from '../../model/cart.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { AuthService } from '../../auth/facade/auth.service';
@@ -107,6 +114,15 @@ export class PaymentTypeService {
           }
         }
       })
+    );
+  }
+
+  /**
+   * Get whether the selected payment type is "ACCOUNT" payment
+   */
+  isAccountPayment(): Observable<boolean> {
+    return this.getSelectedPaymentType().pipe(
+      map((selected) => selected === this.ACCOUNT_PAYMENT)
     );
   }
 

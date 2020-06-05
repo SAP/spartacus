@@ -21,7 +21,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PoNumberComponent {
-  readonly ACCOUNT_PAYMENT = 'ACCOUNT';
+  readonly ACCOUNT_PAYMENT = this.paymentTypeService.ACCOUNT_PAYMENT;
 
   @ViewChild('poNumber', { static: false })
   private _poNumberInput: ElementRef;
@@ -38,7 +38,7 @@ export class PoNumberComponent {
   cartPoNumber: string;
   cartCostCenterId: string;
 
-  private allowRedirect = true;
+  allowRedirect = true;
 
   constructor(
     protected paymentTypeService: PaymentTypeService,

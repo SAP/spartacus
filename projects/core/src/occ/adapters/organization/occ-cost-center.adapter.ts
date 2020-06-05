@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { CostCenterAdapter } from '../../../organization/connectors/cost-center/cost-center.adapter';
 import { UserCostCenterAdapter } from '../../../user/connectors/cost-center/user-cost-center.adapter';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
@@ -42,8 +41,12 @@ export class OccCostCenterAdapter
   }
 
   loadActiveList(userId: string): Observable<EntitiesModel<CostCenter>> {
+    const params = new HttpParams().set(
+      'fields',
+      'DEFAULT,unit(BASIC,addresses(DEFAULT))'
+    );
     return this.http
-      .get<Occ.CostCentersList>(this.getCostCentersEndpoint(userId))
+      .get<Occ.CostCentersList>(this.getCostCentersEndpoint(userId), { params })
       .pipe(this.converter.pipeable(COST_CENTERS_NORMALIZER));
   }
 
