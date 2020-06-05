@@ -183,12 +183,13 @@ export class ReviewSubmitComponent {
   getPoNumberCard(poNumber: string, costCenter: string): Observable<Card> {
     return combineLatest([
       this.translation.translate('checkoutProgress.poNumber'),
+      this.translation.translate('checkoutPO.costCenter'),
     ]).pipe(
-      map(([textTitle]) => {
+      map(([textTitle, textCostCenter]) => {
         return {
           title: textTitle,
           textBold: poNumber,
-          text: [costCenter ? 'cost center: ' + costCenter : ''],
+          text: [costCenter ? textCostCenter + ': ' + costCenter : ''],
         };
       })
     );
