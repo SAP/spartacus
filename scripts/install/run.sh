@@ -72,6 +72,9 @@ function clone_repo {
 
 function update_projects_versions {
     projects=$@
+    if [[ "$SPARTACUS_VERSION" == "next" ]] || [[ "$SPARTACUS_VERSION" == "latest" ]]; then
+        SPARTACUS_VERSION="999.999.999"
+    fi
     for i in $projects
         do
             (cd "${CLONE_DIR}/projects/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
@@ -107,15 +110,15 @@ function create_ssr_pwa {
 }
 
 function add_spartacus_csr {
-    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite ${BASE_SITE} --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} )
+    ( cd ${INSTALLATION_DIR} && cd csr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite ${BASE_SITE} --baseUrl ${BACKEND_URL} --currency ${CURRENCY} --occPrefix ${OCC_PREFIX} )
 }
 
 function add_spartacus_ssr {
-    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite ${BASE_SITE} --baseUrl ${BACKEND_URL} --ssr --occPrefix ${OCC_PREFIX} )
+    ( cd ${INSTALLATION_DIR} && cd ssr && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite ${BASE_SITE} --baseUrl ${BACKEND_URL}  --currency ${CURRENCY} --occPrefix ${OCC_PREFIX} --ssr )
 }
 
 function add_spartacus_ssr_pwa {
-    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite ${BASE_SITE} --baseUrl ${BACKEND_URL} --ssr --pwa --occPrefix ${OCC_PREFIX} )
+    ( cd ${INSTALLATION_DIR} && cd ssr_pwa && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseSite ${BASE_SITE} --baseUrl ${BACKEND_URL} --currency ${CURRENCY} --occPrefix ${OCC_PREFIX} --ssr --pwa )
 }
 
 function create_apps {
@@ -225,7 +228,7 @@ function start_csr_unix {
     else
         prestart_csr
         printh "Starting csr app"
-        pm2 start --name csr serve -- ${INSTALLATION_DIR}/csr/dist/csr/ --single -p ${CSR_PORT}
+        pm2 start --name "${BASE_SITE}-csr-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/csr/dist/csr/ --single -p ${CSR_PORT}
     fi
 }
 
@@ -235,7 +238,7 @@ function start_ssr_unix {
     else
         prestart_ssr
         printh "Starting ssr app"
-        ( cd ${INSTALLATION_DIR}/ssr && export PORT=${SSR_PORT} && pm2 start --name ssr dist/ssr/server/main.js )
+        ( cd ${INSTALLATION_DIR}/ssr && export PORT=${SSR_PORT} && pm2 start --name "${BASE_SITE}-ssr-${SSR_PORT}" dist/ssr/server/main.js )
     fi
 }
 
@@ -245,7 +248,7 @@ function start_ssr_pwa_unix {
     else
         prestart_ssr_pwa
         printh "Starting ssr app (with pwa support)"
-        ( cd ${INSTALLATION_DIR}/ssr_pwa && export PORT=${SSR_PWA_PORT} && pm2 start --name ssr_pwa dist/ssr/server/main.js )
+        ( cd ${INSTALLATION_DIR}/ssr_pwa && export PORT=${SSR_PWA_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${BASE_SITE}-ssr_pwa-${SSR_PWA_PORT}" dist/ssr/server/main.js )
     fi
 }
 
@@ -309,9 +312,6 @@ if [ -f "./config.sh" ]; then
     . ./config.sh
 fi
 
-if [[ "$SPARTACUS_VERSION" == "next" ]] || [[ "$SPARTACUS_VERSION" == "latest" ]]; then
-    SPARTACUS_VERSION="999.999.999"
-fi
 # top directory for the installation output (must be outside of the project)
 if [ -z $BASE_DIR ]; then
     BASE_DIR="../../../spartacus-${SPARTACUS_VERSION}"
