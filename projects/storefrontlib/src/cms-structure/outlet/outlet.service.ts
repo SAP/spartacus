@@ -1,5 +1,9 @@
 import { Injectable, TemplateRef } from '@angular/core';
-import { AVOID_STACKED_OUTLETS, OutletPosition } from './outlet.model';
+import {
+  AVOID_STACKED_OUTLETS,
+  OutletPosition,
+  USE_STACKED_OUTLETS,
+} from './outlet.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,33 +22,27 @@ export class OutletService<T = TemplateRef<any>> {
    * @param outlet the UI location represented by a string
    * @param template the `TemplateRef` that will be used to insert UI
    * @param position the `OutletPosition` in the UI
-   */
-  add(outlet: string, template: T, position?: OutletPosition): void;
-  /**
-   * @param factory The `ComponentFactory` that will be dynamically added to the outlet UI
-   */
-  add(
-    outlet: string,
-    // tslint:disable-next-line: unified-signatures
-    factory: T,
-    position?: OutletPosition
-  ): void;
-  /**
-   * @param templateOrFactory A `ComponentFactory` that inserts a component dynamically.
+   * @param stackable Indicates whether the template should be stacked on an already registered template
    */
   add(
     outlet: string,
     templateOrFactory: T,
-    position: OutletPosition = OutletPosition.REPLACE
+    position: OutletPosition = OutletPosition.REPLACE,
+    stackable = USE_STACKED_OUTLETS
   ): void {
     if (position === OutletPosition.BEFORE) {
-      this.store(this.templatesRefsBefore, outlet, templateOrFactory);
+      this.store(
+        this.templatesRefsBefore,
+        outlet,
+        templateOrFactory,
+        stackable
+      );
     }
     if (position === OutletPosition.REPLACE) {
-      this.store(this.templatesRefs, outlet, templateOrFactory);
+      this.store(this.templatesRefs, outlet, templateOrFactory, stackable);
     }
     if (position === OutletPosition.AFTER) {
-      this.store(this.templatesRefsAfter, outlet, templateOrFactory);
+      this.store(this.templatesRefsAfter, outlet, templateOrFactory, stackable);
     }
   }
 
@@ -55,12 +53,12 @@ export class OutletService<T = TemplateRef<any>> {
    *
    * @param outlet The outlet reference
    * @param position the outlet position, `OutletPosition.before`, `OutletPosition.AFTER` or `OutletPosition.REPLACE`
-   * @param stacked Indicates whether an array of outlet components is returned
+   * @param stackable Indicates whether an array of outlet components is returned
    */
   get(
     outlet: string,
     position: OutletPosition = OutletPosition.REPLACE,
-    stacked = AVOID_STACKED_OUTLETS
+    stackable = AVOID_STACKED_OUTLETS
   ): T[] | T {
     let templateRef: T[];
     switch (position) {
@@ -73,7 +71,7 @@ export class OutletService<T = TemplateRef<any>> {
       default:
         templateRef = this.templatesRefs.get(outlet);
     }
-    if (templateRef && !stacked) {
+    if (templateRef && !stackable) {
       return templateRef[0];
     }
     return templateRef;
@@ -96,10 +94,17 @@ export class OutletService<T = TemplateRef<any>> {
     }
   }
 
-  private store(store: Map<string, T[]>, outlet: string, value: T) {
+  protected store(
+    store: Map<string, T[]>,
+    outlet: string,
+    value: T,
+    stackable: boolean
+  ) {
     const existing = store.get(outlet) || [];
-    const newValue: T[] = existing.concat([value]);
-    store.set(outlet, newValue);
+    if (stackable || existing.length === 0) {
+      const newValue: T[] = existing.concat([value]);
+      store.set(outlet, newValue);
+    }
   }
 
   protected removeValueOrAll(
