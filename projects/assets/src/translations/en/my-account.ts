@@ -2,7 +2,7 @@ export const myAccount = {
   orderDetails: {
     orderId: 'Order #',
     purchaseOrderId: 'Purchase Order #',
-    emptyPurchaseOrderId: 'None',
+    none: 'None {{value}}',
     placed: 'Placed',
     placedBy: 'Placed By',
     unit: 'Unit',
@@ -10,6 +10,7 @@ export const myAccount = {
     costCenterAndUnit: 'Cost Center / Unit',
     costCenterAndUnitValue: '{{costCenterName}} / {{unitName}}',
     payByAccount: 'Pay by Account',
+    paidByCreditCard: '(paid by credit card)',
     status: 'Status',
     shippedOn: 'Shipped on',
     deliveryStatus_IN_TRANSIT: 'In Transit',

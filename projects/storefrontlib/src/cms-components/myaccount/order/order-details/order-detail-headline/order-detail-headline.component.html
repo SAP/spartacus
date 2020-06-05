@@ -33,7 +33,7 @@
         {{
           order?.purchaseOrderNumber
             ? order?.purchaseOrderNumber
-            : ('orderDetails.emptyPurchaseOrderId' | cxTranslate)
+            : ('orderDetails.none' | cxTranslate)
         }}
       </div>
     </div>
@@ -44,21 +44,23 @@
       <div class="cx-detail-value">{{ order?.orgCustomer?.name }}</div>
     </div>
     <div class="cx-detail col-sm-12 col-md-4">
-      <ng-container *ngIf="order?.costCenter">
-        <div class="cx-detail-label">
-          {{ 'orderDetails.costCenterAndUnit' | cxTranslate }}
-        </div>
-        <div class="cx-detail-value">
-          {{
-            'orderDetails.costCenterAndUnitValue'
+      <div class="cx-detail-label">
+        {{ 'orderDetails.costCenterAndUnit' | cxTranslate }}
+      </div>
+      <div class="cx-detail-value">
+        {{
+          order?.costCenter
+            ? ('orderDetails.costCenterAndUnitValue'
               | cxTranslate
                 : {
                     costCenterName: order?.costCenter?.name,
                     unitName: order?.costCenter?.unit?.name
-                  }
-          }}
-        </div>
-      </ng-container>
+                  })
+            : ('orderDetails.none'
+              | cxTranslate
+                : { value: 'orderDetails.paidByCreditCard' | cxTranslate })
+        }}
+      </div>
     </div>
   </div>
 </ng-container>
