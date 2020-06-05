@@ -1,18 +1,20 @@
 <ng-container *ngIf="configuration$ | async as configuration">
-  <div class="cx-config-add-to-cart-btn">
-    <ng-container *ngIf="routerData$ | async as routerData">
-      <button
-        class="cx-btn btn btn-block btn-primary"
-        (click)="
-          onAddToCart(
-            configuration,
-            routerData.configuratorType,
-            routerData.pageType
-          )
-        "
-      >
-        {{ getButtonResourceKey(routerData, configuration) | cxTranslate }}
-      </button>
+  <ng-container *ngIf="routerData$ | async as routerData">
+    <ng-container *ngIf="!routerData.displayOnly">
+      <div class="cx-config-add-to-cart-btn">
+        <button
+          class="cx-btn btn btn-block btn-primary"
+          (click)="
+            onAddToCart(
+              configuration,
+              routerData.configuratorType,
+              routerData.pageType
+            )
+          "
+        >
+          {{ getButtonResourceKey(routerData, configuration) | cxTranslate }}
+        </button>
+      </div>
     </ng-container>
-  </div>
+  </ng-container>
 </ng-container>

@@ -36,5 +36,9 @@ export class ConfigureCartEntryComponent {
       : 'configure' + configuratorType;
   }
 
+  public getDisplayOnly(): boolean {
+    return this.readOnly;
+  }
+
   constructor(private genericConfigUtilsService: GenericConfigUtilsService) {}
 }

@@ -73,4 +73,9 @@ describe('ConfigureCartEntryComponent', () => {
     };
     expect(component.getRoute()).toBe('configureOverview' + configuratorType);
   });
+
+  it('should compile displayOnly method', () => {
+    component.readOnly = true;
+    expect(component.getDisplayOnly()).toBe(true);
+  });
 });
