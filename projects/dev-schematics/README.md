@@ -19,7 +19,10 @@ These are the steps to take in order to test both `@spartacus/schematics` and `s
 
 ## Adding dev-schematics to your Spartacus project
 
-Make sure that you have `.npmrc` in the root of your testing project, and that it contains the following content: `@spartacus:registry=http://localhost:4873`.
+Make sure that:
+
+- Spartacus is already added to you project
+- you have `.npmrc` in the root of your testing project, that it contains the following content: `@spartacus:registry=http://localhost:4873`.
 
 Run the following command from dev-schematics project:
 
