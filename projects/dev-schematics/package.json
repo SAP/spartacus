@@ -15,13 +15,18 @@
   "author": "",
   "license": "MIT",
   "schematics": "./src/collection.json",
+  "peerDependencies": {
+    "@spartacus/storefront": "next",
+    "@spartacus/schematics": "next"
+  },
   "dependencies": {
     "@angular-devkit/core": "^9.1.7",
     "@angular-devkit/schematics": "^9.1.7",
-    "@schematics/angular": "^9.1.7",
-    "@spartacus/schematics": "^2.0.0"
+    "@schematics/angular": "^9.1.7"
   },
   "devDependencies": {
+    "@spartacus/storefront": "next",
+    "@spartacus/schematics": "next",
     "@types/jasmine": "^3.5.0",
     "@types/node": "^12.11.1",
     "jasmine": "^3.5.0",
