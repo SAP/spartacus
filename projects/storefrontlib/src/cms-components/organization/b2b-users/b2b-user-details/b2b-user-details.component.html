@@ -97,7 +97,7 @@
             <div class="pb-mobile-2 col-md-12 col-lg-6">
               <button
                 class="btn btn-primary btn-block"
-                [disabled]="!user.orgUnit?.active"
+                [disabled]="user.orgUnit && !user.orgUnit.active"
                 (click)="update({ active: true })"
               >
                 {{ 'userForm.enable' | cxTranslate }}

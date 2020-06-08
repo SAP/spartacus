@@ -63,7 +63,8 @@ export class B2BUserEffects {
 
   @Effect()
   updateB2BUser$: Observable<
-    B2BUserActions.UpdateB2BUserSuccess | B2BUserActions.UpdateB2BUserFail
+  // B2BUserActions.UpdateB2BUserSuccess
+    B2BUserActions.LoadB2BUser | B2BUserActions.UpdateB2BUserFail
   > = this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER),
     map((action: B2BUserActions.UpdateB2BUser) => action.payload),
@@ -71,7 +72,9 @@ export class B2BUserEffects {
       this.b2bUserConnector
         .update(payload.userId, payload.orgCustomerId, payload.orgCustomer)
         .pipe(
-          map((data) => new B2BUserActions.UpdateB2BUserSuccess(data)),
+          // TODO: Workaround for empty PATCH response:
+          // map(data => new B2BUserActions.UpdateB2BUserSuccess(data)),
+          map(() => new B2BUserActions.LoadB2BUser(payload)),
           catchError((error) =>
             of(
               new B2BUserActions.UpdateB2BUserFail({
