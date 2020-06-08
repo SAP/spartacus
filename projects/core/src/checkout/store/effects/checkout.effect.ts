@@ -147,9 +147,9 @@ export class CheckoutEffects {
   > = this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
     mergeMap(() => [
-      new CheckoutActions.CheckoutClearMiscsData(),
       new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
       new CheckoutActions.ResetLoadPaymentTypesProcess(),
+      new CheckoutActions.CheckoutClearMiscsData(),
     ])
   );
 
