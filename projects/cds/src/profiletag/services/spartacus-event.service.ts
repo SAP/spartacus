@@ -42,9 +42,9 @@ export class SpartacusEventService {
     protected router: Router,
     protected config: CdsConfig,
     protected activeCartService: ActiveCartService,
-    private actionsSubject: ActionsSubject,
-    private eventService: EventService,
-    private personalizationContextService: PersonalizationContextService
+    protected actionsSubject: ActionsSubject,
+    protected eventService: EventService,
+    protected personalizationContextService: PersonalizationContextService
   ) {}
 
   navigated(): Observable<boolean> {

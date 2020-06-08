@@ -80,28 +80,37 @@ export class ProfileTagInjectorService {
     );
   }
 
-  private notifyCategoryPageVisited(): Observable<any> {
-    return this.spartacusEventTracker.categoryPageVisited().pipe(
-      tap((item) => {
-        console.log(item);
-        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
-      })
-    );
+  private notifyCategoryPageVisited(): Observable<boolean> {
+    return this.spartacusEventTracker
+      .categoryPageVisited()
+      .pipe(
+        tap((item) => {
+          console.log(item);
+          this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
+        })
+      )
+      .pipe(mapTo(true));
   }
 
-  private notifyProductDetailsView(): Observable<any> {
-    return this.spartacusEventTracker.productDetailsPageView().pipe(
-      tap((item) => {
-        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
-      })
-    );
+  private notifyProductDetailsView(): Observable<boolean> {
+    return this.spartacusEventTracker
+      .productDetailsPageView()
+      .pipe(
+        tap((item) => {
+          this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
+        })
+      )
+      .pipe(mapTo(true));
   }
 
-  private notifySearchResultsChanged(): Observable<any> {
-    return this.spartacusEventTracker.searchResultsChanged().pipe(
-      tap((item) => {
-        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
-      })
-    );
+  private notifySearchResultsChanged(): Observable<boolean> {
+    return this.spartacusEventTracker
+      .searchResultsChanged()
+      .pipe(
+        tap((item) => {
+          this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
+        })
+      )
+      .pipe(mapTo(true));
   }
 }
