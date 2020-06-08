@@ -102,7 +102,7 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
             text: [
               `${textPurchaseOrderId}: ${order.purchaseOrderNumber}`,
               `${textCostCenter}: ${order.costCenter.name}`,
-              `${textUnit}: ${order.orgCustomer.orgUnit.name}`,
+              `${textUnit}: ${order.costCenter.unit.name}`,
             ],
           };
         }

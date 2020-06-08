@@ -35,13 +35,15 @@ const mockOrder: Order = {
 
 const mockB2BOrder: Order = {
   ...mockOrder,
-  user: {
-    name: 'Rivers',
-  },
   costCenter: {
     name: 'Rustic Global',
+    unit: {
+      name: 'Rustic',
+    },
   },
   orgCustomer: {
+    active: true,
+    name: 'Rivers',
     orgUnit: {
       name: 'Rustic',
     },
