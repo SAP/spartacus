@@ -5,6 +5,7 @@ import {
   Address,
   CheckoutDeliveryService,
   RoutingService,
+  StateUtils,
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
@@ -27,7 +28,7 @@ export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable<Address[]>;
   newAddressFormManuallyOpened = false;
   isLoading$: Observable<boolean>;
-  changeSelectedAddressLoaderState$: Observable<any>;
+  changeSelectedAddressProcessState$: Observable<StateUtils.LoaderState<void>>;
   cards$: Observable<CardWithAddress[]>;
   selectedAddress$: Observable<Address>;
   forceLoader = false; // this helps with smoother steps transition
@@ -47,7 +48,7 @@ export class ShippingAddressComponent implements OnInit {
     this.isLoading$ = this.userAddressService.getAddressesLoading();
     this.existingAddresses$ = this.userAddressService.getAddresses();
     this.selectedAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
-    this.changeSelectedAddressLoaderState$ = this.checkoutDeliveryService.getLoadSupportedDeliveryModeProcess();
+    this.changeSelectedAddressProcessState$ = this.checkoutDeliveryService.getSetDeliveryAddressProcess();
 
     this.cards$ = combineLatest([
       this.existingAddresses$,

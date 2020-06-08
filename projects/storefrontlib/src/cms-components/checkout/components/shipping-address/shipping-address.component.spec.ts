@@ -38,7 +38,7 @@ class MockCheckoutDeliveryService {
   getDeliveryAddress(): Observable<Address> {
     return of(null);
   }
-  getLoadSupportedDeliveryModeProcess(): Observable<any> {
+  getSetDeliveryAddressProcess(): Observable<any> {
     return of({ loading: false });
   }
 }
