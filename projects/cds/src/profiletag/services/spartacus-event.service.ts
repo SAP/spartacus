@@ -11,6 +11,7 @@ import {
 } from '@spartacus/core';
 import {
   CategoryPageVisitedEvent,
+  PageVisitedEvent,
   ProductDetailsPageVisitedEvent,
   SearchResultsChangeEvent,
 } from 'projects/core/src/routing/event/routing.events';
@@ -24,6 +25,13 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
+import {
+  CategoryViewPushEvent,
+  KeywordSearchPushEvent,
+  PageViewPushEvent,
+  ProductViewPushEvent,
+  ProfileTagEvent,
+} from '../model/profile-tag.model';
 
 @Injectable({
   providedIn: 'root',
@@ -81,50 +89,75 @@ export class SpartacusEventService {
     );
   }
 
-  categoryPageVisited(): Observable<any> {
-    return this.eventService.get(CategoryPageVisitedEvent);
+  categoryPageVisited(): Observable<ProfileTagEvent> {
+    return this.eventService.get(CategoryPageVisitedEvent).pipe(
+      withLatestFrom(
+        this.personalizationContextService.getPersonalizationContext()
+      ),
+      map(
+        ([categoryPageVisited, personalizationContext]) =>
+          new CategoryViewPushEvent({
+            productCategory: categoryPageVisited.categoryCode,
+            productCategoryName: categoryPageVisited.categoryName,
+            segments: personalizationContext.segments,
+            actions: personalizationContext.actions,
+          })
+      )
+    );
   }
 
-  searchResultsChanged(): Observable<any> {
+  searchResultsChanged(): Observable<ProfileTagEvent> {
     return this.eventService.get(SearchResultsChangeEvent).pipe(
       withLatestFrom(
         this.personalizationContextService.getPersonalizationContext()
       ),
       map(([searchEvent, personalizationContext]) => {
-        return {
-          name: 'KeywordSearch',
-          data: {
-            searchTerm: searchEvent.searchTerm,
-            numResults: searchEvent.numberOfResults,
-            segments: personalizationContext.segments,
-            actions: personalizationContext.actions,
-          },
-        };
+        return new KeywordSearchPushEvent({
+          searchTerm: searchEvent.searchTerm,
+          numResults: searchEvent.numberOfResults,
+          segments: personalizationContext.segments,
+          actions: personalizationContext.actions,
+        });
       })
     );
   }
 
-  productDetailsPageView(): Observable<any> {
+  productDetailsPageView(): Observable<ProfileTagEvent> {
     return this.eventService.get(ProductDetailsPageVisitedEvent).pipe(
       withLatestFrom(
         this.personalizationContextService.getPersonalizationContext()
       ),
-      map(([item, personalizationContext]) => ({
-        name: 'ProductDetailsPageView',
-        data: {
-          productSku: item.code,
-          productName: item.name,
-          productPrice: item.price ? item.price.value : undefined,
-          productCategoryName: item.categories
-            ? item.categories[item.categories.length - 1].name
-            : undefined,
-          productCategory: item.categories
-            ? item.categories[item.categories.length - 1].code
-            : undefined,
-          segments: personalizationContext.segments,
-          actions: personalizationContext.actions,
-        },
-      }))
+      map(
+        ([item, personalizationContext]) =>
+          new ProductViewPushEvent({
+            productSku: item.code,
+            productName: item.name,
+            productPrice: item.price ? item.price.value : undefined,
+            productCategoryName: item.categories
+              ? item.categories[item.categories.length - 1].name
+              : undefined,
+            productCategory: item.categories
+              ? item.categories[item.categories.length - 1].code
+              : undefined,
+            segments: personalizationContext.segments,
+            actions: personalizationContext.actions,
+          })
+      )
+    );
+  }
+
+  pageViewEvent(): Observable<ProfileTagEvent> {
+    return this.eventService.get(PageVisitedEvent).pipe(
+      withLatestFrom(
+        this.personalizationContextService.getPersonalizationContext()
+      ),
+      map(
+        ([_, personalizationContext]) =>
+          new PageViewPushEvent({
+            segments: personalizationContext.segments,
+            actions: personalizationContext.actions,
+          })
+      )
     );
   }
 }

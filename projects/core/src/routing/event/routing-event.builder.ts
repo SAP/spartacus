@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
 import { PageType, ProductSearchPage } from '../../model';
 import { ProductSearchService } from '../../product/facade/product-search.service';
@@ -10,12 +10,10 @@ import { RoutingService } from '../facade/routing.service';
 import { PageContext } from '../models/page-context.model';
 import {
   CategoryPageVisitedEvent,
+  PageVisitedEvent,
   ProductDetailsPageVisitedEvent,
   SearchResultsChangeEvent,
 } from './routing.events';
-
-// const CATEGORY_FACET_CODE = 'category';
-// const BRAND_FACET_CODE = 'brand';
 
 @Injectable({
   providedIn: 'root',
@@ -43,14 +41,7 @@ export class RoutingEventBuilder {
       CategoryPageVisitedEvent,
       this.buildCategoryPageVisitEvent()
     );
-    // this.eventService.register(
-    //   CategoryFacetChangeEvent,
-    //   this.buildCategoryFacetChangeEvent()
-    // );
-    // this.eventService.register(
-    //   BrandFacetChangeEvent,
-    //   this.buildBrandFacetChangeEvent()
-    // );
+    this.eventService.register(PageVisitedEvent, this.buildPageViewEvent());
   }
 
   buildProductDetailsPageVisitEvent(): Observable<
@@ -70,52 +61,18 @@ export class RoutingEventBuilder {
     );
   }
 
-  buildCategoryPageVisitEvent(): Observable<CategoryPageVisitedEvent> {
-    return this.routerEvents(PageType.CATEGORY_PAGE).pipe(
-      tap((context) => {
-        console.log(context);
-      }),
-      map((context) => context.id),
-      switchMap((categoryId) => {
-        console.log('code: ', categoryId);
-        return this.productService.get(categoryId).pipe(
-          filter(Boolean),
-          map((product) => {
-            console.log(product);
-            return createFrom(CategoryPageVisitedEvent, product);
-          })
-        );
-      })
-    );
+  buildPageViewEvent(): Observable<PageContext> {
+    return this.routerEvents(PageType.PRODUCT_PAGE);
   }
 
-  // buildCategoryFacetChangeEvent(): Observable<Breadcrumb[]> {
-  //   return this.searchResultChangeEvent().pipe(
-  //     withLatestFrom(this.routingService.getPageContext()),
-  //     filter(([_facets, pageContext]) => this.isFacetPage(pageContext)),
-  //     map(([facets, _pageContext]) =>
-  //       facets.filter((facet) => this.isCategoryFacet(facet))
-  //     ),
-  //     distinctUntilKeyChanged('length')
-  //   );
-  // }
-
-  // buildBrandFacetChangeEvent(): Observable<Breadcrumb[]> {
-  //   return this.searchResultChangeEvent().pipe(
-  //     withLatestFrom(this.routingService.getPageContext()),
-  //     filter(([_facets, pageContext]) => this.isFacetPage(pageContext)),
-  //     map(([facets, _pageContext]) =>
-  //       facets.filter((facet) => this.isBrandFacet(facet))
-  //     ),
-  //     distinctUntilKeyChanged('length')
-  //   );
-  // }
-
-  // private isFacetPage(pageContext: PageContext): boolean {
-  //   return (
-  //     pageContext.type === PageType.CATEGORY_PAGE || pageContext.id === 'search'
-  //   );
-  // }
+  buildCategoryPageVisitEvent(): Observable<CategoryPageVisitedEvent> {
+    return this.routerEvents(PageType.CATEGORY_PAGE).pipe(
+      map((context) => ({
+        categoryCode: context.id,
+        categoryName: 'fix-me',
+      }))
+    );
+  }
 
   private searchResultChangeEvent(): Observable<SearchResultsChangeEvent> {
     return this.productSearchService.getResults().pipe(
@@ -129,14 +86,6 @@ export class RoutingEventBuilder {
       )
     );
   }
-
-  // private isBrandFacet(breadcrumb: Breadcrumb): boolean {
-  //   return breadcrumb ? breadcrumb.facetCode === BRAND_FACET_CODE : false;
-  // }
-
-  // private isCategoryFacet(breadcrumb: Breadcrumb): boolean {
-  //   return breadcrumb ? breadcrumb.facetCode === CATEGORY_FACET_CODE : false;
-  // }
 
   private routerEvents(pageType: PageType): Observable<PageContext> {
     return this.routingService

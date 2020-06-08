@@ -58,7 +58,10 @@ export class ProductDetailsPageVisitedEvent extends PageVisitedEvent
  * Indicates that a user visited a category or brand page.
  * A visited category / brand code value is emited whenever one of the pages is visited.
  */
-export class CategoryPageVisitedEvent extends PageVisitedEvent {}
+export class CategoryPageVisitedEvent extends PageVisitedEvent {
+  categoryCode: string;
+  categoryName: string;
+}
 /**
  * Indicates that a user changed category-related facets.
  * All the category facet values are emited whenever the user changes them.

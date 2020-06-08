@@ -1,4 +1,4 @@
-import { Cart } from '@spartacus/core';
+import { Cart, PersonalizationAction } from '@spartacus/core';
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
@@ -52,6 +52,56 @@ export class ConsentChangedPushEvent implements ProfileTagEvent {
   data: { granted: boolean } = { granted: undefined };
   constructor(granted: boolean) {
     this.data.granted = granted;
+  }
+}
+
+export class KeywordSearchPushEvent implements ProfileTagEvent {
+  name = 'KeywordSearch';
+  data;
+  constructor(data: {
+    searchTerm: string;
+    numResults: Number;
+    segments: string[];
+    actions: PersonalizationAction[];
+  }) {
+    this.data = data;
+  }
+}
+
+export class ProductViewPushEvent implements ProfileTagEvent {
+  name = 'ProductView';
+  data;
+  constructor(data: {
+    productSku: string;
+    productName: string;
+    productPrice: Number;
+    productCategory: string;
+    productCategoryName: string;
+    segments: string[];
+    actions: PersonalizationAction[];
+  }) {
+    this.data = data;
+  }
+}
+
+export class CategoryViewPushEvent implements ProfileTagEvent {
+  name = 'CategoryView';
+  data;
+  constructor(data: {
+    productCategory: string;
+    productCategoryName: string;
+    segments: string[];
+    actions: PersonalizationAction[];
+  }) {
+    this.data = data;
+  }
+}
+
+export class PageViewPushEvent implements ProfileTagEvent {
+  name = 'PageView';
+  data;
+  constructor(data: { segments: string[]; actions: PersonalizationAction[] }) {
+    this.data = data;
   }
 }
 
