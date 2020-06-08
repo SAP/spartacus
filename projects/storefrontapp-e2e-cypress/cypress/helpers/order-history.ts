@@ -5,7 +5,7 @@ import { switchLanguage } from './language';
 
 const orderHistoryLink = '/my-account/orders';
 const mainBannerSelector =
-  'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras';
+  'cx-page-slot cx-banner img[alt="The Most Powerful Tools in their Price Range"]';
 
 export function doPlaceOrder() {
   let stateAuth: any;
