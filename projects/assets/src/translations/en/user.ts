@@ -32,8 +32,6 @@ export const user = {
   loginForm: {
     forgotPassword: 'Forgot password?',
     signIn: 'Sign In',
-    register: 'Register',
-    dontHaveAccount: 'Don’t have an account?',
     emailAddress: {
       label: 'Email address',
       placeholder: 'Enter email',
@@ -43,6 +41,10 @@ export const user = {
       placeholder: 'Password',
     },
     wrongEmailFormat: 'This is not a valid email format.',
+  },
+  loginRegister: {
+    dontHaveAccount: 'Don’t have an account?',
+    register: 'Register',
     guestCheckout: 'Guest Checkout',
   },
   register: {
