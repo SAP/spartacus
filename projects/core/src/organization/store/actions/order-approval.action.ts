@@ -27,10 +27,11 @@ export const LOAD_ORDER_APPROVALS_FAIL =
 export const LOAD_ORDER_APPROVALS_SUCCESS =
   '[OrderApproval] Load OrderApprovals Success';
 
-export const MAKE_DECISION = '[OrderApproval] Update OrderApproval';
-export const MAKE_DECISION_FAIL = '[OrderApproval] Update OrderApproval Fail';
+export const MAKE_DECISION = '[OrderApproval] Make OrderApproval Decision';
+export const MAKE_DECISION_FAIL =
+  '[OrderApproval] Make OrderApproval Decision Fail';
 export const MAKE_DECISION_SUCCESS =
-  '[OrderApproval] Update OrderApproval Success';
+  '[OrderApproval] Make OrderApproval Decision Success';
 
 export class LoadOrderApproval extends EntityLoadAction {
   readonly type = LOAD_ORDER_APPROVAL;
@@ -91,7 +92,7 @@ export class LoadOrderApprovalsSuccess extends EntitySuccessAction {
   }
 }
 
-export class MakeDecision extends EntityLoadAction {
+export class MakeDecision {
   readonly type = MAKE_DECISION;
   constructor(
     public payload: {
@@ -99,23 +100,22 @@ export class MakeDecision extends EntityLoadAction {
       orderApprovalCode: string;
       orderApprovalDecision: OrderApprovalDecision;
     }
-  ) {
-    super(ORDER_APPROVAL_ENTITIES, payload.orderApprovalCode);
-  }
+  ) {}
 }
 
-export class MakeDecisionFail extends EntityFailAction {
+export class MakeDecisionFail {
   readonly type = MAKE_DECISION_FAIL;
-  constructor(public payload: { orderApprovalCode: string; error: any }) {
-    super(ORDER_APPROVAL_ENTITIES, payload.orderApprovalCode, payload.error);
-  }
+  constructor(public payload: { orderApprovalCode: string; error: any }) {}
 }
 
-export class MakeDecisionSuccess extends EntitySuccessAction {
+export class MakeDecisionSuccess {
   readonly type = MAKE_DECISION_SUCCESS;
-  constructor(public payload: OrderApprovalDecision) {
-    super(ORDER_APPROVAL_ENTITIES, null, payload);
-  }
+  constructor(
+    public payload: {
+      orderApprovalCode: string;
+      orderApprovalDecision: OrderApprovalDecision;
+    }
+  ) {}
 }
 
 export type OrderApprovalAction =

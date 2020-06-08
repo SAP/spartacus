@@ -45,22 +45,22 @@ export class OrderApprovalEffects {
   > = this.actions$.pipe(
     ofType(OrderApprovalActions.LOAD_ORDER_APPROVALS),
     map((action: OrderApprovalActions.LoadOrderApprovals) => action.payload),
-    switchMap((payload) =>
-      this.orderApprovalConnector.getList(payload.userId, payload.params).pipe(
+    switchMap(({ userId, params }) =>
+      this.orderApprovalConnector.getList(userId, params).pipe(
         switchMap((orderApprovals: EntitiesModel<OrderApproval>) => {
           const { values, page } = normalizeListPage(orderApprovals, 'code');
           return [
             new OrderApprovalActions.LoadOrderApprovalSuccess(values),
             new OrderApprovalActions.LoadOrderApprovalsSuccess({
               page,
-              params: payload.params,
+              params,
             }),
           ];
         }),
         catchError((error) =>
           of(
             new OrderApprovalActions.LoadOrderApprovalsFail({
-              params: payload.params,
+              params: params,
               error: makeErrorSerializable(error),
             })
           )
@@ -72,23 +72,29 @@ export class OrderApprovalEffects {
   @Effect()
   makeDecision$: Observable<
     | OrderApprovalActions.MakeDecisionSuccess
+    | OrderApprovalActions.LoadOrderApproval
     | OrderApprovalActions.MakeDecisionFail
   > = this.actions$.pipe(
     ofType(OrderApprovalActions.MAKE_DECISION),
     map((action: OrderApprovalActions.MakeDecision) => action.payload),
-    switchMap((payload) =>
+    switchMap(({ userId, orderApprovalCode, orderApprovalDecision }) =>
       this.orderApprovalConnector
-        .makeDecision(
-          payload.userId,
-          payload.orderApprovalCode,
-          payload.orderApprovalDecision
-        )
+        .makeDecision(userId, orderApprovalCode, orderApprovalDecision)
         .pipe(
-          map((data) => new OrderApprovalActions.MakeDecisionSuccess(data)),
+          switchMap((orderApprovalDecision) => [
+            new OrderApprovalActions.MakeDecisionSuccess({
+              orderApprovalCode,
+              orderApprovalDecision,
+            }),
+            new OrderApprovalActions.LoadOrderApproval({
+              userId,
+              orderApprovalCode,
+            }),
+          ]),
           catchError((error) =>
             of(
               new OrderApprovalActions.MakeDecisionFail({
-                orderApprovalCode: payload.orderApprovalCode,
+                orderApprovalCode: orderApprovalCode,
                 error: makeErrorSerializable(error),
               })
             )
