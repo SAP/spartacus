@@ -4257,4 +4257,39 @@ export namespace Occ {
     pagination?: PaginationModel;
     sorts?: SortModel[];
   }
+
+  export interface OrderApprovalDecision {
+    // decision?: string;
+    decision?: 'APPROVE' | 'REJECT';
+    comment?: string;
+  }
+
+  export interface OrderApprovalRecord {
+    approver?: Principal;
+    comments?: string;
+    permissionTypes?: OrderApprovalPermissionType[];
+    statusDisplay?: string;
+  }
+
+  export interface B2BOrder extends Order {
+    chinesePaymentInfo?: any;
+    costCenter?: CostCenter;
+    paymentStatus?: string;
+    purchaseOrderNumber?: string;
+    totalUnitCount?: number;
+  }
+
+  export interface Trigger {
+    activationTime?: string;
+    displayTimeTable?: string;
+  }
+
+  export interface OrderApproval {
+    approvalDecisionRequired?: boolean;
+    code?: string;
+    customerOrderApprovalRecords?: OrderApprovalRecord[];
+    merchantOrderApprovalRecords?: OrderApprovalRecord[];
+    order?: B2BOrder;
+    trigger?: Trigger;
+  }
 }
