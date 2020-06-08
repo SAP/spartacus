@@ -1,9 +1,11 @@
-import { user } from '../sample-data/checkout-flow';
+import { SampleUser, user } from '../sample-data/checkout-flow';
 import { login } from './auth-forms';
 import { checkBanner } from './homepage';
 import { switchLanguage } from './language';
 
 const orderHistoryLink = '/my-account/orders';
+const mainBannerSelector =
+  'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras';
 
 export function doPlaceOrder() {
   let stateAuth: any;
@@ -33,20 +35,20 @@ export const orderHistoryTest = {
       cy.get('cx-login').should('contain', 'Sign In / Register');
     });
   },
-  checkRedirectLoggedInUser() {
+  checkRedirectLoggedInUser(sampleUser: SampleUser = user) {
     it('should go to Order History once user has logged in', () => {
-      login(user.email, user.password);
+      login(sampleUser.email, sampleUser.password);
       cy.url().should('contain', orderHistoryLink);
       cy.get('.cx-order-history-header h3').should('contain', 'Order history');
     });
   },
-  checkStartShoppingButton() {
+  checkStartShoppingButton(isOtherBaseSite: boolean = false) {
     it('should be able to start shopping from an empty Order History', () => {
       cy.get('.btn.btn-primary.btn-block.active')
         .getByText('Start Shopping')
         .click();
 
-      checkBanner();
+      checkBanner(isOtherBaseSite, mainBannerSelector);
     });
   },
   // orders flow

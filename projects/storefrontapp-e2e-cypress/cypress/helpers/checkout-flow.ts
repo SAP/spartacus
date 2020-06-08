@@ -17,9 +17,6 @@ import {
   PaymentDetails,
 } from './checkout-forms';
 
-export const ELECTRONICS_BASESITE = 'electronics-spa';
-export const ELECTRONICS_CURRENCY = 'USD';
-
 export const ELECTRONICS_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-net';
 
 export function visitHomePage(queryStringParams?: string) {

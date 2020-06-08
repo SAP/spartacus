@@ -1,29 +1,31 @@
-import { assertAddressForm } from '../../../helpers/address-book';
-import { login } from '../../../helpers/auth-forms';
-import * as guestCheckout from '../../../helpers/checkout-as-guest';
-import * as checkout from '../../../helpers/checkout-flow';
-import { validateUpdateProfileForm } from '../../../helpers/update-profile';
+import { assertAddressForm } from '../../../../helpers/address-book';
+import { login } from '../../../../helpers/auth-forms';
+import * as guestCheckout from '../../../../helpers/checkout-as-guest';
+import * as checkout from '../../../../helpers/checkout-flow';
+import { validateUpdateProfileForm } from '../../../../helpers/update-profile';
 import {
   addMutipleProductWithoutVariantToCart,
   addVariantOfSameProductToCart,
-  APPAREL_BASESITE,
-  APPAREL_CURRENCY,
   APPAREL_DEFAULT_DELIVERY_MODE,
   configureProductWithVariants,
   visitProductWithoutVariantPage,
-} from '../../../helpers/variants/apparel-checkout-flow';
+} from '../../../../helpers/variants/apparel/apparel-checkout-flow';
 import {
   cartWithSingleVariantProduct,
   cartWithTotalVariantProduct,
   products,
   variantProduct,
   variantUser,
-} from '../../../sample-data/apparel-checkout-flow';
+} from '../../../../sample-data/apparel-checkout-flow';
+import {
+  BASESITE_CURRENCY,
+  BASESITE_SPA,
+} from '../../../../sample-data/basesite-config';
 
 context('Apparel - checkout as guest', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-    Cypress.env('BASE_SITE', APPAREL_BASESITE);
+    Cypress.env('BASE_SITE', BASESITE_SPA.APPAREL);
   });
 
   beforeEach(() => {
@@ -78,7 +80,7 @@ context('Apparel - checkout as guest', () => {
       checkout.placeOrderWithCheapProduct(
         variantUser,
         cartWithTotalVariantProduct,
-        APPAREL_CURRENCY
+        BASESITE_CURRENCY.GBP
       );
     });
 
@@ -104,7 +106,10 @@ context('Apparel - checkout as guest', () => {
       cy.selectUserMenuOption({
         option: 'Personal Details',
       });
-      cy.waitForOrderToBePlacedRequest(APPAREL_BASESITE, APPAREL_CURRENCY);
+      cy.waitForOrderToBePlacedRequest(
+        BASESITE_SPA.APPAREL,
+        BASESITE_CURRENCY.GBP
+      );
       checkout.viewOrderHistoryWithCheapProduct(cartWithTotalVariantProduct);
     });
 
