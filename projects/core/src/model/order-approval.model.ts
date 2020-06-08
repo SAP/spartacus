@@ -4,7 +4,6 @@ import { Order } from './order.model';
 import { CostCenter } from './org-unit.model';
 
 export interface OrderApprovalDecision {
-  // decision: string;
   decision?: 'APPROVE' | 'REJECT';
   comment?: string;
 }
