@@ -148,10 +148,6 @@ describe('OrderApproval Actions', () => {
         expect({ ...action }).toEqual({
           type: OrderApprovalActions.MAKE_DECISION,
           payload: { userId, orderApprovalCode, orderApprovalDecision },
-          meta: StateUtils.entityLoadMeta(
-            ORDER_APPROVAL_ENTITIES,
-            orderApprovalCode
-          ),
         });
       });
     });
@@ -169,25 +165,23 @@ describe('OrderApproval Actions', () => {
             orderApprovalCode,
             error,
           },
-          meta: StateUtils.entityFailMeta(
-            ORDER_APPROVAL_ENTITIES,
-            orderApprovalCode,
-            error
-          ),
         });
       });
     });
 
     describe('MakeDecisionSuccess', () => {
       it('should create the action', () => {
-        const action = new OrderApprovalActions.MakeDecisionSuccess(
-          orderApprovalDecision
-        );
+        const action = new OrderApprovalActions.MakeDecisionSuccess({
+          orderApprovalCode,
+          orderApprovalDecision,
+        });
 
         expect({ ...action }).toEqual({
           type: OrderApprovalActions.MAKE_DECISION_SUCCESS,
-          payload: orderApprovalDecision,
-          meta: StateUtils.entitySuccessMeta(ORDER_APPROVAL_ENTITIES, null),
+          payload: {
+            orderApprovalCode,
+            orderApprovalDecision,
+          },
         });
       });
     });
