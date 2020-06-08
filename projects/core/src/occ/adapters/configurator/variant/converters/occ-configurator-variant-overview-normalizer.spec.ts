@@ -109,8 +109,8 @@ const overview: OccConfigurator.Overview = {
 };
 
 class MockConverterService {
-  convert(source: any) {
-    return source;
+  convert(source: OccConfigurator.Prices) {
+    return source.priceSummary;
   }
 }
 

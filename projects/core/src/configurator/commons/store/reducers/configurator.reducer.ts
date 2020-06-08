@@ -30,16 +30,27 @@ export function reducer(
     case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.READ_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS:
-    case ConfiguratorActions.READ_ORDER_ENTRY_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS: {
       return takeOverChanges(action, state);
     }
     case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS: {
       const content = { ...action.payload.overview };
 
-      const result = {
+      const result: Configurator.Configuration = {
         ...state,
         overview: content,
+        priceSummary: content.priceSummary,
+      };
+
+      return result;
+    }
+    case ConfiguratorActions.READ_ORDER_ENTRY_CONFIGURATION_SUCCESS: {
+      const configuration = { ...action.payload };
+
+      const result: Configurator.Configuration = {
+        ...state,
+        ...configuration,
+        priceSummary: configuration.overview.priceSummary,
       };
 
       return result;
