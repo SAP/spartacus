@@ -16,10 +16,6 @@
       margin-left: 0;
       margin-right: 0;
 
-      &:not(:last-child) {
-        border-bottom: none;
-      }
-
       @include media-breakpoint-down(sm) {
         border: none;
         padding: 0;
