@@ -69,6 +69,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'anonymousConsents',
     'forgottenPassword',
     'loginForm',
+    'loginRegister',
     'register',
     'checkoutLogin',
   ],
