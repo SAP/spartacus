@@ -4259,7 +4259,6 @@ export namespace Occ {
   }
 
   export interface OrderApprovalDecision {
-    // decision?: string;
     decision?: 'APPROVE' | 'REJECT';
     comment?: string;
   }
