@@ -15,13 +15,13 @@ export class ConfigureCartEntryComponent {
   @Input() readOnly: boolean;
 
   public getOwnerType(): GenericConfigurator.OwnerType {
-    return this.readOnly
+    return this.cartEntry.orderCode !== undefined
       ? GenericConfigurator.OwnerType.ORDER_ENTRY
       : GenericConfigurator.OwnerType.CART_ENTRY;
   }
 
   public getEntityKey(): string {
-    return this.readOnly
+    return this.cartEntry.orderCode !== undefined
       ? this.genericConfigUtilsService.getComposedOwnerId(
           this.cartEntry.orderCode,
           this.cartEntry.entryNumber
@@ -34,6 +34,10 @@ export class ConfigureCartEntryComponent {
     return this.readOnly
       ? 'configureOverview' + configuratorType
       : 'configure' + configuratorType;
+  }
+
+  public getDisplayOnly(): boolean {
+    return this.readOnly;
   }
 
   constructor(private genericConfigUtilsService: GenericConfigUtilsService) {}

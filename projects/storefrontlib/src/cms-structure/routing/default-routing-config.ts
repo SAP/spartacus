@@ -77,7 +77,10 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['configureCPQCONFIGURATOR/:ownerType/entityKey/:entityKey'],
   },
   configureOverviewCPQCONFIGURATOR: {
-    paths: ['configureOverviewCPQCONFIGURATOR/:ownerType/entityKey/:entityKey'],
+    paths: [
+      'configureOverviewCPQCONFIGURATOR/:ownerType/entityKey/:entityKey/displayOnly/:displayOnly',
+      'configureOverviewCPQCONFIGURATOR/:ownerType/entityKey/:entityKey',
+    ],
   },
   configureTEXTFIELD: {
     paths: ['configureTEXTFIELD/:ownerType/entityKey/:entityKey'],

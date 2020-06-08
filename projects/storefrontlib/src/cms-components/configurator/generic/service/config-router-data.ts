@@ -9,5 +9,6 @@ export namespace ConfigurationRouter {
     isOwnerCartEntry?: boolean;
     configuratorType?: string;
     owner?: GenericConfigurator.Owner;
+    displayOnly?: boolean;
   }
 }

@@ -1,7 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { GenericConfigurator, I18nTestingModule } from '@spartacus/core';
+import {
+  GenericConfigurator,
+  I18nTestingModule,
+  OrderEntry,
+} from '@spartacus/core';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
 @Pipe({
@@ -15,6 +19,7 @@ describe('ConfigureCartEntryComponent', () => {
   let component: ConfigureCartEntryComponent;
   let fixture: ComponentFixture<ConfigureCartEntryComponent>;
   const configuratorType = 'type';
+  const orderOrCartEntry: OrderEntry = {};
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -26,6 +31,7 @@ describe('ConfigureCartEntryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigureCartEntryComponent);
     component = fixture.componentInstance;
+    component.cartEntry = orderOrCartEntry;
   });
 
   it('should create component', () => {
@@ -38,8 +44,9 @@ describe('ConfigureCartEntryComponent', () => {
     );
   });
 
-  it('should find correct owner type in case view is read-only', () => {
+  it('should find correct owner type in case entry knows order', () => {
     component.readOnly = true;
+    orderOrCartEntry.orderCode = '112';
     expect(component.getOwnerType()).toBe(
       GenericConfigurator.OwnerType.ORDER_ENTRY
     );
@@ -65,5 +72,10 @@ describe('ConfigureCartEntryComponent', () => {
       product: { configuratorType: configuratorType },
     };
     expect(component.getRoute()).toBe('configureOverview' + configuratorType);
+  });
+
+  it('should compile displayOnly method', () => {
+    component.readOnly = true;
+    expect(component.getDisplayOnly()).toBe(true);
   });
 });

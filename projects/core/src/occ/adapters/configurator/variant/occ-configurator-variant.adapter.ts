@@ -202,6 +202,13 @@ export class OccConfiguratorVariantAdapter
 
     return this.http.get(url).pipe(
       this.converterService.pipeable(CONFIGURATION_PRICE_SUMMARY_NORMALIZER),
+      map((pricingResult) => {
+        const result: Configurator.Configuration = {
+          configId: configuration.configId,
+          priceSummary: pricingResult,
+        };
+        return result;
+      }),
       tap(
         (resultConfiguration) =>
           (resultConfiguration.owner = configuration.owner)
