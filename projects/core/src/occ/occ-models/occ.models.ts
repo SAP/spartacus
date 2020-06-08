@@ -4292,4 +4292,10 @@ export namespace Occ {
     order?: B2BOrder;
     trigger?: Trigger;
   }
+
+  export interface OrderApprovalsList {
+    orderApprovals?: OrderApproval[];
+    pagination?: PaginationModel;
+    sorts?: SortModel[];
+  }
 }

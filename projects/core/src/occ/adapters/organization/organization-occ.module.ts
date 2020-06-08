@@ -6,6 +6,9 @@ import {
   B2BUserAdapter,
   B2B_USERS_NORMALIZER,
   B2B_USER_NORMALIZER,
+  ORDER_APPROVAL_NORMALIZER,
+  ORDER_APPROVALS_NORMALIZER,
+  ORDER_APPROVAL_DECISION_NORMALIZER,
 } from '../../../organization';
 import { BudgetAdapter } from '../../../organization/connectors/budget/budget.adapter';
 import {
@@ -58,6 +61,9 @@ import {
   OccUserGroupListNormalizer,
   OccUserGroupNormalizer,
   OccUserListNormalizer,
+  OccOrderApprovalDecisionNormalizer,
+  OccOrderApprovalListNormalizer,
+  OccOrderApprovalNormalizer,
 } from './converters/index';
 import { OccPermissionTypeNormalizer } from './converters/occ-permission-type-normalizer';
 import { defaultOccOrganizationConfig } from './default-occ-organization-config';
@@ -183,6 +189,25 @@ import { OccUserGroupAdapter } from './occ-user-group.adapter';
     {
       provide: B2B_ADDRESS_LIST_NORMALIZER,
       useClass: OccOrgUnitAddressListNormalizer,
+      multi: true,
+    },
+    {
+      provide: PermissionAdapter,
+      useClass: OccPermissionAdapter,
+    },
+    {
+      provide: ORDER_APPROVAL_NORMALIZER,
+      useClass: OccOrderApprovalNormalizer,
+      multi: true,
+    },
+    {
+      provide: ORDER_APPROVALS_NORMALIZER,
+      useClass: OccOrderApprovalListNormalizer,
+      multi: true,
+    },
+    {
+      provide: ORDER_APPROVAL_DECISION_NORMALIZER,
+      useClass: OccOrderApprovalDecisionNormalizer,
       multi: true,
     },
   ],
