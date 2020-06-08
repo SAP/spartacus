@@ -9,6 +9,7 @@ import {
   ORDER_APPROVAL_NORMALIZER,
   ORDER_APPROVALS_NORMALIZER,
   ORDER_APPROVAL_DECISION_NORMALIZER,
+  OrderApprovalAdapter,
 } from '../../../organization';
 import { BudgetAdapter } from '../../../organization/connectors/budget/budget.adapter';
 import {
@@ -73,6 +74,7 @@ import { OccCostCenterAdapter } from './occ-cost-center.adapter';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 import { OccPermissionAdapter } from './occ-permission.adapter';
 import { OccUserGroupAdapter } from './occ-user-group.adapter';
+import { OccOrderApprovalAdapter } from './occ-order-approval.adapter';
 
 @NgModule({
   imports: [
@@ -192,8 +194,8 @@ import { OccUserGroupAdapter } from './occ-user-group.adapter';
       multi: true,
     },
     {
-      provide: PermissionAdapter,
-      useClass: OccPermissionAdapter,
+      provide: OrderApprovalAdapter,
+      useClass: OccOrderApprovalAdapter,
     },
     {
       provide: ORDER_APPROVAL_NORMALIZER,
