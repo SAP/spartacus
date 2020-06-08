@@ -195,9 +195,9 @@ describe('Checkout effect', () => {
         previous: 'previous',
         current: 'current',
       });
-      const completion1 = new CheckoutActions.CheckoutClearMiscsData();
-      const completion2 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
-      const completion3 = new CheckoutActions.ResetLoadPaymentTypesProcess();
+      const completion1 = new CheckoutActions.ResetLoadSupportedDeliveryModesProcess();
+      const completion2 = new CheckoutActions.ResetLoadPaymentTypesProcess();
+      const completion3 = new CheckoutActions.CheckoutClearMiscsData();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcd)', {
