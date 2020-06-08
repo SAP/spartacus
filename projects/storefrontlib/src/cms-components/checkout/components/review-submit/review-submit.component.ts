@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   Address,
   Cart,
@@ -13,9 +13,13 @@ import {
   UserAddressService,
   PromotionResult,
   PromotionLocation,
+  PaymentTypeService,
+  CheckoutCostCenterService,
+  UserCostCenterService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap, filter } from 'rxjs/operators';
+import { CheckoutStep } from '../../model/checkout-step.model';
 import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutStepType } from '../../model/index';
 import { CheckoutStepService } from '../../services/index';
@@ -26,15 +30,8 @@ import { PromotionService } from '../../../../shared/services/promotion/promotio
   templateUrl: './review-submit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReviewSubmitComponent implements OnInit {
+export class ReviewSubmitComponent {
   checkoutStepType = CheckoutStepType;
-  entries$: Observable<OrderEntry[]>;
-  cart$: Observable<Cart>;
-  deliveryMode$: Observable<DeliveryMode>;
-  countryName$: Observable<string>;
-  deliveryAddress$: Observable<Address>;
-  paymentDetails$: Observable<PaymentDetails>;
-  orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   constructor(
@@ -44,31 +41,50 @@ export class ReviewSubmitComponent implements OnInit {
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
     protected checkoutStepService: CheckoutStepService,
-    protected promotionService: PromotionService
+    protected promotionService: PromotionService,
+    protected paymentTypeService: PaymentTypeService,
+    protected checkoutCostCenterService: CheckoutCostCenterService,
+    protected userCostCenterService: UserCostCenterService
   ) {}
 
-  ngOnInit() {
-    this.cart$ = this.activeCartService.getActive();
-    this.entries$ = this.activeCartService.getEntries();
-    this.deliveryAddress$ = this.checkoutDeliveryService.getDeliveryAddress();
-    this.paymentDetails$ = this.checkoutPaymentService.getPaymentDetails();
-    this.orderPromotions$ = this.promotionService.getOrderPromotions(
-      this.promotionLocation
+  get cart$(): Observable<Cart> {
+    return this.activeCartService.getActive();
+  }
+
+  get entries$(): Observable<OrderEntry[]> {
+    return this.activeCartService.getEntries();
+  }
+
+  get steps$(): Observable<CheckoutStep[]> {
+    return this.checkoutStepService.steps$;
+  }
+
+  get deliveryAddress$(): Observable<Address> {
+    return this.checkoutDeliveryService.getDeliveryAddress();
+  }
+
+  get deliveryMode$(): Observable<DeliveryMode> {
+    return this.checkoutDeliveryService.getSelectedDeliveryMode().pipe(
+      tap((selected: DeliveryMode) => {
+        if (selected === null) {
+          this.checkoutDeliveryService.loadSupportedDeliveryModes();
+        }
+      })
     );
+  }
 
-    this.deliveryMode$ = this.checkoutDeliveryService
-      .getSelectedDeliveryMode()
-      .pipe(
-        tap((selected: DeliveryMode) => {
-          if (selected === null) {
-            this.checkoutDeliveryService.loadSupportedDeliveryModes();
-          }
-        })
-      );
+  get paymentDetails$(): Observable<PaymentDetails> {
+    return this.checkoutPaymentService.getPaymentDetails();
+  }
 
-    this.countryName$ = this.deliveryAddress$.pipe(
+  get orderPromotions$(): Observable<PromotionResult[]> {
+    return this.promotionService.getOrderPromotions(this.promotionLocation);
+  }
+
+  get countryName$(): Observable<string> {
+    return this.deliveryAddress$.pipe(
       switchMap((address: Address) =>
-        this.userAddressService.getCountry(address.country.isocode)
+        this.userAddressService.getCountry(address?.country?.isocode)
       ),
       tap((country: Country) => {
         if (country === null) {
@@ -76,6 +92,23 @@ export class ReviewSubmitComponent implements OnInit {
         }
       }),
       map((country: Country) => country && country.name)
+    );
+  }
+
+  get poNumber$(): Observable<string> {
+    return this.paymentTypeService.getPoNumber();
+  }
+
+  get costCenterName$(): Observable<string> {
+    return this.userCostCenterService.getActiveCostCenters().pipe(
+      filter((costCenters) => Boolean(costCenters)),
+      switchMap((costCenters) => {
+        return this.checkoutCostCenterService.getCostCenter().pipe(
+          map((code) => {
+            return costCenters.find((cc) => cc.code === code)?.name;
+          })
+        );
+      })
     );
   }
 
@@ -88,11 +121,15 @@ export class ReviewSubmitComponent implements OnInit {
     ]).pipe(
       map(([textTitle]) => {
         if (!countryName) {
-          countryName = deliveryAddress.country.isocode;
+          countryName = deliveryAddress?.country?.isocode;
         }
 
         let region = '';
-        if (deliveryAddress.region && deliveryAddress.region.isocode) {
+        if (
+          deliveryAddress &&
+          deliveryAddress.region &&
+          deliveryAddress.region.isocode
+        ) {
           region = deliveryAddress.region.isocode + ', ';
         }
 
@@ -138,6 +175,21 @@ export class ReviewSubmitComponent implements OnInit {
           title: textTitle,
           textBold: paymentDetails.accountHolderName,
           text: [paymentDetails.cardNumber, textExpires],
+        };
+      })
+    );
+  }
+
+  getPoNumberCard(poNumber: string, costCenter: string): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('checkoutProgress.poNumber'),
+      this.translation.translate('checkoutPO.costCenter'),
+    ]).pipe(
+      map(([textTitle, textCostCenter]) => {
+        return {
+          title: textTitle,
+          textBold: poNumber,
+          text: [costCenter ? textCostCenter + ': ' + costCenter : ''],
         };
       })
     );

@@ -31,6 +31,7 @@ export const checkout = {
     confirmThatRead: 'I am confirming that I have read and agreed with the',
     placeOrder: 'Place Order',
     termsAndConditions: 'Terms & Conditions',
+    editPoNumber: 'Edit P.O. number',
     editShippingAddress: 'Edit shipping address',
     editShippingMethod: 'Edit shipping method',
     editPaymentMethod: 'Edit payment method',

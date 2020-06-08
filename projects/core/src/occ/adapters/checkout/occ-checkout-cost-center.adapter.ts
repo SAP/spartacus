@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Cart } from '../../../model/cart.model';
@@ -20,12 +20,19 @@ export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
     cartId: string,
     costCenterId: string
   ): Observable<Cart> {
+    let httpParams = new HttpParams().set('costCenterId', costCenterId);
+    /* tslint:disable:max-line-length */
+    httpParams = httpParams.set(
+      'fields',
+      'DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue,value),updateable),totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue, value),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue),user'
+    );
+
     return this.http
       .put(
         this.getCartEndpoint(userId) + cartId + '/costcenter',
         {},
         {
-          params: { costCenterId },
+          params: httpParams,
         }
       )
       .pipe(this.converter.pipeable(CART_NORMALIZER));

@@ -36,7 +36,7 @@ export class PaymentTypesEffects {
   setPaymentType$: Observable<
     | CheckoutActions.SetPaymentTypeSuccess
     | CheckoutActions.SetPaymentTypeFail
-    | CartActions.LoadCart
+    | CartActions.LoadCartSuccess
     | CheckoutActions.ClearCheckoutData
   > = this.actions$.pipe(
     ofType(CheckoutActions.SET_PAYMENT_TYPE),
@@ -52,12 +52,13 @@ export class PaymentTypesEffects {
         .pipe(
           mergeMap((data) => {
             return [
-              new CheckoutActions.ClearCheckoutData(),
-              new CheckoutActions.SetPaymentTypeSuccess(data),
-              new CartActions.LoadCart({
+              new CartActions.LoadCartSuccess({
+                cart: data,
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
+              new CheckoutActions.ClearCheckoutData(),
+              new CheckoutActions.SetPaymentTypeSuccess(data),
             ];
           }),
           catchError((error) =>

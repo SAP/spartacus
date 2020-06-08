@@ -433,16 +433,20 @@ describe('Checkout effect', () => {
         cartId: cartId,
         costCenterId: 'testId',
       });
-      const completion1 = new CheckoutActions.SetCostCenterSuccess('testId');
-      const completion2 = new CheckoutActions.ClearCheckoutDeliveryMode({
+      const completion1 = new CartActions.LoadCartSuccess({
+        userId,
+        cartId,
+        cart: {},
+      });
+      const completion2 = new CheckoutActions.SetCostCenterSuccess('testId');
+      const completion3 = new CheckoutActions.ClearCheckoutDeliveryMode({
         userId,
         cartId,
       });
-      const completion3 = new CheckoutActions.ClearCheckoutDeliveryAddress({
+      const completion4 = new CheckoutActions.ClearCheckoutDeliveryAddress({
         userId,
         cartId,
       });
-      const completion4 = new CartActions.LoadCart({ userId, cartId });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcde)', {
