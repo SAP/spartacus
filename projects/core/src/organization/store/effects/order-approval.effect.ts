@@ -81,10 +81,10 @@ export class OrderApprovalEffects {
       this.orderApprovalConnector
         .makeDecision(userId, orderApprovalCode, orderApprovalDecision)
         .pipe(
-          switchMap((orderApprovalDecision) => [
+          switchMap((orderApprovalDecisionData) => [
             new OrderApprovalActions.MakeDecisionSuccess({
               orderApprovalCode,
-              orderApprovalDecision,
+              orderApprovalDecision: orderApprovalDecisionData,
             }),
             new OrderApprovalActions.LoadOrderApproval({
               userId,
