@@ -91,13 +91,8 @@
     "prerender:cds": "cross-env SPARTACUS_CDS=true ng run storefrontapp:prerender",
     "release:cds:with-changelog": "cd projects/cds && release-it && cd ../..",
     "release-notes:cds": "ts-node ./scripts/changelog.ts --verbose --lib cds",
-    "start:b2b:ci:2005": "ng serve -c=b2b.ci.2005 --prod",
-    "build:gigya": "ng build storefrontapp-gigya-integration --prod",
-    "build:core:lib:gigya": "yarn build:core:lib && ng build gigya",
-    "start:gigya": "ng serve storefrontapp-gigya-integration",
-    "start:gigya:prod": "ng serve storefrontapp-gigya-integration --prod",
-    "start:gigya:ssl": "ng serve storefrontapp-gigya-integration --ssl",
-    "start:b2b:ci:2005": "cross-env SPARTACUS_BASE_URL=https://dev-com-7.accdemo.b2c.ydev.hybris.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod"
+    "start:b2b:ci:2005": "cross-env SPARTACUS_BASE_URL=https://dev-com-7.accdemo.b2c.ydev.hybris.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod",
+    "build:core:lib:gigya": "yarn build:core:lib && ng build gigya"
   },
   "private": false,
   "dependencies": {

@@ -16,6 +16,7 @@ import {
 import { b2bFeature } from '../environments/b2b/b2b.feature';
 import { b2cFeature } from '../environments/b2c/b2c.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
+import { gigyaFeature } from '../environments/gigya/gigya.feature';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 
@@ -38,6 +39,11 @@ if (environment.b2b) {
   additionalImports = [...additionalImports, ...b2bFeature.imports];
 } else {
   additionalImports = [...additionalImports, ...b2cFeature.imports];
+}
+
+if (environment.gigya) {
+  console.log('gigya feature is added');
+  additionalImports = [...additionalImports, ...gigyaFeature.imports];
 }
 
 @NgModule({

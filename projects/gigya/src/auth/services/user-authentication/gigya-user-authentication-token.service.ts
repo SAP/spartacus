@@ -7,18 +7,6 @@ import { catchError } from 'rxjs/operators';
 @Injectable()
 export class GigyaUserAuthenticationTokenService {
   constructor(
-    http: HttpClient,
-    config: AuthConfig,
-    // tslint:disable-next-line:unified-signatures
-    occEndpointsService: OccEndpointsService
-  );
-
-  /**
-   * @deprecated since version 1.1
-   * Use constructor(http: HttpClient, config: AuthConfig, occEndpointsService: OccEndpointsService) instead
-   */
-  constructor(http: HttpClient, config: AuthConfig);
-  constructor(
     protected http: HttpClient,
     protected config: AuthConfig,
     protected occEndpointsService?: OccEndpointsService
@@ -26,7 +14,7 @@ export class GigyaUserAuthenticationTokenService {
 
   /**
    * Load User token using custom oauth flow
-   * 
+   *
    * @param UID - UID received from CDC on login event
    * @param UIDSignature - UIDSignature received from CDC on login event
    * @param signatureTimestamp - signatureTimestamp received from CDC on login event

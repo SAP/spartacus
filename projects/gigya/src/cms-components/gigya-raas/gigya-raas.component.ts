@@ -1,31 +1,9 @@
-import { Component, NgZone, ChangeDetectionStrategy } from '@angular/core';
-import {
-  AuthRedirectService,
-  GlobalMessageType,
-  GlobalMessageService,
-  BaseSiteService,
-} from '@spartacus/core';
-import { UserService, User } from '@spartacus/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { BaseSiteService, WindowRef } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { GigyaConfig } from '../../config';
 import { GigyaRaasComponentData } from '../cms.model';
-import { GigyaAuthService } from '../../auth/facade/gigya-auth.service';
-
-declare var gigya: any;
-declare var window: Window;
-
-interface Window {
-  gigyaSpaProfileUpdate?: any;
-  GigyaRaasComponentReference?: any;
-}
-
-window.gigyaSpaProfileUpdate = function (response) {
-  window.GigyaRaasComponentReference.zone.run(() =>
-    window.GigyaRaasComponentReference.component.onProfileUpdateEventHandler(
-      response
-    )
-  );
-};
+import { gigyaProfileUpdate } from '../gigya-js/gigya-js.service';
 
 @Component({
   selector: 'cx-gigya-raas',
@@ -38,21 +16,11 @@ export class GigyaRaasComponent {
 
   public constructor(
     public component: CmsComponentData<GigyaRaasComponentData>,
-    private zone: NgZone,
-    private auth: GigyaAuthService,
-    private userService: UserService,
-    private authRedirectService: AuthRedirectService,
-    private globalMessageService: GlobalMessageService,
     private baseSiteService: BaseSiteService,
-    private gigyaConfig: GigyaConfig
+    private gigyaConfig: GigyaConfig,
+    private winRef: WindowRef
   ) {
     this.renderScreenSet = true;
-    window['GigyaRaasComponentReference'] = {
-      zone: this.zone,
-      onLoginEventHandlerGlobal: this.onLoginEventHandler(null),
-      onProfileUpdateEventHandlerGlobal: this.onProfileUpdateEventHandler(null),
-      component: this,
-    };
   }
 
   /**
@@ -63,18 +31,18 @@ export class GigyaRaasComponent {
   displayScreenSetInEmbedMode(data: GigyaRaasComponentData): void {
     if (this.renderScreenSet) {
       if (this.isLoginScreenSet(data)) {
-        gigya.accounts.showScreenSet({
+        this.winRef.nativeWindow['gigya'].accounts.showScreenSet({
           screenSet: data.screenSet,
           startScreen: data.startScreen,
           containerID: data.containerID,
           sessionExpiration: this.getSessionExpirationValue(),
         });
       } else {
-        gigya.accounts.showScreenSet({
+        this.winRef.nativeWindow['gigya'].accounts.showScreenSet({
           screenSet: data.screenSet,
           startScreen: data.startScreen,
           containerID: data.containerID,
-          onAfterSubmit: window.gigyaSpaProfileUpdate,
+          onAfterSubmit: gigyaProfileUpdate,
         });
       }
     }
@@ -88,16 +56,16 @@ export class GigyaRaasComponent {
    */
   displayScreenSetInPopupMode(data: GigyaRaasComponentData): void {
     if (this.isLoginScreenSet(data)) {
-      gigya.accounts.showScreenSet({
+      this.winRef.nativeWindow['gigya'].accounts.showScreenSet({
         screenSet: data.screenSet,
         startScreen: data.startScreen,
         sessionExpiration: this.getSessionExpirationValue(),
       });
     } else {
-      gigya.accounts.showScreenSet({
+      this.winRef.nativeWindow['gigya'].accounts.showScreenSet({
         screenSet: data.screenSet,
         startScreen: data.startScreen,
-        onAfterSubmit: window.gigyaSpaProfileUpdate,
+        onAfterSubmit: gigyaProfileUpdate,
       });
     }
   }
@@ -141,43 +109,5 @@ export class GigyaRaasComponent {
       return true;
     }
     return false;
-  }
-
-  /**
-   * Trigger login to Commerce once an onLogin event is triggered by CDC Screen Set.
-   *
-   * @param response
-   */
-  onLoginEventHandler(response: any) {
-    if (response) {
-      this.auth.authorizeWithCustomGigyaFlow(
-        response.UID,
-        response.UIDSignature,
-        response.signatureTimestamp,
-        response.id_token,
-        this.getCurrentBaseSite()
-      );
-
-      this.auth.getUserToken().subscribe((data) => {
-        if (data && data.access_token) {
-          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-          this.authRedirectService.redirect();
-        }
-      });
-    }
-  }
-
-  /**
-   * Updates user details using the existing User API
-   *
-   * @param response
-   */
-  onProfileUpdateEventHandler(response: any) {
-    if (response) {
-      const userDetails: User = {};
-      userDetails.firstName = response.profile.firstName;
-      userDetails.lastName = response.profile.lastName;
-      this.userService.updatePersonalDetails(userDetails);
-    }
   }
 }
