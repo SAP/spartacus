@@ -11,6 +11,7 @@ export function orderApprovalsEntitiesReducer(
 ): OrderApproval {
   switch (action.type) {
     case OrderApprovalActions.LOAD_ORDER_APPROVAL_SUCCESS:
+      return action.payload;
     case OrderApprovalActions.MAKE_DECISION_SUCCESS:
       return state;
   }

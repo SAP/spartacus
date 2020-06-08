@@ -60,11 +60,11 @@ export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
 
   protected getOrderApprovalEndpoint(
     userId: string,
-    orderApprovalOrderApprovalCode: string
+    orderApprovalCode: string
   ): string {
     return this.occEndpoints.getUrl('orderApproval', {
       userId,
-      orderApprovalOrderApprovalCode,
+      orderApprovalCode,
     });
   }
 
