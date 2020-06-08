@@ -5,15 +5,15 @@ import { CostCenter } from './org-unit.model';
 
 export interface OrderApprovalDecision {
   // decision: string;
-  decision: 'APPROVE' | 'REJECT';
+  decision?: 'APPROVE' | 'REJECT';
   comment?: string;
 }
 
 export interface OrderApprovalRecord {
-  approver: Principal;
-  comments: string;
-  permissionTypes: OrderApprovalPermissionType[];
-  statusDisplay: string;
+  approver?: Principal;
+  comments?: string;
+  permissionTypes?: OrderApprovalPermissionType[];
+  statusDisplay?: string;
 }
 
 export interface B2BOrder extends Order {
@@ -25,15 +25,15 @@ export interface B2BOrder extends Order {
 }
 
 export interface Trigger {
-  activationTime: string;
-  displayTimeTable: string;
+  activationTime?: string;
+  displayTimeTable?: string;
 }
 
 export interface OrderApproval {
-  approvalDecisionRequired: boolean;
-  code: string;
-  customerOrderApprovalRecords: OrderApprovalRecord[];
-  merchantOrderApprovalRecords: OrderApprovalRecord[];
-  order: B2BOrder;
-  trigger: Trigger;
+  approvalDecisionRequired?: boolean;
+  code?: string;
+  customerOrderApprovalRecords?: OrderApprovalRecord[];
+  merchantOrderApprovalRecords?: OrderApprovalRecord[];
+  order?: B2BOrder;
+  trigger?: Trigger;
 }
