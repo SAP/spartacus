@@ -1,8 +1,8 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { RoutingConfigService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { RoutingConfigService, PaymentTypeService } from '@spartacus/core';
+import { Observable, combineLatest } from 'rxjs';
+import { map, filter, tap } from 'rxjs/operators';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
@@ -15,6 +15,7 @@ export class PaymentDetailsSetGuard implements CanActivate {
     private checkoutDetailsService: CheckoutDetailsService,
     private checkoutStepService: CheckoutStepService,
     private routingConfigService: RoutingConfigService,
+    private paymentTypeService: PaymentTypeService,
     private router: Router
   ) {}
 
@@ -29,23 +30,31 @@ export class PaymentDetailsSetGuard implements CanActivate {
       );
     }
 
-    if (checkoutStep && checkoutStep.disabled) {
-      return of(true);
-    }
-
-    return this.checkoutDetailsService
-      .getPaymentDetails()
-      .pipe(
-        map((paymentDetails) =>
-          paymentDetails && Object.keys(paymentDetails).length !== 0
+    return combineLatest([
+      this.paymentTypeService.getSelectedPaymentType(),
+      this.checkoutDetailsService.getPaymentDetails(),
+    ]).pipe(
+      filter(([selected]) => selected !== undefined),
+      tap(([selected]) =>
+        this.checkoutStepService.disableEnableStep(
+          CheckoutStepType.PAYMENT_DETAILS,
+          selected === this.paymentTypeService.ACCOUNT_PAYMENT
+        )
+      ),
+      map(([, paymentDetails]) => {
+        if (checkoutStep && checkoutStep.disabled) {
+          return true;
+        } else {
+          return paymentDetails && Object.keys(paymentDetails).length !== 0
             ? true
             : this.router.parseUrl(
                 checkoutStep &&
                   this.routingConfigService.getRouteConfig(
                     checkoutStep.routeName
                   ).paths[0]
-              )
-        )
-      );
+              );
+        }
+      })
+    );
   }
 }

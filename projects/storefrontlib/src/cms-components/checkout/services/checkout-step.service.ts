@@ -84,7 +84,7 @@ export class CheckoutStepService {
     const currentStep = this.allSteps.find((step) =>
       step.type.includes(currentStepType)
     );
-    if (currentStep) {
+    if (currentStep && currentStep.disabled !== disabled) {
       currentStep.disabled = disabled;
       this.steps$.next(this.allSteps.filter((step) => !step.disabled));
     }
