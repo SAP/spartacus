@@ -5,7 +5,7 @@ import { B2BSearchConfig } from '../../model/search-config';
 import { OrderApprovalAdapter } from './order-approval.adapter';
 import { OrderApprovalConnector } from './order-approval.connector';
 import createSpy = jasmine.createSpy;
-import { OrderApprovalDecision } from 'projects/core/src/model/order-approval.model';
+import { OrderApprovalDecision } from '@spartacus/core';
 
 const userId = 'userId';
 const orderApprovalCode = 'orderApprovalCode';
