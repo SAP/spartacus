@@ -34,14 +34,14 @@ export class PaymentDetailsSetGuard implements CanActivate {
       this.paymentTypeService.getSelectedPaymentType(),
       this.checkoutDetailsService.getPaymentDetails(),
     ]).pipe(
-      filter(([selected, _]) => selected !== undefined),
-      tap(([selected, _]) =>
+      filter(([selected]) => selected !== undefined),
+      tap(([selected]) =>
         this.checkoutStepService.disableEnableStep(
           CheckoutStepType.PAYMENT_DETAILS,
           selected === this.paymentTypeService.ACCOUNT_PAYMENT
         )
       ),
-      map(([_, paymentDetails]) => {
+      map(([, paymentDetails]) => {
         if (checkoutStep && checkoutStep.disabled) {
           return true;
         } else {
