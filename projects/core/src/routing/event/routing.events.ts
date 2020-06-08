@@ -75,7 +75,7 @@ export class CategoryFacetChangeEvent extends PageVisitedEvent {}
  */
 export class BrandFacetChangeEvent extends PageVisitedEvent {}
 
-export class SearchResultsChangeEvent extends PageVisitedEvent {
+export class KeywordSearchEvent extends PageVisitedEvent {
   searchTerm: string;
   numberOfResults: Number;
 }

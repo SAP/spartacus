@@ -7,23 +7,17 @@ import {
   Cart,
   ConsentService,
   EventService,
+  PersonalizationContext,
   PersonalizationContextService,
 } from '@spartacus/core';
 import {
   CategoryPageVisitedEvent,
+  KeywordSearchEvent,
   PageVisitedEvent,
   ProductDetailsPageVisitedEvent,
-  SearchResultsChangeEvent,
 } from 'projects/core/src/routing/event/routing.events';
-import { Observable } from 'rxjs';
-import {
-  filter,
-  map,
-  mapTo,
-  skipWhile,
-  take,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { combineLatest, concat, Observable, of } from 'rxjs';
+import { filter, map, mapTo, skipWhile, take } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 import {
   CategoryViewPushEvent,
@@ -37,6 +31,7 @@ import {
   providedIn: 'root',
 })
 export class SpartacusEventService {
+  personalizationContext$: Observable<PersonalizationContext>;
   constructor(
     protected consentService: ConsentService,
     protected router: Router,
@@ -45,7 +40,12 @@ export class SpartacusEventService {
     protected actionsSubject: ActionsSubject,
     protected eventService: EventService,
     protected personalizationContextService: PersonalizationContextService
-  ) {}
+  ) {
+    this.personalizationContext$ = concat(
+      of({ actions: undefined, segments: undefined }),
+      this.personalizationContextService.getPersonalizationContext()
+    );
+  }
 
   navigated(): Observable<boolean> {
     return this.router.events.pipe(
@@ -90,10 +90,10 @@ export class SpartacusEventService {
   }
 
   categoryPageVisited(): Observable<ProfileTagEvent> {
-    return this.eventService.get(CategoryPageVisitedEvent).pipe(
-      withLatestFrom(
-        this.personalizationContextService.getPersonalizationContext()
-      ),
+    return combineLatest([
+      this.eventService.get(CategoryPageVisitedEvent),
+      this.personalizationContext$,
+    ]).pipe(
       map(
         ([categoryPageVisited, personalizationContext]) =>
           new CategoryViewPushEvent({
@@ -107,10 +107,10 @@ export class SpartacusEventService {
   }
 
   searchResultsChanged(): Observable<ProfileTagEvent> {
-    return this.eventService.get(SearchResultsChangeEvent).pipe(
-      withLatestFrom(
-        this.personalizationContextService.getPersonalizationContext()
-      ),
+    return combineLatest([
+      this.eventService.get(KeywordSearchEvent),
+      this.personalizationContext$,
+    ]).pipe(
       map(([searchEvent, personalizationContext]) => {
         return new KeywordSearchPushEvent({
           searchTerm: searchEvent.searchTerm,
@@ -123,10 +123,10 @@ export class SpartacusEventService {
   }
 
   productDetailsPageView(): Observable<ProfileTagEvent> {
-    return this.eventService.get(ProductDetailsPageVisitedEvent).pipe(
-      withLatestFrom(
-        this.personalizationContextService.getPersonalizationContext()
-      ),
+    return combineLatest([
+      this.eventService.get(ProductDetailsPageVisitedEvent),
+      this.personalizationContext$,
+    ]).pipe(
       map(
         ([item, personalizationContext]) =>
           new ProductViewPushEvent({
@@ -147,10 +147,10 @@ export class SpartacusEventService {
   }
 
   pageViewEvent(): Observable<ProfileTagEvent> {
-    return this.eventService.get(PageVisitedEvent).pipe(
-      withLatestFrom(
-        this.personalizationContextService.getPersonalizationContext()
-      ),
+    return combineLatest([
+      this.eventService.get(PageVisitedEvent),
+      this.personalizationContext$,
+    ]).pipe(
       map(
         ([_, personalizationContext]) =>
           new PageViewPushEvent({
@@ -160,4 +160,14 @@ export class SpartacusEventService {
       )
     );
   }
+
+  // personalizationContext(): Observable<boolean> {
+  //   return this.personalizationContextService.getPersonalizationContext().pipe(
+  //     tap((personalizationContext) => {
+  //       this.actions = personalizationContext.actions;
+  //       this.segments = personalizationContext.segments;
+  //     }),
+  //     mapTo(true)
+  //   );
+  // }
 }

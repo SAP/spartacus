@@ -23,6 +23,7 @@ export class ProfileTagInjectorService {
     this.notifyProductDetailsView(),
     this.notifyCategoryPageVisited(),
     this.notifySearchResultsChanged()
+    //this.spartacusEventTracker.personalizationContext()
   );
 
   constructor(

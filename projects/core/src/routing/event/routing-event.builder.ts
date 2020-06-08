@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
-import { PageType, ProductSearchPage } from '../../model';
+import { PageType } from '../../model';
 import { ProductSearchService } from '../../product/facade/product-search.service';
 import { ProductService } from '../../product/facade/product.service';
 import { createFrom } from '../../util';
@@ -10,9 +10,9 @@ import { RoutingService } from '../facade/routing.service';
 import { PageContext } from '../models/page-context.model';
 import {
   CategoryPageVisitedEvent,
+  KeywordSearchEvent,
   PageVisitedEvent,
   ProductDetailsPageVisitedEvent,
-  SearchResultsChangeEvent,
 } from './routing.events';
 
 @Injectable({
@@ -30,7 +30,7 @@ export class RoutingEventBuilder {
 
   protected register() {
     this.eventService.register(
-      SearchResultsChangeEvent,
+      KeywordSearchEvent,
       this.searchResultChangeEvent()
     );
     this.eventService.register(
@@ -66,24 +66,42 @@ export class RoutingEventBuilder {
   }
 
   buildCategoryPageVisitEvent(): Observable<CategoryPageVisitedEvent> {
-    return this.routerEvents(PageType.CATEGORY_PAGE).pipe(
-      map((context) => ({
-        categoryCode: context.id,
-        categoryName: 'fix-me',
+    return this.productSearchService.getResults().pipe(
+      withLatestFrom(this.routingService.getPageContext()),
+      filter(
+        ([_searchResults, pageContext]) =>
+          pageContext.type === PageType.CATEGORY_PAGE &&
+          !this.isSearchPage(pageContext)
+      ),
+      tap(([_searchResults, _pageContext]) => {
+        console.log(_pageContext);
+        console.log(_searchResults);
+      }),
+      map(([searchResults, pageContext]) => ({
+        categoryCode: pageContext.id,
+        categoryName: searchResults.breadcrumbs[0].facetValueName,
       }))
     );
   }
+  private isSearchPage(pageContext: PageContext): boolean {
+    return pageContext.id === 'search';
+  }
 
-  private searchResultChangeEvent(): Observable<SearchResultsChangeEvent> {
+  private searchResultChangeEvent(): Observable<KeywordSearchEvent> {
     return this.productSearchService.getResults().pipe(
       filter((searchResults) => Boolean(searchResults.breadcrumbs)),
-      map((productSearchPage: ProductSearchPage) => ({
+      withLatestFrom(this.routingService.getPageContext()),
+      filter(([_productSearchPage, pageContext]) =>
+        this.isSearchPage(pageContext)
+      ),
+      tap(([productSearchPage, _pageContext]) => {
+        console.log(productSearchPage);
+      }),
+      map(([productSearchPage, _pageContext]) => ({
         searchTerm: productSearchPage.freeTextSearch,
         numberOfResults: productSearchPage.pagination.totalResults,
       })),
-      map((searchResults) =>
-        createFrom(SearchResultsChangeEvent, searchResults)
-      )
+      map((searchResults) => createFrom(KeywordSearchEvent, searchResults))
     );
   }
 
