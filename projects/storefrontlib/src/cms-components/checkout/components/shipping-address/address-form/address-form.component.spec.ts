@@ -121,7 +121,7 @@ class MockCheckoutDeliveryService {
   }
 }
 
-fdescribe('AddressFormComponent', () => {
+describe('AddressFormComponent', () => {
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
   let controls: FormGroup['controls'];
