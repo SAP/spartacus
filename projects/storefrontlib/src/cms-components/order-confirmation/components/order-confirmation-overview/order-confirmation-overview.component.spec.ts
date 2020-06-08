@@ -106,7 +106,7 @@ const mockPayment: PaymentDetails = {
   },
 };
 
-fdescribe('OrderConfirmationOverviewComponent', () => {
+describe('OrderConfirmationOverviewComponent', () => {
   let component: OrderConfirmationOverviewComponent;
   let fixture: ComponentFixture<OrderConfirmationOverviewComponent>;
   let checkoutService: CheckoutService;
