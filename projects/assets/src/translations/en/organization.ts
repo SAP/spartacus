@@ -426,6 +426,14 @@ export const organization = {
     header: 'Manage purchase limits for {{code}}',
     back: 'Close',
   },
+  userApprovers: {
+    header: 'User approvers assigned to {{code}}',
+    assignApprovers: 'Manage approvers',
+  },
+  userAssignApprovers: {
+    header: 'Manage user approvers for {{code}}',
+    back: 'Close',
+  },
   userUserGroups: {
     header: 'User groups of {{code}}',
     assignUserGroups: 'Manage user groups',
