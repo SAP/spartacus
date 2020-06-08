@@ -76,9 +76,9 @@ export class RoutingEventBuilder {
         console.log(context);
       }),
       map((context) => context.id),
-      switchMap((productId) => {
-        console.log('code: ', productId);
-        return this.productService.get(productId).pipe(
+      switchMap((categoryId) => {
+        console.log('code: ', categoryId);
+        return this.productService.get(categoryId).pipe(
           filter(Boolean),
           map((product) => {
             console.log(product);
