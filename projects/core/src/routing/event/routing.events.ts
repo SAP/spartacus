@@ -71,3 +71,8 @@ export class CategoryFacetChangeEvent extends PageVisitedEvent {}
  * The event is emitted only when the user is on the facet-supported page - category, brand and search results page.
  */
 export class BrandFacetChangeEvent extends PageVisitedEvent {}
+
+export class SearchResultsChangeEvent extends PageVisitedEvent {
+  searchTerm: string;
+  numberOfResults: Number;
+}

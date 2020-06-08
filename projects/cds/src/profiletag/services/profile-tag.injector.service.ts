@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ProductDetailsPageVisitedEvent } from 'projects/core/src/routing/event';
 import { merge, Observable } from 'rxjs';
 import { filter, mapTo, switchMap, tap } from 'rxjs/operators';
 import { CdsBackendConnector } from '../connectors/cds-backend-connector';
@@ -21,7 +20,9 @@ export class ProfileTagInjectorService {
     this.notifyProfileTagOfCartChange(),
     this.notifyProfileTagOfPageLoaded(),
     this.notifyEcOfLoginSuccessful(),
-    this.notifyProductDetailsView()
+    this.notifyProductDetailsView(),
+    this.notifyCategoryPageVisited(),
+    this.notifySearchResultsChanged()
   );
 
   constructor(
@@ -79,20 +80,27 @@ export class ProfileTagInjectorService {
     );
   }
 
+  private notifyCategoryPageVisited(): Observable<any> {
+    return this.spartacusEventTracker.categoryPageVisited().pipe(
+      tap((item) => {
+        console.log(item);
+        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
+      })
+    );
+  }
+
   private notifyProductDetailsView(): Observable<any> {
     return this.spartacusEventTracker.productDetailsPageView().pipe(
-      tap((item: ProductDetailsPageVisitedEvent) => {
-        this.profileTagEventTracker.notifyProfileTagOfEventOccurence({
-          name: 'productDetailsPageView',
-          data: {
-            productSku: item.code,
-            productName: item.name,
-            productPrice: item.price.value,
-            productCategoryName: item.categories[0].name,
-            productCategory: item.categories[0].code,
-            categories: item.categories,
-          },
-        });
+      tap((item) => {
+        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
+      })
+    );
+  }
+
+  private notifySearchResultsChanged(): Observable<any> {
+    return this.spartacusEventTracker.searchResultsChanged().pipe(
+      tap((item) => {
+        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
       })
     );
   }

@@ -7,10 +7,22 @@ import {
   Cart,
   ConsentService,
   EventService,
+  PersonalizationContextService,
 } from '@spartacus/core';
-import { ProductDetailsPageVisitedEvent } from 'projects/core/src/routing/event/routing.events';
+import {
+  CategoryPageVisitedEvent,
+  ProductDetailsPageVisitedEvent,
+  SearchResultsChangeEvent,
+} from 'projects/core/src/routing/event/routing.events';
 import { Observable } from 'rxjs';
-import { filter, map, mapTo, skipWhile, take, tap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  mapTo,
+  skipWhile,
+  take,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 
 @Injectable({
@@ -23,7 +35,8 @@ export class SpartacusEventService {
     protected config: CdsConfig,
     protected activeCartService: ActiveCartService,
     private actionsSubject: ActionsSubject,
-    private eventService: EventService
+    private eventService: EventService,
+    private personalizationContextService: PersonalizationContextService
   ) {}
 
   navigated(): Observable<boolean> {
@@ -68,11 +81,50 @@ export class SpartacusEventService {
     );
   }
 
+  categoryPageVisited(): Observable<any> {
+    return this.eventService.get(CategoryPageVisitedEvent);
+  }
+
+  searchResultsChanged(): Observable<any> {
+    return this.eventService.get(SearchResultsChangeEvent).pipe(
+      withLatestFrom(
+        this.personalizationContextService.getPersonalizationContext()
+      ),
+      map(([searchEvent, personalizationContext]) => {
+        return {
+          name: 'KeywordSearch',
+          data: {
+            searchTerm: searchEvent.searchTerm,
+            numResults: searchEvent.numberOfResults,
+            segments: personalizationContext.segments,
+            actions: personalizationContext.actions,
+          },
+        };
+      })
+    );
+  }
+
   productDetailsPageView(): Observable<any> {
     return this.eventService.get(ProductDetailsPageVisitedEvent).pipe(
-      tap((data) => {
-        console.log(data);
-      })
+      withLatestFrom(
+        this.personalizationContextService.getPersonalizationContext()
+      ),
+      map(([item, personalizationContext]) => ({
+        name: 'ProductDetailsPageView',
+        data: {
+          productSku: item.code,
+          productName: item.name,
+          productPrice: item.price ? item.price.value : undefined,
+          productCategoryName: item.categories
+            ? item.categories[item.categories.length - 1].name
+            : undefined,
+          productCategory: item.categories
+            ? item.categories[item.categories.length - 1].code
+            : undefined,
+          segments: personalizationContext.segments,
+          actions: personalizationContext.actions,
+        },
+      }))
     );
   }
 }
