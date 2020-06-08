@@ -663,6 +663,44 @@
           }
         }
       }
+    },
+    "product-configuration": {
+      "projectType": "library",
+      "root": "projects/product-configuration",
+      "sourceRoot": "projects/product-configuration/src",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/product-configuration/tsconfig.lib.json",
+            "project": "projects/product-configuration/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/product-configuration/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/product-configuration/src/test.ts",
+            "tsConfig": "projects/product-configuration/tsconfig.spec.json",
+            "karmaConfig": "projects/product-configuration/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/product-configuration/tsconfig.lib.json",
+              "projects/product-configuration/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
     }
   },
   "defaultProject": "storefrontapp"
