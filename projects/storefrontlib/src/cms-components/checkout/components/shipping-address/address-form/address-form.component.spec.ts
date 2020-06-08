@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -121,7 +121,7 @@ class MockCheckoutDeliveryService {
   }
 }
 
-describe('AddressFormComponent', () => {
+fdescribe('AddressFormComponent', () => {
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
   let controls: FormGroup['controls'];
@@ -131,6 +131,9 @@ describe('AddressFormComponent', () => {
   let userService: UserService;
   let mockGlobalMessageService: any;
   let mockModalService: MockModalService;
+
+  const getSetAsDefaultCheckox = (): DebugElement =>
+    fixture.debugElement.query(By.css('[formcontrolname=defaultAddress]'));
 
   beforeEach(async(() => {
     mockGlobalMessageService = {
@@ -355,13 +358,12 @@ describe('AddressFormComponent', () => {
 
   it('should toggleDefaultAddress() adapt control value', () => {
     component.setAsDefaultField = true;
-    fixture.detectChanges();
-    const checkbox = fixture.debugElement.query(
-      By.css('[formcontrolname=defaultAddress]')
-    ).nativeElement;
+    spyOn(userAddressService, 'getAddresses').and.returnValue(
+      of([mockAddress])
+    );
 
     fixture.detectChanges();
-    checkbox.click();
+    getSetAsDefaultCheckox().nativeElement.click();
 
     expect(component.addressForm.value.defaultAddress).toBeTruthy();
   });
@@ -487,5 +489,23 @@ describe('AddressFormComponent', () => {
     spyOn(component.regionsSub, 'unsubscribe');
     component.ngOnDestroy();
     expect(component.regionsSub.unsubscribe).toHaveBeenCalled();
+  });
+
+  it('should show the "Set as default" checkbox when there is 1 or more saved addresses', () => {
+    spyOn(userAddressService, 'getAddresses').and.returnValue(
+      of([mockAddress])
+    );
+
+    fixture.detectChanges();
+
+    expect(getSetAsDefaultCheckox().nativeElement).toBeTruthy();
+  });
+
+  it('should not show the "Set as default" checkbox when there no saved addresses', () => {
+    spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
+
+    fixture.detectChanges();
+
+    expect(getSetAsDefaultCheckox()).toBe(null);
   });
 });
