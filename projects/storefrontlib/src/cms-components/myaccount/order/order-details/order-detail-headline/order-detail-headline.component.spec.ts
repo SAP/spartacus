@@ -58,6 +58,7 @@ const mockB2BOrder: Order = {
     },
   },
   orgCustomer: {
+    active: true,
     name: 'Rivers',
     orgUnit: {
       name: 'Rustic',
