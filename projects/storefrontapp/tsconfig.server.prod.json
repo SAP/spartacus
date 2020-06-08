@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.server.json",
   "compilerOptions": {
+    "esModuleInterop": false,
     "paths": {
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/storefront": ["../../dist/storefrontlib"],
