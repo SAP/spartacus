@@ -39,7 +39,7 @@ export class ConfigProductTitleComponent implements OnInit {
       );
   }
 
-  click() {
+  triggerDetails() {
     this.showMore = !this.showMore;
   }
 

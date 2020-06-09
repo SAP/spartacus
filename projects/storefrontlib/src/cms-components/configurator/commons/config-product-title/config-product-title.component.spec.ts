@@ -170,7 +170,7 @@ describe('ConfigProductTitleComponent', () => {
   });
 
   it('check rendering in show more case - default', () => {
-    component.click();
+    component.triggerDetails();
     fixture.detectChanges();
 
     expect(component.showMore).toBe(true);
@@ -200,7 +200,7 @@ describe('ConfigProductTitleComponent', () => {
     //Delete pricerange
     product.priceRange = null;
 
-    component.click();
+    component.triggerDetails();
     fixture.detectChanges();
     expect(component.showMore).toBe(true);
 
