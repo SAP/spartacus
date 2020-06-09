@@ -10,8 +10,8 @@ import { RoutingService, B2BUser, B2BUserService } from '@spartacus/core';
 import { ModalService } from '../../../../shared/components/modal/modal.service';
 
 @Component({
-  selector: 'cx-b2b-user-details',
-  templateUrl: './b2b-user-details.component.html',
+  selector: 'cx-user-details',
+  templateUrl: './user-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class B2BUserDetailsComponent implements OnInit {

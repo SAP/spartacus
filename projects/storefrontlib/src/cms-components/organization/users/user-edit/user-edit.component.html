@@ -25,7 +25,7 @@
   <div class="cx-header">
     <h3>{{ 'userForm.edit' | cxTranslate }}</h3>
   </div>
-  <cx-b2b-user-form
+  <cx-user-form
     *ngIf="b2bUser$ | async as b2bUser"
     [actionBtnLabel]="'userForm.update' | cxTranslate"
     [b2bUserData]="b2bUser"
@@ -35,5 +35,5 @@
     }"
     (submitForm)="updateB2BUser($event)"
   >
-  </cx-b2b-user-form>
+  </cx-user-form>
 </cx-fake-tabs>

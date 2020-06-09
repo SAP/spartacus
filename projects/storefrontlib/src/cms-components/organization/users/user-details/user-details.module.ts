@@ -5,13 +5,15 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
+  UrlModule,
 } from '@spartacus/core';
-import { B2BUserEditComponent } from './b2b-user-edit.component';
 import { RouterModule } from '@angular/router';
-import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
-import { B2BUserFormModule } from '../b2b-user-form/b2b-user-form.module';
+import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
+import { TableModule } from '../../../../shared/components/table/table.module';
+import { B2BUserDetailsComponent } from './user-details.component';
 import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
+import { ConfirmModalModule } from '../../../../shared/components/modal/confirm-modal/confirm-modal.module';
 
 @NgModule({
   imports: [
@@ -21,23 +23,25 @@ import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'userEdit' },
+        data: { cxRoute: 'userDetails' },
       },
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        UserEditComponent: {
-          component: B2BUserEditComponent,
+        UserDetailsComponent: {
+          component: B2BUserDetailsComponent,
           guards: [AuthGuard],
         },
       },
     }),
-    B2BUserFormModule,
+    UrlModule,
     I18nModule,
+    TableModule,
     FakeTabsModule,
+    ConfirmModalModule,
   ],
-  declarations: [B2BUserEditComponent],
-  exports: [B2BUserEditComponent],
-  entryComponents: [B2BUserEditComponent],
+  declarations: [B2BUserDetailsComponent],
+  exports: [B2BUserDetailsComponent],
+  entryComponents: [B2BUserDetailsComponent],
 })
-export class B2BUserEditModule {}
+export class B2BUserDetailsModule {}

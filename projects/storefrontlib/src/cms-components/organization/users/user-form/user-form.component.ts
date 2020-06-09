@@ -25,8 +25,8 @@ import { sortTitles } from '../../../../shared/utils/forms/title-utils';
 import { tap, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-b2b-user-form',
-  templateUrl: './b2b-user-form.component.html',
+  selector: 'cx-user-form',
+  templateUrl: './user-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class B2BUserFormComponent extends AbstractFormComponent

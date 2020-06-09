@@ -10,7 +10,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
-import { B2BUserListComponent } from './b2b-user-list.component';
+import { B2BUserListComponent } from './user-list.component';
 
 @NgModule({
   imports: [

@@ -1,16 +1,4 @@
-<ng-template
-  #validation
-  let-control="control"
-  let-translationParams="translationParams"
->
-  <span class="is-invalid">
-    <span *ngFor="let error of control.errors | keyvalue">
-      {{ 'userForm.message.' + error.key | cxTranslate: translationParams }}
-    </span>
-  </span>
-</ng-template>
-
-<div [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="verifyAndSubmit()">
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="form-group">
@@ -47,13 +35,7 @@
             formControlName="firstName"
             [class.is-invalid]="isNotValid('firstName')"
           />
-          <ng-container
-            *ngIf="isNotValid('firstName')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.firstName
-            }"
-          ></ng-container>
+          <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
         </label>
       </div>
 
@@ -70,13 +52,7 @@
             formControlName="lastName"
             [class.is-invalid]="isNotValid('lastName')"
           />
-          <ng-container
-            *ngIf="isNotValid('lastName')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.lastName
-            }"
-          ></ng-container>
+          <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
         </label>
       </div>
 
@@ -93,13 +69,7 @@
             formControlName="email"
             [class.is-invalid]="isNotValid('email')"
           />
-          <ng-container
-            *ngIf="isNotValid('email')"
-            [ngTemplateOutlet]="validation"
-            [ngTemplateOutletContext]="{
-              control: form.controls.email
-            }"
-          ></ng-container>
+          <cx-form-errors [control]="form.get('email')"></cx-form-errors>
         </label>
       </div>
 
@@ -123,13 +93,7 @@
                 [class.invalid]="isNotValid('orgUnit')"
               >
               </ng-select>
-              <ng-container
-                *ngIf="isNotValid('orgUnit')"
-                [ngTemplateOutlet]="validation"
-                [ngTemplateOutletContext]="{
-                  control: form.controls.orgUnit['controls']['uid']
-                }"
-              ></ng-container>
+              <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
             </label>
           </div>
         </ng-container>
@@ -173,9 +137,10 @@
       </div>
     </div>
   </div>
+
   <div class="row buttons">
     <div class="col-md-12 col-lg-6 mb-3">
-      <button class="btn btn-block btn-primary" (click)="verifyAndSubmit()">
+      <button class="btn btn-block btn-primary" type="submit">
         {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
       </button>
     </div>
@@ -189,4 +154,4 @@
       </a>
     </div>
   </div>
-</div>
+</form>

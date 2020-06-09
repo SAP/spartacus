@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { B2BUser, B2BUserService, RoutingService } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-b2b-user-edit',
-  templateUrl: './b2b-user-edit.component.html',
+  selector: 'cx-user-edit',
+  templateUrl: './user-edit.component.html',
 })
 export class B2BUserEditComponent implements OnInit {
   b2bUser$: Observable<B2BUser>;

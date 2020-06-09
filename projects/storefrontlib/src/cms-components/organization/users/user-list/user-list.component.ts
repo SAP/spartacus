@@ -16,8 +16,8 @@ import {
 } from '../../abstract-component/abstract-listing.component';
 
 @Component({
-  selector: 'cx-b2b-user-list',
-  templateUrl: './b2b-user-list.component.html',
+  selector: 'cx-user-list',
+  templateUrl: './user-list.component.html',
 })
 export class B2BUserListComponent extends AbstractListingComponent
   implements OnInit {
