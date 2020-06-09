@@ -12,8 +12,8 @@ import {
 } from '@spartacus/core';
 import {
   CategoryPageVisitedEvent,
+  HomePageVisitedEvent,
   KeywordSearchEvent,
-  PageVisitedEvent,
   ProductDetailsPageVisitedEvent,
 } from 'projects/core/src/routing/event/routing.events';
 import { combineLatest, concat, Observable, of } from 'rxjs';
@@ -21,8 +21,8 @@ import { filter, map, mapTo, skipWhile, take } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 import {
   CategoryViewPushEvent,
+  HomePageViewPushEvent,
   KeywordSearchPushEvent,
-  PageViewPushEvent,
   ProductViewPushEvent,
   ProfileTagEvent,
 } from '../model/profile-tag.model';
@@ -146,28 +146,18 @@ export class SpartacusEventService {
     );
   }
 
-  pageViewEvent(): Observable<ProfileTagEvent> {
+  homePageVisitedEvent(): Observable<ProfileTagEvent> {
     return combineLatest([
-      this.eventService.get(PageVisitedEvent),
+      this.eventService.get(HomePageVisitedEvent),
       this.personalizationContext$,
     ]).pipe(
       map(
         ([_, personalizationContext]) =>
-          new PageViewPushEvent({
+          new HomePageViewPushEvent({
             segments: personalizationContext.segments,
             actions: personalizationContext.actions,
           })
       )
     );
   }
-
-  // personalizationContext(): Observable<boolean> {
-  //   return this.personalizationContextService.getPersonalizationContext().pipe(
-  //     tap((personalizationContext) => {
-  //       this.actions = personalizationContext.actions;
-  //       this.segments = personalizationContext.segments;
-  //     }),
-  //     mapTo(true)
-  //   );
-  // }
 }

@@ -22,8 +22,8 @@ export class ProfileTagInjectorService {
     this.notifyEcOfLoginSuccessful(),
     this.notifyProductDetailsView(),
     this.notifyCategoryPageVisited(),
-    this.notifySearchResultsChanged()
-    //this.spartacusEventTracker.personalizationContext()
+    this.notifySearchResultsChanged(),
+    this.notifyHomePageView()
   );
 
   constructor(
@@ -113,5 +113,14 @@ export class ProfileTagInjectorService {
         })
       )
       .pipe(mapTo(true));
+  }
+
+  private notifyHomePageView(): Observable<boolean> {
+    return this.spartacusEventTracker.homePageVisitedEvent().pipe(
+      tap((item) => {
+        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
+      }),
+      mapTo(true)
+    );
   }
 }

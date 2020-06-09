@@ -114,7 +114,7 @@ export class ProfileTagEventService {
   }
 
   private exposeConfig(options: ProfileTagJsConfig): void {
-    const q = this.profileTagWindow.Y_TRACKING.q || [];
+    const q = [];
     q.push([options]);
     this.profileTagWindow.Y_TRACKING.q = q;
   }

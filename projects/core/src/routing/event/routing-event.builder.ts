@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { merge, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
 import { PageType } from '../../model';
@@ -10,10 +10,16 @@ import { RoutingService } from '../facade/routing.service';
 import { PageContext } from '../models/page-context.model';
 import {
   CategoryPageVisitedEvent,
+  HomePageVisitedEvent,
   KeywordSearchEvent,
   PageVisitedEvent,
   ProductDetailsPageVisitedEvent,
 } from './routing.events';
+
+enum PageId {
+  HOME_PAGE = 'homepage',
+  SERCH = 'search',
+}
 
 @Injectable({
   providedIn: 'root',
@@ -41,6 +47,10 @@ export class RoutingEventBuilder {
       CategoryPageVisitedEvent,
       this.buildCategoryPageVisitEvent()
     );
+    this.eventService.register(
+      HomePageVisitedEvent,
+      this.buildHomePageVisitedEvent()
+    );
     this.eventService.register(PageVisitedEvent, this.buildPageViewEvent());
   }
 
@@ -61,8 +71,23 @@ export class RoutingEventBuilder {
     );
   }
 
+  buildHomePageVisitedEvent(): Observable<HomePageVisitedEvent> {
+    return this.routerEvents(PageType.CONTENT_PAGE).pipe(
+      filter((pageContext) => pageContext.id === PageId.HOME_PAGE)
+    );
+  }
+
   buildPageViewEvent(): Observable<PageContext> {
-    return this.routerEvents(PageType.PRODUCT_PAGE);
+    return merge(
+      this.routerEvents(PageType.CATALOG_PAGE),
+      this.routerEvents(PageType.CATEGORY_PAGE),
+      this.routerEvents(PageType.CONTENT_PAGE),
+      this.routerEvents(PageType.PRODUCT_PAGE)
+    ).pipe(
+      tap((pageContext) => {
+        console.log(pageContext);
+      })
+    );
   }
 
   buildCategoryPageVisitEvent(): Observable<CategoryPageVisitedEvent> {
@@ -84,7 +109,7 @@ export class RoutingEventBuilder {
     );
   }
   private isSearchPage(pageContext: PageContext): boolean {
-    return pageContext.id === 'search';
+    return pageContext.id === PageId.SERCH;
   }
 
   private searchResultChangeEvent(): Observable<KeywordSearchEvent> {

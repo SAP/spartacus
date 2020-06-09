@@ -97,6 +97,14 @@ export class CategoryViewPushEvent implements ProfileTagEvent {
   }
 }
 
+export class HomePageViewPushEvent implements ProfileTagEvent {
+  name = 'HomePageView';
+  data;
+  constructor(data: { segments: string[]; actions: PersonalizationAction[] }) {
+    this.data = data;
+  }
+}
+
 export class PageViewPushEvent implements ProfileTagEvent {
   name = 'PageView';
   data;
