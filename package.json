@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "ng build storefrontapp --prod",
-    "build:assets": "ng build assets --prod && yarn generate:translations:ts-2-json",
+    "build:assets": "yarn --cwd ./projects/assets build",
     "build:core:lib": "ng build core --prod && ng build storefrontlib --prod && yarn build:assets && yarn build:incubator",
     "build:incubator": "ng build incubator --prod",
     "e2e:cy:open": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open",
@@ -41,9 +41,6 @@
     "generate:changelog": "ts-node ./scripts/changelog.ts",
     "generate:docs": "npx @compodoc/compodoc -p tsconfig.compodoc.json && ./scripts/zip-docs.sh",
     "generate:publish:docs": "yarn generate:docs && yarn publish:docs",
-    "generate:translations:ts-2-json": "ts-node ./scripts/generate-translations-ts-2-json",
-    "generate:translations:ts-2-properties": "ts-node ./scripts/generate-translations-ts-2-properties",
-    "generate:translations:properties-2-ts": "ts-node ./scripts/generate-translations-properties-2-ts && prettier './projects/assets/src/translations/**/*.ts' --write",
     "lint": "ng lint",
     "i18n-lint": "i18n-lint -t \"{{,}}\" projects/storefrontlib/src/**/*.html",
     "prettier": "prettier --config ./.prettierrc --list-different \"projects/**/*{.ts,.js,.json,.scss,.html}\"",
