@@ -89,7 +89,7 @@ export class B2BUserFormComponent extends AbstractFormComponent
     if (!b2bUser) {
       return roles;
     } else {
-      let newRoles = roles.map((r) => {
+      const newRoles = roles.map((r) => {
         if (b2bUser.roles.includes(r.id)) {
           rolesArray.push(new FormControl(r.id));
           return { name: r.name, id: r.id, selected: true };
@@ -108,9 +108,9 @@ export class B2BUserFormComponent extends AbstractFormComponent
       rolesArray.push(new FormControl(event.target.value));
       return;
     } else {
-      let i: number = 0;
+      let i = 0;
       rolesArray.controls.forEach((ctrl: FormControl) => {
-        if (ctrl.value == event.target.value) {
+        if (ctrl.value === event.target.value) {
           rolesArray.removeAt(i);
           return;
         }
