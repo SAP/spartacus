@@ -42,6 +42,7 @@
               [border]="true"
               [fitToContainer]="true"
               [content]="card.card"
+              [isShippingAddress]="card.address.shippingAddress"
               (sendCard)="selectAddress(card.address)"
             ></cx-card>
           </div>

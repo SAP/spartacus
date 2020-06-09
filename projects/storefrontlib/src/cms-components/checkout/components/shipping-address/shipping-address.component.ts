@@ -93,6 +93,8 @@ export class ShippingAddressComponent implements OnInit {
       )
     );
 
+    this.cards$.subscribe((addresses) => console.log(addresses));
+
     if (!this.activeCartService.isGuestCart()) {
       this.userAddressService.loadAddresses();
     } else {

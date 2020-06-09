@@ -50,8 +50,12 @@ export class CardComponent implements OnInit {
 
   @Input()
   content: Card;
+
   @Input()
   fitToContainer = false;
+
+  @Input()
+  isShippingAddress: boolean;
 
   // ACTIONS
 
@@ -83,5 +87,7 @@ export class CardComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.isShippingAddress);
+  }
 }
