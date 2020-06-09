@@ -10,6 +10,7 @@ import {
   OrderApprovalPermissionType,
   Permission,
   UserGroup,
+  OrderApproval,
 } from '../../model';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
@@ -61,6 +62,10 @@ export const USER_GROUP_AVAILABLE_CUSTOMERS =
 export const ADDRESS_ENTITIES = 'addresses-entities';
 export const ADDRESS_LIST = 'addresses-list';
 
+export const ORDER_APPROVAL_FEATURE = 'order-approval';
+export const ORDER_APPROVAL_ENTITIES = 'order-approval-entities';
+export const ORDER_APPROVAL_LIST = 'order-approval-list';
+
 export interface Management<Type> {
   list: EntityLoaderState<ListModel>;
   entities: EntityLoaderState<Type>;
@@ -97,6 +102,8 @@ export interface B2BUserManagement extends Management<B2BUser> {
   userGroups: EntityLoaderState<ListModel>;
 }
 
+export interface OrderApprovalManagement extends Management<OrderApproval> {}
+
 export interface StateWithOrganization {
   [ORGANIZATION_FEATURE]: OrganizationState;
 }
@@ -108,4 +115,5 @@ export interface OrganizationState {
   [PERMISSION_FEATURE]: PermissionManagement;
   [COST_CENTER_FEATURE]: CostCenterManagement;
   [B2B_USER_FEATURE]: B2BUserManagement;
+  [ORDER_APPROVAL_FEATURE]: OrderApprovalManagement;
 }
