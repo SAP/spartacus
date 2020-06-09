@@ -1,0 +1,26 @@
+{
+  "name": "@spartacus/productconfig",
+  "version": "2.1.0-dev.0",
+  "description": "Product configuration library for Spartacus",
+  "homepage": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "configuration",
+    "complex products",
+    "variant configuration"
+  ],
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
+  "peerDependencies": {
+    "@angular/common": "^9.0.0",
+    "@angular/core": "^9.0.0",
+    "rxjs": "^6.5.4",
+    "@spartacus/core": "2.1.0-dev.0",
+    "@spartacus/storefront": "2.1.0-dev.0"
+  }
+}

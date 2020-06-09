@@ -42,7 +42,6 @@
       "@spartacus/storefront",
       "@spartacus/styles",
       "@spartacus/cds",
-      "@spartacus/product-configuration",
       "@spartacus/assets",
       "@spartacus/incubator"
     ]

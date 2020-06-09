@@ -5,7 +5,7 @@
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/cds": ["dist/cds"],
-      "@spartacus/product-configuration": ["dist/product-configuration"],
+      "@spartacus/productconfig": ["dist/productconfig"],
       "@spartacus/vendor": ["dist/vendor"],
       "@spartacus/assets": ["dist/assets"]
     }

@@ -18,9 +18,7 @@
       "@spartacus/core": ["projects/core/public_api"],
       "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
       "@spartacus/cds": ["projects/cds/public_api"],
-      "@spartacus/product-configuration": [
-        "projects/product-configuration/public_api"
-      ]
+      "@spartacus/productconfig": ["projects/productconfig/public_api"]
     }
   },
   "exclude": [
