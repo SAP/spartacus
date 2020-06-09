@@ -186,30 +186,5 @@ describe('ConfigProductTitleComponent', () => {
       '.cx-config-toogle-details-link-text',
       'configurator.header.showLess' //Check translation key, because translation module is not available
     );
-
-    //Price Range should as default
-    ConfigComponentTestUtilsService.expectElementToContainText(
-      expect,
-      htmlElem,
-      '.cx-config-product-price',
-      `${product.priceRange.minPrice.formattedValue} - ${product.priceRange.maxPrice.formattedValue}`
-    );
-  });
-
-  it('check rendering in show more case - no price range', () => {
-    //Delete pricerange
-    product.priceRange = null;
-
-    component.triggerDetails();
-    fixture.detectChanges();
-    expect(component.showMore).toBe(true);
-
-    //Price should be used when price range is not available
-    ConfigComponentTestUtilsService.expectElementToContainText(
-      expect,
-      htmlElem,
-      '.cx-config-product-price',
-      product.price.formattedValue
-    );
   });
 });
