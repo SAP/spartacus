@@ -50,7 +50,7 @@ export class CheckoutAuthGuard implements CanActivate {
           this.authRedirectService.reportAuthGuard();
         } else if ('roles' in user) {
           const roles = (<B2BUser>user).roles;
-          if (roles.indexOf(B2BUserGroup.B2B_CUSTOMER_GROUP) > -1) {
+          if (roles.includes(B2BUserGroup.B2B_CUSTOMER_GROUP)) {
             return true;
           } else {
             this.globalMessageService.add(
