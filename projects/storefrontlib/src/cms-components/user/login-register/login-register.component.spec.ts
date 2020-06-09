@@ -17,9 +17,7 @@ describe('LoginRegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule
-      ],
+      imports: [I18nTestingModule],
       declarations: [LoginRegisterComponent, MockUrlPipe],
     }).compileComponents();
   }));
