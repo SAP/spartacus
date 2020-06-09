@@ -251,6 +251,20 @@
               "vendorChunk": false,
               "buildOptimizer": true,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
+            },
+            "productconfig.development": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/productconfig/productconfig.feature.ts",
+                  "with": "projects/storefrontapp/src/environments/productconfig/productconfig.feature.enabled.ts"
+                }
+              ]
             }
           }
         },
@@ -289,6 +303,9 @@
             },
             "cds.ci.ccv2": {
               "browserTarget": "storefrontapp:build:cds.ci.ccv2"
+            },
+            "productconfig.development": {
+              "browserTarget": "storefrontapp:build:productconfig.development"
             }
           }
         },

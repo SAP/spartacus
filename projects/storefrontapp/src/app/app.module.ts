@@ -17,6 +17,7 @@ import { b2bFeature } from '../environments/b2c/b2b.feature';
 import { b2cFeature } from '../environments/b2c/b2c.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
+import { productconfigFeature } from '../environments/productconfig/productconfig.feature';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 
 registerLocaleData(localeDe);
@@ -37,6 +38,8 @@ if (!environment.production) {
     JsonLdBuilderModule,
 
     ...cdsFeature.imports,
+
+    ...productconfigFeature.imports,
 
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.

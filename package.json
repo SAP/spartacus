@@ -100,7 +100,12 @@
     "prerender:cds": "ng run storefrontapp:prerender-cds",
     "release:cds:with-changelog": "cd projects/cds && release-it && cd ../..",
     "release-notes:cds": "ts-node ./scripts/changelog.ts --verbose --lib cds",
-    "start:b2b:ci:2005": "ng serve -c=b2b.ci.2005 --prod"
+    "start:b2b:ci:2005": "ng serve -c=b2b.ci.2005 --prod",
+    "start:productconfig": "ng serve -c=productconfig.development",
+    "build:productconfig": "ng build storefrontapp -c=productconfig.development",
+    "build:productconfig:lib": "ng build productconfig --prod",
+    "build:core:lib:productconfig": "yarn build:core:lib && yarn build:productconfig:lib",
+    "test:productconfig:lib": "ng test productconfig --code-coverage"
   },
   "private": false,
   "dependencies": {
