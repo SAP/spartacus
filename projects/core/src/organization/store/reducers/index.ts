@@ -12,6 +12,7 @@ import {
   OrderApprovalPermissionType,
   Permission,
   UserGroup,
+  OrderApproval,
 } from '../../../model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import {
@@ -46,6 +47,9 @@ import {
   USER_GROUP_LIST,
   USER_GROUP_PERMISSIONS,
   USER_LIST,
+  ORDER_APPROVAL_FEATURE,
+  ORDER_APPROVAL_ENTITIES,
+  ORDER_APPROVAL_LIST,
 } from '../organization-state';
 import {
   b2bUserApproverListReducer,
@@ -73,6 +77,10 @@ import {
   userGroupsListReducer,
   userGroupEntitiesReducer,
 } from './user-group.reducer';
+import {
+  orderApprovalsEntitiesReducer,
+  orderApprovalsListReducer,
+} from './order-approval.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -161,6 +169,16 @@ export function getReducers(): ActionReducerMap<OrganizationState> {
       userGroups: entityLoaderReducer<ListModel>(
         B2B_USER_USER_GROUPS,
         b2bUserUserGroupListReducer
+      ),
+    }),
+    [ORDER_APPROVAL_FEATURE]: combineReducers({
+      entities: entityLoaderReducer<OrderApproval>(
+        ORDER_APPROVAL_ENTITIES,
+        orderApprovalsEntitiesReducer
+      ),
+      list: entityLoaderReducer<ListModel>(
+        ORDER_APPROVAL_LIST,
+        orderApprovalsListReducer
       ),
     }),
   };
