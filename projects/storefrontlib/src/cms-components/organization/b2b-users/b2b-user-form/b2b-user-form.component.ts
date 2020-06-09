@@ -50,7 +50,7 @@ export class B2BUserFormComponent extends AbstractFormComponent
 
   ngOnInit() {
     this.form = this.fb.group({
-      uid: ['', Validators.required],
+      email: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       orgUnit: this.fb.group({

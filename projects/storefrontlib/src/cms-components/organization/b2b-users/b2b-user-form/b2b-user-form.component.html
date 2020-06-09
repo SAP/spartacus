@@ -92,14 +92,14 @@
             type="text"
             required
             placeholder="{{ 'userForm.email.placeholder' | cxTranslate }}"
-            formControlName="uid"
-            [class.is-invalid]="isNotValid('uid')"
+            formControlName="email"
+            [class.is-invalid]="isNotValid('email')"
           />
           <ng-container
-            *ngIf="isNotValid('uid')"
+            *ngIf="isNotValid('email')"
             [ngTemplateOutlet]="validation"
             [ngTemplateOutletContext]="{
-              control: form.controls.uid
+              control: form.controls.email
             }"
           ></ng-container>
         </label>

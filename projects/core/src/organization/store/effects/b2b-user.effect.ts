@@ -14,6 +14,7 @@ import { B2BUser } from '../../../model/org-unit.model';
 import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
 import { Permission } from '../../../model/permission.model';
 import { UserGroup } from '../../../model/user-group.model';
+import { RoutingService } from 'projects/core/src/routing';
 
 @Injectable()
 export class B2BUserEffects {
@@ -48,7 +49,14 @@ export class B2BUserEffects {
     map((action: B2BUserActions.CreateB2BUser) => action.payload),
     switchMap((payload) =>
       this.b2bUserConnector.create(payload.userId, payload.orgCustomer).pipe(
-        map((data) => new B2BUserActions.CreateB2BUserSuccess(data)),
+        map((data) => {
+          this.routingService.go({
+            cxRoute: 'userDetails',
+            params: { customerId: data.customerId },
+          });
+          return new B2BUserActions.CreateB2BUserSuccess(data)
+        }),
+
         catchError((error) =>
           of(
             new B2BUserActions.CreateB2BUserFail({
@@ -74,7 +82,13 @@ export class B2BUserEffects {
         .pipe(
           // TODO: Workaround for empty PATCH response:
           // map(data => new B2BUserActions.UpdateB2BUserSuccess(data)),
-          map(() => new B2BUserActions.LoadB2BUser(payload)),
+          map(() => {
+            this.routingService.go({
+              cxRoute: 'userDetails',
+              params: { customerId: payload.orgCustomerId },
+            });
+            return new B2BUserActions.LoadB2BUser(payload)
+          }),
           catchError((error) =>
             of(
               new B2BUserActions.UpdateB2BUserFail({
@@ -447,6 +461,7 @@ export class B2BUserEffects {
 
   constructor(
     private actions$: Actions,
-    private b2bUserConnector: B2BUserConnector
+    private b2bUserConnector: B2BUserConnector,
+    private routingService: RoutingService,
   ) {}
 }

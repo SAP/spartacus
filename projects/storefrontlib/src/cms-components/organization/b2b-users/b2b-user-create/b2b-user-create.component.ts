@@ -13,9 +13,5 @@ export class B2BUserCreateComponent {
 
   createB2BUser(b2bUser: B2BUser) {
     this.b2bUserService.create(b2bUser);
-    this.routingService.go({
-      cxRoute: 'userDetails',
-      params: { code: b2bUser.uid },
-    });
   }
 }

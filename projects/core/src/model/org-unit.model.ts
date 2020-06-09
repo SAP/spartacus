@@ -69,6 +69,7 @@ export interface B2BUser extends User {
   orgUnit?: B2BUnit;
   roles?: string[];
   selected?: boolean;
+  isAssignedToApprovers?: boolean;
 }
 
 export interface B2BApprovalProcess {
