@@ -28,8 +28,11 @@
   </div>
   <div class="mobile mode">
     <div class="cx-row" *ngFor="let row of tableData">
-      <div *ngFor="let column of columns">
-        <span class="cx-label">{{ column.value }}:</span>
+      <div
+        *ngFor="let column of columns"
+        [ngClass]="{ 'cx-action': column?.checkBox }"
+      >
+        <span class="cx-label">{{ column.value }}: </span>
         <ng-container
           *ngTemplateOutlet="checkbox; context: { row: row, column: column }"
         ></ng-container>

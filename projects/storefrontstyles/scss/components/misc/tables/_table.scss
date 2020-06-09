@@ -25,7 +25,8 @@
         display: initial;
       }
       .cx-row {
-        padding: 1rem 0;
+        word-break: break-word;
+        padding: 16px 30px 16px 0;
         border-bottom: 1px solid var(--cx-color-light);
         &:last-of-type {
           border: none;
@@ -36,6 +37,17 @@
         font-weight: var(--cx-font-weight-bold);
         text-transform: uppercase;
         color: theme-color('secondary');
+      }
+      .cx-action {
+        text-align: right;
+        height: 0;
+        input {
+          position: static;
+          margin-right: -25px;
+        }
+        .cx-label {
+          display: none;
+        }
       }
     }
   }

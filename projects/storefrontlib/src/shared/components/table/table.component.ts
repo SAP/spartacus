@@ -19,6 +19,7 @@ export class TableComponent {
   tableData: Array<any>;
 
   @Output() check = new EventEmitter<{ key: string; row: any }>();
+
   @Output() uncheck = new EventEmitter<{ key: string; row: any }>();
 
   onToggle(event, row, key) {
