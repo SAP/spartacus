@@ -54,7 +54,7 @@ export class B2BUserEffects {
             cxRoute: 'userDetails',
             params: { customerId: data.customerId },
           });
-          return new B2BUserActions.CreateB2BUserSuccess(data)
+          return new B2BUserActions.CreateB2BUserSuccess(data);
         }),
 
         catchError((error) =>
@@ -71,7 +71,7 @@ export class B2BUserEffects {
 
   @Effect()
   updateB2BUser$: Observable<
-  // B2BUserActions.UpdateB2BUserSuccess
+    // B2BUserActions.UpdateB2BUserSuccess
     B2BUserActions.LoadB2BUser | B2BUserActions.UpdateB2BUserFail
   > = this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER),
@@ -87,7 +87,7 @@ export class B2BUserEffects {
               cxRoute: 'userDetails',
               params: { customerId: payload.orgCustomerId },
             });
-            return new B2BUserActions.LoadB2BUser(payload)
+            return new B2BUserActions.LoadB2BUser(payload);
           }),
           catchError((error) =>
             of(
@@ -462,6 +462,6 @@ export class B2BUserEffects {
   constructor(
     private actions$: Actions,
     private b2bUserConnector: B2BUserConnector,
-    private routingService: RoutingService,
+    private routingService: RoutingService
   ) {}
 }
