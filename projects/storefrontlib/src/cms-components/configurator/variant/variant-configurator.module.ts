@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  CmsConfig,
   Config,
   ConfigModule,
   I18nModule,
@@ -13,8 +11,6 @@ import {
   UserService,
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
-import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
-import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
 import { HamburgerMenuModule } from '../../../layout/header/hamburger-menu/hamburger-menu.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ConfigAddToCartButtonComponent } from '../commons/config-add-to-cart-button/config-add-to-cart-button.component';
@@ -46,94 +42,8 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     GenericConfiguratorModule,
     ProductModule,
     ConfigurationMessageLoaderModule,
-    RouterModule.forChild([
-      {
-        path: 'configureCPQCONFIGURATOR/:ownerType/entityKey/:entityKey',
-        data: { pageLabel: '/configureCPQCONFIGURATOR' },
-        component: PageLayoutComponent,
-        canActivate: [CmsPageGuard],
-      },
-    ]),
+
     ConfigModule.withConfig(DefaultMessageConfig),
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        VariantConfigurationTabBar: {
-          component: ConfigTabBarComponent,
-          guards: [],
-        },
-        VariantConfigurationGroupTitle: {
-          component: ConfigGroupTitleComponent,
-          guards: [],
-        },
-        VariantConfigurationForm: {
-          component: ConfigFormComponent,
-          guards: [],
-        },
-        VariantConfigurationMenu: {
-          component: ConfigGroupMenuComponent,
-          guards: [],
-        },
-        VariantConfigurationPriceSummary: {
-          component: ConfigPriceSummaryComponent,
-          guards: [],
-        },
-        VariantConfigurationPrevNext: {
-          component: ConfigPreviousNextButtonsComponent,
-          guards: [],
-        },
-        VariantConfigurationAddToCartButton: {
-          component: ConfigAddToCartButtonComponent,
-          guards: [],
-        },
-      },
-      layoutSlots: {
-        VariantConfigurationTemplate: {
-          header: {
-            md: {
-              slots: [
-                'PreHeader',
-                'SiteContext',
-                'SiteLinks',
-                'SiteLogo',
-                'SearchBox',
-                'SiteLogin',
-                'MiniCart',
-              ],
-            },
-            xs: {
-              slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
-            },
-          },
-
-          navigation: {
-            xs: {
-              slots: [
-                'SiteLogin',
-                'SiteContext',
-                'SiteLinks',
-                'VariantConfigMenu',
-              ],
-            },
-          },
-
-          md: {
-            slots: [
-              'VariantConfigHeader',
-              'VariantConfigMenu',
-              'VariantConfigContent',
-              'VariantConfigBottombar',
-            ],
-          },
-          xs: {
-            slots: [
-              'VariantConfigHeader',
-              'VariantConfigContent',
-              'VariantConfigBottombar',
-            ],
-          },
-        },
-      },
-    }),
 
     FormsModule,
     ReactiveFormsModule,
