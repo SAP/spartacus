@@ -3,3 +3,4 @@
 !*.d.ts
 yarn.lock
 .release-it.*
+*_spec.ts
