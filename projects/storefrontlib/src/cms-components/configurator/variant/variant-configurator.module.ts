@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Config,
@@ -46,6 +47,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigModule.withConfig(DefaultMessageConfig),
 
     FormsModule,
+    RouterModule,
     ReactiveFormsModule,
     NgSelectModule,
     UrlModule,

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule, UserService } from '@spartacus/core';
 import { IconModule } from '../../misc/icon/icon.module';
@@ -21,6 +22,7 @@ import { VariantConfiguratorModule } from './variant-configurator.module';
     UrlModule,
     I18nModule,
     IconModule,
+    RouterModule,
   ],
 
   declarations: [ConfigOverviewFormComponent, ConfigOverviewAttributeComponent],
