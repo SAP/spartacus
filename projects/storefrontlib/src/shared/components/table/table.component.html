@@ -16,6 +16,9 @@
               "
             ></ng-container>
             <ng-container
+              *ngTemplateOutlet="button; context: { row: row, column: column }"
+            ></ng-container>
+            <ng-container
               *ngTemplateOutlet="link; context: { row: row, column: column }"
             ></ng-container>
             <ng-container
@@ -30,11 +33,14 @@
     <div class="cx-row" *ngFor="let row of tableData">
       <div
         *ngFor="let column of columns"
-        [ngClass]="{ 'cx-action': column?.checkBox }"
+        [ngClass]="{ 'cx-action': column?.checkBox || column?.button }"
       >
         <span class="cx-label">{{ column.value }}: </span>
         <ng-container
           *ngTemplateOutlet="checkbox; context: { row: row, column: column }"
+        ></ng-container>
+        <ng-container
+          *ngTemplateOutlet="button; context: { row: row, column: column }"
         ></ng-container>
         <ng-container
           *ngTemplateOutlet="link; context: { row: row, column: column }"
@@ -47,7 +53,16 @@
   </div>
 </ng-container>
 
-<!-- Template for rendering checkbox input if `checkBox` property exists in column data. -->
+<!-- 
+  Template for rendering checkbox input if `checkBox` property exists in column data. 
+
+  Checkbox can be used as follows in tableData object:
+  
+  key: {
+    ...,
+    selected: true
+  }
+-->
 <ng-template #checkbox let-row="row" let-column="column">
   <ng-container *ngIf="column?.checkBox && row">
     <input
@@ -55,6 +70,29 @@
       [checked]="row[column.key]"
       (change)="onToggle($event, row, column.key)"
     />
+  </ng-container>
+</ng-template>
+
+<!-- 
+  Template for rendering icon button if `button` property exists in column data. 
+
+  Icon button can be used as follows in tableData object:
+  
+  key: {
+    ...,
+    cxIcon: {
+      type: iconTypes.EXAMPLE_ICON,
+      class: 'example-class'
+    }
+  }
+-->
+<ng-template #button let-row="row" let-column="column">
+  <ng-container *ngIf="column?.button && row">
+    <cx-icon
+      [class]="row[column.key]?.cxIcon.class"
+      [type]="row[column.key]?.cxIcon.type"
+      (click)="onClick($event, row, column.key)"
+    ></cx-icon>
   </ng-container>
 </ng-template>
 
@@ -72,7 +110,9 @@
 
 <!-- Template for rendering plain text in case if any other custom properties not exist. -->
 <ng-template #text let-row="row" let-column="column">
-  <ng-container *ngIf="!column?.checkBox && !column?.cxRoute && row">
+  <ng-container
+    *ngIf="!column?.checkBox && !column?.button && !column?.cxRoute && row"
+  >
     {{ row[column.key] || '-' }}
   </ng-container>
 </ng-template>

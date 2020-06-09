@@ -25,6 +25,7 @@
         display: initial;
       }
       .cx-row {
+        position: relative;
         word-break: break-word;
         padding: 16px 30px 16px 0;
         border-bottom: 1px solid var(--cx-color-light);
@@ -42,13 +43,21 @@
         text-align: right;
         height: 0;
         input {
-          position: static;
           margin-right: -25px;
         }
         .cx-label {
           display: none;
         }
       }
+      cx-icon {
+        cursor: pointer;
+        position: absolute;
+        top: 16px;
+        right: 8px;
+      }
+    }
+    input[type='checkbox'] {
+      position: static;
     }
   }
 }
