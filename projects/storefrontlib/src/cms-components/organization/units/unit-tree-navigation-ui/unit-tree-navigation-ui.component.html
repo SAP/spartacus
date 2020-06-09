@@ -1,27 +1,94 @@
-<ng-container *ngFor="let child of node?.children">
-  <ng-container *ngTemplateOutlet="nav; context: { node: child, depth: 0 }">
+<ng-container>
+  <div class="cx-unit-tree-actions">
+    <button class="btn btn-link" (click)="setTreeBranchesState(true)">
+      Expand all
+    </button>
+    <button class="btn btn-link" (click)="setTreeBranchesState(false)">
+      Collapse all
+    </button>
+  </div>
+
+  <ng-container
+    *ngTemplateOutlet="
+      tree;
+      context: {
+        node: {
+          title: '',
+          children: [node]
+        },
+        code: rootCodeName
+      }
+    "
+  >
   </ng-container>
-</ng-container>
 
-<ng-template #nav let-node="node" let-depth="depth">
-  <ul>
-    <li>
-      <div>
-        <cx-icon
-          *ngIf="node.children?.length > 0"
-          [type]="iconType.CARET_DOWN"
-        ></cx-icon>
-        <cx-generic-link [url]="node.url" [title]="node.title">
-          {{ node.title }}
-        </cx-generic-link>
-      </div>
+  <ng-template #tree let-node="node" let-code="code">
+    <ul [attr.data-code]="code">
+      <li
+        *ngFor="let child of node.children; let i = index"
+        [attr.aria-expanded]="isExpandedNodeMap[code + '_' + i]"
+      >
+        <div class="tree-desktop-branch">
+          <cx-icon
+            *ngIf="child.children?.length > 0"
+            [type]="
+              isExpandedNodeMap[code + '_' + i]
+                ? iconType.CARET_DOWN
+                : iconType.CARET_RIGHT
+            "
+            (click)="toggleAriaExpandedForNode(code + '_' + i)"
+            (keydown.enter)="toggleAriaExpandedForNode(code + '_' + i)"
+            (keydown.space)="toggleAriaExpandedForNode(code + '_' + i)"
+            tabindex="0"
+          ></cx-icon>
+          <cx-generic-link
+            [url]="child.url"
+            [title]="child.title"
+            [class.margin-left]="!child.children?.length"
+          >
+            {{ child.title }}
+            <span *ngIf="child.children?.length > 0"
+              >({{ child.children?.length }})</span
+            >
+          </cx-generic-link>
+        </div>
 
-      <ng-container *ngFor="let child of node.children">
+        <div class="tree-mobile-branch">
+          <cx-generic-link
+            [url]="child.url"
+            [title]="child.title"
+            [class.margin-left]="!child.children?.length"
+          >
+            {{ child.title }}
+            <span *ngIf="child.children?.length > 0">
+              ({{ child.children?.length }})
+            </span>
+          </cx-generic-link>
+          <cx-icon
+            *ngIf="child.children?.length > 0"
+            [type]="
+              isExpandedNodeMap[code + '_' + i]
+                ? iconType.CARET_DOWN
+                : iconType.CARET_RIGHT
+            "
+            (click)="toggleAriaExpandedForNode(code + '_' + i)"
+            (keydown.enter)="toggleAriaExpandedForNode(code + '_' + i)"
+            (keydown.space)="toggleAriaExpandedForNode(code + '_' + i)"
+            tabindex="0"
+          ></cx-icon>
+        </div>
+
         <ng-container
-          *ngTemplateOutlet="nav; context: { node: child, depth: depth + 1 }"
+          *ngTemplateOutlet="
+            tree;
+            context: {
+              node: child,
+              code: code + '_' + i
+            }
+          "
         >
         </ng-container>
-      </ng-container>
-    </li>
-  </ul>
-</ng-template>
+      </li>
+    </ul>
+  </ng-template>
+</ng-container>

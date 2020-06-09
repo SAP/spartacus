@@ -2,4 +2,19 @@
 
 %cx-unit-list {
   @extend %cx-organization-list;
+
+  .mode {
+    &.desktop {
+      display: initial;
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+    }
+    &.mobile {
+      display: none;
+      @include media-breakpoint-down(md) {
+        display: initial;
+      }
+    }
+  }
 }

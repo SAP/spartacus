@@ -5,7 +5,7 @@
         <h3>{{ 'orgUnitsList.orgUnitManagement' | cxTranslate }}</h3>
       </div>
     </div>
-    <div class="col-md-12 col-lg-6">
+    <div class="col-md-12 col-lg-6 mode desktop">
       <div class="col-md-12 col-lg-6 float-right">
         <a
           [routerLink]="{ cxRoute: 'orgUnitCreate' } | cxUrl"
@@ -16,11 +16,22 @@
       </div>
     </div>
   </div>
-  <cx-navigation-ui *ngIf="data$ | async as data" [node]="data">
-  </cx-navigation-ui>
 
   <cx-unit-tree-navigation-ui
     *ngIf="data$ | async as data"
     [node]="data"
   ></cx-unit-tree-navigation-ui>
+
+  <div class="row mode mobile">
+    <div class="col-md-12 col-lg-6">
+      <div class="col-md-12 col-lg-6">
+        <a
+          [routerLink]="{ cxRoute: 'orgUnitCreate' } | cxUrl"
+          class="btn btn-primary btn-block"
+        >
+          {{ 'orgUnitsList.create' | cxTranslate }}
+        </a>
+      </div>
+    </div>
+  </div>
 </ng-container>

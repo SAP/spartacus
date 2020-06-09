@@ -1,0 +1,73 @@
+%cx-unit-tree-navigation-ui {
+  ul {
+    list-style: none;
+    padding-left: 20px;
+
+    cx-generic-link {
+      font-size: 1.125rem;
+    }
+
+    cx-icon {
+      cursor: pointer;
+      font-size: 1.25rem;
+      min-width: 16px;
+    }
+
+    cx-generic-link {
+      &.margin-left {
+        margin-left: 22px;
+
+        @include media-breakpoint-down(md) {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    @include media-breakpoint-down(md) {
+      padding-left: 10px;
+    }
+  }
+
+  > ul {
+    padding-left: 0;
+  }
+
+  li {
+    &[aria-expanded='false'] {
+      & > ul {
+        display: none;
+      }
+    }
+    &[aria-expanded='true'] {
+      & > ul {
+        display: block;
+      }
+    }
+
+    .tree-desktop-branch {
+      display: initial;
+      @include media-breakpoint-down(md) {
+        display: none;
+      }
+    }
+
+    .tree-mobile-branch {
+      display: none;
+      @include media-breakpoint-down(md) {
+        display: flex;
+        width: 100%;
+        min-height: 3rem;
+        align-items: center;
+      }
+    }
+  }
+
+  .cx-unit-tree-actions {
+    margin-bottom: 1.5rem;
+    margin-left: -12px;
+
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
+}

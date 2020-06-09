@@ -195,7 +195,7 @@ export const organization = {
     currency: 'Currency',
   },
   orgUnitsList: {
-    orgUnitManagement: 'Organization Units Management',
+    orgUnitManagement: 'Units',
     create: 'Create new Unit',
   },
   orgUnit: {
