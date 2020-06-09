@@ -9,9 +9,11 @@ import { createFrom } from '../../util';
 import { RoutingService } from '../facade/routing.service';
 import { PageContext } from '../models/page-context.model';
 import {
+  CartVisitedEvent,
   CategoryPageVisitedEvent,
   HomePageVisitedEvent,
   KeywordSearchEvent,
+  OrderConfirmationVisited,
   PageVisitedEvent,
   ProductDetailsPageVisitedEvent,
 } from './routing.events';
@@ -19,6 +21,8 @@ import {
 enum PageId {
   HOME_PAGE = 'homepage',
   SERCH = 'search',
+  CART_PAGE = '/cart',
+  ORDER_CONFIRMATION = '/checkout/review-order',
 }
 
 @Injectable({
@@ -51,7 +55,12 @@ export class RoutingEventBuilder {
       HomePageVisitedEvent,
       this.buildHomePageVisitedEvent()
     );
+    this.eventService.register(CartVisitedEvent, this.buildCartVisitedEvent());
     this.eventService.register(PageVisitedEvent, this.buildPageViewEvent());
+    this.eventService.register(
+      OrderConfirmationVisited,
+      this.orderConfirmationVisitedEvent()
+    );
   }
 
   buildProductDetailsPageVisitEvent(): Observable<
@@ -87,6 +96,18 @@ export class RoutingEventBuilder {
       tap((pageContext) => {
         console.log(pageContext);
       })
+    );
+  }
+
+  buildCartVisitedEvent(): Observable<CartVisitedEvent> {
+    return this.routerEvents(PageType.CONTENT_PAGE).pipe(
+      filter((pageContext) => pageContext.id === PageId.CART_PAGE)
+    );
+  }
+
+  orderConfirmationVisitedEvent(): Observable<OrderConfirmationVisited> {
+    return this.routerEvents(PageType.CONTENT_PAGE).pipe(
+      filter((pageContext) => pageContext.id === PageId.ORDER_CONFIRMATION)
     );
   }
 

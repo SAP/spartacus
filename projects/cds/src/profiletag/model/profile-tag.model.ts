@@ -105,6 +105,22 @@ export class HomePageViewPushEvent implements ProfileTagEvent {
   }
 }
 
+export class OrderConfirmationPushEvent implements ProfileTagEvent {
+  name = 'OrderConfirmation';
+  data;
+  constructor(data: { segments: string[]; actions: PersonalizationAction[] }) {
+    this.data = data;
+  }
+}
+
+export class CartViewPushEvent implements ProfileTagEvent {
+  name = 'CartView';
+  data;
+  constructor(data: { segments: string[]; actions: PersonalizationAction[] }) {
+    this.data = data;
+  }
+}
+
 export class PageViewPushEvent implements ProfileTagEvent {
   name = 'PageView';
   data;

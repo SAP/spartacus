@@ -11,18 +11,24 @@ import {
   PersonalizationContextService,
 } from '@spartacus/core';
 import {
+  CartVisitedEvent,
   CategoryPageVisitedEvent,
   HomePageVisitedEvent,
   KeywordSearchEvent,
+  OrderConfirmationVisited,
+  PageVisitedEvent,
   ProductDetailsPageVisitedEvent,
 } from 'projects/core/src/routing/event/routing.events';
 import { combineLatest, concat, Observable, of } from 'rxjs';
 import { filter, map, mapTo, skipWhile, take } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 import {
+  CartViewPushEvent,
   CategoryViewPushEvent,
   HomePageViewPushEvent,
   KeywordSearchPushEvent,
+  OrderConfirmationPushEvent,
+  PageViewPushEvent,
   ProductViewPushEvent,
   ProfileTagEvent,
 } from '../model/profile-tag.model';
@@ -146,6 +152,35 @@ export class SpartacusEventService {
     );
   }
 
+  pageVisitedEvent(): Observable<ProfileTagEvent> {
+    return combineLatest([
+      this.eventService.get(PageVisitedEvent),
+      this.personalizationContext$,
+    ]).pipe(
+      map(
+        ([_, personalizationContext]) =>
+          new PageViewPushEvent({
+            segments: personalizationContext.segments,
+            actions: personalizationContext.actions,
+          })
+      )
+    );
+  }
+  cartPageVisitedEvent(): Observable<ProfileTagEvent> {
+    return combineLatest([
+      this.eventService.get(CartVisitedEvent),
+      this.personalizationContext$,
+    ]).pipe(
+      map(
+        ([_, personalizationContext]) =>
+          new CartViewPushEvent({
+            segments: personalizationContext.segments,
+            actions: personalizationContext.actions,
+          })
+      )
+    );
+  }
+
   homePageVisitedEvent(): Observable<ProfileTagEvent> {
     return combineLatest([
       this.eventService.get(HomePageVisitedEvent),
@@ -154,6 +189,21 @@ export class SpartacusEventService {
       map(
         ([_, personalizationContext]) =>
           new HomePageViewPushEvent({
+            segments: personalizationContext.segments,
+            actions: personalizationContext.actions,
+          })
+      )
+    );
+  }
+
+  orderConfirmationVisited(): Observable<ProfileTagEvent> {
+    return combineLatest([
+      this.eventService.get(OrderConfirmationVisited),
+      this.personalizationContext$,
+    ]).pipe(
+      map(
+        ([_, personalizationContext]) =>
+          new OrderConfirmationPushEvent({
             segments: personalizationContext.segments,
             actions: personalizationContext.actions,
           })

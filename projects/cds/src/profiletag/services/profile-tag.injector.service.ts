@@ -23,7 +23,10 @@ export class ProfileTagInjectorService {
     this.notifyProductDetailsView(),
     this.notifyCategoryPageVisited(),
     this.notifySearchResultsChanged(),
-    this.notifyHomePageView()
+    this.notifyHomePageView(),
+    this.notifyPageVisited(),
+    this.notifyCartPageVisitedEvent(),
+    this.notifyOrderConfirmationVisited()
   );
 
   constructor(
@@ -117,6 +120,30 @@ export class ProfileTagInjectorService {
 
   private notifyHomePageView(): Observable<boolean> {
     return this.spartacusEventTracker.homePageVisitedEvent().pipe(
+      tap((item) => {
+        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
+      }),
+      mapTo(true)
+    );
+  }
+  private notifyCartPageVisitedEvent(): Observable<boolean> {
+    return this.spartacusEventTracker.cartPageVisitedEvent().pipe(
+      tap((_) => {
+        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
+      }),
+      mapTo(true)
+    );
+  }
+  private notifyPageVisited(): Observable<boolean> {
+    return this.spartacusEventTracker.pageVisitedEvent().pipe(
+      tap((item) => {
+        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
+      }),
+      mapTo(true)
+    );
+  }
+  private notifyOrderConfirmationVisited(): Observable<boolean> {
+    return this.spartacusEventTracker.orderConfirmationVisited().pipe(
       tap((item) => {
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
       }),

@@ -18,6 +18,9 @@ import {
 
 export class PageVisitedEvent {}
 export class HomePageVisitedEvent extends PageVisitedEvent {}
+export class CartVisitedEvent extends PageVisitedEvent {}
+export class OrderConfirmationVisited extends PageVisitedEvent {}
+
 /**
  * Indicates that a user visited a PDP page.
  * A visited product code value is emited whenever the PDP page is visited.
