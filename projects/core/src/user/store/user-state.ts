@@ -70,7 +70,7 @@ export interface UserState {
   customerCoupons: StateUtils.LoaderState<CustomerCouponSearchResult>;
   notificationPreferences: StateUtils.LoaderState<NotificationPreference[]>;
   productInterests: StateUtils.LoaderState<ProductInterestSearchResult>;
-  costCenters: StateUtils.LoaderState<CostCenter[]>;
+  costCenters?: StateUtils.LoaderState<CostCenter[]>;
 }
 
 export interface RegionsState {

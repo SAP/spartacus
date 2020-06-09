@@ -27,7 +27,7 @@ export interface CardTypesState {
 }
 
 export interface CheckoutStepsState {
-  poNumber: {
+  poNumber?: {
     po: string;
     costCenter: string;
   };
@@ -49,5 +49,5 @@ export interface CheckoutState {
   steps: LoaderState<CheckoutStepsState>;
   cardTypes: CardTypesState;
   addressVerification: AddressVerificationState;
-  paymentTypes: PaymentTypesState;
+  paymentTypes?: PaymentTypesState;
 }
