@@ -30,15 +30,23 @@ assignees: ''
 
 ---
 
-For Mac:
+## For Mac/Linux
 
 - [ ] Cleanup repo, build and generate compodocs and publish on github pages, generate spartacussampleaddon archives (`./scripts/pre-release.sh`)
 
-For Windows:
+## For Windows
 
 - [ ] Cleanup repo, build and generate compodocs and publish on github pages (`yarn generate:docs` and `yarn publish:docs` for patch stable/releases)
-- [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/develop.zip` -> `spartacussampledataaddon.zip`
-- [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/develop.tar.gz` -> `spartacussampledataaddon.tar.gz`
+- [ ] Get the spartacussampledataaddon for both 1905 and 2005 CX versions (use `release/1905/next` and `release/2005/next` branches)
+  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/release/1905/next.zip` -> `spartacussampledataaddon.1905.zip`
+  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/release/1905/next.tar.gz` -> `spartacussampledataaddon.1905.tar.gz`
+  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/release/2005/next.zip` -> `spartacussampledataaddon.2005.zip`
+  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledataaddon/archive/release/2005/next.tar.gz` -> `spartacussampledataaddon.2005.tar.gz`
+
+## For all operative systems
+
+- [ ] Merge _next_ branches into _latest_ branches for each version (1905, 2005) (only if there are differences/changes among them).
+- [ ] If branches were merged, tag the merge commit with the version of the release as a reference (e.g. `2.0.0-next.3)
 
 ---
 

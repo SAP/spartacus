@@ -7,7 +7,12 @@ import {
 } from '@spartacus/core';
 import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { StorefrontConfig } from '../storefront-config';
-import { b2bLayoutConfig, mediaConfig } from './config/index';
+import {
+  b2bLayoutConfig,
+  defaultB2bOccConfig,
+  defaultB2bCheckoutConfig,
+  mediaConfig,
+} from './config/index';
 import { defaultCmsContentConfig } from './config/static-cms-structure/default-cms-content.config';
 import { StorefrontModule } from './storefront.module';
 
@@ -28,6 +33,8 @@ import { StorefrontModule } from './storefront.module';
     }),
     provideDefaultConfig(b2bLayoutConfig),
     provideDefaultConfig(mediaConfig),
+    provideDefaultConfig(defaultB2bOccConfig),
+    provideDefaultConfig(defaultB2bCheckoutConfig),
     provideDefaultConfigFactory(defaultCmsContentConfig),
   ],
   exports: [StorefrontModule],

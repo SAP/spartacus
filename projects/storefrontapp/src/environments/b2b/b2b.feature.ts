@@ -1,9 +1,5 @@
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import {
-  B2bStorefrontModule,
-  CheckoutStepType,
-  DeliveryModePreferences,
-} from '@spartacus/storefront';
+import { B2bStorefrontModule } from '@spartacus/storefront';
 import { environment } from '../environment';
 import { FeatureEnvironment } from '../models/feature.model';
 
@@ -14,13 +10,6 @@ export const b2bFeature: FeatureEnvironment = {
         occ: {
           baseUrl: environment.occBaseUrl,
           prefix: environment.occApiPrefix,
-          endpoints: {
-            addEntries: 'orgUsers/${userId}/carts/${cartId}/entries',
-            user: 'orgUsers/${userId}',
-            setDeliveryAddress:
-              'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
-            placeOrder: 'orgUsers/${userId}/orders?termsChecked=true',
-          },
         },
       },
       context: {
@@ -43,46 +32,8 @@ export const b2bFeature: FeatureEnvironment = {
         fallbackLang: 'en',
       },
 
-      checkout: {
-        steps: [
-          {
-            id: 'poNumber',
-            name: 'checkoutProgress.poNumber',
-            routeName: 'checkoutPoNumber',
-            type: [CheckoutStepType.PO_NUMBER],
-          },
-          {
-            id: 'shippingAddress',
-            name: 'checkoutProgress.shippingAddress',
-            routeName: 'checkoutShippingAddress',
-            type: [CheckoutStepType.SHIPPING_ADDRESS],
-          },
-          {
-            id: 'deliveryMode',
-            name: 'checkoutProgress.deliveryMode',
-            routeName: 'checkoutDeliveryMode',
-            type: [CheckoutStepType.DELIVERY_MODE],
-          },
-          {
-            id: 'paymentDetails',
-            name: 'checkoutProgress.paymentDetails',
-            routeName: 'checkoutPaymentDetails',
-            type: [CheckoutStepType.PAYMENT_DETAILS],
-          },
-          {
-            id: 'reviewOrder',
-            name: 'checkoutProgress.reviewOrder',
-            routeName: 'checkoutReviewOrder',
-            type: [CheckoutStepType.REVIEW_ORDER],
-          },
-        ],
-        express: false,
-        defaultDeliveryMode: [DeliveryModePreferences.FREE],
-        guest: false,
-      },
-
       features: {
-        level: '1.5',
+        level: '2.0',
       },
     }),
   ],
