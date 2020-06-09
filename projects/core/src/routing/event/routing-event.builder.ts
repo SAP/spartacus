@@ -41,29 +41,29 @@ export class RoutingEventBuilder {
   protected register() {
     this.eventService.register(
       KeywordSearchPageVisited,
-      this.searchResultChangeEvent()
+      this.searchResultPageVisited()
     );
     this.eventService.register(
       ProductDetailsPageVisited,
-      this.buildProductDetailsPageVisitEvent()
+      this.buildProductDetailsPageVisitedEvent()
     );
     this.eventService.register(
       CategoryPageVisited,
-      this.buildCategoryPageVisitEvent()
+      this.buildCategoryPageVisitedEvent()
     );
     this.eventService.register(
       HomePageVisited,
       this.buildHomePageVisitedEvent()
     );
     this.eventService.register(CartPageVisited, this.buildCartVisitedEvent());
-    this.eventService.register(PageVisited, this.buildPageViewEvent());
+    this.eventService.register(PageVisited, this.buildPageVisitedEvent());
     this.eventService.register(
       OrderConfirmationPageVisited,
-      this.orderConfirmationVisitedEvent()
+      this.orderConfirmationPageVisitedEvent()
     );
   }
 
-  buildProductDetailsPageVisitEvent(): Observable<ProductDetailsPageVisited> {
+  buildProductDetailsPageVisitedEvent(): Observable<ProductDetailsPageVisited> {
     return this.routerEvents(PageType.PRODUCT_PAGE).pipe(
       map((context) => context.id),
       switchMap((productId) => {
@@ -83,7 +83,7 @@ export class RoutingEventBuilder {
     );
   }
 
-  buildPageViewEvent(): Observable<PageContext> {
+  buildPageVisitedEvent(): Observable<PageContext> {
     return merge(
       this.routerEvents(PageType.CATALOG_PAGE),
       this.routerEvents(PageType.CATEGORY_PAGE),
@@ -98,13 +98,15 @@ export class RoutingEventBuilder {
     );
   }
 
-  orderConfirmationVisitedEvent(): Observable<OrderConfirmationPageVisited> {
+  orderConfirmationPageVisitedEvent(): Observable<
+    OrderConfirmationPageVisited
+  > {
     return this.routerEvents(PageType.CONTENT_PAGE).pipe(
       filter((pageContext) => pageContext.id === PageId.ORDER_CONFIRMATION)
     );
   }
 
-  buildCategoryPageVisitEvent(): Observable<CategoryPageVisited> {
+  buildCategoryPageVisitedEvent(): Observable<CategoryPageVisited> {
     return this.productSearchService.getResults().pipe(
       withLatestFrom(this.routingService.getPageContext()),
       filter(
@@ -118,11 +120,8 @@ export class RoutingEventBuilder {
       }))
     );
   }
-  private isSearchPage(pageContext: PageContext): boolean {
-    return pageContext.id === PageId.SEARCH;
-  }
 
-  private searchResultChangeEvent(): Observable<KeywordSearchPageVisited> {
+  searchResultPageVisited(): Observable<KeywordSearchPageVisited> {
     return this.productSearchService.getResults().pipe(
       filter((searchResults) => Boolean(searchResults.breadcrumbs)),
       withLatestFrom(this.routingService.getPageContext()),
@@ -137,6 +136,10 @@ export class RoutingEventBuilder {
         createFrom(KeywordSearchPageVisited, searchResults)
       )
     );
+  }
+
+  private isSearchPage(pageContext: PageContext): boolean {
+    return pageContext.id === PageId.SEARCH;
   }
 
   private routerEvents(pageType: PageType): Observable<PageContext> {
