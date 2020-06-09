@@ -43,6 +43,9 @@ export const checkout = {
   },
   checkout: {
     backToCart: 'Back to cart',
+    invalid: {
+      accountType: 'Your account does not allow you to checkout here.',
+    },
   },
   checkoutPO: {
     poNumber: 'Purchase order number (optional)',
