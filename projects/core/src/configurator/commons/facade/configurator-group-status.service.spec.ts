@@ -1,11 +1,9 @@
-import { async, TestBed } from '@angular/core/testing';
-import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
-import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
-import { of } from 'rxjs';
-import { StateWithConfiguration } from '../store/configuration-state';
-import { Store, StoreModule } from '@ngrx/store';
 import { Type } from '@angular/core';
-import * as UiActions from '../store/actions/configurator-ui.action';
+import { async, TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
+import * as ConfiguratorActions from '../store/actions/configurator.action';
+import { StateWithConfiguration } from '../store/configuration-state';
 import {
   GROUP_ID_1,
   GROUP_ID_3,
@@ -15,8 +13,9 @@ import {
   GROUP_ID_7,
   GROUP_ID_8,
   productConfiguration,
-  uiState,
 } from './configuration-test-data';
+import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
+import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
 
 describe('ConfiguratorGroupStatusService', () => {
   let classUnderTest: ConfiguratorGroupStatusService;
@@ -39,7 +38,7 @@ describe('ConfiguratorGroupStatusService', () => {
     store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
 
     spyOn(store, 'dispatch').and.stub();
-    spyOn(store, 'pipe').and.returnValue(of(uiState));
+    spyOn(store, 'pipe').and.returnValue(of(productConfiguration));
   });
 
   it('should be created', () => {
@@ -54,7 +53,7 @@ describe('ConfiguratorGroupStatusService', () => {
         true
       );
 
-      const expectedAction = new UiActions.SetGroupsVisited(
+      const expectedAction = new ConfiguratorActions.SetGroupsVisited(
         productConfiguration.owner.key,
         [GROUP_ID_1]
       );
@@ -66,7 +65,7 @@ describe('ConfiguratorGroupStatusService', () => {
       spyOn(store, 'select').and.returnValue(of(true));
       classUnderTest.setGroupStatus(productConfiguration, GROUP_ID_4, true);
 
-      const expectedAction = new UiActions.SetGroupsVisited(
+      const expectedAction = new ConfiguratorActions.SetGroupsVisited(
         productConfiguration.owner.key,
         [GROUP_ID_4, GROUP_ID_3]
       );
@@ -80,7 +79,7 @@ describe('ConfiguratorGroupStatusService', () => {
 
       classUnderTest.setGroupStatus(productConfiguration, GROUP_ID_6, true);
 
-      const expectedAction = new UiActions.SetGroupsVisited(
+      const expectedAction = new ConfiguratorActions.SetGroupsVisited(
         productConfiguration.owner.key,
         [GROUP_ID_6]
       );
@@ -93,7 +92,7 @@ describe('ConfiguratorGroupStatusService', () => {
 
       classUnderTest.setGroupStatus(productConfiguration, GROUP_ID_8, true);
 
-      const expectedAction = new UiActions.SetGroupsVisited(
+      const expectedAction = new ConfiguratorActions.SetGroupsVisited(
         productConfiguration.owner.key,
         [GROUP_ID_8, GROUP_ID_7, GROUP_ID_5]
       );

@@ -116,7 +116,6 @@ export class ConfigAddToCartButtonComponent implements OnInit {
                 true
               );
               this.configuratorCommonsService.removeConfiguration(owner);
-              this.configuratorCommonsService.removeUiState(owner);
             });
         }
       });

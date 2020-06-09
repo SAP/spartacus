@@ -10,10 +10,8 @@ import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
 } from '../../../occ/utils/occ-constants';
-import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
-import { StateWithConfiguration, UiState } from '../store/configuration-state';
-import * as UiSelectors from '../store/selectors/configurator-ui.selector';
+import { StateWithConfiguration } from '../store/configuration-state';
 import * as ConfiguratorSelectors from '../store/selectors/configurator.selector';
 
 @Injectable()
@@ -143,35 +141,6 @@ export class ConfiguratorCommonsService {
     );
   }
 
-  public getOrCreateUiState(
-    owner: GenericConfigurator.Owner
-  ): Observable<UiState> {
-    return this.store.pipe(
-      select(UiSelectors.getUiStateForOwner(owner.key)),
-      tap((uiState) => {
-        if (!this.isUiStateCreated(uiState)) {
-          this.store.dispatch(new UiActions.CreateUiState(owner.key));
-        }
-      }),
-      filter((uiState) => this.isUiStateCreated(uiState))
-    );
-  }
-
-  public getUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
-    return this.store.pipe(
-      select(UiSelectors.getUiStateForOwner(owner.key)),
-      filter((uiState) => this.isUiStateCreated(uiState))
-    );
-  }
-
-  public setUiState(owner: GenericConfigurator.Owner, state: UiState) {
-    this.store.dispatch(new UiActions.SetUiState(owner.key, state));
-  }
-
-  public removeUiState(owner: GenericConfigurator.Owner) {
-    this.store.dispatch(new UiActions.RemoveUiState(owner.key));
-  }
-
   public removeConfiguration(owner: GenericConfigurator.Owner) {
     this.store.dispatch(
       new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
@@ -235,10 +204,6 @@ export class ConfiguratorCommonsService {
     return cart.user.uid === OCC_USER_ID_ANONYMOUS
       ? cart.user.uid
       : OCC_USER_ID_CURRENT;
-  }
-
-  isUiStateCreated(uiState: UiState): boolean {
-    return uiState !== undefined;
   }
 
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {

@@ -4,12 +4,11 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration } from '../store/configuration-state';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
-import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
+import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
 
 /**
  * Service for handling configuration groups
@@ -51,22 +50,16 @@ export class ConfiguratorGroupsService {
   }
 
   getCurrentGroupId(owner: GenericConfigurator.Owner): Observable<string> {
-    return this.configuratorCommonsService.getUiState(owner).pipe(
-      switchMap((uiState) => {
-        if (uiState && uiState.currentGroup) {
-          return of(uiState.currentGroup);
+    return this.configuratorCommonsService.getConfiguration(owner).pipe(
+      switchMap((configuration) => {
+        if (configuration.interactionState.currentGroup) {
+          return configuration.interactionState.currentGroup;
         } else {
-          return this.configuratorCommonsService
-            .getConfiguration(owner)
-            .pipe(
-              map((configuration) =>
-                configuration &&
-                configuration.groups &&
-                configuration.groups.length > 0
-                  ? configuration.groups[0].id
-                  : null
-              )
-            );
+          return configuration &&
+            configuration.groups &&
+            configuration.groups.length > 0
+            ? configuration.groups[0].id
+            : null;
         }
       })
     );
@@ -80,22 +73,16 @@ export class ConfiguratorGroupsService {
   public getMenuParentGroup(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Group> {
-    return this.configuratorCommonsService.getUiState(owner).pipe(
-      map((uiState) => uiState.menuParentGroup),
-
-      switchMap((parentGroupId) => {
-        return this.configuratorCommonsService
-          .getConfiguration(owner)
-          .pipe(
-            map((configuration) =>
-              this.configuratorGroupUtilsService.getGroupById(
-                configuration.groups,
-                parentGroupId
-              )
-            )
-          );
-      })
-    );
+    return this.configuratorCommonsService
+      .getConfiguration(owner)
+      .pipe(
+        map((configuration) =>
+          this.configuratorGroupUtilsService.getGroupById(
+            configuration.groups,
+            configuration.interactionState.menuParentGroup
+          )
+        )
+      );
   }
 
   /**
@@ -105,7 +92,9 @@ export class ConfiguratorGroupsService {
    * @param groupId - Group ID
    */
   public setMenuParentGroup(owner: GenericConfigurator.Owner, groupId: string) {
-    this.store.dispatch(new UiActions.SetMenuParentGroup(owner.key, groupId));
+    this.store.dispatch(
+      new ConfiguratorActions.SetMenuParentGroup(owner.key, groupId)
+    );
   }
 
   /**
@@ -119,7 +108,7 @@ export class ConfiguratorGroupsService {
     return this.getCurrentGroupId(owner).pipe(
       switchMap((currentGroupId) => {
         if (!currentGroupId) {
-          return of(null);
+          return null;
         }
         return this.configuratorCommonsService
           .getConfiguration(owner)
@@ -182,7 +171,9 @@ export class ConfiguratorGroupsService {
    * @param groupId - Group ID
    */
   public setCurrentGroup(owner: GenericConfigurator.Owner, groupId: string) {
-    this.store.dispatch(new UiActions.SetCurrentGroup(owner.key, groupId));
+    this.store.dispatch(
+      new ConfiguratorActions.SetCurrentGroup(owner.key, groupId)
+    );
   }
 
   /**
@@ -191,29 +182,7 @@ export class ConfiguratorGroupsService {
    * @param owner - Configuration owner
    */
   public getNextGroupId(owner: GenericConfigurator.Owner): Observable<string> {
-    return this.getCurrentGroupId(owner).pipe(
-      switchMap((currentGroupId) => {
-        if (!currentGroupId) {
-          return of(null);
-        }
-
-        return this.configuratorCommonsService.getConfiguration(owner).pipe(
-          map((configuration) => {
-            let nextGroup = null;
-            configuration.flatGroups.forEach((group, index) => {
-              if (
-                group.id === currentGroupId &&
-                configuration.flatGroups[index + 1] //Check if next group exists
-              ) {
-                nextGroup = configuration.flatGroups[index + 1].id;
-              }
-            });
-            return nextGroup;
-          }),
-          take(1)
-        );
-      })
-    );
+    return this.getNeighboringGroupId(owner, 1);
   }
 
   /**
@@ -223,6 +192,13 @@ export class ConfiguratorGroupsService {
    */
   public getPreviousGroupId(
     owner: GenericConfigurator.Owner
+  ): Observable<string> {
+    return this.getNeighboringGroupId(owner, -1);
+  }
+
+  private getNeighboringGroupId(
+    owner: GenericConfigurator.Owner,
+    neighboringIndex: number
   ): Observable<string> {
     return this.getCurrentGroupId(owner).pipe(
       switchMap((currentGroupId) => {
@@ -236,9 +212,10 @@ export class ConfiguratorGroupsService {
             configuration.flatGroups.forEach((group, index) => {
               if (
                 group.id === currentGroupId &&
-                configuration.flatGroups[index - 1] //Check if previous group exists
+                configuration.flatGroups[index + neighboringIndex] //Check if neighboring group exists
               ) {
-                nextGroup = configuration.flatGroups[index - 1].id;
+                nextGroup =
+                  configuration.flatGroups[index + neighboringIndex].id;
               }
             });
             return nextGroup;

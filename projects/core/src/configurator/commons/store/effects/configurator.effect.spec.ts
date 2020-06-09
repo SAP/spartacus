@@ -12,7 +12,6 @@ import { GenericConfigurator } from '../../../../model/generic-configurator.mode
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import * as fromConfigurationReducers from '../../store/reducers/index';
-import { ConfiguratorUiActions } from '../actions';
 import * as ConfiguratorActions from '../actions/configurator.action';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
 import { Configurator } from './../../../../model/configurator.model';
@@ -361,7 +360,7 @@ describe('ConfiguratorEffect', () => {
       const updatePrices = new ConfiguratorActions.UpdatePriceSummary(
         productConfiguration
       );
-      const setCurrentGroup = new ConfiguratorUiActions.SetCurrentGroup(
+      const setCurrentGroup = new ConfiguratorActions.SetCurrentGroup(
         productConfiguration.owner.key,
         groupId
       );
@@ -436,11 +435,11 @@ describe('ConfiguratorEffect', () => {
       const readConfigurationSuccess = new ConfiguratorActions.ReadConfigurationSuccess(
         productConfiguration
       );
-      const setCurrentGroup = new ConfiguratorUiActions.SetCurrentGroup(
+      const setCurrentGroup = new ConfiguratorActions.SetCurrentGroup(
         productConfiguration.owner.key,
         groupId
       );
-      const setMenuParentGroup = new ConfiguratorUiActions.SetMenuParentGroup(
+      const setMenuParentGroup = new ConfiguratorActions.SetMenuParentGroup(
         productConfiguration.owner.key,
         null
       );

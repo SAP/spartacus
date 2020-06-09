@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import * as UiSelectors from '../store/selectors/configurator-ui.selector';
-import { take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
-import { ConfiguratorUiActions, StateWithConfiguration } from '../store';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Configurator, GenericConfigurator } from '../../../model';
+import { StateWithConfiguration } from '../store';
+import * as ConfiguratorActions from '../store/actions/configurator.action';
+import { ConfiguratorSelectors } from '../store/selectors';
+import { ConfiguratorGroupUtilsService } from './configurator-group-utils.service';
 
 /**
  * Service for handling group status
@@ -27,7 +28,9 @@ export class ConfiguratorGroupStatusService {
     owner: GenericConfigurator.Owner,
     groupId: string
   ): Observable<Boolean> {
-    return this.store.select(UiSelectors.isGroupVisited(owner.key, groupId));
+    return this.store.select(
+      ConfiguratorSelectors.isGroupVisited(owner.key, groupId)
+    );
   }
 
   /**
@@ -40,14 +43,18 @@ export class ConfiguratorGroupStatusService {
     owner: GenericConfigurator.Owner,
     groupId: string
   ): Observable<Configurator.GroupStatus> {
-    return this.store.select(UiSelectors.getGroupStatus(owner.key, groupId));
+    return this.store.select(
+      ConfiguratorSelectors.getGroupStatus(owner.key, groupId)
+    );
   }
 
   areGroupsVisited(
     owner: GenericConfigurator.Owner,
     groupIds: string[]
   ): Observable<Boolean> {
-    return this.store.select(UiSelectors.areGroupsVisited(owner.key, groupIds));
+    return this.store.select(
+      ConfiguratorSelectors.areGroupsVisited(owner.key, groupIds)
+    );
   }
 
   checkIsGroupComplete(group: Configurator.Group): Boolean {
@@ -198,14 +205,14 @@ export class ConfiguratorGroupStatusService {
     );
 
     this.store.dispatch(
-      new ConfiguratorUiActions.SetGroupsCompleted(
+      new ConfiguratorActions.SetGroupsCompleted(
         configuration.owner.key,
         completedGroupIds
       )
     );
 
     this.store.dispatch(
-      new ConfiguratorUiActions.SetGroupsError(
+      new ConfiguratorActions.SetGroupsError(
         configuration.owner.key,
         uncompletedOrErrorGroupdIds
       )
@@ -227,7 +234,7 @@ export class ConfiguratorGroupStatusService {
     );
 
     this.store.dispatch(
-      new ConfiguratorUiActions.SetGroupsVisited(
+      new ConfiguratorActions.SetGroupsVisited(
         configuration.owner.key,
         visitedGroupIds
       )

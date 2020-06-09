@@ -1,4 +1,4 @@
-import { Configurator, GenericConfigurator, UiState } from '@spartacus/core';
+import { Configurator, GenericConfigurator } from '@spartacus/core';
 
 export const PRODUCT_CODE = 'CONF_LAPTOP';
 export const CONFIG_ID = '1234-56-7890';
@@ -13,11 +13,6 @@ export const GROUP_ID_7 = '1234-56-7897';
 export const GROUP_ID_8 = '1234-56-7898';
 export const GROUP_ID_9 = '1234-56-7899';
 export const GROUP_ID_10 = '1234-56-7900';
-
-export const uiState: UiState = {
-  currentGroup: GROUP_ID_2,
-  menuParentGroup: GROUP_ID_3,
-};
 
 export const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
@@ -116,5 +111,11 @@ export const productConfiguration: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
     type: GenericConfigurator.OwnerType.PRODUCT,
+  },
+  interactionState: {
+    currentGroup: GROUP_ID_2,
+    menuParentGroup: GROUP_ID_3,
+    groupsStatus: {},
+    groupsVisited: {},
   },
 };

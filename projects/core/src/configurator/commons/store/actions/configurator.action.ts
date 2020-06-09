@@ -57,6 +57,14 @@ export const GET_CONFIGURATION_OVERVIEW_FAIL =
 export const GET_CONFIGURATION_OVERVIEW_SUCCESS =
   '[Configurator] Get Configuration Overview success';
 
+export const SET_CURRENT_GROUP = '[Configurator] Set current group to UI State';
+export const SET_MENU_PARENT_GROUP =
+  '[Configurator] Set current parent group for menu to UI State';
+
+export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
+export const SET_GROUPS_COMPLETED = '[Configurator] Set groups complete status';
+export const SET_GROUPS_ERROR = '[Configurator] Set groups error status';
+
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
   constructor(public payload: GenericConfigurator.Owner) {
@@ -290,6 +298,47 @@ export class SetNextOwnerCartEntry extends StateUtils.EntitySuccessAction {
     super(CONFIGURATION_DATA, payload.configuration.owner.key);
   }
 }
+
+export class SetCurrentGroup extends StateUtils.EntitySuccessAction {
+  readonly type = SET_CURRENT_GROUP;
+
+  constructor(entityKey: string | string[], public payload: any) {
+    super(CONFIGURATION_DATA, entityKey);
+  }
+}
+
+export class SetMenuParentGroup extends StateUtils.EntitySuccessAction {
+  readonly type = SET_MENU_PARENT_GROUP;
+
+  constructor(entityKey: string | string[], public payload: any) {
+    super(CONFIGURATION_DATA, entityKey);
+  }
+}
+
+export class SetGroupsVisited extends StateUtils.EntitySuccessAction {
+  readonly type = SET_GROUPS_VISITED;
+  constructor(entityKey: string, public payload: string[]) {
+    super(CONFIGURATION_DATA, entityKey);
+  }
+}
+
+export class SetGroupsCompleted extends StateUtils.EntitySuccessAction {
+  readonly type = SET_GROUPS_COMPLETED;
+
+  constructor(entityKey: string, public completedGroups: string[]) {
+    super(CONFIGURATION_DATA, entityKey);
+  }
+}
+
+//This is still a success action as the group status is succcessfully updated
+export class SetGroupsError extends StateUtils.EntitySuccessAction {
+  readonly type = SET_GROUPS_ERROR;
+
+  constructor(entityKey: string, public errorGroups: string[]) {
+    super(CONFIGURATION_DATA, entityKey);
+  }
+}
+
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -317,4 +366,9 @@ export type ConfiguratorAction =
   | ReadCartEntryConfigurationFail
   | UpdateCartEntry
   | UpdateCartEntrySuccess
-  | RemoveConfiguration;
+  | RemoveConfiguration
+  | SetMenuParentGroup
+  | SetCurrentGroup
+  | SetGroupsVisited
+  | SetGroupsCompleted
+  | SetGroupsError;
