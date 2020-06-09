@@ -124,7 +124,7 @@ describe('B2B User Effects', () => {
       ],
       providers: [
         { provide: B2BUserConnector, useClass: MockB2BUserConnector },
-        { provide: RoutingService, useClass: MockRoutingService},
+        { provide: RoutingService, useClass: MockRoutingService },
         { provide: OccConfig, useValue: defaultOccOrganizationConfig },
         fromEffects.B2BUserEffects,
         provideMockActions(() => actions$),
