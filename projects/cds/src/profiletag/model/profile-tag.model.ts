@@ -40,7 +40,11 @@ interface ProfileTagCart {
 
 export interface ProfileTagEvent {
   name: string;
-  data?: any;
+  data?: {
+    segments?: string[];
+    actions?: PersonalizationAction[];
+    [x: string]: any;
+  };
 }
 
 export class NavigatedPushEvent implements ProfileTagEvent {
@@ -58,12 +62,7 @@ export class ConsentChangedPushEvent implements ProfileTagEvent {
 export class KeywordSearchPushEvent implements ProfileTagEvent {
   name = 'KeywordSearch';
   data;
-  constructor(data: {
-    searchTerm: string;
-    numResults: Number;
-    segments: string[];
-    actions: PersonalizationAction[];
-  }) {
+  constructor(data: { searchTerm: string; numResults: Number }) {
     this.data = data;
   }
 }
@@ -77,8 +76,6 @@ export class ProductViewPushEvent implements ProfileTagEvent {
     productPrice: Number;
     productCategory: string;
     productCategoryName: string;
-    segments: string[];
-    actions: PersonalizationAction[];
   }) {
     this.data = data;
   }
@@ -87,12 +84,7 @@ export class ProductViewPushEvent implements ProfileTagEvent {
 export class CategoryViewPushEvent implements ProfileTagEvent {
   name = 'CategoryView';
   data;
-  constructor(data: {
-    productCategory: string;
-    productCategoryName: string;
-    segments: string[];
-    actions: PersonalizationAction[];
-  }) {
+  constructor(data: { productCategory: string; productCategoryName: string }) {
     this.data = data;
   }
 }
@@ -100,7 +92,7 @@ export class CategoryViewPushEvent implements ProfileTagEvent {
 export class HomePageViewPushEvent implements ProfileTagEvent {
   name = 'HomePageView';
   data;
-  constructor(data: { segments: string[]; actions: PersonalizationAction[] }) {
+  constructor(data?) {
     this.data = data;
   }
 }
@@ -108,7 +100,7 @@ export class HomePageViewPushEvent implements ProfileTagEvent {
 export class OrderConfirmationPushEvent implements ProfileTagEvent {
   name = 'OrderConfirmation';
   data;
-  constructor(data: { segments: string[]; actions: PersonalizationAction[] }) {
+  constructor(data?) {
     this.data = data;
   }
 }
@@ -116,7 +108,7 @@ export class OrderConfirmationPushEvent implements ProfileTagEvent {
 export class CartViewPushEvent implements ProfileTagEvent {
   name = 'CartView';
   data;
-  constructor(data: { segments: string[]; actions: PersonalizationAction[] }) {
+  constructor(data?) {
     this.data = data;
   }
 }
@@ -124,7 +116,7 @@ export class CartViewPushEvent implements ProfileTagEvent {
 export class PageViewPushEvent implements ProfileTagEvent {
   name = 'PageView';
   data;
-  constructor(data: { segments: string[]; actions: PersonalizationAction[] }) {
+  constructor(data?) {
     this.data = data;
   }
 }

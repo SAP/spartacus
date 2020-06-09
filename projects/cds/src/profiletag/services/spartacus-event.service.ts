@@ -7,8 +7,6 @@ import {
   Cart,
   ConsentService,
   EventService,
-  PersonalizationContext,
-  PersonalizationContextService,
 } from '@spartacus/core';
 import {
   CartPageVisited,
@@ -19,7 +17,7 @@ import {
   PageVisited,
   ProductDetailsPageVisited,
 } from 'projects/core/src/routing/event/routing.events';
-import { combineLatest, concat, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map, mapTo, skipWhile, take } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
 import {
@@ -37,21 +35,14 @@ import {
   providedIn: 'root',
 })
 export class SpartacusEventService {
-  personalizationContext$: Observable<PersonalizationContext>;
   constructor(
     protected consentService: ConsentService,
     protected router: Router,
     protected config: CdsConfig,
     protected activeCartService: ActiveCartService,
     protected actionsSubject: ActionsSubject,
-    protected eventService: EventService,
-    protected personalizationContextService: PersonalizationContextService
-  ) {
-    this.personalizationContext$ = concat(
-      of({ actions: undefined, segments: undefined }),
-      this.personalizationContextService.getPersonalizationContext()
-    );
-  }
+    protected eventService: EventService
+  ) {}
 
   navigated(): Observable<boolean> {
     return this.router.events.pipe(
@@ -96,45 +87,32 @@ export class SpartacusEventService {
   }
 
   categoryPageVisited(): Observable<ProfileTagEvent> {
-    return combineLatest([
-      this.eventService.get(CategoryPageVisited),
-      this.personalizationContext$,
-    ]).pipe(
+    return this.eventService.get(CategoryPageVisited).pipe(
       map(
-        ([categoryPageVisited, personalizationContext]) =>
+        (categoryPageVisited) =>
           new CategoryViewPushEvent({
             productCategory: categoryPageVisited.categoryCode,
             productCategoryName: categoryPageVisited.categoryName,
-            segments: personalizationContext.segments,
-            actions: personalizationContext.actions,
           })
       )
     );
   }
 
   searchResultsChanged(): Observable<ProfileTagEvent> {
-    return combineLatest([
-      this.eventService.get(KeywordSearchPageVisited),
-      this.personalizationContext$,
-    ]).pipe(
-      map(([searchEvent, personalizationContext]) => {
+    return this.eventService.get(KeywordSearchPageVisited).pipe(
+      map((searchEvent) => {
         return new KeywordSearchPushEvent({
           searchTerm: searchEvent.searchTerm,
           numResults: searchEvent.numberOfResults,
-          segments: personalizationContext.segments,
-          actions: personalizationContext.actions,
         });
       })
     );
   }
 
   productDetailsPageView(): Observable<ProfileTagEvent> {
-    return combineLatest([
-      this.eventService.get(ProductDetailsPageVisited),
-      this.personalizationContext$,
-    ]).pipe(
+    return this.eventService.get(ProductDetailsPageVisited).pipe(
       map(
-        ([item, personalizationContext]) =>
+        (item) =>
           new ProductViewPushEvent({
             productSku: item.code,
             productName: item.name,
@@ -145,69 +123,31 @@ export class SpartacusEventService {
             productCategory: item.categories
               ? item.categories[item.categories.length - 1].code
               : undefined,
-            segments: personalizationContext.segments,
-            actions: personalizationContext.actions,
           })
       )
     );
   }
 
   pageVisitedEvent(): Observable<ProfileTagEvent> {
-    return combineLatest([
-      this.eventService.get(PageVisited),
-      this.personalizationContext$,
-    ]).pipe(
-      map(
-        ([_, personalizationContext]) =>
-          new PageViewPushEvent({
-            segments: personalizationContext.segments,
-            actions: personalizationContext.actions,
-          })
-      )
-    );
+    return this.eventService
+      .get(PageVisited)
+      .pipe(map((_) => new PageViewPushEvent()));
   }
   cartPageVisitedEvent(): Observable<ProfileTagEvent> {
-    return combineLatest([
-      this.eventService.get(CartPageVisited),
-      this.personalizationContext$,
-    ]).pipe(
-      map(
-        ([_, personalizationContext]) =>
-          new CartViewPushEvent({
-            segments: personalizationContext.segments,
-            actions: personalizationContext.actions,
-          })
-      )
-    );
+    return this.eventService
+      .get(CartPageVisited)
+      .pipe(map((_) => new CartViewPushEvent()));
   }
 
   homePageVisitedEvent(): Observable<ProfileTagEvent> {
-    return combineLatest([
-      this.eventService.get(HomePageVisited),
-      this.personalizationContext$,
-    ]).pipe(
-      map(
-        ([_, personalizationContext]) =>
-          new HomePageViewPushEvent({
-            segments: personalizationContext.segments,
-            actions: personalizationContext.actions,
-          })
-      )
-    );
+    return this.eventService
+      .get(HomePageVisited)
+      .pipe(map((_) => new HomePageViewPushEvent()));
   }
 
   orderConfirmationVisited(): Observable<ProfileTagEvent> {
-    return combineLatest([
-      this.eventService.get(OrderConfirmationPageVisited),
-      this.personalizationContext$,
-    ]).pipe(
-      map(
-        ([_, personalizationContext]) =>
-          new OrderConfirmationPushEvent({
-            segments: personalizationContext.segments,
-            actions: personalizationContext.actions,
-          })
-      )
-    );
+    return this.eventService
+      .get(OrderConfirmationPageVisited)
+      .pipe(map((_) => new OrderConfirmationPushEvent()));
   }
 }

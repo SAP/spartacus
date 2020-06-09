@@ -79,22 +79,24 @@ export class RoutingEventBuilder {
 
   buildHomePageVisitedEvent(): Observable<HomePageVisited> {
     return this.routerEvents(PageType.CONTENT_PAGE).pipe(
-      filter((pageContext) => pageContext.id === PageId.HOME_PAGE)
+      filter((pageContext) => pageContext.id === PageId.HOME_PAGE),
+      map((pageContext) => createFrom(HomePageVisited, pageContext))
     );
   }
 
-  buildPageVisitedEvent(): Observable<PageContext> {
+  buildPageVisitedEvent(): Observable<PageVisited> {
     return merge(
       this.routerEvents(PageType.CATALOG_PAGE),
       this.routerEvents(PageType.CATEGORY_PAGE),
       this.routerEvents(PageType.CONTENT_PAGE),
       this.routerEvents(PageType.PRODUCT_PAGE)
-    );
+    ).pipe(map((pageContext) => createFrom(PageVisited, pageContext)));
   }
 
   buildCartVisitedEvent(): Observable<CartPageVisited> {
     return this.routerEvents(PageType.CONTENT_PAGE).pipe(
-      filter((pageContext) => pageContext.id === PageId.CART_PAGE)
+      filter((pageContext) => pageContext.id === PageId.CART_PAGE),
+      map((pageContext) => createFrom(CartPageVisited, pageContext))
     );
   }
 
@@ -102,12 +104,19 @@ export class RoutingEventBuilder {
     OrderConfirmationPageVisited
   > {
     return this.routerEvents(PageType.CONTENT_PAGE).pipe(
-      filter((pageContext) => pageContext.id === PageId.ORDER_CONFIRMATION)
+      filter((pageContext) => pageContext.id === PageId.ORDER_CONFIRMATION),
+      map((pageContext) =>
+        createFrom(OrderConfirmationPageVisited, pageContext)
+      )
     );
   }
 
   buildCategoryPageVisitedEvent(): Observable<CategoryPageVisited> {
     return this.productSearchService.getResults().pipe(
+      filter(
+        (searchResults) =>
+          searchResults.breadcrumbs && searchResults.breadcrumbs.length > 0
+      ),
       withLatestFrom(this.routingService.getPageContext()),
       filter(
         ([_searchResults, pageContext]) =>
@@ -117,7 +126,8 @@ export class RoutingEventBuilder {
       map(([searchResults, pageContext]) => ({
         categoryCode: pageContext.id,
         categoryName: searchResults.breadcrumbs[0].facetValueName,
-      }))
+      })),
+      map((categoryPage) => createFrom(CategoryPageVisited, categoryPage))
     );
   }
 

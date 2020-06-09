@@ -69,9 +69,11 @@ describe('RoutingEventService', () => {
 
     expect(eventEmitter.attach).toHaveBeenCalledTimes(4);
     expect(
-      routingEventBuilder.buildProductDetailsPageVisitEvent
+      routingEventBuilder.buildProductDetailsPageVisitedEvent
     ).toHaveBeenCalled();
-    expect(routingEventBuilder.buildCategoryPageVisitEvent).toHaveBeenCalled();
+    expect(
+      routingEventBuilder.buildCategoryPageVisitedEvent
+    ).toHaveBeenCalled();
     expect(
       routingEventBuilder.buildCategoryFacetChangeEvent
     ).toHaveBeenCalled();

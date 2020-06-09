@@ -62,8 +62,8 @@ describe('RoutingEventBuilder', () => {
 
       let result: string;
       service
-        .buildProductDetailsPageVisitEvent()
-        .subscribe(value => (result = value));
+        .buildProductDetailsPageVisitedEvent()
+        .subscribe((value) => (result = value));
       expect(result).toEqual(undefined);
 
       mockRouterEvents.next({
@@ -80,8 +80,8 @@ describe('RoutingEventBuilder', () => {
 
       let result: string;
       service
-        .buildCategoryPageVisitEvent()
-        .subscribe(value => (result = value));
+        .buildCategoryPageVisitedEvent()
+        .subscribe((value) => (result = value));
       expect(result).toEqual(undefined);
 
       mockRouterEvents.next({
@@ -95,8 +95,8 @@ describe('RoutingEventBuilder', () => {
 
       let result: string;
       service
-        .buildCategoryPageVisitEvent()
-        .subscribe(value => (result = value));
+        .buildCategoryPageVisitedEvent()
+        .subscribe((value) => (result = value));
       expect(result).toEqual(undefined);
 
       mockRouterEvents.next({
@@ -123,7 +123,7 @@ describe('RoutingEventBuilder', () => {
       let results: Breadcrumb[];
       service
         .buildCategoryFacetChangeEvent()
-        .subscribe(value => (results = value));
+        .subscribe((value) => (results = value));
 
       mockRouterEvents.next({
         id: '1234',
@@ -147,7 +147,7 @@ describe('RoutingEventBuilder', () => {
       let results: Breadcrumb[];
       service
         .buildCategoryFacetChangeEvent()
-        .subscribe(value => (results = value));
+        .subscribe((value) => (results = value));
 
       mockRouterEvents.next({
         id: 'search',
@@ -174,7 +174,7 @@ describe('RoutingEventBuilder', () => {
       let results: Breadcrumb[];
       service
         .buildBrandFacetChangeEvent()
-        .subscribe(value => (results = value));
+        .subscribe((value) => (results = value));
 
       mockRouterEvents.next({
         id: '1234',
@@ -198,7 +198,7 @@ describe('RoutingEventBuilder', () => {
       let results: Breadcrumb[];
       service
         .buildBrandFacetChangeEvent()
-        .subscribe(value => (results = value));
+        .subscribe((value) => (results = value));
 
       mockRouterEvents.next({
         id: 'search',

@@ -6,6 +6,9 @@ import { FeatureEnvironment } from '../models/feature.model';
 export const b2cFeature: FeatureEnvironment = {
   imports: [
     B2cStorefrontModule.withConfig({
+      personalization: {
+        enabled: true,
+      },
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
