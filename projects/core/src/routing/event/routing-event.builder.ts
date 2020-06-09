@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { merge, Observable } from 'rxjs';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
 import { PageType } from '../../model';
 import { ProductSearchService } from '../../product/facade/product-search.service';
@@ -9,18 +9,18 @@ import { createFrom } from '../../util';
 import { RoutingService } from '../facade/routing.service';
 import { PageContext } from '../models/page-context.model';
 import {
-  CartVisitedEvent,
-  CategoryPageVisitedEvent,
-  HomePageVisitedEvent,
-  KeywordSearchEvent,
-  OrderConfirmationVisited,
-  PageVisitedEvent,
-  ProductDetailsPageVisitedEvent,
+  CartPageVisited,
+  CategoryPageVisited,
+  HomePageVisited,
+  KeywordSearchPageVisited,
+  OrderConfirmationPageVisited,
+  PageVisited,
+  ProductDetailsPageVisited,
 } from './routing.events';
 
 enum PageId {
   HOME_PAGE = 'homepage',
-  SERCH = 'search',
+  SEARCH = 'search',
   CART_PAGE = '/cart',
   ORDER_CONFIRMATION = '/checkout/review-order',
 }
@@ -40,47 +40,44 @@ export class RoutingEventBuilder {
 
   protected register() {
     this.eventService.register(
-      KeywordSearchEvent,
+      KeywordSearchPageVisited,
       this.searchResultChangeEvent()
     );
     this.eventService.register(
-      ProductDetailsPageVisitedEvent,
+      ProductDetailsPageVisited,
       this.buildProductDetailsPageVisitEvent()
     );
     this.eventService.register(
-      CategoryPageVisitedEvent,
+      CategoryPageVisited,
       this.buildCategoryPageVisitEvent()
     );
     this.eventService.register(
-      HomePageVisitedEvent,
+      HomePageVisited,
       this.buildHomePageVisitedEvent()
     );
-    this.eventService.register(CartVisitedEvent, this.buildCartVisitedEvent());
-    this.eventService.register(PageVisitedEvent, this.buildPageViewEvent());
+    this.eventService.register(CartPageVisited, this.buildCartVisitedEvent());
+    this.eventService.register(PageVisited, this.buildPageViewEvent());
     this.eventService.register(
-      OrderConfirmationVisited,
+      OrderConfirmationPageVisited,
       this.orderConfirmationVisitedEvent()
     );
   }
 
-  buildProductDetailsPageVisitEvent(): Observable<
-    ProductDetailsPageVisitedEvent
-  > {
+  buildProductDetailsPageVisitEvent(): Observable<ProductDetailsPageVisited> {
     return this.routerEvents(PageType.PRODUCT_PAGE).pipe(
       map((context) => context.id),
       switchMap((productId) => {
         return this.productService.get(productId).pipe(
           filter(Boolean),
           map((product) => {
-            console.log(product);
-            return createFrom(ProductDetailsPageVisitedEvent, product);
+            return createFrom(ProductDetailsPageVisited, product);
           })
         );
       })
     );
   }
 
-  buildHomePageVisitedEvent(): Observable<HomePageVisitedEvent> {
+  buildHomePageVisitedEvent(): Observable<HomePageVisited> {
     return this.routerEvents(PageType.CONTENT_PAGE).pipe(
       filter((pageContext) => pageContext.id === PageId.HOME_PAGE)
     );
@@ -92,26 +89,22 @@ export class RoutingEventBuilder {
       this.routerEvents(PageType.CATEGORY_PAGE),
       this.routerEvents(PageType.CONTENT_PAGE),
       this.routerEvents(PageType.PRODUCT_PAGE)
-    ).pipe(
-      tap((pageContext) => {
-        console.log(pageContext);
-      })
     );
   }
 
-  buildCartVisitedEvent(): Observable<CartVisitedEvent> {
+  buildCartVisitedEvent(): Observable<CartPageVisited> {
     return this.routerEvents(PageType.CONTENT_PAGE).pipe(
       filter((pageContext) => pageContext.id === PageId.CART_PAGE)
     );
   }
 
-  orderConfirmationVisitedEvent(): Observable<OrderConfirmationVisited> {
+  orderConfirmationVisitedEvent(): Observable<OrderConfirmationPageVisited> {
     return this.routerEvents(PageType.CONTENT_PAGE).pipe(
       filter((pageContext) => pageContext.id === PageId.ORDER_CONFIRMATION)
     );
   }
 
-  buildCategoryPageVisitEvent(): Observable<CategoryPageVisitedEvent> {
+  buildCategoryPageVisitEvent(): Observable<CategoryPageVisited> {
     return this.productSearchService.getResults().pipe(
       withLatestFrom(this.routingService.getPageContext()),
       filter(
@@ -119,10 +112,6 @@ export class RoutingEventBuilder {
           pageContext.type === PageType.CATEGORY_PAGE &&
           !this.isSearchPage(pageContext)
       ),
-      tap(([_searchResults, _pageContext]) => {
-        console.log(_pageContext);
-        console.log(_searchResults);
-      }),
       map(([searchResults, pageContext]) => ({
         categoryCode: pageContext.id,
         categoryName: searchResults.breadcrumbs[0].facetValueName,
@@ -130,24 +119,23 @@ export class RoutingEventBuilder {
     );
   }
   private isSearchPage(pageContext: PageContext): boolean {
-    return pageContext.id === PageId.SERCH;
+    return pageContext.id === PageId.SEARCH;
   }
 
-  private searchResultChangeEvent(): Observable<KeywordSearchEvent> {
+  private searchResultChangeEvent(): Observable<KeywordSearchPageVisited> {
     return this.productSearchService.getResults().pipe(
       filter((searchResults) => Boolean(searchResults.breadcrumbs)),
       withLatestFrom(this.routingService.getPageContext()),
       filter(([_productSearchPage, pageContext]) =>
         this.isSearchPage(pageContext)
       ),
-      tap(([productSearchPage, _pageContext]) => {
-        console.log(productSearchPage);
-      }),
       map(([productSearchPage, _pageContext]) => ({
         searchTerm: productSearchPage.freeTextSearch,
         numberOfResults: productSearchPage.pagination.totalResults,
       })),
-      map((searchResults) => createFrom(KeywordSearchEvent, searchResults))
+      map((searchResults) =>
+        createFrom(KeywordSearchPageVisited, searchResults)
+      )
     );
   }
 

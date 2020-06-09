@@ -11,13 +11,13 @@ import {
   PersonalizationContextService,
 } from '@spartacus/core';
 import {
-  CartVisitedEvent,
-  CategoryPageVisitedEvent,
-  HomePageVisitedEvent,
-  KeywordSearchEvent,
-  OrderConfirmationVisited,
-  PageVisitedEvent,
-  ProductDetailsPageVisitedEvent,
+  CartPageVisited,
+  CategoryPageVisited,
+  HomePageVisited,
+  KeywordSearchPageVisited,
+  OrderConfirmationPageVisited,
+  PageVisited,
+  ProductDetailsPageVisited,
 } from 'projects/core/src/routing/event/routing.events';
 import { combineLatest, concat, Observable, of } from 'rxjs';
 import { filter, map, mapTo, skipWhile, take } from 'rxjs/operators';
@@ -97,7 +97,7 @@ export class SpartacusEventService {
 
   categoryPageVisited(): Observable<ProfileTagEvent> {
     return combineLatest([
-      this.eventService.get(CategoryPageVisitedEvent),
+      this.eventService.get(CategoryPageVisited),
       this.personalizationContext$,
     ]).pipe(
       map(
@@ -114,7 +114,7 @@ export class SpartacusEventService {
 
   searchResultsChanged(): Observable<ProfileTagEvent> {
     return combineLatest([
-      this.eventService.get(KeywordSearchEvent),
+      this.eventService.get(KeywordSearchPageVisited),
       this.personalizationContext$,
     ]).pipe(
       map(([searchEvent, personalizationContext]) => {
@@ -130,7 +130,7 @@ export class SpartacusEventService {
 
   productDetailsPageView(): Observable<ProfileTagEvent> {
     return combineLatest([
-      this.eventService.get(ProductDetailsPageVisitedEvent),
+      this.eventService.get(ProductDetailsPageVisited),
       this.personalizationContext$,
     ]).pipe(
       map(
@@ -154,7 +154,7 @@ export class SpartacusEventService {
 
   pageVisitedEvent(): Observable<ProfileTagEvent> {
     return combineLatest([
-      this.eventService.get(PageVisitedEvent),
+      this.eventService.get(PageVisited),
       this.personalizationContext$,
     ]).pipe(
       map(
@@ -168,7 +168,7 @@ export class SpartacusEventService {
   }
   cartPageVisitedEvent(): Observable<ProfileTagEvent> {
     return combineLatest([
-      this.eventService.get(CartVisitedEvent),
+      this.eventService.get(CartPageVisited),
       this.personalizationContext$,
     ]).pipe(
       map(
@@ -183,7 +183,7 @@ export class SpartacusEventService {
 
   homePageVisitedEvent(): Observable<ProfileTagEvent> {
     return combineLatest([
-      this.eventService.get(HomePageVisitedEvent),
+      this.eventService.get(HomePageVisited),
       this.personalizationContext$,
     ]).pipe(
       map(
@@ -198,7 +198,7 @@ export class SpartacusEventService {
 
   orderConfirmationVisited(): Observable<ProfileTagEvent> {
     return combineLatest([
-      this.eventService.get(OrderConfirmationVisited),
+      this.eventService.get(OrderConfirmationPageVisited),
       this.personalizationContext$,
     ]).pipe(
       map(

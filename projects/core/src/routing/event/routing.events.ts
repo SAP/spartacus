@@ -16,17 +16,16 @@ import {
   VariantType,
 } from '../../model/product.model';
 
-export class PageVisitedEvent {}
-export class HomePageVisitedEvent extends PageVisitedEvent {}
-export class CartVisitedEvent extends PageVisitedEvent {}
-export class OrderConfirmationVisited extends PageVisitedEvent {}
+export class PageVisited {}
+export class HomePageVisited extends PageVisited {}
+export class CartPageVisited extends PageVisited {}
+export class OrderConfirmationPageVisited extends PageVisited {}
 
 /**
  * Indicates that a user visited a PDP page.
  * A visited product code value is emited whenever the PDP page is visited.
  */
-export class ProductDetailsPageVisitedEvent extends PageVisitedEvent
-  implements Product {
+export class ProductDetailsPageVisited extends PageVisited implements Product {
   availableForPickup?: boolean;
   averageRating?: number;
   baseOptions?: BaseOption[];
@@ -59,26 +58,13 @@ export class ProductDetailsPageVisitedEvent extends PageVisitedEvent
 }
 /**
  * Indicates that a user visited a category or brand page.
- * A visited category / brand code value is emited whenever one of the pages is visited.
  */
-export class CategoryPageVisitedEvent extends PageVisitedEvent {
+export class CategoryPageVisited extends PageVisited {
   categoryCode: string;
   categoryName: string;
 }
-/**
- * Indicates that a user changed category-related facets.
- * All the category facet values are emited whenever the user changes them.
- * The event is emitted only when the user is on the facet-supported page - category, brand and search results page.
- */
-export class CategoryFacetChangeEvent extends PageVisitedEvent {}
-/**
- * Indicates that a user changed brand-related facets.
- * All the brand facet values are emited whenever the user changes them.
- * The event is emitted only when the user is on the facet-supported page - category, brand and search results page.
- */
-export class BrandFacetChangeEvent extends PageVisitedEvent {}
 
-export class KeywordSearchEvent extends PageVisitedEvent {
+export class KeywordSearchPageVisited extends PageVisited {
   searchTerm: string;
   numberOfResults: Number;
 }

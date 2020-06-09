@@ -128,7 +128,7 @@ export class ProfileTagInjectorService {
   }
   private notifyCartPageVisitedEvent(): Observable<boolean> {
     return this.spartacusEventTracker.cartPageVisitedEvent().pipe(
-      tap((_) => {
+      tap((item) => {
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
       }),
       mapTo(true)
