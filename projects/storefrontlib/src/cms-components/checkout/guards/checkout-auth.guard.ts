@@ -11,6 +11,7 @@ import {
   B2BUser,
   GlobalMessageService,
   GlobalMessageType,
+  B2BUserGroup,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -47,9 +48,9 @@ export class CheckoutAuthGuard implements CanActivate {
             this.routingService.go({ cxRoute: 'login' });
           }
           this.authRedirectService.reportAuthGuard();
-        } else if (user.hasOwnProperty('roles')) {
+        } else if ('roles' in user) {
           const roles = (<B2BUser>user).roles;
-          if (roles.indexOf('b2bcustomergroup') > -1) {
+          if (roles.indexOf(B2BUserGroup.B2B_CUSTOMER_GROUP) > -1) {
             return true;
           } else {
             this.globalMessageService.add(

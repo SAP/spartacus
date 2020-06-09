@@ -12,6 +12,7 @@ import {
   UserService,
   GlobalMessageService,
   GlobalMessageType,
+  B2BUserGroup,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../services';
@@ -225,7 +226,7 @@ describe('CheckoutAuthGuard', () => {
 
       it('should return true when user roles has b2bcustomergroup', () => {
         spyOn(userService, 'get').and.returnValue(
-          of({ uid: 'testUser', roles: ['b2bcustomergroup'] })
+          of({ uid: 'testUser', roles: [B2BUserGroup.B2B_CUSTOMER_GROUP] })
         );
         let result: boolean;
         checkoutGuard
@@ -237,7 +238,7 @@ describe('CheckoutAuthGuard', () => {
 
       it('should return false when user roles does not have b2bcustomergroup', () => {
         spyOn(userService, 'get').and.returnValue(
-          of({ uid: 'testUser', roles: ['b2badmingroup'] })
+          of({ uid: 'testUser', roles: [B2BUserGroup.B2B_ADMIN_GROUP] })
         );
         let result: boolean;
         checkoutGuard
