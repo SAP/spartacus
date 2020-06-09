@@ -14,7 +14,7 @@ import { B2BUser } from '../../../model/org-unit.model';
 import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
 import { Permission } from '../../../model/permission.model';
 import { UserGroup } from '../../../model/user-group.model';
-import { RoutingService } from 'projects/core/src/routing';
+import { RoutingService } from '../../../../src/routing';
 
 @Injectable()
 export class B2BUserEffects {
