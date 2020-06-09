@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule, OrgUnitService } from '@spartacus/core';
 import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
-import { B2BUserFormComponent } from './user-form.component'
+import { B2BUserFormComponent } from './user-form.component';
 import { FormErrorsModule } from '../../../../shared/components/form/form-errors/form-errors.module';
 
 @NgModule({
