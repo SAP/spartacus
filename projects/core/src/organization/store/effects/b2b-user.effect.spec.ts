@@ -21,6 +21,7 @@ import { B2BSearchConfig } from '../../model/search-config';
 import { B2BUser } from '../../../model/org-unit.model';
 import { Permission } from '../../../model/permission.model';
 import { UserGroup } from '../../../model/user-group.model';
+import { RoutingService } from '../../../../src/routing';
 
 const error = 'error';
 const userId = 'testUser';
@@ -50,6 +51,20 @@ const sorts = [{ selected: true, name: 'code' }];
 const page = { ids: [orgCustomer.customerId], pagination, sorts };
 const params: B2BSearchConfig = { sort: 'code' };
 
+const mockRouterState = {
+  state: {
+    params: {
+      customerId: 'testCustomerId',
+    },
+  },
+};
+
+class MockRoutingService {
+  go = createSpy('go').and.stub();
+  getRouterState = createSpy('getRouterState').and.returnValue(
+    of(mockRouterState)
+  );
+}
 class MockB2BUserConnector {
   get = createSpy().and.returnValue(of(orgCustomer));
   getList = createSpy().and.returnValue(
@@ -109,6 +124,7 @@ describe('B2B User Effects', () => {
       ],
       providers: [
         { provide: B2BUserConnector, useClass: MockB2BUserConnector },
+        { provide: RoutingService, useClass: MockRoutingService},
         { provide: OccConfig, useValue: defaultOccOrganizationConfig },
         fromEffects.B2BUserEffects,
         provideMockActions(() => actions$),
