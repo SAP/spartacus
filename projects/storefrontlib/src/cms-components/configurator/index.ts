@@ -18,6 +18,7 @@ export * from './commons/config-overview-attribute/config-overview-attribute.com
 export * from './commons/config-overview-form/config-overview-form.component';
 export * from './commons/config-previous-next-buttons/config-previous-next-buttons.component';
 export * from './commons/config-price-summary/config-price-summary.component';
+export * from './commons/config-product-title/config-product-title.component';
 export * from './commons/config-tab-bar/config-tab-bar.component';
 export * from './commons/config/default-message-config';
 export * from './commons/config/message-config';

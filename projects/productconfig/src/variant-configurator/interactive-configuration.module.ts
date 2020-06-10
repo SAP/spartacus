@@ -20,6 +20,7 @@ import {
   ConfigGroupTitleComponent,
   ConfigPreviousNextButtonsComponent,
   ConfigPriceSummaryComponent,
+  ConfigProductTitleComponent,
   ConfigTabBarComponent,
   ConfigurationMessageLoaderModule,
   DefaultMessageConfig,
@@ -50,6 +51,10 @@ import {
       cmsComponents: {
         VariantConfigurationTabBar: {
           component: ConfigTabBarComponent,
+          guards: [],
+        },
+        VariantConfigurationTitle: {
+          component: ConfigProductTitleComponent,
           guards: [],
         },
         VariantConfigurationGroupTitle: {
