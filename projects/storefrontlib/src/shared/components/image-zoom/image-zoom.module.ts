@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
+import { IconModule } from '../../../cms-components/misc/icon/index';
 import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
-import { IconModule } from '../../misc/icon/index';
 import { defaultImageZoomLayoutConfig } from './default-image-zoom-layout.config';
 import { ImageZoomDialogComponent } from './dialog/image-zoom-dialog.component';
 import { ImageZoomTriggerComponent } from './trigger/image-zoom-trigger';
