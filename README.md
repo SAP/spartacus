@@ -35,11 +35,19 @@ See the [Release documentation](https://sap.github.io/cloud-commerce-spartacus-s
 
 # Requirements
 
+If you are working with Spartacus 2.x, your Angular development environment should include the following:
+
 - [Angular CLI](https://angular.io/): **9.1** or later.
 - node.js: 10.14.1 or later, < 13.0. The most recent 12.x version is recommended.
 - yarn: v1.15 or later
 
-For the back end, SAP Commerce Cloud version 2005 is recommended. SAP Commerce Cloud version 1905 or higher is required.
+If you are working with Spartacus 1.x, your Angular development environment should include the following:
+
+- [Angular CLI](https://angular.io/): v8.0.0 or later, < v9.0.0
+- node.js: v10 or later, < v12
+- yarn: v1.15 or later
+
+For the back end, SAP Commerce Cloud version 1905 or higher is required, and SAP Commerce Cloud version 2005 is recommended.
 
 # Download and Installation
 
@@ -66,6 +74,8 @@ The Spartacus API documentation is hosted here: [https://sap.github.io/spartacus
 The API documentation is versioned and is included in the **Assets** folder of each and every Spartacus library. You can download the API documentation for a particular version by clicking on `docs.tar.gz` or `docs.zip` in the **Assets** folder of any Spartacus library from that particular release.
 
 For example, to download the API documentation for the 2.0.0 release, you could access the **Assets** section of the `@spartacus/storefront@2.0.0` library [here](https://github.com/SAP/spartacus/releases/download/storefront-2.0.0/docs.zip).
+
+**Note:** The 1.x and 2.x releases of the Spartacus libraries work only with SAP Commerce Cloud versions 1905 and 2005. Certain features, such as cancellations and returns, are only available with SAP Commerce Cloud 2005, because the necessary OCC API support is only available in SAP Commerce Cloud 2005.
 
 # Limitations
 
