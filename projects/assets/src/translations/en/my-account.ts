@@ -70,7 +70,7 @@ export const myAccount = {
       approver: 'APPROVER',
       status: 'STATUS',
       approverComments: 'APPROVER COMMENTS',
-      noApprovalNotes: 'NA',
+      noApprovalNotes: 'None',
       permissionType_B2BBudgetExceededPermission:
         'The budget associated with chosen cost center has been exceeded',
       permissionType_B2BOrderThresholdPermission:

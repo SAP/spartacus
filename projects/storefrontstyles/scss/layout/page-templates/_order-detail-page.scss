@@ -116,17 +116,11 @@
   }
 
   cx-order-details-approval-details {
-    display: flex;
-    flex-wrap: wrap;
-    max-width: 100%;
-
-    margin-bottom: 15px;
+    margin: 45px 0px 15px;
 
     .cx-approval-header {
-      flex-direction: column;
+      padding: 15px;
 
-      padding: 15px 30px;
-      margin: 45px -15px 0;
       background-color: var(--cx-color-background);
 
       .cx-approval-label {
@@ -135,7 +129,62 @@
     }
 
     .cx-approval-table {
-      flex-direction: column;
+      padding: 15px;
+
+      .cx-approval-thead-mobile {
+        background-color: var(--cx-color-dark);
+
+        th {
+          text-align: left;
+        }
+
+        @include media-breakpoint-down(sm) {
+          display: none;
+        }
+      }
+
+      &.table-striped > tr:nth-child(odd) {
+        background-color: var(--cx-color-background);
+      }
+
+      .cx-approval-permissionCode {
+        width: 25%;
+      }
+
+      .cx-approval-approverName {
+        width: 17%;
+      }
+
+      .cx-approval-statusDisplay {
+        width: 14%;
+      }
+
+      .cx-approval-table-label {
+        text-transform: uppercase;
+        color: var(--cx-color-secondary);
+
+        @include media-breakpoint-down(sm) {
+          @include type('8');
+          min-width: 110px;
+        }
+      }
+
+      td {
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+          display: flex;
+          border-width: 0;
+          padding: 0 1.25rem;
+
+          &:first-child {
+            padding-top: 1.25rem;
+          }
+
+          &:last-child {
+            padding-bottom: 1.25rem;
+          }
+        }
+      }
     }
   }
 
