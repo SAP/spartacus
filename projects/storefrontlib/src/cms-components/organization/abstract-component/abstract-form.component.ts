@@ -2,7 +2,7 @@ import { EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { UrlCommandRoute } from '@spartacus/core';
 
-export class AbstractFormComponent {
+export abstract class AbstractFormComponent {
   form: FormGroup;
 
   @Input()

@@ -4,17 +4,10 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { B2BUnitNode, CostCenter, Currency } from '@spartacus/core';
 import { Observable } from 'rxjs';
-
-import {
-  CostCenter,
-  Currency,
-  CurrencyService,
-  B2BUnitNode,
-  OrgUnitService,
-} from '@spartacus/core';
 import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
+import { CostCenterFormComponentService } from './cost-center-form.component.service';
 
 @Component({
   selector: 'cx-cost-center-form',
@@ -23,8 +16,10 @@ import { AbstractFormComponent } from '../../abstract-component/abstract-form.co
 })
 export class CostCenterFormComponent extends AbstractFormComponent
   implements OnInit {
-  businessUnits$: Observable<B2BUnitNode[]>;
-  currencies$: Observable<Currency[]>;
+  businessUnits$: Observable<
+    B2BUnitNode[]
+  > = this.formService.getBusinessUnits();
+  currencies$: Observable<Currency[]> = this.formService.getCurrencies();
 
   @Input()
   costCenterData: CostCenter;
@@ -32,31 +27,35 @@ export class CostCenterFormComponent extends AbstractFormComponent
   @Input()
   readonlyParent = false;
 
-  form: FormGroup = this.fb.group({
-    code: ['', Validators.required],
-    name: ['', Validators.required],
-    unit: this.fb.group({
-      uid: [null, Validators.required],
-    }),
-    currency: this.fb.group({
-      isocode: [null, Validators.required],
-    }),
-  });
+  // TODO:#persist-forms - pass it in the template
+  @Input()
+  formKey: string;
 
-  constructor(
-    protected fb: FormBuilder,
-    protected currencyService: CurrencyService,
-    protected orgUnitService: OrgUnitService
-  ) {
+  constructor(protected formService: CostCenterFormComponentService) {
     super();
   }
 
   ngOnInit() {
-    this.currencies$ = this.currencyService.getAll();
-    this.orgUnitService.loadOrgUnitNodes();
-    this.businessUnits$ = this.orgUnitService.getActiveUnitList();
-    if (this.costCenterData && Object.keys(this.costCenterData).length !== 0) {
-      this.form.patchValue(this.costCenterData);
+    this.formService.loadOrgUnitNodes();
+    this.form = this.formService.getForm(this.formKey, this.costCenterData);
+  }
+
+  verifyAndSubmit(): void {
+    console.log('submit');
+    this.submitClicked = true;
+    if (this.form.valid) {
+      this.form.reset();
+      this.formService.removeForm(this.formKey);
+      this.submitForm.emit(this.form.value);
+    } else {
+      this.form.markAllAsTouched();
     }
+  }
+
+  back(): void {
+    console.log('back');
+    this.form.reset();
+    this.formService.removeForm(this.formKey);
+    this.clickBack.emit();
   }
 }

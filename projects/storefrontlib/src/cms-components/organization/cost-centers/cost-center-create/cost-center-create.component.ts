@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CostCenterService, RoutingService } from '@spartacus/core';
+import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -17,11 +17,17 @@ export class CostCenterCreateComponent {
     protected routingService: RoutingService
   ) {}
 
-  createCostCenter(costCenter) {
+  createCostCenter(costCenter: CostCenter): void {
     this.costCenterService.create(costCenter);
     this.routingService.go({
       cxRoute: 'costCenterDetails',
       params: costCenter,
     });
+  }
+
+  //TODO:#save-forms - make sure that the key doesn't have a space in it
+  //TODO:#save-forms - where to put the util method?
+  getFormKey(parentUnit: string): string {
+    return `cost-center-create-${parentUnit}`;
   }
 }
