@@ -29,7 +29,7 @@ export function clickOnNextGroupBtn(attributeName: string, uiType: string) {
       force: true,
     })
     .debug();
-  verifyAttributeIsDisplayed(attributeName, uiType);
+  isAttributeDisplayed(attributeName, uiType);
 }
 
 /**
@@ -42,34 +42,34 @@ export function clickOnPreviousGroupBtn(attributeName: string, uiType: string) {
   cy.get(previousGroupButtonSelector).click({
     force: true,
   });
-  verifyAttributeIsDisplayed(attributeName, uiType);
+  isAttributeDisplayed(attributeName, uiType);
 }
 
-export function verifyConfigurationPageIsDisplayed() {
+export function isConfigPageDisplayed() {
   cy.get('cx-config-form').should('be.visible');
 }
 
-export function verifyOverviewPageIsDisplayed() {
+export function isOverviewPageDisplayed() {
   cy.get('cx-config-overview-form').should('be.visible');
 }
 
-export function verifyPreviousGroupBtnIsEnabled() {
+export function isPreviousBtnEnabled() {
   cy.get(previousGroupButtonSelector).should('be.not.disabled');
 }
 
-export function verifyPreviousGroupBtnIsDisabled() {
+export function isPreviousBtnDisabled() {
   cy.get(previousGroupButtonSelector).should('be.disabled');
 }
 
-export function verifyNextGroupBtnIsEnabled() {
+export function isNextBtnEnabled() {
   cy.get(nextGroupButtonSelector).should('be.not.disabled');
 }
 
-export function verifyNextGroupBtnIsDisabled() {
+export function isNextBtnDisabled() {
   cy.get(nextGroupButtonSelector).should('be.disabled');
 }
 
-export function verifyNoStatusIconDisplayed(groupName: string) {
+export function isNoStatusIconDisplayed(groupName: string) {
   cy.get(
     '.' +
       `${'ERROR'}` +
@@ -87,7 +87,7 @@ export function verifyNoStatusIconDisplayed(groupName: string) {
   ).should('not.exist');
 }
 
-export function verifyStatusIconDisplayed(groupName: string, status: string) {
+export function isStatusIconDisplayed(groupName: string, status: string) {
   cy.get(
     '.' +
       `${status}` +
@@ -97,23 +97,17 @@ export function verifyStatusIconDisplayed(groupName: string, status: string) {
   ).should('exist');
 }
 
-export function verifyAttributeIsDisplayed(
-  attributeName: string,
-  uiType: string
-) {
+export function isAttributeDisplayed(attributeName: string, uiType: string) {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.get(`#${attributeId}`).should('be.visible');
 }
 
-export function verifyAttributeIsNotDisplayed(
-  attributeName: string,
-  uiType: string
-) {
+export function isAttributeNotDisplayed(attributeName: string, uiType: string) {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.get(`#${attributeId}`).should('be.not.visible');
 }
 
-export function verifyAttributeValueIsDisplayed(
+export function isAttributeValueDisplayed(
   attributeName: string,
   uiType: string,
   valueName: string
@@ -123,7 +117,7 @@ export function verifyAttributeValueIsDisplayed(
   cy.get(`#${valueId}`).should('be.visible');
 }
 
-export function verifyAttributeValueIsNotDisplayed(
+export function isAttributeValueNotDisplayed(
   attributeName: string,
   uiType: string,
   valueName: string
@@ -161,16 +155,13 @@ export function selectAttribute(
   }
 }
 
-export function verifyCheckboxIsSelected(
-  attributeName: string,
-  valueName: string
-) {
+export function isCheckboxSelected(attributeName: string, valueName: string) {
   const attributeId = getAttributeId(attributeName, 'checkBoxList');
   const valueId = `${attributeId}--${valueName}`;
   cy.get(`#${valueId}`).should('be.checked');
 }
 
-export function verifyImageIsSelected(
+export function isImageSelected(
   attributeName: string,
   uiType: string,
   valueName: string
@@ -180,7 +171,7 @@ export function verifyImageIsSelected(
   cy.get(`#${valueId}`).should('be.checked');
 }
 
-export function verifyImageIsNotSelected(
+export function isImageNotSelected(
   attributeName: string,
   uiType: string,
   valueName: string
@@ -190,23 +181,23 @@ export function verifyImageIsNotSelected(
   cy.get(`#${valueId}`).should('not.be.checked');
 }
 
-export function verifyGroupMenuIsDisplayed() {
+export function isGroupMenuDisplayed() {
   cy.get('cx-config-group-menu').should('be.visible');
 }
 
-export function verifyGroupMenuIsNotDisplayed() {
+export function isGroupMenuNotDisplayed() {
   cy.get('cx-config-group-menu').should('not.be.visible');
 }
 
-export function verifyCategoryNavigationIsDisplayed() {
+export function isCategoryNavigationDisplayed() {
   cy.get('cx-category-navigation').should('be.visible');
 }
 
-export function verifyCategoryNavigationIsNotDisplayed() {
+export function isCategoryNavigationNotDisplayed() {
   cy.get('cx-category-navigation').should('not.be.visible');
 }
 
-export function verifyTotalPrice(formattedPrice) {
+export function isTotalPrice(formattedPrice) {
   cy.get('cx-price-summary-total-price cx-summary-amount').should(($div) => {
     expect($div).to.contain(formattedPrice);
   });
@@ -230,7 +221,7 @@ export function clickHamburger() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
 }
 
-export function verifyHamburgerIsDisplayed() {
+export function isHamburgerDisplayed() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').should('be.visible');
 }
 
@@ -263,17 +254,6 @@ export function clickOnProceedToCheckoutBtnOnPD() {
         'Shipping Address'
       );
     });
-}
-
-export function waitForPage(page: string, alias: string): string {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages?*${page}*`
-  ).as(alias);
-  return alias;
 }
 
 export function login() {
