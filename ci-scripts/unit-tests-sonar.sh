@@ -44,7 +44,7 @@ if [[ $1 == '-h' ]]; then
 
     echo "Running SonarCloud scan"
     sonar-scanner \
-    -Dsonar.projectKey=sap_cloud-commerce-spartacus-storefront \
+    -Dsonar.projectKey=sap_spartacus \
     -Dsonar.organization=sap \
     -Dsonar.host.url=https://sonarcloud.io \
     -Dsonar.login=$SONAR_TOKEN
