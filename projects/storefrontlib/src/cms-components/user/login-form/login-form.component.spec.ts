@@ -9,14 +9,13 @@ import {
   AuthService,
   GlobalMessageService,
   I18nTestingModule,
-  UserToken,
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { FormErrorsModule } from '../../../shared/index';
 import { CheckoutConfigService } from '../../checkout';
 import { LoginFormComponent } from './login-form.component';
 import createSpy = jasmine.createSpy;
-import { FormErrorsModule } from '../../../shared/index';
 
 @Pipe({
   name: 'cxUrl',
@@ -27,8 +26,8 @@ class MockUrlPipe implements PipeTransform {
 
 class MockAuthService {
   authorize = createSpy();
-  getUserToken(): Observable<UserToken> {
-    return of({ access_token: 'test' } as UserToken);
+  isUserLoggedIn(): Observable<boolean> {
+    return of(true);
   }
 }
 

@@ -11,7 +11,6 @@ import {
   RoutingService,
   TranslationService,
   UserService,
-  UserToken,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
@@ -27,7 +26,7 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
 
   private subscription = new Subscription();
-  userToken$: Observable<UserToken>;
+  isLoggedIn$: Observable<boolean>;
   isLoading$: Observable<boolean>;
 
   constructor(
@@ -40,7 +39,7 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.userToken$ = this.authService.getUserToken();
+    this.isLoggedIn$ = this.authService.isUserLoggedIn();
     this.userService.resetRemoveUserProcessState();
     this.subscription.add(
       this.userService

@@ -5,21 +5,11 @@ import { Observable, of } from 'rxjs';
 import { UrlCommands } from '../../routing/configurable-routes/url-translation/url-command';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
-import { UserToken } from '../models/token-types.model';
 import { AuthRedirectService } from './auth-redirect.service';
 import { AuthGuard } from './auth.guard';
 
-const mockUserToken = {
-  access_token: 'Mock Access Token',
-  token_type: 'test',
-  refresh_token: 'test',
-  expires_in: 1,
-  scope: ['test'],
-  userId: 'test',
-} as UserToken;
-
 class AuthServiceStub {
-  getUserToken(): Observable<UserToken> {
+  isUserLoggedIn(): Observable<boolean> {
     return of();
   }
 }
@@ -65,9 +55,7 @@ describe('AuthGuard', () => {
 
   describe(', when user is NOT authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'getUserToken').and.returnValue(
-        of({ access_token: undefined } as UserToken)
-      );
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     });
 
     it('should return false', () => {
@@ -87,7 +75,7 @@ describe('AuthGuard', () => {
 
   describe(', when user is authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     });
 
     it('should return true', () => {

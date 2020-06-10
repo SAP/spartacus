@@ -9,8 +9,8 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { CheckoutConfigService } from '../../checkout/services/checkout-config.service';
 import { CustomFormValidators } from '../../../shared/index';
+import { CheckoutConfigService } from '../../checkout/services/checkout-config.service';
 
 @Component({
   selector: 'cx-login-form',
@@ -72,8 +72,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     );
 
     if (!this.sub) {
-      this.sub = this.auth.getUserToken().subscribe((data) => {
-        if (data && data.access_token) {
+      this.sub = this.auth.isUserLoggedIn().subscribe((isLoggedIn) => {
+        if (isLoggedIn) {
           this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
           this.authRedirectService.redirect();
         }
