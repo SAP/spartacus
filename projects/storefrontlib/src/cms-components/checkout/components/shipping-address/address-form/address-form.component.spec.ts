@@ -132,7 +132,7 @@ describe('AddressFormComponent', () => {
   let mockGlobalMessageService: any;
   let mockModalService: MockModalService;
 
-  const getSetAsDefaultCheckox = (): DebugElement =>
+  const defaultAddressCheckbox = (): DebugElement =>
     fixture.debugElement.query(By.css('[formcontrolname=defaultAddress]'));
 
   beforeEach(async(() => {
@@ -363,7 +363,7 @@ describe('AddressFormComponent', () => {
     );
 
     fixture.detectChanges();
-    getSetAsDefaultCheckox().nativeElement.click();
+    defaultAddressCheckbox().nativeElement.click();
 
     expect(component.addressForm.value.defaultAddress).toBeTruthy();
   });
@@ -491,14 +491,14 @@ describe('AddressFormComponent', () => {
     expect(component.regionsSub.unsubscribe).toHaveBeenCalled();
   });
 
-  it('should show the "Set as default" checkbox when there is 1 or more saved addresses', () => {
+  it('should show the "Set as default" checkbox when there is one or more saved addresses', () => {
     spyOn(userAddressService, 'getAddresses').and.returnValue(
       of([mockAddress])
     );
 
     fixture.detectChanges();
 
-    expect(getSetAsDefaultCheckox().nativeElement).toBeTruthy();
+    expect(defaultAddressCheckbox().nativeElement).toBeTruthy();
   });
 
   it('should not show the "Set as default" checkbox when there no saved addresses', () => {
@@ -506,6 +506,6 @@ describe('AddressFormComponent', () => {
 
     fixture.detectChanges();
 
-    expect(getSetAsDefaultCheckox()).toBe(null);
+    expect(defaultAddressCheckbox()).toBe(null);
   });
 });
