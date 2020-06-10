@@ -23,7 +23,7 @@ export function clickOnConfigureCartEntryBtn() {
  * @param attributeName Attribute name of a attribute of the target group. Will be used to verify that the next group is displayed
  * @param uiType UI Type of the attribute of the target group. Will be used to verify that the next group is displayed
  */
-export function clickOnNextGroupBtn(attributeName: string, uiType: string) {
+export function clickOnNextBtn(attributeName: string, uiType: string) {
   cy.get(nextGroupButtonSelector)
     .click({
       force: true,
@@ -38,7 +38,7 @@ export function clickOnNextGroupBtn(attributeName: string, uiType: string) {
  * @param attributeName Attribute name of a attribute of the target group. Will be used to verify that the previous group is displayed
  * @param uiType UI Type of the attribute of the target group. Will be used to verify that the previous group is displayed
  */
-export function clickOnPreviousGroupBtn(attributeName: string, uiType: string) {
+export function clickOnPreviousBtn(attributeName: string, uiType: string) {
   cy.get(previousGroupButtonSelector).click({
     force: true,
   });
@@ -69,7 +69,7 @@ export function isNextBtnDisabled() {
   cy.get(nextGroupButtonSelector).should('be.disabled');
 }
 
-export function isNoStatusIconDisplayed(groupName: string) {
+export function isStatusIconNotDisplayed(groupName: string) {
   cy.get(
     '.' +
       `${'ERROR'}` +
