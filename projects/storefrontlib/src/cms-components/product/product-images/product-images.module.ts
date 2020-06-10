@@ -5,6 +5,8 @@ import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { OutletModule } from '../../../cms-structure/outlet/index';
 import { CarouselModule } from '../../../shared/components/carousel/index';
 import { MediaModule } from '../../../shared/components/media/media.module';
+import { IconModule } from '../../misc/icon/index';
+import { ImageZoomModule } from '../image-zoom/image-zoom.module';
 import { ProductImagesComponent } from './product-images.component';
 
 @NgModule({
@@ -14,6 +16,8 @@ import { ProductImagesComponent } from './product-images.component';
     MediaModule,
     OutletModule,
     CarouselModule,
+    IconModule,
+    ImageZoomModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
