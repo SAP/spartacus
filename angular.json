@@ -398,6 +398,36 @@
             }
           }
         },
+        "server-productconfig": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/storefrontapp-server",
+            "main": "projects/storefrontapp/server.ts",
+            "tsConfig": "projects/storefrontapp/tsconfig.server.json"
+          },
+          "configurations": {
+            "productconfig.development": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/productconfig/productconfig.feature.ts",
+                  "with": "projects/storefrontapp/src/environments/productconfig/productconfig.feature.enabled.ts"
+                }
+              ]
+            },
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/productconfig/productconfig.feature.ts",
+                  "with": "projects/storefrontapp/src/environments/productconfig/productconfig.feature.enabled.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true,
+              "tsConfig": "projects/storefrontapp/tsconfig.server.prod.json"
+            }
+          }
+        },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
           "options": {
@@ -425,6 +455,20 @@
             }
           }
         },
+        "serve-ssr-productconfig": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "storefrontapp:build:productconfig.development",
+            "serverTarget": "storefrontapp:server-productconfig:productconfig.development"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "storefrontapp:build:productconfig.development",
+              "serverTarget": "storefrontapp:server-productconfig:production",
+              "fileReplacements": []
+            }
+          }
+        },
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
@@ -441,6 +485,17 @@
           "options": {
             "browserTarget": "storefrontapp:build:cds.ci.1905",
             "serverTarget": "storefrontapp:server-cds:production",
+            "routes": ["/"]
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "prerender-productconfig": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "storefrontapp:build:productconfig.development",
+            "serverTarget": "storefrontapp:server-productconfig:production",
             "routes": ["/"]
           },
           "configurations": {

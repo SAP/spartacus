@@ -105,7 +105,11 @@
     "build:productconfig": "ng build storefrontapp -c=productconfig.development",
     "build:productconfig:lib": "ng build productconfig --prod",
     "build:core:lib:productconfig": "yarn build:core:lib && yarn build:productconfig:lib",
-    "test:productconfig:lib": "ng test productconfig --code-coverage"
+    "test:productconfig:lib": "ng test productconfig --code-coverage",
+    "dev:productconfig:ssr": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 ng run storefrontapp:serve-ssr-productconfig",
+    "prerender:productconfig:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 ng run storefrontapp:prerender-productconfig --routesFile projects/storefrontapp/prerender.txt",
+    "prerender:productconfig": "ng run storefrontapp:prerender-productconfig",
+    "build:productconfig:ssr": "ng run storefrontapp:server-productconfig:production"
   },
   "private": false,
   "dependencies": {
