@@ -17,7 +17,6 @@ SPARTACUS_PROJECTS=(
         "assets"
         "storefrontlib"
         "storefrontstyles"
-        "cds"
         "schematics"
         )
 

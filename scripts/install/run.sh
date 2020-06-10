@@ -14,16 +14,6 @@ function printh {
     printf "\033[0m" # end green color
 }
 
-function integrate_with_smartedit {
-  cmd_install "$@"
-
-  cp ${CLONE_DIR}/projects/storefrontapp/src/webApplicationInjector.js ${APP_DIR}/src
-
-  jq ".projects.${APP_NAME}.architect.build.options.assets += [\"src/webApplicationInjector.js\"]" ${APP_DIR}/angular.json > ${APP_DIR}/temp.json
-
-  mv ${APP_DIR}/temp.json ${APP_DIR}/angular.json
-}
-
 function delete_dir {
     local dir="${1}"
     if [ -d ${dir} ]; then
@@ -99,10 +89,6 @@ function create_csr {
 
 function create_ssr {
     create_app ssr
-}
-
-function create_pwa {
-    create_app pwa
 }
 
 function create_ssr_pwa {
@@ -238,7 +224,7 @@ function start_ssr_unix {
     else
         prestart_ssr
         printh "Starting ssr app"
-        ( cd ${INSTALLATION_DIR}/ssr && export PORT=${SSR_PORT} && pm2 start --name "${BASE_SITE}-ssr-${SSR_PORT}" dist/ssr/server/main.js )
+        ( cd ${INSTALLATION_DIR}/ssr && export PORT=${SSR_PORT} && export NODE_TLS_REJECT_UNAUTHORIZED=0 && pm2 start --name "${BASE_SITE}-ssr-${SSR_PORT}" dist/ssr/server/main.js )
     fi
 }
 

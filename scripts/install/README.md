@@ -75,7 +75,7 @@ Just run the installation again (stop it first if it's running).
 
 ```bash
 ./run.sh stop
-./run.sh install (script ask you to rename/delete the `$BASE_DIR` if it exists)
+./run.sh install (script will delete the `$BASE_DIR` if it exists)
 ```
 
 ## Installing with the latest npm libraries
