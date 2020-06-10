@@ -8,19 +8,19 @@ const testProduct = 'CONF_CAMERA_SL';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
 const configurator = 'CPQCONFIGURATOR';
 
-function goToConfigurationPage(configurator, testProduct) {
+function goToConfigPage(configurator, testProduct) {
   cy.visit(
     `/electronics-spa/en/USD/configure${configurator}/product/entityKey/${testProduct}`
   );
 }
 
-function goToConfigurationOverviewPage(configurator, testProduct) {
+function goToConfigOverviewPage(configurator, testProduct) {
   cy.visit(
     `/electronics-spa/en/USD/configureOverview${configurator}/product/entityKey/${testProduct}`
   );
 }
 
-function goToProductDetailsPage(testProduct) {
+function goToPDPage(testProduct) {
   cy.visit(`electronics-spa/en/USD/product/${testProduct}/${testProduct}`);
 }
 
@@ -33,52 +33,52 @@ context('Product Configuration', () => {
     cy.visit('/');
   });
 
-  describe('Navigate to Product Configuration Page', () => {
+  describe.skip('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
       productSearch.searchForProduct(testProduct);
-      configuration.clickOnConfigureButton();
+      configuration.clickOnConfigureBtn();
       configuration.verifyConfigurationPageIsDisplayed();
     });
 
     it('should be able to navigate from the product details page', () => {
-      goToProductDetailsPage(testProduct);
-      configuration.clickOnConfigureButton();
+      goToPDPage(testProduct);
+      configuration.clickOnConfigureBtn();
       configuration.verifyConfigurationPageIsDisplayed();
     });
 
     it('should be able to navigate from the overview page', () => {
-      goToConfigurationOverviewPage(configurator, testProduct);
+      goToConfigOverviewPage(configurator, testProduct);
       configurationOverview.verifyConfigurationOverviewPageIsDisplayed();
       configurationOverview.navigateToConfigurationPage();
       configuration.verifyConfigurationPageIsDisplayed();
     });
 
     it('should be able to navigate from the cart', () => {
-      goToConfigurationPage(configurator, testProduct);
+      goToConfigPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
-      configuration.clickAddToCartButton();
+      configuration.clickAddToCartBtn();
       configuration.verifyOverviewPageIsDisplayed();
       cy.wait(1500);
       goToCart();
       cy.wait(1500);
       //We assume only one product is in the cart
-      configuration.clickOnConfigureCartEntryButton();
+      configuration.clickOnConfigureCartEntryBtn();
       configuration.verifyConfigurationPageIsDisplayed();
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
-      goToProductDetailsPage(testProduct);
-      configuration.clickOnAddToCartButtonOnProductDetails();
-      configuration.clickOnViewCartButtonOnProductDetails();
+      goToPDPage(testProduct);
+      configuration.clickOnAddToCartBtnOnPD();
+      configuration.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();
-      configuration.clickOnConfigureCartEntryButton();
+      configuration.clickOnConfigureCartEntryBtn();
       configuration.verifyConfigurationPageIsDisplayed();
     });
   });
 
-  describe('Configure Product', () => {
+  describe.skip('Configure Product', () => {
     it.skip('Image Attribute Types - Single Selection', () => {
-      goToConfigurationPage(configurator, testProductMultiLevel);
+      goToConfigPage(configurator, testProductMultiLevel);
       configuration.verifyConfigurationPageIsDisplayed();
       configuration.verifyAttributeIsDisplayed('ROOM_SIZE', 'radioGroup');
 
@@ -108,22 +108,22 @@ context('Product Configuration', () => {
     });
 
     it('Checkboxes should be still selected after group change', () => {
-      goToConfigurationPage(configurator, testProduct);
+      goToConfigPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
       configuration.verifyConfigurationPageIsDisplayed();
       configuration.verifyAttributeIsDisplayed('CAMERA_MODE', 'radioGroup');
-      configuration.clickOnNextGroupButton('CAMERA_PIXELS', 'radioGroup');
+      configuration.clickOnNextGroupBtn('CAMERA_PIXELS', 'radioGroup');
       configuration.selectAttribute('CAMERA_SD_CARD', 'checkBoxList', 'SDHC');
       cy.wait(1500);
-      configuration.clickOnPreviousGroupButton('CAMERA_MODE', 'radioGroup');
-      configuration.clickOnNextGroupButton('CAMERA_PIXELS', 'radioGroup');
+      configuration.clickOnPreviousGroupBtn('CAMERA_MODE', 'radioGroup');
+      configuration.clickOnNextGroupBtn('CAMERA_PIXELS', 'radioGroup');
       configuration.verifyCheckboxIsSelected('CAMERA_SD_CARD', 'SDHC');
     });
   });
 
-  describe('Group Status', () => {
+  describe.skip('Group Status', () => {
     it('should set group status for single level product', () => {
-      goToConfigurationPage(configurator, testProduct);
+      goToConfigPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
       configuration.verifyGroupMenuIsDisplayed();
 
@@ -135,7 +135,7 @@ context('Product Configuration', () => {
       configuration.verifyNoStatusIconDisplayed('Options');
 
       // navigate to Specification, verify that Basics status changes to Error
-      configuration.clickOnNextGroupButton('CAMERA_PIXELS', 'radioGroup');
+      configuration.clickOnNextGroupBtn('CAMERA_PIXELS', 'radioGroup');
       configuration.verifyStatusIconDisplayed('Basics', 'ERROR');
       configuration.verifyNoStatusIconDisplayed('Specification');
       configuration.verifyNoStatusIconDisplayed('Display');
@@ -143,7 +143,7 @@ context('Product Configuration', () => {
       configuration.verifyNoStatusIconDisplayed('Options');
 
       // navigate to Display, verify that Specification status changes to Error
-      configuration.clickOnNextGroupButton('CAMERA_DISPLAY', 'radioGroup');
+      configuration.clickOnNextGroupBtn('CAMERA_DISPLAY', 'radioGroup');
       configuration.verifyStatusIconDisplayed('Basics', 'ERROR');
       configuration.verifyStatusIconDisplayed('Specification', 'ERROR');
       configuration.verifyNoStatusIconDisplayed('Display');
@@ -154,7 +154,7 @@ context('Product Configuration', () => {
       configuration.selectAttribute('CAMERA_DISPLAY', 'radioGroup', 'P5');
       cy.wait(1500);
 
-      configuration.clickOnPreviousGroupButton('CAMERA_PIXELS', 'radioGroup');
+      configuration.clickOnPreviousGroupBtn('CAMERA_PIXELS', 'radioGroup');
       configuration.verifyStatusIconDisplayed('Basics', 'ERROR');
       configuration.verifyStatusIconDisplayed('Specification', 'ERROR');
       configuration.verifyStatusIconDisplayed('Display', 'COMPLETE');
@@ -178,7 +178,7 @@ context('Product Configuration', () => {
     });
 
     it('should set group status for multi level product', () => {
-      goToConfigurationPage(configurator, testProductMultiLevel);
+      goToConfigPage(configurator, testProductMultiLevel);
       configuration.verifyConfigurationPageIsDisplayed();
       configuration.verifyGroupMenuIsDisplayed();
 
@@ -189,52 +189,49 @@ context('Product Configuration', () => {
       configuration.verifyNoStatusIconDisplayed('Source Components');
 
       // navigate to video system subgroup, no status initially
-      configuration.clickOnNextGroupButton('PROJECTOR_TYPE', 'radioGroup');
+      configuration.clickOnNextGroupBtn('PROJECTOR_TYPE', 'radioGroup');
       configuration.verifyNoStatusIconDisplayed('Projector');
       configuration.verifyNoStatusIconDisplayed('Flat-panel TV');
 
       // navigate to flat-panel TV, group projector should be completed
-      configuration.clickOnNextGroupButton('FLAT_PANEL_TV', 'radioGroup');
+      configuration.clickOnNextGroupBtn('FLAT_PANEL_TV', 'radioGroup');
       configuration.verifyStatusIconDisplayed('Projector', 'COMPLETE');
       configuration.verifyNoStatusIconDisplayed('Flat-panel TV');
 
       // navigate back to group projector, status should be completed
-      configuration.clickOnPreviousGroupButton('PROJECTOR_TYPE', 'radioGroup');
+      configuration.clickOnPreviousGroupBtn('PROJECTOR_TYPE', 'radioGroup');
       configuration.verifyStatusIconDisplayed('Projector', 'COMPLETE');
       configuration.verifyStatusIconDisplayed('Flat-panel TV', 'COMPLETE');
 
       // navigate back to General, check completed status
-      configuration.clickOnPreviousGroupButton('ROOM_SIZE', 'radioGroup');
+      configuration.clickOnPreviousGroupBtn('ROOM_SIZE', 'radioGroup');
       configuration.verifyStatusIconDisplayed('General', 'COMPLETE');
       configuration.verifyStatusIconDisplayed('Video System', 'COMPLETE');
 
       // navigate to Audio System subgroup, verify no status is displayed initially
-      configuration.clickOnNextGroupButton('PROJECTOR_TYPE', 'radioGroup');
-      configuration.clickOnNextGroupButton('FLAT_PANEL_TV', 'radioGroup');
-      configuration.clickOnNextGroupButton('SPEAKER_TYPE_FRONT', 'radioGroup');
+      configuration.clickOnNextGroupBtn('PROJECTOR_TYPE', 'radioGroup');
+      configuration.clickOnNextGroupBtn('FLAT_PANEL_TV', 'radioGroup');
+      configuration.clickOnNextGroupBtn('SPEAKER_TYPE_FRONT', 'radioGroup');
       configuration.verifyNoStatusIconDisplayed('Front Speakers');
       configuration.verifyNoStatusIconDisplayed('Center Speaker');
       configuration.verifyNoStatusIconDisplayed('Rear Speakers');
       configuration.verifyNoStatusIconDisplayed('Subwoofer');
 
       // navigate to Center Speaker
-      configuration.clickOnNextGroupButton('SPEAKER_TYPE', 'radioGroup');
+      configuration.clickOnNextGroupBtn('SPEAKER_TYPE', 'radioGroup');
       configuration.verifyStatusIconDisplayed('Front Speakers', 'COMPLETE');
 
       // navigate back to Front Speaker, check completed status
-      configuration.clickOnPreviousGroupButton(
-        'SPEAKER_TYPE_FRONT',
-        'radioGroup'
-      );
+      configuration.clickOnPreviousGroupBtn('SPEAKER_TYPE_FRONT', 'radioGroup');
       configuration.verifyStatusIconDisplayed('Front Speakers', 'COMPLETE');
       configuration.verifyStatusIconDisplayed('Center Speaker', 'COMPLETE');
       configuration.verifyNoStatusIconDisplayed('Rear Speakers');
       configuration.verifyNoStatusIconDisplayed('Subwoofer');
 
       // navigate back to General group, verify that Audio system is not fully completed
-      configuration.clickOnPreviousGroupButton('FLAT_PANEL_TV', 'radioGroup');
-      configuration.clickOnPreviousGroupButton('PROJECTOR_TYPE', 'radioGroup');
-      configuration.clickOnPreviousGroupButton('ROOM_SIZE', 'radioGroup');
+      configuration.clickOnPreviousGroupBtn('FLAT_PANEL_TV', 'radioGroup');
+      configuration.clickOnPreviousGroupBtn('PROJECTOR_TYPE', 'radioGroup');
+      configuration.clickOnPreviousGroupBtn('ROOM_SIZE', 'radioGroup');
 
       configuration.verifyStatusIconDisplayed('General', 'COMPLETE');
       configuration.verifyStatusIconDisplayed('Video System', 'COMPLETE');
@@ -245,37 +242,37 @@ context('Product Configuration', () => {
 
   describe.skip('Group handling', () => {
     it('should navigate between groups', () => {
-      goToConfigurationPage(configurator, testProduct);
+      goToConfigPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
 
-      configuration.clickOnNextGroupButton('CAMERA_PIXELS', 'radioGroup');
-      configuration.clickOnNextGroupButton('CAMERA_DISPLAY', 'radioGroup');
-      configuration.clickOnPreviousGroupButton('CAMERA_PIXELS', 'radioGroup');
+      configuration.clickOnNextGroupBtn('CAMERA_PIXELS', 'radioGroup');
+      configuration.clickOnNextGroupBtn('CAMERA_DISPLAY', 'radioGroup');
+      configuration.clickOnPreviousGroupBtn('CAMERA_PIXELS', 'radioGroup');
     });
 
     it('should check if group buttons are clickable', () => {
-      goToConfigurationPage(configurator, testProduct);
+      goToConfigPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
 
-      configuration.verifyNextGroupButtonIsEnabled();
-      configuration.verifyPreviousGroupButtonIsDisabled();
+      configuration.verifyNextGroupBtnIsEnabled();
+      configuration.verifyPreviousGroupBtnIsDisabled();
 
-      configuration.clickOnNextGroupButton('CAMERA_PIXELS', 'radioGroup');
-      configuration.verifyPreviousGroupButtonIsEnabled();
-      configuration.clickOnNextGroupButton('CAMERA_DISPLAY', 'radioGroup');
-      configuration.clickOnNextGroupButton(
+      configuration.clickOnNextGroupBtn('CAMERA_PIXELS', 'radioGroup');
+      configuration.verifyPreviousGroupBtnIsEnabled();
+      configuration.clickOnNextGroupBtn('CAMERA_DISPLAY', 'radioGroup');
+      configuration.clickOnNextGroupBtn(
         'CAMERA_LENS_MANUFACTURER',
         'radioGroup'
       );
-      configuration.clickOnNextGroupButton('CAMERA_OPTIONS', 'checkBoxList');
-      configuration.verifyNextGroupButtonIsDisabled();
+      configuration.clickOnNextGroupBtn('CAMERA_OPTIONS', 'checkBoxList');
+      configuration.verifyNextGroupBtnIsDisabled();
     });
 
     it('should navigate using the group menu', () => {
-      goToProductDetailsPage(testProduct);
+      goToPDPage(testProduct);
       configuration.verifyCategoryNavigationIsDisplayed();
 
-      configuration.clickOnConfigureButton();
+      configuration.clickOnConfigureBtn();
       configuration.verifyConfigurationPageIsDisplayed();
       configuration.verifyCategoryNavigationIsNotDisplayed();
       configuration.verifyGroupMenuIsDisplayed();
@@ -291,7 +288,7 @@ context('Product Configuration', () => {
     it('should navigate using the group menu in mobile resolution', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.viewport(formats.mobile.width, formats.mobile.height);
-      goToConfigurationPage(configurator, testProduct);
+      goToConfigPage(configurator, testProduct);
       configuration.verifyConfigurationPageIsDisplayed();
       configuration.verifyGroupMenuIsNotDisplayed();
       configuration.verifyHamburgerIsDisplayed();
@@ -305,16 +302,16 @@ context('Product Configuration', () => {
     });
 
     it('should navigate using the previous and next button for multi level product', () => {
-      goToConfigurationPage(configurator, testProductMultiLevel);
+      goToConfigPage(configurator, testProductMultiLevel);
       configuration.verifyConfigurationPageIsDisplayed();
 
-      configuration.clickOnNextGroupButton('PROJECTOR_TYPE', 'radioGroup');
-      configuration.clickOnNextGroupButton('FLAT_PANEL_TV', 'radioGroup');
-      configuration.clickOnPreviousGroupButton('PROJECTOR_TYPE', 'radioGroup');
+      configuration.clickOnNextGroupBtn('PROJECTOR_TYPE', 'radioGroup');
+      configuration.clickOnNextGroupBtn('FLAT_PANEL_TV', 'radioGroup');
+      configuration.clickOnPreviousGroupBtn('PROJECTOR_TYPE', 'radioGroup');
     });
 
     it.skip('should navigate using the group menu for multi level product', () => {
-      goToConfigurationPage(configurator, testProductMultiLevel);
+      goToConfigPage(configurator, testProductMultiLevel);
       configuration.verifyConfigurationPageIsDisplayed();
 
       configuration.clickOnGroup(2);
@@ -322,6 +319,16 @@ context('Product Configuration', () => {
         'CPQ_HT_RECV_MODEL2',
         'dropdown'
       );
+    });
+  });
+
+  describe('Order Confirmation and Order History', () => {
+    it('Navigation to Overview Page for order confirmation and order history', () => {
+      configuration.login();
+      productSearch.searchForProduct(testProductMultiLevel);
+      configuration.clickOnAddToCartBtnOnPD();
+      configuration.clickOnProceedToCheckoutBtnOnPD();
+      configuration.checkout();
     });
   });
 });
