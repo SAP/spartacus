@@ -1,9 +1,13 @@
 ###########################################################
-# This script builds the relevant spartacus libraries 
-# and publushes them to the local npm registry.
+# This script builds the relevant spartacus libraries
+# and publishes them to the local npm registry.
+#
 # The building part can be skipped by providing the
-# `skip` argument when calling the script: 
-# `./migrations-test.sh skip`
+# `skip` argument when calling the script:
+# `./publish-schematics-verdaccio.sh skip`
+#
+# Building and publishing dev-schematics require `dev` param:
+# `./publish-schematics-verdaccio.sh dev`
 ###########################################################
 
 unpublish () {
@@ -24,7 +28,7 @@ doItFor () {
   else
     unpublish "$1"
   fi
-  
+
   publish "$1"
   cd ..
 }
@@ -45,7 +49,7 @@ if [[ -z "$SKIP_BUILD" ]]; then
 fi
 
 cd ../projects/schematics
-yarn && yarn build 
+yarn && yarn build
 cd ../../dist
 
 doItFor "assets"
@@ -54,9 +58,17 @@ doItFor "storefrontlib"
 doItFor "cds"
 
 cd ../projects/storefrontstyles
-unpublish "styles" && publish "styles" 
+unpublish "styles" && publish "styles"
 cd ../../dist
 
 cd ../projects/schematics
-unpublish "schematics" && publish "schematics" 
+unpublish "schematics" && publish "schematics"
 cd ../../dist
+
+if [[ "$1" == "dev" ]] || [[ "$2" == "dev" ]]; then
+  cd ../projects/dev-schematics
+  unpublish "dev-schematics"
+  yarn && yarn build
+  publish "dev-schematics"
+  cd ../../dist
+fi
