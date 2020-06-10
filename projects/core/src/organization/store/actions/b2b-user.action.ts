@@ -248,7 +248,7 @@ export class CreateB2BUserApprover extends EntityLoadAction {
       approverId: string;
     }
   ) {
-    super(B2B_USER_APPROVERS, payload.approverId);
+    super(B2B_USER_ENTITIES, payload.approverId);
   }
 }
 
@@ -261,7 +261,7 @@ export class CreateB2BUserApproverFail extends EntityFailAction {
       error: any;
     }
   ) {
-    super(B2B_USER_APPROVERS, payload.approverId);
+    super(B2B_USER_ENTITIES, payload.approverId);
   }
 }
 
@@ -273,7 +273,7 @@ export class CreateB2BUserApproverSuccess extends EntitySuccessAction {
       selected: boolean;
     }
   ) {
-    super(B2B_USER_APPROVERS, payload.approverId, payload);
+    super(B2B_USER_ENTITIES, payload.approverId, payload);
   }
 }
 
@@ -286,7 +286,7 @@ export class DeleteB2BUserApprover extends EntityLoadAction {
       approverId: string;
     }
   ) {
-    super(B2B_USER_APPROVERS, payload.approverId);
+    super(B2B_USER_ENTITIES, payload.approverId);
   }
 }
 
@@ -299,7 +299,7 @@ export class DeleteB2BUserApproverFail extends EntityFailAction {
       error: any;
     }
   ) {
-    super(B2B_USER_APPROVERS, payload.approverId);
+    super(B2B_USER_ENTITIES, payload.approverId);
   }
 }
 
@@ -311,7 +311,7 @@ export class DeleteB2BUserApproverSuccess extends EntitySuccessAction {
       selected: boolean;
     }
   ) {
-    super(B2B_USER_APPROVERS, payload.approverId, payload);
+    super(B2B_USER_ENTITIES, payload.approverId, payload);
   }
 }
 

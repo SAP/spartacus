@@ -592,4 +592,22 @@ export interface OccEndpoints {
    * @member {string}
    */
   b2bUserPermission?: string | OccEndpoint;
+  /**
+   * Endpoint for order approvals
+   *
+   * @member {string}
+   */
+  orderApprovals?: string | OccEndpoint;
+  /**
+   * Endpoint for order approval
+   *
+   * @member {string}
+   */
+  orderApproval?: string | OccEndpoint;
+  /**
+   * Endpoint for order approval decision
+   *
+   * @member {string}
+   */
+  orderApprovalDecision?: string | OccEndpoint;
 }
