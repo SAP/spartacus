@@ -9,7 +9,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ConfigTextfieldAddToCartButtonComponent } from './config-textfield-add-to-cart-button.component';
+import { TextfieldAddToCartButtonComponent } from './textfield-add-to-cart-button.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';
@@ -44,9 +44,9 @@ class MockConfiguratorTextfieldService {
   updateCartEntry(): void {}
 }
 
-describe('ConfigTextfieldAddToCartButtonComponent', () => {
-  let classUnderTest: ConfigTextfieldAddToCartButtonComponent;
-  let fixture: ComponentFixture<ConfigTextfieldAddToCartButtonComponent>;
+describe('TextfieldAddToCartButtonComponent', () => {
+  let classUnderTest: TextfieldAddToCartButtonComponent;
+  let fixture: ComponentFixture<TextfieldAddToCartButtonComponent>;
   let textfieldService: ConfiguratorTextfieldService;
   let routingService: RoutingService;
   let htmlElem: HTMLElement;
@@ -65,7 +65,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [ConfigTextfieldAddToCartButtonComponent],
+      declarations: [TextfieldAddToCartButtonComponent],
       providers: [
         {
           provide: ConfiguratorTextfieldService,
@@ -77,7 +77,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
         },
       ],
     })
-      .overrideComponent(ConfigTextfieldAddToCartButtonComponent, {
+      .overrideComponent(TextfieldAddToCartButtonComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
         },
@@ -86,7 +86,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigTextfieldAddToCartButtonComponent);
+    fixture = TestBed.createComponent(TextfieldAddToCartButtonComponent);
     classUnderTest = fixture.componentInstance;
     classUnderTest.configuration$ = of(configurationTextField);
     htmlElem = fixture.nativeElement;

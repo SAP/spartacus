@@ -10,16 +10,18 @@ import {
   GenericConfigurator,
   RoutingService,
 } from '@spartacus/core';
+import {
+  ConfigRouterExtractorService,
+  ConfigurationRouter,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { ConfigurationRouter } from '../../generic/service/config-router-data';
-import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 @Component({
-  selector: 'cx-config-textfield-add-to-cart-button',
-  templateUrl: './config-textfield-add-to-cart-button.component.html',
+  selector: 'cx-textfield-add-to-cart-button',
+  templateUrl: './textfield-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigTextfieldAddToCartButtonComponent implements OnInit {
+export class TextfieldAddToCartButtonComponent implements OnInit {
   routerData$: Observable<ConfigurationRouter.Data>;
   constructor(
     private configuratorTextfieldService: ConfiguratorTextfieldService,

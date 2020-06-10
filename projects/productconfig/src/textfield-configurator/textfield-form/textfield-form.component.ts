@@ -5,16 +5,16 @@ import {
   GenericConfigurator,
   RoutingService,
 } from '@spartacus/core';
+import { ConfigRouterExtractorService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 @Component({
-  selector: 'cx-config-textfield-form',
-  templateUrl: './config-textfield-form.component.html',
+  selector: 'cx-textfield-form',
+  templateUrl: './textfield-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigTextfieldFormComponent implements OnInit {
+export class TextfieldFormComponent implements OnInit {
   configuration$: Observable<ConfiguratorTextfield.Configuration>;
 
   constructor(

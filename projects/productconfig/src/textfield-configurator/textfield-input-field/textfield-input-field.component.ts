@@ -10,11 +10,11 @@ import { FormControl } from '@angular/forms';
 import { ConfiguratorTextfield } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-config-textfield-input-field',
-  templateUrl: './config-textfield-input-field.component.html',
+  selector: 'cx-textfield-input-field',
+  templateUrl: './textfield-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigTextfieldInputFieldComponent implements OnInit {
+export class TextfieldInputFieldComponent implements OnInit {
   PREFIX_TEXTFIELD = 'cx-config-textfield';
   attributeInputForm = new FormControl('');
 
