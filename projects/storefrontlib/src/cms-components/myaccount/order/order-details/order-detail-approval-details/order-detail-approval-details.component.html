@@ -1,0 +1,61 @@
+<ng-container *ngIf="order$ | async as order">
+  <ng-container *ngIf="order.permissionResults?.length">
+    <div class="cx-approval-header">
+      <div class="cx-approval-label">
+        {{ 'orderDetails.approvalDetails.header' | cxTranslate }}
+      </div>
+    </div>
+    <table class="cx-approval-table">
+      <tr class="cx-approval-thead">
+        <th scope="col">
+          {{ 'orderDetails.approvalDetails.permission' | cxTranslate }}
+        </th>
+        <th scope="col">
+          {{ 'orderDetails.approvalDetails.approver' | cxTranslate }}
+        </th>
+        <th scope="col">
+          {{ 'orderDetails.approvalDetails.status' | cxTranslate }}
+        </th>
+        <th scope="col">
+          {{ 'orderDetails.approvalDetails.approverComments' | cxTranslate }}
+        </th>
+      </tr>
+      <tbody class="cx-approval-tbody">
+        <tr
+          *ngFor="let permissionResult of order.permissionResults"
+          class="cx-approval-tbody-row"
+        >
+          <td class="cx-approval-tbody-col">
+            <div class="cx-approval-tbody-item">
+              {{
+                'orderDetails.approvalDetails.permissionType'
+                  | cxTranslate
+                    : { context: permissionResult.permissionType.code }
+              }}
+            </div>
+          </td>
+          <td class="cx-approval-tbody-col">
+            <div class="cx-approval-tbody-item">
+              {{ permissionResult.approverName }}
+            </div>
+          </td>
+          <td class="cx-approval-tbody-col">
+            <div class="cx-approval-tbody-item">
+              {{ permissionResult.statusDisplay }}
+            </div>
+          </td>
+          <td class="cx-approval-tbody-col">
+            <div class="cx-approval-tbody-item">
+              {{
+                permissionResult.approverNotes
+                  ? permissionResult.approverNotes
+                  : ('orderDetails.approvalDetails.noApprovalNotes'
+                    | cxTranslate)
+              }}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+</ng-container>

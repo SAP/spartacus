@@ -115,7 +115,31 @@
     }
   }
 
-  cx-order-details-totals {
+  cx-order-details-approval-details {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+
+    margin-bottom: 15px;
+
+    .cx-approval-header {
+      flex-direction: column;
+
+      padding: 15px 30px;
+      margin: 45px -15px 0;
+      background-color: var(--cx-color-background);
+
+      .cx-approval-label {
+        @include type('4');
+      }
+    }
+
+    .cx-approval-table {
+      flex-direction: column;
+    }
+  }
+
+  cx-order cx-order-details-totals {
     margin-bottom: 32px;
   }
 
