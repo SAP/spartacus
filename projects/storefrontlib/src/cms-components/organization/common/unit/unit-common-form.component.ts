@@ -15,7 +15,7 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { B2BUnitNode } from '@spartacus/core';
+import { B2BUnit, B2BUnitNode } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { UnitCommonFormComponentService } from './unit-common-form.service';
 
@@ -47,7 +47,7 @@ export class UnitCommonFormComponent
   > = this.formService.getBusinessUnits();
 
   protected subscriptions = new Subscription();
-  protected onChange: (value: object) => void = () => {};
+  protected onChange: (value: B2BUnit) => void = () => {};
   protected onTouched: () => void = () => {};
 
   constructor(
@@ -55,13 +55,13 @@ export class UnitCommonFormComponent
     protected fb: FormBuilder
   ) {}
 
-  writeValue(value: any): void {
+  writeValue(value: B2BUnit): void {
     if (value) {
-      this.form.setValue(value);
+      this.form.setValue({ uid: value.uid });
     }
   }
 
-  registerOnChange(fn: (value: object) => void): void {
+  registerOnChange(fn: (value: B2BUnit) => void): void {
     this.onChange = fn;
 
     this.subscriptions.add(

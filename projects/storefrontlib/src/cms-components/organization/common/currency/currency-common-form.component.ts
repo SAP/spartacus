@@ -41,7 +41,7 @@ export class CurrencyCommonFormComponent
   currencies$: Observable<Currency[]> = this.formService.getCurrencies();
 
   protected subscriptions = new Subscription();
-  protected onChange: (value: object) => void = () => {};
+  protected onChange: (value: Currency) => void = () => {};
   protected onTouched: () => void = () => {};
 
   constructor(
@@ -49,13 +49,13 @@ export class CurrencyCommonFormComponent
     protected fb: FormBuilder
   ) {}
 
-  writeValue(value: any): void {
+  writeValue(value: Currency): void {
     if (value) {
       this.form.setValue(value);
     }
   }
 
-  registerOnChange(fn: (value: object) => void): void {
+  registerOnChange(fn: (value: Currency) => void): void {
     this.onChange = fn;
 
     this.subscriptions.add(

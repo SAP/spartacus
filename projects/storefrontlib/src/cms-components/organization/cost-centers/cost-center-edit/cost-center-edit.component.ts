@@ -21,7 +21,7 @@ export class CostCenterEditComponent {
     protected costCentersService: CostCenterService
   ) {}
 
-  updateCostCenter(costCenter: CostCenter) {
+  updateCostCenter(costCenter: CostCenter): void {
     this.code$
       .pipe(take(1))
       .subscribe((costCenterCode) =>
