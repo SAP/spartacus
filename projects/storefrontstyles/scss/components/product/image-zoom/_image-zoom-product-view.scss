@@ -1,0 +1,48 @@
+%cx-image-zoom-product-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .cx-default-image-zoom {
+    height: calc(90vh - 200px);
+
+    &:hover {
+      cursor: zoom-in;
+    }
+  }
+
+  .cx-zoom-container {
+    width: 100%;
+    height: calc(90vh - 200px);
+    overflow: hidden;
+
+    &:hover {
+      cursor: zoom-out;
+    }
+
+    .cx-image-zoomed {
+      height: 100%;
+      width: 100%;
+
+      img {
+        transform: scale(2);
+      }
+    }
+  }
+
+  .thumbs {
+    flex: auto;
+    cx-media {
+      width: 70px;
+      height: 70px;
+    }
+    .carousel-panel {
+      .slide {
+        &.active {
+          display: flex;
+          justify-content: center;
+        }
+      }
+    }
+  }
+}
