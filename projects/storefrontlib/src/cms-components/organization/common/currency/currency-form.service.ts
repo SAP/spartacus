@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class CurrencyFormComponentService {
   protected formConfiguration: { [key: string]: any } = {
+    // TODO:#persist-forms - check validation
     isocode: [null, Validators.required],
   };
 

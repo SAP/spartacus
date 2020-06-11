@@ -40,15 +40,17 @@ export class CostCenterFormComponent extends AbstractFormComponent
   }
 
   verifyAndSubmit(): void {
-    console.log('submit');
-    this.submitClicked = true;
-    if (this.form.valid) {
-      this.form.reset();
-      this.formService.removeForm(this.formKey);
-      this.submitForm.emit(this.form.value);
-    } else {
-      this.form.markAllAsTouched();
-    }
+    console.log('submit: ', this.form.value);
+    console.log('valid: ', this.form.valid);
+
+    // this.submitClicked = true;
+    // if (this.form.valid) {
+    //   this.form.reset();
+    //   this.formService.removeForm(this.formKey);
+    //   this.submitForm.emit(this.form.value);
+    // } else {
+    //   this.form.markAllAsTouched();
+    // }
   }
 
   back(): void {

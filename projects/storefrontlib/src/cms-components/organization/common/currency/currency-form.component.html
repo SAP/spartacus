@@ -12,7 +12,7 @@
           [items]="currencies"
           bindLabel="name"
           bindValue="isocode"
-          [class.invalid]="isNotValid('isocode')"
+          [class.invalid]="validate(form.get('isocode')) !== null"
         >
         </ng-select>
         <cx-form-errors [control]="form.get('isocode')"></cx-form-errors>
