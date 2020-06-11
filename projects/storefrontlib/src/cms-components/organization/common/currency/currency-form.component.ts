@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  forwardRef,
+  OnDestroy,
+} from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -10,7 +15,7 @@ import {
   Validator,
 } from '@angular/forms';
 import { Currency } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { CurrencyFormComponentService } from './currency-form.service';
 
 @Component({
@@ -30,9 +35,12 @@ import { CurrencyFormComponentService } from './currency-form.service';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CurrencyFormComponent implements ControlValueAccessor, Validator {
+export class CurrencyFormComponent
+  implements ControlValueAccessor, Validator, OnDestroy {
   form: FormGroup = this.formService.getForm();
   currencies$: Observable<Currency[]> = this.formService.getCurrencies();
+
+  protected subscriptions = new Subscription();
   protected onChange: (value: object) => void = () => {};
   protected onTouched: () => void = () => {};
 
@@ -48,17 +56,17 @@ export class CurrencyFormComponent implements ControlValueAccessor, Validator {
   }
 
   registerOnChange(fn: (value: object) => void): void {
-    console.log('on change');
     this.onChange = fn;
-    // TODO:#persist-forms - manage the subscription
-    this.form.valueChanges.subscribe((newValue) => {
-      this.onChange(newValue);
-      this.onTouched();
-    });
+
+    this.subscriptions.add(
+      this.form.valueChanges.subscribe((newValue) => {
+        this.onChange(newValue);
+        this.onTouched();
+      })
+    );
   }
 
   registerOnTouched(fn: () => void): void {
-    console.log('on touch');
     this.onTouched = fn;
   }
 
@@ -67,5 +75,9 @@ export class CurrencyFormComponent implements ControlValueAccessor, Validator {
       ? null
       : // TODO:#persist-forms - what to return here?
         { valid: false };
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }
