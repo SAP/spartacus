@@ -12,6 +12,7 @@ import {
   UserCostCenterService,
   CheckoutCostCenterService,
   CostCenter,
+  B2BPaymentTypeEnum,
 } from '@spartacus/core';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -21,7 +22,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PoNumberComponent {
-  readonly ACCOUNT_PAYMENT = this.paymentTypeService.ACCOUNT_PAYMENT;
+  readonly ACCOUNT_PAYMENT = B2BPaymentTypeEnum.ACCOUNT_PAYMENT;
 
   @ViewChild('poNumber', { static: false })
   private _poNumberInput: ElementRef;
@@ -49,9 +50,9 @@ export class PoNumberComponent {
   ) {}
 
   get typeSelected$(): Observable<string> {
-    return this.paymentTypeService.getSelectedPaymentType().pipe(
-      tap((selected) => (this.paymentTypeCode = selected))
-    );
+    return this.paymentTypeService
+      .getSelectedPaymentType()
+      .pipe(tap((selected) => (this.paymentTypeCode = selected)));
   }
 
   get cartPoNumber$(): Observable<string> {

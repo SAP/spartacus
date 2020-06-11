@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PaymentType, PaymentTypeService } from '@spartacus/core';
+import {
+  PaymentType,
+  PaymentTypeService,
+  B2BPaymentTypeEnum,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, scan, tap } from 'rxjs/operators';
 import { CheckoutStepType } from '../../model/checkout-step.model';
@@ -11,8 +15,6 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentTypeComponent {
-  readonly ACCOUNT_PAYMENT = this.paymentTypeService.ACCOUNT_PAYMENT;
-
   paymentTypes$: Observable<
     PaymentType[]
   > = this.paymentTypeService.getPaymentTypes();
@@ -27,7 +29,7 @@ export class PaymentTypeComponent {
       this.checkoutStepService.resetSteps();
       this.checkoutStepService.disableEnableStep(
         CheckoutStepType.PAYMENT_DETAILS,
-        selected === this.ACCOUNT_PAYMENT
+        selected === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
       );
     }),
     scan((previous, current) => {

@@ -1,10 +1,10 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { RoutingConfigService, PaymentTypeService } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { RoutingConfigService } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
-import { CheckoutStepService } from '../services/checkout-step.service';
+import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 
 @Injectable({
@@ -13,14 +13,13 @@ import { CheckoutDetailsService } from '../services/checkout-details.service';
 export class PaymentDetailsSetGuard implements CanActivate {
   constructor(
     private checkoutDetailsService: CheckoutDetailsService,
-    private checkoutStepService: CheckoutStepService,
+    private checkoutConfigService: CheckoutConfigService,
     private routingConfigService: RoutingConfigService,
-    private paymentTypeService: PaymentTypeService,
     private router: Router
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    const checkoutStep: CheckoutStep = this.checkoutStepService.getCheckoutStep(
+    const checkoutStep: CheckoutStep = this.checkoutConfigService.getCheckoutStep(
       CheckoutStepType.PAYMENT_DETAILS
     );
 
@@ -30,30 +29,19 @@ export class PaymentDetailsSetGuard implements CanActivate {
       );
     }
 
-    return combineLatest([
-      this.paymentTypeService.getSelectedPaymentType(),
-      this.checkoutDetailsService.getPaymentDetails(),
-    ]).pipe(
-      tap(([selected]) =>
-        this.checkoutStepService.disableEnableStep(
-          CheckoutStepType.PAYMENT_DETAILS,
-          selected === this.paymentTypeService.ACCOUNT_PAYMENT
-        )
-      ),
-      map(([, paymentDetails]) => {
-        if (checkoutStep && checkoutStep.disabled) {
-          return true;
-        } else {
-          return paymentDetails && Object.keys(paymentDetails).length !== 0
+    return this.checkoutDetailsService
+      .getPaymentDetails()
+      .pipe(
+        map((paymentDetails) =>
+          paymentDetails && Object.keys(paymentDetails).length !== 0
             ? true
             : this.router.parseUrl(
                 checkoutStep &&
                   this.routingConfigService.getRouteConfig(
                     checkoutStep.routeName
                   ).paths[0]
-              );
-        }
-      })
-    );
+              )
+        )
+      );
   }
 }
