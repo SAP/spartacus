@@ -62,30 +62,10 @@ export class CurrencyFormComponent implements ControlValueAccessor, Validator {
     this.onTouched = fn;
   }
 
-  // setDisabledState?(isDisabled: boolean): void {
-  //   isDisabled ? this.form.disable() : this.form.enable();
-  // }
-
-  // // TODO:#persist-forms - is it needed? move the validation somewhere else?
-  // isNotValid(formControlName: string): boolean {
-  //   return this.isNotValidField(formControlName);
-  // }
-
-  // // TODO:#persist-forms - is it needed? move the validation somewhere else?
-  // isNotValidField(formControlName: string): boolean {
-  //   const control: AbstractControl = this.form.get(formControlName);
-  //   return control.invalid && control.touched && control.dirty;
-  // }
-
-  validate(control: AbstractControl): ValidationErrors | null {
-    let valid = this.form.valid && this.form.touched && this.form.dirty;
-    if (control) {
-      valid = control.invalid && control.touched && control.dirty;
-    }
-
-    return valid
+  validate(_control: AbstractControl): ValidationErrors | null {
+    return this.form.valid && this.form.touched && this.form.dirty
       ? null
       : // TODO:#persist-forms - what to return here?
-        { invalidForm: { valid: false } };
+        { valid: false };
   }
 }
