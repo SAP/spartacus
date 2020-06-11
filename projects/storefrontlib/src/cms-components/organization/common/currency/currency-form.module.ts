@@ -3,15 +3,9 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  CurrencyService,
-  I18nModule,
-  OrgUnitService,
-  UrlModule,
-} from '@spartacus/core';
+import { CurrencyService, I18nModule, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '../../../../shared/components/form/form-errors/form-errors.module';
-import { CurrencyFormModule } from '../../common/currency/currency-form.module';
-import { CostCenterFormComponent } from './cost-center-form.component';
+import { CurrencyFormComponent } from './currency-form.component';
 
 @NgModule({
   imports: [
@@ -22,11 +16,10 @@ import { CostCenterFormComponent } from './cost-center-form.component';
     I18nModule,
     ReactiveFormsModule,
     FormErrorsModule,
-    CurrencyFormModule,
   ],
-  declarations: [CostCenterFormComponent],
-  exports: [CostCenterFormComponent],
-  providers: [CurrencyService, OrgUnitService],
-  entryComponents: [CostCenterFormComponent],
+  declarations: [CurrencyFormComponent],
+  exports: [CurrencyFormComponent],
+  providers: [CurrencyService],
+  entryComponents: [CurrencyFormComponent],
 })
-export class CostCenterFormModule {}
+export class CurrencyFormModule {}

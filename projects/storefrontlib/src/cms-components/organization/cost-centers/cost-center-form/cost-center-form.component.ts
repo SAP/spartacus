@@ -4,7 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { B2BUnitNode, CostCenter, Currency } from '@spartacus/core';
+import { B2BUnitNode, CostCenter } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
 import { CostCenterFormComponentService } from './cost-center-form.component.service';
@@ -19,7 +19,6 @@ export class CostCenterFormComponent extends AbstractFormComponent
   businessUnits$: Observable<
     B2BUnitNode[]
   > = this.formService.getBusinessUnits();
-  currencies$: Observable<Currency[]> = this.formService.getCurrencies();
 
   @Input()
   costCenterData: CostCenter;
