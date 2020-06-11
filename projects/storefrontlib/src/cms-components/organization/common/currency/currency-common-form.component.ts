@@ -16,27 +16,26 @@ import {
 } from '@angular/forms';
 import { Currency } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { CurrencyFormComponentService } from './currency-form.service';
+import { CurrencyCommonFormComponentService } from './currency-common-form.service';
 
 @Component({
-  selector: 'cx-currency-form',
-  templateUrl: './currency-form.component.html',
+  selector: 'cx-currency-common-form',
+  templateUrl: './currency-common-form.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CurrencyFormComponent),
+      useExisting: forwardRef(() => CurrencyCommonFormComponent),
       multi: true,
     },
     {
       provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => CurrencyFormComponent),
+      useExisting: forwardRef(() => CurrencyCommonFormComponent),
       multi: true,
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-// TODO:#persist-forms - rename to contain 'common'
-export class CurrencyFormComponent
+export class CurrencyCommonFormComponent
   implements ControlValueAccessor, Validator, OnDestroy {
   form: FormGroup = this.formService.getForm();
   currencies$: Observable<Currency[]> = this.formService.getCurrencies();
@@ -46,7 +45,7 @@ export class CurrencyFormComponent
   protected onTouched: () => void = () => {};
 
   constructor(
-    protected formService: CurrencyFormComponentService,
+    protected formService: CurrencyCommonFormComponentService,
     protected fb: FormBuilder
   ) {}
 

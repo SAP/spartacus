@@ -1,3 +1,3 @@
-export * from './currency-form.component';
-export * from './currency-form.module';
-export * from './currency-form.service';
+export * from './currency-common-form.component';
+export * from './currency-common-form.module';
+export * from './currency-common-form.service';

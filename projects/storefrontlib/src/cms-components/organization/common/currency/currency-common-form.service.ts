@@ -4,7 +4,7 @@ import { Currency, CurrencyService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class CurrencyFormComponentService {
+export class CurrencyCommonFormComponentService {
   protected formConfiguration: { [key: string]: any } = {
     isocode: [null, Validators.required],
   };
