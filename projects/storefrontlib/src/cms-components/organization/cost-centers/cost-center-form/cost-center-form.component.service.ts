@@ -13,7 +13,6 @@ export class CostCenterFormComponentService {
 
   constructor(protected persistenceService: FormsPersistenceService) {}
 
-  //TODO:#save-forms - make key optional, and use the formConfiguration instead
   getForm(prePopulatedFormData: object = {}, key?: object): FormGroup {
     return this.persistenceService.get(
       key ?? this.formConfiguration,

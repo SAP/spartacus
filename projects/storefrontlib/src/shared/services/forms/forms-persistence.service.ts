@@ -19,15 +19,14 @@ export class FormsPersistenceService {
    * If it exists, the stored form is returned.
    *
    * If the form is _not_ found, the method will create the `FormGroup`
-   * using the provided `formConfiguration`, and patch the form using
-   * the provided `defaultValue`. The created and patched form will be
-   * stored by calling the `this.set()` method.
+   * using the provided `formConfiguration`, and patch the form if the
+   * `defaultValue` is provided. The created form will be stored by
+   * calling the `this.set()` method.
    */
   get<T extends AbstractControl>(
     key: object,
     formConfiguration: { [key: string]: any },
-    //TODO:#save-forms - make optional? if making this change, change the API comment above as well
-    defaultValue: object
+    defaultValue?: object
   ): T {
     const form = this.forms.get(key);
     if (form) {
@@ -35,8 +34,9 @@ export class FormsPersistenceService {
     }
 
     const fg = this.fb.group(formConfiguration);
-    //TODO:#save-forms - setValue vs. patch?
-    fg.patchValue(defaultValue);
+    if (defaultValue) {
+      fg.patchValue(defaultValue);
+    }
 
     this.set(key, fg);
     return <T>(<unknown>fg);
