@@ -3,6 +3,7 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { UrlCommandRoute } from '@spartacus/core';
 
 export abstract class AbstractFormComponent {
+  // TODO:#persist-forms - make abstract?
   form: FormGroup;
 
   @Input()
@@ -28,7 +29,12 @@ export abstract class AbstractFormComponent {
 
   submitClicked = false;
 
+  // TODO:#persist-forms - add a comment
+  // TODO:#persist-forms - make abstract
+  protected removeForm(): void {}
+
   back(): void {
+    this.removeForm();
     this.clickBack.emit();
   }
 
@@ -36,6 +42,7 @@ export abstract class AbstractFormComponent {
     this.submitClicked = true;
     if (this.form.valid) {
       this.submitForm.emit(this.form.value);
+      this.removeForm();
     } else {
       this.form.markAllAsTouched();
     }

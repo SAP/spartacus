@@ -35,31 +35,10 @@
 
       <cx-currency-form formControlName="currency"></cx-currency-form>
 
-      <div class="form-group">
-        <ng-container
-          *ngIf="businessUnits$ | async as businessUnits"
-          formGroupName="unit"
-        >
-          <div *ngIf="businessUnits.length !== 0">
-            <label aria-required="true">
-              <span class="label-content required">{{
-                'costCenterForm.businessUnits.label' | cxTranslate
-              }}</span>
-              <ng-select
-                formControlName="uid"
-                [searchable]="false"
-                [clearable]="false"
-                [items]="businessUnits"
-                bindLabel="name"
-                bindValue="id"
-                [readonly]="readonlyParent"
-              >
-              </ng-select>
-              <cx-form-errors [control]="form.get('unit.uid')"></cx-form-errors>
-            </label>
-          </div>
-        </ng-container>
-      </div>
+      <cx-unit-common-form
+        formControlName="unit"
+        [readonlyParent]="readonlyParent"
+      ></cx-unit-common-form>
     </div>
   </div>
   <div class="row buttons">

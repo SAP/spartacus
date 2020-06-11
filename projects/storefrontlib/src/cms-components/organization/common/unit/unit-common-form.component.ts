@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   forwardRef,
+  Input,
   OnDestroy,
 } from '@angular/core';
 import {
@@ -14,39 +15,43 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { Currency } from '@spartacus/core';
+import { B2BUnitNode } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { CurrencyFormComponentService } from './currency-form.service';
+import { UnitCommonFormComponentService } from './unit-common-form.service';
 
 @Component({
-  selector: 'cx-currency-form',
-  templateUrl: './currency-form.component.html',
+  selector: 'cx-unit-common-form',
+  templateUrl: './unit-common-form.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CurrencyFormComponent),
+      useExisting: forwardRef(() => UnitCommonFormComponent),
       multi: true,
     },
     {
       provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => CurrencyFormComponent),
+      useExisting: forwardRef(() => UnitCommonFormComponent),
       multi: true,
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-// TODO:#persist-forms - rename to contain 'common'
-export class CurrencyFormComponent
+export class UnitCommonFormComponent
   implements ControlValueAccessor, Validator, OnDestroy {
+  @Input() readonlyParent = false;
+  @Input() required = true;
+
   form: FormGroup = this.formService.getForm();
-  currencies$: Observable<Currency[]> = this.formService.getCurrencies();
+  businessUnits$: Observable<
+    B2BUnitNode[]
+  > = this.formService.getBusinessUnits();
 
   protected subscriptions = new Subscription();
   protected onChange: (value: object) => void = () => {};
   protected onTouched: () => void = () => {};
 
   constructor(
-    protected formService: CurrencyFormComponentService,
+    protected formService: UnitCommonFormComponentService,
     protected fb: FormBuilder
   ) {}
 
@@ -72,6 +77,10 @@ export class CurrencyFormComponent
   }
 
   validate(_control: AbstractControl): ValidationErrors | null {
+    if (!this.required) {
+      return null;
+    }
+
     return this.form.valid
       ? null
       : // TODO:#persist-forms - what to return here?

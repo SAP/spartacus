@@ -4,8 +4,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { B2BUnitNode, CostCenter } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { CostCenter } from '@spartacus/core';
 import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
 import { CostCenterFormComponentService } from './cost-center-form.component.service';
 
@@ -16,10 +15,6 @@ import { CostCenterFormComponentService } from './cost-center-form.component.ser
 })
 export class CostCenterFormComponent extends AbstractFormComponent
   implements OnInit {
-  businessUnits$: Observable<
-    B2BUnitNode[]
-  > = this.formService.getBusinessUnits();
-
   @Input()
   costCenterData: CostCenter;
 
@@ -39,24 +34,8 @@ export class CostCenterFormComponent extends AbstractFormComponent
     this.form = this.formService.getForm(this.formKey, this.costCenterData);
   }
 
-  verifyAndSubmit(): void {
-    console.log('submit: ', this.form.value);
-    console.log('valid: ', this.form.valid);
-
-    // this.submitClicked = true;
-    // if (this.form.valid) {
-    //   this.form.reset();
-    //   this.formService.removeForm(this.formKey);
-    //   this.submitForm.emit(this.form.value);
-    // } else {
-    //   this.form.markAllAsTouched();
-    // }
-  }
-
-  back(): void {
-    console.log('back');
+  protected removeForm(): void {
     this.form.reset();
     this.formService.removeForm(this.formKey);
-    this.clickBack.emit();
   }
 }

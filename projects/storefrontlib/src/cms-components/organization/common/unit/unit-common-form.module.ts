@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '../../../../shared/components/form/form-errors/form-errors.module';
-import { CurrencyFormComponent } from './currency-form.component';
+import { UnitCommonFormComponent } from './unit-common-form.component';
 
 @NgModule({
   imports: [
@@ -17,8 +17,8 @@ import { CurrencyFormComponent } from './currency-form.component';
     ReactiveFormsModule,
     FormErrorsModule,
   ],
-  declarations: [CurrencyFormComponent],
-  exports: [CurrencyFormComponent],
-  entryComponents: [CurrencyFormComponent],
+  declarations: [UnitCommonFormComponent],
+  exports: [UnitCommonFormComponent],
+  entryComponents: [UnitCommonFormComponent],
 })
-export class CurrencyFormModule {}
+export class UnitCommonFormModule {}
