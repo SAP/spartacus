@@ -14,15 +14,15 @@ export class CostCenterFormComponentService {
   constructor(protected persistenceService: FormsPersistenceService) {}
 
   //TODO:#save-forms - make key optional, and use the formConfiguration instead
-  getForm(key: string, prePopulatedFormData: object = {}): FormGroup {
+  getForm(prePopulatedFormData: object = {}, key?: object): FormGroup {
     return this.persistenceService.get(
-      key,
+      key ?? this.formConfiguration,
       this.formConfiguration,
       prePopulatedFormData
     );
   }
 
-  removeForm(key: string): boolean {
+  removeForm(key: object): boolean {
     return this.persistenceService.remove(key);
   }
 }

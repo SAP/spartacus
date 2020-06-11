@@ -21,16 +21,12 @@ export class CostCenterFormComponent extends AbstractFormComponent
   @Input()
   readonlyParent = false;
 
-  // TODO:#persist-forms - pass it in the template
-  @Input()
-  formKey: string;
-
   constructor(protected formService: CostCenterFormComponentService) {
     super();
   }
 
   ngOnInit() {
-    this.form = this.formService.getForm(this.formKey, this.costCenterData);
+    this.form = this.formService.getForm(this.costCenterData, this.formKey);
   }
 
   protected removeForm(): void {

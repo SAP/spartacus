@@ -3,7 +3,7 @@ import { AbstractControl, FormGroup } from '@angular/forms';
 import { UrlCommandRoute } from '@spartacus/core';
 
 export abstract class AbstractFormComponent {
-  // TODO:#persist-forms - make abstract?
+  // TODO:#save-forms - make abstract?
   form: FormGroup;
 
   @Input()
@@ -21,6 +21,12 @@ export abstract class AbstractFormComponent {
   @Input()
   disabledFields: string[] = [];
 
+  /**
+   * An optional key, used to store the form data.
+   * It's usually provided when editing the form.
+   */
+  @Input() formKey?: object;
+
   @Output()
   submitForm = new EventEmitter<any>();
 
@@ -29,8 +35,12 @@ export abstract class AbstractFormComponent {
 
   submitClicked = false;
 
-  // TODO:#persist-forms - add a comment
-  // TODO:#persist-forms - make abstract
+  // TODO:#save-forms - make abstract
+  /**
+   * This method is called when submitting or cancelling the form editing.
+   * It should use the reset the form and use the form component service to
+   * remove the stored form data.
+   */
   protected removeForm(): void {}
 
   back(): void {

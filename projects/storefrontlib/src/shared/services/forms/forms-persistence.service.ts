@@ -1,71 +1,59 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder } from '@angular/forms';
 
 /**
- * This service handles the persistence of forms.
- * It uses the internal `Map` as a persisting storage.
- *
- * The service can be extended in order to provide other
- * persisting storages, such as `localStorage`, `indexDB`, etc.
+ * This service handles storing the reactive forms.
+ * It uses the internal `Map` as a storage.
  */
 @Injectable({ providedIn: 'root' })
 export class FormsPersistenceService {
   /**
-   * An internal map containing the stream of the reactive form.
+   * An internal map that contains stored reactive forms.
    */
-  private forms = new Map<string, FormGroup>();
+  private forms = new Map<object, AbstractControl>();
 
   constructor(protected fb: FormBuilder) {}
 
   /**
    * The method will use the provided `key` to lookup the persisted form.
-   * If the form is not found, the method will call `this.set()` and
-   * persist the `defaultForm` value.
+   * If it exists, the stored form is returned.
    *
-   * If the `prePopulatedFormData` paramter is set, its value is used
-   * to pre-populate the form. This is typically done when editing an entity.
+   * If the form is _not_ found, the method will create the `FormGroup`
+   * using the provided `formConfiguration`, and patch the form using
+   * the provided `defaultValue`. The created and patched form will be
+   * stored by calling the `this.set()` method.
    */
-  //TODO:#save-forms - api param comments
-  get(
-    key: string,
+  get<T extends AbstractControl>(
+    key: object,
     formConfiguration: { [key: string]: any },
+    //TODO:#save-forms - make optional? if making this change, change the API comment above as well
     defaultValue: object
-  ): FormGroup {
-    console.log('map: ', this.forms);
+  ): T {
     const form = this.forms.get(key);
     if (form) {
-      return form;
+      return <T>form;
     }
 
-    //TODO:#save-forms - if we use generics, what to use here?
     const fg = this.fb.group(formConfiguration);
     //TODO:#save-forms - setValue vs. patch?
     fg.patchValue(defaultValue);
 
     this.set(key, fg);
-    return fg;
+    return <T>(<unknown>fg);
   }
 
   /**
    * Removes the form associated with the provided `key`.
    * Returns `true` if the removal was successful.
    */
-  //TODO:#save-forms - api param comments
-  remove(key: string): boolean {
+  remove(key: object): boolean {
     return this.forms.delete(key);
   }
 
-  //TODO:#save-forms - api comments
-  //TODO:#save-forms - support for Observable<string> for key?
-  has(key: string): boolean {
-    return this.forms.has(key);
-  }
-
   /**
-   * Uses the provided unique `key` to persist the stream of the given `form`.
+   * Uses the provided unique `key` to persist the given `form`.
    */
-  //TODO:#save-forms - api param comments
-  protected set(key: string, fg: FormGroup): void {
-    this.forms.set(key, fg);
+  protected set<T extends AbstractControl>(key: object, form: T): void {
+    this.forms.set(key, form);
   }
 }

@@ -24,10 +24,4 @@ export class CostCenterCreateComponent {
       params: costCenter,
     });
   }
-
-  //TODO:#save-forms - make sure that the key doesn't have a space in it
-  //TODO:#save-forms - where to put the util method?
-  getFormKey(parentUnit: string): string {
-    return `cost-center-create-${parentUnit}`;
-  }
 }
