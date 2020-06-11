@@ -8,6 +8,7 @@ import {
   withLatestFrom,
   take,
   map,
+  filter,
 } from 'rxjs/operators';
 import { PaymentType } from '../../model/cart.model';
 import { StateWithProcess } from '../../process/store/process-state';
@@ -110,7 +111,8 @@ export class PaymentTypeService {
           }
         }
       }),
-      map(([_, selected]) => selected)
+      filter(([, selected]) => selected !== undefined),
+      map(([, selected]) => selected)
     );
   }
 

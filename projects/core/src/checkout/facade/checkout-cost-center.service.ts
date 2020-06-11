@@ -59,7 +59,7 @@ export class CheckoutCostCenterService {
           );
         }
       }),
-      map(([_, po]) => po)
+      map(([_, cc]) => cc)
     );
   }
 }

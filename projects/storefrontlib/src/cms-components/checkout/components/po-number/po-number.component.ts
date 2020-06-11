@@ -50,7 +50,6 @@ export class PoNumberComponent {
 
   get typeSelected$(): Observable<string> {
     return this.paymentTypeService.getSelectedPaymentType().pipe(
-      filter((selected) => selected !== undefined),
       tap((selected) => (this.paymentTypeCode = selected))
     );
   }

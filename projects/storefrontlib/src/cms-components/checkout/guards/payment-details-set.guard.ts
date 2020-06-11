@@ -2,7 +2,7 @@ import { Injectable, isDevMode } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { RoutingConfigService, PaymentTypeService } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
-import { map, filter, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
@@ -34,7 +34,6 @@ export class PaymentDetailsSetGuard implements CanActivate {
       this.paymentTypeService.getSelectedPaymentType(),
       this.checkoutDetailsService.getPaymentDetails(),
     ]).pipe(
-      filter(([selected]) => selected !== undefined),
       tap(([selected]) =>
         this.checkoutStepService.disableEnableStep(
           CheckoutStepType.PAYMENT_DETAILS,
