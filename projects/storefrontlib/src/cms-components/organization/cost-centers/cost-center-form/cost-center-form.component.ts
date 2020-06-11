@@ -30,7 +30,6 @@ export class CostCenterFormComponent extends AbstractFormComponent
   }
 
   ngOnInit() {
-    this.formService.loadOrgUnitNodes();
     this.form = this.formService.getForm(this.formKey, this.costCenterData);
   }
 

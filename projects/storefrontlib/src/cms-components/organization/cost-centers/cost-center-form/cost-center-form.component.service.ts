@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
-import { OrgUnitService } from '@spartacus/core';
 import { FormsPersistenceService } from '../../../../shared/services/forms/forms-persistence.service';
 
 @Injectable({ providedIn: 'root' })
@@ -12,15 +11,7 @@ export class CostCenterFormComponentService {
     currency: null,
   };
 
-  constructor(
-    protected persistenceService: FormsPersistenceService,
-    protected orgUnitService: OrgUnitService
-  ) {}
-
-  //TODO:#save-forms - move to unit form?
-  loadOrgUnitNodes(): void {
-    this.orgUnitService.loadOrgUnitNodes();
-  }
+  constructor(protected persistenceService: FormsPersistenceService) {}
 
   //TODO:#save-forms - make key optional, and use the formConfiguration instead
   getForm(key: string, prePopulatedFormData: object = {}): FormGroup {

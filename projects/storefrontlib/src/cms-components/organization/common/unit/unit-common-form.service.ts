@@ -15,6 +15,7 @@ export class UnitCommonFormComponentService {
   ) {}
 
   getBusinessUnits(): Observable<B2BUnitNode[]> {
+    this.orgUnitService.loadOrgUnitNodes();
     return this.orgUnitService.getActiveUnitList();
   }
 
