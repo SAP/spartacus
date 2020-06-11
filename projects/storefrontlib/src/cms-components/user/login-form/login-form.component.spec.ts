@@ -198,13 +198,5 @@ describe('LoginFormComponent', () => {
       expect(registerLink).toBeFalsy();
       expect(guestLinkElement).toBeTruthy();
     });
-
-    it('Should not show buttons when feature config is above 2.0', () => {
-      spyOn(featureConfigService, 'isLevel').and.returnValue(false);
-
-      const registerDiv = fixture.debugElement.query(By.css('.register'));
-
-      expect(registerDiv.nativeElement.disabled).toBeTruthy();
-    });
   });
 });
