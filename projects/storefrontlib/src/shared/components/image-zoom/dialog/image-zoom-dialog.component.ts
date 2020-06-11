@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FocusConfig } from 'projects/storefrontlib/src/layout';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
+import { FocusConfig } from '../../../../layout/a11y/index';
 import { LaunchDialogService } from '../../../../layout/launch-dialog/services/index';
 
 @Component({
