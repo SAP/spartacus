@@ -1,16 +1,21 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthRedirectService,
   AuthService,
+  FeatureConfigService,
+  FeaturesConfigModule,
   GlobalMessageService,
   I18nTestingModule,
   UserToken,
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { CheckoutConfigService } from '../../checkout';
 import { LoginFormComponent } from './login-form.component';
 import createSpy = jasmine.createSpy;
 import { FormErrorsModule } from '../../../shared/index';
@@ -36,12 +41,33 @@ class MockGlobalMessageService {
   remove = createSpy();
 }
 
+class MockActivatedRoute {
+  snapshot = {
+    queryParams: {
+      forced: false,
+    },
+  };
+}
+
+class MockCheckoutConfigService {
+  isGuestCheckout() {
+    return false;
+  }
+}
+
+class MockFeatureConfigService {
+  isLevel() {
+    return '2.0';
+  }
+}
+
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
 
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
+  let featureConfigService: FeatureConfigService;
   let windowRef: WindowRef;
 
   beforeEach(async(() => {
@@ -50,6 +76,7 @@ describe('LoginFormComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         I18nTestingModule,
+        FeaturesConfigModule,
         FormErrorsModule,
       ],
       declarations: [LoginFormComponent, MockUrlPipe],
@@ -61,6 +88,9 @@ describe('LoginFormComponent', () => {
           useClass: MockRedirectAfterAuthService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     }).compileComponents();
   }));
@@ -70,6 +100,7 @@ describe('LoginFormComponent', () => {
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
     authRedirectService = TestBed.inject(AuthRedirectService);
+    featureConfigService = TestBed.inject(FeatureConfigService);
     windowRef = TestBed.inject(WindowRef);
   });
 
@@ -141,6 +172,39 @@ describe('LoginFormComponent', () => {
         email_lowercase,
         password
       );
+    });
+  });
+
+  describe('Guest checkout/register functionality', () => {
+    it('should show "Register" when guest checkout is off', () => {
+      const registerLinkElement: HTMLElement = fixture.debugElement.query(
+        By.css('.btn-register')
+      ).nativeElement;
+      const guestLink = fixture.debugElement.query(By.css('.btn-guest'));
+
+      expect(guestLink).toBeFalsy();
+      expect(registerLinkElement).toBeTruthy();
+    });
+
+    it('should show "Checkout as guest" button when guest checkout is on', () => {
+      component.loginAsGuest = true;
+      fixture.detectChanges();
+
+      const guestLinkElement: HTMLElement = fixture.debugElement.query(
+        By.css('.btn-guest')
+      ).nativeElement;
+      const registerLink = fixture.debugElement.query(By.css('.btn-register'));
+
+      expect(registerLink).toBeFalsy();
+      expect(guestLinkElement).toBeTruthy();
+    });
+
+    it('Should not show buttons when feature config is above 2.0', () => {
+      spyOn(featureConfigService, 'isLevel').and.returnValue(false);
+
+      const registerDiv = fixture.debugElement.query(By.css('.register'));
+
+      expect(registerDiv.nativeElement.disabled).toBeTruthy();
     });
   });
 });

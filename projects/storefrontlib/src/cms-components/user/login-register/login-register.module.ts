@@ -4,15 +4,25 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   I18nModule,
+  FeaturesConfigModule,
   provideDefaultConfig,
   UrlModule,
   NotAuthGuard,
+  CheckoutModule,
 } from '@spartacus/core';
 import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 import { LoginRegisterComponent } from '../login-register/login-register.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, PageSlotModule, I18nModule],
+  imports: [
+    FeaturesConfigModule,
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    PageSlotModule,
+    I18nModule,
+    CheckoutModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

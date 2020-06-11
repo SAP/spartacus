@@ -1,16 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import {
   AuthRedirectService,
   AuthService,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+import { CheckoutConfigService } from '../../checkout/services/checkout-config.service';
 import { CustomFormValidators } from '../../../shared/index';
-import { ActivatedRoute } from '@angular/router';
-import { CheckoutConfigService } from '../../checkout/services';
 
 @Component({
   selector: 'cx-login-form',
@@ -19,6 +20,7 @@ import { CheckoutConfigService } from '../../checkout/services';
 export class LoginFormComponent implements OnInit, OnDestroy {
   sub: Subscription;
   loginForm: FormGroup;
+  loginAsGuest = false;
 
   /**
    * @deprecated since version=2.1
@@ -30,8 +32,24 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     fb: FormBuilder,
     authRedirectService: AuthRedirectService,
     winRef: WindowRef,
+    activatedRoute: ActivatedRoute,
+    checkoutConfigService: CheckoutConfigService
+  );
+
+  /**
+   * @deprecated since version=2.1
+   * Use constructor (auth: AuthService, globalMessageService: GlobalMessageService, fb: FormBuilder, authRedirectService: AuthRedirectService, winRef: WindowRef)
+   */
+  constructor(
+    auth: AuthService,
+    globalMessageService: GlobalMessageService,
+    fb: FormBuilder,
+    authRedirectService: AuthRedirectService,
+    winRef: WindowRef,
+    activatedRoute: ActivatedRoute,
     checkoutConfigService: CheckoutConfigService,
-    activatedRoute: ActivatedRoute
+    // tslint:disable-next-line:unified-signatures
+    featureConfigService: FeatureConfigService
   );
 
   constructor(
@@ -39,7 +57,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
     protected authRedirectService: AuthRedirectService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected activatedRoute?: ActivatedRoute,
+    protected checkoutConfigService?: CheckoutConfigService,
+    protected featureConfigService?: FeatureConfigService
   ) {}
 
   ngOnInit(): void {
@@ -53,6 +74,15 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       ],
       password: ['', Validators.required],
     });
+
+    //TODO (#7785) Deprecated since 2.1
+    if (this.featureConfigService?.isLevel('2.0')) {
+      if (this.checkoutConfigService.isGuestCheckout()) {
+        this.loginAsGuest = this.activatedRoute?.snapshot?.queryParams?.[
+          'forced'
+        ];
+      }
+    }
   }
 
   submitForm(): void {

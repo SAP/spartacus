@@ -1,7 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginRegisterComponent } from './login-register.component';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfig,
+  FeaturesConfigModule,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CheckoutConfigService } from '@spartacus/storefront';
@@ -34,11 +38,17 @@ describe('LoginRegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, FeaturesConfigModule],
       declarations: [LoginRegisterComponent, MockUrlPipe],
       providers: [
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '2.1' },
+          },
+        },
       ],
     }).compileComponents();
   }));
@@ -46,6 +56,8 @@ describe('LoginRegisterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginRegisterComponent);
     component = fixture.componentInstance;
+
+    component.ngOnInit();
     fixture.detectChanges();
   });
 

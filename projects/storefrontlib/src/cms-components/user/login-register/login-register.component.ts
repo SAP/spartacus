@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CheckoutConfigService } from '../../checkout/services';
+import { CheckoutConfigService } from '../../checkout/services/index';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
