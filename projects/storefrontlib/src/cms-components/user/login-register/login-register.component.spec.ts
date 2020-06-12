@@ -58,11 +58,8 @@ describe('LoginRegisterComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginRegisterComponent);
-    component = fixture.componentInstance;
-
-    component.ngOnInit();
-    fixture.detectChanges();
+    createComponent();
+    callNgInit();
   });
 
   it('should create component', () => {
@@ -98,14 +95,12 @@ describe('LoginRegisterComponent', () => {
       });
       TestBed.compileComponents();
 
-      fixture = TestBed.createComponent(LoginRegisterComponent);
-      component = fixture.componentInstance;
+      createComponent();
       checkoutConfigService = TestBed.inject(CheckoutConfigService);
 
       spyOn(checkoutConfigService, 'isGuestCheckout').and.returnValue(true);
 
-      component.ngOnInit();
-      fixture.detectChanges();
+      callNgInit();
 
       const guestLinkElement: HTMLElement = fixture.debugElement.query(
         By.css('.btn-guest')
@@ -128,15 +123,22 @@ describe('LoginRegisterComponent', () => {
       });
       TestBed.compileComponents();
 
-      fixture = TestBed.createComponent(LoginRegisterComponent);
-      component = fixture.componentInstance;
-
-      component.ngOnInit();
-      fixture.detectChanges();
+      createComponent();
+      callNgInit();
 
       const registerElement = fixture.debugElement.query(By.css('.register'));
 
       expect(registerElement).toBeFalsy();
     });
   });
+
+  function createComponent() {
+    fixture = TestBed.createComponent(LoginRegisterComponent);
+    component = fixture.componentInstance;
+  }
+
+  function callNgInit() {
+    component.ngOnInit();
+    fixture.detectChanges();
+  }
 });
