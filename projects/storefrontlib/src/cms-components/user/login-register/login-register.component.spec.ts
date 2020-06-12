@@ -53,6 +53,16 @@ describe('LoginRegisterComponent', () => {
     ],
   };
 
+  function createComponent() {
+    fixture = TestBed.createComponent(LoginRegisterComponent);
+    component = fixture.componentInstance;
+  }
+
+  function callNgInit() {
+    component.ngOnInit();
+    fixture.detectChanges();
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule(testBedBase).compileComponents();
   }));
@@ -62,18 +72,22 @@ describe('LoginRegisterComponent', () => {
     callNgInit();
   });
 
+  function getRegisterLink() {
+    return fixture.debugElement.query(By.css('.btn-register'));
+  }
+
+  function getGuestCheckoutLink() {
+    return fixture.debugElement.query(By.css('.btn-guest'));
+  }
+
   it('should create component', () => {
     expect(component).toBeTruthy();
   });
 
   describe('Register/Guest checkout', () => {
     it('should show Register button when forced flag is false', () => {
-      const registerLinkElement: HTMLElement = fixture.debugElement.query(
-        By.css('.btn-register')
-      ).nativeElement;
-      const guestLink: DebugElement = fixture.debugElement.query(
-        By.css('.btn-guest')
-      );
+      const registerLinkElement: HTMLElement = getRegisterLink().nativeElement;
+      const guestLink: DebugElement = getGuestCheckoutLink();
 
       expect(guestLink).toBeFalsy();
       expect(registerLinkElement).toBeTruthy();
@@ -102,10 +116,9 @@ describe('LoginRegisterComponent', () => {
 
       callNgInit();
 
-      const guestLinkElement: HTMLElement = fixture.debugElement.query(
-        By.css('.btn-guest')
-      ).nativeElement;
-      const registerLink = fixture.debugElement.query(By.css('.btn-register'));
+      const guestLinkElement: HTMLElement = getGuestCheckoutLink()
+        .nativeElement;
+      const registerLink = getRegisterLink();
 
       expect(registerLink).toBeFalsy();
       expect(guestLinkElement).toBeTruthy();
@@ -126,19 +139,9 @@ describe('LoginRegisterComponent', () => {
       createComponent();
       callNgInit();
 
-      const registerElement = fixture.debugElement.query(By.css('.register'));
+      const registerContainer = fixture.debugElement.query(By.css('.register'));
 
-      expect(registerElement).toBeFalsy();
+      expect(registerContainer).toBeFalsy();
     });
   });
-
-  function createComponent() {
-    fixture = TestBed.createComponent(LoginRegisterComponent);
-    component = fixture.componentInstance;
-  }
-
-  function callNgInit() {
-    component.ngOnInit();
-    fixture.detectChanges();
-  }
 });
