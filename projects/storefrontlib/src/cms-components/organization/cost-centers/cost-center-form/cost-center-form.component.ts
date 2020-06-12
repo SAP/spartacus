@@ -21,6 +21,8 @@ export class CostCenterFormComponent extends AbstractFormComponent
   @Input()
   readonlyParent = false;
 
+  @Input() formKey: string;
+
   constructor(protected formService: CostCenterFormComponentService) {
     super();
   }

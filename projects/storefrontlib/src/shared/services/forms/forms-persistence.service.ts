@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormBuilder } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 
 /**
  * This service handles storing the reactive forms.
@@ -10,13 +10,16 @@ export class FormsPersistenceService {
   /**
    * An internal map that contains stored reactive forms.
    */
-  private forms = new Map<object, AbstractControl>();
+  private forms = new Map<string, AbstractControl>();
 
   constructor(protected fb: FormBuilder) {}
 
   /**
    * The method will use the provided `key` to lookup the persisted form.
-   * If it exists, the stored form is returned.
+   * If the provided key is falsy, the method will just create the form
+   * and return it, without storing it.
+   *
+   * If the form already exists for the provided `key`, it is returned.
    *
    * If the form is _not_ found, the method will create the `FormGroup`
    * using the provided `formConfiguration`, and patch the form if the
@@ -24,16 +27,20 @@ export class FormsPersistenceService {
    * calling the `this.set()` method.
    */
   get<T extends AbstractControl>(
-    key: object,
+    key: string,
     formConfiguration: { [key: string]: any },
     defaultValue?: object
   ): T {
+    if (!key) {
+      return <T>(<unknown>this.createForm(formConfiguration));
+    }
+
     const form = this.forms.get(key);
     if (form) {
       return <T>form;
     }
 
-    const fg = this.fb.group(formConfiguration);
+    const fg = this.createForm(formConfiguration);
     if (defaultValue) {
       fg.patchValue(defaultValue);
     }
@@ -46,14 +53,21 @@ export class FormsPersistenceService {
    * Removes the form associated with the provided `key`.
    * Returns `true` if the removal was successful.
    */
-  remove(key: object): boolean {
+  remove(key: string): boolean {
     return this.forms.delete(key);
   }
 
   /**
    * Uses the provided unique `key` to persist the given `form`.
    */
-  protected set<T extends AbstractControl>(key: object, form: T): void {
+  protected set<T extends AbstractControl>(key: string, form: T): void {
     this.forms.set(key, form);
+  }
+
+  /**
+   * Creates the form for the provided `formConfiguration` using `FormBuilder`.
+   */
+  protected createForm(formConfiguration: { [key: string]: any }): FormGroup {
+    return this.fb.group(formConfiguration);
   }
 }

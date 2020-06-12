@@ -21,12 +21,6 @@ export abstract class AbstractFormComponent {
   @Input()
   disabledFields: string[] = [];
 
-  /**
-   * An optional key, used to store the form data.
-   * It's usually provided when editing the form.
-   */
-  @Input() formKey?: object;
-
   @Output()
   submitForm = new EventEmitter<any>();
 

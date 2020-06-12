@@ -24,4 +24,8 @@ export class CostCenterCreateComponent {
       params: costCenter,
     });
   }
+
+  getFormKey(): string {
+    return `cost-center-create`;
+  }
 }
