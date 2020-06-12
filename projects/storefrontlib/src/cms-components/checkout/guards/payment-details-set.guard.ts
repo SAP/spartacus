@@ -4,7 +4,7 @@ import { RoutingConfigService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
-import { CheckoutConfigService } from '../services/checkout-config.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 
 @Injectable({
@@ -13,13 +13,13 @@ import { CheckoutDetailsService } from '../services/checkout-details.service';
 export class PaymentDetailsSetGuard implements CanActivate {
   constructor(
     private checkoutDetailsService: CheckoutDetailsService,
-    private checkoutConfigService: CheckoutConfigService,
+    private checkoutStepService: CheckoutStepService,
     private routingConfigService: RoutingConfigService,
     private router: Router
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    const checkoutStep: CheckoutStep = this.checkoutConfigService.getCheckoutStep(
+    const checkoutStep: CheckoutStep = this.checkoutStepService.getCheckoutStep(
       CheckoutStepType.PAYMENT_DETAILS
     );
 
