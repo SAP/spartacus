@@ -70,6 +70,7 @@ export interface B2BUser extends User {
   roles?: string[];
   selected?: boolean;
   isAssignedToApprovers?: boolean;
+  email?: string;
 }
 
 export interface B2BApprovalProcess {
