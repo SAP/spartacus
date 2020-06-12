@@ -1,3 +1,17 @@
+/**
+ * To introduce breaking change during minor releases, we use a technique
+ * to register new style classes and selectors. Customers can opt-in for 
+ * specific versions (including all former minors). Additionally a flag can 
+ * be used to always opt-in to the latest version.
+ * 
+ * Registration of minor driven styles can be done with the `forVersion` mixin. 
+ *
+ * ```scss
+ * @include forVersion(2.1){
+ *   // style classes/rules go here
+ * }
+ * ```
+ */
 
 /**
  * The `stableVersion` indicates the major version of the style library. Any
@@ -30,6 +44,12 @@ $minorVersion: 0.0 !default;
  */
 $useLatestStyles: false !default;
 
+
+/**
+ * This mixin is used during development of the style layer. Breaking style
+ * changes can be added for a specific version, so that customers can explicetly
+ * opt-in for such a change.
+ */
 @mixin forVersion($version) {
   @if $useLatestStyles or $version <= $minorVersion or $version <= $stableVersion{
     @content;
