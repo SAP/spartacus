@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, combineLatest } from 'rxjs';
-import { tap, take, map } from 'rxjs/operators';
+import { take, map, filter } from 'rxjs/operators';
 import { StateWithProcess } from '../../process/store/process-state';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
@@ -52,14 +52,16 @@ export class CheckoutCostCenterService {
       this.activeCartService.getActive(),
       this.checkoutStore.pipe(select(CheckoutSelectors.getCostCenter)),
     ]).pipe(
-      tap(([cart, id]) => {
-        if (id === undefined && cart && cart.costCenter) {
+      filter(([cart]) => Boolean(cart)),
+      map(([cart, cc]) => {
+        if (cc === undefined && cart.costCenter) {
+          cc = cart.costCenter.code;
           this.checkoutStore.dispatch(
             new CheckoutActions.SetCostCenterSuccess(cart.costCenter.code)
           );
         }
-      }),
-      map(([_, cc]) => cc)
+        return cc;
+      })
     );
   }
 }

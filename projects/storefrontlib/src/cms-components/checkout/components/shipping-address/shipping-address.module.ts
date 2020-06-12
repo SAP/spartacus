@@ -7,7 +7,6 @@ import { SpinnerModule } from '../../../../shared/components/spinner/spinner.mod
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
 import { AddressFormModule } from './address-form/address-form.module';
-import { CheckoutDetailsLoadedGuard } from '../../guards/checkout-details-loaded.guard';
 import { ShippingAddressComponent } from './shipping-address.component';
 
 @NgModule({
@@ -24,11 +23,7 @@ import { ShippingAddressComponent } from './shipping-address.component';
       cmsComponents: {
         CheckoutShippingAddress: {
           component: ShippingAddressComponent,
-          guards: [
-            CheckoutAuthGuard,
-            CartNotEmptyGuard,
-            CheckoutDetailsLoadedGuard,
-          ],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),

@@ -8,9 +8,8 @@ import {
   withLatestFrom,
   take,
   map,
-  filter,
 } from 'rxjs/operators';
-import { PaymentType } from '../../model/cart.model';
+import { PaymentType, B2BPaymentTypeEnum } from '../../model/cart.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { AuthService } from '../../auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
@@ -27,8 +26,6 @@ import { CheckoutSelectors } from '../store/selectors/index';
   providedIn: 'root',
 })
 export class PaymentTypeService {
-  readonly ACCOUNT_PAYMENT = 'ACCOUNT';
-
   constructor(
     protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
     protected authService: AuthService,
@@ -101,18 +98,20 @@ export class PaymentTypeService {
     ]).pipe(
       tap(([cart, selected]) => {
         if (selected === undefined) {
+          // in b2b, cart always has paymentType (default value 'CARD')
           if (cart && cart.paymentType) {
             this.checkoutStore.dispatch(
               new CheckoutActions.SetPaymentTypeSuccess(cart)
             );
-          } else {
-            // set to the default type: account
-            this.setPaymentType(this.ACCOUNT_PAYMENT);
           }
         }
       }),
-      filter(([, selected]) => selected !== undefined),
-      map(([, selected]) => selected)
+      map(([, selected]) => {
+        if (selected === undefined) {
+          selected = B2BPaymentTypeEnum.CARD_PAYMENT;
+        }
+        return selected;
+      })
     );
   }
 
@@ -121,7 +120,7 @@ export class PaymentTypeService {
    */
   isAccountPayment(): Observable<boolean> {
     return this.getSelectedPaymentType().pipe(
-      map((selected) => selected === this.ACCOUNT_PAYMENT)
+      map((selected) => selected === B2BPaymentTypeEnum.ACCOUNT_PAYMENT)
     );
   }
 
