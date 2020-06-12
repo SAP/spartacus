@@ -7,7 +7,14 @@
   >
   </cx-media>
   <div class="cx-zoom-container" *ngIf="isZoomed" (click)="zoom()">
-    <cx-media class="cx-image-zoomed" [container]="main"> </cx-media>
+    <cx-media
+      #zoomedImage
+      class="cx-image-zoomed"
+      [container]="main"
+      (mousemove)="moveImage($event)"
+      (mouseleave)="zoom()"
+    >
+    </cx-media>
   </div>
 </ng-container>
 
@@ -19,7 +26,6 @@
     itemWidth="70px"
     [hideIndicators]="false"
     [template]="thumb"
-    [vertical]="true"
     [hideIndicators]="true"
   ></cx-carousel>
 </ng-container>

@@ -26,6 +26,9 @@
 
       img {
         transform: scale(2);
+        position: relative;
+        transition: background-position 0.25s;
+        // transition: top 0.02s, left 0.02s;
       }
     }
   }

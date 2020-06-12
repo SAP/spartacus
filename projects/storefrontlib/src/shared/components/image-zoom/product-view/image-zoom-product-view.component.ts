@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { Product } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
@@ -13,6 +19,11 @@ export class ImageZoomProductViewComponent {
   private mainMediaContainer = new BehaviorSubject(null);
 
   isZoomed = false;
+
+  @ViewChild('zoomedImage', { read: ElementRef }) zoomedImage: ElementRef;
+
+  top = 0;
+  left = 0;
 
   private product$: Observable<
     Product
@@ -32,7 +43,10 @@ export class ImageZoomProductViewComponent {
     map(([, container]) => container)
   );
 
-  constructor(private currentProductService: CurrentProductService) {}
+  constructor(
+    protected currentProductService: CurrentProductService,
+    protected renderer: Renderer2
+  ) {}
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
@@ -73,6 +87,20 @@ export class ImageZoomProductViewComponent {
 
   zoom(): void {
     this.isZoomed = !this.isZoomed;
+  }
+
+  moveImage(event: any): void {
+    const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect();
+    const imageElement = this.zoomedImage.nativeElement.firstChild;
+
+    const x = event.pageX - boundingRect.left;
+    const y = event.pageY - boundingRect.top;
+
+    this.left = -x + this.zoomedImage.nativeElement.clientWidth / 2;
+    this.top = -y + this.zoomedImage.nativeElement.clientHeight / 2;
+
+    this.renderer.setStyle(imageElement, 'left', this.left + 'px');
+    this.renderer.setStyle(imageElement, 'top', this.top + 'px');
   }
 
   /**
