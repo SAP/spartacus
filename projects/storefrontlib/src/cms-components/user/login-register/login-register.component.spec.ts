@@ -38,7 +38,7 @@ describe('LoginRegisterComponent', () => {
     };
   }
 
-  const testBedBase = {
+  const testBedDefaults = {
     imports: [I18nTestingModule, FeaturesConfigModule],
     declarations: [LoginRegisterComponent, MockUrlPipe],
     providers: [
@@ -64,7 +64,7 @@ describe('LoginRegisterComponent', () => {
   }
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule(testBedBase).compileComponents();
+    TestBed.configureTestingModule(testBedDefaults).compileComponents();
   }));
 
   beforeEach(() => {
@@ -84,6 +84,26 @@ describe('LoginRegisterComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('2.0 Feature level', () => {
+    it('Should not render component with feature level 2.0', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule(testBedDefaults);
+      TestBed.overrideProvider(FeaturesConfig, {
+        useValue: {
+          features: { level: '2.0' },
+        },
+      });
+      TestBed.compileComponents();
+
+      createComponent();
+      callNgInit();
+
+      const registerContainer = fixture.debugElement.query(By.css('.register'));
+
+      expect(registerContainer).toBeFalsy();
+    });
+  });
+
   describe('Register/Guest checkout', () => {
     it('should show Register button when forced flag is false', () => {
       const registerLinkElement: HTMLElement = getRegisterLink().nativeElement;
@@ -94,18 +114,16 @@ describe('LoginRegisterComponent', () => {
     });
 
     it('should show "Guest checkout" when forced flag is true', () => {
-      class MockActivatedRouteGuestCheckout {
-        snapshot = {
-          queryParams: {
-            forced: true,
-          },
-        };
-      }
-
       TestBed.resetTestingModule();
-      TestBed.configureTestingModule(testBedBase);
+      TestBed.configureTestingModule(testBedDefaults);
       TestBed.overrideProvider(ActivatedRoute, {
-        useValue: new MockActivatedRouteGuestCheckout(),
+        useValue: {
+          snapshot: {
+            queryParams: {
+              forced: true,
+            },
+          },
+        },
       });
       TestBed.compileComponents();
 
@@ -122,26 +140,6 @@ describe('LoginRegisterComponent', () => {
 
       expect(registerLink).toBeFalsy();
       expect(guestLinkElement).toBeTruthy();
-    });
-  });
-
-  describe('2.0 Feature level', () => {
-    it('Should not render component with feature level 2.0', () => {
-      TestBed.resetTestingModule();
-      TestBed.configureTestingModule(testBedBase);
-      TestBed.overrideProvider(FeaturesConfig, {
-        useValue: {
-          features: { level: '2.0' },
-        },
-      });
-      TestBed.compileComponents();
-
-      createComponent();
-      callNgInit();
-
-      const registerContainer = fixture.debugElement.query(By.css('.register'));
-
-      expect(registerContainer).toBeFalsy();
     });
   });
 });
