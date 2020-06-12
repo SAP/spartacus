@@ -9,3 +9,15 @@ export * from './user-assign-permissions/user-assign-permissions.module';
 export * from './user-assign-user-groups/user-assign-user-groups.module';
 export * from './user-permissions/user-permissions.module';
 export * from './user-user-groups/user-user-groups.module';
+
+export * from './user-create/user-create.component';
+export * from './user-edit/user-edit.component';
+export * from './user-details/user-details.component';
+export * from './user-list/user-list.component';
+export * from './user-permissions/user-permissions.component';
+export * from './user-approvers/user-approvers.component';
+export * from './user-assign-approvers/user-assign-approvers.component';
+export * from './user-assign-permissions/user-assign-permissions.component';
+export * from './user-assign-user-groups/user-assign-user-groups.component';
+export * from './user-permissions/user-permissions.component';
+export * from './user-user-groups/user-user-groups.component';
