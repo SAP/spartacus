@@ -60,7 +60,6 @@ describe('LoginRegisterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginRegisterComponent);
     component = fixture.componentInstance;
-    checkoutConfigService = TestBed.inject(CheckoutConfigService);
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -115,6 +114,29 @@ describe('LoginRegisterComponent', () => {
 
       expect(registerLink).toBeFalsy();
       expect(guestLinkElement).toBeTruthy();
+    });
+  });
+
+  describe('2.0 Feature level', () => {
+    it('Should not render component with feature level 2.0', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule(testBedBase);
+      TestBed.overrideProvider(FeaturesConfig, {
+        useValue: {
+          features: { level: '2.0' },
+        },
+      });
+      TestBed.compileComponents();
+
+      fixture = TestBed.createComponent(LoginRegisterComponent);
+      component = fixture.componentInstance;
+
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      const registerElement = fixture.debugElement.query(By.css('.register'));
+
+      expect(registerElement).toBeFalsy();
     });
   });
 });
