@@ -19,8 +19,8 @@ export class CostCenterCreateComponent {
     .pipe(map((routingData) => routingData.state.queryParams?.['parentUnit']));
 
   constructor(
-    protected costCenterService: CostCenterService,
     protected routingService: RoutingService,
+    protected costCenterService: CostCenterService,
     protected globalMessageService: GlobalMessageService
   ) {}
 
