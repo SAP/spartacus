@@ -20,14 +20,14 @@
  * 
  * This variable cannot be redeclared by customers.
  */
-$stableVersion: 2.0;
+$stableVersion: 2;
 
 /**
  * The Spartacus team is cautious with introducing changing styles 
  * in a minor release, as it would conflict the semantic versioning model.
  * In order to improve the style layer during minor releases, without breaking 
  * the semantic versioning system, a version flag is used. The version is 
- * used to add styles rules in the style layer. 
+ * used to register breaking styles classes and rules in the stable style layer. 
  * 
  * Customers must explicitly _opt-in_ to a certain (minor) version, to benefit 
  * from the latest style rules.  
@@ -35,7 +35,7 @@ $stableVersion: 2.0;
  * The minorVersion can be set to a specific version.
  * 
  */
-$minorVersion: 0.0 !default;
+$minorVersion: 0 !default;
 
 /**
  * For Spartacus development or demo's, the usage of latest styles is recommended. 
@@ -44,14 +44,18 @@ $minorVersion: 0.0 !default;
  */
 $useLatestStyles: false !default;
 
-
 /**
  * This mixin is used during development of the style layer. Breaking style
  * changes can be added for a specific version, so that customers can explicetly
  * opt-in for such a change.
  */
 @mixin forVersion($version) {
-  @if $useLatestStyles or $version <= $minorVersion or $version <= $stableVersion{
+  @if $useLatestStyles or
+    $version <=
+    $minorVersion or
+    $version <=
+    $stableVersion
+  {
     @content;
   }
 }
