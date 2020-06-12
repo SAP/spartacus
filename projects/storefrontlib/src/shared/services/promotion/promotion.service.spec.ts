@@ -7,7 +7,7 @@ import {
   PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
-import { OrderDetailsService } from 'projects/storefrontlib/src/cms-components';
+import { OrderDetailsService } from '../../../../src/cms-components';
 import { Observable, of } from 'rxjs';
 import { PromotionService } from './promotion.service';
 

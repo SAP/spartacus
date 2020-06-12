@@ -6,7 +6,7 @@ import {
   CmsComponent,
   CmsService,
 } from '@spartacus/core';
-import { CarouselComponent } from 'projects/storefrontlib/src/shared';
+import { CarouselComponent } from '../../../../src/shared';
 import { of } from 'rxjs';
 import {
   CmsComponentData,

@@ -20,7 +20,7 @@ import {
   RoutingConfig,
   RoutingService,
 } from '@spartacus/core';
-import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
+import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
 import { BehaviorSubject, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';

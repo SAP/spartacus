@@ -28,7 +28,7 @@ import { InteractiveTableModule } from '../../../../shared/components/interactiv
 import { CostCenterBudgetsComponent } from './cost-center-budgets.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
+import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
 
 const code = 'costCenterCode';
 
