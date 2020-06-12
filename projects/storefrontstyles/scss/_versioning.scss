@@ -26,7 +26,7 @@ $stableVersion: 2.0;
  * The Spartacus team is cautious with introducing changing styles 
  * in a minor release, as it would conflict the semantic versioning model.
  * In order to improve the style layer during minor releases, without breaking 
- * the semantic versioning system, a version flag is used. The version can is 
+ * the semantic versioning system, a version flag is used. The version is 
  * used to add styles rules in the style layer. 
  * 
  * Customers must explicitly _opt-in_ to a certain (minor) version, to benefit 
