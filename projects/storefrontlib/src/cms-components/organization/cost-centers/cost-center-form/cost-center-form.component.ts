@@ -26,7 +26,7 @@ export class CostCenterFormComponent extends AbstractFormComponent
   @Input() formKey: string;
 
   @Output()
-  pendingChanges = new EventEmitter<Boolean>();
+  pendingChanges = new EventEmitter<Boolean>(true);
 
   constructor(protected formService: CostCenterFormComponentService) {
     super();
