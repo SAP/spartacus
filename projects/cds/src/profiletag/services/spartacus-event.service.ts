@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { ActionsSubject } from '@ngrx/store';
 import {
   ActiveCartService,
-  AuthActions,
-  Cart,
-  ConsentService,
   EventService,
+  PersonalizationContextService,
 } from '@spartacus/core';
 import {
   CartPageVisited,
@@ -17,10 +13,10 @@ import {
   PageVisited,
   ProductDetailsPageVisited,
 } from 'projects/core/src/routing/event/routing.events';
-import { Observable } from 'rxjs';
-import { filter, map, mapTo, skipWhile, take } from 'rxjs/operators';
-import { CdsConfig } from '../../config/cds-config';
+import { merge, Observable, of } from 'rxjs';
+import { map, skipWhile, withLatestFrom } from 'rxjs/operators';
 import {
+  CartChangedPushEvent,
   CartViewPushEvent,
   CategoryViewPushEvent,
   HomePageViewPushEvent,
@@ -35,54 +31,51 @@ import {
   providedIn: 'root',
 })
 export class SpartacusEventService {
+  protected pushEvents$: Observable<ProfileTagEvent> = merge(
+    this.categoryPageVisited(),
+    this.productDetailsPageView(),
+    this.searchResultsChanged(),
+    this.homePageVisitedEvent(),
+    this.cartPageVisitedEvent(),
+    this.pageVisitedEvent(),
+    this.orderConfirmationVisited(),
+    this.cartChanged()
+  );
   constructor(
-    protected consentService: ConsentService,
-    protected router: Router,
-    protected config: CdsConfig,
     protected activeCartService: ActiveCartService,
-    protected actionsSubject: ActionsSubject,
-    protected eventService: EventService
+    protected eventService: EventService,
+    protected personalizationContextService: PersonalizationContextService
   ) {}
 
-  navigated(): Observable<boolean> {
-    return this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      mapTo(true)
+  getPushEvents(): Observable<ProfileTagEvent> {
+    return this.pushEvents$.pipe(
+      withLatestFrom(
+        merge(
+          of({ segments: undefined, actions: undefined }),
+          this.personalizationContextService.getPersonalizationContext()
+        )
+      ),
+      map(([item, personalizationContext]) => {
+        item.data = item.data ? item.data : {};
+        item.data.segments = personalizationContext.segments;
+        item.data.actions = personalizationContext.actions;
+        return item;
+      })
     );
-  }
-
-  /**
-   * We are only interested in the first time the ProfileConsent is granted
-   */
-  consentGranted(): Observable<boolean> {
-    return this.consentService
-      .getConsent(this.config.cds.consentTemplateId)
-      .pipe(
-        filter(Boolean),
-        filter((profileConsent) => {
-          return this.consentService.isConsentGiven(profileConsent);
-        }),
-        mapTo(true),
-        take(1)
-      );
   }
 
   /**
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */
-  cartChanged(): Observable<{ cart: Cart }> {
+  cartChanged(): Observable<CartChangedPushEvent> {
     return this.activeCartService.getActive().pipe(
       skipWhile((cart) => !Boolean(cart.entries) || cart.entries.length === 0),
-      map((cart) => ({
-        cart,
-      }))
-    );
-  }
-
-  loginSuccessful(): Observable<boolean> {
-    return this.actionsSubject.pipe(
-      filter((action) => action.type === AuthActions.LOGIN),
-      mapTo(true)
+      map(
+        (cart) =>
+          new CartChangedPushEvent({
+            cart,
+          })
+      )
     );
   }
 

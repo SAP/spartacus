@@ -1,21 +1,12 @@
 import { Injectable } from '@angular/core';
-import { PersonalizationContextService } from '@spartacus/core';
-import { merge, Observable, of } from 'rxjs';
-import {
-  filter,
-  map,
-  mapTo,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { merge, Observable } from 'rxjs';
+import { mapTo, switchMap, tap } from 'rxjs/operators';
 import { CdsBackendConnector } from '../connectors/cds-backend-connector';
 import {
-  CartChangedPushEvent,
-  ConsentChangedPushEvent,
   NavigatedPushEvent,
   ProfileTagEvent,
 } from '../model/profile-tag.model';
+import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
 import { ProfileTagEventService } from './profiletag-event.service';
 import { SpartacusEventService } from './spartacus-event.service';
 
@@ -25,17 +16,15 @@ import { SpartacusEventService } from './spartacus-event.service';
 export class ProfileTagInjectorService {
   private profileTagEvents$ = this.profileTagEventTracker.getProfileTagEvents();
   private injectionsEvents$: Observable<boolean> = merge(
-    this.notifyProfileTagOfConsentGranted(),
-    this.notifyProfileTagOfCartChange(),
     this.notifyProfileTagOfPageLoaded(),
     this.notifyEcOfLoginSuccessful(),
-    this.notifyDefaultEvents()
+    this.notifyPushEvents()
   );
   constructor(
     private profileTagEventTracker: ProfileTagEventService,
     private spartacusEventTracker: SpartacusEventService,
     private cdsBackendConnector: CdsBackendConnector,
-    private personalizationContextService: PersonalizationContextService
+    private profileTagLifecycleService: ProfileTagLifecycleService
   ) {}
 
   track(): Observable<boolean> {
@@ -45,28 +34,8 @@ export class ProfileTagInjectorService {
     );
   }
 
-  notifyDefaultEvents() {
-    return merge(
-      this.spartacusEventTracker.categoryPageVisited(),
-      this.spartacusEventTracker.productDetailsPageView(),
-      this.spartacusEventTracker.searchResultsChanged(),
-      this.spartacusEventTracker.homePageVisitedEvent(),
-      this.spartacusEventTracker.cartPageVisitedEvent(),
-      this.spartacusEventTracker.pageVisitedEvent(),
-      this.spartacusEventTracker.orderConfirmationVisited()
-    ).pipe(
-      withLatestFrom(
-        merge(
-          of({ segments: undefined, actions: undefined }),
-          this.personalizationContextService.getPersonalizationContext()
-        )
-      ),
-      map(([item, personalizationContext]) => {
-        item.data = item.data ? item.data : {};
-        item.data.segments = personalizationContext.segments;
-        item.data.actions = personalizationContext.actions;
-        return item;
-      }),
+  notifyPushEvents() {
+    return this.spartacusEventTracker.getPushEvents().pipe(
       tap((item: ProfileTagEvent) =>
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item)
       ),
@@ -74,30 +43,8 @@ export class ProfileTagInjectorService {
     );
   }
 
-  private notifyProfileTagOfConsentGranted(): Observable<boolean> {
-    return this.spartacusEventTracker.consentGranted().pipe(
-      filter((granted) => Boolean(granted)),
-      tap((granted) => {
-        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
-          new ConsentChangedPushEvent(granted)
-        );
-      })
-    );
-  }
-
-  private notifyProfileTagOfCartChange(): Observable<boolean> {
-    return this.spartacusEventTracker.cartChanged().pipe(
-      tap((cart) => {
-        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
-          new CartChangedPushEvent(cart)
-        );
-      }),
-      mapTo(true)
-    );
-  }
-
   private notifyProfileTagOfPageLoaded(): Observable<boolean> {
-    return this.spartacusEventTracker.navigated().pipe(
+    return this.profileTagLifecycleService.navigated().pipe(
       tap(() => {
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
           new NavigatedPushEvent()
@@ -107,7 +54,7 @@ export class ProfileTagInjectorService {
   }
 
   private notifyEcOfLoginSuccessful(): Observable<boolean> {
-    return this.spartacusEventTracker.loginSuccessful().pipe(
+    return this.profileTagLifecycleService.loginSuccessful().pipe(
       switchMap((_) => {
         return this.cdsBackendConnector
           .notifySuccessfulLogin()
