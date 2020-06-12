@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
 import { CostCenter } from '@spartacus/core';
 import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
@@ -23,11 +25,17 @@ export class CostCenterFormComponent extends AbstractFormComponent
 
   @Input() formKey: string;
 
+  @Output()
+  pendingChanges = new EventEmitter<Boolean>();
+
   constructor(protected formService: CostCenterFormComponentService) {
     super();
   }
 
   ngOnInit() {
+    if (this.formService.has(this.formKey)) {
+      this.pendingChanges.emit(true);
+    }
     this.form = this.formService.getForm(this.costCenterData, this.formKey);
   }
 

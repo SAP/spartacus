@@ -7,6 +7,7 @@
   [formKey]="getFormKey()"
   [costCenterData]="{ unit: { uid: (parentUnit$ | async) || null } }"
   [readonlyParent]="!!(parentUnit$ | async)"
+  (pendingChanges)="showFormRestoredMessage($event)"
   (submitForm)="createCostCenter($event)"
 >
 </cx-cost-center-form>

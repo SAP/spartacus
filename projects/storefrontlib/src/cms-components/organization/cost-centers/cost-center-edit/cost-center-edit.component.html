@@ -19,6 +19,7 @@
     [costCenterData]="costCenter"
     [formKey]="getFormKey(costCenter)"
     [routerBackLink]="{ cxRoute: 'costCenterDetails', params: costCenter }"
+    (pendingChanges)="showFormRestoredMessage($event)"
     (submitForm)="updateCostCenter($event)"
   >
   </cx-cost-center-form>

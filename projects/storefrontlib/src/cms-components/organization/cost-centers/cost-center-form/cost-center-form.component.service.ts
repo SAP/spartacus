@@ -24,4 +24,8 @@ export class CostCenterFormComponentService {
   removeForm(key: string): boolean {
     return this.persistenceService.remove(key);
   }
+
+  has(key: string): boolean {
+    return this.persistenceService.has(key);
+  }
 }

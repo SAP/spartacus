@@ -35,9 +35,8 @@ export class FormsPersistenceService {
       return <T>(<unknown>this.createForm(formConfiguration));
     }
 
-    const form = this.forms.get(key);
-    if (form) {
-      return <T>form;
+    if (this.has(key)) {
+      return <T>this.forms.get(key);
     }
 
     const fg = this.createForm(formConfiguration);
@@ -55,6 +54,13 @@ export class FormsPersistenceService {
    */
   remove(key: string): boolean {
     return this.forms.delete(key);
+  }
+
+  /**
+   * Returns `true` if a form is stored under the given `key`.
+   */
+  has(key: string): boolean {
+    return this.forms.has(key);
   }
 
   /**

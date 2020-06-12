@@ -137,4 +137,7 @@ export const common = {
     cxDateMin: 'Date cannot be before {{min}}',
     cxDateMax: 'Date cannot be after {{max}}',
   },
+  form: {
+    restored: 'Restored local changes',
+  },
 };
