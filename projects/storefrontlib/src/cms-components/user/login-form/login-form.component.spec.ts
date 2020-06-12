@@ -67,7 +67,6 @@ describe('LoginFormComponent', () => {
 
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
-  let featureConfigService: FeatureConfigService;
   let windowRef: WindowRef;
 
   beforeEach(async(() => {
@@ -100,7 +99,6 @@ describe('LoginFormComponent', () => {
     component = fixture.componentInstance;
     authService = TestBed.inject(AuthService);
     authRedirectService = TestBed.inject(AuthRedirectService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
     windowRef = TestBed.inject(WindowRef);
   });
 
