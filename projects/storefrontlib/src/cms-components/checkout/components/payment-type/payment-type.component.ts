@@ -5,7 +5,7 @@ import {
   B2BPaymentTypeEnum,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, scan, tap } from 'rxjs/operators';
+import { distinctUntilChanged, scan, tap, filter } from 'rxjs/operators';
 import { CheckoutStepType } from '../../model/checkout-step.model';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -23,6 +23,7 @@ export class PaymentTypeComponent {
   typeSelected$: Observable<
     string
   > = this.paymentTypeService.getSelectedPaymentType().pipe(
+    filter((selected) => selected !== undefined),
     distinctUntilChanged(),
     tap((selected) => {
       this.typeSelected = selected;

@@ -106,12 +106,7 @@ export class PaymentTypeService {
           }
         }
       }),
-      map(([, selected]) => {
-        if (selected === undefined) {
-          selected = B2BPaymentTypeEnum.CARD_PAYMENT;
-        }
-        return selected;
-      })
+      map(([, selected]) => selected)
     );
   }
 
