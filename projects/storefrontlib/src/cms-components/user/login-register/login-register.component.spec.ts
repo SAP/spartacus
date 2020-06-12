@@ -6,7 +6,7 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
-import { Pipe, PipeTransform } from '@angular/core';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CheckoutConfigService } from '@spartacus/storefront';
 import { ActivatedRoute } from '@angular/router';
@@ -14,6 +14,8 @@ import { ActivatedRoute } from '@angular/router';
 describe('LoginRegisterComponent', () => {
   let component: LoginRegisterComponent;
   let fixture: ComponentFixture<LoginRegisterComponent>;
+
+  let checkoutConfigService;
 
   @Pipe({
     name: 'cxUrl',
@@ -36,26 +38,29 @@ describe('LoginRegisterComponent', () => {
     };
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, FeaturesConfigModule],
-      declarations: [LoginRegisterComponent, MockUrlPipe],
-      providers: [
-        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '2.1' },
-          },
+  const testBedBase = {
+    imports: [I18nTestingModule, FeaturesConfigModule],
+    declarations: [LoginRegisterComponent, MockUrlPipe],
+    providers: [
+      { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
+      { provide: ActivatedRoute, useClass: MockActivatedRoute },
+      {
+        provide: FeaturesConfig,
+        useValue: {
+          features: { level: '2.1' },
         },
-      ],
-    }).compileComponents();
+      },
+    ],
+  };
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule(testBedBase).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginRegisterComponent);
     component = fixture.componentInstance;
+    checkoutConfigService = TestBed.inject(CheckoutConfigService);
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -65,19 +70,42 @@ describe('LoginRegisterComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('guest checkout', () => {
-    it('should show "Register" when forced flag is false', () => {
+  describe('Register/Guest checkout', () => {
+    it('should show Register button when forced flag is false', () => {
       const registerLinkElement: HTMLElement = fixture.debugElement.query(
         By.css('.btn-register')
       ).nativeElement;
-      const guestLink = fixture.debugElement.query(By.css('.btn-guest'));
+      const guestLink: DebugElement = fixture.debugElement.query(
+        By.css('.btn-guest')
+      );
 
       expect(guestLink).toBeFalsy();
       expect(registerLinkElement).toBeTruthy();
     });
 
     it('should show "Guest checkout" when forced flag is true', () => {
-      component.loginAsGuest = true;
+      class MockActivatedRouteGuestCheckout {
+        snapshot = {
+          queryParams: {
+            forced: true,
+          },
+        };
+      }
+
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule(testBedBase);
+      TestBed.overrideProvider(ActivatedRoute, {
+        useValue: new MockActivatedRouteGuestCheckout(),
+      });
+      TestBed.compileComponents();
+
+      fixture = TestBed.createComponent(LoginRegisterComponent);
+      component = fixture.componentInstance;
+      checkoutConfigService = TestBed.inject(CheckoutConfigService);
+
+      spyOn(checkoutConfigService, 'isGuestCheckout').and.returnValue(true);
+
+      component.ngOnInit();
       fixture.detectChanges();
 
       const guestLinkElement: HTMLElement = fixture.debugElement.query(
