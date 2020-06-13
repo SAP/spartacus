@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import { FakeTabsDesktopModule } from './fake-tabs-desktop/fake-tabs-desktop.module';
 import { FakeTabsMobileModule } from './fake-tabs-mobile/fake-tabs-mobile.module';
-import { defaultStorefrontRoutesConfig } from '../../../../src/cms-structure/routing/default-routing-config';
+import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 
 const mockLinks: Array<TabLink> = [
   { name: 'link1', cxRoute: 'route1', active: false },
