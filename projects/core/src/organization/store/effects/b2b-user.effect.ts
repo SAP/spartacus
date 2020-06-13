@@ -89,14 +89,18 @@ export class B2BUserEffects {
             });
             return new B2BUserActions.LoadB2BUser(payload);
           }),
-          catchError((error) =>
-            of(
+          catchError((error) => {
+            this.routingService.go({
+              cxRoute: 'userDetails',
+              params: { customerId: payload.orgCustomerId },
+            });
+            return of(
               new B2BUserActions.UpdateB2BUserFail({
                 orgCustomerId: payload.orgCustomer.customerId,
                 error: makeErrorSerializable(error),
               })
-            )
-          )
+            );
+          })
         )
     )
   );
