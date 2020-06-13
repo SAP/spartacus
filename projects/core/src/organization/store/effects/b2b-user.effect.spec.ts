@@ -21,7 +21,7 @@ import { B2BSearchConfig } from '../../model/search-config';
 import { B2BUser } from '../../../model/org-unit.model';
 import { Permission } from '../../../model/permission.model';
 import { UserGroup } from '../../../model/user-group.model';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '../../../routing/facade/routing.service';
 
 const error = 'error';
 const userId = 'testUser';
