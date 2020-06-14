@@ -58,7 +58,7 @@ describe('BudgetListNormalizer', () => {
 
   it('should convert budget list', () => {
     const result = service.convert(budgetList);
-    expect(result).toEqual(targetBudgetList);
+    expect(result.values).toEqual(targetBudgetList.values);
   });
 
   it('should convert budget list with applied target', () => {

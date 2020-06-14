@@ -54,7 +54,7 @@ describe('UserListNormalizer', () => {
 
   it('should convert user list', () => {
     const result = service.convert(userList);
-    expect(result).toEqual(targetUserList);
+    expect(result.values).toEqual(targetUserList.values);
   });
 
   it('should convert user list with applied target', () => {

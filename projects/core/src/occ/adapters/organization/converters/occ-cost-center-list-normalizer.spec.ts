@@ -58,7 +58,7 @@ describe('CostCenterListNormalizer', () => {
 
   it('should convert cost center list', () => {
     const result = service.convert(costCentersList);
-    expect(result).toEqual(targetCostCentersList);
+    expect(result.values).toEqual(targetCostCentersList.values);
   });
 
   it('should convert cost center list with applied target', () => {

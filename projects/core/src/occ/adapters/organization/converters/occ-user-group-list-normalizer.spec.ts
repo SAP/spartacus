@@ -56,7 +56,7 @@ describe('UserGroupListNormalizer', () => {
 
   it('should convert user group list', () => {
     const result = service.convert(userGroupList);
-    expect(result).toEqual(targetUserGroupList);
+    expect(result.values).toEqual(targetUserGroupList.values);
   });
 
   it('should convert user group list with applied target', () => {

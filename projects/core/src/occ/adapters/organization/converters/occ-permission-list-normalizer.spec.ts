@@ -56,7 +56,7 @@ describe('PermissionListNormalizer', () => {
 
   it('should convert permission list', () => {
     const result = service.convert(permissionsList);
-    expect(result).toEqual(targetPermissionsList);
+    expect(result.values).toEqual(targetPermissionsList.values);
   });
 
   it('should convert permission list with applied target', () => {
