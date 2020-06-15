@@ -81,26 +81,16 @@ export class B2BUserEffects {
         .update(payload.userId, payload.orgCustomerId, payload.orgCustomer)
         .pipe(
           // TODO: Workaround for empty PATCH response:
-          // map(data => new B2BUserActions.UpdateB2BUserSuccess(data)),
-          map(() => {
-            this.routingService.go({
-              cxRoute: 'userDetails',
-              params: { customerId: payload.orgCustomerId },
-            });
-            return new B2BUserActions.LoadB2BUser(payload);
-          }),
-          catchError((error) => {
-            this.routingService.go({
-              cxRoute: 'userDetails',
-              params: { customerId: payload.orgCustomerId },
-            });
-            return of(
+          // map((data) => new B2BUserActions.UpdateB2BUserSuccess(data)),
+          map(() => new B2BUserActions.LoadB2BUser(payload)),
+          catchError((error) =>
+            of(
               new B2BUserActions.UpdateB2BUserFail({
                 orgCustomerId: payload.orgCustomer.customerId,
                 error: makeErrorSerializable(error),
               })
-            );
-          })
+            )
+          )
         )
     )
   );

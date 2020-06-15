@@ -31,9 +31,9 @@
     [b2bUserData]="b2bUser"
     [routerBackLink]="{
       cxRoute: 'userDetails',
-      params: { customerId: b2bUser.customerId }
+      params: b2bUser
     }"
-    (submitForm)="updateB2BUser($event)"
+    (submitForm)="updateB2BUser($event, b2bUser.customerId)"
   >
   </cx-user-form>
 </cx-fake-tabs>
