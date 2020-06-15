@@ -1,7 +1,7 @@
 import { NgModule, ModuleWithProviders, APP_INITIALIZER } from '@angular/core';
 import { GigyaRaasModule } from './cms-components/gigya-raas/gigya-raas.module';
 import { GigyaConfig } from './config/gigya-config';
-import { provideConfig, AuthService } from '@spartacus/core';
+import { provideConfig, Config, AuthService } from '@spartacus/core';
 import { GigyaUserTokenEffects } from './auth/store';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthModule } from './auth/auth.module';
@@ -27,6 +27,7 @@ export class GigyaModule {
       ngModule: GigyaModule,
       providers: [
         provideConfig(config),
+        { provide: GigyaConfig, useExisting: Config },
         {
           provide: APP_INITIALIZER,
           useFactory: gigyaJSFactory,

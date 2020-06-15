@@ -229,7 +229,7 @@ describe('GigyaJsComponent', () => {
     expect(globalMessageService.remove).toHaveBeenCalledTimes(0);
     expect(authRedirectService.redirect).toHaveBeenCalledTimes(0);
   });
-
+  
   it('should not login user when on login event is not triggered', () => {
     spyOn(auth, 'authorizeWithCustomGigyaFlow');
     spyOn(authRedirectService, 'redirect');

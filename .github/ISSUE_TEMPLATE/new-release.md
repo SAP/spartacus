@@ -13,7 +13,7 @@ assignees: ''
 - [ ] Create release branch `release/x.y.z` from the corresponding branch (develop/maintenance)
 - [ ] [Bump versions for schematics migration](https://github.com/SAP/spartacus/blob/develop/projects/schematics/README.md#releasing-update-schematics)
 - [ ] Run all e2e tests on release branch (Pro tip: run mobile, regression, smoke scripts in parallel to get all the results faster, after that retry failed tests in open mode)
-- [ ] Build app on this branch using [this script](https://github.tools.sap/cx-commerce/spartacus-installation). (Use the following `config.sh`):
+- [ ] Build app on this branch using installation script (`scripts/install/run.sh`; use the following `config.sh`):
 
   ```bash
   BACKEND_URL="https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002"
@@ -21,10 +21,13 @@ assignees: ''
   SPARTACUS_VERSION='x.y.z'
   ```
 
-  Using the [new installation script](https://github.com/SAP/spartacus/pull/7433) (located in `scripts/install`, not merged yet), please perform below steps:
-
+  If backend version is lower than 2005 add this as well to the above config:
+  ```bash
+  OCC_PREFIX="/rest/v2/"
+  ```
+Finally, run the script:
   - [ ] Run `./run.sh install`
-  - [ ] You can then go to each app directory and run it with yarn build, start, build:ssr etc.
+  - [ ] Once finished, run `./run.sh start` to start the apps. You can also go to each app directory and run it with yarn build, start, build:ssr etc.
 
 - [ ]  make are sure that release branch is working correctly, everything is passing and it builds
 
@@ -69,7 +72,7 @@ assignees: ''
   - Use `npm dist-tag` command for tag updates.
 - [ ] Test the released libraries from a new shell app
   - Use the install script `scripts/install/run.sh install_npm`
-    - Set or change `SPARTACUS_VERSION` to `next` or `latest` in `config.sh`
+    - Set or change `SPARTACUS_VERSION` to `next` or `latest` in `config.sh`; alternatively you can set it to specific one, ie `x.y.z` (by using `next`/`latest` we're checking npm tags at the same time)
     - Run the script from `scripts/install` directory
 - [ ]  merge release branch (PR from release/x.y.z) to maintenance branch
 - [ ]  inform PO about libraries successfully released
