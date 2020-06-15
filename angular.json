@@ -135,36 +135,6 @@
             }
           }
         },
-        "server-productconfig": {
-          "builder": "@angular-devkit/build-angular:server",
-          "options": {
-            "outputPath": "dist/storefrontapp-server",
-            "main": "projects/storefrontapp/server.ts",
-            "tsConfig": "projects/storefrontapp/tsconfig.server.json"
-          },
-          "configurations": {
-            "productconfig.development": {
-              "fileReplacements": [
-                {
-                  "replace": "projects/storefrontapp/src/environments/productconfig/productconfig.feature.ts",
-                  "with": "projects/storefrontapp/src/environments/productconfig/productconfig.feature.enabled.ts"
-                }
-              ]
-            },
-            "production": {
-              "outputHashing": "media",
-              "fileReplacements": [
-                {
-                  "replace": "projects/storefrontapp/src/environments/productconfig/productconfig.feature.ts",
-                  "with": "projects/storefrontapp/src/environments/productconfig/productconfig.feature.enabled.ts"
-                }
-              ],
-              "sourceMap": false,
-              "optimization": true,
-              "tsConfig": "projects/storefrontapp/tsconfig.server.prod.json"
-            }
-          }
-        },
         "serve-ssr": {
           "builder": "@nguniversal/builders:ssr-dev-server",
           "options": {

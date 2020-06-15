@@ -87,7 +87,15 @@
     "build:cds:ssr": "cross-env SPARTACUS_CDS=true ng run storefrontapp:server:production",
     "prerender:cds": "cross-env SPARTACUS_CDS=true ng run storefrontapp:prerender",
     "release:cds:with-changelog": "cd projects/cds && release-it && cd ../..",
-    "start:b2b:ci:2005": "cross-env SPARTACUS_BASE_URL=https://dev-com-7.accdemo.b2c.ydev.hybris.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod"
+    "start:b2b:ci:2005": "cross-env SPARTACUS_BASE_URL=https://dev-com-7.accdemo.b2c.ydev.hybris.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod",
+    "build:productconfig": "cross-env SPARTACUS_PRODUCTCONFIG=true ng build storefrontapp --prod",
+    "build:productconfig:lib": "ng build productconfig --prod",
+    "build:core:lib:productconfig": "yarn build:core:lib && yarn build:productconfig:lib",
+    "build:core:lib:cds:productconfig": "yarn build:core:lib && yarn build:cds:lib && yarn build:productconfig:lib",
+    "start:productconfig": "cross-env SPARTACUS_PRODUCTCONFIG=true ng serve",
+    "test:productconfig:lib": "ng test productconfig --code-coverage",
+    "dev:productconfig:ssr": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 SPARTACUS_PRODUCTCONFIG=true ng run storefrontapp:serve-ssr",
+    "prerender:productconfig:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 SPARTACUS_PRODUCTCONFIG=true ng run storefrontapp:prerender --routesFile projects/storefrontapp/prerender.txt"
   },
   "private": false,
   "dependencies": {

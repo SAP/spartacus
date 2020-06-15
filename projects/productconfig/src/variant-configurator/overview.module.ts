@@ -1,31 +1,17 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  CmsConfig,
-  ConfigModule,
-  I18nModule,
-  UrlModule,
-  UserService,
-} from '@spartacus/core';
+import { CmsConfig, ConfigModule } from '@spartacus/core';
 import {
   CmsPageGuard,
   ConfigAddToCartButtonComponent,
   ConfigOverviewFormComponent,
   ConfigPriceSummaryComponent,
   ConfigTabBarComponent,
-  GenericConfiguratorModule,
-  IconModule,
   PageLayoutComponent,
 } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
-    CommonModule,
-    GenericConfiguratorModule,
-
     RouterModule.forChild([
       {
         path:
@@ -103,18 +89,10 @@ import {
         },
       },
     }),
-
-    FormsModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-    UrlModule,
-    I18nModule,
-    IconModule,
   ],
 
   declarations: [],
   exports: [],
-  providers: [UserService],
   entryComponents: [],
 })
 export class OverviewModule {}
