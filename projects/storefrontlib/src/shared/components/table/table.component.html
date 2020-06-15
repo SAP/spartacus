@@ -11,18 +11,9 @@
           <td class="cx-code" *ngFor="let column of columns">
             <ng-container
               *ngTemplateOutlet="
-                checkbox;
-                context: { row: row, column: column }
+                content;
+                context: { data: { row: row, column: column } }
               "
-            ></ng-container>
-            <ng-container
-              *ngTemplateOutlet="button; context: { row: row, column: column }"
-            ></ng-container>
-            <ng-container
-              *ngTemplateOutlet="link; context: { row: row, column: column }"
-            ></ng-container>
-            <ng-container
-              *ngTemplateOutlet="text; context: { row: row, column: column }"
             ></ng-container>
           </td>
         </tr>
@@ -37,16 +28,10 @@
       >
         <span class="cx-label">{{ column.value }}: </span>
         <ng-container
-          *ngTemplateOutlet="checkbox; context: { row: row, column: column }"
-        ></ng-container>
-        <ng-container
-          *ngTemplateOutlet="button; context: { row: row, column: column }"
-        ></ng-container>
-        <ng-container
-          *ngTemplateOutlet="link; context: { row: row, column: column }"
-        ></ng-container>
-        <ng-container
-          *ngTemplateOutlet="text; context: { row: row, column: column }"
+          *ngTemplateOutlet="
+            content;
+            context: { data: { row: row, column: column } }
+          "
         ></ng-container>
       </div>
     </div>
@@ -79,20 +64,36 @@
   Icon button can be used as follows in tableData object:
   
   key: {
-    ...,
-    cxIcon: {
-      type: iconTypes.EXAMPLE_ICON,
-      class: 'example-class'
-    }
+    button: {
+      class: 'btn btn-primary btn-sm',
+      disabled: true,
+      icon: {
+        type: this.iconTypes.CLOSE,
+      },
+      text: {
+        class: 'desktop mode',
+        value: 'Custom text',
+      },
+    },
   }
 -->
 <ng-template #button let-row="row" let-column="column">
   <ng-container *ngIf="column?.button && row">
-    <cx-icon
-      [class]="row[column.key]?.cxIcon.class"
-      [type]="row[column.key]?.cxIcon.type"
+    <button
+      *ngIf="row[column.key]?.button"
       (click)="onClick($event, row, column.key)"
-    ></cx-icon>
+      [ngClass]="row[column.key].button?.class"
+      [disabled]="row[column.key].button?.disabled"
+      type="button"
+    >
+      <cx-icon
+        *ngIf="row[column.key].button?.icon"
+        [type]="row[column.key].button?.icon.type"
+      ></cx-icon>
+      <span [ngClass]="row[column.key].button?.text?.class">
+        {{ row[column.key].button?.text?.value || column.value }}</span
+      >
+    </button>
   </ng-container>
 </ng-template>
 
@@ -115,4 +116,23 @@
   >
     {{ row[column.key] || '-' }}
   </ng-container>
+</ng-template>
+
+<!-- Main content tempalate. -->
+<ng-template #content let-data="data">
+  <ng-container
+    *ngTemplateOutlet="
+      checkbox;
+      context: { row: data.row, column: data.column }
+    "
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="button; context: { row: data.row, column: data.column }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="link; context: { row: data.row, column: data.column }"
+  ></ng-container>
+  <ng-container
+    *ngTemplateOutlet="text; context: { row: data.row, column: data.column }"
+  ></ng-container>
 </ng-template>
