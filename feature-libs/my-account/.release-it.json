@@ -15,7 +15,7 @@
   "github": {
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
-    "releaseName": "@spartacus/my-account@${version}",
+    "releaseName": "@spartacus/myaccount@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib my-account --to my-account-${version}"
   },
   "plugins": {
