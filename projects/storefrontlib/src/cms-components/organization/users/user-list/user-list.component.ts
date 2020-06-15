@@ -4,7 +4,6 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import {
   RoutingService,
-  CxDatePipe,
   EntitiesModel,
   B2BUserService,
   B2BUser,
@@ -25,8 +24,7 @@ export class B2BUserListComponent extends AbstractListingComponent
 
   constructor(
     protected routingService: RoutingService,
-    protected b2bUsersService: B2BUserService,
-    protected cxDate: CxDatePipe
+    protected b2bUsersService: B2BUserService
   ) {
     super(routingService);
   }

@@ -5,7 +5,6 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  CxDatePipe,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
@@ -30,7 +29,6 @@ import { B2BUserListComponent } from './user-list.component';
   ],
   declarations: [B2BUserListComponent],
   exports: [B2BUserListComponent],
-  providers: [CxDatePipe],
   entryComponents: [B2BUserListComponent],
 })
 export class B2BUserListModule {}
