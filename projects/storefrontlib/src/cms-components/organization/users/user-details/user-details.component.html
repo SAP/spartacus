@@ -26,7 +26,7 @@
     <div class="row">
       <div class="col-md-12 col-lg-6">
         <div class="cx-header">
-          <h3>{{ 'userForm.details' | cxTranslate }}</h3>
+          <h3>{{ 'user.details' | cxTranslate }}</h3>
         </div>
 
         <div class="row">
@@ -82,13 +82,13 @@
               class="btn btn-secondary btn-block"
               (click)="openModal(confirmDisable)"
             >
-              {{ 'userForm.disable' | cxTranslate }}
+              {{ 'user.disable' | cxTranslate }}
             </button>
 
             <ng-template #confirmDisable>
               <cx-confirm-modal
-                [title]="'userForm.confirmDeactivation.title' | cxTranslate"
-                [message]="'userForm.confirmDeactivation.message' | cxTranslate"
+                [title]="'user.confirmDeactivation.title' | cxTranslate"
+                [message]="'user.confirmDeactivation.message' | cxTranslate"
                 (confirm)="update({ active: false })"
               ></cx-confirm-modal>
             </ng-template>
@@ -100,7 +100,7 @@
                 [disabled]="user.orgUnit && !user.orgUnit.active"
                 (click)="update({ active: true })"
               >
-                {{ 'userForm.enable' | cxTranslate }}
+                {{ 'user.enable' | cxTranslate }}
               </button>
             </div>
           </ng-template>
@@ -115,7 +115,7 @@
               "
               class="btn btn-primary btn-block"
             >
-              {{ 'userForm.edit' | cxTranslate }}
+              {{ 'user.edit' | cxTranslate }}
             </a>
           </div>
         </div>
