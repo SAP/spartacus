@@ -332,6 +332,10 @@ export interface OccEndpoints {
    */
   updateConfigurationForCartEntry?: string;
   /**
+   * Endpoint for reading configuration overview attached to the order entry
+   */
+  readConfigurationOverviewForOrderEntry?: string;
+  /**
    * Endpoint to read configuration price
    *
    * @member {string}

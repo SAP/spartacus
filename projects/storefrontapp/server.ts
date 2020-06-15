@@ -1,13 +1,14 @@
-import 'zone.js/dist/zone-node';
-
+import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import { NgExpressEngineDecorator } from '@spartacus/core';
-import * as express from 'express';
-import { join } from 'path';
-
-import { AppServerModule } from './src/main.server';
-import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
+import { join } from 'path';
+import 'zone.js/dist/zone-node';
+import { AppServerModule } from './src/main.server';
+
+// Require is used here, because we can't use `import * as express` together with TS esModuleInterop option.
+// And we need to use esModuleInterop option in ssr dev mode, because i18next enforce usage of this option for cjs module.
+const express = require('express');
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine);
 

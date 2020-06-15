@@ -33,7 +33,7 @@ const owner: GenericConfigurator.Owner = {
   type: GenericConfigurator.OwnerType.PRODUCT,
 };
 
-let configurationIsLoading: Boolean = false;
+let isConfigurationLoading: Boolean = false;
 let hasPendingChanges: Boolean = false;
 let waitingTime = 1000;
 
@@ -47,8 +47,8 @@ class MockConfiguratorCommonsService {
   hasPendingChanges(): Observable<Boolean> {
     return of(hasPendingChanges);
   }
-  configurationIsLoading(): Observable<Boolean> {
-    return of(configurationIsLoading);
+  isConfigurationLoading(): Observable<Boolean> {
+    return of(isConfigurationLoading);
   }
 }
 
@@ -111,7 +111,7 @@ describe('ConfigurationMessageComponent', () => {
 
   it('should show update banner if pending changes is true', () => {
     hasPendingChanges = true;
-    configurationIsLoading = false;
+    isConfigurationLoading = false;
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -134,7 +134,7 @@ describe('ConfigurationMessageComponent', () => {
 
   it('should show update banner if loading is true', () => {
     hasPendingChanges = false;
-    configurationIsLoading = true;
+    isConfigurationLoading = true;
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -157,7 +157,7 @@ describe('ConfigurationMessageComponent', () => {
 
   it('should show update banner if loading and pending changes are true', () => {
     hasPendingChanges = true;
-    configurationIsLoading = true;
+    isConfigurationLoading = true;
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -180,7 +180,7 @@ describe('ConfigurationMessageComponent', () => {
 
   it('should consider the configured timeout', () => {
     hasPendingChanges = true;
-    configurationIsLoading = true;
+    isConfigurationLoading = true;
     waitingTime = 100;
     component.ngOnInit();
     fixture.detectChanges();

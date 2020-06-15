@@ -38,7 +38,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       ],
     });
 
-    occConfiguratorVariantPriceSummaryNormalizer = TestBed.get(
+    occConfiguratorVariantPriceSummaryNormalizer = TestBed.inject(
       OccConfiguratorVariantPriceSummaryNormalizer as Type<
         OccConfiguratorVariantPriceSummaryNormalizer
       >
@@ -51,7 +51,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should convert a price to a configuration', () => {
     const result = occConfiguratorVariantPriceSummaryNormalizer.convert(prices);
-    expect(result.configId).toBe(CONFIG_ID);
-    expect(result.priceSummary).toBe(prices.priceSummary);
+    expect(result).toBe(prices.priceSummary);
   });
 });

@@ -17,6 +17,7 @@ import { Configurator } from '../../../../model/configurator.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccEndpointsService } from '../../../services/occ-endpoints.service';
+import { OccConfigurator } from './occ-configurator.models';
 
 class MockOccEndpointsService {
   getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
@@ -29,9 +30,9 @@ class MockOccEndpointsService {
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
 const groupId = 'GROUP1';
-const cartEntryNumber = '3';
+const documentEntryNumber = '3';
 const userId = 'Anony';
-const cartId = '82736353';
+const documentId = '82736353';
 
 const productConfiguration: Configurator.Configuration = {
   configId: configId,
@@ -41,6 +42,8 @@ const productConfiguration: Configurator.Configuration = {
     id: productCode,
   },
 };
+
+const overview: OccConfigurator.Overview = { id: configId };
 
 describe('OccConfigurationVariantAdapter', () => {
   let occConfiguratorVariantAdapter: OccConfiguratorVariantAdapter;
@@ -58,18 +61,20 @@ describe('OccConfigurationVariantAdapter', () => {
       ],
     });
 
-    httpMock = TestBed.get(
+    httpMock = TestBed.inject(
       HttpTestingController as Type<HttpTestingController>
     );
-    converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    occEnpointsService = TestBed.get(
+    converterService = TestBed.inject(
+      ConverterService as Type<ConverterService>
+    );
+    occEnpointsService = TestBed.inject(
       OccEndpointsService as Type<OccEndpointsService>
     );
 
-    occConfiguratorVariantAdapter = TestBed.get(
+    occConfiguratorVariantAdapter = TestBed.inject(
       OccConfiguratorVariantAdapter as Type<OccConfiguratorVariantAdapter>
     );
-    configuratorUtils = TestBed.get(
+    configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(productConfiguration.owner);
@@ -104,6 +109,7 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CONFIGURATION_NORMALIZER
     );
+    mockReq.flush(productConfiguration);
   });
 
   it('should call readConfiguration endpoint', () => {
@@ -126,6 +132,7 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CONFIGURATION_NORMALIZER
     );
+    mockReq.flush(productConfiguration);
   });
 
   it('should call updateConfiguration endpoint', () => {
@@ -153,9 +160,10 @@ describe('OccConfigurationVariantAdapter', () => {
       productConfiguration,
       CONFIGURATION_SERIALIZER
     );
+    mockReq.flush(productConfiguration);
   });
 
-  it('should call readConfigurationPrice endpoint', () => {
+  it('should call readPriceSummary endpoint', () => {
     occConfiguratorVariantAdapter
       .readPriceSummary(productConfiguration)
       .subscribe();
@@ -173,14 +181,16 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CONFIGURATION_PRICE_SUMMARY_NORMALIZER
     );
+    const priceSummary: OccConfigurator.Prices = {};
+    mockReq.flush(priceSummary);
   });
 
   it('should call readConfigurationForCartEntry endpoint', () => {
     const params: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
       owner: productConfiguration.owner,
       userId: userId,
-      cartId: cartId,
-      cartEntryNumber: cartEntryNumber,
+      cartId: documentId,
+      cartEntryNumber: documentEntryNumber,
     };
     occConfiguratorVariantAdapter
       .readConfigurationForCartEntry(params)
@@ -196,8 +206,8 @@ describe('OccConfigurationVariantAdapter', () => {
       'readConfigurationForCartEntry',
       {
         userId,
-        cartId,
-        cartEntryNumber,
+        cartId: documentId,
+        cartEntryNumber: documentEntryNumber,
       }
     );
 
@@ -206,14 +216,50 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CONFIGURATION_NORMALIZER
     );
+    mockReq.flush(productConfiguration);
+  });
+
+  it('should call readConfigurationOverviewForOrderEntry endpoint', () => {
+    const params: GenericConfigurator.ReadConfigurationFromOrderEntryParameters = {
+      owner: productConfiguration.owner,
+      userId: userId,
+      orderId: documentId,
+      orderEntryNumber: documentEntryNumber,
+    };
+    occConfiguratorVariantAdapter
+      .readConfigurationForOrderEntry(params)
+      .subscribe();
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readConfigurationOverviewForOrderEntry'
+      );
+    });
+
+    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      'readConfigurationOverviewForOrderEntry',
+      {
+        userId,
+        orderId: documentId,
+        orderEntryNumber: documentEntryNumber,
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CONFIGURATION_OVERVIEW_NORMALIZER
+    );
+    mockReq.flush(overview);
   });
 
   it('should call updateConfigurationForCartEntry endpoint', () => {
     const params: Configurator.UpdateConfigurationForCartEntryParameters = {
       configuration: productConfiguration,
       userId: userId,
-      cartId: cartId,
-      cartEntryNumber: cartEntryNumber,
+      cartId: documentId,
+      cartEntryNumber: documentEntryNumber,
     };
     occConfiguratorVariantAdapter
       .updateConfigurationForCartEntry(params)
@@ -229,10 +275,32 @@ describe('OccConfigurationVariantAdapter', () => {
       'updateConfigurationForCartEntry',
       {
         userId,
-        cartId,
-        cartEntryNumber,
+        cartId: documentId,
+        cartEntryNumber: documentEntryNumber,
       }
     );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CART_MODIFICATION_NORMALIZER
+    );
+  });
+
+  it('should call addToCart endpoint', () => {
+    const params: Configurator.AddToCartParameters = {
+      productCode: 'Product',
+      quantity: 1,
+      configId: configId,
+      ownerKey: productConfiguration.owner.key,
+      userId: userId,
+      cartId: documentId,
+    };
+    occConfiguratorVariantAdapter.addToCart(params).subscribe();
+
+    const mockReq = httpMock.expectOne((req) => {
+      return req.method === 'POST' && req.url === 'addConfigurationToCart';
+    });
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
@@ -245,8 +313,8 @@ describe('OccConfigurationVariantAdapter', () => {
     const params: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
       owner: productConfiguration.owner,
       userId: userId,
-      cartId: cartId,
-      cartEntryNumber: cartEntryNumber,
+      cartId: documentId,
+      cartEntryNumber: documentEntryNumber,
     };
     occConfiguratorVariantAdapter
       .readConfigurationForCartEntry(params)
@@ -284,5 +352,6 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(converterService.pipeable).toHaveBeenCalledWith(
       CONFIGURATION_OVERVIEW_NORMALIZER
     );
+    mockReq.flush(overview);
   });
 });

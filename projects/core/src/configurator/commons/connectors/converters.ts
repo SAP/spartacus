@@ -11,7 +11,7 @@ export const CONFIGURATION_SERIALIZER = new InjectionToken<
 >('ConfigurationSerializer');
 
 export const CONFIGURATION_PRICE_SUMMARY_NORMALIZER = new InjectionToken<
-  Converter<any, Configurator.Configuration>
+  Converter<any, Configurator.PriceSummary>
 >('ConfigurationPriceSummaryNormalizer');
 
 export const CONFIGURATION_ADD_TO_CART_SERIALIZER = new InjectionToken<

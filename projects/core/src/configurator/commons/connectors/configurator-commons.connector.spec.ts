@@ -29,6 +29,12 @@ const readFromCartEntryParameters: GenericConfigurator.ReadConfigurationFromCart
   owner: productConfiguration.owner,
 };
 
+const readFromOrderEntryParameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters = {
+  userId: USER_ID,
+  orderId: CART_ID,
+  owner: productConfiguration.owner,
+};
+
 const updateFromCartEntryParameters: Configurator.UpdateConfigurationForCartEntryParameters = {
   userId: USER_ID,
   cartId: CART_ID,
@@ -39,6 +45,9 @@ const cartModification: CartModification = {};
 
 class MockConfiguratorCommonsAdapter implements ConfiguratorCommonsAdapter {
   readConfigurationForCartEntry = createSpy().and.callFake(() =>
+    of(productConfiguration)
+  );
+  readConfigurationForOrderEntry = createSpy().and.callFake(() =>
     of(productConfiguration)
   );
   updateConfigurationForCartEntry = createSpy().and.callFake(() =>
@@ -140,6 +149,21 @@ describe('ConfiguratorCommonsConnector', () => {
       .subscribe((result) => expect(result).toBe(cartModification));
     expect(adapter.updateConfigurationForCartEntry).toHaveBeenCalledWith(
       updateFromCartEntryParameters
+    );
+  });
+
+  it('should call adapter on readConfigurationForOrderEntry', () => {
+    const adapter = TestBed.inject(
+      ConfiguratorCommonsAdapter as Type<ConfiguratorCommonsAdapter>
+    );
+
+    service
+      .readConfigurationForOrderEntry(readFromOrderEntryParameters)
+      .subscribe((configuration) =>
+        expect(configuration).toBe(productConfiguration)
+      );
+    expect(adapter.readConfigurationForOrderEntry).toHaveBeenCalledWith(
+      readFromOrderEntryParameters
     );
   });
 

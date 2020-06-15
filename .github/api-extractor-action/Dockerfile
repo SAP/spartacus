@@ -7,7 +7,7 @@ LABEL "com.github.actions.color"="red"
 
 COPY package.json /
 COPY yarn.lock /
-COPY . .
+COPY index.js /
 
 RUN yarn
 
