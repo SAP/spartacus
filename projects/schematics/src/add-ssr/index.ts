@@ -203,7 +203,7 @@ export function addSSR(options: SpartacusOptions): Rule {
       ),
       modifyAppModuleFile(),
       installPackageJsonDependencies(),
-      externalSchematic(ANGULAR_LOCALIZE, 'ng-add', {}),
+      externalSchematic(ANGULAR_LOCALIZE, 'ng-add', options),
     ])(tree, context);
   };
 }
