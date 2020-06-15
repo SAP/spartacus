@@ -1,15 +1,12 @@
-import {
-  AddressData,
-  fillBillingAddress,
-  PaymentDetails,
-} from './checkout-forms';
-import { user } from '../sample-data/checkout-flow';
+import * as authentication from './auth-forms';
 
-const nextGroupButtonSelector =
-  'cx-config-previous-next-buttons div div:last button';
-const previousGroupButtonSelector =
+const nextBtnSelector = 'cx-config-previous-next-buttons div div:last button';
+const previousBtnSelector =
   'cx-config-previous-next-buttons div div:first button';
 const addToCartButtonSelector = 'cx-config-add-to-cart-button button';
+
+const email = 'cpq02@sap.com';
+const password = 'welcome';
 
 export function clickOnConfigureBtn() {
   cy.get('cx-configure-product a')
@@ -27,32 +24,36 @@ export function clickOnConfigureCartEntryBtn() {
     });
 }
 
-/**
- * Click on the next group Button and verifies that an element of the next group is displayed
- *
- * @param attributeName Attribute name of a attribute of the target group. Will be used to verify that the next group is displayed
- * @param uiType UI Type of the attribute of the target group. Will be used to verify that the next group is displayed
- */
-export function clickOnNextBtn(attributeName: string, uiType: string) {
-  cy.get(nextGroupButtonSelector)
+function clickOnPreviousOrNextBtn(btnSelector: string) {
+  let activeGroup: string;
+  cy.get('cx-config-group-menu a.active')
+    .first()
+    .invoke('text')
+    .then((text) => {
+      activeGroup = text.trim();
+    });
+
+  cy.get(btnSelector)
     .click()
     .then(() => {
-      this.isAttributeDisplayed(attributeName, uiType);
+      cy.get('cx-config-group-menu a:contains(' + `${activeGroup}` + ')')
+        .first()
+        .should('not.have.class', 'active');
     });
 }
 
 /**
- * Click on the previous group Button and verifies that an element of the previous group is displayed
- *
- * @param attributeName Attribute name of a attribute of the target group. Will be used to verify that the previous group is displayed
- * @param uiType UI Type of the attribute of the target group. Will be used to verify that the previous group is displayed
+ * Click on the next group Button and verifies that an element of the next group is displayed
  */
-export function clickOnPreviousBtn(attributeName: string, uiType: string) {
-  cy.get(previousGroupButtonSelector)
-    .click()
-    .then(() => {
-      this.isAttributeDisplayed(attributeName, uiType);
-    });
+export function clickOnNextBtn() {
+  clickOnPreviousOrNextBtn(nextBtnSelector);
+}
+
+/**
+ * Click on the previous group Button and verifies that an element of the previous group is displayed
+ */
+export function clickOnPreviousBtn() {
+  clickOnPreviousOrNextBtn(previousBtnSelector);
 }
 
 export function isConfigPageDisplayed() {
@@ -64,19 +65,19 @@ export function isOverviewPageDisplayed() {
 }
 
 export function isPreviousBtnEnabled() {
-  cy.get(previousGroupButtonSelector).should('be.not.disabled');
+  cy.get(previousBtnSelector).should('be.not.disabled');
 }
 
 export function isPreviousBtnDisabled() {
-  cy.get(previousGroupButtonSelector).should('be.disabled');
+  cy.get(previousBtnSelector).should('be.disabled');
 }
 
 export function isNextBtnEnabled() {
-  cy.get(nextGroupButtonSelector).should('be.not.disabled');
+  cy.get(nextBtnSelector).should('be.not.disabled');
 }
 
 export function isNextBtnDisabled() {
-  cy.get(nextGroupButtonSelector).should('be.disabled');
+  cy.get(nextBtnSelector).should('be.disabled');
 }
 
 export function isStatusIconNotDisplayed(groupName: string) {
@@ -225,7 +226,6 @@ export function navigateToOverviewPage() {
 
 export function clickOnGroup(groupIndex: number) {
   cy.get('.cx-config-menu>li')
-    .debug()
     .eq(groupIndex)
     .children('a')
     .click({ force: true });
@@ -274,78 +274,46 @@ export function clickOnProceedToCheckoutBtnOnPD() {
     });
 }
 
-function fillAddressForm(shippingAddress: AddressData = user) {
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-  cy.get('cx-address-form').within(() => {
-    cy.get('.country-select[formcontrolname="isocode"]').ngSelect(
-      shippingAddress.address.country
-    );
-    cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
-    cy.get('[formcontrolname="firstName"]')
-      .clear()
-      .type(shippingAddress.firstName);
-    cy.get('[formcontrolname="lastName"]')
-      .clear()
-      .type(shippingAddress.lastName);
-    cy.get('[formcontrolname="line1"]')
-      .clear()
-      .type(shippingAddress.address.line1);
-    if (shippingAddress.address.line2) {
-      cy.get('[formcontrolname="line2"]')
-        .clear()
-        .type(shippingAddress.address.line2);
-    }
-    cy.get('[formcontrolname="town"]')
-      .clear()
-      .type(shippingAddress.address.city);
-    if (shippingAddress.address.state) {
-      cy.get('.region-select[formcontrolname="isocode"]').ngSelect(
-        shippingAddress.address.state
-      );
-    }
-    cy.get('[formcontrolname="postalCode"]')
-      .clear()
-      .type(shippingAddress.address.postal);
-    cy.get('[formcontrolname="phone"]').clear().type(shippingAddress.phone);
-    cy.get('button.btn-primary').click({ force: true });
-    cy.wait(30000);
-  });
-}
-
-function fillPaymentDetails(
-  paymentDetails: PaymentDetails,
-  billingAddress?: AddressData
-) {
-  cy.get('cx-payment-form').within(() => {
-    cy.get('[bindValue="code"]').ngSelect(paymentDetails.payment.card);
-    cy.get('[formcontrolname="accountHolderName"]')
-      .clear()
-      .type(paymentDetails.fullName);
-    cy.get('[formcontrolname="cardNumber"]')
-      .clear()
-      .type(paymentDetails.payment.number);
-    cy.get('[formcontrolname="expiryMonth"]').ngSelect(
-      paymentDetails.payment.expires.month
-    );
-    cy.get('[formcontrolname="expiryYear"]').ngSelect(
-      paymentDetails.payment.expires.year
-    );
-    cy.get('[formcontrolname="cvn"]').clear().type(paymentDetails.payment.cvv);
-    if (billingAddress) {
-      fillBillingAddress(billingAddress);
-    } else {
-      cy.get('input.form-check-input').check();
-    }
-    cy.wait(30000);
-    cy.get('button.btn.btn-block.btn-primary')
-      .contains('Continue')
-      .click({ force: true });
-  });
+export function login() {
+  // Click on the 'Sign in / Register' link
+  // & wait until the login-form is displayed
+  cy.get('cx-login [role="link"]')
+    .click()
+    .then(() => {
+      cy.get('cx-login-form').should('be.visible');
+    });
+  // Login via authentication service
+  authentication.login(email, password);
+  // Verify whether the user logged in successfully,
+  // namely the logged in user should be greeted
+  const user = email.split('@')[0];
+  cy.get('.cx-login-greet').should('contain', user);
 }
 
 export function checkout() {
-  // Fill shipping address
-  fillAddressForm(user);
+  // If 'Continue' button is disable, click on 'Ship to this address' link to enable it
+  cy.get('button.btn-primary')
+    .contains('Continue')
+    .then((btn) => {
+      if (btn.is('.disabled')) {
+        cy.get('cx-card a.cx-card-link')
+          .contains('Ship to this address')
+          .click();
+      }
+    });
+
+  // Click on 'Continue' button to navigate to the next step 'Delivery mode' of the order process
+  cy.get('button.btn-primary')
+    .contains('Continue')
+    .click()
+    .then(() => {
+      cy.get('cx-delivery-mode').should('be.visible');
+      cy.get('cx-checkout-progress a.cx-link.active').should(
+        'contain',
+        'Delivery mode'
+      );
+    });
+
   // Click on 'Continue' button to navigate to the next step 'Payment details' of the order process
   cy.get('button.btn-primary')
     .contains('Continue')
@@ -357,13 +325,26 @@ export function checkout() {
         'Payment details'
       );
     });
-  // Fill payment details
-  fillPaymentDetails(user);
-  cy.get('cx-review-submit').should('be.visible');
-  cy.get('cx-checkout-progress a.cx-link.active').should(
-    'contain',
-    'Review order'
-  );
+
+  // Click on 'Use this payment' link to enable 'Continue' button
+  cy.get('div.cx-card-actions a.cx-card-link')
+    .contains('Use this payment')
+    .click()
+    .then(() => {
+      cy.get('button.btn-primary').should('not.be.disabled');
+    });
+
+  // Click on 'Continue' button to navigate to the next step 'Review order' of the order process
+  cy.get('button.btn-primary')
+    .contains('Continue')
+    .click()
+    .then(() => {
+      cy.get('cx-review-submit').should('be.visible');
+      cy.get('cx-checkout-progress a.cx-link.active').should(
+        'contain',
+        'Review order'
+      );
+    });
 
   // Check 'Terms & Conditions'
   cy.get('input[formcontrolname="termsAndConditions"]')
