@@ -3,6 +3,8 @@ import * as configuration from '../../helpers/product-configuration';
 import * as configurationOverview from '../../helpers/product-configuration-overview';
 import * as productSearch from '../../helpers/product-search';
 import { formats } from '../../sample-data/viewports';
+import * as login from '../../helpers/login';
+import { user } from '../../sample-data/checkout-flow';
 
 const testProduct = 'CONF_CAMERA_SL';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
@@ -59,21 +61,31 @@ const RAW = 'RAW';
 function goToConfigPage(configurator, testProduct) {
   cy.visit(
     `/electronics-spa/en/USD/configure${configurator}/product/entityKey/${testProduct}`
-  );
+  ).then(() => {
+    configuration.isConfigPageDisplayed();
+  });
 }
 
 function goToConfigOverviewPage(configurator, testProduct) {
   cy.visit(
     `/electronics-spa/en/USD/configureOverview${configurator}/product/entityKey/${testProduct}`
-  );
+  ).then(() => {
+    configurationOverview.isConfigOverviewPageDisplayed();
+  });
 }
 
 function goToPDPage(testProduct) {
-  cy.visit(`electronics-spa/en/USD/product/${testProduct}/${testProduct}`);
+  cy.visit(`electronics-spa/en/USD/product/${testProduct}/${testProduct}`).then(
+    () => {
+      cy.get('.ProductDetailsPageTemplate').should('be.visible');
+    }
+  );
 }
 
 function goToCart() {
-  cy.visit('/electronics-spa/en/USD/cart');
+  cy.visit('/electronics-spa/en/USD/cart').then(() => {
+    cy.get('cx-cart-details').should('be.visible');
+  });
 }
 
 context('Product Configuration', () => {
@@ -85,33 +97,25 @@ context('Product Configuration', () => {
     it('should be able to navigate from the product search result', () => {
       productSearch.searchForProduct(testProduct);
       configuration.clickOnConfigureBtn();
-      configuration.isConfigPageDisplayed();
     });
 
     it('should be able to navigate from the product details page', () => {
       goToPDPage(testProduct);
       configuration.clickOnConfigureBtn();
-      configuration.isConfigPageDisplayed();
     });
 
     it('should be able to navigate from the overview page', () => {
       goToConfigOverviewPage(configurator, testProduct);
-      configurationOverview.isConfigOverviewPageDisplayed();
       configurationOverview.navigateToConfigurationPage();
       configuration.isConfigPageDisplayed();
     });
 
     it('should be able to navigate from the cart', () => {
       goToConfigPage(configurator, testProduct);
-      configuration.isConfigPageDisplayed();
       configuration.clickAddToCartBtn();
-      configuration.isOverviewPageDisplayed();
-      cy.wait(1500);
       goToCart();
-      cy.wait(1500);
       //We assume only one product is in the cart
       configuration.clickOnConfigureCartEntryBtn();
-      configuration.isConfigPageDisplayed();
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
@@ -120,33 +124,24 @@ context('Product Configuration', () => {
       configuration.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();
       configuration.clickOnConfigureCartEntryBtn();
-      configuration.isConfigPageDisplayed();
     });
   });
 
   describe('Configure Product', () => {
     it.skip('Image Attribute Types - Single Selection', () => {
       goToConfigPage(configurator, testProductMultiLevel);
-      configuration.isConfigPageDisplayed();
       configuration.isAttributeDisplayed(ROOM_SIZE, radioGroup);
-
       configuration.selectAttribute(COLOUR_HT, single_selection_image, WHITE);
-
       configuration.isImageSelected(COLOUR_HT, single_selection_image, WHITE);
-
       configuration.selectAttribute(COLOUR_HT, single_selection_image, TITAN);
-
       configuration.isImageSelected(COLOUR_HT, single_selection_image, TITAN);
     });
 
     it('Checkboxes should be still selected after group change', () => {
       goToConfigPage(configurator, testProduct);
-      configuration.isConfigPageDisplayed();
-      configuration.isConfigPageDisplayed();
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
       configuration.clickOnNextBtn(CAMERA_PIXELS, radioGroup);
       configuration.selectAttribute(CAMERA_SD_CARD, checkBoxList, SDHC);
-      cy.wait(1500);
       configuration.clickOnPreviousBtn(CAMERA_MODE, radioGroup);
       configuration.clickOnNextBtn(CAMERA_PIXELS, radioGroup);
       configuration.isCheckboxSelected(CAMERA_SD_CARD, SDHC);
@@ -156,7 +151,6 @@ context('Product Configuration', () => {
   describe('Group Status', () => {
     it('should set group status for single level product', () => {
       goToConfigPage(configurator, testProduct);
-      configuration.isConfigPageDisplayed();
       configuration.isGroupMenuDisplayed();
 
       //is that no status is displayed initially
@@ -184,8 +178,6 @@ context('Product Configuration', () => {
 
       // complete group Display, navigate back, is status changes to Complete
       configuration.selectAttribute(CAMERA_DISPLAY, radioGroup, 'P5');
-      cy.wait(1500);
-
       configuration.clickOnPreviousBtn(CAMERA_PIXELS, radioGroup);
       configuration.isStatusIconDisplayed(BASICS, ERROR);
       configuration.isStatusIconDisplayed(SPECIFICATION, ERROR);
@@ -194,10 +186,8 @@ context('Product Configuration', () => {
       configuration.isStatusIconNotDisplayed(OPTIONS);
 
       // select mandatory field in group Specification
-      // and check wheter status changes to complete
+      // and check whether status changes to complete
       configuration.selectAttribute(CAMERA_FORMAT_PICTURES, radioGroup, RAW);
-      cy.wait(1500);
-
       configuration.isStatusIconDisplayed(BASICS, ERROR);
       configuration.isStatusIconDisplayed(SPECIFICATION, COMPLETE);
       configuration.isStatusIconDisplayed(DISPLAY, COMPLETE);
@@ -207,7 +197,6 @@ context('Product Configuration', () => {
 
     it('should set group status for multi level product', () => {
       goToConfigPage(configurator, testProductMultiLevel);
-      configuration.isConfigPageDisplayed();
       configuration.isGroupMenuDisplayed();
 
       // no status should be displayed initially
@@ -271,8 +260,6 @@ context('Product Configuration', () => {
   describe('Group handling', () => {
     it('should navigate between groups', () => {
       goToConfigPage(configurator, testProduct);
-      configuration.isConfigPageDisplayed();
-
       configuration.clickOnNextBtn(CAMERA_PIXELS, radioGroup);
       configuration.clickOnNextBtn(CAMERA_DISPLAY, radioGroup);
       configuration.clickOnPreviousBtn(CAMERA_PIXELS, radioGroup);
@@ -280,8 +267,6 @@ context('Product Configuration', () => {
 
     it('should check if group buttons are clickable', () => {
       goToConfigPage(configurator, testProduct);
-      configuration.isConfigPageDisplayed();
-
       configuration.isNextBtnEnabled();
       configuration.isPreviousBtnDisabled();
 
@@ -298,7 +283,6 @@ context('Product Configuration', () => {
       configuration.isCategoryNavigationDisplayed();
 
       configuration.clickOnConfigureBtn();
-      configuration.isConfigPageDisplayed();
       configuration.isCategoryNavigationNotDisplayed();
       configuration.isGroupMenuDisplayed();
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
@@ -314,7 +298,6 @@ context('Product Configuration', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.viewport(formats.mobile.width, formats.mobile.height);
       goToConfigPage(configurator, testProduct);
-      configuration.isConfigPageDisplayed();
       configuration.isGroupMenuNotDisplayed();
       configuration.isHamburgerDisplayed();
       configuration.isAttributeDisplayed(CAMERA_MODE, radioGroup);
@@ -328,8 +311,6 @@ context('Product Configuration', () => {
 
     it('should navigate using the previous and next button for multi level product', () => {
       goToConfigPage(configurator, testProductMultiLevel);
-      configuration.isConfigPageDisplayed();
-
       configuration.clickOnNextBtn(PROJECTOR_TYPE, radioGroup);
       configuration.clickOnNextBtn(FLAT_PANEL_TV, radioGroup);
       configuration.clickOnPreviousBtn(PROJECTOR_TYPE, radioGroup);
@@ -337,16 +318,16 @@ context('Product Configuration', () => {
 
     it.skip('should navigate using the group menu for multi level product', () => {
       goToConfigPage(configurator, testProductMultiLevel);
-      configuration.isConfigPageDisplayed();
-
       configuration.clickOnGroup(2);
       configuration.isAttributeDisplayed('CPQ_HT_RECV_MODEL2', dropdown);
     });
   });
 
-  describe('Order Confirmation and Order History', () => {
+  describe.skip('Order Confirmation and Order History', () => {
     it('Navigation to Overview Page for order confirmation and order history', () => {
-      configuration.login();
+      login.registerUser();
+      login.loginUser();
+      cy.get('.cx-login-greet').should('contain', user.firstName);
       productSearch.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnProceedToCheckoutBtnOnPD();

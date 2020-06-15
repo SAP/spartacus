@@ -1,4 +1,9 @@
-import * as authentication from './auth-forms';
+import {
+  AddressData,
+  fillBillingAddress,
+  PaymentDetails,
+} from './checkout-forms';
+import { user } from '../sample-data/checkout-flow';
 
 const nextGroupButtonSelector =
   'cx-config-previous-next-buttons div div:last button';
@@ -6,15 +11,20 @@ const previousGroupButtonSelector =
   'cx-config-previous-next-buttons div div:first button';
 const addToCartButtonSelector = 'cx-config-add-to-cart-button button';
 
-const email = 'cpq02@sap.com';
-const password = 'welcome';
-
 export function clickOnConfigureBtn() {
-  cy.get('cx-configure-product a').click({ force: true });
+  cy.get('cx-configure-product a')
+    .click()
+    .then(() => {
+      this.isConfigPageDisplayed();
+    });
 }
 
 export function clickOnConfigureCartEntryBtn() {
-  cy.get('cx-configure-cart-entry a').click({ force: true });
+  cy.get('cx-configure-cart-entry a')
+    .click()
+    .then(() => {
+      this.isConfigPageDisplayed();
+    });
 }
 
 /**
@@ -25,11 +35,10 @@ export function clickOnConfigureCartEntryBtn() {
  */
 export function clickOnNextBtn(attributeName: string, uiType: string) {
   cy.get(nextGroupButtonSelector)
-    .click({
-      force: true,
-    })
-    .debug();
-  isAttributeDisplayed(attributeName, uiType);
+    .click()
+    .then(() => {
+      this.isAttributeDisplayed(attributeName, uiType);
+    });
 }
 
 /**
@@ -39,10 +48,11 @@ export function clickOnNextBtn(attributeName: string, uiType: string) {
  * @param uiType UI Type of the attribute of the target group. Will be used to verify that the previous group is displayed
  */
 export function clickOnPreviousBtn(attributeName: string, uiType: string) {
-  cy.get(previousGroupButtonSelector).click({
-    force: true,
-  });
-  isAttributeDisplayed(attributeName, uiType);
+  cy.get(previousGroupButtonSelector)
+    .click()
+    .then(() => {
+      this.isAttributeDisplayed(attributeName, uiType);
+    });
 }
 
 export function isConfigPageDisplayed() {
@@ -145,7 +155,11 @@ export function selectAttribute(
     case 'checkBoxList':
     case 'multi_selection_image':
     case 'single_selection_image':
-      cy.get(`#${valueId}`).click({ force: true });
+      cy.get(`#${valueId}`)
+        .click({ force: true })
+        .then(() => {
+          cy.get(`#${valueId}`).should('be.checked');
+        });
       break;
     case 'dropdown':
       cy.get(`#${attributeId} ng-select`).ngSelect(valueName);
@@ -226,9 +240,13 @@ export function isHamburgerDisplayed() {
 }
 
 export function clickAddToCartBtn() {
-  cy.get(addToCartButtonSelector).click({
-    force: true,
-  });
+  cy.get(addToCartButtonSelector)
+    .click({
+      force: true,
+    })
+    .then(() => {
+      this.isOverviewPageDisplayed();
+    });
 }
 
 export function clickOnAddToCartBtnOnPD() {
@@ -256,43 +274,78 @@ export function clickOnProceedToCheckoutBtnOnPD() {
     });
 }
 
-export function login() {
-  // Click on the 'Sign in / Register' link
-  // & wait until the login-form is displayed
-  cy.get('cx-login [role="link"]')
-    .click()
-    .then(() => {
-      cy.get('cx-login-form').should('be.visible');
-    });
-  // Login via authentication service
-  authentication.login(email, password);
-  // Verify whether the user logged in successfully,
-  // namely the logged in user should be greeted
-  const user = email.split('@')[0];
-  cy.get('.cx-login-greet').should('contain', user);
+function fillAddressForm(shippingAddress: AddressData = user) {
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('cx-address-form').within(() => {
+    cy.get('.country-select[formcontrolname="isocode"]').ngSelect(
+      shippingAddress.address.country
+    );
+    cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
+    cy.get('[formcontrolname="firstName"]')
+      .clear()
+      .type(shippingAddress.firstName);
+    cy.get('[formcontrolname="lastName"]')
+      .clear()
+      .type(shippingAddress.lastName);
+    cy.get('[formcontrolname="line1"]')
+      .clear()
+      .type(shippingAddress.address.line1);
+    if (shippingAddress.address.line2) {
+      cy.get('[formcontrolname="line2"]')
+        .clear()
+        .type(shippingAddress.address.line2);
+    }
+    cy.get('[formcontrolname="town"]')
+      .clear()
+      .type(shippingAddress.address.city);
+    if (shippingAddress.address.state) {
+      cy.get('.region-select[formcontrolname="isocode"]').ngSelect(
+        shippingAddress.address.state
+      );
+    }
+    cy.get('[formcontrolname="postalCode"]')
+      .clear()
+      .type(shippingAddress.address.postal);
+    cy.get('[formcontrolname="phone"]').clear().type(shippingAddress.phone);
+    cy.get('button.btn-primary').click({ force: true });
+    cy.wait(30000);
+  });
+}
+
+function fillPaymentDetails(
+  paymentDetails: PaymentDetails,
+  billingAddress?: AddressData
+) {
+  cy.get('cx-payment-form').within(() => {
+    cy.get('[bindValue="code"]').ngSelect(paymentDetails.payment.card);
+    cy.get('[formcontrolname="accountHolderName"]')
+      .clear()
+      .type(paymentDetails.fullName);
+    cy.get('[formcontrolname="cardNumber"]')
+      .clear()
+      .type(paymentDetails.payment.number);
+    cy.get('[formcontrolname="expiryMonth"]').ngSelect(
+      paymentDetails.payment.expires.month
+    );
+    cy.get('[formcontrolname="expiryYear"]').ngSelect(
+      paymentDetails.payment.expires.year
+    );
+    cy.get('[formcontrolname="cvn"]').clear().type(paymentDetails.payment.cvv);
+    if (billingAddress) {
+      fillBillingAddress(billingAddress);
+    } else {
+      cy.get('input.form-check-input').check();
+    }
+    cy.wait(30000);
+    cy.get('button.btn.btn-block.btn-primary')
+      .contains('Continue')
+      .click({ force: true });
+  });
 }
 
 export function checkout() {
-  // Click on 'Ship to this address' link to enable 'Continue' button
-  cy.get('cx-card a.cx-card-link')
-    .contains('Ship to this address')
-    .click()
-    .then(() => {
-      cy.get('button.btn-primary').should('not.be.disabled');
-    });
-
-  // Click on 'Continue' button to navigate to the next step 'Delivery mode' of the order process
-  cy.get('button.btn-primary')
-    .contains('Continue')
-    .click()
-    .then(() => {
-      cy.get('cx-delivery-mode').should('be.visible');
-      cy.get('cx-checkout-progress a.cx-link.active').should(
-        'contain',
-        'Delivery mode'
-      );
-    });
-
+  // Fill shipping address
+  fillAddressForm(user);
   // Click on 'Continue' button to navigate to the next step 'Payment details' of the order process
   cy.get('button.btn-primary')
     .contains('Continue')
@@ -304,26 +357,13 @@ export function checkout() {
         'Payment details'
       );
     });
-
-  // Click on 'Use this payment' link to enable 'Continue' button
-  cy.get('div.cx-card-actions a.cx-card-link')
-    .contains('Use this payment')
-    .click()
-    .then(() => {
-      cy.get('button.btn-primary').should('not.be.disabled');
-    });
-
-  // Click on 'Continue' button to navigate to the next step 'Review order' of the order process
-  cy.get('button.btn-primary')
-    .contains('Continue')
-    .click()
-    .then(() => {
-      cy.get('cx-review-submit').should('be.visible');
-      cy.get('cx-checkout-progress a.cx-link.active').should(
-        'contain',
-        'Review order'
-      );
-    });
+  // Fill payment details
+  fillPaymentDetails(user);
+  cy.get('cx-review-submit').should('be.visible');
+  cy.get('cx-checkout-progress a.cx-link.active').should(
+    'contain',
+    'Review order'
+  );
 
   // Check 'Terms & Conditions'
   cy.get('input[formcontrolname="termsAndConditions"]')
