@@ -15,6 +15,7 @@ export interface ActivatedRouterStateSnapshot {
   params: Params;
   context: PageContext;
   cmsRequired: boolean;
+  cxRoute: string;
 }
 
 export interface State {

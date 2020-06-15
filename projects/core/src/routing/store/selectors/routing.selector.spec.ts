@@ -12,6 +12,15 @@ describe('Routing selectors', () => {
     });
   });
 
+  describe('getCxRoute', () => {
+    it('should return the cxRoute', () => {
+      const cxRoute = 'search';
+      const mockState = { router: { router: { state: { cxRoute } } } };
+      const result = RoutingSelector.getCxRoute(mockState);
+      expect(result).toEqual(cxRoute);
+    });
+  });
+
   describe('getRouterState;', () => {
     it('should return the next page context', () => {
       const { initialState } = fromReducer;
