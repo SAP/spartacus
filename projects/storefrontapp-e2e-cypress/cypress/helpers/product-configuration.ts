@@ -255,9 +255,12 @@ export function clickOnAddToCartBtnOnPD() {
     .click()
     .then(() => {
       cy.get('div.cx-dialog-buttons').should('be.visible');
-      cy.get('div.cx-dialog-buttons a.btn-primary').contains('view cart').should('be.visible');
+      cy.get('div.cx-dialog-buttons a.btn-primary')
+        .contains('view cart')
+        .should('be.visible');
       cy.get('div.cx-dialog-buttons a.btn-secondary')
-        .contains('proceed to checkout').should('be.visible');
+        .contains('proceed to checkout')
+        .should('be.visible');
     });
 }
 
