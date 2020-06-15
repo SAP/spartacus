@@ -8,6 +8,7 @@ import { B2BUserService } from './facade/b2b-user.service';
 import { UserGroupService } from './facade/user-group.service';
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
 import { OrganizationMetaResolver } from './facade/organization-meta.resolver';
+import { OrderApprovalService } from './facade/order-approval.service';
 
 @NgModule({
   imports: [OrganizationStoreModule],
@@ -28,6 +29,7 @@ export class OrganizationModule {
           useExisting: OrganizationMetaResolver,
           multi: true,
         },
+        OrderApprovalService,
       ],
     };
   }

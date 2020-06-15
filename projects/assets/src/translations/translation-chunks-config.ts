@@ -113,5 +113,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'userAssignPermissions',
     'userUserGroups',
     'userAssignUserGroups',
+    'userApprovers',
+    'userAssignApprovers',
   ],
 };

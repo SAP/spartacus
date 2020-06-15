@@ -16,3 +16,6 @@ export * from './occ-b2b-user-normalizer';
 export * from './occ-user-list-normalizer';
 export * from './occ-user-group-normalizer';
 export * from './occ-user-group-list-normalizer';
+export * from './occ-order-approval-normalizer';
+export * from './occ-order-approval-decision-normalizer';
+export * from './occ-order-approval-list-normalizer';

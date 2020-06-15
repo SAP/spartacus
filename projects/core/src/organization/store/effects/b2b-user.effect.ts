@@ -240,10 +240,11 @@ export class B2BUserEffects {
         )
         .pipe(
           map(
-            () =>
+            (data) =>
               new B2BUserActions.CreateB2BUserApproverSuccess({
+                // Occ returned email, but we use customerId in store
                 approverId: payload.approverId,
-                selected: true,
+                selected: data.selected,
               })
           ),
           catchError((error) =>
@@ -275,10 +276,11 @@ export class B2BUserEffects {
         )
         .pipe(
           map(
-            () =>
+            (data) =>
               new B2BUserActions.DeleteB2BUserApproverSuccess({
+                // Occ returned email, but we use customerId in store
                 approverId: payload.approverId,
-                selected: false,
+                selected: data.selected,
               })
           ),
           catchError((error) =>
@@ -380,10 +382,10 @@ export class B2BUserEffects {
         )
         .pipe(
           map(
-            () =>
+            (data) =>
               new B2BUserActions.CreateB2BUserUserGroupSuccess({
-                uid: payload.userGroupId,
-                selected: true,
+                uid: data.id,
+                selected: data.selected,
               })
           ),
           catchError((error) =>
@@ -415,6 +417,12 @@ export class B2BUserEffects {
         )
         .pipe(
           map(
+            // TODO: Workaround because occ doesn't respond here
+            // (data) =>
+            //   new B2BUserActions.DeleteB2BUserUserGroupSuccess({
+            //     uid: data.id,
+            //     selected: data.selected,
+            //   })
             () =>
               new B2BUserActions.DeleteB2BUserUserGroupSuccess({
                 uid: payload.userGroupId,
