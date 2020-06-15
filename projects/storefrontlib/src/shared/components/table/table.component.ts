@@ -7,6 +7,7 @@ export interface Column {
   cxRoute?: string;
   checkBox?: boolean;
   button?: boolean;
+  cxIcon?: ICON_TYPE;
 }
 
 @Component({
@@ -14,8 +15,6 @@ export interface Column {
   templateUrl: './table.component.html',
 })
 export class TableComponent {
-  iconTypes = ICON_TYPE;
-
   @Input()
   columns: Array<Column>;
 

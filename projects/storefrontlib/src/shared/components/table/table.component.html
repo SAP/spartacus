@@ -22,10 +22,7 @@
   </div>
   <div class="mobile mode">
     <div class="cx-row" *ngFor="let row of tableData">
-      <div
-        *ngFor="let column of columns"
-        [ngClass]="{ 'cx-action': column?.checkBox || column?.button }"
-      >
+      <div *ngFor="let column of columns">
         <span class="cx-label">{{ column.value }}: </span>
         <ng-container
           *ngTemplateOutlet="
@@ -61,38 +58,29 @@
 <!-- 
   Template for rendering icon button if `button` property exists in column data. 
 
-  Icon button can be used as follows in tableData object:
-  
+  Icon button can be used as follows in `tableData` object:
   key: {
-    button: {
-      class: 'btn btn-primary btn-sm',
-      disabled: true,
-      icon: {
-        type: this.iconTypes.CLOSE,
-      },
-      text: {
-        class: 'desktop mode',
-        value: 'Custom text',
-      },
-    },
+    ...,
+    buttonText?: 'Example text'
+  }
+
+  and as follows in `column` property:
+  {
+    key: 'delete',
+    value: 'Column header',
+    button: true,
+    cxIcon?: iconTypes.EXAMPLE_ICON
   }
 -->
 <ng-template #button let-row="row" let-column="column">
   <ng-container *ngIf="column?.button && row">
     <button
-      *ngIf="row[column.key]?.button"
       (click)="onClick($event, row, column.key)"
-      [ngClass]="row[column.key].button?.class"
-      [disabled]="row[column.key].button?.disabled"
       type="button"
+      class="btn btn-primary btn-sm"
     >
-      <cx-icon
-        *ngIf="row[column.key].button?.icon"
-        [type]="row[column.key].button?.icon.type"
-      ></cx-icon>
-      <span [ngClass]="row[column.key].button?.text?.class">
-        {{ row[column.key].button?.text?.value || column.value }}</span
-      >
+      <cx-icon *ngIf="column?.cxIcon" [type]="column?.cxIcon"></cx-icon>
+      <span> {{ row[column.key]?.buttonText || '' }} </span>
     </button>
   </ng-container>
 </ng-template>
@@ -120,19 +108,8 @@
 
 <!-- Main content template. -->
 <ng-template #content let-data="data">
-  <ng-container
-    *ngTemplateOutlet="
-      checkbox;
-      context: { row: data.row, column: data.column }
-    "
-  ></ng-container>
-  <ng-container
-    *ngTemplateOutlet="button; context: { row: data.row, column: data.column }"
-  ></ng-container>
-  <ng-container
-    *ngTemplateOutlet="link; context: { row: data.row, column: data.column }"
-  ></ng-container>
-  <ng-container
-    *ngTemplateOutlet="text; context: { row: data.row, column: data.column }"
-  ></ng-container>
+  <ng-container *ngTemplateOutlet="checkbox; context: data"></ng-container>
+  <ng-container *ngTemplateOutlet="button; context: data"></ng-container>
+  <ng-container *ngTemplateOutlet="link; context: data"></ng-container>
+  <ng-container *ngTemplateOutlet="text; context: data"></ng-container>
 </ng-template>
