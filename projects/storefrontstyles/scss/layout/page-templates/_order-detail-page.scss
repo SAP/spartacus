@@ -149,14 +149,23 @@
 
       .cx-approval-permissionCode {
         width: 25%;
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
       }
 
       .cx-approval-approverName {
         width: 17%;
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
       }
 
       .cx-approval-statusDisplay {
         width: 14%;
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
       }
 
       .cx-approval-table-label {
@@ -166,6 +175,7 @@
         @include media-breakpoint-down(sm) {
           @include type('8');
           min-width: 110px;
+          max-width: 110px;
         }
       }
 
