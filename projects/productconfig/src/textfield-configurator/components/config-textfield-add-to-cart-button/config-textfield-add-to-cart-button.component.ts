@@ -17,11 +17,11 @@ import {
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'cx-textfield-add-to-cart-button',
-  templateUrl: './textfield-add-to-cart-button.component.html',
+  selector: 'cx-config-textfield-add-to-cart-button',
+  templateUrl: './config-textfield-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TextfieldAddToCartButtonComponent implements OnInit {
+export class ConfigTextfieldAddToCartButtonComponent implements OnInit {
   routerData$: Observable<ConfigurationRouter.Data>;
   constructor(
     private configuratorTextfieldService: ConfiguratorTextfieldService,

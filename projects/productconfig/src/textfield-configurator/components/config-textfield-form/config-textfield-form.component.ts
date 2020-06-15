@@ -10,11 +10,11 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-textfield-form',
-  templateUrl: './textfield-form.component.html',
+  selector: 'cx-config-textfield-form',
+  templateUrl: './config-textfield-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TextfieldFormComponent implements OnInit {
+export class ConfigTextfieldFormComponent implements OnInit {
   configuration$: Observable<ConfiguratorTextfield.Configuration>;
 
   constructor(

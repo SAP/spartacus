@@ -11,9 +11,9 @@ import {
   UserService,
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
-import { TextfieldAddToCartButtonComponent } from './textfield-add-to-cart-button/textfield-add-to-cart-button.component';
-import { TextfieldFormComponent } from './textfield-form/textfield-form.component';
-import { TextfieldInputFieldComponent } from './textfield-input-field/textfield-input-field.component';
+import { ConfigTextfieldAddToCartButtonComponent } from './components/config-textfield-add-to-cart-button/config-textfield-add-to-cart-button.component';
+import { ConfigTextfieldFormComponent } from './components/config-textfield-form/config-textfield-form.component';
+import { ConfigTextfieldInputFieldComponent } from './components/config-textfield-input-field/config-textfield-input-field.component';
 
 @NgModule({
   imports: [
@@ -29,7 +29,7 @@ import { TextfieldInputFieldComponent } from './textfield-input-field/textfield-
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         TextfieldConfigurationForm: {
-          component: TextfieldFormComponent,
+          component: ConfigTextfieldFormComponent,
           guards: [],
         },
       },
@@ -48,20 +48,20 @@ import { TextfieldInputFieldComponent } from './textfield-input-field/textfield-
   ],
 
   declarations: [
-    TextfieldFormComponent,
-    TextfieldInputFieldComponent,
-    TextfieldAddToCartButtonComponent,
+    ConfigTextfieldFormComponent,
+    ConfigTextfieldInputFieldComponent,
+    ConfigTextfieldAddToCartButtonComponent,
   ],
   exports: [
-    TextfieldFormComponent,
-    TextfieldInputFieldComponent,
-    TextfieldAddToCartButtonComponent,
+    ConfigTextfieldFormComponent,
+    ConfigTextfieldInputFieldComponent,
+    ConfigTextfieldAddToCartButtonComponent,
   ],
   providers: [UserService],
   entryComponents: [
-    TextfieldFormComponent,
-    TextfieldInputFieldComponent,
-    TextfieldAddToCartButtonComponent,
+    ConfigTextfieldFormComponent,
+    ConfigTextfieldInputFieldComponent,
+    ConfigTextfieldAddToCartButtonComponent,
   ],
 })
 export class TextfieldConfiguratorModule {}

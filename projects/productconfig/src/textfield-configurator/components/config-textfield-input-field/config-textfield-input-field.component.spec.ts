@@ -1,19 +1,19 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TextfieldInputFieldComponent } from './textfield-input-field.component';
+import { ConfigTextfieldInputFieldComponent } from './config-textfield-input-field.component';
 
 describe('TextfieldInputFieldComponent', () => {
-  let component: TextfieldInputFieldComponent;
+  let component: ConfigTextfieldInputFieldComponent;
 
-  let fixture: ComponentFixture<TextfieldInputFieldComponent>;
+  let fixture: ComponentFixture<ConfigTextfieldInputFieldComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TextfieldInputFieldComponent],
+      declarations: [ConfigTextfieldInputFieldComponent],
       imports: [ReactiveFormsModule],
     })
-      .overrideComponent(TextfieldInputFieldComponent, {
+      .overrideComponent(ConfigTextfieldInputFieldComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
         },
@@ -22,7 +22,7 @@ describe('TextfieldInputFieldComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TextfieldInputFieldComponent);
+    fixture = TestBed.createComponent(ConfigTextfieldInputFieldComponent);
     component = fixture.componentInstance;
     component.attribute = {
       configurationLabel: 'attributeName',

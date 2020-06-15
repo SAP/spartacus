@@ -13,9 +13,9 @@ import {
 import { PageLayoutModule } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
-import { TextfieldAddToCartButtonComponent } from '../textfield-add-to-cart-button/textfield-add-to-cart-button.component';
-import { TextfieldInputFieldComponent } from '../textfield-input-field/textfield-input-field.component';
-import { TextfieldFormComponent } from './textfield-form.component';
+import { ConfigTextfieldAddToCartButtonComponent } from '../config-textfield-add-to-cart-button/config-textfield-add-to-cart-button.component';
+import { ConfigTextfieldInputFieldComponent } from '../config-textfield-input-field/config-textfield-input-field.component';
+import { ConfigTextfieldFormComponent } from './config-textfield-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '3';
@@ -57,8 +57,8 @@ class MockConfiguratorTextfieldService {
   }
 }
 describe('TextfieldFormComponent', () => {
-  let component: TextfieldFormComponent;
-  let fixture: ComponentFixture<TextfieldFormComponent>;
+  let component: ConfigTextfieldFormComponent;
+  let fixture: ComponentFixture<ConfigTextfieldFormComponent>;
   let textfieldService: ConfiguratorTextfieldService;
 
   beforeEach(async(() => {
@@ -70,9 +70,9 @@ describe('TextfieldFormComponent', () => {
         PageLayoutModule,
       ],
       declarations: [
-        TextfieldFormComponent,
-        TextfieldInputFieldComponent,
-        TextfieldAddToCartButtonComponent,
+        ConfigTextfieldFormComponent,
+        ConfigTextfieldInputFieldComponent,
+        ConfigTextfieldAddToCartButtonComponent,
       ],
       providers: [
         {
@@ -87,7 +87,7 @@ describe('TextfieldFormComponent', () => {
     }).compileComponents();
   }));
   beforeEach(() => {
-    fixture = TestBed.createComponent(TextfieldFormComponent);
+    fixture = TestBed.createComponent(ConfigTextfieldFormComponent);
     component = fixture.componentInstance;
     textfieldService = TestBed.inject(
       ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>

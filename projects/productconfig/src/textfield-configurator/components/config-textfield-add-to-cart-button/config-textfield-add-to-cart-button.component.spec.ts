@@ -9,7 +9,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { TextfieldAddToCartButtonComponent } from './textfield-add-to-cart-button.component';
+import { ConfigTextfieldAddToCartButtonComponent } from './config-textfield-add-to-cart-button.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';
@@ -45,8 +45,8 @@ class MockConfiguratorTextfieldService {
 }
 
 describe('TextfieldAddToCartButtonComponent', () => {
-  let classUnderTest: TextfieldAddToCartButtonComponent;
-  let fixture: ComponentFixture<TextfieldAddToCartButtonComponent>;
+  let classUnderTest: ConfigTextfieldAddToCartButtonComponent;
+  let fixture: ComponentFixture<ConfigTextfieldAddToCartButtonComponent>;
   let textfieldService: ConfiguratorTextfieldService;
   let routingService: RoutingService;
   let htmlElem: HTMLElement;
@@ -65,7 +65,7 @@ describe('TextfieldAddToCartButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [TextfieldAddToCartButtonComponent],
+      declarations: [ConfigTextfieldAddToCartButtonComponent],
       providers: [
         {
           provide: ConfiguratorTextfieldService,
@@ -77,7 +77,7 @@ describe('TextfieldAddToCartButtonComponent', () => {
         },
       ],
     })
-      .overrideComponent(TextfieldAddToCartButtonComponent, {
+      .overrideComponent(ConfigTextfieldAddToCartButtonComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
         },
@@ -86,7 +86,7 @@ describe('TextfieldAddToCartButtonComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TextfieldAddToCartButtonComponent);
+    fixture = TestBed.createComponent(ConfigTextfieldAddToCartButtonComponent);
     classUnderTest = fixture.componentInstance;
     classUnderTest.configuration$ = of(configurationTextField);
     htmlElem = fixture.nativeElement;
