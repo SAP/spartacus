@@ -16,6 +16,12 @@ export const getRouterState: MemoizedSelector<
   RouterState
 > = createSelector(getRouterFeatureState, (state) => state.router);
 
+export const getCxRoute: MemoizedSelector<any, string> = createSelector(
+  getRouterState,
+  (routingState: RouterState) =>
+    (routingState.state && routingState.state.cxRoute) || ''
+);
+
 export const getPageContext: MemoizedSelector<
   any,
   PageContext
