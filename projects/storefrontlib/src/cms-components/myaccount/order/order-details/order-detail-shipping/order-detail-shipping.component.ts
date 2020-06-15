@@ -6,10 +6,10 @@ import {
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Card } from '../../../../../shared/components/card/card.component';
 import { OrderDetailsService } from '../order-details.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-details-shipping',
@@ -80,6 +80,36 @@ export class OrderDetailShippingComponent implements OnInit {
           text: [payment.cardType.name, payment.cardNumber, textExpires],
         };
       })
+    );
+  }
+
+  getAccountPaymentCardContent(order: Order): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('paymentForm.payment'),
+      this.translation.translate('orderDetails.payByAccount'),
+      this.translation.translate('orderDetails.purchaseOrderId'),
+      this.translation.translate('orderDetails.costCenter'),
+      this.translation.translate('orderDetails.unit'),
+    ]).pipe(
+      map(
+        ([
+          textTitle,
+          textPayByAccount,
+          textPurchaseOrderId,
+          textCostCenter,
+          textUnit,
+        ]) => {
+          return {
+            title: textTitle,
+            textBold: textPayByAccount,
+            text: [
+              `${textPurchaseOrderId}: ${order.purchaseOrderNumber}`,
+              `${textCostCenter}: ${order.costCenter.name}`,
+              `${textUnit}: ${order.costCenter.unit.name}`,
+            ],
+          };
+        }
+      )
     );
   }
 

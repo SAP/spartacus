@@ -6,6 +6,10 @@ import {
   B2BUserAdapter,
   B2B_USERS_NORMALIZER,
   B2B_USER_NORMALIZER,
+  ORDER_APPROVAL_NORMALIZER,
+  ORDER_APPROVALS_NORMALIZER,
+  ORDER_APPROVAL_DECISION_NORMALIZER,
+  OrderApprovalAdapter,
 } from '../../../organization';
 import { BudgetAdapter } from '../../../organization/connectors/budget/budget.adapter';
 import {
@@ -58,6 +62,9 @@ import {
   OccUserGroupListNormalizer,
   OccUserGroupNormalizer,
   OccUserListNormalizer,
+  OccOrderApprovalDecisionNormalizer,
+  OccOrderApprovalListNormalizer,
+  OccOrderApprovalNormalizer,
 } from './converters/index';
 import { OccPermissionTypeNormalizer } from './converters/occ-permission-type-normalizer';
 import { defaultOccOrganizationConfig } from './default-occ-organization-config';
@@ -67,6 +74,7 @@ import { OccCostCenterAdapter } from './occ-cost-center.adapter';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
 import { OccPermissionAdapter } from './occ-permission.adapter';
 import { OccUserGroupAdapter } from './occ-user-group.adapter';
+import { OccOrderApprovalAdapter } from './occ-order-approval.adapter';
 
 @NgModule({
   imports: [
@@ -183,6 +191,25 @@ import { OccUserGroupAdapter } from './occ-user-group.adapter';
     {
       provide: B2B_ADDRESS_LIST_NORMALIZER,
       useClass: OccOrgUnitAddressListNormalizer,
+      multi: true,
+    },
+    {
+      provide: OrderApprovalAdapter,
+      useClass: OccOrderApprovalAdapter,
+    },
+    {
+      provide: ORDER_APPROVAL_NORMALIZER,
+      useClass: OccOrderApprovalNormalizer,
+      multi: true,
+    },
+    {
+      provide: ORDER_APPROVALS_NORMALIZER,
+      useClass: OccOrderApprovalListNormalizer,
+      multi: true,
+    },
+    {
+      provide: ORDER_APPROVAL_DECISION_NORMALIZER,
+      useClass: OccOrderApprovalDecisionNormalizer,
       multi: true,
     },
   ],
