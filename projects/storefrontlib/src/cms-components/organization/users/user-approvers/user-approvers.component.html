@@ -3,21 +3,21 @@
   [links]="[
     {
       cxRoute: 'userDetails',
-      name: 'userForm.details',
+      name: 'user.details',
       params: { customerId: code$ | async }
     },
     {
       cxRoute: 'userApprovers',
-      name: 'userForm.approvers',
+      name: 'user.approvers',
       active: true
     },
     {
       cxRoute: 'userPermissions',
-      name: 'userForm.permissions'
+      name: 'user.permissions'
     },
     {
       cxRoute: 'userUserGroups',
-      name: 'userForm.userGroups'
+      name: 'user.userGroups'
     }
   ]"
   [routerBackLink]="{ cxRoute: 'users', name: 'user.back' }"

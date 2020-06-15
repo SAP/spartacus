@@ -362,6 +362,7 @@ export const organization = {
     status: 'Status',
     active: 'Enabled',
     deactivated: 'Disabled',
+    details: 'Details',
   },
   userForm: {
     create: 'New user',
