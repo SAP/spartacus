@@ -273,6 +273,7 @@ export function clickOnProceedToCheckoutBtnOnPD() {
     .contains('proceed to checkout')
     .click()
     .then(() => {
+      cy.location('pathname').should('contain', '/checkout/shipping-address');
       cy.get('cx-checkout-progress a.cx-link.active').should(
         'contain',
         'Shipping Address'
@@ -314,6 +315,7 @@ export function checkout() {
     .contains('Continue')
     .click()
     .then(() => {
+      cy.location('pathname').should('contain', '/checkout/delivery-mode');
       cy.get('cx-checkout-progress a.cx-link.active').should(
         'contain',
         'Delivery mode'
@@ -326,6 +328,7 @@ export function checkout() {
     .contains('Continue')
     .click()
     .then(() => {
+      cy.location('pathname').should('contain', '/checkout/payment-details');
       cy.get('cx-checkout-progress a.cx-link.active').should(
         'contain',
         'Payment details'
@@ -346,6 +349,7 @@ export function checkout() {
     .contains('Continue')
     .click()
     .then(() => {
+      cy.location('pathname').should('contain', '/checkout/review-order');
       cy.get('cx-checkout-progress a.cx-link.active').should(
         'contain',
         'Review order'
@@ -364,6 +368,7 @@ export function checkout() {
   cy.get('cx-place-order button.btn-primary')
     .click()
     .then(() => {
+      cy.location('pathname').should('contain', '/order-confirmation');
       cy.get('cx-breadcrumb').should('contain', 'Order Confirmation');
     });
 
