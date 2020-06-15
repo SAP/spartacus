@@ -1,0 +1,43 @@
+.CompanyPageTemplate {
+  cx-banner {
+    @extend .col-md-12;
+    @extend .col-lg-5;
+    border-style: solid;
+    border-color: black;
+    margin: 20px;
+    padding: 20px;
+
+    cx-generic-link {
+      a {
+        p:nth-child(1) {
+          text-shadow: none;
+          color: black;
+          padding: 5px;
+          line-height: normal;
+          text-align: left;
+          position: relative;
+          font-size: $font-size-base * 1.375;
+        }
+
+        cx-media {
+          float: left;
+          padding-right: 10px;
+          img {
+            width: 100px;
+            height: 100px;
+          }
+        }
+
+        p:nth-child(3) {
+          text-shadow: none;
+          color: black;
+          padding: 5px;
+          line-height: normal;
+          position: relative;
+          text-align: left;
+          font-size: $small-font-size;
+        }
+      }
+    }
+  }
+}
