@@ -66,10 +66,10 @@ export const myAccount = {
     },
     approvalDetails: {
       header: 'Customer Approval Details',
-      permission: 'PERMISSION',
-      approver: 'APPROVER',
-      status: 'STATUS',
-      approverComments: 'APPROVER COMMENTS',
+      permission: 'Permission',
+      approver: 'Approver',
+      status: 'Status',
+      approverComments: 'Approver Comments',
       noApprovalNotes: 'None',
       permissionType_B2BBudgetExceededPermission:
         'The budget associated with chosen cost center has been exceeded',
