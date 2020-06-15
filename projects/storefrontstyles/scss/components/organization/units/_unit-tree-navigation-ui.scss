@@ -2,13 +2,13 @@
   margin-bottom: 100px;
   display: block;
 
+  cx-generic-link {
+    font-size: 1.125rem;
+  }
+
   ul {
     list-style: none;
     padding-left: 20px;
-
-    cx-generic-link {
-      font-size: 1.125rem;
-    }
 
     cx-icon {
       cursor: pointer;
@@ -58,12 +58,15 @@
       display: none;
       @include media-breakpoint-down(md) {
         display: flex;
-        width: 100%;
-        min-height: 3rem;
-        align-items: center;
 
         cx-generic-link {
           width: 100%;
+        }
+      }
+
+      cx-generic-link {
+        &.margin-left {
+          margin-left: 0;
         }
       }
     }
@@ -76,5 +79,23 @@
     @include media-breakpoint-down(md) {
       display: none;
     }
+  }
+
+  .node-title {
+    display: flex;
+    width: 100%;
+    min-height: 2.5rem;
+    align-items: center;
+  }
+
+  .selected-node-header {
+    display: none;
+    @include media-breakpoint-down(md) {
+      display: initial;
+    }
+  }
+
+  .selected-node-branch {
+    padding-left: 10px;
   }
 }

@@ -4,11 +4,14 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
+  HostListener,
   Input,
 } from '@angular/core';
 import { NavigationNode } from '../../../navigation/index';
 import { ICON_TYPE } from '../../../misc/icon/index';
-import { B2BUnitNode } from '../../../../../../core/src/model';
+import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-unit-tree-navigation-ui',
@@ -16,24 +19,34 @@ import { B2BUnitNode } from '../../../../../../core/src/model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitTreeNavigationUIComponent implements AfterViewInit {
+  iconType = ICON_TYPE;
+  isExpandedNodeMap = {};
+  selectedNode: NavigationNode;
+  private subscriptions = new Subscription();
+  private resize = new EventEmitter();
+
   @Input()
   node: NavigationNode;
 
   @Input()
   defaultExpandLevel: number;
 
-  iconType = ICON_TYPE;
-  isExpandedNodeMap = {};
-  selectedNode: B2BUnitNode;
+  @HostListener('window:resize')
+  onResize() {
+    this.resize.next();
+  }
 
-  constructor(
-    private elementRef: ElementRef,
-    protected cd: ChangeDetectorRef
-  ) {}
+  constructor(private elementRef: ElementRef, protected cd: ChangeDetectorRef) {
+    this.subscriptions.add(
+      this.resize.pipe(debounceTime(50)).subscribe(() => {
+        this.selectedNode = null;
+        this.refreshUIWithMappedElements();
+      })
+    );
+  }
 
   ngAfterViewInit(): void {
-    this.mapUlElementToExpand(this.elementRef.nativeElement);
-    this.cd.detectChanges();
+    this.refreshUIWithMappedElements();
   }
 
   mapUlElementToExpand(node: HTMLElement): void {
@@ -51,6 +64,11 @@ export class UnitTreeNavigationUIComponent implements AfterViewInit {
     } else {
       return;
     }
+  }
+
+  refreshUIWithMappedElements(): void {
+    this.mapUlElementToExpand(this.elementRef.nativeElement);
+    this.cd.detectChanges();
   }
 
   toggleAriaExpandedForNode(code: string): void {
@@ -80,5 +98,35 @@ export class UnitTreeNavigationUIComponent implements AfterViewInit {
     this.selectedNode = unitNode;
   }
 
-  back(): void {}
+  back(): void {
+    const parent = this.findParentNode(this.node, this.selectedNode);
+    if (parent) {
+      this.selectedNode = parent;
+    } else {
+      this.selectedNode = null;
+      this.refreshUIWithMappedElements();
+    }
+  }
+
+  findParentNode(parentWithNodes, selectedNode): NavigationNode {
+    let found;
+    parentWithNodes.children.some((n) => {
+      if (n.title === selectedNode.title) {
+        return (found = parentWithNodes);
+      }
+      if (n.children) {
+        return (found = this.findParentNode(n, selectedNode));
+      }
+    });
+    return found || null;
+  }
+
+  getNodes(): NavigationNode {
+    return this.selectedNode
+      ? this.selectedNode
+      : {
+          title: '',
+          children: [this.node],
+        };
+  }
 }

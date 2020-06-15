@@ -8,20 +8,36 @@
     </button>
   </div>
 
-  <a *ngIf="selectedNode" (click)="back()" tabindex="0">
-    < Up one level
-  </a>
+  <div *ngIf="selectedNode" class="selected-node-header">
+    <a
+      (click)="back()"
+      (keydown.enter)="back()"
+      (keydown.space)="back()"
+      tabindex="0"
+      class="node-title"
+    >
+      < Up one level
+    </a>
+
+    <div class="selected-node-title">
+      <cx-generic-link
+        [url]="selectedNode.url"
+        [title]="selectedNode.title"
+        class="node-title"
+      >
+        {{ selectedNode.title }}&nbsp;
+        <span *ngIf="selectedNode.children?.length > 0"
+          >({{ selectedNode.children?.length }})</span
+        >
+      </cx-generic-link>
+    </div>
+  </div>
 
   <ng-container
     *ngTemplateOutlet="
       tree;
       context: {
-        node: selectedNode
-          ? selectedNode
-          : {
-              title: '',
-              children: [node]
-            },
+        node: getNodes(),
         code: 'unit_tree',
         depth: 0
       }
@@ -30,7 +46,11 @@
   </ng-container>
 
   <ng-template #tree let-node="node" let-code="code" let-depth="depth">
-    <ul [attr.data-code]="code" [attr.data-depth]="depth">
+    <ul
+      [attr.data-code]="code"
+      [attr.data-depth]="depth"
+      [class.selected-node-branch]="selectedNode"
+    >
       <li
         *ngFor="let child of node.children; let i = index"
         [attr.aria-expanded]="isExpandedNodeMap[code + '_' + i]"
@@ -53,7 +73,7 @@
             [title]="child.title"
             [class.margin-left]="!child.children?.length"
           >
-            {{ child.title }}
+            {{ child.title }}&nbsp;
             <span *ngIf="child.children?.length > 0"
               >({{ child.children?.length }})</span
             >
@@ -65,8 +85,9 @@
             [url]="child.url"
             [title]="child.title"
             [class.margin-left]="!child.children?.length"
+            class="node-title"
           >
-            {{ child.title }}
+            {{ child.title }}&nbsp;
             <span *ngIf="child.children?.length > 0">
               ({{ child.children?.length }})
             </span>
