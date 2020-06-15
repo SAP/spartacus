@@ -35,14 +35,20 @@
   </div>
 </ng-container>
 
-<!-- 
-  Template for rendering checkbox input if `checkBox` property exists in column data. 
+<!--
+  Template for rendering checkbox input if `checkBox` property exists in column data.
 
-  Checkbox can be used as follows in tableData object:
-  
-  key: {
+   {
+     key: 'assigned',
+     value: Column header',
+     checkBox: true
+   }
+
+  Checkbox value can be setup as follows in tableData object:
+
+  {
     ...,
-    selected: true
+    assigned: true
   }
 -->
 <ng-template #checkbox let-row="row" let-column="column">
@@ -55,21 +61,21 @@
   </ng-container>
 </ng-template>
 
-<!-- 
-  Template for rendering icon button if `button` property exists in column data. 
+<!--
+  Template for rendering icon button if `button` property exists in column data.
 
-  Icon button can be used as follows in `tableData` object:
-  key: {
-    ...,
-    buttonText?: 'Example text'
-  }
-
-  and as follows in `column` property:
   {
     key: 'delete',
     value: 'Column header',
     button: true,
-    cxIcon?: iconTypes.EXAMPLE_ICON
+    cxIcon?: ICON_TYPE.CLOSE
+  }
+
+  Button can be setup with text as follows in `tableData` object:
+
+  {
+    ...,
+    delete: 'Example text'
   }
 -->
 <ng-template #button let-row="row" let-column="column">
@@ -79,8 +85,8 @@
       type="button"
       class="btn btn-primary btn-sm"
     >
+      <span> {{ row[column.key] }} </span>
       <cx-icon *ngIf="column?.cxIcon" [type]="column?.cxIcon"></cx-icon>
-      <span> {{ row[column.key]?.buttonText || '' }} </span>
     </button>
   </ng-container>
 </ng-template>
