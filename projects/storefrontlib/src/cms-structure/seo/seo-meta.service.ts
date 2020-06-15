@@ -1,23 +1,20 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
 import { filter } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SeoMetaService implements OnDestroy {
+export class SeoMetaService {
   constructor(
     protected ngTitle: Title,
     protected ngMeta: Meta,
     protected pageMetaService: PageMetaService
   ) {}
 
-  private subscription: Subscription;
-
   init() {
-    this.subscription = this.pageMetaService
+    this.pageMetaService
       .getMeta()
       .pipe(filter(Boolean))
       .subscribe((meta: PageMeta) => (this.meta = meta));
@@ -53,12 +50,6 @@ export class SeoMetaService implements OnDestroy {
   protected addTag(meta: MetaDefinition) {
     if (meta.content) {
       this.ngMeta.updateTag(meta);
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
     }
   }
 }

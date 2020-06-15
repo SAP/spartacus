@@ -24,7 +24,6 @@ import { getProjectTargets } from '@schematics/angular/utility/project-targets';
 import {
   ANGULAR_LOCALIZE,
   B2C_STOREFRONT_MODULE,
-  DEFAULT_NGRX_VERSION,
   SPARTACUS_ASSETS,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
@@ -40,13 +39,13 @@ import {
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
 } from '../shared/utils/package-utils';
-import { parseCSV } from '../shared/utils/transform-utils';
 import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
 import { Schema as SpartacusOptions } from './schema';
 
 function addPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+    const ngrxVersion = '~9.1.0';
     const angularVersion = getAngularVersion(tree);
 
     const dependencies: NodeDependency[] = [
@@ -84,17 +83,17 @@ function addPackageJsonDependencies(): Rule {
 
       {
         type: NodeDependencyType.Default,
-        version: DEFAULT_NGRX_VERSION,
+        version: ngrxVersion,
         name: '@ngrx/store',
       },
       {
         type: NodeDependencyType.Default,
-        version: DEFAULT_NGRX_VERSION,
+        version: ngrxVersion,
         name: '@ngrx/effects',
       },
       {
         type: NodeDependencyType.Default,
-        version: DEFAULT_NGRX_VERSION,
+        version: ngrxVersion,
         name: '@ngrx/router-store',
       },
 
@@ -145,35 +144,20 @@ function installPackageJsonDependencies(): Rule {
   };
 }
 
-function prepareSiteContextConfig(options: SpartacusOptions): string {
-  const currency = parseCSV(options.currency, ['USD']).toUpperCase();
-  const language = parseCSV(options.language, ['en']).toLowerCase();
-  let context = `
-      context: {
-        currency: [${currency}],
-        language: [${language}],`;
-
-  if (options.baseSite) {
-    const baseSites = parseCSV(options.baseSite);
-    context += `
-        baseSite: [${baseSites}]`;
-  }
-  context += `
-      },`;
-
-  return context;
-}
-
 function getStorefrontConfig(options: SpartacusOptions): string {
   const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
-  const context = prepareSiteContextConfig(options);
-
+  const contextContent = !options.baseSite
+    ? ''
+    : `
+      context: {
+        baseSite: ['${options.baseSite}']
+      },`;
   return `{
       backend: {
         occ: {${options.useMetaTags ? '' : baseUrlPart}
           prefix: '${options.occPrefix}'
         }
-      },${context}
+      },${contextContent}
       i18n: {
         resources: translations,
         chunks: translationChunksConfig,
@@ -289,7 +273,7 @@ function updateMainComponent(
     }
 
     const htmlContent = buffer.toString();
-    const insertion = `<cx-storefront></cx-storefront>\n`;
+    const insertion = '\n' + `<cx-storefront></cx-storefront>\n`;
 
     if (htmlContent.includes(insertion)) {
       return;
@@ -301,7 +285,7 @@ function updateMainComponent(
       recorder.remove(0, htmlContent.length);
       recorder.insertLeft(0, insertion);
     } else {
-      recorder.insertLeft(htmlContent.length, `\n${insertion}`);
+      recorder.insertLeft(htmlContent.length, insertion);
     }
 
     host.commitUpdate(recorder);

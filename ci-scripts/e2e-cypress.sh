@@ -49,7 +49,7 @@ set -- "${POSITIONAL[@]}"
 
 
 if [[ -z "${CI_ENV}" ]]; then
-    CI_ENV=":2005"
+    CI_ENV=":1905"
 fi
 
 yarn
@@ -57,8 +57,7 @@ yarn
 
 echo '-----'
 echo 'Building Spartacus libraries'
-# Currently for our unified app you have to build all libraries to run it
-yarn build:core:lib:cds && yarn build"${INTEGRATION}" 2>&1 | tee build.log
+yarn build:core:lib"${INTEGRATION}" && yarn build"${INTEGRATION}" 2>&1 | tee build.log
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "${results}" ]]; then

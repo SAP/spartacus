@@ -3,8 +3,6 @@ export interface Schema {
   baseUrl?: string;
   occPrefix?: string;
   baseSite?: string;
-  currency?: string;
-  language?: string;
   useMetaTags?: boolean;
   featureLevel?: string;
   overwriteAppComponent?: boolean;

@@ -40,7 +40,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   titles$: Observable<Title[]>;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  addresses$: Observable<Address[]>;
 
   @Input()
   addressData: Address;
@@ -173,8 +172,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         this.regionSelected(this.addressData.region);
       }
     }
-
-    this.addresses$ = this.userAddressService.getAddresses();
   }
 
   countrySelected(country: Country): void {

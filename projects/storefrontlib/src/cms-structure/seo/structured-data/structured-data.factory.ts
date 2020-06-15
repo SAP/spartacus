@@ -1,5 +1,5 @@
-import { Inject, Injectable, OnDestroy, Optional } from '@angular/core';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import { Inject, Injectable, Optional } from '@angular/core';
+import { combineLatest, Observable, of } from 'rxjs';
 import { SchemaBuilder } from './builders/schema.interface';
 import { SCHEMA_BUILDER } from './builders/tokens';
 import { JsonLdScriptFactory } from './json-ld-script.factory';
@@ -7,7 +7,7 @@ import { JsonLdScriptFactory } from './json-ld-script.factory';
 @Injectable({
   providedIn: 'root',
 })
-export class StructuredDataFactory implements OnDestroy {
+export class StructuredDataFactory {
   constructor(
     private scriptBuilder: JsonLdScriptFactory,
     @Optional()
@@ -15,10 +15,8 @@ export class StructuredDataFactory implements OnDestroy {
     private builders: SchemaBuilder[]
   ) {}
 
-  private subscription: Subscription;
-
   build() {
-    this.subscription = this.collectSchemas().subscribe((schema: {}[]) => {
+    this.collectSchemas().subscribe((schema: {}[]) => {
       this.scriptBuilder.build(schema);
     });
   }
@@ -30,11 +28,5 @@ export class StructuredDataFactory implements OnDestroy {
     return combineLatest(
       this.builders.map((builder) => builder.build())
     ).pipe();
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

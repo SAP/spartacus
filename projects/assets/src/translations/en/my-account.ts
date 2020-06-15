@@ -44,7 +44,8 @@ export const myAccount = {
         carrier: 'Delivery Service',
         trackingId: 'Tracking Number',
         noTracking:
-          'The package has not been dispatched from the warehouse. The tracking information will be available after the package is shipped.',
+          'The package has not been dispatched from the warehouse. ' +
+          'The tracking information will be available after the package is shipped.',
         loadingHeader: 'Consignment Tracking',
       },
     },

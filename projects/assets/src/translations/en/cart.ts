@@ -19,7 +19,6 @@ export const cart = {
   orderCost: {
     orderSummary: 'Order Summary',
     subtotal: 'Subtotal after discounts:',
-    shipping: 'Shipping:',
     estimatedShipping: 'Estimated shipping:',
     discount: 'You saved:',
     salesTax: 'Sales Tax:',

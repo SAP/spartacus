@@ -3,11 +3,5 @@
   "version": "2.1.0-dev.0",
   "publishConfig": {
     "access": "public"
-  },
-  "scripts": {
-    "build": "ng build assets --prod && yarn generate:translations:ts-2-json",
-    "generate:translations:ts-2-json": "ts-node ./generate-translations-ts-2-json",
-    "generate:translations:ts-2-properties": "ts-node ./generate-translations-ts-2-properties",
-    "generate:translations:properties-2-ts": "ts-node ./generate-translations-properties-2-ts && cd ../.. && npx prettier \"./projects/assets/src/translations/**/*.ts\" --write"
   }
 }

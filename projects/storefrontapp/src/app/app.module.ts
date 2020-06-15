@@ -28,24 +28,16 @@ if (!environment.production) {
   devImports.push(StoreDevtoolsModule.instrument());
 }
 
-let additionalImports = [];
-
-if (environment.cds) {
-  additionalImports = [...additionalImports, ...cdsFeature.imports];
-}
-
-if (environment.b2b) {
-  additionalImports = [...additionalImports, ...b2bFeature.imports];
-} else {
-  additionalImports = [...additionalImports, ...b2cFeature.imports];
-}
-
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
+
+    ...(environment.b2b ? b2bFeature.imports : b2cFeature.imports),
     JsonLdBuilderModule,
-    ...additionalImports,
+
+    ...cdsFeature.imports,
+
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 

@@ -10,7 +10,7 @@ import { packages } from './packages';
 import * as versionsHelper from './versions';
 
 const changelogTemplate = ejs.compile(
-  fs.readFileSync(path.join(__dirname, './templates/changelog.ejs'), 'utf-8'),
+  fs.readFileSync('./scripts/templates/changelog.ejs', 'utf-8'),
   { client: true }
 );
 
@@ -69,16 +69,16 @@ export default async function run(
   ).trim();
 
   const libraryPaths = {
-    '@spartacus/storefront': 'projects/storefrontlib',
-    '@spartacus/core': 'projects/core',
-    '@spartacus/styles': 'projects/storefrontstyles',
-    '@spartacus/assets': 'projects/assets',
-    '@spartacus/schematics': 'projects/schematics',
-    '@spartacus/incubator': 'projects/incubator',
-    '@spartacus/cds': 'projects/cds',
+    '@spartacus/storefront': './projects/storefrontlib',
+    '@spartacus/core': './projects/core',
+    '@spartacus/styles': './projects/storefrontstyles',
+    '@spartacus/assets': './projects/assets',
+    '@spartacus/schematics': './projects/schematics',
+    '@spartacus/incubator': './projects/incubator',
+    '@spartacus/cds': './projects/cds',
   };
 
-  const duplexUtil = through(function (chunk, _, callback) {
+  const duplexUtil = through(function(chunk, _, callback) {
     this.push(chunk);
     callback();
   });
@@ -87,9 +87,7 @@ export default async function run(
     return gitRawCommits({
       from: fromToken,
       to,
-      path: args.library
-        ? path.join(__dirname, '..', libraryPaths[args.library])
-        : path.join(__dirname, '..'),
+      path: args.library ? libraryPaths[args.library] : '.',
       format:
         '%B%n-hash-%n%H%n-gitTags-%n%D%n-committerDate-%n%ci%n-authorName-%n%aN%n',
     }) as NodeJS.ReadStream;
@@ -99,7 +97,7 @@ export default async function run(
     getRawCommitsStream(args.to)
       .on('error', () => {
         getRawCommitsStream('HEAD')
-          .on('error', (err) => {
+          .on('error', err => {
             logger.fatal('An error happened: ' + err.message);
             return '';
           })
@@ -110,7 +108,7 @@ export default async function run(
     return duplexUtil;
   }
 
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     getCommitsStream()
       .pipe(
         through((chunk: Buffer, _: string, callback: Function) => {
@@ -140,12 +138,12 @@ export default async function run(
             const tags = maybeTag && maybeTag[1].split(/,/g);
             chunk['tags'] = tags;
             // tslint:disable-next-line:triple-equals
-            if (tags && tags.find((x) => x == args.to)) {
+            if (tags && tags.find(x => x == args.to)) {
               toSha = chunk.hash as string;
             }
             const notes: any = chunk.notes;
             if (Array.isArray(notes)) {
-              notes.forEach((note) => {
+              notes.forEach(note => {
                 if (breakingChangesKeywords.includes(note.title)) {
                   breakingChanges.push({
                     content: note.text,
@@ -174,7 +172,7 @@ export default async function run(
         include: (x: string, v: {}) =>
           ejs.render(
             fs.readFileSync(
-              path.join(__dirname, './templates', `${x}.ejs`),
+              path.join('./scripts/templates', `${x}.ejs`),
               'utf-8'
             ),
             v
@@ -191,10 +189,9 @@ export default async function run(
       }
 
       // Check if we need to edit or create a new one.
-      return ghGot('repos/SAP/spartacus/releases').then((x: JsonObject) => [
-        x,
-        markdown,
-      ]);
+      return ghGot(
+        'repos/SAP/cloud-commerce-spartacus-storefront/releases'
+      ).then((x: JsonObject) => [x, markdown]);
     })
     .then(([body, markdown]) => {
       const json = body.body;
@@ -206,17 +203,20 @@ export default async function run(
         prerelease: '',
       };
 
-      return ghGot('repos/SAP/spartacus/releases' + id, {
-        body: {
-          body: markdown,
-          draft: true,
-          name: args.to,
-          prerelease: semversion.prerelease.length > 0,
-          tag_name: args.to,
-          ...(toSha ? { target_commitish: toSha } : {}),
-        },
-        token: githubToken,
-      });
+      return ghGot(
+        'repos/SAP/cloud-commerce-spartacus-storefront/releases' + id,
+        {
+          body: {
+            body: markdown,
+            draft: true,
+            name: args.to,
+            prerelease: semversion.prerelease.length > 0,
+            tag_name: args.to,
+            ...(toSha ? { target_commitish: toSha } : {}),
+          },
+          token: githubToken,
+        }
+      );
     });
 }
 

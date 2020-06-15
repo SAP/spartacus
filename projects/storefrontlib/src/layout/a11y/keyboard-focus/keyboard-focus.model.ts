@@ -58,6 +58,10 @@ export interface AutoFocusConfig extends EscapeFocusConfig {
    * Defaults to `true`.
    */
   autofocus?: boolean | string;
+
+  // whenever the target autofocus element is selected by the `skipFocus` selector,
+  // autofocus is ignored.
+  skipFocus?: string;
 }
 
 export interface TabFocusConfig extends AutoFocusConfig {

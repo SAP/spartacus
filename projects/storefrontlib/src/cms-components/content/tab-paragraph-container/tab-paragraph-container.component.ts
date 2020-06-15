@@ -76,7 +76,7 @@ export class TabParagraphContainerComponent
 
   ngOnInit(): void {
     this.activeTabNum =
-      this.winRef.nativeWindow?.history?.state?.activeTab ?? this.activeTabNum;
+      this.winRef.nativeWindow.history?.state?.activeTab ?? this.activeTabNum;
   }
 
   ngAfterViewInit(): void {

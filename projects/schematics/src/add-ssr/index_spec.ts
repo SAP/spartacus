@@ -54,18 +54,10 @@ describe('add-ssr', () => {
       )
       .toPromise();
     appTree = await schematicRunner
-      .runSchematicAsync(
-        'add-spartacus',
-        { ...defaultOptions, name: 'schematics-test' },
-        appTree
-      )
+      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
       .toPromise();
     appTree = await schematicRunner
-      .runSchematicAsync(
-        'add-ssr',
-        { ...defaultOptions, name: 'schematics-test' },
-        appTree
-      )
+      .runSchematicAsync('add-ssr', defaultOptions, appTree)
       .toPromise();
   });
 
