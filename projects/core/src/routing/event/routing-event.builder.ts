@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { merge, Observable } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
 import { PageType } from '../../model';
 import { ProductSearchService } from '../../product/facade/product-search.service';
 import { ProductService } from '../../product/facade/product.service';
-import { createFrom } from '../../util';
+import { createFrom } from '../../util/create-from';
+import { SemanticPathService } from '../configurable-routes';
 import { RoutingService } from '../facade/routing.service';
 import { PageContext } from '../models/page-context.model';
+import { RouterState } from '../store/routing-state';
+import { RoutingSelector } from '../store/selectors/index';
 import {
   CartPageVisited,
   CategoryPageVisited,
@@ -33,7 +37,9 @@ export class RoutingEventBuilder {
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
     protected eventService: EventService,
-    protected productService: ProductService
+    protected productService: ProductService,
+    protected store: Store<RouterState>,
+    protected semanticPathService: SemanticPathService
   ) {
     this.register();
   }
@@ -78,8 +84,7 @@ export class RoutingEventBuilder {
   }
 
   buildHomePageVisitedEvent(): Observable<HomePageVisited> {
-    return this.routerEvents(PageType.CONTENT_PAGE).pipe(
-      filter((pageContext) => pageContext.id === PageId.HOME_PAGE),
+    return this.isCurrentRoute('home', 'homepage').pipe(
       map((pageContext) => createFrom(HomePageVisited, pageContext))
     );
   }
@@ -94,8 +99,7 @@ export class RoutingEventBuilder {
   }
 
   buildCartVisitedEvent(): Observable<CartPageVisited> {
-    return this.routerEvents(PageType.CONTENT_PAGE).pipe(
-      filter((pageContext) => pageContext.id === PageId.CART_PAGE),
+    return this.isCurrentRoute('cart').pipe(
       map((pageContext) => createFrom(CartPageVisited, pageContext))
     );
   }
@@ -145,6 +149,39 @@ export class RoutingEventBuilder {
       map((searchResults) =>
         createFrom(KeywordSearchPageVisited, searchResults)
       )
+    );
+  }
+
+  /**
+   * The method checks is the provided `routeConfigKey` matching the `cxRoute`.
+   * If it doesn't, it proceeds to check the `PageContext`'s ID with the semantic
+   * path value for the provided `routeConfigKey`.
+   * As the last check, the method takes into an account the optionally provided
+   * `cmsRouteValue` and compares it with the `PageContext`'s ID.
+   *
+   * @param routeConfigKey a key from `RoutesConfig` object
+   * @param cmsRouteValue optional CMS-drive route value. E.g. is the `homepage`
+   * which is a CMS driven value, while the route key for it is named `home`
+   */
+  protected isCurrentRoute(
+    routeConfigKey: string,
+    cmsRouteValue?: string
+  ): Observable<PageContext> {
+    return this.routingService.getPageContext().pipe(
+      withLatestFrom(this.store.pipe(select(RoutingSelector.getCxRoute))),
+      map(([pageContext, cxRoute]) => {
+        if (cxRoute === routeConfigKey) {
+          return { pageContext, isCxRoute: true };
+        }
+
+        const isCxRoute =
+          pageContext.id === this.semanticPathService.get(routeConfigKey) ||
+          // example: `homepage` is the name of the CMS driven value, while the route key for it is named `home`
+          pageContext.id === cmsRouteValue;
+        return { pageContext, isCxRoute };
+      }),
+      filter((isRouteResult) => isRouteResult.isCxRoute),
+      map((isRouteResult) => isRouteResult.pageContext)
     );
   }
 
