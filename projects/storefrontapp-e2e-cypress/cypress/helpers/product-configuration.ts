@@ -255,6 +255,9 @@ export function clickOnAddToCartBtnOnPD() {
     .click()
     .then(() => {
       cy.get('div.cx-dialog-buttons').should('be.visible');
+      cy.get('div.cx-dialog-buttons a.btn-primary').contains('view cart').should('be.visible');
+      cy.get('div.cx-dialog-buttons a.btn-secondary')
+        .contains('proceed to checkout').should('be.visible');
     });
 }
 
@@ -271,6 +274,7 @@ export function clickOnProceedToCheckoutBtnOnPD() {
         'contain',
         'Shipping Address'
       );
+      cy.get('cx-shipping-address').should('be.visible');
     });
 }
 
@@ -307,11 +311,11 @@ export function checkout() {
     .contains('Continue')
     .click()
     .then(() => {
-      cy.get('cx-delivery-mode').should('be.visible');
       cy.get('cx-checkout-progress a.cx-link.active').should(
         'contain',
         'Delivery mode'
       );
+      cy.get('cx-delivery-mode').should('be.visible');
     });
 
   // Click on 'Continue' button to navigate to the next step 'Payment details' of the order process
@@ -319,11 +323,11 @@ export function checkout() {
     .contains('Continue')
     .click()
     .then(() => {
-      cy.get('cx-payment-method').should('be.visible');
       cy.get('cx-checkout-progress a.cx-link.active').should(
         'contain',
         'Payment details'
       );
+      cy.get('cx-payment-method').should('be.visible');
     });
 
   // Click on 'Use this payment' link to enable 'Continue' button
@@ -339,11 +343,11 @@ export function checkout() {
     .contains('Continue')
     .click()
     .then(() => {
-      cy.get('cx-review-submit').should('be.visible');
       cy.get('cx-checkout-progress a.cx-link.active').should(
         'contain',
         'Review order'
       );
+      cy.get('cx-review-submit').should('be.visible');
     });
 
   // Check 'Terms & Conditions'
