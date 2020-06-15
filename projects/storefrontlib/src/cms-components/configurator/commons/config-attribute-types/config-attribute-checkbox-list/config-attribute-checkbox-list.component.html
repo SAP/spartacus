@@ -32,8 +32,15 @@
           )
         }}"
         class="cx-config-attribute-value-label form-check-label"
-        >{{ value.valueDisplay }}</label
       >
+        <ng-container *ngIf="attribute.isNumeric">
+          {{ value.valueDisplay }}
+        </ng-container>
+
+        <ng-container *ngIf="!attribute.isNumeric">
+          {{ value.valueDisplay }}</ng-container
+        >
+      </label>
     </div>
   </div>
 </div>

@@ -7,7 +7,7 @@
             [formControl]="attributeDropDownForm"
             [searchable]="false"
             [clearable]="false"
-            [items]="attribute.values"
+            [items]="internalAttribute.values"
             bindLabel="valueDisplay"
             bindValue="valueCode"
             (change)="onSelect()"
