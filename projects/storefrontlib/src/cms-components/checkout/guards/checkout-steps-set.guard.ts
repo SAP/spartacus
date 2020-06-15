@@ -59,8 +59,11 @@ export class CheckoutStepsSetGuard implements CanActivate {
             currentIndex = index;
           }
         });
-        this.validateCurrentStep(currentIndex, steps, currentRouteUrl);
-        return this.isPreviousStepSet(steps[currentIndex - 1], isAccount);
+        if (this.validateCurrentStep(currentIndex, steps, currentRouteUrl)) {
+          return this.isPreviousStepSet(steps[currentIndex - 1], isAccount);
+        } else {
+          return of(this.getUrl('checkout'));
+        }
       })
     );
   }
@@ -69,7 +72,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
     currentIndex: number,
     steps: CheckoutStep[],
     routeUrl: string
-  ): void {
+  ): boolean {
     let currentStep: CheckoutStep;
     if (currentIndex >= 0) {
       currentStep = steps[currentIndex];
@@ -78,7 +81,9 @@ export class CheckoutStepsSetGuard implements CanActivate {
       console.warn(
         `Missing step with route '${routeUrl}' in checkout configuration.`
       );
+      return false;
     }
+    return true;
   }
 
   protected isPreviousStepSet(
