@@ -36,30 +36,22 @@ const config = {
         '/organization/unit/Rustic',
       ],
     },
-    {
-      text: ['testXXXXZZZ', 'testXXXXZZZ', 'DisabledUnit'],
-      links: [
-        '/organization/user-group/testXXXXZZZ',
-        null,
-        '/organization/unit/DisabledUnit',
-      ],
-    },
   ],
   sorts: [
     {
       urlParams: '?sort=byUnitName',
       value: 'Unit Name',
-      rowOrder: [3, 1, 2, 0],
+      rowOrder: [1, 2, 0],
     },
     {
       urlParams: '?sort=byGroupID',
       value: 'Group ID',
-      rowOrder: [0, 1, 2, 3],
+      rowOrder: [0, 1, 2],
     },
     {
       urlParams: '',
       value: 'Name',
-      rowOrder: [0, 1, 2, 3],
+      rowOrder: [0, 1, 2],
       default: true,
     },
   ],
@@ -82,6 +74,10 @@ const config = {
       {
         label: 'Purchase limits',
         link: `/purchase-limits/limitedPermissions`,
+        manageLink: '/assign-purchase-limits/limitedPermissions',
+        manageSelector: 'cx-user-group-assign-permissions',
+        availableEndpoint: '**/availableOrderApprovalPermissions**',
+        availableParam: 'orderApprovalPermissions',
         selector: 'cx-user-group-permissions',
         rowHeaders: [
           'Code',
@@ -109,38 +105,6 @@ const config = {
           },
           {
             text: [
-              'Rustic_10K_USD_MONTH',
-              'Allowed Order Threshold (per timespan)',
-              '10000 $',
-              'MONTH',
-              'Rustic',
-            ],
-            links: [
-              '/organization/purchase-limit/Rustic_10K_USD_MONTH',
-              null,
-              null,
-              null,
-              '/organization/unit/Rustic',
-            ],
-          },
-          {
-            text: [
-              'Rustic_15K_USD_ORDER',
-              'Allowed Order Threshold (per order)',
-              '15000 $',
-              null,
-              'Rustic',
-            ],
-            links: [
-              '/organization/purchase-limit/Rustic_15K_USD_ORDER',
-              null,
-              null,
-              null,
-              '/organization/unit/Rustic',
-            ],
-          },
-          {
-            text: [
               'Rustic_25K_USD_MONTH',
               'Allowed Order Threshold (per timespan)',
               '25000 $',
@@ -160,12 +124,12 @@ const config = {
           {
             urlParams: '?sort=byUnitName',
             value: 'Unit Name',
-            rowOrder: [3, 0, 1, 2],
+            rowOrder: [1, 0],
           },
           {
             urlParams: '',
             value: 'Name',
-            rowOrder: [0, 1, 2, 3],
+            rowOrder: [0, 1],
             default: true,
           },
         ],
@@ -173,29 +137,14 @@ const config = {
       {
         label: 'Users',
         link: `/users/limitedPermissions`,
+        manageLink: '/assign-users/limitedPermissions',
+        manageSelector: 'cx-user-group-assign-users',
+        availableEndpoint: '**/availableOrgCustomers**',
+        availableParam: 'users',
         selector: 'cx-user-group-users',
+        unassignAll: true,
         rowHeaders: ['Email', 'Name', 'Unit'],
         rows: [
-          {
-            text: ['akiro.nakamura@rustic-hw.com', 'Akiro Nakamura', 'Rustic'],
-            links: [
-              '/organization/user/08ecc0b1-16ef-4a74-a1dd-4a244300c974',
-              null,
-              '/organization/unit/Rustic',
-            ],
-          },
-          {
-            text: [
-              'alejandro.navarro@rustic-hw.com',
-              'Alejandro Navarro',
-              'Services East',
-            ],
-            links: [
-              '/organization/user/0db38452-5b78-45af-ba26-6cfa20090d8d',
-              null,
-              '/organization/unit/Services%20East',
-            ],
-          },
           {
             text: [
               'anthony.lombardi@rustic-hw.com',
@@ -225,12 +174,12 @@ const config = {
           {
             urlParams: '?sort=byUnit',
             value: 'Unit Name',
-            rowOrder: [3, 2, 0, 1],
+            rowOrder: [1, 0],
           },
           {
             urlParams: '',
             value: 'Name',
-            rowOrder: [0, 1, 2, 3],
+            rowOrder: [0, 1],
             default: true,
           },
         ],
@@ -284,19 +233,19 @@ const config = {
 };
 
 describe(`My Company - ${config.navLink}`, () => {
-  beforeEach(() => {
-    cy.requireLoggedIn({
-      user: 'linda.wolf@rustic-hw.com',
-      registrationData: {
-        firstName: 'Linda',
-        lastName: 'Wolf',
-        titleCode: '',
-        password: '12341234',
-        email: 'linda.wolf@rustic-hw.com',
-      },
-    });
-    cy.visit(`${config.url}s`);
-  });
+  // beforeEach(() => {
+  //   cy.requireLoggedIn({
+  //     user: 'linda.wolf@rustic-hw.com',
+  //     registrationData: {
+  //       firstName: 'Linda',
+  //       lastName: 'Wolf',
+  //       titleCode: '',
+  //       password: '12341234',
+  //       email: 'linda.wolf@rustic-hw.com',
+  //     },
+  //   });
+  //   cy.visit(`${config.url}s`);
+  // });
 
   // myCompany.testListFromConfig(config);
   // myCompany.testDetailsFromConfig(config);

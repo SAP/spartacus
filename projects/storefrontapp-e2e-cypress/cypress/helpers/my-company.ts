@@ -1,4 +1,5 @@
 import { CONTEXT_URL_EN_USD } from './site-context-selector';
+import { nextPage, choosePage } from './product-search';
 
 export function testListFromConfig(config) {
   context(`${config.navLink} List`, () => {
@@ -187,7 +188,7 @@ export function testCreateUpdateFromConfig(config) {
         // const defaultSort = config.sorts.find((sort) => sort.default);
         cy.get('h3').should('contain.text', config.pageTitle);
         cy.get('cx-table').within(() => {
-          cy.get('tr').should('have.length', 5);
+          cy.get('tr').should('have.length', 4);
           const rowsWithNewEntity = [
             ...config.rows,
             {
@@ -199,7 +200,7 @@ export function testCreateUpdateFromConfig(config) {
               ],
             },
           ];
-          const newOrder = [0, 1, 2, 4, 3];
+          const newOrder = [0, 1, 2, 3];
           checkRowHeaders(config.rowHeaders);
           checkRows(rowsWithNewEntity, newOrder);
         });
@@ -311,7 +312,7 @@ export function testCreateUpdateFromConfig(config) {
         // const defaultSort = config.sorts.find((sort) => sort.default);
         cy.get('h3').should('contain.text', config.pageTitle);
         cy.get('cx-table').within(() => {
-          cy.get('tr').should('have.length', 5);
+          cy.get('tr').should('have.length', 4);
           const rowsWithNewEntity = [
             ...config.rows,
             {
@@ -327,7 +328,7 @@ export function testCreateUpdateFromConfig(config) {
               ],
             },
           ];
-          const newOrder = [0, 1, 2, 4, 3];
+          const newOrder = [0, 1, 2, 3];
           checkRowHeaders(config.rowHeaders);
           checkRows(rowsWithNewEntity, newOrder);
         });
@@ -341,9 +342,25 @@ export function testCreateUpdateFromConfig(config) {
 }
 
 export function testAssignmentFromConfig(config) {
-  context(`${config.navLink} Assignment`, () => {
-    config.details.tabs.forEach((tab) => {
-      it(`should ${tab.label}`, () => {
+  let data;
+
+  config.details.tabs.forEach((tab) => {
+    describe(`${config.navLink} Assignment - ${tab.label}`, () => {
+      before(() => {
+        cy.requireLoggedIn({
+          user: 'linda.wolf@rustic-hw.com',
+          registrationData: {
+            firstName: 'Linda',
+            lastName: 'Wolf',
+            titleCode: '',
+            password: '12341234',
+            email: 'linda.wolf@rustic-hw.com',
+          },
+        });
+        cy.visit(`${config.url}s`);
+      });
+
+      it(`should navigate to tab menu`, () => {
         cy.get(config.listSelector).within(() => {
           cy.get('a')
             .contains(`${config.details.entity.id}`)
@@ -355,8 +372,9 @@ export function testAssignmentFromConfig(config) {
         });
 
         cy.url().should('contain', tab.link);
+      });
 
-        // it('should show list', () => {
+      it('should show list', () => {
         cy.get(tab.selector).within(() => {
           if (tab.sorts) {
             const defaultSort = tab.sorts.find((sort) => sort.default);
@@ -372,9 +390,9 @@ export function testAssignmentFromConfig(config) {
             });
           }
         });
-        // });
+      });
 
-        // it('should sort table data', () => {
+      it('should sort table data', () => {
         cy.get(tab.selector).within(() => {
           tab.sorts?.forEach((sort) => {
             ngSelect(sort.value);
@@ -385,8 +403,159 @@ export function testAssignmentFromConfig(config) {
             });
           });
         });
-        // });
+      });
 
+      if (tab.manageLink && tab.manageSelector) {
+        let available: any;
+
+        it('should navigate to management menu', () => {
+          cy.server();
+          cy.route('GET', `${tab.availableEndpoint}`).as('getData');
+          cy.get('a').contains('Manage').click();
+          cy.wait('@getData').then((xhr) => {
+            available = xhr?.response?.body[tab.availableParam];
+            console.log(xhr?.response?.body, available);
+          });
+          cy.url().should('contain', `${config.url}${tab.manageLink}`);
+          cy.get(tab.manageSelector).within(() => {
+            cy.get('h3').should('contain.text', 'Manage');
+          });
+        });
+
+        it('should show assignments list', () => {
+          cy.get('cx-table').within(() => {
+            const assignmentRowHeaders = tab.rowHeaders.splice(0, 0, 'Assign');
+            checkRowHeaders(assignmentRowHeaders);
+            const rows = available.map((row) => ({
+              text: [row.email, row.name, row.orgUnit.name],
+              links: [`/${row.customerId}`, null, `/${row.orgUnit.uid}`],
+            }));
+            checkRows(rows, []);
+          });
+        });
+
+        xit('should sort assignments table data', () => {});
+
+        it(`should assign and validate`, () => {
+          cy.get('cx-table').within(() => {
+            cy.server();
+            cy.route('POST', '**/orgUnitUserGroups/**').as('getData');
+            cy.get('tr input[type="checkbox"]').eq(1).click({ force: true });
+            cy.wait('@getData');
+            cy.get('tr input[type="checkbox"]').eq(1).should('be.checked');
+          });
+          cy.get('a').contains('Close').click();
+          cy.get(tab.selector).within(() => {
+            cy.get('cx-table').within(() => {
+              cy.get('tr').should('have.length', 3);
+            });
+            cy.get('a').contains('Manage').click();
+          });
+          cy.url().should('contain', `${config.url}${tab.manageLink}`);
+          cy.get(tab.manageSelector).within(() => {
+            cy.get('h3').should('contain.text', 'Manage');
+          });
+        });
+
+        it(`should unassign and validate`, () => {
+          cy.get('cx-table').within(() => {
+            cy.server();
+            cy.route('DELETE', '**/orgUnitUserGroups/**').as('getData');
+            cy.get('tr input[type="checkbox"]').eq(1).click({ force: true });
+            cy.wait('@getData');
+            cy.get('tr input[type="checkbox"]').eq(1).should('not.be.checked');
+          });
+          cy.get('a').contains('Close').click();
+          cy.get(tab.selector).within(() => {
+            cy.get('cx-table').within(() => {
+              cy.get('tr').should('have.length', 2);
+            });
+            cy.get('a').contains('Manage').click();
+          });
+          cy.url().should('contain', `${config.url}${tab.manageLink}`);
+          cy.get(tab.manageSelector).within(() => {
+            cy.get('h3').should('contain.text', 'Manage');
+          });
+        });
+
+        if (tab.unassignAll) {
+          it(`should unassign all and validate`, () => {
+            cy.get(tab.manageSelector).within(() => {
+              cy.server();
+              cy.route('DELETE', '**/orgUnitUserGroups/**').as('getData');
+              cy.get('button').contains('Unassign All').click();
+              cy.wait('@getData');
+            });
+
+            cy.get(tab.manageSelector).within(() => {
+              cy.get('cx-table').within(() => {
+                cy.get('tr input[type="checkbox"]').should('not.be.checked');
+              });
+              cy.get('a').contains('Close').click();
+            });
+            cy.get(tab.selector).within(() => {
+              cy.get('div').should('contain.text', 'No data.');
+              cy.get('a').contains('Manage').click();
+            });
+            cy.url().should('contain', `${config.url}${tab.manageLink}`);
+            cy.get(tab.manageSelector).within(() => {
+              cy.get('h3').should('contain.text', 'Manage');
+            });
+          });
+
+          it(`should reassign all and validate`, () => {
+            tab.rows.forEach((row) => {
+              scanTablePagesForText(row.text[0]);
+              cy.get(tab.manageSelector).within(() => {
+                cy.get('cx-table').within(() => {
+                  cy.get('tr')
+                    .contains(row.text[0])
+                    .parent()
+                    .parent()
+                    .within(() => {
+                      cy.server();
+                      cy.route('POST', '**/orgUnitUserGroups/**').as('getData');
+                      cy.get('input[type="checkbox"]').click({ force: true });
+                      cy.wait('@getData');
+                    });
+                });
+              });
+              cy.get(tab.manageSelector).within(() => {
+                cy.get('cx-table').within(() => {
+                  cy.get('tr')
+                    .contains(row.text[0])
+                    .parent()
+                    .parent()
+                    .within(() => {
+                      cy.get('input[type="checkbox"]').should('be.checked');
+                    });
+                });
+              });
+            });
+            cy.get('a').contains('Close').click();
+            cy.get(tab.selector).within(() => {
+              cy.get('cx-table').within(() => {
+                cy.get('tr').should('have.length', 2);
+              });
+              cy.get('a').contains('Manage').click();
+            });
+            cy.url().should('contain', `${config.url}${tab.manageLink}`);
+            cy.get(tab.manageSelector).within(() => {
+              cy.get('h3').should('contain.text', 'Manage');
+            });
+          });
+        }
+
+        it('should close', () => {
+          cy.get(tab.manageSelector).within(() => {
+            cy.get('a').contains('Close').click();
+          });
+          cy.url().should('contain', `${tab.link}`);
+          cy.get('h3').should('contain.text', tab.label);
+        });
+      }
+
+      it('should go back to main menu', () => {
         cy.get('a').contains('Back to list').click();
         cy.url().should('contain', config.url);
       });
@@ -448,5 +617,18 @@ function cleanUp(config) {
     },
   }).then((response) => {
     expect(response.status).to.eq(200);
+  });
+}
+
+function scanTablePagesForText(text: string) {
+  // cy.get('cx-pagination').contains('«').first().click({ force: true });
+  cy.get('cx-table').then(($table) => {
+    if ($table.text().indexOf(text) === -1) {
+      cy.server();
+      cy.route('GET', '**/orgUnitUserGroups/**').as('getData');
+      nextPage();
+      cy.wait('@getData');
+      scanTablePagesForText(text);
+    }
   });
 }
