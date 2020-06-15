@@ -356,9 +356,9 @@
       }
     },
     "cds": {
+      "projectType": "library",
       "root": "projects/cds",
       "sourceRoot": "projects/cds/src",
-      "projectType": "library",
       "prefix": "cx",
       "architect": {
         "build": {
@@ -393,11 +393,11 @@
         }
       }
     },
-    "my-account": {
+    "myaccount": {
       "projectType": "library",
       "root": "feature-libs/my-account",
       "sourceRoot": "feature-libs/my-account/src",
-      "prefix": "lib",
+      "prefix": "cx",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
