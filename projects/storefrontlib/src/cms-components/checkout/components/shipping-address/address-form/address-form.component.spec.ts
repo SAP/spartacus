@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -17,9 +17,9 @@ import {
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
+import { FormErrorsModule } from '../../../../../shared/index';
 import { AddressFormComponent } from './address-form.component';
 import createSpy = jasmine.createSpy;
-import { FormErrorsModule } from '../../../../../shared/index';
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -38,6 +38,10 @@ class MockUserAddressService {
 
   getRegions(): Observable<Region[]> {
     return of();
+  }
+
+  getAddresses(): Observable<Address[]> {
+    return of([]);
   }
 }
 
@@ -128,6 +132,9 @@ describe('AddressFormComponent', () => {
   let mockGlobalMessageService: any;
   let mockModalService: MockModalService;
 
+  const defaultAddressCheckbox = (): DebugElement =>
+    fixture.debugElement.query(By.css('[formcontrolname=defaultAddress]'));
+
   beforeEach(async(() => {
     mockGlobalMessageService = {
       add: createSpy(),
@@ -186,6 +193,8 @@ describe('AddressFormComponent', () => {
     spyOn(userService, 'loadTitles').and.stub();
 
     spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
+
+    spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
 
     spyOn(
       mockCheckoutDeliveryService,
@@ -349,13 +358,12 @@ describe('AddressFormComponent', () => {
 
   it('should toggleDefaultAddress() adapt control value', () => {
     component.setAsDefaultField = true;
-    fixture.detectChanges();
-    const checkbox = fixture.debugElement.query(
-      By.css('[formcontrolname=defaultAddress]')
-    ).nativeElement;
+    spyOn(userAddressService, 'getAddresses').and.returnValue(
+      of([mockAddress])
+    );
 
     fixture.detectChanges();
-    checkbox.click();
+    defaultAddressCheckbox().nativeElement.click();
 
     expect(component.addressForm.value.defaultAddress).toBeTruthy();
   });
@@ -481,5 +489,23 @@ describe('AddressFormComponent', () => {
     spyOn(component.regionsSub, 'unsubscribe');
     component.ngOnDestroy();
     expect(component.regionsSub.unsubscribe).toHaveBeenCalled();
+  });
+
+  it('should show the "Set as default" checkbox when there is one or more saved addresses', () => {
+    spyOn(userAddressService, 'getAddresses').and.returnValue(
+      of([mockAddress])
+    );
+
+    fixture.detectChanges();
+
+    expect(defaultAddressCheckbox().nativeElement).toBeTruthy();
+  });
+
+  it('should not show the "Set as default" checkbox when there no saved addresses', () => {
+    spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
+
+    fixture.detectChanges();
+
+    expect(defaultAddressCheckbox()).toBe(null);
   });
 });

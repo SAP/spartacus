@@ -5,6 +5,7 @@
     "baseUrl": ".",
     "module": "commonjs",
     "types": ["node"],
+    "esModuleInterop": true,
     "paths": {
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/src/public_api"],
@@ -16,5 +17,9 @@
   "angularCompilerOptions": {
     "entryModule": "src/app/app.server.module#AppServerModule"
   },
-  "files": ["src/main.server.ts", "server.ts"]
+  "files": [
+    "src/main.server.ts",
+    "server.ts",
+    "src/environments/models/build.process.env.d.ts"
+  ]
 }
