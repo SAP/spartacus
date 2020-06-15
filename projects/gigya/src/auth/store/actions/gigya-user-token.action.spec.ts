@@ -43,11 +43,16 @@ describe('Gigya User Token Actions', () => {
 
   describe('LoadUserTokenSuccess Action', () => {
     it('should create the action', () => {
-      const action = new GigyaAuthActions.LoadUserTokenSuccess(token);
+      const data = {
+        token: token,
+        initActionPayload: 'payload',
+      } as GigyaAuthActions.LoadUserTokenSuccessPayload;
+
+      const action = new GigyaAuthActions.LoadUserTokenSuccess(data);
 
       expect({ ...action }).toEqual({
         type: GigyaAuthActions.LOAD_USER_TOKEN_SUCCESS,
-        payload: token,
+        payload: data,
       });
     });
   });

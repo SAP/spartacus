@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { AuthServices } from './services/index';
+import { GigyaUserAuthenticationTokenService } from './services/user-authentication/gigya-user-authentication-token.service';
+import { GigyaAuthStoreModule } from './store/gigya-auth-store.module';
 
 @NgModule({
-  imports: [CommonModule, HttpClientModule],
-  providers: [...AuthServices],
+  imports: [CommonModule, HttpClientModule, GigyaAuthStoreModule],
+  providers: [GigyaUserAuthenticationTokenService],
 })
 export class AuthModule {}

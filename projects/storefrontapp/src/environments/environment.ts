@@ -15,4 +15,5 @@ export const environment: Environment = {
   occApiPrefix: '/rest/v2/',
   b2b: false,
   cds: false,
+  gigya: true,
 };

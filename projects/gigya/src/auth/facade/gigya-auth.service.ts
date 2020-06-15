@@ -1,21 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  AuthService,
-  StateWithAuth,
-  AuthActions,
-  OCC_USER_ID_CURRENT,
-} from '@spartacus/core';
+import { AuthService, StateWithAuth, WindowRef } from '@spartacus/core';
 import { GigyaAuthActions } from '../store/actions';
-import { take } from 'rxjs/operators';
-
-declare var gigya: any;
 
 @Injectable({
   providedIn: 'root',
 })
 export class GigyaAuthService extends AuthService {
-  constructor(protected store: Store<StateWithAuth>) {
+  constructor(
+    protected store: Store<StateWithAuth>,
+    protected winRef: WindowRef
+  ) {
     super(store);
   }
 
@@ -50,22 +45,15 @@ export class GigyaAuthService extends AuthService {
    * Logout a storefront customer
    */
   logout(): void {
-    this.getUserToken()
-      .pipe(take(1))
-      .subscribe(userToken => {
-        this.store.dispatch(new AuthActions.Logout());
-        if (Boolean(userToken) && userToken.userId === OCC_USER_ID_CURRENT) {
-          this.store.dispatch(new AuthActions.RevokeUserToken(userToken));
-        }
-      });
-
+    super.logout();
     // trigger logout from cdc
     this.logoutFromGigya();
   }
+
   /**
-   * Logout user from gigya 
+   * Logout user from gigya
    */
   logoutFromGigya(): void {
-    gigya.accounts.logout();
+    this.winRef.nativeWindow?.['gigya']?.accounts?.logout();
   }
 }

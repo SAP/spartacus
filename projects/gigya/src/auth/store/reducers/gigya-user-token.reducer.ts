@@ -17,7 +17,7 @@ export function reducer(
     case GigyaAuthActions.LOAD_USER_TOKEN_SUCCESS: {
       return {
         ...state,
-        ...action.payload,
+        ...action.payload.token,
       };
     }
 

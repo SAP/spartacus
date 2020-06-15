@@ -8,6 +8,7 @@ import {
   UserToken,
   OCC_USER_ID_CURRENT,
   AuthActions,
+  WindowRef,
 } from '@spartacus/core';
 
 const mockToken = {
@@ -16,17 +17,34 @@ const mockToken = {
   access_token: 'testToken-access-token',
 } as UserToken;
 
+const gigya = {
+  accounts: {
+    logout: (): void => {},
+  },
+};
+
+const mockedWindowRef = {
+  nativeWindow: {
+    gigya: gigya,
+  },
+};
+
 describe('GigyaAuthService', () => {
   let service: GigyaAuthService;
   let store: Store<AuthState>;
+  let winRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
-      providers: [GigyaAuthService],
+      providers: [
+        GigyaAuthService,
+        { provide: WindowRef, useValue: mockedWindowRef },
+      ],
     });
 
     service = TestBed.inject(GigyaAuthService);
+    winRef = TestBed.inject(WindowRef);
     store = TestBed.inject(Store);
   });
 
@@ -59,12 +77,22 @@ describe('GigyaAuthService', () => {
     spyOn(store, 'dispatch').and.stub();
     const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
     spyOn(service, 'getUserToken').and.returnValue(of(testToken));
-    spyOn(service,'logoutFromGigya').and.stub();
+    spyOn(service, 'logoutFromGigya').and.stub();
     service.logout();
     expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
     expect(store.dispatch).toHaveBeenCalledWith(
       new AuthActions.RevokeUserToken(testToken)
     );
     expect(service.logoutFromGigya).toHaveBeenCalled();
+  });
+
+  it('should logout user from gigya', () => {
+    const gigyaLogout = spyOn(
+      winRef.nativeWindow['gigya'].accounts,
+      'logout'
+    ).and.stub();
+    service.logoutFromGigya();
+
+    expect(gigyaLogout).toHaveBeenCalled();
   });
 });

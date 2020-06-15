@@ -4,31 +4,15 @@ import { GigyaRaasComponent } from './gigya-raas.component';
 import { GigyaConfig } from '../../config';
 import { GigyaRaasComponentData } from '../cms.model';
 import { CmsComponentData } from '@spartacus/storefront';
-import {
-  CmsComponent,
-  User,
-  UserService,
-  AuthRedirectService,
-  GlobalMessageService,
-  GlobalMessageType,
-  BaseSiteService,
-  UserToken,
-  OCC_USER_ID_CURRENT,
-} from '@spartacus/core';
+import { CmsComponent, BaseSiteService } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
-import { GigyaAuthService } from '../../auth/facade/gigya-auth.service';
+import { GigyaJsService } from '../gigya-js/gigya-js.service';
 
 declare var window: Window;
 
 interface Window {
   gigya?: any;
 }
-
-const mockToken = {
-  userId: 'user@sap.com',
-  refresh_token: 'foo',
-  access_token: 'testToken-access-token',
-} as UserToken;
 
 const sampleGigyaConfig: GigyaConfig = {
   gigya: [
@@ -43,13 +27,10 @@ const sampleGigyaConfig: GigyaConfig = {
 const sampleComponentData: GigyaRaasComponentData = {
   uid: 'uid',
   name: 'name',
-  container: 'container',
   screenSet: 'screenSet',
   profileEdit: 'profileEdit',
-  showAnonymous: true,
   embed: 'embed',
   startScreen: 'startScreen',
-  showLoggedIn: false,
   containerID: 'containerID',
   linkText: 'linkText',
   advancedConfiguration: 'advancedConfiguration',
@@ -60,39 +41,17 @@ const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
   uid: 'test',
 };
 
-class MockGigyaAuthService {
-  authorizeWithCustomGigyaFlow(): void {}
-
-  getUserToken(): Observable<UserToken> {
-    return of();
-  }
-}
-
-class MockUserService {
-  updatePersonalDetails(_userDetails: User): void {}
-}
-
-class MockAuthRedirectService {
-  redirect() {}
-}
-
-class MockGlobalMessageService {
-  remove(_type: GlobalMessageType, _index?: number) {}
-}
-
 class BaseSiteServiceStub {
   getActive(): Observable<string> {
     return of();
   }
 }
 
+class GigyaJsServiceStub {}
+
 describe('GigyaRaasComponent', () => {
   let component: GigyaRaasComponent;
   let fixture: ComponentFixture<GigyaRaasComponent>;
-  let authService: GigyaAuthService;
-  let userService: UserService;
-  let authRedirectService: AuthRedirectService;
-  let globalMessageService: GlobalMessageService;
   let baseSiteService: BaseSiteService;
 
   beforeEach(() => {
@@ -102,17 +61,10 @@ describe('GigyaRaasComponent', () => {
       providers: [
         { provide: GigyaConfig, useValue: sampleGigyaConfig },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: GigyaAuthService, useClass: MockGigyaAuthService },
-        { provide: UserService, useClass: MockUserService },
-        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
+        { provide: GigyaJsService, useClass: GigyaJsServiceStub },
       ],
     });
-    authService = TestBed.inject(GigyaAuthService);
-    userService = TestBed.inject(UserService);
-    authRedirectService = TestBed.inject(AuthRedirectService);
-    globalMessageService = TestBed.inject(GlobalMessageService);
     baseSiteService = TestBed.inject(BaseSiteService);
     fixture = TestBed.createComponent(GigyaRaasComponent);
     component = fixture.componentInstance;
@@ -120,72 +72,6 @@ describe('GigyaRaasComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should update personal details', () => {
-    spyOn(userService, 'updatePersonalDetails');
-    const response: any = {
-      profile: {
-        firstName: 'firstName',
-        lastName: 'lastName',
-      },
-    };
-
-    component.onProfileUpdateEventHandler(response);
-
-    expect(userService.updatePersonalDetails).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not update personal details', () => {
-    spyOn(userService, 'updatePersonalDetails');
-    const response: any = undefined;
-
-    component.onProfileUpdateEventHandler(response);
-
-    expect(userService.updatePersonalDetails).toHaveBeenCalledTimes(0);
-  });
-
-  it('should login user when on login event is triggered', () => {
-    spyOn(authService, 'authorizeWithCustomGigyaFlow');
-    spyOn(authRedirectService, 'redirect');
-    spyOn(globalMessageService, 'remove');
-
-    const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
-    spyOn(authService, 'getUserToken').and.returnValue(of(testToken));
-
-    const response: any = {
-      UID: 'UID',
-      UIDSignature: 'UIDSignature',
-      signatureTimestamp: 'signatureTimestamp',
-      id_token: 'id_token',
-    };
-
-    component.onLoginEventHandler(response);
-
-    expect(authService.authorizeWithCustomGigyaFlow).toHaveBeenCalledTimes(1);
-    expect(globalMessageService.remove).toHaveBeenCalledTimes(1);
-    expect(authRedirectService.redirect).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not login user when on login event is triggered', () => {
-    spyOn(authService, 'authorizeWithCustomGigyaFlow');
-    spyOn(authRedirectService, 'redirect');
-    spyOn(globalMessageService, 'remove');
-
-    spyOn(authService, 'getUserToken').and.returnValue(of());
-
-    const response: any = {
-      UID: 'UID',
-      UIDSignature: 'UIDSignature',
-      signatureTimestamp: 'signatureTimestamp',
-      id_token: 'id_token',
-    };
-
-    component.onLoginEventHandler(response);
-
-    expect(authService.authorizeWithCustomGigyaFlow).toHaveBeenCalledTimes(1);
-    expect(globalMessageService.remove).toHaveBeenCalledTimes(0);
-    expect(authRedirectService.redirect).toHaveBeenCalledTimes(0);
   });
 
   it('should display screen set in embed mode', () => {

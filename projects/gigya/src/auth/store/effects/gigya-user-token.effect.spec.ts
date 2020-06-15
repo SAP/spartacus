@@ -73,7 +73,18 @@ describe('UserToken effect', () => {
         baseSite: 'xxx',
       });
 
-      const completion = new GigyaAuthActions.LoadUserTokenSuccess(testToken);
+      const actionPayload = {
+        UID: 'xxx',
+        UIDSignature: 'xxx',
+        signatureTimestamp: 'xxx',
+        idToken: 'xxx',
+        baseSite: 'xxx',
+      };
+
+      const completion = new GigyaAuthActions.LoadUserTokenSuccess({
+        token: testToken,
+        initActionPayload: actionPayload,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
