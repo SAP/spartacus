@@ -1,17 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgSelectModule } from '@ng-select/ng-select';
-import {
-  CmsConfig,
-  Config,
-  ConfigModule,
-  I18nModule,
-  ProductModule,
-  UrlModule,
-  UserService,
-} from '@spartacus/core';
+import { CmsConfig, ConfigModule, ProductModule } from '@spartacus/core';
 import {
   CmsPageGuard,
   ConfigAddToCartButtonComponent,
@@ -24,18 +13,12 @@ import {
   ConfigTabBarComponent,
   ConfigurationMessageLoaderModule,
   DefaultMessageConfig,
-  GenericConfiguratorModule,
   HamburgerMenuModule,
-  IconModule,
-  MessageConfig,
   PageLayoutComponent,
-  SpinnerModule,
 } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
-    CommonModule,
-    GenericConfiguratorModule,
     ProductModule,
     ConfigurationMessageLoaderModule,
     RouterModule.forChild([
@@ -130,20 +113,11 @@ import {
         },
       },
     }),
-
-    FormsModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-    UrlModule,
     HamburgerMenuModule,
-    I18nModule,
-    IconModule,
-    SpinnerModule,
   ],
 
   declarations: [],
   exports: [],
-  providers: [UserService, { provide: MessageConfig, useExisting: Config }],
   entryComponents: [],
 })
 export class InteractiveConfigurationModule {}
