@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { B2BUser, B2BUserService, RoutingService } from '@spartacus/core';
 
@@ -25,11 +25,13 @@ export class B2BUserEditComponent implements OnInit {
     );
   }
 
-  updateB2BUser(b2bUser: B2BUser, customerId: string) {
-    this.b2bUsersService.update(customerId, b2bUser);
-    this.routingService.go({
-      cxRoute: 'userDetails',
-      params: { customerId },
+  updateB2BUser(b2bUser: B2BUser) {
+    this.b2bUserCode$.pipe(take(1)).subscribe((customerId) => {
+      this.b2bUsersService.update(customerId, b2bUser);
+      this.routingService.go({
+        cxRoute: 'userDetails',
+        params: { customerId },
+      });
     });
   }
 }
