@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { NavigationNode } from '../../../navigation/index';
 import { ICON_TYPE } from '../../../misc/icon/index';
+import { B2BUnitNode } from '../../../../../../core/src/model';
 
 @Component({
   selector: 'cx-unit-tree-navigation-ui',
@@ -18,9 +19,12 @@ export class UnitTreeNavigationUIComponent implements AfterViewInit {
   @Input()
   node: NavigationNode;
 
+  @Input()
+  defaultExpandLevel: number;
+
   iconType = ICON_TYPE;
   isExpandedNodeMap = {};
-  rootCodeName = 'unit_tree';
+  selectedNode: B2BUnitNode;
 
   constructor(
     private elementRef: ElementRef,
@@ -39,7 +43,10 @@ export class UnitTreeNavigationUIComponent implements AfterViewInit {
       array.forEach((n: HTMLElement) => this.mapUlElementToExpand(n));
 
       if (node.dataset?.code) {
-        this.isExpandedNodeMap[node.dataset.code] = false;
+        this.isExpandedNodeMap[node.dataset.code] = !!(
+          node.dataset?.depth &&
+          Number(node.dataset?.depth) <= this.defaultExpandLevel
+        );
       }
     } else {
       return;
@@ -67,4 +74,11 @@ export class UnitTreeNavigationUIComponent implements AfterViewInit {
         this.isExpandedNodeMap[p] = false;
       });
   }
+
+  selectUnitNode(unitNode: any, code: string): void {
+    this.isExpandedNodeMap[code] = false;
+    this.selectedNode = unitNode;
+  }
+
+  back(): void {}
 }

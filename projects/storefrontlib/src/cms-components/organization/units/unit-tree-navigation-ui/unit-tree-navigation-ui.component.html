@@ -8,22 +8,29 @@
     </button>
   </div>
 
+  <a *ngIf="selectedNode" (click)="back()" tabindex="0">
+    < Up one level
+  </a>
+
   <ng-container
     *ngTemplateOutlet="
       tree;
       context: {
-        node: {
-          title: '',
-          children: [node]
-        },
-        code: rootCodeName
+        node: selectedNode
+          ? selectedNode
+          : {
+              title: '',
+              children: [node]
+            },
+        code: 'unit_tree',
+        depth: 0
       }
     "
   >
   </ng-container>
 
-  <ng-template #tree let-node="node" let-code="code">
-    <ul [attr.data-code]="code">
+  <ng-template #tree let-node="node" let-code="code" let-depth="depth">
+    <ul [attr.data-code]="code" [attr.data-depth]="depth">
       <li
         *ngFor="let child of node.children; let i = index"
         [attr.aria-expanded]="isExpandedNodeMap[code + '_' + i]"
@@ -66,14 +73,10 @@
           </cx-generic-link>
           <cx-icon
             *ngIf="child.children?.length > 0"
-            [type]="
-              isExpandedNodeMap[code + '_' + i]
-                ? iconType.CARET_DOWN
-                : iconType.CARET_RIGHT
-            "
-            (click)="toggleAriaExpandedForNode(code + '_' + i)"
-            (keydown.enter)="toggleAriaExpandedForNode(code + '_' + i)"
-            (keydown.space)="toggleAriaExpandedForNode(code + '_' + i)"
+            [type]="iconType.CARET_RIGHT"
+            (click)="selectUnitNode(child, code + '_' + i)"
+            (keydown.enter)="selectUnitNode(child, code + '_' + i)"
+            (keydown.space)="selectUnitNode(child, code + '_' + i)"
             tabindex="0"
           ></cx-icon>
         </div>
@@ -83,7 +86,8 @@
             tree;
             context: {
               node: child,
-              code: code + '_' + i
+              code: code + '_' + i,
+              depth: depth + 1
             }
           "
         >
