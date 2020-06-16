@@ -100,6 +100,10 @@ Add the following under `lib` section:
     }
 ```
 
+- `public-api.ts`
+
+Rename this file to `public_api.ts` and change the path in `ng-package.json`'s `entryFile` property to `./public_api.ts`
+
 - `package.json`
 
 Use the following template:
@@ -136,13 +140,6 @@ Adjust the `@spartacus/core` and/or `@spartacus/storefront` depending on the nee
 Make sure the versions match the current spartacus version.
 Make sure the `@angular` peer dependencies match the versions specified in the _core_ lib.
 
-- `public-api.ts`
-
-Rename this file to `public_api.ts` and change the path in:
-
-  1. `package.json`'s `paths` section
-  2. `ng-package.json`'s `entryFile` property to `./public_api.ts`
-
 - `test.ts` - add `import '@angular/localize/init';`
 
 - `tsconfig.lib.json`
@@ -150,7 +147,6 @@ Rename this file to `public_api.ts` and change the path in:
 Use the following template:
 
 ```json
-
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
@@ -186,7 +182,7 @@ Optionally adjust the `path` property.
 - `tsconfig.lib.prod.json` - save to re-format it. Make sure that Ivy is off (for the time being, this will change in the future)
 - `tsconfig.spec.json` - save to re-format
 - `tslint.json` - save to re-format
-- the rest of the generated file should be removed - e.g. `README.md` etc.
+- the rest of the generated file should be removed
 
 ### Additional changes to existing files
 
