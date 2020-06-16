@@ -63,6 +63,7 @@ describe('ConfiguratorGroupsService', () => {
     spyOn(configGroupStatusService, 'isGroupVisited').and.callThrough();
     spyOn(configGroupUtilsService, 'getParentGroup').and.callThrough();
     spyOn(configGroupUtilsService, 'hasSubGroups').and.callThrough();
+    spyOn(configGroupUtilsService, 'getGroupById').and.callThrough();
   });
 
   it('should create service', () => {
@@ -73,7 +74,7 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   describe('getCurrentGroupId', () => {
-    it('should return a current group ID from uiState', () => {
+    it('should return a current group ID from state', () => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(productConfiguration)
       );
@@ -89,7 +90,10 @@ describe('ConfiguratorGroupsService', () => {
 
     it('should return a current group ID from configuration', () => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-        of(productConfiguration)
+        of({
+          ...productConfiguration,
+          interactionState: { currentGroup: null },
+        })
       );
       const currentGroup = classUnderTest.getCurrentGroupId(
         productConfiguration.owner
