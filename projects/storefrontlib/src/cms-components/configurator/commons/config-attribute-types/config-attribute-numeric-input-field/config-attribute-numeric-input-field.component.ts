@@ -1,10 +1,8 @@
-import { getLocaleId } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
-  isDevMode,
   OnDestroy,
   OnInit,
   Output,
@@ -15,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { ConfigFormUpdateEvent } from '../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
 import { ConfigAttributeNumericInputFieldService } from './config-attribute-numeric-input-field.service';
+import { ConfigUtilsLocalizationService } from '../../service/config-localization-utils.service';
 
 @Component({
   selector: 'cx-config-attribute-numeric-input-field',
@@ -31,7 +30,8 @@ export class ConfigAttributeNumericInputFieldComponent
   constructor(
     public uiKeyGenerator: ConfigUIKeyGeneratorService,
     public languageService: LanguageService,
-    public configAttributeNumericInputFieldService: ConfigAttributeNumericInputFieldService
+    public configAttributeNumericInputFieldService: ConfigAttributeNumericInputFieldService,
+    public localizationUtilsService: ConfigUtilsLocalizationService
   ) {}
 
   @Input() attribute: Configurator.Attribute;
@@ -52,7 +52,7 @@ export class ConfigAttributeNumericInputFieldComponent
     //locales are available as languages in the commerce backend
     this.subscriptions.add(
       this.languageService.getActive().subscribe((language) => {
-        this.locale = this.getLanguage(language);
+        this.locale = this.localizationUtilsService.getLanguage(language);
         this.attributeInputForm = new FormControl('', [
           this.configAttributeNumericInputFieldService.getNumberFormatValidator(
             this.locale,
@@ -101,23 +101,5 @@ export class ConfigAttributeNumericInputFieldComponent
       },
       groupId: this.group,
     };
-  }
-
-  private getLanguage(locale: string): string {
-    try {
-      getLocaleId(locale);
-      return locale;
-    } catch {
-      this.reportMissingLocaleData(locale);
-      return 'en';
-    }
-  }
-
-  private reportMissingLocaleData(lang: string) {
-    if (isDevMode()) {
-      console.warn(
-        `ConfigAttributeNumericInputFieldComponent: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
-      );
-    }
   }
 }
