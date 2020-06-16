@@ -303,6 +303,8 @@ cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
 
 - `scripts/packages.ts` - just add your lib to the `const packageJsonPaths` array.
 
+- `sonar-project.properties` - list your library to this file
+
 ## Testing
 
 Don't forget to:
