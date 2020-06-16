@@ -94,6 +94,9 @@ describe('TextfieldAddToCartButtonComponent', () => {
       ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
     );
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
+    OWNER.type = GenericConfigurator.OwnerType.PRODUCT;
+    mockRouterState.state.params.ownerType =
+      GenericConfigurator.OwnerType.PRODUCT;
   });
 
   it('should create component', () => {
@@ -102,9 +105,11 @@ describe('TextfieldAddToCartButtonComponent', () => {
 
   it('should get router data properly after executing onInit', () => {
     classUnderTest.ngOnInit();
-    classUnderTest.routerData$.subscribe((data) =>
-      expect(data.owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT)
-    );
+    classUnderTest.routerData$
+      .subscribe((data) =>
+        expect(data.owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT)
+      )
+      .unsubscribe();
   });
 
   it('should display addToCart text because router points to owner product initially', () => {

@@ -195,9 +195,11 @@ describe('ConfiguratorTextfieldService', () => {
   });
 
   it('should create new configuration with same value if label could not be found', () => {
-    changedAttribute.configurationLabel = 'unknownLabel';
+    const unknownAttribute: ConfiguratorTextfield.ConfigurationInfo = {
+      configurationLabel: 'unknownLabel',
+    };
     const result = serviceUnderTest.createNewConfigurationWithChange(
-      changedAttribute,
+      unknownAttribute,
       productConfiguration
     );
 
