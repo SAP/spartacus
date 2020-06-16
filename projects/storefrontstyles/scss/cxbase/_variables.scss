@@ -16,9 +16,6 @@
 @import 'functions';
 @import '~bootstrap/scss/variables';
 
-// future themes can be introduced during minors
-$theme: '' !default;
-
 $background: $white !default;
 $inverse: $white !default;
 $text: $black !default;
