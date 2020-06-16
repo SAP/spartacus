@@ -8,7 +8,10 @@
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/my-account": ["../../feature-libs/my-account"],
-      "@spartacus/product": ["../../feature-libs/product"]
+      "@spartacus/product": ["../../feature-libs/product"],
+      "@spartacus/product/configuration": [
+        "../../feature-libs/product/configuration"
+      ]
     }
   }
 }
