@@ -30,28 +30,12 @@ yarn build:core:lib:cds
 rm -rf etc
 mkdir etc
 
-ASSETS_CONFIG_PATH="./../.github/api-extractor-action/api-extractor-configs/api-extractor-assets.json"
+CONFIG_PATH="./../.github/api-extractor-action/api-extractor.json"
 if [ "$DIR" = "self" ] ; then
-  ASSETS_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor-assets.json"
+  CONFIG_PATH="./.github/api-extractor-action/api-extractor.json"
 fi
 
-CORE_CONFIG_PATH="./../.github/api-extractor-action/api-extractor-configs/api-extractor-core.json"
-if [ "$DIR" = "self" ] ; then
-  CORE_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor-core.json"
-fi
-
-STOREFRONT_CONFIG_PATH="./../.github/api-extractor-action/api-extractor-configs/api-extractor-storefrontlib.json"
-if [ "$DIR" = "self" ] ; then
-  STOREFRONT_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor-storefrontlib.json"
-fi
-
-CDS_CONFIG_PATH="./../.github/api-extractor-action/api-extractor-configs/api-extractor-cds.json"
-if [ "$DIR" = "self" ] ; then
-  CDS_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor-cds.json"
-fi
-
-# @spartacus/assets
-cp "$ASSETS_CONFIG_PATH" ./dist/assets/api-extractor.json
+cp "$CONFIG_PATH" ./dist/assets/api-extractor.json
 (
   cd ./dist/assets && \
   api-extractor run --local --verbose
@@ -60,21 +44,21 @@ cp "$ASSETS_CONFIG_PATH" ./dist/assets/api-extractor.json
 # @spartacus/core
 # Disabled because of the issue with `import * as `
 #
-# cp "$CORE_CONFIG_PATH" ./dist/core/api-extractor.json
+# cp "$CONFIG_PATH" ./dist/core/api-extractor.json
 # (
 #   cd ./dist/core && \
 #   api-extractor run --local --verbose
 # )
 
 # @spartacus/storefront
-cp "$STOREFRONT_CONFIG_PATH" ./dist/storefrontlib/api-extractor.json
+cp "$CONFIG_PATH" ./dist/storefrontlib/api-extractor.json
 (
   cd ./dist/storefrontlib && \
   api-extractor run --local --verbose
 )
 
 # @spartacus/cds
-cp "$CDS_CONFIG_PATH" ./dist/cds/api-extractor.json
+cp "$CONFIG_PATH" ./dist/cds/api-extractor.json
 (
   cd ./dist/cds && \
   api-extractor run --local --verbose
