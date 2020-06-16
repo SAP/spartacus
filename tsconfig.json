@@ -21,7 +21,8 @@
       "@spartacus/vendor": ["projects/vendor/public_api"],
       "@spartacus/assets": ["projects/assets/src/public_api"],
       "@spartacus/cds": ["projects/cds/public_api"],
-      "@spartacus/incubator": ["projects/incubator/public_api"]
+      "@spartacus/incubator": ["projects/incubator/public_api"],
+      "@spartacus/schematics": ["projects/schematics/src/public_api"]
     }
   },
   "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"]
