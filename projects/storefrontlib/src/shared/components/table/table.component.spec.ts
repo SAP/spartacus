@@ -47,20 +47,35 @@ describe('TableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render component', () => {
-    const header = fixture.debugElement.query(By.css('.cx-table thead'));
-    const rows = fixture.debugElement.queryAll(By.css('.cx-table tbody tr'));
+  it('should render desktop version of component', () => {
+    const header = fixture.debugElement.query(By.css('.desktop.mode thead'));
+    const rows = fixture.debugElement.queryAll(
+      By.css('.desktop.mode tbody tr')
+    );
     expect(header.nativeElement.textContent).toEqual(
       ' Column 1  Column 2  Column 3 '
     );
     expect(rows[0].nativeElement.textContent).toEqual(
-      ' Column 1 cell 1 Column 2 cell 2 Column 3 cell3'
+      ' cell 1  cell 2  cell3 '
     );
     expect(rows[1].nativeElement.textContent).toEqual(
-      ' Column 1 cell 4 Column 2 cell 5 Column 3 cell6'
+      ' cell 4  cell 5  cell6 '
     );
     expect(rows[2].nativeElement.textContent).toEqual(
-      ' Column 1 cell 7 Column 2 cell 8 Column 3 cell9'
+      ' cell 7  cell 8  cell9 '
     );
+  });
+
+  it('should render mobile version of component', () => {
+    const rows = fixture.debugElement.queryAll(By.css('.mobile.mode .cx-row'));
+    rows.forEach((row, rowIndex) => {
+      row.children.forEach((line, index) => {
+        expect(line.nativeElement.innerText).toEqual(
+          `${mockColumns[index].value}: ${
+            mockTableData[rowIndex]['column' + (index + 1)]
+          }`
+        );
+      });
+    });
   });
 });
