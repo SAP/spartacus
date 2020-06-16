@@ -46,7 +46,9 @@
       "@spartacus/styles",
       "@spartacus/cds",
       "@spartacus/assets",
-      "@spartacus/incubator"
+      "@spartacus/incubator",
+      "@spartacus/my-account",
+      "@spartacus/product"
     ]
   },
   "main": "src/public_api.js"

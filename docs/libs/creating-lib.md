@@ -305,6 +305,10 @@ cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
 
 - `tsconfig.compodoc.json` - add your library to this file
 
+- `projects/schematics/package.json` - add the library to the package group
+
+- `scripts/templates/changelog.ejs` - add the library to `const CUSTOM_SORT_ORDER`
+
 ## Testing
 
 Don't forget to:

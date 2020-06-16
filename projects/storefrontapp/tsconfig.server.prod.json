@@ -7,10 +7,10 @@
       "@spartacus/storefront": ["../../dist/storefrontlib"],
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/assets": ["../../dist/assets"],
-      "@spartacus/my-account": ["../../feature-libs/my-account"],
-      "@spartacus/product": ["../../feature-libs/product"],
+      "@spartacus/my-account": ["../../dist/feature-libs/my-account"],
+      "@spartacus/product": ["../../dist/feature-libs/product"],
       "@spartacus/product/configuration": [
-        "../../feature-libs/product/configuration"
+        "../../dist/feature-libs/product/configuration"
       ]
     }
   }
