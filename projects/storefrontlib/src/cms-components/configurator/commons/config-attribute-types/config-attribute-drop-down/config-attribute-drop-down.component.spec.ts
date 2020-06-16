@@ -13,7 +13,7 @@ describe('ConfigAttributeDropDownComponent', () => {
   let component: ConfigAttributeDropDownComponent;
   let fixture: ComponentFixture<ConfigAttributeDropDownComponent>;
   let mockLanguageService;
-  let locale = 'de';
+  const locale = 'de';
 
   beforeEach(async(() => {
     mockLanguageService = {
