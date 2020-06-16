@@ -75,8 +75,8 @@ export class B2BUserFormComponent extends AbstractFormComponent
         return [noneTitle, ...titles];
       })
     );
-
-    this.businessUnits$ = this.orgUnitService.getList();
+    this.orgUnitService.loadOrgUnitNodes();
+    this.businessUnits$ = this.orgUnitService.getActiveUnitList();
     if (this.b2bUserData && Object.keys(this.b2bUserData).length !== 0) {
       this.form.patchValue(this.b2bUserData);
     }
