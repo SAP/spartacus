@@ -1,4 +1,4 @@
-export function verifyConfigurationOverviewPageIsDisplayed() {
+export function isConfigOverviewPageDisplayed() {
   cy.get('cx-config-overview-form').should('be.visible');
 }
 
