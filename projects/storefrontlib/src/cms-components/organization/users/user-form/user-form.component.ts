@@ -120,7 +120,7 @@ export class B2BUserFormComponent extends AbstractFormComponent
     }
   }
 
-  isApprover() {
+  isApprover(): boolean {
     const roles = this.form.get('roles').value;
 
     if (roles.includes('b2bapprovergroup')) {
