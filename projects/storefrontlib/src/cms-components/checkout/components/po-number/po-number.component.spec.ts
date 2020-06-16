@@ -9,7 +9,7 @@ import {
   CheckoutCostCenterService,
   I18nTestingModule,
   CostCenter,
-  B2BPaymentTypeEnum
+  B2BPaymentTypeEnum,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
