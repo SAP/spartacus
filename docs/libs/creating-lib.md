@@ -4,6 +4,29 @@ An easy way to create a new Spartacus library is to run: `ng g library <lib-name
 
 The generated library will be placed in the `projects` folder by default. You need to manually move the generated files to an appropriate directory (`feature-lib` for example) and modify `angular.json` to reflect the new location.
 
+This document can also serve as the guideline for the future schematic that can automate this process.
+
+## Table of contents
+
+- [Naming conventions](#Naming-conventions)
+- [Generating a library](#Generating-a-library)
+- [Aligning with the other libs](#Aligning-with-the-other-libs)
+  - [Modifying the generated files](#Modifying-the-generated-files)
+  - [Additional changes to existing files](#Additional-changes-to-existing-files)
+- [Testing](#Testing)
+
+## Naming conventions
+
+These are some naming guidelines for libraries:
+
+- library names should be abbreviated, if possible
+- library names should use kebab-case (e.g. `my-account`)
+- the scripts names added to `package.json` should _not_ use kebab-case (e.g. `yarn build:myaccount`)
+
+## Generating a library
+
+Run `ng g library <lib-name>` and commit.
+
 ## Aligning with the other libs
 
 In order to be 100% aligned with the existing Spartacus library there are some generated files that should be updated and there are some files that need to be additionally created
@@ -165,7 +188,9 @@ Optionally adjust the `path` property.
 - `tslint.json` - save to re-format
 - the rest of the generated file should be removed - e.g. `README.md` etc.
 
-### Creating additional files
+### Additional changes to existing files
+
+> Before starting this section it is recommended to commit the previous changes
 
 The following files should be created:
 
@@ -180,13 +205,13 @@ Add the following scripts:
 
 ```json
 "start:b2b:ci:2005": "cross-env SPARTACUS_BASE_URL=https://dev-com-7.accdemo.b2c.ydev.hybris.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod",
-"build:myaccount:lib": "ng build myaccount --prod",
+"build:myaccount:lib": "ng build my-account --prod",
 "build:core:lib:cds:myaccount": "yarn build:core:lib && yarn build:cds:lib && yarn build:myaccount:lib",
-"test:myaccount:lib": "ng test myaccount --code-coverage",
+"test:myaccount:lib": "ng test my-account --code-coverage",
 "release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../.."
 ```
 
-And replace `myaccount` and `my-account` instances with the name of yours lib.
+And replace `my-account` instances with the name of yours lib.
 
 - `.release-it.json`
 
@@ -229,6 +254,45 @@ And replace `myaccount` and `my-account` instances with the name of yours lib.
 
 Replace `TODO:` with the appropriate name.
 
-- `package.json`
+- `projects/storefrontapp/tsconfig.app.prod.json`
 
+Add the following to the `paths` (and replace the `my-account` with your lib's name):
 
+```json
+"@spartacus/my-account": ["dist/my-account"]
+```
+
+- `projects/storefrontapp/tsconfig.server.json`
+
+Add the following to the `paths` (and replace the `my-account` with your lib's name):
+
+```json
+"@spartacus/my-account": ["../../feature-libs/my-account/public_api"]
+```
+
+- `projects/storefrontapp/tsconfig.server.prod.json`
+
+Add the following to the `paths` (and replace the `my-account` with your lib's name):
+
+```json
+"@spartacus/my-account": ["../../feature-libs/my-account"]
+```
+
+- `scripts/changelog.ts`
+
+In the `const libraryPaths` object, add the following (and replace the `my-account` with your lib's name):
+
+```ts
+const libraryPaths = {
+  ...,
+  '@spartacus/my-account': 'feature-libs/my-account',
+};
+```
+
+## Testing
+
+Don't forget to:
+
+- run the tests for the generated library
+- build the generated library with the `--prod` flag
+- build the production-ready shell app with the included generated library (import a dummy service from the generated service)

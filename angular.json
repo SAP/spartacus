@@ -393,7 +393,7 @@
         }
       }
     },
-    "myaccount": {
+    "my-account": {
       "projectType": "library",
       "root": "feature-libs/my-account",
       "sourceRoot": "feature-libs/my-account/src",

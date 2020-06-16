@@ -1,5 +1,5 @@
 {
-  "name": "@spartacus/myaccount",
+  "name": "@spartacus/my-account",
   "version": "2.1.0-dev.0",
   "description": "My Account library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
@@ -7,7 +7,7 @@
     "spartacus",
     "framework",
     "storefront",
-    "myaccount"
+    "my account"
   ],
   "license": "Apache-2.0",
   "publishConfig": {
