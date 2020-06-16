@@ -303,6 +303,8 @@ cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
 
 - `sonar-project.properties` - list your library to this file
 
+- `tsconfig.compodoc.json` - add your library to this file
+
 ## Testing
 
 Don't forget to:
