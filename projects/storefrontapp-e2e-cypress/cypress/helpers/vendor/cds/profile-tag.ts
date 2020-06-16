@@ -1,6 +1,18 @@
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 
+enum EventNames {
+  KEYWORD_SEARCH = 'KeywordSearch',
+  CART_SNAPSHOT = 'CartSnapshot',
+  HOME_PAGE_VIEWED = 'HomePageViewed',
+  PRODUCT_VIEW = 'ProductDetailsPageViewed',
+  NAVIGATED = 'Navigated',
+  CONSENT_CHANGED = 'ConsentChanged',
+  CATEGORY_VIEW = 'CategoryPageViewed',
+  CART_PAGE_VIEWED = 'CartPageViewed',
+}
+
 export const profileTagHelper = {
+  EventNames: EventNames,
   interceptProfileTagJs(contentWindow) {
     const oldAppendChild = contentWindow.document.head.appendChild;
     contentWindow.document.head.appendChild = function (newChild) {
@@ -40,5 +52,13 @@ export const profileTagHelper = {
     );
     clickAllowAllFromBanner();
     cy.wait('@consentReferenceCreation').its('status').should('eq', 201);
+  },
+  getEvent(window: any, eventName: EventNames): any[] {
+    return window.Y_TRACKING.eventLayer.filter(
+      (event) => event.name === eventName
+    );
+  },
+  eventCount(window: any, eventName: EventNames): number {
+    return profileTagHelper.getEvent(window, eventName).length;
   },
 };

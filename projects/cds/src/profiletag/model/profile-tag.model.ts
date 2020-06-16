@@ -68,7 +68,7 @@ export class KeywordSearchPushEvent implements ProfileTagEvent {
 }
 
 export class ProductViewPushEvent implements ProfileTagEvent {
-  name = 'ProductView';
+  name = 'ProductDetailsPageViewed';
   data;
   constructor(data: {
     productSku: string;
@@ -82,7 +82,7 @@ export class ProductViewPushEvent implements ProfileTagEvent {
 }
 
 export class CategoryViewPushEvent implements ProfileTagEvent {
-  name = 'CategoryView';
+  name = 'CategoryPageViewed';
   data;
   constructor(data: { productCategory: string; productCategoryName: string }) {
     this.data = data;
@@ -90,7 +90,7 @@ export class CategoryViewPushEvent implements ProfileTagEvent {
 }
 
 export class HomePageViewPushEvent implements ProfileTagEvent {
-  name = 'HomePageView';
+  name = 'HomePageViewed';
   data;
   constructor(data?) {
     this.data = data;
@@ -98,7 +98,7 @@ export class HomePageViewPushEvent implements ProfileTagEvent {
 }
 
 export class OrderConfirmationPushEvent implements ProfileTagEvent {
-  name = 'OrderConfirmation';
+  name = 'OrderConfirmationPageViewed';
   data;
   constructor(data?) {
     this.data = data;
@@ -106,7 +106,7 @@ export class OrderConfirmationPushEvent implements ProfileTagEvent {
 }
 
 export class CartViewPushEvent implements ProfileTagEvent {
-  name = 'CartView';
+  name = 'CartPageViewed';
   data;
   constructor(data?) {
     this.data = data;
@@ -114,7 +114,7 @@ export class CartViewPushEvent implements ProfileTagEvent {
 }
 
 export class PageViewPushEvent implements ProfileTagEvent {
-  name = 'PageView';
+  name = 'PageViewed';
   data;
   constructor(data?) {
     this.data = data;

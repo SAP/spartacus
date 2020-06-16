@@ -30,7 +30,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class SpartacusEventService {
+export class ProfileTagPushEventsService {
   protected pushEvents$: Observable<ProfileTagEvent> = merge(
     this.categoryPageVisited(),
     this.productDetailsPageView(),

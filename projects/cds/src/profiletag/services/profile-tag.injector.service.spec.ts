@@ -7,9 +7,9 @@ import {
   ConsentChangedPushEvent,
   NavigatedPushEvent,
 } from '../model/profile-tag.model';
+import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
 import { ProfileTagInjectorService } from './profile-tag.injector.service';
 import { ProfileTagEventService } from './profiletag-event.service';
-import { SpartacusEventService } from './spartacus-event.service';
 
 describe('ProfileTagInjector', () => {
   let postBehaviour: Subject<boolean>;
@@ -19,7 +19,7 @@ describe('ProfileTagInjector', () => {
   let cartBehavior: Subject<{ cart: Cart }>;
   let consentBehavior: Subject<boolean>;
   let navigatedBehavior: Subject<boolean>;
-  let spartacusEventTrackerMock: SpartacusEventService;
+  let spartacusEventTrackerMock: ProfileTagPushEventsService;
   let cdsBackendConnectorMock: CdsBackendConnector;
   function setVariables() {
     cartBehavior = new ReplaySubject<{ cart: Cart }>();
@@ -32,7 +32,7 @@ describe('ProfileTagInjector', () => {
         .createSpy('cdsBackendConnectorMock')
         .and.returnValue(new BehaviorSubject(true)),
     });
-    spartacusEventTrackerMock = <SpartacusEventService>(<unknown>{
+    spartacusEventTrackerMock = <ProfileTagPushEventsService>(<unknown>{
       consentGranted: jasmine
         .createSpy('consentGranted')
         .and.callFake(() => consentBehavior),
@@ -67,7 +67,7 @@ describe('ProfileTagInjector', () => {
           useValue: profileTagEventTrackerMock,
         },
         {
-          provide: SpartacusEventService,
+          provide: ProfileTagPushEventsService,
           useValue: spartacusEventTrackerMock,
         },
         {

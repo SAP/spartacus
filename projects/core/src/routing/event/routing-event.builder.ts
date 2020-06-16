@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { merge, Observable } from 'rxjs';
-import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
 import { PageType } from '../../model';
 import { ProductSearchService } from '../../product/facade/product-search.service';
@@ -110,9 +110,12 @@ export class RoutingEventBuilder {
       )
     );
   }
-
+  //Fix Me: doesn't work for Open-Catalogue/Cameras/Digital-Cameras/Digital-SLR/c/578
   buildCategoryPageVisitedEvent(): Observable<CategoryPageVisited> {
     return this.productSearchService.getResults().pipe(
+      tap((searchResults) => {
+        console.log(searchResults);
+      }),
       filter(
         (searchResults) =>
           searchResults.breadcrumbs && searchResults.breadcrumbs.length > 0

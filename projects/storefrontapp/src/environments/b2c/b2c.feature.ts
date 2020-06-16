@@ -7,7 +7,7 @@ export const b2cFeature: FeatureEnvironment = {
   imports: [
     B2cStorefrontModule.withConfig({
       personalization: {
-        enabled: true,
+        enabled: false,
       },
       backend: {
         occ: {

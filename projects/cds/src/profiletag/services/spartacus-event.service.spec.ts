@@ -16,10 +16,10 @@ import {
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config';
-import { SpartacusEventService } from './spartacus-event.service';
+import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
 
 describe('SpartacusEventTracker', () => {
-  let spartacusEventTracker: SpartacusEventService;
+  let spartacusEventTracker: ProfileTagPushEventsService;
   let getConsentBehavior;
   let isConsentGivenValue;
   let routerEventsBehavior;
@@ -76,7 +76,7 @@ describe('SpartacusEventTracker', () => {
         },
       ],
     });
-    spartacusEventTracker = TestBed.inject(SpartacusEventService);
+    spartacusEventTracker = TestBed.inject(ProfileTagPushEventsService);
   });
 
   it('should be created', () => {

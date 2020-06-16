@@ -7,8 +7,8 @@ import {
   ProfileTagEvent,
 } from '../model/profile-tag.model';
 import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
+import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
 import { ProfileTagEventService } from './profiletag-event.service';
-import { SpartacusEventService } from './spartacus-event.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,11 +18,12 @@ export class ProfileTagInjectorService {
   private injectionsEvents$: Observable<boolean> = merge(
     this.notifyProfileTagOfPageLoaded(),
     this.notifyEcOfLoginSuccessful(),
-    this.notifyPushEvents()
+    this.notifyPushEvents(),
+    this.notifyProfileTagOfConsentChanged()
   );
   constructor(
     private profileTagEventTracker: ProfileTagEventService,
-    private spartacusEventTracker: SpartacusEventService,
+    private profileTagPushEventsService: ProfileTagPushEventsService,
     private cdsBackendConnector: CdsBackendConnector,
     private profileTagLifecycleService: ProfileTagLifecycleService
   ) {}
@@ -35,9 +36,18 @@ export class ProfileTagInjectorService {
   }
 
   notifyPushEvents() {
-    return this.spartacusEventTracker.getPushEvents().pipe(
-      tap((item: ProfileTagEvent) =>
-        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item)
+    return this.profileTagPushEventsService.getPushEvents().pipe(
+      tap((item: ProfileTagEvent) => {
+        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
+      }),
+      mapTo(true)
+    );
+  }
+
+  private notifyProfileTagOfConsentChanged(): Observable<boolean> {
+    return this.profileTagLifecycleService.consentGranted().pipe(
+      tap((event) =>
+        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(event)
       ),
       mapTo(true)
     );

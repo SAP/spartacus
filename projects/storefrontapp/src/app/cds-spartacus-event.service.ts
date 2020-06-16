@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SpartacusEventService } from '@spartacus/cds';
+import { ProfileTagPushEventsService } from '@spartacus/cds';
 import {
   ActiveCartService,
   EventService,
@@ -14,7 +14,7 @@ class MyCustomEvent implements ProfileTagEvent {
 }
 
 @Injectable()
-export class CdsSpartacusEventService extends SpartacusEventService {
+export class CdsSpartacusEventService extends ProfileTagPushEventsService {
   constructor(
     protected activeCartService: ActiveCartService,
     protected eventService: EventService,
