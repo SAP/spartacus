@@ -8,37 +8,34 @@
     </button>
   </div>
 
-  <div *ngIf="selectedNode" class="selected-node-header">
-    <a
-      (click)="back()"
-      (keydown.enter)="back()"
-      (keydown.space)="back()"
-      tabindex="0"
-      class="node-title"
-    >
-      < Up one level
-    </a>
+  <a
+    *ngIf="selectedNode"
+    (click)="back()"
+    (keydown.enter)="back()"
+    (keydown.space)="back()"
+    tabindex="0"
+    class="node-title"
+  >
+    <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
+    <span>Up one level</span>
+  </a>
 
-    <div class="selected-node-title">
-      <cx-generic-link
-        [url]="selectedNode.url"
-        [title]="selectedNode.title"
-        class="node-title"
-      >
-        {{ selectedNode.title }}&nbsp;
-        <span *ngIf="selectedNode.children?.length > 0"
-          >({{ selectedNode.children?.length }})</span
-        >
-      </cx-generic-link>
-    </div>
-  </div>
+  <cx-generic-link
+    *ngIf="getNodes() as node"
+    [url]="node.url"
+    [title]="node.title"
+    class="node-title"
+  >
+    {{ node.title }}&nbsp;
+    <span *ngIf="node.children?.length > 0">({{ node.children?.length }})</span>
+  </cx-generic-link>
 
   <ng-container
     *ngTemplateOutlet="
       tree;
       context: {
         node: getNodes(),
-        code: 'unit_tree',
+        code: 'unit_tree_1',
         depth: 0
       }
     "
@@ -93,11 +90,11 @@
             </span>
           </cx-generic-link>
           <cx-icon
-            *ngIf="child.children?.length > 0 && depth > 0"
+            *ngIf="child.children?.length > 0"
             [type]="iconType.CARET_RIGHT"
-            (click)="selectUnitNode(child, code + '_' + i)"
-            (keydown.enter)="selectUnitNode(child, code + '_' + i)"
-            (keydown.space)="selectUnitNode(child, code + '_' + i)"
+            (click)="selectUnitNode(child)"
+            (keydown.enter)="selectUnitNode(child)"
+            (keydown.space)="selectUnitNode(child)"
             tabindex="0"
           ></cx-icon>
         </div>

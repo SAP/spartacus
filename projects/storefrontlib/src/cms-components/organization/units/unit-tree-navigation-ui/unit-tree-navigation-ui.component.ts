@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -8,8 +7,8 @@ import {
   HostListener,
   Input,
 } from '@angular/core';
-import { NavigationNode } from '../../../navigation/index';
-import { ICON_TYPE } from '../../../misc/icon/index';
+import { NavigationNode } from '../../../navigation';
+import { ICON_TYPE } from '../../../misc/icon';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { BREAKPOINT, BreakpointService } from '../../../../layout';
@@ -19,7 +18,7 @@ import { BREAKPOINT, BreakpointService } from '../../../../layout';
   templateUrl: './unit-tree-navigation-ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UnitTreeNavigationUIComponent implements AfterViewInit {
+export class UnitTreeNavigationUIComponent {
   iconType = ICON_TYPE;
   isExpandedNodeMap = {};
   selectedNode: NavigationNode;
@@ -57,16 +56,13 @@ export class UnitTreeNavigationUIComponent implements AfterViewInit {
         .subscribe((val: boolean) => {
           this.isMobile = val;
           if (this.isMobile) {
-            this.refreshUIWithMappedElements(1);
+            this.isExpandedNodeMap = {};
+            this.refreshUIWithMappedElements();
           } else {
-            this.refreshUIWithMappedElements(2);
+            this.refreshUIWithMappedElements();
           }
         })
     );
-  }
-
-  ngAfterViewInit(): void {
-    this.refreshUIWithMappedElements();
   }
 
   mapUlElementToExpand(node: HTMLElement, defaultExpandLevel): void {
@@ -89,10 +85,8 @@ export class UnitTreeNavigationUIComponent implements AfterViewInit {
   }
 
   refreshUIWithMappedElements(defaultExpandLevel = 0): void {
-    this.mapUlElementToExpand(
-      this.elementRef.nativeElement,
-      defaultExpandLevel
-    );
+    const level = this.defaultExpandLevel || defaultExpandLevel;
+    this.mapUlElementToExpand(this.elementRef.nativeElement, level);
     this.cd.detectChanges();
   }
 
@@ -118,18 +112,16 @@ export class UnitTreeNavigationUIComponent implements AfterViewInit {
       });
   }
 
-  selectUnitNode(unitNode: any, code: string): void {
-    this.isExpandedNodeMap[code] = false;
+  selectUnitNode(unitNode: any): void {
     this.selectedNode = unitNode;
   }
 
   back(): void {
     const parent = this.findParentNode(this.node, this.selectedNode);
-    if (parent) {
+    if (parent && parent.title !== this.node.title) {
       this.selectedNode = parent;
     } else {
       this.selectedNode = null;
-      this.refreshUIWithMappedElements();
     }
   }
 
@@ -147,11 +139,6 @@ export class UnitTreeNavigationUIComponent implements AfterViewInit {
   }
 
   getNodes(): NavigationNode {
-    return this.selectedNode
-      ? this.selectedNode
-      : {
-          title: '',
-          children: [this.node],
-        };
+    return this.selectedNode ? this.selectedNode : this.node;
   }
 }

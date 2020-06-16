@@ -32,7 +32,7 @@
   }
 
   > ul {
-    padding-left: 0;
+    padding-left: 10px;
   }
 
   li {
@@ -73,7 +73,7 @@
   }
 
   .cx-unit-tree-actions {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     margin-left: -12px;
 
     @include media-breakpoint-down(md) {
@@ -86,12 +86,9 @@
     width: 100%;
     min-height: 2.5rem;
     align-items: center;
-  }
 
-  .selected-node-header {
-    display: none;
-    @include media-breakpoint-down(md) {
-      display: initial;
+    > span {
+      margin-left: 5px;
     }
   }
 
