@@ -167,7 +167,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['organization/users'],
   },
   userCreate: {
-    paths: ['organization/user/create'],
+    paths: ['organization/users/create'],
   },
   userDetails: {
     paths: ['organization/user/:code'],
@@ -175,6 +175,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   userEdit: {
     paths: ['organization/user/edit/:code'],
+    paramsMapping: { code: 'customerId' },
   },
   userApprovers: {
     paths: ['organization/user/approvers/:code'],

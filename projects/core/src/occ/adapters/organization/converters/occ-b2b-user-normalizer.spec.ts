@@ -25,6 +25,7 @@ describe('B2BUserNormalizer', () => {
   const convertedOrgCustomer: B2BUser = {
     active: true,
     uid: orgCustomerId,
+    email: orgCustomerId,
   };
 
   beforeEach(() => {
