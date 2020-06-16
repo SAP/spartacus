@@ -50,9 +50,9 @@ if [ "$DIR" = "self" ] ; then
   CDS_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor-cds.json"
 fi
 
-MY_ACCOUNT_CONFIG_PATH="./../.github/api-extractor-action/api-extractor-configs/api-extractor-my-account.json"
+MY_ACCOUNT_CONFIG_PATH="./../.github/api-extractor-action/api-extractor.json"
 if [ "$DIR" = "self" ] ; then
-  MY_ACCOUNT_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor-my-account.json"
+  MY_ACCOUNT_CONFIG_PATH="./.github/api-extractor-action/api-extractor.json"
 fi
 
 # @spartacus/assets
@@ -86,7 +86,7 @@ cp "$CDS_CONFIG_PATH" ./dist/cds/api-extractor.json
 )
 
 # @spartacus/my-account
-cp "$MY_ACCOUNT_CONFIG_PATH" ./dist/my-account/api-extractor.json
+cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
 (
   cd ./dist/my-account && \
   api-extractor run --local --verbose
