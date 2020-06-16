@@ -45,7 +45,6 @@ if [ "$DIR" = "self" ] ; then
   STOREFRONT_CONFIG_PATH="./.github/api-extractor-action/api-extractor.json"
 fi
 
-
 CDS_CONFIG_PATH="./../.github/api-extractor-action/api-extractor.json"
 if [ "$DIR" = "self" ] ; then
   CDS_CONFIG_PATH="./.github/api-extractor-action/api-extractor.json"
