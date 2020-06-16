@@ -43,7 +43,7 @@ class MockOrderDetailsService {
   }
 }
 
-fdescribe('OrderDetailApprovalDetailsComponent', () => {
+describe('OrderDetailApprovalDetailsComponent', () => {
   let component: OrderDetailApprovalDetailsComponent;
   let fixture: ComponentFixture<OrderDetailApprovalDetailsComponent>;
   let element: DebugElement;
