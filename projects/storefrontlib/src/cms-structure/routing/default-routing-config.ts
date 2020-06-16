@@ -89,6 +89,9 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   budgetEdit: {
     paths: ['organization/budget/edit/:code'],
   },
+  orderApprovals: {
+    paths: ['organization/order-approvals'],
+  },
   orgUnits: {
     paths: ['organization/units'],
   },
