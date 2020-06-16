@@ -204,10 +204,7 @@ The following files should be created:
 Add the following scripts:
 
 ```json
-"start:b2b:ci:2005": "cross-env SPARTACUS_BASE_URL=https://dev-com-7.accdemo.b2c.ydev.hybris.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod",
 "build:myaccount:lib": "ng build my-account --prod",
-"build:core:lib:cds:myaccount": "yarn build:core:lib && yarn build:cds:lib && yarn build:myaccount:lib",
-"test:myaccount:lib": "ng test my-account --code-coverage",
 "release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../.."
 ```
 
@@ -293,6 +290,8 @@ const libraryPaths = {
 
 Don't forget to:
 
-- run the tests for the generated library
-- build the generated library with the `--prod` flag
-- build the production-ready shell app with the included generated library (import a dummy service from the generated service)
+- run the tests for the generated library - `ng test <lib-name> --code-coverage`
+- build the generated library - `ng build <lib-name> --prod`
+- build the production-ready shell app with the included generated library (import a dummy service from the generated service):
+  - `yarn build:core:lib:cds` (build all the libs basically)
+  - `yarn build`
