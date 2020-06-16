@@ -35,6 +35,8 @@ In order to be 100% aligned with the existing Spartacus library there are some g
 
 The list of the files that need to modified:
 
+- `README.md` - remove the default content and write some relevant information about the library.
+
 - `angular.json`
 
 Change the `prefix` property to `cx`.
@@ -296,6 +298,10 @@ cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
   api-extractor run --local --verbose
 )
 ```
+
+- `scripts/packages.ts` - just add your lib to the `const packageJsonPaths` array.
+
+- `sonar-project.properties` - list your library to this file
 
 ## Testing
 
