@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  ConfiguratorTextfield,
-  ConfiguratorTextfieldService,
   GenericConfigurator,
   I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorTextfieldService } from '../../facade/configurator-textfield.service';
+import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { ConfigTextfieldAddToCartButtonComponent } from './config-textfield-add-to-cart-button.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';

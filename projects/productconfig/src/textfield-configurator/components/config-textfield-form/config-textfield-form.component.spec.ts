@@ -3,8 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  ConfiguratorTextfield,
-  ConfiguratorTextfieldService,
   GenericConfigurator,
   I18nTestingModule,
   RouterState,
@@ -13,6 +11,8 @@ import {
 import { PageLayoutModule } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
+import { ConfiguratorTextfieldService } from '../../facade/configurator-textfield.service';
+import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { ConfigTextfieldAddToCartButtonComponent } from '../config-textfield-add-to-cart-button/config-textfield-add-to-cart-button.component';
 import { ConfigTextfieldInputFieldComponent } from '../config-textfield-input-field/config-textfield-input-field.component';
 import { ConfigTextfieldFormComponent } from './config-textfield-form.component';

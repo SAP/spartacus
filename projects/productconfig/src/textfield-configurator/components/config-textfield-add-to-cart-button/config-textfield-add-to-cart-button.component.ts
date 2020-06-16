@@ -4,17 +4,14 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import {
-  ConfiguratorTextfield,
-  ConfiguratorTextfieldService,
-  GenericConfigurator,
-  RoutingService,
-} from '@spartacus/core';
+import { GenericConfigurator, RoutingService } from '@spartacus/core';
 import {
   ConfigRouterExtractorService,
   ConfigurationRouter,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { ConfiguratorTextfieldService } from '../../facade/configurator-textfield.service';
+import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 
 @Component({
   selector: 'cx-config-textfield-add-to-cart-button',
