@@ -64,6 +64,10 @@ export class ProfileTagPushEventsService {
     );
   }
 
+  addPushEvent(event: Observable<ProfileTagEvent>) {
+    this.pushEvents$ = merge(this.pushEvents$, event);
+  }
+
   /**
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */

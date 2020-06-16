@@ -5,32 +5,23 @@ import {
   ActiveCartService,
   AuthActions,
   ConsentService,
-  EventService,
-  PersonalizationContextService,
 } from '@spartacus/core';
-import { merge, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map, mapTo, take } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
-import {
-  ConsentChangedPushEvent,
-  ProfileTagEvent,
-} from '../model/profile-tag.model';
+import { ProfileTagLifecycle } from '../model/profile-tag-lifecycle';
+import { ConsentChangedPushEvent } from '../model/profile-tag.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProfileTagLifecycleService {
-  protected lifeCycleEvents$: Observable<ProfileTagEvent> = merge(
-    this.consentGranted()
-  );
+export class ProfileTagLifecycleService implements ProfileTagLifecycle {
   constructor(
     protected consentService: ConsentService,
     protected router: Router,
     protected config: CdsConfig,
     protected activeCartService: ActiveCartService,
-    protected actionsSubject: ActionsSubject,
-    protected eventService: EventService,
-    protected personalizationContextService: PersonalizationContextService
+    protected actionsSubject: ActionsSubject
   ) {}
 
   navigated(): Observable<boolean> {

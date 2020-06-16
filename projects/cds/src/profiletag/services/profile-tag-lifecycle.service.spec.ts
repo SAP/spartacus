@@ -11,15 +11,14 @@ import {
   AuthActions,
   Cart,
   ConsentService,
-  OrderEntry,
 } from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config';
-import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
+import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
 
-describe('SpartacusEventTracker', () => {
-  let spartacusEventTracker: ProfileTagPushEventsService;
+describe('profileTagLifecycleService', () => {
+  let profileTagLifecycleService: ProfileTagLifecycleService;
   let getConsentBehavior;
   let isConsentGivenValue;
   let routerEventsBehavior;
@@ -76,17 +75,17 @@ describe('SpartacusEventTracker', () => {
         },
       ],
     });
-    spartacusEventTracker = TestBed.inject(ProfileTagPushEventsService);
+    profileTagLifecycleService = TestBed.inject(ProfileTagLifecycleService);
   });
 
   it('should be created', () => {
-    expect(spartacusEventTracker).toBeTruthy();
+    expect(profileTagLifecycleService).toBeTruthy();
   });
 
   it(`Should call the push method if the profile consent changes to true,
   and ignore all further changes, only sending one consent changed event,`, () => {
     let timesCalled = 0;
-    const subscription = spartacusEventTracker
+    const subscription = profileTagLifecycleService
       .consentGranted()
       .pipe(tap(() => timesCalled++))
       .subscribe();
@@ -107,7 +106,7 @@ describe('SpartacusEventTracker', () => {
   it(`Should call the push method for every NavigationEnd event,
     regardless of consent status, and even if the consent pipe ends due to take(1)`, () => {
     let timesCalled = 0;
-    const subscription = spartacusEventTracker
+    const subscription = profileTagLifecycleService
       .navigated()
       .pipe(tap(() => timesCalled++))
       .subscribe();
@@ -124,71 +123,9 @@ describe('SpartacusEventTracker', () => {
     expect(timesCalled).toEqual(5);
   });
 
-  it(`Should call the cartChanged method for every CartSnapshot event`, () => {
-    let timesCalled = 0;
-    const subscription = spartacusEventTracker
-      .cartChanged()
-      .pipe(tap(() => timesCalled++))
-      .subscribe();
-    const mockOrderEntry: OrderEntry[] = [{ entryNumber: 7 }];
-    const mockOrderEntries: OrderEntry[] = [
-      { entryNumber: 7 },
-      { entryNumber: 1 },
-    ];
-    const testCart = { id: 123, entries: mockOrderEntry };
-    const testCartWithAdditionalOrderEntry = {
-      id: 123,
-      entries: mockOrderEntries,
-    };
-    cartBehavior.next(testCart);
-    cartBehavior.next(testCartWithAdditionalOrderEntry);
-    subscription.unsubscribe();
-    expect(timesCalled).toEqual(2);
-  });
-
-  it(`Should not call the cartChanged method when the cart is not modified`, () => {
-    let timesCalled = 0;
-    const subscription = spartacusEventTracker
-      .cartChanged()
-      .pipe(tap(() => timesCalled++))
-      .subscribe();
-    subscription.unsubscribe();
-    expect(timesCalled).toEqual(0);
-  });
-
-  it(`Should not call the cartChanged method even when the entries have an empty array`, () => {
-    let timesCalled = 0;
-    const subscription = spartacusEventTracker
-      .cartChanged()
-      .pipe(tap(() => timesCalled++))
-      .subscribe();
-    cartBehavior.next({ id: 123, entries: [] });
-    cartBehavior.next({ id: 13, entries: [] });
-    subscription.unsubscribe();
-    expect(timesCalled).toEqual(0);
-  });
-
-  it(`Should call the cartChanged method every time after a non-empty cart is passed`, () => {
-    let timesCalled = 0;
-    const subscription = spartacusEventTracker
-      .cartChanged()
-      .pipe(tap(() => timesCalled++))
-      .subscribe();
-    const mockOrderEntry: OrderEntry[] = [{ entryNumber: 7 }];
-    cartBehavior.next({ id: 123, entries: [] });
-    cartBehavior.next({ id: 123, entries: [] });
-    cartBehavior.next({ id: 123, entries: [] });
-    cartBehavior.next({ id: 123, entries: mockOrderEntry });
-    cartBehavior.next({ id: 123, entries: mockOrderEntry });
-    cartBehavior.next({ id: 123, entries: [] });
-    cartBehavior.next({ id: 123, entries: [] });
-    subscription.unsubscribe();
-    expect(timesCalled).toEqual(4);
-  });
-
   it(`Should call the push method first time a login is successful`, () => {
     let timesCalled = 0;
-    const subscription = spartacusEventTracker
+    const subscription = profileTagLifecycleService
       .loginSuccessful()
       .pipe(tap((_) => timesCalled++))
       .subscribe();

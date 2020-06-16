@@ -107,37 +107,37 @@ describe('Profile-tag events', () => {
       expect(
         profileTagHelper.eventCount(
           win,
-          profileTagHelper.EventNames.PRODUCT_VIEW
+          profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
         )
       ).to.equal(1);
       expect(
         profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.PRODUCT_VIEW
+          profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
         )[0].data.productSku
       ).to.equal(`${productSku}`);
       expect(
         profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.PRODUCT_VIEW
+          profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
         )[0].data.productName
       ).to.equal(productName);
       expect(
         profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.PRODUCT_VIEW
+          profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
         )[0].data.productPrice
       ).to.equal(productPrice);
       expect(
         profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.PRODUCT_VIEW
+          profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
         )[0].data.productCategory
       ).to.equal(productCategory);
       expect(
         profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.PRODUCT_VIEW
+          profileTagHelper.EventNames.PRODUCT_DETAILS_PAGE_VIEWED
         )[0].data.productCategoryName
       ).to.equal(productCategoryName);
     });
@@ -230,19 +230,19 @@ describe('Profile-tag events', () => {
       expect(
         profileTagHelper.eventCount(
           win,
-          profileTagHelper.EventNames.CATEGORY_VIEW
+          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
         )
       ).to.equal(1);
       expect(
         profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.CATEGORY_VIEW
+          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
         )[0].data.productCategory
       ).to.equal(productCategory);
       expect(
         profileTagHelper.getEvent(
           win,
-          profileTagHelper.EventNames.CATEGORY_VIEW
+          profileTagHelper.EventNames.CATEGORY_PAGE_VIEWED
         )[0].data.productCategoryName
       ).to.equal(productCategoryName);
     });

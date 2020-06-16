@@ -4,10 +4,10 @@ enum EventNames {
   KEYWORD_SEARCH = 'KeywordSearch',
   CART_SNAPSHOT = 'CartSnapshot',
   HOME_PAGE_VIEWED = 'HomePageViewed',
-  PRODUCT_VIEW = 'ProductDetailsPageViewed',
+  PRODUCT_DETAILS_PAGE_VIEWED = 'ProductDetailsPageViewed',
   NAVIGATED = 'Navigated',
   CONSENT_CHANGED = 'ConsentChanged',
-  CATEGORY_VIEW = 'CategoryPageViewed',
+  CATEGORY_PAGE_VIEWED = 'CategoryPageViewed',
   CART_PAGE_VIEWED = 'CartPageViewed',
 }
 
