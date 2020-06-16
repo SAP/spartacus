@@ -35,6 +35,8 @@ In order to be 100% aligned with the existing Spartacus library there are some g
 
 The list of the files that need to modified:
 
+- `README.md` - remove the default content and write some relevant information about the library.
+
 - `angular.json`
 
 Change the `prefix` property to `cx`.
@@ -291,20 +293,15 @@ const libraryPaths = {
 Add the following (replace the `my-account` and `MY_ACCOUNT_CONFIG_PATH` with the name of your lib):
 
 ```sh
-MY_ACCOUNT_CONFIG_PATH="./../.github/api-extractor-action/api-extractor-configs/api-extractor.json"
-if [ "$DIR" = "self" ] ; then
-  MY_ACCOUNT_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor.json"
-fi
-
-...
-
 # @spartacus/my-account
-cp "$MY_ACCOUNT_CONFIG_PATH" ./dist/my-account/api-extractor.json
+cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
 (
   cd ./dist/my-account && \
   api-extractor run --local --verbose
 )
 ```
+
+- `scripts/packages.ts` - just add your lib to the `const packageJsonPaths` array.
 
 ## Testing
 
