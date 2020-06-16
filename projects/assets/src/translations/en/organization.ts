@@ -83,6 +83,7 @@ export const organization = {
     parentUnit: 'Parent Unit',
     sortByMostRecent: 'sortByMostRecent',
     sorting: {
+      byUnit: 'Unit',
       byUnitName: 'Unit Name',
       byName: 'Name',
       byCode: 'Code',
@@ -333,10 +334,10 @@ export const organization = {
     id: 'ID',
     name: 'Name',
   },
-
   usersList: {
     userManagement: 'Users',
     sorting: {
+      byUnitName: 'Unit Name',
       byName: 'Name',
       byUnit: 'Unit',
     },
