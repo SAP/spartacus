@@ -22,6 +22,7 @@ import {
 } from '@spartacus/core';
 import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
 import { sortTitles } from '../../../../shared/utils/forms/title-utils';
+import { CustomFormValidators } from './../../../../shared/utils/validators/custom-form-validators';
 import { tap, map } from 'rxjs/operators';
 
 @Component({
@@ -50,7 +51,7 @@ export class B2BUserFormComponent extends AbstractFormComponent
 
   ngOnInit() {
     this.form = this.fb.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       orgUnit: this.fb.group({

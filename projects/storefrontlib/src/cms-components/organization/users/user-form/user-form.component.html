@@ -33,7 +33,6 @@
             required
             placeholder="{{ 'userForm.firstName.placeholder' | cxTranslate }}"
             formControlName="firstName"
-            [class.is-invalid]="isNotValid('firstName')"
           />
           <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
         </label>
@@ -50,7 +49,6 @@
             required
             placeholder="{{ 'userForm.lastName.placeholder' | cxTranslate }}"
             formControlName="lastName"
-            [class.is-invalid]="isNotValid('lastName')"
           />
           <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
         </label>
@@ -63,11 +61,10 @@
           }}</span>
           <input
             class="form-control"
-            type="text"
+            type="email"
             required
             placeholder="{{ 'userForm.email.placeholder' | cxTranslate }}"
             formControlName="email"
-            [class.is-invalid]="isNotValid('email')"
           />
           <cx-form-errors [control]="form.get('email')"></cx-form-errors>
         </label>
