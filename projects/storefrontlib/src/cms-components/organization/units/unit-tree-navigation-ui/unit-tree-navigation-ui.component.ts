@@ -12,6 +12,7 @@ import { NavigationNode } from '../../../navigation/index';
 import { ICON_TYPE } from '../../../misc/icon/index';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { BREAKPOINT, BreakpointService } from '../../../../layout';
 
 @Component({
   selector: 'cx-unit-tree-navigation-ui',
@@ -22,6 +23,7 @@ export class UnitTreeNavigationUIComponent implements AfterViewInit {
   iconType = ICON_TYPE;
   isExpandedNodeMap = {};
   selectedNode: NavigationNode;
+  isMobile: boolean;
   private subscriptions = new Subscription();
   private resize = new EventEmitter();
 
@@ -36,12 +38,30 @@ export class UnitTreeNavigationUIComponent implements AfterViewInit {
     this.resize.next();
   }
 
-  constructor(private elementRef: ElementRef, protected cd: ChangeDetectorRef) {
+  constructor(
+    private elementRef: ElementRef,
+    private cd: ChangeDetectorRef,
+    private breakpointService: BreakpointService
+  ) {
     this.subscriptions.add(
       this.resize.pipe(debounceTime(50)).subscribe(() => {
         this.selectedNode = null;
         this.refreshUIWithMappedElements();
       })
+    );
+
+    this.subscriptions.add(
+      this.breakpointService
+        .isDown(BREAKPOINT.md)
+        .pipe(debounceTime(50))
+        .subscribe((val: boolean) => {
+          this.isMobile = val;
+          if (this.isMobile) {
+            this.refreshUIWithMappedElements(1);
+          } else {
+            this.refreshUIWithMappedElements(2);
+          }
+        })
     );
   }
 
@@ -49,16 +69,18 @@ export class UnitTreeNavigationUIComponent implements AfterViewInit {
     this.refreshUIWithMappedElements();
   }
 
-  mapUlElementToExpand(node: HTMLElement): void {
+  mapUlElementToExpand(node: HTMLElement, defaultExpandLevel): void {
     if (node && node.children?.length) {
       const array = Array.from(node.children);
 
-      array.forEach((n: HTMLElement) => this.mapUlElementToExpand(n));
+      array.forEach((n: HTMLElement) =>
+        this.mapUlElementToExpand(n, defaultExpandLevel)
+      );
 
       if (node.dataset?.code) {
         this.isExpandedNodeMap[node.dataset.code] = !!(
           node.dataset?.depth &&
-          Number(node.dataset?.depth) <= this.defaultExpandLevel
+          Number(node.dataset?.depth) <= defaultExpandLevel
         );
       }
     } else {
@@ -66,8 +88,11 @@ export class UnitTreeNavigationUIComponent implements AfterViewInit {
     }
   }
 
-  refreshUIWithMappedElements(): void {
-    this.mapUlElementToExpand(this.elementRef.nativeElement);
+  refreshUIWithMappedElements(defaultExpandLevel = 0): void {
+    this.mapUlElementToExpand(
+      this.elementRef.nativeElement,
+      defaultExpandLevel
+    );
     this.cd.detectChanges();
   }
 

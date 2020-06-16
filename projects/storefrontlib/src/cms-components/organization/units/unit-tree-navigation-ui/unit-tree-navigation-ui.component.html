@@ -55,7 +55,7 @@
         *ngFor="let child of node.children; let i = index"
         [attr.aria-expanded]="isExpandedNodeMap[code + '_' + i]"
       >
-        <div class="tree-desktop-branch">
+        <div *ngIf="!isMobile" class="tree-desktop-branch">
           <cx-icon
             *ngIf="child.children?.length > 0"
             [type]="
@@ -80,7 +80,7 @@
           </cx-generic-link>
         </div>
 
-        <div class="tree-mobile-branch">
+        <div *ngIf="isMobile" class="tree-mobile-branch">
           <cx-generic-link
             [url]="child.url"
             [title]="child.title"
@@ -93,7 +93,7 @@
             </span>
           </cx-generic-link>
           <cx-icon
-            *ngIf="child.children?.length > 0"
+            *ngIf="child.children?.length > 0 && depth > 0"
             [type]="iconType.CARET_RIGHT"
             (click)="selectUnitNode(child, code + '_' + i)"
             (keydown.enter)="selectUnitNode(child, code + '_' + i)"
