@@ -21,7 +21,7 @@ export const initialState: RouterState = {
       id: '',
     },
     cmsRequired: false,
-    cxRoute: '',
+    routeName: '',
   },
   nextState: undefined,
 };
@@ -89,12 +89,12 @@ export class CustomSerializer
     let state: CmsActivatedRouteSnapshot = routerState.root as CmsActivatedRouteSnapshot;
     let cmsRequired = false;
     let context: PageContext;
-    let cxRoute: string;
+    let routeName: string;
 
     while (state.firstChild) {
       state = state.firstChild as CmsActivatedRouteSnapshot;
-      if (state.data.cxRoute) {
-        cxRoute = state.data.cxRoute;
+      if (state.data.routeName) {
+        routeName = state.data.routeName;
       }
 
       // we use context information embedded in Cms driven routes from any parent route
@@ -150,6 +150,13 @@ export class CustomSerializer
       }
     }
 
-    return { url, queryParams, params, context, cmsRequired, cxRoute };
+    return {
+      url,
+      queryParams,
+      params,
+      context,
+      cmsRequired,
+      routeName,
+    };
   }
 }
