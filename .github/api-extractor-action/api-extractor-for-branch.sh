@@ -30,24 +30,24 @@ yarn build:core:lib:cds
 rm -rf etc
 mkdir etc
 
-ASSETS_CONFIG_PATH="./../.github/api-extractor-action/api-extractor-configs/api-extractor-assets.json"
+ASSETS_CONFIG_PATH="./../.github/api-extractor-action/api-extractor.json"
 if [ "$DIR" = "self" ] ; then
-  ASSETS_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor-assets.json"
+  ASSETS_CONFIG_PATH="./.github/api-extractor-action/api-extractor.json"
 fi
 
-CORE_CONFIG_PATH="./../.github/api-extractor-action/api-extractor-configs/api-extractor-core.json"
+CORE_CONFIG_PATH="./../.github/api-extractor-action/api-extractor.json"
 if [ "$DIR" = "self" ] ; then
-  CORE_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor-core.json"
+  CORE_CONFIG_PATH="./.github/api-extractor-action/api-extractor.json"
 fi
 
-STOREFRONT_CONFIG_PATH="./../.github/api-extractor-action/api-extractor-configs/api-extractor-storefrontlib.json"
+STOREFRONT_CONFIG_PATH="./../.github/api-extractor-action/api-extractor.json"
 if [ "$DIR" = "self" ] ; then
-  STOREFRONT_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor-storefrontlib.json"
+  STOREFRONT_CONFIG_PATH="./.github/api-extractor-action/api-extractor.json"
 fi
 
-CDS_CONFIG_PATH="./../.github/api-extractor-action/api-extractor-configs/api-extractor-cds.json"
+CDS_CONFIG_PATH="./../.github/api-extractor-action/api-extractor.json"
 if [ "$DIR" = "self" ] ; then
-  CDS_CONFIG_PATH="./.github/api-extractor-action/api-extractor-configs/api-extractor-cds.json"
+  CDS_CONFIG_PATH="./.github/api-extractor-action/api-extractor.json"
 fi
 
 # @spartacus/assets
