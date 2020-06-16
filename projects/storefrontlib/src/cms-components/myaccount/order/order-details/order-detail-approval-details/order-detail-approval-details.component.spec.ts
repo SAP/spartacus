@@ -26,6 +26,14 @@ const mockOrder: Order = {
       statusDisplay: 'Pending Approval-2',
       approverNotes: 'Notes-2',
     },
+    {
+      approverName: 'Hanna Schmidt-3',
+      permissionType: {
+        code: 'B2BOrderThresholdPermission',
+        name: 'Allowed Order Threshold (per order)',
+      },
+      statusDisplay: 'Pending Approval-3',
+    },
   ],
 } as Order;
 
@@ -87,11 +95,15 @@ fdescribe('OrderDetailApprovalDetailsComponent', () => {
           By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-statusDisplay`)
         ).nativeElement.innerText
       ).toContain(mockOrder.permissionResults[i].statusDisplay);
+
       expect(
         element.query(
           By.css(`tr:nth-of-type(${i + 1}) td.cx-approval-approvalNotes`)
         ).nativeElement.innerText
-      ).toContain(mockOrder.permissionResults[i].approverNotes);
+      ).toContain(
+        mockOrder.permissionResults[i].approverNotes ||
+          'orderDetails.approvalDetails.noApprovalNotes'
+      );
     }
   });
 });
