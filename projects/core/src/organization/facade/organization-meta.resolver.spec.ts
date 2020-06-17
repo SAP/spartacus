@@ -14,6 +14,7 @@ import { RoutingService } from '../../routing/facade/routing.service';
 const mockOrganizationPage: Page = {
   type: PageType.CONTENT_PAGE,
   template: 'CompanyPageTemplate',
+  slots: {},
 };
 
 class MockCmsService {
@@ -25,11 +26,13 @@ class MockCmsService {
 class MockRoutingService {
   getRouterState(): Observable<any> {
     return of({
-      url: 'powertools-spa/en/USD/organization/purchase-limits',
-      queryParams: {},
-      params: {},
-      context: { id: '/organization/purchase-limits', type: 'ContentPage' },
-      cmsRequired: true,
+      state: {
+        url: 'powertools-spa/en/USD/organization/purchase-limits',
+        queryParams: {},
+        params: {},
+        context: { id: '/organization/purchase-limits', type: 'ContentPage' },
+        cmsRequired: true,
+      },
     });
   }
 }
@@ -106,7 +109,7 @@ fdescribe('OrganizationMetaResolver', () => {
       .resolveTitle()
       .subscribe((value) => (result = value))
       .unsubscribe();
-    expect(result).toEqual('Purchase Limits');
+    expect(result).toEqual('breadcrumbs.purchase-limits');
   });
 
   it('should resolve breadcrumbs', () => {
