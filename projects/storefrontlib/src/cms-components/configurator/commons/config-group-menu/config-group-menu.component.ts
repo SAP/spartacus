@@ -10,6 +10,7 @@ import { delay, map, switchMap, take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
+import { ConfigurationRouter } from '../../generic/service/config-router-data';
 
 @Component({
   selector: 'cx-config-group-menu',
@@ -17,16 +18,17 @@ import { ConfigRouterExtractorService } from '../../generic/service/config-route
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigGroupMenuComponent implements OnInit {
+  routerData$: Observable<ConfigurationRouter.Data>;
   configuration$: Observable<Configurator.Configuration>;
   currentGroup$: Observable<Configurator.Group>;
-
   displayedParentGroup$: Observable<Configurator.Group>;
   displayedGroups$: Observable<Configurator.Group[]>;
-
   iconTypes = ICON_TYPE;
+  isConfigurationLoading$: Observable<Boolean>;
+
   constructor(
     private routingService: RoutingService,
-    private configCommonsService: ConfiguratorCommonsService,
+    private configuratorCommonsService: ConfiguratorCommonsService,
     public configuratorGroupsService: ConfiguratorGroupsService,
     private hamburgerMenuService: HamburgerMenuService,
     private configRouterExtractorService: ConfigRouterExtractorService
@@ -35,21 +37,21 @@ export class ConfigGroupMenuComponent implements OnInit {
   GROUPSTATUS = Configurator.GroupStatus;
 
   ngOnInit(): void {
-    this.configuration$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
-      .pipe(
-        switchMap((routerData) =>
-          this.configCommonsService.getConfiguration(routerData.owner)
-        )
-      );
+    this.routerData$ = this.configRouterExtractorService.extractRouterData(
+      this.routingService
+    );
 
-    this.currentGroup$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorGroupsService.getCurrentGroup(routerData.owner)
-        )
-      );
+    this.configuration$ = this.routerData$.pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
+      )
+    );
+
+    this.currentGroup$ = this.routerData$.pipe(
+      switchMap((routerData) =>
+        this.configuratorGroupsService.getCurrentGroup(routerData.owner)
+      )
+    );
 
     this.displayedParentGroup$ = this.configuration$.pipe(
       switchMap((configuration) =>
@@ -71,6 +73,12 @@ export class ConfigGroupMenuComponent implements OnInit {
           delay(0)
         );
       })
+    );
+
+    this.isConfigurationLoading$ = this.routerData$.pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.isConfigurationLoading(routerData.owner)
+      )
     );
   }
 

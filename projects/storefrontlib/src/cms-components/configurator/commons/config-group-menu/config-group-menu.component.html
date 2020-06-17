@@ -1,54 +1,63 @@
-<ng-container *ngIf="configuration$ | async as configuration">
-  <nav>
-    <ul class="cx-config-menu" tabindex="0">
-      <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
-        <li
-          tabindex="0"
-          (click)="navigateUp()"
-          (keyup)="navigateUpOnEnter($event)"
-          class="cx-config-menu-back"
-          *ngIf="parentGroup !== null"
-        >
-          <!--TODO: "Back" text is still under discussion -->
-          <a role="link"
-            ><cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon
-            >{{ 'configurator.button.back' | cxTranslate }}</a
+<ng-container *ngIf="!(isConfigurationLoading$ | async); else loadingAnimation">
+  <ng-container *ngIf="configuration$ | async as configuration">
+    <nav>
+      <ul class="cx-config-menu" tabindex="0">
+        <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
+          <li
+            tabindex="0"
+            (click)="navigateUp()"
+            (keyup)="navigateUpOnEnter($event)"
+            class="cx-config-menu-back"
+            *ngIf="parentGroup !== null"
           >
-        </li>
-      </ng-container>
-
-      <ng-container *ngIf="displayedGroups$ | async as groups">
-        <ng-container *ngIf="currentGroup$ | async as currentGroup">
-          <ng-container *ngFor="let group of groups">
-            <li
-              (click)="click(group)"
-              (keyup)="clickOnEnter($event, group)"
-              class="cx-config-menu-item {{
-                getGroupStatus(group.id, configuration) | async
-              }}"
-              tabindex="0"
+            <!--TODO: "Back" text is still under discussion -->
+            <a role="link">
+              <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
+              {{ 'configurator.button.back' | cxTranslate }}</a
             >
-              <a [class.active]="currentGroup.id === group.id" role="link"
-                >{{ group.description }}
-                <div class="groupIndicator">
-                  <div class="groupStatusIndicator">
-                    <cx-icon class="ERROR" [type]="iconTypes.ERROR"></cx-icon>
-                    <cx-icon
-                      class="COMPLETE"
-                      [type]="iconTypes.SUCCESS"
-                    ></cx-icon>
+          </li>
+        </ng-container>
+
+        <ng-container *ngIf="displayedGroups$ | async as groups">
+          <ng-container *ngIf="currentGroup$ | async as currentGroup">
+            <ng-container *ngFor="let group of groups">
+              <li
+                (click)="click(group)"
+                (keyup)="clickOnEnter($event, group)"
+                class="cx-config-menu-item {{
+                  getGroupStatus(group.id, configuration) | async
+                }}"
+                tabindex="0"
+              >
+                <a [class.active]="currentGroup.id === group.id" role="link"
+                  >{{ group.description }}
+                  <div class="groupIndicator">
+                    <div class="groupStatusIndicator">
+                      <cx-icon class="ERROR" [type]="iconTypes.ERROR"></cx-icon>
+                      <cx-icon
+                        class="COMPLETE"
+                        [type]="iconTypes.SUCCESS"
+                      ></cx-icon>
+                    </div>
+                    <div class="subGroupIndicator">
+                      <cx-icon
+                        *ngIf="configuratorGroupsService.hasSubGroups(group)"
+                        [type]="iconTypes.CARET_RIGHT"
+                      ></cx-icon>
+                    </div>
                   </div>
-                  <div class="subGroupIndicator">
-                    <cx-icon
-                      *ngIf="configuratorGroupsService.hasSubGroups(group)"
-                      [type]="iconTypes.CARET_RIGHT"
-                    ></cx-icon>
-                  </div></div
-              ></a>
-            </li>
+                </a>
+              </li>
+            </ng-container>
           </ng-container>
         </ng-container>
-      </ng-container>
-    </ul>
-  </nav>
+      </ul>
+    </nav>
+  </ng-container>
 </ng-container>
+
+<ng-template #loadingAnimation>
+  <div>
+    Configuration is still loading
+  </div>
+</ng-template>

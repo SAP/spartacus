@@ -17,8 +17,10 @@ import { ConfigFormUpdateEvent } from './config-form.event';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigFormComponent implements OnInit {
+  routerData$: Observable<ConfigurationRouter.Data>;
   configuration$: Observable<Configurator.Configuration>;
   currentGroup$: Observable<Configurator.Group>;
+  isConfigurationLoading$: Observable<Boolean>;
 
   public UiType = Configurator.UiType;
 
@@ -30,22 +32,23 @@ export class ConfigFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.configuration$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
-      .pipe(
-        filter(
-          (routerData) =>
-            routerData.pageType === ConfigurationRouter.PageType.CONFIGURATION
-        ),
-        switchMap((routerData) => {
-          return this.configuratorCommonsService.getOrCreateConfiguration(
-            routerData.owner
-          );
-        })
-      );
+    this.routerData$ = this.configRouterExtractorService.extractRouterData(
+      this.routingService
+    );
 
-    this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+    this.configuration$ = this.routerData$.pipe(
+      filter(
+        (routerData) =>
+          routerData.pageType === ConfigurationRouter.PageType.CONFIGURATION
+      ),
+      switchMap((routerData) => {
+        return this.configuratorCommonsService.getOrCreateConfiguration(
+          routerData.owner
+        );
+      })
+    );
+
+    this.routerData$
       .pipe(
         switchMap((routerData) =>
           this.configuratorCommonsService.getOrCreateUiState(routerData.owner)
@@ -54,8 +57,7 @@ export class ConfigFormComponent implements OnInit {
       )
       .subscribe();
 
-    this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+    this.routerData$
       .pipe(take(1))
       .subscribe((routerData) =>
         this.configuratorGroupsService.subscribeToUpdateConfiguration(
@@ -63,13 +65,17 @@ export class ConfigFormComponent implements OnInit {
         )
       );
 
-    this.currentGroup$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorGroupsService.getCurrentGroup(routerData.owner)
-        )
-      );
+    this.currentGroup$ = this.routerData$.pipe(
+      switchMap((routerData) =>
+        this.configuratorGroupsService.getCurrentGroup(routerData.owner)
+      )
+    );
+
+    this.isConfigurationLoading$ = this.routerData$.pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.isConfigurationLoading(routerData.owner)
+      )
+    );
   }
 
   updateConfiguration(event: ConfigFormUpdateEvent) {

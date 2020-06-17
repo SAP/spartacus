@@ -65,6 +65,10 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return of(this.config);
   }
+
+  isConfigurationLoading(): Observable<Boolean> {
+    return of(true);
+  }
 }
 
 describe('ConfigTabBarComponent', () => {
@@ -134,5 +138,9 @@ describe('ConfigTabBarComponent', () => {
       .isOverviewPage()
       .subscribe((isOv) => expect(isOv).toBe(false))
       .unsubscribe();
+  });
+
+  describe('isConfigurationLoading', () => {
+    it('should display a loading animation', () => {});
   });
 });

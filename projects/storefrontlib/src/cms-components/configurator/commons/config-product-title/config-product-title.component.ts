@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../misc/icon/index';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
+import { ConfigurationRouter } from '../../generic/service/config-router-data';
 
 @Component({
   selector: 'cx-config-product-title',
@@ -16,6 +17,8 @@ import { ConfigRouterExtractorService } from '../../generic/service/config-route
 })
 export class ConfigProductTitleComponent implements OnInit {
   product$: Observable<Product>;
+  routerData$: Observable<ConfigurationRouter.Data>;
+  isConfigurationLoading$: Observable<Boolean>;
   showMore = false;
   iconTypes = ICON_TYPE;
 
@@ -27,16 +30,24 @@ export class ConfigProductTitleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.product$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorCommonsService.getConfiguration(routerData.owner)
-        ),
-        switchMap((configuration) =>
-          this.productService.get(configuration.productCode)
-        )
-      );
+    this.routerData$ = this.configRouterExtractorService.extractRouterData(
+      this.routingService
+    );
+
+    this.product$ = this.routerData$.pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
+      ),
+      switchMap((configuration) =>
+        this.productService.get(configuration.productCode)
+      )
+    );
+
+    this.isConfigurationLoading$ = this.routerData$.pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.isConfigurationLoading(routerData.owner)
+      )
+    );
   }
 
   triggerDetails() {

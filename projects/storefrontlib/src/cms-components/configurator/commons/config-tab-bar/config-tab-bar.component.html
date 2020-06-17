@@ -1,40 +1,48 @@
-<ng-container *ngIf="routerData$ | async as routerData">
-  <ng-container *ngIf="!routerData.displayOnly">
-    <div class="nav">
-      <div>
-        <a
-          class="nav-link"
-          [class.active]="!(isOverviewPage() | async)"
-          [routerLink]="
-            {
-              cxRoute: 'configure' + routerData.configuratorType,
-              params: {
-                entityKey: routerData.owner.id,
-                ownerType: routerData.owner.type
-              }
-            } | cxUrl
-          "
-          role="link"
-          >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
-        >
+<ng-container *ngIf="!(isConfigurationLoading$ | async); else loadingAnimation">
+  <ng-container *ngIf="routerData$ | async as routerData">
+    <ng-container *ngIf="!routerData.displayOnly">
+      <div class="nav">
+        <div>
+          <a
+            class="nav-link"
+            [class.active]="!(isOverviewPage() | async)"
+            [routerLink]="
+              {
+                cxRoute: 'configure' + routerData.configuratorType,
+                params: {
+                  entityKey: routerData.owner.id,
+                  ownerType: routerData.owner.type
+                }
+              } | cxUrl
+            "
+            role="link"
+            >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
+          >
+        </div>
+        <div>
+          <a
+            class="nav-link"
+            [class.active]="isOverviewPage() | async"
+            [routerLink]="
+              {
+                cxRoute: 'configureOverview' + routerData.configuratorType,
+                params: {
+                  entityKey: routerData.owner.id,
+                  ownerType: routerData.owner.type
+                }
+              } | cxUrl
+            "
+            role="link"
+            >{{ 'configurator.tabBar.overview' | cxTranslate }}</a
+          >
+        </div>
       </div>
-      <div>
-        <a
-          class="nav-link"
-          [class.active]="isOverviewPage() | async"
-          [routerLink]="
-            {
-              cxRoute: 'configureOverview' + routerData.configuratorType,
-              params: {
-                entityKey: routerData.owner.id,
-                ownerType: routerData.owner.type
-              }
-            } | cxUrl
-          "
-          role="link"
-          >{{ 'configurator.tabBar.overview' | cxTranslate }}</a
-        >
-      </div>
-    </div>
+    </ng-container>
   </ng-container>
 </ng-container>
+
+<ng-template #loadingAnimation>
+  <div>
+    Configuration is still loading
+  </div>
+</ng-template>
