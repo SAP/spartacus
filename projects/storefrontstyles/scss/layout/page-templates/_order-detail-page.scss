@@ -1,7 +1,6 @@
 %AccountPageTemplate {
   --cx-max-width: 100%;
   @extend %LoginPageTemplate !optional;
-  @extend %LoginPageTemplate-#{$theme} !optional;
 
   cx-order-details-headline {
     @include media-breakpoint-down(sm) {
