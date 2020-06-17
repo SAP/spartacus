@@ -62,54 +62,38 @@ export class OrganizationMetaResolver extends PageMetaResolver
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
     return combineLatest([
       this.translation.translate('common.home'),
-      this.translation.translate('pageMetaResolver.organization.home'),
       this.routingService.getRouterState(),
     ]).pipe(
-      map(
-        ([homeLabel, organizationLabel, routerState]: [
-          string,
-          string,
-          RouterState
-        ]) =>
-          this.resolveBreadcrumbData(
-            homeLabel,
-            organizationLabel,
-            routerState.state.params
-          )
+      map(([homeLabel, routerState]: [string, RouterState]) =>
+        this.resolveBreadcrumbData(homeLabel, routerState.state.params)
       )
     );
   }
 
   protected resolveBreadcrumbData(
     homeLabel: string,
-    organizationLabel: string,
     params: Params
   ): BreadcrumbMeta[] {
     const breadcrumbs: BreadcrumbMeta[] = [];
-    breadcrumbs.push({ label: homeLabel, link: '/' });
-    if (
-      this.route.snapshot.children[0].url.length !== 1 &&
-      this.route.snapshot.children[0].url[0].path === 'organization'
-    )
-      breadcrumbs.push({ label: organizationLabel, link: '/organization' });
-
-    let path = '/organization';
-    for (let i = 1; i < this.route.snapshot.children[0].url.length - 1; i++) {
-      const url = this.route.snapshot.children[0].url[i];
-      path = `${path}/${url.path}`;
-      this.translation
-        .translate(`breadcrumbs.${url.path}`)
-        .subscribe((translation) =>
-          breadcrumbs.push({
-            label:
-              Object.keys(params).length &&
-              Object.values(params).includes(url.path)
-                ? url.path
-                : translation,
-            link: `/${path}`,
-          })
-        );
-    }
+    let path = '/';
+    breadcrumbs.push({ label: homeLabel, link: path });
+    this.route.snapshot.children[0].url
+      .filter((_, index, arr) => index !== arr.length - 1)
+      .forEach((url) => {
+        path = `${path}/${url.path}`;
+        this.translation
+          .translate(`breadcrumbs.${url.path}`)
+          .subscribe((translation) =>
+            breadcrumbs.push({
+              label:
+                Object.keys(params).length &&
+                Object.values(params).includes(url.path)
+                  ? url.path
+                  : translation,
+              link: `/${path}`,
+            })
+          );
+      });
     return breadcrumbs;
   }
 
