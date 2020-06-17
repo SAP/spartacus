@@ -208,7 +208,7 @@ Add the following scripts:
 
 And replace `my-account` instances with the name of yours lib.
 
-Optionally, add the generated to the `build:core:lib` and `test:core:lib` scripts.
+Optionally, add the generated lib to the `build:core:lib` and `test:core:lib` scripts.
 
 - `.release-it.json`
 
