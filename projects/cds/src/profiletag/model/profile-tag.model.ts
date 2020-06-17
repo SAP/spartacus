@@ -1,9 +1,9 @@
-import { Cart, PersonalizationAction } from '@spartacus/core';
+import { Cart } from '@spartacus/core';
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
     q?: ProfileTagJsConfig[][];
-    eventLayer?: ProfileTagEvent[];
+    eventLayer?: ProfileTagPushEvent[];
   };
 }
 
@@ -38,20 +38,15 @@ interface ProfileTagCart {
   cart: Cart;
 }
 
-export interface ProfileTagEvent {
+export interface ProfileTagPushEvent {
   name: string;
-  data?: {
-    segments?: string[];
-    actions?: PersonalizationAction[];
-    [x: string]: any;
-  };
 }
 
-export class NavigatedPushEvent implements ProfileTagEvent {
+export class NavigatedPushEvent implements ProfileTagPushEvent {
   name = 'Navigated';
 }
 
-export class ConsentChangedPushEvent implements ProfileTagEvent {
+export class ConsentChangedPushEvent implements ProfileTagPushEvent {
   name = 'ConsentChanged';
   data: { granted: boolean } = { granted: undefined };
   constructor(granted: boolean) {
@@ -59,7 +54,7 @@ export class ConsentChangedPushEvent implements ProfileTagEvent {
   }
 }
 
-export class KeywordSearchPushEvent implements ProfileTagEvent {
+export class KeywordSearchPushEvent implements ProfileTagPushEvent {
   name = 'KeywordSearch';
   data;
   constructor(data: { searchTerm: string; numResults: Number }) {
@@ -67,7 +62,7 @@ export class KeywordSearchPushEvent implements ProfileTagEvent {
   }
 }
 
-export class ProductViewPushEvent implements ProfileTagEvent {
+export class ProductViewPushEvent implements ProfileTagPushEvent {
   name = 'ProductDetailsPageViewed';
   data;
   constructor(data: {
@@ -81,7 +76,7 @@ export class ProductViewPushEvent implements ProfileTagEvent {
   }
 }
 
-export class CategoryViewPushEvent implements ProfileTagEvent {
+export class CategoryViewPushEvent implements ProfileTagPushEvent {
   name = 'CategoryPageViewed';
   data;
   constructor(data: { productCategory: string; productCategoryName: string }) {
@@ -89,7 +84,7 @@ export class CategoryViewPushEvent implements ProfileTagEvent {
   }
 }
 
-export class HomePageViewPushEvent implements ProfileTagEvent {
+export class HomePageViewPushEvent implements ProfileTagPushEvent {
   name = 'HomePageViewed';
   data;
   constructor(data?) {
@@ -97,7 +92,7 @@ export class HomePageViewPushEvent implements ProfileTagEvent {
   }
 }
 
-export class OrderConfirmationPushEvent implements ProfileTagEvent {
+export class OrderConfirmationPushEvent implements ProfileTagPushEvent {
   name = 'OrderConfirmationPageViewed';
   data;
   constructor(data?) {
@@ -105,7 +100,7 @@ export class OrderConfirmationPushEvent implements ProfileTagEvent {
   }
 }
 
-export class CartViewPushEvent implements ProfileTagEvent {
+export class CartViewPushEvent implements ProfileTagPushEvent {
   name = 'CartPageViewed';
   data;
   constructor(data?) {
@@ -113,7 +108,7 @@ export class CartViewPushEvent implements ProfileTagEvent {
   }
 }
 
-export class PageViewPushEvent implements ProfileTagEvent {
+export class PageViewPushEvent implements ProfileTagPushEvent {
   name = 'PageViewed';
   data;
   constructor(data?) {
@@ -121,7 +116,7 @@ export class PageViewPushEvent implements ProfileTagEvent {
   }
 }
 
-export class CartChangedPushEvent implements ProfileTagEvent {
+export class CartChangedPushEvent implements ProfileTagPushEvent {
   name = 'CartSnapshot';
   data: ProfileTagCart;
   constructor(data: ProfileTagCart) {

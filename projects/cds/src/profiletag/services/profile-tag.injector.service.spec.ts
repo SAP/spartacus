@@ -7,7 +7,7 @@ import {
   CartChangedPushEvent,
   ConsentChangedPushEvent,
   NavigatedPushEvent,
-  ProfileTagEvent,
+  ProfileTagPushEvent,
 } from '../model/profile-tag.model';
 import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
@@ -25,14 +25,14 @@ describe('ProfileTagInjector', () => {
   let profileTagPushEventsServiceMock: ProfileTagPushEventsService;
   let profileTagLifecycleServiceMock: ProfileTagLifecycleService;
   let cdsBackendConnectorMock: CdsBackendConnector;
-  let pushEvents: Subject<ProfileTagEvent>;
+  let pushEvents: Subject<ProfileTagPushEvent>;
   function setVariables() {
     cartBehavior = new ReplaySubject<{ cart: Cart }>();
     consentBehavior = new ReplaySubject<ConsentChangedPushEvent>();
     navigatedBehavior = new ReplaySubject<boolean>();
     addTrackerBehavior = new ReplaySubject<Event>();
     postBehaviour = new ReplaySubject<boolean>();
-    pushEvents = new ReplaySubject<ProfileTagEvent>();
+    pushEvents = new ReplaySubject<ProfileTagPushEvent>();
     cdsBackendConnectorMock = <CdsBackendConnector>(<any>{
       notifySuccessfulLogin: jasmine
         .createSpy('cdsBackendConnectorMock')

@@ -5,6 +5,8 @@ import { OccBackendNotification } from './adapters/occ-backend-notification-adap
 import { ProfileTagCmsModule } from './cms-components/profile-tag-cms.module';
 import { ConsentReferenceInterceptor } from './http-interceptors/consent-reference-interceptor';
 import { DebugInterceptor } from './http-interceptors/debug-interceptor';
+import { ProfileTagLifecycle } from './model/profile-tag-lifecycle';
+import { ProfileTagLifecycleService } from './services/profile-tag-lifecycle.service';
 
 @NgModule({
   imports: [ProfileTagCmsModule],
@@ -18,6 +20,10 @@ import { DebugInterceptor } from './http-interceptors/debug-interceptor';
     {
       provide: CdsBackendNotificationAdapter,
       useClass: OccBackendNotification,
+    },
+    {
+      provide: ProfileTagLifecycle,
+      useClass: ProfileTagLifecycleService,
     },
   ],
 })

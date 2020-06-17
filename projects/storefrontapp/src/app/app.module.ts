@@ -9,7 +9,12 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ProfileTagPushEventsService } from '@spartacus/cds';
-import { TestConfigModule } from '@spartacus/core';
+import {
+  CartPageVisited,
+  EventService,
+  HomePageVisited,
+  TestConfigModule,
+} from '@spartacus/core';
 import {
   JsonLdBuilderModule,
   StorefrontComponent,
@@ -61,4 +66,13 @@ if (environment.b2b) {
   ],
   bootstrap: [StorefrontComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private x: EventService) {
+    this.x.get(HomePageVisited).subscribe((event) => {
+      console.log('home event: ', event);
+    });
+    this.x.get(CartPageVisited).subscribe((event) => {
+      console.log('cart event: ', event);
+    });
+  }
+}

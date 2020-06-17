@@ -5,7 +5,7 @@ import { CdsBackendConnector } from '../connectors/cds-backend-connector';
 import { ProfileTagLifecycle } from '../model/profile-tag-lifecycle';
 import {
   NavigatedPushEvent,
-  ProfileTagEvent,
+  ProfileTagPushEvent,
 } from '../model/profile-tag.model';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
 import { ProfileTagEventService } from './profiletag-event.service';
@@ -37,7 +37,7 @@ export class ProfileTagInjectorService {
 
   notifyPushEvents() {
     return this.profileTagPushEventsService.getPushEvents().pipe(
-      tap((item: ProfileTagEvent) => {
+      tap((item: ProfileTagPushEvent) => {
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
       }),
       mapTo(true)

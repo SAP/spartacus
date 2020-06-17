@@ -24,14 +24,14 @@ import {
   OrderConfirmationPushEvent,
   PageViewPushEvent,
   ProductViewPushEvent,
-  ProfileTagEvent,
+  ProfileTagPushEvent,
 } from '../model/profile-tag.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileTagPushEventsService {
-  protected pushEvents$: Observable<ProfileTagEvent> = merge(
+  protected pushEvents$: Observable<ProfileTagPushEvent> = merge(
     this.categoryPageVisited(),
     this.productDetailsPageView(),
     this.searchResultsChanged(),
@@ -47,7 +47,7 @@ export class ProfileTagPushEventsService {
     protected personalizationContextService: PersonalizationContextService
   ) {}
 
-  getPushEvents(): Observable<ProfileTagEvent> {
+  getPushEvents(): Observable<ProfileTagPushEvent> {
     return this.pushEvents$.pipe(
       withLatestFrom(
         merge(
@@ -64,7 +64,7 @@ export class ProfileTagPushEventsService {
     );
   }
 
-  addPushEvent(event: Observable<ProfileTagEvent>) {
+  addPushEvent(event: Observable<ProfileTagPushEvent>) {
     this.pushEvents$ = merge(this.pushEvents$, event);
   }
 
@@ -83,7 +83,7 @@ export class ProfileTagPushEventsService {
     );
   }
 
-  categoryPageVisited(): Observable<ProfileTagEvent> {
+  protected categoryPageVisited(): Observable<ProfileTagPushEvent> {
     return this.eventService.get(CategoryPageVisited).pipe(
       map(
         (categoryPageVisited) =>
@@ -95,7 +95,7 @@ export class ProfileTagPushEventsService {
     );
   }
 
-  searchResultsChanged(): Observable<ProfileTagEvent> {
+  protected searchResultsChanged(): Observable<ProfileTagPushEvent> {
     return this.eventService.get(KeywordSearchPageVisited).pipe(
       map((searchEvent) => {
         return new KeywordSearchPushEvent({
@@ -106,7 +106,7 @@ export class ProfileTagPushEventsService {
     );
   }
 
-  productDetailsPageView(): Observable<ProfileTagEvent> {
+  protected productDetailsPageView(): Observable<ProfileTagPushEvent> {
     return this.eventService.get(ProductDetailsPageVisited).pipe(
       map(
         (item) =>
@@ -125,24 +125,24 @@ export class ProfileTagPushEventsService {
     );
   }
 
-  pageVisitedEvent(): Observable<ProfileTagEvent> {
+  protected pageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(PageVisited)
       .pipe(map((_) => new PageViewPushEvent()));
   }
-  cartPageVisitedEvent(): Observable<ProfileTagEvent> {
+  protected cartPageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(CartPageVisited)
       .pipe(map((_) => new CartViewPushEvent()));
   }
 
-  homePageVisitedEvent(): Observable<ProfileTagEvent> {
+  protected homePageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(HomePageVisited)
       .pipe(map((_) => new HomePageViewPushEvent()));
   }
 
-  orderConfirmationVisited(): Observable<ProfileTagEvent> {
+  protected orderConfirmationVisited(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(OrderConfirmationPageVisited)
       .pipe(map((_) => new OrderConfirmationPushEvent()));

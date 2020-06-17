@@ -5,10 +5,10 @@ import {
   EventService,
   PersonalizationContextService,
 } from '@spartacus/core';
-import { ProfileTagEvent } from 'projects/cds/src/profiletag';
+import { ProfileTagPushEvent } from 'projects/cds/src/profiletag';
 import { of } from 'rxjs';
 
-class MyCustomEvent implements ProfileTagEvent {
+class MyCustomEvent implements ProfileTagPushEvent {
   name = 'TestMe';
 }
 
