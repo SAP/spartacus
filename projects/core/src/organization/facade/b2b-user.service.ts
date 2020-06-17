@@ -38,7 +38,7 @@ export class B2BUserService {
     );
   }
 
-  loadB2BUsers(params?: B2BSearchConfig) {
+  loadB2BUsers(params?: B2BSearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(new B2BUserActions.LoadB2BUsers({ userId, params }))
     );
@@ -73,7 +73,9 @@ export class B2BUserService {
     );
   }
 
-  create(orgCustomer: B2BUser) {
+  create(orgCustomer: B2BUser): void {
+    delete orgCustomer.isAssignedToApprovers;
+
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.CreateB2BUser({
@@ -84,7 +86,7 @@ export class B2BUserService {
     );
   }
 
-  update(orgCustomerId: string, orgCustomer: B2BUser) {
+  update(orgCustomerId: string, orgCustomer: B2BUser): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.UpdateB2BUser({
@@ -96,7 +98,7 @@ export class B2BUserService {
     );
   }
 
-  loadB2BUserApprovers(orgCustomerId: string, params: B2BSearchConfig) {
+  loadB2BUserApprovers(orgCustomerId: string, params: B2BSearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserApprovers({
@@ -127,7 +129,7 @@ export class B2BUserService {
     );
   }
 
-  assignApprover(orgCustomerId: string, approverId: string) {
+  assignApprover(orgCustomerId: string, approverId: string): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.CreateB2BUserApprover({
@@ -139,7 +141,7 @@ export class B2BUserService {
     );
   }
 
-  unassignApprover(orgCustomerId: string, approverId: string) {
+  unassignApprover(orgCustomerId: string, approverId: string): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.DeleteB2BUserApprover({
@@ -151,7 +153,7 @@ export class B2BUserService {
     );
   }
 
-  loadB2BUserPermissions(orgCustomerId: string, params: B2BSearchConfig) {
+  loadB2BUserPermissions(orgCustomerId: string, params: B2BSearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserPermissions({
@@ -182,7 +184,7 @@ export class B2BUserService {
     );
   }
 
-  assignPermission(orgCustomerId: string, permissionId: string) {
+  assignPermission(orgCustomerId: string, permissionId: string): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.CreateB2BUserPermission({
@@ -194,7 +196,7 @@ export class B2BUserService {
     );
   }
 
-  unassignPermission(orgCustomerId: string, permissionId: string) {
+  unassignPermission(orgCustomerId: string, permissionId: string): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.DeleteB2BUserPermission({
@@ -206,7 +208,7 @@ export class B2BUserService {
     );
   }
 
-  loadB2BUserUserGroups(orgCustomerId: string, params: B2BSearchConfig) {
+  loadB2BUserUserGroups(orgCustomerId: string, params: B2BSearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.LoadB2BUserUserGroups({
@@ -237,7 +239,7 @@ export class B2BUserService {
     );
   }
 
-  assignUserGroup(orgCustomerId: string, userGroupId: string) {
+  assignUserGroup(orgCustomerId: string, userGroupId: string): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.CreateB2BUserUserGroup({
@@ -249,7 +251,7 @@ export class B2BUserService {
     );
   }
 
-  unassignUserGroup(orgCustomerId: string, userGroupId: string) {
+  unassignUserGroup(orgCustomerId: string, userGroupId: string): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new B2BUserActions.DeleteB2BUserUserGroup({
@@ -259,6 +261,18 @@ export class B2BUserService {
         })
       )
     );
+  }
+
+  getB2BUserRoles() {
+    // TODO: get the roles via the roles endpoint when they are available
+    const roles = [
+      { name: 'buyer', id: 'b2bcustomergroup', selected: false },
+      { name: 'manager', id: 'b2bmanagergroup', selected: false },
+      { name: 'approver', id: 'b2bapprovergroup', selected: false },
+      { name: 'administrator', id: 'b2badmingroup', selected: false },
+    ];
+
+    return roles;
   }
 
   private getB2BUserApproverList(

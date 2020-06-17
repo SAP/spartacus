@@ -111,11 +111,9 @@ export class LoadB2BUserSuccess extends EntitySuccessAction {
   }
 }
 
-export class CreateB2BUser extends EntityLoadAction {
+export class CreateB2BUser {
   readonly type = CREATE_B2B_USER;
-  constructor(public payload: { userId: string; orgCustomer: B2BUser }) {
-    super(B2B_USER_ENTITIES, payload.orgCustomer.customerId);
-  }
+  constructor(public payload: { userId: string; orgCustomer: B2BUser }) {}
 }
 
 export class CreateB2BUserFail extends EntityFailAction {
