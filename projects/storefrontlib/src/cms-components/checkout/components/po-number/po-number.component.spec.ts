@@ -9,6 +9,7 @@ import {
   CheckoutCostCenterService,
   I18nTestingModule,
   CostCenter,
+  B2BPaymentTypeEnum,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
@@ -22,9 +23,8 @@ import createSpy = jasmine.createSpy;
 class MockSpinnerComponent {}
 
 class MockPaymentTypeService {
-  readonly ACCOUNT_PAYMENT = 'ACCOUNT';
   getSelectedPaymentType(): Observable<string> {
-    return of(this.ACCOUNT_PAYMENT);
+    return of(B2BPaymentTypeEnum.ACCOUNT_PAYMENT);
   }
   getPoNumber(): Observable<string> {
     return of('cart-po');

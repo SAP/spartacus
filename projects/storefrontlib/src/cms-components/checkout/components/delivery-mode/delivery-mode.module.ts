@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
-import { ShippingAddressSetGuard } from '../../guards/shipping-address-set.guard';
 import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
 import { DeliveryModeComponent } from './delivery-mode.component';
 
@@ -15,11 +14,7 @@ import { DeliveryModeComponent } from './delivery-mode.component';
       cmsComponents: {
         CheckoutDeliveryMode: {
           component: DeliveryModeComponent,
-          guards: [
-            CheckoutAuthGuard,
-            CartNotEmptyGuard,
-            ShippingAddressSetGuard,
-          ],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),
