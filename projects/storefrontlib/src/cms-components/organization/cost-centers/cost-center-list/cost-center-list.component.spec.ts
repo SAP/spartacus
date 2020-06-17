@@ -28,7 +28,7 @@ import { InteractiveTableModule } from '../../../../shared/components/interactiv
 import { CostCenterListComponent } from './cost-center-list.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
+import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
 
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',

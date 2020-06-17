@@ -30,7 +30,7 @@ import { InteractiveTableModule } from '../../../../shared/components/interactiv
 import { PermissionListComponent } from './permission-list.component';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import createSpy = jasmine.createSpy;
-import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
+import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
 
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
