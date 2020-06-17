@@ -61,7 +61,7 @@ $useLatestStyles: false !default;
  */
 @mixin forVersion($version) {
   @if $useLatestStyles or
-    ($version <= $minorVersion) or
+    ($version <= $styleVersion) or
     ($version <= $stableStyleVersion)
   {
     @content;
