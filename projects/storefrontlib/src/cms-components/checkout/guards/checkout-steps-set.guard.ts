@@ -62,7 +62,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
         if (currentIndex >= 0) {
           currentStep = steps[currentIndex];
         }
-        if (!!currentStep) {
+        if (Boolean(currentStep)) {
           return this.isStepSet(steps[currentIndex - 1], isAccount);
         } else {
           if (isDevMode()) {
