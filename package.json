@@ -87,7 +87,6 @@
     "build:cds:ssr": "cross-env SPARTACUS_CDS=true ng run storefrontapp:server:production",
     "prerender:cds": "cross-env SPARTACUS_CDS=true ng run storefrontapp:prerender",
     "release:cds:with-changelog": "cd projects/cds && release-it && cd ../..",
-    "release-notes:cds": "ts-node ./scripts/changelog.ts --verbose --lib cds",
     "start:b2b:ci:2005": "cross-env SPARTACUS_BASE_URL=https://dev-com-7.accdemo.b2c.ydev.hybris.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod",
     "build:core:lib:gigya": "yarn build:core:lib && ng build gigya"
   },
@@ -107,7 +106,7 @@
     "@compodoc/compodoc": "^1.1.10",
     "@ng-bootstrap/ng-bootstrap": "^6.0.0",
     "@ng-select/ng-select": "^4.0.0",
-    "@ngrx/effects": "^9.0.0",
+    "@ngrx/effects": "~9.0.0",
     "@ngrx/router-store": "~9.0.0",
     "@ngrx/store": "~9.0.0",
     "@nguniversal/express-engine": "^9.1.1",
