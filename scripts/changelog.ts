@@ -286,6 +286,16 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/cds':
       config.library = '@spartacus/cds';
       break;
+    case 'myaccount':
+    case 'my-account':
+    case '@spartacus/my-account':
+    case '@spartacus/myaccount':
+      config.library = '@spartacus/my-account';
+      break;
+    case 'product':
+    case '@spartacus/product':
+      config.library = '@spartacus/product';
+      break;
     default:
       config.library = undefined;
   }

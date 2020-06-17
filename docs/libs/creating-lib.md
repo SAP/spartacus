@@ -286,6 +286,8 @@ const libraryPaths = {
 };
 ```
 
+Also make sure to add the lib to the `switch` statement at the end of the file.
+
 - `.github/api-extractor-action/api-extractor-for-branch.sh`
 
 Add the following (replace the `my-account` and `MY_ACCOUNT_CONFIG_PATH` with the name of your lib):
