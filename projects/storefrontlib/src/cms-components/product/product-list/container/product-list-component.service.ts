@@ -6,12 +6,14 @@ import {
   LanguageService,
   ProductSearchPage,
   ProductSearchService,
+  RouterState,
   RoutingService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
+  map,
   pluck,
   shareReplay,
   tap,
@@ -78,7 +80,7 @@ export class ProductListComponentService {
     ),
     ...this.siteContext,
   ]).pipe(
-    pluck(0, 'state'),
+    map(([routerState, ..._context]) => (routerState as RouterState).state),
     tap((state: ActivatedRouterStateSnapshot) => {
       const criteria = this.getCriteriaFromRoute(
         state.params,
