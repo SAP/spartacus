@@ -191,7 +191,7 @@ describe('Router Reducer', () => {
       params: { categoryCode: '1234' },
       context: { id: '1234', type: PageType.CATEGORY_PAGE },
       cmsRequired: false,
-      routeName: undefined,
+      routeName: 'category',
     });
 
     await zone.run(() => router.navigateByUrl('product/1234'));
@@ -201,7 +201,7 @@ describe('Router Reducer', () => {
       params: { productCode: '1234' },
       context: { id: '1234', type: PageType.PRODUCT_PAGE },
       cmsRequired: false,
-      routeName: undefined,
+      routeName: 'product',
     });
   });
 
