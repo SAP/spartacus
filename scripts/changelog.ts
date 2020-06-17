@@ -76,6 +76,7 @@ export default async function run(
     '@spartacus/schematics': 'projects/schematics',
     '@spartacus/incubator': 'projects/incubator',
     '@spartacus/cds': 'projects/cds',
+    '@spartacus/my-account': 'feature-libs/my-account',
   };
 
   const duplexUtil = through(function (chunk, _, callback) {
