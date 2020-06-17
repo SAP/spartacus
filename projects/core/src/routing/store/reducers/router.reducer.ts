@@ -127,10 +127,13 @@ export class CustomSerializer
     } else {
       if (params['productCode']) {
         context = { id: params['productCode'], type: PageType.PRODUCT_PAGE };
+        routeName = 'product';
       } else if (params['categoryCode']) {
         context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
+        routeName = 'category';
       } else if (params['brandCode']) {
         context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
+        routeName = 'brand';
       } else if (state.data.pageLabel !== undefined) {
         context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
       } else if (!context) {
