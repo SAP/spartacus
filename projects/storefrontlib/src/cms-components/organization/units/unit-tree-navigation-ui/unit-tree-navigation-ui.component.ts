@@ -3,14 +3,12 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
-  HostListener,
   Input,
 } from '@angular/core';
 import { NavigationNode } from '../../../navigation';
 import { ICON_TYPE } from '../../../misc/icon';
 import { Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { BREAKPOINT, BreakpointService } from '../../../../layout';
 
 @Component({
@@ -24,7 +22,6 @@ export class UnitTreeNavigationUIComponent {
   selectedNode: NavigationNode;
   isMobile: boolean;
   private subscriptions = new Subscription();
-  private resize = new EventEmitter();
 
   @Input()
   node: NavigationNode;
@@ -32,35 +29,23 @@ export class UnitTreeNavigationUIComponent {
   @Input()
   defaultExpandLevel: number;
 
-  @HostListener('window:resize')
-  onResize() {
-    this.resize.next();
-  }
-
   constructor(
     private elementRef: ElementRef,
     private cd: ChangeDetectorRef,
     private breakpointService: BreakpointService
   ) {
     this.subscriptions.add(
-      this.resize.pipe(debounceTime(50)).subscribe(() => {
-        this.selectedNode = null;
-        this.refreshUIWithMappedElements();
-      })
-    );
-
-    this.subscriptions.add(
       this.breakpointService
         .isDown(BREAKPOINT.md)
-        .pipe(debounceTime(50))
+        .pipe(debounceTime(50), distinctUntilChanged())
         .subscribe((val: boolean) => {
           this.isMobile = val;
           if (this.isMobile) {
             this.isExpandedNodeMap = {};
-            this.refreshUIWithMappedElements();
           } else {
-            this.refreshUIWithMappedElements();
+            this.selectedNode = null;
           }
+          this.refreshUIWithMappedElements(this.isMobile);
         })
     );
   }
@@ -69,23 +54,26 @@ export class UnitTreeNavigationUIComponent {
     if (node && node.children?.length) {
       const array = Array.from(node.children);
 
-      array.forEach((n: HTMLElement) =>
-        this.mapUlElementToExpand(n, defaultExpandLevel)
-      );
-
       if (node.dataset?.code) {
         this.isExpandedNodeMap[node.dataset.code] = !!(
           node.dataset?.depth &&
           Number(node.dataset?.depth) <= defaultExpandLevel
         );
       }
+
+      array.forEach((n: HTMLElement) =>
+        this.mapUlElementToExpand(n, defaultExpandLevel)
+      );
     } else {
       return;
     }
   }
 
-  refreshUIWithMappedElements(defaultExpandLevel = 0): void {
-    const level = this.defaultExpandLevel || defaultExpandLevel;
+  refreshUIWithMappedElements(isMobile = false, defaultExpandLevel = 0): void {
+    const level =
+      !isMobile && this.defaultExpandLevel
+        ? this.defaultExpandLevel
+        : defaultExpandLevel;
     this.mapUlElementToExpand(this.elementRef.nativeElement, level);
     this.cd.detectChanges();
   }
@@ -94,7 +82,7 @@ export class UnitTreeNavigationUIComponent {
     this.isExpandedNodeMap[code] = !this.isExpandedNodeMap[code];
 
     if (!this.isExpandedNodeMap[code]) {
-      this.hideChildrenListElementLists(code);
+      this.hideElementChildren(code);
     }
   }
 
@@ -104,7 +92,7 @@ export class UnitTreeNavigationUIComponent {
     });
   }
 
-  hideChildrenListElementLists(code: string): void {
+  hideElementChildren(code: string): void {
     Object.keys(this.isExpandedNodeMap)
       .filter((s) => s.indexOf(code) !== -1)
       .forEach((p) => {
@@ -112,7 +100,7 @@ export class UnitTreeNavigationUIComponent {
       });
   }
 
-  selectUnitNode(unitNode: any): void {
+  goToUnitNode(unitNode: any): void {
     this.selectedNode = unitNode;
   }
 

@@ -92,9 +92,9 @@
           <cx-icon
             *ngIf="child.children?.length > 0"
             [type]="iconType.CARET_RIGHT"
-            (click)="selectUnitNode(child)"
-            (keydown.enter)="selectUnitNode(child)"
-            (keydown.space)="selectUnitNode(child)"
+            (click)="goToUnitNode(child)"
+            (keydown.enter)="goToUnitNode(child)"
+            (keydown.space)="goToUnitNode(child)"
             tabindex="0"
           ></cx-icon>
         </div>
