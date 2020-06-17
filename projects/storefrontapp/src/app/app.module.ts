@@ -9,6 +9,7 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TestConfigModule } from '@spartacus/core';
+import { ProductConfigurationModule } from '@spartacus/product/configuration';
 import {
   JsonLdBuilderModule,
   StorefrontComponent,
@@ -17,7 +18,6 @@ import { b2bFeature } from '../environments/b2b/b2b.feature';
 import { b2cFeature } from '../environments/b2c/b2c.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
-import { productconfigFeature } from '../environments/productconfig/productconfig.feature';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 
 registerLocaleData(localeDe);
@@ -35,10 +35,6 @@ if (environment.cds) {
   additionalImports = [...additionalImports, ...cdsFeature.imports];
 }
 
-if (environment.productconfig) {
-  additionalImports = [...additionalImports, ...productconfigFeature.imports];
-}
-
 if (environment.b2b) {
   additionalImports = [...additionalImports, ...b2bFeature.imports];
 } else {
@@ -50,6 +46,7 @@ if (environment.b2b) {
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
     JsonLdBuilderModule,
+    ProductConfigurationModule,
     ...additionalImports,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.

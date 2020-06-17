@@ -15,5 +15,4 @@ export const environment: Environment = {
   occApiPrefix: '/occ/v2/',
   b2b: false,
   cds: false,
-  productconfig: false,
 };
