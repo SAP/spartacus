@@ -33,7 +33,7 @@ class MockRoutingService {
   }
 }
 
-fdescribe('OrganizationMetaResolver', () => {
+describe('OrganizationMetaResolver', () => {
   let resolver: OrganizationMetaResolver;
 
   beforeEach(() => {
