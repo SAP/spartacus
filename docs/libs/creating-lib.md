@@ -102,6 +102,10 @@ Add the following under `lib` section:
     }
 ```
 
+- `public-api.ts`
+
+Rename this file to `public_api.ts` and change the path in `ng-package.json`'s `entryFile` property to `./public_api.ts`
+
 - `package.json`
 
 Use the following template:
@@ -138,13 +142,6 @@ Adjust the `@spartacus/core` and/or `@spartacus/storefront` depending on the nee
 Make sure the versions match the current spartacus version.
 Make sure the `@angular` peer dependencies match the versions specified in the _core_ lib.
 
-- `public-api.ts`
-
-Rename this file to `public_api.ts` and change the path in:
-
-  1. `package.json`'s `paths` section
-  2. `ng-package.json`'s `entryFile` property to `./public_api.ts`
-
 - `test.ts` - add `import '@angular/localize/init';`
 
 - `tsconfig.lib.json`
@@ -152,7 +149,6 @@ Rename this file to `public_api.ts` and change the path in:
 Use the following template:
 
 ```json
-
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
@@ -188,7 +184,7 @@ Optionally adjust the `path` property.
 - `tsconfig.lib.prod.json` - save to re-format it. Make sure that Ivy is off (for the time being, this will change in the future)
 - `tsconfig.spec.json` - save to re-format
 - `tslint.json` - save to re-format
-- the rest of the generated file should be removed - e.g. `README.md` etc.
+- the rest of the generated file should be removed
 
 ### Additional changes to existing files
 
@@ -201,7 +197,7 @@ The following files should be created:
 - `projects/storefrontapp/src/environments/environment.ts` - set you feature for development as enabled or disabled by default
 - `projects/storefrontapp/src/environments/environment.prod.ts` - pass the created env. variable to your feature
 
-- `package.json`
+- Root `package.json`
 
 Add the following scripts:
 
@@ -211,6 +207,8 @@ Add the following scripts:
 ```
 
 And replace `my-account` instances with the name of yours lib.
+
+Optionally, add the generated lib to the `build:core:lib` and `test:core:lib` scripts.
 
 - `.release-it.json`
 
@@ -288,6 +286,8 @@ const libraryPaths = {
 };
 ```
 
+Also make sure to add the lib to the `switch` statement at the end of the file.
+
 - `.github/api-extractor-action/api-extractor-for-branch.sh`
 
 Add the following (replace the `my-account` and `MY_ACCOUNT_CONFIG_PATH` with the name of your lib):
@@ -304,6 +304,12 @@ cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
 - `scripts/packages.ts` - just add your lib to the `const packageJsonPaths` array.
 
 - `sonar-project.properties` - list your library to this file
+
+- `tsconfig.compodoc.json` - add your library to this file
+
+- `projects/schematics/package.json` - add the library to the package group
+
+- `scripts/templates/changelog.ejs` - add the library to `const CUSTOM_SORT_ORDER`
 
 ## Testing
 

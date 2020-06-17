@@ -1,23 +1,22 @@
 {
-  "name": "@spartacus/my-account",
+  "name": "@spartacus/product",
   "version": "2.1.0-dev.0",
-  "description": "My Account library for Spartacus",
+  "description": "Product library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
     "spartacus",
     "framework",
     "storefront",
-    "my account"
+    "product"
   ],
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/my-account",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/product",
   "peerDependencies": {
     "@angular/common": "^9.0.0",
     "@angular/core": "^9.0.0",
-    "@angular/router": "^9.0.0",
     "rxjs": "^6.5.4",
     "@spartacus/core": "2.1.0-dev.0",
     "@spartacus/storefront": "2.1.0-dev.0"
