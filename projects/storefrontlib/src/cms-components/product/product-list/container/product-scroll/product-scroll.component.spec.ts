@@ -19,7 +19,7 @@ import { ProductListComponentService } from '../product-list-component.service';
 import { ProductScrollComponent } from './product-scroll.component';
 
 import createSpy = jasmine.createSpy;
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/src/shared/test/mock-feature-level-directive';
+import { MockFeatureLevelDirective } from '../../../../../shared/test/mock-feature-level-directive';
 
 const mockModel1: ProductSearchPage = {
   breadcrumbs: [

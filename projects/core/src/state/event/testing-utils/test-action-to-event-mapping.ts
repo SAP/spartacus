@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import { EventService } from 'projects/core/src/event';
+import { EventService } from '../../../event/event.service';
 import { take } from 'rxjs/operators';
 
 export function testActionToEventMapping<A, E>({

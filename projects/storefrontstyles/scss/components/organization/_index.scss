@@ -51,6 +51,8 @@
 @import './units/_unit-children';
 @import './units/_unit-cost-centers';
 
+@import './_organization-home';
+
 @import './_fake-tabs';
 
 $organization-components-whitelist: cx-budget-create cx-budget-edit
