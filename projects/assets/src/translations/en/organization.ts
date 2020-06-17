@@ -196,8 +196,13 @@ export const organization = {
     currency: 'Currency',
   },
   orgUnitsList: {
-    orgUnitManagement: 'Organization Units Management',
+    orgUnitManagement: 'Units',
     create: 'Create new Unit',
+  },
+  orgUnitTree: {
+    expandAll: 'Expand all',
+    collapseAll: 'Collapse all',
+    upOneLevel: 'Up one level',
   },
   orgUnit: {
     header: 'Details for {{code}}',

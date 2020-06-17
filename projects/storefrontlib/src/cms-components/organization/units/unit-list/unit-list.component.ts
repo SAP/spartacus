@@ -28,10 +28,7 @@ export class ManageUnitsListComponent implements OnInit {
     this.orgUnitsService.loadTree();
     this.data$ = this.orgUnitsService.getTree().pipe(
       filter(Boolean),
-      map((node) => ({
-        title: '',
-        children: [this.toNavigation(node)],
-      }))
+      map((node) => this.toNavigation(node))
     );
   }
 
