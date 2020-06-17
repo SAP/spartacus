@@ -54,6 +54,7 @@ describe('ConfiguratorEffect', () => {
   let addToCartMock: jasmine.Spy;
   let updateCartEntryMock: jasmine.Spy;
   let readConfigurationForCartEntryMock: jasmine.Spy;
+  let readConfigurationForOrderEntryMock: jasmine.Spy;
   let configEffects: fromEffects.ConfiguratorEffects;
   let configuratorUtils: GenericConfigUtilsService;
 
@@ -69,6 +70,9 @@ describe('ConfiguratorEffect', () => {
     readConfigurationForCartEntryMock = jasmine
       .createSpy()
       .and.returnValue(of(productConfiguration));
+    readConfigurationForOrderEntryMock = jasmine
+      .createSpy()
+      .and.returnValue(of(productConfiguration));
 
     class MockConnector {
       createConfiguration = createMock;
@@ -80,6 +84,8 @@ describe('ConfiguratorEffect', () => {
       updateConfigurationForCartEntry = updateCartEntryMock;
 
       readConfigurationForCartEntry = readConfigurationForCartEntryMock;
+
+      readConfigurationForOrderEntry = readConfigurationForOrderEntryMock;
 
       updateConfiguration(): Observable<Configurator.Configuration> {
         return of(productConfiguration);
@@ -343,6 +349,55 @@ describe('ConfiguratorEffect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(configEffects.readConfigurationForCartEntry$).toBeObservable(
+        expected
+      );
+    });
+  });
+
+  describe('Effect readConfigurationForOrderEntry', () => {
+    it('should emit a success action with content in case call is successful', () => {
+      const readFromOrderEntry: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
+        owner: owner,
+      };
+      const action = new ConfiguratorActions.ReadOrderEntryConfiguration(
+        readFromOrderEntry
+      );
+
+      const readOrderEntrySuccessAction = new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
+        productConfiguration
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', {
+        b: readOrderEntrySuccessAction,
+      });
+
+      expect(configEffects.readConfigurationForOrderEntry$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should emit a fail action if something goes wrong', () => {
+      readConfigurationForOrderEntryMock.and.returnValue(
+        throwError(errorResponse)
+      );
+      const readFromOrderEntry: GenericConfigurator.ReadConfigurationFromOrderEntryParameters = {
+        owner: owner,
+      };
+      const action = new ConfiguratorActions.ReadOrderEntryConfiguration(
+        readFromOrderEntry
+      );
+
+      const completion = new ConfiguratorActions.ReadOrderEntryConfigurationFail(
+        {
+          ownerKey: productConfiguration.owner.key,
+          error: makeErrorSerializable(errorResponse),
+        }
+      );
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(configEffects.readConfigurationForOrderEntry$).toBeObservable(
         expected
       );
     });

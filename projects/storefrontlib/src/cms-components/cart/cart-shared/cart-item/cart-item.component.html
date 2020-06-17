@@ -27,8 +27,9 @@
         </div>
         <!-- Generic Configuration-->
         <cx-configure-cart-entry
-          *ngIf="item.product.configurable && !readonly"
+          *ngIf="item.product.configurable"
           [cartEntry]="item"
+          [readOnly]="readonly"
         ></cx-configure-cart-entry>
 
         <!-- Variants -->

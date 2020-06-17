@@ -9,7 +9,6 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfigTabBarComponent } from './config-tab-bar.component';
 
@@ -71,11 +70,12 @@ class MockConfiguratorCommonsService {
 describe('ConfigTabBarComponent', () => {
   let component: ConfigTabBarComponent;
   let fixture: ComponentFixture<ConfigTabBarComponent>;
+  let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
-    routerStateObservable = cold('a', {
-      a: mockRouterState,
-    });
+    mockRouterState.state.params.displayOnly = false;
+
+    routerStateObservable = of(mockRouterState);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule],
       declarations: [ConfigTabBarComponent, MockUrlPipe],
@@ -101,26 +101,38 @@ describe('ConfigTabBarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigTabBarComponent);
     component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
   });
 
   it('should create component', () => {
     expect(component).toBeDefined();
   });
 
+  it('should render 2 navigation links per default', () => {
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('.nav-link').length).toEqual(2);
+  });
+
+  it('should render no links if router states displayOnly', () => {
+    mockRouterState.state.params.displayOnly = true;
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('.nav-link').length).toEqual(0);
+  });
+
   it('should return true for overview URL', () => {
-    expect(component.isOverviewPage()).toBeObservable(
-      cold('x', {
-        x: true,
-      })
-    );
+    component
+      .isOverviewPage()
+      .subscribe((isOv) => expect(isOv).toBe(true))
+      .unsubscribe();
   });
 
   it('should return false for configure URL', () => {
     mockRouterState.state.url = CONFIGURATOR_URL;
-    expect(component.isOverviewPage()).toBeObservable(
-      cold('x', {
-        x: false,
-      })
-    );
+    component
+      .isOverviewPage()
+      .subscribe((isOv) => expect(isOv).toBe(false))
+      .unsubscribe();
   });
 });

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GenericConfigurator, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,21 +10,26 @@ import { ConfigRouterExtractorService } from '../../generic/service/config-route
   templateUrl: './config-tab-bar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigTabBarComponent {
+export class ConfigTabBarComponent implements OnInit {
   owner$: Observable<GenericConfigurator.Owner>;
   configuratorType$: Observable<string>;
+  routerData$: Observable<ConfigurationRouter.Data>;
 
   constructor(
     private routingService: RoutingService,
     private configRouterExtractorService: ConfigRouterExtractorService
-  ) {
-    this.owner$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
-      .pipe(map((routerData) => routerData.owner));
+  ) {}
 
-    this.configuratorType$ = this.configRouterExtractorService
-      .extractRouterData(routingService)
-      .pipe(map((routerData) => routerData.configuratorType));
+  ngOnInit(): void {
+    this.routerData$ = this.configRouterExtractorService.extractRouterData(
+      this.routingService
+    );
+
+    this.owner$ = this.routerData$.pipe(map((routerData) => routerData.owner));
+
+    this.configuratorType$ = this.routerData$.pipe(
+      map((routerData) => routerData.configuratorType)
+    );
   }
 
   isOverviewPage(): Observable<boolean> {

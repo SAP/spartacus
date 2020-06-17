@@ -39,8 +39,12 @@ import {
   ReadConfiguration,
   ReadConfigurationFail,
   ReadConfigurationSuccess,
+  ReadOrderEntryConfiguration,
+  ReadOrderEntryConfigurationFail,
+  ReadOrderEntryConfigurationSuccess,
   READ_CART_ENTRY_CONFIGURATION,
   READ_CONFIGURATION,
+  READ_ORDER_ENTRY_CONFIGURATION,
   UpdateCartEntry,
   UpdateConfiguration,
   UpdateConfigurationFail,
@@ -423,6 +427,30 @@ export class ConfiguratorEffects {
           ]),
           catchError((error) => [
             new ReadCartEntryConfigurationFail({
+              ownerKey: action.payload.owner.key,
+              error: makeErrorSerializable(error),
+            }),
+          ])
+        );
+    })
+  );
+
+  @Effect()
+  readConfigurationForOrderEntry$: Observable<
+    ReadOrderEntryConfigurationSuccess | ReadOrderEntryConfigurationFail
+  > = this.actions$.pipe(
+    ofType(READ_ORDER_ENTRY_CONFIGURATION),
+    switchMap((action: ReadOrderEntryConfiguration) => {
+      const parameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters =
+        action.payload;
+      return this.configuratorCommonsConnector
+        .readConfigurationForOrderEntry(parameters)
+        .pipe(
+          switchMap((result: Configurator.Configuration) => [
+            new ReadOrderEntryConfigurationSuccess(result),
+          ]),
+          catchError((error) => [
+            new ReadOrderEntryConfigurationFail({
               ownerKey: action.payload.owner.key,
               error: makeErrorSerializable(error),
             }),

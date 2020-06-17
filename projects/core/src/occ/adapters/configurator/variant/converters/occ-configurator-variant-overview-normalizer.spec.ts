@@ -10,6 +10,7 @@ import { OccConfiguratorVariantOverviewNormalizer } from './occ-configurator-var
 const generalGroupName = '_GEN';
 const generalGroupDescription = 'General';
 const groupDescription = 'The Group Name';
+const configId = '1234-4568';
 
 class MockTranslationService {
   translate(): Observable<string> {
@@ -18,6 +19,8 @@ class MockTranslationService {
 }
 
 const convertedOverview: Configurator.Overview = {
+  configId: configId,
+  priceSummary: {},
   groups: [
     {
       id: '1',
@@ -84,7 +87,8 @@ const generalGroup: OccConfigurator.GroupOverview = {
 };
 
 const overview: OccConfigurator.Overview = {
-  id: '1234-4568',
+  id: configId,
+  pricing: {},
   groups: [
     group1,
     {
@@ -105,7 +109,9 @@ const overview: OccConfigurator.Overview = {
 };
 
 class MockConverterService {
-  convert() {}
+  convert(source: OccConfigurator.Prices) {
+    return source.priceSummary;
+  }
 }
 
 describe('OccConfiguratorVariantNormalizer', () => {
@@ -120,7 +126,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       ],
     });
 
-    occConfiguratorVariantOverviewNormalizer = TestBed.get(
+    occConfiguratorVariantOverviewNormalizer = TestBed.inject(
       OccConfiguratorVariantOverviewNormalizer as Type<
         OccConfiguratorVariantOverviewNormalizer
       >

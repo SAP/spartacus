@@ -5,17 +5,14 @@ import { OccConfigurator } from '../occ-configurator.models';
 
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantPriceSummaryNormalizer
-  implements Converter<OccConfigurator.Prices, Configurator.Configuration> {
+  implements Converter<OccConfigurator.Prices, Configurator.PriceSummary> {
   constructor() {}
 
   convert(
     source: OccConfigurator.Prices,
-    target?: Configurator.Configuration
-  ): Configurator.Configuration {
-    target = {
-      configId: source.configId,
-      priceSummary: source.priceSummary,
-    };
+    target?: Configurator.PriceSummary
+  ): Configurator.PriceSummary {
+    target = source.priceSummary;
 
     return target;
   }

@@ -3,14 +3,17 @@ import { GenericConfigurator } from '../../../../model/generic-configurator.mode
 import {
   ConfiguratorAction,
   CreateConfigurationSuccess,
+  GetConfigurationOverviewSuccess,
   ReadCartEntryConfigurationSuccess,
   ReadConfigurationSuccess,
+  ReadOrderEntryConfigurationSuccess,
   RemoveConfiguration,
   SetCurrentGroup,
   SetGroupsCompleted,
   SetGroupsError,
   SetGroupsVisited,
   SetMenuParentGroup,
+  SetNextOwnerCartEntry,
   UpdateCartEntry,
   UpdateCartEntrySuccess,
   UpdateConfiguration,
@@ -123,6 +126,7 @@ describe('Configurator reducer', () => {
       expect(state.configId).toEqual(configuration.configId);
       expect(state.productCode).toEqual(configuration.productCode);
     });
+
     it('should set attribute that states that a cart update is required', () => {
       const action: ConfiguratorAction = new UpdateConfigurationFinalizeSuccess(
         configuration
@@ -130,6 +134,19 @@ describe('Configurator reducer', () => {
       const state = StateReduce.reducer(undefined, action);
 
       expect(state.isCartEntryUpdateRequired).toEqual(true);
+    });
+
+    it('should remove the overview facet in order to trigger a re-read later on', () => {
+      const action: ConfiguratorAction = new UpdateConfigurationFinalizeSuccess(
+        configuration
+      );
+      const configurationWithOverview: Configurator.Configuration = {
+        configId: 'A',
+        overview: {},
+      };
+      const state = StateReduce.reducer(configurationWithOverview, action);
+
+      expect(state.overview).toBeUndefined();
     });
   });
 
@@ -326,6 +343,86 @@ describe('Configurator reducer', () => {
         group3: Configurator.GroupStatus.ERROR,
         group4: Configurator.GroupStatus.ERROR,
       });
+    });
+  });
+
+  describe('GetConfigurationOverviewSuccess action', () => {
+    it('should put configuration overview into the state', () => {
+      const priceSummary: Configurator.PriceSummary = {};
+      const overview: Configurator.Overview = { priceSummary: priceSummary };
+      const action: ConfiguratorAction = new GetConfigurationOverviewSuccess({
+        ownerKey: configuration.owner.key,
+        overview: overview,
+      });
+      const state = StateReduce.reducer(undefined, action);
+
+      expect(state.overview).toEqual(overview);
+      expect(state.priceSummary).toBe(priceSummary);
+    });
+  });
+
+  describe('GetConfigurationOverviewSuccess action', () => {
+    it('should put configuration overview into the state', () => {
+      const overview: Configurator.Overview = {};
+      const action: ConfiguratorAction = new GetConfigurationOverviewSuccess({
+        ownerKey: configuration.owner.key,
+        overview: overview,
+      });
+      const state = StateReduce.reducer(undefined, action);
+
+      expect(state.overview).toEqual(overview);
+    });
+
+    it('should copy price summary from OV to configuration', () => {
+      const priceSummary: Configurator.PriceSummary = {};
+      const overview: Configurator.Overview = { priceSummary: priceSummary };
+      const action: ConfiguratorAction = new GetConfigurationOverviewSuccess({
+        ownerKey: configuration.owner.key,
+        overview: overview,
+      });
+      const state = StateReduce.reducer(undefined, action);
+
+      expect(state.priceSummary).toBe(priceSummary);
+    });
+  });
+
+  describe('ReadOrderEntryConfigurationSuccess action', () => {
+    it('should put configuration overview into the state', () => {
+      const overview: Configurator.Overview = {};
+      configuration.overview = overview;
+      const action: ConfiguratorAction = new ReadOrderEntryConfigurationSuccess(
+        configuration
+      );
+      const state = StateReduce.reducer(undefined, action);
+
+      expect(state.overview).toEqual(overview);
+    });
+
+    it('should copy price summary from OV to configuration', () => {
+      const priceSummary: Configurator.PriceSummary = {};
+      const overview: Configurator.Overview = { priceSummary: priceSummary };
+      configuration.overview = overview;
+      const action: ConfiguratorAction = new ReadOrderEntryConfigurationSuccess(
+        configuration
+      );
+      const state = StateReduce.reducer(undefined, action);
+
+      expect(state.priceSummary).toBe(priceSummary);
+    });
+  });
+
+  describe('SetNextOwnerCartEntry action', () => {
+    it('should set next owner', () => {
+      const action: ConfiguratorAction = new SetNextOwnerCartEntry({
+        configuration: configuration,
+        cartEntryNo: '1',
+      });
+      const state = StateReduce.reducer(undefined, action);
+
+      expect(state.nextOwner).toBeDefined();
+      expect(state.nextOwner.type).toBe(
+        GenericConfigurator.OwnerType.CART_ENTRY
+      );
     });
   });
 });

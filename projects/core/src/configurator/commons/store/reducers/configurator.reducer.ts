@@ -26,6 +26,7 @@ export function reducer(
     case ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS: {
       const result: Configurator.Configuration = takeOverChanges(action, state);
       result.isCartEntryUpdateRequired = true;
+      result.overview = undefined;
       return result;
     }
     case ConfiguratorActions.UPDATE_CART_ENTRY: {
@@ -43,9 +44,21 @@ export function reducer(
     case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS: {
       const content = { ...action.payload.overview };
 
-      const result = {
+      const result: Configurator.Configuration = {
         ...state,
         overview: content,
+        priceSummary: content.priceSummary,
+      };
+
+      return result;
+    }
+    case ConfiguratorActions.READ_ORDER_ENTRY_CONFIGURATION_SUCCESS: {
+      const configuration = { ...action.payload };
+
+      const result: Configurator.Configuration = {
+        ...state,
+        ...configuration,
+        priceSummary: configuration.overview.priceSummary,
       };
 
       return result;
@@ -137,7 +150,8 @@ function takeOverChanges(
     | ConfiguratorActions.ReadConfigurationSuccess
     | ConfiguratorActions.UpdatePriceSummarySuccess
     | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
-    | ConfiguratorActions.ReadCartEntryConfigurationSuccess,
+    | ConfiguratorActions.ReadCartEntryConfigurationSuccess
+    | ConfiguratorActions.ReadOrderEntryConfigurationSuccess,
   state: Configurator.Configuration
 ) {
   const content = { ...action.payload };

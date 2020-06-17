@@ -1,5 +1,5 @@
-<ng-container *ngIf="owner$ | async as owner">
-  <ng-container *ngIf="configuratorType$ | async as configuratorType">
+<ng-container *ngIf="routerData$ | async as routerData">
+  <ng-container *ngIf="!routerData.displayOnly">
     <div class="nav">
       <div>
         <a
@@ -7,8 +7,11 @@
           [class.active]="!(isOverviewPage() | async)"
           [routerLink]="
             {
-              cxRoute: 'configure' + configuratorType,
-              params: { entityKey: owner.id, ownerType: owner.type }
+              cxRoute: 'configure' + routerData.configuratorType,
+              params: {
+                entityKey: routerData.owner.id,
+                ownerType: routerData.owner.type
+              }
             } | cxUrl
           "
           role="link"
@@ -21,8 +24,11 @@
           [class.active]="isOverviewPage() | async"
           [routerLink]="
             {
-              cxRoute: 'configureOverview' + configuratorType,
-              params: { entityKey: owner.id, ownerType: owner.type }
+              cxRoute: 'configureOverview' + routerData.configuratorType,
+              params: {
+                entityKey: routerData.owner.id,
+                ownerType: routerData.owner.type
+              }
             } | cxUrl
           "
           role="link"

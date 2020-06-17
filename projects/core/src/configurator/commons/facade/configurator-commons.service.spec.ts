@@ -7,7 +7,10 @@ import { Observable, of } from 'rxjs';
 import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { Cart } from '../../../model/cart.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../../occ/utils/occ-constants';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
@@ -25,6 +28,7 @@ import { ConfiguratorCommonsService } from './configurator-commons.service';
 const PRODUCT_CODE = 'CONF_LAPTOP';
 let OWNER_PRODUCT: GenericConfigurator.Owner = {};
 let OWNER_CART_ENTRY: GenericConfigurator.Owner = {};
+let OWNER_ORDER_ENTRY: GenericConfigurator.Owner = {};
 
 const CONFIG_ID = '1234-56-7890';
 const GROUP_ID_1 = '123ab';
@@ -43,6 +47,8 @@ const ATTRIBUTE_NAME_3_1 = 'Attribute_1';
 const ATTRIBUTE_NAME_3_2 = 'Attribute_DropDown';
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
+const ORDER_ID = '0000011';
+const ORDER_ENTRY_NUMBER = 2;
 
 const group1: Configurator.Group = {
   id: GROUP_ID_1,
@@ -211,6 +217,11 @@ describe('ConfiguratorCommonsService', () => {
       type: GenericConfigurator.OwnerType.CART_ENTRY,
     };
 
+    OWNER_ORDER_ENTRY = {
+      id: configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER),
+      type: GenericConfigurator.OwnerType.ORDER_ENTRY,
+    };
+
     productConfiguration = {
       configId: CONFIG_ID,
       productCode: PRODUCT_CODE,
@@ -269,7 +280,7 @@ describe('ConfiguratorCommonsService', () => {
 
     let isLoading = null;
     serviceUnderTest
-      .configurationIsLoading(OWNER_PRODUCT)
+      .isConfigurationLoading(OWNER_PRODUCT)
       .subscribe((loading) => {
         isLoading = loading;
       });
@@ -307,17 +318,41 @@ describe('ConfiguratorCommonsService', () => {
 
     expect(serviceUnderTest.createConfigurationExtract).toHaveBeenCalled();
   });
+  describe('getConfigurationWithOverview', () => {
+    it('should get an overview from occ, accessing the store', () => {
+      expect(productConfiguration.overview).toBeUndefined();
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfiguration)
+      );
+      spyOn(store, 'dispatch').and.callThrough();
+      serviceUnderTest
+        .getConfigurationWithOverview(productConfiguration)
+        .subscribe(() => {
+          expect(store.dispatch).toHaveBeenCalledWith(
+            new ConfiguratorActions.GetConfigurationOverview(
+              productConfiguration
+            )
+          );
+        })
+        .unsubscribe();
+    });
 
-  it('should get a overview from occ, accessing the store', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-      of(productConfiguration)
-    );
-    spyOn(store, 'dispatch').and.callThrough();
-    serviceUnderTest.getConfigurationWithOverview(productConfiguration);
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.GetConfigurationOverview(productConfiguration)
-    );
+    it('should not dispatch an action if overview is already present', () => {
+      const configurationWithOverview: Configurator.Configuration = {
+        configId: CONFIG_ID,
+        overview: {},
+      };
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(configurationWithOverview)
+      );
+      spyOn(store, 'dispatch').and.callThrough();
+      serviceUnderTest
+        .getConfigurationWithOverview(productConfiguration)
+        .subscribe(() => {
+          expect(store.dispatch).toHaveBeenCalledTimes(0);
+        })
+        .unsubscribe();
+    });
   });
 
   describe('createConfigurationExtract', () => {
@@ -392,27 +427,6 @@ describe('ConfiguratorCommonsService', () => {
           productConfiguration
         );
       }).toThrow();
-    });
-  });
-
-  describe('getCartId', () => {
-    it('should return cart guid if user is anonymous', () => {
-      expect(serviceUnderTest.getCartId(cart)).toBe(CART_GUID);
-    });
-
-    it('should return cart code if user is not anonymous', () => {
-      const namedCart: Cart = {
-        code: CART_CODE,
-        guid: CART_GUID,
-        user: { name: 'Ulf Becker', uid: 'ulf.becker@rustic-hw.com' },
-      };
-      expect(serviceUnderTest.getCartId(namedCart)).toBe(CART_CODE);
-    });
-  });
-
-  describe('getUserId', () => {
-    it('should return anonymous user id if user is anonymous', () => {
-      expect(serviceUnderTest.getUserId(cart)).toBe(OCC_USER_ID_ANONYMOUS);
     });
   });
 
@@ -537,6 +551,22 @@ describe('ConfiguratorCommonsService', () => {
     });
   });
 
+  describe('readConfigurationForOrderEntry', () => {
+    it('should dispatch ReadOrderEntryConfiguration action ', () => {
+      const params: GenericConfigurator.ReadConfigurationFromOrderEntryParameters = {
+        owner: OWNER_ORDER_ENTRY,
+        orderEntryNumber: '' + ORDER_ENTRY_NUMBER,
+        orderId: ORDER_ID,
+        userId: OCC_USER_ID_CURRENT,
+      };
+      spyOn(store, 'dispatch').and.callThrough();
+      serviceUnderTest.readConfigurationForOrderEntry(OWNER_ORDER_ENTRY);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ReadOrderEntryConfiguration(params)
+      );
+    });
+  });
+
   describe('getOrCreateConfiguration', () => {
     it('should return an unchanged observable of product configurations in case configurations exist and carry valid config IDs', () => {
       productConfigurationChanged.configId = CONFIG_ID;
@@ -592,6 +622,19 @@ describe('ConfiguratorCommonsService', () => {
       const configurationObs = callGetOrCreate(
         serviceUnderTest,
         OWNER_CART_ENTRY
+      );
+      expect(configurationObs).toBeObservable(
+        cold('x-', {
+          x: productConfiguration,
+        })
+      );
+    });
+
+    it('should filter incomplete configurations when reading configurations for order entry', () => {
+      productConfigurationChanged.configId = '';
+      const configurationObs = callGetOrCreate(
+        serviceUnderTest,
+        OWNER_ORDER_ENTRY
       );
       expect(configurationObs).toBeObservable(
         cold('x-', {

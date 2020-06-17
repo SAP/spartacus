@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { CART_MODIFICATION_NORMALIZER } from '../../../../cart/connectors/entry/converters';
 import { ConfiguratorCommonsAdapter } from '../../../../configurator/commons/connectors/configurator-commons.adapter';
 import {
@@ -163,6 +163,36 @@ export class OccConfiguratorVariantAdapter
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
+  readConfigurationForOrderEntry(
+    parameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable<Configurator.Configuration> {
+    const url = this.occEndpointsService.getUrl(
+      'readConfigurationOverviewForOrderEntry',
+      {
+        userId: parameters.userId,
+        orderId: parameters.orderId,
+        orderEntryNumber: parameters.orderEntryNumber,
+      }
+    );
+
+    return this.http.get<Configurator.Overview>(url).pipe(
+      this.converterService.pipeable(CONFIGURATION_OVERVIEW_NORMALIZER),
+      map((overview) => {
+        const configuration: Configurator.Configuration = {
+          configId: overview.configId,
+          overview: overview,
+        };
+        return configuration;
+      }),
+      tap((resultConfiguration) => {
+        resultConfiguration.owner = {
+          ...parameters.owner,
+          hasObsoleteState: false,
+        };
+      })
+    );
+  }
+
   readPriceSummary(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
@@ -172,6 +202,13 @@ export class OccConfiguratorVariantAdapter
 
     return this.http.get(url).pipe(
       this.converterService.pipeable(CONFIGURATION_PRICE_SUMMARY_NORMALIZER),
+      map((pricingResult) => {
+        const result: Configurator.Configuration = {
+          configId: configuration.configId,
+          priceSummary: pricingResult,
+        };
+        return result;
+      }),
       tap(
         (resultConfiguration) =>
           (resultConfiguration.owner = configuration.owner)

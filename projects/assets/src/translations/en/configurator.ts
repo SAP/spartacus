@@ -6,7 +6,10 @@ export const configurator = {
       configId: 'Configuration ID',
       toconfig: 'Configure',
       editConfiguration: 'Edit Configuration',
+      displayConfiguration: 'Display Configuration',
       updateMessage: 'Configuration is updated wait a little bit!',
+      showMore: 'show more',
+      showLess: 'show less',
     },
     tabBar: {
       configuration: 'Configuration',

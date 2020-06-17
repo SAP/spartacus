@@ -104,6 +104,7 @@ export namespace OccConfigurator {
   export interface Overview {
     id: string;
     groups?: GroupOverview[];
+    pricing?: PriceSummary;
   }
 
   export interface GroupOverview {

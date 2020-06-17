@@ -21,6 +21,12 @@ export const READ_CART_ENTRY_CONFIGURATION_SUCCESS =
   '[Configurator] Read Cart Entry Configuration Success';
 export const READ_CART_ENTRY_CONFIGURATION_FAIL =
   '[Configurator] Read Cart Entry Configuration Fail';
+export const READ_ORDER_ENTRY_CONFIGURATION =
+  '[Configurator] Read Order Entry Configuration';
+export const READ_ORDER_ENTRY_CONFIGURATION_SUCCESS =
+  '[Configurator] Read Order Entry Configuration Success';
+export const READ_ORDER_ENTRY_CONFIGURATION_FAIL =
+  '[Configurator] Read Order Entry Configuration Fail';
 export const UPDATE_CONFIGURATION = '[Configurator] Update Configuration';
 export const UPDATE_CONFIGURATION_FAIL =
   '[Configurator] Update Configuration Fail';
@@ -109,12 +115,30 @@ export class ReadCartEntryConfigurationSuccess extends StateUtils.EntitySuccessA
 
 export class ReadCartEntryConfigurationFail extends StateUtils.EntityFailAction {
   readonly type = READ_CART_ENTRY_CONFIGURATION_FAIL;
+  constructor(public payload: { ownerKey: string; error: any }) {
+    super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
+  }
+}
+
+export class ReadOrderEntryConfiguration extends StateUtils.EntityLoadAction {
+  readonly type = READ_ORDER_ENTRY_CONFIGURATION;
   constructor(
-    public payload: {
-      ownerKey: string;
-      error: any;
-    }
+    public payload: GenericConfigurator.ReadConfigurationFromOrderEntryParameters
   ) {
+    super(CONFIGURATION_DATA, payload.owner.key);
+  }
+}
+
+export class ReadOrderEntryConfigurationSuccess extends StateUtils.EntitySuccessAction {
+  readonly type = READ_ORDER_ENTRY_CONFIGURATION_SUCCESS;
+  constructor(public payload: Configurator.Configuration) {
+    super(CONFIGURATION_DATA, payload.owner.key);
+  }
+}
+
+export class ReadOrderEntryConfigurationFail extends StateUtils.EntityFailAction {
+  readonly type = READ_ORDER_ENTRY_CONFIGURATION_FAIL;
+  constructor(public payload: { ownerKey: string; error: any }) {
     super(CONFIGURATION_DATA, payload.ownerKey, payload.error);
   }
 }
@@ -364,6 +388,9 @@ export type ConfiguratorAction =
   | ReadCartEntryConfiguration
   | ReadCartEntryConfigurationSuccess
   | ReadCartEntryConfigurationFail
+  | ReadOrderEntryConfiguration
+  | ReadOrderEntryConfigurationSuccess
+  | ReadOrderEntryConfigurationFail
   | UpdateCartEntry
   | UpdateCartEntrySuccess
   | RemoveConfiguration

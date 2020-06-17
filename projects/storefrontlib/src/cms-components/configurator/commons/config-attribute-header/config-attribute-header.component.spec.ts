@@ -5,16 +5,16 @@ import {
   GenericConfigurator,
   I18nTestingModule,
 } from '@spartacus/core';
-import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
-import { ConfigAttributeHeaderComponent } from './config-attribute-header.component';
 import {
-  ICON_TYPE,
   IconLoaderService,
   IconModule,
+  ICON_TYPE,
 } from '@spartacus/storefront';
-import { ConfigComponentTestUtilsService } from '../../generic/service/config-component-test-utils.service';
-import { ConfigUtilsService } from '../service/config-utils.service';
 import { Observable, of } from 'rxjs';
+import { ConfigComponentTestUtilsService } from '../../generic/service/config-component-test-utils.service';
+import { ConfigUIKeyGeneratorService } from '../service/config-ui-key-generator.service';
+import { ConfigUtilsService } from '../service/config-utils.service';
+import { ConfigAttributeHeaderComponent } from './config-attribute-header.component';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
@@ -183,12 +183,16 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   it('should return no key for not implemented attribute type', () => {
     classUnderTest.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
-    expect(classUnderTest.getRequiredMessageKey()).toBe(undefined);
+    expect(classUnderTest.getRequiredMessageKey()).toContain(
+      'singleSelectRequiredMessage'
+    );
   });
 
   it('should return no key for read only attribute type', () => {
     classUnderTest.attribute.uiType = Configurator.UiType.READ_ONLY;
-    expect(classUnderTest.getRequiredMessageKey()).toBe(undefined);
+    expect(classUnderTest.getRequiredMessageKey()).toContain(
+      'singleSelectRequiredMessage'
+    );
   });
 
   it('should render a required message if attribute has been set, yet.', () => {
