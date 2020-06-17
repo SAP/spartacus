@@ -6,11 +6,12 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
-import { NavigationNode } from '../../../navigation';
-import { ICON_TYPE } from '../../../misc/icon';
+import { NavigationNode } from '../../../navigation/navigation/navigation-node.model';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { BREAKPOINT, BreakpointService } from '../../../../layout';
+import { BREAKPOINT } from '../../../../layout/config/layout-config';
+import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 
 @Component({
   selector: 'cx-unit-tree-navigation-ui',
