@@ -117,7 +117,7 @@ describe('OrganizationMetaResolver', () => {
 
     expect(result).toEqual([
       { label: 'common.home', link: '/' },
-      { label: 'pageMetaResolver.organization.home', link: '/organization' },
+      { label: 'breadcrumbs.organization', link: '/organization' },
     ]);
   });
 });

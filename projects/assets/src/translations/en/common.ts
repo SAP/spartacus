@@ -33,12 +33,6 @@ export const common = {
       heading: '{{heading}}',
       title: '{{title}}',
     },
-    organization: {
-      home: 'Organization',
-      description: '{{description}}',
-      heading: '{{heading}}',
-      title: '{{title}}',
-    },
   },
   spinner: {
     loading: 'Loading...',
