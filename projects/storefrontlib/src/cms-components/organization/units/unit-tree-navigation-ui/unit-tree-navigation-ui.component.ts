@@ -6,7 +6,7 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
-import { NavigationNode } from '../../../navigation/navigation/navigation-node.model'
+import { NavigationNode } from '../../../navigation/navigation/navigation-node.model';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
