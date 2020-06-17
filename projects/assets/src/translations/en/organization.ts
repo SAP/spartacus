@@ -449,6 +449,7 @@ export const organization = {
     organization: 'Organization',
     unit: 'Unit',
     units: 'Units',
+    user: 'User',
     users: 'Users',
     budget: 'Budget',
     budgets: 'Budgets',

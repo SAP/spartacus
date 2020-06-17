@@ -10,7 +10,7 @@ import {
 } from '../../cms/page/page.resolvers';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
-import { ActivatedRoute, UrlSegment } from '@angular/router';
+import { ActivatedRoute, UrlSegment, Params } from '@angular/router';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { RouterState } from '../../routing/store/routing-state';
 
@@ -51,8 +51,8 @@ export class OrganizationMetaResolver extends PageMetaResolver
       this.routingService.getRouterState(),
     ]).pipe(
       filter(([url, routerState]) => Boolean(url) && Boolean(routerState)),
-      mergeMap(([url, routerState]) =>
-        Object.keys(routerState.state.params).length
+      mergeMap(([url, { state: { params } }]) =>
+        Object.keys(params).length && Object.values(params).includes(url.path)
           ? of(url.path)
           : this.translation.translate(`breadcrumbs.${url.path}`)
       )
@@ -74,7 +74,7 @@ export class OrganizationMetaResolver extends PageMetaResolver
           this.resolveBreadcrumbData(
             homeLabel,
             organizationLabel,
-            Boolean(Object.keys(routerState.state.params).length)
+            routerState.state.params
           )
       )
     );
@@ -83,7 +83,7 @@ export class OrganizationMetaResolver extends PageMetaResolver
   protected resolveBreadcrumbData(
     homeLabel: string,
     organizationLabel: string,
-    isParameter: boolean
+    params: Params
   ): BreadcrumbMeta[] {
     const breadcrumbs: BreadcrumbMeta[] = [];
     breadcrumbs.push({ label: homeLabel, link: '/' });
@@ -96,7 +96,11 @@ export class OrganizationMetaResolver extends PageMetaResolver
         .translate(`breadcrumbs.${url.path}`)
         .subscribe((translation) =>
           breadcrumbs.push({
-            label: isParameter ? url.path : translation,
+            label:
+              Object.keys(params).length &&
+              Object.values(params).includes(url.path)
+                ? url.path
+                : translation,
             link: `/${path}`,
           })
         );
