@@ -71,3 +71,10 @@ cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
   cd ./dist/my-account && \
   api-extractor run --local --verbose
 )
+
+# @spartacus/product
+cp "$CONFIG_PATH" ./dist/product/api-extractor.json
+(
+  cd ./dist/product && \
+  api-extractor run --local --verbose
+)

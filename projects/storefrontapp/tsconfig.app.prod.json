@@ -7,7 +7,9 @@
       "@spartacus/cds": ["dist/cds"],
       "@spartacus/vendor": ["dist/vendor"],
       "@spartacus/assets": ["dist/assets"],
-      "@spartacus/my-account": ["dist/my-account"]
+      "@spartacus/my-account": ["dist/my-account"],
+      "@spartacus/product": ["dist/product"],
+      "@spartacus/product/configuration": ["dist/product/configuration"]
     }
   }
 }

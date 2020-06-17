@@ -1,4 +1,5 @@
 /*
- * Public API Surface of my-account
+ * Public API Surface of product
  */
+
 export * from './src/index';
