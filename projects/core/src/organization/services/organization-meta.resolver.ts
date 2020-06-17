@@ -75,12 +75,12 @@ export class OrganizationMetaResolver extends PageMetaResolver
     params: Params
   ): BreadcrumbMeta[] {
     const breadcrumbs: BreadcrumbMeta[] = [];
-    let path = '';
     breadcrumbs.push({ label: homeLabel, link: '/' });
+    let link = '';
     this.route.snapshot.children[0].url
       .filter((_, index, arr) => index !== arr.length - 1)
       .forEach((url) => {
-        path = `${path}/${url.path}`;
+        link = `${link}/${url.path}`;
         this.translation
           .translate(`breadcrumbs.${url.path}`)
           .subscribe((translation) =>
@@ -90,7 +90,7 @@ export class OrganizationMetaResolver extends PageMetaResolver
                 Object.values(params).includes(url.path)
                   ? url.path
                   : translation,
-              link: `${path}`,
+              link,
             })
           );
       });
