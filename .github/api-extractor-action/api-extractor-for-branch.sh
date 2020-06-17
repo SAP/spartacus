@@ -35,6 +35,7 @@ if [ "$DIR" = "self" ] ; then
   CONFIG_PATH="./.github/api-extractor-action/api-extractor.json"
 fi
 
+# @spartacus/assets
 cp "$CONFIG_PATH" ./dist/assets/api-extractor.json
 (
   cd ./dist/assets && \
@@ -61,5 +62,12 @@ cp "$CONFIG_PATH" ./dist/storefrontlib/api-extractor.json
 cp "$CONFIG_PATH" ./dist/cds/api-extractor.json
 (
   cd ./dist/cds && \
+  api-extractor run --local --verbose
+)
+
+# @spartacus/my-account
+cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
+(
+  cd ./dist/my-account && \
   api-extractor run --local --verbose
 )

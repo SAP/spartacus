@@ -6,7 +6,8 @@
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/storefront": ["../../dist/storefrontlib"],
       "@spartacus/cds": ["../../dist/cds"],
-      "@spartacus/assets": ["../../dist/assets"]
+      "@spartacus/assets": ["../../dist/assets"],
+      "@spartacus/my-account": ["../../feature-libs/my-account"]
     }
   }
 }
