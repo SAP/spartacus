@@ -10,7 +10,6 @@ import {
 } from '@spartacus/core';
 import { ManageUnitsListComponent } from './unit-list.component';
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
-import { NavigationModule } from '../../../navigation/navigation/navigation.module';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { UnitTreeNavigationUIModule } from '../unit-tree-navigation-ui/unit-tree-navigation-ui.module';
@@ -38,7 +37,6 @@ import { UnitTreeNavigationUIModule } from '../unit-tree-navigation-ui/unit-tree
     UrlModule,
     I18nModule,
     InteractiveTableModule,
-    NavigationModule,
     UnitTreeNavigationUIModule,
   ],
   declarations: [ManageUnitsListComponent],
