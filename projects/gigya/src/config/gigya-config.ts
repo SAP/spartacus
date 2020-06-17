@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Config } from "@spartacus/core";
+import { Injectable } from '@angular/core';
+import { Config } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -7,8 +7,8 @@ import { Config } from "@spartacus/core";
 })
 export abstract class GigyaConfig {
   gigya?: {
-      baseSite: string;
-      javascriptUrl: string;
-      sessionExpiration: number;
-  }[]
+    baseSite: string;
+    javascriptUrl: string;
+    sessionExpiration: number;
+  }[];
 }

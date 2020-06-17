@@ -229,7 +229,7 @@ describe('GigyaJsComponent', () => {
     expect(globalMessageService.remove).toHaveBeenCalledTimes(0);
     expect(authRedirectService.redirect).toHaveBeenCalledTimes(0);
   });
-  
+
   it('should not login user when on login event is not triggered', () => {
     spyOn(auth, 'authorizeWithCustomGigyaFlow');
     spyOn(authRedirectService, 'redirect');
@@ -253,7 +253,7 @@ describe('GigyaJsComponent', () => {
 
   it('should not unsubscribe from any subscriptions when they are undefined when destroyed', () => {
     service.subscription = undefined;
-   // spyOn(service.subscription, 'unsubscribe');
+    // spyOn(service.subscription, 'unsubscribe');
     service.ngOnDestroy();
     expect(service.subscription).toBeUndefined();
   });
