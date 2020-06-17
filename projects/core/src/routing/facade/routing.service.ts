@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { WindowRef } from '../../window/window-ref';
 import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
 import { UrlCommands } from '../configurable-routes/url-translation/url-command';
@@ -46,6 +47,34 @@ export class RoutingService {
    */
   isNavigating(): Observable<boolean> {
     return this.store.pipe(select(RoutingSelector.isNavigating));
+  }
+
+  /**
+   * The method checks does the provided `routeName` match the current one.
+   *
+   * @param routeName a key from `RoutesConfig` object
+   * @param cmsRouteValue optional CMS-drive route value. E.g. is the `homepage`
+   * which is a CMS driven value, while the route key for it is named `home`
+   */
+  isCurrentRoute(
+    routeName: string,
+    cmsRouteValue?: string
+  ): Observable<boolean> {
+    return this.getPageContext().pipe(
+      withLatestFrom(this.store.pipe(select(RoutingSelector.getRouteName))),
+      map(([pageContext, stateRouteName]) => {
+        // checks the non CMS-driven routes
+        if (stateRouteName === routeName) {
+          return true;
+        }
+
+        return (
+          pageContext.id === this.semanticPathService.get(routeName) ||
+          // example: `homepage` is the name of the CMS driven value, while the route key for it is named `home`
+          pageContext.id === cmsRouteValue
+        );
+      })
+    );
   }
 
   /**

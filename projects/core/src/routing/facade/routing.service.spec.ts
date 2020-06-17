@@ -3,6 +3,7 @@ import * as NgrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
+import { UrlCommands } from '../configurable-routes';
 import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
 import { PageContext } from '../models/page-context.model';
 import { RoutingActions } from '../store/actions/index';
@@ -10,6 +11,15 @@ import { RouterState } from '../store/routing-state';
 import { RoutingSelector } from '../store/selectors/index';
 import { RoutingService } from './routing.service';
 import createSpy = jasmine.createSpy;
+
+class MockSemanticPathService {
+  transform(_commands: UrlCommands): any[] {
+    return [];
+  }
+  get(_routeName: string): string {
+    return '';
+  }
+}
 
 describe('RoutingService', () => {
   let store: Store<RouterState>;
@@ -21,7 +31,7 @@ describe('RoutingService', () => {
       imports: [StoreModule.forRoot({})],
       providers: [
         RoutingService,
-        { provide: SemanticPathService, useValue: { transform: () => {} } },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
     });
 
@@ -162,5 +172,78 @@ describe('RoutingService', () => {
     expect(NgrxStore.select as any).toHaveBeenCalledWith(
       RoutingSelector.isNavigating
     );
+  });
+
+  describe('isCurrentRoute', () => {
+    describe('when the state routeName matches the provided one', () => {
+      it('should return true', () => {
+        const mockRouterState = createSpy().and.returnValue(() => of('search'));
+        spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+
+        let result = false;
+        service
+          .isCurrentRoute('search')
+          .subscribe((value) => (result = value))
+          .unsubscribe();
+        expect(result).toEqual(true);
+      });
+    });
+    describe(`when the page context's ID matches the semanticPathService's result`, () => {
+      it('should return true', () => {
+        spyOn(service, 'getPageContext').and.returnValue(
+          of({
+            id: '/cart',
+          })
+        );
+        spyOn(urlService, 'get').and.returnValue('/cart');
+        const mockRouterState = createSpy().and.returnValue(() => of('search'));
+        spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+
+        let result = false;
+        service
+          .isCurrentRoute('cart')
+          .subscribe((value) => (result = value))
+          .unsubscribe();
+        expect(result).toEqual(true);
+      });
+    });
+    describe(`when the page context's ID matches the provided 'cmsRouteValue'`, () => {
+      it('should return true', () => {
+        spyOn(service, 'getPageContext').and.returnValue(
+          of({
+            id: '/home',
+          })
+        );
+        spyOn(urlService, 'get').and.returnValue('/homepage');
+        const mockRouterState = createSpy().and.returnValue(() => of('home'));
+        spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+
+        let result = false;
+        service
+          .isCurrentRoute('home', 'homepage')
+          .subscribe((value) => (result = value))
+          .unsubscribe();
+        expect(result).toEqual(true);
+      });
+    });
+    describe('when nothing matches', () => {
+      it('should return false', () => {
+        spyOn(service, 'getPageContext').and.returnValue(
+          of({
+            id: '/cart',
+          })
+        );
+        spyOn(urlService, 'get').and.returnValue('/cart');
+        const mockRouterState = createSpy().and.returnValue(() => of('search'));
+        spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+
+        let result = false;
+        service
+          .isCurrentRoute('random')
+          .subscribe((value) => (result = value))
+          .unsubscribe();
+        expect(result).toEqual(true);
+      });
+    });
   });
 });
