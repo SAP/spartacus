@@ -50,11 +50,7 @@ export class RoutingService {
   }
 
   /**
-   * The method checks does the provided `routeName` match the `cxRoute`.
-   * If it doesn't, it proceeds to check the `PageContext`'s ID with the semantic
-   * path value for the provided `routeName`.
-   * As the last check, the method takes into an account the optionally provided
-   * `cmsRouteValue` and compares it with the `PageContext`'s ID.
+   * The method checks does the provided `routeName` match the current one.
    *
    * @param routeName a key from `RoutesConfig` object
    * @param cmsRouteValue optional CMS-drive route value. E.g. is the `homepage`
@@ -67,6 +63,7 @@ export class RoutingService {
     return this.getPageContext().pipe(
       withLatestFrom(this.store.pipe(select(RoutingSelector.getRouteName))),
       map(([pageContext, stateRouteName]) => {
+        // checks the non CMS-driven routes
         if (stateRouteName === routeName) {
           return true;
         }
