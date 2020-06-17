@@ -16,5 +16,4 @@
 
 %CheckoutLoginPageTemplate {
   @extend %LoginPageTemplate !optional;
-  @extend %LoginPageTemplate-#{$theme} !optional;
 }
