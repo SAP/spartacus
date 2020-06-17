@@ -52,7 +52,7 @@ export class ConfiguratorGroupsService {
   getCurrentGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
       map((configuration) => {
-        if (configuration.interactionState.currentGroup) {
+        if (configuration?.interactionState?.currentGroup) {
           return configuration.interactionState.currentGroup;
         } else {
           return configuration &&
