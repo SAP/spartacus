@@ -8,7 +8,7 @@ import {
   ProductSearchService,
   RoutingService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -28,6 +28,12 @@ import { ProductListRouteParams, SearchCriteria } from './product-list.model';
  */
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
+  /**
+   * @deprecated will be removed in version 3.0 as this is the
+   *   subscription is longer used
+   */
+  protected sub: Subscription;
+
   // TODO: make it configurable
   protected defaultPageSize = 10;
 
