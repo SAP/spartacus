@@ -12,6 +12,7 @@ import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { RoutingService } from '../../routing/facade/routing.service';
+import { RouterState } from '../../routing/store/routing-state';
 
 /**
  * Resolves the page data for Organization Pages.
@@ -62,16 +63,27 @@ export class OrganizationMetaResolver extends PageMetaResolver
     return combineLatest([
       this.translation.translate('common.home'),
       this.translation.translate('pageMetaResolver.organization.home'),
+      this.routingService.getRouterState(),
     ]).pipe(
-      map(([homeLabel, organizationLabel]: [string, string]) =>
-        this.resolveBreadcrumbData(homeLabel, organizationLabel)
+      map(
+        ([homeLabel, organizationLabel, routerState]: [
+          string,
+          string,
+          RouterState
+        ]) =>
+          this.resolveBreadcrumbData(
+            homeLabel,
+            organizationLabel,
+            Boolean(Object.keys(routerState.state.params).length)
+          )
       )
     );
   }
 
   protected resolveBreadcrumbData(
     homeLabel: string,
-    organizationLabel: string
+    organizationLabel: string,
+    isParameter: boolean
   ): BreadcrumbMeta[] {
     const breadcrumbs: BreadcrumbMeta[] = [];
     breadcrumbs.push({ label: homeLabel, link: '/' });
@@ -84,7 +96,7 @@ export class OrganizationMetaResolver extends PageMetaResolver
         .translate(`breadcrumbs.${url.path}`)
         .subscribe((translation) =>
           breadcrumbs.push({
-            label: translation || url.path,
+            label: isParameter ? url.path : translation,
             link: `/${path}`,
           })
         );
