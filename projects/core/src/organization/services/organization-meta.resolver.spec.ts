@@ -4,11 +4,7 @@ import { CmsService, Page } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { OrganizationMetaResolver } from './organization-meta.resolver';
-import {
-  ActivatedRoute,
-  // UrlSegment,
-  // RouterState,
-} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { RoutingService } from '../../routing/facade/routing.service';
 
 const mockOrganizationPage: Page = {
