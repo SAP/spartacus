@@ -23,12 +23,12 @@ import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 })
 export class CheckoutStepsSetGuard implements CanActivate {
   constructor(
-    private paymentTypeService: PaymentTypeService,
-    private checkoutStepService: CheckoutStepService,
-    private checkoutDetailsService: CheckoutDetailsService,
-    private routingConfigService: RoutingConfigService,
-    private checkoutCostCenterService: CheckoutCostCenterService,
-    private router: Router
+    protected paymentTypeService: PaymentTypeService,
+    protected checkoutStepService: CheckoutStepService,
+    protected checkoutDetailsService: CheckoutDetailsService,
+    protected routingConfigService: RoutingConfigService,
+    protected checkoutCostCenterService: CheckoutCostCenterService,
+    protected router: Router
   ) {}
 
   canActivate(
@@ -51,42 +51,32 @@ export class CheckoutStepsSetGuard implements CanActivate {
       }),
       take(1),
       switchMap(([steps, isAccount]) => {
-        steps.forEach((step, index) => {
+        currentIndex = steps.findIndex((step) => {
           const stepRouteUrl = `/${
             this.routingConfigService.getRouteConfig(step.routeName).paths[0]
           }`;
-          if (stepRouteUrl === currentRouteUrl) {
-            currentIndex = index;
-          }
+          return stepRouteUrl === currentRouteUrl;
         });
-        if (this.validateCurrentStep(currentIndex, steps, currentRouteUrl)) {
-          return this.isPreviousStepSet(steps[currentIndex - 1], isAccount);
+        // get current step
+        let currentStep: CheckoutStep;
+        if (currentIndex >= 0) {
+          currentStep = steps[currentIndex];
+        }
+        if (!!currentStep) {
+          return this.isStepSet(steps[currentIndex - 1], isAccount);
         } else {
+          if (isDevMode()) {
+            console.warn(
+              `Missing step with route '${currentRouteUrl}' in checkout configuration or this step is disabled.`
+            );
+          }
           return of(this.getUrl('checkout'));
         }
       })
     );
   }
 
-  protected validateCurrentStep(
-    currentIndex: number,
-    steps: CheckoutStep[],
-    routeUrl: string
-  ): boolean {
-    let currentStep: CheckoutStep;
-    if (currentIndex >= 0) {
-      currentStep = steps[currentIndex];
-    }
-    if (!currentStep && isDevMode()) {
-      console.warn(
-        `Missing step with route '${routeUrl}' in checkout configuration.`
-      );
-      return false;
-    }
-    return true;
-  }
-
-  protected isPreviousStepSet(
+  protected isStepSet(
     step: CheckoutStep,
     isAccountPayment: boolean
   ): Observable<boolean | UrlTree> {
@@ -165,7 +155,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
       );
   }
 
-  protected getUrl(routeName: string): UrlTree {
+  private getUrl(routeName: string): UrlTree {
     return this.router.parseUrl(
       this.routingConfigService.getRouteConfig(routeName).paths[0]
     );

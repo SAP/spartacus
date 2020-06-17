@@ -53,14 +53,14 @@ export class CheckoutCostCenterService {
       this.checkoutStore.pipe(select(CheckoutSelectors.getCostCenter)),
     ]).pipe(
       filter(([cart]) => Boolean(cart)),
-      map(([cart, cc]) => {
-        if (cc === undefined && cart.costCenter) {
-          cc = cart.costCenter.code;
+      map(([cart, costCenterId]) => {
+        if (costCenterId === undefined && cart.costCenter) {
+          costCenterId = cart.costCenter.code;
           this.checkoutStore.dispatch(
             new CheckoutActions.SetCostCenterSuccess(cart.costCenter.code)
           );
         }
-        return cc;
+        return costCenterId;
       })
     );
   }
