@@ -1,0 +1,61 @@
+/**
+ * To introduce breaking change during minor releases, we use a technique
+ * to register new style classes and selectors. Customers can opt-in for 
+ * specific versions (including all former minors). Additionally a flag can 
+ * be used to always opt-in to the latest version.
+ * 
+ * Registration of minor driven styles can be done with the `forVersion` mixin. 
+ *
+ * ```scss
+ * @include forVersion(2.1){
+ *   // style classes/rules go here
+ * }
+ * ```
+ */
+
+/**
+ * The `stableVersion` indicates the major version of the style library. Any
+ * version related styles equal or smaller than the `stableVersion` will be 
+ * processed in any case. 
+ * 
+ * This variable cannot be redeclared by customers.
+ */
+$stableVersion: 2;
+
+/**
+ * The Spartacus team is cautious with introducing changing styles 
+ * in a minor release, as it would conflict the semantic versioning model.
+ * In order to improve the style layer during minor releases, without breaking 
+ * the semantic versioning system, a version flag is used. The version is 
+ * used to register breaking styles classes and rules in the stable style layer. 
+ * 
+ * Customers must explicitly _opt-in_ to a certain (minor) version, to benefit 
+ * from the latest style rules.  
+ * 
+ * The minorVersion can be set to a specific version.
+ * 
+ */
+$minorVersion: 0 !default;
+
+/**
+ * For Spartacus development or demo's, the usage of latest styles is recommended. 
+ * To avoid frequent changes of the $minorVersion in the application, we offer a 
+ * flag that can be used to keep up with the latest version at any time. 
+ */
+$useLatestStyles: false !default;
+
+/**
+ * This mixin is used during development of the style layer. Breaking style
+ * changes can be added for a specific version, so that customers can explicetly
+ * opt-in for such a change.
+ */
+@mixin forVersion($version) {
+  @if $useLatestStyles or
+    $version <=
+    $minorVersion or
+    $version <=
+    $stableVersion
+  {
+    @content;
+  }
+}

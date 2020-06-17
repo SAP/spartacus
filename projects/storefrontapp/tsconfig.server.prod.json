@@ -6,7 +6,10 @@
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/storefront": ["../../dist/storefrontlib"],
       "@spartacus/cds": ["../../dist/cds"],
-      "@spartacus/assets": ["../../dist/assets"]
+      "@spartacus/assets": ["../../dist/assets"],
+      "@spartacus/my-account": ["../../dist/my-account"],
+      "@spartacus/product": ["../../dist/product"],
+      "@spartacus/product/configuration": ["../../dist/product/configuration"]
     }
   }
 }
