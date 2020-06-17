@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ProfileTagPushEventsService } from '@spartacus/cds';
+import {
+  ProfileTagPushEvent,
+  ProfileTagPushEventsService,
+} from '@spartacus/cds';
 import {
   ActiveCartService,
   EventService,
   PersonalizationContextService,
 } from '@spartacus/core';
-import { ProfileTagPushEvent } from 'projects/cds/src/profiletag';
 import { of } from 'rxjs';
 
 class MyCustomEvent implements ProfileTagPushEvent {

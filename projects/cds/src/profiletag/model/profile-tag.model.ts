@@ -1,4 +1,4 @@
-import { Cart } from '@spartacus/core';
+import { Cart, PersonalizationAction } from '@spartacus/core';
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
@@ -40,6 +40,11 @@ interface ProfileTagCart {
 
 export interface ProfileTagPushEvent {
   name: string;
+  data?: {
+    segments?: string[];
+    actions?: PersonalizationAction[];
+    [x: string]: any;
+  };
 }
 
 export class NavigatedPushEvent implements ProfileTagPushEvent {

@@ -13,6 +13,7 @@ import {
   CartPageVisited,
   EventService,
   HomePageVisited,
+  ProductDetailsPageVisited,
   TestConfigModule,
 } from '@spartacus/core';
 import {
@@ -72,6 +73,9 @@ export class AppModule {
       console.log('home event: ', event);
     });
     this.x.get(CartPageVisited).subscribe((event) => {
+      console.log('cart event: ', event);
+    });
+    this.x.get(ProductDetailsPageVisited).subscribe((event) => {
       console.log('cart event: ', event);
     });
   }

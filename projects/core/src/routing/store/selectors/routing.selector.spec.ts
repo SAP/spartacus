@@ -12,12 +12,12 @@ describe('Routing selectors', () => {
     });
   });
 
-  describe('getCxRoute', () => {
+  describe('getRouteName', () => {
     it('should return the cxRoute', () => {
-      const cxRoute = 'search';
-      const mockState = { router: { router: { state: { cxRoute } } } };
-      const result = RoutingSelector.getCxRoute(mockState);
-      expect(result).toEqual(cxRoute);
+      const routeName = 'search';
+      const mockState = { router: { router: { state: { routeName } } } };
+      const result = RoutingSelector.getRouteName(mockState);
+      expect(result).toEqual(routeName);
     });
   });
 
