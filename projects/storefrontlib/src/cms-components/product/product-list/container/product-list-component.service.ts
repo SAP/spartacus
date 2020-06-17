@@ -206,13 +206,13 @@ export class ProductListComponentService {
   }
 
   /**
-   * The site context is exposed to update the search query in case of a
+   * The site context is used to update the search query in case of a
    * changing context. The context will typically influence the search data.
    *
    * We keep this private for now, as we're likely refactoring this in the next
    * major version.
    */
-  private get siteContext(): Observable<any>[] {
+  private get siteContext(): Observable<string>[] {
     // TODO: we should refactor this so that custom context will be taken
     // into account automatically. Ideally, we drop the specific context
     // from the constructor, and query a ContextService for all contexts.
