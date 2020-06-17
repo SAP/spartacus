@@ -1,3 +1,6 @@
 // Spartacus Application styles
 
+// Always bump to the latest minor in our test storefront
+$useLatestStyles: true;
+
 @import 'storefrontstyles/index';
