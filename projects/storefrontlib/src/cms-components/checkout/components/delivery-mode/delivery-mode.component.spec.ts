@@ -164,7 +164,7 @@ describe('DeliveryModeComponent', () => {
     expect(component.currentDeliveryModeId).toBe(mockDeliveryMode2.code);
   });
 
-  it('should set delivery mode and change step after invoking next()', () => {
+  it('should set delivery mode after invoking next()', () => {
     component.currentDeliveryModeId = mockDeliveryMode1.code;
     spyOn(mockCheckoutConfigService, 'getNextCheckoutStepUrl').and.returnValue(
       mockStepUrl
@@ -175,15 +175,9 @@ describe('DeliveryModeComponent', () => {
     ).and.returnValue(of(mockDeliveryMode1));
 
     component.ngOnInit();
+    component.mode.controls['deliveryModeId'].setValue('code');
     component.next();
-
-    expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);
-  });
-
-  it('should change step after invoking next()', () => {
-    component.checkoutStepUrlNext = mockStepUrl;
-    component.next();
-    expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);
+    expect(mockCheckoutDeliveryService.setDeliveryMode).toHaveBeenCalled();
   });
 
   it('should change step after invoking back()', () => {
