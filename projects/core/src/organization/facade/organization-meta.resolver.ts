@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap, mergeMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
 import { BreadcrumbMeta, Page } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
@@ -51,7 +51,7 @@ export class OrganizationMetaResolver extends PageMetaResolver
       this.routingService.getRouterState(),
     ]).pipe(
       filter(([url, routerState]) => Boolean(url) && Boolean(routerState)),
-      mergeMap(([url, { state: { params } }]) =>
+      switchMap(([url, { state: { params } }]) =>
         Object.keys(params).length && Object.values(params).includes(url.path)
           ? of(url.path)
           : this.translation.translate(`breadcrumbs.${url.path}`)
@@ -87,7 +87,12 @@ export class OrganizationMetaResolver extends PageMetaResolver
   ): BreadcrumbMeta[] {
     const breadcrumbs: BreadcrumbMeta[] = [];
     breadcrumbs.push({ label: homeLabel, link: '/' });
-    breadcrumbs.push({ label: organizationLabel, link: '/organization' });
+    if (
+      this.route.snapshot.children[0].url.length !== 1 &&
+      this.route.snapshot.children[0].url[0].path === 'organization'
+    )
+      breadcrumbs.push({ label: organizationLabel, link: '/organization' });
+
     let path = '/organization';
     for (let i = 1; i < this.route.snapshot.children[0].url.length - 1; i++) {
       const url = this.route.snapshot.children[0].url[i];
