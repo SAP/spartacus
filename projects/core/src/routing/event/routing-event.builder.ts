@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { merge, Observable } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
@@ -11,7 +11,6 @@ import { SemanticPathService } from '../configurable-routes';
 import { RoutingService } from '../facade/routing.service';
 import { PageContext } from '../models/page-context.model';
 import { RouterState } from '../store/routing-state';
-import { RoutingSelector } from '../store/selectors/index';
 import {
   CartPageVisited,
   CategoryPageVisited,
@@ -84,7 +83,7 @@ export class RoutingEventBuilder {
   }
 
   buildHomePageVisitedEvent(): Observable<HomePageVisited> {
-    return this.isCurrentRoute('home', 'homepage').pipe(
+    return this.getCurrentPageContextFor('home', 'homepage').pipe(
       map((pageContext) => createFrom(HomePageVisited, pageContext))
     );
   }
@@ -99,7 +98,7 @@ export class RoutingEventBuilder {
   }
 
   buildCartVisitedEvent(): Observable<CartPageVisited> {
-    return this.isCurrentRoute('cart').pipe(
+    return this.getCurrentPageContextFor('cart').pipe(
       map((pageContext) => createFrom(CartPageVisited, pageContext))
     );
   }
@@ -152,36 +151,14 @@ export class RoutingEventBuilder {
     );
   }
 
-  /**
-   * The method checks is the provided `routeConfigKey` matching the `cxRoute`.
-   * If it doesn't, it proceeds to check the `PageContext`'s ID with the semantic
-   * path value for the provided `routeConfigKey`.
-   * As the last check, the method takes into an account the optionally provided
-   * `cmsRouteValue` and compares it with the `PageContext`'s ID.
-   *
-   * @param routeConfigKey a key from `RoutesConfig` object
-   * @param cmsRouteValue optional CMS-drive route value. E.g. is the `homepage`
-   * which is a CMS driven value, while the route key for it is named `home`
-   */
-  protected isCurrentRoute(
-    routeConfigKey: string,
+  private getCurrentPageContextFor(
+    routeName: string,
     cmsRouteValue?: string
   ): Observable<PageContext> {
-    return this.routingService.getPageContext().pipe(
-      withLatestFrom(this.store.pipe(select(RoutingSelector.getCxRoute))),
-      map(([pageContext, cxRoute]) => {
-        if (cxRoute === routeConfigKey) {
-          return { pageContext, isCxRoute: true };
-        }
-
-        const isCxRoute =
-          pageContext.id === this.semanticPathService.get(routeConfigKey) ||
-          // example: `homepage` is the name of the CMS driven value, while the route key for it is named `home`
-          pageContext.id === cmsRouteValue;
-        return { pageContext, isCxRoute };
-      }),
-      filter((isRouteResult) => isRouteResult.isCxRoute),
-      map((isRouteResult) => isRouteResult.pageContext)
+    return this.routingService.isCurrentRoute(routeName, cmsRouteValue).pipe(
+      filter((isRoute) => isRoute),
+      withLatestFrom(this.routingService.getPageContext()),
+      map(([_, pageContext]) => pageContext)
     );
   }
 
