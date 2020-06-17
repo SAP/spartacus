@@ -1,1 +1,33 @@
-<h1>Hello World</h1>
+<cx-interactive-table
+  [data$]="data$"
+  [header]="'orderApprovalsList.header' | cxTranslate"
+  [sortLabels]="{
+    byOrderNumber: 'orderApprovalsList.sorting.byOrderCode' | cxTranslate,
+    byDate: 'orderApprovalsList.sorting.byDate' | cxTranslate
+  }"
+  [columns]="[
+    {
+      key: 'orderNumber',
+      value: 'orderApprovalsList.orderCode' | cxTranslate,
+      cxRoute: 'budgetDetails'
+    },
+    { key: 'POCode', value: 'orderApprovalsList.POCode' | cxTranslate },
+    { key: 'placedBy', value: 'orderApprovalsList.placedBy' | cxTranslate },
+    {
+      key: 'date',
+      value: 'orderApprovalsList.date' | cxTranslate
+    },
+    {
+      key: 'status',
+      value: 'orderApprovalsList.status' | cxTranslate,
+      cxRoute: 'orgUnitDetails'
+    },
+    {
+      key: 'total',
+      value: 'orderApprovalsList.total' | cxTranslate
+    }
+  ]"
+  (pageChange)="pageChange($event)"
+  (changeSortCode)="changeSortCode($event)"
+>
+</cx-interactive-table>
