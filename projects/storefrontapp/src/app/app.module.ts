@@ -17,7 +17,7 @@ import { b2bFeature } from '../environments/b2b/b2b.feature';
 import { b2cFeature } from '../environments/b2c/b2c.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
-import { productconfigFeature } from '../environments/productconfig/productconfig.feature';
+import { productConfigFeature } from '../environments/productconfig/productconfig.feature';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 
 registerLocaleData(localeDe);
@@ -34,11 +34,9 @@ let additionalImports = [];
 if (environment.cds) {
   additionalImports = [...additionalImports, ...cdsFeature.imports];
 }
-
 if (environment.productconfig) {
-  additionalImports = [...additionalImports, ...productconfigFeature.imports];
+  additionalImports = [...additionalImports, ...productConfigFeature.imports];
 }
-
 if (environment.b2b) {
   additionalImports = [...additionalImports, ...b2bFeature.imports];
 } else {
