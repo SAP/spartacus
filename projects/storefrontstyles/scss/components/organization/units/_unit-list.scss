@@ -3,11 +3,9 @@
 %cx-unit-list {
   @extend %cx-organization-list;
 
-  .mode {
-    &.mobile {
-      @include media-breakpoint-down(md) {
-        margin: 1rem auto;
-      }
+  .mode-mobile {
+    @include media-breakpoint-down(md) {
+      margin: 1rem auto;
     }
   }
 }
