@@ -1,10 +1,10 @@
 <ng-container>
   <div class="cx-unit-tree-actions">
     <button class="btn btn-link" (click)="setTreeBranchesState(true)">
-      Expand all
+      {{ 'orgUnitTree.expandAll' | cxTranslate }}
     </button>
     <button class="btn btn-link" (click)="setTreeBranchesState(false)">
-      Collapse all
+      {{ 'orgUnitTree.collapseAll' | cxTranslate }}
     </button>
   </div>
 
@@ -17,7 +17,7 @@
     class="node-title"
   >
     <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
-    <span>Up one level</span>
+    <span>{{ 'orgUnitTree.upOneLevel' | cxTranslate }}</span>
   </a>
 
   <cx-generic-link

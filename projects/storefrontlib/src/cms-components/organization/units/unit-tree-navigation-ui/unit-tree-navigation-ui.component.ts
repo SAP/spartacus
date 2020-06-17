@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   Input,
+  OnDestroy,
 } from '@angular/core';
 import { NavigationNode } from '../../../navigation';
 import { ICON_TYPE } from '../../../misc/icon';
@@ -16,7 +17,7 @@ import { BREAKPOINT, BreakpointService } from '../../../../layout';
   templateUrl: './unit-tree-navigation-ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UnitTreeNavigationUIComponent {
+export class UnitTreeNavigationUIComponent implements OnDestroy {
   iconType = ICON_TYPE;
   isExpandedNodeMap = {};
   selectedNode: NavigationNode;
@@ -128,5 +129,9 @@ export class UnitTreeNavigationUIComponent {
 
   getNodes(): NavigationNode {
     return this.selectedNode ? this.selectedNode : this.node;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

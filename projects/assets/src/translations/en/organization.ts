@@ -198,6 +198,11 @@ export const organization = {
     orgUnitManagement: 'Units',
     create: 'Create new Unit',
   },
+  orgUnitTree: {
+    expandAll: 'Expand all',
+    collapseAll: 'Collapse all',
+    upOneLevel: 'Up one level',
+  },
   orgUnit: {
     header: 'Details for {{code}}',
     uid: 'ID',
