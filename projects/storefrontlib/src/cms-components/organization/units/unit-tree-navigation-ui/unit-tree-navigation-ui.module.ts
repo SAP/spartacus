@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { GenericLinkModule } from '../../../../shared/components/generic-link';
-import { IconModule } from '../../../misc/icon/index';
+import { IconModule } from '../../../misc/icon/icon.module';
+import { GenericLinkModule } from '../../../../shared/components/generic-link/generic-link.module';
 import { UnitTreeNavigationUIComponent } from './unit-tree-navigation-ui.component';
 
 @NgModule({
