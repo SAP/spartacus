@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { EventService } from '../../event/event.service';
+import { ProductSearchService } from '../../product/facade/product-search.service';
+import { ProductService } from '../../product/facade/product.service';
+import { createFrom } from '../../util/create-from';
+import { SemanticPathService } from '../configurable-routes';
+import { RoutingService } from '../facade/routing.service';
+import { PageContext } from '../models/page-context.model';
 import {
   CartPageVisited,
   CategoryPageVisited,
@@ -11,15 +17,7 @@ import {
   OrderConfirmationPageVisited,
   PageVisited,
   ProductDetailsPageVisited,
-} from '.';
-import { EventService } from '../../event/event.service';
-import { ProductSearchService } from '../../product/facade/product-search.service';
-import { ProductService } from '../../product/facade/product.service';
-import { createFrom } from '../../util/create-from';
-import { SemanticPathService } from '../configurable-routes';
-import { RoutingService } from '../facade/routing.service';
-import { PageContext } from '../models/page-context.model';
-import { RouterState } from '../store/routing-state';
+} from './routing.events';
 
 enum CmsRoute {
   HOME_PAGE = 'homepage',
@@ -45,7 +43,6 @@ export class RoutingEventBuilder {
     protected productSearchService: ProductSearchService,
     protected eventService: EventService,
     protected productService: ProductService,
-    protected store: Store<RouterState>,
     protected semanticPathService: SemanticPathService,
     protected router: Router
   ) {

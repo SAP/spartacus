@@ -8,7 +8,6 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { ProfileTagPushEventsService } from '@spartacus/cds';
 import { TestConfigModule } from '@spartacus/core';
 import {
   JsonLdBuilderModule,
@@ -19,7 +18,6 @@ import { b2cFeature } from '../environments/b2c/b2c.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
-import { CdsSpartacusEventService } from './cds-spartacus-event.service';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -52,12 +50,6 @@ if (environment.b2b) {
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
-  ],
-  providers: [
-    {
-      provide: ProfileTagPushEventsService,
-      useClass: CdsSpartacusEventService,
-    },
   ],
   bootstrap: [StorefrontComponent],
 })
