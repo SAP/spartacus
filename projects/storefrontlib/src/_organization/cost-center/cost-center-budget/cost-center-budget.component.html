@@ -1,0 +1,19 @@
+<cx-split>
+  <cx-view>
+    <h3>
+      <a class="link" [routerLink]="'../../'">
+        <cx-icon type="CARET_LEFT"></cx-icon>
+        {{ 'organization.back' | cxTranslate }}
+      </a>
+      <!-- {{ costCenterBudget.name }} -->
+      budget name
+      <a class="button primary" routerLink="edit">
+        {{ 'organization.edit' | cxTranslate }}
+      </a>
+    </h3>
+
+    <section>
+      TODO: we like to reuse budget-detail.component here
+    </section>
+  </cx-view>
+</cx-split>

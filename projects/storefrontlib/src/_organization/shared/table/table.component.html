@@ -1,0 +1,54 @@
+<table *ngIf="dataset?.structure as structure" class="table cx-table">
+  <!-- <ng-container *ngIf="vertical; else horizontal">
+    <tr *ngFor="let col of structure.labels">
+      <th scope="col" [class]="col.key">
+        <ng-template
+          [cxOutlet]="'table.' + dataset.type + '.header.' + col.key"
+          [cxOutletContext]="col"
+        >
+          {{ dataset.type + '.' + col.key | cxTranslate }}
+        </ng-template>
+      </th>
+      <td *ngFor="let row of dataset.data">
+        <ng-template
+          [cxOutlet]="'table.' + dataset.type + '.data.' + col.key"
+          [cxOutletContext]="row"
+        >
+          {{ row[col.key] }}
+        </ng-template>
+      </td>
+    </tr>
+  </ng-container> -->
+
+  <!-- <ng-template #horizontal> -->
+  <thead>
+    <tr *ngIf="!structure.hideLabels">
+      <th
+        scope="col"
+        *ngFor="let col of structure.labels"
+        [class]="col.key"
+        (click)="sort(col.sortCode)"
+        [class.sortable]="!!col.sortCode"
+      >
+        <ng-template
+          [cxOutlet]="'table.' + dataset.type + '.header.' + col.key"
+          [cxOutletContext]="col"
+        >
+          {{ dataset.type + '.' + col.key | cxTranslate }}
+        </ng-template>
+      </th>
+    </tr>
+  </thead>
+
+  <tr *ngFor="let row of dataset.data">
+    <td *ngFor="let col of structure.labels; let i = index" [class]="col.key">
+      <ng-template
+        [cxOutlet]="'table.' + dataset.type + '.data.' + col.key"
+        [cxOutletContext]="row"
+      >
+        <span>{{ row[col.key] }}</span>
+      </ng-template>
+    </td>
+  </tr>
+  <!-- </ng-template> -->
+</table>

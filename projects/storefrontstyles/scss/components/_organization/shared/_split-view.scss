@@ -1,0 +1,76 @@
+%split-view {
+  cx-split {
+    display: flex;
+    height: 100%;
+  }
+
+  cx-split > *:not(cx-view) {
+    display: contents;
+  }
+
+  cx-split,
+  cx-view {
+    flex-basis: 100%;
+    transition: flex-basis 0.4s ease-in-out;
+    // overflow: hidden;
+  }
+
+  cx-view {
+    height: 100%;
+
+    @include media-breakpoint-up(sm) {
+      padding: 0 var(--cx-spatial-lg) 0 0;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    router-outlet {
+      flex: none;
+    }
+  }
+  // &.open router-outlet {
+  //   flex: none;
+  // }
+
+  cx-split.has-split {
+    cx-split,
+    > cx-view {
+      flex-basis: 50%;
+    }
+
+    @include media-breakpoint-down(sm) {
+      cx-split {
+        flex-basis: 100%;
+      }
+      > cx-view:first-child {
+        margin-left: -50vw;
+      }
+    }
+  }
+
+  cx-split.has-split {
+    cx-split.has-split {
+      flex-basis: 100%;
+    }
+  }
+
+  cx-view.has-split {
+    flex-basis: 33%;
+  }
+
+  @include media-breakpoint-down(md) {
+    .main {
+      width: 100vw;
+      // overflow: hidden;
+      transition: margin 0.4s;
+      // transition: max-width 0.4s;
+    }
+    // cx-cost-center-create {
+    //   flex: 1;
+    // }
+    &.open .main {
+      margin-left: -100vw;
+      // max-width: 0px;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+@import './shared/spatial-system';
+
+@import './shared/split-view';
+@import './shared/view-header';
+@import './shared/button';
+@import './shared/table';
+
+@import './shared/section';
+@import './shared/form';
+
+%cx-organization {
+  @extend %split-view !optional;
+  @extend %view-header !optional;
+  @extend %buttons !optional;
+  @extend %table !optional;
+}
+
+// TODO: introduce overall page-template driven CSS selector
+main {
+  background-color: var(--cx-color-background);
+}
+cx-breadcrumb {
+  border-bottom: 1px solid var(--cx-color-light);
+  background: white;
+}
+
+// TODO: move to generic page template
+%CompanyPageTemplate {
+  padding: 0;
+  @include media-breakpoint-down(md) {
+    display: initial;
+  }
+}

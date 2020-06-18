@@ -1,0 +1,4 @@
+@import './organization';
+@import './cost-center/cost-center-list';
+
+$organizationNEW-components-whitelist: cx-organization cx-cost-center-list !default;

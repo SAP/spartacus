@@ -1,0 +1,77 @@
+@import '../../../theme';
+
+%cx-cost-center-list {
+  display: flex;
+  align-items: flex-start;
+
+  padding-bottom: 40px;
+
+  font-size: 1.1rem;
+
+  cx-cost-center-form {
+    display: block;
+  }
+
+  cx-table {
+    display: block;
+
+    @include media-breakpoint-down(md) {
+      background-color: var(--cx-color-inverse);
+    }
+
+    tr {
+      background-color: var(--cx-color-inverse);
+    }
+    thead tr {
+      background-color: transparent;
+    }
+  }
+
+  table.table {
+    margin-bottom: 0; //neutralize table
+    th {
+      text-align: left;
+    }
+    td {
+      // It's a bad idea to control the padding on the table as
+      // nested links would become very small.
+      // Instead, all first level elements will get a padding and
+      // we render links with full width
+      padding: 0;
+      > * {
+        padding: var(--cx-spatial-md);
+      }
+      a {
+        display: flex;
+        width: 100%;
+        cx-icon {
+          &.active-state {
+            margin-inline-end: var(--cx-spatial-md);
+            color: var(--cx-color-success);
+          }
+          &.inactive {
+            opacity: 0.25;
+          }
+        }
+        cx-icon.open {
+          margin-left: auto;
+          @include media-breakpoint-up(md) {
+            display: none;
+          }
+        }
+
+        &:hover {
+          text-decoration: none;
+          &:not(.active) {
+            .text {
+              text-decoration: underline;
+            }
+          }
+        }
+        &.active {
+          color: var(--cx-color-text);
+        }
+      }
+    }
+  }
+}

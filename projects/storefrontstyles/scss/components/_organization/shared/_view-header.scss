@@ -1,0 +1,34 @@
+@import '../../../theme';
+
+%view-header {
+  h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    // ensure that all headers are aligned, as otherwise the UI is mixed up
+    // in case we have a split view with the headers next to each other.
+    min-height: 5rem;
+
+    margin: 0;
+    padding: var(--cx-spatial-md);
+
+    // Buttons with a background are aligned as their background matches the alignment,
+    // however buttons and links without need to move visually to the start
+    > *:first-child {
+      &.link,
+      &.button:not(.primary),
+      &.button:not(.secondary) {
+        margin-inline-start: -var(--cx-spatial-base);
+      }
+    }
+  }
+
+  cx-split.has-split {
+    th:nth-child(n + 2),
+    td:nth-child(n + 2) {
+      opacity: 0;
+      width: 0.1%;
+    }
+  }
+}

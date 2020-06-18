@@ -1,4 +1,16 @@
 export const organization = {
+  organization: {
+    enabled: 'Enabled',
+    disabled: 'Disabled',
+
+    // let's start with generic names and introduce
+    // more specifics once we have #7154 in place
+    back: 'Back',
+    edit: 'Edit',
+    close: 'Close',
+    save: 'Save',
+  },
+
   budgetsList: {
     assign: 'Assign',
     code: 'Code',
@@ -133,11 +145,12 @@ export const organization = {
     },
   },
   costCentersList: {
+    header: 'Cost centers',
     code: 'Code',
-
     name: 'Name',
     currency: 'Currency',
-    parentUnit: 'Parent Unit',
+    unit: 'Parent Unit',
+    active: 'Active',
     sortByMostRecent: 'sortByMostRecent',
     sorting: {
       byUnitName: 'Unit Name',
@@ -166,6 +179,12 @@ export const organization = {
       title: 'Disable Cost Center',
       message: 'Are you sure you want to disable this cost center?',
     },
+
+    instruction: {
+      active:
+        'When you disable the cost center, the related data will be disabled as well. ',
+      inactive: 'You cannot edit a disabled Cost Center.',
+    },
   },
   costCenterBudgets: {
     header: 'Budgets in {{code}}',
@@ -178,7 +197,7 @@ export const organization = {
   },
   costCenterForm: {
     create: 'Create Cost Center',
-    edit: 'Edit Cost Center',
+    edit: 'Edit {{name}}',
     update: 'Update Cost Center',
     code: {
       label: 'Cost Center ID',

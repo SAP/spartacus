@@ -1,0 +1,48 @@
+%table {
+  cx-table {
+    table {
+      table-layout: fixed;
+      width: 100%;
+      border-bottom: solid 1px var(--cx-color-light);
+      border-collapse: collapse;
+    }
+    // table,
+    // table tr {
+    //   border-collapse: collapse;
+    // }
+
+    /**
+ * Hide the complex table when there's not a lot of space available. 
+ */
+    // @include media-breakpoint-down(sm) {
+    //   cx-cost-center td:nth-child(n + 2) {
+    //     visibility: hidden;
+    //     width: 0;
+    //   }
+    // }
+
+    table.table {
+      // Sample animation to drop columns when there's a split.
+      td,
+      th {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: initial;
+      }
+      th {
+        padding: var(--cx-spatial-base) var(--cx-spatial-md);
+        &.sortable {
+          cursor: pointer;
+        }
+      }
+      td {
+        padding: 0;
+        margin: 0;
+        width: 33%;
+
+        transition: opacity 0.2s ease-in-out 0.2s, width 0s ease-in-out 0.4s;
+      }
+    }
+  }
+}

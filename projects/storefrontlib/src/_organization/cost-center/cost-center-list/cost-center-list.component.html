@@ -1,0 +1,37 @@
+<cx-split>
+  <cx-view>
+    <h3>
+      {{ 'costCentersList.header' | cxTranslate }}
+      <div class="tools">
+        <a class="link" routerLink="create" routerLinkActive="disabled">
+          <cx-icon type="EXPAND"></cx-icon>
+        </a>
+      </div>
+    </h3>
+    <cx-table [dataset]="dataTable$ | async" (sortEvent)="sort($event)">
+    </cx-table>
+  </cx-view>
+</cx-split>
+
+<!-- TODO: [cxSkipStacking]="true" -->
+<ng-template [cxOutletRef]="tmpl.NAME" let-model>
+  <a
+    [routerLink]="{ cxRoute: 'costCenterDetails', params: model } | cxUrl"
+    routerLinkActive="active"
+  >
+    <cx-icon
+      class="active-state"
+      type="ACTIVE"
+      [class.inactive]="!model.active"
+    ></cx-icon>
+    <span class="text">{{ model.name }}</span>
+    <cx-icon type="CARET_RIGHT" class="open"></cx-icon>
+  </a>
+</ng-template>
+
+<!-- TODO: [cxSkipStacking]="true" -->
+<ng-template [cxOutletRef]="tmpl.UNIT" let-model>
+  <a [routerLink]="{ cxRoute: 'orgUnitDetails', params: model.unit } | cxUrl">
+    {{ model.unit?.name }}
+  </a>
+</ng-template>

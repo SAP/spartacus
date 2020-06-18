@@ -27,6 +27,9 @@ export enum ICON_TYPE {
   HEART = 'HEART',
   EMPTY_HEART = 'EMPTY_HEART',
   FILTER = 'FILTER',
+  ACTIVE = 'ACTIVE',
+  ON = 'ON',
+  OFF = 'OFF',
 }
 
 @Injectable({
