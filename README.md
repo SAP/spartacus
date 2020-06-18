@@ -18,8 +18,6 @@ Spartacus is...
 - **Open Source**: Spartacus is open source. It will be continually developed by the SAP Commerce Cloud team, but we are very keen to welcome contributors and to foster an inclusive, active development community for Spartacus. See our [contributing documentation](CONTRIBUTING.md) for more information.
 - **Modern**: The Spartacus storefront is part of our exciting new journey towards a customizable-yet-upgradable technology for SAP Commerce Cloud installations. See [SAP Customer Experience](https://cx.sap.com/en/products/commerce) for more information about SAP Commerce Cloud.
 
-
-
 # Storefront Features
 
 Spartacus provides core storefront features such as:
@@ -35,26 +33,29 @@ Spartacus provides core storefront features such as:
 
 See the [Release documentation](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/release-information/) for more information.
 
-
-
 # Requirements
 
-- SAP Commerce Cloud instance
-  - Release 1905 recommended
-  - Works with 1811 and 1808, with reduced functionality
+If you are working with Spartacus 2.x, your Angular development environment should include the following:
+
+- [Angular CLI](https://angular.io/): **9.1** or later.
+- node.js: 10.14.1 or later, < 13.0. The most recent 12.x version is recommended.
+- yarn: v1.15 or later
+
+If you are working with Spartacus 1.x, your Angular development environment should include the following:
+
 - [Angular CLI](https://angular.io/): v8.0.0 or later, < v9.0.0
 - node.js: v10 or later, < v12
 - yarn: v1.15 or later
+
+For the back end, SAP Commerce Cloud version 1905 or higher is required, and SAP Commerce Cloud version 2005 is recommended.
 
 # Download and Installation
 
 To get up and running with Spartacus, the recommended approach is to build your storefront application from ready-made libraries. You can also clone and build from source, but upgrading is not as simple.
 
-Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs. 
+Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs.
 
 For complete setup instructions, see [Building the Spartacus Storefront from Libraries](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/building-the-spartacus-storefront-from-libraries/).
-
-
 
 ## Customizing and Extending Spartacus
 
@@ -65,6 +66,16 @@ When using Spartacus, you build an app that pulls in the Spartacus libraries, wh
 Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content Management System), such as logos, links, banners and static pages. We recommend that new content-driven features follow the same pattern to enable Content Managers to modify page content through the CMS tools.
 
 The documentation for customizing and extending Spartacus is still under development and is being released as it becomes available.
+
+# API Documentation
+
+The Spartacus API documentation is hosted here: [https://sap.github.io/spartacus/](https://sap.github.io/spartacus/)
+
+The API documentation is versioned and is included in the **Assets** folder of each and every Spartacus library. You can download the API documentation for a particular version by clicking on `docs.tar.gz` or `docs.zip` in the **Assets** folder of any Spartacus library from that particular release.
+
+For example, to download the API documentation for the 2.0.0 release, you could access the **Assets** section of the `@spartacus/storefront@2.0.0` library [here](https://github.com/SAP/spartacus/releases/download/storefront-2.0.0/docs.zip).
+
+**Note:** The 1.x and 2.x releases of the Spartacus libraries work only with SAP Commerce Cloud versions 1905 and 2005. Certain features, such as cancellations and returns, are only available with SAP Commerce Cloud 2005, because the necessary OCC API support is only available in SAP Commerce Cloud 2005.
 
 # Limitations
 
