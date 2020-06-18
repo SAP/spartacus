@@ -58,23 +58,41 @@ const mockOrder: Order = {
   ],
 };
 
+const mockB2BOrder = {
+  ...mockOrder,
+  costCenter: {
+    name: 'Rustic Global',
+    unit: {
+      name: 'Rustic',
+    },
+  },
+  orgCustomer: {
+    active: true,
+    name: 'Rivers',
+    orgUnit: {
+      name: 'Rustic',
+    },
+  },
+  purchaseOrderNumber: '123',
+};
+
+class MockOrderDetailsService {
+  getOrderDetails() {
+    return of(mockOrder);
+  }
+}
+
 describe('OrderDetailShippingComponent', () => {
   let component: OrderDetailShippingComponent;
   let fixture: ComponentFixture<OrderDetailShippingComponent>;
-  let mockOrderDetailsService: OrderDetailsService;
+  let orderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
   beforeEach(async(() => {
-    mockOrderDetailsService = <OrderDetailsService>{
-      getOrderDetails() {
-        return of(mockOrder);
-      },
-    };
-
     TestBed.configureTestingModule({
       imports: [CardModule, I18nTestingModule],
       providers: [
-        { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+        { provide: OrderDetailsService, useClass: MockOrderDetailsService },
       ],
       declarations: [OrderDetailShippingComponent],
     }).compileComponents();
@@ -83,6 +101,8 @@ describe('OrderDetailShippingComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailShippingComponent);
     el = fixture.debugElement;
+
+    orderDetailsService = TestBed.inject(OrderDetailsService);
 
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -103,12 +123,12 @@ describe('OrderDetailShippingComponent', () => {
     expect(order).toEqual(mockOrder);
   });
 
-  it('should order details shipping be rendered', () => {
+  it('should render shipping card', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-account-summary'))).toBeTruthy();
   });
 
-  it('should order details display "ship to" data', () => {
+  it('should display "ship to" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('div:nth-child(1) > cx-card .cx-card-label-container')
@@ -123,7 +143,7 @@ describe('OrderDetailShippingComponent', () => {
     );
   });
 
-  it('should order details display "bill to" data', () => {
+  it('should display "bill to" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('div:nth-child(2) > cx-card .cx-card-label-container')
@@ -138,7 +158,7 @@ describe('OrderDetailShippingComponent', () => {
     );
   });
 
-  it('should order details display "payment" data', () => {
+  it('should display "payment" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('div:nth-child(3) > cx-card .cx-card-label-container')
@@ -152,13 +172,44 @@ describe('OrderDetailShippingComponent', () => {
     );
   });
 
-  it('should order details display "shipping" data', () => {
+  it('should display "shipping" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('div:nth-child(4) > cx-card .cx-card-label-container')
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.deliveryMode.name && mockOrder.deliveryMode.description
+    );
+  });
+
+  it('should display "account payment" data', () => {
+    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+      of(mockB2BOrder)
+    );
+
+    fixture.detectChanges();
+    const element: DebugElement = el.query(
+      By.css('div:nth-child(4) > cx-card .cx-card-label-container')
+    );
+    expect(element.nativeElement.textContent).toContain(
+      mockB2BOrder.purchaseOrderNumber &&
+        mockB2BOrder.costCenter &&
+        mockB2BOrder.costCenter.unit.name
+    );
+  });
+
+  it('should display "shipping" data column after "account payment" column when costCenter is available', () => {
+    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
+      of(mockB2BOrder)
+    );
+
+    fixture.detectChanges();
+    const element: DebugElement = el.query(
+      By.css('div:nth-child(5) > cx-card .cx-card-label-container')
+    );
+
+    expect(element.nativeElement.textContent).toContain(
+      mockB2BOrder.deliveryMode.name && mockB2BOrder.deliveryMode.description
     );
   });
 });

@@ -16,6 +16,10 @@
       </div>
     </div>
   </div>
-  <cx-navigation-ui *ngIf="data$ | async as data" [node]="data">
-  </cx-navigation-ui>
+
+  <cx-unit-tree-navigation-ui
+    *ngIf="data$ | async as data"
+    [node]="data"
+    [defaultExpandLevel]="1"
+  ></cx-unit-tree-navigation-ui>
 </ng-container>
