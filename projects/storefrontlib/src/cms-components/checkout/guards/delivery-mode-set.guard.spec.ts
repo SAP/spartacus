@@ -58,18 +58,6 @@ describe(`DeliveryModeSetGuard`, () => {
     mockCheckoutStepService = TestBed.inject(CheckoutStepService);
   });
 
-  describe(`delivery mode step is disabled`, () => {
-    it(`should return true`, (done) => {
-      const step = MockCheckoutConfig.checkout.steps[0];
-      step.disabled = true;
-      spyOn(mockCheckoutStepService, 'getCheckoutStep').and.returnValue(step);
-      guard.canActivate().subscribe((result) => {
-        expect(result).toBeTruthy();
-        done();
-      });
-    });
-  });
-
   it('should redirect to deliveryMode page when no modes selected', (done) => {
     spyOn(
       mockCheckoutDetailsService,

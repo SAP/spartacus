@@ -1,7 +1,7 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Address, RoutingConfigService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutStepService } from '../services/checkout-step.service';
@@ -27,10 +27,6 @@ export class ShippingAddressSetGuard implements CanActivate {
       console.warn(
         `Missing step with type ${CheckoutStepType.SHIPPING_ADDRESS} in checkout configuration.`
       );
-    }
-
-    if (checkoutStep && checkoutStep.disabled) {
-      return of(true);
     }
 
     return this.checkoutDetailsService

@@ -60,18 +60,6 @@ describe(`ShippingAddressSetGuard`, () => {
     mockCheckoutStepService = TestBed.inject(CheckoutStepService);
   });
 
-  describe(`shipping address step is disabled`, () => {
-    it(`should return true`, (done) => {
-      const step = MockCheckoutConfig.checkout.steps[0];
-      step.disabled = true;
-      spyOn(mockCheckoutStepService, 'getCheckoutStep').and.returnValue(step);
-      guard.canActivate().subscribe((result) => {
-        expect(result).toBeTruthy();
-        done();
-      });
-    });
-  });
-
   describe(`when there is NO shipping address present`, () => {
     it(`should navigate to shipping address step if this step is enabled`, (done) => {
       MockCheckoutConfig.checkout.steps[0].disabled = undefined;

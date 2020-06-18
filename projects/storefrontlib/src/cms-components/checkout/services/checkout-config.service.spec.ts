@@ -1,36 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { RoutesConfig, RoutingConfigService } from '@spartacus/core';
-import { of } from 'rxjs';
-import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import {
   CheckoutConfig,
   DeliveryModePreferences,
 } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
-import { CheckoutStep } from '../model';
 import { CheckoutConfigService } from './checkout-config.service';
 
 const mockCheckoutConfig: CheckoutConfig = JSON.parse(
   JSON.stringify(defaultCheckoutConfig)
 );
-
-const mockCheckoutSteps: Array<CheckoutStep> =
-  mockCheckoutConfig.checkout.steps;
-
-const mockRoutingConfig: RoutesConfig = JSON.parse(
-  JSON.stringify(defaultStorefrontRoutesConfig)
-);
-
-class MockActivatedRoute {
-  snapshot = of();
-}
-
-class MockRoutingConfigService {
-  getRouteConfig(routeName: string) {
-    return mockCheckoutConfig[routeName].paths[0];
-  }
-}
 
 const [FREE_CODE, STANDARD_CODE, PREMIUM_CODE] = [
   'free-gross',
@@ -45,99 +23,17 @@ const [freeMode, standardMode, premiumMode] = [
 
 describe('CheckoutConfigService', () => {
   let service: CheckoutConfigService;
-  let activatedRoute: ActivatedRoute;
-  let routingConfigService: RoutingConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        { provide: mockCheckoutConfig, useClass: CheckoutConfig },
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
-        { provide: RoutingConfigService, useClass: MockRoutingConfigService },
-      ],
+      providers: [{ provide: mockCheckoutConfig, useClass: CheckoutConfig }],
     });
 
-    activatedRoute = TestBed.inject(ActivatedRoute);
-    routingConfigService = TestBed.inject(RoutingConfigService);
-
-    service = new CheckoutConfigService(
-      mockCheckoutConfig,
-      routingConfigService
-    );
+    service = new CheckoutConfigService(mockCheckoutConfig);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
-
-  it('should get checkout step by type', () => {
-    const type = mockCheckoutSteps[0].type[0];
-    expect(service.getCheckoutStep(type)).toEqual(mockCheckoutSteps[0]);
-  });
-
-  it('should get checkout step route by type', () => {
-    const type = mockCheckoutSteps[0].type[0];
-
-    expect(service.getCheckoutStepRoute(type)).toEqual(
-      mockCheckoutSteps[0].routeName
-    );
-  });
-
-  it('should get first checkout step route', () => {
-    expect(service.getFirstCheckoutStepRoute()).toEqual(
-      mockCheckoutSteps[0].routeName
-    );
-  });
-
-  it('should get next checkout step url', () => {
-    const activeStepIndex = 1;
-
-    spyOn<any>(service, 'getStepUrlFromActivatedRoute').and.returnValue(
-      '/' +
-        mockRoutingConfig[mockCheckoutSteps[activeStepIndex].routeName].paths[0]
-    );
-
-    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake((route) => {
-      return mockRoutingConfig[route].paths[0];
-    });
-
-    expect(service.getNextCheckoutStepUrl(activatedRoute)).toBe(
-      mockRoutingConfig[mockCheckoutSteps[activeStepIndex + 1].routeName]
-        .paths[0]
-    );
-  });
-
-  it('should get prev checkout step url', () => {
-    const activeStepIndex = 1;
-
-    spyOn<any>(service, 'getStepUrlFromActivatedRoute').and.returnValue(
-      '/' +
-        mockRoutingConfig[mockCheckoutSteps[activeStepIndex].routeName].paths[0]
-    );
-
-    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake((route) => {
-      return mockRoutingConfig[route].paths[0];
-    });
-
-    expect(service.getPreviousCheckoutStepUrl(activatedRoute)).toBe(
-      mockRoutingConfig[mockCheckoutSteps[activeStepIndex - 1].routeName]
-        .paths[0]
-    );
-  });
-
-  it('should return current step index', () => {
-    const activeStepIndex = 1;
-
-    spyOn<any>(service, 'getStepUrlFromActivatedRoute').and.returnValue(
-      '/' +
-        mockRoutingConfig[mockCheckoutSteps[activeStepIndex].routeName].paths[0]
-    );
-
-    spyOn<any>(service, 'getStepUrlFromStepRoute').and.callFake((route) => {
-      return mockRoutingConfig[route].paths[0];
-    });
-
-    expect(service.getCurrentStepIndex(activatedRoute)).toBe(1);
   });
 
   describe('compareDeliveryCost', () => {
