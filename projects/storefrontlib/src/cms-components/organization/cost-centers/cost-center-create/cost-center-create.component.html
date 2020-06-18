@@ -4,8 +4,10 @@
 <cx-cost-center-form
   [actionBtnLabel]="'costCenterForm.create' | cxTranslate"
   [routerBackLink]="{ cxRoute: 'costCenters' }"
-  [costCenterData]="{ unit: { uid: parentUnit$ | async } }"
+  [formKey]="getFormKey()"
+  [costCenterData]="{ unit: { uid: (parentUnit$ | async) || null } }"
   [readonlyParent]="!!(parentUnit$ | async)"
+  (pendingChanges)="showFormRestoredMessage($event)"
   (submitForm)="createCostCenter($event)"
 >
 </cx-cost-center-form>

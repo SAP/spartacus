@@ -1,20 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-
-import {
-  CostCenter,
-  Currency,
-  CurrencyService,
-  B2BUnitNode,
-  OrgUnitService,
-} from '@spartacus/core';
+import { CostCenter } from '@spartacus/core';
 import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
+import { CostCenterFormComponentService } from './cost-center-form.component.service';
 
 @Component({
   selector: 'cx-cost-center-form',
@@ -23,40 +17,30 @@ import { AbstractFormComponent } from '../../abstract-component/abstract-form.co
 })
 export class CostCenterFormComponent extends AbstractFormComponent
   implements OnInit {
-  businessUnits$: Observable<B2BUnitNode[]>;
-  currencies$: Observable<Currency[]>;
-
   @Input()
   costCenterData: CostCenter;
 
   @Input()
   readonlyParent = false;
 
-  form: FormGroup = this.fb.group({
-    code: ['', Validators.required],
-    name: ['', Validators.required],
-    unit: this.fb.group({
-      uid: [null, Validators.required],
-    }),
-    currency: this.fb.group({
-      isocode: [null, Validators.required],
-    }),
-  });
+  @Input() formKey: string;
 
-  constructor(
-    protected fb: FormBuilder,
-    protected currencyService: CurrencyService,
-    protected orgUnitService: OrgUnitService
-  ) {
+  @Output()
+  pendingChanges = new EventEmitter<Boolean>(true);
+
+  constructor(protected formService: CostCenterFormComponentService) {
     super();
   }
 
   ngOnInit() {
-    this.currencies$ = this.currencyService.getAll();
-    this.orgUnitService.loadOrgUnitNodes();
-    this.businessUnits$ = this.orgUnitService.getActiveUnitList();
-    if (this.costCenterData && Object.keys(this.costCenterData).length !== 0) {
-      this.form.patchValue(this.costCenterData);
+    if (this.formService.has(this.formKey)) {
+      this.pendingChanges.emit(true);
     }
+    this.form = this.formService.getForm(this.costCenterData, this.formKey);
+  }
+
+  protected removeForm(): void {
+    this.form.reset();
+    this.formService.removeForm(this.formKey);
   }
 }

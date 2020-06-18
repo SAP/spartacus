@@ -5,9 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '../../../../shared/components/form/form-errors/form-errors.module';
-import { CurrencyCommonFormModule } from '../../form-commons/currency/currency-common-form.module';
-import { UnitCommonFormModule } from '../../form-commons/unit/unit-common-form.module';
-import { CostCenterFormComponent } from './cost-center-form.component';
+import { UnitCommonFormComponent } from './unit-common-form.component';
 
 @NgModule({
   imports: [
@@ -18,11 +16,9 @@ import { CostCenterFormComponent } from './cost-center-form.component';
     I18nModule,
     ReactiveFormsModule,
     FormErrorsModule,
-    CurrencyCommonFormModule,
-    UnitCommonFormModule,
   ],
-  declarations: [CostCenterFormComponent],
-  exports: [CostCenterFormComponent],
-  entryComponents: [CostCenterFormComponent],
+  declarations: [UnitCommonFormComponent],
+  exports: [UnitCommonFormComponent],
+  entryComponents: [UnitCommonFormComponent],
 })
-export class CostCenterFormModule {}
+export class UnitCommonFormModule {}
