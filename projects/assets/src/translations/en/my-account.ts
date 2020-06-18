@@ -63,6 +63,20 @@ export const myAccount = {
       cancelSuccess:
         'Your cancellation request was submitted (original order {{orderCode}} will be updated)',
     },
+    approvalDetails: {
+      header: 'Customer Approval Details',
+      permission: 'Permission',
+      approver: 'Approver',
+      status: 'Status',
+      approverComments: 'Approver Comments',
+      noApprovalNotes: 'None',
+      permissionType_B2BBudgetExceededPermission:
+        'The budget associated with chosen cost center has been exceeded',
+      permissionType_B2BOrderThresholdPermission:
+        'Order total exceeded per-order limit',
+      permissionType_B2BOrderThresholdTimespanPermission:
+        'Order total exceeded per-timespan limit',
+    },
   },
   orderHistory: {
     orderHistory: 'Order history',
