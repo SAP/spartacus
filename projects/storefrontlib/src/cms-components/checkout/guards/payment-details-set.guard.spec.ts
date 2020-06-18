@@ -1,20 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  Order,
-  RoutesConfig,
-  RoutingConfigService,
-  PaymentTypeService,
-} from '@spartacus/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Order, RoutesConfig, RoutingConfigService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { PaymentDetailsSetGuard } from './payment-details-set.guard';
-import { CheckoutStepType } from '../model/checkout-step.model';
-import createSpy = jasmine.createSpy;
 
 // deep copy to avoid issues with mutating imported symbols
 const MockCheckoutConfig: CheckoutConfig = JSON.parse(
@@ -37,16 +30,7 @@ class MockRoutingConfigService {
 }
 
 class MockCheckoutStepService {
-  disableEnableStep = createSpy();
   getCheckoutStep() {}
-}
-
-const selectedPaymentType$ = new BehaviorSubject<string>('ACCOUNT');
-class MockPaymentTypeService {
-  readonly ACCOUNT_PAYMENT = 'ACCOUNT';
-  getSelectedPaymentType(): Observable<string> {
-    return selectedPaymentType$.asObservable();
-  }
 }
 
 describe(`PaymentDetailsSetGuard`, () => {
@@ -66,7 +50,6 @@ describe(`PaymentDetailsSetGuard`, () => {
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-        { provide: PaymentTypeService, useClass: MockPaymentTypeService },
       ],
       imports: [RouterTestingModule],
     });
@@ -76,21 +59,6 @@ describe(`PaymentDetailsSetGuard`, () => {
     mockCheckoutConfig = TestBed.inject(CheckoutConfig);
     mockRoutingConfigService = TestBed.inject(RoutingConfigService);
     mockCheckoutStepService = TestBed.inject(CheckoutStepService);
-  });
-
-  describe(`payment details step is disabled if payment type is ACCOUNT`, () => {
-    it(`should return true`, (done) => {
-      const step = MockCheckoutConfig.checkout.steps[0];
-      spyOn(mockCheckoutStepService, 'getCheckoutStep').and.returnValue(step);
-      guard.canActivate().subscribe((result) => {
-        expect(mockCheckoutStepService.disableEnableStep).toHaveBeenCalledWith(
-          CheckoutStepType.PAYMENT_DETAILS,
-          true
-        );
-        expect(result).toBeTruthy();
-        done();
-      });
-    });
   });
 
   describe(`when there is NO payment details present`, () => {

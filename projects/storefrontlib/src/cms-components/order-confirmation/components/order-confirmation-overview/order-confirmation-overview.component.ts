@@ -80,6 +80,36 @@ export class OrderConfirmationOverviewComponent implements OnInit, OnDestroy {
     );
   }
 
+  getAccountPaymentCardContent(order: Order): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('paymentForm.payment'),
+      this.translation.translate('orderDetails.payByAccount'),
+      this.translation.translate('orderDetails.purchaseOrderId'),
+      this.translation.translate('orderDetails.costCenter'),
+      this.translation.translate('orderDetails.unit'),
+    ]).pipe(
+      map(
+        ([
+          textTitle,
+          textPayByAccount,
+          textPurchaseOrderId,
+          textCostCenter,
+          textUnit,
+        ]) => {
+          return {
+            title: textTitle,
+            textBold: textPayByAccount,
+            text: [
+              `${textPurchaseOrderId}: ${order.purchaseOrderNumber}`,
+              `${textCostCenter}: ${order.costCenter.name}`,
+              `${textUnit}: ${order.costCenter.unit.name}`,
+            ],
+          };
+        }
+      )
+    );
+  }
+
   getPaymentInfoCardContent(payment: PaymentDetails): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentForm.payment'),

@@ -21,6 +21,11 @@ export enum PromotionLocation {
   Order = 'ORDER',
 }
 
+export enum B2BPaymentTypeEnum {
+  ACCOUNT_PAYMENT = 'ACCOUNT',
+  CARD_PAYMENT = 'CARD',
+}
+
 export interface Voucher {
   appliedValue?: Price;
   code?: string;

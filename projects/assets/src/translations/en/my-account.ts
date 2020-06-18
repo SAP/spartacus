@@ -1,7 +1,15 @@
 export const myAccount = {
   orderDetails: {
     orderId: 'Order #',
+    purchaseOrderId: 'Purchase Order #',
+    emptyPurchaseOrderId: 'None',
     placed: 'Placed',
+    placedBy: 'Placed By',
+    unit: 'Unit',
+    costCenter: 'Cost Center',
+    costCenterAndUnit: 'Cost Center / Unit',
+    costCenterAndUnitValue: '{{costCenterName}} / {{unitName}}',
+    payByAccount: 'Pay by Account',
     status: 'Status',
     shippedOn: 'Shipped on',
     deliveryStatus_IN_TRANSIT: 'In Transit',
