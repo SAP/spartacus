@@ -11,6 +11,7 @@ export class OccB2BUserNormalizer implements Converter<Occ.B2BUser, B2BUser> {
     if (target === undefined) {
       target = {
         ...(source as any),
+        email: source?.uid,
       };
     }
     return target;

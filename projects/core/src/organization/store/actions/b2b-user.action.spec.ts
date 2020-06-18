@@ -143,7 +143,6 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.CREATE_B2B_USER,
           payload: { userId, orgCustomer },
-          meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, orgCustomerId),
         });
       });
     });
@@ -313,7 +312,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.CREATE_B2B_USER_APPROVER,
           payload: { userId, orgCustomerId, approverId },
-          meta: StateUtils.entityLoadMeta(B2B_USER_APPROVERS, approverId),
+          meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, approverId),
         });
       });
     });
@@ -333,7 +332,7 @@ describe('B2BUser Actions', () => {
             approverId,
             error,
           },
-          meta: StateUtils.entityFailMeta(B2B_USER_APPROVERS, approverId),
+          meta: StateUtils.entityFailMeta(B2B_USER_ENTITIES, approverId),
         });
       });
     });
@@ -348,7 +347,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.CREATE_B2B_USER_APPROVER_SUCCESS,
           payload: { approverId, selected },
-          meta: StateUtils.entitySuccessMeta(B2B_USER_APPROVERS, approverId),
+          meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, approverId),
         });
       });
     });
@@ -364,7 +363,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.DELETE_B2B_USER_APPROVER,
           payload: { userId, orgCustomerId, approverId },
-          meta: StateUtils.entityLoadMeta(B2B_USER_APPROVERS, approverId),
+          meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, approverId),
         });
       });
     });
@@ -384,7 +383,7 @@ describe('B2BUser Actions', () => {
             approverId,
             error,
           },
-          meta: StateUtils.entityFailMeta(B2B_USER_APPROVERS, approverId),
+          meta: StateUtils.entityFailMeta(B2B_USER_ENTITIES, approverId),
         });
       });
     });
@@ -399,7 +398,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.DELETE_B2B_USER_APPROVER_SUCCESS,
           payload: { approverId, selected },
-          meta: StateUtils.entitySuccessMeta(B2B_USER_APPROVERS, approverId),
+          meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, approverId),
         });
       });
     });

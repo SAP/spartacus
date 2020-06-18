@@ -1,0 +1,125 @@
+<cx-fake-tabs
+  [code]="b2bUserCode$ | async"
+  [links]="[
+    {
+      cxRoute: 'userDetails',
+      name: 'user.details',
+      params: { customerId: b2bUserCode$ | async },
+      active: true
+    },
+    {
+      cxRoute: 'userApprovers',
+      name: 'user.approvers'
+    },
+    {
+      cxRoute: 'userPermissions',
+      name: 'user.permissions'
+    },
+    {
+      cxRoute: 'userUserGroups',
+      name: 'user.userGroups'
+    }
+  ]"
+  [routerBackLink]="{ cxRoute: 'users', name: 'user.back' }"
+>
+  <ng-container class="container" *ngIf="b2bUser$ | async as user">
+    <div class="row">
+      <div class="col-md-12 col-lg-6">
+        <div class="cx-header">
+          <h3>{{ 'user.details' | cxTranslate }}</h3>
+        </div>
+
+        <div class="row">
+          <div class="col-6">{{ 'user.name' | cxTranslate }}</div>
+          <div class="col-6 cx-label">{{ user.name }}</div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">{{ 'user.email' | cxTranslate }}</div>
+          <div class="col-6">{{ user.uid }}</div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">{{ 'user.role' | cxTranslate }}</div>
+          <div class="col-6">{{ user.roles }}</div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">{{ 'user.parentUnit' | cxTranslate }}</div>
+          <div class="col-6">
+            <a
+              [routerLink]="
+                {
+                  cxRoute: 'orgUnitDetails',
+                  params: user.orgUnit
+                } | cxUrl
+              "
+            >
+              {{ user.orgUnit?.name }}
+            </a>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">{{ 'user.status' | cxTranslate }}</div>
+          <div class="col-6">
+            {{
+              user.active
+                ? ('user.active' | cxTranslate)
+                : ('user.deactivated' | cxTranslate)
+            }}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 col-lg-6">
+        <div class="row">
+          <div
+            *ngIf="user.active; else enable"
+            class="pb-mobile-2 col-md-12 col-lg-6"
+          >
+            <button
+              class="btn btn-secondary btn-block"
+              (click)="openModal(confirmDisable)"
+            >
+              {{ 'user.disable' | cxTranslate }}
+            </button>
+
+            <ng-template #confirmDisable>
+              <cx-confirm-modal
+                [title]="'user.confirmDeactivation.title' | cxTranslate"
+                [message]="'user.confirmDeactivation.message' | cxTranslate"
+                (confirm)="update({ active: false })"
+              ></cx-confirm-modal>
+            </ng-template>
+          </div>
+          <ng-template #enable>
+            <div class="pb-mobile-2 col-md-12 col-lg-6">
+              <button
+                class="btn btn-primary btn-block"
+                [disabled]="user.orgUnit && !user.orgUnit.active"
+                (click)="update({ active: true })"
+              >
+                {{ 'user.enable' | cxTranslate }}
+              </button>
+            </div>
+          </ng-template>
+          <div class="col-md-12 col-lg-6">
+            <a
+              [class.disabled]="!user.active"
+              [routerLink]="
+                {
+                  cxRoute: 'userEdit',
+                  params: user
+                } | cxUrl
+              "
+              class="btn btn-primary btn-block"
+            >
+              {{ 'user.edit' | cxTranslate }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</cx-fake-tabs>

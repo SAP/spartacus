@@ -4,7 +4,6 @@ import { map } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { TableConfig, TableStructure } from './table.model';
 
-
 /**
  * Responsive table service.
  */
