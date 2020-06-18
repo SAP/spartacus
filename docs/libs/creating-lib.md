@@ -183,7 +183,7 @@ Optionally adjust the `path` property.
 
 - `tsconfig.lib.prod.json` - save to re-format it. Make sure that Ivy is off (for the time being, this will change in the future)
 - `tsconfig.spec.json` - save to re-format
-- `tslint.json` - save to re-format
+- `tslint.json` - change from `lib` to `cx` in the `directive-selector` and `component-selector`
 - the rest of the generated file should be removed
 
 ### Additional changes to existing files
