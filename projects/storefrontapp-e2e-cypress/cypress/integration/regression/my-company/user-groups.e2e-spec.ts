@@ -4,6 +4,7 @@ import { CONTEXT_URL_EN_USD } from '../../../helpers/site-context-selector';
 const config = {
   navLink: 'User Groups',
   url: `${CONTEXT_URL_EN_USD}/organization/user-group`,
+  apiEndpoint: '/orgUnitUserGroup',
   pageTitle: 'User Group Management',
   createBtn: {
     text: 'Create new user group',
@@ -11,47 +12,18 @@ const config = {
   },
   listSelector: 'cx-user-group-list',
   rowHeaders: ['ID', 'Name', 'Parent Unit'],
-  rows: [
-    {
-      text: ['limitedPermissions', 'Limited Permissions', 'Rustic'],
-      links: [
-        '/organization/user-group/limitedPermissions',
-        null,
-        '/organization/unit/Rustic',
-      ],
-    },
-    {
-      text: ['premiumPermissions', 'Premium Permissions', 'Rustic'],
-      links: [
-        '/organization/user-group/premiumPermissions',
-        null,
-        '/organization/unit/Rustic',
-      ],
-    },
-    {
-      text: ['standardPermissions', 'Standard Permissions', 'Rustic'],
-      links: [
-        '/organization/user-group/standardPermissions',
-        null,
-        '/organization/unit/Rustic',
-      ],
-    },
-  ],
   sorts: [
     {
       urlParams: '?sort=byUnitName',
       value: 'Unit Name',
-      rowOrder: [1, 2, 0],
     },
     {
       urlParams: '?sort=byGroupID',
       value: 'Group ID',
-      rowOrder: [0, 1, 2],
     },
     {
       urlParams: '',
       value: 'Name',
-      rowOrder: [0, 1, 2],
       default: true,
     },
   ],
@@ -174,7 +146,7 @@ const config = {
           {
             urlParams: '?sort=byUnit',
             value: 'Unit Name',
-            rowOrder: [1, 0],
+            rowOrder: [0, 1],
           },
           {
             urlParams: '',
@@ -233,22 +205,8 @@ const config = {
 };
 
 describe(`My Company - ${config.navLink}`, () => {
-  // beforeEach(() => {
-  //   cy.requireLoggedIn({
-  //     user: 'linda.wolf@rustic-hw.com',
-  //     registrationData: {
-  //       firstName: 'Linda',
-  //       lastName: 'Wolf',
-  //       titleCode: '',
-  //       password: '12341234',
-  //       email: 'linda.wolf@rustic-hw.com',
-  //     },
-  //   });
-  //   cy.visit(`${config.url}s`);
-  // });
-
-  // myCompany.testListFromConfig(config);
-  // myCompany.testDetailsFromConfig(config);
-  // myCompany.testCreateUpdateFromConfig(config);
+  myCompany.testListFromConfig(config);
+  myCompany.testDetailsFromConfig(config);
+  myCompany.testCreateUpdateFromConfig(config);
   myCompany.testAssignmentFromConfig(config);
 });

@@ -1,40 +1,62 @@
 import { CONTEXT_URL_EN_USD } from './site-context-selector';
-import { nextPage, choosePage } from './product-search';
+import { nextPage } from './product-search';
 
 export function testListFromConfig(config) {
-  context(`${config.navLink} List`, () => {
-    it('should show list', () => {
-      cy.get(config.listSelector).within(() => {
-        const defaultSort = config.sorts.find((sort) => sort.default);
-        cy.url().should('contain', `${config.url}s${defaultSort.urlParams}`);
-        cy.get('h3').should('contain.text', config.pageTitle);
-        cy.get('a')
-          .contains(config.createBtn.text)
-          .parent()
-          .should(
-            'contain.html',
-            `href="${config.url}s${config.createBtn.link}"`
-          );
-        cy.get('cx-sorting .ng-select').should(
-          'contain.text',
-          defaultSort.value
-        );
-        cy.get('cx-table').within(() => {
-          checkRowHeaders(config.rowHeaders);
-          checkRows(config.rows, defaultSort.rowOrder);
-        });
+  describe(`${config.navLink} List`, () => {
+    beforeEach(() => {
+      cy.requireLoggedIn({
+        user: 'linda.wolf@rustic-hw.com',
+        registrationData: {
+          firstName: 'Linda',
+          lastName: 'Wolf',
+          titleCode: '',
+          password: '12341234',
+          email: 'linda.wolf@rustic-hw.com',
+        },
       });
     });
 
-    it('should sort table data', () => {
-      cy.get(config.listSelector).within(() => {
-        config.sorts.forEach((sort) => {
-          ngSelect(sort.value);
-          cy.url().should('contain', `${config.url}s${sort.urlParams}`);
+    it('should show list', () => {
+      cy.server();
+      cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
+      waitForData((data) => {
+        const rows = getListRowsFromBody(data);
+        cy.get(config.listSelector).within(() => {
+          const defaultSort = config.sorts.find((sort) => sort.default);
+          cy.url().should('contain', `${config.url}s${defaultSort.urlParams}`);
+          cy.get('h3').should('contain.text', config.pageTitle);
+          cy.get('a')
+            .contains(config.createBtn.text)
+            .parent()
+            .should(
+              'contain.html',
+              `href="${config.url}s${config.createBtn.link}"`
+            );
+          cy.get('cx-sorting .ng-select').should(
+            'contain.text',
+            defaultSort.value
+          );
           cy.get('cx-table').within(() => {
             checkRowHeaders(config.rowHeaders);
-            checkRows(config.rows, sort.rowOrder);
+            checkRows(rows);
           });
+        });
+      }, cy.visit(`${config.url}s`));
+    });
+
+    it('should sort table data', () => {
+      cy.server();
+      config.sorts.forEach((sort) => {
+        cy.get(config.listSelector).within(() => {
+          cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
+          waitForData((data) => {
+            const rows = getListRowsFromBody(data);
+            cy.url().should('contain', `${config.url}s${sort.urlParams}`);
+            cy.get('cx-table').within(() => {
+              checkRowHeaders(config.rowHeaders);
+              checkRows(rows);
+            });
+          }, ngSelect(sort.value));
         });
       });
     });
@@ -42,7 +64,21 @@ export function testListFromConfig(config) {
 }
 
 export function testDetailsFromConfig(config) {
-  context(`${config.navLink} Details`, () => {
+  describe(`${config.navLink} Details`, () => {
+    beforeEach(() => {
+      cy.requireLoggedIn({
+        user: 'linda.wolf@rustic-hw.com',
+        registrationData: {
+          firstName: 'Linda',
+          lastName: 'Wolf',
+          titleCode: '',
+          password: '12341234',
+          email: 'linda.wolf@rustic-hw.com',
+        },
+      });
+      cy.visit(`${config.url}s`);
+    });
+
     it('should show details', () => {
       cy.get(config.listSelector).within(() => {
         cy.get('a')
@@ -100,7 +136,21 @@ export function testDetailsFromConfig(config) {
 }
 
 export function testCreateUpdateFromConfig(config) {
-  context(`${config.navLink} Create / Update`, () => {
+  describe(`${config.navLink} Create / Update`, () => {
+    beforeEach(() => {
+      cy.requireLoggedIn({
+        user: 'linda.wolf@rustic-hw.com',
+        registrationData: {
+          firstName: 'Linda',
+          lastName: 'Wolf',
+          titleCode: '',
+          password: '12341234',
+          email: 'linda.wolf@rustic-hw.com',
+        },
+      });
+      cy.visit(`${config.url}s`);
+    });
+
     it(`should create`, () => {
       cy.get(config.listSelector).within(() => {
         cy.get('a').contains(config.createBtn.text).click();
@@ -342,8 +392,6 @@ export function testCreateUpdateFromConfig(config) {
 }
 
 export function testAssignmentFromConfig(config) {
-  let data;
-
   config.details.tabs.forEach((tab) => {
     describe(`${config.navLink} Assignment - ${tab.label}`, () => {
       before(() => {
@@ -569,10 +617,9 @@ function checkRowHeaders(headers: string[]): void {
   });
 }
 
-function checkRows(rows, order: number[]): void {
+function checkRows(rows, order?: number[]): void {
   let j = 0;
-  order.forEach((rowNo: number) => {
-    const row = rows[rowNo];
+  rows.forEach((row: any) => {
     cy.get('tr')
       .eq(j)
       .within(() => {
@@ -599,25 +646,11 @@ function ngSelect(sortKey: string): void {
   cy.get('.ng-select .ng-dropdown-panel-items')
     .contains(new RegExp(`^${sortKey}$`, 'g'))
     .click({ force: true });
-  cy.wait(1000);
 }
 
 function cleanUp(config) {
-  const userToken = `${
-    JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
-      .token.access_token
-  }`;
-  cy.request({
-    method: 'DELETE',
-    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/orgUnitUserGroups/${config.edit.inputs[0].value}`,
-    headers: {
-      Authorization: `bearer ${userToken}`,
-    },
-  }).then((response) => {
-    expect(response.status).to.eq(200);
-  });
+  deleteGroup(config.form.inputs[0].value);
+  deleteGroup(config.edit.inputs[0].value);
 }
 
 function scanTablePagesForText(text: string) {
@@ -629,6 +662,49 @@ function scanTablePagesForText(text: string) {
       nextPage();
       cy.wait('@getData');
       scanTablePagesForText(text);
+    }
+  });
+}
+
+function deleteGroup(id: string) {
+  const userToken = `${
+    JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
+      .token.access_token
+  }`;
+  cy.request({
+    method: 'DELETE',
+    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/orgUnitUserGroups/${id}`,
+    headers: {
+      Authorization: `bearer ${userToken}`,
+    },
+    failOnStatusCode: false,
+  }).then((response) => {
+    expect(response.status).to.be.oneOf([200, 400]);
+  });
+}
+
+function getListRowsFromBody(body) {
+  return body.orgUnitUserGroups.map((row) => {
+    return {
+      text: [row.uid, row.name, row.orgUnit.name],
+      links: [
+        `/organization/user-group/${row.uid}`,
+        null,
+        `/organization/unit/${row.orgUnit.uid}`,
+      ],
+    };
+  });
+}
+
+function waitForData(thenCommand, waitForCommand?) {
+  waitForCommand;
+  cy.wait('@getData').then((xhr: any) => {
+    if (xhr.aborted) {
+      waitForData(thenCommand);
+    } else {
+      thenCommand(xhr?.response?.body);
     }
   });
 }
