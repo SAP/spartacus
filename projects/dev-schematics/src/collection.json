@@ -1,0 +1,28 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./ng-add/index",
+      "description": "Applies custom Spartacus configuration like baseSite, routing etc.",
+      "schema": "./ng-add/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add-baseSites": {
+      "description": "Add base site to app module.",
+      "factory": "./add-baseSites/index",
+      "schema": "./ng-add/schema.json"
+    },
+    "add-routing": {
+      "description": "Add routing to app module.",
+      "factory": "./add-routing/index",
+      "schema": "./ng-add/schema.json"
+    },
+    "add-test-outlets": {
+      "description": "Add test outlets to app module.",
+      "factory": "./add-test-outlets/index",
+      "schema": "./ng-add/schema.json"
+    }
+  }
+}
