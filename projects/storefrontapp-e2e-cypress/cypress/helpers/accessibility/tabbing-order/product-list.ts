@@ -2,11 +2,7 @@ import { testProductListUrl, verifyTabbingOrder } from '../tabbing-order';
 import { formats } from '../../../sample-data/viewports';
 import { TabElement } from '../tabbing-order.model';
 
-// Temporarily checking only 'the right side' without product filters
-// TODO: Refactor filter, so they don't have tabindex attribute when not active
-// const containerSelector = '.ProductListPageTemplate';
-
-const containerSelector = '.ProductListSlot';
+const containerSelector = '.ProductListPageTemplate';
 
 export function toggleProductView() {
   cy.get('cx-product-list cx-product-view').first().click();
@@ -22,8 +18,17 @@ export function productListTabbingOrderDesktop(config: TabElement[]) {
 }
 
 export function productListTabbingOrderMobile(config: TabElement[]) {
+  cy.server();
+  cy.route(
+    `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/components*`
+  ).as('getComponents');
+
   cy.visit(testProductListUrl);
   cy.viewport(formats.mobile.width, formats.mobile.height);
+
+  cy.wait('@getComponents');
 
   cy.get('cx-breadcrumb').should('contain', 'Home');
   cy.get('cx-breadcrumb').should('contain', 'Brands');
@@ -31,17 +36,23 @@ export function productListTabbingOrderMobile(config: TabElement[]) {
   verifyTabbingOrder(containerSelector, config);
 }
 
-const containerSelectorMobileFilters = 'ngb-modal-window';
+const containerSelectorMobileFilters = 'cx-facet-list';
 
 export function productListTabbingOrderMobileFilters(config: TabElement[]) {
+  cy.server();
+  cy.route(
+    `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/components*`
+  ).as('getComponents');
+
   cy.visit(testProductListUrl);
   cy.viewport(formats.mobile.width, formats.mobile.height);
 
-  cy.get(
-    'cx-product-facet-navigation div.cx-facet-mobile button.cx-facet-mobile-btn'
-  )
-    .first()
-    .click();
+  cy.wait('@getComponents');
+  cy.get('cx-product-facet-navigation button.dialog-trigger').first().click();
+
+  cy.get('cx-facet button[tabindex=-1]');
 
   verifyTabbingOrder(containerSelectorMobileFilters, config);
 }

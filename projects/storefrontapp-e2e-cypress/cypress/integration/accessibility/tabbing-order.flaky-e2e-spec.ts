@@ -182,9 +182,7 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
     });
   });
 
-  // Temporarily checking only 'the right side' without product filters
-  // TODO: Refactor filter, so they don't have tabindex attribute when not active
-  context('Product List (without filters)', () => {
+  context('Product List', () => {
     it('should allow to navigate with tab key (desktop - list view)', () => {
       productListTabbingOrderDesktop(config.productListDesktop);
     });
@@ -199,7 +197,7 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
       productListTabbingOrderMobile(config.productListMobile);
     });
 
-    it.skip('should allow to navigate with tab key (mobile filters)', () => {
+    it('should allow to navigate with tab key (mobile filters)', () => {
       productListTabbingOrderMobileFilters(config.productListMobileFilters);
     });
   });
