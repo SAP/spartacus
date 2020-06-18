@@ -7,7 +7,7 @@ import { Environment } from './models/environment.model';
 
 export const environment: Environment = {
   production: false,
-  occBaseUrl: '',
-  occApiPrefix: '/rest/v2/',
-  b2b: false,
+  occBaseUrl: 'https://powertools.dev-com-7.accdemo.b2c.ydev.hybris.com:9002',
+  occApiPrefix: '/occ/v2/',
+  b2b: true,
 };
