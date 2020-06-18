@@ -3,7 +3,6 @@ import * as checkoutFlow from '../../../../helpers/checkout-as-persistent-user';
 import { waitForPage } from '../../../../helpers/checkout-flow';
 import * as loginHelper from '../../../../helpers/login';
 import { navigation } from '../../../../helpers/navigation';
-import { tabsHeaderList } from '../../../../helpers/product-details';
 import {
   createProductQuery,
   QUERY_ALIAS,
@@ -93,17 +92,16 @@ describe('Profile-tag events', () => {
   });
 
   it('should send a product detail page view event when viewing a product', () => {
-    const productSku = 266685;
-    const productName = 'Battery Video Light';
-    const productPrice = 154.5;
-    const productCategory = 'brand_5';
-    const productCategoryName = 'Sony';
-    navigation.goToProduct(productSku, {
-      onBeforeLoad: profileTagHelper.interceptProfileTagJs,
-    });
-    profileTagHelper.waitForCMSComponents();
-    cy.get('cx-media.is-initialized');
-    cy.get(tabsHeaderList).eq(0).should('contain', 'Product Details');
+    cy.route('GET', `/rest/v2/electronics-spa/products/280916/reviews*`).as(
+      'lastRequest'
+    );
+    const productSku = 280916;
+    const productName = 'Web Camera (100KpixelM CMOS, 640X480, USB 1.1) Black';
+    const productPrice = 8.2;
+    const productCategory = 'brand_745';
+    const productCategoryName = 'Canyon';
+    goToProductPage();
+    cy.wait('@lastRequest');
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(
@@ -223,13 +221,16 @@ describe('Profile-tag events', () => {
   });
 
   it('should send a Category View event when a Category View occurs', () => {
+    cy.route('GET', `/rest/v2/electronics-spa/products/search*`).as(
+      'lastRequest'
+    );
     const productCategory = '575';
     const productCategoryName = 'Digital Cameras';
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
-    cy.wait(300);
+    cy.wait('@lastRequest');
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(

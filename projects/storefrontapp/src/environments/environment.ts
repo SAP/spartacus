@@ -14,5 +14,5 @@ export const environment: Environment = {
     build.process.env.SPARTACUS_BASE_URL,
   occApiPrefix: '/rest/v2/',
   b2b: false,
-  cds: false,
+  cds: true,
 };

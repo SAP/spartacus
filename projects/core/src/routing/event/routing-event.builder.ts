@@ -78,9 +78,6 @@ export class RoutingEventBuilder {
     ProductDetailsPageVisited
   > {
     return this.getCurrentPageContextFor(RouteConfigKey.PRODUCT_DETAILS).pipe(
-      tap((_) => {
-        console.log('nbl');
-      }),
       map((context) => context.id),
       switchMap((productId) => {
         return this.productService.get(productId).pipe(
