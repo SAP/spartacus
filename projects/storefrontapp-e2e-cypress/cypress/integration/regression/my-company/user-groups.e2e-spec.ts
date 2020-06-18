@@ -172,9 +172,9 @@ const config = {
       {
         label: 'User Group ID',
         type: 'text',
-        value: 'test-user-group',
+        value: 'test-entity',
       },
-      { label: 'User Group name', type: 'text', value: 'Test User Group' },
+      { label: 'User Group name', type: 'text', value: 'Test Entity' },
       {
         label: 'Parent business unit',
         type: 'ngSelect',

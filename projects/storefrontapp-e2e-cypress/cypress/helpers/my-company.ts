@@ -20,27 +20,7 @@ export function testListFromConfig(config) {
       cy.server();
       cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
       waitForData((data) => {
-        const rows = getListRowsFromBody(data);
-        cy.get(config.listSelector).within(() => {
-          const defaultSort = config.sorts.find((sort) => sort.default);
-          cy.url().should('contain', `${config.url}s${defaultSort.urlParams}`);
-          cy.get('h3').should('contain.text', config.pageTitle);
-          cy.get('a')
-            .contains(config.createBtn.text)
-            .parent()
-            .should(
-              'contain.html',
-              `href="${config.url}s${config.createBtn.link}"`
-            );
-          cy.get('cx-sorting .ng-select').should(
-            'contain.text',
-            defaultSort.value
-          );
-          cy.get('cx-table').within(() => {
-            checkRowHeaders(config.rowHeaders);
-            checkRows(rows);
-          });
-        });
+        verifyList(config, getListRowsFromBody(data));
       }, cy.visit(`${config.url}s`));
     });
 
@@ -50,12 +30,8 @@ export function testListFromConfig(config) {
         cy.get(config.listSelector).within(() => {
           cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
           waitForData((data) => {
-            const rows = getListRowsFromBody(data);
             cy.url().should('contain', `${config.url}s${sort.urlParams}`);
-            cy.get('cx-table').within(() => {
-              checkRowHeaders(config.rowHeaders);
-              checkRows(rows);
-            });
+            verifyList(config, getListRowsFromBody(data));
           }, ngSelect(sort.value));
         });
       });
@@ -164,15 +140,6 @@ export function testCreateUpdateFromConfig(config) {
         cy.get(config.form.selector).within(() => {
           cy.get('label').should('have.length', config.form.inputs.length);
 
-          // cy.get('cx-form-errors')
-          //   .contains('This field is required')
-          //   .should('not.be.visible');
-          // cy.get('button').contains(config.create.header).click();
-          // cy.get('cx-form-errors')
-          //   .should('contain.text', 'This field is required')
-          //   .and('be.visible')
-          //   .and('have.length', config.form.inputs.length);
-
           config.form.inputs.forEach((input) => {
             cy.get('label')
               .contains(input.label)
@@ -224,37 +191,12 @@ export function testCreateUpdateFromConfig(config) {
             'contain.html',
             `href="${config.url}/edit/${config.form.inputs[0].value}"`
           );
-
-        cy.get('a')
-          .contains('Back to list')
-          .parent()
-          .should('contain.html', `href="${config.url}s"`)
-          .click();
       });
 
-      cy.url().should('contain', `${config.url}`);
-
-      cy.get(config.listSelector).within(() => {
-        // const defaultSort = config.sorts.find((sort) => sort.default);
-        cy.get('h3').should('contain.text', config.pageTitle);
-        cy.get('cx-table').within(() => {
-          cy.get('tr').should('have.length', 4);
-          const rowsWithNewEntity = [
-            ...config.rows,
-            {
-              text: ['test-user-group', 'Test User Group', 'Custom Retail'],
-              links: [
-                '/organization/user-group/test-user-group',
-                null,
-                '/organization/unit/Custom%20Retail',
-              ],
-            },
-          ];
-          const newOrder = [0, 1, 2, 3];
-          checkRowHeaders(config.rowHeaders);
-          checkRows(rowsWithNewEntity, newOrder);
-        });
-      });
+      cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
+      waitForData((data) => {
+        verifyList(config, getListRowsFromBody(data));
+      }, cy.get('a').contains('Back to list').parent().should('contain.html', `href="${config.url}s"`).click());
     });
 
     it(`should update`, () => {
@@ -283,15 +225,6 @@ export function testCreateUpdateFromConfig(config) {
 
         cy.get(config.form.selector).within(() => {
           cy.get('label').should('have.length', config.edit.inputs.length);
-
-          // cy.get('cx-form-errors')
-          //   .contains('This field is required')
-          //   .should('not.be.visible');
-          // cy.get('button').contains(config.create.header).click();
-          // cy.get('cx-form-errors')
-          //   .should('contain.text', 'This field is required')
-          //   .and('be.visible')
-          //   .and('have.length', config.form.inputs.length);
 
           config.edit.inputs.forEach((input) => {
             cy.get('label')
@@ -348,41 +281,12 @@ export function testCreateUpdateFromConfig(config) {
             'contain.html',
             `href="${config.url}/edit/${config.edit.inputs[0].value}"`
           );
-
-        cy.get('a')
-          .contains('Back to list')
-          .parent()
-          .should('contain.html', `href="${config.url}s"`)
-          .click();
       });
 
-      cy.url().should('contain', `${config.url}s`);
-
-      cy.get(config.listSelector).within(() => {
-        // const defaultSort = config.sorts.find((sort) => sort.default);
-        cy.get('h3').should('contain.text', config.pageTitle);
-        cy.get('cx-table').within(() => {
-          cy.get('tr').should('have.length', 4);
-          const rowsWithNewEntity = [
-            ...config.rows,
-            {
-              text: [
-                config.edit.inputs[0].value,
-                config.edit.inputs[1].value,
-                config.edit.inputs[2].value,
-              ],
-              links: [
-                `/organization/user-group/{${config.edit.inputs[0].value}`,
-                null,
-                config.edit.inputs[2].link,
-              ],
-            },
-          ];
-          const newOrder = [0, 1, 2, 3];
-          checkRowHeaders(config.rowHeaders);
-          checkRows(rowsWithNewEntity, newOrder);
-        });
-      });
+      cy.route('GET', `**${config.apiEndpoint}**`).as('getData');
+      waitForData((data) => {
+        verifyList(config, getListRowsFromBody(data));
+      }, cy.get('a').contains('Back to list').parent().should('contain.html', `href="${config.url}s"`).click());
     });
 
     after(() => {
@@ -434,7 +338,7 @@ export function testAssignmentFromConfig(config) {
             );
             cy.get('cx-table').within(() => {
               checkRowHeaders(tab.rowHeaders);
-              checkRows(tab.rows, defaultSort.rowOrder);
+              checkRows(tab.rows);
             });
           }
         });
@@ -447,7 +351,7 @@ export function testAssignmentFromConfig(config) {
             cy.url().should('contain', `${tab.link}${sort.urlParams}`);
             cy.get('cx-table').within(() => {
               checkRowHeaders(tab.rowHeaders);
-              checkRows(tab.rows, sort.rowOrder);
+              checkRows(tab.rows);
             });
           });
         });
@@ -478,7 +382,7 @@ export function testAssignmentFromConfig(config) {
               text: [row.email, row.name, row.orgUnit.name],
               links: [`/${row.customerId}`, null, `/${row.orgUnit.uid}`],
             }));
-            checkRows(rows, []);
+            checkRows(rows);
           });
         });
 
@@ -487,7 +391,7 @@ export function testAssignmentFromConfig(config) {
         it(`should assign and validate`, () => {
           cy.get('cx-table').within(() => {
             cy.server();
-            cy.route('POST', '**/orgUnitUserGroups/**').as('getData');
+            cy.route('POST', `**/${config.apiEndpoint}**`).as('getData');
             cy.get('tr input[type="checkbox"]').eq(1).click({ force: true });
             cy.wait('@getData');
             cy.get('tr input[type="checkbox"]').eq(1).should('be.checked');
@@ -508,7 +412,7 @@ export function testAssignmentFromConfig(config) {
         it(`should unassign and validate`, () => {
           cy.get('cx-table').within(() => {
             cy.server();
-            cy.route('DELETE', '**/orgUnitUserGroups/**').as('getData');
+            cy.route('DELETE', `**/${config.apiEndpoint}**`).as('getData');
             cy.get('tr input[type="checkbox"]').eq(1).click({ force: true });
             cy.wait('@getData');
             cy.get('tr input[type="checkbox"]').eq(1).should('not.be.checked');
@@ -530,7 +434,7 @@ export function testAssignmentFromConfig(config) {
           it(`should unassign all and validate`, () => {
             cy.get(tab.manageSelector).within(() => {
               cy.server();
-              cy.route('DELETE', '**/orgUnitUserGroups/**').as('getData');
+              cy.route('DELETE', `**/${config.apiEndpoint}**`).as('getData');
               cy.get('button').contains('Unassign All').click();
               cy.wait('@getData');
             });
@@ -553,7 +457,7 @@ export function testAssignmentFromConfig(config) {
 
           it(`should reassign all and validate`, () => {
             tab.rows.forEach((row) => {
-              scanTablePagesForText(row.text[0]);
+              scanTablePagesForText(row.text[0], config);
               cy.get(tab.manageSelector).within(() => {
                 cy.get('cx-table').within(() => {
                   cy.get('tr')
@@ -562,7 +466,9 @@ export function testAssignmentFromConfig(config) {
                     .parent()
                     .within(() => {
                       cy.server();
-                      cy.route('POST', '**/orgUnitUserGroups/**').as('getData');
+                      cy.route('POST', `**/${config.apiEndpoint}**`).as(
+                        'getData'
+                      );
                       cy.get('input[type="checkbox"]').click({ force: true });
                       cy.wait('@getData');
                     });
@@ -617,7 +523,7 @@ function checkRowHeaders(headers: string[]): void {
   });
 }
 
-function checkRows(rows, order?: number[]): void {
+function checkRows(rows): void {
   let j = 0;
   rows.forEach((row: any) => {
     cy.get('tr')
@@ -649,24 +555,23 @@ function ngSelect(sortKey: string): void {
 }
 
 function cleanUp(config) {
-  deleteGroup(config.form.inputs[0].value);
-  deleteGroup(config.edit.inputs[0].value);
+  deleteEntity(config.form.inputs[0].value, config);
+  deleteEntity(config.edit.inputs[0].value, config);
 }
 
-function scanTablePagesForText(text: string) {
-  // cy.get('cx-pagination').contains('«').first().click({ force: true });
+function scanTablePagesForText(text: string, config) {
   cy.get('cx-table').then(($table) => {
     if ($table.text().indexOf(text) === -1) {
       cy.server();
-      cy.route('GET', '**/orgUnitUserGroups/**').as('getData');
+      cy.route('GET', `**/${config.apiEndpoint}**`).as('getData');
       nextPage();
       cy.wait('@getData');
-      scanTablePagesForText(text);
+      scanTablePagesForText(text, config);
     }
   });
 }
 
-function deleteGroup(id: string) {
+function deleteEntity(id: string, config) {
   const userToken = `${
     JSON.parse(localStorage.getItem('spartacus-local-data')).auth.userToken
       .token.access_token
@@ -675,7 +580,7 @@ function deleteGroup(id: string) {
     method: 'DELETE',
     url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/current/orgUnitUserGroups/${id}`,
+    )}/users/current/${config.apiEndpoint}s/${id}`,
     headers: {
       Authorization: `bearer ${userToken}`,
     },
@@ -690,9 +595,9 @@ function getListRowsFromBody(body) {
     return {
       text: [row.uid, row.name, row.orgUnit.name],
       links: [
-        `/organization/user-group/${row.uid}`,
+        `/organization/user-group/${encodeURIComponent(row.uid)}`,
         null,
-        `/organization/unit/${row.orgUnit.uid}`,
+        `/organization/unit/${encodeURIComponent(row.orgUnit.uid)}`,
       ],
     };
   });
@@ -706,5 +611,22 @@ function waitForData(thenCommand, waitForCommand?) {
     } else {
       thenCommand(xhr?.response?.body);
     }
+  });
+}
+
+function verifyList(config, rows) {
+  cy.get(config.listSelector).within(() => {
+    const defaultSort = config.sorts.find((sort) => sort.default);
+    cy.url().should('contain', `${config.url}s${defaultSort.urlParams}`);
+    cy.get('h3').should('contain.text', config.pageTitle);
+    cy.get('a')
+      .contains(config.createBtn.text)
+      .parent()
+      .should('contain.html', `href="${config.url}s${config.createBtn.link}"`);
+    cy.get('cx-sorting .ng-select').should('contain.text', defaultSort.value);
+    cy.get('cx-table').within(() => {
+      checkRowHeaders(config.rowHeaders);
+      checkRows(rows);
+    });
   });
 }
