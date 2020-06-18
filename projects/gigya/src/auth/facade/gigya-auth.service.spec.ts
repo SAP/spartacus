@@ -9,7 +9,9 @@ import {
   OCC_USER_ID_CURRENT,
   AuthActions,
   WindowRef,
+  AUTH_FEATURE,
 } from '@spartacus/core';
+import * as fromReducers from '../store/reducers/index';
 
 const mockToken = {
   userId: 'user@sap.com',
@@ -36,7 +38,10 @@ describe('GigyaAuthService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(AUTH_FEATURE, fromReducers.getReducers()),
+      ],
       providers: [
         GigyaAuthService,
         { provide: WindowRef, useValue: mockedWindowRef },

@@ -11,6 +11,7 @@ import {
   GlobalMessageType,
   User,
   OCC_USER_ID_CURRENT,
+  WindowRef,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { GigyaJsService } from './gigya-js.service';
@@ -77,6 +78,18 @@ class MockGlobalMessageService {
   remove(_type: GlobalMessageType, _index?: number) {}
 }
 
+const gigya = {
+  accounts: {
+    addEventHandlers: () => {},
+  },
+};
+
+const mockedWindowRef = {
+  nativeWindow: {
+    gigya: gigya,
+  },
+};
+
 describe('GigyaJsComponent', () => {
   let service: GigyaJsService;
   let baseSiteService: BaseSiteService;
@@ -86,6 +99,7 @@ describe('GigyaJsComponent', () => {
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
   let userService: UserService;
+  let winRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -99,6 +113,7 @@ describe('GigyaJsComponent', () => {
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         { provide: ExternalJsFileLoader, useClass: ExternalJsFileLoaderMock },
         { provide: UserService, useClass: MockUserService },
+        { provide: WindowRef, useValue: mockedWindowRef },
       ],
     });
 
@@ -110,6 +125,7 @@ describe('GigyaJsComponent', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     authRedirectService = TestBed.inject(AuthRedirectService);
     userService = TestBed.inject(UserService);
+    winRef = TestBed.inject(WindowRef);
   });
 
   it('should create', () => {
@@ -162,6 +178,16 @@ describe('GigyaJsComponent', () => {
     service.registerEventListeners();
 
     expect(service.addGigyaEventHandlers).toHaveBeenCalledTimes(1);
+  });
+
+  it('should add event handlers for gigya login', () => {
+    spyOn(winRef.nativeWindow['gigya'].accounts, 'addEventHandlers');
+
+    service.addGigyaEventHandlers();
+
+    expect(
+      winRef.nativeWindow['gigya'].accounts.addEventHandlers
+    ).toHaveBeenCalledTimes(1);
   });
 
   it('should update personal details', () => {
