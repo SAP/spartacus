@@ -1,0 +1,26 @@
+<cx-fake-tabs
+  [code]="code$ | async"
+  [links]="[
+    {
+      cxRoute: 'costCenterDetails',
+      name: 'costCenter.details',
+      active: true
+    },
+    { cxRoute: 'costCenterBudgets', name: 'costCenter.budgets' }
+  ]"
+  [routerBackLink]="{ cxRoute: 'costCenters', name: 'costCenter.back' }"
+>
+  <div class="cx-header">
+    <h3>{{ 'costCenterForm.edit' | cxTranslate }}</h3>
+  </div>
+  <cx-cost-center-form
+    *ngIf="costCenter$ | async as costCenter"
+    [actionBtnLabel]="'costCenterForm.update' | cxTranslate"
+    [costCenterData]="costCenter"
+    [formKey]="getFormKey(costCenter)"
+    [routerBackLink]="{ cxRoute: 'costCenterDetails', params: costCenter }"
+    (pendingChanges)="showFormRestoredMessage($event)"
+    (submitForm)="updateCostCenter($event)"
+  >
+  </cx-cost-center-form>
+</cx-fake-tabs>

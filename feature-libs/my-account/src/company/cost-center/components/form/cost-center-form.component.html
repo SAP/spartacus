@@ -1,0 +1,62 @@
+<form [formGroup]="form" (ngSubmit)="verifyAndSubmit()">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <div class="form-group">
+        <label>
+          <span class="label-content required">{{
+            'costCenterForm.code.label' | cxTranslate
+          }}</span>
+          <input
+            class="form-control"
+            type="text"
+            required
+            placeholder="{{ 'costCenterForm.code.placeholder' | cxTranslate }}"
+            formControlName="code"
+          />
+          <cx-form-errors [control]="form.get('code')"></cx-form-errors>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <span class="label-content required">{{
+            'costCenterForm.name.label' | cxTranslate
+          }}</span>
+          <input
+            type="text"
+            class="form-control"
+            required
+            placeholder="{{ 'costCenterForm.name.placeholder' | cxTranslate }}"
+            formControlName="name"
+          />
+          <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+        </label>
+      </div>
+
+      <cx-currency-common-form
+        formControlName="currency"
+      ></cx-currency-common-form>
+
+      <cx-unit-common-form
+        formControlName="unit"
+        [readonlyParent]="readonlyParent"
+      ></cx-unit-common-form>
+    </div>
+  </div>
+  <div class="row buttons">
+    <div class="col-md-12 col-lg-6 mb-3">
+      <button class="btn btn-block btn-primary" type="submit">
+        {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
+      </button>
+    </div>
+    <div class="col-md-12 col-lg-6 mb-3" *ngIf="showCancelBtn">
+      <a
+        class="btn btn-block btn-action"
+        (click)="back()"
+        [routerLink]="routerBackLink | cxUrl"
+      >
+        {{ cancelBtnLabel || ('common.cancel' | cxTranslate) }}
+      </a>
+    </div>
+  </div>
+</form>
