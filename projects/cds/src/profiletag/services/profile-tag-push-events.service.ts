@@ -14,7 +14,7 @@ import {
   ProductDetailsPageVisited,
 } from 'projects/core/src/routing/event/routing.events';
 import { merge, Observable, of } from 'rxjs';
-import { map, mapTo, skipWhile, withLatestFrom } from 'rxjs/operators';
+import { map, mapTo, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
 import {
   CartChangedPushEvent,
   CartViewPushEvent,
@@ -108,6 +108,7 @@ export class ProfileTagPushEventsService {
 
   protected productDetailsPageView(): Observable<ProfileTagPushEvent> {
     return this.eventService.get(ProductDetailsPageVisited).pipe(
+      tap((_) => console.log('in profiletag pdp')),
       map(
         (item) =>
           new ProductViewPushEvent({

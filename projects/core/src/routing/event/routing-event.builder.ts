@@ -49,7 +49,7 @@ export class RoutingEventBuilder {
     this.register();
   }
 
-  protected register() {
+  protected register(): void {
     this.eventService.register(
       KeywordSearchPageVisited,
       this.searchResultPageVisited()
@@ -117,15 +117,13 @@ export class RoutingEventBuilder {
       RouteConfigKey.ORDER_CONFIRMATION,
       CmsRoute.ORDER_CONFIRMATION
     ).pipe(
-      tap((searchResults) => {
-        console.log(searchResults);
-      }),
       map((pageContext) =>
         createFrom(OrderConfirmationPageVisited, pageContext)
       )
     );
   }
-  //Fix Me: doesn't work for Open-Catalogue/Cameras/Digital-Cameras/Digital-SLR/c/578
+
+  //FIXME: see https://github.com/SAP/spartacus/issues/7991
   protected buildCategoryPageVisitedEvent(): Observable<CategoryPageVisited> {
     return this.productSearchService.getResults().pipe(
       filter((searchResults) => {
@@ -151,6 +149,7 @@ export class RoutingEventBuilder {
       map((categoryPage) => createFrom(CategoryPageVisited, categoryPage))
     );
   }
+
   protected searchResultPageVisited(): Observable<KeywordSearchPageVisited> {
     return this.productSearchService.getResults().pipe(
       filter((searchResults) => Boolean(searchResults.breadcrumbs)),

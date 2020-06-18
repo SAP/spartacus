@@ -8,7 +8,11 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { TestConfigModule } from '@spartacus/core';
+import {
+  EventService,
+  ProductDetailsPageVisited,
+  TestConfigModule,
+} from '@spartacus/core';
 import {
   JsonLdBuilderModule,
   StorefrontComponent,
@@ -54,15 +58,15 @@ if (environment.b2b) {
   bootstrap: [StorefrontComponent],
 })
 export class AppModule {
-  // constructor(private x: EventService) {
-  //   // this.x.get(HomePageVisited).subscribe((event) => {
-  //   //   console.log('home event: ', event);
-  //   // });
-  //   // this.x.get(CartPageVisited).subscribe((event) => {
-  //   //   console.log('cart event: ', event);
-  //   // });
-  //   // this.x.get(ProductDetailsPageVisited).subscribe((event) => {
-  //   //   console.log('cart event: ', event);
-  //   // });
-  // }
+  constructor(private x: EventService) {
+    // this.x.get(HomePageVisited).subscribe((event) => {
+    //   console.log('home event: ', event);
+    // });
+    // this.x.get(CartPageVisited).subscribe((event) => {
+    //   console.log('cart event: ', event);
+    // });
+    this.x.get(ProductDetailsPageVisited).subscribe((event) => {
+      console.log('pdp event: ', event);
+    });
+  }
 }
