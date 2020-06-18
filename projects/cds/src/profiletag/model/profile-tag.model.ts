@@ -49,6 +49,10 @@ export interface ProfileTagPushEvent {
 
 export class NavigatedPushEvent implements ProfileTagPushEvent {
   name = 'Navigated';
+  data;
+  constructor(data?) {
+    this.data = data;
+  }
 }
 
 export class ConsentChangedPushEvent implements ProfileTagPushEvent {
@@ -107,14 +111,6 @@ export class OrderConfirmationPushEvent implements ProfileTagPushEvent {
 
 export class CartViewPushEvent implements ProfileTagPushEvent {
   name = 'CartPageViewed';
-  data;
-  constructor(data?) {
-    this.data = data;
-  }
-}
-
-export class PageViewPushEvent implements ProfileTagPushEvent {
-  name = 'PageViewed';
   data;
   constructor(data?) {
     this.data = data;

@@ -14,15 +14,15 @@ import {
   ProductDetailsPageVisited,
 } from 'projects/core/src/routing/event/routing.events';
 import { merge, Observable, of } from 'rxjs';
-import { map, skipWhile, withLatestFrom } from 'rxjs/operators';
+import { map, mapTo, skipWhile, withLatestFrom } from 'rxjs/operators';
 import {
   CartChangedPushEvent,
   CartViewPushEvent,
   CategoryViewPushEvent,
   HomePageViewPushEvent,
   KeywordSearchPushEvent,
+  NavigatedPushEvent,
   OrderConfirmationPushEvent,
-  PageViewPushEvent,
   ProductViewPushEvent,
   ProfileTagPushEvent,
 } from '../model/profile-tag.model';
@@ -37,8 +37,8 @@ export class ProfileTagPushEventsService {
     this.searchResultsChanged(),
     this.homePageVisitedEvent(),
     this.cartPageVisitedEvent(),
-    this.pageVisitedEvent(),
-    this.orderConfirmationVisited(),
+    this.navigatedEvent(),
+    this.orderConfirmationPageVisited(),
     this.cartChanged()
   );
   constructor(
@@ -125,26 +125,26 @@ export class ProfileTagPushEventsService {
     );
   }
 
-  protected pageVisitedEvent(): Observable<ProfileTagPushEvent> {
+  protected navigatedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(PageVisited)
-      .pipe(map((_) => new PageViewPushEvent()));
+      .pipe(mapTo(new NavigatedPushEvent()));
   }
   protected cartPageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(CartPageVisited)
-      .pipe(map((_) => new CartViewPushEvent()));
+      .pipe(mapTo(new CartViewPushEvent()));
   }
 
   protected homePageVisitedEvent(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(HomePageVisited)
-      .pipe(map((_) => new HomePageViewPushEvent()));
+      .pipe(mapTo(new HomePageViewPushEvent()));
   }
 
-  protected orderConfirmationVisited(): Observable<ProfileTagPushEvent> {
+  protected orderConfirmationPageVisited(): Observable<ProfileTagPushEvent> {
     return this.eventService
       .get(OrderConfirmationPageVisited)
-      .pipe(map((_) => new OrderConfirmationPushEvent()));
+      .pipe(mapTo(new OrderConfirmationPushEvent()));
   }
 }

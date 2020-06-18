@@ -1,5 +1,7 @@
 import * as anonymousConsents from '../../../../helpers/anonymous-consents';
+import * as checkoutFlow from '../../../../helpers/checkout-as-persistent-user';
 import { waitForPage } from '../../../../helpers/checkout-flow';
+import * as loginHelper from '../../../../helpers/login';
 import { navigation } from '../../../../helpers/navigation';
 import { tabsHeaderList } from '../../../../helpers/product-details';
 import {
@@ -102,7 +104,6 @@ describe('Profile-tag events', () => {
     profileTagHelper.waitForCMSComponents();
     cy.get('cx-media.is-initialized');
     cy.get(tabsHeaderList).eq(0).should('contain', 'Product Details');
-    cy.wait(100);
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(
@@ -185,7 +186,10 @@ describe('Profile-tag events', () => {
     goToProductPage();
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.get('cx-added-to-cart-dialog .btn-primary').click();
-    cy.location('pathname', { timeout: 10000 }).should('include', `cart`);
+    cy.location('pathname', { timeout: 10000 }).should(
+      'include',
+      `/electronics-spa/en/USD/cart`
+    );
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(
@@ -197,35 +201,35 @@ describe('Profile-tag events', () => {
   });
 
   it('should send an OrderConfirmation event when viewing the order confirmation page', () => {
-    goToProductPage();
-    cy.get('cx-add-to-cart button.btn-primary').click();
-    cy.get('cx-added-to-cart-dialog .btn-primary').click();
-    cy.location('pathname', { timeout: 10000 }).should('include', `cart`);
+    loginHelper.loginAsDefaultUser();
+    checkoutFlow.goToProductPageFromCategory();
+    checkoutFlow.addProductToCart();
+    checkoutFlow.addPaymentMethod();
+    checkoutFlow.selectShippingAddress();
+    checkoutFlow.selectDeliveryMethod();
+    checkoutFlow.selectPaymentMethod();
+    cy.location('pathname', { timeout: 10000 }).should(
+      'include',
+      `checkout/review-order`
+    );
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(
           win,
-          profileTagHelper.EventNames.CART_PAGE_VIEWED
+          profileTagHelper.EventNames.ORDER_CONFIRMATION_PAGE_VIEWED
         )
       ).to.equal(1);
     });
   });
 
   it('should send a Category View event when a Category View occurs', () => {
-    const productCategory = '576';
-    const productCategoryName = 'Digital Compacts';
-    navigation.visitPage(
-      `Open-Catalogue/Cameras/Digital-Cameras/Digital-Compacts/c/${productCategory}`,
-      {
-        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
-      }
-    );
-    cy.location('pathname', { timeout: 10000 }).should(
-      'include',
-      `Open-Catalogue/Cameras/Digital-Cameras/Digital-Compacts/c/576`
-    );
-    profileTagHelper.waitForCMSComponents();
-    cy.wait(1000);
+    const productCategory = '575';
+    const productCategoryName = 'Digital Cameras';
+    cy.get('cx-category-navigation cx-generic-link a')
+      .contains('Cameras')
+      .click({ force: true });
+    cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
+    cy.wait(300);
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(

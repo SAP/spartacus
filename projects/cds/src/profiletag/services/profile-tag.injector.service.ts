@@ -3,10 +3,7 @@ import { merge, Observable } from 'rxjs';
 import { mapTo, switchMap, tap } from 'rxjs/operators';
 import { CdsBackendConnector } from '../connectors/cds-backend-connector';
 import { ProfileTagLifecycle } from '../model/profile-tag-lifecycle';
-import {
-  NavigatedPushEvent,
-  ProfileTagPushEvent,
-} from '../model/profile-tag.model';
+import { ProfileTagPushEvent } from '../model/profile-tag.model';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
 import { ProfileTagEventService } from './profiletag-event.service';
 
@@ -16,7 +13,6 @@ import { ProfileTagEventService } from './profiletag-event.service';
 export class ProfileTagInjectorService {
   private profileTagEvents$ = this.profileTagEventTracker.getProfileTagEvents();
   private injectionsEvents$: Observable<boolean> = merge(
-    this.notifyProfileTagOfPageLoaded(),
     this.notifyEcOfLoginSuccessful(),
     this.notifyPushEvents(),
     this.notifyProfileTagOfConsentChanged()
@@ -35,7 +31,7 @@ export class ProfileTagInjectorService {
     );
   }
 
-  notifyPushEvents() {
+  notifyPushEvents(): Observable<boolean> {
     return this.profileTagPushEventsService.getPushEvents().pipe(
       tap((item: ProfileTagPushEvent) => {
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(item);
@@ -50,16 +46,6 @@ export class ProfileTagInjectorService {
         this.profileTagEventTracker.notifyProfileTagOfEventOccurence(event)
       ),
       mapTo(true)
-    );
-  }
-
-  private notifyProfileTagOfPageLoaded(): Observable<boolean> {
-    return this.profileTagLifecycleService.navigated().pipe(
-      tap(() => {
-        this.profileTagEventTracker.notifyProfileTagOfEventOccurence(
-          new NavigatedPushEvent()
-        );
-      })
     );
   }
 

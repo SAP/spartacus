@@ -9,6 +9,7 @@ enum EventNames {
   CONSENT_CHANGED = 'ConsentChanged',
   CATEGORY_PAGE_VIEWED = 'CategoryPageViewed',
   CART_PAGE_VIEWED = 'CartPageViewed',
+  ORDER_CONFIRMATION_PAGE_VIEWED = 'OrderConfirmationPageViewed',
 }
 
 export const profileTagHelper = {

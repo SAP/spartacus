@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
 import { ActionsSubject } from '@ngrx/store';
 import {
   ActiveCartService,
@@ -18,18 +17,10 @@ import { ConsentChangedPushEvent } from '../model/profile-tag.model';
 export class ProfileTagLifecycleService implements ProfileTagLifecycle {
   constructor(
     protected consentService: ConsentService,
-    protected router: Router,
     protected config: CdsConfig,
     protected activeCartService: ActiveCartService,
     protected actionsSubject: ActionsSubject
   ) {}
-
-  navigated(): Observable<boolean> {
-    return this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      mapTo(true)
-    );
-  }
 
   /**
    * We are only interested in the first time the ProfileConsent is granted

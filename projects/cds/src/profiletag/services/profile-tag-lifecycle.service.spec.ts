@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
   Event as NgRouterEvent,
-  NavigationEnd,
   NavigationStart,
   Router,
 } from '@angular/router';
@@ -101,26 +100,6 @@ describe('profileTagLifecycleService', () => {
     getConsentBehavior.next({ consent: 'test' });
     subscription.unsubscribe();
     expect(timesCalled).toEqual(1);
-  });
-
-  it(`Should call the push method for every NavigationEnd event,
-    regardless of consent status, and even if the consent pipe ends due to take(1)`, () => {
-    let timesCalled = 0;
-    const subscription = profileTagLifecycleService
-      .navigated()
-      .pipe(tap(() => timesCalled++))
-      .subscribe();
-    getConsentBehavior.next({ consent: 'test' });
-    routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
-    routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test'));
-    routerEventsBehavior.next(new NavigationStart(0, 'test', 'hashchange'));
-    routerEventsBehavior.next(new NavigationStart(0, 'test', 'hashchange'));
-    routerEventsBehavior.next(new NavigationStart(0, 'test', 'hashchange'));
-    routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test2'));
-    routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test3'));
-    routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test1'));
-    subscription.unsubscribe();
-    expect(timesCalled).toEqual(5);
   });
 
   it(`Should call the push method first time a login is successful`, () => {

@@ -1,16 +1,8 @@
 import { Injectable } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { merge, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { EventService } from '../../event/event.service';
-import { PageType } from '../../model';
-import { ProductSearchService } from '../../product/facade/product-search.service';
-import { ProductService } from '../../product/facade/product.service';
-import { createFrom } from '../../util/create-from';
-import { SemanticPathService } from '../configurable-routes';
-import { RoutingService } from '../facade/routing.service';
-import { PageContext } from '../models/page-context.model';
-import { RouterState } from '../store/routing-state';
 import {
   CartPageVisited,
   CategoryPageVisited,
@@ -19,7 +11,15 @@ import {
   OrderConfirmationPageVisited,
   PageVisited,
   ProductDetailsPageVisited,
-} from './routing.events';
+} from '.';
+import { EventService } from '../../event/event.service';
+import { ProductSearchService } from '../../product/facade/product-search.service';
+import { ProductService } from '../../product/facade/product.service';
+import { createFrom } from '../../util/create-from';
+import { SemanticPathService } from '../configurable-routes';
+import { RoutingService } from '../facade/routing.service';
+import { PageContext } from '../models/page-context.model';
+import { RouterState } from '../store/routing-state';
 
 enum CmsRoute {
   HOME_PAGE = 'homepage',
@@ -46,7 +46,8 @@ export class RoutingEventBuilder {
     protected eventService: EventService,
     protected productService: ProductService,
     protected store: Store<RouterState>,
-    protected semanticPathService: SemanticPathService
+    protected semanticPathService: SemanticPathService,
+    protected router: Router
   ) {
     this.register();
   }
@@ -103,12 +104,10 @@ export class RoutingEventBuilder {
   }
 
   protected buildPageVisitedEvent(): Observable<PageVisited> {
-    return merge(
-      this.routerEvents(PageType.CATALOG_PAGE),
-      this.routerEvents(PageType.CATEGORY_PAGE),
-      this.routerEvents(PageType.CONTENT_PAGE),
-      this.routerEvents(PageType.PRODUCT_PAGE)
-    ).pipe(map((pageContext) => createFrom(PageVisited, pageContext)));
+    return this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map((event) => createFrom(PageVisited, event))
+    );
   }
 
   protected buildCartVisitedEvent(): Observable<CartPageVisited> {
@@ -158,30 +157,6 @@ export class RoutingEventBuilder {
       map((categoryPage) => createFrom(CategoryPageVisited, categoryPage))
     );
   }
-
-  // protected buildCategoryPageVisitedEvent(): Observable<CategoryPageVisited> {
-  //   return this.productSearchService.getResults().pipe(
-  //     tap((searchResults) => {
-  //       console.log(searchResults);
-  //     }),
-  //     filter(
-  //       (searchResults) =>
-  //         searchResults.breadcrumbs && searchResults.breadcrumbs.length > 0
-  //     ),
-  //     withLatestFrom(this.routingService.getPageContext()),
-  //     filter(
-  //       ([_searchResults, pageContext]) =>
-  //         pageContext.type === PageType.CATEGORY_PAGE &&
-  //         !this.isSearchPage(pageContext)
-  //     ),
-  //     map(([searchResults, pageContext]) => ({
-  //       categoryCode: pageContext.id,
-  //       categoryName: searchResults.breadcrumbs[0].facetValueName,
-  //     })),
-  //     map((categoryPage) => createFrom(CategoryPageVisited, categoryPage))
-  //   );
-  // }
-
   protected searchResultPageVisited(): Observable<KeywordSearchPageVisited> {
     return this.productSearchService.getResults().pipe(
       filter((searchResults) => Boolean(searchResults.breadcrumbs)),
@@ -207,11 +182,5 @@ export class RoutingEventBuilder {
       withLatestFrom(this.routingService.getPageContext()),
       map(([_, pageContext]) => pageContext)
     );
-  }
-
-  private routerEvents(pageType: PageType): Observable<PageContext> {
-    return this.routingService
-      .getPageContext()
-      .pipe(filter((context) => context.type === pageType));
   }
 }
