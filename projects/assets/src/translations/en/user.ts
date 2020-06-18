@@ -34,6 +34,7 @@ export const user = {
     signIn: 'Sign In',
     register: 'Register',
     dontHaveAccount: 'Don’t have an account?',
+    guestCheckout: 'Guest Checkout',
     emailAddress: {
       label: 'Email address',
       placeholder: 'Enter email',

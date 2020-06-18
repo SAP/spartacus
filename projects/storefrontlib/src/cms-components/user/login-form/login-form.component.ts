@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import {
   AuthRedirectService,
   AuthService,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
@@ -36,31 +35,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     checkoutConfigService: CheckoutConfigService
   );
 
-  /**
-   * @deprecated since version=2.1
-   * Use constructor (auth: AuthService, globalMessageService: GlobalMessageService, fb: FormBuilder, authRedirectService: AuthRedirectService, winRef: WindowRef)
-   */
-  constructor(
-    auth: AuthService,
-    globalMessageService: GlobalMessageService,
-    fb: FormBuilder,
-    authRedirectService: AuthRedirectService,
-    winRef: WindowRef,
-    activatedRoute: ActivatedRoute,
-    checkoutConfigService: CheckoutConfigService,
-    // tslint:disable-next-line:unified-signatures
-    featureConfigService: FeatureConfigService
-  );
-
   constructor(
     protected auth: AuthService,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
     protected authRedirectService: AuthRedirectService,
     protected winRef: WindowRef,
-    protected activatedRoute?: ActivatedRoute,
-    protected checkoutConfigService?: CheckoutConfigService,
-    protected featureConfigService?: FeatureConfigService
+    protected activatedRoute: ActivatedRoute,
+    protected checkoutConfigService: CheckoutConfigService
   ) {}
 
   ngOnInit(): void {
@@ -76,12 +58,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     });
 
     //TODO (#7785) Deprecated since 2.1
-    if (this.featureConfigService?.isLevel('2.0')) {
-      if (this.checkoutConfigService.isGuestCheckout()) {
-        this.loginAsGuest = this.activatedRoute?.snapshot?.queryParams?.[
-          'forced'
-        ];
-      }
+    if (this.checkoutConfigService.isGuestCheckout()) {
+      this.loginAsGuest = this.activatedRoute?.snapshot?.queryParams?.[
+        'forced'
+      ];
     }
   }
 

@@ -11,7 +11,7 @@ import {
   CheckoutModule,
 } from '@spartacus/core';
 import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
-import { LoginRegisterComponent } from '../login-register/login-register.component';
+import { LoginRegisterComponent } from './login-register.component';
 
 @NgModule({
   imports: [
