@@ -90,9 +90,5 @@ import {
       },
     }),
   ],
-
-  declarations: [],
-  exports: [],
-  entryComponents: [],
 })
 export class OverviewModule {}

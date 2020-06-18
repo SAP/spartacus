@@ -115,9 +115,5 @@ import {
     }),
     HamburgerMenuModule,
   ],
-
-  declarations: [],
-  exports: [],
-  entryComponents: [],
 })
 export class InteractiveConfigurationModule {}
