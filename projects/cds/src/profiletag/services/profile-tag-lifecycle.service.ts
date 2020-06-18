@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
-import {
-  ActiveCartService,
-  AuthActions,
-  ConsentService,
-} from '@spartacus/core';
+import { AuthActions, ConsentService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, mapTo, take } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
@@ -18,7 +14,6 @@ export class ProfileTagLifecycleService implements ProfileTagLifecycle {
   constructor(
     protected consentService: ConsentService,
     protected config: CdsConfig,
-    protected activeCartService: ActiveCartService,
     protected actionsSubject: ActionsSubject
   ) {}
 

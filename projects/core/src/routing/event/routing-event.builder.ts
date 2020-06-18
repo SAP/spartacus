@@ -3,15 +3,6 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import {
-  CartPageVisited,
-  CategoryPageVisited,
-  HomePageVisited,
-  KeywordSearchPageVisited,
-  OrderConfirmationPageVisited,
-  PageVisited,
-  ProductDetailsPageVisited,
-} from '.';
 import { EventService } from '../../event/event.service';
 import { ProductSearchService } from '../../product/facade/product-search.service';
 import { ProductService } from '../../product/facade/product.service';
@@ -20,6 +11,15 @@ import { SemanticPathService } from '../configurable-routes';
 import { RoutingService } from '../facade/routing.service';
 import { PageContext } from '../models/page-context.model';
 import { RouterState } from '../store/routing-state';
+import {
+  CartPageVisited,
+  CategoryPageVisited,
+  HomePageVisited,
+  KeywordSearchPageVisited,
+  OrderConfirmationPageVisited,
+  PageVisited,
+  ProductDetailsPageVisited,
+} from './routing.events';
 
 enum CmsRoute {
   HOME_PAGE = 'homepage',
@@ -52,7 +52,7 @@ export class RoutingEventBuilder {
     this.register();
   }
 
-  protected register() {
+  protected register(): void {
     this.eventService.register(
       KeywordSearchPageVisited,
       this.searchResultPageVisited()
@@ -81,8 +81,8 @@ export class RoutingEventBuilder {
     ProductDetailsPageVisited
   > {
     return this.getCurrentPageContextFor(RouteConfigKey.PRODUCT_DETAILS).pipe(
-      tap((_) => {
-        console.log('nbl');
+      tap((x) => {
+        console.log('pdp from the builder: ', x);
       }),
       map((context) => context.id),
       switchMap((productId) => {
@@ -123,15 +123,13 @@ export class RoutingEventBuilder {
       RouteConfigKey.ORDER_CONFIRMATION,
       CmsRoute.ORDER_CONFIRMATION
     ).pipe(
-      tap((searchResults) => {
-        console.log(searchResults);
-      }),
       map((pageContext) =>
         createFrom(OrderConfirmationPageVisited, pageContext)
       )
     );
   }
-  //Fix Me: doesn't work for Open-Catalogue/Cameras/Digital-Cameras/Digital-SLR/c/578
+
+  //FIXME: see https://github.com/SAP/spartacus/issues/7991
   protected buildCategoryPageVisitedEvent(): Observable<CategoryPageVisited> {
     return this.productSearchService.getResults().pipe(
       filter((searchResults) => {
@@ -157,6 +155,7 @@ export class RoutingEventBuilder {
       map((categoryPage) => createFrom(CategoryPageVisited, categoryPage))
     );
   }
+
   protected searchResultPageVisited(): Observable<KeywordSearchPageVisited> {
     return this.productSearchService.getResults().pipe(
       filter((searchResults) => Boolean(searchResults.breadcrumbs)),
