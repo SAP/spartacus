@@ -6,7 +6,7 @@ import {
   EntitiesModel,
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import {
   Table,
   TableStructure,
@@ -17,11 +17,28 @@ import { TableService } from '../../../_organization/shared/table/table.service'
   providedIn: 'root',
 })
 export class CostCenterService {
-  searchConfig$: BehaviorSubject<B2BSearchConfig> = new BehaviorSubject({
-    // currentPage: 0,
-    pageSize: 30,
-    sort: 'byUnit',
+  protected searchConfig$: BehaviorSubject<
+    B2BSearchConfig
+  > = new BehaviorSubject({
+    pageSize: 10,
   });
+
+  // protected costCenterList$: Observable<EntitiesModel<CostCenter>> = this.searchConfig$.pipe(
+  //   switchMap((config) => this.costCentersService.getList(config))
+  // );
+
+  protected dataset$ = combineLatest([
+    this.tableService.getTableStructure('costCenterList'),
+    this.searchConfig$.pipe(
+      switchMap((config) => this.costCentersService.getList(config))
+    ),
+  ]).pipe(
+    map(([structure, costCenters]: [any, any]) =>
+      this.populateCostCenterTable(structure, costCenters)
+    ),
+    distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+    tap(console.log)
+  );
 
   constructor(
     protected costCentersService: c,
@@ -34,14 +51,7 @@ export class CostCenterService {
   }
 
   getDataTable(): Observable<Table> {
-    return combineLatest([
-      this.tableService.getTableStructure('costCenterList'),
-      this.getCostCenters(),
-    ]).pipe(
-      map(([structure, costCenters]: [any, any]) =>
-        this.populateCostCenterTable(structure, costCenters)
-      )
-    );
+    return this.dataset$;
   }
 
   // TODO: move to generic conversion
@@ -49,10 +59,11 @@ export class CostCenterService {
     structure: TableStructure,
     costCenters: EntitiesModel<CostCenter>
   ): Table {
+    // console.log(costCenters);
     const data = Array.from(costCenters.values).map((value: any) => ({
       ...value,
       currency: value.currency?.isocode,
-      active: value.active === true || value.active === 'true',
+      active: value.active,
     }));
 
     return {
@@ -64,11 +75,11 @@ export class CostCenterService {
     } as Table;
   }
 
-  protected getCostCenters(): Observable<EntitiesModel<CostCenter>> {
-    return this.searchConfig$.pipe(
-      switchMap((config) => this.costCentersService.getList(config))
-    );
-  }
+  // protected getCostCenters(): Observable<EntitiesModel<CostCenter>> {
+  //   return this.searchConfig$.pipe(
+  //     switchMap((config) => this.costCentersService.getList(config))
+  //   );
+  // }
 
   // protected getSearchConfig(): Observable<B2BSearchConfig> {
   //   return of({

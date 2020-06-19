@@ -57,12 +57,12 @@ import { CostCenterListModule } from './cost-center-list/cost-center-list.module
                 {
                   path: ':code',
                   component: CostCenterDetailsComponent,
-                  // children: [
-                  // ],
-                },
-                {
-                  path: ':code/edit',
-                  component: CostCenterEditComponent,
+                  children: [
+                    {
+                      path: 'edit',
+                      component: CostCenterEditComponent,
+                    },
+                  ],
                 },
                 {
                   path: ':code/budget/:budgetCode',

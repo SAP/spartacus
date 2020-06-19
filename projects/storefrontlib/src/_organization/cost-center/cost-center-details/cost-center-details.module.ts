@@ -24,6 +24,5 @@ import { CostCenterDetailsComponent } from './cost-center-details.component';
   ],
   declarations: [CostCenterDetailsComponent],
   exports: [CostCenterDetailsComponent],
-  entryComponents: [CostCenterDetailsComponent],
 })
 export class CostCenterDetailsModule {}

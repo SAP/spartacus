@@ -19,7 +19,7 @@
       &.link,
       &.button:not(.primary),
       &.button:not(.secondary) {
-        margin-inline-start: -var(--cx-spatial-base);
+        padding-inline-start: 0;
       }
     }
   }

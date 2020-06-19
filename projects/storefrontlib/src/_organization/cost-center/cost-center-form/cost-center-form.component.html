@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="verifyAndSubmit()">
+<ng-container [formGroup]="form">
   <div class="form-group">
     <label>
       <span class="label-content required">{{
@@ -31,74 +31,47 @@
     </label>
   </div>
 
-  <div class="form-group">
-    <ng-container
-      *ngIf="currencies$ | async as currencies"
-      formGroupName="currency"
-    >
-      <div *ngIf="currencies.length !== 0">
-        <label aria-required="true">
-          <span class="label-content required">{{
-            'costCenterForm.currency' | cxTranslate
-          }}</span>
-          <ng-select
-            formControlName="isocode"
-            [searchable]="false"
-            [clearable]="false"
-            [items]="currencies"
-            bindLabel="name"
-            bindValue="isocode"
-            [class.invalid]="isNotValid('currency')"
-          >
-          </ng-select>
-          <cx-form-errors
-            [control]="form.get('currency.isocode')"
-          ></cx-form-errors>
-        </label>
-      </div>
-    </ng-container>
-  </div>
-
-  <div class="form-group">
-    <ng-container
-      *ngIf="businessUnits$ | async as businessUnits"
-      formGroupName="unit"
-    >
-      <div *ngIf="businessUnits.length !== 0">
-        <label aria-required="true">
-          <span class="label-content required">{{
-            'costCenterForm.businessUnits.label' | cxTranslate
-          }}</span>
-          <ng-select
-            formControlName="uid"
-            [searchable]="false"
-            [clearable]="false"
-            [items]="businessUnits"
-            bindLabel="name"
-            bindValue="id"
-            [readonly]="readonlyParent"
-          >
-          </ng-select>
-          <cx-form-errors [control]="form.get('unit.uid')"></cx-form-errors>
-        </label>
-      </div>
-    </ng-container>
-  </div>
-
-  <!-- <div class="row buttons">
-    <div class="col-md-12 col-lg-6 mb-3">
-      <button class="btn btn-block btn-primary" type="submit">
-        {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
-      </button>
+  <ng-container [formGroup]="form.get('currency')">
+    <div class="form-group">
+      <label aria-required="true">
+        <span class="label-content required">{{
+          'costCenterForm.currency' | cxTranslate
+        }}</span>
+        <ng-select
+          formControlName="isocode"
+          [searchable]="false"
+          [clearable]="false"
+          [items]="currencies$ | async"
+          bindLabel="name"
+          bindValue="isocode"
+          [class.invalid]="form.get('currency.isocode').invalid"
+        >
+        </ng-select>
+        <cx-form-errors
+          [control]="form.get('currency.isocode')"
+        ></cx-form-errors>
+      </label>
     </div>
-    <div class="col-md-12 col-lg-6 mb-3" *ngIf="showCancelBtn">
-      <a
-        class="btn btn-block btn-action"
-        (click)="back()"
-        [routerLink]="routerBackLink | cxUrl"
-      >
-        {{ cancelBtnLabel || ('common.cancel' | cxTranslate) }}
-      </a>
+  </ng-container>
+
+  <ng-container *ngIf="units$ | async as units" formGroupName="unit">
+    <div class="form-group">
+      <label aria-required="true">
+        <span class="label-content required">{{
+          'costCenterForm.businessUnits.label' | cxTranslate
+        }}</span>
+        <ng-select
+          formControlName="uid"
+          [searchable]="false"
+          [clearable]="false"
+          [items]="units"
+          bindLabel="name"
+          bindValue="id"
+          [readonly]="form.get('unit.uid').disabled"
+        >
+        </ng-select>
+        <cx-form-errors [control]="form.get('unit.uid')"></cx-form-errors>
+      </label>
     </div>
-  </div> -->
-</form>
+  </ng-container>
+</ng-container>

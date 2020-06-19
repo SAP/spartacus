@@ -1,23 +1,20 @@
 <cx-split>
   <cx-view>
-    <h3>
-      <a class="link" [routerLink]="'../'">
-        <cx-icon type="CARET_LEFT"></cx-icon>
-        Cancel
-      </a>
-      {{ 'costCenterForm.create' | cxTranslate }}
-      <button class="button primary" type="submit">
-        Save
-      </button>
-    </h3>
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <h3>
+        <a class="link" [routerLink]="'../'">
+          <cx-icon type="CARET_LEFT"></cx-icon>
+          Cancel
+        </a>
+        {{ 'costCenterForm.create' | cxTranslate }}
+        <button class="button primary" type="submit">
+          Save
+        </button>
+      </h3>
 
-    <cx-cost-center-form
-      [actionBtnLabel]="'costCenterForm.create' | cxTranslate"
-      routerBackLink="../"
-      [costCenterData]="{ unit: { uid: parentUnit$ | async } }"
-      [readonlyParent]="!!(parentUnit$ | async)"
-      (submitForm)="createCostCenter($event)"
-    >
-    </cx-cost-center-form>
+      <section>
+        <cx-cost-center-form [form]="form"> </cx-cost-center-form>
+      </section>
+    </form>
   </cx-view>
 </cx-split>
