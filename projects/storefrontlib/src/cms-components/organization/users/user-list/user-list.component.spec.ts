@@ -26,7 +26,7 @@ import { BehaviorSubject, of } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
+import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module' ;
 import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config'
 import { B2BUserListComponent } from './user-list.component';
 
@@ -68,7 +68,7 @@ const mockUserList: EntitiesModel<B2BUser> = {
     },
     {
       name: 'Alejandro Navarro',
-      uid: 'akiro@naka.com',
+      uid: 'alejandro.navarro@rustic-hw.com',
       active: true,
       approvers: [],
       currency: {
@@ -104,15 +104,15 @@ const mockUserUIList = {
     {
       code: 'akiro@naka.com',
       name: 'Akiro Nakamura',
-      roles: 'b2bmanagergroup',
-      parentUnit: 'Services East',
-      uid: 'Services East',
+      roles: ['b2bmanagergroup'],
+      parentUnit: 'Rustic',
+      uid: 'Rustic',
       customerId: '08ecc0b1-16ef-4a74-a1dd-4a244300c974'
     },
     {
       code: 'alejandro.navarro@rustic-hw.com',
       name: 'Alejandro Navarro',
-      roles: 'b2bcustomergroup',
+      roles: ['b2bcustomergroup'],
       parentUnit: 'Services East',
       uid: 'Services East',
       customerId: '0db38452-5b78-45af-ba26-6cfa20090d8d'
@@ -140,7 +140,7 @@ class MockUrlPipe implements PipeTransform {
 const userList$ = new BehaviorSubject(mockUserList);
 
 class MockUserService implements Partial<B2BUserService> {
-  loadBudgets = createSpy('loadUsers');
+  loadB2BUsers = createSpy('loadB2BUsers');
 
   getList = createSpy('getList').and.returnValue(userList$);
 }
@@ -178,7 +178,7 @@ fdescribe('UserListComponent', () => {
   let component: B2BUserListComponent;
   let fixture: ComponentFixture<B2BUserListComponent>;
   let userService: MockUserService;
-  // let routingService: RoutingService;
+  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -238,9 +238,41 @@ fdescribe('UserListComponent', () => {
           userList = value;
         })
         .unsubscribe();
-      expect(userService.loadBudgets).toHaveBeenCalledWith(defaultParams);
+      expect(userService.loadB2BUsers).toHaveBeenCalledWith(defaultParams);
       expect(userService.getList).toHaveBeenCalledWith(defaultParams);
       expect(userList).toEqual(mockUserUIList);
+    });
+  });
+
+  describe('changeSortCode', () => {
+    it('should set correctly sort code', () => {
+      component.changeSortCode('byUnit');
+      expect(routingService.go).toHaveBeenCalledWith(
+        {
+          cxRoute: 'users',
+          params: {},
+        },
+        {
+          sort: 'byUnit',
+          pageSize: 2
+        }
+      );
+    });
+  });
+
+  describe('pageChange', () => {
+    it('should set correctly page', () => {
+      component.pageChange(2);
+      expect(routingService.go).toHaveBeenCalledWith(
+        {
+          cxRoute: 'users',
+          params: {},
+        },
+        {
+          currentPage: 2,
+          pageSize: 2
+        }
+      );
     });
   });
 
