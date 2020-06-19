@@ -1,11 +1,28 @@
 /**
- * To introduce breaking change during minor releases, we use a technique
- * to register new style classes and selectors. Customers can opt-in for 
- * specific versions (including all former minors). Additionally a flag can 
- * be used to always opt-in to the latest version.
+ * The Spartacus team is cautious with introducing changing styles in a 
+ * minor release, as it would conflict the [semantic versioning](https://semver.org/) 
+ * model. In order to improve the style layer during minor releases, without 
+ * breaking the semantic versioning system, a version flag is used. The version is 
+ * used to register breaking styles classes and rules in the stable style layer. 
+ * 
+ * To introduce breaking changes during the life cycle of a stable (major) releases, 
+ * a technique is provided to register specific styles for specific versions.
+ * Customers can opt-in for specific versions by declaring the `$styleVersion` variable.
+ * The breaking changes until the declared version will be cumulated in the generated 
+ * stylesheet. For example, if a customer declares to use version 2.3, it means that 
+ * all breaking changes introduced in versions 2.1, 2.2 and 2.3 will end up in the 
+ * stylesheet. 
+ * 
+ * Breaking changes which have been introduced before the latest stable release will
+ * always be added. 
+ * 
+ * To make live easy for developers, prototypes and demo's, the `$useLatestStyles` 
+ * has been added as well. If you set this flag to true, you will get all breaking
+ * changes, always. 
  * 
  * Registration of minor driven styles can be done with the `forVersion` mixin. 
- *
+ * An example if given below: 
+ * 
  * ```scss
  * @include forVersion(2.1){
  *   // style classes/rules go here
@@ -14,28 +31,20 @@
  */
 
 /**
- * The `stableVersion` indicates the major version of the style library. Any
- * version related styles equal or smaller than the `stableVersion` will be 
- * processed in any case. 
+ * The `$stableVersion` indicates the major version of the style library. Any
+ * version related styles that are left over from previous stable releases will
+ * always end up in the generated stylesheet. 
  * 
- * This variable cannot be redeclared by customers.
+ * The `$stableVersion` variable cannot be redeclared by customers. This version 
+ * will be updated each time the major release number increases. 
  */
-$stableVersion: 2;
+$stableStyleVersion: 2;
 
 /**
- * The Spartacus team is cautious with introducing changing styles 
- * in a minor release, as it would conflict the semantic versioning model.
- * In order to improve the style layer during minor releases, without breaking 
- * the semantic versioning system, a version flag is used. The version is 
- * used to register breaking styles classes and rules in the stable style layer. 
- * 
- * Customers must explicitly _opt-in_ to a certain (minor) version, to benefit 
- * from the latest style rules.  
- * 
- * The minorVersion can be set to a specific version.
- * 
+ * The `$styleVersion` can be used to explicitly opt-in to breaking style changes till
+ * the given style version. It must contain a floating number, such as `2.1`. 
  */
-$minorVersion: 0 !default;
+$styleVersion: 0 !default;
 
 /**
  * For Spartacus development or demo's, the usage of latest styles is recommended. 
@@ -45,16 +54,15 @@ $minorVersion: 0 !default;
 $useLatestStyles: false !default;
 
 /**
- * This mixin is used during development of the style layer. Breaking style
- * changes can be added for a specific version, so that customers can explicetly
- * opt-in for such a change.
+ * The `forVersion` mixin is used during development of the style layer. Breaking style
+ * changes can be added for a specific version, so that customers must explicitly
+ * _opt-in_ for all breaking changes till the requested $styleVersion. Non breaking changes 
+ * added at any point in time will be build regardless of the selected $styleVersion. 
  */
 @mixin forVersion($version) {
   @if $useLatestStyles or
-    $version <=
-    $minorVersion or
-    $version <=
-    $stableVersion
+    ($version <= $styleVersion) or
+    ($version <= $stableStyleVersion)
   {
     @content;
   }
