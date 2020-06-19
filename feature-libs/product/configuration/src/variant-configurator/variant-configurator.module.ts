@@ -11,7 +11,9 @@ import {
 } from '@spartacus/storefront';
 import { InteractiveConfigurationModule } from './interactive-configuration.module';
 import { OverviewModule } from './overview.module';
-
+/**
+ * Exposes the variant configurator
+ */
 @NgModule({
   imports: [
     CommonModule,
@@ -31,7 +33,7 @@ export class VariantConfiguratorModule {
   static forRoot(): ModuleWithProviders<VariantConfiguratorModule> {
     return {
       ngModule: VariantConfiguratorModule,
-      providers: [[{ provide: MessageConfig, useExisting: Config }]],
+      providers: [{ provide: MessageConfig, useExisting: Config }],
     };
   }
 }

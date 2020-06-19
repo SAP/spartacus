@@ -17,6 +17,10 @@ import {
   PageLayoutComponent,
 } from '@spartacus/storefront';
 
+/**
+ * Takes care of the interactive configuration process (the user enters new attribute values and navigates through the configuration).
+ * Provides routing, assignment of ng components to CMS components and assignment of CMS components to the layout slots
+ */
 @NgModule({
   imports: [
     ProductModule,
@@ -34,35 +38,27 @@ import {
       cmsComponents: {
         VariantConfigurationTabBar: {
           component: ConfigTabBarComponent,
-          guards: [],
         },
         VariantConfigurationTitle: {
           component: ConfigProductTitleComponent,
-          guards: [],
         },
         VariantConfigurationGroupTitle: {
           component: ConfigGroupTitleComponent,
-          guards: [],
         },
         VariantConfigurationForm: {
           component: ConfigFormComponent,
-          guards: [],
         },
         VariantConfigurationMenu: {
           component: ConfigGroupMenuComponent,
-          guards: [],
         },
         VariantConfigurationPriceSummary: {
           component: ConfigPriceSummaryComponent,
-          guards: [],
         },
         VariantConfigurationPrevNext: {
           component: ConfigPreviousNextButtonsComponent,
-          guards: [],
         },
         VariantConfigurationAddToCartButton: {
           component: ConfigAddToCartButtonComponent,
-          guards: [],
         },
       },
       layoutSlots: {
