@@ -51,6 +51,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-
-#environment 
-/projects/storefrontapp/src/environments
