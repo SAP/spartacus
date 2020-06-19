@@ -47,6 +47,7 @@
 #  znikola - Nikola Zarić
 #  developpeurweb - Miguel Estrada
 #  psmul - Patryk Smul
+#  bgambocjaviniar - Brian Gamboc-Javiniar
 
 
 # ===========================================================
@@ -106,14 +107,6 @@
 #   - znikola
 #   - psmul
 
-# ===========================================================
-#  @SAP/spartacus-dev-schematics-owners
-# ===========================================================
-#
-#   - znikola
-#   - psmul
-
-
 ######################################################################################################
 #
 # CODEOWNERS rules
@@ -166,7 +159,27 @@
 # ================================================
 #  Dev Schematics
 # ================================================
-/projects/dev-schematics/src/**                                           @SAP/spartacus-dev-schematics-owners @SAP/spartacus-global-owners
+/projects/dev-schematics/src/**                                           @SAP/spartacus-schematics-owners @SAP/spartacus-global-owners
+
+# ================================================
+#  CDS
+# ================================================
+/projects/cds/src/**                                                      @znikola @bgambocjaviniar @SAP/spartacus-global-owners
+
+# ================================================
+#  My Account
+# ================================================
+/feature-libs/my-account/src/**                                           @SAP/spartacus-core-owners @SAP/spartacus-global-owners
+
+# ================================================
+#  Product
+# ================================================
+/feature-libs/product/src/**                                              @SAP/spartacus-core-owners @SAP/spartacus-global-owners
+
+# ================================================
+#  Product Configuration
+# ================================================
+/feature-libs/product/configuration/src/**                                @znikola @Platonn @SAP/spartacus-global-owners
 
 # ================================================
 #  CODEOWNERS Owners owners ...
