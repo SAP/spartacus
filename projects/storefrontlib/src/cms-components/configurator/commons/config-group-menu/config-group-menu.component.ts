@@ -24,7 +24,6 @@ export class ConfigGroupMenuComponent implements OnInit {
   displayedParentGroup$: Observable<Configurator.Group>;
   displayedGroups$: Observable<Configurator.Group[]>;
   iconTypes = ICON_TYPE;
-  isConfigurationLoading$: Observable<Boolean>;
 
   constructor(
     private routingService: RoutingService,
@@ -73,12 +72,6 @@ export class ConfigGroupMenuComponent implements OnInit {
           delay(0)
         );
       })
-    );
-
-    this.isConfigurationLoading$ = this.routerData$.pipe(
-      switchMap((routerData) =>
-        this.configuratorCommonsService.isConfigurationLoading(routerData.owner)
-      )
     );
   }
 

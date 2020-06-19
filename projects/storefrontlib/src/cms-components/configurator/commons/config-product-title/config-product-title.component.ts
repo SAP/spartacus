@@ -18,7 +18,6 @@ import { ConfigurationRouter } from '../../generic/service/config-router-data';
 export class ConfigProductTitleComponent implements OnInit {
   product$: Observable<Product>;
   routerData$: Observable<ConfigurationRouter.Data>;
-  isConfigurationLoading$: Observable<Boolean>;
   showMore = false;
   iconTypes = ICON_TYPE;
 
@@ -40,12 +39,6 @@ export class ConfigProductTitleComponent implements OnInit {
       ),
       switchMap((configuration) =>
         this.productService.get(configuration.productCode)
-      )
-    );
-
-    this.isConfigurationLoading$ = this.routerData$.pipe(
-      switchMap((routerData) =>
-        this.configuratorCommonsService.isConfigurationLoading(routerData.owner)
       )
     );
   }

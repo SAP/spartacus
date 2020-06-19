@@ -20,7 +20,6 @@ export class ConfigFormComponent implements OnInit {
   routerData$: Observable<ConfigurationRouter.Data>;
   configuration$: Observable<Configurator.Configuration>;
   currentGroup$: Observable<Configurator.Group>;
-  isConfigurationLoading$: Observable<Boolean>;
 
   public UiType = Configurator.UiType;
 
@@ -68,12 +67,6 @@ export class ConfigFormComponent implements OnInit {
     this.currentGroup$ = this.routerData$.pipe(
       switchMap((routerData) =>
         this.configuratorGroupsService.getCurrentGroup(routerData.owner)
-      )
-    );
-
-    this.isConfigurationLoading$ = this.routerData$.pipe(
-      switchMap((routerData) =>
-        this.configuratorCommonsService.isConfigurationLoading(routerData.owner)
       )
     );
   }

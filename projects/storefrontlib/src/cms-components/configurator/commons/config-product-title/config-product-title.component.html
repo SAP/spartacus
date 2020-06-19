@@ -1,5 +1,4 @@
-<ng-container *ngIf="!(isConfigurationLoading$ | async); else loadingAnimation">
-  <ng-container *ngIf="product$ | async as product">
+<ng-container *ngIf="product$ | async as product">
     <div class="cx-config-container">
       <div class="cx-config-product-title">
         {{ product.name }}
@@ -48,10 +47,3 @@
       </div>
     </div>
   </ng-container>
-</ng-container>
-
-<ng-template #loadingAnimation>
-  <div>
-    Configuration is still loading
-  </div>
-</ng-template>

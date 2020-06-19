@@ -1,0 +1,96 @@
+$background: #f6f7f8;
+$grey-nuance-lighter: #eeeeee;
+$grey-nuance-darker: #dddddd;
+$fade-grey: #e8e8e8;
+
+.cx-config-animation-container {
+  width: 100%;
+  position: relative;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+
+  .placeload {
+    background: #fff;
+    max-width: 100%;
+    margin: 0 auto;
+    width: 100%;
+    padding: 5px;
+    position: relative;
+
+    .placeholder {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      .content-shape {
+        height: 45px;
+        width: 100%;
+      }
+    }
+    .img {
+      width: 20px;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-left: 10px;
+      margin-bottom: 8px;
+    }
+  }
+}
+
+.loads {
+  -webkit-animation-duration: 1.5s;
+  animation-duration: 1.5s;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-name: placeload;
+  animation-name: placeload;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  background: $background;
+  background: $grey-nuance-lighter;
+  background: -webkit-gradient(
+      linear,
+      left top,
+      right top,
+      color-stop(8%, $grey-nuance-lighter),
+      color-stop(18%, $grey-nuance-darker),
+      color-stop(28%, $grey-nuance-lighter)
+  );
+  background: -webkit-linear-gradient(
+      left,
+      #eeeeee 8%,
+      #dddddd 18%,
+      #eeeeee 28%
+  );
+  background: linear-gradient(
+      to-right,
+      $grey-nuance-lighter 8%,
+      #dddddd 18%,
+      $grey-nuance-lighter 28%
+  );
+  -webkit-background-size: 800px 104px;
+  background-size: 1200px 104px;
+  position: relative;
+}
+
+@-webkit-keyframes placeload {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+@keyframes placeload {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}

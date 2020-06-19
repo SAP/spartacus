@@ -40,6 +40,7 @@ import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.
 import { DefaultMessageConfig } from '../commons/config/default-message-config';
 import { MessageConfig } from '../commons/config/message-config';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
+import { ConfigLoadingComponent } from "../config-loading/config-loading.component";
 
 @NgModule({
   imports: [
@@ -58,6 +59,10 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigModule.withConfig(DefaultMessageConfig),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
+        VariantConfigurationLoading: {
+          component: ConfigLoadingComponent,
+          guards: [],
+        },
         VariantConfigurationTabBar: {
           component: ConfigTabBarComponent,
           guards: [],
@@ -123,6 +128,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
 
           md: {
             slots: [
+              'VariantConfigLoading',
               'VariantConfigHeader',
               'VariantConfigMenu',
               'VariantConfigContent',
@@ -131,6 +137,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
           },
           xs: {
             slots: [
+              'VariantConfigLoading',
               'VariantConfigHeader',
               'VariantConfigContent',
               'VariantConfigBottombar',
@@ -152,6 +159,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
 
   declarations: [
     ConfigFormComponent,
+    ConfigLoadingComponent,
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
     ConfigAttributeCheckBoxListComponent,
@@ -173,6 +181,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
   ],
   exports: [
     ConfigFormComponent,
+    ConfigLoadingComponent,
     ConfigAttributeRadioButtonComponent,
     ConfigAttributeDropDownComponent,
     ConfigAttributeCheckBoxListComponent,

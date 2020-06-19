@@ -1,0 +1,25 @@
+<ng-container *ngIf="(isConfigurationLoading$ | async)">
+  <div class="cx-config-animation-container cx-config-loading-product-title">
+    <div class="placeload">
+      <div class="placeholder">
+        <div class="content-shape loads"></div>
+      </div>
+    </div>
+  </div>
+  <div class="cx-config-animation-container cx-config-loading-menu">
+    <div *ngFor="let group of [].constructor(10);">
+      <div class="placeload">
+        <div class="placeholder">
+          <div class="content-shape loads"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cx-config-animation-container cx-config-loading-form">
+    <div class="placeload">
+      <div class="placeholder">
+        <div class="content-shape loads"></div>
+      </div>
+    </div>
+  </div>
+</ng-container>

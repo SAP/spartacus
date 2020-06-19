@@ -1,4 +1,4 @@
-<ng-container *ngIf="!(isConfigurationLoading$ | async); else loadingAnimation">
+<ng-container *ngIf="!(isConfigurationLoading$ | async)">
   <ng-container *ngIf="routerData$ | async as routerData">
     <ng-container *ngIf="!routerData.displayOnly">
       <div class="nav">
@@ -40,9 +40,3 @@
     </ng-container>
   </ng-container>
 </ng-container>
-
-<ng-template #loadingAnimation>
-  <div>
-    Configuration is still loading
-  </div>
-</ng-template>
