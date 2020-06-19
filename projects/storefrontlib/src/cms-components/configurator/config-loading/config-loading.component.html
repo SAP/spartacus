@@ -1,4 +1,4 @@
-<ng-container *ngIf="(isConfigurationLoading$ | async)">
+<ng-container *ngIf="isConfigurationLoading$ | async">
   <div class="cx-config-animation-container cx-config-loading-product-title">
     <div class="placeload">
       <div class="placeholder">
@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="cx-config-animation-container cx-config-loading-menu">
-    <div *ngFor="let group of [].constructor(10);">
+    <div *ngFor="let group of [].constructor(10)">
       <div class="placeload">
         <div class="placeholder">
           <div class="content-shape loads"></div>

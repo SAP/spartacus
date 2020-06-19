@@ -53,24 +53,24 @@ $fade-grey: #e8e8e8;
   background: $background;
   background: $grey-nuance-lighter;
   background: -webkit-gradient(
-      linear,
-      left top,
-      right top,
-      color-stop(8%, $grey-nuance-lighter),
-      color-stop(18%, $grey-nuance-darker),
-      color-stop(28%, $grey-nuance-lighter)
+    linear,
+    left top,
+    right top,
+    color-stop(8%, $grey-nuance-lighter),
+    color-stop(18%, $grey-nuance-darker),
+    color-stop(28%, $grey-nuance-lighter)
   );
   background: -webkit-linear-gradient(
-      left,
-      #eeeeee 8%,
-      #dddddd 18%,
-      #eeeeee 28%
+    left,
+    #eeeeee 8%,
+    #dddddd 18%,
+    #eeeeee 28%
   );
   background: linear-gradient(
-      to-right,
-      $grey-nuance-lighter 8%,
-      #dddddd 18%,
-      $grey-nuance-lighter 28%
+    to-right,
+    $grey-nuance-lighter 8%,
+    #dddddd 18%,
+    $grey-nuance-lighter 28%
   );
   -webkit-background-size: 800px 104px;
   background-size: 1200px 104px;
