@@ -91,6 +91,12 @@
     "release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../..",
     "build:product:lib": "ng build product --prod",
     "release:product:with-changelog": "cd feature-libs/product && release-it && cd ../..",
+    "build:productconfig": "cross-env SPARTACUS_PRODUCTCONFIG=true ng build storefrontapp --prod",
+    "start:productconfig:prod": "cross-env SPARTACUS_PRODUCTCONFIG=true ng serve --prod",
+    "dev:productconfig:ssr": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 SPARTACUS_PRODUCTCONFIG=true ng run storefrontapp:serve-ssr",
+    "prerender:productconfig:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 SPARTACUS_PRODUCTCONFIG=true ng run storefrontapp:prerender --routesFile projects/storefrontapp/prerender.txt",
+    "build:productconfig:ssr": "cross-env SPARTACUS_PRODUCTCONFIG=true ng run storefrontapp:server:production",
+    "prerender:productconfig": "cross-env SPARTACUS_PRODUCTCONFIG=true ng run storefrontapp:prerender",
     "start:b2b:ci:2005": "cross-env SPARTACUS_BASE_URL=https://dev-com-7.accdemo.b2c.ydev.hybris.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod"
   },
   "private": false,
