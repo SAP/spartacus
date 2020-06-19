@@ -7,7 +7,6 @@ import {
   OrgUnitService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cost-center-form',
@@ -19,9 +18,7 @@ export class CostCenterFormComponent implements OnInit {
    */
   @Input() form: FormGroup;
 
-  units$: Observable<
-    B2BUnitNode[]
-  > = this.orgUnitService.getActiveUnitList().pipe(tap(console.log));
+  units$: Observable<B2BUnitNode[]> = this.orgUnitService.getActiveUnitList();
   currencies$: Observable<Currency[]> = this.currencyService.getAll();
 
   constructor(
