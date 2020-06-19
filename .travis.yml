@@ -14,7 +14,12 @@ branches:
     - "/^release\\/.*$/"
     - "/^doc\\/.*$/"
     - "/^epic\\/.*$/"
-script: ./build.sh sonar
+jobs:
+    include:
+      - script: "./ci-scripts/build.sh sonar"
+        name: "Build/unit tests"
+      - script: "./ci-scripts/e2e-cypress.sh --env ccv2"
+        name: "End to end tests"
 deploy:
   provider: script
   skip_cleanup: true
