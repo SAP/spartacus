@@ -1,13 +1,13 @@
 <div class="register" *cxFeatureLevel="'2.1'">
   <p class="cx-section-title">
-    {{ 'loginRegister.dontHaveAccount' | cxTranslate }}
+    {{ 'loginForm.dontHaveAccount' | cxTranslate }}
   </p>
 
   <ng-container *ngIf="!loginAsGuest">
     <a
       [routerLink]="{ cxRoute: 'register' } | cxUrl"
       class="btn btn-block btn-secondary btn-register"
-      >{{ 'loginRegister.register' | cxTranslate }}</a
+      >{{ 'loginForm.register' | cxTranslate }}</a
     >
   </ng-container>
 
@@ -15,7 +15,7 @@
     <a
       [routerLink]="{ cxRoute: 'checkoutLogin' } | cxUrl"
       class="btn btn-block btn-secondary btn-guest"
-      >{{ 'loginRegister.guestCheckout' | cxTranslate }}</a
+      >{{ 'loginForm.guestCheckout' | cxTranslate }}</a
     >
   </ng-container>
 </div>

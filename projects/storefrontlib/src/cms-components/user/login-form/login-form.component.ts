@@ -21,20 +21,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   loginAsGuest = false;
 
-  /**
-   * @deprecated since version=2.1
-   * Use constructor (auth: AuthService, globalMessageService: GlobalMessageService, fb: FormBuilder, authRedirectService: AuthRedirectService, winRef: WindowRef)
-   */
-  constructor(
-    auth: AuthService,
-    globalMessageService: GlobalMessageService,
-    fb: FormBuilder,
-    authRedirectService: AuthRedirectService,
-    winRef: WindowRef,
-    activatedRoute: ActivatedRoute,
-    checkoutConfigService: CheckoutConfigService
-  );
-
   constructor(
     protected auth: AuthService,
     protected globalMessageService: GlobalMessageService,

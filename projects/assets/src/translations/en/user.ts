@@ -45,11 +45,6 @@ export const user = {
     },
     wrongEmailFormat: 'This is not a valid email format.',
   },
-  loginRegister: {
-    dontHaveAccount: 'Don’t have an account?',
-    register: 'Register',
-    guestCheckout: 'Guest Checkout',
-  },
   register: {
     confirmPassword: {
       action: 'Confirm password',
