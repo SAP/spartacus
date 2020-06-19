@@ -6,6 +6,7 @@
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
+      "@ng-select/ng-select": "ng-select",
       "rxjs": "rxjs"
     }
   }

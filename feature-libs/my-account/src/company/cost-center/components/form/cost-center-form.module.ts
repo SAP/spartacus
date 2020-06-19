@@ -5,8 +5,8 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { CurrencyCommonFormModule } from '../../../../shared/form/currency/index';
-import { UnitCommonFormModule } from '../../../../shared/form/unit/index';
+import { CurrencyCommonFormModule } from '../../../../shared/form/currency/currency-common-form.module';
+import { UnitCommonFormModule } from '../../../../shared/form/unit/unit-common-form.module';
 import { CostCenterFormComponent } from './cost-center-form.component';
 
 @NgModule({
