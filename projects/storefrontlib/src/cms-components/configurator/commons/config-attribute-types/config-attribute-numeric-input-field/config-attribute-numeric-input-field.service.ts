@@ -143,21 +143,25 @@ export class ConfigAttributeNumericInputFieldService {
           locale,
           NumberSymbol.Decimal
         );
-
+        const expressionPrefix = negativeAllowed ? '^-?' : '^';
         const expressionOnlyNumericalInput: RegExp = new RegExp(
-          negativeAllowed
-            ? '^-?[0123456789'
-            : '?[0123456789' + groupingSeparator + decimalSeparator + ']+$'
+          expressionPrefix +
+            '[0123456789' +
+            groupingSeparator +
+            decimalSeparator +
+            ']*$'
         );
+
         if (!expressionOnlyNumericalInput.test(input)) {
           return this.createValidationError(true);
         }
+        console.log('CHHI accepted');
         return this.createValidationError(
           this.performValidationAccordingToMetaData(
             input,
             groupingSeparator,
             decimalSeparator,
-            numberTotalPlaces,
+            numberTotalPlaces + (input.includes('-') ? 1 : 0),
             numberDecimalPlaces
           )
         );

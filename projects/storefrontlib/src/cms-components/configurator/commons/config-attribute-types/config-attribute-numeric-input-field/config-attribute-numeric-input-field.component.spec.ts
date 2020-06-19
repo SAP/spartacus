@@ -79,6 +79,17 @@ describe('ConfigAttributeInputFieldComponent', () => {
     htmlElem = fixture.nativeElement;
   });
 
+  function checkForValidity(
+    input: string,
+    negativeAllowed: boolean,
+    isValid: boolean
+  ) {
+    component.attribute.negativeAllowed = negativeAllowed;
+    component.ngOnInit();
+    component.attributeInputForm.setValue(input);
+    checkForValidationMessage(component, fixture, htmlElem, isValid ? 0 : 1);
+  }
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -88,43 +99,52 @@ describe('ConfigAttributeInputFieldComponent', () => {
     expect(component.attributeInputForm.value).toEqual(userInput);
   });
 
-  it('should display no validation issue if input is fine', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    checkForValidationMessage(component, fixture, htmlElem, 0);
-  });
-
   it('should display no validation issue if input is fine, an unknown locale was requested, and we fall back to en locale', () => {
     locale = 'Unkonwn';
     component.ngOnInit();
-    fixture.detectChanges();
     checkForValidationMessage(component, fixture, htmlElem, 0);
   });
 
   it('should display a validation issue if alphanumeric characters occur', () => {
-    component.ngOnInit();
-    component.attributeInputForm.setValue('122A23');
-
-    checkForValidationMessage(component, fixture, htmlElem, 1);
+    checkForValidity('122A23', false, false);
   });
 
   it('should display a validation issue if negative sign is included but not allowed to', () => {
-    component.ngOnInit();
-    component.attributeInputForm.setValue('-122323');
+    checkForValidity('-122323', false, false);
+  });
 
-    checkForValidationMessage(component, fixture, htmlElem, 1);
+  it('should display no validation issue if negative sign is included and allowed', () => {
+    checkForValidity('-122323', true, true);
+  });
+
+  it('should display a validation issue if input is too long', () => {
+    checkForValidity('123456789.34', false, false);
+  });
+
+  it('should display a validation issue if input is too long and negatives allowed', () => {
+    checkForValidity('123456789.34', true, false);
+  });
+
+  it('should display no validation issue if input length matches meta data exactly', () => {
+    checkForValidity('12345678.34', false, true);
+  });
+
+  it('should display no validation issue if input length matches meta data exactly and negatives are allowed', () => {
+    checkForValidity('12345678.34', true, true);
+  });
+
+  it('should display no validation issue for negative value if input length matches meta data exactly and negatives are allowed', () => {
+    checkForValidity('-12345678.34', true, true);
+  });
+
+  it('should display no validation issue for single minus if negatives are allowed', () => {
+    checkForValidity('-', true, true);
   });
 
   it('should not set control value in case the model attribute does not carry a value', () => {
     component.attribute.userInput = null;
     component.ngOnInit();
     expect(component.attributeInputForm.value).toBe('');
-  });
-
-  it('should display a validation issue if input is too long', () => {
-    component.ngOnInit();
-    component.attributeInputForm.setValue('23234,576654345');
-    checkForValidationMessage(component, fixture, htmlElem, 1);
   });
 
   it('should raise event in case input was changed', () => {

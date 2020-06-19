@@ -288,6 +288,20 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(attributes[0].negativeAllowed).toBe(true);
   });
 
+  it('should increase maximum length if negative numbers are allowed', () => {
+    const attributes: Configurator.Attribute[] = [];
+    const numericOccAttribute: OccConfigurator.Attribute = {
+      maxlength: 3,
+      negativeAllowed: true,
+    };
+    occConfiguratorVariantNormalizer.convertAttribute(
+      numericOccAttribute,
+      attributes
+    );
+
+    expect(attributes[0].maxlength).toBe(numericOccAttribute.maxlength + 1);
+  });
+
   it('should convert a standard group', () => {
     occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
     expect(groups[0].description).toBe(groupDescription);

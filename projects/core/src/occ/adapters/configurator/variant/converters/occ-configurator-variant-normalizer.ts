@@ -83,7 +83,8 @@ export class OccConfiguratorVariantNormalizer
       //also for numeric attributes take from value, because UI expects to handle localization on its own,
       //thus expects numeric
       userInput: sourceAttribute.value,
-      maxlength: sourceAttribute.maxlength,
+      maxlength:
+        sourceAttribute.maxlength + (sourceAttribute.negativeAllowed ? 1 : 0),
       numDecimalPlaces: sourceAttribute.numberScale,
       negativeAllowed: sourceAttribute.negativeAllowed,
       numTotalLength: sourceAttribute.typeLength,
