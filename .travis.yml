@@ -16,7 +16,7 @@ branches:
     - "/^epic\\/.*$/"
 jobs:
     include:
-      - script: "./ci-scripts/build.sh sonar"
+      - script: "./build.sh sonar"
         name: "Build/unit tests"
       - script: "./ci-scripts/e2e-cypress.sh --env ccv2"
         name: "End to end tests"
