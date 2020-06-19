@@ -77,8 +77,6 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
   }
 
   assign({ row }) {
-    console.log('PRINT:' + row);
-
     this.role$
       .pipe(take(1))
       .subscribe((role) =>
