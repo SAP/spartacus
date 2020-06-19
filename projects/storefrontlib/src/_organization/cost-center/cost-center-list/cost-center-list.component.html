@@ -1,7 +1,7 @@
 <cx-split>
   <cx-view>
     <h3>
-      {{ 'costCentersList.header' | cxTranslate }}
+      {{ 'costCenterList.header' | cxTranslate }}
       <div class="tools">
         <a class="link" routerLink="create" routerLinkActive="disabled">
           <cx-icon type="EXPAND"></cx-icon>
@@ -14,7 +14,7 @@
 </cx-split>
 
 <!-- TODO: [cxSkipStacking]="true" -->
-<ng-template [cxOutletRef]="tmpl.NAME" let-model>
+<ng-template cxOutletRef="table.costCenter.data.name" let-model>
   <a
     [routerLink]="{ cxRoute: 'costCenterDetails', params: model } | cxUrl"
     routerLinkActive="active"
@@ -30,7 +30,7 @@
 </ng-template>
 
 <!-- TODO: [cxSkipStacking]="true" -->
-<ng-template [cxOutletRef]="tmpl.UNIT" let-model>
+<ng-template cxOutletRef="table.costCenter.data.unit" let-model>
   <a [routerLink]="{ cxRoute: 'orgUnitDetails', params: model.unit } | cxUrl">
     {{ model.unit?.name }}
   </a>

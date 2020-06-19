@@ -1,10 +1,6 @@
 <cx-table class="list" [dataset]="dataTable$ | async"> </cx-table>
 
-<ng-template
-  cxOutletRef="table.budgetsList.data.name"
-  [cxSkipStacking]="true"
-  let-model
->
+<ng-template cxOutletRef="table.budgetsList.data.name" let-model>
   <a
     [routerLink]="
       {

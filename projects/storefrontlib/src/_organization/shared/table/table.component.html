@@ -1,26 +1,4 @@
 <table *ngIf="dataset?.structure as structure" class="table cx-table">
-  <!-- <ng-container *ngIf="vertical; else horizontal">
-    <tr *ngFor="let col of structure.labels">
-      <th scope="col" [class]="col.key">
-        <ng-template
-          [cxOutlet]="'table.' + dataset.type + '.header.' + col.key"
-          [cxOutletContext]="col"
-        >
-          {{ dataset.type + '.' + col.key | cxTranslate }}
-        </ng-template>
-      </th>
-      <td *ngFor="let row of dataset.data">
-        <ng-template
-          [cxOutlet]="'table.' + dataset.type + '.data.' + col.key"
-          [cxOutletContext]="row"
-        >
-          {{ row[col.key] }}
-        </ng-template>
-      </td>
-    </tr>
-  </ng-container> -->
-
-  <!-- <ng-template #horizontal> -->
   <thead>
     <tr *ngIf="!structure.hideLabels">
       <th
@@ -50,5 +28,4 @@
       </ng-template>
     </td>
   </tr>
-  <!-- </ng-template> -->
 </table>

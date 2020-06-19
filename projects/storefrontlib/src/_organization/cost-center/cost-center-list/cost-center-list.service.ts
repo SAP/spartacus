@@ -6,12 +6,13 @@ import {
   EntitiesModel,
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import {
   Table,
   TableStructure,
 } from '../../../_organization/shared/table/table.model';
 import { TableService } from '../../../_organization/shared/table/table.service';
+import { CompanyTables } from '../../model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,7 @@ export class CostCenterService {
   // );
 
   protected dataset$ = combineLatest([
-    this.tableService.getTableStructure('costCenterList'),
+    this.tableService.buildTableStructure(CompanyTables.COST_CENTER),
     this.searchConfig$.pipe(
       switchMap((config) => this.costCentersService.getList(config))
     ),
@@ -36,8 +37,8 @@ export class CostCenterService {
     map(([structure, costCenters]: [any, any]) =>
       this.populateCostCenterTable(structure, costCenters)
     ),
-    distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-    tap(console.log)
+    // tmp
+    distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
   );
 
   constructor(
@@ -67,7 +68,7 @@ export class CostCenterService {
     }));
 
     return {
-      type: 'costCentersList',
+      type: 'costCenter',
       structure,
       data,
       sorts: costCenters.sorts,

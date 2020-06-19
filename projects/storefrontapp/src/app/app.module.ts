@@ -8,11 +8,12 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { TestConfigModule } from '@spartacus/core';
+import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
   CostCenterModule,
   JsonLdBuilderModule,
   StorefrontComponent,
+  TableConfig,
 } from '@spartacus/storefront';
 import { b2bFeature } from '../environments/b2b/b2b.feature';
 import { b2cFeature } from '../environments/b2c/b2c.feature';
@@ -45,6 +46,17 @@ if (!environment.production) {
     ...devImports,
 
     CostCenterModule,
+
+    ConfigModule.withConfig({
+      table: {
+        // [CompanyTables.COST_CENTER]: [
+        //   {
+        //     breakpoint: BREAKPOINT.lg,
+        //     labels: [{ key: 'currency' }],
+        //   },
+        // ],
+      },
+    } as TableConfig),
   ],
 
   bootstrap: [StorefrontComponent],

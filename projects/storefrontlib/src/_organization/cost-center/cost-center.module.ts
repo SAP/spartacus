@@ -5,10 +5,14 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
+  provideConfig,
   RoutingConfig,
 } from '@spartacus/core';
+import { BREAKPOINT } from '../../layout/config/layout-config';
+import { CompanyTables } from '../model';
 import { OrganizationOutletComponent } from '../shared/organization-outlet/organization-outlet.component';
 import { OrganizationOutletModule } from '../shared/organization-outlet/organization-outlet.module';
+import { TableConfig } from '../shared/table/config/table.config';
 import { CostCenterBudgetComponent } from './cost-center-budget/cost-center-budget.component';
 import { CostCenterBudgetModule } from './cost-center-budget/cost-center-budget.module';
 import { CostCenterCreateComponent } from './cost-center-create/cost-center-create.component';
@@ -82,6 +86,31 @@ import { CostCenterListModule } from './cost-center-list/cost-center-list.module
     CostCenterDetailsModule,
     CostCenterEditModule,
     CostCenterBudgetModule,
+  ],
+  providers: [
+    provideConfig({
+      table: {
+        [CompanyTables.COST_CENTER]: [
+          {
+            labels: [{ key: 'name' }],
+            hideLabels: true,
+          },
+          {
+            breakpoint: BREAKPOINT.md,
+            labels: [{ key: 'name' }, { key: 'unit' }],
+          },
+          {
+            breakpoint: BREAKPOINT.lg,
+            labels: [
+              { key: 'name', sortCode: 'byName' },
+              { key: 'code', sortCode: 'byCode' },
+              { key: 'currency' },
+              { key: 'unit', sortCode: 'byUnit' },
+            ],
+          },
+        ],
+      },
+    } as TableConfig),
   ],
 })
 export class CostCenterModule {}

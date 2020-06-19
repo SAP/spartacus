@@ -1,15 +1,6 @@
 import { PaginationModel, SortModel } from '@spartacus/core';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
 
-export type TableConfig = {
-  structure: TableStructure;
-  [BREAKPOINT.xs]?: TableStructure;
-  [BREAKPOINT.sm]?: TableStructure;
-  [BREAKPOINT.md]?: TableStructure;
-  [BREAKPOINT.lg]?: TableStructure;
-  [BREAKPOINT.xl]?: TableStructure;
-};
-
 export interface Table {
   type: string;
   structure: TableStructure;
@@ -19,9 +10,9 @@ export interface Table {
 }
 
 export interface TableStructure {
+  breakpoint?: BREAKPOINT;
   labels: TableLabel[];
   hideLabels?: boolean;
-  // direction?: TableDirection;
 }
 export interface TableLabel {
   key: string;

@@ -3,12 +3,6 @@ import { Observable } from 'rxjs';
 import { Table } from '../../shared/table/table.model';
 import { CostCenterService } from './cost-center-list.service';
 
-enum CostCenterListTemplates {
-  NAME_LABEL = 'table.costCentersList.label.name',
-  NAME = 'table.costCentersList.data.name',
-  UNIT = 'table.costCentersList.data.unit',
-  ACTIVE = 'table.costCentersList.data.active',
-}
 @Component({
   selector: 'cx-cost-center-list',
   templateUrl: './cost-center-list.component.html',
@@ -18,8 +12,6 @@ export class CostCenterListComponent {
   @HostBinding('class.open') routeOpen: boolean;
 
   dataTable$: Observable<Table> = this.costCentersService.getDataTable();
-
-  tmpl = CostCenterListTemplates;
 
   constructor(protected costCentersService: CostCenterService) {}
 

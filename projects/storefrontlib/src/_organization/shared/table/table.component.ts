@@ -32,8 +32,6 @@ export class TableComponent {
   @Output() sortEvent: EventEmitter<string> = new EventEmitter();
 
   sort(sortCode: string) {
-    if (sortCode) {
-      this.sortEvent.emit(sortCode);
-    }
+    this.sortEvent.emit(sortCode);
   }
 }

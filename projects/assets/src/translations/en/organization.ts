@@ -6,9 +6,11 @@ export const organization = {
     // let's start with generic names and introduce
     // more specifics once we have #7154 in place
     back: 'Back',
-    edit: 'Edit',
-    close: 'Close',
-    save: 'Save',
+    create: 'Create {{name}}',
+    edit: 'Edit {{name}}',
+    save: 'Save {{name}}',
+    cancel: 'Cancel {{name}}',
+    close: 'Close {{name}}',
   },
 
   budgetsList: {
@@ -145,12 +147,22 @@ export const organization = {
       placeholder: 'Amount',
     },
   },
-  costCentersList: {
-    header: 'Cost centers',
+
+  costCenter: {
     code: 'Code',
     name: 'Name',
     currency: 'Currency',
     unit: 'Parent Unit',
+    budgets: 'Budgets',
+
+    status: 'Status',
+    disable: 'Disable',
+    enable: 'Enable',
+    active: 'Active',
+    deactivated: 'Deactivated',
+  },
+  costCenterList: {
+    header: 'Cost centers',
     active: 'Active',
     sortByMostRecent: 'sortByMostRecent',
     sorting: {
@@ -160,20 +172,9 @@ export const organization = {
     },
     create: 'Create new Cost Center',
   },
-  costCenter: {
+  costCenterDetails: {
     header: 'Details for {{code}}',
-    code: 'Code',
-    name: 'Name',
-    currency: 'Currency',
-    parentUnit: 'Parent Unit',
-    edit: 'Edit',
-    disable: 'Disable',
-    enable: 'Enable',
-    status: 'Status',
-    back: 'Back to list',
-    active: 'Active',
-    deactivated: 'Deactivated',
-    budgets: 'Budgets',
+
     details: 'Details',
     assignBudgets: 'Manage Budgets',
     confirmDeactivation: {
@@ -196,24 +197,7 @@ export const organization = {
     header: 'Manage budgets in {{code}}',
     back: 'Close',
   },
-  costCenterForm: {
-    create: 'Create Cost Center',
-    edit: 'Edit {{name}}',
-    update: 'Update Cost Center',
-    code: {
-      label: 'Cost Center ID',
-      placeholder: 'Code',
-    },
-    name: {
-      label: 'Cost Center name',
-      placeholder: 'Name',
-    },
-    businessUnits: {
-      label: 'Parent business unit',
-      placeholder: 'Select business unit',
-    },
-    currency: 'Currency',
-  },
+
   orgUnitsList: {
     orgUnitManagement: 'Units',
     create: 'Create new Unit',

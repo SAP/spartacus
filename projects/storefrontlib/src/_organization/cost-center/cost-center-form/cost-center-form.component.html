@@ -2,13 +2,13 @@
   <div class="form-group">
     <label>
       <span class="label-content required">{{
-        'costCenterForm.code.label' | cxTranslate
+        'costCenter.code' | cxTranslate
       }}</span>
       <input
         class="form-control"
         type="text"
         required
-        placeholder="{{ 'costCenterForm.code.placeholder' | cxTranslate }}"
+        placeholder="{{ 'costCenter.code' | cxTranslate }}"
         formControlName="code"
       />
       <cx-form-errors [control]="form.get('code')"></cx-form-errors>
@@ -18,13 +18,13 @@
   <div class="form-group">
     <label>
       <span class="label-content required">{{
-        'costCenterForm.name.label' | cxTranslate
+        'costCenter.name' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
         required
-        placeholder="{{ 'costCenterForm.name.placeholder' | cxTranslate }}"
+        placeholder="{{ 'costCenter.name' | cxTranslate }}"
         formControlName="name"
       />
       <cx-form-errors [control]="form.get('name')"></cx-form-errors>
@@ -35,7 +35,7 @@
     <div class="form-group">
       <label aria-required="true">
         <span class="label-content required">{{
-          'costCenterForm.currency' | cxTranslate
+          'costCenter.currency' | cxTranslate
         }}</span>
         <ng-select
           formControlName="isocode"
@@ -58,7 +58,7 @@
     <div class="form-group">
       <label aria-required="true">
         <span class="label-content required">{{
-          'costCenterForm.businessUnits.label' | cxTranslate
+          'costCenter.unit' | cxTranslate
         }}</span>
         <ng-select
           formControlName="uid"
