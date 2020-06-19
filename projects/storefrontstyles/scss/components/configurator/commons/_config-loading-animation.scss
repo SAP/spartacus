@@ -3,19 +3,45 @@ $grey-nuance-lighter: #eeeeee;
 $grey-nuance-darker: #dddddd;
 $fade-grey: #e8e8e8;
 
-.cx-config-animation-container {
-  width: 100%;
-  position: relative;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  margin-bottom: 15px;
+.cx-config-loading-row {
+  display: flex;
+  flex-wrap: wrap;
+}
 
+.cx-config-loading-product-title {
+  width: 100%;
+}
+
+.cx-config-loading-menu {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .cx-config-loading-menu {
+    flex: 0 0 33.3333333333%;
+    max-width: 33.3333333333%;
+    display: block;
+  }
+
+  .cx-config-loading-form {
+    flex: 0 0 66.6666666667%;
+    max-width: 66.6666666667%;
+    padding-left: 10px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .cx-config-loading-form {
+    width: 100%;
+  }
+}
+
+.cx-config-animation-container {
   .placeload {
     background: #fff;
-    max-width: 100%;
     margin: 0 auto;
-    width: 100%;
-    padding: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     position: relative;
 
     .placeholder {
@@ -28,6 +54,7 @@ $fade-grey: #e8e8e8;
         width: 100%;
       }
     }
+
     .img {
       width: 20px;
       min-width: 20px;

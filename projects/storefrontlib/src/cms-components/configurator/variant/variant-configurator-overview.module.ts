@@ -20,6 +20,7 @@ import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/con
 import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.component';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
 import { VariantConfiguratorModule } from './variant-configurator.module';
+import { ConfigOverviewLoadingComponent } from '../commons/config-overview-loading/config-overview-loading.component';
 
 @NgModule({
   imports: [
@@ -44,6 +45,10 @@ import { VariantConfiguratorModule } from './variant-configurator.module';
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
+        VariantConfigurationOverviewLoading: {
+          component: ConfigOverviewLoadingComponent,
+          guards: [],
+        },
         VariantConfigurationTabBar: {
           component: ConfigTabBarComponent,
           guards: [],
@@ -88,6 +93,7 @@ import { VariantConfiguratorModule } from './variant-configurator.module';
 
           md: {
             slots: [
+              'VariantConfigOverviewLoading',
               'VariantConfigOverviewHeader',
               'VariantConfigOverviewContent',
               'VariantConfigOverviewBottombar',
@@ -95,6 +101,7 @@ import { VariantConfiguratorModule } from './variant-configurator.module';
           },
           xs: {
             slots: [
+              'VariantConfigOverviewLoading',
               'VariantConfigOverviewHeader',
               'VariantConfigOverviewContent',
               'VariantConfigOverviewBottombar',
@@ -112,10 +119,19 @@ import { VariantConfiguratorModule } from './variant-configurator.module';
     IconModule,
   ],
 
-  declarations: [ConfigOverviewFormComponent, ConfigOverviewAttributeComponent],
-  exports: [ConfigOverviewFormComponent, ConfigOverviewAttributeComponent],
+  declarations: [
+    ConfigOverviewLoadingComponent,
+    ConfigOverviewFormComponent,
+    ConfigOverviewAttributeComponent,
+  ],
+  exports: [
+    ConfigOverviewLoadingComponent,
+    ConfigOverviewFormComponent,
+    ConfigOverviewAttributeComponent,
+  ],
   providers: [UserService],
   entryComponents: [
+    ConfigOverviewLoadingComponent,
     ConfigOverviewFormComponent,
     ConfigOverviewAttributeComponent,
   ],

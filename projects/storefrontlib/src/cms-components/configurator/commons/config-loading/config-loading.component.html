@@ -1,13 +1,6 @@
-<ng-container *ngIf="isConfigurationLoading$ | async">
-  <div class="cx-config-animation-container cx-config-loading-product-title">
-    <div class="placeload">
-      <div class="placeholder">
-        <div class="content-shape loads"></div>
-      </div>
-    </div>
-  </div>
-  <div class="cx-config-animation-container cx-config-loading-menu">
-    <div *ngFor="let group of [].constructor(10)">
+<ng-container *ngIf="!(isConfigurationLoading$ | async)">
+  <div class="cx-config-loading-row">
+    <div class="cx-config-animation-container cx-config-loading-product-title">
       <div class="placeload">
         <div class="placeholder">
           <div class="content-shape loads"></div>
@@ -15,11 +8,43 @@
       </div>
     </div>
   </div>
-  <div class="cx-config-animation-container cx-config-loading-form">
-    <div class="placeload">
-      <div class="placeholder">
-        <div class="content-shape loads"></div>
+  <div class="cx-config-loading-row">
+    <div class="cx-config-animation-container cx-config-loading-menu">
+      <div *ngFor="let group of [].constructor(10)">
+        <div class="placeload">
+          <div class="placeholder">
+            <div class="content-shape loads"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cx-config-animation-container cx-config-loading-form">
+      <div class="placeload">
+        <div class="placeholder">
+          <div class="content-shape loads"></div>
+        </div>
       </div>
     </div>
   </div>
+  <svg
+    viewBox="0 0 842 419"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:space="preserve"
+    xmlns:serif="http://www.serif.com/"
+    style="
+      fill-rule: evenodd;
+      clip-rule: evenodd;
+      stroke-linejoin: round;
+      stroke-miterlimit: 2;
+    "
+  >
+    <g transform="matrix(1.05217,0,0,1.15712,-23.252,-21.99)">
+      <path
+        d="M312.086,350.907L72.068,350.907L72.068,371.044L312.086,371.044L312.086,350.907ZM42.095,293.102C53.131,293.102 62.091,302.021 62.091,313.007C62.091,323.992 53.131,332.911 42.095,332.911C31.059,332.911 22.099,323.992 22.099,313.007C22.099,302.021 31.059,293.102 42.095,293.102ZM592.323,302.92L72.068,302.92L72.068,323.04L592.323,323.04L592.323,302.92ZM42.095,245.066C53.131,245.066 62.091,254.034 62.091,265.081C62.091,276.128 53.131,285.097 42.095,285.097C31.059,285.097 22.099,276.128 22.099,265.081C22.099,254.034 31.059,245.066 42.095,245.066ZM391.538,255.019L72.068,255.019L72.068,275.076L391.538,275.076L391.538,255.019ZM442.092,171.019C447.596,171.019 452.064,175.485 452.064,180.986C452.064,186.487 447.596,190.953 442.092,190.953C436.588,190.953 432.119,186.487 432.119,180.986C432.119,175.485 436.588,171.019 442.092,171.019ZM442.092,19.004C447.596,19.004 452.064,23.473 452.064,28.979C452.064,34.484 447.596,38.954 442.092,38.954C436.588,38.954 432.119,34.484 432.119,28.979C432.119,23.473 436.588,19.004 442.092,19.004ZM22.099,218.891L502.375,218.891L502.375,200.056L22.099,200.056L22.099,190.953L421,190.953L421,171.019L22.099,171.019L22.099,126.934L622.105,126.934L622.105,47.007L22.099,47.007L22.099,38.954L421,38.954L421,19.004L822.348,19.004L822.348,76.785L741.838,76.785L741.838,96.347L822.348,96.347L822.348,302.92L741.838,302.92L741.838,323.04L822.348,323.04L822.348,350.907L741.838,350.907L741.838,371.044L822.348,371.044L822.348,381.109L42.095,381.109C53.131,381.109 62.091,372.111 62.091,361.028C62.091,349.945 53.131,340.947 42.095,340.947C31.059,340.947 22.099,349.945 22.099,361.028C22.099,372.111 31.059,381.109 42.095,381.109L22.099,381.109L22.099,218.891Z"
+        style="fill: black;"
+      />
+    </g>
+  </svg>
 </ng-container>
