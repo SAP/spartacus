@@ -40,7 +40,7 @@ import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.
 import { DefaultMessageConfig } from '../commons/config/default-message-config';
 import { MessageConfig } from '../commons/config/message-config';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
-import { ConfigLoadingComponent } from '../config-loading/config-loading.component';
+import { ConfigLoadingComponent } from '../commons/config-loading/config-loading.component';
 
 @NgModule({
   imports: [
