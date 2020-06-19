@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Params } from '@angular/router';
+import {
+  B2BUser,
+  EntitiesModel,
+  OrgUnitService,
+  RoutingService,
+} from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
 import {
   filter,
   map,
@@ -7,19 +15,10 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { combineLatest, Observable } from 'rxjs';
-
-import {
-  RoutingService,
-  EntitiesModel,
-  OrgUnitService,
-  B2BUser,
-} from '@spartacus/core';
 import {
   AbstractListingComponent,
   ListingModel,
 } from '../../abstract-component/abstract-listing.component';
-import { Params } from '@angular/router';
 
 @Component({
   selector: 'cx-unit-assign-roles',
@@ -66,6 +65,10 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
               parentUnit: user.orgUnit && user.orgUnit.name,
               uid: user.orgUnit && user.orgUnit.uid,
               customerId: user.customerId,
+              admin: user.roles.includes('b2badmingroup'),
+              approver: user.roles.includes('b2bapprovergroup'),
+              customer: user.roles.includes('b2bcustomergroup'),
+              manager: user.roles.includes('b2bmanagergroup'),
             })),
           }))
         )
@@ -74,6 +77,8 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
   }
 
   assign({ row }) {
+    console.log('PRINT:' + row);
+
     this.role$
       .pipe(take(1))
       .subscribe((role) =>

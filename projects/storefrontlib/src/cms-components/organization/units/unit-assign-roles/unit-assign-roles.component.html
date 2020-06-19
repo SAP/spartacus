@@ -25,21 +25,33 @@
     }"
     [columns]="[
       {
-        key: 'selected',
-        value: 'usersList.assign' | cxTranslate,
-        checkBox: true
+        key: 'name',
+        value: 'usersList.name' | cxTranslate,
+        cxRoute: 'userDetails'
       },
       {
         key: 'email',
-        value: 'usersList.uid' | cxTranslate,
-        cxRoute: 'userDetails'
+        value: 'usersList.uid' | cxTranslate
       },
-      { key: 'name', value: 'usersList.name' | cxTranslate },
-      { key: 'roles', value: 'usersList.roles' | cxTranslate },
       {
-        key: 'parentUnit',
-        value: 'usersList.parentUnit' | cxTranslate,
-        cxRoute: 'orgUnitDetails'
+        key: 'customer',
+        value: 'usersList.customer' | cxTranslate,
+        checkBox: true
+      },
+      {
+        key: 'manager',
+        value: 'usersList.manager' | cxTranslate,
+        checkBox: true
+      },
+      {
+        key: 'admin',
+        value: 'usersList.admin' | cxTranslate,
+        checkBox: true
+      },
+      {
+        key: 'approver',
+        value: 'usersList.approver' | cxTranslate,
+        checkBox: true
       }
     ]"
     (pageChange)="pageChange($event)"
@@ -50,6 +62,7 @@
     <div class="col-md-12 col-lg-6">
       <div class="row">
         <div class="pb-mobile-2 col-md-12 col-lg-6 float-right">
+          <!--
           <ng-select
             bindLabel="name"
             bindValue="roleId"
@@ -71,6 +84,7 @@
               }
             ]"
           ></ng-select>
+          -->
         </div>
         <div class="col-md-12 col-lg-6">
           <!--          back-->

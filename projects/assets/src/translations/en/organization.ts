@@ -356,6 +356,7 @@ export const organization = {
     manager: 'Manager',
     approver: 'Approver',
     customer: 'Customer',
+    buyer: 'Buyer',
     create: 'New user...',
   },
   user: {
