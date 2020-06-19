@@ -58,6 +58,10 @@ export function verifyTabElement(tabElement: TabElement) {
   };
 
   switch (tabElement.type) {
+    case TabbingOrderTypes.GENERIC_ELEMENT_WITH_VALUE: {
+      cy.focused().should('contain', tabElement.value);
+      return;
+    }
     case TabbingOrderTypes.FORM_FIELD: {
       cy.focused().should('have.attr', 'formcontrolname', tabElement.value);
       return;
