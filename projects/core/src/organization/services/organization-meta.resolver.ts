@@ -10,7 +10,6 @@ import {
 } from '../../cms/page/page.resolvers';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
-import { ActivatedRoute, UrlSegment, Params } from '@angular/router';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { RouterState } from '../../routing/store/routing-state';
 
@@ -24,19 +23,21 @@ import { RouterState } from '../../routing/store/routing-state';
 })
 export class OrganizationMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-  protected organizationPage$: Observable<
-    UrlSegment
-  > = this.cms.getCurrentPage().pipe(
+  protected organizationPageTitle$: Observable<any> = combineLatest([
+    this.cms.getCurrentPage(),
+    this.routingService.getRouterState(),
+  ]).pipe(
     filter(Boolean),
-    switchMap((page: Page) =>
+    switchMap(([page, route]) =>
       // checking the template to make sure it's a 'my company' page
-      this.isCompanyPage(page) ? this.route.snapshot.children[0].url : null
+      this.isCompanyPage(page)
+        ? of(Object.values(route.state.url.split('/').slice(-1)))
+        : null
     )
   );
 
   constructor(
     protected routingService: RoutingService,
-    protected route: ActivatedRoute,
     protected cms: CmsService,
     protected translation: TranslationService
   ) {
@@ -47,14 +48,22 @@ export class OrganizationMetaResolver extends PageMetaResolver
 
   resolveTitle(): Observable<string> {
     return combineLatest([
-      this.organizationPage$,
+      this.organizationPageTitle$,
       this.routingService.getRouterState(),
     ]).pipe(
-      filter(([url, routerState]) => Boolean(url) && Boolean(routerState)),
-      switchMap(([url, { state: { params } }]) =>
-        Object.keys(params).length && Object.values(params).includes(url.path)
-          ? of(url.path)
-          : this.translation.translate(`breadcrumbs.${url.path}`)
+      filter(([title, routerState]) => Boolean(title) && Boolean(routerState)),
+      switchMap(
+        ([
+          title,
+          {
+            state: { params },
+          },
+        ]) => {
+          return Object.keys(params).length &&
+            Object.values(params).includes(decodeURI(title[0]))
+            ? of(title.map((e) => decodeURI(e)))
+            : this.translation.translate(`breadcrumbs.${title[0]}`);
+        }
       )
     );
   }
@@ -65,30 +74,35 @@ export class OrganizationMetaResolver extends PageMetaResolver
       this.routingService.getRouterState(),
     ]).pipe(
       map(([homeLabel, routerState]: [string, RouterState]) =>
-        this.resolveBreadcrumbData(homeLabel, routerState.state.params)
+        this.resolveBreadcrumbData(homeLabel, routerState)
       )
     );
   }
 
   protected resolveBreadcrumbData(
     homeLabel: string,
-    params: Params
+    router: RouterState
   ): BreadcrumbMeta[] {
     const breadcrumbs: BreadcrumbMeta[] = [];
     breadcrumbs.push({ label: homeLabel, link: '/' });
     let link = '';
-    this.route.snapshot.children[0].url
-      .filter((_, index, arr) => index !== arr.length - 1)
+    router.state.url
+      .split('/')
+      .filter(
+        (_, index, arr) =>
+          index >= arr.findIndex((e) => e === 'organization') &&
+          index < arr.length - 1
+      )
       .forEach((url) => {
-        link = `${link}/${url.path}`;
+        link = `${link}/${url}`;
         this.translation
-          .translate(`breadcrumbs.${url.path}`)
+          .translate(`breadcrumbs.${url}`)
           .subscribe((translation) =>
             breadcrumbs.push({
               label:
-                Object.keys(params).length &&
-                Object.values(params).includes(url.path)
-                  ? url.path
+                Object.keys(router.state.params).length &&
+                Object.values(router.state.params).includes(decodeURI(url))
+                  ? decodeURI(url)
                   : translation,
               link,
             })
