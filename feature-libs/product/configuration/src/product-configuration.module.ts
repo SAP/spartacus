@@ -4,8 +4,5 @@ import { VariantConfiguratorModule } from './variant-configurator/variant-config
 
 @NgModule({
   imports: [VariantConfiguratorModule, TextfieldConfiguratorModule],
-  declarations: [],
-  exports: [],
-  entryComponents: [],
 })
 export class ProductConfigurationModule {}

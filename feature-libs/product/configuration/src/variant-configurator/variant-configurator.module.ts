@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Config, I18nModule, UrlModule, UserService } from '@spartacus/core';
+import { Config, I18nModule, UrlModule } from '@spartacus/core';
 import {
   GenericConfiguratorModule,
   IconModule,
@@ -11,7 +11,9 @@ import {
 } from '@spartacus/storefront';
 import { InteractiveConfigurationModule } from './interactive-configuration.module';
 import { OverviewModule } from './overview.module';
-
+/**
+ * Exposes the variant configurator
+ */
 @NgModule({
   imports: [
     CommonModule,
@@ -26,19 +28,12 @@ import { OverviewModule } from './overview.module';
     IconModule,
     GenericConfiguratorModule,
   ],
-
-  declarations: [],
-  exports: [],
-  providers: [UserService, { provide: MessageConfig, useExisting: Config }],
-  entryComponents: [],
 })
 export class VariantConfiguratorModule {
   static forRoot(): ModuleWithProviders<VariantConfiguratorModule> {
     return {
       ngModule: VariantConfiguratorModule,
-      providers: [
-        [UserService, { provide: MessageConfig, useExisting: Config }],
-      ],
+      providers: [{ provide: MessageConfig, useExisting: Config }],
     };
   }
 }
