@@ -85,6 +85,7 @@ export class OccConfiguratorVariantNormalizer
       userInput: sourceAttribute.value,
       maxlength: sourceAttribute.maxlength,
       numDecimalPlaces: sourceAttribute.numberScale,
+      negativeAllowed: sourceAttribute.negativeAllowed,
       numTotalLength: sourceAttribute.typeLength,
       //This is only relevant for read-only attributes
       //TODO: improve by enriching OCC API

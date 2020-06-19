@@ -73,6 +73,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
       userInput: userInput,
       numDecimalPlaces: 2,
       numTotalLength: 10,
+      negativeAllowed: false,
     };
     fixture.detectChanges();
     htmlElem = fixture.nativeElement;
@@ -103,6 +104,13 @@ describe('ConfigAttributeInputFieldComponent', () => {
   it('should display a validation issue if alphanumeric characters occur', () => {
     component.ngOnInit();
     component.attributeInputForm.setValue('122A23');
+
+    checkForValidationMessage(component, fixture, htmlElem, 1);
+  });
+
+  it('should display a validation issue if negative sign is included but not allowed to', () => {
+    component.ngOnInit();
+    component.attributeInputForm.setValue('-122323');
 
     checkForValidationMessage(component, fixture, htmlElem, 1);
   });
