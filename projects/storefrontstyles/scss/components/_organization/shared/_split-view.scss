@@ -41,62 +41,87 @@
     overflow: hidden;
   }
 
-  // @include media-breakpoint-up(md) {
-  // By default, all 2nd views are positioned outside the parent box. This allows
-  // us to animate them in, whenever needed.
-  cx-view:nth-child(2) {
-    transform: translateX(100%);
-  }
+  // split view behavior on mobile
+  @include media-breakpoint-down(sm) {
+    cx-split {
+      max-width: 100vw;
+    }
+    cx-split:not(.has-split) {
+      > cx-view:nth-child(1) {
+        flex: 1 0 100%;
+      }
+      > cx-view:nth-child(2) {
+        transform: translateX(100%);
+      }
+    }
+    cx-split.has-split {
+      > cx-view:nth-child(1) {
+        transform: translateX(-100%);
+      }
 
-  cx-split[level='0'] {
-    // avoid shrinking the first view
-    > cx-view:nth-child(1) {
-      flex: 1 0 100%;
+      > cx-view:nth-child(2) {
+        flex: 1 0 100%;
+      }
     }
   }
 
-  cx-split[level='1'] {
-    > cx-view {
-      transition-timing-function: ease-out;
-      &:nth-child(2) {
-        // we move the 2nd view back, based on the current active level
-        transform: translateX(0);
-        // add margin only when it's next to the first
-        padding-inline-start: var(--cx-spatial-md);
+  // split view behavior on tablet, desktop
+  @include media-breakpoint-up(sm) {
+    // By default, all 2nd views are positioned outside the parent box. This allows
+    // us to animate them in, whenever needed.
+    cx-view:nth-child(2) {
+      transform: translateX(100%);
+    }
 
-        // avoid shrinking the first view
-        cx-split > cx-view:nth-child(1) {
-          flex: 1 0 100%;
+    cx-split[level='0'] {
+      // avoid shrinking the first view
+      > cx-view:nth-child(1) {
+        flex: 1 0 100%;
+      }
+    }
+
+    cx-split[level='1'] {
+      > cx-view {
+        transition-timing-function: ease-out;
+        &:nth-child(2) {
+          // we move the 2nd view back, based on the current active level
+          transform: translateX(0);
+          // add margin only when it's next to the first
+          padding-inline-start: var(--cx-spatial-md);
+
+          // avoid shrinking the first view
+          cx-split > cx-view:nth-child(1) {
+            flex: 1 0 100%;
+          }
         }
       }
     }
+
+    cx-split[level='2'] {
+      > cx-view {
+        // we push the 1st view out on level, as we don't want 3 views visible at the time
+        &:nth-child(1) {
+          transform: translateX(-100%);
+        }
+        // 2nd (helper) view gets full with, so the child views can be divided
+        &:nth-child(2) {
+          flex: 1 0 100%;
+        }
+      }
+
+      cx-split cx-split cx-view {
+        transition-timing-function: ease-out;
+        &:nth-child(1) {
+          flex: 1 0 100%;
+        }
+      }
+
+      cx-view:nth-child(2) {
+        // we move the 2nd view back into the host
+        transform: translateX(0);
+        // add margin only when it's next to the first
+        padding-inline-start: var(--cx-spatial-md);
+      }
+    }
   }
-
-  cx-split[level='2'] {
-    > cx-view {
-      // we push the 1st view out on level, as we don't want 3 views visible at the time
-      &:nth-child(1) {
-        transform: translateX(-100%);
-      }
-      // 2nd (helper) view gets full with, so the child views can be divided
-      &:nth-child(2) {
-        flex: 1 0 100%;
-      }
-    }
-
-    cx-split cx-split cx-view {
-      transition-timing-function: ease-out;
-      &:nth-child(1) {
-        flex: 1 0 100%;
-      }
-    }
-
-    cx-view:nth-child(2) {
-      // we move the 2nd view back into the host
-      transform: translateX(0);
-      // add margin only when it's next to the first
-      padding-inline-start: var(--cx-spatial-md);
-    }
-  }
-  // }
 }
