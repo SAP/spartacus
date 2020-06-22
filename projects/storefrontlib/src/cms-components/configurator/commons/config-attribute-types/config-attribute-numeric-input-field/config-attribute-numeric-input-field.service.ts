@@ -154,7 +154,7 @@ export class ConfigAttributeNumericInputFieldService {
 
         if (!expressionOnlyNumericalInput.test(input)) {
           return this.createValidationError(true);
-        }       
+        }
         return this.createValidationError(
           this.performValidationAccordingToMetaData(
             input,
