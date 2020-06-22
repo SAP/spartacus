@@ -27,7 +27,6 @@ function provideTestBaseSites(): Rule {
     }
 
     const currentContextConfig = getConfig(storefrontConfig, 'context');
-    // TODO: make `mergeConfig` to create the config in case the `currentContextConfig` is undefined
     if (!currentContextConfig) {
       context.logger.warn(`No 'context' config found in the ${appModulePath}`);
       return;
