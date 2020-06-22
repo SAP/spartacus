@@ -1,7 +1,12 @@
-export { InsertDirection, getTsSourceFile, commitChanges } from './file-utils';
+export {
+  getConfig,
+  getExistingStorefrontConfigNode,
+  mergeConfig,
+} from './config-utils';
+export { commitChanges, getTsSourceFile, InsertDirection } from './file-utils';
 export {
   addImport,
-  addToModuleImportsAndCommitChanges,
-  addToModuleImports,
   addToMetadata,
+  addToModuleImports,
+  addToModuleImportsAndCommitChanges,
 } from './module-file-utils';

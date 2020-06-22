@@ -1,24 +1,58 @@
-import { chain, Rule, Tree } from '@angular-devkit/schematics';
-import { insertPropertyInStorefrontModuleCallExpression } from '../shared/utils/module-file-utils';
+import {
+  chain,
+  Rule,
+  SchematicContext,
+  Tree,
+} from '@angular-devkit/schematics';
+import {
+  B2C_STOREFRONT_MODULE,
+  commitChanges,
+  getConfig,
+  getExistingStorefrontConfigNode,
+  getTsSourceFile,
+  mergeConfig,
+} from '@spartacus/schematics';
 
 function provideTestBaseSites(): Rule {
-  return (tree: Tree) => {
-    const insertion = `,
-      context: {
-        urlParameters: ['baseSite', 'language', 'currency'],
-        baseSite: [
-          'electronics-spa',
-          'electronics',
-          'apparel-de',
-          'apparel-uk',
-          'apparel-uk-spa',
-        ],
-      }`;
-    insertPropertyInStorefrontModuleCallExpression(
-      tree,
-      'src/app/app.module.ts',
-      insertion
+  return (tree: Tree, context: SchematicContext) => {
+    // TODO: is there a mechanism (an exposed method maybe) to find the app.module.ts without using the hard-coded path?
+    const appModulePath = 'src/app/app.module.ts';
+    const appModule = getTsSourceFile(tree, appModulePath);
+    const storefrontConfig = getExistingStorefrontConfigNode(appModule);
+    if (!storefrontConfig) {
+      context.logger.warn(
+        `No ${B2C_STOREFRONT_MODULE} config found in the ${appModulePath}`
+      );
+      return;
+    }
+
+    const currentContextConfig = getConfig(storefrontConfig, 'context');
+    // TODO: make `mergeConfig` to create the config in case the `currentContextConfig` is undefined
+    if (!currentContextConfig) {
+      context.logger.warn(`No 'context' config found in the ${appModulePath}`);
+      return;
+    }
+
+    const urlParametersConfigChange = mergeConfig(
+      appModulePath,
+      currentContextConfig,
+      'urlParameters',
+      ['baseSite', 'language', 'currency']
     );
+    const baseSite = mergeConfig(
+      appModulePath,
+      currentContextConfig,
+      'baseSite',
+      [
+        'electronics-spa',
+        'electronics',
+        'apparel-de',
+        'apparel-uk',
+        'apparel-uk-spa',
+      ]
+    );
+
+    commitChanges(tree, appModulePath, [urlParametersConfigChange, baseSite]);
   };
 }
 

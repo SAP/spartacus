@@ -19,7 +19,10 @@
     "target": "es6",
     "types": ["jasmine", "node"],
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "@spartacus/storefront": ["dist/storefrontlib"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["src/*/files/**/*"]
