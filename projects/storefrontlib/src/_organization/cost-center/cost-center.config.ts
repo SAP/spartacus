@@ -3,6 +3,7 @@ import { BREAKPOINT } from '../../layout/config/layout-config';
 import { CompanyTables } from '../model';
 import { OrganizationOutletComponent } from '../shared/organization-outlet/organization-outlet.component';
 import { TableConfig } from '../shared/table/config/table.config';
+import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets/cost-center-assign-budgets.component';
 import { CostCenterBudgetComponent } from './cost-center-budget/cost-center-budget.component';
 import { CostCenterCreateComponent } from './cost-center-create/cost-center-create.component';
 import { CostCenterDetailsComponent } from './cost-center-details/cost-center-details.component';
@@ -46,11 +47,24 @@ export const costCenterCmsConfig: CmsConfig = {
                   path: 'edit',
                   component: CostCenterEditComponent,
                 },
+                {
+                  path: 'assign-budgets',
+                  component: CostCenterAssignBudgetsComponent,
+                },
+                {
+                  path: 'budgets',
+                  children: [
+                    {
+                      path: '',
+                      component: CostCenterAssignBudgetsComponent,
+                    },
+                    {
+                      path: ':budgetCode',
+                      component: CostCenterBudgetComponent,
+                    },
+                  ],
+                },
               ],
-            },
-            {
-              path: ':code/budget/:budgetCode',
-              component: CostCenterBudgetComponent,
             },
           ],
         },
@@ -79,6 +93,12 @@ export const costCenterTableConfig: TableConfig = {
           { key: 'currency' },
           { key: 'unit', sortCode: 'byUnit' },
         ],
+      },
+    ],
+
+    [CompanyTables.COST_CENTER_BUDGETS]: [
+      {
+        labels: [{ key: 'name' }],
       },
     ],
   },

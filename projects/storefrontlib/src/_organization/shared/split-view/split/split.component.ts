@@ -1,31 +1,28 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   HostBinding,
   Input,
-  OnInit,
-  Output,
 } from '@angular/core';
+import { SplitService } from './split.service';
 
 @Component({
   selector: 'cx-split',
   templateUrl: './split.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SplitComponent implements OnInit {
+export class SplitComponent {
   @Input() @HostBinding('class.has-split') hasSplit = false;
-  @Output() hasSplitChange: EventEmitter<string> = new EventEmitter();
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  constructor(protected splitService: SplitService) {}
 
   split() {
     this.hasSplit = true;
+    this.splitService.levelUp();
   }
 
   stitch() {
     this.hasSplit = false;
+    this.splitService.levelDown();
   }
 }

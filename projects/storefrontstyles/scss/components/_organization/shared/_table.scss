@@ -29,6 +29,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         font-size: initial;
+        border-top: none;
       }
       th {
         padding: var(--cx-spatial-base) var(--cx-spatial-md);
@@ -40,6 +41,8 @@
         padding: 0;
         margin: 0;
         width: 33%;
+
+        border-top: 1px solid var(--cx-color-light);
 
         transition: opacity 0.2s ease-in-out 0.2s, width 0s ease-in-out 0.4s;
       }

@@ -3,14 +3,11 @@ section {
   margin-bottom: var(--cx-spatial-md);
 
   .property {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-
-    // padding: var(--cx-spatial-base) var(--cx-spatial-md);
+    // display: flex;
+    // flex-wrap: wrap;
+    // justify-content: space-between;
 
     label {
-      flex: 100%;
       font-size: 0.9rem;
       color: initial;
       margin: 0;
@@ -18,12 +15,19 @@ section {
       line-height: 0.8rem;
 
       padding: var(--cx-spatial-md) var(--cx-spatial-md) var(--cx-spatial-base);
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    a.link {
+      font-size: 0.9rem;
     }
     .value {
       padding: 0 var(--cx-spatial-md);
       display: flex;
       justify-content: space-between;
-      width: 100%;
+      // width: 100%;
     }
     button {
       padding-inline-end: 0;

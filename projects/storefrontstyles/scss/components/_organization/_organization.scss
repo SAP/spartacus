@@ -21,7 +21,7 @@ main {
 }
 cx-breadcrumb {
   border-bottom: 1px solid var(--cx-color-light);
-  background: white;
+  background: var(--cx-color-inverse);
 }
 
 // TODO: move to generic page template

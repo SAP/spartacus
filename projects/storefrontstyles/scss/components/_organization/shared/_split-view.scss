@@ -1,76 +1,102 @@
+// The split-view component supports unlimited nested views. A split-view however will only
+// have a maximum of 2 direct view elements,
+//
+// <cx-split>
+//     <cx-view></cx-view>
+//     <cx-view>
+//         <cx-split>
+//             <cx-view></cx-view>
+//             <cx-view></cx-view>
+//         </cx-split>
+//     </cx-view>
+// </cx-split>
+//
+// To control the layout of those views, and avoid too many views on a (small) screen,
+// we introduce some specific style rules.
+//
+//
+// The general UX pattern is to position views outside the split container for as long as the
+// view is not used. When the view is needed, the view is animated inside the container.
+//
+// On mobile, we only allow one view in the container, where as in tablet or desktop, we allow for
+// two views at a time.
+
+// By default, all 2nd views are positioned outside the parent box.
+
 %split-view {
+  // The split element acts as a static container that hosts view elements.
   cx-split {
     display: flex;
-    height: 100%;
-  }
-
-  cx-split > *:not(cx-view) {
-    display: contents;
-  }
-
-  cx-split,
-  cx-view {
-    flex-basis: 100%;
-    transition: flex-basis 0.4s ease-in-out;
-    // overflow: hidden;
+    align-items: stretch;
+    /* We hide all elements outside the box, so that the views can animate nicely inside.  */
+    overflow: hidden;
   }
 
   cx-view {
-    height: 100%;
+    width: 100%;
 
-    @include media-breakpoint-up(sm) {
-      padding: 0 var(--cx-spatial-lg) 0 0;
+    transition: 0.3s;
+    transition-timing-function: ease-in;
+
+    overflow: hidden;
+  }
+
+  // @include media-breakpoint-up(md) {
+  // By default, all 2nd views are positioned outside the parent box. This allows
+  // us to animate them in, whenever needed.
+  cx-view:nth-child(2) {
+    transform: translateX(100%);
+  }
+
+  cx-split[level='0'] {
+    // avoid shrinking the first view
+    > cx-view:nth-child(1) {
+      flex: 1 0 100%;
     }
   }
 
-  @include media-breakpoint-down(md) {
-    router-outlet {
-      flex: none;
-    }
-  }
-  // &.open router-outlet {
-  //   flex: none;
-  // }
-
-  cx-split.has-split {
-    cx-split,
+  cx-split[level='1'] {
     > cx-view {
-      flex-basis: 50%;
-    }
+      transition-timing-function: ease-out;
+      &:nth-child(2) {
+        // we move the 2nd view back, based on the current active level
+        transform: translateX(0);
+        // add margin only when it's next to the first
+        padding-inline-start: var(--cx-spatial-md);
 
-    @include media-breakpoint-down(sm) {
-      cx-split {
-        flex-basis: 100%;
+        // avoid shrinking the first view
+        cx-split > cx-view:nth-child(1) {
+          flex: 1 0 100%;
+        }
       }
-      > cx-view:first-child {
-        margin-left: -50vw;
+    }
+  }
+
+  cx-split[level='2'] {
+    > cx-view {
+      // we push the 1st view out on level, as we don't want 3 views visible at the time
+      &:nth-child(1) {
+        transform: translateX(-100%);
+      }
+      // 2nd (helper) view gets full with, so the child views can be divided
+      &:nth-child(2) {
+        flex: 1 0 100%;
       }
     }
-  }
 
-  cx-split.has-split {
-    cx-split.has-split {
-      flex-basis: 100%;
+    cx-split cx-split cx-view {
+      transition-timing-function: ease-out;
+      &:nth-child(1) {
+        flex: 1 0 100%;
+      }
+    }
+
+    cx-view:nth-child(2) {
+      // we move the 2nd view back into the host
+      transform: translateX(0);
+      // add margin only when it's next to the first
+      padding-inline-start: var(--cx-spatial-md);
     }
   }
-
-  cx-view.has-split {
-    flex-basis: 33%;
-  }
-
-  @include media-breakpoint-down(md) {
-    .main {
-      width: 100vw;
-      // overflow: hidden;
-      transition: margin 0.4s;
-      // transition: max-width 0.4s;
-    }
-    // cx-cost-center-create {
-    //   flex: 1;
-    // }
-    &.open .main {
-      margin-left: -100vw;
-      // max-width: 0px;
-    }
-  }
+  // }
 }

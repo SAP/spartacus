@@ -189,13 +189,10 @@ export const organization = {
     },
   },
   costCenterBudgets: {
-    header: 'Budgets in {{code}}',
-    back: 'Close',
-    assignBudgets: 'Manage Budgets',
+    name: 'Name',
   },
   costCenterAssignBudgets: {
-    header: 'Manage budgets in {{code}}',
-    back: 'Close',
+    header: 'Assign budgets',
   },
 
   orgUnitsList: {

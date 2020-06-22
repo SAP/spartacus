@@ -1,4 +1,34 @@
-<cx-fake-tabs
+<ng-template cxOutletRef="table.costCenterBudgets.data.name" let-model>
+  <label>
+    <input
+      type="checkbox"
+      [checked]="model.selected"
+      (change)="toggleAssign($event, model.code)"
+    />
+    <span class="text">{{ model.name }}</span>
+  </label>
+</ng-template>
+
+<!-- <form> -->
+<cx-split *ngIf="budgets$ | async as budgets">
+  <cx-view>
+    <h3>
+      <a class="link" routerLink="../">
+        <cx-icon type="CARET_LEFT"></cx-icon>
+        {{ 'organization.cancel' | cxTranslate }}
+      </a>
+      {{ 'costCenterAssignBudgets.header' | cxTranslate }}
+      <button class="button primary" type="submit">
+        {{ 'organization.save' | cxTranslate }}
+      </button>
+    </h3>
+    <section>
+      <cx-table [dataset]="budgets" (sortEvent)="sort($event)"> </cx-table>
+    </section>
+  </cx-view>
+</cx-split>
+<!-- </form> -->
+<!-- <cx-fake-tabs
   [code]="code$ | async"
   [links]="[
     {
@@ -48,7 +78,7 @@
   >
     <div class="col-md-12 col-lg-6">
       <div class="col-md-12 col-lg-6 float-right">
-        <!--          back-->
+        
         <a
           [routerLink]="
             { cxRoute: 'costCenterBudgets', params: { code: code } } | cxUrl
@@ -60,4 +90,4 @@
       </div>
     </div>
   </cx-interactive-table>
-</cx-fake-tabs>
+</cx-fake-tabs> -->

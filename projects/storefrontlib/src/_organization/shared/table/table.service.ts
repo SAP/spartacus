@@ -8,6 +8,13 @@ import { TableStructure } from './table.model';
 
 /**
  * Responsive table service.
+ *
+ * The `TableService` generates a `TableStructure` based on configuration. The table
+ * structure configuration allows for breakpoint specific configuration, so that the table
+ * experience can be differentiated various screen sizes.
+ *
+ * The table structure configuration is driven by a table type. The various supported
+ * table types are exposed in feature libraries.
  */
 @Injectable({
   providedIn: 'root',
