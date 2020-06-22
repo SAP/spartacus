@@ -32,6 +32,9 @@ export const NGRX_STORE = '@ngrx/store';
 
 /***** Classes start *****/
 export const ROUTER = 'Router';
+export const CHANGE_DETECTOR_REF = 'ChangeDetectorRef';
+export const FORM_BUILDER = 'FormBuilder';
+export const ACTIVATED_ROUTE = 'ActivatedRoute';
 
 export const CHECKOUT_DETAILS_SERVICE = 'CheckoutDetailsService';
 export const CHECKOUT_CONFIG_SERVICE = 'CheckoutConfigService';
@@ -50,6 +53,18 @@ export const USER_SERVICE = 'UserService';
 export const ROUTING_SERVICE = 'RoutingService';
 export const AUTH_SERVICE = 'AuthService';
 export const AUTH_REDIRECT_SERVICE = 'AuthRedirectService';
+export const CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT =
+  'CheckoutProgressMobileTopComponent';
+export const CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT =
+  'CheckoutProgressMobileBottomComponent';
+export const CHECKOUT_PROGRESS_COMPONENT = 'CheckoutProgressComponent';
+export const DELIVERY_MODE_COMPONENT = 'DeliveryModeComponent';
+export const CHECKOUT_DELIVERY_SERVICE = 'CheckoutDeliveryService';
+export const PAYMENT_METHOD_COMPONENT = 'PaymentMethodComponent';
+export const USER_PAYMENT_SERVICE = 'UserPaymentService';
+export const CHECKOUT_SERVICE = 'CheckoutService';
+export const CHECKOUT_PAYMENT_SERVICE = 'CheckoutPaymentService';
+export const TRANSLATION_SERVICE = 'TranslationService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

@@ -21,8 +21,6 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
   selectedDeliveryMode$: Observable<DeliveryMode>;
   currentDeliveryModeId: string;
-  checkoutStepUrlNext: string;
-  checkoutStepUrlPrevious: string;
   private allowRedirect = false;
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
@@ -34,11 +32,11 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    private fb: FormBuilder,
-    private checkoutDeliveryService: CheckoutDeliveryService,
-    private checkoutConfigService: CheckoutConfigService,
-    protected checkoutStepService: CheckoutStepService,
-    private activatedRoute: ActivatedRoute
+    protected fb: FormBuilder,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutConfigService: CheckoutConfigService,
+    protected activatedRoute: ActivatedRoute,
+    protected checkoutStepService: CheckoutStepService
   ) {}
 
   ngOnInit() {
