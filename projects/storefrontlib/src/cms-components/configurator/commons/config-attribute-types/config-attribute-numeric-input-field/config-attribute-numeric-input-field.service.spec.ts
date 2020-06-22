@@ -86,15 +86,21 @@ describe('ConfigAttributeNumericInputFieldService', () => {
   });
 
   it('should compile pattern for validation message', () => {
-    expect(serviceUnderTest.getPatternForValidationMessage(3, 10, 'en')).toBe(
-      '#,###,###.###'
-    );
+    expect(
+      serviceUnderTest.getPatternForValidationMessage(3, 10, false, 'en')
+    ).toBe('#,###,###.###');
+  });
+
+  it('should consider negative sign for validation message', () => {
+    expect(
+      serviceUnderTest.getPatternForValidationMessage(3, 10, true, 'en')
+    ).toBe('-#,###,###.###');
   });
 
   it('should compile pattern for validation message in case no decimal places are present', () => {
-    expect(serviceUnderTest.getPatternForValidationMessage(0, 10, 'en')).toBe(
-      '#,###,###,###'
-    );
+    expect(
+      serviceUnderTest.getPatternForValidationMessage(0, 10, false, 'en')
+    ).toBe('#,###,###,###');
   });
 
   it('should format input in a way that all decimal numbers are displayed', () => {

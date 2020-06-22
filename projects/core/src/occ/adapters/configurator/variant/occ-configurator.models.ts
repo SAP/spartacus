@@ -64,6 +64,7 @@ export namespace OccConfigurator {
     images?: Image[];
     typeLength?: number;
     numberScale?: number;
+    negativeAllowed?: boolean;
   }
 
   export interface Value {

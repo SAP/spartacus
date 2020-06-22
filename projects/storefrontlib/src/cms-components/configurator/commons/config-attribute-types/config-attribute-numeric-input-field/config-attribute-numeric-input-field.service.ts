@@ -76,12 +76,14 @@ export class ConfigAttributeNumericInputFieldService {
    *
    * @param decimalPlaces Number of decimal places
    * @param totalLength Total number of digits
+   * @param negativeAllowed Do we allow negative input?
    * @param locale  Locale
    *  @returns {string} The pattern that we display in the validation message
    */
   public getPatternForValidationMessage(
     decimalPlaces: number,
     totalLength: number,
+    negativeAllowed: boolean,
     locale: string
   ): string {
     let input: string = 10 ** totalLength - 1 + '';
@@ -92,11 +94,15 @@ export class ConfigAttributeNumericInputFieldService {
         input.substring(totalLength - decimalPlaces, totalLength);
     }
     const inputAsNumber: number = Number(input);
-    return formatNumber(
+    let formatted = formatNumber(
       inputAsNumber,
       locale,
       '1.' + decimalPlaces + '-' + decimalPlaces
     ).replace(/9/g, '#');
+    if (negativeAllowed) {
+      formatted = '-' + formatted;
+    }
+    return formatted;
   }
 
   protected createValidationError(
@@ -114,13 +120,15 @@ export class ConfigAttributeNumericInputFieldService {
    * @param locale The locale
    * @param numberDecimalPlaces Number of decimal places
    * @param numberTotalPlaces  Total number of digits
+   * @param negativeAllowed: Do we allow negative input?
    * @returns {ValidatorFn} The validator
    */
 
   public getNumberFormatValidator(
     locale: string,
     numberDecimalPlaces: number,
-    numberTotalPlaces: number
+    numberTotalPlaces: number,
+    negativeAllowed: boolean
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const input: string = control.value;
@@ -135,10 +143,15 @@ export class ConfigAttributeNumericInputFieldService {
           locale,
           NumberSymbol.Decimal
         );
-
+        const expressionPrefix = negativeAllowed ? '^-?' : '^';
         const expressionOnlyNumericalInput: RegExp = new RegExp(
-          '^-?[0123456789' + groupingSeparator + decimalSeparator + ']+$'
+          expressionPrefix +
+            '[0123456789' +
+            groupingSeparator +
+            decimalSeparator +
+            ']*$'
         );
+
         if (!expressionOnlyNumericalInput.test(input)) {
           return this.createValidationError(true);
         }
@@ -147,7 +160,7 @@ export class ConfigAttributeNumericInputFieldService {
             input,
             groupingSeparator,
             decimalSeparator,
-            numberTotalPlaces,
+            numberTotalPlaces + (input.includes('-') ? 1 : 0),
             numberDecimalPlaces
           )
         );
