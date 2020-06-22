@@ -1,11 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  CostCenter,
-  CostCenterService,
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-} from '@spartacus/core';
+import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 
@@ -24,8 +18,7 @@ export class CostCenterEditComponent {
 
   constructor(
     protected routingService: RoutingService,
-    protected costCentersService: CostCenterService,
-    protected globalMessageService: GlobalMessageService
+    protected costCentersService: CostCenterService
   ) {}
 
   updateCostCenter(costCenter: CostCenter): void {
@@ -38,18 +31,5 @@ export class CostCenterEditComponent {
       cxRoute: 'costCenterDetails',
       params: costCenter,
     });
-  }
-
-  showFormRestoredMessage(show: boolean): void {
-    if (show) {
-      this.globalMessageService.add(
-        { key: 'form.restored' },
-        GlobalMessageType.MSG_TYPE_INFO
-      );
-    }
-  }
-
-  getFormKey(costCenter: CostCenter): string {
-    return `cost-center-edit-${costCenter.code}-${costCenter.unit?.uid}`;
   }
 }
