@@ -38,7 +38,7 @@ export class ConfigTextfieldAddToCartButtonComponent implements OnInit {
    * Adds a textfield configuration to the cart or updates it
    * @param owner Configuration owner, can be either product or cart entry
    */
-  public onAddToCart(owner: GenericConfigurator.Owner) {
+  onAddToCart(owner: GenericConfigurator.Owner) {
     switch (owner.type) {
       case GenericConfigurator.OwnerType.PRODUCT:
         this.configuratorTextfieldService.addToCart(owner.id);
@@ -56,7 +56,7 @@ export class ConfigTextfieldAddToCartButtonComponent implements OnInit {
    * @param routerData Data extracted from routing that we use to decide whether configuration belongs to cart or to product
    * @returns Resource key of button description
    */
-  public getButtonText(routerData: ConfigurationRouter.Data): string {
+  getButtonText(routerData: ConfigurationRouter.Data): string {
     return routerData.isOwnerCartEntry
       ? 'configuratorTextfield.addToCart.buttonUpdateCart'
       : 'configuratorTextfield.addToCart.button';
