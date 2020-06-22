@@ -34,6 +34,5 @@ import {
     CostCenterBudgetModule,
     CostCenterAssignBudgetsModule,
   ],
-  // providers: [provideConfig()],
 })
 export class CostCenterModule {}

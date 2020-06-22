@@ -4,6 +4,7 @@
       type="checkbox"
       [checked]="model.selected"
       (change)="toggleAssign($event, model.code)"
+      class="form-control"
     />
     <span class="text">{{ model.name }}</span>
   </label>
@@ -13,7 +14,7 @@
 <cx-split *ngIf="budgets$ | async as budgets">
   <cx-view>
     <h3>
-      <a class="link" routerLink="../">
+      <a class="link" routerLink="../../">
         <cx-icon type="CARET_LEFT"></cx-icon>
         {{ 'organization.cancel' | cxTranslate }}
       </a>

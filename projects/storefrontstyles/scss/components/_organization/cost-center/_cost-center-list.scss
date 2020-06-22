@@ -53,10 +53,17 @@
             opacity: 0.25;
           }
         }
-        cx-icon.open {
-          margin-left: auto;
-          @include media-breakpoint-up(md) {
-            display: none;
+        cx-icon {
+          &.open,
+          &.open-out {
+            margin-left: auto;
+          }
+
+          &.open {
+            @include media-breakpoint-up(md) {
+              // hide open arrow on non-mobile
+              display: none;
+            }
           }
         }
 

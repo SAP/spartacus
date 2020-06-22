@@ -87,7 +87,13 @@
         <div class="property">
           <label>
             {{ 'costCenter.budgets' | cxTranslate }}
-            <a class="link" routerLink="budgets">
+            <a
+              class="link"
+              [routerLink]="
+                { cxRoute: 'costCenterAssignBudgets', params: costCenter }
+                  | cxUrl
+              "
+            >
               {{ 'costCenterDetails.assignBudgets' | cxTranslate }}
             </a>
           </label>

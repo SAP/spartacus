@@ -4,13 +4,13 @@
   <a
     [routerLink]="
       {
-        cxRoute: 'costCenterBudget',
+        cxRoute: 'budgetDetails',
         params: { code: model.costCenterCode, budgetCode: model.code }
       } | cxUrl
     "
   >
     <cx-icon class="active-state" type="ACTIVE"></cx-icon>
     <span class="text">{{ model.name }}</span>
-    <cx-icon type="CARET_RIGHT" class="open"></cx-icon>
+    <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
   </a>
 </ng-template>

@@ -133,10 +133,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   orgUnitAddressCreate: {
     paths: ['organization/unit/addresses/create/:code'],
   },
-
-  costCenterAssignBudgets: {
-    paths: ['organization/cost-center/assign-budgets/:code'],
-  },
   permissions: {
     paths: ['organization/purchase-limits'],
   },

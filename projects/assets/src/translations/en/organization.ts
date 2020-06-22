@@ -160,6 +160,11 @@ export const organization = {
     enable: 'Enable',
     active: 'Active',
     deactivated: 'Deactivated',
+
+    confirmDeactivation: {
+      title: 'Disable Cost Center',
+      message: 'Are you sure you want to disable this cost center?',
+    },
   },
   costCenterList: {
     header: 'Cost centers',
@@ -177,10 +182,6 @@ export const organization = {
 
     details: 'Details',
     assignBudgets: 'Manage Budgets',
-    confirmDeactivation: {
-      title: 'Disable Cost Center',
-      message: 'Are you sure you want to disable this cost center?',
-    },
 
     instruction: {
       active:

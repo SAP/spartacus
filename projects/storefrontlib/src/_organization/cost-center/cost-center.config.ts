@@ -4,7 +4,6 @@ import { CompanyTables } from '../model';
 import { OrganizationOutletComponent } from '../shared/organization-outlet/organization-outlet.component';
 import { TableConfig } from '../shared/table/config/table.config';
 import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets/cost-center-assign-budgets.component';
-import { CostCenterBudgetComponent } from './cost-center-budget/cost-center-budget.component';
 import { CostCenterCreateComponent } from './cost-center-create/cost-center-create.component';
 import { CostCenterDetailsComponent } from './cost-center-details/cost-center-details.component';
 import { CostCenterEditComponent } from './cost-center-edit/cost-center-edit.component';
@@ -20,7 +19,10 @@ export const costCenterRoutingConfig: RoutingConfig = {
         paths: ['organization/cost-centers/:code'],
       },
       costCenterBudget: {
-        paths: ['organization/cost-centers/:code/budget/:budgetCode'],
+        paths: ['organization/cost-centers/:code'],
+      },
+      costCenterAssignBudgets: {
+        paths: ['organization/cost-centers/:code/budgets/assign'],
       },
     },
   },
@@ -48,20 +50,21 @@ export const costCenterCmsConfig: CmsConfig = {
                   component: CostCenterEditComponent,
                 },
                 {
-                  path: 'assign-budgets',
-                  component: CostCenterAssignBudgetsComponent,
-                },
-                {
                   path: 'budgets',
                   children: [
                     {
                       path: '',
                       component: CostCenterAssignBudgetsComponent,
                     },
+
                     {
-                      path: ':budgetCode',
-                      component: CostCenterBudgetComponent,
+                      path: 'assign',
+                      component: CostCenterAssignBudgetsComponent,
                     },
+                    // {
+                    //   path: ':budgetCode',
+                    //   component: CostCenterBudgetComponent,
+                    // },
                   ],
                 },
               ],

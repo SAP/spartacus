@@ -2,20 +2,20 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
+import { Budget } from '../../model/budget.model';
+import { EntitiesModel } from '../../model/misc.model';
+import { CostCenter } from '../../model/org-unit.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { LoaderState } from '../../state/utils/loader/loader-state';
-import { AuthService } from '../../auth/facade/auth.service';
-import { CostCenter } from '../../model/org-unit.model';
-import { EntitiesModel } from '../../model/misc.model';
-import { StateWithOrganization } from '../store/organization-state';
+import { B2BSearchConfig } from '../model/search-config';
 import { CostCenterActions } from '../store/actions/index';
+import { StateWithOrganization } from '../store/organization-state';
 import {
+  getAssignedBudgets,
   getCostCenter,
   getCostCenterList,
-  getAssignedBudgets,
 } from '../store/selectors/cost-center.selector';
-import { B2BSearchConfig } from '../model/search-config';
-import { Budget } from '../../model/budget.model';
 
 @Injectable()
 export class CostCenterService {
@@ -123,8 +123,9 @@ export class CostCenterService {
     costCenterCode: string,
     params: B2BSearchConfig
   ): Observable<EntitiesModel<Budget>> {
+    console.log('get budgets', costCenterCode, params);
     return this.getBudgetList(costCenterCode, params).pipe(
-      observeOn(queueScheduler),
+      // observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<Budget>>) => {
         if (!(process.loading || process.success || process.error)) {
           this.loadBudgets(costCenterCode, params);

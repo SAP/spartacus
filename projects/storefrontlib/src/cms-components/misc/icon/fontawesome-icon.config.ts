@@ -32,6 +32,8 @@ export const fontawesomeIconConfig: IconConfig = {
 
       ON: 'fas fa-toggle-on',
       OFF: 'fas fa-toggle-off',
+
+      LINK_OUT: 'fas fa-external-link-alt',
     },
     resources: [
       {

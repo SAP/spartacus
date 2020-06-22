@@ -6,7 +6,7 @@ label {
   margin: 0;
   padding-top: 0.75rem;
 
-  // display: flex;
+  display: flex;
   // flex-wrap: wrap;
   // align-content: center;
 
@@ -31,6 +31,9 @@ label {
       position: initial;
       margin-inline-end: var(--cx-spatial-base);
     }
+
+    position: relative;
+    margin: 0;
   }
 
   cx-form-errors {
