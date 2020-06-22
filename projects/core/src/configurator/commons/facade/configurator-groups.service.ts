@@ -22,33 +22,6 @@ export class ConfiguratorGroupsService {
     private configuratorGroupStatusService: ConfiguratorGroupStatusService
   ) {}
 
-  /**
-   * Subscribe to update the configuration by the given owner.
-   *
-   * @param owner - Configuration owner
-   */
-  public subscribeToUpdateConfiguration(
-    owner: GenericConfigurator.Owner
-  ): void {
-    // TODO: Cancel previous subscriptions of the configuration state
-    // Set Group Status on each update of the configuration state
-    // This will be called every time something in the configuration is changed, prices,
-    // attributes groups etc.
-    this.configuratorCommonsService
-      .getConfiguration(owner)
-      .subscribe((configuration) =>
-        this.getCurrentGroup(owner)
-          .pipe(take(1))
-          .subscribe((currentGroup) =>
-            this.configuratorGroupStatusService.setGroupStatus(
-              configuration,
-              currentGroup.id,
-              false
-            )
-          )
-      );
-  }
-
   getCurrentGroupId(owner: GenericConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
       map((configuration) => {

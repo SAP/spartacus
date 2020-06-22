@@ -62,7 +62,8 @@ export const getCurrentGroup = (
 ): MemoizedSelector<StateWithConfiguration, string> => {
   return createSelector(
     getConfigurationFactory(ownerKey),
-    (configuration) => configuration.interactionState.currentGroup
+    (configuration) =>
+      configuration?.interactionState?.currentGroup || undefined
   );
 };
 

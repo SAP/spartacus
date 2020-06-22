@@ -78,53 +78,49 @@ export function reducer(
     }
     case ConfiguratorActions.SET_CURRENT_GROUP: {
       const newCurrentGroup: string = action.payload;
-      const changedState: Configurator.Configuration = {
-        configId: state.configId,
-        interactionState: { currentGroup: newCurrentGroup },
-      };
 
       return {
         ...state,
-        ...changedState,
+        interactionState: {
+          ...state.interactionState,
+          currentGroup: newCurrentGroup,
+        },
       };
     }
     case ConfiguratorActions.SET_MENU_PARENT_GROUP: {
       const newMenuParentGroup: string = action.payload;
-      const changedState: Configurator.Configuration = {
-        configId: state.configId,
-        interactionState: { menuParentGroup: newMenuParentGroup },
-      };
 
       return {
         ...state,
-        ...changedState,
+        interactionState: {
+          ...state.interactionState,
+          menuParentGroup: newMenuParentGroup,
+        },
       };
     }
     case ConfiguratorActions.SET_GROUPS_VISITED: {
       const groupIds: string[] = action.payload;
 
-      const changedState: Configurator.Configuration = {
-        configId: state.configId,
-        interactionState: {
-          groupsVisited: {},
-        },
+      const changedInteractionState: Configurator.InteractionState = {
+        groupsVisited: {},
       };
 
       //Set Current state items
       Object.keys(state.interactionState.groupsVisited).forEach(
-        (groupId) =>
-          (changedState.interactionState.groupsVisited[groupId] = true)
+        (groupId) => (changedInteractionState.groupsVisited[groupId] = true)
       );
 
       //Add new Groups
       groupIds.forEach(
-        (groupId) =>
-          (changedState.interactionState.groupsVisited[groupId] = true)
+        (groupId) => (changedInteractionState.groupsVisited[groupId] = true)
       );
 
       return {
         ...state,
-        ...changedState,
+        interactionState: {
+          ...state.interactionState,
+          groupsVisited: changedInteractionState.groupsVisited,
+        },
       };
     }
     case ConfiguratorActions.SET_GROUPS_COMPLETED: {
@@ -167,27 +163,27 @@ function setGroupStatus(
   groups: string[],
   status: Configurator.GroupStatus
 ): Configurator.Configuration {
-  const changedState: Configurator.Configuration = {
-    configId: state.configId,
-    interactionState: {
-      groupsStatus: {},
-    },
+  const changedInteractionState: Configurator.InteractionState = {
+    groupsStatus: {},
   };
 
   //Set Current state items
   Object.keys(state.interactionState.groupsStatus).forEach(
     (groupId) =>
-      (changedState.interactionState.groupsStatus[groupId] =
+      (changedInteractionState.groupsStatus[groupId] =
         state.interactionState.groupsStatus[groupId])
   );
 
   //Add status for groups
   groups.forEach(
-    (groupId) => (changedState.interactionState.groupsStatus[groupId] = status)
+    (groupId) => (changedInteractionState.groupsStatus[groupId] = status)
   );
 
   return {
     ...state,
-    ...changedState,
+    interactionState: {
+      ...state.interactionState,
+      groupsStatus: changedInteractionState.groupsStatus,
+    },
   };
 }

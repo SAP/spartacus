@@ -327,7 +327,7 @@ export class SetCurrentGroup extends StateUtils.EntitySuccessAction {
   readonly type = SET_CURRENT_GROUP;
 
   constructor(entityKey: string | string[], public payload: any) {
-    super(CONFIGURATION_DATA, entityKey);
+    super(CONFIGURATION_DATA, entityKey, payload);
   }
 }
 
@@ -335,14 +335,14 @@ export class SetMenuParentGroup extends StateUtils.EntitySuccessAction {
   readonly type = SET_MENU_PARENT_GROUP;
 
   constructor(entityKey: string | string[], public payload: any) {
-    super(CONFIGURATION_DATA, entityKey);
+    super(CONFIGURATION_DATA, entityKey, payload);
   }
 }
 
 export class SetGroupsVisited extends StateUtils.EntitySuccessAction {
   readonly type = SET_GROUPS_VISITED;
   constructor(entityKey: string, public payload: string[]) {
-    super(CONFIGURATION_DATA, entityKey);
+    super(CONFIGURATION_DATA, entityKey, payload);
   }
 }
 
@@ -350,7 +350,7 @@ export class SetGroupsCompleted extends StateUtils.EntitySuccessAction {
   readonly type = SET_GROUPS_COMPLETED;
 
   constructor(entityKey: string, public completedGroups: string[]) {
-    super(CONFIGURATION_DATA, entityKey);
+    super(CONFIGURATION_DATA, entityKey, completedGroups);
   }
 }
 
@@ -359,7 +359,7 @@ export class SetGroupsError extends StateUtils.EntitySuccessAction {
   readonly type = SET_GROUPS_ERROR;
 
   constructor(entityKey: string, public errorGroups: string[]) {
-    super(CONFIGURATION_DATA, entityKey);
+    super(CONFIGURATION_DATA, entityKey, errorGroups);
   }
 }
 

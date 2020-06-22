@@ -6,7 +6,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 import { ConfigurationRouter } from '../../generic/service/config-router-data';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 import { ConfigFormUpdateEvent } from './config-form.event';
@@ -42,15 +42,6 @@ export class ConfigFormComponent implements OnInit {
             routerData.owner
           );
         })
-      );
-
-    this.configRouterExtractorService
-      .extractRouterData(this.routingService)
-      .pipe(take(1))
-      .subscribe((routerData) =>
-        this.configuratorGroupsService.subscribeToUpdateConfiguration(
-          routerData.owner
-        )
       );
 
     this.currentGroup$ = this.configRouterExtractorService
