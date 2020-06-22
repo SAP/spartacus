@@ -4,10 +4,15 @@
   height: 100%;
 
   .cx-default-image-zoom {
+    display: flex;
+    justify-content: center;
     height: calc(90vh - 200px);
+    padding-bottom: 1em;
 
-    &:hover {
-      cursor: zoom-in;
+    img {
+      &:hover {
+        cursor: zoom-in;
+      }
     }
   }
 
@@ -16,8 +21,10 @@
     height: calc(90vh - 200px);
     overflow: hidden;
 
-    &:hover {
-      cursor: zoom-out;
+    img {
+      &:hover {
+        cursor: zoom-out;
+      }
     }
 
     .cx-image-zoomed {
