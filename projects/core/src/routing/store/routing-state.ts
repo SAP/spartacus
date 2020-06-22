@@ -15,7 +15,7 @@ export interface ActivatedRouterStateSnapshot {
   params: Params;
   context: PageContext;
   cmsRequired: boolean;
-  routeName?: string;
+  semanticRoute?: string;
 }
 
 export interface State {
