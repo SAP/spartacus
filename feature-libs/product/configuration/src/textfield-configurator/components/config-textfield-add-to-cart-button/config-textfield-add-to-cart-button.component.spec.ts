@@ -126,9 +126,12 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     spyOn(textfieldService, 'addToCart').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
 
-    classUnderTest.onAddToCart(OWNER);
+    classUnderTest.onAddToCart(configurationTextField);
 
-    expect(textfieldService.addToCart).toHaveBeenCalledWith(OWNER.id);
+    expect(textfieldService.addToCart).toHaveBeenCalledWith(
+      OWNER.id,
+      configurationTextField
+    );
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
   });
 
@@ -137,8 +140,11 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     spyOn(routingService, 'go').and.callThrough();
     spyOn(textfieldService, 'updateCartEntry').and.callThrough();
 
-    classUnderTest.onAddToCart(OWNER);
-    expect(textfieldService.updateCartEntry).toHaveBeenCalledWith(OWNER.id);
+    classUnderTest.onAddToCart(configurationTextField);
+    expect(textfieldService.updateCartEntry).toHaveBeenCalledWith(
+      OWNER.id,
+      configurationTextField
+    );
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
   });
 });

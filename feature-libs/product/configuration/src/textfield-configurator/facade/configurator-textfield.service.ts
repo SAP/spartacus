@@ -41,7 +41,7 @@ export class ConfiguratorTextfieldService {
   }
 
   /**
-   * Updates a textfieed configuration, specified by the changed attribute.
+   * Updates a textfield configuration, specified by the changed attribute.
    *
    * @param changedAttribute - Changed attribute
    */
@@ -66,16 +66,23 @@ export class ConfiguratorTextfieldService {
    * Adds the textfield configuration to the cart, specified by its product code.
    *
    * @param productCode - Product code
+   * @param configuration Textfield configuration
    */
-  addToCart(productCode: string) {
+  addToCart(
+    productCode: string,
+    configuration: ConfiguratorTextfield.Configuration
+  ) {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
         userId: this.configuratorUtils.getUserId(cartState.value),
         cartId: this.configuratorUtils.getCartId(cartState.value),
         productCode: productCode,
+        configuration: configuration,
         quantity: 1,
       };
-      this.callAddToCartActionWithConfigurationData(addToCartParameters);
+      this.store.dispatch(
+        new ConfiguratorActions.AddToCart(addToCartParameters)
+      );
     });
   }
 
@@ -83,15 +90,24 @@ export class ConfiguratorTextfieldService {
    * Updates a cart entry, specified by its cart entry number.
    *
    * @param cartEntryNumber - Cart entry number
+   * @param configuration Textfield configuration (list of alphanumeric attributes)
    */
-  public updateCartEntry(cartEntryNumber: string) {
+  public updateCartEntry(
+    cartEntryNumber: string,
+    configuration: ConfiguratorTextfield.Configuration
+  ) {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
         userId: this.configuratorUtils.getUserId(cartState.value),
         cartId: this.configuratorUtils.getCartId(cartState.value),
         cartEntryNumber: cartEntryNumber,
+        configuration: configuration,
       };
-      this.callUpdateCartEntryActionWithConfigurationData(updateCartParameters);
+      this.store.dispatch(
+        new ConfiguratorActions.UpdateCartEntryConfiguration(
+          updateCartParameters
+        )
+      );
     });
   }
 
@@ -124,33 +140,6 @@ export class ConfiguratorTextfieldService {
   ////
   // Helper methods
   ////
-  callAddToCartActionWithConfigurationData(
-    addToCartParameters: ConfiguratorTextfield.AddToCartParameters
-  ): void {
-    this.store
-      .pipe(select(ConfiguratorSelectors.getConfigurationContent), take(1))
-      .subscribe((configuration) => {
-        addToCartParameters.configuration = configuration;
-        this.store.dispatch(
-          new ConfiguratorActions.AddToCart(addToCartParameters)
-        );
-      });
-  }
-
-  callUpdateCartEntryActionWithConfigurationData(
-    updateCartEntryParameters: ConfiguratorTextfield.UpdateCartEntryParameters
-  ): void {
-    this.store
-      .pipe(select(ConfiguratorSelectors.getConfigurationContent), take(1))
-      .subscribe((configuration) => {
-        updateCartEntryParameters.configuration = configuration;
-        this.store.dispatch(
-          new ConfiguratorActions.UpdateCartEntryConfiguration(
-            updateCartEntryParameters
-          )
-        );
-      });
-  }
 
   createNewConfigurationWithChange(
     changedAttribute: ConfiguratorTextfield.ConfigurationInfo,

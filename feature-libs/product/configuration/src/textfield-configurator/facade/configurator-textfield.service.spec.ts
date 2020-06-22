@@ -10,6 +10,7 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
+import { ConfiguratorTextfieldActions } from '../state';
 import * as ConfiguratorActions from '../state/actions/configurator-textfield.action';
 import { StateWithConfigurationTextfield } from '../state/configuration-textfield-state';
 import { ConfiguratorTextfieldService } from './configurator-textfield.service';
@@ -211,68 +212,26 @@ describe('ConfiguratorTextfieldService', () => {
     );
   });
 
-  it('should get cart, fill addToCartParameters and call callAddToCartActionWithConfigurationData', () => {
-    spyOn(
-      serviceUnderTest,
-      'callAddToCartActionWithConfigurationData'
-    ).and.stub();
-
+  it('should dispatch addToCart action with correct parameters on calling addToCart', () => {
     const addToCartParams: ConfiguratorTextfield.AddToCartParameters = {
       cartId: CART_GUID,
       userId: OCC_USER_ID_ANONYMOUS,
       productCode: PRODUCT_CODE,
-      quantity: 1,
-    };
-
-    serviceUnderTest.addToCart(PRODUCT_CODE);
-
-    expect(
-      serviceUnderTest.callAddToCartActionWithConfigurationData
-    ).toHaveBeenCalledWith(addToCartParams);
-  });
-
-  it('should enrich addToCartParameters with configuration and call addToCart action', () => {
-    const addToCartParams: ConfiguratorTextfield.AddToCartParameters = {
-      cartId: CART_GUID,
-      userId: OCC_USER_ID_ANONYMOUS,
-      productCode: PRODUCT_CODE,
-      quantity: 1,
       configuration: productConfiguration,
+      quantity: 1,
     };
 
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-      of(productConfiguration)
+    const addToCartAction = new ConfiguratorTextfieldActions.AddToCart(
+      addToCartParams
     );
-    serviceUnderTest.callAddToCartActionWithConfigurationData(addToCartParams);
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.AddToCart(addToCartParams)
-    );
+    serviceUnderTest.addToCart(PRODUCT_CODE, productConfiguration);
+
+    expect(store.dispatch).toHaveBeenCalledWith(addToCartAction);
   });
 
   it('should dispatch corresponding action in case updateCartEntry was triggered', () => {
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-      of(productConfiguration)
-    );
-    serviceUnderTest.updateCartEntry(CART_ENTRY_NUMBER);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.UpdateCartEntryConfiguration(
-        updateCartEntryParams
-      )
-    );
-  });
-
-  it('should enrich updateCartEntryParameters with configuration and call updateCartEntry action', () => {
-    //clear to be able to later on assess that it has been added to update params
-    updateCartEntryParams.configuration = null;
-
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-      of(productConfiguration)
-    );
-    serviceUnderTest.callUpdateCartEntryActionWithConfigurationData(
-      updateCartEntryParams
-    );
-
+    serviceUnderTest.updateCartEntry(CART_ENTRY_NUMBER, productConfiguration);
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorActions.UpdateCartEntryConfiguration(
         updateCartEntryParams

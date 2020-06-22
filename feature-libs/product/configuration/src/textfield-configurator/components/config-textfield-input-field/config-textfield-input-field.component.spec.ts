@@ -38,4 +38,12 @@ describe('TextfieldInputFieldComponent', () => {
   it('should set value on init', () => {
     expect(component.attributeInputForm.value).toEqual('input123');
   });
+
+  it('should emit a change event on change ', () => {
+    spyOn(component.inputChange, 'emit').and.callThrough();
+    component.onChange();
+    expect(component.inputChange.emit).toHaveBeenCalledWith(
+      component.attribute
+    );
+  });
 });

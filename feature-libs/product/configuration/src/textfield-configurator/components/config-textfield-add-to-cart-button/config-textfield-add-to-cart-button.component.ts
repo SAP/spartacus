@@ -38,13 +38,17 @@ export class ConfigTextfieldAddToCartButtonComponent implements OnInit {
    * Adds a textfield configuration to the cart or updates it
    * @param owner Configuration owner, can be either product or cart entry
    */
-  onAddToCart(owner: GenericConfigurator.Owner) {
+  onAddToCart(configuration: ConfiguratorTextfield.Configuration) {
+    const owner: GenericConfigurator.Owner = configuration.owner;
     switch (owner.type) {
       case GenericConfigurator.OwnerType.PRODUCT:
-        this.configuratorTextfieldService.addToCart(owner.id);
+        this.configuratorTextfieldService.addToCart(owner.id, configuration);
         break;
       case GenericConfigurator.OwnerType.CART_ENTRY:
-        this.configuratorTextfieldService.updateCartEntry(owner.id);
+        this.configuratorTextfieldService.updateCartEntry(
+          owner.id,
+          configuration
+        );
         break;
     }
 
