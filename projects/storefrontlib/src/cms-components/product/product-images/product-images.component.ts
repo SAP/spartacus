@@ -1,15 +1,30 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  ViewContainerRef,
+} from '@angular/core';
 import { Product } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  of,
+  Subscription,
+} from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import { ICON_TYPE } from '../../misc/icon/index';
 import { CurrentProductService } from '../current-product.service';
+import { ProductImagesComponentService } from './product-images-component.service';
 
 @Component({
   selector: 'cx-product-images',
   templateUrl: './product-images.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductImagesComponent {
+export class ProductImagesComponent implements OnDestroy {
+  iconTypes = ICON_TYPE;
+  private subscription = new Subscription();
   private mainMediaContainer = new BehaviorSubject(null);
 
   private product$: Observable<
@@ -30,7 +45,11 @@ export class ProductImagesComponent {
     map(([, container]) => container)
   );
 
-  constructor(private currentProductService: CurrentProductService) {}
+  constructor(
+    private currentProductService: CurrentProductService,
+    protected productImagesComponentService: ProductImagesComponentService,
+    protected vcr: ViewContainerRef
+  ) {}
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
@@ -67,6 +86,18 @@ export class ProductImagesComponent {
         return thumbs.indexOf(current);
       })
     );
+  }
+
+  triggerZoom(): void {
+    const component = this.productImagesComponentService.expandImage(this.vcr);
+
+    if (component) {
+      this.subscription.add(component.subscribe());
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   /**

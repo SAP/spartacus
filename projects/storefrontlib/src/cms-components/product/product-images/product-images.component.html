@@ -1,6 +1,10 @@
 <ng-container *ngIf="mainImage$ | async as main">
-  <cx-image-zoom-trigger></cx-image-zoom-trigger>
-  <cx-media [container]="main"> </cx-media>
+  <!-- TODO breaking changes for the icon -->
+  <button class="btn btn-link cx-action-link" (click)="triggerZoom()">
+    <cx-icon [type]="iconTypes.EXPAND_ARROWS"></cx-icon>
+  </button>
+  <!-- TODO breaking changes for the click & add pointer style -->
+  <cx-media [container]="main" (click)="triggerZoom()"> </cx-media>
 </ng-container>
 
 <ng-container *ngIf="thumbs$ | async as thumbs">
