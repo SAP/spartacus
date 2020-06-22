@@ -18,7 +18,7 @@ const PRODUCT_CODE = 'CONF_LAPTOP';
 
 const ATTRIBUTE_NAME = 'AttributeName';
 const ATTRIBUTE_VALUE = 'AttributeValue';
-const SUCCESS = 'SUCCESS';
+
 const CHANGED_VALUE = 'theNewValue';
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
@@ -66,7 +66,7 @@ const changedProductConfiguration: ConfiguratorTextfield.Configuration = {
     {
       configurationLabel: ATTRIBUTE_NAME,
       configurationValue: CHANGED_VALUE,
-      status: SUCCESS,
+      status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
     },
   ],
   owner: {
@@ -191,7 +191,9 @@ describe('ConfiguratorTextfieldService', () => {
 
     expect(result).toBeDefined();
     expect(result.configurationInfos[0].configurationValue).toBe(CHANGED_VALUE);
-    expect(result.configurationInfos[0].status).toBe(SUCCESS);
+    expect(result.configurationInfos[0].status).toBe(
+      ConfiguratorTextfield.ConfigurationStatus.SUCCESS
+    );
   });
 
   it('should create new configuration with same value if label could not be found', () => {

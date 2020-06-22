@@ -12,8 +12,6 @@ import * as ConfiguratorActions from '../state/actions/configurator-textfield.ac
 import { StateWithConfigurationTextfield } from '../state/configuration-textfield-state';
 import * as ConfiguratorSelectors from '../state/selectors/configurator-textfield.selector';
 
-const SUCCESS_STATUS = 'SUCCESS';
-
 @Injectable()
 export class ConfiguratorTextfieldService {
   constructor(
@@ -164,7 +162,8 @@ export class ConfiguratorTextfieldService {
     };
     oldConfiguration.configurationInfos.forEach((info) => {
       if (info.configurationLabel === changedAttribute.configurationLabel) {
-        changedAttribute.status = SUCCESS_STATUS;
+        changedAttribute.status =
+          ConfiguratorTextfield.ConfigurationStatus.SUCCESS;
         newConfiguration.configurationInfos.push(changedAttribute);
       } else {
         newConfiguration.configurationInfos.push(info);

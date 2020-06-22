@@ -14,6 +14,12 @@ export class OccConfiguratorTextfieldUpdateCartEntrySerializer
     > {
   constructor() {}
 
+  /**
+   * Converts the attributes for the updateCartEntry request into OCC format. Most attributes are just copied,
+   * except for the backend configurator type that needs to be set to 'TEXTFIELD'
+   * @param source Attributes for updating a cart entries' configuration in generic format
+   * @returns ttributes for updating a cart entries' configuration in OCC format
+   */
   convert(
     source: ConfiguratorTextfield.UpdateCartEntryParameters
   ): OccConfiguratorTextfield.UpdateCartEntryParameters {
@@ -31,7 +37,7 @@ export class OccConfiguratorTextfieldUpdateCartEntrySerializer
     return target;
   }
 
-  convertInfo(
+  protected convertInfo(
     source: ConfiguratorTextfield.ConfigurationInfo,
     occConfigurationInfos: OccConfiguratorTextfield.ConfigurationInfo[]
   ) {

@@ -30,13 +30,12 @@ const PRODUCT_CODE = 'CPQ_LAPTOP';
 const QUANTITY = 1;
 const LABEL1 = 'LABEL1';
 const VALUE1 = 'VALUE1';
-const SUCCESS = 'SUCCESS';
 const configuration: ConfiguratorTextfield.Configuration = {
   configurationInfos: [
     {
       configurationLabel: LABEL1,
       configurationValue: VALUE1,
-      status: SUCCESS,
+      status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
     },
   ],
 };
@@ -76,15 +75,17 @@ describe('OccConfigurationTextfieldAdapter', () => {
       ],
     });
 
-    httpMock = TestBed.get(
+    httpMock = TestBed.inject(
       HttpTestingController as Type<HttpTestingController>
     );
-    converterService = TestBed.get(ConverterService as Type<ConverterService>);
-    occEnpointsService = TestBed.get(
+    converterService = TestBed.inject(
+      ConverterService as Type<ConverterService>
+    );
+    occEnpointsService = TestBed.inject(
       OccEndpointsService as Type<OccEndpointsService>
     );
 
-    occConfiguratorVariantAdapter = TestBed.get(
+    occConfiguratorVariantAdapter = TestBed.inject(
       OccConfiguratorTextfieldAdapter as Type<OccConfiguratorTextfieldAdapter>
     );
 

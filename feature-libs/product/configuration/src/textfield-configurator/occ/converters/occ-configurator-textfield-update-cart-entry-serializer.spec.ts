@@ -10,7 +10,6 @@ describe('OccConfiguratorTextfieldUpdateCartEntrySerializer', () => {
   const CART_ID = '98876';
   const LABEL1 = 'LABEL1';
   const VALUE1 = 'VALUE1';
-  const SUCCESS = 'SUCCESS';
   const TEXTFIELD = 'TEXTFIELD';
   const CART_ENTRY_NUMBER = '2';
 
@@ -19,7 +18,7 @@ describe('OccConfiguratorTextfieldUpdateCartEntrySerializer', () => {
       {
         configurationLabel: LABEL1,
         configurationValue: VALUE1,
-        status: SUCCESS,
+        status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
       },
     ],
   };
