@@ -29,7 +29,7 @@ export class ConfiguratorTextfieldService {
    *
    * @returns {Observable<ConfiguratorTextfield.Configuration>}
    */
-  public createConfiguration(
+  createConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     this.store.dispatch(
@@ -43,11 +43,11 @@ export class ConfiguratorTextfieldService {
   }
 
   /**
-   * Updates a textfiled configuration, specified by the changed attribute.
+   * Updates a textfieed configuration, specified by the changed attribute.
    *
    * @param changedAttribute - Changed attribute
    */
-  public updateConfiguration(
+  updateConfiguration(
     changedAttribute: ConfiguratorTextfield.ConfigurationInfo
   ): void {
     this.store
@@ -69,7 +69,7 @@ export class ConfiguratorTextfieldService {
    *
    * @param productCode - Product code
    */
-  public addToCart(productCode: string) {
+  addToCart(productCode: string) {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
         userId: this.configuratorUtils.getUserId(cartState.value),
