@@ -272,10 +272,11 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(attributes[0].name).toBe(attributeName);
   });
 
-  it('should tell if attribute is numeric', () => {
+  it('should tell if attribute is numeric and know if negative values are allowed', () => {
     const attributes: Configurator.Attribute[] = [];
     const numericOccAttribute: OccConfigurator.Attribute = {
       value: '23.234',
+      negativeAllowed: true,
       type: OccConfigurator.UiType.READ_ONLY,
     };
     occConfiguratorVariantNormalizer.convertAttribute(
@@ -284,6 +285,21 @@ describe('OccConfiguratorVariantNormalizer', () => {
     );
 
     expect(attributes[0].isNumeric).toBe(true);
+    expect(attributes[0].negativeAllowed).toBe(true);
+  });
+
+  it('should increase maximum length if negative numbers are allowed', () => {
+    const attributes: Configurator.Attribute[] = [];
+    const numericOccAttribute: OccConfigurator.Attribute = {
+      maxlength: 3,
+      negativeAllowed: true,
+    };
+    occConfiguratorVariantNormalizer.convertAttribute(
+      numericOccAttribute,
+      attributes
+    );
+
+    expect(attributes[0].maxlength).toBe(numericOccAttribute.maxlength + 1);
   });
 
   it('should convert a standard group', () => {
