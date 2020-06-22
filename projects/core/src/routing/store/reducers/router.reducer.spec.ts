@@ -86,7 +86,6 @@ describe('Router Reducer', () => {
           params: {},
           context: { id: 'homepage' },
           cmsRequired: true,
-          routeName: '',
         },
         event: {
           id: 1,
