@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
   Budget,
   CostCenterService,
@@ -12,7 +13,7 @@ import {
   AbstractListingComponent,
   ListingModel,
 } from '../../../cms-components/organization/abstract-component/abstract-listing.component';
-import { Table } from '../../../_organization/shared/table/table.model';
+import { Table } from '../../shared/table/table.model';
 
 @Component({
   selector: 'cx-cost-center-budget-list',
@@ -37,11 +38,16 @@ export class CostCenterBudgetListComponent extends AbstractListingComponent
 
   constructor(
     protected routingService: RoutingService,
+    protected router: ActivatedRoute,
     protected costCenterService: CostCenterService,
     protected cxDate: CxDatePipe
   ) {
     super(routingService);
   }
+
+  code$: Observable<string> = this.router.params.pipe(
+    map((routingData) => routingData['code'])
+  );
 
   ngOnInit(): void {
     this.data$ = <Observable<ListingModel>>this.queryParamsForAllItems$.pipe(

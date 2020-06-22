@@ -18,8 +18,8 @@ export const costCenterRoutingConfig: RoutingConfig = {
       costCenterDetails: {
         paths: ['organization/cost-centers/:code'],
       },
-      costCenterBudget: {
-        paths: ['organization/cost-centers/:code'],
+      costCenterBudgets: {
+        paths: ['organization/cost-centers/:code/budgets'],
       },
       costCenterAssignBudgets: {
         paths: ['organization/cost-centers/:code/budgets/assign'],

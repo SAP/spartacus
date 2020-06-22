@@ -61,4 +61,4 @@ import { CostCenterComponent } from './cost-center.component';
   ],
   declarations: [CostCenterComponent],
 })
-export class CostCenterModule {}
+export class Outdated_CostCenterModule {}
