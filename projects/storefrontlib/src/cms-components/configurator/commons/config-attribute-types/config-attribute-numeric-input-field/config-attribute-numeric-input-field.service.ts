@@ -154,8 +154,7 @@ export class ConfigAttributeNumericInputFieldService {
 
         if (!expressionOnlyNumericalInput.test(input)) {
           return this.createValidationError(true);
-        }
-        console.log('CHHI accepted');
+        }       
         return this.createValidationError(
           this.performValidationAccordingToMetaData(
             input,
