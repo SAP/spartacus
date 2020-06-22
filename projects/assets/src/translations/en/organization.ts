@@ -196,7 +196,7 @@ export const organization = {
   },
   orderApprovalsList: {
     header: 'Order Approval Dashboard',
-    orderCode: 'Order #',
+    code: 'Order #',
     POCode: 'PO #',
     placedBy: 'Placed by',
     date: 'Date',

@@ -7,9 +7,9 @@
   }"
   [columns]="[
     {
-      key: 'orderNumber',
-      value: 'orderApprovalsList.orderCode' | cxTranslate,
-      cxRoute: 'budgetDetails'
+      key: 'code',
+      value: 'orderApprovalsList.code' | cxTranslate,
+      cxRoute: 'orderApprovalsDetails'
     },
     { key: 'POCode', value: 'orderApprovalsList.POCode' | cxTranslate },
     { key: 'placedBy', value: 'orderApprovalsList.placedBy' | cxTranslate },
@@ -19,8 +19,7 @@
     },
     {
       key: 'status',
-      value: 'orderApprovalsList.status' | cxTranslate,
-      cxRoute: 'orgUnitDetails'
+      value: 'orderApprovalsList.status' | cxTranslate
     },
     {
       key: 'total',

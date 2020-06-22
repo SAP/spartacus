@@ -46,11 +46,18 @@ export class OrderApprovalsListComponent extends AbstractListingComponent
               pagination: orderApprovalList.pagination,
               values: orderApprovalList.values.map(
                 (orderApproval: OrderApproval) => ({
-                  orderNumber: orderApproval.order.code,
+                  code: orderApproval.order.code,
                   POCode: 'wip',
                   placedBy: `${orderApproval.order.orgCustomer.name} ${orderApproval.order.orgCustomer.orgUnit.name}`,
                   date: this.cxDate.transform(orderApproval.order.created),
-                  status: orderApproval.order.statusDisplay,
+                  status: `${orderApproval.order.statusDisplay
+                    .split('.')[0]
+                    .charAt(0)
+                    .toUpperCase()}${orderApproval.order.statusDisplay
+                    .split('.')[0]
+                    .slice(1)} ${
+                    orderApproval.order.statusDisplay.split('.')[1]
+                  }`,
                   total: orderApproval.order.totalPrice.formattedValue,
                 })
               ),
