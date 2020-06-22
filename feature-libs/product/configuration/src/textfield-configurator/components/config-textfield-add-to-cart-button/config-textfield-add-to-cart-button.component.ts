@@ -34,8 +34,11 @@ export class ConfigTextfieldAddToCartButtonComponent implements OnInit {
       this.routingService
     );
   }
-
-  onAddToCart(owner: GenericConfigurator.Owner) {
+  /**
+   * Adds a textfield configuration to the cart or updates it
+   * @param owner Configuration owner, can be either product or cart entry
+   */
+  public onAddToCart(owner: GenericConfigurator.Owner) {
     switch (owner.type) {
       case GenericConfigurator.OwnerType.PRODUCT:
         this.configuratorTextfieldService.addToCart(owner.id);
@@ -46,5 +49,16 @@ export class ConfigTextfieldAddToCartButtonComponent implements OnInit {
     }
 
     this.routingService.go({ cxRoute: 'cart' });
+  }
+
+  /**
+   * Returns button description. Button will display 'addToCart' or 'done' in case router data indicates that owner is a cart entry
+   * @param routerData Data extracted from routing that we use to decide whether configuration belongs to cart or to product
+   * @returns Resource key of button description
+   */
+  public getButtonText(routerData: ConfigurationRouter.Data): string {
+    return routerData.isOwnerCartEntry
+      ? 'configuratorTextfield.addToCart.buttonUpdateCart'
+      : 'configuratorTextfield.addToCart.button';
   }
 }

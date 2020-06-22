@@ -6,16 +6,7 @@
           class="cx-btn btn btn-block btn-primary"
           (click)="onAddToCart(configuration.owner)"
         >
-          <ng-container *ngIf="!routerData.isOwnerCartEntry">
-            {{
-              'configuratorTextfield.addToCart.button' | cxTranslate
-            }}</ng-container
-          >
-          <ng-container *ngIf="routerData.isOwnerCartEntry">
-            {{
-              'configuratorTextfield.addToCart.buttonUpdateCart' | cxTranslate
-            }}</ng-container
-          >
+          {{ getButtonText(routerData) | cxTranslate }}
         </button>
       </div>
     </div>

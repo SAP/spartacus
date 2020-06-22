@@ -17,7 +17,10 @@ import { ConfigTextfieldInputFieldComponent } from './components/config-textfiel
 import { ConfiguratorTextfieldService } from './facade/configurator-textfield.service';
 import { ConfiguratorTextfieldOccModule } from './occ/configurator-textfield-occ.module';
 import { ConfiguratorTextfieldStoreModule } from './state/configurator-textfield-store.module';
-
+/**
+ * Exposes the textfield configurator, a small configurator that only provides 3 attributes at product level without any dependencies between them,
+ * and in the first place serves as a template for other configurator implementations.
+ */
 @NgModule({
   imports: [
     CommonModule,
@@ -35,7 +38,6 @@ import { ConfiguratorTextfieldStoreModule } from './state/configurator-textfield
       cmsComponents: {
         TextfieldConfigurationForm: {
           component: ConfigTextfieldFormComponent,
-          guards: [],
         },
       },
       layoutSlots: {
