@@ -44,7 +44,7 @@ class MockConfiguratorTextfieldService {
   updateCartEntry(): void {}
 }
 
-describe('TextfieldAddToCartButtonComponent', () => {
+describe('ConfigTextfieldAddToCartButtonComponent', () => {
   let classUnderTest: ConfigTextfieldAddToCartButtonComponent;
   let fixture: ComponentFixture<ConfigTextfieldAddToCartButtonComponent>;
   let textfieldService: ConfiguratorTextfieldService;

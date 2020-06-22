@@ -125,7 +125,7 @@ describe('TextfieldFormComponent', () => {
     );
   });
 
-  it('should call update configuration', () => {
+  it('should call update configuration on facade in case it was triggered on component', () => {
     spyOn(textfieldService, 'updateConfiguration').and.callThrough();
     component.updateConfiguration(productConfig.configurationInfos[0]);
     expect(textfieldService.updateConfiguration).toHaveBeenCalledTimes(1);
