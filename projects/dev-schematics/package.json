@@ -20,9 +20,9 @@
     "@spartacus/schematics": "next"
   },
   "dependencies": {
-    "@angular-devkit/core": "^9.1.7",
-    "@angular-devkit/schematics": "^9.1.7",
-    "@schematics/angular": "^9.1.7"
+    "@angular-devkit/core": "^9.1.9",
+    "@angular-devkit/schematics": "^9.1.9",
+    "@schematics/angular": "^9.1.9"
   },
   "devDependencies": {
     "@spartacus/storefront": "next",

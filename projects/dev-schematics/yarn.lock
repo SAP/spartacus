@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@angular-devkit/core@9.1.9", "@angular-devkit/core@^9.1.0", "@angular-devkit/core@^9.1.7":
+"@angular-devkit/core@9.1.9", "@angular-devkit/core@^9.1.0", "@angular-devkit/core@^9.1.9":
   version "9.1.9"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-9.1.9.tgz#e6283912093179313ccfc69856841e9b6b318231"
   integrity sha512-SWgBh4an/Vezjw2BZ5S+bKvuK5lH6gOtR8d5YjN9vxpJSZ0GimrGjfnLlWOkwWAsU8jfn4JzofECUHwX/7EW6Q==
@@ -13,7 +13,7 @@
     rxjs "6.5.4"
     source-map "0.7.3"
 
-"@angular-devkit/schematics@9.1.9", "@angular-devkit/schematics@^9.1.0", "@angular-devkit/schematics@^9.1.7":
+"@angular-devkit/schematics@9.1.9", "@angular-devkit/schematics@^9.1.0", "@angular-devkit/schematics@^9.1.9":
   version "9.1.9"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-9.1.9.tgz#1369ee586cb91ffebf12673bb839d31ad5c00357"
   integrity sha512-aKuMmS3wshOTl9+01jiB50ml09fRN1WfOOtoNqwvKTEi87DrT6Mn3l0eVQo8PJK/bIq/FBmPgsIl2nsETiBSxg==
@@ -182,7 +182,7 @@
   dependencies:
     "@nguniversal/common" "9.1.1"
 
-"@schematics/angular@9.1.9", "@schematics/angular@^9.1.0", "@schematics/angular@^9.1.7":
+"@schematics/angular@9.1.9", "@schematics/angular@^9.1.0", "@schematics/angular@^9.1.9":
   version "9.1.9"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-9.1.9.tgz#df9f30dd7b63856121fbb9ab5dda57b443802a33"
   integrity sha512-c8YGZ6pDfr8IDD1qaOjlEBAkEz14KFSxDj0hCWs0xIM0py513tu5sW8+ziYxGG4bgqpsgVR/KAxuY78iBfUVag==
