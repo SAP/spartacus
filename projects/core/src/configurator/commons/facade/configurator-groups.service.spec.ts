@@ -190,6 +190,21 @@ describe('ConfiguratorGroupsService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
+  it('should read configuration and call set group status on set group status method call', () => {
+    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      of(productConfiguration)
+    );
+
+    classUnderTest.setGroupStatus(
+      productConfiguration.owner,
+      productConfiguration.groups[2].id,
+      false
+    );
+
+    expect(configuratorCommonsService.getConfiguration).toHaveBeenCalled();
+    expect(configGroupStatusService.setGroupStatus).toHaveBeenCalled();
+  });
+
   it('should call group status in navigate to different group', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)

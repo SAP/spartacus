@@ -98,6 +98,33 @@ export class ConfiguratorGroupsService {
   }
 
   /**
+   * Determines the group status by the group ID and the switcher that defines whether the group has been visited or not.
+   *
+   * @param owner - Owner
+   * @param groupId - Group ID
+   * @param setGroupVisited - Determines whether the group has to be set as visited or not
+   */
+  public setGroupStatus(
+    owner: GenericConfigurator.Owner,
+    groupId: string,
+    setGroupVisited: Boolean
+  ) {
+    this.configuratorCommonsService
+      .getConfiguration(owner)
+      .pipe(
+        map((configuration) =>
+          this.configuratorGroupStatusService.setGroupStatus(
+            configuration,
+            groupId,
+            setGroupVisited
+          )
+        ),
+        take(1)
+      )
+      .subscribe();
+  }
+
+  /**
    * Navigates to the group, specified by its group ID.
    *
    * @param configuration - Configuration

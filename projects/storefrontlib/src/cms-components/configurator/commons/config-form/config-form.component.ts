@@ -59,5 +59,11 @@ export class ConfigFormComponent implements OnInit {
       event.groupId,
       event.changedAttribute
     );
+
+    this.configuratorGroupsService.setGroupStatus(
+      { key: event.productCode },
+      event.groupId,
+      false
+    );
   }
 }
