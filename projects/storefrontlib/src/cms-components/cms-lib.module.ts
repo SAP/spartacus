@@ -58,6 +58,7 @@ import {
   CostCenterListModule,
   OrderApprovalDetailFormModule,
   OrderApprovalDetailHeadlineModule,
+  OrderApprovalDetailTotalsModule,
   PermissionCreateModule,
   PermissionDetailsModule,
   PermissionEditModule,
@@ -206,7 +207,8 @@ import { WishListModule } from './wish-list/wish-list.module';
     UserUserGroupsModule,
     UserAssignUserGroupsModule,
     OrderApprovalDetailFormModule,
-    OrderApprovalDetailHeadlineModule, 
+    OrderApprovalDetailHeadlineModule,
+    OrderApprovalDetailTotalsModule,
   ],
 })
 export class CmsLibModule {}
