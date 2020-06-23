@@ -23,7 +23,17 @@
     },
     "baseSite": {
       "type": "string",
-      "description": "The base site to use with spartacus"
+      "description": "A comma-separated list of base site(s) to use with Spartacus"
+    },
+    "currency": {
+      "type": "string",
+      "description": "A comma-separated list of currencies to use in Spartacus",
+      "default": "USD"
+    },
+    "language": {
+      "type": "string",
+      "description": "A comma-separated list of languages to use in Spartacus",
+      "default": "en"
     },
     "useMetaTags": {
       "type": "boolean",

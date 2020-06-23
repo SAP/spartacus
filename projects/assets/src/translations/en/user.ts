@@ -3,13 +3,15 @@ export const user = {
     preferences: 'Consent Preferences',
     dialog: {
       title: 'Consent Management',
-      legalDescription: `We use cookies/browser's storage to personalize the content and improve user experience. We also might share the data about your site usage with our social media. For more, please review our privacy policy.`,
+      legalDescription:
+        "We use cookies/browser's storage to personalize the content and improve user experience. We also might share the data about your site usage with our social media. For more, please review our privacy policy.",
       selectAll: 'Select all',
       clearAll: 'Clear all',
     },
     banner: {
       title: 'This website uses cookies',
-      description: `We use cookies/browser's storage to personalize the content and improve user experience.`,
+      description:
+        "We use cookies/browser's storage to personalize the content and improve user experience.",
       allowAll: 'Allow All',
       viewDetails: 'View Details',
     },
@@ -74,7 +76,6 @@ export const user = {
       placeholder: 'Password',
     },
     newPassword: 'New Password',
-    /* tslint:disable:max-line-length */
     emailMarketing:
       'Use my personal data to receive e-mail newsletters for marketing campaigns. To change your settings, go to Consent Management in My Account.',
     confirmThatRead: 'I am confirming that I have read and agreed with the',
