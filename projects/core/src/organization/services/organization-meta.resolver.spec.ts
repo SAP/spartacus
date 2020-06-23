@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsService, Page } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
@@ -17,7 +17,6 @@ const mockOrganizationPage: Page = {
 
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
-    console.log('getCurrentPage');
     return of(mockOrganizationPage);
   }
 }
@@ -51,15 +50,17 @@ const mockRouterStateWithParams: RouterState = {
   },
 };
 
+const state = new BehaviorSubject(mockRouterStateWithoutParams);
+
 class RoutingServiceStub {
   getRouterState(): Observable<RouterState> {
-    return of();
+    return state;
   }
 }
 
 fdescribe('OrganizationMetaResolver', () => {
   let resolver: OrganizationMetaResolver;
-  let routingService: RoutingService;
+  // let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -72,13 +73,14 @@ fdescribe('OrganizationMetaResolver', () => {
     });
 
     resolver = TestBed.inject(OrganizationMetaResolver);
-    routingService = TestBed.inject(RoutingService);
+    // routingService = TestBed.inject(RoutingService);
   });
 
   it('should resolve title without parameters', () => {
-    spyOn(routingService, 'getRouterState').and.returnValue(
-      of(mockRouterStateWithoutParams)
-    );
+    // spyOn(routingService, 'getRouterState').and.returnValue(
+    //   of(mockRouterStateWithoutParams)
+    // );
+    state.next(mockRouterStateWithoutParams);
     console.log('without parameters');
 
     let titleWithoutParams: string;
@@ -92,9 +94,10 @@ fdescribe('OrganizationMetaResolver', () => {
   });
 
   it('should resolve title with parameters', () => {
-    spyOn(routingService, 'getRouterState').and.returnValue(
-      of(mockRouterStateWithParams)
-    );
+    // spyOn(routingService, 'getRouterState').and.returnValue(
+    //   of(mockRouterStateWithParams)
+    // );
+    state.next(mockRouterStateWithParams);
     console.log('with parameters');
     let titleWithParameters = '';
     resolver
@@ -102,13 +105,14 @@ fdescribe('OrganizationMetaResolver', () => {
       .subscribe((value) => (titleWithParameters = value))
       .unsubscribe();
 
-    expect(titleWithParameters).toEqual('8796098887703');
+    expect(titleWithParameters).toEqual(['8796098887703']);
   });
 
   it('should resolve breadcrumbs without parameters', () => {
-    spyOn(routingService, 'getRouterState').and.returnValue(
-      of(mockRouterStateWithoutParams)
-    );
+    // spyOn(routingService, 'getRouterState').and.returnValue(
+    //   of(mockRouterStateWithoutParams)
+    // );
+    state.next(mockRouterStateWithoutParams);
 
     let result: any[];
     resolver
@@ -123,10 +127,10 @@ fdescribe('OrganizationMetaResolver', () => {
   });
 
   it('should resolve breadcrumbs with parameters', () => {
-    spyOn(routingService, 'getRouterState').and.returnValue(
-      of(mockRouterStateWithParams)
-    );
-
+    // spyOn(routingService, 'getRouterState').and.returnValue(
+    //   of(mockRouterStateWithParams)
+    // );
+    state.next(mockRouterStateWithParams);
     let result: any[];
     resolver
       .resolveBreadcrumbs()
