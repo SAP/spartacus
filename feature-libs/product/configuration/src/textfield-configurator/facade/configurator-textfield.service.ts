@@ -12,7 +12,9 @@ import * as ConfiguratorActions from '../state/actions/configurator-textfield.ac
 import { StateWithConfigurationTextfield } from '../state/configuration-textfield-state';
 import * as ConfiguratorSelectors from '../state/selectors/configurator-textfield.selector';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ConfiguratorTextfieldService {
   constructor(
     protected store: Store<StateWithConfigurationTextfield>,
@@ -137,10 +139,13 @@ export class ConfiguratorTextfieldService {
     return this.store.select(ConfiguratorSelectors.getConfigurationContent);
   }
 
-  ////
-  // Helper methods
-  ////
-
+  /**
+   * Creates a textfield configuration supposed to be sent to the backend when an attribute
+   * has been changed
+   * @param changedAttribute Attribute changed by the end user
+   * @param oldConfiguration Existing configuration to which the attribute change is applied to
+   * @returns Textfield configuration (merge of existing configuration and the changed attribute)
+   */
   createNewConfigurationWithChange(
     changedAttribute: ConfiguratorTextfield.ConfigurationInfo,
     oldConfiguration: ConfiguratorTextfield.Configuration

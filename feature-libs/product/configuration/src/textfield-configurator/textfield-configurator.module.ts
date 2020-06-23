@@ -8,13 +8,11 @@ import {
   ConfigModule,
   I18nModule,
   UrlModule,
-  UserService,
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { ConfigTextfieldAddToCartButtonComponent } from './components/config-textfield-add-to-cart-button/config-textfield-add-to-cart-button.component';
 import { ConfigTextfieldFormComponent } from './components/config-textfield-form/config-textfield-form.component';
 import { ConfigTextfieldInputFieldComponent } from './components/config-textfield-input-field/config-textfield-input-field.component';
-import { ConfiguratorTextfieldService } from './facade/configurator-textfield.service';
 import { ConfiguratorTextfieldOccModule } from './occ/configurator-textfield-occ.module';
 import { ConfiguratorTextfieldStoreModule } from './state/configurator-textfield-store.module';
 /**
@@ -64,7 +62,6 @@ import { ConfiguratorTextfieldStoreModule } from './state/configurator-textfield
     ConfigTextfieldInputFieldComponent,
     ConfigTextfieldAddToCartButtonComponent,
   ],
-  providers: [UserService, ConfiguratorTextfieldService],
   entryComponents: [
     ConfigTextfieldFormComponent,
     ConfigTextfieldInputFieldComponent,
