@@ -16,7 +16,6 @@ import {
 import { environment } from '../environments/environment';
 import { b2bFeature } from '../environments/features/b2b/b2b.feature';
 import { b2cFeature } from '../environments/features/b2c/b2c.feature';
-import { myAccountFeature } from '../environments/features/my-account/my-account.feature';
 import { cdsFeature } from '../environments/integrations/cds/cds.feature';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 
@@ -40,7 +39,6 @@ if (environment.b2b) {
 if (environment.cds) {
   additionalImports = [...additionalImports, ...cdsFeature.imports];
 }
-additionalImports = [...additionalImports, ...myAccountFeature.imports];
 
 @NgModule({
   imports: [

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CostCenterModule } from './company/cost-center/cost-center.module';
+import { CompanyModule } from './company/company.module';
 
-@NgModule({ imports: [CostCenterModule] })
+@NgModule({ imports: [CompanyModule] })
 export class MyAccountModule {}
