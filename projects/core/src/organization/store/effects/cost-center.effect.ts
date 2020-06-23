@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, mergeMap } from 'rxjs/operators';
 import { CostCenter } from '../../../model/org-unit.model';
 import { EntitiesModel } from '../../../model/misc.model';
 import { Budget } from '../../../model/budget.model';
@@ -122,7 +122,7 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.LOAD_ASSIGNED_BUDGETS),
     map((action: CostCenterActions.LoadAssignedBudgets) => action.payload),
-    switchMap(({ userId, costCenterCode, params }) =>
+    mergeMap(({ userId, costCenterCode, params }) =>
       this.costCenterConnector.getBudgets(userId, costCenterCode, params).pipe(
         switchMap((budgets: EntitiesModel<Budget>) => {
           const { values, page } = normalizeListPage(budgets, 'code');
