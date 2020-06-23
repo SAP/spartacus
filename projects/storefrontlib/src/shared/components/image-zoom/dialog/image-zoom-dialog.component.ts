@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, Input } from '@angular/core';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { FocusConfig } from '../../../../layout/a11y/index';
 import { LaunchDialogService } from '../../../../layout/launch-dialog/services/index';
@@ -16,6 +16,8 @@ export class ImageZoomDialogComponent {
     autofocus: 'button',
     focusOnEscape: true,
   };
+
+  @Input() galleryItem: number;
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {

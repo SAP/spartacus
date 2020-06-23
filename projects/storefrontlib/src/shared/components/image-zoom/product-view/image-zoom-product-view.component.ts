@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Input,
   Renderer2,
   ViewChild,
 } from '@angular/core';
@@ -20,6 +21,8 @@ export class ImageZoomProductViewComponent {
 
   isZoomed = false;
 
+  @Input() galleryItem: number;
+
   @ViewChild('zoomedImage', { read: ElementRef }) zoomedImage: ElementRef;
 
   top = 0;
@@ -31,7 +34,16 @@ export class ImageZoomProductViewComponent {
     filter(Boolean),
     distinctUntilChanged(),
     tap((p: Product) => {
-      this.mainMediaContainer.next(p.images?.PRIMARY ? p.images.PRIMARY : {});
+      if (this.galleryItem) {
+        const image = Array.isArray(p.images?.GALLERY)
+          ? p.images?.GALLERY.find(
+              (img) => img.zoom?.galleryIndex === this.galleryItem
+            )
+          : p.images?.GALLERY;
+        this.mainMediaContainer.next(image);
+      } else {
+        this.mainMediaContainer.next(p.images?.PRIMARY ? p.images.PRIMARY : {});
+      }
     })
   );
 

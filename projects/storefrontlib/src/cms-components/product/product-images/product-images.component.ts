@@ -89,7 +89,10 @@ export class ProductImagesComponent implements OnDestroy {
   }
 
   triggerZoom(): void {
-    const component = this.productImagesComponentService.expandImage(this.vcr);
+    const component = this.productImagesComponentService.expandImage(
+      this.vcr,
+      this.mainMediaContainer.value?.zoom?.galleryIndex
+    );
 
     if (component) {
       this.subscription.add(component.subscribe());
