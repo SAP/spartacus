@@ -27,14 +27,14 @@ import { InteractiveTableModule } from '../../../../shared/components/interactiv
 import { UnitAssignApproversComponent } from './unit-assign-approvers.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
+import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
 
 const code = 'unitCode';
-const email = 'aaa@bbb';
 const roleId = 'b2bapprovergroup';
+const customerId = 'customerId1';
 const userRow = {
   row: {
-    email,
+    customerId,
   },
 };
 
@@ -49,6 +49,7 @@ const mockUserList: EntitiesModel<B2BUser> = {
     {
       name: 'b1',
       uid: 'aaa@bbb',
+      customerId,
       selected: true,
       orgUnit: { uid: 'orgUid', name: 'orgName' },
       roles: [],
@@ -56,6 +57,7 @@ const mockUserList: EntitiesModel<B2BUser> = {
     {
       name: 'b2',
       uid: 'aaa2@bbb',
+      customerId: 'customerId2',
       selected: false,
       orgUnit: { uid: 'orgUid2', name: 'orgName2' },
       roles: [],
@@ -73,6 +75,7 @@ const mockUserUIList = {
       selected: true,
       parentUnit: 'orgName',
       uid: 'orgUid',
+      customerId,
       roles: [],
     },
     {
@@ -80,6 +83,7 @@ const mockUserUIList = {
       email: 'aaa2@bbb',
       selected: false,
       uid: 'orgUid2',
+      customerId: 'customerId2',
       parentUnit: 'orgName2',
       roles: [],
     },
@@ -220,7 +224,7 @@ describe('UnitAssignApproversComponent', () => {
       component.assign(userRow);
       expect(orgUnitService.assignApprover).toHaveBeenCalledWith(
         code,
-        userRow.row.email,
+        userRow.row.customerId,
         roleId
       );
     });
@@ -231,7 +235,7 @@ describe('UnitAssignApproversComponent', () => {
       component.unassign(userRow);
       expect(orgUnitService.unassignApprover).toHaveBeenCalledWith(
         code,
-        userRow.row.email,
+        userRow.row.customerId,
         roleId
       );
     });

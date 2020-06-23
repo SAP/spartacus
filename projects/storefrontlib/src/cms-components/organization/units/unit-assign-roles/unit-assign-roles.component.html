@@ -1,68 +1,89 @@
-<cx-interactive-table
-  [data$]="data$"
-  [header]="'unitAssignRoles.header' | cxTranslate: { code: code }"
-  [sortLabels]="{
-    byName: 'usersList.sorting.byName' | cxTranslate
-  }"
-  [columns]="[
+<cx-fake-tabs
+  [code]="code$ | async"
+  [links]="[
     {
-      key: 'selected',
-      value: 'usersList.assign' | cxTranslate,
-      checkBox: true
+      cxRoute: 'orgUnitDetails',
+      name: 'orgUnit.details',
+      params: { uid: code$ | async }
     },
+    { cxRoute: 'orgUnitUsers', name: 'orgUnit.users', active: true },
+    { cxRoute: 'orgUnitApprovers', name: 'orgUnit.approvers' },
     {
-      key: 'email',
-      value: 'usersList.uid' | cxTranslate,
-      cxRoute: 'userDetails'
+      cxRoute: 'orgUnitManageAddresses',
+      name: 'orgUnit.manageAddresses'
     },
-    { key: 'name', value: 'usersList.name' | cxTranslate },
-    { key: 'roles', value: 'usersList.roles' | cxTranslate },
-    {
-      key: 'parentUnit',
-      value: 'usersList.parentUnit' | cxTranslate,
-      cxRoute: 'orgUnitDetails'
-    }
+    { cxRoute: 'orgUnitChildren', name: 'orgUnit.children' },
+    { cxRoute: 'orgUnitCostCenters', name: 'orgUnit.costCenters' }
   ]"
-  (pageChange)="pageChange($event)"
-  (changeSortCode)="changeSortCode($event)"
-  (check)="assign($event)"
-  (uncheck)="unassign($event)"
+  [routerBackLink]="{ cxRoute: 'orgUnits', name: 'orgUnit.back' }"
 >
-  <div class="col-md-12 col-lg-3">
-    <div class="row cx-search-links mb-3">
-      <div class="col-12 cx-textalign">
-        <ng-select
-          bindLabel="name"
-          bindValue="roleId"
-          [clearable]="false"
-          [ngModel]="role$ | async"
-          (change)="changeRole($event)"
-          [items]="[
-            { name: 'usersList.admin' | cxTranslate, roleId: 'b2badmingroup' },
-            {
-              name: 'usersList.manager' | cxTranslate,
-              roleId: 'b2bmanagergroup'
-            },
-            {
-              name: 'usersList.customer' | cxTranslate,
-              roleId: 'b2bcustomergroup'
-            }
-          ]"
-        ></ng-select>
+  <cx-interactive-table
+    [data$]="data$"
+    [header]="'unitAssignRoles.header' | cxTranslate: { code: code }"
+    [sortLabels]="{
+      byName: 'usersList.sorting.byName' | cxTranslate
+    }"
+    [columns]="[
+      {
+        key: 'selected',
+        value: 'usersList.assign' | cxTranslate,
+        checkBox: true
+      },
+      {
+        key: 'email',
+        value: 'usersList.uid' | cxTranslate,
+        cxRoute: 'userDetails'
+      },
+      { key: 'name', value: 'usersList.name' | cxTranslate },
+      { key: 'roles', value: 'usersList.roles' | cxTranslate },
+      {
+        key: 'parentUnit',
+        value: 'usersList.parentUnit' | cxTranslate,
+        cxRoute: 'orgUnitDetails'
+      }
+    ]"
+    (pageChange)="pageChange($event)"
+    (changeSortCode)="changeSortCode($event)"
+    (check)="assign($event)"
+    (uncheck)="unassign($event)"
+  >
+    <div class="col-md-12 col-lg-6">
+      <div class="row">
+        <div class="pb-mobile-2 col-md-12 col-lg-6 float-right">
+          <ng-select
+            bindLabel="name"
+            bindValue="roleId"
+            [clearable]="false"
+            [ngModel]="role$ | async"
+            (change)="changeRole($event)"
+            [items]="[
+              {
+                name: 'usersList.admin' | cxTranslate,
+                roleId: 'b2badmingroup'
+              },
+              {
+                name: 'usersList.manager' | cxTranslate,
+                roleId: 'b2bmanagergroup'
+              },
+              {
+                name: 'usersList.customer' | cxTranslate,
+                roleId: 'b2bcustomergroup'
+              }
+            ]"
+          ></ng-select>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <!--          back-->
+          <a
+            [routerLink]="
+              { cxRoute: 'orgUnitUsers', params: { code: code } } | cxUrl
+            "
+            class="btn btn-secondary btn-block"
+          >
+            {{ 'unitAssignRoles.back' | cxTranslate }}
+          </a>
+        </div>
       </div>
     </div>
-    <div class="row cx-search-links mb-3">
-      <div class="col-12 cx-textalign">
-        <!--          back-->
-        <a
-          [routerLink]="
-            { cxRoute: 'orgUnitDetails', params: { uid: code } } | cxUrl
-          "
-          class="btn btn-secondary btn-block"
-        >
-          {{ 'unitAssignRoles.back' | cxTranslate }}
-        </a>
-      </div>
-    </div>
-  </div>
-</cx-interactive-table>
+  </cx-interactive-table>
+</cx-fake-tabs>

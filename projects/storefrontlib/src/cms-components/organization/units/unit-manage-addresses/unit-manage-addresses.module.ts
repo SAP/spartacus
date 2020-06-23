@@ -14,6 +14,7 @@ import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from '../../../../shared/components/table/table.module';
+import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { TableModule } from '../../../../shared/components/table/table.module';
     NgSelectModule,
     FormsModule,
     TableModule,
+    FakeTabsModule,
   ],
   declarations: [UnitManageAddressesComponent],
   exports: [UnitManageAddressesComponent],

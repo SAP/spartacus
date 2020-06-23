@@ -10,9 +10,7 @@ import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
 })
 export class CostCenterEditComponent implements OnInit {
   costCenter$: Observable<CostCenter>;
-  costCenterCode$: Observable<
-    string
-  > = this.routingService
+  code$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(map((routingData) => routingData.state.params['code']));
 
@@ -22,14 +20,14 @@ export class CostCenterEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.costCenter$ = this.costCenterCode$.pipe(
+    this.costCenter$ = this.code$.pipe(
       tap((code) => this.costCentersService.loadCostCenter(code)),
       switchMap((code) => this.costCentersService.get(code))
     );
   }
 
   updateCostCenter(costCenter: CostCenter) {
-    this.costCenterCode$
+    this.code$
       .pipe(take(1))
       .subscribe((costCenterCode) =>
         this.costCentersService.update(costCenterCode, costCenter)

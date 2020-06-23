@@ -26,7 +26,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
+import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
 import { UserGroupUsersComponent } from './user-group-users.component';
 
 const code = 'userGroupCode';
@@ -36,17 +36,20 @@ const params: B2BSearchConfig = {
   currentPage: 0,
   pageSize: 2147483647,
 };
+const customerId = 'customerId1';
 
 const mockUserList: EntitiesModel<B2BUser> = {
   values: [
     {
       uid: '1',
+      customerId,
       selected: true,
       name: 'User 1',
       orgUnit: { uid: 'orgUid', name: 'orgName' },
     },
     {
       uid: '2',
+      customerId: 'customerId2',
       selected: false,
       name: 'User 2',
       orgUnit: { uid: 'orgUid2', name: 'orgName2' },
@@ -63,6 +66,7 @@ const mockUserUIList = {
       name: 'User 1',
       parentUnit: 'orgName',
       uid: 'orgUid',
+      customerId,
     },
   ],
   pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },

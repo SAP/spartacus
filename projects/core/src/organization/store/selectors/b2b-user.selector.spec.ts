@@ -16,13 +16,17 @@ import { B2BUser } from '../../../model/org-unit.model';
 
 describe('B2BUser Selectors', () => {
   let store: Store<StateWithOrganization>;
-  const orgCustomerId = 'orgCustomerId';
-  const orgCustomerId2 = 'orgCustomerId2';
+  const customerId = 'orgCustomerId';
   const orgCustomer: B2BUser = {
     active: true,
-    uid: orgCustomerId,
+    customerId,
+    uid: 'aaa@bbb',
   };
-  const orgCustomer2: B2BUser = { ...orgCustomer, uid: orgCustomerId2 };
+  const orgCustomer2: B2BUser = {
+    active: true,
+    customerId: 'orgCustomerId2',
+    uid: 'bbb@aaa',
+  };
 
   const entities = {
     orgCustomerId: {
@@ -92,7 +96,7 @@ describe('B2BUser Selectors', () => {
     it('should return B2B User state', () => {
       let result: LoaderState<B2BUser>;
       store
-        .pipe(select(B2BUserSelectors.getB2BUserState(orgCustomerId)))
+        .pipe(select(B2BUserSelectors.getB2BUserState(customerId)))
         .subscribe((value) => (result = value));
 
       store.dispatch(
@@ -120,7 +124,7 @@ describe('B2BUser Selectors', () => {
     it('should return B2B User state', () => {
       let result: LoaderState<B2BUser>;
       store
-        .pipe(select(B2BUserSelectors.getB2BUserState(orgCustomerId)))
+        .pipe(select(B2BUserSelectors.getB2BUserState(customerId)))
         .subscribe((value) => (result = value));
 
       store.dispatch(new B2BUserActions.LoadB2BUserSuccess([orgCustomer]));

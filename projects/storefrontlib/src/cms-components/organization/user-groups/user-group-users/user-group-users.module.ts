@@ -12,6 +12,7 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
 import { UserGroupUsersComponent } from './user-group-users.component';
+import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { UserGroupUsersComponent } from './user-group-users.component';
     UrlModule,
     I18nModule,
     InteractiveTableModule,
+    FakeTabsModule,
   ],
   declarations: [UserGroupUsersComponent],
   exports: [UserGroupUsersComponent],

@@ -131,7 +131,7 @@ export class UserGroupEffects {
         )
         .pipe(
           switchMap((customers: EntitiesModel<B2BUser>) => {
-            const { values, page } = normalizeListPage(customers, 'uid');
+            const { values, page } = normalizeListPage(customers, 'customerId');
             return [
               new B2BUserActions.LoadB2BUserSuccess(values),
               new UserGroupActions.LoadAvailableOrgCustomersSuccess({
@@ -240,10 +240,10 @@ export class UserGroupEffects {
         )
         .pipe(
           map(
-            () =>
+            (data) =>
               new UserGroupActions.AssignPermissionSuccess({
-                permissionUid: payload.permissionUid,
-                selected: true,
+                permissionUid: data.id,
+                selected: data.selected,
               })
           ),
           catchError((error) =>
@@ -335,10 +335,10 @@ export class UserGroupEffects {
         )
         .pipe(
           map(
-            () =>
+            (data) =>
               new UserGroupActions.UnassignPermissionSuccess({
-                permissionUid: payload.permissionUid,
-                selected: false,
+                permissionUid: data.id,
+                selected: data.selected,
               })
           ),
           catchError((error) =>

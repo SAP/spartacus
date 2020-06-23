@@ -59,10 +59,12 @@ const permissionList: EntitiesModel<Permission> = {
 
 const customerId = 'customerId';
 const member = {
-  uid: customerId,
+  uid: 'aa@bb',
+  customerId,
 };
 const member2 = {
-  uid: 'customerId2',
+  uid: 'bb@aa',
+  customerId: 'customerId2',
 };
 const memberList: EntitiesModel<B2BUser> = {
   values: [member, member2],
@@ -360,7 +362,7 @@ describe('UserGroupService', () => {
           userGroupId: testUserGroupId,
           params,
           page: {
-            ids: [member.uid, member2.uid],
+            ids: [member.customerId, member2.customerId],
             pagination,
             sorts,
           },

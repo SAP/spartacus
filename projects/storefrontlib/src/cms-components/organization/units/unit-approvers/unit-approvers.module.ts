@@ -8,12 +8,13 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 import { UnitApproversComponent } from './unit-approvers.component';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
+import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { FormsModule } from '@angular/forms';
     InteractiveTableModule,
     NgSelectModule,
     FormsModule,
+    FakeTabsModule,
   ],
   declarations: [UnitApproversComponent],
   exports: [UnitApproversComponent],

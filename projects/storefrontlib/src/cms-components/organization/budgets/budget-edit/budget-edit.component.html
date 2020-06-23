@@ -1,11 +1,24 @@
-<div class="cx-header">
-  <h3>{{ 'budgetForm.edit' | cxTranslate }}</h3>
-</div>
-<cx-budget-form
-  *ngIf="budget$ | async as budget"
-  [actionBtnLabel]="'budgetForm.update' | cxTranslate"
-  [budgetData]="budget"
-  [routerBackLink]="{ cxRoute: 'budgets' }"
-  (submitForm)="updateBudget($event)"
+<cx-fake-tabs
+  [code]="code$ | async"
+  [links]="[
+    {
+      cxRoute: 'budgetDetails',
+      name: 'budget.details',
+      active: true
+    },
+    { cxRoute: 'budgetCostCenters', name: 'budget.costCenters' }
+  ]"
+  [routerBackLink]="{ cxRoute: 'budgets', name: 'budget.back' }"
 >
-</cx-budget-form>
+  <div class="cx-header">
+    <h3>{{ 'budgetForm.edit' | cxTranslate }}</h3>
+  </div>
+  <cx-budget-form
+    *ngIf="budget$ | async as budget"
+    [actionBtnLabel]="'budgetForm.update' | cxTranslate"
+    [budgetData]="budget"
+    [routerBackLink]="{ cxRoute: 'budgetDetails', params: budget }"
+    (submitForm)="updateBudget($event)"
+  >
+  </cx-budget-form>
+</cx-fake-tabs>

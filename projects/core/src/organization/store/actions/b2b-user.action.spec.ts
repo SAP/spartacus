@@ -4,6 +4,8 @@ import {
   B2B_USER_APPROVERS,
   B2B_USER_PERMISSIONS,
   B2B_USER_USER_GROUPS,
+  PERMISSION_ENTITIES,
+  USER_GROUP_ENTITIES,
 } from '../organization-state';
 import { B2BUser } from '../../../model/org-unit.model';
 import { B2BUserActions } from './index';
@@ -12,7 +14,8 @@ import { StateUtils } from '../../../state/utils/index';
 const orgCustomerId = 'orgCustomerId';
 const orgCustomer: B2BUser = {
   active: true,
-  uid: orgCustomerId,
+  customerId: orgCustomerId,
+  uid: 'aaa@bbb',
   name: 'test',
 };
 
@@ -140,7 +143,6 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.CREATE_B2B_USER,
           payload: { userId, orgCustomer },
-          meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, orgCustomerId),
         });
       });
     });
@@ -310,7 +312,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.CREATE_B2B_USER_APPROVER,
           payload: { userId, orgCustomerId, approverId },
-          meta: StateUtils.entityLoadMeta(B2B_USER_APPROVERS, approverId),
+          meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, approverId),
         });
       });
     });
@@ -330,7 +332,7 @@ describe('B2BUser Actions', () => {
             approverId,
             error,
           },
-          meta: StateUtils.entityFailMeta(B2B_USER_APPROVERS, approverId),
+          meta: StateUtils.entityFailMeta(B2B_USER_ENTITIES, approverId),
         });
       });
     });
@@ -345,7 +347,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.CREATE_B2B_USER_APPROVER_SUCCESS,
           payload: { approverId, selected },
-          meta: StateUtils.entitySuccessMeta(B2B_USER_APPROVERS, approverId),
+          meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, approverId),
         });
       });
     });
@@ -361,7 +363,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.DELETE_B2B_USER_APPROVER,
           payload: { userId, orgCustomerId, approverId },
-          meta: StateUtils.entityLoadMeta(B2B_USER_APPROVERS, approverId),
+          meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, approverId),
         });
       });
     });
@@ -381,7 +383,7 @@ describe('B2BUser Actions', () => {
             approverId,
             error,
           },
-          meta: StateUtils.entityFailMeta(B2B_USER_APPROVERS, approverId),
+          meta: StateUtils.entityFailMeta(B2B_USER_ENTITIES, approverId),
         });
       });
     });
@@ -396,7 +398,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.DELETE_B2B_USER_APPROVER_SUCCESS,
           payload: { approverId, selected },
-          meta: StateUtils.entitySuccessMeta(B2B_USER_APPROVERS, approverId),
+          meta: StateUtils.entitySuccessMeta(B2B_USER_ENTITIES, approverId),
         });
       });
     });
@@ -480,7 +482,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.CREATE_B2B_USER_PERMISSION,
           payload: { userId, orgCustomerId, permissionId },
-          meta: StateUtils.entityLoadMeta(B2B_USER_PERMISSIONS, permissionId),
+          meta: StateUtils.entityLoadMeta(PERMISSION_ENTITIES, permissionId),
         });
       });
     });
@@ -501,7 +503,7 @@ describe('B2BUser Actions', () => {
             error,
           },
           meta: StateUtils.entityFailMeta(
-            B2B_USER_PERMISSIONS,
+            PERMISSION_ENTITIES,
             permissionId,
             error
           ),
@@ -519,10 +521,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.CREATE_B2B_USER_PERMISSION_SUCCESS,
           payload: { permissionId, selected },
-          meta: StateUtils.entitySuccessMeta(
-            B2B_USER_PERMISSIONS,
-            permissionId
-          ),
+          meta: StateUtils.entitySuccessMeta(PERMISSION_ENTITIES, permissionId),
         });
       });
     });
@@ -538,7 +537,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.DELETE_B2B_USER_PERMISSION,
           payload: { userId, orgCustomerId, permissionId },
-          meta: StateUtils.entityLoadMeta(B2B_USER_PERMISSIONS, permissionId),
+          meta: StateUtils.entityLoadMeta(PERMISSION_ENTITIES, permissionId),
         });
       });
     });
@@ -559,7 +558,7 @@ describe('B2BUser Actions', () => {
             error,
           },
           meta: StateUtils.entityFailMeta(
-            B2B_USER_PERMISSIONS,
+            PERMISSION_ENTITIES,
             permissionId,
             error
           ),
@@ -577,10 +576,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.DELETE_B2B_USER_PERMISSION_SUCCESS,
           payload: { permissionId, selected },
-          meta: StateUtils.entitySuccessMeta(
-            B2B_USER_PERMISSIONS,
-            permissionId
-          ),
+          meta: StateUtils.entitySuccessMeta(PERMISSION_ENTITIES, permissionId),
         });
       });
     });
@@ -664,7 +660,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.CREATE_B2B_USER_USER_GROUP,
           payload: { userId, orgCustomerId, userGroupId },
-          meta: StateUtils.entityLoadMeta(B2B_USER_USER_GROUPS, userGroupId),
+          meta: StateUtils.entityLoadMeta(USER_GROUP_ENTITIES, userGroupId),
         });
       });
     });
@@ -685,7 +681,7 @@ describe('B2BUser Actions', () => {
             error,
           },
           meta: StateUtils.entityFailMeta(
-            B2B_USER_USER_GROUPS,
+            USER_GROUP_ENTITIES,
             userGroupId,
             error
           ),
@@ -696,14 +692,14 @@ describe('B2BUser Actions', () => {
     describe('CreateB2BUserUserGroupSuccess', () => {
       it('should create the action', () => {
         const action = new B2BUserActions.CreateB2BUserUserGroupSuccess({
-          userGroupId,
+          uid: userGroupId,
           selected,
         });
 
         expect({ ...action }).toEqual({
           type: B2BUserActions.CREATE_B2B_USER_USER_GROUP_SUCCESS,
-          payload: { userGroupId, selected },
-          meta: StateUtils.entitySuccessMeta(B2B_USER_USER_GROUPS, userGroupId),
+          payload: { uid: userGroupId, selected },
+          meta: StateUtils.entitySuccessMeta(USER_GROUP_ENTITIES, userGroupId),
         });
       });
     });
@@ -719,7 +715,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.DELETE_B2B_USER_USER_GROUP,
           payload: { userId, orgCustomerId, userGroupId },
-          meta: StateUtils.entityLoadMeta(B2B_USER_USER_GROUPS, userGroupId),
+          meta: StateUtils.entityLoadMeta(USER_GROUP_ENTITIES, userGroupId),
         });
       });
     });
@@ -740,7 +736,7 @@ describe('B2BUser Actions', () => {
             error,
           },
           meta: StateUtils.entityFailMeta(
-            B2B_USER_USER_GROUPS,
+            USER_GROUP_ENTITIES,
             userGroupId,
             error
           ),
@@ -751,14 +747,14 @@ describe('B2BUser Actions', () => {
     describe('DeleteB2BUserUserGroupSuccess', () => {
       it('should create the action', () => {
         const action = new B2BUserActions.DeleteB2BUserUserGroupSuccess({
-          userGroupId,
+          uid: userGroupId,
           selected,
         });
 
         expect({ ...action }).toEqual({
           type: B2BUserActions.DELETE_B2B_USER_USER_GROUP_SUCCESS,
-          payload: { userGroupId, selected },
-          meta: StateUtils.entitySuccessMeta(B2B_USER_USER_GROUPS, userGroupId),
+          payload: { uid: userGroupId, selected },
+          meta: StateUtils.entitySuccessMeta(USER_GROUP_ENTITIES, userGroupId),
         });
       });
     });

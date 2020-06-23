@@ -185,7 +185,7 @@ export class OrgUnitEffects {
         .getUsers(userId, orgUnitId, roleId, params)
         .pipe(
           switchMap((users: EntitiesModel<B2BUser>) => {
-            const { values, page } = normalizeListPage(users, 'uid');
+            const { values, page } = normalizeListPage(users, 'customerId');
             return [
               new B2BUserActions.LoadB2BUserSuccess(values),
               new OrgUnitActions.LoadAssignedUsersSuccess({
@@ -356,22 +356,17 @@ export class OrgUnitEffects {
   > = this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ADDRESS),
     map((action: OrgUnitActions.UpdateAddress) => action.payload),
-    switchMap((payload) =>
+    switchMap(({ userId, orgUnitId, addressId, address }) =>
       this.orgUnitConnector
-        .updateAddress(
-          payload.userId,
-          payload.orgUnitId,
-          payload.addressId,
-          payload.address
-        )
+        .updateAddress(userId, orgUnitId, addressId, address)
         .pipe(
           // TODO: Workaround for empty PATCH response:
           // map(data => new OrgUnitActions.UpdateAddressSuccess(data)),
-          map(() => new OrgUnitActions.LoadAddresses(payload)),
+          map(() => new OrgUnitActions.LoadAddresses({ userId, orgUnitId })),
           catchError((error) =>
             of(
               new OrgUnitActions.UpdateAddressFail({
-                addressId: payload.address.id,
+                addressId: address.id,
                 error: makeErrorSerializable(error),
               })
             )

@@ -66,6 +66,7 @@ export class UnitApproversComponent extends AbstractListingComponent
                   roles: user.roles,
                   parentUnit: user.orgUnit && user.orgUnit.name,
                   uid: user.orgUnit && user.orgUnit.uid,
+                  customerId: user.customerId,
                 })),
             }))
           )

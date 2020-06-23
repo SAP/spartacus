@@ -8,7 +8,7 @@ import { TranslationService } from '@spartacus/core';
 import { TableModule } from '../table/table.module';
 import { InteractiveTableComponent } from './interactive-table.component';
 import { InteractiveTableModule } from './interactive-table.module';
-import { PaginationConfig } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config';
+import { PaginationConfig } from '../../../shared/components/list-navigation/pagination/config/pagination.config';
 import { ListingModel } from './../../../cms-components/organization/abstract-component/abstract-listing.component';
 
 @Component({

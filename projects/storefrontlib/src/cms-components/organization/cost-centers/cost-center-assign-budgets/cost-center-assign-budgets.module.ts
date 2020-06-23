@@ -13,6 +13,7 @@ import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets.c
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
+import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { InteractiveTableModule } from '../../../../shared/components/interactiv
     UrlModule,
     I18nModule,
     InteractiveTableModule,
+    FakeTabsModule,
   ],
   declarations: [CostCenterAssignBudgetsComponent],
   exports: [CostCenterAssignBudgetsComponent],

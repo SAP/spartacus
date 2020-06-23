@@ -14,6 +14,7 @@ import { B2BUser } from '../../../model/org-unit.model';
 import { B2BUserConnector } from '../../connectors/b2b-user/b2b-user.connector';
 import { Permission } from '../../../model/permission.model';
 import { UserGroup } from '../../../model/user-group.model';
+import { RoutingService } from '../../../routing/facade/routing.service';
 
 @Injectable()
 export class B2BUserEffects {
@@ -48,11 +49,18 @@ export class B2BUserEffects {
     map((action: B2BUserActions.CreateB2BUser) => action.payload),
     switchMap((payload) =>
       this.b2bUserConnector.create(payload.userId, payload.orgCustomer).pipe(
-        map((data) => new B2BUserActions.CreateB2BUserSuccess(data)),
+        map((data) => {
+          this.routingService.go({
+            cxRoute: 'userDetails',
+            params: { customerId: data.customerId },
+          });
+          return new B2BUserActions.CreateB2BUserSuccess(data);
+        }),
+
         catchError((error) =>
           of(
             new B2BUserActions.CreateB2BUserFail({
-              orgCustomerId: payload.orgCustomer.uid,
+              orgCustomerId: payload.orgCustomer.customerId,
               error: makeErrorSerializable(error),
             })
           )
@@ -63,7 +71,8 @@ export class B2BUserEffects {
 
   @Effect()
   updateB2BUser$: Observable<
-    B2BUserActions.UpdateB2BUserSuccess | B2BUserActions.UpdateB2BUserFail
+    // B2BUserActions.UpdateB2BUserSuccess
+    B2BUserActions.LoadB2BUser | B2BUserActions.UpdateB2BUserFail
   > = this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER),
     map((action: B2BUserActions.UpdateB2BUser) => action.payload),
@@ -71,11 +80,13 @@ export class B2BUserEffects {
       this.b2bUserConnector
         .update(payload.userId, payload.orgCustomerId, payload.orgCustomer)
         .pipe(
-          map((data) => new B2BUserActions.UpdateB2BUserSuccess(data)),
+          // TODO: Workaround for empty PATCH response:
+          // map((data) => new B2BUserActions.UpdateB2BUserSuccess(data)),
+          map(() => new B2BUserActions.LoadB2BUser(payload)),
           catchError((error) =>
             of(
               new B2BUserActions.UpdateB2BUserFail({
-                orgCustomerId: payload.orgCustomer.uid,
+                orgCustomerId: payload.orgCustomer.customerId,
                 error: makeErrorSerializable(error),
               })
             )
@@ -95,7 +106,7 @@ export class B2BUserEffects {
     switchMap((payload) =>
       this.b2bUserConnector.getList(payload.userId, payload.params).pipe(
         switchMap((b2bUsers: EntitiesModel<B2BUser>) => {
-          const { values, page } = normalizeListPage(b2bUsers, 'uid');
+          const { values, page } = normalizeListPage(b2bUsers, 'customerId');
           return [
             new B2BUserActions.LoadB2BUserSuccess(values),
             new B2BUserActions.LoadB2BUsersSuccess({
@@ -129,7 +140,7 @@ export class B2BUserEffects {
         .getApprovers(payload.userId, payload.orgCustomerId, payload.params)
         .pipe(
           switchMap((approvers: EntitiesModel<B2BUser>) => {
-            const { values, page } = normalizeListPage(approvers, 'uid');
+            const { values, page } = normalizeListPage(approvers, 'customerId');
             return [
               new B2BUserActions.LoadB2BUserSuccess(values),
               new B2BUserActions.LoadB2BUserApproversSuccess({
@@ -240,10 +251,11 @@ export class B2BUserEffects {
         )
         .pipe(
           map(
-            () =>
+            (data) =>
               new B2BUserActions.CreateB2BUserApproverSuccess({
+                // Occ returned email, but we use customerId in store
                 approverId: payload.approverId,
-                selected: true,
+                selected: data.selected,
               })
           ),
           catchError((error) =>
@@ -275,10 +287,11 @@ export class B2BUserEffects {
         )
         .pipe(
           map(
-            () =>
+            (data) =>
               new B2BUserActions.DeleteB2BUserApproverSuccess({
+                // Occ returned email, but we use customerId in store
                 approverId: payload.approverId,
-                selected: false,
+                selected: data.selected,
               })
           ),
           catchError((error) =>
@@ -310,10 +323,10 @@ export class B2BUserEffects {
         )
         .pipe(
           map(
-            () =>
+            (data) =>
               new B2BUserActions.CreateB2BUserPermissionSuccess({
-                permissionId: payload.permissionId,
-                selected: true,
+                permissionId: data.id,
+                selected: data.selected,
               })
           ),
           catchError((error) =>
@@ -345,10 +358,10 @@ export class B2BUserEffects {
         )
         .pipe(
           map(
-            () =>
+            (data) =>
               new B2BUserActions.DeleteB2BUserPermissionSuccess({
-                permissionId: payload.permissionId,
-                selected: false,
+                permissionId: data.id,
+                selected: data.selected,
               })
           ),
           catchError((error) =>
@@ -380,10 +393,10 @@ export class B2BUserEffects {
         )
         .pipe(
           map(
-            () =>
+            (data) =>
               new B2BUserActions.CreateB2BUserUserGroupSuccess({
-                userGroupId: payload.userGroupId,
-                selected: true,
+                uid: data.id,
+                selected: data.selected,
               })
           ),
           catchError((error) =>
@@ -415,9 +428,15 @@ export class B2BUserEffects {
         )
         .pipe(
           map(
+            // TODO: Workaround because occ doesn't respond here
+            // (data) =>
+            //   new B2BUserActions.DeleteB2BUserUserGroupSuccess({
+            //     uid: data.id,
+            //     selected: data.selected,
+            //   })
             () =>
               new B2BUserActions.DeleteB2BUserUserGroupSuccess({
-                userGroupId: payload.userGroupId,
+                uid: payload.userGroupId,
                 selected: false,
               })
           ),
@@ -436,6 +455,7 @@ export class B2BUserEffects {
 
   constructor(
     private actions$: Actions,
-    private b2bUserConnector: B2BUserConnector
+    private b2bUserConnector: B2BUserConnector,
+    private routingService: RoutingService
   ) {}
 }
