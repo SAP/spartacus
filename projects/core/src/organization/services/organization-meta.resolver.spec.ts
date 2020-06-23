@@ -7,6 +7,7 @@ import { OrganizationMetaResolver } from './organization-meta.resolver';
 
 import { RoutingService } from '../../routing/facade/routing.service';
 import { RouterState } from '../../routing/store/routing-state';
+import { tap } from 'rxjs/operators';
 
 const mockOrganizationPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -16,6 +17,7 @@ const mockOrganizationPage: Page = {
 
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
+    console.log('getCurrentPage');
     return of(mockOrganizationPage);
   }
 }
@@ -51,11 +53,11 @@ const mockRouterStateWithParams: RouterState = {
 
 class RoutingServiceStub {
   getRouterState(): Observable<RouterState> {
-    return of(mockRouterStateWithoutParams);
+    return of();
   }
 }
 
-describe('OrganizationMetaResolver', () => {
+fdescribe('OrganizationMetaResolver', () => {
   let resolver: OrganizationMetaResolver;
   let routingService: RoutingService;
 
@@ -65,6 +67,7 @@ describe('OrganizationMetaResolver', () => {
       providers: [
         { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: RoutingServiceStub },
+        OrganizationMetaResolver,
       ],
     });
 
@@ -73,13 +76,15 @@ describe('OrganizationMetaResolver', () => {
   });
 
   it('should resolve title without parameters', () => {
-    spyOn(routingService, 'getRouterState').and.callFake(() =>
+    spyOn(routingService, 'getRouterState').and.returnValue(
       of(mockRouterStateWithoutParams)
     );
+    console.log('without parameters');
 
     let titleWithoutParams: string;
     resolver
       .resolveTitle()
+      .pipe(tap(console.log))
       .subscribe((value) => (titleWithoutParams = value))
       .unsubscribe();
 
@@ -87,10 +92,10 @@ describe('OrganizationMetaResolver', () => {
   });
 
   it('should resolve title with parameters', () => {
-    spyOn(routingService, 'getRouterState').and.callFake(() =>
+    spyOn(routingService, 'getRouterState').and.returnValue(
       of(mockRouterStateWithParams)
     );
-
+    console.log('with parameters');
     let titleWithParameters = '';
     resolver
       .resolveTitle()
@@ -101,7 +106,7 @@ describe('OrganizationMetaResolver', () => {
   });
 
   it('should resolve breadcrumbs without parameters', () => {
-    spyOn(routingService, 'getRouterState').and.callFake(() =>
+    spyOn(routingService, 'getRouterState').and.returnValue(
       of(mockRouterStateWithoutParams)
     );
 

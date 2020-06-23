@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
 import { BreadcrumbMeta, Page } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
@@ -27,6 +27,7 @@ export class OrganizationMetaResolver extends PageMetaResolver
     this.cms.getCurrentPage(),
     this.routingService.getRouterState(),
   ]).pipe(
+    tap((data) => console.log('organizationPageTitle$', data)),
     filter(Boolean),
     switchMap(([page, route]) =>
       // checking the template to make sure it's a 'my company' page
@@ -51,6 +52,7 @@ export class OrganizationMetaResolver extends PageMetaResolver
       this.organizationPageTitle$,
       this.routingService.getRouterState(),
     ]).pipe(
+      tap((data) => console.log('resolveTitle', data)),
       filter(([title, routerState]) => Boolean(title) && Boolean(routerState)),
       switchMap(
         ([
@@ -73,6 +75,7 @@ export class OrganizationMetaResolver extends PageMetaResolver
       this.translation.translate('common.home'),
       this.routingService.getRouterState(),
     ]).pipe(
+      tap((data) => console.log('resolveBreadcrumbs', data)),
       map(([homeLabel, routerState]: [string, RouterState]) =>
         this.resolveBreadcrumbData(homeLabel, routerState)
       )
