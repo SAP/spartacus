@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
   B2BSearchConfig,
-  BudgetService,
   CxDatePipe,
   EntitiesModel,
   OrderApproval,
@@ -25,9 +24,8 @@ export class OrderApprovalsListComponent extends AbstractListingComponent
 
   constructor(
     protected routingService: RoutingService,
-    protected budgetsService: BudgetService,
-    protected cxDate: CxDatePipe,
-    protected orderApprovalService: OrderApprovalService
+    protected orderApprovalService: OrderApprovalService,
+    protected cxDate: CxDatePipe
   ) {
     super(routingService);
   }
@@ -51,13 +49,15 @@ export class OrderApprovalsListComponent extends AbstractListingComponent
                   placedBy: `${orderApproval.order.orgCustomer.name} ${orderApproval.order.orgCustomer.orgUnit.name}`,
                   date: this.cxDate.transform(orderApproval.order.created),
                   status: `${orderApproval.order.statusDisplay
-                    .split('.')[0]
+                    .split(/\.|\s/)
+                    .shift()
                     .charAt(0)
                     .toUpperCase()}${orderApproval.order.statusDisplay
-                    .split('.')[0]
-                    .slice(1)} ${
-                    orderApproval.order.statusDisplay.split('.')[1]
-                  }`,
+                    .split(/\.|\s/)
+                    .shift()
+                    .slice(1)} ${orderApproval.order.statusDisplay
+                    .split(/\.|\s/)
+                    .pop()}`,
                   total: orderApproval.order.totalPrice.formattedValue,
                 })
               ),
