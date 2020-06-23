@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import {
   Address,
   Cart,
@@ -43,7 +43,9 @@ export class ReviewSubmitComponent {
     protected checkoutStepService: CheckoutStepService,
     protected promotionService: PromotionService,
     protected paymentTypeService: PaymentTypeService,
+    @Optional()
     protected checkoutCostCenterService: CheckoutCostCenterService,
+    @Optional()
     protected userCostCenterService: UserCostCenterService
   ) {}
 
@@ -100,16 +102,18 @@ export class ReviewSubmitComponent {
   }
 
   get costCenterName$(): Observable<string> {
-    return this.userCostCenterService.getActiveCostCenters().pipe(
-      filter((costCenters) => Boolean(costCenters)),
-      switchMap((costCenters) => {
-        return this.checkoutCostCenterService.getCostCenter().pipe(
-          map((code) => {
-            return costCenters.find((cc) => cc.code === code)?.name;
-          })
-        );
-      })
-    );
+    if (this.userCostCenterService && this.checkoutCostCenterService) {
+      return this.userCostCenterService.getActiveCostCenters().pipe(
+        filter((costCenters) => Boolean(costCenters)),
+        switchMap((costCenters) => {
+          return this.checkoutCostCenterService.getCostCenter().pipe(
+            map((code) => {
+              return costCenters.find((cc) => cc.code === code)?.name;
+            })
+          );
+        })
+      );
+    }
   }
 
   getShippingAddressCard(

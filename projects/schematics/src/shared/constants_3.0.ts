@@ -65,6 +65,11 @@ export const USER_PAYMENT_SERVICE = 'UserPaymentService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
 export const CHECKOUT_PAYMENT_SERVICE = 'CheckoutPaymentService';
 export const TRANSLATION_SERVICE = 'TranslationService';
+export const SHIPPING_ADDRESS_COMPONENT = 'ShippingAddressComponent';
+export const USER_ADDRESS_SERVICE = 'UserAddressService';
+export const REVIEW_SUBMIT_COMPONENT = 'ReviewSubmitComponent';
+export const PROMOTION_SERVICE = 'PromotionService';
+export const PAYMENT_TYPE_SERVICE = 'PaymentTypeService';
 /***** Classes end *****/
 
 /***** Removed public api start *****/

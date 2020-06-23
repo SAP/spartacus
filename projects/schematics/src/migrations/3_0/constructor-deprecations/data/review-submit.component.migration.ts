@@ -1,0 +1,67 @@
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+  CHECKOUT_STEP_SERVICE,
+  CHECKOUT_DELIVERY_SERVICE,
+  CHECKOUT_CONFIG_SERVICE,
+  REVIEW_SUBMIT_COMPONENT,
+  TRANSLATION_SERVICE,
+  ACTIVE_CART_SERVICE,
+  USER_ADDRESS_SERVICE,
+  CHECKOUT_PAYMENT_SERVICE,
+  PROMOTION_SERVICE,
+  PAYMENT_TYPE_SERVICE,
+} from '../../../../shared/constants_3.0';
+import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
+
+export const REVIEW_SUBMIT_COMPONENT_MIGRATION: ConstructorDeprecation = {
+  // projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts
+  class: REVIEW_SUBMIT_COMPONENT,
+  importPath: SPARTACUS_STOREFRONTLIB,
+  deprecatedParams: [
+    {
+      className: CHECKOUT_DELIVERY_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
+      className: CHECKOUT_PAYMENT_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
+      className: USER_ADDRESS_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
+      className: ACTIVE_CART_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
+      className: TRANSLATION_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+    {
+      className: CHECKOUT_CONFIG_SERVICE,
+      importPath: SPARTACUS_STOREFRONTLIB,
+    },
+    {
+      className: PROMOTION_SERVICE,
+      importPath: SPARTACUS_STOREFRONTLIB,
+    },
+  ],
+  removeParams: [
+    {
+      className: CHECKOUT_CONFIG_SERVICE,
+      importPath: SPARTACUS_STOREFRONTLIB,
+    },
+  ],
+  addParams: [
+    {
+      className: CHECKOUT_STEP_SERVICE,
+      importPath: SPARTACUS_STOREFRONTLIB,
+    },
+    {
+      className: PAYMENT_TYPE_SERVICE,
+      importPath: SPARTACUS_STOREFRONTLIB,
+    },
+  ],
+};

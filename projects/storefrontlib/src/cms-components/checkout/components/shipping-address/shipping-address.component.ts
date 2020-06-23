@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Optional,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   ActiveCartService,
@@ -40,9 +45,12 @@ export class ShippingAddressComponent implements OnInit {
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService,
-    protected paymentTypeService?: PaymentTypeService,
-    protected userCostCenterService?: UserCostCenterService,
-    protected checkoutCostCenterService?: CheckoutCostCenterService
+    @Optional()
+    protected paymentTypeService: PaymentTypeService,
+    @Optional()
+    protected userCostCenterService: UserCostCenterService,
+    @Optional()
+    protected checkoutCostCenterService: CheckoutCostCenterService
   ) {}
 
   get isGuestCheckout(): boolean {
@@ -101,7 +109,11 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   getSupportedAddresses(): Observable<Address[] | B2BAddress[]> {
-    if (this.isAccountPayment) {
+    if (
+      this.isAccountPayment &&
+      this.userCostCenterService &&
+      this.checkoutCostCenterService
+    ) {
       let costCenterId: string;
       this.checkoutCostCenterService
         .getCostCenter()

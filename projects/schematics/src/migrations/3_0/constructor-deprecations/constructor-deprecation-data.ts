@@ -9,6 +9,8 @@ import { CHECKOUT_PROGRESS_MOBILE_BOTTOM_COMPONENT_MIGRATION } from './data/chec
 import { CHECKOUT_PROGRESS_COMPONENT_MIGRATION } from './data/checkout-progress.component.migration';
 import { DELIVERY_MODE_COMPONENT_MIGRATION } from './data/delivery-mode.component.migration';
 import { PAYMENT_METHOD_COMPONENT_MIGRATION } from './data/payment-method.component.migration';
+import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
+import { REVIEW_SUBMIT_COMPONENT_MIGRATION } from './data/review-submit.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_CONFIG_SERVICE_MIGRATION,
@@ -21,4 +23,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PROGRESS_COMPONENT_MIGRATION,
   DELIVERY_MODE_COMPONENT_MIGRATION,
   PAYMENT_METHOD_COMPONENT_MIGRATION,
+  SHIPPING_ADDRESS_COMPONENT_MIGRATION,
+  REVIEW_SUBMIT_COMPONENT_MIGRATION,
 ];
