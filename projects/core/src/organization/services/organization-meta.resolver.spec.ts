@@ -50,7 +50,7 @@ const mockRouterStateWithParams: RouterState = {
   },
 };
 
-const state = new BehaviorSubject(mockRouterStateWithoutParams);
+const state = new BehaviorSubject({ state: {} } as RouterState);
 
 class RoutingServiceStub {
   getRouterState(): Observable<RouterState> {
