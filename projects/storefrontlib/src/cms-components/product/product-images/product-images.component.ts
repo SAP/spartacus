@@ -1,30 +1,17 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  ViewContainerRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
-import {
-  BehaviorSubject,
-  combineLatest,
-  Observable,
-  of,
-  Subscription,
-} from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { CurrentProductService } from '../current-product.service';
-import { ProductImagesComponentService } from './product-images-component.service';
 
 @Component({
   selector: 'cx-product-images',
   templateUrl: './product-images.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductImagesComponent implements OnDestroy {
+export class ProductImagesComponent {
   iconTypes = ICON_TYPE;
-  private subscription = new Subscription();
   private mainMediaContainer = new BehaviorSubject(null);
 
   private product$: Observable<
@@ -45,14 +32,15 @@ export class ProductImagesComponent implements OnDestroy {
     map(([, container]) => container)
   );
 
-  constructor(
-    private currentProductService: CurrentProductService,
-    protected productImagesComponentService: ProductImagesComponentService,
-    protected vcr: ViewContainerRef
-  ) {}
+  // Used for image zoom
+  expandImage = new BehaviorSubject(false);
+  selectedIndex: number;
+
+  constructor(private currentProductService: CurrentProductService) {}
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
+    this.selectedIndex = this.mainMediaContainer.value?.zoom?.galleryIndex;
   }
 
   isActive(thumbnail): Observable<boolean> {
@@ -89,18 +77,7 @@ export class ProductImagesComponent implements OnDestroy {
   }
 
   triggerZoom(): void {
-    const component = this.productImagesComponentService.expandImage(
-      this.vcr,
-      this.mainMediaContainer.value?.zoom?.galleryIndex
-    );
-
-    if (component) {
-      this.subscription.add(component.subscribe());
-    }
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.expandImage.next(true);
   }
 
   /**

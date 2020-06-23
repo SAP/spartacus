@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
-import { ProductImagesComponentService } from './product-images-component.service';
 import { ProductImagesComponent } from './product-images.component';
 
 const firstImage = {
@@ -84,10 +83,6 @@ class MockCarouselComponent {
 })
 class MockProductImagesComponent {}
 
-class MockProductImagesComponentService {
-  expandImage() {}
-}
-
 describe('ProductImagesComponent', () => {
   let component: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
@@ -105,10 +100,6 @@ describe('ProductImagesComponent', () => {
         {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
-        },
-        {
-          provide: ProductImagesComponentService,
-          useClass: MockProductImagesComponentService,
         },
       ],
     }).compileComponents();

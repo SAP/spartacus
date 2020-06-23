@@ -1,9 +1,10 @@
 <ng-container *ngIf="mainImage$ | async as main">
-  <!-- TODO breaking changes for the icon -->
-  <button class="btn btn-link cx-action-link" (click)="triggerZoom()">
-    <cx-icon [type]="iconTypes.EXPAND_ARROWS"></cx-icon>
-  </button>
-  <!-- TODO breaking changes for the click & add pointer style -->
+  <!-- TODOLP: breaking changes for the icon -->
+  <cx-image-zoom-trigger
+    [$expandImage]="expandImage.asObservable()"
+    [galleryIndex]="selectedIndex"
+  ></cx-image-zoom-trigger>
+  <!-- TODOLP: breaking changes for the click & add pointer style -->
   <cx-media [container]="main" (click)="triggerZoom()"> </cx-media>
 </ng-container>
 

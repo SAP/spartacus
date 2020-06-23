@@ -8,6 +8,7 @@ import { MediaModule } from '../media/media.module';
 import { defaultImageZoomLayoutConfig } from './default-image-zoom-layout.config';
 import { ImageZoomDialogComponent } from './dialog/image-zoom-dialog.component';
 import { ImageZoomProductViewComponent } from './product-view/image-zoom-product-view.component';
+import { ImageZoomTriggerComponent } from './trigger/image-zoom-trigger.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,15 @@ import { ImageZoomProductViewComponent } from './product-view/image-zoom-product
     KeyboardFocusModule,
   ],
   providers: [provideConfig(defaultImageZoomLayoutConfig)],
-  exports: [ImageZoomDialogComponent, ImageZoomProductViewComponent],
-  declarations: [ImageZoomDialogComponent, ImageZoomProductViewComponent],
+  exports: [
+    ImageZoomDialogComponent,
+    ImageZoomTriggerComponent,
+    ImageZoomProductViewComponent,
+  ],
+  declarations: [
+    ImageZoomDialogComponent,
+    ImageZoomTriggerComponent,
+    ImageZoomProductViewComponent,
+  ],
 })
 export class ImageZoomModule {}
