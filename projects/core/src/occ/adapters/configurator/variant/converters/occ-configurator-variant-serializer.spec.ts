@@ -238,7 +238,7 @@ describe('OccConfiguratorVariantSerializer', () => {
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
-        Configurator.UiType.CHECKBOX
+        Configurator.UiType.CHECKBOXLIST
       )
     ).toBe(OccConfigurator.UiType.CHECK_BOX_LIST);
 

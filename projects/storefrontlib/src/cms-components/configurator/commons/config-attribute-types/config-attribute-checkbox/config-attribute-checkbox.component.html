@@ -1,0 +1,12 @@
+<div id="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}">
+    <div class="cx-config-select-line">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        [value]="attribute.values"
+        (change)="onSelect()"
+        [formControl]="attributeCheckBoxForms"
+        name="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}"
+      />
+    </div>
+</div>

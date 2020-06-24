@@ -1,4 +1,4 @@
-import { ConfigAttributeCheckBoxListComponent } from './config-attribute-checkbox-list.component';
+import { ConfigAttributeCheckBoxComponent } from './config-attribute-checkbox.component';
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -7,17 +7,17 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Configurator } from 'projects/core/src/model/configurator.model';
 import { By } from '@angular/platform-browser';
 
-describe('ConfigAttributeCheckBoxListComponent', () => {
-  let component: ConfigAttributeCheckBoxListComponent;
-  let fixture: ComponentFixture<ConfigAttributeCheckBoxListComponent>;
+describe('ConfigAttributeCheckBoxComponent', () => {
+  let component: ConfigAttributeCheckBoxComponent;
+  let fixture: ComponentFixture<ConfigAttributeCheckBoxComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ConfigAttributeCheckBoxListComponent],
+      declarations: [ConfigAttributeCheckBoxComponent],
       imports: [ReactiveFormsModule, NgSelectModule],
       providers: [ConfigUIKeyGeneratorService],
     })
-      .overrideComponent(ConfigAttributeCheckBoxListComponent, {
+      .overrideComponent(ConfigAttributeCheckBoxComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
         },
@@ -40,7 +40,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     const value3 = createValue('3', 'val3', true);
     const values: Configurator.Value[] = [value1, value2, value3];
 
-    fixture = TestBed.createComponent(ConfigAttributeCheckBoxListComponent);
+    fixture = TestBed.createComponent(ConfigAttributeCheckBoxComponent);
     component = fixture.componentInstance;
 
     component.attribute = {
