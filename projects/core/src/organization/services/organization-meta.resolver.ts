@@ -48,6 +48,8 @@ export class OrganizationMetaResolver extends PageMetaResolver
     this.pageTemplate = 'CompanyPageTemplate';
   }
 
+  protected SEPARATOR = 'organization';
+
   resolveTitle(): Observable<string> {
     return combineLatest([
       this.organizationPageTitle$,
@@ -95,7 +97,7 @@ export class OrganizationMetaResolver extends PageMetaResolver
       .split('/')
       .filter(
         (_, index, arr) =>
-          index >= arr.findIndex((e) => e === 'organization') &&
+          index >= arr.findIndex((e) => e === this.SEPARATOR) &&
           index < arr.length - 1
       )
       .forEach((url) => {
