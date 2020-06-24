@@ -507,6 +507,7 @@ export const organization = {
     edit: 'Edit',
     create: 'Create',
     details: 'Details',
+    assign: 'Assign',
     organization: 'Organization',
     unit: 'Unit',
     units: 'Units',
