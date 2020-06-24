@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
 import { BreadcrumbMeta, Page } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
@@ -23,17 +23,18 @@ import { RouterState } from '../../routing/store/routing-state';
 })
 export class OrganizationMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-  protected organizationPageTitle$: Observable<any> = combineLatest([
+  protected organizationPageTitle$: Observable<string[]> = combineLatest([
     this.cms.getCurrentPage(),
     this.routingService.getRouterState(),
   ]).pipe(
-    tap((data) => console.log('organizationPageTitle$', data)),
-    filter(Boolean),
-    switchMap(([page, route]) =>
+    filter(
       // checking the template to make sure it's a 'my company' page
-      this.isCompanyPage(page)
-        ? of(Object.values(route.state.url.split('/').slice(-1)))
-        : null
+      ([page, routerState]: [Page, RouterState]) =>
+        this.isCompanyPage(page) &&
+        Boolean(routerState && routerState.state.url)
+    ),
+    switchMap(([_, routerState]: [any, RouterState]) =>
+      of(Object.values(routerState.state.url.split('/').slice(-1)))
     )
   );
 
@@ -52,19 +53,21 @@ export class OrganizationMetaResolver extends PageMetaResolver
       this.organizationPageTitle$,
       this.routingService.getRouterState(),
     ]).pipe(
-      tap((data) => console.log('resolveTitle', data)),
-      filter(([title, routerState]) => Boolean(title) && Boolean(routerState)),
+      filter(
+        ([title, routerState]: [string[], RouterState]) =>
+          Boolean(title) && Boolean(routerState)
+      ),
       switchMap(
         ([
-          title,
+          [title],
           {
             state: { params },
           },
-        ]) => {
+        ]: [string[], RouterState]) => {
           return Object.keys(params).length &&
-            Object.values(params).includes(decodeURI(title[0]))
-            ? of(title.map((e) => decodeURI(e)))
-            : this.translation.translate(`breadcrumbs.${title[0]}`);
+            Object.values(params).includes(decodeURI(title))
+            ? of(decodeURI(title))
+            : this.translation.translate(`breadcrumbs.${title}`);
         }
       )
     );
@@ -75,7 +78,6 @@ export class OrganizationMetaResolver extends PageMetaResolver
       this.translation.translate('common.home'),
       this.routingService.getRouterState(),
     ]).pipe(
-      tap((data) => console.log('resolveBreadcrumbs', data)),
       map(([homeLabel, routerState]: [string, RouterState]) =>
         this.resolveBreadcrumbData(homeLabel, routerState)
       )

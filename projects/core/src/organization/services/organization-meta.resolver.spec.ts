@@ -7,7 +7,6 @@ import { OrganizationMetaResolver } from './organization-meta.resolver';
 
 import { RoutingService } from '../../routing/facade/routing.service';
 import { RouterState } from '../../routing/store/routing-state';
-import { tap } from 'rxjs/operators';
 
 const mockOrganizationPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -50,7 +49,21 @@ const mockRouterStateWithParams: RouterState = {
   },
 };
 
-const state = new BehaviorSubject({ state: {} } as RouterState);
+const mockEmptyRouterState: RouterState = {
+  navigationId: 0,
+  state: {
+    url: '',
+    queryParams: {},
+    params: {},
+    context: {
+      id: '',
+      type: PageType.CONTENT_PAGE,
+    },
+    cmsRequired: true,
+  },
+};
+
+const state = new BehaviorSubject(null as RouterState);
 
 class RoutingServiceStub {
   getRouterState(): Observable<RouterState> {
@@ -60,7 +73,6 @@ class RoutingServiceStub {
 
 fdescribe('OrganizationMetaResolver', () => {
   let resolver: OrganizationMetaResolver;
-  // let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -73,20 +85,26 @@ fdescribe('OrganizationMetaResolver', () => {
     });
 
     resolver = TestBed.inject(OrganizationMetaResolver);
-    // routingService = TestBed.inject(RoutingService);
+  });
+
+  it('should return empty title with empty state', () => {
+    state.next(mockEmptyRouterState);
+
+    let titleWithoutState = '';
+    resolver
+      .resolveTitle()
+      .subscribe((value) => (titleWithoutState = value))
+      .unsubscribe();
+
+    expect(titleWithoutState).toEqual('');
   });
 
   it('should resolve title without parameters', () => {
-    // spyOn(routingService, 'getRouterState').and.returnValue(
-    //   of(mockRouterStateWithoutParams)
-    // );
     state.next(mockRouterStateWithoutParams);
-    console.log('without parameters');
 
     let titleWithoutParams: string;
     resolver
       .resolveTitle()
-      .pipe(tap(console.log))
       .subscribe((value) => (titleWithoutParams = value))
       .unsubscribe();
 
@@ -94,24 +112,18 @@ fdescribe('OrganizationMetaResolver', () => {
   });
 
   it('should resolve title with parameters', () => {
-    // spyOn(routingService, 'getRouterState').and.returnValue(
-    //   of(mockRouterStateWithParams)
-    // );
     state.next(mockRouterStateWithParams);
-    console.log('with parameters');
+
     let titleWithParameters = '';
     resolver
       .resolveTitle()
       .subscribe((value) => (titleWithParameters = value))
       .unsubscribe();
 
-    expect(titleWithParameters).toEqual(['8796098887703']);
+    expect(titleWithParameters).toEqual('8796098887703');
   });
 
   it('should resolve breadcrumbs without parameters', () => {
-    // spyOn(routingService, 'getRouterState').and.returnValue(
-    //   of(mockRouterStateWithoutParams)
-    // );
     state.next(mockRouterStateWithoutParams);
 
     let result: any[];
@@ -127,10 +139,8 @@ fdescribe('OrganizationMetaResolver', () => {
   });
 
   it('should resolve breadcrumbs with parameters', () => {
-    // spyOn(routingService, 'getRouterState').and.returnValue(
-    //   of(mockRouterStateWithParams)
-    // );
     state.next(mockRouterStateWithParams);
+
     let result: any[];
     resolver
       .resolveBreadcrumbs()
