@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ofType } from '@ngrx/effects';
+import { RouterNavigatedAction, ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
@@ -7,8 +9,8 @@ import { ProductSearchService } from '../../product/facade/product-search.servic
 import { ProductService } from '../../product/facade/product.service';
 import { createFrom } from '../../util/create-from';
 import { SemanticPathService } from '../configurable-routes';
-import { RoutingService } from '../facade/routing.service';
 import { PageContext } from '../models/page-context.model';
+import { ActivatedRouterStateSnapshot } from '../store/routing-state';
 import {
   CartPageVisited,
   CategoryPageVisited,
@@ -19,32 +21,16 @@ import {
   ProductDetailsPageVisited,
 } from './routing.events';
 
-enum CmsRoute {
-  HOME_PAGE = 'homepage',
-  SEARCH = 'search',
-  CART_PAGE = '/cart',
-  ORDER_CONFIRMATION = '/checkout/review-order',
-}
-enum RouteConfigKey {
-  HOME_PAGE = 'home',
-  CART_PAGE = 'cart',
-  SEARCH = 'search',
-  ORDER_CONFIRMATION = 'orderConfirmation',
-  CATEGORY_PAGE = 'category',
-  PRODUCT_DETAILS = 'product',
-}
-
 @Injectable({
   providedIn: 'root',
 })
 export class RoutingEventBuilder {
   constructor(
-    protected routingService: RoutingService,
-    protected productSearchService: ProductSearchService,
+    protected actions: ActionsSubject,
     protected eventService: EventService,
     protected productService: ProductService,
-    protected semanticPathService: SemanticPathService,
-    protected router: Router
+    protected productSearchService: ProductSearchService,
+    protected semanticPathService: SemanticPathService
   ) {
     this.register();
   }
@@ -74,10 +60,22 @@ export class RoutingEventBuilder {
     );
   }
 
+  protected buildPageVisitedEvent(): Observable<PageVisited> {
+    return this.getNavigatedEvent().pipe(
+      map((state) => createFrom(PageVisited, state))
+    );
+  }
+
+  protected buildHomePageVisitedEvent(): Observable<HomePageVisited> {
+    return this.getCurrentPageContextFor('home').pipe(
+      map((pageContext) => createFrom(HomePageVisited, pageContext))
+    );
+  }
+
   protected buildProductDetailsPageVisitedEvent(): Observable<
     ProductDetailsPageVisited
   > {
-    return this.getCurrentPageContextFor(RouteConfigKey.PRODUCT_DETAILS).pipe(
+    return this.getCurrentPageContextFor('product').pipe(
       map((context) => context.id),
       switchMap((productId) => {
         return this.productService.get(productId).pipe(
@@ -90,22 +88,8 @@ export class RoutingEventBuilder {
     );
   }
 
-  protected buildHomePageVisitedEvent(): Observable<HomePageVisited> {
-    return this.getCurrentPageContextFor(
-      RouteConfigKey.HOME_PAGE,
-      CmsRoute.HOME_PAGE
-    ).pipe(map((pageContext) => createFrom(HomePageVisited, pageContext)));
-  }
-
-  protected buildPageVisitedEvent(): Observable<PageVisited> {
-    return this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      map((event) => createFrom(PageVisited, event))
-    );
-  }
-
   protected buildCartVisitedEvent(): Observable<CartPageVisited> {
-    return this.getCurrentPageContextFor(RouteConfigKey.CART_PAGE).pipe(
+    return this.getCurrentPageContextFor('cart').pipe(
       map((pageContext) => createFrom(CartPageVisited, pageContext))
     );
   }
@@ -113,10 +97,7 @@ export class RoutingEventBuilder {
   protected orderConfirmationPageVisitedEvent(): Observable<
     OrderConfirmationPageVisited
   > {
-    return this.getCurrentPageContextFor(
-      RouteConfigKey.ORDER_CONFIRMATION,
-      CmsRoute.ORDER_CONFIRMATION
-    ).pipe(
+    return this.getCurrentPageContextFor('orderConfirmation').pipe(
       map((pageContext) =>
         createFrom(OrderConfirmationPageVisited, pageContext)
       )
@@ -131,9 +112,7 @@ export class RoutingEventBuilder {
           searchResults.breadcrumbs && searchResults.breadcrumbs.length > 0
         );
       }),
-      withLatestFrom(
-        this.getCurrentPageContextFor(RouteConfigKey.CATEGORY_PAGE)
-      ),
+      withLatestFrom(this.getCurrentPageContextFor('category')),
       tap(([pageContext, _searchResults]) => {
         console.log(_searchResults);
         console.log(pageContext);
@@ -153,9 +132,7 @@ export class RoutingEventBuilder {
   protected searchResultPageVisited(): Observable<KeywordSearchPageVisited> {
     return this.productSearchService.getResults().pipe(
       filter((searchResults) => Boolean(searchResults.breadcrumbs)),
-      withLatestFrom(
-        this.getCurrentPageContextFor(RouteConfigKey.SEARCH, CmsRoute.SEARCH)
-      ),
+      withLatestFrom(this.getCurrentPageContextFor('search')),
       map(([productSearchPage, _pageContext]) => ({
         searchTerm: productSearchPage.freeTextSearch,
         numberOfResults: productSearchPage.pagination.totalResults,
@@ -166,14 +143,28 @@ export class RoutingEventBuilder {
     );
   }
 
+  private getNavigatedEvent(): Observable<ActivatedRouterStateSnapshot> {
+    return this.actions.pipe(
+      ofType<RouterNavigatedAction>(ROUTER_NAVIGATED),
+      map(
+        (event) =>
+          (event.payload.routerState as unknown) as ActivatedRouterStateSnapshot
+      )
+    );
+  }
+
   private getCurrentPageContextFor(
-    routeName: string,
-    cmsRouteValue?: string
+    semanticRoute: string
   ): Observable<PageContext> {
-    return this.routingService.isCurrentRoute(routeName, cmsRouteValue).pipe(
-      filter((isRoute) => isRoute),
-      withLatestFrom(this.routingService.getPageContext()),
-      map(([_, pageContext]) => pageContext)
+    return this.getNavigatedEvent().pipe(
+      filter(
+        (state) =>
+          state.semanticRoute === semanticRoute ||
+          state.context.id === this.semanticPathService.get(semanticRoute) ||
+          // a special case, see https://github.com/SAP/spartacus/blob/9945c046fe11a9ef4940af82a7219f840bcbd73a/projects/core/src/routing/store/reducers/router.reducer.ts#L141
+          (semanticRoute === 'home' && state.context.id === 'homepage')
+      ),
+      map((state) => state.context)
     );
   }
 }

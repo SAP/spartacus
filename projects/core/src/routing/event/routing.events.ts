@@ -7,7 +7,7 @@ export class PageVisited {}
 
 /**
  * Indicates that a user visited a PDP page.
- * A visited product code value is emited whenever the PDP page is visited.
+ * A visited product code value is emitted whenever the PDP page is visited.
  */
 export class ProductDetailsPageVisited {
   categories?: Category[];
