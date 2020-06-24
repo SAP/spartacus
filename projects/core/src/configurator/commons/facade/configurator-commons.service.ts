@@ -38,12 +38,14 @@ export class ConfiguratorCommonsService {
 
   /**
    * Verifies whether the configuration is loading.
+   * The configuration makes a difference between being changed and being created.
+   * Loading is only true if the configuration is being updated not created.
    *
    * @param owner - Configuration owner
    *
    * @returns {Observable<Boolean>} Returns true if the configuration is loading, otherwise false
    */
-  public isConfigurationLoading(
+  public isConfigurationUpdating(
     owner: GenericConfigurator.Owner
   ): Observable<Boolean> {
     return this.store.pipe(
@@ -52,7 +54,12 @@ export class ConfiguratorCommonsService {
           owner.key
         )
       ),
-      map((configurationState) => configurationState.loading)
+      map(
+        (configurationState) =>
+          configurationState.loading &&
+          !configurationState.error &&
+          !configurationState.success
+      )
     );
   }
 

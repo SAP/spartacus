@@ -1,11 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {
-  ConfiguratorCommonsService,
-  GenericConfigurator,
-  RoutingService,
-} from '@spartacus/core';
+import { GenericConfigurator, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ConfigurationRouter } from '../../generic/service/config-router-data';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
@@ -22,8 +18,7 @@ export class ConfigTabBarComponent implements OnInit {
 
   constructor(
     private routingService: RoutingService,
-    private configRouterExtractorService: ConfigRouterExtractorService,
-    private configuratorCommonsService: ConfiguratorCommonsService
+    private configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
   ngOnInit(): void {
@@ -35,12 +30,6 @@ export class ConfigTabBarComponent implements OnInit {
 
     this.configuratorType$ = this.routerData$.pipe(
       map((routerData) => routerData.configuratorType)
-    );
-
-    this.isConfigurationLoading$ = this.owner$.pipe(
-      switchMap((owner) =>
-        this.configuratorCommonsService.isConfigurationLoading(owner)
-      )
     );
   }
 

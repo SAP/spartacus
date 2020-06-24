@@ -66,7 +66,7 @@ class MockConfiguratorCommonsService {
     return of(this.config);
   }
 
-  isConfigurationLoading(): Observable<Boolean> {
+  isConfigurationUpdating(): Observable<Boolean> {
     return of(true);
   }
 }
@@ -140,7 +140,7 @@ describe('ConfigTabBarComponent', () => {
       .unsubscribe();
   });
 
-  describe('isConfigurationLoading', () => {
+  describe('isConfigurationUpdating', () => {
     it('should display a loading animation', () => {});
   });
 });

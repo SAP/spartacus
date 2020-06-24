@@ -33,7 +33,7 @@ export class ConfigMessageComponent implements OnInit {
             .pipe(
               switchMap((hasPendingChanges) =>
                 this.configuratorCommonsService
-                  .isConfigurationLoading(routerData.owner)
+                  .isConfigurationUpdating(routerData.owner)
                   .pipe(map((isLoading) => hasPendingChanges || isLoading))
               )
             );
