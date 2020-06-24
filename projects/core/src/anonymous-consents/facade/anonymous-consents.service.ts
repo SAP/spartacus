@@ -262,6 +262,7 @@ export class AnonymousConsentsService {
    * Otherwise, it returns `false`.
    */
   isBannerVisible(): Observable<boolean> {
+    this.loadTemplates();
     return combineLatest([
       this.isBannerDismissed(),
       this.getTemplatesUpdated(),
