@@ -2,8 +2,6 @@ import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  Configurator,
-  ConfiguratorCommonsService,
   GenericConfigurator,
   I18nTestingModule,
   RouterState,
@@ -44,33 +42,6 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-class MockConfiguratorCommonsService {
-  public config: Configurator.Configuration = {
-    configId: '1234-56-7890',
-    consistent: true,
-    complete: true,
-    productCode: PRODUCT_CODE,
-    priceSummary: {
-      basePrice: {
-        formattedValue: '22.000 €',
-      },
-      selectedOptions: {
-        formattedValue: '900 €',
-      },
-      currentTotal: {
-        formattedValue: '22.900 €',
-      },
-    },
-  };
-  getConfiguration(): Observable<Configurator.Configuration> {
-    return of(this.config);
-  }
-
-  isConfigurationUpdating(): Observable<Boolean> {
-    return of(true);
-  }
-}
-
 describe('ConfigTabBarComponent', () => {
   let component: ConfigTabBarComponent;
   let fixture: ComponentFixture<ConfigTabBarComponent>;
@@ -84,11 +55,6 @@ describe('ConfigTabBarComponent', () => {
       imports: [I18nTestingModule, RouterTestingModule],
       declarations: [ConfigTabBarComponent, MockUrlPipe],
       providers: [
-        {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
-        },
-
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -138,9 +104,5 @@ describe('ConfigTabBarComponent', () => {
       .isOverviewPage()
       .subscribe((isOv) => expect(isOv).toBe(false))
       .unsubscribe();
-  });
-
-  describe('isConfigurationUpdating', () => {
-    it('should display a loading animation', () => {});
   });
 });

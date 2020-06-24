@@ -325,13 +325,13 @@ describe('ConfiguratorCommonsService', () => {
       of(configurationState.configurations.entities[OWNER_PRODUCT.key])
     );
 
-    let isLoading = null;
+    let isUpdating = null;
     serviceUnderTest
-      .isConfigurationLoading(OWNER_PRODUCT)
+      .isConfigurationUpdating(OWNER_PRODUCT)
       .subscribe((loading) => {
-        isLoading = loading;
+        isUpdating = loading;
       });
-    expect(isLoading).toBe(false);
+    expect(isUpdating).toBe(false);
   });
 
   it('should be able to get configuration from store', () => {

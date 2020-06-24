@@ -14,7 +14,6 @@ export class ConfigTabBarComponent implements OnInit {
   owner$: Observable<GenericConfigurator.Owner>;
   configuratorType$: Observable<string>;
   routerData$: Observable<ConfigurationRouter.Data>;
-  isConfigurationLoading$: Observable<Boolean>;
 
   constructor(
     private routingService: RoutingService,
