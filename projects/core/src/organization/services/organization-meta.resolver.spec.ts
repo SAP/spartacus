@@ -49,20 +49,6 @@ const mockRouterStateWithParams: RouterState = {
   },
 };
 
-const mockEmptyRouterState: RouterState = {
-  navigationId: 0,
-  state: {
-    url: '',
-    queryParams: {},
-    params: {},
-    context: {
-      id: '',
-      type: PageType.CONTENT_PAGE,
-    },
-    cmsRequired: true,
-  },
-};
-
 const state = new BehaviorSubject<RouterState>(null);
 
 class RoutingServiceStub {
@@ -85,18 +71,6 @@ describe('OrganizationMetaResolver', () => {
     });
 
     resolver = TestBed.inject(OrganizationMetaResolver);
-  });
-
-  it('should return empty title with empty state', () => {
-    state.next(mockEmptyRouterState);
-
-    let titleWithoutState: string;
-    resolver
-      .resolveTitle()
-      .subscribe((value) => (titleWithoutState = value))
-      .unsubscribe();
-
-    expect(titleWithoutState).toEqual('');
   });
 
   it('should resolve title without parameters', () => {
