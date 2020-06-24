@@ -8,7 +8,7 @@ function createDir(dir) {
     fs.mkdirSync(dir);
   }
 }
-const getLangDir = lang => `${translationsDistDir}${lang}/`;
+const getLangDir = (lang) => `${translationsDistDir}${lang}/`;
 const getFileName = (lang, chunk) => `${getLangDir(lang)}${chunk}.json`;
 
 if (!fs.existsSync(assetsDistDir)) {
@@ -21,9 +21,9 @@ if (!fs.existsSync(assetsDistDir)) {
   createDir(translationsDistDir);
 
   // generate files
-  Object.keys(translations).forEach(lang => {
+  Object.keys(translations).forEach((lang) => {
     createDir(getLangDir(lang));
-    Object.keys(translations[lang]).forEach(chunk => {
+    Object.keys(translations[lang]).forEach((chunk) => {
       const obj = translations[lang][chunk];
       const json = JSON.stringify(obj, null, 2);
       const fileName = getFileName(lang, chunk);

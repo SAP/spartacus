@@ -78,7 +78,7 @@ export default async function run(
     '@spartacus/cds': './projects/cds',
   };
 
-  const duplexUtil = through(function(chunk, _, callback) {
+  const duplexUtil = through(function (chunk, _, callback) {
     this.push(chunk);
     callback();
   });
@@ -97,7 +97,7 @@ export default async function run(
     getRawCommitsStream(args.to)
       .on('error', () => {
         getRawCommitsStream('HEAD')
-          .on('error', err => {
+          .on('error', (err) => {
             logger.fatal('An error happened: ' + err.message);
             return '';
           })
@@ -108,7 +108,7 @@ export default async function run(
     return duplexUtil;
   }
 
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     getCommitsStream()
       .pipe(
         through((chunk: Buffer, _: string, callback: Function) => {
@@ -138,12 +138,12 @@ export default async function run(
             const tags = maybeTag && maybeTag[1].split(/,/g);
             chunk['tags'] = tags;
             // tslint:disable-next-line:triple-equals
-            if (tags && tags.find(x => x == args.to)) {
+            if (tags && tags.find((x) => x == args.to)) {
               toSha = chunk.hash as string;
             }
             const notes: any = chunk.notes;
             if (Array.isArray(notes)) {
-              notes.forEach(note => {
+              notes.forEach((note) => {
                 if (breakingChangesKeywords.includes(note.title)) {
                   breakingChanges.push({
                     content: note.text,

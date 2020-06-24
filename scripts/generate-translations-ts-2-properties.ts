@@ -5,13 +5,13 @@ function writeProperties(dir, fileName, properties) {
   const writeStream = fs.createWriteStream(dir + '/' + fileName, {
     autoClose: false,
   });
-  properties.forEach(property => writeStream.write(property + '\n'));
+  properties.forEach((property) => writeStream.write(property + '\n'));
   writeStream.end();
 }
 
 function jsonToProperties(jsonObj, prefix?) {
   let result = [];
-  Object.keys(jsonObj).forEach(key => {
+  Object.keys(jsonObj).forEach((key) => {
     let _prefix;
     if (jsonObj[key] && typeof jsonObj[key] === 'object') {
       const _currPrefix = key + '.';
@@ -26,8 +26,8 @@ function jsonToProperties(jsonObj, prefix?) {
 }
 
 // generate properties files
-Object.keys(translations).forEach(lang => {
-  Object.keys(translations[lang]).forEach(chunk => {
+Object.keys(translations).forEach((lang) => {
+  Object.keys(translations[lang]).forEach((chunk) => {
     const obj = translations[lang][chunk];
     const json = JSON.stringify(obj, null, 2);
     const properties = jsonToProperties(JSON.parse(json));

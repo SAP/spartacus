@@ -3,7 +3,7 @@ import { translations } from '../projects/assets/src/translations/translations';
 
 function propertiesToJson(properties) {
   const jsonObj = {};
-  properties.forEach(property => {
+  properties.forEach((property) => {
     if (property.length > 0) {
       const name = property.split('=')[0];
       const value = property.split('=')[1];
@@ -28,7 +28,7 @@ function getJsonObj(names, value, jsonObj) {
 const jsons = new Map();
 const files = fs.readdirSync('./lang/properties');
 if (files) {
-  files.forEach(file => {
+  files.forEach((file) => {
     if (file.endsWith('.properties')) {
       const path = './lang/properties/' + file;
       const properties = fs.readFileSync(path, 'utf8').split('\n');
@@ -39,8 +39,8 @@ if (files) {
   });
 }
 
-Object.keys(translations).forEach(lang => {
-  Object.keys(translations[lang]).forEach(chunk => {
+Object.keys(translations).forEach((lang) => {
+  Object.keys(translations[lang]).forEach((chunk) => {
     const translated = jsons.get(chunk + '_' + lang);
     if (translated) {
       translations[lang][chunk] = translated;
@@ -50,15 +50,12 @@ Object.keys(translations).forEach(lang => {
   const assetsTransPath = './projects/assets/src/translations';
   const tsFiles = fs.readdirSync(assetsTransPath + '/' + lang);
   if (tsFiles) {
-    tsFiles.forEach(file => {
+    tsFiles.forEach((file) => {
       if (file !== 'index.ts') {
         const path = assetsTransPath + '/' + lang + '/' + file;
         const content = fs.readFileSync(path, 'utf8');
         const firstLine = content.split('=')[0];
-        const chunk = firstLine
-          .trim()
-          .split(' ')
-          .pop();
+        const chunk = firstLine.trim().split(' ').pop();
         fs.writeFileSync(
           path,
           firstLine + '=' + JSON.stringify(translations[lang][chunk], null, 2),
