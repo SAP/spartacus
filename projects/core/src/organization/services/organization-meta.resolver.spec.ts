@@ -71,7 +71,7 @@ class RoutingServiceStub {
   }
 }
 
-fdescribe('OrganizationMetaResolver', () => {
+describe('OrganizationMetaResolver', () => {
   let resolver: OrganizationMetaResolver;
 
   beforeEach(() => {
