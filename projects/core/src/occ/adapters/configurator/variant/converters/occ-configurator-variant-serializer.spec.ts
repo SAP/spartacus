@@ -244,6 +244,12 @@ describe('OccConfiguratorVariantSerializer', () => {
 
     expect(
       occConfiguratorVariantSerializer.convertCharacteristicType(
+        Configurator.UiType.CHECKBOX
+      )
+    ).toBe(OccConfigurator.UiType.CHECK_BOX);
+
+    expect(
+      occConfiguratorVariantSerializer.convertCharacteristicType(
         Configurator.UiType.MULTI_SELECTION_IMAGE
       )
     ).toBe(OccConfigurator.UiType.MULTI_SELECTION_IMAGE);
