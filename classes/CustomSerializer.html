@@ -130,8 +130,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="84"
-                            class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:84</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:85</a></div>
                 </td>
             </tr>
 
@@ -211,6 +211,7 @@ export const initialState: RouterState &#x3D; {
       id: &#x27;&#x27;,
     },
     cmsRequired: false,
+    semanticRoute: &#x27;&#x27;,
   },
   nextState: undefined,
 };
@@ -278,9 +279,13 @@ export class CustomSerializer
     let state: CmsActivatedRouteSnapshot &#x3D; routerState.root as CmsActivatedRouteSnapshot;
     let cmsRequired &#x3D; false;
     let context: PageContext;
+    let semanticRoute: string;
 
     while (state.firstChild) {
       state &#x3D; state.firstChild as CmsActivatedRouteSnapshot;
+      if (state.data.routeName) {
+        semanticRoute &#x3D; state.data.routeName;
+      }
 
       // we use context information embedded in Cms driven routes from any parent route
       if (state.data &amp;&amp; state.data.cxCmsRouteContext) {
@@ -312,10 +317,13 @@ export class CustomSerializer
     } else {
       if (params[&#x27;productCode&#x27;]) {
         context &#x3D; { id: params[&#x27;productCode&#x27;], type: PageType.PRODUCT_PAGE };
+        semanticRoute &#x3D; &#x27;product&#x27;;
       } else if (params[&#x27;categoryCode&#x27;]) {
         context &#x3D; { id: params[&#x27;categoryCode&#x27;], type: PageType.CATEGORY_PAGE };
+        semanticRoute &#x3D; &#x27;category&#x27;;
       } else if (params[&#x27;brandCode&#x27;]) {
         context &#x3D; { id: params[&#x27;brandCode&#x27;], type: PageType.CATEGORY_PAGE };
+        semanticRoute &#x3D; &#x27;brand&#x27;;
       } else if (state.data.pageLabel !&#x3D;&#x3D; undefined) {
         context &#x3D; { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
       } else if (!context) {
@@ -335,7 +343,14 @@ export class CustomSerializer
       }
     }
 
-    return { url, queryParams, params, context, cmsRequired };
+    return {
+      url,
+      queryParams,
+      params,
+      context,
+      cmsRequired,
+      semanticRoute,
+    };
   }
 }
 </code></pre>

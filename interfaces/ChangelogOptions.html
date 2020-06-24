@@ -355,6 +355,8 @@ export default async function run(
     &#x27;@spartacus/schematics&#x27;: &#x27;projects/schematics&#x27;,
     &#x27;@spartacus/incubator&#x27;: &#x27;projects/incubator&#x27;,
     &#x27;@spartacus/cds&#x27;: &#x27;projects/cds&#x27;,
+    &#x27;@spartacus/my-account&#x27;: &#x27;feature-libs/my-account&#x27;,
+    &#x27;@spartacus/product&#x27;: &#x27;feature-libs/product&#x27;,
   };
 
   const duplexUtil &#x3D; through(function (chunk, _, callback) {
@@ -562,6 +564,16 @@ if (typeof config.to &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
     case &#x27;cds&#x27;:
     case &#x27;@spartacus/cds&#x27;:
       config.library &#x3D; &#x27;@spartacus/cds&#x27;;
+      break;
+    case &#x27;myaccount&#x27;:
+    case &#x27;my-account&#x27;:
+    case &#x27;@spartacus/my-account&#x27;:
+    case &#x27;@spartacus/myaccount&#x27;:
+      config.library &#x3D; &#x27;@spartacus/my-account&#x27;;
+      break;
+    case &#x27;product&#x27;:
+    case &#x27;@spartacus/product&#x27;:
+      config.library &#x3D; &#x27;@spartacus/product&#x27;;
       break;
     default:
       config.library &#x3D; undefined;

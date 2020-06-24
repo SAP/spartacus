@@ -42,7 +42,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>NavigatedPushEvent</li>
+  <li>MerchandisingCarouselViewedEvent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/cds/src/profiletag/model/profile-tag.model.ts</code>
+            <code>projects/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts</code>
         </p>
 
 
@@ -86,6 +86,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#data">data</a>
+                            </li>
+                            <li>
                                 <a href="#name">name</a>
                             </li>
                         </ul>
@@ -101,12 +104,99 @@
     </table>
 </section>
 
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(carouselEvent: <a href="../interfaces/CarouselEvent.html">CarouselEvent</a>, productSkus: string[])</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts:13</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>carouselEvent</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/CarouselEvent.html" target="_self" >CarouselEvent</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>productSkus</td>
+                                                  
+                                                        <td>
+                                                                    <code>string[]</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
 
             <section>
     
         <h3 id="inputs">
             Properties
         </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="data"></a>
+                        <span class="name">
+                            <b>
+                            data</b>
+                            <a href="#data"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts:13</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -127,12 +217,12 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>&#x27;Navigated&#x27;</code>
+                            <i>Default value : </i><code>&#x27;CarouselViewed&#x27;</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/cds/src/profiletag/model/profile-tag.model.ts:47</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -151,68 +241,42 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Cart } from &#x27;@spartacus/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ProfileTagEvent } from &#x27;../../../../profiletag/index&#x27;;
+import { MerchandisingMetadata } from &#x27;../../../model/index&#x27;;
 
-export interface ProfileTagWindowObject extends Window {
-  Y_TRACKING: {
-    q?: ProfileTagJsConfig[][];
-    eventLayer?: ProfileTagEvent[];
-  };
+export interface CarouselEvent {
+  carouselId: string;
+  carouselName: string;
+  strategyId: string;
+  metadata?: MerchandisingMetadata;
 }
 
-export interface ProfileTagJsConfig {
-  tenant?: string;
-  siteId?: string;
-  spa: boolean;
-  javascriptUrl?: string;
-  configUrl?: string;
-  allowInsecureCookies?: boolean;
-  gtmId?: string;
-}
-
-export interface ConsentReferenceEvent extends CustomEvent {
-  detail: {
-    consentReference: string;
-  };
-}
-
-export interface DebugEvent extends CustomEvent {
-  detail: {
-    debug: boolean;
-  };
-}
-
-export enum InternalProfileTagEventNames {
-  CONSENT_REFERENCE_LOADED &#x3D; &#x27;profiletag_consentReferenceLoaded&#x27;,
-  DEBUG_FLAG_CHANGED &#x3D; &#x27;profiletag_debugFlagChanged&#x27;,
-}
-
-interface ProfileTagCart {
-  cart: Cart;
-}
-
-export interface ProfileTagEvent {
-  name: string;
-  data?: any;
-}
-
-export class NavigatedPushEvent implements ProfileTagEvent {
-  name &#x3D; &#x27;Navigated&#x27;;
-}
-
-export class ConsentChangedPushEvent implements ProfileTagEvent {
-  name &#x3D; &#x27;ConsentChanged&#x27;;
-  data: { granted: boolean } &#x3D; { granted: undefined };
-  constructor(granted: boolean) {
-    this.data.granted &#x3D; granted;
+export class MerchandisingCarouselViewedEvent implements ProfileTagEvent {
+  name &#x3D; &#x27;CarouselViewed&#x27;;
+  data: any;
+  constructor(carouselEvent: CarouselEvent, productSkus: string[]) {
+    this.data &#x3D; {
+      ...carouselEvent,
+      productSkus,
+    };
   }
 }
 
-export class CartChangedPushEvent implements ProfileTagEvent {
-  name &#x3D; &#x27;CartSnapshot&#x27;;
-  data: ProfileTagCart;
-  constructor(data: ProfileTagCart) {
-    this.data &#x3D; data;
+export class MerchandisingCarouselClickedEvent implements ProfileTagEvent {
+  name &#x3D; &#x27;CarouselClicked&#x27;;
+  data: any;
+  constructor(
+    carouselEvent: CarouselEvent,
+    slotId: string,
+    sku: string,
+    imageUrl: string
+  ) {
+    this.data &#x3D; {
+      ...carouselEvent,
+      slotId,
+      sku,
+      imageUrl,
+    };
   }
 }
 </code></pre>
@@ -243,7 +307,7 @@ export class CartChangedPushEvent implements ProfileTagEvent {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'NavigatedPushEvent.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'MerchandisingCarouselViewedEvent.html';
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

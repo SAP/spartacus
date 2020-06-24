@@ -43,7 +43,7 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>ProfiletagPushEvent</li>
+  <li>CarouselEvent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/cds/src/profiletag/model/profile-tag.model.ts</code>
+            <code>projects/cds/src/merchandising/cms-components/merchandising-carousel/model/merchandising-carousel-events.model.ts</code>
         </p>
 
 
@@ -79,11 +79,17 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#data">data</a>
+                                        <a href="#carouselId">carouselId</a>
                                 </li>
                                 <li>
-                                        <a href="#name">name</a>
+                                        <a href="#carouselName">carouselName</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#metadata">metadata</a>
+                                </li>
+                                <li>
+                                        <a href="#strategyId">strategyId</a>
                                 </li>
                             </ul>
                         </td>
@@ -100,13 +106,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="data"></a>
-                                        <span class="name"><b>data</b><a href="#data"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="carouselId"></a>
+                                        <span class="name"><b>carouselId</b><a href="#carouselId"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>data:         <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                        <code>carouselId:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -114,7 +120,65 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="carouselName"></a>
+                                        <span class="name"><b>carouselName</b><a href="#carouselName"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>carouselName:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="metadata"></a>
+                                        <span class="name"><b>metadata</b><a href="#metadata"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>metadata:         <code><a href="../interfaces/MerchandisingMetadata.html" target="_self" >MerchandisingMetadata</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/MerchandisingMetadata.html" target="_self" >MerchandisingMetadata</a></code>
 
                                         </td>
                                     </tr>
@@ -134,13 +198,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="name"></a>
-                                        <span class="name"><b>name</b><a href="#name"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="strategyId"></a>
+                                        <span class="name"><b>strategyId</b><a href="#strategyId"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>name:         <code><a href="../miscellaneous/typealiases.html#PushEvent" target="_self" >PushEventNames</a></code>
+                                        <code>strategyId:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -148,7 +212,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#PushEvent" target="_self" >PushEventNames</a></code>
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                                         </td>
                                     </tr>
@@ -164,79 +228,42 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Cart } from &#x27;@spartacus/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ProfileTagEvent } from &#x27;../../../../profiletag/index&#x27;;
+import { MerchandisingMetadata } from &#x27;../../../model/index&#x27;;
 
-export interface ProfileTagWindowObject extends Window {
-  Y_TRACKING: {
-    q?: ProfileTagJsConfig[][];
-    eventLayer?: PushEvent[];
-  };
+export interface CarouselEvent {
+  carouselId: string;
+  carouselName: string;
+  strategyId: string;
+  metadata?: MerchandisingMetadata;
 }
 
-export interface ProfileTagJsConfig {
-  tenant?: string;
-  siteId?: string;
-  spa: boolean;
-  javascriptUrl?: string;
-  configUrl?: string;
-  allowInsecureCookies?: boolean;
-  gtmId?: string;
-}
-
-export interface ConsentReferenceEvent extends CustomEvent {
-  detail: {
-    consentReference: string;
-  };
-}
-
-export interface DebugEvent extends CustomEvent {
-  detail: {
-    debug: boolean;
-  };
-}
-
-export enum ProfileTagEventNames {
-  CONSENT_REFERENCE_LOADED &#x3D; &#x27;profiletag_consentReferenceLoaded&#x27;,
-  DEBUG_FLAG_CHANGED &#x3D; &#x27;profiletag_debugFlagChanged&#x27;,
-}
-
-interface ProfileTagCart {
-  cart: Cart;
-}
-
-export enum PushEventNames {
-  NAVIGATED &#x3D; &#x27;Navigated&#x27;,
-  CONSENT_CHANGED &#x3D; &#x27;ConsentChanged&#x27;,
-  CART_CHANGED &#x3D; &#x27;CartSnapshot&#x27;,
-}
-
-interface ProfiletagPushEvent {
-  name: PushEventNames;
-  data?: any;
-}
-
-export type PushEvent &#x3D;
-  | NavigatedPushEvent
-  | ConsentChangedPushEvent
-  | CartChangedPushEvent;
-
-export class NavigatedPushEvent implements ProfiletagPushEvent {
-  name &#x3D; PushEventNames.NAVIGATED;
-}
-
-export class ConsentChangedPushEvent implements ProfiletagPushEvent {
-  name &#x3D; PushEventNames.CONSENT_CHANGED;
-  data: { granted: boolean } &#x3D; { granted: undefined };
-  constructor(granted: boolean) {
-    this.data.granted &#x3D; granted;
+export class MerchandisingCarouselViewedEvent implements ProfileTagEvent {
+  name &#x3D; &#x27;CarouselViewed&#x27;;
+  data: any;
+  constructor(carouselEvent: CarouselEvent, productSkus: string[]) {
+    this.data &#x3D; {
+      ...carouselEvent,
+      productSkus,
+    };
   }
 }
 
-export class CartChangedPushEvent implements ProfiletagPushEvent {
-  name: PushEventNames &#x3D; PushEventNames.CART_CHANGED;
-  data: ProfileTagCart;
-  constructor(data: ProfileTagCart) {
-    this.data &#x3D; data;
+export class MerchandisingCarouselClickedEvent implements ProfileTagEvent {
+  name &#x3D; &#x27;CarouselClicked&#x27;;
+  data: any;
+  constructor(
+    carouselEvent: CarouselEvent,
+    slotId: string,
+    sku: string,
+    imageUrl: string
+  ) {
+    this.data &#x3D; {
+      ...carouselEvent,
+      slotId,
+      sku,
+      imageUrl,
+    };
   }
 }
 </code></pre>
@@ -266,7 +293,7 @@ export class CartChangedPushEvent implements ProfiletagPushEvent {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'ProfiletagPushEvent.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'CarouselEvent.html';
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

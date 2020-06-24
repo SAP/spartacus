@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/storage.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/select-user-menu-option.commands.ts</code>
         </p>
 
 
@@ -79,10 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#restoreLocalStorage">restoreLocalStorage</a>
-                                </li>
-                                <li>
-                                        <a href="#saveLocalStorage">saveLocalStorage</a>
+                                        <a href="#selectUserMenuOption">selectUserMenuOption</a>
                                 </li>
                             </ul>
                         </td>
@@ -99,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="restoreLocalStorage"></a>
-                                        <span class="name"><b>restoreLocalStorage</b><a href="#restoreLocalStorage"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="selectUserMenuOption"></a>
+                                        <span class="name"><b>selectUserMenuOption</b><a href="#selectUserMenuOption"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>restoreLocalStorage:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>selectUserMenuOption:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -124,42 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Restore localStorage</p>
-</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="saveLocalStorage"></a>
-                                        <span class="name"><b>saveLocalStorage</b><a href="#saveLocalStorage"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>saveLocalStorage:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-
-                                        </td>
-                                    </tr>
-
-
-
-
-
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-description"><p>Save localStorage</p>
+                                    <div class="io-description"><p>Select user menu option</p>
 </div>
                                 </td>
                             </tr>
@@ -170,46 +132,44 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">let LOCAL_STORAGE_MEMORY &#x3D; {};
-
-declare namespace Cypress {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">declare namespace Cypress {
   interface Chainable {
     /**
-       * Save localStorage
+       * Select user menu option
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.saveLocalStorage()
+        cy.selectUserMenuOption({
+          option: &#x27;Sign out&#x27;
+        })
         &#x60;&#x60;&#x60;
        */
-    saveLocalStorage: () &#x3D;&gt; void;
-    /**
-       * Restore localStorage
-       *
-       * @memberof Cypress.Chainable
-       *
-       * @example
-        &#x60;&#x60;&#x60;
-        cy.restoreLocalStorage()
-        &#x60;&#x60;&#x60;
-       */
-    restoreLocalStorage: () &#x3D;&gt; void;
+    selectUserMenuOption: ({
+      option,
+      isMobile,
+    }: {
+      option: string;
+      isMobile?: boolean;
+    }) &#x3D;&gt; void;
   }
 }
 
-Cypress.Commands.add(&#x27;saveLocalStorage&#x27;, () &#x3D;&gt; {
-  Object.keys(localStorage).forEach((key) &#x3D;&gt; {
-    LOCAL_STORAGE_MEMORY[key] &#x3D; localStorage[key];
-  });
-});
+Cypress.Commands.add(
+  &#x27;selectUserMenuOption&#x27;,
+  ({ isMobile, option }: { option: string; isMobile?: boolean }) &#x3D;&gt; {
+    if (isMobile) {
+      // below click is exactly the same as clickHamburger() but we cannot import it here
+      cy.get(&#x27;cx-hamburger-menu [aria-label&#x3D;&quot;Menu&quot;]&#x27;).click({ force: true });
+    }
 
-Cypress.Commands.add(&#x27;restoreLocalStorage&#x27;, () &#x3D;&gt; {
-  Object.keys(LOCAL_STORAGE_MEMORY).forEach((key) &#x3D;&gt; {
-    localStorage.setItem(key, LOCAL_STORAGE_MEMORY[key]);
-  });
-});
+    cy.get(&#x27;nav a&#x27;)
+      .getAllByText(new RegExp(option, &#x27;i&#x27;))
+      .first()
+      .click({ force: true });
+  }
+);
 </code></pre>
     </div>
 </div>

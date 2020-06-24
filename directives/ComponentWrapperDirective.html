@@ -173,7 +173,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -301,7 +301,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:28</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:29</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -339,8 +339,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="90"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:90</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="92"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:92</a></div>
                 </td>
             </tr>
 
@@ -411,8 +411,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:66</a></div>
                 </td>
             </tr>
 
@@ -450,8 +450,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="98"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:98</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:100</a></div>
                 </td>
             </tr>
 
@@ -489,8 +489,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:52</a></div>
                 </td>
             </tr>
 
@@ -533,7 +533,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -562,7 +562,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:39</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -577,6 +577,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectorRef,
   ComponentRef,
   Directive,
   ElementRef,
@@ -662,6 +663,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       ?.subscribe(({ elementRef, componentRef }) &#x3D;&gt; {
         this.cmpRef &#x3D; componentRef;
         this.decorate(elementRef);
+        this.injector.get(ChangeDetectorRef).markForCheck();
       });
   }
 
