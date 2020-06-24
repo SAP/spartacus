@@ -14,25 +14,6 @@ export class ConfigAttributeNumericInputFieldService {
   constructor() {}
 
   /**
-   * Formats input according to locale and decimal number settings
-   *
-   * @param userInput Numeric user input, formatted in default (US) locale with only decimal separator. E.g. '12.2'
-   * @param locale The locale used for formatting
-   * @param numDecimalPlaces Number of decimal places. The result will display all decimal places,
-   * for e.g. numDecimalPlaces = 2 result in 'de' locale is '12,20'
-   */
-  public getFormattedInput(
-    userInput: string,
-    locale: string,
-    numDecimalPlaces: number
-  ): string {
-    return formatNumber(
-      Number(userInput),
-      locale,
-      '1.' + numDecimalPlaces + '-' + numDecimalPlaces
-    );
-  }
-  /**
    * Validates numeric input according to settings that are not derived from the locale but from the attribute
    * meta data like the total number of digits and the maximum number of decimal places.
    *

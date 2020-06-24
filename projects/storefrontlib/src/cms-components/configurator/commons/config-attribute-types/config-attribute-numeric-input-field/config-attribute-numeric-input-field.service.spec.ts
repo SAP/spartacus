@@ -102,9 +102,4 @@ describe('ConfigAttributeNumericInputFieldService', () => {
       serviceUnderTest.getPatternForValidationMessage(0, 10, false, 'en')
     ).toBe('#,###,###,###');
   });
-
-  it('should format input in a way that all decimal numbers are displayed', () => {
-    expect(serviceUnderTest.getFormattedInput('12.2', 'en', 2)).toBe('12.20');
-    expect(serviceUnderTest.getFormattedInput('12.456', 'en', 2)).toBe('12.46');
-  });
 });
