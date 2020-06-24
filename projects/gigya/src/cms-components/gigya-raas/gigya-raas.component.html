@@ -1,14 +1,18 @@
 <div *ngIf="component.data$ | async as data">
-  <div *ngIf="data.embed === 'true'" id="{{ data.containerID }}">
-    {{ displayScreenSetInEmbedMode(data) }}
-  </div>
-  <div *ngIf="data.embed === 'false'">
-    <a
-      class="popup-link"
-      [attr.data-gigya-id]="data.uid"
-      [attr.data-profile-edit]="data.profileEdit"
-      (click)="displayScreenSetInPopupMode(data)"
-      >{{ data.linkText }}</a
-    >
+  <div *ngIf="jsLoaded$ | async">
+    <div *ngIf="language$ | async as lang">
+      <div *ngIf="data.embed === 'true'" [attr.id]="data.containerID">
+        {{ displayScreenSetInEmbedMode(data, lang) }}
+      </div>
+      <div *ngIf="data.embed === 'false'">
+        <a
+          class="popup-link"
+          [attr.data-gigya-id]="data.uid"
+          [attr.data-profile-edit]="data.profileEdit"
+          (click)="displayScreenSetInPopupMode(data, lang)"
+          >{{ data.linkText }}</a
+        >
+      </div>
+    </div>
   </div>
 </div>

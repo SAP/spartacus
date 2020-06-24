@@ -1,15 +1,25 @@
-import { NgModule, ModuleWithProviders, APP_INITIALIZER } from '@angular/core';
-import { GigyaRaasModule } from './cms-components/gigya-raas/gigya-raas.module';
-import { GigyaConfig } from './config/gigya-config';
-import { provideConfig, AuthService } from '@spartacus/core';
-import { GigyaUserTokenEffects } from './auth/store';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
+import {
+  AuthService,
+  ConfigInitializerService,
+  provideConfig,
+} from '@spartacus/core';
 import { AuthModule } from './auth/auth.module';
 import { GigyaAuthService } from './auth/facade/gigya-auth.service';
+import { GigyaUserTokenEffects } from './auth/store';
 import { GigyaJsService } from './cms-components/gigya-js/gigya-js.service';
+import { GigyaRaasModule } from './cms-components/gigya-raas/gigya-raas.module';
+import { GigyaConfig } from './config/gigya-config';
 
-export function gigyaJSFactory(gigyaJsService: GigyaJsService) {
-  const func = () => gigyaJsService.initialize();
+export function gigyaJSFactory(
+  gigyaJsService: GigyaJsService,
+  configInit: ConfigInitializerService
+) {
+  const func = () =>
+    configInit.getStableConfig('context').then(() => {
+      gigyaJsService.initialize();
+    });
   return func;
 }
 
@@ -30,7 +40,7 @@ export class GigyaModule {
         {
           provide: APP_INITIALIZER,
           useFactory: gigyaJSFactory,
-          deps: [GigyaJsService],
+          deps: [GigyaJsService, ConfigInitializerService],
           multi: true,
         },
       ],

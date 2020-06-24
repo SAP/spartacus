@@ -1,24 +1,25 @@
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
 import {
-  BaseSiteService,
-  LanguageService,
-  ExternalJsFileLoader,
-  WindowRef,
-  GlobalMessageService,
   AuthRedirectService,
+  BaseSiteService,
+  ExternalJsFileLoader,
+  GlobalMessageService,
   GlobalMessageType,
+  LanguageService,
   User,
   UserService,
+  WindowRef,
 } from '@spartacus/core';
-import { GigyaConfig } from '../../config/gigya-config';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { combineLatest, ReplaySubject, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { GigyaAuthService } from '../../auth/facade/gigya-auth.service';
+import { GigyaConfig } from '../../config/gigya-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GigyaJsService implements OnDestroy {
-  loaded$ = new BehaviorSubject<boolean>(false);
+  private loaded$ = new ReplaySubject<boolean>(1);
   subscription: Subscription = new Subscription();
 
   constructor(
@@ -36,6 +37,18 @@ export class GigyaJsService implements OnDestroy {
 
   initialize(): void {
     this.loadGigyaJavascript();
+    this.subscription.add(
+      this.auth.getUserToken().subscribe((data) => {
+        if (data && data.access_token) {
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          this.authRedirectService.redirect();
+        }
+      })
+    );
+  }
+
+  isLoaded() {
+    return this.loaded$.asObservable();
   }
 
   /**
@@ -43,17 +56,21 @@ export class GigyaJsService implements OnDestroy {
    */
   loadGigyaJavascript(): void {
     this.subscription.add(
-      this.baseSiteService.getActive().subscribe((baseSite) => {
-        let javascriptUrl = this.getJavascriptUrlForCurrentSite(baseSite);
-        this.languageService.getActive().subscribe((language) => {
-          javascriptUrl = javascriptUrl + '&lang=' + language;
+      combineLatest([
+        this.baseSiteService.getActive(),
+        this.languageService.getActive(),
+      ])
+        .pipe(take(1))
+        .subscribe(([baseSite, language]) => {
+          const javascriptUrl = `${this.getJavascriptUrlForCurrentSite(
+            baseSite
+          )}&lang=${language}`;
           this.externalJsFileLoader.load(javascriptUrl, undefined, () => {
-            this.loaded$.next(true);
             this.registerEventListeners();
+            this.loaded$.next(true);
           });
           this.winRef.nativeWindow['__gigyaConf'] = { include: 'id_token' };
-        });
-      })
+        })
     );
   }
 
@@ -99,19 +116,15 @@ export class GigyaJsService implements OnDestroy {
         params[0].id_token !== undefined ? params[0].id_token : '',
         this.getCurrentBaseSite()
       );
-
-      this.auth.getUserToken().subscribe((data) => {
-        if (data && data.access_token) {
-          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-          this.authRedirectService.redirect();
-        }
-      });
     }
   }
 
   private getCurrentBaseSite(): string {
     let baseSite: string;
-    this.baseSiteService.getActive().subscribe((data) => (baseSite = data));
+    this.baseSiteService
+      .getActive()
+      .pipe(take(1))
+      .subscribe((data) => (baseSite = data));
 
     return baseSite;
   }
