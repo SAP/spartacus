@@ -12,12 +12,12 @@ describe('Routing selectors', () => {
     });
   });
 
-  describe('getRouteName', () => {
+  describe('getSemanticRoute', () => {
     it('should return the cxRoute', () => {
-      const routeName = 'search';
-      const mockState = { router: { router: { state: { routeName } } } };
-      const result = RoutingSelector.getRouteName(mockState);
-      expect(result).toEqual(routeName);
+      const semanticRoute = 'search';
+      const mockState = { router: { router: { state: { semanticRoute } } } };
+      const result = RoutingSelector.getSemanticRoute(mockState);
+      expect(result).toEqual(semanticRoute);
     });
   });
 
