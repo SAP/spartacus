@@ -44,8 +44,7 @@ export const myAccount = {
         carrier: 'Delivery Service',
         trackingId: 'Tracking Number',
         noTracking:
-          'The package has not been dispatched from the warehouse. ' +
-          'The tracking information will be available after the package is shipped.',
+          'The package has not been dispatched from the warehouse. The tracking information will be available after the package is shipped.',
         loadingHeader: 'Consignment Tracking',
       },
     },
@@ -63,6 +62,20 @@ export const myAccount = {
       returnSuccess: 'Your return request ({{rma}}) was submitted',
       cancelSuccess:
         'Your cancellation request was submitted (original order {{orderCode}} will be updated)',
+    },
+    approvalDetails: {
+      header: 'Customer Approval Details',
+      permission: 'Permission',
+      approver: 'Approver',
+      status: 'Status',
+      approverComments: 'Approver Comments',
+      noApprovalNotes: 'None',
+      permissionType_B2BBudgetExceededPermission:
+        'The budget associated with chosen cost center has been exceeded',
+      permissionType_B2BOrderThresholdPermission:
+        'Order total exceeded per-order limit',
+      permissionType_B2BOrderThresholdTimespanPermission:
+        'Order total exceeded per-timespan limit',
     },
   },
   orderHistory: {

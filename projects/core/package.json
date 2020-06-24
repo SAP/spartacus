@@ -2,6 +2,7 @@
   "name": "@spartacus/core",
   "version": "2.1.0-dev.0",
   "description": "Spartacus - the core framework",
+  "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
     "spartacus",
     "storefront",
@@ -12,7 +13,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/SAP/cloud-commerce-spartacus-storefront",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/projects/core",
   "peerDependencies": {
     "@angular/common": "^9.0.0",
     "@angular/core": "^9.0.0",

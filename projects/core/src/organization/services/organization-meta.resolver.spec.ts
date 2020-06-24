@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
-import { CmsService, Page } from '../../cms';
+import { Observable, of, BehaviorSubject } from 'rxjs';
+import { CmsService, Page, BreadcrumbMeta } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { OrganizationMetaResolver } from './organization-meta.resolver';
-import { ActivatedRoute } from '@angular/router';
+
 import { RoutingService } from '../../routing/facade/routing.service';
+import { RouterState } from '../../routing/store/routing-state';
 
 const mockOrganizationPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -19,17 +20,40 @@ class MockCmsService {
   }
 }
 
-class MockRoutingService {
-  getRouterState(): Observable<any> {
-    return of({
-      state: {
-        url: 'powertools-spa/en/USD/organization/purchase-limits',
-        queryParams: {},
-        params: {},
-        context: { id: '/organization/purchase-limits', type: 'ContentPage' },
-        cmsRequired: true,
-      },
-    });
+const mockRouterStateWithoutParams: RouterState = {
+  navigationId: 0,
+  state: {
+    url: 'powertools-spa/en/USD/organization/purchase-limits',
+    queryParams: {},
+    params: {},
+    context: {
+      id: '/organization/purchase-limits',
+      type: PageType.CONTENT_PAGE,
+    },
+    cmsRequired: true,
+  },
+};
+
+const mockRouterStateWithParams: RouterState = {
+  navigationId: 0,
+  state: {
+    url:
+      'powertools-spa/en/USD/organization/unit/address/Rustic%20Retail/8796098887703',
+    queryParams: {},
+    params: { code: 'Rustic Retail', id: '8796098887703' },
+    context: {
+      id: '/organization/unit/address/Rustic Retail/8796098887703',
+      type: PageType.CONTENT_PAGE,
+    },
+    cmsRequired: true,
+  },
+};
+
+const state = new BehaviorSubject<RouterState>(null);
+
+class RoutingServiceStub {
+  getRouterState(): Observable<RouterState> {
+    return state;
   }
 }
 
@@ -41,75 +65,42 @@ describe('OrganizationMetaResolver', () => {
       imports: [I18nTestingModule],
       providers: [
         { provide: CmsService, useClass: MockCmsService },
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              url: [],
-              params: {},
-              queryParams: {},
-              fragment: null,
-              data: {},
-              outlet: 'primary',
-              component: null,
-              routeConfig: null,
-              root: null,
-              parent: null,
-              firstChild: null,
-              children: [
-                {
-                  url: [
-                    {
-                      path: 'organization',
-                      parameters: {},
-                      parameterMap: null,
-                    },
-                    {
-                      path: 'purchase-limits',
-                      parameters: {},
-                      parameterMap: null,
-                    },
-                  ],
-                  params: {},
-                  queryParams: {},
-                  fragment: null,
-                  data: {},
-                  outlet: 'primary',
-                  component: null,
-                  routeConfig: null,
-                  root: null,
-                  parent: null,
-                  firstChild: null,
-                  children: null,
-                  pathFromRoot: null,
-                  paramMap: null,
-                  queryParamMap: null,
-                },
-              ],
-              pathFromRoot: null,
-              paramMap: null,
-              queryParamMap: null,
-            },
-          },
-        },
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: RoutingService, useClass: RoutingServiceStub },
+        OrganizationMetaResolver,
       ],
     });
 
     resolver = TestBed.inject(OrganizationMetaResolver);
   });
 
-  it('should resolve title', () => {
-    let result: string;
+  it('should resolve title without parameters', () => {
+    state.next(mockRouterStateWithoutParams);
+
+    let titleWithoutParams: string;
     resolver
       .resolveTitle()
-      .subscribe((value) => (result = value))
+      .subscribe((value) => (titleWithoutParams = value))
       .unsubscribe();
-    expect(result).toEqual('breadcrumbs.purchase-limits');
+
+    expect(titleWithoutParams).toEqual('breadcrumbs.purchase-limits');
   });
 
-  it('should resolve breadcrumbs', () => {
-    let result: any[];
+  it('should resolve title with parameters', () => {
+    state.next(mockRouterStateWithParams);
+
+    let titleWithParameters: string;
+    resolver
+      .resolveTitle()
+      .subscribe((value) => (titleWithParameters = value))
+      .unsubscribe();
+
+    expect(titleWithParameters).toEqual('8796098887703');
+  });
+
+  it('should resolve breadcrumbs without parameters', () => {
+    state.next(mockRouterStateWithoutParams);
+
+    let result: BreadcrumbMeta[];
     resolver
       .resolveBreadcrumbs()
       .subscribe((value) => (result = value))
@@ -118,6 +109,27 @@ describe('OrganizationMetaResolver', () => {
     expect(result).toEqual([
       { label: 'common.home', link: '/' },
       { label: 'breadcrumbs.organization', link: '/organization' },
+    ]);
+  });
+
+  it('should resolve breadcrumbs with parameters', () => {
+    state.next(mockRouterStateWithParams);
+
+    let result: BreadcrumbMeta[];
+    resolver
+      .resolveBreadcrumbs()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual([
+      { label: 'common.home', link: '/' },
+      { label: 'breadcrumbs.organization', link: '/organization' },
+      { label: 'breadcrumbs.unit', link: '/organization/unit' },
+      { label: 'breadcrumbs.address', link: '/organization/unit/address' },
+      {
+        label: 'Rustic Retail',
+        link: '/organization/unit/address/Rustic%20Retail',
+      },
     ]);
   });
 });
