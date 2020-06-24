@@ -3,10 +3,11 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
+  GenericConfigurator,
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfigurationRouter } from '../../generic/service/config-router-data';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 import { ConfigFormUpdateEvent } from './config-form.event';
@@ -54,16 +55,35 @@ export class ConfigFormComponent implements OnInit {
   }
 
   updateConfiguration(event: ConfigFormUpdateEvent) {
+    const owner: GenericConfigurator.Owner = { key: event.productCode };
+
+    //Wait until update is finished
+    this.configuratorCommonsService
+      .isConfigurationLoading(owner)
+      .pipe(
+        filter((isLoading) => isLoading.valueOf()),
+        take(1)
+      )
+      .subscribe(() =>
+        this.configuratorCommonsService
+          .isConfigurationLoading(owner)
+          .pipe(
+            filter((isLoading) => !isLoading.valueOf()),
+            take(1)
+          )
+          .subscribe(() =>
+            this.configuratorGroupsService.setGroupStatus(
+              owner,
+              event.groupId,
+              false
+            )
+          )
+      );
+
     this.configuratorCommonsService.updateConfiguration(
       event.productCode,
       event.groupId,
       event.changedAttribute
-    );
-
-    this.configuratorGroupsService.setGroupStatus(
-      { key: event.productCode },
-      event.groupId,
-      false
     );
   }
 }
