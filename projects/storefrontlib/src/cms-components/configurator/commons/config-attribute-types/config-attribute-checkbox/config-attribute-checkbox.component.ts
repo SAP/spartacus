@@ -24,25 +24,25 @@ export class ConfigAttributeCheckBoxComponent implements OnInit {
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  attributeCheckBoxForms = new FormControl('');
+  attributeCheckBoxForm = new FormControl('');
 
   ngOnInit() {
-    this.attributeCheckBoxForms.setValue(this.attribute.selectedSingleValue);
+    this.attributeCheckBoxForm.setValue(this.attribute.selectedSingleValue);
   }
 
-  assembleValues(): any[] {
+  assembleValue(): any[] {
     const localAssembledValues: any = [];
 
     const localAttributeValue: Configurator.Value = {};
     localAttributeValue.valueCode = this.attribute.values[0].valueCode;
     localAttributeValue.name = this.attribute.values[0].name;
-    localAttributeValue.selected = this.attributeCheckBoxForms.value;
+    localAttributeValue.selected = this.attributeCheckBoxForm.value;
     localAssembledValues.push(localAttributeValue);
     return localAssembledValues;
   }
 
   onSelect() {
-    const selectedValues = this.assembleValues();
+    const selectedValues = this.assembleValue();
 
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,

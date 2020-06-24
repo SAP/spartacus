@@ -12,7 +12,7 @@
         class="form-check-input"
         [value]="attribute.values[0].valueCode"
         (change)="onSelect()"
-        [formControl]="attributeCheckBoxForms"
+        [formControl]="attributeCheckBoxForm"
         name="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}"
       />
     </div>
