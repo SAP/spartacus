@@ -31,7 +31,7 @@
         [cxOutlet]="'table.' + structure.type + '.data.' + (col.key || i)"
         [cxOutletContext]="row"
       >
-        <span>{{ getDataValue(row, col.key, i) }}</span>
+        {{ getDataValue(row, col.key, i) }}
       </ng-template>
     </td>
   </tr>
