@@ -38,11 +38,11 @@ const mockRouterStateWithParams: RouterState = {
   navigationId: 0,
   state: {
     url:
-      'powertools-spa/en/USD/organization/unit/address/Rustic%20Retail/8796098887703',
+      'powertools-spa/en/USD/organization/units/Rustic%20Retail/addresses/8796098887703',
     queryParams: {},
     params: { code: 'Rustic Retail', id: '8796098887703' },
     context: {
-      id: '/organization/unit/address/Rustic Retail/8796098887703',
+      id: '/organization/units/Rustic Retail/addressses/8796098887703',
       type: PageType.CONTENT_PAGE,
     },
     cmsRequired: true,
@@ -124,11 +124,14 @@ describe('OrganizationMetaResolver', () => {
     expect(result).toEqual([
       { label: 'common.home', link: '/' },
       { label: 'breadcrumbs.organization', link: '/organization' },
-      { label: 'breadcrumbs.unit', link: '/organization/unit' },
-      { label: 'breadcrumbs.address', link: '/organization/unit/address' },
+      { label: 'breadcrumbs.units', link: '/organization/units' },
       {
         label: 'Rustic Retail',
-        link: '/organization/unit/address/Rustic%20Retail',
+        link: '/organization/units/Rustic%20Retail',
+      },
+      {
+        label: 'breadcrumbs.addresses',
+        link: '/organization/units/Rustic%20Retail/addresses',
       },
     ]);
   });
