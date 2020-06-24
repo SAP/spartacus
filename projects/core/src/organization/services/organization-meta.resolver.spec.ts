@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CmsService, Page } from '../../cms';
+import { Observable, of, BehaviorSubject } from 'rxjs';
+import { CmsService, Page, BreadcrumbMeta } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { OrganizationMetaResolver } from './organization-meta.resolver';
@@ -63,7 +63,7 @@ const mockEmptyRouterState: RouterState = {
   },
 };
 
-const state = new BehaviorSubject(null as RouterState);
+const state = new BehaviorSubject<RouterState>(null);
 
 class RoutingServiceStub {
   getRouterState(): Observable<RouterState> {
@@ -90,7 +90,7 @@ describe('OrganizationMetaResolver', () => {
   it('should return empty title with empty state', () => {
     state.next(mockEmptyRouterState);
 
-    let titleWithoutState = '';
+    let titleWithoutState: string;
     resolver
       .resolveTitle()
       .subscribe((value) => (titleWithoutState = value))
@@ -114,7 +114,7 @@ describe('OrganizationMetaResolver', () => {
   it('should resolve title with parameters', () => {
     state.next(mockRouterStateWithParams);
 
-    let titleWithParameters = '';
+    let titleWithParameters: string;
     resolver
       .resolveTitle()
       .subscribe((value) => (titleWithParameters = value))
@@ -126,7 +126,7 @@ describe('OrganizationMetaResolver', () => {
   it('should resolve breadcrumbs without parameters', () => {
     state.next(mockRouterStateWithoutParams);
 
-    let result: any[];
+    let result: BreadcrumbMeta[];
     resolver
       .resolveBreadcrumbs()
       .subscribe((value) => (result = value))
@@ -141,7 +141,7 @@ describe('OrganizationMetaResolver', () => {
   it('should resolve breadcrumbs with parameters', () => {
     state.next(mockRouterStateWithParams);
 
-    let result: any[];
+    let result: BreadcrumbMeta[];
     resolver
       .resolveBreadcrumbs()
       .subscribe((value) => (result = value))
