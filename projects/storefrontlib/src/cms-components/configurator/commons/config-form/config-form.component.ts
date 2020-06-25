@@ -57,7 +57,14 @@ export class ConfigFormComponent implements OnInit {
   updateConfiguration(event: ConfigFormUpdateEvent) {
     const owner: GenericConfigurator.Owner = { key: event.productCode };
 
-    //Wait until update is finished
+    this.configuratorCommonsService.updateConfiguration(
+      event.productCode,
+      event.groupId,
+      event.changedAttribute
+    );
+
+    // Wait until update is triggered first, then wait until update is finished, to be sure that the configuration
+    // is changed before the group status is set. This cannot be done in the effects, as we need to call the facade layer.
     this.configuratorCommonsService
       .isConfigurationLoading(owner)
       .pipe(
@@ -79,11 +86,5 @@ export class ConfigFormComponent implements OnInit {
             )
           )
       );
-
-    this.configuratorCommonsService.updateConfiguration(
-      event.productCode,
-      event.groupId,
-      event.changedAttribute
-    );
   }
 }

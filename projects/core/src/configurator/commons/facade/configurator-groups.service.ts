@@ -57,7 +57,7 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Determines the parent group of the subgroup, specified by the group ID, that is displayed in the group menu.
+   * Set the parent group, specified by the group ID, that is displayed in the group menu.
    *
    * @param owner - Configuration owner
    * @param groupId - Group ID
