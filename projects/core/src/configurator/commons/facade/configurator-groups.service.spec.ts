@@ -171,10 +171,10 @@ describe('ConfiguratorGroupsService', () => {
       of(productConfiguration)
     );
     classUnderTest.setCurrentGroup(productConfiguration.owner, GROUP_ID_1);
-    const expectedAction = new ConfiguratorActions.SetCurrentGroup(
-      productConfiguration.owner.key,
-      GROUP_ID_1
-    );
+    const expectedAction = new ConfiguratorActions.SetCurrentGroup({
+      entityKey: productConfiguration.owner.key,
+      currentGroup: GROUP_ID_1,
+    });
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 
@@ -183,10 +183,10 @@ describe('ConfiguratorGroupsService', () => {
       of(productConfiguration)
     );
     classUnderTest.setMenuParentGroup(productConfiguration.owner, GROUP_ID_1);
-    const expectedAction = new ConfiguratorActions.SetMenuParentGroup(
-      productConfiguration.owner.key,
-      GROUP_ID_1
-    );
+    const expectedAction = new ConfiguratorActions.SetMenuParentGroup({
+      entityKey: productConfiguration.owner.key,
+      menuParentGroup: GROUP_ID_1,
+    });
     expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
   });
 

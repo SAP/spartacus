@@ -28,9 +28,7 @@ export class ConfiguratorGroupsService {
         if (configuration?.interactionState?.currentGroup) {
           return configuration.interactionState.currentGroup;
         } else {
-          return configuration &&
-            configuration.groups &&
-            configuration.groups.length > 0
+          return configuration?.groups?.length > 0
             ? configuration.groups[0].id
             : null;
         }
@@ -66,7 +64,10 @@ export class ConfiguratorGroupsService {
    */
   public setMenuParentGroup(owner: GenericConfigurator.Owner, groupId: string) {
     this.store.dispatch(
-      new ConfiguratorActions.SetMenuParentGroup(owner.key, groupId)
+      new ConfiguratorActions.SetMenuParentGroup({
+        entityKey: owner.key,
+        menuParentGroup: groupId,
+      })
     );
   }
 
@@ -172,7 +173,10 @@ export class ConfiguratorGroupsService {
    */
   public setCurrentGroup(owner: GenericConfigurator.Owner, groupId: string) {
     this.store.dispatch(
-      new ConfiguratorActions.SetCurrentGroup(owner.key, groupId)
+      new ConfiguratorActions.SetCurrentGroup({
+        entityKey: owner.key,
+        currentGroup: groupId,
+      })
     );
   }
 

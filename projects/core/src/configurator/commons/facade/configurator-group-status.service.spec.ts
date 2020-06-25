@@ -53,10 +53,10 @@ describe('ConfiguratorGroupStatusService', () => {
         true
       );
 
-      const expectedAction = new ConfiguratorActions.SetGroupsVisited(
-        productConfiguration.owner.key,
-        [GROUP_ID_1]
-      );
+      const expectedAction = new ConfiguratorActions.SetGroupsVisited({
+        entityKey: productConfiguration.owner.key,
+        visitedGroups: [GROUP_ID_1],
+      });
 
       expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
@@ -65,10 +65,10 @@ describe('ConfiguratorGroupStatusService', () => {
       spyOn(store, 'select').and.returnValue(of(true));
       classUnderTest.setGroupStatus(productConfiguration, GROUP_ID_4, true);
 
-      const expectedAction = new ConfiguratorActions.SetGroupsVisited(
-        productConfiguration.owner.key,
-        [GROUP_ID_4, GROUP_ID_3]
-      );
+      const expectedAction = new ConfiguratorActions.SetGroupsVisited({
+        entityKey: productConfiguration.owner.key,
+        visitedGroups: [GROUP_ID_4, GROUP_ID_3],
+      });
 
       expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
@@ -79,10 +79,10 @@ describe('ConfiguratorGroupStatusService', () => {
 
       classUnderTest.setGroupStatus(productConfiguration, GROUP_ID_6, true);
 
-      const expectedAction = new ConfiguratorActions.SetGroupsVisited(
-        productConfiguration.owner.key,
-        [GROUP_ID_6]
-      );
+      const expectedAction = new ConfiguratorActions.SetGroupsVisited({
+        entityKey: productConfiguration.owner.key,
+        visitedGroups: [GROUP_ID_6],
+      });
 
       expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
@@ -92,10 +92,10 @@ describe('ConfiguratorGroupStatusService', () => {
 
       classUnderTest.setGroupStatus(productConfiguration, GROUP_ID_8, true);
 
-      const expectedAction = new ConfiguratorActions.SetGroupsVisited(
-        productConfiguration.owner.key,
-        [GROUP_ID_8, GROUP_ID_7, GROUP_ID_5]
-      );
+      const expectedAction = new ConfiguratorActions.SetGroupsVisited({
+        entityKey: productConfiguration.owner.key,
+        visitedGroups: [GROUP_ID_8, GROUP_ID_7, GROUP_ID_5],
+      });
 
       expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
