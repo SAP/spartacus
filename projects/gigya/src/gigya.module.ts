@@ -22,10 +22,7 @@ export function gigyaJSFactory(
 }
 
 @NgModule({
-  imports: [
-    GigyaRaasModule,
-    GigyaAuthModule,
-  ],
+  imports: [GigyaRaasModule, GigyaAuthModule],
   providers: [{ provide: AuthService, useClass: GigyaAuthService }],
 })
 export class GigyaModule {

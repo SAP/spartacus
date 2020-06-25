@@ -248,7 +248,7 @@ describe('GigyaJsService', () => {
     spyOn(auth, 'authorizeWithCustomGigyaFlow');
 
     spyOn(auth, 'getUserToken').and.returnValue(of());
-    spyOn(baseSiteService,'getActive').and.returnValue(of('sameplSite'));
+    spyOn(baseSiteService, 'getActive').and.returnValue(of('sameplSite'));
 
     const response: any = {
       UID: 'UID',
