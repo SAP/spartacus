@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../misc/icon/index';
 import { CurrentProductService } from '../current-product.service';
 
 @Component({
@@ -11,7 +10,6 @@ import { CurrentProductService } from '../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductImagesComponent {
-  iconTypes = ICON_TYPE;
   private mainMediaContainer = new BehaviorSubject(null);
 
   private product$: Observable<
