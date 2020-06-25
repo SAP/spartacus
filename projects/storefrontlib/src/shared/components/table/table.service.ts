@@ -1,5 +1,5 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { BREAKPOINT } from 'projects/storefrontlib/src/layout/config/layout-config';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
