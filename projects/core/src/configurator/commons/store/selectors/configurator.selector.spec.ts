@@ -113,7 +113,10 @@ describe('Configurator selectors', () => {
 
   it('should return current group content selector when action was successful', () => {
     store.dispatch(
-      new ConfiguratorActions.SetCurrentGroup(configuration.owner.key, GROUP_ID)
+      new ConfiguratorActions.SetCurrentGroup({
+        entityKey: configuration.owner.key,
+        currentGroup: GROUP_ID,
+      })
     );
     store
       .pipe(
@@ -137,9 +140,10 @@ describe('Configurator selectors', () => {
 
   it('should get visited status for group', () => {
     store.dispatch(
-      new ConfiguratorActions.SetGroupsVisited(configuration.owner.key, [
-        GROUP_ID,
-      ])
+      new ConfiguratorActions.SetGroupsVisited({
+        entityKey: configuration.owner.key,
+        visitedGroups: [GROUP_ID],
+      })
     );
     store
       .pipe(
@@ -155,9 +159,10 @@ describe('Configurator selectors', () => {
 
   it('should get visited status for group many groups, not all visited', () => {
     store.dispatch(
-      new ConfiguratorActions.SetGroupsVisited(configuration.owner.key, [
-        GROUP_ID,
-      ])
+      new ConfiguratorActions.SetGroupsVisited({
+        entityKey: configuration.owner.key,
+        visitedGroups: [GROUP_ID],
+      })
     );
     store
       .pipe(
@@ -173,10 +178,10 @@ describe('Configurator selectors', () => {
 
   it('should get visited status for group many groups, all visited', () => {
     store.dispatch(
-      new ConfiguratorActions.SetGroupsVisited(configuration.owner.key, [
-        GROUP_ID,
-        GROUP_ID2,
-      ])
+      new ConfiguratorActions.SetGroupsVisited({
+        entityKey: configuration.owner.key,
+        visitedGroups: [GROUP_ID, GROUP_ID2],
+      })
     );
     store
       .pipe(
@@ -192,14 +197,16 @@ describe('Configurator selectors', () => {
 
   it('should get group status for group', () => {
     store.dispatch(
-      new ConfiguratorActions.SetGroupsError(configuration.owner.key, [
-        GROUP_ID,
-      ])
+      new ConfiguratorActions.SetGroupsError({
+        entityKey: configuration.owner.key,
+        errorGroups: [GROUP_ID],
+      })
     );
     store.dispatch(
-      new ConfiguratorActions.SetGroupsCompleted(configuration.owner.key, [
-        GROUP_ID2,
-      ])
+      new ConfiguratorActions.SetGroupsCompleted({
+        entityKey: configuration.owner.key,
+        completedGroups: [GROUP_ID2],
+      })
     );
 
     store

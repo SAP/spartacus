@@ -198,7 +198,10 @@ describe('Configurator reducer', () => {
 
       const state = StateReduce.reducer(
         initialState,
-        new SetCurrentGroup(PRODUCT_CODE, CURRENT_GROUP)
+        new SetCurrentGroup({
+          entityKey: PRODUCT_CODE,
+          currentGroup: CURRENT_GROUP,
+        })
       );
 
       expect(state.interactionState.currentGroup).toEqual(CURRENT_GROUP);
@@ -211,7 +214,10 @@ describe('Configurator reducer', () => {
 
       const state = StateReduce.reducer(
         initialState,
-        new SetMenuParentGroup(PRODUCT_CODE, PARENT_GROUP)
+        new SetMenuParentGroup({
+          entityKey: PRODUCT_CODE,
+          menuParentGroup: PARENT_GROUP,
+        })
       );
 
       expect(state.interactionState.menuParentGroup).toEqual(PARENT_GROUP);
@@ -222,11 +228,10 @@ describe('Configurator reducer', () => {
     it('should reduce Group Visited with initial state', () => {
       const { initialState } = StateReduce;
 
-      const action = new SetGroupsVisited(PRODUCT_CODE, [
-        'group1',
-        'group2',
-        'group3',
-      ]);
+      const action = new SetGroupsVisited({
+        entityKey: PRODUCT_CODE,
+        visitedGroups: ['group1', 'group2', 'group3'],
+      });
 
       const state = StateReduce.reducer(initialState, action);
 
@@ -249,7 +254,10 @@ describe('Configurator reducer', () => {
         },
       };
 
-      const action = new SetGroupsVisited(PRODUCT_CODE, ['group4']);
+      const action = new SetGroupsVisited({
+        entityKey: PRODUCT_CODE,
+        visitedGroups: ['group4'],
+      });
 
       const state = StateReduce.reducer(initialState, action);
 
@@ -264,11 +272,10 @@ describe('Configurator reducer', () => {
     it('should reduce Group Complete Reducer with initial state', () => {
       const { initialState } = StateReduce;
 
-      const action = new SetGroupsCompleted(PRODUCT_CODE, [
-        'group1',
-        'group2',
-        'group3',
-      ]);
+      const action = new SetGroupsCompleted({
+        entityKey: PRODUCT_CODE,
+        completedGroups: ['group1', 'group2', 'group3'],
+      });
 
       const state = StateReduce.reducer(initialState, action);
 
@@ -291,7 +298,10 @@ describe('Configurator reducer', () => {
         },
       };
 
-      const action = new SetGroupsCompleted(PRODUCT_CODE, ['group4']);
+      const action = new SetGroupsCompleted({
+        entityKey: PRODUCT_CODE,
+        completedGroups: ['group4'],
+      });
 
       const state = StateReduce.reducer(initialState, action);
 
@@ -306,11 +316,10 @@ describe('Configurator reducer', () => {
     it('should reduce Group Error Reducer with initial state', () => {
       const { initialState } = StateReduce;
 
-      const action = new SetGroupsError(PRODUCT_CODE, [
-        'group1',
-        'group2',
-        'group3',
-      ]);
+      const action = new SetGroupsError({
+        entityKey: PRODUCT_CODE,
+        errorGroups: ['group1', 'group2', 'group3'],
+      });
 
       const state = StateReduce.reducer(initialState, action);
 
@@ -333,7 +342,10 @@ describe('Configurator reducer', () => {
         },
       };
 
-      const action = new SetGroupsError(PRODUCT_CODE, ['group4']);
+      const action = new SetGroupsError({
+        entityKey: PRODUCT_CODE,
+        errorGroups: ['group4'],
+      });
 
       const state = StateReduce.reducer(initialState, action);
 

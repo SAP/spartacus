@@ -326,31 +326,37 @@ export class SetNextOwnerCartEntry extends StateUtils.EntitySuccessAction {
 export class SetCurrentGroup extends StateUtils.EntitySuccessAction {
   readonly type = SET_CURRENT_GROUP;
 
-  constructor(entityKey: string | string[], public payload: any) {
-    super(CONFIGURATION_DATA, entityKey, payload);
+  constructor(
+    public payload: { entityKey: string | string[]; currentGroup: string }
+  ) {
+    super(CONFIGURATION_DATA, payload.entityKey, payload.currentGroup);
   }
 }
 
 export class SetMenuParentGroup extends StateUtils.EntitySuccessAction {
   readonly type = SET_MENU_PARENT_GROUP;
 
-  constructor(entityKey: string | string[], public payload: any) {
-    super(CONFIGURATION_DATA, entityKey, payload);
+  constructor(
+    public payload: { entityKey: string | string[]; menuParentGroup: string }
+  ) {
+    super(CONFIGURATION_DATA, payload.entityKey, payload.menuParentGroup);
   }
 }
 
 export class SetGroupsVisited extends StateUtils.EntitySuccessAction {
   readonly type = SET_GROUPS_VISITED;
-  constructor(entityKey: string, public payload: string[]) {
-    super(CONFIGURATION_DATA, entityKey, payload);
+  constructor(public payload: { entityKey: string; visitedGroups: string[] }) {
+    super(CONFIGURATION_DATA, payload.entityKey, payload.visitedGroups);
   }
 }
 
 export class SetGroupsCompleted extends StateUtils.EntitySuccessAction {
   readonly type = SET_GROUPS_COMPLETED;
 
-  constructor(entityKey: string, public completedGroups: string[]) {
-    super(CONFIGURATION_DATA, entityKey, completedGroups);
+  constructor(
+    public payload: { entityKey: string; completedGroups: string[] }
+  ) {
+    super(CONFIGURATION_DATA, payload.entityKey, payload.completedGroups);
   }
 }
 
@@ -358,8 +364,8 @@ export class SetGroupsCompleted extends StateUtils.EntitySuccessAction {
 export class SetGroupsError extends StateUtils.EntitySuccessAction {
   readonly type = SET_GROUPS_ERROR;
 
-  constructor(entityKey: string, public errorGroups: string[]) {
-    super(CONFIGURATION_DATA, entityKey, errorGroups);
+  constructor(public payload: { entityKey: string; errorGroups: string[] }) {
+    super(CONFIGURATION_DATA, payload.entityKey, payload.errorGroups);
   }
 }
 

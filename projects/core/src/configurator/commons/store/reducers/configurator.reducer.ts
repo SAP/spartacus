@@ -77,7 +77,7 @@ export function reducer(
       return result;
     }
     case ConfiguratorActions.SET_CURRENT_GROUP: {
-      const newCurrentGroup: string = action.payload;
+      const newCurrentGroup: string = action.payload.currentGroup;
 
       return {
         ...state,
@@ -88,7 +88,7 @@ export function reducer(
       };
     }
     case ConfiguratorActions.SET_MENU_PARENT_GROUP: {
-      const newMenuParentGroup: string = action.payload;
+      const newMenuParentGroup: string = action.payload.menuParentGroup;
 
       return {
         ...state,
@@ -99,7 +99,7 @@ export function reducer(
       };
     }
     case ConfiguratorActions.SET_GROUPS_VISITED: {
-      const groupIds: string[] = action.payload;
+      const groupIds: string[] = action.payload.visitedGroups;
 
       const changedInteractionState: Configurator.InteractionState = {
         groupsVisited: {},
@@ -126,14 +126,14 @@ export function reducer(
     case ConfiguratorActions.SET_GROUPS_COMPLETED: {
       return setGroupStatus(
         state,
-        action.completedGroups,
+        action.payload.completedGroups,
         Configurator.GroupStatus.COMPLETE
       );
     }
     case ConfiguratorActions.SET_GROUPS_ERROR: {
       return setGroupStatus(
         state,
-        action.errorGroups,
+        action.payload.errorGroups,
         Configurator.GroupStatus.ERROR
       );
     }

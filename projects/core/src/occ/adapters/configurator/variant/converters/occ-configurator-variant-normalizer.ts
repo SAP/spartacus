@@ -80,18 +80,12 @@ export class OccConfiguratorVariantNormalizer
       required: sourceAttribute.required,
       uiType: this.convertAttributeType(sourceAttribute.type),
       values: [],
-      //also for numeric attributes take from value, because UI expects to handle localization on its own,
-      //thus expects numeric
-      userInput: sourceAttribute.value,
+      userInput: sourceAttribute.formattedValue,
       maxlength:
         sourceAttribute.maxlength + (sourceAttribute.negativeAllowed ? 1 : 0),
       numDecimalPlaces: sourceAttribute.numberScale,
       negativeAllowed: sourceAttribute.negativeAllowed,
       numTotalLength: sourceAttribute.typeLength,
-      //This is only relevant for read-only attributes
-      //TODO: improve by enriching OCC API
-      isNumeric:
-        sourceAttribute.value === Number.parseFloat(sourceAttribute.value) + '',
       selectedSingleValue: null,
       images: [],
     };

@@ -205,17 +205,17 @@ export class ConfiguratorGroupStatusService {
     );
 
     this.store.dispatch(
-      new ConfiguratorActions.SetGroupsCompleted(
-        configuration.owner.key,
-        completedGroupIds
-      )
+      new ConfiguratorActions.SetGroupsCompleted({
+        entityKey: configuration.owner.key,
+        completedGroups: completedGroupIds,
+      })
     );
 
     this.store.dispatch(
-      new ConfiguratorActions.SetGroupsError(
-        configuration.owner.key,
-        uncompletedOrErrorGroupdIds
-      )
+      new ConfiguratorActions.SetGroupsError({
+        entityKey: configuration.owner.key,
+        errorGroups: uncompletedOrErrorGroupdIds,
+      })
     );
   }
 
@@ -234,10 +234,10 @@ export class ConfiguratorGroupStatusService {
     );
 
     this.store.dispatch(
-      new ConfiguratorActions.SetGroupsVisited(
-        configuration.owner.key,
-        visitedGroupIds
-      )
+      new ConfiguratorActions.SetGroupsVisited({
+        entityKey: configuration.owner.key,
+        visitedGroups: visitedGroupIds,
+      })
     );
   }
 }

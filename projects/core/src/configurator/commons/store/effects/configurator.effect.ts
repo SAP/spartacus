@@ -225,10 +225,10 @@ export class ConfiguratorEffects {
 
           //setCurrentGroup because in cases where a queue of updates exists with a group navigation in between,
           //we need to ensure that the last update determines the current group.
-          new ConfiguratorActions.SetCurrentGroup(
-            payload.owner.key,
-            this.getGroupWithAttributes(payload.groups)
-          ),
+          new ConfiguratorActions.SetCurrentGroup({
+            entityKey: payload.owner.key,
+            currentGroup: this.getGroupWithAttributes(payload.groups),
+          }),
         ])
       );
     })
@@ -291,14 +291,14 @@ export class ConfiguratorEffects {
             .pipe(
               switchMap((configuration: Configurator.Configuration) => {
                 return [
-                  new ConfiguratorActions.SetCurrentGroup(
-                    action.payload.configuration.owner.key,
-                    action.payload.groupId
-                  ),
-                  new ConfiguratorActions.SetMenuParentGroup(
-                    action.payload.configuration.owner.key,
-                    action.payload.parentGroupId
-                  ),
+                  new ConfiguratorActions.SetCurrentGroup({
+                    entityKey: action.payload.configuration.owner.key,
+                    currentGroup: action.payload.groupId,
+                  }),
+                  new ConfiguratorActions.SetMenuParentGroup({
+                    entityKey: action.payload.configuration.owner.key,
+                    menuParentGroup: action.payload.parentGroupId,
+                  }),
                   new ReadConfigurationSuccess(configuration),
                 ];
               }),
