@@ -10,6 +10,11 @@ import {
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TestConfigModule } from '@spartacus/core';
 import {
+  ProductConfigurationModule,
+  XxxComponent,
+} from '@spartacus/product/configuration';
+import { CoreModule, YyyComponent } from '@spartacus/product/domain';
+import {
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
@@ -18,6 +23,7 @@ import { b2cFeature } from '../environments/b2c/b2c.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+// import {} from '@spartacus/product'
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -42,6 +48,9 @@ if (environment.b2b) {
 
 @NgModule({
   imports: [
+    ProductConfigurationModule,
+    CoreModule,
+
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
     JsonLdBuilderModule,
@@ -54,4 +63,9 @@ if (environment.b2b) {
 
   bootstrap: [StorefrontComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(x: XxxComponent, y: YyyComponent) {
+    console.log('component x: ', x);
+    console.log('component y: ', y);
+  }
+}

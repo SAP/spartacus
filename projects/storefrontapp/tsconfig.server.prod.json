@@ -8,7 +8,7 @@
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/my-account": ["../../dist/my-account"],
-      "@spartacus/product": ["../../dist/product"],
+      "@spartacus/product/domain": ["../../dist/product/domain"],
       "@spartacus/product/configuration": ["../../dist/product/configuration"]
     }
   }
