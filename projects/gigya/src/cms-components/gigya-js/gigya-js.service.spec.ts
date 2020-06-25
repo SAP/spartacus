@@ -90,7 +90,7 @@ const mockedWindowRef = {
   },
 };
 
-describe('GigyaJsComponent', () => {
+describe('GigyaJsService', () => {
   let service: GigyaJsService;
   let baseSiteService: BaseSiteService;
   let languageService: LanguageService;
@@ -145,17 +145,24 @@ describe('GigyaJsComponent', () => {
     expect(externalJsFileLoaderMock.load).toHaveBeenCalledTimes(1);
   });
 
-  it('should load gigya script on initializing the service', () => {
+  it('should load gigya script on initializing the service and redirect on loading the token', () => {
     const site = 'electronics-spa';
     const language = 'en';
 
     spyOn(externalJsFileLoaderMock, 'load');
     spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
     spyOn(languageService, 'getActive').and.returnValue(of(language));
+    spyOn(authRedirectService, 'redirect');
+    spyOn(globalMessageService, 'remove');
+
+    const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
+    spyOn(auth, 'getUserToken').and.returnValue(of(testToken));
 
     service.initialize();
 
     expect(externalJsFileLoaderMock.load).toHaveBeenCalledTimes(1);
+    expect(globalMessageService.remove).toHaveBeenCalledTimes(1);
+    expect(authRedirectService.redirect).toHaveBeenCalledTimes(1);
   });
 
   it('should load gigya script as empty for missing configuration', () => {
@@ -169,6 +176,12 @@ describe('GigyaJsComponent', () => {
     service.initialize();
 
     expect(externalJsFileLoaderMock.load).toHaveBeenCalledTimes(1);
+  });
+
+  it('should return script load state', () => {
+    const result = service.isLoaded();
+
+    expect(result).toBeDefined();
   });
 
   it('should register event handlers for gigya login', () => {
@@ -215,8 +228,6 @@ describe('GigyaJsComponent', () => {
 
   it('should login user when on login event is triggered', () => {
     spyOn(auth, 'authorizeWithCustomGigyaFlow');
-    spyOn(authRedirectService, 'redirect');
-    spyOn(globalMessageService, 'remove');
 
     const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
     spyOn(auth, 'getUserToken').and.returnValue(of(testToken));
@@ -231,16 +242,13 @@ describe('GigyaJsComponent', () => {
     service.onLoginEventHandler(response);
 
     expect(auth.authorizeWithCustomGigyaFlow).toHaveBeenCalledTimes(1);
-    expect(globalMessageService.remove).toHaveBeenCalledTimes(1);
-    expect(authRedirectService.redirect).toHaveBeenCalledTimes(1);
   });
 
   it('should not login user when on login event is triggered', () => {
     spyOn(auth, 'authorizeWithCustomGigyaFlow');
-    spyOn(authRedirectService, 'redirect');
-    spyOn(globalMessageService, 'remove');
 
     spyOn(auth, 'getUserToken').and.returnValue(of());
+    spyOn(baseSiteService,'getActive').and.returnValue(of('sameplSite'));
 
     const response: any = {
       UID: 'UID',
@@ -252,22 +260,16 @@ describe('GigyaJsComponent', () => {
     service.onLoginEventHandler(response);
 
     expect(auth.authorizeWithCustomGigyaFlow).toHaveBeenCalledTimes(1);
-    expect(globalMessageService.remove).toHaveBeenCalledTimes(0);
-    expect(authRedirectService.redirect).toHaveBeenCalledTimes(0);
   });
 
   it('should not login user when on login event is not triggered', () => {
     spyOn(auth, 'authorizeWithCustomGigyaFlow');
-    spyOn(authRedirectService, 'redirect');
-    spyOn(globalMessageService, 'remove');
 
     spyOn(auth, 'getUserToken').and.returnValue(of());
 
     service.onLoginEventHandler(undefined);
 
     expect(auth.authorizeWithCustomGigyaFlow).toHaveBeenCalledTimes(0);
-    expect(globalMessageService.remove).toHaveBeenCalledTimes(0);
-    expect(authRedirectService.redirect).toHaveBeenCalledTimes(0);
   });
 
   it('should unsubscribe from any subscriptions when destroyed', () => {
@@ -279,7 +281,6 @@ describe('GigyaJsComponent', () => {
 
   it('should not unsubscribe from any subscriptions when they are undefined when destroyed', () => {
     service.subscription = undefined;
-    // spyOn(service.subscription, 'unsubscribe');
     service.ngOnDestroy();
     expect(service.subscription).toBeUndefined();
   });

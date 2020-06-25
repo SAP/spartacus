@@ -11,8 +11,8 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { reducerToken } from './reducers';
-import { effects } from './effects/index';
 import { metaReducers, reducerProvider } from './reducers/index';
+import { GigyaUserTokenEffects } from './effects';
 
 export function authStoreConfigFactory(): StateConfig {
   const config: StateConfig = {
@@ -38,7 +38,7 @@ export function authStoreConfigFactory(): StateConfig {
     HttpClientModule,
     StateModule,
     StoreModule.forFeature(AUTH_FEATURE, reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects),
+    EffectsModule.forFeature([GigyaUserTokenEffects]),
   ],
   providers: [
     provideDefaultConfigFactory(authStoreConfigFactory),

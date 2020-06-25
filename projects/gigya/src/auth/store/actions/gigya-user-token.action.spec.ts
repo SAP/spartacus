@@ -31,12 +31,16 @@ describe('Gigya User Token Actions', () => {
 
   describe('LoadUserTokenFail Action', () => {
     it('should create the action', () => {
-      const error = 'anError';
-      const action = new GigyaAuthActions.LoadUserTokenFail(error);
+      const data = {
+        error: 'anError',
+        initActionPayload: 'payload',
+      } as any;
+
+      const action = new GigyaAuthActions.LoadUserTokenFail(data);
 
       expect({ ...action }).toEqual({
         type: GigyaAuthActions.LOAD_USER_TOKEN_FAIL,
-        payload: error,
+        payload: data,
       });
     });
   });
@@ -46,7 +50,7 @@ describe('Gigya User Token Actions', () => {
       const data = {
         token: token,
         initActionPayload: 'payload',
-      } as GigyaAuthActions.LoadUserTokenSuccessPayload;
+      } as any;
 
       const action = new GigyaAuthActions.LoadUserTokenSuccess(data);
 

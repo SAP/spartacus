@@ -24,7 +24,6 @@
       "@spartacus/incubator": ["projects/incubator/public_api"],
       "@spartacus/gigya": ["projects/gigya/public_api"],
       "@spartacus/schematics": ["projects/schematics/src/public_api"],
-      "@spartacus/schematics": ["projects/schematics/src/public_api"],
       "@spartacus/my-account": ["feature-libs/my-account/public_api"],
       "@spartacus/product": ["feature-libs/product/public_api"],
       "@spartacus/product/configuration": [

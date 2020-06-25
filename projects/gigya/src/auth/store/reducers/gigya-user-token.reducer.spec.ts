@@ -1,7 +1,6 @@
 import { GigyaAuthActions } from '../actions/index';
 import * as fromUserToken from './gigya-user-token.reducer';
 import { UserToken } from '@spartacus/core';
-import { LoadUserTokenSuccessPayload } from '../actions/gigya-user-token.action';
 
 const testToken: UserToken = {
   access_token: 'xxx',
@@ -30,7 +29,7 @@ describe('UserToken reducer', () => {
       const data = {
         token: testToken,
         initActionPayload: '',
-      } as LoadUserTokenSuccessPayload;
+      } as any;
 
       const action = new GigyaAuthActions.LoadUserTokenSuccess(data);
       const state = fromUserToken.reducer(initialState, action);
@@ -61,8 +60,12 @@ describe('UserToken reducer', () => {
   describe('LOAD_USER_TOKEN_FAIL action', () => {
     it('should store a user token', () => {
       const { initialState } = fromUserToken;
+      const data = {
+        error: 'anError',
+        initActionPayload: 'payload',
+      } as any;
 
-      const action = new GigyaAuthActions.LoadUserTokenFail('error');
+      const action = new GigyaAuthActions.LoadUserTokenFail(data);
       const state = fromUserToken.reducer(initialState, action);
 
       expect(state).toBeDefined();

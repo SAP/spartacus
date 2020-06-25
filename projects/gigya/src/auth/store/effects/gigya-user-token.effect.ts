@@ -65,9 +65,10 @@ export class GigyaUserTokenEffects {
               GlobalMessageType.MSG_TYPE_ERROR
             );
             return of(
-              new GigyaAuthActions.LoadUserTokenFail(
-                this.makeErrorSerializable(error)
-              )
+              new GigyaAuthActions.LoadUserTokenFail({
+                error: this.makeErrorSerializable(error),
+                initActionPayload: payload,
+              })
             );
           })
         )

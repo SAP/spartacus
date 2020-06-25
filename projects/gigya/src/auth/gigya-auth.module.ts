@@ -8,4 +8,4 @@ import { GigyaAuthStoreModule } from './store/gigya-auth-store.module';
   imports: [CommonModule, HttpClientModule, GigyaAuthStoreModule],
   providers: [GigyaUserAuthenticationTokenService],
 })
-export class AuthModule {}
+export class GigyaAuthModule {}

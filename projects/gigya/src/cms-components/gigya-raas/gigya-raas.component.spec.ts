@@ -4,7 +4,11 @@ import { GigyaRaasComponent } from './gigya-raas.component';
 import { GigyaConfig } from '../../config';
 import { GigyaRaasComponentData } from '../cms.model';
 import { CmsComponentData } from '@spartacus/storefront';
-import { CmsComponent, BaseSiteService } from '@spartacus/core';
+import {
+  CmsComponent,
+  BaseSiteService,
+  LanguageService,
+} from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 import { GigyaJsService } from '../gigya-js/gigya-js.service';
 
@@ -41,13 +45,26 @@ const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
   uid: 'test',
 };
 
+const defaultLang = 'en';
+const defaultSite = 'electronics-spa';
+
 class BaseSiteServiceStub {
   getActive(): Observable<string> {
     return of();
   }
 }
 
-class GigyaJsServiceStub {}
+class GigyaJsServiceStub {
+  isLoaded(): Observable<boolean> {
+    return of();
+  }
+}
+
+class LanguageServiceStub {
+  getActive(): Observable<string> {
+    return of();
+  }
+}
 
 describe('GigyaRaasComponent', () => {
   let component: GigyaRaasComponent;
@@ -63,6 +80,7 @@ describe('GigyaRaasComponent', () => {
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
         { provide: GigyaJsService, useClass: GigyaJsServiceStub },
+        { provide: LanguageService, useClass: LanguageServiceStub },
       ],
     });
     baseSiteService = TestBed.inject(BaseSiteService);
@@ -113,10 +131,9 @@ describe('GigyaRaasComponent', () => {
       screenSet: '',
       startScreen: '',
     };
-    const site = 'electronics-spa';
-    spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
+    spyOn(baseSiteService, 'getActive').and.returnValue(of(defaultSite));
 
-    component.displayScreenSetInEmbedMode(sampleData);
+    component.displayScreenSetInEmbedMode(sampleData, defaultLang);
 
     expect(component.renderScreenSet).toBeFalse();
   });
@@ -133,10 +150,9 @@ describe('GigyaRaasComponent', () => {
       screenSet: '',
       startScreen: '',
     };
-    const site = 'electronics-spa';
-    spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
+    spyOn(baseSiteService, 'getActive').and.returnValue(of(defaultSite));
 
-    component.displayScreenSetInEmbedMode(sampleData);
+    component.displayScreenSetInEmbedMode(sampleData, defaultLang);
 
     expect(component.renderScreenSet).toBeFalse();
   });
@@ -153,10 +169,9 @@ describe('GigyaRaasComponent', () => {
       screenSet: '',
       startScreen: '',
     };
-    const site = 'electronics-spa';
-    spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
+    spyOn(baseSiteService, 'getActive').and.returnValue(of(defaultSite));
 
-    component.displayScreenSetInPopupMode(sampleData);
+    component.displayScreenSetInPopupMode(sampleData, defaultLang);
 
     expect(component.renderScreenSet).toBeTrue();
   });
@@ -173,10 +188,9 @@ describe('GigyaRaasComponent', () => {
       screenSet: '',
       startScreen: '',
     };
-    const site = 'electronics-spa';
-    spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
+    spyOn(baseSiteService, 'getActive').and.returnValue(of(defaultSite));
 
-    component.displayScreenSetInPopupMode(sampleData);
+    component.displayScreenSetInPopupMode(sampleData, defaultLang);
 
     expect(component.renderScreenSet).toBeTrue();
   });
