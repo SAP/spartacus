@@ -1,10 +1,11 @@
-import { Directive, Input, ChangeDetectionStrategy } from '@angular/core';
+import * as AngularCore from '@angular/core';
+import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+import { of } from 'rxjs';
 import { TableComponent } from './table.component';
 import { Table, TableHeader } from './table.model';
-import { of } from 'rxjs';
 
 @Directive({
   selector: '[cxOutlet]',
@@ -78,9 +79,25 @@ fdescribe('TableComponent', () => {
     expect(table.nativeElement).toBeTruthy();
   });
 
-  it('should add the dataset.structure.type to cx-table element in devMode', () => {
+  fit('should add the table type to cx-table-type attribute in devMode', () => {
+    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(true);
+
     tableComponent.dataset = mockDataset;
-    expect(tableComponent.tableType).toEqual('test-1');
+    fixture.detectChanges();
+    const attr = (fixture.debugElement
+      .nativeElement as HTMLElement).getAttribute('cx-table-type');
+    expect(attr).toEqual('test-1');
+  });
+
+  fit('should not add the table type to cx-table-type attribute in production mode', () => {
+    spyOnProperty(AngularCore, 'isDevMode').and.returnValue(false);
+
+    tableComponent.dataset = mockDataset;
+    fixture.detectChanges();
+
+    const attr = (fixture.debugElement
+      .nativeElement as HTMLElement).getAttribute('cx-table-type');
+    expect(attr).toBeFalsy();
   });
 
   describe('table header', () => {
