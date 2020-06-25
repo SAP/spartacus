@@ -31,16 +31,6 @@ export const products: TestProduct[] = [
     name: 'DSC-W270',
     price: 206.88,
   },
-  {
-    code: '1934796',
-    name: 'PowerShot A480',
-    price: 110.88,
-  },
-  {
-    code: '137220',
-    name: 'Camcordertape DV 60min (2)',
-    price: 0,
-  },
 ];
 
 export function getItem(product, position: ItemList) {
@@ -171,36 +161,25 @@ export function verifyWhenLogBackIn() {
   validateProduct(products[2], 1, ItemList.SaveForLater);
 }
 
-export function verifyMoveToCart() {
+export function verifySaveForLaterAndRemove() {
   cy.visit('/cart');
   validateCart(0, 0);
-  addProductToCart(products[0]);
-  moveItem(products[0], ItemList.SaveForLater);
-  validateCart(0, 1);
+
+  const mergeProduct = products[0];
+  addProductToCart(mergeProduct);
   addProductToCart(products[1]);
-  addProductToCart(products[2]);
-  validateCart(2, 1);
-  validateCartPromotion(true);
-  moveItem(products[1], ItemList.SaveForLater);
-  validateCart(1, 2);
-  validateCartPromotion(true);
-  moveItem(products[1], ItemList.Cart);
-  validateCartPromotion(true);
-  validateCart(2, 1);
-  // validate merge
+  moveItem(mergeProduct, ItemList.SaveForLater);
+  validateCart(1, 1);
+  verifyMiniCartQty(1);
+
+  // validate merge from cart to save for later and back
   addProductToCart(products[0]);
-  validateCart(3, 1);
   moveItem(products[0], ItemList.SaveForLater);
-  validateCart(2, 1);
-  addProductToCart(products[0]);
+  validateCart(1, 1);
   moveItem(products[0], ItemList.Cart);
-  validateCart(3, 0);
-  verifyMiniCartQty(5); //to avoid the cart item quatity is not updated yet
-  //remove
-  moveItem(products[0], ItemList.SaveForLater);
-  validateCart(2, 1);
-  removeItem(products[0], ItemList.SaveForLater);
   validateCart(2, 0);
+  verifyMiniCartQty(3); // Total number of items in cart
+  cart.logOutAndEmptyCart();
 }
 
 export function verifyPlaceOrder() {
@@ -215,14 +194,4 @@ export function verifyPlaceOrder() {
   cy.reload();
   validateCart(0, 1);
   validateProduct(products[0], 1, ItemList.SaveForLater);
-}
-
-export function verifyGiftProduct() {
-  addProductToCart(products[0]);
-  addProductToCart(products[3]);
-  verifyMiniCartQty(2);
-  moveItem(products[3], ItemList.SaveForLater);
-  validateCart(1, 1);
-  moveItem(products[3], ItemList.Cart);
-  validateCart(2, 0);
 }

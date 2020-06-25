@@ -20,15 +20,11 @@ describe('Save for later - Registered user', () => {
     cy.requireLoggedIn();
   });
 
-  it.only('should save for later/move to cart for items', () => {
-    saveForLater.verifyMoveToCart();
+  it('should save for later/move to cart for items', () => {
+    saveForLater.verifySaveForLaterAndRemove();
   });
 
   it('should place order and keep save for later', () => {
     saveForLater.verifyPlaceOrder();
-  });
-
-  it('should handle product with free gift in save for later', () => {
-    saveForLater.verifyGiftProduct();
   });
 });

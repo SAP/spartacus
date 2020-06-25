@@ -29,7 +29,7 @@ describe(`${
     cy.visit('/');
   });
   it('should save for later/move to cart for items', () => {
-    saveForLater.verifyMoveToCart();
+    saveForLater.verifySaveForLaterAndRemove();
   });
 
   it('should keep item saved for later after placing an order', () => {
