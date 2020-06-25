@@ -8,7 +8,7 @@ import { LaunchDialogService } from '../../../../layout/launch-dialog/services/i
   templateUrl: 'image-zoom-dialog.component.html',
 })
 export class ImageZoomDialogComponent {
-  iconTypes = ICON_TYPE;
+  iconType = ICON_TYPE;
 
   focusConfig: FocusConfig = {
     trap: true,

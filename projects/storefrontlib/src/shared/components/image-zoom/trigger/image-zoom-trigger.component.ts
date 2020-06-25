@@ -18,7 +18,7 @@ import { ImageZoomDialogComponent } from '../dialog/image-zoom-dialog.component'
   templateUrl: 'image-zoom-trigger.component.html',
 })
 export class ImageZoomTriggerComponent implements OnInit, OnDestroy {
-  iconTypes = ICON_TYPE;
+  iconType = ICON_TYPE;
   protected subscriptions = new Subscription();
 
   @Input() galleryIndex: number;
@@ -62,7 +62,7 @@ export class ImageZoomTriggerComponent implements OnInit, OnDestroy {
                 >).instance.galleryItem = this.galleryIndex;
               }
             }),
-            filter(([, close]) => close && close !== undefined),
+            filter(([, close]) => Boolean(close)),
             tap(([comp]) => {
               this.launchDialogService.clear(LAUNCH_CALLER.IMAGE_ZOOM);
               comp.destroy();
