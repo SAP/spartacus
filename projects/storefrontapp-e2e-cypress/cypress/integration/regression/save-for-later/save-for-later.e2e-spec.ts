@@ -3,7 +3,6 @@ import * as saveForLater from '../../../helpers/save-for-later';
 describe('Save for later - Anonymous user', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-    cy.visit('/');
   });
 
   it('should register and login first for anonymous user', () => {

@@ -42,6 +42,20 @@ export interface RequireLoggedInDebugOptions {
 Cypress.Commands.add(
   'requireLoggedIn',
   (accountData?: AccountData, options: RequireLoggedInDebugOptions = {}) => {
+    const defaultAccount: AccountData = {
+      user: randomString(),
+      registrationData: {
+        firstName: 'Cypress',
+        lastName: 'DefaultUser',
+        password: 'Password123.',
+        titleCode: 'mr',
+      },
+    };
+    const account = accountData || defaultAccount;
+    const username =
+      account.registrationData.email ||
+      generateMail(account.user, options.freshUserOnTestRefresh);
+
     function loginAsGuest() {
       return cy.request({
         method: 'POST',
@@ -75,20 +89,6 @@ Cypress.Commands.add(
       });
     }
 
-    const defaultAccount: AccountData = {
-      user: randomString(),
-      registrationData: {
-        firstName: 'Winston',
-        lastName: 'Rumfoord',
-        password: 'Password123.',
-        titleCode: 'mr',
-      },
-    };
-    const account = accountData || defaultAccount;
-    const username =
-      account.registrationData.email ||
-      generateMail(account.user, options.freshUserOnTestRefresh);
-
     cy.server();
     login(username, account.registrationData.password, false).then((res) => {
       if (res.status === 200) {
@@ -96,9 +96,9 @@ Cypress.Commands.add(
         setSessionData(res.body);
       } else {
         /* User needs to be registered
-           1. Login as guest for access token
-           2. Create new user
-           3. Login as a new user
+           1. Login as guest to get access token
+           2. Create a new user
+           3. Login as the new user
         */
         loginAsGuest()
           .then((response) =>

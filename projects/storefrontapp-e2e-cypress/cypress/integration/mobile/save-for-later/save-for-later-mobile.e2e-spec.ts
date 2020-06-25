@@ -10,11 +10,11 @@ describe(`${
     cy.visit('/');
   });
 
-  it('should register and login first for anonymous user', () => {
+  it('should not save for later if user is anonymous', () => {
     saveForLater.verifyAsAnonymous();
   });
 
-  it('Should save items in saved for later list when logout', () => {
+  it('Should keep items in saved for later list when user logs out', () => {
     saveForLater.verifyWhenLogBackIn();
   });
 });

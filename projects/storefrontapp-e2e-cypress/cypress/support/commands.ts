@@ -7,6 +7,7 @@ import './cx-config.commands';
 import './login.commands';
 import './ng-select.commands';
 import './order-placed.commands';
+import './register.commands';
 import './require-logged-in.commands';
 import './require-payment-done.commands';
 import './require-placed-order.commands';

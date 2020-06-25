@@ -372,8 +372,8 @@ export function outOfStock() {
 export const cartUser = {
   user: 'standard',
   registrationData: {
-    firstName: 'Winston',
-    lastName: 'Rumfoord',
+    firstName: 'Cart',
+    lastName: 'User',
     password: 'Password123.',
     titleCode: 'mr',
     email: generateMail(randomString(), true),

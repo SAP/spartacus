@@ -1,5 +1,6 @@
 import * as cart from './cart';
 import * as cartCoupon from './cart-coupon';
+import { cartUser } from './cart';
 
 interface TestProduct {
   code: string;
@@ -160,12 +161,12 @@ export function verifyAsAnonymous() {
 }
 
 export function verifyWhenLogBackIn() {
-  cart.registerCartUser();
-  cart.loginCartUser();
+  cy.register(cartUser.registrationData.email, cartUser.registrationData);
+  cy.login(cartUser.registrationData.email, cartUser.registrationData.password);
   addProductToCart(products[2]);
   moveItem(products[2], ItemList.SaveForLater);
   cart.logOutAndEmptyCart();
-  cart.loginCartUser();
+  cy.login(cartUser.registrationData.email, cartUser.registrationData.password);
   cy.visit('/cart');
   validateProduct(products[2], 1, ItemList.SaveForLater);
 }

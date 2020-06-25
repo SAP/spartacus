@@ -1,3 +1,5 @@
+import { RegistrationData } from '../require-logged-in.commands';
+
 export const USERID_CURRENT = 'current';
 export const config = {
   tokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/token`,
@@ -15,6 +17,7 @@ export function login(
   password: string,
   failOnStatusCode: boolean = true
 ) {
+  cy.log('Logging in user: ', uid);
   return cy.request({
     method: 'POST',
     url: config.tokenUrl,
@@ -63,5 +66,25 @@ export function retrieveAuthToken() {
       grant_type: 'client_credentials',
     },
     form: true,
+  });
+}
+
+export function register(uid: string, registrationData: RegistrationData) {
+  cy.log('Registering user: ', uid);
+  retrieveAuthToken().then((response) => {
+    return cy.request({
+      method: 'POST',
+      url: config.newUserUrl,
+      body: {
+        firstName: registrationData.firstName,
+        lastName: registrationData.lastName,
+        password: registrationData.password,
+        titleCode: registrationData.titleCode,
+        uid,
+      },
+      headers: {
+        Authorization: `bearer ${response.body.access_token}`,
+      },
+    });
   });
 }
