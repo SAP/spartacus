@@ -3,6 +3,7 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
+  GenericConfigurator,
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -44,25 +45,6 @@ export class ConfigFormComponent implements OnInit {
         })
       );
 
-    this.configRouterExtractorService
-      .extractRouterData(this.routingService)
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorCommonsService.getOrCreateUiState(routerData.owner)
-        ),
-        take(1)
-      )
-      .subscribe();
-
-    this.configRouterExtractorService
-      .extractRouterData(this.routingService)
-      .pipe(take(1))
-      .subscribe((routerData) =>
-        this.configuratorGroupsService.subscribeToUpdateConfiguration(
-          routerData.owner
-        )
-      );
-
     this.currentGroup$ = this.configRouterExtractorService
       .extractRouterData(this.routingService)
       .pipe(
@@ -73,10 +55,36 @@ export class ConfigFormComponent implements OnInit {
   }
 
   updateConfiguration(event: ConfigFormUpdateEvent) {
+    const owner: GenericConfigurator.Owner = { key: event.productCode };
+
     this.configuratorCommonsService.updateConfiguration(
       event.productCode,
       event.groupId,
       event.changedAttribute
     );
+
+    // Wait until update is triggered first, then wait until update is finished, to be sure that the configuration
+    // is changed before the group status is set. This cannot be done in the effects, as we need to call the facade layer.
+    this.configuratorCommonsService
+      .isConfigurationLoading(owner)
+      .pipe(
+        filter((isLoading) => isLoading.valueOf()),
+        take(1)
+      )
+      .subscribe(() =>
+        this.configuratorCommonsService
+          .isConfigurationLoading(owner)
+          .pipe(
+            filter((isLoading) => !isLoading.valueOf()),
+            take(1)
+          )
+          .subscribe(() =>
+            this.configuratorGroupsService.setGroupStatus(
+              owner,
+              event.groupId,
+              false
+            )
+          )
+      );
   }
 }

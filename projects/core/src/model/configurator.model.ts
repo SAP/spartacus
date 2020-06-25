@@ -58,6 +58,18 @@ export namespace Configurator {
     nextOwner?: GenericConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
     isCartEntryUpdatePending?: boolean;
+    interactionState?: InteractionState;
+  }
+
+  export interface InteractionState {
+    currentGroup?: string;
+    menuParentGroup?: string;
+    groupsVisited?: {
+      [id: string]: Boolean;
+    };
+    groupsStatus?: {
+      [id: string]: Configurator.GroupStatus;
+    };
   }
 
   export interface Overview {

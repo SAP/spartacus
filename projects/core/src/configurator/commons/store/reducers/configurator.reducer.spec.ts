@@ -8,6 +8,11 @@ import {
   ReadConfigurationSuccess,
   ReadOrderEntryConfigurationSuccess,
   RemoveConfiguration,
+  SetCurrentGroup,
+  SetGroupsCompleted,
+  SetGroupsError,
+  SetGroupsVisited,
+  SetMenuParentGroup,
   SetNextOwnerCartEntry,
   UpdateCartEntry,
   UpdateCartEntrySuccess,
@@ -27,7 +32,16 @@ const configuration: Configurator.Configuration = {
   productCode: productCode,
   owner: owner,
   isCartEntryUpdateRequired: false,
+  interactionState: {
+    currentGroup: null,
+    groupsStatus: {},
+    groupsVisited: {},
+    menuParentGroup: null,
+  },
 };
+const CURRENT_GROUP = 'currentGroupId';
+const PARENT_GROUP = 'parentGroupId';
+const PRODUCT_CODE = 'CONF_PRODUCT';
 
 describe('Configurator reducer', () => {
   describe('Undefined action', () => {
@@ -175,6 +189,172 @@ describe('Configurator reducer', () => {
       state = StateReduce.reducer(undefined, action2);
 
       expect(state.configId).toEqual('');
+    });
+  });
+
+  describe('SetCurrentGroup action', () => {
+    it('should change the current group', () => {
+      const { initialState } = StateReduce;
+
+      const state = StateReduce.reducer(
+        initialState,
+        new SetCurrentGroup({
+          entityKey: PRODUCT_CODE,
+          currentGroup: CURRENT_GROUP,
+        })
+      );
+
+      expect(state.interactionState.currentGroup).toEqual(CURRENT_GROUP);
+    });
+  });
+
+  describe('SetMenuParentGroup action', () => {
+    it('should change the parentGroup group', () => {
+      const { initialState } = StateReduce;
+
+      const state = StateReduce.reducer(
+        initialState,
+        new SetMenuParentGroup({
+          entityKey: PRODUCT_CODE,
+          menuParentGroup: PARENT_GROUP,
+        })
+      );
+
+      expect(state.interactionState.menuParentGroup).toEqual(PARENT_GROUP);
+    });
+  });
+
+  describe('Group Status reducers', () => {
+    it('should reduce Group Visited with initial state', () => {
+      const { initialState } = StateReduce;
+
+      const action = new SetGroupsVisited({
+        entityKey: PRODUCT_CODE,
+        visitedGroups: ['group1', 'group2', 'group3'],
+      });
+
+      const state = StateReduce.reducer(initialState, action);
+
+      expect(state.interactionState.groupsVisited).toEqual({
+        group1: true,
+        group2: true,
+        group3: true,
+      });
+    });
+
+    it('should reduce Group Visited with existing state', () => {
+      const initialState = {
+        ...StateReduce.initialState,
+        interactionState: {
+          groupsVisited: {
+            group1: true,
+            group2: true,
+            group3: true,
+          },
+        },
+      };
+
+      const action = new SetGroupsVisited({
+        entityKey: PRODUCT_CODE,
+        visitedGroups: ['group4'],
+      });
+
+      const state = StateReduce.reducer(initialState, action);
+
+      expect(state.interactionState.groupsVisited).toEqual({
+        group1: true,
+        group2: true,
+        group3: true,
+        group4: true,
+      });
+    });
+
+    it('should reduce Group Complete Reducer with initial state', () => {
+      const { initialState } = StateReduce;
+
+      const action = new SetGroupsCompleted({
+        entityKey: PRODUCT_CODE,
+        completedGroups: ['group1', 'group2', 'group3'],
+      });
+
+      const state = StateReduce.reducer(initialState, action);
+
+      expect(state.interactionState.groupsStatus).toEqual({
+        group1: Configurator.GroupStatus.COMPLETE,
+        group2: Configurator.GroupStatus.COMPLETE,
+        group3: Configurator.GroupStatus.COMPLETE,
+      });
+    });
+
+    it('should reduce Group Complete Reducer with existing state', () => {
+      const initialState = {
+        ...StateReduce.initialState,
+        interactionState: {
+          groupsStatus: {
+            group1: Configurator.GroupStatus.COMPLETE,
+            group2: Configurator.GroupStatus.ERROR,
+            group3: Configurator.GroupStatus.COMPLETE,
+          },
+        },
+      };
+
+      const action = new SetGroupsCompleted({
+        entityKey: PRODUCT_CODE,
+        completedGroups: ['group4'],
+      });
+
+      const state = StateReduce.reducer(initialState, action);
+
+      expect(state.interactionState.groupsStatus).toEqual({
+        group1: Configurator.GroupStatus.COMPLETE,
+        group2: Configurator.GroupStatus.ERROR,
+        group3: Configurator.GroupStatus.COMPLETE,
+        group4: Configurator.GroupStatus.COMPLETE,
+      });
+    });
+
+    it('should reduce Group Error Reducer with initial state', () => {
+      const { initialState } = StateReduce;
+
+      const action = new SetGroupsError({
+        entityKey: PRODUCT_CODE,
+        errorGroups: ['group1', 'group2', 'group3'],
+      });
+
+      const state = StateReduce.reducer(initialState, action);
+
+      expect(state.interactionState.groupsStatus).toEqual({
+        group1: Configurator.GroupStatus.ERROR,
+        group2: Configurator.GroupStatus.ERROR,
+        group3: Configurator.GroupStatus.ERROR,
+      });
+    });
+
+    it('should reduce Group Error Reducer with existing state', () => {
+      const initialState = {
+        ...StateReduce.initialState,
+        interactionState: {
+          groupsStatus: {
+            group1: Configurator.GroupStatus.ERROR,
+            group2: Configurator.GroupStatus.COMPLETE,
+            group3: Configurator.GroupStatus.ERROR,
+          },
+        },
+      };
+
+      const action = new SetGroupsError({
+        entityKey: PRODUCT_CODE,
+        errorGroups: ['group4'],
+      });
+
+      const state = StateReduce.reducer(initialState, action);
+
+      expect(state.interactionState.groupsStatus).toEqual({
+        group1: Configurator.GroupStatus.ERROR,
+        group2: Configurator.GroupStatus.COMPLETE,
+        group3: Configurator.GroupStatus.ERROR,
+        group4: Configurator.GroupStatus.ERROR,
+      });
     });
   });
 

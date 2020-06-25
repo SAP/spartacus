@@ -56,3 +56,57 @@ export const getConfigurationFactory = (
     (configurationState) => StateUtils.loaderValueSelector(configurationState)
   );
 };
+
+export const getCurrentGroup = (
+  ownerKey: string
+): MemoizedSelector<StateWithConfiguration, string> => {
+  return createSelector(
+    getConfigurationFactory(ownerKey),
+    (configuration) =>
+      configuration?.interactionState?.currentGroup || undefined
+  );
+};
+
+export const getGroupStatus = (
+  ownerKey: string,
+  groupId: string
+): MemoizedSelector<StateWithConfiguration, Configurator.GroupStatus> => {
+  return createSelector(
+    getConfigurationFactory(ownerKey),
+    (configuration) =>
+      configuration?.interactionState?.groupsStatus[groupId] || undefined
+  );
+};
+
+export const isGroupVisited = (
+  ownerKey: string,
+  groupId: string
+): MemoizedSelector<StateWithConfiguration, Boolean> => {
+  return createSelector(
+    getConfigurationFactory(ownerKey),
+    (configuration) =>
+      configuration?.interactionState?.groupsVisited[groupId] || undefined
+  );
+};
+
+export const areGroupsVisited = (
+  ownerKey: string,
+  groupIds: string[]
+): MemoizedSelector<StateWithConfiguration, Boolean> => {
+  return createSelector(getConfigurationFactory(ownerKey), (configuration) => {
+    let isVisited: Boolean = true;
+    groupIds.forEach((groupId) => {
+      if (!isVisited) {
+        return;
+      }
+
+      isVisited =
+        configuration?.interactionState?.groupsVisited[groupId] || undefined;
+      if (isVisited === undefined) {
+        isVisited = false;
+      }
+    });
+
+    return isVisited;
+  });
+};
