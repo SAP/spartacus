@@ -1,7 +1,8 @@
 <ng-container *ngIf="order$ | async as order">
-  <ng-container *cxFeatureLevel="'2.1'"
-    ><cx-order-headline [order]="order"></cx-order-headline
-  ></ng-container>
+  <cx-order-headline
+    *cxFeatureLevel="'2.1'"
+    [order]="order"
+  ></cx-order-headline>
   <ng-container *cxFeatureLevel="'!2.1'">
     <div class="cx-header row">
       <div class="cx-detail col-sm-12 col-md-4">

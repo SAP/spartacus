@@ -1,4 +1,8 @@
 @import './order-headline';
 @import './order-totals';
+@import './order-approval-details';
+@import './order-details-approval-details';
+@import './order-approval-detail-approval-details';
 
-$order-components-whitelist: cx-order-headline cx-order-totals !default;
+$order-components-whitelist: cx-order-headline cx-order-totals
+  cx-order-approval-details !default;

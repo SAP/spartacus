@@ -1,7 +1,5 @@
 <ng-container *ngIf="order$ | async as order">
-  <ng-container *cxFeatureLevel="'2.1'"
-    ><cx-order-totals [order]="order"></cx-order-totals
-  ></ng-container>
+  <cx-order-totals *cxFeatureLevel="'2.1'" [order]="order"></cx-order-totals>
   <ng-container *cxFeatureLevel="'!2.1'">
     <div class="row justify-content-end">
       <div class="cx-summary col-sm-12 col-md-6 col-lg-5 col-xl-4">

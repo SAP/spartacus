@@ -11,6 +11,7 @@ import { CmsPageGuard } from 'projects/storefrontlib/src/cms-structure/guards/cm
 import { PageLayoutComponent } from 'projects/storefrontlib/src/cms-structure/page/page-layout/page-layout.component';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { OrderDetailsSharedModule } from '../../../myaccount';
+import { OrderApprovalDetailApprovalDetailsComponent } from './order-approval-detail-approval-details/order-approval-detail-approval-details.component';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
 import { OrderApprovalDetailHeadlineComponent } from './order-approval-detail-headline/order-approval-detail-headline.component';
 import { OrderApprovalDetailTotalsComponent } from './order-approval-detail-totals/order-approval-detail-totals.component';
@@ -19,6 +20,7 @@ const moduleComponents = [
   OrderApprovalDetailFormComponent,
   OrderApprovalDetailHeadlineComponent,
   OrderApprovalDetailTotalsComponent,
+  OrderApprovalDetailApprovalDetailsComponent,
 ];
 
 @NgModule({
@@ -47,6 +49,10 @@ const moduleComponents = [
         },
         OrderApprovalDetailTotalsComponent: {
           component: OrderApprovalDetailTotalsComponent,
+          guards: [AuthGuard],
+        },
+        OrderApprovalDetailApprovalDetailsComponent: {
+          component: OrderApprovalDetailApprovalDetailsComponent,
           guards: [AuthGuard],
         },
       },
