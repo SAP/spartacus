@@ -152,14 +152,14 @@ export function addProductToCart(product) {
   validateProduct(product, 1, ItemList.Cart);
 }
 
-export function verifySaveForLaterAsAnonymous() {
+export function verifyAsAnonymous() {
   addProductToCart(products[0]);
   cy.visit('/cart');
   moveItem(products[0], ItemList.SaveForLater, true);
   cy.location('pathname').should('contain', '/login');
 }
 
-export function verifySaveForLaterWhenRelogin() {
+export function verifyWhenLogBackIn() {
   cart.registerCartUser();
   cart.loginCartUser();
   addProductToCart(products[2]);
@@ -170,7 +170,7 @@ export function verifySaveForLaterWhenRelogin() {
   validateProduct(products[2], 1, ItemList.SaveForLater);
 }
 
-export function verifySaveForLater() {
+export function verifyMoveToCart() {
   cy.visit('/cart');
   validateCart(0, 0);
   addProductToCart(products[0]);
@@ -202,16 +202,6 @@ export function verifySaveForLater() {
   validateCart(2, 0);
 }
 
-export function verifyGiftProduct() {
-  addProductToCart(products[0]);
-  addProductToCart(products[3]);
-  verifyMiniCartQty(3);
-  moveItem(products[3], ItemList.SaveForLater);
-  validateCart(1, 2);
-  moveItem(products[3], ItemList.Cart);
-  validateCart(3, 0);
-}
-
 export function verifyPlaceOrder() {
   const stateAuth = JSON.parse(localStorage.getItem('spartacus-local-data'))
     .auth;
@@ -224,4 +214,14 @@ export function verifyPlaceOrder() {
   cy.reload();
   validateCart(0, 1);
   validateProduct(products[0], 1, ItemList.SaveForLater);
+}
+
+export function verifyGiftProduct() {
+  addProductToCart(products[0]);
+  addProductToCart(products[3]);
+  verifyMiniCartQty(2);
+  moveItem(products[3], ItemList.SaveForLater);
+  validateCart(1, 1);
+  moveItem(products[3], ItemList.Cart);
+  validateCart(2, 0);
 }

@@ -1,27 +1,21 @@
 import * as saveForLater from '../../../helpers/save-for-later';
 
-describe('Save for later - guest', () => {
+describe('Save for later - Anonymous user', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     cy.visit('/');
   });
 
   it('should register and login first for anonymous user', () => {
-    saveForLater.verifySaveForLaterAsAnonymous();
+    saveForLater.verifyAsAnonymous();
   });
-});
 
-describe('Save for later - re-login customer', () => {
-  beforeEach(() => {
-    cy.window().then((win) => win.sessionStorage.clear());
-    cy.visit('/');
-  });
   it('Should save items in saved for later list when logout', () => {
-    saveForLater.verifySaveForLaterWhenRelogin();
+    saveForLater.verifyWhenLogBackIn();
   });
 });
 
-describe('Save for later - customer', () => {
+describe('Save for later - Registered user', () => {
   beforeEach(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
@@ -29,7 +23,7 @@ describe('Save for later - customer', () => {
   });
 
   it('should save for later/move to cart for items', () => {
-    saveForLater.verifySaveForLater();
+    saveForLater.verifyMoveToCart();
   });
 
   it('should place order and keep save for later', () => {
