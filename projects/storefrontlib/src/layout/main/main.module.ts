@@ -9,7 +9,6 @@ import { PageLayoutModule } from '../../cms-structure/page/page-layout/page-layo
 import { PageSlotModule } from '../../cms-structure/page/slot/page-slot.module';
 import { PwaModule } from '../../cms-structure/pwa/pwa.module';
 import { SeoModule } from '../../cms-structure/seo/seo.module';
-import { TableModule } from '../../shared';
 import { AnonymousConsentsDialogModule } from '../../shared/components/anonymous-consents-dialog/anonymous-consents-dialog.module';
 import { KeyboardFocusModule } from '../a11y/keyboard-focus/keyboard-focus.module';
 import { SkipLinkModule } from '../a11y/skip-link/skip-link.module';
@@ -31,7 +30,6 @@ import { StorefrontComponent } from './storefront.component';
 
     SkipLinkModule,
     KeyboardFocusModule,
-    TableModule,
   ],
   declarations: [StorefrontComponent],
   exports: [StorefrontComponent],
