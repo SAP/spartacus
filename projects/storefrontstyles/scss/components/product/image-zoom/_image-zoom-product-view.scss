@@ -9,10 +9,8 @@
     height: calc(90vh - 200px);
     padding-bottom: 1em;
 
-    img {
-      &:hover {
-        cursor: zoom-in;
-      }
+    &:hover {
+      cursor: zoom-in;
     }
   }
 
@@ -21,15 +19,14 @@
     height: calc(90vh - 200px);
     overflow: hidden;
 
-    img {
-      &:hover {
-        cursor: zoom-out;
-      }
-    }
-
     .cx-image-zoomed {
       height: 100%;
       width: 100%;
+      padding: 1em;
+
+      &:hover {
+        cursor: zoom-out;
+      }
 
       img {
         transform: scale(2);
