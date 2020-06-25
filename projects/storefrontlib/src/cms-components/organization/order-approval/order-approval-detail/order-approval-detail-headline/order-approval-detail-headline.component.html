@@ -1,1 +1,3 @@
-{{ order$ | async | json }}
+<ng-container *ngIf="order$ | async as order"
+  ><cx-order-headline [order]="order"></cx-order-headline
+></ng-container>

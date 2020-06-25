@@ -17,6 +17,7 @@ import { CardModule } from '../../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
+import { OrderDetailsSharedModule } from '../order-details-shared/order-details-shared.module';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { OrderDetailApprovalDetailsComponent } from './order-detail-approval-details/order-detail-approval-details.component';
 import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
@@ -46,6 +47,7 @@ const moduleComponents = [
     CommonModule,
     I18nModule,
     FeaturesConfigModule,
+    OrderDetailsSharedModule,
     PromotionsModule,
     UrlModule,
     RouterModule.forChild([

@@ -37,7 +37,7 @@ export const b2bFeature: FeatureEnvironment = {
       },
 
       features: {
-        level: '2.0',
+        level: '2.1',
       },
     }),
   ],
