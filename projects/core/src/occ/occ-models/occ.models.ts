@@ -1431,6 +1431,25 @@ export namespace Occ {
      * @member {boolean} [updateable]
      */
     updateable?: boolean;
+    /**
+     * @member {boolean} [statusSummaryList]
+     */
+    statusSummaryList?: StatusSummary[];
+  }
+
+  /**
+   *
+   * An interface representing StatusSummary.
+   */
+  export interface StatusSummary {
+    /**
+     * @member {number} [numberOfIssues]
+     */
+    numberOfIssues?: number;
+    /**
+     * @member {string} [status]
+     */
+    status?: string;
   }
 
   /**
