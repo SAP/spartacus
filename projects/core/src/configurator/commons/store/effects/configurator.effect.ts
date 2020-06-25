@@ -15,6 +15,7 @@ import { CartModification } from '../../../../model/cart.model';
 import { Configurator } from '../../../../model/configurator.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
+import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
 import { ConfiguratorActions } from '../actions';
@@ -461,7 +462,8 @@ export class ConfiguratorEffects {
 
   @Effect()
   addOwner$: Observable<
-    ConfiguratorActions.SetNextOwnerCartEntry
+    | ConfiguratorActions.SetNextOwnerCartEntry
+    | ConfiguratorActions.SetInteractionState
   > = this.actions$.pipe(
     ofType(ADD_NEXT_OWNER),
     switchMap((action: AddNextOwner) => {
@@ -470,14 +472,24 @@ export class ConfiguratorEffects {
           ConfiguratorSelectors.getConfigurationFactory(action.payload.ownerKey)
         ),
         take(1),
+        switchMap((configuration) => {
+          const newOwner: GenericConfigurator.Owner = {
+            type: GenericConfigurator.OwnerType.CART_ENTRY,
+            id: action.payload.cartEntryNo,
+          };
+          this.genericConfigUtilsService.setOwnerKey(newOwner);
 
-        map(
-          (configuration) =>
+          return [
             new ConfiguratorActions.SetNextOwnerCartEntry({
               configuration: configuration,
               cartEntryNo: action.payload.cartEntryNo,
-            })
-        )
+            }),
+            new ConfiguratorActions.SetInteractionState({
+              entityKey: newOwner.key,
+              interactionState: configuration.interactionState,
+            }),
+          ];
+        })
       );
     })
   );
@@ -504,6 +516,7 @@ export class ConfiguratorEffects {
   constructor(
     private actions$: Actions,
     private configuratorCommonsConnector: ConfiguratorCommonsConnector,
+    private genericConfigUtilsService: GenericConfigUtilsService,
     private store: Store<StateWithConfiguration>
   ) {}
 }

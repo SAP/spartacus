@@ -76,6 +76,15 @@ export function reducer(
 
       return result;
     }
+    case ConfiguratorActions.SET_INTERACTION_STATE: {
+      const newInteractionState: Configurator.InteractionState =
+        action.payload.interactionState;
+
+      return {
+        ...state,
+        interactionState: newInteractionState,
+      };
+    }
     case ConfiguratorActions.SET_CURRENT_GROUP: {
       const newCurrentGroup: string = action.payload.currentGroup;
 
