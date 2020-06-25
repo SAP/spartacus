@@ -444,6 +444,7 @@ export const organization = {
 
   userGroupsList: {
     assign: 'Assign',
+    unassign: 'Unassign',
     id: 'ID',
     name: 'Name',
     noOfUsers: 'No. of Users',
