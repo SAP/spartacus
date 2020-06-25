@@ -18,10 +18,9 @@ describe('Save for later - Registered user', () => {
   beforeEach(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
-    cy.visit('/');
   });
 
-  it('should save for later/move to cart for items', () => {
+  it.only('should save for later/move to cart for items', () => {
     saveForLater.verifyMoveToCart();
   });
 
