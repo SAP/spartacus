@@ -197,7 +197,7 @@ describe('TableComponent', () => {
         tableComponent.dataset = mockDataset;
         tableComponent.sort(headers[0]);
         expect(tableComponent.paginateEvent.emit).toHaveBeenCalledWith({
-          sort: 'sort1',
+          sort: headers[0].sortCode,
         });
       });
 
