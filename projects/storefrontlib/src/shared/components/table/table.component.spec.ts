@@ -9,14 +9,6 @@ import { of } from 'rxjs';
 import { TableComponent } from './table.component';
 import { Table, TableHeader } from './table.model';
 
-// @Directive({
-//   selector: '[cxOutlet]',
-// })
-// class MockAttributesDirective {
-//   @Input() cxOutlet: string;
-//   @Input() cxOutletContext: any;
-// }
-
 const headers: TableHeader[] = [
   { key: 'key1', sortCode: 'sort1' },
   { key: 'key2', sortCode: 'sort2' },
@@ -37,7 +29,7 @@ const mockDataset: Table = {
   data$: of(data),
 };
 
-fdescribe('TableComponent', () => {
+describe('TableComponent', () => {
   let fixture: ComponentFixture<TableComponent>;
   let tableComponent: TableComponent;
 
@@ -128,7 +120,7 @@ fdescribe('TableComponent', () => {
       expect(th[2].nativeElement).toBeTruthy();
     });
 
-    it('should add the translation of the header.key in the th if the label is not available ', () => {
+    it('should leverage the translate pipe for the header key when there is no header label', () => {
       tableComponent.dataset = mockDataset;
       fixture.detectChanges();
 
@@ -150,25 +142,21 @@ fdescribe('TableComponent', () => {
       expect(th3.innerText).toEqual('label3');
     });
 
-    it('should leverage the translate pipe for the header key when there is no header label', () => {
-      // TODO
-    });
+    it('should add the col key as a css class to each <th>', () => {
+      tableComponent.dataset = mockDataset;
+      fixture.detectChanges();
 
-    it('should render custom outlet template in the th', () => {
-      // TODO
+      const th1: HTMLElement = fixture.debugElement.query(
+        By.css('table th:nth-child(1)')
+      ).nativeElement;
+
+      expect(th1.classList).toContain('key1');
     });
   });
 
   describe('table data', () => {
     it('should generate a tr for each data row', () => {
-      tableComponent.dataset = {
-        ...mockDataset,
-        structure: {
-          ...mockDataset.structure,
-          headers,
-        },
-        data$: of(data),
-      };
+      tableComponent.dataset = mockDataset;
       fixture.detectChanges();
 
       const tr = fixture.debugElement.queryAll(By.css('table > tr'));
@@ -176,22 +164,31 @@ fdescribe('TableComponent', () => {
     });
 
     it('should generate a td for each data row', () => {
-      tableComponent.dataset = {
-        ...mockDataset,
-        structure: {
-          ...mockDataset.structure,
-          headers,
-        },
-        data$: of(data),
-      };
+      tableComponent.dataset = mockDataset;
       fixture.detectChanges();
 
       const td = fixture.debugElement.queryAll(By.css('table > tr > td'));
       expect(td.length).toBe(9);
     });
 
-    it('should render custom outlet template in the td', () => {
-      // TODO
+    it('should add the col key as a css class to each <td>', () => {
+      tableComponent.dataset = mockDataset;
+      fixture.detectChanges();
+
+      const td1: HTMLElement = fixture.debugElement.query(
+        By.css('table td:nth-child(1)')
+      ).nativeElement;
+      expect(td1.classList).toContain('key1');
+
+      const td2: HTMLElement = fixture.debugElement.query(
+        By.css('table td:nth-child(2)')
+      ).nativeElement;
+      expect(td2.classList).toContain('key2');
+
+      const td3: HTMLElement = fixture.debugElement.query(
+        By.css('table td:nth-child(3)')
+      ).nativeElement;
+      expect(td3.classList).toContain('key3');
     });
   });
 });
