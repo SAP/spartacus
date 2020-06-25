@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ConfiguratorCommonsService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 import { MessageConfig } from '../config/message-config';
 
@@ -29,28 +29,21 @@ export class ConfigMessageComponent implements OnInit {
       .pipe(
         switchMap((routerData) => {
           return this.configuratorCommonsService
-            .hasPendingChanges(routerData.owner)
-            .pipe(
-              switchMap((hasPendingChanges) =>
-                this.configuratorCommonsService
-                  .isConfigurationUpdating(routerData.owner)
-                  .pipe(map((isLoading) => hasPendingChanges || isLoading))
-              )
-            );
+            .hasPendingChanges(routerData.owner);
         })
       );
 
-    this.hasPendingChanges$.subscribe((hasPendingChangesOrIsLoading) =>
-      this.showUpdateMessage(hasPendingChangesOrIsLoading.valueOf())
+    this.hasPendingChanges$.subscribe((hasPendingChanges) =>
+      this.showUpdateMessage(hasPendingChanges.valueOf())
     );
   }
 
-  showUpdateMessage(hasPendingChangesOrIsLoading: boolean): void {
+  showUpdateMessage(hasPendingChanges: boolean): void {
     const updateMessageElement = document.getElementById(
       updateMessageElementId
     );
 
-    if (hasPendingChangesOrIsLoading) {
+    if (hasPendingChanges) {
       this.changesInProgress = true;
 
       setTimeout(() => {
