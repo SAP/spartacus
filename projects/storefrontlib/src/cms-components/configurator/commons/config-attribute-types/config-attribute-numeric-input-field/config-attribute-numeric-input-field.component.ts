@@ -69,13 +69,7 @@ export class ConfigAttributeNumericInputFieldComponent
           this.locale
         );
         if (this.attribute.userInput) {
-          this.attributeInputForm.setValue(
-            this.configAttributeNumericInputFieldService.getFormattedInput(
-              this.attribute.userInput,
-              this.locale,
-              numDecimalPlaces
-            )
-          );
+          this.attributeInputForm.setValue(this.attribute.userInput);
         }
       })
     );

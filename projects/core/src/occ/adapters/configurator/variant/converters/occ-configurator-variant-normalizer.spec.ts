@@ -284,7 +284,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
       attributes
     );
 
-    expect(attributes[0].isNumeric).toBe(true);
     expect(attributes[0].negativeAllowed).toBe(true);
   });
 
