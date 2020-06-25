@@ -6,9 +6,7 @@ import { OrderApprovalDetailService } from '../order-approval-detail.service';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-order-approval-detail-totals',
-  //templateUrl: './order-approval-detail-totals.component.html',
-  templateUrl:
-    '../../../../myaccount/order/order-details/order-detail-totals/order-detail-totals.component.html',
+  templateUrl: './order-approval-detail-totals.component.html',
 })
 export class OrderApprovalDetailTotalsComponent {
   constructor(

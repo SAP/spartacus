@@ -1,12 +1,14 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Order } from '@spartacus/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-order-totals',
   templateUrl: './order-totals.component.html',
 })
-export class OrderTotalsComponent implements OnInit {
-  constructor() {}
+export class OrderTotalsComponent {
+  @Input()
+  order: Order;
 
-  ngOnInit(): void {}
+  constructor() {}
 }

@@ -1,3 +1,4 @@
 @import './order-headline';
+@import './order-totals';
 
-$order-components-whitelist: cx-order-headline !default;
+$order-components-whitelist: cx-order-headline cx-order-totals !default;

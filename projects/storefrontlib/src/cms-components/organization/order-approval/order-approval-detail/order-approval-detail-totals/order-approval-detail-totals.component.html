@@ -1,1 +1,3 @@
-<p>order-approval-detail-totals works!</p>
+<ng-container *ngIf="order$ | async as order">
+  <cx-order-totals [order]="order"></cx-order-totals>
+</ng-container>
