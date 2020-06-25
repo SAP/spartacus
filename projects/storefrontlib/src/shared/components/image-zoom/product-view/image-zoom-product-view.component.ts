@@ -105,8 +105,8 @@ export class ImageZoomProductViewComponent {
     const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect();
     const imageElement = this.zoomedImage.nativeElement.firstChild;
 
-    const x = event.screenX - boundingRect.left;
-    const y = event.screenY - boundingRect.top;
+    const x = event.pageX - boundingRect.left;
+    const y = event.pageY - boundingRect.top;
 
     this.left = -x + this.zoomedImage.nativeElement.clientWidth / 2;
     this.top = -y + this.zoomedImage.nativeElement.clientHeight / 2;
