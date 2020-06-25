@@ -25,10 +25,16 @@ const mockDataset: Table = {
 const headers: TableHeader[] = [
   { key: 'key1', sortCode: 'sort1' },
   { key: 'key2', sortCode: 'sort2' },
-  { key: 'key3' },
+  { key: 'key3', label: 'label3' },
 ];
 
-describe('TableComponent', () => {
+const data = [
+  { key1: 'val1', key2: 'val2', key3: 'val3' },
+  { key1: 'val4', key2: 'val5', key3: 'val6' },
+  { key1: 'val7', key2: 'val8', key3: 'val9' },
+];
+
+fdescribe('TableComponent', () => {
   let fixture: ComponentFixture<TableComponent>;
   let tableComponent: TableComponent;
 
@@ -84,7 +90,7 @@ describe('TableComponent', () => {
         structure: { ...mockDataset.structure, hideHeader: true },
       };
       fixture.detectChanges();
-      const table = fixture.debugElement.query(By.css('table thead'));
+      const table = fixture.debugElement.query(By.css('table > thead'));
       expect(table).toBeNull();
     });
 
@@ -97,9 +103,12 @@ describe('TableComponent', () => {
         },
       };
       fixture.detectChanges();
-      const table = fixture.debugElement.query(By.css('table thead'));
+      const table = fixture.debugElement.query(By.css('table > thead'));
       expect(table.nativeElement).toBeTruthy();
-      const th = fixture.debugElement.queryAll(By.css('table thead tr th'));
+      const th = fixture.debugElement.queryAll(
+        By.css('table > thead > tr > th')
+      );
+      expect(th.length).toBe(3);
       expect(th[0].nativeElement).toBeTruthy();
       expect(th[1].nativeElement).toBeTruthy();
       expect(th[2].nativeElement).toBeTruthy();
@@ -120,11 +129,33 @@ describe('TableComponent', () => {
 
   describe('table data', () => {
     it('should generate a tr for each data row', () => {
-      // TODO
+      tableComponent.dataset = {
+        ...mockDataset,
+        structure: {
+          ...mockDataset.structure,
+          headers,
+        },
+        data$: of(data),
+      };
+      fixture.detectChanges();
+
+      const tr = fixture.debugElement.queryAll(By.css('table > tr'));
+      expect(tr.length).toBe(3);
     });
 
-    it('should generate a tr for each data row', () => {
-      // TODO
+    it('should generate a td for each data row', () => {
+      tableComponent.dataset = {
+        ...mockDataset,
+        structure: {
+          ...mockDataset.structure,
+          headers,
+        },
+        data$: of(data),
+      };
+      fixture.detectChanges();
+
+      const td = fixture.debugElement.queryAll(By.css('table > tr > td'));
+      expect(td.length).toBe(9);
     });
 
     it('should render custom outlet template in the td', () => {
