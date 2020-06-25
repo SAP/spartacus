@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
 import {
   ActiveCartService,
-  EventService,
-  PersonalizationContextService,
-} from '@spartacus/core';
-import {
   CartPageVisited,
   CategoryPageVisited,
+  EventService,
   HomePageVisited,
   KeywordSearchPageVisited,
   OrderConfirmationPageVisited,
   PageVisited,
+  PersonalizationContextService,
   ProductDetailsPageVisited,
-} from 'projects/core/src/routing/event/routing.events';
+} from '@spartacus/core';
 import { merge, Observable, of } from 'rxjs';
 import { map, mapTo, skipWhile, tap, withLatestFrom } from 'rxjs/operators';
 import {
