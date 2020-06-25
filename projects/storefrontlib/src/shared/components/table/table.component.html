@@ -85,7 +85,7 @@
       type="button"
       class="btn btn-primary btn-sm"
     >
-      <span> {{ row[column.key] || column.key }} </span>
+      <span> {{ row[column.key] }} </span>
       <cx-icon *ngIf="column?.cxIcon" [type]="column?.cxIcon"></cx-icon>
     </button>
   </ng-container>

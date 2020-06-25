@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  switchMap,
+  tap,
+  withLatestFrom,
+  take,
+} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import {
@@ -12,6 +19,7 @@ import {
   AbstractListingComponent,
   ListingModel,
 } from '../../abstract-component/abstract-listing.component';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 
 @Component({
   selector: 'cx-user-group-permissions',
@@ -20,7 +28,7 @@ import {
 export class UserGroupPermissionsComponent extends AbstractListingComponent
   implements OnInit {
   cxRoute = 'userGroupPermissions';
-
+  ICON_TYPE = ICON_TYPE;
   constructor(
     protected routingService: RoutingService,
     protected userGroupService: UserGroupService
@@ -63,5 +71,13 @@ export class UserGroupPermissionsComponent extends AbstractListingComponent
           )
       )
     );
+  }
+
+  unassign({ row }) {
+    this.code$
+      .pipe(take(1))
+      .subscribe((code) =>
+        this.userGroupService.unassignPermission(code, row.code)
+      );
   }
 }
