@@ -14,7 +14,7 @@ describe('Save for later - Anonymous user', () => {
   });
 });
 
-describe('Save for later - Registered user', () => {
+describe.only('Save for later - Registered user', () => {
   beforeEach(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();

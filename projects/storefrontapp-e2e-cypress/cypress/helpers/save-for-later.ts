@@ -51,7 +51,7 @@ export function stubForCartsRefresh() {
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/*/carts/selectivecart*?fields=*&lang=en&curr=USD`
+    )}/users/*/carts/selectivecart*&lang=en&curr=USD`
   ).as('refresh_selectivecart');
 }
 export function stubForCartRefresh() {
