@@ -190,5 +190,23 @@ describe('TableComponent', () => {
       ).nativeElement;
       expect(td3.classList).toContain('key3');
     });
+
+    describe('sort data', () => {
+      it('should emit event if header has sortCode', () => {
+        spyOn(tableComponent.paginateEvent, 'emit');
+        tableComponent.dataset = mockDataset;
+        tableComponent.sort(headers[0]);
+        expect(tableComponent.paginateEvent.emit).toHaveBeenCalledWith({
+          sort: 'sort1',
+        });
+      });
+
+      it('should not emit event if header has no sortCode', () => {
+        spyOn(tableComponent.paginateEvent, 'emit');
+        tableComponent.dataset = mockDataset;
+        tableComponent.sort(headers[2]);
+        expect(tableComponent.paginateEvent.emit).not.toHaveBeenCalled();
+      });
+    });
   });
 });
