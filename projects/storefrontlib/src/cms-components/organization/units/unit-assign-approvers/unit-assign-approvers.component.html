@@ -41,12 +41,18 @@
         key: 'parentUnit',
         value: 'usersList.parentUnit' | cxTranslate,
         cxRoute: 'orgUnitDetails'
+      },
+      {
+        key: 'unassign',
+        value: 'usersList.unassign' | cxTranslate,
+        button: true
       }
     ]"
     (pageChange)="pageChange($event)"
     (changeSortCode)="changeSortCode($event)"
     (check)="assign($event)"
     (uncheck)="unassign($event)"
+    (buttonClick)="unassign($event)"
   >
     <div class="col-md-12 col-lg-6">
       <div class="col-md-12 col-lg-6 float-right">

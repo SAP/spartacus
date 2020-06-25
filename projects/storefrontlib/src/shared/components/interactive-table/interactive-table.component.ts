@@ -35,6 +35,9 @@ export class InteractiveTableComponent {
   @Output()
   uncheck = new EventEmitter<any>();
 
+  @Output()
+  buttonClick = new EventEmitter<any>();
+
   viewPageEvent(event) {
     this.pageChange.emit(event);
   }
@@ -49,5 +52,9 @@ export class InteractiveTableComponent {
 
   uncheckEvent(event) {
     this.uncheck.emit(event);
+  }
+
+  buttonClickEvent(event) {
+    this.buttonClick.emit(event);
   }
 }
