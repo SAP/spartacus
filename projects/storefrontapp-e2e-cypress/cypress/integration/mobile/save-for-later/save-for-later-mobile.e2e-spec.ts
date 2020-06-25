@@ -35,8 +35,4 @@ describe(`${
   it('should keep item saved for later after placing an order', () => {
     saveForLater.verifyPlaceOrder();
   });
-
-  it('should handle product with free gift in save for later', () => {
-    saveForLater.verifyGiftProduct();
-  });
 });
