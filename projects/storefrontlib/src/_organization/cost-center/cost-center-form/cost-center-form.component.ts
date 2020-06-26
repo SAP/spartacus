@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import {
   B2BUnitNode,
   Currency,
@@ -27,25 +27,6 @@ export class CostCenterFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.buildForm();
     this.orgUnitService.loadOrgUnitNodes();
-  }
-
-  protected buildForm() {
-    this.form.setControl('code', new FormControl('', Validators.required));
-    this.form.setControl('name', new FormControl('', Validators.required));
-
-    this.form.setControl(
-      'currency',
-      new FormGroup({
-        isocode: new FormControl(undefined, Validators.required),
-      })
-    );
-    this.form.setControl(
-      'unit',
-      new FormGroup({
-        uid: new FormControl(undefined, Validators.required),
-      })
-    );
   }
 }

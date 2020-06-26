@@ -1,30 +1,64 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { CostCenterService, RoutingService } from '@spartacus/core';
+import {
+  CostCenterService,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
+import { CostCenterFormComponentService } from '../cost-center-form/cost-center-form.component.service';
 
 @Component({
   selector: 'cx-cost-center-create',
   templateUrl: './cost-center-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CostCenterCreateComponent implements OnInit {
-  form = new FormGroup({});
+export class CostCenterCreateComponent {
+  form: FormGroup;
+  protected formKey: string;
 
-  protected unitCode$ = this.routingService.getRouterState().pipe(
+  unitCode$: Observable<string> = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.queryParams?.['parentUnit']),
     first()
   );
 
   constructor(
     protected costCenterService: CostCenterService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+
+    protected globalMessageService: GlobalMessageService,
+    protected costCenterFormService: CostCenterFormComponentService
   ) {}
 
-  ngOnInit() {
-    this.unitCode$.subscribe((unitCode) =>
-      this.form.patchValue({ unit: { uid: unitCode } })
+  initForm(unitCode: string): FormGroup {
+    this.formKey = this.createFormKey(unitCode);
+    if (this.costCenterFormService.has(this.formKey)) {
+      this.showFormRestoredMessage();
+    }
+
+    this.form = this.costCenterFormService.getForm(
+      { unit: { uid: unitCode } },
+      this.formKey
     );
+    return this.form;
+  }
+
+  protected createFormKey(unitCode?: string): string {
+    return `cost-center-create-${unitCode}`;
+  }
+
+  protected showFormRestoredMessage(): void {
+    this.globalMessageService.add(
+      { key: 'form.restored' },
+      GlobalMessageType.MSG_TYPE_INFO
+    );
+  }
+
+  protected removeForm(): void {
+    this.form.reset();
+    this.costCenterFormService.removeForm(this.formKey);
   }
 
   save(): void {
@@ -33,6 +67,7 @@ export class CostCenterCreateComponent implements OnInit {
     } else {
       this.form.disable();
       this.costCenterService.create(this.form.value);
+      this.removeForm();
 
       this.routingService.go({
         cxRoute: 'costCenterDetails',
