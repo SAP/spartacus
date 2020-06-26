@@ -1,6 +1,7 @@
 <div
   *ngIf="item.statusSummaryList[0]?.numberOfIssues > 0"
   style="background-color: crimson;"
+  class="cx-cart-item-issue"
   [ngClass]="compact ? 'cx-compact row' : 'row'"
 >
   numberOfIssues: {{ item.statusSummaryList[0]?.numberOfIssues }}

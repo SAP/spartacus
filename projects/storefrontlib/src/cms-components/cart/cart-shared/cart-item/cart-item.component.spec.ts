@@ -130,6 +130,7 @@ describe('CartItemComponent', () => {
     cartItemComponent.item = {
       product: mockProduct,
       updateable: true,
+      statusSummaryList: [],
     };
     cartItemComponent.quantityControl = new FormControl('1');
     cartItemComponent.quantityControl.markAsPristine();
@@ -204,5 +205,35 @@ describe('CartItemComponent', () => {
         `${variant.name}: ${variant.value}`
       );
     });
+  });
+  it('should not display resolve errors message if array of statusSummary is empty', () => {
+    const htmlElem = fixture.nativeElement;
+    expect(htmlElem.querySelectorAll('.cx-cart-item-issue').length).toBe(
+      0,
+      "expected resolve errors message identified by selector '.cx-cart-item-issue' not to be present, but it is! innerHtml: " +
+        htmlElem.innerHTML
+    );
+  });
+  it('should not display resolve errors message if number of issues is 0', () => {
+    cartItemComponent.item.statusSummaryList = [{ numberOfIssues: 0 }];
+    fixture.detectChanges();
+    const htmlElem = fixture.nativeElement;
+    expect(htmlElem.querySelectorAll('.cx-cart-item-issue').length).toBe(
+      0,
+      "expected resolve errors message identified by selector '.cx-cart-item-issue' not to be present, but it is! innerHtml: " +
+        htmlElem.innerHTML
+    );
+  });
+  it('should display resolve errors message if number of issues is greater than 0', () => {
+    cartItemComponent.item.statusSummaryList = [{ numberOfIssues: 1 }];
+    fixture.detectChanges();
+    const htmlElem = fixture.nativeElement;
+    expect(
+      htmlElem.querySelectorAll('.cx-cart-item-issue').length
+    ).toBeGreaterThan(
+      0,
+      "expected resolve errors message identified by selector '.cx-cart-item-issue' to be present, but it is NOT! innerHtml: " +
+        htmlElem.innerHTML
+    );
   });
 });
