@@ -43,9 +43,7 @@ export class CartItemComponent implements OnInit {
   appliedProductPromotions$: Observable<PromotionResult[]>;
   iconTypes = ICON_TYPE;
 
-  constructor(
-    protected promotionService: PromotionService,
-  ) {}
+  constructor(protected promotionService: PromotionService) {}
 
   ngOnInit() {
     this.appliedProductPromotions$ = this.promotionService.getProductPromotionForEntry(

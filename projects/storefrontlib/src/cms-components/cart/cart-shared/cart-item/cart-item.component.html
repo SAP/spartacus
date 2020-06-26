@@ -1,21 +1,20 @@
 <ng-container *ngIf="item.statusSummaryList[0]?.numberOfIssues > 0">
   <div [ngClass]="compact ? 'cx-compact row' : 'row'">
     <div class="cx-error-container">
-        <div [ngClass]="compact ? 'col-2' : 'cx-error-icon-container'">
-          <cx-icon class="cx-error-icon" [type]="iconTypes.ERROR"></cx-icon>
-        </div>
-        <div [ngClass]="compact ? 'col-10' : 'cx-error-msg-container'">
-          {{
-            getIssueMessageKey(item.statusSummaryList[0]?.numberOfIssues)
-              | cxTranslate
-                : { errors: item.statusSummaryList[0]?.numberOfIssues }
-          }}
-          <cx-configure-cart-entry
-            *ngIf="item.product.configurable"
-            [cartEntry]="item"
-            [readOnly]="readonly"
-          ></cx-configure-cart-entry>
-        </div>
+      <div [ngClass]="compact ? 'col-2' : 'cx-error-icon-container'">
+        <cx-icon class="cx-error-icon" [type]="iconTypes.ERROR"></cx-icon>
+      </div>
+      <div [ngClass]="compact ? 'col-10' : 'cx-error-msg-container'">
+        {{
+          getIssueMessageKey(item.statusSummaryList[0]?.numberOfIssues)
+            | cxTranslate: { errors: item.statusSummaryList[0]?.numberOfIssues }
+        }}
+        <cx-configure-cart-entry
+          *ngIf="item.product.configurable"
+          [cartEntry]="item"
+          [readOnly]="readonly"
+        ></cx-configure-cart-entry>
+      </div>
     </div>
   </div>
 </ng-container>
