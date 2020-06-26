@@ -1432,9 +1432,36 @@ export namespace Occ {
      */
     updateable?: boolean;
     /**
-     * @member {boolean} [statusSummaryList]
+     * @member {StatusSummary[]} [statusSummaryList]
      */
     statusSummaryList?: StatusSummary[];
+    /**
+     * @member {ConfigurationInfo[]} [configurationInfos]
+     */
+    configurationInfos?: ConfigurationInfo[];
+  }
+
+  /**
+   *
+   * An interface representing ConfigurationInfo.
+   */
+  export interface ConfigurationInfo {
+    /**
+     * @member {string} [configurationLabel]
+     */
+    configurationLabel?: string;
+    /**
+     * @member {string} [configurationValue]
+     */
+    configurationValue?: string;
+    /**
+     * @member {string} [configuratorType]
+     */
+    configuratorType?: string;
+    /**
+     * @member {string} [status]
+     */
+    status?: string;
   }
 
   /**
