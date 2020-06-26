@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GenericConfigurator, RoutingService } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/core';
 import { ConfigRouterExtractorService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -15,14 +15,13 @@ export class ConfigTextfieldFormComponent implements OnInit {
   configuration$: Observable<ConfiguratorTextfield.Configuration>;
 
   constructor(
-    private routingService: RoutingService,
     private configuratorTextfieldService: ConfiguratorTextfieldService,
     private configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+      .extractRouterData()
       .pipe(
         switchMap((routerData) => {
           switch (routerData.owner.type) {

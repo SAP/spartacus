@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { GenericConfigurator, RoutingService } from '@spartacus/core';
 import {
   ConfigRouterExtractorService,
@@ -18,25 +13,23 @@ import { ConfiguratorTextfield } from '../../model/configurator-textfield.model'
   templateUrl: './config-textfield-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigTextfieldAddToCartButtonComponent implements OnInit {
+export class ConfigTextfieldAddToCartButtonComponent {
   routerData$: Observable<ConfigurationRouter.Data>;
   constructor(
     private configuratorTextfieldService: ConfiguratorTextfieldService,
     private routingService: RoutingService,
     private configRouterExtractorService: ConfigRouterExtractorService
-  ) {}
+  ) {
+    this.routerData$ = this.configRouterExtractorService.extractRouterData();
+  }
 
-  @Input() configuration$: Observable<ConfiguratorTextfield.Configuration>;
+  @Input() configuration: ConfiguratorTextfield.Configuration;
   @Input() productCode: string;
 
-  ngOnInit(): void {
-    this.routerData$ = this.configRouterExtractorService.extractRouterData(
-      this.routingService
-    );
-  }
   /**
    * Adds a textfield configuration to the cart or updates it
-   * @param owner Configuration owner, can be either product or cart entry
+   * @param configuration Textfield configuration (knows whether it belongs to product or cart entry,
+   * thus component can tell whether to add or to update)
    */
   onAddToCart(configuration: ConfiguratorTextfield.Configuration) {
     const owner: GenericConfigurator.Owner = configuration.owner;
@@ -60,8 +53,8 @@ export class ConfigTextfieldAddToCartButtonComponent implements OnInit {
    * @param routerData Data extracted from routing that we use to decide whether configuration belongs to cart or to product
    * @returns Resource key of button description
    */
-  getButtonText(routerData: ConfigurationRouter.Data): string {
-    return routerData.isOwnerCartEntry
+  getButtonText(configuration: ConfiguratorTextfield.Configuration): string {
+    return configuration.owner.type === GenericConfigurator.OwnerType.CART_ENTRY
       ? 'configuratorTextfield.addToCart.buttonUpdateCart'
       : 'configuratorTextfield.addToCart.button';
   }

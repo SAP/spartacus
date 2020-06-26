@@ -52,7 +52,6 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   let htmlElem: HTMLElement;
 
   function checkButtonText(buttonText: string): void {
-    classUnderTest.ngOnInit();
     fixture.detectChanges();
     const buttonElements = htmlElem.getElementsByClassName(
       'cx-btn btn btn-block btn-primary'
@@ -88,7 +87,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigTextfieldAddToCartButtonComponent);
     classUnderTest = fixture.componentInstance;
-    classUnderTest.configuration$ = of(configurationTextField);
+    classUnderTest.configuration = configurationTextField;
     htmlElem = fixture.nativeElement;
     textfieldService = TestBed.inject(
       ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
@@ -104,7 +103,6 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   });
 
   it('should get router data properly after executing onInit', () => {
-    classUnderTest.ngOnInit();
     classUnderTest.routerData$
       .subscribe((data) =>
         expect(data.owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT)
@@ -117,7 +115,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   });
 
   it('should display "done" text in case router points to cart entry', () => {
-    mockRouterState.state.params.ownerType =
+    classUnderTest.configuration.owner.type =
       GenericConfigurator.OwnerType.CART_ENTRY;
     checkButtonText(' configuratorTextfield.addToCart.buttonUpdateCart ');
   });

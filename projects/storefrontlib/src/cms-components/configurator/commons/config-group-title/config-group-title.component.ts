@@ -3,7 +3,6 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
-  RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -22,7 +21,6 @@ export class ConfigGroupTitleComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   constructor(
-    private routingService: RoutingService,
     private configuratorCommonsService: ConfiguratorCommonsService,
     private configuratorGroupsService: ConfiguratorGroupsService,
     private configRouterExtractorService: ConfigRouterExtractorService
@@ -30,7 +28,7 @@ export class ConfigGroupTitleComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+      .extractRouterData()
       .pipe(
         switchMap((routerData) =>
           this.configuratorCommonsService.getConfiguration(routerData.owner)
@@ -38,7 +36,7 @@ export class ConfigGroupTitleComponent implements OnInit {
       );
 
     this.displayedGroup$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+      .extractRouterData()
       .pipe(
         switchMap((routerData) =>
           this.configuratorGroupsService.getCurrentGroup(routerData.owner)

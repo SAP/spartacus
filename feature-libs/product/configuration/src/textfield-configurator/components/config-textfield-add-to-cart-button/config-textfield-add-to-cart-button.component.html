@@ -1,14 +1,10 @@
-<ng-container *ngIf="configuration$ | async as configuration">
-  <ng-container *ngIf="routerData$ | async as routerData">
-    <div class="cx-config-textfield-add-to-cart-btn">
-      <div class="col-sm-6">
-        <button
-          class="cx-btn btn btn-block btn-primary"
-          (click)="onAddToCart(configuration)"
-        >
-          {{ getButtonText(routerData) | cxTranslate }}
-        </button>
-      </div>
-    </div>
-  </ng-container>
-</ng-container>
+<div class="cx-config-textfield-add-to-cart-btn">
+  <div class="col-sm-6">
+    <button
+      class="cx-btn btn btn-block btn-primary"
+      (click)="onAddToCart(configuration)"
+    >
+      {{ getButtonText(configuration) | cxTranslate }}
+    </button>
+  </div>
+</div>

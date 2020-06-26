@@ -3,7 +3,6 @@ import {
   ConfiguratorCommonsService,
   Product,
   ProductService,
-  RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -20,23 +19,20 @@ export class ConfigProductTitleComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   constructor(
-    private routingService: RoutingService,
     private configuratorCommonsService: ConfiguratorCommonsService,
     private configRouterExtractorService: ConfigRouterExtractorService,
     private productService: ProductService
   ) {}
 
   ngOnInit(): void {
-    this.product$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorCommonsService.getConfiguration(routerData.owner)
-        ),
-        switchMap((configuration) =>
-          this.productService.get(configuration.productCode)
-        )
-      );
+    this.product$ = this.configRouterExtractorService.extractRouterData().pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
+      ),
+      switchMap((configuration) =>
+        this.productService.get(configuration.productCode)
+      )
+    );
   }
 
   triggerDetails() {
