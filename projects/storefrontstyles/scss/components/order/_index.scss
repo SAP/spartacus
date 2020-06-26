@@ -3,6 +3,7 @@
 @import './order-approval-details';
 @import './order-details-approval-details';
 @import './order-approval-detail-approval-details';
+@import './order-shipping';
 
-$order-components-whitelist: cx-order-headline cx-order-totals
+$order-components-whitelist: cx-order-shipping cx-order-headline cx-order-totals
   cx-order-approval-details !default;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   Address,
   DeliveryMode,
@@ -9,27 +9,18 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../../../shared/components/card/card.component';
-import { OrderDetailsService } from '../order-details.service';
 
 @Component({
-  selector: 'cx-order-details-shipping',
-  templateUrl: './order-detail-shipping.component.html',
+  selector: 'cx-order-shipping',
+  templateUrl: './order-shipping.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderDetailShippingComponent implements OnInit {
-  constructor(
-    private orderDetailsService: OrderDetailsService,
-    private translation: TranslationService
-  ) {}
+export class OrderShippingComponent {
+  @Input()
+  order: Order;
 
-  order$: Observable<Order>;
+  constructor(protected translation: TranslationService) {}
 
-  ngOnInit() {
-    this.order$ = this.orderDetailsService.getOrderDetails();
-  }
-
-  /**
-   * @deprecated since 2.1.  Functionality moved to shared component OrderShippingComponent.
-   */
   getAddressCardContent(address: Address): Observable<Card> {
     return combineLatest([
       this.translation.translate('addressCard.shipTo'),
@@ -49,9 +40,6 @@ export class OrderDetailShippingComponent implements OnInit {
     );
   }
 
-  /**
-   * @deprecated since 2.1.  Functionality moved to shared component OrderShippingComponent.
-   */
   getBillingAddressCardContent(billingAddress: Address): Observable<Card> {
     return combineLatest([
       this.translation.translate('addressCard.billTo'),
@@ -71,9 +59,6 @@ export class OrderDetailShippingComponent implements OnInit {
     );
   }
 
-  /**
-   * @deprecated since 2.1.  Functionality moved to shared component OrderShippingComponent.
-   */
   getPaymentCardContent(payment: PaymentDetails): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentForm.payment'),
@@ -92,9 +77,6 @@ export class OrderDetailShippingComponent implements OnInit {
     );
   }
 
-  /**
-   * @deprecated since 2.1.  Functionality moved to shared component OrderShippingComponent.
-   */
   getAccountPaymentCardContent(order: Order): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentForm.payment'),
@@ -125,9 +107,6 @@ export class OrderDetailShippingComponent implements OnInit {
     );
   }
 
-  /**
-   * @deprecated since 2.1.  Functionality moved to shared component OrderShippingComponent.
-   */
   getShippingMethodCardContent(shipping: DeliveryMode): Observable<Card> {
     return combineLatest([
       this.translation.translate('checkoutShipping.shippingMethod'),

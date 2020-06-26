@@ -14,6 +14,7 @@ import { OrderDetailsSharedModule } from '../../../myaccount';
 import { OrderApprovalDetailApprovalDetailsComponent } from './order-approval-detail-approval-details/order-approval-detail-approval-details.component';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
 import { OrderApprovalDetailHeadlineComponent } from './order-approval-detail-headline/order-approval-detail-headline.component';
+import { OrderApprovalDetailShippingComponent } from './order-approval-detail-shipping/order-approval-detail-shipping.component';
 import { OrderApprovalDetailTotalsComponent } from './order-approval-detail-totals/order-approval-detail-totals.component';
 
 const moduleComponents = [
@@ -21,6 +22,7 @@ const moduleComponents = [
   OrderApprovalDetailHeadlineComponent,
   OrderApprovalDetailTotalsComponent,
   OrderApprovalDetailApprovalDetailsComponent,
+  OrderApprovalDetailShippingComponent,
 ];
 
 @NgModule({
@@ -53,6 +55,10 @@ const moduleComponents = [
         },
         OrderApprovalDetailApprovalDetailsComponent: {
           component: OrderApprovalDetailApprovalDetailsComponent,
+          guards: [AuthGuard],
+        },
+        OrderApprovalDetailShippingComponent: {
+          component: OrderApprovalDetailShippingComponent,
           guards: [AuthGuard],
         },
       },

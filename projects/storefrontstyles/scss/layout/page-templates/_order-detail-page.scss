@@ -2,6 +2,10 @@
   --cx-max-width: 100%;
   @extend %LoginPageTemplate !optional;
 
+  /**
+   * @deprecated since 2.1.  Use cx-order-headline instead 
+   * from projects/storefrontstyles/scss/components/order/_order-headline.scss
+   */
   cx-order-details-headline {
     @include media-breakpoint-down(sm) {
       border: none;
@@ -87,6 +91,10 @@
     }
   }
 
+  /**
+   * @deprecated since 2.1.  Use cx-order-shipping instead 
+   * from projects/storefrontstyles/scss/components/order/_order-shipping.scss
+   */
   cx-order-details-shipping {
     .cx-summary {
       margin-bottom: 48px;

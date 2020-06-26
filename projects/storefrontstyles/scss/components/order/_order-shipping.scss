@@ -1,0 +1,26 @@
+cx-order-shipping {
+  .cx-summary {
+    margin-bottom: 48px;
+  }
+
+  .cx-account-summary {
+    background-color: var(--cx-color-background);
+
+    @include media-breakpoint-up(md) {
+      padding: 5px 18px 12px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      margin: 0 -24px;
+    }
+
+    .cx-card-title {
+      @include type('4');
+      font-weight: bold;
+    }
+
+    .cx-card-label-bold {
+      font-weight: bold;
+    }
+  }
+}

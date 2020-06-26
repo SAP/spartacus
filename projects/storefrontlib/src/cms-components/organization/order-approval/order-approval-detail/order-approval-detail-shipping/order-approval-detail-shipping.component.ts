@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 
 @Component({
-  selector: 'cx-order-approval-detail-headline',
-  templateUrl: './order-approval-detail-headline.component.html',
+  selector: 'cx-order-approval-detail-shipping',
+  templateUrl: './order-approval-detail-shipping.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderApprovalDetailHeadlineComponent {
+export class OrderApprovalDetailShippingComponent {
   constructor(
     protected orderApprovalDetailsService: OrderApprovalDetailService
   ) {}
