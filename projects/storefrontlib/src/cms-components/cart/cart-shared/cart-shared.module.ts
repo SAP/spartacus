@@ -12,6 +12,7 @@ import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
+import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
     NgbModule,
     PromotionsModule,
     I18nModule,
+    IconModule,
     MediaModule,
     ItemCounterModule,
     FeaturesConfigModule,

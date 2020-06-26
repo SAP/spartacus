@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { PromotionLocation, PromotionResult } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 
 export interface Item {
   entryNumber?: any;
@@ -40,8 +41,11 @@ export class CartItemComponent implements OnInit {
   };
 
   appliedProductPromotions$: Observable<PromotionResult[]>;
+  iconTypes = ICON_TYPE;
 
-  constructor(protected promotionService: PromotionService) {}
+  constructor(
+    protected promotionService: PromotionService,
+  ) {}
 
   ngOnInit() {
     this.appliedProductPromotions$ = this.promotionService.getProductPromotionForEntry(
@@ -66,5 +70,20 @@ export class CartItemComponent implements OnInit {
 
   viewItem() {
     this.view.emit();
+  }
+
+  getIssueMessageKey(numberOfErrors: number): string {
+    if (numberOfErrors === 1) {
+      return 'cartItems.numberOfIssue';
+    } else {
+      return 'cartItems.numberOfIssues';
+    }
+  }
+
+  isSmallSize(breakpoint: string): boolean {
+    if (breakpoint === 'xs' || breakpoint === 'sm') {
+      return true;
+    }
+    return false;
   }
 }
