@@ -223,7 +223,6 @@ describe('ConfigAddToCartButtonComponent', () => {
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
-    spyOn(configuratorCommonsService, 'removeUiState').and.callThrough();
   });
 
   it('should create', () => {
@@ -249,11 +248,6 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(
         configuratorCommonsService.removeConfiguration
       ).toHaveBeenCalledTimes(0);
-    });
-
-    it('should not remove UI state for product owner in case configuration has already been added', () => {
-      performUpdateCart(classUnderTest);
-      expect(configuratorCommonsService.removeUiState).toHaveBeenCalledTimes(0);
     });
 
     it('should not remove configuration and display no message in case continue to cart is triggered on config page', () => {
@@ -307,11 +301,6 @@ describe('ConfigAddToCartButtonComponent', () => {
     it('should navigate to cart in case configuration has not yet been added and process was triggered from overview', () => {
       performAddToCartOnOverview(classUnderTest);
       expect(routingService.go).toHaveBeenCalledWith('cart');
-    });
-
-    it('should remove UI state in case configuration has not yet been added and process was triggered from overview', () => {
-      performAddToCartOnOverview(classUnderTest);
-      expect(configuratorCommonsService.removeUiState).toHaveBeenCalledTimes(1);
     });
 
     it('should remove configuration in case configuration has not yet been added and process was triggered from overview', () => {

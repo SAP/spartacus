@@ -57,23 +57,19 @@ export class ConfigAttributeNumericInputFieldComponent
           this.configAttributeNumericInputFieldService.getNumberFormatValidator(
             this.locale,
             this.attribute.numDecimalPlaces,
-            this.attribute.numTotalLength
+            this.attribute.numTotalLength,
+            this.attribute.negativeAllowed
           ),
         ]);
         const numDecimalPlaces = this.attribute.numDecimalPlaces;
         this.numericFormatPattern = this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
           numDecimalPlaces,
           this.attribute.numTotalLength,
+          this.attribute.negativeAllowed,
           this.locale
         );
         if (this.attribute.userInput) {
-          this.attributeInputForm.setValue(
-            this.configAttributeNumericInputFieldService.getFormattedInput(
-              this.attribute.userInput,
-              this.locale,
-              numDecimalPlaces
-            )
-          );
+          this.attributeInputForm.setValue(this.attribute.userInput);
         }
       })
     );

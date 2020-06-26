@@ -19,7 +19,8 @@ export class OccConfiguratorVariantNormalizer
     source: OccConfigurator.Configuration,
     target?: Configurator.Configuration
   ): Configurator.Configuration {
-    target = {
+    const resultTarget: Configurator.Configuration = {
+      ...target,
       configId: source.configId,
       complete: source.complete,
       productCode: source.rootProduct,
@@ -28,9 +29,9 @@ export class OccConfiguratorVariantNormalizer
     };
 
     source.groups.forEach((group) =>
-      this.convertGroup(group, target.groups, target.flatGroups)
+      this.convertGroup(group, resultTarget.groups, resultTarget.flatGroups)
     );
-    return target;
+    return resultTarget;
   }
 
   convertGroup(
@@ -80,16 +81,12 @@ export class OccConfiguratorVariantNormalizer
       required: sourceAttribute.required,
       uiType: this.convertAttributeType(sourceAttribute.type),
       values: [],
-      //also for numeric attributes take from value, because UI expects to handle localization on its own,
-      //thus expects numeric
-      userInput: sourceAttribute.value,
-      maxlength: sourceAttribute.maxlength,
+      userInput: sourceAttribute.formattedValue,
+      maxlength:
+        sourceAttribute.maxlength + (sourceAttribute.negativeAllowed ? 1 : 0),
       numDecimalPlaces: sourceAttribute.numberScale,
+      negativeAllowed: sourceAttribute.negativeAllowed,
       numTotalLength: sourceAttribute.typeLength,
-      //This is only relevant for read-only attributes
-      //TODO: improve by enriching OCC API
-      isNumeric:
-        sourceAttribute.value === Number.parseFloat(sourceAttribute.value) + '',
       selectedSingleValue: null,
       images: [],
     };
@@ -191,6 +188,10 @@ export class OccConfiguratorVariantNormalizer
         break;
       }
       case OccConfigurator.UiType.CHECK_BOX_LIST: {
+        uiType = Configurator.UiType.CHECKBOXLIST;
+        break;
+      }
+      case OccConfigurator.UiType.CHECK_BOX: {
         uiType = Configurator.UiType.CHECKBOX;
         break;
       }
@@ -273,6 +274,7 @@ export class OccConfiguratorVariantNormalizer
         break;
       }
 
+      case Configurator.UiType.CHECKBOXLIST:
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.MULTI_SELECTION_IMAGE: {
         const isOneValueSelected =

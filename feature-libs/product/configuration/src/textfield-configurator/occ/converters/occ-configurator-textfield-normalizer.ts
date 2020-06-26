@@ -14,12 +14,18 @@ export class OccConfiguratorTextfieldNormalizer
   /**
    * Converts addToCart parameters into the generic format
    * @param source Add to cart parameters in OCC format
+   * @param target Optional result, can be provided in case converters should be chained
    * @returns Add to cart parameters in generic format
    */
   convert(
-    source: OccConfiguratorTextfield.Configuration
+    source: OccConfiguratorTextfield.Configuration,
+    target?: ConfiguratorTextfield.Configuration
   ): ConfiguratorTextfield.Configuration {
-    const target = { ...(source as any) };
-    return target;
+    const resultTarget: ConfiguratorTextfield.Configuration = {
+      ...target,
+      ...(source as any),
+    };
+
+    return resultTarget;
   }
 }

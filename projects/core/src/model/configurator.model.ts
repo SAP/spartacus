@@ -17,9 +17,9 @@ export namespace Configurator {
     isLineItem?: boolean;
     maxlength?: number;
     images?: Image[];
-    isNumeric?: boolean;
     numDecimalPlaces?: number;
     numTotalLength?: number;
+    negativeAllowed?: boolean;
   }
 
   export interface Value {
@@ -58,6 +58,18 @@ export namespace Configurator {
     nextOwner?: GenericConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
     isCartEntryUpdatePending?: boolean;
+    interactionState?: InteractionState;
+  }
+
+  export interface InteractionState {
+    currentGroup?: string;
+    menuParentGroup?: string;
+    groupsVisited?: {
+      [id: string]: Boolean;
+    };
+    groupsStatus?: {
+      [id: string]: Configurator.GroupStatus;
+    };
   }
 
   export interface Overview {
@@ -127,7 +139,8 @@ export namespace Configurator {
   export enum UiType {
     NOT_IMPLEMENTED = 'not_implemented',
     RADIOBUTTON = 'radioGroup',
-    CHECKBOX = 'checkBoxList',
+    CHECKBOX = 'checkBox',
+    CHECKBOXLIST = 'checkBoxList',
     DROPDOWN = 'dropdown',
     LISTBOX = 'listbox',
     LISTBOX_MULTI = 'listboxmulti',

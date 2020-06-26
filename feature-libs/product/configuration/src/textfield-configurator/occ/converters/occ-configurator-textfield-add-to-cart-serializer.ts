@@ -16,12 +16,15 @@ export class OccConfiguratorTextfieldAddToCartSerializer
   /**
    * Converts addToCart parameters into the OCC format
    * @param source Add to cart parameters in generic format
+   * @param target Add to cart parameters in OCC format. Optional, can be used in case converters should be chained
    * @returns Add to cart parameters in OCC format
    */
   convert(
-    source: ConfiguratorTextfield.AddToCartParameters
+    source: ConfiguratorTextfield.AddToCartParameters,
+    target?: OccConfiguratorTextfield.AddToCartParameters
   ): OccConfiguratorTextfield.AddToCartParameters {
-    const result = {
+    const resultTarget: OccConfiguratorTextfield.AddToCartParameters = {
+      ...target,
       userId: source.userId,
       cartId: source.cartId,
       product: { code: source.productCode },
@@ -30,10 +33,10 @@ export class OccConfiguratorTextfieldAddToCartSerializer
     };
 
     source.configuration.configurationInfos.forEach((info) =>
-      this.convertInfo(info, result.configurationInfos)
+      this.convertInfo(info, resultTarget.configurationInfos)
     );
 
-    return result;
+    return resultTarget;
   }
 
   protected convertInfo(

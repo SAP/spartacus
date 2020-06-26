@@ -47,12 +47,7 @@
         }}"
         class="cx-config-attribute-value-label-read-only"
       >
-        <ng-container *ngIf="attribute.isNumeric">
-          {{ attribute.userInput | cxDecimal }}</ng-container
-        >
-        <ng-container *ngIf="!attribute.isNumeric">
-          {{ attribute.userInput }}</ng-container
-        >
+        {{ attribute.userInput }}
       </div>
     </ng-container>
   </ng-template>
