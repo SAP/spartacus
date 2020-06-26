@@ -28,8 +28,9 @@ export class ConfigMessageComponent implements OnInit {
       .extractRouterData(this.routingService)
       .pipe(
         switchMap((routerData) => {
-          return this.configuratorCommonsService
-            .hasPendingChanges(routerData.owner);
+          return this.configuratorCommonsService.hasPendingChanges(
+            routerData.owner
+          );
         })
       );
 
