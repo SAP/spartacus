@@ -19,7 +19,8 @@ export class OccConfiguratorVariantNormalizer
     source: OccConfigurator.Configuration,
     target?: Configurator.Configuration
   ): Configurator.Configuration {
-    target = {
+    const resultTarget: Configurator.Configuration = {
+      ...target,
       configId: source.configId,
       complete: source.complete,
       productCode: source.rootProduct,
@@ -28,9 +29,9 @@ export class OccConfiguratorVariantNormalizer
     };
 
     source.groups.forEach((group) =>
-      this.convertGroup(group, target.groups, target.flatGroups)
+      this.convertGroup(group, resultTarget.groups, resultTarget.flatGroups)
     );
-    return target;
+    return resultTarget;
   }
 
   convertGroup(

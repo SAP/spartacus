@@ -13,15 +13,18 @@ export class OccConfiguratorVariantSerializer
     source: Configurator.Configuration,
     target?: OccConfigurator.Configuration
   ): OccConfigurator.Configuration {
-    target = {
+    const resultTarget: OccConfigurator.Configuration = {
+      ...target,
       configId: source.configId,
       complete: source.complete,
       groups: [],
     };
 
-    source.groups.forEach((group) => this.convertGroup(group, target.groups));
+    source.groups.forEach((group) =>
+      this.convertGroup(group, resultTarget.groups)
+    );
 
-    return target;
+    return resultTarget;
   }
 
   convertGroup(source: Configurator.Group, occGroups: OccConfigurator.Group[]) {
