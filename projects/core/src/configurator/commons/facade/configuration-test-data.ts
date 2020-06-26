@@ -23,7 +23,7 @@ export const productConfiguration: Configurator.Configuration = {
       attributes: [
         {
           name: 'ATTRIBUTE_1_CHECKBOX',
-          uiType: Configurator.UiType.CHECKBOX,
+          uiType: Configurator.UiType.CHECKBOXLIST,
           required: true,
           incomplete: true,
         },

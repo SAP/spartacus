@@ -91,7 +91,7 @@ const attributeStringWithValue: Configurator.Attribute = {
 const attributeCheckboxWOValue: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
-  uiType: Configurator.UiType.CHECKBOX,
+  uiType: Configurator.UiType.CHECKBOXLIST,
   values: [
     {
       name: 'name1',
@@ -106,7 +106,7 @@ const attributeCheckboxWOValue: Configurator.Attribute = {
 const attributeCheckboxWithValue: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
-  uiType: Configurator.UiType.CHECKBOX,
+  uiType: Configurator.UiType.CHECKBOXLIST,
   values: [
     {
       name: 'name1',
@@ -402,7 +402,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       occConfiguratorVariantNormalizer.convertAttributeType(
         OccConfigurator.UiType.CHECK_BOX_LIST
       )
-    ).toBe(Configurator.UiType.CHECKBOX);
+    ).toBe(Configurator.UiType.CHECKBOXLIST);
   });
 
   it('should return UIType Checkbox for Checkbox occ configurator type', () => {

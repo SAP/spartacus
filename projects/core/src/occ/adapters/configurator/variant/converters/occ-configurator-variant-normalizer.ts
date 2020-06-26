@@ -187,6 +187,10 @@ export class OccConfiguratorVariantNormalizer
         break;
       }
       case OccConfigurator.UiType.CHECK_BOX_LIST: {
+        uiType = Configurator.UiType.CHECKBOXLIST;
+        break;
+      }
+      case OccConfigurator.UiType.CHECK_BOX: {
         uiType = Configurator.UiType.CHECKBOX;
         break;
       }
@@ -269,6 +273,7 @@ export class OccConfiguratorVariantNormalizer
         break;
       }
 
+      case Configurator.UiType.CHECKBOXLIST:
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.MULTI_SELECTION_IMAGE: {
         const isOneValueSelected =

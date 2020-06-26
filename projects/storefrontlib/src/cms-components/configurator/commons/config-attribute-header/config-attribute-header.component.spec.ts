@@ -168,7 +168,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   it('should return a multi-select message key for check box list attribute type', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOX;
+    classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOXLIST;
     expect(classUnderTest.getRequiredMessageKey()).toContain(
       'multiSelectRequiredMessage'
     );
