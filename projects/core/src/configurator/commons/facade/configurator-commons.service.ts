@@ -3,14 +3,16 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { ActiveCartService } from '../../../cart/facade/active-cart.service';
+import { Cart } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../../occ/utils/occ-constants';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
-import * as UiActions from '../store/actions/configurator-ui.action';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
-import { StateWithConfiguration, UiState } from '../store/configuration-state';
-import * as UiSelectors from '../store/selectors/configurator-ui.selector';
+import { StateWithConfiguration } from '../store/configuration-state';
 import * as ConfiguratorSelectors from '../store/selectors/configurator.selector';
 
 @Injectable()
@@ -194,60 +196,6 @@ export class ConfiguratorCommonsService {
   }
 
   /**
-   * Returns a UI state if it exists or creates a new one.
-   *
-   * @param owner - Configuration owner
-   *
-   * @returns {Observable<UiState>}
-   */
-  public getOrCreateUiState(
-    owner: GenericConfigurator.Owner
-  ): Observable<UiState> {
-    return this.store.pipe(
-      select(UiSelectors.getUiStateForOwner(owner.key)),
-      tap((uiState) => {
-        if (!this.isUiStateCreated(uiState)) {
-          this.store.dispatch(new UiActions.CreateUiState(owner.key));
-        }
-      }),
-      filter((uiState) => this.isUiStateCreated(uiState))
-    );
-  }
-
-  /**
-   * Returns a UI state.
-   *
-   * @param owner - Configuration owner
-   *
-   * @returns {Observable<UiState>}
-   */
-  public getUiState(owner: GenericConfigurator.Owner): Observable<UiState> {
-    return this.store.pipe(
-      select(UiSelectors.getUiStateForOwner(owner.key)),
-      filter((uiState) => this.isUiStateCreated(uiState))
-    );
-  }
-
-  /**
-   * Determines a UI state.
-   *
-   * @param owner - Configuration owner
-   * @param state - UI state
-   */
-  public setUiState(owner: GenericConfigurator.Owner, state: UiState) {
-    this.store.dispatch(new UiActions.SetUiState(owner.key, state));
-  }
-
-  /**
-   * Removes a UI state.
-   *
-   * @param owner - Configuration owner
-   */
-  public removeUiState(owner: GenericConfigurator.Owner) {
-    this.store.dispatch(new UiActions.RemoveUiState(owner.key));
-  }
-
-  /**
    * Removes a configuration.
    *
    * @param owner - Configuration owner
@@ -319,8 +267,14 @@ export class ConfiguratorCommonsService {
   ////
   // Helper methods
   ////
-  isUiStateCreated(uiState: UiState): boolean {
-    return uiState !== undefined;
+  getCartId(cart: Cart): string {
+    return cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+  }
+
+  getUserId(cart: Cart): string {
+    return cart.user.uid === OCC_USER_ID_ANONYMOUS
+      ? cart.user.uid
+      : OCC_USER_ID_CURRENT;
   }
 
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
