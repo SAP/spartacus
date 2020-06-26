@@ -2,7 +2,15 @@ import { Configurator } from '../../../../model/configurator.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
 import * as ConfiguratorActions from '../actions/configurator.action';
 
-export const initialState: Configurator.Configuration = { configId: '' };
+export const initialState: Configurator.Configuration = {
+  configId: '',
+  interactionState: {
+    currentGroup: null,
+    groupsStatus: {},
+    groupsVisited: {},
+    menuParentGroup: null,
+  },
+};
 export const initialStatePendingChanges = 0;
 
 export function reducer(
@@ -68,6 +76,67 @@ export function reducer(
 
       return result;
     }
+    case ConfiguratorActions.SET_CURRENT_GROUP: {
+      const newCurrentGroup: string = action.payload.currentGroup;
+
+      return {
+        ...state,
+        interactionState: {
+          ...state.interactionState,
+          currentGroup: newCurrentGroup,
+        },
+      };
+    }
+    case ConfiguratorActions.SET_MENU_PARENT_GROUP: {
+      const newMenuParentGroup: string = action.payload.menuParentGroup;
+
+      return {
+        ...state,
+        interactionState: {
+          ...state.interactionState,
+          menuParentGroup: newMenuParentGroup,
+        },
+      };
+    }
+    case ConfiguratorActions.SET_GROUPS_VISITED: {
+      const groupIds: string[] = action.payload.visitedGroups;
+
+      const changedInteractionState: Configurator.InteractionState = {
+        groupsVisited: {},
+      };
+
+      //Set Current state items
+      Object.keys(state.interactionState.groupsVisited).forEach(
+        (groupId) => (changedInteractionState.groupsVisited[groupId] = true)
+      );
+
+      //Add new Groups
+      groupIds.forEach(
+        (groupId) => (changedInteractionState.groupsVisited[groupId] = true)
+      );
+
+      return {
+        ...state,
+        interactionState: {
+          ...state.interactionState,
+          groupsVisited: changedInteractionState.groupsVisited,
+        },
+      };
+    }
+    case ConfiguratorActions.SET_GROUPS_COMPLETED: {
+      return setGroupStatus(
+        state,
+        action.payload.completedGroups,
+        Configurator.GroupStatus.COMPLETE
+      );
+    }
+    case ConfiguratorActions.SET_GROUPS_ERROR: {
+      return setGroupStatus(
+        state,
+        action.payload.errorGroups,
+        Configurator.GroupStatus.ERROR
+      );
+    }
   }
   return state;
 }
@@ -87,4 +156,34 @@ function takeOverChanges(
     ...content,
   };
   return result;
+}
+
+function setGroupStatus(
+  state: Configurator.Configuration,
+  groups: string[],
+  status: Configurator.GroupStatus
+): Configurator.Configuration {
+  const changedInteractionState: Configurator.InteractionState = {
+    groupsStatus: {},
+  };
+
+  //Set Current state items
+  Object.keys(state.interactionState.groupsStatus).forEach(
+    (groupId) =>
+      (changedInteractionState.groupsStatus[groupId] =
+        state.interactionState.groupsStatus[groupId])
+  );
+
+  //Add status for groups
+  groups.forEach(
+    (groupId) => (changedInteractionState.groupsStatus[groupId] = status)
+  );
+
+  return {
+    ...state,
+    interactionState: {
+      ...state.interactionState,
+      groupsStatus: changedInteractionState.groupsStatus,
+    },
+  };
 }

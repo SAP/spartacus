@@ -17,7 +17,7 @@ import { GenericConfigurator } from '../../../../model/generic-configurator.mode
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
-import { ConfiguratorActions, ConfiguratorUiActions } from '../actions';
+import { ConfiguratorActions } from '../actions';
 import {
   AddNextOwner,
   AddToCart,
@@ -208,7 +208,7 @@ export class ConfiguratorEffects {
   updateConfigurationSuccess$: Observable<
     | UpdateConfigurationFinalizeSuccess
     | UpdatePriceSummary
-    | ConfiguratorUiActions.SetCurrentGroup
+    | ConfiguratorActions.SetCurrentGroup
   > = this.actions$.pipe(
     ofType(UPDATE_CONFIGURATION_SUCCESS),
     map((action: UpdateConfigurationSuccess) => action.payload),
@@ -225,10 +225,10 @@ export class ConfiguratorEffects {
 
           //setCurrentGroup because in cases where a queue of updates exists with a group navigation in between,
           //we need to ensure that the last update determines the current group.
-          new ConfiguratorUiActions.SetCurrentGroup(
-            payload.owner.key,
-            this.getGroupWithAttributes(payload.groups)
-          ),
+          new ConfiguratorActions.SetCurrentGroup({
+            entityKey: payload.owner.key,
+            currentGroup: this.getGroupWithAttributes(payload.groups),
+          }),
         ])
       );
     })
@@ -266,8 +266,8 @@ export class ConfiguratorEffects {
 
   @Effect()
   groupChange$: Observable<
-    | ConfiguratorUiActions.SetCurrentGroup
-    | ConfiguratorUiActions.SetMenuParentGroup
+    | ConfiguratorActions.SetCurrentGroup
+    | ConfiguratorActions.SetMenuParentGroup
     | ReadConfigurationFail
     | ReadConfigurationSuccess
   > = this.actions$.pipe(
@@ -291,14 +291,14 @@ export class ConfiguratorEffects {
             .pipe(
               switchMap((configuration: Configurator.Configuration) => {
                 return [
-                  new ConfiguratorUiActions.SetCurrentGroup(
-                    action.payload.configuration.owner.key,
-                    action.payload.groupId
-                  ),
-                  new ConfiguratorUiActions.SetMenuParentGroup(
-                    action.payload.configuration.owner.key,
-                    action.payload.parentGroupId
-                  ),
+                  new ConfiguratorActions.SetCurrentGroup({
+                    entityKey: action.payload.configuration.owner.key,
+                    currentGroup: action.payload.groupId,
+                  }),
+                  new ConfiguratorActions.SetMenuParentGroup({
+                    entityKey: action.payload.configuration.owner.key,
+                    menuParentGroup: action.payload.parentGroupId,
+                  }),
                   new ReadConfigurationSuccess(configuration),
                 ];
               }),
