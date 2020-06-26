@@ -21,12 +21,12 @@
         <ng-container *ngIf="currentGroup$ | async as currentGroup">
           <ng-container *ngFor="let group of groups">
             <li
+              tabindex="0"
               (click)="click(group)"
               (keyup)="clickOnEnter($event, group)"
               class="cx-config-menu-item {{
                 getGroupStatus(group.id, configuration) | async
               }}"
-              tabindex="0"
             >
               <a [class.active]="currentGroup.id === group.id" role="link"
                 >{{ group.description }}
