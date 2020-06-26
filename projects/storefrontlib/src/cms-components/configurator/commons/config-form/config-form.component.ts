@@ -48,23 +48,6 @@ export class ConfigFormComponent implements OnInit {
       })
     );
 
-    this.routerData$
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorCommonsService.getOrCreateUiState(routerData.owner)
-        ),
-        take(1)
-      )
-      .subscribe();
-
-    this.routerData$
-      .pipe(take(1))
-      .subscribe((routerData) =>
-        this.configuratorGroupsService.subscribeToUpdateConfiguration(
-          routerData.owner
-        )
-      );
-
     this.currentGroup$ = this.routerData$.pipe(
       switchMap((routerData) =>
         this.configuratorGroupsService.getCurrentGroup(routerData.owner)
@@ -84,16 +67,16 @@ export class ConfigFormComponent implements OnInit {
     // Wait until update is triggered first, then wait until update is finished, to be sure that the configuration
     // is changed before the group status is set. This cannot be done in the effects, as we need to call the facade layer.
     this.configuratorCommonsService
-      .isConfigurationLoading(owner)
+      .hasPendingChanges(owner)
       .pipe(
-        filter((isLoading) => isLoading.valueOf()),
+        filter((hasPendingChanges) => hasPendingChanges.valueOf()),
         take(1)
       )
       .subscribe(() =>
         this.configuratorCommonsService
-          .isConfigurationLoading(owner)
+          .hasPendingChanges(owner)
           .pipe(
-            filter((isLoading) => !isLoading.valueOf()),
+            filter((hasPendingChanges) => !hasPendingChanges.valueOf()),
             take(1)
           )
           .subscribe(() =>
