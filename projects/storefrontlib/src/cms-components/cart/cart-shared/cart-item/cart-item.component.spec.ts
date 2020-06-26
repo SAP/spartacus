@@ -208,9 +208,9 @@ describe('CartItemComponent', () => {
   });
   it('should not display resolve errors message if array of statusSummary is empty', () => {
     const htmlElem = fixture.nativeElement;
-    expect(htmlElem.querySelectorAll('.cx-cart-item-issue').length).toBe(
+    expect(htmlElem.querySelectorAll('.cx-error-container').length).toBe(
       0,
-      "expected resolve errors message identified by selector '.cx-cart-item-issue' not to be present, but it is! innerHtml: " +
+      "expected resolve errors message identified by selector '.cx-error-container' not to be present, but it is! innerHtml: " +
         htmlElem.innerHTML
     );
   });
@@ -218,9 +218,9 @@ describe('CartItemComponent', () => {
     cartItemComponent.item.statusSummaryList = [{ numberOfIssues: 0 }];
     fixture.detectChanges();
     const htmlElem = fixture.nativeElement;
-    expect(htmlElem.querySelectorAll('.cx-cart-item-issue').length).toBe(
+    expect(htmlElem.querySelectorAll('.cx-error-container').length).toBe(
       0,
-      "expected resolve errors message identified by selector '.cx-cart-item-issue' not to be present, but it is! innerHtml: " +
+      "expected resolve errors message identified by selector '.cx-error-container' not to be present, but it is! innerHtml: " +
         htmlElem.innerHTML
     );
   });
@@ -229,10 +229,10 @@ describe('CartItemComponent', () => {
     fixture.detectChanges();
     const htmlElem = fixture.nativeElement;
     expect(
-      htmlElem.querySelectorAll('.cx-cart-item-issue').length
+      htmlElem.querySelectorAll('.cx-error-container').length
     ).toBeGreaterThan(
       0,
-      "expected resolve errors message identified by selector '.cx-cart-item-issue' to be present, but it is NOT! innerHtml: " +
+      "expected resolve errors message identified by selector '.cx-error-container' to be present, but it is NOT! innerHtml: " +
         htmlElem.innerHTML
     );
   });
