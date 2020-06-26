@@ -29,7 +29,7 @@ import {
   providedIn: 'root',
 })
 export class ProfileTagPushEventsService {
-  protected pushEvents$: Observable<ProfileTagPushEvent> = merge(
+  private pushEvents$: Observable<ProfileTagPushEvent> = merge(
     this.categoryPageVisited(),
     this.productDetailsPageView(),
     this.searchResultsChanged(),
@@ -62,14 +62,14 @@ export class ProfileTagPushEventsService {
     );
   }
 
-  addPushEvent(event: Observable<ProfileTagPushEvent>) {
+  addPushEvent(event: Observable<ProfileTagPushEvent>): void {
     this.pushEvents$ = merge(this.pushEvents$, event);
   }
 
   /**
    * Listens to the changes to the cart and pushes the event for profiletag to pick it up further.
    */
-  cartChanged(): Observable<CartChangedPushEvent> {
+  protected cartChanged(): Observable<CartChangedPushEvent> {
     return this.activeCartService.getActive().pipe(
       skipWhile((cart) => !Boolean(cart.entries) || cart.entries.length === 0),
       map(

@@ -11,7 +11,7 @@ import { ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
 
-describe('profileTagPushEventsService', () => {
+fdescribe('profileTagPushEventsService', () => {
   let profileTagPushEventsService: ProfileTagPushEventsService;
   let cartBehavior: ReplaySubject<Cart>;
   let activeCartService;
@@ -61,7 +61,7 @@ describe('profileTagPushEventsService', () => {
   it(`Should call the cartChanged method for every CartSnapshot event`, () => {
     let timesCalled = 0;
     const subscription = profileTagPushEventsService
-      .cartChanged()
+      .getPushEvents()
       .pipe(tap(() => timesCalled++))
       .subscribe();
     const mockOrderEntry: OrderEntry[] = [{ entryNumber: 7 }];
@@ -83,7 +83,7 @@ describe('profileTagPushEventsService', () => {
   it(`Should not call the cartChanged method when the cart is not modified`, () => {
     let timesCalled = 0;
     const subscription = profileTagPushEventsService
-      .cartChanged()
+      .getPushEvents()
       .pipe(tap(() => timesCalled++))
       .subscribe();
     subscription.unsubscribe();
@@ -93,7 +93,7 @@ describe('profileTagPushEventsService', () => {
   it(`Should not call the cartChanged method even when the entries have an empty array`, () => {
     let timesCalled = 0;
     const subscription = profileTagPushEventsService
-      .cartChanged()
+      .getPushEvents()
       .pipe(tap(() => timesCalled++))
       .subscribe();
     cartBehavior.next({ entries: [] });
@@ -105,7 +105,7 @@ describe('profileTagPushEventsService', () => {
   it(`Should call the cartChanged method every time after a non-empty cart is passed`, () => {
     let timesCalled = 0;
     const subscription = profileTagPushEventsService
-      .cartChanged()
+      .getPushEvents()
       .pipe(tap(() => timesCalled++))
       .subscribe();
     const mockOrderEntry: OrderEntry[] = [{ entryNumber: 7 }];
