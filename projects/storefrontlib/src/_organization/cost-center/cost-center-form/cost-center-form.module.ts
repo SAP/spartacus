@@ -10,6 +10,8 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { FormErrorsModule } from 'projects/storefrontlib/src/shared/components/form/form-errors/form-errors.module';
+import { CurrencyCommonFormModule } from '../../shared/form/currency/currency-common-form.module';
+import { UnitCommonFormModule } from '../../shared/form/unit/unit-common-form.module';
 import { CostCenterFormComponent } from './cost-center-form.component';
 
 @NgModule({
@@ -22,6 +24,8 @@ import { CostCenterFormComponent } from './cost-center-form.component';
     I18nModule,
     ReactiveFormsModule,
     FormErrorsModule,
+    CurrencyCommonFormModule,
+    UnitCommonFormModule,
   ],
   declarations: [CostCenterFormComponent],
   exports: [CostCenterFormComponent],
