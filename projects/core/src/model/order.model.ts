@@ -31,6 +31,12 @@ export interface OrderEntry {
   returnableQuantity?: number;
   cancelledItemsPrice?: Price;
   cancellableQuantity?: number;
+  statusSummaryList?: StatusSummary[];
+}
+
+export interface StatusSummary {
+  numberOfIssues?: number;
+  status?: string;
 }
 
 export interface CancelOrReturnRequestEntryInput {
