@@ -1,3 +1,9 @@
+<div
+  style="background-color: crimson;"
+  [ngClass]="compact ? 'cx-compact row' : 'row'"
+>
+  numberOfIssues: {{ item.statusSummaryList[0]?.numberOfIssues }}
+</div>
 <div [ngClass]="compact ? 'cx-compact row' : 'row'">
   <!-- Item Image -->
   <div class="col-2 cx-image-container">

@@ -11,6 +11,7 @@ export interface Item {
   basePrice?: any;
   totalPrice?: any;
   updateable?: boolean;
+  statusSummaryList?: any[];
 }
 
 export interface CartItemComponentOptions {
