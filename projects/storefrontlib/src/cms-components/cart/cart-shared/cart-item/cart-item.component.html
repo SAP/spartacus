@@ -1,4 +1,5 @@
 <div
+  *ngIf="item.statusSummaryList[0]?.numberOfIssues > 0"
   style="background-color: crimson;"
   [ngClass]="compact ? 'cx-compact row' : 'row'"
 >
