@@ -18,7 +18,8 @@ export class OccConfiguratorTextfieldAddToCartSerializer
     source: ConfiguratorTextfield.AddToCartParameters,
     target?: OccConfiguratorTextfield.AddToCartParameters
   ): OccConfiguratorTextfield.AddToCartParameters {
-    target = {
+    const resultTarget: OccConfiguratorTextfield.AddToCartParameters = {
+      ...target,
       userId: source.userId,
       cartId: source.cartId,
       product: { code: source.productCode },
@@ -27,10 +28,10 @@ export class OccConfiguratorTextfieldAddToCartSerializer
     };
 
     source.configuration.configurationInfos.forEach((info) =>
-      this.convertInfo(info, target.configurationInfos)
+      this.convertInfo(info, resultTarget.configurationInfos)
     );
 
-    return target;
+    return resultTarget;
   }
 
   convertInfo(

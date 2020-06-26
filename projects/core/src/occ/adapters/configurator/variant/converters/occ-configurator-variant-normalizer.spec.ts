@@ -413,6 +413,30 @@ describe('OccConfiguratorVariantNormalizer', () => {
     ).toBe(Configurator.UiType.SINGLE_SELECTION_IMAGE);
   });
 
+  it('should return UIType String for String occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.STRING
+      )
+    ).toBe(Configurator.UiType.STRING);
+  });
+
+  it('should return UIType checkox for checkbox occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.CHECK_BOX
+      )
+    ).toBe(Configurator.UiType.CHECKBOX);
+  });
+
+  it('should return UIType multi selection image for corresponding occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.MULTI_SELECTION_IMAGE
+      )
+    ).toBe(Configurator.UiType.MULTI_SELECTION_IMAGE);
+  });
+
   it('should return UIType Not Implemented for unkonwn occ configurator type', () => {
     expect(
       occConfiguratorVariantNormalizer.convertAttributeType(
