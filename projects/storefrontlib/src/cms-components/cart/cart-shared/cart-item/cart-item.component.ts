@@ -13,6 +13,7 @@ export interface Item {
   totalPrice?: any;
   updateable?: boolean;
   statusSummaryList?: any[];
+  configurationInfos?: any[];
 }
 
 export interface CartItemComponentOptions {
