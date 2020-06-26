@@ -1,13 +1,13 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <nav>
-    <ul class="cx-config-menu" tabindex="0">
+    <ul class="cx-config-menu">
       <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
         <li
-          tabindex="0"
           (click)="navigateUp()"
           (keyup)="navigateUpOnEnter($event)"
           class="cx-config-menu-back"
           *ngIf="parentGroup !== null"
+          tabindex="0"
         >
           <!--TODO: "Back" text is still under discussion -->
           <a role="link"
