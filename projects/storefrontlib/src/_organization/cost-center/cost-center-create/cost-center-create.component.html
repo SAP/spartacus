@@ -1,11 +1,11 @@
 <cx-split>
   <cx-view>
-    <form [formGroup]="initForm(unitCode$ | async)" (ngSubmit)="save()">
+    <form [formGroup]="form" (ngSubmit)="save()">
       <h3>
-        <a class="link" [routerLink]="'../'">
+        <button class="link" [routerLink]="'../'" (click)="back()">
           <cx-icon type="CARET_LEFT"></cx-icon>
           {{ 'organization.cancel' | cxTranslate }}
-        </a>
+        </button>
         {{ 'organization.create' | cxTranslate }}
         <button class="button primary" type="submit">
           {{ 'organization.save' | cxTranslate }}

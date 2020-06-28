@@ -7,7 +7,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { first, map, take } from 'rxjs/operators';
 import { CostCenterFormComponentService } from '../cost-center-form/cost-center-form.component.service';
 
 @Component({
@@ -17,32 +17,45 @@ import { CostCenterFormComponentService } from '../cost-center-form/cost-center-
 })
 export class CostCenterCreateComponent {
   form: FormGroup;
+  /**
+   * The generated form key, used to restore the form value.
+   */
   protected formKey: string;
 
   unitCode$: Observable<string> = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.queryParams?.['parentUnit']),
-    first()
+    first(),
+    take(1)
   );
 
+  // TODO:#form-persistence - consolidate ctor
   constructor(
     protected costCenterService: CostCenterService,
     protected routingService: RoutingService,
 
     protected globalMessageService: GlobalMessageService,
     protected costCenterFormService: CostCenterFormComponentService
-  ) {}
+  ) {
+    this.initForm();
+  }
 
-  initForm(unitCode: string): FormGroup {
-    this.formKey = this.createFormKey(unitCode);
+  protected initForm(): void {
+    // TODO:#form-persistence this.formKey = this.createFormKey(unitCode);
+    this.formKey = this.createFormKey();
     if (this.costCenterFormService.has(this.formKey)) {
       this.showFormRestoredMessage();
     }
+    this.form = this.costCenterFormService.getForm(this.formKey);
 
-    this.form = this.costCenterFormService.getForm(
-      { unit: { uid: unitCode } },
-      this.formKey
-    );
-    return this.form;
+    this.unitCode$.subscribe((unitCode) => {
+      if (unitCode) {
+        this.form.patchValue({ unit: { uid: unitCode } });
+      }
+    });
+  }
+
+  back(): void {
+    this.removeForm();
   }
 
   protected createFormKey(unitCode?: string): string {

@@ -56,7 +56,7 @@ export class UnitCommonFormComponent
   ) {}
 
   writeValue(value: B2BUnit): void {
-    if (value) {
+    if (value && value.uid) {
       this.form.setValue({ uid: value.uid });
     }
   }

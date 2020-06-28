@@ -19,6 +19,9 @@ import { CostCenterFormComponentService } from '../cost-center-form/cost-center-
 })
 export class CostCenterEditComponent {
   form: FormGroup;
+  /**
+   * The generated form key, used to restore the form value.
+   */
   protected formKey: string;
   /**
    * The code is used to update the cost center.
@@ -32,9 +35,15 @@ export class CostCenterEditComponent {
 
   costCenter$: Observable<CostCenter> = this.code$.pipe(
     tap((code) => this.costCenterService.loadCostCenter(code)),
-    switchMap((code) => this.costCenterService.get(code))
+    switchMap((code) => this.costCenterService.get(code)),
+    tap((costCenter) => {
+      if (!this.form.dirty) {
+        this.form.patchValue(costCenter);
+      }
+    })
   );
 
+  // TODO:#form-persistence - consolidate ctor
   constructor(
     // we can't do without the router as the routingService
     // is unable to resolve the parent routing params
@@ -44,22 +53,27 @@ export class CostCenterEditComponent {
 
     protected globalMessageService: GlobalMessageService,
     protected costCenterFormService: CostCenterFormComponentService
-  ) {}
+  ) {
+    this.initForm();
+  }
 
-  initForm(costCenter: CostCenter): FormGroup {
-    this.formKey = this.createFormKey(costCenter);
+  protected initForm(): void {
+    this.formKey = this.createFormKey();
     if (this.costCenterFormService.has(this.formKey)) {
       this.showFormRestoredMessage();
     }
 
-    if (this.costCenterFormService.has(this.formKey)) {
-      this.form = this.costCenterFormService.getForm(costCenter, this.formKey);
-    }
-    return this.form;
+    this.form = this.costCenterFormService.getForm(this.formKey);
   }
 
-  protected createFormKey(costCenter: CostCenter): string {
-    return `cost-center-edit-${costCenter.code}-${costCenter.unit?.uid}`;
+  back(): void {
+    this.removeForm();
+  }
+
+  protected createFormKey(): string {
+    // TODO:#form-persistence
+    //return `cost-center-edit-${costCenter.code}-${costCenter.unit?.uid}`;
+    return `cost-center-edit`;
   }
 
   protected showFormRestoredMessage(): void {

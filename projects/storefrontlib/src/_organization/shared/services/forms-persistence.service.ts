@@ -28,8 +28,7 @@ export class FormsPersistenceService {
    */
   get<T extends AbstractControl>(
     key: string,
-    formConfiguration: { [key: string]: any },
-    defaultValue?: object
+    formConfiguration: { [key: string]: any }
   ): T {
     if (!key) {
       return <T>(<unknown>this.createForm(formConfiguration));
@@ -40,10 +39,6 @@ export class FormsPersistenceService {
     }
 
     const fg = this.createForm(formConfiguration);
-    if (defaultValue) {
-      fg.patchValue(defaultValue);
-    }
-
     this.set(key, fg);
     return <T>(<unknown>fg);
   }
