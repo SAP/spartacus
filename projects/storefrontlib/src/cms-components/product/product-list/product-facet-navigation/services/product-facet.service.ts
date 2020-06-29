@@ -60,7 +60,7 @@ export class ProductFacetService {
   protected filterBrands(breadcrumbs: Breadcrumb[]): Breadcrumb[] {
     return breadcrumbs.filter(
       (breadcrumb: Breadcrumb) =>
-        !breadcrumb.facetValueCode.startsWith('brand_')
+        !breadcrumb?.facetValueCode?.startsWith('brand_')
     );
   }
 
