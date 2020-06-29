@@ -20,29 +20,28 @@ class MockCmsService {
   }
 }
 
-const mockRouterStateWithoutParams: RouterState = {
+const mockRouterStateWithTranslatablePath: RouterState = {
   navigationId: 0,
   state: {
-    url: 'powertools-spa/en/USD/organization/purchase-limits',
+    url: 'powertools-spa/en/USD/organization/cost-centers',
     queryParams: {},
     params: {},
     context: {
-      id: '/organization/purchase-limits',
+      id: '/organization/cost-centers',
       type: PageType.CONTENT_PAGE,
     },
     cmsRequired: true,
   },
 };
 
-const mockRouterStateWithParams: RouterState = {
+const mockRouterStateWithoutTranslatablePath: RouterState = {
   navigationId: 0,
   state: {
-    url:
-      'powertools-spa/en/USD/organization/unit/address/Rustic%20Retail/8796098887703',
+    url: 'powertools-spa/en/USD/organization/cost-centers/Custom_Retail/edit',
     queryParams: {},
-    params: { code: 'Rustic Retail', id: '8796098887703' },
+    params: {},
     context: {
-      id: '/organization/unit/address/Rustic Retail/8796098887703',
+      id: '/organization/cost-centers',
       type: PageType.CONTENT_PAGE,
     },
     cmsRequired: true,
@@ -73,32 +72,8 @@ describe('OrganizationMetaResolver', () => {
     resolver = TestBed.inject(OrganizationMetaResolver);
   });
 
-  it('should resolve title without parameters', () => {
-    state.next(mockRouterStateWithoutParams);
-
-    let titleWithoutParams: string;
-    resolver
-      .resolveTitle()
-      .subscribe((value) => (titleWithoutParams = value))
-      .unsubscribe();
-
-    expect(titleWithoutParams).toEqual('breadcrumbs.purchase-limits');
-  });
-
-  it('should resolve title with parameters', () => {
-    state.next(mockRouterStateWithParams);
-
-    let titleWithParameters: string;
-    resolver
-      .resolveTitle()
-      .subscribe((value) => (titleWithParameters = value))
-      .unsubscribe();
-
-    expect(titleWithParameters).toEqual('8796098887703');
-  });
-
-  it('should resolve breadcrumbs without parameters', () => {
-    state.next(mockRouterStateWithoutParams);
+  it('should resolve breadcrumbs with translation', () => {
+    state.next(mockRouterStateWithTranslatablePath);
 
     let result: BreadcrumbMeta[];
     resolver
@@ -108,12 +83,12 @@ describe('OrganizationMetaResolver', () => {
 
     expect(result).toEqual([
       { label: 'common.home', link: '/' },
-      { label: 'breadcrumbs.organization', link: '/organization' },
+      { label: 'organization', link: '/organization' },
     ]);
   });
 
-  it('should resolve breadcrumbs with parameters', () => {
-    state.next(mockRouterStateWithParams);
+  it('should resolve breadcrumbs without translation', () => {
+    state.next(mockRouterStateWithoutTranslatablePath);
 
     let result: BreadcrumbMeta[];
     resolver
@@ -123,12 +98,11 @@ describe('OrganizationMetaResolver', () => {
 
     expect(result).toEqual([
       { label: 'common.home', link: '/' },
-      { label: 'breadcrumbs.organization', link: '/organization' },
-      { label: 'breadcrumbs.unit', link: '/organization/unit' },
-      { label: 'breadcrumbs.address', link: '/organization/unit/address' },
+      { label: 'organization', link: '/organization' },
+      { label: 'cost-centers', link: '/organization/cost-centers' },
       {
-        label: 'Rustic Retail',
-        link: '/organization/unit/address/Rustic%20Retail',
+        label: 'Custom_Retail',
+        link: '/organization/cost-centers/Custom_Retail',
       },
     ]);
   });
