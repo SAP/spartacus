@@ -4270,14 +4270,6 @@ export namespace Occ {
     statusDisplay?: string;
   }
 
-  export interface B2BOrder extends Order {
-    chinesePaymentInfo?: any;
-    costCenter?: CostCenter;
-    paymentStatus?: string;
-    purchaseOrderNumber?: string;
-    totalUnitCount?: number;
-  }
-
   export interface Trigger {
     activationTime?: string;
     displayTimeTable?: string;
@@ -4288,7 +4280,7 @@ export namespace Occ {
     code?: string;
     customerOrderApprovalRecords?: OrderApprovalRecord[];
     merchantOrderApprovalRecords?: OrderApprovalRecord[];
-    order?: B2BOrder;
+    order?: Order;
     trigger?: Trigger;
   }
 
