@@ -16,6 +16,18 @@
       padding-top: 10px;
     }
 
+    .cx-error-msg-action-link a {
+      text-transform: capitalize;
+      text-decoration: underline;
+      cursor: pointer;
+      display: inline-block;
+      color: var(--cx-color-text);
+      &:hover {
+        color: var(--cx-color-primary);
+        text-decoration: none;
+      }
+    }
+
     .cx-error-icon {
       color: var(--cx-color-danger);
       font-size: 30px;

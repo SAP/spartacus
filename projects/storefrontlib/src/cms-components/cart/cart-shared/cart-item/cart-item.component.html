@@ -10,6 +10,7 @@
             | cxTranslate: { errors: item.statusSummaryList[0]?.numberOfIssues }
         }}
         <cx-configure-cart-entry
+          class="cx-error-msg-action-link"
           *ngIf="item.product.configurable"
           [cartEntry]="item"
           [readOnly]="readonly"
