@@ -28,6 +28,11 @@ describe(`${
     cy.requireLoggedIn();
     cy.visit('/');
   });
+
+  it('should save for later and then send back to cart', () => {
+    saveForLater.verifySaveForLaterAndBackToCart();
+  });
+
   it('should save for later/move to cart for items', () => {
     saveForLater.verifySaveForLaterAndRemove();
   });

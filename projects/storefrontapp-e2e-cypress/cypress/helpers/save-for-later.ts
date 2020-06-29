@@ -51,7 +51,7 @@ export function stubForCartsRefresh() {
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/*/carts/selectivecart*&lang=en&curr=USD`
+    )}/users/*/carts/selectivecart*?*&lang=en&curr=USD`
   ).as('refresh_selectivecart');
 }
 export function stubForCartRefresh() {
@@ -161,6 +161,21 @@ export function verifyWhenLogBackIn() {
   validateProduct(products[2], 1, ItemList.SaveForLater);
 }
 
+export function verifySaveForLaterAndBackToCart() {
+  cy.visit('/cart');
+
+  addProductToCart(products[0]);
+  addProductToCart(products[1]);
+  moveItem(products[0], ItemList.SaveForLater);
+  moveItem(products[1], ItemList.SaveForLater);
+
+  addProductToCart(products[0]);
+  addProductToCart(products[1]);
+  moveItem(products[1], ItemList.Cart);
+  validateCart(1, 1);
+  cart.logOutAndEmptyCart();
+}
+
 export function verifySaveForLaterAndRemove() {
   cy.visit('/cart');
   validateCart(0, 0);
@@ -173,10 +188,13 @@ export function verifySaveForLaterAndRemove() {
   verifyMiniCartQty(1);
 
   // validate merge from cart to save for later and back
-  addProductToCart(products[0]);
-  moveItem(products[0], ItemList.SaveForLater);
+  addProductToCart(mergeProduct);
+  validateCart(2, 1);
+  verifyMiniCartQty(2);
+  moveItem(mergeProduct, ItemList.SaveForLater);
   validateCart(1, 1);
-  moveItem(products[0], ItemList.Cart);
+  verifyMiniCartQty(1);
+  moveItem(mergeProduct, ItemList.Cart);
   validateCart(2, 0);
   verifyMiniCartQty(3); // Total number of items in cart
   cart.logOutAndEmptyCart();
