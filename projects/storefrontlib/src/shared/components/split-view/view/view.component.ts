@@ -90,6 +90,6 @@ export class ViewComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy() {
     this.splitService.remove(this.viewPosition);
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 }

@@ -17,13 +17,13 @@ describe('SplitViewService', () => {
 
   describe('nextViewNum()', () => {
     it('should return 0 for the next view number', () => {
-      expect(service.generateNextPosition).toEqual(0);
+      expect(service.generateNextPosition()).toEqual(0);
     });
 
     it('should return 3 for the next view number', () => {
       service.add(0);
       service.add(1);
-      expect(service.generateNextPosition).toEqual(2);
+      expect(service.generateNextPosition()).toEqual(2);
     });
   });
 
