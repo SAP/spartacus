@@ -18,6 +18,7 @@ import { Observable, of } from 'rxjs';
 import { ConfigAttributeFooterComponent } from '../config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
 import { ConfigAttributeCheckBoxListComponent } from '../config-attribute-types/config-attribute-checkbox-list/config-attribute-checkbox-list.component';
+import { ConfigAttributeCheckBoxComponent } from '../config-attribute-types/config-attribute-checkbox/config-attribute-checkbox.component';
 import { ConfigAttributeDropDownComponent } from '../config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
 import { ConfigAttributeInputFieldComponent } from '../config-attribute-types/config-attribute-input-field/config-attribute-input-field.component';
 import { ConfigAttributeMultiSelectionImageComponent } from '../config-attribute-types/config-attribute-multi-selection-image/config-attribute-multi-selection-image.component';
@@ -202,6 +203,7 @@ describe('ConfigurationFormComponent', () => {
         ConfigAttributeDropDownComponent,
         ConfigAttributeReadOnlyComponent,
         ConfigPreviousNextButtonsComponent,
+        ConfigAttributeCheckBoxComponent,
         ConfigAttributeCheckBoxListComponent,
         ConfigAttributeMultiSelectionImageComponent,
         ConfigAttributeSingleSelectionImageComponent,

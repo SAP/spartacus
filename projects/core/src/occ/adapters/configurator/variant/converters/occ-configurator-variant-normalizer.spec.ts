@@ -91,7 +91,7 @@ const attributeStringWithValue: Configurator.Attribute = {
 const attributeCheckboxWOValue: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
-  uiType: Configurator.UiType.CHECKBOX,
+  uiType: Configurator.UiType.CHECKBOXLIST,
   values: [
     {
       name: 'name1',
@@ -106,7 +106,7 @@ const attributeCheckboxWOValue: Configurator.Attribute = {
 const attributeCheckboxWithValue: Configurator.Attribute = {
   name: attributeName,
   required: requiredFlag,
-  uiType: Configurator.UiType.CHECKBOX,
+  uiType: Configurator.UiType.CHECKBOXLIST,
   values: [
     {
       name: 'name1',
@@ -402,7 +402,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       occConfiguratorVariantNormalizer.convertAttributeType(
         OccConfigurator.UiType.CHECK_BOX_LIST
       )
-    ).toBe(Configurator.UiType.CHECKBOX);
+    ).toBe(Configurator.UiType.CHECKBOXLIST);
   });
 
   it('should return UIType Checkbox for Checkbox occ configurator type', () => {
@@ -411,6 +411,30 @@ describe('OccConfiguratorVariantNormalizer', () => {
         OccConfigurator.UiType.SINGLE_SELECTION_IMAGE
       )
     ).toBe(Configurator.UiType.SINGLE_SELECTION_IMAGE);
+  });
+
+  it('should return UIType String for String occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.STRING
+      )
+    ).toBe(Configurator.UiType.STRING);
+  });
+
+  it('should return UIType checkox for checkbox occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.CHECK_BOX
+      )
+    ).toBe(Configurator.UiType.CHECKBOX);
+  });
+
+  it('should return UIType multi selection image for corresponding occ configurator type', () => {
+    expect(
+      occConfiguratorVariantNormalizer.convertAttributeType(
+        OccConfigurator.UiType.MULTI_SELECTION_IMAGE
+      )
+    ).toBe(Configurator.UiType.MULTI_SELECTION_IMAGE);
   });
 
   it('should return UIType Not Implemented for unkonwn occ configurator type', () => {

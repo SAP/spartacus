@@ -16,8 +16,11 @@ export class OccConfiguratorTextfieldNormalizer
     source: OccConfiguratorTextfield.Configuration,
     target?: ConfiguratorTextfield.Configuration
   ): ConfiguratorTextfield.Configuration {
-    target = { ...(source as any) };
+    const resultTarget: ConfiguratorTextfield.Configuration = {
+      ...target,
+      ...(source as any),
+    };
 
-    return target;
+    return resultTarget;
   }
 }
