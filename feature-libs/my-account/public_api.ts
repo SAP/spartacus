@@ -1,4 +1,6 @@
 /*
  * Public API Surface of my-account
  */
-export * from './src/my-account.module';
+export * from '@spartacus/my-account/cost-center';
+export * from '@spartacus/my-account/domain';
+// export * from './src/my-account.module';
