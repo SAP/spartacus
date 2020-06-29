@@ -39,8 +39,8 @@ export class ConfiguratorTextfieldService {
       })
     );
 
-    return this.store.select(
-      ConfiguratorTextFieldSelectors.getConfigurationContent
+    return this.store.pipe(
+      select(ConfiguratorTextFieldSelectors.getConfigurationContent)
     );
   }
 

@@ -116,7 +116,7 @@ describe('ConfiguratorTextfieldService', () => {
     );
 
     spyOn(store, 'dispatch').and.stub();
-    spyOn(store, 'select').and.returnValue(of(productConfiguration));
+    spyOn(store, 'pipe').and.returnValue(of(productConfiguration));
   });
 
   it('should create service', () => {
@@ -158,9 +158,9 @@ describe('ConfiguratorTextfieldService', () => {
     );
   });
 
-  it('should access the store with selector', () => {
+  it('should access the store when calling createConfiguration', () => {
     serviceUnderTest.createConfiguration(owner);
-    expect(store.select).toHaveBeenCalled();
+    expect(store.pipe).toHaveBeenCalled();
   });
 
   it('should update a configuration, accessing the store', () => {

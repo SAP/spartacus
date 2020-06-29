@@ -102,14 +102,6 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
-  it('should get router data properly after executing onInit', () => {
-    classUnderTest.routerData$
-      .subscribe((data) =>
-        expect(data.owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT)
-      )
-      .unsubscribe();
-  });
-
   it('should display addToCart text because router points to owner product initially', () => {
     checkButtonText(' configuratorTextfield.addToCart.button ');
   });

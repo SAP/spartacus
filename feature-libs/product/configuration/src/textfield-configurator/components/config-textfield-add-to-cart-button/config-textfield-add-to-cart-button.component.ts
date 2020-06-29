@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { GenericConfigurator, RoutingService } from '@spartacus/core';
-import {
-  ConfigRouterExtractorService,
-  ConfigurationRouter,
-} from '@spartacus/storefront';
-import { Observable } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 
@@ -14,17 +9,13 @@ import { ConfiguratorTextfield } from '../../model/configurator-textfield.model'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigTextfieldAddToCartButtonComponent {
-  routerData$: Observable<ConfigurationRouter.Data>;
-  constructor(
-    private configuratorTextfieldService: ConfiguratorTextfieldService,
-    private routingService: RoutingService,
-    private configRouterExtractorService: ConfigRouterExtractorService
-  ) {
-    this.routerData$ = this.configRouterExtractorService.extractRouterData();
-  }
-
   @Input() configuration: ConfiguratorTextfield.Configuration;
   @Input() productCode: string;
+
+  constructor(
+    private configuratorTextfieldService: ConfiguratorTextfieldService,
+    private routingService: RoutingService
+  ) {}
 
   /**
    * Adds a textfield configuration to the cart or updates it
