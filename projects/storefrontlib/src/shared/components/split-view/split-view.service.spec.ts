@@ -77,6 +77,28 @@ describe('SplitViewService', () => {
   });
 
   describe('toggle()', () => {
+    it('should add view if it doesnt exist in views array', () => {
+      spyOn(service, 'add');
+      service.toggle(2);
+      expect(service.add).toHaveBeenCalledWith(2, false);
+    });
+
+    it('should resolve last value for visibleViewCount$ when forced false toggled before', () => {
+      let result: number;
+
+      service.add(0);
+      service.add(1);
+      service.add(2);
+
+      service.toggle(1, false);
+      service
+        .visibleViewCount()
+        .subscribe((visible) => (result = visible))
+        .unsubscribe();
+
+      expect(result).toEqual(2);
+    });
+
     it('should resolve 2 for visibleViewCount$ when one view toggled', () => {
       let result: number;
 
@@ -125,7 +147,7 @@ describe('SplitViewService', () => {
       expect(result).toEqual(2);
     });
 
-    it('should keep  visibleViewCount$ after toggling hide state', () => {
+    it('should keep visibleViewCount$ after toggling hide state', () => {
       let result: number;
 
       service.add(0);
