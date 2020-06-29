@@ -1,5 +1,13 @@
+import { ICON_TYPE } from './../../../misc/icon/icon.model';
 import { Component, OnInit } from '@angular/core';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  switchMap,
+  tap,
+  withLatestFrom,
+  take,
+} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import {
@@ -21,6 +29,7 @@ import {
 export class CostCenterBudgetsComponent extends AbstractListingComponent
   implements OnInit {
   cxRoute = 'costCenterBudgets';
+  ICON_TYPE = ICON_TYPE;
 
   constructor(
     protected routingService: RoutingService,
@@ -60,5 +69,13 @@ export class CostCenterBudgetsComponent extends AbstractListingComponent
         )
       )
     );
+  }
+
+  unassign({ row }) {
+    this.code$
+      .pipe(take(1))
+      .subscribe((code) =>
+        this.costCenterService.unassignBudget(code, row.code)
+      );
   }
 }

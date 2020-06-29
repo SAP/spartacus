@@ -29,6 +29,7 @@ export class UserGroupPermissionsComponent extends AbstractListingComponent
   implements OnInit {
   cxRoute = 'userGroupPermissions';
   ICON_TYPE = ICON_TYPE;
+
   constructor(
     protected routingService: RoutingService,
     protected userGroupService: UserGroupService

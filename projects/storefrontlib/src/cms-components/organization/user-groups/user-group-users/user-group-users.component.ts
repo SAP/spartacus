@@ -29,6 +29,7 @@ export class UserGroupUsersComponent extends AbstractListingComponent
   implements OnInit {
   cxRoute = 'userGroupUsers';
   ICON_TYPE = ICON_TYPE;
+
   constructor(
     protected routingService: RoutingService,
     protected userGroupService: UserGroupService
