@@ -34,7 +34,10 @@ describe('SplitViewService', () => {
       service.add(0);
       service.add(1);
       service.add(2);
-      service.visibleViewCount().subscribe((visible) => (result = visible));
+      service
+        .visibleViewCount()
+        .subscribe((visible) => (result = visible))
+        .unsubscribe();
 
       expect(result).toEqual(3);
     });
@@ -45,7 +48,10 @@ describe('SplitViewService', () => {
       service.add(0);
       service.add(1);
       service.add(2, true);
-      service.visibleViewCount().subscribe((visible) => (result = visible));
+      service
+        .visibleViewCount()
+        .subscribe((visible) => (result = visible))
+        .unsubscribe();
 
       expect(result).toEqual(2);
     });
@@ -61,7 +67,10 @@ describe('SplitViewService', () => {
 
       service.remove(4);
       service.remove(3);
-      service.visibleViewCount().subscribe((visible) => (result = visible));
+      service
+        .visibleViewCount()
+        .subscribe((visible) => (result = visible))
+        .unsubscribe();
 
       expect(result).toEqual(3);
     });
@@ -76,7 +85,10 @@ describe('SplitViewService', () => {
       service.add(2);
 
       service.toggle(2);
-      service.visibleViewCount().subscribe((visible) => (result = visible));
+      service
+        .visibleViewCount()
+        .subscribe((visible) => (result = visible))
+        .unsubscribe();
 
       expect(result).toEqual(2);
     });
@@ -89,7 +101,10 @@ describe('SplitViewService', () => {
       service.add(2);
 
       service.toggle(2, false);
-      service.visibleViewCount().subscribe((visible) => (result = visible));
+      service
+        .visibleViewCount()
+        .subscribe((visible) => (result = visible))
+        .unsubscribe();
 
       expect(result).toEqual(3);
     });
@@ -102,7 +117,10 @@ describe('SplitViewService', () => {
       service.add(2, true);
 
       service.toggle(2, true);
-      service.visibleViewCount().subscribe((visible) => (result = visible));
+      service
+        .visibleViewCount()
+        .subscribe((visible) => (result = visible))
+        .unsubscribe();
 
       expect(result).toEqual(2);
     });
@@ -115,7 +133,10 @@ describe('SplitViewService', () => {
       service.add(2);
 
       service.toggle(2);
-      service.visibleViewCount().subscribe((visible) => (result = visible));
+      service
+        .visibleViewCount()
+        .subscribe((visible) => (result = visible))
+        .unsubscribe();
 
       expect(result).toEqual(2);
     });
@@ -128,7 +149,10 @@ describe('SplitViewService', () => {
       service.add(2);
 
       service.toggle(1);
-      service.visibleViewCount().subscribe((visible) => (result = visible));
+      service
+        .visibleViewCount()
+        .subscribe((visible) => (result = visible))
+        .unsubscribe();
 
       expect(result).toEqual(1);
     });
