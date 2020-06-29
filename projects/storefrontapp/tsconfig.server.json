@@ -15,8 +15,8 @@
       "@spartacus/my-account/main": [
         "../../feature-libs/my-account/main/public_api"
       ],
-      "@spartacus/my-account/cost-center": [
-        "../../feature-libs/my-account/cost-center/public_api"
+      "@spartacus/my-account/organization": [
+        "../../feature-libs/my-account/organization/public_api"
       ],
       "@spartacus/product": ["../../feature-libs/product/public_api"],
       "@spartacus/product/configuration": [

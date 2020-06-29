@@ -1,1 +1,1 @@
-export const DUMMY_DOMAIN = 'dummy domain';
+export * from './my-account.module';

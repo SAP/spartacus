@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CompanyModule } from './company.module';
+import { OrganizationModule } from '@spartacus/my-account/organization';
 
 @NgModule({
-  imports: [CommonModule, CompanyModule],
+  imports: [CommonModule, OrganizationModule],
 })
 export class MyAccountModule {}
