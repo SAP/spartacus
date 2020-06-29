@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { YyyService } from '@spartacus/product/domain';
+import { YyyService } from '@spartacus/product/main';
 
 @Injectable({ providedIn: 'root' })
 export class XxxService {

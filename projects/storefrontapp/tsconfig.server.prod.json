@@ -9,7 +9,7 @@
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/my-account": ["../../dist/my-account"],
       "@spartacus/product": ["../../dist/product"],
-      "@spartacus/product/domain": ["../../dist/product/domain"],
+      "@spartacus/product/main": ["../../dist/product/main"],
       "@spartacus/product/configuration": ["../../dist/product/configuration"]
     }
   }

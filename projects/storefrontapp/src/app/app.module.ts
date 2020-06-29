@@ -14,7 +14,7 @@ import {
   ProductConfigurationModule,
   XxxService,
 } from '@spartacus/product/configuration';
-import { CoreModule } from '@spartacus/product/domain';
+import { MainModule } from '@spartacus/product/main';
 import {
   JsonLdBuilderModule,
   StorefrontComponent,
@@ -49,7 +49,7 @@ if (environment.b2b) {
 @NgModule({
   imports: [
     ProductConfigurationModule,
-    CoreModule,
+    MainModule,
 
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,

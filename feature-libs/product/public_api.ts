@@ -3,4 +3,4 @@
  */
 
 export * from '@spartacus/product/configuration';
-export * from '@spartacus/product/domain';
+export * from '@spartacus/product/main';

@@ -6,4 +6,4 @@ import { YyyComponent } from './yyy/yyy.component';
   declarations: [YyyComponent],
   exports: [YyyComponent],
 })
-export class CoreModule {}
+export class MainModule {}
