@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
+import { YyyService } from '@spartacus/product/domain';
 
 @Injectable({ providedIn: 'root' })
 export class XxxService {
-  constructor() {
-    console.log('xxx service ctor');
+  constructor(y: YyyService) {
+    console.log('xxx service ctor', y);
   }
 }
