@@ -1,6 +1,5 @@
 import { Principal } from './cart.model';
 import { Order } from './order.model';
-import { CostCenter } from './org-unit.model';
 import { OrderApprovalPermissionType } from './permission.model';
 
 export interface OrderApprovalDecision {
@@ -15,14 +14,6 @@ export interface OrderApprovalRecord {
   statusDisplay?: string;
 }
 
-export interface B2BOrder extends Order {
-  chinesePaymentInfo?: any;
-  costCenter?: CostCenter;
-  paymentStatus?: string;
-  purchaseOrderNumber?: string;
-  totalUnitCount?: number;
-}
-
 export interface Trigger {
   activationTime?: string;
   displayTimeTable?: string;
@@ -33,7 +24,7 @@ export interface OrderApproval {
   code?: string;
   customerOrderApprovalRecords?: OrderApprovalRecord[];
   merchantOrderApprovalRecords?: OrderApprovalRecord[];
-  order?: B2BOrder;
+  order?: Order;
   trigger?: Trigger;
 }
 

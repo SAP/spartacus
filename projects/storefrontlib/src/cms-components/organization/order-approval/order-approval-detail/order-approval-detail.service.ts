@@ -1,20 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Order, OrderApprovalService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, pluck, switchMap, take, tap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  pluck,
+  shareReplay,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderApprovalDetailService {
-  approvalCode$ = this.routingService.getRouterState().pipe(
-    map((routingData) => routingData.state.params.approvalCode)
-    //tap((code) => console.log('Approval code ', code))
+  protected approvalCode$ = this.routingService.getRouterState().pipe(
+    map((routingData) => routingData.state.params.approvalCode),
   );
 
-  orderApprovalData$ = this.approvalCode$.pipe(
-    tap((code) => this.orderApprovalService.loadOrderApproval(code)),
-    switchMap((code) => this.orderApprovalService.get(code))
+  protected orderData$ = this.approvalCode$.pipe(
+    filter(Boolean),
+    tap((approvalCode: string) =>
+      this.orderApprovalService.loadOrderApproval(approvalCode)
+    ),
+    switchMap((approvalCode: string) =>
+      this.orderApprovalService.get(approvalCode)
+    ),
+    pluck('order'),
+    shareReplay({ bufferSize: 1, refCount: true })
   );
 
   constructor(
@@ -23,6 +36,6 @@ export class OrderApprovalDetailService {
   ) {}
 
   getOrderDetails(): Observable<Order> {
-    return this.orderApprovalData$.pipe(pluck('order')).pipe(take(1));
+    return this.orderData$;
   }
 }

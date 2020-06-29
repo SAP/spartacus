@@ -37,10 +37,6 @@ const moduleComponents = [];
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        // OrderApprovalDetailFormComponent: {
-        //   component: OrderApprovalDetailFormComponent,
-        //   guards: [AuthGuard],
-        // },
         OrderApprovalDetailHeadlineComponent: {
           component: OrderDetailHeadlineComponent,
           providers: [
