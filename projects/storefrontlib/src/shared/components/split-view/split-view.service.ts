@@ -19,7 +19,7 @@ export class SplitViewService {
   visibleViewCount(): Observable<number> {
     return this._views$.pipe(
       map((views) => {
-        const hidden = views.findIndex((view) => view.hide);
+        const hidden = views.findIndex((view: ViewState) => view.hidden);
         return hidden === -1 ? views.length : hidden;
       }),
       filter((visible) => visible > 0),
