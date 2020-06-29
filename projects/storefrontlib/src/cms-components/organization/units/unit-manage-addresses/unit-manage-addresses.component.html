@@ -66,8 +66,15 @@
             {
               key: 'formattedAddress',
               value: 'unitManageAddresses.formattedAddress' | cxTranslate
+            },
+            {
+              key: 'unassign',
+              value: 'budgetsList.unassign' | cxTranslate,
+              button: true,
+              cxIcon: ICON_TYPE.CLOSE
             }
           ]"
+          (buttonClick)="unassign($event)"
         >
         </cx-table>
       </ng-container>

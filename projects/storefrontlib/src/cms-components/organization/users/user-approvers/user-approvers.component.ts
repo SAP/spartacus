@@ -1,3 +1,4 @@
+import { ICON_TYPE } from './../../../misc/icon/icon.model';
 import { Component, OnInit } from '@angular/core';
 import {
   B2BUser,
@@ -28,6 +29,7 @@ export class UserApproversComponent extends AbstractListingComponent
   code: string;
   cxRoute = 'userApprovers';
   uid$: Observable<string>;
+  ICON_TYPE = ICON_TYPE;
 
   constructor(
     protected routingService: RoutingService,
@@ -72,5 +74,13 @@ export class UserApproversComponent extends AbstractListingComponent
         )
       )
     );
+  }
+
+  unassign({ row }) {
+    this.code$
+      .pipe(take(1))
+      .subscribe((code) =>
+        this.userService.unassignApprover(code, row.customerId)
+      );
   }
 }

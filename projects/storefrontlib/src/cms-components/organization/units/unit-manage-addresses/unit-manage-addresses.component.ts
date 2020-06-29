@@ -1,3 +1,4 @@
+import { ICON_TYPE } from './../../../misc/icon/icon.model';
 import { Component, OnInit } from '@angular/core';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -20,6 +21,7 @@ export class UnitManageAddressesComponent implements OnInit {
   code: string;
   data$: Observable<Partial<ListingModel>>;
   cxRoute = 'orgUnitManageAddresses';
+  ICON_TYPE = ICON_TYPE;
 
   constructor(
     protected routingService: RoutingService,
@@ -54,5 +56,11 @@ export class UnitManageAddressesComponent implements OnInit {
         )
       )
     );
+  }
+
+  unassign({ row }) {
+    this.code$
+      .pipe(take(1))
+      .subscribe((code) => this.orgUnitsService.deleteAddress(code, row.id));
   }
 }
