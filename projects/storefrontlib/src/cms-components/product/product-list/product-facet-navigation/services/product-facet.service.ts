@@ -48,10 +48,21 @@ export class ProductFacetService {
       (result: ProductSearchPage) =>
         ({
           facets: result.facets,
-          activeFacets: result.breadcrumbs,
+          activeFacets: this.filterBrands(result.breadcrumbs),
         } as FacetList)
     )
   );
+
+  /**
+   * Filters breadcrumbs and removing brand-related ones.
+   * Used to hide current brand from active facets.
+   */
+  protected filterBrands(breadcrumbs: Breadcrumb[]): Breadcrumb[] {
+    return breadcrumbs.filter(
+      (breadcrumb: Breadcrumb) =>
+        !breadcrumb.facetValueCode.startsWith('brand_')
+    );
+  }
 
   /**
    * Filters the current result by verifying if the result is related to the page.
