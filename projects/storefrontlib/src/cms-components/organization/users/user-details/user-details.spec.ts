@@ -22,18 +22,7 @@ const code = 'u1';
 const mockUser: B2BUser = {
     name: 'Akiro Nakamura',
     uid: 'akiro@naka.com',
-    active: true,
-    approvers: [],
-    currency: {
-      active: true,
-      isocode: 'USD',
-      name: 'US Dollar',
-      symbol: '$'
-    },
     customerId: '08ecc0b1-16ef-4a74-a1dd-4a244300c974',
-    displayUid: 'akiro@naka.com',
-    firstName: 'Akiro',
-    lastName: 'Nakamura',
     orgUnit: {
       active: true,
       name: 'Rustic',
@@ -42,18 +31,19 @@ const mockUser: B2BUser = {
     roles: [
       'b2bmanagergroup'
     ],
-    selected: false,
-    title: 'Mr.',
-    titleCode: 'mr',
-    email: 'akiro@naka.com'
+
 };
 
 const mockUserUI = {
   code: 'akiro@naka.com',
   name: 'Akiro Nakamura',
   roles: ['b2bmanagergroup'],
-  parentUnit: 'Rustic',
-  uid: 'Rustic',
+  orgUnit: {
+    active: true,
+    name: 'Rustic',
+    uid: 'Rustic'
+  },
+  uid: 'akiro@naka.com',
   customerId: '08ecc0b1-16ef-4a74-a1dd-4a244300c974'
 };
 
@@ -64,3 +54,101 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+class MockUserService implements Partial<B2BUserService> {
+  loadB2BUser = createSpy('loadB2BUser');
+  get = createSpy('get').and.returnValue(of(mockUser));
+  update = createSpy('update');
+}
+
+const mockRouterState = {
+  state: {
+    params: {
+      code,
+    },
+  },
+};
+
+class MockRoutingService {
+  go = createSpy('go').and.stub();
+  getRouterState = createSpy('getRouterState').and.returnValue(
+    of(mockRouterState)
+  );
+}
+
+const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
+class MockRoutingConfig {
+  getRouteConfig(routeName: string) {
+    return mockRoutesConfig[routeName];
+  }
+}
+
+class MockCxDatePipe {
+  transform(value: string) {
+    return value.split('T')[0];
+  }
+}
+
+describe('UserDetailsComponent', () => {
+  let component: B2BUserDetailsComponent;
+  let fixture: ComponentFixture<B2BUserDetailsComponent>;
+  let userService: MockUserService;
+  let routingService: RoutingService;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, I18nTestingModule],
+      declarations: [B2BUserDetailsComponent, MockUrlPipe],
+      providers: [
+        { provide: CxDatePipe, useClass: MockCxDatePipe },
+        { provide: RoutingConfig, useClass: MockRoutingConfig },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: B2BUserService, useClass: MockUserService },
+      ],
+    }).compileComponents();
+
+    userService = TestBed.get(B2BUserService as Type<B2BUserService>);
+    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(B2BUserDetailsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    it('should load user', () => {
+      component.ngOnInit();
+      let user: any;
+      component.b2bUser$
+        .subscribe((value) => {
+          user = value;
+        })
+        .unsubscribe();
+      expect(routingService.getRouterState).toHaveBeenCalledWith();
+      expect(userService.loadB2BUser).toHaveBeenCalledWith(code);
+      expect(userService.get).toHaveBeenCalledWith(code);
+      expect(user).toEqual(mockUserUI);
+    });
+  });
+
+  describe('update', () => {
+    it('should update user', () => {
+      component.ngOnInit();
+
+      component.update({ active: false });
+      expect(userService.update).toHaveBeenCalledWith(code, {
+        active: false,
+      });
+
+      component.update({ active: true });
+      expect(userService.update).toHaveBeenCalledWith(code, {
+        active: true,
+      });
+    });
+  });
+});
