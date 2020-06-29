@@ -12,7 +12,7 @@ import {
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
-import { OrderApprovalsListComponent } from './order-approvals-list.component';
+import { OrderApprovalListComponent } from './order-approval-list.component';
 
 @NgModule({
   imports: [
@@ -28,7 +28,7 @@ import { OrderApprovalsListComponent } from './order-approvals-list.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ManageOrderApprovalsComponent: {
-          component: OrderApprovalsListComponent,
+          component: OrderApprovalListComponent,
           guards: [AuthGuard],
         },
       },
@@ -38,9 +38,9 @@ import { OrderApprovalsListComponent } from './order-approvals-list.component';
     I18nModule,
     InteractiveTableModule,
   ],
-  declarations: [OrderApprovalsListComponent],
-  exports: [OrderApprovalsListComponent],
+  declarations: [OrderApprovalListComponent],
+  exports: [OrderApprovalListComponent],
   providers: [CxDatePipe],
-  entryComponents: [OrderApprovalsListComponent],
+  entryComponents: [OrderApprovalListComponent],
 })
-export class OrderApprovalsListModule {}
+export class OrderApprovalListModule {}

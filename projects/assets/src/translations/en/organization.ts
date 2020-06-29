@@ -204,10 +204,7 @@ export const organization = {
     total: 'Total',
     sorting: {
       byDate: 'Date',
-      byOrderCode: 'Order #',
-      byPlacedBy: 'Placed By',
-      byPOCode: 'PO #',
-      byValue: 'Value',
+      byOrderNumber: 'Order #',
     },
   },
   orgUnitsList: {

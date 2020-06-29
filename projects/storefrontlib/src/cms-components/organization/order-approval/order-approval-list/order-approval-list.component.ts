@@ -14,11 +14,49 @@ import {
   ListingModel,
 } from '../../abstract-component/abstract-listing.component';
 
+// const x = <Observable<ListingModel>>of({
+//   pagination: {
+//     currentPage: 0,
+//     pageSize: 20,
+//     sort: 'byDate',
+//     totalPages: 1,
+//     totalResults: 1,
+//   },
+//   sorts: [
+//     {
+//       code: 'byDate',
+//       selected: true,
+//     },
+//     {
+//       code: 'byCode',
+//       selected: false,
+//     },
+//   ],
+//   values: [
+//     {
+//       POCode: 'wip',
+//       code: '00000120',
+//       date: 'Jun 18, 2020',
+//       placedBy: 'Mark Rivers Custom Retail',
+//       status: 'Approved approved',
+//       total: '$157,394.99',
+//     },
+//     {
+//       POCode: 'wip',
+//       code: '00000090',
+//       date: 'Jun 17, 2020',
+//       placedBy: 'Mark Rivers Custom Retail',
+//       status: 'Approved approved',
+//       total: '$157,394.99',
+//     },
+//   ],
+// });
+
 @Component({
-  selector: 'cx-order-approvals-list',
-  templateUrl: './order-approvals-list.component.html',
+  selector: 'cx-order-approval-list',
+  templateUrl: './order-approval-list.component.html',
 })
-export class OrderApprovalsListComponent extends AbstractListingComponent
+export class OrderApprovalListComponent extends AbstractListingComponent
   implements OnInit {
   cxRoute = 'orderApprovals';
 
@@ -66,6 +104,6 @@ export class OrderApprovalsListComponent extends AbstractListingComponent
       )
     );
 
-    this.data$.subscribe((data: ListingModel) => console.log(data));
+    this.data$.subscribe(console.log);
   }
 }
