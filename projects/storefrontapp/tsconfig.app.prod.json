@@ -1,8 +1,5 @@
 {
   "extends": "./tsconfig.app.json",
-  "angularCompilerOptions": {
-    "enableIvy": false
-  },
   "compilerOptions": {
     "paths": {
       "@spartacus/core": ["dist/core"],
