@@ -6,7 +6,6 @@ import { ViewComponent } from './view.component';
 
 class MockSplitViewService {
   generateNextPosition() {
-    console.log('next?');
     return 0;
   }
   visibleViewCount() {
