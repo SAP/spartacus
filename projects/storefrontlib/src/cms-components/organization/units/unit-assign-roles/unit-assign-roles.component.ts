@@ -76,23 +76,35 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
     );
   }
 
-  assign({ row }) {
-    this.role$
-      .pipe(take(1))
-      .subscribe((role) =>
-        this.orgUnitsService.assignRole(row.customerId, role)
-      );
+  assign(event: any) {
+    this.orgUnitsService.assignRole(
+      event.row.customerId,
+      this.getRole(event.key)
+    );
   }
 
-  unassign({ row }) {
-    this.role$
-      .pipe(take(1))
-      .subscribe((role) =>
-        this.orgUnitsService.unassignRole(row.customerId, role)
-      );
+  unassign(event: any) {
+    console.log(event);
+    this.orgUnitsService.unassignRole(
+      event.row.customerId,
+      this.getRole(event.key)
+    );
   }
 
-  changeRole({ roleId }: { roleId: string }) {
+  /*changeRole({ roleId }: { roleId: string }) {
     this.updateQueryParams({}, { roleId });
+  }*/
+
+  getRole(key: string): string {
+    switch (key) {
+      case 'customer':
+        return 'b2bcustomergroup';
+      case 'manager':
+        return 'b2bmanagergroup';
+      case 'admin':
+        return 'b2badmingroup';
+      case 'approver':
+        return 'b2bapprovergroup';
+    }
   }
 }
