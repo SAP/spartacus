@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { SplitViewService } from './split-view.service';
+import { SplitViewService } from '../split-view.service';
 
 /**
  * The split-view component supports an unlimited number of nested views. The component
@@ -43,7 +43,7 @@ export class SplitViewComponent implements OnInit, OnDestroy {
    * can be fully controlled by css.
    */
   @HostBinding('style.--cx-last-visible-view')
-  lastVisibleView = 0;
+  lastVisibleView = 1;
 
   // maintain subscription so we can cleanup
   protected subscription$: Subscription;
@@ -51,9 +51,9 @@ export class SplitViewComponent implements OnInit, OnDestroy {
   constructor(protected splitService: SplitViewService) {}
 
   ngOnInit() {
-    this.subscription$ = this.splitService.visible$.subscribe(
-      (depth: number) => (this.lastVisibleView = depth)
-    );
+    this.subscription$ = this.splitService
+      .visibleViewCount()
+      .subscribe((lastVisible: number) => (this.lastVisibleView = lastVisible));
   }
 
   ngOnDestroy() {

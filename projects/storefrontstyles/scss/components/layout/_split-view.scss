@@ -67,7 +67,7 @@
     text-overflow: ellipsis;
   }
 
-  cx-view[depth='0'] {
+  cx-view[position='0'] {
     margin-inline-start: calc(
       max((var(--cx-last-visible-view, 1) - var(--cx-max-views, 1)), 0) *
         (var(--cx-view-flex) * -1)

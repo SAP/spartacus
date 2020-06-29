@@ -1,3 +1,7 @@
+/**
+ * Maintains the visibility state of the View Component.
+ *
+ */
 export interface ViewState {
-  hide?: boolean;
+  hidden?: boolean;
 }
