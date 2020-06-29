@@ -3,4 +3,4 @@
  */
 export * from '@spartacus/my-account/cost-center';
 export * from '@spartacus/my-account/domain';
-// export * from './src/my-account.module';
+export * from './recipes/index';
