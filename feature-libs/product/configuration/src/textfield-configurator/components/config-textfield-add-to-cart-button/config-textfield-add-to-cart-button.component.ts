@@ -31,7 +31,7 @@ export class ConfigTextfieldAddToCartButtonComponent {
    * @param configuration Textfield configuration (knows whether it belongs to product or cart entry,
    * thus component can tell whether to add or to update)
    */
-  onAddToCart(configuration: ConfiguratorTextfield.Configuration) {
+  onAddToCart(configuration: ConfiguratorTextfield.Configuration): void {
     const owner: GenericConfigurator.Owner = configuration.owner;
     switch (owner.type) {
       case GenericConfigurator.OwnerType.PRODUCT:

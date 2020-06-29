@@ -8,9 +8,9 @@ import {
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
-import * as ConfiguratorActions from '../state/actions/configurator-textfield.action';
+import { ConfiguratorTextfieldActions } from '../state/actions/index';
 import { StateWithConfigurationTextfield } from '../state/configuration-textfield-state';
-import * as ConfiguratorSelectors from '../state/selectors/configurator-textfield.selector';
+import { ConfiguratorTextFieldSelectors } from '../state/selectors/index';
 
 @Injectable({
   providedIn: 'root',
@@ -33,13 +33,15 @@ export class ConfiguratorTextfieldService {
     owner: GenericConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     this.store.dispatch(
-      new ConfiguratorActions.CreateConfiguration({
+      new ConfiguratorTextfieldActions.CreateConfiguration({
         productCode: owner.id, //owner Id is the product code in this case
         owner: owner,
       })
     );
 
-    return this.store.select(ConfiguratorSelectors.getConfigurationContent);
+    return this.store.select(
+      ConfiguratorTextFieldSelectors.getConfigurationContent
+    );
   }
 
   /**
@@ -51,10 +53,13 @@ export class ConfiguratorTextfieldService {
     changedAttribute: ConfiguratorTextfield.ConfigurationInfo
   ): void {
     this.store
-      .pipe(select(ConfiguratorSelectors.getConfigurationContent), take(1))
+      .pipe(
+        select(ConfiguratorTextFieldSelectors.getConfigurationContent),
+        take(1)
+      )
       .subscribe((oldConfiguration) => {
         this.store.dispatch(
-          new ConfiguratorActions.UpdateConfiguration(
+          new ConfiguratorTextfieldActions.UpdateConfiguration(
             this.createNewConfigurationWithChange(
               changedAttribute,
               oldConfiguration
@@ -83,7 +88,7 @@ export class ConfiguratorTextfieldService {
         quantity: 1,
       };
       this.store.dispatch(
-        new ConfiguratorActions.AddToCart(addToCartParameters)
+        new ConfiguratorTextfieldActions.AddToCart(addToCartParameters)
       );
     });
   }
@@ -106,7 +111,7 @@ export class ConfiguratorTextfieldService {
         configuration: configuration,
       };
       this.store.dispatch(
-        new ConfiguratorActions.UpdateCartEntryConfiguration(
+        new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
           updateCartParameters
         )
       );
@@ -131,12 +136,14 @@ export class ConfiguratorTextfieldService {
         owner: owner,
       };
       this.store.dispatch(
-        new ConfiguratorActions.ReadCartEntryConfiguration(
+        new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
           readFromCartEntryParameters
         )
       );
     });
-    return this.store.select(ConfiguratorSelectors.getConfigurationContent);
+    return this.store.select(
+      ConfiguratorTextFieldSelectors.getConfigurationContent
+    );
   }
 
   /**

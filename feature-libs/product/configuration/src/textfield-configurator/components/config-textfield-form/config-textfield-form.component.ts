@@ -41,7 +41,9 @@ export class ConfigTextfieldFormComponent implements OnInit {
    * Updates a configuration attribute
    * @param attribute Configuration attribute, always containing a string typed value
    */
-  updateConfiguration(attribute: ConfiguratorTextfield.ConfigurationInfo) {
+  updateConfiguration(
+    attribute: ConfiguratorTextfield.ConfigurationInfo
+  ): void {
     this.configuratorTextfieldService.updateConfiguration(attribute);
   }
 }

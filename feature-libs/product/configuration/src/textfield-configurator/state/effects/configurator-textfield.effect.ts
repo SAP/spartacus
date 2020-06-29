@@ -6,41 +6,37 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
-import {
-  AddToCart,
-  AddToCartFail,
-  ADD_TO_CART,
-  CreateConfiguration,
-  CreateConfigurationFail,
-  CreateConfigurationSuccess,
-  CREATE_CONFIGURATION,
-  ReadCartEntryConfiguration,
-  ReadCartEntryConfigurationFail,
-  ReadCartEntryConfigurationSuccess,
-  READ_CART_ENTRY_CONFIGURATION,
-  RemoveConfiguration,
-  UpdateCartEntryConfiguration,
-  UpdateCartEntryConfigurationFail,
-  UPDATE_CART_ENTRY_CONFIGURATION,
-} from '../actions/configurator-textfield.action';
-
+import { ConfiguratorTextfieldActions } from '../actions/index';
 @Injectable()
 export class ConfiguratorTextfieldEffects {
   @Effect()
   createConfiguration$: Observable<
-    CreateConfiguration | CreateConfigurationSuccess | CreateConfigurationFail
+    | ConfiguratorTextfieldActions.CreateConfiguration
+    | ConfiguratorTextfieldActions.CreateConfigurationSuccess
+    | ConfiguratorTextfieldActions.CreateConfigurationFail
   > = this.actions$.pipe(
-    ofType(CREATE_CONFIGURATION),
-    map((action: CreateConfiguration) => action.payload),
+    ofType(ConfiguratorTextfieldActions.CREATE_CONFIGURATION),
+    map(
+      (action: ConfiguratorTextfieldActions.CreateConfiguration) =>
+        action.payload
+    ),
     mergeMap((payload) => {
       return this.configuratorTextfieldConnector
         .createConfiguration(payload.productCode, payload.owner)
         .pipe(
           switchMap((configuration: ConfiguratorTextfield.Configuration) => {
-            return [new CreateConfigurationSuccess(configuration)];
+            return [
+              new ConfiguratorTextfieldActions.CreateConfigurationSuccess(
+                configuration
+              ),
+            ];
           }),
           catchError((error) =>
-            of(new CreateConfigurationFail(makeErrorSerializable(error)))
+            of(
+              new ConfiguratorTextfieldActions.CreateConfigurationFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
@@ -48,15 +44,17 @@ export class ConfiguratorTextfieldEffects {
 
   @Effect()
   addToCart$: Observable<
-    RemoveConfiguration | AddToCartFail | CartActions.LoadCart
+    | ConfiguratorTextfieldActions.RemoveConfiguration
+    | ConfiguratorTextfieldActions.AddToCartFail
+    | CartActions.LoadCart
   > = this.actions$.pipe(
-    ofType(ADD_TO_CART),
-    map((action: AddToCart) => action.payload),
+    ofType(ConfiguratorTextfieldActions.ADD_TO_CART),
+    map((action: ConfiguratorTextfieldActions.AddToCart) => action.payload),
     mergeMap((payload) => {
       return this.configuratorTextfieldConnector.addToCart(payload).pipe(
         switchMap(() => {
           return [
-            new RemoveConfiguration(),
+            new ConfiguratorTextfieldActions.RemoveConfiguration(),
             new CartActions.LoadCart({
               cartId: payload.cartId,
               userId: payload.userId,
@@ -64,7 +62,11 @@ export class ConfiguratorTextfieldEffects {
           ];
         }),
         catchError((error) =>
-          of(new AddToCartFail(makeErrorSerializable(error)))
+          of(
+            new ConfiguratorTextfieldActions.AddToCartFail(
+              makeErrorSerializable(error)
+            )
+          )
         )
       );
     })
@@ -72,19 +74,22 @@ export class ConfiguratorTextfieldEffects {
 
   @Effect()
   updateCartEntry$: Observable<
-    | RemoveConfiguration
-    | UpdateCartEntryConfigurationFail
+    | ConfiguratorTextfieldActions.RemoveConfiguration
+    | ConfiguratorTextfieldActions.UpdateCartEntryConfigurationFail
     | CartActions.LoadCart
   > = this.actions$.pipe(
-    ofType(UPDATE_CART_ENTRY_CONFIGURATION),
-    map((action: UpdateCartEntryConfiguration) => action.payload),
+    ofType(ConfiguratorTextfieldActions.UPDATE_CART_ENTRY_CONFIGURATION),
+    map(
+      (action: ConfiguratorTextfieldActions.UpdateCartEntryConfiguration) =>
+        action.payload
+    ),
     mergeMap((payload) => {
       return this.configuratorTextfieldConnector
         .updateConfigurationForCartEntry(payload)
         .pipe(
           switchMap(() => {
             return [
-              new RemoveConfiguration(),
+              new ConfiguratorTextfieldActions.RemoveConfiguration(),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
                 userId: payload.userId,
@@ -93,7 +98,9 @@ export class ConfiguratorTextfieldEffects {
           }),
           catchError((error) =>
             of(
-              new UpdateCartEntryConfigurationFail(makeErrorSerializable(error))
+              new ConfiguratorTextfieldActions.UpdateCartEntryConfigurationFail(
+                makeErrorSerializable(error)
+              )
             )
           )
         );
@@ -102,24 +109,31 @@ export class ConfiguratorTextfieldEffects {
 
   @Effect()
   readConfigurationForCartEntry$: Observable<
-    ReadCartEntryConfigurationSuccess | ReadCartEntryConfigurationFail
+    | ConfiguratorTextfieldActions.ReadCartEntryConfigurationSuccess
+    | ConfiguratorTextfieldActions.ReadCartEntryConfigurationFail
   > = this.actions$.pipe(
-    ofType(READ_CART_ENTRY_CONFIGURATION),
-    switchMap((action: ReadCartEntryConfiguration) => {
-      const parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters =
-        action.payload;
+    ofType(ConfiguratorTextfieldActions.READ_CART_ENTRY_CONFIGURATION),
+    switchMap(
+      (action: ConfiguratorTextfieldActions.ReadCartEntryConfiguration) => {
+        const parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters =
+          action.payload;
 
-      return this.configuratorTextfieldConnector
-        .readConfigurationForCartEntry(parameters)
-        .pipe(
-          switchMap((result: ConfiguratorTextfield.Configuration) => [
-            new ReadCartEntryConfigurationSuccess(result),
-          ]),
-          catchError((error) => [
-            new ReadCartEntryConfigurationFail(makeErrorSerializable(error)),
-          ])
-        );
-    })
+        return this.configuratorTextfieldConnector
+          .readConfigurationForCartEntry(parameters)
+          .pipe(
+            switchMap((result: ConfiguratorTextfield.Configuration) => [
+              new ConfiguratorTextfieldActions.ReadCartEntryConfigurationSuccess(
+                result
+              ),
+            ]),
+            catchError((error) => [
+              new ConfiguratorTextfieldActions.ReadCartEntryConfigurationFail(
+                makeErrorSerializable(error)
+              ),
+            ])
+          );
+      }
+    )
   );
 
   constructor(

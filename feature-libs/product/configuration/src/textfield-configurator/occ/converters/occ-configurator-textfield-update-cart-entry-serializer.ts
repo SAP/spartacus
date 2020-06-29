@@ -40,7 +40,7 @@ export class OccConfiguratorTextfieldUpdateCartEntrySerializer
   protected convertInfo(
     source: ConfiguratorTextfield.ConfigurationInfo,
     occConfigurationInfos: OccConfiguratorTextfield.ConfigurationInfo[]
-  ) {
+  ): void {
     const occInfo: OccConfiguratorTextfield.ConfigurationInfo = {
       configurationLabel: source.configurationLabel,
       configurationValue: source.configurationValue,

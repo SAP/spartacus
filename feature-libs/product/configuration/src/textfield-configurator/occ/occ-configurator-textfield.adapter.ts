@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   CartModification,
@@ -8,7 +8,7 @@ import {
   OccEndpointsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ConfiguratorTextfieldAdapter } from '../connectors/configurator-textfield.adapter';
 import {
   CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER,
@@ -39,7 +39,14 @@ export class OccConfiguratorTextfieldAdapter
       )
       .pipe(
         this.converterService.pipeable(CONFIGURATION_TEXTFIELD_NORMALIZER),
-        tap((configuration) => (configuration.owner = owner))
+        map((resultConfiguration) => {
+          return {
+            ...resultConfiguration,
+            owner: {
+              ...owner,
+            },
+          };
+        })
       );
   }
 
@@ -59,11 +66,8 @@ export class OccConfiguratorTextfieldAdapter
       CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER
     );
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
     return this.http
-      .post<CartModification>(url, occAddToCartParameters, { headers })
+      .post<CartModification>(url, occAddToCartParameters)
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
@@ -81,9 +85,12 @@ export class OccConfiguratorTextfieldAdapter
 
     return this.http.get<ConfiguratorTextfield.Configuration>(url).pipe(
       this.converterService.pipeable(CONFIGURATION_TEXTFIELD_NORMALIZER),
-      tap((resultConfiguration) => {
-        resultConfiguration.owner = {
-          ...parameters.owner,
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          owner: {
+            ...parameters.owner,
+          },
         };
       })
     );
@@ -105,11 +112,8 @@ export class OccConfiguratorTextfieldAdapter
       CONFIGURATION_TEXTFIELD_UPDATE_CART_ENTRY_SERIALIZER
     );
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
     return this.http
-      .post<CartModification>(url, occUpdateCartEntryParameters, { headers })
+      .post<CartModification>(url, occUpdateCartEntryParameters)
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 }

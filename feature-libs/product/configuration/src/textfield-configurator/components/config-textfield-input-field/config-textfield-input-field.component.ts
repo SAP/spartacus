@@ -31,7 +31,7 @@ export class ConfigTextfieldInputFieldComponent implements OnInit {
    * Triggered if an attribute value is changed. Triggers the emission of the inputChange event emitter that is
    * in turn received in the form component
    */
-  onChange() {
+  onChange(): void {
     const attribute: ConfiguratorTextfield.ConfigurationInfo = {
       configurationLabel: this.attribute.configurationLabel,
       configurationValue: this.attributeInputForm.value,

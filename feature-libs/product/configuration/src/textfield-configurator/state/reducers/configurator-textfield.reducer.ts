@@ -1,4 +1,4 @@
-import * as ConfiguratorActions from '../actions/configurator-textfield.action';
+import { ConfiguratorTextfieldActions } from '../actions/index';
 import { ConfigurationTextfieldState } from '../configuration-textfield-state';
 
 export const initialState: ConfigurationTextfieldState = {
@@ -8,23 +8,21 @@ export const initialState: ConfigurationTextfieldState = {
 export function reducer(
   state = initialState,
   action:
-    | ConfiguratorActions.CreateConfiguration
-    | ConfiguratorActions.CreateConfigurationSuccess
-    | ConfiguratorActions.ReadCartEntryConfigurationSuccess
-    | ConfiguratorActions.UpdateConfiguration
-    | ConfiguratorActions.RemoveConfiguration
+    | ConfiguratorTextfieldActions.CreateConfiguration
+    | ConfiguratorTextfieldActions.CreateConfigurationSuccess
+    | ConfiguratorTextfieldActions.ReadCartEntryConfigurationSuccess
+    | ConfiguratorTextfieldActions.UpdateConfiguration
+    | ConfiguratorTextfieldActions.RemoveConfiguration
 ): ConfigurationTextfieldState {
   switch (action.type) {
-    case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS:
-    case ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS:
-    case ConfiguratorActions.UPDATE_CONFIGURATION: {
-      const content = { ...action.payload };
-
+    case ConfiguratorTextfieldActions.CREATE_CONFIGURATION_SUCCESS:
+    case ConfiguratorTextfieldActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS:
+    case ConfiguratorTextfieldActions.UPDATE_CONFIGURATION: {
       return {
-        content: content,
+        content: { ...action.payload },
       };
     }
-    case ConfiguratorActions.REMOVE_CONFIGURATION: {
+    case ConfiguratorTextfieldActions.REMOVE_CONFIGURATION: {
       return state;
     }
   }

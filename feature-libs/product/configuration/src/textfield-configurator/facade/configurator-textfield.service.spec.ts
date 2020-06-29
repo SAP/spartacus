@@ -10,8 +10,7 @@ import {
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
-import { ConfiguratorTextfieldActions } from '../state';
-import * as ConfiguratorActions from '../state/actions/configurator-textfield.action';
+import { ConfiguratorTextfieldActions } from '../state/actions/index';
 import { StateWithConfigurationTextfield } from '../state/configuration-textfield-state';
 import { ConfiguratorTextfieldService } from './configurator-textfield.service';
 
@@ -134,7 +133,7 @@ describe('ConfiguratorTextfieldService', () => {
     );
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.CreateConfiguration({
+      new ConfiguratorTextfieldActions.CreateConfiguration({
         productCode: owner.id,
         owner: owner,
       })
@@ -153,7 +152,7 @@ describe('ConfiguratorTextfieldService', () => {
     );
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.ReadCartEntryConfiguration(
+      new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
         readFromCartEntryParams
       )
     );
@@ -180,7 +179,9 @@ describe('ConfiguratorTextfieldService', () => {
     ).toHaveBeenCalledWith(changedAttribute, productConfiguration);
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.UpdateConfiguration(changedProductConfiguration)
+      new ConfiguratorTextfieldActions.UpdateConfiguration(
+        changedProductConfiguration
+      )
     );
   });
 
@@ -233,7 +234,7 @@ describe('ConfiguratorTextfieldService', () => {
   it('should dispatch corresponding action in case updateCartEntry was triggered', () => {
     serviceUnderTest.updateCartEntry(CART_ENTRY_NUMBER, productConfiguration);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.UpdateCartEntryConfiguration(
+      new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
         updateCartEntryParams
       )
     );
