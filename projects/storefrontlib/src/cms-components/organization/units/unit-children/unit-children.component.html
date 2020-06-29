@@ -31,7 +31,7 @@
           <a
             [routerLink]="{ cxRoute: 'orgUnitCreate' } | cxUrl"
             [queryParams]="{ parentUnit: code$ | async }"
-            class="btn btn-primary btn-block"
+            class="btn btn-block btn-action"
           >
             {{ 'unitChildren.create' | cxTranslate }}
           </a>

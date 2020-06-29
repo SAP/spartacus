@@ -10,7 +10,6 @@ import {
 } from '../../cms/page/page.resolvers';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
-import { ActivatedRoute, UrlSegment, Params } from '@angular/router';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { RouterState } from '../../routing/store/routing-state';
 
@@ -24,19 +23,23 @@ import { RouterState } from '../../routing/store/routing-state';
 })
 export class OrganizationMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-  protected organizationPage$: Observable<
-    UrlSegment
-  > = this.cms.getCurrentPage().pipe(
-    filter(Boolean),
-    switchMap((page: Page) =>
+  protected organizationPageTitle$: Observable<string[]> = combineLatest([
+    this.cms.getCurrentPage(),
+    this.routingService.getRouterState(),
+  ]).pipe(
+    filter(
       // checking the template to make sure it's a 'my company' page
-      this.isCompanyPage(page) ? this.route.snapshot.children[0].url : null
+      ([page, routerState]: [Page, RouterState]) =>
+        this.isCompanyPage(page) &&
+        Boolean(routerState && routerState.state.url)
+    ),
+    switchMap(([_, routerState]: [any, RouterState]) =>
+      of(Object.values(routerState.state.url.split('/').slice(-1)))
     )
   );
 
   constructor(
     protected routingService: RoutingService,
-    protected route: ActivatedRoute,
     protected cms: CmsService,
     protected translation: TranslationService
   ) {
@@ -45,16 +48,29 @@ export class OrganizationMetaResolver extends PageMetaResolver
     this.pageTemplate = 'CompanyPageTemplate';
   }
 
+  protected SEPARATOR = 'organization';
+
   resolveTitle(): Observable<string> {
     return combineLatest([
-      this.organizationPage$,
+      this.organizationPageTitle$,
       this.routingService.getRouterState(),
     ]).pipe(
-      filter(([url, routerState]) => Boolean(url) && Boolean(routerState)),
-      switchMap(([url, { state: { params } }]) =>
-        Object.keys(params).length && Object.values(params).includes(url.path)
-          ? of(url.path)
-          : this.translation.translate(`breadcrumbs.${url.path}`)
+      filter(
+        ([title, routerState]: [string[], RouterState]) =>
+          Boolean(title) && Boolean(routerState)
+      ),
+      switchMap(
+        ([
+          [title],
+          {
+            state: { params },
+          },
+        ]: [string[], RouterState]) => {
+          return Object.keys(params).length &&
+            Object.values(params).includes(decodeURI(title))
+            ? of(decodeURI(title))
+            : this.translation.translate(`breadcrumbs.${title}`);
+        }
       )
     );
   }
@@ -65,30 +81,35 @@ export class OrganizationMetaResolver extends PageMetaResolver
       this.routingService.getRouterState(),
     ]).pipe(
       map(([homeLabel, routerState]: [string, RouterState]) =>
-        this.resolveBreadcrumbData(homeLabel, routerState.state.params)
+        this.resolveBreadcrumbData(homeLabel, routerState)
       )
     );
   }
 
   protected resolveBreadcrumbData(
     homeLabel: string,
-    params: Params
+    router: RouterState
   ): BreadcrumbMeta[] {
     const breadcrumbs: BreadcrumbMeta[] = [];
     breadcrumbs.push({ label: homeLabel, link: '/' });
     let link = '';
-    this.route.snapshot.children[0].url
-      .filter((_, index, arr) => index !== arr.length - 1)
+    router.state.url
+      .split('/')
+      .filter(
+        (_, index, arr) =>
+          index >= arr.findIndex((e) => e === this.SEPARATOR) &&
+          index < arr.length - 1
+      )
       .forEach((url) => {
-        link = `${link}/${url.path}`;
+        link = `${link}/${url}`;
         this.translation
-          .translate(`breadcrumbs.${url.path}`)
+          .translate(`breadcrumbs.${url}`)
           .subscribe((translation) =>
             breadcrumbs.push({
               label:
-                Object.keys(params).length &&
-                Object.values(params).includes(url.path)
-                  ? url.path
+                Object.keys(router.state.params).length &&
+                Object.values(router.state.params).includes(decodeURI(url))
+                  ? decodeURI(url)
                   : translation,
               link,
             })
