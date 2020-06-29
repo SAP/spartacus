@@ -9,12 +9,6 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TestConfigModule } from '@spartacus/core';
-import { YyyService } from '@spartacus/product';
-import {
-  ProductConfigurationModule,
-  XxxService,
-} from '@spartacus/product/configuration';
-import { MainModule } from '@spartacus/product/main';
 import {
   JsonLdBuilderModule,
   StorefrontComponent,
@@ -48,9 +42,6 @@ if (environment.b2b) {
 
 @NgModule({
   imports: [
-    ProductConfigurationModule,
-    MainModule,
-
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
     JsonLdBuilderModule,
@@ -63,8 +54,4 @@ if (environment.b2b) {
 
   bootstrap: [StorefrontComponent],
 })
-export class AppModule {
-  constructor(x: XxxService, y: YyyService) {
-    console.log(x, y);
-  }
-}
+export class AppModule {}
