@@ -72,17 +72,13 @@ export class CartItemComponent implements OnInit {
   }
 
   getIssueMessageKey(numberOfErrors: number): string {
-    if (numberOfErrors === 1) {
-      return 'cartItems.numberOfIssue';
-    } else {
-      return 'cartItems.numberOfIssues';
+    if (numberOfErrors && numberOfErrors !== 0) {
+      if (numberOfErrors === 1) {
+        return 'cartItems.numberOfIssue';
+      } else {
+        return 'cartItems.numberOfIssues';
+      }
     }
-  }
-
-  isSmallSize(breakpoint: string): boolean {
-    if (breakpoint === 'xs' || breakpoint === 'sm') {
-      return true;
-    }
-    return false;
+    return '';
   }
 }

@@ -206,34 +206,114 @@ describe('CartItemComponent', () => {
       );
     });
   });
-  it('should not display resolve errors message if array of statusSummary is empty', () => {
-    const htmlElem = fixture.nativeElement;
-    expect(htmlElem.querySelectorAll('.cx-error-container').length).toBe(
-      0,
-      "expected resolve errors message identified by selector '.cx-error-container' not to be present, but it is! innerHtml: " +
-        htmlElem.innerHTML
-    );
-  });
-  it('should not display resolve errors message if number of issues is 0', () => {
-    cartItemComponent.item.statusSummaryList = [{ numberOfIssues: 0 }];
-    fixture.detectChanges();
-    const htmlElem = fixture.nativeElement;
-    expect(htmlElem.querySelectorAll('.cx-error-container').length).toBe(
-      0,
-      "expected resolve errors message identified by selector '.cx-error-container' not to be present, but it is! innerHtml: " +
-        htmlElem.innerHTML
-    );
-  });
-  it('should display resolve errors message if number of issues is greater than 0', () => {
-    cartItemComponent.item.statusSummaryList = [{ numberOfIssues: 1 }];
-    fixture.detectChanges();
-    const htmlElem = fixture.nativeElement;
-    expect(
-      htmlElem.querySelectorAll('.cx-error-container').length
-    ).toBeGreaterThan(
-      0,
-      "expected resolve errors message identified by selector '.cx-error-container' to be present, but it is NOT! innerHtml: " +
-        htmlElem.innerHTML
-    );
+
+  describe('Depicting configurable products in the cart', () => {
+    it('should not display resolve errors message if array of statusSummary is empty', () => {
+      const htmlElem = fixture.nativeElement;
+      expect(htmlElem.querySelectorAll('.cx-error-container').length).toBe(
+        0,
+        "expected resolve errors message identified by selector '.cx-error-container' not to be present, but it is! innerHtml: " +
+          htmlElem.innerHTML
+      );
+    });
+
+    it('should not display resolve errors message if number of issues is 0', () => {
+      cartItemComponent.item.statusSummaryList = [{ numberOfIssues: 0 }];
+      fixture.detectChanges();
+      const htmlElem = fixture.nativeElement;
+      expect(htmlElem.querySelectorAll('.cx-error-container').length).toBe(
+        0,
+        "expected resolve errors message identified by selector '.cx-error-container' not to be present, but it is! innerHtml: " +
+          htmlElem.innerHTML
+      );
+    });
+
+    it('should display resolve errors message if number of issues is greater than 0', () => {
+      cartItemComponent.item.statusSummaryList = [{ numberOfIssues: 1 }];
+      fixture.detectChanges();
+      const htmlElem = fixture.nativeElement;
+      expect(
+        htmlElem.querySelectorAll('.cx-error-container').length
+      ).toBeGreaterThan(
+        0,
+        "expected resolve errors message identified by selector '.cx-error-container' to be present, but it is NOT! innerHtml: " +
+          htmlElem.innerHTML
+      );
+    });
+
+    it('should return no issue message key if the number of issues is null/undefined or equals zero', () => {
+      let result = cartItemComponent.getIssueMessageKey(null);
+      expect(result).toEqual('');
+
+      result = cartItemComponent.getIssueMessageKey(undefined);
+      expect(result).toEqual('');
+
+      result = cartItemComponent.getIssueMessageKey(0);
+      expect(result).toEqual('');
+    });
+
+    it('should return a singular issue message key for one issue', () => {
+      const result = cartItemComponent.getIssueMessageKey(1);
+      expect(result).toEqual('cartItems.numberOfIssue');
+    });
+
+    it('should return a plural issue message key for more than one issue', () => {
+      const result = cartItemComponent.getIssueMessageKey(3);
+      expect(result).toEqual('cartItems.numberOfIssues');
+    });
+
+    it('should not display configuration info if array of configurationInfo is empty', () => {
+      const htmlElem = fixture.nativeElement;
+      expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
+        0,
+        "expected configuration info identified by selector '.cx-configuration-info' not to be present, but it is! innerHtml: " +
+          htmlElem.innerHTML
+      );
+    });
+
+    it('should display configuration info if array of configurationInfo is not empty', () => {
+      const configurationInfo = {
+        configurationLabel: 'Color',
+        configurationValue: 'Blue',
+        configuratorType: 'CPQCONFIGURATOR',
+        status: 'SUCCESS',
+      };
+      cartItemComponent.item.configurationInfos = [configurationInfo];
+      fixture.detectChanges();
+      const htmlElem = fixture.nativeElement;
+      expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
+        1,
+        "expected configuration info identified by selector '.cx-configuration-info' to be present, but it is! innerHtml: " +
+          htmlElem.innerHTML
+      );
+      expect(
+        htmlElem.querySelectorAll('.cx-configuration-info-error').length
+      ).toBe(
+        0,
+        "expected configuration info identified by selector '.cx-configuration-info-error' not to be present, but it is! innerHtml: " +
+          htmlElem.innerHTML
+      );
+    });
+
+    it('should display erroneous configuration info if array of configurationInfo is not empty and its status is error', () => {
+      const configurationInfo = {
+        configurationLabel: 'Color',
+        configurationValue: 'Blue',
+        configuratorType: 'CPQCONFIGURATOR',
+        status: 'ERROR',
+      };
+      cartItemComponent.item.configurationInfos = [configurationInfo];
+      fixture.detectChanges();
+      const htmlElem = fixture.nativeElement;
+      expect(
+        htmlElem.querySelectorAll(
+          '.cx-configuration-info.cx-configuration-info-error'
+        ).length
+      ).toBe(
+        1,
+        "expected configuration info identified by selector '.cx-configuration-info.cx-configuration-info-error' to be present, but it is! innerHtml: " +
+          htmlElem.innerHTML
+      );
+    });
   });
 });

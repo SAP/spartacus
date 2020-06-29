@@ -49,8 +49,14 @@
             {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
           </div>
           <ng-container *ngFor="let info of item.configurationInfos">
-            <div class="cx-configuration-info">
-              {{ info.configurationLabel }}: {{ info.configurationValue }}
+            <div
+              [ngClass]="
+                info?.status === 'ERROR'
+                  ? 'cx-configuration-info cx-configuration-info-error'
+                  : 'cx-configuration-info'
+              "
+            >
+              {{ info?.configurationLabel }}: {{ info?.configurationValue }}
             </div>
           </ng-container>
           <!-- Generic Configuration-->
