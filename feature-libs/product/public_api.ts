@@ -2,4 +2,5 @@
  * Public API Surface of product
  */
 
-export default {};
+export * from '@spartacus/product/configuration';
+export * from '@spartacus/product/domain';
