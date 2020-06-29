@@ -48,6 +48,11 @@
           <div *ngIf="item.product.code" class="cx-code">
             {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
           </div>
+          <ng-container *ngFor="let info of item.configurationInfos">
+            <div class="cx-configuration-info">
+              {{ info.configurationLabel }}: {{ info.configurationValue }}
+            </div>
+          </ng-container>
           <!-- Generic Configuration-->
           <cx-configure-cart-entry
             *ngIf="item.product.configurable"
