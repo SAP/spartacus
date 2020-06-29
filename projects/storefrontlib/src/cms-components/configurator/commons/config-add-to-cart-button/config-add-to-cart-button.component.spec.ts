@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Configurator,
   ConfiguratorCommonsService,
+  ConfiguratorGroupsService,
   GenericConfigurator,
   GlobalMessageService,
   I18nTestingModule,
@@ -93,6 +94,12 @@ const productConfiguration: Configurator.Configuration = {
       attributes: [],
     },
   ],
+  interactionState: {
+    currentGroup: '1-CPQ_LAPTOP.2',
+    menuParentGroup: '1-CPQ_LAPTOP.3',
+    groupsStatus: {},
+    groupsVisited: {},
+  },
 };
 
 class MockRoutingService {
@@ -114,6 +121,10 @@ class MockConfiguratorCommonsService {
   updateCartEntry() {}
   removeConfiguration() {}
   removeUiState() {}
+}
+
+class MockConfiguratorGroupsService {
+  setGroupStatus() {}
 }
 
 function performAddToCartOnOverview(
@@ -184,6 +195,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let configuratorCommonsService: ConfiguratorCommonsService;
+  let configuratorGroupsService: ConfiguratorGroupsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -197,6 +209,10 @@ describe('ConfigAddToCartButtonComponent', () => {
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
@@ -220,6 +236,10 @@ describe('ConfigAddToCartButtonComponent', () => {
     globalMessageService = TestBed.inject(
       GlobalMessageService as Type<GlobalMessageService>
     );
+    configuratorGroupsService = TestBed.inject(
+      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+    );
+    spyOn(configuratorGroupsService, 'setGroupStatus').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
@@ -236,6 +256,8 @@ describe('ConfigAddToCartButtonComponent', () => {
         navParamsOverview,
         attribs
       );
+
+      expect(configuratorGroupsService.setGroupStatus).toHaveBeenCalled();
     });
 
     it('should navigate to cart in case configuration is cart bound and we are on OV config page', () => {
