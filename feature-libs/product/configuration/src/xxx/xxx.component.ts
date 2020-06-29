@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'cx-xxx',
-  templateUrl: './xxx.component.html',
+  template: `<p>xxx works!</p>`,
 })
 export class XxxComponent implements OnInit {
   constructor() {}

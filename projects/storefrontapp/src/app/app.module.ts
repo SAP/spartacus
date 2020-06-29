@@ -11,9 +11,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TestConfigModule } from '@spartacus/core';
 import {
   ProductConfigurationModule,
-  XxxComponent,
+  XxxService,
 } from '@spartacus/product/configuration';
-import { CoreModule, YyyComponent } from '@spartacus/product/domain';
+import { CoreModule, YyyService } from '@spartacus/product/domain';
 import {
   JsonLdBuilderModule,
   StorefrontComponent,
@@ -64,8 +64,7 @@ if (environment.b2b) {
   bootstrap: [StorefrontComponent],
 })
 export class AppModule {
-  constructor(x: XxxComponent, y: YyyComponent) {
-    console.log('component x: ', x);
-    console.log('component y: ', y);
+  constructor(x: XxxService, y: YyyService) {
+    console.log(x, y);
   }
 }
