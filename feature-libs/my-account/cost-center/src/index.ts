@@ -1,1 +1,2 @@
-export const DUMMY_COST_CENTER = 'dummy cc';
+export * from './components/index';
+export * from './cost-center.module';
