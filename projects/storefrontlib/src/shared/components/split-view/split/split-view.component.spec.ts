@@ -10,7 +10,7 @@ class MockSplitViewService {
   }
 }
 
-fdescribe('SplitViewComponent', () => {
+describe('SplitViewComponent', () => {
   let component: SplitViewComponent;
   let fixture: ComponentFixture<SplitViewComponent>;
 
