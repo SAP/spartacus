@@ -294,26 +294,5 @@ describe('CartItemComponent', () => {
           htmlElem.innerHTML
       );
     });
-
-    it('should display erroneous configuration info if array of configurationInfo is not empty and its status is error', () => {
-      const configurationInfo = {
-        configurationLabel: 'Color',
-        configurationValue: 'Blue',
-        configuratorType: 'CPQCONFIGURATOR',
-        status: 'ERROR',
-      };
-      cartItemComponent.item.configurationInfos = [configurationInfo];
-      fixture.detectChanges();
-      const htmlElem = fixture.nativeElement;
-      expect(
-        htmlElem.querySelectorAll(
-          '.cx-configuration-info.cx-configuration-info-error'
-        ).length
-      ).toBe(
-        1,
-        "expected configuration info identified by selector '.cx-configuration-info.cx-configuration-info-error' to be present, but it is! innerHtml: " +
-          htmlElem.innerHTML
-      );
-    });
   });
 });
