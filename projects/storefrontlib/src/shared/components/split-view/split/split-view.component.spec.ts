@@ -10,7 +10,7 @@ class MockSplitViewService {
   }
 }
 
-describe('SplitViewComponent', () => {
+fdescribe('SplitViewComponent', () => {
   let component: SplitViewComponent;
   let fixture: ComponentFixture<SplitViewComponent>;
 
@@ -32,7 +32,6 @@ describe('SplitViewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SplitViewComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -44,10 +43,12 @@ describe('SplitViewComponent', () => {
   });
 
   it('should bind service.visibleViewCount to lastVisibleView', () => {
+    fixture.detectChanges();
     expect(component.lastVisibleView).toEqual(5);
   });
 
   it('should bind lastVisibleView to --cx-last-visible-view CSS property', () => {
+    fixture.detectChanges();
     const el: HTMLElement = fixture.debugElement.nativeElement;
     expect(el.style.getPropertyValue('--cx-last-visible-view')).toEqual('5');
   });
