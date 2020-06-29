@@ -9,11 +9,12 @@ import {
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TestConfigModule } from '@spartacus/core';
+import { YyyService } from '@spartacus/product';
 import {
   ProductConfigurationModule,
   XxxService,
 } from '@spartacus/product/configuration';
-import { CoreModule, YyyService } from '@spartacus/product/domain';
+import { CoreModule } from '@spartacus/product/domain';
 import {
   JsonLdBuilderModule,
   StorefrontComponent,
@@ -23,7 +24,6 @@ import { b2cFeature } from '../environments/b2c/b2c.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
-// import {} from '@spartacus/product'
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
