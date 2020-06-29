@@ -86,6 +86,7 @@ describe('ViewComponent', () => {
 
   it('should set position attribute to 0', () => {
     const el: HTMLElement = fixture.debugElement.nativeElement;
+    fixture.detectChanges();
     expect(el.getAttribute('position')).toEqual('0');
   });
 
