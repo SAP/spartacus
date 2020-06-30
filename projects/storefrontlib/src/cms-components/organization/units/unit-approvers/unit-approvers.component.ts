@@ -1,4 +1,3 @@
-import { ICON_TYPE } from './../../../misc/icon/icon.model';
 import { Component, OnInit } from '@angular/core';
 import {
   filter,
@@ -20,6 +19,7 @@ import {
   AbstractListingComponent,
   ListingModel,
 } from '../../abstract-component/abstract-listing.component';
+import { ICON_TYPE } from './../../../misc/icon/icon.model';
 
 @Component({
   selector: 'cx-unit-approvers',
