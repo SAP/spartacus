@@ -7,10 +7,10 @@ declare namespace Cypress {
        * @memberof Cypress.Chainable
        * @example
         ```
-        cy.addToCart(productCode, quantity)
+        cy.addToCart(productCode, quantity, accessToken)
         ```
        */
-    addToCart: (itemId: string, quantity: string) => void;
+    addToCart: (itemId: string, quantity: string, accessToken: string) => void;
   }
 }
 

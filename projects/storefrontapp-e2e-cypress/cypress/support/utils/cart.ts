@@ -1,7 +1,6 @@
 export const cartUrlPrefix = `${Cypress.env('API_URL')}/${Cypress.env(
   'OCC_PREFIX'
 )}/${Cypress.env('BASE_SITE')}/users/current/carts`;
-export const getCartUrl = `${cartUrlPrefix}?fields=DEFAULT,entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue,value),updateable),totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue, value),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue),user&lang=en&curr=USD`;
 
 export function createCart(accessToken: string) {
   return cy.request({
