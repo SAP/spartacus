@@ -4,11 +4,12 @@ import {
   OnInit,
   TemplateRef,
 } from '@angular/core';
+import { B2BUser, B2BUserService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap, take } from 'rxjs/operators';
-import { RoutingService, B2BUser, B2BUserService } from '@spartacus/core';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ModalService } from '../../../../shared/components/modal/modal.service';
 
+// TODO:#my-account-architecture - add a test
 @Component({
   selector: 'cx-user-details',
   templateUrl: './user-details.component.html',

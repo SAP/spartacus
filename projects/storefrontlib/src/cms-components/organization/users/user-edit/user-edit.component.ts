@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { map, switchMap, take, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { B2BUser, B2BUserService, RoutingService } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 
+// TODO:#my-account-architecture - add a test
 @Component({
   selector: 'cx-user-edit',
   templateUrl: './user-edit.component.html',

@@ -41,7 +41,7 @@
               } | cxUrl
             "
             [queryParams]="{ parentUnit: code$ | async }"
-            class="btn btn-primary btn-block"
+            class="btn btn-block btn-action"
           >
             {{ 'unitCostCenters.create' | cxTranslate }}
           </a>
@@ -52,7 +52,7 @@
     <div class="cx-table-body">
       <ng-container *ngIf="data?.length > 0; else noData">
         <!-- TABLE -->
-        <cx-table
+        <cx-table2
           [tableData]="data"
           [columns]="[
             {
@@ -66,7 +66,7 @@
             }
           ]"
         >
-        </cx-table>
+        </cx-table2>
       </ng-container>
 
       <!-- NO ORDER CONTAINER -->

@@ -13,7 +13,7 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { TableModule } from '../../../../shared/components/table/table.module';
+import { Table2Module } from '../../../../shared/components/table/table2.module';
 import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 import { ConfirmModalModule } from './../../../../shared/components/modal/confirm-modal/confirm-modal.module';
 
@@ -40,7 +40,7 @@ import { ConfirmModalModule } from './../../../../shared/components/modal/confir
     I18nModule,
     NgSelectModule,
     FormsModule,
-    TableModule,
+    Table2Module,
     FakeTabsModule,
     ConfirmModalModule,
   ],
