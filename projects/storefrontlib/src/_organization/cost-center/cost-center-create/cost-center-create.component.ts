@@ -79,12 +79,14 @@ export class CostCenterCreateComponent {
       this.form.markAllAsTouched();
     } else {
       this.form.disable();
-      this.costCenterService.create(this.form.value);
+      const formValue = this.form.value;
+
+      this.costCenterService.create(formValue);
       this.removeForm();
 
       this.routingService.go({
         cxRoute: 'costCenterDetails',
-        params: this.form.value,
+        params: formValue,
       });
     }
   }
