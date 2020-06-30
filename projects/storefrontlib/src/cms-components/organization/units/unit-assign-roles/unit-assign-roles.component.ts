@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Params } from '@angular/router';
 import {
   B2BUser,
+  B2BUserService,
   EntitiesModel,
   OrgUnitService,
   RoutingService,
@@ -31,7 +32,8 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
 
   constructor(
     protected routingService: RoutingService,
-    protected orgUnitsService: OrgUnitService
+    protected orgUnitsService: OrgUnitService,
+    protected b2bUsersService: B2BUserService
   ) {
     super(routingService);
   }
@@ -77,23 +79,32 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
   }
 
   assign(event: any) {
-    this.orgUnitsService.assignRole(
-      event.row.customerId,
-      this.getRole(event.key)
-    );
+    const oldRoles: string[] = event.row.roles;
+
+    this.b2bUsersService.update(event.row.customerId, {
+      email: event.row.email,
+      roles: [...oldRoles, this.getRole(event.key)],
+    });
   }
 
   unassign(event: any) {
-    console.log(event);
-    this.orgUnitsService.unassignRole(
-      event.row.customerId,
-      this.getRole(event.key)
-    );
+    //copy roles from event
+    const roles = Object.assign([], event.row.roles);
+    //get the index of the role to be unchecked
+    const index = roles.indexOf(this.getRole(event.key));
+    //remove the unchecked role from the list of roles
+    roles.splice(index, 1);
+
+    //finally update the roles
+    this.b2bUsersService.update(event.row.customerId, {
+      email: event.row.email,
+      roles: roles,
+    });
   }
 
-  /*changeRole({ roleId }: { roleId: string }) {
+  changeRole({ roleId }: { roleId: string }) {
     this.updateQueryParams({}, { roleId });
-  }*/
+  }
 
   getRole(key: string): string {
     switch (key) {
