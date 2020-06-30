@@ -10,9 +10,5 @@ export interface StateWithConfigurationTextfield {
 }
 
 export interface ConfigurationTextfieldLoaderState {
-  active: StateUtils.LoaderState<ConfigurationTextfieldState>;
-}
-
-export interface ConfigurationTextfieldState {
-  content: ConfiguratorTextfield.Configuration;
+  loaderState: StateUtils.LoaderState<ConfiguratorTextfield.Configuration>;
 }

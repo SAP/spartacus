@@ -13,7 +13,18 @@ import { ConfiguratorTextFieldSelectors } from './index';
 describe('ConfiguratorTextfieldSelectors', () => {
   let store: Store<StateWithConfigurationTextfield>;
   const configuration: ConfiguratorTextfield.Configuration = {
+    configurationInfos: [
+      {
+        configurationLabel: 'Colour',
+        configurationValue: 'Black',
+        status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
+      },
+    ],
+    owner: {},
+  };
+  const configurationInitial: ConfiguratorTextfield.Configuration = {
     configurationInfos: [],
+    owner: {},
   };
 
   beforeEach(() => {
@@ -38,7 +49,7 @@ describe('ConfiguratorTextfieldSelectors', () => {
       .pipe(select(ConfiguratorTextFieldSelectors.getConfigurationContent))
       .subscribe((value) => (result = value));
 
-    expect(result).toBeNull();
+    expect(result).toEqual(configurationInitial);
   });
 
   it('should return content from state when selecting with content selector', () => {

@@ -1,64 +1,69 @@
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../actions/index';
-import { ConfigurationTextfieldState } from '../configuration-textfield-state';
 import { reducer } from './configurator-textfield.reducer';
 
 describe('ConfiguratorTextfieldReducer', () => {
-  const configurationState: ConfigurationTextfieldState = {
-    content: null,
+  const attributeName = 'attributeName';
+
+  const productConfigurationInitial: ConfiguratorTextfield.Configuration = {
+    configurationInfos: [],
+    owner: {},
+  };
+  const productConfiguration: ConfiguratorTextfield.Configuration = {
+    configurationInfos: [{ configurationLabel: attributeName }],
+    owner: {},
   };
   const productCode = 'CONF_LAPTOP';
-  const attributeName = 'attributeName';
-  const configuration: ConfiguratorTextfield.Configuration = {
-    configurationInfos: [{ configurationLabel: attributeName }],
-  };
+
   it('should not change state in case action is not covered in reducer', () => {
     const result = reducer(
-      configurationState,
+      productConfigurationInitial,
       new ConfiguratorTextfieldActions.CreateConfiguration({
         productCode: productCode,
         owner: undefined,
       })
     );
     expect(result).toBeDefined();
-    expect(result.content).toBe(null);
+    expect(result).toBe(productConfigurationInitial);
   });
 
   it('should change state on CreateConfigurationSuccess ', () => {
     const result = reducer(
-      configurationState,
-      new ConfiguratorTextfieldActions.CreateConfigurationSuccess(configuration)
+      productConfigurationInitial,
+      new ConfiguratorTextfieldActions.CreateConfigurationSuccess(
+        productConfiguration
+      )
     );
     expect(result).toBeDefined();
-    expect(result.content).toEqual(configuration);
+    expect(result).toEqual(productConfiguration);
   });
 
   it('should change state on readFromCartEntry ', () => {
     const result = reducer(
-      configurationState,
+      productConfigurationInitial,
       new ConfiguratorTextfieldActions.ReadCartEntryConfigurationSuccess(
-        configuration
+        productConfiguration
       )
     );
     expect(result).toBeDefined();
-    expect(result.content).toEqual(configuration);
+    expect(result).toEqual(productConfiguration);
   });
 
   it('should change state on UpdateConfiguration ', () => {
     const result = reducer(
-      configurationState,
-      new ConfiguratorTextfieldActions.UpdateConfiguration(configuration)
+      productConfigurationInitial,
+      new ConfiguratorTextfieldActions.UpdateConfiguration(productConfiguration)
     );
     expect(result).toBeDefined();
-    expect(result.content).toEqual(configuration);
+    expect(result).toEqual(productConfiguration);
   });
 
   it('should remove state on RemoveConfiguration ', () => {
     const result = reducer(
-      configurationState,
+      productConfiguration,
       new ConfiguratorTextfieldActions.RemoveConfiguration()
     );
     expect(result).toBeDefined();
-    expect(result.content).toBeNull();
+    expect(result).toEqual(productConfigurationInitial);
   });
 });

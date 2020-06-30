@@ -6,7 +6,7 @@ import {
   GenericConfigUtilsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
 import { StateWithConfigurationTextfield } from '../state/configuration-textfield-state';
@@ -36,9 +36,9 @@ export class ConfiguratorTextfieldService {
       select(ConfiguratorTextFieldSelectors.getConfigurationsState),
       tap((configurationState) => {
         const isAvailableForProduct =
-          configurationState.active.value.content?.owner.type ===
+          configurationState.loaderState.value?.owner.type ===
           GenericConfigurator.OwnerType.PRODUCT;
-        const isLoading = configurationState.active.loading;
+        const isLoading = configurationState.loaderState.loading;
         if (!isAvailableForProduct && !isLoading) {
           this.store.dispatch(
             new ConfiguratorTextfieldActions.CreateConfiguration({
@@ -48,7 +48,10 @@ export class ConfiguratorTextfieldService {
           );
         }
       }),
-      map((configurationState) => configurationState.active.value.content)
+      filter(
+        (configurationState) => configurationState.loaderState.success === true
+      ),
+      map((configurationState) => configurationState.loaderState.value)
     );
   }
 
@@ -86,7 +89,7 @@ export class ConfiguratorTextfieldService {
   addToCart(
     productCode: string,
     configuration: ConfiguratorTextfield.Configuration
-  ) {
+  ): void {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
         userId: this.configuratorUtils.getUserId(cartState.value),
@@ -107,10 +110,10 @@ export class ConfiguratorTextfieldService {
    * @param cartEntryNumber - Cart entry number
    * @param configuration Textfield configuration (list of alphanumeric attributes)
    */
-  public updateCartEntry(
+  updateCartEntry(
     cartEntryNumber: string,
     configuration: ConfiguratorTextfield.Configuration
-  ) {
+  ): void {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
         userId: this.configuratorUtils.getUserId(cartState.value),
@@ -133,7 +136,7 @@ export class ConfiguratorTextfieldService {
    *
    * @returns {Observable<ConfiguratorTextfield.Configuration>}
    */
-  public readConfigurationForCartEntry(
+  readConfigurationForCartEntry(
     owner: GenericConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {

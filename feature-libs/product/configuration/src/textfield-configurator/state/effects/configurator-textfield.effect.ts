@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { CartActions, GenericConfigurator } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { makeErrorSerializable } from '../../../utils/serialization-utils';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
@@ -11,7 +11,6 @@ import { ConfiguratorTextfieldActions } from '../actions/index';
 export class ConfiguratorTextfieldEffects {
   @Effect()
   createConfiguration$: Observable<
-    | ConfiguratorTextfieldActions.CreateConfiguration
     | ConfiguratorTextfieldActions.CreateConfigurationSuccess
     | ConfiguratorTextfieldActions.CreateConfigurationFail
   > = this.actions$.pipe(
@@ -20,7 +19,7 @@ export class ConfiguratorTextfieldEffects {
       (action: ConfiguratorTextfieldActions.CreateConfiguration) =>
         action.payload
     ),
-    mergeMap((payload) => {
+    switchMap((payload) => {
       return this.configuratorTextfieldConnector
         .createConfiguration(payload.productCode, payload.owner)
         .pipe(
@@ -50,7 +49,7 @@ export class ConfiguratorTextfieldEffects {
   > = this.actions$.pipe(
     ofType(ConfiguratorTextfieldActions.ADD_TO_CART),
     map((action: ConfiguratorTextfieldActions.AddToCart) => action.payload),
-    mergeMap((payload) => {
+    switchMap((payload) => {
       return this.configuratorTextfieldConnector.addToCart(payload).pipe(
         switchMap(() => {
           return [
@@ -83,7 +82,7 @@ export class ConfiguratorTextfieldEffects {
       (action: ConfiguratorTextfieldActions.UpdateCartEntryConfiguration) =>
         action.payload
     ),
-    mergeMap((payload) => {
+    switchMap((payload) => {
       return this.configuratorTextfieldConnector
         .updateConfigurationForCartEntry(payload)
         .pipe(

@@ -114,7 +114,7 @@ export class RemoveConfiguration extends StateUtils.LoaderResetAction {
   }
 }
 
-export type ConfiguratorAction =
+export type ConfiguratorActions =
   | CreateConfiguration
   | CreateConfigurationFail
   | CreateConfigurationSuccess

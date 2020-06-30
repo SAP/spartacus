@@ -54,11 +54,11 @@ const productConfiguration: ConfiguratorTextfield.Configuration = {
 };
 
 const loaderState: ConfigurationTextfieldLoaderState = {
-  active: { value: { content: productConfiguration } },
+  loaderState: { value: productConfiguration },
 };
 
 const loaderStateNothingPresent: ConfigurationTextfieldLoaderState = {
-  active: { value: { content: undefined } },
+  loaderState: { value: undefined },
 };
 
 const updateCartEntryParams: ConfiguratorTextfield.UpdateCartEntryParameters = {

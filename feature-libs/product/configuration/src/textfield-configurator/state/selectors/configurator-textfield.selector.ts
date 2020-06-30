@@ -12,7 +12,7 @@ import {
 
 const getConfigurationContentSelector = (
   state: ConfigurationTextfieldLoaderState
-) => state.active.value.content;
+) => state.loaderState.value;
 
 export const getConfigurationsState: MemoizedSelector<
   StateWithConfigurationTextfield,
