@@ -5,7 +5,7 @@ import {
   OrderEntry,
   TranslationService,
 } from '@spartacus/core';
-import { ModalService } from '../../../../shared/components/modal';
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { take } from 'rxjs/operators';
 
 @Component({
