@@ -45,7 +45,7 @@
    *
    * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
    */
-  "mainEntryPointFilePath": "./public_api.d.ts",
+  "mainEntryPointFilePath": "./public-api.d.ts",
 
   /**
    * Determines how the TypeScript compiler engine will be invoked by API Extractor.

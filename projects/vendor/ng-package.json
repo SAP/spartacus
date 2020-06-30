@@ -5,6 +5,6 @@
     "umdModuleIds": {
       "@spartacus/core": "core"
     },
-    "entryFile": "./public_api.ts"
+    "entryFile": "./public-api.ts"
   }
 }

@@ -2,7 +2,7 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/core",
   "lib": {
-    "entryFile": "./public_api.ts",
+    "entryFile": "./public-api.ts",
     "umdModuleIds": {
       "@ngrx/effects": "effects",
       "@ngrx/router-store": "fromNgrxRouter",
