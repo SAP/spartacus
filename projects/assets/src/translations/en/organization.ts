@@ -276,6 +276,11 @@ export const organization = {
     id: 'ID',
     name: 'Name',
     formattedAddress: 'Details',
+    delete: 'Delete',
+    confirmDeleteAddress: {
+      title: 'Delete address',
+      message: 'Are you sure you want to delete this address?',
+    },
   },
   unitAddressDetails: {
     header: 'Addresses details',

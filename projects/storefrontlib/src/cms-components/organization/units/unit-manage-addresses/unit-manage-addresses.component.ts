@@ -1,5 +1,4 @@
-import { ICON_TYPE } from './../../../misc/icon/icon.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -12,6 +11,8 @@ import {
 } from '@spartacus/core';
 import { Params } from '@angular/router';
 import { ListingModel } from '../../abstract-component/abstract-listing.component';
+import { ICON_TYPE } from './../../../misc/icon/icon.model';
+import { ModalService } from './../../../../shared/components/modal/modal.service';
 
 @Component({
   selector: 'cx-unit-manage-addresses',
@@ -22,10 +23,12 @@ export class UnitManageAddressesComponent implements OnInit {
   data$: Observable<Partial<ListingModel>>;
   cxRoute = 'orgUnitManageAddresses';
   ICON_TYPE = ICON_TYPE;
+  addressId: string;
 
   constructor(
     protected routingService: RoutingService,
-    protected orgUnitsService: OrgUnitService
+    protected orgUnitsService: OrgUnitService,
+    protected modalService: ModalService
   ) {}
 
   private params$: Observable<
@@ -58,9 +61,18 @@ export class UnitManageAddressesComponent implements OnInit {
     );
   }
 
-  unassign({ row }) {
+  openModal({ row }, template: TemplateRef<any>): void {
+    this.addressId = row.id;
+    this.modalService.open(template, {
+      centered: true,
+    });
+  }
+
+  deleteAddress() {
     this.code$
       .pipe(take(1))
-      .subscribe((code) => this.orgUnitsService.deleteAddress(code, row.id));
+      .subscribe((code) =>
+        this.orgUnitsService.deleteAddress(code, this.addressId)
+      );
   }
 }

@@ -15,6 +15,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from '../../../../shared/components/table/table.module';
 import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
+import { ConfirmModalModule } from './../../../../shared/components/modal/confirm-modal/confirm-modal.module';
 
 @NgModule({
   imports: [
@@ -41,10 +42,10 @@ import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
     FormsModule,
     TableModule,
     FakeTabsModule,
+    ConfirmModalModule,
   ],
   declarations: [UnitManageAddressesComponent],
   exports: [UnitManageAddressesComponent],
-  providers: [],
   entryComponents: [UnitManageAddressesComponent],
 })
 export class UnitManageAddressesModule {}
