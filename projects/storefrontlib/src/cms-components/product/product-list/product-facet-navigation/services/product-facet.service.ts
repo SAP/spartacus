@@ -48,21 +48,10 @@ export class ProductFacetService {
       (result: ProductSearchPage) =>
         ({
           facets: result.facets,
-          activeFacets: this.filterBrands(result.breadcrumbs),
+          activeFacets: result.breadcrumbs,
         } as FacetList)
     )
   );
-
-  /**
-   * Filters breadcrumbs and removing brand-related ones.
-   * Used to hide current brand from active facets.
-   */
-  protected filterBrands(breadcrumbs: Breadcrumb[]): Breadcrumb[] {
-    return breadcrumbs.filter(
-      (breadcrumb: Breadcrumb) =>
-        !breadcrumb?.facetValueCode?.startsWith('brand_')
-    );
-  }
 
   /**
    * Filters the current result by verifying if the result is related to the page.
@@ -121,7 +110,8 @@ export class ProductFacetService {
   private hasBreadcrumb(breadcrumb: Breadcrumb, params: Params): boolean {
     return (
       breadcrumb.facetCode === 'allCategories' &&
-      breadcrumb.facetValueCode === params.categoryCode
+      (breadcrumb.facetValueCode === params.categoryCode ||
+        breadcrumb.facetValueCode === params.brandCode)
     );
   }
 }
