@@ -8,7 +8,6 @@
       "@spartacus/vendor": ["dist/vendor"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/my-account": ["dist/my-account"],
-      "@spartacus/my-account/main": ["dist/my-account/main"],
       "@spartacus/my-account/organization": ["dist/my-account/organization"],
       "@spartacus/product": ["dist/product"],
       "@spartacus/product/configuration": ["dist/product/configuration"]

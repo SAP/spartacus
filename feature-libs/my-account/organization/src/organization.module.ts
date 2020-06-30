@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CostCenterModule } from './cost-center/cost-center.module';
+import { OrganizationComponentsModule } from './components/organization-components.module';
+import { OrganizationCoreModule } from './core/organization-core.module';
 
 @NgModule({
-  imports: [CommonModule, CostCenterModule],
+  imports: [CommonModule, OrganizationCoreModule, OrganizationComponentsModule],
 })
 export class OrganizationModule {}

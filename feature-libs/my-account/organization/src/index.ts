@@ -1,2 +1,3 @@
-export * from './cost-center/index';
+export * from './components/index';
+export * from './core/index';
 export * from './organization.module';

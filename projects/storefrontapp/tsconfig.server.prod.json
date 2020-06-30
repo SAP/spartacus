@@ -8,7 +8,6 @@
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/my-account": ["../../dist/my-account"],
-      "@spartacus/my-account/main": ["../../dist/my-account/main"],
       "@spartacus/my-account/organization": [
         "../../dist/my-account/organization"
       ],

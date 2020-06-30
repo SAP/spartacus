@@ -1,5 +1,4 @@
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { MyAccountModule } from '@spartacus/my-account';
 import { B2cStorefrontModule } from '@spartacus/storefront';
 import { environment } from '../../environment';
 import { FeatureEnvironment } from '../../models/feature.model';
@@ -47,7 +46,5 @@ export const b2cFeature: FeatureEnvironment = {
         },
       },
     }),
-
-    MyAccountModule,
   ],
 };
