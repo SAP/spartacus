@@ -52,8 +52,8 @@
           <div
             class="cx-configuration-info-container"
             *ngIf="
-              item.configurationInfos.length > 0 &&
-              item.configurationInfos[0].status !== 'NONE'
+              item.configurationInfos?.length > 0 &&
+              item.configurationInfos[0]?.status !== 'NONE'
             "
           >
             <div
