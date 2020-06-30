@@ -29,24 +29,24 @@ export class I18nextTranslationService implements TranslationService {
 
     const chunkName = this.translationChunk.getChunkNameForKey(key);
     const namespacedKey = this.getNamespacedKey(key, chunkName);
-
+    const processedOptions = this.processContext(options);
     return new Observable<string>((subscriber) => {
       const translate = () => {
         if (!i18next.isInitialized) {
           return;
         }
-        if (i18next.exists(namespacedKey, options)) {
-          subscriber.next(i18next.t(namespacedKey, options));
+        if (i18next.exists(namespacedKey, processedOptions)) {
+          subscriber.next(i18next.t(namespacedKey, processedOptions));
         } else {
           if (whitespaceUntilLoaded) {
             subscriber.next(this.NON_BREAKING_SPACE);
           }
           i18next.loadNamespaces(chunkName, () => {
-            if (!i18next.exists(namespacedKey, options)) {
+            if (!i18next.exists(namespacedKey, processedOptions)) {
               this.reportMissingKey(key, chunkName);
               subscriber.next(this.getFallbackValue(namespacedKey));
             } else {
-              subscriber.next(i18next.t(namespacedKey, options));
+              subscriber.next(i18next.t(namespacedKey, processedOptions));
             }
           });
         }
@@ -80,5 +80,23 @@ export class I18nextTranslationService implements TranslationService {
 
   private getNamespacedKey(key: string, chunk: string): string {
     return chunk + this.NAMESPACE_SEPARATOR + key;
+  }
+
+  protected processContext(optionsToProcess): any {
+    // Some "context" option values may have dots '.' in them.
+    // i18next does not support matching keys with a dot in the context.
+    // We cover this edge case in the following way:
+    //   If there are dots in the context, we change them to underscores.
+    //   The translatiion keys need to have underscores where dots are expected.
+    // This edge case can happen when the context is used like an enum and
+    // the context value is pulled from the backend.
+    if (Boolean(optionsToProcess?.context)) {
+      return {
+        ...optionsToProcess,
+        context: optionsToProcess.context.replace(/\./g, '_'),
+      };
+    } else {
+      return optionsToProcess;
+    }
   }
 }

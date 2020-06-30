@@ -181,5 +181,31 @@ describe('I18nextTranslationService', () => {
         );
       });
     });
+
+    describe(', when context option has some dot characters,', () => {
+      beforeEach(() => {
+        spyOn(i18next, 'exists').and.returnValue(true);
+        i18next.isInitialized = true;
+      });
+
+      it('should emit result of i18next.t', () => {
+        spyOn(i18next, 't').and.returnValue('value');
+        const testOptionsContextDots = { context: 'context.value.with.dots' };
+        const testOptionsContextProcessed = {
+          context: 'context_value_with_dots',
+        };
+        let result;
+        service
+          .translate(testKey, testOptionsContextDots)
+          .pipe(first())
+          .subscribe((x) => (result = x));
+
+        expect(i18next.t).toHaveBeenCalledWith(
+          'testChunk:testKey',
+          testOptionsContextProcessed as any
+        );
+        expect(result).toBe('value');
+      });
+    });
   });
 });

@@ -35,6 +35,13 @@ export const myAccount = {
     statusDisplay_Error: 'Pending',
     statusDisplay_processing: 'Pending',
     statusDisplay_open: 'Open',
+    statusDisplay_pending_approval: 'Pending Approval',
+    statusDisplay_pending_merchant_approval: 'Pending Merchant Approval',
+    statusDisplay_approved: 'Approved',
+    statusDisplay_rejected: 'Rejected',
+    statusDisplay_merchant_approved: 'Merchant Approved',
+    statusDisplay_merchant_rejected: 'Merchant Rejected',
+    statusDisplay_assigned_admin: 'Assigned To Administrator',
     consignmentTracking: {
       action: 'Track package',
       dialog: {
