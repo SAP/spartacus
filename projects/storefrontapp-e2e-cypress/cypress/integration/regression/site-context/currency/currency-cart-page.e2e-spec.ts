@@ -7,7 +7,6 @@ describe('Currency switch - cart page', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
     cy.requireLoggedIn();
-    cy.visit('/');
     manipulateCartQuantity();
   });
 
