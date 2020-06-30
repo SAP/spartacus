@@ -39,7 +39,7 @@ class MockOrderApprovalService {
   }
 }
 
-fdescribe('OrderApprovalDetailService', () => {
+describe('OrderApprovalDetailService', () => {
   let service: OrderApprovalDetailService;
 
   beforeEach(() => {
