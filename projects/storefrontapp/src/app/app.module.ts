@@ -13,10 +13,10 @@ import {
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
-import { b2bFeature } from '../environments/b2b/b2b.feature';
-import { b2cFeature } from '../environments/b2c/b2c.feature';
-import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
+import { b2bFeature } from '../environments/features/b2b/b2b.feature';
+import { b2cFeature } from '../environments/features/b2c/b2c.feature';
+import { cdsFeature } from '../environments/integrations/cds/cds.feature';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 
 registerLocaleData(localeDe);
@@ -30,14 +30,14 @@ if (!environment.production) {
 
 let additionalImports = [];
 
-if (environment.cds) {
-  additionalImports = [...additionalImports, ...cdsFeature.imports];
-}
-
 if (environment.b2b) {
   additionalImports = [...additionalImports, ...b2bFeature.imports];
 } else {
   additionalImports = [...additionalImports, ...b2cFeature.imports];
+}
+
+if (environment.cds) {
+  additionalImports = [...additionalImports, ...cdsFeature.imports];
 }
 
 @NgModule({
