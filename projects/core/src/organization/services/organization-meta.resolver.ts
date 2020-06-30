@@ -36,10 +36,12 @@ export class OrganizationMetaResolver extends ContentPageMetaResolver
       this.translation.translate(`breadcrumbs.${this.ORGANIZATION_ROOT_PATH}`),
     ]).pipe(
       map(([breadcrumb, organizationLabel]: [BreadcrumbMeta[], string]) =>
-      breadcrumb.concat([{
-        label: organizationLabel,
-        link: `/${this.ORGANIZATION_ROOT_PATH}`,
-      }])
+        breadcrumb.concat([
+          {
+            label: organizationLabel,
+            link: `/${this.ORGANIZATION_ROOT_PATH}`,
+          },
+        ])
       )
     );
   }
