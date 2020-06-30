@@ -1,4 +1,20 @@
 export const organization = {
+  organization: {
+    enabled: 'Enabled',
+    disabled: 'Disabled',
+
+    // let's start with generic names and introduce
+    // more specifics once we have #7154 in place
+    back: 'Back',
+    create: 'Create {{name}}',
+    edit: 'Edit {{name}}',
+    save: 'Save {{name}}',
+    cancel: 'Cancel {{name}}',
+    close: 'Close {{name}}',
+
+    active: 'Active',
+  },
+
   budgetsList: {
     assign: 'Assign',
     code: 'Code',
@@ -133,33 +149,18 @@ export const organization = {
       placeholder: 'Amount',
     },
   },
-  costCentersList: {
-    code: 'Code',
-    costCenterManagement: 'Cost Center Management',
-    name: 'Name',
-    currency: 'Currency',
-    parentUnit: 'Parent Unit',
-    sortByMostRecent: 'sortByMostRecent',
-    sorting: {
-      byUnitName: 'Unit Name',
-      byName: 'Name',
-      byCode: 'Code',
-    },
-    create: 'Create new Cost Center',
+
+  costCenterList: {
+    header: 'Cost centers',
   },
+
   costCenter: {
     header: 'Details for {{code}}',
     code: 'Code',
     name: 'Name',
     currency: 'Currency',
-    parentUnit: 'Parent Unit',
-    edit: 'Edit',
-    disable: 'Disable',
-    enable: 'Enable',
-    status: 'Status',
-    back: 'Back to list',
-    active: 'Active',
-    deactivated: 'Deactivated',
+    unit: 'Parent Unit',
+
     budgets: 'Budgets',
     details: 'Details',
     assignBudgets: 'Manage Budgets',
