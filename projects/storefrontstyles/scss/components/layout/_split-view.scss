@@ -54,7 +54,7 @@
     // the flex items outside the flex container.
     &[position='0'] {
       margin-inline-start: calc(
-        max((var(--cx-last-visible-view) - var(--cx-max-views)), 0) *
+        max(var(--cx-last-visible-view) - var(--cx-max-views), 0) *
           (var(--cx-view-flex) * -1)
       );
     }
