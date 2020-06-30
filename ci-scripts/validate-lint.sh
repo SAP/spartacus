@@ -14,7 +14,7 @@ function validatestyles {
 
 function validateTsConfigFile {
     echo "Validating ${TSCONFIGFILE_TO_VALIDATE} integrity"
-    LOCAL_ENV_LIB_PATH_OCCURENCES=$(grep -c "projects/storefrontlib/src/public-api" ${TSCONFIGFILE_TO_VALIDATE} || true)
+    LOCAL_ENV_LIB_PATH_OCCURENCES=$(grep -c "projects/storefrontlib/src/public_api" ${TSCONFIGFILE_TO_VALIDATE} || true)
     if [ $LOCAL_ENV_LIB_PATH_OCCURENCES \> 0 ];
     then
         echo "ERROR: ${TSCONFIGFILE_TO_VALIDATE} file is invalid. Found [${LOCAL_ENV_LIB_PATH}].";
@@ -30,7 +30,7 @@ function validateNoHardCodedText {
     yarn i18n-lint
 }
 
-LOCAL_ENV_LIB_PATH="projects/storefrontlib/src/public-api"
+LOCAL_ENV_LIB_PATH="projects/storefrontlib/src/public_api"
 TSCONFIGFILE_TO_VALIDATE="projects/storefrontapp/tsconfig.app.prod.json"
 validateTsConfigFile
 

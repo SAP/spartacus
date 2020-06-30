@@ -103,6 +103,8 @@ Add the following under `lib` section:
 
 If necessary, add entries for other libraries such as `"@ngrx/store": "store"`, etc.
 
+- `public-api.ts` - rename this file to `public_api.ts` (with the underscore instead of the dash) and change the path in `ng-package.json`'s `entryFile` property to `./public_api.ts`
+
 - `package.json`
 
 Use the following template:
@@ -261,7 +263,7 @@ Add the following to the `paths` (and replace the `my-account` with your lib's n
 Add the following to the `paths` (and replace the `my-account` with your lib's name):
 
 ```json
-"@spartacus/my-account": ["../../feature-libs/my-account/public-api"]
+"@spartacus/my-account": ["../../feature-libs/my-account/public_api"]
 ```
 
 - `projects/storefrontapp/tsconfig.server.prod.json`
