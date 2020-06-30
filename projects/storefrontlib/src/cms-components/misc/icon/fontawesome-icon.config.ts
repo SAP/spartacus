@@ -28,6 +28,10 @@ export const fontawesomeIconConfig: IconConfig = {
       HEART: 'fas fa-heart',
       EMPTY_HEART: 'far fa-heart',
       FILTER: 'fas fa-filter',
+      ACTIVE: 'fas fa-check',
+      ON: 'fas fa-toggle-on',
+      OFF: 'fas fa-toggle-off',
+      LINK_OUT: 'fas fa-external-link-alt',
     },
     resources: [
       {
