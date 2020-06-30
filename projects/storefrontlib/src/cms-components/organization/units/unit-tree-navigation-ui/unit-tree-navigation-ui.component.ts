@@ -6,13 +6,14 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
-import { NavigationNode } from '../../../navigation/navigation/navigation-node.model';
-import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { BREAKPOINT } from '../../../../layout/config/layout-config';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
+import { BREAKPOINT } from '../../../../layout/config/layout-config';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
+import { NavigationNode } from '../../../navigation/navigation/navigation-node.model';
 
+// TODO:#my-account-architecture - add a test
 @Component({
   selector: 'cx-unit-tree-navigation-ui',
   templateUrl: './unit-tree-navigation-ui.component.html',

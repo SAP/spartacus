@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { RoutingService, B2BUserService, B2BUser } from '@spartacus/core';
+import { B2BUser, B2BUserService, RoutingService } from '@spartacus/core';
 
+// TODO:#my-account-architecture - add a test
 @Component({
   selector: 'cx-user-create',
   templateUrl: './user-create.component.html',

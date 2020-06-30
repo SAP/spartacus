@@ -1,4 +1,15 @@
 import { Params } from '@angular/router';
+import {
+  B2BSearchConfig,
+  PaginationModel,
+  RouterState,
+  RoutingService,
+  SortModel,
+  // TODO:#my-account-architecture - expose from core?
+  θdiff as diff,
+  // TODO:#my-account-architecture - expose from core?
+  θshallowEqualObjects as shallowEqualObjects,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -7,25 +18,17 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
-import {
-  RoutingService,
-  B2BSearchConfig,
-  θdiff as diff,
-  θshallowEqualObjects as shallowEqualObjects,
-  RouterState,
-  PaginationModel,
-  SortModel,
-} from '@spartacus/core';
-
 export type ListingModel = {
   values: Array<any>;
   pagination: PaginationModel;
   sorts: SortModel[];
 };
 
+// TODO:#my-account-architecture - move to `@spartacust/my-account` library
 export abstract class AbstractListingComponent {
   cxRoute: string;
   data$: Observable<ListingModel>;
+  // TODO:#my-account-architecture - Number.MAX_VALUE?
   protected MAX_OCC_INTEGER_VALUE = 2147483647;
 
   protected queryParams$: Observable<
@@ -54,7 +57,7 @@ export abstract class AbstractListingComponent {
   > = this.routingService
     .getRouterState()
     .pipe(map((routingData: RouterState) => routingData.state.params));
-
+  // TODO:#my-account-architecture - remove `public`
   public code$: Observable<string> = this.params$.pipe(
     map((params: Params) => params['code'])
   );
