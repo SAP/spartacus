@@ -37,7 +37,9 @@ export class CostCenterEditComponent {
     tap((code) => this.costCenterService.loadCostCenter(code)),
     switchMap((code) => this.costCenterService.get(code)),
     tap((costCenter) => {
-      if (!this.form.dirty) {
+      // when the form is pristine, it means that
+      // we have just created it in the persistence service
+      if (this.form.pristine && costCenter) {
         this.form.patchValue(costCenter);
       }
     })
