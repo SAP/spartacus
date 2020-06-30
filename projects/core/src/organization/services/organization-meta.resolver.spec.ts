@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CmsService, Page, BreadcrumbMeta } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
@@ -14,13 +14,7 @@ const mockOrganizationPage: Page = {
   slots: {},
 };
 
-class MockCmsService {
-  getCurrentPage(): Observable<Page> {
-    return of(mockOrganizationPage);
-  }
-}
-
-const mockRouterStateWithTranslatablePath: RouterState = {
+const state: RouterState = {
   navigationId: 0,
   state: {
     url: 'powertools-spa/en/USD/organization/cost-centers',
@@ -34,25 +28,15 @@ const mockRouterStateWithTranslatablePath: RouterState = {
   },
 };
 
-const mockRouterStateWithoutTranslatablePath: RouterState = {
-  navigationId: 0,
-  state: {
-    url: 'powertools-spa/en/USD/organization/cost-centers/Custom_Retail/edit',
-    queryParams: {},
-    params: {},
-    context: {
-      id: '/organization/cost-centers',
-      type: PageType.CONTENT_PAGE,
-    },
-    cmsRequired: true,
-  },
-};
-
-const state = new BehaviorSubject<RouterState>(null);
+class MockCmsService {
+  getCurrentPage(): Observable<Page> {
+    return of(mockOrganizationPage);
+  }
+}
 
 class RoutingServiceStub {
   getRouterState(): Observable<RouterState> {
-    return state;
+    return of(state);
   }
 }
 
@@ -72,9 +56,7 @@ describe('OrganizationMetaResolver', () => {
     resolver = TestBed.inject(OrganizationMetaResolver);
   });
 
-  it('should resolve breadcrumbs with translation', () => {
-    state.next(mockRouterStateWithTranslatablePath);
-
+  it('should resolve breadcrumbs', () => {
     let result: BreadcrumbMeta[];
     resolver
       .resolveBreadcrumbs()
@@ -83,27 +65,7 @@ describe('OrganizationMetaResolver', () => {
 
     expect(result).toEqual([
       { label: 'common.home', link: '/' },
-      { label: 'organization', link: '/organization' },
-    ]);
-  });
-
-  it('should resolve breadcrumbs without translation', () => {
-    state.next(mockRouterStateWithoutTranslatablePath);
-
-    let result: BreadcrumbMeta[];
-    resolver
-      .resolveBreadcrumbs()
-      .subscribe((value) => (result = value))
-      .unsubscribe();
-
-    expect(result).toEqual([
-      { label: 'common.home', link: '/' },
-      { label: 'organization', link: '/organization' },
-      { label: 'cost-centers', link: '/organization/cost-centers' },
-      {
-        label: 'Custom_Retail',
-        link: '/organization/cost-centers/Custom_Retail',
-      },
+      { label: 'breadcrumbs.organization', link: '/organization' },
     ]);
   });
 });
