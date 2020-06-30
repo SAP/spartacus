@@ -14,9 +14,9 @@ import {
   providedIn: 'root',
 })
 export class OrderApprovalDetailService {
-  protected approvalCode$ = this.routingService.getRouterState().pipe(
-    map((routingData) => routingData.state.params.approvalCode),
-  );
+  protected approvalCode$ = this.routingService
+    .getRouterState()
+    .pipe(map((routingData) => routingData.state.params.approvalCode));
 
   protected orderData$ = this.approvalCode$.pipe(
     filter(Boolean),
