@@ -10,6 +10,9 @@ import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { OrganizationTables } from '../../shared/organization.model';
 import { TableService, Table, TableStructure } from '@spartacus/storefront';
 
+const DEFAULT_SEARCH_CONFIG: B2BSearchConfig = {
+  pageSize: 10,
+};
 @Injectable({
   providedIn: 'root',
 })
@@ -18,6 +21,7 @@ export class CostCenterListService {
     B2BSearchConfig
   > = new BehaviorSubject({
     pageSize: 10,
+    currentPage: 0,
   });
 
   // protected costCenterList$: Observable<EntitiesModel<CostCenter>> = this.searchConfig$.pipe(
@@ -44,7 +48,11 @@ export class CostCenterListService {
 
   search(config: B2BSearchConfig): void {
     const current = this.searchConfig$.value;
-    this.searchConfig$.next({ ...current, ...config });
+    this.searchConfig$.next({
+      ...current,
+      ...DEFAULT_SEARCH_CONFIG,
+      ...config,
+    });
   }
 
   getDataTable(): Observable<Table> {

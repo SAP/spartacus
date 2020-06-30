@@ -1,6 +1,10 @@
 import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
 
-import { TableConfig, BREAKPOINT } from '@spartacus/storefront';
+import {
+  TableConfig,
+  BREAKPOINT,
+  SplitViewDeactivateGuard,
+} from '@spartacus/storefront';
 import { CostCenterListComponent } from './list/cost-center-list.component';
 import { CostCenterCreateComponent } from './create/cost-center-create.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
@@ -32,10 +36,6 @@ export const costCenterCmsConfig: CmsConfig = {
     ManageCostCentersListComponent: {
       component: CostCenterListComponent,
       childRoutes: [
-        // {
-        // path: '',
-        // component: CostCenterListComponent,
-        // children: [
         {
           path: 'create',
           component: CostCenterCreateComponent,
@@ -43,6 +43,7 @@ export const costCenterCmsConfig: CmsConfig = {
         {
           path: ':code',
           component: CostCenterDetailsComponent,
+          canDeactivate: [SplitViewDeactivateGuard],
           children: [
             {
               path: 'edit',
