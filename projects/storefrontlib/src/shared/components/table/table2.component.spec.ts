@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { TableComponent } from './table.component';
+import { Table2Component } from './table.component';
 
 const mockColumns: Array<{ key: string; value: string }> = [
   { key: 'column1', value: 'Column 1' },
@@ -25,18 +25,18 @@ class MockUrlPipe implements PipeTransform {
 }
 
 describe('TableComponent', () => {
-  let component: TableComponent;
-  let fixture: ComponentFixture<TableComponent>;
+  let component: Table2Component;
+  let fixture: ComponentFixture<Table2Component>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TableComponent, MockUrlPipe],
+      declarations: [Table2Component, MockUrlPipe],
       imports: [RouterTestingModule],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TableComponent);
+    fixture = TestBed.createComponent(Table2Component);
     component = fixture.componentInstance;
     component.columns = mockColumns;
     component.tableData = mockTableData;

@@ -10,7 +10,7 @@ import {
 import { RouterModule } from '@angular/router';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
-import { TableModule } from '../../../../shared/components/table/table.module';
+import { Table2Module } from '../../../../shared/components/table/table.module';
 import { B2BUserDetailsComponent } from './user-details.component';
 import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 import { ConfirmModalModule } from '../../../../shared/components/modal/confirm-modal/confirm-modal.module';
@@ -36,7 +36,7 @@ import { ConfirmModalModule } from '../../../../shared/components/modal/confirm-
     }),
     UrlModule,
     I18nModule,
-    TableModule,
+    Table2Module,
     FakeTabsModule,
     ConfirmModalModule,
   ],

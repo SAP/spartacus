@@ -11,10 +11,10 @@ export interface Column {
 }
 
 @Component({
-  selector: 'cx-table',
-  templateUrl: './table.component.html',
+  selector: 'cx-table2',
+  templateUrl: './table2.component.html',
 })
-export class TableComponent {
+export class Table2Component {
   @Input()
   columns: Array<Column>;
 

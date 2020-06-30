@@ -15,7 +15,7 @@ import {
 import { UnitCostCentersComponent } from './unit-cost-centers.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { TableModule } from '../../../../shared/components/table/table.module';
+import { Table2Module } from '../../../../shared/components/table/table.module';
 
 const code = 'b1';
 
@@ -83,7 +83,7 @@ describe('UnitCostCentersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TableModule, I18nTestingModule],
+      imports: [RouterTestingModule, Table2Module, I18nTestingModule],
       declarations: [UnitCostCentersComponent, MockUrlPipe],
       providers: [
         { provide: RoutingConfig, useClass: MockRoutingConfig },

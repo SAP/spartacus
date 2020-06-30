@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { TranslationService } from '@spartacus/core';
-import { TableModule } from '../table/table.module';
+import { Table2Module } from '../table/table.module';
 import { InteractiveTableComponent } from './interactive-table.component';
 import { InteractiveTableModule } from './interactive-table.module';
 import { PaginationConfig } from '../../../shared/components/list-navigation/pagination/config/pagination.config';
@@ -55,7 +55,7 @@ describe('InteractiveTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TableModule, InteractiveTableModule],
+      imports: [RouterTestingModule, Table2Module, InteractiveTableModule],
       declarations: [InteractiveTableComponent, MockPaginationComponent],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },

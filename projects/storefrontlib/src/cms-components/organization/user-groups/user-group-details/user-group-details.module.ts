@@ -10,7 +10,7 @@ import {
 import { RouterModule } from '@angular/router';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
-import { TableModule } from '../../../../shared/components/table/table.module';
+import { Table2Module } from '../../../../shared/components/table/table.module';
 import { UserGroupDetailsComponent } from './user-group-details.component';
 import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 
@@ -35,7 +35,7 @@ import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
     }),
     UrlModule,
     I18nModule,
-    TableModule,
+    Table2Module,
     FakeTabsModule,
   ],
   declarations: [UserGroupDetailsComponent],
