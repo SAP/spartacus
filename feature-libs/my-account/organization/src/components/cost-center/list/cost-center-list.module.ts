@@ -1,34 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  AuthGuard,
-  CmsConfig,
-  ConfigModule,
-  I18nModule,
-  UrlModule,
-} from '@spartacus/core';
-import { InteractiveTableModule } from '@spartacus/storefront';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import { CostCenterListComponent } from './cost-center-list.component';
+import {
+  TableModule,
+  SplitViewModule,
+  IconModule,
+  OutletRefModule,
+} from '@spartacus/storefront';
+import { OrganizationModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        ManageCostCentersListComponent: {
-          component: CostCenterListComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
     RouterModule,
+
+    OrganizationModule,
+
+    // shared
+    TableModule,
+    SplitViewModule,
+    IconModule,
     UrlModule,
     I18nModule,
-    InteractiveTableModule,
+    OutletRefModule,
   ],
   declarations: [CostCenterListComponent],
-  exports: [CostCenterListComponent],
-  entryComponents: [CostCenterListComponent],
 })
 export class CostCenterListModule {}

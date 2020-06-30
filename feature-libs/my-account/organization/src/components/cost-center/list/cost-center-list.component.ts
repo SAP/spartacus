@@ -1,48 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  CostCenter,
-  CostCenterService,
-  EntitiesModel,
-  RoutingService,
-} from '@spartacus/core';
-import { AbstractListingComponent, ListingModel } from '@spartacus/storefront';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+
+import { CostCenterListService } from './cost-center-list.service';
+import { Table } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-cost-center-list',
   templateUrl: './cost-center-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CostCenterListComponent extends AbstractListingComponent
-  implements OnInit {
-  cxRoute = 'costCenters';
+export class CostCenterListComponent {
+  // @HostBinding('class.open') routeOpen: boolean;
 
-  constructor(
-    protected routingService: RoutingService,
-    protected costCentersService: CostCenterService
-  ) {
-    super(routingService);
+  dataTable$: Observable<Table> = this.costCentersService.getDataTable();
+
+  constructor(protected costCentersService: CostCenterListService) {}
+
+  /**
+   * resets the current page to 0 as otherwise the sorting acts weird.
+   */
+  sort(sort: string): void {
+    this.costCentersService.search({ sort, currentPage: 0 });
   }
 
-  ngOnInit(): void {
-    this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
-      tap((params) => this.costCentersService.loadCostCenters(params)),
-      switchMap((params) =>
-        this.costCentersService.getList(params).pipe(
-          filter(Boolean),
-          map((costCentersList: EntitiesModel<CostCenter>) => ({
-            sorts: costCentersList.sorts,
-            pagination: costCentersList.pagination,
-            values: costCentersList.values.map((costCenter) => ({
-              code: costCenter.code,
-              name: costCenter.name,
-              currency: costCenter.currency && costCenter.currency.isocode,
-              parentUnit: costCenter.unit && costCenter.unit.name,
-              uid: costCenter.unit && costCenter.unit.uid,
-            })),
-          }))
-        )
-      )
-    );
+  paginate(): void {
+    this.costCentersService.search({ pageSize: 3 });
   }
 }
