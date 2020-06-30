@@ -87,8 +87,6 @@
     "build:cds:ssr": "cross-env SPARTACUS_CDS=true ng run storefrontapp:server:production",
     "prerender:cds": "cross-env SPARTACUS_CDS=true ng run storefrontapp:prerender",
     "release:cds:with-changelog": "cd projects/cds && release-it && cd ../..",
-    "release-notes:cds": "ts-node ./scripts/changelog.ts --verbose --lib cds",
-    "start:b2b": "ng serve -c=b2b.development --proxy-config mock-server/proxy.backend.js",
     "build:myaccount:lib": "ng build my-account --prod",
     "release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../..",
     "build:product:lib": "ng build product --prod",

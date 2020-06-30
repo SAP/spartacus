@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  B2BUser,
+  B2BUserService,
+  EntitiesModel,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
-
-import {
-  RoutingService,
-  EntitiesModel,
-  B2BUserService,
-  B2BUser,
-} from '@spartacus/core';
-
 import {
   AbstractListingComponent,
   ListingModel,
 } from '../../abstract-component/abstract-listing.component';
 
+// TODO:#my-account-architecture - add a test
 @Component({
   selector: 'cx-user-list',
   templateUrl: './user-list.component.html',
