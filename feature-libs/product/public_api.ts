@@ -3,4 +3,3 @@
  */
 
 export * from '@spartacus/product/configuration';
-export * from '@spartacus/product/main';
