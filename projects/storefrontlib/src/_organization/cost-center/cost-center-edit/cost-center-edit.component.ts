@@ -36,13 +36,7 @@ export class CostCenterEditComponent {
   costCenter$: Observable<CostCenter> = this.code$.pipe(
     tap((code) => this.costCenterService.loadCostCenter(code)),
     switchMap((code) => this.costCenterService.get(code)),
-    tap((costCenter) => {
-      // when the form is pristine, it means that
-      // we have just created it in the persistence service
-      if (this.form.pristine && costCenter) {
-        this.form.patchValue(costCenter);
-      }
-    })
+    tap((costCenter) => this.initForm(costCenter))
   );
 
   // TODO:#form-persistence - consolidate ctor
@@ -55,33 +49,35 @@ export class CostCenterEditComponent {
 
     protected globalMessageService: GlobalMessageService,
     protected costCenterFormService: CostCenterFormComponentService
-  ) {
-    this.initForm();
-  }
+  ) {}
 
-  protected initForm(): void {
-    this.formKey = this.createFormKey();
+  protected initForm(costCenter: CostCenter): void {
+    // we don't want to re-init the form if we've already generated the key
+    if (this.formKey) {
+      return;
+    }
+
+    this.formKey = this.createFormKey(costCenter);
     if (this.costCenterFormService.has(this.formKey)) {
       this.showFormRestoredMessage();
     }
 
-    this.form = this.costCenterFormService.getForm(this.formKey);
+    this.form = this.costCenterFormService.getForm(costCenter, this.formKey);
   }
 
   back(): void {
     this.removeForm();
   }
 
-  protected createFormKey(): string {
-    // TODO:#form-persistence
-    //return `cost-center-edit-${costCenter.code}-${costCenter.unit?.uid}`;
-    return `cost-center-edit`;
+  protected createFormKey(costCenter: CostCenter): string {
+    return `cost-center-edit-${costCenter.code}-${costCenter.unit?.uid}`;
   }
 
   protected showFormRestoredMessage(): void {
     this.globalMessageService.add(
       { key: 'form.restored' },
-      GlobalMessageType.MSG_TYPE_INFO
+      GlobalMessageType.MSG_TYPE_INFO,
+      5000
     );
   }
 

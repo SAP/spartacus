@@ -14,8 +14,12 @@ export class CostCenterFormComponentService {
 
   constructor(protected persistenceService: FormsPersistenceService) {}
 
-  getForm(key: string): FormGroup {
-    return this.persistenceService.get(key, this.formConfiguration);
+  getForm(defaultValue: object, key: string): FormGroup {
+    return this.persistenceService.get(
+      this.formConfiguration,
+      defaultValue,
+      key
+    );
   }
 
   removeForm(key: string): boolean {

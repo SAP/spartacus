@@ -1,4 +1,4 @@
-<cx-split>
+<cx-split *ngIf="unitCode$ | async">
   <cx-view>
     <form [formGroup]="form" (ngSubmit)="save()">
       <h3>

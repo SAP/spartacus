@@ -7,7 +7,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { first, map, take } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { CostCenterFormComponentService } from '../cost-center-form/cost-center-form.component.service';
 
 @Component({
@@ -22,10 +22,12 @@ export class CostCenterCreateComponent {
    */
   protected formKey: string;
 
-  unitCode$: Observable<string> = this.routingService.getRouterState().pipe(
+  unitCode$: Observable<
+    string | boolean
+  > = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.queryParams?.['parentUnit']),
-    first(),
-    take(1)
+    tap((parentUnit) => this.initForm(parentUnit)),
+    map((parentUnit) => parentUnit || true)
   );
 
   // TODO:#form-persistence - consolidate ctor
@@ -35,23 +37,23 @@ export class CostCenterCreateComponent {
 
     protected globalMessageService: GlobalMessageService,
     protected costCenterFormService: CostCenterFormComponentService
-  ) {
-    this.initForm();
-  }
+  ) {}
 
-  protected initForm(): void {
-    // TODO:#form-persistence this.formKey = this.createFormKey(unitCode);
-    this.formKey = this.createFormKey();
+  protected initForm(parentUnitCode: string): void {
+    // we don't want to re-init the form if we've already generated the key
+    if (this.formKey) {
+      return;
+    }
+
+    this.formKey = this.createFormKey(parentUnitCode);
     if (this.costCenterFormService.has(this.formKey)) {
       this.showFormRestoredMessage();
     }
-    this.form = this.costCenterFormService.getForm(this.formKey);
 
-    this.unitCode$.subscribe((unitCode) => {
-      if (unitCode) {
-        this.form.patchValue({ unit: { uid: unitCode } });
-      }
-    });
+    this.form = this.costCenterFormService.getForm(
+      { unit: { uid: parentUnitCode } },
+      this.formKey
+    );
   }
 
   back(): void {
@@ -65,7 +67,8 @@ export class CostCenterCreateComponent {
   protected showFormRestoredMessage(): void {
     this.globalMessageService.add(
       { key: 'form.restored' },
-      GlobalMessageType.MSG_TYPE_INFO
+      GlobalMessageType.MSG_TYPE_INFO,
+      5000
     );
   }
 

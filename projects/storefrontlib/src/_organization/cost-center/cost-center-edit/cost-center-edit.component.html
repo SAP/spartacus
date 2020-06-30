@@ -1,5 +1,5 @@
 <cx-split *ngIf="costCenter$ | async as costCenter">
-  <cx-view *ngIf="form">
+  <cx-view>
     <form [formGroup]="form" (ngSubmit)="save()">
       <h3>
         <button class="link" routerLink="../" (click)="back()">
