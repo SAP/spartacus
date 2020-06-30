@@ -71,7 +71,7 @@ export class TabParagraphContainerComponent
   );
 
   select(tabNum: number): void {
-    this.activeTabNum = tabNum;
+    this.activeTabNum = (this.activeTabNum === tabNum) ? -1 : tabNum;
   }
 
   ngOnInit(): void {
