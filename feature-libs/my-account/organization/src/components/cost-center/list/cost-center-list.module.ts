@@ -8,24 +8,12 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import {
-  CmsPageGuard,
-  InteractiveTableModule,
-  PageLayoutComponent,
-} from '@spartacus/storefront';
+import { InteractiveTableModule } from '@spartacus/storefront';
 import { CostCenterListComponent } from './cost-center-list.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'costCenters' },
-      },
-    ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ManageCostCentersListComponent: {

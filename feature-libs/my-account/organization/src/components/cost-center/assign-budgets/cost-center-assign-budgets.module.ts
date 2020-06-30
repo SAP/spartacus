@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
@@ -9,25 +8,12 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import {
-  CmsPageGuard,
-  FakeTabsModule,
-  InteractiveTableModule,
-  PageLayoutComponent,
-} from '@spartacus/storefront';
+import { FakeTabsModule, InteractiveTableModule } from '@spartacus/storefront';
 import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budgets.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'costCenterAssignBudgets' },
-      },
-    ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CostCenterAssignBudgetsComponent: {
