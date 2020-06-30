@@ -3,7 +3,10 @@ import {
   GenericConfigurator,
   GenericConfigUtilsService,
   OrderEntry,
+  TranslationService,
 } from '@spartacus/core';
+import { ModalService } from '../../../../shared/components/modal';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-configure-cart-entry',
@@ -40,5 +43,19 @@ export class ConfigureCartEntryComponent {
     return this.readOnly;
   }
 
-  constructor(private genericConfigUtilsService: GenericConfigUtilsService) {}
+  closeActiveModal(): void {
+    const translation = this.getDisplayOnly()
+      ? this.translation.translate('configurator.header.displayConfiguration')
+      : this.translation.translate('configurator.header.editConfiguration');
+
+    translation
+      .pipe(take(1))
+      .subscribe((reason) => this.modalService.closeActiveModal(reason));
+  }
+
+  constructor(
+    private genericConfigUtilsService: GenericConfigUtilsService,
+    private modalService: ModalService,
+    private translation: TranslationService
+  ) {}
 }

@@ -5,8 +5,11 @@ import {
   GenericConfigurator,
   I18nTestingModule,
   OrderEntry,
+  TranslationService,
 } from '@spartacus/core';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
+import { ModalService } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 
 @Pipe({
   name: 'cxUrl',
@@ -15,23 +18,48 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+class MockModalService {
+  closeActiveModal(): void {}
+}
+
+class MockTranslationService {
+  translate(): Observable<string> {
+    return of();
+  }
+}
+
 describe('ConfigureCartEntryComponent', () => {
   let component: ConfigureCartEntryComponent;
   let fixture: ComponentFixture<ConfigureCartEntryComponent>;
   const configuratorType = 'type';
   const orderOrCartEntry: OrderEntry = {};
+  let mockModalService: MockModalService;
+  let translationService: TranslationService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, RouterTestingModule],
       declarations: [ConfigureCartEntryComponent, MockUrlPipe],
-      providers: [],
+      providers: [
+        {
+          provide: ModalService,
+          useClass: MockModalService,
+        },
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
     }).compileComponents();
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigureCartEntryComponent);
     component = fixture.componentInstance;
+    spyOn(component, 'closeActiveModal').and.callThrough();
     component.cartEntry = orderOrCartEntry;
+    mockModalService = TestBed.inject(ModalService);
+    spyOn(mockModalService, 'closeActiveModal').and.callThrough();
+    translationService = TestBed.inject(TranslationService);
+    spyOn(translationService, 'translate').and.returnValue(
+      of('Edit Configuration')
+    );
   });
 
   it('should create component', () => {
@@ -77,5 +105,31 @@ describe('ConfigureCartEntryComponent', () => {
   it('should compile displayOnly method', () => {
     component.readOnly = true;
     expect(component.getDisplayOnly()).toBe(true);
+  });
+
+  describe('closeActiveModal', () => {
+    it('should close active modal for readOnly-true', () => {
+      component.readOnly = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+      };
+      fixture.detectChanges();
+      component.closeActiveModal();
+      fixture.detectChanges();
+      expect(component.closeActiveModal).toHaveBeenCalled();
+    });
+
+    it('should close active modal for readOnly-false', () => {
+      component.readOnly = false;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+      };
+      fixture.detectChanges();
+      component.closeActiveModal();
+      fixture.detectChanges();
+      expect(component.closeActiveModal).toHaveBeenCalled();
+    });
   });
 });

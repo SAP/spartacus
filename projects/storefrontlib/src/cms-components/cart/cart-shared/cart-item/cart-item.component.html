@@ -73,6 +73,7 @@
             *ngIf="item.product.configurable"
             [cartEntry]="item"
             [readOnly]="readonly"
+            (click)="viewItem()"
           ></cx-configure-cart-entry>
 
           <!-- Variants -->
