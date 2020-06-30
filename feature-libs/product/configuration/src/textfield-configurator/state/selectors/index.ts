@@ -1,2 +1,2 @@
-import * as ConfiguratorTextFieldSelectors from './configurator-textfield.selector';
+import * as ConfiguratorTextFieldSelectors from './configurator-textfield-group.selectors';
 export { ConfiguratorTextFieldSelectors };

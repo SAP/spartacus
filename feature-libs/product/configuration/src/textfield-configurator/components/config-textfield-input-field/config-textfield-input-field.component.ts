@@ -18,11 +18,12 @@ export class ConfigTextfieldInputFieldComponent implements OnInit {
   PREFIX_TEXTFIELD = 'cx-config-textfield';
   attributeInputForm = new FormControl('');
 
-  constructor() {}
-
   @Input() attribute: ConfiguratorTextfield.ConfigurationInfo;
+  @Output() inputChange = new EventEmitter<
+    ConfiguratorTextfield.ConfigurationInfo
+  >();
 
-  @Output() inputChange = new EventEmitter();
+  constructor() {}
 
   ngOnInit() {
     this.attributeInputForm.setValue(this.attribute.configurationValue);
@@ -31,7 +32,7 @@ export class ConfigTextfieldInputFieldComponent implements OnInit {
    * Triggered if an attribute value is changed. Triggers the emission of the inputChange event emitter that is
    * in turn received in the form component
    */
-  onChange(): void {
+  onInputChange(): void {
     const attribute: ConfiguratorTextfield.ConfigurationInfo = {
       configurationLabel: this.attribute.configurationLabel,
       configurationValue: this.attributeInputForm.value,

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Type } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Pipe,
+  PipeTransform,
+  Type,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   GenericConfigurator,
@@ -44,11 +49,18 @@ class MockConfiguratorTextfieldService {
   updateCartEntry(): void {}
 }
 
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform(): any {}
+}
+
 describe('ConfigTextfieldAddToCartButtonComponent', () => {
   let classUnderTest: ConfigTextfieldAddToCartButtonComponent;
   let fixture: ComponentFixture<ConfigTextfieldAddToCartButtonComponent>;
   let textfieldService: ConfiguratorTextfieldService;
-  let routingService: RoutingService;
+
   let htmlElem: HTMLElement;
 
   function checkButtonText(buttonText: string): void {
@@ -64,7 +76,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [ConfigTextfieldAddToCartButtonComponent],
+      declarations: [ConfigTextfieldAddToCartButtonComponent, MockUrlPipe],
       providers: [
         {
           provide: ConfiguratorTextfieldService,
@@ -92,7 +104,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     textfieldService = TestBed.inject(
       ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
     );
-    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
+
     OWNER.type = GenericConfigurator.OwnerType.PRODUCT;
     mockRouterState.state.params.ownerType =
       GenericConfigurator.OwnerType.PRODUCT;
@@ -100,6 +112,7 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
 
   it('should create component', () => {
     expect(classUnderTest).toBeTruthy();
+    expect(classUnderTest.configuration).toBe(configurationTextField);
   });
 
   it('should display addToCart text because router points to owner product initially', () => {
@@ -114,27 +127,24 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
 
   it('should navigate to cart and call addToCart on core service when onAddToCart was triggered ', () => {
     spyOn(textfieldService, 'addToCart').and.callThrough();
-    spyOn(routingService, 'go').and.callThrough();
 
-    classUnderTest.onAddToCart(configurationTextField);
+    classUnderTest.onAddToCart();
 
     expect(textfieldService.addToCart).toHaveBeenCalledWith(
       OWNER.id,
       configurationTextField
     );
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
   });
 
   it('should navigate to cart when onAddToCart was triggered and owner points to cart entry ', () => {
     OWNER.type = GenericConfigurator.OwnerType.CART_ENTRY;
-    spyOn(routingService, 'go').and.callThrough();
+
     spyOn(textfieldService, 'updateCartEntry').and.callThrough();
 
-    classUnderTest.onAddToCart(configurationTextField);
+    classUnderTest.onAddToCart();
     expect(textfieldService.updateCartEntry).toHaveBeenCalledWith(
       OWNER.id,
       configurationTextField
     );
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'cart' });
   });
 });

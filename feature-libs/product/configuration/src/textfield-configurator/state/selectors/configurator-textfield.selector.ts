@@ -14,7 +14,7 @@ const getConfigurationContentSelector = (
   state: ConfigurationTextfieldLoaderState
 ) => state.active.value.content;
 
-const getConfigurationsState: MemoizedSelector<
+export const getConfigurationsState: MemoizedSelector<
   StateWithConfigurationTextfield,
   ConfigurationTextfieldLoaderState
 > = createFeatureSelector<ConfigurationTextfieldLoaderState>(

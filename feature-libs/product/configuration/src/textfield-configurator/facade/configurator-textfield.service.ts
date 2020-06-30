@@ -6,7 +6,7 @@ import {
   GenericConfigUtilsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
 import { StateWithConfigurationTextfield } from '../state/configuration-textfield-state';
@@ -32,15 +32,23 @@ export class ConfiguratorTextfieldService {
   createConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
-    this.store.dispatch(
-      new ConfiguratorTextfieldActions.CreateConfiguration({
-        productCode: owner.id, //owner Id is the product code in this case
-        owner: owner,
-      })
-    );
-
     return this.store.pipe(
-      select(ConfiguratorTextFieldSelectors.getConfigurationContent)
+      select(ConfiguratorTextFieldSelectors.getConfigurationsState),
+      tap((configurationState) => {
+        const isAvailableForProduct =
+          configurationState.active.value.content?.owner.type ===
+          GenericConfigurator.OwnerType.PRODUCT;
+        const isLoading = configurationState.active.loading;
+        if (!isAvailableForProduct && !isLoading) {
+          this.store.dispatch(
+            new ConfiguratorTextfieldActions.CreateConfiguration({
+              productCode: owner.id, //owner Id is the product code in this case
+              owner: owner,
+            })
+          );
+        }
+      }),
+      map((configurationState) => configurationState.active.value.content)
     );
   }
 
@@ -141,8 +149,8 @@ export class ConfiguratorTextfieldService {
         )
       );
     });
-    return this.store.select(
-      ConfiguratorTextFieldSelectors.getConfigurationContent
+    return this.store.pipe(
+      select(ConfiguratorTextFieldSelectors.getConfigurationContent)
     );
   }
 

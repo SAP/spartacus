@@ -11,8 +11,12 @@ import {
 import { of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
-import { StateWithConfigurationTextfield } from '../state/configuration-textfield-state';
+import {
+  ConfigurationTextfieldLoaderState,
+  StateWithConfigurationTextfield,
+} from '../state/configuration-textfield-state';
 import { ConfiguratorTextfieldService } from './configurator-textfield.service';
+import createSpy = jasmine.createSpy;
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 
@@ -47,6 +51,14 @@ const productConfiguration: ConfiguratorTextfield.Configuration = {
     id: PRODUCT_CODE,
     type: GenericConfigurator.OwnerType.PRODUCT,
   },
+};
+
+const loaderState: ConfigurationTextfieldLoaderState = {
+  active: { value: { content: productConfiguration } },
+};
+
+const loaderStateNothingPresent: ConfigurationTextfieldLoaderState = {
+  active: { value: { content: undefined } },
 };
 
 const updateCartEntryParams: ConfiguratorTextfield.UpdateCartEntryParameters = {
@@ -94,6 +106,15 @@ class MockActiveCartService {
 describe('ConfiguratorTextfieldService', () => {
   let serviceUnderTest: ConfiguratorTextfieldService;
   let store: Store<StateWithConfigurationTextfield>;
+  const mockConfigLoaderStateReturned = createSpy(
+    'select'
+  ).and.returnValue(() => of(loaderState));
+  const mockConfigLoaderStateNothingPresent = createSpy(
+    'select'
+  ).and.returnValue(() => of(loaderStateNothingPresent));
+  const mockConfigReturned = createSpy('select').and.returnValue(() =>
+    of(productConfiguration)
+  );
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -115,41 +136,61 @@ describe('ConfiguratorTextfieldService', () => {
       Store as Type<Store<StateWithConfigurationTextfield>>
     );
 
-    spyOn(store, 'dispatch').and.stub();
-    spyOn(store, 'pipe').and.returnValue(of(productConfiguration));
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   it('should create service', () => {
     expect(serviceUnderTest).toBeDefined();
   });
 
-  it('should create a configuration, accessing the store', () => {
+  it('should return a configuration if one is present on createConfiguration', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(
+      mockConfigLoaderStateReturned
+    );
     const configurationFromStore = serviceUnderTest.createConfiguration(owner);
 
     expect(configurationFromStore).toBeDefined();
 
-    configurationFromStore.subscribe((configuration) =>
-      expect(configuration.configurationInfos.length).toBe(1)
-    );
+    configurationFromStore
+      .subscribe((configuration) =>
+        expect(configuration.configurationInfos.length).toBe(1)
+      )
+      .unsubscribe();
+  });
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorTextfieldActions.CreateConfiguration({
-        productCode: owner.id,
-        owner: owner,
-      })
+  it('should create a configuration if nothing is present in store yet', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(
+      mockConfigLoaderStateNothingPresent
     );
+    const configurationFromStore = serviceUnderTest.createConfiguration(owner);
+
+    expect(configurationFromStore).toBeDefined();
+
+    configurationFromStore
+      .subscribe(() =>
+        expect(store.dispatch).toHaveBeenCalledWith(
+          new ConfiguratorTextfieldActions.CreateConfiguration({
+            productCode: owner.id,
+            owner: owner,
+          })
+        )
+      )
+      .unsubscribe();
   });
 
   it('should dispatch the correct action when readFromCartEntry is called', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(mockConfigReturned);
     const configurationFromStore = serviceUnderTest.readConfigurationForCartEntry(
       ownerCartRelated
     );
 
     expect(configurationFromStore).toBeDefined();
 
-    configurationFromStore.subscribe((configuration) =>
-      expect(configuration.configurationInfos.length).toBe(1)
-    );
+    configurationFromStore
+      .subscribe((configuration) =>
+        expect(configuration.configurationInfos.length).toBe(1)
+      )
+      .unsubscribe();
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
@@ -159,19 +200,24 @@ describe('ConfiguratorTextfieldService', () => {
   });
 
   it('should access the store when calling createConfiguration', () => {
-    serviceUnderTest.createConfiguration(owner);
-    expect(store.pipe).toHaveBeenCalled();
+    spyOnProperty(ngrxStore, 'select').and.returnValues(
+      mockConfigLoaderStateReturned
+    );
+    serviceUnderTest
+      .createConfiguration(owner)
+      .subscribe((configurationFromStore) =>
+        expect(configurationFromStore).toBe(productConfiguration)
+      )
+      .unsubscribe();
   });
 
   it('should update a configuration, accessing the store', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(mockConfigReturned);
     spyOn(
       serviceUnderTest,
       'createNewConfigurationWithChange'
     ).and.callThrough();
 
-    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-      of(productConfiguration)
-    );
     serviceUnderTest.updateConfiguration(changedAttribute);
 
     expect(
@@ -186,8 +232,12 @@ describe('ConfiguratorTextfieldService', () => {
   });
 
   it('should create new configuration with changed value', () => {
+    const attribute: ConfiguratorTextfield.ConfigurationInfo = {
+      configurationLabel: ATTRIBUTE_NAME,
+      configurationValue: CHANGED_VALUE,
+    };
     const result = serviceUnderTest.createNewConfigurationWithChange(
-      changedAttribute,
+      attribute,
       productConfiguration
     );
 

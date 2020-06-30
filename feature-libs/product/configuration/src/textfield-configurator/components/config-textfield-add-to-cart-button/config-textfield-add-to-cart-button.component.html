@@ -2,9 +2,10 @@
   <div class="col-sm-6">
     <button
       class="cx-btn btn btn-block btn-primary"
-      (click)="onAddToCart(configuration)"
+      [routerLink]="{ cxRoute: 'cart' } | cxUrl"
+      (click)="onAddToCart()"
     >
-      {{ getButtonText(configuration) | cxTranslate }}
+      {{ getButtonText() | cxTranslate }}
     </button>
   </div>
 </div>

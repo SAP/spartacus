@@ -99,8 +99,6 @@ describe('TextfieldFormComponent', () => {
   });
 
   it('should know product configuration after init has been done', () => {
-    component.ngOnInit();
-
     expect(component.configuration$).toBeObservable(
       cold('--p', {
         p: productConfig,
@@ -117,7 +115,6 @@ describe('TextfieldFormComponent', () => {
       url: URL_CONFIGURATION,
     };
 
-    component.ngOnInit();
     expect(component.configuration$).toBeObservable(
       cold('--p', {
         p: productConfig,

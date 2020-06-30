@@ -41,7 +41,7 @@ describe('TextfieldInputFieldComponent', () => {
 
   it('should emit a change event on change ', () => {
     spyOn(component.inputChange, 'emit').and.callThrough();
-    component.onChange();
+    component.onInputChange();
     expect(component.inputChange.emit).toHaveBeenCalledWith(
       component.attribute
     );

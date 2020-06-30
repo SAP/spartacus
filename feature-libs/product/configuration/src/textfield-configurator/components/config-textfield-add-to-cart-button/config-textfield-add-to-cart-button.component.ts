@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { GenericConfigurator, RoutingService } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/core';
 import { ConfiguratorTextfieldService } from '../../facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 
@@ -13,39 +13,37 @@ export class ConfigTextfieldAddToCartButtonComponent {
   @Input() productCode: string;
 
   constructor(
-    private configuratorTextfieldService: ConfiguratorTextfieldService,
-    private routingService: RoutingService
+    protected configuratorTextfieldService: ConfiguratorTextfieldService
   ) {}
 
   /**
-   * Adds a textfield configuration to the cart or updates it
-   * @param configuration Textfield configuration (knows whether it belongs to product or cart entry,
-   * thus component can tell whether to add or to update)
+   * Adds the textfield configuration to the cart or updates it
    */
-  onAddToCart(configuration: ConfiguratorTextfield.Configuration): void {
-    const owner: GenericConfigurator.Owner = configuration.owner;
+  onAddToCart(): void {
+    const owner: GenericConfigurator.Owner = this.configuration.owner;
     switch (owner.type) {
       case GenericConfigurator.OwnerType.PRODUCT:
-        this.configuratorTextfieldService.addToCart(owner.id, configuration);
+        this.configuratorTextfieldService.addToCart(
+          owner.id,
+          this.configuration
+        );
         break;
       case GenericConfigurator.OwnerType.CART_ENTRY:
         this.configuratorTextfieldService.updateCartEntry(
           owner.id,
-          configuration
+          this.configuration
         );
         break;
     }
-
-    this.routingService.go({ cxRoute: 'cart' });
   }
 
   /**
    * Returns button description. Button will display 'addToCart' or 'done' in case router data indicates that owner is a cart entry
-   * @param routerData Data extracted from routing that we use to decide whether configuration belongs to cart or to product
    * @returns Resource key of button description
    */
-  getButtonText(configuration: ConfiguratorTextfield.Configuration): string {
-    return configuration.owner.type === GenericConfigurator.OwnerType.CART_ENTRY
+  getButtonText(): string {
+    return this.configuration.owner.type ===
+      GenericConfigurator.OwnerType.CART_ENTRY
       ? 'configuratorTextfield.addToCart.buttonUpdateCart'
       : 'configuratorTextfield.addToCart.button';
   }

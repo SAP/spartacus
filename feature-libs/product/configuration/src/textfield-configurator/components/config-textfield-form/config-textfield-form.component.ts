@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GenericConfigurator } from '@spartacus/core';
 import { ConfigRouterExtractorService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -9,34 +9,30 @@ import { ConfiguratorTextfield } from '../../model/configurator-textfield.model'
 @Component({
   selector: 'cx-config-textfield-form',
   templateUrl: './config-textfield-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigTextfieldFormComponent implements OnInit {
-  configuration$: Observable<ConfiguratorTextfield.Configuration>;
+export class ConfigTextfieldFormComponent {
+  configuration$: Observable<
+    ConfiguratorTextfield.Configuration
+  > = this.configRouterExtractorService.extractRouterData().pipe(
+    switchMap((routerData) => {
+      switch (routerData.owner.type) {
+        case GenericConfigurator.OwnerType.PRODUCT:
+          return this.configuratorTextfieldService.createConfiguration(
+            routerData.owner
+          );
+        case GenericConfigurator.OwnerType.CART_ENTRY:
+          return this.configuratorTextfieldService.readConfigurationForCartEntry(
+            routerData.owner
+          );
+      }
+    })
+  );
 
   constructor(
-    private configuratorTextfieldService: ConfiguratorTextfieldService,
-    private configRouterExtractorService: ConfigRouterExtractorService
+    protected configuratorTextfieldService: ConfiguratorTextfieldService,
+    protected configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
-  ngOnInit(): void {
-    this.configuration$ = this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        switchMap((routerData) => {
-          switch (routerData.owner.type) {
-            case GenericConfigurator.OwnerType.PRODUCT:
-              return this.configuratorTextfieldService.createConfiguration(
-                routerData.owner
-              );
-            case GenericConfigurator.OwnerType.CART_ENTRY:
-              return this.configuratorTextfieldService.readConfigurationForCartEntry(
-                routerData.owner
-              );
-          }
-        })
-      );
-  }
   /**
    * Updates a configuration attribute
    * @param attribute Configuration attribute, always containing a string typed value
