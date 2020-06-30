@@ -23,31 +23,20 @@
   }
 
   /**
-   * Hide all split views by default 
+   * Hide all split views by default.
    */
   --cx-last-visible-view: 1;
 }
 
 %cx-split-view {
-  // The split element acts as a static container that hosts view elements.
-
   display: flex;
   align-items: stretch;
   /* We hide all elements outside the box, so that the views can animate nicely inside.  */
   overflow: hidden;
 
   --cx-view-flex: calc(
-    (100% / min(var(--cx-last-visible-view, 1), var(--cx-max-views)))
+    (100% / min(var(--cx-last-visible-view), var(--cx-max-views)))
   );
-
-  /* experimental: keep the width of the view as small as possible (not in use yet) */
-
-  /* transition: 0.3s;
-  transition-timing-function: ease-out; */
-  /* width: calc(
-    min(var(--cx-depth, 1), var(--cx-max-views, 1)) *
-      (100% / var(--cx-max-views)) 
-  );*/
 
   cx-view {
     width: 100%;
@@ -59,18 +48,15 @@
     overflow: hidden;
 
     flex: 1 0
-      calc((100% / min(var(--cx-last-visible-view, 1), var(--cx-max-views))));
-    transform: var(--cx-transform);
+      calc((100% / min(var(--cx-last-visible-view), var(--cx-max-views))));
 
-    min-width: 0;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  cx-view[position='0'] {
-    margin-inline-start: calc(
-      max((var(--cx-last-visible-view, 1) - var(--cx-max-views, 1)), 0) *
-        (var(--cx-view-flex) * -1)
-    );
+    // The inline start margin of the first flex item decreases to move
+    // the flex items outside the flex container.
+    &[position='0'] {
+      margin-inline-start: calc(
+        max((var(--cx-last-visible-view) - var(--cx-max-views)), 0) *
+          (var(--cx-view-flex) * -1)
+      );
+    }
   }
 }
