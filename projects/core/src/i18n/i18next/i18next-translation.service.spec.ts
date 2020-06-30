@@ -10,7 +10,7 @@ const testKey = 'testKey';
 const testOptions = 'testOptions';
 const nonBreakingSpace = String.fromCharCode(160);
 
-fdescribe('I18nextTranslationService', () => {
+describe('I18nextTranslationService', () => {
   let service: I18nextTranslationService;
 
   beforeEach(() => {
@@ -224,7 +224,6 @@ fdescribe('I18nextTranslationService', () => {
 
     it('should not replace dots in an object with no context property', () => {
       const options = { someprop: 'with.two.dots', otherprop: 'also.has.dots' };
-
       const result = service['processContext'](options);
 
       expect(result).toBe(options);
@@ -232,7 +231,6 @@ fdescribe('I18nextTranslationService', () => {
 
     it('should not replace dots when the option is a string', () => {
       const options = 'with.two.dots';
-
       const result = service['processContext'](options);
 
       expect(result).toBe(options);
