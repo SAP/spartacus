@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { ListNavigationModule } from '../list-navigation/list-navigation.module';
-import { Table2Component } from './table.component';
+import { Table2Component } from './table2.component';
 import { IconModule } from './../../../cms-components/misc/icon/icon.module';
 
 @NgModule({

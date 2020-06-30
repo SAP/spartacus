@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { Table2Module } from '../table/table.module';
+import { Table2Module } from '../table/table2.module';
 import { InteractiveTableComponent } from './interactive-table.component';
 import { ListNavigationModule } from '../list-navigation/list-navigation.module';
 

@@ -11,7 +11,7 @@ import { BudgetDetailsComponent } from './budget-details.component';
 import { RouterModule } from '@angular/router';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
-import { Table2Module } from '../../../../shared/components/table/table.module';
+import { Table2Module } from '../../../../shared/components/table/table2.module';
 import { ConfirmModalModule } from '../../../../shared/components/modal/confirm-modal/confirm-modal.module';
 import { FakeTabsModule } from '../../fake-tabs/fake-tabs.module';
 
