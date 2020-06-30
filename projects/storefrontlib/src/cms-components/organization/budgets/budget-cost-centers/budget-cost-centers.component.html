@@ -29,7 +29,7 @@
 
     <div class="cx-table-body">
       <ng-container *ngIf="data?.length > 0; else noData">
-        <cx-table
+        <cx-table2
           [columns]="[
             {
               key: 'code',
@@ -42,7 +42,7 @@
             }
           ]"
           [tableData]="data"
-        ></cx-table>
+        ></cx-table2>
       </ng-container>
 
       <!-- NO ORDER CONTAINER -->
