@@ -10,10 +10,12 @@ import {
 } from '@spartacus/core';
 import { FakeTabsModule, InteractiveTableModule } from '@spartacus/storefront';
 import { CostCenterBudgetsComponent } from './cost-center-budgets.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CostCenterBudgetsComponent: {

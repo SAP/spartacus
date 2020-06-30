@@ -8,10 +8,12 @@ import {
 } from '@spartacus/core';
 import { CostCenterFormModule } from '../form/cost-center-form.module';
 import { CostCenterCreateComponent } from './cost-center-create.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CostCenterCreateComponent: {
