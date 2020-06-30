@@ -10,7 +10,7 @@ const testKey = 'testKey';
 const testOptions = 'testOptions';
 const nonBreakingSpace = String.fromCharCode(160);
 
-describe('I18nextTranslationService', () => {
+fdescribe('I18nextTranslationService', () => {
   let service: I18nextTranslationService;
 
   beforeEach(() => {
@@ -206,6 +206,36 @@ describe('I18nextTranslationService', () => {
         );
         expect(result).toBe('value');
       });
+    });
+  });
+
+  describe('processContext', () => {
+    it('should replace dots by underscores in the context, but not other properties', () => {
+      const options = { context: 'with.two.dots', otherprop: 'also.has.dots' };
+      const expectedResult = {
+        context: 'with_two_dots',
+        otherprop: 'also.has.dots',
+      };
+
+      const result = service['processContext'](options);
+
+      expect(result).toEqual(expectedResult);
+    });
+
+    it('should not replace dots in an object with no context property', () => {
+      const options = { someprop: 'with.two.dots', otherprop: 'also.has.dots' };
+
+      const result = service['processContext'](options);
+
+      expect(result).toBe(options);
+    });
+
+    it('should not replace dots when the option is a string', () => {
+      const options = 'with.two.dots';
+
+      const result = service['processContext'](options);
+
+      expect(result).toBe(options);
     });
   });
 });
