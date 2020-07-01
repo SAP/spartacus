@@ -1,19 +1,37 @@
 <ng-container *ngIf="mainImage$ | async as main">
-  <cx-media
-    class="cx-default-image-zoom"
-    *ngIf="!isZoomed"
-    [container]="main"
-    (click)="zoom()"
-  >
-  </cx-media>
-  <div class="cx-zoom-container" *ngIf="isZoomed" (click)="zoom()">
+  <div class="d-flex" *ngIf="thumbs$ | async as thumbs">
+    <button
+      class="btn btn-link"
+      *ngIf="getPreviousProduct(thumbs) | async as previousProduct"
+      (click)="openImage(previousProduct.container)"
+    >
+      Prev
+    </button>
     <cx-media
-      #zoomedImage
-      class="cx-image-zoomed"
+      class="cx-default-image-zoom"
+      *ngIf="!isZoomed"
       [container]="main"
-      (mousemove)="moveImage($event)"
+      (dblclick)="zoom()"
     >
     </cx-media>
+    <!-- (click)="zoom($event)"  -->
+    <div class="cx-zoom-container" *ngIf="isZoomed" (dblclick)="zoom()">
+      <cx-media
+        #zoomedImage
+        class="cx-image-zoomed"
+        [container]="main"
+        (mousemove)="pointerMove($event)"
+        (touchmove)="touchMove($event)"
+      >
+      </cx-media>
+    </div>
+    <button
+      class="btn btn-link"
+      *ngIf="getNextProduct(thumbs) | async as nextProduct"
+      (click)="openImage(nextProduct.container)"
+    >
+      Next
+    </button>
   </div>
 </ng-container>
 
@@ -22,7 +40,7 @@
     *ngIf="thumbs.length"
     class="thumbs"
     [items]="thumbs"
-    itemWidth="70px"
+    itemWidth="80px"
     [hideIndicators]="false"
     [template]="thumb"
     [hideIndicators]="true"

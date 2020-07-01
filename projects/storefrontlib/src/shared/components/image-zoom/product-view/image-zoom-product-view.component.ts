@@ -80,33 +80,51 @@ export class ImageZoomProductViewComponent {
   }
 
   /** find the index of the main media in the list of media */
-  getActive(thumbs: any[]): Observable<number> {
-    return this.mainMediaContainer.pipe(
-      filter(Boolean),
-      map((container: any) => {
-        const current = thumbs.find(
-          (t) =>
-            t.media &&
-            container.zoom &&
-            t.media.container &&
-            t.media.container.zoom &&
-            t.media.container.zoom.url === container.zoom.url
-        );
-        return thumbs.indexOf(current);
-      })
-    );
+  getActive(): number {
+    return this.mainMediaContainer.value.thumbnail?.galleryIndex || 0;
+    // console.log(this.mainMediaContainer.value);
+    // return this.mainMediaContainer.asObservable().pipe(
+    //   filter(Boolean),
+    //   map((container: any) => {
+    //     return container.thumbnail?.galleryIndex || 0;
+    //   })
+    // );
+  }
+
+  getPreviousProduct(thumbs: any[]): Observable<any> {
+    const active = this.getActive();
+    if (active === 0) {
+      return thumbs[active];
+    }
+    return thumbs[active - 1];
+  }
+  getNextProduct(thumbs: any[]): Observable<any> {
+    const active = this.getActive();
+    if (active === thumbs.length - 1) {
+      return thumbs[active];
+    }
+    return thumbs[active + 1];
   }
 
   zoom(): void {
     this.isZoomed = !this.isZoomed;
   }
 
-  moveImage(event: any): void {
+  touchMove(event: any): void {
+    const touch = event.touches[0] || event.changedTouches[0];
+    this.moveImage(touch.pageX, touch.pageY);
+  }
+
+  pointerMove(event: any): void {
+    this.moveImage(event.pageX, event.pageY);
+  }
+
+  protected moveImage(positionX: number, positionY): void {
     const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect();
     const imageElement = this.zoomedImage.nativeElement.firstChild;
 
-    const x = event.screenX - boundingRect.left;
-    const y = event.screenY - boundingRect.top;
+    const x = positionX - boundingRect.left;
+    const y = positionY - boundingRect.top;
 
     this.left = -x + this.zoomedImage.nativeElement.clientWidth / 2;
     this.top = -y + this.zoomedImage.nativeElement.clientHeight / 2;
