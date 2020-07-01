@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, combineReducers, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
+import { UserIdService } from 'projects/core/src/auth/facade/user-id.service';
 import { Observable, of } from 'rxjs';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { UserSignUp } from '../../../model/misc.model';
@@ -19,10 +20,18 @@ const user: UserSignUp = {
   uid: '',
 };
 
+class MockUserIdService {
+  getUserId(): Observable<string> {
+    return of('');
+  }
+  clearUserId(): void {}
+}
+
 describe('UserRegister effect', () => {
   let effect: UserRegisterEffects;
   let actions$: Observable<Action>;
   let userConnector: UserConnector;
+  let userIdService: UserIdService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,12 +44,14 @@ describe('UserRegister effect', () => {
       providers: [
         UserRegisterEffects,
         { provide: UserAdapter, useValue: {} },
+        { provide: UserIdService, useClass: MockUserIdService },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.inject(UserRegisterEffects);
     userConnector = TestBed.inject(UserConnector);
+    userIdService = TestBed.inject(UserIdService);
 
     spyOn(userConnector, 'register').and.returnValue(of({}));
     spyOn(userConnector, 'registerGuest').and.returnValue(of({ uid: 'test' }));
@@ -85,17 +96,21 @@ describe('UserRegister effect', () => {
 
   describe('removeUser$', () => {
     it('should remove user', () => {
+      spyOn(userIdService, 'clearUserId').and.stub();
       const action = new UserActions.RemoveUser('testUserId');
       const logout = new AuthActions.Logout();
+      const clearUserToken = new AuthActions.ClearUserToken();
       const completion = new UserActions.RemoveUserSuccess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
+      const expected = cold('-(bcd)', {
         b: completion,
-        c: logout,
+        c: clearUserToken,
+        d: logout,
       });
 
       expect(effect.removeUser$).toBeObservable(expected);
+      expect(userIdService.clearUserId).toHaveBeenCalled();
     });
   });
 });

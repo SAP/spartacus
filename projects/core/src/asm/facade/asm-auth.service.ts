@@ -3,9 +3,9 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
+import { UserIdService } from '../../auth/facade/user-id.service';
 import { UserToken } from '../../auth/models/token-types.model';
 import { AuthActions } from '../../auth/store/actions';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { AsmActions } from '../store/actions/index';
 import { StateWithAsm } from '../store/asm-state';
 import { AsmSelectors } from '../store/selectors/index';
@@ -16,7 +16,8 @@ import { AsmSelectors } from '../store/selectors/index';
 export class AsmAuthService {
   constructor(
     protected store: Store<StateWithAsm>,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -45,20 +46,15 @@ export class AsmAuthService {
   ): void {
     this.authService.authorizeWithToken({
       ...customerSupportAgentToken,
-      userId: customerId,
     });
+    this.userIdService.setUserId(customerId);
   }
 
   /**
-   * Utility function to determine if a given token is a customer emulation session token.
-   * @param userToken
+   * Utility function to determine if customer is emulated.
    */
-  isCustomerEmulationToken(userToken: UserToken): boolean {
-    return (
-      Boolean(userToken) &&
-      Boolean(userToken.userId) &&
-      userToken.userId !== OCC_USER_ID_CURRENT
-    );
+  isCustomerEmulated(): Observable<boolean> {
+    return this.userIdService.isCustomerEmulated();
   }
 
   /**

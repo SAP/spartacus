@@ -8,22 +8,10 @@ export function reducer(
   action: AsmActions.CustomerSupportAgentTokenAction
 ): UserToken {
   switch (action.type) {
-    case AsmActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN: {
-      return {
-        ...state,
-      };
-    }
-
     case AsmActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS: {
       return {
         ...state,
         ...action.payload,
-      };
-    }
-
-    case AsmActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL: {
-      return {
-        ...state,
       };
     }
   }

@@ -8,7 +8,6 @@ const testToken: UserToken = {
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  userId: 'xxx',
 };
 
 describe('Customer Support Agent Token reducer', () => {
@@ -38,37 +37,6 @@ describe('Customer Support Agent Token reducer', () => {
       );
 
       expect(state).toEqual(testToken);
-    });
-  });
-
-  describe('LoadCustomerSupportAgentToken action', () => {
-    it('should load token', () => {
-      const { initialState } = fromCustomerSupportAgentTokenReducer;
-
-      const action = new AsmActions.LoadCustomerSupportAgentToken({
-        userId: 'user',
-        password: 'pass',
-      });
-      const state = fromCustomerSupportAgentTokenReducer.reducer(
-        initialState,
-        action
-      );
-
-      expect(state).toEqual(initialState);
-    });
-  });
-
-  describe('LoadCustomerSupportAgentTokenFail action', () => {
-    it('should fail load token', () => {
-      const { initialState } = fromCustomerSupportAgentTokenReducer;
-
-      const action = new AsmActions.LoadCustomerSupportAgentTokenFail({});
-      const state = fromCustomerSupportAgentTokenReducer.reducer(
-        initialState,
-        action
-      );
-
-      expect(state).toEqual(initialState);
     });
   });
 });

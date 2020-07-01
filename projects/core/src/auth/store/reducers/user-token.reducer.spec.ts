@@ -8,7 +8,6 @@ const testToken: UserToken = {
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  userId: 'xxx',
 };
 
 describe('UserToken reducer', () => {
@@ -41,6 +40,17 @@ describe('UserToken reducer', () => {
       const state = fromUserToken.reducer(initialState, action);
 
       expect(state).toEqual(testToken);
+    });
+  });
+
+  describe('CLEAR_USER_TOKEN action', () => {
+    it('should reset state', () => {
+      const { initialState } = fromUserToken;
+      const preState = { ...initialState, access_token: 'access_token' };
+      const action = new AuthActions.ClearUserToken();
+      const state = fromUserToken.reducer(preState, action);
+
+      expect(state).toEqual(initialState);
     });
   });
 });

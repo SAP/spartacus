@@ -1,23 +1,31 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
+import { UserIdService } from '../../auth/facade/user-id.service';
 import { UserToken } from '../../auth/models/token-types.model';
 import { AuthActions } from '../../auth/store/actions';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { AsmActions } from '../store/actions';
-import { ASM_FEATURE, AsmState } from '../store/asm-state';
+import { AsmState, ASM_FEATURE } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
 import { AsmAuthService } from './asm-auth.service';
 
 const mockToken = {
-  userId: 'user@sap.com',
   refresh_token: 'foo',
   access_token: 'testToken-access-token',
 } as UserToken;
 
+class MockUserIdService {
+  isCustomerEmulated() {}
+  setUserId(_id: string) {}
+}
+
 describe('AsmAuthService', () => {
   let service: AsmAuthService;
   let store: Store<AsmState>;
+  let userIdService: UserIdService;
+  let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,9 +33,12 @@ describe('AsmAuthService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
       ],
+      providers: [{ provide: UserIdService, useClass: MockUserIdService }],
     });
 
     service = TestBed.inject(AsmAuthService);
+    userIdService = TestBed.inject(UserIdService);
+    authService = TestBed.inject(AuthService);
     store = TestBed.inject(Store);
   });
 
@@ -60,7 +71,7 @@ describe('AsmAuthService', () => {
     expect(result).toEqual(false);
   });
 
-  it('should dispatch proper action for authorizeCustomerSupporAgent', () => {
+  it('should dispatch proper action for authorizeCustomerSupportAgent', () => {
     spyOn(store, 'dispatch').and.stub();
 
     service.authorizeCustomerSupportAgent('user', 'password');
@@ -70,6 +81,21 @@ describe('AsmAuthService', () => {
         password: 'password',
       })
     );
+  });
+
+  it('should set userId and tokens when starting emulation', () => {
+    spyOn(authService, 'authorizeWithToken').and.stub();
+    spyOn(userIdService, 'setUserId').and.stub();
+
+    service.startCustomerEmulationSession(
+      { access_token: 'atoken' } as UserToken,
+      'customerId123'
+    );
+
+    expect(authService.authorizeWithToken).toHaveBeenCalledWith({
+      access_token: 'atoken',
+    } as UserToken);
+    expect(userIdService.setUserId).toHaveBeenCalledWith('customerId123');
   });
 
   it('should dispatch proper action for logoutCustomerSupportAgent', () => {
@@ -86,41 +112,13 @@ describe('AsmAuthService', () => {
     );
   });
 
-  describe('isCustomerEmulationToken()', () => {
-    const mockCustomerEmulationToken = {
-      access_token: 'foo',
-    } as UserToken;
-
-    it('should return true if the userid is defined and not OCC_USER_ID_CURRENT', () => {
-      expect(
-        service.isCustomerEmulationToken({
-          ...mockCustomerEmulationToken,
-          userId: '1de31-d31d4-14d',
-        })
-      ).toBe(true);
-    });
-
-    it('should return false if there is no userId on the token', () => {
-      expect(service.isCustomerEmulationToken(mockCustomerEmulationToken)).toBe(
-        false
-      );
-    });
-
-    it('should return false if there is no token', () => {
-      expect(service.isCustomerEmulationToken(undefined)).toBe(false);
-    });
-
-    it('should return false if the token is an empty object', () => {
-      expect(service.isCustomerEmulationToken({} as UserToken)).toBe(false);
-    });
-
-    it('should return false if the userid "current"', () => {
-      expect(
-        service.isCustomerEmulationToken({
-          ...mockCustomerEmulationToken,
-          userId: OCC_USER_ID_CURRENT,
-        })
-      ).toBe(false);
-    });
+  it('isCustomerEmulated should return value from userIdService.isCustomerEmulated', () => {
+    const result = [];
+    spyOn(userIdService, 'isCustomerEmulated').and.returnValue(of(true, false));
+    service
+      .isCustomerEmulated()
+      .pipe(take(2))
+      .subscribe((value) => result.push(value));
+    expect(result).toEqual([true, false]);
   });
 });

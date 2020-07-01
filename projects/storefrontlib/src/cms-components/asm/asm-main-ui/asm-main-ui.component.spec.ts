@@ -25,14 +25,13 @@ import { AsmMainUiComponent } from './asm-main-ui.component';
 
 const mockToken = {
   access_token: 'asdfasf',
-  userId: 'user@sap.com',
   refresh_token: 'foo',
 } as UserToken;
 
 class MockAuthService {
   logout(): void {}
-  getUserToken(): Observable<UserToken> {
-    return of({} as UserToken);
+  isUserLoggedIn(): Observable<boolean> {
+    return of(false);
   }
 }
 
@@ -49,7 +48,9 @@ class MockAsmAuthService {
     _customerSupportAgentToken: UserToken,
     _customerId: string
   ) {}
-  isCustomerEmulationToken() {}
+  isCustomerEmulated(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 class MockUserService {
@@ -204,7 +205,7 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
       of({} as UserToken)
     );
-    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     component.ngOnInit();
     fixture.detectChanges();
     expect(el.query(By.css('cx-csagent-login-form'))).toBeTruthy();
@@ -218,7 +219,7 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
       of({} as UserToken)
     );
-    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     component.ngOnInit();
     fixture.detectChanges();
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
@@ -231,7 +232,7 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
     );
-    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     spyOn(userService, 'get').and.returnValue(of({}));
     component.ngOnInit();
     fixture.detectChanges();
@@ -247,7 +248,7 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
     );
-    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
     spyOn(userService, 'get').and.returnValue(of({}));
     component.ngOnInit();
     fixture.detectChanges();
@@ -263,7 +264,7 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
     );
-    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(userService, 'get').and.returnValue(of(testUser));
     component.ngOnInit();
     fixture.detectChanges();
@@ -281,7 +282,7 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
     );
-    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
     spyOn(userService, 'get').and.returnValue(of(testUser));
     component.ngOnInit();
     fixture.detectChanges();
@@ -298,8 +299,8 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
     );
-    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-    spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(true);
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+    spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(true));
 
     spyOn(routingService, 'go').and.stub();
     spyOn(globalMessageService, 'remove').and.stub();
@@ -315,8 +316,8 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
     );
-    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-    spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(true);
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+    spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(true));
 
     spyOn(routingService, 'go').and.stub();
     spyOn(globalMessageService, 'remove').and.stub();
@@ -332,8 +333,8 @@ describe('AsmMainUiComponent', () => {
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
     );
-    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-    spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(false);
+    spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+    spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(false));
 
     spyOn(routingService, 'go').and.stub();
     spyOn(globalMessageService, 'remove').and.stub();

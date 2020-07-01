@@ -1,8 +1,8 @@
-import { StateUtils } from '../../../state/utils/index';
+import { AuthActions } from '@spartacus/core';
 import { UserToken } from '../../../auth/models/token-types.model';
+import { StateUtils } from '../../../state/utils/index';
 import { CSAGENT_TOKEN_DATA } from '../asm-state';
 import { AsmActions } from './index';
-import { AuthActions } from '@spartacus/core';
 
 const token: UserToken = {
   access_token: 'xxx',
@@ -10,7 +10,6 @@ const token: UserToken = {
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  userId: 'xxx',
 };
 
 describe('Customer Support Agent Token Actions', () => {

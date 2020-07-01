@@ -36,7 +36,6 @@ describe('UserToken Selectors', () => {
         refresh_token: 'xxx',
         expires_in: 1000,
         scope: ['xxx'],
-        userId: 'xxx',
       };
       store.dispatch(new AuthActions.LoadUserTokenSuccess(testToken));
 

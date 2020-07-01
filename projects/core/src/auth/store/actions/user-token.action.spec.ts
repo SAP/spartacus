@@ -7,7 +7,6 @@ const token: UserToken = {
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  userId: 'xxx',
 };
 
 describe('User Token Actions', () => {
@@ -115,6 +114,16 @@ describe('User Token Actions', () => {
       expect({ ...action }).toEqual({
         type: AuthActions.REVOKE_USER_TOKEN_SUCCESS,
         payload: token,
+      });
+    });
+  });
+
+  describe('ClearUserToken', () => {
+    it('should create the action', () => {
+      const action = new AuthActions.ClearUserToken();
+
+      expect({ ...action }).toEqual({
+        type: AuthActions.CLEAR_USER_TOKEN,
       });
     });
   });

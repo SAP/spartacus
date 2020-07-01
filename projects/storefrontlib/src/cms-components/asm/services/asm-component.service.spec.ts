@@ -3,7 +3,6 @@ import {
   AsmAuthService,
   AuthService,
   RoutingService,
-  UserToken,
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -13,21 +12,14 @@ import { AsmComponentService } from './asm-component.service';
 
 class MockAuthService {
   logout(): void {}
-  getUserToken(): Observable<UserToken> {
-    return of({} as UserToken);
-  }
 }
 
 class MockAsmAuthService {
   logoutCustomerSupportAgent(): void {}
-  isCustomerEmulationToken(): boolean {
-    return undefined;
+  isCustomerEmulated(): Observable<boolean> {
+    return of(false);
   }
 }
-
-const mockToken = {
-  access_token: 'asdfasf',
-} as UserToken;
 
 class MockRoutingService {
   go() {}
@@ -79,10 +71,10 @@ describe('AsmComponentService', () => {
   });
 
   describe('logoutCustomerSupportAgentAndCustomer()', () => {
-    it('should logout asagent and not the customer when no customer session is in progress.', () => {
+    it('should logout csagent and not the customer when no customer session is in progress.', () => {
       spyOn(authService, 'logout').and.stub();
       spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
-      spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+      spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(false));
       spyOn(asmComponentService, 'logoutCustomer').and.stub();
 
       asmComponentService.logoutCustomerSupportAgentAndCustomer();
@@ -91,11 +83,10 @@ describe('AsmComponentService', () => {
       expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
     });
 
-    it('should logout both asagent and the customer when customer session is in progress.', () => {
+    it('should logout both csagent and the customer when customer session is in progress.', () => {
       spyOn(authService, 'logout').and.stub();
       spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
-      spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(true);
+      spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(true));
       spyOn(asmComponentService, 'logoutCustomer').and.stub();
 
       asmComponentService.logoutCustomerSupportAgentAndCustomer();
@@ -104,11 +95,10 @@ describe('AsmComponentService', () => {
       expect(asmComponentService.logoutCustomer).toHaveBeenCalled();
     });
 
-    it('should logout asagent and not the customer when a regular customer session is in progress', () => {
+    it('should logout csagent and not the customer when a regular customer session is in progress', () => {
       spyOn(authService, 'logout').and.stub();
       spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
-      spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(false);
+      spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(false));
       spyOn(asmComponentService, 'logoutCustomer').and.stub();
 
       asmComponentService.logoutCustomerSupportAgentAndCustomer();
@@ -130,8 +120,7 @@ describe('AsmComponentService', () => {
 
   describe('isCustomerEmulationSessionInProgress()', () => {
     it('should return true when user token is from an emulation session', () => {
-      spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(true);
+      spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(true));
       let result = false;
       asmComponentService
         .isCustomerEmulationSessionInProgress()
@@ -141,8 +130,7 @@ describe('AsmComponentService', () => {
     });
 
     it('should return false when user token is not from an emulation session', () => {
-      spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
-      spyOn(asmAuthService, 'isCustomerEmulationToken').and.returnValue(false);
+      spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(false));
       let result = false;
       asmComponentService
         .isCustomerEmulationSessionInProgress()
