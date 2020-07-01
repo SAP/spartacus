@@ -1,21 +1,22 @@
 import { TestBed } from '@angular/core/testing';
-import { GigyaConfig } from '../../config';
 import {
+  AuthRedirectService,
   BaseSiteService,
-  LanguageService,
   ExternalJsFileLoader,
   GlobalMessageService,
-  AuthRedirectService,
+  GlobalMessageType,
+  LanguageService,
+  OCC_USER_ID_CURRENT,
+  User,
   UserService,
   UserToken,
-  GlobalMessageType,
-  User,
-  OCC_USER_ID_CURRENT,
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
-import { GigyaJsService } from './gigya-js.service';
+import { take } from 'rxjs/operators';
 import { GigyaAuthService } from '../../auth/facade/gigya-auth.service';
+import { GigyaConfig } from '../../config';
+import { GigyaJsService } from './gigya-js.service';
 
 const sampleGigyaConfig: GigyaConfig = {
   gigya: [
@@ -94,7 +95,7 @@ describe('GigyaJsService', () => {
   let service: GigyaJsService;
   let baseSiteService: BaseSiteService;
   let languageService: LanguageService;
-  let externalJsFileLoaderMock: ExternalJsFileLoader;
+  let externalJsFileLoader: ExternalJsFileLoader;
   let auth: GigyaAuthService;
   let globalMessageService: GlobalMessageService;
   let authRedirectService: AuthRedirectService;
@@ -120,7 +121,7 @@ describe('GigyaJsService', () => {
     service = TestBed.inject(GigyaJsService);
     baseSiteService = TestBed.inject(BaseSiteService);
     languageService = TestBed.inject(LanguageService);
-    externalJsFileLoaderMock = TestBed.inject(ExternalJsFileLoader);
+    externalJsFileLoader = TestBed.inject(ExternalJsFileLoader);
     auth = TestBed.inject(GigyaAuthService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     authRedirectService = TestBed.inject(AuthRedirectService);
@@ -132,156 +133,199 @@ describe('GigyaJsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should load gigya script', () => {
-    const site = 'electronics-spa';
-    const language = 'en';
+  describe('initialize', () => {
+    it('should load the gigya script', () => {
+      spyOn(service, 'loadGigyaJavascript').and.stub();
 
-    spyOn(externalJsFileLoaderMock, 'load');
-    spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
-    spyOn(languageService, 'getActive').and.returnValue(of(language));
+      service.initialize();
 
-    service.loadGigyaJavascript();
-
-    expect(externalJsFileLoaderMock.load).toHaveBeenCalledTimes(1);
+      expect(service.loadGigyaJavascript).toHaveBeenCalled();
+    });
   });
 
-  it('should load gigya script on initializing the service and redirect on loading the token', () => {
-    const site = 'electronics-spa';
-    const language = 'en';
+  describe('didLoad', () => {
+    it('should return gigya script loading state', () => {
+      spyOn(externalJsFileLoader, 'load').and.callFake((_a, _b, loadCb) => {
+        loadCb({} as Event);
+      });
 
-    spyOn(externalJsFileLoaderMock, 'load');
-    spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
-    spyOn(languageService, 'getActive').and.returnValue(of(language));
-    spyOn(authRedirectService, 'redirect');
-    spyOn(globalMessageService, 'remove');
+      service
+        .didLoad()
+        .pipe(take(1))
+        .subscribe((val) => expect(val).toBe(false));
 
-    const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
-    spyOn(auth, 'getUserToken').and.returnValue(of(testToken));
+      service.loadGigyaJavascript();
 
-    service.initialize();
-
-    expect(externalJsFileLoaderMock.load).toHaveBeenCalledTimes(1);
-    expect(globalMessageService.remove).toHaveBeenCalledTimes(1);
-    expect(authRedirectService.redirect).toHaveBeenCalledTimes(1);
+      service
+        .didLoad()
+        .pipe(take(1))
+        .subscribe((val) => expect(val).toBe(false));
+    });
   });
 
-  it('should load gigya script as empty for missing configuration', () => {
-    const site = '';
-    const language = 'en';
+  describe('didScriptFailToLoad', () => {
+    it('should return gigya script loading error state', () => {
+      spyOn(externalJsFileLoader, 'load').and.callFake(
+        (_a, _b, _c, errorCb) => {
+          errorCb({} as Event);
+        }
+      );
 
-    spyOn(externalJsFileLoaderMock, 'load');
-    spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
-    spyOn(languageService, 'getActive').and.returnValue(of(language));
+      service
+        .didScriptFailToLoad()
+        .pipe(take(1))
+        .subscribe((val) => expect(val).toBe(false));
 
-    service.initialize();
+      service.loadGigyaJavascript();
 
-    expect(externalJsFileLoaderMock.load).toHaveBeenCalledTimes(1);
+      service
+        .didScriptFailToLoad()
+        .pipe(take(1))
+        .subscribe((val) => expect(val).toBe(false));
+    });
   });
 
-  it('should return script load state', () => {
-    const result = service.isLoaded();
+  describe('loadGigyaScript', () => {
+    it('should load gigya script', () => {
+      const site = 'electronics-spa';
+      const language = 'en';
 
-    expect(result).toBeDefined();
+      spyOn(externalJsFileLoader, 'load');
+      spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
+      spyOn(languageService, 'getActive').and.returnValue(of(language));
+
+      service.loadGigyaJavascript();
+
+      expect(externalJsFileLoader.load).toHaveBeenCalledWith(
+        'sample-url&lang=en',
+        undefined,
+        jasmine.any(Function),
+        jasmine.any(Function)
+      );
+      expect(winRef.nativeWindow['__gigyaConf']).toEqual({
+        include: 'id_token',
+      });
+    });
+
+    it('should not load gigya script if it is not configured', () => {
+      const site = 'electronics';
+      const language = 'en';
+
+      spyOn(externalJsFileLoader, 'load');
+      spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
+      spyOn(languageService, 'getActive').and.returnValue(of(language));
+
+      service.initialize();
+
+      expect(externalJsFileLoader.load).not.toHaveBeenCalled();
+    });
   });
 
-  it('should register event handlers for gigya login', () => {
-    window.gigya = {};
-    spyOn(service, 'addGigyaEventHandlers');
+  describe('registerEventListeners', () => {
+    it('should register event listeners and remove message and redirect on loading the token', () => {
+      const site = 'electronics-spa';
+      const language = 'en';
 
-    service.registerEventListeners();
+      spyOn(externalJsFileLoader, 'load').and.callFake(() => {
+        service.registerEventListeners('electronics-spa');
+      });
+      spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
+      spyOn(languageService, 'getActive').and.returnValue(of(language));
+      spyOn(authRedirectService, 'redirect');
+      spyOn(globalMessageService, 'remove');
 
-    expect(service.addGigyaEventHandlers).toHaveBeenCalledTimes(1);
+      const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
+      spyOn(auth, 'getUserToken').and.returnValue(of(testToken));
+      spyOn(service, 'addGigyaEventHandlers').and.stub();
+
+      service.loadGigyaJavascript();
+
+      expect(service.addGigyaEventHandlers).toHaveBeenCalledWith(
+        'electronics-spa'
+      );
+      expect(globalMessageService.remove).toHaveBeenCalledWith(
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(authRedirectService.redirect).toHaveBeenCalled();
+    });
   });
 
-  it('should add event handlers for gigya login', () => {
-    spyOn(winRef.nativeWindow['gigya'].accounts, 'addEventHandlers');
+  describe('addGigyaEventHandlers', () => {
+    it('should add event handlers for gigya login', () => {
+      spyOn(winRef.nativeWindow['gigya'].accounts, 'addEventHandlers');
 
-    service.addGigyaEventHandlers();
+      service.addGigyaEventHandlers('electronics-spa');
 
-    expect(
-      winRef.nativeWindow['gigya'].accounts.addEventHandlers
-    ).toHaveBeenCalledTimes(1);
+      expect(
+        winRef.nativeWindow['gigya'].accounts.addEventHandlers
+      ).toHaveBeenCalledWith({ onLogin: jasmine.any(Function) });
+    });
   });
 
-  it('should update personal details', () => {
-    spyOn(userService, 'updatePersonalDetails');
-    const response: any = {
-      profile: {
-        firstName: 'firstName',
-        lastName: 'lastName',
-      },
-    };
+  describe('onLoginEventHandler', () => {
+    it('should login user when on login event is triggered', () => {
+      spyOn(auth, 'authorizeWithCustomGigyaFlow');
 
-    service.onProfileUpdateEventHandler(response);
+      const response = {
+        UID: 'UID',
+        UIDSignature: 'UIDSignature',
+        signatureTimestamp: 'signatureTimestamp',
+        id_token: 'id_token',
+      };
 
-    expect(userService.updatePersonalDetails).toHaveBeenCalledTimes(1);
+      service.onLoginEventHandler('electronics-spa', response);
+
+      expect(auth.authorizeWithCustomGigyaFlow).toHaveBeenCalledWith(
+        response.UID,
+        response.UIDSignature,
+        response.signatureTimestamp,
+        response.id_token,
+        'electronics-spa'
+      );
+    });
+
+    it('should not login user when on login event have empty payload', () => {
+      spyOn(auth, 'authorizeWithCustomGigyaFlow');
+
+      service.onLoginEventHandler('electronics-spa');
+
+      expect(auth.authorizeWithCustomGigyaFlow).not.toHaveBeenCalled();
+    });
   });
 
-  it('should not update personal details', () => {
-    spyOn(userService, 'updatePersonalDetails');
-    const response: any = undefined;
+  describe('onProfileUpdateEventHandler', () => {
+    it('should update personal details when response have data', () => {
+      spyOn(userService, 'updatePersonalDetails');
+      const response = {
+        profile: {
+          firstName: 'firstName',
+          lastName: 'lastName',
+        },
+      };
 
-    service.onProfileUpdateEventHandler(response);
+      service.onProfileUpdateEventHandler(response);
 
-    expect(userService.updatePersonalDetails).toHaveBeenCalledTimes(0);
+      expect(userService.updatePersonalDetails).toHaveBeenCalledWith({
+        firstName: response.profile.firstName,
+        lastName: response.profile.lastName,
+      });
+    });
+
+    it('should not update personal details when response is empty', () => {
+      spyOn(userService, 'updatePersonalDetails');
+
+      service.onProfileUpdateEventHandler();
+
+      expect(userService.updatePersonalDetails).not.toHaveBeenCalled();
+    });
   });
 
-  it('should login user when on login event is triggered', () => {
-    spyOn(auth, 'authorizeWithCustomGigyaFlow');
-
-    const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
-    spyOn(auth, 'getUserToken').and.returnValue(of(testToken));
-
-    const response: any = {
-      UID: 'UID',
-      UIDSignature: 'UIDSignature',
-      signatureTimestamp: 'signatureTimestamp',
-      id_token: 'id_token',
-    };
-
-    service.onLoginEventHandler(response);
-
-    expect(auth.authorizeWithCustomGigyaFlow).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not login user when on login event is triggered', () => {
-    spyOn(auth, 'authorizeWithCustomGigyaFlow');
-
-    spyOn(auth, 'getUserToken').and.returnValue(of());
-    spyOn(baseSiteService, 'getActive').and.returnValue(of('sameplSite'));
-
-    const response: any = {
-      UID: 'UID',
-      UIDSignature: 'UIDSignature',
-      signatureTimestamp: 'signatureTimestamp',
-      id_token: 'id_token',
-    };
-
-    service.onLoginEventHandler(response);
-
-    expect(auth.authorizeWithCustomGigyaFlow).toHaveBeenCalledTimes(1);
-  });
-
-  it('should not login user when on login event is not triggered', () => {
-    spyOn(auth, 'authorizeWithCustomGigyaFlow');
-
-    spyOn(auth, 'getUserToken').and.returnValue(of());
-
-    service.onLoginEventHandler(undefined);
-
-    expect(auth.authorizeWithCustomGigyaFlow).toHaveBeenCalledTimes(0);
-  });
-
-  it('should unsubscribe from any subscriptions when destroyed', () => {
-    service.subscription = new Subscription();
-    spyOn(service.subscription, 'unsubscribe');
-    service.ngOnDestroy();
-    expect(service.subscription.unsubscribe).toHaveBeenCalled();
-  });
-
-  it('should not unsubscribe from any subscriptions when they are undefined when destroyed', () => {
-    service.subscription = undefined;
-    service.ngOnDestroy();
-    expect(service.subscription).toBeUndefined();
+  describe('ngOnDestroy', () => {
+    it('should unsubscribe from any subscriptions when destroyed', () => {
+      service.subscription = new Subscription();
+      spyOn(service.subscription, 'unsubscribe');
+      service.ngOnDestroy();
+      expect(service.subscription.unsubscribe).toHaveBeenCalled();
+    });
   });
 });

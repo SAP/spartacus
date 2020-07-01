@@ -20,6 +20,7 @@ import { GigyaConfig } from '../../config/gigya-config';
 })
 export class GigyaJsService implements OnDestroy {
   private loaded$ = new ReplaySubject<boolean>(1);
+  private errorLoading$ = new ReplaySubject<boolean>(1);
   subscription: Subscription = new Subscription();
 
   constructor(
@@ -35,20 +36,25 @@ export class GigyaJsService implements OnDestroy {
     private userService: UserService
   ) {}
 
+  /**
+   * Initialize Gigya script
+   */
   initialize(): void {
     this.loadGigyaJavascript();
-    this.subscription.add(
-      this.auth.getUserToken().subscribe((data) => {
-        if (data && data.access_token) {
-          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-          this.authRedirectService.redirect();
-        }
-      })
-    );
   }
 
-  isLoaded() {
+  /**
+   * Returns observable with the information if gigya script is loaded.
+   */
+  didLoad() {
     return this.loaded$.asObservable();
+  }
+
+  /**
+   * Returns observable with the information if gigya script failed to load.
+   */
+  didScriptFailToLoad() {
+    return this.errorLoading$.asObservable();
   }
 
   /**
@@ -62,14 +68,24 @@ export class GigyaJsService implements OnDestroy {
       ])
         .pipe(take(1))
         .subscribe(([baseSite, language]) => {
-          const javascriptUrl = `${this.getJavascriptUrlForCurrentSite(
+          const scriptForBaseSite = this.getJavascriptUrlForCurrentSite(
             baseSite
-          )}&lang=${language}`;
-          this.externalJsFileLoader.load(javascriptUrl, undefined, () => {
-            this.registerEventListeners();
-            this.loaded$.next(true);
-          });
-          this.winRef.nativeWindow['__gigyaConf'] = { include: 'id_token' };
+          );
+          if (scriptForBaseSite) {
+            const javascriptUrl = `${scriptForBaseSite}&lang=${language}`;
+            this.externalJsFileLoader.load(
+              javascriptUrl,
+              undefined,
+              () => {
+                this.registerEventListeners(baseSite);
+                this.loaded$.next(true);
+              },
+              () => {
+                this.errorLoading$.next(true);
+              }
+            );
+            this.winRef.nativeWindow['__gigyaConf'] = { include: 'id_token' };
+          }
         })
     );
   }
@@ -86,18 +102,30 @@ export class GigyaJsService implements OnDestroy {
 
   /**
    * Register login event listeners for CDC login
+   *
+   * @param baseSite
    */
-  registerEventListeners(): void {
-    this.addGigyaEventHandlers();
+  registerEventListeners(baseSite: string): void {
+    this.subscription.add(
+      this.auth.getUserToken().subscribe((data) => {
+        if (data && data.access_token) {
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          this.authRedirectService.redirect();
+        }
+      })
+    );
+    this.addGigyaEventHandlers(baseSite);
   }
 
   /**
    * Method to register gigya's event handlers
+   *
+   * @param baseSite
    */
-  addGigyaEventHandlers(): void {
+  addGigyaEventHandlers(baseSite: string): void {
     this.winRef.nativeWindow?.['gigya']?.accounts?.addEventHandlers({
       onLogin: (...params) => {
-        this.zone.run(() => this.onLoginEventHandler(...params));
+        this.zone.run(() => this.onLoginEventHandler(baseSite, ...params));
       },
     });
   }
@@ -105,28 +133,19 @@ export class GigyaJsService implements OnDestroy {
   /**
    * Trigger login to Commerce once an onLogin event is triggered by CDC Screen Set.
    *
+   * @param baseSite
    * @param response
    */
-  onLoginEventHandler(...params: any[]) {
-    if (params != null && params.length > 0 && params[0] != null) {
+  onLoginEventHandler(baseSite: string, response?: any) {
+    if (response) {
       this.auth.authorizeWithCustomGigyaFlow(
-        params[0].UID,
-        params[0].UIDSignature,
-        params[0].signatureTimestamp,
-        params[0].id_token !== undefined ? params[0].id_token : '',
-        this.getCurrentBaseSite()
+        response.UID,
+        response.UIDSignature,
+        response.signatureTimestamp,
+        response.id_token !== undefined ? response.id_token : '',
+        baseSite
       );
     }
-  }
-
-  private getCurrentBaseSite(): string {
-    let baseSite: string;
-    this.baseSiteService
-      .getActive()
-      .pipe(take(1))
-      .subscribe((data) => (baseSite = data));
-
-    return baseSite;
   }
 
   /**
@@ -134,11 +153,11 @@ export class GigyaJsService implements OnDestroy {
    *
    * @param response
    */
-  onProfileUpdateEventHandler(...params: any[]) {
-    if (params != null && params.length > 0 && params[0] != null) {
+  onProfileUpdateEventHandler(response?: any) {
+    if (response) {
       const userDetails: User = {};
-      userDetails.firstName = params[0].profile.firstName;
-      userDetails.lastName = params[0].profile.lastName;
+      userDetails.firstName = response.profile.firstName;
+      userDetails.lastName = response.profile.lastName;
       this.userService.updatePersonalDetails(userDetails);
     }
   }
