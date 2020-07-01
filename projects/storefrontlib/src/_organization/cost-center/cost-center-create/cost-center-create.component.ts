@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
-  CostCenterService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -32,7 +31,6 @@ export class CostCenterCreateComponent {
 
   // TODO:#form-persistence - consolidate ctor
   constructor(
-    protected costCenterService: CostCenterService,
     protected routingService: RoutingService,
 
     protected globalMessageService: GlobalMessageService,
@@ -46,7 +44,7 @@ export class CostCenterCreateComponent {
     }
 
     this.formKey = this.createFormKey(parentUnitCode);
-    if (this.costCenterFormService.has(this.formKey)) {
+    if (this.costCenterFormService.hasForm(this.formKey)) {
       this.showFormRestoredMessage();
     }
 
@@ -84,7 +82,7 @@ export class CostCenterCreateComponent {
       this.form.disable();
       const formValue = this.form.value;
 
-      this.costCenterService.create(formValue);
+      this.costCenterFormService.create(formValue);
       this.removeForm();
 
       this.routingService.go({

@@ -3,7 +3,6 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import {
   CostCenter,
-  CostCenterService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -34,9 +33,11 @@ export class CostCenterEditComponent {
   );
 
   costCenter$: Observable<CostCenter> = this.code$.pipe(
-    tap((code) => this.costCenterService.loadCostCenter(code)),
-    switchMap((code) => this.costCenterService.get(code)),
-    tap((costCenter) => this.initForm(costCenter))
+    switchMap((code) => this.costCenterFormService.loadAndGet(code)),
+    tap((costCenter) => {
+      this.costCenterCode = costCenter.code;
+      this.initForm(costCenter);
+    })
   );
 
   // TODO:#form-persistence - consolidate ctor
@@ -45,7 +46,6 @@ export class CostCenterEditComponent {
     // is unable to resolve the parent routing params
     protected router: ActivatedRoute,
     protected routingService: RoutingService,
-    protected costCenterService: CostCenterService,
 
     protected globalMessageService: GlobalMessageService,
     protected costCenterFormService: CostCenterFormComponentService
@@ -58,7 +58,7 @@ export class CostCenterEditComponent {
     }
 
     this.formKey = this.createFormKey(costCenter);
-    if (this.costCenterFormService.has(this.formKey)) {
+    if (this.costCenterFormService.hasForm(this.formKey)) {
       this.showFormRestoredMessage();
     }
 
@@ -93,7 +93,7 @@ export class CostCenterEditComponent {
       this.form.disable();
       const formValue = this.form.value;
 
-      this.costCenterService.update(this.costCenterCode, formValue);
+      this.costCenterFormService.update(this.costCenterCode, formValue);
       this.removeForm();
 
       this.routingService.go({
