@@ -70,6 +70,8 @@ export const organization = {
       placeholder: 'Amount',
     },
     timezone: 'Timezone',
+    localTimeDisclaimer:
+      'Note: Your local time is being used. Different timezones need be accounted for according your local time. ',
   },
   budgetCostCenters: {
     header: 'Cost centers of {{code}}',

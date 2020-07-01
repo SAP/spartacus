@@ -73,7 +73,7 @@
         </ng-container>
       </div>
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label aria-required="true">
           <span class="label-content required">{{
             'budgetForm.timezone' | cxTranslate
@@ -83,19 +83,26 @@
             [controlName]="'timezoneOffset'"
           ></cx-select-timezone>
         </label>
-      </div>
+      </div> -->
 
       <div class="form-group">
         <label>
           <span class="label-content">{{
             'budgetForm.startDate' | cxTranslate
           }}</span>
-          <cx-date-picker
+          <!-- <cx-date-picker
             formControlName="startDate"
             [max]="form.controls.endDate.value"
             (change)="form.controls.endDate.updateValueAndValidity()"
             [invalid]="isNotValid('startDate')"
-          ></cx-date-picker>
+          ></cx-date-picker> -->
+          <input
+            type="datetime-local"
+            class="form-control"
+            formControlName="startDate"
+            [max]="form.controls.endDate.value"
+            [value]="form.controls.startDate.value"
+          />
           <cx-form-errors
             [control]="form.get('startDate')"
             [translationParams]="{ max: form.controls.endDate.value | cxDate }"
@@ -108,13 +115,20 @@
           <span class="label-content">{{
             'budgetForm.endDate' | cxTranslate
           }}</span>
-          <cx-date-picker
+          <input
+            type="datetime-local"
+            class="form-control"
+            formControlName="endDate"
+            [min]="form.controls.startDate.value"
+            [value]="form.controls.endDate.value"
+          />
+          <!-- <cx-date-picker
             formControlName="endDate"
             [min]="form.controls.startDate.value"
             (change)="form.controls.startDate.updateValueAndValidity()"
             [endOfDay]="true"
             [invalid]="isNotValid('endDate')"
-          ></cx-date-picker>
+          ></cx-date-picker> -->
           <cx-form-errors
             [control]="form.get('endDate')"
             [translationParams]="{
@@ -122,6 +136,12 @@
             }"
           ></cx-form-errors>
         </label>
+      </div>
+
+      <div class="form-group">
+        <span class="label-content">
+          {{ 'budgetForm.localTimeDisclaimer' | cxTranslate }}
+        </span>
       </div>
 
       <div class="form-group">
