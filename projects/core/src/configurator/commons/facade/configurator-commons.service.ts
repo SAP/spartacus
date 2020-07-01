@@ -95,6 +95,7 @@ export class ConfiguratorCommonsService {
         )
       ),
       tap((configurationState) => {
+        console.log('CHHI new config emission');
         if (
           (!this.isConfigurationCreated(configurationState.value) ||
             localOwner.hasObsoleteState === true) &&
@@ -106,6 +107,7 @@ export class ConfiguratorCommonsService {
               new ConfiguratorActions.CreateConfiguration(owner)
             );
           } else if (owner.type === GenericConfigurator.OwnerType.CART_ENTRY) {
+            console.log('CHHI need to read cart entry config');
             localOwner.hasObsoleteState = false;
             this.readConfigurationForCartEntry(owner);
           } else {
@@ -153,6 +155,12 @@ export class ConfiguratorCommonsService {
         cartEntryNumber: owner.id,
         owner: owner,
       };
+      //ensure that an existing configuration is removed from the state, as we will
+      //create a new clone of the configuration attached to the cart => on slow networks, the configuration
+      //that is displayed could otherwise refer to an obsolete configuration
+      this.store.dispatch(
+        new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
+      );
       this.store.dispatch(
         new ConfiguratorActions.ReadCartEntryConfiguration(
           readFromCartEntryParameters
