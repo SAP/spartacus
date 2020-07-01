@@ -25,9 +25,12 @@ export class CostCenterCreateComponent {
   unitCode$: Observable<
     string | boolean
   > = this.routingService.getRouterState().pipe(
-    map((routingData) => routingData.state.queryParams?.['parentUnit']),
-    tap((parentUnit) => this.initForm(parentUnit)),
-    map((parentUnit) => parentUnit || true)
+    map((routingData) => ({
+      url: routingData.state.url,
+      parentUnit: routingData.state.queryParams?.['parentUnit'],
+    })),
+    tap(({ parentUnit, url }) => this.initForm(parentUnit, url)),
+    map(({ parentUnit }) => parentUnit || true)
   );
 
   constructor(
@@ -35,13 +38,13 @@ export class CostCenterCreateComponent {
     protected costCenterFormService: CostCenterFormComponentService
   ) {}
 
-  protected initForm(parentUnitCode: string): void {
+  protected initForm(parentUnitCode: string, url: string): void {
     // we don't want to re-init the form if we've already generated the key
     if (this.formKey) {
       return;
     }
 
-    this.formKey = this.createFormKey(parentUnitCode);
+    this.formKey = this.createFormKey() ?? url;
     this.formRestored = this.costCenterFormService.hasForm(this.formKey);
 
     this.form = this.costCenterFormService.getForm(
@@ -54,8 +57,9 @@ export class CostCenterCreateComponent {
     this.removeForm();
   }
 
-  protected createFormKey(unitCode?: string): string {
-    return `cost-center-create-${unitCode}`;
+  // TODO:#persistence - data?
+  protected createFormKey(_data?: any): string | null {
+    return null;
   }
 
   protected removeForm(): void {

@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CostCenter, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { CostCenterFormComponentService } from '../cost-center-form/cost-center-form.component.service';
 
 @Component({
@@ -33,11 +33,16 @@ export class CostCenterEditComponent {
   );
 
   costCenter$: Observable<CostCenter> = this.code$.pipe(
-    switchMap((code) => this.costCenterFormService.loadAndGet(code)),
-    tap((costCenter) => {
-      this.costCenterCode = costCenter.code;
-      this.initForm(costCenter);
-    })
+    switchMap((code) =>
+      this.costCenterFormService.loadAndGet(code).pipe(
+        withLatestFrom(this.routingService.getRouterState()),
+        tap(([costCenter, routerState]) => {
+          this.costCenterCode = costCenter.code;
+          this.initForm(costCenter, routerState.state.url);
+        }),
+        map(([costCenter]) => costCenter)
+      )
+    )
   );
 
   constructor(
@@ -48,13 +53,13 @@ export class CostCenterEditComponent {
     protected costCenterFormService: CostCenterFormComponentService
   ) {}
 
-  protected initForm(costCenter: CostCenter): void {
+  protected initForm(costCenter: CostCenter, url: string): void {
     // we don't want to re-init the form if we've already generated the key
     if (this.formKey) {
       return;
     }
 
-    this.formKey = this.createFormKey(costCenter);
+    this.formKey = this.createFormKey(costCenter) ?? url;
     this.formRestored = this.costCenterFormService.hasForm(this.formKey);
 
     this.form = this.costCenterFormService.getForm(costCenter, this.formKey);
@@ -64,8 +69,9 @@ export class CostCenterEditComponent {
     this.removeForm();
   }
 
-  protected createFormKey(costCenter: CostCenter): string {
-    return `cost-center-edit-${costCenter.code}-${costCenter.unit?.uid}`;
+  // TODO:#persistence - data?
+  protected createFormKey(_costCenter: CostCenter): string | null {
+    return null;
   }
 
   protected removeForm(): void {
