@@ -15,7 +15,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import { GigyaUserAuthenticationTokenService } from '../../services/user-authentication/gigya-user-authentication-token.service';
 import { GigyaAuthActions } from '../actions';
 
-export const UNKNOWN_ERROR = {
+const UNKNOWN_ERROR = {
   error: 'unknown error',
 };
 
