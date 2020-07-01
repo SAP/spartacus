@@ -5,3 +5,6 @@ export interface TranslationResources {
     };
   };
 }
+export interface TranslationChunksConfig {
+  [chunk: string]: string[];
+}

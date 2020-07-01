@@ -1,20 +1,4 @@
 export const organization = {
-  organization: {
-    enabled: 'Enabled',
-    disabled: 'Disabled',
-
-    // let's start with generic names and introduce
-    // more specifics once we have #7154 in place
-    back: 'Back',
-    create: 'Create {{name}}',
-    edit: 'Edit {{name}}',
-    save: 'Save {{name}}',
-    cancel: 'Cancel {{name}}',
-    close: 'Close {{name}}',
-
-    active: 'Active',
-  },
-
   budgetsList: {
     assign: 'Assign',
     code: 'Code',
@@ -150,52 +134,6 @@ export const organization = {
     },
   },
 
-  costCenterList: {
-    header: 'Cost centers',
-  },
-
-  costCenter: {
-    header: 'Details for {{code}}',
-    code: 'Code',
-    name: 'Name',
-    currency: 'Currency',
-    unit: 'Parent Unit',
-
-    budgets: 'Budgets',
-    details: 'Details',
-    assignBudgets: 'Manage Budgets',
-    confirmDeactivation: {
-      title: 'Disable Cost Center',
-      message: 'Are you sure you want to disable this cost center?',
-    },
-  },
-  costCenterBudgets: {
-    header: 'Budgets in {{code}}',
-    back: 'Close',
-    assignBudgets: 'Manage Budgets',
-  },
-  costCenterAssignBudgets: {
-    header: 'Manage budgets in {{code}}',
-    back: 'Close',
-  },
-  costCenterForm: {
-    create: 'Create Cost Center',
-    edit: 'Edit Cost Center',
-    update: 'Update Cost Center',
-    code: {
-      label: 'Cost Center ID',
-      placeholder: 'Code',
-    },
-    name: {
-      label: 'Cost Center name',
-      placeholder: 'Name',
-    },
-    businessUnits: {
-      label: 'Parent business unit',
-      placeholder: 'Select business unit',
-    },
-    currency: 'Currency',
-  },
   orgUnitsList: {
     orgUnitManagement: 'Units',
     create: 'Create new Unit',
