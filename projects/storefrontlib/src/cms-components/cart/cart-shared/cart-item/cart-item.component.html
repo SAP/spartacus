@@ -1,4 +1,4 @@
-<ng-container *ngIf="item.statusSummaryList[0]?.numberOfIssues > 0">
+<ng-container *ngIf="hasIssues()">
   <div [ngClass]="compact ? 'cx-compact row' : 'row'">
     <div class="cx-error-container">
       <div [ngClass]="compact ? 'col-2' : 'cx-error-icon-container'">

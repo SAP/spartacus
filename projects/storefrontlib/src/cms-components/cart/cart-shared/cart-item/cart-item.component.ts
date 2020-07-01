@@ -62,6 +62,13 @@ export class CartItemComponent implements OnInit {
     );
   }
 
+  hasIssues() {
+    return (
+      this.item.statusSummaryList !== undefined &&
+      this.item.statusSummaryList[0]?.numberOfIssues > 0
+    );
+  }
+
   removeItem() {
     this.quantityControl.setValue(0);
     this.quantityControl.markAsDirty();

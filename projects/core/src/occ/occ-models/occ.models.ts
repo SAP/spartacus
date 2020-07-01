@@ -1444,6 +1444,7 @@ export namespace Occ {
   /**
    *
    * An interface representing ConfigurationInfo.
+   * Provides information about configuration values of the entry.
    */
   export interface ConfigurationInfo {
     /**
@@ -1467,6 +1468,7 @@ export namespace Occ {
   /**
    *
    * An interface representing StatusSummary.
+   * Provides status including number of issues for configurable entry.
    */
   export interface StatusSummary {
     /**
