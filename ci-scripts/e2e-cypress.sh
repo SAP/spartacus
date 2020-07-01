@@ -49,7 +49,7 @@ set -- "${POSITIONAL[@]}"
 
 
 if [[ -z "${CI_ENV}" ]]; then
-    CI_ENV=":1905"
+    CI_ENV=":2005"
 fi
 
 yarn
