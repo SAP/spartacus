@@ -10,13 +10,11 @@ import {
   RoutingConfig,
   RoutingService,
 } from '@spartacus/core';
-import { TableModule } from '@spartacus/storefront';
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { Table2Module } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { Table2Module } from '../../../../shared/components/table/table.module';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 
 const code = 'b1';
 
