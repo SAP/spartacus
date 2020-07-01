@@ -5,26 +5,27 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
-  FormArray,
-  FormControl,
 } from '@angular/forms';
-import { Observable } from 'rxjs';
 import {
-  B2BUser,
   B2BUnitNode,
+  B2BUser,
+  B2BUserService,
   OrgUnitService,
   Title,
   UserService,
-  B2BUserService,
 } from '@spartacus/core';
-import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
+import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { sortTitles } from '../../../../shared/utils/forms/title-utils';
+import { AbstractFormComponent } from '../../abstract-component/abstract-form.component';
 import { CustomFormValidators } from './../../../../shared/utils/validators/custom-form-validators';
-import { tap, map } from 'rxjs/operators';
 
+// TODO:#my-account-architecture - add a test
 @Component({
   selector: 'cx-user-form',
   templateUrl: './user-form.component.html',

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ListingModel } from '../../../cms-components/organization/abstract-component/abstract-listing.component';
-import { Column } from '../table/table.component';
+import { Column } from '../table/table2.component';
 
 @Component({
   selector: 'cx-interactive-table',
