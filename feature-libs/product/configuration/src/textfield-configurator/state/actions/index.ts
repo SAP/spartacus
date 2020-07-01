@@ -1,2 +1,2 @@
-import * as ConfiguratorTextfieldActions from './configurator-textfield.action';
+import * as ConfiguratorTextfieldActions from './configurator-textfield-group.actions';
 export { ConfiguratorTextfieldActions };
