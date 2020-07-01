@@ -1,18 +1,19 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
 import {
-  UserToken,
-  OCC_USER_ID_CURRENT,
+  AuthActions,
   ErrorModel,
-  HttpErrorModel,
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
+  OCC_USER_ID_CURRENT,
+  UserToken,
 } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { GigyaUserAuthenticationTokenService } from '../../services/user-authentication/gigya-user-authentication-token.service';
 import { GigyaAuthActions } from '../actions';
-import { HttpErrorResponse } from '@angular/common/http';
 
 export const UNKNOWN_ERROR = {
   error: 'unknown error',
@@ -35,7 +36,7 @@ const circularReplacer = () => {
 export class GigyaUserTokenEffects {
   @Effect()
   loadGigyaUserToken$: Observable<
-    GigyaAuthActions.GigyaUserTokenAction
+    GigyaAuthActions.GigyaUserTokenAction | AuthActions.LoadUserTokenSuccess
   > = this.actions$.pipe(
     ofType(GigyaAuthActions.LOAD_GIGYA_USER_TOKEN),
     map((action: GigyaAuthActions.LoadGigyaUserToken) => action.payload),
@@ -54,10 +55,7 @@ export class GigyaUserTokenEffects {
             date.setSeconds(date.getSeconds() + token.expires_in);
             token.expiration_time = date.toJSON();
             token.userId = OCC_USER_ID_CURRENT;
-            return new GigyaAuthActions.LoadUserTokenSuccess({
-              token: token,
-              initActionPayload: payload,
-            });
+            return new AuthActions.LoadUserTokenSuccess(token);
           }),
           catchError((error) => {
             this.globalMessageService.add(
@@ -65,9 +63,9 @@ export class GigyaUserTokenEffects {
               GlobalMessageType.MSG_TYPE_ERROR
             );
             return of(
-              new GigyaAuthActions.LoadUserTokenFail({
+              new GigyaAuthActions.LoadGigyaUserTokenFail({
                 error: this.makeErrorSerializable(error),
-                initActionPayload: payload,
+                initialActionPayload: payload,
               })
             );
           })

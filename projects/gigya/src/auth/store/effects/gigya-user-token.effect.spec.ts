@@ -1,13 +1,18 @@
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import {
+  AuthActions,
+  ErrorModel,
+  GlobalMessageService,
+  UserToken,
+} from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
 import { Observable, of } from 'rxjs';
 import { GigyaUserAuthenticationTokenService } from '../../services/user-authentication/gigya-user-authentication-token.service';
-import { UserToken, GlobalMessageService, ErrorModel } from '@spartacus/core';
-import { GigyaUserTokenEffects } from './gigya-user-token.effect';
 import { GigyaAuthActions } from '../actions';
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { GigyaUserTokenEffects } from './gigya-user-token.effect';
 
 const testToken: UserToken = {
   access_token: 'xxx',
@@ -73,18 +78,7 @@ describe('UserToken effect', () => {
         baseSite: 'xxx',
       });
 
-      const actionPayload = {
-        UID: 'xxx',
-        UIDSignature: 'xxx',
-        signatureTimestamp: 'xxx',
-        idToken: 'xxx',
-        baseSite: 'xxx',
-      };
-
-      const completion = new GigyaAuthActions.LoadUserTokenSuccess({
-        token: testToken,
-        initActionPayload: actionPayload,
-      });
+      const completion = new AuthActions.LoadUserTokenSuccess(testToken);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

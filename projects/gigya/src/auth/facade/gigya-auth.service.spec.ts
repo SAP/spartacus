@@ -1,17 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
-import { GigyaAuthService } from './gigya-auth.service';
-import { GigyaAuthActions } from '../store';
 import {
-  AuthState,
-  UserToken,
-  OCC_USER_ID_CURRENT,
   AuthActions,
-  WindowRef,
+  AuthState,
   AUTH_FEATURE,
+  OCC_USER_ID_CURRENT,
+  UserToken,
+  WindowRef,
 } from '@spartacus/core';
-import * as fromReducers from '../store/reducers/index';
+import { of } from 'rxjs';
+import { GigyaAuthActions } from '../store';
+import { GigyaAuthService } from './gigya-auth.service';
 
 const mockToken = {
   userId: 'user@sap.com',
@@ -40,7 +39,7 @@ describe('GigyaAuthService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(AUTH_FEATURE, fromReducers.getReducers()),
+        StoreModule.forFeature(AUTH_FEATURE, (() => ({}))()),
       ],
       providers: [
         GigyaAuthService,
