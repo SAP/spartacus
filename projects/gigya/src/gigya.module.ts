@@ -4,8 +4,8 @@ import {
   ConfigInitializerService,
   provideConfig,
 } from '@spartacus/core';
-import { GigyaAuthModule } from './auth/gigya-auth.module';
 import { GigyaAuthService } from './auth/facade/gigya-auth.service';
+import { GigyaAuthModule } from './auth/gigya-auth.module';
 import { GigyaJsService } from './cms-components/gigya-js/gigya-js.service';
 import { GigyaRaasModule } from './cms-components/gigya-raas/gigya-raas.module';
 import { GigyaConfig } from './config/gigya-config';
@@ -15,7 +15,7 @@ export function gigyaJSFactory(
   configInit: ConfigInitializerService
 ) {
   const func = () =>
-    configInit.getStableConfig('context').then(() => {
+    configInit.getStableConfig('context', 'gigya').then(() => {
       gigyaJsService.initialize();
     });
   return func;
