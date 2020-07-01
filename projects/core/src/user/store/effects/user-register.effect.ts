@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { UserIdService } from 'projects/core/src/auth/facade/user-id.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import { UserIdService } from '../../../auth/facade/user-id.service';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { UserSignUp } from '../../../model/misc.model';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
