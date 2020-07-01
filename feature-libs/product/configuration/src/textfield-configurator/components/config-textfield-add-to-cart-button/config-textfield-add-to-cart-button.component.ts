@@ -38,7 +38,7 @@ export class ConfigTextfieldAddToCartButtonComponent {
   }
 
   /**
-   * Returns button description. Button will display 'addToCart' or 'done' in case router data indicates that owner is a cart entry
+   * Returns button description. Button will display 'addToCart' or 'done' in case configuration indicates that owner is a cart entry
    * @returns Resource key of button description
    */
   getButtonText(): string {

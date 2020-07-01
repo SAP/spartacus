@@ -23,7 +23,7 @@ export class ConfiguratorTextfieldService {
   ) {}
 
   /**
-   * Creates a textfield configuration, specified by the configuration owner.
+   * Creates a default textfield configuration for a product specified by the configuration owner.
    *
    * @param owner - Configuration owner
    *
@@ -81,9 +81,9 @@ export class ConfiguratorTextfieldService {
   }
 
   /**
-   * Adds the textfield configuration to the cart, specified by its product code.
+   * Adds the textfield configuration to the cart
    *
-   * @param productCode - Product code
+   * @param productCode - Product code of the configuration root product. Cart entry carries refers to this product
    * @param configuration Textfield configuration
    */
   addToCart(
@@ -130,7 +130,7 @@ export class ConfiguratorTextfieldService {
   }
 
   /**
-   * Returns a textfield configuration from a cart entry.
+   * Returns a textfield configuration for a cart entry.
    *
    * @param owner - Configuration owner
    *

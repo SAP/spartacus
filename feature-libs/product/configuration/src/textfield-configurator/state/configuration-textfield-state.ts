@@ -6,9 +6,9 @@ export const CONFIGURATION_TEXTFIELD_DATA =
   '[ConfiguratorTextfield] Configuration Data';
 
 export interface StateWithConfigurationTextfield {
-  [CONFIGURATION_TEXTFIELD_FEATURE]: ConfigurationTextfieldLoaderState;
+  [CONFIGURATION_TEXTFIELD_FEATURE]: ConfigurationTextfieldState;
 }
 
-export interface ConfigurationTextfieldLoaderState {
+export interface ConfigurationTextfieldState {
   loaderState: StateUtils.LoaderState<ConfiguratorTextfield.Configuration>;
 }

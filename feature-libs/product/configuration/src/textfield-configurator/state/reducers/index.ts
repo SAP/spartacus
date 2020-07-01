@@ -3,13 +3,13 @@ import { ActionReducerMap } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import {
-  ConfigurationTextfieldLoaderState,
+  ConfigurationTextfieldState,
   CONFIGURATION_TEXTFIELD_DATA,
 } from '../configuration-textfield-state';
 import { reducer as configurationReducer } from './configurator-textfield.reducer';
 
 export function getConfiguratorTextfieldReducers(): ActionReducerMap<
-  ConfigurationTextfieldLoaderState
+  ConfigurationTextfieldState
 > {
   return {
     loaderState: StateUtils.loaderReducer<ConfiguratorTextfield.Configuration>(
@@ -20,8 +20,8 @@ export function getConfiguratorTextfieldReducers(): ActionReducerMap<
 }
 
 export const configuratorTextfieldReducerToken: InjectionToken<ActionReducerMap<
-  ConfigurationTextfieldLoaderState
->> = new InjectionToken<ActionReducerMap<ConfigurationTextfieldLoaderState>>(
+  ConfigurationTextfieldState
+>> = new InjectionToken<ActionReducerMap<ConfigurationTextfieldState>>(
   'ConfiguratorReducers'
 );
 

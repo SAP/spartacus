@@ -12,7 +12,7 @@ import { of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
 import {
-  ConfigurationTextfieldLoaderState,
+  ConfigurationTextfieldState,
   StateWithConfigurationTextfield,
 } from '../state/configuration-textfield-state';
 import { ConfiguratorTextfieldService } from './configurator-textfield.service';
@@ -53,11 +53,11 @@ const productConfiguration: ConfiguratorTextfield.Configuration = {
   },
 };
 
-const loaderState: ConfigurationTextfieldLoaderState = {
+const loaderState: ConfigurationTextfieldState = {
   loaderState: { value: productConfiguration },
 };
 
-const loaderStateNothingPresent: ConfigurationTextfieldLoaderState = {
+const loaderStateNothingPresent: ConfigurationTextfieldState = {
   loaderState: { value: undefined },
 };
 
