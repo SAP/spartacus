@@ -9,7 +9,7 @@ import { ModalService } from '../../../../shared/components/modal/modal.service'
 @Component({
   selector: 'cx-configure-cart-entry',
   templateUrl: './configure-cart-entry.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
@@ -24,9 +24,9 @@ export class ConfigureCartEntryComponent {
   public getEntityKey(): string {
     return this.cartEntry.orderCode !== undefined
       ? this.genericConfigUtilsService.getComposedOwnerId(
-        this.cartEntry.orderCode,
-        this.cartEntry.entryNumber
-      )
+          this.cartEntry.orderCode,
+          this.cartEntry.entryNumber
+        )
       : '' + this.cartEntry.entryNumber;
   }
 
@@ -42,13 +42,14 @@ export class ConfigureCartEntryComponent {
   }
 
   closeActiveModal(): void {
-    const reason: string = this.getDisplayOnly() ? 'Display Configuration' : 'Edit Configuration';
+    const reason: string = this.getDisplayOnly()
+      ? 'Display Configuration'
+      : 'Edit Configuration';
     this.modalService.closeActiveModal(reason);
   }
 
   constructor(
     private genericConfigUtilsService: GenericConfigUtilsService,
     private modalService: ModalService
-  ) {
-  }
+  ) {}
 }
