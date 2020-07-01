@@ -18,7 +18,6 @@ $page-template-whitelist: LandingPage2Template, ContentPage1Template,
   .#{$selector} {
     @if (index($page-template-blacklist, $selector) == null) {
       @extend %#{$selector} !optional;
-      @extend %#{$selector}-#{$theme} !optional;
     }
   }
 }
