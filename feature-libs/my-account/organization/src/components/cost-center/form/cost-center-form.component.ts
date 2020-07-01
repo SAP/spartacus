@@ -1,61 +1,54 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   B2BUnitNode,
-  CostCenter,
   Currency,
   CurrencyService,
   OrgUnitService,
 } from '@spartacus/core';
-import { AbstractFormComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-cost-center-form',
   templateUrl: './cost-center-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CostCenterFormComponent extends AbstractFormComponent
-  implements OnInit {
-  businessUnits$: Observable<B2BUnitNode[]>;
-  currencies$: Observable<Currency[]>;
+export class CostCenterFormComponent implements OnInit {
+  /**
+   * The form is controlled from the container component.
+   */
+  @Input() form: FormGroup;
 
-  @Input()
-  costCenterData: CostCenter;
-
-  @Input()
-  readonlyParent = false;
-
-  form: FormGroup = this.fb.group({
-    code: ['', Validators.required],
-    name: ['', Validators.required],
-    unit: this.fb.group({
-      uid: [null, Validators.required],
-    }),
-    currency: this.fb.group({
-      isocode: [null, Validators.required],
-    }),
-  });
+  units$: Observable<B2BUnitNode[]> = this.orgUnitService.getActiveUnitList();
+  currencies$: Observable<Currency[]> = this.currencyService.getAll();
 
   constructor(
-    protected fb: FormBuilder,
     protected currencyService: CurrencyService,
     protected orgUnitService: OrgUnitService
-  ) {
-    super();
-  }
+  ) {}
 
   ngOnInit() {
-    this.currencies$ = this.currencyService.getAll();
+    this.buildForm();
     this.orgUnitService.loadOrgUnitNodes();
-    this.businessUnits$ = this.orgUnitService.getActiveUnitList();
-    if (this.costCenterData && Object.keys(this.costCenterData).length !== 0) {
-      this.form.patchValue(this.costCenterData);
+  }
+
+  protected buildForm() {
+    if (!this.form) {
+      this.form = new FormGroup({});
     }
+    this.form.setControl('code', new FormControl('', Validators.required));
+    this.form.setControl('name', new FormControl('', Validators.required));
+
+    this.form.setControl(
+      'currency',
+      new FormGroup({
+        isocode: new FormControl(undefined, Validators.required),
+      })
+    );
+    this.form.setControl(
+      'unit',
+      new FormGroup({
+        uid: new FormControl(undefined, Validators.required),
+      })
+    );
   }
 }

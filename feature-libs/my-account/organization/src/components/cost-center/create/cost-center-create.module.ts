@@ -1,32 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  AuthGuard,
-  CmsConfig,
-  ConfigModule,
-  I18nModule,
-} from '@spartacus/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { I18nModule } from '@spartacus/core';
+import { IconModule, SplitViewModule } from '@spartacus/storefront';
 import { CostCenterFormModule } from '../form/cost-center-form.module';
 import { CostCenterCreateComponent } from './cost-center-create.component';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        CostCenterCreateComponent: {
-          component: CostCenterCreateComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-    CostCenterFormModule,
     I18nModule,
+    CostCenterFormModule,
+    RouterModule,
+    IconModule,
+
+    SplitViewModule,
+    ReactiveFormsModule,
   ],
   declarations: [CostCenterCreateComponent],
-  exports: [CostCenterCreateComponent],
-  entryComponents: [CostCenterCreateComponent],
 })
 export class CostCenterCreateModule {}

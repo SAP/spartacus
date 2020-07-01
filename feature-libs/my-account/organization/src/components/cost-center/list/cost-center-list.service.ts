@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import {
   B2BSearchConfig,
   CostCenter,
-  EntitiesModel,
   CostCenterService,
+  EntitiesModel,
 } from '@spartacus/core';
+import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { OrganizationTables } from '../../shared/organization.model';
-import { TableService, Table, TableStructure } from '@spartacus/storefront';
 
 const DEFAULT_SEARCH_CONFIG: B2BSearchConfig = {
   pageSize: 10,
@@ -64,7 +64,6 @@ export class CostCenterListService {
     structure: TableStructure,
     costCenters: EntitiesModel<CostCenter>
   ): Table {
-    // console.log(costCenters);
     const data = Array.from(costCenters.values).map((value: any) => ({
       ...value,
       currency: value.currency?.isocode,

@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Observable } from 'rxjs';
-
-import { CostCenterListService } from './cost-center-list.service';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { B2BSearchConfig } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { CostCenterListService } from './cost-center-list.service';
 
 @Component({
   selector: 'cx-cost-center-list',
@@ -10,7 +10,7 @@ import { Table } from '@spartacus/storefront';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterListComponent {
-  // @HostBinding('class.open') routeOpen: boolean;
+  @HostBinding('class') hostClass = 'organization cost-center';
 
   dataTable$: Observable<Table> = this.costCentersService.getDataTable();
 
@@ -19,11 +19,7 @@ export class CostCenterListComponent {
   /**
    * resets the current page to 0 as otherwise the sorting acts weird.
    */
-  sort(sort: string): void {
-    this.costCentersService.search({ sort, currentPage: 0 });
-  }
-
-  paginate(): void {
-    this.costCentersService.search({ pageSize: 3 });
+  paginate(pageConfig: B2BSearchConfig): void {
+    this.costCentersService.search(pageConfig);
   }
 }

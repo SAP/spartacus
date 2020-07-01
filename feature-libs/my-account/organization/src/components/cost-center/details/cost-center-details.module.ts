@@ -1,35 +1,28 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  AuthGuard,
-  CmsConfig,
-  ConfigModule,
-  I18nModule,
-  UrlModule,
-} from '@spartacus/core';
-import { ConfirmModalModule, FakeTabsModule } from '@spartacus/storefront';
-import { CostCenterDetailsComponent } from './cost-center-details.component';
 import { RouterModule } from '@angular/router';
+import { I18nModule, UrlModule } from '@spartacus/core';
+import { ConfirmModalModule } from 'projects/storefrontlib/src/shared/components/modal/confirm-modal/confirm-modal.module';
+
+import { CostCenterDetailsComponent } from './cost-center-details.component';
+import { IconModule, SplitViewModule } from '@spartacus/storefront';
+import { CostCenterBudgetsModule } from '../budgets/cost-center-budgets.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        CostCenterDetailsComponent: {
-          component: CostCenterDetailsComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
     UrlModule,
     I18nModule,
     ConfirmModalModule,
-    FakeTabsModule,
+
+    RouterModule,
+    IconModule,
+
+    SplitViewModule,
+
+    CostCenterBudgetsModule,
   ],
   declarations: [CostCenterDetailsComponent],
   exports: [CostCenterDetailsComponent],
-  entryComponents: [CostCenterDetailsComponent],
 })
 export class CostCenterDetailsModule {}

@@ -1,24 +1,17 @@
-<cx-fake-tabs
-  [code]="code$ | async"
-  [links]="[
-    {
-      cxRoute: 'costCenterDetails',
-      name: 'costCenter.details',
-      active: true
-    },
-    { cxRoute: 'costCenterBudgets', name: 'costCenter.budgets' }
-  ]"
-  [routerBackLink]="{ cxRoute: 'costCenters', name: 'costCenter.back' }"
->
-  <div class="cx-header">
-    <h3>{{ 'costCenterForm.edit' | cxTranslate }}</h3>
-  </div>
-  <cx-cost-center-form
-    *ngIf="costCenter$ | async as costCenter"
-    [actionBtnLabel]="'costCenterForm.update' | cxTranslate"
-    [costCenterData]="costCenter"
-    [routerBackLink]="{ cxRoute: 'costCenterDetails', params: costCenter }"
-    (submitForm)="updateCostCenter($event)"
-  >
-  </cx-cost-center-form>
-</cx-fake-tabs>
+<cx-view #view *ngIf="costCenter$ | async as costCenter">
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <h3>
+      <a class="link" routerLink="../" (click)="view.toggle()">
+        <cx-icon type="CARET_LEFT"></cx-icon>
+        Cancel
+      </a>
+      {{ 'organization.edit' | cxTranslate }}
+      <button class="button primary" type="submit">
+        Save
+      </button>
+    </h3>
+    <section>
+      <cx-cost-center-form [form]="form"> </cx-cost-center-form>
+    </section>
+  </form>
+</cx-view>

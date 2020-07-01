@@ -1,16 +1,15 @@
 import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
-
 import {
-  TableConfig,
   BREAKPOINT,
   SplitViewDeactivateGuard,
+  TableConfig,
 } from '@spartacus/storefront';
-import { CostCenterListComponent } from './list/cost-center-list.component';
+import { OrganizationTables } from '../shared/organization.model';
+import { CostCenterAssignBudgetsComponent } from './assign-budgets/cost-center-assign-budgets.component';
 import { CostCenterCreateComponent } from './create/cost-center-create.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterEditComponent } from './edit/cost-center-edit.component';
-import { CostCenterAssignBudgetsComponent } from './assign-budgets/cost-center-assign-budgets.component';
-import { OrganizationTables } from '../shared/organization.model';
+import { CostCenterListComponent } from './list/cost-center-list.component';
 
 export const costCenterRoutingConfig: RoutingConfig = {
   routing: {
@@ -39,6 +38,7 @@ export const costCenterCmsConfig: CmsConfig = {
         {
           path: 'create',
           component: CostCenterCreateComponent,
+          canDeactivate: [SplitViewDeactivateGuard],
         },
         {
           path: ':code',
@@ -48,6 +48,7 @@ export const costCenterCmsConfig: CmsConfig = {
             {
               path: 'edit',
               component: CostCenterEditComponent,
+              canDeactivate: [SplitViewDeactivateGuard],
             },
             {
               path: 'budgets',
@@ -55,11 +56,10 @@ export const costCenterCmsConfig: CmsConfig = {
                 {
                   path: 'assign',
                   component: CostCenterAssignBudgetsComponent,
+                  canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
             },
-            // ],
-            // },
           ],
         },
       ],

@@ -9,7 +9,7 @@ import {
   OrgUnitService,
   UrlModule,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import { FormErrorsModule } from 'projects/storefrontlib/src/shared/components/form/form-errors/form-errors.module';
 import { CostCenterFormComponent } from './cost-center-form.component';
 
 @NgModule({

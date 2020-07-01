@@ -1,57 +1,27 @@
-<cx-fake-tabs
-  [code]="code$ | async"
-  [links]="[
-    {
-      cxRoute: 'costCenterDetails',
-      name: 'costCenter.details'
-    },
-    { cxRoute: 'costCenterBudgets', name: 'costCenter.budgets', active: true }
-  ]"
-  [routerBackLink]="{ cxRoute: 'costCenters', name: 'costCenter.back' }"
+<cx-table
+  *ngIf="dataTable$ | async as dataTable; else emptyList"
+  class="list"
+  [dataset]="dataTable"
 >
-  <cx-interactive-table
-    [data$]="data$"
-    [header]="'costCenterBudgets.header' | cxTranslate: { code: code$ | async }"
-    [sortLabels]="{
-      byUnitName: 'budgetsList.sorting.byUnitName' | cxTranslate,
-      byName: 'budgetsList.sorting.byName' | cxTranslate,
-      byCode: 'budgetsList.sorting.byCode' | cxTranslate,
-      byValue: 'budgetsList.sorting.byValue' | cxTranslate
-    }"
-    [columns]="[
+</cx-table>
+
+<ng-template #emptyList>
+  <p class="instruction">
+    {{ 'costCenter.messages.emptyBudgets' | cxTranslate }}
+  </p>
+</ng-template>
+
+<ng-template cxOutletRef="table.budgetsList.data.name" let-model>
+  <a
+    [routerLink]="
       {
-        key: 'code',
-        value: 'budgetsList.code' | cxTranslate,
-        cxRoute: 'budgetDetails'
-      },
-      { key: 'name', value: 'budgetsList.name' | cxTranslate },
-      { key: 'amount', value: 'budgetsList.amount' | cxTranslate },
-      {
-        key: 'startEndDate',
-        value: 'budgetsList.startEndDate' | cxTranslate
-      },
-      {
-        key: 'parentUnit',
-        value: 'budgetsList.parentUnit' | cxTranslate,
-        cxRoute: 'orgUnitDetails'
-      }
-    ]"
-    (changeSortCode)="changeSortCode($event)"
+        cxRoute: 'budgetDetails',
+        params: { code: model.costCenterCode, budgetCode: model.code }
+      } | cxUrl
+    "
   >
-    <div class="col-md-12 col-lg-6">
-      <div class="col-md-12 col-lg-6 float-right">
-        <a
-          [routerLink]="
-            {
-              cxRoute: 'costCenterAssignBudgets',
-              params: { code: code$ | async }
-            } | cxUrl
-          "
-          class="btn btn-block btn-action"
-        >
-          {{ 'costCenterBudgets.assignBudgets' | cxTranslate }}
-        </a>
-      </div>
-    </div>
-  </cx-interactive-table>
-</cx-fake-tabs>
+    <cx-icon class="active-state" type="ACTIVE"></cx-icon>
+    <span class="text">{{ model.name }}</span>
+    <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+  </a>
+</ng-template>

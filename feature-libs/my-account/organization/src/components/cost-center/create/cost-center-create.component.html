@@ -1,11 +1,18 @@
-<div class="cx-header">
-  <h3>{{ 'costCenterForm.create' | cxTranslate }}</h3>
-</div>
-<cx-cost-center-form
-  [actionBtnLabel]="'costCenterForm.create' | cxTranslate"
-  [routerBackLink]="{ cxRoute: 'costCenters' }"
-  [costCenterData]="{ unit: { uid: (parentUnit$ | async) || null } }"
-  [readonlyParent]="!!(parentUnit$ | async)"
-  (submitForm)="createCostCenter($event)"
->
-</cx-cost-center-form>
+<cx-view #view>
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <h3>
+      <a class="link" routerLink="../" (click)="view.toggle()">
+        <cx-icon type="CARET_LEFT"></cx-icon>
+        {{ 'organization.cancel' | cxTranslate }}
+      </a>
+      {{ 'organization.create' | cxTranslate }}
+      <button class="button primary" type="submit">
+        {{ 'organization.save' | cxTranslate }}
+      </button>
+    </h3>
+
+    <section>
+      <cx-cost-center-form [form]="form"> </cx-cost-center-form>
+    </section>
+  </form>
+</cx-view>
