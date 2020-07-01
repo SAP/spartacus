@@ -19,6 +19,7 @@
     "@angular/core": "^9.0.0",
     "@angular/platform-browser": "^9.0.0",
     "@angular/router": "^9.0.0",
+    "angular-oauth2-oidc": "^10.0.1",
     "rxjs": "^6.5.4",
     "@ngrx/effects": "^9.0.0",
     "@ngrx/router-store": "^9.0.0",
