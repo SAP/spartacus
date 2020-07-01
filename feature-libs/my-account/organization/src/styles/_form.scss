@@ -1,0 +1,75 @@
+.organization {
+  form {
+    width: 100%;
+    // .form-group {
+    margin: 0;
+  }
+  label {
+    margin: 0;
+    padding-top: 0.75rem;
+
+    display: flex;
+
+    flex-direction: column;
+
+    // flex-wrap: wrap;
+    // align-content: center;
+
+    .label-content {
+      // display: none;
+      padding: 0 0.75rem;
+      font-size: 0.9rem;
+      color: var(--cx-color-secondary);
+      line-height: 0.8rem;
+      // padding-top: 0.5rem;
+      padding: var(--cx-spatial-base) var(--cx-spatial-md);
+    }
+    input.form-control {
+      border: none;
+      border-radius: 0;
+      border-bottom: solid 1px var(--cx-color-light);
+      background-color: var(--cx-color-inverse);
+      font-size: 1.2rem;
+      padding: var(--cx-spatial-base) var(--cx-spatial-md);
+      &[type='checkbox'] {
+        margin: 0;
+        position: initial;
+        margin-inline-end: var(--cx-spatial-base);
+      }
+
+      position: relative;
+      margin: 0;
+    }
+
+    cx-form-errors {
+      padding: 2px var(--cx-spatial-md);
+      &.control-invalid {
+        &.control-dirty,
+        &.control-touched {
+          display: block;
+        }
+      }
+    }
+  }
+
+  .ng-select .ng-select-container {
+    border-radius: 0;
+    border: none;
+    border-bottom: solid 1px var(--cx-color-light);
+    .ng-value-container {
+      padding: 0 var(--cx-spatial-md);
+    }
+  }
+  .ng-value-label {
+    font-size: 1.2rem;
+  }
+
+  .ng-select.ng-select-single
+    .ng-select-container
+    .ng-value-container
+    .ng-input {
+    padding: var(--cx-spatial-base) var(--cx-spatial-md);
+  }
+  // }
+  // }
+}

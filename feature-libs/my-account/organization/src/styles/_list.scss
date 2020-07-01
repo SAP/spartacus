@@ -9,7 +9,7 @@
     min-height: 5rem;
 
     margin: 0;
-    padding: var(--cx-spatial-md);
+    padding: var(--cx-spatial-xs);
 
     // Buttons with a background are aligned as their background matches the alignment,
     // however buttons and links without need to move visually to the start
@@ -20,14 +20,20 @@
         padding-inline-start: 0;
       }
     }
+  }
 
-    // cx-split.has-split {
-    //   th:nth-child(n + 2),
-    //   td:nth-child(n + 2) {
-    //     opacity: 0;
-    //     width: 0.1%;
-    //   }
-    // }
+  cx-split-view {
+    th,
+    td {
+      width: 100%;
+    }
+  }
+  cx-split-view:not([last-visible-view='1']) {
+    th:nth-child(n + 2),
+    td:nth-child(n + 2) {
+      opacity: 0;
+      width: 0.1%;
+    }
   }
 
   table {

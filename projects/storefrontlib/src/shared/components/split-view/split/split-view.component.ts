@@ -43,6 +43,7 @@ export class SplitViewComponent implements OnInit, OnDestroy {
    * can be fully controlled by css.
    */
   @HostBinding('style.--cx-last-visible-view')
+  @HostBinding('attr.last-visible-view')
   lastVisibleView = 1;
 
   // maintain subscription so we can cleanup

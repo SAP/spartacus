@@ -25,12 +25,13 @@
     }
 
     > tr {
-      border-top: solid 1px var(--cx-color-light);
+      border-bottom: solid 1px var(--cx-color-light);
       background-color: var(--cx-color-inverse);
     }
 
+    th,
     td {
-      transition: opacity 0.2s ease-in-out 0.2s, width 0s ease-in-out 0.4s;
+      transition: opacity 0.2s ease-in-out 0.2s, width 0.2s ease-in-out 0.2s;
 
       padding: var(--cx-spatial-md);
 

@@ -1,0 +1,24 @@
+// TODO: placeholder selector
+cx-breadcrumb {
+  border-bottom: 1px solid var(--cx-color-light);
+  background: var(--cx-color-inverse);
+}
+main {
+  background-color: var(--cx-color-background);
+}
+
+.CompanyPageTemplate {
+  max-width: 1140px;
+  padding-bottom: max(calc((100vw - 1140px) / 2), var(--cx-spatial-md));
+  margin: auto;
+}
+
+/**
+ * Ensure that all components will varnish in the flex flow. 
+ */
+cx-cost-center-details,
+cx-cost-center-create,
+cx-cost-center-edit,
+cx-cost-center-assign-budgets {
+  display: contents;
+}

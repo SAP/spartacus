@@ -32,20 +32,27 @@
   display: flex;
   align-items: stretch;
   /* We hide all elements outside the box, so that the views can animate nicely inside.  */
-  overflow: hidden;
+  overflow-x: hidden;
 
   --cx-view-flex: calc(
     (100% / min(var(--cx-last-visible-view), var(--cx-max-views)))
   );
 
+  @include media-breakpoint-up(md) {
+    padding: 0 var(--cx-spatial-base);
+  }
+
   cx-view {
     width: 100%;
     height: 100%;
+    @include media-breakpoint-up(md) {
+      padding: 0 var(--cx-spatial-base);
+    }
 
     transition: 0.3s;
     transition-timing-function: ease-in;
 
-    overflow: hidden;
+    overflow-x: hidden;
 
     flex: 1 0
       calc((100% / min(var(--cx-last-visible-view), var(--cx-max-views))));
