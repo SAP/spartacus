@@ -229,7 +229,9 @@ describe('CartItemComponent', () => {
     });
 
     it('should display resolve errors message if number of issues is greater than 0', () => {
-      cartItemComponent.item.statusSummaryList = [{ numberOfIssues: 1 }];
+      cartItemComponent.item.statusSummaryList = [
+        { numberOfIssues: 1, status: 'ERROR' },
+      ];
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
       expect(
@@ -293,6 +295,59 @@ describe('CartItemComponent', () => {
         "expected configuration info identified by selector '.cx-configuration-info-error' not to be present, but it is! innerHtml: " +
           htmlElem.innerHTML
       );
+    });
+
+    it('should return number of issues of ERROR status', () => {
+      cartItemComponent.item.statusSummaryList = [
+        { numberOfIssues: 2, status: 'ERROR' },
+      ];
+      fixture.detectChanges();
+      expect(cartItemComponent.getNumberOfIssues()).toBe(2);
+    });
+
+    it('should return number of issues of ERROR status if ERROR and SUCCESS statuses are present', () => {
+      cartItemComponent.item.statusSummaryList = [
+        { numberOfIssues: 1, status: 'SUCCESS' },
+        { numberOfIssues: 3, status: 'ERROR' },
+      ];
+      fixture.detectChanges();
+      expect(cartItemComponent.getNumberOfIssues()).toBe(3);
+    });
+
+    it('should return number of issues as 0 if only SUCCESS status is present', () => {
+      cartItemComponent.item.statusSummaryList = [
+        { numberOfIssues: 2, status: 'SUCCESS' },
+      ];
+      fixture.detectChanges();
+      expect(cartItemComponent.getNumberOfIssues()).toBe(0);
+    });
+
+    it('should return number of issues as 0 if statusSummaryList is undefined', () => {
+      cartItemComponent.item.statusSummaryList = undefined;
+      fixture.detectChanges();
+      expect(cartItemComponent.getNumberOfIssues()).toBe(0);
+    });
+
+    it('should return number of issues as 0 if statusSummaryList is empty', () => {
+      cartItemComponent.item.statusSummaryList = [];
+      fixture.detectChanges();
+      expect(cartItemComponent.getNumberOfIssues()).toBe(0);
+    });
+
+    it('should return true if number of issues of ERROR status is > 0', () => {
+      cartItemComponent.item.statusSummaryList = [
+        { numberOfIssues: 2, status: 'ERROR' },
+      ];
+      fixture.detectChanges();
+      expect(cartItemComponent.hasIssues()).toBeTrue();
+    });
+
+    it('should return false if number of issues of ERROR status is = 0', () => {
+      cartItemComponent.item.statusSummaryList = [
+        { numberOfIssues: 2, status: 'SUCCESS' },
+      ];
+      fixture.detectChanges();
+      expect(cartItemComponent.hasIssues()).toBeFalse();
     });
   });
 });

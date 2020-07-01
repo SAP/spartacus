@@ -62,11 +62,20 @@ export class CartItemComponent implements OnInit {
     );
   }
 
-  hasIssues() {
-    return (
-      this.item.statusSummaryList !== undefined &&
-      this.item.statusSummaryList[0]?.numberOfIssues > 0
-    );
+  hasIssues(): boolean {
+    return this.getNumberOfIssues() > 0;
+  }
+
+  getNumberOfIssues(): number {
+    let numberOfIssues = 0;
+    if (this.item.statusSummaryList) {
+      this.item.statusSummaryList.forEach((statusSummary) => {
+        if (statusSummary.status === 'ERROR') {
+          numberOfIssues = statusSummary.numberOfIssues;
+        }
+      });
+    }
+    return numberOfIssues;
   }
 
   removeItem() {
