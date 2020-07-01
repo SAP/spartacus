@@ -3,15 +3,13 @@ import {
   GenericConfigurator,
   GenericConfigUtilsService,
   OrderEntry,
-  TranslationService,
 } from '@spartacus/core';
 import { ModalService } from '../../../../shared/components/modal/modal.service';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-configure-cart-entry',
   templateUrl: './configure-cart-entry.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
@@ -26,9 +24,9 @@ export class ConfigureCartEntryComponent {
   public getEntityKey(): string {
     return this.cartEntry.orderCode !== undefined
       ? this.genericConfigUtilsService.getComposedOwnerId(
-          this.cartEntry.orderCode,
-          this.cartEntry.entryNumber
-        )
+        this.cartEntry.orderCode,
+        this.cartEntry.entryNumber
+      )
       : '' + this.cartEntry.entryNumber;
   }
 
@@ -44,18 +42,13 @@ export class ConfigureCartEntryComponent {
   }
 
   closeActiveModal(): void {
-    const translation = this.getDisplayOnly()
-      ? this.translation.translate('configurator.header.displayConfiguration')
-      : this.translation.translate('configurator.header.editConfiguration');
-
-    translation
-      .pipe(take(1))
-      .subscribe((reason) => this.modalService.closeActiveModal(reason));
+    const reason: string = this.getDisplayOnly() ? 'Display Configuration' : 'Edit Configuration';
+    this.modalService.closeActiveModal(reason);
   }
 
   constructor(
     private genericConfigUtilsService: GenericConfigUtilsService,
-    private modalService: ModalService,
-    private translation: TranslationService
-  ) {}
+    private modalService: ModalService
+  ) {
+  }
 }

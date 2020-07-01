@@ -5,11 +5,9 @@ import {
   GenericConfigurator,
   I18nTestingModule,
   OrderEntry,
-  TranslationService,
 } from '@spartacus/core';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 import { ModalService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
 
 @Pipe({
   name: 'cxUrl',
@@ -22,19 +20,12 @@ class MockModalService {
   closeActiveModal(): void {}
 }
 
-class MockTranslationService {
-  translate(): Observable<string> {
-    return of();
-  }
-}
-
 describe('ConfigureCartEntryComponent', () => {
   let component: ConfigureCartEntryComponent;
   let fixture: ComponentFixture<ConfigureCartEntryComponent>;
   const configuratorType = 'type';
   const orderOrCartEntry: OrderEntry = {};
   let mockModalService: MockModalService;
-  let translationService: TranslationService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -45,7 +36,6 @@ describe('ConfigureCartEntryComponent', () => {
           provide: ModalService,
           useClass: MockModalService,
         },
-        { provide: TranslationService, useClass: MockTranslationService },
       ],
     }).compileComponents();
   }));
@@ -56,10 +46,6 @@ describe('ConfigureCartEntryComponent', () => {
     component.cartEntry = orderOrCartEntry;
     mockModalService = TestBed.inject(ModalService);
     spyOn(mockModalService, 'closeActiveModal').and.callThrough();
-    translationService = TestBed.inject(TranslationService);
-    spyOn(translationService, 'translate').and.returnValue(
-      of('Edit Configuration')
-    );
   });
 
   it('should create component', () => {
