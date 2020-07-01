@@ -6,7 +6,7 @@ import {
   GenericConfigUtilsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { filter, map, switchMapTo, take, tap } from 'rxjs/operators';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
 import { StateWithConfigurationTextfield } from '../state/configuration-textfield-state';
@@ -48,10 +48,8 @@ export class ConfiguratorTextfieldService {
           );
         }
       }),
-      filter(
-        (configurationState) => configurationState.loaderState.success === true
-      ),
-      map((configurationState) => configurationState.loaderState.value)
+      map((configurationState) => configurationState.loaderState.value),
+      filter((configuration) => !this.isConfigurationInitial(configuration))
     );
   }
 
@@ -90,18 +88,21 @@ export class ConfiguratorTextfieldService {
     productCode: string,
     configuration: ConfiguratorTextfield.Configuration
   ): void {
-    this.activeCartService.requireLoadedCart().subscribe((cartState) => {
-      const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
-        userId: this.configuratorUtils.getUserId(cartState.value),
-        cartId: this.configuratorUtils.getCartId(cartState.value),
-        productCode: productCode,
-        configuration: configuration,
-        quantity: 1,
-      };
-      this.store.dispatch(
-        new ConfiguratorTextfieldActions.AddToCart(addToCartParameters)
-      );
-    });
+    this.activeCartService
+      .requireLoadedCart()
+      .pipe(take(1))
+      .subscribe((cartState) => {
+        const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
+          userId: this.configuratorUtils.getUserId(cartState.value),
+          cartId: this.configuratorUtils.getCartId(cartState.value),
+          productCode: productCode,
+          configuration: configuration,
+          quantity: 1,
+        };
+        this.store.dispatch(
+          new ConfiguratorTextfieldActions.AddToCart(addToCartParameters)
+        );
+      });
   }
 
   /**
@@ -139,21 +140,26 @@ export class ConfiguratorTextfieldService {
   readConfigurationForCartEntry(
     owner: GenericConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
-    this.activeCartService.requireLoadedCart().subscribe((cartState) => {
-      const readFromCartEntryParameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
+    return this.activeCartService.requireLoadedCart().pipe(
+      map((cartState) => ({
         userId: this.configuratorUtils.getUserId(cartState.value),
         cartId: this.configuratorUtils.getCartId(cartState.value),
         cartEntryNumber: owner.id,
         owner: owner,
-      };
-      this.store.dispatch(
-        new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
-          readFromCartEntryParameters
+      })),
+      tap((readFromCartEntryParameters) =>
+        this.store.dispatch(
+          new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
+            readFromCartEntryParameters
+          )
         )
-      );
-    });
-    return this.store.pipe(
-      select(ConfiguratorTextFieldSelectors.getConfigurationContent)
+      ),
+      switchMapTo(
+        this.store.pipe(
+          select(ConfiguratorTextFieldSelectors.getConfigurationContent),
+          filter((configuration) => !this.isConfigurationInitial(configuration))
+        )
+      )
     );
   }
 
@@ -182,5 +188,11 @@ export class ConfiguratorTextfieldService {
       }
     });
     return newConfiguration;
+  }
+
+  protected isConfigurationInitial(
+    configuration: ConfiguratorTextfield.Configuration
+  ): boolean {
+    return configuration?.owner?.type === undefined;
   }
 }
