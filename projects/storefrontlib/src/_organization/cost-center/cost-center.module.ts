@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ConfigModule } from '@spartacus/core';
+import { FormNotificationModule } from '../shared/form/form-notification/form-notification.module';
 import { OrganizationOutletModule } from '../shared/organization-outlet/organization-outlet.module';
 import { CostCenterAssignBudgetsModule } from './cost-center-assign-budgets/cost-center-assign-budgets.module';
 import { CostCenterBudgetModule } from './cost-center-budget/cost-center-budget.module';
@@ -27,6 +28,7 @@ import {
     }),
 
     OrganizationOutletModule,
+    FormNotificationModule,
     CostCenterListModule,
     CostCenterCreateModule,
     CostCenterDetailsModule,

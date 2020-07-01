@@ -11,7 +11,13 @@
           Save
         </button>
       </h3>
+
       <section>
+        <cx-form-notification
+          *ngIf="formRestored"
+          messageKey="form.restored"
+        ></cx-form-notification>
+
         <cx-cost-center-form [form]="form"></cx-cost-center-form>
       </section>
     </form>

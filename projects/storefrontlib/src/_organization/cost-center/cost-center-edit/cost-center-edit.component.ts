@@ -1,12 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import {
-  CostCenter,
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-} from '@spartacus/core';
+import { CostCenter, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { CostCenterFormComponentService } from '../cost-center-form/cost-center-form.component.service';
@@ -26,6 +21,11 @@ export class CostCenterEditComponent {
    * The code is used to update the cost center.
    */
   protected costCenterCode: string;
+  /**
+   * Used to show a notification banner to the user
+   * about the form changes being restored.
+   */
+  protected formRestored = false;
 
   protected code$: Observable<string> = this.router.parent.params.pipe(
     map((routingData) => routingData['code']),
@@ -40,14 +40,11 @@ export class CostCenterEditComponent {
     })
   );
 
-  // TODO:#form-persistence - consolidate ctor
   constructor(
     // we can't do without the router as the routingService
     // is unable to resolve the parent routing params
     protected router: ActivatedRoute,
     protected routingService: RoutingService,
-
-    protected globalMessageService: GlobalMessageService,
     protected costCenterFormService: CostCenterFormComponentService
   ) {}
 
@@ -58,9 +55,7 @@ export class CostCenterEditComponent {
     }
 
     this.formKey = this.createFormKey(costCenter);
-    if (this.costCenterFormService.hasForm(this.formKey)) {
-      this.showFormRestoredMessage();
-    }
+    this.formRestored = this.costCenterFormService.hasForm(this.formKey);
 
     this.form = this.costCenterFormService.getForm(costCenter, this.formKey);
   }
@@ -71,14 +66,6 @@ export class CostCenterEditComponent {
 
   protected createFormKey(costCenter: CostCenter): string {
     return `cost-center-edit-${costCenter.code}-${costCenter.unit?.uid}`;
-  }
-
-  protected showFormRestoredMessage(): void {
-    this.globalMessageService.add(
-      { key: 'form.restored' },
-      GlobalMessageType.MSG_TYPE_INFO,
-      5000
-    );
   }
 
   protected removeForm(): void {

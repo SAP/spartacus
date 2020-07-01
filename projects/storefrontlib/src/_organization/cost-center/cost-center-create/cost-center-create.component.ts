@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-} from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { CostCenterFormComponentService } from '../cost-center-form/cost-center-form.component.service';
@@ -20,6 +16,11 @@ export class CostCenterCreateComponent {
    * The generated form key, used to restore the form value.
    */
   protected formKey: string;
+  /**
+   * Used to show a notification banner to the user
+   * about the form changes being restored.
+   */
+  protected formRestored = false;
 
   unitCode$: Observable<
     string | boolean
@@ -29,11 +30,8 @@ export class CostCenterCreateComponent {
     map((parentUnit) => parentUnit || true)
   );
 
-  // TODO:#form-persistence - consolidate ctor
   constructor(
     protected routingService: RoutingService,
-
-    protected globalMessageService: GlobalMessageService,
     protected costCenterFormService: CostCenterFormComponentService
   ) {}
 
@@ -44,9 +42,7 @@ export class CostCenterCreateComponent {
     }
 
     this.formKey = this.createFormKey(parentUnitCode);
-    if (this.costCenterFormService.hasForm(this.formKey)) {
-      this.showFormRestoredMessage();
-    }
+    this.formRestored = this.costCenterFormService.hasForm(this.formKey);
 
     this.form = this.costCenterFormService.getForm(
       { unit: { uid: parentUnitCode } },
@@ -60,14 +56,6 @@ export class CostCenterCreateComponent {
 
   protected createFormKey(unitCode?: string): string {
     return `cost-center-create-${unitCode}`;
-  }
-
-  protected showFormRestoredMessage(): void {
-    this.globalMessageService.add(
-      { key: 'form.restored' },
-      GlobalMessageType.MSG_TYPE_INFO,
-      5000
-    );
   }
 
   protected removeForm(): void {
