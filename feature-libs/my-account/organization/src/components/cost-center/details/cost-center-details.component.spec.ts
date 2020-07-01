@@ -15,6 +15,8 @@ import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-st
 import { of } from 'rxjs';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 import createSpy = jasmine.createSpy;
+import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
+import { Table2Module } from '../../../../shared/components/table/table.module';
 
 const code = 'b1';
 
@@ -87,7 +89,7 @@ describe('CostCenterDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TableModule, I18nTestingModule],
+      imports: [RouterTestingModule, Table2Module, I18nTestingModule],
       declarations: [CostCenterDetailsComponent, MockUrlPipe],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
