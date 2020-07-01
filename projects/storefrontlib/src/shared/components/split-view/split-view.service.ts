@@ -7,9 +7,7 @@ import { ViewState } from './split/split-view.model';
  * Supposed to be injected in the split view component, so that the view state
  * is maintained in the context of a single split view.
  */
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SplitViewService {
   protected _views$: BehaviorSubject<any[]> = new BehaviorSubject([]);
 

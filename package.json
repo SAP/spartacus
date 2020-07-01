@@ -8,7 +8,7 @@
   "scripts": {
     "build": "ng build storefrontapp --prod",
     "build:assets": "yarn --cwd ./projects/assets build",
-    "build:core:lib": "ng build core --prod && ng build storefrontlib --prod && yarn build:myaccount:lib && yarn build:product:lib && yarn build:assets && yarn build:incubator",
+    "build:core:lib": "ng build core --prod && ng build storefrontlib --prod && yarn build:myaccount && yarn build:product && yarn build:assets && yarn build:incubator",
     "build:incubator": "ng build incubator --prod",
     "e2e:cy:open": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open",
     "e2e:cy:run": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run",
@@ -87,9 +87,9 @@
     "build:cds:ssr": "cross-env SPARTACUS_CDS=true ng run storefrontapp:server:production",
     "prerender:cds": "cross-env SPARTACUS_CDS=true ng run storefrontapp:prerender",
     "release:cds:with-changelog": "cd projects/cds && release-it && cd ../..",
-    "build:myaccount:lib": "ng build my-account --prod",
+    "build:myaccount": "ng build my-account --prod",
     "release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../..",
-    "build:product:lib": "ng build product --prod",
+    "build:product": "ng build product --prod",
     "release:product:with-changelog": "cd feature-libs/product && release-it && cd ../..",
     "start:b2b:ci:2005": "cross-env SPARTACUS_BASE_URL=https://dev-com-7.accdemo.b2c.ydev.hybris.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod"
   },
