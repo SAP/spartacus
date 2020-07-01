@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { Cart, OrderEntry } from '@spartacus/core';
 import { BehaviorSubject, of, ReplaySubject, Subject } from 'rxjs';
 import { CdsBackendConnector } from '../connectors/cds-backend-connector';
-import { ProfileTagLifecycle } from '../model/profile-tag-lifecycle';
 import {
   CartChangedPushEvent,
   ConsentChangedPushEvent,
@@ -85,7 +84,7 @@ describe('ProfileTagInjector', () => {
           useValue: cdsBackendConnectorMock,
         },
         {
-          provide: ProfileTagLifecycle,
+          provide: ProfileTagLifecycleService,
           useValue: profileTagLifecycleServiceMock,
         },
       ],

@@ -3,7 +3,7 @@ import { ofType } from '@ngrx/effects';
 import { RouterNavigatedAction, ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
 import { ProductSearchService } from '../../product/facade/product-search.service';
 import { ProductService } from '../../product/facade/product.service';
@@ -113,10 +113,6 @@ export class RoutingEventBuilder {
         );
       }),
       withLatestFrom(this.getCurrentPageContextFor('category')),
-      tap(([pageContext, _searchResults]) => {
-        console.log(_searchResults);
-        console.log(pageContext);
-      }),
       filter(
         ([searchResults, _pageContext]) =>
           searchResults.breadcrumbs && searchResults.breadcrumbs.length > 0

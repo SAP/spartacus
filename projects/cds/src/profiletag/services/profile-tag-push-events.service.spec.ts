@@ -11,7 +11,7 @@ import { ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
 
-fdescribe('profileTagPushEventsService', () => {
+describe('profileTagPushEventsService', () => {
   let profileTagPushEventsService: ProfileTagPushEventsService;
   let cartBehavior: ReplaySubject<Cart>;
   let activeCartService;

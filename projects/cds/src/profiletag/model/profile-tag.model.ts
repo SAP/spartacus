@@ -49,7 +49,7 @@ export interface ProfileTagPushEvent {
 
 export class NavigatedPushEvent implements ProfileTagPushEvent {
   name = 'Navigated';
-  data;
+  data: any;
   constructor(data?) {
     this.data = data;
   }
@@ -65,7 +65,7 @@ export class ConsentChangedPushEvent implements ProfileTagPushEvent {
 
 export class KeywordSearchPushEvent implements ProfileTagPushEvent {
   name = 'KeywordSearch';
-  data;
+  data: any;
   constructor(data: { searchTerm: string; numResults: Number }) {
     this.data = data;
   }
@@ -73,7 +73,7 @@ export class KeywordSearchPushEvent implements ProfileTagPushEvent {
 
 export class ProductViewPushEvent implements ProfileTagPushEvent {
   name = 'ProductDetailsPageViewed';
-  data;
+  data: any;
   constructor(data: {
     productSku: string;
     productName: string;
@@ -87,7 +87,7 @@ export class ProductViewPushEvent implements ProfileTagPushEvent {
 
 export class CategoryViewPushEvent implements ProfileTagPushEvent {
   name = 'CategoryPageViewed';
-  data;
+  data: any;
   constructor(data: { productCategory: string; productCategoryName: string }) {
     this.data = data;
   }
@@ -95,7 +95,7 @@ export class CategoryViewPushEvent implements ProfileTagPushEvent {
 
 export class HomePageViewPushEvent implements ProfileTagPushEvent {
   name = 'HomePageViewed';
-  data;
+  data: any;
   constructor(data?) {
     this.data = data;
   }
@@ -103,7 +103,7 @@ export class HomePageViewPushEvent implements ProfileTagPushEvent {
 
 export class OrderConfirmationPushEvent implements ProfileTagPushEvent {
   name = 'OrderConfirmationPageViewed';
-  data;
+  data: any;
   constructor(data?) {
     this.data = data;
   }
@@ -111,7 +111,7 @@ export class OrderConfirmationPushEvent implements ProfileTagPushEvent {
 
 export class CartViewPushEvent implements ProfileTagPushEvent {
   name = 'CartPageViewed';
-  data;
+  data: any;
   constructor(data?) {
     this.data = data;
   }

@@ -4,13 +4,12 @@ import { AuthActions, ConsentService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, mapTo, take } from 'rxjs/operators';
 import { CdsConfig } from '../../config/cds-config';
-import { ProfileTagLifecycle } from '../model/profile-tag-lifecycle';
 import { ConsentChangedPushEvent } from '../model/profile-tag.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProfileTagLifecycleService implements ProfileTagLifecycle {
+export class ProfileTagLifecycleService {
   constructor(
     protected consentService: ConsentService,
     protected config: CdsConfig,
