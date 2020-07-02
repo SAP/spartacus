@@ -13,7 +13,7 @@ import {
 } from '@spartacus/core';
 
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { Table2Module } from '../../../../shared/components/table/table.module';
+import { Table2Module } from '../../../../shared/components/table/table2.module';
 import { UserGroupDetailsComponent } from './user-group-details.component';
 import createSpy = jasmine.createSpy;
 

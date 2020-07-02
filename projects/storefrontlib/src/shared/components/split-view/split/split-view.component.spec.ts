@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Injectable } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { SplitViewService } from '../split-view.service';
 import { SplitViewComponent } from './split-view.component';
 
+@Injectable()
 class MockSplitViewService {
   visibleViewCount() {
     return of(5);
@@ -36,10 +37,6 @@ describe('SplitViewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should have default value for lastVisibleView', () => {
-    expect(component.lastVisibleView).toEqual(1);
   });
 
   it('should bind service.visibleViewCount to lastVisibleView', () => {
