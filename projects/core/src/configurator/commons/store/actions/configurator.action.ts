@@ -63,9 +63,10 @@ export const GET_CONFIGURATION_OVERVIEW_FAIL =
 export const GET_CONFIGURATION_OVERVIEW_SUCCESS =
   '[Configurator] Get Configuration Overview success';
 
-export const SET_CURRENT_GROUP = '[Configurator] Set current group to UI State';
+export const SET_INTERACTION_STATE = '[Configurator] Set interaction state';
+export const SET_CURRENT_GROUP = '[Configurator] Set current group to State';
 export const SET_MENU_PARENT_GROUP =
-  '[Configurator] Set current parent group for menu to UI State';
+  '[Configurator] Set current parent group for menu to State';
 
 export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
 export const SET_GROUPS_COMPLETED = '[Configurator] Set groups complete status';
@@ -323,6 +324,19 @@ export class SetNextOwnerCartEntry extends StateUtils.EntitySuccessAction {
   }
 }
 
+export class SetInteractionState extends StateUtils.EntitySuccessAction {
+  readonly type = SET_INTERACTION_STATE;
+
+  constructor(
+    public payload: {
+      entityKey: string | string[];
+      interactionState: Configurator.InteractionState;
+    }
+  ) {
+    super(CONFIGURATION_DATA, payload.entityKey, payload.interactionState);
+  }
+}
+
 export class SetCurrentGroup extends StateUtils.EntitySuccessAction {
   readonly type = SET_CURRENT_GROUP;
 
@@ -400,6 +414,7 @@ export type ConfiguratorAction =
   | UpdateCartEntry
   | UpdateCartEntrySuccess
   | RemoveConfiguration
+  | SetInteractionState
   | SetMenuParentGroup
   | SetCurrentGroup
   | SetGroupsVisited

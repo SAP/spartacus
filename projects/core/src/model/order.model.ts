@@ -31,6 +31,20 @@ export interface OrderEntry {
   returnableQuantity?: number;
   cancelledItemsPrice?: Price;
   cancellableQuantity?: number;
+  statusSummaryList?: StatusSummary[];
+  configurationInfos?: ConfigurationInfo[];
+}
+
+export interface StatusSummary {
+  numberOfIssues?: number;
+  status?: string;
+}
+
+export interface ConfigurationInfo {
+  configurationLabel?: string;
+  configurationValue?: string;
+  configuratorType?: string;
+  status?: string;
 }
 
 export interface CancelOrReturnRequestEntryInput {
