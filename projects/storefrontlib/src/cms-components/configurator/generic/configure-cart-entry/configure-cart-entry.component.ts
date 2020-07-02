@@ -4,6 +4,7 @@ import {
   GenericConfigUtilsService,
   OrderEntry,
 } from '@spartacus/core';
+import { ModalService } from '../../../../shared/components/modal/modal.service';
 
 @Component({
   selector: 'cx-configure-cart-entry',
@@ -40,5 +41,15 @@ export class ConfigureCartEntryComponent {
     return this.readOnly;
   }
 
-  constructor(private genericConfigUtilsService: GenericConfigUtilsService) {}
+  closeActiveModal(): void {
+    const reason: string = this.getDisplayOnly()
+      ? 'Display Configuration'
+      : 'Edit Configuration';
+    this.modalService.closeActiveModal(reason);
+  }
+
+  constructor(
+    private genericConfigUtilsService: GenericConfigUtilsService,
+    private modalService: ModalService
+  ) {}
 }
