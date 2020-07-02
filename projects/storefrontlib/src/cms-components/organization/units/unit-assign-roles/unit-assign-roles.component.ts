@@ -56,10 +56,10 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
       switchMap(([[queryParams, role], code]) =>
         this.orgUnitsService.getUsers(code, role, queryParams).pipe(
           filter(Boolean),
-          map((userList: EntitiesModel<B2BUser>) => ({
-            sorts: userList.sorts,
-            pagination: userList.pagination,
-            values: userList.values.map((user) => ({
+          map((usersList: EntitiesModel<B2BUser>) => ({
+            sorts: usersList.sorts,
+            pagination: usersList.pagination,
+            values: usersList.values.map((user) => ({
               selected: user.selected,
               email: user.uid,
               name: user.name,
@@ -67,10 +67,10 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
               parentUnit: user.orgUnit && user.orgUnit.name,
               uid: user.orgUnit && user.orgUnit.uid,
               customerId: user.customerId,
-              admin: user.roles.includes('b2badmingroup'),
-              approver: user.roles.includes('b2bapprovergroup'),
-              customer: user.roles.includes('b2bcustomergroup'),
-              manager: user.roles.includes('b2bmanagergroup'),
+              b2badmingroup: user.roles.includes('b2badmingroup'),
+              b2bapprovergroup: user.roles.includes('b2bapprovergroup'),
+              b2bcustomergroup: user.roles.includes('b2bcustomergroup'),
+              b2bmanagergroup: user.roles.includes('b2bmanagergroup'),
             })),
           }))
         )
@@ -83,7 +83,7 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
 
     this.b2bUsersService.update(event.row.customerId, {
       email: event.row.email,
-      roles: [...oldRoles, this.getRole(event.key)],
+      roles: [...oldRoles, event.key],
     });
   }
 
@@ -91,7 +91,7 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
     //copy roles from event
     const roles = Object.assign([], event.row.roles);
     //get the index of the role to be unchecked
-    const index = roles.indexOf(this.getRole(event.key));
+    const index = roles.indexOf(event.key);
     //remove the unchecked role from the list of roles
     roles.splice(index, 1);
 
@@ -104,18 +104,5 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
 
   changeRole({ roleId }: { roleId: string }) {
     this.updateQueryParams({}, { roleId });
-  }
-
-  getRole(key: string): string {
-    switch (key) {
-      case 'customer':
-        return 'b2bcustomergroup';
-      case 'manager':
-        return 'b2bmanagergroup';
-      case 'admin':
-        return 'b2badmingroup';
-      case 'approver':
-        return 'b2bapprovergroup';
-    }
   }
 }
