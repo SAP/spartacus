@@ -295,6 +295,7 @@ if (typeof config.to === 'undefined') {
       break;
     case 'product':
     case '@spartacus/product':
+    case '@spartacus/product/configuration':
       config.library = '@spartacus/product';
       break;
     default:
