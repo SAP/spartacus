@@ -250,7 +250,6 @@ describe('UnitAssignRolesComponent', () => {
   describe('assign', () => {
     it('should assign user', () => {
       const expectedB2BUser = {
-        email: 'test@test.com',
         roles: ['b2bcustomergroup', 'b2bmanagergroup', 'b2badmingroup'],
       };
 
@@ -265,7 +264,6 @@ describe('UnitAssignRolesComponent', () => {
   describe('unassign', () => {
     it('should unassign user', () => {
       const expectedB2BUser = {
-        email: 'test@test.com',
         roles: ['b2bmanagergroup'],
       };
 

@@ -79,30 +79,14 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
   }
 
   assign(event: any) {
-    const oldRoles: string[] = event.row.roles;
-
     this.b2bUsersService.update(event.row.customerId, {
-      email: event.row.email,
-      roles: [...oldRoles, event.key],
+      roles: [...event.row.roles, event.key],
     });
   }
 
   unassign(event: any) {
-    //copy roles from event
-    const roles = Object.assign([], event.row.roles);
-    //get the index of the role to be unchecked
-    const index = roles.indexOf(event.key);
-    //remove the unchecked role from the list of roles
-    roles.splice(index, 1);
-
-    //finally update the roles
     this.b2bUsersService.update(event.row.customerId, {
-      email: event.row.email,
-      roles: roles,
+      roles: event.row.roles.filter((role) => role !== event.key),
     });
-  }
-
-  changeRole({ roleId }: { roleId: string }) {
-    this.updateQueryParams({}, { roleId });
   }
 }
