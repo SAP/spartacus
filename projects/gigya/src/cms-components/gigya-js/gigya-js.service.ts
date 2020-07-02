@@ -61,33 +61,36 @@ export class GigyaJsService implements OnDestroy {
    * Method which loads the CDC Script
    */
   loadGigyaJavascript(): void {
-    this.subscription.add(
-      combineLatest([
-        this.baseSiteService.getActive(),
-        this.languageService.getActive(),
-      ])
-        .pipe(take(1))
-        .subscribe(([baseSite, language]) => {
-          const scriptForBaseSite = this.getJavascriptUrlForCurrentSite(
-            baseSite
-          );
-          if (scriptForBaseSite) {
-            const javascriptUrl = `${scriptForBaseSite}&lang=${language}`;
-            this.externalJsFileLoader.load(
-              javascriptUrl,
-              undefined,
-              () => {
-                this.registerEventListeners(baseSite);
-                this.loaded$.next(true);
-              },
-              () => {
-                this.errorLoading$.next(true);
-              }
+    // Only load the script on client side (no SSR)
+    if (this.winRef.nativeWindow) {
+      this.subscription.add(
+        combineLatest([
+          this.baseSiteService.getActive(),
+          this.languageService.getActive(),
+        ])
+          .pipe(take(1))
+          .subscribe(([baseSite, language]) => {
+            const scriptForBaseSite = this.getJavascriptUrlForCurrentSite(
+              baseSite
             );
-            this.winRef.nativeWindow['__gigyaConf'] = { include: 'id_token' };
-          }
-        })
-    );
+            if (scriptForBaseSite) {
+              const javascriptUrl = `${scriptForBaseSite}&lang=${language}`;
+              this.externalJsFileLoader.load(
+                javascriptUrl,
+                undefined,
+                () => {
+                  this.registerEventListeners(baseSite);
+                  this.loaded$.next(true);
+                },
+                () => {
+                  this.errorLoading$.next(true);
+                }
+              );
+              this.winRef.nativeWindow['__gigyaConf'] = { include: 'id_token' };
+            }
+          })
+      );
+    }
   }
 
   private getJavascriptUrlForCurrentSite(baseSite: string): string {
@@ -105,7 +108,7 @@ export class GigyaJsService implements OnDestroy {
    *
    * @param baseSite
    */
-  registerEventListeners(baseSite: string): void {
+  protected registerEventListeners(baseSite: string): void {
     this.subscription.add(
       this.auth.getUserToken().subscribe((data) => {
         if (data && data.access_token) {
@@ -122,7 +125,7 @@ export class GigyaJsService implements OnDestroy {
    *
    * @param baseSite
    */
-  addGigyaEventHandlers(baseSite: string): void {
+  protected addGigyaEventHandlers(baseSite: string): void {
     this.winRef.nativeWindow?.['gigya']?.accounts?.addEventHandlers({
       onLogin: (...params) => {
         this.zone.run(() => this.onLoginEventHandler(baseSite, ...params));

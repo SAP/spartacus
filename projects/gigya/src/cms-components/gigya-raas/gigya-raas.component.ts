@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, NgZone } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  NgZone,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { BaseSiteService, LanguageService, WindowRef } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -11,11 +17,13 @@ import { GigyaJsService } from '../gigya-js/gigya-js.service';
   selector: 'cx-gigya-raas',
   templateUrl: './gigya-raas.component.html',
   styleUrls: ['./gigya-raas.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GigyaRaasComponent {
-  renderScreenSet = true;
+export class GigyaRaasComponent implements OnInit {
+  protected renderScreenSet = true;
   language$: Observable<string>;
+  jsError$: Observable<boolean>;
   jsLoaded$: Observable<boolean>;
 
   public constructor(
@@ -26,10 +34,14 @@ export class GigyaRaasComponent {
     private winRef: WindowRef,
     private gigyaJSService: GigyaJsService,
     private zone: NgZone
-  ) {
-    this.jsLoaded$ = this.gigyaJSService.isLoaded();
+  ) {}
+
+  ngOnInit(): void {
+    this.jsLoaded$ = this.gigyaJSService.didLoad();
+    this.jsError$ = this.gigyaJSService.didScriptFailToLoad();
     this.language$ = this.languageService.getActive().pipe(
       distinctUntilChanged(),
+      // On language change we want to rerender gigya screen with proper translations
       tap(() => (this.renderScreenSet = true))
     );
   }
@@ -38,78 +50,49 @@ export class GigyaRaasComponent {
    * Display screen set in embed mode
    *
    * @param data - GigyaRaasComponentData
+   * @param lang - language
    */
-  displayScreenSetInEmbedMode(
-    data: GigyaRaasComponentData,
-    lang: string
-  ): void {
+  displayScreenSet(data: GigyaRaasComponentData, lang: string): void {
     if (this.renderScreenSet) {
-      if (this.isLoginScreenSet(data)) {
-        this.winRef.nativeWindow?.['gigya']?.accounts?.showScreenSet({
-          screenSet: data.screenSet,
-          startScreen: data.startScreen,
-          containerID: data.containerID,
-          lang,
-          sessionExpiration: this.getSessionExpirationValue(),
-        });
-      } else {
-        this.winRef.nativeWindow?.['gigya']?.accounts?.showScreenSet({
-          screenSet: data.screenSet,
-          startScreen: data.startScreen,
-          containerID: data.containerID,
-          lang,
-          onAfterSubmit: (...params) => {
-            this.zone.run(() =>
-              this.gigyaJSService.onProfileUpdateEventHandler(...params)
-            );
-          },
-        });
-      }
+      this.showScreenSet(data, lang);
     }
     this.renderScreenSet = false;
   }
 
   /**
-   * Display screen set in popup mode
+   * Show screen set
    *
    * @param data - GigyaRaasComponentData
+   * @param lang - language
    */
-  displayScreenSetInPopupMode(
-    data: GigyaRaasComponentData,
-    lang: string
-  ): void {
-    if (this.isLoginScreenSet(data)) {
-      this.winRef.nativeWindow?.['gigya']?.accounts?.showScreenSet({
-        screenSet: data.screenSet,
-        startScreen: data.startScreen,
-        lang,
-        sessionExpiration: this.getSessionExpirationValue(),
-      });
-    } else {
-      this.winRef.nativeWindow?.['gigya']?.accounts?.showScreenSet({
-        screenSet: data.screenSet,
-        startScreen: data.startScreen,
-        lang,
-        onAfterSubmit: (...params) => {
-          this.zone.run(() =>
-            this.gigyaJSService.onProfileUpdateEventHandler(...params)
-          );
-        },
-      });
-    }
+  showScreenSet(data: GigyaRaasComponentData, lang: string) {
+    this.winRef.nativeWindow?.['gigya']?.accounts?.showScreenSet({
+      screenSet: data.screenSet,
+      startScreen: data.startScreen,
+      lang,
+      ...(this.displayInEmbedMode(data)
+        ? { containerID: data.containerID }
+        : {}),
+      ...(this.isLoginScreenSet(data)
+        ? { sessionExpiration: this.getSessionExpirationValue() }
+        : {
+            onAfterSubmit: (...params) => {
+              this.zone.run(() =>
+                this.gigyaJSService.onProfileUpdateEventHandler(...params)
+              );
+            },
+          }),
+    });
   }
 
-  private isLoginScreenSet(data: GigyaRaasComponentData): boolean {
-    const profileEditValue: boolean =
+  protected isLoginScreenSet(data: GigyaRaasComponentData): boolean {
+    const profileEditScreen: boolean =
       data.profileEdit === 'true' ? true : false;
 
-    if (!profileEditValue) {
-      return true;
-    }
-    return false;
+    return !profileEditScreen;
   }
 
-  private getSessionExpirationValue(): number {
+  protected getSessionExpirationValue(): number {
     const filteredConfigs: any = this.gigyaConfig.gigya.filter(
       (conf) => conf.baseSite === this.getCurrentBaseSite()
     );
@@ -131,7 +114,7 @@ export class GigyaRaasComponent {
   }
 
   /**
-   * Check if the component should be displayed in embeded mode
+   * Check if the component should be displayed in embed mode
    *
    * @param data - GigyaRaasComponentData
    */

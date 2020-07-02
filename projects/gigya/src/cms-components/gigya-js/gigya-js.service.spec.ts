@@ -227,7 +227,7 @@ describe('GigyaJsService', () => {
       const language = 'en';
 
       spyOn(externalJsFileLoader, 'load').and.callFake(() => {
-        service.registerEventListeners('electronics-spa');
+        service['registerEventListeners']('electronics-spa');
       });
       spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
       spyOn(languageService, 'getActive').and.returnValue(of(language));
@@ -236,11 +236,11 @@ describe('GigyaJsService', () => {
 
       const testToken = { ...mockToken, userId: OCC_USER_ID_CURRENT };
       spyOn(auth, 'getUserToken').and.returnValue(of(testToken));
-      spyOn(service, 'addGigyaEventHandlers').and.stub();
+      spyOn(service as any, 'addGigyaEventHandlers').and.stub();
 
       service.loadGigyaJavascript();
 
-      expect(service.addGigyaEventHandlers).toHaveBeenCalledWith(
+      expect(service['addGigyaEventHandlers']).toHaveBeenCalledWith(
         'electronics-spa'
       );
       expect(globalMessageService.remove).toHaveBeenCalledWith(
@@ -254,7 +254,7 @@ describe('GigyaJsService', () => {
     it('should add event handlers for gigya login', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'addEventHandlers');
 
-      service.addGigyaEventHandlers('electronics-spa');
+      service['addGigyaEventHandlers']('electronics-spa');
 
       expect(
         winRef.nativeWindow['gigya'].accounts.addEventHandlers

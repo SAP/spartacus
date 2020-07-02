@@ -1,18 +1,25 @@
 <div *ngIf="component.data$ | async as data">
   <div *ngIf="jsLoaded$ | async">
     <div *ngIf="language$ | async as lang">
-      <div *ngIf="data.embed === 'true'" [attr.id]="data.containerID">
-        {{ displayScreenSetInEmbedMode(data, lang) }}
+      <div
+        *ngIf="displayInEmbedMode(data); else popupLink"
+        [attr.id]="data.containerID"
+      >
+        {{ displayScreenSet(data, lang) }}
       </div>
-      <div *ngIf="data.embed === 'false'">
+      <ng-template #popupLink>
         <a
           class="popup-link"
           [attr.data-gigya-id]="data.uid"
           [attr.data-profile-edit]="data.profileEdit"
-          (click)="displayScreenSetInPopupMode(data, lang)"
+          (click)="showScreenSet(data, lang)"
           >{{ data.linkText }}</a
         >
-      </div>
+      </ng-template>
     </div>
+  </div>
+  <div *ngIf="jsError$ | async" class="js-error">
+    {{ 'errorHandlers.scriptFailedToLoad' | cxTranslate }}
+    {{ 'errorHandlers.refreshThePage' | cxTranslate }}
   </div>
 </div>

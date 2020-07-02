@@ -8,7 +8,7 @@
   "scripts": {
     "build": "ng build storefrontapp --prod",
     "build:assets": "yarn --cwd ./projects/assets build",
-    "build:core:lib": "ng build core --prod && ng build storefrontlib --prod && yarn build:myaccount:lib && yarn build:product:lib && yarn build:assets && yarn build:incubator",
+    "build:core:lib": "ng build core --prod && ng build storefrontlib --prod && yarn build:myaccount:lib && yarn build:product:lib && yarn build:assets && yarn build:incubator && ng build gigya --prod",
     "build:incubator": "ng build incubator --prod",
     "e2e:cy:open": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open",
     "e2e:cy:run": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run",
@@ -93,7 +93,7 @@
     "release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../..",
     "build:product:lib": "ng build product --prod",
     "release:product:with-changelog": "cd feature-libs/product && release-it && cd ../.."
-    },
+  },
   "private": false,
   "dependencies": {
     "@angular/animations": "~9.1.9",

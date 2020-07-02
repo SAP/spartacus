@@ -1,16 +1,17 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-
-import { GigyaRaasComponent } from './gigya-raas.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import {
+  BaseSiteService,
+  CmsComponent,
+  LanguageService,
+  MockTranslatePipe,
+} from '@spartacus/core';
+import { CmsComponentData } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { GigyaConfig } from '../../config';
 import { GigyaRaasComponentData } from '../cms.model';
-import { CmsComponentData } from '@spartacus/storefront';
-import {
-  CmsComponent,
-  BaseSiteService,
-  LanguageService,
-} from '@spartacus/core';
-import { of, Observable } from 'rxjs';
 import { GigyaJsService } from '../gigya-js/gigya-js.service';
+import { GigyaRaasComponent } from './gigya-raas.component';
 
 declare var window: Window;
 
@@ -50,19 +51,22 @@ const defaultSite = 'electronics-spa';
 
 class BaseSiteServiceStub {
   getActive(): Observable<string> {
-    return of();
+    return of(defaultSite);
   }
 }
 
 class GigyaJsServiceStub {
-  isLoaded(): Observable<boolean> {
-    return of();
+  didLoad(): Observable<boolean> {
+    return of(true);
+  }
+  didScriptFailToLoad(): Observable<boolean> {
+    return of(false);
   }
 }
 
 class LanguageServiceStub {
   getActive(): Observable<string> {
-    return of();
+    return of(defaultLang);
   }
 }
 
@@ -70,11 +74,11 @@ describe('GigyaRaasComponent', () => {
   let component: GigyaRaasComponent;
   let fixture: ComponentFixture<GigyaRaasComponent>;
   let baseSiteService: BaseSiteService;
+  let gigyaJsService: GigyaJsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GigyaRaasComponent],
-
+      declarations: [GigyaRaasComponent, MockTranslatePipe],
       providers: [
         { provide: GigyaConfig, useValue: sampleGigyaConfig },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
@@ -84,6 +88,7 @@ describe('GigyaRaasComponent', () => {
       ],
     });
     baseSiteService = TestBed.inject(BaseSiteService);
+    gigyaJsService = TestBed.inject(GigyaJsService);
     fixture = TestBed.createComponent(GigyaRaasComponent);
     component = fixture.componentInstance;
   });
@@ -92,106 +97,131 @@ describe('GigyaRaasComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display screen set in embed mode', () => {
-    const sampleData: GigyaRaasComponentData = {
-      embed: 'true',
-      containerID: 'containerID',
-    };
+  describe('displayInEmbedMode', () => {
+    it('should return true when embed and containerId are set', () => {
+      const sampleData: GigyaRaasComponentData = {
+        embed: 'true',
+        containerID: 'containerID',
+      };
 
-    expect(component.displayInEmbedMode(sampleData)).toBeTrue();
+      expect(component.displayInEmbedMode(sampleData)).toBeTrue();
+    });
+
+    it('should return false when containerId is not set', () => {
+      const sampleData: GigyaRaasComponentData = {
+        embed: 'true',
+        containerID: '',
+      };
+
+      expect(component.displayInEmbedMode(sampleData)).toBeFalse();
+    });
+
+    it('should return false when embed is false', () => {
+      const sampleData: GigyaRaasComponentData = {
+        embed: 'false',
+        containerID: 'containerID',
+      };
+
+      expect(component.displayInEmbedMode(sampleData)).toBeFalse();
+    });
   });
 
-  it('should display not screen set in embed mode', () => {
-    const sampleData: GigyaRaasComponentData = {
-      embed: 'false',
-      containerID: 'containerID',
-    };
+  describe('showScreenSet', () => {
+    beforeEach(() => {
+      window.gigya = {
+        accounts: {
+          showScreenSet: () => {},
+        },
+      };
+      spyOn(window.gigya.accounts, 'showScreenSet');
+    });
 
-    expect(component.displayInEmbedMode(sampleData)).toBeFalse();
+    it('should show login embed according to component data', () => {
+      component.showScreenSet(
+        {
+          ...sampleComponentData,
+          profileEdit: '',
+          embed: 'true',
+        },
+        defaultLang
+      );
+      expect(window.gigya.accounts.showScreenSet).toHaveBeenCalledWith({
+        screenSet: 'screenSet',
+        startScreen: 'startScreen',
+        lang: 'en',
+        containerID: 'containerID',
+        sessionExpiration: 120,
+      });
+    });
+
+    it('should show profile update embed according to component data', () => {
+      component.showScreenSet(
+        {
+          ...sampleComponentData,
+          profileEdit: 'true',
+          embed: 'true',
+        },
+        defaultLang
+      );
+      expect(window.gigya.accounts.showScreenSet).toHaveBeenCalledWith({
+        screenSet: 'screenSet',
+        startScreen: 'startScreen',
+        lang: 'en',
+        containerID: 'containerID',
+        onAfterSubmit: jasmine.any(Function),
+      });
+    });
+
+    it('should show login link according to component data', () => {
+      spyOn(baseSiteService, 'getActive').and.callFake(() => of('electronics'));
+      component.showScreenSet(
+        {
+          ...sampleComponentData,
+          containerID: '',
+          embed: 'false',
+          profileEdit: '',
+        },
+        defaultLang
+      );
+      expect(window.gigya.accounts.showScreenSet).toHaveBeenCalledWith({
+        screenSet: 'screenSet',
+        startScreen: 'startScreen',
+        lang: 'en',
+        sessionExpiration: 3600,
+      });
+    });
+
+    it('should show profile update link according to component data', () => {
+      component.showScreenSet(
+        {
+          ...sampleComponentData,
+          containerID: '',
+          embed: 'false',
+          profileEdit: 'true',
+        },
+        defaultLang
+      );
+      expect(window.gigya.accounts.showScreenSet).toHaveBeenCalledWith({
+        screenSet: 'screenSet',
+        startScreen: 'startScreen',
+        lang: 'en',
+        onAfterSubmit: jasmine.any(Function),
+      });
+    });
   });
 
-  it('should display not screen set in embed mode when container id is missing', () => {
-    const sampleData: GigyaRaasComponentData = {
-      embed: 'true',
-      containerID: '',
-    };
-
-    expect(component.displayInEmbedMode(sampleData)).toBeFalse();
+  it('should not render anything if script is not loaded', () => {
+    spyOn(gigyaJsService, 'didLoad').and.callFake(() => of(false));
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('.popup-link'))).toBeFalsy();
   });
 
-  it('should display login screen set in embed mode', () => {
-    window.gigya = {};
-    window.gigya.accounts = {
-      showScreenSet: function () {},
-    };
-    component.renderScreenSet = true;
-    const sampleData: GigyaRaasComponentData = {
-      profileEdit: 'false',
-      containerID: '',
-      screenSet: '',
-      startScreen: '',
-    };
-    spyOn(baseSiteService, 'getActive').and.returnValue(of(defaultSite));
-
-    component.displayScreenSetInEmbedMode(sampleData, defaultLang);
-
-    expect(component.renderScreenSet).toBeFalse();
-  });
-
-  it('should display profile update screen set in embed mode', () => {
-    window.gigya = {};
-    window.gigya.accounts = {
-      showScreenSet: function () {},
-    };
-    component.renderScreenSet = true;
-    const sampleData: GigyaRaasComponentData = {
-      profileEdit: 'true',
-      containerID: '',
-      screenSet: '',
-      startScreen: '',
-    };
-    spyOn(baseSiteService, 'getActive').and.returnValue(of(defaultSite));
-
-    component.displayScreenSetInEmbedMode(sampleData, defaultLang);
-
-    expect(component.renderScreenSet).toBeFalse();
-  });
-
-  it('should display login screen set in popup mode', () => {
-    window.gigya = {};
-    window.gigya.accounts = {
-      showScreenSet: function () {},
-    };
-    component.renderScreenSet = true;
-    const sampleData: GigyaRaasComponentData = {
-      profileEdit: 'false',
-      containerID: '',
-      screenSet: '',
-      startScreen: '',
-    };
-    spyOn(baseSiteService, 'getActive').and.returnValue(of(defaultSite));
-
-    component.displayScreenSetInPopupMode(sampleData, defaultLang);
-
-    expect(component.renderScreenSet).toBeTrue();
-  });
-
-  it('should display profile update screen set in popup mode', () => {
-    window.gigya = {};
-    window.gigya.accounts = {
-      showScreenSet: function () {},
-    };
-    component.renderScreenSet = true;
-    const sampleData: GigyaRaasComponentData = {
-      profileEdit: 'true',
-      containerID: '',
-      screenSet: '',
-      startScreen: '',
-    };
-    spyOn(baseSiteService, 'getActive').and.returnValue(of(defaultSite));
-
-    component.displayScreenSetInPopupMode(sampleData, defaultLang);
-
-    expect(component.renderScreenSet).toBeTrue();
+  it('should render error message if script failed to load', () => {
+    spyOn(gigyaJsService, 'didLoad').and.callFake(() => of(false));
+    spyOn(gigyaJsService, 'didScriptFailToLoad').and.callFake(() => of(true));
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('.js-error'))).toBeTruthy();
   });
 });
