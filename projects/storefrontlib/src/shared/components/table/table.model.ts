@@ -44,14 +44,14 @@ export interface TableStructureConfiguration {
   /**
    * Default pagination for the table that is used for the initial load of the table data.
    */
-  pagination?: TablePagination;
+  pagination?: PaginationModel;
 }
 
-export interface TablePagination {
-  pageSize?: number;
-  currentPage?: number;
-  sort?: string;
-}
+// export interface TablePagination {
+//   pageSize?: number;
+//   currentPage?: number;
+//   sort?: string;
+// }
 
 /**
  * The TableStructure holds the header structure of the table.

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { B2BSearchConfig } from '@spartacus/core';
+import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { CostCenterListService } from './cost-center-list.service';
@@ -19,28 +19,18 @@ export class CostCenterListComponent {
   /**
    * Paginates the list, including sorting.
    */
-  paginate(pageConfig: B2BSearchConfig): void {
-    if (pageConfig.sort) {
-      pageConfig.currentPage = 0;
-    }
-    this.costCentersService.config = pageConfig;
+  paginate(pagination: PaginationModel, currentPage: number): void {
+    this.costCentersService.pagination = { ...pagination, currentPage };
   }
 
-  sort(pageConfig: B2BSearchConfig, sort: string) {
-    this.costCentersService.config = {
-      ...pageConfig,
+  /**
+   * Sort the list. The pagination is reset to the first page.
+   */
+  sort(pagination: PaginationModel, sort: string) {
+    this.costCentersService.pagination = {
+      ...pagination,
       currentPage: 0,
       sort,
     };
-  }
-
-  more(pageConfig: B2BSearchConfig) {
-    const config = {
-      ...pageConfig,
-      currentPage: (pageConfig.currentPage ?? 0) + 1,
-      infiniteScroll: true,
-    };
-
-    this.costCentersService.config = config;
   }
 }

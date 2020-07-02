@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { B2BSearchConfig, Budget, CostCenterService } from '@spartacus/core';
-import { TableService } from '@spartacus/storefront';
-import { first } from 'rxjs/operators';
+import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { BaseOrganizationListService } from '../../../shared/organization-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
 
@@ -20,18 +21,14 @@ export class CostCenterAssignBudgetListService extends BaseOrganizationListServi
     super(tableService);
   }
 
-  protected load(config: B2BSearchConfig, code: string): void {
-    const value =
-      config.infiniteScroll && config.currentPage > 0
-        ? this.dataset$.value
-        : [];
-
-    this.costCenterService
+  protected load(
+    structure: TableStructure,
+    code: string
+  ): Observable<Table<Budget>> {
+    const config: B2BSearchConfig = structure.pagination;
+    return this.costCenterService
       .getBudgets(code, config)
-      .pipe(first((d) => Boolean(d)))
-      .subscribe((dataset) => {
-        this.dataset$.next([...value, ...dataset.values]);
-      });
+      .pipe(map((raw) => this.populateData(structure, raw)));
   }
 
   toggleAssign(costCenterCode: string, budgetCode: string, assign: boolean) {

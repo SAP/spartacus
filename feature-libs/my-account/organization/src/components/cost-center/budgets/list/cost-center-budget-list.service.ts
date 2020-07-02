@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
-import { B2BSearchConfig, Budget, CostCenterService } from '@spartacus/core';
-import { TableService } from '@spartacus/storefront';
-import { first, map } from 'rxjs/operators';
+import {
+  B2BSearchConfig,
+  Budget,
+  CostCenterService,
+  EntitiesModel,
+} from '@spartacus/core';
+import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { BaseOrganizationListService } from '../../../shared/organization-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
 
@@ -24,21 +30,23 @@ export class CostCenterBudgetListService extends BaseOrganizationListService<
     super(tableService);
   }
 
-  protected load(config: B2BSearchConfig, code: string): void {
-    const value =
-      config.infiniteScroll && config.currentPage > 0
-        ? this.dataset$.value
-        : [];
-
-    this.costCenterService
+  protected load(
+    structure: TableStructure,
+    code: string
+  ): Observable<Table<Budget>> {
+    const config: B2BSearchConfig = structure.pagination;
+    return this.costCenterService
       .getBudgets(code, config)
-      .pipe(
-        first((d) => Boolean(d)),
-        map((data) => data.values),
-        map((budgets: Budget[]) => budgets.filter((budget) => budget.selected))
-      )
-      .subscribe((budgets) => {
-        this.dataset$.next([...value, ...budgets]);
-      });
+      .pipe(map((raw) => this.populateData(structure, raw)));
+  }
+
+  protected populateData(
+    structure: TableStructure,
+    data: EntitiesModel<any>
+  ): Table<Budget> {
+    const table = super.populateData(structure, data);
+    table.data = table.data.filter((value) => value.selected);
+
+    return table;
   }
 }

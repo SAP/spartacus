@@ -1,4 +1,11 @@
 .organization {
+  cx-pagination {
+    margin-top: var(--cx-spatial-md);
+    a:not(.current) {
+      background-color: var(--cx-color-inverse);
+    }
+  }
+
   h3 {
     display: flex;
     justify-content: space-between;

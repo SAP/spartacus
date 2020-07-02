@@ -14,7 +14,6 @@ export class CostCenterAssignBudgetsComponent {
 
   protected code$: Observable<string> = this.router.parent.parent.params.pipe(
     map((params) => params['code']),
-    tap(console.log),
     tap((code) => (this.costCenterCode = code))
   );
 

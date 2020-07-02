@@ -1,7 +1,7 @@
 <cx-split-view>
   <cx-view>
     <h3>
-      <!-- {{ 'costCenter.header' | cxTranslate }} -->
+      {{ 'costCenter.header' | cxTranslate }}
       <div class="tools">
         <a class="link" routerLink="create" routerLinkActive="disabled">
           <cx-icon type="EXPAND"></cx-icon>
@@ -9,12 +9,17 @@
       </div>
     </h3>
     <ng-container *ngIf="dataTable$ | async as dataTable">
-      <button (click)="more(dataTable.pagination)">more</button>
       <cx-table
         [dataset]="dataTable$ | async"
         (sortEvent)="sort(dataTable.pagination, $event)"
       >
       </cx-table>
+
+      <cx-pagination
+        *ngIf="dataTable.pagination?.totalPages"
+        [pagination]="dataTable.pagination"
+        (viewPageEvent)="paginate(dataTable.pagination, $event)"
+      ></cx-pagination>
     </ng-container>
   </cx-view>
 

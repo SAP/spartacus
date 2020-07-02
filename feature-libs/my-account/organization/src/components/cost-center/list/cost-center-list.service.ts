@@ -5,8 +5,9 @@ import {
   CostCenterService,
   EntitiesModel,
 } from '@spartacus/core';
-import { TableService } from '@spartacus/storefront';
-import { first, map } from 'rxjs/operators';
+import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { BaseOrganizationListService } from '../../shared/organization-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
@@ -40,32 +41,36 @@ export class CostCenterListService extends BaseOrganizationListService<
     super(tableService);
   }
 
-  protected load(config: B2BSearchConfig): void {
-    const value =
-      config.infiniteScroll && config.currentPage > 0
-        ? this.dataset$.value
-        : [];
-
-    this.costCenterService
+  protected load(
+    structure: TableStructure,
+    _params?
+  ): Observable<Table<CostCenterModel>> {
+    const config: B2BSearchConfig = structure.pagination;
+    return this.costCenterService
       .getList(config)
-      .pipe(
-        first((d) => Boolean(d)),
-        map((raw) => this.populateData(raw))
-      )
-      .subscribe((dataset) => {
-        this.dataset$.next([...value, ...dataset]);
-      });
+      .pipe(map((raw) => this.populateData(structure, raw)));
   }
 
   /**
    * Populates the cost center data to a convenient table data model, so that we
    * can skip specific conversion in the view logic where possible.
    */
-  protected populateData(costCenters: EntitiesModel<CostCenter>) {
-    return Array.from(costCenters.values).map((value: any) => ({
-      ...value,
-      currency: value.currency?.isocode,
-      active: value.active,
-    }));
+  protected populateData(
+    structure: TableStructure,
+    costCenters: EntitiesModel<CostCenter>
+  ): Table<CostCenterModel> {
+    const data: CostCenterModel[] = Array.from(costCenters.values).map(
+      (value: any) => ({
+        ...value,
+        currency: value.currency?.isocode,
+        active: value.active,
+      })
+    );
+
+    return {
+      structure,
+      data,
+      pagination: costCenters.pagination,
+    };
   }
 }

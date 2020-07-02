@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { B2BSearchConfig } from '@spartacus/core';
-import { Table, TablePagination, TableService } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { EntitiesModel, PaginationModel } from '@spartacus/core';
+import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { OrganizationTableType } from './organization.model';
 
 /**
@@ -21,62 +21,58 @@ export abstract class BaseOrganizationListService<T> {
    * as generating outlet templates for the table.
    */
   protected abstract tableType: OrganizationTableType;
+
   /**
    * Configuration state of the pagination. This configuration remains during the session
    * and is not shared outside the UI components.
    */
-  protected paginationState$: BehaviorSubject<
-    B2BSearchConfig
-  > = new BehaviorSubject({});
-
-  /**
-   * The actual data is feed in sets.
-   */
-  protected dataset$: BehaviorSubject<T[]> = new BehaviorSubject(null);
-
-  protected abstract load(config: B2BSearchConfig, ...params: any): void;
-
-  /**
-   * Observes the pagination, dataset and table structure. The pagination will steer
-   */
-  getTable(...params: any): Observable<Table> {
-    // Pagination observables is based on static configuration and merged the runtime
-    // configuration on top
-    const pagination$ = this.getConfig().pipe(
-      tap((pagination) => this.load(pagination, ...params))
-    );
-
-    // Table structure observable based on breakpoint driven configuration.
-    const tableStructure$ = this.tableService.buildStructure(this.tableType);
-
-    return combineLatest([pagination$, this.dataset$, tableStructure$]).pipe(
-      map(([pagination, data, structure]) => ({ pagination, data, structure })),
-      filter((table) => table.data?.length > 0)
-    );
-  }
-
-  /**
-   * Loads the default pagination configuration for the `OrganizationTableType.COST_CENTER`
-   * table type. The pagination configuration is merged with the runtime configuration (if any).
-   */
-  protected getConfig(): Observable<B2BSearchConfig> {
-    return this.tableService.getConfig(this.tableType).pipe(
-      map((config) => config.pagination),
-      switchMap((pagination: TablePagination) =>
-        this.paginationState$.pipe(
-          map((runtimeConfig) => ({ ...pagination, ...runtimeConfig }))
-        )
-      )
-    );
-  }
-
-  /**
-   * The given configuration is merged with the current configuration and default configuration.
-   * This allows to only change one part of the
-   */
-  set config(config: B2BSearchConfig) {
-    this.paginationState$.next({ ...this.paginationState$.value, ...config });
-  }
+  protected pagination$: BehaviorSubject<PaginationModel> = new BehaviorSubject(
+    null
+  );
 
   constructor(protected tableService: TableService) {}
+
+  protected abstract load(
+    structure: TableStructure,
+    ...params: any
+  ): Observable<Table<T>>;
+
+  /**
+   * Updates the pagination for the listing, so that the listing gets updated.
+   */
+  set pagination(pagination: PaginationModel) {
+    this.pagination$.next(pagination);
+  }
+
+  getTable(...params: any): Observable<Table<T>> {
+    return this.getStructure().pipe(
+      switchMap((structure) => this.load(structure, ...params))
+    );
+  }
+
+  protected getStructure(): Observable<TableStructure> {
+    return this.pagination$
+      .pipe(withLatestFrom(this.tableService.buildStructure(this.tableType)))
+      .pipe(
+        map(([pagination, structure]) => ({
+          ...structure,
+          pagination: { ...structure.pagination, ...pagination },
+        }))
+      );
+  }
+
+  /**
+   * Populates the cost center data to a convenient table data model, so that we
+   * can skip specific conversion in the view logic where possible.
+   */
+  protected populateData(
+    structure: TableStructure,
+    data: EntitiesModel<any>
+  ): Table<T> {
+    return {
+      structure,
+      data: data.values,
+      pagination: data.pagination,
+    };
+  }
 }
