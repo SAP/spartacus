@@ -129,7 +129,6 @@ describe('ConfigProductTitleComponent', () => {
     );
     configuratorUtils.setOwnerKey(config.owner);
 
-    component.ngOnInit();
     fixture.detectChanges();
   });
 
