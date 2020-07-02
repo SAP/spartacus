@@ -98,12 +98,12 @@ export class CartItemComponent implements OnInit {
   }
 
   /**
-   * Verifies whether the configuration infos has any enties and its first entry does not have a 'NONE' status.
+   * Verifies whether the configuration infos has any entries and the entry has any status.
    *
    * @param configurationInfos - Array of the configuration infos
-   * @returns {boolean} - whether the status od the first configuration infos entry is not 'NONE'
+   * @returns {boolean} - whether the status of configuration infos entry has status
    */
-  isNotNoneStatus(configurationInfos: any[]): boolean {
+  hasStatus(configurationInfos: any[]): boolean {
     return (
       configurationInfos?.length > 0 && configurationInfos[0]?.status !== 'NONE'
     );

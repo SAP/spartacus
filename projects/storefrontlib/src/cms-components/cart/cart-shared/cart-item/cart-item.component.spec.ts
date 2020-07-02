@@ -346,7 +346,7 @@ describe('CartItemComponent', () => {
     it('should return false if first entry of configuration infos does not have NONE status', () => {
       cartItemComponent.item.configurationInfos = [{ status: 'ERROR' }];
       expect(
-        cartItemComponent.isNotNoneStatus(
+        cartItemComponent.hasStatus(
           cartItemComponent.item.configurationInfos
         )
       ).toBe(true);
@@ -355,7 +355,7 @@ describe('CartItemComponent', () => {
     it('should return true if first entry of configuration infos does not have NONE status', () => {
       cartItemComponent.item.configurationInfos = [{ status: 'NONE' }];
       expect(
-        cartItemComponent.isNotNoneStatus(
+        cartItemComponent.hasStatus(
           cartItemComponent.item.configurationInfos
         )
       ).toBe(false);
