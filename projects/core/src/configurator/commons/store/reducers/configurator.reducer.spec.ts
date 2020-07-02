@@ -12,6 +12,7 @@ import {
   SetGroupsCompleted,
   SetGroupsError,
   SetGroupsVisited,
+  SetInteractionState,
   SetMenuParentGroup,
   SetNextOwnerCartEntry,
   UpdateCartEntry,
@@ -189,6 +190,24 @@ describe('Configurator reducer', () => {
       state = StateReduce.reducer(undefined, action2);
 
       expect(state.configId).toEqual('');
+    });
+  });
+
+  describe('SetInteractionState action', () => {
+    it('interaction state should be set', () => {
+      const { initialState } = StateReduce;
+
+      const state = StateReduce.reducer(
+        initialState,
+        new SetInteractionState({
+          entityKey: PRODUCT_CODE,
+          interactionState: {
+            currentGroup: CURRENT_GROUP,
+          },
+        })
+      );
+
+      expect(state.interactionState.currentGroup).toEqual(CURRENT_GROUP);
     });
   });
 
