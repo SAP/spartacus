@@ -76,7 +76,6 @@ export const costCenterTableConfig: TableConfig = {
         pagination: {
           sort: 'byName',
           pageSize: 2,
-          // currentPage: 1,
         },
       },
       {

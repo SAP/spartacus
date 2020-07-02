@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { OrganizationTableType } from './organization.model';
 
 /**
@@ -51,14 +51,15 @@ export abstract class BaseOrganizationListService<T> {
   }
 
   protected getStructure(): Observable<TableStructure> {
-    return this.pagination$
-      .pipe(withLatestFrom(this.tableService.buildStructure(this.tableType)))
-      .pipe(
-        map(([pagination, structure]) => ({
-          ...structure,
-          pagination: { ...structure.pagination, ...pagination },
-        }))
-      );
+    return combineLatest([
+      this.tableService.buildStructure(this.tableType),
+      this.pagination$,
+    ]).pipe(
+      map(([structure, pagination]) => ({
+        ...structure,
+        pagination: { ...structure.pagination, ...pagination },
+      }))
+    );
   }
 
   /**
