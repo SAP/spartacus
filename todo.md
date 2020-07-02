@@ -4,3 +4,7 @@
     - it's not just the mentioned button, there's more to it - i.e. more elements present on the cart page
     - order history page as well
     - checkout page as well
+
+2. Revert `projects/storefrontapp/src/environments/environment.ts`
+
+3. Move scss and assets to the `product` lib?
