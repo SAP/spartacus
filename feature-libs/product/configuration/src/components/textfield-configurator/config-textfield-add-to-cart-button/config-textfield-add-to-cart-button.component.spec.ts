@@ -12,8 +12,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ConfiguratorTextfieldService } from '../../facade/configurator-textfield.service';
-import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
+import { ConfiguratorTextfieldService } from '../../../core/textfield-configurator/facade/configurator-textfield.service';
+import { ConfiguratorTextfield } from '../../../core/textfield-configurator/model/configurator-textfield.model';
 import { ConfigTextfieldAddToCartButtonComponent } from './config-textfield-add-to-cart-button.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';

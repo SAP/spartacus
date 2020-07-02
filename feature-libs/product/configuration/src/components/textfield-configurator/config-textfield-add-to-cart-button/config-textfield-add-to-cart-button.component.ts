@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { GenericConfigurator } from '@spartacus/core';
-import { ConfiguratorTextfieldService } from '../../facade/configurator-textfield.service';
-import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
+import { ConfiguratorTextfieldService } from '../../../core/textfield-configurator/facade/configurator-textfield.service';
+import { ConfiguratorTextfield } from '../../../core/textfield-configurator/model/configurator-textfield.model';
 
 @Component({
   selector: 'cx-config-textfield-add-to-cart-button',

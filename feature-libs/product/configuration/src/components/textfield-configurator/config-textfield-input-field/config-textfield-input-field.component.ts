@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
+import { ConfiguratorTextfield } from '../../../core/textfield-configurator/model/configurator-textfield.model';
 
 @Component({
   selector: 'cx-config-textfield-input-field',
