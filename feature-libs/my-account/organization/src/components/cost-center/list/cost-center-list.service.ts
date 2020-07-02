@@ -41,10 +41,10 @@ export class CostCenterListService extends BaseOrganizationListService<
   }
 
   protected load(config: B2BSearchConfig): void {
-    const value =
-      config.infiniteScroll && config.currentPage > 0
-        ? this.dataset$.value
-        : [];
+    // const value =
+    //   config.infiniteScroll && config.currentPage > 0
+    //     ? this.dataset$.value
+    //     : [];
 
     this.costCenterService
       .getList(config)
@@ -53,7 +53,12 @@ export class CostCenterListService extends BaseOrganizationListService<
         map((raw) => this.populateData(raw))
       )
       .subscribe((dataset) => {
-        this.dataset$.next([...value, ...dataset]);
+        const value = this.datasetSrc$.value;
+        value[config.currentPage ?? 0] = dataset;
+
+        this.datasetSrc$.next(
+          value
+        );
       });
   }
 

@@ -22,10 +22,14 @@ export abstract class BaseOrganizationListService<T> {
     B2BSearchConfig
   > = new BehaviorSubject({});
 
+  protected datasetSrc$: BehaviorSubject<any> = new BehaviorSubject([]);
+
   /**
    * The actual data is feed in sets.
    */
-  protected dataset$: BehaviorSubject<T[]> = new BehaviorSubject(null);
+  protected dataset$ = this.datasetSrc$.pipe(
+    map(source => [].concat(...source))
+  );
 
   protected abstract load(config: B2BSearchConfig, ...params: any): void;
 
