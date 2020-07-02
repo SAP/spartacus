@@ -82,6 +82,7 @@ fdescribe('CostCenterListComponent', () => {
         TableTestingModule,
         IconTestingModule,
       ],
+      declarations: [CostCenterListComponent],
       providers: [
         { provide: CostCenterListService, useClass: MockCostCenterListService },
       ],
