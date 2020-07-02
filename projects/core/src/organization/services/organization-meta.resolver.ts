@@ -19,8 +19,8 @@ import { ContentPageMetaResolver } from '../../cms/page/content-page-meta.resolv
 export class OrganizationMetaResolver extends ContentPageMetaResolver
   implements PageBreadcrumbResolver {
   pageTemplate = 'CompanyPageTemplate';
-  private ORGANIZATION_ROOT_PATH = 'organization';
-  private ORGANIZATION_TRANSLATION_KEY = 'breadcrumbs.organization';
+  protected ORGANIZATION_ROOT_PATH = 'organization';
+  protected ORGANIZATION_TRANSLATION_KEY = 'breadcrumbs.organization';
 
   /**
    * @override
