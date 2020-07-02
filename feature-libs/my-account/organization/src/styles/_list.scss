@@ -9,7 +9,11 @@
     min-height: 5rem;
 
     margin: 0;
-    padding: var(--cx-spatial-xs);
+    padding: var(--cx-spatial-sm);
+
+    @include media-breakpoint-down(md) {
+      padding: var(--cx-spatial-md);
+    }
 
     // Buttons with a background are aligned as their background matches the alignment,
     // however buttons and links without need to move visually to the start
@@ -83,6 +87,20 @@
           }
           &.active {
             color: var(--cx-color-text);
+          }
+        }
+      }
+    }
+  }
+
+  cx-cost-center-assign-budgets {
+    table {
+      td {
+        &.name {
+          label {
+            padding: var(--cx-spatial-md);
+            justify-content: flex-start;
+            align-items: center;
           }
         }
       }

@@ -8,12 +8,19 @@ import { OrganizationTableType } from './organization.model';
 /**
  * The `BaseOrganizationListService` deals with the table structure, table data and
  * initial/runtime pagination of tables inside the b2b organization.
+ *
+ *
+ * @property {OrganizationTableType} type used to load the table structure configuration and generate table outlets
  */
 @Injectable({
   providedIn: 'root',
 })
 export abstract class BaseOrganizationListService<T> {
-  protected abstract type: OrganizationTableType;
+  /**
+   * The table type is used to get the table structure from the configuration as well
+   * as generating outlet templates for the table.
+   */
+  protected abstract tableType: OrganizationTableType;
   /**
    * Configuration state of the pagination. This configuration remains during the session
    * and is not shared outside the UI components.
@@ -40,7 +47,7 @@ export abstract class BaseOrganizationListService<T> {
     );
 
     // Table structure observable based on breakpoint driven configuration.
-    const tableStructure$ = this.tableService.buildStructure(this.type);
+    const tableStructure$ = this.tableService.buildStructure(this.tableType);
 
     return combineLatest([pagination$, this.dataset$, tableStructure$]).pipe(
       map(([pagination, data, structure]) => ({ pagination, data, structure })),
@@ -53,7 +60,7 @@ export abstract class BaseOrganizationListService<T> {
    * table type. The pagination configuration is merged with the runtime configuration (if any).
    */
   protected getConfig(): Observable<B2BSearchConfig> {
-    return this.tableService.getConfig(this.type).pipe(
+    return this.tableService.getConfig(this.tableType).pipe(
       map((config) => config.pagination),
       switchMap((pagination: TablePagination) =>
         this.paginationState$.pipe(
