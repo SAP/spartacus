@@ -59,7 +59,7 @@ export class ImageZoomTriggerComponent implements OnInit, OnDestroy {
               if (this.galleryIndex) {
                 (comp as ComponentRef<
                   ImageZoomDialogComponent
-                >).instance.galleryItem = this.galleryIndex;
+                >).instance.galleryIndex = this.galleryIndex;
               }
             }),
             filter(([, close]) => Boolean(close)),

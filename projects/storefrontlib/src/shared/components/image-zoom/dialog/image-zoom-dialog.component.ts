@@ -17,7 +17,7 @@ export class ImageZoomDialogComponent {
     focusOnEscape: true,
   };
 
-  @Input() galleryItem: number;
+  @Input() galleryIndex: number;
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {

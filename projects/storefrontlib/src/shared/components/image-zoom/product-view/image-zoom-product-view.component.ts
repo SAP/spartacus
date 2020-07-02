@@ -21,7 +21,7 @@ export class ImageZoomProductViewComponent {
 
   isZoomed = false;
 
-  @Input() galleryItem: number;
+  @Input() galleryIndex: number;
 
   @ViewChild('zoomedImage', { read: ElementRef }) zoomedImage: ElementRef;
 
@@ -34,10 +34,10 @@ export class ImageZoomProductViewComponent {
     filter(Boolean),
     distinctUntilChanged(),
     tap((p: Product) => {
-      if (this.galleryItem) {
+      if (this.galleryIndex) {
         const image = Array.isArray(p.images?.GALLERY)
           ? p.images?.GALLERY.find(
-              (img) => img.zoom?.galleryIndex === this.galleryItem
+              (img) => img.zoom?.galleryIndex === this.galleryIndex
             )
           : p.images?.GALLERY;
         this.mainMediaContainer.next(image);
