@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -11,10 +11,10 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Table2Module } from '@spartacus/storefront';
+import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 import { of } from 'rxjs';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 import createSpy = jasmine.createSpy;
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
 
 const code = 'b1';
 
@@ -82,7 +82,7 @@ class MockCxDatePipe {
 describe('CostCenterDetailsComponent', () => {
   let component: CostCenterDetailsComponent;
   let fixture: ComponentFixture<CostCenterDetailsComponent>;
-  let costCentersService: MockCostCenterService;
+  let costCentersService: CostCenterService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -97,10 +97,8 @@ describe('CostCenterDetailsComponent', () => {
       ],
     }).compileComponents();
 
-    costCentersService = TestBed.get(
-      CostCenterService as Type<CostCenterService>
-    );
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    costCentersService = TestBed.inject(CostCenterService);
+    routingService = TestBed.inject(RoutingService);
   }));
 
   beforeEach(() => {

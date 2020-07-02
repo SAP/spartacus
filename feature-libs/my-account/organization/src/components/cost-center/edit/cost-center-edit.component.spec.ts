@@ -143,7 +143,7 @@ describe('CostCenterEditComponent', () => {
 
   describe('ngOnInit', () => {
     it('should load costCenter', () => {
-      component.ngOnInit();
+      // component.ngOnInit();
       let costCenter: any;
       component.costCenter$
         .subscribe((value) => {
@@ -159,14 +159,14 @@ describe('CostCenterEditComponent', () => {
 
   describe('update', () => {
     it('should update costCenter', () => {
-      component.ngOnInit();
+      // component.ngOnInit();
       const updateCostCenter = {
         code,
         name: 'newName',
         activeFlag: false,
       };
 
-      component.updateCostCenter(updateCostCenter);
+      // component.updateCostCenter(updateCostCenter);
       expect(costCentersService.update).toHaveBeenCalledWith(
         code,
         updateCostCenter

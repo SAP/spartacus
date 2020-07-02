@@ -104,7 +104,7 @@ class LanguageServiceStub {
 describe('CostCenterCreateComponent', () => {
   let component: CostCenterCreateComponent;
   let fixture: ComponentFixture<CostCenterCreateComponent>;
-  let costCentersService: MockCostCenterService;
+  let costCenterService: CostCenterService;
   let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -124,10 +124,8 @@ describe('CostCenterCreateComponent', () => {
       ],
     }).compileComponents();
 
-    costCentersService = TestBed.get(
-      CostCenterService as Type<CostCenterService>
-    );
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    costCenterService = TestBed.inject(CostCenterService);
+    routingService = TestBed.inject(RoutingService as Type<RoutingService>);
   }));
 
   beforeEach(() => {
@@ -142,8 +140,8 @@ describe('CostCenterCreateComponent', () => {
 
   describe('createCostCenter', () => {
     it('should create costCenter', () => {
-      component.createCostCenter(mockCostCenter);
-      expect(costCentersService.create).toHaveBeenCalledWith(mockCostCenter);
+      // component.createCostCenter(mockCostCenter);
+      expect(costCenterService.create).toHaveBeenCalledWith(mockCostCenter);
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'costCenterDetails',
         params: mockCostCenter,
