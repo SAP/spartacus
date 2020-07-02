@@ -179,8 +179,13 @@ export function selectShippingAddress() {
       'BASE_SITE'
     )}/cms/pages?*/checkout/delivery-mode*`
   ).as('getDeliveryPage');
+  cy.route(
+    'PUT',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/**/deliverymode?*`
+  ).as('putDeliveryMode');
   cy.get('button.btn-primary').click();
   cy.wait('@getDeliveryPage').its('status').should('eq', 200);
+  cy.wait('@putDeliveryMode').its('status').should('eq', 200);
 }
 
 export function selectDeliveryMethod() {
