@@ -100,12 +100,12 @@ export class CartItemComponent implements OnInit {
   /**
    * Verifies whether the configuration infos has any entries and the entry has any status.
    *
-   * @param configurationInfos - Array of the configuration infos
    * @returns {boolean} - whether the status of configuration infos entry has status
    */
-  hasStatus(configurationInfos: any[]): boolean {
+  hasStatus(): boolean {
     return (
-      configurationInfos?.length > 0 && configurationInfos[0]?.status !== 'NONE'
+      this.item.configurationInfos?.length > 0 &&
+      this.item.configurationInfos[0]?.status !== 'NONE'
     );
   }
 

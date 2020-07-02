@@ -49,10 +49,7 @@
           <div *ngIf="item.product.code" class="cx-code">
             {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
           </div>
-          <div
-            class="cx-configuration-info-container"
-            *ngIf="hasStatus(item.configurationInfos)"
-          >
+          <div class="cx-configuration-info-container" *ngIf="hasStatus()">
             <div
               class="cx-configuration-info"
               *ngFor="let info of item.configurationInfos"
