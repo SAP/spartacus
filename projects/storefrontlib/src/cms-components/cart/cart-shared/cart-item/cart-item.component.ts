@@ -62,10 +62,29 @@ export class CartItemComponent implements OnInit {
     );
   }
 
+  removeItem() {
+    this.quantityControl.setValue(0);
+    this.quantityControl.markAsDirty();
+  }
+
+  viewItem() {
+    this.view.emit();
+  }
+
+  /**
+   * Verifies whether the item has any issues.
+   *
+   * @returns {boolean} - whether there are any issues
+   */
   hasIssues(): boolean {
     return this.getNumberOfIssues() > 0;
   }
 
+  /**
+   * Retrieves the number of issues at the cart item.
+   *
+   * @returns {number} - the number of issues at the cart item
+   */
   getNumberOfIssues(): number {
     let numberOfIssues = 0;
     if (this.item.statusSummaryList) {
@@ -78,15 +97,24 @@ export class CartItemComponent implements OnInit {
     return numberOfIssues;
   }
 
-  removeItem() {
-    this.quantityControl.setValue(0);
-    this.quantityControl.markAsDirty();
+  /**
+   * Verifies whether the configuration infos has any enties and its first entry does not have a 'NONE' status.
+   *
+   * @param configurationInfos - Array of the configuration infos
+   * @returns {boolean} - whether the status od the first configuration infos entry is not 'NONE'
+   */
+  isNotNoneStatus(configurationInfos: any[]): boolean {
+    return (
+      configurationInfos?.length > 0 && configurationInfos[0]?.status !== 'NONE'
+    );
   }
 
-  viewItem() {
-    this.view.emit();
-  }
-
+  /**
+   * Retrieves a certain issue message key depending on the number of issues for translation.
+   *
+   * @param numberOfErrors - number of errors
+   * @return {string} - the error message key
+   */
   getIssueMessageKey(numberOfErrors: number): string {
     if (numberOfErrors && numberOfErrors !== 0) {
       if (numberOfErrors === 1) {

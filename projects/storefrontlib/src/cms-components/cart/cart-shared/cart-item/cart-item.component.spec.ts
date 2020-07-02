@@ -301,7 +301,6 @@ describe('CartItemComponent', () => {
       cartItemComponent.item.statusSummaryList = [
         { numberOfIssues: 2, status: 'ERROR' },
       ];
-      fixture.detectChanges();
       expect(cartItemComponent.getNumberOfIssues()).toBe(2);
     });
 
@@ -310,7 +309,6 @@ describe('CartItemComponent', () => {
         { numberOfIssues: 1, status: 'SUCCESS' },
         { numberOfIssues: 3, status: 'ERROR' },
       ];
-      fixture.detectChanges();
       expect(cartItemComponent.getNumberOfIssues()).toBe(3);
     });
 
@@ -318,19 +316,16 @@ describe('CartItemComponent', () => {
       cartItemComponent.item.statusSummaryList = [
         { numberOfIssues: 2, status: 'SUCCESS' },
       ];
-      fixture.detectChanges();
       expect(cartItemComponent.getNumberOfIssues()).toBe(0);
     });
 
     it('should return number of issues as 0 if statusSummaryList is undefined', () => {
       cartItemComponent.item.statusSummaryList = undefined;
-      fixture.detectChanges();
       expect(cartItemComponent.getNumberOfIssues()).toBe(0);
     });
 
     it('should return number of issues as 0 if statusSummaryList is empty', () => {
       cartItemComponent.item.statusSummaryList = [];
-      fixture.detectChanges();
       expect(cartItemComponent.getNumberOfIssues()).toBe(0);
     });
 
@@ -338,7 +333,6 @@ describe('CartItemComponent', () => {
       cartItemComponent.item.statusSummaryList = [
         { numberOfIssues: 2, status: 'ERROR' },
       ];
-      fixture.detectChanges();
       expect(cartItemComponent.hasIssues()).toBeTrue();
     });
 
@@ -346,8 +340,25 @@ describe('CartItemComponent', () => {
       cartItemComponent.item.statusSummaryList = [
         { numberOfIssues: 2, status: 'SUCCESS' },
       ];
-      fixture.detectChanges();
       expect(cartItemComponent.hasIssues()).toBeFalse();
+    });
+
+    it('should return false if first entry of configuration infos does not have NONE status', () => {
+      cartItemComponent.item.configurationInfos = [{ status: 'ERROR' }];
+      expect(
+        cartItemComponent.isNotNoneStatus(
+          cartItemComponent.item.configurationInfos
+        )
+      ).toBe(true);
+    });
+
+    it('should return true if first entry of configuration infos does not have NONE status', () => {
+      cartItemComponent.item.configurationInfos = [{ status: 'NONE' }];
+      expect(
+        cartItemComponent.isNotNoneStatus(
+          cartItemComponent.item.configurationInfos
+        )
+      ).toBe(false);
     });
   });
 });
