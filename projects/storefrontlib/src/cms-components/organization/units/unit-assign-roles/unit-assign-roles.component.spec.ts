@@ -33,9 +33,23 @@ const code = 'unitCode';
 const roleId = 'b2bcustomergroup';
 const customerId = 'customerId1';
 
-const email = 'test@test.com';
-const roles = ['b2bcustomergroup', 'b2bmanagergroup'];
-const event: any = { key: 'admin', row: { email: email, roles: roles } };
+const expectedCustomerId = 'testCustomerId';
+const inputEventAssign: any = {
+  key: 'b2badmingroup',
+  row: {
+    customerId: 'testCustomerId',
+    email: 'test@test.com',
+    roles: ['b2bcustomergroup', 'b2bmanagergroup'],
+  },
+};
+const inputEventUnassign: any = {
+  key: 'b2bcustomergroup',
+  row: {
+    customerId: 'testCustomerId',
+    email: 'test@test.com',
+    roles: ['b2bcustomergroup', 'b2bmanagergroup'],
+  },
+};
 
 const defaultParams: B2BSearchConfig = {
   sort: 'byName',
@@ -235,15 +249,31 @@ describe('UnitAssignRolesComponent', () => {
 
   describe('assign', () => {
     it('should assign user', () => {
-      component.assign(event);
-      expect(b2bUsersService.update).toHaveBeenCalled();
+      const expectedB2BUser = {
+        email: 'test@test.com',
+        roles: ['b2bcustomergroup', 'b2bmanagergroup', 'b2badmingroup'],
+      };
+
+      component.assign(inputEventAssign);
+      expect(b2bUsersService.update).toHaveBeenCalledWith(
+        expectedCustomerId,
+        expectedB2BUser
+      );
     });
   });
 
   describe('unassign', () => {
     it('should unassign user', () => {
-      component.unassign(event);
-      expect(b2bUsersService.update).toHaveBeenCalled();
+      const expectedB2BUser = {
+        email: 'test@test.com',
+        roles: ['b2bmanagergroup'],
+      };
+
+      component.unassign(inputEventUnassign);
+      expect(b2bUsersService.update).toHaveBeenCalledWith(
+        expectedCustomerId,
+        expectedB2BUser
+      );
     });
   });
 });
