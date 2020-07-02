@@ -115,19 +115,22 @@ export class ConfiguratorTextfieldService {
     cartEntryNumber: string,
     configuration: ConfiguratorTextfield.Configuration
   ): void {
-    this.activeCartService.requireLoadedCart().subscribe((cartState) => {
-      const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
-        userId: this.configuratorUtils.getUserId(cartState.value),
-        cartId: this.configuratorUtils.getCartId(cartState.value),
-        cartEntryNumber: cartEntryNumber,
-        configuration: configuration,
-      };
-      this.store.dispatch(
-        new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
-          updateCartParameters
-        )
-      );
-    });
+    this.activeCartService
+      .requireLoadedCart()
+      .pipe(take(1))
+      .subscribe((cartState) => {
+        const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
+          userId: this.configuratorUtils.getUserId(cartState.value),
+          cartId: this.configuratorUtils.getCartId(cartState.value),
+          cartEntryNumber: cartEntryNumber,
+          configuration: configuration,
+        };
+        this.store.dispatch(
+          new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
+            updateCartParameters
+          )
+        );
+      });
   }
 
   /**
@@ -156,10 +159,10 @@ export class ConfiguratorTextfieldService {
       ),
       switchMapTo(
         this.store.pipe(
-          select(ConfiguratorTextFieldSelectors.getConfigurationContent),
-          filter((configuration) => !this.isConfigurationInitial(configuration))
+          select(ConfiguratorTextFieldSelectors.getConfigurationContent)
         )
-      )
+      ),
+      filter((configuration) => !this.isConfigurationInitial(configuration))
     );
   }
 
