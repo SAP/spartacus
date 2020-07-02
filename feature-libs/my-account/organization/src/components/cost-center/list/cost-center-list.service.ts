@@ -5,114 +5,67 @@ import {
   CostCenterService,
   EntitiesModel,
 } from '@spartacus/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
-import { OrganizationTables } from '../../shared/organization.model';
+import { TableService } from '@spartacus/storefront';
+import { first, map } from 'rxjs/operators';
+import { BaseOrganizationListService } from '../../shared/organization-list.service';
+import { OrganizationTableType } from '../../shared/organization.model';
 
-const DEFAULT_SEARCH_CONFIG: B2BSearchConfig = {
-  pageSize: 10,
-};
+/**
+ * The UI model for the cost center, which is a slightly flattened version
+ * of the core cost center model.
+ */
+export interface CostCenterModel {
+  code?: string;
+  name?: string;
+  currency?: string;
+  active?: boolean;
+}
+
+/**
+ * Service to populate Cost Center data to `Table` data. The cost center
+ * data is driven by the table configuration, using the `OrganizationTables.COST_CENTER`.
+ */
 @Injectable({
   providedIn: 'root',
 })
-export class CostCenterListService {
-  protected searchConfig$: BehaviorSubject<
-    B2BSearchConfig
-  > = new BehaviorSubject({
-    pageSize: 10,
-    currentPage: 0,
-  });
-
-  // protected costCenterList$: Observable<EntitiesModel<CostCenter>> = this.searchConfig$.pipe(
-  //   switchMap((config) => this.costCentersService.getList(config))
-  // );
-
-  protected dataset$ = combineLatest([
-    this.tableService.buildStructure(OrganizationTables.COST_CENTER),
-    this.searchConfig$.pipe(
-      switchMap((config) => this.costCentersService.getList(config))
-    ),
-  ]).pipe(
-    map(([structure, costCenters]: [any, any]) =>
-      this.populateCostCenterTable(structure, costCenters)
-    ),
-    // tmp
-    distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
-  );
+export class CostCenterListService extends BaseOrganizationListService<
+  CostCenterModel
+> {
+  protected type = OrganizationTableType.COST_CENTER;
 
   constructor(
-    protected costCentersService: CostCenterService,
-    protected tableService: TableService
-  ) {}
-
-  search(config: B2BSearchConfig): void {
-    const current = this.searchConfig$.value;
-    this.searchConfig$.next({
-      ...current,
-      ...DEFAULT_SEARCH_CONFIG,
-      ...config,
-    });
+    protected tableService: TableService,
+    protected costCenterService: CostCenterService
+  ) {
+    super(tableService);
   }
 
-  getDataTable(): Observable<Table> {
-    return this.dataset$;
+  protected load(config: B2BSearchConfig): void {
+    const value =
+      config.infiniteScroll && config.currentPage > 0
+        ? this.dataset$.value
+        : [];
+
+    this.costCenterService
+      .getList(config)
+      .pipe(
+        first((d) => Boolean(d)),
+        map((raw) => this.populateData(raw))
+      )
+      .subscribe((dataset) => {
+        this.dataset$.next([...value, ...dataset]);
+      });
   }
 
-  // TODO: move to generic conversion
-  protected populateCostCenterTable(
-    structure: TableStructure,
-    costCenters: EntitiesModel<CostCenter>
-  ): Table {
-    const data = Array.from(costCenters.values).map((value: any) => ({
+  /**
+   * Populates the cost center data to a convenient table data model, so that we
+   * can skip specific conversion in the view logic where possible.
+   */
+  protected populateData(costCenters: EntitiesModel<CostCenter>) {
+    return Array.from(costCenters.values).map((value: any) => ({
       ...value,
       currency: value.currency?.isocode,
       active: value.active,
     }));
-
-    return {
-      structure,
-      data$: of(data),
-      pagination: costCenters.pagination,
-      // type: 'costCenter',
-      // structure,
-      // data,
-      // sorts: costCenters.sorts,
-      // pagination: costCenters.pagination,
-    } as Table;
   }
-
-  // protected getCostCenters(): Observable<EntitiesModel<CostCenter>> {
-  //   return this.searchConfig$.pipe(
-  //     switchMap((config) => this.costCentersService.getList(config))
-  //   );
-  // }
-
-  // protected getSearchConfig(): Observable<B2BSearchConfig> {
-  //   return of({
-  //     // currentPage: 0,
-  //     pageSize: 10,
-  //     sort: 'byUnit',
-  //   });
-  // }
-
-  // this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
-  //   tap((params) => this.costCentersService.loadCostCenters(params)),
-  //   switchMap((params) =>
-  //     this.costCentersService.getList(params).pipe(
-  //       filter(Boolean),
-  //       map((costCentersList: EntitiesModel<CostCenter>) => ({
-  //         sorts: costCentersList.sorts,
-  //         pagination: costCentersList.pagination,
-  //         values: costCentersList.values.map((costCenter) => ({
-  //           code: costCenter.code,
-  //           name: costCenter.name,
-  //           currency: costCenter.currency && costCenter.currency.isocode,
-  //           parentUnit: costCenter.unit && costCenter.unit.name,
-  //           uid: costCenter.unit && costCenter.unit.uid,
-  //         })),
-  //       }))
-  //     )
-  //   )
-  // );
 }

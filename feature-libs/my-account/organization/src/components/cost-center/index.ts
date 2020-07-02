@@ -1,5 +1,5 @@
-export * from './assign-budgets/index';
-export * from './budgets/index';
+export * from './budgets/assign/index';
+export * from './budgets/list/index';
 export * from './cost-center-components.module';
 export * from './create/index';
 export * from './details/index';

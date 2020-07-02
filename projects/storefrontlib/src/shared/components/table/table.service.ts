@@ -1,8 +1,8 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { TableConfig } from './config/table.config';
 import { TableStructure, TableStructureConfiguration } from './table.model';
 
@@ -40,7 +40,7 @@ export class TableService {
     data$?: Observable<any>
   ): Observable<TableStructure> {
     if (this.hasTableConfig(tableType)) {
-      return this.buildStructureFromConfig(tableType);
+      return <Observable<TableStructure>>this.getConfig(tableType);
     } else {
       if (data$) {
         return this.buildStructureFromData(tableType, data$);
@@ -57,7 +57,7 @@ export class TableService {
    *
    * The breakpoint is resolved by teh `BreakpointService`.
    */
-  protected buildStructureFromConfig(type: string): Observable<TableStructure> {
+  getConfig(type: string): Observable<TableStructureConfiguration> {
     return this.breakpointService.breakpoint$.pipe(
       map((breakpoint) => ({ ...this.getTableConfig(type, breakpoint), type }))
     );
@@ -131,13 +131,24 @@ export class TableService {
       .reverse();
 
     const bestMatch: BREAKPOINT = relevant.find(
-      (br) => !!tableConfig.find((structure) => structure.breakpoint === br)
+      (br) => !!tableConfig?.find((structure) => structure.breakpoint === br)
     );
 
-    return bestMatch
-      ? tableConfig.find((config) => config.breakpoint === bestMatch)
-      : tableConfig.find((structure) => !structure.breakpoint) ||
-          tableConfig[0];
+    const fallbackConfig = tableConfig?.find(
+      (structure) => !structure.breakpoint
+    );
+
+    // merge the breakpoint specific config with the default configuration (if any)
+    return {
+      ...fallbackConfig,
+      ...(bestMatch
+        ? tableConfig.find((config) => config.breakpoint === bestMatch)
+        : {}),
+    };
+    // return bestMatch
+    //   ? tableConfig.find((config) => config.breakpoint === bestMatch)
+    //   : tableConfig.find((structure) => !structure.breakpoint) ||
+    //       tableConfig[0];
   }
 
   protected hasTableConfig(tableType: string): boolean {

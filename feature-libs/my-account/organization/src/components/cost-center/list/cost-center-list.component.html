@@ -8,8 +8,14 @@
         </a>
       </div>
     </h3>
-    <cx-table [dataset]="dataTable$ | async" (paginateEvent)="paginate($event)">
-    </cx-table>
+    <ng-container *ngIf="dataTable$ | async as dataTable">
+      <button (click)="more(dataTable.pagination)">more</button>
+      <cx-table
+        [dataset]="dataTable$ | async"
+        (sortEvent)="sort(dataTable.pagination, $event)"
+      >
+      </cx-table>
+    </ng-container>
   </cx-view>
 
   <router-outlet></router-outlet>

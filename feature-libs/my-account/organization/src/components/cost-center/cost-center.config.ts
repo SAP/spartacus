@@ -4,8 +4,8 @@ import {
   SplitViewDeactivateGuard,
   TableConfig,
 } from '@spartacus/storefront';
-import { OrganizationTables } from '../shared/organization.model';
-import { CostCenterAssignBudgetsComponent } from './assign-budgets/cost-center-assign-budgets.component';
+import { OrganizationTableType } from '../shared/organization.model';
+import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budgets.component';
 import { CostCenterCreateComponent } from './create/cost-center-create.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterEditComponent } from './edit/cost-center-edit.component';
@@ -70,9 +70,17 @@ export const costCenterCmsConfig: CmsConfig = {
 
 export const costCenterTableConfig: TableConfig = {
   table: {
-    [OrganizationTables.COST_CENTER]: [
+    [OrganizationTableType.COST_CENTER]: [
       {
         headers: [{ key: 'name' }],
+        pagination: {
+          sort: 'byName',
+          pageSize: 2,
+          // currentPage: 1,
+        },
+      },
+      {
+        breakpoint: BREAKPOINT.xs,
         hideHeader: true,
       },
       {
@@ -93,9 +101,16 @@ export const costCenterTableConfig: TableConfig = {
       },
     ],
 
-    [OrganizationTables.COST_CENTER_BUDGETS]: [
+    [OrganizationTableType.COST_CENTER_BUDGETS]: [
       {
         headers: [{ key: 'name' }],
+        hideHeader: true,
+      },
+    ],
+    [OrganizationTableType.COST_CENTER_ASSIGN_BUDGET]: [
+      {
+        headers: [{ key: 'name' }],
+        hideHeader: true,
       },
     ],
   },

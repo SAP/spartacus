@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { CostCenterBudgetService } from './cost-center-budget.service';
+import { CostCenterAssignBudgetListService } from './cost-center-assign-budget.service';
 
 @Component({
   selector: 'cx-cost-center-assign-budgets',
@@ -13,36 +14,42 @@ export class CostCenterAssignBudgetsComponent {
 
   protected code$: Observable<string> = this.router.parent.parent.params.pipe(
     map((params) => params['code']),
+    tap(console.log),
     tap((code) => (this.costCenterCode = code))
   );
 
-  budgets$ = this.code$.pipe(
-    switchMap((code) => this.costCenterBudgetService.getDataTable(code))
+  dataTable$: Observable<Table> = this.code$.pipe(
+    switchMap((code) => this.assignService.getTable(code))
   );
 
   constructor(
     protected router: ActivatedRoute,
-    protected costCenterBudgetService: CostCenterBudgetService
+    protected assignService: CostCenterAssignBudgetListService
   ) {}
 
-  /**
-   * resets the current page to 0 as otherwise the sorting acts weird.
-   */
-  sort(sort: string): void {
-    this.costCenterBudgetService.search({ sort, currentPage: 0 });
-  }
-
-  paginate(): void {
-    this.costCenterBudgetService.search({ pageSize: 3 });
-  }
-
   toggleAssign(event: Event, budgetCode: string) {
-    this.costCenterBudgetService.toggleAssign(
+    this.assignService.toggleAssign(
       this.costCenterCode,
       budgetCode,
       (event.target as HTMLInputElement).checked
     );
   }
+
+  // constructor(
+  //   protected router: ActivatedRoute,
+  //   protected costCenterBudgetService: CostCenterBudgetService
+  // ) {}
+
+  /**
+   * resets the current page to 0 as otherwise the sorting acts weird.
+   */
+  // sort(sort: string): void {
+  //   this.costCenterBudgetService.search({ sort, currentPage: 0 });
+  // }
+
+  // paginate(): void {
+  //   this.costCenterBudgetService.search({ pageSize: 3 });
+  // }
 
   // ngOnInit(): void {
 

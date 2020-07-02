@@ -24,7 +24,7 @@
     </tr>
   </thead>
 
-  <tr *ngFor="let row of dataset.data$ | async">
+  <tr *ngFor="let row of dataset.data">
     <td *ngFor="let col of structure.headers; let i = index" [class]="col.key">
       <!-- render an outlet for each cell -->
       <ng-template

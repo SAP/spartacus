@@ -1,0 +1,27 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Table } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { CostCenterBudgetListService } from './cost-center-budget-list.service';
+
+@Component({
+  selector: 'cx-cost-center-budgets',
+  templateUrl: './cost-center-budgets.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class CostCenterBudgetListComponent {
+  protected code$: Observable<string> = this.router.params.pipe(
+    map((routingData) => routingData['code']),
+    tap(console.log)
+  );
+
+  dataTable$: Observable<Table> = this.code$.pipe(
+    switchMap((code) => this.costCenterBudgetListService.getTable(code))
+  );
+
+  constructor(
+    protected router: ActivatedRoute,
+    protected costCenterBudgetListService: CostCenterBudgetListService
+  ) {}
+}

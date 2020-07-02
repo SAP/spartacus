@@ -10,16 +10,37 @@ import { CostCenterListService } from './cost-center-list.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterListComponent {
-  @HostBinding('class') hostClass = 'organization cost-center';
+  @HostBinding('class') hostClass = 'organization';
 
-  dataTable$: Observable<Table> = this.costCentersService.getDataTable();
+  dataTable$: Observable<Table> = this.costCentersService.getTable();
 
   constructor(protected costCentersService: CostCenterListService) {}
 
   /**
-   * resets the current page to 0 as otherwise the sorting acts weird.
+   * Paginates the list, including sorting.
    */
   paginate(pageConfig: B2BSearchConfig): void {
-    this.costCentersService.search(pageConfig);
+    if (pageConfig.sort) {
+      pageConfig.currentPage = 0;
+    }
+    this.costCentersService.config = pageConfig;
+  }
+
+  sort(pageConfig: B2BSearchConfig, sort: string) {
+    this.costCentersService.config = {
+      ...pageConfig,
+      currentPage: 0,
+      sort,
+    };
+  }
+
+  more(pageConfig: B2BSearchConfig) {
+    const config = {
+      ...pageConfig,
+      currentPage: (pageConfig.currentPage ?? 0) + 1,
+      infiniteScroll: true,
+    };
+
+    this.costCentersService.config = config;
   }
 }

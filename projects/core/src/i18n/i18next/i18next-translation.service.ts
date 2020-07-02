@@ -72,9 +72,9 @@ export class I18nextTranslationService implements TranslationService {
 
   private reportMissingKey(key: string, chunkName: string) {
     if (isDevMode()) {
-      console.warn(
-        `Translation key missing '${key}' in the chunk '${chunkName}'`
-      );
+      // console.warn(
+      //   `Translation key missing '${key}' in the chunk '${chunkName}'`
+      // );
     }
   }
 

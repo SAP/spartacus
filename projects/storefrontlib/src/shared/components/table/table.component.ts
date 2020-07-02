@@ -68,6 +68,11 @@ export class TableComponent {
   @Output() paginateEvent: EventEmitter<PaginationModel> = new EventEmitter();
 
   /**
+   * The paginateEvent is triggered when a new page is required. This includes sorting.
+   */
+  @Output() sortEvent: EventEmitter<string> = new EventEmitter();
+
+  /**
    * Returns the configured data value by the label key.
    * If there's no headerKey available, or no corresponding value, the
    * first value in the data row is returned.
@@ -81,10 +86,7 @@ export class TableComponent {
    */
   sort(header: TableHeader) {
     if (header.sortCode) {
-      this.paginateEvent.emit({
-        ...this.dataset.pagination,
-        sort: header.sortCode,
-      });
+      this.sortEvent.emit(header.sortCode);
     }
   }
 
