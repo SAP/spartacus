@@ -38,7 +38,7 @@ const convertedOrderApproval: OrderApproval = {
   },
 };
 
-fdescribe('OrderApprovalNormalizer', () => {
+describe('OrderApprovalNormalizer', () => {
   let service: OccOrderApprovalNormalizer;
   let converter: ConverterService;
 
