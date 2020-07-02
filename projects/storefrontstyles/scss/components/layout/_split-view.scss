@@ -32,7 +32,7 @@
   display: flex;
   align-items: stretch;
   /* We hide all elements outside the box, so that the views can animate nicely inside.  */
-  overflow-x: hidden;
+  // overflow-x: hidden;
 
   --cx-view-flex: calc(
     (100% / min(var(--cx-last-visible-view), var(--cx-max-views)))
@@ -52,7 +52,7 @@
     transition: 0.3s;
     transition-timing-function: ease-in;
 
-    overflow-x: hidden;
+    // overflow-x: hidden;
 
     flex: 1 0
       calc((100% / min(var(--cx-last-visible-view), var(--cx-max-views))));

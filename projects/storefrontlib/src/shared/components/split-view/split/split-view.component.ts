@@ -3,7 +3,6 @@ import {
   Component,
   HostBinding,
   OnDestroy,
-  OnInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SplitViewService } from '../split-view.service';
@@ -36,7 +35,7 @@ import { SplitViewService } from '../split-view.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SplitViewService],
 })
-export class SplitViewComponent implements OnInit, OnDestroy {
+export class SplitViewComponent implements OnDestroy {
   /**
    * Indicates the last visible view in the range of views that is visible. This
    * is bind to a css variable `--cx-last-visible-view` so that the experience
@@ -46,18 +45,13 @@ export class SplitViewComponent implements OnInit, OnDestroy {
   @HostBinding('attr.last-visible-view')
   lastVisibleView = 1;
 
-  // maintain subscription so we can cleanup
-  protected subscription$: Subscription;
+  protected subscription: Subscription = this.splitService
+    .visibleViewCount()
+    .subscribe((lastVisible: number) => (this.lastVisibleView = lastVisible));
 
   constructor(protected splitService: SplitViewService) {}
 
-  ngOnInit() {
-    this.subscription$ = this.splitService
-      .visibleViewCount()
-      .subscribe((lastVisible: number) => (this.lastVisibleView = lastVisible));
-  }
-
   ngOnDestroy() {
-    this.subscription$?.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 }

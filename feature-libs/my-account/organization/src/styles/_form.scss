@@ -1,6 +1,7 @@
 .organization {
   form {
     width: 100%;
+    max-width: 100vw;
     // .form-group {
     margin: 0;
   }
@@ -8,12 +9,7 @@
     margin: 0;
     padding-top: 0.75rem;
 
-    display: flex;
-
-    flex-direction: column;
-
-    // flex-wrap: wrap;
-    // align-content: center;
+    cursor: pointer;
 
     .label-content {
       // display: none;
@@ -24,7 +20,7 @@
       // padding-top: 0.5rem;
       padding: var(--cx-spatial-base) var(--cx-spatial-md);
     }
-    input.form-control {
+    input {
       border: none;
       border-radius: 0;
       border-bottom: solid 1px var(--cx-color-light);

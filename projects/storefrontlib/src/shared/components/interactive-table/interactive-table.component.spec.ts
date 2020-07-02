@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { TranslationService } from '@spartacus/core';
-import { Table2Module } from '../table/table.module';
+import { Table2Module } from '../table/table2.module';
 import { InteractiveTableComponent } from './interactive-table.component';
 import { InteractiveTableModule } from './interactive-table.module';
 import { PaginationConfig } from '../../../shared/components/list-navigation/pagination/config/pagination.config';

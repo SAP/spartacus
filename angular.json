@@ -438,7 +438,7 @@
     "product": {
       "projectType": "library",
       "root": "feature-libs/product",
-      "sourceRoot": "feature-libs/product/src",
+      "sourceRoot": "feature-libs/product",
       "prefix": "cx",
       "architect": {
         "build": {

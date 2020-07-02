@@ -31,7 +31,7 @@ export interface CostCenterModel {
 export class CostCenterListService extends BaseOrganizationListService<
   CostCenterModel
 > {
-  protected type = OrganizationTableType.COST_CENTER;
+  protected tableType = OrganizationTableType.COST_CENTER;
 
   constructor(
     protected tableService: TableService,
