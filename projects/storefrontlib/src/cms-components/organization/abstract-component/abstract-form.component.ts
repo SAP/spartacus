@@ -2,7 +2,9 @@ import { EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { UrlCommandRoute } from '@spartacus/core';
 
-export class AbstractFormComponent {
+// TODO:#my-account-architecture - move to `@spartacust/my-account` library
+export abstract class AbstractFormComponent {
+  // TODO:#save-forms - make abstract?
   form: FormGroup;
 
   @Input()
@@ -28,7 +30,16 @@ export class AbstractFormComponent {
 
   submitClicked = false;
 
+  // TODO:#save-forms - make abstract
+  /**
+   * This method is called when submitting or cancelling the form editing.
+   * It should use the reset the form and use the form component service to
+   * remove the stored form data.
+   */
+  protected removeForm(): void {}
+
   back(): void {
+    this.removeForm();
     this.clickBack.emit();
   }
 
@@ -36,6 +47,7 @@ export class AbstractFormComponent {
     this.submitClicked = true;
     if (this.form.valid) {
       this.submitForm.emit(this.form.value);
+      this.removeForm();
     } else {
       this.form.markAllAsTouched();
     }

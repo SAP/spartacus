@@ -40,7 +40,7 @@
               { cxRoute: 'orgUnitAddressCreate', params: { code: code } }
                 | cxUrl
             "
-            class="btn btn-primary btn-block"
+            class="btn btn-block btn-action"
           >
             {{ 'unitManageAddresses.create' | cxTranslate }}
           </a>
@@ -51,7 +51,7 @@
     <div class="cx-table-body">
       <ng-container *ngIf="data.values?.length > 0; else noData">
         <!-- TABLE -->
-        <cx-table
+        <cx-table2
           [tableData]="data.values"
           [columns]="[
             {
@@ -69,7 +69,7 @@
             }
           ]"
         >
-        </cx-table>
+        </cx-table2>
       </ng-container>
 
       <!-- NO ORDER CONTAINER -->

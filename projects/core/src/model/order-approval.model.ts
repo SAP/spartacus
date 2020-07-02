@@ -1,7 +1,7 @@
-import { OrderApprovalPermissionType } from './permission.model';
 import { Principal } from './cart.model';
 import { Order } from './order.model';
 import { CostCenter } from './org-unit.model';
+import { OrderApprovalPermissionType } from './permission.model';
 
 export interface OrderApprovalDecision {
   decision?: 'APPROVE' | 'REJECT';
@@ -35,4 +35,11 @@ export interface OrderApproval {
   merchantOrderApprovalRecords?: OrderApprovalRecord[];
   order?: B2BOrder;
   trigger?: Trigger;
+}
+
+export interface OrderApprovalPermissionResult {
+  approverName: string;
+  approverNotes: string;
+  permissionType: OrderApprovalPermissionType;
+  statusDisplay: string;
 }

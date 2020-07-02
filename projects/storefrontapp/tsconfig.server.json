@@ -5,15 +5,28 @@
     "baseUrl": ".",
     "module": "commonjs",
     "types": ["node"],
+    "esModuleInterop": true,
     "paths": {
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/src/public_api"],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
-      "@spartacus/cds": ["../../projects/cds/public_api"]
+      "@spartacus/cds": ["../../projects/cds/public_api"],
+      "@spartacus/my-account": ["../../feature-libs/my-account/public_api"],
+      "@spartacus/my-account/organization": [
+        "../../feature-libs/my-account/organization/public_api"
+      ],
+      "@spartacus/product": ["../../feature-libs/product/public_api"],
+      "@spartacus/product/configuration": [
+        "../../feature-libs/product/configuration/public_api"
+      ]
     }
   },
   "angularCompilerOptions": {
     "entryModule": "src/app/app.server.module#AppServerModule"
   },
-  "files": ["src/main.server.ts", "server.ts"]
+  "files": [
+    "src/main.server.ts",
+    "server.ts",
+    "src/environments/models/build.process.env.d.ts"
+  ]
 }

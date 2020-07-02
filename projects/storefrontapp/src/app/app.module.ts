@@ -13,10 +13,10 @@ import {
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
-import { b2bFeature } from '../environments/b2b/b2b.feature';
-import { b2cFeature } from '../environments/b2c/b2c.feature';
-import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
+import { b2bFeature } from '../environments/features/b2b/b2b.feature';
+import { b2cFeature } from '../environments/features/b2c/b2c.feature';
+import { cdsFeature } from '../environments/integrations/cds/cds.feature';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 
 registerLocaleData(localeDe);
@@ -28,16 +28,24 @@ if (!environment.production) {
   devImports.push(StoreDevtoolsModule.instrument());
 }
 
+let additionalImports = [];
+
+if (environment.b2b) {
+  additionalImports = [...additionalImports, ...b2bFeature.imports];
+} else {
+  additionalImports = [...additionalImports, ...b2cFeature.imports];
+}
+
+if (environment.cds) {
+  additionalImports = [...additionalImports, ...cdsFeature.imports];
+}
+
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     BrowserTransferStateModule,
-
-    ...(environment.b2b ? b2bFeature.imports : b2cFeature.imports),
     JsonLdBuilderModule,
-
-    ...cdsFeature.imports,
-
+    ...additionalImports,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
