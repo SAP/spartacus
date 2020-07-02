@@ -277,7 +277,7 @@ export class UpdateCartEntrySuccess extends StateUtils.EntitySuccessAction {
 
 export class RemoveConfiguration extends StateUtils.EntityLoaderResetAction {
   readonly type = REMOVE_CONFIGURATION;
-  constructor(public payload: { ownerKey: string }) {
+  constructor(public payload: { ownerKey: string | string[] }) {
     super(CONFIGURATION_DATA, payload.ownerKey);
   }
 }
