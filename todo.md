@@ -8,3 +8,5 @@
 2. Revert `projects/storefrontapp/src/environments/environment.ts`
 
 3. Move scss and assets to the `product` lib?
+
+4. Add spinner/👻 design to http://localhost:4200/electronics-spa/en/USD/configureTEXTFIELD/cartEntry/entityKey/0?forceReload=true
