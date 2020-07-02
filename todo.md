@@ -5,7 +5,10 @@
     - order history page as well
     - checkout page as well
 
-2. Revert `projects/storefrontapp/src/environments/environment.ts`
+2. Revert:
+    - `projects/storefrontapp/src/environments/environment.ts`
+    - `projects/storefrontapp-e2e-cypress/cypress.json`
+    - `projects/storefrontapp-e2e-cypress/cypress.ci.2005.json`
 
 3. Move scss and assets to the `product` lib?
 
