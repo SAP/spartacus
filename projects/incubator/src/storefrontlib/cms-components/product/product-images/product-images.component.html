@@ -1,0 +1,30 @@
+<ng-container *ngIf="mainImage$ | async as main">
+  <!-- TODOLP: breaking changes for the icon -->
+  <cx-image-zoom-trigger
+    [$expandImage]="expandImage.asObservable()"
+    [galleryIndex]="selectedIndex"
+  ></cx-image-zoom-trigger>
+  <!-- TODOLP: breaking changes for the click & add pointer style -->
+  <cx-media [container]="main" (click)="triggerZoom()"> </cx-media>
+</ng-container>
+
+<ng-container *ngIf="thumbs$ | async as thumbs">
+  <cx-carousel
+    *ngIf="thumbs.length"
+    class="thumbs"
+    [items]="thumbs"
+    itemWidth="120px"
+    [hideIndicators]="false"
+    [template]="thumb"
+  ></cx-carousel>
+</ng-container>
+
+<ng-template #thumb let-item="item">
+  <cx-media
+    [container]="item.container"
+    tabindex="0"
+    (focus)="openImage(item.container)"
+    [class.is-active]="isActive(item.container) | async"
+  >
+  </cx-media>
+</ng-template>

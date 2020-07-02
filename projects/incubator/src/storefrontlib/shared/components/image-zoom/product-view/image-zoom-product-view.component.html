@@ -1,0 +1,57 @@
+<ng-container *ngIf="mainImage$ | async as main">
+  <div class="d-flex" *ngIf="thumbs$ | async as thumbs">
+    <button
+      class="btn btn-link"
+      *ngIf="getPreviousProduct(thumbs) | async as previousProduct"
+      (click)="openImage(previousProduct.container)"
+    >
+      Prev
+    </button>
+    <cx-media
+      class="cx-default-image-zoom"
+      *ngIf="!isZoomed"
+      [container]="main"
+      (dblclick)="zoom()"
+    >
+    </cx-media>
+    <!-- (click)="zoom($event)"  -->
+    <div class="cx-zoom-container" *ngIf="isZoomed" (dblclick)="zoom()">
+      <cx-media
+        #zoomedImage
+        class="cx-image-zoomed"
+        [container]="main"
+        (mousemove)="pointerMove($event)"
+        (touchmove)="touchMove($event)"
+      >
+      </cx-media>
+    </div>
+    <button
+      class="btn btn-link"
+      *ngIf="getNextProduct(thumbs) | async as nextProduct"
+      (click)="openImage(nextProduct.container)"
+    >
+      Next
+    </button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="thumbs$ | async as thumbs">
+  <cx-carousel
+    *ngIf="thumbs.length"
+    class="thumbs"
+    [items]="thumbs"
+    itemWidth="80px"
+    [template]="thumb"
+    [hideIndicators]="true"
+  ></cx-carousel>
+</ng-container>
+
+<ng-template #thumb let-item="item">
+  <cx-media
+    [container]="item.container"
+    tabindex="0"
+    (focus)="openImage(item.container)"
+    [class.is-active]="isActive(item.container) | async"
+  >
+  </cx-media>
+</ng-template>
