@@ -3,7 +3,6 @@ export * from './card/index';
 export * from './carousel/index';
 export * from './form/form-errors/index';
 export * from './generic-link/index';
-export * from './image-zoom/index';
 export * from './item-counter/index';
 export * from './list-navigation/index';
 export * from './media/index';

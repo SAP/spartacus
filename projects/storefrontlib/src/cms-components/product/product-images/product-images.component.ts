@@ -30,15 +30,10 @@ export class ProductImagesComponent {
     map(([, container]) => container)
   );
 
-  // Used for image zoom
-  expandImage = new BehaviorSubject(false);
-  selectedIndex: number;
-
   constructor(private currentProductService: CurrentProductService) {}
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
-    this.selectedIndex = this.mainMediaContainer.value?.zoom?.galleryIndex;
   }
 
   isActive(thumbnail): Observable<boolean> {
@@ -72,10 +67,6 @@ export class ProductImagesComponent {
         return thumbs.indexOf(current);
       })
     );
-  }
-
-  triggerZoom(): void {
-    this.expandImage.next(true);
   }
 
   /**
