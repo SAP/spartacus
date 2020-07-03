@@ -237,7 +237,7 @@ describe('OutletService', () => {
     });
   });
 
-  fdescribe('remove', () => {
+  describe('remove', () => {
     let componentFactoryResolver: ComponentFactoryResolver;
     let factory: ComponentFactory<any>;
     let factory2: ComponentFactory<any>;
