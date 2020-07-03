@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GenericConfigurator, RoutingService } from '@spartacus/core';
+import { GenericConfigurator } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ConfigurationRouter } from '../../generic/service/config-router-data';
@@ -16,14 +16,11 @@ export class ConfigTabBarComponent implements OnInit {
   routerData$: Observable<ConfigurationRouter.Data>;
 
   constructor(
-    private routingService: RoutingService,
     private configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
   ngOnInit(): void {
-    this.routerData$ = this.configRouterExtractorService.extractRouterData(
-      this.routingService
-    );
+    this.routerData$ = this.configRouterExtractorService.extractRouterData();
 
     this.owner$ = this.routerData$.pipe(map((routerData) => routerData.owner));
 
@@ -34,7 +31,7 @@ export class ConfigTabBarComponent implements OnInit {
 
   isOverviewPage(): Observable<boolean> {
     return this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+      .extractRouterData()
       .pipe(
         map(
           (routerData) =>

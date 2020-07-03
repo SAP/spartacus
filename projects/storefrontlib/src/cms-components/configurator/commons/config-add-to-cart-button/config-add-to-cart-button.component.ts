@@ -32,16 +32,14 @@ export class ConfigAddToCartButtonComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+      .extractRouterData()
       .pipe(
         switchMap((routerData) =>
           this.configuratorCommonsService.getConfiguration(routerData.owner)
         )
       );
 
-    this.routerData$ = this.configRouterExtractorService.extractRouterData(
-      this.routingService
-    );
+    this.routerData$ = this.configRouterExtractorService.extractRouterData();
   }
 
   private navigateToCart() {
@@ -108,7 +106,7 @@ export class ConfigAddToCartButtonComponent implements OnInit {
     const isOverview = pageType === ConfigurationRouter.PageType.OVERVIEW;
     const owner = configuration.owner;
     this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+      .extractRouterData()
       .pipe(
         map((routerData) => routerData.isOwnerCartEntry),
         take(1)
