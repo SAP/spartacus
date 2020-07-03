@@ -1,4 +1,10 @@
-import { Component, ElementRef, HostListener, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+} from '@angular/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -7,7 +13,9 @@ import {
 
 @Component({
   selector: 'cx-image-zoom-dialog',
+  styleUrls: ['image-zoom-dialog.component.scss'],
   templateUrl: 'image-zoom-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageZoomDialogComponent {
   iconType = ICON_TYPE;

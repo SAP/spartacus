@@ -14,6 +14,7 @@ import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-image-zoom-product-view',
   templateUrl: './image-zoom-product-view.component.html',
+  styleUrls: ['./image-zoom-product-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageZoomProductViewComponent {
@@ -25,8 +26,7 @@ export class ImageZoomProductViewComponent {
 
   @ViewChild('zoomedImage', { read: ElementRef }) zoomedImage: ElementRef;
 
-  top = 0;
-  left = 0;
+  startCoords: { x: number; y: number } = null;
 
   private product$: Observable<
     Product
@@ -57,7 +57,8 @@ export class ImageZoomProductViewComponent {
 
   constructor(
     protected currentProductService: CurrentProductService,
-    protected renderer: Renderer2
+    protected renderer: Renderer2,
+    protected element: ElementRef
   ) {}
 
   openImage(item: any): void {
@@ -82,13 +83,6 @@ export class ImageZoomProductViewComponent {
   /** find the index of the main media in the list of media */
   getActive(): number {
     return this.mainMediaContainer.value.thumbnail?.galleryIndex || 0;
-    // console.log(this.mainMediaContainer.value);
-    // return this.mainMediaContainer.asObservable().pipe(
-    //   filter(Boolean),
-    //   map((container: any) => {
-    //     return container.thumbnail?.galleryIndex || 0;
-    //   })
-    // );
   }
 
   getPreviousProduct(thumbs: any[]): Observable<any> {
@@ -108,29 +102,58 @@ export class ImageZoomProductViewComponent {
 
   zoom(): void {
     this.isZoomed = !this.isZoomed;
+    this.startCoords = null;
   }
 
+  /**
+   * Touch screen image pan
+   *
+   * @param event
+   */
   touchMove(event: any): void {
     const touch = event.touches[0] || event.changedTouches[0];
-    this.moveImage(touch.pageX, touch.pageY);
-  }
-
-  pointerMove(event: any): void {
-    this.moveImage(event.pageX, event.pageY);
-  }
-
-  protected moveImage(positionX: number, positionY): void {
     const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect();
+
+    if (!this.startCoords)
+      this.startCoords = { x: touch.clientX, y: touch.clientY };
+
+    const x = touch.clientX - this.startCoords.x;
+    const y = touch.clientY - this.startCoords.y;
+
+    const positionX = x - boundingRect.left;
+    const positionY = y - boundingRect.top;
+
+    this.moveImage(positionX, positionY);
+  }
+
+  /**
+   * Pointer image pan
+   *
+   * @param event
+   */
+  pointerMove(event: any): void {
+    const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect();
+
+    const x = event.clientX - boundingRect.left;
+    const y = event.clientY - boundingRect.top;
+
+    const positionX = -x + this.zoomedImage.nativeElement.clientWidth / 2;
+    const positionY = -y + this.zoomedImage.nativeElement.clientHeight / 2;
+
+    this.moveImage(positionX, positionY);
+  }
+
+  /**
+   * Applies the offset from touchMove or pointerMove to the image element
+   *
+   * @param positionX
+   * @param positionY
+   */
+  protected moveImage(positionX: number, positionY: number): void {
     const imageElement = this.zoomedImage.nativeElement.firstChild;
 
-    const x = positionX - boundingRect.left;
-    const y = positionY - boundingRect.top;
-
-    this.left = -x + this.zoomedImage.nativeElement.clientWidth / 2;
-    this.top = -y + this.zoomedImage.nativeElement.clientHeight / 2;
-
-    this.renderer.setStyle(imageElement, 'left', this.left + 'px');
-    this.renderer.setStyle(imageElement, 'top', this.top + 'px');
+    this.renderer.setStyle(imageElement, 'left', positionX + 'px');
+    this.renderer.setStyle(imageElement, 'top', positionY + 'px');
   }
 
   /**
