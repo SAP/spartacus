@@ -97,8 +97,8 @@
     "prerender:productconfig:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 SPARTACUS_PRODUCTCONFIG=true ng run storefrontapp:prerender --routesFile projects/storefrontapp/prerender.txt",
     "build:productconfig:ssr": "cross-env SPARTACUS_PRODUCTCONFIG=true ng run storefrontapp:server:production",
     "prerender:productconfig": "cross-env SPARTACUS_PRODUCTCONFIG=true ng run storefrontapp:prerender",
-    "e2e:cy:productconfig:start-run-smoke-ci": "start-server-and-test start:productconfig:prod http-get://localhost:4200 e2e:cy:run:smoke:ci",
-    "e2e:cy:productconfig:start-run-ci": "start-server-and-test start:productconfig:prod http-get://localhost:4200 e2e:cy:run:ci:all",
+    "e2e:cy:productconfig:start-run-smoke-ci:2005": "start-server-and-test start:productconfig:prod http-get://localhost:4200 e2e:cy:run:smoke:ci",
+    "e2e:cy:productconfig:start-run-ci:2005": "start-server-and-test start:productconfig:prod http-get://localhost:4200 e2e:cy:run:ci:all",
     "start:b2b:ci:2005": "cross-env SPARTACUS_BASE_URL=https://dev-com-7.accdemo.b2c.ydev.hybris.com:9002 SPARTACUS_API_PREFIX=/occ/v2/ SPARTACUS_B2B=true ng serve --prod"
   },
   "private": false,
