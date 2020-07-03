@@ -9,6 +9,8 @@
     - `projects/storefrontapp/src/environments/environment.ts`
     - `projects/storefrontapp-e2e-cypress/cypress.json`
     - `projects/storefrontapp-e2e-cypress/cypress.ci.2005.json`
+    - `ci-scripts/e2e-cypress.sh` - hard-coded the INTEGRATION on line 55
+    - `package.json` - `e2e:cy:productconfig:start-run-smoke-ci` and `e2e:cy:productconfig:start-run-ci`
 
 3. Move scss and assets to the `product` lib?
 
