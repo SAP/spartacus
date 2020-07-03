@@ -33,6 +33,7 @@ const cartEntryWithconfiguration: OrderEntry[] = [
     entryNumber: 1,
     product: {
       configurable: true,
+      configuratorType: 'CPQCONFIGURATOR',
     },
   },
   {
@@ -45,9 +46,20 @@ const cartEntryWithconfiguration: OrderEntry[] = [
     entryNumber: 3,
     product: {
       configurable: true,
+      configuratorType: 'CPQCONFIGURATOR',
+    },
+  },
+  {
+    entryNumber: 4,
+    product: {
+      configurable: true,
+      configuratorType: 'some other configurator',
     },
   },
 ];
+class MockActiveCartService {
+  getEntries(): void {}
+}
 
 describe('ConfiguratorPlaceOrderHookEffects', () => {
   let actions$: Observable<any>;
@@ -70,6 +82,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
         provideMockActions(() => actions$),
         {
           provide: ActiveCartService,
+          useClass: MockActiveCartService,
         },
       ],
     });
@@ -112,9 +125,9 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
   });
 
   it('should emit remove configuration when order is placed - cart contains no configured products', () => {
-    spyOn(activeCartService, 'getEntries')
-      .and.stub()
-      .and.returnValue(of(cartEntryWOconfiguration));
+    spyOn(activeCartService, 'getEntries').and.returnValue(
+      of(cartEntryWOconfiguration)
+    );
 
     const action = new PlaceOrder({
       cartId: '',
