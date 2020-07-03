@@ -4,7 +4,6 @@ import {
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   GenericConfigurator,
-  RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
@@ -19,7 +18,6 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
 
   constructor(
-    private routingService: RoutingService,
     private configuratorGroupsService: ConfiguratorGroupsService,
     private configuratorCommonsService: ConfiguratorCommonsService,
     private configRouterExtractorService: ConfigRouterExtractorService
@@ -27,7 +25,7 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+      .extractRouterData()
       .pipe(
         switchMap((routerData) =>
           this.configuratorCommonsService.getConfiguration(routerData.owner)

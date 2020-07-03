@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
+  ConfiguratorGroupsService,
   GenericConfigurator,
   GlobalMessageService,
   GlobalMessageType,
@@ -24,22 +25,21 @@ export class ConfigAddToCartButtonComponent implements OnInit {
   constructor(
     private routingService: RoutingService,
     private configuratorCommonsService: ConfiguratorCommonsService,
+    private configuratorGroupsService: ConfiguratorGroupsService,
     private configRouterExtractorService: ConfigRouterExtractorService,
     private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+      .extractRouterData()
       .pipe(
         switchMap((routerData) =>
           this.configuratorCommonsService.getConfiguration(routerData.owner)
         )
       );
 
-    this.routerData$ = this.configRouterExtractorService.extractRouterData(
-      this.routingService
-    );
+    this.routerData$ = this.configRouterExtractorService.extractRouterData();
   }
 
   private navigateToCart() {
@@ -106,12 +106,18 @@ export class ConfigAddToCartButtonComponent implements OnInit {
     const isOverview = pageType === ConfigurationRouter.PageType.OVERVIEW;
     const owner = configuration.owner;
     this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+      .extractRouterData()
       .pipe(
         map((routerData) => routerData.isOwnerCartEntry),
         take(1)
       )
       .subscribe((isOwnerCartEntry) => {
+        this.configuratorGroupsService.setGroupStatus(
+          configuration.owner,
+          configuration.interactionState.currentGroup,
+          true
+        );
+
         if (isOwnerCartEntry) {
           if (configuration.isCartEntryUpdateRequired) {
             this.configuratorCommonsService.updateCartEntry(configuration);

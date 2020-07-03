@@ -1,7 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { VariantConfiguratorModule } from './variant-configurator/variant-configurator.module';
+import { ConfigurationComponentsModule } from './components/configuration-components.module';
+import { ConfigurationCoreModule } from './core/configuration-core.module';
 
 @NgModule({
-  imports: [VariantConfiguratorModule],
+  imports: [
+    CommonModule,
+    ConfigurationComponentsModule,
+    ConfigurationCoreModule,
+  ],
 })
 export class ProductConfigurationModule {}

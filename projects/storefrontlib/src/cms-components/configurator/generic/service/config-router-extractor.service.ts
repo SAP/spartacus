@@ -14,12 +14,13 @@ import { ConfigurationRouter } from './config-router-data';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfigRouterExtractorService {
-  constructor(private configUtilsService: GenericConfigUtilsService) {}
+  constructor(
+    private configUtilsService: GenericConfigUtilsService,
+    private routingService: RoutingService
+  ) {}
 
-  extractRouterData(
-    routingService: RoutingService
-  ): Observable<ConfigurationRouter.Data> {
-    return routingService.getRouterState().pipe(
+  extractRouterData(): Observable<ConfigurationRouter.Data> {
+    return this.routingService.getRouterState().pipe(
       filter((routingData) => routingData.state.params.entityKey),
       //we don't need to cover the intermediate router states where a future route is already known.
       //only changes to the URL are relevant. Otherwise we get wrong hits where e.g. the config form fires although

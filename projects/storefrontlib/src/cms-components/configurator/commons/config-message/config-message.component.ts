@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ConfiguratorCommonsService, RoutingService } from '@spartacus/core';
+import { ConfiguratorCommonsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
@@ -17,7 +17,6 @@ export class ConfigMessageComponent implements OnInit {
   hasPendingChanges$: Observable<Boolean>;
 
   constructor(
-    private routingService: RoutingService,
     private configuratorCommonsService: ConfiguratorCommonsService,
     private configRouterExtractorService: ConfigRouterExtractorService,
     private config: MessageConfig
@@ -25,7 +24,7 @@ export class ConfigMessageComponent implements OnInit {
 
   ngOnInit(): void {
     this.hasPendingChanges$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+      .extractRouterData()
       .pipe(
         switchMap((routerData) => {
           return this.configuratorCommonsService
