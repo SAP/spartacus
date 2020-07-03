@@ -168,6 +168,7 @@ export class ConfigAddToCartButtonComponent implements OnInit {
   ) {
     if (isOverview) {
       this.navigateToCart();
+      this.configuratorCommonsService.removeConfiguration(owner);
     } else {
       this.navigateToOverview(configuratorType, owner);
     }

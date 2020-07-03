@@ -41,7 +41,6 @@ export class OccConfiguratorVariantAdapter
         tap((configuration) => {
           configuration.owner = {
             ...owner,
-            hasObsoleteState: false,
           };
         })
       );
@@ -65,7 +64,6 @@ export class OccConfiguratorVariantAdapter
         tap((configuration) => {
           configuration.owner = {
             ...configurationOwner,
-            hasObsoleteState: false,
           };
         })
       );
@@ -131,7 +129,6 @@ export class OccConfiguratorVariantAdapter
       tap((resultConfiguration) => {
         resultConfiguration.owner = {
           ...parameters.owner,
-          hasObsoleteState: false,
         };
       })
     );
@@ -187,7 +184,6 @@ export class OccConfiguratorVariantAdapter
       tap((resultConfiguration) => {
         resultConfiguration.owner = {
           ...parameters.owner,
-          hasObsoleteState: false,
         };
       })
     );

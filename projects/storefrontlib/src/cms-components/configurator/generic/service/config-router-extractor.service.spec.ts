@@ -138,7 +138,7 @@ describe('ConfigRouterExtractorService', () => {
       const owner: GenericConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
         mockRouterState
       );
-      expect(owner.hasObsoleteState).toBe(false);
+
       expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
     });
 
@@ -149,7 +149,7 @@ describe('ConfigRouterExtractorService', () => {
       const owner: GenericConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
         mockRouterState
       );
-      expect(owner.hasObsoleteState).toBe(false);
+
       expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
     });
 
@@ -157,11 +157,11 @@ describe('ConfigRouterExtractorService', () => {
       mockRouterState.state.params.ownerType =
         GenericConfigurator.OwnerType.CART_ENTRY;
       mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
-      mockRouterState.state.queryParams = { forceReload: 'true' };
+
       const owner: GenericConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
         mockRouterState
       );
-      expect(owner.hasObsoleteState).toBe(true);
+
       expect(owner.type).toBe(GenericConfigurator.OwnerType.CART_ENTRY);
     });
   });

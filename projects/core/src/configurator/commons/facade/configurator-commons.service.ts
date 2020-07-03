@@ -84,10 +84,6 @@ export class ConfiguratorCommonsService {
   public getOrCreateConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    const localOwner: GenericConfigurator.Owner = {
-      hasObsoleteState: owner.hasObsoleteState,
-    };
-
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
@@ -95,10 +91,12 @@ export class ConfiguratorCommonsService {
         )
       ),
       tap((configurationState) => {
-        console.log('CHHI new config emission');
+        console.log(
+          'CHHI new config emission for config: ' +
+            configurationState.value?.configId
+        );
         if (
-          (!this.isConfigurationCreated(configurationState.value) ||
-            localOwner.hasObsoleteState === true) &&
+          !this.isConfigurationCreated(configurationState.value) &&
           configurationState.loading !== true &&
           configurationState.error !== true
         ) {
@@ -107,8 +105,10 @@ export class ConfiguratorCommonsService {
               new ConfiguratorActions.CreateConfiguration(owner)
             );
           } else if (owner.type === GenericConfigurator.OwnerType.CART_ENTRY) {
-            console.log('CHHI need to read cart entry config');
-            localOwner.hasObsoleteState = false;
+            console.log(
+              'CHHI need to read cart entry config: ' +
+                JSON.stringify(configurationState.value?.configId)
+            );
             this.readConfigurationForCartEntry(owner);
           } else {
             this.readConfigurationForOrderEntry(owner);
@@ -155,12 +155,7 @@ export class ConfiguratorCommonsService {
         cartEntryNumber: owner.id,
         owner: owner,
       };
-      //ensure that an existing configuration is removed from the state, as we will
-      //create a new clone of the configuration attached to the cart => on slow networks, the configuration
-      //that is displayed could otherwise refer to an obsolete configuration
-      this.store.dispatch(
-        new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
-      );
+
       this.store.dispatch(
         new ConfiguratorActions.ReadCartEntryConfiguration(
           readFromCartEntryParameters

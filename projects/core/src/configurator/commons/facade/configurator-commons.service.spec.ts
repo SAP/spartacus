@@ -600,8 +600,6 @@ describe('ConfiguratorCommonsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
       spyOn(store, 'dispatch').and.callThrough();
 
-      OWNER_CART_ENTRY.hasObsoleteState = true;
-
       const configurationObs = serviceUnderTest.getOrCreateConfiguration(
         OWNER_CART_ENTRY
       );

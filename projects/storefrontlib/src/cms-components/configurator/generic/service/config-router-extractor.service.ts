@@ -50,15 +50,13 @@ export class ConfigRouterExtractorService {
   createOwnerFromRouterState(
     routerState: RouterState
   ): GenericConfigurator.Owner {
-    const owner: GenericConfigurator.Owner = { hasObsoleteState: false };
+    const owner: GenericConfigurator.Owner = {};
     const params = routerState.state.params;
     if (params.ownerType) {
       const entityKey = params.entityKey;
       owner.type = params.ownerType;
 
       owner.id = entityKey;
-      owner.hasObsoleteState =
-        routerState.state?.queryParams?.forceReload === 'true';
     } else {
       owner.type = GenericConfigurator.OwnerType.PRODUCT;
       owner.id = params.rootProduct;
