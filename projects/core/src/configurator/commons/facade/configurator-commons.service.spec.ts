@@ -492,7 +492,7 @@ describe('ConfiguratorCommonsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
 
       const updateCartEntryWaitForDone = serviceUnderTest.checkForUpdateDone(
-        productConfiguration
+        '1'
       );
       expect(updateCartEntryWaitForDone).toBeObservable(
         cold('--(z|)', {

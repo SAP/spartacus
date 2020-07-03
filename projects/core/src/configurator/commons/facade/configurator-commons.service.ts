@@ -3,6 +3,8 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { ActiveCartService } from '../../../cart/facade/active-cart.service';
+import { MultiCartSelectors } from '../../../cart/store/index';
+import { StateWithMultiCart } from '../../../cart/store/multi-cart-state';
 import { Cart } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
@@ -19,6 +21,7 @@ import * as ConfiguratorSelectors from '../store/selectors/configurator.selector
 export class ConfiguratorCommonsService {
   constructor(
     protected store: Store<StateWithConfiguration>,
+    protected cartStore: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected genericConfigUtilsService: GenericConfigUtilsService
   ) {}
@@ -147,7 +150,7 @@ export class ConfiguratorCommonsService {
    * Reads a configuratiom that is attached to a cart entry, dispatching the respective action
    * @param owner Configuration owner
    */
-  public readConfigurationForCartEntry(owner: GenericConfigurator.Owner) {
+  public readConfigurationForCartEntry(owner: GenericConfigurator.Owner): void {
     this.activeCartService.requireLoadedCart().subscribe((cartState) => {
       const readFromCartEntryParameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
         userId: this.genericConfigUtilsService.getUserId(cartState.value),
@@ -257,33 +260,38 @@ export class ConfiguratorCommonsService {
    *
    * @param configuration - Configuration
    */
-  public updateCartEntry(configuration: Configurator.Configuration) {
-    this.activeCartService.requireLoadedCart().subscribe((cartState) => {
-      const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
-        userId: this.genericConfigUtilsService.getUserId(cartState.value),
-        cartId: this.genericConfigUtilsService.getCartId(cartState.value),
-        cartEntryNumber: configuration.owner.id,
-        configuration: configuration,
-      };
+  public updateCartEntry(configuration: Configurator.Configuration): void {
+    this.activeCartService
+      .requireLoadedCart()
+      .pipe(take(1))
+      .subscribe((cartState) => {
+        const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
+          userId: this.genericConfigUtilsService.getUserId(cartState.value),
+          cartId: this.genericConfigUtilsService.getCartId(cartState.value),
+          cartEntryNumber: configuration.owner.id,
+          configuration: configuration,
+        };
 
-      this.store.dispatch(new ConfiguratorActions.UpdateCartEntry(parameters));
-      this.checkForUpdateDone(configuration).subscribe((configAfterUpdate) => {
-        this.readConfigurationForCartEntry(configAfterUpdate.owner);
+        this.store.dispatch(
+          new ConfiguratorActions.UpdateCartEntry(parameters)
+        );
+        this.checkForUpdateDone(
+          this.genericConfigUtilsService.getCartId(cartState.value)
+        )
+          .pipe(take(1))
+          .subscribe(() => {
+            console.log('CHHI after update');
+            this.readConfigurationForCartEntry(configuration.owner);
+          });
       });
-    });
   }
 
-  checkForUpdateDone(
-    configuration: Configurator.Configuration
-  ): Observable<Configurator.Configuration> {
-    return this.store.pipe(
+  checkForUpdateDone(cartId: string): Observable<boolean> {
+    return this.cartStore.pipe(
       select(
-        ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
+        MultiCartSelectors.getCartHasPendingProcessesSelectorFactory(cartId)
       ),
-      filter(
-        (configInUpdate) => configInUpdate.isCartEntryUpdatePending === false
-      ),
-      take(1)
+      filter((hasPendingChanges) => !hasPendingChanges)
     );
   }
 
