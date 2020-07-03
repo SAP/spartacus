@@ -57,7 +57,7 @@ describe('OutletService', () => {
         OutletService,
         {
           provide: FeaturesConfig,
-          useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated since 2.1, see #8112
+          useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated since 2.1, see #8116
         },
       ],
     }).compileComponents();
