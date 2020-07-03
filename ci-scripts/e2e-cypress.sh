@@ -52,7 +52,7 @@ if [[ -z "${CI_ENV}" ]]; then
     CI_ENV=":2005"
 fi
 
-INTEGRATION="productconfig"
+INTEGRATION=":productconfig"
 
 yarn
 (cd projects/storefrontapp-e2e-cypress && yarn)
