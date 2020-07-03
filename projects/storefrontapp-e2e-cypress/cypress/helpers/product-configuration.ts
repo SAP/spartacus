@@ -16,8 +16,9 @@ export function clickOnConfigureBtn() {
     });
 }
 
-export function clickOnConfigureCartEntryBtn() {
+export function clickOnEditConfigurationLink() {
   cy.get('cx-configure-cart-entry a')
+    .first()
     .click()
     .then(() => {
       this.isConfigPageDisplayed();
@@ -241,9 +242,7 @@ export function isHamburgerDisplayed() {
 
 export function clickAddToCartBtn() {
   cy.get(addToCartButtonSelector)
-    .click({
-      force: true,
-    })
+    .click()
     .then(() => {
       this.isOverviewPageDisplayed();
     });
