@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
@@ -18,12 +19,12 @@ import {
   OrderDetailsService,
   OrderDetailTotalsComponent,
 } from '../../../myaccount/order/order-details/index';
+import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
 import { OrderApprovalDetailService } from './order-approval-detail.service';
-
-const moduleComponents = [];
 
 @NgModule({
   imports: [
+    ReactiveFormsModule,
     CartSharedModule,
     CommonModule,
     I18nModule,
@@ -87,11 +88,15 @@ const moduleComponents = [];
           ],
           guards: [AuthGuard],
         },
+        OrderApprovalDetailFormComponent: {
+          component: OrderApprovalDetailFormComponent,
+          guards: [AuthGuard],
+        },
       },
     }),
   ],
-  declarations: [...moduleComponents],
-  exports: [...moduleComponents],
-  entryComponents: [...moduleComponents],
+  declarations: [OrderApprovalDetailFormComponent],
+  exports: [OrderApprovalDetailFormComponent],
+  entryComponents: [OrderApprovalDetailFormComponent],
 })
 export class OrderApprovalDetailsModule {}

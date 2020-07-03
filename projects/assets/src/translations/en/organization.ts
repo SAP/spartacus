@@ -483,6 +483,24 @@ export const organization = {
       placeholder: 'Select business unit',
     },
   },
+  mykey: {
+    subkey: 'asdfasdf',
+  },
+  orderApproval: {
+    showApprovalForm: 'Approve Order...',
+    showRejectForm: 'Reject Order...',
+    form: {
+      title_APPROVE: 'Approval of order {{orderCode}} totalling {{orderTotal}}',
+      title_REJECT: 'Rejection of order {{orderCode}} totalling {{OrderTotal}}',
+      submit_APPROVE: 'Approve',
+      submit_REJECT: 'Reject',
+      cancel: 'Cancel',
+      comment: {
+        label: 'Comment',
+        placeholder: '',
+      },
+    },
+  },
   userGroupPermissions: {
     header: 'Purchase limits assigned to in {{code}}',
     assignPermissions: 'Manage limits',

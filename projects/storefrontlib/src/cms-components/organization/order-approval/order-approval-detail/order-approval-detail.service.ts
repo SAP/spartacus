@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Order, OrderApprovalService, RoutingService } from '@spartacus/core';
+import {
+  Order,
+  OrderApproval,
+  OrderApprovalService,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   filter,
@@ -18,7 +23,7 @@ export class OrderApprovalDetailService {
     .getRouterState()
     .pipe(map((routingData) => routingData.state.params.approvalCode));
 
-  protected orderData$ = this.approvalCode$.pipe(
+  protected orderApproval$ = this.approvalCode$.pipe(
     filter(Boolean),
     tap((approvalCode: string) =>
       this.orderApprovalService.loadOrderApproval(approvalCode)
@@ -26,9 +31,10 @@ export class OrderApprovalDetailService {
     switchMap((approvalCode: string) =>
       this.orderApprovalService.get(approvalCode)
     ),
-    pluck('order'),
     shareReplay({ bufferSize: 1, refCount: true })
   );
+
+  protected orderData$ = this.orderApproval$.pipe(pluck('order'));
 
   constructor(
     protected routingService: RoutingService,
@@ -37,5 +43,9 @@ export class OrderApprovalDetailService {
 
   getOrderDetails(): Observable<Order> {
     return this.orderData$;
+  }
+
+  getOrderApproval(): Observable<OrderApproval> {
+    return this.orderApproval$;
   }
 }

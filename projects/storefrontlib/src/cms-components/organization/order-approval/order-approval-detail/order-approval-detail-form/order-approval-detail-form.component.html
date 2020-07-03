@@ -1,0 +1,63 @@
+<ng-container *ngIf="orderApproval$ | async as orderApproval">
+  <ng-container *ngIf="orderApproval?.approvalDecisionRequired">
+    <form
+      [formGroup]="approvalForm"
+      (ngSubmit)="submitDecision(orderApproval)"
+      *ngIf="approvalFormVisible"
+    >
+      {{
+        'orderApproval.form.title_' + approvalDecision
+          | cxTranslate
+            : {
+                orderCode: orderApproval?.order?.code,
+                orderTotal:
+                  orderApproval?.order?.totalPriceWithTax?.formattedValue
+              }
+      }}
+      <textarea
+        class="form-control"
+        rows="3"
+        formControlName="comment"
+        maxlength="255"
+      ></textarea>
+
+      <div class="form-group row">
+        <div class="col-lg-6 col-md-12">
+          <button class="btn btn-block btn-primary" type="submit">
+            {{ 'orderApproval.form.submit_' + approvalDecision | cxTranslate }}
+          </button>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <button
+            class="btn btn-block btn-secondary"
+            (click)="cancelDecisionForm()"
+            type="button"
+          >
+            {{ 'orderApproval.form.cancel' | cxTranslate }}
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <ng-container *ngIf="!approvalFormVisible">
+      <div class="form-group row">
+        <div class="col-lg-6 col-md-12">
+          <button
+            class="btn btn-block btn-primary"
+            (click)="displayDecisionForm(approvalDecisionValue.APPROVE)"
+          >
+            {{ 'orderApproval.showApprovalForm' | cxTranslate }}
+          </button>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <button
+            class="btn btn-block btn-primary"
+            (click)="displayDecisionForm(approvalDecisionValue.REJECT)"
+          >
+            {{ 'orderApproval.showRejectForm' | cxTranslate }}
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>
