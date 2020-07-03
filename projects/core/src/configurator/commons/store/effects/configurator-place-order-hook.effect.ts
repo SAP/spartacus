@@ -20,7 +20,10 @@ export class ConfiguratorPlaceOrderHookEffects {
         .pipe(take(1))
         .subscribe((entries) => {
           entries.forEach((entry) => {
-            if (!entry.product?.configurable) {
+            if (
+              !entry.product?.configurable ||
+              entry.product?.configuratorType !== 'CPQCONFIGURATOR'
+            ) {
               return;
             }
 
@@ -38,8 +41,8 @@ export class ConfiguratorPlaceOrderHookEffects {
   );
 
   constructor(
-    private actions$: Actions,
+    protected actions$: Actions,
     protected activeCartService: ActiveCartService,
-    private genericConfigUtilsService: GenericConfigUtilsService
+    protected genericConfigUtilsService: GenericConfigUtilsService
   ) {}
 }
