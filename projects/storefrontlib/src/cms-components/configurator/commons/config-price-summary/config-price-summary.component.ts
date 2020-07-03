@@ -1,9 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import {
-  Configurator,
-  ConfiguratorCommonsService,
-  RoutingService,
-} from '@spartacus/core';
+import { Configurator, ConfiguratorCommonsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
@@ -17,14 +13,13 @@ export class ConfigPriceSummaryComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
 
   constructor(
-    private routingService: RoutingService,
     private configuratorCommonsService: ConfiguratorCommonsService,
     private configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+      .extractRouterData()
       .pipe(
         switchMap((routerData) => {
           return this.configuratorCommonsService.getConfiguration(
