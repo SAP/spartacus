@@ -1,13 +1,13 @@
 import { Component, Input, NgModule, Output } from '@angular/core';
 
 @Component({
-  template: '',
+  template: '<ng-content></ng-content>',
   selector: 'cx-split-view',
 })
 class MockSplitViewComponent {}
 
 @Component({
-  template: '',
+  template: '<ng-content></ng-content>',
   selector: 'cx-view',
 })
 class MockViewComponent {
