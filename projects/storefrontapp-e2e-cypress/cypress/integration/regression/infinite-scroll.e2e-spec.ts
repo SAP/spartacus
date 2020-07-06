@@ -1,50 +1,84 @@
 import {
-  infiniteScrollNoShowMoreTest,
-  infiniteScrollNotActivatedTest,
-  infiniteScrollWithShowMoreAtALimit,
-  infiniteScrollWithShowMoreAtTheBeginningTest,
-  scrollConfig,
-  verifyProductListLoaded,
+  configScroll,
+  isPaginationNotVisible,
+  backtoTopIsNotVisible,
+  scrollToFooter,
+  backToTopIsVisible,
+  isPaginationVisible,
+  verifySortingResetsList,
+  verifyFilterResetsList,
+  verifyGridResetsList,
 } from '../../helpers/infinite-scroll';
+import {
+  createAllProductQuery,
+  QUERY_ALIAS,
+} from '../../helpers/product-search';
 
-context('Infinite scroll', () => {
+describe('Infinite scroll', () => {
+  const testUrl = '/Open-Catalogue/Components/Power-Supplies/c/816';
+  const productQueryAlias = `@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`;
+
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
   });
 
-  describe('infinite scroll is active and no show more button', () => {
-    beforeEach(() => {
-      scrollConfig(true, 0, false);
-      verifyProductListLoaded();
-    });
-
-    infiniteScrollNoShowMoreTest();
+  beforeEach(() => {
+    cy.server();
+    createAllProductQuery(QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED);
   });
 
-  describe('infinite scroll should be active using the show more button from the beginning', () => {
-    beforeEach(() => {
-      scrollConfig(true, 0, true);
-      verifyProductListLoaded();
-    });
+  it("should enable Infinite scroll and NOT display 'Show more' button", () => {
+    configScroll(true, 0, false);
+    cy.visit(testUrl);
 
-    infiniteScrollWithShowMoreAtTheBeginningTest();
+    cy.wait(productQueryAlias).then((waitXHR) => {
+      const totalResults = waitXHR.response.body.pagination.totalResults;
+      isPaginationNotVisible();
+
+      backtoTopIsNotVisible();
+      scrollToFooter(totalResults);
+      backToTopIsVisible();
+
+      verifySortingResetsList();
+
+      verifyFilterResetsList();
+
+      verifyGridResetsList();
+    });
   });
 
-  describe('infinite scroll should be active using the show more button starting from the 15th and more products', () => {
-    beforeEach(() => {
-      scrollConfig(true, 15, false);
-      verifyProductListLoaded();
-    });
+  it("Should enable infinite scroll and display 'Show more' button", () => {
+    configScroll(true, 0, true);
+    cy.visit(testUrl);
 
-    infiniteScrollWithShowMoreAtALimit();
+    cy.wait(productQueryAlias).then((waitXHR) => {
+      const totalResults = waitXHR.response.body.pagination.totalResults;
+
+      isPaginationNotVisible();
+      scrollToFooter(totalResults, true);
+      backToTopIsVisible();
+    });
   });
 
-  describe('infinite scroll is not active when not using the view config', () => {
-    beforeEach(() => {
-      scrollConfig(false, 0, false);
-      verifyProductListLoaded();
-    });
+  it("should enable infinite scroll and display 'Show more' button after 15th product", () => {
+    configScroll(true, 15, false);
+    cy.visit(testUrl);
 
-    infiniteScrollNotActivatedTest();
+    cy.wait(productQueryAlias).then((waitXHR) => {
+      const totalResults = waitXHR.response.body.pagination.totalResults;
+      isPaginationNotVisible();
+
+      backtoTopIsNotVisible();
+      scrollToFooter(totalResults, false, 15);
+      backToTopIsVisible(true);
+    });
+  });
+
+  it('Should not display Infinite scroll', () => {
+    configScroll(false, 0, false);
+    cy.visit(testUrl);
+
+    cy.wait(productQueryAlias);
+    isPaginationVisible();
   });
 });

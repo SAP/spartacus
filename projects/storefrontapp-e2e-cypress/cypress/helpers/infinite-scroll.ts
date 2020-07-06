@@ -5,17 +5,16 @@ import {
   QUERY_ALIAS,
 } from './product-search';
 
-const scrollDuration = 1000;
+const scrollDuration = 100;
 const defaultNumberOfProducts = 10;
 let defaultProductLimit = 10;
-let numberOfIteration = 0;
 
 const productScrollButtons = 'cx-product-scroll .btn-action';
 
 const doubleButton = 'double';
 const singleButton = 'single';
 
-export function scrollConfig(
+export function configScroll(
   active: boolean,
   productLimit: number,
   showMoreButton: boolean
@@ -29,15 +28,6 @@ export function scrollConfig(
       },
     },
   });
-}
-
-export function verifyProductListLoaded() {
-  cy.server();
-  createAllProductQuery(QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED);
-  cy.visit('/Open-Catalogue/Components/Power-Supplies/c/816');
-  cy.wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
-    .its('status')
-    .should('eq', 200);
 }
 
 export function assertDefaultNumberOfProducts(view) {
@@ -72,6 +62,7 @@ export function backtoTopIsNotVisible() {
 }
 
 export function scrollToFooter(
+  results: number,
   isShowMoreButton?: boolean,
   productLimit?: number
 ) {
@@ -79,43 +70,37 @@ export function scrollToFooter(
     defaultProductLimit = productLimit;
   }
 
-  cy.get('cx-breadcrumb h1').then(($breadcrumb) => {
-    const breadcrumbQuantityNumber = Number($breadcrumb.text().split(' ')[0]);
+  const iterations = Math.floor(results / defaultProductLimit);
 
-    numberOfIteration = Math.floor(
-      breadcrumbQuantityNumber / defaultProductLimit
-    );
+  let numberOfProducts = defaultNumberOfProducts;
 
-    let numberOfProducts = defaultNumberOfProducts;
+  for (let i = 1; i < iterations; i++) {
+    if (isShowMoreButton) {
+      cy.get('div')
+        .contains('SHOW MORE')
+        .click({ force: true })
+        .wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
+        .then(() => {
+          numberOfProducts += defaultNumberOfProducts;
+          verifyNumberOfProducts(numberOfProducts);
 
-    for (let i = 1; i < numberOfIteration; i++) {
-      if (isShowMoreButton) {
-        cy.get('div')
-          .contains('SHOW MORE')
-          .click({ force: true })
-          .wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
-          .then(() => {
-            numberOfProducts += defaultNumberOfProducts;
-            verifyNumberOfProducts(numberOfProducts);
+          cy.get(productScrollButtons).should('exist');
+        });
+    } else {
+      cy.scrollTo('bottom', { easing: 'linear', duration: scrollDuration })
+        .wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
+        .then(() => {
+          numberOfProducts += defaultNumberOfProducts;
+          verifyNumberOfProducts(numberOfProducts);
 
+          if (!productLimit) {
+            cy.get(productScrollButtons).should('not.contain', ' SHOW MORE ');
+          } else {
             cy.get(productScrollButtons).should('exist');
-          });
-      } else {
-        cy.scrollTo('bottom', { easing: 'linear', duration: scrollDuration })
-          .wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
-          .then(() => {
-            numberOfProducts += defaultNumberOfProducts;
-            verifyNumberOfProducts(numberOfProducts);
-
-            if (!productLimit) {
-              cy.get(productScrollButtons).should('not.contain', ' SHOW MORE ');
-            } else {
-              cy.get(productScrollButtons).should('exist');
-            }
-          });
-      }
+          }
+        });
     }
-  });
+  }
 }
 
 export function verifySortingResetsList() {
@@ -150,51 +135,4 @@ export function verifyGridResetsList() {
     .should('eq', 200);
 
   assertDefaultNumberOfProducts('grid');
-}
-
-export function infiniteScrollNoShowMoreTest() {
-  it('should be active', () => {
-    isPaginationNotVisible();
-
-    backtoTopIsNotVisible();
-    scrollToFooter();
-    backToTopIsVisible();
-  });
-
-  it('should reset the list when sorting', () => {
-    verifySortingResetsList();
-  });
-
-  it('should reset the list when filtering', () => {
-    verifyFilterResetsList();
-  });
-
-  it('should reset the list when in grid view', () => {
-    verifyGridResetsList();
-  });
-}
-
-export function infiniteScrollWithShowMoreAtTheBeginningTest() {
-  it('should be active', () => {
-    isPaginationNotVisible();
-
-    scrollToFooter(true);
-    backToTopIsVisible();
-  });
-}
-
-export function infiniteScrollWithShowMoreAtALimit() {
-  it('should be active', () => {
-    isPaginationNotVisible();
-
-    backtoTopIsNotVisible();
-    scrollToFooter(false, 15);
-    backToTopIsVisible(true);
-  });
-}
-
-export function infiniteScrollNotActivatedTest() {
-  it('should not be active', () => {
-    isPaginationVisible();
-  });
 }
