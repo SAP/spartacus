@@ -9,7 +9,19 @@
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/my-account": ["dist/my-account"],
       "@spartacus/product": ["dist/product"],
-      "@spartacus/product/configuration": ["dist/product/configuration"]
+      "@spartacus/product/configuration": ["dist/product/configuration"],
+      "@spartacus/product/configuration/common": [
+        "dist/product/configuration/common"
+      ],
+      "@spartacus/product/configuration/cpq": [
+        "dist/product/configuration/cpq"
+      ],
+      "@spartacus/product/configuration/variant": [
+        "dist/product/configuration/variant"
+      ],
+      "@spartacus/product/configuration/textfield": [
+        "dist/product/configuration/textfield"
+      ]
     }
   }
 }

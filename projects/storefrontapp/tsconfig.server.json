@@ -15,6 +15,18 @@
       "@spartacus/product": ["../../feature-libs/product/public_api"],
       "@spartacus/product/configuration": [
         "../../feature-libs/product/configuration/public_api"
+      ],
+      "@spartacus/product/configuration/common": [
+        "../../feature-libs/product/configuration/common/public_api"
+      ],
+      "@spartacus/product/configuration/cpq": [
+        "../../feature-libs/product/configuration/cpq/public_api"
+      ],
+      "@spartacus/product/configuration/variant": [
+        "../../feature-libs/product/configuration/variant/public_api"
+      ],
+      "@spartacus/product/configuration/textfield": [
+        "../../feature-libs/product/configuration/textfield/public_api"
       ]
     }
   },
