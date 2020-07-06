@@ -14,8 +14,8 @@ import {
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { GigyaAuthService } from '../../../auth/facade/gigya-auth.service';
-import { GigyaConfig } from '../../../config';
+import { GigyaAuthService } from './gigya-auth.service';
+import { GigyaConfig } from '../../config';
 import { GigyaJsService } from './gigya-js.service';
 
 const sampleGigyaConfig: GigyaConfig = {

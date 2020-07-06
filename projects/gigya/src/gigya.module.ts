@@ -6,7 +6,7 @@ import {
 } from '@spartacus/core';
 import { GigyaAuthService } from './auth/facade/gigya-auth.service';
 import { GigyaAuthModule } from './auth/gigya-auth.module';
-import { GigyaJsService } from './cms-components/gigya-js/facade/gigya-js.service';
+import { GigyaJsService } from './auth/facade/gigya-js.service';
 import { GigyaRaasModule } from './cms-components/gigya-raas/gigya-raas.module';
 import { GigyaConfig } from './config/gigya-config';
 

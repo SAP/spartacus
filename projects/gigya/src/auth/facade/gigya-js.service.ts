@@ -12,8 +12,8 @@ import {
 } from '@spartacus/core';
 import { combineLatest, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { GigyaAuthService } from '../../../auth/facade/gigya-auth.service';
-import { GigyaConfig } from '../../../config/gigya-config';
+import { GigyaAuthService } from './gigya-auth.service';
+import { GigyaConfig } from '../../config/gigya-config';
 
 @Injectable({
   providedIn: 'root',
