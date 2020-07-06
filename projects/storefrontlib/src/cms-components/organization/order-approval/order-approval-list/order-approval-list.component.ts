@@ -58,7 +58,5 @@ export class OrderApprovalListComponent extends AbstractListingComponent
           )
       )
     );
-
-    this.data$.subscribe(console.log);
   }
 }
