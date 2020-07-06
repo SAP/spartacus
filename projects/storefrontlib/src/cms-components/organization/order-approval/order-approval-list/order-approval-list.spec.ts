@@ -156,7 +156,7 @@ class MockCxDatePipe {
   }
 }
 
-fdescribe('OrderApprovalListComponent', () => {
+describe('OrderApprovalListComponent', () => {
   let component: OrderApprovalListComponent;
   let fixture: ComponentFixture<OrderApprovalListComponent>;
   let orderApprovalService: MockOrderApprovalService;
