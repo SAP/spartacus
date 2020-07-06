@@ -371,7 +371,7 @@ describe('OrgUnit Actions', () => {
       });
     });
 
-    fit('should execute Delete Address Success action', () => {
+    it('should execute Delete Address Success action', () => {
       const action = new OrgUnitActions.DeleteAddressSuccess(address);
 
       expect({ ...action }).toEqual({
