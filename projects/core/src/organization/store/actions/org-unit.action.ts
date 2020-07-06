@@ -12,7 +12,7 @@ import {
   EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
-import { EntityRemoveAction } from '../../../state/utils/entity';
+import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
 import {
   ORG_UNIT_NODE_LIST,
   ORG_UNIT_ENTITIES,
