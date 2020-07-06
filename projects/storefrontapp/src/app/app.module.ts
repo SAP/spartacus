@@ -10,6 +10,22 @@ import {
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TestConfigModule } from '@spartacus/core';
 import {
+  CommonComponentsModule,
+  CpqComponentsModule,
+  TextfieldComponentsModule,
+  VariantComponentsModule,
+} from '@spartacus/product';
+import {
+  CommonCoreModule,
+  CpqCoreModule,
+  TextfieldCoreModule,
+  VariantCoreModule,
+} from '@spartacus/product/configuration';
+import { CommonConfiguratorModule } from '@spartacus/product/configuration/common';
+import { CpqConfiguratorModule } from '@spartacus/product/configuration/cpq';
+import { TextfieldConfiguratorModule } from '@spartacus/product/configuration/textfield';
+import { VariantConfiguratorModule } from '@spartacus/product/configuration/variant';
+import {
   JsonLdBuilderModule,
   StorefrontComponent,
 } from '@spartacus/storefront';
@@ -54,4 +70,25 @@ if (environment.b2b) {
 
   bootstrap: [StorefrontComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    console.log(
+      CommonConfiguratorModule,
+      CpqConfiguratorModule,
+      VariantConfiguratorModule,
+      TextfieldConfiguratorModule
+    );
+    console.log(
+      CommonCoreModule,
+      CpqCoreModule,
+      TextfieldCoreModule,
+      VariantCoreModule
+    );
+    console.log(
+      CommonComponentsModule,
+      CpqComponentsModule,
+      TextfieldComponentsModule,
+      VariantComponentsModule
+    );
+  }
+}
