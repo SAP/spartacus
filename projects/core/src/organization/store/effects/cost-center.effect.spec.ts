@@ -23,7 +23,7 @@ const userId = 'testUser';
 const costCenter: CostCenter = {
   code: costCenterCode,
   activeFlag: false,
-  active: 'yeees',
+  active: false,
   originalCode: 'orgCode',
   name: 'testName',
   unit: { uid: 'ouid', name: 'ouName' },
