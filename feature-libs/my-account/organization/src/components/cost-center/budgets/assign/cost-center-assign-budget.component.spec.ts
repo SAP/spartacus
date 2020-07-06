@@ -29,9 +29,7 @@ const mockBudgetList: Table<Budget> = {
 
 class MockActivatedRoute {
   parent = {
-    parent: {
-      params: of({ code: costCenterCode }),
-    },
+    params: of({ code: costCenterCode }),
   };
   snapshot = {};
 }

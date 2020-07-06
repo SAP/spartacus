@@ -17,6 +17,7 @@ export class CostCenterDetailsComponent {
   );
 
   costCenter$: Observable<CostCenter> = this.code$.pipe(
+    // TODO: we should do this in the facade
     tap((code) => this.costCentersService.loadCostCenter(code)),
     switchMap((code) => this.costCentersService.get(code)),
     filter((costCenters) => Boolean(costCenters))

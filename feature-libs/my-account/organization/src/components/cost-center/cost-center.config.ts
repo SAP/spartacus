@@ -18,14 +18,17 @@ export const costCenterRoutingConfig: RoutingConfig = {
       costCenter: {
         paths: ['organization/cost-centers'],
       },
+      costCenterCreate: {
+        paths: ['organization/cost-centers/create'],
+      },
       costCenterDetails: {
         paths: ['organization/cost-centers/:code'],
       },
-      costCenterBudgets: {
-        paths: ['organization/cost-centers/:code/budgets'],
+      costCenterEdit: {
+        paths: ['organization/cost-centers/:code/edit'],
       },
-      costCenterAssignBudgets: {
-        paths: ['organization/cost-centers/:code/budgets/assign'],
+      costCenterAssignBudget: {
+        paths: ['organization/cost-centers/:code/assign-budget'],
       },
     },
   },
@@ -52,14 +55,9 @@ export const costCenterCmsConfig: CmsConfig = {
               canDeactivate: [SplitViewDeactivateGuard],
             },
             {
-              path: 'budgets',
-              children: [
-                {
-                  path: 'assign',
-                  component: CostCenterAssignBudgetsComponent,
-                  canDeactivate: [SplitViewDeactivateGuard],
-                },
-              ],
+              path: 'assign-budget',
+              component: CostCenterAssignBudgetsComponent,
+              canDeactivate: [SplitViewDeactivateGuard],
             },
           ],
         },
@@ -77,7 +75,7 @@ export const costCenterTableConfig: TableConfig = {
         headers: [{ key: 'name' }],
         pagination: {
           sort: 'byName',
-          pageSize: 2,
+          // pageSize: 2,
         },
       },
       {

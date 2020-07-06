@@ -2,7 +2,11 @@
   <cx-view>
     <h3>
       {{ 'costCenter.header' | cxTranslate }}
-      <a class="link" routerLink="create" routerLinkActive="disabled">
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'costCenterCreate' } | cxUrl"
+        routerLinkActive="disabled"
+      >
         <cx-icon type="EXPAND"></cx-icon>
       </a>
     </h3>

@@ -12,7 +12,7 @@
     <a
       class="button primary"
       [class.disabled]="!costCenter.active"
-      routerLink="edit"
+      [routerLink]="{ cxRoute: 'costCenterEdit', params: costCenter } | cxUrl"
     >
       {{ 'organization.edit' | cxTranslate }}
     </a>
@@ -94,7 +94,7 @@
       <a
         class="link"
         [routerLink]="
-          { cxRoute: 'costCenterAssignBudgets', params: costCenter } | cxUrl
+          { cxRoute: 'costCenterAssignBudget', params: costCenter } | cxUrl
         "
       >
         {{ 'costCenter.budget.assign' | cxTranslate }}
