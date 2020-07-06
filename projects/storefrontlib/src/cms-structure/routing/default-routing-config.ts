@@ -90,7 +90,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['organization/budget/edit/:code'],
   },
   orderApprovals: {
-    paths: ['organization/order-approvals'],
+    paths: ['my-account/order-approvals'],
   },
   orgUnits: {
     paths: ['organization/units'],
