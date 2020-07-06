@@ -15,7 +15,7 @@ import {
 import { UnitChildrenComponent } from './unit-children.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { Table2Module } from '../../../../shared/components/table/table.module';
+import { Table2Module } from '../../../../shared/components/table/table2.module';
 
 const code = 'b1';
 

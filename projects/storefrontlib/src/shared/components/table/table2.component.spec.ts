@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { Table2Component } from './table.component';
+import { Table2Component } from './table2.component';
 
 const mockColumns: Array<{ key: string; value: string }> = [
   { key: 'column1', value: 'Column 1' },
