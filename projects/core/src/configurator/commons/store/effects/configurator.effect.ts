@@ -361,9 +361,7 @@ export class ConfiguratorEffects {
 
   @Effect()
   updateCartEntry$: Observable<
-    | CartActions.CartUpdateEntrySuccess
-    | CartActions.CartUpdateEntryFail
-    | ConfiguratorActions.UpdateCartEntrySuccess
+    CartActions.CartUpdateEntrySuccess | CartActions.CartUpdateEntryFail
   > = this.actions$.pipe(
     ofType(UPDATE_CART_ENTRY),
     map((action: UpdateCartEntry) => action.payload),
@@ -390,9 +388,6 @@ export class ConfiguratorEffects {
                       entryNumber: entry.entry.entryNumber.toString(),
                       quantity: entry.quantity,
                     }),
-                    new ConfiguratorActions.UpdateCartEntrySuccess(
-                      payload.configuration
-                    ),
                   ];
                 }),
                 catchError((error) =>

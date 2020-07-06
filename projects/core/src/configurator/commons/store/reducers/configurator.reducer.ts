@@ -18,11 +18,6 @@ export function reducer(
   action: ConfiguratorActions.ConfiguratorAction
 ): Configurator.Configuration {
   switch (action.type) {
-    case ConfiguratorActions.UPDATE_CART_ENTRY_SUCCESS: {
-      const result = { ...state };
-      result.isCartEntryUpdatePending = false;
-      return result;
-    }
     case ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS: {
       const result: Configurator.Configuration = takeOverChanges(action, state);
       result.isCartEntryUpdateRequired = true;
@@ -32,7 +27,6 @@ export function reducer(
     case ConfiguratorActions.UPDATE_CART_ENTRY: {
       const result = { ...state };
       result.isCartEntryUpdateRequired = false;
-      result.isCartEntryUpdatePending = true;
       return result;
     }
     case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS:

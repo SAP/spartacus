@@ -269,13 +269,6 @@ export class UpdateCartEntry extends EntityProcessesIncrementAction {
   }
 }
 
-export class UpdateCartEntrySuccess extends StateUtils.EntitySuccessAction {
-  readonly type = UPDATE_CART_ENTRY_SUCCESS;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATION_DATA, payload.owner.key);
-  }
-}
-
 export class RemoveConfiguration extends StateUtils.EntityLoaderResetAction {
   readonly type = REMOVE_CONFIGURATION;
   constructor(public payload: { ownerKey: string | string[] }) {
@@ -412,7 +405,6 @@ export type ConfiguratorAction =
   | ReadOrderEntryConfigurationSuccess
   | ReadOrderEntryConfigurationFail
   | UpdateCartEntry
-  | UpdateCartEntrySuccess
   | RemoveConfiguration
   | SetInteractionState
   | SetMenuParentGroup

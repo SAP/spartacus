@@ -598,11 +598,11 @@ describe('ConfiguratorEffect', () => {
   });
 
   describe('Effect updateCartEntry', () => {
-    it('should emit AddToCartSuccess on updateCartEntry in case no changes are pending', () => {
+    it('should emit updateCartEntrySuccess on updateCartEntry in case no changes are pending', () => {
       const action = new ConfiguratorActions.UpdateCartEntry(
         payloadInputUpdateConfiguration
       );
-      const cartAddEntrySuccess = new CartActions.CartUpdateEntrySuccess({
+      const cartUpdateEntrySuccess = new CartActions.CartUpdateEntrySuccess({
         ...cartModification,
         userId: userId,
         cartId: cartId,
@@ -610,14 +610,9 @@ describe('ConfiguratorEffect', () => {
         quantity: cartModification.quantity,
       });
 
-      const updateCartEntrySuccess = new ConfiguratorActions.UpdateCartEntrySuccess(
-        productConfiguration
-      );
-
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(de)', {
-        d: cartAddEntrySuccess,
-        e: updateCartEntrySuccess,
+      const expected = cold('-d)', {
+        d: cartUpdateEntrySuccess,
       });
       expect(configEffects.updateCartEntry$).toBeObservable(expected);
     });

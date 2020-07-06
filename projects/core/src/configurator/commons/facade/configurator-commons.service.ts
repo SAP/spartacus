@@ -94,10 +94,6 @@ export class ConfiguratorCommonsService {
         )
       ),
       tap((configurationState) => {
-        console.log(
-          'CHHI new config emission for config: ' +
-            configurationState.value?.configId
-        );
         if (
           !this.isConfigurationCreated(configurationState.value) &&
           configurationState.loading !== true &&
@@ -108,10 +104,6 @@ export class ConfiguratorCommonsService {
               new ConfiguratorActions.CreateConfiguration(owner)
             );
           } else if (owner.type === GenericConfigurator.OwnerType.CART_ENTRY) {
-            console.log(
-              'CHHI need to read cart entry config: ' +
-                JSON.stringify(configurationState.value?.configId)
-            );
             this.readConfigurationForCartEntry(owner);
           } else {
             this.readConfigurationForOrderEntry(owner);
@@ -239,20 +231,27 @@ export class ConfiguratorCommonsService {
    * @param configId - Configuration ID
    * @param ownerKey Configuration owner key
    */
-  public addToCart(productCode: string, configId: string, ownerKey: string) {
-    this.activeCartService.requireLoadedCart().subscribe((cartState) => {
-      const addToCartParameters: Configurator.AddToCartParameters = {
-        userId: this.genericConfigUtilsService.getUserId(cartState.value),
-        cartId: this.genericConfigUtilsService.getCartId(cartState.value),
-        productCode: productCode,
-        quantity: 1,
-        configId: configId,
-        ownerKey: ownerKey,
-      };
-      this.store.dispatch(
-        new ConfiguratorActions.AddToCart(addToCartParameters)
-      );
-    });
+  public addToCart(
+    productCode: string,
+    configId: string,
+    ownerKey: string
+  ): void {
+    this.activeCartService
+      .requireLoadedCart()
+      .pipe(take(1))
+      .subscribe((cartState) => {
+        const addToCartParameters: Configurator.AddToCartParameters = {
+          userId: this.genericConfigUtilsService.getUserId(cartState.value),
+          cartId: this.genericConfigUtilsService.getCartId(cartState.value),
+          productCode: productCode,
+          quantity: 1,
+          configId: configId,
+          ownerKey: ownerKey,
+        };
+        this.store.dispatch(
+          new ConfiguratorActions.AddToCart(addToCartParameters)
+        );
+      });
   }
 
   /**
@@ -265,9 +264,12 @@ export class ConfiguratorCommonsService {
       .requireLoadedCart()
       .pipe(take(1))
       .subscribe((cartState) => {
+        const cartId = this.genericConfigUtilsService.getCartId(
+          cartState.value
+        );
         const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
           userId: this.genericConfigUtilsService.getUserId(cartState.value),
-          cartId: this.genericConfigUtilsService.getCartId(cartState.value),
+          cartId: cartId,
           cartEntryNumber: configuration.owner.id,
           configuration: configuration,
         };
@@ -275,12 +277,9 @@ export class ConfiguratorCommonsService {
         this.store.dispatch(
           new ConfiguratorActions.UpdateCartEntry(parameters)
         );
-        this.checkForUpdateDone(
-          this.genericConfigUtilsService.getCartId(cartState.value)
-        )
+        this.checkForUpdateDone(cartId)
           .pipe(take(1))
           .subscribe(() => {
-            console.log('CHHI after update');
             this.readConfigurationForCartEntry(configuration.owner);
           });
       });

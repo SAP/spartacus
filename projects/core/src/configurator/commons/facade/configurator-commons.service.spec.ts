@@ -474,29 +474,21 @@ describe('ConfiguratorCommonsService', () => {
       );
     });
 
-    it('should re-read cart entry only after update went through', () => {
-      const productConfigInUpdate: Configurator.Configuration = {
-        configId: CONFIG_ID,
-        owner: OWNER_CART_ENTRY,
-        isCartEntryUpdatePending: true,
-      };
-      const productConfigUpdateCompleted: Configurator.Configuration = {
-        configId: CONFIG_ID,
-        isCartEntryUpdatePending: false,
-      };
+    it('should re-read cart entry only after update went through and no pending changes are present', () => {
+      const cartId = '1';
       const obs = cold('xyz', {
-        x: productConfigInUpdate,
-        y: productConfigInUpdate,
-        z: productConfigUpdateCompleted,
+        x: true,
+        y: true,
+        z: false,
       });
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
 
       const updateCartEntryWaitForDone = serviceUnderTest.checkForUpdateDone(
-        '1'
+        cartId
       );
       expect(updateCartEntryWaitForDone).toBeObservable(
-        cold('--(z|)', {
-          z: productConfigUpdateCompleted,
+        cold('--z', {
+          z: false,
         })
       );
     });
