@@ -1,110 +1,112 @@
-<cx-view #view *ngIf="costCenter$ | async as costCenter">
-  <h3>
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'costCenter' } | cxUrl"
-      (click)="view.toggle()"
-    >
-      <cx-icon type="CARET_LEFT"></cx-icon>
-      {{ 'organization.close' | cxTranslate }}
-    </a>
-    {{ costCenter.name }}
-    <a
-      class="button primary"
-      [class.disabled]="!costCenter.active"
-      [routerLink]="{ cxRoute: 'costCenterEdit', params: costCenter } | cxUrl"
-    >
-      {{ 'organization.edit' | cxTranslate }}
-    </a>
-  </h3>
-
-  <section>
-    <div class="property">
-      <label>{{ 'organization.status' | cxTranslate }}</label>
-      <span class="value">
-        <ng-container *ngIf="costCenter.active; else disabled">
-          {{ 'organization.enabled' | cxTranslate }}
-          <button
-            class="button active icon"
-            (click)="openModal(confirmDisable)"
-          >
-            <cx-icon type="ON"></cx-icon>
-          </button>
-        </ng-container>
-        <ng-template #disabled>
-          {{ 'organization.disabled' | cxTranslate }}
-          <button class="button icon" (click)="update({ activeFlag: true })">
-            <cx-icon type="OFF"></cx-icon>
-          </button>
-        </ng-template>
-      </span>
-      <p class="instruction">
-        <ng-container *ngIf="costCenter.active; else inactiveInstruction">
-          {{ 'costCenter.messages.enabled' | cxTranslate }}
-        </ng-container>
-        <ng-template #inactiveInstruction>
-          {{ 'costCenter.messages.disabled' | cxTranslate }}
-        </ng-template>
-      </p>
-    </div>
-  </section>
-
-  <section>
-    <div class="property">
-      <label>{{ 'costCenter.name' | cxTranslate }}</label>
-      <span class="value">
-        {{ costCenter.name }}
-      </span>
-    </div>
-
-    <div class="property">
-      <label>{{ 'costCenter.code' | cxTranslate }}</label>
-      <span class="value">
-        {{ costCenter.code }}
-      </span>
-    </div>
-
-    <div class="property">
-      <label>{{ 'costCenter.currency' | cxTranslate }}</label>
-
-      <span class="value">
-        {{ costCenter.currency?.isocode }}
-      </span>
-    </div>
-
-    <div class="property">
-      <label>{{ 'costCenter.unit' | cxTranslate }}</label>
-      <a
-        class="value"
-        [routerLink]="
-          {
-            cxRoute: 'orgUnitDetails',
-            params: costCenter.unit
-          } | cxUrl
-        "
-      >
-        {{ costCenter.unit?.name }}
-      </a>
-    </div>
-  </section>
-
-  <section>
-    <h4>
-      {{ 'costCenter.budget.header' | cxTranslate }}
+<cx-view>
+  <ng-container #view *ngIf="costCenter$ | async as costCenter">
+    <h3>
       <a
         class="link"
-        [routerLink]="
-          { cxRoute: 'costCenterAssignBudget', params: costCenter } | cxUrl
-        "
+        [routerLink]="{ cxRoute: 'costCenter' } | cxUrl"
+        (click)="view.toggle()"
       >
-        {{ 'costCenter.budget.assign' | cxTranslate }}
+        <cx-icon type="CARET_LEFT"></cx-icon>
+        {{ 'organization.close' | cxTranslate }}
       </a>
-    </h4>
+      {{ costCenter.name }}
+      <a
+        class="button primary"
+        [class.disabled]="!costCenter.active"
+        [routerLink]="{ cxRoute: 'costCenterEdit', params: costCenter } | cxUrl"
+      >
+        {{ 'organization.edit' | cxTranslate }}
+      </a>
+    </h3>
 
-    <div class="property">
-      <cx-cost-center-budget-list></cx-cost-center-budget-list>
-    </div>
-  </section>
+    <section>
+      <div class="property">
+        <label>{{ 'organization.status' | cxTranslate }}</label>
+        <span class="value">
+          <ng-container *ngIf="costCenter.active; else disabled">
+            {{ 'organization.enabled' | cxTranslate }}
+            <button
+              class="button active icon"
+              (click)="openModal(confirmDisable)"
+            >
+              <cx-icon type="ON"></cx-icon>
+            </button>
+          </ng-container>
+          <ng-template #disabled>
+            {{ 'organization.disabled' | cxTranslate }}
+            <button class="button icon" (click)="update({ activeFlag: true })">
+              <cx-icon type="OFF"></cx-icon>
+            </button>
+          </ng-template>
+        </span>
+        <p class="instruction">
+          <ng-container *ngIf="costCenter.active; else inactiveInstruction">
+            {{ 'costCenter.messages.enabled' | cxTranslate }}
+          </ng-container>
+          <ng-template #inactiveInstruction>
+            {{ 'costCenter.messages.disabled' | cxTranslate }}
+          </ng-template>
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="property">
+        <label>{{ 'costCenter.name' | cxTranslate }}</label>
+        <span class="value">
+          {{ costCenter.name }}
+        </span>
+      </div>
+
+      <div class="property">
+        <label>{{ 'costCenter.code' | cxTranslate }}</label>
+        <span class="value">
+          {{ costCenter.code }}
+        </span>
+      </div>
+
+      <div class="property">
+        <label>{{ 'costCenter.currency' | cxTranslate }}</label>
+
+        <span class="value">
+          {{ costCenter.currency?.isocode }}
+        </span>
+      </div>
+
+      <div class="property">
+        <label>{{ 'costCenter.unit' | cxTranslate }}</label>
+        <a
+          class="value"
+          [routerLink]="
+            {
+              cxRoute: 'orgUnitDetails',
+              params: costCenter.unit
+            } | cxUrl
+          "
+        >
+          {{ costCenter.unit?.name }}
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h4>
+        {{ 'costCenter.budget.header' | cxTranslate }}
+        <a
+          class="link"
+          [routerLink]="
+            { cxRoute: 'costCenterAssignBudget', params: costCenter } | cxUrl
+          "
+        >
+          {{ 'costCenter.budget.assign' | cxTranslate }}
+        </a>
+      </h4>
+
+      <div class="property">
+        <cx-cost-center-budget-list></cx-cost-center-budget-list>
+      </div>
+    </section>
+  </ng-container>
 </cx-view>
 
 <router-outlet></router-outlet>
