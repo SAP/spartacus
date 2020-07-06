@@ -1,7 +1,17 @@
-<cx-view #view *ngIf="costCenter$ | async as costCenter">
-  <form [formGroup]="form" (ngSubmit)="save()">
+<cx-view #view *ngIf="code$ | async as costCenterCode">
+  <form
+    [formGroup]="form"
+    (ngSubmit)="save(costCenterCode)"
+    *ngIf="costCenter$ | async as costCenter"
+  >
     <h3>
-      <a class="link" routerLink="../" (click)="view.toggle()">
+      <a
+        class="link"
+        [routerLink]="
+          { cxRoute: 'costCenterDetails', params: costCenter } | cxUrl
+        "
+        (click)="view.toggle()"
+      >
         <cx-icon type="CARET_LEFT"></cx-icon>
         Cancel
       </a>

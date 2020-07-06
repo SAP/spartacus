@@ -13,14 +13,8 @@ import { map, switchMap, tap } from 'rxjs/operators';
 export class CostCenterEditComponent {
   form = new FormGroup({});
 
-  /**
-   * The code is used to update the cost center.
-   */
-  protected costCenterCode;
-
-  protected code$: Observable<string> = this.router.parent.params.pipe(
-    map((routingData) => routingData['code']),
-    tap((code) => (this.costCenterCode = code))
+  code$: Observable<string> = this.activatedRoute.parent.params.pipe(
+    map((routingData) => routingData['code'])
   );
 
   costCenter$: Observable<CostCenter> = this.code$.pipe(
@@ -30,19 +24,20 @@ export class CostCenterEditComponent {
   );
 
   constructor(
-    // we can't do without the router as the routingService
-    // is unable to resolve the parent routing params
-    protected router: ActivatedRoute,
+    // we can't do without the router as the routingService is unable to
+    // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
+    // would actually fix that.
+    protected activatedRoute: ActivatedRoute,
     protected routingService: RoutingService,
     protected costCenterService: CostCenterService
   ) {}
 
-  save(): void {
+  save(costCenterCode: string): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
     } else {
       this.form.disable();
-      this.costCenterService.update(this.costCenterCode, this.form.value);
+      this.costCenterService.update(costCenterCode, this.form.value);
 
       this.routingService.go({
         cxRoute: 'costCenterDetails',

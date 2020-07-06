@@ -12,7 +12,6 @@ export const costCenter = {
     disabled: 'You cannot edit a disabled Cost Center.',
     deactivate: 'Are you sure you want to disable this cost center?',
     deactivateHeader: 'Disable Cost Center',
-    emptyBudgets: 'There are no budgets assigned to the cost center.',
   },
 
   budget: {

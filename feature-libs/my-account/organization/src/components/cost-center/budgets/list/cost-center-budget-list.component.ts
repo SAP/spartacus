@@ -6,8 +6,8 @@ import { map, switchMap } from 'rxjs/operators';
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
 
 @Component({
-  selector: 'cx-cost-center-budgets',
-  templateUrl: './cost-center-budgets.component.html',
+  selector: 'cx-cost-center-budget-list',
+  templateUrl: './cost-center-budget-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterBudgetListComponent {

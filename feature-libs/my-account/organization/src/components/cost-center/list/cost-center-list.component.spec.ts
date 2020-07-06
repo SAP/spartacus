@@ -1,171 +1,149 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import {
-  IconTestingModule,
-  SplitViewTestingModule,
-  TableTestingModule,
-} from '@spartacus/storefront';
+import { By } from '@angular/platform-browser';
+import { Table } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import { OrganizationTestingModule } from '../../shared/testing/organization-testing.module';
 import { CostCenterListComponent } from './cost-center-list.component';
-import { CostCenterListService } from './cost-center-list.service';
+import {
+  CostCenterListService,
+  CostCenterModel,
+} from './cost-center-list.service';
 
-// import createSpy = jasmine.createSpy;
-
-// const defaultParams: B2BSearchConfig = {
-//   sort: 'byName',
-//   currentPage: 0,
-//   pageSize: 5,
-// };
-
-// const mockCostCenterList: EntitiesModel<CostCenter> = {
-//   values: [
-//     {
-//       code: 'c1',
-//       name: 'n1',
-//       currency: {
-//         symbol: '$',
-//         isocode: 'USD',
-//       },
-//       unit: { name: 'orgName', uid: 'orgUid' },
-//     },
-//     {
-//       code: 'c2',
-//       name: 'n2',
-//       currency: {
-//         symbol: '$',
-//         isocode: 'USD',
-//       },
-//       unit: { name: 'orgName2', uid: 'orgUid2' },
-//     },
-//   ],
-//   pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
-//   sorts: [{ code: 'byName', selected: true }],
-// };
-
-// const mockCostCenterUIList = {
-//   values: [
-//     {
-//       code: 'c1',
-//       name: 'n1',
-//       currency: 'USD',
-//       parentUnit: 'orgName',
-//       uid: 'orgUid',
-//     },
-//     {
-//       code: 'c2',
-//       name: 'n2',
-//       currency: 'USD',
-//       parentUnit: 'orgName2',
-//       uid: 'orgUid2',
-//     },
-//   ],
-//   pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
-//   sorts: [{ code: 'byName', selected: true }],
-// };
+const mockCostCenterList: Table<CostCenterModel> = {
+  data: [
+    {
+      code: 'c1',
+      name: 'n1',
+      currency: 'USD',
+    },
+    {
+      code: 'c2',
+      name: 'n2',
+      currency: 'USD',
+    },
+  ],
+  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
+  structure: { type: '' },
+};
 
 export class MockCostCenterListService {
   getTable() {}
+  sort() {}
+  viewPage() {}
 }
 
-fdescribe('CostCenterListComponent', () => {
+describe('CostCenterListComponent', () => {
   let component: CostCenterListComponent;
   let fixture: ComponentFixture<CostCenterListComponent>;
-  // let costCentersService: CostCenterService;
-  // let routingService: RoutingService;
+  let service: CostCenterListService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        I18nTestingModule,
-        SplitViewTestingModule,
-        TableTestingModule,
-        IconTestingModule,
-      ],
+      imports: [OrganizationTestingModule],
       declarations: [CostCenterListComponent],
       providers: [
         { provide: CostCenterListService, useClass: MockCostCenterListService },
       ],
     }).compileComponents();
 
-    // costCentersService = TestBed.inject(CostCenterService);
-    // routingService = TestBed.inject(RoutingService);
+    service = TestBed.inject(CostCenterListService);
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CostCenterListComponent);
-    component = fixture.componentInstance;
-    // costCenterList.next(mockCostCenterList);
-    // fixture.detectChanges();
+  describe('with table data', () => {
+    beforeEach(() => {
+      spyOn(service, 'getTable').and.returnValue(of(mockCostCenterList));
+      fixture = TestBed.createComponent(CostCenterListComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should have cost centers', () => {
+      let result;
+      component.dataTable$.subscribe((data) => (result = data));
+      expect(result).toEqual(mockCostCenterList);
+    });
+
+    it('should delegate pagination to service', () => {
+      spyOn(service, 'viewPage');
+      component.viewPage({ currentPage: 3 }, 7);
+      expect(service.viewPage).toHaveBeenCalledWith({ currentPage: 3 }, 7);
+    });
+
+    it('should revert currentPage when sorting', () => {
+      spyOn(service, 'sort');
+      component.sort({ currentPage: 3 }, 'bySortCode');
+      expect(service.sort).toHaveBeenCalledWith(
+        { currentPage: 3 },
+        'bySortCode'
+      );
+    });
+
+    it('should have cx-table element', () => {
+      const el = fixture.debugElement.query(By.css('cx-table'));
+      expect(el).toBeTruthy();
+    });
+
+    it('should have cx-pagination element', () => {
+      const el = fixture.debugElement.query(By.css('cx-pagination'));
+      expect(el).toBeTruthy();
+    });
+
+    it('should not show is-empty message', () => {
+      const el = fixture.debugElement.query(By.css('p.is-empty'));
+      expect(el).toBeFalsy();
+    });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('without table data', () => {
+    beforeEach(() => {
+      spyOn(service, 'getTable').and.returnValue(of(null));
+      fixture = TestBed.createComponent(CostCenterListComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should not have cx-table element', () => {
+      const el = fixture.debugElement.query(By.css('cx-table'));
+      expect(el).toBeFalsy();
+    });
+
+    it('should not have cx-pagination element', () => {
+      const el = fixture.debugElement.query(By.css('cx-pagination'));
+      expect(el).toBeFalsy();
+    });
+
+    it('should not show is-empty message', () => {
+      const el = fixture.debugElement.query(By.css('p.is-empty'));
+      expect(el).toBeTruthy();
+    });
   });
 
-  // it('should display No costCenters found page if no costCenters are found', () => {
-  //   const emptyCostCenterList: EntitiesModel<CostCenter> = {
-  //     values: [],
-  //     pagination: {
-  //       totalPages: 0,
-  //       pageSize: 0,
-  //       currentPage: 0,
-  //       totalResults: 0,
-  //       sort: 'byName',
-  //     },
-  //     sorts: [{ code: 'byName', selected: true }],
-  //   };
+  describe('without pagination data', () => {
+    beforeEach(() => {
+      spyOn(service, 'getTable').and.returnValue(
+        of({ ...mockCostCenterList, pagination: null })
+      );
+      fixture = TestBed.createComponent(CostCenterListComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
 
-  //   costCenterList.next(emptyCostCenterList);
-  //   fixture.detectChanges();
+    it('should have cx-table element', () => {
+      const el = fixture.debugElement.query(By.css('cx-table'));
+      expect(el).toBeTruthy();
+    });
 
-  //   expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
-  // });
-
-  // describe('ngOnInit', () => {
-  //   it('should read costCenter list', () => {
-  //     // component.ngOnInit();
-  //     // let costCentersList: any;
-  //     // component.data$
-  //     //   .subscribe((value) => {
-  //     //     costCentersList = value;
-  //     //   })
-  //     //   .unsubscribe();
-  //     expect(costCentersService.loadCostCenters).toHaveBeenCalledWith(
-  //       defaultParams
-  //     );
-  //     expect(costCentersService.getList).toHaveBeenCalledWith(defaultParams);
-  //     // expect(costCentersList).toEqual(mockCostCenterUIList);
-  //   });
-  // });
-
-  // describe('changeSortCode', () => {
-  //   it('should set correctly sort code', () => {
-  //     // component.changeSortCode('byCode');
-  //     expect(routingService.go).toHaveBeenCalledWith(
-  //       {
-  //         cxRoute: 'costCenters',
-  //         params: {},
-  //       },
-  //       {
-  //         sort: 'byCode',
-  //       }
-  //     );
-  //   });
-  // });
-
-  // describe('pageChange', () => {
-  //   it('should set correctly page', () => {
-  //     // component.pageChange(2);
-  //     expect(routingService.go).toHaveBeenCalledWith(
-  //       {
-  //         cxRoute: 'costCenters',
-  //         params: {},
-  //       },
-  //       {
-  //         currentPage: 2,
-  //       }
-  //     );
-  //   });
-  // });
+    it('should not have cx-pagination element', () => {
+      const el = fixture.debugElement.query(By.css('cx-pagination'));
+      expect(el).toBeFalsy();
+    });
+  });
 });

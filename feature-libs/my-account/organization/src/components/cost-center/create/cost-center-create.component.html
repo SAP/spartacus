@@ -1,7 +1,11 @@
 <cx-view #view>
   <form [formGroup]="form" (ngSubmit)="save()">
     <h3>
-      <a class="link" routerLink="../" (click)="view.toggle()">
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'costCenter' } | cxUrl"
+        (click)="view.toggle()"
+      >
         <cx-icon type="CARET_LEFT"></cx-icon>
         {{ 'organization.cancel' | cxTranslate }}
       </a>
@@ -12,7 +16,11 @@
     </h3>
 
     <section>
-      <cx-cost-center-form [form]="form"> </cx-cost-center-form>
+      <cx-cost-center-form
+        [form]="form"
+        [unitUid]="parentUnitQueryParam$ | async"
+      >
+      </cx-cost-center-form>
     </section>
   </form>
 </cx-view>

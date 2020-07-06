@@ -1,25 +1,17 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import {
-  CostCenter,
-  CostCenterService,
-  CxDatePipe,
-  I18nTestingModule,
-  RoutesConfig,
-  RoutingConfig,
-  RoutingService,
-} from '@spartacus/core';
-import { Table2Module } from '@spartacus/storefront';
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { ActivatedRoute } from '@angular/router';
+import { CostCenter, CostCenterService } from '@spartacus/core';
+import { ModalService } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { OrganizationTestingModule } from '../../shared/testing/organization-testing.module';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 import createSpy = jasmine.createSpy;
 
-const code = 'b1';
+const costCenterCode = 'b1';
 
 const mockCostCenter: CostCenter = {
-  code,
+  code: costCenterCode,
   name: 'costCenter1',
   currency: {
     symbol: '$',
@@ -28,77 +20,57 @@ const mockCostCenter: CostCenter = {
   unit: { name: 'orgName', uid: 'orgCode' },
 };
 
-const mockCostCenterUI: any = {
-  code,
-  name: 'costCenter1',
-  currency: {
-    symbol: '$',
-    isocode: 'USD',
-  },
-  unit: { name: 'orgName', uid: 'orgCode' },
-};
-
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
-
+// const mockCostCenterUI: any = {
+//   code: costCenterCode,
+//   name: 'costCenter1',
+//   currency: {
+//     symbol: '$',
+//     isocode: 'USD',
+//   },
+//   unit: { name: 'orgName', uid: 'orgCode' },
+// };
 class MockCostCenterService implements Partial<CostCenterService> {
   loadCostCenter = createSpy('loadCostCenter');
   get = createSpy('get').and.returnValue(of(mockCostCenter));
   update = createSpy('update');
 }
 
-const mockRouterState = {
-  state: {
-    params: {
-      code,
-    },
-  },
-};
+class MockActivatedRoute {
+  params = of({ code: costCenterCode });
 
-class MockRoutingService {
-  go = createSpy('go').and.stub();
-  getRouterState = createSpy('getRouterState').and.returnValue(
-    of(mockRouterState)
-  );
+  snapshot = {};
 }
 
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
+class MockModalService {
+  open() {}
 }
 
-class MockCxDatePipe {
-  transform(value: string) {
-    return value.split('T')[0];
-  }
-}
+@Component({
+  selector: 'cx-cost-center-budget-list',
+  template: '',
+})
+export class MockCostCenterBudgetListComponent {}
 
 describe('CostCenterDetailsComponent', () => {
   let component: CostCenterDetailsComponent;
   let fixture: ComponentFixture<CostCenterDetailsComponent>;
   let costCentersService: CostCenterService;
-  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, Table2Module, I18nTestingModule],
-      declarations: [CostCenterDetailsComponent, MockUrlPipe],
+      imports: [OrganizationTestingModule],
+      declarations: [
+        CostCenterDetailsComponent,
+        MockCostCenterBudgetListComponent,
+      ],
       providers: [
-        { provide: CxDatePipe, useClass: MockCxDatePipe },
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: CostCenterService, useClass: MockCostCenterService },
+        { provide: ModalService, useClass: MockModalService },
       ],
     }).compileComponents();
 
     costCentersService = TestBed.inject(CostCenterService);
-    routingService = TestBed.inject(RoutingService);
   }));
 
   beforeEach(() => {
@@ -111,35 +83,11 @@ describe('CostCenterDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should load costCenter', () => {
-      component.ngOnInit();
-      let costCenter: any;
-      component.costCenter$
-        .subscribe((value) => {
-          costCenter = value;
-        })
-        .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(costCentersService.loadCostCenter).toHaveBeenCalledWith(code);
-      expect(costCentersService.get).toHaveBeenCalledWith(code);
-      expect(costCenter).toEqual(mockCostCenterUI);
-    });
-  });
-
-  describe('update', () => {
-    it('should update costCenter', () => {
-      component.ngOnInit();
-
-      component.update({ activeFlag: false });
-      expect(costCentersService.update).toHaveBeenCalledWith(code, {
-        activeFlag: false,
-      });
-
-      component.update({ activeFlag: true });
-      expect(costCentersService.update).toHaveBeenCalledWith(code, {
-        activeFlag: true,
-      });
-    });
+  it('should update costCenter', () => {
+    component.update(mockCostCenter);
+    expect(costCentersService.update).toHaveBeenCalledWith(
+      mockCostCenter.code,
+      mockCostCenter
+    );
   });
 });

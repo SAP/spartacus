@@ -10,46 +10,75 @@ import { OrganizationTableType } from './organization.model';
  * initial/runtime pagination of tables inside the b2b organization.
  *
  *
- * @property {OrganizationTableType} type used to load the table structure configuration and generate table outlets
+ * @property {OrganizationTableType} tableType Used to load the table structure configuration and generate table outlets.
+ * @property {PaginationModel} pagination$ The pagination state of the listing.
  */
 @Injectable({
   providedIn: 'root',
 })
-export abstract class BaseOrganizationListService<T> {
+export abstract class BaseOrganizationListService<T, P = PaginationModel> {
   /**
-   * The table type is used to get the table structure from the configuration as well
-   * as generating outlet templates for the table.
+   * Used to load the table structure configuration and generate table outlets.
    */
   protected abstract tableType: OrganizationTableType;
 
   /**
-   * Configuration state of the pagination. This configuration remains during the session
-   * and is not shared outside the UI components.
+   * The pagination state of the listing
    */
-  protected pagination$: BehaviorSubject<PaginationModel> = new BehaviorSubject(
-    null
-  );
+  protected pagination$: BehaviorSubject<P> = new BehaviorSubject(null);
 
   constructor(protected tableService: TableService) {}
 
-  protected abstract load(
-    structure: TableStructure,
-    ...params: any
-  ): Observable<Table<T>>;
-
   /**
-   * Updates the pagination for the listing, so that the listing gets updated.
+   * Converts the list entities into the `Table` model, including the (responsive/ configurable)
+   * table structure. The actual data loading of the listing is delegated to the abstract `load`
+   * method, which must be implemented in specific implementations of this abstract class.
+   *
+   * The loaded entities are populated in the `Table` structure, using the generic `populate` method.
+   *
+   * The method supports an unknown number of arguments that is passed to the `load` method, so that
+   * implementations can leverage these arguments during loading of the listing.
    */
-  set pagination(pagination: PaginationModel) {
-    this.pagination$.next(pagination);
-  }
-
-  getTable(...params: any): Observable<Table<T>> {
+  getTable(...args: any): Observable<Table<T>> {
     return this.getStructure().pipe(
-      switchMap((structure) => this.load(structure, ...params))
+      switchMap((structure) =>
+        this.load(structure, ...args).pipe(
+          map(
+            ({ values, pagination }) =>
+              ({
+                structure,
+                data: values,
+                pagination,
+              } as Table<T>)
+          )
+        )
+      ),
+      map((tableData) => (!tableData.data.length ? null : tableData))
     );
   }
 
+  /**
+   * Updates the pagination with the new page number.
+   */
+  viewPage(pagination: P, page: number): void {
+    this.pagination$.next({ ...pagination, currentPage: page });
+  }
+
+  /**
+   * Updates the sort code for the PaginationModel, and resets the `currentPage`.
+   */
+  sort(pagination: P, sortCode: string): void {
+    this.pagination$.next({
+      ...pagination,
+      currentPage: 0,
+      sort: sortCode,
+    });
+  }
+
+  /**
+   * Loads the `TableStructure` for the `tableType` property. The pagination$ state is combined
+   * so that new structure is generated whenever the table structure or pagination changes.
+   */
   protected getStructure(): Observable<TableStructure> {
     return combineLatest([
       this.tableService.buildStructure(this.tableType),
@@ -63,17 +92,11 @@ export abstract class BaseOrganizationListService<T> {
   }
 
   /**
-   * Populates the cost center data to a convenient table data model, so that we
-   * can skip specific conversion in the view logic where possible.
+   * Must be implemented to load the actual listing data. An unknown number of arguments
+   * is supported for loading the data. These arguments are passed from the `getData` method.
    */
-  protected populateData(
+  protected abstract load(
     structure: TableStructure,
-    data: EntitiesModel<any>
-  ): Table<T> {
-    return {
-      structure,
-      data: data.values,
-      pagination: data.pagination,
-    };
-  }
+    ...args: any
+  ): Observable<EntitiesModel<T>>;
 }

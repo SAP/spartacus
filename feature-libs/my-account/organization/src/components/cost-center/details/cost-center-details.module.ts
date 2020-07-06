@@ -7,22 +7,21 @@ import {
   IconModule,
   SplitViewModule,
 } from '@spartacus/storefront';
-import { CostCenterBudgetsModule } from '../budgets/list/cost-center-budgets.module';
+import { CostCenterBudgetListModule } from '../budgets/list/cost-center-budget-list.module';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    UrlModule,
-    I18nModule,
-    ConfirmModalModule,
-
     RouterModule,
+    UrlModule,
+
+    I18nModule,
+    SplitViewModule,
     IconModule,
 
-    SplitViewModule,
-
-    CostCenterBudgetsModule,
+    CostCenterBudgetListModule,
+    ConfirmModalModule,
   ],
   declarations: [CostCenterDetailsComponent],
   exports: [CostCenterDetailsComponent],

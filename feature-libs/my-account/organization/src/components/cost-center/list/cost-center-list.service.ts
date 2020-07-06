@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  B2BSearchConfig,
-  CostCenter,
-  CostCenterService,
-  EntitiesModel,
-} from '@spartacus/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { CostCenter, CostCenterService, EntitiesModel } from '@spartacus/core';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseOrganizationListService } from '../../shared/organization-list.service';
@@ -18,6 +13,7 @@ import { OrganizationTableType } from '../../shared/organization.model';
 export interface CostCenterModel {
   code?: string;
   name?: string;
+  unit?: any;
   currency?: string;
   active?: boolean;
 }
@@ -44,33 +40,31 @@ export class CostCenterListService extends BaseOrganizationListService<
   protected load(
     structure: TableStructure,
     _params?
-  ): Observable<Table<CostCenterModel>> {
-    const config: B2BSearchConfig = structure.pagination;
+  ): Observable<EntitiesModel<CostCenterModel>> {
+    const paginationConfig = structure.pagination;
     return this.costCenterService
-      .getList(config)
-      .pipe(map((raw) => this.populateData(structure, raw)));
+      .getList(paginationConfig)
+      .pipe(map((raw) => this.populateCostCenters(raw)));
   }
 
   /**
    * Populates the cost center data to a convenient table data model, so that we
    * can skip specific conversion in the view logic where possible.
    */
-  protected populateData(
-    structure: TableStructure,
-    costCenters: EntitiesModel<CostCenter>
-  ): Table<CostCenterModel> {
-    const data: CostCenterModel[] = Array.from(costCenters.values).map(
-      (value: any) => ({
+  protected populateCostCenters({
+    pagination,
+    sorts,
+    values,
+  }: EntitiesModel<CostCenter>): EntitiesModel<CostCenterModel> {
+    const costCenterModels: EntitiesModel<CostCenterModel> = {
+      pagination,
+      sorts,
+      values: values.map((value: any) => ({
         ...value,
         currency: value.currency?.isocode,
         active: value.active,
-      })
-    );
-
-    return {
-      structure,
-      data,
-      pagination: costCenters.pagination,
+      })),
     };
+    return costCenterModels;
   }
 }

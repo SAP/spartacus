@@ -1,49 +1,36 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  TemplateRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { CostCenter, CostCenterService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cost-center-details',
   templateUrl: './cost-center-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CostCenterDetailsComponent implements OnInit {
-  costCenter$: Observable<CostCenter>;
+export class CostCenterDetailsComponent {
+  protected code$: Observable<string> = this.router.params.pipe(
+    map((params) => params['code']),
+    filter((code) => Boolean(code))
+  );
 
-  code$: Observable<string> = this.router.params.pipe(
-    map((routingData) => routingData['code'])
+  costCenter$: Observable<CostCenter> = this.code$.pipe(
+    tap((code) => this.costCentersService.loadCostCenter(code)),
+    switchMap((code) => this.costCentersService.get(code)),
+    filter((costCenters) => Boolean(costCenters))
   );
 
   constructor(
     protected router: ActivatedRoute,
-    protected routingService: RoutingService,
     protected costCentersService: CostCenterService,
     // TODO: consider relying on css only
     protected modalService: ModalService
   ) {}
 
-  ngOnInit(): void {
-    this.costCenter$ = this.code$.pipe(
-      tap((code) => this.costCentersService.loadCostCenter(code)),
-      switchMap((code) => this.costCentersService.get(code)),
-      filter(Boolean)
-    );
-  }
-
   update(costCenter: CostCenter) {
-    this.code$
-      .pipe(take(1))
-      .subscribe((costCenterCode) =>
-        this.costCentersService.update(costCenterCode, costCenter)
-      );
+    this.costCentersService.update(costCenter.code, costCenter);
   }
 
   openModal(template: TemplateRef<any>): void {

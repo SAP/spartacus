@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ConfigModule } from '@spartacus/core';
-import { CostCenterAssignBudgetsModule } from './budgets/assign/cost-center-assign-budgets.module';
-import { CostCenterBudgetsModule } from './budgets/list/cost-center-budgets.module';
+import { CostCenterAssignBudgetsModule } from './budgets/assign/cost-center-assign-budget.module';
+import { CostCenterBudgetListModule } from './budgets/list/cost-center-budget-list.module';
 import {
   costCenterCmsConfig,
   costCenterRoutingConfig,
@@ -16,6 +16,8 @@ import { CostCenterListModule } from './list/cost-center-list.module';
 @NgModule({
   imports: [
     RouterModule,
+
+    // refactor to use factory function
     ConfigModule.withConfig({
       ...costCenterRoutingConfig,
       ...costCenterCmsConfig,
@@ -23,7 +25,7 @@ import { CostCenterListModule } from './list/cost-center-list.module';
     }),
 
     CostCenterAssignBudgetsModule,
-    CostCenterBudgetsModule,
+    CostCenterBudgetListModule,
     CostCenterCreateModule,
     CostCenterEditModule,
     CostCenterFormModule,

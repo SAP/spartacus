@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  B2BSearchConfig,
-  Budget,
-  CostCenterService,
-  EntitiesModel,
-} from '@spartacus/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { Budget, CostCenterService, EntitiesModel } from '@spartacus/core';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseOrganizationListService } from '../../../shared/organization-list.service';
@@ -33,20 +28,25 @@ export class CostCenterBudgetListService extends BaseOrganizationListService<
   protected load(
     structure: TableStructure,
     code: string
-  ): Observable<Table<Budget>> {
-    const config: B2BSearchConfig = structure.pagination;
+  ): Observable<EntitiesModel<Budget>> {
+    const config = structure.pagination;
     return this.costCenterService
       .getBudgets(code, config)
-      .pipe(map((raw) => this.populateData(structure, raw)));
+      .pipe(map((budgets) => this.filterSelected(budgets)));
   }
 
-  protected populateData(
-    structure: TableStructure,
-    data: EntitiesModel<any>
-  ): Table<Budget> {
-    const table = super.populateData(structure, data);
-    table.data = table.data.filter((value) => value.selected);
-
-    return table;
+  /**
+   * As we can't filter with the backend API, we do this client side.
+   */
+  protected filterSelected({
+    pagination,
+    sorts,
+    values,
+  }: EntitiesModel<Budget>): EntitiesModel<Budget> {
+    return {
+      pagination,
+      sorts,
+      values: values.filter((value) => value.selected),
+    };
   }
 }

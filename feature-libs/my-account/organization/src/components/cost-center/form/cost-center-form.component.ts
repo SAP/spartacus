@@ -1,5 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import {
   B2BUnitNode,
   Currency,
@@ -7,10 +12,12 @@ import {
   OrgUnitService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { CostCenterFormService } from './cost-center-form.service';
 
 @Component({
   selector: 'cx-cost-center-form',
   templateUrl: './cost-center-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterFormComponent implements OnInit {
   /**
@@ -18,37 +25,25 @@ export class CostCenterFormComponent implements OnInit {
    */
   @Input() form: FormGroup;
 
+  /**
+   * The unitUid can be given to steer the initial value for the form control.
+   */
+  @Input() unitUid: string;
+
   units$: Observable<B2BUnitNode[]> = this.orgUnitService.getActiveUnitList();
   currencies$: Observable<Currency[]> = this.currencyService.getAll();
 
   constructor(
+    protected costCenterFormService: CostCenterFormService,
     protected currencyService: CurrencyService,
     protected orgUnitService: OrgUnitService
   ) {}
 
   ngOnInit() {
-    this.buildForm();
-    this.orgUnitService.loadOrgUnitNodes();
-  }
+    this.costCenterFormService.build(this.form);
 
-  protected buildForm() {
-    if (!this.form) {
-      this.form = new FormGroup({});
+    if (this.unitUid) {
+      this.form.patchValue({ unit: { uid: this.unitUid } });
     }
-    this.form.setControl('code', new FormControl('', Validators.required));
-    this.form.setControl('name', new FormControl('', Validators.required));
-
-    this.form.setControl(
-      'currency',
-      new FormGroup({
-        isocode: new FormControl(undefined, Validators.required),
-      })
-    );
-    this.form.setControl(
-      'unit',
-      new FormGroup({
-        uid: new FormControl(undefined, Validators.required),
-      })
-    );
   }
 }

@@ -1,6 +1,10 @@
 <cx-view #view *ngIf="costCenter$ | async as costCenter">
   <h3>
-    <a class="link" routerLink="../" (click)="view.toggle()">
+    <a
+      class="link"
+      [routerLink]="{ cxRoute: 'costCenter' } | cxUrl"
+      (click)="view.toggle()"
+    >
       <cx-icon type="CARET_LEFT"></cx-icon>
       {{ 'organization.close' | cxTranslate }}
     </a>
@@ -20,26 +24,29 @@
       <span class="value">
         <ng-container *ngIf="costCenter.active; else disabled">
           {{ 'organization.enabled' | cxTranslate }}
-          <button class="button active" (click)="openModal(confirmDisable)">
+          <button
+            class="button active icon"
+            (click)="openModal(confirmDisable)"
+          >
             <cx-icon type="ON"></cx-icon>
           </button>
         </ng-container>
         <ng-template #disabled>
           {{ 'organization.disabled' | cxTranslate }}
-          <button class="button" (click)="update({ activeFlag: true })">
+          <button class="button icon" (click)="update({ activeFlag: true })">
             <cx-icon type="OFF"></cx-icon>
           </button>
         </ng-template>
       </span>
+      <p class="instruction">
+        <ng-container *ngIf="costCenter.active; else inactiveInstruction">
+          {{ 'costCenter.messages.enabled' | cxTranslate }}
+        </ng-container>
+        <ng-template #inactiveInstruction>
+          {{ 'costCenter.messages.disabled' | cxTranslate }}
+        </ng-template>
+      </p>
     </div>
-    <p class="instruction">
-      <ng-container *ngIf="costCenter.active; else inactiveInstruction">
-        {{ 'costCenter.messages.enabled' | cxTranslate }}
-      </ng-container>
-      <ng-template #inactiveInstruction>
-        {{ 'costCenter.messages.disabled' | cxTranslate }}
-      </ng-template>
-    </p>
   </section>
 
   <section>
@@ -95,7 +102,7 @@
     </h4>
 
     <div class="property">
-      <cx-cost-center-budgets></cx-cost-center-budgets>
+      <cx-cost-center-budget-list></cx-cost-center-budget-list>
     </div>
   </section>
 </cx-view>

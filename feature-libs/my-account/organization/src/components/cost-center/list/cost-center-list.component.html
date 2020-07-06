@@ -2,25 +2,32 @@
   <cx-view>
     <h3>
       {{ 'costCenter.header' | cxTranslate }}
-      <div class="tools">
-        <a class="link" routerLink="create" routerLinkActive="disabled">
-          <cx-icon type="EXPAND"></cx-icon>
-        </a>
-      </div>
+      <a class="link" routerLink="create" routerLinkActive="disabled">
+        <cx-icon type="EXPAND"></cx-icon>
+      </a>
     </h3>
-    <ng-container *ngIf="dataTable$ | async as dataTable">
-      <cx-table
-        [dataset]="dataTable$ | async"
-        (sortEvent)="sort(dataTable.pagination, $event)"
-      >
-      </cx-table>
+
+    <ng-container *ngIf="dataTable$ | async as dataTable; else emptyList">
+      <section>
+        <cx-table
+          [dataset]="dataTable"
+          (sortEvent)="sort(dataTable.pagination, $event)"
+        >
+        </cx-table>
+      </section>
 
       <cx-pagination
-        *ngIf="dataTable.pagination?.totalPages"
+        *ngIf="dataTable.pagination"
         [pagination]="dataTable.pagination"
-        (viewPageEvent)="paginate(dataTable.pagination, $event)"
+        (viewPageEvent)="viewPage(dataTable.pagination, $event)"
       ></cx-pagination>
     </ng-container>
+
+    <ng-template #emptyList>
+      <p class="instruction is-empty">
+        {{ 'organization.messages.emptyList' | cxTranslate }}
+      </p>
+    </ng-template>
   </cx-view>
 
   <router-outlet></router-outlet>
@@ -41,6 +48,7 @@
   </a>
 </ng-template>
 
+<!-- TODO: refactor outlet concatenation-->
 <ng-template cxOutletRef="table.costCenter.data.unit" let-model>
   <a [routerLink]="{ cxRoute: 'orgUnitDetails', params: model.unit } | cxUrl">
     {{ model.unit?.name }}

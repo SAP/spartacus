@@ -2,8 +2,13 @@
   form {
     width: 100%;
     max-width: 100vw;
-    // .form-group {
     margin: 0;
+  }
+  .form-group {
+    margin: 0;
+    &:not(:last-child) {
+      border-bottom: solid 1px var(--cx-color-light);
+    }
   }
   label {
     margin: 0;
@@ -12,7 +17,6 @@
     cursor: pointer;
 
     .label-content {
-      // display: none;
       padding: 0 0.75rem;
       font-size: 0.9rem;
       color: var(--cx-color-secondary);
@@ -23,7 +27,7 @@
     input {
       border: none;
       border-radius: 0;
-      border-bottom: solid 1px var(--cx-color-light);
+      // border-bottom: solid 1px var(--cx-color-light);
       background-color: var(--cx-color-inverse);
       font-size: 1.2rem;
       padding: var(--cx-spatial-base) var(--cx-spatial-md);
@@ -51,7 +55,7 @@
   .ng-select .ng-select-container {
     border-radius: 0;
     border: none;
-    border-bottom: solid 1px var(--cx-color-light);
+    // border-bottom: solid 1px var(--cx-color-light);
     .ng-value-container {
       padding: 0 var(--cx-spatial-md);
     }

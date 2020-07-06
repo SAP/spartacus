@@ -1,11 +1,4 @@
 .organization {
-  cx-pagination {
-    margin-top: var(--cx-spatial-md);
-    a:not(.current) {
-      background-color: var(--cx-color-inverse);
-    }
-  }
-
   h3 {
     display: flex;
     justify-content: space-between;
@@ -16,10 +9,14 @@
     min-height: 5rem;
 
     margin: 0;
-    padding: var(--cx-spatial-sm);
+    padding: 0;
 
     @include media-breakpoint-down(md) {
       padding: var(--cx-spatial-md);
+
+      > a.link {
+        margin-inline-end: calc(var(--cx-spatial-md) * -1);
+      }
     }
 
     // Buttons with a background are aligned as their background matches the alignment,
@@ -34,20 +31,20 @@
   }
 
   cx-split-view {
-    th,
-    td {
-      width: 100%;
-    }
-  }
-  cx-split-view:not([last-visible-view='1']) {
-    th:nth-child(n + 2),
-    td:nth-child(n + 2) {
-      opacity: 0;
-      width: 0.1%;
+    &:not([last-visible-view='1']) {
+      th:nth-child(n + 2),
+      td:nth-child(n + 2) {
+        opacity: 0;
+        width: 0.1%;
+      }
     }
   }
 
   table {
+    th,
+    td {
+      width: 100%;
+    }
     td {
       &.name,
       &.unit {
@@ -100,7 +97,7 @@
     }
   }
 
-  cx-cost-center-assign-budgets {
+  cx-cost-center-assign-budget {
     table {
       td {
         &.name {
@@ -110,6 +107,26 @@
             align-items: center;
           }
         }
+      }
+    }
+  }
+
+  cx-pagination {
+    display: inline-flex;
+    box-shadow: 0 0.4rem 1.2rem 0.2rem rgba(0, 0, 0, 0.05);
+
+    @include media-breakpoint-down(md) {
+      margin: 0 var(--cx-spatial-md);
+    }
+
+    a {
+      border: none;
+      border-radius: 0;
+      &:not(.current) {
+        background-color: var(--cx-color-inverse);
+      }
+      &.disabled {
+        color: var(--cx-color-light);
       }
     }
   }

@@ -1,34 +1,19 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   B2BUnitNode,
-  CostCenter,
-  CostCenterService,
   Currency,
   CurrencyService,
-  I18nTestingModule,
   OrgUnitService,
 } from '@spartacus/core';
-import { DatePickerModule, FormErrorsComponent } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { OrganizationTestingModule } from '../../shared/testing/organization-testing.module';
 import { CostCenterFormComponent } from './cost-center-form.component';
+import { CostCenterFormService } from './cost-center-form.service';
 import createSpy = jasmine.createSpy;
-
-const costCenterCode = 'b1';
-
-const mockCostCenter: CostCenter = {
-  code: costCenterCode,
-  name: 'costCenter1',
-  currency: {
-    symbol: '$',
-    isocode: 'USD',
-  },
-  unit: { name: 'orgName', uid: 'orgCode' },
-};
 
 const mockOrgUnits: B2BUnitNode[] = [
   {
@@ -55,19 +40,6 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
-class MockCostCenterService implements Partial<CostCenterService> {
-  loadCostCenter = createSpy('loadCostCenter');
-  get = createSpy('get').and.returnValue(of(mockCostCenter));
-  update = createSpy('update');
-}
-
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
-
 const mockCurrencies: Currency[] = [
   { active: true, isocode: 'USD', name: 'US Dollar', symbol: '$' },
   { active: true, isocode: 'EUR', name: 'Euro', symbol: '€' },
@@ -91,106 +63,82 @@ describe('CostCenterFormComponent', () => {
   let fixture: ComponentFixture<CostCenterFormComponent>;
   let orgUnitService: OrgUnitService;
   let currencyService: CurrencyService;
+  let costCenterFormService: CostCenterFormService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        DatePickerModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        RouterTestingModule,
-      ],
-      declarations: [CostCenterFormComponent, MockUrlPipe, FormErrorsComponent],
+      imports: [OrganizationTestingModule, ReactiveFormsModule, NgSelectModule],
+      declarations: [CostCenterFormComponent, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        { provide: CostCenterService, useClass: MockCostCenterService },
+        CostCenterFormService,
       ],
     }).compileComponents();
 
-    orgUnitService = TestBed.inject(OrgUnitService as Type<OrgUnitService>);
-    currencyService = TestBed.inject(CurrencyService as Type<CurrencyService>);
+    orgUnitService = TestBed.inject(OrgUnitService);
+    currencyService = TestBed.inject(CurrencyService);
+
+    costCenterFormService = TestBed.inject(CostCenterFormService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CostCenterFormComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should load currencies', () => {
-      component.ngOnInit();
-      let currencies: any;
-      component.currencies$
-        .subscribe((value) => {
-          currencies = value;
-        })
-        .unsubscribe();
-      expect(currencyService.getAll).toHaveBeenCalledWith();
-      expect(currencies).toEqual(mockCurrencies);
-    });
-
-    it('should load businessUnits', () => {
-      component.ngOnInit();
-      // let businessUnits: any;
-      // component.businessUnits$
-      //   .subscribe((value) => {
-      //     businessUnits = value;
-      //   })
-      //   .unsubscribe();
-      expect(orgUnitService.loadOrgUnitNodes).toHaveBeenCalledWith();
-      expect(orgUnitService.getActiveUnitList).toHaveBeenCalledWith();
-      // expect(businessUnits).toEqual(mockOrgUnits);
-    });
-
-    it('should setup clean form', () => {
-      spyOn(component.form, 'patchValue');
-      // component.costCenterData = null;
-      component.ngOnInit();
-      expect(component.form.patchValue).not.toHaveBeenCalled();
-      expect(component.form.valid).toBeFalsy();
-    });
-
-    it('should setup form for update', () => {
-      spyOn(component.form, 'patchValue').and.callThrough();
-      // component.costCenterData = mockCostCenter;
-      component.ngOnInit();
-      expect(component.form.patchValue).toHaveBeenCalledWith(mockCostCenter);
-      expect(component.form.valid).toBeTruthy();
-    });
+  it('should build the form', () => {
+    spyOn(costCenterFormService, 'build');
+    component.ngOnInit();
+    expect(costCenterFormService.build).toHaveBeenCalled();
   });
 
-  describe('verifyCostCenter', () => {
-    it('should not emit value if form is invalid', () => {
-      // spyOn(component.submitForm, 'emit');
-      const form = fixture.debugElement.query(By.css('form'));
-      form.triggerEventHandler('submit', null);
-      // expect(component.submitForm.emit).not.toHaveBeenCalled();
-    });
-
-    it('should emit value if form is valid', () => {
-      // spyOn(component.submitForm, 'emit');
-      // component.costCenterData = mockCostCenter;
-      // component.ngOnInit();
-      // const form = fixture.debugElement.query(By.css('form'));
-      // form.triggerEventHandler('submit', null);
-      // expect(component.submitForm.emit).toHaveBeenCalledWith(
-      //   component.form.value
-      // );
-    });
+  it('should not populate the unit code', () => {
+    component.form = new FormGroup({});
+    component.ngOnInit();
+    expect(component.form.value.unit.uid).toBeFalsy();
   });
 
-  describe('back', () => {
-    it('should emit clickBack event', () => {
-      // spyOn(component.clickBack, 'emit');
-      // component.back();
-      // expect(component.clickBack.emit).toHaveBeenCalledWith();
-    });
+  it('should populate the unit code', () => {
+    component.form = new FormGroup({});
+    component.unitUid = 'parentUnitCode';
+    component.ngOnInit();
+    expect(component.form.value.unit.uid).toEqual('parentUnitCode');
+  });
+
+  it('should render form groups', () => {
+    component.form = new FormGroup({});
+    component.ngOnInit();
+    fixture.detectChanges();
+    const formGroups = fixture.debugElement.queryAll(By.css('.form-group'));
+    expect(formGroups.length).toBeGreaterThan(0);
+  });
+
+  it('should not render any form groups if the form is falsy', () => {
+    component.form = undefined;
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const formGroups = fixture.debugElement.queryAll(By.css('.form-group'));
+    expect(formGroups.length).toBe(0);
+  });
+
+  it('should load all currencies', () => {
+    component.form = new FormGroup({});
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(currencyService.getAll).toHaveBeenCalled();
+  });
+
+  it('should load active units', () => {
+    component.form = new FormGroup({});
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(orgUnitService.getActiveUnitList).toHaveBeenCalled();
   });
 });

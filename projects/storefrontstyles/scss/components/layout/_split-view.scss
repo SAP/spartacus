@@ -31,6 +31,8 @@
 %cx-split-view {
   display: flex;
   align-items: stretch;
+
+  max-width: 100vw;
   /* We hide all elements outside the box, so that the views can animate nicely inside.  */
   // overflow-x: hidden;
 

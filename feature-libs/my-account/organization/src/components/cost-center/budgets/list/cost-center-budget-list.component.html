@@ -1,13 +1,12 @@
 <cx-table
   *ngIf="dataTable$ | async as dataTable; else emptyList"
-  class="list"
   [dataset]="dataTable"
 >
 </cx-table>
 
 <ng-template #emptyList>
-  <p class="instruction">
-    {{ 'costCenter.messages.emptyBudgets' | cxTranslate }}
+  <p class="instruction is-empty">
+    {{ 'organization.messages.emptyList' | cxTranslate }}
   </p>
 </ng-template>
 

@@ -5,12 +5,13 @@ import {
   TableConfig,
 } from '@spartacus/storefront';
 import { OrganizationTableType } from '../shared/organization.model';
-import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budgets.component';
+import { CostCenterAssignBudgetsComponent } from './budgets/assign/cost-center-assign-budget.component';
 import { CostCenterCreateComponent } from './create/cost-center-create.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterEditComponent } from './edit/cost-center-edit.component';
 import { CostCenterListComponent } from './list/cost-center-list.component';
 
+// TODO: this doesn't work with lazy loaded feature
 export const costCenterRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
@@ -71,6 +72,7 @@ export const costCenterCmsConfig: CmsConfig = {
 export const costCenterTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.COST_CENTER]: [
+      // TODO: consider cascading from smallest size
       {
         headers: [{ key: 'name' }],
         pagination: {

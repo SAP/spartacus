@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { B2BSearchConfig, Budget, CostCenterService } from '@spartacus/core';
-import { Table, TableService, TableStructure } from '@spartacus/storefront';
+import { Budget, CostCenterService, EntitiesModel } from '@spartacus/core';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { BaseOrganizationListService } from '../../../shared/organization-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
 
@@ -24,14 +23,11 @@ export class CostCenterAssignBudgetListService extends BaseOrganizationListServi
   protected load(
     structure: TableStructure,
     code: string
-  ): Observable<Table<Budget>> {
-    const config: B2BSearchConfig = structure.pagination;
-    return this.costCenterService
-      .getBudgets(code, config)
-      .pipe(map((raw) => this.populateData(structure, raw)));
+  ): Observable<EntitiesModel<Budget>> {
+    return this.costCenterService.getBudgets(code, structure.pagination);
   }
 
-  toggleAssign(costCenterCode: string, budgetCode: string, assign: boolean) {
+  toggleAssign(costCenterCode: string, budgetCode: string, assign = true) {
     if (assign) {
       this.costCenterService.assignBudget(costCenterCode, budgetCode);
     } else {

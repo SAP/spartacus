@@ -17,20 +17,19 @@ export class CostCenterListComponent {
   constructor(protected costCentersService: CostCenterListService) {}
 
   /**
-   * Paginates the list, including sorting.
+   * Paginates the cost center list. Pagination is not using query parameters, as we like
+   * pagination to be driven by infinite scrolling going forward.
    */
-  paginate(pagination: PaginationModel, currentPage: number): void {
-    this.costCentersService.pagination = { ...pagination, currentPage };
+  viewPage(pagination: PaginationModel, currentPage: number): void {
+    this.costCentersService.viewPage(pagination, currentPage);
   }
 
   /**
    * Sort the list. The pagination is reset to the first page.
+   *
+   * TODO: consider query parameter for sorting.
    */
   sort(pagination: PaginationModel, sort: string) {
-    this.costCentersService.pagination = {
-      ...pagination,
-      currentPage: 0,
-      sort,
-    };
+    this.costCentersService.sort(pagination, sort);
   }
 }

@@ -29,5 +29,9 @@
     &.active {
       color: var(--cx-color-primary);
     }
+
+    &.icon {
+      padding: 0;
+    }
   }
 }

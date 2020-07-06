@@ -1,0 +1,43 @@
+<cx-view #view *ngIf="code$ | async as costCenterCode">
+  <h3>
+    <a
+      class="link"
+      [routerLink]="
+        { cxRoute: 'costCenterDetails', params: { code: costCenterCode } }
+          | cxUrl
+      "
+      (click)="view.toggle()"
+    >
+      <cx-icon type="CARET_LEFT"></cx-icon>
+      {{ 'organization.back' | cxTranslate }}
+    </a>
+    {{ 'costCenter.budget.assign' | cxTranslate }}
+    <span></span>
+  </h3>
+  <section>
+    <cx-table
+      *ngIf="dataTable$ | async as budgets; else emptyList"
+      [dataset]="budgets"
+    >
+    </cx-table>
+  </section>
+
+  <ng-template #emptyList>
+    <p class="instruction is-empty">
+      {{ 'organization.messages.emptyList' | cxTranslate }}
+    </p>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.costCenterAssignBudget.data.name" let-model>
+    <label>
+      <input
+        type="checkbox"
+        [checked]="model.selected"
+        (change)="
+          toggleAssign(costCenterCode, model.code, $event.target.checked)
+        "
+      />
+      <span class="text">{{ model.name }}</span>
+    </label>
+  </ng-template>
+</cx-view>
