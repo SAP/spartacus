@@ -8,7 +8,7 @@ import {
   TableTestingModule,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { BaseOrganizationListService } from './organization-list.service';
+import { BaseOrganizationListService } from './base-organization-list.service';
 import { OrganizationTableType } from './organization.model';
 
 const mockValues = [{ foo: 'bar' }];

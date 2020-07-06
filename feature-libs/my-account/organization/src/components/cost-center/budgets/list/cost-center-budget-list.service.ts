@@ -3,7 +3,7 @@ import { Budget, CostCenterService, EntitiesModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BaseOrganizationListService } from '../../../shared/organization-list.service';
+import { BaseOrganizationListService } from '../../../shared/base-organization-list.service';
 import { OrganizationTableType } from '../../../shared/organization.model';
 
 /**
