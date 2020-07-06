@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { CurrentProductService } from '@spartacus/storefront';
+import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 
@@ -18,6 +18,7 @@ import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageZoomProductViewComponent {
+  iconType = ICON_TYPE;
   private mainMediaContainer = new BehaviorSubject(null);
 
   isZoomed = false;

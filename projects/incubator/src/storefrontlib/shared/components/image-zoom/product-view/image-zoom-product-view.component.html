@@ -1,12 +1,14 @@
 <ng-container *ngIf="mainImage$ | async as main">
-  <div class="d-flex" *ngIf="thumbs$ | async as thumbs">
-    <button
-      class="btn btn-link"
-      *ngIf="getPreviousProduct(thumbs) | async as previousProduct"
-      (click)="openImage(previousProduct.container)"
-    >
-      Prev
-    </button>
+  <div class="cx-main-image-group" *ngIf="thumbs$ | async as thumbs">
+    <div class="cx-navigate-image">
+      <button
+        class="btn btn-link"
+        *ngIf="getPreviousProduct(thumbs) | async as previousProduct"
+        (click)="openImage(previousProduct.container)"
+      >
+        <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
+      </button>
+    </div>
     <cx-media
       class="cx-default-image-zoom"
       *ngIf="!isZoomed"
@@ -25,13 +27,15 @@
       >
       </cx-media>
     </div>
-    <button
-      class="btn btn-link"
-      *ngIf="getNextProduct(thumbs) | async as nextProduct"
-      (click)="openImage(nextProduct.container)"
-    >
-      Next
-    </button>
+    <div class="cx-navigate-image">
+      <button
+        class="btn btn-link"
+        *ngIf="getNextProduct(thumbs) | async as nextProduct"
+        (click)="openImage(nextProduct.container)"
+      >
+        <cx-icon [type]="iconType.CARET_RIGHT"></cx-icon>
+      </button>
+    </div>
   </div>
 </ng-container>
 

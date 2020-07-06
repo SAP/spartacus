@@ -1,5 +1,5 @@
 @import 'mixins';
-@import '~bootstrap/scss/modal';
+@import 'cxbase/blocks/modal';
 
 :host {
   color: var(--cx-color-text);

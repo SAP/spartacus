@@ -21,12 +21,12 @@ import { ImageZoomTriggerComponent } from './trigger/image-zoom-trigger.componen
     KeyboardFocusModule,
   ],
   providers: [provideConfig(defaultImageZoomLayoutConfig)],
-  exports: [
+  declarations: [
     ImageZoomDialogComponent,
     ImageZoomTriggerComponent,
     ImageZoomProductViewComponent,
   ],
-  declarations: [
+  exports: [
     ImageZoomDialogComponent,
     ImageZoomTriggerComponent,
     ImageZoomProductViewComponent,

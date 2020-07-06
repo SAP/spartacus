@@ -1,22 +1,46 @@
+@import 'mixins';
+
 :host {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.cx-default-image-zoom {
+.cx-main-image-group {
   display: flex;
   justify-content: center;
-  height: calc(90vh - 200px);
   padding-bottom: 1em;
 
-  // Landscape phones
-  @media only screen and (max-width: 900px) and (orientation: landscape) {
-    height: 100%;
+  .cx-navigate-image {
+    display: flex;
+
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+
+    button {
+      align-self: center;
+      font-size: 2rem;
+    }
   }
 
-  &:hover {
-    cursor: zoom-in;
+  .cx-default-image-zoom {
+    display: flex;
+    justify-content: center;
+    max-height: calc(90vh - 200px);
+
+    @include media-breakpoint-up(lg) {
+      height: calc(90vh - 200px);
+    }
+
+    // Landscape phones
+    @media only screen and (max-width: 900px) and (orientation: landscape) {
+      height: 100%;
+    }
+
+    &:hover {
+      cursor: zoom-in;
+    }
   }
 }
 
@@ -51,6 +75,7 @@
 
 .thumbs {
   flex: auto;
+
   cx-media {
     width: 70px;
     height: 70px;
@@ -60,7 +85,9 @@
     display: none;
   }
 
-  .carousel-panel {
+  // TODO: remove ::ng-deep when moving to Styles
+  ::ng-deep .carousel-panel {
+    align-self: center;
     .slide {
       &.active {
         display: flex;
