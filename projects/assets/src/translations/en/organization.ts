@@ -83,6 +83,7 @@ export const organization = {
     parentUnit: 'Parent Unit',
     sortByMostRecent: 'sortByMostRecent',
     sorting: {
+      byUnit: 'Unit',
       byUnitName: 'Unit Name',
       byName: 'Name',
       byCode: 'Code',
@@ -208,8 +209,13 @@ export const organization = {
     },
   },
   orgUnitsList: {
-    orgUnitManagement: 'Organization Units Management',
+    orgUnitManagement: 'Units',
     create: 'Create new Unit',
+  },
+  orgUnitTree: {
+    expandAll: 'Expand all',
+    collapseAll: 'Collapse all',
+    upOneLevel: 'Up one level',
   },
   orgUnit: {
     header: 'Details for {{code}}',
@@ -347,10 +353,13 @@ export const organization = {
     name: 'Name',
   },
   usersList: {
+    userManagement: 'Users',
     sorting: {
-      byName: 'Name',
       byUnitName: 'Unit Name',
+      byName: 'Name',
+      byUnit: 'Unit',
     },
+    code: 'Email',
     uid: 'Email',
     name: 'Name',
     roles: 'Roles',
@@ -360,7 +369,89 @@ export const organization = {
     manager: 'Manager',
     approver: 'Approver',
     customer: 'Customer',
+    create: 'New user...',
   },
+  user: {
+    name: 'Name',
+    email: 'Email',
+    role: 'Role',
+    parentUnit: 'Parent Unit',
+    back: 'Back to user list',
+    edit: 'Edit details',
+    status: 'Status',
+    active: 'Enabled',
+    deactivated: 'Disabled',
+    details: 'Details',
+    approvers: 'Approvers',
+    permissions: 'Purchase limits',
+    userGroups: 'User groups',
+    disable: 'Disable',
+    enable: 'Enable',
+    confirmDeactivation: {
+      title: 'Disable User',
+      message: 'Are you sure you want to disable this user?',
+    },
+  },
+  userForm: {
+    create: 'New User',
+    save: 'Save',
+    edit: 'Edit User',
+    update: 'Update User',
+    details: 'Details',
+    email: {
+      label: 'Email address',
+      placeholder: 'Email',
+    },
+    firstName: {
+      label: 'First name',
+      placeholder: 'First name',
+    },
+    lastName: {
+      label: 'Last name',
+      placeholder: 'Last name',
+    },
+    businessUnits: {
+      label: 'Parent business unit',
+      placeholder: 'Select business unit',
+    },
+    message: {
+      required: 'Value is required',
+    },
+    roles: {
+      label: 'Roles',
+      buyer: 'Buyer',
+      manager: 'Manager',
+      approver: 'Approver',
+      administrator: 'Administrator',
+    },
+    title: 'Title',
+    assignAprover: 'Add user to the approver list for this user',
+  },
+  userPermissions: {
+    header: 'Purchase limits assigned to {{code}}',
+    assignPermissions: 'Manage limits',
+  },
+  userAssignPermissions: {
+    header: 'Manage purchase limits for {{code}}',
+    back: 'Close',
+  },
+  userApprovers: {
+    header: 'User approvers assigned to {{code}}',
+    assignApprovers: 'Manage approvers',
+  },
+  userAssignApprovers: {
+    header: 'Manage user approvers for {{code}}',
+    back: 'Close',
+  },
+  userUserGroups: {
+    header: 'User groups of {{code}}',
+    assignUserGroups: 'Manage user groups',
+  },
+  userAssignUserGroups: {
+    header: 'Manage user groups for {{code}}',
+    back: 'Close',
+  },
+
   userGroupsList: {
     assign: 'Assign',
     id: 'ID',
@@ -424,35 +515,30 @@ export const organization = {
     back: 'Close',
     unassignAll: 'Unassign All',
   },
-  user: {
+  breadcrumbs: {
+    edit: 'Edit',
+    create: 'Create',
     details: 'Details',
+    organization: 'Organization',
+    unit: 'Unit',
+    units: 'Units',
+    user: 'User',
+    users: 'Users',
+    budget: 'Budget',
+    budgets: 'Budgets',
+    'cost-center': 'Cost Center',
+    'cost-centers': 'Cost Centers',
+    'purchase-limit': 'Purchase Limit',
+    'purchase-limits': 'Purchase Limits',
+    'assign-purchase-limits': 'Manage Purchase Limits',
+    'user-group': 'User Group',
+    'user-groups': 'User Groups',
     approvers: 'Approvers',
-    permissions: 'Purchase limits',
-    userGroups: 'User groups',
-    back: 'Back to user list',
-  },
-  userPermissions: {
-    header: 'Purchase limits assigned to {{code}}',
-    assignPermissions: 'Manage limits',
-  },
-  userAssignPermissions: {
-    header: 'Manage purchase limits for {{code}}',
-    back: 'Close',
-  },
-  userApprovers: {
-    header: 'User approvers assigned to {{code}}',
-    assignApprovers: 'Manage approvers',
-  },
-  userAssignApprovers: {
-    header: 'Manage user approvers for {{code}}',
-    back: 'Close',
-  },
-  userUserGroups: {
-    header: 'User groups of {{code}}',
-    assignUserGroups: 'Manage user groups',
-  },
-  userAssignUserGroups: {
-    header: 'Manage user groups for {{code}}',
-    back: 'Close',
+    'assign-approvers': 'Manage approvers',
+    'assign-roles': 'Manage Roles',
+    'assign-users': 'Manage Users',
+    addresses: 'Addresses',
+    address: 'Address',
+    children: 'Children',
   },
 };

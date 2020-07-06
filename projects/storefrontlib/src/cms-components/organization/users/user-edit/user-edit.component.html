@@ -1,0 +1,39 @@
+<cx-fake-tabs
+  [code]="b2bUserCode$ | async"
+  [links]="[
+    {
+      cxRoute: 'userDetails',
+      name: 'user.details',
+      params: { customerId: b2bUserCode$ | async },
+      active: true
+    },
+    {
+      cxRoute: 'userApprovers',
+      name: 'user.approvers'
+    },
+    {
+      cxRoute: 'userPermissions',
+      name: 'user.permissions'
+    },
+    {
+      cxRoute: 'userUserGroups',
+      name: 'user.userGroups'
+    }
+  ]"
+  [routerBackLink]="{ cxRoute: 'users', name: 'user.back' }"
+>
+  <div class="cx-header">
+    <h3>{{ 'userForm.edit' | cxTranslate }}</h3>
+  </div>
+  <cx-user-form
+    *ngIf="b2bUser$ | async as b2bUser"
+    [actionBtnLabel]="'userForm.update' | cxTranslate"
+    [b2bUserData]="b2bUser"
+    [routerBackLink]="{
+      cxRoute: 'userDetails',
+      params: b2bUser
+    }"
+    (submitForm)="updateB2BUser($event)"
+  >
+  </cx-user-form>
+</cx-fake-tabs>
