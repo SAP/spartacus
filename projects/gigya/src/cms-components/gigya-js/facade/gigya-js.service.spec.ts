@@ -14,8 +14,8 @@ import {
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { GigyaAuthService } from '../../auth/facade/gigya-auth.service';
-import { GigyaConfig } from '../../config';
+import { GigyaAuthService } from '../../../auth/facade/gigya-auth.service';
+import { GigyaConfig } from '../../../config';
 import { GigyaJsService } from './gigya-js.service';
 
 const sampleGigyaConfig: GigyaConfig = {
@@ -79,6 +79,12 @@ class MockGlobalMessageService {
   remove(_type: GlobalMessageType, _index?: number) {}
 }
 
+class MockSubscription {
+  unsubscribe() {}
+
+  add() {}
+}
+
 const gigya = {
   accounts: {
     addEventHandlers: () => {},
@@ -115,6 +121,7 @@ describe('GigyaJsService', () => {
         { provide: ExternalJsFileLoader, useClass: ExternalJsFileLoaderMock },
         { provide: UserService, useClass: MockUserService },
         { provide: WindowRef, useValue: mockedWindowRef },
+        { provide: Subscription, useValue: MockSubscription },
       ],
     });
 
@@ -322,10 +329,9 @@ describe('GigyaJsService', () => {
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe from any subscriptions when destroyed', () => {
-      service.subscription = new Subscription();
-      spyOn(service.subscription, 'unsubscribe');
+      spyOn(service['subscription'], 'unsubscribe');
       service.ngOnDestroy();
-      expect(service.subscription.unsubscribe).toHaveBeenCalled();
+      expect(service['subscription'].unsubscribe).toHaveBeenCalled();
     });
   });
 });

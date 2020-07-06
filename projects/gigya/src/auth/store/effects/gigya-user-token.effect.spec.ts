@@ -87,7 +87,9 @@ describe('UserToken effect', () => {
       expect(testToken.expiration_time).toBeDefined();
       expect(testToken.userId).toEqual(OCC_USER_ID_CURRENT);
     });
+  });
 
+  describe('makeErrorSerializable', () => {
     it('should serialize string error before returning it', () => {
       const errorReturned = userTokenEffect.makeErrorSerializable('error');
 

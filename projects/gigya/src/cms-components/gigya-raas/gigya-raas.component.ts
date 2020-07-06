@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 import { GigyaConfig } from '../../config';
 import { GigyaRaasComponentData } from '../cms.model';
-import { GigyaJsService } from '../gigya-js/gigya-js.service';
+import { GigyaJsService } from '../gigya-js/facade/gigya-js.service';
 
 @Component({
   selector: 'cx-gigya-raas',

@@ -10,7 +10,7 @@ import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { GigyaConfig } from '../../config';
 import { GigyaRaasComponentData } from '../cms.model';
-import { GigyaJsService } from '../gigya-js/gigya-js.service';
+import { GigyaJsService } from '../gigya-js/facade/gigya-js.service';
 import { GigyaRaasComponent } from './gigya-raas.component';
 
 declare var window: Window;

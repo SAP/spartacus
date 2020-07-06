@@ -12,28 +12,28 @@ import {
 } from '@spartacus/core';
 import { combineLatest, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { GigyaAuthService } from '../../auth/facade/gigya-auth.service';
-import { GigyaConfig } from '../../config/gigya-config';
+import { GigyaAuthService } from '../../../auth/facade/gigya-auth.service';
+import { GigyaConfig } from '../../../config/gigya-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GigyaJsService implements OnDestroy {
-  private loaded$ = new ReplaySubject<boolean>(1);
-  private errorLoading$ = new ReplaySubject<boolean>(1);
-  subscription: Subscription = new Subscription();
+  protected loaded$ = new ReplaySubject<boolean>(1);
+  protected errorLoading$ = new ReplaySubject<boolean>(1);
+  protected subscription: Subscription = new Subscription();
 
   constructor(
-    private gigyaConfig: GigyaConfig,
-    private baseSiteService: BaseSiteService,
-    private languageService: LanguageService,
-    private externalJsFileLoader: ExternalJsFileLoader,
-    private winRef: WindowRef,
-    private auth: GigyaAuthService,
-    private globalMessageService: GlobalMessageService,
-    private authRedirectService: AuthRedirectService,
-    private zone: NgZone,
-    private userService: UserService
+    protected gigyaConfig: GigyaConfig,
+    protected baseSiteService: BaseSiteService,
+    protected languageService: LanguageService,
+    protected externalJsFileLoader: ExternalJsFileLoader,
+    protected winRef: WindowRef,
+    protected auth: GigyaAuthService,
+    protected globalMessageService: GlobalMessageService,
+    protected authRedirectService: AuthRedirectService,
+    protected zone: NgZone,
+    protected userService: UserService
   ) {}
 
   /**
