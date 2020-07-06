@@ -54,7 +54,5 @@ export class BudgetListComponent extends AbstractListingComponent
         )
       )
     );
-
-    this.data$.subscribe(console.log);
   }
 }
