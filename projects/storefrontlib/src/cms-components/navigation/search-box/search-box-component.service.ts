@@ -20,11 +20,8 @@ export class SearchBoxComponentService {
     public searchService: SearchboxService,
     protected routingService: RoutingService,
     protected translationService: TranslationService,
-    protected winRef: WindowRef,
-    protected useExactMatch?: boolean
-  ) {
-    this.useExactMatch = useExactMatch || true;
-  }
+    protected winRef: WindowRef
+  ) {}
 
 
   /**
@@ -43,6 +40,10 @@ export class SearchBoxComponentService {
       query.length < config.minCharactersBeforeRequest
     ) {
       return;
+    }
+
+    if(config.exactMatchEnabled === undefined){
+      config.exactMatchEnabled = true;
     }
 
     if (config.displayProducts) {
@@ -134,7 +135,7 @@ export class SearchBoxComponentService {
       return this.searchService.getSuggestionResults().pipe(
         map((res) => res.map((suggestion) => suggestion.value)),
         switchMap((suggestions) => {
-          if (suggestions.length === 0) {
+          if (suggestions.length === 0 ) {
             return this.getExactSuggestion(config).pipe(
               map((match) => (match ? [match] : []))
             );
@@ -153,7 +154,7 @@ export class SearchBoxComponentService {
   private getExactSuggestion(config: SearchBoxConfig): Observable<string> {
     return this.getProductResults(config).pipe(
       switchMap((productResult) => {
-        return this.useExactMatch && productResult.products && productResult.products.length > 0
+        return config.exactMatchEnabled && productResult.products && productResult.products.length > 0
           ? this.fetchTranslation('searchBox.help.exactMatch', {
               term: productResult.freeTextSearch,
             })
