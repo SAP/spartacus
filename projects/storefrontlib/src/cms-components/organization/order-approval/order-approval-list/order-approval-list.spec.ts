@@ -229,7 +229,6 @@ describe('OrderApprovalListComponent', () => {
       component.data$
         .subscribe((value) => {
           approvalsList = value;
-          console.log(value);
         })
         .unsubscribe();
 
