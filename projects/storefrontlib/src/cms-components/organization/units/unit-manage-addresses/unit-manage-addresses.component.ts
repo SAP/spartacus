@@ -48,14 +48,23 @@ export class UnitManageAddressesComponent implements OnInit {
       switchMap((code) =>
         this.orgUnitsService.getAddresses(code).pipe(
           filter(Boolean),
-          map((addresses: EntitiesModel<B2BAddress>) => ({
-            values: addresses?.values.map((address) => ({
-              id: address.id,
-              code,
-              name: `${address.firstName} ${address.lastName}`,
-              formattedAddress: address.formattedAddress,
-            })),
-          }))
+          map((addresses: EntitiesModel<B2BAddress>) => {
+            const addressList: EntitiesModel<any> = {
+              values: [],
+            };
+            addresses.values.forEach((address) => {
+              if (address) {
+                addressList.values.push({
+                  id: address.id,
+                  code,
+                  name: `${address.firstName} ${address.lastName}`,
+                  formattedAddress: address.formattedAddress,
+                });
+              }
+            });
+
+            return addressList;
+          })
         )
       )
     );
