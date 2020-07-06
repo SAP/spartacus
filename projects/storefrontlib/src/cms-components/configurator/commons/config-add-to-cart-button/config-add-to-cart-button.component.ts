@@ -115,15 +115,27 @@ export class ConfigAddToCartButtonComponent {
 
     if (isOwnerCartEntry) {
       if (configuration.isCartEntryUpdateRequired) {
-        this.configuratorCommonsService.updateCartEntry(configuration);
+        this.configuratorCommonsService
+          .updateCartEntry(configuration)
+          .pipe(take(1))
+          .subscribe(() =>
+            this.performNavigation(
+              configuratorType,
+              owner,
+              false,
+              isOverview,
+              true
+            )
+          );
+      } else {
+        this.performNavigation(
+          configuratorType,
+          owner,
+          false,
+          isOverview,
+          false
+        );
       }
-      this.performNavigation(
-        configuratorType,
-        owner,
-        false,
-        isOverview,
-        configuration.isCartEntryUpdateRequired
-      );
     } else {
       this.configuratorCommonsService.addToCart(
         owner.id,
