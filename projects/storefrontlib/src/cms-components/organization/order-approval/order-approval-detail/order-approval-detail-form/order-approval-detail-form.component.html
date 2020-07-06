@@ -44,17 +44,17 @@
         <div class="col-lg-6 col-md-12">
           <button
             class="btn btn-block btn-primary"
-            (click)="displayDecisionForm(approvalDecisionValue.APPROVE)"
+            (click)="displayDecisionForm(approvalDecisionValue.REJECT)"
           >
-            {{ 'orderApproval.showApprovalForm' | cxTranslate }}
+            {{ 'orderApproval.showForm_REJECT' | cxTranslate }}
           </button>
         </div>
         <div class="col-lg-6 col-md-12">
           <button
             class="btn btn-block btn-primary"
-            (click)="displayDecisionForm(approvalDecisionValue.REJECT)"
+            (click)="displayDecisionForm(approvalDecisionValue.APPROVE)"
           >
-            {{ 'orderApproval.showRejectForm' | cxTranslate }}
+            {{ 'orderApproval.showForm_APPROVE' | cxTranslate }}
           </button>
         </div>
       </div>

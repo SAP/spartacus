@@ -487,11 +487,11 @@ export const organization = {
     subkey: 'asdfasdf',
   },
   orderApproval: {
-    showApprovalForm: 'Approve Order...',
-    showRejectForm: 'Reject Order...',
+    showForm_APPROVE: 'Approve Order...',
+    showForm_REJECT: 'Reject Order...',
     form: {
       title_APPROVE: 'Approval of order {{orderCode}} totalling {{orderTotal}}',
-      title_REJECT: 'Rejection of order {{orderCode}} totalling {{OrderTotal}}',
+      title_REJECT: 'Rejection of order {{orderCode}} totalling {{orderTotal}}',
       submit_APPROVE: 'Approve',
       submit_REJECT: 'Reject',
       cancel: 'Cancel',
