@@ -10,16 +10,20 @@ import { BREAKPOINT } from '../../../../layout/config/layout-config';
 import { of, Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { I18nTestingModule, CmsNavigationComponent } from '@spartacus/core';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, DebugElement } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  Input,
+  DebugElement,
+} from '@angular/core';
 import { NavigationNode } from '../../../navigation/navigation/navigation-node.model';
 import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
 import { By } from '@angular/platform-browser';
 
 @Component({
   template: '',
-  selector: 'cx-unit-tree-navigation-ui'
+  selector: 'cx-unit-tree-navigation-ui',
 })
-
 class MockNavigationComponent {
   @Input() node: NavigationNode;
   selectedNode: NavigationNode;
@@ -27,7 +31,7 @@ class MockNavigationComponent {
 }
 
 class MockBreakpointService {
-  get breakpoint$(): Observable < BREAKPOINT > {
+  get breakpoint$(): Observable<BREAKPOINT> {
     return of();
   }
   get breakpoints(): BREAKPOINT[] {
@@ -43,8 +47,8 @@ class MockBreakpointService {
     return this.breakpoint$.pipe(
       map((br) =>
         this.breakpoints
-        .slice(0, this.breakpoints.indexOf(breakpoint) + 1)
-        .includes(br)
+          .slice(0, this.breakpoints.indexOf(breakpoint) + 1)
+          .includes(br)
       )
     );
   }
@@ -52,31 +56,36 @@ class MockBreakpointService {
 
 const mockNode: NavigationNode = {
   title: 'test',
-  children: [{
+  children: [
+    {
       title: 'Root 1',
       url: '/root-1',
-      children: [{
+      children: [
+        {
           title: 'Child 1',
-          children: [{
-            title: 'Sub child 1',
-            children: [{
-                title: 'Sub sub child 1',
-                url: '/sub-sub-child-1',
-              },
-              {
-                title: 'Sub sub child 1',
-                url: '/sub-sub-child-1',
-              },
-              {
-                title: 'Sub sub child 1',
-                url: '/sub-sub-child-1',
-              },
-              {
-                title: 'Sub sub child 1',
-                url: '/sub-sub-child-1',
-              },
-            ],
-          }, ],
+          children: [
+            {
+              title: 'Sub child 1',
+              children: [
+                {
+                  title: 'Sub sub child 1',
+                  url: '/sub-sub-child-1',
+                },
+                {
+                  title: 'Sub sub child 1',
+                  url: '/sub-sub-child-1',
+                },
+                {
+                  title: 'Sub sub child 1',
+                  url: '/sub-sub-child-1',
+                },
+                {
+                  title: 'Sub sub child 1',
+                  url: '/sub-sub-child-1',
+                },
+              ],
+            },
+          ],
         },
         {
           title: 'Child 2',
@@ -91,20 +100,20 @@ const mockNode: NavigationNode = {
   ],
 };
 
-describe('UnitTreeNavigationUIComponent', () => {
+fdescribe('UnitTreeNavigationUIComponent', () => {
   let component: UnitTreeNavigationUIComponent;
-  let fixture: ComponentFixture <UnitTreeNavigationUIComponent>;
+  let fixture: ComponentFixture<UnitTreeNavigationUIComponent>;
   let element: DebugElement;
   let breakpointService: MockBreakpointService;
 
-  const mockCmsComponentData = < CmsNavigationComponent > {
+  const mockCmsComponentData = <CmsNavigationComponent>{
     styleClass: 'footer-styling',
   };
-  const MockCmsNavigationComponent = < CmsComponentData < any >> {
-    data$: of (mockCmsComponentData),
+  const MockCmsNavigationComponent = <CmsComponentData<any>>{
+    data$: of(mockCmsComponentData),
   };
 
-  beforeEach(async (() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UnitTreeNavigationUIComponent, MockNavigationComponent],
       imports: [I18nTestingModule],
@@ -116,10 +125,10 @@ describe('UnitTreeNavigationUIComponent', () => {
         },
         {
           provide: BreakpointService,
-          useClass: MockBreakpointService
-        }
+          useClass: MockBreakpointService,
+        },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
     breakpointService = TestBed.inject(BreakpointService);
   }));
@@ -136,38 +145,18 @@ describe('UnitTreeNavigationUIComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('executing constructor and calling breakpoint service', async () => {
+  describe('executing constructor and calling breakpoint service', () => {
     beforeEach(() => {
-      spyOnProperty(breakpointService, 'breakpoint$').and.returnValue( of (BREAKPOINT.md));
-    });
-
-    const isDown = (breakpoint: BREAKPOINT): any => {
-      breakpointService.isDown(breakpoint)
-        .subscribe((val: any) => {
-          return val;
-        })
-        .unsubscribe();
-    };
-
-    const isMobile: boolean = await isDown(BREAKPOINT.md);
-
-    it('should call breakpoint service and return true', async () => {
-      expect(isMobile).toBeTrue();
-      expect(component.isExpandedNodeMap).toEqual({});
-    });
-    it('should call breakpoint service and return false', async () => {
-      expect(!isMobile).toBeFalse();
-      expect(component.selectedNode).toBeUndefined();
-    });
-    it('should call refreshUI function', () => {
-        expect(component.refreshUIWithMappedElements).toHaveBeenCalledWith(isMobile);
+      spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+        of(BREAKPOINT.md)
+      );
     });
   });
 
   it('should render refreshUIDMappedElements function', () => {
-      spyOn(component, 'mapUlElementToExpand');
-      component.refreshUIWithMappedElements();
-      expect(component.mapUlElementToExpand).toHaveBeenCalled();
+    spyOn(component, 'mapUlElementToExpand');
+    component.refreshUIWithMappedElements();
+    expect(component.mapUlElementToExpand).toHaveBeenCalled();
   });
 
   describe('UI view testing', () => {
@@ -176,19 +165,28 @@ describe('UnitTreeNavigationUIComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should call first button link', async(async () => {
-      spyOn(component, 'setTreeBranchesState');
-      fixture.detectChanges();
-      
-      const button: HTMLElement = element.queryAll(By.css('.btn btn-link'))[0].nativeElement;
-      expect(button).toBeTruthy();
-      button.click();
+    it('should title be rendered in a DOM', () => {
+      const button: HTMLElement = element.queryAll(By.css('.node-title'))[0]
+        .nativeElement;
+      console.log(button); // contains HTML of button (see console log)
+      expect(button.innerText).toContain(mockNode.title);
+    });
 
-      await fixture.whenStable();
-      fixture.detectChanges();
+    it('should call setTreeBranchesState on expandAll button click', () => {
+      const clickMock = spyOn(component, 'setTreeBranchesState');
+      element
+        .queryAll(By.css('.btn-link'))[0]
+        .triggerEventHandler('click', null);
+      expect(clickMock).toHaveBeenCalledWith(true);
+    });
 
-      expect(component.setTreeBranchesState).toHaveBeenCalledWith(true);
-    }));
+    it('should call setTreeBranchesState on collapseAll button click', () => {
+      const clickMock = spyOn(component, 'setTreeBranchesState');
+      element
+        .queryAll(By.css('.btn-link'))[1]
+        .triggerEventHandler('click', null);
+      expect(clickMock).toHaveBeenCalledWith(false);
+    });
 
     // it('should render if selectedNode is true', async(async () => {
     //   spyOn(component, 'back');
@@ -214,5 +212,4 @@ describe('UnitTreeNavigationUIComponent', () => {
     //   expect(a).toBeUndefined();
     // });
   });
-
 });
