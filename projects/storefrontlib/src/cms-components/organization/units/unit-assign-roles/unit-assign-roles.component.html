@@ -25,21 +25,33 @@
     }"
     [columns]="[
       {
-        key: 'selected',
-        value: 'usersList.assign' | cxTranslate,
-        checkBox: true
+        key: 'name',
+        value: 'usersList.name' | cxTranslate,
+        cxRoute: 'userDetails'
       },
       {
         key: 'email',
-        value: 'usersList.uid' | cxTranslate,
-        cxRoute: 'userDetails'
+        value: 'usersList.uid' | cxTranslate
       },
-      { key: 'name', value: 'usersList.name' | cxTranslate },
-      { key: 'roles', value: 'usersList.roles' | cxTranslate },
       {
-        key: 'parentUnit',
-        value: 'usersList.parentUnit' | cxTranslate,
-        cxRoute: 'orgUnitDetails'
+        key: 'b2bcustomergroup',
+        value: 'usersList.b2bcustomergroup' | cxTranslate,
+        checkBox: true
+      },
+      {
+        key: 'b2bmanagergroup',
+        value: 'usersList.b2bmanagergroup' | cxTranslate,
+        checkBox: true
+      },
+      {
+        key: 'b2badmingroup',
+        value: 'usersList.b2badmingroup' | cxTranslate,
+        checkBox: true
+      },
+      {
+        key: 'b2bapprovergroup',
+        value: 'usersList.b2bapprovergroup' | cxTranslate,
+        checkBox: true
       }
     ]"
     (pageChange)="pageChange($event)"
@@ -49,29 +61,7 @@
   >
     <div class="col-md-12 col-lg-6">
       <div class="row">
-        <div class="pb-mobile-2 col-md-12 col-lg-6 float-right">
-          <ng-select
-            bindLabel="name"
-            bindValue="roleId"
-            [clearable]="false"
-            [ngModel]="role$ | async"
-            (change)="changeRole($event)"
-            [items]="[
-              {
-                name: 'usersList.admin' | cxTranslate,
-                roleId: 'b2badmingroup'
-              },
-              {
-                name: 'usersList.manager' | cxTranslate,
-                roleId: 'b2bmanagergroup'
-              },
-              {
-                name: 'usersList.customer' | cxTranslate,
-                roleId: 'b2bcustomergroup'
-              }
-            ]"
-          ></ng-select>
-        </div>
+        <div class="pb-mobile-2 col-md-12 col-lg-6 float-right"></div>
         <div class="col-md-12 col-lg-6">
           <!--          back-->
           <a
