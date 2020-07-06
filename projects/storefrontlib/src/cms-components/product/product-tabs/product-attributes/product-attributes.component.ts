@@ -9,6 +9,10 @@ import { CurrentProductService } from '../../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductAttributesComponent {
+
+  // TODO: configurable
+  initialMaxListItems = 5;
+
   product$: Observable<Product> = this.currentProductService.getProduct(
     ProductScope.ATTRIBUTES
   );
