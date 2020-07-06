@@ -11,7 +11,7 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterDetailsComponent {
-  protected code$: Observable<string> = this.router.params.pipe(
+  protected code$: Observable<string> = this.route.params.pipe(
     map((params) => params['code']),
     filter((code) => Boolean(code))
   );
@@ -24,7 +24,7 @@ export class CostCenterDetailsComponent {
   );
 
   constructor(
-    protected router: ActivatedRoute,
+    protected route: ActivatedRoute,
     protected costCentersService: CostCenterService,
     // TODO: consider relying on css only
     protected modalService: ModalService

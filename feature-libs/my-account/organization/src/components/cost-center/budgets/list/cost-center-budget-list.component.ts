@@ -11,7 +11,7 @@ import { CostCenterBudgetListService } from './cost-center-budget-list.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterBudgetListComponent {
-  protected code$: Observable<string> = this.router.params.pipe(
+  protected code$: Observable<string> = this.route.params.pipe(
     map((routingData) => routingData['code'])
   );
 
@@ -20,7 +20,7 @@ export class CostCenterBudgetListComponent {
   );
 
   constructor(
-    protected router: ActivatedRoute,
+    protected route: ActivatedRoute,
     protected costCenterBudgetListService: CostCenterBudgetListService
   ) {}
 }
