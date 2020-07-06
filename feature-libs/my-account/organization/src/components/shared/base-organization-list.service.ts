@@ -84,7 +84,7 @@ export abstract class BaseOrganizationListService<T, P = PaginationModel> {
       this.tableService.buildStructure(this.tableType),
       this.pagination$,
     ]).pipe(
-      map(([structure, pagination]) => ({
+      map(([structure, pagination]: [TableStructure, P]) => ({
         ...structure,
         pagination: { ...structure.pagination, ...pagination },
       }))
