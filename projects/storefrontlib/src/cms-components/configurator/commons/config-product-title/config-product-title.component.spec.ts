@@ -42,6 +42,17 @@ const config: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
 };
 
+const orderEntryconfig: Configurator.Configuration = {
+  owner: {
+    id: PRODUCT_CODE,
+    type: GenericConfigurator.OwnerType.ORDER_ENTRY,
+  },
+  configId: CONFIG_ID,
+  overview: {
+    productCode: PRODUCT_CODE,
+  },
+};
+
 const product: Product = {
   name: PRODUCT_NAME,
   code: PRODUCT_CODE,
@@ -65,6 +76,7 @@ const product: Product = {
     },
   },
 };
+let configuration: Configurator.Configuration;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -84,7 +96,7 @@ class MockProductService {
 
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
-    return of(config);
+    return of(configuration);
   }
 }
 
@@ -128,6 +140,8 @@ describe('ConfigProductTitleComponent', () => {
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(config.owner);
+    configuratorUtils.setOwnerKey(orderEntryconfig.owner);
+    configuration = config;
 
     fixture.detectChanges();
   });
@@ -184,6 +198,21 @@ describe('ConfigProductTitleComponent', () => {
       htmlElem,
       '.cx-config-toogle-details-link-text',
       'configurator.header.showLess' //Check translation key, because translation module is not available
+    );
+  });
+
+  it('check rendering in order entry configuration case', () => {
+    configuration = orderEntryconfig;
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-config-product-title'
+    );
+    ConfigComponentTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-config-product-title',
+      PRODUCT_NAME
     );
   });
 });
