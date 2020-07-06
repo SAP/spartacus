@@ -20,8 +20,12 @@ export class SearchBoxComponentService {
     public searchService: SearchboxService,
     protected routingService: RoutingService,
     protected translationService: TranslationService,
-    protected winRef: WindowRef
-  ) {}
+    protected winRef: WindowRef,
+    protected useExactMatch?: boolean
+  ) {
+    this.useExactMatch = useExactMatch || true;
+  }
+
 
   /**
    * Executes the search for products and suggestions,
@@ -149,7 +153,7 @@ export class SearchBoxComponentService {
   private getExactSuggestion(config: SearchBoxConfig): Observable<string> {
     return this.getProductResults(config).pipe(
       switchMap((productResult) => {
-        return productResult.products && productResult.products.length > 0
+        return this.useExactMatch && productResult.products && productResult.products.length > 0
           ? this.fetchTranslation('searchBox.help.exactMatch', {
               term: productResult.freeTextSearch,
             })
