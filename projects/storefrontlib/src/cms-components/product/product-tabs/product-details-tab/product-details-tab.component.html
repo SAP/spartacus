@@ -1,4 +1,9 @@
 <ng-container *ngIf="product$ | async as product">
-  <div class="container" [innerHTML]="pds.paragraphLimiter(product?.description, 800)"></div>
-  <div class="container" *ngIf="!pds.isShow" (click)="pds.toggleDesc()"> {{(pds.isShow) ? '... see less' : '... see more'}} </div>
+  <div
+    class="container"
+    [innerHTML]="pds.paragraphLimiter(product?.description, 800)"
+  ></div>
+  <div class="container" *ngIf="!pds.isShow" (click)="pds.toggleDesc()">
+    {{ pds.isShow ? '... see less' : '... see more' }}
+  </div>
 </ng-container>

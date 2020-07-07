@@ -12,8 +12,10 @@ import { TruncateTextService } from './product-description.service';
 export class ProductDetailsTabComponent implements OnInit {
   product$: Observable<Product>;
 
-  constructor(protected currentProductService: CurrentProductService,
-              public pds: TruncateTextService) {}
+  constructor(
+    protected currentProductService: CurrentProductService,
+    public pds: TruncateTextService
+  ) {}
 
   ngOnInit() {
     this.product$ = this.currentProductService.getProduct();

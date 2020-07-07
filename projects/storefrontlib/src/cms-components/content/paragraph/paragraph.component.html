@@ -1,3 +1,7 @@
-<p *ngIf="component.data$ | async as data" [innerHTML]="pds.paragraphLimiter(data?.content, 800)"></p>
-<div class="container" *ngIf="!pds.isShow" (click)="pds.toggleDesc()"> {{(pds.isShow) ? '... see less' : '... see more'}} </div>
-
+<p
+  *ngIf="component.data$ | async as data"
+  [innerHTML]="pds.paragraphLimiter(data?.content, 800)"
+></p>
+<div class="container" *ngIf="!pds.isShow" (click)="pds.toggleDesc()">
+  {{ pds.isShow ? '... see less' : '... see more' }}
+</div>

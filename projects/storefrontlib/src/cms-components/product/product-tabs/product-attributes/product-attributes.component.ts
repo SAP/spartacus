@@ -9,7 +9,6 @@ import { CurrentProductService } from '../../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductAttributesComponent {
-
   // TODO: configurable
   initialMaxListItems = 5;
 

@@ -9,5 +9,8 @@ import { TruncateTextService } from '../../../cms-components/product/product-tab
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParagraphComponent {
-  constructor(public component: CmsComponentData<CmsParagraphComponent>, public pds: TruncateTextService) {}
+  constructor(
+    public component: CmsComponentData<CmsParagraphComponent>,
+    public pds: TruncateTextService
+  ) {}
 }
