@@ -87,28 +87,28 @@ export function isNextBtnDisabled() {
 export function isStatusIconNotDisplayed(groupName: string) {
   cy.get(
     '.' +
-    `${'ERROR'}` +
-    '.cx-config-menu-item>a:contains(' +
-    `${groupName}` +
-    ')'
+      `${'ERROR'}` +
+      '.cx-config-menu-item>a:contains(' +
+      `${groupName}` +
+      ')'
   ).should('not.exist');
 
   cy.get(
     '.' +
-    `${'COMPLETE'}` +
-    '.cx-config-menu-item>a:contains(' +
-    `${groupName}` +
-    ')'
+      `${'COMPLETE'}` +
+      '.cx-config-menu-item>a:contains(' +
+      `${groupName}` +
+      ')'
   ).should('not.exist');
 }
 
 export function isStatusIconDisplayed(groupName: string, status: string) {
   cy.get(
     '.' +
-    `${status}` +
-    '.cx-config-menu-item>a:contains(' +
-    `${groupName}` +
-    ')'
+      `${status}` +
+      '.cx-config-menu-item>a:contains(' +
+      `${groupName}` +
+      ')'
   ).should('exist');
 }
 
@@ -224,7 +224,7 @@ export function isTotalPrice(formattedPrice) {
 
 export function navigateToOverviewPage() {
   cy.get('cx-config-tab-bar div div:last a').click({
-    force: true
+    force: true,
   });
 }
 
@@ -311,35 +311,37 @@ export function navigateToOrderDetails() {
 }
 
 export function goToOrderHistory() {
-  cy.visit(
-    '/electronics-spa/en/USD/my-account/orders'
-  ).then(() => {
+  cy.visit('/electronics-spa/en/USD/my-account/orders').then(() => {
     cy.get('cx-order-history').should('be.visible');
   });
 }
 
 export function selectOrderByOrderNumberAlias() {
-  cy.get('@orderNumber').then(orderNumber => {
-    cy.get('cx-order-history a.cx-order-history-value:contains(' + `${orderNumber}` + ')')
-      .click().then(() => {
-      navigateToOrderDetails();
-    });
+  cy.get('@orderNumber').then((orderNumber) => {
+    cy.get(
+      'cx-order-history a.cx-order-history-value:contains(' +
+        `${orderNumber}` +
+        ')'
+    )
+      .click()
+      .then(() => {
+        navigateToOrderDetails();
+      });
   });
 }
 
 export function defineOrderNumberAlias() {
-  const orderConfirmationText ="Confirmation of Order:";
+  const orderConfirmationText = 'Confirmation of Order:';
 
   cy.get('cx-order-confirmation-thank-you-message h1.cx-page-title')
     .first()
     .invoke('text')
     .then((text) => {
       expect(text).contains(orderConfirmationText);
-      const orderNumber = text.replace(orderConfirmationText, "").trim();
+      const orderNumber = text.replace(orderConfirmationText, '').trim();
       expect(orderNumber).match(/^[0-9]+$/);
       cy.wrap(orderNumber).as('orderNumber');
     });
-
 }
 
 export function checkout() {
