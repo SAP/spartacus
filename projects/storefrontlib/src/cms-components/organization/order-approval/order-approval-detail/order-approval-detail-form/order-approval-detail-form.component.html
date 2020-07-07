@@ -20,7 +20,10 @@
       *ngIf="approvalFormVisible"
     >
       <label
-        >{{ 'orderApproval.form.comment_' + approvalDecision + '.label' | cxTranslate }}
+        >{{
+          'orderApproval.form.comment_' + approvalDecision + '.label'
+            | cxTranslate
+        }}
         <textarea
           class="form-control"
           rows="3"

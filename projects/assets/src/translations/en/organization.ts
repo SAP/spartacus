@@ -483,9 +483,6 @@ export const organization = {
       placeholder: 'Select business unit',
     },
   },
-  mykey: {
-    subkey: 'asdfasdf',
-  },
   userGroupPermissions: {
     header: 'Purchase limits assigned to in {{code}}',
     assignPermissions: 'Manage limits',
