@@ -20,11 +20,11 @@ import {
   CpqCoreModule,
   TextfieldCoreModule,
   VariantCoreModule,
-} from '@spartacus/product/configuration';
-import { CommonConfiguratorModule } from '@spartacus/product/configuration/common';
-import { CpqConfiguratorModule } from '@spartacus/product/configuration/cpq';
-import { TextfieldConfiguratorModule } from '@spartacus/product/configuration/textfield';
-import { VariantConfiguratorModule } from '@spartacus/product/configuration/variant';
+} from '@spartacus/product/configurators';
+import { CommonConfiguratorModule } from '@spartacus/product/configurators/common';
+import { CpqConfiguratorModule } from '@spartacus/product/configurators/cpq';
+import { TextfieldConfiguratorModule } from '@spartacus/product/configurators/textfield';
+import { VariantConfiguratorModule } from '@spartacus/product/configurators/variant';
 import {
   JsonLdBuilderModule,
   StorefrontComponent,
