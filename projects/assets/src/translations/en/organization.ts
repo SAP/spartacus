@@ -533,8 +533,8 @@ export const organization = {
     showForm_APPROVE: 'Approve Order...',
     showForm_REJECT: 'Reject Order...',
     form: {
-      title_APPROVE: 'Approval of order {{orderCode}} totalling {{orderTotal}}',
-      title_REJECT: 'Rejection of order {{orderCode}} totalling {{orderTotal}}',
+      title_APPROVE: 'Approve order {{orderCode}} totalling {{orderTotal}}',
+      title_REJECT: 'Reject order {{orderCode}} totalling {{orderTotal}}',
       submit_APPROVE: 'Approve',
       submit_REJECT: 'Reject',
       cancel: 'Cancel',
