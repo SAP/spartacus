@@ -171,7 +171,9 @@ function callGetOrCreate(
     y: productConfigurationLoaderStateChanged,
   });
   spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-  const configurationObs = serviceUnderTest.getOrCreateConfiguration(owner);
+  const configurationObs = serviceUnderTest.getOrCreateConfigurationWhenCartUpdatesDone(
+    owner
+  );
   return configurationObs;
 }
 
@@ -560,6 +562,18 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   describe('getOrCreateConfiguration', () => {
+    it('should wait for cart updates', () => {
+      const obs = cold('xy', {
+        x: false,
+        y: false,
+      });
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+      const configurationObs: Observable<Configurator.Configuration> = serviceUnderTest.getOrCreateConfiguration(
+        OWNER_CART_ENTRY
+      );
+      expect(configurationObs).toBeObservable(cold('--', {}));
+    });
+
     it('should return an unchanged observable of product configurations in case configurations exist and carry valid config IDs', () => {
       productConfigurationChanged.configId = CONFIG_ID;
       const configurationObs = callGetOrCreate(serviceUnderTest, OWNER_PRODUCT);
@@ -592,7 +606,7 @@ describe('ConfiguratorCommonsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
       spyOn(store, 'dispatch').and.callThrough();
 
-      const configurationObs = serviceUnderTest.getOrCreateConfiguration(
+      const configurationObs = serviceUnderTest.getOrCreateConfigurationWhenCartUpdatesDone(
         OWNER_CART_ENTRY
       );
 
@@ -644,7 +658,7 @@ describe('ConfiguratorCommonsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
       spyOn(store, 'dispatch').and.callThrough();
 
-      const configurationObs = serviceUnderTest.getOrCreateConfiguration(
+      const configurationObs = serviceUnderTest.getOrCreateConfigurationWhenCartUpdatesDone(
         OWNER_PRODUCT
       );
 
@@ -665,7 +679,7 @@ describe('ConfiguratorCommonsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
       spyOn(store, 'dispatch').and.callThrough();
 
-      const configurationObs = serviceUnderTest.getOrCreateConfiguration(
+      const configurationObs = serviceUnderTest.getOrCreateConfigurationWhenCartUpdatesDone(
         OWNER_PRODUCT
       );
 
@@ -685,7 +699,7 @@ describe('ConfiguratorCommonsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
       spyOn(store, 'dispatch').and.callThrough();
 
-      const configurationObs = serviceUnderTest.getOrCreateConfiguration(
+      const configurationObs = serviceUnderTest.getOrCreateConfigurationWhenCartUpdatesDone(
         OWNER_PRODUCT
       );
 

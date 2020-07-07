@@ -115,26 +115,17 @@ export class ConfigAddToCartButtonComponent {
 
     if (isOwnerCartEntry) {
       if (configuration.isCartEntryUpdateRequired) {
-        this.configuratorCommonsService
-          .updateCartEntry(configuration)
-          .pipe(take(1))
-          .subscribe(() =>
-            this.performNavigation(
-              configuratorType,
-              owner,
-              false,
-              isOverview,
-              true
-            )
-          );
-      } else {
-        this.performNavigation(
-          configuratorType,
-          owner,
-          false,
-          isOverview,
-          false
-        );
+        this.configuratorCommonsService.updateCartEntry(configuration);
+      }
+      this.performNavigation(
+        configuratorType,
+        owner,
+        false,
+        isOverview,
+        configuration.isCartEntryUpdateRequired
+      );
+      if (configuration.isCartEntryUpdateRequired || isOverview) {
+        this.configuratorCommonsService.removeConfiguration(owner);
       }
     } else {
       this.configuratorCommonsService.addToCart(
@@ -159,8 +150,8 @@ export class ConfigAddToCartButtonComponent {
             isOverview,
             true
           );
+          this.configuratorCommonsService.removeConfiguration(owner);
         });
-      this.configuratorCommonsService.removeConfiguration(owner);
     }
   }
 
@@ -176,9 +167,6 @@ export class ConfigAddToCartButtonComponent {
       : 'configurator.addToCart.confirmationUpdate';
     if (isOverview) {
       this.navigateToCart();
-      if (!isAdd) {
-        this.configuratorCommonsService.removeConfiguration(owner);
-      }
     } else {
       this.navigateToOverview(configuratorType, owner);
     }

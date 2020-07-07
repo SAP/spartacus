@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { MultiCartSelectors } from '../../../cart/store/index';
 import { StateWithMultiCart } from '../../../cart/store/multi-cart-state';
@@ -33,9 +33,7 @@ export class ConfiguratorCommonsService {
    *
    * @returns {Observable<Boolean>} Returns true if there are any pending changes, otherwise false
    */
-  public hasPendingChanges(
-    owner: GenericConfigurator.Owner
-  ): Observable<Boolean> {
+  hasPendingChanges(owner: GenericConfigurator.Owner): Observable<Boolean> {
     return this.store.pipe(
       select(ConfiguratorSelectors.hasPendingChanges(owner.key))
     );
@@ -48,7 +46,7 @@ export class ConfiguratorCommonsService {
    *
    * @returns {Observable<Boolean>} Returns true if the configuration is loading, otherwise false
    */
-  public isConfigurationLoading(
+  isConfigurationLoading(
     owner: GenericConfigurator.Owner
   ): Observable<Boolean> {
     return this.store.pipe(
@@ -68,7 +66,7 @@ export class ConfiguratorCommonsService {
    *
    * @returns {Observable<Configurator.Configuration>}
    */
-  public getConfiguration(
+  getConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
@@ -84,7 +82,15 @@ export class ConfiguratorCommonsService {
    *
    * @returns {Observable<Configurator.Configuration>}
    */
-  public getOrCreateConfiguration(
+  getOrCreateConfiguration(
+    owner: GenericConfigurator.Owner
+  ): Observable<Configurator.Configuration> {
+    return this.checkForActiveCartUpdateDone().pipe(
+      switchMapTo(this.getOrCreateConfigurationWhenCartUpdatesDone(owner))
+    );
+  }
+
+  getOrCreateConfigurationWhenCartUpdatesDone(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
@@ -121,7 +127,7 @@ export class ConfiguratorCommonsService {
    * Reads a configuratiom that is attached to an order entry, dispatching the respective action
    * @param owner Configuration owner
    */
-  public readConfigurationForOrderEntry(owner: GenericConfigurator.Owner) {
+  readConfigurationForOrderEntry(owner: GenericConfigurator.Owner) {
     const ownerIdParts = this.genericConfigUtilsService.decomposeOwnerId(
       owner.id
     );
@@ -142,7 +148,7 @@ export class ConfiguratorCommonsService {
    * Reads a configuratiom that is attached to a cart entry, dispatching the respective action
    * @param owner Configuration owner
    */
-  public readConfigurationForCartEntry(owner: GenericConfigurator.Owner): void {
+  readConfigurationForCartEntry(owner: GenericConfigurator.Owner): void {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
@@ -153,7 +159,6 @@ export class ConfiguratorCommonsService {
           cartEntryNumber: owner.id,
           owner: owner,
         };
-
         this.store.dispatch(
           new ConfiguratorActions.ReadCartEntryConfiguration(
             readFromCartEntryParameters
@@ -169,7 +174,7 @@ export class ConfiguratorCommonsService {
    * @param groupId - Group ID
    * @param changedAttribute - Changes attribute
    */
-  public updateConfiguration(
+  updateConfiguration(
     ownerKey: string,
     groupId: string,
     changedAttribute: Configurator.Attribute
@@ -197,7 +202,7 @@ export class ConfiguratorCommonsService {
    *
    * @param configuration - Configuration
    */
-  public getConfigurationWithOverview(
+  getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
@@ -221,7 +226,7 @@ export class ConfiguratorCommonsService {
    *
    * @param owner - Configuration owner
    */
-  public removeConfiguration(owner: GenericConfigurator.Owner) {
+  removeConfiguration(owner: GenericConfigurator.Owner) {
     this.store.dispatch(
       new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
     );
@@ -234,11 +239,7 @@ export class ConfiguratorCommonsService {
    * @param configId - Configuration ID
    * @param ownerKey Configuration owner key
    */
-  public addToCart(
-    productCode: string,
-    configId: string,
-    ownerKey: string
-  ): void {
+  addToCart(productCode: string, configId: string, ownerKey: string): void {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
@@ -262,11 +263,11 @@ export class ConfiguratorCommonsService {
    *
    * @param configuration - Configuration
    */
-  public updateCartEntry(
-    configuration: Configurator.Configuration
-  ): Observable<boolean> {
-    return this.activeCartService.requireLoadedCart().pipe(
-      tap((cartState) => {
+  updateCartEntry(configuration: Configurator.Configuration): void {
+    this.activeCartService
+      .requireLoadedCart()
+      .pipe(take(1))
+      .subscribe((cartState) => {
         const cartId = this.genericConfigUtilsService.getCartId(
           cartState.value
         );
@@ -279,17 +280,22 @@ export class ConfiguratorCommonsService {
         this.store.dispatch(
           new ConfiguratorActions.UpdateCartEntry(parameters)
         );
-        console.log('CHHI 1 update cart entry triggered');
-      }),
+      });
+  }
+
+  checkForActiveCartUpdateDone(): Observable<boolean> {
+    return this.activeCartService.requireLoadedCart().pipe(
+      take(1),
       switchMap((cartState) =>
-        this.checkForUpdateDone(
-          this.genericConfigUtilsService.getCartId(cartState.value)
+        this.cartStore.pipe(
+          select(
+            MultiCartSelectors.getCartHasPendingProcessesSelectorFactory(
+              this.genericConfigUtilsService.getCartId(cartState.value)
+            )
+          ),
+          filter((hasPendingChanges) => !hasPendingChanges)
         )
-      ),
-      tap(() => {
-        console.log('CHHI 2 read config for cart entry triggered');
-        this.readConfigurationForCartEntry(configuration.owner);
-      })
+      )
     );
   }
 
