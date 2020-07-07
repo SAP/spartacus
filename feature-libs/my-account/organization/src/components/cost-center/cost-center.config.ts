@@ -67,6 +67,10 @@ export const costCenterCmsConfig: CmsConfig = {
   },
 };
 
+export function costCenterTableConfigFactory(): TableConfig {
+  return costCenterTableConfig;
+}
+
 export const costCenterTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.COST_CENTER]: [
