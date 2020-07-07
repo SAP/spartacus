@@ -44,14 +44,14 @@ export class CostCenterListService extends BaseOrganizationListService<
     const paginationConfig = structure.pagination;
     return this.costCenterService
       .getList(paginationConfig)
-      .pipe(map((raw) => this.populateCostCenters(raw)));
+      .pipe(map((raw) => this.convertCostCenters(raw)));
   }
 
   /**
    * Populates the cost center data to a convenient table data model, so that we
    * can skip specific conversion in the view logic where possible.
    */
-  protected populateCostCenters({
+  protected convertCostCenters({
     pagination,
     sorts,
     values,
