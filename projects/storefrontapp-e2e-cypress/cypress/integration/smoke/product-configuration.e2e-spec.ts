@@ -364,6 +364,9 @@ context('Product Configuration', () => {
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnProceedToCheckoutBtnOnPD();
       configuration.checkout();
+      configuration.navigateToOrderDetails();
+      configuration.goToOrderHistory();
+      configuration.selectOrderByOrderNumberAlias();
     });
   });
 });
