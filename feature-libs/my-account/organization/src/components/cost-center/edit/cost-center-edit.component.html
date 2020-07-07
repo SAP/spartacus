@@ -13,15 +13,16 @@
         (click)="view.toggle()"
       >
         <cx-icon type="CARET_LEFT"></cx-icon>
-        Cancel
+        {{ 'organization.cancel' | cxTranslate }}
       </a>
       {{ 'organization.edit' | cxTranslate }}
-      <button class="button primary" type="submit">
-        Save
-      </button>
     </h3>
     <section>
       <cx-cost-center-form [form]="form"> </cx-cost-center-form>
+
+      <button class="button primary" type="submit">
+        {{ 'organization.save' | cxTranslate }}
+      </button>
     </section>
   </form>
 </cx-view>

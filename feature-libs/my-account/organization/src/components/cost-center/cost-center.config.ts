@@ -10,6 +10,7 @@ import { CostCenterCreateComponent } from './create/cost-center-create.component
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterEditComponent } from './edit/cost-center-edit.component';
 import { CostCenterListComponent } from './list/cost-center-list.component';
+import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
 
 // TODO: this doesn't work with lazy loaded feature
 export const costCenterRoutingConfig: RoutingConfig = {
@@ -26,6 +27,9 @@ export const costCenterRoutingConfig: RoutingConfig = {
       },
       costCenterEdit: {
         paths: ['organization/cost-centers/:code/edit'],
+      },
+      costCenterBudgets: {
+        paths: ['organization/cost-centers/:code/budgets'],
       },
       costCenterAssignBudget: {
         paths: ['organization/cost-centers/:code/assign-budget'],
@@ -52,6 +56,11 @@ export const costCenterCmsConfig: CmsConfig = {
             {
               path: 'edit',
               component: CostCenterEditComponent,
+              canDeactivate: [SplitViewDeactivateGuard],
+            },
+            {
+              path: 'budgets',
+              component: CostCenterBudgetListComponent,
               canDeactivate: [SplitViewDeactivateGuard],
             },
             {

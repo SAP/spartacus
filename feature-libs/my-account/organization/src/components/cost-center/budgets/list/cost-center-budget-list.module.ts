@@ -6,6 +6,7 @@ import {
   IconModule,
   OutletRefModule,
   TableModule,
+  SplitViewModule,
 } from '@spartacus/storefront';
 import { CostCenterBudgetListComponent } from './cost-center-budget-list.component';
 
@@ -13,8 +14,8 @@ import { CostCenterBudgetListComponent } from './cost-center-budget-list.compone
   imports: [
     CommonModule,
     UrlModule,
+    SplitViewModule,
     I18nModule,
-
     RouterModule,
     OutletRefModule,
     IconModule,

@@ -1,26 +1,60 @@
-<cx-table
-  *ngIf="dataTable$ | async as dataTable; else emptyList"
-  [dataset]="dataTable"
->
-</cx-table>
+<cx-view #view *ngIf="code$ | async as costCenterCode">
+  <h3>
+    <a
+      class="link"
+      [routerLink]="
+        { cxRoute: 'costCenterDetails', params: { code: costCenterCode } }
+          | cxUrl
+      "
+      (click)="view.toggle()"
+    >
+      <cx-icon type="CARET_LEFT"></cx-icon>
+      {{ 'organization.back' | cxTranslate }}
+    </a>
+    {{ 'costCenter.budget.header' | cxTranslate }}
+    <span></span>
+  </h3>
 
-<ng-template #emptyList>
-  <p class="instruction is-empty">
-    {{ 'organization.messages.emptyList' | cxTranslate }}
-  </p>
-</ng-template>
+  <section>
+    <h4>
+      {{ 'costCenter.budget.header' | cxTranslate }}
+      <a
+        class="link"
+        [routerLink]="
+          {
+            cxRoute: 'costCenterAssignBudget',
+            params: { code: costCenterCode }
+          } | cxUrl
+        "
+      >
+        {{ 'costCenter.budget.assign' | cxTranslate }}
+      </a>
+    </h4>
+    <cx-table
+      *ngIf="dataTable$ | async as dataTable; else emptyList"
+      [dataset]="dataTable"
+    >
+    </cx-table>
+  </section>
 
-<ng-template cxOutletRef="table.costCenterBudgets.data.name" let-model>
-  <a
-    [routerLink]="
-      {
-        cxRoute: 'budgetDetails',
-        params: { code: model.costCenterCode, budgetCode: model.code }
-      } | cxUrl
-    "
-  >
-    <cx-icon class="active-state" type="ACTIVE"></cx-icon>
-    <span class="text">{{ model.name }}</span>
-    <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-  </a>
-</ng-template>
+  <ng-template #emptyList>
+    <p class="instruction is-empty">
+      {{ 'organization.messages.emptyList' | cxTranslate }}
+    </p>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.costCenterBudgets.data.name" let-model>
+    <a
+      [routerLink]="
+        {
+          cxRoute: 'budgetDetails',
+          params: { code: model.costCenterCode, budgetCode: model.code }
+        } | cxUrl
+      "
+    >
+      <cx-icon class="active-state" type="ACTIVE"></cx-icon>
+      <span class="text">{{ model.name }}</span>
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
+  </ng-template>
+</cx-view>

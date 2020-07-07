@@ -10,47 +10,17 @@
         {{ 'organization.close' | cxTranslate }}
       </a>
       {{ costCenter.name }}
+    </h3>
+
+    <section>
       <a
-        class="button primary"
+        class="button primary edit"
         [class.disabled]="!costCenter.active"
         [routerLink]="{ cxRoute: 'costCenterEdit', params: costCenter } | cxUrl"
       >
         {{ 'organization.edit' | cxTranslate }}
       </a>
-    </h3>
 
-    <section>
-      <div class="property">
-        <label>{{ 'organization.status' | cxTranslate }}</label>
-        <span class="value">
-          <ng-container *ngIf="costCenter.active; else disabled">
-            {{ 'organization.enabled' | cxTranslate }}
-            <button
-              class="button active icon"
-              (click)="openModal(confirmDisable)"
-            >
-              <cx-icon type="ON"></cx-icon>
-            </button>
-          </ng-container>
-          <ng-template #disabled>
-            {{ 'organization.disabled' | cxTranslate }}
-            <button class="button icon" (click)="update({ activeFlag: true })">
-              <cx-icon type="OFF"></cx-icon>
-            </button>
-          </ng-template>
-        </span>
-        <p class="instruction">
-          <ng-container *ngIf="costCenter.active; else inactiveInstruction">
-            {{ 'costCenter.messages.enabled' | cxTranslate }}
-          </ng-container>
-          <ng-template #inactiveInstruction>
-            {{ 'costCenter.messages.disabled' | cxTranslate }}
-          </ng-template>
-        </p>
-      </div>
-    </section>
-
-    <section>
       <div class="property">
         <label>{{ 'costCenter.name' | cxTranslate }}</label>
         <span class="value">
@@ -90,21 +60,53 @@
     </section>
 
     <section>
+      <div class="property">
+        <label>{{ 'organization.status' | cxTranslate }}</label>
+        <span class="value">
+          <ng-container *ngIf="costCenter.active; else disabled">
+            {{ 'organization.enabled' | cxTranslate }}
+            <button
+              class="button active icon"
+              (click)="openModal(confirmDisable)"
+            >
+              {{ 'organization.disable' | cxTranslate }}
+              <!--              <cx-icon type="ON"></cx-icon>-->
+            </button>
+          </ng-container>
+          <ng-template #disabled>
+            {{ 'organization.disabled' | cxTranslate }}
+            <button
+              class="button icon"
+              (click)="update({ code: costCenter.code, activeFlag: true })"
+            >
+              {{ 'organization.enable' | cxTranslate }}
+              <!--              <cx-icon type="OFF"></cx-icon>-->
+            </button>
+          </ng-template>
+        </span>
+        <p class="instruction">
+          <ng-container *ngIf="costCenter.active; else inactiveInstruction">
+            {{ 'costCenter.messages.enabled' | cxTranslate }}
+          </ng-container>
+          <ng-template #inactiveInstruction>
+            {{ 'costCenter.messages.disabled' | cxTranslate }}
+          </ng-template>
+        </p>
+      </div>
+    </section>
+
+    <section>
       <h4>
         {{ 'costCenter.budget.header' | cxTranslate }}
         <a
           class="link"
           [routerLink]="
-            { cxRoute: 'costCenterAssignBudget', params: costCenter } | cxUrl
+            { cxRoute: 'costCenterBudgets', params: costCenter } | cxUrl
           "
         >
-          {{ 'costCenter.budget.assign' | cxTranslate }}
+          {{ 'costCenter.budget.header' | cxTranslate }}
         </a>
       </h4>
-
-      <div class="property">
-        <cx-cost-center-budget-list></cx-cost-center-budget-list>
-      </div>
     </section>
   </ng-container>
 </cx-view>
@@ -113,8 +115,9 @@
 
 <ng-template #confirmDisable>
   <cx-confirm-modal
+    *ngIf="costCenter$ | async as costCenter"
     [title]="'costCenter.messages.deactivateHeader' | cxTranslate"
     [message]="'costCenter.messages.deactivate' | cxTranslate"
-    (confirm)="update({ activeFlag: false })"
+    (confirm)="update({ code: costCenter.code, activeFlag: false })"
   ></cx-confirm-modal>
 </ng-template>

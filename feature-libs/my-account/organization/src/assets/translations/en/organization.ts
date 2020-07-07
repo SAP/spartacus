@@ -9,6 +9,8 @@ export const organization = {
   organization: {
     enabled: 'Enabled',
     disabled: 'Disabled',
+    enable: 'Enable',
+    disable: 'Disable',
 
     back: 'Back',
     create: 'Create {{name}}',

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -8,10 +8,9 @@ import { CostCenterBudgetListService } from './cost-center-budget-list.service';
 @Component({
   selector: 'cx-cost-center-budget-list',
   templateUrl: './cost-center-budget-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterBudgetListComponent {
-  protected code$: Observable<string> = this.route.params.pipe(
+  code$: Observable<string> = this.route.parent.params.pipe(
     map((routingData) => routingData['code'])
   );
 

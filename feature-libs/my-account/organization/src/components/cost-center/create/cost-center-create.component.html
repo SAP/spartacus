@@ -10,9 +10,6 @@
         {{ 'organization.cancel' | cxTranslate }}
       </a>
       {{ 'organization.create' | cxTranslate }}
-      <button class="button primary" type="submit">
-        {{ 'organization.save' | cxTranslate }}
-      </button>
     </h3>
 
     <section>
@@ -21,6 +18,10 @@
         [unitUid]="parentUnitQueryParam$ | async"
       >
       </cx-cost-center-form>
+
+      <button class="button primary" type="submit">
+        {{ 'organization.save' | cxTranslate }}
+      </button>
     </section>
   </form>
 </cx-view>
