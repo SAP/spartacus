@@ -1,9 +1,6 @@
 <ng-container *ngIf="orderApproval$ | async as orderApproval">
   <ng-container *ngIf="orderApproval?.approvalDecisionRequired">
-    <div
-      *ngIf="approvalFormVisible"
-      class="cx-approval-form-header row"
-    >
+    <div *ngIf="approvalFormVisible" class="cx-approval-form-header row">
       <div class="cx-approval-form-label col-sm-12">
         {{
           'orderApproval.form.title_' + approvalDecision
@@ -22,14 +19,18 @@
       (ngSubmit)="submitDecision(orderApproval)"
       *ngIf="approvalFormVisible"
     >
-      <label>{{ 'orderApproval.form.comment.label' | cxTranslate }}</label>
-      <textarea
-        class="form-control"
-        rows="3"
-        formControlName="comment"
-        maxlength="255"
-      ></textarea>
-
+      <label
+        >{{ 'orderApproval.form.comment_' + approvalDecision + '.label' | cxTranslate }}
+        <textarea
+          class="form-control"
+          rows="3"
+          formControlName="comment"
+          maxlength="255"
+        ></textarea>
+        <cx-form-errors
+          [control]="approvalForm.get('comment')"
+        ></cx-form-errors>
+      </label>
       <div class="form-group row">
         <div class="col-lg-6 col-md-12">
           <button

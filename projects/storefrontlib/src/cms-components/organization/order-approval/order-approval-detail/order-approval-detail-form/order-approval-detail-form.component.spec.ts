@@ -1,6 +1,12 @@
-import { DebugElement } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
@@ -10,6 +16,9 @@ import {
 import { Observable, of } from 'rxjs';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form.component';
+
+const REJECT = 'REJECT';
+const APPROVE = 'APPROVE';
 
 const mockOrderApproval = {
   approvalDecisionRequired: true,
@@ -28,11 +37,27 @@ class MockOrderApprovalDetailService {
   }
 }
 
+@Component({
+  selector: 'cx-form-errors',
+  template: '',
+})
+class MockFormErrorsComponent {
+  @Input()
+  controll: FormControl;
+}
+
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform() {}
+}
+
 class MockOrderApprovalService {
   makeDecision() {}
 }
 
-fdescribe('OrderApprovalDetailFormComponent', () => {
+describe('OrderApprovalDetailFormComponent', () => {
   let component: OrderApprovalDetailFormComponent;
   let fixture: ComponentFixture<OrderApprovalDetailFormComponent>;
   let orderApprovalDetailService: OrderApprovalDetailService;
@@ -41,7 +66,11 @@ fdescribe('OrderApprovalDetailFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [OrderApprovalDetailFormComponent],
+      declarations: [
+        OrderApprovalDetailFormComponent,
+        MockFormErrorsComponent,
+        MockUrlPipe,
+      ],
       imports: [ReactiveFormsModule, I18nTestingModule],
       providers: [
         {
@@ -68,16 +97,31 @@ fdescribe('OrderApprovalDetailFormComponent', () => {
   });
 
   it('should display approval form when approve order button clicked, and then hide form on cancel.', () => {
-    displayAndCancelDecisionForm('APPROVE');
+    displayAndCancelDecisionForm(APPROVE);
   });
 
   it('should display rejection form when reject order button clicked, and then hide form on cancel.', () => {
-    displayAndCancelDecisionForm('REJECT');
+    displayAndCancelDecisionForm(REJECT);
   });
 
   it('should submit approval form.', () => {
-    displayDecisionForm('APPROVE');
-    submitDecisionForm('APPROVE');
+    displayDecisionForm(APPROVE);
+    submitDecisionForm(APPROVE);
+  });
+
+  it('should submit rejection form.', () => {
+    displayDecisionForm(REJECT);
+    submitDecisionForm(REJECT);
+  });
+
+  it('should comment be optional for approval.', () => {
+    displayDecisionForm(APPROVE);
+    expect(component.approvalForm.valid).toBeTrue();
+  });
+
+  it('should comment be required for rejection.', () => {
+    displayDecisionForm(REJECT);
+    expect(component.approvalForm.valid).toBeFalse();
   });
 
   it('should submit rejection form.', () => {});

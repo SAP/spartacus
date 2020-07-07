@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderApproval, OrderApprovalService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
@@ -28,6 +28,11 @@ export class OrderApprovalDetailFormComponent {
 
   displayDecisionForm(decision: 'APPROVE' | 'REJECT') {
     this.approvalDecision = decision;
+    if (decision === 'APPROVE') {
+      this.approvalForm.controls.comment.clearValidators();
+    } else {
+      this.approvalForm.controls.comment.setValidators([Validators.required]);
+    }
     this.approvalFormVisible = true;
   }
 
@@ -37,9 +42,13 @@ export class OrderApprovalDetailFormComponent {
   }
 
   submitDecision(orderApproval: OrderApproval) {
-    this.orderApprovalService.makeDecision(orderApproval.code, {
-      decision: this.approvalDecision,
-      comment: this.approvalForm.controls.comment.value,
-    });
+    if (this.approvalForm.valid) {
+      this.orderApprovalService.makeDecision(orderApproval.code, {
+        decision: this.approvalDecision,
+        comment: this.approvalForm.controls.comment.value,
+      });
+    } else {
+      this.approvalForm.markAllAsTouched();
+    }
   }
 }

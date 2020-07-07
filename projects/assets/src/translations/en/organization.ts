@@ -541,8 +541,12 @@ export const organization = {
       submit_APPROVE: 'Approve',
       submit_REJECT: 'Reject',
       cancel: 'Cancel',
-      comment: {
+      comment_APPROVE: {
         label: 'Comment (optional, maximum 255 characters)',
+        placeholder: '',
+      },
+      comment_REJECT: {
+        label: 'Comment (maximum 255 characters)',
         placeholder: '',
       },
     },

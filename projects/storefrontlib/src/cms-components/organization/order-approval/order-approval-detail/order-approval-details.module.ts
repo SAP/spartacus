@@ -11,6 +11,7 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
+import { FormErrorsModule } from '../../../../shared/index';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import {
   OrderDetailApprovalDetailsComponent,
@@ -30,6 +31,7 @@ import { OrderApprovalDetailService } from './order-approval-detail.service';
     CommonModule,
     I18nModule,
     UrlModule,
+    FormErrorsModule,
     RouterModule.forChild([
       {
         path: null,
