@@ -62,6 +62,7 @@ function goToConfigOverviewPage(configuratorType, product) {
   cy.visit(
     `/electronics-spa/en/USD/configureOverview${configuratorType}/product/entityKey/${product}`
   ).then(() => {
+    cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
     configurationOverview.isConfigOverviewPageDisplayed();
   });
 }
@@ -74,6 +75,7 @@ function goToPDPage(product) {
 
 function goToCart() {
   cy.visit('/electronics-spa/en/USD/cart').then(() => {
+    cy.get('h1').contains('Your Shopping Cart').should('be.visible');
     cy.get('cx-cart-details').should('be.visible');
   });
 }

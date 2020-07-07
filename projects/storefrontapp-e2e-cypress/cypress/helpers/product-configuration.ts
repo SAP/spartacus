@@ -26,12 +26,12 @@ export function clickOnEditConfigurationLink() {
 }
 
 function clickOnPreviousOrNextBtn(btnSelector: string) {
-  let activeGroup: string;
+  let oldActiveGroup: string;
   cy.get('cx-config-group-menu a.active')
     .first()
     .invoke('text')
     .then((text) => {
-      activeGroup = text.trim();
+      oldActiveGroup = text.trim();
     });
 
   cy.get(btnSelector)
@@ -41,7 +41,7 @@ function clickOnPreviousOrNextBtn(btnSelector: string) {
         .first()
         .invoke('text')
         .then((newActiveGroup) => {
-          expect(newActiveGroup).not.eq(activeGroup);
+          expect(newActiveGroup).not.eq(oldActiveGroup);
         });
     });
 }
@@ -62,10 +62,6 @@ export function clickOnPreviousBtn() {
 
 export function isConfigPageDisplayed() {
   cy.get('cx-config-form').should('be.visible');
-}
-
-export function isOverviewPageDisplayed() {
-  cy.get('cx-config-overview-form').should('be.visible');
 }
 
 export function isPreviousBtnEnabled() {
@@ -247,7 +243,7 @@ export function clickAddToCartBtn() {
   cy.get(addToCartButtonSelector)
     .click()
     .then(() => {
-      this.isOverviewPageDisplayed();
+      cy.get('cx-config-overview-form').should('be.visible');
     });
 }
 
@@ -256,7 +252,8 @@ export function clickOnAddToCartBtnOnPD() {
     .contains('Add to cart')
     .click()
     .then(() => {
-      cy.get('div.cx-dialog-buttons').should('be.visible');
+      cy.get('cx-added-to-cart-dialog').should('be.visible');
+      cy.get('div.cx-dialog-body').should('be.visible');
       cy.get('div.cx-dialog-buttons a.btn-primary')
         .contains('view cart')
         .should('be.visible');
