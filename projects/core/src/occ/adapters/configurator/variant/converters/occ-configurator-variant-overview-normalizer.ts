@@ -30,6 +30,7 @@ export class OccConfiguratorVariantOverviewNormalizer
         prices,
         CONFIGURATION_PRICE_SUMMARY_NORMALIZER
       ),
+      productCode: source.productCode,
     };
     return resultTarget;
   }

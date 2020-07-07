@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import {
   ConfiguratorCommonsService,
+  GenericConfigurator,
   Product,
   ProductService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../misc/icon/index';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
@@ -20,9 +21,18 @@ export class ConfigProductTitleComponent {
     switchMap((routerData) =>
       this.configuratorCommonsService.getConfiguration(routerData.owner)
     ),
-    switchMap((configuration) =>
-      this.productService.get(configuration.productCode)
-    )
+    map((configuration) => {
+      switch (configuration.owner.type) {
+        case GenericConfigurator.OwnerType.PRODUCT:
+        case GenericConfigurator.OwnerType.CART_ENTRY:
+          return configuration.productCode;
+        case GenericConfigurator.OwnerType.ORDER_ENTRY:
+          return configuration.overview.productCode;
+        default:
+          return configuration.productCode;
+      }
+    }),
+    switchMap((productCode) => this.productService.get(productCode))
   );
   showMore = false;
   iconTypes = ICON_TYPE;
