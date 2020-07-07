@@ -62,4 +62,11 @@ describe('OrderApprovalDetailService', () => {
     expect(order).toBeTruthy();
     expect(order).toEqual(mockOrder);
   });
+
+  it('should provide the order approval data', () => {
+    let orderApproval: OrderApproval;
+    service.getOrderApproval().subscribe((value) => (orderApproval = value));
+    expect(orderApproval).toBeTruthy();
+    expect(orderApproval).toEqual(mockOrderApproval);
+  });
 });
