@@ -161,16 +161,16 @@ fdescribe('UnitTreeNavigationUIComponent', () => {
     });
 
     it('should render node title in the DOM', () => {
-      const button: HTMLElement = element.queryAll(By.css('.node-title'))[0]
+      const rootElement: HTMLElement = element.queryAll(By.css('.node-title'))[0]
         .nativeElement;
-      expect(button.innerText).toContain(mockNode.title);
+      expect(rootElement.innerText).toContain(mockNode.title);
     });
 
     it('should display correct node children length', () => {
-      const childrenTextLength: HTMLElement = element.query(By.css('.node-title > span'))
+      const childElement: HTMLElement = element.query(By.css('.node-title > span'))
         .nativeElement;
       fixture.detectChanges();
-      expect(childrenTextLength.innerText).toContain(`(${mockNode.children.length})`)
+      expect(childElement.innerText).toContain(`(${mockNode.children.length})`)
     });
 
     describe('testing selected node tree', () => {
