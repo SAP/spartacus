@@ -1,7 +1,7 @@
 <cx-view #view *ngIf="costCenter$ | async as costCenter">
   <form [formGroup]="form" (ngSubmit)="save()">
     <h3>
-      <button
+      <a
         class="link"
         [routerLink]="
           { cxRoute: 'costCenterDetails', params: costCenter } | cxUrl
@@ -10,7 +10,7 @@
       >
         <cx-icon type="CARET_LEFT"></cx-icon>
         Cancel
-      </button>
+      </a>
       {{ 'organization.edit' | cxTranslate }}
       <button class="button primary" type="submit">
         Save
