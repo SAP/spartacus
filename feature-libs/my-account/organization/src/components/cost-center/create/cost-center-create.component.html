@@ -1,10 +1,10 @@
-<cx-view #view>
+<cx-view #view *ngIf="unitCode$ | async">
   <form [formGroup]="form" (ngSubmit)="save()">
     <h3>
       <a
         class="link"
         [routerLink]="{ cxRoute: 'costCenter' } | cxUrl"
-        (click)="view.toggle()"
+        (click)="back()"
       >
         <cx-icon type="CARET_LEFT"></cx-icon>
         {{ 'organization.cancel' | cxTranslate }}
@@ -16,11 +16,12 @@
     </h3>
 
     <section>
-      <cx-cost-center-form
-        [form]="form"
-        [unitUid]="parentUnitQueryParam$ | async"
-      >
-      </cx-cost-center-form>
+      <cx-form-notification
+        *ngIf="formRestored"
+        messageKey="form.restored"
+      ></cx-form-notification>
+
+      <cx-cost-center-form [form]="form"></cx-cost-center-form>
     </section>
   </form>
 </cx-view>

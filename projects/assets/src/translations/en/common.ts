@@ -125,6 +125,9 @@ export const common = {
       productList: 'Product List',
     },
   },
+  form: {
+    restored: 'Restored local changes',
+  },
   formErrors: {
     globalMessage: 'The form you are trying to submit contains errors.',
     required: 'This field is required',
