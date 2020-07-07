@@ -52,6 +52,8 @@
 @import './units/_unit-cost-centers';
 @import './units/_unit-tree-navigation-ui';
 
+@import './order-approval/order-approval-detail-form';
+
 @import './_organization-home';
 
 @import './_fake-tabs';
@@ -71,4 +73,4 @@ $organization-components-whitelist: cx-budget-create cx-budget-edit
   cx-unit-assign-approvers cx-unit-roles cx-unit-assign-roles cx-unit-children
   cx-unit-cost-centers cx-unit-address-create cx-unit-address-edit
   cx-unit-address-details cx-fake-tabs cx-fake-tabs-desktop cx-fake-tabs-mobile
-  cx-unit-tree-navigation-ui !default;
+  cx-unit-tree-navigation-ui cx-order-approval-detail-form !default;

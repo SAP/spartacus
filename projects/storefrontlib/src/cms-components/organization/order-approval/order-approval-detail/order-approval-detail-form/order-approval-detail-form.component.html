@@ -1,20 +1,27 @@
 <ng-container *ngIf="orderApproval$ | async as orderApproval">
   <ng-container *ngIf="orderApproval?.approvalDecisionRequired">
+    <div
+      *ngIf="approvalFormVisible"
+      class="cx-approval-form-header row"
+    >
+      <div class="cx-approval-form-label col-sm-12">
+        {{
+          'orderApproval.form.title_' + approvalDecision
+            | cxTranslate
+              : {
+                  orderCode: orderApproval?.order?.code,
+                  orderTotal:
+                    orderApproval?.order?.totalPriceWithTax?.formattedValue
+                }
+        }}
+      </div>
+    </div>
+
     <form
       [formGroup]="approvalForm"
       (ngSubmit)="submitDecision(orderApproval)"
       *ngIf="approvalFormVisible"
     >
-      {{
-        'orderApproval.form.title_' + approvalDecision
-          | cxTranslate
-            : {
-                orderCode: orderApproval?.order?.code,
-                orderTotal:
-                  orderApproval?.order?.totalPriceWithTax?.formattedValue
-              }
-      }}
-
       <label>{{ 'orderApproval.form.comment.label' | cxTranslate }}</label>
       <textarea
         class="form-control"
