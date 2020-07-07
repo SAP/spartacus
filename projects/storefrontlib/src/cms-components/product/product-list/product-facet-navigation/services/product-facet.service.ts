@@ -110,7 +110,8 @@ export class ProductFacetService {
   private hasBreadcrumb(breadcrumb: Breadcrumb, params: Params): boolean {
     return (
       breadcrumb.facetCode === 'allCategories' &&
-      breadcrumb.facetValueCode === params.categoryCode
+      (breadcrumb.facetValueCode === params.categoryCode ||
+        breadcrumb.facetValueCode === params.brandCode)
     );
   }
 }
