@@ -1,4 +1,9 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, DebugElement } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  Input,
+  DebugElement,
+} from '@angular/core';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { UnitTreeNavigationUIComponent } from './unit-tree-navigation-ui.component';
@@ -52,7 +57,7 @@ const mockNode: NavigationNode = {
       children: [
         {
           title: 'Child 1',
-          url: "/child-1",
+          url: '/child-1',
           children: [
             {
               title: 'Sub child 1',
@@ -90,7 +95,7 @@ const mockNode: NavigationNode = {
   ],
 };
 
-fdescribe('UnitTreeNavigationUIComponent', () => {
+describe('UnitTreeNavigationUIComponent', () => {
   let component: UnitTreeNavigationUIComponent;
   let fixture: ComponentFixture<UnitTreeNavigationUIComponent>;
   let element: DebugElement;
@@ -161,52 +166,73 @@ fdescribe('UnitTreeNavigationUIComponent', () => {
     });
 
     it('should render node title in the DOM', () => {
-      const rootElement: HTMLElement = element.queryAll(By.css('.node-title'))[0]
-        .nativeElement;
+      const rootElement: HTMLElement = element.queryAll(
+        By.css('.node-title')
+      )[0].nativeElement;
       expect(rootElement.innerText).toContain(mockNode.title);
     });
 
     it('should display correct node children length', () => {
-      const childElement: HTMLElement = element.query(By.css('.node-title > span'))
-        .nativeElement;
+      const childElement: HTMLElement = element.query(
+        By.css('.node-title > span')
+      ).nativeElement;
       fixture.detectChanges();
-      expect(childElement.innerText).toContain(`(${mockNode.children.length})`)
+      expect(childElement.innerText).toContain(`(${mockNode.children.length})`);
     });
 
     describe('testing selected node tree', () => {
+      const 
+        nodeRootElement = mockNode.children[0],
+        nodeFirstChildElement = mockNode.children[0].children[0],
+        nodeSecondChildElement = mockNode.children[0].children[1],
+        nodeFirstChildSubChildElement = mockNode.children[0].children[0].children[0],
+        nodeFirstChildSubChildSubElement: any = mockNode.children[0].children[0].children[0].children;
+
       it('should return root title', () => {
-        const domTree: HTMLElement = element.query(By.css('ul > li')).nativeElement;
-      const domElements: any = domTree.querySelectorAll('cx-generic-link');
-        expect(domElements[0].getAttribute('title')).toBe(mockNode.children[0].title); 
+        const domTree: HTMLElement = element.query(By.css('ul > li'))
+          .nativeElement;
+        const domElements: any = domTree.querySelectorAll('cx-generic-link');
+        expect(domElements[0].getAttribute('title')).toBe(
+          nodeRootElement.title
+        );
       });
       it('should return root children number 1 title', () => {
-        const domTree: HTMLElement = element.query(By.css('ul > li')).nativeElement;
+        const domTree: HTMLElement = element.query(By.css('ul > li'))
+          .nativeElement;
         const domElements: any = domTree.querySelectorAll('cx-generic-link');
-        expect(domElements[1].getAttribute('title')).toBe(mockNode.children[0].children[0].title);
+        expect(domElements[1].getAttribute('title')).toBe(
+          nodeFirstChildElement.title
+        );
       });
       it('should return sub children', () => {
-        const domTree: HTMLElement = element.query(By.css('ul > li')).nativeElement;
+        const domTree: HTMLElement = element.query(By.css('ul > li'))
+          .nativeElement;
         const domElements: any = domTree.querySelectorAll('cx-generic-link');
-        expect(domElements[2].getAttribute('title')).toBe(mockNode.children[0].children[0].children[0].title);
+        expect(domElements[2].getAttribute('title')).toBe(
+          nodeFirstChildSubChildElement.title
+        );
       });
-        
-      for (var i = 0; i < mockNode.children[0].children[0].children[0].children.length; i++) {
-        const subSubChild = mockNode.children[0].children[0].children[0].children[i].title;
+
+      for (const [i, node] of nodeFirstChildSubChildSubElement.entries()) {
+        const childNodeElement = node.title;
         const index = i + 3;
-        it(`should return ${subSubChild}`, () => {
-          const domTree: HTMLElement = element.query(By.css('ul > li')).nativeElement;
+        it(`should return ${childNodeElement}`, () => {
+          const domTree: HTMLElement = element.query(By.css('ul > li'))
+            .nativeElement;
           const domElements: any = domTree.querySelectorAll('cx-generic-link');
-          expect(domElements[index].getAttribute('title')).toBe(subSubChild);
+          expect(domElements[index].getAttribute('title')).toBe(childNodeElement);
         });
       }
 
       it('should return root children number 2 title', () => {
-        const domTree: HTMLElement = element.query(By.css('ul > li')).nativeElement;
+        const domTree: HTMLElement = element.query(By.css('ul > li'))
+          .nativeElement;
         const domElements: any = domTree.querySelectorAll('cx-generic-link');
-        const secondChildSubIndex = mockNode.children[0].children[0].children[0].children.length + 3; 
-        expect(domElements[secondChildSubIndex].getAttribute('title')).toBe(mockNode.children[0].children[1].title);
+        const secondChildSubIndex = nodeFirstChildSubChildSubElement.length + 3;
+        expect(domElements[secondChildSubIndex].getAttribute('title')).toBe(
+          nodeSecondChildElement.title
+        );
       });
     });
-
   });
 });
