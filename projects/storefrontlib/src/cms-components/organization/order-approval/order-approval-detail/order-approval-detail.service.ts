@@ -34,7 +34,7 @@ export class OrderApprovalDetailService {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  protected orderData$ = this.orderApproval$.pipe(pluck('order'));
+  protected order$ = this.orderApproval$.pipe(pluck('order'));
 
   constructor(
     protected routingService: RoutingService,
@@ -42,7 +42,7 @@ export class OrderApprovalDetailService {
   ) {}
 
   getOrderDetails(): Observable<Order> {
-    return this.orderData$;
+    return this.order$;
   }
 
   getOrderApproval(): Observable<OrderApproval> {
