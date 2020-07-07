@@ -10,16 +10,16 @@ import {
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TestConfigModule } from '@spartacus/core';
 import {
-  CommonComponentsModule,
-  CpqComponentsModule,
-  TextfieldComponentsModule,
-  VariantComponentsModule,
+  CommonConfiguratorComponentsModule,
+  CpqConfiguratorComponentsModule,
+  TextfieldConfiguratorComponentsModule,
+  VariantConfiguratorComponentsModule,
 } from '@spartacus/product';
 import {
-  CommonCoreModule,
-  CpqCoreModule,
-  TextfieldCoreModule,
-  VariantCoreModule,
+  CommonConfiguratorCoreModule,
+  CpqConfiguratorCoreModule,
+  TextfieldConfiguratorCoreModule,
+  VariantConfiguratorCoreModule,
 } from '@spartacus/product/configurators';
 import { CommonConfiguratorModule } from '@spartacus/product/configurators/common';
 import { CpqConfiguratorModule } from '@spartacus/product/configurators/cpq';
@@ -79,16 +79,16 @@ export class AppModule {
       TextfieldConfiguratorModule
     );
     console.log(
-      CommonCoreModule,
-      CpqCoreModule,
-      TextfieldCoreModule,
-      VariantCoreModule
+      CommonConfiguratorCoreModule,
+      CpqConfiguratorCoreModule,
+      TextfieldConfiguratorCoreModule,
+      VariantConfiguratorCoreModule
     );
     console.log(
-      CommonComponentsModule,
-      CpqComponentsModule,
-      TextfieldComponentsModule,
-      VariantComponentsModule
+      CommonConfiguratorComponentsModule,
+      CpqConfiguratorComponentsModule,
+      TextfieldConfiguratorComponentsModule,
+      VariantConfiguratorComponentsModule
     );
   }
 }

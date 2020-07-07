@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { VariantComponentsModule } from './components/variant-components.module';
-import { VariantCoreModule } from './core/variant-core.module';
+import { VariantConfiguratorComponentsModule } from './components/variant-configurator-components.module';
+import { VariantConfiguratorCoreModule } from './core/variant-configurator-core.module';
 
 @NgModule({
-  imports: [VariantCoreModule, VariantComponentsModule],
+  imports: [VariantConfiguratorCoreModule, VariantConfiguratorComponentsModule],
 })
 export class VariantConfiguratorModule {}

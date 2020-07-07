@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CpqComponentsModule } from './components/cpq-components.module';
-import { CpqCoreModule } from './core/cpq-core.module';
+import { CpqConfiguratorComponentsModule } from './components/cpq-configurator-components.module';
+import { CpqConfiguratorCoreModule } from './core/cpq-configurator-core.module';
 
 @NgModule({
-  imports: [CpqCoreModule, CpqComponentsModule],
+  imports: [CpqConfiguratorCoreModule, CpqConfiguratorComponentsModule],
 })
 export class CpqConfiguratorModule {}

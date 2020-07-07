@@ -1,4 +1,4 @@
 import { NgModule } from '@angular/core';
 
 @NgModule({})
-export class CpqComponentsModule {}
+export class CommonConfiguratorCoreModule {}

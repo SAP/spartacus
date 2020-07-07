@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
-import { TextfieldComponentsModule } from './components/textfield-components.module';
-import { TextfieldCoreModule } from './core/textfield-core.module';
+import { TextfieldConfiguratorComponentsModule } from './components/textfield-configurator-components.module';
+import { TextfieldConfiguratorCoreModule } from './core/textfield-configurator-core.module';
 
 @NgModule({
-  imports: [TextfieldCoreModule, TextfieldComponentsModule],
+  imports: [
+    TextfieldConfiguratorCoreModule,
+    TextfieldConfiguratorComponentsModule,
+  ],
 })
 export class TextfieldConfiguratorModule {}

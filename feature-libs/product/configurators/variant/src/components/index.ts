@@ -1,1 +1,1 @@
-export * from './variant-components.module';
+export * from './variant-configurator-components.module';

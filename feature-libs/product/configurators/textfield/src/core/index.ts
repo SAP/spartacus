@@ -1,1 +1,1 @@
-export * from './textfield-core.module';
+export * from './textfield-configurator-core.module';

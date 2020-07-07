@@ -1,1 +1,1 @@
-export * from './common-core.module';
+export * from './common-configurator-core.module';

@@ -1,1 +1,1 @@
-export * from './textfield-components.module';
+export * from './textfield-configurator-components.module';
