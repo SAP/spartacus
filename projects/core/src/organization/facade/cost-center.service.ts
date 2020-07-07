@@ -24,7 +24,7 @@ export class CostCenterService {
     protected authService: AuthService
   ) {}
 
-  loadCostCenter(costCenterCode: string): void {
+  load(costCenterCode: string): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
@@ -32,7 +32,7 @@ export class CostCenterService {
     );
   }
 
-  loadCostCenters(params?: B2BSearchConfig): void {
+  loadList(params?: B2BSearchConfig): void {
     this.withUserId((userId) =>
       this.store.dispatch(
         new CostCenterActions.LoadCostCenters({ userId, params })
@@ -63,7 +63,7 @@ export class CostCenterService {
       observeOn(queueScheduler),
       tap((state) => {
         if (!(state.loading || state.success || state.error)) {
-          this.loadCostCenter(costCenterCode);
+          this.load(costCenterCode);
         }
       }),
       filter((state) => state.success || state.error),
@@ -76,7 +76,7 @@ export class CostCenterService {
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<CostCenter>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadCostCenters(params);
+          this.loadList(params);
         }
       }),
       filter(

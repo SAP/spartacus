@@ -18,7 +18,7 @@ export class CostCenterEditComponent {
   );
 
   costCenter$: Observable<CostCenter> = this.code$.pipe(
-    tap((code) => this.costCenterService.loadCostCenter(code)),
+    tap((code) => this.costCenterService.load(code)),
     switchMap((code) => this.costCenterService.get(code)),
     tap((data) => this.form.patchValue(data))
   );
