@@ -7,6 +7,7 @@ import {
   CmsConfig,
   ConfigModule,
   I18nModule,
+  UrlModule,
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
@@ -28,6 +29,7 @@ import { OrderApprovalDetailService } from './order-approval-detail.service';
     CartSharedModule,
     CommonModule,
     I18nModule,
+    UrlModule,
     RouterModule.forChild([
       {
         path: null,

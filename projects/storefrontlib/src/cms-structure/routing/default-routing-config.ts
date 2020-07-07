@@ -219,6 +219,9 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   userGroupAssignUsers: {
     paths: ['organization/user-group/assign-users/:code'],
   },
+  orderApprovals: {
+    paths: ['my-account/approval-dashboard'],
+  },
   orderApprovalDetails: {
     paths: ['my-account/approval/:approvalCode'],
     paramsMapping: { approvalCode: 'approvalCode' },
