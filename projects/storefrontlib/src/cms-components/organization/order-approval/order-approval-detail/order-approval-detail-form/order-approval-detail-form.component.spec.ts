@@ -9,10 +9,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
-import {
-  OrderApprovalDecisionValue,
-  OrderApprovalDetailFormComponent,
-} from './order-approval-detail-form.component';
+import { OrderApprovalDetailFormComponent } from './order-approval-detail-form.component';
 
 const mockOrderApproval = {
   approvalDecisionRequired: true,
@@ -20,10 +17,7 @@ const mockOrderApproval = {
   order: {
     code: '00000001',
     totalPriceWithTax: {
-      currencyIso: 'USD',
       formattedValue: '$9,609.99',
-      priceType: 'BUY',
-      value: 9609.99,
     },
   },
 } as OrderApproval;
@@ -38,7 +32,7 @@ class MockOrderApprovalService {
   makeDecision() {}
 }
 
-describe('OrderApprovalDetailFormComponent', () => {
+fdescribe('OrderApprovalDetailFormComponent', () => {
   let component: OrderApprovalDetailFormComponent;
   let fixture: ComponentFixture<OrderApprovalDetailFormComponent>;
   let orderApprovalDetailService: OrderApprovalDetailService;
@@ -82,7 +76,6 @@ describe('OrderApprovalDetailFormComponent', () => {
   });
 
   it('should submit approval form.', () => {
-    //Display the decision form
     displayDecisionForm('APPROVE');
     submitDecisionForm('APPROVE');
   });
@@ -92,7 +85,6 @@ describe('OrderApprovalDetailFormComponent', () => {
   function displayAndCancelDecisionForm(decision: string) {
     assertComponentInitialState();
 
-    //Display the decision form
     displayDecisionForm(decision);
 
     // Cancel the decision form
@@ -108,7 +100,7 @@ describe('OrderApprovalDetailFormComponent', () => {
     assertButtonPresent('orderApproval.form.submit_' + decision);
   }
 
-  function submitDecisionForm(decision: string) {
+  function submitDecisionForm(decision: 'APPROVE' | 'REJECT') {
     spyOn(orderApprovalService, 'makeDecision').and.stub();
     const testComment = 'Decision comment ' + decision;
     component.approvalForm.controls.comment.setValue(testComment);
@@ -116,7 +108,7 @@ describe('OrderApprovalDetailFormComponent', () => {
     expect(orderApprovalService.makeDecision).toHaveBeenCalledWith(
       mockOrderApproval.code,
       {
-        decision: (<any>OrderApprovalDecisionValue)[decision],
+        decision,
         comment: testComment,
       }
     );

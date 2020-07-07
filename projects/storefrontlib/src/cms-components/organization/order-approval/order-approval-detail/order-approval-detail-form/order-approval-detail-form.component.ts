@@ -4,21 +4,14 @@ import { OrderApproval, OrderApprovalService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 
-export enum OrderApprovalDecisionValue {
-  APPROVE = 'APPROVE',
-  REJECT = 'REJECT',
-}
-
 @Component({
   selector: 'cx-order-approval-detail-form',
   templateUrl: './order-approval-detail-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderApprovalDetailFormComponent {
-  approvalDecisionValue = OrderApprovalDecisionValue;
-  approvalDecision: OrderApprovalDecisionValue;
+  approvalDecision: 'APPROVE' | 'REJECT';
   approvalFormVisible = false;
-
   approvalForm: FormGroup = this.fb.group({
     comment: [''],
   });
@@ -33,7 +26,7 @@ export class OrderApprovalDetailFormComponent {
     return this.orderApprovalDetailService.getOrderApproval();
   }
 
-  displayDecisionForm(decision: OrderApprovalDecisionValue) {
+  displayDecisionForm(decision: 'APPROVE' | 'REJECT') {
     this.approvalDecision = decision;
     this.approvalFormVisible = true;
   }
