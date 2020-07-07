@@ -1,27 +1,28 @@
-<cx-view #view *ngIf="code$ | async as costCenterCode">
-  <form
-    [formGroup]="form"
-    (ngSubmit)="save(costCenterCode)"
-    *ngIf="costCenter$ | async as costCenter"
-  >
+<cx-view #view *ngIf="costCenter$ | async as costCenter">
+  <form [formGroup]="form" (ngSubmit)="save()">
     <h3>
-      <a
+      <button
         class="link"
         [routerLink]="
           { cxRoute: 'costCenterDetails', params: costCenter } | cxUrl
         "
-        (click)="view.toggle()"
+        (click)="back()"
       >
         <cx-icon type="CARET_LEFT"></cx-icon>
         Cancel
-      </a>
+      </button>
       {{ 'organization.edit' | cxTranslate }}
       <button class="button primary" type="submit">
         Save
       </button>
     </h3>
     <section>
-      <cx-cost-center-form [form]="form"> </cx-cost-center-form>
+      <cx-form-notification
+        *ngIf="formRestored"
+        messageKey="form.restored"
+      ></cx-form-notification>
+
+      <cx-cost-center-form [form]="form"></cx-cost-center-form>
     </section>
   </form>
 </cx-view>

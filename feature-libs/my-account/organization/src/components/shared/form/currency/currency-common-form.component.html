@@ -1,0 +1,20 @@
+<ng-container *ngIf="currencies$ | async as currencies">
+  <div class="form-group" [formGroup]="form">
+    <label aria-required="true">
+      <span class="label-content required">{{
+        'costCenter.currency' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="isocode"
+        [searchable]="false"
+        [clearable]="false"
+        [items]="currencies"
+        bindLabel="name"
+        bindValue="isocode"
+        [class.invalid]="form.get('isocode').invalid"
+      >
+      </ng-select>
+      <cx-form-errors [control]="form.get('isocode')"></cx-form-errors>
+    </label>
+  </div>
+</ng-container>
