@@ -12,7 +12,10 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
-    "lib": ["esnext", "dom"]
+    "lib": ["esnext", "dom"],
+    "paths": {
+      "@spartacus/core": ["dist/core"]
+    }
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"]
 }

@@ -10,7 +10,7 @@ import {
   ORDER_APPROVALS_NORMALIZER,
   ORDER_APPROVAL_DECISION_NORMALIZER,
   OrderApprovalAdapter,
-} from '../../../organization';
+} from '../../../organization/index';
 import { BudgetAdapter } from '../../../organization/connectors/budget/budget.adapter';
 import {
   BUDGETS_NORMALIZER,

@@ -4,7 +4,7 @@ import { NgModule, Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'cxUrl',
 })
-class MockUrlPipe implements PipeTransform {
+export class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
