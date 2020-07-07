@@ -7,7 +7,6 @@ import {
 import {
   AbstractControl,
   ControlValueAccessor,
-  FormBuilder,
   FormGroup,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
@@ -44,10 +43,7 @@ export class CurrencyCommonFormComponent
   protected onChange: (value: Currency) => void = () => {};
   protected onTouched: () => void = () => {};
 
-  constructor(
-    protected formService: CurrencyCommonFormComponentService,
-    protected fb: FormBuilder
-  ) {}
+  constructor(protected formService: CurrencyCommonFormComponentService) {}
 
   writeValue(value: Currency): void {
     if (value) {

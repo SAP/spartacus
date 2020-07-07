@@ -8,7 +8,6 @@ import {
 import {
   AbstractControl,
   ControlValueAccessor,
-  FormBuilder,
   FormGroup,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
@@ -50,10 +49,7 @@ export class UnitCommonFormComponent
   protected onChange: (value: B2BUnit) => void = () => {};
   protected onTouched: () => void = () => {};
 
-  constructor(
-    protected formService: UnitCommonFormComponentService,
-    protected fb: FormBuilder
-  ) {}
+  constructor(protected formService: UnitCommonFormComponentService) {}
 
   writeValue(value: B2BUnit): void {
     if (value && value.uid) {

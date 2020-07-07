@@ -4,7 +4,7 @@ import { CostCenter, CostCenterService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { FormsPersistenceService } from '../../shared/services/forms-persistence.service';
 
-// TODO:#form-persistence - move to ../services
+// TODO:#form-persistence - move to ../services?
 /**
  * Cost center component service is used when creating or editing
  * a cost center.
@@ -28,6 +28,15 @@ export class CostCenterFormComponentService {
   ) {}
 
   /**
+   * Generates a key for the cost center form.
+   *
+   * @returns a generated key
+   */
+  generateKey(): string {
+    return this.persistenceService.generateKey();
+  }
+
+  /**
    * Fetches the form from the persistence service.
    *
    * @param defaultValue the value to use when pre-populating the form
@@ -37,8 +46,8 @@ export class CostCenterFormComponentService {
   getForm(defaultValue: object, key: string): FormGroup {
     return this.persistenceService.get(
       this.formConfiguration,
-      defaultValue,
-      key
+      key,
+      defaultValue
     );
   }
 

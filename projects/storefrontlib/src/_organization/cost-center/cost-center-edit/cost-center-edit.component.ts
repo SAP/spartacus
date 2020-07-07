@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CostCenter, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { CostCenterFormComponentService } from '../cost-center-form/cost-center-form.component.service';
 
 @Component({
@@ -33,16 +33,8 @@ export class CostCenterEditComponent {
   );
 
   costCenter$: Observable<CostCenter> = this.code$.pipe(
-    switchMap((code) =>
-      this.costCenterFormService.loadAndGet(code).pipe(
-        withLatestFrom(this.routingService.getRouterState()),
-        tap(([costCenter, routerState]) => {
-          this.costCenterCode = costCenter.code;
-          this.initForm(costCenter, routerState.state.url);
-        }),
-        map(([costCenter]) => costCenter)
-      )
-    )
+    switchMap((code) => this.costCenterFormService.loadAndGet(code)),
+    tap((costCenter) => this.initForm(costCenter))
   );
 
   constructor(
@@ -53,13 +45,13 @@ export class CostCenterEditComponent {
     protected costCenterFormService: CostCenterFormComponentService
   ) {}
 
-  protected initForm(costCenter: CostCenter, url: string): void {
+  protected initForm(costCenter: CostCenter): void {
     // we don't want to re-init the form if we've already generated the key
     if (this.formKey) {
       return;
     }
 
-    this.formKey = this.createFormKey(costCenter) ?? url;
+    this.formKey = this.createFormKey(costCenter);
     this.formRestored = this.costCenterFormService.hasForm(this.formKey);
 
     this.form = this.costCenterFormService.getForm(costCenter, this.formKey);
@@ -69,9 +61,12 @@ export class CostCenterEditComponent {
     this.removeForm();
   }
 
-  // TODO:#persistence - data?
-  protected createFormKey(_costCenter: CostCenter): string | null {
-    return null;
+  /**
+   * By default, the method delegates the call to `CostCenterFormComponentService.generateKey()`.
+   * The key is used when restoring the form.
+   */
+  protected createFormKey(_data?: CostCenter | any): string {
+    return this.costCenterFormService.generateKey();
   }
 
   protected removeForm(): void {
