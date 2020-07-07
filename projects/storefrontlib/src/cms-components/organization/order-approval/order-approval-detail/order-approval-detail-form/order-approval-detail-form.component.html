@@ -14,6 +14,8 @@
                   orderApproval?.order?.totalPriceWithTax?.formattedValue
               }
       }}
+
+      <label>{{ 'orderApproval.form.comment.label' | cxTranslate }}</label>
       <textarea
         class="form-control"
         rows="3"
@@ -23,11 +25,6 @@
 
       <div class="form-group row">
         <div class="col-lg-6 col-md-12">
-          <button class="btn btn-block btn-primary" type="submit">
-            {{ 'orderApproval.form.submit_' + approvalDecision | cxTranslate }}
-          </button>
-        </div>
-        <div class="col-lg-6 col-md-12">
           <button
             class="btn btn-block btn-secondary"
             (click)="cancelDecisionForm()"
@@ -36,23 +33,35 @@
             {{ 'orderApproval.form.cancel' | cxTranslate }}
           </button>
         </div>
+        <div class="col-lg-6 col-md-12">
+          <button class="btn btn-block btn-primary" type="submit">
+            {{ 'orderApproval.form.submit_' + approvalDecision | cxTranslate }}
+          </button>
+        </div>
       </div>
     </form>
 
     <ng-container *ngIf="!approvalFormVisible">
       <div class="form-group row">
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-4 col-md-12">
+          <a
+            [routerLink]="{ cxRoute: 'orderApprovals' } | cxUrl"
+            class="btn btn-block btn-secondary"
+            >{{ 'orderApproval.back' | cxTranslate }}</a
+          >
+        </div>
+        <div class="col-lg-4 col-md-12">
           <button
             class="btn btn-block btn-primary"
-            (click)="displayDecisionForm(approvalDecisionValue.REJECT)"
+            (click)="displayDecisionForm('REJECT')"
           >
             {{ 'orderApproval.showForm_REJECT' | cxTranslate }}
           </button>
         </div>
-        <div class="col-lg-6 col-md-12">
+        <div class="col-lg-4 col-md-12">
           <button
             class="btn btn-block btn-primary"
-            (click)="displayDecisionForm(approvalDecisionValue.APPROVE)"
+            (click)="displayDecisionForm('APPROVE')"
           >
             {{ 'orderApproval.showForm_APPROVE' | cxTranslate }}
           </button>

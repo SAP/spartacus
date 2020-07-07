@@ -486,21 +486,6 @@ export const organization = {
   mykey: {
     subkey: 'asdfasdf',
   },
-  orderApproval: {
-    showForm_APPROVE: 'Approve Order...',
-    showForm_REJECT: 'Reject Order...',
-    form: {
-      title_APPROVE: 'Approval of order {{orderCode}} totalling {{orderTotal}}',
-      title_REJECT: 'Rejection of order {{orderCode}} totalling {{orderTotal}}',
-      submit_APPROVE: 'Approve',
-      submit_REJECT: 'Reject',
-      cancel: 'Cancel',
-      comment: {
-        label: 'Comment',
-        placeholder: '',
-      },
-    },
-  },
   userGroupPermissions: {
     header: 'Purchase limits assigned to in {{code}}',
     assignPermissions: 'Manage limits',
@@ -545,5 +530,21 @@ export const organization = {
     addresses: 'Addresses',
     address: 'Address',
     children: 'Children',
+  },
+  orderApproval: {
+    back: 'Back To List',
+    showForm_APPROVE: 'Approve Order...',
+    showForm_REJECT: 'Reject Order...',
+    form: {
+      title_APPROVE: 'Approval of order {{orderCode}} totalling {{orderTotal}}',
+      title_REJECT: 'Rejection of order {{orderCode}} totalling {{orderTotal}}',
+      submit_APPROVE: 'Approve',
+      submit_REJECT: 'Reject',
+      cancel: 'Cancel',
+      comment: {
+        label: 'Comment (optional, maximum 255 characters)',
+        placeholder: '',
+      },
+    },
   },
 };
