@@ -38,7 +38,7 @@ class MockOrderApprovalService {
   makeDecision() {}
 }
 
-fdescribe('OrderApprovalDetailFormComponent', () => {
+describe('OrderApprovalDetailFormComponent', () => {
   let component: OrderApprovalDetailFormComponent;
   let fixture: ComponentFixture<OrderApprovalDetailFormComponent>;
   let orderApprovalDetailService: OrderApprovalDetailService;
