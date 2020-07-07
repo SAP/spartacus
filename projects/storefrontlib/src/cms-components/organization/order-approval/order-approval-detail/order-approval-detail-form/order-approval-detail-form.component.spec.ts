@@ -9,7 +9,10 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
-import { OrderApprovalDetailFormComponent } from './order-approval-detail-form.component';
+import {
+  OrderApprovalDecisionValue,
+  OrderApprovalDetailFormComponent,
+} from './order-approval-detail-form.component';
 
 const mockOrderApproval = {
   approvalDecisionRequired: true,
@@ -75,21 +78,48 @@ fdescribe('OrderApprovalDetailFormComponent', () => {
   });
 
   it('should display rejection form when reject order button clicked, and then hide form on cancel.', () => {
-    //displayAndCancelDecisionForm('REJECT');
+    displayAndCancelDecisionForm('REJECT');
   });
+
+  it('should submit approval form.', () => {
+    //Display the decision form
+    displayDecisionForm('APPROVE');
+    submitDecisionForm('APPROVE');
+  });
+
+  it('should submit rejection form.', () => {});
+
   function displayAndCancelDecisionForm(decision: string) {
     assertComponentInitialState();
 
     //Display the decision form
+    displayDecisionForm(decision);
+
+    // Cancel the decision form
+    clickButton('orderApproval.form.cancel');
+    assertComponentInitialState();
+  }
+
+  function displayDecisionForm(decision: string) {
     clickButton('orderApproval.showForm_' + decision);
     expect(component.approvalFormVisible).toBeTruthy();
     expect(el.query(By.css('form'))).toBeTruthy();
     assertButtonPresent('orderApproval.form.cancel');
     assertButtonPresent('orderApproval.form.submit_' + decision);
+  }
 
-    // Cancel the decision form
-    clickButton('orderApproval.form.cancel');
-    assertComponentInitialState();
+  function submitDecisionForm(decision: string) {
+    spyOn(orderApprovalService, 'makeDecision').and.stub();
+    const testComment = 'Decision comment ' + decision;
+    component.approvalForm.controls.comment.setValue(testComment);
+    clickButton('orderApproval.form.submit_' + decision);
+    expect(orderApprovalService.makeDecision).toHaveBeenCalledWith(
+      mockOrderApproval.code,
+      {
+        decision: (<any>OrderApprovalDecisionValue)[decision],
+        comment: testComment,
+      }
+    );
   }
 
   function assertComponentInitialState() {
