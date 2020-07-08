@@ -14,7 +14,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ConfigComponentTestUtilsService } from '../service/config-component-test-utils.service';
+import { ConfigComponentTestUtilsService } from '../../shared/testing/config-component-test-utils.service';
 import { ConfigProductTitleComponent } from './config-product-title.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
