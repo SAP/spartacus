@@ -47,6 +47,19 @@
     &:hover {
       cursor: zoom-in;
     }
+
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+
+    &.cx-mobile-zoom {
+      @include media-breakpoint-down(sm) {
+        display: block !important;
+      }
+      @include media-breakpoint-up(sm) {
+        display: none;
+      }
+    }
   }
 }
 
@@ -58,6 +71,19 @@
   // Landscape phones
   @media only screen and (max-width: 900px) and (orientation: landscape) {
     height: 100%;
+  }
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+
+  &.cx-mobile-zoom {
+    @include media-breakpoint-down(sm) {
+      display: block !important;
+    }
+    @include media-breakpoint-up(sm) {
+      display: none;
+    }
   }
 
   .cx-image-zoomed {

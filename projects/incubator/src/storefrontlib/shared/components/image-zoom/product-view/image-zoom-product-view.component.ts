@@ -1,10 +1,12 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
+  QueryList,
   Renderer2,
-  ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
@@ -25,7 +27,9 @@ export class ImageZoomProductViewComponent {
 
   @Input() galleryIndex: number;
 
-  @ViewChild('zoomedImage', { read: ElementRef }) zoomedImage: ElementRef;
+  @ViewChildren('zoomedImage', { read: ElementRef }) zoomedImage: QueryList<
+    ElementRef
+  >;
 
   startCoords: { x: number; y: number } = null;
   left = 0;
@@ -61,7 +65,8 @@ export class ImageZoomProductViewComponent {
   constructor(
     protected currentProductService: CurrentProductService,
     protected renderer: Renderer2,
-    protected element: ElementRef
+    protected element: ElementRef,
+    protected cdRef: ChangeDetectorRef
   ) {}
 
   openImage(item: any): void {
@@ -117,8 +122,8 @@ export class ImageZoomProductViewComponent {
    */
   touchMove(event: any): void {
     const touch = event.touches[0] || event.changedTouches[0];
-
-    event.preventDefault();
+    const boundingRect = this.zoomedImage.last.nativeElement.getBoundingClientRect() as DOMRect;
+    const imageElement = this.zoomedImage.last.nativeElement.firstChild;
 
     if (!this.startCoords)
       this.startCoords = { x: touch.clientX, y: touch.clientY };
@@ -126,7 +131,7 @@ export class ImageZoomProductViewComponent {
     this.left += touch.clientX - this.startCoords.x;
     this.top += touch.clientY - this.startCoords.y;
 
-    this.moveImage(this.left, this.top);
+    this.moveImage(this.left, this.top, boundingRect, imageElement);
 
     this.startCoords = { x: touch.clientX, y: touch.clientY };
   }
@@ -144,15 +149,17 @@ export class ImageZoomProductViewComponent {
    * @param event
    */
   pointerMove(event: any): void {
-    const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect();
+    const boundingRect = this.zoomedImage.first.nativeElement.getBoundingClientRect() as DOMRect;
+    const imageElement = this.zoomedImage.first.nativeElement.firstChild;
 
     const x = event.clientX - boundingRect.left;
     const y = event.clientY - boundingRect.top;
 
-    const positionX = -x + this.zoomedImage.nativeElement.clientWidth / 2;
-    const positionY = -y + this.zoomedImage.nativeElement.clientHeight / 2;
+    const positionX = -x + this.zoomedImage.first.nativeElement.clientWidth / 2;
+    const positionY =
+      -y + this.zoomedImage.first.nativeElement.clientHeight / 2;
 
-    this.moveImage(positionX, positionY);
+    this.moveImage(positionX, positionY, boundingRect, imageElement);
   }
 
   /**
@@ -160,11 +167,15 @@ export class ImageZoomProductViewComponent {
    *
    * @param positionX
    * @param positionY
+   * @param boundingRect
+   * @param imageElement
    */
-  protected moveImage(positionX: number, positionY: number): void {
-    const imageElement = this.zoomedImage.nativeElement.firstChild;
-    const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect();
-
+  protected moveImage(
+    positionX: number,
+    positionY: number,
+    boundingRect: any,
+    imageElement: DOMRect
+  ): void {
     const { x, y } = this.handleOutOfBounds(
       positionX,
       positionY,
@@ -188,7 +199,7 @@ export class ImageZoomProductViewComponent {
     positionX: number,
     positionY: number,
     imageElement: any,
-    boundingRect: any
+    boundingRect: DOMRect
   ): { x: number; y: number } {
     const paddingX = 60;
     const paddingY = 60;
