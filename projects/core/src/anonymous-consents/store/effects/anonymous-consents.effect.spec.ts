@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { AuthActions, AuthService, UserToken } from '../../../auth/index';
 import {
   AnonymousConsent,
@@ -129,7 +129,7 @@ const consentTemplateListMock: ConsentTemplate[] = [
   { id: 'yyy', version: 0 },
 ];
 
-describe('AnonymousConsentsEffects', () => {
+fdescribe('AnonymousConsentsEffects', () => {
   let effect: fromEffect.AnonymousConsentsEffects;
   let connector: MockAnonymousConsentTemplatesConnector;
   let actions$: Observable<Action>;
@@ -170,6 +170,39 @@ describe('AnonymousConsentsEffects', () => {
     anonymousConsentService = TestBed.inject(AnonymousConsentsService);
     authService = TestBed.inject(AuthService);
     userConsentService = TestBed.inject(UserConsentService);
+  });
+
+  fdescribe('checkUpdatedVersion$', () => {
+    const currentConsents: AnonymousConsent[] = [
+      { templateVersion: 0, templateCode: 'test1' },
+    ];
+
+    describe('when the update was detected', () => {
+      fit('should return LoadAnonymousConsentTemplates', () => {
+        spyOn(anonymousConsentService, 'getConsents').and.returnValue(
+          of(currentConsents)
+        );
+
+        const action = new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions();
+
+        actions$ = hot('-a', { a: action });
+        const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
+        const expected = cold('-b', { b: completion });
+
+        expect(effect.checkUpdatedVersion$).toBeObservable(expected);
+      });
+    });
+    describe('when the update was NOT detected', () => {
+      it('should return an EMPTY', () => {
+        const action = new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions();
+
+        actions$ = hot('-a', { a: action });
+        const completion = EMPTY;
+        const expected = cold('-b', { b: completion });
+
+        expect(effect.checkUpdatedVersion$).toBeObservable(expected);
+      });
+    });
   });
 
   describe('loadAnonymousConsentTemplates$', () => {

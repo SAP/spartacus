@@ -24,11 +24,17 @@ import { AnonymousConsentsActions } from '../actions/index';
 export class AnonymousConsentsEffects {
   // TODO:#anon - test
   @Effect()
-  checkVersionUpdated$: Observable<
+  checkUpdatedVersion$: Observable<
     AnonymousConsentsActions.LoadAnonymousConsentTemplates | Observable<never>
   > = this.actions$.pipe(
     ofType(AnonymousConsentsActions.ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS),
-    withLatestFrom(this.anonymousConsentService.getConsents()),
+    tap((_) => console.log('1')),
+    withLatestFrom(
+      this.anonymousConsentService
+        .getConsents()
+        .pipe(tap((_) => console.log('in with latest pipe')))
+    ),
+    tap((_) => console.log('2')),
     concatMap(([_, currentConsents]) => {
       // TODO:#anon - create a deprecation ticket
       if (!this.anonymousConsentTemplatesConnector.loadAnonymousConsents()) {
