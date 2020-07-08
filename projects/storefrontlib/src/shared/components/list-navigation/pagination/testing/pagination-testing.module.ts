@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { defaultPaginationConfig, PaginationConfig } from '../config';
 import { PaginationModule } from '../pagination.module';
 
-// PRIVATE API - TESTING UTIL
+// PRIVATE TESTING UTIL
 @NgModule({
   imports: [PaginationModule],
   exports: [PaginationModule],

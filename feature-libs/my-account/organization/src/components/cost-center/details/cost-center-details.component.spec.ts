@@ -1,10 +1,17 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { CostCenter, CostCenterService } from '@spartacus/core';
-import { ModalService } from '@spartacus/storefront';
+import { RouterTestingModule } from '@angular/router/testing';
+import {
+  CostCenter,
+  CostCenterService,
+  I18nTestingModule,
+} from '@spartacus/core';
+import { ModalService, TableModule } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { OrganizationTestingModule } from '../../shared/testing/organization-testing.module';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 import createSpy = jasmine.createSpy;
 
@@ -49,7 +56,14 @@ describe('CostCenterDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [OrganizationTestingModule],
+      imports: [
+        RouterTestingModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        TableModule,
+        IconTestingModule,
+      ],
       declarations: [
         CostCenterDetailsComponent,
         MockCostCenterBudgetListComponent,
