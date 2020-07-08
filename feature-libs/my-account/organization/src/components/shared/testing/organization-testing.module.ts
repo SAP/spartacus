@@ -6,7 +6,7 @@ import {
   IconTestingModule,
   PaginationTestingModule,
   SplitViewTestingModule,
-  TableTestingModule,
+  TableModule,
 } from '@spartacus/storefront';
 
 @NgModule({
@@ -16,7 +16,7 @@ import {
     I18nTestingModule,
     UrlTestingModule,
     SplitViewTestingModule,
-    TableTestingModule,
+    TableModule,
     PaginationTestingModule,
     IconTestingModule,
   ],
@@ -27,7 +27,7 @@ import {
     I18nTestingModule,
     UrlTestingModule,
     SplitViewTestingModule,
-    TableTestingModule,
+    TableModule,
     PaginationTestingModule,
     IconTestingModule,
   ],
