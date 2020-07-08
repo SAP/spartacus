@@ -1,24 +1,16 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  NgModule,
-  Output,
-} from '@angular/core';
+import { NgModule } from '@angular/core';
+import { defaultPaginationConfig, PaginationConfig } from '../config';
+import { PaginationModule } from '../pagination.module';
 
-@Component({
-  selector: 'cx-pagination',
-  template: '',
-})
-export class MockPaginationComponent {
-  @Input() pagination;
-  @Output() viewPageEvent = new EventEmitter();
-}
-
-const mockComponents = [MockPaginationComponent];
-
+// PRIVATE API - TESTING UTIL
 @NgModule({
-  declarations: mockComponents,
-  exports: mockComponents,
+  imports: [PaginationModule],
+  exports: [PaginationModule],
+  providers: [
+    {
+      provide: PaginationConfig,
+      useValue: defaultPaginationConfig,
+    },
+  ],
 })
 export class PaginationTestingModule {}

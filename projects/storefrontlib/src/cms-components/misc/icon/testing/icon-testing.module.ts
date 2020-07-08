@@ -1,5 +1,6 @@
 import { Component, Input, NgModule } from '@angular/core';
 
+// PRIVATE TESTING UTIL
 @Component({
   selector: 'cx-icon,[cxIcon]',
   template: `{{ type || cxIcon }}`,
