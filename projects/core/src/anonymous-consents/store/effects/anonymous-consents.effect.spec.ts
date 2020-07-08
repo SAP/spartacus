@@ -5,8 +5,8 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { AuthActions, AuthService, UserToken } from '../../../auth/index';
 import {
-  ANONYMOUS_CONSENT_STATUS,
   AnonymousConsent,
+  ANONYMOUS_CONSENT_STATUS,
   Consent,
   ConsentTemplate,
 } from '../../../model/consent.model';
@@ -94,12 +94,12 @@ const mockAnonymousConsents: AnonymousConsent[] = [
   {
     templateCode: 'MARKETING',
     consentState: ANONYMOUS_CONSENT_STATUS.GIVEN,
-    version: 0,
+    templateVersion: 0,
   },
   {
     templateCode: 'xxx',
     consentState: null,
-    version: 0,
+    templateVersion: 0,
   },
 ];
 
@@ -174,10 +174,10 @@ describe('AnonymousConsentsEffects', () => {
 
   describe('loadAnonymousConsentTemplates$', () => {
     it('should return LoadAnonymousConsentTemplatesSuccess and ToggleAnonymousConsentTemplatesUpdated', () => {
-      spyOn(connector, 'loadAnonymousConsentTemplates').and.returnValue(
+      spyOn(anonymousConsentService, 'getTemplates').and.returnValue(
         of(mockTemplateList)
       );
-      spyOn(anonymousConsentService, 'getTemplates').and.returnValue(
+      spyOn(connector, 'loadAnonymousConsentTemplates').and.returnValue(
         of(mockTemplateList)
       );
       spyOn(anonymousConsentService, 'detectUpdatedTemplates').and.returnValue(
@@ -234,7 +234,7 @@ describe('AnonymousConsentsEffects', () => {
       const completion = new UserActions.TransferAnonymousConsent({
         userId: 'current',
         consentTemplateId: mockAnonymousConsents[0].templateCode,
-        consentTemplateVersion: mockAnonymousConsents[0].version,
+        consentTemplateVersion: mockAnonymousConsents[0].templateVersion,
       });
 
       actions$ = hot('-(ab)', {

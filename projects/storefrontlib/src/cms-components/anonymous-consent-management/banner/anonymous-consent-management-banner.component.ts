@@ -13,7 +13,9 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
 
   bannerVisible$: Observable<
     boolean
-  > = this.anonymousConsentsService.isBannerVisible();
+  > = this.anonymousConsentsService
+    .isBannerVisible()
+    .pipe(tap((_) => this.anonymousConsentsService.checkUpdatedVersions()));
 
   constructor(
     protected anonymousConsentsService: AnonymousConsentsService,

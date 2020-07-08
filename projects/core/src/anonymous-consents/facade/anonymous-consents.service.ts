@@ -269,6 +269,16 @@ export class AnonymousConsentsService {
   }
 
   /**
+   * Dispatches an action to trigger the check
+   * whether the anonymous consent version have been updated
+   */
+  checkUpdatedVersions(): void {
+    this.store.dispatch(
+      new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions()
+    );
+  }
+
+  /**
    * Returns `true` if there's a missmatch in template versions between the provided `currentTemplates` and `newTemplates`
    * @param currentTemplates current templates to check
    * @param newTemplates new templates to check
@@ -277,14 +287,31 @@ export class AnonymousConsentsService {
     currentTemplates: ConsentTemplate[],
     newTemplates: ConsentTemplate[]
   ): boolean {
-    if (newTemplates.length !== currentTemplates.length) {
+    const currentVersions = currentTemplates.map(
+      (template) => template.version
+    );
+    const newVersions = newTemplates.map((template) => template.version);
+
+    return this.detectUpdatedVersion(currentVersions, newVersions);
+  }
+
+  /**
+   * Compares the given versions and determines if there's a mismatch,
+   * in which case `true` is returned.
+   *
+   * @param currentVersions versions of the current consents
+   * @param newVersions versions of the new consents
+   */
+  detectUpdatedVersion(
+    currentVersions: number[],
+    newVersions: number[]
+  ): boolean {
+    if (currentVersions.length !== newVersions.length) {
       return true;
     }
 
-    for (let i = 0; i < newTemplates.length; i++) {
-      const newTemplate = newTemplates[i];
-      const currentTemplate = currentTemplates[i];
-      if (newTemplate.version !== currentTemplate.version) {
+    for (let i = 0; i < newVersions.length; i++) {
+      if (currentVersions[i] !== newVersions[i]) {
         return true;
       }
     }

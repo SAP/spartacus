@@ -22,20 +22,59 @@ import { AnonymousConsentsActions } from '../actions/index';
 
 @Injectable()
 export class AnonymousConsentsEffects {
+  // TODO:#anon - test
+  @Effect()
+  checkVersionUpdated$: Observable<
+    AnonymousConsentsActions.LoadAnonymousConsentTemplates | Observable<never>
+  > = this.actions$.pipe(
+    ofType(AnonymousConsentsActions.ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS),
+    withLatestFrom(this.anonymousConsentService.getConsents()),
+    concatMap(([_, currentConsents]) => {
+      // TODO:#anon - create a deprecation ticket
+      if (!this.anonymousConsentTemplatesConnector.loadAnonymousConsents()) {
+        return of(new AnonymousConsentsActions.LoadAnonymousConsentTemplates());
+      }
+
+      return this.anonymousConsentTemplatesConnector
+        .loadAnonymousConsents()
+        .pipe(
+          map((newConsents) => {
+            const currentConsentVersions = currentConsents.map(
+              (consent) => consent.templateVersion
+            );
+            const newConsentVersions = newConsents.map(
+              (consent) => consent.templateVersion
+            );
+
+            // TODO:#anon - dispatch the ToggleAnonymousConsentTemplatesUpdated action?
+            return this.anonymousConsentService.detectUpdatedVersion(
+              currentConsentVersions,
+              newConsentVersions
+            );
+          }),
+          switchMap((updated) =>
+            updated
+              ? of(new AnonymousConsentsActions.LoadAnonymousConsentTemplates())
+              : EMPTY
+          )
+        );
+    })
+  );
+
   @Effect()
   loadAnonymousConsentTemplates$: Observable<
     AnonymousConsentsActions.AnonymousConsentsActions
   > = this.actions$.pipe(
     ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
-    concatMap(() =>
+    withLatestFrom(this.anonymousConsentService.getTemplates()),
+    concatMap(([_, currentConsentTemplates]) =>
       this.anonymousConsentTemplatesConnector
         .loadAnonymousConsentTemplates()
         .pipe(
-          withLatestFrom(this.anonymousConsentService.getTemplates()),
-          mergeMap(([newConsentTemplates, currentConsentTemplates]) => {
+          mergeMap((newConsentTemplates) => {
             let updated = false;
             if (
-              Boolean(currentConsentTemplates) &&
+              currentConsentTemplates &&
               currentConsentTemplates.length !== 0
             ) {
               updated = this.anonymousConsentService.detectUpdatedTemplates(
