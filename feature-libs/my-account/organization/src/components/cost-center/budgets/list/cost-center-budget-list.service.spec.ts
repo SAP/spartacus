@@ -2,12 +2,7 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Budget, CostCenterService, EntitiesModel } from '@spartacus/core';
-import {
-  IconTestingModule,
-  Table,
-  TableService,
-  TableStructure,
-} from '@spartacus/storefront';
+import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
 
@@ -46,7 +41,7 @@ describe('CostCenterBudgetListService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IconTestingModule, RouterTestingModule],
+      imports: [RouterTestingModule],
       providers: [
         CostCenterBudgetListService,
         {
