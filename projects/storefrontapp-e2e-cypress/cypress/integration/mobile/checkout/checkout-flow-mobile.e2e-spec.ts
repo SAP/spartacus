@@ -1,7 +1,7 @@
 import * as checkout from '../../../helpers/checkout-flow';
 import { checkBanner } from '../../../helpers/homepage';
-import { formats } from '../../../sample-data/viewports';
 import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
+import { formats } from '../../../sample-data/viewports';
 
 function clickHamburger() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
@@ -14,7 +14,7 @@ function waitForHomePage() {
 
 context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
     checkout.visitHomePage();
   });
@@ -59,6 +59,12 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
   });
 
   it('should be able to check order in order history', () => {
+    // hack: visit other page to trigger store -> local storage sync
+    cy.selectUserMenuOption({
+      option: 'Personal Details',
+      isMobile: true,
+    });
+    cy.waitForOrderToBePlacedRequest();
     clickHamburger();
     checkout.viewOrderHistoryWithCheapProduct();
     clickHamburger();

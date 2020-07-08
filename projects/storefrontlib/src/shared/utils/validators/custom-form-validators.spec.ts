@@ -1,45 +1,43 @@
 import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
-import { CustomFormValidators } from './custom-form-validators';
+import {
+  CustomFormValidators,
+  controlsMustMatch,
+} from './custom-form-validators';
 
 describe('FormValidationService', () => {
   let email: FormControl;
   let emailError: ValidationErrors;
   let passwordError: ValidationErrors;
-  let matchError: any;
+  let starRatingEmpty: ValidationErrors;
+  let passwordsMustMatchErrorName: string;
+  let emailsMustMatchErrorName: string;
   let form: FormGroup;
 
   beforeEach(() => {
     email = new FormControl();
-    emailError = {
-      InvalidEmail: true,
-    };
 
     form = new FormGroup({
       password: new FormControl(),
       passwordconf: new FormControl(),
+      rating: new FormControl(),
+      email: new FormControl(),
+      emailconf: new FormControl(),
     });
+
+    emailError = {
+      cxInvalidEmail: true,
+    };
 
     passwordError = {
-      InvalidPassword: true,
+      cxInvalidPassword: true,
     };
 
-    matchError = {
-      NotEqual: true,
+    starRatingEmpty = {
+      cxStarRatingEmpty: true,
     };
-  });
 
-  describe('Email domain validator', () => {
-    it('should allow email with domain', () => {
-      email.setValue('test@test.com');
-      expect(CustomFormValidators.emailDomainValidator(email)).toBeNull();
-    });
-
-    it('should reject email without domain', () => {
-      email.setValue('test@test');
-      expect(CustomFormValidators.emailDomainValidator(email)).toEqual(
-        emailError
-      );
-    });
+    passwordsMustMatchErrorName = 'cxPasswordsMustMatch';
+    emailsMustMatchErrorName = 'cxEmailsMustMatch';
   });
 
   describe('Email validator', () => {
@@ -60,7 +58,6 @@ describe('FormValidationService', () => {
       'firstname-lastname@example.com',
     ];
     const invalidEmails = [
-      '',
       ' ',
       'plainaddress',
       ' startspace@example.com',
@@ -84,14 +81,14 @@ describe('FormValidationService', () => {
     ];
 
     validEmails.forEach((validEmail: string) => {
-      it(`should allow email '${validEmail}'`, function() {
+      it(`should allow email '${validEmail}'`, function () {
         email.setValue(validEmail);
         expect(CustomFormValidators.emailValidator(email)).toBeNull();
       });
     });
 
     invalidEmails.forEach((invalidEmail: string) => {
-      it(`should reject email '${invalidEmail}'`, function() {
+      it(`should reject email '${invalidEmail}'`, function () {
         email.setValue(invalidEmail);
         expect(CustomFormValidators.emailValidator(email)).toEqual(emailError);
       });
@@ -112,7 +109,7 @@ describe('FormValidationService', () => {
     });
 
     invalidPasswords.forEach((invalidPassword: string) => {
-      it(`should reject password '${invalidPassword}'`, function() {
+      it(`should reject password '${invalidPassword}'`, function () {
         form.get('password').setValue(invalidPassword);
         expect(
           CustomFormValidators.passwordValidator(form.get('password'))
@@ -121,14 +118,109 @@ describe('FormValidationService', () => {
     });
   });
 
-  describe('Match password validator', () => {
-    it('should match password and passwordconf', () => {
+  describe('Emails must match validator', () => {
+    it('should not return error, when emails match', () => {
+      form.get('email').setValue('test@test.com');
+      form.get('emailconf').setValue('test@test.com');
+
+      CustomFormValidators.emailsMustMatch('email', 'emailconf')(form);
+
+      expect(form.get('emailconf').hasError(emailsMustMatchErrorName)).toEqual(
+        false
+      );
+    });
+
+    it("should return error, when emails don't match", () => {
+      form.get('email').setValue('test@test.com');
+      form.get('emailconf').setValue('other@email.com');
+
+      CustomFormValidators.emailsMustMatch('email', 'emailconf')(form);
+
+      expect(form.get('emailconf').hasError(emailsMustMatchErrorName)).toEqual(
+        true
+      );
+    });
+  });
+
+  describe('Passwords must match validator', () => {
+    it('should not return error, when passwords match', () => {
       form.get('password').setValue('Test123!');
       form.get('passwordconf').setValue('Test123!');
-      expect(CustomFormValidators.matchPassword(form)).toBeNull();
 
-      form.get('passwordconf').setValue('Test1234');
-      expect(CustomFormValidators.matchPassword(form)).toEqual(matchError);
+      CustomFormValidators.passwordsMustMatch('password', 'passwordconf')(form);
+
+      expect(
+        form.get('passwordconf').hasError(passwordsMustMatchErrorName)
+      ).toEqual(false);
+    });
+
+    it("should return error, when passwords don't match", () => {
+      form.get('password').setValue('Test123!');
+      form.get('passwordconf').setValue('Test123@');
+
+      CustomFormValidators.passwordsMustMatch('password', 'passwordconf')(form);
+
+      expect(
+        form.get('passwordconf').hasError(passwordsMustMatchErrorName)
+      ).toEqual(true);
+    });
+  });
+
+  describe('Star rating validator', () => {
+    const invalidValues = [null, 'a', 0, 1000];
+    const validValues = [1, 2, 3, 4, 5];
+
+    it('should reject invalid values', () => {
+      invalidValues.forEach((value: any) => {
+        form.get('rating').setValue(value);
+
+        expect(
+          CustomFormValidators.starRatingEmpty(form.get('rating'))
+        ).toEqual(starRatingEmpty);
+      });
+    });
+
+    it('should allow valid values', () => {
+      validValues.forEach((value: any) => {
+        form.get('rating').setValue(value);
+
+        expect(
+          CustomFormValidators.starRatingEmpty(form.get('rating'))
+        ).toBeNull();
+      });
+    });
+  });
+
+  describe('matching function', () => {
+    it('should set error if values do not match', () => {
+      const testErrorName = 'testErrorName';
+
+      form.get('password').setValue('firstPassword');
+      form.get('passwordconf').setValue('anotherPassword');
+      controlsMustMatch(form, 'password', 'passwordconf', testErrorName);
+
+      expect(form.get('passwordconf').hasError(testErrorName)).toEqual(true);
+    });
+
+    it('should not set error if values match', () => {
+      const testErrorName = 'testErrorName';
+
+      form.get('password').setValue('firstPassword');
+      form.get('passwordconf').setValue('firstPassword');
+      controlsMustMatch(form, 'password', 'passwordconf', testErrorName);
+
+      expect(form.get('passwordconf').hasError(testErrorName)).toEqual(false);
+    });
+
+    it('should not set error if another error exists', () => {
+      const testErrorName = 'testErrorName';
+
+      form.get('password').setValue('firstPassword');
+      form.get('passwordconf').setValue('firstPassword');
+      form.get('passwordconf').setErrors({ anotherError: true });
+      controlsMustMatch(form, 'password', 'passwordconf', testErrorName);
+
+      expect(form.get('passwordconf').hasError(testErrorName)).toEqual(false);
     });
   });
 });

@@ -9,14 +9,19 @@ export class ProtectedRoutesService {
     return this.config && this.config.routing;
   }
 
-  protected get shouldProtect(): boolean {
+  /**
+   * Returns 'protected' property (boolean) from routing config
+   *
+   * @returns boolean
+   */
+  public get shouldProtect(): boolean {
     return this.routingConfig.protected;
   }
 
   constructor(protected config: RoutingConfig) {
     if (this.shouldProtect) {
       // pre-process config for performance:
-      this.nonProtectedPaths = this.getNonProtectedPaths().map(path =>
+      this.nonProtectedPaths = this.getNonProtectedPaths().map((path) =>
         this.getSegments(path)
       );
     }
@@ -39,7 +44,7 @@ export class ProtectedRoutesService {
     urlSegments: string[],
     pathsSegments: string[][]
   ): boolean {
-    return pathsSegments.some(pathSegments =>
+    return pathsSegments.some((pathSegments) =>
       this.matchPath(urlSegments, pathSegments)
     );
   }

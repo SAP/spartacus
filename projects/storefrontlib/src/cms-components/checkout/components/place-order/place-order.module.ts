@@ -3,13 +3,15 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { CartNotEmptyGuard } from '../../../cart/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { PlaceOrderComponent } from './place-order.component';
+import { FormErrorsModule } from '../../../../shared/index';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -17,7 +19,11 @@ import { PlaceOrderComponent } from './place-order.component';
     RouterModule,
     UrlModule,
     I18nModule,
-    ConfigModule.withConfig(<CmsConfig>{
+    ReactiveFormsModule,
+    FormErrorsModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutPlaceOrder: {
           component: PlaceOrderComponent,

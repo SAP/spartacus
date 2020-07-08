@@ -20,12 +20,12 @@ const firstCheckBoxPosition = 0;
 const secondCheckBoxPosition = 1;
 
 export const MARKETING_NEWSLETTER = 'MARKETING_NEWSLETTER';
-export const PERSONALIZATION = 'PERSONALIZATION';
+export const PROFILE = 'PROFILE';
 export const STORE_USER_INFORMATION = 'STORE_USER_INFORMATION';
 export const noLegalDescriptionInDialog = false;
 export const displayLegalDescriptionInDialog = true;
 
-const personalizationConsentLabel = 'personalization';
+const personalizationConsentLabel = 'personalised';
 const userGiveConsentRegistrationTest: RegisterUser = {
   firstName: 'John',
   lastName: 'Doe',
@@ -71,10 +71,10 @@ export function registerNewUserAndLogin(
 ) {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.getByText(/Sign in \/ Register/i).click();
-  cy.wait(`@${loginPage}`);
+  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.getByText('Register').click();
-  cy.wait(`@${registerPage}`);
+  cy.wait(`@${registerPage}`).its('status').should('eq', 200);
   register(newUser, giveRegistrationConsent, hiddenConsent);
   cy.get('cx-breadcrumb').contains('Login');
 
@@ -90,7 +90,7 @@ export function navigateToConsentPage() {
   cy.selectUserMenuOption({
     option: 'Consent Management',
   });
-  cy.wait(`@${consentsPage}`);
+  cy.wait(`@${consentsPage}`).its('status').should('eq', 200);
 }
 
 export function seeBannerAsAnonymous() {
@@ -110,15 +110,11 @@ export function checkConsentsInConsentPage() {
 }
 
 export function clickAllowAllFromBanner() {
-  cy.get(ANONYMOUS_BANNER)
-    .find('.btn-primary')
-    .click();
+  cy.get(ANONYMOUS_BANNER).find('.btn-primary').click();
 }
 
 export function clickViewDetailsFromBanner() {
-  cy.get(ANONYMOUS_BANNER)
-    .find('.btn-action')
-    .click({ force: true });
+  cy.get(ANONYMOUS_BANNER).find('.btn-action').click({ force: true });
 }
 
 export function openDialogUsingFooterLink() {
@@ -148,33 +144,27 @@ export function toggleAnonymousConsent(position) {
 }
 
 export function checkInputConsentState(position, state) {
-  cy.get('input[type="checkbox"]')
-    .eq(position)
-    .should(state);
+  cy.get('input[type="checkbox"]').eq(position).should(state);
 }
 
 export function checkAllInputConsentState(state) {
-  cy.get('input[type="checkbox"]').each($match => {
+  cy.get('input[type="checkbox"]').each(($match) => {
     cy.wrap($match).should(state);
   });
 }
 
 export function selectAllConsent() {
-  cy.get(`${ANONYMOUS_DIALOG} .cx-action-link`)
-    .eq(1)
-    .click({ force: true });
+  cy.get(`${ANONYMOUS_DIALOG} .cx-action-link`).eq(1).click({ force: true });
 }
 
 export function clearAllConsent() {
-  cy.get(`${ANONYMOUS_DIALOG} .cx-action-link`)
-    .first()
-    .click({ force: true });
+  cy.get(`${ANONYMOUS_DIALOG} .cx-action-link`).first().click({ force: true });
 }
 
 export function checkConsentNotExist(text) {
   cy.get(`${ANONYMOUS_DIALOG} .cx-dialog-row`)
     .find('label')
-    .each($match => {
+    .each(($match) => {
       cy.wrap($match).should('not.contain', text);
     });
 }
@@ -268,7 +258,7 @@ export function moveAnonymousUserToLoggedInUser() {
 
     const loginPage = waitForPage('/login', 'getLoginPage');
     cy.getByText(/Sign in \/ Register/i).click();
-    cy.wait(`@${loginPage}`);
+    cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
     login(
       standardUser.registrationData.email,
@@ -302,7 +292,7 @@ export function testAsLoggedInUser() {
 
     const loginPage = waitForPage('/login', 'getLoginPage');
     cy.getByText(/Sign in \/ Register/i).click();
-    cy.wait(`@${loginPage}`);
+    cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
     login(
       standardUser.registrationData.email,
@@ -328,7 +318,7 @@ export function changeLanguageTest() {
 
     cy.route('GET', `*${LANGUAGE_DE}*`).as('switchedContext');
     switchSiteContext(LANGUAGE_DE, LANGUAGE_LABEL);
-    cy.wait('@switchedContext');
+    cy.wait('@switchedContext').its('status').should('eq', 200);
 
     openDialogUsingFooterLink();
     checkAllInputConsentState(BE_CHECKED);

@@ -9,6 +9,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   AsmAuthService,
+  AsmService,
+  AsmUi,
   AuthService,
   GlobalMessageService,
   I18nTestingModule,
@@ -99,6 +101,18 @@ class MockAsmComponentService {
   unload() {}
 }
 
+class MockAsmService {
+  getAsmUiState(): Observable<AsmUi> {
+    return of(mockAsmUi);
+  }
+
+  updateAsmUiState(_asmUi): void {}
+}
+
+const mockAsmUi: AsmUi = {
+  collapsed: false,
+};
+
 describe('AsmMainUiComponent', () => {
   let component: AsmMainUiComponent;
   let fixture: ComponentFixture<AsmMainUiComponent>;
@@ -109,6 +123,7 @@ describe('AsmMainUiComponent', () => {
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
   let asmComponentService: AsmComponentService;
+  let asmService: AsmService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -127,18 +142,20 @@ describe('AsmMainUiComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AsmComponentService, useClass: MockAsmComponentService },
+        { provide: AsmService, useClass: MockAsmService },
       ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmMainUiComponent);
-    authService = TestBed.get(AuthService);
-    asmAuthService = TestBed.get(AsmAuthService);
-    userService = TestBed.get(UserService);
-    globalMessageService = TestBed.get(GlobalMessageService);
-    routingService = TestBed.get(RoutingService);
-    asmComponentService = TestBed.get(AsmComponentService);
+    authService = TestBed.inject(AuthService);
+    asmAuthService = TestBed.inject(AsmAuthService);
+    userService = TestBed.inject(UserService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    routingService = TestBed.inject(RoutingService);
+    asmComponentService = TestBed.inject(AsmComponentService);
+    asmService = TestBed.inject(AsmService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -183,7 +200,7 @@ describe('AsmMainUiComponent', () => {
     );
   });
 
-  it('should display the login form by default', () => {
+  it('should display the login form by default and when the collapse state is false', () => {
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
       of({} as UserToken)
     );
@@ -196,7 +213,21 @@ describe('AsmMainUiComponent', () => {
     expect(el.query(By.css('cx-customer-emulation'))).toBeFalsy();
   });
 
-  it('should display the customer selection state when an agent is signed in', () => {
+  it('should not display the login form by default and when the collapse state is true', () => {
+    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
+    spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
+      of({} as UserToken)
+    );
+    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
+    expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
+    expect(el.query(By.css('cx-asm-session-timer'))).toBeFalsy();
+    expect(el.query(By.css('cx-customer-emulation'))).toBeFalsy();
+  });
+
+  it('should display the customer selection state when an agent is signed in and when the collapse state is false', () => {
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
     );
@@ -208,10 +239,26 @@ describe('AsmMainUiComponent', () => {
     expect(el.query(By.css('cx-customer-selection'))).toBeTruthy();
     expect(el.query(By.css('cx-asm-session-timer'))).toBeTruthy();
     expect(el.query(By.css('cx-customer-emulation'))).toBeFalsy();
-    expect(el.query(By.css('a[title="asm.logout"]'))).toBeTruthy();
+    expect(el.query(By.css('button[title="asm.logout"]'))).toBeTruthy();
   });
 
-  it('should display customer emulation state when a customer is signed in.', () => {
+  it('should not display the customer selection state when an agent is signed in and when the collapse state is true', () => {
+    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
+    spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
+      of(mockToken)
+    );
+    spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+    spyOn(userService, 'get').and.returnValue(of({}));
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
+    expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
+    expect(el.query(By.css('cx-asm-session-timer'))).toBeTruthy();
+    expect(el.query(By.css('cx-customer-emulation'))).toBeFalsy();
+    expect(el.query(By.css('button[title="asm.logout"]'))).toBeTruthy();
+  });
+
+  it('should display customer emulation state when a customer is signed in and when the collapse state is false', () => {
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
     spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
       of(mockToken)
@@ -225,7 +272,25 @@ describe('AsmMainUiComponent', () => {
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
     expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
     expect(el.query(By.css('cx-asm-session-timer'))).toBeTruthy();
-    expect(el.query(By.css('a[title="asm.logout"]'))).toBeTruthy();
+    expect(el.query(By.css('button[title="asm.logout"]'))).toBeTruthy();
+  });
+
+  it('should not display customer emulation state when a customer is signed in and when the collapse state is true', () => {
+    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
+    const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
+    spyOn(asmAuthService, 'getCustomerSupportAgentToken').and.returnValue(
+      of(mockToken)
+    );
+    spyOn(authService, 'getUserToken').and.returnValue(of(mockToken));
+    spyOn(userService, 'get').and.returnValue(of(testUser));
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(el.query(By.css('cx-customer-emulation'))).toBeFalsy();
+    expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
+    expect(el.query(By.css('cx-customer-selection'))).toBeFalsy();
+    expect(el.query(By.css('cx-asm-session-timer'))).toBeTruthy();
+    expect(el.query(By.css('button[title="asm.logout"]'))).toBeTruthy();
   });
 
   it('should redirect to home when starting a customer emulation session.', () => {
@@ -283,7 +348,7 @@ describe('AsmMainUiComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     const submitBtn = fixture.debugElement.query(
-      By.css('a[title="asm.hideUi"]')
+      By.css('button[title="asm.hideUi"]')
     );
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(component.disabled).toEqual(true);
@@ -294,7 +359,7 @@ describe('AsmMainUiComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
     const submitBtn = fixture.debugElement.query(
-      By.css('a[title="asm.hideUi"]')
+      By.css('button[title="asm.hideUi"]')
     );
     submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
     expect(asmComponentService.unload).toHaveBeenCalled();

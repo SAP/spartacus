@@ -20,10 +20,12 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   ) {}
 
   load(productCode: string, maxCount?: number): Observable<Review[]> {
-    return this.http.get(this.getEndpoint(productCode, maxCount)).pipe(
-      pluck('reviews'),
-      this.converter.pipeableMany(PRODUCT_REVIEW_NORMALIZER)
-    );
+    return this.http
+      .get(this.getEndpoint(productCode, maxCount))
+      .pipe(
+        pluck('reviews'),
+        this.converter.pipeableMany(PRODUCT_REVIEW_NORMALIZER)
+      );
   }
 
   post(productCode: string, review: any): Observable<Review> {

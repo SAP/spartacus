@@ -1,10 +1,8 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CountryType } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
 import { SiteAdapter } from './site.adapter';
 import { SiteConnector } from './site.connector';
-
 import createSpy = jasmine.createSpy;
 
 const mockLanguages = ['l', 'a', 'n', 'g'];
@@ -24,9 +22,9 @@ class MockSiteAdapter implements SiteAdapter {
     of([])
   );
 
-  loadRegions = createSpy('SiteAdapter.loadRegions').and.callFake(countryCode =>
-    of(`loadRegions-${countryCode}`)
-  );
+  loadRegions = createSpy(
+    'SiteAdapter.loadRegions'
+  ).and.callFake((countryCode) => of(`loadRegions-${countryCode}`));
 
   loadBaseSite = createSpy('SiteAdapter.loadBaseSite').and.callFake(() =>
     of(mockBaseSite)
@@ -42,8 +40,8 @@ describe('SiteConnector', () => {
       providers: [{ provide: SiteAdapter, useClass: MockSiteAdapter }],
     });
 
-    service = TestBed.get(SiteConnector as Type<SiteConnector>);
-    adapter = TestBed.get(SiteAdapter as Type<SiteAdapter>);
+    service = TestBed.inject(SiteConnector);
+    adapter = TestBed.inject(SiteAdapter);
   });
 
   it('should be created', () => {
@@ -52,35 +50,37 @@ describe('SiteConnector', () => {
 
   it('getLanguages should call adapter', () => {
     let result;
-    service.getLanguages().subscribe(res => (result = res));
+    service.getLanguages().subscribe((res) => (result = res));
     expect(result).toBe(mockLanguages);
     expect(adapter.loadLanguages).toHaveBeenCalled();
   });
 
   it('getCurrencies should call adapter', () => {
     let result;
-    service.getCurrencies().subscribe(res => (result = res));
+    service.getCurrencies().subscribe((res) => (result = res));
     expect(result).toBe(mockCurrencies);
     expect(adapter.loadCurrencies).toHaveBeenCalled();
   });
 
   it('getCountries should call adapter', () => {
     let result;
-    service.getCountries(CountryType.SHIPPING).subscribe(res => (result = res));
+    service
+      .getCountries(CountryType.SHIPPING)
+      .subscribe((res) => (result = res));
     expect(result).toEqual([]);
     expect(adapter.loadCountries).toHaveBeenCalledWith(CountryType.SHIPPING);
   });
 
   it('getRegions should call adapter', () => {
     let result;
-    service.getRegions('CA').subscribe(res => (result = res));
+    service.getRegions('CA').subscribe((res) => (result = res));
     expect(result).toEqual('loadRegions-CA');
     expect(adapter.loadRegions).toHaveBeenCalledWith('CA');
   });
 
   it('getBaseSite should call adapter', () => {
     let result;
-    service.getBaseSite().subscribe(res => (result = res));
+    service.getBaseSite().subscribe((res) => (result = res));
     expect(result).toBe(mockBaseSite);
     expect(adapter.loadBaseSite).toHaveBeenCalled();
   });

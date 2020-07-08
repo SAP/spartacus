@@ -4,11 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   AuthGuard,
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { IconModule } from '../../misc/index';
+import { IconModule } from '../../misc/icon/icon.module';
 import { ConsentManagementFormComponent } from './components/consent-form/consent-management-form.component';
 import { ConsentManagementComponent } from './components/consent-management.component';
 
@@ -20,7 +20,9 @@ import { ConsentManagementComponent } from './components/consent-management.comp
     SpinnerModule,
     I18nModule,
     IconModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ConsentManagementComponent: {
           component: ConsentManagementComponent,

@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -25,28 +24,19 @@ import { ConsentManagementComponent } from './consent-management.component';
 
 @Component({
   selector: 'cx-spinner',
-  template: `
-    <div>spinner</div>
-  `,
+  template: ` <div>spinner</div> `,
 })
 class MockCxSpinnerComponent {}
 
 @Component({
   selector: 'cx-consent-management-form',
-  template: `
-    <div>form</div>
-  `,
+  template: ` <div>form</div> `,
 })
 class MockConsentManagementFormComponent {
   @Input()
   consentTemplate: ConsentTemplate;
   @Input()
   requiredConsents: string[] = [];
-  @Input()
-  isAnonymousConsentsEnabled = true;
-  // TODO(issue:4989) Anonymous consents - remove `isLevel13`
-  @Input()
-  isLevel13 = false;
   @Output()
   consentChanged = new EventEmitter<{
     given: boolean;
@@ -119,15 +109,6 @@ const mockConsentTemplate: ConsentTemplate = {
   },
 };
 
-const mockAnonymousConsentsConfig = {
-  anonymousConsents: {},
-  features: {
-    // TODO(issue:4989) Anonymous consents - remove `level: '1.3',`
-    level: '1.3',
-    anonymousConsents: true,
-  },
-};
-
 describe('ConsentManagementComponent', () => {
   let component: ConsentManagementComponent;
   let fixture: ComponentFixture<ConsentManagementComponent>;
@@ -139,6 +120,10 @@ describe('ConsentManagementComponent', () => {
   let anonymousConsentsService: AnonymousConsentsService;
 
   beforeEach(async(() => {
+    const mockAnonymousConsentsConfig = {
+      anonymousConsents: {},
+    };
+
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [
@@ -170,16 +155,10 @@ describe('ConsentManagementComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    userService = TestBed.get(UserConsentService as Type<UserConsentService>);
-    globalMessageService = TestBed.get(GlobalMessageService as Type<
-      GlobalMessageService
-    >);
-    anonymousConsentsConfig = TestBed.get(AnonymousConsentsConfig as Type<
-      AnonymousConsentsConfig
-    >);
-    anonymousConsentsService = TestBed.get(AnonymousConsentsService as Type<
-      AnonymousConsentsService
-    >);
+    userService = TestBed.inject(UserConsentService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    anonymousConsentsConfig = TestBed.inject(AnonymousConsentsConfig);
+    anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
 
     fixture.detectChanges();
   });
@@ -216,7 +195,7 @@ describe('ConsentManagementComponent', () => {
 
         let loadingResult = false;
         component.loading$
-          .subscribe(result => (loadingResult = result))
+          .subscribe((result) => (loadingResult = result))
           .unsubscribe();
         expect(loadingResult).toEqual(true);
       });
@@ -247,7 +226,7 @@ describe('ConsentManagementComponent', () => {
 
           let result: ConsentTemplate[];
           component.templateList$
-            .subscribe(templates => (result = templates))
+            .subscribe((templates) => (result = templates))
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
           expect(component[consentsExistsMethod]).toHaveBeenCalledWith(
@@ -269,7 +248,7 @@ describe('ConsentManagementComponent', () => {
 
           let result: ConsentTemplate[];
           component.templateList$
-            .subscribe(templates => (result = templates))
+            .subscribe((templates) => (result = templates))
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
           expect(component[consentsExistsMethod]).toHaveBeenCalledWith(
@@ -299,7 +278,7 @@ describe('ConsentManagementComponent', () => {
 
           let result: ConsentTemplate[];
           component.templateList$
-            .subscribe(templates => (result = templates))
+            .subscribe((templates) => (result = templates))
             .unsubscribe();
           expect(result).toEqual(mockTemplateList);
           expect(anonymousConsentsService.getTemplates).toHaveBeenCalled();
@@ -516,18 +495,6 @@ describe('ConsentManagementComponent', () => {
           anonymousConsentsConfig.anonymousConsents.requiredConsents = [
             mockConsentTemplate.id,
           ];
-          const result = component[isRequiredConsentMethod](
-            mockConsentTemplate
-          );
-          expect(result).toEqual(true);
-        });
-      });
-      describe('when the anonymous consents feature is not enabled', () => {
-        it('should return false', () => {
-          anonymousConsentsConfig.anonymousConsents.requiredConsents = [
-            mockConsentTemplate.id,
-          ];
-          mockAnonymousConsentsConfig.features.anonymousConsents = false;
           const result = component[isRequiredConsentMethod](
             mockConsentTemplate
           );

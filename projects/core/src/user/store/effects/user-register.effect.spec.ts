@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, combineReducers, StoreModule } from '@ngrx/store';
@@ -40,8 +39,8 @@ describe('UserRegister effect', () => {
       ],
     });
 
-    effect = TestBed.get(UserRegisterEffects as Type<UserRegisterEffects>);
-    userConnector = TestBed.get(UserConnector as Type<UserConnector>);
+    effect = TestBed.inject(UserRegisterEffects);
+    userConnector = TestBed.inject(UserConnector);
 
     spyOn(userConnector, 'register').and.returnValue(of({}));
     spyOn(userConnector, 'registerGuest').and.returnValue(of({ uid: 'test' }));

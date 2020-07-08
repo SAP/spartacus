@@ -1,14 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { iif, Observable } from 'rxjs';
-import {
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Consent, ConsentTemplate } from '../../model/consent.model';
 import { StateWithProcess } from '../../process/store/process-state';
@@ -30,33 +23,17 @@ import {
 })
 export class UserConsentService {
   constructor(
-    store: Store<StateWithUser | StateWithProcess<void>>,
-    // tslint:disable-next-line:unified-signatures
-    authService: AuthService
-  );
-
-  /**
-   * @deprecated since version 1.3
-   *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
-   *  authService: AuthService) instead
-   */
-  constructor(store: Store<StateWithUser | StateWithProcess<void>>);
-  constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService?: AuthService
+    protected authService: AuthService
   ) {}
 
   /**
    * Retrieves all consents.
    */
   loadConsents(): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(new UserActions.LoadUserConsents(occUserId))
-      )
-      .unsubscribe();
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(new UserActions.LoadUserConsents(userId));
+    });
   }
 
   /**
@@ -126,14 +103,14 @@ export class UserConsentService {
   getConsent(templateId: string): Observable<Consent> {
     return this.authService.isUserLoggedIn().pipe(
       filter(Boolean),
-      tap(_ => this.getConsents(true)),
-      switchMap(_ =>
+      tap(() => this.getConsents(true)),
+      switchMap(() =>
         this.store.pipe(
           select(UsersSelectors.getConsentByTemplateId(templateId))
         )
       ),
-      filter(template => Boolean(template)),
-      map(template => template.currentConsent)
+      filter((template) => Boolean(template)),
+      map((template) => template.currentConsent)
     );
   }
 
@@ -170,19 +147,15 @@ export class UserConsentService {
    * @param consentTemplateVersion a template version for which to give a consent
    */
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.GiveUserConsent({
-            userId: occUserId,
-            consentTemplateId,
-            consentTemplateVersion,
-          })
-        )
-      )
-      .unsubscribe();
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(
+        new UserActions.GiveUserConsent({
+          userId,
+          consentTemplateId,
+          consentTemplateVersion,
+        })
+      );
+    });
   }
 
   /**
@@ -224,18 +197,14 @@ export class UserConsentService {
    * @param consentCode for which to withdraw the consent
    */
   withdrawConsent(consentCode: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.WithdrawUserConsent({
-            userId: occUserId,
-            consentCode,
-          })
-        )
-      )
-      .unsubscribe();
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(
+        new UserActions.WithdrawUserConsent({
+          userId,
+          consentCode,
+        })
+      );
+    });
   }
 
   /**

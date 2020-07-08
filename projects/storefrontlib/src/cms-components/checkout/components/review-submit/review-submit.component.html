@@ -88,10 +88,14 @@
       class="cx-review-cart-item col-md-12"
       *ngIf="entries$ | async as entries"
     >
+      <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
+        <cx-promotions [promotions]="orderPromotions"></cx-promotions>
+      </ng-container>
+
       <cx-cart-item-list
         [items]="entries"
-        [isReadOnly]="true"
-        [potentialProductPromotions]="cart.potentialProductPromotions"
+        [readonly]="true"
+        [promotionLocation]="promotionLocation"
       ></cx-cart-item-list>
     </div>
   </ng-container>

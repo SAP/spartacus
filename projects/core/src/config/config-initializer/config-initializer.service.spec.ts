@@ -30,7 +30,7 @@ describe('ConfigInitializerService', () => {
         { provide: CONFIG_INITIALIZER_FORROOT_GUARD, useValue: true },
       ],
     });
-    service = TestBed.get(ConfigInitializerService);
+    service = TestBed.inject(ConfigInitializerService);
   });
 
   it('should be created', () => {
@@ -145,7 +145,7 @@ describe('ConfigInitializerService', () => {
 
   describe('should warn for duplicate scopes', async () => {
     function getInitializersForScopes(...scopes) {
-      return scopes.map(scope => ({
+      return scopes.map((scope) => ({
         scopes: scope,
         configFactory: async () => ({}),
       }));

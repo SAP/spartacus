@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -20,6 +21,7 @@ import {
 import { AddToCartModule } from '../../cart/index';
 import { IconModule } from '../../misc/icon/index';
 import { defaultScrollConfig } from '../config/default-scroll-config';
+import { ProductVariantsModule } from '../product-variants/product-variants.module';
 import { ProductListComponent } from './container/product-list.component';
 import { ProductScrollComponent } from './container/product-scroll/product-scroll.component';
 import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
@@ -30,20 +32,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(<ViewConfig>defaultScrollConfig),
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        CMSProductListComponent: {
-          component: ProductListComponent,
-        },
-        SearchResultsListComponent: {
-          component: ProductListComponent,
-        },
-        ProductRefinementComponent: {
-          component: ProductFacetNavigationComponent,
-        },
-      },
-    }),
     RouterModule,
     MediaModule,
     AddToCartModule,
@@ -56,10 +44,27 @@ import { ProductViewComponent } from './product-view/product-view.component';
     SpinnerModule,
     InfiniteScrollModule,
     ViewConfigModule,
+    ProductVariantsModule,
+    FeaturesConfigModule,
+  ],
+  providers: [
+    provideDefaultConfig(<ViewConfig>defaultScrollConfig),
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CMSProductListComponent: {
+          component: ProductListComponent,
+        },
+        ProductGridComponent: {
+          component: ProductListComponent,
+        },
+        SearchResultsListComponent: {
+          component: ProductListComponent,
+        },
+      },
+    }),
   ],
   declarations: [
     ProductListComponent,
-    ProductFacetNavigationComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
     ProductViewComponent,
@@ -67,10 +72,10 @@ import { ProductViewComponent } from './product-view/product-view.component';
   ],
   exports: [
     ProductListComponent,
-    ProductFacetNavigationComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
     ProductViewComponent,
+    ProductScrollComponent,
   ],
   entryComponents: [ProductListComponent, ProductFacetNavigationComponent],
 })

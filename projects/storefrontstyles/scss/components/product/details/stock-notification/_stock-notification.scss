@@ -1,0 +1,14 @@
+%cx-stock-notification {
+  .stock-notification-notes {
+    p {
+      margin: 0 0 10px 0;
+      a {
+        @include type('6');
+        color: var(--cx-color-dark);
+        &:hover {
+          color: var(--cx-color-primary);
+        }
+      }
+    }
+  }
+}

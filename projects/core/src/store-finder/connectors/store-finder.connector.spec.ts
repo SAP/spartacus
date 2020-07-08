@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { GeoPoint } from '../../model';
@@ -30,8 +29,8 @@ describe('StoreFinderConnector', () => {
       ],
     });
 
-    service = TestBed.get(StoreFinderConnector as Type<StoreFinderConnector>);
-    adapter = TestBed.get(StoreFinderAdapter as Type<StoreFinderAdapter>);
+    service = TestBed.inject(StoreFinderConnector);
+    adapter = TestBed.inject(StoreFinderAdapter);
   });
 
   it('should be created', () => {
@@ -43,29 +42,31 @@ describe('StoreFinderConnector', () => {
     const searchConfig: StoreFinderSearchConfig = {
       sort: 'ASC',
     };
+    const radius = 50000;
 
     let result;
     service
-      .search('query', searchConfig, geoPoint)
-      .subscribe(res => (result = res));
+      .search('query', searchConfig, geoPoint, radius)
+      .subscribe((res) => (result = res));
     expect(result).toBe('adapter.search result');
     expect(adapter.search).toHaveBeenCalledWith(
       'query',
       searchConfig,
-      geoPoint
+      geoPoint,
+      radius
     );
   });
 
   it('get should call adapter', () => {
     let result;
-    service.get('storeId').subscribe(res => (result = res));
+    service.get('storeId').subscribe((res) => (result = res));
     expect(result).toBe('adapter.load result');
     expect(adapter.load).toHaveBeenCalledWith('storeId');
   });
 
   it('getCounts should call adapter', () => {
     let result;
-    service.getCounts().subscribe(res => (result = res));
+    service.getCounts().subscribe((res) => (result = res));
     expect(result).toBe('adapter.loadCounts result');
     expect(adapter.loadCounts).toHaveBeenCalled();
   });

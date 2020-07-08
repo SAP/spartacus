@@ -19,7 +19,7 @@ describe('CartVoucherConnector', () => {
       ],
     });
 
-    service = TestBed.get(CartVoucherConnector);
+    service = TestBed.inject(CartVoucherConnector);
   });
 
   it('should be created', () => {
@@ -27,13 +27,13 @@ describe('CartVoucherConnector', () => {
   });
 
   it('add should call adapter', () => {
-    const adapter = TestBed.get(CartVoucherAdapter);
+    const adapter = TestBed.inject(CartVoucherAdapter);
     service.add('1', '2', '3').subscribe();
     expect(adapter.add).toHaveBeenCalledWith('1', '2', '3');
   });
 
   it('remove should call adapter', () => {
-    const adapter = TestBed.get(CartVoucherAdapter);
+    const adapter = TestBed.inject(CartVoucherAdapter);
     service.remove('1', '2', '3').subscribe();
     expect(adapter.remove).toHaveBeenCalledWith('1', '2', '3');
   });

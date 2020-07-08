@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -37,10 +36,8 @@ describe('Card Types effect', () => {
       ],
     });
 
-    effect = TestBed.get(CardTypesEffects as Type<CardTypesEffects>);
-    service = TestBed.get(CheckoutPaymentConnector as Type<
-      CheckoutPaymentConnector
-    >);
+    effect = TestBed.inject(CardTypesEffects);
+    service = TestBed.inject(CheckoutPaymentConnector);
 
     spyOn(service, 'getCardTypes').and.returnValue(of(mockCardTypes));
   });

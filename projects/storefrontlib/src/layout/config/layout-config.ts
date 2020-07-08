@@ -1,3 +1,7 @@
+import { Injectable } from '@angular/core';
+import { Config, DeferLoadingStrategy } from '@spartacus/core';
+import { LaunchConfig } from '../launch-dialog/index';
+
 export enum BREAKPOINT {
   xs = 'xs',
   sm = 'sm',
@@ -15,6 +19,13 @@ export type LayoutSections =
 export type SlotConfig = {
   /** The cms page slots are mapped by the `slot.position`. */
   slots?: string[];
+
+  /**
+   * The page fold identifies the last expected page slot above-the-fold.
+   * It's perfectly fine to specify this by idication, however a more
+   * precise indication will have an positive impact on performance.
+   */
+  pageFold?: string;
 };
 
 export type SlotGroup = {
@@ -38,6 +49,10 @@ export type LayoutSlotConfig = {
  * adaptive design per breadpoint (not per device type), so that the DOM is (re)rendered
  * por a given breakpoint.
  */
+@Injectable({
+  providedIn: 'root',
+  useExisting: Config,
+})
 export abstract class LayoutConfig {
   /** The breakpoint configuration is used when the DOM is (re)rendered in specific view.
    * This allows for adaptive rendering, so that the DOM is rendered for specific breakpoints. */
@@ -48,4 +63,26 @@ export abstract class LayoutConfig {
     [BREAKPOINT.lg]?: number;
   };
   layoutSlots?: LayoutSlotConfig;
+
+  /**
+   * Deferrred loading is a technique to hold of with the loading / creation
+   * of DOM elements which are not not in the initial view port.
+   * This technique wil increase performance.
+   */
+  deferredLoading?: {
+    /**
+     * The global strategy will be used as a fallback strategy for all DOM creation,
+     * but can be overriden by local configuration, i.e. for cms components.
+     */
+    strategy?: DeferLoadingStrategy;
+    /**
+     * The intersection margin contains the offset used by the Intersection Observer
+     * to observe elements outside the view port.
+     *
+     * See https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/rootMargin
+     */
+    intersectionMargin?: string;
+  };
+
+  launch?: LaunchConfig;
 }

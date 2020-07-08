@@ -11,7 +11,9 @@ import {
 } from '../store/global-message-state';
 import { GlobalMessageSelectors } from '../store/selectors/index';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class GlobalMessageService {
   constructor(protected store: Store<StateWithGlobalMessage>) {}
 
@@ -21,7 +23,7 @@ export class GlobalMessageService {
   get(): Observable<GlobalMessageEntities> {
     return this.store.pipe(
       select(GlobalMessageSelectors.getGlobalMessageEntities),
-      filter(data => data !== undefined)
+      filter((data) => data !== undefined)
     );
   }
 
@@ -29,12 +31,18 @@ export class GlobalMessageService {
    * Add one message into store
    * @param text: string | Translatable
    * @param type: GlobalMessageType object
+   * @param timeout: number
    */
-  add(text: string | Translatable, type: GlobalMessageType): void {
+  add(
+    text: string | Translatable,
+    type: GlobalMessageType,
+    timeout?: number
+  ): void {
     this.store.dispatch(
       new GlobalMessageActions.AddMessage({
         text: typeof text === 'string' ? { raw: text } : text,
         type,
+        timeout,
       })
     );
   }

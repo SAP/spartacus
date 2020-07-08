@@ -1,7 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ExternalJsFileLoader {
   constructor(@Inject(DOCUMENT) protected document: any) {}
 
@@ -40,7 +42,7 @@ export class ExternalJsFileLoader {
       result =
         '?' +
         keysArray
-          .map(key => encodeURI(key) + '=' + encodeURI(params[key]))
+          .map((key) => encodeURI(key) + '=' + encodeURI(params[key]))
           .join('&');
     }
     return result;

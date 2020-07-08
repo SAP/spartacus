@@ -2,7 +2,9 @@ import { Location } from '@angular/common';
 import { ComponentFactoryResolver } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
+import { LayoutConfig } from 'projects/storefrontlib/src/layout';
 import { OutletService } from '../../../cms-structure/outlet/index';
+import { LaunchDialogService } from '../../../layout/launch-dialog/index';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmEnablerService } from './asm-enabler.service';
 
@@ -37,6 +39,19 @@ class MockLocation {
   }
 }
 
+class MockLaunchDialogService {
+  launch() {}
+}
+
+const mockLaunchConfig: LayoutConfig = {
+  launch: {
+    ASM: {
+      outlet: 'cx-outlet-test',
+      component: {},
+    },
+  },
+};
+
 describe('AsmEnablerService', () => {
   let asmEnablerService: AsmEnablerService;
   let windowRef: WindowRef;
@@ -52,12 +67,17 @@ describe('AsmEnablerService', () => {
         },
         { provide: OutletService, useClass: MockOutletService },
         { provide: Location, useClass: MockLocation },
+        { provide: LayoutConfig, useValue: mockLaunchConfig },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
       ],
     });
 
-    asmEnablerService = TestBed.get(AsmEnablerService);
-    windowRef = TestBed.get(WindowRef);
-    location = TestBed.get(Location);
+    asmEnablerService = TestBed.inject(AsmEnablerService);
+    windowRef = TestBed.inject(WindowRef);
+    location = TestBed.inject(Location);
 
     windowRef.localStorage.removeItem(ASM_ENABLED_LOCAL_STORAGE_KEY);
   });

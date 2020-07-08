@@ -52,7 +52,6 @@ export function resetMeta(entityType: string): LoaderMeta {
     loader: {},
   };
 }
-
 export class LoaderLoadAction implements LoaderAction {
   type = LOADER_LOAD_ACTION;
   readonly meta: LoaderMeta;

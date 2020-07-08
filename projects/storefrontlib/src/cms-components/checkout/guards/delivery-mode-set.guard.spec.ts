@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -52,20 +51,14 @@ describe(`DeliveryModeSetGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(DeliveryModeSetGuard as Type<DeliveryModeSetGuard>);
-    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService as Type<
-      CheckoutDetailsService
-    >);
-    mockCheckoutConfig = TestBed.get(CheckoutConfig as Type<CheckoutConfig>);
-    mockRoutingConfigService = TestBed.get(RoutingConfigService as Type<
-      RoutingConfigService
-    >);
-    mockCheckoutConfigService = TestBed.get(CheckoutConfigService as Type<
-      CheckoutConfigService
-    >);
+    guard = TestBed.inject(DeliveryModeSetGuard);
+    mockCheckoutDetailsService = TestBed.inject(CheckoutDetailsService);
+    mockCheckoutConfig = TestBed.inject(CheckoutConfig);
+    mockRoutingConfigService = TestBed.inject(RoutingConfigService);
+    mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
   });
 
-  it('should redirect to deliveryMode page when no modes selected', done => {
+  it('should redirect to deliveryMode page when no modes selected', (done) => {
     spyOn(
       mockCheckoutDetailsService,
       'getSelectedDeliveryModeCode'
@@ -87,7 +80,7 @@ describe(`DeliveryModeSetGuard`, () => {
     });
   });
 
-  it('should redirect to default page if there is no deliveryMode step', done => {
+  it('should redirect to default page if there is no deliveryMode step', (done) => {
     spyOn(
       mockCheckoutDetailsService,
       'getSelectedDeliveryModeCode'
@@ -104,7 +97,7 @@ describe(`DeliveryModeSetGuard`, () => {
     });
   });
 
-  it('should not redirect to deliveryMode page when mode is selected', done => {
+  it('should not redirect to deliveryMode page when mode is selected', (done) => {
     spyOn(
       mockCheckoutDetailsService,
       'getSelectedDeliveryModeCode'

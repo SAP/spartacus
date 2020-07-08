@@ -1,13 +1,11 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ProductReviewsAdapter } from './product-reviews.adapter';
 import { ProductReviewsConnector } from './product-reviews.connector';
-
 import createSpy = jasmine.createSpy;
 
 class MockProductReviewsAdapter implements ProductReviewsAdapter {
-  load = createSpy('ProductReviewsAdapter.loadList').and.callFake(code =>
+  load = createSpy('ProductReviewsAdapter.loadList').and.callFake((code) =>
     of('product' + code)
   );
   post = createSpy('ProductReviewsAdapter.post').and.returnValue(of(''));
@@ -24,10 +22,8 @@ describe('ProductReviewsConnector', () => {
       ],
     });
 
-    service = TestBed.get(ProductReviewsConnector as Type<
-      ProductReviewsConnector
-    >);
-    adapter = TestBed.get(ProductReviewsAdapter as Type<ProductReviewsAdapter>);
+    service = TestBed.inject(ProductReviewsConnector);
+    adapter = TestBed.inject(ProductReviewsAdapter);
   });
 
   it('should be created', () => {
@@ -37,7 +33,7 @@ describe('ProductReviewsConnector', () => {
   describe('get', () => {
     it('should call adapter', () => {
       let result;
-      service.get('333').subscribe(res => (result = res));
+      service.get('333').subscribe((res) => (result = res));
       expect(result).toBe('product333');
       expect(adapter.load).toHaveBeenCalledWith('333', undefined);
     });

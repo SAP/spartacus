@@ -1,39 +1,39 @@
-import { Component, Input, Type, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   Address,
   Cart,
-  CartService,
+  ActiveCartService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   Country,
   DeliveryMode,
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
   PaymentDetails,
-  PromotionResult,
+  PromotionLocation,
   UserAddressService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { PromotionsModule } from '../../..';
 import { Item } from '../../../../cms-components/cart/index';
 import { Card } from '../../../../shared/components/card/card.component';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
+import { CheckoutStep, CheckoutStepType } from '../../model/index';
+import { CheckoutConfigService } from '../../services/index';
 import { ReviewSubmitComponent } from './review-submit.component';
 import createSpy = jasmine.createSpy;
-import { CheckoutStepType, CheckoutStep } from '../../model/index';
-import { CheckoutConfigService } from '../../services/index';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 
 const mockCart: Cart = {
   guid: 'test',
   code: 'test',
   deliveryItemsQuantity: 123,
   totalPrice: { formattedValue: '$999.98' },
-  potentialProductPromotions: [
-    { description: 'Promotion 1' },
-    { description: 'Promotion 2' },
-  ],
 };
 
 const mockAddress: Address = {
@@ -71,12 +71,9 @@ const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
   template: '',
 })
 class MockCartItemListComponent {
-  @Input()
-  items: Item[];
-  @Input()
-  isReadOnly: boolean;
-  @Input()
-  potentialProductPromotions: PromotionResult[];
+  @Input() items: Item[];
+  @Input() readonly: boolean;
+  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
 @Component({
@@ -102,6 +99,8 @@ class MockCheckoutPaymentService {
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
   }
+
+  paymentProcessSuccess(): void {}
 }
 
 class MockUserAddressService {
@@ -111,7 +110,7 @@ class MockUserAddressService {
   }
 }
 
-class MockCartService {
+class MockActiveCartService {
   getActive(): Observable<Cart> {
     return of(mockCart);
   }
@@ -140,14 +139,27 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+class MockPromotionService {
+  getOrderPromotions(): void {}
+  getOrderPromotionsFromCart(): void {}
+  getOrderPromotionsFromCheckout(): void {}
+  getOrderPromotionsFromOrder(): void {}
+  getProductPromotionForEntry(): void {}
+}
+
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
-  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
+  let mockCheckoutDeliveryService: CheckoutDeliveryService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [
+        I18nTestingModule,
+        PromotionsModule,
+        RouterTestingModule,
+        FeaturesConfigModule,
+      ],
       declarations: [
         ReviewSubmitComponent,
         MockCartItemListComponent,
@@ -165,10 +177,20 @@ describe('ReviewSubmitComponent', () => {
           useClass: MockCheckoutPaymentService,
         },
         { provide: UserAddressService, useClass: MockUserAddressService },
-        { provide: CartService, useClass: MockCartService },
+        { provide: ActiveCartService, useClass: MockActiveCartService },
         {
           provide: CheckoutConfigService,
           useClass: MockCheckoutConfigService,
+        },
+        {
+          provide: PromotionService,
+          useClass: MockPromotionService,
+        },
+        {
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '1.3' },
+          },
         },
       ],
     }).compileComponents();
@@ -178,9 +200,7 @@ describe('ReviewSubmitComponent', () => {
     fixture = TestBed.createComponent(ReviewSubmitComponent);
     component = fixture.componentInstance;
 
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
+    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
 
     addressBS.next(mockAddress.country);
     deliveryModeBS.next(mockDeliveryMode);
@@ -273,17 +293,19 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call getShippingAddressCard(deliveryAddress, countryName) to get address card data', () => {
-    component.getShippingAddressCard(mockAddress, 'Canada').subscribe(card => {
-      expect(card.title).toEqual('addressCard.shipTo');
-      expect(card.textBold).toEqual('John Doe');
-      expect(card.text).toEqual([
-        'Toyosaki 2 create on cart',
-        'line2',
-        'town, JP-27, Canada',
-        'zip',
-        undefined,
-      ]);
-    });
+    component
+      .getShippingAddressCard(mockAddress, 'Canada')
+      .subscribe((card) => {
+        expect(card.title).toEqual('addressCard.shipTo');
+        expect(card.textBold).toEqual('John Doe');
+        expect(card.text).toEqual([
+          'Toyosaki 2 create on cart',
+          'line2',
+          'town, JP-27, Canada',
+          'zip',
+          undefined,
+        ]);
+      });
   });
 
   it('should call getDeliveryModeCard(deliveryMode) to get delivery mode card data', () => {
@@ -292,7 +314,7 @@ describe('ReviewSubmitComponent', () => {
       name: 'Standard gross',
       description: 'Standard Delivery description',
     };
-    component.getDeliveryModeCard(selectedMode).subscribe(card => {
+    component.getDeliveryModeCard(selectedMode).subscribe((card) => {
       expect(card.title).toEqual('checkoutShipping.shippingMethod');
       expect(card.textBold).toEqual('Standard gross');
       expect(card.text).toEqual(['Standard Delivery description']);
@@ -300,7 +322,7 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call getPaymentMethodCard(paymentDetails) to get payment card data', () => {
-    component.getPaymentMethodCard(mockPaymentDetails).subscribe(card => {
+    component.getPaymentMethodCard(mockPaymentDetails).subscribe((card) => {
       expect(card.title).toEqual('paymentForm.payment');
       expect(card.textBold).toEqual(mockPaymentDetails.accountHolderName);
       expect(card.text).toEqual([
@@ -350,15 +372,7 @@ describe('ReviewSubmitComponent', () => {
         { entryNumber: 123 },
         { entryNumber: 456 },
       ]);
-      expect(getCartItemList().isReadOnly).toBe(true);
-    });
-
-    it('should receive potentialProductPromotions attribute with potential product promotions of cart', () => {
-      fixture.detectChanges();
-      expect(getCartItemList().potentialProductPromotions).toEqual([
-        { description: 'Promotion 1' },
-        { description: 'Promotion 2' },
-      ]);
+      expect(getCartItemList().readonly).toBe(true);
     });
   });
 });

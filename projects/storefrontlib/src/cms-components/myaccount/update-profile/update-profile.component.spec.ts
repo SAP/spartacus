@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  Type,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -24,9 +23,7 @@ import { UpdateProfileComponent } from './update-profile.component';
 
 @Component({
   selector: 'cx-update-profile-form',
-  template: `
-    <div>update form</div>
-  `,
+  template: ` <div>update form</div> `,
 })
 class MockUpdateProfileFormComponent {
   @Input()
@@ -40,9 +37,7 @@ class MockUpdateProfileFormComponent {
 }
 @Component({
   selector: 'cx-spinner',
-  template: `
-    <div>spinner</div>
-  `,
+  template: ` <div>spinner</div> `,
 })
 class MockCxSpinnerComponent {}
 
@@ -119,11 +114,9 @@ describe('UpdateProfileComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    userService = TestBed.get(UserService as Type<UserService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
-    globalMessageService = TestBed.get(GlobalMessageService as Type<
-      GlobalMessageService
-    >);
+    userService = TestBed.inject(UserService);
+    routingService = TestBed.inject(RoutingService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
 
     fixture.detectChanges();
   });

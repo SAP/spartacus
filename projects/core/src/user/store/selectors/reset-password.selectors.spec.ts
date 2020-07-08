@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import * as fromReducers from '../reducers';
@@ -16,7 +15,7 @@ describe('Reset Password Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -25,7 +24,7 @@ describe('Reset Password Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getResetPassword))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toBeFalsy();
     });
   });

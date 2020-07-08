@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { OrderHistoryList } from '../../../model/order.model';
@@ -34,7 +33,7 @@ describe('User Orders Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -43,7 +42,7 @@ describe('User Orders Selectors', () => {
       let result: LoaderState<OrderHistoryList>;
       store
         .pipe(select(UsersSelectors.getOrdersState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -60,7 +59,7 @@ describe('User Orders Selectors', () => {
       let result: OrderHistoryList;
       store
         .pipe(select(UsersSelectors.getOrders))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(emptyOrder);
 
@@ -74,7 +73,7 @@ describe('User Orders Selectors', () => {
       let result: boolean;
       store
         .pipe(select(UsersSelectors.getOrdersLoaded))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual(false);
 

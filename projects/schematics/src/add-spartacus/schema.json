@@ -16,9 +16,24 @@
       "description": "The url of the OCC backend",
       "default": "https://localhost:9002"
     },
+    "occPrefix": {
+      "type": "string",
+      "description": "The OCC API prefix. E.g.: /occ/v2/",
+      "default": "/rest/v2/"
+    },
     "baseSite": {
       "type": "string",
-      "description": "The base site to use with spartacus"
+      "description": "A comma-separated list of base site(s) to use with Spartacus"
+    },
+    "currency": {
+      "type": "string",
+      "description": "A comma-separated list of currencies to use in Spartacus",
+      "default": "USD"
+    },
+    "language": {
+      "type": "string",
+      "description": "A comma-separated list of languages to use in Spartacus",
+      "default": "en"
     },
     "useMetaTags": {
       "type": "boolean",
@@ -26,13 +41,12 @@
     },
     "featureLevel": {
       "type": "string",
-      "description": "Configure feature level for application.",
-      "default": "1.2"
+      "description": "Configure feature level for application."
     },
     "overwriteAppComponent": {
       "type": "boolean",
-      "description": "Overwrite whole app.component.html file.",
-      "default": false
+      "description": "Overwrite the contents of app.component.html file with the <cx-storefront> tag.",
+      "default": true
     },
     "pwa": {
       "type": "boolean",

@@ -3,7 +3,7 @@ import { formats } from '../../../sample-data/viewports';
 
 describe('consignment tracking', () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
     cy.viewport(formats.mobile.width, formats.mobile.height);
     orderDetail.loginUsingUserWithOrder();
   });

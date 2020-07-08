@@ -1,7 +1,7 @@
-dist: trusty
+dist: bionic
 language: node_js
 node_js:
-  - 10.14.1
+  - 12.13.1
 cache: yarn
 git:
   depth: false

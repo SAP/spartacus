@@ -24,7 +24,8 @@
                 >
                   <cx-pagination
                     [pagination]="model.pagination"
-                    (viewPageEvent)="viewPage($event)"
+                    queryParam="currentPage"
+                    [defaultPage]="0"
                   ></cx-pagination>
                 </div>
               </div>
@@ -89,7 +90,8 @@
                 <div class="cx-pagination">
                   <cx-pagination
                     [pagination]="model.pagination"
-                    (viewPageEvent)="viewPage($event)"
+                    queryParam="currentPage"
+                    [defaultPage]="0"
                   ></cx-pagination>
                 </div>
               </div>

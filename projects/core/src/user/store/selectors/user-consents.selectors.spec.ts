@@ -1,8 +1,7 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { ConsentTemplate } from '../../../model/index';
-import { LoaderState } from '../../../state/index';
+import { StateUtils } from '../../../state/index';
 import { UserActions } from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import { UsersSelectors } from '../selectors/index';
@@ -21,7 +20,7 @@ describe('User consents selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -29,10 +28,10 @@ describe('User consents selectors', () => {
     it('should return consents', () => {
       store.dispatch(new UserActions.LoadUserConsentsSuccess(consents));
 
-      let result: LoaderState<ConsentTemplate[]>;
+      let result: StateUtils.LoaderState<ConsentTemplate[]>;
       store
         .pipe(select(UsersSelectors.getConsentsState))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual({
@@ -50,7 +49,7 @@ describe('User consents selectors', () => {
       let result: ConsentTemplate[];
       store
         .pipe(select(UsersSelectors.getConsentsValue))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(consents);
@@ -63,7 +62,7 @@ describe('User consents selectors', () => {
       let result: ConsentTemplate;
       store
         .pipe(select(UsersSelectors.getConsentByTemplateId(consents[0].id)))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(consents[0]);
@@ -76,7 +75,7 @@ describe('User consents selectors', () => {
       let result = false;
       store
         .pipe(select(UsersSelectors.getConsentsLoading))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -89,7 +88,7 @@ describe('User consents selectors', () => {
       let result = false;
       store
         .pipe(select(UsersSelectors.getConsentsSuccess))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -102,7 +101,7 @@ describe('User consents selectors', () => {
       let result = false;
       store
         .pipe(select(UsersSelectors.getConsentsError))
-        .subscribe(value => (result = value))
+        .subscribe((value) => (result = value))
         .unsubscribe();
 
       expect(result).toEqual(true);

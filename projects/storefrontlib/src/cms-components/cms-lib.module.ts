@@ -17,10 +17,17 @@ import {
   CloseAccountModule,
   ConsentManagementModule,
   ForgotPasswordModule,
+  MyCouponsModule,
+  MyInterestsModule,
+  NotificationPreferenceModule,
+  OrderCancellationModule,
   OrderDetailsModule,
   OrderHistoryModule,
+  OrderReturnModule,
   PaymentMethodsModule,
   ResetPasswordModule,
+  ReturnRequestDetailModule,
+  ReturnRequestListModule,
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
@@ -35,15 +42,19 @@ import {
 import { OrderConfirmationModule } from './order-confirmation/index';
 import {
   ProductCarouselModule,
+  ProductFacetNavigationModule,
   ProductIntroModule,
   ProductListModule,
   ProductReferencesModule,
   ProductTabsModule,
+  StockNotificationModule,
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
+import { ProductVariantsModule } from './product/product-variants/product-variants.module';
 import { StoreFinderModule } from './storefinder/store-finder.module';
 import { UserComponentModule } from './user/user.module';
+import { WishListModule } from './wish-list/wish-list.module';
 
 @NgModule({
   imports: [
@@ -62,7 +73,12 @@ import { UserComponentModule } from './user/user.module';
     QualtricsModule,
     AddressBookModule,
     OrderHistoryModule,
+    OrderCancellationModule,
+    OrderReturnModule,
+    ReturnRequestListModule,
+    ReturnRequestDetailModule,
     ProductListModule,
+    ProductFacetNavigationModule,
     ProductTabsModule,
     ProductCarouselModule,
     ProductReferencesModule,
@@ -79,12 +95,18 @@ import { UserComponentModule } from './user/user.module';
     StoreFinderModule,
     ProductImagesModule,
     ProductSummaryModule,
+    ProductVariantsModule,
     ProductIntroModule,
     CheckoutComponentModule,
     ForgotPasswordModule,
     ResetPasswordModule,
     BannerCarouselModule,
     UserComponentModule,
+    MyCouponsModule,
+    WishListModule,
+    NotificationPreferenceModule,
+    MyInterestsModule,
+    StockNotificationModule,
   ],
 })
 export class CmsLibModule {}

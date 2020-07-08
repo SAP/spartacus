@@ -1,0 +1,37 @@
+%cx-skip-link {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  top: -100%;
+  z-index: 11;
+  width: 100%;
+  height: 100%;
+  // backdrop - fade out
+  background-color: rgba(0, 0, 0, 0);
+  transition: top 0s 0.3s ease, background-color 0.3s ease;
+  > div {
+    display: contents;
+  }
+  &:focus-within {
+    top: 0;
+    // backdrop - fade in
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease;
+  }
+
+  button {
+    opacity: 0;
+    padding: 16px 32px;
+    border-radius: 0 0 5px 5px;
+    border: 2px solid var(--cx-color-dark);
+    border-top-width: 0;
+    position: absolute;
+    font-weight: bold;
+
+    &:focus {
+      opacity: 1;
+      // ensure the button is at the top in case the user starts using the mouse
+      z-index: 12;
+    }
+  }
+}

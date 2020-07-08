@@ -1,5 +1,4 @@
 import { Location } from '@angular/common';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -8,7 +7,7 @@ import { SiteContextRoutesHandler } from './site-context-routes-handler';
 import { SiteContextUrlSerializer } from './site-context-url-serializer';
 import createSpy = jasmine.createSpy;
 
-describe('SiteContextRoutesHandlerService', () => {
+describe('SiteContextRoutesHandler', () => {
   let mockRouterEvents;
   let mockRouter;
   let mockLocation;
@@ -24,8 +23,8 @@ describe('SiteContextRoutesHandlerService', () => {
     mockRouter = {
       events: mockRouterEvents,
       url: 'test',
-      parseUrl: createSpy().and.callFake(url => url + '_a'),
-      serializeUrl: createSpy().and.callFake(url => url + '_b'),
+      parseUrl: createSpy().and.callFake((url) => url + '_a'),
+      serializeUrl: createSpy().and.callFake((url) => url + '_b'),
     };
 
     mockLocation = {
@@ -46,7 +45,7 @@ describe('SiteContextRoutesHandlerService', () => {
     };
 
     mockSiteContextUrlSerializer = {
-      urlExtractContextParameters: url => ({ params: { language: url } }),
+      urlExtractContextParameters: (url) => ({ params: { language: url } }),
     };
 
     TestBed.configureTestingModule({
@@ -71,9 +70,7 @@ describe('SiteContextRoutesHandlerService', () => {
       ],
     });
 
-    service = TestBed.get(SiteContextRoutesHandler as Type<
-      SiteContextRoutesHandler
-    >);
+    service = TestBed.inject(SiteContextRoutesHandler);
     service.init();
   });
 
@@ -81,12 +78,24 @@ describe('SiteContextRoutesHandlerService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should set context parameter from route on init', () => {
-    service.init();
-    expect(mockSiteContextParamsService.setValue).toHaveBeenCalledWith(
-      'language',
-      'test'
-    );
+  describe('init', () => {
+    it('should return promise that will be resolved after first route navigation', (done) => {
+      let resolved = false;
+
+      service.init().then(() => {
+        resolved = true;
+      });
+
+      setTimeout(() => {
+        expect(resolved).toBe(false);
+        mockRouterEvents.next(new NavigationStart(1, 'en'));
+      }, 0);
+
+      setTimeout(() => {
+        expect(resolved).toBe(true);
+        done();
+      }, 1);
+    });
   });
 
   it('should set context parameter on route navigation', () => {

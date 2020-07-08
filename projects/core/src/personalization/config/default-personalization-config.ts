@@ -7,5 +7,9 @@ export const defaultPersonalizationConfig: PersonalizationConfig = {
       id: 'Occ-Personalization-Id',
       timestamp: 'Occ-Personalization-Time',
     },
+    context: {
+      slotPosition: 'PlaceholderContentSlot',
+      componentId: 'PersonalizationScriptComponent',
+    },
   },
 };

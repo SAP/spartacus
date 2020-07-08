@@ -14,18 +14,12 @@ import { getProductsState } from './feature.selector';
 export const getProductsSearchState: MemoizedSelector<
   StateWithProduct,
   ProductsSearchState
-> = createSelector(
-  getProductsState,
-  (state: ProductsState) => state.search
-);
+> = createSelector(getProductsState, (state: ProductsState) => state.search);
 
 export const getSearchResults: MemoizedSelector<
   StateWithProduct,
   ProductSearchPage
-> = createSelector(
-  getProductsSearchState,
-  fromProductSearch.getSearchResults
-);
+> = createSelector(getProductsSearchState, fromProductSearch.getSearchResults);
 
 export const getAuxSearchResults: MemoizedSelector<
   StateWithProduct,

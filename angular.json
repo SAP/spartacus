@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "projects",
+  "newProjectRoot": "feature-libs",
   "projects": {
     "storefrontapp": {
       "root": "projects/storefrontapp/",
@@ -11,8 +11,12 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.js"
+            },
+            "aot": true,
             "outputPath": "dist/storefrontapp",
             "index": "projects/storefrontapp/src/index.html",
             "main": "projects/storefrontapp/src/main.ts",
@@ -33,6 +37,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "projects/storefrontapp/src/environments/environment.ts",
@@ -50,48 +60,11 @@
               "buildOptimizer": true,
               "serviceWorker": true,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
-            },
-            "ci": {
-              "fileReplacements": [
-                {
-                  "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.ci.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
-            },
-            "qa": {
-              "fileReplacements": [
-                {
-                  "replace": "projects/storefrontapp/src/environments/environment.ts",
-                  "with": "projects/storefrontapp/src/environments/environment.qa.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "serviceWorker": true,
-              "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             }
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "storefrontapp:build"
           },
@@ -101,12 +74,6 @@
             },
             "development": {
               "browserTarget": "storefrontapp:build:development"
-            },
-            "ci": {
-              "browserTarget": "storefrontapp:build:ci"
-            },
-            "qa": {
-              "browserTarget": "storefrontapp:build:qa"
             }
           }
         },
@@ -144,17 +111,52 @@
           }
         },
         "server": {
-          "builder": "@angular-devkit/build-angular:server",
+          "builder": "@angular-builders/custom-webpack:server",
           "options": {
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.js"
+            },
             "outputPath": "dist/storefrontapp-server",
-            "main": "projects/storefrontapp/src/main.server.ts",
-            "tsConfig": "projects/storefrontapp/tsconfig.server.json",
-            "fileReplacements": [
-              {
-                "replace": "projects/storefrontapp/src/environments/environment.ts",
-                "with": "projects/storefrontapp/src/environments/environment.prod.ts"
-              }
-            ]
+            "main": "projects/storefrontapp/server.ts",
+            "tsConfig": "projects/storefrontapp/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "projects/storefrontapp/src/environments/environment.ts",
+                  "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true,
+              "tsConfig": "projects/storefrontapp/tsconfig.server.prod.json"
+            }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "storefrontapp:build",
+            "serverTarget": "storefrontapp:server"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "storefrontapp:build:production",
+              "serverTarget": "storefrontapp:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "storefrontapp:build:production",
+            "serverTarget": "storefrontapp:server:production",
+            "routes": ["/"]
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }
@@ -170,6 +172,11 @@
           "options": {
             "tsConfig": "projects/storefrontlib/tsconfig.lib.json",
             "project": "projects/storefrontlib/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/storefrontlib/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -207,6 +214,11 @@
           "options": {
             "tsConfig": "projects/core/tsconfig.lib.json",
             "project": "projects/core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/core/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -240,6 +252,11 @@
           "options": {
             "tsConfig": "projects/vendor/tsconfig.lib.json",
             "project": "projects/vendor/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/vendor/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -273,6 +290,11 @@
           "options": {
             "tsConfig": "projects/assets/tsconfig.lib.json",
             "project": "projects/assets/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/assets/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
@@ -289,6 +311,158 @@
             "tsConfig": [
               "projects/assets/tsconfig.lib.json",
               "projects/assets/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "incubator": {
+      "root": "projects/incubator",
+      "sourceRoot": "projects/incubator/src",
+      "projectType": "library",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/incubator/tsconfig.lib.json",
+            "project": "projects/incubator/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/incubator/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/incubator/src/test.ts",
+            "tsConfig": "projects/incubator/tsconfig.spec.json",
+            "karmaConfig": "projects/incubator/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/incubator/tsconfig.lib.json",
+              "projects/incubator/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "cds": {
+      "projectType": "library",
+      "root": "projects/cds",
+      "sourceRoot": "projects/cds/src",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/cds/tsconfig.lib.json",
+            "project": "projects/cds/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/cds/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/cds/src/test.ts",
+            "tsConfig": "projects/cds/tsconfig.spec.json",
+            "karmaConfig": "projects/cds/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/cds/tsconfig.lib.json",
+              "projects/cds/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "my-account": {
+      "projectType": "library",
+      "root": "feature-libs/my-account",
+      "sourceRoot": "feature-libs/my-account/src",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "feature-libs/my-account/tsconfig.lib.json",
+            "project": "feature-libs/my-account/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/my-account/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/my-account/src/test.ts",
+            "tsConfig": "feature-libs/my-account/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/my-account/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "feature-libs/my-account/tsconfig.lib.json",
+              "feature-libs/my-account/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "product": {
+      "projectType": "library",
+      "root": "feature-libs/product",
+      "sourceRoot": "feature-libs/product",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "feature-libs/product/tsconfig.lib.json",
+            "project": "feature-libs/product/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/product/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/product/test.ts",
+            "tsConfig": "feature-libs/product/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/product/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "feature-libs/product/tsconfig.lib.json",
+              "feature-libs/product/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }

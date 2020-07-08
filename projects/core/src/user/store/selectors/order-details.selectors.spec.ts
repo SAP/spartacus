@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Order } from '../../../model/order.model';
@@ -17,7 +16,7 @@ describe('Order Details Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
   describe('getOrderDetails', () => {
@@ -25,7 +24,7 @@ describe('Order Details Selectors', () => {
       let result: Order;
       store
         .pipe(select(UsersSelectors.getOrderDetails))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).not.toBeNull();
     });
   });

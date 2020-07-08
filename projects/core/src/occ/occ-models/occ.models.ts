@@ -1930,6 +1930,62 @@ export namespace Occ {
   }
 
   /**
+   * An interface representing CustomerCoupon
+   */
+  export interface CustomerCoupon {
+    /**
+     * @member {string} [couponId]
+     */
+    couponId?: string;
+    /**
+     * @member {string} [name]
+     */
+    name?: string;
+    /**
+     * @member {string} [startDate]
+     */
+    startDate?: string;
+    /**
+     * @member {string} [endDate]
+     */
+    endDate?: string;
+    /**
+     * @member {string} [endDate]
+     */
+    status?: string;
+    /**
+     * @member {string} [description]
+     */
+    description?: string;
+    /**
+     * @member {boolean} [notificationOn]
+     */
+    notificationOn?: boolean;
+    /**
+     * @member {boolean} [allProductsApplicable]
+     */
+    allProductsApplicable?: boolean;
+  }
+
+  /**
+   * An interface representing CustomerCouponSearchResult
+   */
+  export interface CustomerCouponSearchResult {
+    /**
+     * @member {CustomerCoupon[]} [coupons]
+     */
+    coupons?: CustomerCoupon[];
+    /**
+     * @member {Sort[]} [sorts]
+     */
+    sorts?: Sort[];
+    /**
+     * @member {Pagination} [pagination]
+     */
+    pagination?: Pagination;
+  }
+
+  /**
    *
    * An interface representing DeliveryModeList.
    */
@@ -2363,6 +2419,80 @@ export namespace Occ {
      * @member {Principal} [user]
      */
     user?: Principal;
+  }
+
+  /**
+   *
+   * An interface representing ReturnRequest.
+   */
+  export interface ReturnRequest {
+    /**
+     * @member {boolean} [cancellable]
+     */
+    cancellable?: boolean;
+    /**
+     * @member {string} [code]
+     */
+    code?: string;
+    /**
+     * @member {Date} [creationTime]
+     */
+    creationTime?: Date;
+    /**
+     * @member {Price} [deliveryCost]
+     */
+    deliveryCost?: Price;
+    /**
+     * @member {order} [order]
+     */
+    order?: Order;
+    /**
+     * @member {boolean} [refundDeliveryCost]
+     */
+    refundDeliveryCost?: boolean;
+    /**
+     * @member {ReturnRequestEntry[]} [returnEntries]
+     */
+    returnEntries?: ReturnRequestEntry[];
+    /**
+     * @member {string} [returnLabelDownloadUrl]
+     */
+    returnLabelDownloadUrl?: string;
+    /**
+     * @member {string} [rma]
+     */
+    rma?: string;
+    /**
+     * @member {string} [status]
+     */
+    status?: string;
+    /**
+     * @member {Price} [subTotal]
+     */
+    subTotal?: Price;
+    /**
+     * @member {Price} [totalPrice]
+     */
+    totalPrice?: Price;
+  }
+
+  /**
+   *
+   * An interface representing ReturnRequestEntry.
+   */
+  export interface ReturnRequestEntry {
+    /**
+     * @member {OrderEntry} [orderEntry]
+     */
+    orderEntry?: OrderEntry;
+    /**
+     * @member {number} [expectedQuantity]
+     */
+    expectedQuantity?: number;
+    /**
+     * @member {Price} [refundAmount]
+     */
+    refundAmount?: Price;
   }
 
   /**
@@ -3991,5 +4121,26 @@ export namespace Occ {
     defaultCurrency?: Currency;
     languages?: Language[];
     defaultLanguage?: Language;
+  }
+
+  export interface ProductInterestEntry {
+    interestType?: NotificationType;
+    dateAdded?: string;
+    expirationDate?: string;
+  }
+
+  export interface ProductInterestEntryRelation {
+    product?: Product;
+    productInterestEntry?: ProductInterestEntry[];
+  }
+
+  export interface ProductInterestSearchResult {
+    results?: ProductInterestEntryRelation[];
+    sorts?: Sort[];
+    pagination?: Pagination;
+  }
+
+  export enum NotificationType {
+    BACK_IN_STOCK = 'BACK_IN_STOCK',
   }
 }

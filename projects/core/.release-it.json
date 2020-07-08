@@ -10,6 +10,19 @@
     "publishPath": "./../../dist/core"
   },
   "hooks": {
-    "after:version:bump": "cd ../.. && ng build core"
+    "after:version:bump": "cd ../.. && ng build core --prod"
+  },
+  "github": {
+    "release": true,
+    "assets": [
+      "../../docs.tar.gz",
+      "../../docs.zip",
+      "../../spartacussampledataaddon.1905.zip",
+      "../../spartacussampledataaddon.1905.tar.gz",
+      "../../spartacussampledataaddon.2005.zip",
+      "../../spartacussampledataaddon.2005.tar.gz"
+    ],
+    "releaseName": "@spartacus/core@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib core --to core-${version}"
   }
 }

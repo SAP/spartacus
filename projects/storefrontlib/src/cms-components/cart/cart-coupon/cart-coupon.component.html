@@ -2,28 +2,26 @@
   <div class="cx-cart-coupon-title">
     {{ 'voucher.coupon' | cxTranslate }}
   </div>
-  <div class="form-group ">
-    <form (submit)="applyVoucher()" [formGroup]="form">
-      <div class="row">
-        <div class="col-md-8">
-          <input
-            type="text"
-            class="form-control input-coupon-code"
-            id="applyVoucher"
-            formControlName="couponCode"
-            placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
-          />
-        </div>
-        <div class="col-md-4">
-          <button
-            class="btn btn-block btn-action apply-coupon-button"
-            type="submit"
-            [disabled]="submitDisabled$ | async"
-            [class.disabled]="submitDisabled$ | async"
-          >
-            {{ 'voucher.apply' | cxTranslate }}
-          </button>
-        </div>
+  <div class="form-group">
+    <form (ngSubmit)="applyVoucher()" [formGroup]="couponForm">
+      <div class="cx-cart-coupon-container">
+        <input
+          type="text"
+          class="form-control input-coupon-code"
+          formControlName="couponCode"
+          placeholder="{{ 'voucher.placeholder' | cxTranslate }}"
+        />
+        <button
+          class="btn btn-block btn-action apply-coupon-button"
+          type="submit"
+          [disabled]="cartIsLoading$ | async"
+          [class.disabled]="cartIsLoading$ | async"
+        >
+          {{ 'voucher.apply' | cxTranslate }}
+        </button>
+        <cx-form-errors
+          [control]="couponForm.get('couponCode')"
+        ></cx-form-errors>
       </div>
     </form>
   </div>
@@ -34,4 +32,27 @@
     [isReadOnly]="false"
   >
   </cx-applied-coupons>
+
+  <ng-container *ngIf="applicableCoupons && applicableCoupons.length > 0">
+    <div class="cx-available-coupon">
+      <div class="title cx-cart-coupon-title">
+        {{ 'voucher.availableCoupons' | cxTranslate }}
+      </div>
+      <div class="message">
+        {{ 'voucher.availableCouponsLabel' | cxTranslate }}
+      </div>
+      <div class="scroll">
+        <div class="coupons card" *ngFor="let coupon of applicableCoupons">
+          <button
+            (click)="applyCustomerCoupon(coupon.couponId)"
+            class="coupon-id link"
+            [disabled]="cartIsLoading$ | async"
+            [class.disabled]="cartIsLoading$ | async"
+          >
+            {{ coupon.couponId }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </ng-container>

@@ -72,10 +72,10 @@ describe(`OccConfigLoaderService`, () => {
       ],
     });
 
-    service = TestBed.get(OccConfigLoaderService);
-    transferState = TestBed.get(TransferState);
-    converter = TestBed.get(OccLoadedConfigConverter);
-    sitesConfigLoader = TestBed.get(OccSitesConfigLoader);
+    service = TestBed.inject(OccConfigLoaderService);
+    transferState = TestBed.inject(TransferState);
+    converter = TestBed.inject(OccLoadedConfigConverter);
+    sitesConfigLoader = TestBed.inject(OccSitesConfigLoader);
 
     spyOn(transferState, 'set');
   }
@@ -103,7 +103,7 @@ describe(`OccConfigLoaderService`, () => {
             rehydratedExternalConfig
           );
           expect(transferState.get).toHaveBeenCalledWith(
-            'cx-external-config',
+            'cx-external-config' as any,
             undefined
           );
           expect(result).toEqual({
@@ -177,7 +177,7 @@ describe(`OccConfigLoaderService`, () => {
         await service.loadConfig();
 
         expect(transferState.set).toHaveBeenCalledWith(
-          'cx-external-config',
+          'cx-external-config' as any,
           mockExternalConfig
         );
       });

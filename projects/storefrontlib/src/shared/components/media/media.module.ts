@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { MediaComponent } from './media.component';
 
 @NgModule({
@@ -7,4 +7,10 @@ import { MediaComponent } from './media.component';
   declarations: [MediaComponent],
   exports: [MediaComponent],
 })
-export class MediaModule {}
+export class MediaModule {
+  static forRoot(): ModuleWithProviders<MediaModule> {
+    return {
+      ngModule: MediaModule,
+    };
+  }
+}

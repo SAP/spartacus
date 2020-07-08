@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ConverterService,
@@ -14,13 +13,12 @@ import { SearchConfig } from '../../../product/model/search-config';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccProductSearchAdapter } from './occ-product-search.adapter';
-
 import createSpy = jasmine.createSpy;
 
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // tslint:disable-next-line:no-shadowed-variable
-    url => url
+    (url) => url
   );
 }
 
@@ -48,14 +46,10 @@ describe('OccProductSearchAdapter', () => {
         },
       ],
     });
-    service = TestBed.get(OccProductSearchAdapter as Type<
-      OccProductSearchAdapter
-    >);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
-    endpoints = TestBed.get(OccEndpointsService as Type<OccEndpointsService>);
+    service = TestBed.inject(OccProductSearchAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    endpoints = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -71,12 +65,12 @@ describe('OccProductSearchAdapter', () => {
 
   describe('query text search', () => {
     it('should return search results for given query text', () => {
-      service.search(queryText, mockSearchConfig).subscribe(result => {
+      service.search(queryText, mockSearchConfig).subscribe((result) => {
         expect(result).toEqual(searchResults);
       });
 
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'productSearch'
+        (req) => req.method === 'GET' && req.url === 'productSearch'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -108,12 +102,12 @@ describe('OccProductSearchAdapter', () => {
     it('should return suggestions for given term', () => {
       service
         .loadSuggestions(queryText, mockSearchConfig.pageSize)
-        .subscribe(suggestions => {
+        .subscribe((suggestions) => {
           expect(suggestions).toEqual(suggestionList.suggestions);
         });
 
       const mockReq = httpMock.expectOne(
-        req => req.method === 'GET' && req.url === 'productSuggestions'
+        (req) => req.method === 'GET' && req.url === 'productSuggestions'
       );
 
       expect(mockReq.cancelled).toBeFalsy();

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AnonymousConsentsService,
@@ -6,8 +5,7 @@ import {
   I18nTestingModule,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { AnonymousConsentDialogComponent } from '../../../shared/components/anonymous-consents/dialog/anonymous-consent-dialog.component';
-import { ModalOptions, ModalRef, ModalService } from '../../../shared/index';
+import { AnonymousConsentLaunchDialogService } from '../anonymous-consent-launch-dialog.service';
 import { AnonymousConsentManagementBannerComponent } from './anonymous-consent-management-banner.component';
 
 class MockAnonymousConsentsService {
@@ -23,17 +21,15 @@ class MockAnonymousConsentsService {
   toggleBannerDismissed(_dismissed: boolean): void {}
 }
 
-class MockModalService {
-  open(_content: any, _options?: ModalOptions): ModalRef {
-    return undefined;
-  }
+class MockAnonymousConsentLaunchDialogService {
+  openDialog() {}
 }
 
 describe('AnonymousConsentManagementBannerComponent', () => {
   let component: AnonymousConsentManagementBannerComponent;
   let fixture: ComponentFixture<AnonymousConsentManagementBannerComponent>;
   let anonymousConsentsService: AnonymousConsentsService;
-  let modalService: ModalService;
+  let anonymousConsentLaunchDialogService: AnonymousConsentLaunchDialogService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -45,8 +41,8 @@ describe('AnonymousConsentManagementBannerComponent', () => {
           useClass: MockAnonymousConsentsService,
         },
         {
-          provide: ModalService,
-          useClass: MockModalService,
+          provide: AnonymousConsentLaunchDialogService,
+          useClass: MockAnonymousConsentLaunchDialogService,
         },
       ],
     }).compileComponents();
@@ -57,10 +53,10 @@ describe('AnonymousConsentManagementBannerComponent', () => {
       AnonymousConsentManagementBannerComponent
     );
     component = fixture.componentInstance;
-    anonymousConsentsService = TestBed.get(AnonymousConsentsService as Type<
-      AnonymousConsentsService
-    >);
-    modalService = TestBed.get(ModalService as Type<ModalService>);
+    anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
+    anonymousConsentLaunchDialogService = TestBed.inject(
+      AnonymousConsentLaunchDialogService
+    );
 
     fixture.detectChanges();
   });
@@ -72,18 +68,14 @@ describe('AnonymousConsentManagementBannerComponent', () => {
   describe('viewDetails', () => {
     it('should hide the banner and open the dialog', () => {
       spyOn(component, 'hideBanner').and.stub();
-      spyOn(modalService, 'open').and.stub();
+      spyOn(anonymousConsentLaunchDialogService, 'openDialog');
 
       component.viewDetails();
 
       expect(component.hideBanner).toHaveBeenCalled();
-      expect(modalService.open).toHaveBeenCalledWith(
-        AnonymousConsentDialogComponent,
-        {
-          centered: true,
-          size: 'lg',
-        }
-      );
+      expect(
+        anonymousConsentLaunchDialogService.openDialog
+      ).toHaveBeenCalledWith(null, component['vcr']);
     });
   });
 

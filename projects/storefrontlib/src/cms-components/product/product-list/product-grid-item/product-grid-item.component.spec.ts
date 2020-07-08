@@ -8,12 +8,14 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ProductGridItemComponent } from './product-grid-item.component';
+import { I18nTestingModule } from '@spartacus/core';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
 })
-export class MockAddToCartComponent {
+class MockAddToCartComponent {
   @Input() product;
   @Input() showQuantity;
 }
@@ -22,7 +24,7 @@ export class MockAddToCartComponent {
   selector: 'cx-star-rating',
   template: '*****',
 })
-export class MockStarRatingComponent {
+class MockStarRatingComponent {
   @Input() rating;
   @Input() disabled;
   @Input() steps;
@@ -32,7 +34,7 @@ export class MockStarRatingComponent {
   selector: 'cx-media',
   template: 'mock picture component',
 })
-export class MockMediaComponent {
+class MockMediaComponent {
   @Input() container;
   @Input() alt;
 }
@@ -41,7 +43,7 @@ export class MockMediaComponent {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 
@@ -50,6 +52,14 @@ export class MockCxIconComponent {
 })
 class MockUrlPipe implements PipeTransform {
   transform() {}
+}
+
+@Component({
+  selector: 'cx-variant-style-icons',
+  template: 'test',
+})
+class MockStyleIconsComponent {
+  @Input() variants: any[];
 }
 
 describe('ProductGridItemComponent in product-list', () => {
@@ -74,7 +84,7 @@ describe('ProductGridItemComponent in product-list', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         ProductGridItemComponent,
         MockMediaComponent,
@@ -82,6 +92,8 @@ describe('ProductGridItemComponent in product-list', () => {
         MockStarRatingComponent,
         MockUrlPipe,
         MockCxIconComponent,
+        MockStyleIconsComponent,
+        MockFeatureLevelDirective,
       ],
     })
       .overrideComponent(ProductGridItemComponent, {
@@ -126,6 +138,23 @@ describe('ProductGridItemComponent in product-list', () => {
     expect(
       fixture.debugElement.nativeElement.querySelector('cx-star-rating')
     ).not.toBeNull();
+  });
+
+  it('should not display rating component when rating is unavailable', () => {
+    component.product.averageRating = undefined;
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.nativeElement.querySelector('cx-star-rating')
+    ).toBeNull();
+  });
+
+  it('should display noReviews when rating is unavailable', () => {
+    component.product.averageRating = undefined;
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.nativeElement.querySelector('.cx-product-rating')
+        .textContent
+    ).toContain('productDetails.noReviews');
   });
 
   it('should display add to cart component', () => {

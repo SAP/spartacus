@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { PointOfService } from '../../model/point-of-service.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class StoreDataService {
   readonly DECIMAL_BASE: 10;
   readonly weekDays = {
@@ -78,7 +80,7 @@ export class StoreDataService {
   protected getSchedule(location: PointOfService, date: Date): any {
     const weekday = this.weekDays[date.getDay()];
     return location.openingHours.weekDayOpeningList.find(
-      weekDayOpeningListItem => weekDayOpeningListItem.weekDay === weekday
+      (weekDayOpeningListItem) => weekDayOpeningListItem.weekDay === weekday
     );
   }
 }

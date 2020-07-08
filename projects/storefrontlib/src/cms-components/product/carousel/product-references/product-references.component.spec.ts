@@ -3,7 +3,7 @@ import {
   Input,
   Pipe,
   PipeTransform,
-  TemplateRef,
+  TemplateRef
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -12,7 +12,7 @@ import {
   CmsProductReferencesComponent,
   Product,
   ProductReference,
-  ProductReferenceService,
+  ProductReferenceService
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
@@ -27,7 +27,7 @@ import { ProductReferencesComponent } from './product-references.component';
         *ngTemplateOutlet="template; context: { item: item$ | async }"
       ></ng-container>
     </ng-container>
-  `,
+  `
 })
 class MockCarouselComponent {
   @Input() title: string;
@@ -36,7 +36,7 @@ class MockCarouselComponent {
 }
 
 @Pipe({
-  name: 'cxUrl',
+  name: 'cxUrl'
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -44,7 +44,7 @@ class MockUrlPipe implements PipeTransform {
 
 @Component({
   selector: 'cx-media',
-  template: '',
+  template: ''
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -52,7 +52,7 @@ class MockMediaComponent {
 }
 
 const mockProduct: Product = {
-  code: '1',
+  code: '1'
 };
 
 const mockProductReferences = [
@@ -61,36 +61,36 @@ const mockProductReferences = [
       code: '111',
       name: 'product reference 1',
       price: {
-        formattedValue: '$100.00',
+        formattedValue: '$100.00'
       },
       images: {
         PRIMARY: {
           image: {
-            url: 'whatever.jpg',
-          },
-        },
-      },
-    },
+            url: 'whatever.jpg'
+          }
+        }
+      }
+    }
   },
   {
     target: {
       code: '222',
       name: 'product reference 2',
       price: {
-        formattedValue: '$200.00',
-      },
-    },
-  },
+        formattedValue: '$200.00'
+      }
+    }
+  }
 ];
 
 const mockComponentData: CmsProductReferencesComponent = {
   uid: '001',
   typeCode: 'ProductCarouselComponent',
-  productReferenceTypes: 'UPSELL',
+  productReferenceTypes: 'UPSELL'
 };
 
 const MockCmsProductCarouselComponent = <CmsComponentData<any>>{
-  data$: of(mockComponentData),
+  data$: of(mockComponentData)
 };
 
 class MockCurrentProductService {
@@ -118,22 +118,22 @@ describe('ProductReferencesComponent', () => {
         ProductReferencesComponent,
         MockCarouselComponent,
         MockMediaComponent,
-        MockUrlPipe,
+        MockUrlPipe
       ],
       providers: [
         {
           provide: CmsComponentData,
-          useValue: MockCmsProductCarouselComponent,
+          useValue: MockCmsProductCarouselComponent
         },
         {
           provide: CurrentProductService,
-          useClass: MockCurrentProductService,
+          useClass: MockCurrentProductService
         },
         {
           provide: ProductReferenceService,
-          useClass: MockProductReferenceService,
-        },
-      ],
+          useClass: MockProductReferenceService
+        }
+      ]
     }).compileComponents();
   }));
 
@@ -192,4 +192,9 @@ describe('ProductReferencesComponent', () => {
     );
     expect(el).toBeNull();
   }));
+
+  it('should render missing product image for the 2nd item as well', async () => {
+    const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
+    expect(el.nativeElement).toBeTruthy();
+  });
 });

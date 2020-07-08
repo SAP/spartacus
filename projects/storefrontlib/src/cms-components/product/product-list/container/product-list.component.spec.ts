@@ -1,4 +1,4 @@
-import { Component, Input, Pipe, PipeTransform, Type } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,6 +13,7 @@ import {
   SpinnerModule,
 } from '../../../../shared';
 import { ViewConfig } from '../../../../shared/config/view-config';
+import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
@@ -62,7 +63,7 @@ class MockUrlPipe implements PipeTransform {
   selector: 'cx-icon',
   template: '',
 })
-export class MockCxIconComponent {
+class MockCxIconComponent {
   @Input() type;
 }
 
@@ -70,20 +71,19 @@ export class MockCxIconComponent {
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
 })
-export class MockAddToCartComponent {
+class MockAddToCartComponent {
   @Input() product;
   @Input() showQuantity;
 }
 
-export class MockProductListComponentService {
+class MockProductListComponentService {
   setQuery = createSpy('setQuery');
   viewPage = createSpy('viewPage');
   sort = createSpy('sort');
-  clearSearchResults = createSpy('clearSearchResults');
   model$ = of({});
 }
 
-export class MockViewConfig {
+class MockViewConfig {
   view = {
     infiniteScroll: {
       active: true,
@@ -91,6 +91,14 @@ export class MockViewConfig {
       showMoreButton: false,
     },
   };
+}
+
+@Component({
+  selector: 'cx-variant-style-icons',
+  template: 'test',
+})
+class MockStyleIconsComponent {
+  @Input() variants: any[];
 }
 
 describe('ProductListComponent', () => {
@@ -135,6 +143,8 @@ describe('ProductListComponent', () => {
         MockUrlPipe,
         MockCxIconComponent,
         ProductScrollComponent,
+        MockStyleIconsComponent,
+        MockFeatureLevelDirective,
       ],
     }).compileComponents();
   }));
@@ -142,9 +152,7 @@ describe('ProductListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
-    componentService = TestBed.get(ProductListComponentService as Type<
-      ProductListComponentService
-    >);
+    componentService = TestBed.inject(ProductListComponentService);
   });
 
   it('should create', () => {
@@ -156,10 +164,6 @@ describe('ProductListComponent', () => {
       component.ngOnInit();
     });
 
-    it('should clear search results', () => {
-      expect(componentService.clearSearchResults).toHaveBeenCalled();
-    });
-
     it('should get model from the service', () => {
       expect(component.model$).toBe(componentService.model$);
     });
@@ -167,11 +171,6 @@ describe('ProductListComponent', () => {
     it('should use infinite scroll when config setting is active', () => {
       expect(component.isInfiniteScroll).toEqual(true);
     });
-  });
-
-  it('viewPage should call service.viewPage', () => {
-    component.viewPage(123);
-    expect(componentService.viewPage).toHaveBeenCalledWith(123);
   });
 
   it('sortList should call service.sort', () => {

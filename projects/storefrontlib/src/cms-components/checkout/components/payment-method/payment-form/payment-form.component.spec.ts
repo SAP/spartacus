@@ -5,19 +5,29 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Address,
+  AddressValidation,
   CardType,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   Country,
   GlobalMessageService,
   I18nTestingModule,
+  Region,
+  UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ModalService } from '../../../../../shared/components/modal/index';
+import { FormErrorsModule } from '../../../../../shared/index';
 import { ICON_TYPE } from '../../../../misc/icon/index';
 import { PaymentFormComponent } from './payment-form.component';
 import createSpy = jasmine.createSpy;
+
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockSpinnerComponent {}
 
 const mockBillingCountries: Country[] = [
   {
@@ -25,6 +35,8 @@ const mockBillingCountries: Country[] = [
     name: 'Canada',
   },
 ];
+
+const mockBillingCountriesEmpty: Country[] = [];
 
 const mockBillingAddress: Address = {
   firstName: 'John',
@@ -60,6 +72,18 @@ const mockCardTypes: CardType[] = [
   },
 ];
 
+const mockPayment: any = {
+  cardType: {
+    code: mockCardTypes[0].code,
+  },
+  accountHolderName: 'Test Name',
+  cardNumber: '1234123412341234',
+  expiryMonth: '02',
+  expiryYear: 2022,
+  cvn: '123',
+  defaultPayment: false,
+};
+
 @Component({
   selector: 'cx-billing-address-form',
   template: '',
@@ -93,14 +117,23 @@ class MockCheckoutPaymentService {
   getCardTypes(): Observable<CardType[]> {
     return of();
   }
+
+  getSetPaymentDetailsResultProcess() {
+    return of({ loading: false });
+  }
 }
+
 class MockCheckoutDeliveryService {
   getDeliveryAddress(): Observable<Address> {
     return of(null);
   }
-  getAddressVerificationResults(): Observable<string> {
+  getAddressVerificationResults(): Observable<AddressValidation> {
     return of();
   }
+
+  verifyAddress(_address: Address): void {}
+
+  clearAddressVerificationResults(): void {}
 }
 
 class MockUserPaymentService {
@@ -114,6 +147,33 @@ class MockGlobalMessageService {
   add = createSpy();
 }
 
+const mockSuggestedAddressModalRef: any = {
+  componentInstance: {
+    enteredAddress: '',
+    suggestedAddresses: '',
+  },
+  result: new Promise((resolve) => {
+    return resolve(true);
+  }),
+};
+
+class MockModalService {
+  open(): any {
+    return mockSuggestedAddressModalRef;
+  }
+}
+
+class MockUserAddressService {
+  getRegions(): Observable<Region[]> {
+    return of([]);
+  }
+}
+
+const mockAddressValidation: AddressValidation = {
+  decision: 'test address validation',
+  suggestedAddresses: [{ id: 'address1' }],
+};
+
 describe('PaymentFormComponent', () => {
   let component: PaymentFormComponent;
   let fixture: ComponentFixture<PaymentFormComponent>;
@@ -121,7 +181,8 @@ describe('PaymentFormComponent', () => {
   let mockCheckoutPaymentService: MockCheckoutPaymentService;
   let mockUserPaymentService: MockUserPaymentService;
   let mockGlobalMessageService: MockGlobalMessageService;
-  let showSameAsShippingAddressCheckboxSpy: jasmine.Spy;
+  let mockModalService: MockModalService;
+  let mockUserAddressService: MockUserAddressService;
 
   let controls: {
     payment: FormGroup['controls'];
@@ -133,17 +194,25 @@ describe('PaymentFormComponent', () => {
     mockCheckoutPaymentService = new MockCheckoutPaymentService();
     mockUserPaymentService = new MockUserPaymentService();
     mockGlobalMessageService = new MockGlobalMessageService();
+    mockModalService = new MockModalService();
+    mockUserAddressService = new MockUserAddressService();
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        FormErrorsModule,
+      ],
       declarations: [
         PaymentFormComponent,
         MockCardComponent,
         MockBillingAddressFormComponent,
         MockCxIconComponent,
+        MockSpinnerComponent,
       ],
       providers: [
-        { provide: ModalService, useValue: { open: () => {} } },
+        { provide: ModalService, useClass: MockModalService },
         {
           provide: CheckoutPaymentService,
           useValue: mockCheckoutPaymentService,
@@ -154,6 +223,7 @@ describe('PaymentFormComponent', () => {
         },
         { provide: UserPaymentService, useValue: mockUserPaymentService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+        { provide: UserAddressService, useValue: mockUserAddressService },
       ],
     })
       .overrideComponent(PaymentFormComponent, {
@@ -166,17 +236,12 @@ describe('PaymentFormComponent', () => {
     fixture = TestBed.createComponent(PaymentFormComponent);
     component = fixture.componentInstance;
     controls = {
-      payment: component.payment.controls,
-      billingAddress: component.billingAddress.controls,
+      payment: component.paymentForm.controls,
+      billingAddress: component.billingAddressForm.controls,
     };
 
     spyOn(component.setPaymentDetails, 'emit').and.callThrough();
     spyOn(component.closeForm, 'emit').and.callThrough();
-
-    showSameAsShippingAddressCheckboxSpy = spyOn(
-      component,
-      'showSameAsShippingAddressCheckbox'
-    ).and.returnValue(of(true));
   });
 
   it('should be created', () => {
@@ -193,7 +258,7 @@ describe('PaymentFormComponent', () => {
     });
   });
 
-  it('should call ngOnInit to get supported card types if they do not exist', done => {
+  it('should call ngOnInit to get supported card types if they do not exist', (done) => {
     spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(of([]));
     component.ngOnInit();
     component.cardTypes$.subscribe(() => {
@@ -230,22 +295,85 @@ describe('PaymentFormComponent', () => {
     });
   });
 
-  it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
-    component.payment.value.defaultPayment = false;
-    component.toggleDefaultPaymentMethod();
-    expect(component.payment.value.defaultPayment).toBeTruthy();
+  it('should call ngOnInit to load billing countries', () => {
+    spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
+      of(mockBillingCountriesEmpty)
+    );
+    component.ngOnInit();
+    component.countries$.subscribe((countries: Country[]) => {
+      expect(countries).toBe(mockBillingCountriesEmpty);
+      expect(mockUserPaymentService.loadBillingCountries).toHaveBeenCalled();
+    });
+  });
+
+  it('should clear address verification result with address verification result "fail"', () => {
+    const mockAddressVerificationResult: AddressValidation = {
+      decision: 'FAIL',
+    };
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getAddressVerificationResults'
+    ).and.returnValue(of(mockAddressVerificationResult));
+    spyOn(mockCheckoutDeliveryService, 'clearAddressVerificationResults');
+    component.ngOnInit();
+    expect(
+      mockCheckoutDeliveryService.clearAddressVerificationResults
+    ).toHaveBeenCalled();
+  });
+
+  it('should add address with address verification result "accept"', () => {
+    const mockAddressVerificationResult = { decision: 'ACCEPT' };
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getAddressVerificationResults'
+    ).and.returnValue(of(mockAddressVerificationResult));
+    spyOn(component, 'next');
+    component.ngOnInit();
+    expect(component.next).toHaveBeenCalled();
+  });
+
+  it('should clear address verification result with address verification result "reject"', () => {
+    const mockAddressVerificationResult: AddressValidation = {
+      decision: 'REJECT',
+    };
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getAddressVerificationResults'
+    ).and.returnValue(of(mockAddressVerificationResult));
+    component.ngOnInit();
+    expect(mockGlobalMessageService.add).toHaveBeenCalled();
+  });
+
+  it('should clear address verification result with address verification result "review"', () => {
+    const mockAddressVerificationResult: AddressValidation = {
+      decision: 'REVIEW',
+    };
+    spyOn(
+      mockCheckoutDeliveryService,
+      'getAddressVerificationResults'
+    ).and.returnValue(of(mockAddressVerificationResult));
+    spyOn(component, 'openSuggestedAddress');
+    component.ngOnInit();
+    expect(component.openSuggestedAddress).toHaveBeenCalled();
   });
 
   it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
-    component.payment.value.defaultPayment = true;
+    component.paymentForm.value.defaultPayment = false;
     component.toggleDefaultPaymentMethod();
-    expect(component.payment.value.defaultPayment).toBeFalsy();
+    expect(component.paymentForm.value.defaultPayment).toBeTruthy();
+  });
+
+  it('should call toggleDefaultPaymentMethod() with defaultPayment flag set to false', () => {
+    component.paymentForm.value.defaultPayment = true;
+    component.toggleDefaultPaymentMethod();
+    expect(component.paymentForm.value.defaultPayment).toBeFalsy();
   });
 
   it('should call next()', () => {
+    component.paymentForm.setValue(mockPayment);
     component.next();
     expect(component.setPaymentDetails.emit).toHaveBeenCalledWith({
-      paymentDetails: component.payment.value,
+      paymentDetails: component.paymentForm.value,
       billingAddress: null,
     });
   });
@@ -253,23 +381,6 @@ describe('PaymentFormComponent', () => {
   it('should call close()', () => {
     component.close();
     expect(component.closeForm.emit).toHaveBeenCalled();
-  });
-
-  it('should call paymentSelected(card)', () => {
-    component.paymentSelected({ code: 'test select payment' });
-    expect(
-      component.payment['controls'].cardType['controls'].code.value
-    ).toEqual('test select payment');
-  });
-
-  it('should call monthSelected(month)', () => {
-    component.monthSelected({ id: 5, name: '05' });
-    expect(component.payment['controls'].expiryMonth.value).toEqual('05');
-  });
-
-  it('should call yearSelected(year)', () => {
-    component.yearSelected({ id: 1, name: 2022 });
-    expect(component.payment['controls'].expiryYear.value).toEqual(2022);
   });
 
   it('should call getAddressCardContent(address)', () => {
@@ -282,6 +393,47 @@ describe('PaymentFormComponent', () => {
       'zip',
       undefined,
     ]);
+  });
+
+  it('should call toggleSameAsShippingAddress()', () => {
+    spyOn(component, 'toggleSameAsShippingAddress').and.callThrough();
+    component.sameAsShippingAddress = true;
+
+    component.toggleSameAsShippingAddress();
+
+    expect(component.toggleSameAsShippingAddress).toHaveBeenCalled();
+    expect(component.sameAsShippingAddress).toBeFalsy();
+  });
+
+  it('should call verifyAddress()', () => {
+    spyOn(component, 'verifyAddress').and.callThrough();
+    spyOn(component, 'next');
+    spyOn(mockCheckoutDeliveryService, 'verifyAddress');
+
+    component.sameAsShippingAddress = true;
+
+    component.verifyAddress();
+
+    expect(component.verifyAddress).toHaveBeenCalledWith();
+    expect(component.next).toHaveBeenCalled();
+
+    component.sameAsShippingAddress = false;
+    component.verifyAddress();
+    expect(mockCheckoutDeliveryService.verifyAddress).toHaveBeenCalled();
+  });
+
+  it('should call openSuggestedAddress', (done) => {
+    spyOn(component, 'openSuggestedAddress').and.callThrough();
+    spyOn(mockModalService, 'open').and.callThrough();
+    spyOn(mockCheckoutDeliveryService, 'clearAddressVerificationResults');
+
+    component.openSuggestedAddress(mockAddressValidation);
+    component.suggestedAddressModalRef.result.then(() => {
+      expect(
+        mockCheckoutDeliveryService.clearAddressVerificationResults
+      ).toHaveBeenCalled();
+      done();
+    });
   });
 
   describe('UI continue button', () => {
@@ -300,14 +452,12 @@ describe('PaymentFormComponent', () => {
       );
       spyOn(component, 'next');
 
-      // show billing address
-      showSameAsShippingAddressCheckboxSpy.calls.reset();
-      showSameAsShippingAddressCheckboxSpy.and.returnValue(of(false));
+      component.showSameAsShippingAddressCheckbox$ = of(false);
       component.sameAsShippingAddress = false;
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
-      expect(component.next).not.toHaveBeenCalled();
+      expect(component.next).toHaveBeenCalledTimes(1);
 
       // set values for payment form
       controls.payment['accountHolderName'].setValue('test accountHolderName');
@@ -339,7 +489,7 @@ describe('PaymentFormComponent', () => {
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
-      expect(component.next).toHaveBeenCalled();
+      expect(component.next).toHaveBeenCalledTimes(2);
     });
 
     it('should call "next" function when being clicked and when form is valid - without billing address', () => {
@@ -359,7 +509,7 @@ describe('PaymentFormComponent', () => {
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
-      expect(component.next).not.toHaveBeenCalled();
+      expect(component.next).toHaveBeenCalledTimes(1);
 
       // set values for payment form
       controls.payment['accountHolderName'].setValue('test accountHolderName');
@@ -373,96 +523,7 @@ describe('PaymentFormComponent', () => {
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
-      expect(component.next).toHaveBeenCalled();
-    });
-
-    it('should be enabled only when form has all mandatory fields filled - with billing address', () => {
-      const isContinueBtnDisabled = () => {
-        fixture.detectChanges();
-        return getContinueBtn().nativeElement.disabled;
-      };
-
-      // show billing address
-      showSameAsShippingAddressCheckboxSpy.calls.reset();
-      showSameAsShippingAddressCheckboxSpy.and.returnValue(of(false));
-      component.sameAsShippingAddress = false;
-      fixture.detectChanges();
-
-      // set values for payment form
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['accountHolderName'].setValue('test accountHolderName');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['cardNumber'].setValue('test cardNumber');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment.cardType['controls'].code.setValue(
-        'test card type code'
-      );
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['expiryMonth'].setValue('test expiryMonth');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['expiryYear'].setValue('test expiryYear');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['cvn'].setValue('test cvn');
-
-      // set values for billing address form
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['firstName'].setValue(
-        mockBillingAddress.firstName
-      );
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['lastName'].setValue(mockBillingAddress.lastName);
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['line1'].setValue(mockBillingAddress.line1);
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['line2'].setValue(mockBillingAddress.line2);
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['town'].setValue(mockBillingAddress.town);
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress.country['controls'].isocode.setValue(
-        mockBillingAddress.country
-      );
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress.region['controls'].isocodeShort.setValue(
-        mockBillingAddress.region
-      );
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['postalCode'].setValue(
-        mockBillingAddress.postalCode
-      );
-
-      expect(isContinueBtnDisabled()).toBeFalsy();
-    });
-
-    it('should be enabled only when form has all mandatory fields filled - without billing address', () => {
-      const isContinueBtnDisabled = () => {
-        fixture.detectChanges();
-        return getContinueBtn().nativeElement.disabled;
-      };
-
-      // hide billing address
-      component.sameAsShippingAddress = true;
-      fixture.detectChanges();
-
-      // set values for payment form
-
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['accountHolderName'].setValue('test accountHolderName');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['cardNumber'].setValue('test cardNumber');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment.cardType['controls'].code.setValue(
-        'test card type code'
-      );
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['expiryMonth'].setValue('test expiryMonth');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['expiryYear'].setValue('test expiryYear');
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.payment['cvn'].setValue('test cvn');
-
-      fixture.detectChanges();
-
-      expect(isContinueBtnDisabled()).toBeFalsy();
+      expect(component.next).toHaveBeenCalledTimes(2);
     });
 
     it('should check setAsDefaultField to determine whether setAsDefault checkbox displayed or not', () => {
@@ -470,13 +531,13 @@ describe('PaymentFormComponent', () => {
       fixture.detectChanges();
       expect(
         fixture.debugElement.queryAll(By.css('.form-check-input')).length
-      ).toEqual(1);
+      ).toEqual(0);
 
       component.setAsDefaultField = true;
       fixture.detectChanges();
       expect(
         fixture.debugElement.queryAll(By.css('.form-check-input')).length
-      ).toEqual(2);
+      ).toEqual(1);
     });
   });
 
@@ -490,6 +551,13 @@ describe('PaymentFormComponent', () => {
       getBackBtn().nativeElement.click();
       fixture.detectChanges();
       expect(component.back).toHaveBeenCalled();
+    });
+
+    it('should call back()', () => {
+      spyOn(component.goBack, 'emit').and.callThrough();
+      component.back();
+
+      expect(component.goBack.emit).toHaveBeenCalledWith();
     });
 
     it('should call "close" function after being clicked', () => {

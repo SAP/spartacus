@@ -21,6 +21,7 @@ export const initialState: RouterState = {
       id: '',
     },
     cmsRequired: false,
+    semanticRoute: '',
   },
   nextState: undefined,
 };
@@ -66,9 +67,9 @@ export function reducer(
   }
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<State>
-> = new InjectionToken<ActionReducerMap<State>>('RouterReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<
+  State
+>> = new InjectionToken<ActionReducerMap<State>>('RouterReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
@@ -88,9 +89,13 @@ export class CustomSerializer
     let state: CmsActivatedRouteSnapshot = routerState.root as CmsActivatedRouteSnapshot;
     let cmsRequired = false;
     let context: PageContext;
+    let semanticRoute: string;
 
     while (state.firstChild) {
       state = state.firstChild as CmsActivatedRouteSnapshot;
+      if (state.data.routeName) {
+        semanticRoute = state.data.routeName;
+      }
 
       // we use context information embedded in Cms driven routes from any parent route
       if (state.data && state.data.cxCmsRouteContext) {
@@ -105,7 +110,7 @@ export class CustomSerializer
           (state.routeConfig &&
             state.routeConfig.canActivate &&
             state.routeConfig.canActivate.find(
-              x => x && x.guardName === 'CmsPageGuard'
+              (x) => x && x.guardName === 'CmsPageGuard'
             )))
       ) {
         cmsRequired = true;
@@ -122,16 +127,19 @@ export class CustomSerializer
     } else {
       if (params['productCode']) {
         context = { id: params['productCode'], type: PageType.PRODUCT_PAGE };
+        semanticRoute = 'product';
       } else if (params['categoryCode']) {
         context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
+        semanticRoute = 'category';
       } else if (params['brandCode']) {
         context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
+        semanticRoute = 'brand';
       } else if (state.data.pageLabel !== undefined) {
         context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
       } else if (!context) {
         if (state.url.length > 0) {
           const pageLabel =
-            '/' + state.url.map(urlSegment => urlSegment.path).join('/');
+            '/' + state.url.map((urlSegment) => urlSegment.path).join('/');
           context = {
             id: pageLabel,
             type: PageType.CONTENT_PAGE,
@@ -145,6 +153,13 @@ export class CustomSerializer
       }
     }
 
-    return { url, queryParams, params, context, cmsRequired };
+    return {
+      url,
+      queryParams,
+      params,
+      context,
+      cmsRequired,
+      semanticRoute,
+    };
   }
 }

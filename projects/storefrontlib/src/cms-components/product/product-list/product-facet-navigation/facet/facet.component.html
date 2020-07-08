@@ -1,0 +1,60 @@
+<ng-container *ngIf="state$ | async as state">
+  <button class="heading" (click)="toggleGroup($event)">
+    {{ facet.name }}
+    <cx-icon class="collapse-icon" [type]="collapseIcon"></cx-icon>
+    <cx-icon class="expand-icon" [type]="expandIcon"></cx-icon>
+  </button>
+
+  <a
+    *ngFor="let value of facet.values | slice: 0:state.topVisible"
+    #facetValue
+    routerLink="./"
+    [queryParams]="getLinkParams(value)"
+    class="value"
+    [class.selected]="value.selected"
+    [cxFocus]="value.name"
+    (keydown.space)="openLink($event)"
+  >
+    <span>
+      <span class="label">{{ value.name }}</span>
+      <span class="count">{{ value.count }}</span>
+    </span>
+  </a>
+
+  <div class="more">
+    <a
+      *ngFor="
+        let value of facet.values | slice: state.topVisible:state.maxVisible
+      "
+      #facetValue
+      routerLink="./"
+      [queryParams]="getLinkParams(value)"
+      class="value"
+      [class.selected]="value.selected"
+      [cxFocus]="value.name"
+      (keydown.space)="openLink($event)"
+    >
+      <span
+        >{{ value.name }}<span class="count">{{ value.count }}</span></span
+      >
+    </a>
+
+    <button
+      *ngIf="state.maxVisible > state.topVisible"
+      (click)="decreaseVisibleValues()"
+      class="cx-action-link"
+      cxFocus="moreorless"
+    >
+      {{ 'productList.showLess' | cxTranslate }}
+    </button>
+
+    <button
+      *ngIf="state.maxVisible > 0 && state.maxVisible < facet.values.length"
+      (click)="increaseVisibleValues()"
+      class="cx-action-link"
+      cxFocus="moreorless"
+    >
+      {{ 'productList.showMore' | cxTranslate }}
+    </button>
+  </div>
+</ng-container>

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Country } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
@@ -15,32 +14,17 @@ import { StateWithUser } from '../store/user-state';
 })
 export class UserPaymentService {
   constructor(
-    store: Store<StateWithUser | StateWithProcess<void>>,
-    // tslint:disable-next-line:unified-signatures
-    authService: AuthService
-  );
-  /**
-   * @deprecated since version 1.3
-   *  Use constructor(store: Store<StateWithUser | StateWithProcess<void>>,
-   *  authService: AuthService) instead
-   */
-  constructor(store: Store<StateWithUser | StateWithProcess<void>>);
-  constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService?: AuthService
+    protected authService: AuthService
   ) {}
 
   /**
    * Loads all user's payment methods.
    */
   loadPaymentMethods(): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(new UserActions.LoadUserPaymentMethods(occUserId))
-      )
-      .unsubscribe();
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(new UserActions.LoadUserPaymentMethods(userId));
+    });
   }
 
   /**
@@ -67,18 +51,14 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   setPaymentMethodAsDefault(paymentMethodId: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.SetDefaultUserPaymentMethod({
-            userId: occUserId,
-            paymentMethodId,
-          })
-        )
-      )
-      .unsubscribe();
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(
+        new UserActions.SetDefaultUserPaymentMethod({
+          userId,
+          paymentMethodId,
+        })
+      );
+    });
   }
 
   /**
@@ -87,18 +67,14 @@ export class UserPaymentService {
    * @param paymentMethodId a payment method ID
    */
   deletePaymentMethod(paymentMethodId: string): void {
-    this.authService
-      .getOccUserId()
-      .pipe(take(1))
-      .subscribe(occUserId =>
-        this.store.dispatch(
-          new UserActions.DeleteUserPaymentMethod({
-            userId: occUserId,
-            paymentMethodId,
-          })
-        )
-      )
-      .unsubscribe();
+    this.authService.invokeWithUserId((userId) => {
+      this.store.dispatch(
+        new UserActions.DeleteUserPaymentMethod({
+          userId,
+          paymentMethodId,
+        })
+      );
+    });
   }
 
   /**

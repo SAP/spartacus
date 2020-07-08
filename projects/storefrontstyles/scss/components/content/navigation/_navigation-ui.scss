@@ -1,17 +1,15 @@
 @mixin hideWrapperDesktop {
-  position: absolute;
-  visibility: hidden;
-  opacity: 0;
-  margin-left: -10px;
-  border: 1px solid #ccc;
+  display: none;
 }
 
 @mixin showWrapperDesktop {
-  opacity: 1;
-  visibility: visible;
+  display: initial;
 }
 
 %nav-wrapper {
+  .wrapper {
+    cursor: default;
+  }
   // create width of wrapper
   .wrapper[attr='1'] {
     width: 200px;
@@ -90,6 +88,20 @@
       &:hover {
         color: var(--cx-color-primary);
       }
+
+      &:focus {
+        z-index: 1;
+        position: relative;
+      }
+
+      a {
+        display: block;
+        width: 100%;
+        &:focus {
+          z-index: 1;
+          position: relative;
+        }
+      }
     }
 
     @include media-breakpoint-down(md) {
@@ -108,10 +120,6 @@
         justify-content: space-between;
 
         cursor: pointer;
-        a {
-          display: block;
-          width: 100%;
-        }
       }
 
       h5,
@@ -203,18 +211,15 @@
 }
 
 %nav-wrap {
-  &.flyout .childs {
-    &[wrap-after] {
-      display: grid;
-      grid-column-gap: 10px;
-      grid-auto-flow: column;
-      grid-template-rows: repeat(15, auto);
-    }
+  @for $column from 1 through 10 {
+    &.flyout .childs[columns='#{$column}'] {
+      display: block;
 
-    // support wrapAfter from up to 15
-    @for $i from 5 through 15 {
-      &[wrap-after='#{$i}'] {
-        grid-template-rows: repeat(#{$i}, auto);
+      @include media-breakpoint-up(md) {
+        column-count: $column;
+      }
+      @include media-breakpoint-down(sm) {
+        column-count: ceil($column / 3);
       }
     }
   }
@@ -278,9 +283,19 @@
     }
 
     @include media-breakpoint-up(lg) {
+      .childs[depth='2'] {
+        > nav {
+          &:not(:only-child):not(:last-child) {
+            padding-inline-end: 20px;
+          }
+        }
+      }
       // Show dropdowns via hover when no nav is focused
       > nav {
         > .wrapper {
+          position: absolute;
+          margin-left: -10px;
+          border: 1px solid #ccc;
           @include hideWrapperDesktop();
         }
 
@@ -295,7 +310,8 @@
       // Show dropdowns via focus only once a nav is clicked
       &:focus-within {
         > nav {
-          &:focus {
+          &:focus,
+          &.is-open:focus-within {
             > .wrapper {
               @include showWrapperDesktop();
             }
@@ -305,11 +321,6 @@
 
       .childs {
         display: flex;
-        // background: white;
-
-        nav:not(:last-child) {
-          padding-right: 20px;
-        }
       }
 
       .wrapper cx-icon {
@@ -320,9 +331,6 @@
         > .wrapper {
           transition: opacity 0.4s;
         }
-      }
-      > nav:last-child {
-        overflow: hidden;
       }
     }
   }

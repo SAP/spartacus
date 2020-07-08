@@ -1,9 +1,9 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import * as NgrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
+import { UrlCommands } from '../configurable-routes';
 import { SemanticPathService } from '../configurable-routes/url-translation/semantic-path.service';
 import { PageContext } from '../models/page-context.model';
 import { RoutingActions } from '../store/actions/index';
@@ -11,6 +11,15 @@ import { RouterState } from '../store/routing-state';
 import { RoutingSelector } from '../store/selectors/index';
 import { RoutingService } from './routing.service';
 import createSpy = jasmine.createSpy;
+
+class MockSemanticPathService {
+  transform(_commands: UrlCommands): any[] {
+    return [];
+  }
+  get(_routeName: string): string {
+    return '';
+  }
+}
 
 describe('RoutingService', () => {
   let store: Store<RouterState>;
@@ -22,13 +31,13 @@ describe('RoutingService', () => {
       imports: [StoreModule.forRoot({})],
       providers: [
         RoutingService,
-        { provide: SemanticPathService, useValue: { transform: () => {} } },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<RouterState>>);
-    service = TestBed.get(RoutingService as Type<RoutingService>);
-    urlService = TestBed.get(SemanticPathService as Type<SemanticPathService>);
+    store = TestBed.inject(Store);
+    service = TestBed.inject(RoutingService);
+    urlService = TestBed.inject(SemanticPathService);
     spyOn(store, 'dispatch');
   });
 
@@ -78,7 +87,7 @@ describe('RoutingService', () => {
       spyOnProperty(document, 'referrer', 'get').and.returnValue(
         'http://foobar.com'
       );
-      spyOn(urlService, 'transform').and.callFake(x => x);
+      spyOn(urlService, 'transform').and.callFake((x) => x);
       service.back();
       expect(store.dispatch).toHaveBeenCalledWith(
         new RoutingActions.RouteGoAction({
@@ -104,7 +113,7 @@ describe('RoutingService', () => {
     spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
 
     let routerState: any;
-    service.getRouterState().subscribe(state => (routerState = state));
+    service.getRouterState().subscribe((state) => (routerState = state));
     expect(mockRouterState).toHaveBeenCalledWith(
       RoutingSelector.getRouterState
     );
@@ -122,7 +131,7 @@ describe('RoutingService', () => {
     let result: PageContext;
     service
       .getPageContext()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result).toEqual(pageContext);
@@ -139,11 +148,11 @@ describe('RoutingService', () => {
     let result: PageContext;
     service
       .getNextPageContext()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result).toEqual(pageContext);
-    expect(NgrxStore.select).toHaveBeenCalledWith(
+    expect(NgrxStore.select as any).toHaveBeenCalledWith(
       RoutingSelector.getNextPageContext
     );
   });
@@ -156,10 +165,12 @@ describe('RoutingService', () => {
     let result: boolean;
     service
       .isNavigating()
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result).toEqual(isNavigating);
-    expect(NgrxStore.select).toHaveBeenCalledWith(RoutingSelector.isNavigating);
+    expect(NgrxStore.select as any).toHaveBeenCalledWith(
+      RoutingSelector.isNavigating
+    );
   });
 });

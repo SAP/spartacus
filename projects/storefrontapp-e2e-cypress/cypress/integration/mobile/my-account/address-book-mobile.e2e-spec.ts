@@ -2,12 +2,12 @@ import {
   addressBookTest,
   verifyAsAnonymous,
 } from '../../../helpers/address-book';
-import { formats } from '../../../sample-data/viewports';
 import * as login from '../../../helpers/login';
+import { formats } from '../../../sample-data/viewports';
 
 describe(`${formats.mobile.width + 1}p resolution - Address Book page`, () => {
   before(() => {
-    cy.window().then(win => win.sessionStorage.clear());
+    cy.window().then((win) => win.sessionStorage.clear());
   });
 
   beforeEach(() => {
@@ -20,6 +20,7 @@ describe(`${formats.mobile.width + 1}p resolution - Address Book page`, () => {
 
   describe('address book test for logged in user', () => {
     before(() => {
+      cy.viewport(formats.mobile.width, formats.mobile.height);
       cy.requireLoggedIn();
       cy.reload();
       cy.visit('/');
@@ -30,6 +31,7 @@ describe(`${formats.mobile.width + 1}p resolution - Address Book page`, () => {
     });
 
     beforeEach(() => {
+      cy.viewport(formats.mobile.width, formats.mobile.height);
       cy.restoreLocalStorage();
     });
 

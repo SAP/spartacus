@@ -1,31 +1,39 @@
-<form (submit)="onSubmit()" [formGroup]="form">
-  <input
-    #searchTerm
-    type="text"
-    formControlName="searchTerm"
-    placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
-  />
-  <button type="submit" [disabled]="!selectedCustomer">
+<form (ngSubmit)="onSubmit()" [formGroup]="customerSelectionForm">
+  <label>
+    <input
+      #searchTerm
+      type="text"
+      formControlName="searchTerm"
+      placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
+    />
+    <cx-form-errors
+      [control]="customerSelectionForm.get('searchTerm')"
+    ></cx-form-errors>
+  </label>
+  <button type="submit">
     {{ 'asm.customerSearch.submit' | cxTranslate }}
   </button>
 </form>
 
 <div *ngIf="searchResults | async as results" class="asm-results" #resultList>
-  <a
+  <button
     *ngFor="let result of results.entries"
     (click)="selectCustomerFromList(result)"
-    ><span class="result-name">{{ result.name }}</span>
-    <span class="result-id">{{ result.uid }}</span></a
   >
-  <a
+    <span class="result-name">{{ result.name }}</span>
+    <span class="result-id">{{ result.uid }}</span>
+  </button>
+  <button
     (click)="closeResults()"
     *ngIf="
       !(searchResultsLoading$ | async) &&
       searchTerm.value.length >= 3 &&
-      (!!results.entries && results.entries.length <= 0)
+      !!results.entries &&
+      results.entries.length <= 0
     "
-    >{{ 'asm.customerSearch.noMatch' | cxTranslate }}</a
   >
+    {{ 'asm.customerSearch.noMatch' | cxTranslate }}
+  </button>
 </div>
 
 <div class="asm-results" *ngIf="searchResultsLoading$ | async">

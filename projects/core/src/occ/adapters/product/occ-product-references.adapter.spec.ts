@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { PRODUCT_REFERENCES_NORMALIZER } from '../../../product/connectors/references/converters';
 import { ConverterService } from '../../../util/converter.service';
@@ -33,8 +32,8 @@ class MockOccEndpointsService {
 }
 
 class MockConvertService {
-  convert = createSpy().and.callFake(x => x);
-  pipeable = createSpy().and.returnValue(x => x);
+  convert = createSpy().and.callFake((x) => x);
+  pipeable = createSpy().and.returnValue((x) => x);
 }
 
 describe('OccProductReferencesAdapter', () => {
@@ -55,14 +54,10 @@ describe('OccProductReferencesAdapter', () => {
         { provide: ConverterService, useClass: MockConvertService },
       ],
     });
-    service = TestBed.get(OccProductReferencesAdapter as Type<
-      OccProductReferencesAdapter
-    >);
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
-    endpoints = TestBed.get(OccEndpointsService as Type<OccEndpointsService>);
+    service = TestBed.inject(OccProductReferencesAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    endpoints = TestBed.inject(OccEndpointsService);
   });
 
   afterEach(() => {
@@ -76,9 +71,9 @@ describe('OccProductReferencesAdapter', () => {
   describe('load', () => {
     it('should load reference list', () => {
       let loadResult;
-      service.load(productCode).subscribe(res => (loadResult = res));
+      service.load(productCode).subscribe((res) => (loadResult = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET' && req.url === endpoint;
       });
 

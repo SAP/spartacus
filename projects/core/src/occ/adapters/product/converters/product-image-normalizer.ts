@@ -47,21 +47,28 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
           imageContainer = images[image.imageType];
         }
 
-        /**
-         * Traditionally, in an on-prem world, medias and other backend related calls
-         * are hosted at the same platform, but in a cloud setup, applications are are
-         * typically distributed cross different environments. For media, we use the
-         * `backend.media.baseUrl` by default, but fallback to `backend.occ.baseUrl`
-         * if none provided.
-         */
-        image.url =
-          (this.config.backend.media.baseUrl ||
-            this.config.backend.occ.baseUrl ||
-            '') + image.url;
-
-        imageContainer[image.format] = image;
+        const targetImage = { ...image };
+        targetImage.url = this.normalizeImageUrl(targetImage.url);
+        imageContainer[image.format] = targetImage;
       }
     }
     return images;
+  }
+  /**
+   * Traditionally, in an on-prem world, medias and other backend related calls
+   * are hosted at the same platform, but in a cloud setup, applications are are
+   * typically distributed cross different environments. For media, we use the
+   * `backend.media.baseUrl` by default, but fallback to `backend.occ.baseUrl`
+   * if none provided.
+   */
+  private normalizeImageUrl(url: string): string {
+    if (new RegExp(/^(http|data:image|\/\/)/i).test(url)) {
+      return url;
+    }
+    return (
+      (this.config.backend.media.baseUrl ||
+        this.config.backend.occ.baseUrl ||
+        '') + url
+    );
   }
 }

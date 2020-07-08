@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { ImageType } from '../../../../model/image.model';
 import { Product } from '../../../../model/product.model';
@@ -6,10 +5,11 @@ import { OccConfig } from '../../../config/occ-config';
 import { Occ } from '../../../occ-models/occ.models';
 import { ProductImageNormalizer } from './product-image-normalizer';
 
+const baseUrl = 'http://hybris.com';
 const MockOccModuleConfig: OccConfig = {
   backend: {
     occ: {
-      baseUrl: '',
+      baseUrl,
       prefix: '',
     },
     media: {
@@ -35,21 +35,27 @@ describe('ProductImageNormalizer', () => {
         altText: 'Test alt text',
         format: 'thumbnail',
         imageType: ImageType.PRIMARY,
-        url: '/test2',
+        url: '//test2',
+      },
+      {
+        altText: 'Test alt text',
+        format: 'zoom',
+        imageType: ImageType.PRIMARY,
+        url: 'https://hybris.com/test3.jpg',
       },
       {
         altText: 'Test alt text',
         format: 'product',
         galleryIndex: 0,
         imageType: ImageType.GALLERY,
-        url: '/test3',
+        url: 'data:image/jpeg;base64,/test4',
       },
       {
         altText: 'Test alt text',
         format: 'thumbnail',
         galleryIndex: 0,
         imageType: ImageType.GALLERY,
-        url: '/test4',
+        url: '/test5',
       },
     ],
   };
@@ -63,13 +69,19 @@ describe('ProductImageNormalizer', () => {
           altText: 'Test alt text',
           format: 'product',
           imageType: ImageType.PRIMARY,
-          url: '/test1',
+          url: baseUrl + '/test1',
         },
         thumbnail: {
           altText: 'Test alt text',
           format: 'thumbnail',
           imageType: ImageType.PRIMARY,
-          url: '/test2',
+          url: '//test2',
+        },
+        zoom: {
+          altText: 'Test alt text',
+          format: 'zoom',
+          imageType: ImageType.PRIMARY,
+          url: 'https://hybris.com/test3.jpg',
         },
       },
       GALLERY: [
@@ -79,14 +91,14 @@ describe('ProductImageNormalizer', () => {
             format: 'product',
             galleryIndex: 0,
             imageType: ImageType.GALLERY,
-            url: '/test3',
+            url: 'data:image/jpeg;base64,/test4',
           },
           thumbnail: {
             altText: 'Test alt text',
             format: 'thumbnail',
             galleryIndex: 0,
             imageType: ImageType.GALLERY,
-            url: '/test4',
+            url: baseUrl + '/test5',
           },
         },
       ],
@@ -100,10 +112,7 @@ describe('ProductImageNormalizer', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
-
-    service = TestBed.get(ProductImageNormalizer as Type<
-      ProductImageNormalizer
-    >);
+    service = TestBed.inject(ProductImageNormalizer);
   });
 
   it('should inject ProductImageConverterService', inject(

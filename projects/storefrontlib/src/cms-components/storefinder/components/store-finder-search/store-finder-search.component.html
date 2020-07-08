@@ -9,12 +9,12 @@
           type="text"
           class="form-control"
           placeholder="{{ 'storeFinder.searchBox' | cxTranslate }}"
-          required
         />
         <cx-icon
           [type]="iconTypes.SEARCH"
           aria-label="search"
           class="search"
+          (keyup)="onKey($event)"
           [routerLink]="['/store-finder/find']"
           [queryParams]="{ query: queryInput.value }"
           [ngClass]="{

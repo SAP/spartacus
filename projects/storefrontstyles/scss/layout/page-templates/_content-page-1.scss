@@ -10,4 +10,33 @@
       display: block;
     }
   }
+
+  .global-alerts {
+    .alert-info {
+      display: block;
+      padding: 20px 1.25rem;
+    }
+  }
+
+  .textpage-faqs {
+    .pagetop-link {
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .item_container {
+      .faq-menulink {
+        display: block;
+      }
+    }
+
+    td {
+      padding-bottom: 26px;
+      vertical-align: baseline;
+
+      &:first-child {
+        padding-right: 10px;
+      }
+    }
+  }
 }

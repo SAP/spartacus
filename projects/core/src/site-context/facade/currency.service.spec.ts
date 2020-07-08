@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
@@ -61,9 +60,9 @@ describe('CurrencyService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithSiteContext>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(CurrencyService as Type<CurrencyService>);
+    service = TestBed.inject(CurrencyService);
   });
 
   it('should CurrencyService is injected', inject(
@@ -88,14 +87,14 @@ describe('CurrencyService', () => {
   it('should be able to get currencies', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
 
-    service.getAll().subscribe(results => {
+    service.getAll().subscribe((results) => {
       expect(results).toEqual(mockCurrencies);
     });
   });
 
   it('should be able to get active currencies', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
-    service.getActive().subscribe(results => {
+    service.getActive().subscribe((results) => {
       expect(results).toEqual(mockActiveCurr);
     });
   });

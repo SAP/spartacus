@@ -42,9 +42,7 @@ export class BreadcrumbComponent implements OnInit {
       this.translation.translate('common.home'),
     ]).pipe(
       map(([meta, textHome]) =>
-        meta && meta.breadcrumbs
-          ? meta.breadcrumbs
-          : [{ label: textHome, link: '/' }]
+        meta?.breadcrumbs ? meta.breadcrumbs : [{ label: textHome, link: '/' }]
       )
     );
   }

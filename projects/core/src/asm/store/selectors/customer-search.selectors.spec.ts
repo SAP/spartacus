@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { User } from '../../../model/misc.model';
@@ -33,7 +32,7 @@ describe('Customer Search Results Selectors', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithAsm>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -42,7 +41,7 @@ describe('Customer Search Results Selectors', () => {
 
     store
       .pipe(select(AsmSelectors.getCustomerSearchResults))
-      .subscribe(value => (result = value));
+      .subscribe((value) => (result = value));
     expect(result).toEqual(undefined);
 
     store.dispatch(
@@ -57,7 +56,7 @@ describe('Customer Search Results Selectors', () => {
 
     store
       .pipe(select(AsmSelectors.getCustomerSearchResultsLoading))
-      .subscribe(value => (result = value));
+      .subscribe((value) => (result = value));
     expect(result).toEqual(false);
 
     store.dispatch(new AsmActions.CustomerSearch({ query: 'abc' }));
@@ -73,7 +72,7 @@ describe('Customer Search Results Selectors', () => {
     let result: LoaderState<CustomerSearchPage>;
     store
       .pipe(select(AsmSelectors.getCustomerSearchResultsLoaderState))
-      .subscribe(value => (result = value))
+      .subscribe((value) => (result = value))
       .unsubscribe();
 
     expect(result).toEqual({

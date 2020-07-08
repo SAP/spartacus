@@ -7,7 +7,9 @@ import { OpenIdToken } from '../../models/kyma-token-types.model';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OpenIdAuthenticationTokenService {
   constructor(private config: KymaConfig, private http: HttpClient) {}
 
@@ -35,7 +37,7 @@ export class OpenIdAuthenticationTokenService {
 
     return this.http
       .post<OpenIdToken>(url, params, { headers })
-      .pipe(catchError(error => throwError(error)));
+      .pipe(catchError((error) => throwError(error)));
   }
 
   private getOAuthEndpoint(): string {

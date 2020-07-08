@@ -30,8 +30,8 @@ describe('Customer effect', () => {
       ],
     });
 
-    customerEffects = TestBed.get(CustomerEffects);
-    asmConnector = TestBed.get(AsmConnector);
+    customerEffects = TestBed.inject(CustomerEffects);
+    asmConnector = TestBed.inject(AsmConnector);
 
     spyOn(asmConnector, 'customerSearch').and.returnValue(of({ entries: [] }));
   });

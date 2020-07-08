@@ -7,7 +7,7 @@ import { StoreFinderComponent } from './store-finder.component';
   selector: 'cx-store-finder-header',
   template: '',
 })
-export class MockStoreFinderHeaderComponent {}
+class MockStoreFinderHeaderComponent {}
 
 describe('StoreFinderComponent', () => {
   let component: StoreFinderComponent;

@@ -1,4 +1,4 @@
-import { Component, Type } from '@angular/core';
+import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -12,7 +12,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { DeliveryModeComponent } from './delivery-mode.component';
-
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -76,9 +75,9 @@ const mockStepUrl = 'test url';
 describe('DeliveryModeComponent', () => {
   let component: DeliveryModeComponent;
   let fixture: ComponentFixture<DeliveryModeComponent>;
-  let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
-  let mockRoutingService: MockRoutingService;
-  let mockCheckoutConfigService: MockCheckoutConfigService;
+  let mockCheckoutDeliveryService: CheckoutDeliveryService;
+  let mockRoutingService: RoutingService;
+  let mockCheckoutConfigService: CheckoutConfigService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -95,13 +94,9 @@ describe('DeliveryModeComponent', () => {
       ],
     }).compileComponents();
 
-    mockCheckoutDeliveryService = TestBed.get(CheckoutDeliveryService as Type<
-      CheckoutDeliveryService
-    >);
-    mockRoutingService = TestBed.get(RoutingService as Type<RoutingService>);
-    mockCheckoutConfigService = TestBed.get(CheckoutConfigService as Type<
-      CheckoutConfigService
-    >);
+    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
+    mockRoutingService = TestBed.inject(RoutingService);
+    mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
   }));
 
   beforeEach(() => {
@@ -120,7 +115,7 @@ describe('DeliveryModeComponent', () => {
     ).and.returnValue(of(mockSupportedDeliveryModes));
     component.ngOnInit();
 
-    component.supportedDeliveryModes$.subscribe(modes => {
+    component.supportedDeliveryModes$.subscribe((modes) => {
       expect(modes).toBe(mockSupportedDeliveryModes);
     });
   });
@@ -169,7 +164,7 @@ describe('DeliveryModeComponent', () => {
     expect(component.currentDeliveryModeId).toBe(mockDeliveryMode2.code);
   });
 
-  it('should set delivery mode and change step after invoking next()', () => {
+  it('should set delivery mode after invoking next()', () => {
     component.currentDeliveryModeId = mockDeliveryMode1.code;
     spyOn(mockCheckoutConfigService, 'getNextCheckoutStepUrl').and.returnValue(
       mockStepUrl
@@ -180,15 +175,9 @@ describe('DeliveryModeComponent', () => {
     ).and.returnValue(of(mockDeliveryMode1));
 
     component.ngOnInit();
+    component.mode.controls['deliveryModeId'].setValue('code');
     component.next();
-
-    expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);
-  });
-
-  it('should change step after invoking next()', () => {
-    component.checkoutStepUrlNext = mockStepUrl;
-    component.next();
-    expect(mockRoutingService.go).toHaveBeenCalledWith(mockStepUrl);
+    expect(mockCheckoutDeliveryService.setDeliveryMode).toHaveBeenCalled();
   });
 
   it('should change step after invoking back()', () => {

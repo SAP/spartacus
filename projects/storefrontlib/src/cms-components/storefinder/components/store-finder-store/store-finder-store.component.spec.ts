@@ -1,11 +1,11 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
+  PointOfService,
   RoutingService,
   StoreFinderService,
-  PointOfService,
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../../shared';
 import { StoreFinderStoreComponent } from './store-finder-store.component';
@@ -73,7 +73,7 @@ describe('StoreFinderStoreComponent', () => {
   }));
 
   beforeEach(() => {
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    routingService = TestBed.inject(RoutingService);
     fixture = TestBed.createComponent(StoreFinderStoreComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

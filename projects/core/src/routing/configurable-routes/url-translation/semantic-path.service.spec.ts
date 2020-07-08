@@ -1,5 +1,4 @@
 import * as AngularCore from '@angular/core';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RouteConfig } from '../routes-config';
@@ -29,10 +28,8 @@ describe('SemanticPathService', () => {
       ],
     });
 
-    service = TestBed.get(SemanticPathService as Type<SemanticPathService>);
-    routingConfigService = TestBed.get(RoutingConfigService as Type<
-      RoutingConfigService
-    >);
+    service = TestBed.inject(SemanticPathService);
+    routingConfigService = TestBed.inject(RoutingConfigService);
   });
 
   describe('get', () => {

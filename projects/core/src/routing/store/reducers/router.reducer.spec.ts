@@ -1,4 +1,4 @@
-import { Component, NgZone, Type } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -61,9 +61,9 @@ describe('Router Reducer', () => {
       ],
     });
 
-    zone = TestBed.get(NgZone as Type<NgZone>);
-    store = TestBed.get(Store as Type<Store<any>>);
-    router = TestBed.get(Router as Type<Router>);
+    zone = TestBed.inject(NgZone);
+    store = TestBed.inject(Store);
+    router = TestBed.inject(Router);
   });
 
   describe('Default/undefined action', () => {
@@ -128,6 +128,7 @@ describe('Router Reducer', () => {
               id: '',
             },
             cmsRequired: false,
+            semanticRoute: '',
           },
         };
         const action = {
@@ -168,7 +169,7 @@ describe('Router Reducer', () => {
 
   it('should return the router state', async () => {
     let routerReducer;
-    store.subscribe(routerStore => {
+    store.subscribe((routerStore) => {
       routerReducer = routerStore.router;
     });
 
@@ -179,6 +180,7 @@ describe('Router Reducer', () => {
       params: {},
       context: { id: 'homepage', type: PageType.CONTENT_PAGE },
       cmsRequired: false,
+      semanticRoute: undefined,
     });
 
     await zone.run(() => router.navigateByUrl('category/1234'));
@@ -188,6 +190,7 @@ describe('Router Reducer', () => {
       params: { categoryCode: '1234' },
       context: { id: '1234', type: PageType.CATEGORY_PAGE },
       cmsRequired: false,
+      semanticRoute: 'category',
     });
 
     await zone.run(() => router.navigateByUrl('product/1234'));
@@ -197,6 +200,7 @@ describe('Router Reducer', () => {
       params: { productCode: '1234' },
       context: { id: '1234', type: PageType.PRODUCT_PAGE },
       cmsRequired: false,
+      semanticRoute: 'product',
     });
   });
 
@@ -204,7 +208,7 @@ describe('Router Reducer', () => {
     let context;
 
     beforeEach(async () => {
-      store.subscribe(routerStore => {
+      store.subscribe((routerStore) => {
         context = routerStore.router.state.context;
       });
     });

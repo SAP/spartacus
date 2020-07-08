@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { ConfigModule } from '../../config/config.module';
+import { provideDefaultConfigFactory } from '../../config/config.module';
 import { StateConfig, StorageSyncType } from '../../state/config/state-config';
 import { StateModule } from '../../state/state.module';
 import { effects } from './effects/index';
@@ -31,8 +31,10 @@ export function kymaStoreConfigFactory(): StateConfig {
     StateModule,
     StoreModule.forFeature(KYMA_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfigFactory(kymaStoreConfigFactory),
   ],
-  providers: [reducerProvider],
+  providers: [
+    provideDefaultConfigFactory(kymaStoreConfigFactory),
+    reducerProvider,
+  ],
 })
 export class KymaStoreModule {}

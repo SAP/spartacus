@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -12,7 +11,6 @@ import { ProductSearchConnector } from '../../connectors/search/product-search.c
 import { SearchConfig } from '../../model/search-config';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from './product-search.effect';
-
 import createSpy = jasmine.createSpy;
 
 const searchResult: ProductSearchPage = { products: [] };
@@ -41,9 +39,7 @@ describe('ProductSearch Effects', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.ProductsSearchEffects as Type<
-      fromEffects.ProductsSearchEffects
-    >);
+    effects = TestBed.inject(fromEffects.ProductsSearchEffects);
     searchConfig = { pageSize: 10 };
   });
 

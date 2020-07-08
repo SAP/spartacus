@@ -11,3 +11,4 @@ export * from './order-confirmation/index';
 export * from './product/index';
 export * from './storefinder/index';
 export * from './user/index';
+export * from './wish-list/index';

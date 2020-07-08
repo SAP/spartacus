@@ -29,9 +29,9 @@ export function getReducers(): ActionReducerMap<AnonymousConsentsState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<AnonymousConsentsState>
-> = new InjectionToken<ActionReducerMap<AnonymousConsentsState>>(
+export const reducerToken: InjectionToken<ActionReducerMap<
+  AnonymousConsentsState
+>> = new InjectionToken<ActionReducerMap<AnonymousConsentsState>>(
   'AnonymousConsentsReducers'
 );
 
@@ -43,7 +43,7 @@ export const reducerProvider: Provider = {
 export function clearAnonymousConsentTemplates(
   reducer: ActionReducer<AnonymousConsentsState, Action>
 ): ActionReducer<AnonymousConsentsState, Action> {
-  return function(state, action) {
+  return function (state, action) {
     if (
       action.type === AuthActions.LOGOUT ||
       action.type === SiteContextActions.LANGUAGE_CHANGE

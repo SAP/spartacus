@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -6,6 +6,7 @@ import { RoutingService, StoreFinderService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { StoreFinderGridComponent } from './store-finder-grid.component';
+
 const countryIsoCode = 'CA';
 const regionIsoCode = 'CA-QC';
 
@@ -13,14 +14,10 @@ const regionIsoCode = 'CA-QC';
   selector: 'cx-store-finder-list-item',
   template: '',
 })
-export class MockStoreFinderListItemComponent {
+class MockStoreFinderListItemComponent {
   @Input()
   location;
 }
-
-const location = {
-  name: 'Test Name',
-};
 
 const mockActivatedRoute = {
   snapshot: {
@@ -62,10 +59,8 @@ describe('StoreFinderGridComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderGridComponent);
     component = fixture.componentInstance;
-    route = TestBed.get(ActivatedRoute as Type<ActivatedRoute>);
-    storeFinderService = TestBed.get(StoreFinderService as Type<
-      StoreFinderService
-    >);
+    route = TestBed.inject(ActivatedRoute);
+    storeFinderService = TestBed.inject(StoreFinderService);
   });
 
   it('should create with country routing parameter', () => {
@@ -91,30 +86,5 @@ describe('StoreFinderGridComponent', () => {
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
-  });
-
-  it('should route when viewStore is called without region', () => {
-    route.snapshot.params = {
-      country: countryIsoCode,
-    };
-    fixture.detectChanges();
-
-    component.viewStore(location);
-
-    expect(mockRoutingService.go).toHaveBeenCalledWith([
-      `store-finder/country/${countryIsoCode}/${location.name}`,
-    ]);
-  });
-
-  it('should create store url for route', () => {
-    route.snapshot.params = {
-      country: countryIsoCode,
-      region: regionIsoCode,
-    };
-    const result = component.prepareRouteUrl(location);
-
-    expect(result).toEqual(
-      `store-finder/country/${countryIsoCode}/region/${regionIsoCode}/${location.name}`
-    );
   });
 });

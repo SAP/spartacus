@@ -24,9 +24,8 @@ export class JsonLdDirective {
 
   private writeJsonLd(schema: {}) {
     if (schema && this.jsonLdScriptFactory.isJsonLdRequired()) {
-      const html = `<script type="application/ld+json">${JSON.stringify(
-        schema
-      )}</script>`;
+      const sanitizedSchema = this.jsonLdScriptFactory.sanitize(schema);
+      const html = `<script type="application/ld+json">${sanitizedSchema}</script>`;
       this.jsonLD = this.sanitizer.bypassSecurityTrustHtml(html);
     }
   }

@@ -4,7 +4,9 @@ import { Injectable } from '@angular/core';
 import { StoreDataService } from '../facade/store-data.service';
 import { StoreFinderConfig } from '../config/store-finder-config';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class GoogleMapRendererService {
   private googleMap: google.maps.Map = null;
   private markers: google.maps.Marker[];
@@ -102,14 +104,14 @@ export class GoogleMapRendererService {
       });
       this.markers.push(marker);
       marker.setMap(this.googleMap);
-      marker.addListener('mouseover', function() {
+      marker.addListener('mouseover', function () {
         marker.setAnimation(google.maps.Animation.BOUNCE);
       });
-      marker.addListener('mouseout', function() {
+      marker.addListener('mouseout', function () {
         marker.setAnimation(null);
       });
       if (selectMarkerHandler) {
-        marker.addListener('click', function() {
+        marker.addListener('click', function () {
           selectMarkerHandler(index);
         });
       }

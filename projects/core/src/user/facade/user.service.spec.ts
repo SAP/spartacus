@@ -1,10 +1,11 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
 import { AuthService } from '../../auth/facade/auth.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
-import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+} from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserActions } from '../store/actions/index';
@@ -13,8 +14,8 @@ import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
 
 class MockAuthService {
-  getOccUserId(): Observable<string> {
-    return of('current');
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
   }
 }
 
@@ -38,9 +39,9 @@ describe('UserService', () => {
       ],
     });
 
-    store = TestBed.get(Store as Type<Store<StateWithUser>>);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
-    service = TestBed.get(UserService as Type<UserService>);
+    service = TestBed.inject(UserService);
   });
 
   it('should UserService is injected', inject(
@@ -50,61 +51,74 @@ describe('UserService', () => {
     }
   ));
 
-  it('get() should be able to get user details when they are present in the store', () => {
-    store.dispatch(
-      new UserActions.LoadUserDetailsSuccess({ uid: 'testUser' } as User)
-    );
+  describe('get user details', () => {
+    it('should get user details from store', () => {
+      store.dispatch(
+        new UserActions.LoadUserDetailsSuccess({ uid: 'testUser' } as User)
+      );
 
-    let userDetails: User;
-    service
-      .get()
-      .subscribe(data => {
-        userDetails = data;
-      })
-      .unsubscribe();
-    expect(userDetails).toEqual({ uid: 'testUser' });
+      let userDetails: User;
+      service
+        .get()
+        .subscribe((data) => {
+          userDetails = data;
+        })
+        .unsubscribe();
+      expect(userDetails).toEqual({ uid: 'testUser' });
+    });
+
+    it('should dispatch LoadUserDetails when they are not present in the store', () => {
+      let userDetails: User;
+      service
+        .get()
+        .subscribe((data) => {
+          userDetails = data;
+        })
+        .unsubscribe();
+      expect(userDetails).toEqual({});
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new UserActions.LoadUserDetails(OCC_USER_ID_CURRENT)
+      );
+    });
+
+    it('should load user details', () => {
+      service.load();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new UserActions.LoadUserDetails(OCC_USER_ID_CURRENT)
+      );
+    });
+
+    it('should not load anonymous user details', () => {
+      const authService = TestBed.inject(AuthService);
+      spyOn(authService, 'invokeWithUserId').and.callFake((cb) =>
+        cb(OCC_USER_ID_ANONYMOUS)
+      );
+      service.load();
+      expect(store.dispatch).not.toHaveBeenCalled();
+    });
   });
 
-  it('get() should trigger load user details when they are not present in the store', () => {
-    let userDetails: User;
-    service
-      .get()
-      .subscribe(data => {
-        userDetails = data;
-      })
-      .unsubscribe();
-    expect(userDetails).toEqual({});
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadUserDetails(OCC_USER_ID_CURRENT)
-    );
-  });
+  describe('register user', () => {
+    it('should be able to register user', () => {
+      const userRegisterFormData: UserSignUp = {
+        titleCode: 'Mr.',
+        firstName: 'firstName',
+        lastName: 'lastName',
+        uid: 'uid',
+        password: 'password',
+      };
+      service.register(userRegisterFormData);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new UserActions.RegisterUser(userRegisterFormData)
+      );
+    });
 
-  it('should be able to load user details', () => {
-    service.load();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.LoadUserDetails(OCC_USER_ID_CURRENT)
-    );
-  });
-
-  it('should be able to register user', () => {
-    const userRegisterFormData: UserSignUp = {
-      titleCode: 'Mr.',
-      firstName: 'firstName',
-      lastName: 'lastName',
-      uid: 'uid',
-      password: 'password',
-    };
-    service.register(userRegisterFormData);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.RegisterUser(userRegisterFormData)
-    );
-  });
-
-  it('should be able to register guest', () => {
-    service.registerGuest('guid', 'password');
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new UserActions.RegisterGuest({ guid: 'guid', password: 'password' })
-    );
+    it('should be able to register guest', () => {
+      service.registerGuest('guid', 'password');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new UserActions.RegisterGuest({ guid: 'guid', password: 'password' })
+      );
+    });
   });
 
   describe('Remove User Account', () => {
@@ -121,7 +135,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getRemoveUserResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -133,7 +147,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getRemoveUserResultError()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -145,7 +159,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getRemoveUserResultSuccess()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -169,7 +183,7 @@ describe('UserService', () => {
     let titles: Title[];
     service
       .getTitles()
-      .subscribe(data => {
+      .subscribe((data) => {
         titles = data;
       })
       .unsubscribe();
@@ -206,7 +220,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdatePersonalDetailsResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(false);
@@ -218,7 +232,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdatePersonalDetailsResultError()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -230,7 +244,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdatePersonalDetailsResultSuccess()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -267,7 +281,7 @@ describe('UserService', () => {
     let isResst: boolean;
     service
       .isPasswordReset()
-      .subscribe(data => {
+      .subscribe((data) => {
         isResst = data;
       })
       .unsubscribe();
@@ -295,7 +309,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdateEmailResultSuccess()
-        .subscribe(success => (result = success))
+        .subscribe((success) => (result = success))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -307,7 +321,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdateEmailResultError()
-        .subscribe(error => (result = error))
+        .subscribe((error) => (result = error))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -319,7 +333,7 @@ describe('UserService', () => {
       let result: boolean;
       service
         .getUpdateEmailResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(false);
@@ -358,7 +372,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getUpdatePasswordResultLoading()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -370,7 +384,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getUpdatePasswordResultError()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);
@@ -382,7 +396,7 @@ describe('UserService', () => {
       let result = false;
       service
         .getUpdatePasswordResultSuccess()
-        .subscribe(loading => (result = loading))
+        .subscribe((loading) => (result = loading))
         .unsubscribe();
 
       expect(result).toEqual(true);

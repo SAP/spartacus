@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -6,8 +5,8 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { AuthActions, AuthService, UserToken } from '../../../auth/index';
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
   Consent,
   ConsentTemplate,
 } from '../../../model/consent.model';
@@ -166,19 +165,11 @@ describe('AnonymousConsentsEffects', () => {
       ],
     });
 
-    effect = TestBed.get(fromEffect.AnonymousConsentsEffects as Type<
-      fromEffect.AnonymousConsentsEffects
-    >);
-    connector = TestBed.get(AnonymousConsentTemplatesConnector as Type<
-      AnonymousConsentTemplatesConnector
-    >);
-    anonymousConsentService = TestBed.get(AnonymousConsentsService as Type<
-      AnonymousConsentsService
-    >);
-    authService = TestBed.get(AuthService as Type<AuthService>);
-    userConsentService = TestBed.get(UserConsentService as Type<
-      UserConsentService
-    >);
+    effect = TestBed.inject(fromEffect.AnonymousConsentsEffects);
+    connector = TestBed.inject(AnonymousConsentTemplatesConnector);
+    anonymousConsentService = TestBed.inject(AnonymousConsentsService);
+    authService = TestBed.inject(AuthService);
+    userConsentService = TestBed.inject(UserConsentService);
   });
 
   describe('loadAnonymousConsentTemplates$', () => {

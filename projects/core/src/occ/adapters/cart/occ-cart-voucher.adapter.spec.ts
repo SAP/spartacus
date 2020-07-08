@@ -3,7 +3,6 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { Type } from '@angular/core';
 import { CART_VOUCHER_NORMALIZER } from '../../../cart/connectors/voucher/converters';
 import { Cart } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
@@ -42,12 +41,10 @@ describe('OccCartVoucherAdapter', () => {
       ],
     });
 
-    service = TestBed.get(OccCartVoucherAdapter);
-    httpMock = TestBed.get(HttpTestingController);
-    converter = TestBed.get(ConverterService);
-    occEnpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
+    service = TestBed.inject(OccCartVoucherAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
+    occEnpointsService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
@@ -60,9 +57,9 @@ describe('OccCartVoucherAdapter', () => {
   describe('add voucher to cart', () => {
     it('should add voucher to cart for given user id, cart id and voucher id', () => {
       let result;
-      service.add(userId, cartId, voucherId).subscribe(res => (result = res));
+      service.add(userId, cartId, voucherId).subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'POST';
       });
 
@@ -83,9 +80,9 @@ describe('OccCartVoucherAdapter', () => {
       let result;
       service
         .remove(userId, cartId, voucherId)
-        .subscribe(res => (result = res));
+        .subscribe((res) => (result = res));
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq = httpMock.expectOne((req) => {
         return req.method === 'DELETE';
       });
 

@@ -1,5 +1,4 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
@@ -14,9 +13,8 @@ import { defaultOccProductConfig } from '../../../occ/adapters/product/default-o
 import { OccConfig } from '../../../occ/config/occ-config';
 import { ProductActions } from '../actions/index';
 import * as fromEffects from '../effects/product-reviews.effect';
-
-import createSpy = jasmine.createSpy;
 import { ProductReviewsConnector } from '../../connectors/index';
+import createSpy = jasmine.createSpy;
 
 const reviewData: Review[] = [
   {
@@ -66,9 +64,7 @@ describe('Product reviews effect', () => {
       ],
     });
 
-    effects = TestBed.get(fromEffects.ProductReviewsEffects as Type<
-      fromEffects.ProductReviewsEffects
-    >);
+    effects = TestBed.inject(fromEffects.ProductReviewsEffects);
   });
 
   describe('loadProductReviews$', () => {

@@ -7,7 +7,9 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PWAModuleConfig } from '../pwa.module-config';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AddToHomeScreenService {
   private deferredEvent: any;
 
@@ -29,7 +31,7 @@ export class AddToHomeScreenService {
     if (this.winRef.nativeWindow) {
       this.winRef.nativeWindow.addEventListener(
         'beforeinstallprompt',
-        event => {
+        (event) => {
           event.preventDefault();
           this.deferredEvent = event;
           this.enableAddToHomeScreen();
