@@ -1,14 +1,10 @@
 import {
   Component,
   EventEmitter,
-  Injectable,
   Input,
   NgModule,
   Output,
 } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { TableStructure } from '../table.model';
-import { TableService } from '../table.service';
 
 @Component({
   template: '',
@@ -22,22 +18,8 @@ export class MockTableComponent {
 
 const mockComponents = [MockTableComponent];
 
-@Injectable()
-export class MockTableService {
-  buildStructure(type): Observable<TableStructure> {
-    return of({ type });
-  }
-  getConfig() {}
-}
-
 @NgModule({
   declarations: mockComponents,
   exports: mockComponents,
-  providers: [
-    {
-      provide: TableService,
-      useClass: MockTableService,
-    },
-  ],
 })
 export class TableTestingModule {}
