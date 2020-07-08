@@ -20,17 +20,8 @@ const mockCostCenter: CostCenter = {
   unit: { name: 'orgName', uid: 'orgCode' },
 };
 
-// const mockCostCenterUI: any = {
-//   code: costCenterCode,
-//   name: 'costCenter1',
-//   currency: {
-//     symbol: '$',
-//     isocode: 'USD',
-//   },
-//   unit: { name: 'orgName', uid: 'orgCode' },
-// };
 class MockCostCenterService implements Partial<CostCenterService> {
-  loadCostCenter = createSpy('loadCostCenter');
+  load = createSpy('load');
   get = createSpy('get').and.returnValue(of(mockCostCenter));
   update = createSpy('update');
 }

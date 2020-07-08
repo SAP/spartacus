@@ -34,7 +34,7 @@ class MockCostCenterService implements Partial<CostCenterService> {
     return of(mockCostCenter);
   }
   update(_costCenterCode: string, _costCenter: CostCenter) {}
-  loadCostCenter(_costCenterCode: string) {}
+  load(_costCenterCode: string) {}
 }
 
 const mockRouterState = {
