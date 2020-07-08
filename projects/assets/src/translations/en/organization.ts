@@ -43,8 +43,7 @@ export const organization = {
       title: 'Disable Budget',
       message: 'Are you sure you want to disable this budget?',
     },
-    timezoneInaccuracyDisclaimer:
-      'Note: Dates may appear inaccurate depending on your local timezone.',
+    localTimeDisclaimer: 'Note: All times are local.',
   },
   budgetForm: {
     create: 'Create Budget',
@@ -69,9 +68,6 @@ export const organization = {
       label: 'Budget amount',
       placeholder: 'Amount',
     },
-    timezone: 'Timezone',
-    localTimeDisclaimer:
-      'Note: Your local time is being used. Different timezones need be accounted for according your local time. ',
   },
   budgetCostCenters: {
     header: 'Cost centers of {{code}}',

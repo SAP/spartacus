@@ -31,8 +31,8 @@ const mockBudget: Budget = {
     isocode: 'USD',
     symbol: '$',
   },
-  startDate: '2010-01-01T00:00:00+0000',
-  endDate: '2034-07-12T23:59:59+0000',
+  startDate: '2010-01-01T00:00:00',
+  endDate: '2034-07-12T23:59:59',
   orgUnit: { name: 'Org Unit 1', uid: 'unitNode1' },
   costCenters: [
     { name: 'costCenter1', code: 'cc1', originalCode: 'Cost Center 1' },
@@ -133,10 +133,6 @@ describe('BudgetFormComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    beforeEach(() => {
-      spyOn(component, 'getLocalTimezoneOffset').and.returnValue('+00:00');
-    });
-
     it('should load currencies', () => {
       component.ngOnInit();
       let currencies: any;
@@ -163,6 +159,7 @@ describe('BudgetFormComponent', () => {
     });
 
     it('should setup clean form', () => {
+      spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
       spyOn(component.form, 'patchValue');
       component.budgetData = null;
       component.ngOnInit();
@@ -172,10 +169,20 @@ describe('BudgetFormComponent', () => {
     });
 
     it('should setup form for update', () => {
+      spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
       spyOn(component.form, 'patchValue').and.callThrough();
       component.budgetData = mockBudget;
       component.ngOnInit();
-      expect(component.form.patchValue).toHaveBeenCalledWith(mockBudget);
+
+      const getDateWithTimeoffset = (value: string) => {
+        return new Date(value).toISOString().substring(0, 16);
+      };
+
+      expect(component.form.patchValue).toHaveBeenCalledWith({
+        ...mockBudget,
+        startDate: getDateWithTimeoffset(mockBudget.startDate),
+        endDate: getDateWithTimeoffset(mockBudget.endDate),
+      });
       expect(component.form.valid).toBeTruthy();
       expect(component.getLocalTimezoneOffset).toHaveBeenCalledWith(true);
     });
@@ -188,26 +195,26 @@ describe('BudgetFormComponent', () => {
 
     it('should not emit value if form is invalid', () => {
       spyOn(component.submitForm, 'emit');
-      spyOn(component, 'patchDateControlWithOffset').and.callThrough();
+      spyOn(component, 'update').and.callThrough();
       const form = fixture.debugElement.query(By.css('form'));
-      expect(component.patchDateControlWithOffset).not.toHaveBeenCalled();
+      expect(component.update).not.toHaveBeenCalled();
       form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).not.toHaveBeenCalled();
-      expect(component.patchDateControlWithOffset).toHaveBeenCalledTimes(2);
+      expect(component.update).toHaveBeenCalledTimes(1);
     });
 
     it('should emit value if form is valid', () => {
       spyOn(component.submitForm, 'emit');
-      spyOn(component, 'patchDateControlWithOffset').and.callThrough();
+      spyOn(component, 'update').and.callThrough();
       component.budgetData = mockBudget;
       component.ngOnInit();
       const form = fixture.debugElement.query(By.css('form'));
-      expect(component.patchDateControlWithOffset).not.toHaveBeenCalled();
+      expect(component.update).not.toHaveBeenCalled();
       form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).toHaveBeenCalledWith(
         component.form.value
       );
-      expect(component.patchDateControlWithOffset).toHaveBeenCalledTimes(2);
+      expect(component.update).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -263,18 +270,6 @@ describe('BudgetFormComponent', () => {
       };
       spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
       expect(component.getLocalTimezoneOffset(true)).toEqual('-03:00');
-    });
-  });
-
-  describe('patchDateControlWithOffset()', () => {
-    it('should patch date control with offset', () => {
-      const control = component.form.controls.startDate;
-      const offset = '+02:00';
-      const dateWithOffset = control.value.replace('+0000', offset);
-      spyOn(control, 'patchValue');
-      spyOn(component, 'patchDateControlWithOffset').and.callThrough();
-      component.patchDateControlWithOffset(control, offset);
-      expect(control.patchValue).toHaveBeenCalledWith(dateWithOffset);
     });
   });
 });

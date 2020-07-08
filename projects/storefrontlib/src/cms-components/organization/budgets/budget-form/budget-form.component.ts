@@ -62,19 +62,19 @@ export class BudgetFormComponent extends AbstractFormComponent
     this.businessUnits$ = this.orgUnitService.getActiveUnitList();
     if (this.budgetData && Object.keys(this.budgetData).length !== 0) {
       const localOffset = this.getLocalTimezoneOffset(true);
-      const startDate = new Date(
-        this.formatDateStringWithTimezone(
-          this.budgetData.startDate,
-          localOffset
-        )
+      const startDate = this.formatDateStringWithTimezone(
+        this.budgetData.startDate,
+        localOffset
       );
-      const endDate = new Date(
-        this.formatDateStringWithTimezone(this.budgetData.endDate, localOffset)
+      const endDate = this.formatDateStringWithTimezone(
+        this.budgetData.endDate,
+        localOffset
       );
+
       this.form.patchValue({
         ...this.budgetData,
-        startDate: startDate.toISOString().substring(0, 16),
-        endDate: endDate.toISOString().substring(0, 16),
+        startDate: startDate,
+        endDate: endDate,
       });
     }
   }
@@ -95,22 +95,34 @@ export class BudgetFormComponent extends AbstractFormComponent
       : `+${hours}:${minutes}`;
   }
 
-  patchDateControlWithOffset(control: AbstractControl, offset: string): void {
-    const value = control.value;
-    // const dateWithOffset =
-    //   value.indexOf('+') > -1
-    //     ? value.split('+')[0] + offset //.replace('+', '-')
-    //     : value.split('-')[0] + offset; //.replace('-', '+');
-    // new Date().toUTCString()
-    console.log(value, `${control.value}:00${offset}`);
+  update(form: AbstractFormComponent) {
+    this.patchDateControlWithOffset(
+      this.form.controls.startDate,
+      this.form.controls.timezoneOffset.value
+    );
+    this.patchDateControlWithOffset(
+      this.form.controls.endDate,
+      this.form.controls.timezoneOffset.value
+    );
+    form.verifyAndSubmit();
+  }
+
+  protected patchDateControlWithOffset(
+    control: AbstractControl,
+    offset: string
+  ): void {
     control.patchValue(`${control.value}:00${offset}`);
   }
 
   protected formatDateStringWithTimezone(dateString: string, offset: string) {
-    return new Date(dateString.replace('+0000', offset))
+    return new Date(
+      new Date(dateString.replace('+0000', offset))
+        .toISOString()
+        .replace('.', '+')
+        .replace('Z', '0')
+    )
       .toISOString()
-      .replace('.', '+')
-      .replace('Z', '0');
+      .substring(0, 16);
   }
 
   protected padWithZeroes(str: string, max: number) {

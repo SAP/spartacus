@@ -1,17 +1,4 @@
-<form
-  [formGroup]="form"
-  (ngSubmit)="
-    patchDateControlWithOffset(
-      form.controls.startDate,
-      form.controls.timezoneOffset.value
-    );
-    patchDateControlWithOffset(
-      form.controls.endDate,
-      form.controls.timezoneOffset.value
-    );
-    verifyAndSubmit()
-  "
->
+<form [formGroup]="form" (ngSubmit)="update(this)">
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="form-group">
@@ -73,29 +60,11 @@
         </ng-container>
       </div>
 
-      <!-- <div class="form-group">
-        <label aria-required="true">
-          <span class="label-content required">{{
-            'budgetForm.timezone' | cxTranslate
-          }}</span>
-          <cx-select-timezone
-            [fg]="form"
-            [controlName]="'timezoneOffset'"
-          ></cx-select-timezone>
-        </label>
-      </div> -->
-
       <div class="form-group">
         <label>
           <span class="label-content">{{
             'budgetForm.startDate' | cxTranslate
           }}</span>
-          <!-- <cx-date-picker
-            formControlName="startDate"
-            [max]="form.controls.endDate.value"
-            (change)="form.controls.endDate.updateValueAndValidity()"
-            [invalid]="isNotValid('startDate')"
-          ></cx-date-picker> -->
           <input
             type="datetime-local"
             class="form-control"
@@ -122,13 +91,6 @@
             [min]="form.controls.startDate.value"
             [value]="form.controls.endDate.value"
           />
-          <!-- <cx-date-picker
-            formControlName="endDate"
-            [min]="form.controls.startDate.value"
-            (change)="form.controls.startDate.updateValueAndValidity()"
-            [endOfDay]="true"
-            [invalid]="isNotValid('endDate')"
-          ></cx-date-picker> -->
           <cx-form-errors
             [control]="form.get('endDate')"
             [translationParams]="{
@@ -140,7 +102,7 @@
 
       <div class="form-group">
         <span class="label-content">
-          {{ 'budgetForm.localTimeDisclaimer' | cxTranslate }}
+          {{ 'budget.localTimeDisclaimer' | cxTranslate }}
         </span>
       </div>
 
