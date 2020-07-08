@@ -119,7 +119,6 @@ describe('ConfigProductTitleComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
-
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
@@ -156,7 +155,7 @@ describe('ConfigProductTitleComponent', () => {
     });
   });
 
-  it('check initial rendering', () => {
+  it('should render initial content properly', () => {
     ConfigComponentTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
@@ -182,7 +181,7 @@ describe('ConfigProductTitleComponent', () => {
     );
   });
 
-  it('check rendering in show more case - default', () => {
+  it('should render show more case - default', () => {
     component.triggerDetails();
     fixture.detectChanges();
 
@@ -201,7 +200,7 @@ describe('ConfigProductTitleComponent', () => {
     );
   });
 
-  it('check rendering in order entry configuration case', () => {
+  it('should render properly for navigation from order entry', () => {
     configuration = orderEntryconfig;
     ConfigComponentTestUtilsService.expectElementPresent(
       expect,

@@ -27,8 +27,6 @@ export class ConfigProductTitleComponent {
           return configuration.productCode;
         case GenericConfigurator.OwnerType.ORDER_ENTRY:
           return configuration.overview.productCode;
-        default:
-          return configuration.productCode;
       }
     }),
     switchMap((productCode) => this.productService.get(productCode))
