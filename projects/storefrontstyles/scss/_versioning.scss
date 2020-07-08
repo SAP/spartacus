@@ -1,0 +1,69 @@
+/**
+ * The Spartacus team is cautious with introducing changing styles in a 
+ * minor release, as it would conflict the [semantic versioning](https://semver.org/) 
+ * model. In order to improve the style layer during minor releases, without 
+ * breaking the semantic versioning system, a version flag is used. The version is 
+ * used to register breaking styles classes and rules in the stable style layer. 
+ * 
+ * To introduce breaking changes during the life cycle of a stable (major) releases, 
+ * a technique is provided to register specific styles for specific versions.
+ * Customers can opt-in for specific versions by declaring the `$styleVersion` variable.
+ * The breaking changes until the declared version will be cumulated in the generated 
+ * stylesheet. For example, if a customer declares to use version 2.3, it means that 
+ * all breaking changes introduced in versions 2.1, 2.2 and 2.3 will end up in the 
+ * stylesheet. 
+ * 
+ * Breaking changes which have been introduced before the latest stable release will
+ * always be added. 
+ * 
+ * To make live easy for developers, prototypes and demo's, the `$useLatestStyles` 
+ * has been added as well. If you set this flag to true, you will get all breaking
+ * changes, always. 
+ * 
+ * Registration of minor driven styles can be done with the `forVersion` mixin. 
+ * An example if given below: 
+ * 
+ * ```scss
+ * @include forVersion(2.1){
+ *   // style classes/rules go here
+ * }
+ * ```
+ */
+
+/**
+ * The `$stableVersion` indicates the major version of the style library. Any
+ * version related styles that are left over from previous stable releases will
+ * always end up in the generated stylesheet. 
+ * 
+ * The `$stableVersion` variable cannot be redeclared by customers. This version 
+ * will be updated each time the major release number increases. 
+ */
+$stableStyleVersion: 2;
+
+/**
+ * The `$styleVersion` can be used to explicitly opt-in to breaking style changes till
+ * the given style version. It must contain a floating number, such as `2.1`. 
+ */
+$styleVersion: 0 !default;
+
+/**
+ * For Spartacus development or demo's, the usage of latest styles is recommended. 
+ * To avoid frequent changes of the $minorVersion in the application, we offer a 
+ * flag that can be used to keep up with the latest version at any time. 
+ */
+$useLatestStyles: false !default;
+
+/**
+ * The `forVersion` mixin is used during development of the style layer. Breaking style
+ * changes can be added for a specific version, so that customers must explicitly
+ * _opt-in_ for all breaking changes till the requested $styleVersion. Non breaking changes 
+ * added at any point in time will be build regardless of the selected $styleVersion. 
+ */
+@mixin forVersion($version) {
+  @if $useLatestStyles or
+    ($version <= $styleVersion) or
+    ($version <= $stableStyleVersion)
+  {
+    @content;
+  }
+}

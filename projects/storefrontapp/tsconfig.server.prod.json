@@ -6,7 +6,22 @@
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/storefront": ["../../dist/storefrontlib"],
       "@spartacus/cds": ["../../dist/cds"],
-      "@spartacus/assets": ["../../dist/assets"]
+      "@spartacus/assets": ["../../dist/assets"],
+      "@spartacus/my-account": ["../../dist/my-account"],
+      "@spartacus/product": ["../../dist/product"],
+      "@spartacus/product/configurators": ["../../dist/product/configurators"],
+      "@spartacus/product/configurators/common": [
+        "../../dist/product/configurators/common"
+      ],
+      "@spartacus/product/configurators/cpq": [
+        "../../dist/product/configurators/cpq"
+      ],
+      "@spartacus/product/configurators/variant": [
+        "../../dist/product/configurators/variant"
+      ],
+      "@spartacus/product/configurators/textfield": [
+        "../../dist/product/configurators/textfield"
+      ]
     }
   }
 }

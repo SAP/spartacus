@@ -86,7 +86,7 @@ export function addToModuleExports(
   return addToMetadata(host, modulePath, importText, 'exports', moduleSource);
 }
 
-function addToMetadata(
+export function addToMetadata(
   host: Tree,
   modulePath: string,
   importText: string,
