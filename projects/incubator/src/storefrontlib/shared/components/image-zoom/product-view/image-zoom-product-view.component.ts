@@ -28,6 +28,8 @@ export class ImageZoomProductViewComponent {
   @ViewChild('zoomedImage', { read: ElementRef }) zoomedImage: ElementRef;
 
   startCoords: { x: number; y: number } = null;
+  left = 0;
+  top = 0;
 
   private product$: Observable<
     Product
@@ -104,6 +106,8 @@ export class ImageZoomProductViewComponent {
   zoom(): void {
     this.isZoomed = !this.isZoomed;
     this.startCoords = null;
+    this.left = 0;
+    this.top = 0;
   }
 
   /**
@@ -113,18 +117,25 @@ export class ImageZoomProductViewComponent {
    */
   touchMove(event: any): void {
     const touch = event.touches[0] || event.changedTouches[0];
-    const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect();
+
+    event.preventDefault();
 
     if (!this.startCoords)
       this.startCoords = { x: touch.clientX, y: touch.clientY };
 
-    const x = touch.clientX - this.startCoords.x;
-    const y = touch.clientY - this.startCoords.y;
+    this.left += touch.clientX - this.startCoords.x;
+    this.top += touch.clientY - this.startCoords.y;
 
-    const positionX = x - boundingRect.left;
-    const positionY = y - boundingRect.top;
+    this.moveImage(this.left, this.top);
 
-    this.moveImage(positionX, positionY);
+    this.startCoords = { x: touch.clientX, y: touch.clientY };
+  }
+
+  /**
+   * Clears touch location
+   */
+  clearTouch(): void {
+    this.startCoords = null;
   }
 
   /**
@@ -152,9 +163,50 @@ export class ImageZoomProductViewComponent {
    */
   protected moveImage(positionX: number, positionY: number): void {
     const imageElement = this.zoomedImage.nativeElement.firstChild;
+    const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect();
 
-    this.renderer.setStyle(imageElement, 'left', positionX + 'px');
-    this.renderer.setStyle(imageElement, 'top', positionY + 'px');
+    const { x, y } = this.handleOutOfBounds(
+      positionX,
+      positionY,
+      imageElement,
+      boundingRect
+    );
+
+    this.renderer.setStyle(imageElement, 'left', x + 'px');
+    this.renderer.setStyle(imageElement, 'top', y + 'px');
+  }
+
+  /**
+   * Keeps the zoom image from leaving the bounding container
+   *
+   * @param positionX
+   * @param positionY
+   * @param imageElement
+   * @param boundingRect
+   */
+  protected handleOutOfBounds(
+    positionX: number,
+    positionY: number,
+    imageElement: any,
+    boundingRect: any
+  ): { x: number; y: number } {
+    const paddingX = 60;
+    const paddingY = 60;
+
+    if (positionY <= -imageElement.height + paddingY) {
+      positionY = -imageElement.height + paddingY;
+    }
+    if (positionY >= boundingRect.height - paddingY) {
+      positionY = boundingRect.height - paddingY;
+    }
+    if (positionX <= -imageElement.width - boundingRect.width / 2 + paddingX) {
+      positionX = -imageElement.width - boundingRect.width / 2 + paddingX;
+    }
+    if (positionX >= imageElement.width + boundingRect.width / 2 - paddingX) {
+      positionX = imageElement.width + boundingRect.width / 2 - paddingX;
+    }
+
+    return { x: positionX, y: positionY };
   }
 
   /**

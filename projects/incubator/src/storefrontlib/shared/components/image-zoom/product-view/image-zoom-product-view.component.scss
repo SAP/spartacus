@@ -11,11 +11,16 @@
   justify-content: center;
   padding-bottom: 1em;
 
-  .cx-navigate-image {
-    display: flex;
+  // Landscape phones
+  @media only screen and (max-width: 900px) and (orientation: landscape) {
+    height: 100%;
+  }
 
-    @include media-breakpoint-down(sm) {
-      display: none;
+  .cx-navigate-image {
+    display: none;
+
+    @include media-breakpoint-up(sm) {
+      display: flex;
     }
 
     button {
@@ -36,6 +41,7 @@
     // Landscape phones
     @media only screen and (max-width: 900px) and (orientation: landscape) {
       height: 100%;
+      max-height: 100%;
     }
 
     &:hover {
@@ -58,6 +64,7 @@
     height: 100%;
     width: 100%;
     padding: 1em;
+    -webkit-touch-callout: none;
 
     &:hover {
       cursor: zoom-out;

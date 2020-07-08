@@ -24,6 +24,7 @@
         [container]="main"
         (mousemove)="pointerMove($event)"
         (touchmove)="touchMove($event)"
+        (touchend)="clearTouch()"
       >
       </cx-media>
     </div>
