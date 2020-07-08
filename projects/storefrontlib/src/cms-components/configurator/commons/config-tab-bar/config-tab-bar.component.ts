@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GenericConfigurator } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ConfigurationRouter } from '../../generic/service/config-router-data';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
@@ -10,33 +8,12 @@ import { ConfigRouterExtractorService } from '../../generic/service/config-route
   templateUrl: './config-tab-bar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigTabBarComponent implements OnInit {
-  owner$: Observable<GenericConfigurator.Owner>;
-  configuratorType$: Observable<string>;
-  routerData$: Observable<ConfigurationRouter.Data>;
+export class ConfigTabBarComponent {
+  routerData$: Observable<
+    ConfigurationRouter.Data
+  > = this.configRouterExtractorService.extractRouterData();
 
   constructor(
-    private configRouterExtractorService: ConfigRouterExtractorService
+    protected configRouterExtractorService: ConfigRouterExtractorService
   ) {}
-
-  ngOnInit(): void {
-    this.routerData$ = this.configRouterExtractorService.extractRouterData();
-
-    this.owner$ = this.routerData$.pipe(map((routerData) => routerData.owner));
-
-    this.configuratorType$ = this.routerData$.pipe(
-      map((routerData) => routerData.configuratorType)
-    );
-  }
-
-  isOverviewPage(): Observable<boolean> {
-    return this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        map(
-          (routerData) =>
-            routerData.pageType === ConfigurationRouter.PageType.OVERVIEW
-        )
-      );
-  }
 }

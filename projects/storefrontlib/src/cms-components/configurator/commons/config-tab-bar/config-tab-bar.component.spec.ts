@@ -109,14 +109,13 @@ describe('ConfigTabBarComponent', () => {
   });
 
   it('should render 2 navigation links per default', () => {
-    component.ngOnInit();
     fixture.detectChanges();
     expect(htmlElem.querySelectorAll('.nav-link').length).toEqual(2);
   });
 
   it('should render no links if router states displayOnly', () => {
     mockRouterState.state.params.displayOnly = true;
-    component.ngOnInit();
+
     fixture.detectChanges();
     expect(htmlElem.querySelectorAll('.nav-link').length).toEqual(0);
   });

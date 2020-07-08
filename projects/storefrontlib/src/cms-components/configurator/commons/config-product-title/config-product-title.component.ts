@@ -28,9 +28,9 @@ export class ConfigProductTitleComponent {
   iconTypes = ICON_TYPE;
 
   constructor(
-    private configuratorCommonsService: ConfiguratorCommonsService,
-    private configRouterExtractorService: ConfigRouterExtractorService,
-    private productService: ProductService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configRouterExtractorService: ConfigRouterExtractorService,
+    protected productService: ProductService
   ) {}
 
   triggerDetails(): void {

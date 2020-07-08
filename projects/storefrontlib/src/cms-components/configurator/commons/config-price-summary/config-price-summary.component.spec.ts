@@ -87,7 +87,6 @@ describe('ConfigPriceSummaryComponent', () => {
   });
 
   it('should get product code as part of product configuration', () => {
-    component.ngOnInit();
     component.configuration$.subscribe((data: Configurator.Configuration) => {
       expect(data.productCode).toEqual(PRODUCT_CODE);
     });

@@ -4,7 +4,9 @@
       <div>
         <a
           class="nav-link"
-          [class.active]="!(isOverviewPage() | async)"
+          [class.active]="
+            routerData.pageType === ConfigurationRouter.PageType.CONFIGURATION
+          "
           [routerLink]="
             {
               cxRoute: 'configure' + routerData.configuratorType,
@@ -21,7 +23,9 @@
       <div>
         <a
           class="nav-link"
-          [class.active]="isOverviewPage() | async"
+          [class.active]="
+            routerData.pageType === ConfigurationRouter.PageType.OVERVIEW
+          "
           [routerLink]="
             {
               cxRoute: 'configureOverview' + routerData.configuratorType,
