@@ -23,11 +23,7 @@ import { ConfigTextfieldInputFieldComponent } from './config-textfield-input-fie
     ConfigTextfieldInputFieldComponent,
     ConfigTextfieldAddToCartButtonComponent,
   ],
-  exports: [
-    ConfigTextfieldFormComponent,
-    ConfigTextfieldInputFieldComponent,
-    ConfigTextfieldAddToCartButtonComponent,
-  ],
+  exports: [],
   entryComponents: [
     ConfigTextfieldFormComponent,
     ConfigTextfieldInputFieldComponent,
