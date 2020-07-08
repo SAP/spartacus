@@ -56,6 +56,7 @@ class MockActivatedRoute {
   parent = {
     params: of({ code: costCenterCode }),
   };
+  snapshot = {};
   go() {}
 }
 
