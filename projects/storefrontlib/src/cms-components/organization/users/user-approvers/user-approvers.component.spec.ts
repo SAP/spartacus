@@ -27,6 +27,8 @@ import { InteractiveTableModule } from '../../../../shared/components/interactiv
 import { UserApproversComponent } from './user-approvers.component';
 
 import createSpy = jasmine.createSpy;
+import { IconLoaderService } from '../../../misc';
+import { MockIconLoaderService } from '../../../misc/icon/icon.component.spec';
 
 const code = 'unitCode';
 const roleId = 'b2bapprovergroup';
@@ -150,6 +152,7 @@ describe('UnitApproversComponent', () => {
             pagination: {},
           },
         },
+        { provide: IconLoaderService, useClass: MockIconLoaderService },
       ],
     }).compileComponents();
 

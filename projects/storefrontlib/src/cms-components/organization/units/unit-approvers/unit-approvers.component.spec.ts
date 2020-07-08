@@ -28,6 +28,8 @@ import { UnitApproversComponent } from './unit-approvers.component';
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
+import { IconLoaderService } from '../../../misc';
+import { MockIconLoaderService } from '../../../misc/icon/icon.component.spec';
 
 const code = 'unitCode';
 const roleId = 'b2bapprovergroup';
@@ -147,6 +149,7 @@ describe('UnitApproversComponent', () => {
             pagination: {},
           },
         },
+        { provide: IconLoaderService, useClass: MockIconLoaderService },
       ],
     }).compileComponents();
 
