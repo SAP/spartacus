@@ -158,7 +158,7 @@ function handleRegularConfigMerge(
  * @param propertyName the name of the new config key
  * @param newValues the value
  */
-function createNewConfig(
+export function createNewConfig(
   path: string,
   configObject: ts.SyntaxList,
   propertyName: string,
