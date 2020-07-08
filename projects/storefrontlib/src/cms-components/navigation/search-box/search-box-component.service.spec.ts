@@ -204,9 +204,7 @@ describe('SearchBoxComponentService', () => {
       service
         .getResults(searchBoxConfigNoExactMatch)
         .subscribe((results) => (result = results));
-      expect(result.suggestions).toEqual(
-        [ ]
-        );
+      expect(result.suggestions).toEqual([]);
     });
 
     it('should not get an exact match suggestion when there are suggestions returned', () => {

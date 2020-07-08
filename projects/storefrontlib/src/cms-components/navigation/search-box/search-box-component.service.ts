@@ -23,7 +23,6 @@ export class SearchBoxComponentService {
     protected winRef: WindowRef
   ) {}
 
-
   /**
    * Executes the search for products and suggestions,
    * unless the configuration is setup to not search for
@@ -42,7 +41,7 @@ export class SearchBoxComponentService {
       return;
     }
 
-    if(config.exactMatchEnabled === undefined){
+    if (config.exactMatchEnabled === undefined) {
       config.exactMatchEnabled = true;
     }
 
@@ -135,7 +134,7 @@ export class SearchBoxComponentService {
       return this.searchService.getSuggestionResults().pipe(
         map((res) => res.map((suggestion) => suggestion.value)),
         switchMap((suggestions) => {
-          if (suggestions.length === 0 ) {
+          if (suggestions.length === 0) {
             return this.getExactSuggestion(config).pipe(
               map((match) => (match ? [match] : []))
             );
@@ -154,7 +153,9 @@ export class SearchBoxComponentService {
   private getExactSuggestion(config: SearchBoxConfig): Observable<string> {
     return this.getProductResults(config).pipe(
       switchMap((productResult) => {
-        return config.exactMatchEnabled && productResult.products && productResult.products.length > 0
+        return config.exactMatchEnabled &&
+          productResult.products &&
+          productResult.products.length > 0
           ? this.fetchTranslation('searchBox.help.exactMatch', {
               term: productResult.freeTextSearch,
             })
