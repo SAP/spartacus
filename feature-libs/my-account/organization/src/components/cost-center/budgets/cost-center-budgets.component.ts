@@ -6,9 +6,20 @@ import {
   EntitiesModel,
   RoutingService,
 } from '@spartacus/core';
-import { AbstractListingComponent, ListingModel } from '@spartacus/storefront';
+import {
+  AbstractListingComponent,
+  ListingModel,
+  ICON_TYPE,
+} from '@spartacus/storefront';
+import {
+  filter,
+  map,
+  switchMap,
+  tap,
+  withLatestFrom,
+  take,
+} from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cost-center-budgets',
@@ -17,6 +28,7 @@ import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 export class CostCenterBudgetsComponent extends AbstractListingComponent
   implements OnInit {
   cxRoute = 'costCenterBudgets';
+  ICON_TYPE = ICON_TYPE;
 
   constructor(
     protected routingService: RoutingService,
@@ -56,5 +68,13 @@ export class CostCenterBudgetsComponent extends AbstractListingComponent
         )
       )
     );
+  }
+
+  unassign({ row }) {
+    this.code$
+      .pipe(take(1))
+      .subscribe((code) =>
+        this.costCenterService.unassignBudget(code, row.code)
+      );
   }
 }
