@@ -8,14 +8,15 @@ import {
   ConfigGroupMenuComponent,
   ConfigGroupTitleComponent,
   ConfigPreviousNextButtonsComponent,
-  ConfigPriceSummaryComponent,
-  ConfigProductTitleComponent,
-  ConfigTabBarComponent,
   ConfigurationMessageLoaderModule,
   DefaultMessageConfig,
   HamburgerMenuModule,
   PageLayoutComponent,
 } from '@spartacus/storefront';
+import { CommonConfiguratorComponentsModule } from '../../common/src';
+import { ConfigPriceSummaryComponent } from '../../common/src/components/config-price-summary/config-price-summary.component';
+import { ConfigProductTitleComponent } from '../../common/src/components/config-product-title/config-product-title.component';
+import { ConfigTabBarComponent } from '../../common/src/components/config-tab-bar/config-tab-bar.component';
 
 /**
  * Takes care of the interactive configuration process (the user enters new attribute values and navigates through the configuration).
@@ -24,6 +25,7 @@ import {
 @NgModule({
   imports: [
     ProductModule,
+    CommonConfiguratorComponentsModule,
     ConfigurationMessageLoaderModule,
     RouterModule.forChild([
       {

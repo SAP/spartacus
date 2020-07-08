@@ -5,10 +5,9 @@ import {
   Product,
   ProductService,
 } from '@spartacus/core';
+import { ConfigRouterExtractorService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../misc/icon/index';
-import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 @Component({
   selector: 'cx-config-product-title',

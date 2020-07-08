@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Configurator,
   ConfiguratorCommonsService,
+  GenericConfigurator,
   I18nTestingModule,
   RouterState,
   RoutingService,
@@ -15,38 +16,42 @@ const PRODUCT_CODE = 'CONF_LAPTOP';
 const mockRouterState: any = {
   state: {
     params: {
-      rootProduct: PRODUCT_CODE,
+      entityKey: PRODUCT_CODE,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},
+    url: 'CONFIG_OVERVIEW_URL',
   },
 };
 
+const config: Configurator.Configuration = {
+  configId: '1234-56-7890',
+  consistent: true,
+  complete: true,
+  productCode: PRODUCT_CODE,
+  priceSummary: {
+    basePrice: {
+      formattedValue: '22.000 €',
+    },
+    selectedOptions: {
+      formattedValue: '900 €',
+    },
+    currentTotal: {
+      formattedValue: '22.900 €',
+    },
+  },
+};
+
+let routerStateObservable = null;
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
+    return routerStateObservable;
   }
 }
 
 class MockConfiguratorCommonsService {
-  public config: Configurator.Configuration = {
-    configId: '1234-56-7890',
-    consistent: true,
-    complete: true,
-    productCode: PRODUCT_CODE,
-    priceSummary: {
-      basePrice: {
-        formattedValue: '22.000 €',
-      },
-      selectedOptions: {
-        formattedValue: '900 €',
-      },
-      currentTotal: {
-        formattedValue: '22.900 €',
-      },
-    },
-  };
   getConfiguration(): Observable<Configurator.Configuration> {
-    return of(this.config);
+    return of(config);
   }
 }
 
@@ -55,6 +60,7 @@ describe('ConfigPriceSummaryComponent', () => {
   let fixture: ComponentFixture<ConfigPriceSummaryComponent>;
 
   beforeEach(async(() => {
+    routerStateObservable = of(mockRouterState);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [ConfigPriceSummaryComponent],
@@ -86,9 +92,14 @@ describe('ConfigPriceSummaryComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should get product code as part of product configuration', () => {
-    component.configuration$.subscribe((data: Configurator.Configuration) => {
-      expect(data.productCode).toEqual(PRODUCT_CODE);
-    });
+  it('should get product code and prices as part of product configuration', () => {
+    component.configuration$
+      .subscribe((data: Configurator.Configuration) => {
+        expect(data.productCode).toEqual(PRODUCT_CODE);
+        expect(data.priceSummary.basePrice).toEqual(
+          config.priceSummary.basePrice
+        );
+      })
+      .unsubscribe();
   });
 });
