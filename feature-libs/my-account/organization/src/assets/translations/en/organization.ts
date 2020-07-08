@@ -12,12 +12,13 @@ export const organization = {
     enable: 'Enable',
     disable: 'Disable',
 
-    back: 'Back',
+    back: '',
+    close: '',
+    cancel: 'Cancel',
+
     create: 'Create {{name}}',
     edit: 'Edit {{name}}',
     save: 'Save {{name}}',
-    cancel: 'Cancel {{name}}',
-    close: 'Close {{name}}',
 
     manage: 'Manage',
 

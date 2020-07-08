@@ -14,7 +14,7 @@
 
     <section>
       <a
-        class="button primary edit"
+        class="link"
         [class.disabled]="!costCenter.active"
         [routerLink]="{ cxRoute: 'costCenterEdit', params: costCenter } | cxUrl"
       >
@@ -60,6 +60,19 @@
     </section>
 
     <section>
+      <h4>
+        <a
+          class="link"
+          [routerLink]="
+            { cxRoute: 'costCenterBudgets', params: costCenter } | cxUrl
+          "
+        >
+          {{ 'costCenter.budget.header' | cxTranslate }}
+        </a>
+      </h4>
+    </section>
+
+    <section>
       <div class="property">
         <label>{{ 'organization.status' | cxTranslate }}</label>
         <span class="value">
@@ -93,20 +106,6 @@
           </ng-template>
         </p>
       </div>
-    </section>
-
-    <section>
-      <h4>
-        {{ 'costCenter.budget.header' | cxTranslate }}
-        <a
-          class="link"
-          [routerLink]="
-            { cxRoute: 'costCenterBudgets', params: costCenter } | cxUrl
-          "
-        >
-          {{ 'costCenter.budget.header' | cxTranslate }}
-        </a>
-      </h4>
     </section>
   </ng-container>
 </cx-view>
