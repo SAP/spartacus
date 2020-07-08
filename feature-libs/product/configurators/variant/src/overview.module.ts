@@ -2,14 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
 import {
+  CommonConfiguratorComponentsModule,
+  ConfigPriceSummaryComponent,
+  ConfigTabBarComponent,
+} from '@spartacus/product/configurators/common';
+import {
   CmsPageGuard,
   ConfigAddToCartButtonComponent,
   ConfigOverviewFormComponent,
   PageLayoutComponent,
 } from '@spartacus/storefront';
-import { CommonConfiguratorComponentsModule } from '../../common/src/components/common-configurator-components.module';
-import { ConfigPriceSummaryComponent } from '../../common/src/components/config-price-summary/config-price-summary.component';
-import { ConfigTabBarComponent } from '../../common/src/components/config-tab-bar/config-tab-bar.component';
 
 /**
  * Takes care of the configuration overview that visualizes the attribute value assignments that have been done already in a condensed, read-only form.

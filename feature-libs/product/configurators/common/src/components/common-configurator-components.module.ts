@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
+import { IconModule } from '@spartacus/storefront';
 import { ConfigPriceSummaryComponent } from './config-price-summary/config-price-summary.component';
 import { ConfigProductTitleComponent } from './config-product-title/config-product-title.component';
 import { ConfigTabBarComponent } from './config-tab-bar/config-tab-bar.component';
@@ -17,6 +18,7 @@ import { ConfigTabBarComponent } from './config-tab-bar/config-tab-bar.component
     CommonModule,
     I18nModule,
     UrlModule,
+    IconModule,
   ],
   declarations: [
     ConfigProductTitleComponent,
