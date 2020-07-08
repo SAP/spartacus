@@ -2,7 +2,7 @@ import { Component, Input, NgModule } from '@angular/core';
 
 @Component({
   selector: 'cx-icon,[cxIcon]',
-  template: '',
+  template: `{{ type || cxIcon }}`,
 })
 export class MockIconComponent {
   @Input() cxIcon;
