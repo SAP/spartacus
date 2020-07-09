@@ -20,8 +20,7 @@ export class ConfigInitializerService {
     @Inject(Config) protected config: any,
     @Optional()
     @Inject(CONFIG_INITIALIZER_FORROOT_GUARD)
-    protected initializerGuard,
-    private logger: LoggingService
+    protected initializerGuard
   ) {}
 
   protected ongoingScopes$ = new BehaviorSubject<string[]>(undefined);
@@ -141,7 +140,7 @@ export class ConfigInitializerService {
       }
 
       if (!this.areReady(initializer.scopes, ongoingScopes)) {
-        this.logger.warn(
+        LoggingService.getInstance().warn(
           'More than one CONFIG_INITIALIZER is initializing the same config scope.'
         );
       }

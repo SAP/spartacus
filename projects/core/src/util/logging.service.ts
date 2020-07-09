@@ -1,8 +1,17 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { isDevMode } from '@angular/core';
 
-@Injectable({ providedIn: 'root' })
 export class LoggingService {
-  constructor() {}
+  private static instance: LoggingService;
+
+  private constructor() {}
+
+  static getInstance(): LoggingService {
+    if (!LoggingService.instance) {
+      LoggingService.instance = new LoggingService();
+    }
+
+    return LoggingService.instance;
+  }
 
   trace(message, ...additional: any[]) {
     if (this.isDebug()) {
