@@ -22,7 +22,6 @@ import { AnonymousConsentsActions } from '../actions/index';
 
 @Injectable()
 export class AnonymousConsentsEffects {
-  // TODO:#anon - test
   @Effect()
   checkUpdatedVersion$: Observable<
     AnonymousConsentsActions.LoadAnonymousConsentTemplates | Observable<never>
@@ -36,7 +35,7 @@ export class AnonymousConsentsEffects {
     ),
     tap((_) => console.log('2')),
     concatMap(([_, currentConsents]) => {
-      // TODO:#anon - create a deprecation ticket
+      // TODO{#8158} - remove this if block
       if (!this.anonymousConsentTemplatesConnector.loadAnonymousConsents()) {
         return of(new AnonymousConsentsActions.LoadAnonymousConsentTemplates());
       }
@@ -52,7 +51,6 @@ export class AnonymousConsentsEffects {
               (consent) => consent.templateVersion
             );
 
-            // TODO:#anon - dispatch the ToggleAnonymousConsentTemplatesUpdated action?
             return this.anonymousConsentService.detectUpdatedVersion(
               currentConsentVersions,
               newConsentVersions

@@ -35,6 +35,9 @@ class MockAnonymousConsentTemplatesConnector {
   loadAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
     return of();
   }
+  loadAnonymousConsents(): Observable<AnonymousConsent[]> | null {
+    return of();
+  }
 }
 
 class MockAuthService {
@@ -48,6 +51,12 @@ class MockAuthService {
 }
 
 class MockAnonymousConsentsService {
+  detectUpdatedVersion(
+    _currentVersions: number[],
+    _newVersions: number[]
+  ): boolean {
+    return false;
+  }
   detectUpdatedTemplates(
     _currentTemplates: ConsentTemplate[],
     _newTemplates: ConsentTemplate[]
@@ -182,6 +191,12 @@ fdescribe('AnonymousConsentsEffects', () => {
         spyOn(anonymousConsentService, 'getConsents').and.returnValue(
           of(currentConsents)
         );
+        spyOn(connector, 'loadAnonymousConsents').and.returnValue(
+          of(currentConsents)
+        );
+        spyOn(anonymousConsentService, 'detectUpdatedVersion').and.returnValue(
+          true
+        );
 
         const action = new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions();
 
@@ -194,6 +209,14 @@ fdescribe('AnonymousConsentsEffects', () => {
     });
     describe('when the update was NOT detected', () => {
       it('should return an EMPTY', () => {
+        spyOn(anonymousConsentService, 'getConsents').and.returnValue(
+          of(currentConsents)
+        );
+        spyOn(anonymousConsentService, 'detectUpdatedVersion').and.returnValue(
+          false
+        );
+        spyOn(connector, 'loadAnonymousConsents').and.returnValue(of([]));
+
         const action = new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions();
 
         actions$ = hot('-a', { a: action });
