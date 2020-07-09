@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AuthActions, AuthService, UserToken } from '../../../auth/index';
 import {
   AnonymousConsent,
@@ -17,6 +17,9 @@ import { AnonymousConsentTemplatesConnector } from '../../connectors/index';
 import { AnonymousConsentsService } from '../../facade/index';
 import { AnonymousConsentsActions } from '../actions/index';
 import * as fromEffect from './anonymous-consents.effect';
+
+const getTemplatesBehavior = new BehaviorSubject<ConsentTemplate[]>([]);
+const getConsentsBehavior = new BehaviorSubject<AnonymousConsent[]>([]);
 
 class MockUserConsentService {
   getConsentsResultSuccess(): Observable<boolean> {
@@ -51,6 +54,8 @@ class MockAuthService {
 }
 
 class MockAnonymousConsentsService {
+  getTemplates = () => getTemplatesBehavior;
+  getConsents = () => getConsentsBehavior;
   detectUpdatedVersion(
     _currentVersions: number[],
     _newVersions: number[]
@@ -63,18 +68,12 @@ class MockAnonymousConsentsService {
   ): boolean {
     return false;
   }
-  getTemplates(): Observable<ConsentTemplate[]> {
-    return of();
-  }
   getAnonymousConsent(_templateCode: string): Observable<AnonymousConsent> {
     return of();
   }
   getAnonymousConsentTemplate(
     _templateCode: string
   ): Observable<ConsentTemplate> {
-    return of();
-  }
-  getConsents(): Observable<AnonymousConsent[]> {
     return of();
   }
   isConsentGiven(_consent: AnonymousConsent) {
@@ -138,7 +137,7 @@ const consentTemplateListMock: ConsentTemplate[] = [
   { id: 'yyy', version: 0 },
 ];
 
-fdescribe('AnonymousConsentsEffects', () => {
+describe('AnonymousConsentsEffects', () => {
   let effect: fromEffect.AnonymousConsentsEffects;
   let connector: MockAnonymousConsentTemplatesConnector;
   let actions$: Observable<Action>;
@@ -181,16 +180,13 @@ fdescribe('AnonymousConsentsEffects', () => {
     userConsentService = TestBed.inject(UserConsentService);
   });
 
-  fdescribe('checkUpdatedVersion$', () => {
+  describe('checkUpdatedVersion$', () => {
     const currentConsents: AnonymousConsent[] = [
       { templateVersion: 0, templateCode: 'test1' },
     ];
-
     describe('when the update was detected', () => {
-      fit('should return LoadAnonymousConsentTemplates', () => {
-        spyOn(anonymousConsentService, 'getConsents').and.returnValue(
-          of(currentConsents)
-        );
+      it('should return LoadAnonymousConsentTemplates', () => {
+        getConsentsBehavior.next(currentConsents);
         spyOn(connector, 'loadAnonymousConsents').and.returnValue(
           of(currentConsents)
         );
@@ -209,9 +205,7 @@ fdescribe('AnonymousConsentsEffects', () => {
     });
     describe('when the update was NOT detected', () => {
       it('should return an EMPTY', () => {
-        spyOn(anonymousConsentService, 'getConsents').and.returnValue(
-          of(currentConsents)
-        );
+        getConsentsBehavior.next(currentConsents);
         spyOn(anonymousConsentService, 'detectUpdatedVersion').and.returnValue(
           false
         );
@@ -220,8 +214,7 @@ fdescribe('AnonymousConsentsEffects', () => {
         const action = new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions();
 
         actions$ = hot('-a', { a: action });
-        const completion = EMPTY;
-        const expected = cold('-b', { b: completion });
+        const expected = cold('---');
 
         expect(effect.checkUpdatedVersion$).toBeObservable(expected);
       });
@@ -230,9 +223,7 @@ fdescribe('AnonymousConsentsEffects', () => {
 
   describe('loadAnonymousConsentTemplates$', () => {
     it('should return LoadAnonymousConsentTemplatesSuccess and ToggleAnonymousConsentTemplatesUpdated', () => {
-      spyOn(anonymousConsentService, 'getTemplates').and.returnValue(
-        of(mockTemplateList)
-      );
+      getTemplatesBehavior.next(mockTemplateList);
       spyOn(connector, 'loadAnonymousConsentTemplates').and.returnValue(
         of(mockTemplateList)
       );

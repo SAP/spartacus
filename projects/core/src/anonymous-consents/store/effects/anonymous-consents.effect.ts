@@ -24,16 +24,12 @@ import { AnonymousConsentsActions } from '../actions/index';
 export class AnonymousConsentsEffects {
   @Effect()
   checkUpdatedVersion$: Observable<
-    AnonymousConsentsActions.LoadAnonymousConsentTemplates | Observable<never>
+    | AnonymousConsentsActions.LoadAnonymousConsentTemplates
+    | AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail
+    | Observable<never>
   > = this.actions$.pipe(
     ofType(AnonymousConsentsActions.ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS),
-    tap((_) => console.log('1')),
-    withLatestFrom(
-      this.anonymousConsentService
-        .getConsents()
-        .pipe(tap((_) => console.log('in with latest pipe')))
-    ),
-    tap((_) => console.log('2')),
+    withLatestFrom(this.anonymousConsentService.getConsents()),
     concatMap(([_, currentConsents]) => {
       // TODO{#8158} - remove this if block
       if (!this.anonymousConsentTemplatesConnector.loadAnonymousConsents()) {
@@ -60,6 +56,13 @@ export class AnonymousConsentsEffects {
             updated
               ? of(new AnonymousConsentsActions.LoadAnonymousConsentTemplates())
               : EMPTY
+          ),
+          catchError((error) =>
+            of(
+              new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
+                makeErrorSerializable(error)
+              )
+            )
           )
         );
     })
