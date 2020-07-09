@@ -89,6 +89,9 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   budgetEdit: {
     paths: ['organization/budget/edit/:code'],
   },
+  orderApprovals: {
+    paths: ['my-account/approval-dashboard'],
+  },
   orgUnits: {
     paths: ['organization/units'],
   },
@@ -218,9 +221,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   userGroupAssignUsers: {
     paths: ['organization/user-group/assign-users/:code'],
-  },
-  orderApprovals: {
-    paths: ['my-account/approval-dashboard'],
   },
   orderApprovalDetails: {
     paths: ['my-account/approval/:approvalCode'],

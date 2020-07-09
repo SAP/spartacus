@@ -60,7 +60,6 @@ class MockOrderApprovalService {
 describe('OrderApprovalDetailFormComponent', () => {
   let component: OrderApprovalDetailFormComponent;
   let fixture: ComponentFixture<OrderApprovalDetailFormComponent>;
-  let orderApprovalDetailService: OrderApprovalDetailService;
   let orderApprovalService: OrderApprovalService;
   let el: DebugElement;
 
@@ -86,13 +85,11 @@ describe('OrderApprovalDetailFormComponent', () => {
     fixture = TestBed.createComponent(OrderApprovalDetailFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    orderApprovalDetailService = TestBed.inject(OrderApprovalDetailService);
     orderApprovalService = TestBed.inject(OrderApprovalService);
     el = fixture.debugElement;
   });
 
   it('should create', () => {
-    console.log('temp', orderApprovalDetailService, orderApprovalService);
     expect(component).toBeTruthy();
   });
 
@@ -104,27 +101,32 @@ describe('OrderApprovalDetailFormComponent', () => {
     displayAndCancelDecisionForm(REJECT);
   });
 
-  it('should submit approval form.', () => {
+  it('should submit approval form with comment.', () => {
     displayDecisionForm(APPROVE);
     submitDecisionForm(APPROVE);
   });
 
-  it('should submit rejection form.', () => {
+  it('should submit rejection form with comment.', () => {
     displayDecisionForm(REJECT);
     submitDecisionForm(REJECT);
   });
 
-  it('should comment be optional for approval.', () => {
+  it('should have comment as optional for approval.', () => {
     displayDecisionForm(APPROVE);
     expect(component.approvalForm.valid).toBeTrue();
   });
 
-  it('should comment be required for rejection.', () => {
+  it('should have comment as optional for rejection.', () => {
     displayDecisionForm(REJECT);
     expect(component.approvalForm.valid).toBeFalse();
   });
 
-  it('should submit rejection form.', () => {});
+  it('should not submit rejection without comment.', () => {
+    spyOn(orderApprovalService, 'makeDecision').and.stub();
+    displayDecisionForm(REJECT);
+    clickButton('orderApproval.form.submit_' + REJECT);
+    expect(orderApprovalService.makeDecision).not.toHaveBeenCalled();
+  });
 
   function displayAndCancelDecisionForm(decision: string) {
     assertComponentInitialState();
