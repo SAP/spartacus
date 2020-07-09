@@ -13,12 +13,14 @@ import {
   ANONYMOUS_CONSENTS_FEATURE,
   isFeatureEnabled,
 } from '../../features-config/index';
-import { AnonymousConsent, ANONYMOUS_CONSENT_STATUS } from '../../model/index';
+import {
+  AnonymousConsent,
+  ANONYMOUS_CONSENTS_HEADER,
+  ANONYMOUS_CONSENT_STATUS,
+} from '../../model/index';
 import { OccEndpointsService } from '../../occ/index';
 import { AnonymousConsentsConfig } from '../config/anonymous-consents-config';
 import { AnonymousConsentsService } from '../facade/anonymous-consents.service';
-
-export const ANONYMOUS_CONSENTS_HEADER = 'X-Anonymous-Consents';
 
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentsInterceptor implements HttpInterceptor {
