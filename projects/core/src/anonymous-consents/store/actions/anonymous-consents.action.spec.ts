@@ -89,6 +89,15 @@ describe('anonymous consent actions', () => {
         });
       });
     });
+    describe('AnonymousConsentCheckUpdatedVersions', () => {
+      it('should create the action', () => {
+        const action = new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions();
+        expect({ ...action }).toEqual({
+          type:
+            AnonymousConsentsActions.ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS,
+        });
+      });
+    });
   });
 
   describe('anonymous consents', () => {
@@ -106,7 +115,7 @@ describe('anonymous consent actions', () => {
           {
             consentState: undefined,
             templateCode: 'MARKETING',
-            version: 0,
+            templateVersion: 0,
           },
         ];
         const action = new AnonymousConsentsActions.SetAnonymousConsents(
