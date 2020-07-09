@@ -16,10 +16,6 @@ export class CostCenterFormService {
   }
 
   protected build(form: FormGroup) {
-    if (!form) {
-      return;
-    }
-
     form.setControl('code', new FormControl('', Validators.required));
     form.setControl('name', new FormControl('', Validators.required));
 
