@@ -266,7 +266,7 @@ export class AnonymousConsentsService {
       this.isBannerDismissed(),
       this.getTemplatesUpdated(),
     ]).pipe(
-      tap((_) => this.checkConsentVersions()),
+      tap(() => this.checkConsentVersions()),
       map(([dismissed, updated]) => !dismissed || updated)
     );
   }
@@ -290,31 +290,14 @@ export class AnonymousConsentsService {
     currentTemplates: ConsentTemplate[],
     newTemplates: ConsentTemplate[]
   ): boolean {
-    const currentVersions = currentTemplates.map(
-      (template) => template.version
-    );
-    const newVersions = newTemplates.map((template) => template.version);
-
-    return this.detectUpdatedVersion(currentVersions, newVersions);
-  }
-
-  /**
-   * Compares the given versions and determines if there's a mismatch,
-   * in which case `true` is returned.
-   *
-   * @param currentVersions versions of the current consents
-   * @param newVersions versions of the new consents
-   */
-  detectUpdatedVersion(
-    currentVersions: number[],
-    newVersions: number[]
-  ): boolean {
-    if (currentVersions.length !== newVersions.length) {
+    if (newTemplates.length !== currentTemplates.length) {
       return true;
     }
 
-    for (let i = 0; i < newVersions.length; i++) {
-      if (currentVersions[i] !== newVersions[i]) {
+    for (let i = 0; i < newTemplates.length; i++) {
+      const newTemplate = newTemplates[i];
+      const currentTemplate = currentTemplates[i];
+      if (newTemplate.version !== currentTemplate.version) {
         return true;
       }
     }

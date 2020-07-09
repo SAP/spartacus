@@ -47,7 +47,7 @@ export class AnonymousConsentsEffects {
               (consent) => consent.templateVersion
             );
 
-            return this.anonymousConsentService.detectUpdatedVersion(
+            return this.detectUpdatedVersion(
               currentConsentVersions,
               newConsentVersions
             );
@@ -236,4 +236,28 @@ export class AnonymousConsentsEffects {
     private anonymousConsentService: AnonymousConsentsService,
     private userConsentService: UserConsentService
   ) {}
+
+  /**
+   * Compares the given versions and determines if there's a mismatch,
+   * in which case `true` is returned.
+   *
+   * @param currentVersions versions of the current consents
+   * @param newVersions versions of the new consents
+   */
+  private detectUpdatedVersion(
+    currentVersions: number[],
+    newVersions: number[]
+  ): boolean {
+    if (currentVersions.length !== newVersions.length) {
+      return true;
+    }
+
+    for (let i = 0; i < newVersions.length; i++) {
+      if (currentVersions[i] !== newVersions[i]) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }

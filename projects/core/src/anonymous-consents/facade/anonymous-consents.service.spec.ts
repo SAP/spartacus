@@ -451,29 +451,6 @@ describe('AnonymousConsentsService', () => {
     });
   });
 
-  describe('detectUpdatedVersion', () => {
-    it('should return true if the length do not match', () => {
-      const currentVersions: number[] = [0, 0];
-      const newVersions: number[] = [0, 0, 1];
-      const result = service.detectUpdatedVersion(currentVersions, newVersions);
-      expect(result).toEqual(true);
-    });
-    it('should return true if the version do not match', () => {
-      const currentVersions: number[] = [0, 0, 0];
-      const newVersions: number[] = [0, 0, 1];
-
-      const result = service.detectUpdatedVersion(currentVersions, newVersions);
-      expect(result).toEqual(true);
-    });
-    it('should return false if the version match', () => {
-      const currentVersions: number[] = [0, 0, 0];
-      const newVersions: number[] = [0, 0, 0];
-
-      const result = service.detectUpdatedVersion(currentVersions, newVersions);
-      expect(result).toEqual(false);
-    });
-  });
-
   describe('serializeAndEncode', () => {
     it('should return an empty string if a falsy parameter is passed', () => {
       expect(service.serializeAndEncode(null)).toEqual('');

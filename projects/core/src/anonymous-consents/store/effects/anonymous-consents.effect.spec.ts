@@ -20,6 +20,9 @@ import * as fromEffect from './anonymous-consents.effect';
 
 const getTemplatesBehavior = new BehaviorSubject<ConsentTemplate[]>([]);
 const getConsentsBehavior = new BehaviorSubject<AnonymousConsent[]>([]);
+const loadAnonymousConsentsBehavior = new BehaviorSubject<AnonymousConsent[]>(
+  []
+);
 
 class MockUserConsentService {
   getConsentsResultSuccess(): Observable<boolean> {
@@ -35,10 +38,8 @@ class MockUserConsentService {
 }
 
 class MockAnonymousConsentTemplatesConnector {
+  loadAnonymousConsents = () => loadAnonymousConsentsBehavior;
   loadAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
-    return of();
-  }
-  loadAnonymousConsents(): Observable<AnonymousConsent[]> | null {
     return of();
   }
 }
@@ -139,7 +140,7 @@ const consentTemplateListMock: ConsentTemplate[] = [
 
 describe('AnonymousConsentsEffects', () => {
   let effect: fromEffect.AnonymousConsentsEffects;
-  let connector: MockAnonymousConsentTemplatesConnector;
+  let connector: AnonymousConsentTemplatesConnector;
   let actions$: Observable<Action>;
   let authService: AuthService;
   let anonymousConsentService: AnonymousConsentsService;
@@ -187,12 +188,7 @@ describe('AnonymousConsentsEffects', () => {
     describe('when the update was detected', () => {
       it('should return LoadAnonymousConsentTemplates', () => {
         getConsentsBehavior.next(currentConsents);
-        spyOn(connector, 'loadAnonymousConsents').and.returnValue(
-          of(currentConsents)
-        );
-        spyOn(anonymousConsentService, 'detectUpdatedVersion').and.returnValue(
-          true
-        );
+        loadAnonymousConsentsBehavior.next([]);
 
         const action = new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions();
 
@@ -206,10 +202,7 @@ describe('AnonymousConsentsEffects', () => {
     describe('when the update was NOT detected', () => {
       it('should return an EMPTY', () => {
         getConsentsBehavior.next(currentConsents);
-        spyOn(anonymousConsentService, 'detectUpdatedVersion').and.returnValue(
-          false
-        );
-        spyOn(connector, 'loadAnonymousConsents').and.returnValue(of([]));
+        loadAnonymousConsentsBehavior.next(currentConsents);
 
         const action = new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions();
 
