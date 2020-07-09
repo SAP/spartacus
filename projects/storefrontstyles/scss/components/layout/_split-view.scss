@@ -62,7 +62,6 @@
       --temp-calc: calc(var(--cx-last-visible-view) - var(--cx-max-views));
       opacity: calc(1 - var(--temp-calc));
 
-
       // The inline start margin of the first flex item decreases to move
       // the flex items outside the flex container.
       margin-inline-start: calc(
