@@ -21,6 +21,5 @@ describe('ProductReferenceConverterService', () => {
       spyOn(productReferenceConverterService, 'convert');
       expect(productReferenceConverterService.convert).toBeTruthy();
     }
-
   ));
-})
+});
