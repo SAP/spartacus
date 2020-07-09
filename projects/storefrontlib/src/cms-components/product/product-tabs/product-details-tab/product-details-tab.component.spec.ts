@@ -3,6 +3,7 @@ import { Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductDetailsTabComponent } from './product-details-tab.component';
+import { TruncateTextService } from './product-description.service';
 
 const mockProduct: Product = { name: 'mockProduct' };
 
@@ -23,7 +24,7 @@ describe('ProductDetailsTabComponent', () => {
         {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
-        },
+        }
       ],
     }).compileComponents();
   }));
@@ -44,5 +45,24 @@ describe('ProductDetailsTabComponent', () => {
       (product) => (result = product)
     );
     expect(result).toEqual(mockProduct);
+  });
+});
+
+describe("TruncateTextService", () => {
+  let truncate: TruncateTextService;
+
+  beforeEach(() => {
+    truncate = new TruncateTextService();
+  });
+  it("should create a post in an array", () => {
+    // const qouteText = "This is my first post";
+    // service.addNewQuote(qouteText);
+    // expect(service.quoteList.length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("should remove a created post from the array of posts", () => {
+    // service.addNewQuote("This is my first post");
+    // service.removeQuote(0);
+    // expect(service.quoteList.length).toBeLessThan(1);
   });
 });
