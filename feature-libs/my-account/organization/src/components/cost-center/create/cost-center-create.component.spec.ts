@@ -1,9 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { CostCenterService, RoutingService } from '@spartacus/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import {
+  CostCenterService,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { OrganizationTestingModule } from '../../shared/testing/organization-testing.module';
 import { CostCenterCreateComponent } from './cost-center-create.component';
 import createSpy = jasmine.createSpy;
 
@@ -46,7 +53,14 @@ describe('CostCenterCreateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [OrganizationTestingModule, ReactiveFormsModule],
+      imports: [
+        RouterTestingModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        IconTestingModule,
+        ReactiveFormsModule,
+      ],
       declarations: [CostCenterCreateComponent, MockCostCenterFormComponent],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },

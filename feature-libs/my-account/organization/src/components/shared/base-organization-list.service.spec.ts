@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { PaginationModel } from '@spartacus/core';
-import {
-  Table,
-  TableService,
-  TableStructure,
-  TableTestingModule,
-} from '@spartacus/storefront';
+import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { BaseOrganizationListService } from './base-organization-list.service';
 import { OrganizationTableType } from './organization.model';
@@ -21,14 +16,26 @@ class SampleListService extends BaseOrganizationListService<any> {
   }
 }
 
+@Injectable()
+export class MockTableService {
+  buildStructure(type): Observable<TableStructure> {
+    return of({ type });
+  }
+}
+
 describe('BaseOrganizationListService', () => {
   let service: SampleListService;
   let tableService: TableService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TableTestingModule],
-      providers: [SampleListService],
+      providers: [
+        SampleListService,
+        {
+          provide: TableService,
+          useClass: MockTableService,
+        },
+      ],
     });
 
     service = TestBed.inject(SampleListService);
@@ -39,9 +46,9 @@ describe('BaseOrganizationListService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getTable)', () => {
+  describe('getTable', () => {
     it('should call load method', () => {
-      spyOn(service, 'load');
+      spyOn(service, 'load').and.callThrough();
       service.getTable().subscribe();
       expect(service.load).toHaveBeenCalled();
     });

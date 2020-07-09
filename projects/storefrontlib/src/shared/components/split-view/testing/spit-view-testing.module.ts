@@ -1,5 +1,6 @@
 import { Component, Input, NgModule, Output } from '@angular/core';
 
+// PRIVATE TESTING UTIL
 @Component({
   template: '<ng-content></ng-content>',
   selector: 'cx-split-view',
