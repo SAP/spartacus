@@ -361,15 +361,6 @@ describe('AnonymousConsentsService', () => {
     });
   });
 
-  describe('checkUpdatedVersions', () => {
-    it('should dispatch AnonymousConsentCheckUpdatedVersions action', () => {
-      service.checkUpdatedVersions();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions()
-      );
-    });
-  });
-
   describe('toggleBannerDismissed', () => {
     it('should just dispatch ToggleAnonymousConsentsBannerDissmissed action when dismissing', () => {
       service.toggleBannerDismissed(false);

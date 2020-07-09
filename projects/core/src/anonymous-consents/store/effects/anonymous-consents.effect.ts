@@ -23,7 +23,7 @@ import { AnonymousConsentsActions } from '../actions/index';
 @Injectable()
 export class AnonymousConsentsEffects {
   @Effect()
-  checkUpdatedVersion$: Observable<
+  checkConsentVersions$: Observable<
     | AnonymousConsentsActions.LoadAnonymousConsentTemplates
     | AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail
     | Observable<never>

@@ -180,7 +180,7 @@ describe('AnonymousConsentsEffects', () => {
     userConsentService = TestBed.inject(UserConsentService);
   });
 
-  describe('checkUpdatedVersion$', () => {
+  describe('checkConsentVersions$', () => {
     const currentConsents: AnonymousConsent[] = [
       { templateVersion: 0, templateCode: 'test1' },
     ];
@@ -200,7 +200,7 @@ describe('AnonymousConsentsEffects', () => {
         const completion = new AnonymousConsentsActions.LoadAnonymousConsentTemplates();
         const expected = cold('-b', { b: completion });
 
-        expect(effect.checkUpdatedVersion$).toBeObservable(expected);
+        expect(effect.checkConsentVersions$).toBeObservable(expected);
       });
     });
     describe('when the update was NOT detected', () => {
@@ -216,7 +216,7 @@ describe('AnonymousConsentsEffects', () => {
         actions$ = hot('-a', { a: action });
         const expected = cold('---');
 
-        expect(effect.checkUpdatedVersion$).toBeObservable(expected);
+        expect(effect.checkConsentVersions$).toBeObservable(expected);
       });
     });
   });
