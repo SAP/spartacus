@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Form, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { CostCenterService, RoutingService } from '@spartacus/core';
 import { map } from 'rxjs/operators';
 import { CostCenterFormService } from '../form/cost-center-form.service';

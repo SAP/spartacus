@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Form, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 
 @Component({
@@ -12,22 +12,24 @@ import { CostCenterFormService } from '../form/cost-center-form.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterEditComponent {
-  costCenterCode: string;
-  costCenter: CostCenter;
-
   protected code$: Observable<string> = this.activatedRoute.parent.params.pipe(
-    map((routingData) => routingData['code']),
-    tap((code) => (this.costCenterCode = code))
+    map((routingData) => routingData['code'])
   );
 
-  protected costCenter$: Observable<CostCenter> = this.code$.pipe(
+  model$: Observable<{
+    code: string;
+    costCenter: CostCenter;
+    form: FormGroup;
+  }> = this.code$.pipe(
     tap((code) => this.costCenterService.load(code)),
-    switchMap((code) => this.costCenterService.get(code)),
-    tap((costCenter) => (this.costCenter = costCenter))
-  );
-
-  form$: Observable<FormGroup> = this.costCenter$.pipe(
-    map((costCenter) => this.costCenterFormService.getForm(costCenter))
+    switchMap((code) =>
+      of(code).pipe(withLatestFrom(this.costCenterService.get(code)))
+    ),
+    map(([code, costCenter]) => ({
+      code,
+      costCenter,
+      form: this.costCenterFormService.getForm(costCenter),
+    }))
   );
 
   constructor(
