@@ -112,7 +112,6 @@ export function scrollToFooter(
 }
 
 export function verifySortingResetsList() {
-
   cy.get('cx-sorting .ng-select:first').ngSelect(
     PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
   );
@@ -139,4 +138,3 @@ export function verifyGridResetsList() {
     assertDefaultNumberOfProducts('grid');
   });
 }
-
