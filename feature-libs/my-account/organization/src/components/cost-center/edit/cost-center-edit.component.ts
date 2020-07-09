@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 
 @Component({
@@ -23,7 +23,7 @@ export class CostCenterEditComponent {
   }> = this.code$.pipe(
     tap((code) => this.costCenterService.load(code)),
     switchMap((code) =>
-      of(code).pipe(withLatestFrom(this.costCenterService.get(code)))
+      combineLatest([of(code), this.costCenterService.get(code)])
     ),
     map(([code, costCenter]) => ({
       code,
