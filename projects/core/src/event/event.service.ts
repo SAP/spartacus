@@ -1,6 +1,7 @@
 import { Injectable, isDevMode, Type } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { logger } from '../util/logging.service';
 import { MergingSubject } from './utils/merging-subject';
 
 /**
@@ -50,14 +51,12 @@ export class EventService {
   register<T>(eventType: Type<T>, source$: Observable<T>): () => void {
     const eventMeta = this.getEventMeta(eventType);
     if (eventMeta.mergingSubject.has(source$)) {
-      if (isDevMode()) {
-        console.warn(
-          `EventService: the event source`,
-          source$,
-          `has been already registered for the type`,
-          eventType
-        );
-      }
+      logger.warn(
+        `EventService: the event source`,
+        source$,
+        `has been already registered for the type`,
+        eventType
+      );
     } else {
       eventMeta.mergingSubject.add(source$);
     }
@@ -150,7 +149,7 @@ export class EventService {
     return source$.pipe(
       tap((event) => {
         if (!(event instanceof eventType)) {
-          console.warn(
+          logger.warn(
             `EventService: The stream`,
             source$,
             `emitted the event`,

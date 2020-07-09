@@ -1,4 +1,5 @@
 import { InjectionToken, Provider } from '@angular/core';
+import { logger } from '../../util/logging.service';
 
 export const ConfigValidatorToken = new InjectionToken(
   'ConfigurationValidator'
@@ -33,7 +34,7 @@ export function validateConfig(
   for (const validate of configValidators) {
     const warning = validate(config);
     if (warning) {
-      console.warn(warning);
+      logger.warn(warning);
     }
   }
 }

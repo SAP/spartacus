@@ -1,7 +1,7 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { filter, mapTo, take } from 'rxjs/operators';
-import { LoggingService } from '../../util/logging.service';
+import { logger } from '../../util/logging.service';
 import { Config } from '../config.module';
 import { deepMerge } from '../utils/deep-merge';
 import {
@@ -140,7 +140,7 @@ export class ConfigInitializerService {
       }
 
       if (!this.areReady(initializer.scopes, ongoingScopes)) {
-        LoggingService.getInstance().warn(
+        logger.warn(
           'More than one CONFIG_INITIALIZER is initializing the same config scope.'
         );
       }

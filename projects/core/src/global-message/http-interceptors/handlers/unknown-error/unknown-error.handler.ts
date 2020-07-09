@@ -1,7 +1,8 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Priority } from '../../../../util/applicable';
+import { logger } from '../../../../util/logging.service';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
-import { Priority } from '../../../../util/applicable';
 
 /**
  * Unknown Error Handler works as an fallback, to handle errors that were
@@ -21,9 +22,7 @@ export class UnknownErrorHandler extends HttpErrorHandler {
   }
 
   handleError() {
-    if (isDevMode()) {
-      console.warn(`Unknown http response error: ${this.responseStatus}`);
-    }
+    logger.warn(`Unknown http response error: ${this.responseStatus}`);
   }
 
   /**

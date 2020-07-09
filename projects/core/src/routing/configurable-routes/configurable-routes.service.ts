@@ -1,5 +1,6 @@
 import { Injectable, InjectionToken, Injector, isDevMode } from '@angular/core';
 import { Route, Router, Routes, UrlMatcher } from '@angular/router';
+import { logger } from '../../util/logging.service';
 import { UrlMatcherService } from '../services/url-matcher.service';
 import { UrlMatcherFactory } from '../url-matcher/url-matcher-factory';
 import { RouteConfig } from './routes-config';
@@ -154,19 +155,13 @@ export class ConfigurableRoutesService {
 
       // undefined value of routeConfig or routeConfig.paths is a misconfiguration
       if (!routeConfig?.paths) {
-        this.warn(
+        logger.warn(
           `Could not configure the named route '${routeName}'`,
           route,
           `due to undefined config or undefined 'paths' property for this route`
         );
         return;
       }
-    }
-  }
-
-  private warn(...args) {
-    if (isDevMode()) {
-      console.warn(...args);
     }
   }
 }

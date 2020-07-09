@@ -1,17 +1,7 @@
 import { isDevMode } from '@angular/core';
 
-export class LoggingService {
-  private static instance: LoggingService;
-
-  private constructor() {}
-
-  static getInstance(): LoggingService {
-    if (!LoggingService.instance) {
-      LoggingService.instance = new LoggingService();
-    }
-
-    return LoggingService.instance;
-  }
+class LoggingService {
+  constructor() {}
 
   trace(message, ...additional: any[]) {
     if (this.isDebug()) {
@@ -27,7 +17,7 @@ export class LoggingService {
     }
   }
 
-  warn(message, ...additional: any[]) {
+  warn(message?, ...additional: any[]) {
     if (this.isDebug()) {
       console.warn(message, ...additional);
     }
@@ -49,3 +39,5 @@ export class LoggingService {
     return isDevMode();
   }
 }
+
+export const logger = new LoggingService();

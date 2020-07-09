@@ -3,10 +3,10 @@ import {
   Component,
   ElementRef,
   Input,
-  isDevMode,
   OnInit,
   TemplateRef,
 } from '@angular/core';
+import { logger } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
@@ -80,8 +80,8 @@ export class CarouselComponent implements OnInit {
   constructor(protected el: ElementRef, protected service: CarouselService) {}
 
   ngOnInit() {
-    if (!this.template && isDevMode()) {
-      console.error(
+    if (!this.template) {
+      logger.error(
         'No template reference provided to render the carousel items for the `cx-carousel`'
       );
       return;

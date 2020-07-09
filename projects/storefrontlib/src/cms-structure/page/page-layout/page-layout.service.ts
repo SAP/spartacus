@@ -1,5 +1,5 @@
 import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
-import { CmsService, Page } from '@spartacus/core';
+import { CmsService, logger, Page } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
@@ -236,7 +236,7 @@ export class PageLayoutService {
     if (!this.logSlots[page.template]) {
       // the info log is not printed in production
       // tslint:disable-next-line: no-console
-      console.info(
+      logger.info(
         `Available CMS page slots: '${Object.keys(page.slots).join(`','`)}'`
       );
       this.logSlots[page.template] = true;
@@ -244,7 +244,7 @@ export class PageLayoutService {
 
     const cacheKey = section || page.template;
     if (!this.warnLogMessages[cacheKey]) {
-      console.warn(
+      logger.warn(
         `No layout config found for ${cacheKey}, you can configure a 'LayoutConfig' to control the rendering of page slots.`
       );
       this.warnLogMessages[cacheKey] = true;
