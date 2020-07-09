@@ -1,12 +1,13 @@
-import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
-import {
-  CONFIG_INITIALIZER_FORROOT_GUARD,
-  ConfigInitializer,
-} from './config-initializer';
-import { Config } from '../config.module';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { filter, mapTo, take } from 'rxjs/operators';
+import { LoggingService } from '../../util/logging.service';
+import { Config } from '../config.module';
 import { deepMerge } from '../utils/deep-merge';
+import {
+  ConfigInitializer,
+  CONFIG_INITIALIZER_FORROOT_GUARD,
+} from './config-initializer';
 
 /**
  * Provides support for CONFIG_INITIALIZERS
@@ -19,7 +20,8 @@ export class ConfigInitializerService {
     @Inject(Config) protected config: any,
     @Optional()
     @Inject(CONFIG_INITIALIZER_FORROOT_GUARD)
-    protected initializerGuard
+    protected initializerGuard,
+    private logger: LoggingService
   ) {}
 
   protected ongoingScopes$ = new BehaviorSubject<string[]>(undefined);
@@ -138,8 +140,8 @@ export class ConfigInitializerService {
         throw new Error('CONFIG_INITIALIZER should provide scope!');
       }
 
-      if (isDevMode() && !this.areReady(initializer.scopes, ongoingScopes)) {
-        console.warn(
+      if (!this.areReady(initializer.scopes, ongoingScopes)) {
+        this.logger.warn(
           'More than one CONFIG_INITIALIZER is initializing the same config scope.'
         );
       }
