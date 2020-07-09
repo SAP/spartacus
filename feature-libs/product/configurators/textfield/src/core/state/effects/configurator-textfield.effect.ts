@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { CartActions, GenericConfigurator } from '@spartacus/core';
+import { makeErrorSerializable } from '@spartacus/product/configurators/common';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { makeErrorSerializable } from '../../../../../common/src/utils/serialization-utils';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../actions/index';

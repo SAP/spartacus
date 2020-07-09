@@ -5,10 +5,9 @@ import {
   Product,
   ProductService,
 } from '@spartacus/core';
+import { ConfigRouterExtractorService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../misc/icon/index';
-import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 @Component({
   selector: 'cx-config-product-title',
@@ -28,8 +27,6 @@ export class ConfigProductTitleComponent {
           return configuration.productCode;
         case GenericConfigurator.OwnerType.ORDER_ENTRY:
           return configuration.overview.productCode;
-        default:
-          return configuration.productCode;
       }
     }),
     switchMap((productCode) => this.productService.get(productCode))
@@ -38,9 +35,9 @@ export class ConfigProductTitleComponent {
   iconTypes = ICON_TYPE;
 
   constructor(
-    private configuratorCommonsService: ConfiguratorCommonsService,
-    private configRouterExtractorService: ConfigRouterExtractorService,
-    private productService: ProductService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configRouterExtractorService: ConfigRouterExtractorService,
+    protected productService: ProductService
   ) {}
 
   triggerDetails(): void {

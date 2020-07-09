@@ -17,8 +17,8 @@ import { SpinnerModule } from '../../../shared/components/spinner/spinner.module
 import { ConfigAddToCartButtonComponent } from '../commons/config-add-to-cart-button/config-add-to-cart-button.component';
 import { ConfigAttributeFooterComponent } from '../commons/config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../commons/config-attribute-header/config-attribute-header.component';
-import { ConfigAttributeCheckBoxComponent } from '../commons/config-attribute-types/config-attribute-checkbox/config-attribute-checkbox.component';
 import { ConfigAttributeCheckBoxListComponent } from '../commons/config-attribute-types/config-attribute-checkbox-list/config-attribute-checkbox-list.component';
+import { ConfigAttributeCheckBoxComponent } from '../commons/config-attribute-types/config-attribute-checkbox/config-attribute-checkbox.component';
 import { ConfigAttributeDropDownComponent } from '../commons/config-attribute-types/config-attribute-drop-down/config-attribute-drop-down.component';
 import { ConfigAttributeInputFieldComponent } from '../commons/config-attribute-types/config-attribute-input-field/config-attribute-input-field.component';
 import { ConfigAttributeMultiSelectionImageComponent } from '../commons/config-attribute-types/config-attribute-multi-selection-image/config-attribute-multi-selection-image.component';
@@ -32,9 +32,6 @@ import { ConfigGroupTitleComponent } from '../commons/config-group-title/config-
 import { ConfigurationMessageLoaderModule } from '../commons/config-message/config-message-loader.module';
 import { ConfigMessageComponent } from '../commons/config-message/config-message.component';
 import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
-import { ConfigPriceSummaryComponent } from '../commons/config-price-summary/config-price-summary.component';
-import { ConfigProductTitleComponent } from '../commons/config-product-title/config-product-title.component';
-import { ConfigTabBarComponent } from '../commons/config-tab-bar/config-tab-bar.component';
 import { DefaultMessageConfig } from '../commons/config/default-message-config';
 import { MessageConfig } from '../commons/config/message-config';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
@@ -76,10 +73,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigGroupMenuComponent,
     ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
-    ConfigPriceSummaryComponent,
-    ConfigTabBarComponent,
     ConfigMessageComponent,
-    ConfigProductTitleComponent,
   ],
   exports: [
     ConfigFormComponent,
@@ -98,10 +92,8 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigGroupMenuComponent,
     ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
-    ConfigPriceSummaryComponent,
-    ConfigTabBarComponent,
+
     ConfigMessageComponent,
-    ConfigProductTitleComponent,
   ],
   providers: [UserService, { provide: MessageConfig, useExisting: Config }],
   entryComponents: [
@@ -121,10 +113,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigGroupMenuComponent,
     ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
-    ConfigPriceSummaryComponent,
-    ConfigTabBarComponent,
     ConfigMessageComponent,
-    ConfigProductTitleComponent,
   ],
 })
 export class VariantConfiguratorModule {}

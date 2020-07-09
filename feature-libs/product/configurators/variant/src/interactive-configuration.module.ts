@@ -2,15 +2,18 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule, ProductModule } from '@spartacus/core';
 import {
+  CommonConfiguratorComponentsModule,
+  ConfigPriceSummaryComponent,
+  ConfigProductTitleComponent,
+  ConfigTabBarComponent,
+} from '@spartacus/product/configurators/common';
+import {
   CmsPageGuard,
   ConfigAddToCartButtonComponent,
   ConfigFormComponent,
   ConfigGroupMenuComponent,
   ConfigGroupTitleComponent,
   ConfigPreviousNextButtonsComponent,
-  ConfigPriceSummaryComponent,
-  ConfigProductTitleComponent,
-  ConfigTabBarComponent,
   ConfigurationMessageLoaderModule,
   DefaultMessageConfig,
   HamburgerMenuModule,
@@ -24,6 +27,7 @@ import {
 @NgModule({
   imports: [
     ProductModule,
+    CommonConfiguratorComponentsModule,
     ConfigurationMessageLoaderModule,
     RouterModule.forChild([
       {
