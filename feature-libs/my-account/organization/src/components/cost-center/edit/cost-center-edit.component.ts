@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Form, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -15,18 +15,18 @@ export class CostCenterEditComponent {
   costCenterCode: string;
   costCenter: CostCenter;
 
-  code$: Observable<string> = this.activatedRoute.parent.params.pipe(
+  protected code$: Observable<string> = this.activatedRoute.parent.params.pipe(
     map((routingData) => routingData['code']),
     tap((code) => (this.costCenterCode = code))
   );
 
-  costCenter$: Observable<CostCenter> = this.code$.pipe(
+  protected costCenter$: Observable<CostCenter> = this.code$.pipe(
     tap((code) => this.costCenterService.load(code)),
     switchMap((code) => this.costCenterService.get(code)),
     tap((costCenter) => (this.costCenter = costCenter))
   );
 
-  form$ = this.costCenter$.pipe(
+  form$: Observable<FormGroup> = this.costCenter$.pipe(
     map((costCenter) => this.costCenterFormService.getForm(costCenter))
   );
 
