@@ -10,6 +10,7 @@ import {
   verifyGridResetsList,
   createDefaultQuery,
 } from '../../helpers/infinite-scroll';
+import { searchUrlPrefix } from '../../helpers/product-search';
 
 describe('Infinite scroll', () => {
   const testUrl = '/Open-Catalogue/Components/Power-Supplies/c/816';
@@ -28,6 +29,16 @@ describe('Infinite scroll', () => {
   it("should enable Infinite scroll and NOT display 'Show more' button", () => {
     configScroll(true, 0, false);
     cy.visit(testUrl);
+
+    cy.route(
+      'GET',
+      `${searchUrlPrefix}?fields=*&query=:topRated:allCategories:816:brand:brand_5*`
+    ).as('gridQuery');
+
+    cy.route(
+      'GET',
+      `${searchUrlPrefix}?fields=*&query=:relevance:allCategories:816&*&sort=topRated*`
+    ).as('sortQuery');
 
     cy.wait(defaultQueryAlias).then((waitXHR) => {
       const totalResults = waitXHR.response.body.pagination.totalResults;
@@ -72,7 +83,7 @@ describe('Infinite scroll', () => {
     });
   });
 
-  it('Should not display Infinite scroll', () => {
+  it('should not display Infinite scroll', () => {
     configScroll(false, 0, false);
     cy.visit(testUrl);
 

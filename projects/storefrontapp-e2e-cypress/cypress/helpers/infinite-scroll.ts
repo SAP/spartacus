@@ -112,10 +112,7 @@ export function scrollToFooter(
 }
 
 export function verifySortingResetsList() {
-  cy.route(
-    'GET',
-    `${searchUrlPrefix}?fields=*&query=:relevance:allCategories:816&*&sort=topRated*`
-  ).as('sortQuery');
+
   cy.get('cx-sorting .ng-select:first').ngSelect(
     PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
   );
@@ -126,10 +123,6 @@ export function verifySortingResetsList() {
 }
 
 export function verifyFilterResetsList() {
-  cy.route(
-    'GET',
-    `${searchUrlPrefix}?fields=*&query=:topRated:allCategories:816:brand:brand_5*`
-  ).as('gridQuery');
   clickFacet('Brand', '');
 
   cy.wait('@gridQuery').then(() => {
