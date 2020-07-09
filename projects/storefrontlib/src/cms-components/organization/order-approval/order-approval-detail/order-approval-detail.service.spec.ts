@@ -58,7 +58,10 @@ describe('OrderApprovalDetailService', () => {
 
   it('should provide the order data', () => {
     let order: Order;
-    service.getOrderDetails().subscribe((value) => (order = value));
+    service
+      .getOrderDetails()
+      .subscribe((value) => (order = value))
+      .unsubscribe();
     expect(order).toBeTruthy();
     expect(order).toEqual(mockOrder);
   });
