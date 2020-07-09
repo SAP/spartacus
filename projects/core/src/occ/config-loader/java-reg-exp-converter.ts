@@ -1,4 +1,4 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { logger } from '../../util/logging.service';
 
 @Injectable({ providedIn: 'root' })
@@ -39,11 +39,9 @@ export class JavaRegExpConverter {
     try {
       return new RegExp(jsSyntax, modifiers);
     } catch (error) {
-      if (isDevMode()) {
-        logger.warn(
-          `WARNING: Could not convert Java regexp into Javascript. Original regexp: ${javaSyntax} \nMessage: ${error}`
-        );
-      }
+      logger.warn(
+        `WARNING: Could not convert Java regexp into Javascript. Original regexp: ${javaSyntax} \nMessage: ${error}`
+      );
       return null;
     }
   }

@@ -1,11 +1,5 @@
 import { DOCUMENT, isPlatformBrowser, isPlatformServer } from '@angular/common';
-import {
-  Inject,
-  Injectable,
-  isDevMode,
-  Optional,
-  PLATFORM_ID,
-} from '@angular/core';
+import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import {
   makeStateKey,
   StateKey,
@@ -136,7 +130,7 @@ export class OccConfigLoaderService {
         this.config.i18n &&
         this.config.i18n.fallbackLang
       ) !== 'undefined';
-    if (fallbackLangExists && isDevMode()) {
+    if (fallbackLangExists) {
       logger.warn(
         `There is an already provided static config for 'i18n.fallbackLang', so the value from OCC loaded config is ignored.`
       );
