@@ -28,7 +28,7 @@ export class CostCenterEditComponent {
         map((costCenter) => [code, costCenter])
       )
     ),
-    map(([code, costCenter]) => ({
+    map(([code, costCenter]: [string, CostCenter]) => ({
       code,
       costCenter,
       form: this.costCenterFormService.getForm(costCenter),
