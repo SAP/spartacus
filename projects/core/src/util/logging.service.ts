@@ -2,10 +2,12 @@ import { isDevMode } from '@angular/core';
 
 class LoggingService {
   get trace(): Function {
+    // tslint:disable-next-line:no-console
     return this.bindConsole(console.trace);
   }
 
   get info(): Function {
+    // tslint:disable-next-line:no-console
     return this.bindConsole(console.info);
   }
 
