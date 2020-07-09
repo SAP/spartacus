@@ -8,15 +8,13 @@ import {
   verifySortingResetsList,
   verifyFilterResetsList,
   verifyGridResetsList,
+  createDefaultQuery,
 } from '../../helpers/infinite-scroll';
-import {
-  createAllProductQuery,
-  QUERY_ALIAS,
-} from '../../helpers/product-search';
 
 describe('Infinite scroll', () => {
   const testUrl = '/Open-Catalogue/Components/Power-Supplies/c/816';
-  const productQueryAlias = `@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`;
+  const defaultQuery = `query_relevance`;
+  const defaultQueryAlias = `@${defaultQuery}`;
 
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
@@ -24,14 +22,14 @@ describe('Infinite scroll', () => {
 
   beforeEach(() => {
     cy.server();
-    createAllProductQuery(QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED);
+    createDefaultQuery();
   });
 
   it("should enable Infinite scroll and NOT display 'Show more' button", () => {
     configScroll(true, 0, false);
     cy.visit(testUrl);
 
-    cy.wait(productQueryAlias).then((waitXHR) => {
+    cy.wait(defaultQueryAlias).then((waitXHR) => {
       const totalResults = waitXHR.response.body.pagination.totalResults;
       isPaginationNotVisible();
 
@@ -47,11 +45,11 @@ describe('Infinite scroll', () => {
     });
   });
 
-  it("Should enable infinite scroll and display 'Show more' button", () => {
+  it("should enable infinite scroll and display 'Show more' button", () => {
     configScroll(true, 0, true);
     cy.visit(testUrl);
 
-    cy.wait(productQueryAlias).then((waitXHR) => {
+    cy.wait(defaultQueryAlias).then((waitXHR) => {
       const totalResults = waitXHR.response.body.pagination.totalResults;
 
       isPaginationNotVisible();
@@ -64,7 +62,7 @@ describe('Infinite scroll', () => {
     configScroll(true, 15, false);
     cy.visit(testUrl);
 
-    cy.wait(productQueryAlias).then((waitXHR) => {
+    cy.wait(defaultQueryAlias).then((waitXHR) => {
       const totalResults = waitXHR.response.body.pagination.totalResults;
       isPaginationNotVisible();
 
@@ -78,7 +76,7 @@ describe('Infinite scroll', () => {
     configScroll(false, 0, false);
     cy.visit(testUrl);
 
-    cy.wait(productQueryAlias);
+    cy.wait(defaultQueryAlias);
     isPaginationVisible();
   });
 });

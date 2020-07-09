@@ -1,13 +1,12 @@
+import { clickFacet, searchUrlPrefix } from './product-search';
 import { PRODUCT_LISTING } from './data-configuration';
-import {
-  clickFacet,
-  createAllProductQuery,
-  QUERY_ALIAS,
-} from './product-search';
 
 const scrollDuration = 100;
 const defaultNumberOfProducts = 10;
 let defaultProductLimit = 10;
+
+const defaultQueryName = `query_relevance`;
+const defaultQueryAlias = `@${defaultQueryName}`;
 
 const productScrollButtons = 'cx-product-scroll .btn-action';
 
@@ -29,6 +28,15 @@ export function configScroll(
     },
   });
 }
+
+export function createDefaultQuery() {
+  cy.route(
+    'GET',
+    `${searchUrlPrefix}?fields=*&query=:relevance:allCategories:816*`
+  ).as(defaultQueryName);
+}
+
+export function createGridQuery() {}
 
 export function assertDefaultNumberOfProducts(view) {
   cy.get(`cx-product-${view}-item`).should(
@@ -62,7 +70,7 @@ export function backtoTopIsNotVisible() {
 }
 
 export function scrollToFooter(
-  results: number,
+  totalResults: number,
   isShowMoreButton?: boolean,
   productLimit?: number
 ) {
@@ -70,7 +78,7 @@ export function scrollToFooter(
     defaultProductLimit = productLimit;
   }
 
-  const iterations = Math.floor(results / defaultProductLimit);
+  const iterations = Math.floor(totalResults / defaultProductLimit);
 
   let numberOfProducts = defaultNumberOfProducts;
 
@@ -79,7 +87,7 @@ export function scrollToFooter(
       cy.get('div')
         .contains('SHOW MORE')
         .click({ force: true })
-        .wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
+        .wait(defaultQueryAlias)
         .then(() => {
           numberOfProducts += defaultNumberOfProducts;
           verifyNumberOfProducts(numberOfProducts);
@@ -88,7 +96,7 @@ export function scrollToFooter(
         });
     } else {
       cy.scrollTo('bottom', { easing: 'linear', duration: scrollDuration })
-        .wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
+        .wait(defaultQueryAlias)
         .then(() => {
           numberOfProducts += defaultNumberOfProducts;
           verifyNumberOfProducts(numberOfProducts);
@@ -104,25 +112,29 @@ export function scrollToFooter(
 }
 
 export function verifySortingResetsList() {
+  cy.route(
+    'GET',
+    `${searchUrlPrefix}?fields=*&query=:relevance:allCategories:816&*&sort=topRated*`
+  ).as('sortQuery');
   cy.get('cx-sorting .ng-select:first').ngSelect(
     PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
   );
 
-  cy.wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
-    .its('status')
-    .should('eq', 200);
-
-  assertDefaultNumberOfProducts('list');
+  cy.wait('@sortQuery').then(() => {
+    assertDefaultNumberOfProducts('list');
+  });
 }
 
 export function verifyFilterResetsList() {
+  cy.route(
+    'GET',
+    `${searchUrlPrefix}?fields=*&query=:topRated:allCategories:816:brand:brand_5*`
+  ).as('gridQuery');
   clickFacet('Brand', '');
 
-  cy.wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
-    .its('status')
-    .should('eq', 200);
-
-  assertDefaultNumberOfProducts('list');
+  cy.wait('@gridQuery').then(() => {
+    assertDefaultNumberOfProducts('list');
+  });
 }
 
 export function verifyGridResetsList() {
@@ -130,9 +142,7 @@ export function verifyGridResetsList() {
     force: true,
   });
 
-  cy.wait(`@${QUERY_ALIAS.INFINITE_SCROLL_PRODUCT_LOADED}`)
-    .its('status')
-    .should('eq', 200);
-
-  assertDefaultNumberOfProducts('grid');
+  cy.wait('@gridQuery').then(() => {
+    assertDefaultNumberOfProducts('grid');
+  });
 }
