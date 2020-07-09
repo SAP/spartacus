@@ -16,6 +16,8 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
+import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
+import { BREAKPOINT } from '../../../layout/config/layout-config';
 
 @Component({
   selector: 'cx-tab-paragraph-container',
@@ -37,7 +39,8 @@ export class TabParagraphContainerComponent
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     protected cmsService: CmsService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    private breakpointService: BreakpointService
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -71,7 +74,13 @@ export class TabParagraphContainerComponent
   );
 
   select(tabNum: number): void {
-    this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
+    this.breakpointService.isDown(BREAKPOINT.sm).subscribe((res) => {
+      if (res) {
+        this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
+      } else {
+        this.activeTabNum = tabNum;
+      }
+    })
   }
 
   ngOnInit(): void {
