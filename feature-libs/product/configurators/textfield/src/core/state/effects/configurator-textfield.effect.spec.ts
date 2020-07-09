@@ -9,9 +9,9 @@ import {
   CartModification,
   GenericConfigurator,
 } from '@spartacus/core';
+import { makeErrorSerializable } from '@spartacus/product/configurators/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { makeErrorSerializable } from '../../../../../common/src/utils/serialization-utils';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../actions/index';
