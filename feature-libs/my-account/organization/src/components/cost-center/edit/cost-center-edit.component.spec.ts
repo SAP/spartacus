@@ -1,10 +1,19 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import {
+  CostCenter,
+  CostCenterService,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { Observable, of } from 'rxjs';
-import { OrganizationTestingModule } from '../../shared/testing/organization-testing.module';
 import { CostCenterEditComponent } from './cost-center-edit.component';
 import createSpy = jasmine.createSpy;
 
@@ -34,7 +43,7 @@ class MockCostCenterService implements Partial<CostCenterService> {
     return of(mockCostCenter);
   }
   update(_costCenterCode: string, _costCenter: CostCenter) {}
-  loadCostCenter(_costCenterCode: string) {}
+  load(_costCenterCode: string) {}
 }
 
 const mockRouterState = {
@@ -56,6 +65,7 @@ class MockActivatedRoute {
   parent = {
     params: of({ code: costCenterCode }),
   };
+  snapshot = {};
   go() {}
 }
 
@@ -67,7 +77,15 @@ describe('CostCenterEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [OrganizationTestingModule, ReactiveFormsModule],
+      imports: [
+        CommonModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        IconTestingModule,
+        ReactiveFormsModule,
+      ],
       declarations: [CostCenterEditComponent, MockCostCenterFormComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },

@@ -6,11 +6,12 @@ import {
   B2BUnitNode,
   Currency,
   CurrencyService,
+  I18nTestingModule,
   OrgUnitService,
 } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { OrganizationTestingModule } from '../../shared/testing/organization-testing.module';
 import { CostCenterFormComponent } from './cost-center-form.component';
 import { CostCenterFormService } from './cost-center-form.service';
 import createSpy = jasmine.createSpy;
@@ -67,7 +68,12 @@ describe('CostCenterFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [OrganizationTestingModule, ReactiveFormsModule, NgSelectModule],
+      imports: [
+        I18nTestingModule,
+        UrlTestingModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+      ],
       declarations: [CostCenterFormComponent, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },

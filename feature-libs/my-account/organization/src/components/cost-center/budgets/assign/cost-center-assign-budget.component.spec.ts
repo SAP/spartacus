@@ -1,10 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { Budget } from '@spartacus/core';
-import { Table } from '@spartacus/storefront';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Budget, I18nTestingModule } from '@spartacus/core';
+import { Table, TableModule } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { OrganizationTestingModule } from '../../../shared/testing/organization-testing.module';
 import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budget.component';
 import { CostCenterAssignBudgetListService } from './cost-center-assign-budget.service';
 
@@ -48,7 +51,14 @@ describe('CostCenterAssignBudgetsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [OrganizationTestingModule],
+      imports: [
+        RouterTestingModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        TableModule,
+        IconTestingModule,
+      ],
       declarations: [CostCenterAssignBudgetsComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
