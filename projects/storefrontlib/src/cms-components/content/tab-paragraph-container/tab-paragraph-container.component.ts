@@ -6,6 +6,8 @@ import {
   OnInit,
   QueryList,
   ViewChildren,
+  ElementRef,
+  ViewChild
 } from '@angular/core';
 import {
   CmsService,
@@ -27,6 +29,7 @@ import { BREAKPOINT } from '../../../layout/config/layout-config';
 export class TabParagraphContainerComponent
   implements AfterViewInit, OnInit, OnDestroy {
   activeTabNum = 0;
+  @ViewChild('lastItemScroll') public lastItemScroll: ElementRef;
 
   @ViewChildren(ComponentWrapperDirective) children!: QueryList<
     ComponentWrapperDirective
@@ -77,6 +80,9 @@ export class TabParagraphContainerComponent
     this.breakpointService.isDown(BREAKPOINT.sm).subscribe((res) => {
       if (res) {
         this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
+        if (tabNum > 1) {
+          window.scrollBy(0, -this.lastItemScroll.nativeElement.scrollHeight/2);
+        }
       } else {
         this.activeTabNum = tabNum;
       }
