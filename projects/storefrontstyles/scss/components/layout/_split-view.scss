@@ -58,10 +58,7 @@
     &[position='0'] {
       // we hide the first cx-view based on the visible position, as we can't rely on
       // overflow-x to hide the view.
-      // temp-calc is an intermediate variable introduced as a workaround to CSSNano issues with Angular 9
-      --temp-calc: calc(var(--cx-last-visible-view) - var(--cx-max-views));
-      opacity: calc(1 - var(--temp-calc));
-
+      opacity: calc(1 - var(--cx-last-visible-view) + var(--cx-max-views));
 
       // The inline start margin of the first flex item decreases to move
       // the flex items outside the flex container.
