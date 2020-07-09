@@ -47,12 +47,6 @@ export interface TableStructureConfiguration {
   pagination?: PaginationModel;
 }
 
-// export interface TablePagination {
-//   pageSize?: number;
-//   currentPage?: number;
-//   sort?: string;
-// }
-
 /**
  * The TableStructure holds the header structure of the table.
  */
