@@ -1,11 +1,21 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CostCenter } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CostCenterFormService {
-  build(form: FormGroup) {
+  getForm(model?: CostCenter): FormGroup {
+    const form = new FormGroup({});
+    this.build(form);
+    if (model) {
+      form.patchValue(model);
+    }
+    return form;
+  }
+
+  protected build(form: FormGroup) {
     if (!form) {
       return;
     }

@@ -1,8 +1,7 @@
-<cx-view #view *ngIf="code$ | async as costCenterCode">
+<cx-view #view *ngIf="form$ | async as form">
   <form
     [formGroup]="form"
-    (ngSubmit)="save(costCenterCode)"
-    *ngIf="costCenter$ | async as costCenter"
+    (ngSubmit)="save(costCenterCode, form)"
   >
     <h3>
       <a

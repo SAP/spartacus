@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CostCenterService, RoutingService } from '@spartacus/core';
 import { map } from 'rxjs/operators';
+import { CostCenterFormService } from '../form/cost-center-form.service';
 
 @Component({
   selector: 'cx-cost-center-create',
@@ -9,8 +10,6 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterCreateComponent {
-  form = new FormGroup({});
-
   // It would be nice to replace this query param approach with a session service that
   // provides a generic approach for session-interests, so that we can autofill forms, without
   // changing the URL. This can keep the current language, currency, parent unit, cost center, budget, etc.
@@ -18,21 +17,29 @@ export class CostCenterCreateComponent {
     .getRouterState()
     .pipe(map((routingData) => routingData.state.queryParams?.['parentUnit']));
 
+  form$ = this.routingService.getRouterState().pipe(
+    map((routingData) => routingData.state.queryParams?.['parentUnit']),
+    map((parentUnit: string) =>
+      this.costCenterFormService.getForm({ unit: { uid: parentUnit } })
+    )
+  );
+
   constructor(
     protected costCenterService: CostCenterService,
+    protected costCenterFormService: CostCenterFormService,
     protected routingService: RoutingService
   ) {}
 
-  save(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
+  save(form: FormGroup): void {
+    if (form.invalid) {
+      form.markAllAsTouched();
     } else {
-      this.form.disable();
-      this.costCenterService.create(this.form.value);
+      form.disable();
+      this.costCenterService.create(form.value);
 
       this.routingService.go({
         cxRoute: 'costCenterDetails',
-        params: this.form.value,
+        params: form.value,
       });
     }
   }
