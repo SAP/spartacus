@@ -38,8 +38,8 @@ export class OccAnonymousConsentTemplatesAdapter
     return this.http
       .head<Occ.ConsentTemplateList>(url, { observe: 'response' })
       .pipe(
-        catchError((error) => throwError(error)),
-        map((response) => response.headers.get(ANONYMOUS_CONSENTS_HEADER)),
+        catchError(error => throwError(error)),
+        map(response => response.headers.get(ANONYMOUS_CONSENTS_HEADER)),
         this.converter.pipeable(ANONYMOUS_CONSENT_NORMALIZER)
       );
   }

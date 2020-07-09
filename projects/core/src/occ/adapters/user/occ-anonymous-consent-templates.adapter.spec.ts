@@ -44,7 +44,10 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
 
   describe('loadAnonymousConsentTemplates', () => {
     it('should load anonymous consent templates', () => {
-      adapter.loadAnonymousConsentTemplates().subscribe().unsubscribe();
+      adapter
+        .loadAnonymousConsentTemplates()
+        .subscribe()
+        .unsubscribe();
       httpMock.expectOne(req => {
         return req.method === 'GET';
       });
@@ -59,7 +62,10 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
 
   describe('loadAnonymousConsents', () => {
     it('should issue a HEAD request to load the latest anonymous consents', () => {
-      adapter.loadAnonymousConsents().subscribe().unsubscribe();
+      adapter
+        .loadAnonymousConsents()
+        .subscribe()
+        .unsubscribe();
       httpMock.expectOne(req => req.method === 'HEAD');
       expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
         'anonymousConsentTemplates'

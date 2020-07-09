@@ -94,12 +94,12 @@ describe('AnonymousConsentsInterceptor', () => {
         },
       ],
     });
-    httpMock = TestBed.get(
-      HttpTestingController as Type<HttpTestingController>
-    );
-    anonymousConsentsService = TestBed.get(
-      AnonymousConsentsService as Type<AnonymousConsentsService>
-    );
+    httpMock = TestBed.get(HttpTestingController as Type<
+      HttpTestingController
+    >);
+    anonymousConsentsService = TestBed.get(AnonymousConsentsService as Type<
+      AnonymousConsentsService
+    >);
     authService = TestBed.get(AuthService as Type<AuthService>);
 
     const interceptors = TestBed.get(HTTP_INTERCEPTORS);

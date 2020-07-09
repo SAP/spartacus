@@ -62,7 +62,7 @@ describe('AnonymousConsentTemplatesConnector', () => {
       let result: AnonymousConsent[];
       service
         .loadAnonymousConsents()
-        .subscribe((value) => (result = value))
+        .subscribe(value => (result = value))
         .unsubscribe();
       expect(result).toEqual(mockConsents);
       expect(adapter.loadAnonymousConsents).toHaveBeenCalled();
