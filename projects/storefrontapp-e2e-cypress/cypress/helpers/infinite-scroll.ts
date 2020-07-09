@@ -139,3 +139,4 @@ export function verifyGridResetsList() {
     assertDefaultNumberOfProducts('grid');
   });
 }
+
