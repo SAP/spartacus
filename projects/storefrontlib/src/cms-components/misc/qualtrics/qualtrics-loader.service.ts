@@ -1,10 +1,5 @@
-import {
-  Injectable,
-  isDevMode,
-  Renderer2,
-  RendererFactory2,
-} from '@angular/core';
-import { WindowRef } from '@spartacus/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { WindowRef, logger } from '@spartacus/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
@@ -76,9 +71,7 @@ export class QualtricsLoaderService {
    */
   protected run(reload = false): void {
     if (!this.qsiApi?.API) {
-      if (isDevMode()) {
-        console.log('The QSI api is not available');
-      }
+      logger.log('The QSI api is not available');
       return;
     }
 

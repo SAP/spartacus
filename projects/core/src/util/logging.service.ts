@@ -1,42 +1,28 @@
 import { isDevMode } from '@angular/core';
 
 class LoggingService {
-  constructor() {}
-
-  trace(message, ...additional: any[]) {
-    if (this.isDebug()) {
-      // tslint:disable-next-line:no-console
-      console.trace(message, ...additional);
-    }
+  get trace(): Function {
+    return this.bindConsole(console.trace);
   }
 
-  info(message, ...additional: any[]) {
-    if (this.isDebug()) {
-      // tslint:disable-next-line:no-console
-      console.info(message, ...additional);
-    }
+  get info(): Function {
+    return this.bindConsole(console.info);
   }
 
-  warn(message?, ...additional: any[]) {
-    if (this.isDebug()) {
-      console.warn(message, ...additional);
-    }
+  get warn(): Function {
+    return this.bindConsole(console.warn);
   }
 
-  error(message, ...additional: any[]) {
-    if (this.isDebug()) {
-      console.error(message, ...additional);
-    }
+  get error(): Function {
+    return this.bindConsole(console.error);
   }
 
-  log(message, ...additional: any[]) {
-    if (this.isDebug()) {
-      console.log(message, ...additional);
-    }
+  get log(): Function {
+    return this.bindConsole(console.log);
   }
 
-  isDebug(): boolean {
-    return isDevMode();
+  private bindConsole(logFunction: Function): Function {
+    return isDevMode() ? logFunction.bind(window.console) : () => {};
   }
 }
 
