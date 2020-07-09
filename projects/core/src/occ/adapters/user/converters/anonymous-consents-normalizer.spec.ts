@@ -23,8 +23,8 @@ describe('AnonymousConsentNormalizer', () => {
         },
       ],
     });
-    normalizer = TestBed.inject(AnonymousConsentNormalizer);
-    anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
+    normalizer = TestBed.get(AnonymousConsentNormalizer);
+    anonymousConsentsService = TestBed.get(AnonymousConsentsService);
   });
 
   it('should be created', () => {

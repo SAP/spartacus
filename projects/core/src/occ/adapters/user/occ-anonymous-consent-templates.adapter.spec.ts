@@ -29,10 +29,10 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
       ],
     });
 
-    httpMock = TestBed.inject(HttpTestingController);
-    converter = TestBed.inject(ConverterService);
-    occEnpointsService = TestBed.inject(OccEndpointsService);
-    adapter = TestBed.inject(OccAnonymousConsentTemplatesAdapter);
+    httpMock = TestBed.get(HttpTestingController);
+    converter = TestBed.get(ConverterService);
+    occEnpointsService = TestBed.get(OccEndpointsService);
+    adapter = TestBed.get(OccAnonymousConsentTemplatesAdapter);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
