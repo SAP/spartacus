@@ -25,6 +25,7 @@ import {
   filter,
   first,
   map,
+  switchMapTo,
   tap,
 } from 'rxjs/operators';
 
@@ -34,15 +35,51 @@ import {
   styleUrls: ['./image-zoom-product-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+// TODO:#zoom - try the ssr build (it should pass, as the feature is "inactive" on the PDP, unless the user opens the dialog)
 export class ImageZoomProductViewComponent implements AfterViewInit {
   iconType = ICON_TYPE;
   private mainMediaContainer = new BehaviorSubject(null);
 
   isZoomed = false;
 
-  isZoomed2 = new BehaviorSubject(false);
+  // TODO:#zoom - make private
+  private isZoomed2 = new BehaviorSubject(false);
+  private elemReady = new BehaviorSubject(false);
+
+  private _zzz: ElementRef;
+
+  xxx$ = this.elemReady.pipe(
+    filter(Boolean),
+    distinctUntilChanged(),
+    switchMapTo(
+      combineLatest([
+        fromEvent(this.zzz.nativeElement, 'click').pipe(debounceTime(300)),
+        fromEvent(this.zzz.nativeElement, 'dblclick'),
+      ])
+    ),
+    tap(([click, dbl]) => {
+      console.log('click', click);
+      console.log('dbl', dbl);
+      this.zoom();
+    }),
+    first()
+  );
+
+  // combineLatest([
+  //   fromEvent(z.nativeElement, 'click').pipe(debounceTime(300)),
+  //   fromEvent(z.nativeElement, 'dblclick'),
+  // ])
+  //   .pipe(
+  //     tap(([click, dbl]) => {
+  //       console.log('click', click);
+  //       console.log('dbl', dbl);
+  //       this.zoom();
+  //     }),
+  //     first()
+  //   )
 
   isZoomed$ = this.isZoomed2.asObservable().pipe(
+    filter(Boolean),
     tap((val) => {
       if (val) {
         // console.log('true', val);
@@ -63,27 +100,36 @@ export class ImageZoomProductViewComponent implements AfterViewInit {
 
   @ViewChild('container') container: ElementRef;
 
+  get zzz(): ElementRef {
+    return this._zzz;
+  }
+
   @ViewChild('z3', { read: ElementRef }) set zz(z: ElementRef) {
     if (z) {
-      combineLatest([
-        fromEvent(z.nativeElement, 'click').pipe(debounceTime(300)),
-        fromEvent(z.nativeElement, 'dblclick'),
-      ])
-        .pipe(
-          tap(([click, dbl]) => {
-            console.log('click', click);
-            console.log('dbl', dbl);
-            this.zoom();
-          }),
-          first()
-        )
-        .subscribe();
+      this._zzz = z;
+      this.elemReady.next(true);
+      // combineLatest([
+      //   fromEvent(z.nativeElement, 'click').pipe(debounceTime(300)),
+      //   fromEvent(z.nativeElement, 'dblclick'),
+      // ])
+      //   .pipe(
+      //     tap(([click, dbl]) => {
+      //       console.log('click', click);
+      //       console.log('dbl', dbl);
+      //       this.zoom();
+      //     }),
+      //     first()
+      //   )
+      //   .subscribe();
+
       // fromEvent(z.nativeElement, 'click')
       //   .pipe(debounceTime(300))
       //   .subscribe(() => this.zoom());
       // fromEvent(z.nativeElement, 'dblclick').subscribe(() =>
       //   console.log('dbl')
       // );
+    } else {
+      this.elemReady.next(false);
     }
   }
 
@@ -91,6 +137,7 @@ export class ImageZoomProductViewComponent implements AfterViewInit {
   left = 0;
   top = 0;
 
+  // TODO:#zoom - subscribing multiple times to this one. We can consider using shareReplay
   private product$: Observable<
     Product
   > = this.currentProductService.getProduct().pipe(
@@ -110,6 +157,7 @@ export class ImageZoomProductViewComponent implements AfterViewInit {
     })
   );
 
+  // TODO:#zoom - subscribed multiple times
   thumbs$: Observable<any[]> = this.product$.pipe(
     map((p: Product) => this.createThumbs(p))
   );
@@ -121,6 +169,7 @@ export class ImageZoomProductViewComponent implements AfterViewInit {
   constructor(
     protected currentProductService: CurrentProductService,
     protected renderer: Renderer2,
+    // TODO:#zoom - is it needed?
     protected element: ElementRef,
     protected cdRef: ChangeDetectorRef
   ) {}
@@ -187,6 +236,7 @@ export class ImageZoomProductViewComponent implements AfterViewInit {
     this.startCoords = null;
     this.left = 0;
     this.top = 0;
+    // TODO:#zoom - would  this.cdRef.markForCheck() work?
     this.cdRef.detectChanges();
   }
 
