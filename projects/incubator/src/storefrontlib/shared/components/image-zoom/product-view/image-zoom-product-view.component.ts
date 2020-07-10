@@ -11,7 +11,11 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  BreakpointService,
+  CurrentProductService,
+  ICON_TYPE,
+} from '@spartacus/storefront';
 import {
   BehaviorSubject,
   combineLatest,
@@ -20,7 +24,6 @@ import {
   of,
 } from 'rxjs';
 import {
-  debounceTime,
   distinctUntilChanged,
   filter,
   first,
@@ -108,14 +111,21 @@ export class ImageZoomProductViewComponent implements AfterViewInit {
     if (z) {
       this._zzz = z;
       this.elemReady.next(true);
-      // combineLatest([
-      //   fromEvent(z.nativeElement, 'click').pipe(debounceTime(300)),
-      //   fromEvent(z.nativeElement, 'dblclick'),
-      // ])
+
+      // merge(
+      //   fromEvent(z.nativeElement, 'click').pipe(
+      //     switchMapTo(this.breakpoint.isDown(BREAKPOINT.lg)),
+      //     filter(Boolean)
+      //   ),
+      //   fromEvent(z.nativeElement, 'dblclick').pipe(
+      //     switchMapTo(this.breakpoint.isUp(BREAKPOINT.md)),
+      //     filter(Boolean)
+      //   )
+      // )
       //   .pipe(
-      //     tap(([click, dbl]) => {
-      //       console.log('click', click);
-      //       console.log('dbl', dbl);
+      //     tap((clickOrDoubleClick) => {
+      //       console.log('clickOrDoubleClick', clickOrDoubleClick);
+      //       // console.log('dbl', dbl);
       //       this.zoom();
       //     }),
       //     first()
@@ -171,7 +181,8 @@ export class ImageZoomProductViewComponent implements AfterViewInit {
     protected renderer: Renderer2,
     // TODO:#zoom - is it needed?
     protected element: ElementRef,
-    protected cdRef: ChangeDetectorRef
+    protected cdRef: ChangeDetectorRef,
+    protected breakpoint: BreakpointService
   ) {}
 
   ngAfterViewInit() {
