@@ -1,6 +1,7 @@
 import {
   OrderApproval,
   OrderApprovalDecision,
+  OrderApprovalDecisionValue,
 } from '../../../model/order-approval.model';
 import { StateUtils } from '../../../state/utils/index';
 import {
@@ -15,7 +16,7 @@ const orderApproval: OrderApproval = {
 };
 
 const orderApprovalDecision: OrderApprovalDecision = {
-  decision: 'APPROVE',
+  decision: OrderApprovalDecisionValue.APPROVE,
   comment: 'yeah',
 };
 

@@ -11,14 +11,15 @@ import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
   OrderApproval,
+  OrderApprovalDecisionValue,
   OrderApprovalService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form.component';
 
-const REJECT = 'REJECT';
-const APPROVE = 'APPROVE';
+const REJECT = OrderApprovalDecisionValue.REJECT;
+const APPROVE = OrderApprovalDecisionValue.APPROVE;
 
 const mockOrderApproval = {
   approvalDecisionRequired: true,
@@ -128,7 +129,7 @@ describe('OrderApprovalDetailFormComponent', () => {
     expect(orderApprovalService.makeDecision).not.toHaveBeenCalled();
   });
 
-  function displayAndCancelDecisionForm(decision: string) {
+  function displayAndCancelDecisionForm(decision: OrderApprovalDecisionValue) {
     assertComponentInitialState();
 
     displayDecisionForm(decision);
@@ -138,7 +139,7 @@ describe('OrderApprovalDetailFormComponent', () => {
     assertComponentInitialState();
   }
 
-  function displayDecisionForm(decision: string) {
+  function displayDecisionForm(decision: OrderApprovalDecisionValue) {
     clickButton('orderApproval.showForm_' + decision);
     expect(component.approvalFormVisible).toBeTruthy();
     expect(el.query(By.css('form'))).toBeTruthy();
@@ -146,7 +147,7 @@ describe('OrderApprovalDetailFormComponent', () => {
     assertButtonPresent('orderApproval.form.submit_' + decision);
   }
 
-  function submitDecisionForm(decision: 'APPROVE' | 'REJECT') {
+  function submitDecisionForm(decision: OrderApprovalDecisionValue) {
     spyOn(orderApprovalService, 'makeDecision').and.stub();
     const testComment = 'Decision comment ' + decision;
     component.approvalForm.controls.comment.setValue(testComment);

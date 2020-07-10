@@ -2,8 +2,12 @@ import { Principal } from './cart.model';
 import { Order } from './order.model';
 import { OrderApprovalPermissionType } from './permission.model';
 
+export enum OrderApprovalDecisionValue {
+  APPROVE = 'APPROVE',
+  REJECT = 'REJECT',
+}
 export interface OrderApprovalDecision {
-  decision?: 'APPROVE' | 'REJECT';
+  decision?: OrderApprovalDecisionValue;
   comment?: string;
 }
 
