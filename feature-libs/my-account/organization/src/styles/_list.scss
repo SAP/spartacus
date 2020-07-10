@@ -30,6 +30,12 @@
     }
   }
 
+  &.edit, &.create, &.assign-budget {
+    cx-split-view {
+     --cx-max-views: 1;
+    }
+  }
+
   cx-split-view {
     &:not([last-visible-view='1']) {
       th:nth-child(n + 2),
