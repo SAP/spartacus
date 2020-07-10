@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Configurator,
+  ConfiguratorCartService,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   GenericConfigurator,
@@ -101,10 +102,13 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return of(productConfiguration);
   }
-  addToCart() {}
-  updateCartEntry() {}
   removeConfiguration() {}
   removeUiState() {}
+}
+
+class MockConfiguratorCartService {
+  updateCartEntry() {}
+  addToCart() {}
 }
 
 class MockConfiguratorGroupsService {
@@ -185,6 +189,10 @@ describe('ConfigAddToCartButtonComponent', () => {
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorCartService,
+          useClass: MockConfiguratorCartService,
         },
         {
           provide: ConfiguratorGroupsService,

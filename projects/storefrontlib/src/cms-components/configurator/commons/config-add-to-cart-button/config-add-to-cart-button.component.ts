@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   Configurator,
+  ConfiguratorCartService,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   GenericConfigurator,
@@ -35,6 +36,7 @@ export class ConfigAddToCartButtonComponent {
   constructor(
     protected routingService: RoutingService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorCartService: ConfiguratorCartService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfigRouterExtractorService,
     protected globalMessageService: GlobalMessageService
@@ -115,7 +117,7 @@ export class ConfigAddToCartButtonComponent {
 
     if (isOwnerCartEntry) {
       if (configuration.isCartEntryUpdateRequired) {
-        this.configuratorCommonsService.updateCartEntry(configuration);
+        this.configuratorCartService.updateCartEntry(configuration);
       }
       this.performNavigation(
         configuratorType,
@@ -128,7 +130,7 @@ export class ConfigAddToCartButtonComponent {
         this.configuratorCommonsService.removeConfiguration(owner);
       }
     } else {
-      this.configuratorCommonsService.addToCart(
+      this.configuratorCartService.addToCart(
         owner.id,
         configuration.configId,
         owner.key
