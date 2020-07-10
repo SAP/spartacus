@@ -20,6 +20,7 @@ const CONFIG_ID = '12342';
 const CONFIGURATOR_URL =
   'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
 
+let routerStateObservable = null;
 const mockRouterState: any = {
   state: {
     params: {
@@ -85,7 +86,7 @@ const config: Configurator.Configuration = {
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
+    return routerStateObservable;
   }
 }
 
@@ -119,6 +120,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   let configuratorUtils: GenericConfigUtilsService;
 
   beforeEach(async(() => {
+    routerStateObservable = of(mockRouterState);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
       declarations: [ConfigGroupTitleComponent],
@@ -161,7 +163,6 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should get product code as part of product configuration', () => {
-    component.ngOnInit();
     component.configuration$.subscribe((data: Configurator.Configuration) => {
       expect(data.productCode).toEqual(PRODUCT_CODE);
     });
