@@ -145,10 +145,6 @@ export class TableService {
         ? tableConfig.find((config) => config.breakpoint === bestMatch)
         : {}),
     };
-    // return bestMatch
-    //   ? tableConfig.find((config) => config.breakpoint === bestMatch)
-    //   : tableConfig.find((structure) => !structure.breakpoint) ||
-    //       tableConfig[0];
   }
 
   protected hasTableConfig(tableType: string): boolean {
