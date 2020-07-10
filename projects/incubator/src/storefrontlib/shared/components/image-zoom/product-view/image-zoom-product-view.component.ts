@@ -34,6 +34,10 @@ import {
   switchMapTo,
   tap,
 } from 'rxjs/operators';
+import {
+  calculatePointerMovePosition,
+  handleOutOfBounds,
+} from './image-zoom-util';
 
 @Component({
   selector: 'cx-image-zoom-product-view',
@@ -41,7 +45,6 @@ import {
   styleUrls: ['./image-zoom-product-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-// TODO:#zoom - try the ssr build (it should pass, as the feature is "inactive" on the PDP, unless the user opens the dialog)
 export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
   iconType = ICON_TYPE;
   private mainMediaContainer = new BehaviorSubject(null);
@@ -232,11 +235,11 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
     const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
     const imageElement = this.zoomedImage.nativeElement.firstChild;
 
-    const x = event.clientX - boundingRect.left;
-    const y = event.clientY - boundingRect.top;
-
-    const positionX = -x + this.zoomedImage.nativeElement.clientWidth / 2;
-    const positionY = -y + this.zoomedImage.nativeElement.clientHeight / 2;
+    const { positionX, positionY } = calculatePointerMovePosition(
+      this.zoomedImage,
+      event.clientX,
+      event.clientY
+    );
 
     this.moveImage(positionX, positionY, boundingRect, imageElement);
   }
@@ -255,7 +258,7 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
     boundingRect: any,
     imageElement: DOMRect
   ): void {
-    const { x, y } = this.handleOutOfBounds(
+    const { x, y } = handleOutOfBounds(
       positionX,
       positionY,
       imageElement,
@@ -264,39 +267,6 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
 
     this.renderer.setStyle(imageElement, 'left', x + 'px');
     this.renderer.setStyle(imageElement, 'top', y + 'px');
-  }
-
-  /**
-   * Keeps the zoom image from leaving the bounding container
-   *
-   * @param positionX
-   * @param positionY
-   * @param imageElement
-   * @param boundingRect
-   */
-  protected handleOutOfBounds(
-    positionX: number,
-    positionY: number,
-    imageElement: any,
-    boundingRect: DOMRect
-  ): { x: number; y: number } {
-    const paddingX = 60;
-    const paddingY = 60;
-
-    if (positionY <= -imageElement.height + paddingY) {
-      positionY = -imageElement.height + paddingY;
-    }
-    if (positionY >= boundingRect.height - paddingY) {
-      positionY = boundingRect.height - paddingY;
-    }
-    if (positionX <= -imageElement.width - boundingRect.width / 2 + paddingX) {
-      positionX = -imageElement.width - boundingRect.width / 2 + paddingX;
-    }
-    if (positionX >= imageElement.width + boundingRect.width / 2 - paddingX) {
-      positionX = imageElement.width + boundingRect.width / 2 - paddingX;
-    }
-
-    return { x: positionX, y: positionY };
   }
 
   ngOnDestroy() {
