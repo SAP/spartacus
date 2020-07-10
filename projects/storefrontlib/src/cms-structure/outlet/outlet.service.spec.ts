@@ -39,10 +39,10 @@ class AnyComponent {}
 @Component({
   template: ` any2 `,
 })
-class AnyComponent2 {}
+class Any2Component {}
 @NgModule({
-  declarations: [AnyComponent, AnyComponent2],
-  entryComponents: [AnyComponent, AnyComponent2],
+  declarations: [AnyComponent, Any2Component],
+  entryComponents: [AnyComponent, Any2Component],
 })
 class AnyModule {}
 
@@ -246,7 +246,7 @@ describe('OutletService', () => {
       componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
       factory = componentFactoryResolver.resolveComponentFactory(AnyComponent);
       factory2 = componentFactoryResolver.resolveComponentFactory(
-        AnyComponent2
+        Any2Component
       );
     });
 
