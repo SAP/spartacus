@@ -15,7 +15,7 @@ import {
   CartPageVisited,
   CategoryPageVisited,
   HomePageVisited,
-  KeywordSearchPageVisited,
+  SearchPageVisited,
   OrderConfirmationPageVisited,
   PageVisited,
   ProductDetailsPageVisited,
@@ -37,7 +37,7 @@ export class RoutingEventBuilder {
 
   protected register(): void {
     this.eventService.register(
-      KeywordSearchPageVisited,
+      SearchPageVisited,
       this.searchResultPageVisited()
     );
     this.eventService.register(
@@ -125,7 +125,7 @@ export class RoutingEventBuilder {
     );
   }
 
-  protected searchResultPageVisited(): Observable<KeywordSearchPageVisited> {
+  protected searchResultPageVisited(): Observable<SearchPageVisited> {
     return this.productSearchService.getResults().pipe(
       filter((searchResults) => Boolean(searchResults.breadcrumbs)),
       withLatestFrom(this.getCurrentPageContextFor('search')),
@@ -134,7 +134,7 @@ export class RoutingEventBuilder {
         numberOfResults: productSearchPage.pagination.totalResults,
       })),
       map((searchResults) =>
-        createFrom(KeywordSearchPageVisited, searchResults)
+        createFrom(SearchPageVisited, searchResults)
       )
     );
   }

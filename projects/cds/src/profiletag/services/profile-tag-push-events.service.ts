@@ -5,7 +5,7 @@ import {
   CategoryPageVisited,
   EventService,
   HomePageVisited,
-  KeywordSearchPageVisited,
+  SearchPageVisited,
   OrderConfirmationPageVisited,
   PageVisited,
   PersonalizationContextService,
@@ -138,11 +138,11 @@ export class ProfileTagPushEventsService {
    * Listens to KeywordSearchPageVisited events, parses and pushes them to profiletag to pick them up further.
    * 
    * @returns an observable emitting events that describe keyword search page visits in a profiltag compliant way
-   * @see KeywordSearchPageVisited
+   * @see SearchPageVisited
    * @see KeywordSearchPushEvent
    */
   protected searchResultsChanged(): Observable<ProfileTagPushEvent> {
-    return this.eventService.get(KeywordSearchPageVisited).pipe(
+    return this.eventService.get(SearchPageVisited).pipe(
       map((searchEvent) => {
         return new KeywordSearchPushEvent({
           searchTerm: searchEvent.searchTerm,

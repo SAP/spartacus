@@ -44,7 +44,7 @@ export class CategoryPageVisited {
  * Indicates that a user visited a keyword search page. The search term and the number of results are emitted whenever 
  * a keyword search has been executed.
  */
-export class KeywordSearchPageVisited {
+export class SearchPageVisited {
   searchTerm: string;
   numberOfResults: Number;
 }

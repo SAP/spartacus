@@ -174,6 +174,7 @@ describe('RoutingService', () => {
     );
   });
 
+  /*
   describe('isCurrentRoute', () => {
     describe('when the state routeName matches the provided one', () => {
       it('should return true', () => {
@@ -246,4 +247,5 @@ describe('RoutingService', () => {
       });
     });
   });
+  */
 });
