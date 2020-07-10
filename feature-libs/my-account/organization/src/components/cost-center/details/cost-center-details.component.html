@@ -11,8 +11,7 @@
       </a>
       <span>{{ costCenter.name }}</span>
     </h3>
-
-    <section>
+    <div class="actions">
       <a
         class="link"
         [class.disabled]="!costCenter.active"
@@ -20,42 +19,45 @@
       >
         {{ 'organization.edit' | cxTranslate }}
       </a>
+    </div>
+    <section>
+      <div class="details">
+        <div class="property">
+          <label>{{ 'costCenter.name' | cxTranslate }}</label>
+          <span class="value">
+            {{ costCenter.name }}
+          </span>
+        </div>
 
-      <div class="property">
-        <label>{{ 'costCenter.name' | cxTranslate }}</label>
-        <span class="value">
-          {{ costCenter.name }}
-        </span>
-      </div>
+        <div class="property">
+          <label>{{ 'costCenter.code' | cxTranslate }}</label>
+          <span class="value">
+            {{ costCenter.code }}
+          </span>
+        </div>
 
-      <div class="property">
-        <label>{{ 'costCenter.code' | cxTranslate }}</label>
-        <span class="value">
-          {{ costCenter.code }}
-        </span>
-      </div>
+        <div class="property">
+          <label>{{ 'costCenter.currency' | cxTranslate }}</label>
 
-      <div class="property">
-        <label>{{ 'costCenter.currency' | cxTranslate }}</label>
+          <span class="value">
+            {{ costCenter.currency?.isocode }}
+          </span>
+        </div>
 
-        <span class="value">
-          {{ costCenter.currency?.isocode }}
-        </span>
-      </div>
-
-      <div class="property">
-        <label>{{ 'costCenter.unit' | cxTranslate }}</label>
-        <a
-          class="value"
-          [routerLink]="
-            {
-              cxRoute: 'orgUnitDetails',
-              params: costCenter.unit
-            } | cxUrl
-          "
-        >
-          {{ costCenter.unit?.name }}
-        </a>
+        <div class="property">
+          <label>{{ 'costCenter.unit' | cxTranslate }}</label>
+          <a
+            class="value"
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitDetails',
+                params: costCenter.unit
+              } | cxUrl
+            "
+          >
+            {{ costCenter.unit?.name }}
+          </a>
+        </div>
       </div>
     </section>
 

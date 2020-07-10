@@ -17,7 +17,7 @@ export const organization = {
     cancel: 'Cancel',
 
     create: 'Create {{name}}',
-    edit: 'Edit {{name}}',
+    edit: 'Edit details',
     save: 'Save {{name}}',
 
     manage: 'Manage',
