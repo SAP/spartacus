@@ -181,12 +181,13 @@ describe('UnitTreeNavigationUIComponent', () => {
     });
 
     describe('testing selected node tree', () => {
-      const 
-        nodeRootElement = mockNode.children[0],
+      const nodeRootElement = mockNode.children[0],
         nodeFirstChildElement = mockNode.children[0].children[0],
         nodeSecondChildElement = mockNode.children[0].children[1],
-        nodeFirstChildSubChildElement = mockNode.children[0].children[0].children[0],
-        nodeFirstChildSubChildSubElement: any = mockNode.children[0].children[0].children[0].children;
+        nodeFirstChildSubChildElement =
+          mockNode.children[0].children[0].children[0],
+        nodeFirstChildSubChildSubElement: any =
+          mockNode.children[0].children[0].children[0].children;
 
       it('should return root title', () => {
         const domTree: HTMLElement = element.query(By.css('ul > li'))
@@ -220,7 +221,9 @@ describe('UnitTreeNavigationUIComponent', () => {
           const domTree: HTMLElement = element.query(By.css('ul > li'))
             .nativeElement;
           const domElements: any = domTree.querySelectorAll('cx-generic-link');
-          expect(domElements[index].getAttribute('title')).toBe(childNodeElement);
+          expect(domElements[index].getAttribute('title')).toBe(
+            childNodeElement
+          );
         });
       }
 
