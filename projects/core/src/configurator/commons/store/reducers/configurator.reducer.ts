@@ -1,6 +1,6 @@
 import { Configurator } from '../../../../model/configurator.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import * as ConfiguratorActions from '../actions/configurator.action';
+import { ConfiguratorActions } from '../actions/index';
 
 export const initialState: Configurator.Configuration = {
   configId: '',
@@ -15,7 +15,9 @@ export const initialStatePendingChanges = 0;
 
 export function reducer(
   state = initialState,
-  action: ConfiguratorActions.ConfiguratorAction
+  action:
+    | ConfiguratorActions.ConfiguratorAction
+    | ConfiguratorActions.ConfiguratorCartAction
 ): Configurator.Configuration {
   switch (action.type) {
     case ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS: {

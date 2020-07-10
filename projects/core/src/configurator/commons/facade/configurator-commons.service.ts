@@ -13,7 +13,7 @@ import {
   OCC_USER_ID_CURRENT,
 } from '../../../occ/utils/occ-constants';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
-import * as ConfiguratorActions from '../store/actions/configurator.action';
+import { ConfiguratorActions } from '../store/actions/index';
 import { StateWithConfiguration } from '../store/configuration-state';
 import * as ConfiguratorSelectors from '../store/selectors/configurator.selector';
 

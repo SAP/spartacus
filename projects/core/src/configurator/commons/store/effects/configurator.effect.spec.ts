@@ -12,7 +12,7 @@ import { GenericConfigurator } from '../../../../model/generic-configurator.mode
 import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import * as fromConfigurationReducers from '../../store/reducers/index';
-import * as ConfiguratorActions from '../actions/configurator.action';
+import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATION_FEATURE } from '../configuration-state';
 import { Configurator } from './../../../../model/configurator.model';
 import { ConfiguratorCommonsConnector } from './../../connectors/configurator-commons.connector';

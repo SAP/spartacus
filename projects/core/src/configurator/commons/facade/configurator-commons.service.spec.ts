@@ -14,7 +14,7 @@ import {
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
-import * as ConfiguratorActions from '../store/actions/configurator.action';
+import { ConfiguratorActions } from '../store/actions/index';
 import {
   ConfigurationState,
   CONFIGURATION_FEATURE,
