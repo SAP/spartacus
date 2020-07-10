@@ -16,7 +16,6 @@
       margin-right: 0;
 
       // TFM style changes
-
       @include forVersion(2.1) {
         &:not(:first-child) {
           border-top: none;
