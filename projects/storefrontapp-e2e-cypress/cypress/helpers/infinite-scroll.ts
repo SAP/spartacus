@@ -1,5 +1,5 @@
-import { clickFacet, searchUrlPrefix } from './product-search';
 import { PRODUCT_LISTING } from './data-configuration';
+import { clickFacet, searchUrlPrefix } from './product-search';
 
 const scrollDuration = 100;
 const defaultNumberOfProducts = 10;
@@ -35,8 +35,6 @@ export function createDefaultQuery() {
     `${searchUrlPrefix}?fields=*&query=:relevance:allCategories:816*`
   ).as(defaultQueryName);
 }
-
-export function createGridQuery() {}
 
 export function assertDefaultNumberOfProducts(view) {
   cy.get(`cx-product-${view}-item`).should(
