@@ -1,14 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
   I18nModule,
+  UrlModule,
 } from '@spartacus/core';
 import { CmsPageGuard } from '../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/page-layout.component';
+import { FormErrorsModule } from '../../../../shared/index';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import {
   OrderDetailApprovalDetailsComponent,
@@ -18,15 +21,17 @@ import {
   OrderDetailsService,
   OrderDetailTotalsComponent,
 } from '../../../myaccount/order/order-details/index';
+import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
 import { OrderApprovalDetailService } from './order-approval-detail.service';
-
-const moduleComponents = [];
 
 @NgModule({
   imports: [
+    ReactiveFormsModule,
     CartSharedModule,
     CommonModule,
     I18nModule,
+    UrlModule,
+    FormErrorsModule,
     RouterModule.forChild([
       {
         path: null,
@@ -87,11 +92,15 @@ const moduleComponents = [];
           ],
           guards: [AuthGuard],
         },
+        OrderApprovalDetailFormComponent: {
+          component: OrderApprovalDetailFormComponent,
+          guards: [AuthGuard],
+        },
       },
     }),
   ],
-  declarations: [...moduleComponents],
-  exports: [...moduleComponents],
-  entryComponents: [...moduleComponents],
+  declarations: [OrderApprovalDetailFormComponent],
+  exports: [OrderApprovalDetailFormComponent],
+  entryComponents: [OrderApprovalDetailFormComponent],
 })
 export class OrderApprovalDetailsModule {}
