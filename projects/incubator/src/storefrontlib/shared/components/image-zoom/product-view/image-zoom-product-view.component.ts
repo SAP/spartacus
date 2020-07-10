@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -12,6 +11,7 @@ import {
 } from '@angular/core';
 import { Product } from '@spartacus/core';
 import {
+  BREAKPOINT,
   BreakpointService,
   CurrentProductService,
   ICON_TYPE,
@@ -20,11 +20,13 @@ import {
   BehaviorSubject,
   combineLatest,
   fromEvent,
+  merge,
   Observable,
   of,
 } from 'rxjs';
 import {
   distinctUntilChanged,
+  exhaustMap,
   filter,
   first,
   map,
@@ -39,60 +41,40 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 // TODO:#zoom - try the ssr build (it should pass, as the feature is "inactive" on the PDP, unless the user opens the dialog)
-export class ImageZoomProductViewComponent implements AfterViewInit {
+export class ImageZoomProductViewComponent {
   iconType = ICON_TYPE;
   private mainMediaContainer = new BehaviorSubject(null);
 
   isZoomed = false;
 
-  // TODO:#zoom - make private
-  private isZoomed2 = new BehaviorSubject(false);
   private elemReady = new BehaviorSubject(false);
 
   private _zzz: ElementRef;
 
   xxx$ = this.elemReady.pipe(
+    tap((x) => console.log('1: ', x)),
     filter(Boolean),
+    tap((x) => console.log('2: ', x)),
     distinctUntilChanged(),
-    switchMapTo(
-      combineLatest([
-        fromEvent(this.zzz.nativeElement, 'click').pipe(debounceTime(300)),
-        fromEvent(this.zzz.nativeElement, 'dblclick'),
-      ])
-    ),
-    tap(([click, dbl]) => {
-      console.log('click', click);
-      console.log('dbl', dbl);
-      this.zoom();
-    }),
-    first()
-  );
-
-  // combineLatest([
-  //   fromEvent(z.nativeElement, 'click').pipe(debounceTime(300)),
-  //   fromEvent(z.nativeElement, 'dblclick'),
-  // ])
-  //   .pipe(
-  //     tap(([click, dbl]) => {
-  //       console.log('click', click);
-  //       console.log('dbl', dbl);
-  //       this.zoom();
-  //     }),
-  //     first()
-  //   )
-
-  isZoomed$ = this.isZoomed2.asObservable().pipe(
-    filter(Boolean),
-    tap((val) => {
-      if (val) {
-        // console.log('true', val);
-        // fromEvent(this.container.nativeElement, 'click').subscribe((event) =>
-        //   console.log(event)
-        // );
-      } else {
-        // console.log('in else', val);
-      }
-    })
+    exhaustMap((_) =>
+      merge(
+        fromEvent(this.zzz.nativeElement, 'click').pipe(
+          switchMapTo(this.breakpoint.isDown(BREAKPOINT.lg)),
+          filter(Boolean)
+        ),
+        fromEvent(this.zzz.nativeElement, 'dblclick').pipe(
+          switchMapTo(this.breakpoint.isUp(BREAKPOINT.md)),
+          filter(Boolean)
+        )
+      ).pipe(
+        tap((clickOrDoubleClick) => {
+          console.log('clickOrDoubleClick', clickOrDoubleClick);
+          // console.log('dbl', dbl);
+          this.zoom();
+        }),
+        first()
+      )
+    )
   );
 
   @Input() galleryIndex: number;
@@ -131,13 +113,6 @@ export class ImageZoomProductViewComponent implements AfterViewInit {
       //     first()
       //   )
       //   .subscribe();
-
-      // fromEvent(z.nativeElement, 'click')
-      //   .pipe(debounceTime(300))
-      //   .subscribe(() => this.zoom());
-      // fromEvent(z.nativeElement, 'dblclick').subscribe(() =>
-      //   console.log('dbl')
-      // );
     } else {
       this.elemReady.next(false);
     }
@@ -179,23 +154,9 @@ export class ImageZoomProductViewComponent implements AfterViewInit {
   constructor(
     protected currentProductService: CurrentProductService,
     protected renderer: Renderer2,
-    // TODO:#zoom - is it needed?
-    protected element: ElementRef,
     protected cdRef: ChangeDetectorRef,
     protected breakpoint: BreakpointService
   ) {}
-
-  ngAfterViewInit() {
-    // fromEvent(this.z3.nativeElement, 'click').subscribe((event) =>
-    //   console.log(event)
-    // );
-    // this.z3.changes.subscribe((comp) => {
-    //   console.log('comp', comp);
-    //   if (comp.length > 0) {
-    //     console.log(comp[0]);
-    //   }
-    // });
-  }
 
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
