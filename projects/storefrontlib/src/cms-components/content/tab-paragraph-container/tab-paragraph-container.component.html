@@ -3,7 +3,7 @@
     <button [class.active]="i === activeTabNum" (click)="select(i)">
       {{ component.title | cxTranslate: { param: tabTitleParams[i] | async } }}
     </button>
-    <div [class.active]="i === activeTabNum" #lastItemScroll>
+    <div [class.active]="i === activeTabNum" #target>
       <ng-template [cxOutlet]="component.flexType" [cxOutletContext]="{}">
         <ng-container [cxComponentWrapper]="component"></ng-container>
       </ng-template>
