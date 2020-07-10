@@ -4,10 +4,10 @@ import {
   Component,
   ElementRef,
   Input,
-  QueryList,
+  OnDestroy,
+  OnInit,
   Renderer2,
   ViewChild,
-  ViewChildren,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
 import {
@@ -23,13 +23,14 @@ import {
   merge,
   Observable,
   of,
+  Subscription,
 } from 'rxjs';
 import {
   distinctUntilChanged,
-  exhaustMap,
   filter,
-  first,
   map,
+  shareReplay,
+  switchMap,
   switchMapTo,
   tap,
 } from 'rxjs/operators';
@@ -41,89 +42,71 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 // TODO:#zoom - try the ssr build (it should pass, as the feature is "inactive" on the PDP, unless the user opens the dialog)
-export class ImageZoomProductViewComponent {
+export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
   iconType = ICON_TYPE;
   private mainMediaContainer = new BehaviorSubject(null);
+  private subscription = new Subscription();
 
-  isZoomed = false;
+  private defaultImageReady = new BehaviorSubject(false);
+  private zoomReady = new BehaviorSubject(false);
 
-  private elemReady = new BehaviorSubject(false);
+  private _defaultImage: ElementRef;
+  private _zoomImage: ElementRef;
 
-  private _zzz: ElementRef;
+  @Input() galleryIndex: number;
 
-  xxx$ = this.elemReady.pipe(
-    tap((x) => console.log('1: ', x)),
+  defaultImageClickHandler$ = this.defaultImageReady.pipe(
     filter(Boolean),
-    tap((x) => console.log('2: ', x)),
-    distinctUntilChanged(),
-    exhaustMap((_) =>
-      merge(
-        fromEvent(this.zzz.nativeElement, 'click').pipe(
-          switchMapTo(this.breakpoint.isDown(BREAKPOINT.lg)),
-          filter(Boolean)
-        ),
-        fromEvent(this.zzz.nativeElement, 'dblclick').pipe(
-          switchMapTo(this.breakpoint.isUp(BREAKPOINT.md)),
-          filter(Boolean)
-        )
-      ).pipe(
-        tap((clickOrDoubleClick) => {
-          console.log('clickOrDoubleClick', clickOrDoubleClick);
-          // console.log('dbl', dbl);
-          this.zoom();
-        }),
-        first()
+    switchMap((_) =>
+      merge(...this.clickOrDoubleClick(this.defaultImage)).pipe(
+        tap(() => this.zoom())
       )
     )
   );
 
-  @Input() galleryIndex: number;
+  zoomImageClickHandler$ = this.zoomReady.pipe(
+    filter(Boolean),
+    switchMap((_) =>
+      merge(...this.clickOrDoubleClick(this.zoomImage)).pipe(
+        tap(() => this.zoom())
+      )
+    )
+  );
 
-  @ViewChildren('zoomedImage', { read: ElementRef }) zoomedImage: QueryList<
-    ElementRef
-  >;
-
-  @ViewChild('container') container: ElementRef;
-
-  get zzz(): ElementRef {
-    return this._zzz;
+  get defaultImage(): ElementRef {
+    return this._defaultImage;
   }
 
-  @ViewChild('z3', { read: ElementRef }) set zz(z: ElementRef) {
-    if (z) {
-      this._zzz = z;
-      this.elemReady.next(true);
+  get zoomImage(): ElementRef {
+    return this._zoomImage;
+  }
 
-      // merge(
-      //   fromEvent(z.nativeElement, 'click').pipe(
-      //     switchMapTo(this.breakpoint.isDown(BREAKPOINT.lg)),
-      //     filter(Boolean)
-      //   ),
-      //   fromEvent(z.nativeElement, 'dblclick').pipe(
-      //     switchMapTo(this.breakpoint.isUp(BREAKPOINT.md)),
-      //     filter(Boolean)
-      //   )
-      // )
-      //   .pipe(
-      //     tap((clickOrDoubleClick) => {
-      //       console.log('clickOrDoubleClick', clickOrDoubleClick);
-      //       // console.log('dbl', dbl);
-      //       this.zoom();
-      //     }),
-      //     first()
-      //   )
-      //   .subscribe();
-    } else {
-      this.elemReady.next(false);
+  @ViewChild('defaultImage', { read: ElementRef }) set defaultImage(
+    el: ElementRef
+  ) {
+    if (el) {
+      this._defaultImage = el;
+      this.defaultImageReady.next(true);
     }
   }
+
+  @ViewChild('zoomContainer', { read: ElementRef }) set zoomImage(
+    el: ElementRef
+  ) {
+    if (el) {
+      this._zoomImage = el;
+      this.zoomReady.next(true);
+    }
+  }
+
+  @ViewChild('zoomedImage', { read: ElementRef }) zoomedImage: ElementRef;
 
   startCoords: { x: number; y: number } = null;
   left = 0;
   top = 0;
+  isZoomed = false;
 
-  // TODO:#zoom - subscribing multiple times to this one. We can consider using shareReplay
-  private product$: Observable<
+  protected product$: Observable<
     Product
   > = this.currentProductService.getProduct().pipe(
     filter(Boolean),
@@ -139,12 +122,13 @@ export class ImageZoomProductViewComponent {
       } else {
         this.mainMediaContainer.next(p.images?.PRIMARY ? p.images.PRIMARY : {});
       }
-    })
+    }),
+    shareReplay(1)
   );
 
-  // TODO:#zoom - subscribed multiple times
   thumbs$: Observable<any[]> = this.product$.pipe(
-    map((p: Product) => this.createThumbs(p))
+    map((p: Product) => this.createThumbs(p)),
+    shareReplay(1)
   );
 
   mainImage$ = combineLatest([this.product$, this.mainMediaContainer]).pipe(
@@ -158,11 +142,16 @@ export class ImageZoomProductViewComponent {
     protected breakpoint: BreakpointService
   ) {}
 
+  ngOnInit() {
+    this.subscription.add(this.defaultImageClickHandler$.subscribe());
+    this.subscription.add(this.zoomImageClickHandler$.subscribe());
+  }
+
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
   }
 
-  isActive(thumbnail): Observable<boolean> {
+  isActive(thumbnail: any): Observable<boolean> {
     return this.mainMediaContainer.pipe(
       filter(Boolean),
       map((container: any) => {
@@ -177,10 +166,6 @@ export class ImageZoomProductViewComponent {
     );
   }
 
-  print() {
-    console.log('print', !this.isZoomed);
-  }
-
   /** find the index of the main media in the list of media */
   getActive(): number {
     return this.mainMediaContainer.value.thumbnail?.galleryIndex || 0;
@@ -193,6 +178,7 @@ export class ImageZoomProductViewComponent {
     }
     return thumbs[active - 1];
   }
+
   getNextProduct(thumbs: any[]): Observable<any> {
     const active = this.getActive();
     if (active === thumbs.length - 1) {
@@ -202,14 +188,11 @@ export class ImageZoomProductViewComponent {
   }
 
   zoom(): void {
-    console.log('zoom', this.isZoomed);
-    // this.isZoomed2.next(true);
     this.isZoomed = !this.isZoomed;
     this.startCoords = null;
     this.left = 0;
     this.top = 0;
-    // TODO:#zoom - would  this.cdRef.markForCheck() work?
-    this.cdRef.detectChanges();
+    this.cdRef.markForCheck();
   }
 
   /**
@@ -219,8 +202,8 @@ export class ImageZoomProductViewComponent {
    */
   touchMove(event: any): void {
     const touch = event.touches[0] || event.changedTouches[0];
-    const boundingRect = this.zoomedImage.last.nativeElement.getBoundingClientRect() as DOMRect;
-    const imageElement = this.zoomedImage.last.nativeElement.firstChild;
+    const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
+    const imageElement = this.zoomedImage.nativeElement.firstChild;
 
     if (!this.startCoords)
       this.startCoords = { x: touch.clientX, y: touch.clientY };
@@ -246,15 +229,14 @@ export class ImageZoomProductViewComponent {
    * @param event
    */
   pointerMove(event: any): void {
-    const boundingRect = this.zoomedImage.first.nativeElement.getBoundingClientRect() as DOMRect;
-    const imageElement = this.zoomedImage.first.nativeElement.firstChild;
+    const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
+    const imageElement = this.zoomedImage.nativeElement.firstChild;
 
     const x = event.clientX - boundingRect.left;
     const y = event.clientY - boundingRect.top;
 
-    const positionX = -x + this.zoomedImage.first.nativeElement.clientWidth / 2;
-    const positionY =
-      -y + this.zoomedImage.first.nativeElement.clientHeight / 2;
+    const positionX = -x + this.zoomedImage.nativeElement.clientWidth / 2;
+    const positionY = -y + this.zoomedImage.nativeElement.clientHeight / 2;
 
     this.moveImage(positionX, positionY, boundingRect, imageElement);
   }
@@ -315,6 +297,28 @@ export class ImageZoomProductViewComponent {
     }
 
     return { x: positionX, y: positionY };
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  /**
+   * Returns click and dblclick event mapping for the given element
+   *
+   * @param element
+   */
+  private clickOrDoubleClick(element: ElementRef): Observable<any>[] {
+    return [
+      fromEvent(element.nativeElement, 'click').pipe(
+        switchMapTo(this.breakpoint.isUp(BREAKPOINT.md)),
+        filter(Boolean)
+      ),
+      fromEvent(element.nativeElement, 'dblclick').pipe(
+        switchMapTo(this.breakpoint.isDown(BREAKPOINT.lg)),
+        filter(Boolean)
+      ),
+    ];
   }
 
   /**
