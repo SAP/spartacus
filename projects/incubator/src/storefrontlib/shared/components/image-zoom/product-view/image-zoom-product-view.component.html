@@ -9,12 +9,14 @@
         <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
       </button>
     </div>
+    <!-- {{ print() }} -->
     <cx-media
+      #z3
       class="cx-default-image-zoom"
       *ngIf="!isZoomed"
       [container]="main"
-      (click)="zoom()"
     >
+      <!--(click)="zoom()"-->
     </cx-media>
     <cx-media
       class="cx-default-image-zoom cx-mobile-zoom"
@@ -23,7 +25,8 @@
       (dblclick)="zoom()"
     >
     </cx-media>
-    <div class="cx-zoom-container" *ngIf="isZoomed" (click)="zoom()">
+    <!-- {{ isZoomed$ | async | json }} -->
+    <div #container class="cx-zoom-container" *ngIf="isZoomed" (click)="zoom()">
       <ng-container *ngTemplateOutlet="zoomImage"></ng-container>
     </div>
     <div

@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -6,12 +7,26 @@ import {
   Input,
   QueryList,
   Renderer2,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  combineLatest,
+  fromEvent,
+  Observable,
+  of,
+} from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  first,
+  map,
+  tap,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'cx-image-zoom-product-view',
@@ -19,17 +34,58 @@ import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
   styleUrls: ['./image-zoom-product-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImageZoomProductViewComponent {
+export class ImageZoomProductViewComponent implements AfterViewInit {
   iconType = ICON_TYPE;
   private mainMediaContainer = new BehaviorSubject(null);
 
   isZoomed = false;
+
+  isZoomed2 = new BehaviorSubject(false);
+
+  isZoomed$ = this.isZoomed2.asObservable().pipe(
+    tap((val) => {
+      if (val) {
+        // console.log('true', val);
+        // fromEvent(this.container.nativeElement, 'click').subscribe((event) =>
+        //   console.log(event)
+        // );
+      } else {
+        // console.log('in else', val);
+      }
+    })
+  );
 
   @Input() galleryIndex: number;
 
   @ViewChildren('zoomedImage', { read: ElementRef }) zoomedImage: QueryList<
     ElementRef
   >;
+
+  @ViewChild('container') container: ElementRef;
+
+  @ViewChild('z3', { read: ElementRef }) set zz(z: ElementRef) {
+    if (z) {
+      combineLatest([
+        fromEvent(z.nativeElement, 'click').pipe(debounceTime(300)),
+        fromEvent(z.nativeElement, 'dblclick'),
+      ])
+        .pipe(
+          tap(([click, dbl]) => {
+            console.log('click', click);
+            console.log('dbl', dbl);
+            this.zoom();
+          }),
+          first()
+        )
+        .subscribe();
+      // fromEvent(z.nativeElement, 'click')
+      //   .pipe(debounceTime(300))
+      //   .subscribe(() => this.zoom());
+      // fromEvent(z.nativeElement, 'dblclick').subscribe(() =>
+      //   console.log('dbl')
+      // );
+    }
+  }
 
   startCoords: { x: number; y: number } = null;
   left = 0;
@@ -69,6 +125,18 @@ export class ImageZoomProductViewComponent {
     protected cdRef: ChangeDetectorRef
   ) {}
 
+  ngAfterViewInit() {
+    // fromEvent(this.z3.nativeElement, 'click').subscribe((event) =>
+    //   console.log(event)
+    // );
+    // this.z3.changes.subscribe((comp) => {
+    //   console.log('comp', comp);
+    //   if (comp.length > 0) {
+    //     console.log(comp[0]);
+    //   }
+    // });
+  }
+
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
   }
@@ -86,6 +154,10 @@ export class ImageZoomProductViewComponent {
         );
       })
     );
+  }
+
+  print() {
+    console.log('print', !this.isZoomed);
   }
 
   /** find the index of the main media in the list of media */
@@ -109,10 +181,13 @@ export class ImageZoomProductViewComponent {
   }
 
   zoom(): void {
+    console.log('zoom', this.isZoomed);
+    // this.isZoomed2.next(true);
     this.isZoomed = !this.isZoomed;
     this.startCoords = null;
     this.left = 0;
     this.top = 0;
+    this.cdRef.detectChanges();
   }
 
   /**
