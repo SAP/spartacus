@@ -77,6 +77,9 @@ export class ConfiguratorCommonsService {
   getOrCreateConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
+    console.log(
+      'CHHI getOrCreateConfiguration before waiting for cart: ' + Date.now()
+    );
     return this.configuratorCartService
       .checkForActiveCartUpdateDone()
       .pipe(
@@ -87,6 +90,9 @@ export class ConfiguratorCommonsService {
   getOrCreateConfigurationWhenCartUpdatesDone(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
+    console.log(
+      'CHHI getOrCreateConfiguration after waiting for cart: ' + Date.now()
+    );
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
@@ -104,6 +110,7 @@ export class ConfiguratorCommonsService {
               new ConfiguratorActions.CreateConfiguration(owner)
             );
           } else if (owner.type === GenericConfigurator.OwnerType.CART_ENTRY) {
+            console.log('CHHI need to read from cart entry: ' + Date.now());
             this.configuratorCartService.readConfigurationForCartEntry(owner);
           } else {
             this.configuratorCartService.readConfigurationForOrderEntry(owner);
@@ -177,6 +184,7 @@ export class ConfiguratorCommonsService {
    * @param owner - Configuration owner
    */
   removeConfiguration(owner: GenericConfigurator.Owner) {
+    console.log('CHHI dispatch remove: ' + owner.key);
     this.store.dispatch(
       new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
     );

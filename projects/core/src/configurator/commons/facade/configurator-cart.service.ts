@@ -129,6 +129,7 @@ export class ConfiguratorCartService {
           cartEntryNumber: configuration.owner.id,
           configuration: configuration,
         };
+        console.log('CHHI trigger update: ' + Date.now());
         this.store.dispatch(
           new ConfiguratorActions.UpdateCartEntry(parameters)
         );
