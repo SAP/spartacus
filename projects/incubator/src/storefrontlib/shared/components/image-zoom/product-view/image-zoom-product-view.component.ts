@@ -11,20 +11,26 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  BREAKPOINT,
+  BreakpointService,
+  CurrentProductService,
+  ICON_TYPE,
+} from '@spartacus/storefront';
 import {
   BehaviorSubject,
   combineLatest,
   fromEvent,
+  merge,
   Observable,
   of,
 } from 'rxjs';
 import {
-  debounceTime,
   distinctUntilChanged,
   filter,
   first,
   map,
+  switchMapTo,
   tap,
 } from 'rxjs/operators';
 
@@ -65,14 +71,20 @@ export class ImageZoomProductViewComponent implements AfterViewInit {
 
   @ViewChild('z3', { read: ElementRef }) set zz(z: ElementRef) {
     if (z) {
-      combineLatest([
-        fromEvent(z.nativeElement, 'click').pipe(debounceTime(300)),
-        fromEvent(z.nativeElement, 'dblclick'),
-      ])
+      merge(
+        fromEvent(z.nativeElement, 'click').pipe(
+          switchMapTo(this.breakpoint.isDown(BREAKPOINT.lg)),
+          filter(Boolean)
+        ),
+        fromEvent(z.nativeElement, 'dblclick').pipe(
+          switchMapTo(this.breakpoint.isUp(BREAKPOINT.md)),
+          filter(Boolean)
+        )
+      )
         .pipe(
-          tap(([click, dbl]) => {
-            console.log('click', click);
-            console.log('dbl', dbl);
+          tap((clickOrDoubleClick) => {
+            console.log('clickOrDoubleClick', clickOrDoubleClick);
+            // console.log('dbl', dbl);
             this.zoom();
           }),
           first()
@@ -122,7 +134,8 @@ export class ImageZoomProductViewComponent implements AfterViewInit {
     protected currentProductService: CurrentProductService,
     protected renderer: Renderer2,
     protected element: ElementRef,
-    protected cdRef: ChangeDetectorRef
+    protected cdRef: ChangeDetectorRef,
+    protected breakpoint: BreakpointService
   ) {}
 
   ngAfterViewInit() {
