@@ -37,11 +37,21 @@
   }
 
   cx-split-view {
+    h3 {
+      .link {
+        padding: 8px 0;
+      }
+    }
     &:not([last-visible-view='1']) {
       th:nth-child(n + 2),
       td:nth-child(n + 2) {
         opacity: 0;
         width: 0.1%;
+      }
+      > *:last-child {
+        h3 {
+          justify-content: flex-start;
+        }
       }
     }
   }
@@ -96,6 +106,7 @@
             }
           }
           &.active {
+            background: var(--cx-color-light);
             color: var(--cx-color-text);
           }
         }
