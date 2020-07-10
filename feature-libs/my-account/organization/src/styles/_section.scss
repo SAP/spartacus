@@ -21,6 +21,17 @@
         }
       }
     }
+    .budgets {
+      h4 {
+        padding: 8px;
+      }
+      .link {
+        font-size: 1rem;
+        width: 100%;
+        justify-content: space-between;
+        display: flex;
+      }
+    }
     .property {
       // display: flex;
       // flex-wrap: wrap;
