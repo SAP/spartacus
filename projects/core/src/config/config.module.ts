@@ -165,8 +165,6 @@ export class ConfigModule {
    * Module with providers, should be imported only once, if possible, at the root of the app.
    *
    * @param config
-   *
-   * @deprecated since 2.1 - see #8183
    */
   static forRoot(config: any = {}): ModuleWithProviders<ConfigModule> {
     return {
