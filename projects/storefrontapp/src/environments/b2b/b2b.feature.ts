@@ -10,10 +10,6 @@ export const b2bFeature: FeatureEnvironment = {
         occ: {
           baseUrl: environment.occBaseUrl,
           prefix: environment.occApiPrefix,
-          endpoints: {
-            addEntries: 'orgUsers/${userId}/carts/${cartId}/entries',
-            user: 'orgUsers/${userId}',
-          },
         },
       },
       context: {

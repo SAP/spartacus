@@ -1,6 +1,7 @@
 export const organization = {
   budgetsList: {
     assign: 'Assign',
+    unassign: 'Unassign',
     code: 'Code',
     name: 'Name',
     amount: 'Amount',
@@ -91,6 +92,7 @@ export const organization = {
     },
     create: 'New purchase limit',
     assign: 'Assign',
+    unassign: 'Unassign',
   },
   permission: {
     header: 'Details for {{code}}',
@@ -274,6 +276,11 @@ export const organization = {
     id: 'ID',
     name: 'Name',
     formattedAddress: 'Details',
+    delete: 'Delete',
+    confirmDeleteAddress: {
+      title: 'Delete address',
+      message: 'Are you sure you want to delete this address?',
+    },
   },
   unitAddressDetails: {
     header: 'Addresses details',
@@ -351,11 +358,13 @@ export const organization = {
     name: 'Name',
     roles: 'Roles',
     assign: 'Assign',
+    unassign: 'Unassign',
     parentUnit: 'Unit',
-    admin: 'Administrator',
-    manager: 'Manager',
-    approver: 'Approver',
-    customer: 'Customer',
+    b2badmingroup: 'Administrator',
+    b2bmanagergroup: 'Manager',
+    b2bapprovergroup: 'Approver',
+    b2bcustomergroup: 'Customer',
+    buyer: 'Buyer',
     create: 'New user...',
   },
   user: {
@@ -441,6 +450,7 @@ export const organization = {
 
   userGroupsList: {
     assign: 'Assign',
+    unassign: 'Unassign',
     id: 'ID',
     name: 'Name',
     noOfUsers: 'No. of Users',

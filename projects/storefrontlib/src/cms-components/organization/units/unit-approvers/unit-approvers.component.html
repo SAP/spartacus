@@ -36,9 +36,16 @@
         key: 'parentUnit',
         value: 'usersList.parentUnit' | cxTranslate,
         cxRoute: 'orgUnitDetails'
+      },
+      {
+        key: 'unassign',
+        value: 'budgetsList.unassign' | cxTranslate,
+        button: true,
+        cxIcon: ICON_TYPE.CLOSE
       }
     ]"
     (changeSortCode)="changeSortCode($event)"
+    (buttonClick)="unassign($event)"
   >
     <div class="col-md-12 col-lg-6">
       <div class="col-md-12 col-lg-6 float-right">
@@ -49,7 +56,7 @@
               params: { code: code }
             } | cxUrl
           "
-          class="btn btn-primary btn-block"
+          class="btn btn-block btn-action"
         >
           {{ 'unitApprovers.assignApprovers' | cxTranslate }}
         </a>

@@ -1,4 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { Params } from '@angular/router';
+import {
+  B2BUser,
+  B2BUserService,
+  EntitiesModel,
+  OrgUnitService,
+  RoutingService,
+} from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
 import {
   filter,
   map,
@@ -7,19 +16,10 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { combineLatest, Observable } from 'rxjs';
-
-import {
-  RoutingService,
-  EntitiesModel,
-  OrgUnitService,
-  B2BUser,
-} from '@spartacus/core';
 import {
   AbstractListingComponent,
   ListingModel,
 } from '../../abstract-component/abstract-listing.component';
-import { Params } from '@angular/router';
 
 @Component({
   selector: 'cx-unit-assign-roles',
@@ -32,7 +32,8 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
 
   constructor(
     protected routingService: RoutingService,
-    protected orgUnitsService: OrgUnitService
+    protected orgUnitsService: OrgUnitService,
+    protected b2bUsersService: B2BUserService
   ) {
     super(routingService);
   }
@@ -55,10 +56,10 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
       switchMap(([[queryParams, role], code]) =>
         this.orgUnitsService.getUsers(code, role, queryParams).pipe(
           filter(Boolean),
-          map((userList: EntitiesModel<B2BUser>) => ({
-            sorts: userList.sorts,
-            pagination: userList.pagination,
-            values: userList.values.map((user) => ({
+          map((usersList: EntitiesModel<B2BUser>) => ({
+            sorts: usersList.sorts,
+            pagination: usersList.pagination,
+            values: usersList.values.map((user) => ({
               selected: user.selected,
               email: user.uid,
               name: user.name,
@@ -66,6 +67,10 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
               parentUnit: user.orgUnit && user.orgUnit.name,
               uid: user.orgUnit && user.orgUnit.uid,
               customerId: user.customerId,
+              b2badmingroup: user.roles.includes('b2badmingroup'),
+              b2bapprovergroup: user.roles.includes('b2bapprovergroup'),
+              b2bcustomergroup: user.roles.includes('b2bcustomergroup'),
+              b2bmanagergroup: user.roles.includes('b2bmanagergroup'),
             })),
           }))
         )
@@ -73,23 +78,15 @@ export class UnitAssignRolesComponent extends AbstractListingComponent
     );
   }
 
-  assign({ row }) {
-    this.role$
-      .pipe(take(1))
-      .subscribe((role) =>
-        this.orgUnitsService.assignRole(row.customerId, role)
-      );
+  assign(event: any) {
+    this.b2bUsersService.update(event.row.customerId, {
+      roles: [...event.row.roles, event.key],
+    });
   }
 
-  unassign({ row }) {
-    this.role$
-      .pipe(take(1))
-      .subscribe((role) =>
-        this.orgUnitsService.unassignRole(row.customerId, role)
-      );
-  }
-
-  changeRole({ roleId }: { roleId: string }) {
-    this.updateQueryParams({}, { roleId });
+  unassign(event: any) {
+    this.b2bUsersService.update(event.row.customerId, {
+      roles: event.row.roles.filter((role) => role !== event.key),
+    });
   }
 }

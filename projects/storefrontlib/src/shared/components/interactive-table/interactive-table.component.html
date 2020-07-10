@@ -29,12 +29,13 @@
         </div>
       </div>
       <!-- TABLE -->
-      <cx-table
+      <cx-table2
         [tableData]="data.values"
         [columns]="columns"
         (check)="checkEvent($event)"
         (uncheck)="uncheckEvent($event)"
-      ></cx-table>
+        (buttonClick)="buttonClickEvent($event)"
+      ></cx-table2>
       <div class="bottom cx-pagination">
         <div
           class="cx-form-group form-group col-xs-12 col-sm-12 col-md-4 col-lg-4 cx-centeralign"

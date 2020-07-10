@@ -13,7 +13,7 @@ import {
 } from '@spartacus/core';
 
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { TableModule } from '../../../../shared/components/table/table.module';
+import { Table2Module } from '../../../../shared/components/table/table2.module';
 import { UserGroupDetailsComponent } from './user-group-details.component';
 import createSpy = jasmine.createSpy;
 
@@ -75,7 +75,7 @@ describe('UserGroupDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TableModule, I18nTestingModule],
+      imports: [RouterTestingModule, Table2Module, I18nTestingModule],
       declarations: [UserGroupDetailsComponent, MockUrlPipe],
       providers: [
         { provide: RoutingConfig, useClass: MockRoutingConfig },

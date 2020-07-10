@@ -19,6 +19,7 @@ import {
   AbstractListingComponent,
   ListingModel,
 } from '../../abstract-component/abstract-listing.component';
+import { ICON_TYPE } from './../../../misc/icon/icon.model';
 
 @Component({
   selector: 'cx-unit-approvers',
@@ -28,6 +29,7 @@ export class UnitApproversComponent extends AbstractListingComponent
   implements OnInit {
   code: string;
   cxRoute = 'orgUnitApprovers';
+  ICON_TYPE = ICON_TYPE;
 
   constructor(
     protected routingService: RoutingService,
@@ -72,5 +74,17 @@ export class UnitApproversComponent extends AbstractListingComponent
           )
       )
     );
+  }
+
+  unassign({ row }) {
+    this.code$
+      .pipe(take(1))
+      .subscribe((code) =>
+        this.orgUnitsService.unassignApprover(
+          code,
+          row.customerId,
+          this.APPROVERS_ROLE_ID
+        )
+      );
   }
 }

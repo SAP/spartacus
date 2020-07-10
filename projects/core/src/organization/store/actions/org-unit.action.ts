@@ -12,6 +12,7 @@ import {
   EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
+import { EntityRemoveAction } from '../../../state/utils/entity/entity.action';
 import {
   ORG_UNIT_NODE_LIST,
   ORG_UNIT_ENTITIES,
@@ -510,10 +511,10 @@ export class DeleteAddressFail extends EntityFailAction {
   }
 }
 
-export class DeleteAddressSuccess extends EntitySuccessAction {
+export class DeleteAddressSuccess extends EntityRemoveAction {
   readonly type = DELETE_ADDRESS_SUCCESS;
   constructor(public payload: B2BAddress) {
-    super(ADDRESS_ENTITIES, payload.id, payload);
+    super(ADDRESS_ENTITIES, payload.id);
   }
 }
 

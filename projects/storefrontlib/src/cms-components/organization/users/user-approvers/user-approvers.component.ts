@@ -18,6 +18,7 @@ import {
   AbstractListingComponent,
   ListingModel,
 } from '../../abstract-component/abstract-listing.component';
+import { ICON_TYPE } from './../../../misc/icon/icon.model';
 
 @Component({
   selector: 'cx-user-approvers',
@@ -28,6 +29,7 @@ export class UserApproversComponent extends AbstractListingComponent
   code: string;
   cxRoute = 'userApprovers';
   uid$: Observable<string>;
+  ICON_TYPE = ICON_TYPE;
 
   constructor(
     protected routingService: RoutingService,
@@ -72,5 +74,13 @@ export class UserApproversComponent extends AbstractListingComponent
         )
       )
     );
+  }
+
+  unassign({ row }) {
+    this.code$
+      .pipe(take(1))
+      .subscribe((code) =>
+        this.userService.unassignApprover(code, row.customerId)
+      );
   }
 }

@@ -396,7 +396,7 @@
     "my-account": {
       "projectType": "library",
       "root": "feature-libs/my-account",
-      "sourceRoot": "feature-libs/my-account/src",
+      "sourceRoot": "feature-libs/my-account",
       "prefix": "cx",
       "architect": {
         "build": {
@@ -414,7 +414,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "feature-libs/my-account/src/test.ts",
+            "main": "feature-libs/my-account/test.ts",
             "tsConfig": "feature-libs/my-account/tsconfig.spec.json",
             "karmaConfig": "feature-libs/my-account/karma.conf.js"
           }
@@ -434,7 +434,7 @@
     "product": {
       "projectType": "library",
       "root": "feature-libs/product",
-      "sourceRoot": "feature-libs/product/src",
+      "sourceRoot": "feature-libs/product",
       "prefix": "cx",
       "architect": {
         "build": {
