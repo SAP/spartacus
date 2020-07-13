@@ -227,49 +227,40 @@ describe('BudgetFormComponent', () => {
   });
 
   describe('getLocalTimezoneOffset()', () => {
-    it('should return utc-0 offset string', () => {
-      // Use UTC-0 timezone
-      Date.prototype.getTimezoneOffset = () => {
-        return 0;
-      };
-      spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
-      expect(component.getLocalTimezoneOffset()).toEqual('+00:00');
-    });
+    function fakeDateTimezoneOffset(offset: number, callback: Function): any {
+      const original = Date.prototype.getTimezoneOffset;
+      Date.prototype.getTimezoneOffset = () => offset;
+      callback();
+      Date.prototype.getTimezoneOffset = original;
+    }
+
+    it('should return utc-0 offset string', () =>
+      fakeDateTimezoneOffset(0, () => {
+        expect(component.getLocalTimezoneOffset()).toEqual('+00:00');
+      }));
 
     it('should return past offset string', () => {
-      // Use 2 hours in future timezone
-      Date.prototype.getTimezoneOffset = () => {
-        return 120;
-      };
-      spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
-      expect(component.getLocalTimezoneOffset()).toEqual('-02:00');
+      fakeDateTimezoneOffset(120, () => {
+        expect(component.getLocalTimezoneOffset()).toEqual('-02:00');
+      });
     });
 
     it('should return future offset string', () => {
-      // Use 3 hours in past timezone
-      Date.prototype.getTimezoneOffset = () => {
-        return -180;
-      };
-      spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
-      expect(component.getLocalTimezoneOffset()).toEqual('+03:00');
+      fakeDateTimezoneOffset(-180, () => {
+        expect(component.getLocalTimezoneOffset()).toEqual('+03:00');
+      });
     });
 
     it('should invert past offset string', () => {
-      // Use 2 hours in future timezone
-      Date.prototype.getTimezoneOffset = () => {
-        return 120;
-      };
-      spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
-      expect(component.getLocalTimezoneOffset(true)).toEqual('+02:00');
+      fakeDateTimezoneOffset(120, () => {
+        expect(component.getLocalTimezoneOffset(true)).toEqual('+02:00');
+      });
     });
 
     it('should invert future offset string', () => {
-      // Use 3 hours in past timezone
-      Date.prototype.getTimezoneOffset = () => {
-        return -180;
-      };
-      spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
-      expect(component.getLocalTimezoneOffset(true)).toEqual('-03:00');
+      fakeDateTimezoneOffset(-180, () => {
+        expect(component.getLocalTimezoneOffset(true)).toEqual('-03:00');
+      });
     });
   });
 });
