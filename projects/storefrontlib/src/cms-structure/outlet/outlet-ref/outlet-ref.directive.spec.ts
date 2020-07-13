@@ -13,29 +13,22 @@ const CUSTOM_TEXT = 'customized';
 
 @Component({
   template: `
-    <ng-template cxOutletRef="${OUTLET_NAME}">
-      ${CUSTOM_TEXT}
-    </ng-template>
-    <ng-container *cxOutlet="'${OUTLET_NAME}'">
-      ${STANDARD_TEXT}
-    </ng-container>
-  `,
-})
-class TestContainerComponent {}
-
-@Component({
-  template: `
-    <ng-container *ngIf="!destroyed">
+    <ng-container *ngIf="outletRefVisible">
       <ng-template cxOutletRef="${OUTLET_NAME}">
         ${CUSTOM_TEXT}
       </ng-template>
+    </ng-container>
 
-      <ng-container *cxOutlet="'${OUTLET_NAME}'"></ng-container>
+    <ng-container *ngIf="outletVisible">
+      <ng-container *cxOutlet="'${OUTLET_NAME}'">
+        ${STANDARD_TEXT}
+      </ng-container>
     </ng-container>
   `,
 })
-class TestTogglingComponent {
-  destroyed = false;
+class TestContainerComponent {
+  outletRefVisible = true;
+  outletVisible = true;
 }
 
 class MockDeferLoaderService {
@@ -44,8 +37,22 @@ class MockDeferLoaderService {
   }
 }
 
+/**
+ * Returns the innerText of the fixture
+ */
 function getContent(fixture: ComponentFixture<any>): string {
   return fixture.debugElement.nativeElement.innerText;
+}
+
+/**
+ * Re-renders whole cxOutlet by destroying and recreating it.
+ * It's needed in tests, because cxOutlet won't re-render itself after the list of declared OutletRefs change.
+ */
+function refreshOutlet(fixture: ComponentFixture<TestContainerComponent>) {
+  fixture.componentInstance.outletVisible = false;
+  fixture.detectChanges();
+  fixture.componentInstance.outletVisible = true;
+  fixture.detectChanges();
 }
 
 describe('OutletRefDirective', () => {
@@ -56,7 +63,6 @@ describe('OutletRefDirective', () => {
       imports: [],
       declarations: [
         TestContainerComponent,
-        TestTogglingComponent,
         OutletDirective,
         OutletRefDirective,
       ],
@@ -78,7 +84,7 @@ describe('OutletRefDirective', () => {
   it('should render custom content', () => {
     const fixture = TestBed.createComponent(TestContainerComponent);
     fixture.detectChanges();
-    expect(getContent(fixture)).toContain(CUSTOM_TEXT);
+    expect(getContent(fixture)).toEqual(CUSTOM_TEXT);
   });
 
   it('should have outlet for given name', () => {
@@ -87,21 +93,26 @@ describe('OutletRefDirective', () => {
     expect(service.get(OUTLET_NAME) instanceof TemplateRef).toBeTruthy();
   });
 
-  it('should unregister template on directive destroy', () => {
-    const fixture = TestBed.createComponent(TestTogglingComponent);
-    fixture.componentInstance.destroyed = true;
-    fixture.detectChanges();
+  it('should unregister template on cxOutletRef destroy', () => {
+    const fixture = TestBed.createComponent(TestContainerComponent);
+    fixture.componentInstance.outletRefVisible = false;
+
+    refreshOutlet(fixture);
 
     expect(service.get(OUTLET_NAME) instanceof TemplateRef).toBeFalsy();
-    expect(getContent(fixture)).toEqual('');
+    expect(getContent(fixture)).toEqual(STANDARD_TEXT);
   });
 
-  it('should re-register template on directive re-creation', () => {
-    const fixture = TestBed.createComponent(TestTogglingComponent);
-    fixture.componentInstance.destroyed = true;
+  it('should re-register template on cxOutletRef re-creation', () => {
+    const fixture = TestBed.createComponent(TestContainerComponent);
+
+    // destroy and re-define OutletRef
+    fixture.componentInstance.outletRefVisible = false;
     fixture.detectChanges();
-    fixture.componentInstance.destroyed = false;
+    fixture.componentInstance.outletRefVisible = true;
     fixture.detectChanges();
+
+    refreshOutlet(fixture);
 
     expect(service.get(OUTLET_NAME) instanceof TemplateRef).toBeTruthy();
     expect(getContent(fixture)).toEqual(CUSTOM_TEXT);
