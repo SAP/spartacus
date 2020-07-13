@@ -1,4 +1,5 @@
-import { product } from '../sample-data/checkout-flow';
+import * as checkout from '../helpers/checkout-flow';
+import { product, SampleCartProduct } from '../sample-data/checkout-flow';
 import { config, login, setSessionData } from '../support/utils/login';
 
 export const username = 'test-user-cypress@ydev.hybris.com';
@@ -6,6 +7,12 @@ export const password = 'Password123.';
 export const firstName = 'Test';
 export const lastName = 'User';
 export const titleCode = 'mr';
+
+const productPriceData: SampleCartProduct = {
+  total: '$2,623.08',
+  estimatedShipping: '$9.99',
+  totalAndShipping: '$2,633.07',
+};
 
 export function retrieveTokenAndLogin() {
   function retrieveAuthToken() {
@@ -365,5 +372,10 @@ export function checkoutAsPersistentUserTest() {
 
   it('should delete payment card', () => {
     deletePaymentCard();
+  });
+
+  it('should be able to check order in order history page', () => {
+    cy.waitForOrderToBePlacedRequest();
+    checkout.viewOrderHistoryWithCheapProduct(productPriceData);
   });
 }
