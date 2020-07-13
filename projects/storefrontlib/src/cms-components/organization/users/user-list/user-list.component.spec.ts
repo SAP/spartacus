@@ -26,8 +26,8 @@ import { BehaviorSubject, of } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
-import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module' ;
-import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config'
+import { InteractiveTableModule } from '../../../../shared/components/interactive-table/interactive-table.module';
+import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
 import { B2BUserListComponent } from './user-list.component';
 
 const defaultParams: B2BSearchConfig = {
@@ -47,7 +47,7 @@ const mockUserList: EntitiesModel<B2BUser> = {
         active: true,
         isocode: 'USD',
         name: 'US Dollar',
-        symbol: '$'
+        symbol: '$',
       },
       customerId: '08ecc0b1-16ef-4a74-a1dd-4a244300c974',
       displayUid: 'akiro@naka.com',
@@ -56,15 +56,13 @@ const mockUserList: EntitiesModel<B2BUser> = {
       orgUnit: {
         active: true,
         name: 'Rustic',
-        uid: 'Rustic'
+        uid: 'Rustic',
       },
-      roles: [
-        'b2bmanagergroup'
-      ],
+      roles: ['b2bmanagergroup'],
       selected: false,
       title: 'Mr.',
       titleCode: 'mr',
-      email: 'akiro@naka.com'
+      email: 'akiro@naka.com',
     },
     {
       name: 'Alejandro Navarro',
@@ -75,7 +73,7 @@ const mockUserList: EntitiesModel<B2BUser> = {
         active: true,
         isocode: 'USD',
         name: 'US Dollar',
-        symbol: '$'
+        symbol: '$',
       },
       customerId: '0db38452-5b78-45af-ba26-6cfa20090d8d',
       displayUid: 'alejandro.navarro@rustic-hw.com',
@@ -84,15 +82,13 @@ const mockUserList: EntitiesModel<B2BUser> = {
       orgUnit: {
         active: true,
         name: 'Services East',
-        uid: 'Services East'
+        uid: 'Services East',
       },
-      roles: [
-        'b2bcustomergroup'
-      ],
+      roles: ['b2bcustomergroup'],
       selected: false,
       title: 'Mr.',
       titleCode: 'mr',
-      email: 'alejandro.navarro@rustic-hw.com'
+      email: 'alejandro.navarro@rustic-hw.com',
     },
   ],
   pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
@@ -107,7 +103,7 @@ const mockUserUIList = {
       roles: ['b2bmanagergroup'],
       parentUnit: 'Rustic',
       uid: 'Rustic',
-      customerId: '08ecc0b1-16ef-4a74-a1dd-4a244300c974'
+      customerId: '08ecc0b1-16ef-4a74-a1dd-4a244300c974',
     },
     {
       code: 'alejandro.navarro@rustic-hw.com',
@@ -115,9 +111,8 @@ const mockUserUIList = {
       roles: ['b2bcustomergroup'],
       parentUnit: 'Services East',
       uid: 'Services East',
-      customerId: '0db38452-5b78-45af-ba26-6cfa20090d8d'
+      customerId: '0db38452-5b78-45af-ba26-6cfa20090d8d',
     },
-
   ],
   pagination: { pageSize: 2, totalPages: 1, sort: 'byName' },
   sorts: [{ code: 'byName', selected: true }],
@@ -183,7 +178,11 @@ fdescribe('UserListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
-      declarations: [B2BUserListComponent, MockUrlPipe, MockPaginationComponent],
+      declarations: [
+        B2BUserListComponent,
+        MockUrlPipe,
+        MockPaginationComponent,
+      ],
       providers: [
         { provide: CxDatePipe, useClass: MockCxDatePipe },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
@@ -254,7 +253,7 @@ fdescribe('UserListComponent', () => {
         },
         {
           sort: 'byUnit',
-          pageSize: 2
+          pageSize: 2,
         }
       );
     });
@@ -270,10 +269,9 @@ fdescribe('UserListComponent', () => {
         },
         {
           currentPage: 2,
-          pageSize: 2
+          pageSize: 2,
         }
       );
     });
   });
-
 });

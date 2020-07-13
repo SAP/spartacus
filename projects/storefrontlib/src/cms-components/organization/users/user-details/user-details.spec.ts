@@ -20,18 +20,15 @@ import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing
 const code = 'u1';
 
 const mockUser: B2BUser = {
-    name: 'Akiro Nakamura',
-    uid: 'akiro@naka.com',
-    customerId: '08ecc0b1-16ef-4a74-a1dd-4a244300c974',
-    orgUnit: {
-      active: true,
-      name: 'Rustic',
-      uid: 'Rustic'
-    },
-    roles: [
-      'b2bmanagergroup'
-    ],
-
+  name: 'Akiro Nakamura',
+  uid: 'akiro@naka.com',
+  customerId: '08ecc0b1-16ef-4a74-a1dd-4a244300c974',
+  orgUnit: {
+    active: true,
+    name: 'Rustic',
+    uid: 'Rustic',
+  },
+  roles: ['b2bmanagergroup'],
 };
 
 const mockUserUI = {
@@ -41,10 +38,10 @@ const mockUserUI = {
   orgUnit: {
     active: true,
     name: 'Rustic',
-    uid: 'Rustic'
+    uid: 'Rustic',
   },
   uid: 'akiro@naka.com',
-  customerId: '08ecc0b1-16ef-4a74-a1dd-4a244300c974'
+  customerId: '08ecc0b1-16ef-4a74-a1dd-4a244300c974',
 };
 
 @Pipe({
