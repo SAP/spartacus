@@ -340,7 +340,10 @@
           "options": {
             "main": "projects/incubator/src/test.ts",
             "tsConfig": "projects/incubator/tsconfig.spec.json",
-            "karmaConfig": "projects/incubator/karma.conf.js"
+            "karmaConfig": "projects/incubator/karma.conf.js",
+            "stylePreprocessorOptions": {
+              "includePaths": ["./projects/storefrontstyles/scss"]
+            }
           }
         },
         "lint": {

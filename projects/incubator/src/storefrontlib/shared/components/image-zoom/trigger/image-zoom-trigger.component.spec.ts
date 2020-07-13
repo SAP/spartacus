@@ -6,11 +6,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
-} from '../../../../layout/launch-dialog/index';
 import { ImageZoomTriggerComponent } from './image-zoom-trigger.component';
 
 @Component({

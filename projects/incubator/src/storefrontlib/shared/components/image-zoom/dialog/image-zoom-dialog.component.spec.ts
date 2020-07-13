@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LaunchDialogService } from '../../../../layout/launch-dialog/index';
+import { LaunchDialogService } from '@spartacus/storefront';
 import { ImageZoomDialogComponent } from './image-zoom-dialog.component';
 
 class MockLaunchDialogService {
