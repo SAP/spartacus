@@ -1,11 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import {
-  B2BUnitNode,
-  Currency,
-  CurrencyService,
-  OrgUnitService,
-} from '@spartacus/core';
+import { B2BUnitNode, Currency, CurrencyService, OrgUnitService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -13,7 +8,7 @@ import { Observable } from 'rxjs';
   templateUrl: './cost-center-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CostCenterFormComponent {
+export class CostCenterFormComponent implements OnInit {
   /**
    * The form is controlled from the container component.
    */
@@ -26,4 +21,8 @@ export class CostCenterFormComponent {
     protected currencyService: CurrencyService,
     protected orgUnitService: OrgUnitService
   ) {}
+
+  ngOnInit(): void {
+    this.orgUnitService.loadOrgUnitNodes();
+  }
 }
