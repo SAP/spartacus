@@ -29,7 +29,7 @@ import {
  * A service to convert spartacus events into profiletag push events that can be picked up and processed by profiletag.
  * The service observes the event service and the active cart service for suported events. These events are parsed into
  * a profiletag compliant format and enriched by segments and actions from the latest personalization context.
- * 
+ *
  * Currently suported events from the event service:
  *  - CartPageVisited
  *  - CategoryPageVisited
@@ -38,7 +38,7 @@ import {
  *  - OrderConfirmationPageVisited
  *  - PageVisited
  *  - ProductDetailsPageVisited
- * 
+ *
  * Currently suported events from the active cart service:
  * - any event
  */
@@ -46,7 +46,6 @@ import {
   providedIn: 'root',
 })
 export class ProfileTagPushEventsService {
-
   private pushEvents$: Observable<ProfileTagPushEvent> = merge(
     this.categoryPageVisited(),
     this.productDetailsPageView(),
@@ -63,11 +62,11 @@ export class ProfileTagPushEventsService {
     protected eventService: EventService,
     protected personalizationContextService: PersonalizationContextService
   ) {}
-  
+
   /**
    * Returns a push event emitting observable that emits all converted events emitted by the event or the active cart service.
    * These events are enriched with segments and actions from the latest personalization context.
-   * 
+   *
    * @returns an observable emitting profiletag push events
    */
   getPushEvents(): Observable<ProfileTagPushEvent> {
@@ -90,7 +89,7 @@ export class ProfileTagPushEventsService {
   /**
    * Adds a new push event emitting observable to this service. This observable will be merged with the internal one.
    * This method can be used to extend the functionality of this service at runtime.
-   * 
+   *
    * @param event an observable emitting profiltag push events
    */
   addPushEvent(event: Observable<ProfileTagPushEvent>): void {
@@ -99,7 +98,7 @@ export class ProfileTagPushEventsService {
 
   /**
    * Listens to the changes to the cart and pushes the events for profiletag to pick them up further.
-   * 
+   *
    * @returns an observable emitting events that describe cart changes in a profiltag compliant way
    * @see CartChangedPushEvent
    */
@@ -114,10 +113,10 @@ export class ProfileTagPushEventsService {
       )
     );
   }
-  
+
   /**
    * Listens to CategoryPageVisited events, parses and pushes them to profiletag to pick them up further.
-   * 
+   *
    * @returns an observable emitting events that describe category page visits in a profiltag compliant way
    * @see CategoryPageVisited
    * @see CategoryViewPushEvent
@@ -136,7 +135,7 @@ export class ProfileTagPushEventsService {
 
   /**
    * Listens to KeywordSearchPageVisited events, parses and pushes them to profiletag to pick them up further.
-   * 
+   *
    * @returns an observable emitting events that describe keyword search page visits in a profiltag compliant way
    * @see SearchPageVisited
    * @see KeywordSearchPushEvent
@@ -154,7 +153,7 @@ export class ProfileTagPushEventsService {
 
   /**
    * Listens to ProductDetailsPageVisited events, parses and pushes them to profiletag to pick them up further.
-   * 
+   *
    * @returns an observable emitting events that describe product detail page visits in a profiltag compliant way
    * @see ProductDetailsPageVisited
    * @see ProductViewPushEvent
@@ -180,7 +179,7 @@ export class ProfileTagPushEventsService {
 
   /**
    * Listens to PageVisited events, parses and pushes them to profiletag to pick them up further.
-   * 
+   *
    * @returns an observable emitting events that describe page visits in a profiltag compliant way
    * @see PageVisited
    * @see NavigatedPushEvent
@@ -193,7 +192,7 @@ export class ProfileTagPushEventsService {
 
   /**
    * Listens to CartPageVisited events, parses and pushes them to profiletag to pick them up further.
-   * 
+   *
    * @returns an observable emitting events that describe cart page visits in a profiltag compliant way
    * @see CartPageVisited
    * @see CartViewPushEvent
@@ -206,7 +205,7 @@ export class ProfileTagPushEventsService {
 
   /**
    * Listens to HomePageVisited events, parses and pushes them to profiletag to pick them up further.
-   * 
+   *
    * @returns an observable emitting events that describe home page visits in a profiltag compliant way
    * @see HomePageVisited
    * @see HomePageViewPushEvent
@@ -219,7 +218,7 @@ export class ProfileTagPushEventsService {
 
   /**
    * Listens to OrderConfirmationPageVisited events, parses and pushes them to profiletag to pick them up further.
-   * 
+   *
    * @returns an observable emitting events that describe order confirmation page visits in a profiltag compliant way
    * @see OrderConfirmationPageVisited
    * @see OrderConfirmationPushEvent

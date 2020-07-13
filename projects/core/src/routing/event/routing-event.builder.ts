@@ -133,9 +133,7 @@ export class RoutingEventBuilder {
         searchTerm: productSearchPage.freeTextSearch,
         numberOfResults: productSearchPage.pagination.totalResults,
       })),
-      map((searchResults) =>
-        createFrom(SearchPageVisited, searchResults)
-      )
+      map((searchResults) => createFrom(SearchPageVisited, searchResults))
     );
   }
 

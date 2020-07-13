@@ -21,7 +21,7 @@ export class OrderConfirmationPageVisited {}
 export class PageVisited {}
 
 /**
- * Indicates that a user visited a product details page. A visited product code value is emitted whenever the product 
+ * Indicates that a user visited a product details page. A visited product code value is emitted whenever the product
  * details page is visited, together with the name, the price, and the categories of that product.
  */
 export class ProductDetailsPageVisited {
@@ -32,7 +32,7 @@ export class ProductDetailsPageVisited {
 }
 
 /**
- * Indicates that a user visited a category or brand page. The code and the name of the category are emitted whenever 
+ * Indicates that a user visited a category or brand page. The code and the name of the category are emitted whenever
  * a category page is visited.
  */
 export class CategoryPageVisited {
@@ -41,7 +41,7 @@ export class CategoryPageVisited {
 }
 
 /**
- * Indicates that a user visited a keyword search page. The search term and the number of results are emitted whenever 
+ * Indicates that a user visited a keyword search page. The search term and the number of results are emitted whenever
  * a keyword search has been executed.
  */
 export class SearchPageVisited {
