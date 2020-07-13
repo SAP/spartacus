@@ -88,7 +88,7 @@ describe('OutletDirective', () => {
           },
           {
             provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #
+            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
           },
         ],
       }).compileComponents();
@@ -189,7 +189,7 @@ describe('OutletDirective', () => {
           },
           {
             provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #
+            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
           },
         ],
       }).compileComponents();
@@ -258,7 +258,7 @@ describe('OutletDirective', () => {
           },
           {
             provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #
+            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
           },
         ],
       }).compileComponents();
@@ -306,7 +306,7 @@ describe('OutletDirective', () => {
           },
           {
             provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #
+            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
           },
         ],
       }).compileComponents();

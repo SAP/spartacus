@@ -19,7 +19,7 @@ export class OutletRefDirective implements OnInit, OnDestroy {
   cxOutletPos: OutletPosition;
 
   /**
-   * @deprecated since 2.1, see #
+   * @deprecated since 2.1, see #8201
    */
   constructor(tpl: TemplateRef<any>, outletService: OutletService);
   constructor(
@@ -39,7 +39,6 @@ export class OutletRefDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // TODO: remove feature level, see #
     if (this.features?.isLevel('2.1')) {
       this.outletService.remove(this.cxOutletRef, this.cxOutletPos, this.tpl);
     }
