@@ -7,21 +7,26 @@
         (click)="view.toggle()"
       >
         <cx-icon type="CARET_LEFT"></cx-icon>
-        {{ 'organization.cancel' | cxTranslate }}
       </a>
       {{ 'organization.create' | cxTranslate }}
     </h3>
 
-    <section>
+    <section class="half">
       <cx-cost-center-form
         [form]="form"
         [unitUid]="parentUnitQueryParam$ | async"
       >
       </cx-cost-center-form>
 
-      <button class="button primary" type="submit">
-        {{ 'organization.save' | cxTranslate }}
-      </button>
+      <div class="col-md-12 p-3">
+        <div class="row">
+          <div class="col-md-12">
+            <button class="btn btn-primary btn-block" type="submit">
+              {{ 'organization.save' | cxTranslate }}
+            </button>
+          </div>
+        </div>
+      </div>
     </section>
   </form>
 </cx-view>

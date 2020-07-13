@@ -16,20 +16,28 @@
       </a>
       {{ 'organization.edit' | cxTranslate }}
     </h3>
-    <section>
-      <cx-cost-center-form [form]="form"> </cx-cost-center-form>
+    <section class="half">
+      <cx-cost-center-form [form]="form"></cx-cost-center-form>
+      <div class="col-md-12 p-3">
+        <div class="row">
+          <div class="col-md-6">
+            <button
+              [routerLink]="
+                { cxRoute: 'costCenterDetails', params: costCenter } | cxUrl
+              "
+              class="btn btn-secondary btn-block"
+            >
+              {{ 'organization.cancel' | cxTranslate }}
+            </button>
+          </div>
 
-      <button class="button primary" type="submit">
-        {{ 'organization.save' | cxTranslate }}
-      </button>
-      <button
-        [routerLink]="
-          { cxRoute: 'costCenterDetails', params: costCenter } | cxUrl
-        "
-        class="button secondary"
-      >
-        {{ 'organization.cancel' | cxTranslate }}
-      </button>
+          <div class="col-md-6">
+            <button class="btn btn-primary btn-block" type="submit">
+              {{ 'organization.save' | cxTranslate }}
+            </button>
+          </div>
+        </div>
+      </div>
     </section>
   </form>
 </cx-view>
