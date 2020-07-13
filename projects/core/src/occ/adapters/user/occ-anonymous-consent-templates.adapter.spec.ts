@@ -4,6 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { ANONYMOUS_CONSENT_NORMALIZER } from '../../../anonymous-consents/connectors/converters';
 import { CONSENT_TEMPLATE_NORMALIZER } from '../../../user/index';
 import { ConverterService } from '../../../util/index';
 import { OccEndpointsService } from '../../services';
@@ -32,6 +33,7 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
     adapter = TestBed.inject(OccAnonymousConsentTemplatesAdapter);
+    spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
@@ -51,6 +53,19 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
       );
       expect(converter.pipeableMany).toHaveBeenCalledWith(
         CONSENT_TEMPLATE_NORMALIZER
+      );
+    });
+  });
+
+  describe('loadAnonymousConsents', () => {
+    it('should issue a HEAD request to load the latest anonymous consents', () => {
+      adapter.loadAnonymousConsents().subscribe().unsubscribe();
+      httpMock.expectOne((req) => req.method === 'HEAD');
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'anonymousConsentTemplates'
+      );
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        ANONYMOUS_CONSENT_NORMALIZER
       );
     });
   });
