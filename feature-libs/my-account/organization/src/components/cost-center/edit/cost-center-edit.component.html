@@ -1,13 +1,13 @@
-<cx-view #view *ngIf="model$ | async as model">
+<cx-view #view *ngIf="viewModel$ | async as viewModel">
   <form
-    [formGroup]="model.form"
-    (ngSubmit)="save(model.code, model.form)"
+    [formGroup]="viewModel.form"
+    (ngSubmit)="save(model.code, viewModel.form)"
   >
     <h3>
       <a
         class="link"
         [routerLink]="
-          { cxRoute: 'costCenterDetails', params: model.costCenter } | cxUrl
+          { cxRoute: 'costCenterDetails', params: viewModel.costCenter } | cxUrl
         "
         (click)="view.toggle()"
       >
@@ -20,7 +20,7 @@
       </button>
     </h3>
     <section>
-      <cx-cost-center-form [form]="model.form"> </cx-cost-center-form>
+      <cx-cost-center-form [form]="viewModel.form"> </cx-cost-center-form>
     </section>
   </form>
 </cx-view>

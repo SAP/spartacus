@@ -3,7 +3,13 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import {
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 
 @Component({
@@ -16,23 +22,21 @@ export class CostCenterEditComponent {
     map((routingData) => routingData['code'])
   );
 
-  model$: Observable<{
-    code: string;
-    costCenter: CostCenter;
-    form: FormGroup;
-  }> = this.code$.pipe(
+  protected costCenter$: Observable<CostCenter> = this.code$.pipe(
     tap((code) => this.costCenterService.load(code)),
-    switchMap((code) =>
-      this.costCenterService.get(code).pipe(
-        filter(Boolean),
-        map((costCenter) => [code, costCenter])
-      )
-    ),
-    map(([code, costCenter]: [string, CostCenter]) => ({
-      code,
-      costCenter,
-      form: this.costCenterFormService.getForm(costCenter),
-    }))
+    switchMap((code) => this.costCenterService.get(code)),
+    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
+  );
+
+  protected form$: Observable<FormGroup> = this.costCenter$.pipe(
+    map((costCenter) => this.costCenterFormService.getForm(costCenter))
+  );
+
+  // We have to keep all observable values consistent for a view,
+  // that's why we are wrapping them into one observable
+  viewModel$ = this.form$.pipe(
+    withLatestFrom(this.costCenter$, this.code$),
+    map(([form, costCenter, code]) => ({ form, code, costCenter }))
   );
 
   constructor(
