@@ -7,7 +7,7 @@ import {
   PersonalizationContext,
   PersonalizationContextService,
   CategoryPageVisited,
-  KeywordSearchPageVisited,
+  SearchPageVisited,
   ProductDetailsPageVisited,
   PageVisited,
   CartPageVisited,
@@ -31,7 +31,7 @@ function setVariables() {
   cartBehavior = new ReplaySubject<Cart>();
   eventServiceEvents = new Map();
   eventServiceEvents.set(CategoryPageVisited, new ReplaySubject<CategoryPageVisited>());
-  eventServiceEvents.set(KeywordSearchPageVisited, new ReplaySubject<KeywordSearchPageVisited>());
+  eventServiceEvents.set(SearchPageVisited, new ReplaySubject<SearchPageVisited>());
   eventServiceEvents.set(ProductDetailsPageVisited, new ReplaySubject<ProductDetailsPageVisited>());
   eventServiceEvents.set(PageVisited, new ReplaySubject<PageVisited>());
   eventServiceEvents.set(CartPageVisited, new ReplaySubject<CartPageVisited>());
@@ -161,20 +161,20 @@ describe('call profileTagPushEventsService for CategoryPageVisited events', () =
   });
 });
 
-describe('call profileTagPushEventsService for KeywordSearchPageVisited events', () => {
-  it(`Should call the searchResultsChanged method for every KeywordSearchPageVisited event`, () => {
+describe('call profileTagPushEventsService for SearchPageVisited events', () => {
+  it(`Should call the searchResultsChanged method for every SearchPageVisited event`, () => {
     let timesCalled = 0;
     const subscription = profileTagPushEventsService
       .getPushEvents()
       .pipe(tap(() => timesCalled++))
       .subscribe();
-    const mockOrderEntry: KeywordSearchPageVisited[] = [{ searchTerm: 'search term 1', numberOfResults: 0, }];
-    const mockOrderEntries: KeywordSearchPageVisited[] = [
+    const mockOrderEntry: SearchPageVisited[] = [{ searchTerm: 'search term 1', numberOfResults: 0, }];
+    const mockOrderEntries: SearchPageVisited[] = [
       { searchTerm: 'search term 2', numberOfResults: 1, },
       { searchTerm: 'search term 3', numberOfResults: 4, },
     ];
-    eventServiceEvents.get(KeywordSearchPageVisited).next(mockOrderEntry);
-    eventServiceEvents.get(KeywordSearchPageVisited).next(mockOrderEntries);
+    eventServiceEvents.get(SearchPageVisited).next(mockOrderEntry);
+    eventServiceEvents.get(SearchPageVisited).next(mockOrderEntries);
     subscription.unsubscribe();
     expect(timesCalled).toEqual(2);
   });
