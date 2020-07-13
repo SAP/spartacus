@@ -13,7 +13,6 @@
         (click)="view.toggle()"
       >
         <cx-icon type="CARET_LEFT"></cx-icon>
-        {{ 'organization.cancel' | cxTranslate }}
       </a>
       {{ 'organization.edit' | cxTranslate }}
     </h3>
@@ -22,6 +21,14 @@
 
       <button class="button primary" type="submit">
         {{ 'organization.save' | cxTranslate }}
+      </button>
+      <button
+        [routerLink]="
+          { cxRoute: 'costCenterDetails', params: costCenter } | cxUrl
+        "
+        class="button secondary"
+      >
+        {{ 'organization.cancel' | cxTranslate }}
       </button>
     </section>
   </form>
