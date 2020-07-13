@@ -63,7 +63,7 @@ function setVariables() {
   };
 }
 
-fdescribe('profileTagPushEventsService', () => {
+describe('profileTagPushEventsService', () => {
   beforeEach(() => {
     setVariables();
     TestBed.configureTestingModule({
