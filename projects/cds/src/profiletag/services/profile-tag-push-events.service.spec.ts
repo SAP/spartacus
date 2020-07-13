@@ -30,13 +30,25 @@ let getPersonalizationContext;
 function setVariables() {
   cartBehavior = new ReplaySubject<Cart>();
   eventServiceEvents = new Map();
-  eventServiceEvents.set(CategoryPageVisited, new ReplaySubject<CategoryPageVisited>());
-  eventServiceEvents.set(SearchPageVisited, new ReplaySubject<SearchPageVisited>());
-  eventServiceEvents.set(ProductDetailsPageVisited, new ReplaySubject<ProductDetailsPageVisited>());
+  eventServiceEvents.set(
+    CategoryPageVisited,
+    new ReplaySubject<CategoryPageVisited>()
+  );
+  eventServiceEvents.set(
+    SearchPageVisited,
+    new ReplaySubject<SearchPageVisited>()
+  );
+  eventServiceEvents.set(
+    ProductDetailsPageVisited,
+    new ReplaySubject<ProductDetailsPageVisited>()
+  );
   eventServiceEvents.set(PageVisited, new ReplaySubject<PageVisited>());
   eventServiceEvents.set(CartPageVisited, new ReplaySubject<CartPageVisited>());
   eventServiceEvents.set(HomePageVisited, new ReplaySubject<HomePageVisited>());
-  eventServiceEvents.set(OrderConfirmationPageVisited, new ReplaySubject<OrderConfirmationPageVisited>());
+  eventServiceEvents.set(
+    OrderConfirmationPageVisited,
+    new ReplaySubject<OrderConfirmationPageVisited>()
+  );
   getPersonalizationContext = new ReplaySubject<PersonalizationContext>();
   eventService = {
     get<T>(eventType: Type<T>) {
@@ -149,10 +161,12 @@ describe('call profileTagPushEventsService for CategoryPageVisited events', () =
       .getPushEvents()
       .pipe(tap(() => timesCalled++))
       .subscribe();
-    const mockOrderEntry: CategoryPageVisited[] = [{ categoryCode: '123', categoryName: 'categoryName1', }];
+    const mockOrderEntry: CategoryPageVisited[] = [
+      { categoryCode: '123', categoryName: 'categoryName1' },
+    ];
     const mockOrderEntries: CategoryPageVisited[] = [
-      { categoryCode: '234', categoryName: 'categoryName2', },
-      { categoryCode: '345', categoryName: 'categoryName3', },
+      { categoryCode: '234', categoryName: 'categoryName2' },
+      { categoryCode: '345', categoryName: 'categoryName3' },
     ];
     eventServiceEvents.get(CategoryPageVisited).next(mockOrderEntry);
     eventServiceEvents.get(CategoryPageVisited).next(mockOrderEntries);
@@ -168,10 +182,12 @@ describe('call profileTagPushEventsService for SearchPageVisited events', () => 
       .getPushEvents()
       .pipe(tap(() => timesCalled++))
       .subscribe();
-    const mockOrderEntry: SearchPageVisited[] = [{ searchTerm: 'search term 1', numberOfResults: 0, }];
+    const mockOrderEntry: SearchPageVisited[] = [
+      { searchTerm: 'search term 1', numberOfResults: 0 },
+    ];
     const mockOrderEntries: SearchPageVisited[] = [
-      { searchTerm: 'search term 2', numberOfResults: 1, },
-      { searchTerm: 'search term 3', numberOfResults: 4, },
+      { searchTerm: 'search term 2', numberOfResults: 1 },
+      { searchTerm: 'search term 3', numberOfResults: 4 },
     ];
     eventServiceEvents.get(SearchPageVisited).next(mockOrderEntry);
     eventServiceEvents.get(SearchPageVisited).next(mockOrderEntries);
@@ -193,15 +209,15 @@ describe('call profileTagPushEventsService for ProductDetailsPageVisited events'
         name: 'product 1',
         price: {
           value: 123.45,
-          currencyIso: 'EUR'
+          currencyIso: 'EUR',
         },
         categories: [
           {
             code: '321',
-            name: 'category 1'
-          }
-        ]
-      }
+            name: 'category 1',
+          },
+        ],
+      },
     ];
     const mockOrderEntries: ProductDetailsPageVisited[] = [
       {
@@ -209,28 +225,28 @@ describe('call profileTagPushEventsService for ProductDetailsPageVisited events'
         name: 'product 2',
         price: {
           value: 234.56,
-          currencyIso: 'EUR'
+          currencyIso: 'EUR',
         },
         categories: [
           {
             code: '432',
-            name: 'category 2'
-          }
-        ]
+            name: 'category 2',
+          },
+        ],
       },
       {
         code: '34567',
         name: 'product 3',
         price: {
           value: 345.67,
-          currencyIso: 'EUR'
+          currencyIso: 'EUR',
         },
         categories: [
           {
             code: '543',
-            name: 'category 3'
-          }
-        ]
+            name: 'category 3',
+          },
+        ],
       },
     ];
     eventServiceEvents.get(ProductDetailsPageVisited).next(mockOrderEntry);
@@ -247,10 +263,10 @@ describe('call profileTagPushEventsService for PageVisited events', () => {
       .getPushEvents()
       .pipe(tap(() => timesCalled++))
       .subscribe();
-    const mockOrderEntry: PageVisited[] = [{ url: 'page 1', }];
+    const mockOrderEntry: PageVisited[] = [{ url: 'page 1' }];
     const mockOrderEntries: PageVisited[] = [
-      { url: 'page 2', },
-      { url: 'page 3' , },
+      { url: 'page 2' },
+      { url: 'page 3' },
     ];
     eventServiceEvents.get(PageVisited).next(mockOrderEntry);
     eventServiceEvents.get(PageVisited).next(mockOrderEntries);
@@ -266,10 +282,10 @@ describe('call profileTagPushEventsService for CartPageVisited events', () => {
       .getPushEvents()
       .pipe(tap(() => timesCalled++))
       .subscribe();
-    const mockOrderEntry: CartPageVisited[] = [{ cartId: '123', }];
+    const mockOrderEntry: CartPageVisited[] = [{ cartId: '123' }];
     const mockOrderEntries: CartPageVisited[] = [
-      { cartId: '234', },
-      { cartId: '345', },
+      { cartId: '234' },
+      { cartId: '345' },
     ];
     eventServiceEvents.get(CartPageVisited).next(mockOrderEntry);
     eventServiceEvents.get(CartPageVisited).next(mockOrderEntries);
@@ -285,11 +301,8 @@ describe('call profileTagPushEventsService for HomePageVisited events', () => {
       .getPushEvents()
       .pipe(tap(() => timesCalled++))
       .subscribe();
-    const mockOrderEntry: HomePageVisited[] = [{ }];
-    const mockOrderEntries: HomePageVisited[] = [
-      { },
-      { },
-    ];
+    const mockOrderEntry: HomePageVisited[] = [{}];
+    const mockOrderEntries: HomePageVisited[] = [{}, {}];
     eventServiceEvents.get(HomePageVisited).next(mockOrderEntry);
     eventServiceEvents.get(HomePageVisited).next(mockOrderEntries);
     subscription.unsubscribe();
@@ -304,10 +317,10 @@ describe('call profileTagPushEventsService for OrderConfirmationPageVisited even
       .getPushEvents()
       .pipe(tap(() => timesCalled++))
       .subscribe();
-    const mockOrderEntry: OrderConfirmationPageVisited[] = [{ orderId: '123', }];
+    const mockOrderEntry: OrderConfirmationPageVisited[] = [{ orderId: '123' }];
     const mockOrderEntries: OrderConfirmationPageVisited[] = [
-      { orderId: '234', },
-      { orderId: '345', },
+      { orderId: '234' },
+      { orderId: '345' },
     ];
     eventServiceEvents.get(OrderConfirmationPageVisited).next(mockOrderEntry);
     eventServiceEvents.get(OrderConfirmationPageVisited).next(mockOrderEntries);
