@@ -10,16 +10,20 @@ import {
 } from '@angular/core';
 import { deepMerge } from './utils/deep-merge';
 
+// separate function needed for production build:
+export function configurationFactoryProvidedInRoot() {
+  return configurationFactory(
+    inject(ConfigChunk, InjectFlags.Optional),
+    inject(DefaultConfigChunk, InjectFlags.Optional)
+  );
+}
+
 /**
  * Global Configuration injection token, can be used to inject configuration to any part of the app
  */
 export const Config = new InjectionToken('Configuration', {
   providedIn: 'root',
-  factory: () =>
-    configurationFactory(
-      inject(ConfigChunk, InjectFlags.Optional),
-      inject(DefaultConfigChunk, InjectFlags.Optional)
-    ),
+  factory: configurationFactoryProvidedInRoot,
 });
 
 /**
