@@ -103,7 +103,7 @@ export class ProfileTagPushEventsService {
    * @returns an observable emitting events that describe cart changes in a profiltag compliant way
    * @see CartChangedPushEvent
    */
-  protected cartChanged(): Observable<CartChangedPushEvent> {
+  protected cartChanged(): Observable<ProfileTagPushEvent> {
     return this.activeCartService.getActive().pipe(
       skipWhile((cart) => !Boolean(cart.entries) || cart.entries.length === 0),
       map(
