@@ -121,7 +121,7 @@ export class OutletService<T = TemplateRef<any>> {
     } else if (value && store.has(outlet)) {
       let existing = store.get(outlet);
 
-      if (this.features.isLevel('2.1')) {
+      if (this.features?.isLevel('2.1')) {
         existing = existing.filter((val) => val !== value);
       } else {
         // deprecated since 2.1, see #8116:
