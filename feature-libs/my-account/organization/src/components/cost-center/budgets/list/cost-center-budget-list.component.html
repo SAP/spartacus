@@ -15,20 +15,20 @@
     <span></span>
   </h3>
 
+  <div class="actions">
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'costCenterAssignBudget',
+          params: { code: costCenterCode }
+        } | cxUrl
+      "
+    >
+      {{ 'costCenter.budget.assign' | cxTranslate }}
+    </a>
+  </div>
   <section>
-    <h4>
-      <a
-        class="link"
-        [routerLink]="
-          {
-            cxRoute: 'costCenterAssignBudget',
-            params: { code: costCenterCode }
-          } | cxUrl
-        "
-      >
-        {{ 'costCenter.budget.assign' | cxTranslate }}
-      </a>
-    </h4>
     <cx-table
       *ngIf="dataTable$ | async as dataTable; else emptyList"
       [dataset]="dataTable"
@@ -43,21 +43,27 @@
   </ng-template>
 
   <ng-template cxOutletRef="table.costCenterBudgets.data.name" let-model>
-    <h3>
-      <a
-        [routerLink]="
-          {
-            cxRoute: 'budgetDetails',
-            params: { code: model.code }
-          } | cxUrl
-        "
-      >
-        <cx-icon class="active-state" type="ACTIVE"></cx-icon>
-        <span class="text">{{ model.name }}</span>
-        <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-      </a>
-    </h3>
-    {{ model.code }} {{ model.budget }} {{ model.currency.isocode }}
-    {{ model.startDate | cxDate }}-{{ model.endDate | cxDate }}
+    <div class="budget">
+      <div>
+        <h3>{{ model.name }}</h3>
+        <small
+          >{{ model.code }} • {{ model.budget }} {{ model.currency.isocode }} •
+          {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
+        </small>
+      </div>
+      <div>
+        <a
+          class="link"
+          [routerLink]="
+            {
+              cxRoute: 'budgetDetails',
+              params: { code: model.code }
+            } | cxUrl
+          "
+        >
+          <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+        </a>
+      </div>
+    </div>
   </ng-template>
 </cx-view>

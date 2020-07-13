@@ -41,6 +41,34 @@
     }
   }
 
+  .budget {
+    display: flex;
+    place-content: space-between;
+    padding: 16px;
+    > div:first-child {
+      line-height: 1.1rem;
+      h3 {
+        font-size: 1.1rem;
+        min-height: auto;
+        @include media-breakpoint-down(md) {
+          padding: 0;
+        }
+      }
+      small {
+        font-size: 0.75rem;
+      }
+    }
+    > div:last-child {
+      display: flex;
+      align-items: center;
+      a {
+        display: flex;
+        padding: 0;
+        font-size: 1.1rem;
+      }
+    }
+  }
+
   cx-split-view {
     h3 {
       .link {

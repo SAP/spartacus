@@ -16,6 +16,6 @@ export const costCenter = {
 
   budget: {
     header: 'Budgets',
-    assign: 'Manage budgets',
+    assign: 'Assign budgets',
   },
 };
