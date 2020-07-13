@@ -1,7 +1,7 @@
+import { Injectable } from '@angular/core';
+import { Config } from '../../config/config.module';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 import { CmsConfig } from './cms-config';
-import { Injectable } from '@angular/core';
-import { Config } from '../../config';
 
 /**
  * The `CmsPageConfig` is used to build pages by configuration.
