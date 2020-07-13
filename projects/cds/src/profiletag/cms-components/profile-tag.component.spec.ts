@@ -41,7 +41,7 @@ describe('ProfileTagComponent', () => {
   it('should be loaded', () => {
     let result: boolean;
     const subscription = component.profileTagEnabled$.subscribe(
-      (data) => (result = Boolean(data))
+      (data) => (result = data)
     );
     expect(result).toBe(true);
     subscription.unsubscribe();
