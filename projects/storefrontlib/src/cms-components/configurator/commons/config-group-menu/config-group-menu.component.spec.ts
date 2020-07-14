@@ -37,7 +37,9 @@ class MockRouter {
 
 class MockConfiguratorGroupService {
   setMenuParentGroup() {}
-  getGroupStatus() {}
+  getGroupStatus() {
+    return of(null);
+  }
   isGroupVisited() {
     return of(groupVisited);
   }
@@ -125,7 +127,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     configuratorUtils.setOwnerKey(config.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();
-    spyOn(configuratorGroupsService, 'getGroupStatus').and.stub();
+    spyOn(configuratorGroupsService, 'getGroupStatus').and.callThrough();
     spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
     spyOn(configuratorGroupsService, 'isGroupVisited').and.callThrough();
     spyOn(hamburgerMenuService, 'toggle').and.stub();
