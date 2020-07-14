@@ -62,11 +62,13 @@ export const costCenterCmsConfig: CmsConfig = {
               path: 'budgets',
               component: CostCenterBudgetListComponent,
               canDeactivate: [SplitViewDeactivateGuard],
-            },
-            {
-              path: 'budgets/assign',
-              component: CostCenterAssignBudgetsComponent,
-              canDeactivate: [SplitViewDeactivateGuard],
+              children: [
+                {
+                  path: 'assign',
+                  component: CostCenterAssignBudgetsComponent,
+                  canDeactivate: [SplitViewDeactivateGuard],
+                },
+              ],
             },
           ],
         },
@@ -111,14 +113,24 @@ export const costCenterTableConfig: TableConfig = {
 
     [OrganizationTableType.COST_CENTER_BUDGETS]: [
       {
-        headers: [{ key: 'name' }],
+        headers: [{ key: 'summary' }],
         hideHeader: true,
       },
     ],
     [OrganizationTableType.COST_CENTER_ASSIGN_BUDGET]: [
       {
+        breakpoint: BREAKPOINT.xs,
         headers: [{ key: 'name' }],
         hideHeader: true,
+      },
+      {
+        breakpoint: BREAKPOINT.lg,
+        headers: [
+          { key: 'name' },
+          { key: 'code' },
+          { key: 'budget' },
+          { key: 'startDate' },
+        ],
       },
     ],
   },
