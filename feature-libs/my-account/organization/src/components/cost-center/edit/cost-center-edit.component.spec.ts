@@ -15,6 +15,7 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { Observable, of } from 'rxjs';
 import { CostCenterEditComponent } from './cost-center-edit.component';
+import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -23,7 +24,6 @@ import createSpy = jasmine.createSpy;
 })
 class MockCostCenterFormComponent {
   @Input() form;
-  @Input() unitUid;
 }
 
 const costCenterCode = 'b1';
@@ -74,6 +74,8 @@ describe('CostCenterEditComponent', () => {
   let fixture: ComponentFixture<CostCenterEditComponent>;
   let costCenterService: MockCostCenterService;
   let routingService: RoutingService;
+  let saveButton;
+  let costCenterFormComponent;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -103,6 +105,10 @@ describe('CostCenterEditComponent', () => {
     fixture = TestBed.createComponent(CostCenterEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    saveButton = fixture.debugElement.query(By.css('button[type=submit]'));
+    costCenterFormComponent = fixture.debugElement.query(
+      By.css('cx-cost-center-form')
+    ).componentInstance;
   });
 
   // not sure why this is needed, but we're failing otherwise
@@ -116,21 +122,21 @@ describe('CostCenterEditComponent', () => {
 
   describe('save valid form', () => {
     it('should disable form on save ', () => {
-      component.save(costCenterCode);
-      expect(component.form.disabled).toBeTruthy();
+      saveButton.nativeElement.click();
+      expect(costCenterFormComponent.form.disabled).toBeTruthy();
     });
 
     it('should create cost center', () => {
       spyOn(costCenterService, 'update');
-      component.save(costCenterCode);
+      saveButton.nativeElement.click();
       expect(costCenterService.update).toHaveBeenCalled();
     });
 
     it('should navigate to the detail page', () => {
-      component.save(costCenterCode);
+      saveButton.nativeElement.click();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'costCenterDetails',
-        params: component.form.value,
+        params: costCenterFormComponent.form.value,
       });
     });
   });

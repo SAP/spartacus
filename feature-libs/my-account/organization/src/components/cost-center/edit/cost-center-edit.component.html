@@ -1,7 +1,7 @@
 <cx-view #view *ngIf="viewModel$ | async as viewModel">
   <form
     [formGroup]="viewModel.form"
-    (ngSubmit)="save(model.code, viewModel.form)"
+    (ngSubmit)="save(viewModel.code, viewModel.form)"
   >
     <h3>
       <a

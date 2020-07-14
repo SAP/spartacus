@@ -1,6 +1,16 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { B2BUnitNode, Currency, CurrencyService, OrgUnitService } from '@spartacus/core';
+import {
+  B2BUnitNode,
+  Currency,
+  CurrencyService,
+  OrgUnitService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({
