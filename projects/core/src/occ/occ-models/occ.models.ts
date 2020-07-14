@@ -4258,8 +4258,12 @@ export namespace Occ {
     sorts?: SortModel[];
   }
 
+  export enum OrderApprovalDecisionValue {
+    APPROVE = 'APPROVE',
+    REJECT = 'REJECT',
+  }
   export interface OrderApprovalDecision {
-    decision?: 'APPROVE' | 'REJECT';
+    decision?: OrderApprovalDecisionValue;
     comment?: string;
   }
 
