@@ -38,7 +38,7 @@ export function normalizeHttpError(
 
   if (isDevMode()) {
     console.error(
-      'Error passed to nomalizeHttpError is not HttpErrorResponse instance',
+      'Error passed to normalizeHttpError is not HttpErrorResponse instance',
       error
     );
   }
