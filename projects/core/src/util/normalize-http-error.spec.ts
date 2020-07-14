@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { HttpErrorModel } from '../model/index';
 import { normalizeHttpError } from './normalize-http-error';
 
-describe('makeErrorSerializable', () => {
+describe('normalizeHttpError', () => {
   describe(`when the provided argument is not HttpError`, () => {
     it('should return undefined', () => {
       const error = 'xxx';
