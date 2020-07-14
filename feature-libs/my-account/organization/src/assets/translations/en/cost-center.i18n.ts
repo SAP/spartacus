@@ -1,6 +1,6 @@
 export const costCenter = {
   header: 'Cost centers',
-
+  disabled: '(disabled)',
   code: 'Code',
   name: 'Name',
   currency: 'Currency',
