@@ -8,7 +8,7 @@ import { isDevMode } from '@angular/core';
  * Can be used as a safe and generic way for embodying http errors into
  * NgRx Action payload, as it will strip potentially unserializable parts from
  * it and warn in debug mode if passed error is not instance of HttpErrorModel
- * (which usually happens when logic in the effect is not sealed correctly)
+ * (which usually happens when logic in NgRx Effect is not sealed correctly)
  */
 export function normalizeHttpError(
   error: HttpErrorResponse | any
