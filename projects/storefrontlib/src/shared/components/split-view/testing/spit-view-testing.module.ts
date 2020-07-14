@@ -1,16 +1,17 @@
 import { Component, Input, NgModule, Output } from '@angular/core';
 
+// PRIVATE TESTING UTIL
 @Component({
   template: '<ng-content></ng-content>',
   selector: 'cx-split-view',
 })
-class MockSplitViewComponent {}
+export class MockSplitViewComponent {}
 
 @Component({
   template: '<ng-content></ng-content>',
   selector: 'cx-view',
 })
-class MockViewComponent {
+export class MockViewComponent {
   @Input() position: number;
   @Input() hidden;
   @Output() hiddenChange;

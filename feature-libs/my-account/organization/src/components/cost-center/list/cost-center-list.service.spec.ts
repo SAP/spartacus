@@ -1,6 +1,7 @@
+import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CostCenter, CostCenterService, EntitiesModel } from '@spartacus/core';
-import { TableTestingModule } from '@spartacus/storefront';
+import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CostCenterListService } from './cost-center-list.service';
 
@@ -20,18 +21,28 @@ class MockCostCenterService {
   }
 }
 
+@Injectable()
+export class MockTableService {
+  buildStructure(type): Observable<TableStructure> {
+    return of({ type });
+  }
+}
+
 describe('CostCenterListService', () => {
   let service: CostCenterListService;
 
   describe('with table config', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [TableTestingModule],
         providers: [
           CostCenterListService,
           {
             provide: CostCenterService,
             useClass: MockCostCenterService,
+          },
+          {
+            provide: TableService,
+            useClass: MockTableService,
           },
         ],
       });

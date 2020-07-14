@@ -128,7 +128,7 @@ describe('TableService', () => {
           });
         });
 
-        it('should generate random table structure', () => {
+        it('should generate fallback table structure', () => {
           let result: TableStructure;
           tableService
             .buildStructure('unknown')

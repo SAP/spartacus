@@ -45,7 +45,7 @@ export class TableService {
       if (data$) {
         return this.buildStructureFromData(tableType, data$);
       } else {
-        return this.buildRandomStructure(tableType);
+        return this.buildFallbackStructure(tableType);
       }
     }
   }
@@ -88,10 +88,10 @@ export class TableService {
   }
 
   /**
-   * As a last resort, the table structure is randomly created. We add 5 unknown headers
+   * As a last resort, the table structure fallback is created. We add 5 unknown headers
    * and use the `hideHeader` to avoid the unknown headers to be rendered.
    */
-  protected buildRandomStructure(type: string): Observable<TableStructure> {
+  protected buildFallbackStructure(type: string): Observable<TableStructure> {
     this.warn(
       `No data available for "${type}", a random structure is generated (with hidden table headers).`
     );
@@ -145,10 +145,6 @@ export class TableService {
         ? tableConfig.find((config) => config.breakpoint === bestMatch)
         : {}),
     };
-    // return bestMatch
-    //   ? tableConfig.find((config) => config.breakpoint === bestMatch)
-    //   : tableConfig.find((structure) => !structure.breakpoint) ||
-    //       tableConfig[0];
   }
 
   protected hasTableConfig(tableType: string): boolean {

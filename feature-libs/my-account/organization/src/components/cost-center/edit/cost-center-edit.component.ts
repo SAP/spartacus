@@ -3,7 +3,14 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import {
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
+import { CostCenterFormService } from '../form/cost-center-form.service';
 
 @Component({
   selector: 'cx-cost-center-edit',
@@ -11,37 +18,47 @@ import { map, switchMap, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterEditComponent {
-  form = new FormGroup({});
-
-  code$: Observable<string> = this.activatedRoute.parent.params.pipe(
+  protected code$: Observable<string> = this.activatedRoute.parent.params.pipe(
     map((routingData) => routingData['code'])
   );
 
-  costCenter$: Observable<CostCenter> = this.code$.pipe(
-    tap((code) => this.costCenterService.loadCostCenter(code)),
+  protected costCenter$: Observable<CostCenter> = this.code$.pipe(
+    tap((code) => this.costCenterService.load(code)),
     switchMap((code) => this.costCenterService.get(code)),
-    tap((data) => this.form.patchValue(data))
+    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
+  );
+
+  protected form$: Observable<FormGroup> = this.costCenter$.pipe(
+    map((costCenter) => this.costCenterFormService.getForm(costCenter))
+  );
+
+  // We have to keep all observable values consistent for a view,
+  // that's why we are wrapping them into one observable
+  viewModel$ = this.form$.pipe(
+    withLatestFrom(this.costCenter$, this.code$),
+    map(([form, costCenter, code]) => ({ form, code, costCenter }))
   );
 
   constructor(
+    protected costCenterService: CostCenterService,
+    protected costCenterFormService: CostCenterFormService,
+    protected activatedRoute: ActivatedRoute,
     // we can't do without the router as the routingService is unable to
     // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
     // would actually fix that.
-    protected activatedRoute: ActivatedRoute,
-    protected routingService: RoutingService,
-    protected costCenterService: CostCenterService
+    protected routingService: RoutingService
   ) {}
 
-  save(costCenterCode: string): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
+  save(costCenterCode: string, form: FormGroup): void {
+    if (form.invalid) {
+      form.markAllAsTouched();
     } else {
-      this.form.disable();
-      this.costCenterService.update(costCenterCode, this.form.value);
+      form.disable();
+      this.costCenterService.update(costCenterCode, form.value);
 
       this.routingService.go({
         cxRoute: 'costCenterDetails',
-        params: this.form.value,
+        params: form.value,
       });
     }
   }

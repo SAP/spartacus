@@ -5,4 +5,3 @@ export * from './table.module';
 export * from './table.service';
 export * from './table2.component';
 export * from './table2.module';
-export * from './testing/table-testing.module';
