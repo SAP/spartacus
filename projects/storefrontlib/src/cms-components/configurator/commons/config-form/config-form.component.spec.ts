@@ -272,12 +272,5 @@ describe('ConfigurationFormComponent', () => {
     });
 
     expect(configurationCommonsService.updateConfiguration).toHaveBeenCalled();
-
-    setTimeout(() => {
-      expect(
-        configurationCommonsService.isConfigurationLoading
-      ).toHaveBeenCalledTimes(2);
-      expect(configuratorGroupsService.setGroupStatus).toHaveBeenCalledTimes(1);
-    }, 1000);
   });
 });
