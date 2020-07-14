@@ -73,7 +73,7 @@
           <div class="col-lg-4 col-md-12">
             <button
               class="btn btn-block btn-primary"
-              (click)="displayDecisionForm('REJECT')"
+              (click)="displayDecisionForm(approvalDecisionValue.REJECT)"
             >
               {{ 'orderApproval.showForm_REJECT' | cxTranslate }}
             </button>
@@ -81,7 +81,7 @@
           <div class="col-lg-4 col-md-12">
             <button
               class="btn btn-block btn-primary"
-              (click)="displayDecisionForm('APPROVE')"
+              (click)="displayDecisionForm(approvalDecisionValue.APPROVE)"
             >
               {{ 'orderApproval.showForm_APPROVE' | cxTranslate }}
             </button>

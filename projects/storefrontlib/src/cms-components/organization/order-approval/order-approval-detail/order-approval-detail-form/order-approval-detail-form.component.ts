@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { OrderApproval, OrderApprovalService } from '@spartacus/core';
+import {
+  OrderApproval,
+  OrderApprovalDecisionValue,
+  OrderApprovalService,
+} from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
@@ -11,7 +15,8 @@ import { OrderApprovalDetailService } from '../order-approval-detail.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderApprovalDetailFormComponent {
-  approvalDecision: 'APPROVE' | 'REJECT';
+  approvalDecisionValue = OrderApprovalDecisionValue;
+  approvalDecision: OrderApprovalDecisionValue;
   approvalFormVisible = false;
   approvalForm: FormGroup = this.fb.group({
     comment: [''],
@@ -53,9 +58,9 @@ export class OrderApprovalDetailFormComponent {
     this.orderApprovalService.resetMakeDecisionProcessState();
   }
 
-  displayDecisionForm(decision: 'APPROVE' | 'REJECT') {
+  displayDecisionForm(decision: OrderApprovalDecisionValue) {
     this.approvalDecision = decision;
-    if (decision === 'APPROVE') {
+    if (decision === OrderApprovalDecisionValue.APPROVE) {
       this.approvalForm.controls.comment.clearValidators();
     } else {
       this.approvalForm.controls.comment.setValidators([Validators.required]);

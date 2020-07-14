@@ -11,6 +11,7 @@ import { EntitiesModel } from '../../model/misc.model';
 import {
   OrderApproval,
   OrderApprovalDecision,
+  OrderApprovalDecisionValue,
 } from '../../model/order-approval.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
@@ -32,7 +33,7 @@ const orderApprovalList: EntitiesModel<OrderApproval> = {
   sorts,
 };
 const orderApprovalDecision: OrderApprovalDecision = {
-  decision: 'APPROVE',
+  decision: OrderApprovalDecisionValue.APPROVE,
   comment: 'yeah',
 };
 
