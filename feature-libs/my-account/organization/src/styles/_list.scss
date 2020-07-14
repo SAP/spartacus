@@ -32,7 +32,7 @@
 
   &.edit,
   &.create,
-  &.assign-budget {
+  &.assign {
     cx-split-view {
       --cx-max-views: 1;
       cx-view:not(:last-child) {

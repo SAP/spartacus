@@ -32,7 +32,7 @@ export const costCenterRoutingConfig: RoutingConfig = {
         paths: ['organization/cost-centers/:code/budgets'],
       },
       costCenterAssignBudget: {
-        paths: ['organization/cost-centers/:code/assign-budget'],
+        paths: ['organization/cost-centers/:code/budgets/assign'],
       },
     },
   },
@@ -64,7 +64,7 @@ export const costCenterCmsConfig: CmsConfig = {
               canDeactivate: [SplitViewDeactivateGuard],
             },
             {
-              path: 'assign-budget',
+              path: 'budgets/assign',
               component: CostCenterAssignBudgetsComponent,
               canDeactivate: [SplitViewDeactivateGuard],
             },
