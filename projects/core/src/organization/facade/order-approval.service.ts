@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap } from 'rxjs/operators';
+import { filter, map, observeOn, take, tap, pluck } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { EntitiesModel } from '../../model/misc.model';
 import {
@@ -9,14 +9,21 @@ import {
   OrderApprovalDecision,
 } from '../../model/order-approval.model';
 import { StateWithProcess } from '../../process/store/process-state';
+import {
+  getProcessErrorFactory,
+  getProcessLoadingFactory,
+  getProcessSuccessFactory,
+} from '../../process/store/selectors/process.selectors';
 import { LoaderState } from '../../state/utils/loader/loader-state';
 import { B2BSearchConfig } from '../model/search-config';
 import { OrderApprovalActions } from '../store/actions/index';
-import { StateWithOrganization } from '../store/organization-state';
-
 import {
-  getOrderApprovalList,
+  ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
+  StateWithOrganization,
+} from '../store/organization-state';
+import {
   getOrderApproval,
+  getOrderApprovalList,
 } from '../store/selectors/order-approval.selector';
 
 @Injectable()
@@ -70,6 +77,18 @@ export class OrderApprovalService {
     );
   }
 
+  /**
+   * Emits true is a request is in progress to load order approval data from 
+   * the server.
+   * 
+   * @param orderApprovalCode The approval code for which we want the loading status.
+   */
+  getOrderApprovalLoading(orderApprovalCode: string): Observable<boolean> {
+    return this.getOrderApproval(orderApprovalCode).pipe(
+      pluck('loading')
+    );
+  }
+
   getList(params: B2BSearchConfig): Observable<EntitiesModel<OrderApproval>> {
     return this.getOrderApprovalList(params).pipe(
       observeOn(queueScheduler),
@@ -99,6 +118,41 @@ export class OrderApprovalService {
         })
       )
     );
+  }
+
+  /**
+   * Returns the makeDecision loading flag.
+   */
+  getMakeDecisionResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the makeDecision failure outcome.
+   */
+  getMakeDecisionResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the makeDecision process success outcome.
+   */
+  getMakeDecisionResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the makeDecision process state. The state needs to be reset after the process
+   * concludes, regardless if it's a success or an error
+   */
+  resetMakeDecisionProcessState(): void {
+    this.store.dispatch(new OrderApprovalActions.MakeDecisionReset());
   }
 
   private withUserId(callback: (userId: string) => void): void {

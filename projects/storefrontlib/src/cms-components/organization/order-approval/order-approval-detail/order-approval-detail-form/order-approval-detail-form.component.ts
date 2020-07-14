@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OrderApproval, OrderApprovalService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 
 @Component({
@@ -16,14 +17,40 @@ export class OrderApprovalDetailFormComponent {
     comment: [''],
   });
 
+  protected orderApprovalLoading$: Observable<
+    boolean
+  > = this.orderApprovalDetailService
+    .getOrderApprovalCodeFromRoute()
+    .pipe(
+      switchMap((approvalCode: string) =>
+        this.orderApprovalService.getOrderApprovalLoading(approvalCode)
+      )
+    );
+
+  protected decisionResultLoading$ = this.orderApprovalService.getMakeDecisionResultLoading();
+
+  loading$ = combineLatest([
+    this.orderApprovalLoading$,
+    this.decisionResultLoading$,
+  ]).pipe(
+    map(
+      ([approvalLoading, decisionResultLoading]) =>
+        approvalLoading || decisionResultLoading
+    )
+  );
+
+  orderApproval$: Observable<
+    OrderApproval
+  > = this.orderApprovalDetailService
+    .getOrderApproval()
+    .pipe(tap((approval) => console.log('orderapproval emits', approval)));
+
   constructor(
     protected orderApprovalDetailService: OrderApprovalDetailService,
     protected orderApprovalService: OrderApprovalService,
     private fb: FormBuilder
-  ) {}
-
-  get orderApproval$(): Observable<OrderApproval> {
-    return this.orderApprovalDetailService.getOrderApproval();
+  ) {
+    this.orderApprovalService.resetMakeDecisionProcessState();
   }
 
   displayDecisionForm(decision: 'APPROVE' | 'REJECT') {

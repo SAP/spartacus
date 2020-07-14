@@ -9,8 +9,8 @@ import {
 import { of } from 'rxjs';
 import { EntitiesModel } from '../../model/misc.model';
 import {
-  OrderApprovalDecision,
   OrderApproval,
+  OrderApprovalDecision,
 } from '../../model/order-approval.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
@@ -40,7 +40,7 @@ class MockAuthService {
   getOccUserId = createSpy().and.returnValue(of(userId));
 }
 
-describe('OrderApprovalService', () => {
+fdescribe('OrderApprovalService', () => {
   let service: OrderApprovalService;
   let authService: AuthService;
   let store: Store<StateWithOrganization>;
@@ -186,6 +186,65 @@ describe('OrderApprovalService', () => {
           orderApprovalCode,
           orderApprovalDecision,
         })
+      );
+    });
+
+    it('should getMakeDecisionResultLoading() return loading flag', () => {
+      store.dispatch(
+        new OrderApprovalActions.MakeDecision({
+          userId,
+          orderApprovalCode,
+          orderApprovalDecision,
+        })
+      );
+
+      let result = false;
+      service
+        .getMakeDecisionResultLoading()
+        .subscribe((loading) => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should getMakeDecisionResultError() return the error flag', () => {
+      store.dispatch(
+        new OrderApprovalActions.MakeDecisionFail({
+          orderApprovalCode,
+          error: 'error',
+        })
+      );
+
+      let result = false;
+      service
+        .getMakeDecisionResultError()
+        .subscribe((loading) => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should getMakeDecisionResultSuccess() return the success flag', () => {
+      store.dispatch(
+        new OrderApprovalActions.MakeDecisionSuccess({
+          orderApprovalCode,
+          orderApprovalDecision,
+        })
+      );
+
+      let result = false;
+      service
+        .getMakeDecisionResultSuccess()
+        .subscribe((loading) => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should resetUpdatePasswordProcessState() dispatch an UpdatePasswordReset action', () => {
+      service.resetMakeDecisionProcessState();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new OrderApprovalActions.MakeDecisionReset()
       );
     });
   });

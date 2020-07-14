@@ -1,3 +1,4 @@
+import { PROCESS_FEATURE } from 'projects/core/src/process/store/process-state';
 import {
   OrderApproval,
   OrderApprovalDecision,
@@ -6,6 +7,7 @@ import { StateUtils } from '../../../state/utils/index';
 import {
   ORDER_APPROVAL_ENTITIES,
   ORDER_APPROVAL_LIST,
+  ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
 } from '../organization-state';
 import { OrderApprovalActions } from './index';
 
@@ -148,6 +150,10 @@ describe('OrderApproval Actions', () => {
         expect({ ...action }).toEqual({
           type: OrderApprovalActions.MAKE_DECISION,
           payload: { userId, orderApprovalCode, orderApprovalDecision },
+          meta: StateUtils.entityLoadMeta(
+            PROCESS_FEATURE,
+            ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
+          ),
         });
       });
     });
@@ -165,6 +171,14 @@ describe('OrderApproval Actions', () => {
             orderApprovalCode,
             error,
           },
+          meta: StateUtils.entityFailMeta(
+            PROCESS_FEATURE,
+            ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
+            {
+              orderApprovalCode,
+              error,
+            }
+          ),
         });
       });
     });
@@ -182,6 +196,24 @@ describe('OrderApproval Actions', () => {
             orderApprovalCode,
             orderApprovalDecision,
           },
+          meta: StateUtils.entitySuccessMeta(
+            PROCESS_FEATURE,
+            ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
+          ),
+        });
+      });
+    });
+
+    describe('MakeDecisionReset', () => {
+      it('should create the action', () => {
+        const action = new OrderApprovalActions.MakeDecisionReset();
+
+        expect({ ...action }).toEqual({
+          type: OrderApprovalActions.MAKE_DECISION_RESET,
+          meta: StateUtils.entityResetMeta(
+            PROCESS_FEATURE,
+            ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
+          ),
         });
       });
     });

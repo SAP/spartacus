@@ -1,3 +1,6 @@
+import { PROCESS_FEATURE } from 'projects/core/src/process/store/process-state';
+import { StateUtils } from 'projects/core/src/state/utils/index';
+import { ListModel } from '../../../model/misc.model';
 import {
   OrderApproval,
   OrderApprovalDecision,
@@ -12,8 +15,8 @@ import { serializeB2BSearchConfig } from '../../utils/serializer';
 import {
   ORDER_APPROVAL_ENTITIES,
   ORDER_APPROVAL_LIST,
+  ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
 } from '../organization-state';
-import { ListModel } from '../../../model/misc.model';
 
 export const LOAD_ORDER_APPROVAL = '[OrderApproval] Load OrderApproval Data';
 export const LOAD_ORDER_APPROVAL_FAIL =
@@ -32,6 +35,8 @@ export const MAKE_DECISION_FAIL =
   '[OrderApproval] Make OrderApproval Decision Fail';
 export const MAKE_DECISION_SUCCESS =
   '[OrderApproval] Make OrderApproval Decision Success';
+export const MAKE_DECISION_RESET =
+  '[OrderApproval] Make OrderApproval Decision Reset';
 
 export class LoadOrderApproval extends EntityLoadAction {
   readonly type = LOAD_ORDER_APPROVAL;
@@ -92,7 +97,7 @@ export class LoadOrderApprovalsSuccess extends EntitySuccessAction {
   }
 }
 
-export class MakeDecision {
+export class MakeDecision extends StateUtils.EntityLoadAction {
   readonly type = MAKE_DECISION;
   constructor(
     public payload: {
@@ -100,22 +105,39 @@ export class MakeDecision {
       orderApprovalCode: string;
       orderApprovalDecision: OrderApprovalDecision;
     }
-  ) {}
+  ) {
+    super(PROCESS_FEATURE, ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID);
+  }
 }
 
-export class MakeDecisionFail {
+export class MakeDecisionFail extends StateUtils.EntityFailAction {
   readonly type = MAKE_DECISION_FAIL;
-  constructor(public payload: { orderApprovalCode: string; error: any }) {}
+  constructor(public payload: { orderApprovalCode: string; error: any }) {
+    super(
+      PROCESS_FEATURE,
+      ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
+      payload
+    );
+  }
 }
 
-export class MakeDecisionSuccess {
+export class MakeDecisionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = MAKE_DECISION_SUCCESS;
   constructor(
     public payload: {
       orderApprovalCode: string;
       orderApprovalDecision: OrderApprovalDecision;
     }
-  ) {}
+  ) {
+    super(PROCESS_FEATURE, ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID);
+  }
+}
+
+export class MakeDecisionReset extends StateUtils.EntityLoaderResetAction {
+  readonly type = MAKE_DECISION_RESET;
+  constructor() {
+    super(PROCESS_FEATURE, ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID);
+  }
 }
 
 export type OrderApprovalAction =
@@ -127,4 +149,5 @@ export type OrderApprovalAction =
   | LoadOrderApprovalsSuccess
   | MakeDecision
   | MakeDecisionFail
-  | MakeDecisionSuccess;
+  | MakeDecisionSuccess
+  | MakeDecisionReset;
