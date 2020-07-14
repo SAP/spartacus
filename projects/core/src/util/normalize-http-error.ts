@@ -5,10 +5,10 @@ import { isDevMode } from '@angular/core';
 /**
  * Normalizes HttpErrorResponse to HttpErrorModel.
  *
- * Can be used as a safe and generic way for embodying errors into
+ * Can be used as a safe and generic way for embodying http errors into
  * NgRx Action payload, as it will strip potentially unserializable parts from
- * the model and warn in debug mode if passed error is not instance of
- * HttpErrorModel (which could be caused by invalid logic in Effects)
+ * it and warn in debug mode if passed error is not instance of HttpErrorModel
+ * (which usually happens when logic in the effect is not sealed correctly)
  */
 export function normalizeHttpError(
   error: HttpErrorResponse | any
