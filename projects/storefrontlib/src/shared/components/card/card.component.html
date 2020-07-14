@@ -68,14 +68,6 @@
             >{{ action.name }}</a
           >
           <a
-            *ngSwitchCase="'send'"
-            class="cx-card-link card-link btn-link cx-action-link"
-            (click)="send()"
-            (keydown.enter)="send()"
-            tabindex="0"
-            >{{ action.name }}</a
-          >
-          <a
             *ngSwitchCase="'edit'"
             class="cx-card-link card-link btn-link cx-action-link"
             (click)="edit()"
@@ -83,13 +75,23 @@
             tabindex="0"
             >{{ action.name }}</a
           >
-          <a
-            *ngSwitchDefault
-            href="{{ action.link }}"
-            class="card-link btn-link cx-action-link"
-            tabindex="0"
-            >{{ action.name }}</a
-          >
+          <div *ngIf="!content.header">
+            <a
+              *ngSwitchCase="'send'"
+              class="cx-card-link card-link btn-link cx-action-link"
+              (click)="send()"
+              (keydown.enter)="send()"
+              tabindex="0"
+              >{{ action.name }}</a
+            >
+            <a
+              *ngSwitchDefault
+              href="{{ action.link }}"
+              class="card-link btn-link cx-action-link"
+              tabindex="0"
+              >{{ action.name }}</a
+            >
+          </div>
         </div>
       </div>
     </div>

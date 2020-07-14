@@ -232,6 +232,7 @@ describe('CardComponent', () => {
 
   it('should handle links', () => {
     function getLinkAction(elem: DebugElement): HTMLAnchorElement {
+      fixture.detectChanges();
       return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
     }
     const link: CardLinkAction = { link: '/test.html', name: 'Go to test' };
