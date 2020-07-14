@@ -71,7 +71,7 @@ describe('OutletRefDirective', () => {
         { provide: DeferLoaderService, useClass: MockDeferLoaderService },
         {
           provide: FeaturesConfig,
-          useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #
+          useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
         },
       ],
     }).compileComponents();
