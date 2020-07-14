@@ -54,6 +54,9 @@ class MockConfiguratorGroupService {
   hasSubGroups(group: Configurator.Group): boolean {
     return group.subGroups ? group.subGroups.length > 0 : false;
   }
+  getParentGroup(): Configurator.Group {
+    return null;
+  }
 }
 
 class MockConfiguratorCommonsService {
@@ -123,6 +126,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();
     spyOn(configuratorGroupsService, 'getGroupStatus').and.stub();
+    spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
     spyOn(configuratorGroupsService, 'isGroupVisited').and.callThrough();
     spyOn(hamburgerMenuService, 'toggle').and.stub();
   });
