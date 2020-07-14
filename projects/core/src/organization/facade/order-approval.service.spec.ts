@@ -41,7 +41,7 @@ class MockAuthService {
   getOccUserId = createSpy().and.returnValue(of(userId));
 }
 
-fdescribe('OrderApprovalService', () => {
+describe('OrderApprovalService', () => {
   let service: OrderApprovalService;
   let authService: AuthService;
   let store: Store<StateWithOrganization>;
