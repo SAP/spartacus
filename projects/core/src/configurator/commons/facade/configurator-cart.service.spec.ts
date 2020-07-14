@@ -12,6 +12,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
 } from '../../../occ/utils/occ-constants';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
 import { ConfiguratorActions } from '../store/actions/index';
@@ -119,15 +120,45 @@ describe('ConfiguratorCartService', () => {
     );
   });
   describe('readConfigurationForCartEntry', () => {
-    it('should dispatch ReadCartEntryConfiguration action ', () => {
+    it('should not dispatch ReadCartEntryConfiguration action in case configuration is present', () => {
+      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+        value: productConfiguration,
+      };
+
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfigurationLoaderState)
+      );
+      spyOn(store, 'dispatch').and.callThrough();
+
+      serviceUnderTest
+        .readConfigurationForCartEntry(OWNER_CART_ENTRY)
+        .subscribe()
+        .unsubscribe();
+
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it('should dispatch ReadCartEntryConfiguration action in case configuration is not present so far', () => {
       const params: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
         owner: OWNER_CART_ENTRY,
         cartEntryNumber: OWNER_CART_ENTRY.id,
         cartId: CART_GUID,
         userId: OCC_USER_ID_ANONYMOUS,
       };
+      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+        value: { configId: '' },
+      };
+
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfigurationLoaderState)
+      );
       spyOn(store, 'dispatch').and.callThrough();
-      serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY);
+
+      serviceUnderTest
+        .readConfigurationForCartEntry(OWNER_CART_ENTRY)
+        .subscribe()
+        .unsubscribe();
+
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.ReadCartEntryConfiguration(params)
       );
@@ -135,15 +166,44 @@ describe('ConfiguratorCartService', () => {
   });
 
   describe('readConfigurationForOrderEntry', () => {
-    it('should dispatch ReadOrderEntryConfiguration action ', () => {
+    it('should not dispatch ReadOrderEntryConfiguration action in case configuration is present', () => {
+      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+        value: productConfiguration,
+      };
+
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfigurationLoaderState)
+      );
+      spyOn(store, 'dispatch').and.callThrough();
+
+      serviceUnderTest
+        .readConfigurationForOrderEntry(OWNER_ORDER_ENTRY)
+        .subscribe()
+        .unsubscribe();
+
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it('should dispatch ReadOrderEntryConfiguration action in case configuration is not present so far', () => {
       const params: GenericConfigurator.ReadConfigurationFromOrderEntryParameters = {
         owner: OWNER_ORDER_ENTRY,
         orderEntryNumber: '' + ORDER_ENTRY_NUMBER,
         orderId: ORDER_ID,
         userId: OCC_USER_ID_CURRENT,
       };
+      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
+        value: { configId: '' },
+      };
+
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfigurationLoaderState)
+      );
       spyOn(store, 'dispatch').and.callThrough();
-      serviceUnderTest.readConfigurationForOrderEntry(OWNER_ORDER_ENTRY);
+      serviceUnderTest
+        .readConfigurationForOrderEntry(OWNER_ORDER_ENTRY)
+        .subscribe()
+        .unsubscribe();
+
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.ReadOrderEntryConfiguration(params)
       );

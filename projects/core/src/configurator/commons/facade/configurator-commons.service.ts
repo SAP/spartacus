@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map, switchMapTo, take, tap } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
@@ -77,44 +77,42 @@ export class ConfiguratorCommonsService {
   getOrCreateConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    console.log(
-      'CHHI getOrCreateConfiguration before waiting for cart: ' + Date.now()
-    );
-    return this.configuratorCartService
-      .checkForActiveCartUpdateDone()
-      .pipe(
-        switchMapTo(this.getOrCreateConfigurationWhenCartUpdatesDone(owner))
-      );
+    switch (owner.type) {
+      case GenericConfigurator.OwnerType.PRODUCT: {
+        return this.getOrCreateConfigurationForProduct(owner);
+      }
+      case GenericConfigurator.OwnerType.CART_ENTRY: {
+        return this.configuratorCartService.readConfigurationForCartEntry(
+          owner
+        );
+      }
+      case GenericConfigurator.OwnerType.ORDER_ENTRY: {
+        return this.configuratorCartService.readConfigurationForOrderEntry(
+          owner
+        );
+      }
+    }
   }
 
-  getOrCreateConfigurationWhenCartUpdatesDone(
+  getOrCreateConfigurationForProduct(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    console.log(
-      'CHHI getOrCreateConfiguration after waiting for cart: ' + Date.now()
-    );
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
           owner.key
         )
       ),
+
       tap((configurationState) => {
         if (
           !this.isConfigurationCreated(configurationState.value) &&
           configurationState.loading !== true &&
           configurationState.error !== true
         ) {
-          if (owner.type === GenericConfigurator.OwnerType.PRODUCT) {
-            this.store.dispatch(
-              new ConfiguratorActions.CreateConfiguration(owner)
-            );
-          } else if (owner.type === GenericConfigurator.OwnerType.CART_ENTRY) {
-            console.log('CHHI need to read from cart entry: ' + Date.now());
-            this.configuratorCartService.readConfigurationForCartEntry(owner);
-          } else {
-            this.configuratorCartService.readConfigurationForOrderEntry(owner);
-          }
+          this.store.dispatch(
+            new ConfiguratorActions.CreateConfiguration(owner)
+          );
         }
       }),
       filter((configurationState) =>
@@ -123,7 +121,6 @@ export class ConfiguratorCommonsService {
       map((configurationState) => configurationState.value)
     );
   }
-
   /**
    * Updates a configuration, specified by the configuration owner key, group ID and a changed attribute.
    *
@@ -184,7 +181,6 @@ export class ConfiguratorCommonsService {
    * @param owner - Configuration owner
    */
   removeConfiguration(owner: GenericConfigurator.Owner) {
-    console.log('CHHI dispatch remove: ' + owner.key);
     this.store.dispatch(
       new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
     );
