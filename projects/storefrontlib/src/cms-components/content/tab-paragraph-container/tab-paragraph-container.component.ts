@@ -5,9 +5,7 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
-  ViewChildren,
-  ViewChild,
-  ElementRef,
+  ViewChildren
 } from '@angular/core';
 import {
   CmsService,
@@ -29,7 +27,6 @@ import { BREAKPOINT } from '../../../layout/config/layout-config';
 export class TabParagraphContainerComponent
   implements AfterViewInit, OnInit, OnDestroy {
   activeTabNum = 0;
-  @ViewChild('target') private target: ElementRef;
 
   @ViewChildren(ComponentWrapperDirective) children!: QueryList<
     ComponentWrapperDirective
@@ -76,13 +73,12 @@ export class TabParagraphContainerComponent
     )
   );
 
-  select(tabNum: number): void {
+  select(tabNum: number, event): void {
     this.breakpointService.isDown(BREAKPOINT.sm).subscribe((res) => {
       if (res) {
         this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
-        let targets = this.target.nativeElement.getBoundingClientRect();
-        const top = targets.top + window.scrollY || window.pageYOffset;
-        top > 1220 ? window.scrollTo(0, 1214.5) : window.scrollTo(0, top);
+        window.scrollTo(0, event.path[1].offsetTop);
+
       } else {
         this.activeTabNum = tabNum;
       }
