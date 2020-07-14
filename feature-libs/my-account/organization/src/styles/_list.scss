@@ -109,6 +109,7 @@
           }
 
           cx-icon {
+            margin: 0 0.2rem;
             &.active-state {
               margin-inline-end: var(--cx-spatial-md);
               color: var(--cx-color-success);
@@ -138,11 +139,17 @@
               }
             }
           }
-          &.active {
-            background: var(--cx-color-light);
-            color: var(--cx-color-text);
-          }
         }
+        .disabled {
+          display: flex;
+          font-size: 0.75rem;
+          align-items: center;
+          margin-left: -0.6rem;
+        }
+      }
+      .active {
+        background: var(--cx-color-light);
+        color: var(--cx-color-text);
       }
     }
   }

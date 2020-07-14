@@ -38,18 +38,18 @@
 </cx-split-view>
 
 <ng-template cxOutletRef="table.costCenter.data.name" let-model>
-  <a
-    [routerLink]="{ cxRoute: 'costCenterDetails', params: model } | cxUrl"
-    routerLinkActive="active"
-  >
-    <cx-icon
-      class="active-state"
-      type="ACTIVE"
-      [class.inactive]="!model.active"
-    ></cx-icon>
-    <span class="text">{{ model.name }}</span>
-    <cx-icon type="CARET_RIGHT" class="open"></cx-icon>
-  </a>
+  <div routerLinkActive="active" class="d-flex">
+    <a
+      class="d-inline"
+      [routerLink]="{ cxRoute: 'costCenterDetails', params: model } | cxUrl"
+    >
+      <span class="text">{{ model.name }}</span>
+      <cx-icon type="CARET_RIGHT"></cx-icon>
+    </a>
+    <i class="disabled" *ngIf="!model.active">
+      {{ 'costCenter.disabled' | cxTranslate }}
+    </i>
+  </div>
 </ng-template>
 
 <!-- TODO: refactor outlet concatenation-->
