@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
+import { GROUP_ID_1 } from 'projects/core/src/configurator/commons/facade/configuration-test-data';
 import { Observable, of } from 'rxjs';
 import { ConfigAttributeFooterComponent } from '../config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
@@ -27,6 +28,7 @@ import { ConfigAttributeReadOnlyComponent } from '../config-attribute-types/conf
 import { ConfigAttributeSingleSelectionImageComponent } from '../config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
 import { ConfigPreviousNextButtonsComponent } from '../config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigFormComponent } from './config-form.component';
+import { ConfigFormUpdateEvent } from './config-form.event';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_URL =
@@ -129,11 +131,10 @@ class MockConfiguratorCommonsService {
   getOrCreateConfiguration(): Observable<Configurator.Configuration> {
     return configurationCreateObservable;
   }
-  getOrCreateUiState(): Observable<any> {
-    return of(undefined);
-  }
-  hasConfiguration(): Observable<boolean> {
-    return of(false);
+  removeConfiguration(): void {}
+  updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<boolean> {
+    return of(true);
   }
 }
 class MockConfiguratorGroupsService {
@@ -188,6 +189,7 @@ function checkCurrentGroupObs(
 }
 describe('ConfigurationFormComponent', () => {
   let component: ConfigFormComponent;
+  let configuratorCommonsService;
   let configuratorUtils: GenericConfigUtilsService;
   let fixture: ComponentFixture<ConfigFormComponent>;
 
@@ -240,10 +242,45 @@ describe('ConfigurationFormComponent', () => {
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
     configuratorUtils.setOwnerKey(owner);
+    configuratorCommonsService = TestBed.inject(
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+    );
   });
 
   it('should create component', () => {
     expect(component).toBeDefined();
+  });
+
+  it('should not enforce a reload of the configuration per default', () => {
+    spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
+    routerStateObservable = of(mockRouterState);
+    component.ngOnInit();
+    expect(
+      configuratorCommonsService.removeConfiguration
+    ).toHaveBeenCalledTimes(0);
+  });
+
+  it('should enforce a reload of the configuration by removing the current one in case the router requires this', () => {
+    spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
+    mockRouterState.state.queryParams = { forceReload: 'true' };
+    routerStateObservable = of(mockRouterState);
+    component.ngOnInit();
+    expect(
+      configuratorCommonsService.removeConfiguration
+    ).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call service with update configuration', () => {
+    spyOn(configuratorCommonsService, 'updateConfiguration').and.callThrough();
+    const event: ConfigFormUpdateEvent = {
+      productCode: PRODUCT_CODE,
+      groupId: GROUP_ID_1,
+      changedAttribute: groups[0].attributes[0],
+    };
+    component.updateConfiguration(event);
+    expect(
+      configuratorCommonsService.updateConfiguration
+    ).toHaveBeenCalledTimes(1);
   });
 
   it('should only get the minimum needed 2 emissions of product configurations if router emits faster than commons service', () => {

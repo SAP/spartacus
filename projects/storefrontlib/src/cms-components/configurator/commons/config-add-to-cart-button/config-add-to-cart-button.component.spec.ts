@@ -250,11 +250,11 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(routingService.go).toHaveBeenCalledWith('cart');
     });
 
-    it('should remove configuration for product owner in case configuration is cart bound and we are on OV page, because we need to force a cart re-read', () => {
+    it('should not remove configuration for cart entry owner in case configuration is cart bound and we are on OV page', () => {
       performUpdateOnOV(classUnderTest);
       expect(
         configuratorCommonsService.removeConfiguration
-      ).toHaveBeenCalledTimes(1);
+      ).toHaveBeenCalledTimes(0);
     });
 
     it('should not remove configuration and display no message in case continue to cart is triggered on config page', () => {

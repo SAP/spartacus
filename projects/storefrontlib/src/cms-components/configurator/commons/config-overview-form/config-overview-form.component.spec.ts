@@ -26,7 +26,7 @@ const mockRouterState: any = {
       entityKey: PRODUCT_CODE,
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
-    queryParams: {},
+    queryParams: { forceReload: 'true' },
     url: CONFIGURATOR_URL,
   },
 };
@@ -132,6 +132,7 @@ class MockConfiguratorCommonsService {
   ): Observable<Configurator.Configuration> {
     return overviewObservable ? overviewObservable : of(configuration);
   }
+  removeConfiguration(): void {}
 }
 
 function checkConfigurationOverviewObs(

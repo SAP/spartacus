@@ -126,7 +126,7 @@ export class ConfigAddToCartButtonComponent {
         isOverview,
         configuration.isCartEntryUpdateRequired
       );
-      if (configuration.isCartEntryUpdateRequired || isOverview) {
+      if (configuration.isCartEntryUpdateRequired) {
         this.configuratorCommonsService.removeConfiguration(owner);
       }
     } else {
