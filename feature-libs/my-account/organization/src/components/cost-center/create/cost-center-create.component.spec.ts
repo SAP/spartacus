@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CostCenterService,
@@ -12,6 +12,8 @@ import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/mis
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
 import { CostCenterCreateComponent } from './cost-center-create.component';
+import { By } from '@angular/platform-browser';
+import { CostCenterFormService } from '../form/cost-center-form.service';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -28,6 +30,14 @@ const costCenterCode = 'b1';
 class MockCostCenterService implements Partial<CostCenterService> {
   create = createSpy('create');
   getBudgets = createSpy('getBudgets');
+}
+
+class MockCostCenterFormService implements Partial<CostCenterFormService> {
+  getForm(): FormGroup {
+    return new FormGroup({
+      code: new FormControl(costCenterCode),
+    });
+  }
 }
 
 const mockRouterState = {
@@ -50,6 +60,8 @@ describe('CostCenterCreateComponent', () => {
   let fixture: ComponentFixture<CostCenterCreateComponent>;
   let costCenterService: CostCenterService;
   let routingService: RoutingService;
+  let saveButton;
+  let costCenterFormComponent;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -65,6 +77,7 @@ describe('CostCenterCreateComponent', () => {
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CostCenterService, useClass: MockCostCenterService },
+        { provide: CostCenterFormService, useClass: MockCostCenterFormService },
       ],
     }).compileComponents();
 
@@ -75,8 +88,11 @@ describe('CostCenterCreateComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CostCenterCreateComponent);
     component = fixture.componentInstance;
-    component.form.setControl('code', new FormControl(costCenterCode));
     fixture.detectChanges();
+    saveButton = fixture.debugElement.query(By.css('button[type=submit]'));
+    costCenterFormComponent = fixture.debugElement.query(
+      By.css('cx-cost-center-form')
+    ).componentInstance;
   });
 
   it('should create', () => {
@@ -85,17 +101,17 @@ describe('CostCenterCreateComponent', () => {
 
   describe('save valid form', () => {
     it('should disable form on save ', () => {
-      component.save();
-      expect(component.form.disabled).toBeTruthy();
+      saveButton.nativeElement.click();
+      expect(costCenterFormComponent.form.disabled).toBeTruthy();
     });
 
     it('should create cost center', () => {
-      component.save();
+      saveButton.nativeElement.click();
       expect(costCenterService.create).toHaveBeenCalled();
     });
 
     it('should navigate to the detail page', () => {
-      component.save();
+      saveButton.nativeElement.click();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'costCenterDetails',
         params: { code: costCenterCode },
@@ -105,21 +121,21 @@ describe('CostCenterCreateComponent', () => {
 
   describe('fail saving invalid form', () => {
     beforeEach(() => {
-      component.form.setErrors({ incorrect: true });
+      costCenterFormComponent.form.setErrors({ incorrect: true });
     });
 
     it('should not disable form on save when it is invalid', () => {
-      component.save();
-      expect(component.form.disabled).toBeFalsy();
+      saveButton.nativeElement.click();
+      expect(costCenterFormComponent.form.disabled).toBeFalsy();
     });
 
     it('should create cost center', () => {
-      component.save();
+      saveButton.nativeElement.click();
       expect(costCenterService.create).not.toHaveBeenCalled();
     });
 
     it('should not navigate away', () => {
-      component.save();
+      saveButton.nativeElement.click();
       expect(routingService.go).not.toHaveBeenCalled();
     });
   });

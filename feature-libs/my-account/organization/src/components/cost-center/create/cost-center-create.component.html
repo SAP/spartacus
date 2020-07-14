@@ -1,5 +1,9 @@
 <cx-view #view>
-  <form [formGroup]="form" (ngSubmit)="save()">
+  <form
+    *ngIf="form$ | async as form"
+    [formGroup]="form"
+    (ngSubmit)="save(form)"
+  >
     <h3>
       <a
         class="link"
@@ -16,11 +20,7 @@
     </h3>
 
     <section>
-      <cx-cost-center-form
-        [form]="form"
-        [unitUid]="parentUnitQueryParam$ | async"
-      >
-      </cx-cost-center-form>
+      <cx-cost-center-form [form]="form"> </cx-cost-center-form>
     </section>
   </form>
 </cx-view>
