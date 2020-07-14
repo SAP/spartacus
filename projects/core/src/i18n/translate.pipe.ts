@@ -1,12 +1,12 @@
 import {
   ChangeDetectorRef,
-  isDevMode,
   OnDestroy,
   Pipe,
   PipeTransform,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { shallowEqualObjects } from '../util/compare-equal-objects';
+import { logger } from '../util/logging.service';
 import { Translatable, TranslatableParams } from './translatable';
 import { TranslationService } from './translation.service';
 
@@ -27,11 +27,10 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
     options: TranslatableParams = {}
   ): string {
     if (!input) {
-      if (isDevMode()) {
-        console.error(
-          `The given input for the cxTranslate pipe (${input}) is invalid and cannot be translated`
-        );
-      }
+      logger.error(
+        `The given input for the cxTranslate pipe (${input}) is invalid and cannot be translated`
+      );
+
       return;
     }
 

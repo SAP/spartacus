@@ -1,6 +1,7 @@
-import { Injectable, isDevMode } from '@angular/core';
-import { RouteConfig } from './routes-config';
+import { Injectable } from '@angular/core';
+import { logger } from '../../util/logging.service';
 import { RouteLoadStrategy, RoutingConfig } from './config/routing-config';
+import { RouteConfig } from './routes-config';
 
 @Injectable({ providedIn: 'root' })
 export class RoutingConfigService {
@@ -11,15 +12,9 @@ export class RoutingConfigService {
 
     const result = routeConfig && routeConfig[routeName];
     if (!routeConfig || result === undefined) {
-      this.warn(`No path was configured for the named route '${routeName}'!`);
+      logger.warn(`No path was configured for the named route '${routeName}'!`);
     }
     return result;
-  }
-
-  private warn(...args) {
-    if (isDevMode()) {
-      console.warn(...args);
-    }
   }
 
   getLoadStrategy(): RouteLoadStrategy {

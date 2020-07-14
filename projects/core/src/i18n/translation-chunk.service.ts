@@ -1,4 +1,5 @@
 import { Injectable, isDevMode } from '@angular/core';
+import { logger } from '../util/logging.service';
 import { I18nConfig } from './config/i18n-config';
 
 @Injectable({
@@ -47,7 +48,7 @@ export class TranslationChunkService {
         }.${key}'.`
       );
     });
-    console.warn(
+    logger.warn(
       `Duplicated keys has been found in the config of i18n chunks:\n${dupes.join(
         '\n'
       )}`

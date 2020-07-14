@@ -1,9 +1,10 @@
-import { Injectable, isDevMode } from '@angular/core';
-import { UrlParsingService } from './url-parsing.service';
-import { RouteConfig, ParamsMapping } from '../routes-config';
-import { getParamName, isParam } from './path-utils';
-import { UrlCommandRoute, UrlCommands, UrlCommand } from './url-command';
+import { Injectable } from '@angular/core';
+import { logger } from '../../../util/logging.service';
+import { ParamsMapping, RouteConfig } from '../routes-config';
 import { RoutingConfigService } from '../routing-config.service';
+import { getParamName, isParam } from './path-utils';
+import { UrlCommand, UrlCommandRoute, UrlCommands } from './url-command';
+import { UrlParsingService } from './url-parsing.service';
 
 @Injectable({ providedIn: 'root' })
 export class SemanticPathService {
@@ -140,7 +141,7 @@ export class SemanticPathService {
     );
 
     if (foundPath === undefined || foundPath === null) {
-      this.warn(
+      logger.warn(
         `No configured path matches all its params to given object. `,
         `Route config: `,
         routeConfig,
@@ -164,11 +165,5 @@ export class SemanticPathService {
       return paramsMapping[paramName] || paramName;
     }
     return paramName;
-  }
-
-  private warn(...args) {
-    if (isDevMode()) {
-      console.warn(...args);
-    }
   }
 }

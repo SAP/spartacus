@@ -1,11 +1,5 @@
 import { DOCUMENT, isPlatformBrowser, isPlatformServer } from '@angular/common';
-import {
-  Inject,
-  Injectable,
-  isDevMode,
-  Optional,
-  PLATFORM_ID,
-} from '@angular/core';
+import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
 import {
   makeStateKey,
   StateKey,
@@ -18,6 +12,7 @@ import { deepMerge } from '../../config/utils/deep-merge';
 import { I18nConfig } from '../../i18n/config/i18n-config';
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import { SERVER_REQUEST_URL } from '../../ssr/ssr.providers';
+import { logger } from '../../util/logging.service';
 import { OccLoadedConfig } from './occ-loaded-config';
 import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
 import { OccSitesConfigLoader } from './occ-sites-config-loader';
@@ -48,11 +43,10 @@ export class OccConfigLoaderService {
     if (this.serverRequestUrl) {
       return this.serverRequestUrl;
     }
-    if (isDevMode()) {
-      console.error(
-        `Please provide token 'SERVER_REQUEST_URL' with the requested URL for SSR`
-      );
-    }
+
+    logger.error(
+      `Please provide token 'SERVER_REQUEST_URL' with the requested URL for SSR`
+    );
   }
 
   /**
@@ -136,8 +130,8 @@ export class OccConfigLoaderService {
         this.config.i18n &&
         this.config.i18n.fallbackLang
       ) !== 'undefined';
-    if (fallbackLangExists && isDevMode()) {
-      console.warn(
+    if (fallbackLangExists) {
+      logger.warn(
         `There is an already provided static config for 'i18n.fallbackLang', so the value from OCC loaded config is ignored.`
       );
     }

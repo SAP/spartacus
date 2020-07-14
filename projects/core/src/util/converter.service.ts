@@ -1,6 +1,7 @@
 import { Injectable, InjectionToken, Injector } from '@angular/core';
 import { Observable, OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { logger } from '../util/logging.service';
 
 /**
  * Converter is used to convert source data model to target data model.
@@ -41,7 +42,7 @@ export class ConverterService {
         []
       );
       if (!Array.isArray(converters)) {
-        console.warn(
+        logger.warn(
           'Converter must be multi-provided, please use "multi: true" for',
           injectionToken.toString()
         );

@@ -8,9 +8,13 @@ import {
   Optional,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentHandler } from '../handlers/component-handler';
-import { CmsComponentMapping, resolveApplicable } from '@spartacus/core';
+import {
+  CmsComponentMapping,
+  logger,
+  resolveApplicable,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { ComponentHandler } from '../handlers/component-handler';
 
 /**
  * Responsible for obtaining component handler for specified component mapping
@@ -38,7 +42,7 @@ export class ComponentHandlerService {
     if (isDevMode() && !handler) {
       if (!this.invalidMappings.has(componentMapping)) {
         this.invalidMappings.add(componentMapping);
-        console.warn(
+        logger.warn(
           "Can't resolve handler for component mapping: ",
           componentMapping
         );

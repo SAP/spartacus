@@ -2,10 +2,9 @@ import {
   ComponentRef,
   Inject,
   Injectable,
-  isDevMode,
   ViewContainerRef,
 } from '@angular/core';
-import { resolveApplicable } from '@spartacus/core';
+import { logger, resolveApplicable } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LayoutConfig } from '../../config/layout-config';
 import { LaunchOptions, LAUNCH_CALLER } from '../config/launch-config';
@@ -42,8 +41,8 @@ export class LaunchDialogService {
         this._dialogClose.next(undefined);
         return renderer.render(config, caller, vcr);
       }
-    } else if (isDevMode()) {
-      console.warn('No configuration provided for caller ' + caller);
+    } else {
+      logger.warn('No configuration provided for caller ' + caller);
     }
   }
 

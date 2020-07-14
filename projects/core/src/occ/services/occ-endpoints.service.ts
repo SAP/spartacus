@@ -1,9 +1,10 @@
 import { HttpParams } from '@angular/common/http';
-import { Injectable, isDevMode, Optional } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
+import { logger } from '../../util/logging.service';
 import { CustomEncoder } from '../adapters/cart/custom.encoder';
 import { OccConfig } from '../config/occ-config';
 import { DEFAULT_SCOPE } from '../occ-models/occ-endpoints.model';
@@ -142,11 +143,9 @@ export class OccEndpointsService {
       if (scope === DEFAULT_SCOPE && typeof endpointConfig === 'string') {
         return endpointConfig;
       }
-      if (isDevMode()) {
-        console.warn(
-          `${endpoint} endpoint configuration missing for scope "${scope}"`
-        );
-      }
+      logger.warn(
+        `${endpoint} endpoint configuration missing for scope "${scope}"`
+      );
     }
 
     return (

@@ -1,11 +1,12 @@
+import { isPlatformServer } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Route } from '@angular/router';
 import {
   CmsComponentMapping,
   CmsConfig,
   DeferLoadingStrategy,
+  logger,
 } from '@spartacus/core';
-import { Route } from '@angular/router';
-import { isPlatformServer } from '@angular/common';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -47,7 +48,7 @@ export class CmsComponentsService {
     if (!componentConfig) {
       if (!this.missingComponents.includes(componentType)) {
         this.missingComponents.push(componentType);
-        console.warn(
+        logger.warn(
           `No component implementation found for the CMS component type '${componentType}'.\n`,
           `Make sure you implement a component and register it in the mapper.`
         );

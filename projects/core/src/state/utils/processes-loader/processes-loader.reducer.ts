@@ -1,5 +1,5 @@
-import { isDevMode } from '@angular/core';
 import { Action } from '@ngrx/store';
+import { logger } from '../../../util/logging.service';
 import { initialLoaderState, loaderReducer } from '../loader/loader.reducer';
 import { ProcessesLoaderState } from './processes-loader-state';
 import { ProcessesLoaderAction } from './processes-loader.action';
@@ -28,8 +28,8 @@ export function processesLoaderReducer<T>(
     const loaderState = loaderReducer(entityType, reducer)(state, action);
     if (action.meta && action.meta.entityType === entityType) {
       const processesCountDiff = action.meta.processesCountDiff;
-      if (isDevMode() && state.processesCount + processesCountDiff < 0) {
-        console.error(
+      if (state.processesCount + processesCountDiff < 0) {
+        logger.error(
           `Action '${action.type}' sets processesCount to value < 0!\n` +
             'Make sure to keep processesCount in sync.\n' +
             'There should always be only one decrement action for each increment action.\n' +

@@ -4,10 +4,10 @@ import {
   ComponentRef,
   Inject,
   Injectable,
-  isDevMode,
   RendererFactory2,
   ViewContainerRef,
 } from '@angular/core';
+import { logger } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LaunchInlineDialog, LAUNCH_CALLER } from '../config/index';
 import { LaunchRenderStrategy } from './launch-render.strategy';
@@ -49,11 +49,11 @@ export class InlineRenderStrategy extends LaunchRenderStrategy {
       this.renderedCallers.push({ caller, element: vcr.element, component });
 
       return of(component);
-    } else if (isDevMode()) {
+    } else {
       if (!vcr) {
-        console.warn(`No view container ref provided for ${caller}`);
+        logger.warn(`No view container ref provided for ${caller}`);
       } else {
-        console.warn(
+        logger.warn(
           `Element for ${caller} already rendered. To allow multi rendering add property multi: true.`
         );
       }

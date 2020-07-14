@@ -1,6 +1,7 @@
 import { Injectable, isDevMode } from '@angular/core';
 import i18next from 'i18next';
 import { Observable } from 'rxjs';
+import { logger } from '../../util/logging.service';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
 import { TranslationService } from '../translation.service';
@@ -71,11 +72,7 @@ export class I18nextTranslationService implements TranslationService {
   }
 
   private reportMissingKey(key: string, chunkName: string) {
-    if (isDevMode()) {
-      console.warn(
-        `Translation key missing '${key}' in the chunk '${chunkName}'`
-      );
-    }
+    logger.warn(`Translation key missing '${key}' in the chunk '${chunkName}'`);
   }
 
   private getNamespacedKey(key: string, chunk: string): string {

@@ -1,4 +1,5 @@
-import { Component, isDevMode } from '@angular/core';
+import { Component } from '@angular/core';
+import { logger } from '@spartacus/core';
 import { QualtricsConfig } from './config/qualtrics-config';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 /**
@@ -16,8 +17,8 @@ export class QualtricsComponent {
   ) {
     if (this.config.qualtrics?.scriptSource) {
       this.qualtricsLoader.addScript(this.config.qualtrics.scriptSource);
-    } else if (isDevMode()) {
-      console.warn(
+    } else {
+      logger.warn(
         `We're unable to add the Qualtrics deployment code as there is no script source defined in config.qualtrics.scriptSource.`
       );
     }
