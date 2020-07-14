@@ -1,12 +1,15 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 import { switchSiteContext } from '../../../../support/utils/switch-site-context';
 
-describe('Currency switch - cart page', () => {
+context('Currency switch - cart page', () => {
   const cartPath = siteContextSelector.CART_PATH;
   let cartId = '';
 
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
+  });
+
+  beforeEach(() => {
     cy.requireLoggedIn();
 
     cy.window().then((win) => {
@@ -17,9 +20,15 @@ describe('Currency switch - cart page', () => {
       cy.addToCart('300938', '3', accessToken).then((cartCode) => {
         cartId = cartCode;
       });
-
-      cy.visit('/cart');
     });
+
+    cy.server();
+    cy.visit('/cart');
+
+    cy.route('GET', siteContextSelector.CURRENCY_REQUEST).as(
+      'currencies_request'
+    );
+    cy.wait(`@currencies_request`).its('status').should('eq', 200);
   });
 
   describe('cart page', () => {
@@ -28,6 +37,10 @@ describe('Currency switch - cart page', () => {
     )}/${Cypress.env('BASE_SITE')}`;
 
     it('should change currency in the url', () => {
+      cy.route('GET', siteContextSelector.CART_REQUEST).as(
+        siteContextSelector.CART_REQUEST_ALIAS
+      );
+
       siteContextSelector.verifySiteContextChangeUrl(
         cartPath,
         siteContextSelector.CART_REQUEST_ALIAS,
@@ -37,17 +50,16 @@ describe('Currency switch - cart page', () => {
       );
     });
 
-    it.only('should change currency for cart details', () => {
-      cy.route('GET', `${baseUrl}/currencies?lang=en&curr=USD`).as(
-        'currencies_request'
-      );
-      cy.wait(`@currencies_request`).its('status').should('eq', 200);
-
+    it('should change currency for cart details', () => {
       cy.route(
         'GET',
-        `${baseUrl}/users/current/carts/${cartId}?fields=*&curr=JPY`
+        `${baseUrl}/users/current/carts/${cartId}?fields=*&curr=${siteContextSelector.CURRENCY_JPY}`
       ).as('switchedCartContext');
-      switchSiteContext('JPY', 'Currency');
+
+      switchSiteContext(
+        siteContextSelector.CURRENCY_JPY,
+        siteContextSelector.CURRENCY_LABEL
+      );
       cy.wait('@switchedCartContext').then((xhr) => {
         const cartItemPrice =
           xhr.response.body.entries[0].basePrice.formattedValue;
