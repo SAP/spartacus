@@ -10,7 +10,7 @@ import { CostCenterAssignBudgetListService } from './cost-center-assign-budget.s
   templateUrl: './cost-center-assign-budget.component.html',
 })
 export class CostCenterAssignBudgetsComponent {
-  code$: Observable<string> = this.activateRoute.parent.params.pipe(
+  code$: Observable<string> = this.activateRoute.parent.parent.params.pipe(
     map((params) => params['code'])
   );
 
