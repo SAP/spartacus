@@ -5,9 +5,11 @@ import {
   ComponentFactoryResolver,
   NgModule,
 } from '@angular/core';
-import { OutletPosition } from '../../../../cms-structure/outlet/outlet.model';
-import { OutletService } from '../../../../cms-structure/outlet/outlet.service';
-import { PageComponentModule } from '../../../../cms-structure/page/component/page-component.module';
+import {
+  OutletPosition,
+  OutletService,
+  PageComponentModule,
+} from '@spartacus/storefront';
 import { ConfigMessageComponent } from './config-message.component';
 
 @NgModule({

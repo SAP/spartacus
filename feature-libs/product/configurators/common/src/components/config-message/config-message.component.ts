@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ConfiguratorCommonsService } from '@spartacus/core';
+import {
+  ConfigRouterExtractorService,
+  MessageConfig,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
-import { MessageConfig } from '../config/message-config';
 
 const updateMessageElementId = 'cx-config-update-message';
 
@@ -14,31 +16,29 @@ const updateMessageElementId = 'cx-config-update-message';
 })
 export class ConfigMessageComponent implements OnInit {
   changesInProgress = false;
-  hasPendingChanges$: Observable<Boolean>;
+  hasPendingChanges$: Observable<
+    Boolean
+  > = this.configRouterExtractorService.extractRouterData().pipe(
+    switchMap((routerData) => {
+      return this.configuratorCommonsService
+        .hasPendingChanges(routerData.owner)
+        .pipe(
+          switchMap((hasPendingChanges) =>
+            this.configuratorCommonsService
+              .isConfigurationLoading(routerData.owner)
+              .pipe(map((isLoading) => hasPendingChanges || isLoading))
+          )
+        );
+    })
+  );
 
   constructor(
-    private configuratorCommonsService: ConfiguratorCommonsService,
-    private configRouterExtractorService: ConfigRouterExtractorService,
-    private config: MessageConfig
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configRouterExtractorService: ConfigRouterExtractorService,
+    protected config: MessageConfig
   ) {}
 
   ngOnInit(): void {
-    this.hasPendingChanges$ = this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        switchMap((routerData) => {
-          return this.configuratorCommonsService
-            .hasPendingChanges(routerData.owner)
-            .pipe(
-              switchMap((hasPendingChanges) =>
-                this.configuratorCommonsService
-                  .isConfigurationLoading(routerData.owner)
-                  .pipe(map((isLoading) => hasPendingChanges || isLoading))
-              )
-            );
-        })
-      );
-
     this.hasPendingChanges$.subscribe((hasPendingChangesOrIsLoading) =>
       this.showUpdateMessage(hasPendingChangesOrIsLoading.valueOf())
     );

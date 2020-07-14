@@ -11,8 +11,6 @@ export * from './commons/config-attribute-types/config-attribute-read-only/confi
 export * from './commons/config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
 export * from './commons/config-form/config-form.component';
 export * from './commons/config-group-menu/config-group-menu.component';
-export * from './commons/config-message/config-message-loader.module';
-export * from './commons/config-message/config-message.component';
 export * from './commons/config-overview-attribute/config-overview-attribute.component';
 export * from './commons/config-overview-form/config-overview-form.component';
 export * from './commons/config-previous-next-buttons/config-previous-next-buttons.component';

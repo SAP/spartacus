@@ -10,14 +10,15 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
+import { MessageConfig } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { MessageConfig } from '../config/message-config';
 import { ConfigMessageComponent } from './config-message.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_URL =
   'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
 
+let routerStateObservable = null;
 const mockRouterState: any = {
   state: {
     params: {
@@ -39,7 +40,7 @@ let waitingTime = 1000;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
+    return routerStateObservable;
   }
 }
 
@@ -65,6 +66,7 @@ describe('ConfigurationMessageComponent', () => {
   let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
+    routerStateObservable = of(mockRouterState);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
       declarations: [],

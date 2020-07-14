@@ -28,8 +28,6 @@ import { ConfigAttributeReadOnlyComponent } from '../commons/config-attribute-ty
 import { ConfigAttributeSingleSelectionImageComponent } from '../commons/config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
 import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
-import { ConfigurationMessageLoaderModule } from '../commons/config-message/config-message-loader.module';
-import { ConfigMessageComponent } from '../commons/config-message/config-message.component';
 import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { DefaultMessageConfig } from '../commons/config/default-message-config';
 import { MessageConfig } from '../commons/config/message-config';
@@ -40,10 +38,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     CommonModule,
     GenericConfiguratorModule,
     ProductModule,
-    ConfigurationMessageLoaderModule,
-
     ConfigModule.withConfig(DefaultMessageConfig),
-
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
@@ -71,7 +66,6 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
     ConfigAddToCartButtonComponent,
-    ConfigMessageComponent,
   ],
   exports: [
     ConfigFormComponent,
@@ -89,8 +83,6 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
     ConfigAddToCartButtonComponent,
-
-    ConfigMessageComponent,
   ],
   providers: [UserService, { provide: MessageConfig, useExisting: Config }],
   entryComponents: [
@@ -109,7 +101,6 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
     ConfigAddToCartButtonComponent,
-    ConfigMessageComponent,
   ],
 })
 export class VariantConfiguratorModule {}

@@ -7,6 +7,7 @@ import {
   ConfigPriceSummaryComponent,
   ConfigProductTitleComponent,
   ConfigTabBarComponent,
+  ConfigurationMessageLoaderModule,
 } from '@spartacus/product/configurators/common';
 import {
   CmsPageGuard,
@@ -14,7 +15,6 @@ import {
   ConfigFormComponent,
   ConfigGroupMenuComponent,
   ConfigPreviousNextButtonsComponent,
-  ConfigurationMessageLoaderModule,
   DefaultMessageConfig,
   HamburgerMenuModule,
   PageLayoutComponent,
