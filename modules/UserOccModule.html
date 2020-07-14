@@ -74,29 +74,31 @@
 import { HttpClientModule } from &#x27;@angular/common/http&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { AnonymousConsentTemplatesAdapter } from &#x27;../../../anonymous-consents/connectors/anonymous-consent-templates.adapter&#x27;;
+import { ANONYMOUS_CONSENT_NORMALIZER } from &#x27;../../../anonymous-consents/connectors/converters&#x27;;
 import { provideDefaultConfig } from &#x27;../../../config/config.module&#x27;;
 import { UserAddressAdapter } from &#x27;../../../user/connectors/address/user-address.adapter&#x27;;
 import { UserConsentAdapter } from &#x27;../../../user/connectors/consent/user-consent.adapter&#x27;;
+import { CustomerCouponAdapter } from &#x27;../../../user/connectors/customer-coupon/customer-coupon.adapter&#x27;;
+import { PRODUCT_INTERESTS_NORMALIZER } from &#x27;../../../user/connectors/interests/converters&#x27;;
+import { UserInterestsAdapter } from &#x27;../../../user/connectors/interests/user-interests.adapter&#x27;;
+import { UserNotificationPreferenceAdapter } from &#x27;../../../user/connectors/notification-preference/user-notification-preference.adapter&#x27;;
+import { ORDER_RETURN_REQUEST_NORMALIZER } from &#x27;../../../user/connectors/order/converters&#x27;;
 import { UserOrderAdapter } from &#x27;../../../user/connectors/order/user-order.adapter&#x27;;
 import { UserPaymentAdapter } from &#x27;../../../user/connectors/payment/user-payment.adapter&#x27;;
 import { UserAdapter } from &#x27;../../../user/connectors/user/user.adapter&#x27;;
+import { OccCustomerCouponAdapter } from &#x27;../user/occ-customer-coupon.adapter&#x27;;
+import { AnonymousConsentNormalizer } from &#x27;./converters/anonymous-consents-normalizer&#x27;;
+import { OccReturnRequestNormalizer } from &#x27;./converters/occ-return-request-normalizer&#x27;;
+import { OccUserInterestsNormalizer } from &#x27;./converters/occ-user-interests-normalizer&#x27;;
 import { defaultOccUserConfig } from &#x27;./default-occ-user-config&#x27;;
 import { OccAnonymousConsentTemplatesAdapter } from &#x27;./occ-anonymous-consent-templates.adapter&#x27;;
 import { OccUserAddressAdapter } from &#x27;./occ-user-address.adapter&#x27;;
 import { OccUserConsentAdapter } from &#x27;./occ-user-consent.adapter&#x27;;
+import { OccUserInterestsAdapter } from &#x27;./occ-user-interests.adapter&#x27;;
+import { OccUserNotificationPreferenceAdapter } from &#x27;./occ-user-notification-preference.adapter&#x27;;
 import { OccUserOrderAdapter } from &#x27;./occ-user-order.adapter&#x27;;
 import { OccUserPaymentAdapter } from &#x27;./occ-user-payment.adapter&#x27;;
 import { OccUserAdapter } from &#x27;./occ-user.adapter&#x27;;
-import { CustomerCouponAdapter } from &#x27;../../../user/connectors/customer-coupon/customer-coupon.adapter&#x27;;
-import { OccCustomerCouponAdapter } from &#x27;../user/occ-customer-coupon.adapter&#x27;;
-import { UserNotificationPreferenceAdapter } from &#x27;../../../user/connectors/notification-preference/user-notification-preference.adapter&#x27;;
-import { OccUserNotificationPreferenceAdapter } from &#x27;./occ-user-notification-preference.adapter&#x27;;
-import { OccUserInterestsAdapter } from &#x27;./occ-user-interests.adapter&#x27;;
-import { UserInterestsAdapter } from &#x27;../../../user/connectors/interests/user-interests.adapter&#x27;;
-import { OccUserInterestsNormalizer } from &#x27;./converters/occ-user-interests-normalizer&#x27;;
-import { PRODUCT_INTERESTS_NORMALIZER } from &#x27;../../../user/connectors/interests/converters&#x27;;
-import { ORDER_RETURN_REQUEST_NORMALIZER } from &#x27;../../../user/connectors/order/converters&#x27;;
-import { OccReturnRequestNormalizer } from &#x27;./converters/index&#x27;;
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -128,6 +130,11 @@ import { OccReturnRequestNormalizer } from &#x27;./converters/index&#x27;;
     {
       provide: ORDER_RETURN_REQUEST_NORMALIZER,
       useExisting: OccReturnRequestNormalizer,
+      multi: true,
+    },
+    {
+      provide: ANONYMOUS_CONSENT_NORMALIZER,
+      useExisting: AnonymousConsentNormalizer,
       multi: true,
     },
   ],

@@ -76,7 +76,7 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#activeBaseSite">activeBaseSite</a>
+                                <a href="#_activeBaseSite">_activeBaseSite</a>
                             </li>
                         </ul>
                     </td>
@@ -114,6 +114,20 @@
 
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#activeBaseSite">activeBaseSite</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
         </tbody>
     </table>
 </section>
@@ -129,7 +143,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -206,8 +220,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:55</a></div>
                 </td>
             </tr>
 
@@ -247,8 +261,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:71</a></div>
                 </td>
             </tr>
 
@@ -326,8 +340,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:134</a></div>
                 </td>
             </tr>
 
@@ -408,8 +422,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:39</a></div>
                 </td>
             </tr>
 
@@ -485,8 +499,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:85</a></div>
                 </td>
             </tr>
 
@@ -596,12 +610,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="activeBaseSite"></a>
+                        <a name="_activeBaseSite"></a>
                         <span class="name">
                             <b>
                                 <span class="modifier">Private</span>
-                            activeBaseSite</b>
-                            <a href="#activeBaseSite"><span class="icon ion-ios-link"></span></a>
+                            _activeBaseSite</b>
+                            <a href="#_activeBaseSite"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
@@ -622,6 +636,33 @@
         </table>
 </section>
 
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="activeBaseSite"></a>
+                        <span class="name"><b>activeBaseSite</b><a href="#activeBaseSite"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>activeBaseSite()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:17</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
     </div>
 
 
@@ -640,19 +681,23 @@ import { DEFAULT_SCOPE } from &#x27;../occ-models/occ-endpoints.model&#x27;;
   providedIn: &#x27;root&#x27;,
 })
 export class OccEndpointsService {
-  private activeBaseSite: string;
+  private _activeBaseSite: string;
+
+  private get activeBaseSite(): string {
+    return (
+      this._activeBaseSite ??
+      getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID)
+    );
+  }
 
   constructor(
     private config: OccConfig,
     @Optional() private baseSiteService: BaseSiteService
   ) {
-    this.activeBaseSite &#x3D;
-      getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID) || &#x27;&#x27;;
-
     if (this.baseSiteService) {
       this.baseSiteService
         .getActive()
-        .subscribe((value) &#x3D;&gt; (this.activeBaseSite &#x3D; value));
+        .subscribe((value) &#x3D;&gt; (this._activeBaseSite &#x3D; value));
     }
   }
 

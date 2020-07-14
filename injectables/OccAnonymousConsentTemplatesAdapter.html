@@ -76,6 +76,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#loadAnonymousConsents">loadAnonymousConsents</a>
+                            </li>
+                            <li>
                                 <a href="#loadAnonymousConsentTemplates">loadAnonymousConsentTemplates</a>
                             </li>
                         </ul>
@@ -101,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/occ/adapters/user/occ-anonymous-consent-templates.adapter.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/occ/adapters/user/occ-anonymous-consent-templates.adapter.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -172,6 +175,45 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="loadAnonymousConsents"></a>
+                    <span class="name">
+                        <b>
+                            loadAnonymousConsents
+                        </b>
+                        <a href="#loadAnonymousConsents"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadAnonymousConsents()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-anonymous-consent-templates.adapter.ts:35</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;AnonymousConsent[]&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="loadAnonymousConsentTemplates"></a>
                     <span class="name">
                         <b>
@@ -190,8 +232,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-anonymous-consent-templates.adapter.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-anonymous-consent-templates.adapter.ts:26</a></div>
                 </td>
             </tr>
 
@@ -218,7 +260,12 @@ import { Injectable } from &#x27;@angular/core&#x27;;
 import { Observable, throwError } from &#x27;rxjs&#x27;;
 import { catchError, map } from &#x27;rxjs/operators&#x27;;
 import { AnonymousConsentTemplatesAdapter } from &#x27;../../../anonymous-consents/connectors/anonymous-consent-templates.adapter&#x27;;
-import { ConsentTemplate } from &#x27;../../../model/consent.model&#x27;;
+import { ANONYMOUS_CONSENT_NORMALIZER } from &#x27;../../../anonymous-consents/connectors/converters&#x27;;
+import {
+  AnonymousConsent,
+  ANONYMOUS_CONSENTS_HEADER,
+  ConsentTemplate,
+} from &#x27;../../../model/consent.model&#x27;;
 import { CONSENT_TEMPLATE_NORMALIZER } from &#x27;../../../user/connectors/consent/converters&#x27;;
 import { ConverterService } from &#x27;../../../util/converter.service&#x27;;
 import { Occ } from &#x27;../../occ-models/occ.models&#x27;;
@@ -240,6 +287,18 @@ export class OccAnonymousConsentTemplatesAdapter
       map((consentList) &#x3D;&gt; consentList.consentTemplates),
       this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
     );
+  }
+
+  loadAnonymousConsents(): Observable&lt;AnonymousConsent[]&gt; {
+    // using the endpoint that doesn&#x27;t set caching headers
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;anonymousConsentTemplates&#x27;);
+    return this.http
+      .head&lt;Occ.ConsentTemplateList&gt;(url, { observe: &#x27;response&#x27; })
+      .pipe(
+        catchError((error) &#x3D;&gt; throwError(error)),
+        map((response) &#x3D;&gt; response.headers.get(ANONYMOUS_CONSENTS_HEADER)),
+        this.converter.pipeable(ANONYMOUS_CONSENT_NORMALIZER)
+      );
   }
 }
 </code></pre>

@@ -300,7 +300,7 @@ export interface Consent {
 
 export interface AnonymousConsent {
   templateCode?: string;
-  version?: number;
+  templateVersion?: number;
   consentState?: ANONYMOUS_CONSENT_STATUS;
 }
 
@@ -308,6 +308,8 @@ export enum ANONYMOUS_CONSENT_STATUS {
   GIVEN &#x3D; &#x27;GIVEN&#x27;,
   WITHDRAWN &#x3D; &#x27;WITHDRAWN&#x27;,
 }
+
+export const ANONYMOUS_CONSENTS_HEADER &#x3D; &#x27;X-Anonymous-Consents&#x27;;
 </code></pre>
     </div>
 </div>

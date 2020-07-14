@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -220,8 +220,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="106"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:106</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:108</a></div>
                 </td>
             </tr>
 
@@ -292,8 +292,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="84"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:84</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:86</a></div>
                 </td>
             </tr>
 
@@ -376,8 +376,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:63</a></div>
                 </td>
             </tr>
 
@@ -470,8 +470,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:30</a></div>
                 </td>
             </tr>
 
@@ -554,8 +554,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">projects/core/src/anonymous-consents/http-interceptors/anonymous-consents-interceptor.ts:104</a></div>
                 </td>
             </tr>
 
@@ -619,12 +619,14 @@ import { Injectable } from &#x27;@angular/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { switchMap, take, tap, withLatestFrom } from &#x27;rxjs/operators&#x27;;
 import { AuthService } from &#x27;../../auth/index&#x27;;
-import { AnonymousConsent, ANONYMOUS_CONSENT_STATUS } from &#x27;../../model/index&#x27;;
+import {
+  AnonymousConsent,
+  ANONYMOUS_CONSENTS_HEADER,
+  ANONYMOUS_CONSENT_STATUS,
+} from &#x27;../../model/index&#x27;;
 import { OccEndpointsService } from &#x27;../../occ/index&#x27;;
 import { AnonymousConsentsConfig } from &#x27;../config/anonymous-consents-config&#x27;;
 import { AnonymousConsentsService } from &#x27;../facade/anonymous-consents.service&#x27;;
-
-export const ANONYMOUS_CONSENTS_HEADER &#x3D; &#x27;X-Anonymous-Consents&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class AnonymousConsentsInterceptor implements HttpInterceptor {

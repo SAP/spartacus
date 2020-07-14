@@ -76,6 +76,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#checkConsentVersions">checkConsentVersions</a>
+                            </li>
+                            <li>
                                 <a href="#consentsUpdated">consentsUpdated</a>
                             </li>
                             <li>
@@ -232,6 +236,50 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="checkConsentVersions"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            checkConsentVersions
+                        </b>
+                        <a href="#checkConsentVersions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkConsentVersions()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="278"
+                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:278</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Dispatches an action to trigger the check
+whether the anonymous consent version have been updated</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="consentsUpdated"></a>
                     <span class="name">
                         <b>
@@ -250,8 +298,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="326"
-                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:326</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="339"
+                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:339</a></div>
                 </td>
             </tr>
 
@@ -344,8 +392,8 @@ Otherwise it returns <code>false</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="312"
-                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:312</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="325"
+                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:325</a></div>
                 </td>
             </tr>
 
@@ -421,8 +469,8 @@ Otherwise it returns <code>false</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="276"
-                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:276</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="289"
+                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:289</a></div>
                 </td>
             </tr>
 
@@ -1394,8 +1442,8 @@ Otherwise, it returns <code>false</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="299"
-                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:299</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="312"
+                            class="link-to-prism">projects/core/src/anonymous-consents/facade/anonymous-consents.service.ts:312</a></div>
                 </td>
             </tr>
 
@@ -2061,7 +2109,20 @@ export class AnonymousConsentsService {
     return combineLatest([
       this.isBannerDismissed(),
       this.getTemplatesUpdated(),
-    ]).pipe(map(([dismissed, updated]) &#x3D;&gt; !dismissed || updated));
+    ]).pipe(
+      tap(() &#x3D;&gt; this.checkConsentVersions()),
+      map(([dismissed, updated]) &#x3D;&gt; !dismissed || updated)
+    );
+  }
+
+  /**
+   * Dispatches an action to trigger the check
+   * whether the anonymous consent version have been updated
+   */
+  private checkConsentVersions(): void {
+    this.store.dispatch(
+      new AnonymousConsentsActions.AnonymousConsentCheckUpdatedVersions()
+    );
   }
 
   /**

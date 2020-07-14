@@ -88,7 +88,7 @@
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#version">version</a>
+                                        <a href="#templateVersion">templateVersion</a>
                                 </li>
                             </ul>
                         </td>
@@ -173,13 +173,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="version"></a>
-                                        <span class="name"><b>version</b><a href="#version"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="templateVersion"></a>
+                                        <span class="name"><b>templateVersion</b><a href="#templateVersion"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>version:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                        <code>templateVersion:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -224,7 +224,7 @@ export interface Consent {
 
 export interface AnonymousConsent {
   templateCode?: string;
-  version?: number;
+  templateVersion?: number;
   consentState?: ANONYMOUS_CONSENT_STATUS;
 }
 
@@ -232,6 +232,8 @@ export enum ANONYMOUS_CONSENT_STATUS {
   GIVEN &#x3D; &#x27;GIVEN&#x27;,
   WITHDRAWN &#x3D; &#x27;WITHDRAWN&#x27;,
 }
+
+export const ANONYMOUS_CONSENTS_HEADER &#x3D; &#x27;X-Anonymous-Consents&#x27;;
 </code></pre>
     </div>
 </div>
