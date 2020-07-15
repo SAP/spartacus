@@ -16,13 +16,13 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeCheckBoxListComponent implements OnInit {
-  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
-
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+
+  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   attributeCheckBoxForms = new Array<FormControl>();
 
@@ -38,20 +38,10 @@ export class ConfigAttributeCheckBoxListComponent implements OnInit {
     }
   }
 
-  assembleValues(): any[] {
-    const localAssembledValues: any = [];
-
-    for (let i = 0; i < this.attributeCheckBoxForms.length; i++) {
-      const localAttributeValue: Configurator.Value = {};
-      localAttributeValue.valueCode = this.attribute.values[i].valueCode;
-      localAttributeValue.name = this.attribute.values[i].name;
-      localAttributeValue.selected = this.attributeCheckBoxForms[i].value;
-      localAssembledValues.push(localAttributeValue);
-    }
-    return localAssembledValues;
-  }
-
-  onSelect() {
+  /**
+   * Triggered when a value is selected
+   */
+  onSelect(): void {
     const selectedValues = this.assembleValues();
 
     const event: ConfigFormUpdateEvent = {
@@ -65,5 +55,18 @@ export class ConfigAttributeCheckBoxListComponent implements OnInit {
     };
 
     this.selectionChange.emit(event);
+  }
+
+  protected assembleValues(): any[] {
+    const localAssembledValues: any = [];
+
+    for (let i = 0; i < this.attributeCheckBoxForms.length; i++) {
+      const localAttributeValue: Configurator.Value = {};
+      localAttributeValue.valueCode = this.attribute.values[i].valueCode;
+      localAttributeValue.name = this.attribute.values[i].name;
+      localAttributeValue.selected = this.attributeCheckBoxForms[i].value;
+      localAssembledValues.push(localAttributeValue);
+    }
+    return localAssembledValues;
   }
 }

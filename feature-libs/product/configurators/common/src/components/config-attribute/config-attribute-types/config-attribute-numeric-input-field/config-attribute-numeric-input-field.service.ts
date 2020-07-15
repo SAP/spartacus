@@ -26,7 +26,7 @@ export class ConfigAttributeNumericInputFieldService {
    * @param numberDecimalPlaces  Number of decimal places e.g. 2
    *  @returns {boolean} Did we see a validation error?
    */
-  public performValidationAccordingToMetaData(
+  performValidationAccordingToMetaData(
     input: string,
     groupingSeparator: string,
     decimalSeparator: string,
@@ -61,7 +61,7 @@ export class ConfigAttributeNumericInputFieldService {
    * @param locale  Locale
    *  @returns {string} The pattern that we display in the validation message
    */
-  public getPatternForValidationMessage(
+  getPatternForValidationMessage(
     decimalPlaces: number,
     totalLength: number,
     negativeAllowed: boolean,
@@ -86,12 +86,6 @@ export class ConfigAttributeNumericInputFieldService {
     return formatted;
   }
 
-  protected createValidationError(
-    isError: boolean
-  ): { [key: string]: any } | null {
-    return isError ? { wrongFormat: {} } : null;
-  }
-
   /**
    * Returns the validator for the input component that represents numeric input.
    * The validator only allows the grouping separator, the decimal separator, an optional '-' sign,
@@ -105,7 +99,7 @@ export class ConfigAttributeNumericInputFieldService {
    * @returns {ValidatorFn} The validator
    */
 
-  public getNumberFormatValidator(
+  getNumberFormatValidator(
     locale: string,
     numberDecimalPlaces: number,
     numberTotalPlaces: number,
@@ -148,5 +142,11 @@ export class ConfigAttributeNumericInputFieldService {
       }
       return null;
     };
+  }
+
+  protected createValidationError(
+    isError: boolean
+  ): { [key: string]: any } | null {
+    return isError ? { wrongFormat: {} } : null;
   }
 }

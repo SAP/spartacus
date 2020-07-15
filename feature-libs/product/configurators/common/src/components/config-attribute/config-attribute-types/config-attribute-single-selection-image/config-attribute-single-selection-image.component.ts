@@ -17,8 +17,6 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
-  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
-
   attributeRadioButtonForm = new FormControl('');
 
   @Input() attribute: Configurator.Attribute;
@@ -26,11 +24,17 @@ export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   ngOnInit() {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
 
+  /**
+   * Fired on keyboard event
+   * @param event
+   * @param index Index of selected value
+   */
   onEnter(event: KeyboardEvent, index: number) {
     if (event.key === 'Enter') {
       this.onClick(index);
@@ -38,6 +42,10 @@ export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
     //TODO: fix focus lose when selection with keyboard
   }
 
+  /**
+   * Fired when value was selected
+   * @param index Index of selected value
+   */
   onClick(index: number) {
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,

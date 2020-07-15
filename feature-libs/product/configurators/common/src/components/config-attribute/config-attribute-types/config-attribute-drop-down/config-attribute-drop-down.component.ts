@@ -17,20 +17,21 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
 })
 export class ConfigAttributeDropDownComponent implements OnInit {
   attributeDropDownForm = new FormControl('');
-
-  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
-
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
+  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
+
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
   }
-
-  onSelect() {
+  /**
+   * Triggered when a value has been selected
+   */
+  onSelect(): void {
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,
       changedAttribute: {
@@ -40,7 +41,6 @@ export class ConfigAttributeDropDownComponent implements OnInit {
       },
       groupId: this.group,
     };
-
     this.selectionChange.emit(event);
   }
 }

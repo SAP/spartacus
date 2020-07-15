@@ -39,7 +39,10 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
     }
   }
 
-  onChange() {
+  /**
+   * Triggered when the user input has been changed
+   */
+  onChange(): void {
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,
       changedAttribute: {

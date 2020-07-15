@@ -16,13 +16,13 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeMultiSelectionImageComponent implements OnInit {
-  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
-
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+
+  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   attributeCheckBoxForms = new Array<FormControl>();
 
@@ -38,27 +38,23 @@ export class ConfigAttributeMultiSelectionImageComponent implements OnInit {
     }
   }
 
-  assembleValues(): any[] {
-    const localAssembledValues: any = [];
-
-    for (let i = 0; i < this.attributeCheckBoxForms.length; i++) {
-      const localAttributeValue: Configurator.Value = {};
-      localAttributeValue.valueCode = this.attribute.values[i].valueCode;
-      localAttributeValue.name = this.attribute.values[i].name;
-      localAttributeValue.selected = this.attributeCheckBoxForms[i].value;
-      localAssembledValues.push(localAttributeValue);
-    }
-    return localAssembledValues;
-  }
-
-  onEnter(event: KeyboardEvent, index: number) {
+  /**
+   * Fired on key board events, checks for 'enter' and delegates to onSelect
+   * @param event
+   * @param index Index of selected value
+   */
+  onEnter(event: KeyboardEvent, index: number): void {
     if (event.key === 'Enter') {
       this.onSelect(index);
     }
     //TODO: fix focus lose when selection with keyboard
   }
 
-  onSelect(index: number) {
+  /**
+   * Fired when a value has been selected
+   * @param index Index of selected value
+   */
+  onSelect(index: number): void {
     this.attributeCheckBoxForms[index].setValue(
       !this.attributeCheckBoxForms[index].value
     );
@@ -76,5 +72,18 @@ export class ConfigAttributeMultiSelectionImageComponent implements OnInit {
     };
 
     this.selectionChange.emit(event);
+  }
+
+  protected assembleValues(): any[] {
+    const localAssembledValues: any = [];
+
+    for (let i = 0; i < this.attributeCheckBoxForms.length; i++) {
+      const localAttributeValue: Configurator.Value = {};
+      localAttributeValue.valueCode = this.attribute.values[i].valueCode;
+      localAttributeValue.name = this.attribute.values[i].name;
+      localAttributeValue.selected = this.attributeCheckBoxForms[i].value;
+      localAssembledValues.push(localAttributeValue);
+    }
+    return localAssembledValues;
   }
 }

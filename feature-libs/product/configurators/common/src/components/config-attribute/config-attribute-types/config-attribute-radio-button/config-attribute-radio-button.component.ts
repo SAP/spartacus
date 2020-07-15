@@ -16,8 +16,6 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeRadioButtonComponent implements OnInit {
-  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
-
   attributeRadioButtonForm = new FormControl('');
 
   @Input() attribute: Configurator.Attribute;
@@ -25,12 +23,15 @@ export class ConfigAttributeRadioButtonComponent implements OnInit {
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   ngOnInit() {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
-
-  onSelect() {
+  /**
+   * Hit when value has been selected (from available domain)
+   */
+  onSelect(): void {
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,
       changedAttribute: {

@@ -28,19 +28,22 @@ export class ConfigAttributeNumericInputFieldComponent
   locale: string;
   subscriptions = new Subscription();
 
-  constructor(
-    public uiKeyGenerator: ConfigUIKeyGeneratorService,
-    public languageService: LanguageService,
-    public configAttributeNumericInputFieldService: ConfigAttributeNumericInputFieldService
-  ) {}
-
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  public mustDisplayValidationMessage(): boolean {
+  constructor(
+    public uiKeyGenerator: ConfigUIKeyGeneratorService,
+    protected languageService: LanguageService,
+    protected configAttributeNumericInputFieldService: ConfigAttributeNumericInputFieldService
+  ) {}
+
+  /**
+   * Do we need to display a validation message
+   */
+  mustDisplayValidationMessage(): boolean {
     const wrongFormat: boolean =
       (this.attributeInputForm.dirty || this.attributeInputForm.touched) &&
       this.attributeInputForm.errors?.wrongFormat;
@@ -79,6 +82,9 @@ export class ConfigAttributeNumericInputFieldComponent
     this.subscriptions.unsubscribe();
   }
 
+  /**
+   * Hit when user input was changed
+   */
   onChange() {
     const event: ConfigFormUpdateEvent = this.createEventFromInput();
 
@@ -99,7 +105,7 @@ export class ConfigAttributeNumericInputFieldComponent
     };
   }
 
-  private getLanguage(locale: string): string {
+  protected getLanguage(locale: string): string {
     try {
       getLocaleId(locale);
       return locale;
@@ -109,7 +115,7 @@ export class ConfigAttributeNumericInputFieldComponent
     }
   }
 
-  private reportMissingLocaleData(lang: string) {
+  protected reportMissingLocaleData(lang: string) {
     if (isDevMode()) {
       console.warn(
         `ConfigAttributeNumericInputFieldComponent: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`

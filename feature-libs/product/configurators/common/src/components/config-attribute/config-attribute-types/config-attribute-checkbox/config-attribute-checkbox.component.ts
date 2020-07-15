@@ -16,13 +16,12 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeCheckBoxComponent implements OnInit {
-  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
-
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
-
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+
+  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   attributeCheckBoxForm = new FormControl('');
 
@@ -30,18 +29,10 @@ export class ConfigAttributeCheckBoxComponent implements OnInit {
     this.attributeCheckBoxForm.setValue(this.attribute.selectedSingleValue);
   }
 
-  assembleValue(): any[] {
-    const localAssembledValues: any = [];
-
-    const localAttributeValue: Configurator.Value = {};
-    localAttributeValue.valueCode = this.attribute.values[0].valueCode;
-    localAttributeValue.name = this.attribute.values[0].name;
-    localAttributeValue.selected = this.attributeCheckBoxForm.value;
-    localAssembledValues.push(localAttributeValue);
-    return localAssembledValues;
-  }
-
-  onSelect() {
+  /**
+   * Fired when a check box has been selected i.e. when a value has been set
+   */
+  onSelect(): void {
     const selectedValues = this.assembleValue();
 
     const event: ConfigFormUpdateEvent = {
@@ -54,5 +45,16 @@ export class ConfigAttributeCheckBoxComponent implements OnInit {
       groupId: this.group,
     };
     this.selectionChange.emit(event);
+  }
+
+  protected assembleValue(): any[] {
+    const localAssembledValues: any = [];
+
+    const localAttributeValue: Configurator.Value = {};
+    localAttributeValue.valueCode = this.attribute.values[0].valueCode;
+    localAttributeValue.name = this.attribute.values[0].name;
+    localAttributeValue.selected = this.attributeCheckBoxForm.value;
+    localAssembledValues.push(localAttributeValue);
+    return localAssembledValues;
   }
 }
