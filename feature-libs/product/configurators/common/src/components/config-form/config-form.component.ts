@@ -22,12 +22,12 @@ export class ConfigFormComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
   currentGroup$: Observable<Configurator.Group>;
 
-  public UiType = Configurator.UiType;
+  UiType = Configurator.UiType;
 
   constructor(
-    private configuratorCommonsService: ConfiguratorCommonsService,
-    private configuratorGroupsService: ConfiguratorGroupsService,
-    private configRouterExtractorService: ConfigRouterExtractorService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorGroupsService: ConfiguratorGroupsService,
+    protected configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
   ngOnInit(): void {

@@ -32,6 +32,7 @@
             [ownerKey]="configuration.owner.key"
             (selectionChange)="updateConfiguration($event)"
           ></cx-config-attribute-drop-down>
+
           <cx-config-attribute-input-field
             *ngIf="attribute.uiType === UiType.STRING"
             [attribute]="attribute"
@@ -39,7 +40,8 @@
             [ownerType]="configuration.owner.type"
             [ownerKey]="configuration.owner.key"
             (inputChange)="updateConfiguration($event)"
-          ></cx-config-attribute-input-field>
+            >CHHI2 Input field</cx-config-attribute-input-field
+          >
           <cx-config-attribute-numeric-input-field
             *ngIf="attribute.uiType === UiType.NUMERIC"
             [attribute]="attribute"
