@@ -48,7 +48,7 @@ class MockConfiguratorCommonsService {
   }
 }
 
-describe('ConfigurationGroupMenuComponent', () => {
+describe('ConfigurationGroupTitleComponent', () => {
   let component: ConfigGroupTitleComponent;
   let fixture: ComponentFixture<ConfigGroupTitleComponent>;
   let configuratorGroupsService: ConfiguratorGroupsService;
