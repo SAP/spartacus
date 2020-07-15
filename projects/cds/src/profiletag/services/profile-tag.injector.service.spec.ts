@@ -6,6 +6,7 @@ import {
   CartChangedPushEvent,
   ConsentChangedPushEvent,
   ProfileTagPushEvent,
+  NavigatedPushEvent,
 } from '../model/profile-tag.model';
 import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
@@ -127,18 +128,18 @@ describe('ProfileTagInjector', () => {
     ).toHaveBeenCalledWith(new CartChangedPushEvent({ cart: testCart }));
   });
 
-  // it('Should notify profile tag of page loaded', () => {
-  //   const subscription = profileTagInjector.notifyPushEvents().subscribe();
-  //   addTrackerBehavior.next(new CustomEvent('test'));
-  //   navigatedBehavior.next(true);
-  //   subscription.unsubscribe();
-  //   expect(
-  //     profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
-  //   ).toHaveBeenCalled();
-  //   expect(
-  //     profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
-  //   ).toHaveBeenCalledWith(new NavigatedPushEvent());
-  // });
+  it('Should notify profile tag of page loaded', () => {
+    const subscription = profileTagInjector.track().subscribe();
+    addTrackerBehavior.next(new CustomEvent('test'));
+    pushEvents.next(new NavigatedPushEvent('test'));
+    subscription.unsubscribe();
+    expect(
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+    ).toHaveBeenCalled();
+    expect(
+      profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
+    ).toHaveBeenCalledWith(new NavigatedPushEvent('test'));
+  });  
 
   it('Should notify profile tag of successful login', () => {
     const subscription = profileTagInjector.track().subscribe();
