@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule } from '@spartacus/core';
+import { IconModule } from '@spartacus/storefront';
 import { ConfigAttributeFooterComponent } from './config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from './config-attribute-header/config-attribute-header.component';
 import { ConfigAttributeCheckBoxListComponent } from './config-attribute-types/config-attribute-checkbox-list/config-attribute-checkbox-list.component';
@@ -15,7 +17,15 @@ import { ConfigAttributeReadOnlyComponent } from './config-attribute-types/confi
 import { ConfigAttributeSingleSelectionImageComponent } from './config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
 
 @NgModule({
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, I18nModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    NgSelectModule,
+    I18nModule,
+    IconModule,
+  ],
   declarations: [
     ConfigAttributeFooterComponent,
     ConfigAttributeHeaderComponent,
