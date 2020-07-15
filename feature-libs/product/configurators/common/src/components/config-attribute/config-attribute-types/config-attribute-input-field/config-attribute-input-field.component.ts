@@ -28,7 +28,6 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
   constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   ngOnInit() {
-    console.log('CHHI4');
     this.attributeInputForm.setValue(this.attribute.userInput);
     if (
       this.ownerType === GenericConfigurator.OwnerType.CART_ENTRY &&

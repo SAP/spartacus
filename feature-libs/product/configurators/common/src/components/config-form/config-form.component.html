@@ -40,8 +40,8 @@
             [ownerType]="configuration.owner.type"
             [ownerKey]="configuration.owner.key"
             (inputChange)="updateConfiguration($event)"
-            >CHHI2 Input field</cx-config-attribute-input-field
           >
+          </cx-config-attribute-input-field>
           <cx-config-attribute-numeric-input-field
             *ngIf="attribute.uiType === UiType.NUMERIC"
             [attribute]="attribute"
