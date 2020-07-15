@@ -14,8 +14,8 @@ import {
   ConsentReferenceEvent,
   DebugEvent,
   InternalProfileTagEventNames,
-  ProfileTagEvent,
   ProfileTagJsConfig,
+  ProfileTagPushEvent,
   ProfileTagWindowObject,
 } from '../model/profile-tag.model';
 
@@ -119,7 +119,7 @@ export class ProfileTagEventService {
     this.profileTagWindow.Y_TRACKING.q = q;
   }
 
-  notifyProfileTagOfEventOccurence(event: ProfileTagEvent): void {
+  notifyProfileTagOfEventOccurence(event: ProfileTagPushEvent): void {
     try {
       this.profileTagWindow.Y_TRACKING.eventLayer.push(event);
     } catch (e) {
