@@ -35,43 +35,9 @@
   &.assign {
     cx-split-view {
       --cx-max-views: 1;
+
       cx-view:not(:last-child) {
         visibility: hidden;
-      }
-    }
-  }
-
-  cx-cost-center-budget-list > cx-view > section > cx-table  {
-    .budget {
-      display: flex;
-      place-content: space-between;
-      padding: 16px;
-
-      > div:first-child {
-        line-height: 1.1rem;
-
-        h3 {
-          font-size: 1.1rem;
-          min-height: auto;
-          @include media-breakpoint-down(md) {
-            padding: 0;
-          }
-        }
-
-        small {
-          font-size: 0.75rem;
-        }
-      }
-
-      > div:last-child {
-        display: flex;
-        align-items: center;
-
-        a {
-          display: flex;
-          padding: 0;
-          font-size: 1rem;
-        }
       }
     }
   }
@@ -83,94 +49,17 @@
           padding: 8px 0;
         }
       }
+
       &:not([last-visible-view='1']) {
         th:nth-child(n + 2),
         td:nth-child(n + 2) {
           opacity: 0;
           width: 0.1%;
         }
+
         > *:last-child {
           h3 {
             justify-content: flex-start;
-          }
-        }
-      }
-    }
-  }
-
-  table {
-    th,
-    td {
-      width: 100%;
-    }
-    td {
-      &.name,
-      &.unit {
-        padding: 0;
-        a {
-          justify-content: flex-start;
-          padding: var(--cx-spatial-md);
-
-          .text {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-
-          cx-icon {
-            margin: 0 0.2rem;
-            &.active-state {
-              margin-inline-end: var(--cx-spatial-md);
-              color: var(--cx-color-success);
-            }
-            &.inactive {
-              opacity: 0.25;
-            }
-
-            &.open {
-              margin-left: auto;
-              // hide open arrow on > mobile
-              @include media-breakpoint-up(md) {
-                display: none;
-              }
-            }
-
-            &.open-out {
-              margin-left: auto;
-            }
-          }
-
-          &:hover {
-            text-decoration: none;
-            &:not(.active) {
-              .text {
-                text-decoration: underline;
-              }
-            }
-          }
-        }
-        .disabled {
-          display: flex;
-          font-size: 0.75rem;
-          align-items: center;
-          margin-left: -0.6rem;
-        }
-      }
-      .active {
-        background: var(--cx-color-light);
-        color: var(--cx-color-text);
-      }
-    }
-  }
-
-  cx-cost-center-assign-budget {
-    table {
-      td {
-        &.name {
-          label {
-            padding: var(--cx-spatial-md);
-            justify-content: flex-start;
-            align-items: center;
           }
         }
       }
@@ -188,9 +77,11 @@
     a {
       border: none;
       border-radius: 0;
+
       &:not(.current) {
         background-color: var(--cx-color-inverse);
       }
+
       &.disabled {
         color: var(--cx-color-light);
       }
