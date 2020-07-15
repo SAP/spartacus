@@ -12,78 +12,13 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import * as ConfigurationTestData from '../configuration-test-data';
+import * as ConfigurationTestData from '../../../../../../../projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { ConfigGroupTitleComponent } from './config-group-title.component';
 
-const PRODUCT_CODE = 'CONF_LAPTOP';
-const CONFIG_ID = '12342';
-const CONFIGURATOR_URL =
-  'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
+const config: Configurator.Configuration =
+  ConfigurationTestData.productConfiguration;
 
 let routerStateObservable = null;
-const mockRouterState: any = {
-  state: {
-    params: {
-      entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
-    },
-    url: CONFIGURATOR_URL,
-  },
-};
-
-const config: Configurator.Configuration = {
-  owner: {
-    id: PRODUCT_CODE,
-    type: GenericConfigurator.OwnerType.PRODUCT,
-  },
-  configId: CONFIG_ID,
-  consistent: true,
-  complete: true,
-  productCode: PRODUCT_CODE,
-  groups: [
-    {
-      configurable: true,
-      description: 'Core components',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.1',
-      name: '1',
-      attributes: [
-        {
-          label: 'Expected Number',
-          name: 'EXP_NUMBER',
-          required: true,
-          uiType: Configurator.UiType.NOT_IMPLEMENTED,
-          values: [],
-        },
-        {
-          label: 'Processor',
-          name: 'CPQ_CPU',
-          required: true,
-          selectedSingleValue: 'INTELI5_35',
-          uiType: Configurator.UiType.RADIOBUTTON,
-          values: [],
-        },
-      ],
-    },
-    {
-      configurable: true,
-      description: 'Peripherals & Accessories',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.2',
-      name: '2',
-      attributes: [],
-    },
-    {
-      configurable: true,
-      description: 'Software',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.3',
-      name: '3',
-      attributes: [],
-    },
-  ],
-};
-
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return routerStateObservable;
@@ -120,7 +55,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   let configuratorUtils: GenericConfigUtilsService;
 
   beforeEach(async(() => {
-    routerStateObservable = of(mockRouterState);
+    routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
       declarations: [ConfigGroupTitleComponent],

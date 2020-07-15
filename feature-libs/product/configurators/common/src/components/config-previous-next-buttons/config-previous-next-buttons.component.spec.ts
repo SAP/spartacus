@@ -14,26 +14,10 @@ import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TestScheduler } from 'rxjs/testing';
-import * as ConfigurationTestData from '../configuration-test-data';
+import * as ConfigurationTestData from '../../../../../../../projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { ConfigPreviousNextButtonsComponent } from './config-previous-next-buttons.component';
 
-const PRODUCT_CODE = 'CONF_LAPTOP';
-const GROUP_ID = 'group1';
-const GROUP_2_ID = 'group2';
-const CONFIGURATOR_URL =
-  'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
-
 let routerStateObservable = null;
-const mockRouterState: any = {
-  state: {
-    params: {
-      entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
-    },
-    queryParams: {},
-    url: CONFIGURATOR_URL,
-  },
-};
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -70,7 +54,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   let configuratorUtils: GenericConfigUtilsService;
 
   beforeEach(async(() => {
-    routerStateObservable = of(mockRouterState);
+    routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [ConfigPreviousNextButtonsComponent],
