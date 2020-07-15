@@ -29,6 +29,7 @@ const mockRouterState: any = {
     url: CONFIGURATOR_URL,
   },
 };
+
 const owner: GenericConfigurator.Owner = {
   id: PRODUCT_CODE,
   type: GenericConfigurator.OwnerType.PRODUCT,
