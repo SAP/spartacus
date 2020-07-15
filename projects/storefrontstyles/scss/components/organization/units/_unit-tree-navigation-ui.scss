@@ -1,6 +1,10 @@
 %cx-unit-tree-navigation-ui {
   cx-generic-link {
     font-size: 1.125rem;
+
+    &.highlight-active {
+      background-color: #e4e4e4;
+    }
   }
 
   ul {

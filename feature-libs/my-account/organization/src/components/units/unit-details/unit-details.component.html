@@ -1,0 +1,173 @@
+<cx-view #view>
+  <ng-container *ngIf="orgUnit$ | async as orgUnit">
+    <h3>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUnits' } | cxUrl"
+        (click)="view.toggle()"
+      >
+        <cx-icon type="CARET_LEFT"></cx-icon>
+        {{ 'organization.close' | cxTranslate }}
+      </a>
+      {{ 'units.orgUnit.header' | cxTranslate: { code: orgUnit.uid } }}
+    </h3>
+
+    <div class="actions">
+      <a
+        class="link"
+        [class.disabled]="!orgUnit.active"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitEdit',
+            params: orgUnit
+          } | cxUrl
+        "
+      >
+        {{ 'organization.edit' | cxTranslate }}
+      </a>
+    </div>
+
+    <section>
+      <div class="details">
+        <div class="property">
+          <label>{{ 'units.orgUnit.name' | cxTranslate }}</label>
+          <span class="value">
+            {{ orgUnit.name }}
+          </span>
+        </div>
+
+        <div class="property">
+          <label>{{ 'units.orgUnit.uid' | cxTranslate }}</label>
+          <span class="value">
+            {{ orgUnit.uid }}
+          </span>
+        </div>
+
+        <div class="property">
+          <label>{{ 'units.orgUnit.approvalProcess' | cxTranslate }}</label>
+          <span class="value">
+            {{ orgUnit.approvalProcess?.name }}
+          </span>
+        </div>
+
+        <div class="property" *ngIf="orgUnit.parentOrgUnit">
+          <label>{{ 'units.orgUnit.parentUnit' | cxTranslate }}</label>
+          <span class="value">
+            <a
+              [routerLink]="
+                {
+                  cxRoute: 'orgUnitDetails',
+                  params: orgUnit.parentOrgUnit
+                } | cxUrl
+              "
+            >
+              {{ orgUnit.parentOrgUnit?.name }}
+            </a>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="child-link">
+        <h4>
+          <a
+            class="link"
+            [routerLink]="
+              { cxRoute: 'orgUnitChildren', params: orgUnit } | cxUrl
+            "
+          >
+            {{ 'units.orgUnit.children' | cxTranslate }}
+            <cx-icon type="CARET_RIGHT"></cx-icon>
+          </a>
+        </h4>
+        <h4>
+          <a
+            class="link"
+            [routerLink]="{ cxRoute: 'orgUnitUsers', params: orgUnit } | cxUrl"
+          >
+            {{ 'units.orgUnit.users' | cxTranslate }}
+            <cx-icon type="CARET_RIGHT"></cx-icon>
+          </a>
+        </h4>
+        <h4>
+          <a
+            class="link"
+            [routerLink]="
+              { cxRoute: 'orgUnitApprovers', params: orgUnit } | cxUrl
+            "
+          >
+            {{ 'units.orgUnit.approvers' | cxTranslate }}
+            <cx-icon type="CARET_RIGHT"></cx-icon>
+          </a>
+        </h4>
+        <h4>
+          <a
+            class="link"
+            [routerLink]="
+              { cxRoute: 'orgUnitManageAddresses', params: orgUnit } | cxUrl
+            "
+          >
+            {{ 'units.orgUnit.shippingAddresses' | cxTranslate }}
+            <cx-icon type="CARET_RIGHT"></cx-icon>
+          </a>
+        </h4>
+        <h4>
+          <a
+            class="link"
+            [routerLink]="
+              { cxRoute: 'orgUnitCostCenters', params: orgUnit } | cxUrl
+            "
+          >
+            {{ 'units.orgUnit.costCenters' | cxTranslate }}
+            <cx-icon type="CARET_RIGHT"></cx-icon>
+          </a>
+        </h4>
+      </div>
+    </section>
+
+    <section>
+      <div class="property">
+        <label>{{ 'organization.status' | cxTranslate }}</label>
+        <span class="value">
+          <ng-container *ngIf="orgUnit.active; else disabled">
+            {{ 'organization.enabled' | cxTranslate }}
+            <button
+              class="button active icon"
+              (click)="openModal(confirmDisable)"
+            >
+              {{ 'organization.disable' | cxTranslate }}
+              <!--              <cx-icon type="ON"></cx-icon>-->
+            </button>
+          </ng-container>
+          <ng-template #disabled>
+            {{ 'organization.disabled' | cxTranslate }}
+            <button class="button icon" (click)="update({ activeFlag: true })">
+              {{ 'organization.enable' | cxTranslate }}
+              <!--              <cx-icon type="OFF"></cx-icon>-->
+            </button>
+          </ng-template>
+        </span>
+        <p class="instruction">
+          <ng-container *ngIf="orgUnit.active; else inactiveInstruction">
+            {{ 'units.messages.enabled' | cxTranslate }}
+          </ng-container>
+          <ng-template #inactiveInstruction>
+            {{ 'units.messages.disabled' | cxTranslate }}
+          </ng-template>
+        </p>
+      </div>
+    </section>
+  </ng-container>
+</cx-view>
+
+<router-outlet></router-outlet>
+
+<ng-template #confirmDisable>
+  <cx-confirm-modal
+    *ngIf="orgUnit$ | async as orgUnit"
+    [title]="'units.orgUnit.confirmDeactivation.title' | cxTranslate"
+    [message]="'units.orgUnit.confirmDeactivation.message' | cxTranslate"
+    (confirm)="update({ active: false })"
+  ></cx-confirm-modal>
+</ng-template>

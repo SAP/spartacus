@@ -89,50 +89,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   budgetEdit: {
     paths: ['organization/budget/edit/:code'],
   },
-  orgUnits: {
-    paths: ['organization/units'],
-  },
-  orgUnitCreate: {
-    paths: ['organization/units/create'],
-  },
-  orgUnitDetails: {
-    paths: ['organization/unit/:code'],
-    paramsMapping: { code: 'uid' },
-  },
-  orgUnitEdit: {
-    paths: ['organization/unit/edit/:code'],
-    paramsMapping: { code: 'uid' },
-  },
-  orgUnitUsers: {
-    paths: ['organization/unit/users/:code'],
-  },
-  orgUnitAssignRoles: {
-    paths: ['organization/unit/assign-roles/:code/:roleId'],
-  },
-  orgUnitApprovers: {
-    paths: ['organization/unit/approvers/:code'],
-  },
-  orgUnitAssignApprovers: {
-    paths: ['organization/unit/assign-approvers/:code'],
-  },
-  orgUnitManageAddresses: {
-    paths: ['organization/unit/addresses/:code'],
-  },
-  orgUnitChildren: {
-    paths: ['organization/unit/children/:code'],
-  },
-  orgUnitCostCenters: {
-    paths: ['organization/unit/cost-centers/:code'],
-  },
-  orgUnitAddressEdit: {
-    paths: ['organization/unit/address/edit/:code/:id'],
-  },
-  orgUnitAddressDetails: {
-    paths: ['organization/unit/address/:code/:id'],
-  },
-  orgUnitAddressCreate: {
-    paths: ['organization/unit/addresses/create/:code'],
-  },
   permissions: {
     paths: ['organization/purchase-limits'],
   },

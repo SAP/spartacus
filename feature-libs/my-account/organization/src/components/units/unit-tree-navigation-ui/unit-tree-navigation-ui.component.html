@@ -1,0 +1,117 @@
+<ng-container>
+  <div class="cx-unit-tree-actions">
+    <button class="btn btn-link" (click)="setTreeBranchesState(true)">
+      {{ 'units.orgUnitTree.expandAll' | cxTranslate }}
+    </button>
+    <button class="btn btn-link" (click)="setTreeBranchesState(false)">
+      {{ 'units.orgUnitTree.collapseAll' | cxTranslate }}
+    </button>
+  </div>
+
+  <a
+    *ngIf="selectedNode"
+    (click)="back()"
+    (keydown.enter)="back()"
+    (keydown.space)="back()"
+    tabindex="0"
+    class="node-title"
+  >
+    <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
+    <span>{{ 'units.orgUnitTree.upOneLevel' | cxTranslate }}</span>
+  </a>
+
+  <cx-generic-link
+    *ngIf="getNodes() as node"
+    [url]="node.url"
+    [title]="node.title"
+    class="node-title"
+  >
+    {{ node.title }}&nbsp;
+    <span *ngIf="node.children?.length > 0">({{ node.children?.length }})</span>
+  </cx-generic-link>
+
+  <ng-container
+    *ngTemplateOutlet="
+      tree;
+      context: {
+        node: getNodes(),
+        code: 'unit_tree_1',
+        depth: 0
+      }
+    "
+  >
+  </ng-container>
+
+  <ng-template #tree let-node="node" let-code="code" let-depth="depth">
+    <ul
+      [attr.data-code]="code"
+      [attr.data-depth]="depth"
+      [class.selected-node-branch]="selectedNode"
+    >
+      <li
+        *ngFor="let child of node.children; let i = index"
+        [attr.aria-expanded]="isExpandedNodeMap[code + '_' + i]"
+      >
+        <div *ngIf="!isMobile" class="tree-desktop-branch">
+          <cx-icon
+            *ngIf="child.children?.length > 0"
+            [type]="
+              isExpandedNodeMap[code + '_' + i]
+                ? iconType.CARET_DOWN
+                : iconType.CARET_RIGHT
+            "
+            (click)="toggleAriaExpandedForNode(code + '_' + i)"
+            (keydown.enter)="toggleAriaExpandedForNode(code + '_' + i)"
+            (keydown.space)="toggleAriaExpandedForNode(code + '_' + i)"
+            tabindex="0"
+          ></cx-icon>
+          <cx-generic-link
+            [url]="child.url"
+            [title]="child.title"
+            [class.margin-left]="!child.children?.length"
+            [class.highlight-active]="selectedUnitName === child.title"
+          >
+            {{ child.title }}
+            <span *ngIf="child.children?.length > 0">
+              &nbsp;({{ child.children?.length }})</span
+            >
+          </cx-generic-link>
+        </div>
+
+        <div *ngIf="isMobile" class="tree-mobile-branch">
+          <cx-generic-link
+            [url]="child.url"
+            [title]="child.title"
+            [class.margin-left]="!child.children?.length"
+            class="node-title"
+          >
+            {{ child.title }}
+            <span *ngIf="child.children?.length > 0">
+              &nbsp;({{ child.children?.length }})
+            </span>
+          </cx-generic-link>
+          <cx-icon
+            *ngIf="child.children?.length > 0"
+            [type]="iconType.CARET_RIGHT"
+            (click)="goToUnitNode(child)"
+            (keydown.enter)="goToUnitNode(child)"
+            (keydown.space)="goToUnitNode(child)"
+            tabindex="0"
+          ></cx-icon>
+        </div>
+
+        <ng-container
+          *ngTemplateOutlet="
+            tree;
+            context: {
+              node: child,
+              code: code + '_' + i,
+              depth: depth + 1
+            }
+          "
+        >
+        </ng-container>
+      </li>
+    </ul>
+  </ng-template>
+</ng-container>

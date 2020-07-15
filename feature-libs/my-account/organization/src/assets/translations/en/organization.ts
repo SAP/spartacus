@@ -1,4 +1,5 @@
 import { costCenter } from './cost-center.i18n';
+import { units } from './units.i18n';
 
 /**
  * The organization i18n labels provide generic labels for all organization sub features.
@@ -32,4 +33,5 @@ export const organization = {
 
   // sub feature labels are added below
   costCenter,
+  units,
 };
