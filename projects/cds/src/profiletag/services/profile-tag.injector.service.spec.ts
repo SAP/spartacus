@@ -139,7 +139,7 @@ describe('ProfileTagInjector', () => {
     expect(
       profileTagEventTrackerMock.notifyProfileTagOfEventOccurence
     ).toHaveBeenCalledWith(new NavigatedPushEvent('test'));
-  });  
+  });
 
   it('Should notify profile tag of successful login', () => {
     const subscription = profileTagInjector.track().subscribe();
