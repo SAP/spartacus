@@ -13,12 +13,16 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ConfigurationRouter } from '../../generic/service/config-router-data';
+import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigAddToCartButtonComponent } from './config-add-to-cart-button.component';
 
-const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '1';
 const configuratorType = 'cpqconfigurator';
 
+const URL_OVERVIEW =
+  'host:port/electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR';
+
+const productConfiguration = ConfigurationTestData.productConfiguration;
 const navParamsOverview: any =
   'configureOverview' +
   configuratorType +
@@ -26,67 +30,6 @@ const navParamsOverview: any =
   CART_ENTRY_KEY;
 const attribs = {};
 
-const productConfiguration: Configurator.Configuration = {
-  configId: '1234-56-7890',
-  consistent: true,
-  complete: true,
-  productCode: PRODUCT_CODE,
-  owner: {
-    id: PRODUCT_CODE,
-    type: GenericConfigurator.OwnerType.PRODUCT,
-  },
-  nextOwner: {
-    type: GenericConfigurator.OwnerType.CART_ENTRY,
-  },
-  groups: [
-    {
-      configurable: true,
-      description: 'Core components',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.1',
-      name: '1',
-      attributes: [
-        {
-          label: 'Expected Number',
-          name: 'EXP_NUMBER',
-          required: true,
-          uiType: Configurator.UiType.NOT_IMPLEMENTED,
-          values: [],
-        },
-        {
-          label: 'Processor',
-          name: 'CPQ_CPU',
-          required: true,
-          selectedSingleValue: 'INTELI5_35',
-          uiType: Configurator.UiType.RADIOBUTTON,
-          values: [],
-        },
-      ],
-    },
-    {
-      configurable: true,
-      description: 'Peripherals & Accessories',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.2',
-      name: '2',
-      attributes: [],
-    },
-    {
-      configurable: true,
-      description: 'Software ',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.3',
-      name: '3',
-      attributes: [],
-    },
-  ],
-  interactionState: {
-    currentGroup: '1-CPQ_LAPTOP.2',
-    menuParentGroup: '1-CPQ_LAPTOP.3',
-    groupsStatus: {},
-    groupsVisited: {},
-  },
-};
 const routerData: ConfigurationRouter.Data = {
   configuratorType: configuratorType,
   pageType: ConfigurationRouter.PageType.CONFIGURATION,
@@ -100,7 +43,7 @@ class MockGlobalMessageService {
 
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
-    return of(productConfiguration);
+    return of(ConfigurationTestData.productConfiguration);
   }
   removeConfiguration() {}
   removeUiState() {}
@@ -118,6 +61,14 @@ class MockConfiguratorGroupsService {
 function performAddToCartOnOverview(
   classUnderTest: ConfigAddToCartButtonComponent
 ) {
+  mockRouterState.state = {
+    params: {
+      entityKey: ConfigurationTestData.PRODUCT_CODE,
+      ownerType: GenericConfigurator.OwnerType.PRODUCT,
+    },
+    queryParams: {},
+    url: URL_OVERVIEW,
+  };
   classUnderTest.onAddToCart(productConfiguration, routerData);
 }
 
@@ -143,6 +94,11 @@ function ensureCartBoundAndOnOverview() {
 }
 
 function ensureProductBound() {
+  mockRouterState.state.params = {
+    entityKey: ConfigurationTestData.PRODUCT_CODE,
+    ownerType: GenericConfigurator.OwnerType.PRODUCT,
+  };
+  mockRouterState.state.url = URL_CONFIGURATION;
   productConfiguration.nextOwner.id = CART_ENTRY_KEY;
 }
 
@@ -156,7 +112,7 @@ const mockRouterState: any = {
   state: {
     url: URL_CONFIGURATION,
     params: {
-      entityKey: PRODUCT_CODE,
+      entityKey: ConfigurationTestData.PRODUCT_CODE,
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},

@@ -7,7 +7,6 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
-  GenericConfigurator,
   GenericConfigUtilsService,
   I18nTestingModule,
   RoutingService,
@@ -16,109 +15,15 @@ import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
+import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigGroupMenuComponent } from './config-group-menu.component';
 
-const PRODUCT_CODE = 'CONF_LAPTOP';
-const CONFIG_ID = '12342';
-const CONFIGURATOR_URL =
-  'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
+const mockRouterState: any = ConfigurationTestData.mockRouterState;
 
-const mockRouterState: any = {
-  state: {
-    params: {
-      entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
-    },
-    queryParams: {},
-    url: CONFIGURATOR_URL,
-  },
-};
 let groupVisited = false;
 
-const config: Configurator.Configuration = {
-  owner: {
-    id: PRODUCT_CODE,
-    type: GenericConfigurator.OwnerType.PRODUCT,
-  },
-  configId: CONFIG_ID,
-  consistent: true,
-  complete: true,
-  productCode: PRODUCT_CODE,
-  groups: [
-    {
-      configurable: true,
-      description: 'Core components',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.1',
-      name: '1',
-      attributes: [
-        {
-          label: 'Expected Number',
-          name: 'EXP_NUMBER',
-          required: true,
-          uiType: Configurator.UiType.NOT_IMPLEMENTED,
-          values: [],
-        },
-        {
-          label: 'Processor',
-          name: 'CPQ_CPU',
-          required: true,
-          selectedSingleValue: 'INTELI5_35',
-          uiType: Configurator.UiType.RADIOBUTTON,
-          values: [],
-        },
-      ],
-      subGroups: [
-        {
-          configurable: true,
-          description: 'Subgroup 1',
-          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-          id: '1-CPQ_LAPTOP.1.1',
-          name: '5',
-          attributes: [],
-          subGroups: [],
-        },
-        {
-          configurable: true,
-          description: 'Subgroup 2',
-          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-          id: '1-CPQ_LAPTOP.1.2',
-          name: '6',
-          attributes: [],
-          subGroups: [],
-        },
-      ],
-    },
-    {
-      configurable: true,
-      description: 'Peripherals & Accessories',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.2',
-      name: '2',
-      attributes: [],
-      subGroups: [],
-    },
-    {
-      configurable: true,
-      description: 'Software',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.3',
-      name: '3',
-      attributes: [],
-      subGroups: [
-        {
-          configurable: true,
-          description: 'Software',
-          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-          id: '1-CPQ_LAPTOP.3._GEN',
-          name: '4',
-          attributes: [],
-          subGroups: [],
-        },
-      ],
-    },
-  ],
-};
+const config: Configurator.Configuration =
+  ConfigurationTestData.productConfiguration;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -132,7 +37,9 @@ class MockRouter {
 
 class MockConfiguratorGroupService {
   setMenuParentGroup() {}
-  getGroupStatus() {}
+  getGroupStatus() {
+    return of(null);
+  }
   isGroupVisited() {
     return of(groupVisited);
   }
@@ -148,6 +55,9 @@ class MockConfiguratorGroupService {
   }
   hasSubGroups(group: Configurator.Group): boolean {
     return group.subGroups ? group.subGroups.length > 0 : false;
+  }
+  getParentGroup(): Configurator.Group {
+    return null;
   }
 }
 
@@ -217,7 +127,8 @@ describe('ConfigurationGroupMenuComponent', () => {
     configuratorUtils.setOwnerKey(config.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();
-    spyOn(configuratorGroupsService, 'getGroupStatus').and.stub();
+    spyOn(configuratorGroupsService, 'getGroupStatus').and.callThrough();
+    spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
     spyOn(configuratorGroupsService, 'isGroupVisited').and.callThrough();
     spyOn(hamburgerMenuService, 'toggle').and.stub();
   });
@@ -229,7 +140,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   it('should get product code as part of product configuration', () => {
     component.ngOnInit();
     component.configuration$.subscribe((data: Configurator.Configuration) => {
-      expect(data.productCode).toEqual(PRODUCT_CODE);
+      expect(data.productCode).toEqual(ConfigurationTestData.PRODUCT_CODE);
     });
   });
 
@@ -239,10 +150,10 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(htmlElem.querySelectorAll('.cx-config-menu-item').length).toBe(0);
   });
 
-  it('should return 3 groups after groups have been compiled', () => {
+  it('should return 5 groups after groups have been compiled', () => {
     component.ngOnInit();
     component.displayedGroups$.pipe(take(1)).subscribe((groups) => {
-      expect(groups.length).toBe(3);
+      expect(groups.length).toBe(5);
     });
   });
 
@@ -295,7 +206,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(hamburgerMenuService.toggle).toHaveBeenCalled();
 
     //Display subgroups
-    component.click(config.groups[0]);
+    component.click(config.groups[2]);
     expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
   });
 
