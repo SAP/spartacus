@@ -6,7 +6,12 @@ import { Observable, of } from 'rxjs';
 import { OrderReturnGuard } from './order-return.guard';
 import { OrderReturnService } from './order-return.service';
 
-const mockControl = new FormControl(10, { validators: [Validators.min(100)] });
+const STATE_TEN = 10;
+const VALUE_HUNDRED = 100;
+
+const mockControl = new FormControl(STATE_TEN, {
+  validators: [Validators.min(VALUE_HUNDRED)],
+});
 const mockForm = new FormGroup({
   any: mockControl,
 });
@@ -60,7 +65,7 @@ describe(`OrderReturnGuard`, () => {
   });
 
   it(`should not redirect to the order detail page`, () => {
-    mockControl.setValue(100);
+    mockControl.setValue(VALUE_HUNDRED);
     let result;
     guard
       .canActivate()

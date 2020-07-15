@@ -4,10 +4,12 @@ import { of } from 'rxjs';
 import { SplitViewService } from '../split-view.service';
 import { SplitViewComponent } from './split-view.component';
 
+const VALUE_FIVE = 5;
+
 @Injectable()
 class MockSplitViewService {
   visibleViewCount() {
-    return of(5);
+    return of(VALUE_FIVE);
   }
 }
 
@@ -41,7 +43,7 @@ describe('SplitViewComponent', () => {
 
   it('should bind service.visibleViewCount to lastVisibleView', () => {
     fixture.detectChanges();
-    expect(component.lastVisibleView).toEqual(5);
+    expect(component.lastVisibleView).toEqual(VALUE_FIVE);
   });
 
   it('should bind lastVisibleView to --cx-last-visible-view CSS property', () => {

@@ -413,6 +413,7 @@ describe('AddressFormComponent', () => {
       fixture.debugElement.query(By.css('.btn-primary'));
 
     it('should call "verifyAddress" function when being clicked and when form is valid', () => {
+      const TWO_TIMES = 2;
       spyOn(userAddressService, 'getDeliveryCountries').and.returnValue(of([]));
       spyOn(userService, 'getTitles').and.returnValue(of([]));
       spyOn(userAddressService, 'getRegions').and.returnValue(of([]));
@@ -434,7 +435,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
 
       getContinueBtn().nativeElement.click();
-      expect(component.verifyAddress).toHaveBeenCalledTimes(2);
+      expect(component.verifyAddress).toHaveBeenCalledTimes(TWO_TIMES);
     });
   });
 

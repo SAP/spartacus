@@ -3,6 +3,9 @@ import { PageMeta, PageMetaService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { BreadcrumbSchemaBuilder } from './breadcrumb-schema.builder';
 
+const LEN_TWO = 2;
+const LEN_THREE = 3;
+
 const pageMetaHome: PageMeta = {
   title: 'name of the page',
   breadcrumbs: [
@@ -74,7 +77,7 @@ describe('JsonLdProductOfferBuilder', () => {
     service
       .build()
       .subscribe((schema) => {
-        expect(schema.itemListElement.length).toEqual(2);
+        expect(schema.itemListElement.length).toEqual(LEN_TWO);
       })
       .unsubscribe();
   });
@@ -84,7 +87,7 @@ describe('JsonLdProductOfferBuilder', () => {
     service
       .build()
       .subscribe((schema) => {
-        expect(schema.itemListElement.length).toEqual(3);
+        expect(schema.itemListElement.length).toEqual(LEN_THREE);
       })
       .unsubscribe();
   });
@@ -94,7 +97,7 @@ describe('JsonLdProductOfferBuilder', () => {
     service
       .build()
       .subscribe((schema) => {
-        expect(schema.itemListElement[1].position).toEqual(2);
+        expect(schema.itemListElement[1].position).toEqual(LEN_TWO);
       })
       .unsubscribe();
   });

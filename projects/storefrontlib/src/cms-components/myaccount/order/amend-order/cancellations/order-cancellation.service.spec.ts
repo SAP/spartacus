@@ -83,12 +83,13 @@ describe('OrderCancellationService', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     routingService = TestBed.inject(RoutingService);
 
+    const VAL_THREE = 3;
     service
       .getForm()
       .subscribe((f) => (form = f))
       .unsubscribe();
 
-    form.get('entries').get('1').setValue(3);
+    form.get('entries').get('1').setValue(VAL_THREE);
   });
 
   it('should be created', () => {
@@ -100,13 +101,14 @@ describe('OrderCancellationService', () => {
   });
 
   it('should return 2 cancellable entries', () => {
+    const EXP_LEN = 2;
     let result;
     service
       .getEntries()
       .subscribe((entries) => (result = entries))
       .unsubscribe();
 
-    expect(result.length).toEqual(2);
+    expect(result.length).toEqual(EXP_LEN);
   });
 
   it('should return 1 amended entry', () => {

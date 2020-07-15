@@ -1,14 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/core';
 import { of } from 'rxjs';
+import { FormErrorsModule } from '../../../../../../shared/index';
 import { OrderAmendService } from '../../amend-order.service';
 import { CancelOrderComponent } from './cancel-order.component';
-import { FormErrorsModule } from '../../../../../../shared/index';
-import { FormControl, FormGroup } from '@angular/forms';
 
+const LENGTH_TWO = 2;
 const mockForm = new FormGroup({
   orderCode: new FormControl('123'),
   entries: new FormControl([]),
@@ -77,7 +78,7 @@ describe('CancelOrderComponent', () => {
 
     expect(
       fixture.debugElement.queryAll(By.css('cx-amend-order-actions')).length
-    ).toEqual(2);
+    ).toEqual(LENGTH_TWO);
   });
 
   it('should render cx-amend-order-items component', () => {
@@ -85,6 +86,6 @@ describe('CancelOrderComponent', () => {
 
     expect(
       fixture.debugElement.queryAll(By.css('cx-amend-order-actions')).length
-    ).toEqual(2);
+    ).toEqual(LENGTH_TWO);
   });
 });

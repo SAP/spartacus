@@ -18,6 +18,7 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
 
+const PAGE_SIZE_FIVE = 5;
 const mockOrders: OrderHistoryList = {
   orders: [
     {
@@ -167,7 +168,7 @@ describe('OrderHistoryComponent', () => {
 
     expect(component.sortType).toBe('byOrderNumber');
     expect(userService.loadOrderList).toHaveBeenCalledWith(
-      5,
+      PAGE_SIZE_FIVE,
       0,
       'byOrderNumber'
     );
@@ -179,7 +180,11 @@ describe('OrderHistoryComponent', () => {
     component.sortType = 'byDate';
     component.pageChange(1);
 
-    expect(userService.loadOrderList).toHaveBeenCalledWith(5, 1, 'byDate');
+    expect(userService.loadOrderList).toHaveBeenCalledWith(
+      PAGE_SIZE_FIVE,
+      1,
+      'byDate'
+    );
   });
 
   it('should clear order history data when component destroy', () => {
