@@ -16,6 +16,8 @@ import { CheckoutConfig } from '../../config/checkout-config';
 import { defaultCheckoutConfig } from '../../config/default-checkout-config';
 import { CheckoutProgressComponent } from './checkout-progress.component';
 
+const LEN_3 = 3;
+const NUM_2 = 2;
 const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
 const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 
@@ -103,7 +105,7 @@ describe('CheckoutProgressComponent', () => {
       By.css('.cx-item .cx-link.disabled')
     );
 
-    expect(steps.length).toBe(3);
+    expect(steps.length).toBe(LEN_3);
   });
 
   describe('isActive()', () => {
@@ -144,9 +146,9 @@ describe('CheckoutProgressComponent', () => {
     });
 
     it('should return third step as NOT focusable via tabindex', () => {
-      expect(component.isActive(2)).toBe(false);
-      expect(component.isDisabled(2)).toBe(true);
-      expect(component.getTabIndex(2)).toBe(-1);
+      expect(component.isActive(NUM_2)).toBe(false);
+      expect(component.isDisabled(NUM_2)).toBe(true);
+      expect(component.getTabIndex(NUM_2)).toBe(-1);
     });
   });
 });

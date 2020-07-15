@@ -4,6 +4,8 @@ import { CartEntryAdapter } from './cart-entry.adapter';
 import { CartEntryConnector } from './cart-entry.connector';
 import createSpy = jasmine.createSpy;
 
+const FOUR_QUANTITIES = 4;
+
 describe('CartEntryConnector', () => {
   class MockCartEntryAdapter implements CartEntryAdapter {
     add = createSpy().and.returnValue(of({}));
@@ -35,8 +37,14 @@ describe('CartEntryConnector', () => {
 
   it('update should call adapter', () => {
     const adapter = TestBed.inject(CartEntryAdapter);
-    service.update('1', '2', '3', 4).subscribe();
-    expect(adapter.update).toHaveBeenCalledWith('1', '2', '3', 4, undefined);
+    service.update('1', '2', '3', FOUR_QUANTITIES).subscribe();
+    expect(adapter.update).toHaveBeenCalledWith(
+      '1',
+      '2',
+      '3',
+      FOUR_QUANTITIES,
+      undefined
+    );
   });
 
   it('remove should call adapter', () => {

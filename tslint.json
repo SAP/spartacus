@@ -63,6 +63,7 @@
     "no-outputs-metadata-property": true,
     "template-banana-in-box": true,
     "use-lifecycle-interface": true,
-    "linebreak-style": [true, "LF"]
+    "linebreak-style": [true, "LF"],
+    "no-magic-numbers": [true, 0, 1, -1]
   }
 }

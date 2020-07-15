@@ -6,6 +6,17 @@ import { I18nTestingModule } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
 
+const COUNT_TWO = 2;
+const COUNT_THREE = 3;
+const COUNT_FIVE = 5;
+const COUNT_SEVEN = 7;
+const COUNT_TEN = 10;
+const COUNT_ELEVEN = 11;
+const COUNT_TWELVE = 12;
+const COUNT_THIRTEEN = 13;
+const COUNT_FOURTEEN = 14;
+const COUNT_FIFTEEN = 15;
+
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -98,31 +109,41 @@ describe('Navigation UI Component', () => {
 
   describe('calculate columns', () => {
     beforeEach(() => {
-      navigationComponent.wrapAfter = 5;
+      navigationComponent.wrapAfter = COUNT_FIVE;
     });
 
     it('should return 2 for 10', () => {
-      expect(navigationComponent.getColumnCount(10)).toEqual(2);
+      expect(navigationComponent.getColumnCount(COUNT_TEN)).toEqual(COUNT_TWO);
     });
 
     it('should return 2 for 11', () => {
-      expect(navigationComponent.getColumnCount(11)).toEqual(2);
+      expect(navigationComponent.getColumnCount(COUNT_ELEVEN)).toEqual(
+        COUNT_TWO
+      );
     });
 
     it('should return 2 for 12', () => {
-      expect(navigationComponent.getColumnCount(12)).toEqual(2);
+      expect(navigationComponent.getColumnCount(COUNT_TWELVE)).toEqual(
+        COUNT_TWO
+      );
     });
 
     it('should return 3 for 13', () => {
-      expect(navigationComponent.getColumnCount(13)).toEqual(3);
+      expect(navigationComponent.getColumnCount(COUNT_THIRTEEN)).toEqual(
+        COUNT_THREE
+      );
     });
 
     it('should return column count of 3 for 14 items', () => {
-      expect(navigationComponent.getColumnCount(14)).toEqual(3);
+      expect(navigationComponent.getColumnCount(COUNT_FOURTEEN)).toEqual(
+        COUNT_THREE
+      );
     });
 
     it('should return column count of 3 for 15 items', () => {
-      expect(navigationComponent.getColumnCount(15)).toEqual(3);
+      expect(navigationComponent.getColumnCount(COUNT_FIFTEEN)).toEqual(
+        COUNT_THREE
+      );
     });
   });
 
@@ -184,7 +205,7 @@ describe('Navigation UI Component', () => {
           rootNavElementCount++;
         }
       });
-      expect(rootNavElementCount).toEqual(2);
+      expect(rootNavElementCount).toEqual(COUNT_TWO);
     });
 
     it('should render heading for nav nodes without a URL', () => {
@@ -207,14 +228,14 @@ describe('Navigation UI Component', () => {
       fixture.detectChanges();
 
       const wrapper: ElementRef[] = element.queryAll(By.css('nav .wrapper'));
-      expect(wrapper.length).toEqual(3);
+      expect(wrapper.length).toEqual(COUNT_THREE);
     });
 
     it('should render a childs container for nav nodes with childs', () => {
       fixture.detectChanges();
 
       const child: ElementRef[] = element.queryAll(By.css('nav .childs'));
-      expect(child.length).toEqual(3);
+      expect(child.length).toEqual(COUNT_THREE);
     });
 
     it('should render a depth attribute on child containers indicating the depth of the navigation ', () => {
@@ -223,7 +244,7 @@ describe('Navigation UI Component', () => {
       const child: ElementRef[] = element.queryAll(By.css('nav .childs'));
       const first: HTMLElement = child[0].nativeElement;
       const second: HTMLElement = child[1].nativeElement;
-      const third: HTMLElement = child[2].nativeElement;
+      const third: HTMLElement = child[COUNT_TWO].nativeElement;
       expect(first.attributes.getNamedItem('depth').value).toEqual('3');
       expect(second.attributes.getNamedItem('depth').value).toEqual('2');
       expect(third.attributes.getNamedItem('depth').value).toEqual('1');
@@ -235,7 +256,7 @@ describe('Navigation UI Component', () => {
       const child: ElementRef[] = element.queryAll(
         By.css('nav div .childs nav')
       );
-      expect(child.length).toEqual(7);
+      expect(child.length).toEqual(COUNT_SEVEN);
     });
   });
 });

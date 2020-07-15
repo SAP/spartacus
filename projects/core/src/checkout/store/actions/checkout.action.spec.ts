@@ -414,7 +414,8 @@ describe('Checkout Actions', () => {
 
   describe('Clear Checkout Step', () => {
     it('should create the action', () => {
-      const action = new CheckoutActions.ClearCheckoutStep(2);
+      const STEP_TWO = 2;
+      const action = new CheckoutActions.ClearCheckoutStep(STEP_TWO);
       expect({ ...action }).toEqual({
         type: CheckoutActions.CLEAR_CHECKOUT_STEP,
         payload: 2,

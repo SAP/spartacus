@@ -8,11 +8,13 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { CustomerSupportAgentErrorHandlingService } from '../../asm/services/csagent-error-handling.service';
 import {
   InterceptorUtil,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
-import { CustomerSupportAgentErrorHandlingService } from '../../asm/services/csagent-error-handling.service';
+
+const ERROR_STATUS_UNAUTHORIZED = 401;
 
 @Injectable({ providedIn: 'root' })
 export class CustomerSupportAgentAuthErrorInterceptor
@@ -39,7 +41,10 @@ export class CustomerSupportAgentAuthErrorInterceptor
       catchError((errResponse: any) => {
         if (errResponse instanceof HttpErrorResponse) {
           // Unauthorized
-          if (isCustomerSupportAgentRequest && errResponse.status === 401) {
+          if (
+            isCustomerSupportAgentRequest &&
+            errResponse.status === ERROR_STATUS_UNAUTHORIZED
+          ) {
             this.csagentErrorHandlingService.terminateCustomerSupportAgentExpiredSession();
             return of(undefined as any);
           }

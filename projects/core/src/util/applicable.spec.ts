@@ -1,6 +1,11 @@
 import { Applicable, resolveApplicable } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
+const THREE = 3;
+const SECOND_APPLICABLE = 2;
+const SECOND_PRIO = 2;
+const LEAST_PRIO = -1100;
+
 describe('resolveApplicable', () => {
   it('should resolve applicable when hasMatch returns true', () => {
     const applicables: Applicable[] = [
@@ -30,7 +35,7 @@ describe('resolveApplicable', () => {
         getPriority: () => -1,
       },
       {
-        getPriority: () => 2,
+        getPriority: () => SECOND_PRIO,
       },
       {
         getPriority: () => 1,
@@ -43,24 +48,27 @@ describe('resolveApplicable', () => {
     it('should resolve applicable with highest priority', () => {
       const applicables: Applicable[] = [
         {
-          getPriority: () => -1100,
+          getPriority: () => LEAST_PRIO,
         },
         {},
         {
           getPriority: () => 1,
         },
       ];
-      expect(resolveApplicable(applicables)).toBe(applicables[2]);
+      expect(resolveApplicable(applicables)).toBe(
+        applicables[SECOND_APPLICABLE]
+      );
     });
 
     it('should resolve applicable with highest priority', () => {
+      const MINUS_THREE = -3;
       const applicables: Applicable[] = [
         {
           getPriority: () => -1,
         },
         {},
         {
-          getPriority: () => -3,
+          getPriority: () => MINUS_THREE,
         },
       ];
       expect(resolveApplicable(applicables)).toBe(applicables[1]);
@@ -68,13 +76,14 @@ describe('resolveApplicable', () => {
   });
 
   it('should take into account both hasMatch and getPriority', () => {
+    const HUNDREDTH_PRIO = 100;
     const applicables: Applicable[] = [
       {
-        getPriority: () => 100,
+        getPriority: () => HUNDREDTH_PRIO,
         hasMatch: () => false,
       },
       {
-        getPriority: () => 2,
+        getPriority: () => SECOND_PRIO,
         hasMatch: () => true,
       },
     ];
@@ -104,7 +113,7 @@ describe('resolveApplicable', () => {
         hasMatch: createSpy(),
       },
     ];
-    const hasMatchParams = ['a', 3];
+    const hasMatchParams = ['a', THREE];
     resolveApplicable(applicables, hasMatchParams);
     expect(applicables[0].hasMatch).toHaveBeenCalledWith(...hasMatchParams);
   });
@@ -118,7 +127,7 @@ describe('resolveApplicable', () => {
         getPriority: createSpy(),
       },
     ];
-    const getPriorityParams = ['a', 3];
+    const getPriorityParams = ['a', THREE];
     resolveApplicable(applicables, undefined, getPriorityParams);
     expect(applicables[0].getPriority).toHaveBeenCalledWith(
       ...getPriorityParams
@@ -140,6 +149,6 @@ describe('resolveApplicable', () => {
 
   it('in case of identical priorities last one applicable should win', () => {
     const applicables: Applicable[] = [{}, {}, {}];
-    expect(resolveApplicable(applicables)).toBe(applicables[2]);
+    expect(resolveApplicable(applicables)).toBe(applicables[SECOND_APPLICABLE]);
   });
 });

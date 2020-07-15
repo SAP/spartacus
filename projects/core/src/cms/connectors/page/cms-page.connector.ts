@@ -1,11 +1,13 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
-import { CmsPageAdapter } from './cms-page.adapter';
-import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
 import { PageContext } from '../../../routing/models/page-context.model';
 import { CmsStructureModel } from '../../model/page.model';
+import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
+import { CmsPageAdapter } from './cms-page.adapter';
+
+const ERROR_STATUS_400 = 400;
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +33,7 @@ export class CmsPageConnector {
               catchError((error) => {
                 if (
                   error instanceof HttpErrorResponse &&
-                  error.status === 400
+                  error.status === ERROR_STATUS_400
                 ) {
                   return of({});
                 } else {

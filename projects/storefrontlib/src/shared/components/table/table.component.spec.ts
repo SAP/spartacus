@@ -29,6 +29,10 @@ const mockDataset: Table = {
   data$: of(data),
 };
 
+const NUM_TWO = 2;
+const NUM_THREE = 3;
+const NUM_NINE = 9;
+
 describe('TableComponent', () => {
   let fixture: ComponentFixture<TableComponent>;
   let tableComponent: TableComponent;
@@ -114,10 +118,10 @@ describe('TableComponent', () => {
       const th = fixture.debugElement.queryAll(
         By.css('table > thead > tr > th')
       );
-      expect(th.length).toBe(3);
+      expect(th.length).toBe(NUM_THREE);
       expect(th[0].nativeElement).toBeTruthy();
       expect(th[1].nativeElement).toBeTruthy();
-      expect(th[2].nativeElement).toBeTruthy();
+      expect(th[NUM_TWO].nativeElement).toBeTruthy();
     });
 
     it('should leverage the translate pipe for the header key when there is no header label', () => {
@@ -160,7 +164,7 @@ describe('TableComponent', () => {
       fixture.detectChanges();
 
       const tr = fixture.debugElement.queryAll(By.css('table > tr'));
-      expect(tr.length).toBe(3);
+      expect(tr.length).toBe(NUM_THREE);
     });
 
     it('should generate a td for each data row', () => {
@@ -168,7 +172,7 @@ describe('TableComponent', () => {
       fixture.detectChanges();
 
       const td = fixture.debugElement.queryAll(By.css('table > tr > td'));
-      expect(td.length).toBe(9);
+      expect(td.length).toBe(NUM_NINE);
     });
 
     it('should add the col key as a css class to each <td>', () => {
@@ -204,7 +208,7 @@ describe('TableComponent', () => {
       it('should not emit event if header has no sortCode', () => {
         spyOn(tableComponent.paginateEvent, 'emit');
         tableComponent.dataset = mockDataset;
-        tableComponent.sort(headers[2]);
+        tableComponent.sort(headers[NUM_TWO]);
         expect(tableComponent.paginateEvent.emit).not.toHaveBeenCalled();
       });
     });

@@ -18,14 +18,16 @@ const location: PointOfService = {
 };
 const stores: Array<PointOfService> = [location];
 const locations = { stores: stores, pagination: { currentPage: 0 } };
+const STORE_LATITUDE = 35.528984;
+const STORE_LONGITUDE = 139.700168;
 
 class StoreDataServiceMock {
   getStoreLatitude(_location: any): number {
-    return 35.528984;
+    return STORE_LATITUDE;
   }
 
   getStoreLongitude(_location: any): number {
-    return 139.700168;
+    return STORE_LONGITUDE;
   }
 }
 

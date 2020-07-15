@@ -62,20 +62,21 @@ describe(`PaymentDetailsSetGuard`, () => {
   });
 
   describe(`when there is NO payment details present`, () => {
+    const STEP_2 = 2;
     it(`should navigate to payment details step`, (done) => {
       spyOn(mockCheckoutDetailsService, 'getPaymentDetails').and.returnValue(
         of({})
       );
 
       spyOn(mockCheckoutConfigService, 'getCheckoutStep').and.returnValue(
-        MockCheckoutConfig.checkout.steps[2]
+        MockCheckoutConfig.checkout.steps[STEP_2]
       );
 
       guard.canActivate().subscribe((result) => {
         expect(result.toString()).toEqual(
           `/${
             mockRoutingConfigService.getRouteConfig(
-              MockCheckoutConfig.checkout.steps[2].routeName
+              MockCheckoutConfig.checkout.steps[STEP_2].routeName
             ).paths[0]
           }`
         );

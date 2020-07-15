@@ -10,6 +10,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, ProductSearchPage } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/src/shared/test/mock-feature-level-directive';
 import { ProductGridItemComponent } from '../..';
 import { MediaComponent } from '../../../../../shared/components/media';
 import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
@@ -19,7 +20,8 @@ import { ProductListComponentService } from '../product-list-component.service';
 import { ProductScrollComponent } from './product-scroll.component';
 
 import createSpy = jasmine.createSpy;
-import { MockFeatureLevelDirective } from 'projects/storefrontlib/src/shared/test/mock-feature-level-directive';
+
+const LIMIT_TWO = 2;
 
 const mockModel1: ProductSearchPage = {
   breadcrumbs: [
@@ -253,11 +255,11 @@ describe('ProductScrollComponent', () => {
       });
 
       it('productLimit should be set to config limit', () => {
-        expect(component.productLimit).toEqual(2);
+        expect(component.productLimit).toEqual(LIMIT_TWO);
       });
 
       it('should NOT display buttons when limit is not reached', () => {
-        expect(component.productLimit).toEqual(2);
+        expect(component.productLimit).toEqual(LIMIT_TWO);
         expect(mockModel1.products.length).toEqual(1);
         expect(component.isMaxProducts).toBeFalsy();
 
@@ -267,7 +269,7 @@ describe('ProductScrollComponent', () => {
       });
 
       it('should display buttons when limit is reached', () => {
-        expect(component.productLimit).toEqual(2);
+        expect(component.productLimit).toEqual(LIMIT_TWO);
         expect(component.model.products.length).toEqual(1);
         expect(component.isMaxProducts).toBeFalsy();
         expect(component.isLastPage).toBeFalsy();
@@ -277,8 +279,8 @@ describe('ProductScrollComponent', () => {
 
         fixture.detectChanges();
 
-        expect(component.productLimit).toEqual(2);
-        expect(component.model.products.length).toEqual(2);
+        expect(component.productLimit).toEqual(LIMIT_TWO);
+        expect(component.model.products.length).toEqual(LIMIT_TWO);
         expect(component.isMaxProducts).toBeTruthy();
         expect(component.isLastPage).toBeFalsy();
 

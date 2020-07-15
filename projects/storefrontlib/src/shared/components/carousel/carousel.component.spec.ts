@@ -8,6 +8,10 @@ import { Observable, of } from 'rxjs';
 import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
 
+const VAL_TWO = 2;
+const VAL_THREE = 3;
+const VAL_FOUR = 4;
+
 class MockCarouselService {
   getItemsPerSlide(
     _nativeElement: HTMLElement,
@@ -73,18 +77,18 @@ describe('Carousel Component', () => {
     });
 
     it('should have a size of 4 items per slide', () => {
-      spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
+      spyOn(service, 'getItemsPerSlide').and.returnValue(of(VAL_FOUR));
       component.template = template;
       component.ngOnInit();
       let results: number;
 
       component.size$.subscribe((value) => (results = value)).unsubscribe();
 
-      expect(results).toEqual(4);
+      expect(results).toEqual(VAL_FOUR);
     });
 
     it('should default to first activeSlide', () => {
-      spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
+      spyOn(service, 'getItemsPerSlide').and.returnValue(of(VAL_FOUR));
       component.template = template;
       component.ngOnInit();
       component.size$.subscribe().unsubscribe();
@@ -146,7 +150,7 @@ describe('Carousel Component', () => {
 
     describe('carousel buttons', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
+        spyOn(service, 'getItemsPerSlide').and.returnValue(of(VAL_FOUR));
         component.items = [of(), of(), of(), of(), of()];
         component.ngOnInit();
         fixture.detectChanges();
@@ -210,7 +214,7 @@ describe('Carousel Component', () => {
         const el = fixture.debugElement.queryAll(
           By.css('div.indicators button')
         );
-        expect(el.length).toEqual(2);
+        expect(el.length).toEqual(VAL_TWO);
       });
 
       it('should have disabled indicator', () => {
@@ -242,7 +246,7 @@ describe('Carousel Component', () => {
 
     describe('carousel with 5 items divided by 2 slides', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(4));
+        spyOn(service, 'getItemsPerSlide').and.returnValue(of(VAL_FOUR));
         component.items = [of(), of(), of(), of(), of()];
         component.ngOnInit();
         fixture.detectChanges();
@@ -269,13 +273,13 @@ describe('Carousel Component', () => {
         const el = fixture.debugElement.queryAll(
           By.css('div.indicators button')
         );
-        expect(el.length).toEqual(2);
+        expect(el.length).toEqual(VAL_TWO);
       });
     });
 
     describe('carousel with 7 items divided by 3 slides', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(3));
+        spyOn(service, 'getItemsPerSlide').and.returnValue(of(VAL_THREE));
         component.title = 'test carousel with title';
         component.items = [of(), of(), of(), of(), of(), of(), of(), of()];
         component.ngOnInit();
@@ -303,13 +307,13 @@ describe('Carousel Component', () => {
         const el = fixture.debugElement.queryAll(
           By.css('div.indicators button')
         );
-        expect(el.length).toEqual(3);
+        expect(el.length).toEqual(VAL_THREE);
       });
     });
 
     describe('carousel with 3 items divided by 1 slide', () => {
       beforeEach(() => {
-        spyOn(service, 'getItemsPerSlide').and.returnValue(of(3));
+        spyOn(service, 'getItemsPerSlide').and.returnValue(of(VAL_THREE));
         component.title = 'test carousel with title';
         component.items = [of(), of(), of()];
         component.ngOnInit();

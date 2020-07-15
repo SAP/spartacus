@@ -129,7 +129,8 @@ describe('OrderReturnRequestService', () => {
   });
 
   it('should be able to load order return requests list', () => {
-    service.loadOrderReturnRequestList(10, 1, 'byDate');
+    const PAGE_SIZE_TEN = 10;
+    service.loadOrderReturnRequestList(PAGE_SIZE_TEN, 1, 'byDate');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadOrderReturnRequestList({
         userId: OCC_USER_ID_CURRENT,

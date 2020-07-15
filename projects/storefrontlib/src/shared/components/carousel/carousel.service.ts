@@ -3,6 +3,9 @@ import { WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+const TWO = 2;
+const HUNDRED = 100;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -40,14 +43,14 @@ export class CarouselService {
   private calculateItems(availableWidth: number, itemWidth: string) {
     let calculatedItems = 0;
     if (itemWidth.endsWith('px')) {
-      const num = itemWidth.substring(0, itemWidth.length - 2);
+      const num = itemWidth.substring(0, itemWidth.length - TWO);
       calculatedItems = availableWidth / <number>(<any>num);
     }
 
     if (itemWidth.endsWith('%')) {
       const perc = itemWidth.substring(0, itemWidth.length - 1);
       calculatedItems =
-        availableWidth / (availableWidth * (<number>(<any>perc) / 100));
+        availableWidth / (availableWidth * (<number>(<any>perc) / HUNDRED));
     }
 
     return Math.floor(calculatedItems) || 1;

@@ -5,9 +5,11 @@ import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
 import { TranslationService } from '../translation.service';
 
+const CHAR_CODE = 160;
+
 @Injectable({ providedIn: 'root' })
 export class I18nextTranslationService implements TranslationService {
-  private readonly NON_BREAKING_SPACE = String.fromCharCode(160);
+  private readonly NON_BREAKING_SPACE = String.fromCharCode(CHAR_CODE);
   protected readonly NAMESPACE_SEPARATOR = ':';
 
   constructor(

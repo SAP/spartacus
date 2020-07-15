@@ -9,6 +9,7 @@ import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-con
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
 import createSpy = jasmine.createSpy;
 
+const DISPLAY_NUMBER = 10;
 const CONSENT_REFERENCE = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const STRATEGY_ID = 'test-strategy-id';
 
@@ -106,7 +107,7 @@ describe('CdsMerchandisingProductService', () => {
 
     let actualStartegyProducts: StrategyProducts;
     cdsMerchandisingPrductService
-      .loadProductsForStrategy(STRATEGY_ID, 10)
+      .loadProductsForStrategy(STRATEGY_ID, DISPLAY_NUMBER)
       .subscribe((productsForStrategy) => {
         actualStartegyProducts = productsForStrategy;
       })
@@ -145,7 +146,7 @@ describe('CdsMerchandisingProductService', () => {
 
     let actualStartegyProducts: StrategyProducts;
     cdsMerchandisingPrductService
-      .loadProductsForStrategy(STRATEGY_ID, 10)
+      .loadProductsForStrategy(STRATEGY_ID, DISPLAY_NUMBER)
       .subscribe((productsForStrategy) => {
         actualStartegyProducts = productsForStrategy;
       })
@@ -181,7 +182,7 @@ describe('CdsMerchandisingProductService', () => {
 
     let actualStrategyProducts: StrategyProducts;
     cdsMerchandisingPrductService
-      .loadProductsForStrategy(STRATEGY_ID, 10)
+      .loadProductsForStrategy(STRATEGY_ID, DISPLAY_NUMBER)
       .subscribe((productsForStrategy) => {
         actualStrategyProducts = productsForStrategy;
       })

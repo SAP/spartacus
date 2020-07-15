@@ -26,6 +26,9 @@ import { Observable, of } from 'rxjs';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { MyInterestsComponent } from './my-interests.component';
 
+const COUNT_TWO = 2;
+const COUNT_TEN = 10;
+
 @Component({
   template: '',
   selector: 'cx-pagination',
@@ -261,39 +264,41 @@ describe('MyInterestsComponent', () => {
     expect(el.queryAll(By.css('.cx-product-interests-title')).length).toEqual(
       1
     );
-    expect(el.queryAll(By.css('cx-sorting')).length).toEqual(2);
-    expect(el.queryAll(By.css('cx-pagination')).length).toEqual(2);
+    expect(el.queryAll(By.css('cx-sorting')).length).toEqual(COUNT_TWO);
+    expect(el.queryAll(By.css('cx-pagination')).length).toEqual(COUNT_TWO);
     expect(
       el.queryAll(By.css('.cx-product-interests-product-item')).length
-    ).toEqual(2);
-    expect(el.queryAll(By.css('cx-media')).length).toEqual(2);
+    ).toEqual(COUNT_TWO);
+    expect(el.queryAll(By.css('cx-media')).length).toEqual(COUNT_TWO);
     expect(
       el.queryAll(By.css('.cx-product-interests-product-image-link')).length
-    ).toEqual(2);
-    expect(el.queryAll(By.css('.cx-name')).length).toEqual(2);
+    ).toEqual(COUNT_TWO);
+    expect(el.queryAll(By.css('.cx-name')).length).toEqual(COUNT_TWO);
     expect(
       el.queryAll(By.css('.cx-product-interests-product-code-link')).length
-    ).toEqual(2);
-    expect(el.queryAll(By.css('.cx-code')).length).toEqual(2);
+    ).toEqual(COUNT_TWO);
+    expect(el.queryAll(By.css('.cx-code')).length).toEqual(COUNT_TWO);
     expect(
       el.queryAll(By.css('.cx-product-interests-variant-name')).length
-    ).toEqual(2);
+    ).toEqual(COUNT_TWO);
     expect(
       el.queryAll(By.css('.cx-product-interests-variant-value')).length
-    ).toEqual(2);
+    ).toEqual(COUNT_TWO);
     expect(
       el.queryAll(By.css('.cx-product-interests-product-stock')).length
-    ).toEqual(2);
+    ).toEqual(COUNT_TWO);
     expect(
       el.queryAll(By.css('.cx-product-interests-product-price')).length
-    ).toEqual(2);
-    expect(el.queryAll(By.css('.cx-product-interests-type')).length).toEqual(2);
+    ).toEqual(COUNT_TWO);
+    expect(el.queryAll(By.css('.cx-product-interests-type')).length).toEqual(
+      COUNT_TWO
+    );
     expect(
       el.queryAll(By.css('.cx-product-interests-expiration-date')).length
-    ).toEqual(2);
+    ).toEqual(COUNT_TWO);
     expect(
       el.queryAll(By.css('.cx-product-interests-remove-btn')).length
-    ).toEqual(2);
+    ).toEqual(COUNT_TWO);
   });
 
   it('should be able to change page/sort', () => {
@@ -301,15 +306,15 @@ describe('MyInterestsComponent', () => {
 
     component.sortChange('byNameAsc');
     expect(productInterestService.loadProductInterests).toHaveBeenCalledWith(
-      10,
+      COUNT_TEN,
       0,
       'name:asc'
     );
 
-    component.pageChange(2);
+    component.pageChange(COUNT_TWO);
     expect(productInterestService.loadProductInterests).toHaveBeenCalledWith(
-      10,
-      2,
+      COUNT_TEN,
+      COUNT_TWO,
       'name:asc'
     );
   });

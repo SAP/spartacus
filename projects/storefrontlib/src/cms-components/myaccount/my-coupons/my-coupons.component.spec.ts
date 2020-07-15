@@ -20,6 +20,9 @@ import { ICON_TYPE } from '../../misc/icon/icon.model';
 import { MyCouponsComponent } from './my-coupons.component';
 import { MyCouponsComponentService } from './my-coupons.component.service';
 
+const LEN_2 = 2;
+const VAL_10 = 10;
+
 @Component({
   selector: 'cx-coupon-card',
   template: `
@@ -244,12 +247,12 @@ describe('MyCouponsComponent', () => {
     expect(message.length).toBe(0);
 
     const sortComponent = el.nativeElement.querySelectorAll('cx-sorting');
-    expect(sortComponent.length).toBe(2);
+    expect(sortComponent.length).toBe(LEN_2);
 
     const paginationComponent = el.nativeElement.querySelectorAll(
       'cx-pagination'
     );
-    expect(paginationComponent.length).toBe(2);
+    expect(paginationComponent.length).toBe(LEN_2);
     const couponCardComponent = el.nativeElement.querySelectorAll(
       'cx-coupon-card'
     );
@@ -264,7 +267,7 @@ describe('MyCouponsComponent', () => {
     fixture.detectChanges();
     component.sortChange('byStartDateAsc');
     expect(customerCouponService.loadCustomerCoupons).toHaveBeenCalledWith(
-      10,
+      VAL_10,
       0,
       'startDate:asc'
     );
@@ -274,7 +277,7 @@ describe('MyCouponsComponent', () => {
     fixture.detectChanges();
     component.pageChange(1);
     expect(customerCouponService.loadCustomerCoupons).toHaveBeenCalledWith(
-      10,
+      VAL_10,
       1,
       'startDate:asc'
     );

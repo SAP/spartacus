@@ -4,6 +4,9 @@ import { TranslatePipe } from './translate.pipe';
 import { TranslationService } from './translation.service';
 import createSpy = jasmine.createSpy;
 
+const TWO_TIMES = 2;
+const THREE_TIMES = 3;
+
 describe('TranslatePipe', () => {
   let pipe: TranslatePipe;
   let service: TranslationService;
@@ -63,7 +66,7 @@ describe('TranslatePipe', () => {
       spyOn(service, 'translate').and.returnValue(of());
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKeyOther', { param: 'param1' });
-      expect(service.translate).toHaveBeenCalledTimes(2);
+      expect(service.translate).toHaveBeenCalledTimes(TWO_TIMES);
     });
 
     it('should call service.translate every time pipe.transform was called with different options', () => {
@@ -71,7 +74,7 @@ describe('TranslatePipe', () => {
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKey', { param: 'param2' });
       pipe.transform('testKey', { param: 'param2', otherParam: 'otherParam1' });
-      expect(service.translate).toHaveBeenCalledTimes(3);
+      expect(service.translate).toHaveBeenCalledTimes(THREE_TIMES);
     });
 
     it('should call cd.markForCheck every time when service.translate emits value', () => {
@@ -81,7 +84,7 @@ describe('TranslatePipe', () => {
       );
       pipe.transform('testKey', { param: 'param1' });
       pipe.transform('testKey', { param: 'param2' });
-      expect(cd.markForCheck).toHaveBeenCalledTimes(3);
+      expect(cd.markForCheck).toHaveBeenCalledTimes(THREE_TIMES);
     });
   });
 });

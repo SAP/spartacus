@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-
-import { LoadingScopesService } from './loading-scopes.service';
 import { OccConfig } from '@spartacus/core';
+import { LoadingScopesService } from './loading-scopes.service';
 
 describe('LoadingScopesService', () => {
   let service: LoadingScopesService;
@@ -102,8 +101,9 @@ describe('LoadingScopesService', () => {
 
   describe('getMaxAge', () => {
     it('should return maxAge in milliseconds', () => {
+      const MAX_AGE_60 = 60;
       const result = service.getMaxAge('product', 'order');
-      expect(result).toEqual(60000);
+      expect(result).toEqual(MAX_AGE_60);
     });
     it('should return 0 for not configured maxAge', () => {
       const result = service.getMaxAge('product', 'detail');

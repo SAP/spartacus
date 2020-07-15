@@ -57,6 +57,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    const STEP_NUMBER_3 = 3;
     this.shouldRedirect = false;
     this.isLoading$ = this.userPaymentService.getPaymentMethodsLoading();
 
@@ -92,7 +93,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
                 this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
               }
             });
-            this.checkoutService.clearCheckoutStep(3);
+            this.checkoutService.clearCheckoutStep(STEP_NUMBER_3);
           } else if (this.shouldRedirect) {
             this.routingService.go(this.checkoutStepUrlNext);
           }

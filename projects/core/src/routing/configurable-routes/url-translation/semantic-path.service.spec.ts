@@ -7,6 +7,8 @@ import { SemanticPathService } from './semantic-path.service';
 import { UrlCommands } from './url-command';
 import { UrlParsingService } from './url-parsing.service';
 
+const URL_COMMAND_111 = 111;
+
 const mockRoutingConfigService = {
   getRouteConfig: () => {},
 };
@@ -467,7 +469,7 @@ describe('SemanticPathService', () => {
       it(`should NOT modify commands that are are not object with "route" property`, () => {
         test_transform({
           urlCommands: [
-            111,
+            URL_COMMAND_111,
             { cxRoute: 'test2', params: { param2: 'value2' } },
             'testString3',
             null,
@@ -475,7 +477,7 @@ describe('SemanticPathService', () => {
           ],
           routesConfigs: [{ paths: ['path2/:param2'] }],
           expectedResult: [
-            111,
+            URL_COMMAND_111,
             'path2',
             'value2',
             'testString3',

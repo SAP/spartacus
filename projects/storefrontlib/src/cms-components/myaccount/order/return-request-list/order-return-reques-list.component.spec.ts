@@ -10,6 +10,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ListNavigationModule } from '../../../../shared/components/list-navigation/list-navigation.module';
 import { OrderReturnRequestListComponent } from './order-return-request-list.component';
 
+const PAGE_SIZE = 5;
+
 const mockReturns: ReturnRequestList = {
   returnRequests: [
     {
@@ -95,7 +97,7 @@ describe('OrderReturnRequestListComponent', () => {
 
     expect(component.sortType).toBe('byOrderNumber');
     expect(returnService.loadOrderReturnRequestList).toHaveBeenCalledWith(
-      5,
+      PAGE_SIZE,
       0,
       'byOrderNumber'
     );
@@ -108,7 +110,7 @@ describe('OrderReturnRequestListComponent', () => {
     component.pageChange(1);
 
     expect(returnService.loadOrderReturnRequestList).toHaveBeenCalledWith(
-      5,
+      PAGE_SIZE,
       1,
       'byDate'
     );

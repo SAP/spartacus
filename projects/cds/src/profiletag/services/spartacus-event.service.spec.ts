@@ -18,6 +18,10 @@ import { tap } from 'rxjs/operators';
 import { CdsConfig } from '../../config';
 import { SpartacusEventService } from './spartacus-event.service';
 
+const TWO_TIMES_CALLED = 2;
+const FOUR_TIMES_CALLED = 4;
+const FIVE_TIMES_CALLED = 5;
+
 describe('SpartacusEventTracker', () => {
   let spartacusEventTracker: SpartacusEventService;
   let getConsentBehavior;
@@ -121,7 +125,7 @@ describe('SpartacusEventTracker', () => {
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test3'));
     routerEventsBehavior.next(new NavigationEnd(0, 'test', 'test1'));
     subscription.unsubscribe();
-    expect(timesCalled).toEqual(5);
+    expect(timesCalled).toEqual(FIVE_TIMES_CALLED);
   });
 
   it(`Should call the cartChanged method for every CartSnapshot event`, () => {
@@ -143,7 +147,7 @@ describe('SpartacusEventTracker', () => {
     cartBehavior.next(testCart);
     cartBehavior.next(testCartWithAdditionalOrderEntry);
     subscription.unsubscribe();
-    expect(timesCalled).toEqual(2);
+    expect(timesCalled).toEqual(TWO_TIMES_CALLED);
   });
 
   it(`Should not call the cartChanged method when the cart is not modified`, () => {
@@ -183,7 +187,7 @@ describe('SpartacusEventTracker', () => {
     cartBehavior.next({ id: 123, entries: [] });
     cartBehavior.next({ id: 123, entries: [] });
     subscription.unsubscribe();
-    expect(timesCalled).toEqual(4);
+    expect(timesCalled).toEqual(FOUR_TIMES_CALLED);
   });
 
   it(`Should call the push method first time a login is successful`, () => {
@@ -199,6 +203,6 @@ describe('SpartacusEventTracker', () => {
     mockActionsSubject.next({ type: AuthActions.LOGIN });
     mockActionsSubject.next({ type: AuthActions.LOGOUT });
     subscription.unsubscribe();
-    expect(timesCalled).toEqual(2);
+    expect(timesCalled).toEqual(TWO_TIMES_CALLED);
   });
 });

@@ -5,6 +5,7 @@ import {
   DEFAULT_SESSION_STORAGE_KEY,
 } from '../config/default-state-config';
 import { StateConfig, StorageSyncType } from '../config/state-config';
+import { filterKeysByType } from '../utils/get-state-slice';
 import {
   exists,
   getStorage,
@@ -14,7 +15,6 @@ import {
   readFromStorage,
   rehydrate,
 } from './storage-sync.reducer';
-import { filterKeysByType } from '../utils/get-state-slice';
 
 const sessionStorageMock = {
   getItem(_key: string): string | null {
@@ -269,7 +269,8 @@ describe('storage-sync-reducer', () => {
 
     describe('when a non-zero number is provided', () => {
       it('should return true', () => {
-        expect(exists(7)).toEqual(true);
+        const NUM_SEVEN = 7;
+        expect(exists(NUM_SEVEN)).toEqual(true);
       });
     });
     describe('when zero (0) is provided', () => {

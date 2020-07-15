@@ -525,6 +525,7 @@ describe('PaymentMethodComponent', () => {
     });
 
     it('should show errors on wrong card information', () => {
+      const VAL_3 = 3;
       spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
         of(false)
       );
@@ -549,7 +550,7 @@ describe('PaymentMethodComponent', () => {
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-      expect(mockCheckoutService.clearCheckoutStep).toHaveBeenCalledWith(3);
+      expect(mockCheckoutService.clearCheckoutStep).toHaveBeenCalledWith(VAL_3);
     });
   });
 });

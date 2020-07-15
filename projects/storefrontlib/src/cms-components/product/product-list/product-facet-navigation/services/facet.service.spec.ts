@@ -9,6 +9,10 @@ import {
 import { FacetService } from './facet.service';
 import { ProductFacetService } from './product-facet.service';
 
+const VALUE_2 = 2;
+const VALUE_5 = 5;
+const VALUE_7 = 7;
+
 class MockProductFacetService {
   facetList$ = of();
 }
@@ -70,13 +74,13 @@ describe('FacetService', () => {
     it('should return facets', () => {
       let result: FacetList;
       service.facetList$.subscribe((f) => (result = f)).unsubscribe();
-      expect(result.facets.length).toEqual(5);
+      expect(result.facets.length).toEqual(VALUE_5);
     });
 
     it('should return active facets', () => {
       let result: FacetList;
       service.facetList$.subscribe((f) => (result = f)).unsubscribe();
-      expect(result.activeFacets.length).toEqual(2);
+      expect(result.activeFacets.length).toEqual(VALUE_2);
     });
   });
 
@@ -129,7 +133,7 @@ describe('FacetService', () => {
         .subscribe((f) => (result = f))
         .unsubscribe();
 
-      expect(result.maxVisible).not.toEqual(5);
+      expect(result.maxVisible).not.toEqual(VALUE_5);
     });
   });
 
@@ -176,7 +180,7 @@ describe('FacetService', () => {
         .getState(facet1)
         .subscribe((f) => (result = f))
         .unsubscribe();
-      expect(result.maxVisible).toEqual(7);
+      expect(result.maxVisible).toEqual(VALUE_7);
     });
 
     it('should decrease visible', () => {
@@ -187,7 +191,7 @@ describe('FacetService', () => {
         .getState(facet1)
         .subscribe((f) => (result = f))
         .unsubscribe();
-      expect(result.maxVisible).toEqual(5);
+      expect(result.maxVisible).toEqual(VALUE_5);
     });
   });
 

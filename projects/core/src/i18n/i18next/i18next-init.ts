@@ -5,6 +5,8 @@ import { ConfigInitializerService } from '../../config/config-initializer/config
 import { LanguageService } from '../../site-context/facade/language.service';
 import { TranslationResources } from '../translation-resources';
 
+const TWO = 2;
+
 export function i18nextInit(
   configInit: ConfigInitializerService,
   languageService: LanguageService,
@@ -95,7 +97,7 @@ export function getLoadPath(path: string, serverRequestOrigin: string): string {
       path = path.slice(1);
     }
     if (path.startsWith('./')) {
-      path = path.slice(2);
+      path = path.slice(TWO);
     }
     const result = `${serverRequestOrigin}/${path}`;
     return result;

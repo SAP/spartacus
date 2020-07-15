@@ -194,12 +194,13 @@ describe('SearchBoxComponent', () => {
       }));
 
       it('should contain 2 suggestion after search', () => {
+        const LEN_2 = 2;
         searchBoxComponent.queryText = 'te';
         fixture.detectChanges();
 
         expect(
           fixture.debugElement.queryAll(By.css('.suggestions a')).length
-        ).toEqual(2);
+        ).toEqual(LEN_2);
       });
 
       it('should contain a message after search', () => {

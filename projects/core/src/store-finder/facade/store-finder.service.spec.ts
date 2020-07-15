@@ -1,15 +1,15 @@
 import { inject, TestBed } from '@angular/core/testing';
+import { NavigationExtras } from '@angular/router';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { GlobalMessageService } from '../../global-message/index';
 import { GeoPoint } from '../../model/misc.model';
+import { RoutingService, UrlCommands } from '../../routing/index';
 import { WindowRef } from '../../window/window-ref';
+import { StoreFinderConfig } from '../config/store-finder-config';
 import { StoreFinderActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StoresState } from '../store/store-finder-state';
 import { StoreFinderService } from './store-finder.service';
-import { GlobalMessageService } from '../../global-message/index';
-import { RoutingService, UrlCommands } from '../../routing/index';
-import { NavigationExtras } from '@angular/router';
-import { StoreFinderConfig } from '../config/store-finder-config';
 
 class MockRoutingService {
   go(
@@ -19,8 +19,9 @@ class MockRoutingService {
   ): void {}
 }
 
+const RADIUS = 50000;
 class MockStoreFinderConfig {
-  radius: 50000;
+  radius: Number = RADIUS;
 }
 
 describe('StoreFinderService', () => {

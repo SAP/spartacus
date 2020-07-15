@@ -5,6 +5,10 @@ import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutActions } from './../actions/index';
 import * as fromCheckout from './checkout.reducer';
 
+const STEP_TWO = 2;
+const STEP_THREE = 3;
+const STEP_FOUR = 4;
+
 describe('Checkout reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
@@ -158,7 +162,7 @@ describe('Checkout reducer', () => {
       const { initialState } = fromCheckout;
       const delivMode = { supported: {}, selected: '' };
 
-      const action = new CheckoutActions.ClearCheckoutStep(2);
+      const action = new CheckoutActions.ClearCheckoutStep(STEP_TWO);
       const state = fromCheckout.reducer(initialState, action);
       expect(state.deliveryMode).toEqual(delivMode);
     });
@@ -169,7 +173,7 @@ describe('Checkout reducer', () => {
       const { initialState } = fromCheckout;
       const paymentDets = {};
 
-      const action = new CheckoutActions.ClearCheckoutStep(3);
+      const action = new CheckoutActions.ClearCheckoutStep(STEP_THREE);
       const state = fromCheckout.reducer(initialState, action);
       expect(state.paymentDetails).toEqual(paymentDets);
     });
@@ -179,7 +183,7 @@ describe('Checkout reducer', () => {
     it('should clear invalid step number', () => {
       const { initialState } = fromCheckout;
 
-      const action = new CheckoutActions.ClearCheckoutStep(4);
+      const action = new CheckoutActions.ClearCheckoutStep(STEP_FOUR);
       const state = fromCheckout.reducer(initialState, action);
       expect(state).toEqual(initialState);
     });

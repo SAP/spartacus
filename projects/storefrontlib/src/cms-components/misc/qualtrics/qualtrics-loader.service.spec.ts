@@ -110,8 +110,9 @@ describe('QualtricsLoaderService', () => {
       });
 
       it('should load twice when a the event is dispatched twice', () => {
+        const TWO_TIMES = 2;
         loadQsi();
-        expect(qsiRun).toHaveBeenCalledTimes(2);
+        expect(qsiRun).toHaveBeenCalledTimes(TWO_TIMES);
       });
 
       it('should unload when a script is alread in the DOM', () => {

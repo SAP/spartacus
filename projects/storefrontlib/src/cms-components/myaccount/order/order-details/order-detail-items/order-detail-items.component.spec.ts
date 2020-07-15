@@ -18,6 +18,9 @@ import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-
 import { OrderDetailItemsComponent } from './order-detail-items.component';
 
 const mockProduct = { product: { code: 'test' } };
+const NUM_TWO = 2;
+const NUM_THREE = 3;
+const NUM_FOUR = 4;
 
 const mockOrder: Order = {
   code: '1',
@@ -205,8 +208,8 @@ describe('OrderDetailItemsComponent', () => {
       .unsubscribe();
 
     expect(others).not.toContain(mockOrder.consignments[1]);
-    expect(others).not.toContain(mockOrder.consignments[2]);
-    expect(others).not.toContain(mockOrder.consignments[3]);
+    expect(others).not.toContain(mockOrder.consignments[NUM_TWO]);
+    expect(others).not.toContain(mockOrder.consignments[NUM_THREE]);
   });
 
   it('should initialize others and check if it contains any consignment status', () => {
@@ -219,7 +222,7 @@ describe('OrderDetailItemsComponent', () => {
       .unsubscribe();
 
     expect(others).toContain(mockOrder.consignments[0]);
-    expect(others).toContain(mockOrder.consignments[4]);
+    expect(others).toContain(mockOrder.consignments[NUM_FOUR]);
   });
 
   it('should initialize completed', () => {
@@ -232,7 +235,7 @@ describe('OrderDetailItemsComponent', () => {
       .unsubscribe();
 
     expect(completed).toContain(mockOrder.consignments[1]);
-    expect(completed).toContain(mockOrder.consignments[2]);
+    expect(completed).toContain(mockOrder.consignments[NUM_TWO]);
   });
 
   it('should initialize cancel', () => {
@@ -243,7 +246,7 @@ describe('OrderDetailItemsComponent', () => {
         cancel = value;
       })
       .unsubscribe();
-    expect(cancel).toContain(mockOrder.consignments[3]);
+    expect(cancel).toContain(mockOrder.consignments[NUM_THREE]);
   });
 
   it('should order details item be rendered', () => {

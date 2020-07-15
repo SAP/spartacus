@@ -14,6 +14,7 @@ import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 import createSpy = jasmine.createSpy;
 
+const EXPECTED_LENGTH = 2;
 const mockQueryString = '?query=mockQuery';
 
 const searchBoxConfig: SearchBoxConfig = {
@@ -131,7 +132,7 @@ describe('SearchBoxComponentService', () => {
     service
       .getResults(searchBoxConfig)
       .subscribe((results) => (result = results));
-    expect(result.products.length).toEqual(2);
+    expect(result.products.length).toEqual(EXPECTED_LENGTH);
   });
 
   it('should not return products when config.displayProducts = false', () => {
@@ -162,7 +163,7 @@ describe('SearchBoxComponentService', () => {
       service
         .getResults(searchBoxConfig)
         .subscribe((results) => (result = results));
-      expect(result.suggestions.length).toEqual(2);
+      expect(result.suggestions.length).toEqual(EXPECTED_LENGTH);
     });
 
     it('should not return suggestions when config.displaySuggestions = false', () => {

@@ -20,6 +20,9 @@ import { ActiveCartService } from './active-cart.service';
 import { MultiCartService } from './multi-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
+const TWO_QUANTITIES = 2;
+const THIRD_ENTRY = 3;
+const TWO_TIMES = 2;
 
 class AuthServiceStub {
   getOccUserId(): Observable<string> {
@@ -326,13 +329,13 @@ describe('ActiveCartService', () => {
       );
       spyOn(multiCartService, 'addEntry').and.callThrough();
 
-      service.addEntry('productCode', 2);
+      service.addEntry('productCode', TWO_QUANTITIES);
 
       expect(multiCartService['addEntry']).toHaveBeenCalledWith(
         OCC_USER_ID_ANONYMOUS,
         'guid',
         'productCode',
-        2
+        TWO_QUANTITIES
       );
     });
   });
@@ -349,7 +352,7 @@ describe('ActiveCartService', () => {
       expect(multiCartService['removeEntry']).toHaveBeenCalledWith(
         'userId',
         'cartId',
-        3
+        THIRD_ENTRY
       );
     });
   });
@@ -360,12 +363,12 @@ describe('ActiveCartService', () => {
       service['userId'] = 'userId';
       spyOn(multiCartService, 'updateEntry').and.callThrough();
 
-      service.updateEntry(1, 2);
+      service.updateEntry(1, TWO_QUANTITIES);
       expect(multiCartService['updateEntry']).toHaveBeenCalledWith(
         'userId',
         'cartId',
         1,
-        2
+        TWO_QUANTITIES
       );
     });
   });
@@ -479,7 +482,7 @@ describe('ActiveCartService', () => {
       spyOn(service, 'addEntry').and.callThrough();
 
       service.addEntries([mockCartEntry, mockCartEntry]);
-      expect(service['addEntry']).toHaveBeenCalledTimes(2);
+      expect(service['addEntry']).toHaveBeenCalledTimes(TWO_TIMES);
       expect(service['addEntry']).toHaveBeenCalledWith(
         mockCartEntry.product.code,
         mockCartEntry.quantity

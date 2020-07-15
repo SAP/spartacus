@@ -12,6 +12,8 @@ import {
 } from '../model/index';
 import { ProfileTagEventService } from './profiletag-event.service';
 
+const TWO_TIMES_CALLED = 2;
+
 const mockCDSConfig: CdsConfig = {
   cds: {
     tenant: 'ArgoTest',
@@ -174,7 +176,7 @@ describe('ProfileTagEventTracker', () => {
     );
     subscription.unsubscribe();
 
-    expect(timesCalled).toEqual(2);
+    expect(timesCalled).toEqual(TWO_TIMES_CALLED);
   });
   it('Should give the lastest consent reference to late subscribers', () => {
     let cr1 = null;

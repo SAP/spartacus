@@ -19,6 +19,8 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
 import { CurrentProductService } from '../../current-product.service';
 import { ProductReferencesComponent } from './product-references.component';
 
+const LEN_2 = 2;
+
 @Component({
   selector: 'cx-carousel',
   template: `
@@ -150,7 +152,7 @@ describe('ProductReferencesComponent', () => {
   it('should have 2 items', async(() => {
     let items: Observable<Product>[];
     component.items$.subscribe((i) => (items = i));
-    expect(items.length).toBe(2);
+    expect(items.length).toBe(LEN_2);
   }));
 
   it('should have product reference code 111 in first product', async(() => {
@@ -165,7 +167,7 @@ describe('ProductReferencesComponent', () => {
   describe('UI test', () => {
     it('should have 2 rendered templates', async(() => {
       const el = fixture.debugElement.queryAll(By.css('a'));
-      expect(el.length).toEqual(2);
+      expect(el.length).toEqual(LEN_2);
     }));
   });
 

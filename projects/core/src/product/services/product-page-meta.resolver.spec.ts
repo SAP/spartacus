@@ -151,6 +151,7 @@ describe('ProductPageMetaResolver', () => {
 
   it('should resolve breadcrumbs', () => {
     let result: any[];
+    const LENGTH_TWO = 2;
     service
       .resolveBreadcrumbs()
       .subscribe((value) => {
@@ -158,7 +159,7 @@ describe('ProductPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.length).toEqual(2);
+    expect(result.length).toEqual(LENGTH_TWO);
   });
 
   it('should resolve 2nd breadcrumbs with category name', () => {

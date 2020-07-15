@@ -126,8 +126,9 @@ describe('PageLayoutComponent', () => {
 
   it('should render two slots based on layout configuration', () => {
     const debugElement = fixture.debugElement;
+    const LEN_2 = 2;
     const elements = debugElement.queryAll(By.css('cx-page-slot'));
-    expect(elements.length).toBe(2);
+    expect(elements.length).toBe(LEN_2);
   });
 
   it('should render page template as class name on page layout', () => {

@@ -13,6 +13,8 @@ import { FOCUS_GROUP_ATTR, LockFocusConfig } from '../keyboard-focus.model';
 import { TrapFocusDirective } from '../trap/trap-focus.directive';
 import { LockFocusService } from './lock-focus.service';
 
+const TIMEOUT_HUNDRED = 100;
+
 /**
  * Focusable elements exclude hidden elements by default, but this contradicts with
  * unlocking (hidden) elements.
@@ -94,7 +96,7 @@ export class LockFocusDirective extends TrapFocusDirective
       // the mouse event on the new focused child element
       setTimeout(() => {
         super.handleFocus(event as KeyboardEvent);
-      }, 100);
+      }, TIMEOUT_HUNDRED);
     }
   }
 

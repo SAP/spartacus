@@ -9,6 +9,10 @@ import { NavigationNode } from './navigation-node.model';
 import { NavigationService } from './navigation.service';
 import createSpy = jasmine.createSpy;
 
+const NUM_TWO = 2;
+const NUM_THREE = 3;
+const NUM_FOUR = 4;
+
 const navigationEntryItems: any = {
   MainLink001_AbstractCMSComponent: {
     uid: 'MainLink001',
@@ -168,7 +172,7 @@ describe('NavigationComponentService', () => {
       .getNavigationNode(of(componentData))
       .subscribe((node) => (result = node));
 
-    expect(result.children[2].url).toBeFalsy();
+    expect(result.children[NUM_TWO].url).toBeFalsy();
   });
 
   it('should get a link to a category when categoryCode is provided', () => {
@@ -181,7 +185,11 @@ describe('NavigationComponentService', () => {
       .getNavigationNode(of(componentData))
       .subscribe((node) => (result = node));
 
-    expect(result.children[3].url).toEqual(['category', '444', 'name 4']);
+    expect(result.children[NUM_THREE].url).toEqual([
+      'category',
+      '444',
+      'name 4',
+    ]);
   });
 
   it('should get navigation node based on CMS data', () => {
@@ -194,7 +202,7 @@ describe('NavigationComponentService', () => {
       .getNavigationNode(of(componentData))
       .subscribe((node) => (result = node));
 
-    expect(result.children.length).toEqual(4);
+    expect(result.children.length).toEqual(NUM_FOUR);
     expect(result.children[0].title).toEqual('test link 1');
     expect(result.children[1].url).toEqual('/testLink2');
   });
@@ -205,7 +213,7 @@ describe('NavigationComponentService', () => {
     );
 
     // add one more child
-    componentData.navigationNode.children[4] = {
+    componentData.navigationNode.children[NUM_FOUR] = {
       uid: 'MockChildNode005',
       entries: [
         {
@@ -236,7 +244,7 @@ describe('NavigationComponentService', () => {
 
     expect(result.title).toEqual('NavigationComponent name');
     expect(result.children.length).toEqual(1);
-    expect(result.children[0].children.length).toEqual(4);
+    expect(result.children[0].children.length).toEqual(NUM_FOUR);
   });
 
   describe('populate nodes', () => {

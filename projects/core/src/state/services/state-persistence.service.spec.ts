@@ -6,6 +6,10 @@ import { WindowRef } from '../../window/window-ref';
 import { StorageSyncType } from '../config/state-config';
 import { StatePersistenceService } from './state-persistence.service';
 
+const TWO_TIMES_CALLED = 2;
+const FOUR = 4;
+const FIVE = 5;
+
 const sessionStorageMock = {
   getItem(_key: string): string | null {
     return '"value"';
@@ -63,13 +67,13 @@ describe('StatePersistenceService', () => {
 
       service.syncWithStorage({ key: 'test', state$: state.asObservable() });
 
-      state.next(5);
+      state.next(FIVE);
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'spartacus⚿⚿test',
         '5'
       );
 
-      state.next(4);
+      state.next(FOUR);
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'spartacus⚿⚿test',
         '4'
@@ -85,14 +89,14 @@ describe('StatePersistenceService', () => {
         context$: of(['electronics-spa', 'USD']),
       });
 
-      state.next(5);
+      state.next(FIVE);
       expect(sessionStorageMock.setItem).not.toHaveBeenCalled();
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'spartacus⚿electronics-spa⚿USD⚿test',
         '5'
       );
 
-      state.next(4);
+      state.next(FOUR);
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'spartacus⚿electronics-spa⚿USD⚿test',
         '4'
@@ -108,14 +112,14 @@ describe('StatePersistenceService', () => {
         storageType: StorageSyncType.SESSION_STORAGE,
       });
 
-      state.next(5);
+      state.next(FIVE);
       expect(localStorageMock.setItem).not.toHaveBeenCalled();
       expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
         'spartacus⚿⚿test',
         '5'
       );
 
-      state.next(4);
+      state.next(FOUR);
       expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
         'spartacus⚿⚿test',
         '4'
@@ -135,7 +139,7 @@ describe('StatePersistenceService', () => {
       });
 
       expect(localStorageMock.getItem).toHaveBeenCalledWith('spartacus⚿⚿test');
-      expect(stateFromStorage).toEqual(5);
+      expect(stateFromStorage).toEqual(FIVE);
     });
 
     it('should restore state on provided context emission', () => {
@@ -162,8 +166,8 @@ describe('StatePersistenceService', () => {
         'spartacus⚿de⚿test'
       );
 
-      expect(localStorageMock.getItem).toHaveBeenCalledTimes(2);
-      expect(stateFromStorage).toEqual(5);
+      expect(localStorageMock.getItem).toHaveBeenCalledTimes(TWO_TIMES_CALLED);
+      expect(stateFromStorage).toEqual(FIVE);
     });
   });
 

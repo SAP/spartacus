@@ -7,6 +7,8 @@ import { OrderAmendService } from '../amend-order.service';
 import { CancelOrReturnItemsComponent } from './amend-order-items.component';
 import createSpy = jasmine.createSpy;
 
+const MAX_AMEND_QTY = 99;
+
 const mockEntries = [
   {
     id: 1,
@@ -51,7 +53,7 @@ class MockOrderAmendService {
   getAmendedPrice = createSpy();
   getForm() {}
   getMaxAmendQuantity() {
-    return 99;
+    return MAX_AMEND_QTY;
   }
 }
 
@@ -92,7 +94,7 @@ describe('CancelOrReturnItemsComponent', () => {
 
   it('should set all quanities to max values', () => {
     component.setAll(mockForm);
-    expect(entryGroup.get('1').value).toEqual(99);
+    expect(entryGroup.get('1').value).toEqual(MAX_AMEND_QTY);
   });
 
   it('should call getAmendedPrice', () => {

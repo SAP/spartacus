@@ -17,9 +17,9 @@ import {
   User,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { FormErrorsModule } from '../../../shared/index';
 import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { CustomerSelectionComponent } from './customer-selection.component';
-import { FormErrorsModule } from '../../../shared/index';
 
 class MockGlobalMessageService {
   add = jasmine.createSpy();
@@ -143,13 +143,14 @@ describe('CustomerSelectionComponent', () => {
   });
 
   it('should trigger search for valid search term', fakeAsync(() => {
+    const MS_1000 = 1000;
     spyOn(asmService, 'customerSearch').and.callThrough();
     component.ngOnInit();
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm
     );
     fixture.detectChanges();
-    tick(1000);
+    tick(MS_1000);
     expect(asmService.customerSearch).toHaveBeenCalledWith({
       query: validSearchTerm,
       pageSize: 20,

@@ -18,6 +18,9 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
+const DEBOUNCE_TIME = 300;
+const THREE_SEARCH_TERMS = 3;
+
 @Component({
   selector: 'cx-customer-selection',
   templateUrl: './customer-selection.component.html',
@@ -57,7 +60,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.customerSelectionForm.controls.searchTerm.valueChanges
-        .pipe(debounceTime(300))
+        .pipe(debounceTime(DEBOUNCE_TIME))
         .subscribe((searchTermValue) => {
           this.handleSearchTerm(searchTermValue);
         })
@@ -75,7 +78,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       return;
     }
     this.asmService.customerSearchReset();
-    if (searchTermValue.trim().length >= 3) {
+    if (searchTermValue.trim().length >= THREE_SEARCH_TERMS) {
       this.asmService.customerSearch({
         query: searchTermValue,
         pageSize: this.config.asm.customerSearch.maxResults,

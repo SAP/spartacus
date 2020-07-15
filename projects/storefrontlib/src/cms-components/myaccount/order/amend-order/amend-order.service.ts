@@ -7,6 +7,8 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details/order-details.service';
 import { AmendOrderType } from './amend-order.model';
 
+const HUNDRED = 100;
+
 function ValidateQuantityToCancel(control: FormControl) {
   if (!control.value) {
     return null;
@@ -106,7 +108,7 @@ export abstract class OrderAmendService {
     const amendedQuantity = this.getFormControl(this.form, entry).value;
     const amendedPrice = Object.assign({}, entry.basePrice);
     amendedPrice.value =
-      Math.round(entry.basePrice.value * amendedQuantity * 100) / 100;
+      Math.round(entry.basePrice.value * amendedQuantity * HUNDRED) / HUNDRED;
 
     amendedPrice.formattedValue = formatCurrency(
       amendedPrice.value,

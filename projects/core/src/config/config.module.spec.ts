@@ -9,10 +9,12 @@ import {
 } from './config.module';
 
 describe('ConfigModule', () => {
+  const NUM_THREE = 3;
+  const NUM_FIVE = 5;
   const exampleConfigFactory = () => ({
     test1: 'test config',
     test2: 'a' + 'b',
-    test3: 3 * 5,
+    test3: NUM_THREE * NUM_FIVE,
   });
 
   it('forRoot should provide a configuration token', () => {

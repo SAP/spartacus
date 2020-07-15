@@ -114,10 +114,11 @@ describe('UserAuthenticationTokenService', () => {
     });
 
     it('should catch refresh error', () => {
+      const ERROR_CODE_400 = 400;
       authTokenService.refreshToken('invalid token').subscribe(
         (_result) => {},
         (error: HttpErrorResponse) => {
-          expect(error.status).toBe(400);
+          expect(error.status).toBe(ERROR_CODE_400);
           expect(error.statusText).toEqual('Error');
         }
       );

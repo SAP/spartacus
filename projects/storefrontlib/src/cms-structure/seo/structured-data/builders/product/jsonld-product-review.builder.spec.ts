@@ -74,31 +74,34 @@ describe('JsonLdProductReviewBuilder', () => {
     });
 
     it('should contain a schema with aggregateRating.ratingCount = 3', () => {
+      const RATING_3 = 3;
       spyOn(reviewService, 'getByProductCode').and.returnValue(
         of([review1, review2, review3])
       );
       service
         .build(simpleProductMock)
         .subscribe((schema) => {
-          expect(schema.aggregateRating.ratingCount).toEqual(3);
+          expect(schema.aggregateRating.ratingCount).toEqual(RATING_3);
         })
         .unsubscribe();
     });
 
     it('should contain a schema with aggregateRating.reviewCount = 2 out of 3', () => {
+      const RATING_2 = 2;
       spyOn(reviewService, 'getByProductCode').and.returnValue(
         of([review1, review2, review3])
       );
       service
         .build(simpleProductMock)
         .subscribe((schema) => {
-          expect(schema.aggregateRating.reviewCount).toEqual(2);
+          expect(schema.aggregateRating.reviewCount).toEqual(RATING_2);
         })
         .unsubscribe();
     });
   });
 
   describe('ReviewDetails', () => {
+    const LEN_2 = 2;
     it('should have a schema with 2 reviews', () => {
       spyOn(reviewService, 'getByProductCode').and.returnValue(
         of([review1, review2])
@@ -106,18 +109,19 @@ describe('JsonLdProductReviewBuilder', () => {
       service
         .build(simpleProductMock)
         .subscribe((schema) => {
-          expect(schema.review.length).toEqual(2);
+          expect(schema.review.length).toEqual(LEN_2);
         })
         .unsubscribe();
     });
     it('should have a schema with 3 reviews', () => {
+      const LEN_3 = 3;
       spyOn(reviewService, 'getByProductCode').and.returnValue(
         of([review1, review2, review3])
       );
       service
         .build(simpleProductMock)
         .subscribe((schema) => {
-          expect(schema.review.length).toEqual(3);
+          expect(schema.review.length).toEqual(LEN_3);
         })
         .unsubscribe();
     });

@@ -63,6 +63,7 @@ describe('CartPageMetaResolver', () => {
 
   it(`should resolve robots`, () => {
     let result: string[];
+    const EXPECTED_LENGTH_TWO = 2;
 
     service
       .resolveRobots()
@@ -71,7 +72,7 @@ describe('CartPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.length).toEqual(2);
+    expect(result.length).toEqual(EXPECTED_LENGTH_TWO);
     expect(result).toContain(PageRobotsMeta.NOFOLLOW);
     expect(result).toContain(PageRobotsMeta.NOINDEX);
   });

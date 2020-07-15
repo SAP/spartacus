@@ -8,7 +8,9 @@ import { I18nextTranslationService } from './i18next-translation.service';
 
 const testKey = 'testKey';
 const testOptions = 'testOptions';
-const nonBreakingSpace = String.fromCharCode(160);
+const CHAR_CODE = 160;
+const nonBreakingSpace = String.fromCharCode(CHAR_CODE);
+const COUNT_TWO = 2;
 
 describe('I18nextTranslationService', () => {
   let service: I18nextTranslationService;
@@ -168,7 +170,7 @@ describe('I18nextTranslationService', () => {
         let result;
         service
           .translate(testKey, testOptions)
-          .pipe(take(2))
+          .pipe(take(COUNT_TWO))
           .subscribe((x) => (result = x));
         expect(result).toBe('value1');
 

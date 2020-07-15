@@ -65,11 +65,14 @@ describe('StateEventService', () => {
       });
 
       it('mapped explicity with factory function', () => {
+        const NUM_HUNDRED = 100;
         service.register({
           action: 'A',
           event: TestEvent,
           factory: (action: ActionWithPayload) =>
-            createFrom(TestEvent, { value: 100 + action.payload.value }),
+            createFrom(TestEvent, {
+              value: NUM_HUNDRED + action.payload.value,
+            }),
         });
         const registeredSource$ = eventService.register['calls'].argsFor(0)[1];
         const results = [];

@@ -1,13 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/core';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { ReturnOrderComponent } from './return-order.component';
-import { FormGroup } from '@angular/forms';
 
+const LEN_2 = 2;
 class MockOrderAmendService {
   getForm() {
     return of({
@@ -73,7 +74,7 @@ describe('ReturnOrderComponent', () => {
 
     expect(
       fixture.debugElement.queryAll(By.css('cx-amend-order-actions')).length
-    ).toEqual(2);
+    ).toEqual(LEN_2);
   });
 
   it('should render cx-amend-order-items component', () => {
@@ -81,6 +82,6 @@ describe('ReturnOrderComponent', () => {
 
     expect(
       fixture.debugElement.queryAll(By.css('cx-amend-order-actions')).length
-    ).toEqual(2);
+    ).toEqual(LEN_2);
   });
 });

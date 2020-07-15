@@ -4,6 +4,8 @@ import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 
+const NUMBER_OF_THUMBS = 2;
+
 @Component({
   selector: 'cx-product-images',
   templateUrl: './product-images.component.html',
@@ -77,7 +79,7 @@ export class ProductImagesComponent {
     if (
       !product.images ||
       !product.images.GALLERY ||
-      product.images.GALLERY.length < 2
+      product.images.GALLERY.length < NUMBER_OF_THUMBS
     ) {
       return [];
     }

@@ -5,6 +5,11 @@ import {
   shallowEqualObjects,
 } from './compare-equal-objects';
 
+const TWO = 2;
+const THREE = 3;
+const FOUR = 4;
+const FIVE = 5;
+
 describe('compare equal objects utilities', () => {
   describe('shallowEqualObjects utility', () => {
     it('should return true for the same references', () => {
@@ -111,7 +116,7 @@ describe('compare equal objects utilities', () => {
           { x: 2, z: { z: 2 } },
           { x: 1, z: { z: 2 } },
         ])
-      ).toEqual(2);
+      ).toEqual(TWO);
       expect(
         countOfDeepEqualObjects({ x: 1 }, [
           { x: 1 },
@@ -123,8 +128,10 @@ describe('compare equal objects utilities', () => {
     });
 
     it('should return count of equal primitives', () => {
-      expect(countOfDeepEqualObjects(2, [1, 2, 3, 4, 2, 3, 3])).toEqual(2);
-      expect(countOfDeepEqualObjects(5, [])).toEqual(0);
+      expect(
+        countOfDeepEqualObjects(TWO, [1, TWO, THREE, FOUR, TWO, TWO, THREE])
+      ).toEqual(TWO);
+      expect(countOfDeepEqualObjects(FIVE, [])).toEqual(0);
     });
   });
 
@@ -144,12 +151,14 @@ describe('compare equal objects utilities', () => {
           { x: 1 },
           { x: 2 },
         ])
-      ).toEqual(2);
+      ).toEqual(TWO);
     });
 
     it('should return index of first deep equal primitive', () => {
-      expect(indexOfFirstOccurrence(3, [1, 2, 3, 4, 2, 3, 3])).toEqual(2);
-      expect(indexOfFirstOccurrence(5, [])).toEqual(undefined);
+      expect(
+        indexOfFirstOccurrence(THREE, [1, TWO, THREE, FOUR, TWO, THREE, THREE])
+      ).toEqual(TWO);
+      expect(indexOfFirstOccurrence(FIVE, [])).toEqual(undefined);
     });
   });
 });

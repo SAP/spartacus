@@ -1,5 +1,7 @@
-import { AbstractControl, ValidationErrors, FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '@spartacus/core';
+
+const MAX_RATING = 5;
 
 export class CustomFormValidators {
   /**
@@ -51,7 +53,9 @@ export class CustomFormValidators {
   static starRatingEmpty(control: AbstractControl): ValidationErrors | null {
     const rating = control.value as number;
 
-    return rating >= 1 && rating <= 5 ? null : { cxStarRatingEmpty: true };
+    return rating >= 1 && rating <= MAX_RATING
+      ? null
+      : { cxStarRatingEmpty: true };
   }
 
   /**

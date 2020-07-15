@@ -18,6 +18,8 @@ import { SiteContextActions } from '../actions/index';
 import { getActiveLanguage } from '../selectors/languages.selectors';
 import { StateWithSiteContext } from '../state';
 
+const BUFFER_SIZE = 2;
+
 @Injectable()
 export class LanguagesEffects {
   @Effect()
@@ -57,7 +59,7 @@ export class LanguagesEffects {
   activateLanguage$: Observable<
     SiteContextActions.LanguageChange
   > = this.state.select(getActiveLanguage).pipe(
-    bufferCount(2, 1),
+    bufferCount(BUFFER_SIZE, 1),
 
     // avoid dispatching `change` action when we're just setting the initial value:
     filter(([previous]) => !!previous),

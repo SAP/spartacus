@@ -1,13 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-
-import { UserInterestsConnector } from './user-interests.connector';
 import { of } from 'rxjs/internal/observable/of';
-import { UserInterestsAdapter } from './user-interests.adapter';
 import {
   NotificationType,
   ProductInterestEntryRelation,
 } from '../../../model/product-interest.model';
+import { UserInterestsAdapter } from './user-interests.adapter';
+import { UserInterestsConnector } from './user-interests.connector';
+
 import createSpy = jasmine.createSpy;
+
+const PAGE_SIZE_TEN = 10;
 
 class MockUserInterestsAdapter implements UserInterestsAdapter {
   getInterests = createSpy('getInterests').and.callFake((userId) =>
@@ -41,7 +43,7 @@ describe('UserInterestsConnector', () => {
     service
       .getInterests(
         'user-id',
-        10,
+        PAGE_SIZE_TEN,
         0,
         'name:asc',
         '343898',
@@ -51,7 +53,7 @@ describe('UserInterestsConnector', () => {
     expect(result).toEqual('loadList-user-id');
     expect(adapter.getInterests).toHaveBeenCalledWith(
       'user-id',
-      10,
+      PAGE_SIZE_TEN,
       0,
       'name:asc',
       '343898',

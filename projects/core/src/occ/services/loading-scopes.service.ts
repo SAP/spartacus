@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { OccConfig } from '../config/occ-config';
 
+const THOUSAND = 1000;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -63,6 +65,6 @@ export class LoadingScopesService {
       this.config.backend &&
       this.config.backend.loadingScopes &&
       this.config.backend.loadingScopes[model];
-    return (scopesConfig[scope] && scopesConfig[scope].maxAge) * 1000 || 0;
+    return (scopesConfig[scope] && scopesConfig[scope].maxAge) * THOUSAND || 0;
   }
 }

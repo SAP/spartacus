@@ -61,8 +61,9 @@ describe('MultiCartStatePersistenceService', () => {
   });
 
   it('active cart should be updated on context change', () => {
+    const TWO_TIMES = 2;
     service['onRead']({ active: 'cartId' });
-    expect(store.dispatch).toHaveBeenCalledTimes(2);
+    expect(store.dispatch).toHaveBeenCalledTimes(TWO_TIMES);
     expect(store.dispatch).toHaveBeenCalledWith(
       new CartActions.ClearCartState()
     );

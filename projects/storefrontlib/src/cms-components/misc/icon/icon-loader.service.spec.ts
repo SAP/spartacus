@@ -93,10 +93,11 @@ describe('IconLoaderService', () => {
     });
 
     it('should add 2 fonts resources for the different fonts', () => {
+      const TWO_TIMES = 2;
       spyOn<any>(winRef.document, 'createElement').and.callThrough();
       service.addLinkResource(ICON_TYPE.VISA);
       service.addLinkResource('MASTERCARD');
-      expect(winRef.document.createElement).toHaveBeenCalledTimes(2);
+      expect(winRef.document.createElement).toHaveBeenCalledTimes(TWO_TIMES);
     });
   });
 

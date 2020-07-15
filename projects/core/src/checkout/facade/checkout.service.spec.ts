@@ -10,6 +10,8 @@ import { CheckoutState, CHECKOUT_FEATURE } from '../store/checkout-state';
 import * as CheckoutActionsReducers from '../store/reducers/index';
 import { CheckoutService } from './checkout.service';
 
+const STEP_TWO = 2;
+
 describe('CheckoutService', () => {
   let service: CheckoutService;
   let activeCartService: ActiveCartService;
@@ -104,9 +106,9 @@ describe('CheckoutService', () => {
   });
 
   it('should be able to clear checkout step', () => {
-    service.clearCheckoutStep(2);
+    service.clearCheckoutStep(STEP_TWO);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.ClearCheckoutStep(2)
+      new CheckoutActions.ClearCheckoutStep(STEP_TWO)
     );
   });
 

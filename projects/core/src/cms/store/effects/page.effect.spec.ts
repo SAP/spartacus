@@ -16,7 +16,8 @@ import { CMS_FEATURE } from '../cms-state';
 import * as fromEffects from './page.effect';
 
 function mockDateNow(): number {
-  return 1000000000000;
+  const MOCK_DATE = 1000000000000;
+  return MOCK_DATE;
 }
 
 const pageContext: PageContext = {

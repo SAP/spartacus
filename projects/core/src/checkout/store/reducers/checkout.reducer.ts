@@ -3,6 +3,10 @@ import { DeliveryMode, Order } from '../../../model/order.model';
 import { CheckoutStepsState } from '../checkout-state';
 import { CheckoutActions } from './../actions/index';
 
+const ONE = 1;
+const TWO = 2;
+const THREE = 3;
+
 export const initialState: CheckoutStepsState = {
   address: {},
   deliveryMode: {
@@ -105,14 +109,14 @@ export function reducer(
     case CheckoutActions.CLEAR_CHECKOUT_STEP: {
       const stepNumber = action.payload;
       switch (stepNumber) {
-        case 1: {
+        case ONE: {
           return {
             ...state,
             address: {},
           };
         }
 
-        case 2: {
+        case TWO: {
           return {
             ...state,
             deliveryMode: {
@@ -123,7 +127,7 @@ export function reducer(
           };
         }
 
-        case 3: {
+        case THREE: {
           return {
             ...state,
             paymentDetails: {},

@@ -1,8 +1,14 @@
 import { FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import {
-  CustomFormValidators,
   controlsMustMatch,
+  CustomFormValidators,
 } from './custom-form-validators';
+
+const VAL_2 = 2;
+const VAL_3 = 3;
+const VAL_4 = 4;
+const VAL_5 = 5;
+const VAL_1000 = 1000;
 
 describe('FormValidationService', () => {
   let email: FormControl;
@@ -167,8 +173,8 @@ describe('FormValidationService', () => {
   });
 
   describe('Star rating validator', () => {
-    const invalidValues = [null, 'a', 0, 1000];
-    const validValues = [1, 2, 3, 4, 5];
+    const invalidValues = [null, 'a', 0, VAL_1000];
+    const validValues = [1, VAL_2, VAL_3, VAL_4, VAL_5];
 
     it('should reject invalid values', () => {
       invalidValues.forEach((value: any) => {

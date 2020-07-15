@@ -10,16 +10,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Address,
+  CheckoutDeliveryService,
   I18nTestingModule,
   User,
   UserAddressService,
-  CheckoutDeliveryService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CardModule } from '../../../shared/components/card';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
-import { CardModule } from '../../../shared/components/card';
 
 const mockAddress: Address = {
   id: '123',
@@ -152,7 +152,8 @@ describe('AddressBookComponent', () => {
   });
 
   it('should address cards number to be equal with addresses count', () => {
-    expect(el.queryAll(By.css('cx-card')).length).toEqual(3);
+    const NUM_THREE = 3;
+    expect(el.queryAll(By.css('cx-card')).length).toEqual(NUM_THREE);
   });
 
   it('should be able to add new address', () => {

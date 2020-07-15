@@ -25,6 +25,7 @@ const testCart: Cart = {
   },
   user: { uid: 'test' },
 };
+const TWO_QUANTITIES = 2;
 
 describe('MultiCartService', () => {
   let service: MultiCartService;
@@ -260,7 +261,7 @@ describe('MultiCartService', () => {
 
   describe('addEntry', () => {
     it('should dispatch addEntry action', () => {
-      service.addEntry('userId', 'cartId', 'productCode', 2);
+      service.addEntry('userId', 'cartId', 'productCode', TWO_QUANTITIES);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartAddEntry({
@@ -315,7 +316,7 @@ describe('MultiCartService', () => {
 
   describe('updateEntry', () => {
     it('should dispatch UpdateEntry action for quantity > 0', () => {
-      service.updateEntry('userId', 'cartId', 0, 2);
+      service.updateEntry('userId', 'cartId', 0, TWO_QUANTITIES);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CartUpdateEntry({

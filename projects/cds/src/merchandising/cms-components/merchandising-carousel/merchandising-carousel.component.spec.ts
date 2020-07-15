@@ -24,6 +24,9 @@ import { MerchandisingCarouselComponentService } from './merchandising-carousel.
 import { MerchandisingCarouselModel } from './model/index';
 import createSpy = jasmine.createSpy;
 
+const VIEWPORT_THRESHOLD = 0.8;
+const TWO_ITEMS = 2;
+
 @Component({
   selector: 'cx-carousel',
   template: `
@@ -134,7 +137,7 @@ class MockMerchandisingCarouselComponentService {
   }
 
   getMerchandisingCaourselViewportThreshold(): number {
-    return 0.8;
+    return VIEWPORT_THRESHOLD;
   }
 }
 
@@ -241,7 +244,7 @@ describe('MerchandisingCarouselComponent', () => {
       (actualMerchandisingCarouselModel) =>
         (items = actualMerchandisingCarouselModel.items$)
     );
-    expect(items.length).toBe(2);
+    expect(items.length).toBe(TWO_ITEMS);
   }));
 
   it('should have product code 111 in first product', async(() => {
@@ -283,7 +286,7 @@ describe('MerchandisingCarouselComponent', () => {
       const el = fixture.debugElement.queryAll(
         By.css('.data-cx-merchandising-product')
       );
-      expect(el.length).toBe(2);
+      expect(el.length).toBe(TWO_ITEMS);
     }));
 
     it('should render product name in template', async(() => {

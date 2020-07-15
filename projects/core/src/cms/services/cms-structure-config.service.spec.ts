@@ -6,6 +6,9 @@ import {
   CmsStructureModel,
 } from '@spartacus/core';
 
+const EXPECTED_LENGTH_TWO = 2;
+const EXPECTED_LENGTH_THREE = 3;
+
 let mockPageStructure: CmsStructureModel;
 
 describe('CmsStructureConfigService', () => {
@@ -133,7 +136,9 @@ describe('CmsStructureConfigService', () => {
           'EmptyCartMiddleContent'
         );
         expect(Object.keys(result.page.slots)).toContain('GobalSlot');
-        expect(Object.keys(result.page.slots).length).toEqual(2);
+        expect(Object.keys(result.page.slots).length).toEqual(
+          EXPECTED_LENGTH_TWO
+        );
       });
 
       it('should add global slots to empty page', () => {
@@ -184,7 +189,9 @@ describe('CmsStructureConfigService', () => {
           });
 
         expect(Object.keys(result.page.slots)).toContain('GobalSlot');
-        expect(result.page.slots['GobalSlot'].components.length).toEqual(3);
+        expect(result.page.slots['GobalSlot'].components.length).toEqual(
+          EXPECTED_LENGTH_THREE
+        );
       });
 
       it('should have uid in page component data', () => {

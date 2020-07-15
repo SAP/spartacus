@@ -4,6 +4,9 @@ import { Occ } from '../../../occ-models/occ.models';
 import { OccProductSearchPageNormalizer } from './occ-product-search-page-normalizer';
 import createSpy = jasmine.createSpy;
 
+const COUNT_TWO = 2;
+const COUNT_SIX = 6;
+
 class MockConverterService {
   convert = createSpy('ConverterService.convert').and.returnValue({
     images: ['images'],
@@ -103,7 +106,7 @@ describe('OccProductSearchPageNormalizer', () => {
       const converter = TestBed.inject(ConverterService);
       const result = normalizer.convert(mockPlpWithFacets);
 
-      expect(result.facets[0].topValueCount).toEqual(2);
+      expect(result.facets[0].topValueCount).toEqual(COUNT_TWO);
       expect(converter.convert).toHaveBeenCalled();
     });
 
@@ -111,7 +114,7 @@ describe('OccProductSearchPageNormalizer', () => {
       const converter = TestBed.inject(ConverterService);
       const result = normalizer.convert(mockPlpWithFacets);
 
-      expect(result.facets[1].topValueCount).toEqual(6);
+      expect(result.facets[1].topValueCount).toEqual(COUNT_SIX);
       expect(converter.convert).toHaveBeenCalled();
     });
   });
@@ -125,7 +128,7 @@ describe('OccProductSearchPageNormalizer', () => {
 
     it('should not remove useles facet facet list if pagination is not used', () => {
       const result = normalizer.convert(mockPlpWithoutPagination);
-      expect(result.facets.length).toEqual(2);
+      expect(result.facets.length).toEqual(COUNT_TWO);
     });
   });
 });

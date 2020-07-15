@@ -5,8 +5,8 @@ import { of } from 'rxjs';
 import { GlobalMessageType } from '../models/global-message.model';
 import { GlobalMessageActions } from '../store/actions/index';
 import {
-  GLOBAL_MESSAGE_FEATURE,
   GlobalMessageState,
+  GLOBAL_MESSAGE_FEATURE,
 } from '../store/global-message-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { GlobalMessageService } from './global-message.service';
@@ -82,7 +82,12 @@ describe('GlobalMessageService', () => {
   });
 
   it('Should be able to add a message with a duration', () => {
-    service.add('Test error message', GlobalMessageType.MSG_TYPE_ERROR, 10000);
+    const TIMEOUT = 10000;
+    service.add(
+      'Test error message',
+      GlobalMessageType.MSG_TYPE_ERROR,
+      TIMEOUT
+    );
     expect(store.dispatch).toHaveBeenCalledWith(
       new GlobalMessageActions.AddMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,

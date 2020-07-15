@@ -274,13 +274,14 @@ describe('PageSlotComponent', () => {
     });
 
     it('should have two components', () => {
+      const LEN_2 = 2;
       spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithTwoComp));
       fixture.detectChanges();
       let results;
       pageSlotComponent.components$
         .subscribe((components) => (results = components))
         .unsubscribe();
-      expect(results.length).toEqual(2);
+      expect(results.length).toEqual(LEN_2);
     });
   });
 

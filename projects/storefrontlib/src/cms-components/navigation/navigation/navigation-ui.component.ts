@@ -15,6 +15,8 @@ import { debounceTime, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { NavigationNode } from './navigation-node.model';
 
+const DEBOUNCE_TIME = 50;
+
 @Component({
   selector: 'cx-navigation-ui',
   templateUrl: './navigation-ui.component.html',
@@ -65,7 +67,7 @@ export class NavigationUIComponent implements OnDestroy {
         .subscribe(() => this.clear())
     );
     this.subscriptions.add(
-      this.resize.pipe(debounceTime(50)).subscribe(() => {
+      this.resize.pipe(debounceTime(DEBOUNCE_TIME)).subscribe(() => {
         this.alignWrappersToRightIfStickOut();
       })
     );

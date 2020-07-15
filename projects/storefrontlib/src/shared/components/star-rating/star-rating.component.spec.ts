@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StarRatingComponent } from './star-rating.component';
 
+const RATE_THREE = 3;
+
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -39,7 +41,7 @@ describe('StarRatingComponent in product', () => {
 
   it('should call setRate and call through it', () => {
     spyOn(starRatingComponent, 'setRate').and.callThrough();
-    starRatingComponent.setRate(3, true);
+    starRatingComponent.setRate(RATE_THREE, true);
     expect(starRatingComponent.setRate).toHaveBeenCalled();
   });
 
@@ -47,9 +49,9 @@ describe('StarRatingComponent in product', () => {
     spyOn(starRatingComponent, 'saveRate').and.callThrough();
     spyOn(starRatingComponent, 'setRate');
     starRatingComponent.disabled = false;
-    starRatingComponent.saveRate(3);
+    starRatingComponent.saveRate(RATE_THREE);
     expect(starRatingComponent.setRate).toHaveBeenCalled();
     starRatingComponent.disabled = true;
-    starRatingComponent.saveRate(3);
+    starRatingComponent.saveRate(RATE_THREE);
   });
 });

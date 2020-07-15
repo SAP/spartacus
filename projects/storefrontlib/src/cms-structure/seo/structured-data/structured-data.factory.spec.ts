@@ -1,7 +1,7 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { SCHEMA_BUILDER, SchemaBuilder } from './builders';
+import { SchemaBuilder, SCHEMA_BUILDER } from './builders';
 import { JsonLdScriptFactory } from './json-ld-script.factory';
 import { StructuredDataFactory } from './structured-data.factory';
 
@@ -58,7 +58,8 @@ describe('StructuredDataFactory', () => {
   });
 
   it('should contain 2 builders', () => {
-    expect(builders.length).toEqual(2);
+    const LEN_2 = 2;
+    expect(builders.length).toEqual(LEN_2);
   });
 
   it('should call jsonLdScriptFactory with 2 schemas', () => {

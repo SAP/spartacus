@@ -67,6 +67,7 @@ describe('OrderAmendService', () => {
   });
 
   it('should return form with order entries', () => {
+    const VAL_2 = 2;
     let form;
     service
       .getForm()
@@ -74,7 +75,7 @@ describe('OrderAmendService', () => {
       .unsubscribe();
 
     expect(Object.keys(<FormGroup>form.get('entries').controls).length).toEqual(
-      2
+      VAL_2
     );
   });
 
@@ -103,6 +104,8 @@ describe('OrderAmendService', () => {
   });
 
   it('should calculated amended item price', () => {
+    const VAL_5 = 5;
+    const EXP_PRICE_50 = 50.0;
     let form: FormGroup;
     service
       .getForm()
@@ -110,10 +113,10 @@ describe('OrderAmendService', () => {
       .unsubscribe();
 
     const control = form.get('entries').get('3');
-    control.setValue(5);
+    control.setValue(VAL_5);
 
     const price = service.getAmendedPrice(mockOrder.entries[1]);
-    expect(price.value).toEqual(50.0);
+    expect(price.value).toEqual(EXP_PRICE_50);
     expect(price.formattedValue).toEqual('$50.00');
   });
 });

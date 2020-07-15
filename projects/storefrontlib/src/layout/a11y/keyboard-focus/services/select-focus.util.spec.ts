@@ -3,6 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SelectFocusUtility } from './select-focus.util';
 
+const LENGTH_2 = 2;
+const LENGTH_3 = 3;
+const LENGTH_5 = 5;
+
 @Component({
   template: `
     <div id="a">
@@ -74,12 +78,12 @@ describe('SelectFocusUtility', () => {
   describe('findFocusable()', () => {
     it('should find focusable children', () => {
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
-      expect(service.findFocusable(host).length).toEqual(2);
+      expect(service.findFocusable(host).length).toEqual(LENGTH_2);
     });
 
     it('should find (locked) focusable children', () => {
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
-      expect(service.findFocusable(host, true).length).toEqual(3);
+      expect(service.findFocusable(host, true).length).toEqual(LENGTH_3);
     });
 
     it('should not find disabled children', () => {
@@ -102,7 +106,7 @@ describe('SelectFocusUtility', () => {
           .nativeElement;
         host.classList.remove('hide');
         fixture.detectChanges();
-        expect(service.findFocusable(host).length).toEqual(5);
+        expect(service.findFocusable(host).length).toEqual(LENGTH_5);
       });
 
       it('should not find focusable elements hidden by CSS', () => {
@@ -111,7 +115,7 @@ describe('SelectFocusUtility', () => {
         host.classList.add('hide');
         const button1 = fixture.debugElement.query(By.css('#e4')).nativeElement;
         const button2 = fixture.debugElement.query(By.css('#e5')).nativeElement;
-        expect(service.findFocusable(host).length).toEqual(2);
+        expect(service.findFocusable(host).length).toEqual(LENGTH_2);
         expect(service.findFocusable(host)).toContain(button1);
         expect(service.findFocusable(host)).toContain(button2);
       });
@@ -120,7 +124,9 @@ describe('SelectFocusUtility', () => {
         const host: HTMLElement = fixture.debugElement.query(By.css('#e'))
           .nativeElement;
         host.classList.add('hide');
-        expect(service.findFocusable(host, undefined, true).length).toEqual(5);
+        expect(service.findFocusable(host, undefined, true).length).toEqual(
+          LENGTH_5
+        );
       });
 
       it('should skip hidden focusable elements for first focusable', () => {

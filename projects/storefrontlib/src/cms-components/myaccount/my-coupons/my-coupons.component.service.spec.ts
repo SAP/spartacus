@@ -69,7 +69,8 @@ describe('MyCouponsComponentService', () => {
   });
 
   it('should translate sort labels', () => {
+    const FOUR_TIMES = 4;
     service.getSortLabels();
-    expect(translationService.translate).toHaveBeenCalledTimes(4);
+    expect(translationService.translate).toHaveBeenCalledTimes(FOUR_TIMES);
   });
 });

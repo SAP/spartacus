@@ -27,6 +27,7 @@ describe('getSuffixUrlMatcher', () => {
     });
 
     it('should match path that has marker and one succeeding segment', () => {
+      const VAL_4 = 4;
       const urlSegments = [
         { path: 'test1' },
         { path: 'test2' },
@@ -35,7 +36,9 @@ describe('getSuffixUrlMatcher', () => {
         { path: 'test5' },
         { path: 'test6' },
       ] as UrlSegment[];
-      expect(matcher(urlSegments).consumed).toEqual(urlSegments.slice(0, 4));
+      expect(matcher(urlSegments).consumed).toEqual(
+        urlSegments.slice(0, VAL_4)
+      );
     });
 
     it('should extract succeeding segment of marker as param with given name', () => {

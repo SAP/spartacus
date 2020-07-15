@@ -16,8 +16,8 @@ import {
 import { ICON_TYPE } from '@spartacus/storefront';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { of } from 'rxjs';
-import { CartCouponComponent } from './cart-coupon.component';
 import { FormErrorsModule } from '../../../shared/index';
+import { CartCouponComponent } from './cart-coupon.component';
 
 @Component({
   selector: 'cx-icon',
@@ -198,6 +198,7 @@ describe('CartCouponComponent', () => {
   });
 
   it('should list customer coupons when has customer coupons', () => {
+    const LEN_2 = 2;
     mockCustomerCouponService.getCustomerCoupons.and.returnValue(
       of(couponsSearchResult)
     );
@@ -213,7 +214,7 @@ describe('CartCouponComponent', () => {
     ).toEqual(1);
     expect(
       fixture.debugElement.queryAll(By.css('.cx-available-coupon .card')).length
-    ).toEqual(2);
+    ).toEqual(LEN_2);
   });
 
   it('should not show applied customer coupon', () => {

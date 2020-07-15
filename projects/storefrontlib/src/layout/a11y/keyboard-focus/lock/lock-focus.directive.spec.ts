@@ -11,6 +11,9 @@ import { LockFocusConfig } from '../keyboard-focus.model';
 import { LockFocusDirective } from './lock-focus.directive';
 import { LockFocusService } from './lock-focus.service';
 
+const VAL_100 = 100;
+const VAL_500 = 500;
+
 @Directive({
   selector: '[cxLockFocus]',
 })
@@ -168,7 +171,7 @@ describe('LockFocusDirective', () => {
       const b2 = fixture.debugElement.query(By.css('#b2')).nativeElement;
       const b3 = fixture.debugElement.query(By.css('#b3')).nativeElement;
       fixture.detectChanges();
-      tick(500);
+      tick(VAL_500);
       expect(b1.getAttribute('tabindex')).toEqual('-1');
       expect(b2.getAttribute('tabindex')).toEqual('-1');
       expect(b3.getAttribute('tabindex')).toEqual('-1');
@@ -344,7 +347,7 @@ describe('LockFocusDirective', () => {
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
 
-      tick(100);
+      tick(VAL_100);
 
       expect(f1.focus).toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
@@ -362,7 +365,7 @@ describe('LockFocusDirective', () => {
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
 
-      tick(100);
+      tick(VAL_100);
 
       expect(f1.focus).toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
@@ -407,7 +410,7 @@ describe('LockFocusDirective', () => {
       event.target = host.nativeElement;
       host.triggerEventHandler('keydown.enter', event);
 
-      tick(100);
+      tick(VAL_100);
 
       const hostConfig = {
         lock: true,

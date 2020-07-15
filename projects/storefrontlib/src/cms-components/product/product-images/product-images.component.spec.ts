@@ -46,6 +46,8 @@ const mockDataWitoutPrimaryPictures: Product = {
   },
 };
 
+const NUM_TWO = 2;
+
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
     return of();
@@ -124,7 +126,7 @@ describe('ProductImagesComponent', () => {
     it('should have 2 thumbnails', async(() => {
       let items: Observable<Product>[];
       component.thumbs$.subscribe((i) => (items = i));
-      expect(items.length).toBe(2);
+      expect(items.length).toBe(NUM_TWO);
     }));
 
     it('should have thumb with url in first product', async(() => {
@@ -145,7 +147,7 @@ describe('ProductImagesComponent', () => {
         const el = fixture.debugElement.queryAll(
           By.css('cx-carousel cx-media')
         );
-        expect(el.length).toEqual(2);
+        expect(el.length).toEqual(NUM_TWO);
       }));
     });
   });

@@ -18,6 +18,10 @@ import {
 } from './model/index';
 import createSpy = jasmine.createSpy;
 
+const PERCENT = 100;
+const MERCHANDISING_CAROUSAL_VIEWPORT_THRESHOLD = 0.8;
+const SECOND_MOCK_PRODUCT = 2;
+
 const mockStrategyProducts: StrategyProducts = {
   products: [
     {
@@ -165,7 +169,7 @@ describe('MerchandisingCarouselComponentService', () => {
         componentService.getMerchandisingCaourselViewportThreshold(
           emptyComponentData
         )
-      ).toBe(0.8);
+      ).toBe(MERCHANDISING_CAROUSAL_VIEWPORT_THRESHOLD);
     });
 
     it('should fallback to the carousel viewport threshold in the CDS config if one is not provided in the carousel CMS component config', () => {
@@ -174,7 +178,8 @@ describe('MerchandisingCarouselComponentService', () => {
           emptyComponentData
         )
       ).toBe(
-        mockCdsConfig.cds.merchandising.defaultCarouselViewportThreshold / 100
+        mockCdsConfig.cds.merchandising.defaultCarouselViewportThreshold /
+          PERCENT
       );
     });
 
@@ -183,7 +188,7 @@ describe('MerchandisingCarouselComponentService', () => {
         componentService.getMerchandisingCaourselViewportThreshold(
           mockComponentData
         )
-      ).toBe(mockComponentData.viewportPercentage / 100);
+      ).toBe(mockComponentData.viewportPercentage / PERCENT);
     });
   });
 
@@ -243,7 +248,7 @@ describe('MerchandisingCarouselComponentService', () => {
           strategyId: mockMerchandisingCarouselModel.metadata.strategyid,
           metadata: mockMerchandisingCarouselModel.metadata,
         },
-        [mockProducts[1].code, mockProducts[2].code]
+        [mockProducts[1].code, mockProducts[SECOND_MOCK_PRODUCT].code]
       );
 
       componentService

@@ -37,12 +37,13 @@ export class MerchandisingCarouselComponentService {
   getMerchandisingCaourselViewportThreshold(
     cmsComponent: CmsMerchandisingCarouselComponent
   ): number {
+    const CENT = 100;
     const viewportPercentage =
       cmsComponent.viewportPercentage ??
       this.cdsConfig?.cds?.merchandising?.defaultCarouselViewportThreshold ??
       DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD;
 
-    return viewportPercentage / 100;
+    return viewportPercentage / CENT;
   }
 
   getMerchandisingCarouselModel(

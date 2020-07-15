@@ -21,6 +21,8 @@ const TEST_USER_ID = 'test@test.com';
 const TEST_CUSTOMER_ID = '-test-customer-id';
 const TEST_CART_ID = 'test-cart-id';
 const TEST_PRODUCT_CODE = 'test-product-code';
+const TWO_QUANTITIES = 2;
+const TWO_TIMES = 2;
 
 const testUser: User = {
   uid: TEST_USER_ID,
@@ -259,28 +261,28 @@ describe('Selective Cart Service', () => {
     spyOn(multiCartService, 'loadCart').and.callThrough();
     service.getCart().subscribe().unsubscribe();
 
-    service.addEntry('productCode', 2);
+    service.addEntry('productCode', TWO_QUANTITIES);
     expect(multiCartService['loadCart']).toHaveBeenCalled();
   });
   it('should add entry one by one ', () => {
     spyOn(multiCartService, 'addEntry').and.callThrough();
     service.getCart().subscribe().unsubscribe();
 
-    service.addEntry('productCode1', 2);
-    service.addEntry('productCode2', 2);
+    service.addEntry('productCode1', TWO_QUANTITIES);
+    service.addEntry('productCode2', TWO_QUANTITIES);
 
-    expect(multiCartService['addEntry']).toHaveBeenCalledTimes(2);
+    expect(multiCartService['addEntry']).toHaveBeenCalledTimes(TWO_TIMES);
     expect(multiCartService['addEntry']).toHaveBeenCalledWith(
       OCC_USER_ID_CURRENT,
       'selectivecartelectronics-spa-test-customer-id',
       'productCode1',
-      2
+      TWO_QUANTITIES
     );
     expect(multiCartService['addEntry']).toHaveBeenCalledWith(
       OCC_USER_ID_CURRENT,
       'selectivecartelectronics-spa-test-customer-id',
       'productCode2',
-      2
+      TWO_QUANTITIES
     );
   });
 
@@ -295,7 +297,7 @@ describe('Selective Cart Service', () => {
     expect(multiCartService['removeEntry']).toHaveBeenCalledWith(
       'userId',
       'cartId',
-      3
+      TWO_QUANTITIES
     );
   });
 
@@ -304,12 +306,12 @@ describe('Selective Cart Service', () => {
     service['userId'] = 'userId';
     spyOn(multiCartService, 'updateEntry').and.callThrough();
 
-    service.updateEntry(1, 2);
+    service.updateEntry(1, TWO_QUANTITIES);
     expect(multiCartService['updateEntry']).toHaveBeenCalledWith(
       'userId',
       'cartId',
       1,
-      2
+      TWO_QUANTITIES
     );
   });
 
