@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ConfiguratorCommonsService } from '@spartacus/core';
 import {
   ConfigRouterExtractorService,
   MessageConfig,
 } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 const updateMessageElementId = 'cx-config-update-message';
@@ -14,7 +14,7 @@ const updateMessageElementId = 'cx-config-update-message';
   templateUrl: './config-message.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class ConfigMessageComponent implements OnInit {
+export class ConfigMessageComponent implements OnInit, OnDestroy {
   changesInProgress = false;
   hasPendingChanges$: Observable<
     Boolean
@@ -32,6 +32,7 @@ export class ConfigMessageComponent implements OnInit {
     })
   );
 
+  protected subscription: Subscription;
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfigRouterExtractorService,
@@ -39,9 +40,16 @@ export class ConfigMessageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.hasPendingChanges$.subscribe((hasPendingChangesOrIsLoading) =>
-      this.showUpdateMessage(hasPendingChangesOrIsLoading.valueOf())
+    this.subscription = this.hasPendingChanges$.subscribe(
+      (hasPendingChangesOrIsLoading) =>
+        this.showUpdateMessage(hasPendingChangesOrIsLoading.valueOf())
     );
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   showUpdateMessage(hasPendingChangesOrIsLoading: boolean): void {
