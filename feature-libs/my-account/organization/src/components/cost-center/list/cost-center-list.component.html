@@ -38,11 +38,8 @@
 </cx-split-view>
 
 <ng-template cxOutletRef="table.costCenter.data.name" let-model>
-  <div routerLinkActive="active" class="d-flex">
-    <a
-      class="d-inline"
-      [routerLink]="{ cxRoute: 'costCenterDetails', params: model } | cxUrl"
-    >
+  <div routerLinkActive="active">
+    <a [routerLink]="{ cxRoute: 'costCenterDetails', params: model } | cxUrl">
       <span class="text">{{ model.name }}</span>
       <cx-icon type="CARET_RIGHT"></cx-icon>
     </a>

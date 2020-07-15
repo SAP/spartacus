@@ -44,7 +44,6 @@
   .budget {
     display: flex;
     place-content: space-between;
-    padding: 16px;
     > div:first-child {
       line-height: 1.1rem;
       h3 {
@@ -65,6 +64,7 @@
         display: flex;
         padding: 0;
         font-size: 1rem;
+        place-content: space-around;
       }
     }
   }
