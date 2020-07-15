@@ -8,51 +8,6 @@ cx-cost-center-list {
       &.name,
       &.unit {
         padding: 0;
-        a {
-          justify-content: flex-start;
-          padding: var(--cx-spatial-md);
-
-          .text {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
-
-          cx-icon {
-            margin: 0 0.2rem;
-
-            &.active-state {
-              margin-inline-end: var(--cx-spatial-md);
-              color: var(--cx-color-success);
-            }
-
-            &.inactive {
-              opacity: 0.25;
-            }
-
-            &.open {
-              margin-left: auto;
-              // hide open arrow on > mobile
-              @include media-breakpoint-up(md) {
-                display: none;
-              }
-            }
-
-            &.open-out {
-              margin-left: auto;
-            }
-          }
-
-          &:hover {
-            text-decoration: none;
-
-            &:not(.active) {
-              .text {
-                text-decoration: underline;
-              }
-            }
-          }
-        }
 
         .disabled {
           display: flex;
@@ -100,6 +55,14 @@ cx-cost-center-list {
             display: flex;
             padding: 0;
             font-size: 1rem;
+          }
+        }
+
+        a {
+          cx-icon {
+            &.open-out {
+              margin-left: auto;
+            }
           }
         }
       }
