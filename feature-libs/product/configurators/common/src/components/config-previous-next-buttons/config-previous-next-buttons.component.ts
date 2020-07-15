@@ -1,37 +1,35 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   GenericConfigurator,
 } from '@spartacus/core';
+import { ConfigRouterExtractorService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
-import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 @Component({
   selector: 'cx-config-previous-next-buttons',
   templateUrl: './config-previous-next-buttons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigPreviousNextButtonsComponent implements OnInit {
-  configuration$: Observable<Configurator.Configuration>;
+export class ConfigPreviousNextButtonsComponent {
+  configuration$: Observable<
+    Configurator.Configuration
+  > = this.configRouterExtractorService
+    .extractRouterData()
+    .pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
+      )
+    );
 
   constructor(
-    private configuratorGroupsService: ConfiguratorGroupsService,
-    private configuratorCommonsService: ConfiguratorCommonsService,
-    private configRouterExtractorService: ConfigRouterExtractorService
+    protected configuratorGroupsService: ConfiguratorGroupsService,
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configRouterExtractorService: ConfigRouterExtractorService
   ) {}
-
-  ngOnInit(): void {
-    this.configuration$ = this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorCommonsService.getConfiguration(routerData.owner)
-        )
-      );
-  }
 
   onPrevious(configuration: Configurator.Configuration) {
     this.navigateToPreviousGroup(configuration);

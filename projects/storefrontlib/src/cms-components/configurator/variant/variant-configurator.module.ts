@@ -28,7 +28,6 @@ import { ConfigAttributeReadOnlyComponent } from '../commons/config-attribute-ty
 import { ConfigAttributeSingleSelectionImageComponent } from '../commons/config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
 import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
-import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { DefaultMessageConfig } from '../commons/config/default-message-config';
 import { MessageConfig } from '../commons/config/message-config';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
@@ -63,7 +62,6 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
-    ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
     ConfigAddToCartButtonComponent,
   ],
@@ -80,7 +78,6 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
-    ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
     ConfigAddToCartButtonComponent,
   ],
@@ -98,7 +95,6 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
-    ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
     ConfigAddToCartButtonComponent,
   ],

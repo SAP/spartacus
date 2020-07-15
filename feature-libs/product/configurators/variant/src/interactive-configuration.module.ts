@@ -8,13 +8,13 @@ import {
   ConfigProductTitleComponent,
   ConfigTabBarComponent,
   ConfigurationMessageLoaderModule,
+  ɵConfigPreviousNextButtonsComponent,
 } from '@spartacus/product/configurators/common';
 import {
   CmsPageGuard,
   ConfigAddToCartButtonComponent,
   ConfigFormComponent,
   ConfigGroupMenuComponent,
-  ConfigPreviousNextButtonsComponent,
   DefaultMessageConfig,
   HamburgerMenuModule,
   PageLayoutComponent,
@@ -59,7 +59,7 @@ import {
           component: ConfigPriceSummaryComponent,
         },
         VariantConfigurationPrevNext: {
-          component: ConfigPreviousNextButtonsComponent,
+          component: ɵConfigPreviousNextButtonsComponent,
         },
         VariantConfigurationAddToCartButton: {
           component: ConfigAddToCartButtonComponent,

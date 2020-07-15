@@ -15,6 +15,7 @@ import {
 import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { ConfigPreviousNextButtonsComponent } from '../../../../../../../feature-libs/product/configurators/common/src/components/config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigAttributeFooterComponent } from '../config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
 import { ConfigAttributeCheckBoxListComponent } from '../config-attribute-types/config-attribute-checkbox-list/config-attribute-checkbox-list.component';
@@ -25,7 +26,6 @@ import { ConfigAttributeMultiSelectionImageComponent } from '../config-attribute
 import { ConfigAttributeRadioButtonComponent } from '../config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigAttributeReadOnlyComponent } from '../config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigAttributeSingleSelectionImageComponent } from '../config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
-import { ConfigPreviousNextButtonsComponent } from '../config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigFormComponent } from './config-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
