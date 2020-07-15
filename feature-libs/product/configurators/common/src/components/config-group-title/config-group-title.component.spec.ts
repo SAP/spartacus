@@ -7,12 +7,12 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
-  GenericConfigurator,
   GenericConfigUtilsService,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigGroupTitleComponent } from './config-group-title.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -164,7 +164,7 @@ describe('ConfigurationGroupMenuComponent', () => {
 
   it('should get product code as part of product configuration', () => {
     component.configuration$.subscribe((data: Configurator.Configuration) => {
-      expect(data.productCode).toEqual(PRODUCT_CODE);
+      expect(data.productCode).toEqual(config.productCode);
     });
   });
 });
