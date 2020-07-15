@@ -1,7 +1,6 @@
-import { Type } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import {
   I18nTestingModule,
@@ -11,35 +10,45 @@ import {
   RoutingConfig,
   B2BUser,
   OrgUnitService,
-  Currency,
-  CurrencyService,
   B2BUnitNode,
-  LanguageService,
+  UserService,
+  Title,
 } from '@spartacus/core';
 
-import { CreateComponent } from './user-create.component';
+import { B2BUserCreateComponent } from './user-create.component';
 import createSpy = jasmine.createSpy;
 import { B2BUserFormModule } from '../user-form/user-form.module';
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Type } from '@angular/core';
 
-const budgetCode = 'b1';
+const userCode = 'c1';
 
-const mockB2BUser: B2BUser = {
-  code: budgetCode,
-  name: 'budget1',
-  budget: 2230,
+const mockUser: B2BUser = {
+  name: 'Akiro Nakamura',
+  uid: 'akiro@naka.com',
+  active: true,
+  approvers: [],
   currency: {
+    active: true,
     isocode: 'USD',
+    name: 'US Dollar',
     symbol: '$',
   },
-  startDate: '2010-01-01T00:00:00+0000',
-  endDate: '2034-07-12T00:59:59+0000',
-  orgUnit: { name: 'Org Unit 1', uid: 'unitNode1' },
-  costCenters: [
-    { name: 'costCenter1', code: 'cc1', originalCode: 'Cost Center 1' },
-    { name: 'costCenter2', code: 'cc2', originalCode: 'Cost Center 2' },
-  ],
+  customerId: '08ecc0b1-16ef-4a74-a1dd-4a244300c974',
+  displayUid: 'akiro@naka.com',
+  firstName: 'Akiro',
+  lastName: 'Nakamura',
+  orgUnit: {
+    active: true,
+    name: 'Rustic',
+    uid: 'Rustic',
+  },
+  roles: ['b2bmanagergroup'],
+  selected: false,
+  title: 'Mr.',
+  titleCode: 'mr',
+  email: 'akiro@naka.com',
 };
 
 const mockOrgUnits: B2BUnitNode[] = [
@@ -50,7 +59,45 @@ const mockOrgUnits: B2BUnitNode[] = [
     name: 'Org Unit 1',
     parent: 'parentUnit',
   },
+  {
+    active: true,
+    children: [],
+    id: 'unitNode2',
+    name: 'Org Unit 2',
+    parent: 'parentUnit',
+  },
 ];
+
+const mockRoles = [
+  { name: 'buyer', id: 'b2bcustomergroup', selected: false },
+  { name: 'manager', id: 'b2bmanagergroup', selected: false },
+  { name: 'approver', id: 'b2bapprovergroup', selected: false },
+  { name: 'administrator', id: 'b2badmingroup', selected: false },
+];
+
+const mockTitles: Title[] = [
+  {
+    code: 'mr',
+    name: 'Mr.',
+  },
+  {
+    code: 'mrs',
+    name: 'Mrs.',
+  },
+  {
+    code: 'dr',
+    name: 'Dr.',
+  },
+  {
+    code: 'rev',
+    name: 'Rev.',
+  },
+];
+
+class MockUserService {
+  getTitles = createSpy('getTitles').and.returnValue(of(mockTitles));
+  loadTitles = createSpy('loadTitles');
+}
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
   loadOrgUnits = createSpy('loadOrgUnits');
@@ -59,15 +106,18 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
   );
   loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
-
 class MockB2BUserService implements Partial<B2BUserService> {
+  loadB2BUser = createSpy('loadB2BUser');
+  get = createSpy('get').and.returnValue(of(mockUser));
   create = createSpy('create');
+  updateB2BUser = createSpy('updateB2BUser');
+  getB2BUserRoles = createSpy('getB2BUserRoles').and.returnValue(mockRoles);
 }
 
 const mockRouterState = {
   state: {
     params: {
-      budgetCode,
+      userCode,
     },
   },
 };
@@ -79,24 +129,6 @@ class MockRoutingService {
   );
 }
 
-const mockCurrencies: Currency[] = [
-  { active: true, isocode: 'USD', name: 'Dolar', symbol: '$' },
-  { active: true, isocode: 'EUR', name: 'Euro', symbol: '€' },
-];
-const mockActiveCurr = 'USD';
-const MockCurrencyService = {
-  active: mockActiveCurr,
-  getAll(): Observable<Currency[]> {
-    return of(mockCurrencies);
-  },
-  getActive(): Observable<string> {
-    return of(this.active);
-  },
-  setActive(isocode: string): void {
-    this.active = isocode;
-  },
-};
-
 const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
 class MockRoutingConfig {
   getRouteConfig(routeName: string) {
@@ -104,37 +136,25 @@ class MockRoutingConfig {
   }
 }
 
-class LanguageServiceStub {
-  getActive(): Observable<string> {
-    return of();
-  }
-}
-
 describe('B2BUserCreateComponent', () => {
   let component: B2BUserCreateComponent;
   let fixture: ComponentFixture<B2BUserCreateComponent>;
-  let budgetsService: MockB2BUserService;
-  let routingService: RoutingService;
+  let b2bUserService: MockB2BUserService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, B2BUserFormModule, RouterTestingModule],
       declarations: [B2BUserCreateComponent],
       providers: [
-        {
-          provide: LanguageService,
-          useClass: LanguageServiceStub,
-        },
         { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CurrencyService, useValue: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
+        { provide: UserService, useClass: MockUserService },
         { provide: B2BUserService, useClass: MockB2BUserService },
       ],
     }).compileComponents();
 
-    budgetsService = TestBed.get(B2BUserService as Type<B2BUserService>);
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    b2bUserService = TestBed.get(B2BUserService as Type<B2BUserService>);
   }));
 
   beforeEach(() => {
@@ -148,13 +168,9 @@ describe('B2BUserCreateComponent', () => {
   });
 
   describe('createB2BUser', () => {
-    it('should create budget', () => {
-      component.createB2BUser(mockB2BUser);
-      expect(budgetsService.create).toHaveBeenCalledWith(mockB2BUser);
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'budgetDetails',
-        params: mockB2BUser,
-      });
+    it('should create user', () => {
+      component.createB2BUser(mockUser);
+      expect(b2bUserService.create).toHaveBeenCalledWith(mockUser);
     });
   });
 });

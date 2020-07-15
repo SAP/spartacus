@@ -169,7 +169,7 @@ class MockCxDatePipe {
   }
 }
 
-fdescribe('UserListComponent', () => {
+describe('UserListComponent', () => {
   let component: B2BUserListComponent;
   let fixture: ComponentFixture<B2BUserListComponent>;
   let userService: MockUserService;
@@ -212,7 +212,7 @@ fdescribe('UserListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display No budgets found page if no budgets are found', () => {
+  it('should display No users found page if no users are found', () => {
     const emptyUserList: EntitiesModel<B2BUser> = {
       values: [],
       pagination: {
