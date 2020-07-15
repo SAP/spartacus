@@ -76,6 +76,7 @@ export namespace Configurator {
     configId?: string;
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
+    productCode?: string;
   }
 
   export interface GroupOverview {

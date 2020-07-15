@@ -50,32 +50,32 @@ const TITAN = 'TITAN';
 const SDHC = 'SDHC';
 const RAW = 'RAW';
 
-function goToConfigPage(configurator, testProduct) {
+function goToConfigPage(configuratorType, product) {
   cy.visit(
-    `/electronics-spa/en/USD/configure${configurator}/product/entityKey/${testProduct}`
+    `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${product}`
   ).then(() => {
     configuration.isConfigPageDisplayed();
   });
 }
 
-function goToConfigOverviewPage(configurator, testProduct) {
+function goToConfigOverviewPage(configuratorType, product) {
   cy.visit(
-    `/electronics-spa/en/USD/configureOverview${configurator}/product/entityKey/${testProduct}`
+    `/electronics-spa/en/USD/configureOverview${configuratorType}/product/entityKey/${product}`
   ).then(() => {
+    cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
     configurationOverview.isConfigOverviewPageDisplayed();
   });
 }
 
-function goToPDPage(testProduct) {
-  cy.visit(`electronics-spa/en/USD/product/${testProduct}/${testProduct}`).then(
-    () => {
-      cy.get('.ProductDetailsPageTemplate').should('be.visible');
-    }
-  );
+function goToPDPage(product) {
+  cy.visit(`electronics-spa/en/USD/product/${product}/${product}`).then(() => {
+    cy.get('.ProductDetailsPageTemplate').should('be.visible');
+  });
 }
 
 function goToCart() {
   cy.visit('/electronics-spa/en/USD/cart').then(() => {
+    cy.get('h1').contains('Your Shopping Cart').should('be.visible');
     cy.get('cx-cart-details').should('be.visible');
   });
 }
@@ -102,12 +102,13 @@ context('Product Configuration', () => {
       configuration.isConfigPageDisplayed();
     });
 
+    // Failing test
     it('should be able to navigate from the cart', () => {
       goToConfigPage(configurator, testProduct);
       configuration.clickAddToCartBtn();
       goToCart();
       //We assume only one product is in the cart
-      configuration.clickOnConfigureCartEntryBtn();
+      configuration.clickOnEditConfigurationLink();
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
@@ -115,7 +116,7 @@ context('Product Configuration', () => {
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();
-      configuration.clickOnConfigureCartEntryBtn();
+      configuration.clickOnEditConfigurationLink();
     });
   });
 
@@ -247,6 +248,49 @@ context('Product Configuration', () => {
       configuration.isStatusIconNotDisplayed(AUDIO_SYSTEM);
       configuration.isStatusIconNotDisplayed(SOURCE_COMPONENTS);
     });
+
+    it('should keep group status information when adding product to the cart', () => {
+      goToConfigPage(configurator, testProduct);
+      configuration.isGroupMenuDisplayed();
+
+      //is that no status is displayed initially
+      configuration.isStatusIconNotDisplayed(BASICS);
+      configuration.isStatusIconNotDisplayed(SPECIFICATION);
+      configuration.isStatusIconNotDisplayed(DISPLAY);
+      configuration.isStatusIconNotDisplayed(LENS);
+      configuration.isStatusIconNotDisplayed(OPTIONS);
+
+      // navigate to Specification, is that Basics status changes to Error
+      configuration.clickOnNextBtn();
+      configuration.isStatusIconDisplayed(BASICS, ERROR);
+      configuration.isStatusIconNotDisplayed(SPECIFICATION);
+      configuration.isStatusIconNotDisplayed(DISPLAY);
+      configuration.isStatusIconNotDisplayed(LENS);
+      configuration.isStatusIconNotDisplayed(OPTIONS);
+
+      // navigate to Display, is that Specification status changes to Error
+      configuration.clickOnNextBtn();
+      configuration.isStatusIconDisplayed(BASICS, ERROR);
+      configuration.isStatusIconDisplayed(SPECIFICATION, ERROR);
+      configuration.isStatusIconNotDisplayed(DISPLAY);
+      configuration.isStatusIconNotDisplayed(LENS);
+      configuration.isStatusIconNotDisplayed(OPTIONS);
+
+      configuration.clickAddToCartBtn();
+      configurationOverview.continueToCart();
+
+      //We assume only one product is in the cart
+      configuration.clickOnEditConfigurationLink();
+
+      configuration.isGroupMenuDisplayed();
+
+      //The group status information should be still available for the cart configuration
+      configuration.isStatusIconDisplayed(BASICS, ERROR);
+      configuration.isStatusIconDisplayed(SPECIFICATION, ERROR);
+      configuration.isStatusIconDisplayed(DISPLAY, ERROR);
+      configuration.isStatusIconNotDisplayed(LENS);
+      configuration.isStatusIconNotDisplayed(OPTIONS);
+    });
   });
 
   describe('Group handling', () => {
@@ -322,6 +366,9 @@ context('Product Configuration', () => {
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnProceedToCheckoutBtnOnPD();
       configuration.checkout();
+      configuration.navigateToOrderDetails();
+      configuration.goToOrderHistory();
+      configuration.selectOrderByOrderNumberAlias();
     });
   });
 });

@@ -26,6 +26,7 @@ import { ConfigAttributeRadioButtonComponent } from '../config-attribute-types/c
 import { ConfigAttributeReadOnlyComponent } from '../config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigAttributeSingleSelectionImageComponent } from '../config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
 import { ConfigPreviousNextButtonsComponent } from '../config-previous-next-buttons/config-previous-next-buttons.component';
+import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigFormComponent } from './config-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -42,52 +43,13 @@ const mockRouterState: any = {
     url: CONFIGURATOR_URL,
   },
 };
+
 const owner: GenericConfigurator.Owner = {
   id: PRODUCT_CODE,
   type: GenericConfigurator.OwnerType.PRODUCT,
 };
-const groups: Configurator.Group[] = [
-  {
-    configurable: true,
-    description: 'Core components',
-    groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-    id: '1-CPQ_LAPTOP.1',
-    name: '1',
-    attributes: [
-      {
-        label: 'Expected Number',
-        name: 'EXP_NUMBER',
-        required: true,
-        uiType: Configurator.UiType.NOT_IMPLEMENTED,
-        values: [],
-      },
-      {
-        label: 'Processor',
-        name: 'CPQ_CPU',
-        required: true,
-        selectedSingleValue: 'INTELI5_35',
-        uiType: Configurator.UiType.RADIOBUTTON,
-        values: [],
-      },
-    ],
-  },
-  {
-    configurable: true,
-    description: 'Peripherals & Accessories',
-    groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-    id: '1-CPQ_LAPTOP.2',
-    name: '2',
-    attributes: [],
-  },
-  {
-    configurable: true,
-    description: 'Software',
-    groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-    id: '1-CPQ_LAPTOP.3',
-    name: '3',
-    attributes: [],
-  },
-];
+const groups: Configurator.Group[] =
+  ConfigurationTestData.productConfiguration.groups;
 
 const configRead: Configurator.Configuration = {
   configId: 'a',
@@ -118,6 +80,7 @@ class MockCxIconComponent {
 let routerStateObservable = null;
 let configurationCreateObservable = null;
 let currentGroupObservable = null;
+let isConfigurationLoadingObservable = null;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -135,18 +98,23 @@ class MockConfiguratorCommonsService {
   hasConfiguration(): Observable<boolean> {
     return of(false);
   }
+  updateConfiguration(): void {}
+  isConfigurationLoading(): Observable<Boolean> {
+    return isConfigurationLoadingObservable;
+  }
 }
 class MockConfiguratorGroupsService {
-  getCurrentGroup() {
+  getCurrentGroup(): Observable<string> {
     return currentGroupObservable;
   }
-  getNextGroup() {
+  getNextGroup(): Observable<string> {
     return of('');
   }
-  getPreviousGroup() {
+  getPreviousGroup(): Observable<string> {
     return of('');
   }
   subscribeToUpdateConfiguration() {}
+  setGroupStatus(): void {}
 }
 function checkConfigurationObs(
   component: ConfigFormComponent,
@@ -183,12 +151,17 @@ function checkCurrentGroupObs(
   component.ngOnInit();
 
   expect(component.currentGroup$).toBeObservable(
-    cold(expectedMarbels, { u: groups[0], v: groups[1] })
+    cold(expectedMarbels, {
+      u: groups[0],
+      v: groups[1],
+    })
   );
 }
 describe('ConfigurationFormComponent', () => {
   let component: ConfigFormComponent;
   let configuratorUtils: GenericConfigUtilsService;
+  let configurationCommonsService: ConfiguratorCommonsService;
+  let configuratorGroupsService: ConfiguratorGroupsService;
   let fixture: ComponentFixture<ConfigFormComponent>;
 
   beforeEach(async(() => {
@@ -236,9 +209,24 @@ describe('ConfigurationFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigFormComponent);
     component = fixture.componentInstance;
+
     configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
+    configurationCommonsService = TestBed.inject(
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+    );
+    configuratorGroupsService = TestBed.inject(
+      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+    );
+
+    spyOn(configurationCommonsService, 'updateConfiguration').and.callThrough();
+    spyOn(
+      configurationCommonsService,
+      'isConfigurationLoading'
+    ).and.callThrough();
+    spyOn(configuratorGroupsService, 'setGroupStatus').and.callThrough();
+
     configuratorUtils.setOwnerKey(owner);
   });
 
@@ -268,5 +256,21 @@ describe('ConfigurationFormComponent', () => {
 
   it('should get the maximum 8 emissions of current groups if router and config service emit slowly', () => {
     checkCurrentGroupObs(component, 'a-----a', 'uv', 'uv----uv');
+  });
+
+  it('check update configuration', () => {
+    isConfigurationLoadingObservable = cold('xy', {
+      x: Boolean(true),
+      y: Boolean(false),
+    });
+
+    component.ngOnInit();
+    component.updateConfiguration({
+      changedAttribute: configRead.groups[0].attributes[0],
+      groupId: configRead.groups[0].id,
+      productCode: owner.key,
+    });
+
+    expect(configurationCommonsService.updateConfiguration).toHaveBeenCalled();
   });
 });

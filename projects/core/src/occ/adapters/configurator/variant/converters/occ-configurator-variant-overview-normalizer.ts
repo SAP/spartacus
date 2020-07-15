@@ -22,15 +22,17 @@ export class OccConfiguratorVariantOverviewNormalizer
     target?: Configurator.Overview
   ): Configurator.Overview {
     const prices: OccConfigurator.Prices = { priceSummary: source.pricing };
-    target = {
+    const resultTarget: Configurator.Overview = {
+      ...target,
       configId: source.id,
       groups: source.groups.flatMap((group) => this.convertGroup(group)),
       priceSummary: this.converterService.convert(
         prices,
         CONFIGURATION_PRICE_SUMMARY_NORMALIZER
       ),
+      productCode: source.productCode,
     };
-    return target;
+    return resultTarget;
   }
 
   convertGroup(

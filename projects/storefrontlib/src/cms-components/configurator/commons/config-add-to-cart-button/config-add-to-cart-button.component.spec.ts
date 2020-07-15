@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Configurator,
   ConfiguratorCommonsService,
+  ConfiguratorGroupsService,
   GenericConfigurator,
   GlobalMessageService,
   I18nTestingModule,
@@ -11,9 +12,9 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ConfigurationRouter } from '../../generic/service/config-router-data';
+import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigAddToCartButtonComponent } from './config-add-to-cart-button.component';
 
-const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '1';
 const configuratorType = 'cpqconfigurator';
 const pageTypeConfiguration = ConfigurationRouter.PageType.CONFIGURATION;
@@ -21,79 +22,14 @@ const URL_CONFIGURATION =
   'host:port/electronics-spa/en/USD/configureCPQCONFIGURATOR';
 const URL_OVERVIEW =
   'host:port/electronics-spa/en/USD/configureOverviewCPQCONFIGURATOR';
-
-const mockRouterState: any = {
-  state: {
-    url: URL_CONFIGURATION,
-    params: {
-      entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
-    },
-    queryParams: {},
-  },
-};
+const mockRouterState = ConfigurationTestData.mockRouterState;
+const productConfiguration = ConfigurationTestData.productConfiguration;
 const navParamsOverview: any =
   'configureOverview' +
   configuratorType +
   '/cartEntry/entityKey/' +
   CART_ENTRY_KEY;
 const attribs = {};
-
-const productConfiguration: Configurator.Configuration = {
-  configId: '1234-56-7890',
-  consistent: true,
-  complete: true,
-  productCode: PRODUCT_CODE,
-  owner: {
-    id: PRODUCT_CODE,
-    type: GenericConfigurator.OwnerType.PRODUCT,
-  },
-  nextOwner: {
-    type: GenericConfigurator.OwnerType.CART_ENTRY,
-  },
-  groups: [
-    {
-      configurable: true,
-      description: 'Core components',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.1',
-      name: '1',
-      attributes: [
-        {
-          label: 'Expected Number',
-          name: 'EXP_NUMBER',
-          required: true,
-          uiType: Configurator.UiType.NOT_IMPLEMENTED,
-          values: [],
-        },
-        {
-          label: 'Processor',
-          name: 'CPQ_CPU',
-          required: true,
-          selectedSingleValue: 'INTELI5_35',
-          uiType: Configurator.UiType.RADIOBUTTON,
-          values: [],
-        },
-      ],
-    },
-    {
-      configurable: true,
-      description: 'Peripherals & Accessories',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.2',
-      name: '2',
-      attributes: [],
-    },
-    {
-      configurable: true,
-      description: 'Software ',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.3',
-      name: '3',
-      attributes: [],
-    },
-  ],
-};
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -108,7 +44,7 @@ class MockGlobalMessageService {
 
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
-    return of(productConfiguration);
+    return of(ConfigurationTestData.productConfiguration);
   }
   addToCart() {}
   updateCartEntry() {}
@@ -116,12 +52,16 @@ class MockConfiguratorCommonsService {
   removeUiState() {}
 }
 
+class MockConfiguratorGroupsService {
+  setGroupStatus() {}
+}
+
 function performAddToCartOnOverview(
   classUnderTest: ConfigAddToCartButtonComponent
 ) {
   mockRouterState.state = {
     params: {
-      entityKey: PRODUCT_CODE,
+      entityKey: ConfigurationTestData.PRODUCT_CODE,
       ownerType: GenericConfigurator.OwnerType.PRODUCT,
     },
     queryParams: {},
@@ -162,7 +102,7 @@ function ensureCartBoundAndOnOverview() {
 
 function ensureProductBound() {
   mockRouterState.state.params = {
-    entityKey: PRODUCT_CODE,
+    entityKey: ConfigurationTestData.PRODUCT_CODE,
     ownerType: GenericConfigurator.OwnerType.PRODUCT,
   };
   mockRouterState.state.url = URL_CONFIGURATION;
@@ -184,6 +124,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let configuratorCommonsService: ConfiguratorCommonsService;
+  let configuratorGroupsService: ConfiguratorGroupsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -197,6 +138,10 @@ describe('ConfigAddToCartButtonComponent', () => {
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
+        },
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
@@ -220,6 +165,10 @@ describe('ConfigAddToCartButtonComponent', () => {
     globalMessageService = TestBed.inject(
       GlobalMessageService as Type<GlobalMessageService>
     );
+    configuratorGroupsService = TestBed.inject(
+      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+    );
+    spyOn(configuratorGroupsService, 'setGroupStatus').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
@@ -236,6 +185,8 @@ describe('ConfigAddToCartButtonComponent', () => {
         navParamsOverview,
         attribs
       );
+
+      expect(configuratorGroupsService.setGroupStatus).toHaveBeenCalled();
     });
 
     it('should navigate to cart in case configuration is cart bound and we are on OV config page', () => {

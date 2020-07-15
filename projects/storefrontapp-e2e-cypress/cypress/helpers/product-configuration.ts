@@ -16,8 +16,9 @@ export function clickOnConfigureBtn() {
     });
 }
 
-export function clickOnConfigureCartEntryBtn() {
+export function clickOnEditConfigurationLink() {
   cy.get('cx-configure-cart-entry a')
+    .first()
     .click()
     .then(() => {
       this.isConfigPageDisplayed();
@@ -25,20 +26,23 @@ export function clickOnConfigureCartEntryBtn() {
 }
 
 function clickOnPreviousOrNextBtn(btnSelector: string) {
-  let activeGroup: string;
+  let oldActiveGroup: string;
   cy.get('cx-config-group-menu a.active')
     .first()
     .invoke('text')
     .then((text) => {
-      activeGroup = text.trim();
+      oldActiveGroup = text.trim();
     });
 
   cy.get(btnSelector)
     .click()
     .then(() => {
-      cy.get('cx-config-group-menu a:contains(' + `${activeGroup}` + ')')
+      cy.get('cx-config-group-menu a.active')
         .first()
-        .should('not.have.class', 'active');
+        .invoke('text')
+        .then((newActiveGroup) => {
+          expect(newActiveGroup).not.eq(oldActiveGroup);
+        });
     });
 }
 
@@ -58,10 +62,6 @@ export function clickOnPreviousBtn() {
 
 export function isConfigPageDisplayed() {
   cy.get('cx-config-form').should('be.visible');
-}
-
-export function isOverviewPageDisplayed() {
-  cy.get('cx-config-overview-form').should('be.visible');
 }
 
 export function isPreviousBtnEnabled() {
@@ -241,11 +241,9 @@ export function isHamburgerDisplayed() {
 
 export function clickAddToCartBtn() {
   cy.get(addToCartButtonSelector)
-    .click({
-      force: true,
-    })
+    .click()
     .then(() => {
-      this.isOverviewPageDisplayed();
+      cy.get('cx-config-overview-form').should('be.visible');
     });
 }
 
@@ -254,7 +252,8 @@ export function clickOnAddToCartBtnOnPD() {
     .contains('Add to cart')
     .click()
     .then(() => {
-      cy.get('div.cx-dialog-buttons').should('be.visible');
+      cy.get('cx-added-to-cart-dialog').should('be.visible');
+      cy.get('div.cx-dialog-body').should('be.visible');
       cy.get('div.cx-dialog-buttons a.btn-primary')
         .contains('view cart')
         .should('be.visible');
@@ -296,6 +295,50 @@ export function login() {
   // namely the logged in user should be greeted
   const user = email.split('@')[0];
   cy.get('.cx-login-greet').should('contain', user);
+}
+
+export function navigateToOrderDetails() {
+  // Verify whether the ordered product is displayed in the order list
+  cy.get('cx-cart-item-list cx-configure-cart-entry a')
+    .first()
+    .click()
+    .then(() => {
+      cy.get('cx-config-overview-form').should('be.visible');
+    });
+}
+
+export function goToOrderHistory() {
+  cy.visit('/electronics-spa/en/USD/my-account/orders').then(() => {
+    cy.get('cx-order-history').should('be.visible');
+  });
+}
+
+export function selectOrderByOrderNumberAlias() {
+  cy.get('@orderNumber').then((orderNumber) => {
+    cy.get(
+      'cx-order-history a.cx-order-history-value:contains(' +
+        `${orderNumber}` +
+        ')'
+    )
+      .click()
+      .then(() => {
+        navigateToOrderDetails();
+      });
+  });
+}
+
+export function defineOrderNumberAlias() {
+  const orderConfirmationText = 'Confirmation of Order:';
+
+  cy.get('cx-order-confirmation-thank-you-message h1.cx-page-title')
+    .first()
+    .invoke('text')
+    .then((text) => {
+      expect(text).contains(orderConfirmationText);
+      const orderNumber = text.replace(orderConfirmationText, '').trim();
+      expect(orderNumber).match(/^[0-9]+$/);
+      cy.wrap(orderNumber).as('orderNumber');
+    });
 }
 
 export function checkout() {
@@ -372,11 +415,5 @@ export function checkout() {
       cy.get('cx-breadcrumb').should('contain', 'Order Confirmation');
     });
 
-  // Verify whether the ordered product is displayed in the order list
-  cy.get('cx-cart-item-list cx-configure-cart-entry a')
-    .first()
-    .click()
-    .then(() => {
-      cy.get('cx-config-overview-form').should('be.visible');
-    });
+  defineOrderNumberAlias();
 }

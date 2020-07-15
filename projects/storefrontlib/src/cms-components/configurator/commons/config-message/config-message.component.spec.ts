@@ -12,26 +12,11 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { MessageConfig } from '../config/message-config';
+import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigMessageComponent } from './config-message.component';
 
-const PRODUCT_CODE = 'CONF_LAPTOP';
-const CONFIGURATOR_URL =
-  'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
-
-const mockRouterState: any = {
-  state: {
-    params: {
-      entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
-    },
-    queryParams: {},
-    url: CONFIGURATOR_URL,
-  },
-};
-const owner: GenericConfigurator.Owner = {
-  id: PRODUCT_CODE,
-  type: GenericConfigurator.OwnerType.PRODUCT,
-};
+const owner: GenericConfigurator.Owner =
+  ConfigurationTestData.productConfiguration.owner;
 
 let isConfigurationLoading: Boolean = false;
 let hasPendingChanges: Boolean = false;
@@ -39,7 +24,7 @@ let waitingTime = 1000;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
+    return of(ConfigurationTestData.mockRouterState);
   }
 }
 

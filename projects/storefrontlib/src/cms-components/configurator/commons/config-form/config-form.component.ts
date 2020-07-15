@@ -4,7 +4,6 @@ import {
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   GenericConfigurator,
-  RoutingService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
@@ -24,7 +23,6 @@ export class ConfigFormComponent implements OnInit {
   public UiType = Configurator.UiType;
 
   constructor(
-    private routingService: RoutingService,
     private configuratorCommonsService: ConfiguratorCommonsService,
     private configuratorGroupsService: ConfiguratorGroupsService,
     private configRouterExtractorService: ConfigRouterExtractorService
@@ -32,7 +30,7 @@ export class ConfigFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.configuration$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+      .extractRouterData()
       .pipe(
         filter(
           (routerData) =>
@@ -46,7 +44,7 @@ export class ConfigFormComponent implements OnInit {
       );
 
     this.currentGroup$ = this.configRouterExtractorService
-      .extractRouterData(this.routingService)
+      .extractRouterData()
       .pipe(
         switchMap((routerData) =>
           this.configuratorGroupsService.getCurrentGroup(routerData.owner)

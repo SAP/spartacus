@@ -27,7 +27,7 @@ const prices: OccConfigurator.Prices = {
   },
 };
 
-describe('OccConfiguratorVariantNormalizer', () => {
+describe('OccConfiguratorVariantPriceSummaryNormalizer', () => {
   let occConfiguratorVariantPriceSummaryNormalizer: OccConfiguratorVariantPriceSummaryNormalizer;
 
   beforeEach(() => {
@@ -51,6 +51,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should convert a price to a configuration', () => {
     const result = occConfiguratorVariantPriceSummaryNormalizer.convert(prices);
-    expect(result).toBe(prices.priceSummary);
+    expect(result).toEqual(prices.priceSummary);
   });
 });
