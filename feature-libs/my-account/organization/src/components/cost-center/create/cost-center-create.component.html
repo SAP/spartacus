@@ -18,14 +18,14 @@
     <section class="half">
       <cx-cost-center-form [form]="form"> </cx-cost-center-form>
       <div class="form-buttons">
+        <button class="button primary" type="submit">
+          {{ 'organization.save' | cxTranslate }}
+        </button>
         <button
           [routerLink]="{ cxRoute: 'costCenter' } | cxUrl"
           class="button secondary"
         >
           {{ 'organization.cancel' | cxTranslate }}
-        </button>
-        <button class="button primary" type="submit">
-          {{ 'organization.save' | cxTranslate }}
         </button>
       </div>
     </section>
