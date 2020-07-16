@@ -3,6 +3,7 @@ import { ManageUnitsListComponent } from './unit-list';
 import { UnitCreateComponent } from './unit-create';
 import { SplitViewDeactivateGuard } from '@spartacus/storefront';
 import { UnitDetailsComponent } from './unit-details';
+import { UnitEditComponent } from './unit-edit';
 
 export const unitsRoutingConfig: RoutingConfig = {
   routing: {
@@ -17,11 +18,11 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: ['organization/units/:code'],
         paramsMapping: { code: 'uid' },
       },
+      orgUnitEdit: {
+        paths: ['organization/units/:code/edit'],
+        paramsMapping: { code: 'uid' },
+      },
 
-      // orgUnitEdit: {
-      //   paths: ['organization/unit/:code/edit'],
-      //   paramsMapping: { code: 'uid' },
-      // },
       // orgUnitUsers: {
       //   paths: ['organization/unit/users/:code'],
       // },
@@ -70,6 +71,13 @@ export const unitsCmsConfig: CmsConfig = {
           path: ':code',
           component: UnitDetailsComponent,
           canDeactivate: [SplitViewDeactivateGuard],
+          children: [
+            {
+              path: 'edit',
+              component: UnitEditComponent,
+              canDeactivate: [SplitViewDeactivateGuard],
+            },
+          ],
         },
       ],
 

@@ -1,12 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import { UnitEditComponent } from './unit-edit.component';
 import { UnitFormModule } from '../unit-form/unit-form.module';
-import { FakeTabsModule } from '@spartacus/storefront';
+import { ReactiveFormsModule } from '@angular/forms';
+import { IconModule, SplitViewModule } from '@spartacus/storefront';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, UnitFormModule, I18nModule, FakeTabsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+
+    I18nModule,
+    SplitViewModule,
+    IconModule,
+
+    UnitFormModule,
+    ReactiveFormsModule,
+  ],
   declarations: [UnitEditComponent],
   exports: [UnitEditComponent],
   entryComponents: [UnitEditComponent],
