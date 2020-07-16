@@ -78,7 +78,7 @@ export class ConfigFormComponent implements OnInit {
     this.configuratorCommonsService
       .isConfigurationLoading(owner)
       .pipe(
-        filter((isLoading) => !isLoading.valueOf()),
+        filter((isLoading) => !isLoading),
         take(1)
       )
       .subscribe(() =>

@@ -36,11 +36,11 @@ export class ConfiguratorCommonsService {
    *
    * @param owner - Configuration owner
    *
-   * @returns {Observable<Boolean>} Returns true if the configuration is loading, otherwise false
+   * @returns {Observable<boolean>} Returns true if the configuration is loading, otherwise false
    */
   isConfigurationLoading(
     owner: GenericConfigurator.Owner
-  ): Observable<Boolean> {
+  ): Observable<boolean> {
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
