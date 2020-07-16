@@ -42,7 +42,7 @@ class MockCarouselComponent {
   @Input() hideIndicators;
 }
 
-fdescribe('ProductThumbnailsComponent', () => {
+describe('ProductThumbnailsComponent', () => {
   let productThumbnailsComponent: ProductThumbnailsComponent;
   let fixture: ComponentFixture<ProductThumbnailsComponent>;
 
