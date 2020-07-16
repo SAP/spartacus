@@ -20,12 +20,12 @@ export class ConfigFormComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
   currentGroup$: Observable<Configurator.Group>;
 
-  public UiType = Configurator.UiType;
+  UiType = Configurator.UiType;
 
   constructor(
-    private configuratorCommonsService: ConfiguratorCommonsService,
-    private configuratorGroupsService: ConfiguratorGroupsService,
-    private configRouterExtractorService: ConfigRouterExtractorService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorGroupsService: ConfiguratorGroupsService,
+    protected configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +50,19 @@ export class ConfigFormComponent implements OnInit {
           this.configuratorGroupsService.getCurrentGroup(routerData.owner)
         )
       );
+
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(take(1))
+      .subscribe((routingData) => {
+        //In case the 'forceReload' is set (means the page is launched from the cart),
+        //we need to initialise the cart configuration
+        if (routingData.forceReload) {
+          this.configuratorCommonsService.removeConfiguration(
+            routingData.owner
+          );
+        }
+      });
   }
 
   updateConfiguration(event: ConfigFormUpdateEvent) {

@@ -4,17 +4,10 @@ import * as ngrxStore from '@ngrx/store';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { ActiveCartService } from '../../../cart/facade/active-cart.service';
-import { Cart } from '../../../model/cart.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../../occ/utils/occ-constants';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-import { ProcessesLoaderState } from '../../../state/utils/processes-loader/processes-loader-state';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
-import * as ConfiguratorActions from '../store/actions/configurator.action';
+import { ConfiguratorActions } from '../store/actions/index';
 import {
   ConfigurationState,
   CONFIGURATION_FEATURE,
@@ -23,6 +16,7 @@ import {
 import * as fromReducers from '../store/reducers/index';
 import { ConfiguratorSelectors } from '../store/selectors';
 import { Configurator } from './../../../model/configurator.model';
+import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -45,8 +39,7 @@ const ATTRIBUTE_NAME_1 = 'Attribute_1';
 const ATTRIBUTE_NAME_2 = 'Attribute_DropDown';
 const ATTRIBUTE_NAME_3_1 = 'Attribute_1';
 const ATTRIBUTE_NAME_3_2 = 'Attribute_DropDown';
-const CART_CODE = '0000009336';
-const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
+
 const ORDER_ID = '0000011';
 const ORDER_ENTRY_NUMBER = 2;
 
@@ -122,19 +115,17 @@ const configurationState: ConfigurationState = {
   configurations: { entities: {} },
 };
 
-const cart: Cart = {
-  code: CART_CODE,
-  guid: CART_GUID,
-  user: { uid: OCC_USER_ID_ANONYMOUS },
-};
-
-const cartState: ProcessesLoaderState<Cart> = {
-  value: cart,
-};
-
-class MockActiveCartService {
-  requireLoadedCart(): Observable<ProcessesLoaderState<Cart>> {
-    return of(cartState);
+let configCartObservable;
+let configOrderObservable;
+class MockConfiguratorCartService {
+  checkForActiveCartUpdateDone(): Observable<boolean> {
+    return of(true);
+  }
+  readConfigurationForCartEntry() {
+    return configCartObservable;
+  }
+  readConfigurationForOrderEntry() {
+    return configOrderObservable;
   }
 }
 
@@ -179,6 +170,9 @@ describe('ConfiguratorCommonsService', () => {
   let serviceUnderTest: ConfiguratorCommonsService;
   let configuratorUtils: GenericConfigUtilsService;
   let store: Store<StateWithConfiguration>;
+  let configuratorCartService: ConfiguratorCartService;
+  configOrderObservable = of(productConfiguration);
+  configCartObservable = of(productConfiguration);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -191,10 +185,9 @@ describe('ConfiguratorCommonsService', () => {
       ],
       providers: [
         ConfiguratorCommonsService,
-
         {
-          provide: ActiveCartService,
-          useClass: MockActiveCartService,
+          provide: ConfiguratorCartService,
+          useClass: MockConfiguratorCartService,
         },
       ],
     }).compileComponents();
@@ -244,6 +237,9 @@ describe('ConfiguratorCommonsService', () => {
       loading: false,
     };
     store = TestBed.inject(Store as Type<Store<StateWithConfiguration>>);
+    configuratorCartService = TestBed.inject(
+      ConfiguratorCartService as Type<ConfiguratorCartService>
+    );
     spyOn(serviceUnderTest, 'createConfigurationExtract').and.callThrough();
   });
 
@@ -430,78 +426,6 @@ describe('ConfiguratorCommonsService', () => {
     });
   });
 
-  describe('addToCart', () => {
-    it('should get cart, create addToCartParameters and call addToCart action', () => {
-      const addToCartParams: Configurator.AddToCartParameters = {
-        cartId: CART_GUID,
-        userId: OCC_USER_ID_ANONYMOUS,
-        productCode: PRODUCT_CODE,
-        quantity: 1,
-        configId: CONFIG_ID,
-        ownerKey: productConfiguration.owner.key,
-      };
-
-      spyOn(store, 'dispatch').and.callThrough();
-
-      serviceUnderTest.addToCart(
-        PRODUCT_CODE,
-        CONFIG_ID,
-        productConfiguration.owner.key
-      );
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.AddToCart(addToCartParams)
-      );
-    });
-  });
-
-  describe('updateCartEntry', () => {
-    it('should create updateParameters and call updateCartEntry action', () => {
-      const params: Configurator.UpdateConfigurationForCartEntryParameters = {
-        cartId: CART_GUID,
-        userId: OCC_USER_ID_ANONYMOUS,
-        cartEntryNumber: productConfiguration.owner.id,
-        configuration: productConfiguration,
-      };
-
-      spyOn(store, 'dispatch').and.callThrough();
-      const obs = cold('|');
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-      serviceUnderTest.updateCartEntry(productConfiguration);
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.UpdateCartEntry(params)
-      );
-    });
-
-    it('should re-read cart entry only after update went through', () => {
-      const productConfigInUpdate: Configurator.Configuration = {
-        configId: CONFIG_ID,
-        owner: OWNER_CART_ENTRY,
-        isCartEntryUpdatePending: true,
-      };
-      const productConfigUpdateCompleted: Configurator.Configuration = {
-        configId: CONFIG_ID,
-        isCartEntryUpdatePending: false,
-      };
-      const obs = cold('xyz', {
-        x: productConfigInUpdate,
-        y: productConfigInUpdate,
-        z: productConfigUpdateCompleted,
-      });
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-
-      const updateCartEntryWaitForDone = serviceUnderTest.checkForUpdateDone(
-        productConfiguration
-      );
-      expect(updateCartEntryWaitForDone).toBeObservable(
-        cold('--(z|)', {
-          z: productConfigUpdateCompleted,
-        })
-      );
-    });
-  });
-
   describe('getConfiguration', () => {
     it('should return an unchanged observable of product configurations in case configurations carry valid config IDs', () => {
       const obs = cold('x-y', {
@@ -535,38 +459,6 @@ describe('ConfiguratorCommonsService', () => {
     });
   });
 
-  describe('readConfigurationForCartEntry', () => {
-    it('should dispatch ReadCartEntryConfiguration action ', () => {
-      const params: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
-        owner: OWNER_CART_ENTRY,
-        cartEntryNumber: OWNER_CART_ENTRY.id,
-        cartId: CART_GUID,
-        userId: OCC_USER_ID_ANONYMOUS,
-      };
-      spyOn(store, 'dispatch').and.callThrough();
-      serviceUnderTest.readConfigurationForCartEntry(OWNER_CART_ENTRY);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.ReadCartEntryConfiguration(params)
-      );
-    });
-  });
-
-  describe('readConfigurationForOrderEntry', () => {
-    it('should dispatch ReadOrderEntryConfiguration action ', () => {
-      const params: GenericConfigurator.ReadConfigurationFromOrderEntryParameters = {
-        owner: OWNER_ORDER_ENTRY,
-        orderEntryNumber: '' + ORDER_ENTRY_NUMBER,
-        orderId: ORDER_ID,
-        userId: OCC_USER_ID_CURRENT,
-      };
-      spyOn(store, 'dispatch').and.callThrough();
-      serviceUnderTest.readConfigurationForOrderEntry(OWNER_ORDER_ENTRY);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.ReadOrderEntryConfiguration(params)
-      );
-    });
-  });
-
   describe('getOrCreateConfiguration', () => {
     it('should return an unchanged observable of product configurations in case configurations exist and carry valid config IDs', () => {
       productConfigurationChanged.configId = CONFIG_ID;
@@ -589,58 +481,30 @@ describe('ConfiguratorCommonsService', () => {
       );
     });
 
-    it('should create configuration if obsolete state', () => {
-      const productConfigurationLoaderState: LoaderState<Configurator.Configuration> = {
-        loading: false,
-      };
+    it('should delegate to config cart service for cart bound configurations', () => {
+      spyOn(
+        configuratorCartService,
+        'readConfigurationForCartEntry'
+      ).and.callThrough();
 
-      const obs = cold('x', {
-        x: productConfigurationLoaderState,
-      });
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-      spyOn(store, 'dispatch').and.callThrough();
+      serviceUnderTest.getOrCreateConfiguration(OWNER_CART_ENTRY);
 
-      OWNER_CART_ENTRY.hasObsoleteState = true;
-
-      const configurationObs = serviceUnderTest.getOrCreateConfiguration(
-        OWNER_CART_ENTRY
-      );
-
-      expect(configurationObs).toBeObservable(cold('', {}));
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new ConfiguratorActions.ReadCartEntryConfiguration({
-          userId: cart.user.uid,
-          cartId: cart.guid,
-          cartEntryNumber: OWNER_CART_ENTRY.id,
-          owner: OWNER_CART_ENTRY,
-        })
-      );
+      expect(
+        configuratorCartService.readConfigurationForCartEntry
+      ).toHaveBeenCalledWith(OWNER_CART_ENTRY);
     });
 
-    it('should filter incomplete configurations when reading configurations for cart entry', () => {
-      productConfigurationChanged.configId = '';
-      const configurationObs = callGetOrCreate(
-        serviceUnderTest,
-        OWNER_CART_ENTRY
-      );
-      expect(configurationObs).toBeObservable(
-        cold('x-', {
-          x: productConfiguration,
-        })
-      );
-    });
+    it('should delegate to config cart service for order bound configurations', () => {
+      spyOn(
+        configuratorCartService,
+        'readConfigurationForOrderEntry'
+      ).and.callThrough();
 
-    it('should filter incomplete configurations when reading configurations for order entry', () => {
-      productConfigurationChanged.configId = '';
-      const configurationObs = callGetOrCreate(
-        serviceUnderTest,
-        OWNER_ORDER_ENTRY
-      );
-      expect(configurationObs).toBeObservable(
-        cold('x-', {
-          x: productConfiguration,
-        })
-      );
+      serviceUnderTest.getOrCreateConfiguration(OWNER_ORDER_ENTRY);
+
+      expect(
+        configuratorCartService.readConfigurationForOrderEntry
+      ).toHaveBeenCalledWith(OWNER_ORDER_ENTRY);
     });
 
     it('should create a new configuration if not existing yet', () => {

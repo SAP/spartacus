@@ -126,10 +126,23 @@ describe('ConfigRouterExtractorService', () => {
       let routerData: ConfigurationRouter.Data;
       serviceUnderTest
         .extractRouterData()
-        .subscribe((data) => (routerData = data));
+        .subscribe((data) => (routerData = data))
+        .unsubscribe();
       expect(routerData.configuratorType).toBe(CONFIGURATOR_TYPE);
       expect(routerData.isOwnerCartEntry).toBe(true);
       expect(routerData.pageType).toBe(ConfigurationRouter.PageType.OVERVIEW);
+      expect(routerData.forceReload).toBe(false);
+    });
+
+    it('should tell from the URL if we need to enforce a reload of a configuration', () => {
+      mockRouterState.state.queryParams = { forceReload: 'true' };
+      let routerData: ConfigurationRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => (routerData = data))
+        .unsubscribe();
+
+      expect(routerData.forceReload).toBe(true);
     });
   });
 
@@ -138,7 +151,7 @@ describe('ConfigRouterExtractorService', () => {
       const owner: GenericConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
         mockRouterState
       );
-      expect(owner.hasObsoleteState).toBe(false);
+
       expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
     });
 
@@ -149,7 +162,7 @@ describe('ConfigRouterExtractorService', () => {
       const owner: GenericConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
         mockRouterState
       );
-      expect(owner.hasObsoleteState).toBe(false);
+
       expect(owner.type).toBe(GenericConfigurator.OwnerType.PRODUCT);
     });
 
@@ -157,11 +170,11 @@ describe('ConfigRouterExtractorService', () => {
       mockRouterState.state.params.ownerType =
         GenericConfigurator.OwnerType.CART_ENTRY;
       mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
-      mockRouterState.state.queryParams = { forceReload: 'true' };
+
       const owner: GenericConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
         mockRouterState
       );
-      expect(owner.hasObsoleteState).toBe(true);
+
       expect(owner.type).toBe(GenericConfigurator.OwnerType.CART_ENTRY);
     });
   });

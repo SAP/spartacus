@@ -2,25 +2,20 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
-import { ActiveCartService } from '../../../cart/facade/active-cart.service';
-import { Cart } from '../../../model/cart.model';
 import { Configurator } from '../../../model/configurator.model';
 import { GenericConfigurator } from '../../../model/generic-configurator.model';
-import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-} from '../../../occ/utils/occ-constants';
 import { GenericConfigUtilsService } from '../../generic/utils/config-utils.service';
-import * as ConfiguratorActions from '../store/actions/configurator.action';
+import { ConfiguratorActions } from '../store/actions/index';
 import { StateWithConfiguration } from '../store/configuration-state';
 import * as ConfiguratorSelectors from '../store/selectors/configurator.selector';
+import { ConfiguratorCartService } from './configurator-cart.service';
 
 @Injectable()
 export class ConfiguratorCommonsService {
   constructor(
     protected store: Store<StateWithConfiguration>,
-    protected activeCartService: ActiveCartService,
-    protected genericConfigUtilsService: GenericConfigUtilsService
+    protected genericConfigUtilsService: GenericConfigUtilsService,
+    protected configuratorCartService: ConfiguratorCartService
   ) {}
 
   /**
@@ -30,9 +25,7 @@ export class ConfiguratorCommonsService {
    *
    * @returns {Observable<Boolean>} Returns true if there are any pending changes, otherwise false
    */
-  public hasPendingChanges(
-    owner: GenericConfigurator.Owner
-  ): Observable<Boolean> {
+  hasPendingChanges(owner: GenericConfigurator.Owner): Observable<Boolean> {
     return this.store.pipe(
       select(ConfiguratorSelectors.hasPendingChanges(owner.key))
     );
@@ -45,7 +38,7 @@ export class ConfiguratorCommonsService {
    *
    * @returns {Observable<Boolean>} Returns true if the configuration is loading, otherwise false
    */
-  public isConfigurationLoading(
+  isConfigurationLoading(
     owner: GenericConfigurator.Owner
   ): Observable<Boolean> {
     return this.store.pipe(
@@ -65,7 +58,7 @@ export class ConfiguratorCommonsService {
    *
    * @returns {Observable<Configurator.Configuration>}
    */
-  public getConfiguration(
+  getConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
@@ -81,36 +74,45 @@ export class ConfiguratorCommonsService {
    *
    * @returns {Observable<Configurator.Configuration>}
    */
-  public getOrCreateConfiguration(
+  getOrCreateConfiguration(
     owner: GenericConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    const localOwner: GenericConfigurator.Owner = {
-      hasObsoleteState: owner.hasObsoleteState,
-    };
+    switch (owner.type) {
+      case GenericConfigurator.OwnerType.PRODUCT: {
+        return this.getOrCreateConfigurationForProduct(owner);
+      }
+      case GenericConfigurator.OwnerType.CART_ENTRY: {
+        return this.configuratorCartService.readConfigurationForCartEntry(
+          owner
+        );
+      }
+      case GenericConfigurator.OwnerType.ORDER_ENTRY: {
+        return this.configuratorCartService.readConfigurationForOrderEntry(
+          owner
+        );
+      }
+    }
+  }
 
+  getOrCreateConfigurationForProduct(
+    owner: GenericConfigurator.Owner
+  ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
           owner.key
         )
       ),
+
       tap((configurationState) => {
         if (
-          (!this.isConfigurationCreated(configurationState.value) ||
-            localOwner.hasObsoleteState === true) &&
+          !this.isConfigurationCreated(configurationState.value) &&
           configurationState.loading !== true &&
           configurationState.error !== true
         ) {
-          if (owner.type === GenericConfigurator.OwnerType.PRODUCT) {
-            this.store.dispatch(
-              new ConfiguratorActions.CreateConfiguration(owner)
-            );
-          } else if (owner.type === GenericConfigurator.OwnerType.CART_ENTRY) {
-            localOwner.hasObsoleteState = false;
-            this.readConfigurationForCartEntry(owner);
-          } else {
-            this.readConfigurationForOrderEntry(owner);
-          }
+          this.store.dispatch(
+            new ConfiguratorActions.CreateConfiguration(owner)
+          );
         }
       }),
       filter((configurationState) =>
@@ -119,48 +121,6 @@ export class ConfiguratorCommonsService {
       map((configurationState) => configurationState.value)
     );
   }
-
-  /**
-   * Reads a configuratiom that is attached to an order entry, dispatching the respective action
-   * @param owner Configuration owner
-   */
-  public readConfigurationForOrderEntry(owner: GenericConfigurator.Owner) {
-    const ownerIdParts = this.genericConfigUtilsService.decomposeOwnerId(
-      owner.id
-    );
-    const readFromOrderEntryParameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters = {
-      userId: OCC_USER_ID_CURRENT,
-      orderId: ownerIdParts.documentId,
-      orderEntryNumber: ownerIdParts.entryNumber,
-      owner: owner,
-    };
-    this.store.dispatch(
-      new ConfiguratorActions.ReadOrderEntryConfiguration(
-        readFromOrderEntryParameters
-      )
-    );
-  }
-
-  /**
-   * Reads a configuratiom that is attached to a cart entry, dispatching the respective action
-   * @param owner Configuration owner
-   */
-  public readConfigurationForCartEntry(owner: GenericConfigurator.Owner) {
-    this.activeCartService.requireLoadedCart().subscribe((cartState) => {
-      const readFromCartEntryParameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters = {
-        userId: this.genericConfigUtilsService.getUserId(cartState.value),
-        cartId: this.genericConfigUtilsService.getCartId(cartState.value),
-        cartEntryNumber: owner.id,
-        owner: owner,
-      };
-      this.store.dispatch(
-        new ConfiguratorActions.ReadCartEntryConfiguration(
-          readFromCartEntryParameters
-        )
-      );
-    });
-  }
-
   /**
    * Updates a configuration, specified by the configuration owner key, group ID and a changed attribute.
    *
@@ -168,7 +128,7 @@ export class ConfiguratorCommonsService {
    * @param groupId - Group ID
    * @param changedAttribute - Changes attribute
    */
-  public updateConfiguration(
+  updateConfiguration(
     ownerKey: string,
     groupId: string,
     changedAttribute: Configurator.Attribute
@@ -196,7 +156,7 @@ export class ConfiguratorCommonsService {
    *
    * @param configuration - Configuration
    */
-  public getConfigurationWithOverview(
+  getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
@@ -220,92 +180,19 @@ export class ConfiguratorCommonsService {
    *
    * @param owner - Configuration owner
    */
-  public removeConfiguration(owner: GenericConfigurator.Owner) {
+  removeConfiguration(owner: GenericConfigurator.Owner) {
     this.store.dispatch(
       new ConfiguratorActions.RemoveConfiguration({ ownerKey: owner.key })
-    );
-  }
-
-  /**
-   * Adds a configuration to the cart, specified by the product code, a configuration ID and configuration owner key.
-   *
-   * @param productCode - Product code
-   * @param configId - Configuration ID
-   * @param ownerKey Configuration owner key
-   */
-  public addToCart(productCode: string, configId: string, ownerKey: string) {
-    this.activeCartService.requireLoadedCart().subscribe((cartState) => {
-      const addToCartParameters: Configurator.AddToCartParameters = {
-        userId: this.genericConfigUtilsService.getUserId(cartState.value),
-        cartId: this.genericConfigUtilsService.getCartId(cartState.value),
-        productCode: productCode,
-        quantity: 1,
-        configId: configId,
-        ownerKey: ownerKey,
-      };
-      this.store.dispatch(
-        new ConfiguratorActions.AddToCart(addToCartParameters)
-      );
-    });
-  }
-
-  /**
-   * Updates a cart entry, specified by the configuration.
-   *
-   * @param configuration - Configuration
-   */
-  public updateCartEntry(configuration: Configurator.Configuration) {
-    this.activeCartService.requireLoadedCart().subscribe((cartState) => {
-      const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
-        userId: this.genericConfigUtilsService.getUserId(cartState.value),
-        cartId: this.genericConfigUtilsService.getCartId(cartState.value),
-        cartEntryNumber: configuration.owner.id,
-        configuration: configuration,
-      };
-
-      this.store.dispatch(new ConfiguratorActions.UpdateCartEntry(parameters));
-      this.checkForUpdateDone(configuration).subscribe((configAfterUpdate) => {
-        this.readConfigurationForCartEntry(configAfterUpdate.owner);
-      });
-    });
-  }
-
-  checkForUpdateDone(
-    configuration: Configurator.Configuration
-  ): Observable<Configurator.Configuration> {
-    return this.store.pipe(
-      select(
-        ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
-      ),
-      filter(
-        (configInUpdate) => configInUpdate.isCartEntryUpdatePending === false
-      ),
-      take(1)
     );
   }
 
   ////
   // Helper methods
   ////
-  getCartId(cart: Cart): string {
-    return cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
-  }
-
-  getUserId(cart: Cart): string {
-    return cart.user.uid === OCC_USER_ID_ANONYMOUS
-      ? cart.user.uid
-      : OCC_USER_ID_CURRENT;
-  }
 
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
     const configId: String = configuration?.configId;
     return configId !== undefined && configId.length !== 0;
-  }
-
-  protected hasConfigurationOverview(
-    configuration: Configurator.Configuration
-  ): boolean {
-    return configuration.overview !== undefined;
   }
 
   createConfigurationExtract(
@@ -349,14 +236,6 @@ export class ConfiguratorCommonsService {
     return newConfiguration;
   }
 
-  buildGroupForExtract(group: Configurator.Group): Configurator.Group {
-    const changedGroup: Configurator.Group = {
-      groupType: group.groupType,
-      id: group.id,
-    };
-    return changedGroup;
-  }
-
   buildGroupPath(
     groupId: string,
     groupList: Configurator.Group[],
@@ -381,5 +260,21 @@ export class ConfiguratorCommonsService {
         });
     }
     return haveFoundGroup;
+  }
+
+  protected buildGroupForExtract(
+    group: Configurator.Group
+  ): Configurator.Group {
+    const changedGroup: Configurator.Group = {
+      groupType: group.groupType,
+      id: group.id,
+    };
+    return changedGroup;
+  }
+
+  protected hasConfigurationOverview(
+    configuration: Configurator.Configuration
+  ): boolean {
+    return configuration.overview !== undefined;
   }
 }
