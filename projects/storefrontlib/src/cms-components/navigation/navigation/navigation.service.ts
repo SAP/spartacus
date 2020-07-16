@@ -141,7 +141,7 @@ export class NavigationService {
   /**
    * The node link is driven by the first entry.
    */
-  private populateLink(node: NavigationNode, entry, items) {
+  protected populateLink(node: NavigationNode, entry, items) {
     const item = items[`${entry.itemId}_${entry.itemSuperType}`];
 
     // now we only consider CMSLinkComponent
