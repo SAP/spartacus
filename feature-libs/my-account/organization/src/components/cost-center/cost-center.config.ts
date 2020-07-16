@@ -117,14 +117,14 @@ export const costCenterTableConfig: TableConfig = {
 
     [OrganizationTableType.COST_CENTER_BUDGETS]: [
       {
-        headers: [{ key: 'summary' }],
+        headers: [{ key: 'summary' }, { key: 'link' }],
         hideHeader: true,
       },
     ],
     [OrganizationTableType.COST_CENTER_ASSIGN_BUDGET]: [
       {
         breakpoint: BREAKPOINT.xs,
-        headers: [{ key: 'summary' }],
+        headers: [{ key: 'selected' }, { key: 'summary' }, { key: 'link' }],
         hideHeader: true,
       },
       {

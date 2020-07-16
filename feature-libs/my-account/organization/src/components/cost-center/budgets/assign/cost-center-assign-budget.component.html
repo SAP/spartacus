@@ -30,40 +30,47 @@
   </ng-template>
 
   <ng-template
+    cxOutletRef="table.costCenterAssignBudget.data.selected"
+    let-model
+  >
+    <label>
+      <input
+        type="checkbox"
+        [checked]="model.selected"
+        (change)="
+          toggleAssign(costCenterCode, model.code, $event.target.checked)
+        "
+      />
+    </label>
+  </ng-template>
+
+  <ng-template
     cxOutletRef="table.costCenterAssignBudget.data.summary"
     let-model
   >
     <div>
       <div>
-        <label>
-          <input
-            type="checkbox"
-            [checked]="model.selected"
-            (change)="
-              toggleAssign(costCenterCode, model.code, $event.target.checked)
-            "
-          />
-        </label>
         <h3>{{ model.name }}</h3>
         <small
           >{{ model.code }} • {{ model.budget }} {{ model.currency?.symbol }} •
           {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
         </small>
       </div>
-      <div>
-        <a
-          class="link"
-          [routerLink]="
-            {
-              cxRoute: 'budgetDetails',
-              params: { code: model.code }
-            } | cxUrl
-          "
-        >
-          <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-        </a>
-      </div>
     </div>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.costCenterAssignBudget.data.link" let-model>
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'budgetDetails',
+          params: { code: model.code }
+        } | cxUrl
+      "
+    >
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
   </ng-template>
 
   <ng-template cxOutletRef="table.costCenterAssignBudget.data.name" let-model>
