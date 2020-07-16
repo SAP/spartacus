@@ -135,7 +135,8 @@ export class ConfigGroupMenuComponent implements OnInit {
     if (
       parentGroup &&
       parentGroup.subGroups &&
-      parentGroup.subGroups.length === 1
+      parentGroup.subGroups.length === 1 &&
+      parentGroup.groupType !== Configurator.GroupType.CONFLICT_HEADER_GROUP
     ) {
       return this.getParentGroup(parentGroup).pipe(
         switchMap((group) => this.getCondensedParentGroup(group))
@@ -147,7 +148,10 @@ export class ConfigGroupMenuComponent implements OnInit {
 
   condenseGroups(groups: Configurator.Group[]): Configurator.Group[] {
     return groups.flatMap((group) => {
-      if (group.subGroups.length === 1) {
+      if (
+        group.subGroups.length === 1 &&
+        group.groupType !== Configurator.GroupType.CONFLICT_HEADER_GROUP
+      ) {
         return this.condenseGroups(group.subGroups);
       } else {
         return group;

@@ -56,7 +56,7 @@ export class OccConfiguratorVariantNormalizer
       subGroups: [],
     };
 
-    this.setGeneralDescription(group);
+    this.setGroupDescription(group);
 
     if (source.subGroups) {
       source.subGroups.forEach((sourceSubGroup) =>
@@ -225,14 +225,28 @@ export class OccConfiguratorVariantNormalizer
     }
   }
 
-  setGeneralDescription(group: Configurator.Group): void {
-    if (group.name !== '_GEN') {
-      return;
+  setGroupDescription(group: Configurator.Group): void {
+    switch (group.groupType) {
+      case Configurator.GroupType.CONFLICT_HEADER_GROUP:
+        this.translation
+          .translate('configurator.group.conflictHeader')
+          .pipe(take(1))
+          .subscribe(
+            (conflictHeaderText) => (group.description = conflictHeaderText)
+          );
+        break;
+      case Configurator.GroupType.CONFLICT_GROUP:
+        group.description = group.name;
+        break;
+      default:
+        if (group.name !== '_GEN') {
+          return;
+        }
+        this.translation
+          .translate('configurator.group.general')
+          .pipe(take(1))
+          .subscribe((generalText) => (group.description = generalText));
     }
-    this.translation
-      .translate('configurator.group.general')
-      .pipe(take(1))
-      .subscribe((generalText) => (group.description = generalText));
   }
 
   convertImageType(
