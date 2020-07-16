@@ -453,6 +453,18 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     expect(
       occConfiguratorVariantNormalizer.convertGroupType(
+        OccConfigurator.GroupType.CONFLICT_HEADER
+      )
+    ).toBe(Configurator.GroupType.CONFLICT_HEADER_GROUP);
+
+    expect(
+      occConfiguratorVariantNormalizer.convertGroupType(
+        OccConfigurator.GroupType.CONFLICT
+      )
+    ).toBe(Configurator.GroupType.CONFLICT_GROUP);
+
+    expect(
+      occConfiguratorVariantNormalizer.convertGroupType(
         OccConfigurator.GroupType.INSTANCE
       )
     ).toBe(Configurator.GroupType.SUB_ITEM_GROUP);

@@ -218,6 +218,10 @@ export class OccConfiguratorVariantNormalizer
         return Configurator.GroupType.ATTRIBUTE_GROUP;
       case OccConfigurator.GroupType.INSTANCE:
         return Configurator.GroupType.SUB_ITEM_GROUP;
+      case OccConfigurator.GroupType.CONFLICT_HEADER:
+        return Configurator.GroupType.CONFLICT_HEADER_GROUP;
+      case OccConfigurator.GroupType.CONFLICT:
+        return Configurator.GroupType.CONFLICT_GROUP;
     }
   }
 
