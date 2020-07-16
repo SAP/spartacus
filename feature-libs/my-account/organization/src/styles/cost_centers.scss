@@ -81,18 +81,3 @@ cx-cost-center-list {
     }
   }
 }
-
-cx-cost-center-form {
-  + div {
-    display: flex;
-    padding: var(--cx-spatial-base);
-    place-content: space-between;
-    @include media-breakpoint-down(md) {
-      flex-direction: column;
-    }
-    button {
-      flex: 1;
-      margin: var(--cx-spatial-base);
-    }
-  }
-}
