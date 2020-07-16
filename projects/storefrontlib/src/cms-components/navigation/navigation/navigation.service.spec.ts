@@ -153,7 +153,7 @@ class MockSemanticPathService {
   }
 }
 
-fdescribe('NavigationComponentService', () => {
+describe('NavigationComponentService', () => {
   let navigationService: NavigationService;
   let mockCmsService: any;
 
