@@ -14,7 +14,7 @@ import {
   OrderApprovalDecisionValue,
   OrderApprovalService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form.component';
 
@@ -36,6 +36,9 @@ class MockOrderApprovalDetailService {
   getOrderApproval(): Observable<OrderApproval> {
     return of(mockOrderApproval);
   }
+  getOrderApprovalCodeFromRoute(): Observable<string> {
+    return of(mockOrderApproval.code);
+  }
 }
 
 @Component({
@@ -47,6 +50,12 @@ class MockFormErrorsComponent {
   controll: FormControl;
 }
 
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockSpinnerComponent {}
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -54,11 +63,21 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+const makeDecisionResultLoading$ = new BehaviorSubject<boolean>(false);
+const orderApprovalLoading$ = new BehaviorSubject<boolean>(false);
+
 class MockOrderApprovalService {
   makeDecision() {}
+  getOrderApprovalLoading(): Observable<boolean> {
+    return orderApprovalLoading$.asObservable();
+  }
+  getMakeDecisionResultLoading(): Observable<boolean> {
+    return makeDecisionResultLoading$.asObservable();
+  }
+  resetMakeDecisionProcessState(): void {}
 }
 
-describe('OrderApprovalDetailFormComponent', () => {
+fdescribe('OrderApprovalDetailFormComponent', () => {
   let component: OrderApprovalDetailFormComponent;
   let fixture: ComponentFixture<OrderApprovalDetailFormComponent>;
   let orderApprovalService: OrderApprovalService;
@@ -69,6 +88,7 @@ describe('OrderApprovalDetailFormComponent', () => {
       declarations: [
         OrderApprovalDetailFormComponent,
         MockFormErrorsComponent,
+        MockSpinnerComponent,
         MockUrlPipe,
       ],
       imports: [ReactiveFormsModule, I18nTestingModule],
@@ -80,6 +100,9 @@ describe('OrderApprovalDetailFormComponent', () => {
         { provide: OrderApprovalService, useClass: MockOrderApprovalService },
       ],
     }).compileComponents();
+
+    makeDecisionResultLoading$.next(false);
+    orderApprovalLoading$.next(false);
   }));
 
   beforeEach(() => {
@@ -129,6 +152,20 @@ describe('OrderApprovalDetailFormComponent', () => {
     expect(orderApprovalService.makeDecision).not.toHaveBeenCalled();
   });
 
+  it('should display spinner when makeDecision is processing.', () => {
+    assertComponentInitialState();
+    makeDecisionResultLoading$.next(true);
+    fixture.detectChanges();
+    assertSpinnerDisplayed();
+  });
+
+  it('should display spinner when approval details are loading.', () => {
+    assertComponentInitialState();
+    orderApprovalLoading$.next(true);
+    fixture.detectChanges();
+    assertSpinnerDisplayed();
+  });
+
   function displayAndCancelDecisionForm(decision: OrderApprovalDecisionValue) {
     assertComponentInitialState();
 
@@ -162,14 +199,29 @@ describe('OrderApprovalDetailFormComponent', () => {
   }
 
   function assertComponentInitialState() {
-    // assert initial state
     expect(el.query(By.css('form'))).toBeFalsy();
+    expect(el.query(By.css('cx-spinner'))).toBeFalsy();
     expect(component.approvalFormVisible).toBeFalsy();
     assertButtonAbsent('orderApproval.form.cancel');
     assertButtonAbsent('orderApproval.form.submit_APPROVE');
     assertButtonAbsent('orderApproval.form.submit_REJECT');
     assertButtonPresent('orderApproval.showForm_APPROVE');
     assertButtonPresent('orderApproval.showForm_REJECT');
+  }
+
+  function assertSpinnerDisplayed() {
+    expect(el.query(By.css('cx-spinner'))).toBeTruthy(
+      'assertSpinnerDisplayed: <cx-spinner> tag should be found when spinner is diaplayed.'
+    );
+    expect(el.query(By.css('form'))).toBeFalsy(
+      'assertSpinnerDisplayed: no <form> tags should be found when the spinner is displayed.'
+    );
+    expect(el.query(By.css('button'))).toBeFalsy(
+      'assertSpinnerDisplayed: no <button> tags should be found when the spinner is displayed.'
+    );
+    expect(el.query(By.css('a'))).toBeFalsy(
+      'assertSpinnerDisplayed: no <a> tags should be found when the spinner is displayed.'
+    );
   }
 
   function getButtonWithLabel(labelKey: string): DebugElement {
