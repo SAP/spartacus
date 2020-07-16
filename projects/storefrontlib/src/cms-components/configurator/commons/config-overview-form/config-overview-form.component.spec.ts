@@ -110,8 +110,7 @@ describe('ConfigurationOverviewFormComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigOverviewFormComponent);
