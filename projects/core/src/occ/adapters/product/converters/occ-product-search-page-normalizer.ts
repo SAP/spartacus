@@ -54,7 +54,7 @@ export class OccProductSearchPageNormalizer
    * the facets.
    */
   private normalizeUselessFacets(target: ProductSearchPage): void {
-    target.facets = target.facets.filter((facet) => {
+    target.facets = (target.facets || []).filter((facet) => {
       return (
         !target.pagination ||
         !target.pagination.totalResults ||
