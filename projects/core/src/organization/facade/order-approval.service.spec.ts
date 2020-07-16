@@ -124,6 +124,32 @@ describe('OrderApprovalService', () => {
     });
   });
 
+  describe('get order approval loading state', () => {
+    it('getOrderApprovalLoading() should return true when order approval is loading.', () => {
+      let result = true;
+      service
+        .getOrderApprovalLoading(orderApprovalCode)
+        .subscribe((loading) => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+
+      store.dispatch(
+        new OrderApprovalActions.LoadOrderApproval({
+          userId,
+          orderApprovalCode,
+        })
+      );
+
+      service
+        .getOrderApprovalLoading(orderApprovalCode)
+        .subscribe((loading) => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+  });
+
   describe('get orderApprovals', () => {
     const params: B2BSearchConfig = { sort: 'code' };
 
