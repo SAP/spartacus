@@ -17,7 +17,7 @@ export class ConfigAttributeFooterComponent {
 
   constructor(protected configUtils: ConfigUtilsService) {}
 
-  iconTypes = ICON_TYPE;
+  iconType = ICON_TYPE;
 
   /**
    * Show message that indicates that attribute is required in case attribute is a
@@ -26,19 +26,7 @@ export class ConfigAttributeFooterComponent {
   showRequiredMessageForUserInput(): Observable<boolean> {
     return this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
-      .pipe(
-        map((result) => {
-          if (
-            result &&
-            this.attribute.required &&
-            this.attribute.incomplete &&
-            this.isUserInputEmpty(this.attribute.userInput)
-          ) {
-            return true;
-          }
-          return false;
-        })
-      );
+      .pipe(map((result) => (result ? this.needsUserInputMessage() : false)));
   }
 
   /**
@@ -55,5 +43,13 @@ export class ConfigAttributeFooterComponent {
    */
   isUserInputEmpty(input: string): boolean {
     return input !== undefined && (!input.trim() || 0 === input.length);
+  }
+
+  protected needsUserInputMessage(): boolean {
+    return (
+      this.attribute.required &&
+      this.attribute.incomplete &&
+      this.isUserInputEmpty(this.attribute.userInput)
+    );
   }
 }

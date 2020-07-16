@@ -33,7 +33,7 @@ export class ConfigAttributeCheckBoxComponent implements OnInit {
    * Fired when a check box has been selected i.e. when a value has been set
    */
   onSelect(): void {
-    const selectedValues = this.assembleValue();
+    const selectedValues = this.assembleSingleValue();
 
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,
@@ -47,7 +47,7 @@ export class ConfigAttributeCheckBoxComponent implements OnInit {
     this.selectionChange.emit(event);
   }
 
-  protected assembleValue(): any[] {
+  protected assembleSingleValue(): any[] {
     const localAssembledValues: any = [];
 
     const localAttributeValue: Configurator.Value = {};

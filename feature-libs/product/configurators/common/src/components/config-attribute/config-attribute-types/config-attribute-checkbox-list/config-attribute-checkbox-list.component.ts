@@ -69,4 +69,6 @@ export class ConfigAttributeCheckBoxListComponent implements OnInit {
     }
     return localAssembledValues;
   }
+
+  //TODO CHHI refactor into utility
 }
