@@ -184,6 +184,7 @@ export class NavigationService {
         cxRoute: 'product',
         params: {
           code: item.productCode,
+          name: item.name,
         },
       });
     }
