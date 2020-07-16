@@ -77,7 +77,7 @@ class MockOrderApprovalService {
   resetMakeDecisionProcessState(): void {}
 }
 
-fdescribe('OrderApprovalDetailFormComponent', () => {
+describe('OrderApprovalDetailFormComponent', () => {
   let component: OrderApprovalDetailFormComponent;
   let fixture: ComponentFixture<OrderApprovalDetailFormComponent>;
   let orderApprovalService: OrderApprovalService;
