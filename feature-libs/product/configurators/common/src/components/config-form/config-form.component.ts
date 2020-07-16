@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -18,9 +18,29 @@ import { ConfigFormUpdateEvent } from './config-form.event';
   templateUrl: './config-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigFormComponent implements OnInit {
-  configuration$: Observable<Configurator.Configuration>;
-  currentGroup$: Observable<Configurator.Group>;
+export class ConfigFormComponent {
+  configuration$: Observable<
+    Configurator.Configuration
+  > = this.configRouterExtractorService.extractRouterData().pipe(
+    filter(
+      (routerData) =>
+        routerData.pageType === ConfigurationRouter.PageType.CONFIGURATION
+    ),
+    switchMap((routerData) => {
+      return this.configuratorCommonsService.getOrCreateConfiguration(
+        routerData.owner
+      );
+    })
+  );
+  currentGroup$: Observable<
+    Configurator.Group
+  > = this.configRouterExtractorService
+    .extractRouterData()
+    .pipe(
+      switchMap((routerData) =>
+        this.configuratorGroupsService.getCurrentGroup(routerData.owner)
+      )
+    );
 
   UiType = Configurator.UiType;
 
@@ -30,31 +50,7 @@ export class ConfigFormComponent implements OnInit {
     protected configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
-  ngOnInit(): void {
-    this.configuration$ = this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        filter(
-          (routerData) =>
-            routerData.pageType === ConfigurationRouter.PageType.CONFIGURATION
-        ),
-        switchMap((routerData) => {
-          return this.configuratorCommonsService.getOrCreateConfiguration(
-            routerData.owner
-          );
-        })
-      );
-
-    this.currentGroup$ = this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorGroupsService.getCurrentGroup(routerData.owner)
-        )
-      );
-  }
-
-  updateConfiguration(event: ConfigFormUpdateEvent) {
+  updateConfiguration(event: ConfigFormUpdateEvent): void {
     const owner: GenericConfigurator.Owner = { key: event.productCode };
 
     this.configuratorCommonsService.updateConfiguration(
@@ -63,28 +59,19 @@ export class ConfigFormComponent implements OnInit {
       event.changedAttribute
     );
 
-    // Wait until update is triggered first, then wait until update is finished, to be sure that the configuration
-    // is changed before the group status is set. This cannot be done in the effects, as we need to call the facade layer.
+    // Wait until update is done until setting the group status
     this.configuratorCommonsService
       .isConfigurationLoading(owner)
       .pipe(
-        filter((isLoading) => isLoading.valueOf()),
+        filter((isLoading) => !isLoading.valueOf()),
         take(1)
       )
       .subscribe(() =>
-        this.configuratorCommonsService
-          .isConfigurationLoading(owner)
-          .pipe(
-            filter((isLoading) => !isLoading.valueOf()),
-            take(1)
-          )
-          .subscribe(() =>
-            this.configuratorGroupsService.setGroupStatus(
-              owner,
-              event.groupId,
-              false
-            )
-          )
+        this.configuratorGroupsService.setGroupStatus(
+          owner,
+          event.groupId,
+          false
+        )
       );
   }
 }

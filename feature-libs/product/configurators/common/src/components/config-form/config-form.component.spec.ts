@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -116,7 +116,6 @@ class MockConfiguratorGroupsService {
   setGroupStatus(): void {}
 }
 function checkConfigurationObs(
-  component: ConfigFormComponent,
   routerMarbels: string,
   configurationServiceMarbels: string,
   expectedMarbels: string
@@ -128,14 +127,14 @@ function checkConfigurationObs(
     x: configRead,
     y: configRead2,
   });
-  component.ngOnInit();
 
+  const fixture = TestBed.createComponent(ConfigFormComponent);
+  const component = fixture.componentInstance;
   expect(component.configuration$).toBeObservable(
     cold(expectedMarbels, { x: configRead, y: configRead2 })
   );
 }
 function checkCurrentGroupObs(
-  component: ConfigFormComponent,
   routerMarbels: string,
   groupMarbels: string,
   expectedMarbels: string
@@ -147,8 +146,8 @@ function checkCurrentGroupObs(
     u: groups[0],
     v: groups[1],
   });
-  component.ngOnInit();
-
+  const fixture = TestBed.createComponent(ConfigFormComponent);
+  const component = fixture.componentInstance;
   expect(component.currentGroup$).toBeObservable(
     cold(expectedMarbels, {
       u: groups[0],
@@ -157,11 +156,9 @@ function checkCurrentGroupObs(
   );
 }
 describe('ConfigurationFormComponent', () => {
-  let component: ConfigFormComponent;
   let configuratorUtils: GenericConfigUtilsService;
   let configurationCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
-  let fixture: ComponentFixture<ConfigFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -206,9 +203,6 @@ describe('ConfigurationFormComponent', () => {
       .compileComponents();
   }));
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigFormComponent);
-    component = fixture.componentInstance;
-
     configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
     );
@@ -229,32 +223,28 @@ describe('ConfigurationFormComponent', () => {
     configuratorUtils.setOwnerKey(owner);
   });
 
-  it('should create component', () => {
-    expect(component).toBeDefined();
-  });
-
   it('should only get the minimum needed 2 emissions of product configurations if router emits faster than commons service', () => {
-    checkConfigurationObs(component, 'aa', '---xy', '----xy');
+    checkConfigurationObs('aa', '---xy', '----xy');
   });
 
   it('should get 3 emissions of product configurations if both services emit fast', () => {
-    checkConfigurationObs(component, 'aa', 'xy', 'xxy');
+    checkConfigurationObs('aa', 'xy', 'xxy');
   });
 
   it('should get the maximum 4 emissions of product configurations if router pauses between emissions', () => {
-    checkConfigurationObs(component, 'a---a', 'xy', 'xy--xy');
+    checkConfigurationObs('a---a', 'xy', 'xy--xy');
   });
 
   it('should only get the minimum needed 2 emissions of current groups if group service emits slowly', () => {
-    checkCurrentGroupObs(component, 'aa', '---uv', '----uv');
+    checkCurrentGroupObs('aa', '---uv', '----uv');
   });
 
   it('should get 4 emissions of current groups if configurations service emits fast', () => {
-    checkCurrentGroupObs(component, 'a---a', '--uv', '--uv--uv');
+    checkCurrentGroupObs('a---a', '--uv', '--uv--uv');
   });
 
   it('should get the maximum 8 emissions of current groups if router and config service emit slowly', () => {
-    checkCurrentGroupObs(component, 'a-----a', 'uv', 'uv----uv');
+    checkCurrentGroupObs('a-----a', 'uv', 'uv----uv');
   });
 
   it('check update configuration', () => {
@@ -262,8 +252,8 @@ describe('ConfigurationFormComponent', () => {
       x: Boolean(true),
       y: Boolean(false),
     });
-
-    component.ngOnInit();
+    const fixture = TestBed.createComponent(ConfigFormComponent);
+    const component = fixture.componentInstance;
     component.updateConfiguration({
       changedAttribute: configRead.groups[0].attributes[0],
       groupId: configRead.groups[0].id,
