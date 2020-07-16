@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
   QueryList,
-  ViewChildren
+  ViewChildren,
 } from '@angular/core';
 import {
   CmsService,
@@ -35,12 +35,13 @@ export class TabParagraphContainerComponent
   tabTitleParams: Observable<any>[] = [];
 
   subscription: Subscription;
+  tabSubscription: Subscription;
 
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     protected cmsService: CmsService,
     protected winRef: WindowRef,
-    private breakpointService: BreakpointService
+    protected breakpointService: BreakpointService
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -74,15 +75,16 @@ export class TabParagraphContainerComponent
   );
 
   select(tabNum: number, event): void {
-    this.breakpointService.isDown(BREAKPOINT.sm).subscribe((res) => {
-      if (res) {
-        this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
-        window.scrollTo(0, event.path[1].offsetTop);
-
-      } else {
-        this.activeTabNum = tabNum;
-      }
-    });
+    this.tabSubscription = this.breakpointService
+      .isDown(BREAKPOINT.sm)
+      .subscribe((res) => {
+        if (res) {
+          this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
+          window.scrollTo(0, event.path[1].offsetTop);
+        } else {
+          this.activeTabNum = tabNum;
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -118,6 +120,9 @@ export class TabParagraphContainerComponent
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+    if (this.tabSubscription) {
+      this.tabSubscription.unsubscribe();
     }
   }
 }
