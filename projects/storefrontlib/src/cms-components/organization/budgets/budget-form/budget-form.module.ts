@@ -11,6 +11,7 @@ import {
 } from '@spartacus/core';
 import { BudgetFormComponent } from './budget-form.component';
 import { FormErrorsModule } from '../../../../shared/components/form/form-errors/form-errors.module';
+import { DateTimePickerModule } from 'projects/storefrontlib/src/shared';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { FormErrorsModule } from '../../../../shared/components/form/form-errors
     I18nModule,
     ReactiveFormsModule,
     FormErrorsModule,
+    DateTimePickerModule,
   ],
   declarations: [BudgetFormComponent],
   exports: [BudgetFormComponent],

@@ -31,8 +31,8 @@ const mockBudget: Budget = {
     isocode: 'USD',
     symbol: '$',
   },
-  startDate: '2010-01-01T00:00:00',
-  endDate: '2034-07-12T23:59:59',
+  startDate: '2010-01-01T00:00:00+0000',
+  endDate: '2034-07-12T00:59:59+0000',
   orgUnit: { name: 'Org Unit 1', uid: 'unitNode1' },
   costCenters: [
     { name: 'costCenter1', code: 'cc1', originalCode: 'Cost Center 1' },
@@ -159,62 +159,39 @@ describe('BudgetFormComponent', () => {
     });
 
     it('should setup clean form', () => {
-      spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
       spyOn(component.form, 'patchValue');
       component.budgetData = null;
       component.ngOnInit();
       expect(component.form.patchValue).not.toHaveBeenCalled();
       expect(component.form.valid).toBeFalsy();
-      expect(component.getLocalTimezoneOffset).not.toHaveBeenCalled();
     });
 
     it('should setup form for update', () => {
-      spyOn(component, 'getLocalTimezoneOffset').and.callThrough();
       spyOn(component.form, 'patchValue').and.callThrough();
       component.budgetData = mockBudget;
       component.ngOnInit();
-
-      const getDateWithTimeoffset = (value: string) => {
-        return new Date(value).toISOString().substring(0, 16);
-      };
-
-      expect(component.form.patchValue).toHaveBeenCalledWith({
-        ...mockBudget,
-        startDate: getDateWithTimeoffset(mockBudget.startDate),
-        endDate: getDateWithTimeoffset(mockBudget.endDate),
-      });
+      expect(component.form.patchValue).toHaveBeenCalledWith(mockBudget);
       expect(component.form.valid).toBeTruthy();
-      expect(component.getLocalTimezoneOffset).toHaveBeenCalledWith(true);
     });
   });
 
   describe('verifyBudget', () => {
-    beforeEach(() => {
-      spyOn(component, 'getLocalTimezoneOffset').and.returnValue('+00:00');
-    });
-
     it('should not emit value if form is invalid', () => {
       spyOn(component.submitForm, 'emit');
-      spyOn(component, 'update').and.callThrough();
       const form = fixture.debugElement.query(By.css('form'));
-      expect(component.update).not.toHaveBeenCalled();
       form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).not.toHaveBeenCalled();
-      expect(component.update).toHaveBeenCalledTimes(1);
     });
 
     it('should emit value if form is valid', () => {
       spyOn(component.submitForm, 'emit');
-      spyOn(component, 'update').and.callThrough();
       component.budgetData = mockBudget;
       component.ngOnInit();
       const form = fixture.debugElement.query(By.css('form'));
-      expect(component.update).not.toHaveBeenCalled();
       form.triggerEventHandler('submit', null);
       expect(component.submitForm.emit).toHaveBeenCalledWith(
         component.form.value
       );
-      expect(component.update).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -223,44 +200,6 @@ describe('BudgetFormComponent', () => {
       spyOn(component.clickBack, 'emit');
       component.back();
       expect(component.clickBack.emit).toHaveBeenCalledWith();
-    });
-  });
-
-  describe('getLocalTimezoneOffset()', () => {
-    function fakeDateTimezoneOffset(offset: number, callback: Function): any {
-      const original = Date.prototype.getTimezoneOffset;
-      Date.prototype.getTimezoneOffset = () => offset;
-      callback();
-      Date.prototype.getTimezoneOffset = original;
-    }
-
-    it('should return utc-0 offset string', () =>
-      fakeDateTimezoneOffset(0, () => {
-        expect(component.getLocalTimezoneOffset()).toEqual('+00:00');
-      }));
-
-    it('should return past offset string', () => {
-      fakeDateTimezoneOffset(120, () => {
-        expect(component.getLocalTimezoneOffset()).toEqual('-02:00');
-      });
-    });
-
-    it('should return future offset string', () => {
-      fakeDateTimezoneOffset(-180, () => {
-        expect(component.getLocalTimezoneOffset()).toEqual('+03:00');
-      });
-    });
-
-    it('should invert past offset string', () => {
-      fakeDateTimezoneOffset(120, () => {
-        expect(component.getLocalTimezoneOffset(true)).toEqual('+02:00');
-      });
-    });
-
-    it('should invert future offset string', () => {
-      fakeDateTimezoneOffset(-180, () => {
-        expect(component.getLocalTimezoneOffset(true)).toEqual('-03:00');
-      });
     });
   });
 });

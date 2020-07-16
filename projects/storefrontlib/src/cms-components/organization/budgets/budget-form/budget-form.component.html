@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="update(this)">
+<form [formGroup]="form" (ngSubmit)="verifyAndSubmit()">
   <div class="row">
     <div class="col-md-12 col-lg-12">
       <div class="form-group">
@@ -65,13 +65,12 @@
           <span class="label-content">{{
             'budgetForm.startDate' | cxTranslate
           }}</span>
-          <input
-            type="datetime-local"
-            class="form-control"
+          <cx-date-time-picker
             formControlName="startDate"
             [max]="form.controls.endDate.value"
-            [value]="form.controls.startDate.value"
-          />
+            (change)="form.controls.endDate.updateValueAndValidity()"
+            [invalid]="isNotValid('startDate')"
+          ></cx-date-time-picker>
           <cx-form-errors
             [control]="form.get('startDate')"
             [translationParams]="{ max: form.controls.endDate.value | cxDate }"
@@ -84,13 +83,12 @@
           <span class="label-content">{{
             'budgetForm.endDate' | cxTranslate
           }}</span>
-          <input
-            type="datetime-local"
-            class="form-control"
+          <cx-date-time-picker
             formControlName="endDate"
             [min]="form.controls.startDate.value"
-            [value]="form.controls.endDate.value"
-          />
+            (change)="form.controls.startDate.updateValueAndValidity()"
+            [invalid]="isNotValid('endDate')"
+          ></cx-date-time-picker>
           <cx-form-errors
             [control]="form.get('endDate')"
             [translationParams]="{
