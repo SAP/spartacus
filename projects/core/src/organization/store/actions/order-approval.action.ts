@@ -113,11 +113,7 @@ export class MakeDecision extends StateUtils.EntityLoadAction {
 export class MakeDecisionFail extends StateUtils.EntityFailAction {
   readonly type = MAKE_DECISION_FAIL;
   constructor(public payload: { orderApprovalCode: string; error: any }) {
-    super(
-      PROCESS_FEATURE,
-      ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
-      payload
-    );
+    super(PROCESS_FEATURE, ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID, payload);
   }
 }
 
