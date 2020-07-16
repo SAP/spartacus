@@ -21,7 +21,6 @@ import { AbstractFormComponent } from '@spartacus/storefront';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitFormComponent extends AbstractFormComponent implements OnInit {
-
   @Input() form: FormGroup;
 
   businessUnits$: Observable<B2BUnitNode[]>;

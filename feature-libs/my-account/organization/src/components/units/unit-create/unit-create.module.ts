@@ -5,7 +5,7 @@ import { UnitCreateComponent } from './unit-create.component';
 import { UnitFormModule } from '../unit-form/unit-form.module';
 import { IconModule, SplitViewModule } from '@spartacus/storefront';
 import { RouterModule } from '@angular/router';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [

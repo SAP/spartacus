@@ -34,7 +34,8 @@ export class UnitCreateComponent {
     });
   }
 
-  save(form: FormGroup): void {
+  save(event: any, form: FormGroup): void {
+    event.preventDefault();
     if (form.invalid) {
       form.markAllAsTouched();
     } else {

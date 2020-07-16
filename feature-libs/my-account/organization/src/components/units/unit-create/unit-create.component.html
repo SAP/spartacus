@@ -2,7 +2,7 @@
   <form
     *ngIf="form$ | async as form"
     [formGroup]="form"
-    (ngSubmit)="save(form)"
+    (ngSubmit)="save($event, form)"
   >
     <h3>
       <a
