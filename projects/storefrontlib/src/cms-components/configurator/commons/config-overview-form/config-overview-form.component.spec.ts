@@ -61,6 +61,7 @@ class MockConfiguratorCommonsService {
   ): Observable<Configurator.Configuration> {
     return overviewObservable ? overviewObservable : of(configuration);
   }
+  removeConfiguration(): void {}
 }
 
 function checkConfigurationOverviewObs(

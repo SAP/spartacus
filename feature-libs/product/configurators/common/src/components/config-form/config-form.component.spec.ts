@@ -91,13 +91,9 @@ class MockConfiguratorCommonsService {
   getOrCreateConfiguration(): Observable<Configurator.Configuration> {
     return configurationCreateObservable;
   }
-  getOrCreateUiState(): Observable<any> {
-    return of(undefined);
-  }
-  hasConfiguration(): Observable<boolean> {
-    return of(false);
-  }
+  removeConfiguration(): void {}
   updateConfiguration(): void {}
+
   isConfigurationLoading(): Observable<Boolean> {
     return isConfigurationLoadingObservable;
   }
@@ -156,6 +152,7 @@ function checkCurrentGroupObs(
   );
 }
 describe('ConfigurationFormComponent', () => {
+  let configuratorCommonsService;
   let configuratorUtils: GenericConfigUtilsService;
   let configurationCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
@@ -212,8 +209,6 @@ describe('ConfigurationFormComponent', () => {
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
-
-    spyOn(configurationCommonsService, 'updateConfiguration').and.callThrough();
     spyOn(
       configurationCommonsService,
       'isConfigurationLoading'
@@ -221,6 +216,35 @@ describe('ConfigurationFormComponent', () => {
     spyOn(configuratorGroupsService, 'setGroupStatus').and.callThrough();
 
     configuratorUtils.setOwnerKey(owner);
+    configuratorCommonsService = TestBed.inject(
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+    );
+    isConfigurationLoadingObservable = of(false);
+  });
+
+  it('should not enforce a reload of the configuration per default', () => {
+    spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
+    mockRouterState.state.queryParams = { forceReload: 'false' };
+    routerStateObservable = of(mockRouterState);
+    const fixture = TestBed.createComponent(ConfigFormComponent);
+    const component = fixture.componentInstance;
+    component.ngOnInit();
+    expect(
+      configuratorCommonsService.removeConfiguration
+    ).toHaveBeenCalledTimes(0);
+  });
+
+  it('should enforce a reload of the configuration by removing the current one in case the router requires this', () => {
+    spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
+    mockRouterState.state.queryParams = { forceReload: 'true' };
+    routerStateObservable = of(mockRouterState);
+    const fixture = TestBed.createComponent(ConfigFormComponent);
+    const component = fixture.componentInstance;
+    component.ngOnInit();
+
+    expect(
+      configuratorCommonsService.removeConfiguration
+    ).toHaveBeenCalledTimes(1);
   });
 
   it('should only get the minimum needed 2 emissions of product configurations if router emits faster than commons service', () => {
@@ -248,6 +272,7 @@ describe('ConfigurationFormComponent', () => {
   });
 
   it('check update configuration', () => {
+    spyOn(configuratorCommonsService, 'updateConfiguration').and.callThrough();
     isConfigurationLoadingObservable = cold('xy', {
       x: Boolean(true),
       y: Boolean(false),

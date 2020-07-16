@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -18,7 +18,7 @@ import { ConfigFormUpdateEvent } from './config-form.event';
   templateUrl: './config-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigFormComponent {
+export class ConfigFormComponent implements OnInit {
   configuration$: Observable<
     Configurator.Configuration
   > = this.configRouterExtractorService.extractRouterData().pipe(
@@ -49,6 +49,21 @@ export class ConfigFormComponent {
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfigRouterExtractorService
   ) {}
+
+  ngOnInit(): void {
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(take(1))
+      .subscribe((routingData) => {
+        //In case the 'forceReload' is set (means the page is launched from the cart),
+        //we need to initialise the cart configuration
+        if (routingData.forceReload) {
+          this.configuratorCommonsService.removeConfiguration(
+            routingData.owner
+          );
+        }
+      });
+  }
 
   updateConfiguration(event: ConfigFormUpdateEvent): void {
     const owner: GenericConfigurator.Owner = { key: event.productCode };

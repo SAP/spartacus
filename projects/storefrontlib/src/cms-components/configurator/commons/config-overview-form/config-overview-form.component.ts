@@ -38,6 +38,18 @@ export class ConfigOverviewFormComponent implements OnInit {
             configuration.overview !== null
         )
       );
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(take(1))
+      .subscribe((routingData) => {
+        //In case the 'forceReload' is set (means the page is launched from the checkout in display only mode),
+        //we need to initialise the cart configuration
+        if (routingData.forceReload) {
+          this.configuratorCommonsService.removeConfiguration(
+            routingData.owner
+          );
+        }
+      });
   }
 
   hasAttributes(configuration: Configurator.Configuration): boolean {

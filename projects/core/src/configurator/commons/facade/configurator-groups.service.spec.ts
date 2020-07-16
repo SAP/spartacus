@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ConfiguratorGroupUtilsService } from '@spartacus/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import * as ConfiguratorActions from '../store/actions/configurator.action';
 import { StateWithConfiguration } from '../store/configuration-state';
@@ -12,11 +12,17 @@ import {
   GROUP_ID_4,
   productConfiguration,
 } from './configuration-test-data';
+import { ConfiguratorCartService } from './configurator-cart.service';
 import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorGroupStatusService } from './configurator-group-status.service';
 import { ConfiguratorGroupsService } from './configurator-groups.service';
 
 class MockActiveCartService {}
+class MockConfiguratorCartService {
+  checkForActiveCartUpdateDone(): Observable<boolean> {
+    return of(true);
+  }
+}
 
 describe('ConfiguratorGroupsService', () => {
   let classUnderTest: ConfiguratorGroupsService;
@@ -36,6 +42,10 @@ describe('ConfiguratorGroupsService', () => {
         {
           provide: ActiveCartService,
           useClass: MockActiveCartService,
+        },
+        {
+          provide: ConfiguratorCartService,
+          useClass: MockConfiguratorCartService,
         },
       ],
     }).compileComponents();

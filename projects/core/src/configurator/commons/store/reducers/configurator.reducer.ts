@@ -1,6 +1,6 @@
 import { Configurator } from '../../../../model/configurator.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import * as ConfiguratorActions from '../actions/configurator.action';
+import { ConfiguratorActions } from '../actions/index';
 
 export const initialState: Configurator.Configuration = {
   configId: '',
@@ -15,14 +15,11 @@ export const initialStatePendingChanges = 0;
 
 export function reducer(
   state = initialState,
-  action: ConfiguratorActions.ConfiguratorAction
+  action:
+    | ConfiguratorActions.ConfiguratorAction
+    | ConfiguratorActions.ConfiguratorCartAction
 ): Configurator.Configuration {
   switch (action.type) {
-    case ConfiguratorActions.UPDATE_CART_ENTRY_SUCCESS: {
-      const result = { ...state };
-      result.isCartEntryUpdatePending = false;
-      return result;
-    }
     case ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS: {
       const result: Configurator.Configuration = takeOverChanges(action, state);
       result.isCartEntryUpdateRequired = true;
@@ -32,7 +29,6 @@ export function reducer(
     case ConfiguratorActions.UPDATE_CART_ENTRY: {
       const result = { ...state };
       result.isCartEntryUpdateRequired = false;
-      result.isCartEntryUpdatePending = true;
       return result;
     }
     case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS:
