@@ -9,6 +9,7 @@ import {
 } from '@spartacus/storefront';
 import { defaultImageZoomLayoutConfig } from './default-image-zoom-layout.config';
 import { ImageZoomDialogComponent } from './dialog/image-zoom-dialog.component';
+import { ProductThumbnailsModule } from './product-thumbnails/product-thumbnails.module';
 import { ImageZoomProductViewComponent } from './product-view/image-zoom-product-view.component';
 import { ImageZoomTriggerComponent } from './trigger/image-zoom-trigger.component';
 
@@ -19,6 +20,7 @@ import { ImageZoomTriggerComponent } from './trigger/image-zoom-trigger.componen
     CarouselModule,
     IconModule,
     KeyboardFocusModule,
+    ProductThumbnailsModule,
   ],
   providers: [provideConfig(defaultImageZoomLayoutConfig)],
   declarations: [

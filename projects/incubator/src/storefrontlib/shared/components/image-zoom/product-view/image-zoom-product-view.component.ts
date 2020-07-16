@@ -47,11 +47,11 @@ import {
 })
 export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
   iconType = ICON_TYPE;
-  private mainMediaContainer = new BehaviorSubject(null);
-  private subscription = new Subscription();
+  protected mainMediaContainer = new BehaviorSubject(null);
+  protected subscription = new Subscription();
 
-  private defaultImageReady = new BehaviorSubject(false);
-  private zoomReady = new BehaviorSubject(false);
+  protected defaultImageReady = new BehaviorSubject(false);
+  protected zoomReady = new BehaviorSubject(false);
 
   private _defaultImage: ElementRef;
   private _zoomImage: ElementRef;
@@ -153,22 +153,6 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
   openImage(item: any): void {
     this.mainMediaContainer.next(item);
   }
-
-  isActive(thumbnail: any): Observable<boolean> {
-    return this.mainMediaContainer.pipe(
-      filter(Boolean),
-      map((container: any) => {
-        return (
-          container.zoom &&
-          container.zoom.url &&
-          thumbnail.zoom &&
-          thumbnail.zoom.url &&
-          container.zoom.url === thumbnail.zoom.url
-        );
-      })
-    );
-  }
-
   /** find the index of the main media in the list of media */
   getActive(): number {
     return this.mainMediaContainer.value.thumbnail?.galleryIndex || 0;
@@ -190,6 +174,9 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
     return thumbs[active + 1];
   }
 
+  /**
+   * Zoom in or out of the image
+   */
   zoom(): void {
     this.isZoomed = !this.isZoomed;
     this.startCoords = null;
@@ -242,6 +229,10 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
     );
 
     this.moveImage(positionX, positionY, boundingRect, imageElement);
+  }
+
+  changeImage(event: { image: any; index: number }) {
+    this.mainMediaContainer.next(event.image);
   }
 
   /**

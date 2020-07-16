@@ -80,26 +80,18 @@
   }
 }
 
-.thumbs {
-  flex: auto;
+// TODO: remove ::ng-deep when moving to Styles
+cx-product-thumbnails {
+  ::ng-deep .thumbs {
+    flex: auto;
 
-  cx-media {
-    width: 70px;
-    height: 70px;
-  }
+    cx-media {
+      width: 70px;
+      height: 70px;
+    }
 
-  @media only screen and (max-width: 900px) and (orientation: landscape) {
-    display: none;
-  }
-
-  // TODO: remove ::ng-deep when moving to Styles
-  ::ng-deep .carousel-panel {
-    align-self: center;
-    .slide {
-      &.active {
-        display: flex;
-        justify-content: center;
-      }
+    @media only screen and (max-width: 900px) and (orientation: landscape) {
+      display: none;
     }
   }
 }

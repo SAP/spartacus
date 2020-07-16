@@ -77,12 +77,6 @@ class MockCarouselComponent {
   @Input() hideIndicators;
 }
 
-@Component({
-  selector: 'cx-image-zoom-trigger',
-  template: '',
-})
-class MockProductImagesComponent {}
-
 describe('ProductImagesComponent', () => {
   let component: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
@@ -94,7 +88,6 @@ describe('ProductImagesComponent', () => {
         ProductImagesComponent,
         MockMediaComponent,
         MockCarouselComponent,
-        MockProductImagesComponent,
       ],
       providers: [
         {

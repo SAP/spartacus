@@ -1,0 +1,10 @@
+// TODO: remove ::ng-deep when moving to Styles
+::ng-deep .carousel-panel {
+  align-self: center;
+  .slide {
+    &.active {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

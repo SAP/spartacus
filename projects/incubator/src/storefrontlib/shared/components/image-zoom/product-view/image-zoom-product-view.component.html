@@ -39,23 +39,7 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="thumbs$ | async as thumbs">
-  <cx-carousel
-    *ngIf="thumbs.length"
-    class="thumbs"
-    [items]="thumbs"
-    itemWidth="80px"
-    [template]="thumb"
-    [hideIndicators]="true"
-  ></cx-carousel>
-</ng-container>
-
-<ng-template #thumb let-item="item">
-  <cx-media
-    [container]="item.container"
-    tabindex="0"
-    (focus)="openImage(item.container)"
-    [class.is-active]="isActive(item.container) | async"
-  >
-  </cx-media>
-</ng-template>
+<cx-product-thumbnails
+  [thumbs$]="thumbs$"
+  (productImage)="changeImage($event)"
+></cx-product-thumbnails>
