@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, queueScheduler } from 'rxjs';
-import { filter, map, observeOn, take, tap, pluck } from 'rxjs/operators';
+import { filter, map, observeOn, pluck, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
 import { EntitiesModel } from '../../model/misc.model';
 import {
@@ -78,15 +78,13 @@ export class OrderApprovalService {
   }
 
   /**
-   * Emits true is a request is in progress to load order approval data from 
+   * Emits true if a request is currently fetching order approval data from
    * the server.
-   * 
+   *
    * @param orderApprovalCode The approval code for which we want the loading status.
    */
   getOrderApprovalLoading(orderApprovalCode: string): Observable<boolean> {
-    return this.getOrderApproval(orderApprovalCode).pipe(
-      pluck('loading')
-    );
+    return this.getOrderApproval(orderApprovalCode).pipe(pluck('loading'));
   }
 
   getList(params: B2BSearchConfig): Observable<EntitiesModel<OrderApproval>> {
@@ -121,7 +119,8 @@ export class OrderApprovalService {
   }
 
   /**
-   * Returns the makeDecision loading flag.
+   * Returns the makeDecision loading flag.  Returns true when the process triggered
+   * by makeDecision() is currently running.
    */
   getMakeDecisionResultLoading(): Observable<boolean> {
     return this.store.pipe(
@@ -130,7 +129,8 @@ export class OrderApprovalService {
   }
 
   /**
-   * Returns the makeDecision failure outcome.
+   * Returns the makeDecision failure outcome.  Returns true when the outcome
+   * of makeDecision() was an error.
    */
   getMakeDecisionResultError(): Observable<boolean> {
     return this.store.pipe(
@@ -139,7 +139,8 @@ export class OrderApprovalService {
   }
 
   /**
-   * Returns the makeDecision process success outcome.
+   * Returns the makeDecision process success outcome.  Returns true when the outcome
+   * of makeDecision() was a success.
    */
   getMakeDecisionResultSuccess(): Observable<boolean> {
     return this.store.pipe(
@@ -148,8 +149,9 @@ export class OrderApprovalService {
   }
 
   /**
-   * Resets the makeDecision process state. The state needs to be reset after the process
-   * concludes, regardless if it's a success or an error
+   * Resets the makeDecision process state. It is usually preferable to reset the
+   * process state before making a call to makeDecision() for which we then want
+   * to monitor the loading state or the outcome.
    */
   resetMakeDecisionProcessState(): void {
     this.store.dispatch(new OrderApprovalActions.MakeDecisionReset());

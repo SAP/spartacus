@@ -268,7 +268,7 @@ describe('OrderApprovalService', () => {
       expect(result).toEqual(true);
     });
 
-    it('should resetUpdatePasswordProcessState() dispatch an UpdatePasswordReset action', () => {
+    it('should resetMakeDecisionProcessState() dispatch an MakeDecisionReset action', () => {
       service.resetMakeDecisionProcessState();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrderApprovalActions.MakeDecisionReset()
