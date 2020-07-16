@@ -98,13 +98,6 @@ export const costCenterTableConfig: TableConfig = {
         hideHeader: true,
       },
       {
-        breakpoint: BREAKPOINT.md,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'unit', sortCode: 'byUnit' },
-        ],
-      },
-      {
         breakpoint: BREAKPOINT.lg,
         headers: [
           { key: 'name', sortCode: 'byName' },
