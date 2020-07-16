@@ -39,7 +39,6 @@ export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
     if (event.key === 'Enter') {
       this.onClick(index);
     }
-    //TODO: fix focus lose when selection with keyboard
   }
 
   /**

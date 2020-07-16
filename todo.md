@@ -16,3 +16,4 @@
 3. Move scss and assets to the `product` lib?
 
 4. Add spinner/👻 design to http://localhost:4200/electronics-spa/en/USD/configureTEXTFIELD/cartEntry/entityKey/0?forceReload=true
+5. fix focus lose when selection with keyboard (e.g. single selection image, multi selection image)

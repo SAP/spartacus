@@ -10,6 +10,7 @@ import { FormControl } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
 import { ConfigFormUpdateEvent } from '../../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUtilsService } from '../../../service/config-utils.service';
 @Component({
   selector: 'cx-config-attribute-checkbox-list',
   templateUrl: './config-attribute-checkbox-list.component.html',
@@ -22,7 +23,10 @@ export class ConfigAttributeCheckBoxListComponent implements OnInit {
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
+  constructor(
+    public uiKeyGenerator: ConfigUIKeyGeneratorService,
+    protected configUtilsService: ConfigUtilsService
+  ) {}
 
   attributeCheckBoxForms = new Array<FormControl>();
 
@@ -42,7 +46,10 @@ export class ConfigAttributeCheckBoxListComponent implements OnInit {
    * Triggered when a value is selected
    */
   onSelect(): void {
-    const selectedValues = this.assembleValues();
+    const selectedValues = this.configUtilsService.assembleValuesForMultiSelectAttributes(
+      this.attributeCheckBoxForms,
+      this.attribute
+    );
 
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,
@@ -56,19 +63,4 @@ export class ConfigAttributeCheckBoxListComponent implements OnInit {
 
     this.selectionChange.emit(event);
   }
-
-  protected assembleValues(): any[] {
-    const localAssembledValues: any = [];
-
-    for (let i = 0; i < this.attributeCheckBoxForms.length; i++) {
-      const localAttributeValue: Configurator.Value = {};
-      localAttributeValue.valueCode = this.attribute.values[i].valueCode;
-      localAttributeValue.name = this.attribute.values[i].name;
-      localAttributeValue.selected = this.attributeCheckBoxForms[i].value;
-      localAssembledValues.push(localAttributeValue);
-    }
-    return localAssembledValues;
-  }
-
-  //TODO CHHI refactor into utility
 }

@@ -3,9 +3,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ConfiguratorGroupsService } from '@spartacus/core';
 import { Configurator } from 'projects/core/src/model/configurator.model';
 import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUtilsService } from '../../../service/config-utils.service';
 import { ConfigAttributeCheckBoxListComponent } from './config-attribute-checkbox-list.component';
+
+class MockGroupService {}
 
 describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfigAttributeCheckBoxListComponent;
@@ -15,7 +19,14 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ConfigAttributeCheckBoxListComponent],
       imports: [ReactiveFormsModule, NgSelectModule],
-      providers: [ConfigUIKeyGeneratorService],
+      providers: [
+        ConfigUIKeyGeneratorService,
+        ConfigUtilsService,
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockGroupService,
+        },
+      ],
     })
       .overrideComponent(ConfigAttributeCheckBoxListComponent, {
         set: {
@@ -41,6 +52,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     const values: Configurator.Value[] = [value1, value2, value3];
 
     fixture = TestBed.createComponent(ConfigAttributeCheckBoxListComponent);
+
     component = fixture.componentInstance;
 
     component.attribute = {

@@ -3,9 +3,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Configurator } from '@spartacus/core';
+import { Configurator, ConfiguratorGroupsService } from '@spartacus/core';
 import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUtilsService } from '../../../service/config-utils.service';
 import { ConfigAttributeMultiSelectionImageComponent } from './config-attribute-multi-selection-image.component';
+class MockGroupService {}
 
 describe('ConfigAttributeMultiSelectionImageComponent', () => {
   let component: ConfigAttributeMultiSelectionImageComponent;
@@ -16,7 +18,14 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ConfigAttributeMultiSelectionImageComponent],
       imports: [ReactiveFormsModule, NgSelectModule],
-      providers: [ConfigUIKeyGeneratorService],
+      providers: [
+        ConfigUIKeyGeneratorService,
+        ConfigUtilsService,
+        {
+          provide: ConfiguratorGroupsService,
+          useClass: MockGroupService,
+        },
+      ],
     })
       .overrideComponent(ConfigAttributeMultiSelectionImageComponent, {
         set: {

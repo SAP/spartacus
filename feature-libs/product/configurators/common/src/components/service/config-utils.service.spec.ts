@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
 import {
+  Configurator,
   ConfiguratorGroupsService,
   GenericConfigurator,
 } from '@spartacus/core';
@@ -62,5 +64,26 @@ describe('ConfigUtilsService', () => {
   it('should return true because the current group was visited', () => {
     isGroupVisited = of(true);
     expect(getCurrentResult()).toBe(true);
+  });
+
+  it('should assemble values from a checkbox list into an attribute value', () => {
+    const controlArray = new Array<FormControl>();
+    const control1 = new FormControl(true);
+    const control2 = new FormControl(false);
+    controlArray.push(control1, control2);
+    const attribute: Configurator.Attribute = {
+      name: 'attr',
+      values: [{ valueCode: 'b' }, { name: 'blue' }],
+    };
+
+    const values: Configurator.Value[] = classUnderTest.assembleValuesForMultiSelectAttributes(
+      controlArray,
+      attribute
+    );
+    expect(values.length).toBe(2);
+    expect(values[0].valueCode).toBe(attribute.values[0].valueCode);
+    expect(values[0].selected).toBe(true);
+    expect(values[1].name).toBe(attribute.values[1].name);
+    expect(values[1].selected).toBe(false);
   });
 });
