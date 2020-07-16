@@ -77,6 +77,10 @@
       &.COMPLETE cx-icon.COMPLETE {
         display: inline-block !important;
       }
+
+      &.cx-config-menu-conflict {
+        background-color: mix(#ffffff, theme-color('warning'), 78%);
+      }
     }
   }
 

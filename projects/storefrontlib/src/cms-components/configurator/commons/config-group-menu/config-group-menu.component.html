@@ -26,6 +26,9 @@
               class="cx-config-menu-item {{
                 getGroupStatus(group.id, configuration) | async
               }}"
+              [class.cx-config-menu-conflict]="
+                isConflictGroupType(group.groupType)
+              "
               tabindex="0"
             >
               <a [class.active]="currentGroup.id === group.id" role="link"

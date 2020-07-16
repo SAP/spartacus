@@ -179,6 +179,16 @@ export class ConfigGroupMenuComponent implements OnInit {
       );
   }
 
+  isConflictGroupType(groupType: Configurator.GroupType): boolean {
+    if (
+      groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP ||
+      groupType === Configurator.GroupType.CONFLICT_GROUP
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   scrollToVariantConfigurationHeader() {
     const theElement = document.querySelector('.VariantConfigurationTemplate');
     let topOffset = 0;

@@ -220,6 +220,20 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(configuratorGroupsService.getGroupStatus).toHaveBeenCalledTimes(0);
   });
 
+  it('should return true if groupType is a conflict group type otherwise false', () => {
+    expect(
+      component.isConflictGroupType(
+        Configurator.GroupType.CONFLICT_HEADER_GROUP
+      )
+    ).toBe(true);
+    expect(
+      component.isConflictGroupType(Configurator.GroupType.CONFLICT_GROUP)
+    ).toBe(true);
+    expect(
+      component.isConflictGroupType(Configurator.GroupType.ATTRIBUTE_GROUP)
+    ).toBe(false);
+  });
+
   it('should call status method if group has been visited', () => {
     groupVisited = true;
     component
