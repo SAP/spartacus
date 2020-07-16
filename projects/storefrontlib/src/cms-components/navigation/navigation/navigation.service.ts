@@ -166,7 +166,7 @@ export class NavigationService {
    * also taking into account content pages (contentPageLabelOrId)
    * and product pages (productCode)
    */
-  private getLink(item): string | string[] {
+  protected getLink(item): string | string[] {
     if (item.url) {
       return item.url;
     } else if (item.contentPageLabelOrId) {
