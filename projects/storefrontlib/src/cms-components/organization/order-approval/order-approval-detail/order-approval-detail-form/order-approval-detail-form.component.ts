@@ -6,7 +6,7 @@ import {
   OrderApprovalService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 
 @Component({
@@ -46,9 +46,7 @@ export class OrderApprovalDetailFormComponent {
 
   orderApproval$: Observable<
     OrderApproval
-  > = this.orderApprovalDetailService
-    .getOrderApproval()
-    .pipe(tap((approval) => console.log('orderapproval emits', approval)));
+  > = this.orderApprovalDetailService.getOrderApproval();
 
   constructor(
     protected orderApprovalDetailService: OrderApprovalDetailService,
