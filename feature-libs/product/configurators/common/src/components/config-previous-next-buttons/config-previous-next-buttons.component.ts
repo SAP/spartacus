@@ -58,7 +58,7 @@ export class ConfigPreviousNextButtonsComponent {
       );
   }
 
-  scrollToVariantConfigurationHeader() {
+  protected scrollToVariantConfigurationHeader() {
     const theElement = document.querySelector('.VariantConfigurationTemplate');
     let topOffset = 0;
     if (theElement instanceof HTMLElement) {

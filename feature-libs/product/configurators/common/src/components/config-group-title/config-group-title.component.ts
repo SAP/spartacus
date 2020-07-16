@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -11,7 +11,6 @@ import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'cx-config-group-title',
   templateUrl: './config-group-title.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigGroupTitleComponent {
   configuration$: Observable<

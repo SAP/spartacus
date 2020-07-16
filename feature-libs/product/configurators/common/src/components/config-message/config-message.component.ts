@@ -52,7 +52,7 @@ export class ConfigMessageComponent implements OnInit, OnDestroy {
     }
   }
 
-  showUpdateMessage(hasPendingChangesOrIsLoading: boolean): void {
+  protected showUpdateMessage(hasPendingChangesOrIsLoading: boolean): void {
     const updateMessageElement = document.getElementById(
       updateMessageElementId
     );
