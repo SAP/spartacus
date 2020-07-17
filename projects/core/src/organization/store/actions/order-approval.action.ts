@@ -1,15 +1,15 @@
-import { PROCESS_FEATURE } from 'projects/core/src/process/store/process-state';
-import { StateUtils } from 'projects/core/src/state/utils/index';
 import { ListModel } from '../../../model/misc.model';
 import {
   OrderApproval,
   OrderApprovalDecision,
 } from '../../../model/order-approval.model';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
   EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
+import { StateUtils } from '../../../state/utils/index';
 import { B2BSearchConfig } from '../../model/search-config';
 import { serializeB2BSearchConfig } from '../../utils/serializer';
 import {

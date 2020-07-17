@@ -14,7 +14,7 @@ import { OrderApprovalDetailService } from '../order-approval-detail.service';
   templateUrl: './order-approval-detail-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderApprovalDetailFormComponent {
+export class OrderApprovalDetailFormComponent implements OnDestroy {
   approvalDecisionValue = OrderApprovalDecisionValue;
   approvalDecision: OrderApprovalDecisionValue;
   approvalFormVisible = false;
@@ -80,5 +80,9 @@ export class OrderApprovalDetailFormComponent {
     } else {
       this.approvalForm.markAllAsTouched();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.orderApprovalService.resetMakeDecisionProcessState();
   }
 }

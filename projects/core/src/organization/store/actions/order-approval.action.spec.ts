@@ -1,9 +1,9 @@
-import { PROCESS_FEATURE } from 'projects/core/src/process/store/process-state';
 import {
   OrderApproval,
   OrderApprovalDecision,
   OrderApprovalDecisionValue,
 } from '../../../model/order-approval.model';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import { StateUtils } from '../../../state/utils/index';
 import {
   ORDER_APPROVAL_ENTITIES,
