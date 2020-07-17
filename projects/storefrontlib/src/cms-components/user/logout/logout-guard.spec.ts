@@ -10,10 +10,13 @@ import {
   SemanticPathService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { LogoutGuard } from './logout-guard';
 
 class MockAuthService {
-  logout() {}
+  logout() {
+    return Promise.resolve();
+  }
 }
 
 @Component({
@@ -84,19 +87,19 @@ describe('LogoutGuard', () => {
     zone = TestBed.inject(NgZone);
   });
 
-  describe('When user is authorised,', () => {
+  describe('When user is authorized,', () => {
     beforeEach(function () {
-      spyOn(authService, 'logout');
+      spyOn(authService, 'logout').and.callThrough();
     });
 
-    it('should return false', () => {
-      let result: boolean;
+    it('should return false', (done) => {
       logoutGuard
         .canActivate()
-        .subscribe((value) => (result = value))
-        .unsubscribe();
-
-      expect(result).toBe(false);
+        .pipe(take(1))
+        .subscribe((value) => {
+          expect(value).toBe(false);
+          done();
+        });
     });
 
     it('should logout and clear user state', async () => {
@@ -104,28 +107,36 @@ describe('LogoutGuard', () => {
       expect(authService.logout).toHaveBeenCalled();
     });
 
-    it('should redirect to home page if app not protected', () => {
+    it('should redirect to home page if app not protected', (done) => {
       spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
         false
       );
 
-      logoutGuard.canActivate().subscribe();
-
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'home',
-      });
+      logoutGuard
+        .canActivate()
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(routingService.go).toHaveBeenCalledWith({
+            cxRoute: 'home',
+          });
+          done();
+        });
     });
 
-    it('should redirect to login page if app protected', () => {
+    it('should redirect to login page if app protected', (done) => {
       spyOnProperty(protectedRoutesService, 'shouldProtect').and.returnValue(
         true
       );
 
-      logoutGuard.canActivate().subscribe();
-
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'login',
-      });
+      logoutGuard
+        .canActivate()
+        .pipe(take(1))
+        .subscribe(() => {
+          expect(routingService.go).toHaveBeenCalledWith({
+            cxRoute: 'login',
+          });
+          done();
+        });
     });
   });
 });
