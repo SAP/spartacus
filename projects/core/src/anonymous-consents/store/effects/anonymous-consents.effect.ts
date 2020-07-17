@@ -68,9 +68,7 @@ export class AnonymousConsentsEffects {
   transferAnonymousConsentsToUser$: Observable<
     UserActions.TransferAnonymousConsent | Observable<never>
   > = this.actions$.pipe(
-    ofType<AuthActions.LoadUserTokenSuccess>(
-      AuthActions.LOAD_USER_TOKEN_SUCCESS
-    ),
+    ofType<AuthActions.Login>(AuthActions.LOGIN),
     filter(() => Boolean(this.anonymousConsentsConfig.anonymousConsents)),
     withLatestFrom(
       this.actions$.pipe(
@@ -126,9 +124,7 @@ export class AnonymousConsentsEffects {
   giveRequiredConsentsToUser$: Observable<
     UserActions.GiveUserConsent | Observable<never>
   > = this.actions$.pipe(
-    ofType<AuthActions.LoadUserTokenSuccess>(
-      AuthActions.LOAD_USER_TOKEN_SUCCESS
-    ),
+    ofType<AuthActions.Login>(AuthActions.LOGIN),
     filter(
       (action) =>
         Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
