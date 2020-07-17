@@ -1,0 +1,26 @@
+cx-cost-center-list {
+  > cx-split-view > cx-view > section > cx-table > table {
+    th,
+    td {
+      width: 100%;
+    }
+    td {
+      &.name,
+      &.unit {
+        padding: 0;
+
+        .disabled {
+          display: flex;
+          font-size: 0.75rem;
+          align-items: center;
+          margin-left: -0.6rem;
+        }
+      }
+
+      .active {
+        background: var(--cx-color-light);
+        color: var(--cx-color-text);
+      }
+    }
+  }
+}

@@ -6,6 +6,9 @@
     &.half {
       max-width: var(--cx-max-width, 50%);
       margin: 0 auto;
+      @include media-breakpoint-down(md) {
+        max-width: none;
+      }
     }
     h4 {
       display: flex;

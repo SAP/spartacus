@@ -98,13 +98,6 @@ export const costCenterTableConfig: TableConfig = {
         hideHeader: true,
       },
       {
-        breakpoint: BREAKPOINT.md,
-        headers: [
-          { key: 'name', sortCode: 'byName' },
-          { key: 'unit', sortCode: 'byUnit' },
-        ],
-      },
-      {
         breakpoint: BREAKPOINT.lg,
         headers: [
           { key: 'name', sortCode: 'byName' },
@@ -117,14 +110,14 @@ export const costCenterTableConfig: TableConfig = {
 
     [OrganizationTableType.COST_CENTER_BUDGETS]: [
       {
-        headers: [{ key: 'summary' }],
+        headers: [{ key: 'summary' }, { key: 'link' }],
         hideHeader: true,
       },
     ],
     [OrganizationTableType.COST_CENTER_ASSIGN_BUDGET]: [
       {
         breakpoint: BREAKPOINT.xs,
-        headers: [{ key: 'name' }],
+        headers: [{ key: 'selected' }, { key: 'summary' }, { key: 'link' }],
         hideHeader: true,
       },
       {
@@ -132,8 +125,8 @@ export const costCenterTableConfig: TableConfig = {
         headers: [
           { key: 'name' },
           { key: 'code' },
-          { key: 'budget' },
-          { key: 'startDate' },
+          { key: 'amount' },
+          { key: 'dateRange' },
         ],
       },
     ],

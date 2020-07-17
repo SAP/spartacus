@@ -42,29 +42,29 @@
     }
   }
 
-  &:not(.assign) {
-    cx-split-view {
-      h3 {
-        .link {
-          padding: 8px 0;
-        }
-      }
-
-      &:not([last-visible-view='1']) {
-        th:nth-child(n + 2),
-        td:nth-child(n + 2) {
-          opacity: 0;
-          width: 0.1%;
-        }
-
-        > *:last-child {
-          h3 {
-            justify-content: flex-start;
-          }
-        }
-      }
-    }
-  }
+  //&:not(.assign) {
+  //  cx-split-view {
+  //    h3 {
+  //      .link {
+  //        padding: 8px 0;
+  //      }
+  //    }
+  //
+  //    &:not([last-visible-view='1']) {
+  //      th:nth-child(n + 2),
+  //      td:nth-child(n + 2) {
+  //        opacity: 0;
+  //        width: 0.1%;
+  //      }
+  //
+  //      > *:last-child {
+  //        h3 {
+  //          justify-content: flex-start;
+  //        }
+  //      }
+  //    }
+  //  }
+  //}
 
   cx-pagination {
     display: inline-flex;
@@ -128,6 +128,58 @@
               text-decoration: underline;
             }
           }
+        }
+      }
+
+      &.summary {
+        padding: 1rem;
+        > div {
+          place-content: space-between;
+          > div:first-child {
+            line-height: 1.1rem;
+            @include media-breakpoint-down(md) {
+              padding-left: 2rem;
+            }
+
+            h3 {
+              font-size: 1.1rem;
+              min-height: auto;
+              @include media-breakpoint-down(md) {
+                padding: 0;
+              }
+            }
+
+            small {
+              font-size: 0.75rem;
+            }
+          }
+
+          > div:last-child {
+            display: flex;
+            align-items: center;
+
+            a {
+              display: flex;
+              padding: 0;
+              font-size: 1rem;
+            }
+          }
+
+          a {
+            cx-icon {
+              &.open-out {
+                margin-left: auto;
+              }
+            }
+          }
+        }
+      }
+
+      &.name {
+        label {
+          padding: var(--cx-spatial-md);
+          justify-content: flex-start;
+          align-items: center;
         }
       }
     }
