@@ -1,67 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
-  filter,
   map,
   switchMap,
-  take,
-  tap,
-  withLatestFrom,
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-
 import {
-  RoutingService,
-  EntitiesModel,
-  OrgUnitService,
-  B2BUser,
-} from '@spartacus/core';
-import {
-  AbstractListingComponent,
-  ListingModel,
-} from '../../abstract-component/abstract-listing.component';
+  Table,
+} from '@spartacus/storefront';
+import { ActivatedRoute } from '@angular/router';
+import { UnitUsersService } from './unit-users.service';
 
 @Component({
   selector: 'cx-unit-users',
   templateUrl: './unit-users.component.html',
 })
-export class UnitUsersComponent extends AbstractListingComponent
-  implements OnInit {
-  code: string;
+export class UnitUsersComponent {
   cxRoute = 'orgUnitUsers';
   roleId = 'b2bcustomergroup';
 
+  code$: Observable<string> = this.route.parent.params.pipe(
+    map((routingData) => routingData['code'])
+  );
+
+  dataTable$: Observable<Table> = this.code$.pipe(
+    switchMap((code) => this.unitUsersService.getTable(code, this.roleId)),
+  );
+
   constructor(
-    protected routingService: RoutingService,
-    protected orgUnitsService: OrgUnitService
-  ) {
-    super(routingService);
-  }
-
-  ngOnInit(): void {
-    this.code$.pipe(take(1)).subscribe((code) => (this.code = code));
-
-    this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
-      withLatestFrom(this.code$),
-      tap(([queryParams, code]) =>
-        this.orgUnitsService.loadUsers(code, this.roleId, queryParams)
-      ),
-      switchMap(([queryParams, code]) =>
-        this.orgUnitsService.getUsers(code, this.roleId, queryParams).pipe(
-          filter(Boolean),
-          map((userList: EntitiesModel<B2BUser>) => ({
-            sorts: userList.sorts,
-            pagination: userList.pagination,
-            values: userList.values.map((user) => ({
-              email: user.uid,
-              name: user.name,
-              roles: user.roles,
-              parentUnit: user.orgUnit && user.orgUnit.name,
-              uid: user.orgUnit && user.orgUnit.uid,
-              customerId: user.customerId,
-            })),
-          }))
-        )
-      )
-    );
-  }
+    protected route: ActivatedRoute,
+    protected unitUsersService: UnitUsersService
+  ) {}
 }

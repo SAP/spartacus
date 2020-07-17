@@ -63,6 +63,8 @@ export const units = {
     header: 'Users in {{code}}',
     back: 'Close',
     assignRoles: 'Manage Roles',
+    newUser: 'New user',
+    changeUserRoles: 'Change user roles',
   },
   unitAssignRoles: {
     header: 'Manage roles in {{code}}',

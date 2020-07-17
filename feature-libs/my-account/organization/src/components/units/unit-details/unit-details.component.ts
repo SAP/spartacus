@@ -6,8 +6,9 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { B2BUnit, OrgUnitService, RoutingService } from '@spartacus/core';
+import { B2BUnit, OrgUnitService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'cx-unit-details',
@@ -16,14 +17,15 @@ import { ModalService } from '@spartacus/storefront';
 })
 export class UnitDetailsComponent implements OnInit {
   orgUnit$: Observable<B2BUnit>;
-  orgUnitCode$: Observable<string> = this.routingService
-    .getRouterState()
-    .pipe(map((routingData) => routingData.state.params['code']));
+  orgUnitCode$: Observable<string> = this.route.params.pipe(
+    map((params) => params['code']),
+    filter((code) => Boolean(code))
+  );
 
   constructor(
-    protected routingService: RoutingService,
     protected orgUnitsService: OrgUnitService,
-    protected modalService: ModalService
+    protected modalService: ModalService,
+    protected route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {

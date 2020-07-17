@@ -1,9 +1,11 @@
 import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
 import { ManageUnitsListComponent } from './unit-list';
 import { UnitCreateComponent } from './unit-create';
-import { SplitViewDeactivateGuard } from '@spartacus/storefront';
+import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
 import { UnitDetailsComponent } from './unit-details';
 import { UnitEditComponent } from './unit-edit';
+import { UnitUsersComponent } from './unit-users';
+import { OrganizationTableType } from '../shared';
 
 export const unitsRoutingConfig: RoutingConfig = {
   routing: {
@@ -22,10 +24,11 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: ['organization/units/:code/edit'],
         paramsMapping: { code: 'uid' },
       },
+      orgUnitUsers: {
+        paths: ['organization/units/:code/users'],
+        paramsMapping: { code: 'uid' },
+      },
 
-      // orgUnitUsers: {
-      //   paths: ['organization/unit/users/:code'],
-      // },
       // orgUnitAssignRoles: {
       //   paths: ['organization/unit/assign-roles/:code/:roleId'],
       // },
@@ -77,11 +80,27 @@ export const unitsCmsConfig: CmsConfig = {
               component: UnitEditComponent,
               canDeactivate: [SplitViewDeactivateGuard],
             },
+            {
+              path: 'users',
+              component: UnitUsersComponent,
+              canDeactivate: [SplitViewDeactivateGuard],
+            },
           ],
         },
       ],
 
       guards: [AuthGuard],
     },
+  },
+};
+
+export const unitsTableConfig: TableConfig = {
+  table: {
+    [OrganizationTableType.UNIT_USERS]: [
+      {
+        headers: [{ key: 'summary' }],
+        hideHeader: true,
+      },
+    ],
   },
 };

@@ -1,21 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ConfigModule } from '@spartacus/core';
-import { unitsCmsConfig, unitsRoutingConfig } from './units.config';
-import { UnitAddressCreateModule } from './unit-address-create';
-// import { UnitAddressDetailsModule } from './unit-address-details';
-// import { UnitAddressEditModule } from './unit-address-edit';
-// import { UnitApproversModule } from './unit-approvers';
-// import { UnitAssignApproversModule } from './unit-assign-approvers';
-// import { UnitAssignRolesModule } from './unit-assign-roles';
-// import { UnitCreateModule } from './unit-create';
-// import { UnitChildrenModule } from './unit-children';
-// import { UnitCostCentersModule } from './unit-cost-centers';
-// import { UnitDetailsModule } from './unit-details';
-// import { UnitEditModule } from './unit-edit';
-// import { UnitListModule } from './unit-list';
-// import { UnitManageAddressesModule } from './unit-manage-addresses';
-// import { UnitUsersModule } from './unit-users';
+import {
+  unitsCmsConfig,
+  unitsRoutingConfig,
+  unitsTableConfig,
+} from './units.config';
+import { UnitCreateModule } from './unit-create';
+import { UnitEditModule } from './unit-edit';
+import { UnitDetailsModule } from './unit-details';
+import { UnitUsersModule } from './unit-users';
 
 @NgModule({
   imports: [
@@ -25,9 +19,15 @@ import { UnitAddressCreateModule } from './unit-address-create';
     ConfigModule.withConfig({
       ...unitsRoutingConfig,
       ...unitsCmsConfig,
+      ...unitsTableConfig,
     }),
 
-    UnitAddressCreateModule,
+    UnitCreateModule,
+    UnitEditModule,
+    UnitDetailsModule,
+    UnitUsersModule,
+
+    // UnitAddressCreateModule,
     // UnitAddressDetailsModule,
     // UnitAddressEditModule,
     // UnitApproversModule,
@@ -35,12 +35,8 @@ import { UnitAddressCreateModule } from './unit-address-create';
     // UnitAssignRolesModule,
     // UnitChildrenModule,
     // UnitCostCentersModule,
-    // UnitCreateModule,
-    // UnitDetailsModule,
-    // UnitEditModule,
     // UnitListModule,
     // UnitManageAddressesModule,
-    // UnitUsersModule,
   ],
 })
 export class UnitsComponentsModule {}
