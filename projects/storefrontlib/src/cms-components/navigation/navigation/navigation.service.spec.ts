@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   CmsNavigationComponent,
   CmsService,
-  SemanticPathService
+  SemanticPathService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { NavigationNode } from './navigation-node.model';
@@ -14,47 +14,47 @@ const navigationEntryItems: any = {
     uid: 'MainLink001',
     url: '/main',
     linkName: 'test link main',
-    target: false
+    target: false,
   },
   MockLink001_AbstractCMSComponent: {
     uid: 'MockLink001',
     url: '/testLink1',
     linkName: 'test link 1',
-    target: false
+    target: false,
   },
   MockLink002_AbstractCMSComponent: {
     uid: 'MockLink002',
     url: '/testLink2',
     linkName: 'test link 2',
-    target: true
+    target: true,
   },
   MockLink003_AbstractCMSComponent: {
-    uid: 'MockLink003'
+    uid: 'MockLink003',
   },
   MockLink004_AbstractCMSComponent: {
     uid: 'MockLink004',
     linkName: 'test link 4',
     categoryCode: '444',
-    name: 'name 4'
+    name: 'name 4',
   },
   MockSubLink001_AbstractCMSComponent: {
     uid: 'MockSubLink001',
     url: '/testsubLink1',
     linkName: 'test sub link 1',
-    target: true
+    target: true,
   },
   MockLink005_AbstractCMSComponent: {
     uid: 'MockLink005',
     contentPageLabelOrId: '/faq',
     linkName: 'content page link',
-    target: true
+    target: true,
   },
   MockLink006_AbstractCMSComponent: {
     uid: 'MockLink006',
     productCode: '478828',
     linkName: 'product page link',
-    name: 'product page link'
-  }
+    name: 'product page link',
+  },
 };
 
 const componentData: CmsNavigationComponent = {
@@ -67,8 +67,8 @@ const componentData: CmsNavigationComponent = {
       {
         itemId: 'MainLink001',
         itemSuperType: 'AbstractCMSComponent',
-        itemType: 'CMSLinkComponent'
-      }
+        itemType: 'CMSLinkComponent',
+      },
     ],
     children: [
       {
@@ -77,9 +77,9 @@ const componentData: CmsNavigationComponent = {
           {
             itemId: 'MockLink001',
             itemSuperType: 'AbstractCMSComponent',
-            itemType: 'CMSLinkComponent'
-          }
-        ]
+            itemType: 'CMSLinkComponent',
+          },
+        ],
       },
       {
         uid: 'MockChildNode002',
@@ -87,8 +87,8 @@ const componentData: CmsNavigationComponent = {
           {
             itemId: 'MockLink002',
             itemSuperType: 'AbstractCMSComponent',
-            itemType: 'CMSLinkComponent'
-          }
+            itemType: 'CMSLinkComponent',
+          },
         ],
         children: [
           {
@@ -97,11 +97,11 @@ const componentData: CmsNavigationComponent = {
               {
                 itemId: 'MockSubLink001',
                 itemSuperType: 'AbstractCMSComponent',
-                itemType: 'CMSLinkComponent'
-              }
-            ]
-          }
-        ]
+                itemType: 'CMSLinkComponent',
+              },
+            ],
+          },
+        ],
       },
       {
         uid: 'MockChildNode003',
@@ -109,9 +109,9 @@ const componentData: CmsNavigationComponent = {
           {
             itemId: 'MockLink003',
             itemSuperType: 'AbstractCMSComponent',
-            itemType: 'CMSLinkComponent'
-          }
-        ]
+            itemType: 'CMSLinkComponent',
+          },
+        ],
       },
       {
         uid: 'MockChildNode004',
@@ -119,9 +119,9 @@ const componentData: CmsNavigationComponent = {
           {
             itemId: 'MockLink004',
             itemSuperType: 'AbstractCMSComponent',
-            itemType: 'CMSLinkComponent'
-          }
-        ]
+            itemType: 'CMSLinkComponent',
+          },
+        ],
       },
       {
         uid: 'MockChildNode005',
@@ -129,9 +129,9 @@ const componentData: CmsNavigationComponent = {
           {
             itemId: 'MockLink005',
             itemSuperType: 'AbstractCMSComponent',
-            itemType: 'CMSLinkComponent'
-          }
-        ]
+            itemType: 'CMSLinkComponent',
+          },
+        ],
       },
       {
         uid: 'MockChildNode006',
@@ -139,12 +139,12 @@ const componentData: CmsNavigationComponent = {
           {
             itemId: 'MockLink006',
             itemSuperType: 'AbstractCMSComponent',
-            itemType: 'CMSLinkComponent'
-          }
-        ]
-      }
-    ]
-  }
+            itemType: 'CMSLinkComponent',
+          },
+        ],
+      },
+    ],
+  },
 };
 
 class MockSemanticPathService {
@@ -160,14 +160,14 @@ describe('NavigationComponentService', () => {
   beforeEach(() => {
     mockCmsService = {
       loadNavigationItems: createSpy(),
-      getNavigationEntryItems: createSpy().and.returnValue(of(undefined))
+      getNavigationEntryItems: createSpy().and.returnValue(of(undefined)),
     };
     TestBed.configureTestingModule({
       providers: [
         NavigationService,
         { provide: CmsService, useValue: mockCmsService },
-        { provide: SemanticPathService, useClass: MockSemanticPathService }
-      ]
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
+      ],
     });
 
     navigationService = TestBed.inject(NavigationService);
@@ -185,7 +185,7 @@ describe('NavigationComponentService', () => {
     let result: NavigationNode;
     navigationService
       .getNavigationNode(of(componentData))
-      .subscribe(node => (result = node));
+      .subscribe((node) => (result = node));
 
     expect(result.url).toEqual('/main');
   });
@@ -198,7 +198,7 @@ describe('NavigationComponentService', () => {
     let result: NavigationNode;
     navigationService
       .getNavigationNode(of(componentData))
-      .subscribe(node => (result = node));
+      .subscribe((node) => (result = node));
 
     expect(result.children[2].url).toBeFalsy();
   });
@@ -211,7 +211,7 @@ describe('NavigationComponentService', () => {
     let result: NavigationNode;
     navigationService
       .getNavigationNode(of(componentData))
-      .subscribe(node => (result = node));
+      .subscribe((node) => (result = node));
 
     expect(result.children[3].url).toEqual(['category', '444', 'name 4']);
   });
@@ -224,7 +224,7 @@ describe('NavigationComponentService', () => {
     let result: NavigationNode;
     navigationService
       .getNavigationNode(of(componentData))
-      .subscribe(node => (result = node));
+      .subscribe((node) => (result = node));
 
     expect(result.children[4].url).toEqual('/faq');
   });
@@ -237,12 +237,12 @@ describe('NavigationComponentService', () => {
     let result: NavigationNode;
     navigationService
       .getNavigationNode(of(componentData))
-      .subscribe(node => (result = node));
+      .subscribe((node) => (result = node));
 
     expect(result.children[5].url).toEqual([
       'product',
       '478828',
-      'product page link'
+      'product page link',
     ]);
   });
 
@@ -254,7 +254,7 @@ describe('NavigationComponentService', () => {
     let result: NavigationNode;
     navigationService
       .getNavigationNode(of(componentData))
-      .subscribe(node => (result = node));
+      .subscribe((node) => (result = node));
 
     expect(result.children.length).toEqual(6);
     expect(result.children[0].title).toEqual('test link 1');
@@ -273,16 +273,17 @@ describe('NavigationComponentService', () => {
         {
           itemId: 'MockLink007',
           itemSuperType: 'AbstractCMSComponent',
-          itemType: 'CMSLinkComponent'
-        }
-      ]
+          itemType: 'CMSLinkComponent',
+        },
+      ],
     };
 
     navigationService.getNavigationNode(of(componentData)).subscribe();
-    expect(mockCmsService.loadNavigationItems).toHaveBeenCalledWith(
-      'MockNavigationNode001',
-      [{ superType: 'AbstractCMSComponent', id: 'MockLink007' }]
-    );
+    expect(
+      mockCmsService.loadNavigationItems
+    ).toHaveBeenCalledWith('MockNavigationNode001', [
+      { superType: 'AbstractCMSComponent', id: 'MockLink007' },
+    ]);
   });
 
   it('should create a virtual navigation root', () => {
@@ -293,7 +294,7 @@ describe('NavigationComponentService', () => {
     let result: NavigationNode;
     navigationService
       .createNavigation(of(componentData))
-      .subscribe(node => (result = node));
+      .subscribe((node) => (result = node));
 
     expect(result.title).toEqual('NavigationComponent name');
     expect(result.children.length).toEqual(1);
@@ -310,11 +311,11 @@ describe('NavigationComponentService', () => {
           of({
             navigationNode: {
               uid: 'MockNavigationNode001',
-              title: 'root node'
-            }
+              title: 'root node',
+            },
           })
         )
-        .subscribe(node => (result = node));
+        .subscribe((node) => (result = node));
 
       expect(result).toBeTruthy();
     });
@@ -327,11 +328,11 @@ describe('NavigationComponentService', () => {
         .getNavigationNode(
           of({
             navigationNode: {
-              uid: 'MockNavigationNode001'
-            }
+              uid: 'MockNavigationNode001',
+            },
           })
         )
-        .subscribe(node => (result = node));
+        .subscribe((node) => (result = node));
 
       expect(result).toBeFalsy();
     });
@@ -342,8 +343,8 @@ describe('NavigationComponentService', () => {
           Id_Super: {
             linkName: 'entry linkName',
             url: '/main',
-            target: false
-          }
+            target: false,
+          },
         })
       );
 
@@ -357,13 +358,13 @@ describe('NavigationComponentService', () => {
                 {
                   itemId: 'Id',
                   itemSuperType: 'Super',
-                  itemType: 'CMSLinkComponent'
-                }
-              ]
-            }
+                  itemType: 'CMSLinkComponent',
+                },
+              ],
+            },
           })
         )
-        .subscribe(node => (result = node));
+        .subscribe((node) => (result = node));
 
       expect(result).toBeTruthy();
       expect(result.title).toEqual('entry linkName');
@@ -381,13 +382,13 @@ describe('NavigationComponentService', () => {
               title: 'root node',
               children: [
                 {
-                  uid: 'MockChildNode001'
-                }
-              ]
-            }
+                  uid: 'MockChildNode001',
+                },
+              ],
+            },
           })
         )
-        .subscribe(node => (result = node));
+        .subscribe((node) => (result = node));
 
       expect(result.children).toBeFalsy();
     });
@@ -398,8 +399,8 @@ describe('NavigationComponentService', () => {
           Id_Super: {
             linkName: 'entry linkName',
             url: '/main',
-            target: true
-          }
+            target: true,
+          },
         })
       );
 
@@ -414,13 +415,13 @@ describe('NavigationComponentService', () => {
                 {
                   itemId: 'Id',
                   itemSuperType: 'Super',
-                  itemType: 'CMSLinkComponent'
-                }
-              ]
-            } as NavigationNode
+                  itemType: 'CMSLinkComponent',
+                },
+              ],
+            } as NavigationNode,
           })
         )
-        .subscribe(node => (result = node));
+        .subscribe((node) => (result = node));
 
       expect(result.target).toEqual('_blank');
     });
@@ -431,8 +432,8 @@ describe('NavigationComponentService', () => {
           Id_Super: {
             linkName: 'entry linkName',
             url: '/main',
-            target: false
-          }
+            target: false,
+          },
         })
       );
 
@@ -447,13 +448,13 @@ describe('NavigationComponentService', () => {
                 {
                   itemId: 'Id',
                   itemSuperType: 'Super',
-                  itemType: 'CMSLinkComponent'
-                }
-              ]
-            } as NavigationNode
+                  itemType: 'CMSLinkComponent',
+                },
+              ],
+            } as NavigationNode,
           })
         )
-        .subscribe(node => (result = node));
+        .subscribe((node) => (result = node));
 
       expect(result.target).toBeFalsy();
     });
@@ -463,8 +464,8 @@ describe('NavigationComponentService', () => {
         of({
           Id_Super: {
             linkName: 'entry linkName',
-            target: true
-          }
+            target: true,
+          },
         })
       );
 
@@ -479,13 +480,13 @@ describe('NavigationComponentService', () => {
                 {
                   itemId: 'Id',
                   itemSuperType: 'Super',
-                  itemType: 'CMSLinkComponent'
-                }
-              ]
-            } as NavigationNode
+                  itemType: 'CMSLinkComponent',
+                },
+              ],
+            } as NavigationNode,
           })
         )
-        .subscribe(node => (result = node));
+        .subscribe((node) => (result = node));
 
       expect(result.target).toBeFalsy();
     });
