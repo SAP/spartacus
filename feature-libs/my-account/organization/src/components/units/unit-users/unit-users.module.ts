@@ -4,7 +4,12 @@ import { I18nModule, UrlModule } from '@spartacus/core';
 import { UnitUsersComponent } from './unit-users.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import {IconModule, OutletRefModule, SplitViewModule, TableModule} from '@spartacus/storefront';
+import {
+  IconModule,
+  OutletRefModule,
+  SplitViewModule,
+  TableModule,
+} from '@spartacus/storefront';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -18,7 +23,7 @@ import { RouterModule } from '@angular/router';
     SplitViewModule,
     RouterModule,
     OutletRefModule,
-    IconModule
+    IconModule,
   ],
   declarations: [UnitUsersComponent],
   exports: [UnitUsersComponent],
