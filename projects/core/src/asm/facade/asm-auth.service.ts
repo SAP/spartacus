@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { AuthStorageService } from '../../auth/facade/auth-storage.service';
 import { AuthService } from '../../auth/facade/auth.service';
+import { CxOAuthService } from '../../auth/facade/cx-oauth-service';
 import { UserIdService } from '../../auth/facade/user-id.service';
 import { UserToken } from '../../auth/models/token-types.model';
-import { AuthActions } from '../../auth/store/actions';
-import { AsmActions } from '../store/actions/index';
 import { StateWithAsm } from '../store/asm-state';
 import { AsmSelectors } from '../store/selectors/index';
 
@@ -17,7 +17,9 @@ export class AsmAuthService {
   constructor(
     protected store: Store<StateWithAsm>,
     protected authService: AuthService,
-    protected userIdService: UserIdService
+    protected authStorageService: AuthStorageService,
+    protected userIdService: UserIdService,
+    protected oAuthService: CxOAuthService
   ) {}
 
   /**
@@ -26,27 +28,20 @@ export class AsmAuthService {
    * @param password
    */
   authorizeCustomerSupportAgent(userId: string, password: string): void {
-    this.store.dispatch(
-      new AsmActions.LoadCustomerSupportAgentToken({
-        userId: userId,
-        password: password,
-      })
-    );
+    this.authStorageService.switchToCSAgent();
+    this.oAuthService.authorizeWithPasswordFlow(userId, password).then(() => {
+      this.authStorageService.switchToUser();
+    });
   }
 
   /**
    * Starts an ASM customer emulation session.
-   * A customer emulation session is stoped by calling logout().
-   * @param customerSupportAgentToken
+   * A customer emulation session is stopped by calling logout().
    * @param customerId
    */
-  public startCustomerEmulationSession(
-    customerSupportAgentToken: UserToken,
-    customerId: string
-  ): void {
-    this.authService.authorizeWithToken({
-      ...customerSupportAgentToken,
-    });
+  public startCustomerEmulationSession(customerId: string): void {
+    this.authStorageService.copyCSAgentTokenForUser();
+    this.authStorageService.switchToEmulated();
     this.userIdService.setUserId(customerId);
   }
 
@@ -68,20 +63,31 @@ export class AsmAuthService {
    * Returns the customer support agent's token loading status
    */
   getCustomerSupportAgentTokenLoading(): Observable<boolean> {
-    return this.store.pipe(
-      select(AsmSelectors.getCustomerSupportAgentTokenLoading)
-    );
+    // TODO(#8248): Create new loading state outside of store
+    return of(false);
   }
 
   /**
    * Logout a customer support agent
    */
   logoutCustomerSupportAgent(): void {
-    this.getCustomerSupportAgentToken()
+    let isEmulated;
+    this.isCustomerEmulated()
       .pipe(take(1))
-      .subscribe((userToken) => {
-        this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
-        this.store.dispatch(new AuthActions.RevokeUserToken(userToken));
+      .subscribe((isCustomerEmulated) => (isEmulated = isCustomerEmulated));
+    if (isEmulated) {
+      // TODO: Improve it to avoid UI flickering (go directly into logged out state without the user selection view)
+      this.authService.logout(true).then(() => {
+        this.authStorageService.switchToCSAgent();
+        this.oAuthService.revokeAndLogout().then(() => {
+          this.authStorageService.switchToUser();
+        });
       });
+    } else {
+      this.authStorageService.switchToCSAgent();
+      this.oAuthService.revokeAndLogout().then(() => {
+        this.authStorageService.switchToUser();
+      });
+    }
   }
 }

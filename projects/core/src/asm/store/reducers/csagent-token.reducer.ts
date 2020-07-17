@@ -8,7 +8,7 @@ export function reducer(
   action: AsmActions.CustomerSupportAgentTokenAction
 ): UserToken {
   switch (action.type) {
-    case AsmActions.LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS: {
+    case AsmActions.SET_CSAGENT_TOKEN_DATA: {
       return {
         ...state,
         ...action.payload,

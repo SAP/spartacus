@@ -3,18 +3,15 @@ import {
   Action,
   ActionReducer,
   ActionReducerMap,
+  combineReducers,
   MetaReducer,
 } from '@ngrx/store';
 import { AuthActions } from '../../../auth/store/actions/index';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { CustomerSearchPage } from '../../models/asm.models';
-import {
-  AsmState,
-  CSAGENT_TOKEN_DATA,
-  CUSTOMER_SEARCH_DATA,
-} from '../asm-state';
+import { AsmState, CUSTOMER_SEARCH_DATA } from '../asm-state';
 import * as fromAsmUiReducer from './asm-ui.reducer';
-import { UserToken } from '../../../auth/models/token-types.model';
+import * as fromCSAgentTokenReducer from './csagent-token.reducer';
 
 export function getReducers(): ActionReducerMap<AsmState> {
   return {
@@ -22,7 +19,7 @@ export function getReducers(): ActionReducerMap<AsmState> {
       CUSTOMER_SEARCH_DATA
     ),
     asmUi: fromAsmUiReducer.reducer,
-    csagentToken: loaderReducer<UserToken>(CSAGENT_TOKEN_DATA),
+    csagentToken: combineReducers({ token: fromCSAgentTokenReducer.reducer }),
   };
 }
 

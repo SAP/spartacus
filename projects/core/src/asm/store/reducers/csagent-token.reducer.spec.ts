@@ -6,7 +6,9 @@ const testToken: UserToken = {
   access_token: 'xxx',
   token_type: 'bearer',
   refresh_token: 'xxx',
-  expires_in: 1000,
+  expires_at: '1000',
+  access_token_stored_at: '900',
+  granted_scopes: [],
   scope: ['xxx'],
 };
 
@@ -28,9 +30,7 @@ describe('Customer Support Agent Token reducer', () => {
     it('should store token', () => {
       const { initialState } = fromCustomerSupportAgentTokenReducer;
 
-      const action = new AsmActions.LoadCustomerSupportAgentTokenSuccess(
-        testToken
-      );
+      const action = new AsmActions.SetCSAgentTokenData(testToken);
       const state = fromCustomerSupportAgentTokenReducer.reducer(
         initialState,
         action
