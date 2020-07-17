@@ -5,16 +5,17 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EMPTY, Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import {
-  InterceptorUtil,
-  TOKEN_REVOCATION_HEADER,
-} from '../../occ/utils/interceptor-util';
+import { Observable } from 'rxjs';
+import { OccEndpointsService } from '../../occ';
+import { AuthStorageService } from '../facade/auth-storage.service';
 
+// We need this one, because OAuth hybris server requires access_token in header for revoke token. XD
 @Injectable({ providedIn: 'root' })
 export class TokenRevocationInterceptor implements HttpInterceptor {
-  constructor() {}
+  constructor(
+    public occEndpoints: OccEndpointsService,
+    public authStorageService: AuthStorageService
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -22,23 +23,20 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const isTokenRevocationRequest = this.isTokenRevocationRequest(request);
     if (isTokenRevocationRequest) {
-      request = InterceptorUtil.removeHeader(TOKEN_REVOCATION_HEADER, request);
+      request = request.clone({
+        setHeaders: {
+          Authorization: `${
+            JSON.parse(this.authStorageService.getItem('token_type')) ||
+            'Bearer'
+          } ${this.authStorageService.getItem('access_token')}`,
+        },
+      });
     }
 
-    return next.handle(request).pipe(
-      catchError((error: any) => {
-        if (isTokenRevocationRequest) {
-          return EMPTY;
-        }
-        return throwError(error);
-      })
-    );
+    return next.handle(request);
   }
 
   protected isTokenRevocationRequest(request: HttpRequest<any>): boolean {
-    const isTokenRevocationHeaderPresent = InterceptorUtil.getInterceptorParam<
-      string
-    >(TOKEN_REVOCATION_HEADER, request.headers);
-    return Boolean(isTokenRevocationHeaderPresent);
+    return request.url.includes(this.occEndpoints.getRawEndpoint('revoke'));
   }
 }
