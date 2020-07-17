@@ -1,4 +1,10 @@
 .organization {
+
+  .active {
+    background: var(--cx-color-light);
+    color: var(--cx-color-text);
+  }
+
   h3 {
     display: flex;
     justify-content: space-between;
