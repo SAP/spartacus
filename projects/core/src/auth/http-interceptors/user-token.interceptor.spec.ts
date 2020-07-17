@@ -18,7 +18,9 @@ const userToken = {
   access_token: 'xxx',
   token_type: 'bearer',
   refresh_token: 'xxx',
-  expires_in: 1000,
+  expires_at: '1000',
+  access_token_stored_at: '900',
+  granted_scopes: [],
   scope: ['xxx'],
   userId: 'xxx',
 } as UserToken;
@@ -41,6 +43,7 @@ const MockAuthConfig: OccConfig = {
   },
 };
 
+// TODO: Fix unit tests
 describe('UserTokenInterceptor', () => {
   let httpMock: HttpTestingController;
   let authService: AuthService;

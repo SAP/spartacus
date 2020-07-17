@@ -1,47 +1,116 @@
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
-import { AuthService } from '../facade/auth.service';
+import {
+  InterceptorUtil,
+  USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+} from '../../occ/utils/interceptor-util';
+import { CxOAuthService } from '../facade/cx-oauth-service';
+import { AuthHeaderService } from '../services/auth-header/auth-header.service';
 
+const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
+
+// TODO: Rethink the current naming of this one (different responsibilities)
 @Injectable({ providedIn: 'root' })
 export class UserTokenInterceptor implements HttpInterceptor {
   constructor(
-    private authService: AuthService,
-    private occEndpoints: OccEndpointsService
+    private occEndpoints: OccEndpointsService,
+    protected oAuthService: CxOAuthService,
+    protected authHeaderService: AuthHeaderService
   ) {}
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.authService.getUserToken().pipe(
-      take(1),
-      switchMap((token) => {
-        if (
-          token &&
-          this.isOccUrl(request.url) &&
-          !request.headers.get('Authorization')
-        ) {
-          request = request.clone({
-            setHeaders: {
-              Authorization: `${token.token_type} ${token.access_token}`,
-            },
-          });
-        }
+    const isClientTokenRequest = this.authHeaderService.isClientTokenRequest(
+      request
+    );
+    const isCSAgentTokenRequest = this.authHeaderService.isCSAgentTokenRequest(
+      request
+    );
+    const hasAuthorizationHeader = this.authHeaderService.getAuthorizationHeader(
+      request
+    );
 
-        return next.handle(request);
+    if (
+      !isClientTokenRequest &&
+      !hasAuthorizationHeader &&
+      (this.isOccUrl(request.url) || isCSAgentTokenRequest)
+    ) {
+      request = request.clone({
+        setHeaders: {
+          ...this.authHeaderService.createAuthorizationHeader(
+            isCSAgentTokenRequest
+          ),
+        },
+      });
+      if (isCSAgentTokenRequest) {
+        request = InterceptorUtil.removeHeader(
+          USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+          request
+        );
+      }
+    }
+
+    return next.handle(request).pipe(
+      catchError((errResponse: any) => {
+        if (errResponse instanceof HttpErrorResponse) {
+          switch (errResponse.status) {
+            case 401: // Unauthorized
+              if (!isClientTokenRequest) {
+                if (this.isExpiredToken(errResponse)) {
+                  return this.authHeaderService.handleExpiredAccessToken(
+                    request,
+                    next,
+                    isCSAgentTokenRequest
+                  );
+                } else if (
+                  // Refresh expired token
+                  // Check that the OAUTH endpoint was called and the error is for refresh token is expired
+                  errResponse.url.includes(OAUTH_ENDPOINT) &&
+                  errResponse.error.error === 'invalid_token'
+                ) {
+                  this.authHeaderService.handleExpiredRefreshToken(
+                    isCSAgentTokenRequest
+                  );
+                  return of<HttpEvent<any>>();
+                }
+              }
+              break;
+            case 400: // Bad Request
+              if (
+                errResponse.url.includes(OAUTH_ENDPOINT) &&
+                errResponse.error.error === 'invalid_grant'
+              ) {
+                if (request.body.get('grant_type') === 'refresh_token') {
+                  // refresh token fail, force user logout
+                  this.authHeaderService.handleExpiredRefreshToken(
+                    isCSAgentTokenRequest
+                  );
+                }
+              }
+              break;
+          }
+        }
+        return throwError(errResponse);
       })
     );
   }
 
-  private isOccUrl(url: string): boolean {
+  protected isOccUrl(url: string): boolean {
     return url.includes(this.occEndpoints.getBaseEndpoint());
+  }
+
+  protected isExpiredToken(resp: HttpErrorResponse): boolean {
+    return resp.error?.errors?.[0]?.type === 'InvalidTokenError';
   }
 }
