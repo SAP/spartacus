@@ -25,15 +25,15 @@ class MockRoutingService {
 const owner: GenericConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
-let isConfigurationLoading: Boolean = false;
-let hasPendingChanges: Boolean = false;
+let isConfigurationLoading = false;
+let hasPendingChanges = false;
 let waitingTime = 1000;
 
 class MockConfiguratorCommonsService {
-  hasPendingChanges(): Observable<Boolean> {
+  hasPendingChanges(): Observable<boolean> {
     return of(hasPendingChanges);
   }
-  isConfigurationLoading(): Observable<Boolean> {
+  isConfigurationLoading(): Observable<boolean> {
     return of(isConfigurationLoading);
   }
 }

@@ -31,14 +31,16 @@ export class ConfigPreviousNextButtonsComponent {
     protected configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
-  onPrevious(configuration: Configurator.Configuration) {
-    this.navigateToPreviousGroup(configuration);
+  onPrevious(configuration: Configurator.Configuration): void {
+    this.scrollToVariantConfigurationHeader();
+    this.configuratorGroupsService
+      .getPreviousGroupId(configuration.owner)
+      .pipe(take(1))
+      .subscribe((groupId) =>
+        this.configuratorGroupsService.navigateToGroup(configuration, groupId)
+      );
   }
-  onNext(configuration: Configurator.Configuration) {
-    this.navigateToNextGroup(configuration);
-  }
-
-  navigateToNextGroup(configuration: Configurator.Configuration) {
+  onNext(configuration: Configurator.Configuration): void {
     this.scrollToVariantConfigurationHeader();
     this.configuratorGroupsService
       .getNextGroupId(configuration.owner)
@@ -48,17 +50,7 @@ export class ConfigPreviousNextButtonsComponent {
       );
   }
 
-  navigateToPreviousGroup(configuration: Configurator.Configuration) {
-    this.scrollToVariantConfigurationHeader();
-    this.configuratorGroupsService
-      .getPreviousGroupId(configuration.owner)
-      .pipe(take(1))
-      .subscribe((groupId) =>
-        this.configuratorGroupsService.navigateToGroup(configuration, groupId)
-      );
-  }
-
-  protected scrollToVariantConfigurationHeader() {
+  protected scrollToVariantConfigurationHeader(): void {
     const theElement = document.querySelector('.VariantConfigurationTemplate');
     let topOffset = 0;
     if (theElement instanceof HTMLElement) {
@@ -67,13 +59,13 @@ export class ConfigPreviousNextButtonsComponent {
     window.scroll(0, topOffset);
   }
 
-  isFirstGroup(owner: GenericConfigurator.Owner): Observable<Boolean> {
+  isFirstGroup(owner: GenericConfigurator.Owner): Observable<boolean> {
     return this.configuratorGroupsService
       .getPreviousGroupId(owner)
       .pipe(map((group) => !group));
   }
 
-  isLastGroup(owner: GenericConfigurator.Owner): Observable<Boolean> {
+  isLastGroup(owner: GenericConfigurator.Owner): Observable<boolean> {
     return this.configuratorGroupsService
       .getNextGroupId(owner)
       .pipe(map((group) => !group));

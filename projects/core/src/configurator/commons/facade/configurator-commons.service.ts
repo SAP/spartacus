@@ -32,7 +32,7 @@ export class ConfiguratorCommonsService {
    */
   public hasPendingChanges(
     owner: GenericConfigurator.Owner
-  ): Observable<Boolean> {
+  ): Observable<boolean> {
     return this.store.pipe(
       select(ConfiguratorSelectors.hasPendingChanges(owner.key))
     );
@@ -47,7 +47,7 @@ export class ConfiguratorCommonsService {
    */
   public isConfigurationLoading(
     owner: GenericConfigurator.Owner
-  ): Observable<Boolean> {
+  ): Observable<boolean> {
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(

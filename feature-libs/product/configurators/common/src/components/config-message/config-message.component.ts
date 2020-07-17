@@ -16,8 +16,9 @@ const updateMessageElementId = 'cx-config-update-message';
 })
 export class ConfigMessageComponent implements OnInit, OnDestroy {
   changesInProgress = false;
+  subscription: Subscription = new Subscription();
   hasPendingChanges$: Observable<
-    Boolean
+    boolean
   > = this.configRouterExtractorService.extractRouterData().pipe(
     switchMap((routerData) => {
       return this.configuratorCommonsService
@@ -32,7 +33,6 @@ export class ConfigMessageComponent implements OnInit, OnDestroy {
     })
   );
 
-  protected subscription: Subscription;
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfigRouterExtractorService,
@@ -40,16 +40,15 @@ export class ConfigMessageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.hasPendingChanges$.subscribe(
-      (hasPendingChangesOrIsLoading) =>
-        this.showUpdateMessage(hasPendingChangesOrIsLoading.valueOf())
+    this.subscription.add(
+      this.hasPendingChanges$.subscribe((hasPendingChangesOrIsLoading) =>
+        this.showUpdateMessage(hasPendingChangesOrIsLoading)
+      )
     );
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
   }
 
   protected showUpdateMessage(hasPendingChangesOrIsLoading: boolean): void {
