@@ -50,8 +50,7 @@ export class RoutingConfigService {
   /**
    * Initializes the property `routeNamesByPath`.
    *
-   * The original config
-   * allows for reading configured path by the route name.
+   * The original config allows for reading configured path by the route name.
    * But this method builds up a structure with a 'reversed config'
    * to read quickly the route name by the path.
    */

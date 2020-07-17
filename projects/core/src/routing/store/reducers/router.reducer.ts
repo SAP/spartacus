@@ -96,7 +96,7 @@ export class CustomSerializer
     while (state.firstChild) {
       state = state.firstChild as CmsActivatedRouteSnapshot;
 
-      // we use semantic route information embedded from any parent route or take it from current route
+      // we use semantic route information embedded from any parent route
       if (state.data?.cxRoute) {
         semanticRoute = state.data?.cxRoute;
       }
@@ -150,7 +150,9 @@ export class CustomSerializer
             id: pageLabel,
             type: PageType.CONTENT_PAGE,
           };
-          semanticRoute = semanticRoute || this.lookupSemanticRoute(pageLabel); // lookup semanticRoute by page label only if couldn't find it by data.cxRoute
+          // If `semanticRoute` couldn't be recognized using `data.cxRoute` property, let's lookup the routing configuration
+          // to find the semantic route that has exactly the same configured path as the current URL.
+          semanticRoute = semanticRoute || this.lookupSemanticRoute(pageLabel);
         } else {
           context = {
             id: 'homepage',
