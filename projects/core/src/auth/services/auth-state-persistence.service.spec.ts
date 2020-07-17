@@ -9,7 +9,6 @@ import * as fromAuthReducers from '../store/reducers/index';
 import { AuthStatePersistenceService } from './auth-state-persistence.service';
 
 class MockUserIdService {
-  clearUserId(): void {}
   setUserId(_id: string) {}
   getUserId() {
     return of('userId');
@@ -47,46 +46,30 @@ describe('AuthStatePersistenceService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('state should be cleared on empty state', () => {
-    spyOn(userIdService, 'clearUserId').and.stub();
-
-    service['onRead'](null);
-
-    expect(store.dispatch).toHaveBeenCalledTimes(1);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new AuthActions.ClearUserToken()
-    );
-    expect(userIdService.clearUserId).toHaveBeenCalled();
-  });
-
   it('state should be updated after read from storage', () => {
-    spyOn(userIdService, 'clearUserId').and.stub();
     spyOn(userIdService, 'setUserId').and.stub();
 
     service['onRead']({
       userId: 'userId',
       access_token: 'access_token',
-      expires_in: 10,
-      expiration_time: 'expiration_time',
-      scope: ['scope'],
+      expires_at: '1000',
+      access_token_stored_at: '900',
+      granted_scopes: [],
       token_type: 'bearer',
+      refresh_token: 'refresh',
     });
 
-    expect(store.dispatch).toHaveBeenCalledTimes(2);
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AuthActions.ClearUserToken()
-    );
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new AuthActions.LoadUserTokenSuccess({
-        refresh_token: '',
+      new AuthActions.SetUserTokenData({
+        refresh_token: 'refresh',
         access_token: 'access_token',
-        expires_in: 10,
-        expiration_time: 'expiration_time',
-        scope: ['scope'],
+        expires_at: '1000',
+        access_token_stored_at: '900',
+        granted_scopes: [],
         token_type: 'bearer',
       })
     );
-    expect(userIdService.clearUserId).toHaveBeenCalled();
     expect(userIdService.setUserId).toHaveBeenCalledWith('userId');
   });
 

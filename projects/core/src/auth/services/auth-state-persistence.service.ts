@@ -6,13 +6,10 @@ import { StatePersistenceService } from '../../state/services/state-persistence.
 import { UserIdService } from '../facade/user-id.service';
 import { AuthActions, AuthSelectors, StateWithAuth } from '../store';
 
+// TODO: Should we declare basic parameters like in UserToken or keep everything custom?
 export interface SyncedAuthState {
   userId: string;
-  access_token: string;
-  token_type: string;
-  expires_in: number;
-  scope: string[];
-  expiration_time?: string;
+  [token_param: string]: any;
 }
 
 @Injectable({
@@ -49,22 +46,16 @@ export class AuthStatePersistenceService {
   }
 
   protected onRead(state: SyncedAuthState) {
-    this.store.dispatch(new AuthActions.ClearUserToken());
-    this.userIdService.clearUserId();
     if (state) {
-      // TODO: There might be the case that we don't have token state here, so then it's pointless to dispatch this action.
-      // Also setting userId might be not needed
-      // Whole state persistance mechanism might be dropped after oidc library usage
+      const tokenData = Object.fromEntries(
+        Object.entries(state).filter(([key]) => {
+          // userId used only for userIdService
+          return key !== 'userId';
+        })
+      );
       this.store.dispatch(
-        new AuthActions.LoadUserTokenSuccess({
-          access_token: state.access_token,
-          expires_in: state.expires_in,
-          // TODO: don't restore if expired
-          expiration_time: state.expiration_time,
-          scope: state.scope,
-          token_type: state.token_type,
-          // TODO: don't pass it
-          refresh_token: '',
+        new AuthActions.SetUserTokenData({
+          ...tokenData,
         })
       );
       this.userIdService.setUserId(state.userId);
