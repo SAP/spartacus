@@ -4555,9 +4555,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <a href="injectables/OrderDetailsEffect.html" data-type="entity-link">OrderDetailsEffect</a>
                                 </li>
                                 <li class="link">
-                                    <a href="injectables/OrderDetailsService.html" data-type="entity-link">OrderDetailsService</a>
-                                </li>
-                                <li class="link">
                                     <a href="injectables/OrderReturnRequestEffect.html" data-type="entity-link">OrderReturnRequestEffect</a>
                                 </li>
                                 <li class="link">
@@ -4571,9 +4568,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                 <li class="link">
                                     <a href="injectables/OutletRenderStrategy.html" data-type="entity-link">OutletRenderStrategy</a>
-                                </li>
-                                <li class="link">
-                                    <a href="injectables/OutletService.html" data-type="entity-link">OutletService</a>
                                 </li>
                                 <li class="link">
                                     <a href="injectables/PageEffects.html" data-type="entity-link">PageEffects</a>
@@ -4736,9 +4730,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                 <li class="link">
                                     <a href="injectables/SiteConnector.html" data-type="entity-link">SiteConnector</a>
-                                </li>
-                                <li class="link">
-                                    <a href="injectables/SiteContextComponentService.html" data-type="entity-link">SiteContextComponentService</a>
                                 </li>
                                 <li class="link">
                                     <a href="injectables/SiteContextConfig.html" data-type="entity-link">SiteContextConfig</a>
