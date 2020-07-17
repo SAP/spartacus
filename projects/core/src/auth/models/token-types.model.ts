@@ -1,10 +1,11 @@
 export interface UserToken {
   access_token: string;
-  token_type: string;
   refresh_token: string;
-  expires_in: number;
-  scope: string[];
-  expiration_time?: string;
+  expires_at: string;
+  granted_scopes: string[];
+  access_token_stored_at: string;
+  token_type?: string;
+  [custom_param: string]: any;
 }
 
 export interface ClientToken {
@@ -13,5 +14,3 @@ export interface ClientToken {
   expires_in: number;
   scope: string;
 }
-
-export type AuthenticationToken = UserToken | ClientToken;
