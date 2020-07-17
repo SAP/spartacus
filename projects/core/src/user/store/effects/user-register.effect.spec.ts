@@ -2,9 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, combineReducers, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { UserIdService } from 'projects/core/src/auth/facade/user-id.service';
+import { AuthService } from 'projects/core/src/auth';
 import { Observable, of } from 'rxjs';
-import { AuthActions } from '../../../auth/store/actions/index';
 import { UserSignUp } from '../../../model/misc.model';
 import { UserAdapter } from '../../connectors/user/user.adapter';
 import { UserConnector } from '../../connectors/user/user.connector';
@@ -20,18 +19,16 @@ const user: UserSignUp = {
   uid: '',
 };
 
-class MockUserIdService {
-  getUserId(): Observable<string> {
-    return of('');
-  }
-  clearUserId(): void {}
+class MockAuthService {
+  authorize() {}
+  logout() {}
 }
 
 describe('UserRegister effect', () => {
   let effect: UserRegisterEffects;
   let actions$: Observable<Action>;
   let userConnector: UserConnector;
-  let userIdService: UserIdService;
+  let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,14 +41,14 @@ describe('UserRegister effect', () => {
       providers: [
         UserRegisterEffects,
         { provide: UserAdapter, useValue: {} },
-        { provide: UserIdService, useClass: MockUserIdService },
+        { provide: AuthService, useClass: MockAuthService },
         provideMockActions(() => actions$),
       ],
     });
 
     effect = TestBed.inject(UserRegisterEffects);
     userConnector = TestBed.inject(UserConnector);
-    userIdService = TestBed.inject(UserIdService);
+    authService = TestBed.inject(AuthService);
 
     spyOn(userConnector, 'register').and.returnValue(of({}));
     spyOn(userConnector, 'registerGuest').and.returnValue(of({ uid: 'test' }));
@@ -74,43 +71,36 @@ describe('UserRegister effect', () => {
 
   describe('registerGuest$', () => {
     it('should register guest', () => {
+      spyOn(authService, 'authorize');
       const action = new UserActions.RegisterGuest({
         guid: 'guid',
-        password: 'password',
-      });
-      const loadUser = new AuthActions.LoadUserToken({
-        userId: 'test',
         password: 'password',
       });
       const completion = new UserActions.RegisterGuestSuccess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
-        b: loadUser,
-        c: completion,
+      const expected = cold('-(b)', {
+        b: completion,
       });
 
       expect(effect.registerGuest$).toBeObservable(expected);
+      expect(authService.authorize).toHaveBeenCalledWith('test', 'password');
     });
   });
 
   describe('removeUser$', () => {
     it('should remove user', () => {
-      spyOn(userIdService, 'clearUserId').and.stub();
+      spyOn(authService, 'logout');
       const action = new UserActions.RemoveUser('testUserId');
-      const logout = new AuthActions.Logout();
-      const clearUserToken = new AuthActions.ClearUserToken();
       const completion = new UserActions.RemoveUserSuccess();
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
+      const expected = cold('-(b)', {
         b: completion,
-        c: clearUserToken,
-        d: logout,
       });
 
       expect(effect.removeUser$).toBeObservable(expected);
-      expect(userIdService.clearUserId).toHaveBeenCalled();
+      expect(authService.logout).toHaveBeenCalled();
     });
   });
 });
