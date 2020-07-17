@@ -71,40 +71,12 @@ describe('AsmComponentService', () => {
   });
 
   describe('logoutCustomerSupportAgentAndCustomer()', () => {
-    it('should logout csagent and not the customer when no customer session is in progress.', () => {
-      spyOn(authService, 'logout').and.stub();
+    it('should logout csagent no matter the emulation state', () => {
       spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
-      spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(false));
-      spyOn(asmComponentService, 'logoutCustomer').and.stub();
 
       asmComponentService.logoutCustomerSupportAgentAndCustomer();
 
       expect(asmAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
-      expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
-    });
-
-    it('should logout both csagent and the customer when customer session is in progress.', () => {
-      spyOn(authService, 'logout').and.stub();
-      spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
-      spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(true));
-      spyOn(asmComponentService, 'logoutCustomer').and.stub();
-
-      asmComponentService.logoutCustomerSupportAgentAndCustomer();
-
-      expect(asmAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
-      expect(asmComponentService.logoutCustomer).toHaveBeenCalled();
-    });
-
-    it('should logout csagent and not the customer when a regular customer session is in progress', () => {
-      spyOn(authService, 'logout').and.stub();
-      spyOn(asmAuthService, 'logoutCustomerSupportAgent').and.stub();
-      spyOn(asmAuthService, 'isCustomerEmulated').and.returnValue(of(false));
-      spyOn(asmComponentService, 'logoutCustomer').and.stub();
-
-      asmComponentService.logoutCustomerSupportAgentAndCustomer();
-
-      expect(asmAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
-      expect(asmComponentService.logoutCustomer).not.toHaveBeenCalled();
     });
   });
 

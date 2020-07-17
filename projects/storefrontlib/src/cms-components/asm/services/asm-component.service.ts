@@ -6,7 +6,6 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 
 @Injectable({
@@ -21,19 +20,11 @@ export class AsmComponentService {
   ) {}
 
   logoutCustomerSupportAgentAndCustomer(): void {
-    let isCustomerEmulated;
-    this.asmAuthService
-      .isCustomerEmulated()
-      .pipe(take(1))
-      .subscribe((isEmulated) => (isCustomerEmulated = isEmulated));
-    if (isCustomerEmulated) {
-      this.logoutCustomer();
-    }
     this.asmAuthService.logoutCustomerSupportAgent();
   }
 
   logoutCustomer(): void {
-    this.authService.logout();
+    this.authService.logout(true);
     this.routingService.go({ cxRoute: 'home' });
   }
 
@@ -44,7 +35,7 @@ export class AsmComponentService {
   /**
    * We're currently only removing the persisted storage in the browser
    * to ensure the ASM experience isn't loaded on the next visit. There are a few
-   * optimsiations we could think of:
+   * optimizations we could think of:
    * - drop the `asm` parameter from the URL, in case it's still there
    * - remove the generated UI from the DOM (outlets currently do not support this)
    */

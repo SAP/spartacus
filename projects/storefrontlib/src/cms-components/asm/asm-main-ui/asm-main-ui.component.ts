@@ -91,16 +91,7 @@ export class AsmMainUiComponent implements OnInit {
   }
 
   startCustomerEmulationSession({ customerId }: { customerId: string }): void {
-    this.asmAuthService
-      .getCustomerSupportAgentToken()
-      .pipe(take(1))
-      .subscribe((customerSupportAgentToken) =>
-        this.asmAuthService.startCustomerEmulationSession(
-          customerSupportAgentToken,
-          customerId
-        )
-      )
-      .unsubscribe();
+    this.asmAuthService.startCustomerEmulationSession(customerId);
     this.startingCustomerSession = true;
   }
 
