@@ -48,7 +48,8 @@ export const configurator = {
     },
     group: {
       general: 'General',
-      conflictHeader: 'Resolve issues for options...',
+      conflictHeader: 'Resolve conflicts',
+      conflictGroup: 'Conflict for {{attribute}}',
     },
   },
 };

@@ -51,12 +51,16 @@
           .groupStatusIndicator {
             width: 25px;
             cx-icon.ERROR,
+            cx-icon.WARNING,
             cx-icon.COMPLETE {
               display: none;
             }
 
             cx-icon.ERROR {
               color: var(--cx-color-danger);
+            }
+            cx-icon.WARNING {
+              color: theme-color('warning');
             }
 
             cx-icon.COMPLETE {
@@ -74,6 +78,7 @@
       }
 
       &.ERROR cx-icon.ERROR,
+      &.WARNING cx-icon.WARNING,
       &.COMPLETE cx-icon.COMPLETE {
         display: inline-block !important;
       }

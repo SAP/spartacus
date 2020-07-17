@@ -117,6 +117,13 @@ export class ConfigGroupMenuComponent implements OnInit {
       });
   }
 
+  getConflictNumber(group: Configurator.Group): string {
+    if (group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP) {
+      return '(' + group.subGroups.length + ')';
+    }
+    return '';
+  }
+
   getParentGroup(group: Configurator.Group): Observable<Configurator.Group> {
     return this.configuration$.pipe(
       map((configuration) =>

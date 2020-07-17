@@ -236,7 +236,14 @@ export class OccConfiguratorVariantNormalizer
           );
         break;
       case Configurator.GroupType.CONFLICT_GROUP:
-        group.description = group.name;
+        this.translation
+          .translate('configurator.group.conflictGroup', {
+            attribute: group.name,
+          })
+          .pipe(take(1))
+          .subscribe(
+            (conflictGroupText) => (group.description = conflictGroupText)
+          );
         break;
       default:
         if (group.name !== '_GEN') {
