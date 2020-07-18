@@ -41,10 +41,26 @@ export class OrderApprovalDetailService {
     protected orderApprovalService: OrderApprovalService
   ) {}
 
+  /**
+   * Returns a string that represents the approval code
+   * found in the page url.
+   */
+  getOrderApprovalCodeFromRoute(): Observable<string> {
+    return this.approvalCode$;
+  }
+
+  /**
+   * Returns the order data from the approval details that have been
+   * retrieved from the approval code in the page url.
+   */
   getOrderDetails(): Observable<Order> {
     return this.order$;
   }
 
+  /**
+   * Returns the approval details that have been retrieved from the
+   * approval code in the page url.
+   */
   getOrderApproval(): Observable<OrderApproval> {
     return this.orderApproval$;
   }

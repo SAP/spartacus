@@ -21,15 +21,16 @@ const mockOrderApproval = {
   order: mockOrder,
 } as OrderApproval;
 
+const mockRouterState = {
+  state: {
+    params: {
+      approvalCode,
+    },
+  },
+};
 class MockRoutingService {
   getRouterState() {
-    return of({
-      state: {
-        params: {
-          approvalCode,
-        },
-      },
-    });
+    return of(mockRouterState);
   }
 }
 class MockOrderApprovalService {
@@ -74,5 +75,17 @@ describe('OrderApprovalDetailService', () => {
       .unsubscribe();
     expect(orderApproval).toBeTruthy();
     expect(orderApproval).toEqual(mockOrderApproval);
+  });
+
+  it('should provide the order approval code', () => {
+    let approvalCodeReturned: string;
+    service
+      .getOrderApprovalCodeFromRoute()
+      .subscribe((value) => (approvalCodeReturned = value))
+      .unsubscribe();
+    expect(approvalCodeReturned).toBeTruthy();
+    expect(approvalCodeReturned).toEqual(
+      mockRouterState.state.params.approvalCode
+    );
   });
 });

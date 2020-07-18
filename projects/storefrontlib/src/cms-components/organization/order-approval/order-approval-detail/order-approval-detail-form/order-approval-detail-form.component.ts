@@ -1,11 +1,12 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   OrderApproval,
   OrderApprovalDecisionValue,
   OrderApprovalService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { OrderApprovalDetailService } from '../order-approval-detail.service';
   templateUrl: './order-approval-detail-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderApprovalDetailFormComponent {
+export class OrderApprovalDetailFormComponent implements OnDestroy {
   approvalDecisionValue = OrderApprovalDecisionValue;
   approvalDecision: OrderApprovalDecisionValue;
   approvalFormVisible = false;
@@ -21,14 +22,38 @@ export class OrderApprovalDetailFormComponent {
     comment: [''],
   });
 
+  protected orderApprovalLoading$: Observable<
+    boolean
+  > = this.orderApprovalDetailService
+    .getOrderApprovalCodeFromRoute()
+    .pipe(
+      switchMap((approvalCode: string) =>
+        this.orderApprovalService.getOrderApprovalLoading(approvalCode)
+      )
+    );
+
+  protected decisionResultLoading$ = this.orderApprovalService.getMakeDecisionResultLoading();
+
+  loading$ = combineLatest([
+    this.orderApprovalLoading$,
+    this.decisionResultLoading$,
+  ]).pipe(
+    map(
+      ([approvalLoading, decisionResultLoading]) =>
+        approvalLoading || decisionResultLoading
+    )
+  );
+
+  orderApproval$: Observable<
+    OrderApproval
+  > = this.orderApprovalDetailService.getOrderApproval();
+
   constructor(
     protected orderApprovalDetailService: OrderApprovalDetailService,
     protected orderApprovalService: OrderApprovalService,
     private fb: FormBuilder
-  ) {}
-
-  get orderApproval$(): Observable<OrderApproval> {
-    return this.orderApprovalDetailService.getOrderApproval();
+  ) {
+    this.orderApprovalService.resetMakeDecisionProcessState();
   }
 
   displayDecisionForm(decision: OrderApprovalDecisionValue) {
@@ -55,5 +80,9 @@ export class OrderApprovalDetailFormComponent {
     } else {
       this.approvalForm.markAllAsTouched();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.orderApprovalService.resetMakeDecisionProcessState();
   }
 }
