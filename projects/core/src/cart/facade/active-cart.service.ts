@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { EMPTY, Observable, timer } from 'rxjs';
+import {EMPTY, Observable, Subscription, timer} from 'rxjs';
 import {
   debounce,
   distinctUntilChanged,
@@ -31,11 +31,12 @@ import { MultiCartService } from './multi-cart.service';
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveCartService {
+export class ActiveCartService implements OnDestroy{
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
     'PREVIOUS_USER_ID_INITIAL_VALUE';
   private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
   private activeCart$: Observable<Cart>;
+  protected subscription = new Subscription();
 
   private userId = OCC_USER_ID_ANONYMOUS;
   private cartId;
@@ -59,6 +60,14 @@ export class ActiveCartService {
     protected authService: AuthService,
     protected multiCartService: MultiCartService
   ) {
+    this.initActiveCart();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  protected initActiveCart() {
     this.authService.getOccUserId().subscribe((userId) => {
       this.userId = userId;
       if (this.userId !== OCC_USER_ID_ANONYMOUS) {
@@ -69,14 +78,10 @@ export class ActiveCartService {
       this.previousUserId = userId;
     });
 
-    this.activeCartId$.subscribe((cartId) => {
+    this.subscription.add(this.activeCartId$.subscribe((cartId) => {
       this.cartId = cartId;
-    });
+    }));
 
-    this.initActiveCart();
-  }
-
-  private initActiveCart() {
     this.activeCart$ = this.cartSelector$.pipe(
       withLatestFrom(this.activeCartId$),
       map(([cartEntity, activeCartId]: [ProcessesLoaderState<Cart>, string]): {
@@ -410,10 +415,10 @@ export class ActiveCartService {
   private guestCartMerge(cartId: string): void {
     let cartEntries: OrderEntry[];
     this.getEntries()
-      .pipe(take(1))
-      .subscribe((entries) => {
-        cartEntries = entries;
-      });
+    .pipe(take(1))
+    .subscribe((entries) => {
+      cartEntries = entries;
+    });
 
     this.multiCartService.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
 
