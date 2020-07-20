@@ -87,18 +87,20 @@
   </ng-template>
 
   <ng-template cxOutletRef="table.costCenterAssignBudget.data.code" let-model>
-    <span class="text">{{ model.code }}</span>
-    <a
-      class="link"
-      [routerLink]="
-        {
-          cxRoute: 'budgetDetails',
-          params: { code: model.code }
-        } | cxUrl
-      "
-    >
-      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-    </a>
+    <div>
+      <span class="text">{{ model.code }}</span>
+      <a
+        class="link"
+        [routerLink]="
+          {
+            cxRoute: 'budgetDetails',
+            params: { code: model.code }
+          } | cxUrl
+        "
+      >
+        <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+      </a>
+    </div>
   </ng-template>
 
   <ng-template cxOutletRef="table.costCenterAssignBudget.data.amount" let-model>

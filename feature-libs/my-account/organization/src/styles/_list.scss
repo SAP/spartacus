@@ -1,5 +1,4 @@
 .organization {
-
   .active {
     background: var(--cx-color-light);
     color: var(--cx-color-text);
@@ -143,10 +142,6 @@
           place-content: space-between;
           > div:first-child {
             line-height: 1.1rem;
-            @include media-breakpoint-down(md) {
-              padding-left: 2rem;
-            }
-
             h3 {
               font-size: 1.1rem;
               min-height: auto;
@@ -154,16 +149,12 @@
                 padding: 0;
               }
             }
-
             small {
               font-size: 0.75rem;
             }
           }
 
           > div:last-child {
-            display: flex;
-            align-items: center;
-
             a {
               display: flex;
               padding: 0;
@@ -183,9 +174,33 @@
 
       &.name {
         label {
-          padding: var(--cx-spatial-md);
+          padding: var(--cx-spatial-md) var(--cx-spatial-md)
+            var(--cx-spatial-md) calc(3 * var(--cx-spatial-md));
           justify-content: flex-start;
           align-items: center;
+        }
+        input[type='checkbox'] {
+          margin-top: 0;
+        }
+      }
+      &.code {
+        > div {
+          place-items: center;
+        }
+        .link {
+          display: flex;
+        }
+      }
+      &.selected,
+      &.link {
+        width: 80px;
+      }
+      &.selected {
+        input[type='checkbox'] {
+          @include media-breakpoint-down(md) {
+            margin-left: 0.8rem;
+            margin-top: -0.6rem;
+          }
         }
       }
     }
