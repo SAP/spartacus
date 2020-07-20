@@ -24,7 +24,7 @@ describe('ProductDetailsTabComponent', () => {
         {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
-        }
+        },
       ],
     }).compileComponents();
   }));
@@ -48,21 +48,22 @@ describe('ProductDetailsTabComponent', () => {
   });
 });
 
-describe("TruncateTextService", () => {
+describe('TruncateTextService', () => {
   let truncate: TruncateTextService;
 
   beforeEach(() => {
     truncate = new TruncateTextService();
   });
-  it("should create a post in an array", () => {
-    // const qouteText = "This is my first post";
-    // service.addNewQuote(qouteText);
-    // expect(service.quoteList.length).toBeGreaterThanOrEqual(1);
+  it('should create a sample text and return total truncated text less than 2', () => {
+    const sampleText = 'This is my first post';
+    const res = truncate.paragraphLimiter(sampleText, 2);
+    expect(res.length).toBeLessThanOrEqual(2);
   });
 
-  it("should remove a created post from the array of posts", () => {
-    // service.addNewQuote("This is my first post");
-    // service.removeQuote(0);
-    // expect(service.quoteList.length).toBeLessThan(1);
+  it('should create a sample text and return total truncated text greater than 2', () => {
+    const sampleText = 'This is my first post';
+    truncate.isShow = true;
+    const res = truncate.paragraphLimiter(sampleText, 2);
+    expect(res.length).toBeGreaterThanOrEqual(2);
   });
 });
