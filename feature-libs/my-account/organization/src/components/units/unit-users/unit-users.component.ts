@@ -10,7 +10,6 @@ import { UnitUsersService } from './unit-users.service';
   templateUrl: './unit-users.component.html',
 })
 export class UnitUsersComponent {
-  cxRoute = 'orgUnitUsers';
   roleId = 'b2bcustomergroup';
 
   code$: Observable<string> = this.route.parent.params.pipe(

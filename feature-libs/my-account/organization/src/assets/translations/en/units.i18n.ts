@@ -150,5 +150,6 @@ export const units = {
     create: 'Create',
     id: 'ID',
     name: 'Name',
+    newChild: 'New child unit',
   },
 };

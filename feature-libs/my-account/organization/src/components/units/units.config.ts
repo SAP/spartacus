@@ -6,6 +6,7 @@ import { UnitDetailsComponent } from './unit-details';
 import { UnitEditComponent } from './unit-edit';
 import { UnitUsersComponent } from './unit-users';
 import { OrganizationTableType } from '../shared';
+import { UnitChildrenComponent } from './unit-children';
 
 export const unitsRoutingConfig: RoutingConfig = {
   routing: {
@@ -24,37 +25,44 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: ['organization/units/:code/edit'],
         paramsMapping: { code: 'uid' },
       },
+      orgUnitChildren: {
+        paths: ['organization/units/:code/children'],
+        paramsMapping: { code: 'uid' },
+      },
       orgUnitUsers: {
         paths: ['organization/units/:code/users'],
         paramsMapping: { code: 'uid' },
       },
-
       // orgUnitAssignRoles: {
       //   paths: ['organization/unit/assign-roles/:code/:roleId'],
       // },
+
       // orgUnitApprovers: {
       //   paths: ['organization/unit/approvers/:code'],
       // },
+
       // orgUnitAssignApprovers: {
       //   paths: ['organization/unit/assign-approvers/:code'],
       // },
-      // orgUnitManageAddresses: {
-      //   paths: ['organization/unit/addresses/:code'],
-      // },
-      // orgUnitChildren: {
-      //   paths: ['organization/unit/children/:code'],
-      // },
-      // orgUnitCostCenters: {
-      //   paths: ['organization/unit/cost-centers/:code'],
-      // },
-      // orgUnitAddressEdit: {
-      //   paths: ['organization/unit/address/edit/:code/:id'],
-      // },
+
       // orgUnitAddressDetails: {
       //   paths: ['organization/unit/address/:code/:id'],
       // },
+
       // orgUnitAddressCreate: {
       //   paths: ['organization/unit/addresses/create/:code'],
+      // },
+
+      // orgUnitAddressEdit: {
+      //   paths: ['organization/unit/address/edit/:code/:id'],
+      // },
+
+      // orgUnitManageAddresses: {
+      //   paths: ['organization/unit/addresses/:code'],
+      // },
+
+      // orgUnitCostCenters: {
+      //   paths: ['organization/unit/cost-centers/:code'],
       // },
     },
   },
@@ -81,6 +89,11 @@ export const unitsCmsConfig: CmsConfig = {
               canDeactivate: [SplitViewDeactivateGuard],
             },
             {
+              path: 'children',
+              component: UnitChildrenComponent,
+              canDeactivate: [SplitViewDeactivateGuard],
+            },
+            {
               path: 'users',
               component: UnitUsersComponent,
               canDeactivate: [SplitViewDeactivateGuard],
@@ -97,6 +110,12 @@ export const unitsCmsConfig: CmsConfig = {
 export const unitsTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.UNIT_USERS]: [
+      {
+        headers: [{ key: 'summary' }, { key: 'link' }],
+        hideHeader: true,
+      },
+    ],
+    [OrganizationTableType.UNIT_CHILDREN]: [
       {
         headers: [{ key: 'summary' }],
         hideHeader: true,
