@@ -23,6 +23,7 @@ import { ConfigAttributeNumericInputFieldService } from './config-attribute-nume
 })
 export class ConfigAttributeNumericInputFieldComponent
   implements OnInit, OnDestroy {
+  uiKeyGenerator = ConfigUIKeyGeneratorService;
   attributeInputForm: FormControl;
   numericFormatPattern;
   locale: string;
@@ -35,7 +36,6 @@ export class ConfigAttributeNumericInputFieldComponent
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   constructor(
-    public uiKeyGenerator: ConfigUIKeyGeneratorService,
     protected languageService: LanguageService,
     protected configAttributeNumericInputFieldService: ConfigAttributeNumericInputFieldService
   ) {}
@@ -85,7 +85,7 @@ export class ConfigAttributeNumericInputFieldComponent
   /**
    * Hit when user input was changed
    */
-  onChange() {
+  onChange(): void {
     const event: ConfigFormUpdateEvent = this.createEventFromInput();
 
     if (!this.attributeInputForm.invalid) {
@@ -115,7 +115,7 @@ export class ConfigAttributeNumericInputFieldComponent
     }
   }
 
-  protected reportMissingLocaleData(lang: string) {
+  protected reportMissingLocaleData(lang: string): void {
     if (isDevMode()) {
       console.warn(
         `ConfigAttributeNumericInputFieldComponent: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`

@@ -16,10 +16,7 @@ export class ConfigAttributeHeaderComponent {
   @Input() owner: GenericConfigurator.Owner;
   @Input() groupId: string;
 
-  constructor(
-    protected uiKeyGen: ConfigUIKeyGeneratorService,
-    protected configUtils: ConfigUtilsService
-  ) {}
+  constructor(protected configUtils: ConfigUtilsService) {}
 
   iconTypes = ICON_TYPE;
   /**
@@ -31,6 +28,12 @@ export class ConfigAttributeHeaderComponent {
       .pipe(
         map((result) => (result ? this.isRequiredAttributeWithDomain() : false))
       );
+  }
+  createAttributeUiKey(prefix: string, attributeId: string): string {
+    return ConfigUIKeyGeneratorService.createAttributeUiKey(
+      prefix,
+      attributeId
+    );
   }
 
   /**
@@ -45,10 +48,6 @@ export class ConfigAttributeHeaderComponent {
       //input attribute types
       return 'configurator.attribute.singleSelectRequiredMessage';
     }
-  }
-
-  get uiKeyGenerator() {
-    return this.uiKeyGen;
   }
 
   protected isMultiSelection(): boolean {

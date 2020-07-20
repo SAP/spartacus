@@ -17,16 +17,14 @@ import { ConfigUtilsService } from '../../../service/config-utils.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeMultiSelectionImageComponent implements OnInit {
+  uiKeyGenerator = ConfigUIKeyGeneratorService;
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(
-    public uiKeyGenerator: ConfigUIKeyGeneratorService,
-    protected configUtilsService: ConfigUtilsService
-  ) {}
+  constructor(protected configUtilsService: ConfigUtilsService) {}
 
   attributeCheckBoxForms = new Array<FormControl>();
 

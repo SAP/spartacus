@@ -18,13 +18,12 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
 })
 export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
   attributeRadioButtonForm = new FormControl('');
-
+  uiKeyGenerator = ConfigUIKeyGeneratorService;
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
-  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   ngOnInit() {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);

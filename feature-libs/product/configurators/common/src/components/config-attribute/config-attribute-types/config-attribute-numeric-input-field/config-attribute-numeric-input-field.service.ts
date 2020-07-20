@@ -11,8 +11,6 @@ import { AbstractControl, ValidatorFn } from '@angular/forms';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfigAttributeNumericInputFieldService {
-  constructor() {}
-
   /**
    * Validates numeric input according to settings that are not derived from the locale but from the attribute
    * meta data like the total number of digits and the maximum number of decimal places.

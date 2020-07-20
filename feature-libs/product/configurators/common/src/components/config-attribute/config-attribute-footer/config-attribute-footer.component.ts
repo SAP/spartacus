@@ -30,13 +30,6 @@ export class ConfigAttributeFooterComponent {
   }
 
   /**
-   * Get resource key for message indicating that attribute is required
-   */
-  getRequiredMessageKey(): string {
-    return 'configurator.attribute.defaultRequiredMessage';
-  }
-
-  /**
    * Checks if attribute is a user input typed attribute with empty value.
    * Method will return false for domain based attributes
    * @param input

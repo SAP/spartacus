@@ -16,14 +16,13 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeDropDownComponent implements OnInit {
+  uiKeyGenerator = ConfigUIKeyGeneratorService;
   attributeDropDownForm = new FormControl('');
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
-
-  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);

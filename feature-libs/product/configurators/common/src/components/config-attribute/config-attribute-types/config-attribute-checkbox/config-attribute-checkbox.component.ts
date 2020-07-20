@@ -16,12 +16,11 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeCheckBoxComponent implements OnInit {
+  uiKeyGenerator = ConfigUIKeyGeneratorService;
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
-
-  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   attributeCheckBoxForm = new FormControl('');
 
@@ -47,8 +46,8 @@ export class ConfigAttributeCheckBoxComponent implements OnInit {
     this.selectionChange.emit(event);
   }
 
-  protected assembleSingleValue(): any[] {
-    const localAssembledValues: any = [];
+  protected assembleSingleValue(): Configurator.Value[] {
+    const localAssembledValues: Configurator.Value[] = [];
 
     const localAttributeValue: Configurator.Value = {};
     localAttributeValue.valueCode = this.attribute.values[0].valueCode;

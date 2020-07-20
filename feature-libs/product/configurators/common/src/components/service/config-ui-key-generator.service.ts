@@ -1,18 +1,15 @@
-import { Injectable } from '@angular/core';
 import { Configurator } from '@spartacus/core';
 
 /**
- * Serivce to provide unique keys for elements on the UI and for sending to configurator
+ * Service to provide unique keys for elements on the UI and for sending to configurator
  */
-@Injectable({ providedIn: 'root' })
-export class ConfigUIKeyGeneratorService {
-  constructor() {}
 
-  private SEPERATOR = '--';
-  private PREFIX = 'cx-config';
-  private PREFIX_LABEL = 'label';
-  private PREFIX_OPTION_PRICE_VALUE = 'price--optionsPriceValue';
-  private PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';
+export class ConfigUIKeyGeneratorService {
+  private static SEPERATOR = '--';
+  private static PREFIX = 'cx-config';
+  private static PREFIX_LABEL = 'label';
+  private static PREFIX_OPTION_PRICE_VALUE = 'price--optionsPriceValue';
+  private static PREFIX_DDLB_OPTION_PRICE_VALUE = 'option--price';
 
   /**
    * Creates unique key for config value on the UI
@@ -20,13 +17,15 @@ export class ConfigUIKeyGeneratorService {
    * @param attributeId
    * @param valueId
    */
-  createValueUiKey(
+  static createValueUiKey(
     prefix: string,
     attributeId: string,
     valueId: string
   ): string {
     return (
-      this.createAttributeUiKey(prefix, attributeId) + this.SEPERATOR + valueId
+      ConfigUIKeyGeneratorService.createAttributeUiKey(prefix, attributeId) +
+      ConfigUIKeyGeneratorService.SEPERATOR +
+      valueId
     );
   }
 
@@ -35,11 +34,11 @@ export class ConfigUIKeyGeneratorService {
    * @param currentAttribute
    * @param value
    */
-  createAttributeValueIdForConfigurator(
+  static createAttributeValueIdForConfigurator(
     currentAttribute: Configurator.Attribute,
     value: string
   ): string {
-    return this.createValueUiKey(
+    return ConfigUIKeyGeneratorService.createValueUiKey(
       currentAttribute.uiType,
       currentAttribute.name,
       value
@@ -51,19 +50,25 @@ export class ConfigUIKeyGeneratorService {
    * @param prefix for key depending on usage (e.g. uiType, label)
    * @param attributeId
    */
-  createAttributeUiKey(prefix: string, attributeId: string): string {
-    return this.PREFIX + this.SEPERATOR + prefix + this.SEPERATOR + attributeId;
+  static createAttributeUiKey(prefix: string, attributeId: string): string {
+    return (
+      ConfigUIKeyGeneratorService.PREFIX +
+      ConfigUIKeyGeneratorService.SEPERATOR +
+      prefix +
+      ConfigUIKeyGeneratorService.SEPERATOR +
+      attributeId
+    );
   }
 
   /**
    * Creates unique key for config attribute to be sent to configurator
    * @param currentAttribute
    */
-  createAttributeIdForConfigurator(
+  static createAttributeIdForConfigurator(
     currentAttribute: Configurator.Attribute
   ): string {
     if (currentAttribute) {
-      return this.createAttributeUiKey(
+      return ConfigUIKeyGeneratorService.createAttributeUiKey(
         currentAttribute.uiType,
         currentAttribute.name
       );
@@ -77,38 +82,38 @@ export class ConfigUIKeyGeneratorService {
    * @param valueId
    * @param hasQuantity
    */
-  createAriaLabelledBy(
+  static createAriaLabelledBy(
     prefix: string,
     attributeId: string,
     valueId?: string,
     hasQuantity?: boolean
   ): string {
-    let attributeUiKey = this.createAttributeUiKey(
-      this.PREFIX_LABEL,
+    let attributeUiKey = ConfigUIKeyGeneratorService.createAttributeUiKey(
+      ConfigUIKeyGeneratorService.PREFIX_LABEL,
       attributeId
     );
     if (valueId) {
       attributeUiKey +=
         ' ' +
-        this.createAttributeUiKey(prefix, attributeId) +
-        this.SEPERATOR +
+        ConfigUIKeyGeneratorService.createAttributeUiKey(prefix, attributeId) +
+        ConfigUIKeyGeneratorService.SEPERATOR +
         valueId +
         ' ';
       if (typeof hasQuantity === 'boolean' && !hasQuantity) {
         attributeUiKey +=
-          this.createAttributeUiKey(
-            this.PREFIX_DDLB_OPTION_PRICE_VALUE,
+          ConfigUIKeyGeneratorService.createAttributeUiKey(
+            ConfigUIKeyGeneratorService.PREFIX_DDLB_OPTION_PRICE_VALUE,
             attributeId
           ) +
-          this.SEPERATOR +
+          ConfigUIKeyGeneratorService.SEPERATOR +
           valueId;
       } else {
         attributeUiKey +=
-          this.createAttributeUiKey(
-            this.PREFIX_OPTION_PRICE_VALUE,
+          ConfigUIKeyGeneratorService.createAttributeUiKey(
+            ConfigUIKeyGeneratorService.PREFIX_OPTION_PRICE_VALUE,
             attributeId
           ) +
-          this.SEPERATOR +
+          ConfigUIKeyGeneratorService.SEPERATOR +
           valueId;
       }
     }

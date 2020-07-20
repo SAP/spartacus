@@ -36,12 +36,15 @@ class MockConfigUtilsService {
   }
 }
 
+const attributeName = '123';
+const attrLabel = 'attLabel';
 describe('ConfigAttributeFooterComponent', () => {
   let classUnderTest: ConfigAttributeFooterComponent;
   let fixture: ComponentFixture<ConfigAttributeFooterComponent>;
 
   const currentAttribute: Configurator.Attribute = {
-    name: 'attributeId',
+    name: attributeName,
+    label: attrLabel,
     uiType: Configurator.UiType.RADIOBUTTON,
   };
   let htmlElem: HTMLElement;
@@ -73,8 +76,7 @@ describe('ConfigAttributeFooterComponent', () => {
     classUnderTest = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     classUnderTest.attribute = currentAttribute;
-    classUnderTest.attribute.label = 'label of attribute';
-    classUnderTest.attribute.name = '123';
+
     classUnderTest.owner = owner;
     classUnderTest.groupId = 'testGroup';
     classUnderTest.attribute.required = true;
@@ -108,7 +110,7 @@ describe('ConfigAttributeFooterComponent', () => {
   });
 
   it('should render a required message because user input is an empty string.', () => {
-    classUnderTest.attribute.userInput = '  ';
+    currentAttribute.userInput = '  ';
     fixture.detectChanges();
     ConfigComponentTestUtilsService.expectElementPresent(
       expect,
@@ -118,7 +120,7 @@ describe('ConfigAttributeFooterComponent', () => {
   });
 
   it("shouldn't render a required message if attribute is not required.", () => {
-    classUnderTest.attribute.required = false;
+    currentAttribute.required = false;
     fixture.detectChanges();
     ConfigComponentTestUtilsService.expectElementNotPresent(
       expect,
@@ -128,7 +130,7 @@ describe('ConfigAttributeFooterComponent', () => {
   });
 
   it("shouldn't render a required message because user input is set.", () => {
-    classUnderTest.attribute.userInput = 'test';
+    currentAttribute.userInput = 'test';
     fixture.detectChanges();
     ConfigComponentTestUtilsService.expectElementNotPresent(
       expect,
@@ -137,36 +139,30 @@ describe('ConfigAttributeFooterComponent', () => {
     );
   });
 
-  it('should return default message key for input string attributes', () => {
-    expect(classUnderTest.getRequiredMessageKey()).toContain(
-      'defaultRequiredMessage'
-    );
-  });
-
   describe('isUserInputEmpty()', () => {
     it('should return false because user input is undefined', () => {
-      classUnderTest.attribute.userInput = undefined;
+      currentAttribute.userInput = undefined;
       expect(
         classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
       ).toBe(false);
     });
 
     it('should return true because user input contains a number of whitespaces', () => {
-      classUnderTest.attribute.userInput = '   ';
+      currentAttribute.userInput = '   ';
       expect(
         classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
       ).toBe(true);
     });
 
     it('should return true because user input contains an empty string', () => {
-      classUnderTest.attribute.userInput = '';
+      currentAttribute.userInput = '';
       expect(
         classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
       ).toBe(true);
     });
 
     it('should return false because user input is defined and contains a string', () => {
-      classUnderTest.attribute.userInput = 'user input string';
+      currentAttribute.userInput = 'user input string';
       expect(
         classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
       ).toBe(false);

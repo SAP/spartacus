@@ -27,6 +27,8 @@ export class MockIconFontLoaderService {
   getHtml(_iconType: ICON_TYPE) {}
 }
 
+const attributeName = 'attrName';
+const attributeLabel = 'attrLabel';
 let isCartEntryOrGroupVisited = true;
 class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
@@ -44,7 +46,8 @@ describe('ConfigAttributeHeaderComponent', () => {
   };
 
   const currentAttribute: Configurator.Attribute = {
-    name: 'attributeId',
+    name: attributeName,
+    label: attributeLabel,
     uiType: Configurator.UiType.RADIOBUTTON,
     images: [
       {
@@ -77,8 +80,6 @@ describe('ConfigAttributeHeaderComponent', () => {
     classUnderTest = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     classUnderTest.attribute = currentAttribute;
-    classUnderTest.attribute.label = 'label of attribute';
-    classUnderTest.attribute.name = '123';
     classUnderTest.owner = owner;
     classUnderTest.groupId = 'testGroup';
     classUnderTest.attribute.required = false;
@@ -91,12 +92,6 @@ describe('ConfigAttributeHeaderComponent', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
-  it('should provide public access to uiKeyGenerator', () => {
-    expect(classUnderTest.uiKeyGenerator).toBe(
-      TestBed.inject(ConfigUIKeyGeneratorService)
-    );
-  });
-
   it('should render a label', () => {
     ConfigComponentTestUtilsService.expectElementPresent(
       expect,
@@ -107,12 +102,12 @@ describe('ConfigAttributeHeaderComponent', () => {
       expect,
       htmlElem,
       '.cx-config-attribute-label',
-      'label of attribute'
+      attributeLabel
     );
     const id = htmlElem
       .querySelector('.cx-config-attribute-label')
       .getAttribute('id');
-    expect(id.indexOf('123')).toBeGreaterThan(
+    expect(id.indexOf(attributeName)).toBeGreaterThan(
       0,
       'id of label does not contain the StdAttrCode'
     );
@@ -120,7 +115,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       htmlElem
         .querySelector('.cx-config-attribute-label')
         .getAttribute('aria-label')
-    ).toEqual(classUnderTest.attribute.label);
+    ).toEqual(attributeLabel);
     ConfigComponentTestUtilsService.expectElementNotPresent(
       expect,
       htmlElem,

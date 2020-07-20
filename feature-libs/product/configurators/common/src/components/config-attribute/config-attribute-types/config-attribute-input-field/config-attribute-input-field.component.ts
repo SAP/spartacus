@@ -17,6 +17,7 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeInputFieldComponent implements OnInit {
+  uiKeyGenerator = ConfigUIKeyGeneratorService;
   attributeInputForm = new FormControl('');
   @Input() ownerType: GenericConfigurator.OwnerType;
   @Input() attribute: Configurator.Attribute;
@@ -24,8 +25,6 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
   @Input() ownerKey: string;
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
-
-  constructor(public uiKeyGenerator: ConfigUIKeyGeneratorService) {}
 
   ngOnInit() {
     this.attributeInputForm.setValue(this.attribute.userInput);
