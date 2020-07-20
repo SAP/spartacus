@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfigurationRouter } from '../../generic/service/config-router-data';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
+import { ConfigUIFocusService } from '../service/config-ui-focus.service';
 import { ConfigFormUpdateEvent } from './config-form.event';
 
 @Component({
@@ -25,7 +26,8 @@ export class ConfigFormComponent implements OnInit {
   constructor(
     private configuratorCommonsService: ConfiguratorCommonsService,
     private configuratorGroupsService: ConfiguratorGroupsService,
-    private configRouterExtractorService: ConfigRouterExtractorService
+    private configRouterExtractorService: ConfigRouterExtractorService,
+    private focusService: ConfigUIFocusService
   ) {}
 
   ngOnInit(): void {
@@ -50,10 +52,14 @@ export class ConfigFormComponent implements OnInit {
           this.configuratorGroupsService.getCurrentGroup(routerData.owner)
         )
       );
+
+    //TODO: Unsubscribe on NGonDestroy
+    this.configuration$.subscribe(() => this.focusService.focuseElement());
   }
 
   updateConfiguration(event: ConfigFormUpdateEvent) {
     const owner: GenericConfigurator.Owner = { key: event.productCode };
+    this.focusService.setActiveFocusedElement();
 
     this.configuratorCommonsService.updateConfiguration(
       event.productCode,
