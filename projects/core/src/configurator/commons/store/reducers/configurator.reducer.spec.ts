@@ -12,9 +12,17 @@ const configuration: Configurator.Configuration = {
   configId: 'ds',
   productCode: productCode,
   owner: owner,
+  groups: [
+    {
+      id: 'firstGroup',
+    },
+    {
+      id: 'secondGroup',
+    },
+  ],
   isCartEntryUpdateRequired: false,
   interactionState: {
-    currentGroup: null,
+    currentGroup: 'firstGroup',
     groupsStatus: {},
     groupsVisited: {},
     menuParentGroup: null,
@@ -42,6 +50,9 @@ describe('Configurator reducer', () => {
       const state = StateReduce.reducer(undefined, action);
 
       expect(state).toEqual(configuration);
+      expect(state.interactionState.currentGroup).toEqual(
+        configuration.groups[0].id
+      );
     });
   });
   describe('ReadCartEntryConfigurationSuccess action', () => {
@@ -52,6 +63,9 @@ describe('Configurator reducer', () => {
       const state = StateReduce.reducer(undefined, action);
 
       expect(state).toEqual(configuration);
+      expect(state.interactionState.currentGroup).toEqual(
+        configuration.groups[0].id
+      );
     });
   });
   describe('ReadConfigurationSuccess action', () => {
@@ -62,6 +76,9 @@ describe('Configurator reducer', () => {
       const state = StateReduce.reducer(undefined, action);
 
       expect(state).toEqual(configuration);
+      expect(state.interactionState.currentGroup).toEqual(
+        configuration.groups[0].id
+      );
     });
   });
   describe('UpdateConfigurationSuccess action', () => {
