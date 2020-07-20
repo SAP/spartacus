@@ -8,6 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
+import { ConfigUIFocusService } from '../service/config-ui-focus.service';
 
 @Component({
   selector: 'cx-config-previous-next-buttons',
@@ -20,7 +21,8 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
   constructor(
     private configuratorGroupsService: ConfiguratorGroupsService,
     private configuratorCommonsService: ConfiguratorCommonsService,
-    private configRouterExtractorService: ConfigRouterExtractorService
+    private configRouterExtractorService: ConfigRouterExtractorService,
+    private focusService: ConfigUIFocusService
   ) {}
 
   ngOnInit(): void {
@@ -34,9 +36,11 @@ export class ConfigPreviousNextButtonsComponent implements OnInit {
   }
 
   onPrevious(configuration: Configurator.Configuration) {
+    this.focusService.setActiveFocusedElement();
     this.navigateToPreviousGroup(configuration);
   }
   onNext(configuration: Configurator.Configuration) {
+    this.focusService.setActiveFocusedElement();
     this.navigateToNextGroup(configuration);
   }
 

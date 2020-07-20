@@ -9,6 +9,7 @@ import { delay, map, switchMap, take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
+import { ConfigUIFocusService } from '../service/config-ui-focus.service';
 
 @Component({
   selector: 'cx-config-group-menu',
@@ -27,7 +28,8 @@ export class ConfigGroupMenuComponent implements OnInit {
     private configCommonsService: ConfiguratorCommonsService,
     public configuratorGroupsService: ConfiguratorGroupsService,
     private hamburgerMenuService: HamburgerMenuService,
-    private configRouterExtractorService: ConfigRouterExtractorService
+    private configRouterExtractorService: ConfigRouterExtractorService,
+    private focusService: ConfigUIFocusService
   ) {}
 
   GROUPSTATUS = Configurator.GroupStatus;
@@ -74,7 +76,7 @@ export class ConfigGroupMenuComponent implements OnInit {
 
   clickOnEnter(event, group: Configurator.Group) {
     if (event.which === 13) {
-      this.click(group); //TODO: fix focus lose when selection with keyboard
+      this.click(group);
     }
   }
 
@@ -82,6 +84,7 @@ export class ConfigGroupMenuComponent implements OnInit {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
         this.scrollToVariantConfigurationHeader();
+        this.focusService.setActiveFocusedElement();
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
       } else {
@@ -95,7 +98,7 @@ export class ConfigGroupMenuComponent implements OnInit {
 
   navigateUpOnEnter(event) {
     if (event.which === 13) {
-      this.navigateUp(); //TODO: fix focus lose when selection with keyboard
+      this.navigateUp();
     }
   }
 
