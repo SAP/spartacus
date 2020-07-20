@@ -12,6 +12,9 @@ import { CostCenterEditComponent } from './edit/cost-center-edit.component';
 import { CostCenterListComponent } from './list/cost-center-list.component';
 import { CostCenterBudgetListComponent } from './budgets/list/cost-center-budget-list.component';
 
+// TODO:#my-account-architecture - Number.MAX_VALUE?
+const MAX_OCC_INTEGER_VALUE = 2147483647;
+
 // TODO: this doesn't work with lazy loaded feature
 export const costCenterRoutingConfig: RoutingConfig = {
   routing: {
@@ -112,6 +115,9 @@ export const costCenterTableConfig: TableConfig = {
       {
         headers: [{ key: 'summary' }, { key: 'link' }],
         hideHeader: true,
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
       },
     ],
     [OrganizationTableType.COST_CENTER_ASSIGN_BUDGET]: [
