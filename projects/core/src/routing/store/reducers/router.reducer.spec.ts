@@ -12,13 +12,20 @@ import { PageType } from '../../../model/cms.model';
 import { RoutingConfig } from '../../configurable-routes/config/routing-config';
 import { RouterState } from '../routing-state';
 import * as fromReducer from './router.reducer';
-import { SemanticRoutes } from './router.reducer';
 
 @Component({
   selector: 'cx-test-cmp',
   template: 'test-cmp',
 })
 class TestComponent {}
+
+export enum SemanticRoutes {
+  PRODUCT = 'product',
+  CATEGORY = 'category',
+  BRAND = 'brand',
+  SEARCH = 'search',
+  HOME = 'home',
+}
 
 describe('Router Reducer', () => {
   let router: Router;
@@ -40,13 +47,25 @@ describe('Router Reducer', () => {
         StoreModule.forRoot(fromReducer.reducerToken),
         RouterTestingModule.withRoutes([
           { path: '', component: TestComponent },
-          { path: 'category/:categoryCode', component: TestComponent },
-          { path: 'product/:productCode', component: TestComponent },
-          { path: 'brand/:brandCode', component: TestComponent },
+          {
+            path: 'category/:categoryCode',
+            component: TestComponent,
+            data: { cxRoute: SemanticRoutes.CATEGORY },
+          },
+          {
+            path: 'product/:productCode',
+            component: TestComponent,
+            data: { cxRoute: SemanticRoutes.PRODUCT },
+          },
+          {
+            path: 'brand/:brandCode',
+            component: TestComponent,
+            data: { cxRoute: SemanticRoutes.BRAND },
+          },
           {
             path: 'search/:query',
             component: TestComponent,
-            data: { cxRoute: 'search' },
+            data: { cxRoute: SemanticRoutes.SEARCH },
           },
           {
             path: 'cmsPage',
@@ -255,7 +274,7 @@ describe('Router Reducer', () => {
         context: { id: '/search/camera', type: PageType.CONTENT_PAGE },
 
         cmsRequired: false,
-        semanticRoute: 'search',
+        semanticRoute: SemanticRoutes.SEARCH,
       });
     });
 
