@@ -12,6 +12,10 @@ import { Injectable } from '@angular/core';
 export class DateTimePickerFormatterService {
   /**
    * Convert date string into a string format compatable with the browser's native `<input type="datetime-local">` HTML element.
+   * @param value: date string to convert
+   *
+   * @example
+   * With UTC-0 local offset, `toNative('2010-01-01T00:00+0000')` returns `'2010-01-01T00:00'`.
    */
   toNative(value: string): string {
     return value
@@ -24,6 +28,10 @@ export class DateTimePickerFormatterService {
 
   /**
    * Convert datetime-local native string into a datetime format format compatable with OCC.
+   * @param value: datetime-local string to convert
+   *
+   * @example
+   * With UTC-0 locale offset, `toModel('2010-01-01T00:00')` returns `'2010-01-01T00:00:00+00:00'`.
    */
   toModel(value: string): string {
     return value ? this.toDateTimeOccFormat(value) : null;
@@ -54,6 +62,10 @@ export class DateTimePickerFormatterService {
 
   /**
    * Format datetime-local string into a format compatable with OCC.
+   * @param value: datetime-local string to convert
+   *
+   * @example
+   * With UTC-0 locale offset, `toDateTimeOccFormat('2010-01-01T00:00')` returns `'2010-01-01T00:00:00+00:00'`.
    */
   protected toDateTimeOccFormat(value: string) {
     return `${value}:00${this.getLocalTimezoneOffset()}`;
@@ -61,6 +73,11 @@ export class DateTimePickerFormatterService {
 
   /**
    * Format date string into a format compatable with the browser's native `<input type="datetime-local">` HTML element.
+   * @param dateString: date string to convert
+   * @param offset: offset to append to date string
+   *
+   * @example
+   * With UTC-0 local offset, `formatDateStringWithTimezone('2010-01-01T00:00+0000', '+00:00')` returns `'2010-01-01T00:00+00:00'`.
    */
   protected formatDateStringWithTimezone(
     dateString: string,
