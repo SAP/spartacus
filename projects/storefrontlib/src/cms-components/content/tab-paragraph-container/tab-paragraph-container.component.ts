@@ -21,6 +21,7 @@ import {
 } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
+import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 
 @Component({
   selector: 'cx-tab-paragraph-container',
@@ -38,6 +39,7 @@ export class TabParagraphContainerComponent
   tabTitleParams: Observable<any>[] = [];
 
   subscription: Subscription;
+  tabSubscription: Subscription;
 
   constructor(
     componentData: CmsComponentData<CMSTabParagraphContainer>,
@@ -57,7 +59,8 @@ export class TabParagraphContainerComponent
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     private cmsService: CmsService,
-    private winRef?: WindowRef
+    private winRef?: WindowRef,
+    protected breakpointService?: BreakpointService
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -86,8 +89,15 @@ export class TabParagraphContainerComponent
     )
   );
 
-  select(tabNum: number): void {
-    this.activeTabNum = tabNum;
+  select(tabNum: number, event): void {
+    this.tabSubscription = this.breakpointService.breakpoint$.subscribe(res => {
+      if (res === 'xs') {
+        this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
+        window.scrollTo(0, event.path[1].offsetTop);
+      } else {
+        this.activeTabNum = tabNum;
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -130,6 +140,9 @@ export class TabParagraphContainerComponent
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+    if (this.tabSubscription) {
+      this.tabSubscription.unsubscribe();
     }
   }
 }
