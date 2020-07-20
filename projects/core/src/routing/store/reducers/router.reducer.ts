@@ -85,16 +85,16 @@ export class CustomSerializer
   implements
     fromNgrxRouter.RouterStateSerializer<ActivatedRouterStateSnapshot> {
   serialize(routerState: RouterStateSnapshot): ActivatedRouterStateSnapshot {
-    const { url } = routerState;
-    const { queryParams } = routerState.root;
-
     let state: CmsActivatedRouteSnapshot = routerState.root as CmsActivatedRouteSnapshot;
     let cmsRequired = false;
     let context: PageContext;
     let semanticRoute: string;
+    let urlString = '';
 
     while (state.firstChild) {
       state = state.firstChild as CmsActivatedRouteSnapshot;
+      urlString +=
+        '/' + state.url.map((urlSegment) => urlSegment.path).join('/');
 
       // we use semantic route information embedded from any parent route
       if (state.data?.cxRoute) {
@@ -120,8 +120,13 @@ export class CustomSerializer
         cmsRequired = true;
       }
     }
-    const { params } = state;
 
+    // If `semanticRoute` couldn't be already recognized using `data.cxRoute` property
+    // let's lookup the routing configuration to find the semantic route that has exactly the same configured path as the current URL.
+    // This will work only for simple URLs without any dynamic routing parameters.
+    semanticRoute = semanticRoute || this.lookupSemanticRoute(urlString);
+
+    const { params } = state;
     // we give smartedit preview page a PageContext
     if (state.url.length > 0 && state.url[0].path === 'cx-preview') {
       context = {
@@ -137,8 +142,6 @@ export class CustomSerializer
         context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
       } else if (state.data.pageLabel !== undefined) {
         context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
-        // We don't assign `semanticRoute` here, because Angular Routes with defined `data.pageLabel` are assumed
-        // to contain also the `data.cxRoute` defined, so `semanticRoute` should already have been recognized.
       } else if (!context) {
         if (state.url.length > 0) {
           const pageLabel =
@@ -147,22 +150,18 @@ export class CustomSerializer
             id: pageLabel,
             type: PageType.CONTENT_PAGE,
           };
-          // If `semanticRoute` couldn't be recognized using `data.cxRoute` property, let's lookup the routing configuration
-          // to find the semantic route that has exactly the same configured path as the current URL.
-          semanticRoute = semanticRoute || this.lookupSemanticRoute(pageLabel);
         } else {
           context = {
             id: 'homepage',
             type: PageType.CONTENT_PAGE,
           };
-          semanticRoute = 'home';
         }
       }
     }
 
     return {
-      url,
-      queryParams,
+      url: routerState.url,
+      queryParams: routerState.root.queryParams,
       params,
       context,
       cmsRequired,
