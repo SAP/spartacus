@@ -106,6 +106,7 @@ export namespace OccConfigurator {
     id: string;
     groups?: GroupOverview[];
     pricing?: PriceSummary;
+    productCode?: string;
   }
 
   export interface GroupOverview {

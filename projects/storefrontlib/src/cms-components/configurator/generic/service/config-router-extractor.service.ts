@@ -37,6 +37,7 @@ export class ConfigRouterExtractorService {
             routingData.state.url
           ),
           displayOnly: routingData.state.params.displayOnly,
+          forceReload: routingData.state?.queryParams?.forceReload === 'true',
           pageType: routingData.state.url.includes('configureOverview')
             ? ConfigurationRouter.PageType.OVERVIEW
             : ConfigurationRouter.PageType.CONFIGURATION,
@@ -50,15 +51,13 @@ export class ConfigRouterExtractorService {
   createOwnerFromRouterState(
     routerState: RouterState
   ): GenericConfigurator.Owner {
-    const owner: GenericConfigurator.Owner = { hasObsoleteState: false };
+    const owner: GenericConfigurator.Owner = {};
     const params = routerState.state.params;
     if (params.ownerType) {
       const entityKey = params.entityKey;
       owner.type = params.ownerType;
 
       owner.id = entityKey;
-      owner.hasObsoleteState =
-        routerState.state?.queryParams?.forceReload === 'true';
     } else {
       owner.type = GenericConfigurator.OwnerType.PRODUCT;
       owner.id = params.rootProduct;

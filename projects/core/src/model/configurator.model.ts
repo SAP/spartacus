@@ -57,7 +57,6 @@ export namespace Configurator {
     owner?: GenericConfigurator.Owner;
     nextOwner?: GenericConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
-    isCartEntryUpdatePending?: boolean;
     interactionState?: InteractionState;
   }
 
@@ -76,6 +75,7 @@ export namespace Configurator {
     configId?: string;
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
+    productCode?: string;
   }
 
   export interface GroupOverview {

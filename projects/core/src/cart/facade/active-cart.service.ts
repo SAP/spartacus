@@ -358,6 +358,21 @@ export class ActiveCartService {
   }
 
   /**
+   * Returns last added cart entry for provided product code.
+   * For configurable products more than one entry for a product code can exist in the cart.
+   *
+   * @param productCode
+   */
+  getLastEntry(productCode: string): Observable<OrderEntry> {
+    return this.activeCartId$.pipe(
+      switchMap((cartId) =>
+        this.multiCartService.getLastEntry(cartId, productCode)
+      ),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
    * Assign email to cart
    *
    * @param email

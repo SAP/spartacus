@@ -14,91 +14,22 @@ import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
 import { ConfigOverviewAttributeComponent } from '../config-overview-attribute/config-overview-attribute.component';
+import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigOverviewFormComponent } from './config-overview-form.component';
 
-const PRODUCT_CODE = 'CONF_LAPTOP';
-const CONFIGURATOR_URL =
-  'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
-
-const mockRouterState: any = {
-  state: {
-    params: {
-      entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
-    },
-    queryParams: {},
-    url: CONFIGURATOR_URL,
-  },
-};
-
-const owner: GenericConfigurator.Owner = {
-  id: PRODUCT_CODE,
-  type: GenericConfigurator.OwnerType.PRODUCT,
-};
+const owner: GenericConfigurator.Owner =
+  ConfigurationTestData.productConfiguration.owner;
+const mockRouterState: any = ConfigurationTestData.mockRouterState;
 
 const configCreate: Configurator.Configuration = {
   configId: '1234-56-7890',
   owner: owner,
-  overview: {
-    groups: [
-      {
-        id: '1',
-        groupDescription: 'Group 1',
-        attributes: [
-          {
-            attribute: 'C1',
-            value: 'V1',
-          },
-        ],
-      },
-      {
-        id: '2',
-        groupDescription: 'Group 2',
-        attributes: [
-          {
-            attribute: 'C2',
-            value: 'V2',
-          },
-          {
-            attribute: 'C3',
-            value: 'V3',
-          },
-        ],
-      },
-    ],
-  },
+  overview: ConfigurationTestData.productConfiguration.overview,
 };
 let configCreate2: Configurator.Configuration = {
   configId: '1234-56-7890',
   owner: owner,
-  overview: {
-    groups: [
-      {
-        id: '1',
-        groupDescription: 'Group 1',
-        attributes: [
-          {
-            attribute: 'C1',
-            value: 'V1',
-          },
-        ],
-      },
-      {
-        id: '2',
-        groupDescription: 'Group 2',
-        attributes: [
-          {
-            attribute: 'C2',
-            value: 'V2',
-          },
-          {
-            attribute: 'C3',
-            value: 'V3',
-          },
-        ],
-      },
-    ],
-  },
+  overview: ConfigurationTestData.productConfiguration.overview,
 };
 const configInitial: Configurator.Configuration = {
   configId: '1235-56-7890',
@@ -132,6 +63,7 @@ class MockConfiguratorCommonsService {
   ): Observable<Configurator.Configuration> {
     return overviewObservable ? overviewObservable : of(configuration);
   }
+  removeConfiguration(): void {}
 }
 
 function checkConfigurationOverviewObs(

@@ -4,13 +4,7 @@
       <div class="cx-config-add-to-cart-btn">
         <button
           class="cx-btn btn btn-block btn-primary"
-          (click)="
-            onAddToCart(
-              configuration,
-              routerData.configuratorType,
-              routerData.pageType
-            )
-          "
+          (click)="onAddToCart(configuration, routerData)"
         >
           {{ getButtonResourceKey(routerData, configuration) | cxTranslate }}
         </button>

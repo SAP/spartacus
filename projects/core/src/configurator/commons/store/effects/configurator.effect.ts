@@ -18,70 +18,32 @@ import { makeErrorSerializable } from '../../../../util/serialization-utils';
 import { GenericConfigUtilsService } from '../../../generic/utils/config-utils.service';
 import { ConfiguratorCommonsConnector } from '../../connectors/configurator-commons.connector';
 import * as ConfiguratorSelectors from '../../store/selectors/configurator.selector';
-import { ConfiguratorActions } from '../actions';
-import {
-  AddNextOwner,
-  AddToCart,
-  ADD_NEXT_OWNER,
-  ADD_TO_CART,
-  ChangeGroup,
-  CHANGE_GROUP,
-  CreateConfiguration,
-  CreateConfigurationFail,
-  CreateConfigurationSuccess,
-  CREATE_CONFIGURATION,
-  GetConfigurationOverview,
-  GetConfigurationOverviewFail,
-  GetConfigurationOverviewSuccess,
-  GET_CONFIGURATION_OVERVIEW,
-  ReadCartEntryConfiguration,
-  ReadCartEntryConfigurationFail,
-  ReadCartEntryConfigurationSuccess,
-  ReadConfiguration,
-  ReadConfigurationFail,
-  ReadConfigurationSuccess,
-  ReadOrderEntryConfiguration,
-  ReadOrderEntryConfigurationFail,
-  ReadOrderEntryConfigurationSuccess,
-  READ_CART_ENTRY_CONFIGURATION,
-  READ_CONFIGURATION,
-  READ_ORDER_ENTRY_CONFIGURATION,
-  UpdateCartEntry,
-  UpdateConfiguration,
-  UpdateConfigurationFail,
-  UpdateConfigurationFinalizeFail,
-  UpdateConfigurationFinalizeSuccess,
-  UpdateConfigurationSuccess,
-  UpdatePriceSummary,
-  UpdatePriceSummaryFail,
-  UpdatePriceSummarySuccess,
-  UPDATE_CART_ENTRY,
-  UPDATE_CONFIGURATION,
-  UPDATE_CONFIGURATION_FAIL,
-  UPDATE_CONFIGURATION_FINALIZE_FAIL,
-  UPDATE_CONFIGURATION_SUCCESS,
-  UPDATE_PRICE_SUMMARY,
-} from '../actions/configurator.action';
+import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfiguration } from '../configuration-state';
 
 @Injectable()
 export class ConfiguratorEffects {
   @Effect()
   createConfiguration$: Observable<
-    CreateConfigurationSuccess | CreateConfigurationFail
+    | ConfiguratorActions.CreateConfigurationSuccess
+    | ConfiguratorActions.CreateConfigurationFail
   > = this.actions$.pipe(
-    ofType(CREATE_CONFIGURATION),
-    mergeMap((action: CreateConfiguration) => {
+    ofType(ConfiguratorActions.CREATE_CONFIGURATION),
+    mergeMap((action: ConfiguratorActions.CreateConfiguration) => {
       return this.configuratorCommonsConnector
         .createConfiguration(action.payload.id)
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
-            this.store.dispatch(new UpdatePriceSummary(configuration));
+            this.store.dispatch(
+              new ConfiguratorActions.UpdatePriceSummary(configuration)
+            );
 
-            return [new CreateConfigurationSuccess(configuration)];
+            return [
+              new ConfiguratorActions.CreateConfigurationSuccess(configuration),
+            ];
           }),
           catchError((error) => [
-            new CreateConfigurationFail({
+            new ConfiguratorActions.CreateConfigurationFail({
               ownerKey: action.payload.key,
               error: makeErrorSerializable(error),
             }),
@@ -92,11 +54,12 @@ export class ConfiguratorEffects {
 
   @Effect()
   readConfiguration$: Observable<
-    ReadConfigurationSuccess | ReadConfigurationFail
+    | ConfiguratorActions.ReadConfigurationSuccess
+    | ConfiguratorActions.ReadConfigurationFail
   > = this.actions$.pipe(
-    ofType(READ_CONFIGURATION),
+    ofType(ConfiguratorActions.READ_CONFIGURATION),
 
-    mergeMap((action: ReadConfiguration) => {
+    mergeMap((action: ConfiguratorActions.ReadConfiguration) => {
       return this.configuratorCommonsConnector
         .readConfiguration(
           action.payload.configuration.configId,
@@ -105,10 +68,12 @@ export class ConfiguratorEffects {
         )
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
-            return [new ReadConfigurationSuccess(configuration)];
+            return [
+              new ConfiguratorActions.ReadConfigurationSuccess(configuration),
+            ];
           }),
           catchError((error) => [
-            new ReadConfigurationFail({
+            new ConfiguratorActions.ReadConfigurationFail({
               ownerKey: action.payload.configuration.owner.key,
               error: makeErrorSerializable(error),
             }),
@@ -119,10 +84,11 @@ export class ConfiguratorEffects {
 
   @Effect()
   updateConfiguration$: Observable<
-    UpdateConfigurationSuccess | UpdateConfigurationFail
+    | ConfiguratorActions.UpdateConfigurationSuccess
+    | ConfiguratorActions.UpdateConfigurationFail
   > = this.actions$.pipe(
-    ofType(UPDATE_CONFIGURATION),
-    map((action: UpdateConfiguration) => action.payload),
+    ofType(ConfiguratorActions.UPDATE_CONFIGURATION),
+    map((action: ConfiguratorActions.UpdateConfiguration) => action.payload),
     //mergeMap here as we need to process each update
     //(which only sends one changed attribute at a time),
     //so we must not cancel inner emissions
@@ -131,13 +97,15 @@ export class ConfiguratorEffects {
         .updateConfiguration(payload)
         .pipe(
           map((configuration: Configurator.Configuration) => {
-            return new UpdateConfigurationSuccess(configuration);
+            return new ConfiguratorActions.UpdateConfigurationSuccess(
+              configuration
+            );
           }),
           catchError((error) => {
             const errorPayload = makeErrorSerializable(error);
             errorPayload.configId = payload.configId;
             return [
-              new UpdateConfigurationFail({
+              new ConfiguratorActions.UpdateConfigurationFail({
                 configuration: payload,
                 error: errorPayload,
               }),
@@ -149,9 +117,10 @@ export class ConfiguratorEffects {
 
   @Effect()
   updatePriceSummary$: Observable<
-    UpdatePriceSummarySuccess | UpdatePriceSummaryFail
+    | ConfiguratorActions.UpdatePriceSummarySuccess
+    | ConfiguratorActions.UpdatePriceSummaryFail
   > = this.actions$.pipe(
-    ofType(UPDATE_PRICE_SUMMARY),
+    ofType(ConfiguratorActions.UPDATE_PRICE_SUMMARY),
     map(
       (action: { type: string; payload?: Configurator.Configuration }) =>
         action.payload
@@ -159,13 +128,15 @@ export class ConfiguratorEffects {
     mergeMap((payload) => {
       return this.configuratorCommonsConnector.readPriceSummary(payload).pipe(
         map((configuration: Configurator.Configuration) => {
-          return new UpdatePriceSummarySuccess(configuration);
+          return new ConfiguratorActions.UpdatePriceSummarySuccess(
+            configuration
+          );
         }),
         catchError((error) => {
           const errorPayload = makeErrorSerializable(error);
           errorPayload.configId = payload.configId;
           return [
-            new UpdatePriceSummaryFail({
+            new ConfiguratorActions.UpdatePriceSummaryFail({
               ownerKey: payload.owner.key,
               error: errorPayload,
             }),
@@ -177,16 +148,19 @@ export class ConfiguratorEffects {
 
   @Effect()
   getOverview$: Observable<
-    GetConfigurationOverviewSuccess | GetConfigurationOverviewFail
+    | ConfiguratorActions.GetConfigurationOverviewSuccess
+    | ConfiguratorActions.GetConfigurationOverviewFail
   > = this.actions$.pipe(
-    ofType(GET_CONFIGURATION_OVERVIEW),
-    map((action: GetConfigurationOverview) => action.payload),
+    ofType(ConfiguratorActions.GET_CONFIGURATION_OVERVIEW),
+    map(
+      (action: ConfiguratorActions.GetConfigurationOverview) => action.payload
+    ),
     mergeMap((payload) => {
       return this.configuratorCommonsConnector
         .getConfigurationOverview(payload.configId)
         .pipe(
           map((overview: Configurator.Overview) => {
-            return new GetConfigurationOverviewSuccess({
+            return new ConfiguratorActions.GetConfigurationOverviewSuccess({
               ownerKey: payload.owner.key,
               overview: overview,
             });
@@ -195,7 +169,7 @@ export class ConfiguratorEffects {
             const errorPayload = makeErrorSerializable(error);
             errorPayload.configId = payload.owner.id;
             return [
-              new GetConfigurationOverviewFail({
+              new ConfiguratorActions.GetConfigurationOverviewFail({
                 ownerKey: payload.owner.key,
                 error: errorPayload,
               }),
@@ -207,22 +181,24 @@ export class ConfiguratorEffects {
 
   @Effect()
   updateConfigurationSuccess$: Observable<
-    | UpdateConfigurationFinalizeSuccess
-    | UpdatePriceSummary
+    | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
+    | ConfiguratorActions.UpdatePriceSummary
     | ConfiguratorActions.SetCurrentGroup
   > = this.actions$.pipe(
-    ofType(UPDATE_CONFIGURATION_SUCCESS),
-    map((action: UpdateConfigurationSuccess) => action.payload),
+    ofType(ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS),
+    map(
+      (action: ConfiguratorActions.UpdateConfigurationSuccess) => action.payload
+    ),
     mergeMap((payload: Configurator.Configuration) => {
       return this.store.pipe(
         select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
         take(1),
         filter((hasPendingChanges) => hasPendingChanges === false),
         switchMap(() => [
-          new UpdateConfigurationFinalizeSuccess(payload),
+          new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(payload),
 
           //When no changes are pending update prices
-          new UpdatePriceSummary(payload),
+          new ConfiguratorActions.UpdatePriceSummary(payload),
 
           //setCurrentGroup because in cases where a queue of updates exists with a group navigation in between,
           //we need to ensure that the last update determines the current group.
@@ -237,10 +213,12 @@ export class ConfiguratorEffects {
 
   @Effect()
   updateConfigurationFail$: Observable<
-    UpdateConfigurationFinalizeFail
+    ConfiguratorActions.UpdateConfigurationFinalizeFail
   > = this.actions$.pipe(
-    ofType(UPDATE_CONFIGURATION_FAIL),
-    map((action: UpdateConfigurationFail) => action.payload),
+    ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FAIL),
+    map(
+      (action: ConfiguratorActions.UpdateConfigurationFail) => action.payload
+    ),
     mergeMap((payload) => {
       return this.store.pipe(
         select(
@@ -250,18 +228,31 @@ export class ConfiguratorEffects {
         ),
         take(1),
         filter((hasPendingChanges) => hasPendingChanges === false),
-        map(() => new UpdateConfigurationFinalizeFail(payload.configuration))
+        map(
+          () =>
+            new ConfiguratorActions.UpdateConfigurationFinalizeFail(
+              payload.configuration
+            )
+        )
       );
     })
   );
 
   @Effect()
-  handleErrorOnUpdate$: Observable<ReadConfiguration> = this.actions$.pipe(
-    ofType(UPDATE_CONFIGURATION_FINALIZE_FAIL),
-    map((action: UpdateConfigurationFinalizeFail) => action.payload),
+  handleErrorOnUpdate$: Observable<
+    ConfiguratorActions.ReadConfiguration
+  > = this.actions$.pipe(
+    ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_FAIL),
+    map(
+      (action: ConfiguratorActions.UpdateConfigurationFinalizeFail) =>
+        action.payload
+    ),
     map(
       (payload) =>
-        new ReadConfiguration({ configuration: payload, groupId: undefined })
+        new ConfiguratorActions.ReadConfiguration({
+          configuration: payload,
+          groupId: undefined,
+        })
     )
   );
 
@@ -269,11 +260,11 @@ export class ConfiguratorEffects {
   groupChange$: Observable<
     | ConfiguratorActions.SetCurrentGroup
     | ConfiguratorActions.SetMenuParentGroup
-    | ReadConfigurationFail
-    | ReadConfigurationSuccess
+    | ConfiguratorActions.ReadConfigurationFail
+    | ConfiguratorActions.ReadConfigurationSuccess
   > = this.actions$.pipe(
-    ofType(CHANGE_GROUP),
-    switchMap((action: ChangeGroup) => {
+    ofType(ConfiguratorActions.CHANGE_GROUP),
+    switchMap((action: ConfiguratorActions.ChangeGroup) => {
       return this.store.pipe(
         select(
           ConfiguratorSelectors.hasPendingChanges(
@@ -300,11 +291,13 @@ export class ConfiguratorEffects {
                     entityKey: action.payload.configuration.owner.key,
                     menuParentGroup: action.payload.parentGroupId,
                   }),
-                  new ReadConfigurationSuccess(configuration),
+                  new ConfiguratorActions.ReadConfigurationSuccess(
+                    configuration
+                  ),
                 ];
               }),
               catchError((error) => [
-                new ReadConfigurationFail({
+                new ConfiguratorActions.ReadConfigurationFail({
                   ownerKey: action.payload.configuration.owner.key,
                   error: makeErrorSerializable(error),
                 }),
@@ -321,8 +314,8 @@ export class ConfiguratorEffects {
     | CartActions.CartAddEntrySuccess
     | CartActions.CartAddEntryFail
   > = this.actions$.pipe(
-    ofType(ADD_TO_CART),
-    map((action: AddToCart) => action.payload),
+    ofType(ConfiguratorActions.ADD_TO_CART),
+    map((action: ConfiguratorActions.AddToCart) => action.payload),
     switchMap((payload: Configurator.AddToCartParameters) => {
       return this.store.pipe(
         select(ConfiguratorSelectors.hasPendingChanges(payload.ownerKey)),
@@ -361,12 +354,10 @@ export class ConfiguratorEffects {
 
   @Effect()
   updateCartEntry$: Observable<
-    | CartActions.CartUpdateEntrySuccess
-    | CartActions.CartUpdateEntryFail
-    | ConfiguratorActions.UpdateCartEntrySuccess
+    CartActions.CartUpdateEntrySuccess | CartActions.CartUpdateEntryFail
   > = this.actions$.pipe(
-    ofType(UPDATE_CART_ENTRY),
-    map((action: UpdateCartEntry) => action.payload),
+    ofType(ConfiguratorActions.UPDATE_CART_ENTRY),
+    map((action: ConfiguratorActions.UpdateCartEntry) => action.payload),
     switchMap(
       (payload: Configurator.UpdateConfigurationForCartEntryParameters) => {
         return this.store.pipe(
@@ -390,9 +381,6 @@ export class ConfiguratorEffects {
                       entryNumber: entry.entry.entryNumber.toString(),
                       quantity: entry.quantity,
                     }),
-                    new ConfiguratorActions.UpdateCartEntrySuccess(
-                      payload.configuration
-                    ),
                   ];
                 }),
                 catchError((error) =>
@@ -411,23 +399,23 @@ export class ConfiguratorEffects {
 
   @Effect()
   readConfigurationForCartEntry$: Observable<
-    | ReadCartEntryConfigurationSuccess
-    | UpdatePriceSummary
-    | ReadCartEntryConfigurationFail
+    | ConfiguratorActions.ReadCartEntryConfigurationSuccess
+    | ConfiguratorActions.UpdatePriceSummary
+    | ConfiguratorActions.ReadCartEntryConfigurationFail
   > = this.actions$.pipe(
-    ofType(READ_CART_ENTRY_CONFIGURATION),
-    switchMap((action: ReadCartEntryConfiguration) => {
+    ofType(ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION),
+    switchMap((action: ConfiguratorActions.ReadCartEntryConfiguration) => {
       const parameters: GenericConfigurator.ReadConfigurationFromCartEntryParameters =
         action.payload;
       return this.configuratorCommonsConnector
         .readConfigurationForCartEntry(parameters)
         .pipe(
           switchMap((result: Configurator.Configuration) => [
-            new ReadCartEntryConfigurationSuccess(result),
-            new UpdatePriceSummary(result),
+            new ConfiguratorActions.ReadCartEntryConfigurationSuccess(result),
+            new ConfiguratorActions.UpdatePriceSummary(result),
           ]),
           catchError((error) => [
-            new ReadCartEntryConfigurationFail({
+            new ConfiguratorActions.ReadCartEntryConfigurationFail({
               ownerKey: action.payload.owner.key,
               error: makeErrorSerializable(error),
             }),
@@ -438,20 +426,21 @@ export class ConfiguratorEffects {
 
   @Effect()
   readConfigurationForOrderEntry$: Observable<
-    ReadOrderEntryConfigurationSuccess | ReadOrderEntryConfigurationFail
+    | ConfiguratorActions.ReadOrderEntryConfigurationSuccess
+    | ConfiguratorActions.ReadOrderEntryConfigurationFail
   > = this.actions$.pipe(
-    ofType(READ_ORDER_ENTRY_CONFIGURATION),
-    switchMap((action: ReadOrderEntryConfiguration) => {
+    ofType(ConfiguratorActions.READ_ORDER_ENTRY_CONFIGURATION),
+    switchMap((action: ConfiguratorActions.ReadOrderEntryConfiguration) => {
       const parameters: GenericConfigurator.ReadConfigurationFromOrderEntryParameters =
         action.payload;
       return this.configuratorCommonsConnector
         .readConfigurationForOrderEntry(parameters)
         .pipe(
           switchMap((result: Configurator.Configuration) => [
-            new ReadOrderEntryConfigurationSuccess(result),
+            new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(result),
           ]),
           catchError((error) => [
-            new ReadOrderEntryConfigurationFail({
+            new ConfiguratorActions.ReadOrderEntryConfigurationFail({
               ownerKey: action.payload.owner.key,
               error: makeErrorSerializable(error),
             }),
@@ -465,8 +454,8 @@ export class ConfiguratorEffects {
     | ConfiguratorActions.SetNextOwnerCartEntry
     | ConfiguratorActions.SetInteractionState
   > = this.actions$.pipe(
-    ofType(ADD_NEXT_OWNER),
-    switchMap((action: AddNextOwner) => {
+    ofType(ConfiguratorActions.ADD_NEXT_OWNER),
+    switchMap((action: ConfiguratorActions.AddNextOwner) => {
       return this.store.pipe(
         select(
           ConfiguratorSelectors.getConfigurationFactory(action.payload.ownerKey)

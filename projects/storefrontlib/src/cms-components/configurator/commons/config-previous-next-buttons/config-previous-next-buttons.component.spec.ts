@@ -5,7 +5,6 @@ import {
   Configurator,
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
-  GenericConfigurator,
   GenericConfigUtilsService,
   I18nTestingModule,
   RouterState,
@@ -15,28 +14,12 @@ import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TestScheduler } from 'rxjs/testing';
+import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigPreviousNextButtonsComponent } from './config-previous-next-buttons.component';
-
-const PRODUCT_CODE = 'CONF_LAPTOP';
-const GROUP_ID = 'group1';
-const GROUP_2_ID = 'group2';
-const CONFIGURATOR_URL =
-  'electronics-spa/en/USD/configureCPQCONFIGURATOR/product/entityKey/WCEM_DEPENDENCY_PC';
-
-const mockRouterState: any = {
-  state: {
-    params: {
-      entityKey: PRODUCT_CODE,
-      ownerType: GenericConfigurator.OwnerType.PRODUCT,
-    },
-    queryParams: {},
-    url: CONFIGURATOR_URL,
-  },
-};
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
+    return of(ConfigurationTestData.mockRouterState);
   }
 }
 
@@ -53,58 +36,8 @@ class MockConfiguratorGroupsService {
   navigateToGroup() {}
 }
 
-const config: Configurator.Configuration = {
-  configId: '1234-56-7890',
-  consistent: true,
-  complete: true,
-  productCode: PRODUCT_CODE,
-  owner: {
-    type: GenericConfigurator.OwnerType.PRODUCT,
-    id: PRODUCT_CODE,
-  },
-  groups: [
-    {
-      configurable: true,
-      description: 'Core components',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.1',
-      name: '1',
-      attributes: [
-        {
-          label: 'Expected Number',
-          name: 'EXP_NUMBER',
-          required: true,
-          uiType: Configurator.UiType.NOT_IMPLEMENTED,
-          values: [],
-        },
-        {
-          label: 'Processor',
-          name: 'CPQ_CPU',
-          required: true,
-          selectedSingleValue: 'INTELI5_35',
-          uiType: Configurator.UiType.RADIOBUTTON,
-          values: [],
-        },
-      ],
-    },
-    {
-      configurable: true,
-      description: 'Peripherals & Accessories',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.2',
-      name: '2',
-      attributes: [],
-    },
-    {
-      configurable: true,
-      description: 'Software',
-      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-      id: '1-CPQ_LAPTOP.3',
-      name: '3',
-      attributes: [],
-    },
-  ],
-};
+const config: Configurator.Configuration =
+  ConfigurationTestData.productConfiguration;
 
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
@@ -203,7 +136,11 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should derive that current group is last group depending on group service nextGroup function', () => {
-    const nextGroup = cold('-a-b-c', { a: GROUP_ID, b: GROUP_2_ID, c: null });
+    const nextGroup = cold('-a-b-c', {
+      a: ConfigurationTestData.GROUP_ID_1,
+      b: ConfigurationTestData.GROUP_ID_2,
+      c: null,
+    });
 
     spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
       nextGroup
@@ -221,7 +158,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   it('should derive that current group is first group depending on group service getPreviousGroup function', () => {
     const previousGroup = cold('-a-b-c-d-e', {
       a: null,
-      b: GROUP_2_ID,
+      b: ConfigurationTestData.GROUP_ID_2,
       c: null,
       d: '',
       e: ' ',
@@ -250,12 +187,12 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     testScheduler.run((helpers) => {
       const { expectObservable } = helpers;
       const previousGroup = cold('-a-b', {
-        a: GROUP_ID,
-        b: GROUP_2_ID,
+        a: ConfigurationTestData.GROUP_ID_1,
+        b: ConfigurationTestData.GROUP_ID_2,
       });
       //this just validates the testScheduler
       expectObservable(previousGroup.pipe(take(1))).toBe('-(a|)', {
-        a: GROUP_ID,
+        a: ConfigurationTestData.GROUP_ID_1,
       });
 
       spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
@@ -276,8 +213,8 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     });
     testScheduler.run(() => {
       const nextGroup = cold('-a-b', {
-        a: GROUP_ID,
-        b: GROUP_2_ID,
+        a: ConfigurationTestData.GROUP_ID_1,
+        b: ConfigurationTestData.GROUP_ID_2,
       });
 
       spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(

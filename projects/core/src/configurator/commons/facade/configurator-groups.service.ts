@@ -109,7 +109,7 @@ export class ConfiguratorGroupsService {
     owner: GenericConfigurator.Owner,
     groupId: string,
     setGroupVisited: Boolean
-  ) {
+  ): void {
     this.configuratorCommonsService
       .getConfiguration(owner)
       .pipe(

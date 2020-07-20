@@ -99,7 +99,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     this.activeCartService
       .getEntry(this.productCode)
       .subscribe((entry) => {
-        if (entry) {
+        // only for non-configurable products the quantity will be incremented
+        if (entry && entry.product.configurable === false) {
           this.increment = true;
         }
         this.openModal();
@@ -117,7 +118,12 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     });
 
     modalInstance = this.modalRef.componentInstance;
-    modalInstance.entry$ = this.cartEntry$;
+    // For configurable products more than one entry for a product code can exist in the cart.
+    // Therefore we hand over last added entry of current product code to modalInstance so that
+    // correct configuration and error information can be displayed in the pop-up.
+    modalInstance.entry$ = this.activeCartService.getLastEntry(
+      this.productCode
+    );
     modalInstance.cart$ = this.activeCartService.getActive();
     modalInstance.loaded$ = this.activeCartService.isStable();
     modalInstance.quantity = this.quantity;
