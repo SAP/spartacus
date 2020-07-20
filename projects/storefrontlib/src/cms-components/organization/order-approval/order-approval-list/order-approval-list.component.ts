@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
+  OrderApprovalService,
   OrderHistoryList,
-  RoutingService,
   TranslationService,
   UserOrderService,
-  Order,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
@@ -16,13 +15,23 @@ import { filter, map, take, tap } from 'rxjs/operators';
 })
 export class OrderApprovalListComponent implements OnDestroy {
   constructor(
-    private routing: RoutingService,
     private userOrderService: UserOrderService,
+    private orderApprovalService: OrderApprovalService,
     private translation: TranslationService
   ) {}
 
   private PAGE_SIZE = 5;
   sortType: string;
+
+  orderApprovals$ = this.orderApprovalService.getList({ pageSize: 5 }).pipe(
+    tap((approvalList) =>
+      tap((orders: OrderHistoryList) => {
+        if (orders.pagination) {
+          this.sortType = approvalList.pagination.sort;
+        }
+      })
+    )
+  );
 
   orders$: Observable<
     OrderHistoryList
@@ -58,7 +67,7 @@ export class OrderApprovalListComponent implements OnDestroy {
       currentPage: 0,
     };
     this.sortType = sortCode;
-    this.fetchOrders(event);
+    this.fetchApprovals(event);
   }
 
   pageChange(page: number): void {
@@ -66,14 +75,7 @@ export class OrderApprovalListComponent implements OnDestroy {
       sortCode: this.sortType,
       currentPage: page,
     };
-    this.fetchOrders(event);
-  }
-
-  goToOrderDetail(order: Order): void {
-    this.routing.go({
-      cxRoute: 'orderDetails',
-      params: order,
-    });
+    this.fetchApprovals(event);
   }
 
   getSortLabels(): Observable<{ byDate: string; byOrderNumber: string }> {
@@ -90,11 +92,20 @@ export class OrderApprovalListComponent implements OnDestroy {
     );
   }
 
-  private fetchOrders(event: { sortCode: string; currentPage: number }): void {
-    this.userOrderService.loadOrderList(
-      this.PAGE_SIZE,
-      event.currentPage,
-      event.sortCode
-    );
+  private fetchApprovals(event: {
+    sortCode: string;
+    currentPage: number;
+  }): void {
+    this.orderApprovalService.loadOrderApprovals({
+      pageSize: this.PAGE_SIZE,
+      currentPage: event.currentPage,
+      sort: event.sortCode,
+    });
+
+    this.orderApprovals$ = this.orderApprovalService.getList({
+      pageSize: this.PAGE_SIZE,
+      currentPage: event.currentPage,
+      sort: event.sortCode,
+    });
   }
 }
