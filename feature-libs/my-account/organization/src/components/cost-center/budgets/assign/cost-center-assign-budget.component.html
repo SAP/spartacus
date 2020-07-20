@@ -47,15 +47,11 @@
     cxOutletRef="table.costCenterAssignBudget.data.summary"
     let-model
   >
-    <div>
-      <div>
-        <h3>{{ model.name }}</h3>
-        <small
-          >{{ model.code }} • {{ model.budget }} {{ model.currency?.symbol }} •
-          {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
-        </small>
-      </div>
-    </div>
+    <h3>{{ model.name }}</h3>
+    <small
+      >{{ model.code }} • {{ model.budget }} {{ model.currency?.symbol }} •
+      {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
+    </small>
   </ng-template>
 
   <ng-template cxOutletRef="table.costCenterAssignBudget.data.link" let-model>

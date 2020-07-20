@@ -40,8 +40,22 @@
     </p>
   </ng-template>
 
-  <ng-template cxOutletRef="table.unitUsers.data.summary" let-model>
-    <h3>{{ model }}</h3>
+  <ng-template cxOutletRef="table.unitChildren.data.summary" let-model>
+    <h3>{{ model.name }}</h3>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitChildren.data.link" let-model>
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'orgUnitDetails',
+          params: { uid: model.id }
+        } | cxUrl
+      "
+    >
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
   </ng-template>
 </cx-view>
 

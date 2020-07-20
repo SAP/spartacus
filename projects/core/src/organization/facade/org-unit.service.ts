@@ -140,7 +140,10 @@ export class OrgUnitService {
     );
   }
 
-  protected findUnitChildrenInTree(orginitId, unit: B2BUnitNode) {
+  protected findUnitChildrenInTree(
+    orginitId,
+    unit: B2BUnitNode
+  ): B2BUnitNode[] {
     return unit.id === orginitId
       ? unit.children
       : unit.children.flatMap((child) =>
@@ -148,9 +151,11 @@ export class OrgUnitService {
         );
   }
 
-  getChildUnits(orgUnitId: string): Observable<B2BUnitNode[]> {
+  getChildUnits(orgUnitId: string): Observable<EntitiesModel<B2BUnitNode>> {
     return this.getTree().pipe(
-      map((tree) => this.findUnitChildrenInTree(orgUnitId, tree))
+      map((tree) => ({
+        values: this.findUnitChildrenInTree(orgUnitId, tree),
+      }))
     );
   }
 

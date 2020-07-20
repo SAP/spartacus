@@ -117,7 +117,7 @@ export const unitsTableConfig: TableConfig = {
     ],
     [OrganizationTableType.UNIT_CHILDREN]: [
       {
-        headers: [{ key: 'summary' }],
+        headers: [{ key: 'summary' }, { key: 'link' }],
         hideHeader: true,
       },
     ],

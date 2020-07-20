@@ -96,7 +96,7 @@ export abstract class BaseOrganizationListService<T, P = PaginationModel> {
    * is supported for loading the data. These arguments are passed from the `getData` method.
    */
   protected abstract load(
-    structure: TableStructure,
+    structure?: TableStructure,
     ...args: any
   ): Observable<EntitiesModel<T>>;
 }

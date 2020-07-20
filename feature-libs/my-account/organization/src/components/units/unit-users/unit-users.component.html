@@ -51,15 +51,11 @@
   </ng-template>
 
   <ng-template cxOutletRef="table.unitUsers.data.summary" let-model>
-    <div>
-      <div>
-        <h3>{{ model.name }}</h3>
-        <small>
-          {{ model.email }}
-          <span *ngFor="let role of model.roles">• {{ role }}</span>
-        </small>
-      </div>
-    </div>
+    <h3>{{ model.name }}</h3>
+    <small>
+      {{ model.email }}
+      <span *ngFor="let role of model.roles">• {{ role }}</span>
+    </small>
   </ng-template>
 
   <ng-template cxOutletRef="table.unitUsers.data.link" let-model>
