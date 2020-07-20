@@ -79,7 +79,7 @@ export class TabParagraphContainerComponent
       .isDown(BREAKPOINT.sm)
       .subscribe((res) => {
         if (res) {
-          this.activeTabNum = this.activeTabNum === tabNum ? -0 : tabNum;
+          this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
           window.scrollTo(0, event.path[1].offsetTop);
         } else {
           this.activeTabNum = tabNum;
