@@ -11,7 +11,7 @@ import {
 } from '@spartacus/core';
 import { BudgetFormComponent } from './budget-form.component';
 import { FormErrorsModule } from '../../../../shared/components/form/form-errors/form-errors.module';
-import { DateTimePickerModule } from 'projects/storefrontlib/src/shared';
+import { DateTimePickerModule } from '../../../../shared/components/date-time-picker/date-time-picker.module';
 
 @NgModule({
   imports: [

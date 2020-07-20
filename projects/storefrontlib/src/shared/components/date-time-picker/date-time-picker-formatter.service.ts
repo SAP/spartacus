@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 
+/**
+ * Service responsible for converting date-link strings to/from formats compatible with the `<input type="datetime-local">`
+ * HTML element and the `Date` string compatible with the OCC backend.
+ *
+ * Date values used are relative to the local timezone of the user.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class DateTimePickerFormatterService {
-  // Patching dates with offsets:
-  // When dates come from the backend, they are incorrectly formatted to display in a datetime-local input
-  // They also do not display the correct datetime according do our locale, thus we are patching it with the local offset to correct it.
-  // Can probably also move this logic to some converter or service so it arrives here simply as usable.
+  /**
+   * Convert date string into a string format compatable with the browser's native `<input type="datetime-local">` HTML element.
+   */
   toNative(value: string): string {
     return value
       ? this.formatDateStringWithTimezone(
@@ -17,18 +22,27 @@ export class DateTimePickerFormatterService {
       : null;
   }
 
+  /**
+   * Convert datetime-local native string into a datetime format format compatable with OCC.
+   */
   toModel(value: string): string {
-    return value ? `${value}:00${this.getLocalTimezoneOffset()}` : null;
+    return value ? this.toDateTimeOccFormat(value) : null;
   }
 
-  // Invert boolean is used here to subtract/add an offset when we want to reverse an effect
-  getLocalTimezoneOffset(invert?: boolean): string {
+  /**
+   * Returns the local timezone in a format that can be appended to a date-like string.
+   * @param invert (default: false): returns the opposite operator relative to the local timezone
+   *
+   * @example
+   * When locale is set to a CEST timezone, `getLocalTimezoneOffset()` returns '+02:00'
+   * and `getLocalTimezoneOffset(true)` returns '-02:00'
+   */
+  protected getLocalTimezoneOffset(invert?: boolean): string {
     const offset = new Date().getTimezoneOffset() * -1;
-    const hours = this.padWithZeroes(
-      Math.abs(Math.floor(offset / 60)).toString(),
-      2
-    );
-    const minutes = this.padWithZeroes((offset % 60).toString(), 2);
+    const hours = Math.abs(Math.floor(offset / 60))
+      .toString()
+      .padStart(2, '0');
+    const minutes = (offset % 60).toString().padStart(2, '0');
     return offset >= 0
       ? !invert
         ? `+${hours}:${minutes}`
@@ -38,16 +52,22 @@ export class DateTimePickerFormatterService {
       : `+${hours}:${minutes}`;
   }
 
-  // Format this to a converter (incoming)
-  protected formatDateStringWithTimezone(dateString: string, offset: string) {
+  /**
+   * Format datetime-local string into a format compatable with OCC.
+   */
+  protected toDateTimeOccFormat(value: string) {
+    return `${value}:00${this.getLocalTimezoneOffset()}`;
+  }
+
+  /**
+   * Format date string into a format compatable with the browser's native `<input type="datetime-local">` HTML element.
+   */
+  protected formatDateStringWithTimezone(
+    dateString: string,
+    offset: string
+  ): string {
     return new Date(dateString.replace('+0000', offset))
       .toISOString()
       .substring(0, 16);
-  }
-
-  // Helper function - add to prototypes?
-  protected padWithZeroes(str: string, max: number) {
-    str = str.toString();
-    return str.length < max ? this.padWithZeroes('0' + str, max) : str;
   }
 }

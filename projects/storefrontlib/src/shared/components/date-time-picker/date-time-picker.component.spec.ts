@@ -6,7 +6,7 @@ import { DateTimePickerComponent } from './date-time-picker.component';
 
 import createSpy = jasmine.createSpy;
 
-const nativeValue = '2010-06-01';
+const nativeValue = '2010-06-01T00:00';
 const modelValue = '2010-06-01T00:00:00+0000';
 
 class MockDateTimePickerFormatterService
@@ -15,7 +15,7 @@ class MockDateTimePickerFormatterService
   toNative = createSpy('toNative').and.returnValue(nativeValue);
 }
 
-describe('Date Picker Component', () => {
+describe('Date Time Picker Component', () => {
   let component: DateTimePickerComponent;
   let fixture: ComponentFixture<DateTimePickerComponent>;
   let service: DateTimePickerFormatterService;
@@ -83,8 +83,12 @@ describe('Date Picker Component', () => {
       it('should pass', () => {
         component.value = modelValue;
         component.nativeValue = nativeValue;
-        component.getMin = createSpy('getMin').and.returnValue('2010-05-01');
-        component.getMax = createSpy('getMax').and.returnValue('2010-07-01');
+        component.getMin = createSpy('getMin').and.returnValue(
+          '2010-05-01T00:00'
+        );
+        component.getMax = createSpy('getMax').and.returnValue(
+          '2010-07-01T00:00'
+        );
         fixture.detectChanges();
         expect(component.validate()).toEqual(undefined);
       });
@@ -92,8 +96,12 @@ describe('Date Picker Component', () => {
       it('should return cxDateMax', () => {
         component.value = modelValue;
         component.nativeValue = nativeValue;
-        component.getMin = createSpy('getMin').and.returnValue('2010-04-01');
-        component.getMax = createSpy('getMax').and.returnValue('2010-05-01');
+        component.getMin = createSpy('getMin').and.returnValue(
+          '2010-04-01T00:00'
+        );
+        component.getMax = createSpy('getMax').and.returnValue(
+          '2010-05-01T00:00'
+        );
         fixture.detectChanges();
         expect(component.validate()).toEqual({ cxDateMax: true });
       });
@@ -101,8 +109,12 @@ describe('Date Picker Component', () => {
       it('should return cxDateMin', () => {
         component.value = modelValue;
         component.nativeValue = nativeValue;
-        component.getMin = createSpy('getMin').and.returnValue('2010-07-01');
-        component.getMax = createSpy('getMax').and.returnValue('2010-08-01');
+        component.getMin = createSpy('getMin').and.returnValue(
+          '2010-07-01T00:00'
+        );
+        component.getMax = createSpy('getMax').and.returnValue(
+          '2010-08-01T00:00'
+        );
         fixture.detectChanges();
         expect(component.validate()).toEqual({ cxDateMin: true });
       });
