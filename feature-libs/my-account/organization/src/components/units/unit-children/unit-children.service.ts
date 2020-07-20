@@ -3,9 +3,15 @@ import {
   BaseOrganizationListService,
   OrganizationTableType,
 } from '../../shared';
-import { EntitiesModel, OrgUnitService, B2BUnitNode } from '@spartacus/core';
+import {
+  EntitiesModel,
+  OrgUnitService,
+  B2BUnitNode,
+  B2BUser,
+} from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 // import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -23,27 +29,27 @@ export class UnitChildrenService extends BaseOrganizationListService<
     super(tableService);
   }
 
+  // method to be adjusted for proper children list when ready
   protected load(
     structure: TableStructure,
-    code: string
-  ): Observable<EntitiesModel<B2BUnitNode>> {
+    code: string,
+    roleId: string
+  ): Observable<EntitiesModel<B2BUser>> {
     const config = structure.pagination;
-    return this.orgUnitService.getChildUnits(code, config);
-    // .pipe(map((users) => {
-    //   console.log(users)
-    //   return this.filterSelected(users)
-    // }));
+    return this.orgUnitService
+      .getUsers(code, roleId, config)
+      .pipe(map((users) => this.filterSelected(users)));
   }
 
-  // protected filterSelected({
-  //   pagination,
-  //   sorts,
-  //   values,
-  // }: EntitiesModel<B2BUnitNode>): EntitiesModel<B2BUnitNode> {
-  //   return {
-  //     pagination,
-  //     sorts,
-  //     values: values.filter((value) => value.selected),
-  //   };
-  // }
+  protected filterSelected({
+    pagination,
+    sorts,
+    values,
+  }: EntitiesModel<B2BUser>): EntitiesModel<B2BUser> {
+    return {
+      pagination,
+      sorts,
+      values: values.filter((value) => value.selected),
+    };
+  }
 }
