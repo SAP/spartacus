@@ -14,13 +14,20 @@
     <span>{{ 'costCenter.budget.assign' | cxTranslate }}</span>
   </h3>
 
-  <section>
-    <cx-table
-      *ngIf="dataTable$ | async as budgets; else emptyList"
-      [dataset]="budgets"
-    >
-    </cx-table>
-  </section>
+  <ng-container *ngIf="dataTable$ | async as dataTable; else emptyList">
+    <section>
+      <cx-table
+        [dataset]="dataTable"
+        (sortEvent)="sort(dataTable.pagination, $event)"
+      >
+      </cx-table>
+      <cx-pagination
+        *ngIf="dataTable.pagination"
+        [pagination]="dataTable.pagination"
+        (viewPageEvent)="viewPage(dataTable.pagination, $event)"
+      ></cx-pagination>
+    </section>
+  </ng-container>
 
   <ng-template #emptyList>
     <p class="instruction is-empty">

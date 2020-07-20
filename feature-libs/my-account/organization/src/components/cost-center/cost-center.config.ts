@@ -122,6 +122,11 @@ export const costCenterTableConfig: TableConfig = {
     ],
     [OrganizationTableType.COST_CENTER_ASSIGN_BUDGET]: [
       {
+        pagination: {
+          sort: 'byName',
+        },
+      },
+      {
         breakpoint: BREAKPOINT.xs,
         headers: [{ key: 'selected' }, { key: 'summary' }, { key: 'link' }],
         hideHeader: true,
@@ -129,9 +134,9 @@ export const costCenterTableConfig: TableConfig = {
       {
         breakpoint: BREAKPOINT.lg,
         headers: [
-          { key: 'name' },
-          { key: 'code' },
-          { key: 'amount' },
+          { key: 'name', sortCode: 'byName' },
+          { key: 'code', sortCode: 'byCode' },
+          { key: 'amount', sortCode: 'byValue' },
           { key: 'dateRange' },
         ],
       },
