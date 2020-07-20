@@ -4,11 +4,11 @@
 
 Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
 
-- Documentation is hosted on our dedicated [Spartacus Documentation site](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/).
+- Documentation is hosted on our dedicated [Spartacus Documentation site](https://sap.github.io/spartacus-docs/).
 - Try out a [sample Spartacus storefront](https://spartacus.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com/) on our public demo site.
 - Technical questions? Get in touch with us on [Stack Overflow](https://stackoverflow.com/questions/tagged/spartacus-storefront).
 - Non-technical questions? Join our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU).
-- For details on the 1.0 launch, see the [Release Information page](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/release-information/) on our Spartacus documentation site.
+- For details on the 2.0 launch, see the [Release Information page](https://sap.github.io/spartacus-docs/release-information/) on our Spartacus documentation site.
 
 Spartacus is...
 
@@ -31,7 +31,7 @@ Spartacus provides core storefront features such as:
 - Checkout
 - Order history
 
-See the [Release documentation](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/release-information/) for more information.
+See the [Release documentation](https://sap.github.io/spartacus-docs/release-information/) for more information.
 
 # Requirements
 
@@ -55,7 +55,7 @@ To get up and running with Spartacus, the recommended approach is to build your 
 
 Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs.
 
-For complete setup instructions, see [Building the Spartacus Storefront from Libraries](https://sap.github.io/cloud-commerce-spartacus-storefront-docs/building-the-spartacus-storefront-from-libraries/).
+For complete setup instructions, see [Building the Spartacus Storefront from Libraries](https://sap.github.io/spartacus-docs/building-the-spartacus-storefront-from-libraries/).
 
 ## Customizing and Extending Spartacus
 
@@ -71,11 +71,13 @@ The documentation for customizing and extending Spartacus is still under develop
 
 The Spartacus API documentation is hosted here: [https://sap.github.io/spartacus/](https://sap.github.io/spartacus/)
 
-The API documentation is versioned and is included in the **Assets** folder of each and every Spartacus library. You can download the API documentation for a particular version by clicking on `docs.tar.gz` or `docs.zip` in the **Assets** folder of any Spartacus library from that particular release.
+The API documentation is versioned and is included in the **Assets** folder of each and every Spartacus library. You can download the API documentation for a particular version by accessing the **Assets** folder of any Spartacus library from that particular release, and then clicking on `docs.tar.gz` or `docs.zip`. To find the **Assets** folder for a particular library, access the [Released Libraries for Spartacus](https://github.com/SAP/spartacus/releases), click on the link for the library you are interested in, and scroll to the bottom of the page.
 
-For example, to download the API documentation for the 2.0.0 release, you could access the **Assets** section of the `@spartacus/storefront@2.0.0` library [here](https://github.com/SAP/spartacus/releases/download/storefront-2.0.0/docs.zip).
+For example, to download the API documentation for the 2.0.0 release, you could access the **Assets** folder of the `@spartacus/storefront@2.0.0` library [here](https://github.com/SAP/spartacus/releases/tag/storefront-2.0.0).
 
-**Note:** The 1.x and 2.x releases of the Spartacus libraries work only with SAP Commerce Cloud versions 1905 and 2005. Certain features, such as cancellations and returns, are only available with SAP Commerce Cloud 2005, because the necessary OCC API support is only available in SAP Commerce Cloud 2005.
+**Note:** The 1.x and 2.x releases of the Spartacus libraries work only with SAP Commerce versions 1905 and 2005. Certain features, such as cancellations and returns, are only available with SAP Commerce 2005, because the necessary OCC API support is only available in SAP Commerce 2005.
+
+**Note:** The Spartacus API is separate from the Commerce OCC REST APIs that Spartacus consumes. For more information, see the [Commerce API Documentation and YAML Files](https://help.sap.com/viewer/c5613bd3cc9942efb74d017b40eb0892/latest/en-US/18caa4b5c32c4bcf8b38c6260c0f30e8.html) on the SAP Help Portal.
 
 # Limitations
 

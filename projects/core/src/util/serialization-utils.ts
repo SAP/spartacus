@@ -2,6 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { isObject } from '../config/utils/deep-merge';
 import { ErrorModel, HttpErrorModel } from '../model/misc.model';
 
+/**
+ * @deprecated since 2.1, use normalizeHttpError instead
+ */
 export const UNKNOWN_ERROR = {
   error: 'unknown error',
 };
@@ -19,6 +22,9 @@ const circularReplacer = () => {
   };
 };
 
+/**
+ * @deprecated since 2.1, use normalizeHttpError instead
+ */
 export function makeErrorSerializable(
   error: HttpErrorResponse | ErrorModel | any
 ): HttpErrorModel | Error | any {

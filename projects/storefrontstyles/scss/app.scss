@@ -1,3 +1,6 @@
+// provide non-breaking versioning in the style layer
+@import 'versioning';
+
 //Functions and mixins
 @import 'functions';
 @import 'mixins';
@@ -17,6 +20,10 @@
 @import '~bootstrap/scss/nav';
 
 @import '~@ng-select/ng-select/themes/default.theme.css';
+
+// new
+@import 'cxbase/index';
+
 //bootsrap enhancements (these are things we ARE changing)
 @import 'cxbase/blocks/buttons';
 @import 'cxbase/blocks/forms';
