@@ -37,6 +37,7 @@ describe('Router Reducer', () => {
       routing: {
         routes: {
           termsAndConditions: { paths: ['terms-and-conditions'] },
+          home: { paths: [''] },
         },
       },
     };
