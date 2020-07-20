@@ -56,14 +56,14 @@ describe('TruncateTextService', () => {
   });
   it('should create a sample text and return total truncated text less than 2', () => {
     const sampleText = 'This is my first post';
-    const res = truncate.paragraphLimiter(sampleText, 2);
-    expect(res.length).toBeLessThanOrEqual(2);
+    const res = truncate.paragraphLimiter(sampleText, 3);
+    expect(res.length).toBeLessThanOrEqual(3);
   });
 
   it('should create a sample text and return total truncated text greater than 2', () => {
     const sampleText = 'This is my first post';
     truncate.isShow = true;
-    const res = truncate.paragraphLimiter(sampleText, 2);
-    expect(res.length).toBeGreaterThanOrEqual(2);
+    const res = truncate.paragraphLimiter(sampleText, 3);
+    expect(res.length).toBeGreaterThanOrEqual(3);
   });
 });
