@@ -231,7 +231,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
       configuration
     );
     expect(result.isCartEntryUpdateRequired).toBeUndefined();
-    expect(result.isCartEntryUpdatePending).toBeUndefined();
   });
 
   it('should convert subgroups', () => {
