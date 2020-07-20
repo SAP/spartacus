@@ -12,6 +12,14 @@ import {
   State,
 } from '../routing-state';
 
+// private enum
+export enum SemanticRoutes {
+  PRODUCT = 'product',
+  CATEGORY = 'category',
+  BRAND = 'brand',
+  HOME = 'home',
+}
+
 export const initialState: RouterState = {
   navigationId: 0,
   state: {
@@ -131,13 +139,13 @@ export class CustomSerializer
     } else {
       if (params['productCode']) {
         context = { id: params['productCode'], type: PageType.PRODUCT_PAGE };
-        semanticRoute = 'product';
+        semanticRoute = SemanticRoutes.PRODUCT;
       } else if (params['categoryCode']) {
         context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
-        semanticRoute = 'category';
+        semanticRoute = SemanticRoutes.CATEGORY;
       } else if (params['brandCode']) {
         context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
-        semanticRoute = 'brand';
+        semanticRoute = SemanticRoutes.BRAND;
       } else if (state.data.pageLabel !== undefined) {
         context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
         // We don't assign `semanticRoute` here, because Angular Routes with defined `data.pageLabel` are assumed
@@ -158,7 +166,7 @@ export class CustomSerializer
             id: 'homepage',
             type: PageType.CONTENT_PAGE,
           };
-          semanticRoute = 'home';
+          semanticRoute = SemanticRoutes.HOME;
         }
       }
     }

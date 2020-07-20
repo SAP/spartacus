@@ -9,8 +9,10 @@ import {
 } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
 import { PageType } from '../../../model/cms.model';
+import { RoutingConfig } from '../../configurable-routes/config/routing-config';
 import { RouterState } from '../routing-state';
 import * as fromReducer from './router.reducer';
+import { SemanticRoutes } from './router.reducer';
 
 @Component({
   selector: 'cx-test-cmp',
@@ -24,6 +26,14 @@ describe('Router Reducer', () => {
   let zone: NgZone;
 
   beforeEach(() => {
+    const mockConfig: RoutingConfig = {
+      routing: {
+        routes: {
+          termsAndConditions: { paths: ['terms-and-conditions'] },
+        },
+      },
+    };
+
     TestBed.configureTestingModule({
       declarations: [TestComponent],
       imports: [
@@ -32,6 +42,12 @@ describe('Router Reducer', () => {
           { path: '', component: TestComponent },
           { path: 'category/:categoryCode', component: TestComponent },
           { path: 'product/:productCode', component: TestComponent },
+          { path: 'brand/:brandCode', component: TestComponent },
+          {
+            path: 'search/:query',
+            component: TestComponent,
+            data: { cxRoute: 'search' },
+          },
           {
             path: 'cmsPage',
             component: TestComponent,
@@ -57,6 +73,10 @@ describe('Router Reducer', () => {
         {
           provide: RouterStateSerializer,
           useClass: fromReducer.CustomSerializer,
+        },
+        {
+          provide: RoutingConfig,
+          useValue: mockConfig,
         },
       ],
     });
@@ -167,40 +187,88 @@ describe('Router Reducer', () => {
     });
   });
 
-  it('should return the router state', async () => {
+  describe('should return the router state', () => {
     let routerReducer;
-    store.subscribe((routerStore) => {
-      routerReducer = routerStore.router;
+    beforeEach(() => {
+      store.subscribe((routerStore) => {
+        routerReducer = routerStore.router;
+      });
     });
 
-    await zone.run(() => router.navigateByUrl('/'));
-    expect(routerReducer.state).toEqual({
-      url: '/',
-      queryParams: {},
-      params: {},
-      context: { id: 'homepage', type: PageType.CONTENT_PAGE },
-      cmsRequired: false,
-      semanticRoute: undefined,
+    it('for home page', async () => {
+      await zone.run(() => router.navigateByUrl('/'));
+      expect(routerReducer.state).toEqual({
+        url: '/',
+        queryParams: {},
+        params: {},
+        context: { id: 'homepage', type: PageType.CONTENT_PAGE },
+        cmsRequired: false,
+        semanticRoute: SemanticRoutes.HOME,
+      });
     });
 
-    await zone.run(() => router.navigateByUrl('category/1234'));
-    expect(routerReducer.state).toEqual({
-      url: '/category/1234',
-      queryParams: {},
-      params: { categoryCode: '1234' },
-      context: { id: '1234', type: PageType.CATEGORY_PAGE },
-      cmsRequired: false,
-      semanticRoute: 'category',
+    it('for category page', async () => {
+      await zone.run(() => router.navigateByUrl('category/1234'));
+      expect(routerReducer.state).toEqual({
+        url: '/category/1234',
+        queryParams: {},
+        params: { categoryCode: '1234' },
+        context: { id: '1234', type: PageType.CATEGORY_PAGE },
+        cmsRequired: false,
+        semanticRoute: SemanticRoutes.CATEGORY,
+      });
     });
 
-    await zone.run(() => router.navigateByUrl('product/1234'));
-    expect(routerReducer.state).toEqual({
-      url: '/product/1234',
-      queryParams: {},
-      params: { productCode: '1234' },
-      context: { id: '1234', type: PageType.PRODUCT_PAGE },
-      cmsRequired: false,
-      semanticRoute: 'product',
+    it('for product page', async () => {
+      await zone.run(() => router.navigateByUrl('product/1234'));
+      expect(routerReducer.state).toEqual({
+        url: '/product/1234',
+        queryParams: {},
+        params: { productCode: '1234' },
+        context: { id: '1234', type: PageType.PRODUCT_PAGE },
+        cmsRequired: false,
+        semanticRoute: SemanticRoutes.PRODUCT,
+      });
+    });
+
+    it('for brand page', async () => {
+      await zone.run(() => router.navigateByUrl('brand/999'));
+      expect(routerReducer.state).toEqual({
+        url: '/brand/999',
+        queryParams: {},
+        params: { brandCode: '999' },
+        context: { id: '999', type: PageType.CATEGORY_PAGE },
+        cmsRequired: false,
+        semanticRoute: SemanticRoutes.BRAND,
+      });
+    });
+
+    it('for route with `data.cxRoute` property', async () => {
+      await zone.run(() => router.navigateByUrl('search/camera'));
+      expect(routerReducer.state).toEqual({
+        url: '/search/camera',
+        queryParams: {},
+        params: { query: 'camera' },
+
+        // In the reducer we assume for content pages that: pageContext.id (pageLabel) equals URL
+        // Note: later on backend may return the corrected page label (i.e. `/search`).
+        context: { id: '/search/camera', type: PageType.CONTENT_PAGE },
+
+        cmsRequired: false,
+        semanticRoute: 'search',
+      });
+    });
+
+    it('for unknown content page', async () => {
+      await zone.run(() => router.navigateByUrl('/sales'));
+      expect(routerReducer.state).toEqual({
+        url: '/sales',
+        queryParams: {},
+        params: {},
+        context: { id: '/sales', type: PageType.CONTENT_PAGE },
+        cmsRequired: false,
+        semanticRoute: undefined,
+      });
     });
   });
 
@@ -247,6 +315,46 @@ describe('Router Reducer', () => {
         router.navigateByUrl('dynamically-created/sub-route')
       );
       expect(context).toEqual({ id: 'explicit', type: PageType.CONTENT_PAGE });
+    });
+  });
+
+  describe('should set correct semanticRoute', () => {
+    let semanticRoute;
+
+    beforeEach(async () => {
+      store.subscribe((routerStore) => {
+        semanticRoute = routerStore.router.state.semanticRoute;
+      });
+    });
+
+    it('for product page', async () => {
+      await zone.run(() => router.navigateByUrl('/product/123'));
+      expect(semanticRoute).toEqual(SemanticRoutes.PRODUCT);
+    });
+
+    it('for category page', async () => {
+      await zone.run(() => router.navigateByUrl('/category/1234'));
+      expect(semanticRoute).toEqual(SemanticRoutes.CATEGORY);
+    });
+
+    it('for brand page', async () => {
+      await zone.run(() => router.navigateByUrl('/brand/999'));
+      expect(semanticRoute).toEqual(SemanticRoutes.BRAND);
+    });
+
+    it('for route with `data.cxRoute` property', async () => {
+      await zone.run(() => router.navigateByUrl('/search/cameras'));
+      expect(semanticRoute).toEqual('search');
+    });
+
+    it('for any page that has no dedicated Route, but configured semantic path', async () => {
+      await zone.run(() => router.navigateByUrl('/terms-and-conditions'));
+      expect(semanticRoute).toEqual('termsAndConditions');
+    });
+
+    it('for unknown route - undefined', async () => {
+      await zone.run(() => router.navigateByUrl('/sales'));
+      expect(semanticRoute).toEqual(undefined);
     });
   });
 });
