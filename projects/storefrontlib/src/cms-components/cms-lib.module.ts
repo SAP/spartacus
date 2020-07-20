@@ -51,6 +51,7 @@ import {
   BudgetEditModule,
   BudgetListModule,
   OrderApprovalDetailsModule,
+  OrderApprovalListModule,
   PermissionCreateModule,
   PermissionDetailsModule,
   PermissionEditModule,
@@ -99,6 +100,7 @@ import { ProductVariantsModule } from './product/product-variants/product-varian
 import { StoreFinderModule } from './storefinder/store-finder.module';
 import { UserComponentModule } from './user/user.module';
 import { WishListModule } from './wish-list/wish-list.module';
+import { OrderApprovalListComponent } from './organization/order-approval/order-approval-list/order-approval-list.component';
 
 @NgModule({
   imports: [
@@ -193,6 +195,8 @@ import { WishListModule } from './wish-list/wish-list.module';
     UserUserGroupsModule,
     UserAssignUserGroupsModule,
     OrderApprovalDetailsModule,
+    OrderApprovalListModule,
   ],
+  declarations: [OrderApprovalListComponent],
 })
 export class CmsLibModule {}
