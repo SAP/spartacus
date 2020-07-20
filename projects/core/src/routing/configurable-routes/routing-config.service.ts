@@ -39,6 +39,17 @@ export class RoutingConfigService {
 
   /**
    * Returns the route name of the configured path.
+   *
+   * For example, when the config is:
+   * ```
+   * routing: {
+   *   routes: {
+   *      addressBook: { paths: ['my-account/address-book'] }
+   *   }
+   * }
+   * ```
+   *
+   * the `getRouteName('my-account/address-book')` returns `'addressBook'`.
    */
   getRouteName(path: string) {
     if (!this.routeNamesByPath) {
