@@ -193,7 +193,8 @@
       }
       &.selected,
       &.link {
-        width: 80px;
+        width: 70px;
+        text-overflow: initial;
       }
       &.selected {
         input[type='checkbox'] {
