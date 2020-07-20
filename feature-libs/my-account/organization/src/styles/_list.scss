@@ -144,28 +144,28 @@
 
       &.summary {
         padding: 1rem;
-        > div {
-          place-content: space-between;
-          > div:first-child {
-            line-height: 1.1rem;
-            > * {
-              @include media-breakpoint-down(md) {
-                display: block;
-                white-space: normal;
-              }
-            }
-            h3 {
-              font-size: 1.1rem;
-              min-height: auto;
-              @include media-breakpoint-down(md) {
-                padding: 0;
-              }
-            }
-            small {
-              font-size: 0.75rem;
-            }
+        //> div {
+        //  place-content: space-between;
+        //  > div:first-child {
+        //    line-height: 1.1rem;
+        > * {
+          @include media-breakpoint-down(md) {
+            display: block;
+            white-space: normal;
           }
         }
+        h3 {
+          font-size: 1.1rem;
+          min-height: auto;
+          @include media-breakpoint-down(md) {
+            padding: 0;
+          }
+        }
+        small {
+          font-size: 0.75rem;
+        }
+        //  }
+        //}
       }
 
       &.name {
