@@ -33,6 +33,12 @@
         padding-inline-start: 0;
       }
     }
+
+    // space-between should be adapted only for headers on the left side (i.e. add action)
+    // for the rest we decided to keep header text to the left, next to icon (i.e. back button)
+    > span {
+      flex: 1;
+    }
   }
 
   &.edit,
@@ -106,7 +112,7 @@
         }
 
         cx-icon {
-          margin: 0 0.2rem;
+          margin: -0.1rem 0 0 0.5rem;
 
           &.active-state {
             margin-inline-end: var(--cx-spatial-md);
@@ -142,6 +148,12 @@
           place-content: space-between;
           > div:first-child {
             line-height: 1.1rem;
+            > * {
+              @include media-breakpoint-down(md) {
+                display: block;
+                white-space: normal;
+              }
+            }
             h3 {
               font-size: 1.1rem;
               min-height: auto;
@@ -151,22 +163,6 @@
             }
             small {
               font-size: 0.75rem;
-            }
-          }
-
-          > div:last-child {
-            a {
-              display: flex;
-              padding: 0;
-              font-size: 1rem;
-            }
-          }
-
-          a {
-            cx-icon {
-              &.open-out {
-                margin-left: auto;
-              }
             }
           }
         }
@@ -185,16 +181,20 @@
       }
       &.code {
         > div {
-          place-items: center;
+          align-items: center;
         }
         .link {
           display: flex;
+          padding: 0;
         }
       }
       &.selected,
       &.link {
         width: 70px;
         text-overflow: initial;
+        cx-icon {
+          margin-left: 0;
+        }
       }
       &.selected {
         input[type='checkbox'] {
