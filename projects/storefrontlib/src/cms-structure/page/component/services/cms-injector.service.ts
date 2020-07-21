@@ -2,6 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { CmsComponentData } from '../../model';
 import { CmsComponent, CmsService } from '@spartacus/core';
 import { CmsComponentsService } from '../../../services/cms-components.service';
+import { CombinedInjector } from '../../../../shared/utils/combined-injector';
 
 /**
  * Used to prepare injector for CMS components.
@@ -33,10 +34,19 @@ export class CmsInjectorService {
   public getInjector(
     type: string,
     uid: string,
-    parentInjector?: Injector
+    parentInjector?: Injector,
+    complementaryInjectors?: Injector[]
   ): Injector {
     const configProviders =
       this.cmsComponentsService.getMapping(type)?.providers ?? [];
+
+    if (complementaryInjectors?.length) {
+      parentInjector = new CombinedInjector(
+        parentInjector ?? this.injector,
+        complementaryInjectors
+      );
+    }
+
     return Injector.create({
       providers: [
         {
