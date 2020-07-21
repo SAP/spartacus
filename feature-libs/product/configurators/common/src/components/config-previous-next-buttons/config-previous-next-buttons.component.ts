@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  PLATFORM_ID,
+} from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -28,7 +34,8 @@ export class ConfigPreviousNextButtonsComponent {
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfigRouterExtractorService
+    protected configRouterExtractorService: ConfigRouterExtractorService,
+    @Inject(PLATFORM_ID) protected platformId: any
   ) {}
 
   onPrevious(configuration: Configurator.Configuration): void {
@@ -51,12 +58,17 @@ export class ConfigPreviousNextButtonsComponent {
   }
 
   protected scrollToVariantConfigurationHeader(): void {
-    const theElement = document.querySelector('.VariantConfigurationTemplate');
-    let topOffset = 0;
-    if (theElement instanceof HTMLElement) {
-      topOffset = theElement.offsetTop;
+    if (isPlatformBrowser(this.platformId)) {
+      // we don't want to run this logic when doing SSR
+      const theElement = document.querySelector(
+        '.VariantConfigurationTemplate'
+      );
+      let topOffset = 0;
+      if (theElement instanceof HTMLElement) {
+        topOffset = theElement.offsetTop;
+      }
+      window.scroll(0, topOffset);
     }
-    window.scroll(0, topOffset);
   }
 
   isFirstGroup(owner: GenericConfigurator.Owner): Observable<boolean> {
