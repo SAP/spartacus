@@ -43,9 +43,8 @@
         }
 
         .groupIndicator {
-          margin-top: 5px;
           float: right;
-          width: 50px;
+          width: 75px;
           display: flex;
 
           .groupStatusIndicator {
@@ -73,6 +72,10 @@
             cx-icon {
               margin-left: 5px;
             }
+          }
+
+          .conflictNumberIndicator {
+            width: 25px;
           }
         }
       }
