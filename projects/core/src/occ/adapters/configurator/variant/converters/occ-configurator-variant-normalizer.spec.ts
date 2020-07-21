@@ -18,7 +18,8 @@ const generalGroupName = '_GEN';
 const generalGroupDescription = 'General';
 const conflictHeaderGroupName = Configurator.GroupType.CONFLICT_HEADER_GROUP;
 const conflictHeaderGroupDescription = 'Resolve issues for options...';
-const conflictGroupName = 'Conflicting cstic';
+const conflictGroupName = 'Color';
+const conflictGroupPrefix = 'Conflict for ';
 
 const groupName = 'GROUP1';
 const groupDescription = 'The Group Name';
@@ -182,12 +183,14 @@ class MockConverterService {
 }
 
 class MockTranslationService {
-  translate(key: string): Observable<string> {
+  translate(key: string, options: any = {}): Observable<string> {
     switch (key) {
       case 'configurator.group.general':
         return of(generalGroupDescription);
       case 'configurator.group.conflictHeader':
         return of(conflictHeaderGroupDescription);
+      case 'configurator.group.conflictGroup':
+        return of(conflictGroupPrefix + options.attribute);
       default:
         return of(key);
     }
@@ -370,7 +373,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
     };
 
     occConfiguratorVariantNormalizer.setGroupDescription(conflictGroup);
-    expect(conflictGroup.description).toBe(conflictGroupName);
+    expect(conflictGroup.description).toBe(
+      conflictGroupPrefix + conflictGroupName
+    );
   });
 
   it('should set selectedSingleValue', () => {
