@@ -143,7 +143,20 @@ describe('TabParagraphContainerComponent', () => {
     component.ngOnInit();
     // reset the state
     windowRef.nativeWindow.history.replaceState(null, null);
-    expect(component.activeTabNum).toEqual(1 || -1);
+    expect(component.activeTabNum).toEqual(1);
+  });
+
+  it('active tab number must be less than 0', () => {
+    windowRef.nativeWindow.history.pushState(
+      {
+        activeTab: -1,
+      },
+      null
+    );
+    component.ngOnInit();
+    // reset the state
+    windowRef.nativeWindow.history.replaceState(null, null);
+    expect(component.activeTabNum).toBeLessThan(0);
   });
 
   it('should be able to get tab title parameters from children', () => {

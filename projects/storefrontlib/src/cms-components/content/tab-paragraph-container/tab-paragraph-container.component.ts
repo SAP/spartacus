@@ -13,7 +13,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map, take, switchMap } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
@@ -38,10 +38,25 @@ export class TabParagraphContainerComponent
   tabSubscription: Subscription;
 
   constructor(
+    componentData: CmsComponentData<CMSTabParagraphContainer>,
+    cmsService: CmsService,
+    winRef: WindowRef,
+    // tslint:disable-next-line:unified-signatures
+    breakpointService?: BreakpointService
+  );
+  /**
+   * @deprecated since 2.1
+   */
+  constructor(
+    componentData: CmsComponentData<CMSTabParagraphContainer>,
+    cmsService: CmsService,
+    winRef: WindowRef
+  );
+  constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     protected cmsService: CmsService,
     protected winRef: WindowRef,
-    protected breakpointService: BreakpointService
+    protected breakpointService?: BreakpointService
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -74,13 +89,14 @@ export class TabParagraphContainerComponent
     )
   );
 
-  select(tabNum: number, event): void {
+  select(tabNum: number, event?: Event): void {
     this.tabSubscription = this.breakpointService
       .isDown(BREAKPOINT.sm)
+      .pipe(take(1))
       .subscribe((res) => {
         if (res) {
           this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
-          window.scrollTo(0, event.path[1].offsetTop);
+          window.scrollTo(0, event['path'][1].offsetTop);
         } else {
           this.activeTabNum = tabNum;
         }
