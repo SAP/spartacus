@@ -7,6 +7,7 @@ import {
   OutletRefModule,
   SplitViewModule,
   TableModule,
+  PaginationModule,
 } from '@spartacus/storefront';
 import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budget.component';
 
@@ -20,6 +21,7 @@ import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budget.co
     I18nModule,
     TableModule,
     OutletRefModule,
+    PaginationModule,
   ],
   declarations: [CostCenterAssignBudgetsComponent],
   exports: [CostCenterAssignBudgetsComponent],
