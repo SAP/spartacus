@@ -49,4 +49,8 @@ export class CostCenterBudgetListService extends BaseOrganizationListService<
       values: values.filter((value) => value.selected),
     };
   }
+
+  unassign(costCenterCode: string, budget: Budget) {
+    this.costCenterService.unassignBudget(costCenterCode, budget.code);
+  }
 }

@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
 import { Table, TableHeader } from './table.model';
-import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 
 /**
  * The table component provides a generic DOM structure based on the `dataset` input.
@@ -52,8 +51,6 @@ import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 })
 export class TableComponent {
   @HostBinding('attr.cx-table-type') tableType: string;
-
-  iconTypes = ICON_TYPE;
 
   protected _dataset: Table;
   @Input()

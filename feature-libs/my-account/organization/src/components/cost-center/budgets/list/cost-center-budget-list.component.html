@@ -49,6 +49,12 @@
     </small>
   </ng-template>
 
+  <ng-template cxOutletRef="table.costCenterBudgets.data.unassign" let-model>
+    <button class="link" (click)="unassign(model)">
+      <cx-icon type="TRASH"></cx-icon>
+    </button>
+  </ng-template>
+
   <ng-template cxOutletRef="table.costCenterBudgets.data.link" let-model>
     <a
       class="link"

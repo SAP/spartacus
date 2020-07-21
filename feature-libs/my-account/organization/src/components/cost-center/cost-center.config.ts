@@ -113,7 +113,7 @@ export const costCenterTableConfig: TableConfig = {
 
     [OrganizationTableType.COST_CENTER_BUDGETS]: [
       {
-        headers: [{ key: 'summary' }, { key: 'link' }],
+        headers: [{ key: 'summary' }, { key: 'unassign' }, { key: 'link' }],
         hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
