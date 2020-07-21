@@ -34,11 +34,12 @@ export class CmsInjectorService {
   public getInjector(
     type: string,
     uid: string,
-    parentInjector?: Injector,
-    complementaryInjectors?: Injector[]
+    parentInjector?: Injector
   ): Injector {
     const configProviders =
       this.cmsComponentsService.getMapping(type)?.providers ?? [];
+
+    const complementaryInjectors = this.cmsComponentsService.getInjectors(type);
 
     if (complementaryInjectors?.length) {
       parentInjector = new CombinedInjector(
