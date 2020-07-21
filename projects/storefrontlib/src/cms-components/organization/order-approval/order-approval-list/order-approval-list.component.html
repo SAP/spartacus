@@ -14,7 +14,6 @@
             [sortLabels]="getSortLabels() | async"
             (sortListEvent)="changeSortCode($event)"
             [selectedOption]="orderApprovals.pagination.sort"
-            placeholder="{{ 'orderHistory.sortByMostRecent' | cxTranslate }}"
           ></cx-sorting>
         </div>
         <div class="cx-order-history-pagination">
@@ -28,21 +27,21 @@
       <table class="table cx-order-history-table">
         <thead class="cx-order-history-thead-mobile">
           <th scope="col">
-            {{ 'orderHistory.orderId' | cxTranslate }}
+            {{ 'orderApprovalList.orderCode' | cxTranslate }}
           </th>
-          <th scope="col">PO</th>
-          <th scope="col">Placed By</th>
-          <th scope="col">{{ 'orderHistory.date' | cxTranslate }}</th>
+          <th scope="col">{{ 'orderApprovalList.POCode' | cxTranslate }}</th>
+          <th scope="col">{{ 'orderApprovalList.placedBy' | cxTranslate }}</th>
+          <th scope="col">{{ 'orderApprovalList.date' | cxTranslate }}</th>
           <th scope="col">
-            {{ 'orderHistory.status' | cxTranslate }}
+            {{ 'orderApprovalList.status' | cxTranslate }}
           </th>
-          <th scope="col">{{ 'orderHistory.total' | cxTranslate }}</th>
+          <th scope="col">{{ 'orderApprovalList.total' | cxTranslate }}</th>
         </thead>
         <tbody>
           <tr *ngFor="let approval of orderApprovals.values">
             <td class="cx-order-history-code">
               <div class="d-md-none cx-order-history-label">
-                {{ 'orderHistory.orderId' | cxTranslate }}
+                {{ 'orderApprovalList.orderCode' | cxTranslate }}
               </div>
               <a
                 [routerLink]="
@@ -58,7 +57,7 @@
             </td>
             <td class="cx-order-history-placed">
               <div class="d-md-none cx-order-history-label">
-                {{ 'orderHistory.date' | cxTranslate }}
+                {{ 'orderApprovalList.POCode' | cxTranslate }}
               </div>
               <a
                 [routerLink]="
@@ -68,12 +67,15 @@
                   } | cxUrl
                 "
                 class="cx-order-history-value"
-                >{{ approval.order?.purchaseOrderNumber || 'None' }}</a
+                >{{
+                  approval.order?.purchaseOrderNumber ||
+                    ('orderApprovalList.none' | cxTranslate)
+                }}</a
               >
             </td>
             <td class="cx-order-history-placed">
               <div class="d-md-none cx-order-history-label">
-                {{ 'orderHistory.date' | cxTranslate }}
+                {{ 'orderApprovalList.placedBy' | cxTranslate }}
               </div>
               <a
                 [routerLink]="
@@ -88,7 +90,7 @@
             </td>
             <td class="cx-order-history-placed">
               <div class="d-md-none cx-order-history-label">
-                {{ 'orderHistory.date' | cxTranslate }}
+                {{ 'orderApprovalList.date' | cxTranslate }}
               </div>
               <a
                 [routerLink]="
@@ -104,7 +106,7 @@
 
             <td class="cx-order-history-status">
               <div class="d-md-none cx-order-history-label">
-                {{ 'orderHistory.status' | cxTranslate }}
+                {{ 'orderApprovalList.status' | cxTranslate }}
               </div>
               <a
                 [routerLink]="
@@ -123,7 +125,7 @@
             </td>
             <td class="cx-order-history-total">
               <div class="d-md-none cx-order-history-label">
-                {{ 'orderHistory.total' | cxTranslate }}
+                {{ 'orderApprovalList.total' | cxTranslate }}
               </div>
               <a
                 [routerLink]="
@@ -150,7 +152,6 @@
             [sortLabels]="getSortLabels() | async"
             (sortListEvent)="changeSortCode($event)"
             [selectedOption]="orderApprovals.pagination.sort"
-            placeholder="{{ 'orderHistory.sortByMostRecent' | cxTranslate }}"
           ></cx-sorting>
         </div>
         <div class="cx-order-history-pagination">
@@ -164,9 +165,9 @@
 
     <!-- NO ORDER CONTAINER -->
     <ng-template #noOrder>
-      <div class="cx-order-history-no-order row" *ngIf="isLoaded$ | async">
+      <div class="cx-order-history-no-order row">
         <div class="col-sm-12 col-md-6 col-lg-4">
-          <div>NO APPROVALS!</div>
+          <div>{{ 'orderApprovalList.emptyList' | cxTranslate }}</div>
         </div>
       </div>
     </ng-template>
