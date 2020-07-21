@@ -377,7 +377,7 @@ describe('OrgUnit Actions', () => {
       expect({ ...action }).toEqual({
         type: OrgUnitActions.DELETE_ADDRESS_SUCCESS,
         payload: address,
-        meta: StateUtils.entitySuccessMeta(ADDRESS_ENTITIES, addressId),
+        meta: StateUtils.entityRemoveMeta(ADDRESS_ENTITIES, addressId),
       });
     });
   });
