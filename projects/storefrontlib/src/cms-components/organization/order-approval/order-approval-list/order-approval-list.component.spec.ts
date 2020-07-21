@@ -110,7 +110,7 @@ class MockRoutingService {
   go() {}
 }
 
-fdescribe('OrderApprovalListComponent', () => {
+describe('OrderApprovalListComponent', () => {
   let component: OrderApprovalListComponent;
   let fixture: ComponentFixture<OrderApprovalListComponent>;
   let orderApprovalService: OrderApprovalService | MockOrderApprovalService;
