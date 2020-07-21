@@ -12,6 +12,7 @@
     "
     (keydown.arrowup)="focusPreviousChild($event)"
     (keydown.arrowdown)="focusNextChild($event)"
+    value="{{ getFocusedElementFormat() | cxSelectedResult }}"
   />
 
   <cx-icon

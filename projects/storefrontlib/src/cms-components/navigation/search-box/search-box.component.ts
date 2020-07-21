@@ -160,6 +160,13 @@ export class SearchBoxComponent {
     return <HTMLElement>this.winRef.document.activeElement;
   }
 
+  getFocusedElementFormat(): string {
+    let focusedElement: HTMLElement = <HTMLElement>this.winRef.document.activeElement; 
+    if(this.getResultElements().includes(focusedElement)){
+      return focusedElement.innerText;
+    }
+  }
+
   private getFocusedIndex(): number {
     return this.getResultElements().indexOf(this.getFocusedElement());
   }

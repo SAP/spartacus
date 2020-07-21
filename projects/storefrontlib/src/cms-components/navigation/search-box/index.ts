@@ -3,3 +3,4 @@ export * from './search-box.component';
 export * from './search-box.model';
 export * from './search-box.module';
 export * from './highlight.pipe';
+export * from './selected-result.pipe';
