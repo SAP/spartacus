@@ -117,7 +117,7 @@ class MockB2BUserService implements Partial<B2BUserService> {
 const mockRouterState = {
   state: {
     params: {
-      customerId: customerId,
+      code: customerId,
     },
   },
 };
@@ -216,8 +216,14 @@ describe('B2BUserEditComponent', () => {
     it('should update user', () => {
       component.ngOnInit();
       component.updateB2BUser(updatedUser);
-      expect(b2bUserService.update).toHaveBeenCalled();
-      expect(routingService.go).toHaveBeenCalled();
+      expect(b2bUserService.update).toHaveBeenCalledWith(
+        customerId,
+        updatedUser
+      );
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'userDetails',
+        params: { customerId: '08ecc0b1-16ef-4a74-a1dd-4a244300c974' },
+      });
     });
   });
 });
