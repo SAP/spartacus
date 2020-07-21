@@ -1,4 +1,10 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import {
+  Compiler,
+  Inject,
+  Injectable,
+  Injector,
+  PLATFORM_ID,
+} from '@angular/core';
 import {
   CmsComponentMapping,
   CmsConfig,
@@ -6,17 +12,38 @@ import {
 } from '@spartacus/core';
 import { Route } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
-import { Observable, of } from 'rxjs';
+import { defer, forkJoin, Observable, of } from 'rxjs';
+import { mapTo, share, tap } from 'rxjs/operators';
+import { FeatureModulesService } from './feature-modules.service';
+import { deepMerge } from '../../../../core/src/config/utils/deep-merge';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CmsComponentsService {
   private missingComponents: string[] = [];
+  private mappings: { [componentType: string]: CmsComponentMapping } = {};
+  private resolvingMappings: Map<
+    string,
+    Observable<CmsComponentMapping>
+  > = new Map();
 
   constructor(
+    config: CmsConfig,
+    platformId: Object,
+    compiler: Compiler,
+    injector: Injector
+  );
+  /**
+   * @deprecated since 2.1
+   */
+  constructor(config: CmsConfig, platformId: Object);
+  constructor(
     protected config: CmsConfig,
-    @Inject(PLATFORM_ID) protected platformId: Object
+    @Inject(PLATFORM_ID) protected platformId: Object,
+    protected compiler?: Compiler,
+    protected injector?: Injector,
+    protected featureModules?: FeatureModulesService
   ) {}
 
   /**
@@ -28,7 +55,59 @@ export class CmsComponentsService {
    * of potential errors that could be thrown otherwise.
    */
   determineMappings(componentTypes: string[]): Observable<string[]> {
-    return of(componentTypes);
+    return defer(() => {
+      const featureResolvers = [];
+
+      for (const componentType of componentTypes) {
+        if (!this.mappings[componentType]) {
+          const staticConfig = this.config.cmsComponents[componentType] ?? {};
+
+          // check if this component type is managed by feature module
+          if (this.featureModules.hasFeatureFor(componentType)) {
+            featureResolvers.push(
+              this.getFeatureMappingResolver(componentType, staticConfig)
+            );
+          } else {
+            // simply use only static config
+            this.mappings[componentType] = staticConfig;
+          }
+        }
+      }
+
+      if (featureResolvers.length) {
+        return forkJoin(...featureResolvers).pipe(mapTo(componentTypes));
+      } else {
+        return of(componentTypes);
+      }
+    });
+  }
+
+  private getFeatureMappingResolver(
+    componentType: string,
+    staticConfig: CmsComponentMapping
+  ): Observable<CmsComponentMapping> {
+    if (!this.resolvingMappings.has(componentType)) {
+      const mappingResolver$ = this.featureModules
+        .getCmsMapping(componentType)
+        .pipe(
+          tap((featureComponentMapping) => {
+            // get mapping from feature with static configuration
+            this.mappings[componentType] = deepMerge(
+              {},
+              featureComponentMapping,
+              staticConfig
+            );
+            this.resolvingMappings.delete(componentType);
+          }),
+          share()
+        );
+      this.resolvingMappings.set(componentType, mappingResolver$);
+    }
+    return this.resolvingMappings.get(componentType);
+  }
+
+  getInjectors(componentType: string): Injector[] {
+    return this.featureModules.getInjectors(componentType) ?? [];
   }
 
   /**
@@ -42,7 +121,9 @@ export class CmsComponentsService {
    * should be called and completed first.
    */
   getMapping(componentType: string): CmsComponentMapping {
-    const componentConfig = this.config.cmsComponents?.[componentType];
+    let componentConfig =
+      this.mappings[componentType] ??
+      this.config.cmsComponents?.[componentType];
 
     if (!componentConfig) {
       if (!this.missingComponents.includes(componentType)) {
