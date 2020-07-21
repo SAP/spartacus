@@ -294,7 +294,11 @@ if (typeof config.to === 'undefined') {
       break;
     case 'product':
     case '@spartacus/product':
-    case '@spartacus/product/configuration':
+    case '@spartacus/product/configurators':
+    case '@spartacus/product/configurators/common':
+    case '@spartacus/product/configurators/cpq':
+    case '@spartacus/product/configurators/variant':
+    case '@spartacus/product/configurators/textfield':
       config.library = '@spartacus/product';
       break;
     default:
