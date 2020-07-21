@@ -3,8 +3,6 @@ import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule, ProductModule } from '@spartacus/core';
 import {
   CommonConfiguratorComponentsModule,
-  ConfigGroupTitleComponent,
-  ConfigPreviousNextButtonsComponent,
   ConfigPriceSummaryComponent,
   ConfigProductTitleComponent,
   ConfigTabBarComponent,
@@ -46,9 +44,6 @@ import {
         VariantConfigurationTitle: {
           component: ConfigProductTitleComponent,
         },
-        VariantConfigurationGroupTitle: {
-          component: ConfigGroupTitleComponent,
-        },
         VariantConfigurationForm: {
           component: ConfigFormComponent,
         },
@@ -57,9 +52,6 @@ import {
         },
         VariantConfigurationPriceSummary: {
           component: ConfigPriceSummaryComponent,
-        },
-        VariantConfigurationPrevNext: {
-          component: ConfigPreviousNextButtonsComponent,
         },
         VariantConfigurationAddToCartButton: {
           component: ConfigAddToCartButtonComponent,
