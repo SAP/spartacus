@@ -1,9 +1,9 @@
-<div id="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}">
+<div id="{{ createAttributeIdForConfigurator(attribute) }}">
   <div class="form-check">
     <div class="cx-config-select-line">
       <input
         id="{{
-          uiKeyGenerator.createAttributeValueIdForConfigurator(
+          createAttributeValueIdForConfigurator(
             attribute,
             attribute.values[0].valueCode
           )
@@ -13,20 +13,20 @@
         [value]="attribute.values[0].valueCode"
         (change)="onSelect()"
         [formControl]="attributeCheckBoxForm"
-        name="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}"
+        name="{{ createAttributeIdForConfigurator(attribute) }}"
       />
     </div>
     <div class="cx-config-attribute-value-label-container">
       <label
         id="{{
-          uiKeyGenerator.createValueUiKey(
+          createValueUiKey(
             'label',
             attribute.name,
             attribute.values[0].valueCode
           )
         }}"
         for="{{
-          uiKeyGenerator.createAttributeValueIdForConfigurator(
+          createAttributeValueIdForConfigurator(
             attribute,
             attribute.values[0].valueCode
           )

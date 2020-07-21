@@ -16,7 +16,6 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeDropDownComponent implements OnInit {
-  uiKeyGenerator = ConfigUIKeyGeneratorService;
   attributeDropDownForm = new FormControl('');
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
@@ -41,5 +40,11 @@ export class ConfigAttributeDropDownComponent implements OnInit {
       groupId: this.group,
     };
     this.selectionChange.emit(event);
+  }
+
+  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
+    return ConfigUIKeyGeneratorService.createAttributeIdForConfigurator(
+      attribute
+    );
   }
 }

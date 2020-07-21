@@ -23,7 +23,6 @@ import { ConfigAttributeNumericInputFieldService } from './config-attribute-nume
 })
 export class ConfigAttributeNumericInputFieldComponent
   implements OnInit, OnDestroy {
-  uiKeyGenerator = ConfigUIKeyGeneratorService;
   attributeInputForm: FormControl;
   numericFormatPattern;
   locale: string;
@@ -91,6 +90,26 @@ export class ConfigAttributeNumericInputFieldComponent
     if (!this.attributeInputForm.invalid) {
       this.inputChange.emit(event);
     }
+  }
+
+  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
+    return ConfigUIKeyGeneratorService.createAttributeIdForConfigurator(
+      attribute
+    );
+  }
+
+  createAriaLabelledBy(
+    prefix: string,
+    attributeId: string,
+    valueId?: string,
+    hasQuantity?: boolean
+  ): string {
+    return ConfigUIKeyGeneratorService.createAriaLabelledBy(
+      prefix,
+      attributeId,
+      valueId,
+      hasQuantity
+    );
   }
 
   protected createEventFromInput(): ConfigFormUpdateEvent {

@@ -17,7 +17,6 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeInputFieldComponent implements OnInit {
-  uiKeyGenerator = ConfigUIKeyGeneratorService;
   attributeInputForm = new FormControl('');
   @Input() ownerType: GenericConfigurator.OwnerType;
   @Input() attribute: Configurator.Attribute;
@@ -53,5 +52,25 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
     };
 
     this.inputChange.emit(event);
+  }
+
+  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
+    return ConfigUIKeyGeneratorService.createAttributeIdForConfigurator(
+      attribute
+    );
+  }
+
+  createAriaLabelledBy(
+    prefix: string,
+    attributeId: string,
+    valueId?: string,
+    hasQuantity?: boolean
+  ): string {
+    return ConfigUIKeyGeneratorService.createAriaLabelledBy(
+      prefix,
+      attributeId,
+      valueId,
+      hasQuantity
+    );
   }
 }

@@ -1,4 +1,4 @@
-<div id="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}">
+<div id="{{ createAttributeIdForConfigurator(attribute) }}">
   <div class="row">
     <div class="col-md-9 col-lg-9">
       <div class="form-group">
@@ -11,7 +11,7 @@
           (change)="onChange()"
           maxlength="{{ attribute.maxlength }}"
           attr.aria-labelledby="{{
-            uiKeyGenerator.createAriaLabelledBy('label', attribute.name)
+            createAriaLabelledBy('label', attribute.name)
           }}"
         />
       </div>

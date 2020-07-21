@@ -19,6 +19,7 @@ export class ConfigAttributeHeaderComponent {
   constructor(protected configUtils: ConfigUtilsService) {}
 
   iconTypes = ICON_TYPE;
+
   /**
    * Show message that indicates that attribute is required in case attribute has a domain of values
    */
@@ -29,6 +30,7 @@ export class ConfigAttributeHeaderComponent {
         map((result) => (result ? this.isRequiredAttributeWithDomain() : false))
       );
   }
+
   createAttributeUiKey(prefix: string, attributeId: string): string {
     return ConfigUIKeyGeneratorService.createAttributeUiKey(
       prefix,

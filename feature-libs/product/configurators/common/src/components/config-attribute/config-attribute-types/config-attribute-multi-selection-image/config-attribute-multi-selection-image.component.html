@@ -1,20 +1,12 @@
-<div
-  id="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}"
-  class="row"
->
+<div id="{{ createAttributeIdForConfigurator(attribute) }}" class="row">
   <div
     *ngFor="let value of attribute.values; let i = index"
-    id="{{
-      uiKeyGenerator.createAttributeValueIdForConfigurator(
-        attribute,
-        value.valueCode
-      )
-    }}"
+    id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
     (click)="onSelect(i)"
     (keyup)="onEnter($event, i)"
     class="cx-config-select col-6 col-sm-3"
     [attr.aria-labelledby]="
-      uiKeyGenerator.createValueUiKey('label', attribute.name, value.valueCode)
+      createValueUiKey('label', attribute.name, value.valueCode)
     "
     role="checkbox"
     [attr.aria-checked]="attributeCheckBoxForms[i].value"
@@ -22,16 +14,14 @@
   >
     <input
       id="{{
-        uiKeyGenerator.createAttributeValueIdForConfigurator(
-          attribute,
-          value.valueCode
-        ) + '-input'
+        createAttributeValueIdForConfigurator(attribute, value.valueCode) +
+          '-input'
       }}"
       type="checkbox"
       class="form-input"
       [value]="value.valueCode"
       [formControl]="attributeCheckBoxForms[i]"
-      name="{{ uiKeyGenerator.createAttributeIdForConfigurator(attribute) }}"
+      name="{{ createAttributeIdForConfigurator(attribute) }}"
     />
 
     <img
@@ -47,18 +37,9 @@
 
     <div class="cx-config-attribute-value-label-container">
       <label
-        id="{{
-          uiKeyGenerator.createValueUiKey(
-            'label',
-            attribute.name,
-            value.valueCode
-          )
-        }}"
+        id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
         for="{{
-          uiKeyGenerator.createAttributeValueIdForConfigurator(
-            attribute,
-            value.valueCode
-          )
+          createAttributeValueIdForConfigurator(attribute, value.valueCode)
         }}"
         class="cx-config-attribute-value-label form-check-label"
         >{{ value.valueDisplay }}</label

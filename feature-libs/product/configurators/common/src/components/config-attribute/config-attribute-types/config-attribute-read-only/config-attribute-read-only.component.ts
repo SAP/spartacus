@@ -7,7 +7,24 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeReadOnlyComponent {
-  uiKeyGenerator = ConfigUIKeyGeneratorService;
   @Input() attribute: Configurator.Attribute;
   @Input() group: String;
+
+  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
+    return ConfigUIKeyGeneratorService.createAttributeIdForConfigurator(
+      attribute
+    );
+  }
+
+  createValueUiKey(
+    prefix: string,
+    attributeId: string,
+    valueId: string
+  ): string {
+    return ConfigUIKeyGeneratorService.createValueUiKey(
+      prefix,
+      attributeId,
+      valueId
+    );
+  }
 }

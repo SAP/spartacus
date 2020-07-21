@@ -17,7 +17,7 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
 })
 export class ConfigAttributeRadioButtonComponent implements OnInit {
   attributeRadioButtonForm = new FormControl('');
-  uiKeyGenerator = ConfigUIKeyGeneratorService;
+
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
@@ -42,5 +42,46 @@ export class ConfigAttributeRadioButtonComponent implements OnInit {
     };
 
     this.selectionChange.emit(event);
+  }
+  createAttributeValueIdForConfigurator(
+    attribute: Configurator.Attribute,
+    value: string
+  ): string {
+    return ConfigUIKeyGeneratorService.createAttributeValueIdForConfigurator(
+      attribute,
+      value
+    );
+  }
+
+  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
+    return ConfigUIKeyGeneratorService.createAttributeIdForConfigurator(
+      attribute
+    );
+  }
+
+  createValueUiKey(
+    prefix: string,
+    attributeId: string,
+    valueId: string
+  ): string {
+    return ConfigUIKeyGeneratorService.createValueUiKey(
+      prefix,
+      attributeId,
+      valueId
+    );
+  }
+
+  createAriaLabelledBy(
+    prefix: string,
+    attributeId: string,
+    valueId?: string,
+    hasQuantity?: boolean
+  ): string {
+    return ConfigUIKeyGeneratorService.createAriaLabelledBy(
+      prefix,
+      attributeId,
+      valueId,
+      hasQuantity
+    );
   }
 }

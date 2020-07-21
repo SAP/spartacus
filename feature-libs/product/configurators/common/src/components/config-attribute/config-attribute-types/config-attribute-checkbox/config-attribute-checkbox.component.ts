@@ -16,7 +16,6 @@ import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-gene
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfigAttributeCheckBoxComponent implements OnInit {
-  uiKeyGenerator = ConfigUIKeyGeneratorService;
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
@@ -44,6 +43,34 @@ export class ConfigAttributeCheckBoxComponent implements OnInit {
       groupId: this.group,
     };
     this.selectionChange.emit(event);
+  }
+
+  createAttributeValueIdForConfigurator(
+    attribute: Configurator.Attribute,
+    value: string
+  ): string {
+    return ConfigUIKeyGeneratorService.createAttributeValueIdForConfigurator(
+      attribute,
+      value
+    );
+  }
+
+  createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
+    return ConfigUIKeyGeneratorService.createAttributeIdForConfigurator(
+      attribute
+    );
+  }
+
+  createValueUiKey(
+    prefix: string,
+    attributeId: string,
+    valueId: string
+  ): string {
+    return ConfigUIKeyGeneratorService.createValueUiKey(
+      prefix,
+      attributeId,
+      valueId
+    );
   }
 
   protected assembleSingleValue(): Configurator.Value[] {
