@@ -38,9 +38,7 @@ export class CmsComponentsService {
     protected compiler?: Compiler,
     protected injector?: Injector,
     protected featureModules?: FeatureModulesService
-  ) {
-    console.log('mamy ', this);
-  }
+  ) {}
 
   /**
    * Should be called to make sure all component mappings are determined,
