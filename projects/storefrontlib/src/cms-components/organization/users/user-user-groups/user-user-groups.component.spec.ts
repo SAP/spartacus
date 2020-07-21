@@ -28,6 +28,8 @@ import createSpy = jasmine.createSpy;
 import { defaultStorefrontRoutesConfig } from '../../../../cms-structure/routing/default-routing-config';
 import { PaginationConfig } from '../../../../shared/components/list-navigation/pagination/config/pagination.config';
 import { UserUserGroupsComponent } from './user-user-groups.component';
+import { IconLoaderService } from '../../../misc';
+import { MockIconLoaderService } from '../../../misc/icon/icon.component.spec';
 
 const code = 'userCode';
 
@@ -144,6 +146,7 @@ describe('UserUserGroupsComponent', () => {
             pagination: {},
           },
         },
+        { provide: IconLoaderService, useClass: MockIconLoaderService },
       ],
     }).compileComponents();
 

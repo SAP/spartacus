@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  switchMap,
+  tap,
+  withLatestFrom,
+  take,
+} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import {
@@ -13,6 +20,7 @@ import {
   AbstractListingComponent,
   ListingModel,
 } from '../../abstract-component/abstract-listing.component';
+import { ICON_TYPE } from './../../../misc/icon/icon.model';
 
 @Component({
   selector: 'cx-user-user-groups',
@@ -22,6 +30,7 @@ export class UserUserGroupsComponent extends AbstractListingComponent
   implements OnInit {
   cxRoute = 'userUserGroups';
   uid$: Observable<string>;
+  ICON_TYPE = ICON_TYPE;
 
   constructor(
     protected routingService: RoutingService,
@@ -61,5 +70,11 @@ export class UserUserGroupsComponent extends AbstractListingComponent
         )
       )
     );
+  }
+
+  unassign({ row }) {
+    this.code$
+      .pipe(take(1))
+      .subscribe((code) => this.userService.unassignUserGroup(code, row.code));
   }
 }
