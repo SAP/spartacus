@@ -15,9 +15,9 @@ const updateMessageElementId = 'cx-config-update-message';
   encapsulation: ViewEncapsulation.None,
 })
 export class ConfigMessageComponent implements OnInit, OnDestroy {
-  changesInProgress = false;
-  subscription: Subscription = new Subscription();
-  hasPendingChanges$: Observable<
+  protected changesInProgress = false;
+  protected subscription: Subscription = new Subscription();
+  protected hasPendingChanges$: Observable<
     boolean
   > = this.configRouterExtractorService.extractRouterData().pipe(
     switchMap((routerData) => {
