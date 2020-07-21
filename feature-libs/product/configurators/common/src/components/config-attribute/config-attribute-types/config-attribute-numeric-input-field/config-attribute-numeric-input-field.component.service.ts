@@ -65,7 +65,7 @@ export class ConfigAttributeNumericInputFieldService {
     negativeAllowed: boolean,
     locale: string
   ): string {
-    let input: string = 10 ** totalLength - 1 + '';
+    let input: string = (10 ** totalLength - 1).toString();
     if (decimalPlaces > 0) {
       input =
         input.substring(0, totalLength - decimalPlaces) +

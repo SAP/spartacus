@@ -5,37 +5,33 @@ import {
   EventEmitter,
   Input,
   isDevMode,
-  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Configurator, LanguageService } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import { Configurator } from '@spartacus/core';
 import { ConfigFormUpdateEvent } from '../../../config-form/config-form.event';
 import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
-import { ConfigAttributeNumericInputFieldService } from './config-attribute-numeric-input-field.service';
+import { ConfigAttributeNumericInputFieldService } from './config-attribute-numeric-input-field.component.service';
 
 @Component({
   selector: 'cx-config-attribute-numeric-input-field',
   templateUrl: './config-attribute-numeric-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigAttributeNumericInputFieldComponent
-  implements OnInit, OnDestroy {
+export class ConfigAttributeNumericInputFieldComponent implements OnInit {
   attributeInputForm: FormControl;
-  numericFormatPattern;
+  numericFormatPattern: string;
   locale: string;
-  subscriptions = new Subscription();
 
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
+  @Input() language: string;
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   constructor(
-    protected languageService: LanguageService,
     protected configAttributeNumericInputFieldService: ConfigAttributeNumericInputFieldService
   ) {}
 
@@ -52,33 +48,26 @@ export class ConfigAttributeNumericInputFieldComponent
 
   ngOnInit() {
     //locales are available as languages in the commerce backend
-    this.subscriptions.add(
-      this.languageService.getActive().subscribe((language) => {
-        this.locale = this.getLanguage(language);
-        this.attributeInputForm = new FormControl('', [
-          this.configAttributeNumericInputFieldService.getNumberFormatValidator(
-            this.locale,
-            this.attribute.numDecimalPlaces,
-            this.attribute.numTotalLength,
-            this.attribute.negativeAllowed
-          ),
-        ]);
-        const numDecimalPlaces = this.attribute.numDecimalPlaces;
-        this.numericFormatPattern = this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
-          numDecimalPlaces,
-          this.attribute.numTotalLength,
-          this.attribute.negativeAllowed,
-          this.locale
-        );
-        if (this.attribute.userInput) {
-          this.attributeInputForm.setValue(this.attribute.userInput);
-        }
-      })
-    );
-  }
 
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.locale = this.getLanguage(this.language);
+    this.attributeInputForm = new FormControl('', [
+      this.configAttributeNumericInputFieldService.getNumberFormatValidator(
+        this.locale,
+        this.attribute.numDecimalPlaces,
+        this.attribute.numTotalLength,
+        this.attribute.negativeAllowed
+      ),
+    ]);
+    const numDecimalPlaces = this.attribute.numDecimalPlaces;
+    this.numericFormatPattern = this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
+      numDecimalPlaces,
+      this.attribute.numTotalLength,
+      this.attribute.negativeAllowed,
+      this.locale
+    );
+    if (this.attribute.userInput) {
+      this.attributeInputForm.setValue(this.attribute.userInput);
+    }
   }
 
   /**

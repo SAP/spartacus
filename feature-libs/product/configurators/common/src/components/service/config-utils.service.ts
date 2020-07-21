@@ -16,7 +16,8 @@ export class ConfigUtilsService {
 
   /**
    * Does the configuration belong to a cart entry, or has the group been visited already?
-   * In both cases we need to render indications for mandatory attributes
+   * In both cases we need to render indications for mandatory attributes.
+   * This method emits only once and then stops further emissions.
    * @param owner
    * @param groupId
    */

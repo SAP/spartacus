@@ -34,7 +34,7 @@ export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
    * @param event
    * @param index Index of selected value
    */
-  onEnter(event: KeyboardEvent, index: number) {
+  onEnter(event: KeyboardEvent, index: number): void {
     if (event.key === 'Enter') {
       this.onClick(index);
     }
@@ -44,7 +44,7 @@ export class ConfigAttributeSingleSelectionImageComponent implements OnInit {
    * Fired when value was selected
    * @param index Index of selected value
    */
-  onClick(index: number) {
+  onClick(index: number): void {
     const event: ConfigFormUpdateEvent = {
       productCode: this.ownerKey,
       changedAttribute: {

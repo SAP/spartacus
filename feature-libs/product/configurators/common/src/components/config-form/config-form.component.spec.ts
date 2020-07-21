@@ -10,6 +10,7 @@ import {
   GenericConfigurator,
   GenericConfigUtilsService,
   I18nTestingModule,
+  LanguageService,
   RoutingService,
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -156,8 +157,12 @@ describe('ConfigurationFormComponent', () => {
   let configuratorUtils: GenericConfigUtilsService;
   let configurationCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
-
+  let mockLanguageService;
   beforeEach(async(() => {
+    mockLanguageService = {
+      getAll: () => of([]),
+      getActive: jasmine.createSpy().and.returnValue(of('en')),
+    };
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
       declarations: [
@@ -190,6 +195,7 @@ describe('ConfigurationFormComponent', () => {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
         },
+        { provide: LanguageService, useValue: mockLanguageService },
       ],
     })
       .overrideComponent(ConfigAttributeHeaderComponent, {

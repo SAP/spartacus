@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ConfigAttributeNumericInputFieldService } from './config-attribute-numeric-input-field.service';
+import { ConfigAttributeNumericInputFieldService } from './config-attribute-numeric-input-field.component.service';
 
 describe('ConfigAttributeNumericInputFieldService', () => {
   let serviceUnderTest: ConfigAttributeNumericInputFieldService;

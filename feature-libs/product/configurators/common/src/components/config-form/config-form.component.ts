@@ -4,13 +4,14 @@ import {
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
   GenericConfigurator,
+  LanguageService,
 } from '@spartacus/core';
 import {
   ConfigRouterExtractorService,
   ConfigurationRouter,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { distinctUntilChanged, filter, switchMap, take } from 'rxjs/operators';
 import { ConfigFormUpdateEvent } from './config-form.event';
 
 @Component({
@@ -42,12 +43,15 @@ export class ConfigFormComponent implements OnInit {
       )
     );
 
+  activeLanguage$: Observable<string> = this.languageService.getActive();
+
   UiType = Configurator.UiType;
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configRouterExtractorService: ConfigRouterExtractorService
+    protected configRouterExtractorService: ConfigRouterExtractorService,
+    protected languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
@@ -78,6 +82,7 @@ export class ConfigFormComponent implements OnInit {
     this.configuratorCommonsService
       .isConfigurationLoading(owner)
       .pipe(
+        distinctUntilChanged(),
         filter((isLoading) => !isLoading),
         take(1)
       )

@@ -29,7 +29,7 @@ function checkForValidationMessage(
   expect(validationDiv.length).toBe(expectedMessages);
 }
 
-describe('ConfigAttributeInputFieldComponent', () => {
+describe('ConfigAttributeNumericInputFieldComponent', () => {
   let component: ConfigAttributeNumericInputFieldComponent;
   const userInput = '345.00';
   let fixture: ComponentFixture<ConfigAttributeNumericInputFieldComponent>;
