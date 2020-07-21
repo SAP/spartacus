@@ -19,6 +19,14 @@
           {{
             header.label || (structure.type + '.' + header.key | cxTranslate)
           }}
+          <cx-icon
+            *ngIf="!!header.sortCode"
+            [type]="
+              header.sortCode === structure.pagination?.sort
+                ? iconTypes.SORT_DOWN
+                : iconTypes.SORT
+            "
+          ></cx-icon>
         </ng-template>
       </th>
     </tr>

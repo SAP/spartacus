@@ -29,6 +29,8 @@ export enum ICON_TYPE {
   FILTER = 'FILTER',
 
   ACTIVE = 'ACTIVE',
+  SORT_DOWN = 'SORT_DOWN',
+  SORT = 'SORT',
 
   ON = 'ON',
   OFF = 'OFF',
