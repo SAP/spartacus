@@ -244,13 +244,11 @@ export class FeatureModulesService implements OnDestroy {
 
   ngOnDestroy(): void {
     // clean up all initialized features
-    for (const featureInstance of this.features.values()) {
+    this.features.forEach((featureInstance) => {
       featureInstance.moduleRef?.destroy();
-    }
+    });
 
     // clean up all initialized dependency modules
-    for (const dependency of this.dependencyModules.values()) {
-      dependency.destroy();
-    }
+    this.dependencyModules.forEach((dependency) => dependency.destroy());
   }
 }
