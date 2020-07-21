@@ -5,9 +5,9 @@
       *ngIf="orderApprovals.pagination.totalResults > 0; else noOrder"
     >
       <!-- Select Form and Pagination Top -->
-      <div class="cx-order-history-sort top row">
+      <div class="cx-order-approval-sort top row">
         <div
-          class="cx-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4"
+          class="cx-order-approval-form-group form-group col-sm-12 col-md-4 col-lg-4"
         >
           <cx-sorting
             [sortOptions]="orderApprovals.sorts"
@@ -16,7 +16,7 @@
             [selectedOption]="orderApprovals.pagination.sort"
           ></cx-sorting>
         </div>
-        <div class="cx-order-history-pagination">
+        <div class="cx-order-approval-pagination">
           <cx-pagination
             [pagination]="orderApprovals.pagination"
             (viewPageEvent)="pageChange($event)"
@@ -24,8 +24,8 @@
         </div>
       </div>
       <!-- TABLE -->
-      <table class="table cx-order-history-table">
-        <thead class="cx-order-history-thead-mobile">
+      <table class="table cx-order-approval-table">
+        <thead class="cx-order-approval-thead-mobile">
           <th scope="col">
             {{ 'orderApprovalList.orderCode' | cxTranslate }}
           </th>
@@ -39,8 +39,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let approval of orderApprovals.values">
-            <td class="cx-order-history-code">
-              <div class="d-md-none cx-order-history-label">
+            <td class="cx-order-approval-code">
+              <div class="d-md-none cx-order-approval-label">
                 {{ 'orderApprovalList.orderCode' | cxTranslate }}
               </div>
               <a
@@ -50,13 +50,13 @@
                     params: { approvalCode: approval?.code }
                   } | cxUrl
                 "
-                class="cx-order-history-value"
+                class="cx-order-approval-value"
               >
                 {{ approval.order?.code }}</a
               >
             </td>
-            <td class="cx-order-history-placed">
-              <div class="d-md-none cx-order-history-label">
+            <td class="cx-order-approval-po-code">
+              <div class="d-md-none cx-order-approval-label">
                 {{ 'orderApprovalList.POCode' | cxTranslate }}
               </div>
               <a
@@ -66,15 +66,15 @@
                     params: approval.order
                   } | cxUrl
                 "
-                class="cx-order-history-value"
+                class="cx-order-approval-value"
                 >{{
                   approval.order?.purchaseOrderNumber ||
                     ('orderApprovalList.none' | cxTranslate)
                 }}</a
               >
             </td>
-            <td class="cx-order-history-placed">
-              <div class="d-md-none cx-order-history-label">
+            <td class="cx-order-approval-placed">
+              <div class="d-md-none cx-order-approval-label">
                 {{ 'orderApprovalList.placedBy' | cxTranslate }}
               </div>
               <a
@@ -84,12 +84,12 @@
                     params: approval.order
                   } | cxUrl
                 "
-                class="cx-order-history-value"
+                class="cx-order-approval-value"
                 >{{ approval.order?.orgCustomer?.name }}</a
               >
             </td>
-            <td class="cx-order-history-placed">
-              <div class="d-md-none cx-order-history-label">
+            <td class="cx-order-approval-date">
+              <div class="d-md-none cx-order-approval-label">
                 {{ 'orderApprovalList.date' | cxTranslate }}
               </div>
               <a
@@ -99,13 +99,13 @@
                     params: approval.order
                   } | cxUrl
                 "
-                class="cx-order-history-value"
+                class="cx-order-approval-value"
                 >{{ approval.order?.created | cxDate: 'longDate' }}</a
               >
             </td>
 
-            <td class="cx-order-history-status">
-              <div class="d-md-none cx-order-history-label">
+            <td class="cx-order-approval-status">
+              <div class="d-md-none cx-order-approval-label">
                 {{ 'orderApprovalList.status' | cxTranslate }}
               </div>
               <a
@@ -115,7 +115,7 @@
                     params: approval.order
                   } | cxUrl
                 "
-                class="cx-order-history-value"
+                class="cx-order-approval-value"
               >
                 {{
                   'orderDetails.statusDisplay_' + approval.order?.statusDisplay
@@ -123,8 +123,8 @@
                 }}</a
               >
             </td>
-            <td class="cx-order-history-total">
-              <div class="d-md-none cx-order-history-label">
+            <td class="cx-order-approval-total">
+              <div class="d-md-none cx-order-approval-label">
                 {{ 'orderApprovalList.total' | cxTranslate }}
               </div>
               <a
@@ -134,7 +134,7 @@
                     params: approval.order
                   } | cxUrl
                 "
-                class="cx-order-history-value"
+                class="cx-order-approval-value"
               >
                 {{ approval.order?.totalPrice?.formattedValue }}</a
               >
@@ -143,9 +143,9 @@
         </tbody>
       </table>
       <!-- Select Form and Pagination Bottom -->
-      <div class="cx-order-history-sort bottom row">
+      <div class="cx-order-approval-sort bottom row">
         <div
-          class="cx-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4"
+          class="cx-order-approval-form-group form-group col-sm-12 col-md-4 col-lg-4"
         >
           <cx-sorting
             [sortOptions]="orderApprovals.sorts"
@@ -154,7 +154,7 @@
             [selectedOption]="orderApprovals.pagination.sort"
           ></cx-sorting>
         </div>
-        <div class="cx-order-history-pagination">
+        <div class="cx-order-approval-pagination">
           <cx-pagination
             [pagination]="orderApprovals.pagination"
             (viewPageEvent)="pageChange($event)"
@@ -165,7 +165,7 @@
 
     <!-- NO ORDER CONTAINER -->
     <ng-template #noOrder>
-      <div class="cx-order-history-no-order row">
+      <div class="cx-order-approval-no-order row">
         <div class="col-sm-12 col-md-6 col-lg-4">
           <div>{{ 'orderApprovalList.emptyList' | cxTranslate }}</div>
         </div>
