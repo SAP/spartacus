@@ -5,7 +5,6 @@ import {
   OrderApproval,
   OrderApprovalService,
   TranslationService,
-  UserOrderService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,7 +16,6 @@ import { map } from 'rxjs/operators';
 })
 export class OrderApprovalListComponent {
   constructor(
-    protected userOrderService: UserOrderService,
     protected orderApprovalService: OrderApprovalService,
     protected translation: TranslationService
   ) {
