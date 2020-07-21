@@ -60,34 +60,33 @@
           </div>
         </div>
       </form>
-
-      <ng-container *ngIf="!approvalFormVisible">
-        <div class="form-group row">
-          <div class="col-lg-4 col-md-12">
-            <a
-              [routerLink]="{ cxRoute: 'orderApprovals' } | cxUrl"
-              class="btn btn-block btn-secondary"
-              >{{ 'orderApproval.back' | cxTranslate }}</a
-            >
-          </div>
-          <div class="col-lg-4 col-md-12">
-            <button
-              class="btn btn-block btn-primary"
-              (click)="displayDecisionForm(approvalDecisionValue.REJECT)"
-            >
-              {{ 'orderApproval.showForm_REJECT' | cxTranslate }}
-            </button>
-          </div>
-          <div class="col-lg-4 col-md-12">
-            <button
-              class="btn btn-block btn-primary"
-              (click)="displayDecisionForm(approvalDecisionValue.APPROVE)"
-            >
-              {{ 'orderApproval.showForm_APPROVE' | cxTranslate }}
-            </button>
-          </div>
+    </ng-container>
+    <ng-container *ngIf="!approvalFormVisible">
+      <div class="form-group row">
+        <div class="col-lg-4 col-md-12">
+          <a
+            [routerLink]="{ cxRoute: 'orderApprovals' } | cxUrl"
+            class="btn btn-block btn-secondary"
+            >{{ 'orderApproval.back' | cxTranslate }}</a
+          >
         </div>
-      </ng-container>
+        <div class="col-lg-4 col-md-12" *ngIf="orderApproval?.approvalDecisionRequired">
+          <button
+            class="btn btn-block btn-primary"
+            (click)="displayDecisionForm(approvalDecisionValue.REJECT)"
+          >
+            {{ 'orderApproval.showForm_REJECT' | cxTranslate }}
+          </button>
+        </div>
+        <div class="col-lg-4 col-md-12" *ngIf="orderApproval?.approvalDecisionRequired">
+          <button
+            class="btn btn-block btn-primary"
+            (click)="displayDecisionForm(approvalDecisionValue.APPROVE)"
+          >
+            {{ 'orderApproval.showForm_APPROVE' | cxTranslate }}
+          </button>
+        </div>
+      </div>
     </ng-container>
   </ng-template>
 </ng-container>

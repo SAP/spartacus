@@ -32,9 +32,11 @@ const mockOrderApproval = {
   },
 } as OrderApproval;
 
+const getOrderApproval$ = new BehaviorSubject<OrderApproval>(mockOrderApproval);
+
 class MockOrderApprovalDetailService {
   getOrderApproval(): Observable<OrderApproval> {
-    return of(mockOrderApproval);
+    return getOrderApproval$.asObservable();
   }
   getOrderApprovalCodeFromRoute(): Observable<string> {
     return of(mockOrderApproval.code);
@@ -164,6 +166,25 @@ describe('OrderApprovalDetailFormComponent', () => {
     orderApprovalLoading$.next(true);
     fixture.detectChanges();
     assertSpinnerDisplayed();
+  });
+
+  it('should display the back to list button when the approval does not require a decision.', () => {
+    getOrderApproval$.next({
+      ...mockOrderApproval,
+      approvalDecisionRequired: false,
+    });
+    fixture.detectChanges();
+    const backToListLink: DebugElement = el
+      .queryAll(By.css('a'))
+      .find((button) =>
+        (button.nativeElement as HTMLElement).textContent.includes(
+          'orderApproval.back'
+        )
+      );
+    expect(backToListLink).toBeTruthy();
+
+    const otherButton: DebugElement = el.query(By.css('button'));
+    expect(otherButton).toBeFalsy();
   });
 
   function displayAndCancelDecisionForm(decision: OrderApprovalDecisionValue) {
