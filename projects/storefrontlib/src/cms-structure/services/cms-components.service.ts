@@ -8,6 +8,7 @@ import {
 import {
   CmsComponentMapping,
   CmsConfig,
+  deepMerge,
   DeferLoadingStrategy,
 } from '@spartacus/core';
 import { Route } from '@angular/router';
@@ -15,7 +16,6 @@ import { isPlatformServer } from '@angular/common';
 import { defer, forkJoin, Observable, of } from 'rxjs';
 import { mapTo, share, tap } from 'rxjs/operators';
 import { FeatureModulesService } from './feature-modules.service';
-import { deepMerge } from '../../../../core/src/config/utils/deep-merge';
 
 @Injectable({
   providedIn: 'root',
@@ -28,23 +28,19 @@ export class CmsComponentsService {
     Observable<CmsComponentMapping>
   > = new Map();
 
-  constructor(
-    config: CmsConfig,
-    platformId: Object,
-    compiler: Compiler,
-    injector: Injector
-  );
   /**
    * @deprecated since 2.1
+   * constructor(config: CmsConfig, platformId: Object);
    */
-  constructor(config: CmsConfig, platformId: Object);
   constructor(
     protected config: CmsConfig,
     @Inject(PLATFORM_ID) protected platformId: Object,
     protected compiler?: Compiler,
     protected injector?: Injector,
     protected featureModules?: FeatureModulesService
-  ) {}
+  ) {
+    console.log('mamy ', this);
+  }
 
   /**
    * Should be called to make sure all component mappings are determined,
