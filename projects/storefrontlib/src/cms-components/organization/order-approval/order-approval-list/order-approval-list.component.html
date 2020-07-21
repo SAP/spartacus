@@ -1,7 +1,9 @@
 <ng-container *ngIf="orderApprovals$ | async as orderApprovals">
   <!-- BODY -->
   <div class="cx-order-history-body">
-    <ng-container *ngIf="orderApprovals.pagination.totalResults > 0; else noOrder">
+    <ng-container
+      *ngIf="orderApprovals.pagination.totalResults > 0; else noOrder"
+    >
       <!-- Select Form and Pagination Top -->
       <div class="cx-order-history-sort top row">
         <div
@@ -28,6 +30,8 @@
           <th scope="col">
             {{ 'orderHistory.orderId' | cxTranslate }}
           </th>
+          <th scope="col">PO</th>
+          <th scope="col">Placed By</th>
           <th scope="col">{{ 'orderHistory.date' | cxTranslate }}</th>
           <th scope="col">
             {{ 'orderHistory.status' | cxTranslate }}
@@ -64,9 +68,40 @@
                   } | cxUrl
                 "
                 class="cx-order-history-value"
+                >{{ approval.order?.purchaseOrderNumber || 'None' }}</a
+              >
+            </td>
+            <td class="cx-order-history-placed">
+              <div class="d-md-none cx-order-history-label">
+                {{ 'orderHistory.date' | cxTranslate }}
+              </div>
+              <a
+                [routerLink]="
+                  {
+                    cxRoute: 'orderDetails',
+                    params: approval.order
+                  } | cxUrl
+                "
+                class="cx-order-history-value"
+                >{{ approval.order?.orgCustomer?.name }}</a
+              >
+            </td>
+            <td class="cx-order-history-placed">
+              <div class="d-md-none cx-order-history-label">
+                {{ 'orderHistory.date' | cxTranslate }}
+              </div>
+              <a
+                [routerLink]="
+                  {
+                    cxRoute: 'orderDetails',
+                    params: approval.order
+                  } | cxUrl
+                "
+                class="cx-order-history-value"
                 >{{ approval.order?.created | cxDate: 'longDate' }}</a
               >
             </td>
+
             <td class="cx-order-history-status">
               <div class="d-md-none cx-order-history-label">
                 {{ 'orderHistory.status' | cxTranslate }}
