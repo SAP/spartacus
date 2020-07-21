@@ -20,15 +20,16 @@
     <span>{{ 'units.orgUnitTree.upOneLevel' | cxTranslate }}</span>
   </a>
 
-  <cx-generic-link
+  <a
     *ngIf="getNodes() as node"
-    [url]="node.url"
+    [routerLink]="node.url"
     [title]="node.title"
     class="node-title"
+    routerLinkActive="active"
   >
-    {{ node.title }}&nbsp;
+    {{ node.title }}
     <span *ngIf="node.children?.length > 0">({{ node.children?.length }})</span>
-  </cx-generic-link>
+  </a>
 
   <ng-container
     *ngTemplateOutlet="
@@ -65,22 +66,21 @@
             (keydown.space)="toggleAriaExpandedForNode(code + '_' + i)"
             tabindex="0"
           ></cx-icon>
-          <cx-generic-link
-            [url]="child.url"
+          <a
+            [routerLink]="child.url"
             [title]="child.title"
             [class.margin-left]="!child.children?.length"
-            [class.highlight-active]="selectedUnitName === child.title"
-          >
-            {{ child.title }}
+            routerLinkActive="active"
+            >{{ child.title }}
             <span *ngIf="child.children?.length > 0">
               &nbsp;({{ child.children?.length }})</span
             >
-          </cx-generic-link>
+          </a>
         </div>
 
         <div *ngIf="isMobile" class="tree-mobile-branch">
-          <cx-generic-link
-            [url]="child.url"
+          <a
+            [routerLink]="child.url"
             [title]="child.title"
             [class.margin-left]="!child.children?.length"
             class="node-title"
@@ -89,7 +89,7 @@
             <span *ngIf="child.children?.length > 0">
               &nbsp;({{ child.children?.length }})
             </span>
-          </cx-generic-link>
+          </a>
           <cx-icon
             *ngIf="child.children?.length > 0"
             [type]="iconType.CARET_RIGHT"

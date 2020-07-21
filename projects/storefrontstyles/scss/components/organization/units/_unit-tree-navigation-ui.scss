@@ -1,5 +1,5 @@
 %cx-unit-tree-navigation-ui {
-  cx-generic-link {
+  a {
     font-size: 1.125rem;
 
     &.active {
@@ -17,7 +17,7 @@
       min-width: 16px;
     }
 
-    cx-generic-link {
+    a {
       &.margin-left {
         margin-left: 22px;
 
@@ -53,6 +53,10 @@
       @include media-breakpoint-down(md) {
         display: none;
       }
+
+      cx-icon {
+        margin-right: 4px;
+      }
     }
 
     .tree-mobile-branch {
@@ -60,14 +64,20 @@
       @include media-breakpoint-down(md) {
         display: flex;
 
-        cx-generic-link {
+        a {
           width: 100%;
         }
       }
 
-      cx-generic-link {
+      a {
         &.margin-left {
           margin-left: 0;
+        }
+      }
+
+      &.active {
+        a {
+          background-color: #0a6ed1;
         }
       }
     }
@@ -83,13 +93,17 @@
   }
 
   .node-title {
-    display: flex;
-    width: 100%;
-    min-height: 2.5rem;
-    align-items: center;
+    display: inline-block;
 
     > span {
       margin-left: 5px;
+    }
+
+    @include media-breakpoint-down(md) {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: 2.5rem;
     }
   }
 
