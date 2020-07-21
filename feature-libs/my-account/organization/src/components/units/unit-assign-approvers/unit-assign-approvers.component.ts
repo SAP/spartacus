@@ -1,91 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { Component } from '@angular/core';
+import { map, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import {
-  RoutingService,
-  EntitiesModel,
-  OrgUnitService,
-  B2BUser,
-} from '@spartacus/core';
-import {
-  AbstractListingComponent,
-  ListingModel,
-} from '../../abstract-component/abstract-listing.component';
+import { PaginationModel } from '@spartacus/core';
+import { Table } from '@spartacus/storefront';
+import { ActivatedRoute } from '@angular/router';
+import { UnitAssignApproversService } from './unit-assign-approvers.service';
 
 @Component({
   selector: 'cx-unit-assign-approvers',
   templateUrl: './unit-assign-approvers.component.html',
 })
-export class UnitAssignApproversComponent extends AbstractListingComponent
-  implements OnInit {
-  code: string;
-  cxRoute = 'orgUnitAssignApprovers';
-
-  constructor(
-    protected routingService: RoutingService,
-    protected orgUnitsService: OrgUnitService
-  ) {
-    super(routingService);
-  }
-
+export class UnitAssignApproversComponent {
   protected readonly APPROVERS_ROLE_ID = 'b2bapprovergroup';
 
-  ngOnInit(): void {
-    this.code$.pipe(take(1)).subscribe((code) => (this.code = code));
+  code$: Observable<string> = this.activateRoute.parent.parent.params.pipe(
+    map((params) => params['code'])
+  );
 
-    this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
-      withLatestFrom(this.code$),
-      tap(([queryParams, code]) =>
-        this.orgUnitsService.loadUsers(
-          code,
-          this.APPROVERS_ROLE_ID,
-          queryParams
-        )
-      ),
-      switchMap(([queryParams, code]) =>
-        this.orgUnitsService
-          .getUsers(code, this.APPROVERS_ROLE_ID, queryParams)
-          .pipe(
-            filter(Boolean),
-            map((userList: EntitiesModel<B2BUser>) => ({
-              sorts: userList.sorts,
-              pagination: userList.pagination,
-              values: userList.values.map((user) => ({
-                selected: user.selected,
-                email: user.uid,
-                name: user.name,
-                roles: user.roles,
-                parentUnit: user.orgUnit && user.orgUnit.name,
-                uid: user.orgUnit && user.orgUnit.uid,
-                customerId: user.customerId,
-              })),
-            }))
-          )
-      )
+  dataTable$: Observable<Table> = this.code$.pipe(
+    switchMap((code) =>
+      this.unitAssignApproversService.getTable(code, this.APPROVERS_ROLE_ID)
+    )
+  );
+
+  constructor(
+    protected activateRoute: ActivatedRoute,
+    protected unitAssignApproversService: UnitAssignApproversService
+  ) {}
+
+  toggleAssign(orgUnitId: string, orgCustomerId: string, checked: boolean) {
+    this.unitAssignApproversService.toggleAssign(
+      orgUnitId,
+      orgCustomerId,
+      this.APPROVERS_ROLE_ID,
+      checked
     );
   }
 
-  assign({ row }) {
-    this.orgUnitsService.assignApprover(
-      this.code,
-      row.customerId,
-      this.APPROVERS_ROLE_ID
-    );
+  viewPage(pagination: PaginationModel, currentPage: number): void {
+    this.unitAssignApproversService.viewPage(pagination, currentPage);
   }
 
-  unassign({ row }) {
-    this.orgUnitsService.unassignApprover(
-      this.code,
-      row.customerId,
-      this.APPROVERS_ROLE_ID
-    );
+  sort(pagination: PaginationModel, sort: string) {
+    this.unitAssignApproversService.sort(pagination, sort);
   }
 }

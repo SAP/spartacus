@@ -6,16 +6,29 @@
   >
     <h3>
       <a
+        *ngIf="parentUnit$ | async as parentUnit; else orgUnitsLink"
         class="link"
-        [routerLink]="{ cxRoute: 'orgUnits' } | cxUrl"
+        [routerLink]="
+          { cxRoute: 'orgUnitDetails', params: { uid: parentUnit } } | cxUrl
+        "
         (click)="view.toggle()"
       >
         <cx-icon type="CARET_LEFT"></cx-icon>
       </a>
-      {{ 'units.orgUnitForm.create' | cxTranslate }}
+      <ng-template #orgUnitsLink>
+        <a
+          class="link"
+          [routerLink]="{ cxRoute: 'orgUnits' } | cxUrl"
+          (click)="view.toggle()"
+        >
+          <cx-icon type="CARET_LEFT"></cx-icon>
+        </a>
+      </ng-template>
+
+      <span>{{ 'units.orgUnitForm.create' | cxTranslate }}</span>
     </h3>
 
-    <section>
+    <section class="half">
       <cx-unit-form [form]="form"></cx-unit-form>
       <button class="button primary" type="submit">
         {{ 'organization.save' | cxTranslate }}

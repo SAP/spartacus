@@ -1,13 +1,18 @@
 import { AuthGuard, CmsConfig, RoutingConfig } from '@spartacus/core';
 import { ManageUnitsListComponent } from './unit-list';
 import { UnitCreateComponent } from './unit-create';
-import { SplitViewDeactivateGuard, TableConfig } from '@spartacus/storefront';
+import {
+  BREAKPOINT,
+  SplitViewDeactivateGuard,
+  TableConfig,
+} from '@spartacus/storefront';
 import { UnitDetailsComponent } from './unit-details';
 import { UnitEditComponent } from './unit-edit';
 import { UnitUsersComponent } from './unit-users';
 import { OrganizationTableType } from '../shared';
 import { UnitChildrenComponent } from './unit-children';
 import { UnitApproversComponent } from './unit-approvers';
+import { UnitAssignApproversComponent } from './unit-assign-approvers';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -40,15 +45,14 @@ export const unitsRoutingConfig: RoutingConfig = {
       // orgUnitAssignRoles: {
       //   paths: ['organization/unit/assign-roles/:code/:roleId'],
       // },
-
       orgUnitApprovers: {
         paths: ['organization/units/:code/approvers'],
         paramsMapping: { code: 'uid' },
       },
-
-      // orgUnitAssignApprovers: {
-      //   paths: ['organization/unit/assign-approvers/:code'],
-      // },
+      orgUnitAssignApprovers: {
+        paths: ['organization/units/:code/approvers/assign'],
+        paramsMapping: { code: 'uid' },
+      },
 
       // orgUnitAddressDetails: {
       //   paths: ['organization/unit/address/:code/:id'],
@@ -107,6 +111,13 @@ export const unitsCmsConfig: CmsConfig = {
               path: 'approvers',
               component: UnitApproversComponent,
               canDeactivate: [SplitViewDeactivateGuard],
+              children: [
+                {
+                  path: 'assign',
+                  component: UnitAssignApproversComponent,
+                  canDeactivate: [SplitViewDeactivateGuard],
+                },
+              ],
             },
           ],
         },
@@ -141,6 +152,27 @@ export const unitsTableConfig: TableConfig = {
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },
+      },
+    ],
+    [OrganizationTableType.UNIT_ASSIGN_APPROVERS]: [
+      {
+        pagination: {
+          sort: 'byName',
+        },
+      },
+      {
+        breakpoint: BREAKPOINT.xs,
+        headers: [{ key: 'selected' }, { key: 'summary' }, { key: 'link' }],
+        hideHeader: true,
+      },
+      {
+        breakpoint: BREAKPOINT.lg,
+        headers: [
+          { key: 'name', sortCode: 'byName' },
+          { key: 'email', sortCode: 'byEmail' },
+          { key: 'roles' },
+          { key: 'orgUnit' },
+        ],
       },
     ],
   },
