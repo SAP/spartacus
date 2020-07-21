@@ -7,6 +7,10 @@ import { UnitEditComponent } from './unit-edit';
 import { UnitUsersComponent } from './unit-users';
 import { OrganizationTableType } from '../shared';
 import { UnitChildrenComponent } from './unit-children';
+import { UnitApproversComponent } from './unit-approvers';
+
+// TODO:#my-account-architecture - Number.MAX_VALUE?
+const MAX_OCC_INTEGER_VALUE = 2147483647;
 
 export const unitsRoutingConfig: RoutingConfig = {
   routing: {
@@ -37,9 +41,10 @@ export const unitsRoutingConfig: RoutingConfig = {
       //   paths: ['organization/unit/assign-roles/:code/:roleId'],
       // },
 
-      // orgUnitApprovers: {
-      //   paths: ['organization/unit/approvers/:code'],
-      // },
+      orgUnitApprovers: {
+        paths: ['organization/units/:code/approvers'],
+        paramsMapping: { code: 'uid' },
+      },
 
       // orgUnitAssignApprovers: {
       //   paths: ['organization/unit/assign-approvers/:code'],
@@ -98,6 +103,11 @@ export const unitsCmsConfig: CmsConfig = {
               component: UnitUsersComponent,
               canDeactivate: [SplitViewDeactivateGuard],
             },
+            {
+              path: 'approvers',
+              component: UnitApproversComponent,
+              canDeactivate: [SplitViewDeactivateGuard],
+            },
           ],
         },
       ],
@@ -119,6 +129,18 @@ export const unitsTableConfig: TableConfig = {
       {
         headers: [{ key: 'summary' }, { key: 'link' }],
         hideHeader: true,
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+      },
+    ],
+    [OrganizationTableType.UNIT_APPROVERS]: [
+      {
+        headers: [{ key: 'summary' }, { key: 'link' }],
+        hideHeader: true,
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
       },
     ],
   },

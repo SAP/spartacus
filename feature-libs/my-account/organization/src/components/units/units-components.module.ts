@@ -11,6 +11,7 @@ import { UnitEditModule } from './unit-edit';
 import { UnitDetailsModule } from './unit-details';
 import { UnitUsersModule } from './unit-users';
 import { UnitChildrenModule } from './unit-children';
+import { UnitApproversModule } from './unit-approvers';
 
 @NgModule({
   imports: [
@@ -28,11 +29,11 @@ import { UnitChildrenModule } from './unit-children';
     UnitDetailsModule,
     UnitUsersModule,
     UnitChildrenModule,
+    UnitApproversModule,
 
     // UnitAddressCreateModule,
     // UnitAddressDetailsModule,
     // UnitAddressEditModule,
-    // UnitApproversModule,
     // UnitAssignApproversModule,
     // UnitAssignRolesModule,
     // UnitCostCentersModule,

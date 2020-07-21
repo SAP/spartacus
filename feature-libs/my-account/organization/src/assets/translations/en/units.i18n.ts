@@ -74,6 +74,7 @@ export const units = {
     header: 'Approvers in {{code}}',
     back: 'Close',
     assignApprovers: 'Manage Approvers',
+    newApprover: 'New approver',
   },
   unitAssignApprovers: {
     header: 'Manage approvers in {{code}}',

@@ -1,76 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { Component } from '@angular/core';
+import { Table } from '@spartacus/storefront';
+import { ActivatedRoute } from '@angular/router';
+import { map, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-
-import {
-  RoutingService,
-  EntitiesModel,
-  OrgUnitService,
-  B2BUser,
-} from '@spartacus/core';
-import {
-  AbstractListingComponent,
-  ListingModel,
-} from '../../abstract-component/abstract-listing.component';
+import { UnitApproversService } from './unit-approvers.service';
 
 @Component({
   selector: 'cx-unit-approvers',
   templateUrl: './unit-approvers.component.html',
 })
-export class UnitApproversComponent extends AbstractListingComponent
-  implements OnInit {
-  code: string;
-  cxRoute = 'orgUnitApprovers';
-
-  constructor(
-    protected routingService: RoutingService,
-    protected orgUnitsService: OrgUnitService
-  ) {
-    super(routingService);
-  }
-
+export class UnitApproversComponent {
   protected readonly APPROVERS_ROLE_ID = 'b2bapprovergroup';
 
-  ngOnInit(): void {
-    this.code$.pipe(take(1)).subscribe((code) => (this.code = code));
+  code$: Observable<string> = this.route.parent.params.pipe(
+    map((routingData) => routingData['code'])
+  );
 
-    this.data$ = <Observable<ListingModel>>this.queryParamsForAllItems$.pipe(
-      withLatestFrom(this.code$),
-      tap(([queryParams, code]) =>
-        this.orgUnitsService.loadUsers(
-          code,
-          this.APPROVERS_ROLE_ID,
-          queryParams
-        )
-      ),
-      switchMap(([queryParams, code]) =>
-        this.orgUnitsService
-          .getUsers(code, this.APPROVERS_ROLE_ID, queryParams)
-          .pipe(
-            filter(Boolean),
-            map((userList: EntitiesModel<B2BUser>) => ({
-              sorts: userList.sorts,
-              pagination: userList.pagination,
-              values: userList.values
-                .filter((user) => user.selected)
-                .map((user) => ({
-                  email: user.uid,
-                  name: user.name,
-                  roles: user.roles,
-                  parentUnit: user.orgUnit && user.orgUnit.name,
-                  uid: user.orgUnit && user.orgUnit.uid,
-                  customerId: user.customerId,
-                })),
-            }))
-          )
-      )
-    );
-  }
+  dataTable$: Observable<Table> = this.code$.pipe(
+    switchMap((code) =>
+      this.unitApproversService.getTable(code, this.APPROVERS_ROLE_ID)
+    )
+  );
+
+  constructor(
+    protected route: ActivatedRoute,
+    protected unitApproversService: UnitApproversService
+  ) {}
 }

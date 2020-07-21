@@ -5,18 +5,25 @@ import { I18nModule, UrlModule } from '@spartacus/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { UnitApproversComponent } from './unit-approvers.component';
-import { FakeTabsModule, InteractiveTableModule } from '@spartacus/storefront';
+import {
+  IconModule,
+  OutletRefModule,
+  SplitViewModule,
+  TableModule,
+} from '@spartacus/storefront';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
     UrlModule,
     I18nModule,
-    InteractiveTableModule,
+    TableModule,
     NgSelectModule,
     FormsModule,
-    FakeTabsModule,
+    SplitViewModule,
+    RouterModule,
+    OutletRefModule,
+    IconModule,
   ],
   declarations: [UnitApproversComponent],
   exports: [UnitApproversComponent],
