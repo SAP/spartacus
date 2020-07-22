@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <diV id="cx-config-update-message" class="d-none">
+  <diV id="cx-config-update-message" [class]="visibleClass$ | async">
     <cx-spinner></cx-spinner>
     <strong>{{ 'configurator.header.updateMessage' | cxTranslate }}</strong>
   </diV>

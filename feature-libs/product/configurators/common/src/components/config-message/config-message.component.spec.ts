@@ -87,7 +87,6 @@ describe('ConfigurationMessageComponent', () => {
   });
 
   it('should not show update banner if pending changes and loading is false', () => {
-    component.ngOnInit();
     fixture.detectChanges();
 
     //Should contain d-none class
@@ -99,7 +98,6 @@ describe('ConfigurationMessageComponent', () => {
   it('should show update banner if pending changes is true', () => {
     hasPendingChanges = true;
     isConfigurationLoading = false;
-    component.ngOnInit();
     fixture.detectChanges();
 
     //Should be hidden first
@@ -122,7 +120,6 @@ describe('ConfigurationMessageComponent', () => {
   it('should show update banner if loading is true', () => {
     hasPendingChanges = false;
     isConfigurationLoading = true;
-    component.ngOnInit();
     fixture.detectChanges();
 
     //Should be hidden first
@@ -145,7 +142,6 @@ describe('ConfigurationMessageComponent', () => {
   it('should show update banner if loading and pending changes are true', () => {
     hasPendingChanges = true;
     isConfigurationLoading = true;
-    component.ngOnInit();
     fixture.detectChanges();
 
     //Should be hidden first
@@ -169,7 +165,6 @@ describe('ConfigurationMessageComponent', () => {
     hasPendingChanges = true;
     isConfigurationLoading = true;
     waitingTime = 100;
-    component.ngOnInit();
     fixture.detectChanges();
 
     //Should be hidden first
