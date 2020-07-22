@@ -40,7 +40,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
       catchError((errResponse: any) => {
         if (errResponse instanceof HttpErrorResponse) {
           switch (errResponse.status) {
-            case HttpResponseStatus.UNAUTHORIZED: // Unauthorizedb
+            case HttpResponseStatus.UNAUTHORIZED:
               if (isClientTokenRequest) {
                 if (this.isExpiredToken(errResponse)) {
                   return this.clientErrorHandlingService.handleExpiredClientToken(
@@ -66,7 +66,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
                 }
               }
               break;
-            case HttpResponseStatus.BAD_REQUEST: // Bad Request
+            case HttpResponseStatus.BAD_REQUEST:
               if (
                 errResponse.url.includes(OAUTH_ENDPOINT) &&
                 errResponse.error.error === 'invalid_grant'
