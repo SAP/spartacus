@@ -27,6 +27,22 @@
         (viewPageEvent)="viewPage(dataTable.pagination, $event)"
       ></cx-pagination>
     </section>
+    <div class="instructions">
+      <ul>
+        <li>{{ 'costCenter.budget.instructions.check' | cxTranslate }}</li>
+        <li>{{ 'costCenter.budget.instructions.uncheck' | cxTranslate }}</li>
+        <li>{{ 'costCenter.budget.instructions.changes' | cxTranslate }}</li>
+      </ul>
+      <button
+        class="button secondary"
+        [routerLink]="
+          { cxRoute: 'costCenterBudgets', params: { code: costCenterCode } }
+            | cxUrl
+        "
+      >
+        {{ 'costCenter.budget.back' | cxTranslate }}
+      </button>
+    </div>
   </ng-container>
 
   <ng-template #emptyList>
