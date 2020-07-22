@@ -7,5 +7,5 @@ export const organizationTranslations: TranslationResources = {
 
 // expose all translation chunk mapping for organization sub features
 export const organizationTranslationChunksConfig: TranslationChunksConfig = {
-  organization: ['costCenter', 'units'],
+  organization: ['breadcrumbs', 'costCenter', 'costCenterAssignBudget', 'units'],
 };
