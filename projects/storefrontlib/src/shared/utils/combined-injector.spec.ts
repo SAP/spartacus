@@ -85,7 +85,8 @@ describe('CombinedInjector', () => {
   it('should prioritize child injectors by their order', () => {
     expect(injector.get('e')).toEqual('e-second');
   });
-  it('should prioritize child injectors by their order', () => {
-    expect(injector.get('xxx')).toEqual('e-second');
+  it('should support default value correctly', () => {
+    expect(injector.get('xxx', 'default')).toEqual('default');
+    expect(injector.get('a', 'default')).not.toEqual('default');
   });
 });

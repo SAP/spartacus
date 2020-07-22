@@ -25,7 +25,7 @@ export class CombinedInjector implements Injector {
   ): T;
   get(token: any, notFoundValue?: any): any;
   get(token, notFoundValue?: any, flags?: InjectFlags): any {
-    if (InjectFlags.Self) {
+    if (flags & InjectFlags.Self) {
       if (notFoundValue !== undefined) {
         return notFoundValue;
       }
