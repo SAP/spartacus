@@ -2,12 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { PointOfService } from '../../model/point-of-service.model';
 import { StoreDataService } from './store-data.service';
 
-const YEAR_2018 = 2018;
 const MONTH_AUGUST = 8;
-const DAY_SEVENTEEN = 17;
-const DAY_TWENTY_THREE = 23;
-const TO_BE_LATITUDE = 35.528984;
-const TO_BE_LONGITUDE = 139.700168;
 
 const location: PointOfService = {
   geoPoint: {
@@ -126,33 +121,43 @@ describe('StoreDataService', () => {
   });
 
   it('should return store latitude', () => {
+    const TO_BE_LATITUDE = 35.528984;
     expect(service.getStoreLatitude(location)).toBe(TO_BE_LATITUDE);
   });
 
   it('should return store longitude', () => {
+    const TO_BE_LONGITUDE = 139.700168;
     expect(service.getStoreLongitude(location)).toBe(TO_BE_LONGITUDE);
   });
 
   it('should return store opening time', () => {
-    const monday = new Date(YEAR_2018, MONTH_AUGUST, DAY_SEVENTEEN);
+    const DAY = 17;
+    const YEAR = 2018;
+    const monday = new Date(YEAR, MONTH_AUGUST, DAY);
 
     expect(service.getStoreOpeningTime(location, monday)).toBe('01:02');
   });
 
   it('should return store closing time', () => {
-    const monday = new Date(YEAR_2018, MONTH_AUGUST, DAY_SEVENTEEN);
+    const DAY = 17;
+    const YEAR = 2018;
+    const monday = new Date(YEAR, MONTH_AUGUST, DAY);
 
     expect(service.getStoreClosingTime(location, monday)).toBe('20:00');
   });
 
   it('should not return opening time when store is closed', () => {
-    const sunday = new Date(YEAR_2018, MONTH_AUGUST, DAY_TWENTY_THREE);
+    const DAY = 23;
+    const YEAR = 2018;
+    const sunday = new Date(YEAR, MONTH_AUGUST, DAY);
 
     expect(service.getStoreOpeningTime(location, sunday)).toBe('closed');
   });
 
   it('should not return closing time when store is closed', () => {
-    const sunday = new Date(YEAR_2018, MONTH_AUGUST, DAY_TWENTY_THREE);
+    const DAY = 23;
+    const YEAR = 2018;
+    const sunday = new Date(YEAR, MONTH_AUGUST, DAY);
 
     expect(service.getStoreClosingTime(location, sunday)).toBe('closed');
   });

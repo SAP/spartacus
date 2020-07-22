@@ -6,9 +6,6 @@ import { I18nTestingModule } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
 
-const EXP_COL_COUNT_TWO = 2;
-const EXP_COL_COUNT_THREE = 3;
-
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -106,44 +103,50 @@ describe('Navigation UI Component', () => {
     });
 
     it('should return 2 for 10', () => {
+      const EXP_COL_COUNT = 2;
       const COLUMN_COUNT = 10;
       expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
-        EXP_COL_COUNT_TWO
+        EXP_COL_COUNT
       );
     });
 
     it('should return 2 for 11', () => {
+      const EXP_COL_COUNT = 2;
       const COLUMN_COUNT = 11;
       expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
-        EXP_COL_COUNT_TWO
+        EXP_COL_COUNT
       );
     });
 
     it('should return 2 for 12', () => {
       const COLUMN_COUNT = 12;
+      const EXP_COL_COUNT = 2;
       expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
-        EXP_COL_COUNT_TWO
+        EXP_COL_COUNT
       );
     });
 
     it('should return 3 for 13', () => {
       const COLUMN_COUNT = 13;
+      const EXP_COL_COUNT = 3;
       expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
-        EXP_COL_COUNT_THREE
+        EXP_COL_COUNT
       );
     });
 
     it('should return column count of 3 for 14 items', () => {
       const COLUMN_COUNT = 14;
+      const EXP_COL_COUNT = 3;
       expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
-        EXP_COL_COUNT_THREE
+        EXP_COL_COUNT
       );
     });
 
     it('should return column count of 3 for 15 items', () => {
       const COLUMN_COUNT = 15;
+      const EXP_COL_COUNT = 3;
       expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
-        EXP_COL_COUNT_THREE
+        EXP_COL_COUNT
       );
     });
   });

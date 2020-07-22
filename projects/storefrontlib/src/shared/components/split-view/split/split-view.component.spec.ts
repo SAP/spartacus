@@ -41,8 +41,9 @@ describe('SplitViewComponent', () => {
   });
 
   it('should bind service.visibleViewCount to lastVisibleView', () => {
+    const VALUE = 5;
     fixture.detectChanges();
-    expect(component.lastVisibleView).toEqual(VALUE_FIVE);
+    expect(component.lastVisibleView).toEqual(VALUE);
   });
 
   it('should bind lastVisibleView to --cx-last-visible-view CSS property', () => {

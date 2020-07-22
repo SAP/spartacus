@@ -1,10 +1,6 @@
 import { Applicable, resolveApplicable } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
-const SECOND_APPLICABLE = 2;
-const SECOND_PRIO = 2;
-const LEAST_PRIO = -1100;
-
 describe('resolveApplicable', () => {
   it('should resolve applicable when hasMatch returns true', () => {
     const applicables: Applicable[] = [
@@ -29,12 +25,13 @@ describe('resolveApplicable', () => {
   });
 
   it('should resolve applicable with highest priority', () => {
+    const PRIORITY = 2;
     const applicables: Applicable[] = [
       {
         getPriority: () => -1,
       },
       {
-        getPriority: () => SECOND_PRIO,
+        getPriority: () => PRIORITY,
       },
       {
         getPriority: () => 1,
@@ -45,6 +42,9 @@ describe('resolveApplicable', () => {
 
   describe('applicable without getPriority method is treated as Priotity.NORMAL or 0', () => {
     it('should resolve applicable with highest priority', () => {
+      const LEAST_PRIO = -1100;
+      const APPLICABLE_INDEX = 2;
+
       const applicables: Applicable[] = [
         {
           getPriority: () => LEAST_PRIO,
@@ -55,19 +55,19 @@ describe('resolveApplicable', () => {
         },
       ];
       expect(resolveApplicable(applicables)).toBe(
-        applicables[SECOND_APPLICABLE]
+        applicables[APPLICABLE_INDEX]
       );
     });
 
     it('should resolve applicable with highest priority', () => {
-      const MINUS_THREE = -3;
+      const NEGATIVE_PRIORITY = -3;
       const applicables: Applicable[] = [
         {
           getPriority: () => -1,
         },
         {},
         {
-          getPriority: () => MINUS_THREE,
+          getPriority: () => NEGATIVE_PRIORITY,
         },
       ];
       expect(resolveApplicable(applicables)).toBe(applicables[1]);
@@ -75,14 +75,15 @@ describe('resolveApplicable', () => {
   });
 
   it('should take into account both hasMatch and getPriority', () => {
-    const HUNDREDTH_PRIO = 100;
+    const PRIORITY_HIGHER = 2;
+    const PRIORITY_LOWER = 100;
     const applicables: Applicable[] = [
       {
-        getPriority: () => HUNDREDTH_PRIO,
+        getPriority: () => PRIORITY_LOWER,
         hasMatch: () => false,
       },
       {
-        getPriority: () => SECOND_PRIO,
+        getPriority: () => PRIORITY_HIGHER,
         hasMatch: () => true,
       },
     ];
@@ -149,7 +150,8 @@ describe('resolveApplicable', () => {
   });
 
   it('in case of identical priorities last one applicable should win', () => {
+    const APPLICABLE_INDEX = 2;
     const applicables: Applicable[] = [{}, {}, {}];
-    expect(resolveApplicable(applicables)).toBe(applicables[SECOND_APPLICABLE]);
+    expect(resolveApplicable(applicables)).toBe(applicables[APPLICABLE_INDEX]);
   });
 });

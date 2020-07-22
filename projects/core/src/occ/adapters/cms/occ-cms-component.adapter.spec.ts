@@ -13,8 +13,6 @@ import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 
-const PAGE_SIZE_FIVE = 5;
-
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
   { uid: 'comp2', typeCode: 'CMSLinkComponent' },
@@ -130,9 +128,10 @@ describe('OccCmsComponentAdapter', () => {
     });
 
     it('should get a list of cms component data using GET request with pagination parameters', () => {
+      const PAGE_SIZE = 5;
       spyOnEndpoint(spyOnGetEndpoint);
 
-      assertGetSubscription(service, 'FULL', 0, PAGE_SIZE_FIVE);
+      assertGetSubscription(service, 'FULL', 0, PAGE_SIZE);
 
       const testRequest = mockHttpRequest('GET', spyOnGetEndpoint);
 
@@ -167,9 +166,10 @@ describe('OccCmsComponentAdapter', () => {
     });
 
     it('should get a list of cms component data using POST request with pagination parameters', () => {
+      const PAGE_SIZE = 5;
       spyOnEndpoint(spyOnPostEndpoint);
 
-      assertPostSubscription(service, 'FULL', 0, PAGE_SIZE_FIVE);
+      assertPostSubscription(service, 'FULL', 0, PAGE_SIZE);
 
       const testRequest = mockHttpRequest('POST', spyOnPostEndpoint);
 

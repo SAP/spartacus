@@ -155,11 +155,11 @@ describe('Checkout reducer', () => {
 
   describe('CLEAR_CHECKOUT_STEP action', () => {
     it('should clear step number 2', () => {
-      const STEP_TWO = 2;
+      const STEP = 2;
       const { initialState } = fromCheckout;
       const delivMode = { supported: {}, selected: '' };
 
-      const action = new CheckoutActions.ClearCheckoutStep(STEP_TWO);
+      const action = new CheckoutActions.ClearCheckoutStep(STEP);
       const state = fromCheckout.reducer(initialState, action);
       expect(state.deliveryMode).toEqual(delivMode);
     });
@@ -167,11 +167,11 @@ describe('Checkout reducer', () => {
 
   describe('CLEAR_CHECKOUT_STEP action', () => {
     it('should clear step number 3', () => {
-      const STEP_THREE = 3;
+      const STEP = 3;
       const { initialState } = fromCheckout;
       const paymentDets = {};
 
-      const action = new CheckoutActions.ClearCheckoutStep(STEP_THREE);
+      const action = new CheckoutActions.ClearCheckoutStep(STEP);
       const state = fromCheckout.reducer(initialState, action);
       expect(state.paymentDetails).toEqual(paymentDets);
     });
@@ -179,10 +179,10 @@ describe('Checkout reducer', () => {
 
   describe('CLEAR_CHECKOUT_STEP action', () => {
     it('should clear invalid step number', () => {
-      const STEP_FOUR = 4;
+      const STEP = 4;
       const { initialState } = fromCheckout;
 
-      const action = new CheckoutActions.ClearCheckoutStep(STEP_FOUR);
+      const action = new CheckoutActions.ClearCheckoutStep(STEP);
       const state = fromCheckout.reducer(initialState, action);
       expect(state).toEqual(initialState);
     });
