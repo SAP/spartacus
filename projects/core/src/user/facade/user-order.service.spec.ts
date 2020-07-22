@@ -10,8 +10,6 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserOrderService } from './user-order.service';
 
-const PAGE_SIZE_TEN = 10;
-
 class MockAuthService {
   invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
@@ -119,7 +117,8 @@ describe('UserOrderService', () => {
   });
 
   it('should be able to load order list data', () => {
-    service.loadOrderList(PAGE_SIZE_TEN, 1, 'byDate');
+    const PAGE_SIZE = 10;
+    service.loadOrderList(PAGE_SIZE, 1, 'byDate');
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.LoadUserOrders({
         userId: OCC_USER_ID_CURRENT,

@@ -7,7 +7,8 @@ import { SkipLinkService } from '../service/skip-link.service';
 import { SkipLinkComponent } from './skip-link.component';
 
 const EXPECTED_LENGTH = 3;
-const VALUE_TWO = 2;
+const BUTTON_POSITION = 2;
+const SKIP_LINK_POSITION = 2;
 const mockSkipLinks: SkipLink[] = [
   {
     target: null,
@@ -79,13 +80,13 @@ describe('SkipLinkComponent', () => {
     expect(buttons.length).toEqual(EXPECTED_LENGTH);
     expect(buttons[0].outerText).toContain(mockSkipLinks[0].i18nKey);
     expect(buttons[1].outerText).toContain(mockSkipLinks[1].i18nKey);
-    expect(buttons[VALUE_TWO].outerText).toContain(
-      mockSkipLinks[VALUE_TWO].i18nKey
+    expect(buttons[BUTTON_POSITION].outerText).toContain(
+      mockSkipLinks[SKIP_LINK_POSITION].i18nKey
     );
   });
 
   it('should call `scrollToTarget` on each button click', () => {
-    const THREE_TIMES = 3;
+    const EXPECTED_TIMES_CALLED = 3;
     const spyComponent = spyOn(skipLinkComponent, 'scrollToTarget');
     const element = fixture.debugElement.nativeElement;
     const buttons = element.querySelectorAll('button');
@@ -95,11 +96,13 @@ describe('SkipLinkComponent', () => {
 
     buttons[0].click();
     buttons[1].click();
-    buttons[VALUE_TWO].click();
+    buttons[BUTTON_POSITION].click();
 
     expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[0]);
     expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[1]);
-    expect(spyComponent).toHaveBeenCalledWith(mockSkipLinks[VALUE_TWO]);
-    expect(spyComponent).toHaveBeenCalledTimes(THREE_TIMES);
+    expect(spyComponent).toHaveBeenCalledWith(
+      mockSkipLinks[SKIP_LINK_POSITION]
+    );
+    expect(spyComponent).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
   });
 });

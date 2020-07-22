@@ -81,11 +81,11 @@ describe('ActiveFacetsComponent', () => {
   });
 
   it('should render an anchor links for every active facets', () => {
-    const LEN_TWO = 2;
+    const EXPECTED_HEADER_LENGTH = 2;
     component.facetList$ = of(mockFacetList);
     fixture.detectChanges();
     const header = element.queryAll(By.css('a'));
-    expect(header.length).toEqual(LEN_TWO);
+    expect(header.length).toEqual(EXPECTED_HEADER_LENGTH);
   });
 
   it('should return focus key when there is no matching facet', () => {

@@ -9,7 +9,7 @@ import { FormErrorsModule } from '../../../../../../shared/index';
 import { OrderAmendService } from '../../amend-order.service';
 import { CancelOrderComponent } from './cancel-order.component';
 
-const LENGTH_TWO = 2;
+const EXPECTED_ELEMENT_LENGTH = 2;
 const mockForm = new FormGroup({
   orderCode: new FormControl('123'),
   entries: new FormControl([]),
@@ -78,7 +78,7 @@ describe('CancelOrderComponent', () => {
 
     expect(
       fixture.debugElement.queryAll(By.css('cx-amend-order-actions')).length
-    ).toEqual(LENGTH_TWO);
+    ).toEqual(EXPECTED_ELEMENT_LENGTH);
   });
 
   it('should render cx-amend-order-items component', () => {
@@ -86,6 +86,6 @@ describe('CancelOrderComponent', () => {
 
     expect(
       fixture.debugElement.queryAll(By.css('cx-amend-order-actions')).length
-    ).toEqual(LENGTH_TWO);
+    ).toEqual(EXPECTED_ELEMENT_LENGTH);
   });
 });

@@ -18,7 +18,7 @@ import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { ProductCarouselComponent } from './product-carousel.component';
 
-const NUM_TWO = 2;
+const EXPECTED_LENGTH = 2;
 
 @Component({
   selector: 'cx-carousel',
@@ -147,7 +147,7 @@ describe('ProductCarouselComponent', () => {
   it('should have 2 items', async(() => {
     let items: Observable<Product>[];
     component.items$.subscribe((i) => (items = i));
-    expect(items.length).toBe(NUM_TWO);
+    expect(items.length).toBe(EXPECTED_LENGTH);
   }));
 
   it('should have product code 111 in first product', async(() => {
@@ -162,7 +162,7 @@ describe('ProductCarouselComponent', () => {
   describe('UI test', () => {
     it('should have 2 rendered templates', async(() => {
       const el = fixture.debugElement.queryAll(By.css('a'));
-      expect(el.length).toEqual(NUM_TWO);
+      expect(el.length).toEqual(EXPECTED_LENGTH);
     }));
 
     it('should render product name in template', async(() => {

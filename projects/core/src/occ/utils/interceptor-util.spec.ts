@@ -14,7 +14,7 @@ describe('InterceptorUtil', () => {
       expect(header).toEqual(JSON.stringify(mockObject));
     });
     it('should append a header', () => {
-      const EXPECTED_LENGTH_TWO = 2;
+      const EXPECTED_LENGTH = 2;
       const headerName = 'test';
       const mockObject = { url: 'testUrl', pattern: 'bla bla' };
       const headers = new HttpHeaders().set('Authorization', 'bearer bla-bla');
@@ -27,7 +27,7 @@ describe('InterceptorUtil', () => {
       expect(result).toBeTruthy();
       const allHeaders = result.keys();
       expect(allHeaders).toBeTruthy();
-      expect(allHeaders.length).toEqual(EXPECTED_LENGTH_TWO);
+      expect(allHeaders.length).toEqual(EXPECTED_LENGTH);
     });
   });
 

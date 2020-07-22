@@ -10,7 +10,6 @@ const testKey = 'testKey';
 const testOptions = 'testOptions';
 const CHAR_CODE = 160;
 const nonBreakingSpace = String.fromCharCode(CHAR_CODE);
-const COUNT_TWO = 2;
 
 describe('I18nextTranslationService', () => {
   let service: I18nextTranslationService;
@@ -160,6 +159,7 @@ describe('I18nextTranslationService', () => {
     describe(', when language changed,', () => {
       it('should emit result of i18next.t in new language', () => {
         let languageChangedCallback;
+        const COUNT_TWO = 2;
         spyOn(i18next, 'off');
         spyOn(i18next, 'on').and.callFake(
           (_event, callback) => (languageChangedCallback = callback)

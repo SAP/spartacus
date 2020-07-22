@@ -4,12 +4,11 @@ import { of } from 'rxjs';
 import { SplitViewService } from '../split-view.service';
 import { SplitViewComponent } from './split-view.component';
 
-const VALUE_FIVE = 5;
-
 @Injectable()
 class MockSplitViewService {
   visibleViewCount() {
-    return of(VALUE_FIVE);
+    const VISIBLE_VIEW_COUNT = 5;
+    return of(VISIBLE_VIEW_COUNT);
   }
 }
 

@@ -18,7 +18,7 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
 
-const PAGE_SIZE_FIVE = 5;
+const PAGE_SIZE = 5;
 const mockOrders: OrderHistoryList = {
   orders: [
     {
@@ -168,7 +168,7 @@ describe('OrderHistoryComponent', () => {
 
     expect(component.sortType).toBe('byOrderNumber');
     expect(userService.loadOrderList).toHaveBeenCalledWith(
-      PAGE_SIZE_FIVE,
+      PAGE_SIZE,
       0,
       'byOrderNumber'
     );
@@ -181,7 +181,7 @@ describe('OrderHistoryComponent', () => {
     component.pageChange(1);
 
     expect(userService.loadOrderList).toHaveBeenCalledWith(
-      PAGE_SIZE_FIVE,
+      PAGE_SIZE,
       1,
       'byDate'
     );

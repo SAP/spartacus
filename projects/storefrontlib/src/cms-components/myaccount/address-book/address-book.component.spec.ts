@@ -152,8 +152,8 @@ describe('AddressBookComponent', () => {
   });
 
   it('should address cards number to be equal with addresses count', () => {
-    const NUM_THREE = 3;
-    expect(el.queryAll(By.css('cx-card')).length).toEqual(NUM_THREE);
+    const EXPECTED_LENGTH = 3;
+    expect(el.queryAll(By.css('cx-card')).length).toEqual(EXPECTED_LENGTH);
   });
 
   it('should be able to add new address', () => {

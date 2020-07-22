@@ -107,8 +107,10 @@ describe(`OccLoadedConfigConverter`, () => {
       ];
       const currentUrl = 'testUrl2';
       const res = converter.fromOccBaseSites(baseSites, currentUrl);
-      const THREE_TIMES = 3;
-      expect(javaRegExpConverter.toJsRegExp).toHaveBeenCalledTimes(THREE_TIMES);
+      const EXPECTED_TIMES_CALLED = 3;
+      expect(javaRegExpConverter.toJsRegExp).toHaveBeenCalledTimes(
+        EXPECTED_TIMES_CALLED
+      );
       expect(javaRegExpConverter.toJsRegExp).not.toHaveBeenCalledWith(
         '^testUrl22$'
       );

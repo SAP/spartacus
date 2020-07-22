@@ -8,8 +8,6 @@ const mockPagination: PaginationModel = {
   totalResults: 49,
   currentPage: 0,
 };
-const NUM_2 = 2;
-const NUM_15 = 15;
 
 describe('StoreFinderPaginationDetailsComponent', () => {
   let component: StoreFinderPaginationDetailsComponent;
@@ -44,7 +42,8 @@ describe('StoreFinderPaginationDetailsComponent', () => {
   });
 
   it('should display last page', () => {
-    component.pagination.currentPage = NUM_2;
+    const CURRENT_PAGE = 2;
+    component.pagination.currentPage = CURRENT_PAGE;
     fixture.detectChanges();
 
     const detailsElement = fixture.debugElement.query(
@@ -57,7 +56,8 @@ describe('StoreFinderPaginationDetailsComponent', () => {
   });
 
   it('should display proper pagination results info when there is only one page', () => {
-    component.pagination.totalResults = NUM_15;
+    const TOTAL_RESULTS = 15;
+    component.pagination.totalResults = TOTAL_RESULTS;
 
     fixture.detectChanges();
 

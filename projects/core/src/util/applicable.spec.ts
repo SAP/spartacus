@@ -1,7 +1,6 @@
 import { Applicable, resolveApplicable } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
-const THREE = 3;
 const SECOND_APPLICABLE = 2;
 const SECOND_PRIO = 2;
 const LEAST_PRIO = -1100;
@@ -108,12 +107,13 @@ describe('resolveApplicable', () => {
   });
 
   it('will pass hasMatch parameters to hasMatch method', () => {
+    const VALUE = 3;
     const applicables: Applicable[] = [
       {
         hasMatch: createSpy(),
       },
     ];
-    const hasMatchParams = ['a', THREE];
+    const hasMatchParams = ['a', VALUE];
     resolveApplicable(applicables, hasMatchParams);
     expect(applicables[0].hasMatch).toHaveBeenCalledWith(...hasMatchParams);
   });
@@ -127,7 +127,8 @@ describe('resolveApplicable', () => {
         getPriority: createSpy(),
       },
     ];
-    const getPriorityParams = ['a', THREE];
+    const VALUE = 3;
+    const getPriorityParams = ['a', VALUE];
     resolveApplicable(applicables, undefined, getPriorityParams);
     expect(applicables[0].getPriority).toHaveBeenCalledWith(
       ...getPriorityParams

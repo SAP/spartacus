@@ -5,7 +5,7 @@ import { TrapFocusConfig } from '../keyboard-focus.model';
 import { TrapFocusDirective } from './trap-focus.directive';
 import { TrapFocusService } from './trap-focus.service';
 
-const FOUR_TIMES = 4;
+const EXPECTED_TIMES_CALLED = 4;
 
 @Directive({
   selector: '[cxTrapFocus]',
@@ -65,7 +65,7 @@ describe('TrapFocusDirective', () => {
       host.triggerEventHandler('keydown.arrowdown', event);
       host.triggerEventHandler('keydown.tab', event);
       host.triggerEventHandler('keydown.shift.tab', event);
-      expect(service.moveFocus).toHaveBeenCalledTimes(FOUR_TIMES);
+      expect(service.moveFocus).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
     });
 
     it('should move when trap = true', () => {
@@ -77,7 +77,7 @@ describe('TrapFocusDirective', () => {
       host.triggerEventHandler('keydown.arrowdown', event);
       host.triggerEventHandler('keydown.tab', event);
       host.triggerEventHandler('keydown.shift.tab', event);
-      expect(service.moveFocus).toHaveBeenCalledTimes(FOUR_TIMES);
+      expect(service.moveFocus).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
     });
 
     it('should not move when trap = false', () => {

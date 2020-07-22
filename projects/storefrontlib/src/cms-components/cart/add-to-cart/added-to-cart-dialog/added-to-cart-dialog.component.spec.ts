@@ -195,14 +195,14 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should return formControl with order entry quantity', () => {
-    const VAL_5 = 5;
+    const EXPECTED_LENGTH = 5;
     component.entry$ = of({
       quantity: 5,
       entryNumber: 0,
     } as OrderEntry);
 
     component.getQuantityControl().subscribe((control) => {
-      expect(control.value).toEqual(VAL_5);
+      expect(control.value).toEqual(EXPECTED_LENGTH);
     });
   });
 

@@ -4,12 +4,6 @@ import {
   CustomFormValidators,
 } from './custom-form-validators';
 
-const VAL_2 = 2;
-const VAL_3 = 3;
-const VAL_4 = 4;
-const VAL_5 = 5;
-const VAL_1000 = 1000;
-
 describe('FormValidationService', () => {
   let email: FormControl;
   let emailError: ValidationErrors;
@@ -173,8 +167,20 @@ describe('FormValidationService', () => {
   });
 
   describe('Star rating validator', () => {
-    const invalidValues = [null, 'a', 0, VAL_1000];
-    const validValues = [1, VAL_2, VAL_3, VAL_4, VAL_5];
+    const INV_VAL = 1000;
+    const VALUE_FIVE = 5;
+    const VALUE_FOUR = 4;
+    const VALUE_THREE = 3;
+    const VALUE_TWO = 2;
+    const VALUE_ONE = 1;
+    const invalidValues = [null, 'a', 0, INV_VAL];
+    const validValues = [
+      VALUE_ONE,
+      VALUE_TWO,
+      VALUE_THREE,
+      VALUE_FOUR,
+      VALUE_FIVE,
+    ];
 
     it('should reject invalid values', () => {
       invalidValues.forEach((value: any) => {

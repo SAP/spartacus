@@ -24,9 +24,6 @@ import { MerchandisingCarouselComponentService } from './merchandising-carousel.
 import { MerchandisingCarouselModel } from './model/index';
 import createSpy = jasmine.createSpy;
 
-const VIEWPORT_THRESHOLD = 0.8;
-const TWO_ITEMS = 2;
-
 @Component({
   selector: 'cx-carousel',
   template: `
@@ -137,6 +134,7 @@ class MockMerchandisingCarouselComponentService {
   }
 
   getMerchandisingCaourselViewportThreshold(): number {
+    const VIEWPORT_THRESHOLD = 0.8;
     return VIEWPORT_THRESHOLD;
   }
 }
@@ -239,12 +237,13 @@ describe('MerchandisingCarouselComponent', () => {
   }));
 
   it('should have 2 items', async(() => {
+    const EXPECTED_ITEMS_COUNT = 2;
     let items: Observable<Product>[];
     component.merchandisingCarouselModel$.subscribe(
       (actualMerchandisingCarouselModel) =>
         (items = actualMerchandisingCarouselModel.items$)
     );
-    expect(items.length).toBe(TWO_ITEMS);
+    expect(items.length).toBe(EXPECTED_ITEMS_COUNT);
   }));
 
   it('should have product code 111 in first product', async(() => {
@@ -282,11 +281,12 @@ describe('MerchandisingCarouselComponent', () => {
   });
 
   describe('UI test', () => {
+    const EXPECTED_ITEMS_COUNT = 2;
     it('should have 2 rendered templates', async(() => {
       const el = fixture.debugElement.queryAll(
         By.css('.data-cx-merchandising-product')
       );
-      expect(el.length).toBe(TWO_ITEMS);
+      expect(el.length).toBe(EXPECTED_ITEMS_COUNT);
     }));
 
     it('should render product name in template', async(() => {

@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { SplitViewService } from './split-view.service';
 
-const NUM_2 = 2;
-const NUM_3 = 3;
-const NUM_4 = 4;
+const POSITION_TWO = 2;
+const EXPECTED_POSITION = 2;
 
 describe('SplitViewService', () => {
   let service: SplitViewService;
@@ -27,23 +26,24 @@ describe('SplitViewService', () => {
     it('should return 3 for the next view number', () => {
       service.add(0);
       service.add(1);
-      expect(service.generateNextPosition()).toEqual(NUM_2);
+      expect(service.generateNextPosition()).toEqual(EXPECTED_POSITION);
     });
   });
 
   describe('add() and remove()', () => {
     it('should add 3 views', () => {
+      const EXPECTED_POS = 3;
       let result: number;
 
       service.add(0);
       service.add(1);
-      service.add(NUM_2);
+      service.add(POSITION_TWO);
       service
         .visibleViewCount()
         .subscribe((visible) => (result = visible))
         .unsubscribe();
 
-      expect(result).toEqual(NUM_3);
+      expect(result).toEqual(EXPECTED_POS);
     });
 
     it('should resolve 2 for visibleViewCount$ when one view is added with hide state', () => {
@@ -51,40 +51,42 @@ describe('SplitViewService', () => {
 
       service.add(0);
       service.add(1);
-      service.add(NUM_2, true);
+      service.add(POSITION_TWO, true);
       service
         .visibleViewCount()
         .subscribe((visible) => (result = visible))
         .unsubscribe();
 
-      expect(result).toEqual(NUM_2);
+      expect(result).toEqual(EXPECTED_POSITION);
     });
 
     it('should observe 2 visibleViewCount$ when 5 views are added and 2 are removed', () => {
       let result: number;
-
+      const EXPECTED_POS = 3;
+      const POSITION_THREE = 3;
+      const POSITION_FOUR = 4;
       service.add(0);
       service.add(1);
-      service.add(NUM_2);
-      service.add(NUM_3);
-      service.add(NUM_4);
+      service.add(POSITION_TWO);
+      service.add(POSITION_THREE);
+      service.add(POSITION_FOUR);
 
-      service.remove(NUM_4);
-      service.remove(NUM_3);
+      service.remove(POSITION_FOUR);
+      service.remove(POSITION_THREE);
       service
         .visibleViewCount()
         .subscribe((visible) => (result = visible))
         .unsubscribe();
 
-      expect(result).toEqual(NUM_3);
+      expect(result).toEqual(EXPECTED_POS);
     });
   });
 
   describe('toggle()', () => {
     it('should add view if it doesnt exist in views array', () => {
       spyOn(service, 'add');
-      service.toggle(NUM_2);
-      expect(service.add).toHaveBeenCalledWith(NUM_2, false);
+      service.toggle(POSITION_TWO);
+      expect(service.add).toHaveBeenCalledWith(POSITION_TWO, false);
     });
 
     it('should resolve last value for visibleViewCount$ when forced false toggled before', () => {
@@ -92,7 +94,7 @@ describe('SplitViewService', () => {
 
       service.add(0);
       service.add(1);
-      service.add(NUM_2);
+      service.add(POSITION_TWO);
 
       service.toggle(1, false);
       service
@@ -100,7 +102,7 @@ describe('SplitViewService', () => {
         .subscribe((visible) => (result = visible))
         .unsubscribe();
 
-      expect(result).toEqual(NUM_2);
+      expect(result).toEqual(EXPECTED_POSITION);
     });
 
     it('should resolve 2 for visibleViewCount$ when one view toggled', () => {
@@ -108,31 +110,31 @@ describe('SplitViewService', () => {
 
       service.add(0);
       service.add(1);
-      service.add(NUM_2);
+      service.add(POSITION_TWO);
 
-      service.toggle(NUM_2);
+      service.toggle(POSITION_TWO);
       service
         .visibleViewCount()
         .subscribe((visible) => (result = visible))
         .unsubscribe();
 
-      expect(result).toEqual(NUM_2);
+      expect(result).toEqual(EXPECTED_POSITION);
     });
 
     it('should observe 3 visibleViewCount$ when a visible view is toggled with false', () => {
       let result: number;
-
+      const EXPECTED_POS = 3;
       service.add(0);
       service.add(1);
-      service.add(NUM_2);
+      service.add(POSITION_TWO);
 
-      service.toggle(NUM_2, false);
+      service.toggle(POSITION_TWO, false);
       service
         .visibleViewCount()
         .subscribe((visible) => (result = visible))
         .unsubscribe();
 
-      expect(result).toEqual(NUM_3);
+      expect(result).toEqual(EXPECTED_POS);
     });
 
     it('should observe 2 visibleViewCount$ when a hidden view is toggled with true', () => {
@@ -140,15 +142,15 @@ describe('SplitViewService', () => {
 
       service.add(0);
       service.add(1);
-      service.add(NUM_2, true);
+      service.add(POSITION_TWO, true);
 
-      service.toggle(NUM_2, true);
+      service.toggle(POSITION_TWO, true);
       service
         .visibleViewCount()
         .subscribe((visible) => (result = visible))
         .unsubscribe();
 
-      expect(result).toEqual(NUM_2);
+      expect(result).toEqual(EXPECTED_POSITION);
     });
 
     it('should keep visibleViewCount$ after toggling hide state', () => {
@@ -156,15 +158,15 @@ describe('SplitViewService', () => {
 
       service.add(0);
       service.add(1);
-      service.add(NUM_2);
+      service.add(POSITION_TWO);
 
-      service.toggle(NUM_2);
+      service.toggle(POSITION_TWO);
       service
         .visibleViewCount()
         .subscribe((visible) => (result = visible))
         .unsubscribe();
 
-      expect(result).toEqual(NUM_2);
+      expect(result).toEqual(EXPECTED_POSITION);
     });
 
     it('should cascade hide state for upcoming views', () => {
@@ -172,7 +174,7 @@ describe('SplitViewService', () => {
 
       service.add(0);
       service.add(1);
-      service.add(NUM_2);
+      service.add(POSITION_TWO);
 
       service.toggle(1);
       service

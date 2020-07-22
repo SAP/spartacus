@@ -17,8 +17,11 @@ import { ClientErrorHandlingService } from '../services/client-error/client-erro
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
-const ERROR_STATUS_BAD_REQUEST = 400;
-const ERROR_STATUS_UNAUTHORIZED = 401;
+
+enum HttpResponseStatus {
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthErrorInterceptor implements HttpInterceptor {
@@ -41,7 +44,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
       catchError((errResponse: any) => {
         if (errResponse instanceof HttpErrorResponse) {
           switch (errResponse.status) {
-            case ERROR_STATUS_UNAUTHORIZED: // Unauthorized
+            case HttpResponseStatus.UNAUTHORIZED: // Unauthorizedb
               if (isClientTokenRequest) {
                 if (this.isExpiredToken(errResponse)) {
                   return this.clientErrorHandlingService.handleExpiredClientToken(
@@ -67,7 +70,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
                 }
               }
               break;
-            case ERROR_STATUS_BAD_REQUEST: // Bad Request
+            case HttpResponseStatus.BAD_REQUEST: // Bad Request
               if (
                 errResponse.url.includes(OAUTH_ENDPOINT) &&
                 errResponse.error.error === 'invalid_grant'

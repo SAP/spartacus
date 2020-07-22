@@ -13,14 +13,6 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { ProductLoadingService } from './product-loading.service';
 import createSpy = jasmine.createSpy;
 
-const TWO = 2;
-const THREE = 3;
-const TWENTY = 20;
-const THIRTY = 30;
-const FORTY = 40;
-const FIFTY = 50;
-const SIXTY = 60;
-
 class MockLoadingScopesService {
   expand = createSpy('expand').and.callFake((_, scopes) => scopes);
   getMaxAge = createSpy('getMaxAge').and.returnValue(0);
@@ -154,10 +146,11 @@ describe('ProductLoadingService', () => {
           'scope2'
         );
 
+        const COUNT = 3;
         const results: Product[] = [];
         service
           .get(code, ['scope1', 'scope2'])
-          .pipe(take(THREE))
+          .pipe(take(COUNT))
           .subscribe({
             next: (res) => {
               results.push(res);
@@ -240,13 +233,14 @@ describe('ProductLoadingService', () => {
   });
 
   describe('getMaxAgeTrigger', () => {
+    const MAX_AGE = 30;
     it('should trigger reload after subscription', () => {
       const loadStart$ = hot('');
       const loadSuccess$ = hot('a');
       const trigger$ = (service as any).getMaxAgeTrigger(
         loadStart$,
         loadSuccess$,
-        THIRTY,
+        MAX_AGE,
         getTestScheduler()
       );
       const expected$ = cold('30ms a', { a: true });
@@ -260,7 +254,7 @@ describe('ProductLoadingService', () => {
       const trigger$ = (service as any).getMaxAgeTrigger(
         loadStart$,
         loadSuccess$,
-        THIRTY,
+        MAX_AGE,
         getTestScheduler()
       );
       const expected$ = cold('');
@@ -274,7 +268,7 @@ describe('ProductLoadingService', () => {
       const trigger$ = (service as any).getMaxAgeTrigger(
         loadStart$,
         loadSuccess$,
-        THIRTY,
+        MAX_AGE,
         getTestScheduler()
       );
       const expected$ = cold('80ms a', { a: true });
@@ -288,10 +282,11 @@ describe('ProductLoadingService', () => {
         const loadSuccess$ = hot('a');
 
         // Initialize the trigger with maxAge 50ms
+        const MAXIMUM_AGE = 50;
         const trigger$ = (service as any).getMaxAgeTrigger(
           loadStart$,
           loadSuccess$,
-          FIFTY,
+          MAXIMUM_AGE,
           getTestScheduler()
         );
 
@@ -305,9 +300,12 @@ describe('ProductLoadingService', () => {
         Expect:
           - Trigger emission at 50ms
          */
-        const subscriber$ = timer(0, TWENTY, getTestScheduler()).pipe(
-          take(THREE),
-          switchMap((intervalId) => (intervalId % TWO ? NEVER : trigger$))
+        const VALUE = 2;
+        const COUNT = 3;
+        const PERIOD = 20;
+        const subscriber$ = timer(0, PERIOD, getTestScheduler()).pipe(
+          take(COUNT),
+          switchMap((intervalId) => (intervalId % VALUE ? NEVER : trigger$))
         );
         const expected$ = cold('50ms a', { a: true });
 
@@ -319,10 +317,11 @@ describe('ProductLoadingService', () => {
         const loadSuccess$ = hot('a');
 
         // initialize the trigger with maxAge 60ms
+        const MAXIMUM_AGE = 60;
         const trigger$ = (service as any).getMaxAgeTrigger(
           loadStart$,
           loadSuccess$,
-          SIXTY,
+          MAXIMUM_AGE,
           getTestScheduler()
         );
 
@@ -336,9 +335,12 @@ describe('ProductLoadingService', () => {
         Expect:
           - Trigger emission at 80ms (closest subscription to maxAge expiration)
          */
-        const subscriber$ = timer(0, FORTY, getTestScheduler()).pipe(
-          take(THREE),
-          switchMap((intervalId) => (intervalId % TWO ? NEVER : trigger$))
+        const VALUE = 2;
+        const COUNT = 3;
+        const PERIOD = 40;
+        const subscriber$ = timer(0, PERIOD, getTestScheduler()).pipe(
+          take(COUNT),
+          switchMap((intervalId) => (intervalId % VALUE ? NEVER : trigger$))
         );
         const expected$ = cold('80ms a', { a: true });
 

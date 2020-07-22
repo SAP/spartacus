@@ -269,8 +269,8 @@ describe('storage-sync-reducer', () => {
 
     describe('when a non-zero number is provided', () => {
       it('should return true', () => {
-        const NUM_SEVEN = 7;
-        expect(exists(NUM_SEVEN)).toEqual(true);
+        const VALUE = 7;
+        expect(exists(VALUE)).toEqual(true);
       });
     });
     describe('when zero (0) is provided', () => {

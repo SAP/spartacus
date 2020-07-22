@@ -7,9 +7,6 @@ import { PaginationConfig } from './config/pagination.config';
 import { PaginationComponent } from './pagination.component';
 import { PaginationItemType } from './pagination.model';
 
-const PAGE_2 = 2;
-const PAGE_5 = 5;
-
 const mockPaginationConfig: PaginationConfig = {
   pagination: {},
 };
@@ -63,7 +60,8 @@ describe('PaginationComponent', () => {
     });
 
     it('should return true for current page = 5', () => {
-      component.pagination.currentPage = PAGE_5;
+      const PAGE_FIVE = 5;
+      component.pagination.currentPage = PAGE_FIVE;
       expect(
         component.isCurrent({ type: PaginationItemType.PAGE, number: 5 })
       ).toBeTruthy();
@@ -118,7 +116,8 @@ describe('PaginationComponent', () => {
         });
       });
       it('should not query parameter for current page', () => {
-        component.pagination.currentPage = PAGE_2;
+        const PAGE_TWO = 2;
+        component.pagination.currentPage = PAGE_TWO;
         expect(
           component.getQueryParams({
             type: PaginationItemType.PAGE,

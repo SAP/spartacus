@@ -195,7 +195,7 @@ describe('Component Effects', () => {
           a: completion1,
           b: completion2,
         });
-        const TWO_TIMES = 2;
+        const EXPECTED_TIMES_CALLED = 2;
 
         expect(
           effects.loadComponent$({
@@ -203,7 +203,7 @@ describe('Component Effects', () => {
             debounce: 20,
           })
         ).toBeObservable(expected);
-        expect(service.getList).toHaveBeenCalledTimes(TWO_TIMES);
+        expect(service.getList).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
         // check all the arguments for which the method was called (reason: https://github.com/jasmine/jasmine/issues/228#issuecomment-270599719)
         expect(getListSpy.calls.allArgs()).toEqual([
           [['comp1'], pageContext1],

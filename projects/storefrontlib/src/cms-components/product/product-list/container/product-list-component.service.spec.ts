@@ -87,8 +87,8 @@ describe('ProductListComponentService', () => {
   });
 
   it('viewPage should set query param "currentPage" in the url', () => {
-    const PAGE_VAL_123 = 123;
-    service.viewPage(PAGE_VAL_123);
+    const PAGE_VALUE = 123;
+    service.viewPage(PAGE_VALUE);
     expect(router.navigate).toHaveBeenCalledWith([], {
       queryParams: { currentPage: 123 },
       queryParamsHandling: 'merge',

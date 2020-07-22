@@ -3,9 +3,6 @@ import { PageMeta, PageMetaService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { BreadcrumbSchemaBuilder } from './breadcrumb-schema.builder';
 
-const LEN_TWO = 2;
-const LEN_THREE = 3;
-
 const pageMetaHome: PageMeta = {
   title: 'name of the page',
   breadcrumbs: [
@@ -73,31 +70,36 @@ describe('JsonLdProductOfferBuilder', () => {
   });
 
   it('should contain a schema with 2 crumb', () => {
+    const EXP_ITEM_LIST_ELEM_LEN = 2;
     spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaHome));
     service
       .build()
       .subscribe((schema) => {
-        expect(schema.itemListElement.length).toEqual(LEN_TWO);
+        expect(schema.itemListElement.length).toEqual(EXP_ITEM_LIST_ELEM_LEN);
       })
       .unsubscribe();
   });
 
   it('should contain a schema with 3 crumbs', () => {
+    const EXP_ITEM_LIST_ELEM_LEN = 3;
     spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaChild));
     service
       .build()
       .subscribe((schema) => {
-        expect(schema.itemListElement.length).toEqual(LEN_THREE);
+        expect(schema.itemListElement.length).toEqual(EXP_ITEM_LIST_ELEM_LEN);
       })
       .unsubscribe();
   });
 
   it('should have crumb with positions', () => {
+    const EXP_ITEM_LIST_ELEM_LEN = 2;
     spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaHome));
     service
       .build()
       .subscribe((schema) => {
-        expect(schema.itemListElement[1].position).toEqual(LEN_TWO);
+        expect(schema.itemListElement[1].position).toEqual(
+          EXP_ITEM_LIST_ELEM_LEN
+        );
       })
       .unsubscribe();
   });

@@ -29,7 +29,7 @@ import createSpy = jasmine.createSpy;
 })
 class MockSpinnerComponent {}
 
-const TWO_TIMES = 2;
+const EXPECTED_TIMES_CALLED = 2;
 const mockBillingCountries: Country[] = [
   {
     isocode: 'CA',
@@ -490,7 +490,7 @@ describe('PaymentFormComponent', () => {
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
-      expect(component.next).toHaveBeenCalledTimes(TWO_TIMES);
+      expect(component.next).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
     });
 
     it('should call "next" function when being clicked and when form is valid - without billing address', () => {
@@ -524,7 +524,7 @@ describe('PaymentFormComponent', () => {
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
-      expect(component.next).toHaveBeenCalledTimes(TWO_TIMES);
+      expect(component.next).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
     });
 
     it('should check setAsDefaultField to determine whether setAsDefault checkbox displayed or not', () => {

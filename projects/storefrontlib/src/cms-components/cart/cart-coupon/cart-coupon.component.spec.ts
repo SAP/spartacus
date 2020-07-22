@@ -198,7 +198,7 @@ describe('CartCouponComponent', () => {
   });
 
   it('should list customer coupons when has customer coupons', () => {
-    const LEN_2 = 2;
+    const EXPECTED_LENGTH = 2;
     mockCustomerCouponService.getCustomerCoupons.and.returnValue(
       of(couponsSearchResult)
     );
@@ -214,7 +214,7 @@ describe('CartCouponComponent', () => {
     ).toEqual(1);
     expect(
       fixture.debugElement.queryAll(By.css('.cx-available-coupon .card')).length
-    ).toEqual(LEN_2);
+    ).toEqual(EXPECTED_LENGTH);
   });
 
   it('should not show applied customer coupon', () => {

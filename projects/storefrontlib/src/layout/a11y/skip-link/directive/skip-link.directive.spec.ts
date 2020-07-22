@@ -5,7 +5,7 @@ import { SkipLinkService } from '../service/skip-link.service';
 
 const SKIP_KEY_1 = 'Key1';
 const SKIP_KEY_2 = 'Key2';
-const TWO_TIMES = 2;
+const EXPECTED_TIMES_CALLED = 2;
 
 @Component({
   template: `
@@ -42,7 +42,7 @@ describe('SkipLinkDirective', () => {
     const spy = spyOn(service, 'add');
     const nodes = fixture.debugElement.nativeElement.childNodes;
     fixture.detectChanges();
-    expect(spy).toHaveBeenCalledTimes(TWO_TIMES);
+    expect(spy).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
     expect(spy).toHaveBeenCalledWith(SKIP_KEY_1, nodes[0]);
     expect(spy).toHaveBeenCalledWith(SKIP_KEY_2, nodes[1]);
   });
@@ -51,7 +51,7 @@ describe('SkipLinkDirective', () => {
     const spy = spyOn(service, 'remove');
     fixture.detectChanges();
     fixture.destroy();
-    expect(spy).toHaveBeenCalledTimes(TWO_TIMES);
+    expect(spy).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
     expect(spy).toHaveBeenCalledWith(SKIP_KEY_1);
     expect(spy).toHaveBeenCalledWith(SKIP_KEY_2);
   });

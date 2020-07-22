@@ -58,8 +58,8 @@ describe('StructuredDataFactory', () => {
   });
 
   it('should contain 2 builders', () => {
-    const LEN_2 = 2;
-    expect(builders.length).toEqual(LEN_2);
+    const EXPECTED_LENGTH = 2;
+    expect(builders.length).toEqual(EXPECTED_LENGTH);
   });
 
   it('should call jsonLdScriptFactory with 2 schemas', () => {

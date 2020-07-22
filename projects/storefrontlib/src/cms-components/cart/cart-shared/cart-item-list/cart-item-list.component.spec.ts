@@ -169,15 +169,15 @@ describe('CartItemListComponent', () => {
   });
 
   it('should call cartService with an updated entry', () => {
-    const VAL_2 = 2;
+    const EXP_QTY = 2;
     const item = mockItems[0];
     component
       .getControl(item)
       .subscribe((control) => {
-        control.get('quantity').setValue(VAL_2);
+        control.get('quantity').setValue(EXP_QTY);
         expect(activeCartService.updateEntry).toHaveBeenCalledWith(
           item.entryNumber as any,
-          VAL_2
+          EXP_QTY
         );
       })
       .unsubscribe();

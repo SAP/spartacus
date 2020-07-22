@@ -1,11 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 
-const TWO = 2;
-const THREE = 3;
-const FOUR = 4;
-const FIVE = 5;
-
 export interface CardAction {
   event: string;
   name: string;
@@ -65,8 +60,9 @@ export class CardComponent implements OnInit {
   }
 
   cancelEdit(): void {
+    const VALUE = 5;
     this.editMode = false;
-    this.cancelCard.emit(FIVE);
+    this.cancelCard.emit(VALUE);
   }
 
   delete(): void {
@@ -74,16 +70,19 @@ export class CardComponent implements OnInit {
   }
 
   setDefault(): void {
+    const VALUE = 2;
     this.isDefault = true;
-    this.setDefaultCard.emit(TWO);
+    this.setDefaultCard.emit(VALUE);
   }
 
   send(): void {
-    this.sendCard.emit(THREE);
+    const VALUE = 3;
+    this.sendCard.emit(VALUE);
   }
 
   edit(): void {
-    this.editCard.emit(FOUR);
+    const VALUE = 4;
+    this.editCard.emit(VALUE);
   }
 
   constructor() {}

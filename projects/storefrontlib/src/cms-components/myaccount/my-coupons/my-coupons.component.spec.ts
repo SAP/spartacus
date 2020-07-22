@@ -20,9 +20,6 @@ import { ICON_TYPE } from '../../misc/icon/icon.model';
 import { MyCouponsComponent } from './my-coupons.component';
 import { MyCouponsComponentService } from './my-coupons.component.service';
 
-const LEN_2 = 2;
-const VAL_10 = 10;
-
 @Component({
   selector: 'cx-coupon-card',
   template: `
@@ -67,7 +64,7 @@ class MockCxIconComponent {
 
 const subLoading$ = new BehaviorSubject<boolean>(false);
 const unsubLoading$ = new BehaviorSubject<boolean>(false);
-const PAGE_SIZE = 10;
+const COUPON_PAGE_SIZE = 10;
 
 const emptyCouponResult: CustomerCouponSearchResult = {
   pagination: {
@@ -238,6 +235,7 @@ describe('MyCouponsComponent', () => {
   });
 
   it('should be able to show coupons', () => {
+    const EXPECTED_LENGTH = 2;
     customerCouponService.getCustomerCoupons.and.returnValue(
       of(couponsSearchResult)
     );
@@ -247,12 +245,12 @@ describe('MyCouponsComponent', () => {
     expect(message.length).toBe(0);
 
     const sortComponent = el.nativeElement.querySelectorAll('cx-sorting');
-    expect(sortComponent.length).toBe(LEN_2);
+    expect(sortComponent.length).toBe(EXPECTED_LENGTH);
 
     const paginationComponent = el.nativeElement.querySelectorAll(
       'cx-pagination'
     );
-    expect(paginationComponent.length).toBe(LEN_2);
+    expect(paginationComponent.length).toBe(EXPECTED_LENGTH);
     const couponCardComponent = el.nativeElement.querySelectorAll(
       'cx-coupon-card'
     );
@@ -267,7 +265,7 @@ describe('MyCouponsComponent', () => {
     fixture.detectChanges();
     component.sortChange('byStartDateAsc');
     expect(customerCouponService.loadCustomerCoupons).toHaveBeenCalledWith(
-      VAL_10,
+      COUPON_PAGE_SIZE,
       0,
       'startDate:asc'
     );
@@ -277,7 +275,7 @@ describe('MyCouponsComponent', () => {
     fixture.detectChanges();
     component.pageChange(1);
     expect(customerCouponService.loadCustomerCoupons).toHaveBeenCalledWith(
-      VAL_10,
+      COUPON_PAGE_SIZE,
       1,
       'startDate:asc'
     );
@@ -304,7 +302,7 @@ describe('MyCouponsComponent', () => {
     subscriptionFail.next(true);
     fixture.detectChanges();
     expect(customerCouponService.loadCustomerCoupons).toHaveBeenCalledWith(
-      PAGE_SIZE
+      COUPON_PAGE_SIZE
     );
   });
 });

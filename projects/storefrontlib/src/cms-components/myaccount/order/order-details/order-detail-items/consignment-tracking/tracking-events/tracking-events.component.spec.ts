@@ -69,7 +69,7 @@ describe('TrackingEventsComponent', () => {
   });
 
   it('should show tracking info', () => {
-    const LEN_3 = 3;
+    const EXPECTED_LENGTH = 3;
     component.tracking$ = of<ConsignmentTracking>({
       carrierDetails: {
         code: 'MockCarrier',
@@ -99,7 +99,7 @@ describe('TrackingEventsComponent', () => {
     });
     fixture.detectChanges();
     expect(el.query(By.css('.shipment-heading'))).toBeTruthy();
-    expect(el.queryAll(By.css('.event-body')).length).toBe(LEN_3);
+    expect(el.queryAll(By.css('.event-body')).length).toBe(EXPECTED_LENGTH);
   });
 
   it('should be able to close dialog', () => {

@@ -6,10 +6,10 @@ import { Observable, of } from 'rxjs';
 import { OrderCancellationGuard } from './order-cancellation.guard';
 import { OrderCancellationService } from './order-cancellation.service';
 
-const VAL_10 = 10;
-const VAL_100 = 100;
-const mockControl = new FormControl(VAL_10, {
-  validators: [Validators.min(VAL_100)],
+const FORM_STATE_VALUE = 10;
+const VALUE = 100;
+const mockControl = new FormControl(FORM_STATE_VALUE, {
+  validators: [Validators.min(VALUE)],
 });
 const mockForm = new FormGroup({
   any: mockControl,
@@ -64,7 +64,7 @@ describe(`OrderCancellationGuard`, () => {
   });
 
   it(`should not redirect to the order detail page`, () => {
-    mockControl.setValue(VAL_100);
+    mockControl.setValue(VALUE);
     let result;
     guard
       .canActivate()

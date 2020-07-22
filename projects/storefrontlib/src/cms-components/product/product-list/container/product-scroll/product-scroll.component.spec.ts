@@ -21,8 +21,6 @@ import { ProductScrollComponent } from './product-scroll.component';
 
 import createSpy = jasmine.createSpy;
 
-const LIMIT_TWO = 2;
-
 const mockModel1: ProductSearchPage = {
   breadcrumbs: [
     {
@@ -255,11 +253,13 @@ describe('ProductScrollComponent', () => {
       });
 
       it('productLimit should be set to config limit', () => {
-        expect(component.productLimit).toEqual(LIMIT_TWO);
+        const EXPECTED_PRODUCT_LIMIT = 2;
+        expect(component.productLimit).toEqual(EXPECTED_PRODUCT_LIMIT);
       });
 
       it('should NOT display buttons when limit is not reached', () => {
-        expect(component.productLimit).toEqual(LIMIT_TWO);
+        const EXPECTED_PRODUCT_LIMIT = 2;
+        expect(component.productLimit).toEqual(EXPECTED_PRODUCT_LIMIT);
         expect(mockModel1.products.length).toEqual(1);
         expect(component.isMaxProducts).toBeFalsy();
 
@@ -269,7 +269,8 @@ describe('ProductScrollComponent', () => {
       });
 
       it('should display buttons when limit is reached', () => {
-        expect(component.productLimit).toEqual(LIMIT_TWO);
+        const EXPECTED_PRODUCT_LIMIT = 2;
+        expect(component.productLimit).toEqual(EXPECTED_PRODUCT_LIMIT);
         expect(component.model.products.length).toEqual(1);
         expect(component.isMaxProducts).toBeFalsy();
         expect(component.isLastPage).toBeFalsy();
@@ -279,8 +280,8 @@ describe('ProductScrollComponent', () => {
 
         fixture.detectChanges();
 
-        expect(component.productLimit).toEqual(LIMIT_TWO);
-        expect(component.model.products.length).toEqual(LIMIT_TWO);
+        expect(component.productLimit).toEqual(EXPECTED_PRODUCT_LIMIT);
+        expect(component.model.products.length).toEqual(EXPECTED_PRODUCT_LIMIT);
         expect(component.isMaxProducts).toBeTruthy();
         expect(component.isLastPage).toBeFalsy();
 

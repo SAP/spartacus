@@ -14,7 +14,9 @@ import {
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
 
-const ERROR_STATUS_UNAUTHORIZED = 401;
+enum HttpResponseStatus {
+  UNAUTHORIZED = 401,
+}
 
 @Injectable({ providedIn: 'root' })
 export class CustomerSupportAgentAuthErrorInterceptor
@@ -43,7 +45,7 @@ export class CustomerSupportAgentAuthErrorInterceptor
           // Unauthorized
           if (
             isCustomerSupportAgentRequest &&
-            errResponse.status === ERROR_STATUS_UNAUTHORIZED
+            errResponse.status === HttpResponseStatus.UNAUTHORIZED
           ) {
             this.csagentErrorHandlingService.terminateCustomerSupportAgentExpiredSession();
             return of(undefined as any);

@@ -12,7 +12,8 @@ class MockSplitViewService {
     return 0;
   }
   visibleViewCount() {
-    return of(POSITION_FIVE);
+    const VISIBLE_VIEW_COUNT = 5;
+    return of(VISIBLE_VIEW_COUNT);
   }
   add() {}
   remove() {}
@@ -82,9 +83,10 @@ describe('ViewComponent', () => {
 
   describe('toggle()', () => {
     it('should toggle view based on hidden state', () => {
+      const EXPECTED_POSITION = 5;
       component.position = POSITION_FIVE;
       component.hidden = true;
-      expect(service.toggle).toHaveBeenCalledWith(POSITION_FIVE, true);
+      expect(service.toggle).toHaveBeenCalledWith(EXPECTED_POSITION, true);
     });
 
     it('should delegate toggle the view', () => {

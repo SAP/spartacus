@@ -11,7 +11,7 @@ import {
 } from '../config/index';
 import { SkipLinkService } from './skip-link.service';
 
-const LEN_2 = 2;
+const EXPECTED_LENGTH = 2;
 const SKIP_KEY_1 = 'Key1';
 const SKIP_KEY_2 = 'Key2';
 const SKIP_KEY_3 = 'Key3';
@@ -81,14 +81,14 @@ describe('SkipLinkService', () => {
     service.add(SKIP_KEY_1, null);
     service.add(SKIP_KEY_2, null);
     service.add(SKIP_KEY_3, null);
-    expect(skipLinks.length).toEqual(LEN_2);
+    expect(skipLinks.length).toEqual(EXPECTED_LENGTH);
   });
 
   it('should add skip links in correct order', () => {
     service.add(SKIP_KEY_1, null);
     service.add(SKIP_KEY_2, null);
     service.add(SKIP_KEY_3, null);
-    expect(skipLinks.length).toEqual(LEN_2);
+    expect(skipLinks.length).toEqual(EXPECTED_LENGTH);
     expect(skipLinks[0].key).toEqual(SKIP_KEY_2);
     expect(skipLinks[1].key).toEqual(SKIP_KEY_1);
   });
@@ -97,7 +97,7 @@ describe('SkipLinkService', () => {
     service.add(SKIP_KEY_1, null);
     service.add(SKIP_KEY_2, null);
     service.add(SKIP_KEY_3, null);
-    expect(skipLinks.length).toEqual(LEN_2);
+    expect(skipLinks.length).toEqual(EXPECTED_LENGTH);
     expect(skipLinks[0].key).toEqual(SKIP_KEY_2);
     expect(skipLinks[1].key).toEqual(SKIP_KEY_1);
     service.remove(SKIP_KEY_2);

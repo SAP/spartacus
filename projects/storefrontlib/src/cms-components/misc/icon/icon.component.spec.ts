@@ -175,8 +175,10 @@ describe('host icon components', () => {
     });
 
     it('should add resource for all icons (4 times)', () => {
-      const FOUR_TIMES = 4;
-      expect(service.addLinkResource).toHaveBeenCalledTimes(FOUR_TIMES);
+      const EXPECTED_TIMES_CALLED = 4;
+      expect(service.addLinkResource).toHaveBeenCalledTimes(
+        EXPECTED_TIMES_CALLED
+      );
     });
 
     it('should add the symbol classes for the icon component classlist', () => {

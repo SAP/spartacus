@@ -4,8 +4,6 @@ import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 
-const NUMBER_OF_THUMBS = 2;
-
 @Component({
   selector: 'cx-product-images',
   templateUrl: './product-images.component.html',
@@ -76,10 +74,11 @@ export class ProductImagesComponent {
    * In case there are less then 2 thumbs, we return null.
    */
   private createThumbs(product: Product): Observable<any>[] {
+    const THUMB_NUMBER = 2;
     if (
       !product.images ||
       !product.images.GALLERY ||
-      product.images.GALLERY.length < NUMBER_OF_THUMBS
+      product.images.GALLERY.length < THUMB_NUMBER
     ) {
       return [];
     }

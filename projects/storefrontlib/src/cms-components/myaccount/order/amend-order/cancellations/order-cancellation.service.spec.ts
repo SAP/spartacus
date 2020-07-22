@@ -83,13 +83,13 @@ describe('OrderCancellationService', () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
     routingService = TestBed.inject(RoutingService);
 
-    const VAL_THREE = 3;
     service
       .getForm()
       .subscribe((f) => (form = f))
       .unsubscribe();
 
-    form.get('entries').get('1').setValue(VAL_THREE);
+    const VALUE = 3;
+    form.get('entries').get('1').setValue(VALUE);
   });
 
   it('should be created', () => {

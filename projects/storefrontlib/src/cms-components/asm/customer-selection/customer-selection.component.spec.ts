@@ -143,14 +143,14 @@ describe('CustomerSelectionComponent', () => {
   });
 
   it('should trigger search for valid search term', fakeAsync(() => {
-    const MS_1000 = 1000;
+    const MILLISECONDS = 1000;
     spyOn(asmService, 'customerSearch').and.callThrough();
     component.ngOnInit();
     component.customerSelectionForm.controls.searchTerm.setValue(
       validSearchTerm
     );
     fixture.detectChanges();
-    tick(MS_1000);
+    tick(MILLISECONDS);
     expect(asmService.customerSearch).toHaveBeenCalledWith({
       query: validSearchTerm,
       pageSize: 20,

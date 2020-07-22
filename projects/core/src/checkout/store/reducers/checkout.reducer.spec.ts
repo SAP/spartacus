@@ -5,10 +5,6 @@ import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutActions } from './../actions/index';
 import * as fromCheckout from './checkout.reducer';
 
-const STEP_TWO = 2;
-const STEP_THREE = 3;
-const STEP_FOUR = 4;
-
 describe('Checkout reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
@@ -159,6 +155,7 @@ describe('Checkout reducer', () => {
 
   describe('CLEAR_CHECKOUT_STEP action', () => {
     it('should clear step number 2', () => {
+      const STEP_TWO = 2;
       const { initialState } = fromCheckout;
       const delivMode = { supported: {}, selected: '' };
 
@@ -170,6 +167,7 @@ describe('Checkout reducer', () => {
 
   describe('CLEAR_CHECKOUT_STEP action', () => {
     it('should clear step number 3', () => {
+      const STEP_THREE = 3;
       const { initialState } = fromCheckout;
       const paymentDets = {};
 
@@ -181,6 +179,7 @@ describe('Checkout reducer', () => {
 
   describe('CLEAR_CHECKOUT_STEP action', () => {
     it('should clear invalid step number', () => {
+      const STEP_FOUR = 4;
       const { initialState } = fromCheckout;
 
       const action = new CheckoutActions.ClearCheckoutStep(STEP_FOUR);

@@ -18,7 +18,6 @@ const cartData: Cart = {
 const cartModified: CartModification = {
   deliveryModeChanged: true,
 };
-const FIVE_QUANTITIES = 5;
 
 class MockOccEndpointsService {
   getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
@@ -59,9 +58,10 @@ describe('OccCartEntryAdapter', () => {
 
   describe('add entry to cart', () => {
     it('should add entry to cart for given user id, cart id, product code and product quantity', () => {
+      const PRODUCT_QUANITY = 5;
       let result;
       occCartEntryAdapter
-        .add(userId, cartId, '147852', FIVE_QUANTITIES)
+        .add(userId, cartId, '147852', PRODUCT_QUANITY)
         .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne({ method: 'POST', url: 'addEntries' });
@@ -92,8 +92,9 @@ describe('OccCartEntryAdapter', () => {
   describe('update entry in a cart', () => {
     it('should update an entry in a cart for given user id, cart id, entryNumber and quantitiy', () => {
       let result;
+      const PRODUCT_QUANITY = 5;
       occCartEntryAdapter
-        .update(userId, cartId, '12345', FIVE_QUANTITIES)
+        .update(userId, cartId, '12345', PRODUCT_QUANITY)
         .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne({
@@ -124,10 +125,11 @@ describe('OccCartEntryAdapter', () => {
     });
 
     it(`should handle 'pickupStore'`, () => {
+      const PRODUCT_QUANITY = 5;
       const pickupStore =
         'Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France';
       occCartEntryAdapter
-        .update(userId, cartId, '12345', FIVE_QUANTITIES, pickupStore)
+        .update(userId, cartId, '12345', PRODUCT_QUANITY, pickupStore)
         .subscribe()
         .unsubscribe();
 

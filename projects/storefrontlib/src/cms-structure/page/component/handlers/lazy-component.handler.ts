@@ -11,7 +11,6 @@ import { switchMap } from 'rxjs/operators';
 import { ComponentHandler } from './component-handler';
 import { DefaultComponentHandler } from './default-component.handler';
 
-const TWENTY = 20;
 /**
  * Lazy component handler used for launching lazy loaded cms components implemented
  * as native Angular components.
@@ -33,7 +32,8 @@ export class LazyComponentHandler implements ComponentHandler {
   }
 
   private isNotClass(symbol: any): boolean {
-    const signature = symbol.toString().substr(0, TWENTY).replace(' ', '');
+    const VALUE = 20;
+    const signature = symbol.toString().substr(0, VALUE).replace(' ', '');
     return signature.startsWith('function()') || signature.startsWith('()=>');
   }
 

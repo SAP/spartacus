@@ -28,9 +28,9 @@ function jsonToProperties(jsonObj, prefix?) {
 // generate properties files
 Object.keys(translations).forEach((lang) => {
   Object.keys(translations[lang]).forEach((chunk) => {
-    const NUM_TWO = 2;
+    const SPACE = 2;
     const obj = translations[lang][chunk];
-    const json = JSON.stringify(obj, null, NUM_TWO);
+    const json = JSON.stringify(obj, null, SPACE);
     const properties = jsonToProperties(JSON.parse(json));
     writeProperties(
       '../../lang/properties',

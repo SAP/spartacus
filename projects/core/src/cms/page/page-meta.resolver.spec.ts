@@ -3,9 +3,6 @@ import { PageMetaResolver } from '..';
 import { PageType } from '../../model';
 import { Page } from '../model/page.model';
 
-const SCORE_TWO = 2;
-const SCORE_MINUS_TWO = -2;
-
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
   slots: {},
@@ -48,9 +45,10 @@ describe('PageMetaResolver', () => {
   });
 
   it('should score -2 for non CategoryPage and lacking page template', () => {
+    const EXPECTED_SCORE = -2;
     service.pageType = PageType.CATEGORY_PAGE;
     service.pageTemplate = 'page-requires-template';
-    expect(service.getScore(mockContentPage)).toEqual(SCORE_MINUS_TWO);
+    expect(service.getScore(mockContentPage)).toEqual(EXPECTED_SCORE);
   });
 
   it('should score 1 for ContentPage with page template', () => {
@@ -59,8 +57,11 @@ describe('PageMetaResolver', () => {
   });
 
   it('should score 2 for ContentPage with page template', () => {
+    const EXPECTED_SCORE = 2;
     service.pageType = PageType.CONTENT_PAGE;
     service.pageTemplate = 'any-template';
-    expect(service.getScore(mockContentPageWithTemplate)).toEqual(SCORE_TWO);
+    expect(service.getScore(mockContentPageWithTemplate)).toEqual(
+      EXPECTED_SCORE
+    );
   });
 });

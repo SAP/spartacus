@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule, StoreDataService } from '@spartacus/core';
 import { ScheduleComponent } from './schedule.component';
 
-const WEEK_DAYS_NUMBER = 7;
 const HOURS_9 = 9;
 const HOURS_10 = 10;
 const HOURS_17 = 17;
@@ -13,12 +12,8 @@ const MINUTES_15 = 15;
 const MINUTES_20 = 20;
 const MINUTES_30 = 30;
 const MINUTES_45 = 45;
-const CASE_TWO = 2;
-const ROW_2 = 2;
-const ROW_3 = 3;
-const ROW_4 = 4;
-const ROW_5 = 5;
-const ROW_6 = 6;
+const MONDAY = 1;
+const TUESDAY = 2;
 
 const openDay1 = new Date();
 openDay1.setHours(HOURS_10);
@@ -43,11 +38,11 @@ class StoreDataServiceMock {
 
   getStoreOpeningTime(_location: any, date: Date): string {
     switch (date.getDay()) {
-      case 1: {
+      case MONDAY: {
         // Monday
         return this.getTime(openDay1);
       }
-      case CASE_TWO: {
+      case TUESDAY: {
         // Tuesday
         return this.getTime(openDay2);
       }
@@ -65,7 +60,7 @@ class StoreDataServiceMock {
         // Monday
         return this.getTime(closeDay1);
       }
-      case CASE_TWO: {
+      case TUESDAY: {
         // Tuesday
         return this.getTime(closeDay2);
       }
@@ -102,6 +97,13 @@ describe('ScheduleComponent', () => {
   });
 
   it('should render the schedule', () => {
+    const ROW_SIX = 6;
+    const ROW_FIVE = 5;
+    const ROW_FOUR = 4;
+    const ROW_THREE = 3;
+    const ROW_TWO = 2;
+    const WEEK_DAYS_NUMBER = 7;
+
     // given the schedule descibed in StoreDataServiceMock
     spyOn(storeDataService, 'getStoreClosingTime').and.callThrough();
     spyOn(storeDataService, 'getStoreOpeningTime').and.callThrough();
@@ -126,11 +128,15 @@ describe('ScheduleComponent', () => {
 
     verifyScheduleRow(renderedScheduleRows.item(0), 'Sun', '  -  ');
     verifyScheduleRow(renderedScheduleRows.item(1), 'Mon', '10:15 - 18:20');
-    verifyScheduleRow(renderedScheduleRows.item(ROW_2), 'Tue', '9:30 - 17:45');
-    verifyScheduleRow(renderedScheduleRows.item(ROW_3), 'Wed', '  -  ');
-    verifyScheduleRow(renderedScheduleRows.item(ROW_4), 'Thu', '  -  ');
-    verifyScheduleRow(renderedScheduleRows.item(ROW_5), 'Fri', '  -  ');
-    verifyScheduleRow(renderedScheduleRows.item(ROW_6), 'Sat', '  -  ');
+    verifyScheduleRow(
+      renderedScheduleRows.item(ROW_TWO),
+      'Tue',
+      '9:30 - 17:45'
+    );
+    verifyScheduleRow(renderedScheduleRows.item(ROW_THREE), 'Wed', '  -  ');
+    verifyScheduleRow(renderedScheduleRows.item(ROW_FOUR), 'Thu', '  -  ');
+    verifyScheduleRow(renderedScheduleRows.item(ROW_FIVE), 'Fri', '  -  ');
+    verifyScheduleRow(renderedScheduleRows.item(ROW_SIX), 'Sat', '  -  ');
   });
 
   it('should not render the schedule when there is no opening hours', () => {

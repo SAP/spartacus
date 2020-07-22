@@ -9,8 +9,6 @@ import { UserInterestsConnector } from './user-interests.connector';
 
 import createSpy = jasmine.createSpy;
 
-const PAGE_SIZE_TEN = 10;
-
 class MockUserInterestsAdapter implements UserInterestsAdapter {
   getInterests = createSpy('getInterests').and.callFake((userId) =>
     of(`loadList-${userId}`)
@@ -40,10 +38,11 @@ describe('UserInterestsConnector', () => {
 
   it('get interests should call adapter', () => {
     let result;
+    const PAGE_SIZE = 10;
     service
       .getInterests(
         'user-id',
-        PAGE_SIZE_TEN,
+        PAGE_SIZE,
         0,
         'name:asc',
         '343898',
@@ -53,7 +52,7 @@ describe('UserInterestsConnector', () => {
     expect(result).toEqual('loadList-user-id');
     expect(adapter.getInterests).toHaveBeenCalledWith(
       'user-id',
-      PAGE_SIZE_TEN,
+      PAGE_SIZE,
       0,
       'name:asc',
       '343898',

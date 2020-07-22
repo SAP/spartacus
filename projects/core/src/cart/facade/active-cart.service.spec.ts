@@ -20,9 +20,6 @@ import { ActiveCartService } from './active-cart.service';
 import { MultiCartService } from './multi-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
-const TWO_QUANTITIES = 2;
-const THIRD_ENTRY = 3;
-const TWO_TIMES = 2;
 
 class AuthServiceStub {
   getOccUserId(): Observable<string> {
@@ -324,24 +321,26 @@ describe('ActiveCartService', () => {
 
   describe('addEntry', () => {
     it('should just add entry after cart is provided', () => {
+      const PRODUCT_QUANTITY = 2;
       spyOn<any>(service, 'requireLoadedCart').and.returnValue(
         of({ value: { code: 'code', guid: 'guid' } })
       );
       spyOn(multiCartService, 'addEntry').and.callThrough();
 
-      service.addEntry('productCode', TWO_QUANTITIES);
+      service.addEntry('productCode', PRODUCT_QUANTITY);
 
       expect(multiCartService['addEntry']).toHaveBeenCalledWith(
         OCC_USER_ID_ANONYMOUS,
         'guid',
         'productCode',
-        TWO_QUANTITIES
+        PRODUCT_QUANTITY
       );
     });
   });
 
   describe('removeEntry', () => {
     it('should call multiCartService remove entry method with active cart', () => {
+      const ENTRY_NUMBER = 3;
       service['cartId'] = 'cartId';
       service['userId'] = 'userId';
       spyOn(multiCartService, 'removeEntry').and.callThrough();
@@ -352,23 +351,24 @@ describe('ActiveCartService', () => {
       expect(multiCartService['removeEntry']).toHaveBeenCalledWith(
         'userId',
         'cartId',
-        THIRD_ENTRY
+        ENTRY_NUMBER
       );
     });
   });
 
   describe('updateEntry', () => {
+    const PRODUCT_QUANTITY = 2;
     it('should call multiCartService update entry method with active cart', () => {
       service['cartId'] = 'cartId';
       service['userId'] = 'userId';
       spyOn(multiCartService, 'updateEntry').and.callThrough();
 
-      service.updateEntry(1, TWO_QUANTITIES);
+      service.updateEntry(1, PRODUCT_QUANTITY);
       expect(multiCartService['updateEntry']).toHaveBeenCalledWith(
         'userId',
         'cartId',
         1,
-        TWO_QUANTITIES
+        PRODUCT_QUANTITY
       );
     });
   });
@@ -479,10 +479,11 @@ describe('ActiveCartService', () => {
 
   describe('addEntries', () => {
     it('should add each entry one by one', () => {
+      const EXPECTED_TIMES_CALLED = 2;
       spyOn(service, 'addEntry').and.callThrough();
 
       service.addEntries([mockCartEntry, mockCartEntry]);
-      expect(service['addEntry']).toHaveBeenCalledTimes(TWO_TIMES);
+      expect(service['addEntry']).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
       expect(service['addEntry']).toHaveBeenCalledWith(
         mockCartEntry.product.code,
         mockCartEntry.quantity

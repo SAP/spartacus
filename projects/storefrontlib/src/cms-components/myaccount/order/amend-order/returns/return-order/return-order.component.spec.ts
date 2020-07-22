@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { ReturnOrderComponent } from './return-order.component';
 
-const LEN_2 = 2;
+const EXPECTED_LENGTH = 2;
 class MockOrderAmendService {
   getForm() {
     return of({
@@ -74,7 +74,7 @@ describe('ReturnOrderComponent', () => {
 
     expect(
       fixture.debugElement.queryAll(By.css('cx-amend-order-actions')).length
-    ).toEqual(LEN_2);
+    ).toEqual(EXPECTED_LENGTH);
   });
 
   it('should render cx-amend-order-items component', () => {
@@ -82,6 +82,6 @@ describe('ReturnOrderComponent', () => {
 
     expect(
       fixture.debugElement.queryAll(By.css('cx-amend-order-actions')).length
-    ).toEqual(LEN_2);
+    ).toEqual(EXPECTED_LENGTH);
   });
 });

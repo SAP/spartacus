@@ -9,10 +9,6 @@ import { NavigationNode } from './navigation-node.model';
 import { NavigationService } from './navigation.service';
 import createSpy = jasmine.createSpy;
 
-const NUM_TWO = 2;
-const NUM_THREE = 3;
-const NUM_FOUR = 4;
-
 const navigationEntryItems: any = {
   MainLink001_AbstractCMSComponent: {
     uid: 'MainLink001',
@@ -195,6 +191,7 @@ describe('NavigationComponentService', () => {
   });
 
   it('should not get a URL when no link is provided in the CMS data', () => {
+    const INDEX = 2;
     mockCmsService.getNavigationEntryItems.and.returnValue(
       of(navigationEntryItems)
     );
@@ -204,10 +201,11 @@ describe('NavigationComponentService', () => {
       .getNavigationNode(of(componentData))
       .subscribe((node) => (result = node));
 
-    expect(result.children[NUM_TWO].url).toBeFalsy();
+    expect(result.children[INDEX].url).toBeFalsy();
   });
 
   it('should get a link to a category when categoryCode is provided', () => {
+    const INDEX = 3;
     mockCmsService.getNavigationEntryItems.and.returnValue(
       of(navigationEntryItems)
     );
@@ -217,14 +215,11 @@ describe('NavigationComponentService', () => {
       .getNavigationNode(of(componentData))
       .subscribe((node) => (result = node));
 
-    expect(result.children[NUM_THREE].url).toEqual([
-      'category',
-      '444',
-      'name 4',
-    ]);
+    expect(result.children[INDEX].url).toEqual(['category', '444', 'name 4']);
   });
 
   it('should get a link to a content page when contentPageLabelOrId is provided', () => {
+    const INDEX = 4;
     mockCmsService.getNavigationEntryItems.and.returnValue(
       of(navigationEntryItems)
     );
@@ -234,7 +229,7 @@ describe('NavigationComponentService', () => {
       .getNavigationNode(of(componentData))
       .subscribe((node) => (result = node));
 
-    expect(result.children[4].url).toEqual('/faq');
+    expect(result.children[INDEX].url).toEqual('/faq');
   });
 
   it('should get a link to a product when productCode is provided', () => {

@@ -9,9 +9,6 @@ import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
 
-const TWO = 2;
-const NINE = 9;
-
 @Injectable({
   providedIn: 'root',
 })
@@ -61,7 +58,10 @@ export class MultiCartService {
    * Simple random temp cart id generator
    */
   private generateTempCartId(): string {
-    const pseudoUuid = Math.random().toString(36).substr(TWO, NINE);
+    const RADIX = 36,
+      FROM = 2,
+      LENGTH = 9;
+    const pseudoUuid = Math.random().toString(RADIX).substr(FROM, LENGTH);
     return `temp-${pseudoUuid}`;
   }
 

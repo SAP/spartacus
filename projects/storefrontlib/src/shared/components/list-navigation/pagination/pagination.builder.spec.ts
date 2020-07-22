@@ -8,20 +8,22 @@ import {
   PaginationOptions,
 } from './pagination.model';
 
-const NUM_TWO = 2;
-const NUM_THREE = 3;
-const NUM_FOUR = 4;
-const NUM_FIVE = 5;
-const NUM_SIX = 6;
-const NUM_SEVEN = 7;
-const NUM_EIGHT = 8;
-const NUM_NINE = 9;
-const NUM_TEN = 10;
-const NUM_ELEVEN = 11;
-const NUM_FIFTEEN = 15;
-const NUM_EIGHTEEN = 18;
-const NUM_FIFTY = 50;
-const NUM_HUNDRED = 100;
+const PAGE_INDEX_THREE = 3;
+const PAGE_INDEX_FOUR = 4;
+const PAGE_INDEX_FIVE = 5;
+const PAGE_INDEX_SIX = 6;
+const PAGE_INDEX_SEVEN = 7;
+
+const EXP_PAGE_LENGTH_FOUR = 4;
+const EXP_PAGE_LENGTH_FIVE = 5;
+const EXP_PAGE_LENGTH_SIX = 6;
+const EXP_PAGE_LENGTH_SEVEN = 7;
+const EXP_PAGE_LENGTH_NINE = 9;
+const EXP_PAGE_LENGTH_ELEVEN = 11;
+
+const PAGE_COUNT_TEN = 10;
+const PAGE_COUNT_FIFTY = 50;
+const PAGE_COUNT_HUNDRED = 100;
 
 const DEFAULT_CONFIG: PaginationOptions = {
   rangeCount: 3,
@@ -104,23 +106,37 @@ describe('PaginationBuilder', () => {
         });
 
         it('should return 4 items when pageCount = 2', () => {
-          expect(service.paginate(NUM_TWO, 0).length).toEqual(NUM_FOUR);
+          const PAGE_COUNT = 2;
+          expect(service.paginate(PAGE_COUNT, 0).length).toEqual(
+            EXP_PAGE_LENGTH_FOUR
+          );
         });
 
         it('should return 5 items when pageCount = 3', () => {
-          expect(service.paginate(NUM_THREE, 0).length).toEqual(NUM_FIVE);
+          const PAGE_COUNT = 3;
+          expect(service.paginate(PAGE_COUNT, 0).length).toEqual(
+            EXP_PAGE_LENGTH_FIVE
+          );
         });
 
         it('should return 5 items when pageCount = 4', () => {
-          expect(service.paginate(NUM_FOUR, 0).length).toEqual(NUM_FIVE);
+          const PAGE_COUNT = 4;
+          expect(service.paginate(PAGE_COUNT, 0).length).toEqual(
+            EXP_PAGE_LENGTH_FIVE
+          );
         });
 
         it('should return 5 items when pageCount = 5', () => {
-          expect(service.paginate(NUM_FIVE, 0).length).toEqual(NUM_FIVE);
+          const PAGE_COUNT = 5;
+          expect(service.paginate(PAGE_COUNT, 0).length).toEqual(
+            EXP_PAGE_LENGTH_FIVE
+          );
         });
 
         it('should return max 5 items when pageCount > 5', () => {
-          expect(service.paginate(NUM_HUNDRED, 0).length).toEqual(NUM_FIVE);
+          expect(service.paginate(PAGE_COUNT_HUNDRED, 0).length).toEqual(
+            EXP_PAGE_LENGTH_FIVE
+          );
         });
       });
     });
@@ -135,31 +151,37 @@ describe('PaginationBuilder', () => {
     describe('item length', () => {
       describe('pageCount = 100', () => {
         it('should return max 9 items when pageCount = 100 and current = 0', () => {
-          expect(service.paginate(NUM_HUNDRED, 0).length).toEqual(NUM_NINE);
+          expect(service.paginate(PAGE_COUNT_HUNDRED, 0).length).toEqual(
+            EXP_PAGE_LENGTH_NINE
+          );
         });
 
         it('should return max 10 items when pageCount = 100 and current = 2', () => {
-          expect(service.paginate(NUM_HUNDRED, NUM_TWO).length).toEqual(
-            NUM_TEN
-          );
+          const EXPECTED_LENGTH = 10;
+          const CURRENT_PAGE = 2;
+          expect(
+            service.paginate(PAGE_COUNT_HUNDRED, CURRENT_PAGE).length
+          ).toEqual(EXPECTED_LENGTH);
         });
 
         it('should return max 11 items when pageCount = 100 and current = 3', () => {
-          expect(service.paginate(NUM_HUNDRED, NUM_THREE).length).toEqual(
-            NUM_ELEVEN
-          );
+          const CURRENT_PAGE = 3;
+          expect(
+            service.paginate(PAGE_COUNT_HUNDRED, CURRENT_PAGE).length
+          ).toEqual(EXP_PAGE_LENGTH_ELEVEN);
         });
 
         it('should return max 11 items when pageCount = 100 and current = 4', () => {
-          expect(service.paginate(NUM_HUNDRED, NUM_FOUR).length).toEqual(
-            NUM_ELEVEN
-          );
+          const PAGE_COUNT = 4;
+          expect(
+            service.paginate(PAGE_COUNT_HUNDRED, PAGE_COUNT).length
+          ).toEqual(EXP_PAGE_LENGTH_ELEVEN);
         });
 
         it('should return max 11 items when pageCount = 100 and current > 4', () => {
-          expect(service.paginate(NUM_HUNDRED, NUM_FIFTY).length).toEqual(
-            NUM_ELEVEN
-          );
+          expect(
+            service.paginate(PAGE_COUNT_HUNDRED, PAGE_COUNT_FIFTY).length
+          ).toEqual(EXP_PAGE_LENGTH_ELEVEN);
         });
       });
     });
@@ -167,11 +189,11 @@ describe('PaginationBuilder', () => {
     describe('(1st page)', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
-        pages = service.paginate(NUM_TEN, 0);
+        pages = service.paginate(PAGE_COUNT_TEN, 0);
       });
 
       it('should have 9 items', () => {
-        expect(pages.length).toEqual(NUM_NINE);
+        expect(pages.length).toEqual(EXP_PAGE_LENGTH_NINE);
       });
 
       it('should return start for 1st item', () => {
@@ -189,51 +211,54 @@ describe('PaginationBuilder', () => {
       });
 
       it('should return 1st page for 3rd page item', () => {
-        const page = pages[NUM_TWO];
+        const PAGE_INDEX = 2;
+        const page = pages[PAGE_INDEX];
         expect(page.type).toEqual(PaginationItemType.PAGE);
         expect(page.number).toEqual(0);
         expect(page.label).toEqual('1');
       });
 
       it('should return 2nd page for 4th item', () => {
-        const page = pages[NUM_THREE];
+        const page = pages[PAGE_INDEX_THREE];
         expect(page.type).toEqual(PaginationItemType.PAGE);
         expect(page.number).toEqual(1);
         expect(page.label).toEqual('2');
       });
 
       it('should return 3rd page for 5th item', () => {
-        const page = pages[NUM_FOUR];
+        const EXP_LEN = 2;
+        const page = pages[PAGE_INDEX_FOUR];
         expect(page.type).toEqual(PaginationItemType.PAGE);
-        expect(page.number).toEqual(NUM_TWO);
+        expect(page.number).toEqual(EXP_LEN);
         expect(page.label).toEqual('3');
       });
 
       it('should return dots for 6th item', () => {
-        const page = pages[NUM_FIVE];
+        const page = pages[PAGE_INDEX_FIVE];
         expect(page.type).toEqual(PaginationItemType.GAP);
         expect(page.label).toEqual('...');
         expect(page.hasOwnProperty('number')).toBeFalsy();
       });
 
       it('should return last page for 7th item', () => {
-        const page = pages[NUM_SIX];
+        const page = pages[PAGE_INDEX_SIX];
         expect(page.type).toEqual(PaginationItemType.LAST);
-        expect(page.number).toEqual(NUM_NINE);
+        expect(page.number).toEqual(EXP_PAGE_LENGTH_NINE);
         expect(page.label).toEqual('10');
       });
 
       it('should return next for 8th item', () => {
-        const page = pages[NUM_SEVEN];
+        const page = pages[PAGE_INDEX_SEVEN];
         expect(page.type).toEqual(PaginationItemType.NEXT);
         expect(page.number).toEqual(1);
         expect(page.label).toEqual('›');
       });
 
       it('should return last for 9th item', () => {
-        const page = pages[NUM_EIGHT];
+        const PAGE_INDEX = 8;
+        const page = pages[PAGE_INDEX];
         expect(page.type).toEqual(PaginationItemType.END);
-        expect(page.number).toEqual(NUM_NINE);
+        expect(page.number).toEqual(EXP_PAGE_LENGTH_NINE);
         expect(page.label).toEqual('»');
       });
     });
@@ -241,11 +266,11 @@ describe('PaginationBuilder', () => {
     describe('(2nd page)', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
-        pages = service.paginate(NUM_TEN, 1);
+        pages = service.paginate(PAGE_COUNT_TEN, 1);
       });
 
       it('should have 9 items', () => {
-        expect(pages.length).toEqual(NUM_NINE);
+        expect(pages.length).toEqual(EXP_PAGE_LENGTH_NINE);
       });
 
       it('should return start for 1st item', () => {
@@ -263,23 +288,25 @@ describe('PaginationBuilder', () => {
       });
 
       it('should return 1st page for 3rd page item', () => {
-        const page = pages[NUM_TWO];
+        const PAGE_INDEX = 2;
+        const page = pages[PAGE_INDEX];
         expect(page.type).toEqual(PaginationItemType.PAGE);
         expect(page.number).toEqual(0);
         expect(page.label).toEqual('1');
       });
 
       it('should return 2nd page for 4th item', () => {
-        const page = pages[NUM_THREE];
+        const page = pages[PAGE_INDEX_THREE];
         expect(page.type).toEqual(PaginationItemType.PAGE);
         expect(page.number).toEqual(1);
         expect(page.label).toEqual('2');
       });
 
       it('should return next for 8th item', () => {
-        const page = pages[NUM_SEVEN];
+        const EXP_LEN = 2;
+        const page = pages[PAGE_INDEX_SEVEN];
         expect(page.type).toEqual(PaginationItemType.NEXT);
-        expect(page.number).toEqual(NUM_TWO);
+        expect(page.number).toEqual(EXP_LEN);
         expect(page.label).toEqual('›');
       });
     });
@@ -287,11 +314,12 @@ describe('PaginationBuilder', () => {
     describe('(4th page)', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
-        pages = service.paginate(NUM_TEN, NUM_THREE);
+        const CURRENT_PAGE = 3;
+        pages = service.paginate(PAGE_COUNT_TEN, CURRENT_PAGE);
       });
 
       it('should return 2nd page for 4th page item', () => {
-        const page = pages[NUM_THREE];
+        const page = pages[PAGE_INDEX_THREE];
         expect(page.type).toEqual(PaginationItemType.PAGE);
         expect(page.number).toEqual(1);
         expect(page.label).toEqual('2');
@@ -301,18 +329,19 @@ describe('PaginationBuilder', () => {
     describe('(5th page)', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
-        pages = service.paginate(NUM_TEN, NUM_FOUR);
+        const CURRENT_PAGE = 4;
+        pages = service.paginate(PAGE_COUNT_TEN, CURRENT_PAGE);
       });
 
       it('should return dots for 4th page item', () => {
-        const page = pages[NUM_THREE];
+        const page = pages[PAGE_INDEX_THREE];
         expect(page.type).toEqual(PaginationItemType.GAP);
         expect(page.hasOwnProperty('number')).toBeFalsy();
         expect(page.label).toEqual('...');
       });
 
       it('should return dots for 8th page item', () => {
-        const page = pages[NUM_SEVEN];
+        const page = pages[PAGE_INDEX_SEVEN];
         expect(page.type).toEqual(PaginationItemType.GAP);
         expect(page.hasOwnProperty('number')).toBeFalsy();
         expect(page.label).toEqual('...');
@@ -332,7 +361,7 @@ describe('PaginationBuilder', () => {
           nextLabel: 'n',
         })
       );
-      pages = service.paginate(NUM_HUNDRED, NUM_FIFTY);
+      pages = service.paginate(PAGE_COUNT_HUNDRED, PAGE_COUNT_FIFTY);
     });
     it('should return start label with "s"', () => {
       expect(pages[0].label).toEqual('s');
@@ -341,14 +370,16 @@ describe('PaginationBuilder', () => {
       expect(pages[1].label).toEqual('p');
     });
     it('should return dots label with "d"', () => {
-      expect(pages[NUM_THREE].label).toEqual('d');
-      expect(pages[NUM_SEVEN].label).toEqual('d');
+      expect(pages[PAGE_INDEX_THREE].label).toEqual('d');
+      expect(pages[PAGE_INDEX_SEVEN].label).toEqual('d');
     });
     it('should return next label with "n"', () => {
-      expect(pages[NUM_NINE].label).toEqual('n');
+      const PAGE_INDEX = 9;
+      expect(pages[PAGE_INDEX].label).toEqual('n');
     });
     it('should return end label with "e"', () => {
-      expect(pages[NUM_TEN].label).toEqual('e');
+      const PAGE_INDEX = 10;
+      expect(pages[PAGE_INDEX].label).toEqual('e');
     });
   });
 
@@ -362,7 +393,8 @@ describe('PaginationBuilder', () => {
         addLast: true,
         substituteDotsForSingularPage: true,
       });
-      pages = service.paginate(NUM_THREE, 0);
+      const PAGE_COUNT = 3;
+      pages = service.paginate(PAGE_COUNT, 0);
     });
     it('should substiture gap', () => {
       const all = pages.find((page) => page.type === PaginationItemType.GAP);
@@ -374,11 +406,11 @@ describe('PaginationBuilder', () => {
     let pages: PaginationItem[];
     beforeEach(() => {
       const service = setup({ rangeCount: 5 });
-      pages = service.paginate(NUM_HUNDRED, NUM_FIFTY);
+      pages = service.paginate(PAGE_COUNT_HUNDRED, PAGE_COUNT_FIFTY);
     });
     it('should have 5 pages', () => {
       const all = pages.filter((page) => page.type === PaginationItemType.PAGE);
-      expect(all.length).toEqual(NUM_FIVE);
+      expect(all.length).toEqual(EXP_PAGE_LENGTH_FIVE);
     });
   });
 
@@ -386,10 +418,11 @@ describe('PaginationBuilder', () => {
     let pages: PaginationItem[];
     beforeEach(() => {
       const service = setup({ addStart: false, addEnd: false });
-      pages = service.paginate(NUM_HUNDRED, NUM_FIFTY);
+      pages = service.paginate(PAGE_COUNT_HUNDRED, PAGE_COUNT_FIFTY);
     });
     it('should return max 3 items', () => {
-      expect(pages.length).toEqual(NUM_THREE);
+      const EXPECTED_LENGTH = 3;
+      expect(pages.length).toEqual(EXPECTED_LENGTH);
     });
     it('should not have a start link', () => {
       const link = pages.find((page) => page.type === PaginationItemType.START);
@@ -408,10 +441,10 @@ describe('PaginationBuilder', () => {
         addPrevious: true,
         addNext: true,
       });
-      pages = service.paginate(NUM_HUNDRED, NUM_FIFTY);
+      pages = service.paginate(PAGE_COUNT_HUNDRED, PAGE_COUNT_FIFTY);
     });
     it('should return max 7 items', () => {
-      expect(pages.length).toEqual(NUM_SEVEN);
+      expect(pages.length).toEqual(EXP_PAGE_LENGTH_SEVEN);
     });
     it('should have a previous page link', () => {
       const link = pages.find(
@@ -429,10 +462,10 @@ describe('PaginationBuilder', () => {
     let pages: PaginationItem[];
     beforeEach(() => {
       const service = setup({ addFirst: true, addLast: true });
-      pages = service.paginate(NUM_HUNDRED, NUM_FIFTY);
+      pages = service.paginate(PAGE_COUNT_HUNDRED, PAGE_COUNT_FIFTY);
     });
     it('should return max 7 items', () => {
-      expect(pages.length).toEqual(NUM_SEVEN);
+      expect(pages.length).toEqual(EXP_PAGE_LENGTH_SEVEN);
     });
     it('should not have a first page link', () => {
       const link = pages.find((page) => page.type === PaginationItemType.FIRST);
@@ -446,13 +479,15 @@ describe('PaginationBuilder', () => {
 
   describe('config with dots added', () => {
     describe('one gap at the start', () => {
+      const CUR_PAGE = 2;
       let pages: PaginationItem[];
       beforeEach(() => {
         const service = setup({ addDots: true });
-        pages = service.paginate(NUM_FOUR, NUM_TWO);
+        const PAGE_COUNT = 4;
+        pages = service.paginate(PAGE_COUNT, CUR_PAGE);
       });
       it('should return max 6 items', () => {
-        expect(pages.length).toEqual(NUM_SIX);
+        expect(pages.length).toEqual(EXP_PAGE_LENGTH_SIX);
       });
       it('should have gap a 2nd item', () => {
         expect(pages[1].type).toEqual(PaginationItemType.GAP);
@@ -463,30 +498,32 @@ describe('PaginationBuilder', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
         const service = setup({ addDots: true });
-        pages = service.paginate(NUM_FOUR, 0);
+        const PAGE_COUNT = 4;
+        pages = service.paginate(PAGE_COUNT, 0);
       });
       it('should return max 6 items', () => {
-        expect(pages.length).toEqual(NUM_SIX);
+        expect(pages.length).toEqual(EXP_PAGE_LENGTH_SIX);
       });
       it('should have gap a 5th item', () => {
-        expect(pages[NUM_FOUR].type).toEqual(PaginationItemType.GAP);
+        expect(pages[PAGE_INDEX_FOUR].type).toEqual(PaginationItemType.GAP);
       });
     });
 
     describe('gaps at both sides', () => {
       let pages: PaginationItem[];
+      const EXP_LEN = 2;
       beforeEach(() => {
         const service = setup({ addDots: true });
-        pages = service.paginate(NUM_HUNDRED, NUM_FIFTY);
+        pages = service.paginate(PAGE_COUNT_HUNDRED, PAGE_COUNT_FIFTY);
       });
       it('should return max 7 items', () => {
-        expect(pages.length).toEqual(NUM_SEVEN);
+        expect(pages.length).toEqual(EXP_PAGE_LENGTH_SEVEN);
       });
       it('should have 2 gaps', () => {
         const link = pages.filter(
           (page) => page.type === PaginationItemType.GAP
         );
-        expect(link.length).toEqual(NUM_TWO);
+        expect(link.length).toEqual(EXP_LEN);
       });
     });
 
@@ -494,10 +531,11 @@ describe('PaginationBuilder', () => {
       let pages: PaginationItem[];
       beforeEach(() => {
         const service = setup({ addDots: true });
-        pages = service.paginate(NUM_THREE, 0);
+        const PAGE_COUNT = 3;
+        pages = service.paginate(PAGE_COUNT, 0);
       });
       it('should return max 5 items', () => {
-        expect(pages.length).toEqual(NUM_FIVE);
+        expect(pages.length).toEqual(EXP_PAGE_LENGTH_FIVE);
       });
       it('should not have gaps', () => {
         const link = pages.find((page) => page.type === PaginationItemType.GAP);
@@ -507,16 +545,17 @@ describe('PaginationBuilder', () => {
 
     describe('should substitute first dots for singular page', () => {
       let pages: PaginationItem[];
+      const CUR_PAGE = 2;
       beforeEach(() => {
         const service = setup({
           addDots: true,
           substituteDotsForSingularPage: true,
         });
-        pages = service.paginate(NUM_HUNDRED, NUM_TWO);
+        pages = service.paginate(PAGE_COUNT_HUNDRED, CUR_PAGE);
       });
 
       it('should return max 7 items', () => {
-        expect(pages.length).toEqual(NUM_SEVEN);
+        expect(pages.length).toEqual(EXP_PAGE_LENGTH_SEVEN);
       });
 
       it('should have page 1 instead of gap', () => {
@@ -524,22 +563,24 @@ describe('PaginationBuilder', () => {
       });
 
       it('should have gap a 6th item', () => {
-        expect(pages[NUM_FIVE].type).toEqual(PaginationItemType.GAP);
+        expect(pages[PAGE_INDEX_FIVE].type).toEqual(PaginationItemType.GAP);
       });
     });
 
     describe('should substitute last dots for singular page', () => {
       let pages: PaginationItem[];
+      const PAGE_COUNT = 18;
+      const CURRENT_PAGE = 15;
       beforeEach(() => {
         const service = setup({
           addDots: true,
           substituteDotsForSingularPage: true,
         });
-        pages = service.paginate(NUM_EIGHTEEN, NUM_FIFTEEN);
+        pages = service.paginate(PAGE_COUNT, CURRENT_PAGE);
       });
 
       it('should return max 7 items', () => {
-        expect(pages.length).toEqual(NUM_SEVEN);
+        expect(pages.length).toEqual(EXP_PAGE_LENGTH_SEVEN);
       });
 
       it('should have gap a 1th item', () => {
@@ -547,7 +588,7 @@ describe('PaginationBuilder', () => {
       });
 
       it('should have last page instead of gap', () => {
-        expect(pages[NUM_FIVE].type).toEqual(PaginationItemType.PAGE);
+        expect(pages[PAGE_INDEX_FIVE].type).toEqual(PaginationItemType.PAGE);
       });
     });
   });
@@ -563,7 +604,7 @@ describe('PaginationBuilder', () => {
           addNext: true,
           addEnd: true,
         });
-        pages = service.paginate(NUM_HUNDRED, NUM_FIFTY);
+        pages = service.paginate(PAGE_COUNT_HUNDRED, PAGE_COUNT_FIFTY);
       });
       it('should have start link at position 0', () => {
         expect(pages[0].type).toEqual(PaginationItemType.START);
@@ -572,10 +613,11 @@ describe('PaginationBuilder', () => {
         expect(pages[1].type).toEqual(PaginationItemType.PREVIOUS);
       });
       it('should have next link at position 2', () => {
-        expect(pages[NUM_TWO].type).toEqual(PaginationItemType.NEXT);
+        const PAGE_INDEX = 2;
+        expect(pages[PAGE_INDEX].type).toEqual(PaginationItemType.NEXT);
       });
       it('should have previous link at position 3', () => {
-        expect(pages[NUM_THREE].type).toEqual(PaginationItemType.END);
+        expect(pages[PAGE_INDEX_THREE].type).toEqual(PaginationItemType.END);
       });
     });
 
@@ -589,19 +631,21 @@ describe('PaginationBuilder', () => {
           addNext: true,
           addEnd: true,
         });
-        pages = service.paginate(NUM_HUNDRED, NUM_FIFTY);
+        pages = service.paginate(PAGE_COUNT_HUNDRED, PAGE_COUNT_FIFTY);
       });
       it('should have start link at position 7', () => {
-        expect(pages[NUM_THREE].type).toEqual(PaginationItemType.START);
+        expect(pages[PAGE_INDEX_THREE].type).toEqual(PaginationItemType.START);
       });
       it('should have previous link at position 8', () => {
-        expect(pages[NUM_FOUR].type).toEqual(PaginationItemType.PREVIOUS);
+        expect(pages[PAGE_INDEX_FOUR].type).toEqual(
+          PaginationItemType.PREVIOUS
+        );
       });
       it('should have next link at position 9', () => {
-        expect(pages[NUM_FIVE].type).toEqual(PaginationItemType.NEXT);
+        expect(pages[PAGE_INDEX_FIVE].type).toEqual(PaginationItemType.NEXT);
       });
       it('should have previous link at position 10', () => {
-        expect(pages[NUM_SIX].type).toEqual(PaginationItemType.END);
+        expect(pages[PAGE_INDEX_SIX].type).toEqual(PaginationItemType.END);
       });
     });
   });

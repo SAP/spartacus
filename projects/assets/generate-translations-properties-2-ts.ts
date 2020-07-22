@@ -56,12 +56,12 @@ Object.keys(translations).forEach((lang) => {
         const content = fs.readFileSync(path, 'utf8');
         const firstLine = content.split('=')[0];
         const chunk = firstLine.trim().split(' ').pop();
-        const NUM_TWO = 2;
+        const SPACE = 2;
         fs.writeFileSync(
           path,
           firstLine +
             '=' +
-            JSON.stringify(translations[lang][chunk], null, NUM_TWO),
+            JSON.stringify(translations[lang][chunk], null, SPACE),
           'utf8'
         );
       }

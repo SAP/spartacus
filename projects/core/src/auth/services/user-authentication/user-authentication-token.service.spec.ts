@@ -10,6 +10,9 @@ import { AuthConfig } from '../../config/auth-config';
 import { UserToken } from '../../models/token-types.model';
 import { UserAuthenticationTokenService } from './user-authentication-token.service';
 
+enum HttpResponseStatus {
+  BAD_REQUEST = 400,
+}
 const username = 'mockUsername';
 const password = '1234';
 const refreshToken = '5678';
@@ -114,11 +117,10 @@ describe('UserAuthenticationTokenService', () => {
     });
 
     it('should catch refresh error', () => {
-      const ERROR_CODE_400 = 400;
       authTokenService.refreshToken('invalid token').subscribe(
         (_result) => {},
         (error: HttpErrorResponse) => {
-          expect(error.status).toBe(ERROR_CODE_400);
+          expect(error.status).toBe(HttpResponseStatus.BAD_REQUEST);
           expect(error.statusText).toEqual('Error');
         }
       );

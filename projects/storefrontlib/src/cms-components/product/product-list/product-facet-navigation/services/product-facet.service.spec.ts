@@ -130,12 +130,12 @@ describe('ProductFacetService', () => {
       });
 
       it('should return facets without brand facet', () => {
-        const LEN_2 = 2;
+        const ACTIVE_FACET_LENGTH = 2;
         let result: FacetList;
         service.facetList$
           .subscribe((facetList) => (result = facetList))
           .unsubscribe();
-        expect(result.activeFacets.length).toEqual(LEN_2);
+        expect(result.activeFacets.length).toEqual(ACTIVE_FACET_LENGTH);
       });
     });
 

@@ -7,7 +7,9 @@ import { CmsStructureModel } from '../../model/page.model';
 import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
 import { CmsPageAdapter } from './cms-page.adapter';
 
-const ERROR_STATUS_400 = 400;
+enum HttpResponseStatus {
+  BAD_REQUEST = 400,
+}
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +35,7 @@ export class CmsPageConnector {
               catchError((error) => {
                 if (
                   error instanceof HttpErrorResponse &&
-                  error.status === ERROR_STATUS_400
+                  error.status === HttpResponseStatus.BAD_REQUEST
                 ) {
                   return of({});
                 } else {

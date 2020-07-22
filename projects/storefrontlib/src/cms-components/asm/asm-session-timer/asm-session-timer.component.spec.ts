@@ -18,13 +18,6 @@ import { AsmComponentService } from '../services/asm-component.service';
 import { AsmSessionTimerComponent } from './asm-session-timer.component';
 import createSpy = jasmine.createSpy;
 
-const NUM_3 = 3;
-const NUM_10 = 10;
-const NUM_632 = 632;
-const NUM_1000 = 1000;
-const NUM_2000 = 2000;
-const NUM_1000000 = 1000000;
-
 const MockAsmConfig: AsmConfig = {
   asm: {
     agentSessionTimer: {
@@ -96,13 +89,14 @@ describe('AsmSessionTimerComponent', () => {
   });
 
   it('should logout when time left is zero.', fakeAsync(() => {
+    const MILLISECONDS = 2000;
     config.asm.agentSessionTimer.startingDelayInSeconds = 1;
     spyOn(
       asmComponentService,
       'logoutCustomerSupportAgentAndCustomer'
     ).and.stub();
     component.ngOnInit();
-    tick(NUM_2000);
+    tick(MILLISECONDS);
     expect(
       asmComponentService.logoutCustomerSupportAgentAndCustomer
     ).toHaveBeenCalled();
@@ -110,13 +104,15 @@ describe('AsmSessionTimerComponent', () => {
   }));
 
   it('should not call logout when there is some time left.', fakeAsync(() => {
-    config.asm.agentSessionTimer.startingDelayInSeconds = NUM_10;
+    const MILLISECONDS = 1000;
+    const DELAY_SECONDS = 10;
+    config.asm.agentSessionTimer.startingDelayInSeconds = DELAY_SECONDS;
     spyOn(
       asmComponentService,
       'logoutCustomerSupportAgentAndCustomer'
     ).and.stub();
     component.ngOnInit();
-    tick(NUM_1000);
+    tick(MILLISECONDS);
     expect(
       asmComponentService.logoutCustomerSupportAgentAndCustomer
     ).not.toHaveBeenCalled();
@@ -140,19 +136,22 @@ describe('AsmSessionTimerComponent', () => {
   });
 
   it('should use start delay from the config', () => {
-    config.asm.agentSessionTimer.startingDelayInSeconds = NUM_632;
+    const DELAY_SECONDS = 632;
+    config.asm.agentSessionTimer.startingDelayInSeconds = DELAY_SECONDS;
     component.ngOnInit();
     const result = component['getTimerStartDelayInSeconds']();
     expect(result).toBe(config.asm.agentSessionTimer.startingDelayInSeconds);
   });
   it('should use a maximum start delay', () => {
-    config.asm.agentSessionTimer.startingDelayInSeconds = NUM_1000000;
+    const DELAY_SECONDS = 1000000;
+    config.asm.agentSessionTimer.startingDelayInSeconds = DELAY_SECONDS;
     component.ngOnInit();
     const result = component['getTimerStartDelayInSeconds']();
     expect(result).toBe(component['maxStartDelayInSeconds']);
   });
 
   it('should reset the time left when agent starts a new customer session', () => {
+    const EXPECTED_TIMES_CALLED = 3;
     spyOn<any>(component, 'resetOnNavigate').and.stub();
     const occUserId$: BehaviorSubject<string> = new BehaviorSubject(
       OCC_USER_ID_ANONYMOUS
@@ -164,6 +163,6 @@ describe('AsmSessionTimerComponent', () => {
     occUserId$.next('customer01'); // reset 2, staring an emulation session.
     occUserId$.next('customer01'); // no reset, simulates token resfresh
     occUserId$.next(OCC_USER_ID_ANONYMOUS); // reset 3, end customer emulation session
-    expect(component.resetTimer).toHaveBeenCalledTimes(NUM_3);
+    expect(component.resetTimer).toHaveBeenCalledTimes(EXPECTED_TIMES_CALLED);
   });
 });

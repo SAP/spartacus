@@ -11,7 +11,7 @@ import { AppliedCouponsComponent } from './applied-coupons.component';
 
 const coupon1: Voucher = { code: 'coupon1', voucherCode: 'coupon1' };
 const coupon2: Voucher = { code: 'coupon2', voucherCode: 'coupon2' };
-const LEN_2 = 2;
+const EXPECTED_LENGTH = 2;
 
 @Component({
   selector: 'cx-icon',
@@ -127,8 +127,8 @@ describe('AppliedCouponsComponent', () => {
       );
       const elButton = fixture.debugElement.queryAll(By.css('.close'));
 
-      expect(elButton.length).toBe(LEN_2);
-      expect(elValue.length).toBe(LEN_2);
+      expect(elButton.length).toBe(EXPECTED_LENGTH);
+      expect(elValue.length).toBe(EXPECTED_LENGTH);
       expect(elValue[0].nativeElement.innerText).toContain(coupon1.voucherCode);
       expect(elValue[1].nativeElement.innerText).toContain(coupon2.voucherCode);
     });
@@ -151,7 +151,7 @@ describe('AppliedCouponsComponent', () => {
         By.css('.cx-cart-coupon-code')
       );
 
-      expect(elValue.length).toBe(LEN_2);
+      expect(elValue.length).toBe(EXPECTED_LENGTH);
       expect(elValue[0].nativeElement.innerText).toContain(coupon1.voucherCode);
       expect(elValue[1].nativeElement.innerText).toContain(coupon2.voucherCode);
     });

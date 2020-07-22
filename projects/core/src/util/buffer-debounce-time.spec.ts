@@ -1,7 +1,7 @@
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { bufferDebounceTime } from './buffer-debounce-time';
 
-const DEBOUNCE_TIME_20 = 20;
+const DEBOUNCE_TIME = 20;
 
 describe('bufferDebounceTime', () => {
   it('should not group emissions below threshold', () => {
@@ -15,7 +15,7 @@ describe('bufferDebounceTime', () => {
 
   it('should group emissions above threshold', () => {
     const source$ = cold('-a-b', { a: '1', b: '2' }).pipe(
-      bufferDebounceTime(DEBOUNCE_TIME_20, getTestScheduler())
+      bufferDebounceTime(DEBOUNCE_TIME, getTestScheduler())
     );
     const target$ = cold('-----c', { c: ['1', '2'] });
 
@@ -24,7 +24,7 @@ describe('bufferDebounceTime', () => {
 
   it('should group emissions within threshold', () => {
     const source$ = cold('-a-b---c', { a: '1', b: '2', c: '3' }).pipe(
-      bufferDebounceTime(DEBOUNCE_TIME_20, getTestScheduler())
+      bufferDebounceTime(DEBOUNCE_TIME, getTestScheduler())
     );
     const target$ = cold('-----d---e', { d: ['1', '2'], e: ['3'] });
 

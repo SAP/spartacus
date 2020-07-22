@@ -7,8 +7,6 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details/order-details.service';
 import { AmendOrderType } from './amend-order.model';
 
-const HUNDRED = 100;
-
 function ValidateQuantityToCancel(control: FormControl) {
   if (!control.value) {
     return null;
@@ -105,10 +103,11 @@ export abstract class OrderAmendService {
    * The calculation and validation should be in backend facade layer.
    */
   getAmendedPrice(entry: OrderEntry): Price {
+    const CENT = 100;
     const amendedQuantity = this.getFormControl(this.form, entry).value;
     const amendedPrice = Object.assign({}, entry.basePrice);
     amendedPrice.value =
-      Math.round(entry.basePrice.value * amendedQuantity * HUNDRED) / HUNDRED;
+      Math.round(entry.basePrice.value * amendedQuantity * CENT) / CENT;
 
     amendedPrice.formattedValue = formatCurrency(
       amendedPrice.value,

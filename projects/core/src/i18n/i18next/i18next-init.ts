@@ -5,8 +5,6 @@ import { ConfigInitializerService } from '../../config/config-initializer/config
 import { LanguageService } from '../../site-context/facade/language.service';
 import { TranslationResources } from '../translation-resources';
 
-const TWO = 2;
-
 export function i18nextInit(
   configInit: ConfigInitializerService,
   languageService: LanguageService,
@@ -89,6 +87,7 @@ export function i18nextGetHttpClient(
  * - https://github.com/angular/universal/issues/858
  */
 export function getLoadPath(path: string, serverRequestOrigin: string): string {
+  const START_INDEX = 2;
   if (!path) {
     return undefined;
   }
@@ -97,7 +96,7 @@ export function getLoadPath(path: string, serverRequestOrigin: string): string {
       path = path.slice(1);
     }
     if (path.startsWith('./')) {
-      path = path.slice(TWO);
+      path = path.slice(START_INDEX);
     }
     const result = `${serverRequestOrigin}/${path}`;
     return result;

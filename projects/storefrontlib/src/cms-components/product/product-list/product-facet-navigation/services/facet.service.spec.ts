@@ -9,10 +9,6 @@ import {
 import { FacetService } from './facet.service';
 import { ProductFacetService } from './product-facet.service';
 
-const VALUE_2 = 2;
-const VALUE_5 = 5;
-const VALUE_7 = 7;
-
 class MockProductFacetService {
   facetList$ = of();
 }
@@ -72,15 +68,17 @@ describe('FacetService', () => {
 
   describe('facetList$', () => {
     it('should return facets', () => {
+      const FACET_LENGTH = 5;
       let result: FacetList;
       service.facetList$.subscribe((f) => (result = f)).unsubscribe();
-      expect(result.facets.length).toEqual(VALUE_5);
+      expect(result.facets.length).toEqual(FACET_LENGTH);
     });
 
     it('should return active facets', () => {
+      const ACTIVE_FACET_LENGTH = 2;
       let result: FacetList;
       service.facetList$.subscribe((f) => (result = f)).unsubscribe();
-      expect(result.activeFacets.length).toEqual(VALUE_2);
+      expect(result.activeFacets.length).toEqual(ACTIVE_FACET_LENGTH);
     });
   });
 
@@ -125,6 +123,7 @@ describe('FacetService', () => {
     });
 
     it('should not update maxVisible state if it is already initialized', () => {
+      const MAX_VISIBLE_LENGTH = 5;
       let result: FacetCollapseState;
       service.getState(facet1);
       service.increaseVisibleValues(facet1);
@@ -133,7 +132,7 @@ describe('FacetService', () => {
         .subscribe((f) => (result = f))
         .unsubscribe();
 
-      expect(result.maxVisible).not.toEqual(VALUE_5);
+      expect(result.maxVisible).not.toEqual(MAX_VISIBLE_LENGTH);
     });
   });
 
@@ -172,6 +171,7 @@ describe('FacetService', () => {
   });
 
   describe('visible values', () => {
+    const EXPECTED_VISIBLE_VALUE = 7;
     it('should increase visible', () => {
       service.increaseVisibleValues(facet1);
 
@@ -180,10 +180,11 @@ describe('FacetService', () => {
         .getState(facet1)
         .subscribe((f) => (result = f))
         .unsubscribe();
-      expect(result.maxVisible).toEqual(VALUE_7);
+      expect(result.maxVisible).toEqual(EXPECTED_VISIBLE_VALUE);
     });
 
     it('should decrease visible', () => {
+      const MAX_VISIBLE_LENGTH = 5;
       service.decreaseVisibleValues(facet1);
 
       let result: FacetCollapseState;
@@ -191,7 +192,7 @@ describe('FacetService', () => {
         .getState(facet1)
         .subscribe((f) => (result = f))
         .unsubscribe();
-      expect(result.maxVisible).toEqual(VALUE_5);
+      expect(result.maxVisible).toEqual(MAX_VISIBLE_LENGTH);
     });
   });
 

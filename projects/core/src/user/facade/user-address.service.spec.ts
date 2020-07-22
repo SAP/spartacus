@@ -11,8 +11,6 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
 
-const TWO = 2;
-
 class MockAuthService {
   invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
@@ -189,9 +187,10 @@ describe('UserAddressService', () => {
 
   it('should get address loading status', () => {
     const results: boolean[] = [];
+    const VALUE = 2;
     service
       .getAddressesLoading()
-      .pipe(take(TWO))
+      .pipe(take(VALUE))
       .subscribe((loadingStatus) => {
         results.push(loadingStatus);
       });
@@ -200,10 +199,11 @@ describe('UserAddressService', () => {
   });
 
   it('should indicate successful loading', () => {
+    const VALUE = 2;
     const results: boolean[] = [];
     service
       .getAddressesLoadedSuccess()
-      .pipe(take(TWO))
+      .pipe(take(VALUE))
       .subscribe((loadedStatus) => {
         results.push(loadedStatus);
       });

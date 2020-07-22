@@ -157,8 +157,8 @@ describe('GlobalMessage Effects', () => {
     });
 
     it('should remove message if already exist', () => {
-      const VALUE_TWO = 2;
-      spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(VALUE_TWO);
+      const RETURN_VALUE = 2;
+      spyOn(utils, 'countOfDeepEqualObjects').and.returnValue(RETURN_VALUE);
       spyOn(utils, 'indexOfFirstOccurrence').and.returnValue(0);
 
       const action = new GlobalMessageActions.AddMessage(message2);

@@ -9,7 +9,9 @@ import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConsentConnector } from '../../connectors/consent/user-consent.connector';
 import { UserActions } from '../actions/index';
 
-const ERROR_STATUS_409 = 409;
+const enum HttpResponseStatus {
+  CONFLICT = 409,
+}
 
 @Injectable()
 export class UserConsentsEffect {
@@ -61,7 +63,7 @@ export class UserConsentsEffect {
             ];
             if (
               action.type === UserActions.TRANSFER_ANONYMOUS_CONSENT &&
-              error.status === ERROR_STATUS_409
+              error.status === HttpResponseStatus.CONFLICT
             ) {
               errors.push(
                 new GlobalMessageActions.RemoveMessagesByType(

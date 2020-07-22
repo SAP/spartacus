@@ -18,9 +18,6 @@ import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-
 import { OrderDetailItemsComponent } from './order-detail-items.component';
 
 const mockProduct = { product: { code: 'test' } };
-const NUM_TWO = 2;
-const NUM_THREE = 3;
-const NUM_FOUR = 4;
 
 const mockOrder: Order = {
   code: '1',
@@ -199,6 +196,8 @@ describe('OrderDetailItemsComponent', () => {
   });
 
   it('should initialize others and check if it does not allow valid consignment status', () => {
+    const CONSIGNMENT_INDEX = 2;
+    const CONSIGNMENT_INDEX_THIRD = 3;
     fixture.detectChanges();
     let others: Consignment[];
     component.others$
@@ -208,11 +207,14 @@ describe('OrderDetailItemsComponent', () => {
       .unsubscribe();
 
     expect(others).not.toContain(mockOrder.consignments[1]);
-    expect(others).not.toContain(mockOrder.consignments[NUM_TWO]);
-    expect(others).not.toContain(mockOrder.consignments[NUM_THREE]);
+    expect(others).not.toContain(mockOrder.consignments[CONSIGNMENT_INDEX]);
+    expect(others).not.toContain(
+      mockOrder.consignments[CONSIGNMENT_INDEX_THIRD]
+    );
   });
 
   it('should initialize others and check if it contains any consignment status', () => {
+    const CONSIGNMENT_INDEX = 4;
     fixture.detectChanges();
     let others: Consignment[];
     component.others$
@@ -222,10 +224,11 @@ describe('OrderDetailItemsComponent', () => {
       .unsubscribe();
 
     expect(others).toContain(mockOrder.consignments[0]);
-    expect(others).toContain(mockOrder.consignments[NUM_FOUR]);
+    expect(others).toContain(mockOrder.consignments[CONSIGNMENT_INDEX]);
   });
 
   it('should initialize completed', () => {
+    const CONSIGNMENT_INDEX = 2;
     fixture.detectChanges();
     let completed: Consignment[];
     component.completed$
@@ -235,10 +238,11 @@ describe('OrderDetailItemsComponent', () => {
       .unsubscribe();
 
     expect(completed).toContain(mockOrder.consignments[1]);
-    expect(completed).toContain(mockOrder.consignments[NUM_TWO]);
+    expect(completed).toContain(mockOrder.consignments[CONSIGNMENT_INDEX]);
   });
 
   it('should initialize cancel', () => {
+    const CONSIGNMENT_INDEX = 3;
     fixture.detectChanges();
     let cancel: Consignment[];
     component.cancel$
@@ -246,7 +250,7 @@ describe('OrderDetailItemsComponent', () => {
         cancel = value;
       })
       .unsubscribe();
-    expect(cancel).toContain(mockOrder.consignments[NUM_THREE]);
+    expect(cancel).toContain(mockOrder.consignments[CONSIGNMENT_INDEX]);
   });
 
   it('should order details item be rendered', () => {

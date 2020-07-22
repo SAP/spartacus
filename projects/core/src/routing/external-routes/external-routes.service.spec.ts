@@ -45,10 +45,10 @@ describe('ExternalRoutesService', () => {
 
   describe('addExternalRoutes', () => {
     it('should prepend the external route with a special guard', () => {
-      const CONFIG_LENGTH_TWO = 2;
+      const CONFIG_LENGTH = 2;
       expect(router.config.length).toBe(1);
       service.addRoutes();
-      expect(router.config.length).toBe(CONFIG_LENGTH_TWO);
+      expect(router.config.length).toBe(CONFIG_LENGTH);
       expect(router.config[0].canActivate[0]).toBe(ExternalRoutesGuard);
     });
 

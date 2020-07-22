@@ -29,10 +29,6 @@ const mockDataset: Table = {
   data$: of(data),
 };
 
-const NUM_TWO = 2;
-const NUM_THREE = 3;
-const NUM_NINE = 9;
-
 describe('TableComponent', () => {
   let fixture: ComponentFixture<TableComponent>;
   let tableComponent: TableComponent;
@@ -111,6 +107,8 @@ describe('TableComponent', () => {
     });
 
     it('should add a th for each tableHeader ', () => {
+      const ELE_INDEX = 2;
+      const EXP_ELE_LEN = 3;
       tableComponent.dataset = mockDataset;
       fixture.detectChanges();
       const table = fixture.debugElement.query(By.css('table > thead'));
@@ -118,10 +116,10 @@ describe('TableComponent', () => {
       const th = fixture.debugElement.queryAll(
         By.css('table > thead > tr > th')
       );
-      expect(th.length).toBe(NUM_THREE);
+      expect(th.length).toBe(EXP_ELE_LEN);
       expect(th[0].nativeElement).toBeTruthy();
       expect(th[1].nativeElement).toBeTruthy();
-      expect(th[NUM_TWO].nativeElement).toBeTruthy();
+      expect(th[ELE_INDEX].nativeElement).toBeTruthy();
     });
 
     it('should leverage the translate pipe for the header key when there is no header label', () => {
@@ -160,19 +158,21 @@ describe('TableComponent', () => {
 
   describe('table data', () => {
     it('should generate a tr for each data row', () => {
+      const EXP_ELE_LEN = 3;
       tableComponent.dataset = mockDataset;
       fixture.detectChanges();
 
       const tr = fixture.debugElement.queryAll(By.css('table > tr'));
-      expect(tr.length).toBe(NUM_THREE);
+      expect(tr.length).toBe(EXP_ELE_LEN);
     });
 
     it('should generate a td for each data row', () => {
+      const EXP_ELE_LEN = 9;
       tableComponent.dataset = mockDataset;
       fixture.detectChanges();
 
       const td = fixture.debugElement.queryAll(By.css('table > tr > td'));
-      expect(td.length).toBe(NUM_NINE);
+      expect(td.length).toBe(EXP_ELE_LEN);
     });
 
     it('should add the col key as a css class to each <td>', () => {
@@ -206,9 +206,10 @@ describe('TableComponent', () => {
       });
 
       it('should not emit event if header has no sortCode', () => {
+        const TAB_HEADER_INDEX = 2;
         spyOn(tableComponent.paginateEvent, 'emit');
         tableComponent.dataset = mockDataset;
-        tableComponent.sort(headers[NUM_TWO]);
+        tableComponent.sort(headers[TAB_HEADER_INDEX]);
         expect(tableComponent.paginateEvent.emit).not.toHaveBeenCalled();
       });
     });

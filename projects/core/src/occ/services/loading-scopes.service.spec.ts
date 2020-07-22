@@ -4,6 +4,7 @@ import { LoadingScopesService } from './loading-scopes.service';
 
 describe('LoadingScopesService', () => {
   let service: LoadingScopesService;
+  const MAX_AGE = 60;
 
   const mockConfig: OccConfig = {
     backend: {
@@ -17,7 +18,7 @@ describe('LoadingScopesService', () => {
           },
           order: {
             include: ['base', 'list'],
-            maxAge: 60,
+            maxAge: MAX_AGE,
           },
           zczapy: {
             include: ['order', 'detail', 'list'],
@@ -101,9 +102,8 @@ describe('LoadingScopesService', () => {
 
   describe('getMaxAge', () => {
     it('should return maxAge in milliseconds', () => {
-      const MAX_AGE_60 = 60;
       const result = service.getMaxAge('product', 'order');
-      expect(result).toEqual(MAX_AGE_60);
+      expect(result).toEqual(MAX_AGE);
     });
     it('should return 0 for not configured maxAge', () => {
       const result = service.getMaxAge('product', 'detail');
