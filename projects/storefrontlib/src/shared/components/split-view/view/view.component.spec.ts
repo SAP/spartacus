@@ -4,9 +4,6 @@ import { of } from 'rxjs';
 import { SplitViewService } from '../split-view.service';
 import { ViewComponent } from './view.component';
 
-const POSITION_THREE = 3;
-const POSITION_FIVE = 5;
-
 class MockSplitViewService {
   generateNextPosition() {
     return 0;
@@ -61,9 +58,11 @@ describe('ViewComponent', () => {
     });
 
     it('should add view with position 3', () => {
-      component.position = POSITION_THREE;
+      const INPUT_POSITION = 3;
+      const EXPECTED_POSITION = 3;
+      component.position = INPUT_POSITION;
       component.ngOnInit();
-      expect(service.add).toHaveBeenCalledWith(POSITION_THREE, undefined);
+      expect(service.add).toHaveBeenCalledWith(EXPECTED_POSITION, undefined);
     });
   });
 
@@ -74,17 +73,20 @@ describe('ViewComponent', () => {
     });
 
     it('should remove view with position 0', () => {
-      component.position = POSITION_THREE;
+      const INPUT_POSITION = 3;
+      const EXPECTED_POSITION = 3;
+      component.position = INPUT_POSITION;
       component.ngOnInit();
       component.ngOnDestroy();
-      expect(service.remove).toHaveBeenCalledWith(POSITION_THREE);
+      expect(service.remove).toHaveBeenCalledWith(EXPECTED_POSITION);
     });
   });
 
   describe('toggle()', () => {
     it('should toggle view based on hidden state', () => {
+      const INPUT_POSITION = 5;
       const EXPECTED_POSITION = 5;
-      component.position = POSITION_FIVE;
+      component.position = INPUT_POSITION;
       component.hidden = true;
       expect(service.toggle).toHaveBeenCalledWith(EXPECTED_POSITION, true);
     });
@@ -113,7 +115,8 @@ describe('ViewComponent', () => {
     });
 
     it('should set position attribute to given position', () => {
-      component.position = POSITION_FIVE;
+      const INPUT_POSITION = 5;
+      component.position = INPUT_POSITION;
       component.ngOnInit();
       fixture.detectChanges();
       const el: HTMLElement = fixture.debugElement.nativeElement;

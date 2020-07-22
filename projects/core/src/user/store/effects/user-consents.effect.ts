@@ -3,15 +3,12 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
+import { HttpResponseStatus } from '../../../global-message/models/response-status.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { makeErrorSerializable } from '../../../util/serialization-utils';
 import { UserConsentConnector } from '../../connectors/consent/user-consent.connector';
 import { UserActions } from '../actions/index';
-
-const enum HttpResponseStatus {
-  CONFLICT = 409,
-}
 
 @Injectable()
 export class UserConsentsEffect {

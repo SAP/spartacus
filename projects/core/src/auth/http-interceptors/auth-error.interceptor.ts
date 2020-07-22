@@ -8,6 +8,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { HttpResponseStatus } from '../../global-message/models/response-status.model';
 import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
@@ -17,11 +18,6 @@ import { ClientErrorHandlingService } from '../services/client-error/client-erro
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
-
-enum HttpResponseStatus {
-  BAD_REQUEST = 400,
-  UNAUTHORIZED = 401,
-}
 
 @Injectable({ providedIn: 'root' })
 export class AuthErrorInterceptor implements HttpInterceptor {

@@ -2,14 +2,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { HttpResponseStatus } from '../../../global-message/models/response-status.model';
 import { PageContext } from '../../../routing/models/page-context.model';
 import { CmsStructureModel } from '../../model/page.model';
 import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
 import { CmsPageAdapter } from './cms-page.adapter';
-
-enum HttpResponseStatus {
-  BAD_REQUEST = 400,
-}
 
 @Injectable({
   providedIn: 'root',

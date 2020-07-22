@@ -9,14 +9,11 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CustomerSupportAgentErrorHandlingService } from '../../asm/services/csagent-error-handling.service';
+import { HttpResponseStatus } from '../../global-message/models/response-status.model';
 import {
   InterceptorUtil,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
-
-enum HttpResponseStatus {
-  UNAUTHORIZED = 401,
-}
 
 @Injectable({ providedIn: 'root' })
 export class CustomerSupportAgentAuthErrorInterceptor

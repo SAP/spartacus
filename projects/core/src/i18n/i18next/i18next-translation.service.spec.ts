@@ -159,7 +159,7 @@ describe('I18nextTranslationService', () => {
     describe(', when language changed,', () => {
       it('should emit result of i18next.t in new language', () => {
         let languageChangedCallback;
-        const COUNT_TWO = 2;
+        const COUNT = 2;
         spyOn(i18next, 'off');
         spyOn(i18next, 'on').and.callFake(
           (_event, callback) => (languageChangedCallback = callback)
@@ -170,7 +170,7 @@ describe('I18nextTranslationService', () => {
         let result;
         service
           .translate(testKey, testOptions)
-          .pipe(take(COUNT_TWO))
+          .pipe(take(COUNT))
           .subscribe((x) => (result = x));
         expect(result).toBe('value1');
 

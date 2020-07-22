@@ -5,14 +5,12 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { HttpResponseStatus } from '../../../global-message/models/response-status.model';
 import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service';
 import { AuthConfig } from '../../config/auth-config';
 import { UserToken } from '../../models/token-types.model';
 import { UserAuthenticationTokenService } from './user-authentication-token.service';
 
-enum HttpResponseStatus {
-  BAD_REQUEST = 400,
-}
 const username = 'mockUsername';
 const password = '1234';
 const refreshToken = '5678';
