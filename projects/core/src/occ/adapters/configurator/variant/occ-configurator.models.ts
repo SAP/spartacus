@@ -65,6 +65,7 @@ export namespace OccConfigurator {
     typeLength?: number;
     numberScale?: number;
     negativeAllowed?: boolean;
+    conflicts?: string[];
   }
 
   export interface Value {

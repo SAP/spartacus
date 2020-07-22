@@ -97,6 +97,12 @@ export class OccConfiguratorVariantNormalizer
       );
     }
 
+    if (sourceAttribute.conflicts.length > 0) {
+      attribute.hasConflict = true;
+    } else {
+      attribute.hasConflict = false;
+    }
+
     if (sourceAttribute.domainValues) {
       sourceAttribute.domainValues.forEach((value) =>
         this.convertValue(value, attribute.values)

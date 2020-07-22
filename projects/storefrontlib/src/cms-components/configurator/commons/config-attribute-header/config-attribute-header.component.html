@@ -14,6 +14,10 @@
   tabindex="0"
   >{{ attribute.label }}</label
 >
+<div *ngIf="attribute.hasConflict">
+  Conflict Detected!
+</div>
+
 <div
   *ngIf="showRequiredMessage() | async"
   class="cx-config-attribute-label-required-error-msg"
