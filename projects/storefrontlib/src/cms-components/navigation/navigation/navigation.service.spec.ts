@@ -233,6 +233,7 @@ describe('NavigationComponentService', () => {
   });
 
   it('should get a link to a product when productCode is provided', () => {
+    const CHILD_INDEX = 5;
     mockCmsService.getNavigationEntryItems.and.returnValue(
       of(navigationEntryItems)
     );
@@ -242,7 +243,7 @@ describe('NavigationComponentService', () => {
       .getNavigationNode(of(componentData))
       .subscribe((node) => (result = node));
 
-    expect(result.children[5].url).toEqual([
+    expect(result.children[CHILD_INDEX].url).toEqual([
       'product',
       '478828',
       'product page link',
@@ -250,6 +251,7 @@ describe('NavigationComponentService', () => {
   });
 
   it('should get navigation node based on CMS data', () => {
+    const EXPECTED_LENGTH = 6;
     mockCmsService.getNavigationEntryItems.and.returnValue(
       of(navigationEntryItems)
     );
@@ -259,18 +261,19 @@ describe('NavigationComponentService', () => {
       .getNavigationNode(of(componentData))
       .subscribe((node) => (result = node));
 
-    expect(result.children.length).toEqual(6);
+    expect(result.children.length).toEqual(EXPECTED_LENGTH);
     expect(result.children[0].title).toEqual('test link 1');
     expect(result.children[1].url).toEqual('/testLink2');
   });
 
   it('should load the missing navigation nodes for the latest CMS data', () => {
+    const CHILD_INDEX = 4;
     mockCmsService.getNavigationEntryItems.and.returnValue(
       of(navigationEntryItems)
     );
 
     // add one more child
-    componentData.navigationNode.children[4] = {
+    componentData.navigationNode.children[CHILD_INDEX] = {
       uid: 'MockChildNode007',
       entries: [
         {
@@ -290,6 +293,7 @@ describe('NavigationComponentService', () => {
   });
 
   it('should create a virtual navigation root', () => {
+    const EXPECTED_LENGTH = 5;
     mockCmsService.getNavigationEntryItems.and.returnValue(
       of(navigationEntryItems)
     );
@@ -301,7 +305,7 @@ describe('NavigationComponentService', () => {
 
     expect(result.title).toEqual('NavigationComponent name');
     expect(result.children.length).toEqual(1);
-    expect(result.children[0].children.length).toEqual(5);
+    expect(result.children[0].children.length).toEqual(EXPECTED_LENGTH);
   });
 
   describe('populate nodes', () => {
