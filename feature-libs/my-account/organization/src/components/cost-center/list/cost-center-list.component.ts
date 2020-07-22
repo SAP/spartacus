@@ -24,6 +24,8 @@ export class CostCenterListComponent implements OnInit, OnDestroy {
   dataTable$: Observable<Table> = this.costCentersService.getTable();
 
   subscription = new Subscription();
+
+  //TODO: it's workaround for allowing styling views, since we can't get any real selector to setup --cx-max-views: 1;
   lastPath$ = this.routingService
     .getRouterState()
     .pipe(
