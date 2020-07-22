@@ -13,5 +13,6 @@ export const organizationTranslationChunksConfig: TranslationChunksConfig = {
     'costCenterAssignBudget',
     'units',
     'unitAssignRoles',
+    'unitAssignApprovers',
   ],
 };

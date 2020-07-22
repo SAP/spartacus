@@ -1,5 +1,5 @@
 import { costCenter, costCenterAssignBudget } from './cost-center.i18n';
-import { unitAssignRoles, units } from './units.i18n';
+import { unitAssignApprovers, unitAssignRoles, units } from './units.i18n';
 
 /**
  * The organization i18n labels provide generic labels for all organization sub features.
@@ -41,4 +41,5 @@ export const organization = {
   costCenterAssignBudget,
   units,
   unitAssignRoles,
+  unitAssignApprovers,
 };

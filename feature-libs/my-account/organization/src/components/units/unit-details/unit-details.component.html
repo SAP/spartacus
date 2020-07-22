@@ -9,7 +9,9 @@
         <cx-icon type="CARET_LEFT"></cx-icon>
         {{ 'organization.close' | cxTranslate }}
       </a>
-      {{ 'units.orgUnit.header' | cxTranslate: { code: orgUnit.uid } }}
+      <span>{{
+        'units.orgUnit.header' | cxTranslate: { code: orgUnit.uid }
+      }}</span>
     </h3>
 
     <div class="actions">

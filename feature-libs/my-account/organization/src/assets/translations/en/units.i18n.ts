@@ -169,3 +169,10 @@ export const unitAssignRoles = {
   roleManager: 'Manager',
   roleAdministrator: 'Admin',
 };
+
+export const unitAssignApprovers = {
+  name: 'Name',
+  email: 'Email',
+  roles: 'Roles',
+  orgUnit: 'Unit',
+};
