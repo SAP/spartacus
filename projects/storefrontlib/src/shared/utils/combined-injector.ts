@@ -25,6 +25,13 @@ export class CombinedInjector implements Injector {
   ): T;
   get(token: any, notFoundValue?: any): any;
   get(token, notFoundValue?: any, flags?: InjectFlags): any {
+    if (InjectFlags.Self) {
+      if (notFoundValue !== undefined) {
+        return notFoundValue;
+      }
+      throw 'CombinedInjector should be used as a parent injector / doesn\'t support self dependencies';
+    }
+
     for (const injector of [
       this.mainInjector,
       ...this.complementaryInjectors,
