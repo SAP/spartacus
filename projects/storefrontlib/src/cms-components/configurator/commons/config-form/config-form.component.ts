@@ -21,6 +21,7 @@ export class ConfigFormComponent implements OnInit {
   currentGroup$: Observable<Configurator.Group>;
 
   UiType = Configurator.UiType;
+  GroupType = Configurator.GroupType;
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -97,5 +98,16 @@ export class ConfigFormComponent implements OnInit {
             )
           )
       );
+  }
+
+  displayConflictDescription(group: Configurator.Group): boolean {
+    return group.groupType === Configurator.GroupType.CONFLICT_GROUP;
+  }
+
+  displayConflictSuggestion(group: Configurator.Group): boolean {
+    return (
+      group.groupType === Configurator.GroupType.CONFLICT_GROUP &&
+      group.attributes?.length > 1
+    );
   }
 }

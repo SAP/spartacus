@@ -2,9 +2,28 @@
   <div class="cx-item-list-row cx-config-group-attribute">
     <ng-container *ngIf="currentGroup$ | async as currentGroup">
       <div
-        class="cx-item-list-row cx-config-group-attribute"
-        *ngFor="let attribute of currentGroup.attributes"
+        *ngIf="displayConflictDescription(currentGroup)"
+        class="cx-config-conflict-description"
+        tabindex="0"
       >
+        {{ currentGroup.name }}
+      </div>
+      <div
+        class="cx-item-list-row cx-config-group-attribute"
+        *ngFor="
+          let attribute of currentGroup.attributes;
+          let indexOfAttribute = index
+        "
+      >
+        <div
+          *ngIf="displayConflictSuggestion(currentGroup)"
+          class="cx-config-conflict-suggestion"
+          tabindex="0"
+        >
+          <div class="bold">Suggestion {{ indexOfAttribute + 1 }}:</div>
+          Change value for
+          {{ attribute.label }}
+        </div>
         <div class="cx-config-attribute-header">
           <cx-config-attribute-header
             [attribute]="attribute"
