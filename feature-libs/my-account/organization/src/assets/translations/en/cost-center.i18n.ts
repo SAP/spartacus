@@ -30,5 +30,5 @@ export const costCenterAssignBudget = {
   name: 'Name',
   code: 'Code',
   amount: 'Amount',
-  dateRange: 'Date',
+  dateRange: 'Start - End',
 };
