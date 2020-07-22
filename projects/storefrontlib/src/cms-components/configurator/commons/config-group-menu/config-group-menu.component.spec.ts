@@ -220,6 +220,39 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(configuratorGroupsService.getGroupStatus).toHaveBeenCalledTimes(0);
   });
 
+  it('should return number of conflicts only for conflict header group', () => {
+    const groupWithConflicts = {
+      groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+      subGroups: [
+        { groupType: Configurator.GroupType.CONFLICT_GROUP },
+        { groupType: Configurator.GroupType.CONFLICT_GROUP },
+      ],
+    };
+    expect(component.getConflictNumber(groupWithConflicts)).toBe('(2)');
+    const attributeGroup = {
+      groupType: Configurator.GroupType.SUB_ITEM_GROUP,
+      subGroups: [
+        { groupType: Configurator.GroupType.ATTRIBUTE_GROUP },
+        { groupType: Configurator.GroupType.ATTRIBUTE_GROUP },
+      ],
+    };
+    expect(component.getConflictNumber(attributeGroup)).toBe('');
+  });
+
+  it('should return true if groupType is a conflict group type otherwise false', () => {
+    expect(
+      component.isConflictGroupType(
+        Configurator.GroupType.CONFLICT_HEADER_GROUP
+      )
+    ).toBe(true);
+    expect(
+      component.isConflictGroupType(Configurator.GroupType.CONFLICT_GROUP)
+    ).toBe(true);
+    expect(
+      component.isConflictGroupType(Configurator.GroupType.ATTRIBUTE_GROUP)
+    ).toBe(false);
+  });
+
   it('should call status method if group has been visited', () => {
     groupVisited = true;
     component
