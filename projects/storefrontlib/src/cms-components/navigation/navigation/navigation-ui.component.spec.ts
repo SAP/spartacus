@@ -103,50 +103,50 @@ describe('Navigation UI Component', () => {
     });
 
     it('should return 2 for 10', () => {
-      const EXP_COL_COUNT = 2;
+      const EXPECTED_COL_COUNT = 2;
       const COLUMN_COUNT = 10;
       expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
-        EXP_COL_COUNT
+        EXPECTED_COL_COUNT
       );
     });
 
     it('should return 2 for 11', () => {
-      const EXP_COL_COUNT = 2;
+      const EXPECTED_COL_COUNT = 2;
       const COLUMN_COUNT = 11;
       expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
-        EXP_COL_COUNT
+        EXPECTED_COL_COUNT
       );
     });
 
     it('should return 2 for 12', () => {
       const COLUMN_COUNT = 12;
-      const EXP_COL_COUNT = 2;
+      const EXPECTED_COL_COUNT = 2;
       expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
-        EXP_COL_COUNT
+        EXPECTED_COL_COUNT
       );
     });
 
     it('should return 3 for 13', () => {
       const COLUMN_COUNT = 13;
-      const EXP_COL_COUNT = 3;
+      const EXPECTED_COL_COUNT = 3;
       expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
-        EXP_COL_COUNT
+        EXPECTED_COL_COUNT
       );
     });
 
     it('should return column count of 3 for 14 items', () => {
       const COLUMN_COUNT = 14;
-      const EXP_COL_COUNT = 3;
+      const EXPECTED_COL_COUNT = 3;
       expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
-        EXP_COL_COUNT
+        EXPECTED_COL_COUNT
       );
     });
 
     it('should return column count of 3 for 15 items', () => {
       const COLUMN_COUNT = 15;
-      const EXP_COL_COUNT = 3;
+      const EXPECTED_COL_COUNT = 3;
       expect(navigationComponent.getColumnCount(COLUMN_COUNT)).toEqual(
-        EXP_COL_COUNT
+        EXPECTED_COL_COUNT
       );
     });
   });

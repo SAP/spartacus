@@ -70,36 +70,34 @@ describe('JsonLdProductOfferBuilder', () => {
   });
 
   it('should contain a schema with 2 crumb', () => {
-    const EXP_ITEM_LIST_ELEM_LEN = 2;
+    const EXPECTED_LENGTH = 2;
     spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaHome));
     service
       .build()
       .subscribe((schema) => {
-        expect(schema.itemListElement.length).toEqual(EXP_ITEM_LIST_ELEM_LEN);
+        expect(schema.itemListElement.length).toEqual(EXPECTED_LENGTH);
       })
       .unsubscribe();
   });
 
   it('should contain a schema with 3 crumbs', () => {
-    const EXP_ITEM_LIST_ELEM_LEN = 3;
+    const EXPECTED_LENGTH = 3;
     spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaChild));
     service
       .build()
       .subscribe((schema) => {
-        expect(schema.itemListElement.length).toEqual(EXP_ITEM_LIST_ELEM_LEN);
+        expect(schema.itemListElement.length).toEqual(EXPECTED_LENGTH);
       })
       .unsubscribe();
   });
 
   it('should have crumb with positions', () => {
-    const EXP_ITEM_LIST_ELEM_LEN = 2;
+    const EXPECTED_LENGTH = 2;
     spyOn(pageMetaService, 'getMeta').and.returnValue(of(pageMetaHome));
     service
       .build()
       .subscribe((schema) => {
-        expect(schema.itemListElement[1].position).toEqual(
-          EXP_ITEM_LIST_ELEM_LEN
-        );
+        expect(schema.itemListElement[1].position).toEqual(EXPECTED_LENGTH);
       })
       .unsubscribe();
   });
