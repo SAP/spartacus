@@ -23,8 +23,8 @@
             *ngIf="!!header.sortCode"
             [type]="
               header.sortCode === structure.pagination?.sort
-                ? iconTypes.SORT_DOWN
-                : iconTypes.SORT
+                ? 'SORT_DOWN'
+                : 'SORT'
             "
           ></cx-icon>
         </ng-template>

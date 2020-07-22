@@ -1,6 +1,7 @@
 export const organization = {
   budgetsList: {
     assign: 'Assign',
+    unassign: 'Unassign',
     code: 'Code',
     name: 'Name',
     amount: 'Amount',
@@ -91,6 +92,7 @@ export const organization = {
     },
     create: 'New purchase limit',
     assign: 'Assign',
+    unassign: 'Unassign',
   },
   permission: {
     header: 'Details for {{code}}',
@@ -133,7 +135,6 @@ export const organization = {
       placeholder: 'Amount',
     },
   },
-
   usersList: {
     userManagement: 'Users',
     sorting: {
@@ -146,6 +147,7 @@ export const organization = {
     name: 'Name',
     roles: 'Roles',
     assign: 'Assign',
+    unassign: 'Unassign',
     parentUnit: 'Unit',
     b2badmingroup: 'Administrator',
     b2bmanagergroup: 'Manager',
@@ -237,6 +239,7 @@ export const organization = {
 
   userGroupsList: {
     assign: 'Assign',
+    unassign: 'Unassign',
     id: 'ID',
     name: 'Name',
     noOfUsers: 'No. of Users',

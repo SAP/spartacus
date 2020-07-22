@@ -97,4 +97,19 @@
       text-transform: none;
     }
   }
+  .instructions {
+    display: flex;
+    justify-content: space-between;
+    @include media-breakpoint-down(md) {
+      padding: 0 var(--cx-spatial-md);
+      flex-direction: column;
+    }
+    ul {
+      padding: 0;
+      list-style: none;
+    }
+    button {
+      min-width: 250px;
+    }
+  }
 }

@@ -53,30 +53,6 @@
     }
   }
 
-  //&:not(.assign) {
-  //  cx-split-view {
-  //    h3 {
-  //      .link {
-  //        padding: 8px 0;
-  //      }
-  //    }
-  //
-  //    &:not([last-visible-view='1']) {
-  //      th:nth-child(n + 2),
-  //      td:nth-child(n + 2) {
-  //        opacity: 0;
-  //        width: 0.1%;
-  //      }
-  //
-  //      > *:last-child {
-  //        h3 {
-  //          justify-content: flex-start;
-  //        }
-  //      }
-  //    }
-  //  }
-  //}
-
   cx-pagination {
     display: inline-flex;
     box-shadow: 0 0.4rem 1.2rem 0.2rem rgba(0, 0, 0, 0.05);
@@ -189,11 +165,16 @@
         }
       }
       &.selected,
+      &.unassign,
       &.link {
         width: 70px;
         text-overflow: initial;
         cx-icon {
           margin-left: 0;
+        }
+        a,
+        button {
+          margin: 0 auto;
         }
       }
       &.selected {
