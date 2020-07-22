@@ -161,8 +161,10 @@ export class SearchBoxComponent {
   }
 
   getFocusedElementInSearch(): string {
-    let focusedElement: HTMLElement = <HTMLElement>this.winRef.document.activeElement; 
-    if(this.getResultElements().includes(focusedElement)){
+    let focusedElement: HTMLElement = <HTMLElement>(
+      this.winRef.document.activeElement
+    );
+    if (this.getResultElements().includes(focusedElement)) {
       return focusedElement.innerText;
     }
   }
