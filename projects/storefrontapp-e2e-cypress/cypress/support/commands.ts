@@ -3,6 +3,7 @@
 
 import '@testing-library/cypress/add-commands';
 import './a11y-tab.commands';
+import './cart.commands';
 import './cx-config.commands';
 import './login.commands';
 import './ng-select.commands';
