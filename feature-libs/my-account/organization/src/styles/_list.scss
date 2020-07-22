@@ -165,11 +165,16 @@
         }
       }
       &.selected,
+      &.unassign,
       &.link {
         width: 70px;
         text-overflow: initial;
         cx-icon {
           margin-left: 0;
+        }
+        a,
+        button {
+          margin: 0 auto;
         }
       }
       &.selected {
