@@ -17,5 +17,11 @@ export const costCenter = {
   budget: {
     header: 'Budgets',
     assign: 'Assign budgets',
+    back: 'Back',
+    instructions: {
+      check: 'To assign a budget to this cost center, select its check box.',
+      uncheck: 'To unassign a budget, clear its check box.',
+      changes: 'Changes are saved automatically.',
+    },
   },
 };
