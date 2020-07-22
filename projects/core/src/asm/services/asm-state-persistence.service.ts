@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AuthStorageService } from '../../auth/facade/auth-storage.service';
+import { UserToken } from '../../auth/models/token-types.model';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { AsmUi } from '../models/asm.models';
 import { AsmActions, AsmSelectors, StateWithAsm } from '../store';
@@ -20,7 +22,8 @@ export interface SyncedAsmState {
 export class AsmStatePersistenceService {
   constructor(
     protected statePersistenceService: StatePersistenceService,
-    protected store: Store<StateWithAsm>
+    protected store: Store<StateWithAsm>,
+    protected authStorageService: AuthStorageService
   ) {}
 
   public sync() {
@@ -34,7 +37,7 @@ export class AsmStatePersistenceService {
   protected getAsmState(): Observable<SyncedAsmState> {
     return combineLatest([
       this.store.pipe(select(AsmSelectors.getAsmUi)),
-      this.store.pipe(select(AsmSelectors.getCustomerSupportAgentToken)),
+      this.authStorageService.getCSAgentToken(),
     ]).pipe(map(([ui, token]) => ({ ui, token })));
   }
 
@@ -44,7 +47,7 @@ export class AsmStatePersistenceService {
         this.store.dispatch(new AsmActions.AsmUiUpdate(state.ui));
       }
       if (state.token) {
-        this.store.dispatch(new AsmActions.SetCSAgentTokenData(state.token));
+        this.authStorageService.setCSAgentToken(state.token as UserToken);
       }
     }
   }

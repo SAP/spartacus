@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthStorageService } from '../../auth/facade/auth-storage.service';
@@ -7,19 +7,18 @@ import { AuthService } from '../../auth/facade/auth.service';
 import { CxOAuthService } from '../../auth/facade/cx-oauth-service';
 import { UserIdService } from '../../auth/facade/user-id.service';
 import { UserToken } from '../../auth/models/token-types.model';
-import { StateWithAsm } from '../store/asm-state';
-import { AsmSelectors } from '../store/selectors/index';
+import { AsmActions, StateWithAsm } from '../store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AsmAuthService {
   constructor(
-    protected store: Store<StateWithAsm>,
     protected authService: AuthService,
     protected authStorageService: AuthStorageService,
     protected userIdService: UserIdService,
-    protected oAuthService: CxOAuthService
+    protected oAuthService: CxOAuthService,
+    protected store: Store<StateWithAsm>
   ) {}
 
   /**
@@ -56,7 +55,7 @@ export class AsmAuthService {
    * Returns the customer support agent's token
    */
   getCustomerSupportAgentToken(): Observable<UserToken> {
-    return this.store.pipe(select(AsmSelectors.getCustomerSupportAgentToken));
+    return this.authStorageService.getCSAgentToken();
   }
 
   /**
@@ -80,12 +79,14 @@ export class AsmAuthService {
       this.authService.logout(true).then(() => {
         this.authStorageService.switchToCSAgent();
         this.oAuthService.revokeAndLogout().then(() => {
+          this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
           this.authStorageService.switchToUser();
         });
       });
     } else {
       this.authStorageService.switchToCSAgent();
       this.oAuthService.revokeAndLogout().then(() => {
+        this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
         this.authStorageService.switchToUser();
       });
     }

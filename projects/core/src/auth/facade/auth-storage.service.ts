@@ -1,15 +1,8 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
 import { OAuthStorage } from 'angular-oauth2-oidc';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { AsmActions } from '../../asm/store/actions/index';
-import { StateWithAsm } from '../../asm/store/asm-state';
-import { AsmSelectors } from '../../asm/store/selectors';
 import { UserToken } from '../models/token-types.model';
-import { AuthActions } from '../store/actions/index';
-import { StateWithAuth } from '../store/auth-state';
-import { AuthSelectors } from '../store/selectors/index';
 
 const nonStringifiedKeys = [
   'access_token',
@@ -30,35 +23,46 @@ enum TokenTarget {
 export class AuthStorageService extends OAuthStorage {
   protected _tokenTarget: TokenTarget = TokenTarget.User;
   protected stream$: Observable<UserToken>;
+  protected _userToken = new BehaviorSubject<UserToken>({} as UserToken);
+  protected _csAgentToken = new BehaviorSubject<UserToken>({} as UserToken);
 
-  constructor(protected store: Store<StateWithAuth | StateWithAsm>) {
+  getUserToken(): Observable<UserToken> {
+    return this._userToken.asObservable();
+  }
+
+  getCSAgentToken(): Observable<UserToken> {
+    return this._csAgentToken.asObservable();
+  }
+
+  setUserToken(userToken: UserToken) {
+    this._userToken.next(userToken);
+  }
+
+  setCSAgentToken(csAgentToken: UserToken) {
+    this._userToken.next(csAgentToken);
+  }
+
+  constructor() {
     super();
     this.switchToUser();
   }
 
   switchToCSAgent() {
-    this.stream$ = this.store.pipe(
-      select(AsmSelectors.getCustomerSupportAgentToken)
-    );
+    this.stream$ = this._csAgentToken.asObservable();
     this._tokenTarget = TokenTarget.CSAgent;
   }
 
   switchToEmulated() {
-    this.stream$ = this.store.pipe(select(AuthSelectors.getUserToken));
+    this.stream$ = this._userToken.asObservable();
     this._tokenTarget = TokenTarget.Emulated;
   }
 
   copyCSAgentTokenForUser() {
-    let token;
-    this.store
-      .pipe(select(AsmSelectors.getCustomerSupportAgentToken))
-      .pipe(take(1))
-      .subscribe((tok) => (token = tok));
-    this.store.dispatch(new AuthActions.SetUserTokenData({ ...token }));
+    this._userToken.next(this._csAgentToken.value);
   }
 
   switchToUser() {
-    this.stream$ = this.store.pipe(select(AuthSelectors.getUserToken));
+    this.stream$ = this._userToken.asObservable();
     this._tokenTarget = TokenTarget.User;
   }
 
@@ -77,16 +81,18 @@ export class AuthStorageService extends OAuthStorage {
 
   removeItem(key: string): void {
     if (this._tokenTarget !== TokenTarget.User) {
-      this.store.dispatch(
-        new AsmActions.SetCSAgentTokenData({
-          [key]: undefined,
-        })
-      );
+      const val = { ...this._csAgentToken.value };
+      delete val[key];
+      this._csAgentToken.next({
+        ...val,
+      });
     }
     if (this._tokenTarget !== TokenTarget.CSAgent) {
-      this.store.dispatch(
-        new AuthActions.SetUserTokenData({ [key]: undefined })
-      );
+      const val = { ...this._userToken.value };
+      delete val[key];
+      this._userToken.next({
+        ...val,
+      });
     }
   }
 
@@ -102,18 +108,16 @@ export class AuthStorageService extends OAuthStorage {
       }
     }
     if (this._tokenTarget !== TokenTarget.User) {
-      this.store.dispatch(
-        new AsmActions.SetCSAgentTokenData({
-          [key]: normalizedData,
-        })
-      );
+      this._csAgentToken.next({
+        ...this._csAgentToken.value,
+        [key]: normalizedData,
+      });
     }
     if (this._tokenTarget !== TokenTarget.CSAgent) {
-      this.store.dispatch(
-        new AuthActions.SetUserTokenData({
-          [key]: normalizedData,
-        })
-      );
+      this._userToken.next({
+        ...this._userToken.value,
+        [key]: normalizedData,
+      });
     }
   }
 }
