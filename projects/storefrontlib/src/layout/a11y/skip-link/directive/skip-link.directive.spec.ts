@@ -5,7 +5,6 @@ import { SkipLinkService } from '../service/skip-link.service';
 
 const SKIP_KEY_1 = 'Key1';
 const SKIP_KEY_2 = 'Key2';
-const EXPECTED_TIMES_CALLED = 2;
 
 @Component({
   template: `
@@ -18,6 +17,7 @@ class TestContainerComponent {}
 describe('SkipLinkDirective', () => {
   let fixture: ComponentFixture<TestContainerComponent>;
   let service: SkipLinkService;
+  const EXPECTED_TIMES_CALLED = 2;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

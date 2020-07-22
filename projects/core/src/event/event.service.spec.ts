@@ -2,10 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of, Subject, Subscription } from 'rxjs';
 import { EventService } from './event.service';
 
-const EVENT_NUMBER_TWO = 2;
-const EVENT_NUMBER_THREE = 3;
-const EVENT_NUMBER_FOUR = 4;
-const EVENT_NUMBER_HUNDRED = 100;
+const eventNumbers = [1, 2, 3, 4, 100];
 
 class EventA {
   a: number;
@@ -37,51 +34,51 @@ describe('EventService', () => {
   });
 
   it('should register different event sources for different types', () => {
-    service.register(EventA, of(new EventA(1), new EventA(EVENT_NUMBER_TWO)));
-    service.register(EventB, of(new EventB(EVENT_NUMBER_HUNDRED)));
+    service.register(EventA, of(new EventA(1), new EventA(eventNumbers[1])));
+    service.register(EventB, of(new EventB(eventNumbers[4])));
 
     const results = [];
     sub = service.get(EventA).subscribe((e) => results.push(e));
-    expect(results).toEqual([new EventA(1), new EventA(EVENT_NUMBER_TWO)]);
+    expect(results).toEqual([new EventA(1), new EventA(eventNumbers[1])]);
   });
 
   it('should register many sources for the same type', () => {
-    service.register(EventA, of(new EventA(1), new EventA(EVENT_NUMBER_TWO)));
-    service.register(EventA, of(new EventA(EVENT_NUMBER_THREE)));
-    service.register(EventA, of(new EventA(EVENT_NUMBER_FOUR)));
+    service.register(EventA, of(new EventA(1), new EventA(eventNumbers[1])));
+    service.register(EventA, of(new EventA(eventNumbers[2])));
+    service.register(EventA, of(new EventA(eventNumbers[3])));
 
     const results = [];
     sub = service.get(EventA).subscribe((e) => results.push(e));
     expect(results).toEqual([
       new EventA(1),
-      new EventA(EVENT_NUMBER_TWO),
-      new EventA(EVENT_NUMBER_THREE),
-      new EventA(EVENT_NUMBER_FOUR),
+      new EventA(eventNumbers[1]),
+      new EventA(eventNumbers[2]),
+      new EventA(eventNumbers[3]),
     ]);
   });
 
   it('should allow for dispatch, register, subscribe and dispatch', () => {
     service.dispatch(new EventA(1)); // dispatch before subscription won't be detected
-    service.register(EventA, of(new EventA(EVENT_NUMBER_TWO)));
+    service.register(EventA, of(new EventA(eventNumbers[1])));
 
     const results = [];
     sub = service.get(EventA).subscribe((e) => results.push(e));
-    service.dispatch(new EventA(EVENT_NUMBER_THREE));
+    service.dispatch(new EventA(eventNumbers[2]));
 
     expect(results).toEqual([
-      new EventA(EVENT_NUMBER_TWO),
-      new EventA(EVENT_NUMBER_THREE),
+      new EventA(eventNumbers[1]),
+      new EventA(eventNumbers[2]),
     ]);
   });
 
   it('should allow for manual unregistering', () => {
     const unregister = service.register(
       EventA,
-      of(new EventA(1), new EventA(EVENT_NUMBER_TWO))
+      of(new EventA(1), new EventA(eventNumbers[1]))
     );
     service.register(
       EventA,
-      of(new EventA(EVENT_NUMBER_THREE), new EventA(EVENT_NUMBER_FOUR))
+      of(new EventA(eventNumbers[2]), new EventA(eventNumbers[3]))
     );
     unregister();
 
@@ -89,8 +86,8 @@ describe('EventService', () => {
     sub = service.get(EventA).subscribe((e) => results.push(e));
 
     expect(results).toEqual([
-      new EventA(EVENT_NUMBER_THREE),
-      new EventA(EVENT_NUMBER_FOUR),
+      new EventA(eventNumbers[2]),
+      new EventA(eventNumbers[3]),
     ]);
   });
 
@@ -102,9 +99,9 @@ describe('EventService', () => {
     const subject$ = new Subject();
     service.register(EventA, behaviorSubject$);
     service.register(EventA, subject$);
-    subject$.next(new EventA(EVENT_NUMBER_TWO));
+    subject$.next(new EventA(eventNumbers[1]));
 
-    expect(results).toEqual([1, EVENT_NUMBER_TWO]);
+    expect(results).toEqual([1, eventNumbers[1]]);
   });
 
   it('should register after the subscription', () => {
@@ -112,23 +109,23 @@ describe('EventService', () => {
     sub = service.get(EventA).subscribe((e) => results.push(e.a));
 
     const of1$ = of(new EventA(1));
-    const of2$ = of(new EventA(EVENT_NUMBER_TWO));
+    const of2$ = of(new EventA(eventNumbers[1]));
     service.register(EventA, of1$);
     service.register(EventA, of2$);
 
-    expect(results).toEqual([1, EVENT_NUMBER_TWO]);
+    expect(results).toEqual([1, eventNumbers[1]]);
   });
 
   it('should register before the subscription', () => {
     const of1$ = of(new EventA(1));
-    const of2$ = of(new EventA(EVENT_NUMBER_TWO));
+    const of2$ = of(new EventA(eventNumbers[1]));
     service.register(EventA, of1$);
     service.register(EventA, of2$);
 
     const results = [];
     sub = service.get(EventA).subscribe((e) => results.push(e.a));
 
-    expect(results).toEqual([1, EVENT_NUMBER_TWO]);
+    expect(results).toEqual([1, eventNumbers[1]]);
   });
 
   it('should allow for the re-subscription', () => {

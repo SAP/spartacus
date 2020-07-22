@@ -19,9 +19,8 @@ class MockRoutingService {
   ): void {}
 }
 
-const RADIUS = 50000;
 class MockStoreFinderConfig {
-  radius: Number = RADIUS;
+  radius: Number = 50000;
 }
 
 describe('StoreFinderService', () => {

@@ -104,9 +104,8 @@ export function reducer(
 
     case CheckoutActions.CLEAR_CHECKOUT_STEP: {
       const stepNumber = action.payload;
-      const FIRST_STEP = 1;
-      const SECOND_STEP = 2;
-      const THIRD_STEP = 3;
+      const [FIRST_STEP, SECOND_STEP, THIRD_STEP] = [1, 2, 3];
+
       switch (stepNumber) {
         case FIRST_STEP: {
           return {

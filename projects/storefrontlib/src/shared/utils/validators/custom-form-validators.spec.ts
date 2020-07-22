@@ -167,20 +167,8 @@ describe('FormValidationService', () => {
   });
 
   describe('Star rating validator', () => {
-    const INV_VAL = 1000;
-    const VALUE_FIVE = 5;
-    const VALUE_FOUR = 4;
-    const VALUE_THREE = 3;
-    const VALUE_TWO = 2;
-    const VALUE_ONE = 1;
-    const invalidValues = [null, 'a', 0, INV_VAL];
-    const validValues = [
-      VALUE_ONE,
-      VALUE_TWO,
-      VALUE_THREE,
-      VALUE_FOUR,
-      VALUE_FIVE,
-    ];
+    const invalidValues = [null, 'a', 0, 1000];
+    const validValues = [1, 2, 3, 4, 5];
 
     it('should reject invalid values', () => {
       invalidValues.forEach((value: any) => {

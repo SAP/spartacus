@@ -121,13 +121,13 @@ describe('StoreDataService', () => {
   });
 
   it('should return store latitude', () => {
-    const TO_BE_LATITUDE = 35.528984;
-    expect(service.getStoreLatitude(location)).toBe(TO_BE_LATITUDE);
+    const LATITUDE = 35.528984;
+    expect(service.getStoreLatitude(location)).toBe(LATITUDE);
   });
 
   it('should return store longitude', () => {
-    const TO_BE_LONGITUDE = 139.700168;
-    expect(service.getStoreLongitude(location)).toBe(TO_BE_LONGITUDE);
+    const LONGITUDE = 139.700168;
+    expect(service.getStoreLongitude(location)).toBe(LONGITUDE);
   });
 
   it('should return store opening time', () => {

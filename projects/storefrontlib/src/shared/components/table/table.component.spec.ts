@@ -107,8 +107,8 @@ describe('TableComponent', () => {
     });
 
     it('should add a th for each tableHeader ', () => {
-      const ELE_INDEX = 2;
-      const EXP_ELE_LEN = 3;
+      const ELEMENT_INDEX = 2;
+      const EXPECTED_LENGTH = 3;
       tableComponent.dataset = mockDataset;
       fixture.detectChanges();
       const table = fixture.debugElement.query(By.css('table > thead'));
@@ -116,10 +116,10 @@ describe('TableComponent', () => {
       const th = fixture.debugElement.queryAll(
         By.css('table > thead > tr > th')
       );
-      expect(th.length).toBe(EXP_ELE_LEN);
+      expect(th.length).toBe(EXPECTED_LENGTH);
       expect(th[0].nativeElement).toBeTruthy();
       expect(th[1].nativeElement).toBeTruthy();
-      expect(th[ELE_INDEX].nativeElement).toBeTruthy();
+      expect(th[ELEMENT_INDEX].nativeElement).toBeTruthy();
     });
 
     it('should leverage the translate pipe for the header key when there is no header label', () => {

@@ -141,8 +141,7 @@ describe('BreakpointService', () => {
     });
 
     it('should return xs for <= 576', () => {
-      const INNER_WIDTH = 576;
-      MockWindow.target.innerWidth = INNER_WIDTH;
+      MockWindow.target.innerWidth = 576;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
@@ -150,8 +149,7 @@ describe('BreakpointService', () => {
     });
 
     it('should return sm for <= 768', () => {
-      const INNER_WIDTH = 768;
-      MockWindow.target.innerWidth = INNER_WIDTH;
+      MockWindow.target.innerWidth = 768;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
@@ -159,8 +157,7 @@ describe('BreakpointService', () => {
     });
 
     it('should return md for <= 992', () => {
-      const INNER_WIDTH = 992;
-      MockWindow.target.innerWidth = INNER_WIDTH;
+      MockWindow.target.innerWidth = 992;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
@@ -168,8 +165,7 @@ describe('BreakpointService', () => {
     });
 
     it('should return lg for < 1200', () => {
-      const INNER_WIDTH = 1200;
-      MockWindow.target.innerWidth = INNER_WIDTH;
+      MockWindow.target.innerWidth = 1200;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
@@ -177,8 +173,7 @@ describe('BreakpointService', () => {
     });
 
     it('should return xl for >= 1201', () => {
-      const INNER_WIDTH = 1201;
-      MockWindow.target.innerWidth = INNER_WIDTH;
+      MockWindow.target.innerWidth = 1201;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();

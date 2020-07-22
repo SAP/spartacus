@@ -300,9 +300,9 @@ describe('ProductLoadingService', () => {
         Expect:
           - Trigger emission at 50ms
          */
-        const VALUE = 2;
-        const COUNT = 3;
-        const PERIOD = 20;
+        const VALUE = 2,
+          COUNT = 3,
+          PERIOD = 20;
         const subscriber$ = timer(0, PERIOD, getTestScheduler()).pipe(
           take(COUNT),
           switchMap((intervalId) => (intervalId % VALUE ? NEVER : trigger$))
@@ -335,9 +335,9 @@ describe('ProductLoadingService', () => {
         Expect:
           - Trigger emission at 80ms (closest subscription to maxAge expiration)
          */
-        const VALUE = 2;
-        const COUNT = 3;
-        const PERIOD = 40;
+        const VALUE = 2,
+          COUNT = 3,
+          PERIOD = 40;
         const subscriber$ = timer(0, PERIOD, getTestScheduler()).pipe(
           take(COUNT),
           switchMap((intervalId) => (intervalId % VALUE ? NEVER : trigger$))
