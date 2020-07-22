@@ -110,9 +110,9 @@ describe('CartItemListComponent', () => {
   });
 
   it('should work with consignment entries', () => {
-    const EXP_QTY = 3;
+    const EXPECTED_QTY = 3;
     component.items = mockConsignmentItems;
-    expect(component.items[0].quantity).toEqual(EXP_QTY);
+    expect(component.items[0].quantity).toEqual(EXPECTED_QTY);
     expect(component.items[0].product.code).toEqual('PR0000');
   });
 
@@ -169,15 +169,15 @@ describe('CartItemListComponent', () => {
   });
 
   it('should call cartService with an updated entry', () => {
-    const EXP_QTY = 2;
+    const EXPECTED_QTY = 2;
     const item = mockItems[0];
     component
       .getControl(item)
       .subscribe((control) => {
-        control.get('quantity').setValue(EXP_QTY);
+        control.get('quantity').setValue(EXPECTED_QTY);
         expect(activeCartService.updateEntry).toHaveBeenCalledWith(
           item.entryNumber as any,
-          EXP_QTY
+          EXPECTED_QTY
         );
       })
       .unsubscribe();

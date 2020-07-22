@@ -214,8 +214,8 @@ describe('Carousel Component', () => {
         const el = fixture.debugElement.queryAll(
           By.css('div.indicators button')
         );
-        const EXP_ELE_LEN = 2;
-        expect(el.length).toEqual(EXP_ELE_LEN);
+        const EXPECTED_LENGTH = 2;
+        expect(el.length).toEqual(EXPECTED_LENGTH);
       });
 
       it('should have disabled indicator', () => {
@@ -276,8 +276,8 @@ describe('Carousel Component', () => {
         const el = fixture.debugElement.queryAll(
           By.css('div.indicators button')
         );
-        const EXP_ELE_LEN = 2;
-        expect(el.length).toEqual(EXP_ELE_LEN);
+        const EXPECTED_LENGTH = 2;
+        expect(el.length).toEqual(EXPECTED_LENGTH);
       });
     });
 
@@ -312,8 +312,8 @@ describe('Carousel Component', () => {
         const el = fixture.debugElement.queryAll(
           By.css('div.indicators button')
         );
-        const EXP_RET_VAL = 3;
-        expect(el.length).toEqual(EXP_RET_VAL);
+        const EXPECTED_LENGTH = 3;
+        expect(el.length).toEqual(EXPECTED_LENGTH);
       });
     });
 

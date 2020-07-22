@@ -158,21 +158,21 @@ describe('TableComponent', () => {
 
   describe('table data', () => {
     it('should generate a tr for each data row', () => {
-      const EXP_ELE_LEN = 3;
+      const EXPECTED_LENGTH = 3;
       tableComponent.dataset = mockDataset;
       fixture.detectChanges();
 
       const tr = fixture.debugElement.queryAll(By.css('table > tr'));
-      expect(tr.length).toBe(EXP_ELE_LEN);
+      expect(tr.length).toBe(EXPECTED_LENGTH);
     });
 
     it('should generate a td for each data row', () => {
-      const EXP_ELE_LEN = 9;
+      const EXPECTED_LENGTH = 9;
       tableComponent.dataset = mockDataset;
       fixture.detectChanges();
 
       const td = fixture.debugElement.queryAll(By.css('table > tr > td'));
-      expect(td.length).toBe(EXP_ELE_LEN);
+      expect(td.length).toBe(EXPECTED_LENGTH);
     });
 
     it('should add the col key as a css class to each <td>', () => {

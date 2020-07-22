@@ -101,14 +101,14 @@ describe('OrderCancellationService', () => {
   });
 
   it('should return 2 cancellable entries', () => {
-    const EXP_LEN = 2;
+    const EXPECTED_LENGTH = 2;
     let result;
     service
       .getEntries()
       .subscribe((entries) => (result = entries))
       .unsubscribe();
 
-    expect(result.length).toEqual(EXP_LEN);
+    expect(result.length).toEqual(EXPECTED_LENGTH);
   });
 
   it('should return 1 amended entry', () => {

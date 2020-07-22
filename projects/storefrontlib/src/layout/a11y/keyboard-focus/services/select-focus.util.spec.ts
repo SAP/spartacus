@@ -79,9 +79,9 @@ describe('SelectFocusUtility', () => {
     });
 
     it('should find (locked) focusable children', () => {
-      const EXP_ELE_LEN = 3;
+      const EXPECTED_LENGTH = 3;
       const host = fixture.debugElement.query(By.css('#a')).nativeElement;
-      expect(service.findFocusable(host, true).length).toEqual(EXP_ELE_LEN);
+      expect(service.findFocusable(host, true).length).toEqual(EXPECTED_LENGTH);
     });
 
     it('should not find disabled children', () => {

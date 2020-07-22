@@ -2,12 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { PointOfService } from '../../model/point-of-service.model';
 import { StoreDataService } from './store-data.service';
 
-const MONTH_AUGUST = 8;
+const LATITUDE = 35.528984;
+const LONGITUDE = 139.700168;
 
 const location: PointOfService = {
   geoPoint: {
-    latitude: 35.528984,
-    longitude: 139.700168,
+    latitude: LATITUDE,
+    longitude: LONGITUDE,
   },
 
   openingHours: {
@@ -107,6 +108,8 @@ const location: PointOfService = {
 
 describe('StoreDataService', () => {
   let service: StoreDataService;
+  const YEAR = 2018;
+  const MONTH_AUGUST = 8;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -121,18 +124,15 @@ describe('StoreDataService', () => {
   });
 
   it('should return store latitude', () => {
-    const LATITUDE = 35.528984;
     expect(service.getStoreLatitude(location)).toBe(LATITUDE);
   });
 
   it('should return store longitude', () => {
-    const LONGITUDE = 139.700168;
     expect(service.getStoreLongitude(location)).toBe(LONGITUDE);
   });
 
   it('should return store opening time', () => {
     const DAY = 17;
-    const YEAR = 2018;
     const monday = new Date(YEAR, MONTH_AUGUST, DAY);
 
     expect(service.getStoreOpeningTime(location, monday)).toBe('01:02');
@@ -140,7 +140,6 @@ describe('StoreDataService', () => {
 
   it('should return store closing time', () => {
     const DAY = 17;
-    const YEAR = 2018;
     const monday = new Date(YEAR, MONTH_AUGUST, DAY);
 
     expect(service.getStoreClosingTime(location, monday)).toBe('20:00');
@@ -148,7 +147,6 @@ describe('StoreDataService', () => {
 
   it('should not return opening time when store is closed', () => {
     const DAY = 23;
-    const YEAR = 2018;
     const sunday = new Date(YEAR, MONTH_AUGUST, DAY);
 
     expect(service.getStoreOpeningTime(location, sunday)).toBe('closed');
@@ -156,7 +154,6 @@ describe('StoreDataService', () => {
 
   it('should not return closing time when store is closed', () => {
     const DAY = 23;
-    const YEAR = 2018;
     const sunday = new Date(YEAR, MONTH_AUGUST, DAY);
 
     expect(service.getStoreClosingTime(location, sunday)).toBe('closed');

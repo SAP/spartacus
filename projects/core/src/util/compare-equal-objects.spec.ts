@@ -169,10 +169,10 @@ describe('compare equal objects utilities', () => {
       const FIRST_OCC_INDEX = 5;
       const COUNT_DEEP_OBJ_FOUR = 4;
       const COUNT_DEEP_OBJ_THREE = 3;
-      const EXP_FIRST_OCC = 3;
+      const EXPECTED_FIRST_OCC = 3;
       const COUNT_DEEP_OBJ_TWO = 2;
       expect(
-        indexOfFirstOccurrence(EXP_FIRST_OCC, [
+        indexOfFirstOccurrence(EXPECTED_FIRST_OCC, [
           1,
           COUNT_DEEP_OBJ_TWO,
           COUNT_DEEP_OBJ_THREE,
