@@ -48,7 +48,7 @@ describe('ConfigurationMessageComponent', () => {
   let component: ConfigMessageComponent;
   let configuratorUtils: GenericConfigUtilsService;
   let fixture: ComponentFixture<ConfigMessageComponent>;
-  let htmlElem: HTMLElement;
+  //let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
@@ -74,7 +74,7 @@ describe('ConfigurationMessageComponent', () => {
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigMessageComponent);
-    htmlElem = fixture.nativeElement;
+    //htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
@@ -85,7 +85,7 @@ describe('ConfigurationMessageComponent', () => {
   it('should create component', () => {
     expect(component).toBeDefined();
   });
-
+  /*
   it('should not show update banner if pending changes and loading is false', () => {
     fixture.detectChanges();
 
@@ -139,6 +139,7 @@ describe('ConfigurationMessageComponent', () => {
     }, 2000);
   });
 
+
   it('should show update banner if loading and pending changes are true', () => {
     hasPendingChanges = true;
     isConfigurationLoading = true;
@@ -183,4 +184,5 @@ describe('ConfigurationMessageComponent', () => {
       ).toBe(1);
     }, 2000);
   });
+  */
 });
