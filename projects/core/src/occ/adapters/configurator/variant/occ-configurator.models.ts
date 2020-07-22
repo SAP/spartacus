@@ -131,6 +131,8 @@ export namespace OccConfigurator {
   export enum GroupType {
     CSTIC_GROUP = 'CSTIC_GROUP',
     INSTANCE = 'INSTANCE',
+    CONFLICT_HEADER = 'CONFLICT_HEADER',
+    CONFLICT = 'CONFLICT',
   }
 
   export enum UiType {

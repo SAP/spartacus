@@ -43,20 +43,23 @@
         }
 
         .groupIndicator {
-          margin-top: 5px;
           float: right;
-          width: 50px;
+          width: 75px;
           display: flex;
 
           .groupStatusIndicator {
             width: 25px;
             cx-icon.ERROR,
+            cx-icon.WARNING,
             cx-icon.COMPLETE {
               display: none;
             }
 
             cx-icon.ERROR {
               color: var(--cx-color-danger);
+            }
+            cx-icon.WARNING {
+              color: theme-color('warning');
             }
 
             cx-icon.COMPLETE {
@@ -70,12 +73,21 @@
               margin-left: 5px;
             }
           }
+
+          .conflictNumberIndicator {
+            width: 25px;
+          }
         }
       }
 
       &.ERROR cx-icon.ERROR,
+      &.WARNING cx-icon.WARNING,
       &.COMPLETE cx-icon.COMPLETE {
         display: inline-block !important;
+      }
+
+      &.cx-config-menu-conflict {
+        background-color: mix(#ffffff, theme-color('warning'), 78%);
       }
     }
   }
