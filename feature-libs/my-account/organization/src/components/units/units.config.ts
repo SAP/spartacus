@@ -13,6 +13,7 @@ import { OrganizationTableType } from '../shared';
 import { UnitChildrenComponent } from './unit-children';
 import { UnitApproversComponent } from './unit-approvers';
 import { UnitAssignApproversComponent } from './unit-assign-approvers';
+import { UnitAssignRolesComponent } from './unit-assign-roles';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -42,9 +43,9 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: ['organization/units/:code/users'],
         paramsMapping: { code: 'uid' },
       },
-      // orgUnitAssignRoles: {
-      //   paths: ['organization/unit/assign-roles/:code/:roleId'],
-      // },
+      orgUnitAssignRoles: {
+        paths: ['organization/units/:code/users/roles/assign'],
+      },
       orgUnitApprovers: {
         paths: ['organization/units/:code/approvers'],
         paramsMapping: { code: 'uid' },
@@ -106,6 +107,13 @@ export const unitsCmsConfig: CmsConfig = {
               path: 'users',
               component: UnitUsersComponent,
               canDeactivate: [SplitViewDeactivateGuard],
+              children: [
+                {
+                  path: 'roles/assign',
+                  component: UnitAssignRolesComponent,
+                  canDeactivate: [SplitViewDeactivateGuard],
+                },
+              ],
             },
             {
               path: 'approvers',
@@ -172,6 +180,29 @@ export const unitsTableConfig: TableConfig = {
           { key: 'email', sortCode: 'byEmail' },
           { key: 'roles' },
           { key: 'orgUnit' },
+        ],
+      },
+    ],
+    [OrganizationTableType.UNIT_ASSIGN_ROLES]: [
+      {
+        pagination: {
+          sort: 'byName',
+        },
+      },
+      {
+        breakpoint: BREAKPOINT.xs,
+        headers: [{ key: 'summary' }, { key: 'link' }],
+        hideHeader: true,
+      },
+      {
+        breakpoint: BREAKPOINT.lg,
+        headers: [
+          { key: 'name', sortCode: 'byName' },
+          { key: 'email', sortCode: 'byEmail' },
+          { key: 'roleCustomer' },
+          { key: 'roleApprover' },
+          { key: 'roleManager' },
+          { key: 'roleAdministrator' },
         ],
       },
     ],

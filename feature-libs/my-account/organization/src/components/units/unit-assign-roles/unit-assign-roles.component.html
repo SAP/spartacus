@@ -1,79 +1,182 @@
-<cx-fake-tabs
-  [code]="code$ | async"
-  [links]="[
-    {
-      cxRoute: 'orgUnitDetails',
-      name: 'orgUnit.details',
-      params: { uid: code$ | async }
-    },
-    { cxRoute: 'orgUnitUsers', name: 'orgUnit.users', active: true },
-    { cxRoute: 'orgUnitApprovers', name: 'orgUnit.approvers' },
-    {
-      cxRoute: 'orgUnitManageAddresses',
-      name: 'orgUnit.manageAddresses'
-    },
-    { cxRoute: 'orgUnitChildren', name: 'orgUnit.children' },
-    { cxRoute: 'orgUnitCostCenters', name: 'orgUnit.costCenters' }
-  ]"
-  [routerBackLink]="{ cxRoute: 'orgUnits', name: 'orgUnit.back' }"
->
-  <cx-interactive-table
-    [data$]="data$"
-    [header]="'unitAssignRoles.header' | cxTranslate: { code: code }"
-    [sortLabels]="{
-      byName: 'usersList.sorting.byName' | cxTranslate
-    }"
-    [columns]="[
-      {
-        key: 'name',
-        value: 'usersList.name' | cxTranslate,
-        cxRoute: 'userDetails'
-      },
-      {
-        key: 'email',
-        value: 'usersList.uid' | cxTranslate
-      },
-      {
-        key: 'b2bcustomergroup',
-        value: 'usersList.b2bcustomergroup' | cxTranslate,
-        checkBox: true
-      },
-      {
-        key: 'b2bmanagergroup',
-        value: 'usersList.b2bmanagergroup' | cxTranslate,
-        checkBox: true
-      },
-      {
-        key: 'b2badmingroup',
-        value: 'usersList.b2badmingroup' | cxTranslate,
-        checkBox: true
-      },
-      {
-        key: 'b2bapprovergroup',
-        value: 'usersList.b2bapprovergroup' | cxTranslate,
-        checkBox: true
-      }
-    ]"
-    (pageChange)="pageChange($event)"
-    (changeSortCode)="changeSortCode($event)"
-    (check)="assign($event)"
-    (uncheck)="unassign($event)"
+<cx-view #view *ngIf="code$ | async as orgUnitCode">
+  <h3>
+    <a
+      class="link"
+      [routerLink]="
+        { cxRoute: 'orgUnitUsers', params: { uid: orgUnitCode } } | cxUrl
+      "
+      (click)="view.toggle()"
+    >
+      <cx-icon type="CARET_LEFT"></cx-icon>
+      {{ 'organization.back' | cxTranslate }}
+    </a>
+    <span>{{
+      'units.unitAssignRoles.header' | cxTranslate: { code: orgUnitCode }
+    }}</span>
+  </h3>
+
+  <ng-container *ngIf="dataTable$ | async as dataTable; else emptyList">
+    <section>
+      <cx-table
+        [dataset]="dataTable"
+        (sortEvent)="sort(dataTable.pagination, $event)"
+      >
+      </cx-table>
+      <cx-pagination
+        *ngIf="dataTable.pagination"
+        [pagination]="dataTable.pagination"
+        (viewPageEvent)="viewPage(dataTable.pagination, $event)"
+      ></cx-pagination>
+    </section>
+  </ng-container>
+
+  <ng-template #emptyList>
+    <p class="instruction is-empty">
+      {{ 'organization.messages.emptyList' | cxTranslate }}
+    </p>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitAssignRoles.data.roleCustomer" let-model>
+    <input
+      type="checkbox"
+      [checked]="checkIfContainsRole(model, rolesMap.customer.value)"
+      (change)="
+        toggleAssign(
+          model.customerId,
+          model.roles,
+          rolesMap.customer.value,
+          $event.target.checked
+        )
+      "
+    />
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitAssignRoles.data.roleApprover" let-model>
+    <input
+      type="checkbox"
+      [checked]="checkIfContainsRole(model, rolesMap.approver.value)"
+      (change)="
+        toggleAssign(
+          model.customerId,
+          model.roles,
+          rolesMap.approver.value,
+          $event.target.checked
+        )
+      "
+    />
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitAssignRoles.data.roleManager" let-model>
+    <input
+      type="checkbox"
+      [checked]="checkIfContainsRole(model, rolesMap.manager.value)"
+      (change)="
+        toggleAssign(
+          model.customerId,
+          model.roles,
+          rolesMap.manager.value,
+          $event.target.checked
+        )
+      "
+    />
+  </ng-template>
+
+  <ng-template
+    cxOutletRef="table.unitAssignRoles.data.roleAdministrator"
+    let-model
   >
-    <div class="col-md-12 col-lg-6">
-      <div class="row">
-        <div class="pb-mobile-2 col-md-12 col-lg-6 float-right"></div>
-        <div class="col-md-12 col-lg-6">
-          <!--          back-->
-          <a
-            [routerLink]="
-              { cxRoute: 'orgUnitUsers', params: { code: code } } | cxUrl
-            "
-            class="btn btn-secondary btn-block"
-          >
-            {{ 'unitAssignRoles.back' | cxTranslate }}
-          </a>
-        </div>
-      </div>
+    <input
+      type="checkbox"
+      [checked]="checkIfContainsRole(model, rolesMap.admin.value)"
+      (change)="
+        toggleAssign(
+          model.customerId,
+          model.roles,
+          rolesMap.admin.value,
+          $event.target.checked
+        )
+      "
+    />
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitAssignRoles.data.summary" let-model>
+    <h3>{{ model.name }}</h3>
+    <small>{{ model.email }}</small>
+    <div class="roles">
+      <label>
+        <input
+          type="checkbox"
+          [checked]="checkIfContainsRole(model, rolesMap.customer.value)"
+          (change)="
+            toggleAssign(
+              model.customerId,
+              model.roles,
+              rolesMap.customer.value,
+              $event.target.checked
+            )
+          "
+        />
+        <span class="text">{{ rolesMap.customer.label | cxTranslate }}</span>
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          [checked]="checkIfContainsRole(model, rolesMap.approver.value)"
+          (change)="
+            toggleAssign(
+              model.customerId,
+              model.roles,
+              rolesMap.approver.value,
+              $event.target.checked
+            )
+          "
+        />
+        <span class="text">{{ rolesMap.approver.label | cxTranslate }}</span>
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          [checked]="checkIfContainsRole(model, rolesMap.manager.value)"
+          (change)="
+            toggleAssign(
+              model.customerId,
+              model.roles,
+              rolesMap.manager.value,
+              $event.target.checked
+            )
+          "
+        />
+        <span class="text">{{ rolesMap.manager.label | cxTranslate }}</span>
+      </label>
+      <label>
+        <input
+          type="checkbox"
+          [checked]="checkIfContainsRole(model, rolesMap.admin.value)"
+          (change)="
+            toggleAssign(
+              model.customerId,
+              model.roles,
+              rolesMap.admin.value,
+              $event.target.checked
+            )
+          "
+        />
+        <span class="text">{{ rolesMap.admin.label | cxTranslate }}</span>
+      </label>
     </div>
-  </cx-interactive-table>
-</cx-fake-tabs>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitAssignRoles.data.link" let-model>
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'userDetails',
+          params: model
+        } | cxUrl
+      "
+    >
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
+  </ng-template>
+</cx-view>

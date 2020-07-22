@@ -1,92 +1,75 @@
-import { Component, OnInit } from '@angular/core';
-import { Params } from '@angular/router';
-import {
-  B2BUser,
-  B2BUserService,
-  EntitiesModel,
-  OrgUnitService,
-  RoutingService,
-} from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import {
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
-import {
-  AbstractListingComponent,
-  ListingModel,
-} from '../../abstract-component/abstract-listing.component';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { B2BUser, PaginationModel } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { Table } from '@spartacus/storefront';
+import { UnitAssignRolesService } from './unit-assign-roles.service';
 
 @Component({
   selector: 'cx-unit-assign-roles',
   templateUrl: './unit-assign-roles.component.html',
 })
-export class UnitAssignRolesComponent extends AbstractListingComponent
-  implements OnInit {
-  code: string;
-  cxRoute = 'orgUnitAssignRoles';
+export class UnitAssignRolesComponent {
+  protected readonly B2B_CUSTOMER_ROLE_ID = 'b2bcustomergroup';
 
-  constructor(
-    protected routingService: RoutingService,
-    protected orgUnitsService: OrgUnitService,
-    protected b2bUsersService: B2BUserService
-  ) {
-    super(routingService);
-  }
+  readonly rolesMap = {
+    customer: {
+      label: 'units.unitAssignRoles.b2bcustomergroup',
+      value: 'b2bcustomergroup',
+    },
+    approver: {
+      label: 'units.unitAssignRoles.b2bapprovergroup',
+      value: 'b2bapprovergroup',
+    },
+    manager: {
+      label: 'units.unitAssignRoles.b2bmanagergroup',
+      value: 'b2bmanagergroup',
+    },
+    admin: {
+      label: 'units.unitAssignRoles.b2badmingroup',
+      value: 'b2badmingroup',
+    },
+  };
 
-  role$: Observable<string> = this.params$.pipe(
-    map((params: Params) => params['roleId'])
+  code$: Observable<string> = this.route.parent.parent.params.pipe(
+    map((params) => params['code'])
   );
 
-  ngOnInit(): void {
-    this.code$.pipe(take(1)).subscribe((code) => (this.code = code));
+  dataTable$: Observable<Table> = this.code$.pipe(
+    switchMap((code) =>
+      this.unitAssignRolesService.getTable(code, this.B2B_CUSTOMER_ROLE_ID)
+    )
+  );
 
-    this.data$ = <Observable<ListingModel>>combineLatest([
-      this.queryParams$,
-      this.role$,
-    ]).pipe(
-      withLatestFrom(this.code$),
-      tap(([[queryParams, role], code]) =>
-        this.orgUnitsService.loadUsers(code, role, queryParams)
-      ),
-      switchMap(([[queryParams, role], code]) =>
-        this.orgUnitsService.getUsers(code, role, queryParams).pipe(
-          filter(Boolean),
-          map((usersList: EntitiesModel<B2BUser>) => ({
-            sorts: usersList.sorts,
-            pagination: usersList.pagination,
-            values: usersList.values.map((user) => ({
-              selected: user.selected,
-              email: user.uid,
-              name: user.name,
-              roles: user.roles,
-              parentUnit: user.orgUnit && user.orgUnit.name,
-              uid: user.orgUnit && user.orgUnit.uid,
-              customerId: user.customerId,
-              b2badmingroup: user.roles.includes('b2badmingroup'),
-              b2bapprovergroup: user.roles.includes('b2bapprovergroup'),
-              b2bcustomergroup: user.roles.includes('b2bcustomergroup'),
-              b2bmanagergroup: user.roles.includes('b2bmanagergroup'),
-            })),
-          }))
-        )
-      )
+  constructor(
+    protected route: ActivatedRoute,
+    protected unitAssignRolesService: UnitAssignRolesService
+  ) {}
+
+  toggleAssign(
+    orgCustomerId: string,
+    userRoles: string[],
+    role: string,
+    checked: boolean
+  ) {
+    this.unitAssignRolesService.toggleAssign(
+      orgCustomerId,
+      userRoles,
+      role,
+      checked
     );
   }
 
-  assign(event: any) {
-    this.b2bUsersService.update(event.row.customerId, {
-      roles: [...event.row.roles, event.key],
-    });
+  viewPage(pagination: PaginationModel, currentPage: number): void {
+    this.unitAssignRolesService.viewPage(pagination, currentPage);
   }
 
-  unassign(event: any) {
-    this.b2bUsersService.update(event.row.customerId, {
-      roles: event.row.roles.filter((role) => role !== event.key),
-    });
+  sort(pagination: PaginationModel, sort: string) {
+    this.unitAssignRolesService.sort(pagination, sort);
+  }
+
+  checkIfContainsRole(model: B2BUser, role: string): boolean {
+    return model.roles.indexOf(role) !== -1;
   }
 }

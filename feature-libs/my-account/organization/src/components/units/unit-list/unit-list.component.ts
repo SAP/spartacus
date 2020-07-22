@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 import {
   OrgUnitService,
@@ -32,7 +32,6 @@ export class ManageUnitsListComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
   lastPath$ = this.routingService.getRouterState().pipe(
     distinctUntilChanged(),
-    tap((state) => console.log(state)),
     map((state: RouterState) =>
       state.state?.url.split('/').reverse()[0].split('?').shift()
     )
@@ -46,7 +45,6 @@ export class ManageUnitsListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // this.orgUnitsService.loadTree();
     this.data$ = this.orgUnitsService.getTree().pipe(
       filter(Boolean),
       map((node) => this.toNavigation(node))

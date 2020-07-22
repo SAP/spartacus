@@ -10,6 +10,7 @@ import { UnitCreateModule } from './unit-create';
 import { UnitEditModule } from './unit-edit';
 import { UnitDetailsModule } from './unit-details';
 import { UnitUsersModule } from './unit-users';
+import { UnitAssignRolesModule } from './unit-assign-roles';
 import { UnitChildrenModule } from './unit-children';
 import { UnitApproversModule } from './unit-approvers';
 
@@ -28,6 +29,7 @@ import { UnitApproversModule } from './unit-approvers';
     UnitEditModule,
     UnitDetailsModule,
     UnitUsersModule,
+    UnitAssignRolesModule,
     UnitChildrenModule,
     UnitApproversModule,
 
@@ -35,7 +37,6 @@ import { UnitApproversModule } from './unit-approvers';
     // UnitAddressDetailsModule,
     // UnitAddressEditModule,
     // UnitAssignApproversModule,
-    // UnitAssignRolesModule,
     // UnitCostCentersModule,
     // UnitListModule,
     // UnitManageAddressesModule,

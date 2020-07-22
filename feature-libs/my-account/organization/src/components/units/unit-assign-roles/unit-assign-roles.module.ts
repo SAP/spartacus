@@ -2,19 +2,28 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { UnitAssignRolesComponent } from './unit-assign-roles.component';
+import {
+  IconModule,
+  OutletRefModule,
+  SplitViewModule,
+  TableModule,
+} from '@spartacus/storefront';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { FakeTabsModule, InteractiveTableModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
     CommonModule,
     UrlModule,
     I18nModule,
-    InteractiveTableModule,
+    TableModule,
     NgSelectModule,
     FormsModule,
-    FakeTabsModule,
+    SplitViewModule,
+    RouterModule,
+    OutletRefModule,
+    IconModule,
   ],
   declarations: [UnitAssignRolesComponent],
   exports: [UnitAssignRolesComponent],

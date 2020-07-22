@@ -68,7 +68,10 @@ export const units = {
   },
   unitAssignRoles: {
     header: 'Manage roles in {{code}}',
-    back: 'Close',
+    b2bcustomergroup: 'Customer',
+    b2bapprovergroup: 'Approver',
+    b2bmanagergroup: 'Manager',
+    b2badmingroup: 'Admin',
   },
   unitApprovers: {
     header: 'Approvers in {{code}}',
@@ -153,4 +156,16 @@ export const units = {
     name: 'Name',
     newChild: 'New child unit',
   },
+};
+
+export const unitAssignRoles = {
+  header: 'Manage roles in {{code}}',
+  back: 'Close',
+  name: 'Name',
+  email: 'Email',
+  roles: 'Roles',
+  roleCustomer: 'Customer',
+  roleApprover: 'Approver',
+  roleManager: 'Manager',
+  roleAdministrator: 'Admin',
 };
