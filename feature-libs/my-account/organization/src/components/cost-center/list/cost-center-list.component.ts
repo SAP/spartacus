@@ -20,6 +20,7 @@ export class CostCenterListComponent {
   subscription = new Subscription();
 
   protected fullScreenViews = ['create', 'edit', 'assign'];
+  // TODO: consider how to setup higher priority for css config than HostBinding
   protected nonBreakable = ['xs', 'sm'];
 
   maxViews$ = combineLatest([
