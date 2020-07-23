@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { PaginationModel, RoutingService, RouterState } from '@spartacus/core';
-import { Table } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { Table, BreakpointService, BREAKPOINT } from '@spartacus/storefront';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { CostCenterListService } from './cost-center-list.service';
 import { map } from 'rxjs/operators';
 
@@ -20,9 +20,16 @@ export class CostCenterListComponent {
   subscription = new Subscription();
 
   protected fullScreenViews = ['create', 'edit', 'assign'];
+  protected nonBreakable = ['xs', 'sm'];
 
-  maxViews$ = this.routingService.getRouterState().pipe(
-    map((state: RouterState) => {
+  maxViews$ = combineLatest([
+    this.routingService.getRouterState(),
+    this.breakpointService.breakpoint$,
+  ]).pipe(
+    map(([state, breakPoint]: [RouterState, BREAKPOINT]) => {
+      if (this.nonBreakable.includes(breakPoint)) {
+        return;
+      }
       const lastPath = state.state?.url.split('/').reverse()[0];
       return this.fullScreenViews.includes(lastPath) ? 1 : 2;
     })
@@ -30,7 +37,8 @@ export class CostCenterListComponent {
 
   constructor(
     protected costCentersService: CostCenterListService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected breakpointService: BreakpointService
   ) {}
 
   /**
