@@ -41,8 +41,20 @@
     }
   }
 
-  // TODO: need to prepare universal solution with calculations of subtraction `last-visible-view` - `max-views`
   cx-split-view {
+
+    // TODO: need to prepare universal solution with calculations of subtraction `last-visible-view` - `max-views` like
+    //@for $position from 0 to 10 {
+    //  &[last-visible-view='(#{$position} + 3)'][max-views="2"],
+    //  &[last-visible-view='(#{$position} + 2)'][max-views="1"] {
+    //    @for $p from 0 to $position {
+    //      cx-view[position='#{$p}'] {
+    //        visibility: hidden;
+    //      }
+    //    }
+    //  }
+    //
+    //}
 
     &[last-visible-view="2"][max-views="1"] {
       cx-view[position='0'] {
