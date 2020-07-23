@@ -10,6 +10,7 @@
         }}"
         type="checkbox"
         class="form-check-input"
+        [cxFocus]="{ key: value.name }"
         [value]="value.valueCode"
         (change)="onSelect()"
         [formControl]="attributeCheckBoxForms[i]"

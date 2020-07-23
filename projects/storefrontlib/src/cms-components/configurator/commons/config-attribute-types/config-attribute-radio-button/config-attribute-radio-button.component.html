@@ -15,6 +15,7 @@
           [formControl]="attributeRadioButtonForm"
           [attr.required]="attribute.required"
           [value]="value.valueCode"
+          [cxFocus]="{ key: value.name }"
           name="{{
             uiKeyGenerator.createAttributeIdForConfigurator(attribute)
           }}"
