@@ -90,9 +90,13 @@ export const units = {
     id: 'ID',
     name: 'Name',
     formattedAddress: 'Details',
+    confirmDeleteAddress: {
+      title: 'Confirm address delete',
+      message: 'Are you sure you want to delete this address?',
+    },
   },
   unitAddressDetails: {
-    header: 'Addresses details',
+    header: 'Details for {{name}}',
     edit: 'Edit',
     delete: 'Delete',
     back: 'Back',

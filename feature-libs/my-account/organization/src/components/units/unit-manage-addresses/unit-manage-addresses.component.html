@@ -1,103 +1,63 @@
-<cx-fake-tabs
-  [code]="code$ | async"
-  [links]="[
-    {
-      cxRoute: 'orgUnitDetails',
-      name: 'orgUnit.details',
-      params: { uid: code$ | async }
-    },
-    { cxRoute: 'orgUnitUsers', name: 'orgUnit.users' },
-    { cxRoute: 'orgUnitApprovers', name: 'orgUnit.approvers' },
-    {
-      cxRoute: 'orgUnitManageAddresses',
-      name: 'orgUnit.manageAddresses',
-      active: true
-    },
-    { cxRoute: 'orgUnitChildren', name: 'orgUnit.children' },
-    { cxRoute: 'orgUnitCostCenters', name: 'orgUnit.costCenters' }
-  ]"
-  [routerBackLink]="{ cxRoute: 'orgUnits', name: 'orgUnit.back' }"
->
-  <ng-container class="container" *ngIf="data$ | async as data">
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-        <div class="cx-table-header cx-textalign">
-          <h3>
-            {{ 'unitManageAddresses.header' | cxTranslate: { code: code } }}
-          </h3>
-        </div>
+<cx-view #view *ngIf="code$ | async as orgUnitCode">
+  <h3>
+    <a
+      class="link"
+      [routerLink]="
+        { cxRoute: 'orgUnitDetails', params: { uid: orgUnitCode } } | cxUrl
+      "
+      (click)="view.toggle()"
+    >
+      <cx-icon type="CARET_LEFT"></cx-icon>
+    </a>
+    <span>{{
+      'units.unitManageAddresses.header' | cxTranslate: { code: orgUnitCode }
+    }}</span>
+  </h3>
 
-        <!--        <cx-search-->
-        <!--          (searchEvent)="search($event)"-->
-        <!--          [placeholder]="searchBoxLabel"-->
-        <!--        >-->
-        <!--        </cx-search>-->
-      </div>
-      <div class="col-md-12 col-lg-6">
-        <div class="col-md-12 col-lg-6 float-right">
-          <a
-            [routerLink]="
-              { cxRoute: 'orgUnitAddressCreate', params: { code: code } }
-                | cxUrl
-            "
-            class="btn btn-block btn-action"
-          >
-            {{ 'unitManageAddresses.create' | cxTranslate }}
-          </a>
-        </div>
-      </div>
-    </div>
+  <div class="actions">
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'orgUnitAddressCreate'
+        } | cxUrl
+      "
+    >
+      {{ 'units.unitManageAddresses.create' | cxTranslate }}
+    </a>
+  </div>
+  <section>
+    <cx-table
+      *ngIf="dataTable$ | async as dataTable; else emptyList"
+      [dataset]="dataTable"
+    >
+    </cx-table>
+  </section>
 
-    <div class="cx-table-body">
-      <ng-container *ngIf="data.values?.length > 0; else noData">
-        <!-- TABLE -->
-        <cx-table2
-          [tableData]="data.values"
-          [columns]="[
-            {
-              key: 'id',
-              value: 'unitManageAddresses.id' | cxTranslate,
-              cxRoute: 'orgUnitAddressDetails'
-            },
-            {
-              key: 'name',
-              value: 'unitManageAddresses.name' | cxTranslate
-            },
-            {
-              key: 'formattedAddress',
-              value: 'unitManageAddresses.formattedAddress' | cxTranslate
-            },
-            {
-              key: 'delete',
-              value: 'unitManageAddresses.delete' | cxTranslate,
-              button: true,
-              cxIcon: ICON_TYPE.TRASH
-            }
-          ]"
-          (buttonClick)="openModal($event, confirmDeleteAddress)"
-        >
-        </cx-table2>
-        <ng-template #confirmDeleteAddress>
-          <cx-confirm-modal
-            [title]="
-              'unitManageAddresses.confirmDeleteAddress.title' | cxTranslate
-            "
-            [message]="
-              'unitManageAddresses.confirmDeleteAddress.message' | cxTranslate
-            "
-            (confirm)="deleteAddress()"
-          ></cx-confirm-modal>
-        </ng-template>
-      </ng-container>
+  <ng-template #emptyList>
+    <p class="instruction is-empty">
+      {{ 'organization.messages.emptyList' | cxTranslate }}
+    </p>
+  </ng-template>
 
-      <!-- NO ORDER CONTAINER -->
-      <ng-template #noData>
-        <div class="cx-no-items row">
-          <div class="col-sm-12 col-md-6 col-lg-4">
-            <div>{{ 'common.noData' | cxTranslate }}</div>
-          </div>
-        </div>
-      </ng-template>
-    </div>
-  </ng-container>
-</cx-fake-tabs>
+  <ng-template cxOutletRef="table.unitManageAddresses.data.summary" let-model>
+    <h3>{{ model.firstName }} {{ model.lastName }}</h3>
+    <small>{{ model.formattedAddress }}</small>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitManageAddresses.data.link" let-model>
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'orgUnitAddressDetails',
+          params: { uid: orgUnitCode, id: model.id }
+        } | cxUrl
+      "
+    >
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
+  </ng-template>
+</cx-view>
+
+<router-outlet></router-outlet>

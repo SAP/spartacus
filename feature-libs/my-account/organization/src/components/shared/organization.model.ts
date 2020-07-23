@@ -7,4 +7,5 @@ export enum OrganizationTableType {
   UNIT_APPROVERS = 'unitApprovers',
   UNIT_ASSIGN_APPROVERS = 'unitAssignApprovers',
   UNIT_ASSIGN_ROLES = 'unitAssignRoles',
+  UNIT_MANAGE_ADDRESSES = 'unitManageAddresses',
 }

@@ -14,6 +14,8 @@ import { UnitChildrenComponent } from './unit-children';
 import { UnitApproversComponent } from './unit-approvers';
 import { UnitAssignApproversComponent } from './unit-assign-approvers';
 import { UnitAssignRolesComponent } from './unit-assign-roles';
+import { UnitManageAddressesComponent } from './unit-manage-addresses';
+import { UnitAddressDetailsComponent } from './unit-address-details';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -45,6 +47,7 @@ export const unitsRoutingConfig: RoutingConfig = {
       },
       orgUnitAssignRoles: {
         paths: ['organization/units/:code/users/roles/assign'],
+        paramsMapping: { code: 'uid' },
       },
       orgUnitApprovers: {
         paths: ['organization/units/:code/approvers'],
@@ -54,10 +57,14 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: ['organization/units/:code/approvers/assign'],
         paramsMapping: { code: 'uid' },
       },
-
-      // orgUnitAddressDetails: {
-      //   paths: ['organization/unit/address/:code/:id'],
-      // },
+      orgUnitManageAddresses: {
+        paths: ['organization/units/:code/addresses'],
+        paramsMapping: { code: 'uid' },
+      },
+      orgUnitAddressDetails: {
+        paths: ['organization/units/:code/addresses/:id'],
+        paramsMapping: { code: 'uid' },
+      },
 
       // orgUnitAddressCreate: {
       //   paths: ['organization/unit/addresses/create/:code'],
@@ -65,10 +72,6 @@ export const unitsRoutingConfig: RoutingConfig = {
 
       // orgUnitAddressEdit: {
       //   paths: ['organization/unit/address/edit/:code/:id'],
-      // },
-
-      // orgUnitManageAddresses: {
-      //   paths: ['organization/unit/addresses/:code'],
       // },
 
       // orgUnitCostCenters: {
@@ -123,6 +126,18 @@ export const unitsCmsConfig: CmsConfig = {
                 {
                   path: 'assign',
                   component: UnitAssignApproversComponent,
+                  canDeactivate: [SplitViewDeactivateGuard],
+                },
+              ],
+            },
+            {
+              path: 'addresses',
+              component: UnitManageAddressesComponent,
+              canDeactivate: [SplitViewDeactivateGuard],
+              children: [
+                {
+                  path: ':id',
+                  component: UnitAddressDetailsComponent,
                   canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
@@ -204,6 +219,15 @@ export const unitsTableConfig: TableConfig = {
           { key: 'roleManager' },
           { key: 'roleAdministrator' },
         ],
+      },
+    ],
+    [OrganizationTableType.UNIT_MANAGE_ADDRESSES]: [
+      {
+        headers: [{ key: 'summary' }, { key: 'link' }],
+        hideHeader: true,
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
       },
     ],
   },

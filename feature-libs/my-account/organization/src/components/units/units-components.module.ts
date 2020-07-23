@@ -13,6 +13,10 @@ import { UnitUsersModule } from './unit-users';
 import { UnitAssignRolesModule } from './unit-assign-roles';
 import { UnitChildrenModule } from './unit-children';
 import { UnitApproversModule } from './unit-approvers';
+import { UnitListModule } from './unit-list';
+import { UnitAssignApproversModule } from './unit-assign-approvers';
+import { UnitManageAddressesModule } from './unit-manage-addresses';
+import { UnitAddressDetailsModule } from './unit-address-details';
 
 @NgModule({
   imports: [
@@ -25,6 +29,7 @@ import { UnitApproversModule } from './unit-approvers';
       ...unitsTableConfig,
     }),
 
+    UnitListModule,
     UnitCreateModule,
     UnitEditModule,
     UnitDetailsModule,
@@ -32,14 +37,13 @@ import { UnitApproversModule } from './unit-approvers';
     UnitAssignRolesModule,
     UnitChildrenModule,
     UnitApproversModule,
+    UnitAssignApproversModule,
+    UnitManageAddressesModule,
+    UnitAddressDetailsModule,
 
     // UnitAddressCreateModule,
-    // UnitAddressDetailsModule,
     // UnitAddressEditModule,
-    // UnitAssignApproversModule,
     // UnitCostCentersModule,
-    // UnitListModule,
-    // UnitManageAddressesModule,
   ],
 })
 export class UnitsComponentsModule {}
