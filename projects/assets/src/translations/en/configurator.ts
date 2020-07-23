@@ -51,5 +51,9 @@ export const configurator = {
       conflictHeader: 'Resolve conflicts',
       conflictGroup: 'Conflict for {{attribute}}',
     },
+    conflict: {
+      suggestionTitle: 'Suggestion {{number}}:',
+      suggestionText: 'Change value for "{{ attribute }}"',
+    },
   },
 };

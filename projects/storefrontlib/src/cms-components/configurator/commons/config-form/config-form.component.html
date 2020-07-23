@@ -20,9 +20,16 @@
           class="cx-config-conflict-suggestion"
           tabindex="0"
         >
-          <div class="bold">Suggestion {{ indexOfAttribute + 1 }}:</div>
-          Change value for
-          {{ attribute.label }}
+          <div class="bold">
+            {{
+              'configurator.conflict.suggestionTitle'
+                | cxTranslate: { number: indexOfAttribute + 1 }
+            }}
+          </div>
+          {{
+            'configurator.conflict.suggestionText'
+              | cxTranslate: { attribute: attribute.label }
+          }}
         </div>
         <div class="cx-config-attribute-header">
           <cx-config-attribute-header
