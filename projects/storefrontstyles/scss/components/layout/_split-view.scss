@@ -65,6 +65,8 @@
     }
   }
 
+
+  // TODO: consider having variable for value which can be overridden
   @for $position from 0 to 100 {
     &[last-visible-view='#{$position + 3}'][max-views="2"],
     &[last-visible-view='#{$position + 2}'][max-views="1"] {
