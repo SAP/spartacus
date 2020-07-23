@@ -41,54 +41,6 @@
     }
   }
 
-  cx-split-view {
-
-    // TODO: need to prepare universal solution with calculations of subtraction `last-visible-view` - `max-views` like
-    //@for $position from 0 to 10 {
-    //  &[last-visible-view='(#{$position} + 3)'][max-views="2"],
-    //  &[last-visible-view='(#{$position} + 2)'][max-views="1"] {
-    //    @for $p from 0 to $position {
-    //      cx-view[position='#{$p}'] {
-    //        visibility: hidden;
-    //      }
-    //    }
-    //  }
-    //
-    //}
-
-    &[last-visible-view="2"][max-views="1"] {
-      cx-view[position='0'] {
-        visibility: hidden;
-      }
-    }
-
-    &[last-visible-view='3'][max-views="2"] {
-      cx-view[position='0'] {
-        visibility: hidden;
-      }
-    }
-
-    &[last-visible-view='3'][max-views="1"] {
-      cx-view[position='0'],cx-view[position='1'] {
-        visibility: hidden;
-      }
-    }
-
-    &[last-visible-view='4'][max-views="2"] {
-      cx-view[position='0'],cx-view[position='1'] {
-        visibility: hidden;
-      }
-    }
-
-    &[last-visible-view='4'][max-views="1"] {
-      cx-view[position='0'],cx-view[position='1'],cx-view[position='2'] {
-        visibility: hidden;
-      }
-    }
-
-    //... etc.
-  }
-
   cx-pagination {
     display: inline-flex;
     box-shadow: 0 0.4rem 1.2rem 0.2rem rgba(0, 0, 0, 0.05);

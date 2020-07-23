@@ -56,16 +56,23 @@
       calc((100% / min(var(--cx-last-visible-view), var(--cx-max-views))));
 
     &[position='0'] {
-      // we hide the first cx-view based on the visible position, as we can't rely on
-      // overflow-x to hide the view.
-      opacity: calc(1 - var(--cx-last-visible-view) + var(--cx-max-views));
-
       // The inline start margin of the first flex item decreases to move
       // the flex items outside the flex container.
       margin-inline-start: calc(
         max(var(--cx-last-visible-view) - var(--cx-max-views), 0) *
           (var(--cx-view-flex) * -1)
       );
+    }
+  }
+
+  @for $position from 0 to 100 {
+    &[last-visible-view='#{$position + 3}'][max-views="2"],
+    &[last-visible-view='#{$position + 2}'][max-views="1"] {
+      @for $p from 0 to $position + 1 {
+        cx-view[position='#{$p}'] {
+          visibility: hidden;
+        }
+      }
     }
   }
 }
