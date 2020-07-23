@@ -41,16 +41,40 @@
     }
   }
 
-  &.edit,
-  &.create,
-  &.assign {
-    cx-split-view {
-      --cx-max-views: 1;
+  // TODO: need to prepare universal solution with calculations of subtraction `last-visible-view` - `max-views`
+  cx-split-view {
 
-      cx-view:not(:last-child) {
+    &[last-visible-view="2"][max-views="1"] {
+      cx-view[position='0'] {
         visibility: hidden;
       }
     }
+
+    &[last-visible-view='3'][max-views="2"] {
+      cx-view[position='0'] {
+        visibility: hidden;
+      }
+    }
+
+    &[last-visible-view='3'][max-views="1"] {
+      cx-view[position='0'],cx-view[position='1'] {
+        visibility: hidden;
+      }
+    }
+
+    &[last-visible-view='4'][max-views="2"] {
+      cx-view[position='0'],cx-view[position='1'] {
+        visibility: hidden;
+      }
+    }
+
+    &[last-visible-view='4'][max-views="1"] {
+      cx-view[position='0'],cx-view[position='1'],cx-view[position='2'] {
+        visibility: hidden;
+      }
+    }
+
+    //... etc.
   }
 
   cx-pagination {

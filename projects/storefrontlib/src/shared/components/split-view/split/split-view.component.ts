@@ -3,6 +3,7 @@ import {
   Component,
   HostBinding,
   OnDestroy,
+  Input,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SplitViewService } from '../split-view.service';
@@ -45,11 +46,20 @@ export class SplitViewComponent implements OnDestroy {
   @HostBinding('attr.last-visible-view')
   lastVisibleView = 1;
 
-  protected subscription: Subscription = this.splitService
-    .visibleViewCount()
-    .subscribe((lastVisible: number) => (this.lastVisibleView = lastVisible));
+  @HostBinding('style.--cx-max-views')
+  @HostBinding('attr.max-views')
+  @Input()
+  maxViews = 2;
 
-  constructor(protected splitService: SplitViewService) {}
+  protected subscription = new Subscription();
+
+  constructor(protected splitService: SplitViewService) {
+    this.subscription.add(
+      this.splitService.visibleViewCount().subscribe((lastVisible: number) => {
+        this.lastVisibleView = lastVisible;
+      })
+    );
+  }
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();

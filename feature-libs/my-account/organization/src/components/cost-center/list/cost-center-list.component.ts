@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { PaginationModel, RoutingService, RouterState } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -18,35 +12,26 @@ const BASE_CLASS = 'organization';
   templateUrl: './cost-center-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CostCenterListComponent implements OnInit, OnDestroy {
+export class CostCenterListComponent {
   @HostBinding('class') hostClass = BASE_CLASS;
 
   dataTable$: Observable<Table> = this.costCentersService.getTable();
 
   subscription = new Subscription();
 
-  //TODO: it's workaround for allowing styling views, since we can't get any real selector to setup --cx-max-views: 1;
-  lastPath$ = this.routingService
-    .getRouterState()
-    .pipe(
-      map((state: RouterState) => state.state?.url.split('/').reverse()[0])
-    );
+  protected fullScreenViews = ['create', 'edit', 'assign'];
+
+  maxViews$ = this.routingService.getRouterState().pipe(
+    map((state: RouterState) => {
+      const lastPath = state.state?.url.split('/').reverse()[0];
+      return this.fullScreenViews.includes(lastPath) ? 1 : 2;
+    })
+  );
 
   constructor(
     protected costCentersService: CostCenterListService,
     protected routingService: RoutingService
   ) {}
-
-  ngOnInit(): void {
-    this.subscription.add(
-      this.lastPath$.subscribe(
-        (path) => (this.hostClass = `${BASE_CLASS} ${path}`)
-      )
-    );
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
 
   /**
    * Paginates the cost center list. Pagination is not using query parameters, as we like
