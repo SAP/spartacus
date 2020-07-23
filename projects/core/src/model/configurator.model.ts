@@ -57,7 +57,6 @@ export namespace Configurator {
     owner?: GenericConfigurator.Owner;
     nextOwner?: GenericConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
-    isCartEntryUpdatePending?: boolean;
     interactionState?: InteractionState;
   }
 
@@ -135,6 +134,8 @@ export namespace Configurator {
   export enum GroupType {
     ATTRIBUTE_GROUP = 'AttributeGroup',
     SUB_ITEM_GROUP = 'SubItemGroup',
+    CONFLICT_HEADER_GROUP = 'ConflictHeaderGroup',
+    CONFLICT_GROUP = 'ConflictGroup',
   }
 
   export enum UiType {

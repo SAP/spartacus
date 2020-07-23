@@ -117,6 +117,13 @@ export class ConfigGroupMenuComponent implements OnInit {
       });
   }
 
+  getConflictNumber(group: Configurator.Group): string {
+    if (group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP) {
+      return '(' + group.subGroups.length + ')';
+    }
+    return '';
+  }
+
   getParentGroup(group: Configurator.Group): Observable<Configurator.Group> {
     return this.configuration$.pipe(
       map((configuration) =>
@@ -135,7 +142,8 @@ export class ConfigGroupMenuComponent implements OnInit {
     if (
       parentGroup &&
       parentGroup.subGroups &&
-      parentGroup.subGroups.length === 1
+      parentGroup.subGroups.length === 1 &&
+      parentGroup.groupType !== Configurator.GroupType.CONFLICT_HEADER_GROUP
     ) {
       return this.getParentGroup(parentGroup).pipe(
         switchMap((group) => this.getCondensedParentGroup(group))
@@ -147,7 +155,10 @@ export class ConfigGroupMenuComponent implements OnInit {
 
   condenseGroups(groups: Configurator.Group[]): Configurator.Group[] {
     return groups.flatMap((group) => {
-      if (group.subGroups.length === 1) {
+      if (
+        group.subGroups.length === 1 &&
+        group.groupType !== Configurator.GroupType.CONFLICT_HEADER_GROUP
+      ) {
         return this.condenseGroups(group.subGroups);
       } else {
         return group;
@@ -173,6 +184,16 @@ export class ConfigGroupMenuComponent implements OnInit {
           }
         })
       );
+  }
+
+  isConflictGroupType(groupType: Configurator.GroupType): boolean {
+    if (
+      groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP ||
+      groupType === Configurator.GroupType.CONFLICT_GROUP
+    ) {
+      return true;
+    }
+    return false;
   }
 
   scrollToVariantConfigurationHeader() {
