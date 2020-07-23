@@ -94,8 +94,8 @@ export class TabParagraphContainerComponent
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
+          this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
           if (event && event['path']) {
-            this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
             window.scrollTo(0, event['path'][1].offsetTop);
           }
         } else {
