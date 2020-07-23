@@ -49,7 +49,7 @@ export class SplitViewComponent implements OnDestroy {
   @HostBinding('style.--cx-max-views')
   @HostBinding('attr.max-views')
   @Input()
-  maxViews = 2;
+  maxViews;
 
   protected subscription: Subscription = this.splitService
     .visibleViewCount()
