@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { ImageGroup, Product } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import { ThumbGroup } from '../../../shared/components/image-zoom/product-thumbnails/thumbnails.model';
 
 @Component({
   selector: 'cx-product-images',
@@ -10,7 +11,9 @@ import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductImagesComponent {
-  private mainMediaContainer = new BehaviorSubject(null);
+  private mainMediaContainer = new BehaviorSubject<ImageGroup>(null);
+
+  protected mainMediaContainer$ = this.mainMediaContainer.asObservable();
 
   private product$: Observable<
     Product
@@ -18,33 +21,36 @@ export class ProductImagesComponent {
     filter(Boolean),
     distinctUntilChanged(),
     tap((p: Product) => {
-      this.mainMediaContainer.next(p.images?.PRIMARY ? p.images.PRIMARY : {});
+      this.mainMediaContainer.next(
+        p.images?.PRIMARY ? (p.images.PRIMARY as ImageGroup) : {}
+      );
     })
   );
 
-  thumbs$: Observable<any[]> = this.product$.pipe(
+  thumbs$: Observable<Observable<ThumbGroup>[]> = this.product$.pipe(
     map((p: Product) => this.createThumbs(p))
   );
 
-  mainImage$ = combineLatest([this.product$, this.mainMediaContainer]).pipe(
-    map(([, container]) => container)
-  );
+  mainImage$: Observable<ImageGroup> = combineLatest([
+    this.product$,
+    this.mainMediaContainer$,
+  ]).pipe(map(([, container]) => container));
 
   // Used for image zoom
   expandImage = new BehaviorSubject(false);
   selectedIndex: number;
 
-  constructor(private currentProductService: CurrentProductService) {}
+  constructor(protected currentProductService: CurrentProductService) {}
 
-  openImage(item: any): void {
+  openImage(item: ImageGroup): void {
     this.mainMediaContainer.next(item);
     this.selectedIndex = this.mainMediaContainer.value?.zoom?.galleryIndex;
   }
 
-  isActive(thumbnail): Observable<boolean> {
+  isActive(thumbnail: ImageGroup): Observable<boolean> {
     return this.mainMediaContainer.pipe(
       filter(Boolean),
-      map((container: any) => {
+      map((container: ImageGroup) => {
         return (
           container.zoom &&
           container.zoom.url &&
@@ -56,33 +62,15 @@ export class ProductImagesComponent {
     );
   }
 
-  /** find the index of the main media in the list of media */
-  getActive(thumbs: any[]): Observable<number> {
-    return this.mainMediaContainer.pipe(
-      filter(Boolean),
-      map((container: any) => {
-        const current = thumbs.find(
-          (t) =>
-            t.media &&
-            container.zoom &&
-            t.media.container &&
-            t.media.container.zoom &&
-            t.media.container.zoom.url === container.zoom.url
-        );
-        return thumbs.indexOf(current);
-      })
-    );
-  }
-
-  triggerZoom(): void {
-    this.expandImage.next(true);
+  triggerZoom(value: boolean): void {
+    this.expandImage.next(value);
   }
 
   /**
    * Return an array of CarouselItems for the product thumbnails.
    * In case there are less then 2 thumbs, we return null.
    */
-  private createThumbs(product: Product): Observable<any>[] {
+  private createThumbs(product: Product): Observable<ThumbGroup>[] {
     if (
       !product.images ||
       !product.images.GALLERY ||
@@ -91,6 +79,6 @@ export class ProductImagesComponent {
       return [];
     }
 
-    return (<any[]>product.images.GALLERY).map((c) => of({ container: c }));
+    return [].concat(product.images.GALLERY).map((c) => of({ container: c }));
   }
 }

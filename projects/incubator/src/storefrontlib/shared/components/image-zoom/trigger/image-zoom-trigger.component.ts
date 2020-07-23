@@ -1,9 +1,10 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ComponentRef,
+  EventEmitter,
   Input,
-  OnDestroy,
-  OnInit,
+  Output,
   ViewContainerRef,
 } from '@angular/core';
 import {
@@ -11,7 +12,7 @@ import {
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { ImageZoomDialogComponent } from '../dialog/image-zoom-dialog.component';
 
@@ -19,37 +20,30 @@ import { ImageZoomDialogComponent } from '../dialog/image-zoom-dialog.component'
   selector: 'cx-image-zoom-trigger',
   styleUrls: ['image-zoom-trigger.component.scss'],
   templateUrl: 'image-zoom-trigger.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImageZoomTriggerComponent implements OnInit, OnDestroy {
+export class ImageZoomTriggerComponent {
   iconType = ICON_TYPE;
   protected subscriptions = new Subscription();
 
   @Input() galleryIndex: number;
-  @Input() $expandImage: Observable<boolean>;
+  @Input() set expandImage(expand: boolean) {
+    if (expand) {
+      this.toggleZoom();
+    }
+  }
+
+  @Output() dialogClose = new EventEmitter<void>();
 
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef
   ) {}
 
-  ngOnInit() {
-    // Used to open image by clicking the product in ProductImagesComponent
-    if (this.$expandImage) {
-      this.subscriptions.add(
-        this.$expandImage
-          .pipe(
-            filter((value) => Boolean(value)),
-            tap(() => this.expandImage())
-          )
-          .subscribe()
-      );
-    }
-  }
-
   /**
    * Method to open the zoom dialog
    */
-  expandImage(): void {
+  toggleZoom(): void {
     const component = this.launchDialogService.launch(
       LAUNCH_CALLER.IMAGE_ZOOM,
       this.vcr
@@ -69,14 +63,11 @@ export class ImageZoomTriggerComponent implements OnInit, OnDestroy {
             tap(([comp]) => {
               this.launchDialogService.clear(LAUNCH_CALLER.IMAGE_ZOOM);
               comp.destroy();
+              this.dialogClose.emit();
             })
           )
           .subscribe()
       );
     }
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
   }
 }

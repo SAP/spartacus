@@ -9,7 +9,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { ImageGroup, Product } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
@@ -34,6 +34,7 @@ import {
   switchMapTo,
   tap,
 } from 'rxjs/operators';
+import { ThumbGroup } from '../product-thumbnails/thumbnails.model';
 import {
   calculatePointerMovePosition,
   handleOutOfBounds,
@@ -47,18 +48,25 @@ import {
 })
 export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
   iconType = ICON_TYPE;
-  protected mainMediaContainer = new BehaviorSubject(null);
-  protected subscription = new Subscription();
-
-  protected defaultImageReady = new BehaviorSubject(false);
-  protected zoomReady = new BehaviorSubject(false);
-
+  // TODO: Check if should be Image or ImageGroup
+  private mainMediaContainer = new BehaviorSubject<ImageGroup>(null);
+  private defaultImageReady = new BehaviorSubject<boolean>(false);
+  private zoomReady = new BehaviorSubject<boolean>(false);
+  private subscription = new Subscription();
   private _defaultImage: ElementRef;
   private _zoomImage: ElementRef;
 
+  protected mainMediaContainer$: Observable<
+    ImageGroup
+  > = this.mainMediaContainer.asObservable();
+  protected defaultImageReady$: Observable<
+    boolean
+  > = this.defaultImageReady.asObservable();
+  protected zoomReady$: Observable<boolean> = this.zoomReady.asObservable();
+
   @Input() galleryIndex: number;
 
-  defaultImageClickHandler$ = this.defaultImageReady.pipe(
+  defaultImageClickHandler$: Observable<any[]> = this.defaultImageReady$.pipe(
     filter(Boolean),
     switchMap((_) =>
       merge(...this.clickOrDoubleClick(this.defaultImage)).pipe(
@@ -67,7 +75,7 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
     )
   );
 
-  zoomImageClickHandler$ = this.zoomReady.pipe(
+  zoomImageClickHandler$: Observable<any[]> = this.zoomReady$.pipe(
     filter(Boolean),
     switchMap((_) =>
       merge(...this.clickOrDoubleClick(this.zoomImage)).pipe(
@@ -123,26 +131,29 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
           : p.images?.GALLERY;
         this.mainMediaContainer.next(image);
       } else {
-        this.mainMediaContainer.next(p.images?.PRIMARY ? p.images.PRIMARY : {});
+        this.mainMediaContainer.next(
+          p.images?.PRIMARY ? (p.images.PRIMARY as ImageGroup) : {}
+        );
       }
     }),
     shareReplay(1)
   );
 
-  thumbs$: Observable<any[]> = this.product$.pipe(
+  thumbs$: Observable<Observable<ThumbGroup>[]> = this.product$.pipe(
     map((p: Product) => this.createThumbs(p)),
     shareReplay(1)
   );
 
-  mainImage$ = combineLatest([this.product$, this.mainMediaContainer]).pipe(
-    map(([, container]) => container)
-  );
+  mainImage$: Observable<ImageGroup> = combineLatest([
+    this.product$,
+    this.mainMediaContainer$,
+  ]).pipe(map(([, container]) => container));
 
   constructor(
     protected currentProductService: CurrentProductService,
     protected renderer: Renderer2,
     protected cdRef: ChangeDetectorRef,
-    protected breakpoint: BreakpointService
+    protected breakpointService: BreakpointService
   ) {}
 
   ngOnInit() {
@@ -150,15 +161,19 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
     this.subscription.add(this.zoomImageClickHandler$.subscribe());
   }
 
-  openImage(item: any): void {
+  openImage(item: ImageGroup): void {
     this.mainMediaContainer.next(item);
   }
+
   /** find the index of the main media in the list of media */
-  getActive(): number {
+  protected getActive(): number {
+    if (Array.isArray(this.mainMediaContainer.value)) {
+      return this.mainMediaContainer.value[0].thumbnail?.galleryIndex || 0;
+    }
     return this.mainMediaContainer.value.thumbnail?.galleryIndex || 0;
   }
 
-  getPreviousProduct(thumbs: any[]): Observable<any> {
+  getPreviousProduct(thumbs: Observable<ImageGroup>[]): Observable<ImageGroup> {
     const active = this.getActive();
     if (active === 0) {
       return thumbs[active];
@@ -166,7 +181,7 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
     return thumbs[active - 1];
   }
 
-  getNextProduct(thumbs: any[]): Observable<any> {
+  getNextProduct(thumbs: Observable<ImageGroup>[]): Observable<ImageGroup> {
     const active = this.getActive();
     if (active === thumbs.length - 1) {
       return thumbs[active];
@@ -190,7 +205,7 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
    *
    * @param event
    */
-  touchMove(event: any): void {
+  touchMove(event: TouchEvent): void {
     const touch = event.touches[0] || event.changedTouches[0];
     const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
     const imageElement = this.zoomedImage.nativeElement.firstChild;
@@ -218,7 +233,7 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
    *
    * @param event
    */
-  pointerMove(event: any): void {
+  pointerMove(event: MouseEvent): void {
     const boundingRect = this.zoomedImage.nativeElement.getBoundingClientRect() as DOMRect;
     const imageElement = this.zoomedImage.nativeElement.firstChild;
 
@@ -231,7 +246,7 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
     this.moveImage(positionX, positionY, boundingRect, imageElement);
   }
 
-  changeImage(event: { image: any; index: number }) {
+  changeImage(event: { image: ImageGroup; index: number }): void {
     this.mainMediaContainer.next(event.image);
   }
 
@@ -272,11 +287,11 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
   private clickOrDoubleClick(element: ElementRef): Observable<any>[] {
     return [
       fromEvent(element.nativeElement, 'click').pipe(
-        switchMapTo(this.breakpoint.isUp(BREAKPOINT.md)),
+        switchMapTo(this.breakpointService.isUp(BREAKPOINT.md)),
         filter(Boolean)
       ),
       fromEvent(element.nativeElement, 'dblclick').pipe(
-        switchMapTo(this.breakpoint.isDown(BREAKPOINT.lg)),
+        switchMapTo(this.breakpointService.isDown(BREAKPOINT.lg)),
         filter(Boolean)
       ),
     ];
@@ -286,7 +301,7 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
    * Return an array of CarouselItems for the product thumbnails.
    * In case there are less then 2 thumbs, we return null.
    */
-  private createThumbs(product: Product): Observable<any>[] {
+  private createThumbs(product: Product): Observable<ThumbGroup>[] {
     if (
       !product.images ||
       !product.images.GALLERY ||
@@ -295,6 +310,6 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
       return [];
     }
 
-    return (<any[]>product.images.GALLERY).map((c) => of({ container: c }));
+    return [].concat(product.images.GALLERY).map((c) => of({ container: c }));
   }
 }
