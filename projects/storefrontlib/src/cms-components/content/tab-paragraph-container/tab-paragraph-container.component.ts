@@ -35,7 +35,6 @@ export class TabParagraphContainerComponent
   tabTitleParams: Observable<any>[] = [];
 
   subscription: Subscription;
-  tabSubscription: Subscription;
 
   constructor(
     componentData: CmsComponentData<CMSTabParagraphContainer>,
@@ -90,13 +89,15 @@ export class TabParagraphContainerComponent
   );
 
   select(tabNum: number, event?: Event): void {
-    this.tabSubscription = this.breakpointService
+    this.breakpointService
       .isDown(BREAKPOINT.sm)
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
-          this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
-          window.scrollTo(0, event['path'][1].offsetTop);
+          if (event && event['path']) {
+            this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
+            window.scrollTo(0, event['path'][1].offsetTop);
+          }
         } else {
           this.activeTabNum = tabNum;
         }
@@ -136,9 +137,6 @@ export class TabParagraphContainerComponent
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
-    }
-    if (this.tabSubscription) {
-      this.tabSubscription.unsubscribe();
     }
   }
 }
