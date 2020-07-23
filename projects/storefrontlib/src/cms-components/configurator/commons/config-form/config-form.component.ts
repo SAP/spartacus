@@ -7,6 +7,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { ConfigurationRouter } from '../../generic/service/config-router-data';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 import { ConfigFormUpdateEvent } from './config-form.event';
@@ -22,6 +23,7 @@ export class ConfigFormComponent implements OnInit {
 
   UiType = Configurator.UiType;
   GroupType = Configurator.GroupType;
+  iconTypes = ICON_TYPE;
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
