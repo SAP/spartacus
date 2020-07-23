@@ -66,8 +66,10 @@
   }
 
   .cx-order-approval-po-code {
-    .cx-order-approval-value {
-      text-decoration: underline;
+    text-align: center;
+
+    @include media-breakpoint-down(sm) {
+      text-align: left;
     }
   }
 
