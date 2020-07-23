@@ -24,7 +24,7 @@
               (click)="click(group)"
               (keyup)="clickOnEnter($event, group)"
               class="cx-config-menu-item {{
-                getGroupStatus(group.id, configuration) | async
+                getGroupStatus(group, configuration) | async
               }}"
               [class.cx-config-menu-conflict]="
                 isConflictGroupType(group.groupType)

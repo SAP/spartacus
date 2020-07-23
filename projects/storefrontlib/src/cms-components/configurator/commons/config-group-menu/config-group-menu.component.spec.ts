@@ -212,7 +212,7 @@ describe('ConfigurationGroupMenuComponent', () => {
 
   it('should not call status method if group has not been visited', () => {
     component
-      .getGroupStatus(config.groups[0].id, config)
+      .getGroupStatus(config.groups[0], config)
       .pipe(take(1))
       .subscribe();
 
@@ -256,7 +256,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   it('should call status method if group has been visited', () => {
     groupVisited = true;
     component
-      .getGroupStatus(config.groups[0].id, config)
+      .getGroupStatus(config.groups[0], config)
       .pipe(take(1))
       .subscribe();
 
