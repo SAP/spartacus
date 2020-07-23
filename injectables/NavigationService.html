@@ -80,7 +80,7 @@
                                 <a href="#createNavigation">createNavigation</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Protected</span>
                                 <a href="#getLink">getLink</a>
                             </li>
                             <li>
@@ -256,7 +256,7 @@
                     <a name="getLink"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
+                            <span class="modifier">Protected</span>
                             getLink
                         </b>
                         <a href="#getLink"><span class="icon ion-ios-link"></span></a>
@@ -273,15 +273,17 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="167"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:167</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="169"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/navigation/navigation/navigation.service.ts:169</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Gets the URL or link to a related item (category)</p>
+                    <div class="io-description"><p>Gets the URL or link to a related item (category),
+also taking into account content pages (contentPageLabelOrId)
+and product pages (productCode)</p>
 </div>
 
                     <div class="io-description">
@@ -853,16 +855,28 @@ export class NavigationService {
 
   /**
    *
-   * Gets the URL or link to a related item (category)
+   * Gets the URL or link to a related item (category),
+   * also taking into account content pages (contentPageLabelOrId)
+   * and product pages (productCode)
    */
-  private getLink(item): string | string[] {
+  protected getLink(item): string | string[] {
     if (item.url) {
       return item.url;
+    } else if (item.contentPageLabelOrId) {
+      return item.contentPageLabelOrId;
     } else if (item.categoryCode) {
       return this.semanticPathService.transform({
         cxRoute: &#x27;category&#x27;,
         params: {
           code: item.categoryCode,
+          name: item.name,
+        },
+      });
+    } else if (item.productCode) {
+      return this.semanticPathService.transform({
+        cxRoute: &#x27;product&#x27;,
+        params: {
+          code: item.productCode,
           name: item.name,
         },
       });
