@@ -70,7 +70,10 @@
             >{{ 'orderApproval.back' | cxTranslate }}</a
           >
         </div>
-        <div class="col-lg-4 col-md-12" *ngIf="orderApproval?.approvalDecisionRequired">
+        <div
+          class="col-lg-4 col-md-12"
+          *ngIf="orderApproval?.approvalDecisionRequired"
+        >
           <button
             class="btn btn-block btn-primary"
             (click)="displayDecisionForm(approvalDecisionValue.REJECT)"
@@ -78,7 +81,10 @@
             {{ 'orderApproval.showForm_REJECT' | cxTranslate }}
           </button>
         </div>
-        <div class="col-lg-4 col-md-12" *ngIf="orderApproval?.approvalDecisionRequired">
+        <div
+          class="col-lg-4 col-md-12"
+          *ngIf="orderApproval?.approvalDecisionRequired"
+        >
           <button
             class="btn btn-block btn-primary"
             (click)="displayDecisionForm(approvalDecisionValue.APPROVE)"
