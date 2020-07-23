@@ -65,11 +65,10 @@
     }
   }
 
-
   // TODO: consider having variable for value which can be overridden
   @for $view from 0 to 100 {
     @for $maxView from 1 to 5 {
-      &[last-visible-view='#{$view + $maxView + 1}'][max-views="#{$maxView}"] {
+      &[last-visible-view='#{$view + $maxView + 1}'][max-views='#{$maxView}'] {
         @for $previousView from 0 to $view + 1 {
           cx-view[position='#{$previousView}'] {
             visibility: hidden;
