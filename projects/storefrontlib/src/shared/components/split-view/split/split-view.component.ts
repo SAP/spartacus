@@ -51,15 +51,11 @@ export class SplitViewComponent implements OnDestroy {
   @Input()
   maxViews = 2;
 
-  protected subscription = new Subscription();
+  protected subscription: Subscription = this.splitService
+    .visibleViewCount()
+    .subscribe((lastVisible: number) => (this.lastVisibleView = lastVisible));
 
-  constructor(protected splitService: SplitViewService) {
-    this.subscription.add(
-      this.splitService.visibleViewCount().subscribe((lastVisible: number) => {
-        this.lastVisibleView = lastVisible;
-      })
-    );
-  }
+  constructor(protected splitService: SplitViewService) {}
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
