@@ -23,10 +23,10 @@
             <li
               (click)="click(group)"
               (keyup)="clickOnEnter($event, group)"
-              id="{{ group.id }}"
               class="cx-config-menu-item {{
                 getGroupStatus(group.id, configuration) | async
               }}"
+              [cxFocus]="{ key: group.id }"
               [class.cx-config-menu-conflict]="
                 isConflictGroupType(group.groupType)
               "

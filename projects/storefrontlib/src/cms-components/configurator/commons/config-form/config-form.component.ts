@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfigurationRouter } from '../../generic/service/config-router-data';
 import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
-import { ConfigUIFocusService } from '../service/config-ui-focus.service';
 import { ConfigFormUpdateEvent } from './config-form.event';
 
 @Component({
@@ -21,13 +20,12 @@ export class ConfigFormComponent implements OnInit {
   configuration$: Observable<Configurator.Configuration>;
   currentGroup$: Observable<Configurator.Group>;
 
-  public UiType = Configurator.UiType;
+  UiType = Configurator.UiType;
 
   constructor(
-    private configuratorCommonsService: ConfiguratorCommonsService,
-    private configuratorGroupsService: ConfiguratorGroupsService,
-    private configRouterExtractorService: ConfigRouterExtractorService,
-    private focusService: ConfigUIFocusService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorGroupsService: ConfiguratorGroupsService,
+    protected configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 
   ngOnInit(): void {
@@ -53,13 +51,22 @@ export class ConfigFormComponent implements OnInit {
         )
       );
 
-    //TODO: Unsubscribe on NGonDestroy
-    this.configuration$.subscribe(() => this.focusService.focuseElement());
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(take(1))
+      .subscribe((routingData) => {
+        //In case the 'forceReload' is set (means the page is launched from the cart),
+        //we need to initialise the cart configuration
+        if (routingData.forceReload) {
+          this.configuratorCommonsService.removeConfiguration(
+            routingData.owner
+          );
+        }
+      });
   }
 
   updateConfiguration(event: ConfigFormUpdateEvent) {
     const owner: GenericConfigurator.Owner = { key: event.productCode };
-    this.focusService.setActiveFocusedElement();
 
     this.configuratorCommonsService.updateConfiguration(
       event.productCode,
