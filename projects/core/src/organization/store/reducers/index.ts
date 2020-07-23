@@ -1,5 +1,11 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { ActionReducerMap, combineReducers } from '@ngrx/store';
+import {
+  ActionReducer,
+  ActionReducerMap,
+  combineReducers,
+  MetaReducer,
+} from '@ngrx/store';
+import { AuthActions } from '../../../auth/store/actions/index';
 import {
   B2BAddress,
   B2BApprovalProcess,
@@ -9,10 +15,10 @@ import {
   Budget,
   CostCenter,
   ListModel,
+  OrderApproval,
   OrderApprovalPermissionType,
   Permission,
   UserGroup,
-  OrderApproval,
 } from '../../../model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 import {
@@ -30,6 +36,9 @@ import {
   COST_CENTER_ENTITIES,
   COST_CENTER_FEATURE,
   COST_CENTER_LIST,
+  ORDER_APPROVAL_ENTITIES,
+  ORDER_APPROVAL_FEATURE,
+  ORDER_APPROVAL_LIST,
   OrganizationState,
   ORG_UNIT_APPROVAL_PROCESSES_ENTITIES,
   ORG_UNIT_ASSIGNED_USERS,
@@ -47,9 +56,6 @@ import {
   USER_GROUP_LIST,
   USER_GROUP_PERMISSIONS,
   USER_LIST,
-  ORDER_APPROVAL_FEATURE,
-  ORDER_APPROVAL_ENTITIES,
-  ORDER_APPROVAL_LIST,
 } from '../organization-state';
 import {
   b2bUserApproverListReducer,
@@ -64,6 +70,10 @@ import {
   costCentersListReducer,
 } from './cost-center.reducer';
 import {
+  orderApprovalsEntitiesReducer,
+  orderApprovalsListReducer,
+} from './order-approval.reducer';
+import {
   orgUnitAddressListReducer,
   orgUnitUserListReducer,
 } from './org-unit.reducer';
@@ -74,13 +84,9 @@ import {
 import {
   userGroupAvailableOrderApprovalPermissionsListReducer,
   userGroupAvailablOrgCustomersListReducer,
-  userGroupsListReducer,
   userGroupEntitiesReducer,
+  userGroupsListReducer,
 } from './user-group.reducer';
-import {
-  orderApprovalsEntitiesReducer,
-  orderApprovalsListReducer,
-} from './order-approval.reducer';
 
 export function getReducers(): ActionReducerMap<OrganizationState> {
   return {
@@ -194,3 +200,17 @@ export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers,
 };
+
+export function clearOrganizationState(
+  reducer: ActionReducer<any>
+): ActionReducer<any> {
+  return function (state, action) {
+    if (action.type === AuthActions.LOGOUT) {
+      state = undefined;
+    }
+
+    return reducer(state, action);
+  };
+}
+
+export const metaReducers: MetaReducer<any>[] = [clearOrganizationState];
