@@ -5,15 +5,8 @@ import {
   ProductSearchService,
   ProductService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import {
-  distinctUntilChanged,
-  distinctUntilKeyChanged,
-  filter,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { EMPTY, Observable } from 'rxjs';
+import { filter, map, skip, switchMap } from 'rxjs/operators';
 import {
   BrandPageVisited,
   CategoryPageVisited,
@@ -70,93 +63,85 @@ export class ProductEventBuilder {
     );
   }
 
-  // TODO:#events - fires twice when switching between categories
-  // TODO:#events - applying facets change emit twice
-  //FIXME: see https://github.com/SAP/spartacus/issues/7991
   protected buildCategoryPageVisitedEvent(): Observable<CategoryPageVisited> {
-    const pageVisitedEvent$ = this.eventService
-      .get(PageVisited)
-      .pipe(
-        filter(
-          (pageVisitedEvent) => pageVisitedEvent.semanticRoute === 'category'
-        )
-      );
-
-    const search$ = this.productSearchService.getResults().pipe(
-      filter((searchResults) => Boolean(searchResults.breadcrumbs)),
-      map((searchResults) => searchResults.breadcrumbs[0]),
-      tap((x) => console.log(`before distinct: '${x.facetValueCode}'`)),
-      distinctUntilKeyChanged('facetValueCode'),
-      tap((x) => console.log(`after distinct: '${x.facetValueCode}'`))
+    const searchResults$ = this.productSearchService.getResults().pipe(
+      // skipping the initial value, and preventing emission of the previous search state
+      skip(1)
     );
 
-    return pageVisitedEvent$.pipe(
-      switchMap((pageVisitedEvent) =>
-        search$.pipe(
-          map((breadCrumb) => ({
-            categoryCode: pageVisitedEvent.context.id,
-            categoryName: breadCrumb.facetValueName,
+    const categoryPageVisitedEvent$ = this.eventService.get(PageVisited).pipe(
+      map((pageVisitedEvent) => ({
+        isCategoryPage: pageVisitedEvent.semanticRoute === 'category',
+        categoryCode: pageVisitedEvent.context.id,
+      }))
+    );
+
+    return categoryPageVisitedEvent$.pipe(
+      switchMap((pageEvent) => {
+        if (!pageEvent.isCategoryPage) {
+          return EMPTY;
+        }
+
+        return searchResults$.pipe(
+          map((searchResults) => ({
+            categoryCode: pageEvent.categoryCode,
+            categoryName: searchResults.breadcrumbs[0].facetValueName,
           })),
           map((categoryPage) => createFrom(CategoryPageVisited, categoryPage))
-        )
-      )
+        );
+      })
     );
   }
 
-  // TODO:#events - fires twice when switching between brands
-  // TODO:#events - applying facets change emit twice
-  //FIXME: see https://github.com/SAP/spartacus/issues/7991
   protected buildBrandPageVisitedEvent(): Observable<BrandPageVisited> {
-    const pageVisitedEvent$ = this.eventService
-      .get(PageVisited)
-      .pipe(
-        filter((pageVisitedEvent) => pageVisitedEvent.semanticRoute === 'brand')
-      );
-
-    const search$ = this.productSearchService.getResults().pipe(
-      filter((searchResults) => Boolean(searchResults.breadcrumbs)),
-      map((searchResults) => searchResults.breadcrumbs[0]),
-      tap((x) => console.log(`before distinct: '${x.facetValueCode}'`)),
-      distinctUntilKeyChanged('facetValueCode'),
-      tap((x) => console.log(`after distinct: '${x.facetValueCode}'`))
+    const searchResults$ = this.productSearchService.getResults().pipe(
+      // skipping the initial value, and preventing emission of the previous search state
+      skip(1)
     );
 
-    return pageVisitedEvent$.pipe(
-      switchMap((pageVisitedEvent) =>
-        search$.pipe(
-          map((breadCrumb) => ({
-            brandCode: pageVisitedEvent.context.id,
-            brandName: breadCrumb.facetValueName,
+    const brandPageVisitedEvent$ = this.eventService.get(PageVisited).pipe(
+      map((pageVisitedEvent) => ({
+        isBrandPage: pageVisitedEvent.semanticRoute === 'brand',
+        brandCode: pageVisitedEvent.context.id,
+      }))
+    );
+
+    return brandPageVisitedEvent$.pipe(
+      switchMap((pageEvent) => {
+        if (!pageEvent.isBrandPage) {
+          return EMPTY;
+        }
+
+        return searchResults$.pipe(
+          map((searchResults) => ({
+            brandCode: pageEvent.brandCode,
+            brandName: searchResults.breadcrumbs[0].facetValueName,
           })),
           map((brandPage) => createFrom(BrandPageVisited, brandPage))
-        )
-      )
+        );
+      })
     );
   }
 
   protected searchResultPageVisited(): Observable<SearchPageVisited> {
-    const pageVisitedEvent$ = this.eventService
-      .get(PageVisited)
-      .pipe(
-        filter(
-          (pageVisitedEvent) => pageVisitedEvent.semanticRoute === 'search'
-        )
-      );
-
-    const search$ = this.productSearchService
-      .getResults()
-      .pipe(filter((searchResults) => Boolean(searchResults.breadcrumbs)));
-
-    return combineLatest([pageVisitedEvent$, search$]).pipe(
-      switchMap(() => search$),
-      distinctUntilChanged(
-        (prev, curr) => prev.currentQuery.url === curr.currentQuery.url
-      ),
+    const searchResults$ = this.productSearchService.getResults().pipe(
+      // skipping the initial value, and preventing emission of the previous search state
+      skip(1),
       map((searchResults) => ({
         searchTerm: searchResults.freeTextSearch,
         numberOfResults: searchResults.pagination.totalResults,
       })),
       map((searchPage) => createFrom(SearchPageVisited, searchPage))
+    );
+
+    const searchPageVisitedEvent$ = this.eventService
+      .get(PageVisited)
+      .pipe(
+        map((pageVisitedEvent) => pageVisitedEvent.semanticRoute === 'search')
+      );
+
+    return searchPageVisitedEvent$.pipe(
+      switchMap((isSearchPage) => (isSearchPage ? searchResults$ : EMPTY))
     );
   }
 }
