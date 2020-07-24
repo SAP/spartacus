@@ -30,10 +30,11 @@ export class BrandPageVisited {
 }
 
 /**
- * Indicates that a user visited a keyword search page. The search term and the number of results are emitted whenever
- * a keyword search has been executed.
+ * Indicates that the search results have been retrieved.
+ * The search term and the number of results are emitted
+ * whenever a search has been executed.
  */
-export class SearchPageVisited {
+export class SearchResultsRetrieved {
   searchTerm: string;
   numberOfResults: Number;
 }

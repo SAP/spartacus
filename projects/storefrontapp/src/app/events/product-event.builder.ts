@@ -11,7 +11,7 @@ import {
   BrandPageVisited,
   CategoryPageVisited,
   ProductDetailsPageVisited,
-  SearchPageVisited,
+  SearchResultsRetrieved,
 } from './product.events';
 import { PageVisited } from './routing.events';
 
@@ -29,8 +29,8 @@ export class ProductEventBuilder {
 
   protected register(): void {
     this.eventService.register(
-      SearchPageVisited,
-      this.searchResultPageVisited()
+      SearchResultsRetrieved,
+      this.buildSearchResultsRetrieved()
     );
     this.eventService.register(
       ProductDetailsPageVisited,
@@ -123,7 +123,7 @@ export class ProductEventBuilder {
     );
   }
 
-  protected searchResultPageVisited(): Observable<SearchPageVisited> {
+  protected buildSearchResultsRetrieved(): Observable<SearchResultsRetrieved> {
     const searchResults$ = this.productSearchService.getResults().pipe(
       // skipping the initial value, and preventing emission of the previous search state
       skip(1),
@@ -131,7 +131,7 @@ export class ProductEventBuilder {
         searchTerm: searchResults.freeTextSearch,
         numberOfResults: searchResults.pagination.totalResults,
       })),
-      map((searchPage) => createFrom(SearchPageVisited, searchPage))
+      map((searchPage) => createFrom(SearchResultsRetrieved, searchPage))
     );
 
     const searchPageVisitedEvent$ = this.eventService
