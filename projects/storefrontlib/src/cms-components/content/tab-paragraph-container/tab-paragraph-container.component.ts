@@ -39,7 +39,7 @@ export class TabParagraphContainerComponent
   constructor(
     componentData: CmsComponentData<CMSTabParagraphContainer>,
     cmsService: CmsService,
-    winRef: WindowRef,
+    winRef?: WindowRef,
     // tslint:disable-next-line:unified-signatures
     breakpointService?: BreakpointService
   );
@@ -49,12 +49,12 @@ export class TabParagraphContainerComponent
   constructor(
     componentData: CmsComponentData<CMSTabParagraphContainer>,
     cmsService: CmsService,
-    winRef: WindowRef
+    winRef?: WindowRef
   );
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     protected cmsService: CmsService,
-    protected winRef: WindowRef,
+    protected winRef?: WindowRef,
     protected breakpointService?: BreakpointService
   ) {}
 
@@ -88,15 +88,17 @@ export class TabParagraphContainerComponent
     )
   );
 
-  select(tabNum: number, event?: Event): void {
+  select(tabNum: number, event?: MouseEvent): void {
     this.breakpointService
-      .isDown(BREAKPOINT.sm)
+      ?.isDown(BREAKPOINT.sm)
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
           this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
-          if (event && event['path']) {
-            window.scrollTo(0, event['path'][1].offsetTop);
+          if (event && event?.target) {
+            const target = event.target as HTMLElement;
+            const parentNode = target.parentNode as HTMLElement;
+            this.winRef?.nativeWindow?.scrollTo(0, parentNode.offsetTop);
           }
         } else {
           this.activeTabNum = tabNum;
@@ -106,7 +108,7 @@ export class TabParagraphContainerComponent
 
   ngOnInit(): void {
     this.activeTabNum =
-      this.winRef.nativeWindow?.history?.state?.activeTab ?? this.activeTabNum;
+      this.winRef?.nativeWindow?.history?.state?.activeTab ?? this.activeTabNum;
   }
 
   ngAfterViewInit(): void {
