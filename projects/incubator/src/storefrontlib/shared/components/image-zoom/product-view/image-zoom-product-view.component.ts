@@ -48,7 +48,9 @@ import {
 })
 export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
   iconType = ICON_TYPE;
-  // TODO: Check if should be Image or ImageGroup
+
+  @Input() galleryIndex: number;
+
   private mainMediaContainer = new BehaviorSubject<ImageGroup>(null);
   private defaultImageReady = new BehaviorSubject<boolean>(false);
   private zoomReady = new BehaviorSubject<boolean>(false);
@@ -64,8 +66,6 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
   > = this.defaultImageReady.asObservable();
   protected zoomReady$: Observable<boolean> = this.zoomReady.asObservable();
 
-  @Input() galleryIndex: number;
-
   defaultImageClickHandler$: Observable<any[]> = this.defaultImageReady$.pipe(
     filter(Boolean),
     switchMap((_) =>
@@ -74,6 +74,19 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
       )
     )
   );
+
+  get defaultImage(): ElementRef {
+    return this._defaultImage;
+  }
+
+  @ViewChild('defaultImage', { read: ElementRef }) set defaultImage(
+    el: ElementRef
+  ) {
+    if (el) {
+      this._defaultImage = el;
+      this.defaultImageReady.next(true);
+    }
+  }
 
   zoomImageClickHandler$: Observable<any[]> = this.zoomReady$.pipe(
     filter(Boolean),
@@ -84,21 +97,8 @@ export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
     )
   );
 
-  get defaultImage(): ElementRef {
-    return this._defaultImage;
-  }
-
   get zoomImage(): ElementRef {
     return this._zoomImage;
-  }
-
-  @ViewChild('defaultImage', { read: ElementRef }) set defaultImage(
-    el: ElementRef
-  ) {
-    if (el) {
-      this._defaultImage = el;
-      this.defaultImageReady.next(true);
-    }
   }
 
   @ViewChild('zoomContainer', { read: ElementRef }) set zoomImage(
