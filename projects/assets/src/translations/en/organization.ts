@@ -558,4 +558,14 @@ export const organization = {
       },
     },
   },
+  orderApprovalList: {
+    orderCode: 'Order #',
+    POCode: 'PO #',
+    placedBy: 'Placed by',
+    date: 'Date',
+    status: 'Status',
+    total: 'Total',
+    none: 'None',
+    emptyList: 'There are no orders to approve at this time.',
+  },
 };

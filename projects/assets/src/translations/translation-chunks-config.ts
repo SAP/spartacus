@@ -119,5 +119,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'userApprovers',
     'userAssignApprovers',
     'orderApproval',
+    'orderApprovalList',
   ],
 };
