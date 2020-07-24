@@ -42,10 +42,7 @@
 
   <ng-template cxOutletRef="table.userGroupUsers.data.summary" let-model>
     <h3>{{ model.name }}</h3>
-    <small
-      >{{ model.code }} • {{ model.user }} {{ model.currency.isocode }} •
-      {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
-    </small>
+    <small>{{ model.uid }} </small>
   </ng-template>
 
   <ng-template cxOutletRef="table.userGroupUsers.data.unassign" let-model>
@@ -60,7 +57,7 @@
       [routerLink]="
         {
           cxRoute: 'userDetails',
-          params: { code: model.code }
+          params: model
         } | cxUrl
       "
     >

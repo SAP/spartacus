@@ -138,9 +138,8 @@ export const userGroupTableConfig: TableConfig = {
         breakpoint: BREAKPOINT.lg,
         headers: [
           { key: 'name', sortCode: 'byName' },
-          { key: 'code', sortCode: 'byCode' },
-          { key: 'amount', sortCode: 'byValue' },
-          { key: 'dateRange' },
+          { key: 'uid' },
+          { key: 'orgUnit', sortCode: 'byUnitName' },
         ],
       },
     ],

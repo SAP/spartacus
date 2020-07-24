@@ -3,6 +3,6 @@ export enum OrganizationTableType {
   COST_CENTER_BUDGETS = 'costCenterBudgets',
   COST_CENTER_ASSIGN_BUDGET = 'costCenterAssignBudget',
   USER_GROUP = 'userGroup',
-  USER_GROUP_USERS = 'costCenterUsers',
-  USER_GROUP_ASSIGN_USER = 'costCenterAssignUser',
+  USER_GROUP_USERS = 'userGroupUsers',
+  USER_GROUP_ASSIGN_USER = 'userGroupAssignUser',
 }

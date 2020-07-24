@@ -106,9 +106,7 @@
 
   <ng-template cxOutletRef="table.costCenterAssignBudget.data.code" let-model>
     <div>
-      <span class="text">{{ model.code }}</span>
       <a
-        class="link"
         [routerLink]="
           {
             cxRoute: 'budgetDetails',
@@ -116,6 +114,7 @@
           } | cxUrl
         "
       >
+        {{ model.code }}
         <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
       </a>
     </div>

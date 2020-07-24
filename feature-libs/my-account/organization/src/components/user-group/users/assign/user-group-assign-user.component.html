@@ -32,14 +32,14 @@
         <li>{{ 'userGroup.user.instructions.uncheck' | cxTranslate }}</li>
         <li>{{ 'userGroup.user.instructions.changes' | cxTranslate }}</li>
       </ul>
-      <button
+      <a
         class="button secondary"
         [routerLink]="
-          { cxRoute: 'userGroupUsers', params: { code: userGroupCode } } | cxUrl
+          { cxRoute: 'userGroupUsers', params: { uid: userGroupCode } } | cxUrl
         "
       >
         {{ 'userGroup.user.back' | cxTranslate }}
-      </button>
+      </a>
     </div>
   </ng-container>
 
@@ -54,19 +54,14 @@
       <input
         type="checkbox"
         [checked]="model.selected"
-        (change)="
-          toggleAssign(userGroupCode, model.code, $event.target.checked)
-        "
+        (change)="toggleAssign(userGroupCode, model.uid, $event.target.checked)"
       />
     </label>
   </ng-template>
 
   <ng-template cxOutletRef="table.userGroupAssignUser.data.summary" let-model>
     <h3>{{ model.name }}</h3>
-    <small
-      >{{ model.code }} • {{ model.user }} {{ model.currency?.symbol }} •
-      {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
-    </small>
+    <small>{{ model.uid }} </small>
   </ng-template>
 
   <ng-template cxOutletRef="table.userGroupAssignUser.data.link" let-model>
@@ -75,7 +70,7 @@
       [routerLink]="
         {
           cxRoute: 'userDetails',
-          params: { code: model.code }
+          params: model
         } | cxUrl
       "
     >
@@ -88,38 +83,35 @@
       <input
         type="checkbox"
         [checked]="model.selected"
-        (change)="
-          toggleAssign(userGroupCode, model.code, $event.target.checked)
-        "
+        (change)="toggleAssign(userGroupCode, model.uid, $event.target.checked)"
       />
       <span class="text">{{ model.name }}</span>
     </label>
   </ng-template>
 
-  <ng-template cxOutletRef="table.userGroupAssignUser.data.code" let-model>
+  <ng-template cxOutletRef="table.userGroupAssignUser.data.uid" let-model>
     <div>
-      <span class="text">{{ model.code }}</span>
       <a
-        class="link"
         [routerLink]="
           {
             cxRoute: 'userDetails',
-            params: { code: model.code }
+            params: model
           } | cxUrl
         "
-      >
+        >{{ model.uid }}
         <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
       </a>
     </div>
   </ng-template>
 
-  <ng-template cxOutletRef="table.userGroupAssignUser.data.amount" let-model>
-    <span class="text">{{ model.user }} {{ model.currency?.isocode }}</span>
-  </ng-template>
-
-  <ng-template cxOutletRef="table.userGroupAssignUser.data.dateRange" let-model>
-    <span class="text"
-      >{{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}</span
+  <ng-template cxOutletRef="table.userGroupAssignUser.data.orgUnit" let-model>
+    <a
+      [routerLink]="
+        { cxRoute: 'orgUnitDetails', params: model.orgUnit } | cxUrl
+      "
     >
+      {{ model.orgUnit?.name }}
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
   </ng-template>
 </cx-view>
