@@ -1,0 +1,125 @@
+<cx-view #view *ngIf="code$ | async as userGroupCode">
+  <h3>
+    <a
+      class="link"
+      [routerLink]="
+        { cxRoute: 'userGroupUsers', params: { uid: userGroupCode } } | cxUrl
+      "
+      (click)="view.toggle()"
+    >
+      <cx-icon type="CARET_LEFT"></cx-icon>
+      {{ 'organization.back' | cxTranslate }}
+    </a>
+    <span>{{ 'userGroup.user.assign' | cxTranslate }}</span>
+  </h3>
+
+  <ng-container *ngIf="dataTable$ | async as dataTable; else emptyList">
+    <section>
+      <cx-table
+        [dataset]="dataTable"
+        (sortEvent)="sort(dataTable.pagination, $event)"
+      >
+      </cx-table>
+      <cx-pagination
+        *ngIf="dataTable.pagination"
+        [pagination]="dataTable.pagination"
+        (viewPageEvent)="viewPage(dataTable.pagination, $event)"
+      ></cx-pagination>
+    </section>
+    <div class="instructions">
+      <ul>
+        <li>{{ 'userGroup.user.instructions.check' | cxTranslate }}</li>
+        <li>{{ 'userGroup.user.instructions.uncheck' | cxTranslate }}</li>
+        <li>{{ 'userGroup.user.instructions.changes' | cxTranslate }}</li>
+      </ul>
+      <button
+        class="button secondary"
+        [routerLink]="
+          { cxRoute: 'userGroupUsers', params: { code: userGroupCode } } | cxUrl
+        "
+      >
+        {{ 'userGroup.user.back' | cxTranslate }}
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyList>
+    <p class="instruction is-empty">
+      {{ 'organization.messages.emptyList' | cxTranslate }}
+    </p>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.userGroupAssignUser.data.selected" let-model>
+    <label>
+      <input
+        type="checkbox"
+        [checked]="model.selected"
+        (change)="
+          toggleAssign(userGroupCode, model.code, $event.target.checked)
+        "
+      />
+    </label>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.userGroupAssignUser.data.summary" let-model>
+    <h3>{{ model.name }}</h3>
+    <small
+      >{{ model.code }} • {{ model.user }} {{ model.currency?.symbol }} •
+      {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
+    </small>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.userGroupAssignUser.data.link" let-model>
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'userDetails',
+          params: { code: model.code }
+        } | cxUrl
+      "
+    >
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.userGroupAssignUser.data.name" let-model>
+    <label>
+      <input
+        type="checkbox"
+        [checked]="model.selected"
+        (change)="
+          toggleAssign(userGroupCode, model.code, $event.target.checked)
+        "
+      />
+      <span class="text">{{ model.name }}</span>
+    </label>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.userGroupAssignUser.data.code" let-model>
+    <div>
+      <span class="text">{{ model.code }}</span>
+      <a
+        class="link"
+        [routerLink]="
+          {
+            cxRoute: 'userDetails',
+            params: { code: model.code }
+          } | cxUrl
+        "
+      >
+        <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+      </a>
+    </div>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.userGroupAssignUser.data.amount" let-model>
+    <span class="text">{{ model.user }} {{ model.currency?.isocode }}</span>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.userGroupAssignUser.data.dateRange" let-model>
+    <span class="text"
+      >{{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}</span
+    >
+  </ng-template>
+</cx-view>

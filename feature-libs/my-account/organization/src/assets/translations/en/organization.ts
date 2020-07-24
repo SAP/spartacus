@@ -1,4 +1,5 @@
 import { costCenter, costCenterAssignBudget } from './cost-center.i18n';
+import { userGroup, userGroupAssignUser } from './user-group.i18n';
 
 /**
  * The organization i18n labels provide generic labels for all organization sub features.
@@ -38,4 +39,6 @@ export const organization = {
   breadcrumbs,
   costCenter,
   costCenterAssignBudget,
+  userGroup,
+  userGroupAssignUser,
 };

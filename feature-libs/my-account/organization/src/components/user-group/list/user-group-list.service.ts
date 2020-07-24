@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CostCenter, CostCenterService, EntitiesModel } from '@spartacus/core';
+import { UserGroup, UserGroupService, EntitiesModel } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,12 +10,10 @@ import { OrganizationTableType } from '../../shared/organization.model';
  * The UI model for the cost center, which is a slightly flattened version
  * of the core cost center model.
  */
-export interface CostCenterModel {
-  code?: string;
+export interface UserGroupModel {
+  uid?: string;
   name?: string;
-  unit?: any;
-  currency?: string;
-  active?: boolean;
+  orgUnit?: any;
 }
 
 /**
@@ -25,14 +23,14 @@ export interface CostCenterModel {
 @Injectable({
   providedIn: 'root',
 })
-export class CostCenterListService extends BaseOrganizationListService<
-  CostCenterModel
+export class UserGroupListService extends BaseOrganizationListService<
+  UserGroupModel
 > {
-  protected tableType = OrganizationTableType.COST_CENTER;
+  protected tableType = OrganizationTableType.USER_GROUP;
 
   constructor(
     protected tableService: TableService,
-    protected costCenterService: CostCenterService
+    protected userGroupService: UserGroupService
   ) {
     super(tableService);
   }
@@ -40,30 +38,29 @@ export class CostCenterListService extends BaseOrganizationListService<
   protected load(
     structure: TableStructure,
     _params?
-  ): Observable<EntitiesModel<CostCenterModel>> {
+  ): Observable<EntitiesModel<UserGroupModel>> {
     const paginationConfig = structure.pagination;
-    return this.costCenterService
+    return this.userGroupService
       .getList(paginationConfig)
-      .pipe(map((raw) => this.convertCostCenters(raw)));
+      .pipe(map((raw) => this.convertUserGroups(raw)));
   }
 
   /**
    * Populates the cost center data to a convenient table data model, so that we
    * can skip specific conversion in the view logic where possible.
    */
-  protected convertCostCenters({
+  protected convertUserGroups({
     pagination,
     sorts,
     values,
-  }: EntitiesModel<CostCenter>): EntitiesModel<CostCenterModel> {
-    const costCenterModels: EntitiesModel<CostCenterModel> = {
+  }: EntitiesModel<UserGroup>): EntitiesModel<UserGroupModel> {
+    const userGroupModels: EntitiesModel<UserGroupModel> = {
       pagination,
       sorts,
       values: values.map((value: any) => ({
         ...value,
-        currency: value.currency?.isocode,
       })),
     };
-    return costCenterModels;
+    return userGroupModels;
   }
 }
