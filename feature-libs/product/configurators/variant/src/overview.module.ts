@@ -81,6 +81,7 @@ import {
           md: {
             slots: [
               'VariantConfigOverviewHeader',
+              'VariantConfigOverviewBanner',
               'VariantConfigOverviewContent',
               'VariantConfigOverviewBottombar',
             ],
@@ -88,6 +89,7 @@ import {
           xs: {
             slots: [
               'VariantConfigOverviewHeader',
+              'VariantConfigOverviewBanner',
               'VariantConfigOverviewContent',
               'VariantConfigOverviewBottombar',
             ],
