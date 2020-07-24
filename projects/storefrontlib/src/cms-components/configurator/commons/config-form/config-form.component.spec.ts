@@ -307,11 +307,4 @@ describe('ConfigurationFormComponent', () => {
 
     expect(configurationCommonsService.updateConfiguration).toHaveBeenCalled();
   });
-
-  it('should return true for conflict group', () => {
-    const conflictGroup = { groupType: Configurator.GroupType.CONFLICT_GROUP };
-    expect(component.displayConflictDescription(conflictGroup)).toBe(true);
-    const group = { groupType: Configurator.GroupType.ATTRIBUTE_GROUP };
-    expect(component.displayConflictDescription(group)).toBe(false);
-  });
 });

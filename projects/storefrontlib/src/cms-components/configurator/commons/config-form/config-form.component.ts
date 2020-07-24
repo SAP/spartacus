@@ -101,8 +101,4 @@ export class ConfigFormComponent implements OnInit {
           )
       );
   }
-
-  displayConflictDescription(group: Configurator.Group): boolean {
-    return group.groupType === Configurator.GroupType.CONFLICT_GROUP;
-  }
 }
