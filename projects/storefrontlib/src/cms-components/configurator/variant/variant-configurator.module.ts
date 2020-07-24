@@ -26,6 +26,7 @@ import { ConfigAttributeNumericInputFieldComponent } from '../commons/config-att
 import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigAttributeReadOnlyComponent } from '../commons/config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigAttributeSingleSelectionImageComponent } from '../commons/config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
+import { ConfigConflictSuggestionComponent } from '../commons/config-conflict-suggestion/config-conflict-suggestion.component';
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
 import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
 import { ConfigGroupTitleComponent } from '../commons/config-group-title/config-group-title.component';
@@ -74,6 +75,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
     ConfigMessageComponent,
+    ConfigConflictSuggestionComponent,
   ],
   exports: [
     ConfigFormComponent,
@@ -92,7 +94,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigGroupMenuComponent,
     ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
-
+    ConfigConflictSuggestionComponent,
     ConfigMessageComponent,
   ],
   providers: [UserService, { provide: MessageConfig, useExisting: Config }],
@@ -114,6 +116,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
     ConfigMessageComponent,
+    ConfigConflictSuggestionComponent,
   ],
 })
 export class VariantConfiguratorModule {}

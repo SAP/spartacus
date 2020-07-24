@@ -105,11 +105,4 @@ export class ConfigFormComponent implements OnInit {
   displayConflictDescription(group: Configurator.Group): boolean {
     return group.groupType === Configurator.GroupType.CONFLICT_GROUP;
   }
-
-  displayConflictSuggestion(group: Configurator.Group): boolean {
-    return (
-      group.groupType === Configurator.GroupType.CONFLICT_GROUP &&
-      group.attributes?.length > 1
-    );
-  }
 }

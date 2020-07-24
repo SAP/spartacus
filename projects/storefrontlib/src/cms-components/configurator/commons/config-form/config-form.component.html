@@ -23,22 +23,11 @@
           let indexOfAttribute = index
         "
       >
-        <div
-          *ngIf="displayConflictSuggestion(currentGroup)"
-          class="cx-config-conflict-suggestion"
-          tabindex="0"
-        >
-          <div class="bold">
-            {{
-              'configurator.conflict.suggestionTitle'
-                | cxTranslate: { number: indexOfAttribute + 1 }
-            }}
-          </div>
-          {{
-            'configurator.conflict.suggestionText'
-              | cxTranslate: { attribute: attribute.label }
-          }}
-        </div>
+        <cx-config-conflict-suggestion
+          [currentGroup]="currentGroup"
+          [attribute]="attribute"
+          [suggestionNumber]="indexOfAttribute"
+        ></cx-config-conflict-suggestion>
         <div class="cx-config-attribute-header">
           <cx-config-attribute-header
             [attribute]="attribute"
