@@ -38,7 +38,7 @@
       <tbody>
         <tr
           *ngFor="let approval of orderApprovals.values"
-          (click)="goToApprovalDetails(approval)"
+          (click)="goToApprovalDetails($event, approval)"
         >
           <td class="cx-order-approval-code">
             <div class="d-md-none cx-order-approval-label">

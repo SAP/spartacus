@@ -66,11 +66,12 @@ export class OrderApprovalListComponent {
     this.orderApprovals$ = this.orderApprovalService.getList(searchConfig);
   }
 
-  goToApprovalDetails(orderApproval: OrderApproval): void {
-    console.log('goToApprovalDetail clicked', orderApproval.code);
-    this.routing.go({
-      cxRoute: 'orderApprovalDetails',
-      params: { approvalCode: orderApproval.code },
-    });
+  goToApprovalDetails(event, orderApproval: OrderApproval): void {
+    if (event?.target?.nodeName.toLowerCase() !== 'a') {
+      this.routing.go({
+        cxRoute: 'orderApprovalDetails',
+        params: { approvalCode: orderApproval.code },
+      });
+    }
   }
 }
