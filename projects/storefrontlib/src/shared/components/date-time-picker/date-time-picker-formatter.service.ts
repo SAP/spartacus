@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 /**
  * Service responsible for converting date-like strings to/from formats compatible with the `<input type="datetime-local">`
- * HTML element and the `Date` string compatible with the OCC backend.
+ * HTML element and valid strings compatible with the `Date` object.
  *
  * Date values used are relative to the local timezone of the user.
  */
@@ -27,14 +27,14 @@ export class DateTimePickerFormatterService {
   }
 
   /**
-   * Convert datetime-local native string into a datetime format format compatable with OCC.
+   * Convert datetime-local native string into a valid datetime string.
    * @param value: datetime-local string to convert
    *
    * @example
    * With UTC-0 locale offset, `toModel('2010-01-01T00:00')` returns `'2010-01-01T00:00:00+00:00'`.
    */
   toModel(value: string): string {
-    return value ? this.toDateTimeOccFormat(value) : null;
+    return value ? `${value}:00${this.getLocalTimezoneOffset()}` : null;
   }
 
   /**
@@ -51,24 +51,8 @@ export class DateTimePickerFormatterService {
       .toString()
       .padStart(2, '0');
     const minutes = (offset % 60).toString().padStart(2, '0');
-    return offset >= 0
-      ? !invert
-        ? `+${hours}:${minutes}`
-        : `-${hours}:${minutes}`
-      : !invert
-      ? `-${hours}:${minutes}`
-      : `+${hours}:${minutes}`;
-  }
-
-  /**
-   * Format datetime-local string into a format compatable with OCC.
-   * @param value: datetime-local string to convert
-   *
-   * @example
-   * With UTC-0 locale offset, `toDateTimeOccFormat('2010-01-01T00:00')` returns `'2010-01-01T00:00:00+00:00'`.
-   */
-  protected toDateTimeOccFormat(value: string) {
-    return `${value}:00${this.getLocalTimezoneOffset()}`;
+    const sign = offset >= 0 ? (invert ? `-` : `+`) : invert ? `+` : `-`;
+    return `${sign}${hours}:${minutes}`;
   }
 
   /**
