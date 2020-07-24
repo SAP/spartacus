@@ -112,7 +112,7 @@ class MockRoutingService {
   go = createSpy('go').and.stub();
 }
 
-fdescribe('OrderApprovalListComponent', () => {
+describe('OrderApprovalListComponent', () => {
   let component: OrderApprovalListComponent;
   let fixture: ComponentFixture<OrderApprovalListComponent>;
   let orderApprovalService: OrderApprovalService | MockOrderApprovalService;
@@ -163,7 +163,6 @@ fdescribe('OrderApprovalListComponent', () => {
 
   it('should display no approvals found message when there are no approvals', () => {
     const emptyOrderList: EntitiesModel<OrderApproval> = {
-      ...mockOrderApprovals,
       pagination: { ...mockOrderApprovals.pagination, totalResults: 0 },
       values: [],
     };
@@ -218,7 +217,7 @@ fdescribe('OrderApprovalListComponent', () => {
 
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orderApprovalDetails',
-      params: mockOrderApprovals.values[0].code,
+      params: { approvalCode: mockOrderApprovals.values[0].code },
     });
   });
 });
