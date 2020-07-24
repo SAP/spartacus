@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { pluck, switchMap, take } from 'rxjs/operators';
+import { CurrentCostCenterService } from '../../current-cost-center-code';
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
 
 @Component({
@@ -10,16 +10,14 @@ import { CostCenterBudgetListService } from './cost-center-budget-list.service';
   templateUrl: './cost-center-budget-list.component.html',
 })
 export class CostCenterBudgetListComponent {
-  code$: Observable<string> = this.route.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
+  code$ = this.currentCostCenterService$.get().pipe(pluck('code'));
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.costCenterBudgetListService.getTable(code))
   );
 
   constructor(
-    protected route: ActivatedRoute,
+    protected currentCostCenterService$: CurrentCostCenterService,
     protected costCenterBudgetListService: CostCenterBudgetListService
   ) {}
 
