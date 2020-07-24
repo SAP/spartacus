@@ -12,11 +12,6 @@ export class HomePageVisited {}
 export class CartPageVisited {}
 
 /**
- * Indicates that a user visited an order confirmation page.
- */
-export class OrderConfirmationPageVisited {}
-
-/**
  * Indicates either that a user visited an arbitrary page of a web presence or that the page type was unknown.
  */
 export class PageVisited {

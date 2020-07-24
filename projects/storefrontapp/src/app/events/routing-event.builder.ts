@@ -12,7 +12,6 @@ import { filter, map } from 'rxjs/operators';
 import {
   CartPageVisited,
   HomePageVisited,
-  OrderConfirmationPageVisited,
   PageVisited,
 } from './routing.events';
 
@@ -34,10 +33,6 @@ export class RoutingEventBuilder {
       this.buildHomePageVisitedEvent()
     );
     this.eventService.register(CartPageVisited, this.buildCartVisitedEvent());
-    this.eventService.register(
-      OrderConfirmationPageVisited,
-      this.orderConfirmationPageVisitedEvent()
-    );
   }
 
   protected buildPageVisitedEvent(): Observable<PageVisited> {
@@ -58,20 +53,6 @@ export class RoutingEventBuilder {
     return this.buildPageVisitedEvent().pipe(
       filter((pageVisitedEvent) => pageVisitedEvent.semanticRoute === 'cart'),
       map((pageVisitedEvent) => createFrom(CartPageVisited, pageVisitedEvent))
-    );
-  }
-
-  protected orderConfirmationPageVisitedEvent(): Observable<
-    OrderConfirmationPageVisited
-  > {
-    return this.buildPageVisitedEvent().pipe(
-      filter(
-        (pageVisitedEvent) =>
-          pageVisitedEvent.semanticRoute === 'orderConfirmation'
-      ),
-      map((pageVisitedEvent) =>
-        createFrom(OrderConfirmationPageVisited, pageVisitedEvent)
-      )
     );
   }
 

@@ -18,8 +18,9 @@ import { b2cFeature } from '../environments/b2c/b2c.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+import { CheckoutEventModule } from './events/checkout-event.module';
+import { OrderPlaced } from './events/checkout.events';
 import { ProductEventModule } from './events/product-event.module';
-import { BrandPageVisited } from './events/product.events';
 import { RoutingEventModule } from './events/routing-event.module';
 
 registerLocaleData(localeDe);
@@ -54,6 +55,7 @@ if (environment.b2b) {
 
     RoutingEventModule,
     ProductEventModule,
+    CheckoutEventModule,
 
     ...devImports,
   ],
@@ -65,15 +67,16 @@ export class AppModule {
     // events.get(PageVisited).subscribe((x) => console.log('sub: ', x));
     // events.get(HomePageVisited).subscribe((x) => console.log('home: ', x));
     // events.get(CartPageVisited).subscribe((x) => console.log('cart: ', x));
-    // events
-    //   .get(OrderConfirmationPageVisited)
-    //   .subscribe((x) => console.log('order confirm: ', x));
 
     // events
     //   .get(ProductDetailsPageVisited)
     //   .subscribe((x) => console.log('pdp: ', x));
     // events.get(CategoryPageVisited).subscribe((x) => console.log('cat: ', x));
-    events.get(BrandPageVisited).subscribe((x) => console.log('brand: ', x));
-    // events.get(SearchPageVisited).subscribe((x) => console.log('search: ', x));
+    // events.get(BrandPageVisited).subscribe((x) => console.log('brand: ', x));
+    // events
+    //   .get(SearchResultsRetrieved)
+    //   .subscribe((x) => console.log('search: ', x));
+
+    events.get(OrderPlaced).subscribe((x) => console.log('order: ', x));
   }
 }
