@@ -5,7 +5,6 @@ import {
   AuthGuard,
   CmsConfig,
   ConfigModule,
-  CxDatePipe,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
@@ -30,7 +29,6 @@ import { OrderApprovalListComponent } from './order-approval-list.component';
   ],
   declarations: [OrderApprovalListComponent],
   exports: [OrderApprovalListComponent],
-  providers: [CxDatePipe],
   entryComponents: [OrderApprovalListComponent],
 })
 export class OrderApprovalListModule {}

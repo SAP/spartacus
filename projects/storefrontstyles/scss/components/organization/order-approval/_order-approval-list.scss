@@ -65,46 +65,18 @@
     }
   }
 
-  .cx-order-approval-po-code {
-    text-align: center;
-
-    @include media-breakpoint-down(sm) {
-      text-align: left;
-    }
-  }
-
   .cx-order-approval-code {
     .cx-order-approval-value {
       text-decoration: underline;
     }
   }
 
+  .cx-order-approval-po-code,
+  .cx-order-approval-date,
+  .cx-order-approval-status,
+  .cx-order-approval-total,
   .cx-order-approval-placed {
     text-align: center;
-
-    @include media-breakpoint-down(sm) {
-      text-align: left;
-    }
-  }
-
-  .cx-order-approval-date {
-    text-align: center;
-
-    @include media-breakpoint-down(sm) {
-      text-align: left;
-    }
-  }
-
-  .cx-order-approval-status {
-    text-align: center;
-
-    @include media-breakpoint-down(sm) {
-      text-align: left;
-    }
-  }
-
-  .cx-order-approval-total {
-    text-align: right;
 
     @include media-breakpoint-down(sm) {
       text-align: left;
