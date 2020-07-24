@@ -18,7 +18,7 @@
     "
     role="checkbox"
     [attr.aria-checked]="attributeCheckBoxForms[i].value"
-    [cxFocus]="{ key: value.name }"
+    [cxFocus]="{ key: attribute.name + '-' + value.name }"
     tabindex="0"
   >
     <input
