@@ -84,7 +84,7 @@ describe('DateTimePickerFormatter Service', () => {
   });
 
   describe('toModel', () => {
-    it('should return undefined if value is empty', () => {
+    it('should return null if value is empty', () => {
       expect(service.toModel(undefined)).toEqual(null);
       expect(service.toModel(null)).toEqual(null);
       expect(service.toModel('')).toEqual(null);
