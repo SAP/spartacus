@@ -228,10 +228,25 @@ describe('CartItemComponent', () => {
       );
     });
 
-    it('should display resolve errors message if number of issues is greater than 0', () => {
+    it('should not display resolve errors message if number of issues is greater than 0 and readOnly is true', () => {
       cartItemComponent.item.statusSummaryList = [
         { numberOfIssues: 1, status: 'ERROR' },
       ];
+      cartItemComponent.readonly = true;
+      fixture.detectChanges();
+      const htmlElem = fixture.nativeElement;
+      expect(htmlElem.querySelectorAll('.cx-error-container').length).toBe(
+        0,
+        "expected resolve errors message identified by selector '.cx-error-container' not to be present, but it is! innerHtml: " +
+          htmlElem.innerHTML
+      );
+    });
+
+    it('should display resolve errors message if number of issues is greater than 0 and read only is false', () => {
+      cartItemComponent.item.statusSummaryList = [
+        { numberOfIssues: 1, status: 'ERROR' },
+      ];
+      cartItemComponent.readonly = false;
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
       expect(

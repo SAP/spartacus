@@ -14,6 +14,7 @@ import { ModalService } from '../../../../shared/components/modal/modal.service'
 export class ConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
   @Input() readOnly: boolean;
+  @Input() msgBanner: boolean;
 
   public getOwnerType(): GenericConfigurator.OwnerType {
     return this.cartEntry.orderCode !== undefined
@@ -41,11 +42,19 @@ export class ConfigureCartEntryComponent {
     return this.readOnly;
   }
 
+  getReason(): string {
+    if (this.readOnly) {
+      return 'Display Configuration';
+    } else {
+      if (this.msgBanner) {
+        return 'Resolve Issues';
+      }
+      return 'Edit Configuration';
+    }
+  }
+
   closeActiveModal(): void {
-    const reason: string = this.getDisplayOnly()
-      ? 'Display Configuration'
-      : 'Edit Configuration';
-    this.modalService.closeActiveModal(reason);
+    this.modalService.closeActiveModal(this.getReason());
   }
 
   constructor(
