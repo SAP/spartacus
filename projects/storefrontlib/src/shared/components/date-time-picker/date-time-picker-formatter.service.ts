@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 /**
- * Service responsible for converting date-link strings to/from formats compatible with the `<input type="datetime-local">`
+ * Service responsible for converting date-like strings to/from formats compatible with the `<input type="datetime-local">`
  * HTML element and the `Date` string compatible with the OCC backend.
  *
  * Date values used are relative to the local timezone of the user.
