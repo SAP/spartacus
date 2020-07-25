@@ -34,7 +34,7 @@ export const costCenterRoutingConfig: RoutingConfig = {
       costCenterBudgets: {
         paths: ['organization/cost-centers/:code/budgets'],
       },
-      costCenterAssignBudget: {
+      costCenterAssignBudgets: {
         paths: ['organization/cost-centers/:code/budgets/assign'],
       },
     },

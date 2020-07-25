@@ -10,7 +10,7 @@
       <cx-icon type="CARET_LEFT"></cx-icon>
       {{ 'organization.back' | cxTranslate }}
     </a>
-    <span>{{ 'userGroup.user.header' | cxTranslate }}</span>
+    <span>{{ 'userGroup.permission.header' | cxTranslate }}</span>
   </h3>
 
   <div class="actions">
@@ -18,12 +18,12 @@
       class="link"
       [routerLink]="
         {
-          cxRoute: 'userGroupAssignUsers',
+          cxRoute: 'userGroupAssignPermissions',
           params: { uid: userGroupCode }
         } | cxUrl
       "
     >
-      {{ 'userGroup.user.assign' | cxTranslate }}
+      {{ 'userGroup.permission.assign' | cxTranslate }}
     </a>
   </div>
   <section>
@@ -40,18 +40,24 @@
     </p>
   </ng-template>
 
-  <ng-template cxOutletRef="table.userGroupUsers.data.summary" let-model>
-    <h3>{{ model.name }}</h3>
-    <small>{{ model.uid }} </small>
+  <ng-template cxOutletRef="table.userGroupPermissions.data.summary" let-model>
+    <h3>{{ model.code }}</h3>
+    <small *ngIf="model.threshold; else type"
+      >{{ model.threshold }} {{ model.currency?.symbol }}
+      {{ 'userGroup.permission.per.' + model.periodRange | cxTranslate }}
+    </small>
+    <ng-template #type>
+      <small>{{ model.orderApprovalPermissionType.name }}</small>
+    </ng-template>
   </ng-template>
 
-  <ng-template cxOutletRef="table.userGroupUsers.data.unassign" let-model>
+  <ng-template cxOutletRef="table.userGroupPermissions.data.unassign" let-model>
     <button class="button" (click)="unassign(model)">
       <cx-icon type="CLOSE"></cx-icon>
     </button>
   </ng-template>
 
-  <ng-template cxOutletRef="table.userGroupUsers.data.link" let-model>
+  <ng-template cxOutletRef="table.userGroupPermissions.data.link" let-model>
     <a
       class="link"
       [routerLink]="

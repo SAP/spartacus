@@ -67,6 +67,19 @@
           </a>
         </h4>
       </div>
+      <div class="child-link" routerLinkActive="active">
+        <h4>
+          <a
+            class="link"
+            [routerLink]="
+              { cxRoute: 'userGroupPermissions', params: userGroup } | cxUrl
+            "
+          >
+            {{ 'userGroup.permission.header' | cxTranslate }}
+            <cx-icon type="CARET_RIGHT"></cx-icon>
+          </a>
+        </h4>
+      </div>
     </section>
   </ng-container>
 </cx-view>

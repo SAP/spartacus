@@ -10,8 +10,9 @@ export const organizationTranslationChunksConfig: TranslationChunksConfig = {
   organization: [
     'breadcrumbs',
     'costCenter',
-    'costCenterAssignBudget',
+    'costCenterAssignBudgets',
     'userGroup',
-    'userGroupAssignUser',
+    'userGroupAssignUsers',
+    'userGroupAssignPermissions',
   ],
 };

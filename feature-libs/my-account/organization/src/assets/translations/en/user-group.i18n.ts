@@ -23,9 +23,33 @@ export const userGroup = {
       changes: 'Changes are saved automatically.',
     },
   },
+
+  permission: {
+    header: 'Purchase limits',
+    assign: 'Assign purchase limits',
+    back: 'Back',
+    instructions: {
+      check:
+        'To assign a purchase limits to this user group, select its check box.',
+      uncheck: 'To unassign a purchase limits, clear its check box.',
+      changes: 'Changes are saved automatically.',
+    },
+    per: {
+      undefined: '',
+      MONTH: 'per Month',
+      YEAR: 'per Year',
+      WEEK: 'per Week',
+    },
+  },
 };
 
-export const userGroupAssignUser = {
+export const userGroupAssignUsers = {
   name: 'Name',
+  uid: 'Email',
+  orgUnit: 'Unit',
+};
+
+export const userGroupAssignPermissions = {
   code: 'Code',
+  orgUnit: 'Unit',
 };

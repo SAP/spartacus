@@ -52,7 +52,7 @@
   </ng-template>
 
   <ng-template
-    cxOutletRef="table.costCenterAssignBudget.data.selected"
+    cxOutletRef="table.costCenterAssignBudgets.data.selected"
     let-model
   >
     <label>
@@ -67,7 +67,7 @@
   </ng-template>
 
   <ng-template
-    cxOutletRef="table.costCenterAssignBudget.data.summary"
+    cxOutletRef="table.costCenterAssignBudgets.data.summary"
     let-model
   >
     <h3>{{ model.name }}</h3>
@@ -77,7 +77,7 @@
     </small>
   </ng-template>
 
-  <ng-template cxOutletRef="table.costCenterAssignBudget.data.link" let-model>
+  <ng-template cxOutletRef="table.costCenterAssignBudgets.data.link" let-model>
     <a
       class="link"
       [routerLink]="
@@ -91,7 +91,7 @@
     </a>
   </ng-template>
 
-  <ng-template cxOutletRef="table.costCenterAssignBudget.data.name" let-model>
+  <ng-template cxOutletRef="table.costCenterAssignBudgets.data.name" let-model>
     <label>
       <input
         type="checkbox"
@@ -104,7 +104,7 @@
     </label>
   </ng-template>
 
-  <ng-template cxOutletRef="table.costCenterAssignBudget.data.code" let-model>
+  <ng-template cxOutletRef="table.costCenterAssignBudgets.data.code" let-model>
     <div>
       <a
         [routerLink]="
@@ -120,12 +120,15 @@
     </div>
   </ng-template>
 
-  <ng-template cxOutletRef="table.costCenterAssignBudget.data.amount" let-model>
+  <ng-template
+    cxOutletRef="table.costCenterAssignBudgets.data.amount"
+    let-model
+  >
     <span class="text">{{ model.budget }} {{ model.currency?.isocode }}</span>
   </ng-template>
 
   <ng-template
-    cxOutletRef="table.costCenterAssignBudget.data.dateRange"
+    cxOutletRef="table.costCenterAssignBudgets.data.dateRange"
     let-model
   >
     <span class="text"

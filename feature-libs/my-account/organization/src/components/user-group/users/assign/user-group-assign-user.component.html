@@ -49,7 +49,7 @@
     </p>
   </ng-template>
 
-  <ng-template cxOutletRef="table.userGroupAssignUser.data.selected" let-model>
+  <ng-template cxOutletRef="table.userGroupAssignUsers.data.selected" let-model>
     <label>
       <input
         type="checkbox"
@@ -59,12 +59,12 @@
     </label>
   </ng-template>
 
-  <ng-template cxOutletRef="table.userGroupAssignUser.data.summary" let-model>
+  <ng-template cxOutletRef="table.userGroupAssignUsers.data.summary" let-model>
     <h3>{{ model.name }}</h3>
     <small>{{ model.uid }} </small>
   </ng-template>
 
-  <ng-template cxOutletRef="table.userGroupAssignUser.data.link" let-model>
+  <ng-template cxOutletRef="table.userGroupAssignUsers.data.link" let-model>
     <a
       class="link"
       [routerLink]="
@@ -78,7 +78,7 @@
     </a>
   </ng-template>
 
-  <ng-template cxOutletRef="table.userGroupAssignUser.data.name" let-model>
+  <ng-template cxOutletRef="table.userGroupAssignUsers.data.name" let-model>
     <label>
       <input
         type="checkbox"
@@ -89,7 +89,7 @@
     </label>
   </ng-template>
 
-  <ng-template cxOutletRef="table.userGroupAssignUser.data.uid" let-model>
+  <ng-template cxOutletRef="table.userGroupAssignUsers.data.uid" let-model>
     <div>
       <a
         [routerLink]="
@@ -104,7 +104,7 @@
     </div>
   </ng-template>
 
-  <ng-template cxOutletRef="table.userGroupAssignUser.data.orgUnit" let-model>
+  <ng-template cxOutletRef="table.userGroupAssignUsers.data.orgUnit" let-model>
     <a
       [routerLink]="
         { cxRoute: 'orgUnitDetails', params: model.orgUnit } | cxUrl

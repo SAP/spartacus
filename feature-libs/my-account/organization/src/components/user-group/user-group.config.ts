@@ -11,6 +11,8 @@ import { UserGroupDetailsComponent } from './details/user-group-details.componen
 import { UserGroupEditComponent } from './edit/user-group-edit.component';
 import { UserGroupListComponent } from './list/user-group-list.component';
 import { UserGroupUserListComponent } from './users/list/user-group-user-list.component';
+import { UserGroupPermissionListComponent } from './permissions/list/user-group-permission-list.component';
+import { UserGroupAssignPermissionsComponent } from './permissions/assign/user-group-assign-permission.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -37,8 +39,16 @@ export const userGroupRoutingConfig: RoutingConfig = {
         paths: ['organization/user-groups/:code/users'],
         paramsMapping: { code: 'uid' },
       },
-      userGroupAssignUser: {
+      userGroupAssignUsers: {
         paths: ['organization/user-groups/:code/users/assign'],
+        paramsMapping: { code: 'uid' },
+      },
+      userGroupPermissions: {
+        paths: ['organization/user-groups/:code/purchase-limits'],
+        paramsMapping: { code: 'uid' },
+      },
+      userGroupAssignPermissions: {
+        paths: ['organization/user-groups/:code/purchase-limits/assign'],
         paramsMapping: { code: 'uid' },
       },
     },
@@ -73,6 +83,18 @@ export const userGroupCmsConfig: CmsConfig = {
                 {
                   path: 'assign',
                   component: UserGroupAssignUsersComponent,
+                  canDeactivate: [SplitViewDeactivateGuard],
+                },
+              ],
+            },
+            {
+              path: 'purchase-limits',
+              component: UserGroupPermissionListComponent,
+              canDeactivate: [SplitViewDeactivateGuard],
+              children: [
+                {
+                  path: 'assign',
+                  component: UserGroupAssignPermissionsComponent,
                   canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
@@ -139,6 +161,37 @@ export const userGroupTableConfig: TableConfig = {
         headers: [
           { key: 'name', sortCode: 'byName' },
           { key: 'uid' },
+          { key: 'orgUnit', sortCode: 'byUnitName' },
+        ],
+      },
+    ],
+    [OrganizationTableType.USER_GROUP_PERMISSIONS]: [
+      {
+        headers: [{ key: 'summary' }, { key: 'link' }, { key: 'unassign' }],
+        hideHeader: true,
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+      },
+    ],
+    [OrganizationTableType.USER_GROUP_ASSIGN_PERMISSIONS]: [
+      {
+        pagination: {
+          sort: 'byName',
+        },
+      },
+      {
+        breakpoint: BREAKPOINT.xs,
+        headers: [{ key: 'selected' }, { key: 'summary' }, { key: 'link' }],
+        hideHeader: true,
+      },
+      {
+        breakpoint: BREAKPOINT.lg,
+        headers: [
+          { key: 'code', sortCode: 'byCode' },
+          { key: 'threshold' },
+          { key: 'orderApprovalPermissionType' },
+          { key: 'periodRange' },
           { key: 'orgUnit', sortCode: 'byUnitName' },
         ],
       },
