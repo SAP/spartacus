@@ -177,7 +177,7 @@ export const userGroupTableConfig: TableConfig = {
     [OrganizationTableType.USER_GROUP_ASSIGN_PERMISSIONS]: [
       {
         pagination: {
-          sort: 'byName',
+          sort: 'byCode',
         },
       },
       {
@@ -188,10 +188,8 @@ export const userGroupTableConfig: TableConfig = {
       {
         breakpoint: BREAKPOINT.lg,
         headers: [
-          { key: 'code', sortCode: 'byCode' },
-          { key: 'threshold' },
-          { key: 'orderApprovalPermissionType' },
-          { key: 'periodRange' },
+          { key: 'name', sortCode: 'byCode' },
+          { key: 'limit' },
           { key: 'orgUnit', sortCode: 'byUnitName' },
         ],
       },

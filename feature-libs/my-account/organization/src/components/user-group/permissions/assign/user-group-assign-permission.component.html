@@ -81,6 +81,19 @@
   </ng-template>
 
   <ng-template
+    cxOutletRef="table.userGroupAssignPermissions.data.limit"
+    let-model
+  >
+    <span *ngIf="model.threshold; else type"
+      >{{ model.threshold }} {{ model.currency?.symbol }}
+      {{ 'userGroup.permission.per.' + model.periodRange | cxTranslate }}
+    </span>
+    <ng-template #type>
+      <span>{{ model.orderApprovalPermissionType.name }}</span>
+    </ng-template>
+  </ng-template>
+
+  <ng-template
     cxOutletRef="table.userGroupAssignPermissions.data.link"
     let-model
   >
@@ -98,7 +111,7 @@
   </ng-template>
 
   <ng-template
-    cxOutletRef="table.userGroupAssignPermissions.data.code"
+    cxOutletRef="table.userGroupAssignPermissions.data.name"
     let-model
   >
     <div>
@@ -110,17 +123,17 @@
             toggleAssign(userGroupCode, model.code, $event.target.checked)
           "
         />
-        <a
-          [routerLink]="
-            {
-              cxRoute: 'userDetails',
-              params: model
-            } | cxUrl
-          "
-          >{{ model.code }}
-          <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
-        </a>
       </label>
+      <a
+        [routerLink]="
+          {
+            cxRoute: 'userDetails',
+            params: model
+          } | cxUrl
+        "
+        >{{ model.code }}
+        <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+      </a>
     </div>
   </ng-template>
 

@@ -50,6 +50,7 @@ export const userGroupAssignUsers = {
 };
 
 export const userGroupAssignPermissions = {
-  code: 'Code',
+  name: 'Code',
+  limit: 'Limit',
   orgUnit: 'Unit',
 };
