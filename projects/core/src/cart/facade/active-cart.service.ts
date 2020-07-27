@@ -68,15 +68,17 @@ export class ActiveCartService implements OnDestroy {
   }
 
   protected initActiveCart() {
-    this.authService.getOccUserId().subscribe((userId) => {
-      this.userId = userId;
-      if (this.userId !== OCC_USER_ID_ANONYMOUS) {
-        if (this.isJustLoggedIn(userId)) {
-          this.loadOrMerge(this.cartId);
+    this.subscription.add(
+      this.authService.getOccUserId().subscribe((userId) => {
+        this.userId = userId;
+        if (this.userId !== OCC_USER_ID_ANONYMOUS) {
+          if (this.isJustLoggedIn(userId)) {
+            this.loadOrMerge(this.cartId);
+          }
         }
-      }
-      this.previousUserId = userId;
-    });
+        this.previousUserId = userId;
+      })
+    );
 
     this.subscription.add(
       this.activeCartId$.subscribe((cartId) => {
