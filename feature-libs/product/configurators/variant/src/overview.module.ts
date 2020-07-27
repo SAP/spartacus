@@ -12,7 +12,6 @@ import {
   ConfigOverviewFormComponent,
   PageLayoutComponent,
 } from '@spartacus/storefront';
-import { ConfigureErrorNotificationBannerComponent } from '../../../../../projects/storefrontlib/src/cms-components/configurator/generic/configure-error-notification-banner/configure-error-notification-banner.component';
 
 /**
  * Takes care of the configuration overview that visualizes the attribute value assignments that have been done already in a condensed, read-only form.
@@ -43,9 +42,6 @@ import { ConfigureErrorNotificationBannerComponent } from '../../../../../projec
       cmsComponents: {
         VariantConfigurationTabBar: {
           component: ConfigTabBarComponent,
-        },
-        VariantConfigurationErrorNotificationBanner: {
-          component: ConfigureErrorNotificationBannerComponent,
         },
         VariantConfigurationOverview: {
           component: ConfigOverviewFormComponent,
