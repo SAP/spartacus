@@ -25,7 +25,7 @@ export class CheckoutEventBuilder {
   /**
    * Registers checkout events
    */
-  protected register() {
+  protected register(): void {
     this.orderPlacedEvent();
   }
 
