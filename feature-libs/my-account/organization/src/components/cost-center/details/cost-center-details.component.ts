@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { CostCenter, CostCenterService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, switchMapTo, tap } from 'rxjs/operators';
 import { CurrentCostCenterService } from '../current-cost-center-code';
 
 @Component({
@@ -12,9 +12,18 @@ import { CurrentCostCenterService } from '../current-cost-center-code';
   providers: [CurrentCostCenterService],
 })
 export class CostCenterDetailsComponent {
-  costCenter$: Observable<CostCenter> = this.currentCostCenterService
-    .get({ forceReload: true })
-    .pipe(filter((costCenters) => Boolean(costCenters)));
+  /**
+   * The model of the current cost center.
+   *
+   * It reloads the model when trying to get it.
+   */
+  costCenter$: Observable<
+    CostCenter
+  > = this.currentCostCenterService.code$.pipe(
+    tap((code) => this.costCentersService.load(code)),
+    switchMapTo(this.currentCostCenterService.model$),
+    filter(Boolean)
+  );
 
   constructor(
     protected currentCostCenterService: CurrentCostCenterService,

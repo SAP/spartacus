@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { pluck, switchMap, take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { CurrentCostCenterService } from '../../current-cost-center-code';
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
 
@@ -10,7 +10,10 @@ import { CostCenterBudgetListService } from './cost-center-budget-list.service';
   templateUrl: './cost-center-budget-list.component.html',
 })
 export class CostCenterBudgetListComponent {
-  code$ = this.currentCostCenterService$.get().pipe(pluck('code'));
+  /**
+   * The code of the current cost center.
+   */
+  code$ = this.currentCostCenterService$.code$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.costCenterBudgetListService.getTable(code))

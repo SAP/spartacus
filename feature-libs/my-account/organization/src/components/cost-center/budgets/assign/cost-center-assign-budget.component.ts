@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { pluck, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { CurrentCostCenterService } from '../../current-cost-center-code';
 import { CostCenterAssignBudgetListService } from './cost-center-assign-budget.service';
 
@@ -11,7 +11,11 @@ import { CostCenterAssignBudgetListService } from './cost-center-assign-budget.s
   templateUrl: './cost-center-assign-budget.component.html',
 })
 export class CostCenterAssignBudgetsComponent {
-  code$ = this.currentCostCenterService$.get().pipe(pluck('code'));
+  /**
+   * The code of the current cost center.
+   */
+  code$ = this.currentCostCenterService$.code$;
+
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.assignService.getTable(code))
   );

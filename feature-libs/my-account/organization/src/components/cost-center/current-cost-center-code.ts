@@ -2,17 +2,15 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CostCenter, CostCenterService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  pluck,
-  switchMap,
-  switchMapTo,
-  tap,
-} from 'rxjs/operators';
+import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
 
 /**
- * Provides appropriate model based on the code taken from the routing params.
+ * Provides appropriate model based on the `code` taken from the routing params.
+ *
+ * It's meant to be provided on the component level so all the child components
+ * can inject the model provided by the parent component. It's useful especially,
+ * when child components are activated by nested <router-outlet> (so they can't
+ * get the model via `@Input`).
  */
 @Injectable()
 export class CurrentCostCenterService {
@@ -21,27 +19,15 @@ export class CurrentCostCenterService {
     protected route: ActivatedRoute
   ) {}
 
-  protected readonly code$ = this.route.params.pipe(
-    pluck('code') // spike todo: this will work for many pages, not only for costCenterDetails :/
-  );
-
-  /**
-   * Emits current model or null, if there is no model available (we are on route without `code` param).
-   */
-  protected readonly model$: Observable<CostCenter> = this.code$.pipe(
-    switchMap((code: string) => {
-      return code ? this.service.get(code) : of(null);
-    }),
-    filter((x) => x !== undefined),
+  readonly code$ = this.route.params.pipe(
+    pluck('code'),
     distinctUntilChanged()
   );
 
-  protected readonly reloadingModel$ = this.code$.pipe(
-    tap((code) => this.service.load(code)),
-    switchMapTo(this.model$)
+  /**
+   * Emits the current model or null, if there is no model available
+   */
+  readonly model$: Observable<CostCenter> = this.code$.pipe(
+    switchMap((code: string) => (code ? this.service.get(code) : of(null)))
   );
-
-  get(options?: { forceReload?: boolean }) {
-    return options.forceReload ? this.reloadingModel$ : this.model$;
-  }
 }
