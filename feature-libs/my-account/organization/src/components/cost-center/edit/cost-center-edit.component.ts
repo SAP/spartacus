@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
-  filter,
   map,
   shareReplay,
   switchMapTo,
@@ -35,7 +34,6 @@ export class CostCenterEditComponent {
   > = this.currentCostCenterService.code$.pipe(
     tap((code) => this.costCenterService.load(code)),
     switchMapTo(this.currentCostCenterService.model$),
-    filter(Boolean),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
   );
 
