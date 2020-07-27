@@ -12,6 +12,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
+import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { HamburgerMenuModule } from '../../../layout/header/hamburger-menu/hamburger-menu.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ConfigAddToCartButtonComponent } from '../commons/config-add-to-cart-button/config-add-to-cart-button.component';
@@ -54,6 +55,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     I18nModule,
     IconModule,
     SpinnerModule,
+    KeyboardFocusModule,
   ],
 
   declarations: [
