@@ -13,12 +13,14 @@ import {
   ANONYMOUS_CONSENTS_FEATURE,
   isFeatureEnabled,
 } from '../../features-config/index';
-import { AnonymousConsent, ANONYMOUS_CONSENT_STATUS } from '../../model/index';
+import {
+  AnonymousConsent,
+  ANONYMOUS_CONSENTS_HEADER,
+  ANONYMOUS_CONSENT_STATUS,
+} from '../../model/index';
 import { OccEndpointsService } from '../../occ/index';
 import { AnonymousConsentsConfig } from '../config/anonymous-consents-config';
 import { AnonymousConsentsService } from '../facade/anonymous-consents.service';
-
-export const ANONYMOUS_CONSENTS_HEADER = 'X-Anonymous-Consents';
 
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentsInterceptor implements HttpInterceptor {
@@ -46,7 +48,12 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
           const clonedRequest = this.handleRequest(consents, request);
           return next.handle(clonedRequest).pipe(
             tap(event => {
-              if (event instanceof HttpResponse) {
+              if (
+                event instanceof HttpResponse &&
+                event.url.startsWith(
+                  this.occEndpoints.getUrl('anonymousConsentTemplates')
+                )
+              ) {
                 this.handleResponse(
                   isUserLoggedIn,
                   event.headers.get(ANONYMOUS_CONSENTS_HEADER),

@@ -3,8 +3,8 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { ANONYMOUS_CONSENT_NORMALIZER } from '../../../anonymous-consents/connectors/converters';
 import { CONSENT_TEMPLATE_NORMALIZER } from '../../../user/index';
 import { ConverterService } from '../../../util/index';
 import { OccEndpointsService } from '../../services';
@@ -29,16 +29,11 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
       ],
     });
 
-    httpMock = TestBed.get(HttpTestingController as Type<
-      HttpTestingController
-    >);
-    converter = TestBed.get(ConverterService as Type<ConverterService>);
-    occEnpointsService = TestBed.get(OccEndpointsService as Type<
-      OccEndpointsService
-    >);
-    adapter = TestBed.get(OccAnonymousConsentTemplatesAdapter as Type<
-      OccAnonymousConsentTemplatesAdapter
-    >);
+    httpMock = TestBed.get(HttpTestingController);
+    converter = TestBed.get(ConverterService);
+    occEnpointsService = TestBed.get(OccEndpointsService);
+    adapter = TestBed.get(OccAnonymousConsentTemplatesAdapter);
+    spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(occEnpointsService, 'getUrl').and.callThrough();
   });
@@ -61,6 +56,22 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
       );
       expect(converter.pipeableMany).toHaveBeenCalledWith(
         CONSENT_TEMPLATE_NORMALIZER
+      );
+    });
+  });
+
+  describe('loadAnonymousConsents', () => {
+    it('should issue a HEAD request to load the latest anonymous consents', () => {
+      adapter
+        .loadAnonymousConsents()
+        .subscribe()
+        .unsubscribe();
+      httpMock.expectOne(req => req.method === 'HEAD');
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'anonymousConsentTemplates'
+      );
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        ANONYMOUS_CONSENT_NORMALIZER
       );
     });
   });
