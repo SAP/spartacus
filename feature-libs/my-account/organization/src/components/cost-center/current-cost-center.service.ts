@@ -8,7 +8,7 @@ import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
  * Provides appropriate model based on the routing params.
  *
  * It's meant not to be provided in the root injector, but on the level
- * of the component activated byt the route with routing params.
+ * of the component activated by the route with routing params.
  */
 @Injectable()
 export class CurrentCostCenterService {
