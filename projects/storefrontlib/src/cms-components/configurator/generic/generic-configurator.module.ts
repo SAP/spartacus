@@ -27,8 +27,16 @@ import { ConfigureErrorNotificationBannerComponent } from './configure-error-not
     I18nModule,
     IconModule,
   ],
-  declarations: [ConfigureProductComponent, ConfigureCartEntryComponent, ConfigureErrorNotificationBannerComponent],
+  declarations: [
+    ConfigureProductComponent,
+    ConfigureCartEntryComponent,
+    ConfigureErrorNotificationBannerComponent,
+  ],
   entryComponents: [ConfigureProductComponent, ConfigureCartEntryComponent],
-  exports: [ConfigureProductComponent, ConfigureCartEntryComponent, ConfigureErrorNotificationBannerComponent]
+  exports: [
+    ConfigureProductComponent,
+    ConfigureCartEntryComponent,
+    ConfigureErrorNotificationBannerComponent,
+  ],
 })
 export class GenericConfiguratorModule {}

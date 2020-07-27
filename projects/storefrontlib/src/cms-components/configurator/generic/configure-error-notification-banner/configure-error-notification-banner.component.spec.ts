@@ -8,13 +8,14 @@ describe('ConfigureErrorNotificationBannerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfigureErrorNotificationBannerComponent ]
-    })
-    .compileComponents();
+      declarations: [ConfigureErrorNotificationBannerComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigureErrorNotificationBannerComponent);
+    fixture = TestBed.createComponent(
+      ConfigureErrorNotificationBannerComponent
+    );
     component = fixture.componentInstance;
     component.item = {
       statusSummaryList: [],
@@ -48,9 +49,7 @@ describe('ConfigureErrorNotificationBannerComponent', () => {
   });
 
   it('should return number of issues of ERROR status', () => {
-    component.item.statusSummaryList = [
-      { numberOfIssues: 2, status: 'ERROR' },
-    ];
+    component.item.statusSummaryList = [{ numberOfIssues: 2, status: 'ERROR' }];
     expect(component.getNumberOfIssues()).toBe(2);
   });
 
@@ -80,9 +79,7 @@ describe('ConfigureErrorNotificationBannerComponent', () => {
   });
 
   it('should return true if number of issues of ERROR status is > 0', () => {
-    component.item.statusSummaryList = [
-      { numberOfIssues: 2, status: 'ERROR' },
-    ];
+    component.item.statusSummaryList = [{ numberOfIssues: 2, status: 'ERROR' }];
     expect(component.hasIssues()).toBeTrue();
   });
 

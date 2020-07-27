@@ -12,10 +12,9 @@ export class ConfigureErrorNotificationBannerComponent implements OnInit {
   @Input() readonly = false;
   iconTypes = ICON_TYPE;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   /**
    * Verifies whether the item has any issues.

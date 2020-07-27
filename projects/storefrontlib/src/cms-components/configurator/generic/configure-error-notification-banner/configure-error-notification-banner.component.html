@@ -6,8 +6,8 @@
       </div>
       <div [ngClass]="compact ? 'col-10' : 'cx-error-msg-container'">
         {{
-        getIssueMessageKey(getNumberOfIssues())
-          | cxTranslate: { issues: getNumberOfIssues() }
+          getIssueMessageKey(getNumberOfIssues())
+            | cxTranslate: { issues: getNumberOfIssues() }
         }}
         <cx-configure-cart-entry
           class="cx-error-msg-action-link"
