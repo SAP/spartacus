@@ -24,6 +24,6 @@ export class UserGroupFormComponent implements OnInit {
   constructor(protected orgUnitService: OrgUnitService) {}
 
   ngOnInit(): void {
-    this.orgUnitService.loadOrgUnitNodes();
+    this.orgUnitService.loadList();
   }
 }

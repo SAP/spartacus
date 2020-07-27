@@ -5,12 +5,11 @@ import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserGroupListService } from './user-group-list.service';
 
+const uid = 'userGroup';
 const mockUserGroupEntities: EntitiesModel<UserGroup> = {
   values: [
     {
-      currency: {
-        isocode: 'USD',
-      },
+      uid,
     },
   ],
 };
@@ -53,11 +52,11 @@ describe('UserGroupListService', () => {
       expect(service).toBeTruthy();
     });
 
-    it('should populate currency object to currency string literal', () => {
+    it('should populate object to string literal', () => {
       let result;
       service.getTable().subscribe((table) => (result = table));
 
-      expect(result.data[0].currency).toEqual('USD');
+      expect(result.data[0].uid).toEqual(uid);
     });
   });
 });

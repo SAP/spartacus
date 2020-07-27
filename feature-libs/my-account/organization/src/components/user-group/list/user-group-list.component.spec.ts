@@ -17,14 +17,12 @@ import {
 const mockUserGroupList: Table<UserGroupModel> = {
   data: [
     {
-      code: 'c1',
+      uid: 'c1',
       name: 'n1',
-      currency: 'USD',
     },
     {
-      code: 'c2',
+      uid: 'c2',
       name: 'n2',
-      currency: 'USD',
     },
   ],
   pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },

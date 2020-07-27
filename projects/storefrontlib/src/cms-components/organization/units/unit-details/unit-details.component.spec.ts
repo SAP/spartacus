@@ -32,7 +32,7 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnit = createSpy('loadOrgUnit');
+  load = createSpy('load');
   get = createSpy('get').and.returnValue(of(mockOrgUnit));
   update = createSpy('update');
 }
@@ -100,7 +100,7 @@ describe('UnitDetailsComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(orgUnitsService.loadOrgUnit).toHaveBeenCalledWith(code);
+      expect(orgUnitsService.load).toHaveBeenCalledWith(code);
       expect(orgUnitsService.get).toHaveBeenCalledWith(code);
       expect(orgUnit).toEqual(mockOrgUnit);
     });

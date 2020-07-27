@@ -39,9 +39,8 @@ const mockOrgUnits: B2BUnitNode[] = [
 ];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnits = createSpy('loadOrgUnits');
+  loadList = createSpy('loadList');
   getList = createSpy('getList').and.returnValue(of(mockOrgUnits));
-  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 class MockUserGroupService implements Partial<UserGroupService> {

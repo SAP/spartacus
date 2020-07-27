@@ -31,7 +31,7 @@ export class UserGroupListComponent extends AbstractListingComponent
 
   ngOnInit(): void {
     this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
-      tap((queryParams) => this.userGroupsService.loadUserGroups(queryParams)),
+      tap((queryParams) => this.userGroupsService.loadList(queryParams)),
       switchMap((queryParams) =>
         this.userGroupsService.getList(queryParams).pipe(
           filter(Boolean),

@@ -23,7 +23,7 @@ export class UserGroupEditComponent {
   );
 
   protected userGroup$: Observable<UserGroup> = this.code$.pipe(
-    tap((code) => this.userGroupService.loadUserGroup(code)),
+    tap((code) => this.userGroupService.load(code)),
     switchMap((code) => this.userGroupService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
   );

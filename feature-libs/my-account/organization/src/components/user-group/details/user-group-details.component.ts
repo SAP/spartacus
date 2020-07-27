@@ -17,7 +17,7 @@ export class UserGroupDetailsComponent {
 
   userGroup$: Observable<UserGroup> = this.code$.pipe(
     // TODO: we should do this in the facade
-    tap((code) => this.userGroupsService.loadUserGroup(code)),
+    tap((code) => this.userGroupsService.load(code)),
     switchMap((code) => this.userGroupsService.get(code)),
     filter((userGroups) => Boolean(userGroups))
   );

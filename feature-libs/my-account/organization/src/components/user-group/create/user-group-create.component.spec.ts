@@ -29,13 +29,12 @@ const userGroupCode = 'b1';
 
 class MockUserGroupService implements Partial<UserGroupService> {
   create = createSpy('create');
-  getUsers = createSpy('getUsers');
 }
 
 class MockUserGroupFormService implements Partial<UserGroupFormService> {
   getForm(): FormGroup {
     return new FormGroup({
-      code: new FormControl(userGroupCode),
+      uid: new FormControl(userGroupCode),
     });
   }
 }
@@ -114,7 +113,7 @@ describe('UserGroupCreateComponent', () => {
       saveButton.nativeElement.click();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'userGroupDetails',
-        params: { code: userGroupCode },
+        params: { uid: userGroupCode },
       });
     });
   });

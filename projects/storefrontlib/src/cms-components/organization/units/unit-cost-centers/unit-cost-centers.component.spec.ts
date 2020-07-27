@@ -48,7 +48,7 @@ const mockedCostCenters: CostCenter[] = [
 ];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnit = createSpy('loadOrgUnit');
+  load = createSpy('load');
   getCostCenters = createSpy('getCostCenters').and.returnValue(
     of(mockedCostCenters)
   );
@@ -116,7 +116,7 @@ describe('UnitCostCentersComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(orgUnitsService.loadOrgUnit).toHaveBeenCalledWith(code);
+      expect(orgUnitsService.load).toHaveBeenCalledWith(code);
       expect(orgUnitsService.getCostCenters).toHaveBeenCalledWith(code);
       expect(costCenters).toEqual(mockedCostCenters);
     });

@@ -18,13 +18,9 @@ import createSpy = jasmine.createSpy;
 const userGroupCode = 'b1';
 
 const mockUserGroup: UserGroup = {
-  code: userGroupCode,
+  uid: userGroupCode,
   name: 'userGroup1',
-  currency: {
-    symbol: '$',
-    isocode: 'USD',
-  },
-  unit: { name: 'orgName', uid: 'orgCode' },
+  orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
 
 class MockUserGroupService implements Partial<UserGroupService> {
@@ -88,7 +84,7 @@ describe('UserGroupDetailsComponent', () => {
   it('should update userGroup', () => {
     component.update(mockUserGroup);
     expect(userGroupsService.update).toHaveBeenCalledWith(
-      mockUserGroup.code,
+      mockUserGroup.uid,
       mockUserGroup
     );
   });

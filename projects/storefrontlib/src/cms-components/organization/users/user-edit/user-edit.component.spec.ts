@@ -100,11 +100,10 @@ class MockUserService {
 }
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnits = createSpy('loadOrgUnits');
+  loadList = createSpy('loadList');
   getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
     of(mockOrgUnits)
   );
-  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 class MockB2BUserService implements Partial<B2BUserService> {
   loadB2BUser = createSpy('loadB2BUser');

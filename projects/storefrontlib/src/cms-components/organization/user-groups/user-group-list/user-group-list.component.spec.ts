@@ -88,7 +88,7 @@ class MockUrlPipe implements PipeTransform {
 const userGroupList = new BehaviorSubject(mockUserGroupList);
 
 class MockUserGroupService implements Partial<UserGroupService> {
-  loadUserGroups = createSpy('loadUserGroups');
+  loadList = createSpy('loadList');
   getList = createSpy('getList').and.returnValue(userGroupList);
 }
 
@@ -180,9 +180,7 @@ describe('UserGroupListComponent', () => {
           userGroupsList = value;
         })
         .unsubscribe();
-      expect(userGroupsService.loadUserGroups).toHaveBeenCalledWith(
-        defaultParams
-      );
+      expect(userGroupsService.loadList).toHaveBeenCalledWith(defaultParams);
       expect(userGroupsService.getList).toHaveBeenCalledWith(defaultParams);
       expect(userGroupsList).toEqual(mockUserGroupUIList);
     });

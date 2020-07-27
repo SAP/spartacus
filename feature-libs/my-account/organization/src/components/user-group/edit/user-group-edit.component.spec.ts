@@ -29,13 +29,9 @@ class MockUserGroupFormComponent {
 const userGroupCode = 'b1';
 
 const mockUserGroup: UserGroup = {
-  code: userGroupCode,
+  uid: userGroupCode,
   name: 'userGroup1',
-  currency: {
-    symbol: '$',
-    isocode: 'USD',
-  },
-  unit: { name: 'orgName', uid: 'orgCode' },
+  orgUnit: { name: 'orgName', uid: 'orgCode' },
 };
 
 class MockUserGroupService implements Partial<UserGroupService> {

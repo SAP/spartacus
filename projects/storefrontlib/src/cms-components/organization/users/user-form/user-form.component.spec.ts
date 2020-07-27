@@ -73,11 +73,10 @@ const mockOrgUnits: B2BUnitNode[] = [
 ];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnits = createSpy('loadOrgUnits');
+  loadList = createSpy('loadList');
   getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
     of(mockOrgUnits)
   );
-  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 @Pipe({
@@ -178,7 +177,7 @@ describe('B2BUserFormComponent', () => {
           businessUnits = value;
         })
         .unsubscribe();
-      expect(orgUnitService.loadOrgUnitNodes).toHaveBeenCalledWith();
+      expect(orgUnitService.loadList).toHaveBeenCalledWith();
       expect(orgUnitService.getActiveUnitList).toHaveBeenCalledWith();
       expect(businessUnits).toEqual(mockOrgUnits);
     });

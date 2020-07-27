@@ -92,8 +92,8 @@ const mockAddress: Partial<B2BAddress> = {
 const mockAddresses = [mockAddress];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnits = createSpy('loadOrgUnits');
-  loadOrgUnit = createSpy('loadOrgUnit');
+  loadList = createSpy('loadList');
+  load = createSpy('load');
   update = createSpy('update');
   loadAddresses = createSpy('loadAddresses');
   getAddress = createSpy('getAddress').and.returnValue(of(mockAddress));
