@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { CostCenter, CostCenterService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, switchMapTo, tap } from 'rxjs/operators';
+import { shareReplay, switchMapTo, tap } from 'rxjs/operators';
 import { CurrentCostCenterService } from '../current-cost-center.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class CostCenterDetailsComponent {
   > = this.currentCostCenterService.code$.pipe(
     tap((code) => this.costCenterService.load(code)),
     switchMapTo(this.currentCostCenterService.model$),
-    filter(Boolean)
+    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
   );
 
   constructor(
