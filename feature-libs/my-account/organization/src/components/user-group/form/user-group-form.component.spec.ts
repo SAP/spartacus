@@ -4,14 +4,12 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   B2BUnitNode,
-  Currency,
-  CurrencyService,
   I18nTestingModule,
   OrgUnitService,
 } from '@spartacus/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { UserGroupFormComponent } from './user-group-form.component';
 import createSpy = jasmine.createSpy;
 
@@ -38,30 +36,13 @@ class MockOrgUnitService implements Partial<OrgUnitService> {
     of(mockOrgUnits)
   );
   loadList = jasmine.createSpy('loadList');
-}
-
-const mockCurrencies: Currency[] = [
-  { active: true, isocode: 'USD', name: 'US Dollar', symbol: '$' },
-  { active: true, isocode: 'EUR', name: 'Euro', symbol: '€' },
-];
-const mockActiveCurr = new BehaviorSubject('USD');
-
-class MockCurrencyService implements Partial<CurrencyService> {
-  getAll = jasmine.createSpy('getAll').and.returnValue(of(mockCurrencies));
-  getActive(): Observable<string> {
-    return mockActiveCurr;
-  }
-  setActive(isocode: string) {
-    mockActiveCurr.next(isocode);
-    return mockActiveCurr.subscribe();
-  }
+  getList = jasmine.createSpy('getList');
 }
 
 describe('UserGroupFormComponent', () => {
   let component: UserGroupFormComponent;
   let fixture: ComponentFixture<UserGroupFormComponent>;
   let orgUnitService: OrgUnitService;
-  let currencyService: CurrencyService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -72,14 +53,10 @@ describe('UserGroupFormComponent', () => {
         NgSelectModule,
       ],
       declarations: [UserGroupFormComponent, FormErrorsComponent],
-      providers: [
-        { provide: CurrencyService, useClass: MockCurrencyService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
-      ],
+      providers: [{ provide: OrgUnitService, useClass: MockOrgUnitService }],
     }).compileComponents();
 
     orgUnitService = TestBed.inject(OrgUnitService);
-    currencyService = TestBed.inject(CurrencyService);
   }));
 
   beforeEach(() => {
@@ -92,7 +69,7 @@ describe('UserGroupFormComponent', () => {
   });
 
   it('should render form groups', () => {
-    component.form = new FormGroup({ code: new FormControl() });
+    component.form = new FormGroup({ uid: new FormControl() });
     fixture.detectChanges();
     const formGroups = fixture.debugElement.queryAll(By.css('.form-group'));
     expect(formGroups.length).toBeGreaterThan(0);
@@ -105,15 +82,9 @@ describe('UserGroupFormComponent', () => {
     expect(formGroups.length).toBe(0);
   });
 
-  it('should load all currencies', () => {
+  it('should load units', () => {
     component.form = new FormGroup({});
     fixture.detectChanges();
-    expect(currencyService.getAll).toHaveBeenCalled();
-  });
-
-  it('should load active units', () => {
-    component.form = new FormGroup({});
-    fixture.detectChanges();
-    expect(orgUnitService.getActiveUnitList).toHaveBeenCalled();
+    expect(orgUnitService.getList).toHaveBeenCalled();
   });
 });

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { User, UserGroupService, EntitiesModel } from '@spartacus/core';
+import { Permission, UserGroupService, EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { UserGroupUserListService } from './user-group-user-list.service';
+import { UserGroupPermissionListService } from './user-group-permission-list.service';
 
-const mockUserGroupEntities: EntitiesModel<User> = {
+const mockUserGroupPermissionEntities: EntitiesModel<Permission> = {
   values: [
     {
       code: 'first',
@@ -24,8 +24,10 @@ const mockUserGroupEntities: EntitiesModel<User> = {
 };
 
 class MockUserGroupService {
-  getUsers(): Observable<EntitiesModel<User>> {
-    return of(mockUserGroupEntities);
+  getAvailableOrderApprovalPermissions(): Observable<
+    EntitiesModel<Permission>
+  > {
+    return of(mockUserGroupPermissionEntities);
   }
 }
 
@@ -36,14 +38,14 @@ export class MockTableService {
   }
 }
 
-describe('UserGroupUserListService', () => {
-  let service: UserGroupUserListService;
+describe('UserGroupPermissionListService', () => {
+  let service: UserGroupPermissionListService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        UserGroupUserListService,
+        UserGroupPermissionListService,
         {
           provide: UserGroupService,
           useClass: MockUserGroupService,
@@ -54,15 +56,15 @@ describe('UserGroupUserListService', () => {
         },
       ],
     });
-    service = TestBed.inject(UserGroupUserListService);
+    service = TestBed.inject(UserGroupPermissionListService);
   });
 
   it('should inject service', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should filter selected users', () => {
-    let result: Table<User>;
+  it('should filter selected permissions', () => {
+    let result: Table<Permission>;
     service.getTable().subscribe((table) => (result = table));
     expect(result.data.length).toEqual(2);
     expect(result.data[0].code).toEqual('first');

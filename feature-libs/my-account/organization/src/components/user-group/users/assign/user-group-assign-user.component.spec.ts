@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { User, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, B2BUser } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
@@ -13,15 +13,17 @@ import { UserGroupAssignUserListService } from './user-group-assign-user.service
 
 const userGroupCode = 'userGroupCode';
 
-const mockUserList: Table<User> = {
+const mockUserList: Table<B2BUser> = {
   data: [
     {
-      code: 'user-1',
+      uid: 'user-1',
+      customerId: 'user-1',
       name: 'b1',
       selected: false,
     },
     {
-      code: 'user-2',
+      uid: 'user-2',
+      customerId: 'user-2',
       name: 'b2',
       selected: false,
     },

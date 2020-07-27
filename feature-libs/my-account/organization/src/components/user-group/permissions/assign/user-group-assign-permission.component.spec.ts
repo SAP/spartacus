@@ -2,27 +2,25 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { User, I18nTestingModule } from '@spartacus/core';
+import { Permission, I18nTestingModule } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
-import { UserGroupAssignUsersComponent } from './user-group-assign-user.component';
-import { UserGroupAssignUserListService } from './user-group-assign-user.service';
+import { UserGroupAssignPermissionsComponent } from './user-group-assign-permission.component';
+import { UserGroupAssignPermissionListService } from './user-group-assign-permission.service';
 
 const userGroupCode = 'userGroupCode';
 
-const mockUserList: Table<User> = {
+const mockPermissionList: Table<Permission> = {
   data: [
     {
-      code: 'user-1',
-      name: 'b1',
+      code: 'permission-1',
       selected: false,
     },
     {
-      code: 'user-2',
-      name: 'b2',
+      code: 'permission-2',
       selected: false,
     },
   ],
@@ -37,17 +35,17 @@ class MockActivatedRoute {
   snapshot = {};
 }
 
-class MockUserGroupUserListService {
+class MockUserGroupPermissionListService {
   getTable(_code) {
-    return of(mockUserList);
+    return of(mockPermissionList);
   }
   toggleAssign() {}
 }
 
-describe('UserGroupAssignUsersComponent', () => {
-  let component: UserGroupAssignUsersComponent;
-  let fixture: ComponentFixture<UserGroupAssignUsersComponent>;
-  let service: UserGroupAssignUserListService;
+describe('UserGroupAssignPermissionsComponent', () => {
+  let component: UserGroupAssignPermissionsComponent;
+  let fixture: ComponentFixture<UserGroupAssignPermissionsComponent>;
+  let service: UserGroupAssignPermissionListService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -59,20 +57,20 @@ describe('UserGroupAssignUsersComponent', () => {
         TableModule,
         IconTestingModule,
       ],
-      declarations: [UserGroupAssignUsersComponent],
+      declarations: [UserGroupAssignPermissionsComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
-          provide: UserGroupAssignUserListService,
-          useClass: MockUserGroupUserListService,
+          provide: UserGroupAssignPermissionListService,
+          useClass: MockUserGroupPermissionListService,
         },
       ],
     }).compileComponents();
-    service = TestBed.inject(UserGroupAssignUserListService);
+    service = TestBed.inject(UserGroupAssignPermissionListService);
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserGroupAssignUsersComponent);
+    fixture = TestBed.createComponent(UserGroupAssignPermissionsComponent);
     component = fixture.componentInstance;
   });
 
@@ -88,7 +86,7 @@ describe('UserGroupAssignUsersComponent', () => {
   it('should have users', () => {
     let result;
     component.dataTable$.subscribe((data) => (result = data));
-    expect(result).toEqual(mockUserList);
+    expect(result).toEqual(mockPermissionList);
   });
 
   it('should get users from service by code', () => {
@@ -112,20 +110,20 @@ describe('UserGroupAssignUsersComponent', () => {
 
     it('should assign a user', () => {
       spyOn(service, 'toggleAssign');
-      component.toggleAssign('userGroupCode', 'user-1', true);
+      component.toggleAssign('userGroupCode', 'permission-1', true);
       expect(service.toggleAssign).toHaveBeenCalledWith(
         'userGroupCode',
-        'user-1',
+        'permission-1',
         true
       );
     });
 
-    it('should unassign a user', () => {
+    it('should unassign a permission', () => {
       spyOn(service, 'toggleAssign');
-      component.toggleAssign('userGroupCode', 'user-1', false);
+      component.toggleAssign('userGroupCode', 'permission-1', false);
       expect(service.toggleAssign).toHaveBeenCalledWith(
         'userGroupCode',
-        'user-1',
+        'permission-1',
         false
       );
     });

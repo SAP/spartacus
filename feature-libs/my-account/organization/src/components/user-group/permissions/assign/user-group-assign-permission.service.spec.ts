@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { User, UserGroupService, EntitiesModel } from '@spartacus/core';
+import { Permission, UserGroupService, EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { UserGroupAssignUserListService } from './user-group-assign-user.service';
+import { UserGroupAssignPermissionListService } from './user-group-assign-permission.service';
 
-const mockUserGroupEntities: EntitiesModel<User> = {
+const mockUserGroupPermissionEntities: EntitiesModel<Permission> = {
   values: [
     {
       code: 'first',
@@ -24,11 +24,13 @@ const mockUserGroupEntities: EntitiesModel<User> = {
 };
 
 class MockUserGroupService {
-  getUsers(): Observable<EntitiesModel<User>> {
-    return of(mockUserGroupEntities);
+  getAvailableOrderApprovalPermissions(): Observable<
+    EntitiesModel<Permission>
+  > {
+    return of(mockUserGroupPermissionEntities);
   }
-  assignMember() {}
-  unassignMember() {}
+  assignPermission() {}
+  unassignPermission() {}
 }
 
 @Injectable()
@@ -38,15 +40,15 @@ export class MockTableService {
   }
 }
 
-describe('UserGroupAssignUserListService', () => {
-  let service: UserGroupAssignUserListService;
+describe('UserGroupAssignPermissionListService', () => {
+  let service: UserGroupAssignPermissionListService;
   let userGroupService: UserGroupService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        UserGroupAssignUserListService,
+        UserGroupAssignPermissionListService,
         {
           provide: UserGroupService,
           useClass: MockUserGroupService,
@@ -57,7 +59,7 @@ describe('UserGroupAssignUserListService', () => {
         },
       ],
     });
-    service = TestBed.inject(UserGroupAssignUserListService);
+    service = TestBed.inject(UserGroupAssignPermissionListService);
     userGroupService = TestBed.inject(UserGroupService);
   });
 
@@ -65,8 +67,8 @@ describe('UserGroupAssignUserListService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should not filter selected users', () => {
-    let result: Table<User>;
+  it('should not filter selected permissions', () => {
+    let result: Table<Permission>;
     service.getTable().subscribe((table) => (result = table));
     expect(result.data.length).toEqual(3);
     expect(result.data[0].code).toEqual('first');
@@ -74,21 +76,21 @@ describe('UserGroupAssignUserListService', () => {
     expect(result.data[2].code).toEqual('third');
   });
 
-  it('should assign user', () => {
-    spyOn(userGroupService, 'assignMember');
-    service.toggleAssign('userGroupCode', 'userCode');
-    expect(userGroupService.assignMember).toHaveBeenCalledWith(
+  it('should assign permission', () => {
+    spyOn(userGroupService, 'assignPermission');
+    service.toggleAssign('userGroupCode', 'permissionCode');
+    expect(userGroupService.assignPermission).toHaveBeenCalledWith(
       'userGroupCode',
-      'userCode'
+      'permissionCode'
     );
   });
 
-  it('should unassign user', () => {
-    spyOn(userGroupService, 'unassignMember');
-    service.toggleAssign('userGroupCode', 'userCode', false);
-    expect(userGroupService.unassignMember).toHaveBeenCalledWith(
+  it('should unassign permission', () => {
+    spyOn(userGroupService, 'unassignPermission');
+    service.toggleAssign('userGroupCode', 'permissionCode', false);
+    expect(userGroupService.unassignPermission).toHaveBeenCalledWith(
       'userGroupCode',
-      'userCode'
+      'permissionCode'
     );
   });
 });

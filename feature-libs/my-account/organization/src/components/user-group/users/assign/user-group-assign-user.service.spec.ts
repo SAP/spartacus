@@ -1,30 +1,36 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { User, UserGroupService, EntitiesModel } from '@spartacus/core';
+import { B2BUser, UserGroupService, EntitiesModel } from '@spartacus/core';
 import { Table, TableService, TableStructure } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UserGroupAssignUserListService } from './user-group-assign-user.service';
 
-const mockUserGroupEntities: EntitiesModel<User> = {
+const mockUserGroupEntities: EntitiesModel<B2BUser> = {
   values: [
     {
-      code: 'first',
+      uid: 'user-1',
+      customerId: 'user-1',
+      name: 'b1',
       selected: true,
     },
     {
-      code: 'second',
+      uid: 'user-2',
+      customerId: 'user-2',
+      name: 'b2',
       selected: false,
     },
     {
-      code: 'third',
-      selected: true,
+      uid: 'user-3',
+      customerId: 'user-3',
+      name: 'b3',
+      selected: false,
     },
   ],
 };
 
 class MockUserGroupService {
-  getUsers(): Observable<EntitiesModel<User>> {
+  getUsers(): Observable<EntitiesModel<B2BUser>> {
     return of(mockUserGroupEntities);
   }
   assignMember() {}
@@ -66,12 +72,12 @@ describe('UserGroupAssignUserListService', () => {
   });
 
   it('should not filter selected users', () => {
-    let result: Table<User>;
+    let result: Table<B2BUser>;
     service.getTable().subscribe((table) => (result = table));
     expect(result.data.length).toEqual(3);
-    expect(result.data[0].code).toEqual('first');
-    expect(result.data[1].code).toEqual('second');
-    expect(result.data[2].code).toEqual('third');
+    expect(result.data[0].customerId).toEqual('first');
+    expect(result.data[1].customerId).toEqual('second');
+    expect(result.data[2].customerId).toEqual('third');
   });
 
   it('should assign user', () => {
