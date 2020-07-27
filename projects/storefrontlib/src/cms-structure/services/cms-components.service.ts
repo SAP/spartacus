@@ -1,10 +1,4 @@
-import {
-  Compiler,
-  Inject,
-  Injectable,
-  Injector,
-  PLATFORM_ID,
-} from '@angular/core';
+import { Inject, Injectable, Injector, PLATFORM_ID } from '@angular/core';
 import {
   CmsComponentMapping,
   CmsConfig,
@@ -35,8 +29,6 @@ export class CmsComponentsService {
   constructor(
     protected config: CmsConfig,
     @Inject(PLATFORM_ID) protected platformId: Object,
-    protected compiler?: Compiler,
-    protected injector?: Injector,
     protected featureModules?: FeatureModulesService
   ) {}
 
@@ -69,7 +61,7 @@ export class CmsComponentsService {
       }
 
       if (featureResolvers.length) {
-        return forkJoin(...featureResolvers).pipe(mapTo(componentTypes));
+        return forkJoin(featureResolvers).pipe(mapTo(componentTypes));
       } else {
         return of(componentTypes);
       }

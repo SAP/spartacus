@@ -60,8 +60,8 @@ export class FeatureModulesService implements OnDestroy {
 
   constructor(
     protected configInitializer: ConfigInitializerService,
-    protected compiler?: Compiler,
-    protected injector?: Injector
+    protected compiler: Compiler,
+    protected injector: Injector
   ) {
     this.initFeatureMap();
   }
