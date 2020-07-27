@@ -1,7 +1,7 @@
 <cx-view #view *ngIf="code$ | async as userGroupCode">
   <h3>
     <a
-      class="link"
+      class="button"
       [routerLink]="
         { cxRoute: 'userGroupUsers', params: { uid: userGroupCode } } | cxUrl
       "
@@ -12,6 +12,12 @@
     </a>
     <span>{{ 'userGroup.user.assign' | cxTranslate }}</span>
   </h3>
+
+  <div class="actions">
+    <a (click)="unassignAll(userGroupCode)" class="link">
+      {{ 'userGroup.user.unassignAll' | cxTranslate }}
+    </a>
+  </div>
 
   <ng-container *ngIf="dataTable$ | async as dataTable; else emptyList">
     <section>

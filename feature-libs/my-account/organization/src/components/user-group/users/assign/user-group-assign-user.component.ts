@@ -31,6 +31,10 @@ export class UserGroupAssignUsersComponent {
     this.assignService.toggleAssign(userGroupCode, userCode, checked);
   }
 
+  unassignAll(userGroupCode: string) {
+    this.assignService.unassignAll(userGroupCode);
+  }
+
   /**
    * Paginates the cost center list. Pagination is not using query parameters, as we like
    * pagination to be driven by infinite scrolling going forward.

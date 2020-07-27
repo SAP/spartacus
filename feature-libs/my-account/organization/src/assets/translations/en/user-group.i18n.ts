@@ -16,6 +16,7 @@ export const userGroup = {
   user: {
     header: 'Users',
     assign: 'Assign users',
+    unassignAll: 'Unassign All',
     back: 'Back',
     instructions: {
       check: 'To assign a user to this user group, select its check box.',
