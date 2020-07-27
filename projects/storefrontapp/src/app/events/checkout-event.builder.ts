@@ -47,7 +47,6 @@ export class CheckoutEventBuilder {
    */
   protected registerMapped<T>(mapping: ActionToEventMapping<T>): () => void {
     const eventStream$ = this.getAction(mapping.action).pipe(
-      // TODO:#events - check mapping
       map((action) => createFrom(mapping.event, action.payload))
     );
 

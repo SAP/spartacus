@@ -33,7 +33,7 @@ interface ActionWithPayload extends Action {
   payload: any;
 }
 
-fdescribe('Product-Event Builder', () => {
+describe('Product-Event Builder', () => {
   let eventService: EventService;
   let actions$: Subject<ActionWithPayload>;
 
