@@ -1,4 +1,5 @@
-cx-cost-center-list, cx-user-group-list {
+cx-cost-center-list,
+cx-user-group-list {
   > cx-split-view > cx-view > section > cx-table > table {
     th,
     td {
@@ -7,8 +8,6 @@ cx-cost-center-list, cx-user-group-list {
     td {
       &.name,
       &.unit {
-        padding: 0;
-
         .disabled {
           display: flex;
           font-size: 0.75rem;
