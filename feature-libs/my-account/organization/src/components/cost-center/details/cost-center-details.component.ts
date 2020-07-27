@@ -15,25 +15,25 @@ export class CostCenterDetailsComponent {
   /**
    * The model of the current cost center.
    *
-   * It reloads the model when trying to get it.
+   * It reloads the model when the code of the current cost center changes.
    */
   costCenter$: Observable<
     CostCenter
   > = this.currentCostCenterService.code$.pipe(
-    tap((code) => this.costCentersService.load(code)),
+    tap((code) => this.costCenterService.load(code)),
     switchMapTo(this.currentCostCenterService.model$),
     filter(Boolean)
   );
 
   constructor(
     protected currentCostCenterService: CurrentCostCenterService,
-    protected costCentersService: CostCenterService,
+    protected costCenterService: CostCenterService,
     // TODO: consider relying on css only
     protected modalService: ModalService
   ) {}
 
   update(costCenter: CostCenter) {
-    this.costCentersService.update(costCenter.code, costCenter);
+    this.costCenterService.update(costCenter.code, costCenter);
   }
 
   openModal(template: TemplateRef<any>): void {
