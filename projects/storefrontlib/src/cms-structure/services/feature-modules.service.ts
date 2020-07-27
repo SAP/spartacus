@@ -36,7 +36,7 @@ interface FeatureInstance extends FeatureModuleConfig {
 }
 
 /**
- * Service responsible for resolving feature domains
+ * Service responsible for resolving cms based feature modules
  */
 @Injectable({
   providedIn: 'root',
@@ -46,7 +46,7 @@ export class FeatureModulesService implements OnDestroy {
   private componentFeatureMap: Map<string, string> = new Map();
 
   private featureModulesConfig?: {
-    [featureName: string]: FeatureInstance;
+    [featureName: string]: FeatureModuleConfig;
   };
 
   private featureResolvers: Map<
