@@ -30,7 +30,9 @@ const mockPermissionList: Table<Permission> = {
 
 class MockActivatedRoute {
   parent = {
-    params: of({ code: userGroupCode }),
+    parent: {
+      params: of({ code: userGroupCode }),
+    },
   };
   snapshot = {};
 }

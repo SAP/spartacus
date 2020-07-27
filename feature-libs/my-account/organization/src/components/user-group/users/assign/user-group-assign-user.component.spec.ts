@@ -34,7 +34,9 @@ const mockUserList: Table<B2BUser> = {
 
 class MockActivatedRoute {
   parent = {
-    params: of({ code: userGroupCode }),
+    parent: {
+      params: of({ code: userGroupCode }),
+    },
   };
   snapshot = {};
 }

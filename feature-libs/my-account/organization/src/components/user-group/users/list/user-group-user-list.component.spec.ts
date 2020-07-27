@@ -13,9 +13,9 @@ import { UserGroupUserListService } from './user-group-user-list.service';
 const userGroupCode = 'userGroupCode';
 
 class MockActivatedRoute {
-  get params() {
-    return of({ code: userGroupCode });
-  }
+  parent = {
+    params: of({ code: userGroupCode }),
+  };
   snapshot = {};
 }
 

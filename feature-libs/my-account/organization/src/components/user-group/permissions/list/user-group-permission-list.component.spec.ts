@@ -13,9 +13,9 @@ import { UserGroupPermissionListService } from './user-group-permission-list.ser
 const userGroupCode = 'userGroupCode';
 
 class MockActivatedRoute {
-  get params() {
-    return of({ code: userGroupCode });
-  }
+  parent = {
+    params: of({ code: userGroupCode }),
+  };
   snapshot = {};
 }
 
