@@ -7,7 +7,7 @@ export class TruncateTextService {
   isShow = false;
 
   paragraphLimiter(desc: string, defaultCharacters: number) {
-    let formatDesc = this.isShow ? desc : desc.substring(0, defaultCharacters);
+    const formatDesc = this.isShow ? desc : desc.substring(0, defaultCharacters);
     return formatDesc;
   }
 
