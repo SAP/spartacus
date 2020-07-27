@@ -51,6 +51,6 @@ export class UserGroupUserListService extends BaseOrganizationListService<
   }
 
   unassign(userGroupCode: string, user: B2BUser) {
-    this.userGroupService.unassignMember(userGroupCode, user.uid);
+    this.userGroupService.unassignMember(userGroupCode, user.customerId);
   }
 }

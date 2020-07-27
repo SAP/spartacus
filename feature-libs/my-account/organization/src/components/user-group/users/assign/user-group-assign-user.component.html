@@ -83,7 +83,9 @@
       <input
         type="checkbox"
         [checked]="model.selected"
-        (change)="toggleAssign(userGroupCode, model.uid, $event.target.checked)"
+        (change)="
+          toggleAssign(userGroupCode, model.customerId, $event.target.checked)
+        "
       />
       <span class="text">{{ model.name }}</span>
     </label>

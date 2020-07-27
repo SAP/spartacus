@@ -30,11 +30,11 @@ export class UserGroupAssignUserListService extends BaseOrganizationListService<
     );
   }
 
-  toggleAssign(userGroupCode: string, userCode: string, assign = true) {
+  toggleAssign(userGroupCode: string, customerId: string, assign = true) {
     if (assign) {
-      this.userGroupService.assignMember(userGroupCode, userCode);
+      this.userGroupService.assignMember(userGroupCode, customerId);
     } else {
-      this.userGroupService.unassignMember(userGroupCode, userCode);
+      this.userGroupService.unassignMember(userGroupCode, customerId);
     }
   }
 }
