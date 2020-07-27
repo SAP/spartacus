@@ -16,6 +16,10 @@ export const configurator = {
       configuration: 'Configuration',
       overview: 'Overview',
     },
+    notificationBanner : {
+      numberOfIssue: 'Issue must be resolved before checkout.',
+      numberOfIssues: '{{issues}} issues must be resolved before checkout.',
+    },
     attribute: {
       caption: 'Attributes',
       notSupported: 'Attibute Type is not supported.',

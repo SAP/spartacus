@@ -1,25 +1,8 @@
-<ng-container *ngIf="hasIssues() && !readonly">
-  <div [ngClass]="compact ? 'cx-compact row' : 'row'">
-    <div class="cx-error-container">
-      <div [ngClass]="compact ? 'col-2' : 'cx-error-icon-container'">
-        <cx-icon class="cx-error-icon" [type]="iconTypes.ERROR"></cx-icon>
-      </div>
-      <div [ngClass]="compact ? 'col-10' : 'cx-error-msg-container'">
-        {{
-          getIssueMessageKey(getNumberOfIssues())
-            | cxTranslate: { issues: getNumberOfIssues() }
-        }}
-        <cx-configure-cart-entry
-          class="cx-error-msg-action-link"
-          *ngIf="item.product.configurable"
-          [cartEntry]="item"
-          [readOnly]="readonly"
-          [msgBanner]="true"
-        ></cx-configure-cart-entry>
-      </div>
-    </div>
-  </div>
-</ng-container>
+<cx-configure-error-notification-banner
+  [compact]="compact"
+  [readonly]="readonly"
+  [item]="item"
+></cx-configure-error-notification-banner>
 <div [ngClass]="compact ? 'cx-compact row' : 'row'">
   <div [ngClass]="compact ? 'cx-compact row' : 'row'">
     <!-- Item Image -->
