@@ -1,7 +1,7 @@
 <cx-view #view *ngIf="code$ | async as userGroupCode">
   <h3>
     <a
-      class="button"
+      class="link"
       [routerLink]="
         { cxRoute: 'userGroupUsers', params: { uid: userGroupCode } } | cxUrl
       "
