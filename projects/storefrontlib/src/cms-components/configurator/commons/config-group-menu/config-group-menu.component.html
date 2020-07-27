@@ -1,6 +1,6 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <nav>
-    <ul class="cx-config-menu" tabindex="0">
+    <ul class="cx-config-menu">
       <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
         <li
           tabindex="0"
@@ -26,13 +26,25 @@
               class="cx-config-menu-item {{
                 getGroupStatus(group.id, configuration) | async
               }}"
+              [cxFocus]="{ key: group.id }"
+              [class.cx-config-menu-conflict]="
+                isConflictGroupType(group.groupType)
+              "
+              [class.WARNING]="isConflictGroupType(group.groupType)"
               tabindex="0"
             >
               <a [class.active]="currentGroup.id === group.id" role="link"
                 >{{ group.description }}
                 <div class="groupIndicator">
+                  <div class="conflictNumberIndicator">
+                    {{ getConflictNumber(group) }}
+                  </div>
                   <div class="groupStatusIndicator">
                     <cx-icon class="ERROR" [type]="iconTypes.ERROR"></cx-icon>
+                    <cx-icon
+                      class="WARNING"
+                      [type]="iconTypes.WARNING"
+                    ></cx-icon>
                     <cx-icon
                       class="COMPLETE"
                       [type]="iconTypes.SUCCESS"

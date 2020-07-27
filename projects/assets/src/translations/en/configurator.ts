@@ -7,6 +7,7 @@ export const configurator = {
       toconfig: 'Configure',
       editConfiguration: 'Edit Configuration',
       displayConfiguration: 'Display Configuration',
+      resolveIssues: 'Resolve Issues',
       updateMessage: 'Configuration is updated wait a little bit!',
       showMore: 'show more',
       showLess: 'show less',
@@ -48,6 +49,8 @@ export const configurator = {
     },
     group: {
       general: 'General',
+      conflictHeader: 'Resolve conflicts',
+      conflictGroup: 'Conflict for {{attribute}}',
     },
   },
 };

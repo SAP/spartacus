@@ -8,6 +8,7 @@
             [searchable]="false"
             [clearable]="false"
             [items]="attribute.values"
+            [cxFocus]="{ key: attribute.name }"
             bindLabel="valueDisplay"
             bindValue="valueCode"
             (change)="onSelect()"

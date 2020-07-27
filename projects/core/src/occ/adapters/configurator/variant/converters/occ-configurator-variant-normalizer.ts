@@ -56,7 +56,7 @@ export class OccConfiguratorVariantNormalizer
       subGroups: [],
     };
 
-    this.setGeneralDescription(group);
+    this.setGroupDescription(group);
 
     if (source.subGroups) {
       source.subGroups.forEach((sourceSubGroup) =>
@@ -218,17 +218,42 @@ export class OccConfiguratorVariantNormalizer
         return Configurator.GroupType.ATTRIBUTE_GROUP;
       case OccConfigurator.GroupType.INSTANCE:
         return Configurator.GroupType.SUB_ITEM_GROUP;
+      case OccConfigurator.GroupType.CONFLICT_HEADER:
+        return Configurator.GroupType.CONFLICT_HEADER_GROUP;
+      case OccConfigurator.GroupType.CONFLICT:
+        return Configurator.GroupType.CONFLICT_GROUP;
     }
   }
 
-  setGeneralDescription(group: Configurator.Group): void {
-    if (group.name !== '_GEN') {
-      return;
+  setGroupDescription(group: Configurator.Group): void {
+    switch (group.groupType) {
+      case Configurator.GroupType.CONFLICT_HEADER_GROUP:
+        this.translation
+          .translate('configurator.group.conflictHeader')
+          .pipe(take(1))
+          .subscribe(
+            (conflictHeaderText) => (group.description = conflictHeaderText)
+          );
+        break;
+      case Configurator.GroupType.CONFLICT_GROUP:
+        this.translation
+          .translate('configurator.group.conflictGroup', {
+            attribute: group.name,
+          })
+          .pipe(take(1))
+          .subscribe(
+            (conflictGroupText) => (group.description = conflictGroupText)
+          );
+        break;
+      default:
+        if (group.name !== '_GEN') {
+          return;
+        }
+        this.translation
+          .translate('configurator.group.general')
+          .pipe(take(1))
+          .subscribe((generalText) => (group.description = generalText));
     }
-    this.translation
-      .translate('configurator.group.general')
-      .pipe(take(1))
-      .subscribe((generalText) => (group.description = generalText));
   }
 
   convertImageType(

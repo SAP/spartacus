@@ -16,6 +16,11 @@ const selectedFlag = true;
 const requiredFlag = true;
 const generalGroupName = '_GEN';
 const generalGroupDescription = 'General';
+const conflictHeaderGroupName = Configurator.GroupType.CONFLICT_HEADER_GROUP;
+const conflictHeaderGroupDescription = 'Resolve issues for options...';
+const conflictGroupName = 'Color';
+const conflictGroupPrefix = 'Conflict for ';
+
 const groupName = 'GROUP1';
 const groupDescription = 'The Group Name';
 let flatGroups: Configurator.Group[] = [];
@@ -178,8 +183,17 @@ class MockConverterService {
 }
 
 class MockTranslationService {
-  translate(): Observable<string> {
-    return of(generalGroupDescription);
+  translate(key: string, options: any = {}): Observable<string> {
+    switch (key) {
+      case 'configurator.group.general':
+        return of(generalGroupDescription);
+      case 'configurator.group.conflictHeader':
+        return of(conflictHeaderGroupDescription);
+      case 'configurator.group.conflictGroup':
+        return of(conflictGroupPrefix + options.attribute);
+      default:
+        return of(key);
+    }
   }
 }
 
@@ -336,8 +350,32 @@ describe('OccConfiguratorVariantNormalizer', () => {
       name: generalGroupName,
     };
 
-    occConfiguratorVariantNormalizer.setGeneralDescription(generalGroup);
+    occConfiguratorVariantNormalizer.setGroupDescription(generalGroup);
     expect(generalGroup.description).toBe(generalGroupDescription);
+  });
+
+  it('should set description for conflict header group', () => {
+    const conflictHeaderGroup: Configurator.Group = {
+      groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+      name: conflictHeaderGroupName,
+    };
+
+    occConfiguratorVariantNormalizer.setGroupDescription(conflictHeaderGroup);
+    expect(conflictHeaderGroup.description).toBe(
+      conflictHeaderGroupDescription
+    );
+  });
+
+  it('should set description for conflict group', () => {
+    const conflictGroup: Configurator.Group = {
+      groupType: Configurator.GroupType.CONFLICT_GROUP,
+      name: conflictGroupName,
+    };
+
+    occConfiguratorVariantNormalizer.setGroupDescription(conflictGroup);
+    expect(conflictGroup.description).toBe(
+      conflictGroupPrefix + conflictGroupName
+    );
   });
 
   it('should set selectedSingleValue', () => {
@@ -450,6 +488,18 @@ describe('OccConfiguratorVariantNormalizer', () => {
         OccConfigurator.GroupType.CSTIC_GROUP
       )
     ).toBe(Configurator.GroupType.ATTRIBUTE_GROUP);
+
+    expect(
+      occConfiguratorVariantNormalizer.convertGroupType(
+        OccConfigurator.GroupType.CONFLICT_HEADER
+      )
+    ).toBe(Configurator.GroupType.CONFLICT_HEADER_GROUP);
+
+    expect(
+      occConfiguratorVariantNormalizer.convertGroupType(
+        OccConfigurator.GroupType.CONFLICT
+      )
+    ).toBe(Configurator.GroupType.CONFLICT_GROUP);
 
     expect(
       occConfiguratorVariantNormalizer.convertGroupType(

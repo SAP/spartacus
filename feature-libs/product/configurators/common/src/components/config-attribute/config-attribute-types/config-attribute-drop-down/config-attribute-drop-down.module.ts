@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule } from '@spartacus/core';
+import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfigAttributeDropDownComponent } from './config-attribute-drop-down.component';
 
 @NgModule({
   imports: [
+    KeyboardFocusModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
