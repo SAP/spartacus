@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
+import { provideConfig, I18nModule } from '@spartacus/core';
 import {
   CarouselModule,
   IconModule,
@@ -21,6 +21,7 @@ import { ImageZoomTriggerComponent } from './trigger/image-zoom-trigger.componen
     IconModule,
     KeyboardFocusModule,
     ProductThumbnailsModule,
+    I18nModule,
   ],
   providers: [provideConfig(defaultImageZoomLayoutConfig)],
   declarations: [

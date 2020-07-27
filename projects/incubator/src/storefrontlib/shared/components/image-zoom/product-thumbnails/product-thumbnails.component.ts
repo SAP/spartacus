@@ -13,7 +13,6 @@ import { ThumbGroup } from './thumbnails.model';
 @Component({
   selector: 'cx-product-thumbnails',
   templateUrl: './product-thumbnails.component.html',
-  styleUrls: ['./product-thumbnails.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductThumbnailsComponent {

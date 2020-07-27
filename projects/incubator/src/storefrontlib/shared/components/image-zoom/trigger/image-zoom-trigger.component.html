@@ -1,6 +1,6 @@
 <button class="btn btn-link cx-action-link" (click)="toggleZoom()">
-  <!-- TODO: Remove hardcoded string when moving to library -->
   <span
-    >Click to expand<cx-icon [type]="iconType.EXPAND_ARROWS"></cx-icon
+    >{{ 'productDetails.imageZoom' | cxTranslate
+    }}<cx-icon [type]="iconType.EXPAND_ARROWS"></cx-icon
   ></span>
 </button>

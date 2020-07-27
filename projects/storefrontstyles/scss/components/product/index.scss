@@ -2,6 +2,8 @@
 @import './list/index';
 @import './details/index';
 @import './carousel/index';
+@import './thumbnails/index.scss';
+@import './image-zoom/index.scss';
 @import './star-rating';
 
 $product-components-whitelist: mergeAll(
@@ -19,6 +21,10 @@ $product-components-whitelist: mergeAll(
     cx-tab-paragraph-container,
     cx-stock-notification,
     cx-stock-notification-dialog,
-    cx-product-variants
+    cx-product-variants,
+    cx-product-thumbnails,
+    cx-image-zoom-dialog,
+    cx-image-zoom-product-view,
+    cx-image-zoom-trigger
   )
 ) !default;

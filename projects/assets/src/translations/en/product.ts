@@ -9,6 +9,7 @@ export const product = {
     share: 'Share',
     showReviews: 'Show reviews',
     noReviews: 'No reviews yet',
+    imageZoom: 'Click to expand',
   },
   productList: {
     filterBy: {

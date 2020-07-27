@@ -43,7 +43,6 @@ import {
 @Component({
   selector: 'cx-image-zoom-product-view',
   templateUrl: './image-zoom-product-view.component.html',
-  styleUrls: ['./image-zoom-product-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageZoomProductViewComponent implements OnInit, OnDestroy {
