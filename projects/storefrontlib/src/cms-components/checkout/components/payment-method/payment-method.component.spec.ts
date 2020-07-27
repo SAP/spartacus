@@ -403,7 +403,7 @@ describe('PaymentMethodComponent', () => {
         component['createCard'](
           selectedPaymentMethod,
           {
-            textDefaultPaymentMethod: '✓ DEFAULT',
+            textDefaultPaymentMethod: 'Default payment method',
             textExpires: 'Expires',
             textUseThisPayment: 'Use this payment',
             textSelected: 'Selected',
@@ -411,7 +411,7 @@ describe('PaymentMethodComponent', () => {
           selectedPaymentMethod
         )
       ).toEqual({
-        title: '✓ DEFAULT',
+        title: 'Default payment method',
         textBold: 'Name',
         text: ['123456789', 'Expires'],
         img: 'CREDIT_CARD',
