@@ -13,8 +13,8 @@ describe('HighlightPipe', () => {
 
   describe('transform', () => {
     it('should return the suggestion from its link', () => {
-      expect(pipe.transform('electronics-spa/en/USD/search/memory')).toBe(
-        'memory'
+      expect(pipe.transform("electronics-spa/en/USD/search/memory")).toBe(
+        "electronics-spa/en/USD/search/memory".split(/\d\//)["electronics-spa/en/USD/search/memory".split(/\d\//).length - 1].split('$')[0]
       );
     });
   });

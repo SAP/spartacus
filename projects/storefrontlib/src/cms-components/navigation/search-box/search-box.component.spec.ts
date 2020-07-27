@@ -49,6 +49,13 @@ class MockHighlightPipe implements PipeTransform {
   transform(): any {}
 }
 
+@Pipe({
+  name: 'cxSelectedResult',
+})
+class MockSelectedResultPipe implements PipeTransform {
+  transform(): any {}
+}
+
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -102,6 +109,7 @@ describe('SearchBoxComponent', () => {
         SearchBoxComponent,
         MockUrlPipe,
         MockHighlightPipe,
+        MockSelectedResultPipe,
         MockCxIconComponent,
         MockMediaComponent,
       ],
