@@ -1,5 +1,6 @@
 import {
   Component,
+  DebugElement,
   EventEmitter,
   Input,
   Output,
@@ -18,6 +19,7 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { OrderApprovalListComponent } from './order-approval-list.component';
+import createSpy = jasmine.createSpy;
 
 const mockOrderApprovals: EntitiesModel<OrderApproval> = {
   pagination: {
@@ -107,14 +109,15 @@ class MockOrderApprovalService {
 }
 
 class MockRoutingService {
-  go() {}
+  go = createSpy('go').and.stub();
 }
 
 describe('OrderApprovalListComponent', () => {
   let component: OrderApprovalListComponent;
   let fixture: ComponentFixture<OrderApprovalListComponent>;
   let orderApprovalService: OrderApprovalService | MockOrderApprovalService;
-  // let routingService: RoutingService;
+  let routingService: RoutingService;
+  let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -128,17 +131,19 @@ describe('OrderApprovalListComponent', () => {
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrderApprovalService, useClass: MockOrderApprovalService },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
 
     orderApprovalService = TestBed.inject(OrderApprovalService);
-    // routingService = TestBed.inject(RoutingService);
+    routingService = TestBed.inject(RoutingService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderApprovalListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    el = fixture.debugElement;
   });
 
   it('should create', () => {
@@ -158,7 +163,6 @@ describe('OrderApprovalListComponent', () => {
 
   it('should display no approvals found message when there are no approvals', () => {
     const emptyOrderList: EntitiesModel<OrderApproval> = {
-      ...mockOrderApprovals,
       pagination: { ...mockOrderApprovals.pagination, totalResults: 0 },
       values: [],
     };
@@ -206,5 +210,14 @@ describe('OrderApprovalListComponent', () => {
     expect(orderApprovalService.loadOrderApprovals).toHaveBeenCalledWith(
       dateSearchConfig
     );
+  });
+
+  it('should go to details page when the table row is clicked', () => {
+    el.query(By.css('tr')).nativeElement.click();
+
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'orderApprovalDetails',
+      params: { approvalCode: mockOrderApprovals.values[0].code },
+    });
   });
 });

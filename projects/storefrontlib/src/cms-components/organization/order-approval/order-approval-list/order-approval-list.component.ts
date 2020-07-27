@@ -4,6 +4,7 @@ import {
   EntitiesModel,
   OrderApproval,
   OrderApprovalService,
+  RoutingService,
   TranslationService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
@@ -16,6 +17,7 @@ import { map } from 'rxjs/operators';
 })
 export class OrderApprovalListComponent {
   constructor(
+    protected routing: RoutingService,
     protected orderApprovalService: OrderApprovalService,
     protected translation: TranslationService
   ) {
@@ -62,5 +64,14 @@ export class OrderApprovalListComponent {
     searchConfig.pageSize = this.PAGE_SIZE;
     this.orderApprovalService.loadOrderApprovals(searchConfig);
     this.orderApprovals$ = this.orderApprovalService.getList(searchConfig);
+  }
+
+  goToApprovalDetails(event, orderApproval: OrderApproval): void {
+    if (event?.target?.nodeName.toLowerCase() !== 'a') {
+      this.routing.go({
+        cxRoute: 'orderApprovalDetails',
+        params: { approvalCode: orderApproval.code },
+      });
+    }
   }
 }
