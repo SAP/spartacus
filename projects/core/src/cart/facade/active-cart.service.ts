@@ -1,6 +1,6 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import {EMPTY, Observable, Subscription, timer} from 'rxjs';
+import { EMPTY, Observable, Subscription, timer } from 'rxjs';
 import {
   debounce,
   distinctUntilChanged,
@@ -31,7 +31,7 @@ import { MultiCartService } from './multi-cart.service';
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveCartService implements OnDestroy{
+export class ActiveCartService implements OnDestroy {
   private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
     'PREVIOUS_USER_ID_INITIAL_VALUE';
   private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
@@ -78,9 +78,11 @@ export class ActiveCartService implements OnDestroy{
       this.previousUserId = userId;
     });
 
-    this.subscription.add(this.activeCartId$.subscribe((cartId) => {
-      this.cartId = cartId;
-    }));
+    this.subscription.add(
+      this.activeCartId$.subscribe((cartId) => {
+        this.cartId = cartId;
+      })
+    );
 
     this.activeCart$ = this.cartSelector$.pipe(
       withLatestFrom(this.activeCartId$),
@@ -415,10 +417,10 @@ export class ActiveCartService implements OnDestroy{
   private guestCartMerge(cartId: string): void {
     let cartEntries: OrderEntry[];
     this.getEntries()
-    .pipe(take(1))
-    .subscribe((entries) => {
-      cartEntries = entries;
-    });
+      .pipe(take(1))
+      .subscribe((entries) => {
+        cartEntries = entries;
+      });
 
     this.multiCartService.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
 
