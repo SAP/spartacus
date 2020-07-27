@@ -3,7 +3,7 @@ import { CostCenter, CostCenterService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, switchMapTo, tap } from 'rxjs/operators';
-import { CurrentCostCenterService } from '../current-cost-center-code';
+import { CurrentCostCenterService } from '../current-cost-center.service';
 
 @Component({
   selector: 'cx-cost-center-details',

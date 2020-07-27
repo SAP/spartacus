@@ -5,12 +5,10 @@ import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, pluck, switchMap } from 'rxjs/operators';
 
 /**
- * Provides appropriate model based on the `code` taken from the routing params.
+ * Provides appropriate model based on the routing params.
  *
- * It's meant to be provided on the component level so all the child components
- * can inject the model provided by the parent component. It's useful especially,
- * when child components are activated by nested <router-outlet> (so they can't
- * get the model via `@Input`).
+ * It's meant not to be provided in the root injector, but on the level
+ * of the component activated byt the route with routing params.
  */
 @Injectable()
 export class CurrentCostCenterService {
