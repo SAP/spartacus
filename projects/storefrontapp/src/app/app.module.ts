@@ -8,9 +8,18 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EventService, TestConfigModule } from '@spartacus/core';
+import { EventService, OrderPlaced, TestConfigModule } from '@spartacus/core';
 import {
+  CategoryPageEvent,
+  ProductDetailsPageEvent,
+  ProductEventModule,
+  SearchPageResultsEvent,
+} from '@spartacus/product/events';
+import {
+  CartPageEvent,
+  HomePageEvent,
   JsonLdBuilderModule,
+  PageVisitedEvent,
   StorefrontComponent,
 } from '@spartacus/storefront';
 import { b2bFeature } from '../environments/b2b/b2b.feature';
@@ -18,10 +27,6 @@ import { b2cFeature } from '../environments/b2c/b2c.feature';
 import { cdsFeature } from '../environments/cds/cds.feature';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
-import { CheckoutEventModule } from './events/checkout-event.module';
-import { OrderPlaced } from './events/checkout.events';
-import { ProductEventModule } from './events/product-event.module';
-import { RoutingEventModule } from './events/routing-event.module';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -53,9 +58,7 @@ if (environment.b2b) {
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
-    RoutingEventModule,
     ProductEventModule,
-    CheckoutEventModule,
 
     ...devImports,
   ],
@@ -64,18 +67,18 @@ if (environment.b2b) {
 })
 export class AppModule {
   constructor(events: EventService) {
-    // events.get(PageVisited).subscribe((x) => console.log('sub: ', x));
-    // events.get(HomePageVisited).subscribe((x) => console.log('home: ', x));
-    // events.get(CartPageVisited).subscribe((x) => console.log('cart: ', x));
+    events.get(PageVisitedEvent).subscribe((x) => console.log('page: ', x));
+    events.get(HomePageEvent).subscribe((x) => console.log('home: ', x));
+    events.get(CartPageEvent).subscribe((x) => console.log('cart: ', x));
 
-    // events
-    //   .get(ProductDetailsPageVisited)
-    //   .subscribe((x) => console.log('pdp: ', x));
-    // events.get(CategoryPageVisited).subscribe((x) => console.log('cat: ', x));
+    events
+      .get(ProductDetailsPageEvent)
+      .subscribe((x) => console.log('pdp: ', x));
+    events.get(CategoryPageEvent).subscribe((x) => console.log('cat: ', x));
     // events.get(BrandPageVisited).subscribe((x) => console.log('brand: ', x));
-    // events
-    //   .get(SearchResultsRetrieved)
-    //   .subscribe((x) => console.log('search: ', x));
+    events
+      .get(SearchPageResultsEvent)
+      .subscribe((x) => console.log('search: ', x));
 
     events.get(OrderPlaced).subscribe((x) => console.log('order: ', x));
   }
