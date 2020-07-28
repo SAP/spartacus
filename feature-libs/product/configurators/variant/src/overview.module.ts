@@ -44,7 +44,7 @@ import {
         VariantConfigurationTabBar: {
           component: ConfigTabBarComponent,
         },
-        VariantConfigurationOverviewErrorNotificationBanner: {
+        VariantConfigurationOverviewBanner: {
           component: ConfigOverviewNotificationBannerComponent,
         },
         VariantConfigurationOverview: {

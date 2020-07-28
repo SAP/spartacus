@@ -1,4 +1,4 @@
-<ng-container *ngIf="entry$ as entry">
+<ng-container *ngIf="entry$ | async as entry">
   <cx-configure-error-notification-banner
     [compact]="false"
     [readonly]="false"

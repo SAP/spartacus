@@ -8,13 +8,14 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfigOverviewNotificationBannerComponent ]
-    })
-    .compileComponents();
+      declarations: [ConfigOverviewNotificationBannerComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfigOverviewNotificationBannerComponent);
+    fixture = TestBed.createComponent(
+      ConfigOverviewNotificationBannerComponent
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

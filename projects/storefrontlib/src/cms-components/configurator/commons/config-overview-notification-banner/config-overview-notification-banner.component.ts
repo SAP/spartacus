@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   ActiveCartService,
   GenericConfigurator,
@@ -13,29 +13,30 @@ import { ConfigRouterExtractorService } from '../../generic/service/config-route
   templateUrl: './config-overview-notification-banner.component.html',
   styles: [],
 })
-export class ConfigOverviewNotificationBannerComponent implements OnInit {
-  entry$: Observable<OrderEntry>;
-
-  constructor(
-    protected activeCartService: ActiveCartService,
-    private configRouterExtractorService: ConfigRouterExtractorService
-  ) {}
-
-  ngOnInit(): void {
-    this.entry$ = this.configRouterExtractorService.extractRouterData().pipe(
-      filter(
-        (routerData) =>
-          routerData.owner.type === GenericConfigurator.OwnerType.CART_ENTRY
-      ),
-      switchMap((routerData) =>
-        this.activeCartService.getEntries().pipe(
-          map((entries) => {
+export class ConfigOverviewNotificationBannerComponent {
+  entry$: Observable<OrderEntry> = this.activeCartService.getEntries().pipe(
+    filter((entries) => entries.length > 0),
+    switchMap((entries) =>
+      this.configRouterExtractorService
+        .extractRouterData()
+        .pipe(
+          filter(
+            (routerData) =>
+              routerData.owner.type === GenericConfigurator.OwnerType.CART_ENTRY
+          )
+        )
+        .pipe(
+          map((routerData) => {
             return entries.find(
               (entry) => entry.entryNumber === Number(routerData.owner.id)
             );
           })
         )
-      )
-    );
-  }
+    )
+  );
+
+  constructor(
+    protected activeCartService: ActiveCartService,
+    private configRouterExtractorService: ConfigRouterExtractorService
+  ) {}
 }

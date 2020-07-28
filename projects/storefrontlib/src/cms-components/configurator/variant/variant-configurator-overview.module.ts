@@ -26,8 +26,16 @@ import { VariantConfiguratorModule } from './variant-configurator.module';
     RouterModule,
   ],
 
-  declarations: [ConfigOverviewNotificationBannerComponent, ConfigOverviewFormComponent, ConfigOverviewAttributeComponent],
-  exports: [ConfigOverviewNotificationBannerComponent, ConfigOverviewFormComponent, ConfigOverviewAttributeComponent],
+  declarations: [
+    ConfigOverviewNotificationBannerComponent,
+    ConfigOverviewFormComponent,
+    ConfigOverviewAttributeComponent,
+  ],
+  exports: [
+    ConfigOverviewNotificationBannerComponent,
+    ConfigOverviewFormComponent,
+    ConfigOverviewAttributeComponent,
+  ],
   providers: [UserService],
   entryComponents: [
     ConfigOverviewNotificationBannerComponent,
