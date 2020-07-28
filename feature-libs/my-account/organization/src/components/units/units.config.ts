@@ -16,6 +16,7 @@ import { UnitAssignApproversComponent } from './unit-assign-approvers';
 import { UnitAssignRolesComponent } from './unit-assign-roles';
 import { UnitManageAddressesComponent } from './unit-manage-addresses';
 import { UnitAddressDetailsComponent } from './unit-address-details';
+import { UnitAddressCreateComponent } from './unit-address-create';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -65,10 +66,10 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: ['organization/units/:code/addresses/:id'],
         paramsMapping: { code: 'uid' },
       },
-
-      // orgUnitAddressCreate: {
-      //   paths: ['organization/unit/addresses/create/:code'],
-      // },
+      orgUnitAddressCreate: {
+        paths: ['organization/units/:code/addresses/create'],
+        paramsMapping: { code: 'uid' },
+      },
 
       // orgUnitAddressEdit: {
       //   paths: ['organization/unit/address/edit/:code/:id'],
@@ -135,6 +136,11 @@ export const unitsCmsConfig: CmsConfig = {
               component: UnitManageAddressesComponent,
               canDeactivate: [SplitViewDeactivateGuard],
               children: [
+                {
+                  path: 'create',
+                  component: UnitAddressCreateComponent,
+                  canDeactivate: [SplitViewDeactivateGuard],
+                },
                 {
                   path: ':id',
                   component: UnitAddressDetailsComponent,

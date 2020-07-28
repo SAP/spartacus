@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { OrgUnitService, RoutingService, B2BUnitNode } from '@spartacus/core';
+import { OrgUnitService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
@@ -25,14 +25,6 @@ export class UnitCreateComponent {
     protected routingService: RoutingService,
     protected unitFormService: UnitFormService
   ) {}
-
-  createOrgUnit(orgUnit: B2BUnitNode) {
-    this.orgUnitService.create(orgUnit);
-    this.routingService.go({
-      cxRoute: 'orgUnitDetails',
-      params: orgUnit,
-    });
-  }
 
   save(event: any, form: FormGroup): void {
     event.preventDefault();

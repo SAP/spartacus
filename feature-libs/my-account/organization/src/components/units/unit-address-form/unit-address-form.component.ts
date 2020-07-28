@@ -4,19 +4,19 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import {
-  B2BAddress,
   Country,
   Region,
   Title,
   UserAddressService,
   UserService,
 } from '@spartacus/core';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { sortTitles, AbstractFormComponent } from '@spartacus/storefront';
+import { UnitAddressFormService } from './unit-address-form.service';
+import { AbstractFormComponent } from '../../../../../../../projects/storefrontlib/src/cms-components/organization/abstract-component';
 
 @Component({
   selector: 'cx-unit-address-form',
@@ -30,63 +30,26 @@ export class UnitAddressFormComponent extends AbstractFormComponent
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
-  @Input()
-  addressData: B2BAddress;
-
-  form: FormGroup = this.fb.group({
-    id: [''],
-    titleCode: [''],
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    line1: ['', Validators.required],
-    line2: [''],
-    town: ['', Validators.required],
-    region: this.fb.group({
-      isocode: [null, Validators.required],
-    }),
-    country: this.fb.group({
-      isocode: [null, Validators.required],
-    }),
-    postalCode: ['', Validators.required],
-    phone: '',
-  });
+  @Input() form: FormGroup;
 
   constructor(
     protected fb: FormBuilder,
     protected userService: UserService,
-    protected userAddressService: UserAddressService
+    protected userAddressService: UserAddressService,
+    protected unitAddressFormService: UnitAddressFormService
   ) {
     super();
   }
 
   ngOnInit() {
-    this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
-      tap((countries) => {
-        if (Object.keys(countries).length === 0) {
-          this.userAddressService.loadDeliveryCountries();
-        }
-      })
-    );
-
-    // Fetching titles
-    this.titles$ = this.userService.getTitles().pipe(
-      tap((titles) => {
-        if (Object.keys(titles).length === 0) {
-          this.userService.loadTitles();
-        }
-      }),
-      map((titles) => {
-        titles.sort(sortTitles);
-        const noneTitle = { code: '', name: 'Title' };
-        return [noneTitle, ...titles];
-      })
-    );
+    this.countries$ = this.unitAddressFormService.getDeliveryCountries();
+    this.titles$ = this.unitAddressFormService.getTitles();
 
     // Fetching regions
     this.regions$ = this.selectedCountry$.pipe(
       switchMap((country) => this.userAddressService.getRegions(country)),
       tap((regions) => {
-        const regionControl = this.form.get('region.isocode');
+        const regionControl = this.form.get('region');
         if (regions && regions.length > 0) {
           regionControl.enable();
         } else {
@@ -94,10 +57,6 @@ export class UnitAddressFormComponent extends AbstractFormComponent
         }
       })
     );
-
-    if (this.addressData && Object.keys(this.addressData).length !== 0) {
-      this.form.patchValue(this.addressData);
-    }
   }
 
   countrySelected(country: Country): void {

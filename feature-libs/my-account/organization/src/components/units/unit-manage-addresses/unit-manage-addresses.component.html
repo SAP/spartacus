@@ -19,7 +19,8 @@
       class="link"
       [routerLink]="
         {
-          cxRoute: 'orgUnitAddressCreate'
+          cxRoute: 'orgUnitAddressCreate',
+          params: { uid: orgUnitCode }
         } | cxUrl
       "
     >
