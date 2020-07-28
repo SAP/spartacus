@@ -35,7 +35,7 @@ export function reducer(
     case ConfiguratorActions.READ_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS: {
-      return takeOverChanges(action, state);
+      return setInitialCurrentGroup(takeOverChanges(action, state));
     }
     case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS: {
       const content = { ...action.payload.overview };
@@ -145,6 +145,30 @@ export function reducer(
   }
   return state;
 }
+
+function setInitialCurrentGroup(
+  state: Configurator.Configuration
+): Configurator.Configuration {
+  if (state.interactionState.currentGroup) {
+    return state;
+  }
+  let initialCurrentGroup = null;
+
+  if (state?.groups?.length > 0) {
+    initialCurrentGroup = state?.groups[0]?.id;
+  }
+
+  const result = {
+    ...state,
+    interactionState: {
+      ...state.interactionState,
+      currentGroup: initialCurrentGroup,
+    },
+  };
+
+  return result;
+}
+
 function takeOverChanges(
   action:
     | ConfiguratorActions.CreateConfigurationSuccess
@@ -154,7 +178,7 @@ function takeOverChanges(
     | ConfiguratorActions.ReadCartEntryConfigurationSuccess
     | ConfiguratorActions.ReadOrderEntryConfigurationSuccess,
   state: Configurator.Configuration
-) {
+): Configurator.Configuration {
   const content = { ...action.payload };
   const result = {
     ...state,
