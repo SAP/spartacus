@@ -138,4 +138,8 @@ describe('CostCenterEditComponent', () => {
       });
     });
   });
+
+  it('should trigger reload of cost center model on each code change', () => {
+    expect(costCenterService.load).toHaveBeenCalledWith(mockCostCenter.code);
+  });
 });
