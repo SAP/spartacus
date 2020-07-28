@@ -9,6 +9,7 @@ export * from './commons/config-attribute-types/config-attribute-numeric-input-f
 export * from './commons/config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 export * from './commons/config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 export * from './commons/config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
+export * from './commons/config-conflict-suggestion/config-conflict-suggestion.component';
 export * from './commons/config-form/config-form.component';
 export * from './commons/config-group-menu/config-group-menu.component';
 export * from './commons/config-group-title/config-group-title.component';
