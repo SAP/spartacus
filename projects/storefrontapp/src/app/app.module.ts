@@ -10,7 +10,7 @@ import {
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EventService, OrderPlaced, TestConfigModule } from '@spartacus/core';
 import {
-  CategoryPageEvent,
+  CategoryPageResultsEvent,
   ProductDetailsPageEvent,
   ProductEventModule,
   SearchPageResultsEvent,
@@ -74,7 +74,9 @@ export class AppModule {
     events
       .get(ProductDetailsPageEvent)
       .subscribe((x) => console.log('pdp: ', x));
-    events.get(CategoryPageEvent).subscribe((x) => console.log('cat: ', x));
+    events
+      .get(CategoryPageResultsEvent)
+      .subscribe((x) => console.log('cat: ', x));
     // events.get(BrandPageVisited).subscribe((x) => console.log('brand: ', x));
     events
       .get(SearchPageResultsEvent)

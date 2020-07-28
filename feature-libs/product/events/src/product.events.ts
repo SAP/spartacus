@@ -15,7 +15,7 @@ export class ProductDetailsPageEvent {
  * Indicates that a user visited a category. The code and the name of the category
  * are emitted whenever a category page is visited.
  */
-export class CategoryPageEvent {
+export class CategoryPageResultsEvent {
   categoryCode: string;
   categoryName: string;
 }

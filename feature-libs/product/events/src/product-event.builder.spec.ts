@@ -13,7 +13,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ProductEventBuilder } from './product-event.builder';
 import {
-  CategoryPageEvent,
+  CategoryPageResultsEvent,
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
 } from './product.events';
@@ -81,14 +81,14 @@ describe('ProductEventModule', () => {
     );
   });
 
-  it('CategoryPageEvent', () => {
+  it('CategoryPageResultsEvent', () => {
     const searchResults: ProductSearchPage = {
       breadcrumbs: [{ facetValueName: 'Cat1' }],
     };
 
-    let result: CategoryPageEvent;
+    let result: CategoryPageResultsEvent;
     eventService
-      .get(CategoryPageEvent)
+      .get(CategoryPageResultsEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 
@@ -105,7 +105,7 @@ describe('ProductEventModule', () => {
       jasmine.objectContaining({
         categoryCode: pageVisitedEvent.context.id,
         categoryName: searchResults.breadcrumbs[0].facetValueName,
-      } as CategoryPageEvent)
+      } as CategoryPageResultsEvent)
     );
   });
 

@@ -9,7 +9,7 @@ import { PageVisitedEvent } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, skip, switchMap } from 'rxjs/operators';
 import {
-  CategoryPageEvent,
+  CategoryPageResultsEvent,
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
 } from './product.events';
@@ -36,8 +36,8 @@ export class ProductEventBuilder {
       this.buildProductDetailsPageEvent()
     );
     this.eventService.register(
-      CategoryPageEvent,
-      this.buildCategoryPageEvent()
+      CategoryPageResultsEvent,
+      this.buildCategoryResultsPageEvent()
     );
   }
 
@@ -58,7 +58,9 @@ export class ProductEventBuilder {
     );
   }
 
-  protected buildCategoryPageEvent(): Observable<CategoryPageEvent> {
+  protected buildCategoryResultsPageEvent(): Observable<
+    CategoryPageResultsEvent
+  > {
     const searchResults$ = this.productSearchService.getResults().pipe(
       // skipping the initial value, and preventing emission of the previous search state
       skip(1)
@@ -84,7 +86,9 @@ export class ProductEventBuilder {
             categoryCode: pageEvent.categoryCode,
             categoryName: searchResults.breadcrumbs[0].facetValueName,
           })),
-          map((categoryPage) => createFrom(CategoryPageEvent, categoryPage))
+          map((categoryPage) =>
+            createFrom(CategoryPageResultsEvent, categoryPage)
+          )
         );
       })
     );
