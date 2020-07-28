@@ -26,7 +26,7 @@ export class UserGroupService {
     protected authService: AuthService
   ) {}
 
-  loadUserGroup(userGroupId: string) {
+  load(userGroupId: string) {
     this.withUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.LoadUserGroup({
@@ -37,7 +37,7 @@ export class UserGroupService {
     );
   }
 
-  loadUserGroups(params?: B2BSearchConfig) {
+  loadList(params?: B2BSearchConfig) {
     this.withUserId((userId) =>
       this.store.dispatch(
         new UserGroupActions.LoadUserGroups({ userId, params })
@@ -78,7 +78,7 @@ export class UserGroupService {
       observeOn(queueScheduler),
       tap((state) => {
         if (!(state.loading || state.success || state.error)) {
-          this.loadUserGroup(userGroupUid);
+          this.load(userGroupUid);
         }
       }),
       filter((state) => state.success || state.error),
@@ -91,7 +91,7 @@ export class UserGroupService {
       observeOn(queueScheduler),
       tap((process: LoaderState<EntitiesModel<UserGroup>>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadUserGroups(params);
+          this.loadList(params);
         }
       }),
       filter(

@@ -1,5 +1,11 @@
-import { costCenter, costCenterAssignBudget } from './cost-center.i18n';
+
 import { unitAssignApprovers, unitAssignRoles, units } from './units.i18n';
+import { costCenter, costCenterAssignBudgets } from './cost-center.i18n';
+import {
+  userGroup,
+  userGroupAssignUsers,
+  userGroupAssignPermissions,
+} from './user-group.i18n';
 
 /**
  * The organization i18n labels provide generic labels for all organization sub features.
@@ -16,6 +22,9 @@ export const organization = {
     disabled: 'Disabled',
     enable: 'Enable',
     disable: 'Disable',
+
+    name: 'Name',
+    code: 'Code',
 
     back: '',
     close: '',
@@ -38,8 +47,11 @@ export const organization = {
   // sub feature labels are added below
   breadcrumbs,
   costCenter,
-  costCenterAssignBudget,
+  costCenterAssignBudgets,
   units,
   unitAssignRoles,
   unitAssignApprovers,
+  userGroup,
+  userGroupAssignUsers,
+  userGroupAssignPermissions,
 };

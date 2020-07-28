@@ -133,30 +133,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   userAssignUserGroups: {
     paths: ['organization/user/assign-user-groups/:code'],
   },
-  userGroups: {
-    paths: ['organization/user-groups'],
-  },
-  userGroupCreate: {
-    paths: ['organization/user-groups/create'],
-  },
-  userGroupDetails: {
-    paths: ['organization/user-group/:code'],
-  },
-  userGroupEdit: {
-    paths: ['organization/user-group/edit/:code'],
-  },
-  userGroupPermissions: {
-    paths: ['organization/user-group/purchase-limits/:code'],
-  },
-  userGroupAssignPermissions: {
-    paths: ['organization/user-group/assign-purchase-limits/:code'],
-  },
-  userGroupUsers: {
-    paths: ['organization/user-group/users/:code'],
-  },
-  userGroupAssignUsers: {
-    paths: ['organization/user-group/assign-users/:code'],
-  },
 };
 
 export const defaultRoutingConfig: RoutingConfig = {

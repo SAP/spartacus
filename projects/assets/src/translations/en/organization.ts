@@ -296,7 +296,7 @@ export const organization = {
     header: 'Manage purchase limits in {{code}}',
     back: 'Close',
   },
-  userGroupAssignUsers: {
+  userGroupAssignUserss: {
     header: 'Manage users in {{code}}',
     back: 'Close',
     unassignAll: 'Unassign All',

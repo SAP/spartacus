@@ -217,7 +217,7 @@ describe('OccB2BUserAdapter', () => {
     });
   });
 
-  describe('loadUserGroups', () => {
+  describe('loadList', () => {
     it('should load user groups', () => {
       service.loadUserGroups(userId, orgCustomerId, params).subscribe();
       const mockReq = httpMock.expectOne(
