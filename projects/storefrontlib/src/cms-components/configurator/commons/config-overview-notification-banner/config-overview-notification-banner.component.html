@@ -1,0 +1,8 @@
+<ng-container *ngIf="entries$ as entries">
+  <cx-configure-error-notification-banner
+    [compact]="false"
+    [readonly]="false"
+    [item]="entries"
+  ></cx-configure-error-notification-banner>
+</ng-container>
+
