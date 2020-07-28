@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  occBaseUrl: 'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002',
+  occBaseUrl: 'https://spartacus-legacy.eastus.cloudapp.azure.com:9002/',
 };
