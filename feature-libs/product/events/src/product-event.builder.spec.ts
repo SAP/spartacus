@@ -8,16 +8,15 @@ import {
   ProductSearchService,
   ProductService,
 } from '@spartacus/core';
+import { PageVisitedEvent } from '@spartacus/storefront';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ProductEventBuilder } from './product-event.builder';
 import {
-  BrandPageVisited,
-  CategoryPageVisited,
-  ProductDetailsPageVisited,
-  SearchResultsRetrieved,
+  CategoryPageEvent,
+  ProductDetailsPageEvent,
+  SearchPageResultsEvent,
 } from './product.events';
-import { PageVisited } from './routing.events';
 
 const productGetBehavior = new BehaviorSubject<Product>(undefined);
 class MockProductService {
@@ -33,7 +32,7 @@ interface ActionWithPayload extends Action {
   payload: any;
 }
 
-describe('Product-Event Builder', () => {
+describe('ProductEventModule', () => {
   let eventService: EventService;
   let actions$: Subject<ActionWithPayload>;
 
@@ -52,20 +51,20 @@ describe('Product-Event Builder', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  it('SearchResultsRetrieved', () => {
+  it('SearchPageResultsEvent', () => {
     const searchResults: ProductSearchPage = {
       freeTextSearch: 'camera',
       pagination: { totalResults: 5 },
       facets: [{ category: true }],
     };
 
-    let result: SearchResultsRetrieved;
+    let result: SearchPageResultsEvent;
     eventService
-      .get(SearchResultsRetrieved)
+      .get(SearchPageResultsEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 
-    const pageVisitedEvent = createFrom(PageVisited, {
+    const pageVisitedEvent = createFrom(PageVisitedEvent, {
       context: undefined,
       semanticRoute: 'search',
       url: 'search url',
@@ -78,22 +77,22 @@ describe('Product-Event Builder', () => {
       jasmine.objectContaining({
         searchTerm: searchResults.freeTextSearch,
         numberOfResults: searchResults.pagination.totalResults,
-      } as SearchResultsRetrieved)
+      } as SearchPageResultsEvent)
     );
   });
 
-  it('CategoryPageVisited', () => {
+  it('CategoryPageEvent', () => {
     const searchResults: ProductSearchPage = {
       breadcrumbs: [{ facetValueName: 'Cat1' }],
     };
 
-    let result: CategoryPageVisited;
+    let result: CategoryPageEvent;
     eventService
-      .get(CategoryPageVisited)
+      .get(CategoryPageEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 
-    const pageVisitedEvent = createFrom(PageVisited, {
+    const pageVisitedEvent = createFrom(PageVisitedEvent, {
       context: { id: 'cat1' },
       semanticRoute: 'category',
       url: 'category url',
@@ -106,39 +105,11 @@ describe('Product-Event Builder', () => {
       jasmine.objectContaining({
         categoryCode: pageVisitedEvent.context.id,
         categoryName: searchResults.breadcrumbs[0].facetValueName,
-      } as CategoryPageVisited)
+      } as CategoryPageEvent)
     );
   });
 
-  it('BrandPageVisited', () => {
-    const searchResults: ProductSearchPage = {
-      breadcrumbs: [{ facetValueName: 'Brand1' }],
-    };
-
-    let result: BrandPageVisited;
-    eventService
-      .get(BrandPageVisited)
-      .pipe(take(1))
-      .subscribe((value) => (result = value));
-
-    const pageVisitedEvent = createFrom(PageVisited, {
-      context: { id: 'brand1' },
-      semanticRoute: 'brand',
-      url: 'brand url',
-      params: undefined,
-    });
-    eventService.dispatch(pageVisitedEvent);
-    getResultsBehavior.next(searchResults);
-
-    expect(result).toEqual(
-      jasmine.objectContaining({
-        brandCode: pageVisitedEvent.context.id,
-        brandName: searchResults.breadcrumbs[0].facetValueName,
-      } as BrandPageVisited)
-    );
-  });
-
-  it('ProductDetailsPageVisited', () => {
+  it('ProductDetailsPageEvent', () => {
     const product: Product = {
       code: '1234',
       categories: [{ code: 'cat1', name: 'Cat1' }],
@@ -146,13 +117,13 @@ describe('Product-Event Builder', () => {
       price: { value: 100 },
     };
 
-    let result: ProductDetailsPageVisited;
+    let result: ProductDetailsPageEvent;
     eventService
-      .get(ProductDetailsPageVisited)
+      .get(ProductDetailsPageEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 
-    const productPageVisitedEvent = createFrom(PageVisited, {
+    const productPageVisitedEvent = createFrom(PageVisitedEvent, {
       context: { id: product.code },
       semanticRoute: 'product',
       url: 'product url',
@@ -167,7 +138,7 @@ describe('Product-Event Builder', () => {
         categories: product.categories,
         name: product.name,
         price: product.price,
-      } as ProductDetailsPageVisited)
+      } as ProductDetailsPageEvent)
     );
   });
 });

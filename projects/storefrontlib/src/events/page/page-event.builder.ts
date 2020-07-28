@@ -9,16 +9,12 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import {
-  CartPageVisited,
-  HomePageVisited,
-  PageVisited,
-} from './routing.events';
+import { HomePageEvent, PageVisitedEvent } from './page.events';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RoutingEventBuilder {
+export class PageEventBuilder {
   constructor(
     protected actions: ActionsSubject,
     protected eventService: EventService
@@ -27,32 +23,21 @@ export class RoutingEventBuilder {
   }
 
   protected register(): void {
-    this.eventService.register(PageVisited, this.buildPageVisitedEvent());
-    this.eventService.register(
-      HomePageVisited,
-      this.buildHomePageVisitedEvent()
-    );
-    this.eventService.register(CartPageVisited, this.buildCartVisitedEvent());
+    this.eventService.register(PageVisitedEvent, this.buildPageVisitedEvent());
+    this.eventService.register(HomePageEvent, this.buildHomePageVisitedEvent());
   }
 
-  protected buildPageVisitedEvent(): Observable<PageVisited> {
+  protected buildPageVisitedEvent(): Observable<PageVisitedEvent> {
     return this.getNavigatedEvent().pipe(
       // TODO:#events - check mapping
-      map((state) => createFrom(PageVisited, state))
+      map((state) => createFrom(PageVisitedEvent, state))
     );
   }
 
-  protected buildHomePageVisitedEvent(): Observable<HomePageVisited> {
+  protected buildHomePageVisitedEvent(): Observable<HomePageEvent> {
     return this.buildPageVisitedEvent().pipe(
       filter((pageVisitedEvent) => pageVisitedEvent.semanticRoute === 'home'),
-      map((pageVisitedEvent) => createFrom(HomePageVisited, pageVisitedEvent))
-    );
-  }
-
-  protected buildCartVisitedEvent(): Observable<CartPageVisited> {
-    return this.buildPageVisitedEvent().pipe(
-      filter((pageVisitedEvent) => pageVisitedEvent.semanticRoute === 'cart'),
-      map((pageVisitedEvent) => createFrom(CartPageVisited, pageVisitedEvent))
+      map((pageVisitedEvent) => createFrom(HomePageEvent, pageVisitedEvent))
     );
   }
 

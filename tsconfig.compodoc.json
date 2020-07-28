@@ -35,7 +35,8 @@
       ],
       "@spartacus/product/configurators/textfield": [
         "feature-libs/product/configurators/textfield/public_api"
-      ]
+      ],
+      "@spartacus/product/events": ["feature-libs/product/events/public_api"]
     }
   },
   "exclude": [

@@ -5,15 +5,14 @@ import {
   ProductSearchService,
   ProductService,
 } from '@spartacus/core';
+import { PageVisitedEvent } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, skip, switchMap } from 'rxjs/operators';
 import {
-  BrandPageVisited,
-  CategoryPageVisited,
-  ProductDetailsPageVisited,
-  SearchResultsRetrieved,
+  CategoryPageEvent,
+  ProductDetailsPageEvent,
+  SearchPageResultsEvent,
 } from './product.events';
-import { PageVisited } from './routing.events';
 
 @Injectable({
   providedIn: 'root',
@@ -29,27 +28,23 @@ export class ProductEventBuilder {
 
   protected register(): void {
     this.eventService.register(
-      SearchResultsRetrieved,
-      this.buildSearchResultsRetrieved()
+      SearchPageResultsEvent,
+      this.buildSearchPageResultsEvent()
     );
     this.eventService.register(
-      ProductDetailsPageVisited,
-      this.buildProductDetailsPageVisitedEvent()
+      ProductDetailsPageEvent,
+      this.buildProductDetailsPageEvent()
     );
     this.eventService.register(
-      CategoryPageVisited,
-      this.buildCategoryPageVisitedEvent()
-    );
-    this.eventService.register(
-      BrandPageVisited,
-      this.buildBrandPageVisitedEvent()
+      CategoryPageEvent,
+      this.buildCategoryPageEvent()
     );
   }
 
-  protected buildProductDetailsPageVisitedEvent(): Observable<
-    ProductDetailsPageVisited
+  protected buildProductDetailsPageEvent(): Observable<
+    ProductDetailsPageEvent
   > {
-    return this.eventService.get(PageVisited).pipe(
+    return this.eventService.get(PageVisitedEvent).pipe(
       filter(
         (pageVisitedEvent) => pageVisitedEvent.semanticRoute === 'product'
       ),
@@ -57,24 +52,26 @@ export class ProductEventBuilder {
       switchMap((productId) =>
         this.productService.get(productId).pipe(
           filter((product) => Boolean(product)),
-          map((product) => createFrom(ProductDetailsPageVisited, product))
+          map((product) => createFrom(ProductDetailsPageEvent, product))
         )
       )
     );
   }
 
-  protected buildCategoryPageVisitedEvent(): Observable<CategoryPageVisited> {
+  protected buildCategoryPageEvent(): Observable<CategoryPageEvent> {
     const searchResults$ = this.productSearchService.getResults().pipe(
       // skipping the initial value, and preventing emission of the previous search state
       skip(1)
     );
 
-    const categoryPageVisitedEvent$ = this.eventService.get(PageVisited).pipe(
-      map((pageVisitedEvent) => ({
-        isCategoryPage: pageVisitedEvent.semanticRoute === 'category',
-        categoryCode: pageVisitedEvent.context.id,
-      }))
-    );
+    const categoryPageVisitedEvent$ = this.eventService
+      .get(PageVisitedEvent)
+      .pipe(
+        map((pageVisitedEvent) => ({
+          isCategoryPage: pageVisitedEvent.semanticRoute === 'category',
+          categoryCode: pageVisitedEvent.context.id,
+        }))
+      );
 
     return categoryPageVisitedEvent$.pipe(
       switchMap((pageEvent) => {
@@ -87,43 +84,13 @@ export class ProductEventBuilder {
             categoryCode: pageEvent.categoryCode,
             categoryName: searchResults.breadcrumbs[0].facetValueName,
           })),
-          map((categoryPage) => createFrom(CategoryPageVisited, categoryPage))
+          map((categoryPage) => createFrom(CategoryPageEvent, categoryPage))
         );
       })
     );
   }
 
-  protected buildBrandPageVisitedEvent(): Observable<BrandPageVisited> {
-    const searchResults$ = this.productSearchService.getResults().pipe(
-      // skipping the initial value, and preventing emission of the previous search state
-      skip(1)
-    );
-
-    const brandPageVisitedEvent$ = this.eventService.get(PageVisited).pipe(
-      map((pageVisitedEvent) => ({
-        isBrandPage: pageVisitedEvent.semanticRoute === 'brand',
-        brandCode: pageVisitedEvent.context.id,
-      }))
-    );
-
-    return brandPageVisitedEvent$.pipe(
-      switchMap((pageEvent) => {
-        if (!pageEvent.isBrandPage) {
-          return EMPTY;
-        }
-
-        return searchResults$.pipe(
-          map((searchResults) => ({
-            brandCode: pageEvent.brandCode,
-            brandName: searchResults.breadcrumbs[0].facetValueName,
-          })),
-          map((brandPage) => createFrom(BrandPageVisited, brandPage))
-        );
-      })
-    );
-  }
-
-  protected buildSearchResultsRetrieved(): Observable<SearchResultsRetrieved> {
+  protected buildSearchPageResultsEvent(): Observable<SearchPageResultsEvent> {
     const searchResults$ = this.productSearchService.getResults().pipe(
       // skipping the initial value, and preventing emission of the previous search state
       skip(1),
@@ -131,11 +98,11 @@ export class ProductEventBuilder {
         searchTerm: searchResults.freeTextSearch,
         numberOfResults: searchResults.pagination.totalResults,
       })),
-      map((searchPage) => createFrom(SearchResultsRetrieved, searchPage))
+      map((searchPage) => createFrom(SearchPageResultsEvent, searchPage))
     );
 
     const searchPageVisitedEvent$ = this.eventService
-      .get(PageVisited)
+      .get(PageVisitedEvent)
       .pipe(
         map((pageVisitedEvent) => pageVisitedEvent.semanticRoute === 'search')
       );

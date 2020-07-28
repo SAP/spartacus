@@ -4,18 +4,14 @@ import { Action, ActionsSubject } from '@ngrx/store';
 import { ActivatedRouterStateSnapshot, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { RoutingEventBuilder } from './routing-event.builder';
-import {
-  CartPageVisited,
-  HomePageVisited,
-  PageVisited,
-} from './routing.events';
+import { PageEventBuilder } from './page-event.builder';
+import { HomePageEvent, PageVisitedEvent } from './page.events';
 
 interface ActionWithPayload extends Action {
   payload: any;
 }
 
-describe('Routing-Event Builder', () => {
+describe('PageEventBuilder', () => {
   let eventService: EventService;
   let actions$: Subject<ActionWithPayload>;
 
@@ -25,11 +21,11 @@ describe('Routing-Event Builder', () => {
       providers: [{ provide: ActionsSubject, useValue: actions$ }],
     });
 
-    TestBed.inject(RoutingEventBuilder); // register events
+    TestBed.inject(PageEventBuilder); // register events
     eventService = TestBed.inject(EventService);
   });
 
-  it('PageVisited', () => {
+  it('PageVisitedEvent', () => {
     const payload = {
       routerState: {
         semanticRoute: 'aPage',
@@ -39,9 +35,9 @@ describe('Routing-Event Builder', () => {
       } as ActivatedRouterStateSnapshot,
     };
 
-    let result: PageVisited;
+    let result: PageVisitedEvent;
     eventService
-      .get(PageVisited)
+      .get(PageVisitedEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 
@@ -49,7 +45,7 @@ describe('Routing-Event Builder', () => {
     expect(result).toEqual(jasmine.objectContaining(payload.routerState));
   });
 
-  it('HomePageVisited', () => {
+  it('HomePageEvent', () => {
     const payload = {
       routerState: {
         semanticRoute: 'home',
@@ -57,27 +53,9 @@ describe('Routing-Event Builder', () => {
       } as ActivatedRouterStateSnapshot,
     };
 
-    let result: HomePageVisited;
+    let result: HomePageEvent;
     eventService
-      .get(HomePageVisited)
-      .pipe(take(1))
-      .subscribe((value) => (result = value));
-
-    actions$.next({ type: ROUTER_NAVIGATED, payload });
-    expect(result).toBeTruthy();
-  });
-
-  it('CartPageVisited', () => {
-    const payload = {
-      routerState: {
-        semanticRoute: 'cart',
-        url: 'cart url',
-      } as ActivatedRouterStateSnapshot,
-    };
-
-    let result: CartPageVisited;
-    eventService
-      .get(CartPageVisited)
+      .get(HomePageEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 

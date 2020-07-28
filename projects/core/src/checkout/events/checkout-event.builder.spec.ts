@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { CheckoutActions, EventService, Order } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { EventService } from '../../event/event.service';
+import { Order } from '../../model/order.model';
+import { CheckoutActions } from '../store/index';
 import { CheckoutEventBuilder } from './checkout-event.builder';
 import { OrderPlaced } from './checkout.events';
 

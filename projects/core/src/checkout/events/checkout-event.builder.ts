@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
-import {
-  ActionToEventMapping,
-  CheckoutActions,
-  createFrom,
-  EventService,
-} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { EventService } from '../../event/event.service';
+import { ActionToEventMapping } from '../../state/event/action-to-event-mapping';
+import { createFrom } from '../../util/create-from';
+import { CheckoutActions } from '../store/actions/index';
 import { OrderPlaced } from './checkout.events';
 
 @Injectable({
