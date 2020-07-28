@@ -8,6 +8,7 @@ import {
 } from '@spartacus/core';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 import { ModalService } from '@spartacus/storefront';
+import { ConfigComponentTestUtilsService } from '../service/config-component-test-utils.service';
 
 @Pipe({
   name: 'cxUrl',
@@ -17,12 +18,15 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockModalService {
-  closeActiveModal(): void {}
+  closeActiveModal(reason?: any): void {
+    console.log(reason);
+  }
 }
 
 describe('ConfigureCartEntryComponent', () => {
   let component: ConfigureCartEntryComponent;
   let fixture: ComponentFixture<ConfigureCartEntryComponent>;
+  let htmlElem: HTMLElement;
   const configuratorType = 'type';
   const orderOrCartEntry: OrderEntry = {};
   let mockModalService: MockModalService;
@@ -42,6 +46,7 @@ describe('ConfigureCartEntryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigureCartEntryComponent);
     component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
     spyOn(component, 'closeActiveModal').and.callThrough();
     component.cartEntry = orderOrCartEntry;
     mockModalService = TestBed.inject(ModalService);
@@ -93,6 +98,55 @@ describe('ConfigureCartEntryComponent', () => {
     expect(component.getDisplayOnly()).toBe(true);
   });
 
+  describe('display corresponding link', () => {
+    it("should display 'Display Configuration' link", () => {
+      component.readOnly = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+      };
+      fixture.detectChanges();
+      ConfigComponentTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'a',
+        'configurator.header.displayConfiguration'
+      );
+    });
+
+    it("should display 'Edit Configuration' link", () => {
+      component.readOnly = false;
+      component.msgBanner = false;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+      };
+      fixture.detectChanges();
+      ConfigComponentTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'a',
+        'configurator.header.editConfiguration'
+      );
+    });
+
+    it("should display 'Resolve Issues' link", () => {
+      component.readOnly = false;
+      component.msgBanner = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+      };
+      fixture.detectChanges();
+      ConfigComponentTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'a',
+        'configurator.header.resolveIssues'
+      );
+    });
+  });
+
   describe('closeActiveModal', () => {
     it('should close active modal for readOnly-true', () => {
       component.readOnly = true;
@@ -104,10 +158,14 @@ describe('ConfigureCartEntryComponent', () => {
       component.closeActiveModal();
       fixture.detectChanges();
       expect(component.closeActiveModal).toHaveBeenCalled();
+      expect(mockModalService.closeActiveModal).toHaveBeenCalledWith(
+        'Display Configuration'
+      );
     });
 
-    it('should close active modal for readOnly-false', () => {
+    it('should close active modal for readOnly-false and msgBanner-false', () => {
       component.readOnly = false;
+      component.msgBanner = false;
       component.cartEntry = {
         entryNumber: 0,
         product: { configuratorType: configuratorType },
@@ -116,6 +174,25 @@ describe('ConfigureCartEntryComponent', () => {
       component.closeActiveModal();
       fixture.detectChanges();
       expect(component.closeActiveModal).toHaveBeenCalled();
+      expect(mockModalService.closeActiveModal).toHaveBeenCalledWith(
+        'Edit Configuration'
+      );
+    });
+
+    it('should close active modal for readOnly-false and msgBanner-true', () => {
+      component.readOnly = false;
+      component.msgBanner = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+      };
+      fixture.detectChanges();
+      component.closeActiveModal();
+      fixture.detectChanges();
+      expect(component.closeActiveModal).toHaveBeenCalled();
+      expect(mockModalService.closeActiveModal).toHaveBeenCalledWith(
+        'Resolve Issues'
+      );
     });
   });
 });

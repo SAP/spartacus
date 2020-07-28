@@ -74,7 +74,7 @@ export class ConfigGroupMenuComponent implements OnInit {
 
   clickOnEnter(event, group: Configurator.Group) {
     if (event.which === 13) {
-      this.click(group); //TODO: fix focus lose when selection with keyboard
+      this.click(group);
     }
   }
 
@@ -95,7 +95,7 @@ export class ConfigGroupMenuComponent implements OnInit {
 
   navigateUpOnEnter(event) {
     if (event.which === 13) {
-      this.navigateUp(); //TODO: fix focus lose when selection with keyboard
+      this.navigateUp();
     }
   }
 
