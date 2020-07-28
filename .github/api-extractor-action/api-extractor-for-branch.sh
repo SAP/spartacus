@@ -80,8 +80,10 @@ cp "$CONFIG_PATH" ./dist/product/api-extractor.json
 )
 
 # @spartacus/gigya
-cp "$CONFIG_PATH" ./dist/gigya/api-extractor.json
-(
-  cd ./dist/gigya && \
-  api-extractor run --local --verbose
-)
+# Disabled because of the issue with `import`
+
+# cp "$CONFIG_PATH" ./dist/gigya/api-extractor.json
+# (
+#   cd ./dist/gigya && \
+#   api-extractor run --local --verbose
+# )
