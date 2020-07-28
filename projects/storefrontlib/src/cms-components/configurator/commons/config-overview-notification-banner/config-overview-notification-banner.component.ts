@@ -1,23 +1,41 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  ActiveCartService,
+  GenericConfigurator,
+  OrderEntry,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { ActiveCartService, OrderEntry } from '@spartacus/core';
-import { filter } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { ConfigRouterExtractorService } from '../../generic/service/config-router-extractor.service';
 
 @Component({
   selector: 'cx-config-overview-notification-banner',
   templateUrl: './config-overview-notification-banner.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class ConfigOverviewNotificationBannerComponent implements OnInit {
-  entries$: Observable<OrderEntry[]>;
+  entry$: Observable<OrderEntry>;
 
-  constructor( protected activeCartService: ActiveCartService) { }
+  constructor(
+    protected activeCartService: ActiveCartService,
+    private configRouterExtractorService: ConfigRouterExtractorService
+  ) {}
 
   ngOnInit(): void {
-    this.entries$ = this.activeCartService
-      .getEntries()
-      .pipe(filter((entries) => entries.length > 0));
+    this.entry$ = this.configRouterExtractorService.extractRouterData().pipe(
+      filter(
+        (routerData) =>
+          routerData.owner.type === GenericConfigurator.OwnerType.CART_ENTRY
+      ),
+      switchMap((routerData) =>
+        this.activeCartService.getEntries().pipe(
+          map((entries) => {
+            return entries.find(
+              (entry) => entry.entryNumber === Number(routerData.owner.id)
+            );
+          })
+        )
+      )
+    );
   }
-
 }
