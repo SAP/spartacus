@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ConfiguratorCommonsService } from '@spartacus/core';
 import { ConfigRouterExtractorService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { interval, Observable } from 'rxjs';
+import { map, switchMap, withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-config-message',
@@ -27,9 +27,10 @@ export class ConfigMessageComponent {
       )
     );
 
-  visibleClass$: Observable<string> = this.hasPendingChanges$.pipe(
+  visibleClass$: Observable<string> = interval(1000).pipe(
+    withLatestFrom(this.hasPendingChanges$),
     map((hasPendingChangesOrIsLoading) =>
-      hasPendingChangesOrIsLoading ? 'visible' : ''
+      hasPendingChangesOrIsLoading[1] ? 'visible' : ''
     )
   );
 
