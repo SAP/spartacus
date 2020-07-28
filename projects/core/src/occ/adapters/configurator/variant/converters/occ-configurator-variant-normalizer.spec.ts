@@ -20,6 +20,8 @@ const conflictHeaderGroupName = Configurator.GroupType.CONFLICT_HEADER_GROUP;
 const conflictHeaderGroupDescription = 'Resolve issues for options...';
 const conflictGroupName = 'Color';
 const conflictGroupPrefix = 'Conflict for ';
+const conflictExplanation =
+  'The selected value is conflicting withour selections.';
 
 const groupName = 'GROUP1';
 const groupDescription = 'The Group Name';
@@ -366,16 +368,18 @@ describe('OccConfiguratorVariantNormalizer', () => {
     );
   });
 
-  it('should set description for conflict group', () => {
+  it('should set description for conflict group and should store conflict explanation in group.name', () => {
     const conflictGroup: Configurator.Group = {
       groupType: Configurator.GroupType.CONFLICT_GROUP,
       name: conflictGroupName,
+      description: conflictExplanation,
     };
 
     occConfiguratorVariantNormalizer.setGroupDescription(conflictGroup);
     expect(conflictGroup.description).toBe(
       conflictGroupPrefix + conflictGroupName
     );
+    expect(conflictGroup.name).toBe(conflictExplanation);
   });
 
   it('should set selectedSingleValue', () => {
