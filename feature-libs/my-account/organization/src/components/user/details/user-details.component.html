@@ -1,0 +1,83 @@
+<cx-view #view>
+  <ng-container *ngIf="user$ | async as user">
+    <h3>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'user' } | cxUrl"
+        (click)="view.toggle()"
+      >
+        <cx-icon type="CARET_LEFT"></cx-icon>
+        {{ 'organization.close' | cxTranslate }}
+      </a>
+      <span>{{ user.name }}</span>
+    </h3>
+    <div class="actions">
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'userEdit', params: user } | cxUrl"
+      >
+        {{ 'organization.edit' | cxTranslate }}
+      </a>
+    </div>
+    <section>
+      <div class="details">
+        <div class="property">
+          <label>{{ 'user.name' | cxTranslate }}</label>
+          <span class="value">
+            {{ user.name }}
+          </span>
+        </div>
+
+        <div class="property">
+          <label>{{ 'user.uid' | cxTranslate }}</label>
+          <span class="value">
+            {{ user.uid }}
+          </span>
+        </div>
+
+        <div class="property">
+          <label>{{ 'user.orgUnit' | cxTranslate }}</label>
+          <a
+            class="value"
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitDetails',
+                params: user.orgUnit
+              } | cxUrl
+            "
+          >
+            {{ user.orgUnit?.name }}
+            <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="child-link" routerLinkActive="active">
+        <h4>
+          <a
+            class="link"
+            [routerLink]="{ cxRoute: 'userUsers', params: user } | cxUrl"
+          >
+            {{ 'user.user.header' | cxTranslate }}
+            <cx-icon type="CARET_RIGHT"></cx-icon>
+          </a>
+        </h4>
+      </div>
+      <div class="child-link" routerLinkActive="active">
+        <h4>
+          <a
+            class="link"
+            [routerLink]="{ cxRoute: 'userPermissions', params: user } | cxUrl"
+          >
+            {{ 'user.permission.header' | cxTranslate }}
+            <cx-icon type="CARET_RIGHT"></cx-icon>
+          </a>
+        </h4>
+      </div>
+    </section>
+  </ng-container>
+</cx-view>
+
+<router-outlet></router-outlet>

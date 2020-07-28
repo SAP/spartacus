@@ -3,23 +3,25 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
-  ConfirmModalModule,
   IconModule,
+  OutletRefModule,
+  TableModule,
   SplitViewModule,
 } from '@spartacus/storefront';
-import { CostCenterDetailsComponent } from './cost-center-details.component';
+import { UserPermissionListComponent } from './user-permission-list.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
     UrlModule,
-    I18nModule,
     SplitViewModule,
+    I18nModule,
+    RouterModule,
+    OutletRefModule,
     IconModule,
-    ConfirmModalModule,
+    TableModule,
   ],
-  declarations: [CostCenterDetailsComponent],
-  exports: [CostCenterDetailsComponent],
+  declarations: [UserPermissionListComponent],
+  exports: [UserPermissionListComponent],
 })
-export class CostCenterDetailsModule {}
+export class UserPermissionListModule {}

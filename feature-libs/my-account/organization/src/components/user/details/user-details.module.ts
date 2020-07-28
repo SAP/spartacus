@@ -7,7 +7,7 @@ import {
   IconModule,
   SplitViewModule,
 } from '@spartacus/storefront';
-import { CostCenterDetailsComponent } from './cost-center-details.component';
+import { UserDetailsComponent } from './user-details.component';
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ import { CostCenterDetailsComponent } from './cost-center-details.component';
     IconModule,
     ConfirmModalModule,
   ],
-  declarations: [CostCenterDetailsComponent],
-  exports: [CostCenterDetailsComponent],
+  declarations: [UserDetailsComponent],
+  exports: [UserDetailsComponent],
 })
-export class CostCenterDetailsModule {}
+export class UserDetailsModule {}

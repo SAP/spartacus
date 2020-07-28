@@ -41,10 +41,6 @@ import {
 } from './navigation/index';
 import { OrderConfirmationModule } from './order-confirmation/index';
 import {
-  B2BUserCreateModule,
-  B2BUserDetailsModule,
-  B2BUserEditModule,
-  B2BUserListModule,
   BudgetCostCentersModule,
   BudgetCreateModule,
   BudgetDetailsModule,
@@ -68,12 +64,6 @@ import {
   UnitListModule,
   UnitManageAddressesModule,
   UnitUsersModule,
-  UserApproversModule,
-  UserAssignApproversModule,
-  UserAssignPermissionsModule,
-  UserAssignUserGroupsModule,
-  UserPermissionsModule,
-  UserUserGroupsModule,
 } from './organization/index';
 import {
   ProductCarouselModule,
@@ -165,16 +155,6 @@ import { WishListModule } from './wish-list/wish-list.module';
     UnitAddressEditModule,
     UnitAddressCreateModule,
     UnitAddressDetailsModule,
-    B2BUserListModule,
-    B2BUserCreateModule,
-    B2BUserDetailsModule,
-    B2BUserEditModule,
-    UserPermissionsModule,
-    UserAssignPermissionsModule,
-    UserApproversModule,
-    UserAssignApproversModule,
-    UserUserGroupsModule,
-    UserAssignUserGroupsModule,
   ],
 })
 export class CmsLibModule {}
