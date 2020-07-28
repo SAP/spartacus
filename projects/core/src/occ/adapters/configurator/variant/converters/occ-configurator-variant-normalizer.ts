@@ -64,7 +64,10 @@ export class OccConfiguratorVariantNormalizer
       );
     }
 
-    if (group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP) {
+    if (
+      group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP ||
+      group.groupType === Configurator.GroupType.CONFLICT_GROUP
+    ) {
       flatGroupList.push(group);
     }
 
