@@ -471,40 +471,38 @@
     },
     "gigya": {
       "projectType": "library",
-      "root": "projects/gigya",
-      "sourceRoot": "projects/gigya/src",
+      "root": "integration-libs/gigya",
+      "sourceRoot": "integration-libs/gigya/src",
       "prefix": "cx",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/gigya/tsconfig.lib.json",
-            "project": "projects/gigya/ng-package.json"
+            "tsConfig": "integration-libs/gigya/tsconfig.lib.json",
+            "project": "integration-libs/gigya/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/gigya/tsconfig.lib.prod.json"
+              "tsConfig": "integration-libs/gigya/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/gigya/src/test.ts",
-            "tsConfig": "projects/gigya/tsconfig.spec.json",
-            "karmaConfig": "projects/gigya/karma.conf.js"
+            "main": "integration-libs/gigya/src/test.ts",
+            "tsConfig": "integration-libs/gigya/tsconfig.spec.json",
+            "karmaConfig": "integration-libs/gigya/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/gigya/tsconfig.lib.json",
-              "projects/gigya/tsconfig.spec.json"
+              "integration-libs/gigya/tsconfig.lib.json",
+              "integration-libs/gigya/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

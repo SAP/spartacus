@@ -8,6 +8,7 @@ module.exports = function (config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-coverage'),
+      require('karma-junit-reporter'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
@@ -15,9 +16,6 @@ module.exports = function (config) {
     ],
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
-      jasmine: {
-        random: false,
-      },
     },
     reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'dots'],
     coverageIstanbulReporter: {
@@ -27,7 +25,7 @@ module.exports = function (config) {
       thresholds: {
         statements: 80,
         lines: 80,
-        branches: 60,
+        branches: 70,
         functions: 80,
       },
     },
@@ -37,5 +35,6 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
+    restartOnFileChange: true,
   });
 };

@@ -22,7 +22,6 @@
       "@spartacus/assets": ["projects/assets/src/public_api"],
       "@spartacus/cds": ["projects/cds/public_api"],
       "@spartacus/incubator": ["projects/incubator/public_api"],
-      "@spartacus/gigya": ["projects/gigya/public_api"],
       "@spartacus/schematics": ["projects/schematics/src/public_api"],
       "@spartacus/my-account": ["feature-libs/my-account/public_api"],
       "@spartacus/product": ["feature-libs/product/public_api"],
@@ -40,7 +39,8 @@
       ],
       "@spartacus/product/configurators/textfield": [
         "feature-libs/product/configurators/textfield/public_api"
-      ]
+      ],
+      "@spartacus/gigya": ["integration-libs/gigya/public_api"]
     }
   },
   "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"]
