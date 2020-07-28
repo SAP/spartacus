@@ -42,7 +42,8 @@
     @include media-breakpoint-down(md) {
       flex-direction: column;
     }
-    button {
+    button,
+    a {
       flex: 1;
       margin: var(--cx-spatial-base);
     }

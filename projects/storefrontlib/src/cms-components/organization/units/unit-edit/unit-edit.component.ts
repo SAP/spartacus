@@ -21,7 +21,7 @@ export class UnitEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.orgUnit$ = this.orgUnitCode$.pipe(
-      tap((code) => this.orgUnitsService.loadOrgUnit(code)),
+      tap((code) => this.orgUnitsService.load(code)),
       switchMap((code) => this.orgUnitsService.get(code))
     );
   }
