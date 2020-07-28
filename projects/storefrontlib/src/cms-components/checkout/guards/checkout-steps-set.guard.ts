@@ -82,7 +82,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
   ): Observable<boolean | UrlTree> {
     if (step && !step.disabled) {
       switch (step.type[0]) {
-        case CheckoutStepType.PO_NUMBER: {
+        case CheckoutStepType.PAYMENT_TYPE: {
           return this.isCostCenterSet(step, isAccountPayment);
         }
         case CheckoutStepType.SHIPPING_ADDRESS: {
@@ -103,16 +103,17 @@ export class CheckoutStepsSetGuard implements CanActivate {
   }
 
   protected isCostCenterSet(
-    step: CheckoutStep,
-    isAccountPayment: boolean
+    _step: CheckoutStep,
+    _isAccountPayment: boolean
   ): Observable<boolean | UrlTree> {
-    if (isAccountPayment) {
-      return this.checkoutCostCenterService
-        .getCostCenter()
-        .pipe(map((cc) => (Boolean(cc) ? true : this.getUrl(step.routeName))));
-    } else {
-      return of(true);
-    }
+    // if (isAccountPayment) {
+    //   return this.checkoutCostCenterService
+    //     .getCostCenter()
+    //     .pipe(map((cc) => (Boolean(cc) ? true : this.getUrl(step.routeName))));
+    // } else {
+    //   return of(true);
+    // }
+    return of(true);
   }
 
   protected isShippingAddressSet(

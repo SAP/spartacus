@@ -10,7 +10,7 @@
       *ngFor="let step of (steps$ | async).slice(0, -1)"
     >
       <div class="cx-review-summary-wrapper" [ngSwitch]="step.type[0]">
-        <ng-container *ngSwitchCase="checkoutStepType.PO_NUMBER">
+        <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
           <ng-container *ngTemplateOutlet="poNumber"></ng-container>
         </ng-container>
         <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
@@ -39,7 +39,7 @@
       <a
         [routerLink]="
           {
-            cxRoute: getCheckoutStepUrl(checkoutStepType.PO_NUMBER)
+            cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)
           } | cxUrl
         "
         >{{ 'checkoutReview.editPoNumber' | cxTranslate }}</a

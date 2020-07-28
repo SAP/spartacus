@@ -1,11 +1,17 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import {
+  B2BPaymentTypeEnum,
   PaymentType,
   PaymentTypeService,
-  B2BPaymentTypeEnum,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, scan, tap, filter } from 'rxjs/operators';
+import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
 import { CheckoutStepType } from '../../model/checkout-step.model';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
@@ -15,11 +21,13 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentTypeComponent {
+  @ViewChild('poNumber', { static: false })
+  private _poNumberInput: ElementRef;
+
   paymentTypes$: Observable<
     PaymentType[]
   > = this.paymentTypeService.getPaymentTypes();
 
-  typeSelected: string;
   typeSelected$: Observable<
     string
   > = this.paymentTypeService.getSelectedPaymentType().pipe(
@@ -32,22 +40,41 @@ export class PaymentTypeComponent {
         CheckoutStepType.PAYMENT_DETAILS,
         selected === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
       );
-    }),
-    scan((previous, current) => {
-      if (previous !== undefined) {
-        this.checkoutStepService.goToStepWithIndex(0);
-      }
-      return current;
-    }, undefined)
+    })
   );
+
+  typeSelected: string;
+  cartPoNumber: string;
 
   constructor(
     protected paymentTypeService: PaymentTypeService,
-    protected checkoutStepService: CheckoutStepService
+    protected checkoutStepService: CheckoutStepService,
+    protected activatedRoute: ActivatedRoute
   ) {}
 
   changeType(code: string): void {
     this.paymentTypeService.setPaymentType(code);
     this.typeSelected = code;
+  }
+
+  get cartPoNumber$(): Observable<string> {
+    return this.paymentTypeService.getPoNumber().pipe(
+      filter((po) => po !== undefined),
+      tap((po) => (this.cartPoNumber = po))
+    );
+  }
+
+  next(): void {
+    // set po number to cart
+    const poNumInput = this._poNumberInput.nativeElement.value;
+    if (this.typeSelected && poNumInput !== this.cartPoNumber) {
+      this.paymentTypeService.setPaymentType(this.typeSelected, poNumInput);
+    }
+
+    this.checkoutStepService.next(this.activatedRoute);
+  }
+
+  back(): void {
+    this.checkoutStepService.back(this.activatedRoute);
   }
 }

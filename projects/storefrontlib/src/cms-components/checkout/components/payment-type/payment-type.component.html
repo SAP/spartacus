@@ -1,4 +1,15 @@
 <div class="row">
+  <label>
+    <span class="label-content">{{ 'checkoutPO.poNumber' | cxTranslate }}</span>
+    <input
+      #poNumber
+      class="form-control"
+      type="text"
+      value="{{ cartPoNumber$ | async }}"
+    />
+  </label>
+</div>
+<div class="row">
   {{ 'checkoutProgress.paymentType' | cxTranslate }}
   <ng-container
     *ngIf="
@@ -22,6 +33,20 @@
     </div>
   </ng-container>
 </div>
+
+<div class="row cx-checkout-btns">
+  <div class="col-md-12 col-lg-6">
+    <button class="btn btn-block btn-action" (click)="back()">
+      {{ 'checkout.backToCart' | cxTranslate }}
+    </button>
+  </div>
+  <div class="col-md-12 col-lg-6">
+    <button class="btn btn-block btn-primary" (click)="next()">
+      {{ 'common.continue' | cxTranslate }}
+    </button>
+  </div>
+</div>
+
 <ng-template #loading>
   <div class="cx-spinner">
     <cx-spinner></cx-spinner>

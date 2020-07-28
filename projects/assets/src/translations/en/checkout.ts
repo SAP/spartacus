@@ -52,7 +52,7 @@ export const checkout = {
     costCenter: 'Cost Center',
   },
   checkoutProgress: {
-    paymentType: 'Payment Method:',
+    paymentType: 'Payment Method',
     poNumber: 'P.O. NO.',
     shippingAddress: 'Shipping Address',
     deliveryMode: 'Delivery mode',
