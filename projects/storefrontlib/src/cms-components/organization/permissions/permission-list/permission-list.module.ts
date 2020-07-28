@@ -26,7 +26,7 @@ import { PageLayoutComponent } from '../../../../cms-structure/page/page-layout/
     ]),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ManagePermissionsListComponent: {
+        ManagePermissionsListComponent1: {
           component: PermissionListComponent,
           guards: [AuthGuard],
         },
