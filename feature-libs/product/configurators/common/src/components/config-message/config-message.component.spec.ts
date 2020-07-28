@@ -25,9 +25,9 @@ class MockRoutingService {
 const owner: GenericConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
-const isConfigurationLoading = false;
-const hasPendingChanges = false;
-const waitingTime = 1000;
+let isConfigurationLoading = false;
+let hasPendingChanges = false;
+let waitingTime = 1000;
 
 class MockConfiguratorCommonsService {
   hasPendingChanges(): Observable<boolean> {
@@ -48,7 +48,7 @@ describe('ConfigurationMessageComponent', () => {
   let component: ConfigMessageComponent;
   let configuratorUtils: GenericConfigUtilsService;
   let fixture: ComponentFixture<ConfigMessageComponent>;
-  //let htmlElem: HTMLElement;
+  let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
@@ -74,7 +74,7 @@ describe('ConfigurationMessageComponent', () => {
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigMessageComponent);
-    //htmlElem = fixture.nativeElement;
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     configuratorUtils = TestBed.inject(
       GenericConfigUtilsService as Type<GenericConfigUtilsService>
@@ -85,14 +85,14 @@ describe('ConfigurationMessageComponent', () => {
   it('should create component', () => {
     expect(component).toBeDefined();
   });
-  /*
+
   it('should not show update banner if pending changes and loading is false', () => {
     fixture.detectChanges();
 
     //Should contain d-none class
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-    ).toBe(1);
+      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+    ).toBe(0);
   });
 
   it('should show update banner if pending changes is true', () => {
@@ -102,14 +102,14 @@ describe('ConfigurationMessageComponent', () => {
 
     //Should be hidden first
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-    ).toBe(1);
+      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+    ).toBe(0);
 
     //Should appear after a bit
     setTimeout(() => {
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-      ).toBe(0);
+        htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+      ).toBe(1);
 
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message').length
@@ -124,21 +124,20 @@ describe('ConfigurationMessageComponent', () => {
 
     //Should be hidden first
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-    ).toBe(1);
+      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+    ).toBe(0);
 
     //Should appear after a bit
     setTimeout(() => {
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-      ).toBe(0);
+        htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+      ).toBe(1);
 
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message').length
       ).toBe(1);
     }, 2000);
   });
-
 
   it('should show update banner if loading and pending changes are true', () => {
     hasPendingChanges = true;
@@ -147,14 +146,14 @@ describe('ConfigurationMessageComponent', () => {
 
     //Should be hidden first
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-    ).toBe(1);
+      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+    ).toBe(0);
 
     //Should appear after a bit
     setTimeout(() => {
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-      ).toBe(0);
+        htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+      ).toBe(1);
 
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message').length
@@ -170,19 +169,18 @@ describe('ConfigurationMessageComponent', () => {
 
     //Should be hidden first
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-    ).toBe(1);
+      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+    ).toBe(0);
 
     //Should appear after a bit
     setTimeout(() => {
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-      ).toBe(0);
+        htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+      ).toBe(1);
 
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message').length
       ).toBe(1);
     }, 2000);
   });
-  */
 });
