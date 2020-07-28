@@ -19,8 +19,12 @@
         'configurator.header.displayConfiguration' | cxTranslate
       }}</ng-container
     >
-    <ng-container *ngIf="!readOnly">
+    <ng-container *ngIf="!readOnly && !msgBanner">
       {{ 'configurator.header.editConfiguration' | cxTranslate }}
+    </ng-container>
+
+    <ng-container *ngIf="!readOnly && msgBanner">
+      {{ 'configurator.header.resolveIssues' | cxTranslate }}
     </ng-container>
   </a>
 </ng-container>

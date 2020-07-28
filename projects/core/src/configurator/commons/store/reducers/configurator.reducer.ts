@@ -1,6 +1,6 @@
 import { Configurator } from '../../../../model/configurator.model';
 import { GenericConfigurator } from '../../../../model/generic-configurator.model';
-import * as ConfiguratorActions from '../actions/configurator.action';
+import { ConfiguratorActions } from '../actions/index';
 
 export const initialState: Configurator.Configuration = {
   configId: '',
@@ -15,14 +15,11 @@ export const initialStatePendingChanges = 0;
 
 export function reducer(
   state = initialState,
-  action: ConfiguratorActions.ConfiguratorAction
+  action:
+    | ConfiguratorActions.ConfiguratorAction
+    | ConfiguratorActions.ConfiguratorCartAction
 ): Configurator.Configuration {
   switch (action.type) {
-    case ConfiguratorActions.UPDATE_CART_ENTRY_SUCCESS: {
-      const result = { ...state };
-      result.isCartEntryUpdatePending = false;
-      return result;
-    }
     case ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS: {
       const result: Configurator.Configuration = takeOverChanges(action, state);
       result.isCartEntryUpdateRequired = true;
@@ -32,14 +29,13 @@ export function reducer(
     case ConfiguratorActions.UPDATE_CART_ENTRY: {
       const result = { ...state };
       result.isCartEntryUpdateRequired = false;
-      result.isCartEntryUpdatePending = true;
       return result;
     }
     case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.READ_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS: {
-      return takeOverChanges(action, state);
+      return setInitialCurrentGroup(takeOverChanges(action, state));
     }
     case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS: {
       const content = { ...action.payload.overview };
@@ -149,6 +145,30 @@ export function reducer(
   }
   return state;
 }
+
+function setInitialCurrentGroup(
+  state: Configurator.Configuration
+): Configurator.Configuration {
+  if (state.interactionState.currentGroup) {
+    return state;
+  }
+  let initialCurrentGroup = null;
+
+  if (state?.groups?.length > 0) {
+    initialCurrentGroup = state?.groups[0]?.id;
+  }
+
+  const result = {
+    ...state,
+    interactionState: {
+      ...state.interactionState,
+      currentGroup: initialCurrentGroup,
+    },
+  };
+
+  return result;
+}
+
 function takeOverChanges(
   action:
     | ConfiguratorActions.CreateConfigurationSuccess
@@ -158,7 +178,7 @@ function takeOverChanges(
     | ConfiguratorActions.ReadCartEntryConfigurationSuccess
     | ConfiguratorActions.ReadOrderEntryConfigurationSuccess,
   state: Configurator.Configuration
-) {
+): Configurator.Configuration {
   const content = { ...action.payload };
   const result = {
     ...state,
