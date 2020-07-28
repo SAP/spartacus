@@ -63,6 +63,18 @@ context('Product Configuration', () => {
         'id',
         'cx-config--radioGroup--CAMERA_COLOR--METALLIC'
       );
+
+      configuration.clickOnNextBtn();
+
+      configuration.selectAttribute('CAMERA_SD_CARD', 'checkBoxList', 'SDXC');
+
+      cy.wait(3000);
+
+      cy.focused().should(
+        'have.attr',
+        'id',
+        'cx-config--checkBoxList--CAMERA_SD_CARD--SDXC'
+      );
     });
   });
 });
