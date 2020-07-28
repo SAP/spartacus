@@ -25,6 +25,27 @@
       </div>
     </ng-container>
   </div>
+
+  <div class="form-group" *ngIf="titles$ | async as titles">
+    <div *ngIf="titles.length !== 0">
+      <label aria-required="true">
+        <span class="label-content required">{{
+          'units.unitAddressForm.title' | cxTranslate
+        }}</span>
+        <ng-select
+          formControlName="titleCode"
+          [searchable]="false"
+          [clearable]="false"
+          [items]="titles"
+          bindLabel="name"
+          bindValue="code"
+          placeholder="{{ 'units.unitAddressForm.selectOne' | cxTranslate }}"
+        >
+        </ng-select>
+      </label>
+    </div>
+  </div>
+
   <div class="form-group">
     <label>
       <span class="label-content required">{{

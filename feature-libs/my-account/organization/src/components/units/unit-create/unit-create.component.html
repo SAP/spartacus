@@ -30,15 +30,18 @@
 
     <section class="half">
       <cx-unit-form [form]="form"></cx-unit-form>
-      <button class="button primary" type="submit">
-        {{ 'organization.save' | cxTranslate }}
-      </button>
-      <button
-        [routerLink]="{ cxRoute: 'orgUnits' } | cxUrl"
-        class="button secondary"
-      >
-        {{ 'organization.cancel' | cxTranslate }}
-      </button>
+      <div class="form-buttons">
+        <button class="button primary" type="submit">
+          {{ 'organization.save' | cxTranslate }}
+        </button>
+        <button
+          [routerLink]="{ cxRoute: 'orgUnits' } | cxUrl"
+          class="button secondary"
+          (click)="view.toggle()"
+        >
+          {{ 'organization.cancel' | cxTranslate }}
+        </button>
+      </div>
     </section>
   </form>
 </cx-view>

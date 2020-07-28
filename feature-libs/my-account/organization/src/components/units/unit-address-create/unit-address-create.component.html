@@ -1,8 +1,7 @@
-<cx-view #view>
+<cx-view #view *ngIf="code$ | async as orgUnitCode">
   <form [formGroup]="form" (ngSubmit)="save($event, form)">
     <h3>
       <a
-        *ngIf="code$ | async as orgUnitCode"
         class="link"
         [routerLink]="
           { cxRoute: 'orgUnitManageAddresses', params: { uid: orgUnitCode } }
@@ -13,20 +12,25 @@
         <cx-icon type="CARET_LEFT"></cx-icon>
       </a>
 
-      <span>{{ 'units.unitAddressCreate.header' | cxTranslate }}</span>
+      <span>{{
+        'units.unitAddressCreate.header' | cxTranslate: { code: orgUnitCode }
+      }}</span>
     </h3>
 
     <section class="half">
       <cx-unit-address-form [form]="form"></cx-unit-address-form>
-      <button class="button primary" type="submit">
-        {{ 'organization.save' | cxTranslate }}
-      </button>
-      <button
-        [routerLink]="{ cxRoute: 'orgUnits' } | cxUrl"
-        class="button secondary"
-      >
-        {{ 'organization.cancel' | cxTranslate }}
-      </button>
+      <div class="form-buttons">
+        <button class="button primary" type="submit">
+          {{ 'organization.save' | cxTranslate }}
+        </button>
+        <button
+          [routerLink]="{ cxRoute: 'orgUnits' } | cxUrl"
+          class="button secondary"
+          (click)="view.toggle()"
+        >
+          {{ 'organization.cancel' | cxTranslate }}
+        </button>
+      </div>
     </section>
   </form>
 </cx-view>

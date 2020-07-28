@@ -72,6 +72,11 @@ export const units = {
     b2bapprovergroup: 'Approver',
     b2bmanagergroup: 'Manager',
     b2badmingroup: 'Admin',
+    instructions: {
+      check: "To assign a role to a user, select the role's check box.",
+      uncheck: "To remove a role, clear the role's check box.",
+      changes: 'Changes are saved automatically.',
+    },
   },
   unitApprovers: {
     header: 'Approvers in {{code}}',
@@ -82,6 +87,11 @@ export const units = {
   unitAssignApprovers: {
     header: 'Manage approvers in {{code}}',
     back: 'Close',
+    instructions: {
+      check: "To assign an approver to this unit, select the user's check box.",
+      uncheck: "To remove aa approver, clear the user's check box.",
+      changes: 'Changes are saved automatically.',
+    },
   },
   unitManageAddresses: {
     header: 'Manage addresses in {{code}}',
@@ -106,7 +116,7 @@ export const units = {
     details: 'Details',
   },
   unitAddressCreate: {
-    header: 'Address create',
+    header: 'New shipping address for {{code}}',
     create: 'Create',
   },
   unitAddressEdit: {

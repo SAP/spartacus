@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ConfigModule } from '@spartacus/core';
+import {
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 import {
   unitsCmsConfig,
   unitsRoutingConfig,
-  unitsTableConfig,
+  unitsTableConfigFactory,
 } from './units.config';
 import { UnitCreateModule } from './unit-create';
 import { UnitEditModule } from './unit-edit';
@@ -24,14 +27,6 @@ import { UnitCostCentersModule } from './unit-cost-centers';
 @NgModule({
   imports: [
     RouterModule,
-
-    // refactor to use factory function
-    ConfigModule.withConfig({
-      ...unitsRoutingConfig,
-      ...unitsCmsConfig,
-      ...unitsTableConfig,
-    }),
-
     UnitListModule,
     UnitCreateModule,
     UnitEditModule,
@@ -46,6 +41,11 @@ import { UnitCostCentersModule } from './unit-cost-centers';
     UnitAddressCreateModule,
     UnitAddressEditModule,
     UnitCostCentersModule,
+  ],
+  providers: [
+    provideDefaultConfig(unitsRoutingConfig),
+    provideDefaultConfig(unitsCmsConfig),
+    provideDefaultConfigFactory(unitsTableConfigFactory),
   ],
 })
 export class UnitsComponentsModule {}

@@ -171,6 +171,10 @@ export const unitsCmsConfig: CmsConfig = {
   },
 };
 
+export function unitsTableConfigFactory(): TableConfig {
+  return unitsTableConfig;
+}
+
 export const unitsTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.UNIT_USERS]: [

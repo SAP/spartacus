@@ -5,6 +5,7 @@ import { UnitAssignRolesComponent } from './unit-assign-roles.component';
 import {
   IconModule,
   OutletRefModule,
+  PaginationModule,
   SplitViewModule,
   TableModule,
 } from '@spartacus/storefront';
@@ -24,6 +25,7 @@ import { FormsModule } from '@angular/forms';
     RouterModule,
     OutletRefModule,
     IconModule,
+    PaginationModule,
   ],
   declarations: [UnitAssignRolesComponent],
   exports: [UnitAssignRolesComponent],

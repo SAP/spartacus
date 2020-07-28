@@ -16,15 +16,13 @@ import {
 import { switchMap, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UnitAddressFormService } from './unit-address-form.service';
-import { AbstractFormComponent } from '../../../../../../../projects/storefrontlib/src/cms-components/organization/abstract-component';
 
 @Component({
   selector: 'cx-unit-address-form',
   templateUrl: './unit-address-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UnitAddressFormComponent extends AbstractFormComponent
-  implements OnInit {
+export class UnitAddressFormComponent implements OnInit {
   countries$: Observable<Country[]>;
   titles$: Observable<Title[]>;
   regions$: Observable<Region[]>;
@@ -37,9 +35,7 @@ export class UnitAddressFormComponent extends AbstractFormComponent
     protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected unitAddressFormService: UnitAddressFormService
-  ) {
-    super();
-  }
+  ) {}
 
   ngOnInit() {
     this.countries$ = this.unitAddressFormService.getDeliveryCountries();

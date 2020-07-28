@@ -20,7 +20,5 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
   ],
   declarations: [UnitCreateComponent],
-  exports: [UnitCreateComponent],
-  entryComponents: [UnitCreateComponent],
 })
 export class UnitCreateModule {}

@@ -2,22 +2,6 @@
   <div class="form-group">
     <label>
       <span class="label-content required">{{
-        'units.orgUnitForm.uid.label' | cxTranslate
-      }}</span>
-      <input
-        class="form-control"
-        type="text"
-        required
-        placeholder="{{ 'units.orgUnitForm.uid.placeholder' | cxTranslate }}"
-        formControlName="uid"
-      />
-      <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
-    </label>
-  </div>
-
-  <div class="form-group">
-    <label>
-      <span class="label-content required">{{
         'units.orgUnitForm.name.label' | cxTranslate
       }}</span>
       <input
@@ -28,6 +12,22 @@
         formControlName="name"
       />
       <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label>
+      <span class="label-content required">{{
+        'units.orgUnitForm.uid.label' | cxTranslate
+      }}</span>
+      <input
+        class="form-control"
+        type="text"
+        required
+        placeholder="{{ 'units.orgUnitForm.uid.placeholder' | cxTranslate }}"
+        formControlName="uid"
+      />
+      <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
     </label>
   </div>
 
@@ -76,7 +76,6 @@
             bindLabel="name"
             bindValue="id"
             [class.invalid]="isNotValid('parentOrgUnit')"
-            [readonly]="readonlyParent"
           >
           </ng-select>
           <cx-form-errors

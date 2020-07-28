@@ -28,6 +28,27 @@
         (viewPageEvent)="viewPage(dataTable.pagination, $event)"
       ></cx-pagination>
     </section>
+    <div class="instructions">
+      <ul>
+        <li>
+          {{ 'units.unitAssignApprovers.instructions.check' | cxTranslate }}
+        </li>
+        <li>
+          {{ 'units.unitAssignApprovers.instructions.uncheck' | cxTranslate }}
+        </li>
+        <li>
+          {{ 'units.unitAssignApprovers.instructions.changes' | cxTranslate }}
+        </li>
+      </ul>
+      <button
+        class="button secondary"
+        [routerLink]="
+          { cxRoute: 'orgUnitApprovers', params: { uid: orgUnitCode } } | cxUrl
+        "
+      >
+        {{ 'costCenter.budget.back' | cxTranslate }}
+      </button>
+    </div>
   </ng-container>
 
   <ng-template #emptyList>
