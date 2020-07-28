@@ -148,7 +148,9 @@ export class CartEffects {
 
                 if (error && error.error && error.error.errors) {
                   const cartNotFoundErrors = error.error.errors.filter(
-                    err => err.reason === 'notFound' || 'UnknownResourceError'
+                    err =>
+                      err.reason === 'notFound' ||
+                      err.reason === 'UnknownResourceError'
                   );
                   if (cartNotFoundErrors.length > 0) {
                     // Clear cart is responsible for removing cart in `cart` store feature.
