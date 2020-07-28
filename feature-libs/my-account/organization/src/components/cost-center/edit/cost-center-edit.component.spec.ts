@@ -45,8 +45,8 @@ class MockCurrentCostCenterService
 }
 
 class MockCostCenterService implements Partial<CostCenterService> {
-  update(_costCenterCode: string, _costCenter: CostCenter) {}
-  load(_costCenterCode: string) {}
+  update = createSpy('update');
+  load = createSpy('load');
 }
 
 const mockRouterState = {
@@ -67,7 +67,7 @@ class MockRoutingService {
 describe('CostCenterEditComponent', () => {
   let component: CostCenterEditComponent;
   let fixture: ComponentFixture<CostCenterEditComponent>;
-  let costCenterService: MockCostCenterService;
+  let costCenterService: CostCenterService;
   let routingService: RoutingService;
   let saveButton;
   let costCenterFormComponent;
@@ -125,7 +125,6 @@ describe('CostCenterEditComponent', () => {
     });
 
     it('should create cost center', () => {
-      spyOn(costCenterService, 'update');
       saveButton.nativeElement.click();
       expect(costCenterService.update).toHaveBeenCalled();
     });
