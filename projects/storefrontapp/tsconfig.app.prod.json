@@ -8,7 +8,6 @@
       "@spartacus/vendor": ["dist/vendor"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/my-account": ["dist/my-account"],
-      "@spartacus/gigya": ["dist/gigya"],
       "@spartacus/product": ["dist/product"],
       "@spartacus/product/configurators": ["dist/product/configurators"],
       "@spartacus/product/configurators/common": [
@@ -22,7 +21,8 @@
       ],
       "@spartacus/product/configurators/textfield": [
         "dist/product/configurators/textfield"
-      ]
+      ],
+      "@spartacus/gigya": ["dist/gigya"]
     }
   }
 }

@@ -41,7 +41,7 @@ Toolkit.run(
       'target',
     ]);
 
-    const libraries = ['assets', 'storefront', 'cds'];
+    const libraries = ['assets', 'storefront', 'cds', 'gigya'];
 
     const libsDiffs = libraries.map((library) => {
       const sourceBranchReportDirectory = `etc`;

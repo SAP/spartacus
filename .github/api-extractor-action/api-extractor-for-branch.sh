@@ -78,3 +78,10 @@ cp "$CONFIG_PATH" ./dist/product/api-extractor.json
   cd ./dist/product && \
   api-extractor run --local --verbose
 )
+
+# @spartacus/gigya
+cp "$CONFIG_PATH" ./dist/gigya/api-extractor.json
+(
+  cd ./dist/gigya && \
+  api-extractor run --local --verbose
+)

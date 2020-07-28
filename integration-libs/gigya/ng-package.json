@@ -7,7 +7,8 @@
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
       "rxjs": "rxjs",
-      "@ngrx/store": "store"
+      "@ngrx/store": "store",
+      "@ngrx/effects": "effects"
     }
   }
 }
