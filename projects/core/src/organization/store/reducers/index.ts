@@ -1,5 +1,6 @@
 import { InjectionToken, Provider } from '@angular/core';
 import {
+  Action,
   ActionReducer,
   ActionReducerMap,
   combineReducers,
@@ -202,8 +203,8 @@ export const reducerProvider: Provider = {
 };
 
 export function clearOrganizationState(
-  reducer: ActionReducer<OrganizationState>
-): ActionReducer<OrganizationState> {
+  reducer: ActionReducer<OrganizationState, Action>
+): ActionReducer<OrganizationState, Action> {
   return function (state, action) {
     if (action.type === AuthActions.LOGOUT) {
       state = undefined;
