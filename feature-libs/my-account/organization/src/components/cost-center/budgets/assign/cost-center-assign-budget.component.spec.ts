@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Budget, I18nTestingModule } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
@@ -36,13 +35,6 @@ const mockBudgetList: Table<Budget> = {
   structure: { type: '' },
 };
 
-class MockActivatedRoute {
-  parent = {
-    params: of({ code: costCenterCode }),
-  };
-  snapshot = {};
-}
-
 class MockCostCenterBudgetListService {
   getTable(_code) {
     return of(mockBudgetList);
@@ -67,7 +59,6 @@ describe('CostCenterAssignBudgetsComponent', () => {
       ],
       declarations: [CostCenterAssignBudgetsComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
           provide: CostCenterAssignBudgetListService,
           useClass: MockCostCenterBudgetListService,

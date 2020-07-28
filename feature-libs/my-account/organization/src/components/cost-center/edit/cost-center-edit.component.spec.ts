@@ -3,7 +3,6 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CostCenter,
@@ -65,14 +64,6 @@ class MockRoutingService {
   );
 }
 
-class MockActivatedRoute {
-  parent = {
-    params: of({ code: costCenterCode }),
-  };
-  snapshot = {};
-  go() {}
-}
-
 describe('CostCenterEditComponent', () => {
   let component: CostCenterEditComponent;
   let fixture: ComponentFixture<CostCenterEditComponent>;
@@ -94,7 +85,6 @@ describe('CostCenterEditComponent', () => {
       ],
       declarations: [CostCenterEditComponent, MockCostCenterFormComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CostCenterService, useClass: MockCostCenterService },
         {

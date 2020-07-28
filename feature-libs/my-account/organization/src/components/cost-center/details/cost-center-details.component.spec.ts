@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CostCenter,
@@ -39,12 +38,6 @@ class MockCostCenterService implements Partial<CostCenterService> {
   update = createSpy('update');
 }
 
-class MockActivatedRoute {
-  params = of({ code: costCenterCode });
-
-  snapshot = {};
-}
-
 class MockModalService {
   open() {}
 }
@@ -75,7 +68,6 @@ describe('CostCenterDetailsComponent', () => {
         MockCostCenterBudgetListComponent,
       ],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: CostCenterService, useClass: MockCostCenterService },
         { provide: ModalService, useClass: MockModalService },
       ],

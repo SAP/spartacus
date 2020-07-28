@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Budget, I18nTestingModule } from '@spartacus/core';
 import { Table, TableModule } from '@spartacus/storefront';
@@ -12,13 +11,6 @@ import { CostCenterBudgetListComponent } from './cost-center-budget-list.compone
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
 
 const costCenterCode = 'costCenterCode';
-
-class MockActivatedRoute {
-  get params() {
-    return of({ code: costCenterCode });
-  }
-  snapshot = {};
-}
 
 class MockCurrentCostCenterService
   implements Partial<CurrentCostCenterService> {
@@ -80,7 +72,6 @@ describe('CostCenterBudgetListComponent', () => {
       ],
       declarations: [CostCenterBudgetListComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute },
         {
           provide: CostCenterBudgetListService,
           useClass: MockCostCenterBudgetListService,
