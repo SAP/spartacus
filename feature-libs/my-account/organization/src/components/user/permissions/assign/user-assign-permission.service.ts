@@ -24,10 +24,7 @@ export class UserAssignPermissionListService extends BaseOrganizationListService
     structure: TableStructure,
     code: string
   ): Observable<EntitiesModel<Permission>> {
-    return this.userService.getAvailableOrderApprovalPermissions(
-      code,
-      structure.pagination
-    );
+    return this.userService.getPermissions(code, structure.pagination);
   }
 
   toggleAssign(

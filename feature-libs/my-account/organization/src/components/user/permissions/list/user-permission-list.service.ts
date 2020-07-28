@@ -31,7 +31,7 @@ export class UserPermissionListService extends BaseOrganizationListService<
   ): Observable<EntitiesModel<Permission>> {
     const config = structure.pagination;
     return this.userService
-      .getAvailableOrderApprovalPermissions(code, config)
+      .getPermissions(code, config)
       .pipe(map((permissions) => this.filterSelected(permissions)));
   }
 

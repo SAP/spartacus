@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from '@spartacus/core';
+import { B2BUser } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserFormService {
-  getForm(model?: User): FormGroup {
+  getForm(model?: B2BUser): FormGroup {
     const form = new FormGroup({});
     this.build(form);
     if (model) {

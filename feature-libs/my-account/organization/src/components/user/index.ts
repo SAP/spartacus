@@ -1,7 +1,7 @@
 export * from './permissions/assign/index';
 export * from './permissions/list/index';
-export * from './users/assign/index';
-export * from './users/list/index';
+// export * from './user-groups/assign/index';
+// export * from './user-groups/list/index';
 export * from './user-components.module';
 export * from './create/index';
 export * from './details/index';

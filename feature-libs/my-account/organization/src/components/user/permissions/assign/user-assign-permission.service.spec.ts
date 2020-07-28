@@ -24,9 +24,7 @@ const mockUserPermissionEntities: EntitiesModel<Permission> = {
 };
 
 class MockB2BUserService {
-  getAvailableOrderApprovalPermissions(): Observable<
-    EntitiesModel<Permission>
-  > {
+  getB2BUserPermissions(): Observable<EntitiesModel<Permission>> {
     return of(mockUserPermissionEntities);
   }
   assignPermission() {}

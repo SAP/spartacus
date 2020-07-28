@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { User, B2BUserService, I18nTestingModule } from '@spartacus/core';
+import { B2BUser, B2BUserService, I18nTestingModule } from '@spartacus/core';
 import { ModalService, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
@@ -13,7 +13,7 @@ import createSpy = jasmine.createSpy;
 
 const userCode = 'b1';
 
-const mockUser: User = {
+const mockUser: B2BUser = {
   uid: userCode,
   name: 'user1',
   orgUnit: { name: 'orgName', uid: 'orgCode' },
