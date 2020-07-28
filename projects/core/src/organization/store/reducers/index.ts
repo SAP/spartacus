@@ -202,8 +202,8 @@ export const reducerProvider: Provider = {
 };
 
 export function clearOrganizationState(
-  reducer: ActionReducer<any>
-): ActionReducer<any> {
+  reducer: ActionReducer<OrganizationState>
+): ActionReducer<OrganizationState> {
   return function (state, action) {
     if (action.type === AuthActions.LOGOUT) {
       state = undefined;
