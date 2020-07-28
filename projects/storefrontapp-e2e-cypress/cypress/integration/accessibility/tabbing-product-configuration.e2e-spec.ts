@@ -26,7 +26,8 @@ context('Product Configuration', () => {
     it('should allow to navigate with tab key', () => {
       goToConfigPage(configurator, testProduct);
       configuration.isGroupMenuDisplayed();
-      cy.get('a:contains(Options)').should('be.visible');
+      configuration.isConfigHeaderDisplayed();
+      //cy.get('a:contains(Options)').should('be.visible');
       verifyTabbingOrder(
         containerSelectorConfigForm,
         tabConfig.productConfigurationPage1

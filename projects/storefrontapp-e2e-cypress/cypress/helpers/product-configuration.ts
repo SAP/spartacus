@@ -200,6 +200,10 @@ export function isGroupMenuDisplayed() {
   cy.get('cx-config-group-menu').should('be.visible');
 }
 
+export function isConfigHeaderDisplayed() {
+  cy.get('a:contains("show more")').should('be.visible');
+}
+
 export function isGroupMenuNotDisplayed() {
   cy.get('cx-config-group-menu').should('not.be.visible');
 }
