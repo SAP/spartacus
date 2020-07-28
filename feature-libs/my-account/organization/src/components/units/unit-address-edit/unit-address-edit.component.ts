@@ -1,58 +1,67 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { Component } from '@angular/core';
+import { map, switchMap, take, withLatestFrom } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { B2BAddress, OrgUnitService, RoutingService } from '@spartacus/core';
+import { ActivatedRoute } from '@angular/router';
+import { FormGroup } from '@angular/forms';
+import { UnitAddressFormService } from '../unit-address-form/unit-address-form.service';
 
 @Component({
   selector: 'cx-unit-address-edit',
   templateUrl: './unit-address-edit.component.html',
 })
-export class UnitAddressEditComponent implements OnInit {
-  orgUnitCode$: Observable<string> = this.routingService
-    .getRouterState()
-    .pipe(map((routingData) => routingData.state.params['code']));
+export class UnitAddressEditComponent {
+  protected code$: Observable<
+    string
+  > = this.route.parent.parent.parent.params.pipe(
+    map((routingData) => routingData['code'])
+  );
 
-  addressId$: Observable<string> = this.routingService
-    .getRouterState()
-    .pipe(map((routingData) => routingData.state.params['id']));
+  protected addressId$: Observable<string> = this.route.parent.params.pipe(
+    map((routingData) => routingData['id'])
+  );
 
-  address$: Observable<B2BAddress | { orgUnitId: string }>;
+  protected address$: Observable<B2BAddress> = this.code$.pipe(
+    withLatestFrom(this.addressId$),
+    switchMap(([orgUnitId, id]) =>
+      this.orgUnitsService.getAddress(orgUnitId, id)
+    )
+  );
+
+  protected form$: Observable<FormGroup> = this.address$.pipe(
+    map((address) => this.unitAddressFormService.getForm(address))
+  );
+
+  viewModel$ = this.form$.pipe(
+    withLatestFrom(this.address$, this.code$),
+    map(([form, address, code]) => ({ form, address, code }))
+  );
 
   constructor(
     protected routingService: RoutingService,
-    protected orgUnitsService: OrgUnitService
+    protected orgUnitsService: OrgUnitService,
+    protected route: ActivatedRoute,
+    protected unitAddressFormService: UnitAddressFormService
   ) {}
 
-  ngOnInit(): void {
-    this.address$ = this.orgUnitCode$.pipe(
-      withLatestFrom(this.addressId$),
-      tap(([orgUnitId]) => this.orgUnitsService.loadAddresses(orgUnitId)),
-      switchMap(([orgUnitId, id]) =>
-        this.orgUnitsService.getAddress(orgUnitId, id).pipe(
-          filter(Boolean),
-          map((address: B2BAddress) => ({ ...address, orgUnitId }))
-        )
-      )
-    );
-  }
-
-  updateAddress(address: B2BAddress) {
-    this.orgUnitCode$
-      .pipe(withLatestFrom(this.addressId$), take(1))
-      .subscribe(([code, id]) => {
-        this.orgUnitsService.updateAddress(code, id, address);
-        this.routingService.go({
-          cxRoute: 'orgUnitAddressDetails',
-          params: { id, code },
+  save(event: any, form: FormGroup) {
+    event.preventDefault();
+    if (form.invalid) {
+      form.markAllAsTouched();
+    } else {
+      // disabling form before save causing to refresh form state and adds region field
+      // which shouldn't be included when disabled. This might need some change
+      // form.disable();
+      this.code$
+        .pipe(withLatestFrom(this.addressId$), take(1))
+        .subscribe(([code, id]) => {
+          this.orgUnitsService.updateAddress(code, id, form.value);
+          this.routingService.go({
+            cxRoute: 'orgUnitAddressDetails',
+            params: { id, uid: code },
+          });
         });
-      });
+    }
   }
 }

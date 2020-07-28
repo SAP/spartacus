@@ -18,6 +18,7 @@ import { UnitAssignApproversModule } from './unit-assign-approvers';
 import { UnitManageAddressesModule } from './unit-manage-addresses';
 import { UnitAddressDetailsModule } from './unit-address-details';
 import { UnitAddressCreateModule } from './unit-address-create';
+import { UnitAddressEditModule } from './unit-address-edit';
 
 @NgModule({
   imports: [
@@ -42,8 +43,8 @@ import { UnitAddressCreateModule } from './unit-address-create';
     UnitManageAddressesModule,
     UnitAddressDetailsModule,
     UnitAddressCreateModule,
+    UnitAddressEditModule,
 
-    // UnitAddressEditModule,
     // UnitCostCentersModule,
   ],
 })
