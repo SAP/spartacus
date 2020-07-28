@@ -64,6 +64,8 @@ Finally, run the script:
     - [ ] `npm run release:core:with-changelog`
     - [ ] `npm run release:cds:with-changelog`
     - [ ] `npm run release:schematics:with-changelog`
+    - [ ] `npm run release:gigya:with-changelog` (since 2.1.next.0 - publish under `0.<packages-version>.0` eg. `0.210-next0.0` for first `2.1-next.0` release)
+      - [ ] before the script set the spartacus peerDependencies manually (as we publish it under 0.210-next0.0 version)
 - [ ] Check that the release notes are populated on github (if they are not, update them)
 - [ ] Check tags on npm.
   - `next` tag should always reference the last non-stable version
