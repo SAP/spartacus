@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -13,9 +14,9 @@ import {
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
+import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterEditComponent } from './cost-center-edit.component';
-import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -38,10 +39,13 @@ const mockCostCenter: CostCenter = {
   unit: { name: 'orgName', uid: 'orgCode' },
 };
 
+class MockCurrentCostCenterService
+  implements Partial<CurrentCostCenterService> {
+  code$ = of(costCenterCode);
+  model$ = of(mockCostCenter);
+}
+
 class MockCostCenterService implements Partial<CostCenterService> {
-  get(_costCenterCode: string): Observable<CostCenter> {
-    return of(mockCostCenter);
-  }
   update(_costCenterCode: string, _costCenter: CostCenter) {}
   load(_costCenterCode: string) {}
 }
@@ -93,6 +97,10 @@ describe('CostCenterEditComponent', () => {
         { provide: ActivatedRoute, useClass: MockActivatedRoute },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CostCenterService, useClass: MockCostCenterService },
+        {
+          provide: CurrentCostCenterService,
+          useClass: MockCurrentCostCenterService,
+        },
       ],
     }).compileComponents();
 

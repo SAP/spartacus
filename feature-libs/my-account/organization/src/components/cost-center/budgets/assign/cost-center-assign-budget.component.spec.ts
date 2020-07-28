@@ -8,10 +8,16 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { CurrentCostCenterService } from '../../current-cost-center.service';
 import { CostCenterAssignBudgetsComponent } from './cost-center-assign-budget.component';
 import { CostCenterAssignBudgetListService } from './cost-center-assign-budget.service';
 
 const costCenterCode = 'costCenterCode';
+
+class MockCurrentCostCenterService
+  implements Partial<CurrentCostCenterService> {
+  code$ = of(costCenterCode);
+}
 
 const mockBudgetList: Table<Budget> = {
   data: [
@@ -65,6 +71,10 @@ describe('CostCenterAssignBudgetsComponent', () => {
         {
           provide: CostCenterAssignBudgetListService,
           useClass: MockCostCenterBudgetListService,
+        },
+        {
+          provide: CurrentCostCenterService,
+          useClass: MockCurrentCostCenterService,
         },
       ],
     }).compileComponents();
@@ -143,6 +153,14 @@ describe('CostCenterAssignBudgetsComponent', () => {
     it('should not show is-empty message', () => {
       const el = fixture.debugElement.query(By.css('p.is-empty'));
       expect(el).toBeTruthy();
+    });
+  });
+
+  describe('code$', () => {
+    it('should emit the current cost center code', () => {
+      let result;
+      component.code$.subscribe((r) => (result = r)).unsubscribe();
+      expect(result).toBe(costCenterCode);
     });
   });
 });

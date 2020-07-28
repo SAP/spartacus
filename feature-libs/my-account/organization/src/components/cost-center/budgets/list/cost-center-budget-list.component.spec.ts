@@ -7,6 +7,7 @@ import { Table, TableModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
+import { CurrentCostCenterService } from '../../current-cost-center.service';
 import { CostCenterBudgetListComponent } from './cost-center-budget-list.component';
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
 
@@ -17,6 +18,11 @@ class MockActivatedRoute {
     return of({ code: costCenterCode });
   }
   snapshot = {};
+}
+
+class MockCurrentCostCenterService
+  implements Partial<CurrentCostCenterService> {
+  code$ = of(costCenterCode);
 }
 
 const mockBudgetList: Table<Budget> = {
@@ -79,6 +85,10 @@ describe('CostCenterBudgetListComponent', () => {
           provide: CostCenterBudgetListService,
           useClass: MockCostCenterBudgetListService,
         },
+        {
+          provide: CurrentCostCenterService,
+          useClass: MockCurrentCostCenterService,
+        },
       ],
     }).compileComponents();
     service = TestBed.inject(CostCenterBudgetListService);
@@ -136,6 +146,14 @@ describe('CostCenterBudgetListComponent', () => {
     it('should not show is-empty message', () => {
       const el = fixture.debugElement.query(By.css('p.is-empty'));
       expect(el).toBeTruthy();
+    });
+  });
+
+  describe('code$', () => {
+    it('should emit the current cost center code', () => {
+      let result;
+      component.code$.subscribe((r) => (result = r)).unsubscribe();
+      expect(result).toBe(costCenterCode);
     });
   });
 });

@@ -12,6 +12,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
 import { of } from 'rxjs';
+import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 import createSpy = jasmine.createSpy;
 
@@ -27,9 +28,14 @@ const mockCostCenter: CostCenter = {
   unit: { name: 'orgName', uid: 'orgCode' },
 };
 
+class MockCurrentCostCenterService
+  implements Partial<CurrentCostCenterService> {
+  code$ = of(costCenterCode);
+  model$ = of(mockCostCenter);
+}
+
 class MockCostCenterService implements Partial<CostCenterService> {
   load = createSpy('load');
-  get = createSpy('get').and.returnValue(of(mockCostCenter));
   update = createSpy('update');
 }
 
@@ -73,7 +79,18 @@ describe('CostCenterDetailsComponent', () => {
         { provide: CostCenterService, useClass: MockCostCenterService },
         { provide: ModalService, useClass: MockModalService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CostCenterDetailsComponent, {
+        set: {
+          providers: [
+            {
+              provide: CurrentCostCenterService,
+              useClass: MockCurrentCostCenterService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
     costCentersService = TestBed.inject(CostCenterService);
   }));
@@ -94,5 +111,17 @@ describe('CostCenterDetailsComponent', () => {
       mockCostCenter.code,
       mockCostCenter
     );
+  });
+
+  it('should trigger reload of cost center model on each code change', () => {
+    expect(costCentersService.load).toHaveBeenCalledWith(mockCostCenter.code);
+  });
+
+  describe('costCenter$', () => {
+    it('should emit current cost center model', () => {
+      let result;
+      component.costCenter$.subscribe((r) => (result = r)).unsubscribe();
+      expect(result).toBe(mockCostCenter);
+    });
   });
 });
