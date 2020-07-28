@@ -3,11 +3,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartService,
   Address,
   Cart,
-  ActiveCartService,
+  CheckoutCostCenterService,
   CheckoutDeliveryService,
   CheckoutPaymentService,
+  CostCenter,
   Country,
   DeliveryMode,
   FeaturesConfig,
@@ -15,12 +17,10 @@ import {
   I18nTestingModule,
   OrderEntry,
   PaymentDetails,
+  PaymentTypeService,
   PromotionLocation,
   UserAddressService,
-  PaymentTypeService,
-  CheckoutCostCenterService,
   UserCostCenterService,
-  CostCenter,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../..';
@@ -135,7 +135,7 @@ class MockCheckoutStepService {
       id: 'step1',
       name: 'step1',
       routeName: 'route1',
-      type: [CheckoutStepType.PO_NUMBER],
+      type: [CheckoutStepType.PAYMENT_TYPE],
     },
     {
       id: 'step2',
@@ -283,7 +283,7 @@ describe('ReviewSubmitComponent', () => {
       id: 'step1',
       name: 'step1',
       routeName: 'route1',
-      type: [CheckoutStepType.PO_NUMBER],
+      type: [CheckoutStepType.PAYMENT_TYPE],
     });
     expect(steps[1]).toEqual({
       id: 'step2',

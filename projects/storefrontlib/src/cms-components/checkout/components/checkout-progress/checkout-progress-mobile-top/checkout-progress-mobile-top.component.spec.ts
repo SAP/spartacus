@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActiveCartService, I18nTestingModule } from '@spartacus/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStep, CheckoutStepType } from '../../../model';
 import { CheckoutStepService } from '../../../services/checkout-step.service';
 import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-top.component';
@@ -13,7 +13,7 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
     id: 'step0',
     name: 'step 0',
     routeName: 'route0',
-    type: [CheckoutStepType.PO_NUMBER],
+    type: [CheckoutStepType.PAYMENT_TYPE],
   },
   {
     id: 'step1',

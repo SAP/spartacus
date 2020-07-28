@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  Order,
   Address,
-  RoutingConfigService,
-  PaymentTypeService,
   CheckoutCostCenterService,
+  Order,
+  PaymentTypeService,
+  RoutingConfigService,
 } from '@spartacus/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
-import { CheckoutStepService } from '../services/checkout-step.service';
-import { CheckoutDetailsService } from '../services/checkout-details.service';
-import { CheckoutStepsSetGuard } from './checkout-steps-set.guard';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStep, CheckoutStepType } from '../model';
+import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
+import { CheckoutStepsSetGuard } from './checkout-steps-set.guard';
 import createSpy = jasmine.createSpy;
 
 class MockRoutingConfigService {
@@ -38,7 +38,7 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
     id: 'step0',
     name: 'step 0',
     routeName: 'route0',
-    type: [CheckoutStepType.PO_NUMBER],
+    type: [CheckoutStepType.PAYMENT_TYPE],
   },
   {
     id: 'step1',
