@@ -18,6 +18,7 @@ import { UnitManageAddressesComponent } from './unit-manage-addresses';
 import { UnitAddressDetailsComponent } from './unit-address-details';
 import { UnitAddressCreateComponent } from './unit-address-create';
 import { UnitAddressEditComponent } from './unit-address-edit';
+import { UnitCostCentersComponent } from './unit-cost-centers';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -75,10 +76,10 @@ export const unitsRoutingConfig: RoutingConfig = {
         paths: ['organization/units/:code/addresses/:id/edit'],
         paramsMapping: { code: 'uid' },
       },
-
-      // orgUnitCostCenters: {
-      //   paths: ['organization/unit/cost-centers/:code'],
-      // },
+      orgUnitCostCenters: {
+        paths: ['organization/units/:code/cost-centers'],
+        paramsMapping: { code: 'uid' },
+      },
     },
   },
 };
@@ -156,6 +157,11 @@ export const unitsCmsConfig: CmsConfig = {
                 },
               ],
             },
+            {
+              path: 'cost-centers',
+              component: UnitCostCentersComponent,
+              canDeactivate: [SplitViewDeactivateGuard],
+            },
           ],
         },
       ],
@@ -171,6 +177,9 @@ export const unitsTableConfig: TableConfig = {
       {
         headers: [{ key: 'summary' }, { key: 'link' }],
         hideHeader: true,
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
       },
     ],
     [OrganizationTableType.UNIT_CHILDREN]: [
@@ -236,6 +245,15 @@ export const unitsTableConfig: TableConfig = {
       },
     ],
     [OrganizationTableType.UNIT_MANAGE_ADDRESSES]: [
+      {
+        headers: [{ key: 'summary' }, { key: 'link' }],
+        hideHeader: true,
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+      },
+    ],
+    [OrganizationTableType.UNIT_COST_CENTERS]: [
       {
         headers: [{ key: 'summary' }, { key: 'link' }],
         hideHeader: true,

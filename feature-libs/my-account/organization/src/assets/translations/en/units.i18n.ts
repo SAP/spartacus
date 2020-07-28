@@ -151,6 +151,7 @@ export const units = {
     create: 'Create',
     code: 'Code',
     name: 'Name',
+    new: 'New cost center',
   },
   unitChildren: {
     header: 'Child Units in {{code}}',

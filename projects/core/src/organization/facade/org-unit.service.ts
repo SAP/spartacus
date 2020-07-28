@@ -134,9 +134,11 @@ export class OrgUnitService {
     );
   }
 
-  getCostCenters(orgUnitId: string): Observable<CostCenter[]> {
+  getCostCenters(orgUnitId: string): Observable<EntitiesModel<CostCenter>> {
     return this.get(orgUnitId).pipe(
-      map((orgUnit) => orgUnit.costCenters ?? [])
+      map((orgUnit) => ({
+        values: orgUnit.costCenters ?? [],
+      }))
     );
   }
 

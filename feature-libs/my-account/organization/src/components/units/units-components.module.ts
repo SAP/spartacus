@@ -19,6 +19,7 @@ import { UnitManageAddressesModule } from './unit-manage-addresses';
 import { UnitAddressDetailsModule } from './unit-address-details';
 import { UnitAddressCreateModule } from './unit-address-create';
 import { UnitAddressEditModule } from './unit-address-edit';
+import { UnitCostCentersModule } from './unit-cost-centers';
 
 @NgModule({
   imports: [
@@ -44,8 +45,7 @@ import { UnitAddressEditModule } from './unit-address-edit';
     UnitAddressDetailsModule,
     UnitAddressCreateModule,
     UnitAddressEditModule,
-
-    // UnitCostCentersModule,
+    UnitCostCentersModule,
   ],
 })
 export class UnitsComponentsModule {}

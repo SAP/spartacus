@@ -1,82 +1,66 @@
-<cx-fake-tabs
-  [code]="code$ | async"
-  [links]="[
-    {
-      cxRoute: 'orgUnitDetails',
-      name: 'orgUnit.details',
-      params: { uid: code$ | async }
-    },
-    { cxRoute: 'orgUnitUsers', name: 'orgUnit.users' },
-    { cxRoute: 'orgUnitApprovers', name: 'orgUnit.approvers' },
-    {
-      cxRoute: 'orgUnitManageAddresses',
-      name: 'orgUnit.manageAddresses'
-    },
-    { cxRoute: 'orgUnitChildren', name: 'orgUnit.children' },
-    {
-      cxRoute: 'orgUnitCostCenters',
-      name: 'orgUnit.costCenters',
-      active: true
-    }
-  ]"
-  [routerBackLink]="{ cxRoute: 'orgUnits', name: 'orgUnit.back' }"
->
-  <ng-container class="container" *ngIf="data$ | async as data">
-    <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-        <div class="cx-table-header cx-textalign">
-          <h3>
-            {{
-              'unitCostCenters.header' | cxTranslate: { code: code$ | async }
-            }}
-          </h3>
-        </div>
-      </div>
-      <div class="col-md-12 col-lg-6">
-        <div class="col-md-12 col-lg-6 float-right">
-          <a
-            [routerLink]="
-              {
-                cxRoute: 'costCenterCreate'
-              } | cxUrl
-            "
-            [queryParams]="{ parentUnit: code$ | async }"
-            class="btn btn-block btn-action"
-          >
-            {{ 'unitCostCenters.create' | cxTranslate }}
-          </a>
-        </div>
-      </div>
-    </div>
+<cx-view #view *ngIf="code$ | async as orgUnitCode">
+  <h3>
+    <a
+      class="link"
+      [routerLink]="
+        { cxRoute: 'orgUnitDetails', params: { uid: orgUnitCode } } | cxUrl
+      "
+      (click)="view.toggle()"
+    >
+      <cx-icon type="CARET_LEFT"></cx-icon>
+    </a>
+    <span>{{
+      'units.unitCostCenters.header' | cxTranslate: { code: orgUnitCode }
+    }}</span>
+  </h3>
 
-    <div class="cx-table-body">
-      <ng-container *ngIf="data?.length > 0; else noData">
-        <!-- TABLE -->
-        <cx-table2
-          [tableData]="data"
-          [columns]="[
-            {
-              key: 'code',
-              value: 'unitCostCenters.code' | cxTranslate,
-              cxRoute: 'costCenterDetails'
-            },
-            {
-              key: 'name',
-              value: 'unitCostCenters.name' | cxTranslate
-            }
-          ]"
-        >
-        </cx-table2>
-      </ng-container>
+  <div class="actions">
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'costCenterCreate'
+        } | cxUrl
+      "
+    >
+      {{ 'units.unitCostCenters.new' | cxTranslate }}
+    </a>
+  </div>
+  <section>
+    <cx-table
+      *ngIf="dataTable$ | async as dataTable; else emptyList"
+      [dataset]="dataTable"
+    >
+    </cx-table>
+  </section>
 
-      <!-- NO ORDER CONTAINER -->
-      <ng-template #noData>
-        <div class="cx-no-items row">
-          <div class="col-sm-12 col-md-6 col-lg-4">
-            <div>{{ 'common.noData' | cxTranslate }}</div>
-          </div>
-        </div>
-      </ng-template>
-    </div>
-  </ng-container>
-</cx-fake-tabs>
+  <ng-template #emptyList>
+    <p class="instruction is-empty">
+      {{ 'organization.messages.emptyList' | cxTranslate }}
+    </p>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitCostCenters.data.summary" let-model>
+    <h3>{{ model.name }}</h3>
+    <small>
+      {{ model.code }}
+      <span *ngIf="model.currency">• {{ model.currency.isocode }}</span>
+    </small>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitCostCenters.data.link" let-model>
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'costCenterDetails',
+          params: model
+        } | cxUrl
+      "
+    >
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
+  </ng-template>
+</cx-view>
+
+<router-outlet></router-outlet>
