@@ -4,6 +4,10 @@ import { UnitsComponentsModule } from './units/units-components.module';
 import { UserGroupComponentsModule } from './user-group/user-group-components.module';
 
 @NgModule({
-  imports: [CostCenterComponentsModule, UnitsComponentsModule, UserGroupComponentsModule],
+  imports: [
+    CostCenterComponentsModule,
+    UnitsComponentsModule,
+    UserGroupComponentsModule,
+  ],
 })
 export class OrganizationComponentsModule {}

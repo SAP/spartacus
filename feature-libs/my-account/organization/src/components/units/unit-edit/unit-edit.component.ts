@@ -17,7 +17,7 @@ export class UnitEditComponent {
   );
 
   protected orgUnit$ = this.code$.pipe(
-    tap((code) => this.orgUnitsService.loadOrgUnit(code)),
+    tap((code) => this.orgUnitsService.load(code)),
     switchMap((code) => this.orgUnitsService.get(code))
   );
 
