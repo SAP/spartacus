@@ -69,10 +69,6 @@ export const units = {
   unitAssignRoles: {
     header: 'Manage roles in {{code}}',
     back: 'Back',
-    b2bcustomergroup: 'Customer',
-    b2bapprovergroup: 'Approver',
-    b2bmanagergroup: 'Manager',
-    b2badmingroup: 'Admin',
     instructions: {
       check: "To assign a role to a user, select the role's check box.",
       uncheck: "To remove a role, clear the role's check box.",

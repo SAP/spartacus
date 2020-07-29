@@ -41,6 +41,12 @@ export const organization = {
     messages: {
       emptyList: 'The list is empty',
     },
+    userRoles: {
+      b2bcustomergroup: 'Customer',
+      b2bapprovergroup: 'Approver',
+      b2bmanagergroup: 'Manager',
+      b2badmingroup: 'Admin',
+    },
   },
 
   // sub feature labels are added below

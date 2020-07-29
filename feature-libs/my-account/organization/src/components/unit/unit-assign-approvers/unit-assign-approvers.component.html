@@ -117,7 +117,8 @@
 
   <ng-template cxOutletRef="table.unitAssignApprovers.data.roles" let-model>
     <span *ngFor="let role of model.roles; let last = last">
-      {{ role }}<span *ngIf="!last">,&nbsp;</span></span
+      {{ 'organization.userRoles.' + role | cxTranslate
+      }}<span *ngIf="!last">,&nbsp;</span></span
     >
   </ng-template>
 

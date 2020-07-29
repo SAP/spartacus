@@ -55,7 +55,9 @@
     <h3>{{ model.name }}</h3>
     <small>
       {{ model.email }}
-      <span *ngFor="let role of model.roles">• {{ role }}</span>
+      <span *ngFor="let role of model.roles">
+        &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}
+      </span>
     </small>
   </ng-template>
 
