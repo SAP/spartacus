@@ -35,7 +35,7 @@ export class ConfigOverviewNotificationBannerComponent {
   );
 
   constructor(
-    private activeCartService: ActiveCartService,
-    private configRouterExtractorService: ConfigRouterExtractorService
+    protected activeCartService: ActiveCartService,
+    protected configRouterExtractorService: ConfigRouterExtractorService
   ) {}
 }
