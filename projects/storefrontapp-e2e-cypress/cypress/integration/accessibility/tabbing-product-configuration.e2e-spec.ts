@@ -27,7 +27,7 @@ context('Product Configuration', () => {
       goToConfigPage(configurator, testProduct);
       configuration.isGroupMenuDisplayed();
       configuration.isConfigHeaderDisplayed();
-      //cy.get('a:contains(Options)').should('be.visible');
+
       verifyTabbingOrder(
         containerSelectorConfigForm,
         tabConfig.productConfigurationPage1
@@ -56,7 +56,7 @@ context('Product Configuration', () => {
 
       configuration.selectAttribute('CAMERA_COLOR', 'radioGroup', 'METALLIC');
 
-      cy.wait(2000);
+      cy.wait(3000);
 
       cy.focused().should(
         'have.attr',
@@ -64,7 +64,7 @@ context('Product Configuration', () => {
         'cx-config--radioGroup--CAMERA_COLOR--METALLIC'
       );
 
-      configuration.clickOnNextBtn();
+      configuration.clickOnNextBtn('Specification');
 
       configuration.selectAttribute('CAMERA_SD_CARD', 'checkBoxList', 'SDXC');
 
