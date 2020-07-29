@@ -49,6 +49,14 @@ export const userRoutingConfig: RoutingConfig = {
         paths: ['organization/users/:code/purchase-limits/assign'],
         paramsMapping: { code: 'customerId' },
       },
+      userUserGroups: {
+        paths: ['organization/users/:code/user-groups'],
+        paramsMapping: { code: 'customerId' },
+      },
+      userAssignUserGroups: {
+        paths: ['organization/users/:code/user-groups/assign'],
+        paramsMapping: { code: 'customerId' },
+      },
     },
   },
 };

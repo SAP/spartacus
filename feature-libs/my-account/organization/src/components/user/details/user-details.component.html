@@ -58,9 +58,20 @@
         <h4>
           <a
             class="link"
-            [routerLink]="{ cxRoute: 'userUsers', params: user } | cxUrl"
+            [routerLink]="{ cxRoute: 'userApprovers', params: user } | cxUrl"
           >
-            {{ 'user.user.header' | cxTranslate }}
+            {{ 'user.approver.header' | cxTranslate }}
+            <cx-icon type="CARET_RIGHT"></cx-icon>
+          </a>
+        </h4>
+      </div>
+      <div class="child-link" routerLinkActive="active">
+        <h4>
+          <a
+            class="link"
+            [routerLink]="{ cxRoute: 'userUserGroups', params: user } | cxUrl"
+          >
+            {{ 'user.userGroup.header' | cxTranslate }}
             <cx-icon type="CARET_RIGHT"></cx-icon>
           </a>
         </h4>
