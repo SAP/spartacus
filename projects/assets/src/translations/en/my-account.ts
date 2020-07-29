@@ -1,5 +1,6 @@
 export const myAccount = {
   orderDetails: {
+    customerId: 'Customer #',
     orderId: 'Order #',
     placed: 'Placed',
     status: 'Status',

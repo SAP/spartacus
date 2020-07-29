@@ -11,7 +11,10 @@
     <p>
       {{ 'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate }}
     </p>
-    <!-- <a href="#" class="btn-link">Print Page</a> -->
+
+    <p>
+      {{ 'orderDetails.customerId' | cxTranslate }} {{order?.orgCustomer?.customerId}}
+    </p>
   </div>
 
   <div *ngIf="isGuestCustomer">
