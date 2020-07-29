@@ -1,3 +1,3 @@
-export * from './product-event.builder';
-export * from './product-event.module';
-export * from './product.events';
+export * from './product-page-event.builder';
+export * from './product-page-event.module';
+export * from './product-page.events';

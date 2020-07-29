@@ -11,12 +11,12 @@ import {
 import { BehaviorSubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageVisitedEvent } from '../page/page.events';
-import { ProductEventBuilder } from './product-event.builder';
+import { ProductPageEventBuilder } from './product-page-event.builder';
 import {
   CategoryPageResultsEvent,
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
-} from './product.events';
+} from './product-page.events';
 
 const productGetBehavior = new BehaviorSubject<Product>(undefined);
 class MockProductService {
@@ -32,7 +32,7 @@ interface ActionWithPayload extends Action {
   payload: any;
 }
 
-describe('ProductEventModule', () => {
+describe('ProductPageEventModule', () => {
   let eventService: EventService;
   let actions$: Subject<ActionWithPayload>;
 
@@ -47,7 +47,7 @@ describe('ProductEventModule', () => {
       ],
     });
 
-    TestBed.inject(ProductEventBuilder); // register events
+    TestBed.inject(ProductPageEventBuilder); // register events
     eventService = TestBed.inject(EventService);
   });
 

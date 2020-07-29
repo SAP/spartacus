@@ -12,12 +12,12 @@ import {
   CategoryPageResultsEvent,
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
-} from './product.events';
+} from './product-page.events';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductEventBuilder {
+export class ProductPageEventBuilder {
   constructor(
     protected eventService: EventService,
     protected productService: ProductService,
