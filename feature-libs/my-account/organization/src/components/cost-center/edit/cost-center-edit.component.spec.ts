@@ -41,12 +41,12 @@ const mockCostCenter: CostCenter = {
 class MockCurrentCostCenterService
   implements Partial<CurrentCostCenterService> {
   code$ = of(costCenterCode);
-  costCenter$ = of(mockCostCenter);
 }
 
 class MockCostCenterService implements Partial<CostCenterService> {
   update = createSpy('update');
   load = createSpy('load');
+  get = createSpy('get').and.returnValue(of(mockCostCenter));
 }
 
 const mockRouterState = {

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import {
   map,
   shareReplay,
-  switchMapTo,
+  switchMap,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -33,7 +33,7 @@ export class CostCenterEditComponent {
     CostCenter
   > = this.currentCostCenterService.code$.pipe(
     tap((code) => this.costCenterService.load(code)),
-    switchMapTo(this.currentCostCenterService.costCenter$),
+    switchMap((code) => this.costCenterService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
   );
 
