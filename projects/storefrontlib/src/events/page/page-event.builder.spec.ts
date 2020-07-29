@@ -5,7 +5,7 @@ import { ActivatedRouterStateSnapshot, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageEventBuilder } from './page-event.builder';
-import { HomePageEvent, PageVisitedEvent } from './page.events';
+import { HomePageVisitedEvent, PageVisitedEvent } from './page.events';
 
 interface ActionWithPayload extends Action {
   payload: any;
@@ -45,7 +45,7 @@ describe('PageEventBuilder', () => {
     expect(result).toEqual(jasmine.objectContaining(payload.routerState));
   });
 
-  it('HomePageEvent', () => {
+  it('HomePageVisitedEvent', () => {
     const payload = {
       routerState: {
         semanticRoute: 'home',
@@ -53,9 +53,9 @@ describe('PageEventBuilder', () => {
       } as ActivatedRouterStateSnapshot,
     };
 
-    let result: HomePageEvent;
+    let result: HomePageVisitedEvent;
     eventService
-      .get(HomePageEvent)
+      .get(HomePageVisitedEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 

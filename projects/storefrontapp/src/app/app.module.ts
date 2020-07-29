@@ -12,7 +12,7 @@ import { EventService, OrderPlaced, TestConfigModule } from '@spartacus/core';
 import {
   CartPageEvent,
   CategoryPageResultsEvent,
-  HomePageEvent,
+  HomePageVisitedEvent,
   JsonLdBuilderModule,
   PageVisitedEvent,
   ProductDetailsPageEvent,
@@ -62,7 +62,7 @@ if (environment.b2b) {
 export class AppModule {
   constructor(events: EventService) {
     events.get(PageVisitedEvent).subscribe((x) => console.log('page: ', x));
-    events.get(HomePageEvent).subscribe((x) => console.log('home: ', x));
+    events.get(HomePageVisitedEvent).subscribe((x) => console.log('home: ', x));
     events.get(CartPageEvent).subscribe((x) => console.log('cart: ', x));
 
     events

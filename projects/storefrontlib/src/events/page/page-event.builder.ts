@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { HomePageEvent, PageVisitedEvent } from './page.events';
+import { HomePageVisitedEvent, PageVisitedEvent } from './page.events';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,10 @@ export class PageEventBuilder {
 
   protected register(): void {
     this.eventService.register(PageVisitedEvent, this.buildPageVisitedEvent());
-    this.eventService.register(HomePageEvent, this.buildHomePageVisitedEvent());
+    this.eventService.register(
+      HomePageVisitedEvent,
+      this.buildHomePageVisitedEvent()
+    );
   }
 
   protected buildPageVisitedEvent(): Observable<PageVisitedEvent> {
@@ -34,10 +37,12 @@ export class PageEventBuilder {
     );
   }
 
-  protected buildHomePageVisitedEvent(): Observable<HomePageEvent> {
+  protected buildHomePageVisitedEvent(): Observable<HomePageVisitedEvent> {
     return this.buildPageVisitedEvent().pipe(
       filter((pageVisitedEvent) => pageVisitedEvent.semanticRoute === 'home'),
-      map((pageVisitedEvent) => createFrom(HomePageEvent, pageVisitedEvent))
+      map((pageVisitedEvent) =>
+        createFrom(HomePageVisitedEvent, pageVisitedEvent)
+      )
     );
   }
 
