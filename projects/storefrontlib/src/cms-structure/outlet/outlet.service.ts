@@ -1,5 +1,4 @@
 import { Injectable, TemplateRef } from '@angular/core';
-import { FeatureConfigService } from '@spartacus/core';
 import { AVOID_STACKED_OUTLETS, OutletPosition } from './outlet.model';
 
 @Injectable({
@@ -9,10 +8,9 @@ export class OutletService<T = TemplateRef<any>> {
   /**
    * @deprecated since 2.1, see #8116
    */
-  constructor();
   // tslint:disable-next-line: unified-signatures
-  constructor(features: FeatureConfigService);
-  constructor(protected features?: FeatureConfigService) {}
+  constructor();
+  constructor() {}
 
   private templatesRefs = {
     [OutletPosition.BEFORE]: new Map<string, T[]>(),
@@ -103,12 +101,7 @@ export class OutletService<T = TemplateRef<any>> {
     } else if (value && store.has(outlet)) {
       let existing = store.get(outlet);
 
-      if (this.features?.isLevel('2.1')) {
-        existing = existing.filter((val) => val !== value);
-      } else {
-        // deprecated since 2.1, see #8116:
-        existing = existing.filter((val) => val === value);
-      }
+      existing = existing.filter((val) => val !== value);
 
       store.set(outlet, existing);
     }
