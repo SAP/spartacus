@@ -25,39 +25,28 @@ export function clickOnEditConfigurationLink() {
     });
 }
 
-function clickOnPreviousOrNextBtn(btnSelector: string) {
-  let oldActiveGroup: string;
-  cy.get('cx-config-group-menu a.active')
-    .first()
-    .invoke('text')
-    .then((text) => {
-      oldActiveGroup = text.trim();
-    });
-
+function clickOnPreviousOrNextBtn(btnSelector: string, followingGroup: string) {
   cy.get(btnSelector)
     .click()
     .then(() => {
-      cy.get('cx-config-group-menu a.active')
-        .first()
-        .invoke('text')
-        .then((newActiveGroup) => {
-          expect(newActiveGroup).not.eq(oldActiveGroup);
-        });
+      cy.get('a.active:contains(' + `${followingGroup}` + ')').should(
+        'be.visible'
+      );
     });
 }
 
 /**
  * Click on the next group Button and verifies that an element of the next group is displayed
  */
-export function clickOnNextBtn() {
-  clickOnPreviousOrNextBtn(nextBtnSelector);
+export function clickOnNextBtn(nextGroup: string) {
+  clickOnPreviousOrNextBtn(nextBtnSelector, nextGroup);
 }
 
 /**
  * Click on the previous group Button and verifies that an element of the previous group is displayed
  */
-export function clickOnPreviousBtn() {
-  clickOnPreviousOrNextBtn(previousBtnSelector);
+export function clickOnPreviousBtn(previousGroup: string) {
+  clickOnPreviousOrNextBtn(previousBtnSelector, previousGroup);
 }
 
 export function isConfigPageDisplayed() {
