@@ -5,11 +5,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { PaginationModel, RoutingService, RouterState } from '@spartacus/core';
+import { PaginationModel, RouterState, RoutingService } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { UserGroupListService } from './user-group-list.service';
 import { map } from 'rxjs/operators';
+import { CurrentUserGroupService } from '../current-user-group.service';
+import { UserGroupListService } from './user-group-list.service';
 
 const BASE_CLASS = 'organization';
 
@@ -17,6 +18,7 @@ const BASE_CLASS = 'organization';
   selector: 'cx-user-group-list',
   templateUrl: './user-group-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentUserGroupService],
 })
 export class UserGroupListComponent implements OnInit, OnDestroy {
   @HostBinding('class') hostClass = BASE_CLASS;
