@@ -23,13 +23,29 @@ export class VisibleFocusDirective extends BaseFocusDirective {
     }
   }
 
-  @HostListener('keydown') handleKeydown() {
+  @HostListener('keydown', ['$event']) handleKeydown(event: KeyboardEvent) {
     if (this.shouldFocusVisible) {
-      this.mouseFocus = false;
+      this.mouseFocus = !this.isMouseEvent(event);
     }
   }
 
   protected get shouldFocusVisible(): boolean {
     return this.config?.disableMouseFocus;
+  }
+
+  /**
+   * Indicates whether the current event is driven by the mouse or the keyboard.
+   *
+   * If the keyboard is used to navigate the OS or the browser, or used ot fill in a form,
+   * we consider the event to be a mouse event.
+   */
+  protected isMouseEvent(event: KeyboardEvent): boolean {
+    return (
+      event.code === 'Tab' ||
+      !(
+        event.metaKey ||
+        (this.mouseFocus && (event.target as HTMLElement).tagName === 'INPUT')
+      )
+    );
   }
 }
