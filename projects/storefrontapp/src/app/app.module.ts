@@ -14,7 +14,7 @@ import {
   TestConfigModule,
 } from '@spartacus/core';
 import {
-  CartPageEvent,
+  CartPageVisitedEvent,
   CategoryPageResultsEvent,
   HomePageVisitedEvent,
   JsonLdBuilderModule,
@@ -67,7 +67,7 @@ export class AppModule {
   constructor(events: EventService) {
     events.get(PageVisitedEvent).subscribe((x) => console.log('page: ', x));
     events.get(HomePageVisitedEvent).subscribe((x) => console.log('home: ', x));
-    events.get(CartPageEvent).subscribe((x) => console.log('cart: ', x));
+    events.get(CartPageVisitedEvent).subscribe((x) => console.log('cart: ', x));
 
     events
       .get(ProductDetailsPageEvent)

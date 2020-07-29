@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CartEventModule } from './cart/cart-event.module';
+import { CartPageEventModule } from './cart/cart-page-event.module';
 import { PageEventModule } from './page/page-event.module';
 import { ProductPageEventModule } from './product/product-page-event.module';
 
 @NgModule({
-  imports: [CartEventModule, PageEventModule, ProductPageEventModule],
+  imports: [CartPageEventModule, PageEventModule, ProductPageEventModule],
 })
 export class EventsModule {}

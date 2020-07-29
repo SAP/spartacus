@@ -4,14 +4,14 @@ import { createFrom, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageVisitedEvent } from '../page';
-import { CartEventBuilder } from './cart-event.builder';
-import { CartPageEvent } from './cart.events';
+import { CartPageEventBuilder } from './cart-page-event.builder';
+import { CartPageVisitedEvent } from './cart-page.events';
 
 interface ActionWithPayload extends Action {
   payload: any;
 }
 
-describe('CartEventBuilder', () => {
+describe('CartPageEventBuilder', () => {
   let eventService: EventService;
   let actions$: Subject<ActionWithPayload>;
 
@@ -21,14 +21,14 @@ describe('CartEventBuilder', () => {
       providers: [{ provide: ActionsSubject, useValue: actions$ }],
     });
 
-    TestBed.inject(CartEventBuilder); // register events
+    TestBed.inject(CartPageEventBuilder); // register events
     eventService = TestBed.inject(EventService);
   });
 
-  it('CartPageEvent', () => {
-    let result: CartPageEvent;
+  it('CartPageVisitedEvent', () => {
+    let result: CartPageVisitedEvent;
     eventService
-      .get(CartPageEvent)
+      .get(CartPageVisitedEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 
