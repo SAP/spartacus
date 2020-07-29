@@ -13,7 +13,7 @@ import { map, switchMap, withLatestFrom } from 'rxjs/operators';
 })
 export class ConfigMessageComponent {
   protected hasPendingChanges$: Observable<
-    Boolean
+    boolean
   > = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
@@ -34,8 +34,8 @@ export class ConfigMessageComponent {
     this.config?.updateConfigurationMessage?.waitingTime || 1000
   ).pipe(
     withLatestFrom(this.hasPendingChanges$),
-    map((hasPendingChangesOrIsLoading) =>
-      hasPendingChangesOrIsLoading[1] ? 'visible' : ''
+    map(([_, hasPendingChangesOrIsLoading]) =>
+      hasPendingChangesOrIsLoading ? 'visible' : ''
     )
   );
 

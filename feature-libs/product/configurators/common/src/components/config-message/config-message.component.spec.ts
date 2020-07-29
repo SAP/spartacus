@@ -11,8 +11,8 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { MessageConfig } from '@spartacus/storefront';
+import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
-import * as ConfigurationTestData from '../../../../../../../projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { ConfigMessageComponent } from './config-message.component';
 
 let routerStateObservable = null;
