@@ -8,6 +8,7 @@ const testProduct = 'CONF_CAMERA_SL';
 const configurator = 'CPQCONFIGURATOR';
 
 const containerSelectorConfigForm = '.VariantConfigurationTemplate';
+const containerSelectorOverviewForm = '[class*=VariantConfig]';
 
 function goToConfigPage(configuratorType, product) {
   cy.visit(
@@ -30,7 +31,7 @@ context('Product Configuration', () => {
 
       verifyTabbingOrder(
         containerSelectorConfigForm,
-        tabConfig.productConfigurationPage1
+        tabConfig.productConfigurationPage
       );
 
       configuration.selectAttribute('CAMERA_MODE', 'radioGroup', 'P');
@@ -44,7 +45,7 @@ context('Product Configuration', () => {
       cy.get('.cx-config-group-attribute').should('be.visible');
 
       verifyTabbingOrder(
-        '[class*=VariantConfig]',
+        containerSelectorOverviewForm,
         tabConfig.productConfigurationOverview
       );
     });

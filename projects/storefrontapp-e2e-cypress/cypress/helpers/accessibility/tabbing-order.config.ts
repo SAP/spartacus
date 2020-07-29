@@ -166,7 +166,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Submit', type: TabbingOrderTypes.BUTTON },
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
   ],
-  productConfigurationPage1: [
+  productConfigurationPage: [
     {
       type: TabbingOrderTypes.GENERIC_ELEMENT,
     },
