@@ -39,8 +39,7 @@
       ],
       "@spartacus/product/configurators/textfield": [
         "feature-libs/product/configurators/textfield/public_api"
-      ],
-      "@spartacus/product/events": ["feature-libs/product/events/public_api"]
+      ]
     }
   },
   "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"]
