@@ -59,6 +59,7 @@ export const configurator = {
     conflict: {
       suggestionTitle: 'Suggestion {{number}}:',
       suggestionText: 'Change value for "{{ attribute }}"',
+      viewDetails: 'Conflict Detected - View Details',
     },
   },
 };

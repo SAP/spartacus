@@ -14,7 +14,13 @@
   >{{ attribute.label }}</label
 >
 <div *ngIf="attribute.hasConflict">
-  Conflict Detected!
+  <cx-icon
+    [type]="iconTypes.WARNING"
+    class="cx-config-attribute-label-conflict-img"
+  ></cx-icon>
+  <span class="cx-config-attribute-label-conflict-msg">
+    {{ 'configurator.conflict.viewDetails' | cxTranslate }}
+  </span>
 </div>
 
 <div

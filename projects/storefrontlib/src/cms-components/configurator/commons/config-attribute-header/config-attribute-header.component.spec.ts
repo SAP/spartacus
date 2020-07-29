@@ -256,4 +256,24 @@ describe('ConfigAttributeHeaderComponent', () => {
       '.cx-config-attribute-label-required-error-msg'
     );
   });
+
+  it('should render a conflict message if attribute has conflicts.', () => {
+    classUnderTest.attribute.hasConflict = true;
+    fixture.detectChanges();
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-config-attribute-label-conflict-msg'
+    );
+  });
+
+  it("shouldn't render a conflict message if attribute has no conflicts.", () => {
+    classUnderTest.attribute.hasConflict = false;
+    fixture.detectChanges();
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      '.cx-config-attribute-label-conflict-msg'
+    );
+  });
 });
