@@ -4,7 +4,7 @@ import {
   userGroupAssignUsers,
   userGroupAssignPermissions,
 } from './user-group.i18n';
-
+import { budget } from './budget.i18n';
 /**
  * The organization i18n labels provide generic labels for all organization sub features.
  * Once #7154 is in place, we can start adding specific i18n labels. The organization labels
@@ -47,4 +47,5 @@ export const organization = {
   userGroup,
   userGroupAssignUsers,
   userGroupAssignPermissions,
+  budget,
 };

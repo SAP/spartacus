@@ -7,4 +7,6 @@ export enum OrganizationTableType {
   USER_GROUP_ASSIGN_USER = 'userGroupAssignUsers',
   USER_GROUP_PERMISSIONS = 'userGroupPermissions',
   USER_GROUP_ASSIGN_PERMISSIONS = 'userGroupAssignPermissions',
+  BUDGET = 'budget',
+  BUDGET_COST_CENTERS = 'budgetCostCenters',
 }

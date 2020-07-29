@@ -1,0 +1,36 @@
+<cx-view #view *ngIf="viewModel$ | async as viewModel">
+  <form
+    [formGroup]="viewModel.form"
+    (ngSubmit)="save(viewModel.uid, viewModel.form)"
+  >
+    <h3>
+      <a
+        class="link"
+        [routerLink]="
+          { cxRoute: 'budgetDetails', params: viewModel.budget } | cxUrl
+        "
+        (click)="view.toggle()"
+      >
+        <cx-icon type="CARET_LEFT"></cx-icon>
+      </a>
+      <span>{{ 'budget.budgetForm.edit' | cxTranslate }}</span>
+    </h3>
+    <section class="half">
+      <cx-budget-form [form]="viewModel.form"> </cx-budget-form>
+      <div class="form-buttons">
+        <a class="button primary" type="submit">
+          {{ 'budget.budgetForm.save' | cxTranslate }}
+        </a>
+        <a
+          [routerLink]="
+            { cxRoute: 'budgetDetails', params: viewModel.budgetDetails }
+              | cxUrl
+          "
+          class="button secondary"
+        >
+          {{ 'budget.budgetForm.cancel' | cxTranslate }}
+        </a>
+      </div>
+    </section>
+  </form>
+</cx-view>
