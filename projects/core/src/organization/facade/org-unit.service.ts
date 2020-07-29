@@ -34,13 +34,13 @@ export class OrgUnitService {
     protected authService: AuthService
   ) {}
 
-  loadOrgUnit(orgUnitId: string): void {
+  load(orgUnitId: string): void {
     this.withUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }))
     );
   }
 
-  loadOrgUnitNodes(): void {
+  loadList(): void {
     this.withUserId((userId) =>
       this.store.dispatch(new OrgUnitActions.LoadOrgUnitNodes({ userId }))
     );
@@ -126,7 +126,7 @@ export class OrgUnitService {
       observeOn(queueScheduler),
       tap((state) => {
         if (!(state.loading || state.success || state.error)) {
-          this.loadOrgUnit(orgUnitId);
+          this.load(orgUnitId);
         }
       }),
       filter((state) => state.success || state.error),
@@ -190,7 +190,7 @@ export class OrgUnitService {
       observeOn(queueScheduler),
       tap((process: LoaderState<B2BUnitNode[]>) => {
         if (!(process.loading || process.success || process.error)) {
-          this.loadOrgUnitNodes();
+          this.loadList();
         }
       }),
       filter(

@@ -51,18 +51,17 @@ const mockOrgUnits: B2BUnitNode[] = [
 ];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnits = createSpy('loadOrgUnits');
+  loadList = createSpy('loadList');
   getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
     of(mockOrgUnits)
   );
-  loadOrgUnit = createSpy('loadOrgUnit');
+  load = createSpy('load');
   get = createSpy('get').and.returnValue(of(mockOrgUnit));
   update = createSpy('update');
   loadApprovalProcesses = createSpy('loadApprovalProcesses');
   getApprovalProcesses = createSpy('getApprovalProcesses').and.returnValue(
     of(mockApprovalProcesses)
   );
-  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 const mockCurrencies: Currency[] = [
@@ -147,7 +146,7 @@ describe('UnitFormComponent', () => {
           businessUnits = value;
         })
         .unsubscribe();
-      expect(orgUnitService.loadOrgUnitNodes).toHaveBeenCalledWith();
+      expect(orgUnitService.loadList).toHaveBeenCalledWith();
       expect(orgUnitService.getActiveUnitList).toHaveBeenCalledWith();
       expect(businessUnits).toEqual(mockOrgUnits);
     });

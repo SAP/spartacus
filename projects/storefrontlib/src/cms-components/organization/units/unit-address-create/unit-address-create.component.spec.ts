@@ -29,7 +29,7 @@ const mockAddress: Partial<B2BAddress> = {
 const mockAddresses = [mockAddress];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnits = createSpy('loadOrgUnits');
+  loadList = createSpy('loadList');
   create = createSpy('create');
   getApprovalProcesses = createSpy('getApprovalProcesses');
   createAddress = createSpy('createAddress');
