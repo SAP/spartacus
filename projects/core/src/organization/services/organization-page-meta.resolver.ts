@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BreadcrumbMeta } from '../../cms/model/page.model';
-import { PageBreadcrumbResolver } from '../../cms/page/page.resolvers';
 import { ContentPageMetaResolver } from '../../cms/page/content-page-meta.resolver';
+import { PageBreadcrumbResolver } from '../../cms/page/page.resolvers';
 
 /**
  * Resolves the page data for Organization Pages.
@@ -16,11 +16,11 @@ import { ContentPageMetaResolver } from '../../cms/page/content-page-meta.resolv
 @Injectable({
   providedIn: 'root',
 })
-export class OrganizationMetaResolver extends ContentPageMetaResolver
+export class OrganizationPageMetaResolver extends ContentPageMetaResolver
   implements PageBreadcrumbResolver {
   pageTemplate = 'CompanyPageTemplate';
   protected ORGANIZATION_ROOT_PATH = 'organization';
-  protected ORGANIZATION_TRANSLATION_KEY = 'breadcrumbs.organization';
+  protected ORGANIZATION_TRANSLATION_KEY = 'organization.breadcrumb';
 
   /**
    * @override
