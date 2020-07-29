@@ -6,13 +6,13 @@ import { EventService } from '../../event/event.service';
 import { Order } from '../../model/order.model';
 import { CheckoutActions } from '../store/index';
 import { CheckoutEventBuilder } from './checkout-event.builder';
-import { OrderPlaced } from './checkout.events';
+import { OrderPlacedEvent } from './checkout.events';
 
 interface ActionWithPayload extends Action {
   payload: any;
 }
 
-describe('Checkout-Event Builder', () => {
+describe('CheckoutEventBuilder', () => {
   let eventService: EventService;
   let actions$: Subject<ActionWithPayload>;
 
@@ -26,14 +26,14 @@ describe('Checkout-Event Builder', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  it('OrderPlaced', () => {
+  it('OrderPlacedEvent', () => {
     const payload: Order = {
       code: '1234',
     };
 
-    let result: OrderPlaced;
+    let result: OrderPlacedEvent;
     eventService
-      .get(OrderPlaced)
+      .get(OrderPlacedEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 

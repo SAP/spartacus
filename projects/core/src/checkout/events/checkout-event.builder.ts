@@ -7,7 +7,7 @@ import { EventService } from '../../event/event.service';
 import { ActionToEventMapping } from '../../state/event/action-to-event-mapping';
 import { createFrom } from '../../util/create-from';
 import { CheckoutActions } from '../store/actions/index';
-import { OrderPlaced } from './checkout.events';
+import { OrderPlacedEvent } from './checkout.events';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +33,7 @@ export class CheckoutEventBuilder {
   protected orderPlacedEvent(): void {
     this.registerMapped({
       action: CheckoutActions.PLACE_ORDER_SUCCESS,
-      event: OrderPlaced,
+      event: OrderPlacedEvent,
     });
   }
 

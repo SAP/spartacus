@@ -8,7 +8,11 @@ import {
   BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EventService, OrderPlaced, TestConfigModule } from '@spartacus/core';
+import {
+  EventService,
+  OrderPlacedEvent,
+  TestConfigModule,
+} from '@spartacus/core';
 import {
   CartPageEvent,
   CategoryPageResultsEvent,
@@ -76,6 +80,6 @@ export class AppModule {
       .get(SearchPageResultsEvent)
       .subscribe((x) => console.log('search: ', x));
 
-    events.get(OrderPlaced).subscribe((x) => console.log('order: ', x));
+    events.get(OrderPlacedEvent).subscribe((x) => console.log('order: ', x));
   }
 }

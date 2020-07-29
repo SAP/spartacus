@@ -1,6 +1,6 @@
 /**
  * Indicates that a user has successfully placed an order
  */
-export class OrderPlaced {
+export class OrderPlacedEvent {
   code: string;
 }
