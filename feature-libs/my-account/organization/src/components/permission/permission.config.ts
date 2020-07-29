@@ -27,7 +27,7 @@ export const permissionRoutingConfig: RoutingConfig = {
         paths: ['organization/purchase-limits/:code'],
       },
       permissionEdit: {
-        paths: ['organization/user-groups/:code/edit'],
+        paths: ['organization/purchase-limits/:code/edit'],
       },
     },
   },

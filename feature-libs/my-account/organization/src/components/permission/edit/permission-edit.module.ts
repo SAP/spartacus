@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule, SplitViewModule } from '@spartacus/storefront';
 import { PermissionEditComponent } from './permission-edit.component';
+import { PermissionFormModule } from '../form/permission-form.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import { PermissionEditComponent } from './permission-edit.component';
     I18nModule,
     SplitViewModule,
     IconModule,
-
+    PermissionFormModule,
     ReactiveFormsModule,
   ],
   declarations: [PermissionEditComponent],

@@ -133,18 +133,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   orgUnitAddressCreate: {
     paths: ['organization/unit/addresses/create/:code'],
   },
-  // permissions: {
-  //   paths: ['organization/purchase-limits'],
-  // },
-  // permissionCreate: {
-  //   paths: ['organization/purchase-limits/create'],
-  // },
-  // permissionDetails: {
-  //   paths: ['organization/purchase-limit/:code'],
-  // },
-  // permissionEdit: {
-  //   paths: ['organization/purchase-limit/edit/:code'],
-  // },
   users: {
     paths: ['organization/users'],
   },

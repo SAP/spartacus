@@ -18,7 +18,9 @@ export class PermissionFormService {
   protected build(form: FormGroup) {
     form.setControl(
       'orderApprovalPermissionType',
-      new FormControl('', Validators.required)
+      new FormGroup({
+        code: new FormControl(null, Validators.required),
+      })
     );
     form.setControl('code', new FormControl('', Validators.required));
     form.setControl(
@@ -28,7 +30,12 @@ export class PermissionFormService {
       })
     );
     form.setControl('periodRange', new FormControl('', Validators.required));
-    form.setControl('currency', new FormControl('', Validators.required));
+    form.setControl(
+      'currency',
+      new FormGroup({
+        isocode: new FormControl(undefined, Validators.required),
+      })
+    );
     form.setControl('threshold', new FormControl('', Validators.required));
   }
 }

@@ -13,6 +13,7 @@
     </h3>
     <div class="actions">
       <a
+        [class.disabled]="!permission.active"
         class="link"
         [routerLink]="{ cxRoute: 'permissionEdit', params: permission } | cxUrl"
       >
@@ -29,9 +30,23 @@
         </div>
 
         <div class="property">
-          <label>{{ 'permission.uid' | cxTranslate }}</label>
+          <label>{{ 'permission.type' | cxTranslate }}</label>
           <span class="value">
-            {{ permission.code }}
+            {{ permission.orderApprovalPermissionType?.name }}
+          </span>
+        </div>
+
+        <div class="property">
+          <label>{{ 'permission.threshold' | cxTranslate }}</label>
+          <span class="value">
+            {{ permission.threshold }} {{ permission.currency?.symbol }}
+          </span>
+        </div>
+
+        <div class="property">
+          <label>{{ 'permission.period' | cxTranslate }}</label>
+          <span class="value">
+            {{ permission.periodRange || '-' }}
           </span>
         </div>
 
@@ -71,7 +86,7 @@
             {{ 'organization.disabled' | cxTranslate }}
             <button
               class="button icon"
-              (click)="update({ code: permission.code, activeFlag: true })"
+              (click)="update({ code: permission.code, active: true })"
             >
               {{ 'organization.enable' | cxTranslate }}
               <!--              <cx-icon type="OFF"></cx-icon>-->
@@ -98,6 +113,6 @@
     *ngIf="permission$ | async as permission"
     [title]="'permission.messages.deactivateHeader' | cxTranslate"
     [message]="'permission.messages.deactivate' | cxTranslate"
-    (confirm)="update({ code: permission.code, activeFlag: false })"
+    (confirm)="update({ code: permission.code, active: false })"
   ></cx-confirm-modal>
 </ng-template>

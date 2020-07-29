@@ -1,7 +1,7 @@
 <ng-container *ngIf="form" [formGroup]="form">
   <ng-container
-    *ngIf="form.get('orderApprovalPermissionType') && types$ | async as types"
     [formGroup]="form.get('orderApprovalPermissionType')"
+    *ngIf="form.get('orderApprovalPermissionType') && types$ | async as types"
   >
     <div class="form-group">
       <label aria-required="true">
@@ -9,16 +9,16 @@
           'permission.orderApprovalPermissionType' | cxTranslate
         }}</span>
         <ng-select
-          formControlName="orderApprovalPermissionType"
+          formControlName="code"
           [searchable]="false"
           [clearable]="false"
           [items]="types"
           bindLabel="name"
-          bindValue="id"
+          bindValue="code"
         >
         </ng-select>
         <cx-form-errors
-          [control]="form.get('orderApprovalPermissionType')"
+          [control]="form.get('orderApprovalPermissionType.code')"
         ></cx-form-errors>
       </label>
     </div>
@@ -64,22 +64,17 @@
     </div>
   </ng-container>
 
-  <ng-container
-    *ngIf="form.get('periodRange')"
-    [formGroup]="form.get('periodRange')"
-  >
+  <ng-container *ngIf="form.get('periodRange')">
     <div class="form-group">
       <label aria-required="true">
         <span class="label-content required">{{
           'permission.periodRange' | cxTranslate
         }}</span>
         <ng-select
-          formControlName="uid"
+          formControlName="periodRange"
           [searchable]="false"
           [clearable]="false"
           [items]="periods"
-          bindLabel="name"
-          bindValue="id"
         >
         </ng-select>
         <cx-form-errors [control]="form.get('periodRange')"></cx-form-errors>
@@ -97,15 +92,17 @@
           'permission.currency' | cxTranslate
         }}</span>
         <ng-select
-          formControlName="uid"
+          formControlName="isocode"
           [searchable]="false"
           [clearable]="false"
           [items]="currencies"
           bindLabel="name"
-          bindValue="id"
+          bindValue="isocode"
         >
         </ng-select>
-        <cx-form-errors [control]="form.get('currency')"></cx-form-errors>
+        <cx-form-errors
+          [control]="form.get('currency.isocode')"
+        ></cx-form-errors>
       </label>
     </div>
   </ng-container>
