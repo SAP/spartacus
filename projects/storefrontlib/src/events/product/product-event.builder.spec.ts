@@ -8,9 +8,9 @@ import {
   ProductSearchService,
   ProductService,
 } from '@spartacus/core';
-import { PageVisitedEvent } from '@spartacus/storefront';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { PageVisitedEvent } from '../page/page.events';
 import { ProductEventBuilder } from './product-event.builder';
 import {
   CategoryPageResultsEvent,

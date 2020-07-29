@@ -5,9 +5,9 @@ import {
   ProductSearchService,
   ProductService,
 } from '@spartacus/core';
-import { PageVisitedEvent } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, skip, switchMap } from 'rxjs/operators';
+import { PageVisitedEvent } from '../page/page.events';
 import {
   CategoryPageResultsEvent,
   ProductDetailsPageEvent,

@@ -21,8 +21,7 @@
       ],
       "@spartacus/product/configurators/textfield": [
         "dist/product/configurators/textfield"
-      ],
-      "@spartacus/product/events": ["dist/product/events"]
+      ]
     }
   }
 }
