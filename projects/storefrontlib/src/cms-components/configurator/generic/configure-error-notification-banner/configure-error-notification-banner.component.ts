@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ICON_TYPE } from '../../../misc/icon';
 import { OrderEntry } from '@spartacus/core';
 
@@ -6,15 +6,13 @@ import { OrderEntry } from '@spartacus/core';
   selector: 'cx-configure-error-notification-banner',
   templateUrl: './configure-error-notification-banner.component.html',
 })
-export class ConfigureErrorNotificationBannerComponent implements OnInit {
+export class ConfigureErrorNotificationBannerComponent {
   @Input() compact = false;
   @Input() item: OrderEntry;
   @Input() readonly = false;
   iconTypes = ICON_TYPE;
 
   constructor() {}
-
-  ngOnInit(): void {}
 
   /**
    * Verifies whether the item has any issues.

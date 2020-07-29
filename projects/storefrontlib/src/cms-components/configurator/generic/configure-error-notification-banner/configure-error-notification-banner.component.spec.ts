@@ -1,14 +1,27 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfigureErrorNotificationBannerComponent } from './configure-error-notification-banner.component';
+import { ConfigComponentTestUtilsService } from '../service/config-component-test-utils.service';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'cxTranslate',
+})
+class MockTranslatePipe implements PipeTransform {
+  transform(): any {}
+}
 
 describe('ConfigureErrorNotificationBannerComponent', () => {
   let component: ConfigureErrorNotificationBannerComponent;
   let fixture: ComponentFixture<ConfigureErrorNotificationBannerComponent>;
+  let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ConfigureErrorNotificationBannerComponent],
+      declarations: [
+        ConfigureErrorNotificationBannerComponent,
+        MockTranslatePipe,
+      ],
     }).compileComponents();
   }));
 
@@ -17,8 +30,12 @@ describe('ConfigureErrorNotificationBannerComponent', () => {
       ConfigureErrorNotificationBannerComponent
     );
     component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
     component.item = {
       statusSummaryList: [],
+      product: {
+        configurable: true,
+      },
     };
     fixture.detectChanges();
   });
@@ -80,13 +97,25 @@ describe('ConfigureErrorNotificationBannerComponent', () => {
 
   it('should return true if number of issues of ERROR status is > 0', () => {
     component.item.statusSummaryList = [{ numberOfIssues: 2, status: 'ERROR' }];
+    fixture.detectChanges();
     expect(component.hasIssues()).toBeTrue();
+    ConfigComponentTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-configure-cart-entry'
+    );
   });
 
   it('should return false if number of issues of ERROR status is = 0', () => {
     component.item.statusSummaryList = [
       { numberOfIssues: 2, status: 'SUCCESS' },
     ];
+    fixture.detectChanges();
     expect(component.hasIssues()).toBeFalse();
+    ConfigComponentTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-configure-cart-entry'
+    );
   });
 });
