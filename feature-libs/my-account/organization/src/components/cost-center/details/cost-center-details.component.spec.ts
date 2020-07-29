@@ -30,7 +30,7 @@ const mockCostCenter: CostCenter = {
 class MockCurrentCostCenterService
   implements Partial<CurrentCostCenterService> {
   code$ = of(costCenterCode);
-  model$ = of(mockCostCenter);
+  costCenter$ = of(mockCostCenter);
 }
 
 class MockCostCenterService implements Partial<CostCenterService> {

@@ -25,7 +25,7 @@ export class CurrentCostCenterService {
   /**
    * Emits the current model or null, if there is no model available
    */
-  readonly model$: Observable<CostCenter> = this.code$.pipe(
+  readonly costCenter$: Observable<CostCenter> = this.code$.pipe(
     switchMap((code: string) => (code ? this.service.get(code) : of(null)))
   );
 }

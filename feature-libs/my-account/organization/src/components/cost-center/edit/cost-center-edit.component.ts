@@ -33,7 +33,7 @@ export class CostCenterEditComponent {
     CostCenter
   > = this.currentCostCenterService.code$.pipe(
     tap((code) => this.costCenterService.load(code)),
-    switchMapTo(this.currentCostCenterService.model$),
+    switchMapTo(this.currentCostCenterService.costCenter$),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
   );
 
