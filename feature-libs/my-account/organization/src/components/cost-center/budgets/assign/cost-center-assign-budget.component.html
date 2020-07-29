@@ -33,7 +33,7 @@
         <li>{{ 'costCenter.budget.instructions.uncheck' | cxTranslate }}</li>
         <li>{{ 'costCenter.budget.instructions.changes' | cxTranslate }}</li>
       </ul>
-      <button
+      <a
         class="button secondary"
         [routerLink]="
           { cxRoute: 'costCenterBudgets', params: { code: costCenterCode } }
@@ -41,7 +41,7 @@
         "
       >
         {{ 'costCenter.budget.back' | cxTranslate }}
-      </button>
+      </a>
     </div>
   </ng-container>
 
