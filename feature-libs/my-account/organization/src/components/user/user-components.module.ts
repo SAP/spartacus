@@ -13,6 +13,7 @@ import { UserCreateModule } from './create/user-create.module';
 import { UserEditModule } from './edit/user-edit.module';
 import { UserFormModule } from './form/user-form.module';
 import { UserListModule } from './list/user-list.module';
+import { UserDetailsModule } from './details/user-details.module';
 
 import { UserAssignPermissionsModule } from './permissions/assign/user-assign-permission.module';
 import { UserPermissionListModule } from './permissions/list/user-permission-list.module';
@@ -26,6 +27,7 @@ import { UserPermissionListModule } from './permissions/list/user-permission-lis
     // UserApproversListModule,
     // UserAssignUserGroupsModule,
     // UserUserGroupsListModule,
+    UserDetailsModule,
     UserCreateModule,
     UserEditModule,
     UserFormModule,

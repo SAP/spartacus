@@ -17,6 +17,7 @@ import { UserGroupAssignUsersModule } from './users/assign/user-group-assign-use
 import { UserGroupUserListModule } from './users/list/user-group-user-list.module';
 import { UserGroupAssignPermissionsModule } from './permissions/assign/user-group-assign-permission.module';
 import { UserGroupPermissionListModule } from './permissions/list/user-group-permission-list.module';
+import { UserGroupDetailsModule } from './details/user-group-details.module';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { UserGroupPermissionListModule } from './permissions/list/user-group-per
     UserGroupEditModule,
     UserGroupFormModule,
     UserGroupListModule,
+    UserGroupDetailsModule,
   ],
   providers: [
     provideDefaultConfig(userGroupRoutingConfig),
