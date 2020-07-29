@@ -51,34 +51,54 @@ describe('ProductPageEventModule', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  it('SearchPageResultsEvent', () => {
-    const searchResults: ProductSearchPage = {
-      freeTextSearch: 'camera',
-      pagination: { totalResults: 5 },
-      facets: [{ category: true }],
-    };
+  describe('SearchPageResultsEvent', () => {
+    it('should fire when the user performs a search and navigates to the search page', () => {
+      const searchResults: ProductSearchPage = {
+        freeTextSearch: 'camera',
+        pagination: { totalResults: 5 },
+        facets: [{ category: true }],
+      };
 
-    let result: SearchPageResultsEvent;
-    eventService
-      .get(SearchPageResultsEvent)
-      .pipe(take(1))
-      .subscribe((value) => (result = value));
+      let result: SearchPageResultsEvent;
+      eventService
+        .get(SearchPageResultsEvent)
+        .pipe(take(1))
+        .subscribe((value) => (result = value));
 
-    const pageVisitedEvent = createFrom(PageVisitedEvent, {
-      context: undefined,
-      semanticRoute: 'search',
-      url: 'search url',
-      params: undefined,
+      const pageVisitedEvent = createFrom(PageVisitedEvent, {
+        context: undefined,
+        semanticRoute: 'search',
+        url: 'search url',
+        params: undefined,
+      });
+      eventService.dispatch(pageVisitedEvent);
+      getResultsBehavior.next(searchResults);
+
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          searchTerm: searchResults.freeTextSearch,
+          numberOfResults: searchResults.pagination.totalResults,
+        } as SearchPageResultsEvent)
+      );
     });
-    eventService.dispatch(pageVisitedEvent);
-    getResultsBehavior.next(searchResults);
 
-    expect(result).toEqual(
-      jasmine.objectContaining({
-        searchTerm: searchResults.freeTextSearch,
-        numberOfResults: searchResults.pagination.totalResults,
-      } as SearchPageResultsEvent)
-    );
+    it('should not fire if the search state changes, but the user is not on the search page', () => {
+      const searchResults: ProductSearchPage = {
+        freeTextSearch: 'camera',
+        pagination: { totalResults: 5 },
+        facets: [{ category: true }],
+      };
+
+      let result: SearchPageResultsEvent;
+      eventService
+        .get(SearchPageResultsEvent)
+        .pipe(take(1))
+        .subscribe((value) => (result = value));
+
+      getResultsBehavior.next(searchResults);
+
+      expect(result).toBeFalsy();
+    });
   });
 
   it('CategoryPageResultsEvent', () => {
