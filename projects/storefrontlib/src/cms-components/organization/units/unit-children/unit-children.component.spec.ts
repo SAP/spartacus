@@ -67,7 +67,7 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnit = createSpy('loadOrgUnit');
+  load = createSpy('load');
   getChildUnits = createSpy('getChildUnits').and.returnValue(
     of(mockedTree.children)
   );

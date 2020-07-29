@@ -21,12 +21,12 @@
         <button class="button primary" type="submit">
           {{ 'organization.save' | cxTranslate }}
         </button>
-        <button
+        <a
           [routerLink]="{ cxRoute: 'costCenter' } | cxUrl"
           class="button secondary"
         >
           {{ 'organization.cancel' | cxTranslate }}
-        </button>
+        </a>
       </div>
     </section>
   </form>

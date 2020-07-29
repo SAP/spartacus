@@ -104,7 +104,7 @@ describe('OrgUnit Effects', () => {
     expected = null;
   });
 
-  describe('loadOrgUnit$', () => {
+  describe('load$', () => {
     // TODO: unlock after use final addresses endpoint
     xit('should return LoadOrgUnitSuccess action', () => {
       const action = new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId });

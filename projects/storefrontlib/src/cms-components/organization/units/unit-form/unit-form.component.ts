@@ -51,7 +51,7 @@ export class UnitFormComponent extends AbstractFormComponent implements OnInit {
 
   ngOnInit() {
     this.approvalProcesses$ = this.orgUnitService.getApprovalProcesses();
-    this.orgUnitService.loadOrgUnitNodes();
+    this.orgUnitService.loadList();
     this.businessUnits$ = this.orgUnitService.getActiveUnitList();
     if (this.orgUnitData && Object.keys(this.orgUnitData).length !== 0) {
       this.form.patchValue(this.orgUnitData);

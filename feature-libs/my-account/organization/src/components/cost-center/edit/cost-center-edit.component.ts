@@ -10,6 +10,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterFormService } from '../form/cost-center-form.service';
 
 @Component({
@@ -18,11 +19,19 @@ import { CostCenterFormService } from '../form/cost-center-form.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterEditComponent {
-  protected code$: Observable<string> = this.activatedRoute.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
+  /**
+   * The code of the current cost center
+   */
+  protected code$ = this.currentCostCenterService.code$;
 
-  protected costCenter$: Observable<CostCenter> = this.code$.pipe(
+  /**
+   * The model of the current cost center.
+   *
+   * It reloads the model when the code of the current cost center changes.
+   */
+  protected costCenter$: Observable<
+    CostCenter
+  > = this.currentCostCenterService.code$.pipe(
     tap((code) => this.costCenterService.load(code)),
     switchMap((code) => this.costCenterService.get(code)),
     shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
@@ -41,6 +50,7 @@ export class CostCenterEditComponent {
 
   constructor(
     protected costCenterService: CostCenterService,
+    protected currentCostCenterService: CurrentCostCenterService,
     protected costCenterFormService: CostCenterFormService,
     protected activatedRoute: ActivatedRoute,
     // we can't do without the router as the routingService is unable to
