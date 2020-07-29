@@ -12,6 +12,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
+import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { HamburgerMenuModule } from '../../../layout/header/hamburger-menu/hamburger-menu.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ConfigAddToCartButtonComponent } from '../commons/config-add-to-cart-button/config-add-to-cart-button.component';
@@ -26,6 +27,8 @@ import { ConfigAttributeNumericInputFieldComponent } from '../commons/config-att
 import { ConfigAttributeRadioButtonComponent } from '../commons/config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigAttributeReadOnlyComponent } from '../commons/config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigAttributeSingleSelectionImageComponent } from '../commons/config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
+import { ConfigConflictDescriptionComponent } from '../commons/config-conflict-description/config-conflict-description.component';
+import { ConfigConflictSuggestionComponent } from '../commons/config-conflict-suggestion/config-conflict-suggestion.component';
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
 import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
 import { ConfigGroupTitleComponent } from '../commons/config-group-title/config-group-title.component';
@@ -54,6 +57,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     I18nModule,
     IconModule,
     SpinnerModule,
+    KeyboardFocusModule,
   ],
 
   declarations: [
@@ -74,6 +78,8 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
     ConfigMessageComponent,
+    ConfigConflictSuggestionComponent,
+    ConfigConflictDescriptionComponent,
   ],
   exports: [
     ConfigFormComponent,
@@ -92,7 +98,8 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigGroupMenuComponent,
     ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
-
+    ConfigConflictSuggestionComponent,
+    ConfigConflictDescriptionComponent,
     ConfigMessageComponent,
   ],
   providers: [UserService, { provide: MessageConfig, useExisting: Config }],
@@ -114,6 +121,8 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
     ConfigMessageComponent,
+    ConfigConflictSuggestionComponent,
+    ConfigConflictDescriptionComponent,
   ],
 })
 export class VariantConfiguratorModule {}

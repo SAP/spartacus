@@ -74,7 +74,7 @@ export class ConfigGroupMenuComponent implements OnInit {
 
   clickOnEnter(event, group: Configurator.Group) {
     if (event.which === 13) {
-      this.click(group); //TODO: fix focus lose when selection with keyboard
+      this.click(group);
     }
   }
 
@@ -95,7 +95,7 @@ export class ConfigGroupMenuComponent implements OnInit {
 
   navigateUpOnEnter(event) {
     if (event.which === 13) {
-      this.navigateUp(); //TODO: fix focus lose when selection with keyboard
+      this.navigateUp();
     }
   }
 
@@ -167,17 +167,17 @@ export class ConfigGroupMenuComponent implements OnInit {
   }
 
   getGroupStatus(
-    groupId: string,
+    group: Configurator.Group,
     configuration: Configurator.Configuration
   ): Observable<string> {
     return this.configuratorGroupsService
-      .isGroupVisited(configuration.owner, groupId)
+      .isGroupVisited(configuration.owner, group.id)
       .pipe(
         switchMap((isVisited) => {
-          if (isVisited) {
+          if (isVisited && !this.isConflictGroupType(group.groupType)) {
             return this.configuratorGroupsService.getGroupStatus(
               configuration.owner,
-              groupId
+              group.id
             );
           } else {
             return of(null);

@@ -20,6 +20,8 @@ const conflictHeaderGroupName = Configurator.GroupType.CONFLICT_HEADER_GROUP;
 const conflictHeaderGroupDescription = 'Resolve issues for options...';
 const conflictGroupName = 'Color';
 const conflictGroupPrefix = 'Conflict for ';
+const conflictExplanation =
+  'The selected value is conflicting withour selections.';
 
 const groupName = 'GROUP1';
 const groupDescription = 'The Group Name';
@@ -170,6 +172,14 @@ const configuration: OccConfigurator.Configuration = {
 const group: OccConfigurator.Group = {
   name: groupName,
   description: groupDescription,
+  groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+  attributes: [occAttributeWithValues],
+};
+
+const occConflictGroup: OccConfigurator.Group = {
+  name: conflictGroupName,
+  description: conflictExplanation,
+  groupType: OccConfigurator.GroupType.CONFLICT,
   attributes: [occAttributeWithValues],
 };
 
@@ -319,6 +329,27 @@ describe('OccConfiguratorVariantNormalizer', () => {
     expect(groups[0].description).toBe(groupDescription);
   });
 
+  it('should convert a standard group and conflict group but not conflict-header group and sub-item-group', () => {
+    occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
+    expect(flatGroups.length).toBe(1);
+    occConfiguratorVariantNormalizer.convertGroup(
+      occConflictGroup,
+      groups,
+      flatGroups
+    );
+    expect(flatGroups.length).toBe(2);
+    group.groupType = OccConfigurator.GroupType.INSTANCE;
+    occConfiguratorVariantNormalizer.convertGroup(group, groups, flatGroups);
+    expect(flatGroups.length).toBe(2);
+    occConflictGroup.groupType = OccConfigurator.GroupType.CONFLICT_HEADER;
+    occConfiguratorVariantNormalizer.convertGroup(
+      occConflictGroup,
+      groups,
+      flatGroups
+    );
+    expect(flatGroups.length).toBe(2);
+  });
+
   it('should convert a group with no attributes', () => {
     const groupsWithoutAttributes: OccConfigurator.Group = {
       name: groupName,
@@ -366,16 +397,18 @@ describe('OccConfiguratorVariantNormalizer', () => {
     );
   });
 
-  it('should set description for conflict group', () => {
+  it('should set description for conflict group and should store conflict explanation in group.name', () => {
     const conflictGroup: Configurator.Group = {
       groupType: Configurator.GroupType.CONFLICT_GROUP,
       name: conflictGroupName,
+      description: conflictExplanation,
     };
 
     occConfiguratorVariantNormalizer.setGroupDescription(conflictGroup);
     expect(conflictGroup.description).toBe(
       conflictGroupPrefix + conflictGroupName
     );
+    expect(conflictGroup.name).toBe(conflictExplanation);
   });
 
   it('should set selectedSingleValue', () => {

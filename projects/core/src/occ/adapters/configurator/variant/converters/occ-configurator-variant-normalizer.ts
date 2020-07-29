@@ -64,7 +64,10 @@ export class OccConfiguratorVariantNormalizer
       );
     }
 
-    if (group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP) {
+    if (
+      group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP ||
+      group.groupType === Configurator.GroupType.CONFLICT_GROUP
+    ) {
       flatGroupList.push(group);
     }
 
@@ -242,6 +245,7 @@ export class OccConfiguratorVariantNormalizer
           );
         break;
       case Configurator.GroupType.CONFLICT_GROUP:
+        const conflictDescription = group.description;
         this.translation
           .translate('configurator.group.conflictGroup', {
             attribute: group.name,
@@ -250,6 +254,7 @@ export class OccConfiguratorVariantNormalizer
           .subscribe(
             (conflictGroupText) => (group.description = conflictGroupText)
           );
+        group.name = conflictDescription;
         break;
       default:
         if (group.name !== '_GEN') {

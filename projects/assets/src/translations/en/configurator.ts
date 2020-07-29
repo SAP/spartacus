@@ -7,6 +7,7 @@ export const configurator = {
       toconfig: 'Configure',
       editConfiguration: 'Edit Configuration',
       displayConfiguration: 'Display Configuration',
+      resolveIssues: 'Resolve Issues',
       updateMessage: 'Configuration is updated wait a little bit!',
       showMore: 'show more',
       showLess: 'show less',
@@ -14,6 +15,10 @@ export const configurator = {
     tabBar: {
       configuration: 'Configuration',
       overview: 'Overview',
+    },
+    notificationBanner: {
+      numberOfIssue: 'Issue must be resolved before checkout.',
+      numberOfIssues: '{{issues}} issues must be resolved before checkout.',
     },
     attribute: {
       caption: 'Attributes',
@@ -50,6 +55,10 @@ export const configurator = {
       general: 'General',
       conflictHeader: 'Resolve conflicts',
       conflictGroup: 'Conflict for {{attribute}}',
+    },
+    conflict: {
+      suggestionTitle: 'Suggestion {{number}}:',
+      suggestionText: 'Change value for "{{ attribute }}"',
     },
   },
 };
