@@ -60,6 +60,6 @@ describe('PageEventBuilder', () => {
       .subscribe((value) => (result = value));
 
     actions$.next({ type: ROUTER_NAVIGATED, payload });
-    expect(result).toBeTruthy();
+    expect(result).toEqual(jasmine.objectContaining(payload.routerState));
   });
 });
