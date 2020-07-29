@@ -44,6 +44,7 @@ export const organization = {
       title: 'Disable Budget',
       message: 'Are you sure you want to disable this budget?',
     },
+    localTimeDisclaimer: 'Note: All times are local.',
   },
   budgetForm: {
     create: 'Create Budget',
