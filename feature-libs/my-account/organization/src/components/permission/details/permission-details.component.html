@@ -12,12 +12,12 @@
       <span>{{ permission.code }}</span>
     </h3>
     <div class="actions">
-      <!-- <a
+      <a
         class="link"
         [routerLink]="{ cxRoute: 'permissionEdit', params: permission } | cxUrl"
       >
         {{ 'organization.edit' | cxTranslate }}
-      </a> -->
+      </a>
     </div>
     <section>
       <div class="details">
@@ -53,35 +53,51 @@
       </div>
     </section>
 
-    <!-- <section>
-      <div class="child-link" routerLinkActive="active">
-        <h4>
-          <a
-            class="link"
-            [routerLink]="
-              { cxRoute: 'userGroupUsers', params: userGroup } | cxUrl
-            "
-          >
-            {{ 'userGroup.user.header' | cxTranslate }}
-            <cx-icon type="CARET_RIGHT"></cx-icon>
-          </a>
-        </h4>
+    <section>
+      <div class="property">
+        <label>{{ 'organization.status' | cxTranslate }}</label>
+        <span class="value">
+          <ng-container *ngIf="permission.active; else disabled">
+            {{ 'organization.enabled' | cxTranslate }}
+            <button
+              class="button active icon"
+              (click)="openModal(confirmDisable)"
+            >
+              {{ 'organization.disable' | cxTranslate }}
+              <!--              <cx-icon type="ON"></cx-icon>-->
+            </button>
+          </ng-container>
+          <ng-template #disabled>
+            {{ 'organization.disabled' | cxTranslate }}
+            <button
+              class="button icon"
+              (click)="update({ code: permission.code, activeFlag: true })"
+            >
+              {{ 'organization.enable' | cxTranslate }}
+              <!--              <cx-icon type="OFF"></cx-icon>-->
+            </button>
+          </ng-template>
+        </span>
+        <p class="instruction">
+          <ng-container *ngIf="permission.active; else inactiveInstruction">
+            {{ 'costCenter.messages.enabled' | cxTranslate }}
+          </ng-container>
+          <ng-template #inactiveInstruction>
+            {{ 'costCenter.messages.disabled' | cxTranslate }}
+          </ng-template>
+        </p>
       </div>
-      <div class="child-link" routerLinkActive="active">
-        <h4>
-          <a
-            class="link"
-            [routerLink]="
-              { cxRoute: 'userGroupPermissions', params: userGroup } | cxUrl
-            "
-          >
-            {{ 'userGroup.permission.header' | cxTranslate }}
-            <cx-icon type="CARET_RIGHT"></cx-icon>
-          </a>
-        </h4>
-      </div>
-    </section> -->
+    </section>
   </ng-container>
 </cx-view>
 
 <router-outlet></router-outlet>
+
+<ng-template #confirmDisable>
+  <cx-confirm-modal
+    *ngIf="permission$ | async as permission"
+    [title]="'permission.messages.deactivateHeader' | cxTranslate"
+    [message]="'permission.messages.deactivate' | cxTranslate"
+    (confirm)="update({ code: permission.code, activeFlag: false })"
+  ></cx-confirm-modal>
+</ng-template>

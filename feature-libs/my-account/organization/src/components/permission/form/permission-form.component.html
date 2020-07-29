@@ -1,0 +1,127 @@
+<ng-container *ngIf="form" [formGroup]="form">
+  <ng-container
+    *ngIf="form.get('orderApprovalPermissionType') && types$ | async as types"
+    [formGroup]="form.get('orderApprovalPermissionType')"
+  >
+    <div class="form-group">
+      <label aria-required="true">
+        <span class="label-content required">{{
+          'permission.orderApprovalPermissionType' | cxTranslate
+        }}</span>
+        <ng-select
+          formControlName="orderApprovalPermissionType"
+          [searchable]="false"
+          [clearable]="false"
+          [items]="types"
+          bindLabel="name"
+          bindValue="id"
+        >
+        </ng-select>
+        <cx-form-errors
+          [control]="form.get('orderApprovalPermissionType')"
+        ></cx-form-errors>
+      </label>
+    </div>
+  </ng-container>
+
+  <div class="form-group" *ngIf="form.get('code')">
+    <label>
+      <span class="label-content required">{{
+        'permission.code' | cxTranslate
+      }}</span>
+      <input
+        class="form-control"
+        type="text"
+        required
+        placeholder="{{ 'permission.code' | cxTranslate }}"
+        formControlName="code"
+      />
+      <cx-form-errors [control]="form.get('code')"></cx-form-errors>
+    </label>
+  </div>
+
+  <ng-container
+    *ngIf="form.get('orgUnit') && units$ | async as units"
+    [formGroup]="form.get('orgUnit')"
+  >
+    <div class="form-group">
+      <label aria-required="true">
+        <span class="label-content required">{{
+          'permission.orgUnit' | cxTranslate
+        }}</span>
+        <ng-select
+          formControlName="uid"
+          [searchable]="false"
+          [clearable]="false"
+          [items]="units"
+          bindLabel="name"
+          bindValue="id"
+          [readonly]="form.get('orgUnit').disabled"
+        >
+        </ng-select>
+        <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
+      </label>
+    </div>
+  </ng-container>
+
+  <ng-container
+    *ngIf="form.get('periodRange')"
+    [formGroup]="form.get('periodRange')"
+  >
+    <div class="form-group">
+      <label aria-required="true">
+        <span class="label-content required">{{
+          'permission.periodRange' | cxTranslate
+        }}</span>
+        <ng-select
+          formControlName="uid"
+          [searchable]="false"
+          [clearable]="false"
+          [items]="periods"
+          bindLabel="name"
+          bindValue="id"
+        >
+        </ng-select>
+        <cx-form-errors [control]="form.get('periodRange')"></cx-form-errors>
+      </label>
+    </div>
+  </ng-container>
+
+  <ng-container
+    *ngIf="form.get('currency') && currencies$ | async as currencies"
+    [formGroup]="form.get('currency')"
+  >
+    <div class="form-group">
+      <label aria-required="true">
+        <span class="label-content required">{{
+          'permission.currency' | cxTranslate
+        }}</span>
+        <ng-select
+          formControlName="uid"
+          [searchable]="false"
+          [clearable]="false"
+          [items]="currencies"
+          bindLabel="name"
+          bindValue="id"
+        >
+        </ng-select>
+        <cx-form-errors [control]="form.get('currency')"></cx-form-errors>
+      </label>
+    </div>
+  </ng-container>
+  <div class="form-group" *ngIf="form.get('threshold')">
+    <label>
+      <span class="label-content required">{{
+        'permission.threshold' | cxTranslate
+      }}</span>
+      <input
+        class="form-control"
+        type="number"
+        required
+        placeholder="{{ 'permission.threshold' | cxTranslate }}"
+        formControlName="threshold"
+      />
+      <cx-form-errors [control]="form.get('threshold')"></cx-form-errors>
+    </label>
+  </div>
+</ng-container>
