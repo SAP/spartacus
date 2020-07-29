@@ -12,6 +12,10 @@ export class UnitFormService {
     if (model) {
       form.patchValue(model);
     }
+    // disable parent unit select for root units
+    if (model?.active && !model.parentOrgUnit?.uid) {
+      form.removeControl('parentOrgUnit');
+    }
     return form;
   }
 
