@@ -22,11 +22,19 @@ import {
   defer,
   forkJoin,
   from,
+  merge,
   Observable,
   of,
   queueScheduler,
 } from 'rxjs';
-import { map, observeOn, pluck, share, switchMap, tap } from 'rxjs/operators';
+import {
+  map,
+  observeOn,
+  pluck,
+  shareReplay,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 
 interface FeatureInstance extends FeatureModuleConfig {
   moduleRef?: NgModuleRef<any>;
@@ -42,19 +50,19 @@ interface FeatureInstance extends FeatureModuleConfig {
   providedIn: 'root',
 })
 export class FeatureModulesService implements OnDestroy {
-  // maps componentType to feature
-  private componentFeatureMap: Map<string, string> = new Map();
-
+  // feature modules configuration
   private featureModulesConfig?: {
     [featureName: string]: FeatureModuleConfig;
   };
 
-  private featureResolvers: Map<
-    string,
-    Observable<FeatureInstance>
-  > = new Map();
+  // maps componentType to feature
+  private componentFeatureMap: Map<string, string> = new Map();
 
-  private features: Map<string, FeatureInstance> = new Map();
+  /*
+   * Contains either FeatureInstance or FeatureInstance resolver for not yet
+   * resolved feature modules
+   */
+  private features: Map<string, Observable<FeatureInstance>> = new Map();
 
   private dependencyModules = new Map<any, NgModuleRef<any>>();
 
@@ -107,19 +115,24 @@ export class FeatureModulesService implements OnDestroy {
 
   /**
    * Get all injectors for feature and its dependencies
+   *
+   * As it's a synchronous method, it works only for already resolved features
    */
-  getInjectors(componentType: string): Injector[] {
-    const featureName = this.componentFeatureMap.get(componentType);
-    return this.features.get(featureName)?.injectors;
+  getInjectors(componentType: string): Injector[] | undefined {
+    const feature = this.componentFeatureMap.get(componentType);
+    let injectors = undefined;
+
+    // we are returning injectors only for already resolved features
+    this.features
+      .get(feature)
+      ?.subscribe((featureInstance) => (injectors = featureInstance.injectors))
+      .unsubscribe();
+    return injectors;
   }
 
   private resolveFeature(featureName: string): Observable<FeatureInstance> {
     return defer(() => {
-      if (this.features.has(featureName)) {
-        return of(this.features.get(featureName));
-      }
-
-      if (!this.featureResolvers.has(featureName)) {
+      if (!this.features.has(featureName)) {
         const featureConfig = this.featureModulesConfig[featureName];
 
         if (!featureConfig?.module) {
@@ -134,20 +147,16 @@ export class FeatureModulesService implements OnDestroy {
             )
           : of(undefined);
 
-        this.featureResolvers.set(
+        this.features.set(
           featureName,
           depsResolve.pipe(
             switchMap((deps) => this.resolveFeatureModule(featureConfig, deps)),
-            tap((featureInstance) => {
-              this.features.set(featureName, featureInstance);
-
-              this.featureResolvers.delete(featureName);
-            }),
-            share()
+            shareReplay()
           )
         );
       }
-      return this.featureResolvers.get(featureName);
+
+      return this.features.get(featureName);
     });
   }
 
@@ -244,9 +253,9 @@ export class FeatureModulesService implements OnDestroy {
 
   ngOnDestroy(): void {
     // clean up all initialized features
-    this.features.forEach((featureInstance) => {
-      featureInstance.moduleRef?.destroy();
-    });
+    merge(...this.features.values()).subscribe((featureInstance) =>
+      featureInstance.moduleRef?.destroy()
+    );
 
     // clean up all initialized dependency modules
     this.dependencyModules.forEach((dependency) => dependency.destroy());

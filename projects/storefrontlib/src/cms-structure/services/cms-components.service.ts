@@ -17,7 +17,9 @@ import { FeatureModulesService } from './feature-modules.service';
 export class CmsComponentsService {
   private missingComponents: string[] = [];
   private mappings: { [componentType: string]: CmsComponentMapping } = {};
-  private resolvingMappings: Map<
+
+  // contains
+  private mappingResolvers: Map<
     string,
     Observable<CmsComponentMapping>
   > = new Map();
@@ -46,7 +48,7 @@ export class CmsComponentsService {
 
       for (const componentType of componentTypes) {
         if (!this.mappings[componentType]) {
-          const staticConfig = this.config.cmsComponents[componentType] ?? {};
+          const staticConfig = this.config.cmsComponents[componentType];
 
           // check if this component type is managed by feature module
           if (this.featureModules.hasFeatureFor(componentType)) {
@@ -70,9 +72,9 @@ export class CmsComponentsService {
 
   private getFeatureMappingResolver(
     componentType: string,
-    staticConfig: CmsComponentMapping
+    staticConfig?: CmsComponentMapping
   ): Observable<CmsComponentMapping> {
-    if (!this.resolvingMappings.has(componentType)) {
+    if (!this.mappingResolvers.has(componentType)) {
       const mappingResolver$ = this.featureModules
         .getCmsMapping(componentType)
         .pipe(
@@ -83,17 +85,21 @@ export class CmsComponentsService {
               featureComponentMapping,
               staticConfig
             );
-            this.resolvingMappings.delete(componentType);
+            this.mappingResolvers.delete(componentType);
           }),
           share()
         );
-      this.resolvingMappings.set(componentType, mappingResolver$);
+      this.mappingResolvers.set(componentType, mappingResolver$);
     }
-    return this.resolvingMappings.get(componentType);
+    return this.mappingResolvers.get(componentType);
   }
 
   getInjectors(componentType: string): Injector[] {
-    return this.featureModules.getInjectors(componentType) ?? [];
+    return (
+      (this.featureModules.hasFeatureFor(componentType) &&
+        this.featureModules.getInjectors(componentType)) ??
+      []
+    );
   }
 
   /**
