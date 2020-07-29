@@ -100,7 +100,7 @@ export class OccConfiguratorVariantNormalizer
       );
     }
 
-    if (sourceAttribute.conflicts.length > 0) {
+    if (sourceAttribute.conflicts && sourceAttribute.conflicts.length > 0) {
       attribute.hasConflict = true;
     } else {
       attribute.hasConflict = false;
