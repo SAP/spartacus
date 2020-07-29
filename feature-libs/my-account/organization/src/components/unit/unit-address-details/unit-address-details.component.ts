@@ -49,16 +49,6 @@ export class UnitAddressDetailsComponent implements OnInit {
     );
   }
 
-  // deleteAddress() {
-  //   this.address$.pipe(take(1)).subscribe((address) => {
-  //     this.orgUnitsService.deleteAddress(address.orgUnitId, address.id);
-  //     this.routingService.go({
-  //       cxRoute: 'orgUnitManageAddresses',
-  //       params: { code: address.orgUnitId },
-  //     });
-  //   });
-  // }
-
   openModal(address, template: TemplateRef<any>): void {
     this.addressId = address.id;
     this.modalService.open(template, {
@@ -67,10 +57,12 @@ export class UnitAddressDetailsComponent implements OnInit {
   }
 
   deleteAddress() {
-    this.code$
-      .pipe(take(1))
-      .subscribe((code) =>
-        this.orgUnitsService.deleteAddress(code, this.addressId)
-      );
+    this.code$.pipe(take(1)).subscribe((code) => {
+      this.orgUnitsService.deleteAddress(code, this.addressId);
+      this.routingService.go({
+        cxRoute: 'orgUnitManageAddresses',
+        params: { uid: code },
+      });
+    });
   }
 }

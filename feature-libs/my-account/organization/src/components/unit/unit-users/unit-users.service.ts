@@ -6,7 +6,6 @@ import {
 import { EntitiesModel, OrgUnitService, B2BUser } from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -27,20 +26,6 @@ export class UnitUsersService extends BaseOrganizationListService<B2BUser> {
     roleId: string
   ): Observable<EntitiesModel<B2BUser>> {
     const config = structure.pagination;
-    return this.orgUnitService
-      .getUsers(code, roleId, config)
-      .pipe(map((users) => this.filterSelected(users)));
-  }
-
-  protected filterSelected({
-    pagination,
-    sorts,
-    values,
-  }: EntitiesModel<B2BUser>): EntitiesModel<B2BUser> {
-    return {
-      pagination,
-      sorts,
-      values: values.filter((value) => value.selected),
-    };
+    return this.orgUnitService.getUsers(code, roleId, config);
   }
 }

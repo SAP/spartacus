@@ -23,13 +23,16 @@
         <button class="button primary" type="submit">
           {{ 'organization.save' | cxTranslate }}
         </button>
-        <button
-          [routerLink]="{ cxRoute: 'orgUnits' } | cxUrl"
+        <a
+          [routerLink]="
+            { cxRoute: 'orgUnitManageAddresses', params: { uid: orgUnitCode } }
+              | cxUrl
+          "
           class="button secondary"
           (click)="view.toggle()"
         >
           {{ 'organization.cancel' | cxTranslate }}
-        </button>
+        </a>
       </div>
     </section>
   </form>

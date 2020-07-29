@@ -31,9 +31,7 @@ export class UnitFormComponent extends AbstractFormComponent
   approvalProcesses$: Observable<B2BApprovalProcess[]>;
 
   subscription = new Subscription();
-  parentUnitQueryParam$: Observable<
-    string
-  > = this.routingService.getRouterState().pipe(
+  parentUnitQueryParam$ = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.queryParams?.['parentUnit']),
     filter(Boolean)
   );
@@ -58,7 +56,7 @@ export class UnitFormComponent extends AbstractFormComponent
       );
 
     this.subscription.add(
-      this.parentUnitQueryParam$.subscribe((param) => {
+      this.parentUnitQueryParam$.subscribe(() => {
         this.form.get('parentOrgUnit').disable();
       })
     );

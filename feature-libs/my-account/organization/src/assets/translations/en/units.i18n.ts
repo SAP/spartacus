@@ -68,6 +68,7 @@ export const units = {
   },
   unitAssignRoles: {
     header: 'Manage roles in {{code}}',
+    back: 'Back',
     b2bcustomergroup: 'Customer',
     b2bapprovergroup: 'Approver',
     b2bmanagergroup: 'Manager',
@@ -86,7 +87,7 @@ export const units = {
   },
   unitAssignApprovers: {
     header: 'Manage approvers in {{code}}',
-    back: 'Close',
+    back: 'Back',
     instructions: {
       check: "To assign an approver to this unit, select the user's check box.",
       uncheck: "To remove aa approver, clear the user's check box.",
@@ -120,7 +121,7 @@ export const units = {
     create: 'Create',
   },
   unitAddressEdit: {
-    header: 'Address edit',
+    header: 'Edit shipping address for {{code}}',
     update: 'Update',
   },
   unitAddressForm: {
@@ -175,7 +176,6 @@ export const units = {
 
 export const unitAssignRoles = {
   header: 'Manage roles in {{code}}',
-  back: 'Close',
   name: 'Name',
   email: 'Email',
   roles: 'Roles',

@@ -40,14 +40,14 @@
           {{ 'units.unitAssignApprovers.instructions.changes' | cxTranslate }}
         </li>
       </ul>
-      <button
+      <a
         class="button secondary"
         [routerLink]="
           { cxRoute: 'orgUnitApprovers', params: { uid: orgUnitCode } } | cxUrl
         "
       >
-        {{ 'costCenter.budget.back' | cxTranslate }}
-      </button>
+        {{ 'units.unitAssignApprovers.back' | cxTranslate }}
+      </a>
     </div>
   </ng-container>
 
@@ -98,7 +98,20 @@
           toggleAssign(orgUnitCode, model.customerId, $event.target.checked)
         "
       />
-      <span class="text">{{ model.name }}</span>
+      <!--      <span class="text">{{ model.name }}</span>-->
+
+      <a
+        class="link"
+        [routerLink]="
+          {
+            cxRoute: 'userDetails',
+            params: model
+          } | cxUrl
+        "
+      >
+        {{ model.name }}
+        <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+      </a>
     </label>
   </ng-template>
 
@@ -119,6 +132,7 @@
       "
     >
       {{ model.orgUnit.name }}
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
     </a>
   </ng-template>
 </cx-view>

@@ -38,14 +38,14 @@
           {{ 'units.unitAssignRoles.instructions.changes' | cxTranslate }}
         </li>
       </ul>
-      <button
+      <a
         class="button secondary"
         [routerLink]="
           { cxRoute: 'orgUnitUsers', params: { uid: orgUnitCode } } | cxUrl
         "
       >
-        {{ 'costCenter.budget.back' | cxTranslate }}
-      </button>
+        {{ 'units.unitAssignRoles.back' | cxTranslate }}
+      </a>
     </div>
   </ng-container>
 
@@ -53,6 +53,21 @@
     <p class="instruction is-empty">
       {{ 'organization.messages.emptyList' | cxTranslate }}
     </p>
+  </ng-template>
+
+  <ng-template cxOutletRef="table.unitAssignRoles.data.name" let-model>
+    <a
+      class="link"
+      [routerLink]="
+        {
+          cxRoute: 'userDetails',
+          params: model
+        } | cxUrl
+      "
+    >
+      {{ model.name }}
+      <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+    </a>
   </ng-template>
 
   <ng-template cxOutletRef="table.unitAssignRoles.data.roleCustomer" let-model>

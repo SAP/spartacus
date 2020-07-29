@@ -22,6 +22,7 @@
           cxRoute: 'costCenterCreate'
         } | cxUrl
       "
+      [queryParams]="{ parentUnit: orgUnitCode }"
     >
       {{ 'units.unitCostCenters.new' | cxTranslate }}
     </a>

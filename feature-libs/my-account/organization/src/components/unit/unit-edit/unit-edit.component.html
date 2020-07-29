@@ -21,7 +21,7 @@
         <button class="button primary" type="submit">
           {{ 'organization.save' | cxTranslate }}
         </button>
-        <button
+        <a
           [routerLink]="
             { cxRoute: 'orgUnitDetails', params: viewModel.orgUnit } | cxUrl
           "
@@ -29,7 +29,7 @@
           (click)="view.toggle()"
         >
           {{ 'organization.cancel' | cxTranslate }}
-        </button>
+        </a>
       </div>
     </section>
   </form>
