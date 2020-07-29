@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfigureErrorNotificationBannerComponent } from './configure-error-notification-banner.component';
+import { ConfigureIssuesNotificationComponent } from './configure-issues-notification.component';
 import { ConfigComponentTestUtilsService } from '../service/config-component-test-utils.service';
 import { Pipe, PipeTransform } from '@angular/core';
 
@@ -11,24 +11,19 @@ class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
-describe('ConfigureErrorNotificationBannerComponent', () => {
-  let component: ConfigureErrorNotificationBannerComponent;
-  let fixture: ComponentFixture<ConfigureErrorNotificationBannerComponent>;
+describe('ConfigureIssuesNotificationComponent', () => {
+  let component: ConfigureIssuesNotificationComponent;
+  let fixture: ComponentFixture<ConfigureIssuesNotificationComponent>;
   let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ConfigureErrorNotificationBannerComponent,
-        MockTranslatePipe,
-      ],
+      declarations: [ConfigureIssuesNotificationComponent, MockTranslatePipe],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(
-      ConfigureErrorNotificationBannerComponent
-    );
+    fixture = TestBed.createComponent(ConfigureIssuesNotificationComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     component.item = {

@@ -11,7 +11,6 @@ import { ConfigRouterExtractorService } from '../../generic/service/config-route
 @Component({
   selector: 'cx-config-overview-notification-banner',
   templateUrl: './config-overview-notification-banner.component.html',
-  styles: [],
 })
 export class ConfigOverviewNotificationBannerComponent {
   entry$: Observable<OrderEntry> = this.activeCartService.getEntries().pipe(

@@ -106,7 +106,7 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     ConfigComponentTestUtilsService.expectElementPresent(
       expect,
       htmlElem,
-      'cx-configure-error-notification-banner'
+      'cx-configure-issues-notification'
     );
   });
 });

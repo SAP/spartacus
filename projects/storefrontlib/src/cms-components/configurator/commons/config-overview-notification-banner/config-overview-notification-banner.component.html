@@ -1,7 +1,7 @@
 <ng-container *ngIf="entry$ | async as entry">
-  <cx-configure-error-notification-banner
+  <cx-configure-issues-notification
     [compact]="false"
     [readonly]="false"
     [item]="entry"
-  ></cx-configure-error-notification-banner>
+  ></cx-configure-issues-notification>
 </ng-container>

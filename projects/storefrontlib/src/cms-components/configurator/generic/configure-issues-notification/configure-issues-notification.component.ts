@@ -3,10 +3,10 @@ import { ICON_TYPE } from '../../../misc/icon';
 import { OrderEntry } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-configure-error-notification-banner',
-  templateUrl: './configure-error-notification-banner.component.html',
+  selector: 'cx-configure-issues-notification',
+  templateUrl: './configure-issues-notification.component.html',
 })
-export class ConfigureErrorNotificationBannerComponent {
+export class ConfigureIssuesNotificationComponent {
   @Input() compact = false;
   @Input() item: OrderEntry;
   @Input() readonly = false;

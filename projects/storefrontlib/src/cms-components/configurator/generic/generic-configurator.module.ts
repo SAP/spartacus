@@ -10,7 +10,7 @@ import {
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { ConfigureCartEntryComponent } from './configure-cart-entry/configure-cart-entry.component';
 import { ConfigureProductComponent } from './configure-product/configure-product.component';
-import { ConfigureErrorNotificationBannerComponent } from './configure-error-notification-banner/configure-error-notification-banner.component';
+import { ConfigureIssuesNotificationComponent } from './configure-issues-notification/configure-issues-notification.component';
 
 @NgModule({
   imports: [
@@ -30,13 +30,13 @@ import { ConfigureErrorNotificationBannerComponent } from './configure-error-not
   declarations: [
     ConfigureProductComponent,
     ConfigureCartEntryComponent,
-    ConfigureErrorNotificationBannerComponent,
+    ConfigureIssuesNotificationComponent,
   ],
   entryComponents: [ConfigureProductComponent, ConfigureCartEntryComponent],
   exports: [
     ConfigureProductComponent,
     ConfigureCartEntryComponent,
-    ConfigureErrorNotificationBannerComponent,
+    ConfigureIssuesNotificationComponent,
   ],
 })
 export class GenericConfiguratorModule {}
