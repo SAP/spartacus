@@ -88,7 +88,7 @@ const MockTabKeyEvent = {
   },
 };
 
-fdescribe('VisibleFocusDirective', () => {
+describe('VisibleFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
