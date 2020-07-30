@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Table } from '@spartacus/storefront';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserApproverListService } from './user-approver-list.service';
 
@@ -26,4 +26,10 @@ export class UserApproverListComponent {
     protected route: ActivatedRoute,
     protected userApproverListService: UserApproverListService
   ) {}
+
+  unassign(model) {
+    this.code$
+      .pipe(take(1))
+      .subscribe((code) => this.userApproverListService.unassign(code, model));
+  }
 }

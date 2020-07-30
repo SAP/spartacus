@@ -15,17 +15,19 @@ export class UserPermissionListComponent {
   );
 
   dataTable$: Observable<Table> = this.code$.pipe(
-    switchMap((code) => this.userUserListService.getTable(code))
+    switchMap((code) => this.userPermissionListService.getTable(code))
   );
 
   constructor(
     protected route: ActivatedRoute,
-    protected userUserListService: UserPermissionListService
+    protected userPermissionListService: UserPermissionListService
   ) {}
 
   unassign(model) {
     this.code$
       .pipe(take(1))
-      .subscribe((code) => this.userUserListService.unassign(code, model));
+      .subscribe((code) =>
+        this.userPermissionListService.unassign(code, model)
+      );
   }
 }

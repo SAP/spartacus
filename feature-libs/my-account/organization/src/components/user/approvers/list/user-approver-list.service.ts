@@ -44,4 +44,8 @@ export class UserApproverListService extends BaseOrganizationListService<
       values: values.filter((value) => value.selected),
     };
   }
+
+  unassign(userCode: string, approver: B2BUser) {
+    this.userService.unassignApprover(userCode, approver.customerId);
+  }
 }
