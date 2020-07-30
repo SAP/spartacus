@@ -6,15 +6,13 @@ import {
   ConfigPriceSummaryComponent,
   ConfigProductTitleComponent,
   ConfigTabBarComponent,
+  ConfigurationMessageLoaderModule,
 } from '@spartacus/product/configurators/common';
 import {
   CmsPageGuard,
   ConfigAddToCartButtonComponent,
   ConfigFormComponent,
   ConfigGroupMenuComponent,
-  ConfigGroupTitleComponent,
-  ConfigPreviousNextButtonsComponent,
-  ConfigurationMessageLoaderModule,
   DefaultMessageConfig,
   HamburgerMenuModule,
   PageLayoutComponent,
@@ -46,9 +44,6 @@ import {
         VariantConfigurationTitle: {
           component: ConfigProductTitleComponent,
         },
-        VariantConfigurationGroupTitle: {
-          component: ConfigGroupTitleComponent,
-        },
         VariantConfigurationForm: {
           component: ConfigFormComponent,
         },
@@ -57,9 +52,6 @@ import {
         },
         VariantConfigurationPriceSummary: {
           component: ConfigPriceSummaryComponent,
-        },
-        VariantConfigurationPrevNext: {
-          component: ConfigPreviousNextButtonsComponent,
         },
         VariantConfigurationAddToCartButton: {
           component: ConfigAddToCartButtonComponent,

@@ -16,6 +16,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { GROUP_ID_1 } from 'projects/core/src/configurator/commons/facade/configuration-test-data';
 import { Observable, of } from 'rxjs';
+import { ConfigPreviousNextButtonsComponent } from '../../../../../../../feature-libs/product/configurators/common/src/components/config-previous-next-buttons/config-previous-next-buttons.component';
 import { ConfigAttributeFooterComponent } from '../config-attribute-footer/config-attribute-footer.component';
 import { ConfigAttributeHeaderComponent } from '../config-attribute-header/config-attribute-header.component';
 import { ConfigAttributeCheckBoxListComponent } from '../config-attribute-types/config-attribute-checkbox-list/config-attribute-checkbox-list.component';
@@ -26,7 +27,6 @@ import { ConfigAttributeMultiSelectionImageComponent } from '../config-attribute
 import { ConfigAttributeRadioButtonComponent } from '../config-attribute-types/config-attribute-radio-button/config-attribute-radio-button.component';
 import { ConfigAttributeReadOnlyComponent } from '../config-attribute-types/config-attribute-read-only/config-attribute-read-only.component';
 import { ConfigAttributeSingleSelectionImageComponent } from '../config-attribute-types/config-attribute-single-selection-image/config-attribute-single-selection-image.component';
-import { ConfigPreviousNextButtonsComponent } from '../config-previous-next-buttons/config-previous-next-buttons.component';
 import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigFormComponent } from './config-form.component';
 import { ConfigFormUpdateEvent } from './config-form.event';

@@ -23,9 +23,9 @@ export class ConfiguratorCommonsService {
    *
    * @param owner - Configuration owner
    *
-   * @returns {Observable<Boolean>} Returns true if there are any pending changes, otherwise false
+   * @returns {Observable<boolean>} Returns true if there are any pending changes, otherwise false
    */
-  hasPendingChanges(owner: GenericConfigurator.Owner): Observable<Boolean> {
+  hasPendingChanges(owner: GenericConfigurator.Owner): Observable<boolean> {
     return this.store.pipe(
       select(ConfiguratorSelectors.hasPendingChanges(owner.key))
     );
@@ -36,11 +36,11 @@ export class ConfiguratorCommonsService {
    *
    * @param owner - Configuration owner
    *
-   * @returns {Observable<Boolean>} Returns true if the configuration is loading, otherwise false
+   * @returns {Observable<boolean>} Returns true if the configuration is loading, otherwise false
    */
   isConfigurationLoading(
     owner: GenericConfigurator.Owner
-  ): Observable<Boolean> {
+  ): Observable<boolean> {
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(

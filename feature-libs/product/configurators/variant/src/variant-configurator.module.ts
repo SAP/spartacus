@@ -6,6 +6,7 @@ import { Config, I18nModule, UrlModule } from '@spartacus/core';
 import {
   GenericConfiguratorModule,
   IconModule,
+  KeyboardFocusModule,
   MessageConfig,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -26,6 +27,7 @@ import { OverviewModule } from './overview.module';
     NgSelectModule,
     SpinnerModule,
     IconModule,
+    KeyboardFocusModule,
     GenericConfiguratorModule,
   ],
 })

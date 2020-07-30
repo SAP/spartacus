@@ -10,29 +10,30 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
+import { MessageConfig } from '@spartacus/storefront';
+import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
-import { MessageConfig } from '../config/message-config';
-import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigMessageComponent } from './config-message.component';
+
+let routerStateObservable = null;
+class MockRoutingService {
+  getRouterState(): Observable<RouterState> {
+    return routerStateObservable;
+  }
+}
 
 const owner: GenericConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
-let isConfigurationLoading: Boolean = false;
-let hasPendingChanges: Boolean = false;
+let isConfigurationLoading = false;
+let hasPendingChanges = false;
 let waitingTime = 1000;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(ConfigurationTestData.mockRouterState);
-  }
-}
-
 class MockConfiguratorCommonsService {
-  hasPendingChanges(): Observable<Boolean> {
+  hasPendingChanges(): Observable<boolean> {
     return of(hasPendingChanges);
   }
-  isConfigurationLoading(): Observable<Boolean> {
+  isConfigurationLoading(): Observable<boolean> {
     return of(isConfigurationLoading);
   }
 }
@@ -50,6 +51,7 @@ describe('ConfigurationMessageComponent', () => {
   let htmlElem: HTMLElement;
 
   beforeEach(async(() => {
+    routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
       declarations: [],
@@ -85,31 +87,29 @@ describe('ConfigurationMessageComponent', () => {
   });
 
   it('should not show update banner if pending changes and loading is false', () => {
-    component.ngOnInit();
     fixture.detectChanges();
 
     //Should contain d-none class
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-    ).toBe(1);
+      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+    ).toBe(0);
   });
 
   it('should show update banner if pending changes is true', () => {
     hasPendingChanges = true;
     isConfigurationLoading = false;
-    component.ngOnInit();
     fixture.detectChanges();
 
     //Should be hidden first
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-    ).toBe(1);
+      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+    ).toBe(0);
 
     //Should appear after a bit
     setTimeout(() => {
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-      ).toBe(0);
+        htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+      ).toBe(1);
 
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message').length
@@ -120,19 +120,18 @@ describe('ConfigurationMessageComponent', () => {
   it('should show update banner if loading is true', () => {
     hasPendingChanges = false;
     isConfigurationLoading = true;
-    component.ngOnInit();
     fixture.detectChanges();
 
     //Should be hidden first
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-    ).toBe(1);
+      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+    ).toBe(0);
 
     //Should appear after a bit
     setTimeout(() => {
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-      ).toBe(0);
+        htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+      ).toBe(1);
 
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message').length
@@ -143,19 +142,18 @@ describe('ConfigurationMessageComponent', () => {
   it('should show update banner if loading and pending changes are true', () => {
     hasPendingChanges = true;
     isConfigurationLoading = true;
-    component.ngOnInit();
     fixture.detectChanges();
 
     //Should be hidden first
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-    ).toBe(1);
+      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+    ).toBe(0);
 
     //Should appear after a bit
     setTimeout(() => {
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-      ).toBe(0);
+        htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+      ).toBe(1);
 
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message').length
@@ -167,19 +165,18 @@ describe('ConfigurationMessageComponent', () => {
     hasPendingChanges = true;
     isConfigurationLoading = true;
     waitingTime = 100;
-    component.ngOnInit();
     fixture.detectChanges();
 
     //Should be hidden first
     expect(
-      htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-    ).toBe(1);
+      htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+    ).toBe(0);
 
     //Should appear after a bit
     setTimeout(() => {
       expect(
-        htmlElem.querySelectorAll('#cx-config-update-message.d-none').length
-      ).toBe(0);
+        htmlElem.querySelectorAll('#cx-config-update-message.visible').length
+      ).toBe(1);
 
       expect(
         htmlElem.querySelectorAll('#cx-config-update-message').length
