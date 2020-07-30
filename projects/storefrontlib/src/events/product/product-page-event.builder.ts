@@ -53,13 +53,14 @@ export class ProductPageEventBuilder {
         this.productService.get(productId).pipe(
           filter((product) => Boolean(product)),
           take(1),
-          map((product) => ({
-            categories: product.categories,
-            code: product.code,
-            name: product.name,
-            price: product.price,
-          })),
-          map((event) => createFrom(ProductDetailsPageEvent, event))
+          map((product) =>
+            createFrom(ProductDetailsPageEvent, {
+              categories: product.categories,
+              code: product.code,
+              name: product.name,
+              price: product.price,
+            })
+          )
         )
       )
     );

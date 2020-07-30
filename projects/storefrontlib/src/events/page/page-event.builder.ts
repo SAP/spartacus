@@ -32,13 +32,14 @@ export class PageEventBuilder {
 
   protected buildPageVisitedEvent(): Observable<PageVisitedEvent> {
     return this.getNavigatedEvent().pipe(
-      map((state) => ({
-        context: state.context,
-        semanticRoute: state.semanticRoute,
-        url: state.url,
-        params: state.params,
-      })),
-      map((event) => createFrom(PageVisitedEvent, event))
+      map((state) =>
+        createFrom(PageVisitedEvent, {
+          context: state.context,
+          semanticRoute: state.semanticRoute,
+          url: state.url,
+          params: state.params,
+        })
+      )
     );
   }
 
