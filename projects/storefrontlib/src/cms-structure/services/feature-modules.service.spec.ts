@@ -6,13 +6,18 @@ import {
   ConfigInitializerService,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { NgModule } from '@angular/core';
+import { InjectionToken, NgModule } from '@angular/core';
 
 const mockCmsConfig: CmsConfig = {
   featureModules: {
     feature1: {
       cmsComponents: ['component1'],
       module: async () => MockFeature1Module,
+    },
+    feature2: {
+      cmsComponents: ['component2'],
+      module: async () => MockFeature1Module,
+      dependencies: [async () => MockDependencyModule],
     },
   },
 };
@@ -32,18 +37,31 @@ const feature1CmsConfig: CmsConfig = {
   },
 };
 
+const TEST_TOKEN = new InjectionToken('testTokan');
+const TEST_DEP_TOKEN = new InjectionToken('testDepTokan');
+
 @NgModule({
   providers: [
     provideDefaultConfig(feature1CmsConfig),
     {
-      provide: 'test-provider',
+      provide: TEST_TOKEN,
       useValue: 'test-value',
     },
   ],
 })
 class MockFeature1Module {}
 
-describe('FeatureModulesService', () => {
+@NgModule({
+  providers: [
+    {
+      provide: TEST_DEP_TOKEN,
+      useValue: 'test-dependency-value',
+    },
+  ],
+})
+class MockDependencyModule {}
+
+fdescribe('FeatureModulesService', () => {
   let service: FeatureModulesService;
 
   beforeEach(async () => {
@@ -85,9 +103,11 @@ describe('FeatureModulesService', () => {
     it('should return undefined for components not covered by features', () => {
       expect(service.getInjectors('unknown')).toBe(undefined);
     });
+
     it('should return undefined for not initialized features', () => {
       expect(service.getInjectors('component1')).toBe(undefined);
     });
+
     it('should return module injector', async () => {
       // initialize feature
       await service.getCmsMapping('component1').toPromise();
@@ -96,6 +116,22 @@ describe('FeatureModulesService', () => {
 
       expect(injectors).toBeTruthy();
       expect(injectors.length).toBe(1);
+
+      const testProviderValue = injectors[0].get(TEST_TOKEN);
+      expect(testProviderValue).toBe('test-value');
+    });
+
+    it('should return dependency injectors', async () => {
+      // initialize feature
+      await service.getCmsMapping('component2').toPromise();
+
+      const injectors = service.getInjectors('component2');
+
+      expect(injectors).toBeTruthy();
+      expect(injectors.length).toBe(2);
+
+      const testProviderValue = injectors[1].get(TEST_DEP_TOKEN);
+      expect(testProviderValue).toBe('test-dependency-value');
     });
   });
 });
