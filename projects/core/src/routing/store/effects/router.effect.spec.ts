@@ -63,7 +63,6 @@ describe('Router Effects', () => {
       effects.navigate$.subscribe(() => {
         expect(router.navigateByUrl).toHaveBeenCalledWith('/test');
       });
-      done();
     });
   });
 
