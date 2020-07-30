@@ -11,6 +11,8 @@ import { UserEditComponent } from './edit/user-edit.component';
 import { UserListComponent } from './list/user-list.component';
 import { UserPermissionListComponent } from './permissions/list/user-permission-list.component';
 import { UserAssignPermissionsComponent } from './permissions/assign/user-assign-permission.component';
+import { UserApproverListComponent } from './approvers/list/user-approver-list.component';
+import { UserAssignApproversComponent } from './approvers/assign/user-assign-approvers.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -81,18 +83,18 @@ export const userCmsConfig: CmsConfig = {
               component: UserEditComponent,
               canDeactivate: [SplitViewDeactivateGuard],
             },
-            // {
-            //   path: 'approvers',
-            //   component: UserApproverListComponent,
-            //   canDeactivate: [SplitViewDeactivateGuard],
-            //   children: [
-            //     {
-            //       path: 'assign',
-            //       component: UserAssignApproversComponent,
-            //       canDeactivate: [SplitViewDeactivateGuard],
-            //     },
-            //   ],
-            // },
+            {
+              path: 'approvers',
+              component: UserApproverListComponent,
+              canDeactivate: [SplitViewDeactivateGuard],
+              children: [
+                {
+                  path: 'assign',
+                  component: UserAssignApproversComponent,
+                  canDeactivate: [SplitViewDeactivateGuard],
+                },
+              ],
+            },
             // {
             //   path: 'user-groups',
             //   component: UserUserGroupsListComponent,
@@ -178,7 +180,8 @@ export const userTableConfig: TableConfig = {
         breakpoint: BREAKPOINT.lg,
         headers: [
           { key: 'name', sortCode: 'byName' },
-          { key: 'uid' },
+          { key: 'email', sortCode: 'byEmail' },
+          { key: 'roles' },
           { key: 'orgUnit', sortCode: 'byUnitName' },
         ],
       },

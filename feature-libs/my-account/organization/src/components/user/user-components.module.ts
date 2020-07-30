@@ -17,14 +17,16 @@ import { UserDetailsModule } from './details/user-details.module';
 
 import { UserAssignPermissionsModule } from './permissions/assign/user-assign-permission.module';
 import { UserPermissionListModule } from './permissions/list/user-permission-list.module';
+import { UserAssignApproversModule } from './approvers/assign/user-assign-approvers.module';
+import { UserApproverListModule } from './approvers/list/user-approver-list.module';
 
 @NgModule({
   imports: [
     RouterModule,
     UserAssignPermissionsModule,
     UserPermissionListModule,
-    // UserAssignApproversModule,
-    // UserApproversListModule,
+    UserAssignApproversModule,
+    UserApproverListModule,
     // UserAssignUserGroupsModule,
     // UserUserGroupsListModule,
     UserDetailsModule,

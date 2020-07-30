@@ -88,7 +88,52 @@
         </h4>
       </div>
     </section>
+
+    <section>
+      <div class="property">
+        <label>{{ 'organization.status' | cxTranslate }}</label>
+        <span class="value">
+          <ng-container *ngIf="user.active; else disabled">
+            {{ 'organization.enabled' | cxTranslate }}
+            <button
+              class="button active icon"
+              (click)="openModal(confirmDisable)"
+            >
+              {{ 'organization.disable' | cxTranslate }}
+              <!--              <cx-icon type="ON"></cx-icon>-->
+            </button>
+          </ng-container>
+          <ng-template #disabled>
+            {{ 'organization.disabled' | cxTranslate }}
+            <button
+              class="button icon"
+              (click)="update({ customerId: user.customerId, active: true })"
+            >
+              {{ 'organization.enable' | cxTranslate }}
+              <!--              <cx-icon type="OFF"></cx-icon>-->
+            </button>
+          </ng-template>
+        </span>
+        <p class="instruction">
+          <ng-container *ngIf="user.active; else inactiveInstruction">
+            {{ 'user.messages.enabled' | cxTranslate }}
+          </ng-container>
+          <ng-template #inactiveInstruction>
+            {{ 'user.messages.disabled' | cxTranslate }}
+          </ng-template>
+        </p>
+      </div>
+    </section>
   </ng-container>
 </cx-view>
 
 <router-outlet></router-outlet>
+
+<ng-template #confirmDisable>
+  <cx-confirm-modal
+    *ngIf="user$ | async as user"
+    [title]="'user.messages.deactivateHeader' | cxTranslate"
+    [message]="'user.messages.deactivate' | cxTranslate"
+    (confirm)="update({ customerId: user.customerId, active: false })"
+  ></cx-confirm-modal>
+</ng-template>

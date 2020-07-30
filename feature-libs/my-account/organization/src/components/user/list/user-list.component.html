@@ -43,6 +43,9 @@
       <span class="text">{{ model.name }}</span>
       <cx-icon type="CARET_RIGHT"></cx-icon>
     </a>
+    <i class="disabled" *ngIf="!model.active">
+      {{ 'costCenter.disabled' | cxTranslate }}
+    </i>
   </div>
 </ng-template>
 

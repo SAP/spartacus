@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
+import { UserAssignApproversComponent } from './user-assign-approvers.component';
 import {
   IconModule,
   OutletRefModule,
+  PaginationModule,
   SplitViewModule,
   TableModule,
-  PaginationModule,
 } from '@spartacus/storefront';
-import { UserGroupAssignUserComponent } from './user-group-assign-user.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -23,7 +23,8 @@ import { UserGroupAssignUserComponent } from './user-group-assign-user.component
     OutletRefModule,
     PaginationModule,
   ],
-  declarations: [UserGroupAssignUserComponent],
-  exports: [UserGroupAssignUserComponent],
+  declarations: [UserAssignApproversComponent],
+  exports: [UserAssignApproversComponent],
+  entryComponents: [UserAssignApproversComponent],
 })
-export class UserGroupAssignUserModule {}
+export class UserAssignApproversModule {}

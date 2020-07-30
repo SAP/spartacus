@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { B2BUser, B2BUserService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { ModalService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-user-details',
@@ -24,10 +25,17 @@ export class UserDetailsComponent {
 
   constructor(
     protected route: ActivatedRoute,
-    protected usersService: B2BUserService
+    protected usersService: B2BUserService,
+    protected modalService: ModalService
   ) {}
 
   update(user: B2BUser) {
-    this.usersService.update(user.uid, user);
+    this.usersService.update(user.customerId, user);
+  }
+
+  openModal(template: TemplateRef<any>): void {
+    this.modalService.open(template, {
+      centered: true,
+    });
   }
 }
