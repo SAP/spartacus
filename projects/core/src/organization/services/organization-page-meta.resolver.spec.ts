@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CmsService, Page, BreadcrumbMeta } from '../../cms';
+import { BreadcrumbMeta, CmsService, Page } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
-import { OrganizationMetaResolver } from './organization-meta.resolver';
-
+import { SemanticPathService } from '../../routing';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { RouterState } from '../../routing/store/routing-state';
+import { OrganizationPageMetaResolver } from './organization-page-meta.resolver';
 
 const mockOrganizationPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -40,8 +40,15 @@ class RoutingServiceStub {
   }
 }
 
-describe('OrganizationMetaResolver', () => {
-  let resolver: OrganizationMetaResolver;
+const testOrganizationUrl = '/test-organization';
+
+class MockSemanticPathService implements Partial<SemanticPathService> {
+  get = jasmine.createSpy('get').and.returnValue(testOrganizationUrl);
+}
+
+describe('OrganizationPageMetaResolver', () => {
+  let resolver: OrganizationPageMetaResolver;
+  let semanticPathService: SemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,11 +56,13 @@ describe('OrganizationMetaResolver', () => {
       providers: [
         { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: RoutingServiceStub },
-        OrganizationMetaResolver,
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
+        OrganizationPageMetaResolver,
       ],
     });
 
-    resolver = TestBed.inject(OrganizationMetaResolver);
+    resolver = TestBed.inject(OrganizationPageMetaResolver);
+    semanticPathService = TestBed.inject(SemanticPathService);
   });
 
   it('should resolve breadcrumbs', () => {
@@ -65,7 +74,8 @@ describe('OrganizationMetaResolver', () => {
 
     expect(result).toEqual([
       { label: 'common.home', link: '/' },
-      { label: 'breadcrumbs.organization', link: '/organization' },
+      { label: 'organization.breadcrumb', link: testOrganizationUrl },
     ]);
+    expect(semanticPathService.get).toHaveBeenCalledWith('organization');
   });
 });
