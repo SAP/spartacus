@@ -83,16 +83,15 @@ describe('Router Effects', () => {
   });
 
   describe('navigateBack$', () => {
-    it('should navigate back', (done) => {
+    it('should navigate back', () => {
       const action = new RoutingActions.RouteBackAction();
 
       actions$ = hot('-a', { a: action });
 
       spyOn(location, 'back');
-      effects.navigateBack$.subscribe(() => {
+      effects.navigate$.subscribe(() => {
         expect(location.back).toHaveBeenCalled();
       });
-      done();
     });
   });
 
