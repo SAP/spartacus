@@ -6,35 +6,45 @@ import { VisibleFocusConfig } from '../keyboard-focus.model';
  * Directive implementation that adds a CSS class to the host element
  * when the moused is used to focus an element. As soon as the keyboard
  * is used, the class is removed.
+ *
+ * This feature must be explicitly enabled with the `disableVisibleFocus` config.
+ *
+ * The appearance of the visual focus depends on the CSS implementation to
+ * begin with. Spartacus styles add a blue border around each focusable element.
+ * This can be considered annoying by keyboard users, as they won't need such a
+ * strong indication of the selected element.
  */
 @Directive() // selector: '[cxVisibleFocus]'
 export class VisibleFocusDirective extends BaseFocusDirective {
-  protected defaultConfig: VisibleFocusConfig = { disableMouseFocus: true };
+  protected defaultConfig: VisibleFocusConfig = {
+    disableVisibleFocus: true,
+    disableMouseFocus: true,
+  };
 
   // @Input('cxVisibleFocus')
   protected config: VisibleFocusConfig;
 
   /** controls a polyfill class for the lacking focus-visible feature */
   /**
-   * @deprecated use `hideVisibleFocus` instead
+   * @deprecated use `disableVisibleFocus` instead
    */
   @HostBinding('class.mouse-focus') mouseFocus = false;
   /**
    * The `hide-visible-focus` hides the visual focus for keyboard users.
    */
-  @HostBinding('class.hide-visible-focus') hideVisibleFocus = false;
+  @HostBinding('class.hide-visible-focus') disableVisibleFocus = false;
 
   @HostListener('mousedown') handleMousedown() {
     if (this.shouldDisableVisibleFocus) {
-      this.hideVisibleFocus = true;
+      this.disableVisibleFocus = true;
       this.mouseFocus = true;
     }
   }
 
   @HostListener('keydown', ['$event']) handleKeydown(event: KeyboardEvent) {
     if (this.shouldDisableVisibleFocus) {
-      this.hideVisibleFocus = !this.isMouseEvent(event);
-      this.mouseFocus = !this.isMouseEvent(event);
+      this.disableVisibleFocus = !this.isNavigating(event);
+      this.mouseFocus = this.disableVisibleFocus;
     }
   }
 
@@ -46,19 +56,22 @@ export class VisibleFocusDirective extends BaseFocusDirective {
   }
 
   /**
-   * Indicates whether the current event is driven by the mouse or the keyboard.
-   *
-   * If the keyboard is used to navigate the OS or the browser, or used to fill in a form,
-   * we consider the event to be a mouse event.
+   * Indicates whether the event is used to navigate the storefront. Some keyboard events
+   * are used by mouse users to fill a form or interact with the OS or browser.
    */
-  protected isMouseEvent(event: KeyboardEvent): boolean {
-    return (
-      event.code === 'Tab' ||
-      !(
-        event.metaKey ||
-        ((this.hideVisibleFocus || this.mouseFocus) &&
-          (event.target as HTMLElement).tagName === 'INPUT')
-      )
-    );
+  protected isNavigating(event: KeyboardEvent): boolean {
+    // when the cmd or ctrl keys are used, the user doesn't navigate the storefront
+    if (event.metaKey) {
+      return false;
+    }
+    // when the tab key is used, users are for navigating away from the current (form) element
+    if (event.code === 'Tab') {
+      return true;
+    }
+    // If the user fill in a form, we don't considering it part of storefront navigation.
+    if (['INPUT', 'TEXTAREA'].includes((event.target as HTMLElement).tagName)) {
+      return false;
+    }
+    return true;
   }
 }
