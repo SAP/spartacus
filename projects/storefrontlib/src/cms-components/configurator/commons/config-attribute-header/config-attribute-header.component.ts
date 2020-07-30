@@ -22,6 +22,7 @@ export class ConfigAttributeHeaderComponent {
   @Input() attribute: Configurator.Attribute;
   @Input() owner: GenericConfigurator.Owner;
   @Input() groupId: string;
+  @Input() groupType: Configurator.GroupType;
 
   showRequiredMessage(): Observable<boolean> {
     return this.configUtils
@@ -75,5 +76,37 @@ export class ConfigAttributeHeaderComponent {
 
   get uiKeyGenerator() {
     return this.uiKeyGen;
+  }
+
+  /**
+   * Verifies whether the group type is attribute group
+   *
+   * @param groupType {Configurator.GroupType} - group type
+   * @return {boolean} - 'true' if the group type is 'attribute group' otherwise 'false'
+   */
+  isAttributeGroup(groupType: Configurator.GroupType): boolean {
+    if (Configurator.GroupType.ATTRIBUTE_GROUP === groupType) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Retrieves a certain conflict link key depending on the current group type for translation.
+   *
+   * @param groupType {Configurator.GroupType}- group type
+   * @return {string} - the conflict link key
+   */
+  getConflictMessageKey(groupType: Configurator.GroupType): string {
+    switch (groupType) {
+      case Configurator.GroupType.CONFLICT_GROUP: {
+        return 'configurator.conflict.viewConfigurationDetails';
+      }
+      case Configurator.GroupType.ATTRIBUTE_GROUP: {
+        return 'configurator.conflict.viewConflictDetails';
+      }
+      default:
+        break;
+    }
   }
 }

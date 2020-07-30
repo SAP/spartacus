@@ -20,7 +20,7 @@ export namespace Configurator {
     numDecimalPlaces?: number;
     numTotalLength?: number;
     negativeAllowed?: boolean;
-    hasConflict?: boolean;
+    hasConflicts?: boolean;
   }
 
   export interface Value {

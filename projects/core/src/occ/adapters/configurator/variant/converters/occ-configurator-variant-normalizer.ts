@@ -92,18 +92,13 @@ export class OccConfiguratorVariantNormalizer
       numTotalLength: sourceAttribute.typeLength,
       selectedSingleValue: null,
       images: [],
+      hasConflicts: sourceAttribute?.conflicts?.length > 0 ? true : false,
     };
 
     if (sourceAttribute.images) {
       sourceAttribute.images.forEach((occImage) =>
         this.convertImage(occImage, attribute.images)
       );
-    }
-
-    if (sourceAttribute.conflicts && sourceAttribute.conflicts.length > 0) {
-      attribute.hasConflict = true;
-    } else {
-      attribute.hasConflict = false;
     }
 
     if (sourceAttribute.domainValues) {

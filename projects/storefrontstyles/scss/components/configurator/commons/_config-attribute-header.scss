@@ -21,13 +21,20 @@
     font-size: 14px;
   }
 
-  .cx-config-attribute-label-conflict-img {
-    color: var(--cx-color-warning);
-    font-size: 14px;
-  }
+  .cx-config-attribute-conflict-container {
+    display: flex;
 
-  .cx-config-attribute-label-conflict-msg {
-    color: var(--cx-color-text);
-    font-size: 14px;
+    .cx-config-attribute-conflict-icon-container {
+      padding-right: 15px;
+      .cx-config-attribute-conflict-icon {
+        color: var(--cx-color-warning);
+        font-size: 20px;
+      }
+    }
+
+    .cx-config-attribute-label-conflict-msg {
+      color: var(--cx-color-text);
+      font-size: 14px;
+    }
   }
 }

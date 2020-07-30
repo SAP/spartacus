@@ -146,134 +146,212 @@ describe('ConfigAttributeHeaderComponent', () => {
     );
   });
 
-  it('should return a single-select message key for radio button attribute type', () => {
-    expect(classUnderTest.getRequiredMessageKey()).toContain(
-      'singleSelectRequiredMessage'
-    );
+  describe('Get required message key', () => {
+    it('should return a single-select message key for radio button attribute type', () => {
+      expect(classUnderTest.getRequiredMessageKey()).toContain(
+        'singleSelectRequiredMessage'
+      );
+    });
+
+    it('should return a single-select message key for ddlb attribute type', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
+      expect(classUnderTest.getRequiredMessageKey()).toContain(
+        'singleSelectRequiredMessage'
+      );
+    });
+
+    it('should return a single-select message key for single-selection-image attribute type', () => {
+      classUnderTest.attribute.uiType =
+        Configurator.UiType.SINGLE_SELECTION_IMAGE;
+      expect(classUnderTest.getRequiredMessageKey()).toContain(
+        'singleSelectRequiredMessage'
+      );
+    });
+
+    it('should return a multi-select message key for check box list attribute type', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOXLIST;
+      expect(classUnderTest.getRequiredMessageKey()).toContain(
+        'multiSelectRequiredMessage'
+      );
+    });
+
+    it('should return a multi-select message key for multi-selection-image list attribute type', () => {
+      classUnderTest.attribute.uiType =
+        Configurator.UiType.MULTI_SELECTION_IMAGE;
+      expect(classUnderTest.getRequiredMessageKey()).toContain(
+        'multiSelectRequiredMessage'
+      );
+    });
+
+    it('should return no key for not implemented attribute type', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
+      expect(classUnderTest.getRequiredMessageKey()).toContain(
+        'singleSelectRequiredMessage'
+      );
+    });
+
+    it('should return no key for read only attribute type', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.READ_ONLY;
+      expect(classUnderTest.getRequiredMessageKey()).toContain(
+        'singleSelectRequiredMessage'
+      );
+    });
   });
 
-  it('should return a single-select message key for ddlb attribute type', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
-    expect(classUnderTest.getRequiredMessageKey()).toContain(
-      'singleSelectRequiredMessage'
-    );
+  describe('Required message at the attribute level', () => {
+    it('should render a required message if attribute has been set, yet.', () => {
+      classUnderTest.attribute.required = true;
+      classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      fixture.detectChanges();
+      ConfigComponentTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-config-attribute-label-required-error-msg'
+      );
+    });
+
+    it('should render a required message if the group has already been visited.', () => {
+      classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
+      isCartEntryOrGroupVisited = true;
+      fixture.detectChanges();
+      ConfigComponentTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-config-attribute-label-required-error-msg'
+      );
+    });
+
+    it("shouldn't render a required message if attribute has not been added to the cart yet.", () => {
+      classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
+      fixture.detectChanges();
+      ConfigComponentTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-config-attribute-label-required-error-msg'
+      );
+    });
+
+    it("shouldn't render a required message if attribute is not required.", () => {
+      classUnderTest.attribute.required = false;
+      fixture.detectChanges();
+      ConfigComponentTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-config-attribute-label-required-error-msg'
+      );
+    });
+
+    it("shouldn't render a required message if attribute is complete.", () => {
+      classUnderTest.attribute.incomplete = true;
+      fixture.detectChanges();
+      ConfigComponentTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-config-attribute-label-required-error-msg'
+      );
+    });
+
+    it("shouldn't render a required message if ui type is string.", () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.STRING;
+      fixture.detectChanges();
+      ConfigComponentTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-config-attribute-label-required-error-msg'
+      );
+    });
   });
 
-  it('should return a single-select message key for single-selection-image attribute type', () => {
-    classUnderTest.attribute.uiType =
-      Configurator.UiType.SINGLE_SELECTION_IMAGE;
-    expect(classUnderTest.getRequiredMessageKey()).toContain(
-      'singleSelectRequiredMessage'
-    );
+  describe('Conflict text at the attribute level', () => {
+    it('should render conflict icon with corresponding message if attribute has conflicts.', () => {
+      classUnderTest.attribute.hasConflicts = true;
+      classUnderTest.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      fixture.detectChanges();
+
+      ConfigComponentTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-config-attribute-conflict-msg-container'
+      );
+
+      ConfigComponentTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-config-attribute-conflict-icon-container'
+      );
+    });
+
+    it('should render conflict message without icon container if conflict message is not displayed in the configuration.', () => {
+      classUnderTest.attribute.hasConflicts = true;
+      classUnderTest.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      fixture.detectChanges();
+
+      ConfigComponentTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-config-attribute-conflict-msg-container'
+      );
+
+      ConfigComponentTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-config-attribute-conflict-icon-container'
+      );
+    });
+
+    it("shouldn't render conflict message if attribute has no conflicts.", () => {
+      classUnderTest.attribute.hasConflicts = false;
+      fixture.detectChanges();
+      
+      ConfigComponentTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-config-attribute-conflict-container'
+      );
+    });
   });
 
-  it('should return a multi-select message key for check box list attribute type', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOXLIST;
-    expect(classUnderTest.getRequiredMessageKey()).toContain(
-      'multiSelectRequiredMessage'
-    );
+  describe('Verify attribute type', () => {
+    it("should return 'true'", () => {
+      classUnderTest.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      fixture.detectChanges();
+      expect(classUnderTest.isAttributeGroup(classUnderTest.groupType)).toBe(
+        true
+      );
+    });
+
+    it("should return 'false'", () => {
+      classUnderTest.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      fixture.detectChanges();
+      expect(classUnderTest.isAttributeGroup(classUnderTest.groupType)).toBe(
+        false
+      );
+    });
   });
 
-  it('should return a multi-select message key for multi-selection-image list attribute type', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
-    expect(classUnderTest.getRequiredMessageKey()).toContain(
-      'multiSelectRequiredMessage'
-    );
-  });
+  describe('Get conflict message key', () => {
+    it("should return 'configurator.conflict.viewConflictDetails' conflict message key", () => {
+      classUnderTest.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      fixture.detectChanges();
+      expect(
+        classUnderTest.getConflictMessageKey(classUnderTest.groupType)
+      ).toEqual('configurator.conflict.viewConflictDetails');
+    });
 
-  it('should return no key for not implemented attribute type', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
-    expect(classUnderTest.getRequiredMessageKey()).toContain(
-      'singleSelectRequiredMessage'
-    );
-  });
+    it("should return 'configurator.conflict.viewConfigurationDetails' conflict message key", () => {
+      classUnderTest.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      fixture.detectChanges();
+      expect(
+        classUnderTest.getConflictMessageKey(classUnderTest.groupType)
+      ).toEqual('configurator.conflict.viewConfigurationDetails');
+    });
 
-  it('should return no key for read only attribute type', () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.READ_ONLY;
-    expect(classUnderTest.getRequiredMessageKey()).toContain(
-      'singleSelectRequiredMessage'
-    );
-  });
-
-  it('should render a required message if attribute has been set, yet.', () => {
-    classUnderTest.attribute.required = true;
-    classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
-    fixture.detectChanges();
-    ConfigComponentTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-config-attribute-label-required-error-msg'
-    );
-  });
-
-  it('should render a required message if the group has already been visited.', () => {
-    classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
-    isCartEntryOrGroupVisited = true;
-    fixture.detectChanges();
-    ConfigComponentTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-config-attribute-label-required-error-msg'
-    );
-  });
-
-  it("shouldn't render a required message if attribute has not been added to the cart yet.", () => {
-    classUnderTest.owner.type = GenericConfigurator.OwnerType.PRODUCT;
-    fixture.detectChanges();
-    ConfigComponentTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-config-attribute-label-required-error-msg'
-    );
-  });
-
-  it("shouldn't render a required message if attribute is not required.", () => {
-    classUnderTest.attribute.required = false;
-    fixture.detectChanges();
-    ConfigComponentTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-config-attribute-label-required-error-msg'
-    );
-  });
-
-  it("shouldn't render a required message if attribute is complete.", () => {
-    classUnderTest.attribute.incomplete = true;
-    fixture.detectChanges();
-    ConfigComponentTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-config-attribute-label-required-error-msg'
-    );
-  });
-
-  it("shouldn't render a required message if ui type is string.", () => {
-    classUnderTest.attribute.uiType = Configurator.UiType.STRING;
-    fixture.detectChanges();
-    ConfigComponentTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-config-attribute-label-required-error-msg'
-    );
-  });
-
-  it('should render a conflict message if attribute has conflicts.', () => {
-    classUnderTest.attribute.hasConflict = true;
-    fixture.detectChanges();
-    ConfigComponentTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.cx-config-attribute-label-conflict-msg'
-    );
-  });
-
-  it("shouldn't render a conflict message if attribute has no conflicts.", () => {
-    classUnderTest.attribute.hasConflict = false;
-    fixture.detectChanges();
-    ConfigComponentTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      '.cx-config-attribute-label-conflict-msg'
-    );
+    it('should return nothing', () => {
+      classUnderTest.groupType = Configurator.GroupType.SUB_ITEM_GROUP;
+      fixture.detectChanges();
+      expect(
+        classUnderTest.getConflictMessageKey(classUnderTest.groupType)
+      ).toBeUndefined();
+    });
   });
 });
