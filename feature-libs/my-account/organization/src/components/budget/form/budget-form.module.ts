@@ -9,7 +9,7 @@ import {
   OrgUnitService,
   UrlModule,
 } from '@spartacus/core';
-import { FormErrorsModule, DatePickerModule } from '@spartacus/storefront';
+import { FormErrorsModule, DateTimePickerModule } from '@spartacus/storefront';
 import { BudgetFormComponent } from './budget-form.component';
 
 @NgModule({
@@ -21,7 +21,7 @@ import { BudgetFormComponent } from './budget-form.component';
     UrlModule,
     I18nModule,
     ReactiveFormsModule,
-    DatePickerModule,
+    DateTimePickerModule,
     FormErrorsModule,
   ],
   declarations: [BudgetFormComponent],

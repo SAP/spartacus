@@ -12,7 +12,7 @@ import {
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CostCenterFormComponent } from './budget-form.component';
+import { BudgetFormComponent } from './budget-form.component';
 import createSpy = jasmine.createSpy;
 
 const mockOrgUnits: B2BUnitNode[] = [
@@ -57,9 +57,9 @@ class MockCurrencyService implements Partial<CurrencyService> {
   }
 }
 
-describe('CostCenterFormComponent', () => {
-  let component: CostCenterFormComponent;
-  let fixture: ComponentFixture<CostCenterFormComponent>;
+describe('BudgetFormComponent', () => {
+  let component: BudgetFormComponent;
+  let fixture: ComponentFixture<BudgetFormComponent>;
   let orgUnitService: OrgUnitService;
   let currencyService: CurrencyService;
 
@@ -71,7 +71,7 @@ describe('CostCenterFormComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
       ],
-      declarations: [CostCenterFormComponent, FormErrorsComponent],
+      declarations: [BudgetFormComponent, FormErrorsComponent],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -83,7 +83,7 @@ describe('CostCenterFormComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CostCenterFormComponent);
+    fixture = TestBed.createComponent(BudgetFormComponent);
     component = fixture.componentInstance;
   });
 

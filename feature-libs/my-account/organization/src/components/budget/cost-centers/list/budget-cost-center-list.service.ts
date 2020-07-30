@@ -34,7 +34,7 @@ export class BudgetCostCenterListService extends BaseOrganizationListService<
     structure: TableStructure,
     code: string
   ): Observable<EntitiesModel<CostCenter>> {
-    const config = structure.pagination;
+    // const config = structure.pagination;
 
     return this.budgetService
       .getCostCenters(code)

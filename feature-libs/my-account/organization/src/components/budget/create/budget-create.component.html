@@ -18,9 +18,9 @@
     <section class="half">
       <cx-budget-form [form]="form"> </cx-budget-form>
       <div class="form-buttons">
-        <a class="button primary" type="submit">
+        <button class="button primary" type="submit">
           {{ 'organization.save' | cxTranslate }}
-        </a>
+        </button>
         <a
           [routerLink]="{ cxRoute: 'budget' } | cxUrl"
           class="button secondary"

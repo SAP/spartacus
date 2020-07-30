@@ -34,8 +34,5 @@ export class BudgetFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.orgUnitService.loadList();
-    if (this.form && Object.keys(this.form).length !== 0) {
-      this.form.patchValue(this.form);
-    }
   }
 }
