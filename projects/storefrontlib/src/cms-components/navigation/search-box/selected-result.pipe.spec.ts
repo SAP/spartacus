@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { SelectedResultPipe } from './selected-result.pipe';
 
 describe('HighlightPipe', () => {
-  let pipe: SelectedResultPipe;
+  const pipe: SelectedResultPipe;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
