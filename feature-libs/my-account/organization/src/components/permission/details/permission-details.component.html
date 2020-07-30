@@ -95,10 +95,10 @@
         </span>
         <p class="instruction">
           <ng-container *ngIf="permission.active; else inactiveInstruction">
-            {{ 'costCenter.messages.enabled' | cxTranslate }}
+            {{ 'permission.messages.enabled' | cxTranslate }}
           </ng-container>
           <ng-template #inactiveInstruction>
-            {{ 'costCenter.messages.disabled' | cxTranslate }}
+            {{ 'permission.messages.disabled' | cxTranslate }}
           </ng-template>
         </p>
       </div>

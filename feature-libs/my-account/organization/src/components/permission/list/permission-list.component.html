@@ -43,6 +43,9 @@
       <span class="text">{{ model.code }}</span>
       <cx-icon type="CARET_RIGHT"></cx-icon>
     </a>
+    <i class="disabled" *ngIf="!model.active">
+      {{ 'permission.disabled' | cxTranslate }}
+    </i>
   </div>
 </ng-template>
 
