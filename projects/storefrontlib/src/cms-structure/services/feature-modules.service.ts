@@ -83,7 +83,7 @@ export class FeatureModulesService implements OnDestroy {
     for (const [featureName, featureConfig] of Object.entries(
       this.featureModulesConfig
     )) {
-      if (featureConfig.cmsComponents?.length) {
+      if (featureConfig?.cmsComponents?.length) {
         for (const component of featureConfig.cmsComponents) {
           this.componentFeatureMap.set(component, featureName);
         }
