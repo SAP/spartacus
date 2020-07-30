@@ -3,7 +3,7 @@
     [formGroup]="form.get('orderApprovalPermissionType')"
     *ngIf="form.get('orderApprovalPermissionType') && types$ | async as types"
   >
-    <div class="form-group">
+    <div class="form-group" *ngIf="types.length">
       <label aria-required="true">
         <span class="label-content required">{{
           'permission.orderApprovalPermissionType' | cxTranslate
@@ -15,6 +15,7 @@
           [items]="types"
           bindLabel="name"
           bindValue="code"
+          [readonly]="editMode"
         >
         </ng-select>
         <cx-form-errors
@@ -81,7 +82,6 @@
       </label>
     </div>
   </ng-container>
-
   <ng-container
     *ngIf="form.get('currency') && currencies$ | async as currencies"
     [formGroup]="form.get('currency')"

@@ -16,7 +16,10 @@
       <span>{{ 'organization.edit' | cxTranslate }}</span>
     </h3>
     <section class="half">
-      <cx-permission-form [form]="viewModel.form"></cx-permission-form>
+      <cx-permission-form
+        [form]="viewModel.form"
+        [editMode]="true"
+      ></cx-permission-form>
       <div class="form-buttons">
         <button class="button primary" type="submit">
           {{ 'organization.save' | cxTranslate }}

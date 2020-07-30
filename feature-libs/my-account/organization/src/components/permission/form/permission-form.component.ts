@@ -27,6 +27,8 @@ export class PermissionFormComponent implements OnInit {
    */
   @Input() form: FormGroup;
 
+  @Input() editMode?: boolean;
+
   units$: Observable<B2BUnitNode[]> = this.orgUnitService.getList();
   types$: Observable<
     OrderApprovalPermissionType[]
