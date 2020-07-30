@@ -33,6 +33,7 @@ export class CombinedInjector implements Injector {
   ): T;
   get(token: any, notFoundValue?: any): any;
   get(token, notFoundValue?: any, flags?: InjectFlags): any {
+    // tslint:disable-next-line:no-bitwise
     if (flags & InjectFlags.Self) {
       if (notFoundValue !== undefined) {
         return notFoundValue;

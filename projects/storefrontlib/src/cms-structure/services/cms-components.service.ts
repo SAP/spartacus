@@ -118,7 +118,7 @@ export class CmsComponentsService {
    * should be called and completed first.
    */
   getMapping(componentType: string): CmsComponentMapping {
-    let componentConfig =
+    const componentConfig =
       this.mappings[componentType] ??
       this.config.cmsComponents?.[componentType];
 
