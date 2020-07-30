@@ -36,10 +36,11 @@ class MockFeatureModulesService implements Partial<FeatureModulesService> {
   private testResovler = new Subject();
 
   hasFeatureFor = createSpy().and.callFake((type) => type === 'feature');
+  getInjectors = createSpy();
+
   getCmsMapping() {
     return this.testResovler;
   }
-  getInjectors = createSpy();
 
   resolveMappingsForTest() {
     this.testResovler.next({});
