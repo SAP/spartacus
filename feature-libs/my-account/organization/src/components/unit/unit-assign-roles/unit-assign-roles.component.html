@@ -73,12 +73,12 @@
   <ng-template cxOutletRef="table.unitAssignRoles.data.roleCustomer" let-model>
     <input
       type="checkbox"
-      [checked]="checkIfContainsRole(model, rolesMap.customer.value)"
+      [checked]="checkIfContainsRole(model, rolesMap.CUSTOMER)"
       (change)="
         toggleAssign(
           model.customerId,
           model.roles,
-          rolesMap.customer.value,
+          rolesMap.CUSTOMER,
           $event.target.checked
         )
       "
@@ -88,12 +88,12 @@
   <ng-template cxOutletRef="table.unitAssignRoles.data.roleApprover" let-model>
     <input
       type="checkbox"
-      [checked]="checkIfContainsRole(model, rolesMap.approver.value)"
+      [checked]="checkIfContainsRole(model, rolesMap.APPROVER)"
       (change)="
         toggleAssign(
           model.customerId,
           model.roles,
-          rolesMap.approver.value,
+          rolesMap.APPROVER,
           $event.target.checked
         )
       "
@@ -103,12 +103,12 @@
   <ng-template cxOutletRef="table.unitAssignRoles.data.roleManager" let-model>
     <input
       type="checkbox"
-      [checked]="checkIfContainsRole(model, rolesMap.manager.value)"
+      [checked]="checkIfContainsRole(model, rolesMap.MANAGER)"
       (change)="
         toggleAssign(
           model.customerId,
           model.roles,
-          rolesMap.manager.value,
+          rolesMap.MANAGER,
           $event.target.checked
         )
       "
@@ -121,12 +121,12 @@
   >
     <input
       type="checkbox"
-      [checked]="checkIfContainsRole(model, rolesMap.admin)"
+      [checked]="checkIfContainsRole(model, rolesMap.ADMIN)"
       (change)="
         toggleAssign(
           model.customerId,
           model.roles,
-          rolesMap.admin.value,
+          rolesMap.ADMIN,
           $event.target.checked
         )
       "
@@ -140,69 +140,69 @@
       <label>
         <input
           type="checkbox"
-          [checked]="checkIfContainsRole(model, rolesMap.customer)"
+          [checked]="checkIfContainsRole(model, rolesMap.CUSTOMER)"
           (change)="
             toggleAssign(
               model.customerId,
               model.roles,
-              rolesMap.customer.value,
+              rolesMap.CUSTOMER,
               $event.target.checked
             )
           "
         />
         <span class="text">{{
-          'organization.userRoles.' + rolesMap.customer | cxTranslate
+          'organization.userRoles.' + rolesMap.CUSTOMER | cxTranslate
         }}</span>
       </label>
       <label>
         <input
           type="checkbox"
-          [checked]="checkIfContainsRole(model, rolesMap.approver)"
+          [checked]="checkIfContainsRole(model, rolesMap.APPROVER)"
           (change)="
             toggleAssign(
               model.customerId,
               model.roles,
-              rolesMap.approver.value,
+              rolesMap.APPROVER,
               $event.target.checked
             )
           "
         />
         <span class="text">{{
-          'organization.userRoles.' + rolesMap.approver | cxTranslate
+          'organization.userRoles.' + rolesMap.APPROVER | cxTranslate
         }}</span>
       </label>
       <label>
         <input
           type="checkbox"
-          [checked]="checkIfContainsRole(model, rolesMap.manager)"
+          [checked]="checkIfContainsRole(model, rolesMap.MANAGER)"
           (change)="
             toggleAssign(
               model.customerId,
               model.roles,
-              rolesMap.manager.value,
+              rolesMap.MANAGER,
               $event.target.checked
             )
           "
         />
         <span class="text">{{
-          'organization.userRoles.' + rolesMap.manager | cxTranslate
+          'organization.userRoles.' + rolesMap.MANAGER | cxTranslate
         }}</span>
       </label>
       <label>
         <input
           type="checkbox"
-          [checked]="checkIfContainsRole(model, rolesMap.admin.value)"
+          [checked]="checkIfContainsRole(model, rolesMap.ADMIN)"
           (change)="
             toggleAssign(
               model.customerId,
               model.roles,
-              rolesMap.admin.value,
+              rolesMap.ADMIN,
               $event.target.checked
             )
           "
         />
         <span class="text">{{
-          'organization.userRoles.' + rolesMap.admin | cxTranslate
+          'organization.userRoles.' + rolesMap.ADMIN | cxTranslate
         }}</span>
       </label>
     </div>

@@ -5,20 +5,15 @@ import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Table } from '@spartacus/storefront';
 import { UnitAssignRolesService } from './unit-assign-roles.service';
+import { UnitRoleType } from '../../shared/organization.model';
 
 @Component({
   selector: 'cx-unit-assign-roles',
   templateUrl: './unit-assign-roles.component.html',
 })
 export class UnitAssignRolesComponent {
-  protected readonly B2B_CUSTOMER_ROLE_ID = 'b2bcustomergroup';
-
-  readonly rolesMap = {
-    customer: 'b2bcustomergroup',
-    approver: 'b2bapprovergroup',
-    manager: 'b2bmanagergroup',
-    admin: 'b2badmingroup',
-  };
+  readonly rolesMap = UnitRoleType;
+  protected readonly B2B_CUSTOMER_ROLE_ID = UnitRoleType.CUSTOMER;
 
   code$: Observable<string> = this.route.parent.parent.params.pipe(
     map((params) => params['code'])

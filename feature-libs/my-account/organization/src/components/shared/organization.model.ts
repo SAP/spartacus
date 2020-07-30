@@ -15,3 +15,10 @@ export enum OrganizationTableType {
   USER_GROUP_PERMISSIONS = 'userGroupPermissions',
   USER_GROUP_ASSIGN_PERMISSIONS = 'userGroupAssignPermissions',
 }
+
+export enum UnitRoleType {
+  CUSTOMER = 'b2bcustomergroup',
+  APPROVER = 'b2bapprovergroup',
+  MANAGER = 'b2bmanagergroup',
+  ADMIN = 'b2badmingroup',
+}
