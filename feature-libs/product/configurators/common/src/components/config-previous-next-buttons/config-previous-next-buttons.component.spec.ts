@@ -11,15 +11,17 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
+import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { TestScheduler } from 'rxjs/testing';
-import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigPreviousNextButtonsComponent } from './config-previous-next-buttons.component';
+
+let routerStateObservable = null;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(ConfigurationTestData.mockRouterState);
+    return routerStateObservable;
   }
 }
 
@@ -52,6 +54,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   let configuratorUtils: GenericConfigUtilsService;
 
   beforeEach(async(() => {
+    routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [ConfigPreviousNextButtonsComponent],
@@ -200,7 +203,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       );
       spyOn(configurationGroupsService, 'navigateToGroup');
 
-      classUnderTest.navigateToPreviousGroup(config);
+      classUnderTest.onPrevious(config);
     });
     //this is the actual test
     expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(1);
@@ -222,7 +225,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       );
       spyOn(configurationGroupsService, 'navigateToGroup');
 
-      classUnderTest.navigateToNextGroup(config);
+      classUnderTest.onNext(config);
     });
 
     expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(1);

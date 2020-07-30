@@ -8,13 +8,17 @@ export const configurator = {
       editConfiguration: 'Edit Configuration',
       displayConfiguration: 'Display Configuration',
       resolveIssues: 'Resolve Issues',
-      updateMessage: 'Configuration is updated wait a little bit!',
+      updateMessage: 'The configuration is being updated in the background',
       showMore: 'show more',
       showLess: 'show less',
     },
     tabBar: {
       configuration: 'Configuration',
       overview: 'Overview',
+    },
+    notificationBanner: {
+      numberOfIssue: 'Issue must be resolved before checkout.',
+      numberOfIssues: '{{issues}} issues must be resolved before checkout.',
     },
     attribute: {
       caption: 'Attributes',
@@ -51,6 +55,10 @@ export const configurator = {
       general: 'General',
       conflictHeader: 'Resolve conflicts',
       conflictGroup: 'Conflict for {{attribute}}',
+    },
+    conflict: {
+      suggestionTitle: 'Suggestion {{number}}:',
+      suggestionText: 'Change value for "{{ attribute }}"',
     },
   },
 };

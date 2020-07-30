@@ -167,17 +167,17 @@ export class ConfigGroupMenuComponent implements OnInit {
   }
 
   getGroupStatus(
-    groupId: string,
+    group: Configurator.Group,
     configuration: Configurator.Configuration
   ): Observable<string> {
     return this.configuratorGroupsService
-      .isGroupVisited(configuration.owner, groupId)
+      .isGroupVisited(configuration.owner, group.id)
       .pipe(
         switchMap((isVisited) => {
-          if (isVisited) {
+          if (isVisited && !this.isConflictGroupType(group.groupType)) {
             return this.configuratorGroupsService.getGroupStatus(
               configuration.owner,
-              groupId
+              group.id
             );
           } else {
             return of(null);

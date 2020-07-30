@@ -258,27 +258,6 @@ describe('CartItemComponent', () => {
       );
     });
 
-    it('should return no issue message key if the number of issues is null/undefined or equals zero', () => {
-      let result = cartItemComponent.getIssueMessageKey(null);
-      expect(result).toEqual('');
-
-      result = cartItemComponent.getIssueMessageKey(undefined);
-      expect(result).toEqual('');
-
-      result = cartItemComponent.getIssueMessageKey(0);
-      expect(result).toEqual('');
-    });
-
-    it('should return a singular issue message key for one issue', () => {
-      const result = cartItemComponent.getIssueMessageKey(1);
-      expect(result).toEqual('cartItems.numberOfIssue');
-    });
-
-    it('should return a plural issue message key for more than one issue', () => {
-      const result = cartItemComponent.getIssueMessageKey(3);
-      expect(result).toEqual('cartItems.numberOfIssues');
-    });
-
     it('should not display configuration info if array of configurationInfo is empty', () => {
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
@@ -310,52 +289,6 @@ describe('CartItemComponent', () => {
         "expected configuration info identified by selector '.cx-configuration-info-error' not to be present, but it is! innerHtml: " +
           htmlElem.innerHTML
       );
-    });
-
-    it('should return number of issues of ERROR status', () => {
-      cartItemComponent.item.statusSummaryList = [
-        { numberOfIssues: 2, status: 'ERROR' },
-      ];
-      expect(cartItemComponent.getNumberOfIssues()).toBe(2);
-    });
-
-    it('should return number of issues of ERROR status if ERROR and SUCCESS statuses are present', () => {
-      cartItemComponent.item.statusSummaryList = [
-        { numberOfIssues: 1, status: 'SUCCESS' },
-        { numberOfIssues: 3, status: 'ERROR' },
-      ];
-      expect(cartItemComponent.getNumberOfIssues()).toBe(3);
-    });
-
-    it('should return number of issues as 0 if only SUCCESS status is present', () => {
-      cartItemComponent.item.statusSummaryList = [
-        { numberOfIssues: 2, status: 'SUCCESS' },
-      ];
-      expect(cartItemComponent.getNumberOfIssues()).toBe(0);
-    });
-
-    it('should return number of issues as 0 if statusSummaryList is undefined', () => {
-      cartItemComponent.item.statusSummaryList = undefined;
-      expect(cartItemComponent.getNumberOfIssues()).toBe(0);
-    });
-
-    it('should return number of issues as 0 if statusSummaryList is empty', () => {
-      cartItemComponent.item.statusSummaryList = [];
-      expect(cartItemComponent.getNumberOfIssues()).toBe(0);
-    });
-
-    it('should return true if number of issues of ERROR status is > 0', () => {
-      cartItemComponent.item.statusSummaryList = [
-        { numberOfIssues: 2, status: 'ERROR' },
-      ];
-      expect(cartItemComponent.hasIssues()).toBeTrue();
-    });
-
-    it('should return false if number of issues of ERROR status is = 0', () => {
-      cartItemComponent.item.statusSummaryList = [
-        { numberOfIssues: 2, status: 'SUCCESS' },
-      ];
-      expect(cartItemComponent.hasIssues()).toBeFalse();
     });
 
     it('should return false if first entry of configuration infos does not have NONE status', () => {

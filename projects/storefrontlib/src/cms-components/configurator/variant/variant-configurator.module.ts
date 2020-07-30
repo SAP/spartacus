@@ -16,11 +16,9 @@ import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboar
 import { HamburgerMenuModule } from '../../../layout/header/hamburger-menu/hamburger-menu.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ConfigAddToCartButtonComponent } from '../commons/config-add-to-cart-button/config-add-to-cart-button.component';
+import { ConfigConflictDescriptionComponent } from '../commons/config-conflict-description/config-conflict-description.component';
+import { ConfigConflictSuggestionComponent } from '../commons/config-conflict-suggestion/config-conflict-suggestion.component';
 import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
-import { ConfigGroupTitleComponent } from '../commons/config-group-title/config-group-title.component';
-import { ConfigurationMessageLoaderModule } from '../commons/config-message/config-message-loader.module';
-import { ConfigMessageComponent } from '../commons/config-message/config-message.component';
-import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { DefaultMessageConfig } from '../commons/config/default-message-config';
 import { MessageConfig } from '../commons/config/message-config';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
@@ -30,10 +28,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     CommonModule,
     GenericConfiguratorModule,
     ProductModule,
-    ConfigurationMessageLoaderModule,
-
     ConfigModule.withConfig(DefaultMessageConfig),
-
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
@@ -47,27 +42,23 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
   ],
 
   declarations: [
-    ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
-    ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
-    ConfigMessageComponent,
+    ConfigConflictSuggestionComponent,
+    ConfigConflictDescriptionComponent,
   ],
   exports: [
-    ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
-    ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
-
-    ConfigMessageComponent,
+    ConfigConflictSuggestionComponent,
+    ConfigConflictDescriptionComponent,
   ],
   providers: [UserService, { provide: MessageConfig, useExisting: Config }],
   entryComponents: [
-    ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
-    ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
-    ConfigMessageComponent,
+    ConfigConflictSuggestionComponent,
+    ConfigConflictDescriptionComponent,
   ],
 })
 export class VariantConfiguratorModule {}

@@ -10,6 +10,7 @@ import {
   CmsPageGuard,
   ConfigAddToCartButtonComponent,
   ConfigOverviewFormComponent,
+  ConfigOverviewNotificationBannerComponent,
   PageLayoutComponent,
 } from '@spartacus/storefront';
 
@@ -42,6 +43,9 @@ import {
       cmsComponents: {
         VariantConfigurationTabBar: {
           component: ConfigTabBarComponent,
+        },
+        VariantConfigurationOverviewBanner: {
+          component: ConfigOverviewNotificationBannerComponent,
         },
         VariantConfigurationOverview: {
           component: ConfigOverviewFormComponent,
@@ -81,6 +85,7 @@ import {
           md: {
             slots: [
               'VariantConfigOverviewHeader',
+              'VariantConfigOverviewBanner',
               'VariantConfigOverviewContent',
               'VariantConfigOverviewBottombar',
             ],
@@ -88,6 +93,7 @@ import {
           xs: {
             slots: [
               'VariantConfigOverviewHeader',
+              'VariantConfigOverviewBanner',
               'VariantConfigOverviewContent',
               'VariantConfigOverviewBottombar',
             ],
