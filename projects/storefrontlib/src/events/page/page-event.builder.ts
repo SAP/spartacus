@@ -54,11 +54,10 @@ export class PageEventBuilder {
 
   private getNavigatedEvent(): Observable<ActivatedRouterStateSnapshot> {
     return this.actions.pipe(
-      ofType<RouterNavigatedAction>(ROUTER_NAVIGATED),
-      map(
-        (event) =>
-          (event.payload.routerState as unknown) as ActivatedRouterStateSnapshot
-      )
+      ofType<RouterNavigatedAction<ActivatedRouterStateSnapshot>>(
+        ROUTER_NAVIGATED
+      ),
+      map((event) => event.payload.routerState)
     );
   }
 }
