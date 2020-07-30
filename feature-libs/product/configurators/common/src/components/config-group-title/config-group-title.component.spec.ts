@@ -11,16 +11,17 @@ import {
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
+import * as ConfigurationTestData from 'projects/storefrontlib/src/cms-components/configurator/commons/configuration-test-data';
 import { Observable, of } from 'rxjs';
-import * as ConfigurationTestData from '../configuration-test-data';
 import { ConfigGroupTitleComponent } from './config-group-title.component';
 
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
+let routerStateObservable = null;
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
-    return of(ConfigurationTestData.mockRouterState);
+    return routerStateObservable;
   }
 }
 
@@ -47,13 +48,14 @@ class MockConfiguratorCommonsService {
   }
 }
 
-describe('ConfigurationGroupMenuComponent', () => {
+describe('ConfigurationGroupTitleComponent', () => {
   let component: ConfigGroupTitleComponent;
   let fixture: ComponentFixture<ConfigGroupTitleComponent>;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let configuratorUtils: GenericConfigUtilsService;
 
   beforeEach(async(() => {
+    routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
       declarations: [ConfigGroupTitleComponent],
@@ -96,7 +98,6 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   it('should get product code as part of product configuration', () => {
-    component.ngOnInit();
     component.configuration$.subscribe((data: Configurator.Configuration) => {
       expect(data.productCode).toEqual(config.productCode);
     });

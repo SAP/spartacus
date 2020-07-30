@@ -31,10 +31,6 @@ import { ConfigConflictDescriptionComponent } from '../commons/config-conflict-d
 import { ConfigConflictSuggestionComponent } from '../commons/config-conflict-suggestion/config-conflict-suggestion.component';
 import { ConfigFormComponent } from '../commons/config-form/config-form.component';
 import { ConfigGroupMenuComponent } from '../commons/config-group-menu/config-group-menu.component';
-import { ConfigGroupTitleComponent } from '../commons/config-group-title/config-group-title.component';
-import { ConfigurationMessageLoaderModule } from '../commons/config-message/config-message-loader.module';
-import { ConfigMessageComponent } from '../commons/config-message/config-message.component';
-import { ConfigPreviousNextButtonsComponent } from '../commons/config-previous-next-buttons/config-previous-next-buttons.component';
 import { DefaultMessageConfig } from '../commons/config/default-message-config';
 import { MessageConfig } from '../commons/config/message-config';
 import { GenericConfiguratorModule } from '../generic/generic-configurator.module';
@@ -44,10 +40,7 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     CommonModule,
     GenericConfiguratorModule,
     ProductModule,
-    ConfigurationMessageLoaderModule,
-
     ConfigModule.withConfig(DefaultMessageConfig),
-
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
@@ -73,11 +66,8 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
-    ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
-    ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
-    ConfigMessageComponent,
     ConfigConflictSuggestionComponent,
     ConfigConflictDescriptionComponent,
   ],
@@ -94,13 +84,10 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
-    ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
-    ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
     ConfigConflictSuggestionComponent,
     ConfigConflictDescriptionComponent,
-    ConfigMessageComponent,
   ],
   providers: [UserService, { provide: MessageConfig, useExisting: Config }],
   entryComponents: [
@@ -116,11 +103,8 @@ import { GenericConfiguratorModule } from '../generic/generic-configurator.modul
     ConfigAttributeReadOnlyComponent,
     ConfigAttributeHeaderComponent,
     ConfigAttributeFooterComponent,
-    ConfigPreviousNextButtonsComponent,
     ConfigGroupMenuComponent,
-    ConfigGroupTitleComponent,
     ConfigAddToCartButtonComponent,
-    ConfigMessageComponent,
     ConfigConflictSuggestionComponent,
     ConfigConflictDescriptionComponent,
   ],
