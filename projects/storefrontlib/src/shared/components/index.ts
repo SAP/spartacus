@@ -2,6 +2,7 @@ export * from './anonymous-consents-dialog/index';
 export * from './card/index';
 export * from './carousel/index';
 export * from './date-picker/index';
+export * from './date-time-picker/index';
 export * from './form/form-errors/index';
 export * from './generic-link/index';
 export * from './interactive-table/index';

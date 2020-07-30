@@ -1,0 +1,51 @@
+@import 'node_modules/bootstrap/scss/buttons';
+
+.organization {
+  a.link {
+    @extend .btn, .btn-link, .btn-sm;
+    padding: var(--cx-spatial-base);
+    font-size: 1.125rem;
+    &.disabled {
+      color: var(--cx-color-text);
+      cursor: not-allowed;
+    }
+  }
+
+  button.button,
+  a.button {
+    @extend .btn, .btn-sm;
+
+    &.primary {
+      @extend .btn-primary;
+    }
+    &.secondary {
+      @extend .btn-secondary;
+    }
+
+    padding: var(--cx-spatial-base);
+    font-size: 1rem;
+    line-height: 1.5rem;
+
+    &.active {
+      color: var(--cx-color-primary);
+    }
+
+    &.icon {
+      padding: 0;
+    }
+  }
+
+  .form-buttons {
+    display: flex;
+    padding: var(--cx-spatial-base);
+    place-content: space-between;
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+    }
+    button,
+    a {
+      flex: 1;
+      margin: var(--cx-spatial-base);
+    }
+  }
+}

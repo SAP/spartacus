@@ -1,29 +1,35 @@
-import { Type } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  B2BUnitNode,
   CostCenter,
   CostCenterService,
-  Currency,
-  CurrencyService,
   I18nTestingModule,
-  LanguageService,
-  OrgUnitService,
-  RoutesConfig,
-  RoutingConfig,
   RoutingService,
 } from '@spartacus/core';
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
-import { Observable, of } from 'rxjs';
-import { CostCenterFormModule } from '../form/cost-center-form.module';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { of } from 'rxjs';
+import { CurrentCostCenterService } from '../current-cost-center.service';
 import { CostCenterEditComponent } from './cost-center-edit.component';
 import createSpy = jasmine.createSpy;
 
-const code = 'b1';
+@Component({
+  selector: 'cx-cost-center-form',
+  template: '',
+})
+class MockCostCenterFormComponent {
+  @Input() form;
+}
+
+const costCenterCode = 'b1';
 
 const mockCostCenter: CostCenter = {
-  code,
+  code: costCenterCode,
   name: 'costCenter1',
   currency: {
     symbol: '$',
@@ -32,34 +38,21 @@ const mockCostCenter: CostCenter = {
   unit: { name: 'orgName', uid: 'orgCode' },
 };
 
-const mockOrgUnits: B2BUnitNode[] = [
-  {
-    active: true,
-    children: [],
-    id: 'unitNode1',
-    name: 'Org Unit 1',
-    parent: 'parentUnit',
-  },
-];
-
-class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnits = createSpy('loadOrgUnits');
-  getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
-    of(mockOrgUnits)
-  );
-  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
+class MockCurrentCostCenterService
+  implements Partial<CurrentCostCenterService> {
+  code$ = of(costCenterCode);
 }
 
 class MockCostCenterService implements Partial<CostCenterService> {
-  loadCostCenter = createSpy('loadCostCenter');
-  get = createSpy('get').and.returnValue(of(mockCostCenter));
   update = createSpy('update');
+  load = createSpy('load');
+  get = createSpy('get').and.returnValue(of(mockCostCenter));
 }
 
 const mockRouterState = {
   state: {
     params: {
-      code,
+      code: costCenterCode,
     },
   },
 };
@@ -71,110 +64,81 @@ class MockRoutingService {
   );
 }
 
-const mockCurrencies: Currency[] = [
-  { active: true, isocode: 'USD', name: 'Dolar', symbol: '$' },
-  { active: true, isocode: 'EUR', name: 'Euro', symbol: '€' },
-];
-const mockActiveCurr = 'USD';
-const MockCurrencyService = {
-  active: mockActiveCurr,
-  getAll(): Observable<Currency[]> {
-    return of(mockCurrencies);
-  },
-  getActive(): Observable<string> {
-    return of(this.active);
-  },
-  setActive(isocode: string): void {
-    this.active = isocode;
-  },
-};
-
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
-}
-
-class LanguageServiceStub {
-  getActive(): Observable<string> {
-    return of();
-  }
-}
-
 describe('CostCenterEditComponent', () => {
   let component: CostCenterEditComponent;
   let fixture: ComponentFixture<CostCenterEditComponent>;
-  let costCentersService: MockCostCenterService;
+  let costCenterService: CostCenterService;
   let routingService: RoutingService;
+  let saveButton;
+  let costCenterFormComponent;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, CostCenterFormModule, RouterTestingModule],
-      declarations: [CostCenterEditComponent],
+      imports: [
+        CommonModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        IconTestingModule,
+        ReactiveFormsModule,
+      ],
+      declarations: [CostCenterEditComponent, MockCostCenterFormComponent],
       providers: [
-        {
-          provide: LanguageService,
-          useClass: LanguageServiceStub,
-        },
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CurrencyService, useValue: MockCurrencyService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: CostCenterService, useClass: MockCostCenterService },
+        {
+          provide: CurrentCostCenterService,
+          useClass: MockCurrentCostCenterService,
+        },
       ],
     }).compileComponents();
 
-    costCentersService = TestBed.get(
-      CostCenterService as Type<CostCenterService>
-    );
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    costCenterService = TestBed.inject(CostCenterService);
+
+    routingService = TestBed.inject(RoutingService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CostCenterEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    saveButton = fixture.debugElement.query(By.css('button[type=submit]'));
+    costCenterFormComponent = fixture.debugElement.query(
+      By.css('cx-cost-center-form')
+    ).componentInstance;
+  });
+
+  // not sure why this is needed, but we're failing otherwise
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should load costCenter', () => {
-      component.ngOnInit();
-      let costCenter: any;
-      component.costCenter$
-        .subscribe((value) => {
-          costCenter = value;
-        })
-        .unsubscribe();
-      expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(costCentersService.loadCostCenter).toHaveBeenCalledWith(code);
-      expect(costCentersService.get).toHaveBeenCalledWith(code);
-      expect(costCenter).toEqual(mockCostCenter);
+  describe('save valid form', () => {
+    it('should disable form on save ', () => {
+      saveButton.nativeElement.click();
+      expect(costCenterFormComponent.form.disabled).toBeTruthy();
+    });
+
+    it('should create cost center', () => {
+      saveButton.nativeElement.click();
+      expect(costCenterService.update).toHaveBeenCalled();
+    });
+
+    it('should navigate to the detail page', () => {
+      saveButton.nativeElement.click();
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'costCenterDetails',
+        params: costCenterFormComponent.form.value,
+      });
     });
   });
 
-  describe('update', () => {
-    it('should update costCenter', () => {
-      component.ngOnInit();
-      const updateCostCenter = {
-        code,
-        name: 'newName',
-        activeFlag: false,
-      };
-
-      component.updateCostCenter(updateCostCenter);
-      expect(costCentersService.update).toHaveBeenCalledWith(
-        code,
-        updateCostCenter
-      );
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'costCenterDetails',
-        params: updateCostCenter,
-      });
-    });
+  it('should trigger reload of cost center model on each code change', () => {
+    expect(costCenterService.load).toHaveBeenCalledWith(mockCostCenter.code);
   });
 });

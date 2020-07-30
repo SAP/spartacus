@@ -1,7 +1,7 @@
 import { Currency, User } from './misc.model';
 
 export interface CostCenter {
-  active?: string;
+  active?: boolean;
   activeFlag?: boolean;
   code?: string;
   name?: string;

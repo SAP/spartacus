@@ -1,6 +1,4 @@
-interface TranslationChunksConfig {
-  [chunk: string]: string[];
-}
+import { TranslationChunksConfig } from '@spartacus/core';
 
 export const translationChunksConfig: TranslationChunksConfig = {
   common: [
@@ -73,17 +71,12 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'register',
     'checkoutLogin',
   ],
+
   organization: [
     'breadcrumbs',
     'budgetsList',
     'budget',
     'budgetForm',
-    'budgetCostCenters',
-    'costCenter',
-    'costCentersList',
-    'costCenterForm',
-    'costCenterBudgets',
-    'costCenterAssignBudgets',
     'permissionsList',
     'permissionForm',
     'permission',

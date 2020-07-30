@@ -44,6 +44,7 @@ export const organization = {
       title: 'Disable Budget',
       message: 'Are you sure you want to disable this budget?',
     },
+    localTimeDisclaimer: 'Note: All times are local.',
   },
   budgetForm: {
     create: 'Create Budget',
@@ -135,68 +136,7 @@ export const organization = {
       placeholder: 'Amount',
     },
   },
-  costCentersList: {
-    code: 'Code',
-    costCenterManagement: 'Cost Center Management',
-    name: 'Name',
-    currency: 'Currency',
-    parentUnit: 'Parent Unit',
-    sortByMostRecent: 'sortByMostRecent',
-    sorting: {
-      byUnitName: 'Unit Name',
-      byName: 'Name',
-      byCode: 'Code',
-    },
-    create: 'Create new Cost Center',
-  },
-  costCenter: {
-    header: 'Details for {{code}}',
-    code: 'Code',
-    name: 'Name',
-    currency: 'Currency',
-    parentUnit: 'Parent Unit',
-    edit: 'Edit',
-    disable: 'Disable',
-    enable: 'Enable',
-    status: 'Status',
-    back: 'Back to list',
-    active: 'Active',
-    deactivated: 'Deactivated',
-    budgets: 'Budgets',
-    details: 'Details',
-    assignBudgets: 'Manage Budgets',
-    confirmDeactivation: {
-      title: 'Disable Cost Center',
-      message: 'Are you sure you want to disable this cost center?',
-    },
-  },
-  costCenterBudgets: {
-    header: 'Budgets in {{code}}',
-    back: 'Close',
-    assignBudgets: 'Manage Budgets',
-  },
-  costCenterAssignBudgets: {
-    header: 'Manage budgets in {{code}}',
-    back: 'Close',
-  },
-  costCenterForm: {
-    create: 'Create Cost Center',
-    edit: 'Edit Cost Center',
-    update: 'Update Cost Center',
-    code: {
-      label: 'Cost Center ID',
-      placeholder: 'Code',
-    },
-    name: {
-      label: 'Cost Center name',
-      placeholder: 'Name',
-    },
-    businessUnits: {
-      label: 'Parent business unit',
-      placeholder: 'Select business unit',
-    },
-    currency: 'Currency',
-  },
+
   orgUnitsList: {
     orgUnitManagement: 'Units',
     create: 'Create new Unit',
@@ -507,7 +447,7 @@ export const organization = {
     header: 'Manage purchase limits in {{code}}',
     back: 'Close',
   },
-  userGroupAssignUsers: {
+  userGroupAssignUserss: {
     header: 'Manage users in {{code}}',
     back: 'Close',
     unassignAll: 'Unassign All',

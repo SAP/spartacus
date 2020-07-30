@@ -65,12 +65,12 @@
           <span class="label-content">{{
             'budgetForm.startDate' | cxTranslate
           }}</span>
-          <cx-date-picker
+          <cx-date-time-picker
             formControlName="startDate"
             [max]="form.controls.endDate.value"
             (change)="form.controls.endDate.updateValueAndValidity()"
             [invalid]="isNotValid('startDate')"
-          ></cx-date-picker>
+          ></cx-date-time-picker>
           <cx-form-errors
             [control]="form.get('startDate')"
             [translationParams]="{ max: form.controls.endDate.value | cxDate }"
@@ -83,13 +83,12 @@
           <span class="label-content">{{
             'budgetForm.endDate' | cxTranslate
           }}</span>
-          <cx-date-picker
+          <cx-date-time-picker
             formControlName="endDate"
             [min]="form.controls.startDate.value"
             (change)="form.controls.startDate.updateValueAndValidity()"
-            [endOfDay]="true"
             [invalid]="isNotValid('endDate')"
-          ></cx-date-picker>
+          ></cx-date-time-picker>
           <cx-form-errors
             [control]="form.get('endDate')"
             [translationParams]="{
@@ -97,6 +96,12 @@
             }"
           ></cx-form-errors>
         </label>
+      </div>
+
+      <div class="form-group">
+        <span class="label-content">
+          {{ 'budget.localTimeDisclaimer' | cxTranslate }}
+        </span>
       </div>
 
       <div class="form-group">

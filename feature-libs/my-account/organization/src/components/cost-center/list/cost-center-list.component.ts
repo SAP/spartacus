@@ -1,48 +1,67 @@
-import { Component, OnInit } from '@angular/core';
 import {
-  CostCenter,
-  CostCenterService,
-  EntitiesModel,
-  RoutingService,
-} from '@spartacus/core';
-import { AbstractListingComponent, ListingModel } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { PaginationModel, RoutingService, RouterState } from '@spartacus/core';
+import { Table } from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
+import { CostCenterListService } from './cost-center-list.service';
+import { map } from 'rxjs/operators';
+
+const BASE_CLASS = 'organization';
 
 @Component({
   selector: 'cx-cost-center-list',
   templateUrl: './cost-center-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CostCenterListComponent extends AbstractListingComponent
-  implements OnInit {
-  cxRoute = 'costCenters';
+export class CostCenterListComponent implements OnInit, OnDestroy {
+  @HostBinding('class') hostClass = BASE_CLASS;
+
+  dataTable$: Observable<Table> = this.costCentersService.getTable();
+
+  subscription = new Subscription();
+
+  //TODO: it's workaround for allowing styling views, since we can't get any real selector to setup --cx-max-views: 1;
+  lastPath$ = this.routingService
+    .getRouterState()
+    .pipe(
+      map((state: RouterState) => state.state?.url.split('/').reverse()[0])
+    );
 
   constructor(
-    protected routingService: RoutingService,
-    protected costCentersService: CostCenterService
-  ) {
-    super(routingService);
-  }
+    protected costCentersService: CostCenterListService,
+    protected routingService: RoutingService
+  ) {}
 
   ngOnInit(): void {
-    this.data$ = <Observable<ListingModel>>this.queryParams$.pipe(
-      tap((params) => this.costCentersService.loadCostCenters(params)),
-      switchMap((params) =>
-        this.costCentersService.getList(params).pipe(
-          filter(Boolean),
-          map((costCentersList: EntitiesModel<CostCenter>) => ({
-            sorts: costCentersList.sorts,
-            pagination: costCentersList.pagination,
-            values: costCentersList.values.map((costCenter) => ({
-              code: costCenter.code,
-              name: costCenter.name,
-              currency: costCenter.currency && costCenter.currency.isocode,
-              parentUnit: costCenter.unit && costCenter.unit.name,
-              uid: costCenter.unit && costCenter.unit.uid,
-            })),
-          }))
-        )
+    this.subscription.add(
+      this.lastPath$.subscribe(
+        (path) => (this.hostClass = `${BASE_CLASS} ${path}`)
       )
     );
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  /**
+   * Paginates the cost center list. Pagination is not using query parameters, as we like
+   * pagination to be driven by infinite scrolling going forward.
+   */
+  viewPage(pagination: PaginationModel, currentPage: number): void {
+    this.costCentersService.viewPage(pagination, currentPage);
+  }
+
+  /**
+   * Sort the list. The pagination is reset to the first page.
+   *
+   * TODO: consider query parameter for sorting.
+   */
+  sort(pagination: PaginationModel, sort: string) {
+    this.costCentersService.sort(pagination, sort);
   }
 }

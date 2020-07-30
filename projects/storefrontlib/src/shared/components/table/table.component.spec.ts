@@ -5,7 +5,6 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from 'projects/storefrontlib/src/cms-structure';
 import { LayoutConfig } from 'projects/storefrontlib/src/layout';
-import { of } from 'rxjs';
 import { TableComponent } from './table.component';
 import { Table, TableHeader } from './table.model';
 
@@ -26,7 +25,7 @@ const mockDataset: Table = {
     type: 'test-1',
     headers,
   },
-  data$: of(data),
+  data,
 };
 
 describe('TableComponent', () => {
@@ -193,19 +192,19 @@ describe('TableComponent', () => {
 
     describe('sort data', () => {
       it('should emit event if header has sortCode', () => {
-        spyOn(tableComponent.paginateEvent, 'emit');
+        spyOn(tableComponent.sortEvent, 'emit');
         tableComponent.dataset = mockDataset;
         tableComponent.sort(headers[0]);
-        expect(tableComponent.paginateEvent.emit).toHaveBeenCalledWith({
-          sort: headers[0].sortCode,
-        });
+        expect(tableComponent.sortEvent.emit).toHaveBeenCalledWith(
+          headers[0].sortCode
+        );
       });
 
       it('should not emit event if header has no sortCode', () => {
-        spyOn(tableComponent.paginateEvent, 'emit');
+        spyOn(tableComponent.sortEvent, 'emit');
         tableComponent.dataset = mockDataset;
         tableComponent.sort(headers[2]);
-        expect(tableComponent.paginateEvent.emit).not.toHaveBeenCalled();
+        expect(tableComponent.sortEvent.emit).not.toHaveBeenCalled();
       });
     });
   });

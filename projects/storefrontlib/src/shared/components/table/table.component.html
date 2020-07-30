@@ -19,12 +19,20 @@
           {{
             header.label || (structure.type + '.' + header.key | cxTranslate)
           }}
+          <cx-icon
+            *ngIf="!!header.sortCode"
+            [type]="
+              header.sortCode === structure.pagination?.sort
+                ? 'SORT_DOWN'
+                : 'SORT'
+            "
+          ></cx-icon>
         </ng-template>
       </th>
     </tr>
   </thead>
 
-  <tr *ngFor="let row of dataset.data$ | async">
+  <tr *ngFor="let row of dataset.data">
     <td *ngFor="let col of structure.headers; let i = index" [class]="col.key">
       <!-- render an outlet for each cell -->
       <ng-template

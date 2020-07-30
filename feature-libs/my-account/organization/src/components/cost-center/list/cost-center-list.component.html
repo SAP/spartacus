@@ -1,39 +1,57 @@
-<cx-interactive-table
-  [data$]="data$"
-  [header]="'costCentersList.costCenterManagement' | cxTranslate"
-  [sortLabels]="{
-    byUnitName: 'costCentersList.sorting.byUnitName' | cxTranslate,
-    byName: 'costCentersList.sorting.byName' | cxTranslate,
-    byCode: 'costCentersList.sorting.byCode' | cxTranslate
-  }"
-  [columns]="[
-    {
-      key: 'code',
-      value: 'costCentersList.code' | cxTranslate,
-      cxRoute: 'costCenterDetails'
-    },
-    { key: 'name', value: 'costCentersList.name' | cxTranslate },
-    {
-      key: 'currency',
-      value: 'costCentersList.currency' | cxTranslate
-    },
-    {
-      key: 'parentUnit',
-      value: 'costCentersList.parentUnit' | cxTranslate,
-      cxRoute: 'orgUnitDetails'
-    }
-  ]"
-  (pageChange)="pageChange($event)"
-  (changeSortCode)="changeSortCode($event)"
->
-  <div class="col-md-12 col-lg-6">
-    <div class="col-md-12 col-lg-6 float-right">
+<cx-split-view>
+  <cx-view>
+    <h3>
+      {{ 'costCenter.header' | cxTranslate }}
       <a
+        class="link"
         [routerLink]="{ cxRoute: 'costCenterCreate' } | cxUrl"
-        class="btn btn-block btn-action"
+        routerLinkActive="disabled"
       >
-        {{ 'costCentersList.create' | cxTranslate }}
+        <cx-icon type="EXPAND"></cx-icon>
       </a>
-    </div>
+    </h3>
+
+    <ng-container *ngIf="dataTable$ | async as dataTable; else emptyList">
+      <section>
+        <cx-table
+          [dataset]="dataTable"
+          (sortEvent)="sort(dataTable.pagination, $event)"
+        >
+        </cx-table>
+      </section>
+
+      <cx-pagination
+        *ngIf="dataTable.pagination"
+        [pagination]="dataTable.pagination"
+        (viewPageEvent)="viewPage(dataTable.pagination, $event)"
+      ></cx-pagination>
+    </ng-container>
+
+    <ng-template #emptyList>
+      <p class="instruction is-empty">
+        {{ 'organization.messages.emptyList' | cxTranslate }}
+      </p>
+    </ng-template>
+  </cx-view>
+
+  <router-outlet></router-outlet>
+</cx-split-view>
+
+<ng-template cxOutletRef="table.costCenter.data.name" let-model>
+  <div routerLinkActive="active">
+    <a [routerLink]="{ cxRoute: 'costCenterDetails', params: model } | cxUrl">
+      <span class="text">{{ model.name }}</span>
+      <cx-icon type="CARET_RIGHT"></cx-icon>
+    </a>
+    <i class="disabled" *ngIf="!model.active">
+      {{ 'costCenter.disabled' | cxTranslate }}
+    </i>
   </div>
-</cx-interactive-table>
+</ng-template>
+
+<ng-template cxOutletRef="table.costCenter.data.unit" let-model>
+  <a [routerLink]="{ cxRoute: 'orgUnitDetails', params: model.unit } | cxUrl">
+    {{ model.unit?.name }}
+    <cx-icon class="open-out" type="LINK_OUT"></cx-icon>
+  </a>
+</ng-template>

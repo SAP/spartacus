@@ -136,24 +136,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   orgUnitAddressCreate: {
     paths: ['organization/unit/addresses/create/:code'],
   },
-  costCenters: {
-    paths: ['organization/cost-centers'],
-  },
-  costCenterCreate: {
-    paths: ['organization/cost-centers/create'],
-  },
-  costCenterDetails: {
-    paths: ['organization/cost-center/:code'],
-  },
-  costCenterBudgets: {
-    paths: ['organization/cost-center/budgets/:code'],
-  },
-  costCenterAssignBudgets: {
-    paths: ['organization/cost-center/assign-budgets/:code'],
-  },
-  costCenterEdit: {
-    paths: ['organization/cost-center/edit/:code'],
-  },
   permissions: {
     paths: ['organization/purchase-limits'],
   },
@@ -197,30 +179,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   },
   userAssignUserGroups: {
     paths: ['organization/user/assign-user-groups/:code'],
-  },
-  userGroups: {
-    paths: ['organization/user-groups'],
-  },
-  userGroupCreate: {
-    paths: ['organization/user-groups/create'],
-  },
-  userGroupDetails: {
-    paths: ['organization/user-group/:code'],
-  },
-  userGroupEdit: {
-    paths: ['organization/user-group/edit/:code'],
-  },
-  userGroupPermissions: {
-    paths: ['organization/user-group/purchase-limits/:code'],
-  },
-  userGroupAssignPermissions: {
-    paths: ['organization/user-group/assign-purchase-limits/:code'],
-  },
-  userGroupUsers: {
-    paths: ['organization/user-group/users/:code'],
-  },
-  userGroupAssignUsers: {
-    paths: ['organization/user-group/assign-users/:code'],
   },
   orderApprovalDetails: {
     paths: ['my-account/approval/:approvalCode'],

@@ -1,47 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import {
-  AuthGuard,
-  CmsConfig,
-  ConfigModule,
-  I18nModule,
-  UrlModule,
-} from '@spartacus/core';
-import {
-  CmsPageGuard,
   ConfirmModalModule,
-  FakeTabsModule,
-  PageLayoutComponent,
+  IconModule,
+  SplitViewModule,
 } from '@spartacus/storefront';
+import { CostCenterBudgetListModule } from '../budgets/list/cost-center-budget-list.module';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'costCenterDetails' },
-      },
-    ]),
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        CostCenterDetailsComponent: {
-          component: CostCenterDetailsComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
+    RouterModule,
     UrlModule,
+
     I18nModule,
+    SplitViewModule,
+    IconModule,
+
+    CostCenterBudgetListModule,
     ConfirmModalModule,
-    FakeTabsModule,
   ],
   declarations: [CostCenterDetailsComponent],
   exports: [CostCenterDetailsComponent],
-  entryComponents: [CostCenterDetailsComponent],
 })
 export class CostCenterDetailsModule {}

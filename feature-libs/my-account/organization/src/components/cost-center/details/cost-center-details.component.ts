@@ -1,45 +1,39 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  TemplateRef,
-} from '@angular/core';
-import { CostCenter, CostCenterService, RoutingService } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
+import { CostCenter, CostCenterService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { shareReplay, switchMap, tap } from 'rxjs/operators';
+import { CurrentCostCenterService } from '../current-cost-center.service';
 
 @Component({
   selector: 'cx-cost-center-details',
   templateUrl: './cost-center-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentCostCenterService],
 })
-export class CostCenterDetailsComponent implements OnInit {
-  costCenter$: Observable<CostCenter>;
-  code$: Observable<string> = this.routingService
-    .getRouterState()
-    .pipe(map((routingData) => routingData.state.params['code']));
+export class CostCenterDetailsComponent {
+  /**
+   * The model of the current cost center.
+   *
+   * It reloads the model when the code of the current cost center changes.
+   */
+  costCenter$: Observable<
+    CostCenter
+  > = this.currentCostCenterService.code$.pipe(
+    tap((code) => this.costCenterService.load(code)),
+    switchMap((code) => this.costCenterService.get(code)),
+    shareReplay({ bufferSize: 1, refCount: true }) // we have side effects here, we want the to run only once
+  );
 
   constructor(
-    protected routingService: RoutingService,
-    protected costCentersService: CostCenterService,
+    protected currentCostCenterService: CurrentCostCenterService,
+    protected costCenterService: CostCenterService,
+    // TODO: consider relying on css only
     protected modalService: ModalService
   ) {}
 
-  ngOnInit(): void {
-    this.costCenter$ = this.code$.pipe(
-      tap((code) => this.costCentersService.loadCostCenter(code)),
-      switchMap((code) => this.costCentersService.get(code)),
-      filter(Boolean)
-    );
-  }
-
   update(costCenter: CostCenter) {
-    this.code$
-      .pipe(take(1))
-      .subscribe((costCenterCode) =>
-        this.costCentersService.update(costCenterCode, costCenter)
-      );
+    this.costCenterService.update(costCenter.code, costCenter);
   }
 
   openModal(template: TemplateRef<any>): void {

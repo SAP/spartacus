@@ -10,8 +10,8 @@ import {
   OrgUnitService,
 } from '@spartacus/core';
 import { BudgetFormComponent } from './budget-form.component';
-import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
 import { FormErrorsModule } from '../../../../shared/components/form/form-errors/form-errors.module';
+import { DateTimePickerModule } from '../../../../shared/components/date-time-picker/date-time-picker.module';
 
 @NgModule({
   imports: [
@@ -22,8 +22,8 @@ import { FormErrorsModule } from '../../../../shared/components/form/form-errors
     UrlModule,
     I18nModule,
     ReactiveFormsModule,
-    DatePickerModule,
     FormErrorsModule,
+    DateTimePickerModule,
   ],
   declarations: [BudgetFormComponent],
   exports: [BudgetFormComponent],

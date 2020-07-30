@@ -1,237 +1,167 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  Pipe,
-  PipeTransform,
-  Type,
-} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  B2BSearchConfig,
-  CostCenter,
-  CostCenterService,
-  EntitiesModel,
-  I18nTestingModule,
-  RoutesConfig,
-  RoutingConfig,
-  RoutingService,
-} from '@spartacus/core';
-import {
-  InteractiveTableModule,
-  PaginationConfig,
-} from '@spartacus/storefront';
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
-import { BehaviorSubject, of } from 'rxjs';
+import { I18nTestingModule } from '@spartacus/core';
+import { Table, TableModule } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { of } from 'rxjs';
 import { CostCenterListComponent } from './cost-center-list.component';
+import {
+  CostCenterListService,
+  CostCenterModel,
+} from './cost-center-list.service';
 
-import createSpy = jasmine.createSpy;
-
-const defaultParams: B2BSearchConfig = {
-  sort: 'byName',
-  currentPage: 0,
-  pageSize: 5,
-};
-
-const mockCostCenterList: EntitiesModel<CostCenter> = {
-  values: [
-    {
-      code: 'c1',
-      name: 'n1',
-      currency: {
-        symbol: '$',
-        isocode: 'USD',
-      },
-      unit: { name: 'orgName', uid: 'orgUid' },
-    },
-    {
-      code: 'c2',
-      name: 'n2',
-      currency: {
-        symbol: '$',
-        isocode: 'USD',
-      },
-      unit: { name: 'orgName2', uid: 'orgUid2' },
-    },
-  ],
-  pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
-  sorts: [{ code: 'byName', selected: true }],
-};
-
-const mockCostCenterUIList = {
-  values: [
+const mockCostCenterList: Table<CostCenterModel> = {
+  data: [
     {
       code: 'c1',
       name: 'n1',
       currency: 'USD',
-      parentUnit: 'orgName',
-      uid: 'orgUid',
     },
     {
       code: 'c2',
       name: 'n2',
       currency: 'USD',
-      parentUnit: 'orgName2',
-      uid: 'orgUid2',
     },
   ],
   pagination: { totalPages: 1, totalResults: 1, sort: 'byName' },
-  sorts: [{ code: 'byName', selected: true }],
+  structure: { type: '' },
 };
-@Component({
-  template: '',
-  selector: 'cx-pagination',
-})
-class MockPaginationComponent {
-  @Input() pagination;
-  @Output() viewPageEvent = new EventEmitter<string>();
-}
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
 
-const costCenterList = new BehaviorSubject(mockCostCenterList);
-
-class MockCostCenterService implements Partial<CostCenterService> {
-  loadCostCenters = createSpy('loadCostCenters');
-
-  getList = createSpy('getList').and.returnValue(costCenterList);
-}
-
-class MockRoutingService {
-  go = createSpy('go').and.stub();
-  getRouterState() {
-    return of({
-      state: {
-        queryParams: {
-          sort: 'byName',
-          currentPage: '0',
-          pageSize: '5',
-        },
-      },
-    });
-  }
-}
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
+export class MockCostCenterListService {
+  getTable() {}
+  sort() {}
+  viewPage() {}
 }
 
 describe('CostCenterListComponent', () => {
   let component: CostCenterListComponent;
   let fixture: ComponentFixture<CostCenterListComponent>;
-  let costCentersService: MockCostCenterService;
-  let routingService: RoutingService;
+  let service: CostCenterListService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, InteractiveTableModule, I18nTestingModule],
-      declarations: [
-        CostCenterListComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
+      imports: [
+        RouterTestingModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        TableModule,
+        PaginationTestingModule,
+        IconTestingModule,
       ],
+      declarations: [CostCenterListComponent],
       providers: [
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CostCenterService, useClass: MockCostCenterService },
-        {
-          provide: PaginationConfig,
-          useValue: {
-            pagination: {},
-          },
-        },
+        { provide: CostCenterListService, useClass: MockCostCenterListService },
       ],
     }).compileComponents();
 
-    costCentersService = TestBed.get(
-      CostCenterService as Type<CostCenterService>
-    );
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    service = TestBed.inject(CostCenterListService);
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CostCenterListComponent);
-    component = fixture.componentInstance;
-    costCenterList.next(mockCostCenterList);
-    fixture.detectChanges();
+  // Not sure why this is needed, but we're failing otherwise.
+  afterEach(() => {
+    fixture.destroy();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  describe('with table data', () => {
+    beforeEach(() => {
+      spyOn(service, 'getTable').and.returnValue(of(mockCostCenterList));
+      fixture = TestBed.createComponent(CostCenterListComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
 
-  it('should display No costCenters found page if no costCenters are found', () => {
-    const emptyCostCenterList: EntitiesModel<CostCenter> = {
-      values: [],
-      pagination: {
-        totalPages: 0,
-        pageSize: 0,
-        currentPage: 0,
-        totalResults: 0,
-        sort: 'byName',
-      },
-      sorts: [{ code: 'byName', selected: true }],
-    };
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
 
-    costCenterList.next(emptyCostCenterList);
-    fixture.detectChanges();
+    it('should have cost centers', () => {
+      let result;
+      component.dataTable$.subscribe((data) => (result = data));
+      expect(result).toEqual(mockCostCenterList);
+    });
 
-    expect(fixture.debugElement.query(By.css('.cx-no-items'))).not.toBeNull();
-  });
+    it('should delegate pagination to service', () => {
+      spyOn(service, 'viewPage');
+      component.viewPage({ currentPage: 3 }, 7);
+      expect(service.viewPage).toHaveBeenCalledWith({ currentPage: 3 }, 7);
+    });
 
-  describe('ngOnInit', () => {
-    it('should read costCenter list', () => {
-      component.ngOnInit();
-      let costCentersList: any;
-      component.data$
-        .subscribe((value) => {
-          costCentersList = value;
-        })
-        .unsubscribe();
-      expect(costCentersService.loadCostCenters).toHaveBeenCalledWith(
-        defaultParams
+    it('should revert currentPage when sorting', () => {
+      spyOn(service, 'sort');
+      component.sort({ currentPage: 3 }, 'bySortCode');
+      expect(service.sort).toHaveBeenCalledWith(
+        { currentPage: 3 },
+        'bySortCode'
       );
-      expect(costCentersService.getList).toHaveBeenCalledWith(defaultParams);
-      expect(costCentersList).toEqual(mockCostCenterUIList);
+    });
+
+    it('should have cx-table element', () => {
+      const el = fixture.debugElement.query(By.css('cx-table'));
+      expect(el).toBeTruthy();
+    });
+
+    it('should have cx-pagination element', () => {
+      const el = fixture.debugElement.query(By.css('cx-pagination'));
+      expect(el).toBeTruthy();
+    });
+
+    it('should not show is-empty message', () => {
+      const el = fixture.debugElement.query(By.css('p.is-empty'));
+      expect(el).toBeFalsy();
     });
   });
 
-  describe('changeSortCode', () => {
-    it('should set correctly sort code', () => {
-      component.changeSortCode('byCode');
-      expect(routingService.go).toHaveBeenCalledWith(
-        {
-          cxRoute: 'costCenters',
-          params: {},
-        },
-        {
-          sort: 'byCode',
-        }
-      );
+  describe('without table data', () => {
+    beforeEach(() => {
+      spyOn(service, 'getTable').and.returnValue(of(null));
+      fixture = TestBed.createComponent(CostCenterListComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should not have cx-table element', () => {
+      const el = fixture.debugElement.query(By.css('cx-table'));
+      expect(el).toBeFalsy();
+    });
+
+    it('should not have cx-pagination element', () => {
+      const el = fixture.debugElement.query(By.css('cx-pagination'));
+      expect(el).toBeFalsy();
+    });
+
+    it('should not show is-empty message', () => {
+      const el = fixture.debugElement.query(By.css('p.is-empty'));
+      expect(el).toBeTruthy();
     });
   });
 
-  describe('pageChange', () => {
-    it('should set correctly page', () => {
-      component.pageChange(2);
-      expect(routingService.go).toHaveBeenCalledWith(
-        {
-          cxRoute: 'costCenters',
-          params: {},
-        },
-        {
-          currentPage: 2,
-        }
+  describe('without pagination data', () => {
+    beforeEach(() => {
+      spyOn(service, 'getTable').and.returnValue(
+        of({ ...mockCostCenterList, pagination: null })
       );
+      fixture = TestBed.createComponent(CostCenterListComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should have cx-table element', () => {
+      const el = fixture.debugElement.query(By.css('cx-table'));
+      expect(el).toBeTruthy();
+    });
+
+    it('should not have cx-pagination element', () => {
+      const el = fixture.debugElement.query(By.css('cx-pagination'));
+      expect(el).toBeFalsy();
     });
   });
 });

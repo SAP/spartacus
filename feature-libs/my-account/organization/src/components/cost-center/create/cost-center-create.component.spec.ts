@@ -1,58 +1,43 @@
-import { Type } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  B2BUnitNode,
-  CostCenter,
   CostCenterService,
-  Currency,
-  CurrencyService,
   I18nTestingModule,
-  LanguageService,
-  OrgUnitService,
-  RoutesConfig,
-  RoutingConfig,
   RoutingService,
 } from '@spartacus/core';
-import { defaultStorefrontRoutesConfig } from 'projects/storefrontlib/src/cms-structure/routing/default-routing-config';
-import { Observable, of } from 'rxjs';
-import { CostCenterFormModule } from '../form/cost-center-form.module';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
+import { SplitViewTestingModule } from 'projects/storefrontlib/src/shared/components/split-view/testing/spit-view-testing.module';
+import { of } from 'rxjs';
 import { CostCenterCreateComponent } from './cost-center-create.component';
+import { By } from '@angular/platform-browser';
+import { CostCenterFormService } from '../form/cost-center-form.service';
 import createSpy = jasmine.createSpy;
 
-const costCenterCode = 'b1';
-
-const mockCostCenter: CostCenter = {
-  code: costCenterCode,
-  name: 'costCenter1',
-  currency: {
-    symbol: '$',
-    isocode: 'USD',
-  },
-  unit: { name: 'orgName', uid: 'orgCode' },
-};
-
-const mockOrgUnits: B2BUnitNode[] = [
-  {
-    active: true,
-    children: [],
-    id: 'unitNode1',
-    name: 'Org Unit 1',
-    parent: 'parentUnit',
-  },
-];
-
-class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnits = createSpy('loadOrgUnits');
-  getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
-    of(mockOrgUnits)
-  );
-  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
+@Component({
+  selector: 'cx-cost-center-form',
+  template: '',
+})
+class MockCostCenterFormComponent {
+  @Input() form;
+  @Input() unitUid;
 }
+
+const costCenterCode = 'b1';
 
 class MockCostCenterService implements Partial<CostCenterService> {
   create = createSpy('create');
   getBudgets = createSpy('getBudgets');
+}
+
+class MockCostCenterFormService implements Partial<CostCenterFormService> {
+  getForm(): FormGroup {
+    return new FormGroup({
+      code: new FormControl(costCenterCode),
+    });
+  }
 }
 
 const mockRouterState = {
@@ -70,84 +55,88 @@ class MockRoutingService {
   );
 }
 
-const mockCurrencies: Currency[] = [
-  { active: true, isocode: 'USD', name: 'Dolar', symbol: '$' },
-  { active: true, isocode: 'EUR', name: 'Euro', symbol: '€' },
-];
-const mockActiveCurr = 'USD';
-const MockCurrencyService = {
-  active: mockActiveCurr,
-  getAll(): Observable<Currency[]> {
-    return of(mockCurrencies);
-  },
-  getActive(): Observable<string> {
-    return of(this.active);
-  },
-  setActive(isocode: string): void {
-    this.active = isocode;
-  },
-};
-
-const mockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
-class MockRoutingConfig {
-  getRouteConfig(routeName: string) {
-    return mockRoutesConfig[routeName];
-  }
-}
-
-class LanguageServiceStub {
-  getActive(): Observable<string> {
-    return of();
-  }
-}
-
 describe('CostCenterCreateComponent', () => {
   let component: CostCenterCreateComponent;
   let fixture: ComponentFixture<CostCenterCreateComponent>;
-  let costCentersService: MockCostCenterService;
+  let costCenterService: CostCenterService;
   let routingService: RoutingService;
+  let saveButton;
+  let costCenterFormComponent;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, CostCenterFormModule, RouterTestingModule],
-      declarations: [CostCenterCreateComponent],
+      imports: [
+        RouterTestingModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        IconTestingModule,
+        ReactiveFormsModule,
+      ],
+      declarations: [CostCenterCreateComponent, MockCostCenterFormComponent],
       providers: [
-        {
-          provide: LanguageService,
-          useClass: LanguageServiceStub,
-        },
-        { provide: RoutingConfig, useClass: MockRoutingConfig },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CurrencyService, useValue: MockCurrencyService },
-        { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: CostCenterService, useClass: MockCostCenterService },
+        { provide: CostCenterFormService, useClass: MockCostCenterFormService },
       ],
     }).compileComponents();
 
-    costCentersService = TestBed.get(
-      CostCenterService as Type<CostCenterService>
-    );
-    routingService = TestBed.get(RoutingService as Type<RoutingService>);
+    costCenterService = TestBed.inject(CostCenterService);
+    routingService = TestBed.inject(RoutingService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CostCenterCreateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    saveButton = fixture.debugElement.query(By.css('button[type=submit]'));
+    costCenterFormComponent = fixture.debugElement.query(
+      By.css('cx-cost-center-form')
+    ).componentInstance;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('createCostCenter', () => {
-    it('should create costCenter', () => {
-      component.createCostCenter(mockCostCenter);
-      expect(costCentersService.create).toHaveBeenCalledWith(mockCostCenter);
+  describe('save valid form', () => {
+    it('should disable form on save ', () => {
+      saveButton.nativeElement.click();
+      expect(costCenterFormComponent.form.disabled).toBeTruthy();
+    });
+
+    it('should create cost center', () => {
+      saveButton.nativeElement.click();
+      expect(costCenterService.create).toHaveBeenCalled();
+    });
+
+    it('should navigate to the detail page', () => {
+      saveButton.nativeElement.click();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'costCenterDetails',
-        params: mockCostCenter,
+        params: { code: costCenterCode },
       });
+    });
+  });
+
+  describe('fail saving invalid form', () => {
+    beforeEach(() => {
+      costCenterFormComponent.form.setErrors({ incorrect: true });
+    });
+
+    it('should not disable form on save when it is invalid', () => {
+      saveButton.nativeElement.click();
+      expect(costCenterFormComponent.form.disabled).toBeFalsy();
+    });
+
+    it('should create cost center', () => {
+      saveButton.nativeElement.click();
+      expect(costCenterService.create).not.toHaveBeenCalled();
+    });
+
+    it('should not navigate away', () => {
+      saveButton.nativeElement.click();
+      expect(routingService.go).not.toHaveBeenCalled();
     });
   });
 });

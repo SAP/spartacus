@@ -1,5 +1,4 @@
 import { PaginationModel } from '@spartacus/core';
-import { Observable } from 'rxjs';
 
 /**
  * Contains the table data and structure for the `TableComponent`.
@@ -18,25 +17,34 @@ export interface Table<T = any> {
    * to be unaware of any specifics. The type can be handed in when the `Table` is
    * created however.
    */
-  data$: Observable<T[]>;
+  data: T[];
 
   /**
    * The pagination component is used to paginate through the data.
    */
   pagination?: PaginationModel;
-  // sorts?: SortModel[];
 }
 
+/**
+ * Configuration to provide the default structure of a table. The configuration allows
+ * a default configuration as well as specific configurations per breakpoint (i.e. mobile
+ * vs desktop).
+ */
 export interface TableStructureConfiguration {
   /**
    * Provide the bare structure of the table.
    */
-  headers: TableHeader[];
+  headers?: TableHeader[];
 
   /**
    * Table headers can be  are added by default
    */
   hideHeader?: boolean;
+
+  /**
+   * Default pagination for the table that is used for the initial load of the table data.
+   */
+  pagination?: PaginationModel;
 }
 
 /**
