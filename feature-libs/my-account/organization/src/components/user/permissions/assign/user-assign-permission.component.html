@@ -3,7 +3,7 @@
     <a
       class="link"
       [routerLink]="
-        { cxRoute: 'userPermissions', params: { uid: userCode } } | cxUrl
+        { cxRoute: 'userPermissions', params: { customerId: userCode } } | cxUrl
       "
       (click)="view.toggle()"
     >
@@ -35,7 +35,8 @@
       <a
         class="button secondary"
         [routerLink]="
-          { cxRoute: 'userPermissions', params: { uid: userCode } } | cxUrl
+          { cxRoute: 'userPermissions', params: { customerId: userCode } }
+            | cxUrl
         "
       >
         {{ 'user.permission.back' | cxTranslate }}

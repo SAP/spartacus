@@ -3,7 +3,7 @@
     <a
       class="link"
       [routerLink]="
-        { cxRoute: 'userDetails', params: { uid: userCode } } | cxUrl
+        { cxRoute: 'userDetails', params: { customerId: userCode } } | cxUrl
       "
       (click)="view.toggle()"
     >
@@ -19,7 +19,7 @@
       [routerLink]="
         {
           cxRoute: 'userAssignPermissions',
-          params: { uid: userCode }
+          params: { customerId: userCode }
         } | cxUrl
       "
     >
