@@ -1,4 +1,3 @@
-import { isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,7 +10,10 @@ import {
   ConfiguratorGroupsService,
   GenericConfigurator,
 } from '@spartacus/core';
-import { ConfigRouterExtractorService } from '@spartacus/storefront';
+import {
+  ConfigRouterExtractorService,
+  ConfigUtilsService,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 
@@ -35,11 +37,14 @@ export class ConfigPreviousNextButtonsComponent {
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfigRouterExtractorService,
+    protected configUtils: ConfigUtilsService,
     @Inject(PLATFORM_ID) protected platformId: any
   ) {}
 
   onPrevious(configuration: Configurator.Configuration): void {
-    this.scrollToVariantConfigurationHeader();
+    this.configUtils.scrollToConfigurationElement(
+      '.VariantConfigurationTemplate'
+    );
     this.configuratorGroupsService
       .getPreviousGroupId(configuration.owner)
       .pipe(take(1))
@@ -48,27 +53,15 @@ export class ConfigPreviousNextButtonsComponent {
       );
   }
   onNext(configuration: Configurator.Configuration): void {
-    this.scrollToVariantConfigurationHeader();
+    this.configUtils.scrollToConfigurationElement(
+      '.VariantConfigurationTemplate'
+    );
     this.configuratorGroupsService
       .getNextGroupId(configuration.owner)
       .pipe(take(1))
       .subscribe((groupId) =>
         this.configuratorGroupsService.navigateToGroup(configuration, groupId)
       );
-  }
-
-  protected scrollToVariantConfigurationHeader(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      // we don't want to run this logic when doing SSR
-      const theElement = document.querySelector(
-        '.VariantConfigurationTemplate'
-      );
-      let topOffset = 0;
-      if (theElement instanceof HTMLElement) {
-        topOffset = theElement.offsetTop;
-      }
-      window.scroll(0, topOffset);
-    }
   }
 
   isFirstGroup(owner: GenericConfigurator.Owner): Observable<boolean> {

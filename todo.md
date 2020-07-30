@@ -23,3 +23,5 @@
     - config-message.component.spec.ts
     - config-group-title.component.spec.ts
     - config-previous-next-buttons.component.spec.ts
+
+7. Update import of ConfigUtilsService in config-previous-next-buttons.components.ts once ConfigUtilsService has been moved to lib.
