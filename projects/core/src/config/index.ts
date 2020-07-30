@@ -15,3 +15,4 @@ export {
   TestConfigModule,
   TestConfigModuleOptions,
 } from './test-config.module';
+export * from './utils/deep-merge';
