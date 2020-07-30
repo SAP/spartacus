@@ -44,6 +44,9 @@ export class CmsComponentsService {
    */
   determineMappings(componentTypes: string[]): Observable<string[]> {
     return defer(() => {
+      // we use defer, to be sure the logic below used to compose final observable
+      // will be executed at subscription time (with up to date state at the time,
+      // when it will be needed)
       const featureResolvers = [];
 
       for (const componentType of componentTypes) {
@@ -53,6 +56,7 @@ export class CmsComponentsService {
           // check if this component type is managed by feature module
           if (this.featureModules.hasFeatureFor(componentType)) {
             featureResolvers.push(
+              // we delegate populating this.mappings to feature resolver
               this.getFeatureMappingResolver(componentType, staticConfig)
             );
           } else {
@@ -79,7 +83,8 @@ export class CmsComponentsService {
         .getCmsMapping(componentType)
         .pipe(
           tap((featureComponentMapping) => {
-            // get mapping from feature with static configuration
+            // We treat cms mapping configuration from a feature as a default,
+            // that can be overridden by app/static configuration
             this.mappings[componentType] = deepMerge(
               {},
               featureComponentMapping,

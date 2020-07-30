@@ -11,6 +11,8 @@ const NOT_FOUND_SYMBOL = {};
 /**
  * CombinedInjector is able to combine more than one injector together in a way
  * that main injector is supported by complementary injectors.
+ *
+ * Should be used as a parent injector.
  */
 export class CombinedInjector implements Injector {
   constructor(

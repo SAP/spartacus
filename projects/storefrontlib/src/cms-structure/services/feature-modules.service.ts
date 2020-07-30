@@ -43,7 +43,7 @@ interface FeatureInstance extends FeatureModuleConfig {
 }
 
 /**
- * Service responsible for resolving cms based feature modules
+ * Service responsible for resolving cms config based feature modules.
  */
 @Injectable({
   providedIn: 'root',
@@ -211,8 +211,7 @@ export class FeatureModulesService implements OnDestroy {
   }
 
   /**
-   * Returns feature configuration by composing root configuration tokens with
-   * configuration tokens retrieved from feature library
+   * Returns configuration provided in feature module
    */
   private resolveFeatureConfiguration(featureInjector: Injector): CmsConfig {
     // get config chunks from feature lib
