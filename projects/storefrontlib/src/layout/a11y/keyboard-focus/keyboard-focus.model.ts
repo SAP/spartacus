@@ -13,10 +13,14 @@ export interface BaseFocusConfig {}
 
 export interface VisibleFocusConfig {
   /**
-   * When set to true, the mouse-focus class is added to the host element,
-   * indicating that the element focus was not caused by the keyboard.
+   * @deprecated will be removed with 3.0. Use `disableVisibleFocus` instead.
    */
   disableMouseFocus?: boolean;
+  /**
+   * When set to true, the `hide-visible-focus` class is added to the host element,
+   * indicating that the element focus should not be made visible.
+   */
+  disableVisibleFocus?: boolean;
 }
 
 export interface BlockFocusConfig extends VisibleFocusConfig {
