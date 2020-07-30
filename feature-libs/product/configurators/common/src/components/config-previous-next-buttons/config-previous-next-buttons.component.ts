@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  PLATFORM_ID,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   Configurator,
   ConfiguratorCommonsService,
@@ -37,8 +32,7 @@ export class ConfigPreviousNextButtonsComponent {
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfigRouterExtractorService,
-    protected configUtils: ConfigUtilsService,
-    @Inject(PLATFORM_ID) protected platformId: any
+    protected configUtils: ConfigUtilsService
   ) {}
 
   onPrevious(configuration: Configurator.Configuration): void {
