@@ -94,7 +94,7 @@ export class CategoryViewPushEvent implements ProfileTagPushEvent {
 }
 
 // TODO:#cds - check the class name and the `name` property
-export class BrandPageVisitedEvent {
+export class BrandPageVisitedEvent implements ProfileTagPushEvent {
   name = 'BrandPageVisitedEvent';
   data: { brandCode: string; brandName: string };
   constructor(data: { brandCode: string; brandName: string }) {
