@@ -10,7 +10,7 @@
         {{ 'organization.close' | cxTranslate }}
       </a>
       <span>{{
-        'unit.orgUnit.header' | cxTranslate: { code: orgUnit.uid }
+        'unit.details.header' | cxTranslate: { code: orgUnit.uid }
       }}</span>
     </h3>
 
@@ -80,7 +80,7 @@
               { cxRoute: 'orgUnitChildren', params: orgUnit } | cxUrl
             "
           >
-            {{ 'unit.children' | cxTranslate }}
+            {{ 'unit.details.children' | cxTranslate }}
             <cx-icon type="CARET_RIGHT"></cx-icon>
           </a>
         </h4>
@@ -91,7 +91,7 @@
             class="link"
             [routerLink]="{ cxRoute: 'orgUnitUsers', params: orgUnit } | cxUrl"
           >
-            {{ 'unit.users' | cxTranslate }}
+            {{ 'unit.details.users' | cxTranslate }}
             <cx-icon type="CARET_RIGHT"></cx-icon>
           </a>
         </h4>
@@ -104,7 +104,7 @@
               { cxRoute: 'orgUnitApprovers', params: orgUnit } | cxUrl
             "
           >
-            {{ 'unit.approvers' | cxTranslate }}
+            {{ 'unit.details.approvers' | cxTranslate }}
             <cx-icon type="CARET_RIGHT"></cx-icon>
           </a>
         </h4>
@@ -117,7 +117,7 @@
               { cxRoute: 'orgUnitManageAddresses', params: orgUnit } | cxUrl
             "
           >
-            {{ 'unit.shippingAddresses' | cxTranslate }}
+            {{ 'unit.details.shippingAddresses' | cxTranslate }}
             <cx-icon type="CARET_RIGHT"></cx-icon>
           </a>
         </h4>
@@ -130,7 +130,7 @@
               { cxRoute: 'orgUnitCostCenters', params: orgUnit } | cxUrl
             "
           >
-            {{ 'unit.costCenters' | cxTranslate }}
+            {{ 'unit.details.costCenters' | cxTranslate }}
             <cx-icon type="CARET_RIGHT"></cx-icon>
           </a>
         </h4>

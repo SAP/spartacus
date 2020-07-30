@@ -11,7 +11,7 @@
       {{ 'organization.back' | cxTranslate }}
     </a>
     <span>{{
-      'unit.unitAssignRoles.header' | cxTranslate: { code: orgUnitCode }
+      'unit.assignRoles.header' | cxTranslate: { code: orgUnitCode }
     }}</span>
   </h3>
 
@@ -30,12 +30,12 @@
     </section>
     <div class="instructions">
       <ul>
-        <li>{{ 'unit.unitAssignRoles.instructions.check' | cxTranslate }}</li>
+        <li>{{ 'unit.assignRoles.instructions.check' | cxTranslate }}</li>
         <li>
-          {{ 'unit.unitAssignRoles.instructions.uncheck' | cxTranslate }}
+          {{ 'unit.assignRoles.instructions.uncheck' | cxTranslate }}
         </li>
         <li>
-          {{ 'unit.unitAssignRoles.instructions.changes' | cxTranslate }}
+          {{ 'unit.assignRoles.instructions.changes' | cxTranslate }}
         </li>
       </ul>
       <a
@@ -121,7 +121,7 @@
   >
     <input
       type="checkbox"
-      [checked]="checkIfContainsRole(model, rolesMap.admin.value)"
+      [checked]="checkIfContainsRole(model, rolesMap.admin)"
       (change)="
         toggleAssign(
           model.customerId,
@@ -140,7 +140,7 @@
       <label>
         <input
           type="checkbox"
-          [checked]="checkIfContainsRole(model, rolesMap.customer.value)"
+          [checked]="checkIfContainsRole(model, rolesMap.customer)"
           (change)="
             toggleAssign(
               model.customerId,
@@ -150,12 +150,14 @@
             )
           "
         />
-        <span class="text">{{ rolesMap.customer.label | cxTranslate }}</span>
+        <span class="text">{{
+          'organization.userRoles.' + rolesMap.customer | cxTranslate
+        }}</span>
       </label>
       <label>
         <input
           type="checkbox"
-          [checked]="checkIfContainsRole(model, rolesMap.approver.value)"
+          [checked]="checkIfContainsRole(model, rolesMap.approver)"
           (change)="
             toggleAssign(
               model.customerId,
@@ -165,12 +167,14 @@
             )
           "
         />
-        <span class="text">{{ rolesMap.approver.label | cxTranslate }}</span>
+        <span class="text">{{
+          'organization.userRoles.' + rolesMap.approver | cxTranslate
+        }}</span>
       </label>
       <label>
         <input
           type="checkbox"
-          [checked]="checkIfContainsRole(model, rolesMap.manager.value)"
+          [checked]="checkIfContainsRole(model, rolesMap.manager)"
           (change)="
             toggleAssign(
               model.customerId,
@@ -180,7 +184,9 @@
             )
           "
         />
-        <span class="text">{{ rolesMap.manager.label | cxTranslate }}</span>
+        <span class="text">{{
+          'organization.userRoles.' + rolesMap.manager | cxTranslate
+        }}</span>
       </label>
       <label>
         <input
@@ -195,7 +201,9 @@
             )
           "
         />
-        <span class="text">{{ rolesMap.admin.label | cxTranslate }}</span>
+        <span class="text">{{
+          'organization.userRoles.' + rolesMap.admin | cxTranslate
+        }}</span>
       </label>
     </div>
   </ng-template>

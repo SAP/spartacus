@@ -35,6 +35,7 @@ export const organization = {
 
     active: 'Active',
     status: 'Status',
+    details: 'Details',
 
     messages: {
       emptyList: 'The list is empty',

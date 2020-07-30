@@ -13,7 +13,7 @@
         {{ 'organization.close' | cxTranslate }}
       </a>
       <span>{{
-        'unit.unitAddressDetails.header'
+        'unit.addressDetails.header'
           | cxTranslate
             : { name: orgUnitAddress.firstName + ' ' + orgUnitAddress.lastName }
       }}</span>
@@ -67,7 +67,7 @@
           </span>
         </div>
         <div class="property">
-          <label>{{ 'unit.details' | cxTranslate }}</label>
+          <label>{{ 'organization.details' | cxTranslate }}</label>
           <span class="value">
             {{ orgUnitAddress.formattedAddress }}
           </span>
@@ -81,11 +81,9 @@
 
 <ng-template #confirmDeleteAddress>
   <cx-confirm-modal
-    [title]="
-      'unit.unitManageAddresses.confirmDeleteAddress.title' | cxTranslate
-    "
+    [title]="'unit.manageAddresses.confirmDeleteAddress.title' | cxTranslate"
     [message]="
-      'unit.unitManageAddresses.confirmDeleteAddress.message' | cxTranslate
+      'unit.manageAddresses.confirmDeleteAddress.message' | cxTranslate
     "
     (confirm)="deleteAddress()"
   ></cx-confirm-modal>

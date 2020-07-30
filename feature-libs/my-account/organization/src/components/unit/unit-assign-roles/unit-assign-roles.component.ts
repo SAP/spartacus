@@ -14,22 +14,10 @@ export class UnitAssignRolesComponent {
   protected readonly B2B_CUSTOMER_ROLE_ID = 'b2bcustomergroup';
 
   readonly rolesMap = {
-    customer: {
-      label: 'unit.unitAssignRoles.b2bcustomergroup',
-      value: 'b2bcustomergroup',
-    },
-    approver: {
-      label: 'unit.unitAssignRoles.b2bapprovergroup',
-      value: 'b2bapprovergroup',
-    },
-    manager: {
-      label: 'unit.unitAssignRoles.b2bmanagergroup',
-      value: 'b2bmanagergroup',
-    },
-    admin: {
-      label: 'unit.unitAssignRoles.b2badmingroup',
-      value: 'b2badmingroup',
-    },
+    customer: 'b2bcustomergroup',
+    approver: 'b2bapprovergroup',
+    manager: 'b2bmanagergroup',
+    admin: 'b2badmingroup',
   };
 
   code$: Observable<string> = this.route.parent.parent.params.pipe(

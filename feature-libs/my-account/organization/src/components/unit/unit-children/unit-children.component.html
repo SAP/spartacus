@@ -10,7 +10,7 @@
       <cx-icon type="CARET_LEFT"></cx-icon>
     </a>
     <span>{{
-      'unit.unitChildren.header' | cxTranslate: { code: orgUnitCode }
+      'unit.children.header' | cxTranslate: { code: orgUnitCode }
     }}</span>
   </h3>
 
@@ -24,7 +24,7 @@
       "
       [queryParams]="{ parentUnit: orgUnitCode }"
     >
-      {{ 'unit.unitChildren.newChild' | cxTranslate }}
+      {{ 'unit.children.newChild' | cxTranslate }}
     </a>
   </div>
   <section>

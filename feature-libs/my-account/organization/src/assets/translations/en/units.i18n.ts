@@ -11,40 +11,38 @@ export const unit = {
     message: 'Are you sure you want to disable this unit?',
   },
   deactivated: 'Deactivated',
-  details: 'Details',
-  children: 'Child Units',
-  costCenters: 'Cost Centers',
-  users: 'Users',
-  approvers: 'Approvers',
-  manageAddresses: 'Addresses',
-  shippingAddresses: 'Shipping Addresses',
   messages: {
     enabled:
       'When you disable this unit, the related data will be disabled as well. ',
     disabled: 'You cannot edit a disabled unit.',
   },
-  orgUnitTree: {
+  tree: {
     expandAll: 'Expand all',
     collapseAll: 'Collapse all',
     upOneLevel: 'Up one level',
   },
-  orgUnit: {
+  details: {
     header: 'Details for {{code}}',
+    children: 'Child Units',
+    users: 'Users',
+    approvers: 'Approvers',
+    shippingAddresses: 'Shipping Addresses',
+    costCenters: 'Cost Centers',
   },
-  unitChildren: {
+  children: {
     header: 'Child Units in {{code}}',
     newChild: 'New child unit',
   },
-  orgUnitForm: {
+  form: {
     parentOrgUnit: 'Parent business unit',
     create: 'Create Unit',
   },
-  unitUsers: {
+  users: {
     header: 'Users in {{code}}',
     changeUserRoles: 'Change user roles',
     newUser: 'New user',
   },
-  unitAssignRoles: {
+  assignRoles: {
     header: 'Manage roles in {{code}}',
     instructions: {
       check: "To assign a role to a user, select the role's check box.",
@@ -52,12 +50,12 @@ export const unit = {
       changes: 'Changes are saved automatically.',
     },
   },
-  unitApprovers: {
+  approvers: {
     header: 'Approvers in {{code}}',
-    assignApprovers: 'Manage Approvers',
-    newApprover: 'New approver',
+    assign: 'Manage Approvers',
+    new: 'New approver',
   },
-  unitAssignApprovers: {
+  assignApprovers: {
     header: 'Manage approvers in {{code}}',
     instructions: {
       check: "To assign an approver to this unit, select the user's check box.",
@@ -65,7 +63,7 @@ export const unit = {
       changes: 'Changes are saved automatically.',
     },
   },
-  unitManageAddresses: {
+  manageAddresses: {
     header: 'Manage addresses in {{code}}',
     create: 'Create new Address',
     confirmDeleteAddress: {
@@ -73,10 +71,10 @@ export const unit = {
       message: 'Are you sure you want to delete this address?',
     },
   },
-  unitAddressCreate: {
+  addressCreate: {
     header: 'New shipping address for {{code}}',
   },
-  unitAddressForm: {
+  addressForm: {
     country: 'Country',
     title: 'Title',
     firstName: 'First name',
@@ -91,13 +89,13 @@ export const unit = {
     aptSuite: 'Apt, Suite',
     selectOne: 'Select One...',
   },
-  unitAddressDetails: {
+  addressDetails: {
     header: 'Details for {{name}}',
   },
-  unitAddressEdit: {
+  addressEdit: {
     header: 'Edit shipping address for {{code}}',
   },
-  unitCostCenters: {
+  costCenters: {
     header: 'Cost centers in {{code}}',
     new: 'New cost center',
   },
