@@ -35,14 +35,14 @@ export class VisibleFocusDirective extends BaseFocusDirective {
   @HostBinding('class.hide-visible-focus') disableVisibleFocus = false;
 
   @HostListener('mousedown') handleMousedown() {
-    if (this.shouldDisableVisibleFocus) {
+    if (this.shouldFocusVisible) {
       this.disableVisibleFocus = true;
       this.mouseFocus = true;
     }
   }
 
   @HostListener('keydown', ['$event']) handleKeydown(event: KeyboardEvent) {
-    if (this.shouldDisableVisibleFocus) {
+    if (this.shouldFocusVisible) {
       this.disableVisibleFocus = !this.isNavigating(event);
       this.mouseFocus = this.disableVisibleFocus;
     }
@@ -50,8 +50,17 @@ export class VisibleFocusDirective extends BaseFocusDirective {
 
   /**
    * Indicates whether the configurations setup to disable visual focus.
+   *
+   * @deprecated will be refactored to `shouldDisableVisibleFocus` with 3.0
    */
-  protected get shouldDisableVisibleFocus(): boolean {
+  protected get shouldFocusVisible(): boolean {
+    return this.shouldDisableVisibleFocus;
+  }
+
+  /**
+   * Indicates whether the configurations setup to disable visual focus.
+   */
+  protected get shouldDisableVisibleFocus() {
     return this.config?.disableVisibleFocus || this.config?.disableMouseFocus;
   }
 
