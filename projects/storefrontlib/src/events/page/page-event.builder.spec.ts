@@ -30,8 +30,6 @@ describe('PageEventBuilder', () => {
       routerState: {
         semanticRoute: 'aPage',
         url: 'random url',
-        // TODO:#events - should not be mapped
-        cmsRequired: true,
       } as ActivatedRouterStateSnapshot,
     };
 

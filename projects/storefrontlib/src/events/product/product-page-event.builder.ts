@@ -6,7 +6,7 @@ import {
   ProductService,
 } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
-import { filter, map, skip, switchMap } from 'rxjs/operators';
+import { filter, map, skip, switchMap, take } from 'rxjs/operators';
 import { PageVisitedEvent } from '../page/page.events';
 import {
   CategoryPageResultsEvent,
@@ -52,7 +52,14 @@ export class ProductPageEventBuilder {
       switchMap((productId) =>
         this.productService.get(productId).pipe(
           filter((product) => Boolean(product)),
-          map((product) => createFrom(ProductDetailsPageEvent, product))
+          take(1),
+          map((product) => ({
+            categories: product.categories,
+            code: product.code,
+            name: product.name,
+            price: product.price,
+          })),
+          map((event) => createFrom(ProductDetailsPageEvent, event))
         )
       )
     );
