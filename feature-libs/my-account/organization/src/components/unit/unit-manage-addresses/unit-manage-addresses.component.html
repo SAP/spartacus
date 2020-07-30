@@ -42,20 +42,20 @@
   </ng-template>
 
   <ng-template cxOutletRef="table.unitManageAddresses.data.summary" let-model>
-    <h3>{{ model.firstName }} {{ model.lastName }}</h3>
-    <small>{{ model.formattedAddress }}</small>
-  </ng-template>
-
-  <ng-template cxOutletRef="table.unitManageAddresses.data.link" let-model>
     <a
-      class="link"
       [routerLink]="
         {
           cxRoute: 'orgUnitAddressDetails',
           params: { uid: orgUnitCode, id: model.id }
         } | cxUrl
       "
+      routerLinkActive="active"
     >
+      <div>
+        <h3>{{ model.firstName }} {{ model.lastName }}</h3>
+        <small>{{ model.formattedAddress }}</small>
+      </div>
+
       <cx-icon type="CARET_RIGHT"></cx-icon>
     </a>
   </ng-template>

@@ -250,7 +250,7 @@ export const unitsTableConfig: TableConfig = {
     ],
     [OrganizationTableType.UNIT_MANAGE_ADDRESSES]: [
       {
-        headers: [{ key: 'summary' }, { key: 'link' }],
+        headers: [{ key: 'summary' }],
         hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
