@@ -32,7 +32,7 @@ interface ActionWithPayload extends Action {
   payload: any;
 }
 
-describe('ProductPageEventModule', () => {
+fdescribe('ProductPageEventModule', () => {
   let eventService: EventService;
   let actions$: Subject<ActionWithPayload>;
 
@@ -82,7 +82,49 @@ describe('ProductPageEventModule', () => {
       );
     });
 
-    it('should not fire if the search state changes, but the user is not on the search page', () => {
+    it('should fire again if the user is on the search page, and the search state changes', () => {
+      const searchResults: ProductSearchPage = {
+        freeTextSearch: 'camera',
+        pagination: { totalResults: 5 },
+        facets: [{ category: true }],
+      };
+
+      let result: SearchPageResultsEvent;
+      eventService
+        .get(SearchPageResultsEvent)
+        // TODO:#events
+        .pipe(take(1))
+        .subscribe((value) => (result = value));
+
+      const pageVisitedEvent = createFrom(PageVisitedEvent, {
+        context: undefined,
+        semanticRoute: 'search',
+        url: 'search url',
+        params: undefined,
+      });
+
+      eventService.dispatch(pageVisitedEvent);
+      getResultsBehavior.next(searchResults);
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          searchTerm: searchResults.freeTextSearch,
+          numberOfResults: searchResults.pagination.totalResults,
+        } as SearchPageResultsEvent)
+      );
+
+      getResultsBehavior.next({
+        ...searchResults,
+        facets: [...searchResults.facets, { name: 'new' }],
+      });
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          searchTerm: searchResults.freeTextSearch,
+          numberOfResults: searchResults.pagination.totalResults,
+        } as SearchPageResultsEvent)
+      );
+    });
+
+    it('should not fire if the user is not on the search page', () => {
       const searchResults: ProductSearchPage = {
         freeTextSearch: 'camera',
         pagination: { totalResults: 5 },
@@ -129,36 +171,81 @@ describe('ProductPageEventModule', () => {
     );
   });
 
-  it('ProductDetailsPageEvent', () => {
-    const product: Product = {
-      code: '1234',
-      categories: [{ code: 'cat1', name: 'Cat1' }],
-      name: 'Test Product 1',
-      price: { value: 100 },
-    };
+  describe('ProductDetailsPageEvent', () => {
+    it('should fire on PDP visit', () => {
+      const product: Product = {
+        code: '1234',
+        categories: [{ code: 'cat1', name: 'Cat1' }],
+        name: 'Test Product 1',
+        price: { value: 100 },
+      };
 
-    let result: ProductDetailsPageEvent;
-    eventService
-      .get(ProductDetailsPageEvent)
-      .pipe(take(1))
-      .subscribe((value) => (result = value));
+      let result: ProductDetailsPageEvent;
+      eventService
+        .get(ProductDetailsPageEvent)
+        .pipe(take(1))
+        .subscribe((value) => (result = value));
 
-    const productPageVisitedEvent = createFrom(PageVisitedEvent, {
-      context: { id: product.code },
-      semanticRoute: 'product',
-      url: 'product url',
-      params: undefined,
+      const productPageVisitedEvent = createFrom(PageVisitedEvent, {
+        context: { id: product.code },
+        semanticRoute: 'product',
+        url: 'product url',
+        params: undefined,
+      });
+      eventService.dispatch(productPageVisitedEvent);
+      productGetBehavior.next(product);
+
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          code: product.code,
+          categories: product.categories,
+          name: product.name,
+          price: product.price,
+        } as ProductDetailsPageEvent)
+      );
     });
-    eventService.dispatch(productPageVisitedEvent);
-    productGetBehavior.next(product);
 
-    expect(result).toEqual(
-      jasmine.objectContaining({
-        code: product.code,
-        categories: product.categories,
-        name: product.name,
-        price: product.price,
-      } as ProductDetailsPageEvent)
-    );
+    it('should not fire again if the product state changes', () => {
+      const product: Product = {
+        code: '1234',
+        categories: [{ code: 'cat1', name: 'Cat1' }],
+        name: 'Test Product 1',
+        price: { value: 100 },
+      };
+
+      let result: ProductDetailsPageEvent;
+      eventService
+        .get(ProductDetailsPageEvent)
+        .subscribe((value) => (result = value));
+
+      const productPageVisitedEvent = createFrom(PageVisitedEvent, {
+        context: { id: product.code },
+        semanticRoute: 'product',
+        url: 'product url',
+        params: undefined,
+      });
+
+      eventService.dispatch(productPageVisitedEvent);
+      productGetBehavior.next(product);
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          code: product.code,
+          categories: product.categories,
+          name: product.name,
+          price: product.price,
+        } as ProductDetailsPageEvent)
+      );
+
+      productGetBehavior.next({ ...product, code: 'new' });
+      expect(result).not.toEqual(jasmine.objectContaining({ code: 'new' }));
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          code: product.code,
+          categories: product.categories,
+          name: product.name,
+          price: product.price,
+        } as ProductDetailsPageEvent)
+      );
+    });
   });
 });
