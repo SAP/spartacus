@@ -54,13 +54,13 @@ describe('Router Effects', () => {
   });
 
   describe('navigateByUrl$', () => {
-    it('should navigate to url', (done) => {
+    it('should navigate to url', () => {
       const action = new RoutingActions.RouteGoByUrlAction('/test');
 
       actions$ = hot('-a', { a: action });
 
-      spyOn(router, 'navigateByUrl');
-      effects.navigateByUrl$.subscribe(() => {
+      spyOn(router, 'navigate');
+      effects.navigate$.subscribe(() => {
         expect(router.navigateByUrl).toHaveBeenCalledWith('/test');
       });
       done();
@@ -97,16 +97,15 @@ describe('Router Effects', () => {
   });
 
   describe('navigateForward$', () => {
-    it('should navigate forward', (done) => {
-      const action = new RoutingActions.RouteForwardAction();
+    it('should navigate forward', () => {
+      const action = new RoutingActions.RouteBackAction();
 
       actions$ = hot('-a', { a: action });
 
       spyOn(location, 'forward');
-      effects.navigateForward$.subscribe(() => {
+      effects.navigate$.subscribe(() => {
         expect(location.forward).toHaveBeenCalled();
       });
-      done();
     });
   });
 });
