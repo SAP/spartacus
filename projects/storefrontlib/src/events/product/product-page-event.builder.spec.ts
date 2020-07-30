@@ -90,7 +90,7 @@ describe('ProductPageEventModule', () => {
       };
 
       let result: SearchPageResultsEvent;
-      eventService
+      const sub = eventService
         .get(SearchPageResultsEvent)
         .subscribe((value) => (result = value));
 
@@ -120,6 +120,7 @@ describe('ProductPageEventModule', () => {
           numberOfResults: searchResults.pagination.totalResults,
         } as SearchPageResultsEvent)
       );
+      sub.unsubscribe();
     });
 
     it('should not fire if the user is not on the search page', () => {
@@ -212,7 +213,7 @@ describe('ProductPageEventModule', () => {
       };
 
       let result: ProductDetailsPageEvent;
-      eventService
+      const sub = eventService
         .get(ProductDetailsPageEvent)
         .subscribe((value) => (result = value));
 
@@ -244,6 +245,7 @@ describe('ProductPageEventModule', () => {
           price: product.price,
         } as ProductDetailsPageEvent)
       );
+      sub.unsubscribe();
     });
   });
 });
