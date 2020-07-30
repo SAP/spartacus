@@ -9,7 +9,7 @@ import { BudgetCreateComponent } from './create/budget-create.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetEditComponent } from './edit/budget-edit.component';
 import { BudgetListComponent } from './list/budget-list.component';
-// import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
+import { BudgetCostCenterListComponent } from './cost-centers/list/budget-cost-center-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -59,7 +59,7 @@ export const budgetCmsConfig: CmsConfig = {
             },
             {
               path: 'cost-centers',
-              component: BudgetListComponent,
+              component: BudgetCostCenterListComponent,
               canDeactivate: [SplitViewDeactivateGuard],
             },
           ],
@@ -102,7 +102,7 @@ export const budgetTableConfig: TableConfig = {
 
     [OrganizationTableType.BUDGET_COST_CENTERS]: [
       {
-        headers: [{ key: 'summary' }, { key: 'link' }, { key: 'unassign' }],
+        headers: [{ key: 'summary' }, { key: 'link' }],
         hideHeader: true,
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
