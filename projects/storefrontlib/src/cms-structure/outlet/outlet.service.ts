@@ -68,13 +68,14 @@ export class OutletService<T = TemplateRef<any>> {
     position: OutletPosition = OutletPosition.REPLACE,
     stacked = AVOID_STACKED_OUTLETS
   ): T[] | T {
-    const store =
-      this.templatesRefs[position] ||
-      this.templatesRefs[OutletPosition.REPLACE];
+    const store = this.templatesRefs[position] || undefined;
 
     const templateRef: T[] = store.get(outlet);
     if (templateRef && !stacked) {
       return templateRef[0];
+    }
+    if (!store) {
+      return undefined;
     }
     return templateRef;
   }
@@ -84,10 +85,11 @@ export class OutletService<T = TemplateRef<any>> {
     position: OutletPosition = OutletPosition.REPLACE,
     value?: T
   ): void {
-    const store =
-      this.templatesRefs[position] ||
-      this.templatesRefs[OutletPosition.REPLACE];
+    const store = this.templatesRefs[position] || undefined;
 
+    if (!store) {
+      return;
+    }
     this.removeValueOrAll(store, outlet, value);
   }
 
