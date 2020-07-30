@@ -321,8 +321,8 @@ Sources:
 If adding multiple entry points to the generated library, make sure to do the following changes:
 
 - `angular.json` - change the `projects -> lib-name -> sourceRoot` to have the same value as the `root` property. This will enable code coverage report to be properly generated for all the entry points.
-- `test.ts` - in order to run the tests for _all_ the entry points, the `test.ts` file has to be moved from `lib-name/src/test.ts` one level up - `lib-name/test.ts`.
-This change should be updated in the:
+- `test.ts` - in order to run the tests for _all_ the entry points, the `test.ts` file has to be moved one level up from `lib-name/src/test.ts` to `lib-name/test.ts`.
+This change requires an update in the:
 
   1. `angular.json` - change the `projects -> lib-name -> architect -> test -> options -> main` value to reflect the new file path
   2. `feature-libs/<lib-name>/tsconfig.lib.json` - update the path in `exclude`
