@@ -2,13 +2,13 @@
   <div class="form-group" *ngIf="form.get('code')">
     <label>
       <span class="label-content required">{{
-        'budget.code' | cxTranslate
+        'budget.budgetForm.code.label' | cxTranslate
       }}</span>
       <input
         class="form-control"
         type="text"
         required
-        placeholder="{{ 'budget.code' | cxTranslate }}"
+        placeholder="{{ 'budget.budgetForm.code.placeholder' | cxTranslate }}"
         formControlName="code"
       />
       <cx-form-errors [control]="form.get('code')"></cx-form-errors>
@@ -18,13 +18,13 @@
   <div class="form-group" *ngIf="form.get('name')">
     <label>
       <span class="label-content required">{{
-        'budget.name' | cxTranslate
+        'budget.budgetForm.name.label' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
         required
-        placeholder="{{ 'budget.name' | cxTranslate }}"
+        placeholder="{{ 'budget.budgetForm.name.placeholder' | cxTranslate }}"
         formControlName="name"
       />
       <cx-form-errors [control]="form.get('name')"></cx-form-errors>
@@ -38,7 +38,7 @@
     <div class="form-group">
       <label aria-required="true">
         <span class="label-content required">{{
-          'budget.unit' | cxTranslate
+          'budget.budgetForm.businessUnits.label' | cxTranslate
         }}</span>
         <ng-select
           formControlName="uid"
@@ -99,7 +99,7 @@
     <div class="form-group">
       <label aria-required="true">
         <span class="label-content required">{{
-          'budget.currency' | cxTranslate
+          'budget.budgetForm.currency' | cxTranslate
         }}</span>
         <ng-select
           formControlName="isocode"

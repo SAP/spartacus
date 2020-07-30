@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Budget, CostCenterService, EntitiesModel } from '@spartacus/core';
+import {
+  Budget,
+  BudgetService,
+  EntitiesModel,
+  CostCenter,
+} from '@spartacus/core';
 import { TableService, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -20,7 +25,7 @@ export class BudgetCostCenterListService extends BaseOrganizationListService<
 
   constructor(
     protected tableService: TableService,
-    protected costCenterService: CostCenterService
+    protected budgetService: BudgetService
   ) {
     super(tableService);
   }
@@ -28,11 +33,12 @@ export class BudgetCostCenterListService extends BaseOrganizationListService<
   protected load(
     structure: TableStructure,
     code: string
-  ): Observable<EntitiesModel<Budget>> {
+  ): Observable<EntitiesModel<CostCenter>> {
     const config = structure.pagination;
-    return this.costCenterService
-      .getBudgets(code, config)
-      .pipe(map((CostCenters) => this.filterSelected(CostCenters)));
+
+    return this.budgetService
+      .getCostCenters(code)
+      .pipe(map((costCenter) => this.filterSelected(costCenter)));
   }
 
   /**
@@ -42,15 +48,11 @@ export class BudgetCostCenterListService extends BaseOrganizationListService<
     pagination,
     sorts,
     values,
-  }: EntitiesModel<Budget>): EntitiesModel<Budget> {
+  }: EntitiesModel<CostCenter>): EntitiesModel<CostCenter> {
     return {
       pagination,
       sorts,
-      values: values.filter((value) => value.selected),
+      values: values.filter((value) => value.active),
     };
-  }
-
-  unassign(costCenterCode: string, costCenter: Budget) {
-    this.costCenterService.unassignBudget(costCenterCode, costCenter.code);
   }
 }

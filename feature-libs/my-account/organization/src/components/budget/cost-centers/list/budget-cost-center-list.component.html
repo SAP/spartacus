@@ -1,32 +1,18 @@
-<cx-view #view *ngIf="code$ | async as costCenterCode">
+<cx-view #view *ngIf="code$ | async as budgetCode">
   <h3>
     <a
       class="link"
       [routerLink]="
-        { cxRoute: 'costCenterDetails', params: { code: costCenterCode } }
-          | cxUrl
+        { cxRoute: 'budgetDetails', params: { code: budgetCode } } | cxUrl
       "
       (click)="view.toggle()"
     >
       <cx-icon type="CARET_LEFT"></cx-icon>
       {{ 'organization.back' | cxTranslate }}
     </a>
-    <span>{{ 'costCenter.budget.header' | cxTranslate }}</span>
+    <span>{{ 'budget.budgetCostCenterList.header' | cxTranslate }}</span>
   </h3>
 
-  <div class="actions">
-    <a
-      class="link"
-      [routerLink]="
-        {
-          cxRoute: 'costCenterAssignBudgets',
-          params: { code: costCenterCode }
-        } | cxUrl
-      "
-    >
-      {{ 'costCenter.budget.assign' | cxTranslate }}
-    </a>
-  </div>
   <section>
     <cx-table
       *ngIf="dataTable$ | async as dataTable; else emptyList"
@@ -41,26 +27,17 @@
     </p>
   </ng-template>
 
-  <ng-template cxOutletRef="table.costCenterBudgets.data.summary" let-model>
+  <ng-template cxOutletRef="table.budgetCostCenters.data.summary" let-model>
     <h3>{{ model.name }}</h3>
-    <small
-      >{{ model.code }} • {{ model.budget }} {{ model.currency.isocode }} •
-      {{ model.startDate | cxDate }} - {{ model.endDate | cxDate }}
-    </small>
+    <small>{{ model.code }} </small>
   </ng-template>
 
-  <ng-template cxOutletRef="table.costCenterBudgets.data.unassign" let-model>
-    <button class="button" (click)="unassign(model)">
-      <cx-icon type="CLOSE"></cx-icon>
-    </button>
-  </ng-template>
-
-  <ng-template cxOutletRef="table.costCenterBudgets.data.link" let-model>
+  <ng-template cxOutletRef="table.budgetCostCenters.data.link" let-model>
     <a
       class="link"
       [routerLink]="
         {
-          cxRoute: 'budgetDetails',
+          cxRoute: 'costCenterDetails',
           params: { code: model.code }
         } | cxUrl
       "

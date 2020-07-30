@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
 @Component({
@@ -22,12 +22,4 @@ export class BudgetCostCenterListComponent {
     protected route: ActivatedRoute,
     protected budgetCostCenterListService: BudgetCostCenterListService
   ) {}
-
-  unassign(model) {
-    this.code$
-      .pipe(take(1))
-      .subscribe((code) =>
-        this.budgetCostCenterListService.unassign(code, model)
-      );
-  }
 }
