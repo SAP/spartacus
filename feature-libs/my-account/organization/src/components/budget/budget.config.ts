@@ -58,7 +58,7 @@ export const budgetCmsConfig: CmsConfig = {
               canDeactivate: [SplitViewDeactivateGuard],
             },
             {
-              path: 'budgetCostCenters',
+              path: 'cost-centers',
               component: BudgetListComponent,
               canDeactivate: [SplitViewDeactivateGuard],
             },
