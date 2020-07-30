@@ -61,7 +61,7 @@ class MockFeature1Module {}
 })
 class MockDependencyModule {}
 
-fdescribe('FeatureModulesService', () => {
+describe('FeatureModulesService', () => {
   let service: FeatureModulesService;
 
   beforeEach(async () => {
