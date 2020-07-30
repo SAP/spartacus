@@ -92,7 +92,6 @@ describe('ProductPageEventModule', () => {
       let result: SearchPageResultsEvent;
       eventService
         .get(SearchPageResultsEvent)
-        .pipe(take(1))
         .subscribe((value) => (result = value));
 
       const pageVisitedEvent = createFrom(PageVisitedEvent, {
@@ -115,12 +114,9 @@ describe('ProductPageEventModule', () => {
         ...searchResults,
         freeTextSearch: 'new',
       });
-      expect(result).not.toEqual(
-        jasmine.objectContaining({ searchTerm: 'new' })
-      );
       expect(result).toEqual(
         jasmine.objectContaining({
-          searchTerm: searchResults.freeTextSearch,
+          searchTerm: 'new',
           numberOfResults: searchResults.pagination.totalResults,
         } as SearchPageResultsEvent)
       );
