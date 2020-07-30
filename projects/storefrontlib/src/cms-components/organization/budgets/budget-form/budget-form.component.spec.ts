@@ -17,7 +17,7 @@ import {
 
 import { BudgetFormComponent } from './budget-form.component';
 import createSpy = jasmine.createSpy;
-import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
+import { DateTimePickerModule } from '../../../../shared/components/date-time-picker/date-time-picker.module';
 import { By } from '@angular/platform-browser';
 import { FormErrorsComponent } from '@spartacus/storefront';
 
@@ -104,7 +104,7 @@ describe('BudgetFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
-        DatePickerModule,
+        DateTimePickerModule,
         ReactiveFormsModule,
         NgSelectModule,
         RouterTestingModule,

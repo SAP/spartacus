@@ -10,9 +10,6 @@ import {
  * Once #7154 is in place, we can start adding specific i18n labels. The organization labels
  * will then serve as a backup.
  */
-const breadcrumbs = {
-  organization: 'Organization',
-};
 
 export const organization = {
   organization: {
@@ -40,10 +37,11 @@ export const organization = {
     messages: {
       emptyList: 'The list is empty',
     },
+
+    breadcrumb: 'Organization',
   },
 
   // sub feature labels are added below
-  breadcrumbs,
   costCenter,
   costCenterAssignBudgets,
   userGroup,
