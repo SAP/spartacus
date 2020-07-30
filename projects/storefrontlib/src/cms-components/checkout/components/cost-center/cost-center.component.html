@@ -6,10 +6,10 @@
       }}</span>
       <select (change)="setCostCenter($event.target.value)">
         <option
-          *ngFor="let cc of costCenters"
-          value="{{ cc.code }}"
-          [selected]="(cartCostCenter$ | async) === cc.code"
-          >{{ cc.name }}</option
+          *ngFor="let costCenter of costCenters"
+          value="{{ costCenter.code }}"
+          [selected]="(cartCostCenter$ | async) === costCenter.code"
+          >{{ costCenter.name }}</option
         >
       </select>
     </div>

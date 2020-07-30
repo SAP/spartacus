@@ -22,7 +22,16 @@ export class CostCenterComponent {
 
   isAccountPayment$ = this.paymentTypeService.isAccountPayment();
 
-  cartCostCenterId: string;
+  costCenters$: Observable<
+    CostCenter[]
+  > = this.userCostCenterService.getActiveCostCenters().pipe(
+    filter((costCenters: CostCenter[]) => Boolean(costCenters)),
+    tap((costCenters: CostCenter[]) => {
+      if (!Boolean(this.costCenterId)) {
+        this.setCostCenter(costCenters[0].code);
+      }
+    })
+  );
 
   constructor(
     protected userCostCenterService: UserCostCenterService,
@@ -30,18 +39,7 @@ export class CostCenterComponent {
     protected paymentTypeService: PaymentTypeService
   ) {}
 
-  get costCenters$(): Observable<CostCenter[]> {
-    return this.userCostCenterService.getActiveCostCenters().pipe(
-      filter((costCenters) => costCenters && costCenters.length > 0),
-      tap((costCenters) => {
-        if (this.costCenterId === undefined) {
-          this.setCostCenter(costCenters[0].code);
-        }
-      })
-    );
-  }
-
-  setCostCenter(selectCostCenter: string): void {
+  protected setCostCenter(selectCostCenter: string): void {
     this.costCenterId = selectCostCenter;
     this.checkoutCostCenterService.setCostCenter(this.costCenterId);
   }

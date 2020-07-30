@@ -28,7 +28,9 @@
         [checked]="type.code == typeSelected"
       />
       <label class="" for="deliveryMode-{{ type.code }}">
-        <div class="">{{ type.displayName }}</div>
+        <div class="">
+          {{ 'paymentTypes.paymentType' | cxTranslate: { context: type.code } }}
+        </div>
       </label>
     </div>
   </ng-container>
