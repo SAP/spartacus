@@ -302,7 +302,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     it("shouldn't render conflict message if attribute has no conflicts.", () => {
       classUnderTest.attribute.hasConflicts = false;
       fixture.detectChanges();
-      
+
       ConfigComponentTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
