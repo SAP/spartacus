@@ -161,7 +161,7 @@ export class SearchBoxComponent {
   }
 
   getFocusedElementInSearch(): string {
-    let focusedElement: HTMLElement = <HTMLElement>(
+    const focusedElement: HTMLElement = <HTMLElement>(
       this.winRef.document.activeElement
     );
     if (this.getResultElements().includes(focusedElement)) {
