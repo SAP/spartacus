@@ -5,6 +5,9 @@ export const budget = {
   name: 'Name',
   currency: 'Currency',
   unit: 'Parent Unit',
+  costCenters: {
+    header: 'Cost Centers',
+  },
 
   messages: {
     enabled:
@@ -57,14 +60,7 @@ export const budget = {
       placeholder: 'Amount',
     },
   },
-  costCenter: {
+  budgetCostCenterList: {
     header: 'Cost Centers',
   },
-};
-
-export const costCenterAssignBudgets = {
-  name: 'Name',
-  code: 'Code',
-  amount: 'Amount',
-  dateRange: 'Start - End',
 };
