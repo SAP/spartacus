@@ -22,7 +22,7 @@ export class RouterEffects {
   );
 
   @Effect({ dispatch: false })
-  navigateByUrl$: Observable<any> = this.actions$.pipe(
+  navigateBuUrl$: Observable<any> = this.actions$.pipe(
     ofType(RoutingActions.ROUTER_GO_BY_URL),
     map((action: RoutingActions.RouteGoAction) => action.payload),
     tap((url) => {
