@@ -72,32 +72,6 @@ export class CartItemComponent implements OnInit {
   }
 
   /**
-   * Verifies whether the item has any issues.
-   *
-   * @returns {boolean} - whether there are any issues
-   */
-  hasIssues(): boolean {
-    return this.getNumberOfIssues() > 0;
-  }
-
-  /**
-   * Retrieves the number of issues at the cart item.
-   *
-   * @returns {number} - the number of issues at the cart item
-   */
-  getNumberOfIssues(): number {
-    let numberOfIssues = 0;
-    if (this.item.statusSummaryList) {
-      this.item.statusSummaryList.forEach((statusSummary) => {
-        if (statusSummary.status === 'ERROR') {
-          numberOfIssues = statusSummary.numberOfIssues;
-        }
-      });
-    }
-    return numberOfIssues;
-  }
-
-  /**
    * Verifies whether the configuration infos has any entries and the entry has any status.
    *
    * @returns {boolean} - whether the status of configuration infos entry has status
@@ -107,22 +81,5 @@ export class CartItemComponent implements OnInit {
       this.item.configurationInfos?.length > 0 &&
       this.item.configurationInfos[0]?.status !== 'NONE'
     );
-  }
-
-  /**
-   * Retrieves a certain issue message key depending on the number of issues for translation.
-   *
-   * @param numberOfErrors - number of errors
-   * @return {string} - the error message key
-   */
-  getIssueMessageKey(numberOfErrors: number): string {
-    if (numberOfErrors && numberOfErrors !== 0) {
-      if (numberOfErrors === 1) {
-        return 'cartItems.numberOfIssue';
-      } else {
-        return 'cartItems.numberOfIssues';
-      }
-    }
-    return '';
   }
 }
