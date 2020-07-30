@@ -136,8 +136,15 @@ describe('CmsComponentsService', () => {
   describe('getInjectors', () => {
     it('should call FeatureModulesService', () => {
       const featureModulesService = TestBed.inject(FeatureModulesService);
-      service.getInjectors('type');
-      expect(featureModulesService.getInjectors).toHaveBeenCalledWith('type');
+      service.getInjectors('feature');
+      expect(featureModulesService.getInjectors).toHaveBeenCalledWith(
+        'feature'
+      );
+    });
+    it('should not call FeatureModulesService if there is no such a feature', () => {
+      const featureModulesService = TestBed.inject(FeatureModulesService);
+      service.getInjectors('unknownType');
+      expect(featureModulesService.getInjectors).not.toHaveBeenCalled();
     });
   });
 });
