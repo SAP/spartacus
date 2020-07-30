@@ -93,10 +93,19 @@ export class CategoryViewPushEvent implements ProfileTagPushEvent {
   }
 }
 
+// TODO:#cds - check the class name and the `name` property
+export class BrandPageVisitedEvent {
+  name = 'BrandPageVisitedEvent';
+  data: { brandCode: string; brandName: string };
+  constructor(data: { brandCode: string; brandName: string }) {
+    this.data = data;
+  }
+}
+
 export class HomePageViewPushEvent implements ProfileTagPushEvent {
   name = 'HomePageViewed';
   data: any;
-  constructor(data?) {
+  constructor(data?: any) {
     this.data = data;
   }
 }
@@ -104,7 +113,7 @@ export class HomePageViewPushEvent implements ProfileTagPushEvent {
 export class OrderConfirmationPushEvent implements ProfileTagPushEvent {
   name = 'OrderConfirmationPageViewed';
   data: any;
-  constructor(data?) {
+  constructor(data?: any) {
     this.data = data;
   }
 }
@@ -112,7 +121,7 @@ export class OrderConfirmationPushEvent implements ProfileTagPushEvent {
 export class CartViewPushEvent implements ProfileTagPushEvent {
   name = 'CartPageViewed';
   data: any;
-  constructor(data?) {
+  constructor(data?: any) {
     this.data = data;
   }
 }

@@ -5,15 +5,26 @@ import {
   CategoryPageVisited,
   EventService,
   HomePageVisited,
-  SearchPageVisited,
   OrderConfirmationPageVisited,
   PageVisited,
   PersonalizationContextService,
   ProductDetailsPageVisited,
+  ProductSearchService,
+  SearchPageVisited,
 } from '@spartacus/core';
-import { merge, Observable, of } from 'rxjs';
-import { map, mapTo, skipWhile, withLatestFrom } from 'rxjs/operators';
+import { PageVisitedEvent } from '@spartacus/storefront';
+import { EMPTY, merge, Observable, of } from 'rxjs';
 import {
+  distinctUntilKeyChanged,
+  map,
+  mapTo,
+  skip,
+  skipWhile,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs/operators';
+import {
+  BrandPageVisitedEvent,
   CartChangedPushEvent,
   CartViewPushEvent,
   CategoryViewPushEvent,
@@ -27,10 +38,10 @@ import {
 
 /**
  * A service to convert spartacus events into profiletag push events that can be picked up and processed by profiletag.
- * The service observes the event service and the active cart service for suported events. These events are parsed into
+ * The service observes the event service and the active cart service for supported events. These events are parsed into
  * a profiletag compliant format and enriched by segments and actions from the latest personalization context.
  *
- * Currently suported events from the event service:
+ * Currently supported events from the event service:
  *  - CartPageVisited
  *  - CategoryPageVisited
  *  - HomePageVisited
@@ -39,7 +50,7 @@ import {
  *  - PageVisited
  *  - ProductDetailsPageVisited
  *
- * Currently suported events from the active cart service:
+ * Currently supported events from the active cart service:
  * - any event
  */
 @Injectable({
@@ -52,6 +63,7 @@ export class ProfileTagPushEventsService {
     this.searchResultsChanged(),
     this.homePageVisitedEvent(),
     this.cartPageVisitedEvent(),
+    this.buildBrandPageVisitedEvent(),
     this.navigatedEvent(),
     this.orderConfirmationPageVisited(),
     this.cartChanged()
@@ -60,7 +72,8 @@ export class ProfileTagPushEventsService {
   constructor(
     protected activeCartService: ActiveCartService,
     protected eventService: EventService,
-    protected personalizationContextService: PersonalizationContextService
+    protected personalizationContextService: PersonalizationContextService,
+    protected productSearchService: ProductSearchService
   ) {}
 
   /**
@@ -123,6 +136,7 @@ export class ProfileTagPushEventsService {
    */
   protected categoryPageVisited(): Observable<ProfileTagPushEvent> {
     return this.eventService.get(CategoryPageVisited).pipe(
+      distinctUntilKeyChanged('categoryCode'),
       map(
         (categoryPageVisited) =>
           new CategoryViewPushEvent({
@@ -142,6 +156,7 @@ export class ProfileTagPushEventsService {
    */
   protected searchResultsChanged(): Observable<ProfileTagPushEvent> {
     return this.eventService.get(SearchPageVisited).pipe(
+      distinctUntilKeyChanged('searchTerm'),
       map((searchEvent) => {
         return new KeywordSearchPushEvent({
           searchTerm: searchEvent.searchTerm,
@@ -201,6 +216,50 @@ export class ProfileTagPushEventsService {
     return this.eventService
       .get(CartPageVisited)
       .pipe(mapTo(new CartViewPushEvent()));
+  }
+
+  /**
+   * Listens to BrandPageVisitedEvent events, parses and pushes them to profiletag to pick them up further.
+   *
+   * @returns an observable emitting events that describe brand page visits in a profiltag compliant way
+   * @see CartPageVisited
+   * @see CartViewPushEvent
+   */
+  // TODO:#cds - add a test. If not sure how to test, please check `projects/storefrontlib/src/events/product/product-page-event.builder.spec.ts`
+  protected buildBrandPageVisitedEvent(): Observable<BrandPageVisitedEvent> {
+    const searchResults$ = this.productSearchService.getResults().pipe(
+      // skipping the initial value, and preventing emission of the previous search state
+      skip(1)
+    );
+
+    const brandPageVisitedEvent$ = this.eventService.get(PageVisitedEvent).pipe(
+      map((pageVisitedEvent) => ({
+        isBrandPage: pageVisitedEvent.semanticRoute === 'brand',
+        brandCode: pageVisitedEvent.context.id,
+      }))
+    );
+
+    return brandPageVisitedEvent$.pipe(
+      switchMap((pageEvent) => {
+        if (!pageEvent.isBrandPage) {
+          return EMPTY;
+        }
+
+        return searchResults$.pipe(
+          map(
+            (searchResults) =>
+              new BrandPageVisitedEvent({
+                brandCode: pageEvent.brandCode,
+                brandName: searchResults.breadcrumbs[0].facetValueName,
+              })
+          )
+        );
+      }),
+      distinctUntilKeyChanged(
+        'data',
+        (prev, curr) => prev.brandCode === curr.brandCode
+      )
+    );
   }
 
   /**
