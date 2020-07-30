@@ -32,7 +32,7 @@ interface ActionWithPayload extends Action {
   payload: any;
 }
 
-fdescribe('ProductPageEventModule', () => {
+describe('ProductPageEventModule', () => {
   let eventService: EventService;
   let actions$: Subject<ActionWithPayload>;
 
@@ -92,7 +92,6 @@ fdescribe('ProductPageEventModule', () => {
       let result: SearchPageResultsEvent;
       eventService
         .get(SearchPageResultsEvent)
-        // TODO:#events
         .pipe(take(1))
         .subscribe((value) => (result = value));
 
@@ -114,8 +113,11 @@ fdescribe('ProductPageEventModule', () => {
 
       getResultsBehavior.next({
         ...searchResults,
-        facets: [...searchResults.facets, { name: 'new' }],
+        freeTextSearch: 'new',
       });
+      expect(result).not.toEqual(
+        jasmine.objectContaining({ searchTerm: 'new' })
+      );
       expect(result).toEqual(
         jasmine.objectContaining({
           searchTerm: searchResults.freeTextSearch,
