@@ -1,4 +1,4 @@
-import { unitAssignApprovers, unitAssignRoles, units } from './units.i18n';
+import { unitAssignApprovers, unitAssignRoles, unit } from './units.i18n';
 import { costCenter, costCenterAssignBudgets } from './cost-center.i18n';
 import {
   userGroup,
@@ -32,6 +32,7 @@ export const organization = {
     create: 'Create {{name}}',
     edit: 'Edit details',
     save: 'Save {{name}}',
+    delete: 'Delete',
 
     manage: 'Manage',
 
@@ -53,7 +54,7 @@ export const organization = {
   breadcrumbs,
   costCenter,
   costCenterAssignBudgets,
-  units,
+  unit,
   unitAssignRoles,
   unitAssignApprovers,
   userGroup,

@@ -15,19 +15,19 @@ export class UnitAssignRolesComponent {
 
   readonly rolesMap = {
     customer: {
-      label: 'units.unitAssignRoles.b2bcustomergroup',
+      label: 'unit.unitAssignRoles.b2bcustomergroup',
       value: 'b2bcustomergroup',
     },
     approver: {
-      label: 'units.unitAssignRoles.b2bapprovergroup',
+      label: 'unit.unitAssignRoles.b2bapprovergroup',
       value: 'b2bapprovergroup',
     },
     manager: {
-      label: 'units.unitAssignRoles.b2bmanagergroup',
+      label: 'unit.unitAssignRoles.b2bmanagergroup',
       value: 'b2bmanagergroup',
     },
     admin: {
-      label: 'units.unitAssignRoles.b2badmingroup',
+      label: 'unit.unitAssignRoles.b2badmingroup',
       value: 'b2badmingroup',
     },
   };

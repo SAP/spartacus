@@ -4,7 +4,7 @@
       <div *ngIf="countries.length !== 0">
         <label aria-required="true">
           <span class="label-content required">{{
-            'units.unitAddressForm.country' | cxTranslate
+            'unit.unitAddressForm.country' | cxTranslate
           }}</span>
           <ng-select
             class="country-select"
@@ -14,7 +14,7 @@
             [items]="countries"
             bindLabel="name"
             bindValue="isocode"
-            placeholder="{{ 'units.unitAddressForm.selectOne' | cxTranslate }}"
+            placeholder="{{ 'unit.unitAddressForm.selectOne' | cxTranslate }}"
             (change)="countrySelected($event)"
           >
           </ng-select>
@@ -30,7 +30,7 @@
     <div *ngIf="titles.length !== 0">
       <label aria-required="true">
         <span class="label-content required">{{
-          'units.unitAddressForm.title' | cxTranslate
+          'unit.unitAddressForm.title' | cxTranslate
         }}</span>
         <ng-select
           formControlName="titleCode"
@@ -39,7 +39,7 @@
           [items]="titles"
           bindLabel="name"
           bindValue="code"
-          placeholder="{{ 'units.unitAddressForm.selectOne' | cxTranslate }}"
+          placeholder="{{ 'unit.unitAddressForm.selectOne' | cxTranslate }}"
         >
         </ng-select>
       </label>
@@ -49,14 +49,12 @@
   <div class="form-group">
     <label>
       <span class="label-content required">{{
-        'units.unitAddressForm.firstName.label' | cxTranslate
+        'unit.unitAddressForm.firstName' | cxTranslate
       }}</span>
       <input
         class="form-control"
         type="text"
-        placeholder="{{
-          'units.unitAddressForm.firstName.placeholder' | cxTranslate
-        }}"
+        placeholder="{{ 'unit.unitAddressForm.firstName' | cxTranslate }}"
         formControlName="firstName"
       />
       <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
@@ -65,14 +63,12 @@
   <div class="form-group">
     <label>
       <span class="label-content required">{{
-        'units.unitAddressForm.lastName.label' | cxTranslate
+        'unit.unitAddressForm.lastName' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
-        placeholder="{{
-          'units.unitAddressForm.lastName.placeholder' | cxTranslate
-        }}"
+        placeholder="{{ 'unit.unitAddressForm.lastName' | cxTranslate }}"
         formControlName="lastName"
       />
       <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
@@ -81,12 +77,12 @@
   <div class="form-group">
     <label>
       <span class="label-content required">{{
-        'units.unitAddressForm.address1' | cxTranslate
+        'unit.unitAddressForm.address1' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
-        placeholder="{{ 'units.unitAddressForm.streetAddress' | cxTranslate }}"
+        placeholder="{{ 'unit.unitAddressForm.streetAddress' | cxTranslate }}"
         formControlName="line1"
       />
       <cx-form-errors [control]="form.get('line1')"></cx-form-errors>
@@ -95,12 +91,12 @@
   <div class="form-group">
     <label>
       <span class="label-content">{{
-        'units.unitAddressForm.address2' | cxTranslate
+        'unit.unitAddressForm.address2' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
-        placeholder="{{ 'units.unitAddressForm.aptSuite' | cxTranslate }}"
+        placeholder="{{ 'unit.unitAddressForm.aptSuite' | cxTranslate }}"
         formControlName="line2"
       />
     </label>
@@ -108,14 +104,12 @@
   <div class="form-group">
     <label>
       <span class="label-content required">{{
-        'units.unitAddressForm.city.label' | cxTranslate
+        'unit.unitAddressForm.city' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
-        placeholder="{{
-          'units.unitAddressForm.city.placeholder' | cxTranslate
-        }}"
+        placeholder="{{ 'unit.unitAddressForm.city' | cxTranslate }}"
         formControlName="town"
       />
       <cx-form-errors [control]="form.get('town')"></cx-form-errors>
@@ -124,14 +118,12 @@
   <div class="form-group">
     <label>
       <span class="label-content required">{{
-        'units.unitAddressForm.zipCode.label' | cxTranslate
+        'unit.unitAddressForm.zipCode' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
-        placeholder="{{
-          'units.unitAddressForm.zipCode.placeholder' | cxTranslate
-        }}"
+        placeholder="{{ 'unit.unitAddressForm.zipCode' | cxTranslate }}"
         formControlName="postalCode"
       />
       <cx-form-errors [control]="form.get('postalCode')"></cx-form-errors>
@@ -142,7 +134,7 @@
       <div class="form-group col-md-6">
         <label aria-required="true">
           <span class="label-content required">{{
-            'units.unitAddressForm.state' | cxTranslate
+            'unit.unitAddressForm.state' | cxTranslate
           }}</span>
           <ng-select
             class="region-select"
@@ -152,7 +144,7 @@
             [items]="regions"
             bindLabel="{{ regions[0].name ? 'name' : 'isocode' }}"
             bindValue="{{ regions[0].name ? 'isocode' : 'region' }}"
-            placeholder="{{ 'units.unitAddressForm.selectOne' | cxTranslate }}"
+            placeholder="{{ 'unit.unitAddressForm.selectOne' | cxTranslate }}"
           >
           </ng-select>
           <cx-form-errors
@@ -165,14 +157,12 @@
   <div class="form-group">
     <label>
       <span class="label-content">{{
-        'units.unitAddressForm.phoneNumber.label' | cxTranslate
+        'unit.unitAddressForm.phoneNumber' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
-        placeholder="{{
-          'units.unitAddressForm.phoneNumber.placeholder' | cxTranslate
-        }}"
+        placeholder="{{ 'unit.unitAddressForm.phoneNumber' | cxTranslate }}"
         formControlName="phone"
       />
     </label>

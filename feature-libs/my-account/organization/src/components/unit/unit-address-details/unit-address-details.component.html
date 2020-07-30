@@ -13,7 +13,7 @@
         {{ 'organization.close' | cxTranslate }}
       </a>
       <span>{{
-        'units.unitAddressDetails.header'
+        'unit.unitAddressDetails.header'
           | cxTranslate
             : { name: orgUnitAddress.firstName + ' ' + orgUnitAddress.lastName }
       }}</span>
@@ -32,26 +32,26 @@
         {{ 'organization.edit' | cxTranslate }}
       </a>
       <a class="link" (click)="openModal(orgUnitAddress, confirmDeleteAddress)">
-        {{ 'units.unitAddressDetails.delete' | cxTranslate }}
+        {{ 'organization.delete' | cxTranslate }}
       </a>
     </div>
 
     <section>
       <div class="details">
         <div class="property">
-          <label>{{ 'units.unitAddressDetails.id' | cxTranslate }}</label>
+          <label>{{ 'unit.uid' | cxTranslate }}</label>
           <span class="value">
             {{ orgUnitAddress.id }}
           </span>
         </div>
         <div class="property">
-          <label>{{ 'units.unitAddressDetails.name' | cxTranslate }}</label>
+          <label>{{ 'unit.name' | cxTranslate }}</label>
           <span class="value">
             {{ orgUnitAddress.firstName }} {{ orgUnitAddress.lastName }}
           </span>
         </div>
         <div class="property">
-          <label>{{ 'units.unitAddressDetails.unit' | cxTranslate }}</label>
+          <label>{{ 'unit.unit' | cxTranslate }}</label>
           <span class="value">
             <a
               [routerLink]="
@@ -67,7 +67,7 @@
           </span>
         </div>
         <div class="property">
-          <label>{{ 'units.unitAddressDetails.details' | cxTranslate }}</label>
+          <label>{{ 'unit.details' | cxTranslate }}</label>
           <span class="value">
             {{ orgUnitAddress.formattedAddress }}
           </span>
@@ -82,10 +82,10 @@
 <ng-template #confirmDeleteAddress>
   <cx-confirm-modal
     [title]="
-      'units.unitManageAddresses.confirmDeleteAddress.title' | cxTranslate
+      'unit.unitManageAddresses.confirmDeleteAddress.title' | cxTranslate
     "
     [message]="
-      'units.unitManageAddresses.confirmDeleteAddress.message' | cxTranslate
+      'unit.unitManageAddresses.confirmDeleteAddress.message' | cxTranslate
     "
     (confirm)="deleteAddress()"
   ></cx-confirm-modal>

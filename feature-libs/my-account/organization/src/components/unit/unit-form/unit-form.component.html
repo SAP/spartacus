@@ -2,13 +2,13 @@
   <div class="form-group">
     <label>
       <span class="label-content required">{{
-        'units.orgUnitForm.name.label' | cxTranslate
+        'unit.name' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
         required
-        placeholder="{{ 'units.orgUnitForm.name.placeholder' | cxTranslate }}"
+        placeholder="{{ 'unit.name' | cxTranslate }}"
         formControlName="name"
       />
       <cx-form-errors [control]="form.get('name')"></cx-form-errors>
@@ -17,14 +17,12 @@
 
   <div class="form-group">
     <label>
-      <span class="label-content required">{{
-        'units.orgUnitForm.uid.label' | cxTranslate
-      }}</span>
+      <span class="label-content required">{{ 'unit.uid' | cxTranslate }}</span>
       <input
         class="form-control"
         type="text"
         required
-        placeholder="{{ 'units.orgUnitForm.uid.placeholder' | cxTranslate }}"
+        placeholder="{{ 'unit.uid' | cxTranslate }}"
         formControlName="uid"
       />
       <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
@@ -39,7 +37,7 @@
       <div *ngIf="approvalProcesses.length !== 0">
         <label aria-required="true">
           <span class="label-content required">{{
-            'units.orgUnitForm.approvalProcess.label' | cxTranslate
+            'unit.approvalProcess' | cxTranslate
           }}</span>
           <ng-select
             formControlName="code"
@@ -66,7 +64,7 @@
       <div *ngIf="businessUnits.length !== 0">
         <label aria-required="true">
           <span class="label-content required">{{
-            'units.orgUnitForm.parentOrgUnit.label' | cxTranslate
+            'unit.orgUnitForm.parentOrgUnit' | cxTranslate
           }}</span>
           <ng-select
             formControlName="uid"

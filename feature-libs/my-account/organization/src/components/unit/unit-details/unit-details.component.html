@@ -10,7 +10,7 @@
         {{ 'organization.close' | cxTranslate }}
       </a>
       <span>{{
-        'units.orgUnit.header' | cxTranslate: { code: orgUnit.uid }
+        'unit.orgUnit.header' | cxTranslate: { code: orgUnit.uid }
       }}</span>
     </h3>
 
@@ -32,28 +32,28 @@
     <section>
       <div class="details">
         <div class="property">
-          <label>{{ 'units.orgUnit.name' | cxTranslate }}</label>
+          <label>{{ 'unit.name' | cxTranslate }}</label>
           <span class="value">
             {{ orgUnit.name }}
           </span>
         </div>
 
         <div class="property">
-          <label>{{ 'units.orgUnit.uid' | cxTranslate }}</label>
+          <label>{{ 'unit.uid' | cxTranslate }}</label>
           <span class="value">
             {{ orgUnit.uid }}
           </span>
         </div>
 
         <div class="property">
-          <label>{{ 'units.orgUnit.approvalProcess' | cxTranslate }}</label>
+          <label>{{ 'unit.approvalProcess' | cxTranslate }}</label>
           <span class="value">
             {{ orgUnit.approvalProcess?.name }}
           </span>
         </div>
 
         <div class="property" *ngIf="orgUnit.parentOrgUnit">
-          <label>{{ 'units.orgUnit.parentUnit' | cxTranslate }}</label>
+          <label>{{ 'unit.parentUnit' | cxTranslate }}</label>
           <span class="value">
             <a
               [routerLink]="
@@ -80,7 +80,7 @@
               { cxRoute: 'orgUnitChildren', params: orgUnit } | cxUrl
             "
           >
-            {{ 'units.orgUnit.children' | cxTranslate }}
+            {{ 'unit.children' | cxTranslate }}
             <cx-icon type="CARET_RIGHT"></cx-icon>
           </a>
         </h4>
@@ -91,7 +91,7 @@
             class="link"
             [routerLink]="{ cxRoute: 'orgUnitUsers', params: orgUnit } | cxUrl"
           >
-            {{ 'units.orgUnit.users' | cxTranslate }}
+            {{ 'unit.users' | cxTranslate }}
             <cx-icon type="CARET_RIGHT"></cx-icon>
           </a>
         </h4>
@@ -104,7 +104,7 @@
               { cxRoute: 'orgUnitApprovers', params: orgUnit } | cxUrl
             "
           >
-            {{ 'units.orgUnit.approvers' | cxTranslate }}
+            {{ 'unit.approvers' | cxTranslate }}
             <cx-icon type="CARET_RIGHT"></cx-icon>
           </a>
         </h4>
@@ -117,7 +117,7 @@
               { cxRoute: 'orgUnitManageAddresses', params: orgUnit } | cxUrl
             "
           >
-            {{ 'units.orgUnit.shippingAddresses' | cxTranslate }}
+            {{ 'unit.shippingAddresses' | cxTranslate }}
             <cx-icon type="CARET_RIGHT"></cx-icon>
           </a>
         </h4>
@@ -130,7 +130,7 @@
               { cxRoute: 'orgUnitCostCenters', params: orgUnit } | cxUrl
             "
           >
-            {{ 'units.orgUnit.costCenters' | cxTranslate }}
+            {{ 'unit.costCenters' | cxTranslate }}
             <cx-icon type="CARET_RIGHT"></cx-icon>
           </a>
         </h4>
@@ -161,10 +161,10 @@
         </span>
         <p class="instruction">
           <ng-container *ngIf="orgUnit.active; else inactiveInstruction">
-            {{ 'units.messages.enabled' | cxTranslate }}
+            {{ 'unit.messages.enabled' | cxTranslate }}
           </ng-container>
           <ng-template #inactiveInstruction>
-            {{ 'units.messages.disabled' | cxTranslate }}
+            {{ 'unit.messages.disabled' | cxTranslate }}
           </ng-template>
         </p>
       </div>
@@ -177,8 +177,8 @@
 <ng-template #confirmDisable>
   <cx-confirm-modal
     *ngIf="orgUnit$ | async as orgUnit"
-    [title]="'units.orgUnit.confirmDeactivation.title' | cxTranslate"
-    [message]="'units.orgUnit.confirmDeactivation.message' | cxTranslate"
+    [title]="'unit.confirmDeactivation.title' | cxTranslate"
+    [message]="'unit.confirmDeactivation.message' | cxTranslate"
     (confirm)="update({ active: false })"
   ></cx-confirm-modal>
 </ng-template>

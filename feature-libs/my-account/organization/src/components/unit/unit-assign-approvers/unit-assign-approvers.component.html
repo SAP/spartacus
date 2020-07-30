@@ -11,7 +11,7 @@
       {{ 'organization.back' | cxTranslate }}
     </a>
     <span>{{
-      'units.unitAssignApprovers.header' | cxTranslate: { code: orgUnitCode }
+      'unit.unitAssignApprovers.header' | cxTranslate: { code: orgUnitCode }
     }}</span>
   </h3>
 
@@ -31,13 +31,13 @@
     <div class="instructions">
       <ul>
         <li>
-          {{ 'units.unitAssignApprovers.instructions.check' | cxTranslate }}
+          {{ 'unit.unitAssignApprovers.instructions.check' | cxTranslate }}
         </li>
         <li>
-          {{ 'units.unitAssignApprovers.instructions.uncheck' | cxTranslate }}
+          {{ 'unit.unitAssignApprovers.instructions.uncheck' | cxTranslate }}
         </li>
         <li>
-          {{ 'units.unitAssignApprovers.instructions.changes' | cxTranslate }}
+          {{ 'unit.unitAssignApprovers.instructions.changes' | cxTranslate }}
         </li>
       </ul>
       <a
@@ -46,7 +46,7 @@
           { cxRoute: 'orgUnitApprovers', params: { uid: orgUnitCode } } | cxUrl
         "
       >
-        {{ 'units.unitAssignApprovers.back' | cxTranslate }}
+        {{ 'unit.back' | cxTranslate }}
       </a>
     </div>
   </ng-container>

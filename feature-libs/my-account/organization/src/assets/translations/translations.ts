@@ -11,7 +11,7 @@ export const organizationTranslationChunksConfig: TranslationChunksConfig = {
     'breadcrumbs',
     'costCenter',
     'costCenterAssignBudget',
-    'units',
+    'unit',
     'unitAssignRoles',
     'unitAssignApprovers',
     'userGroup',

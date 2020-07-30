@@ -11,7 +11,7 @@
       {{ 'organization.back' | cxTranslate }}
     </a>
     <span>{{
-      'units.unitAssignRoles.header' | cxTranslate: { code: orgUnitCode }
+      'unit.unitAssignRoles.header' | cxTranslate: { code: orgUnitCode }
     }}</span>
   </h3>
 
@@ -30,12 +30,12 @@
     </section>
     <div class="instructions">
       <ul>
-        <li>{{ 'units.unitAssignRoles.instructions.check' | cxTranslate }}</li>
+        <li>{{ 'unit.unitAssignRoles.instructions.check' | cxTranslate }}</li>
         <li>
-          {{ 'units.unitAssignRoles.instructions.uncheck' | cxTranslate }}
+          {{ 'unit.unitAssignRoles.instructions.uncheck' | cxTranslate }}
         </li>
         <li>
-          {{ 'units.unitAssignRoles.instructions.changes' | cxTranslate }}
+          {{ 'unit.unitAssignRoles.instructions.changes' | cxTranslate }}
         </li>
       </ul>
       <a
@@ -44,7 +44,7 @@
           { cxRoute: 'orgUnitUsers', params: { uid: orgUnitCode } } | cxUrl
         "
       >
-        {{ 'units.unitAssignRoles.back' | cxTranslate }}
+        {{ 'unit.back' | cxTranslate }}
       </a>
     </div>
   </ng-container>
