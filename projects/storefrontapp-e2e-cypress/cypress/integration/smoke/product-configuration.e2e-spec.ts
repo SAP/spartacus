@@ -29,6 +29,7 @@ const VIDEO_SYSTEM = 'Video System';
 const AUDIO_SYSTEM = 'Audio System';
 const SOURCE_COMPONENTS = 'Source Components';
 const PROJECTOR = 'Projector';
+const PROJECTOR_SCREEN = 'Projection Screen';
 const FRONT_SPEAKERS = 'Front Speakers';
 const CENTER_SPEAKER = 'Center Speaker';
 const REAR_SPEAKER = 'Rear Speakers';
@@ -44,6 +45,7 @@ const CAMERA_SD_CARD = 'CAMERA_SD_CARD';
 const ROOM_SIZE = 'ROOM_SIZE';
 const CAMERA_FORMAT_PICTURES = 'CAMERA_FORMAT_PICTURES';
 const PROJECTOR_TYPE = 'PROJECTOR_TYPE';
+const VIDEO_SERVER = 'VIDEO_SERVER';
 const GAMING_CONSOLE = 'GAMING_CONSOLE';
 
 // List of attribute values
@@ -53,7 +55,8 @@ const SDHC = 'SDHC';
 const RAW = 'RAW';
 const PROJECTOR_LCD = 'PROJECTOR_LCD';
 const P5 = 'P5';
-const YES = 'YES';
+const VIDEO_SERVER_YES = 'VIDEO_SERVER_YES';
+const GAMING_CONSOLE_YES = 'GAMING_CONSOLE_YES';
 
 function goToConfigPage(configuratorType, product) {
   cy.visit(
@@ -90,7 +93,7 @@ context('Product Configuration', () => {
     cy.visit('/');
   });
 
-  describe('Navigate to Product Configuration Page', () => {
+  describe.skip('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
       productSearch.searchForProduct(testProduct);
       configuration.clickOnConfigureBtn();
@@ -125,7 +128,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Configure Product', () => {
+  describe.skip('Configure Product', () => {
     it.skip('Image Attribute Types - Single Selection', () => {
       goToConfigPage(configurator, testProductMultiLevel);
       configuration.isAttributeDisplayed(ROOM_SIZE, radioGroup);
@@ -146,7 +149,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Group Status', () => {
+  describe.skip('Group Status', () => {
     it('should set group status for single level product', () => {
       goToConfigPage(configurator, testProduct);
       configuration.isGroupMenuDisplayed();
@@ -298,7 +301,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Group Handling', () => {
+  describe.skip('Group Handling', () => {
     it('should navigate between groups', () => {
       goToConfigPage(configurator, testProduct);
       configuration.clickOnNextBtn(SPECIFICATION);
@@ -364,7 +367,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Order Confirmation and Order History', () => {
+  describe.skip('Order Confirmation and Order History', () => {
     it('Navigation to Overview Page for order confirmation and order history', () => {
       configuration.login();
       productSearch.searchForProduct(testProductMultiLevel);
@@ -377,14 +380,23 @@ context('Product Configuration', () => {
     });
   });
 
-  describe.skip('Conflict Solver', () => {
+  describe('Conflict Solver', () => {
     it('Run through the conflict solving process', () => {
       goToConfigPage(configurator, testProductMultiLevel);
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
       configuration.clickOnPreviousBtn(GENERAL);
       configuration.clickOnGroup(3);
-      configuration.selectAttribute(GAMING_CONSOLE, radioGroup, YES);
+      configuration.selectAttribute(VIDEO_SERVER, radioGroup, VIDEO_SERVER_YES);
+      configuration.selectAttribute(GAMING_CONSOLE, radioGroup, GAMING_CONSOLE_YES);
+      configuration.clickOnPreviousBtn(SUBWOOFER);
+      configuration.clickOnPreviousBtn(REAR_SPEAKER);
+      configuration.clickOnPreviousBtn(CENTER_SPEAKER);
+      configuration.clickOnPreviousBtn(FRONT_SPEAKERS);
+      configuration.clickOnPreviousBtn(PROJECTOR_SCREEN);
+      configuration.clickOnPreviousBtn(PROJECTOR);
+      configuration.clickOnPreviousBtn(GENERAL);
+      configuration.clickOnPreviousBtn('Conflict for Gaming Console');
     });
   });
 });
