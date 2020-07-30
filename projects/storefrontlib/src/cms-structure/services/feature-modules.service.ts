@@ -276,7 +276,7 @@ export class FeatureModulesService implements OnDestroy {
 
   ngOnDestroy(): void {
     // clean up all initialized features
-    merge(...this.features.values()).subscribe((featureInstance) =>
+    merge(...Array.from(this.features.values())).subscribe((featureInstance) =>
       featureInstance.moduleRef?.destroy()
     );
 
