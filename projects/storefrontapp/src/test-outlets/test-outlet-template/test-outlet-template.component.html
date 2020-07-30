@@ -23,11 +23,3 @@
     {{ model.sections$ | async | json }}
   </p>
 </ng-template>
-
-<!-- Setup for outlets on change rerender test -->
-
-<a [routerLink]="['/test/outlet/template2']">Link to `test/outlet/template2`</a>
-
-<ng-template cxOutletRef="LandingPage2Template" cxOutletPos="before">
-  <h1>TestOutletComponent</h1>
-</ng-template>
