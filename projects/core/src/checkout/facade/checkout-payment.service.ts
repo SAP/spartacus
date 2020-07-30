@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../auth/facade/auth.service';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { CardType, PaymentDetails } from '../../model/cart.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';

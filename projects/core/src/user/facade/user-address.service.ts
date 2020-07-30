@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { Address, Country, Region } from '../../model/address.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';

@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { AuthService } from '../../auth/facade/auth.service';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { Cart } from '../../model/cart.model';
 import { Order } from '../../model/order.model';

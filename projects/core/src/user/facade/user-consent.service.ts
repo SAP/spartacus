@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { iif, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { Consent, ConsentTemplate } from '../../model/consent.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import {

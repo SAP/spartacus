@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import {

@@ -8,7 +8,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { Address, AddressValidation } from '../../model/address.model';
 import { DeliveryMode } from '../../model/order.model';

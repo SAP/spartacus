@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { AuthService } from '../../../auth/facade/auth.service';
+import { AuthService } from '../../../auth/user-auth/facade/auth.service';
 import * as fromReducers from '../../../cart/store/reducers/index';
 import { Cart, SaveCartResult } from '../../../model/cart.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';

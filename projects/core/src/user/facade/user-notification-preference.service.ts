@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AuthService } from '../../auth/facade/auth.service';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { NotificationPreference } from '../../model/notification-preference.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { getProcessLoadingFactory } from '../../process/store/selectors/process.selectors';

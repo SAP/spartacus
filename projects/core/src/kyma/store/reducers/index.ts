@@ -5,7 +5,7 @@ import {
   ActionReducerMap,
   MetaReducer,
 } from '@ngrx/store';
-import { AuthActions } from '../../../auth/store/actions/index';
+import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import { OpenIdToken } from '../../models/kyma-token-types.model';
 import { KymaState, OPEN_ID_TOKEN_DATA } from '../kyma-state';

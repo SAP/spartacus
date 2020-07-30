@@ -1,4 +1,4 @@
-import { UserToken } from '../../auth/models/token-types.model';
+import { UserToken } from '../../auth/user-auth/models/user-token.model';
 
 export interface OpenIdToken extends UserToken {
   id_token: string;
