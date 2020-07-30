@@ -9,7 +9,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
 import { ConfigFormUpdateEvent } from '../../../config-form/config-form.event';
-import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../../service/config-ui-key-generator';
 import { ConfigUtilsService } from '../../../service/config-utils.service';
 @Component({
   selector: 'cx-config-attribute-checkbox-list',
@@ -65,16 +65,14 @@ export class ConfigAttributeCheckBoxListComponent implements OnInit {
     attribute: Configurator.Attribute,
     value: string
   ): string {
-    return ConfigUIKeyGeneratorService.createAttributeValueIdForConfigurator(
+    return ConfigUIKeyGenerator.createAttributeValueIdForConfigurator(
       attribute,
       value
     );
   }
 
   createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfigUIKeyGeneratorService.createAttributeIdForConfigurator(
-      attribute
-    );
+    return ConfigUIKeyGenerator.createAttributeIdForConfigurator(attribute);
   }
 
   createValueUiKey(
@@ -82,10 +80,6 @@ export class ConfigAttributeCheckBoxListComponent implements OnInit {
     attributeId: string,
     valueId: string
   ): string {
-    return ConfigUIKeyGeneratorService.createValueUiKey(
-      prefix,
-      attributeId,
-      valueId
-    );
+    return ConfigUIKeyGenerator.createValueUiKey(prefix, attributeId, valueId);
   }
 }

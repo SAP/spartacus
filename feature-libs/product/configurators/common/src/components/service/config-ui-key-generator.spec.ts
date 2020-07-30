@@ -1,5 +1,5 @@
 import { Configurator } from '@spartacus/core';
-import { ConfigUIKeyGeneratorService } from './config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from './config-ui-key-generator';
 
 describe('ConfigUIKeyGeneratorService', () => {
   const currentAttribute: Configurator.Attribute = {
@@ -9,29 +9,25 @@ describe('ConfigUIKeyGeneratorService', () => {
 
   it('should generate value key', () => {
     expect(
-      ConfigUIKeyGeneratorService.createValueUiKey(
-        'prefix',
-        'attributeId',
-        'valueId'
-      )
+      ConfigUIKeyGenerator.createValueUiKey('prefix', 'attributeId', 'valueId')
     ).toBe('cx-config--prefix--attributeId--valueId');
   });
 
   it('should generate attribute key', () => {
     expect(
-      ConfigUIKeyGeneratorService.createAttributeUiKey('prefix', 'attributeId')
+      ConfigUIKeyGenerator.createAttributeUiKey('prefix', 'attributeId')
     ).toBe('cx-config--prefix--attributeId');
   });
 
   it('should return only attribute id for aria-labelledby', () => {
     expect(
-      ConfigUIKeyGeneratorService.createAriaLabelledBy('prefix', 'attributeId')
+      ConfigUIKeyGenerator.createAriaLabelledBy('prefix', 'attributeId')
     ).toEqual('cx-config--label--attributeId');
   });
 
   it("should return only attribute id for aria-labelledby because value id is 'undefined'", () => {
     expect(
-      ConfigUIKeyGeneratorService.createAriaLabelledBy(
+      ConfigUIKeyGenerator.createAriaLabelledBy(
         'prefix',
         'attributeId',
         undefined
@@ -41,17 +37,13 @@ describe('ConfigUIKeyGeneratorService', () => {
 
   it("should return only attribute id for aria-labelledby because value id is 'null'", () => {
     expect(
-      ConfigUIKeyGeneratorService.createAriaLabelledBy(
-        'prefix',
-        'attributeId',
-        null
-      )
+      ConfigUIKeyGenerator.createAriaLabelledBy('prefix', 'attributeId', null)
     ).toEqual('cx-config--label--attributeId');
   });
 
   it('should return attribute id, value id  and without quantity for aria-labelledby', () => {
     expect(
-      ConfigUIKeyGeneratorService.createAriaLabelledBy(
+      ConfigUIKeyGenerator.createAriaLabelledBy(
         'prefix',
         'attributeId',
         'valueId'
@@ -63,7 +55,7 @@ describe('ConfigUIKeyGeneratorService', () => {
 
   it('should return attribute id, value id  and with undefined quantity for aria-labelledby', () => {
     expect(
-      ConfigUIKeyGeneratorService.createAriaLabelledBy(
+      ConfigUIKeyGenerator.createAriaLabelledBy(
         'prefix',
         'attributeId',
         'valueId',
@@ -76,7 +68,7 @@ describe('ConfigUIKeyGeneratorService', () => {
 
   it("should return attribute id, value id  and with quantity equals 'null' for aria-labelledby", () => {
     expect(
-      ConfigUIKeyGeneratorService.createAriaLabelledBy(
+      ConfigUIKeyGenerator.createAriaLabelledBy(
         'prefix',
         'attributeId',
         'valueId',
@@ -89,7 +81,7 @@ describe('ConfigUIKeyGeneratorService', () => {
 
   it("should return attribute id, value id  and with quantity equals 'true' for aria-labelledby", () => {
     expect(
-      ConfigUIKeyGeneratorService.createAriaLabelledBy(
+      ConfigUIKeyGenerator.createAriaLabelledBy(
         'prefix',
         'attributeId',
         'valueId',
@@ -102,7 +94,7 @@ describe('ConfigUIKeyGeneratorService', () => {
 
   it("should return attribute id, value id  and with quantity equals 'false' for aria-labelledby", () => {
     expect(
-      ConfigUIKeyGeneratorService.createAriaLabelledBy(
+      ConfigUIKeyGenerator.createAriaLabelledBy(
         'prefix',
         'attributeId',
         'valueId',
@@ -115,15 +107,13 @@ describe('ConfigUIKeyGeneratorService', () => {
 
   it('should generate attribute id for configurator', () => {
     expect(
-      ConfigUIKeyGeneratorService.createAttributeIdForConfigurator(
-        currentAttribute
-      )
+      ConfigUIKeyGenerator.createAttributeIdForConfigurator(currentAttribute)
     ).toBe('cx-config--radioGroup--attributeId');
   });
 
   it('should generate value id for configurator', () => {
     expect(
-      ConfigUIKeyGeneratorService.createAttributeValueIdForConfigurator(
+      ConfigUIKeyGenerator.createAttributeValueIdForConfigurator(
         currentAttribute,
         'valueId'
       )

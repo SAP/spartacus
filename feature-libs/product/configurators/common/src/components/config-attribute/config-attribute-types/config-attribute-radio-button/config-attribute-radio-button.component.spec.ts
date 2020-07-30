@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
-import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../../service/config-ui-key-generator';
 import { ConfigAttributeRadioButtonComponent } from './config-attribute-radio-button.component';
 
 describe('ConfigAttributeRadioButtonComponent', () => {
@@ -13,7 +13,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ConfigAttributeRadioButtonComponent],
       imports: [ReactiveFormsModule],
-      providers: [ConfigUIKeyGeneratorService],
+      providers: [ConfigUIKeyGenerator],
     })
       .overrideComponent(ConfigAttributeRadioButtonComponent, {
         set: {

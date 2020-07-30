@@ -45,7 +45,7 @@ export class ConfigFormComponent implements OnInit {
 
   activeLanguage$: Observable<string> = this.languageService.getActive();
 
-  UiType = Configurator.UiType;
+  uiType = Configurator.UiType;
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,

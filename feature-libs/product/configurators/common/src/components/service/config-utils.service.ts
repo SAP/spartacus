@@ -12,7 +12,7 @@ import { map, take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ConfigUtilsService {
-  constructor(private configuratorGroupsService: ConfiguratorGroupsService) {}
+  constructor(protected configuratorGroupsService: ConfiguratorGroupsService) {}
 
   /**
    * Does the configuration belong to a cart entry, or has the group been visited already?

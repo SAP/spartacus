@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Configurator, LanguageService } from '@spartacus/core';
 import { of } from 'rxjs';
-import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../../service/config-ui-key-generator';
 import { ConfigAttributeNumericInputFieldComponent } from './config-attribute-numeric-input-field.component';
 
 @Pipe({
@@ -50,7 +50,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       ],
       imports: [ReactiveFormsModule],
       providers: [
-        ConfigUIKeyGeneratorService,
+        ConfigUIKeyGenerator,
         { provide: LanguageService, useValue: mockLanguageService },
       ],
     })

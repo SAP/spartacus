@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Configurator } from '@spartacus/core';
-import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../../service/config-ui-key-generator';
 import { ConfigAttributeSingleSelectionImageComponent } from './config-attribute-single-selection-image.component';
 
 describe('ConfigAttributeSingleSelectionImageComponent', () => {
@@ -16,7 +16,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ConfigAttributeSingleSelectionImageComponent],
       imports: [ReactiveFormsModule, NgSelectModule],
-      providers: [ConfigUIKeyGeneratorService],
+      providers: [ConfigUIKeyGenerator],
     })
       .overrideComponent(ConfigAttributeSingleSelectionImageComponent, {
         set: {

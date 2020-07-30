@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Configurator } from '@spartacus/core';
-import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../../service/config-ui-key-generator';
 import { ConfigAttributeDropDownComponent } from './config-attribute-drop-down.component';
 
 describe('ConfigAttributeDropDownComponent', () => {
@@ -14,7 +14,7 @@ describe('ConfigAttributeDropDownComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ConfigAttributeDropDownComponent],
       imports: [ReactiveFormsModule, NgSelectModule],
-      providers: [ConfigUIKeyGeneratorService],
+      providers: [ConfigUIKeyGenerator],
     })
       .overrideComponent(ConfigAttributeDropDownComponent, {
         set: {

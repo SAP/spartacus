@@ -1,9 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { Configurator, GenericConfigurator } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../service/config-ui-key-generator';
 import { ConfigUtilsService } from '../../service/config-utils.service';
 
 @Component({
@@ -11,7 +16,7 @@ import { ConfigUtilsService } from '../../service/config-utils.service';
   templateUrl: './config-attribute-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigAttributeHeaderComponent {
+export class ConfigAttributeHeaderComponent implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() owner: GenericConfigurator.Owner;
   @Input() groupId: string;
@@ -19,12 +24,13 @@ export class ConfigAttributeHeaderComponent {
   constructor(protected configUtils: ConfigUtilsService) {}
 
   iconTypes = ICON_TYPE;
+  showRequiredMessageForDomainAttribute$: Observable<boolean>;
 
-  /**
-   * Show message that indicates that attribute is required in case attribute has a domain of values
-   */
-  showRequiredMessageForDomainAttribute(): Observable<boolean> {
-    return this.configUtils
+  ngOnInit(): void {
+    /**
+     * Show message that indicates that attribute is required in case attribute has a domain of values
+     */
+    this.showRequiredMessageForDomainAttribute$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
       .pipe(
         map((result) => (result ? this.isRequiredAttributeWithDomain() : false))
@@ -32,10 +38,7 @@ export class ConfigAttributeHeaderComponent {
   }
 
   createAttributeUiKey(prefix: string, attributeId: string): string {
-    return ConfigUIKeyGeneratorService.createAttributeUiKey(
-      prefix,
-      attributeId
-    );
+    return ConfigUIKeyGenerator.createAttributeUiKey(prefix, attributeId);
   }
 
   /**

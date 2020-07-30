@@ -4,7 +4,7 @@ import { Configurator } from '@spartacus/core';
  * Service to provide unique keys for elements on the UI and for sending to configurator
  */
 
-export class ConfigUIKeyGeneratorService {
+export class ConfigUIKeyGenerator {
   private static SEPERATOR = '--';
   private static PREFIX = 'cx-config';
   private static PREFIX_LABEL = 'label';
@@ -23,8 +23,8 @@ export class ConfigUIKeyGeneratorService {
     valueId: string
   ): string {
     return (
-      ConfigUIKeyGeneratorService.createAttributeUiKey(prefix, attributeId) +
-      ConfigUIKeyGeneratorService.SEPERATOR +
+      ConfigUIKeyGenerator.createAttributeUiKey(prefix, attributeId) +
+      ConfigUIKeyGenerator.SEPERATOR +
       valueId
     );
   }
@@ -38,7 +38,7 @@ export class ConfigUIKeyGeneratorService {
     currentAttribute: Configurator.Attribute,
     value: string
   ): string {
-    return ConfigUIKeyGeneratorService.createValueUiKey(
+    return ConfigUIKeyGenerator.createValueUiKey(
       currentAttribute.uiType,
       currentAttribute.name,
       value
@@ -52,10 +52,10 @@ export class ConfigUIKeyGeneratorService {
    */
   static createAttributeUiKey(prefix: string, attributeId: string): string {
     return (
-      ConfigUIKeyGeneratorService.PREFIX +
-      ConfigUIKeyGeneratorService.SEPERATOR +
+      ConfigUIKeyGenerator.PREFIX +
+      ConfigUIKeyGenerator.SEPERATOR +
       prefix +
-      ConfigUIKeyGeneratorService.SEPERATOR +
+      ConfigUIKeyGenerator.SEPERATOR +
       attributeId
     );
   }
@@ -68,7 +68,7 @@ export class ConfigUIKeyGeneratorService {
     currentAttribute: Configurator.Attribute
   ): string {
     if (currentAttribute) {
-      return ConfigUIKeyGeneratorService.createAttributeUiKey(
+      return ConfigUIKeyGenerator.createAttributeUiKey(
         currentAttribute.uiType,
         currentAttribute.name
       );
@@ -88,32 +88,32 @@ export class ConfigUIKeyGeneratorService {
     valueId?: string,
     hasQuantity?: boolean
   ): string {
-    let attributeUiKey = ConfigUIKeyGeneratorService.createAttributeUiKey(
-      ConfigUIKeyGeneratorService.PREFIX_LABEL,
+    let attributeUiKey = ConfigUIKeyGenerator.createAttributeUiKey(
+      ConfigUIKeyGenerator.PREFIX_LABEL,
       attributeId
     );
     if (valueId) {
       attributeUiKey +=
         ' ' +
-        ConfigUIKeyGeneratorService.createAttributeUiKey(prefix, attributeId) +
-        ConfigUIKeyGeneratorService.SEPERATOR +
+        ConfigUIKeyGenerator.createAttributeUiKey(prefix, attributeId) +
+        ConfigUIKeyGenerator.SEPERATOR +
         valueId +
         ' ';
       if (typeof hasQuantity === 'boolean' && !hasQuantity) {
         attributeUiKey +=
-          ConfigUIKeyGeneratorService.createAttributeUiKey(
-            ConfigUIKeyGeneratorService.PREFIX_DDLB_OPTION_PRICE_VALUE,
+          ConfigUIKeyGenerator.createAttributeUiKey(
+            ConfigUIKeyGenerator.PREFIX_DDLB_OPTION_PRICE_VALUE,
             attributeId
           ) +
-          ConfigUIKeyGeneratorService.SEPERATOR +
+          ConfigUIKeyGenerator.SEPERATOR +
           valueId;
       } else {
         attributeUiKey +=
-          ConfigUIKeyGeneratorService.createAttributeUiKey(
-            ConfigUIKeyGeneratorService.PREFIX_OPTION_PRICE_VALUE,
+          ConfigUIKeyGenerator.createAttributeUiKey(
+            ConfigUIKeyGenerator.PREFIX_OPTION_PRICE_VALUE,
             attributeId
           ) +
-          ConfigUIKeyGeneratorService.SEPERATOR +
+          ConfigUIKeyGenerator.SEPERATOR +
           valueId;
       }
     }

@@ -111,6 +111,7 @@ describe('ConfigAttributeFooterComponent', () => {
 
   it('should render a required message because user input is an empty string.', () => {
     currentAttribute.userInput = '  ';
+    classUnderTest.ngOnInit();
     fixture.detectChanges();
     ConfigComponentTestUtilsService.expectElementPresent(
       expect,
@@ -121,6 +122,7 @@ describe('ConfigAttributeFooterComponent', () => {
 
   it("shouldn't render a required message if attribute is not required.", () => {
     currentAttribute.required = false;
+    classUnderTest.ngOnInit();
     fixture.detectChanges();
     ConfigComponentTestUtilsService.expectElementNotPresent(
       expect,
@@ -131,6 +133,7 @@ describe('ConfigAttributeFooterComponent', () => {
 
   it("shouldn't render a required message because user input is set.", () => {
     currentAttribute.userInput = 'test';
+    classUnderTest.ngOnInit();
     fixture.detectChanges();
     ConfigComponentTestUtilsService.expectElementNotPresent(
       expect,

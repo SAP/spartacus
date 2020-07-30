@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator } from '@spartacus/core';
-import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../../service/config-ui-key-generator';
 @Component({
   selector: 'cx-config-attribute-read-only',
   templateUrl: './config-attribute-read-only.component.html',
@@ -11,9 +11,7 @@ export class ConfigAttributeReadOnlyComponent {
   @Input() group: String;
 
   createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfigUIKeyGeneratorService.createAttributeIdForConfigurator(
-      attribute
-    );
+    return ConfigUIKeyGenerator.createAttributeIdForConfigurator(attribute);
   }
 
   createValueUiKey(
@@ -21,10 +19,6 @@ export class ConfigAttributeReadOnlyComponent {
     attributeId: string,
     valueId: string
   ): string {
-    return ConfigUIKeyGeneratorService.createValueUiKey(
-      prefix,
-      attributeId,
-      valueId
-    );
+    return ConfigUIKeyGenerator.createValueUiKey(prefix, attributeId, valueId);
   }
 }

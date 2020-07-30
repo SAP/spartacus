@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
 import { ConfigComponentTestUtilsService } from '../../../../shared/testing/config-component-test-utils.service';
-import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../../service/config-ui-key-generator';
 import { ConfigAttributeReadOnlyComponent } from './config-attribute-read-only.component';
 
 describe('ConfigAttributeReadOnlyComponent', () => {
@@ -27,7 +27,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ConfigAttributeReadOnlyComponent],
       imports: [ReactiveFormsModule],
-      providers: [ConfigUIKeyGeneratorService],
+      providers: [ConfigUIKeyGenerator],
     })
       .overrideComponent(ConfigAttributeReadOnlyComponent, {
         set: {

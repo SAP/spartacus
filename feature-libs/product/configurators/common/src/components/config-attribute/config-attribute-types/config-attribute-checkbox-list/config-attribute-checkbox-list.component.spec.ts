@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfiguratorGroupsService } from '@spartacus/core';
 import { Configurator } from 'projects/core/src/model/configurator.model';
-import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../../service/config-ui-key-generator';
 import { ConfigUtilsService } from '../../../service/config-utils.service';
 import { ConfigAttributeCheckBoxListComponent } from './config-attribute-checkbox-list.component';
 
@@ -20,7 +20,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       declarations: [ConfigAttributeCheckBoxListComponent],
       imports: [ReactiveFormsModule, NgSelectModule],
       providers: [
-        ConfigUIKeyGeneratorService,
+        ConfigUIKeyGenerator,
         ConfigUtilsService,
         {
           provide: ConfiguratorGroupsService,

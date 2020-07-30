@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Configurator, GenericConfigurator } from '@spartacus/core';
-import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../../service/config-ui-key-generator';
 import { ConfigAttributeInputFieldComponent } from './config-attribute-input-field.component';
 
 describe('ConfigAttributeInputFieldComponent', () => {
@@ -14,7 +14,7 @@ describe('ConfigAttributeInputFieldComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ConfigAttributeInputFieldComponent],
       imports: [ReactiveFormsModule],
-      providers: [ConfigUIKeyGeneratorService],
+      providers: [ConfigUIKeyGenerator],
     })
       .overrideComponent(ConfigAttributeInputFieldComponent, {
         set: {

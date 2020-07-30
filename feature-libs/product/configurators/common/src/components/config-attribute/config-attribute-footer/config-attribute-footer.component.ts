@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { Configurator, GenericConfigurator } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -10,7 +15,7 @@ import { ConfigUtilsService } from '../../service/config-utils.service';
   templateUrl: './config-attribute-footer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfigAttributeFooterComponent {
+export class ConfigAttributeFooterComponent implements OnInit {
   @Input() attribute: Configurator.Attribute;
   @Input() owner: GenericConfigurator.Owner;
   @Input() groupId: string;
@@ -18,13 +23,14 @@ export class ConfigAttributeFooterComponent {
   constructor(protected configUtils: ConfigUtilsService) {}
 
   iconType = ICON_TYPE;
+  showRequiredMessageForUserInput$: Observable<boolean>;
 
-  /**
-   * Show message that indicates that attribute is required in case attribute is a
-   * free input field
-   */
-  showRequiredMessageForUserInput(): Observable<boolean> {
-    return this.configUtils
+  ngOnInit(): void {
+    /**
+     * Show message that indicates that attribute is required in case attribute is a
+     * free input field
+     */
+    this.showRequiredMessageForUserInput$ = this.configUtils
       .isCartEntryOrGroupVisited(this.owner, this.groupId)
       .pipe(map((result) => (result ? this.needsUserInputMessage() : false)));
   }

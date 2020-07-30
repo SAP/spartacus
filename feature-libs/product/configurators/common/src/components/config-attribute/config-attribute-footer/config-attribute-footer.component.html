@@ -1,5 +1,5 @@
 <div
-  *ngIf="showRequiredMessageForUserInput() | async"
+  *ngIf="showRequiredMessageForUserInput$ | async"
   class="cx-config-attribute-footer-required-error-msg"
 >
   <cx-icon [type]="iconType.ERROR"></cx-icon>

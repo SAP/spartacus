@@ -11,7 +11,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
 import { ConfigFormUpdateEvent } from '../../../config-form/config-form.event';
-import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../../service/config-ui-key-generator';
 import { ConfigAttributeNumericInputFieldService } from './config-attribute-numeric-input-field.component.service';
 
 @Component({
@@ -82,9 +82,7 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
   }
 
   createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfigUIKeyGeneratorService.createAttributeIdForConfigurator(
-      attribute
-    );
+    return ConfigUIKeyGenerator.createAttributeIdForConfigurator(attribute);
   }
 
   createAriaLabelledBy(
@@ -93,7 +91,7 @@ export class ConfigAttributeNumericInputFieldComponent implements OnInit {
     valueId?: string,
     hasQuantity?: boolean
   ): string {
-    return ConfigUIKeyGeneratorService.createAriaLabelledBy(
+    return ConfigUIKeyGenerator.createAriaLabelledBy(
       prefix,
       attributeId,
       valueId,

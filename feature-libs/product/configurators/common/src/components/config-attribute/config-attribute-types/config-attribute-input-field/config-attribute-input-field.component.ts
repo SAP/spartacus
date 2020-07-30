@@ -9,7 +9,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Configurator, GenericConfigurator } from '@spartacus/core';
 import { ConfigFormUpdateEvent } from '../../../config-form/config-form.event';
-import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../../service/config-ui-key-generator';
 
 @Component({
   selector: 'cx-config-attribute-input-field',
@@ -55,9 +55,7 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
   }
 
   createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfigUIKeyGeneratorService.createAttributeIdForConfigurator(
-      attribute
-    );
+    return ConfigUIKeyGenerator.createAttributeIdForConfigurator(attribute);
   }
 
   createAriaLabelledBy(
@@ -66,7 +64,7 @@ export class ConfigAttributeInputFieldComponent implements OnInit {
     valueId?: string,
     hasQuantity?: boolean
   ): string {
-    return ConfigUIKeyGeneratorService.createAriaLabelledBy(
+    return ConfigUIKeyGenerator.createAriaLabelledBy(
       prefix,
       attributeId,
       valueId,

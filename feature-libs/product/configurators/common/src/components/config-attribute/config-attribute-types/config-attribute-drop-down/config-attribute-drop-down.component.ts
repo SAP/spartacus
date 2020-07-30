@@ -9,7 +9,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Configurator } from '@spartacus/core';
 import { ConfigFormUpdateEvent } from '../../../config-form/config-form.event';
-import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../../service/config-ui-key-generator';
 @Component({
   selector: 'cx-config-attribute-drop-down',
   templateUrl: './config-attribute-drop-down.component.html',
@@ -43,8 +43,6 @@ export class ConfigAttributeDropDownComponent implements OnInit {
   }
 
   createAttributeIdForConfigurator(attribute: Configurator.Attribute): string {
-    return ConfigUIKeyGeneratorService.createAttributeIdForConfigurator(
-      attribute
-    );
+    return ConfigUIKeyGenerator.createAttributeIdForConfigurator(attribute);
   }
 }

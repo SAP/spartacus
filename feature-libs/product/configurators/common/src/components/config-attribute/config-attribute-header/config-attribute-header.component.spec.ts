@@ -12,7 +12,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfigComponentTestUtilsService } from '../../../shared/testing/config-component-test-utils.service';
-import { ConfigUIKeyGeneratorService } from '../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../service/config-ui-key-generator';
 import { ConfigUtilsService } from '../../service/config-utils.service';
 import { ConfigAttributeHeaderComponent } from './config-attribute-header.component';
 
@@ -62,7 +62,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       imports: [I18nTestingModule, IconModule],
       declarations: [ConfigAttributeHeaderComponent],
       providers: [
-        ConfigUIKeyGeneratorService,
+        ConfigUIKeyGenerator,
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         { provide: ConfigUtilsService, useClass: MockConfigUtilsService },
       ],
@@ -193,6 +193,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   it('should render a required message if attribute has been set, yet.', () => {
     classUnderTest.attribute.required = true;
     classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+    classUnderTest.ngOnInit();
     fixture.detectChanges();
     ConfigComponentTestUtilsService.expectElementPresent(
       expect,

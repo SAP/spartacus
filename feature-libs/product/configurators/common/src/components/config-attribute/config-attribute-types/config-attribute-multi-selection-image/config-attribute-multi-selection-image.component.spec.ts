@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Configurator, ConfiguratorGroupsService } from '@spartacus/core';
-import { ConfigUIKeyGeneratorService } from '../../../service/config-ui-key-generator.service';
+import { ConfigUIKeyGenerator } from '../../../service/config-ui-key-generator';
 import { ConfigUtilsService } from '../../../service/config-utils.service';
 import { ConfigAttributeMultiSelectionImageComponent } from './config-attribute-multi-selection-image.component';
 class MockGroupService {}
@@ -19,7 +19,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       declarations: [ConfigAttributeMultiSelectionImageComponent],
       imports: [ReactiveFormsModule, NgSelectModule],
       providers: [
-        ConfigUIKeyGeneratorService,
+        ConfigUIKeyGenerator,
         ConfigUtilsService,
         {
           provide: ConfiguratorGroupsService,
