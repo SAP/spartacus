@@ -78,11 +78,11 @@ export const permissionTableConfig: TableConfig = {
       {
         breakpoint: BREAKPOINT.lg,
         headers: [
-          { key: 'code' },
+          { key: 'code', sortCode: 'byName' },
           { key: 'orderApprovalPermissionType' },
           { key: 'threshold' },
           { key: 'periodRange' },
-          { key: 'orgUnit' },
+          { key: 'orgUnit', sortCode: 'byUnitName' },
         ],
       },
     ],

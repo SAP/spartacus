@@ -1,8 +1,7 @@
 export const permission = {
   header: 'Purchase limits',
   disabled: '(disabled)',
-  code: 'Code',
-  name: 'Name',
+  code: 'Name',
   orderApprovalPermissionType: 'Type',
   threshold: 'Threshold',
   periodRange: 'Period',

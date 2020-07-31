@@ -8,6 +8,7 @@ cx-permission-list {
     }
     td {
       &.name,
+      &.code,
       &.unit {
         .disabled {
           display: flex;
