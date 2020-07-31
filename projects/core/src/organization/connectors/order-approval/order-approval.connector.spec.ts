@@ -1,11 +1,14 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import {
+  OrderApprovalDecision,
+  OrderApprovalDecisionValue,
+} from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
 import { B2BSearchConfig } from '../../model/search-config';
 import { OrderApprovalAdapter } from './order-approval.adapter';
 import { OrderApprovalConnector } from './order-approval.connector';
 import createSpy = jasmine.createSpy;
-import { OrderApprovalDecision } from '@spartacus/core';
 
 const userId = 'userId';
 const orderApprovalCode = 'orderApprovalCode';
@@ -15,7 +18,7 @@ const orderApproval = {
 };
 
 const orderApprvalDecision: OrderApprovalDecision = {
-  decision: 'APPROVE',
+  decision: OrderApprovalDecisionValue.APPROVE,
   comment: 'yeah',
 };
 

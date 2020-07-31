@@ -1,6 +1,9 @@
 import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { OrderApprovalDecision } from 'projects/core/src/model/order-approval.model';
+import {
+  OrderApprovalDecision,
+  OrderApprovalDecisionValue,
+} from 'projects/core/src/model/order-approval.model';
 import { OccConfig } from '../../../config/occ-config';
 import { Occ } from '../../../occ-models/occ.models';
 import { OccOrderApprovalDecisionNormalizer } from './occ-order-approval-decision-normalizer';
@@ -18,11 +21,11 @@ describe('OrderApprovalDecisionNormalizer', () => {
   let service: OccOrderApprovalDecisionNormalizer;
 
   const orderApprovalDecision: Occ.OrderApprovalDecision = {
-    decision: 'APPROVE',
+    decision: Occ.OrderApprovalDecisionValue.APPROVE,
   };
 
   const convertedOrderApprovalDecision: OrderApprovalDecision = {
-    decision: 'APPROVE',
+    decision: OrderApprovalDecisionValue.APPROVE,
   };
 
   beforeEach(() => {

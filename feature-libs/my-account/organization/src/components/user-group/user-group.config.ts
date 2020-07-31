@@ -5,14 +5,14 @@ import {
   TableConfig,
 } from '@spartacus/storefront';
 import { OrganizationTableType } from '../shared/organization.model';
-import { UserGroupAssignUsersComponent } from './users/assign/user-group-assign-user.component';
 import { UserGroupCreateComponent } from './create/user-group-create.component';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
 import { UserGroupEditComponent } from './edit/user-group-edit.component';
 import { UserGroupListComponent } from './list/user-group-list.component';
-import { UserGroupUserListComponent } from './users/list/user-group-user-list.component';
-import { UserGroupPermissionListComponent } from './permissions/list/user-group-permission-list.component';
 import { UserGroupAssignPermissionsComponent } from './permissions/assign/user-group-assign-permission.component';
+import { UserGroupPermissionListComponent } from './permissions/list/user-group-permission-list.component';
+import { UserGroupAssignUsersComponent } from './users/assign/user-group-assign-user.component';
+import { UserGroupUserListComponent } from './users/list/user-group-user-list.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -114,12 +114,10 @@ export function userGroupTableConfigFactory(): TableConfig {
 export const userGroupTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.USER_GROUP]: [
-      // TODO: consider cascading from smallest size
       {
         headers: [{ key: 'name' }],
         pagination: {
           sort: 'byName',
-          // pageSize: 2,
         },
       },
       {
@@ -145,7 +143,7 @@ export const userGroupTableConfig: TableConfig = {
         },
       },
     ],
-    [OrganizationTableType.USER_GROUP_ASSIGN_USER]: [
+    [OrganizationTableType.USER_GROUP_ASSIGN_USERS]: [
       {
         pagination: {
           sort: 'byName',

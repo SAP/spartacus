@@ -44,6 +44,7 @@ export const organization = {
       title: 'Disable Budget',
       message: 'Are you sure you want to disable this budget?',
     },
+    localTimeDisclaimer: 'Note: All times are local.',
   },
   budgetForm: {
     create: 'Create Budget',
@@ -476,5 +477,35 @@ export const organization = {
     addresses: 'Addresses',
     address: 'Address',
     children: 'Children',
+  },
+  orderApproval: {
+    back: 'Back To List',
+    showForm_APPROVE: 'Approve Order...',
+    showForm_REJECT: 'Reject Order...',
+    form: {
+      title_APPROVE: 'Approve order {{orderCode}} totalling {{orderTotal}}',
+      title_REJECT: 'Reject order {{orderCode}} totalling {{orderTotal}}',
+      submit_APPROVE: 'Approve',
+      submit_REJECT: 'Reject',
+      cancel: 'Cancel',
+      comment_APPROVE: {
+        label: 'Comment (optional, maximum 255 characters)',
+        placeholder: '',
+      },
+      comment_REJECT: {
+        label: 'Comment (maximum 255 characters)',
+        placeholder: '',
+      },
+    },
+  },
+  orderApprovalList: {
+    orderCode: 'Order #',
+    POCode: 'PO #',
+    placedBy: 'Placed by',
+    date: 'Date',
+    status: 'Status',
+    total: 'Total',
+    none: 'None',
+    emptyList: 'There are no orders to approve at this time.',
   },
 };

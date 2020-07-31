@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CmsService } from '../../cms/facade/cms.service';
 import { BreadcrumbMeta } from '../../cms/model/page.model';
-import { PageBreadcrumbResolver } from '../../cms/page/page.resolvers';
 import { ContentPageMetaResolver } from '../../cms/page/content-page-meta.resolver';
+import { PageBreadcrumbResolver } from '../../cms/page/page.resolvers';
+import { TranslationService } from '../../i18n/translation.service';
+import { SemanticPathService } from '../../routing/configurable-routes/url-translation/semantic-path.service';
 
 /**
  * Resolves the page data for Organization Pages.
@@ -16,12 +19,18 @@ import { ContentPageMetaResolver } from '../../cms/page/content-page-meta.resolv
 @Injectable({
   providedIn: 'root',
 })
-export class OrganizationMetaResolver extends ContentPageMetaResolver
+export class OrganizationPageMetaResolver extends ContentPageMetaResolver
   implements PageBreadcrumbResolver {
   pageTemplate = 'CompanyPageTemplate';
-  protected ORGANIZATION_ROOT_PATH = 'organization';
-  protected ORGANIZATION_TRANSLATION_KEY = 'breadcrumbs.organization';
+  protected ORGANIZATION_TRANSLATION_KEY = 'organization.breadcrumb';
 
+  constructor(
+    protected cms: CmsService,
+    protected translation: TranslationService,
+    protected semanticPath: SemanticPathService
+  ) {
+    super(cms, translation);
+  }
   /**
    * @override
    * @returns {Observable<BreadcrumbMeta[]>} containing the localized label as well as the link for both home and organization breadcrumbs
@@ -35,7 +44,7 @@ export class OrganizationMetaResolver extends ContentPageMetaResolver
         breadcrumb.concat([
           {
             label: organizationLabel,
-            link: `/${this.ORGANIZATION_ROOT_PATH}`,
+            link: this.semanticPath.get('organization'),
           },
         ])
       )

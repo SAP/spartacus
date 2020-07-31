@@ -1,1 +1,1 @@
-export * from './organization-meta.resolver';
+export * from './organization-page-meta.resolver';

@@ -50,6 +50,8 @@ import {
   BudgetDetailsModule,
   BudgetEditModule,
   BudgetListModule,
+  OrderApprovalDetailsModule,
+  OrderApprovalListModule,
   UnitAddressCreateModule,
   UnitAddressDetailsModule,
   UnitAddressEditModule,
@@ -167,6 +169,8 @@ import { WishListModule } from './wish-list/wish-list.module';
     UserAssignApproversModule,
     UserUserGroupsModule,
     UserAssignUserGroupsModule,
+    OrderApprovalDetailsModule,
+    OrderApprovalListModule,
   ],
 })
 export class CmsLibModule {}
