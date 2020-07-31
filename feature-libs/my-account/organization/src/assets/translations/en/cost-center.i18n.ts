@@ -26,7 +26,7 @@ export const costCenter = {
   },
 };
 
-export const costCenterAssignBudget = {
+export const costCenterAssignBudgets = {
   name: 'Name',
   code: 'Code',
   amount: 'Amount',

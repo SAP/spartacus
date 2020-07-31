@@ -40,15 +40,14 @@ const mockOrgUnits: B2BUnitNode[] = [
 ];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnits = createSpy('loadOrgUnits').and.returnValue(of(mockOrgUnits));
+  loadList = createSpy('loadList').and.returnValue(of(mockOrgUnits));
   getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
     of(mockOrgUnits)
   );
-  loadOrgUnit = createSpy('loadOrgUnit');
+  load = createSpy('load');
   get = createSpy('get').and.returnValue(of(mockOrgUnit));
   getApprovalProcesses = createSpy('getApprovalProcesses');
   update = createSpy('update');
-  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 const mockRouterState = {
@@ -144,7 +143,7 @@ describe('UnitEditComponent', () => {
         })
         .unsubscribe();
       expect(routingService.getRouterState).toHaveBeenCalledWith();
-      expect(orgUnitsService.loadOrgUnit).toHaveBeenCalledWith(code);
+      expect(orgUnitsService.load).toHaveBeenCalledWith(code);
       expect(orgUnitsService.get).toHaveBeenCalledWith(code);
       expect(orgUnit).toEqual(mockOrgUnit);
     });

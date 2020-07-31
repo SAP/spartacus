@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-
 import {
   Budget,
   Currency,
@@ -53,7 +52,7 @@ export class BudgetFormComponent extends AbstractFormComponent
 
   ngOnInit() {
     this.currencies$ = this.currencyService.getAll();
-    this.orgUnitService.loadOrgUnitNodes();
+    this.orgUnitService.loadList();
     this.businessUnits$ = this.orgUnitService.getActiveUnitList();
     if (this.budgetData && Object.keys(this.budgetData).length !== 0) {
       this.form.patchValue(this.budgetData);

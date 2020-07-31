@@ -17,7 +17,7 @@ import {
 
 import { BudgetFormComponent } from './budget-form.component';
 import createSpy = jasmine.createSpy;
-import { DatePickerModule } from '../../../../shared/components/date-picker/date-picker.module';
+import { DateTimePickerModule } from '../../../../shared/components/date-time-picker/date-time-picker.module';
 import { By } from '@angular/platform-browser';
 import { FormErrorsComponent } from '@spartacus/storefront';
 
@@ -58,11 +58,10 @@ const mockOrgUnits: B2BUnitNode[] = [
 ];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnits = createSpy('loadOrgUnits');
+  loadList = createSpy('loadList');
   getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
     of(mockOrgUnits)
   );
-  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 class MockBudgetService implements Partial<BudgetService> {
@@ -105,7 +104,7 @@ describe('BudgetFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
-        DatePickerModule,
+        DateTimePickerModule,
         ReactiveFormsModule,
         NgSelectModule,
         RouterTestingModule,
@@ -153,7 +152,7 @@ describe('BudgetFormComponent', () => {
           businessUnits = value;
         })
         .unsubscribe();
-      expect(orgUnitService.loadOrgUnitNodes).toHaveBeenCalledWith();
+      expect(orgUnitService.loadList).toHaveBeenCalledWith();
       expect(orgUnitService.getActiveUnitList).toHaveBeenCalledWith();
       expect(businessUnits).toEqual(mockOrgUnits);
     });

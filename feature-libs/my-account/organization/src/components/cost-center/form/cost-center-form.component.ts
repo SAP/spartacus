@@ -27,6 +27,6 @@ export class CostCenterFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.orgUnitService.loadOrgUnitNodes();
+    this.orgUnitService.loadList();
   }
 }

@@ -33,11 +33,10 @@ const mockOrgUnits: B2BUnitNode[] = [
 ];
 
 class MockOrgUnitService implements Partial<OrgUnitService> {
-  loadOrgUnits = createSpy('loadOrgUnits');
+  loadList = createSpy('loadList');
   getActiveUnitList = createSpy('getActiveUnitList').and.returnValue(
     of(mockOrgUnits)
   );
-  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
 }
 
 const mockCurrencies: Currency[] = [
@@ -48,7 +47,7 @@ const mockActiveCurr = new BehaviorSubject('USD');
 
 class MockCurrencyService implements Partial<CurrencyService> {
   getAll = jasmine.createSpy('getAll').and.returnValue(of(mockCurrencies));
-  loadOrgUnitNodes = jasmine.createSpy('loadOrgUnitNodes');
+  loadList = jasmine.createSpy('loadList');
   getActive(): Observable<string> {
     return mockActiveCurr;
   }
