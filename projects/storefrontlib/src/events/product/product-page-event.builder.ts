@@ -9,9 +9,9 @@ import { EMPTY, Observable } from 'rxjs';
 import { filter, map, skip, switchMap, take } from 'rxjs/operators';
 import { PageVisitedEvent } from '../page/page.events';
 import {
-  CategoryPageResultsEvent,
-  ProductDetailsPageEvent,
-  SearchPageResultsEvent,
+  CategoryPageResultsVisitedEvent,
+  ProductDetailsPageVisitedEvent,
+  SearchPageResultsVisitedEvent,
 } from './product-page.events';
 
 @Injectable({
@@ -28,21 +28,21 @@ export class ProductPageEventBuilder {
 
   protected register(): void {
     this.eventService.register(
-      SearchPageResultsEvent,
-      this.buildSearchPageResultsEvent()
+      SearchPageResultsVisitedEvent,
+      this.buildSearchPageResultsVisitedEvent()
     );
     this.eventService.register(
-      ProductDetailsPageEvent,
-      this.buildProductDetailsPageEvent()
+      ProductDetailsPageVisitedEvent,
+      this.buildProductDetailsPageVisitedEvent()
     );
     this.eventService.register(
-      CategoryPageResultsEvent,
-      this.buildCategoryResultsPageEvent()
+      CategoryPageResultsVisitedEvent,
+      this.buildCategoryResultsPageVisitedEvent()
     );
   }
 
-  protected buildProductDetailsPageEvent(): Observable<
-    ProductDetailsPageEvent
+  protected buildProductDetailsPageVisitedEvent(): Observable<
+    ProductDetailsPageVisitedEvent
   > {
     return this.eventService.get(PageVisitedEvent).pipe(
       filter(
@@ -54,7 +54,7 @@ export class ProductPageEventBuilder {
           filter((product) => Boolean(product)),
           take(1),
           map((product) =>
-            createFrom(ProductDetailsPageEvent, {
+            createFrom(ProductDetailsPageVisitedEvent, {
               categories: product.categories,
               code: product.code,
               name: product.name,
@@ -66,8 +66,8 @@ export class ProductPageEventBuilder {
     );
   }
 
-  protected buildCategoryResultsPageEvent(): Observable<
-    CategoryPageResultsEvent
+  protected buildCategoryResultsPageVisitedEvent(): Observable<
+    CategoryPageResultsVisitedEvent
   > {
     const searchResults$ = this.productSearchService.getResults().pipe(
       // skipping the initial value, and preventing emission of the previous search state
@@ -95,14 +95,16 @@ export class ProductPageEventBuilder {
             categoryName: searchResults.breadcrumbs[0].facetValueName,
           })),
           map((categoryPage) =>
-            createFrom(CategoryPageResultsEvent, categoryPage)
+            createFrom(CategoryPageResultsVisitedEvent, categoryPage)
           )
         );
       })
     );
   }
 
-  protected buildSearchPageResultsEvent(): Observable<SearchPageResultsEvent> {
+  protected buildSearchPageResultsVisitedEvent(): Observable<
+    SearchPageResultsVisitedEvent
+  > {
     const searchResults$ = this.productSearchService.getResults().pipe(
       // skipping the initial value, and preventing emission of the previous search state
       skip(1),
@@ -110,7 +112,7 @@ export class ProductPageEventBuilder {
         searchTerm: searchResults.freeTextSearch,
         numberOfResults: searchResults.pagination.totalResults,
       })),
-      map((searchPage) => createFrom(SearchPageResultsEvent, searchPage))
+      map((searchPage) => createFrom(SearchPageResultsVisitedEvent, searchPage))
     );
 
     const searchPageVisitedEvent$ = this.eventService
