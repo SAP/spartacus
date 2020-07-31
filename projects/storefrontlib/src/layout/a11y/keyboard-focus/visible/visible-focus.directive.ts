@@ -7,7 +7,7 @@ import { VisibleFocusConfig } from '../keyboard-focus.model';
  * when the moused is used to focus an element. As soon as the keyboard
  * is used, the class is removed.
  *
- * This feature must be explicitly enabled with the `disableVisibleFocus` config.
+ * This feature must be explicitly enabled with the `disableMouseFocus` config.
  *
  * The appearance of the visual focus depends on the CSS implementation to
  * begin with. Spartacus styles add a blue border around each focusable element.
@@ -17,51 +17,32 @@ import { VisibleFocusConfig } from '../keyboard-focus.model';
 @Directive() // selector: '[cxVisibleFocus]'
 export class VisibleFocusDirective extends BaseFocusDirective {
   protected defaultConfig: VisibleFocusConfig = {
-    disableVisibleFocus: true,
     disableMouseFocus: true,
   };
 
   // @Input('cxVisibleFocus')
   protected config: VisibleFocusConfig;
 
-  /** controls a polyfill class for the lacking focus-visible feature */
-  /**
-   * @deprecated use `disableVisibleFocus` instead
-   */
+  /** Controls a css class to hide focus visible CSS rules */
   @HostBinding('class.mouse-focus') mouseFocus = false;
-  /**
-   * The `hide-visible-focus` hides the visual focus for keyboard users.
-   */
-  @HostBinding('class.hide-visible-focus') disableVisibleFocus = false;
 
   @HostListener('mousedown') handleMousedown() {
     if (this.shouldFocusVisible) {
-      this.disableVisibleFocus = true;
       this.mouseFocus = true;
     }
   }
 
   @HostListener('keydown', ['$event']) handleKeydown(event: KeyboardEvent) {
     if (this.shouldFocusVisible) {
-      this.disableVisibleFocus = !this.isNavigating(event);
-      this.mouseFocus = this.disableVisibleFocus;
+      this.mouseFocus = !this.isNavigating(event);
     }
   }
 
   /**
    * Indicates whether the configurations setup to disable visual focus.
-   *
-   * @deprecated will be refactored to `shouldDisableVisibleFocus` with 3.0
    */
   protected get shouldFocusVisible(): boolean {
-    return this.shouldDisableVisibleFocus;
-  }
-
-  /**
-   * Indicates whether the configurations setup to disable visual focus.
-   */
-  protected get shouldDisableVisibleFocus() {
-    return this.config?.disableVisibleFocus || this.config?.disableMouseFocus;
+    return this.config?.disableMouseFocus;
   }
 
   /**

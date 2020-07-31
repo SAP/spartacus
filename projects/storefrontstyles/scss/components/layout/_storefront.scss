@@ -26,8 +26,6 @@
   }
 
   // prevents visible focus when the UI is not used by keyboard.
-  .hide-visible-focus,
-  // deprecated, use .hide-visible-focus instead
   .mouse-focus {
     :focus,
     .ng-select-focused {
