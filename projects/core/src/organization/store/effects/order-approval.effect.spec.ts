@@ -7,8 +7,9 @@ import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
 import {
-  OrderApprovalDecision,
   OrderApproval,
+  OrderApprovalDecision,
+  OrderApprovalDecisionValue,
 } from '../../../model/order-approval.model';
 import { defaultOccOrganizationConfig } from '../../../occ/adapters/organization/default-occ-organization-config';
 import { OccConfig } from '../../../occ/config/occ-config';
@@ -26,7 +27,7 @@ const orderApproval: OrderApproval = {
 };
 
 const orderApprovalDecision: OrderApprovalDecision = {
-  decision: 'APPROVE',
+  decision: OrderApprovalDecisionValue.APPROVE,
   comment: 'yeah',
 };
 
