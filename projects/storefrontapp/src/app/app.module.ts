@@ -55,7 +55,7 @@ if (environment.b2b) {
 
     ConfigModule.withConfig({
       direction: {
-        // mode: DirectionMode.RTL,
+        // default: DirectionMode.RTL,
         detect: true,
         rtlLanguages: ['de'],
       } as LayoutDirection,

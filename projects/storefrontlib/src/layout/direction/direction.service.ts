@@ -29,10 +29,7 @@ export class DirectionService implements OnDestroy {
     if (config?.detect) {
       this.detect(config);
     } else {
-      this.addDirection(
-        this.winRef.document.documentElement,
-        this.getDirection(config)
-      );
+      this.addDirection(this.winRef.document.documentElement, config?.default);
     }
   }
 
@@ -63,8 +60,10 @@ export class DirectionService implements OnDestroy {
    * <html dir="ltr">
    * ```
    */
-  addDirection(el: HTMLElement, direction?: DirectionMode): void {
-    el.dir = direction;
+  addDirection(el: HTMLElement, direction: DirectionMode): void {
+    if (direction) {
+      el.dir = direction;
+    }
   }
 
   /**
@@ -86,7 +85,7 @@ export class DirectionService implements OnDestroy {
     if (languageIsoCode && config?.ltrLanguages?.includes(languageIsoCode)) {
       return DirectionMode.LTR;
     }
-    return config?.mode || DirectionMode.LTR;
+    return config?.default;
   }
 
   ngOnDestroy(): void {

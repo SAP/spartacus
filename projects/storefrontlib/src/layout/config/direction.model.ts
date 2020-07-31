@@ -31,9 +31,10 @@ export enum DirectionMode {
  */
 export interface LayoutDirection {
   /**
-   * The direction mode is used to set the default direction for the global HTML.
+   * The default direction mode is used to set the default direction. This can be used for all languages,
+   * but also serves in detect mode as a fallback for languages that which are not listed in `rtlLanguages` or `ltrLanguages`.
    */
-  mode?: DirectionMode;
+  default?: DirectionMode;
 
   /**
    * Detects the direction based on the active language and the configured list of `rtl` vs `ltr` languages.
