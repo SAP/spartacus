@@ -62,7 +62,8 @@ const GAMING_CONSOLE_YES = 'GAMING_CONSOLE_YES';
 const CONFLICT_FOR_GAMING_CONSOLE = 'Conflict for Gaming Console';
 
 // Conflict message
-const Conflict_msg_gaming_console = 'Gaming console cannot be selected with LCD projector';
+const Conflict_msg_gaming_console =
+  'Gaming console cannot be selected with LCD projector';
 
 function goToConfigPage(configuratorType, product) {
   cy.visit(
@@ -394,7 +395,11 @@ context('Product Configuration', () => {
       configuration.clickOnPreviousBtn(GENERAL);
       configuration.clickOnGroup(3);
       configuration.selectAttribute(VIDEO_SERVER, radioGroup, VIDEO_SERVER_YES);
-      configuration.selectAttribute(GAMING_CONSOLE, radioGroup, GAMING_CONSOLE_YES);
+      configuration.selectAttribute(
+        GAMING_CONSOLE,
+        radioGroup,
+        GAMING_CONSOLE_YES
+      );
       configuration.clickOnPreviousBtn(SUBWOOFER);
       configuration.clickOnPreviousBtn(REAR_SPEAKER);
       configuration.clickOnPreviousBtn(CENTER_SPEAKER);
