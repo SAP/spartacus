@@ -78,6 +78,6 @@ export const userAssignPermissions = {
 
 export const userAssignUserGroups = {
   name: 'Name',
-  uid: 'UID',
+  uid: 'Code',
   orgUnit: 'Unit',
 };
