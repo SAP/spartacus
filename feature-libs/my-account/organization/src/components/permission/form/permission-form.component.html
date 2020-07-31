@@ -16,6 +16,7 @@
           bindLabel="name"
           bindValue="code"
           [readonly]="editMode"
+          (change)="onTypeSelect($event)"
         >
         </ng-select>
         <cx-form-errors
@@ -106,19 +107,20 @@
       </label>
     </div>
   </ng-container>
-  <div class="form-group" *ngIf="form.get('threshold')">
-    <label>
-      <span class="label-content required">{{
-        'permission.threshold' | cxTranslate
-      }}</span>
-      <input
-        class="form-control"
-        type="number"
-        required
-        placeholder="{{ 'permission.threshold' | cxTranslate }}"
-        formControlName="threshold"
-      />
-      <cx-form-errors [control]="form.get('threshold')"></cx-form-errors>
-    </label>
-  </div>
-</ng-container>
+  <ng-container *ngIf="form.get('threshold')">
+    <div class="form-group">
+      <label>
+        <span class="label-content required">{{
+          'permission.threshold' | cxTranslate
+        }}</span>
+        <input
+          class="form-control"
+          type="number"
+          required
+          placeholder="{{ 'permission.threshold' | cxTranslate }}"
+          formControlName="threshold"
+        />
+        <cx-form-errors [control]="form.get('threshold')"></cx-form-errors>
+      </label>
+    </div> </ng-container
+></ng-container>

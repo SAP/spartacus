@@ -15,6 +15,7 @@ import {
   Period,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { PermissionFormService } from './permission-form.service';
 
 @Component({
   selector: 'cx-permission-form',
@@ -27,6 +28,10 @@ export class PermissionFormComponent implements OnInit {
    */
   @Input() form: FormGroup;
 
+  /**
+   * Property used to recognize if form is on create or edit state.
+   * Value of this property is used to mark permission type field as readonly.
+   */
   @Input() editMode?: boolean;
 
   units$: Observable<B2BUnitNode[]> = this.orgUnitService.getList();
@@ -38,11 +43,16 @@ export class PermissionFormComponent implements OnInit {
 
   constructor(
     protected permissionService: PermissionService,
+    protected permissionFormService: PermissionFormService,
     protected currencyService: CurrencyService,
     protected orgUnitService: OrgUnitService
   ) {}
 
   ngOnInit(): void {
     this.orgUnitService.loadList();
+  }
+
+  onTypeSelect(type: OrderApprovalPermissionType): void {
+    this.permissionFormService.adjustForm(this.form, type);
   }
 }
