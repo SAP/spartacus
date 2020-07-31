@@ -1,27 +1,23 @@
 import { Component } from '@angular/core';
 import { OrgUnitService, RoutingService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { UnitAddressFormService } from '../unit-address-form/unit-address-form.service';
-import { ActivatedRoute } from '@angular/router';
+import { CurrentUnitService } from '../current-unit.service';
 
 @Component({
   selector: 'cx-unit-address-create',
   templateUrl: './unit-address-create.component.html',
 })
 export class UnitAddressCreateComponent {
-  code$: Observable<string> = this.route.parent.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
-
-  form: FormGroup = this.unitAddressFormService.getForm();
+  code$ = this.currentUnitService.code$;
+  form = this.unitAddressFormService.getForm();
 
   constructor(
     protected orgUnitService: OrgUnitService,
     protected routingService: RoutingService,
-    protected route: ActivatedRoute,
-    protected unitAddressFormService: UnitAddressFormService
+    protected unitAddressFormService: UnitAddressFormService,
+    protected currentUnitService: CurrentUnitService
   ) {}
 
   save(event: any, form: FormGroup) {

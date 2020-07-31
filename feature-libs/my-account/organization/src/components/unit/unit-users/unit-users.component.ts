@@ -1,27 +1,27 @@
-import { Component } from '@angular/core';
-import { map, switchMap } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Table } from '@spartacus/storefront';
-import { ActivatedRoute } from '@angular/router';
 import { UnitUsersService } from './unit-users.service';
+import { CurrentUnitService } from '../current-unit.service';
+import { UnitRoleType } from '../../shared';
 
 @Component({
   selector: 'cx-unit-users',
   templateUrl: './unit-users.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitUsersComponent {
-  roleId = 'b2bcustomergroup';
-
-  code$: Observable<string> = this.route.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
+  code$ = this.currentUnitService.code$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
-    switchMap((code) => this.unitUsersService.getTable(code, this.roleId))
+    switchMap((code) =>
+      this.unitUsersService.getTable(code, UnitRoleType.CUSTOMER)
+    )
   );
 
   constructor(
-    protected route: ActivatedRoute,
-    protected unitUsersService: UnitUsersService
+    protected unitUsersService: UnitUsersService,
+    protected currentUnitService: CurrentUnitService
   ) {}
 }

@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { UnitChildrenService } from './unit-children.service';
+import { CurrentUnitService } from '../current-unit.service';
 
 @Component({
   selector: 'cx-unit-children',
@@ -11,16 +11,14 @@ import { UnitChildrenService } from './unit-children.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnitChildrenComponent {
-  code$: Observable<string> = this.route.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
+  code$ = this.currentUnitService.code$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.unitChildrenService.getTable(code))
   );
 
   constructor(
-    protected route: ActivatedRoute,
-    protected unitChildrenService: UnitChildrenService
+    protected unitChildrenService: UnitChildrenService,
+    protected currentUnitService: CurrentUnitService
   ) {}
 }

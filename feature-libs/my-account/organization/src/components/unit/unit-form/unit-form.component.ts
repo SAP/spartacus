@@ -13,10 +13,10 @@ import {
   CurrencyService,
   OrgUnitService,
   B2BApprovalProcess,
-  RoutingService,
 } from '@spartacus/core';
 import { AbstractFormComponent } from '@spartacus/storefront';
 import { filter, map } from 'rxjs/operators';
+import { CurrentUnitService } from '../current-unit.service';
 
 @Component({
   selector: 'cx-unit-form',
@@ -31,15 +31,12 @@ export class UnitFormComponent extends AbstractFormComponent
   approvalProcesses$: Observable<B2BApprovalProcess[]>;
 
   subscription = new Subscription();
-  parentUnitQueryParam$ = this.routingService.getRouterState().pipe(
-    map((routingData) => routingData.state.queryParams?.['parentUnit']),
-    filter(Boolean)
-  );
+  parentUnit$ = this.currentUnitService.parentUnit$.pipe(filter(Boolean));
 
   constructor(
     protected currencyService: CurrencyService,
     protected orgUnitService: OrgUnitService,
-    protected routingService: RoutingService
+    protected currentUnitService: CurrentUnitService
   ) {
     super();
   }
@@ -56,7 +53,7 @@ export class UnitFormComponent extends AbstractFormComponent
       );
 
     this.subscription.add(
-      this.parentUnitQueryParam$.subscribe(() => {
+      this.parentUnit$.subscribe(() => {
         this.form.get('parentOrgUnit').disable();
       })
     );

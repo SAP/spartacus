@@ -1,39 +1,36 @@
 import { Component } from '@angular/core';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
-import { ActivatedRoute } from '@angular/router';
 import { UnitAssignApproversService } from './unit-assign-approvers.service';
+import { UnitRoleType } from '../../shared';
+import { CurrentUnitService } from '../current-unit.service';
 
 @Component({
   selector: 'cx-unit-assign-approvers',
   templateUrl: './unit-assign-approvers.component.html',
 })
 export class UnitAssignApproversComponent {
-  protected readonly APPROVERS_ROLE_ID = 'b2bapprovergroup';
-
-  code$: Observable<string> = this.activateRoute.parent.parent.params.pipe(
-    map((params) => params['code'])
-  );
+  code$ = this.currentUnitService.code$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) =>
-      this.unitAssignApproversService.getTable(code, this.APPROVERS_ROLE_ID)
+      this.unitAssignApproversService.getTable(code, UnitRoleType.APPROVER)
     )
   );
 
   constructor(
-    protected activateRoute: ActivatedRoute,
-    protected unitAssignApproversService: UnitAssignApproversService
+    protected unitAssignApproversService: UnitAssignApproversService,
+    protected currentUnitService: CurrentUnitService
   ) {}
 
   toggleAssign(orgUnitId: string, orgCustomerId: string, checked: boolean) {
     this.unitAssignApproversService.toggleAssign(
       orgUnitId,
       orgCustomerId,
-      this.APPROVERS_ROLE_ID,
+      UnitRoleType.APPROVER,
       checked
     );
   }

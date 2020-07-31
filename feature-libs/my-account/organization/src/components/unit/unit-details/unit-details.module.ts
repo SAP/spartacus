@@ -22,6 +22,5 @@ import { RouterModule } from '@angular/router';
   ],
   declarations: [UnitDetailsComponent],
   exports: [UnitDetailsComponent],
-  entryComponents: [UnitDetailsComponent],
 })
 export class UnitDetailsModule {}

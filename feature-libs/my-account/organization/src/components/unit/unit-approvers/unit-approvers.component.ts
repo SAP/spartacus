@@ -1,29 +1,26 @@
 import { Component } from '@angular/core';
 import { Table } from '@spartacus/storefront';
-import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UnitApproversService } from './unit-approvers.service';
+import { UnitRoleType } from '../../shared';
+import { CurrentUnitService } from '../current-unit.service';
 
 @Component({
   selector: 'cx-unit-approvers',
   templateUrl: './unit-approvers.component.html',
 })
 export class UnitApproversComponent {
-  protected readonly APPROVERS_ROLE_ID = 'b2bapprovergroup';
-
-  code$: Observable<string> = this.route.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
+  code$ = this.currentUnitService.code$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) =>
-      this.unitApproversService.getTable(code, this.APPROVERS_ROLE_ID)
+      this.unitApproversService.getTable(code, UnitRoleType.APPROVER)
     )
   );
 
   constructor(
-    protected route: ActivatedRoute,
-    protected unitApproversService: UnitApproversService
+    protected unitApproversService: UnitApproversService,
+    protected currentUnitService: CurrentUnitService
   ) {}
 }

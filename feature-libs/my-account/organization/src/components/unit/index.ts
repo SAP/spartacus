@@ -15,3 +15,4 @@ export * from './unit-list/index';
 export * from './unit-manage-addresses/index';
 export * from './unit-tree-navigation-ui/index';
 export * from './unit-users/index';
+export * from './current-unit.service';

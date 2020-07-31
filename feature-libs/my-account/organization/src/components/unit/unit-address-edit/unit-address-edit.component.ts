@@ -1,33 +1,20 @@
 import { Component } from '@angular/core';
-import { map, switchMap, take, withLatestFrom } from 'rxjs/operators';
+import { map, take, withLatestFrom } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import { B2BAddress, OrgUnitService, RoutingService } from '@spartacus/core';
-import { ActivatedRoute } from '@angular/router';
+import { OrgUnitService, RoutingService } from '@spartacus/core';
 import { FormGroup } from '@angular/forms';
 import { UnitAddressFormService } from '../unit-address-form/unit-address-form.service';
+import { CurrentUnitService } from '../current-unit.service';
+import { CurrentUnitAddressService } from '../unit-address-details/current-unit-address.service';
 
 @Component({
   selector: 'cx-unit-address-edit',
   templateUrl: './unit-address-edit.component.html',
 })
 export class UnitAddressEditComponent {
-  protected code$: Observable<
-    string
-  > = this.route.parent.parent.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
-
-  protected addressId$: Observable<string> = this.route.parent.params.pipe(
-    map((routingData) => routingData['id'])
-  );
-
-  protected address$: Observable<B2BAddress> = this.code$.pipe(
-    withLatestFrom(this.addressId$),
-    switchMap(([orgUnitId, id]) =>
-      this.orgUnitsService.getAddress(orgUnitId, id)
-    )
-  );
+  code$ = this.currentUnitService.code$;
+  address$ = this.currentUnitAddressService.unitAddress$;
 
   protected form$: Observable<FormGroup> = this.address$.pipe(
     map((address) => this.unitAddressFormService.getForm(address))
@@ -41,8 +28,9 @@ export class UnitAddressEditComponent {
   constructor(
     protected routingService: RoutingService,
     protected orgUnitsService: OrgUnitService,
-    protected route: ActivatedRoute,
-    protected unitAddressFormService: UnitAddressFormService
+    protected unitAddressFormService: UnitAddressFormService,
+    protected currentUnitService: CurrentUnitService,
+    protected currentUnitAddressService: CurrentUnitAddressService
   ) {}
 
   save(event: any, form: FormGroup) {
@@ -53,15 +41,13 @@ export class UnitAddressEditComponent {
       // disabling form before save causing to refresh form state and adds region field
       // which shouldn't be included when disabled. This might need some change
       // form.disable();
-      this.code$
-        .pipe(withLatestFrom(this.addressId$), take(1))
-        .subscribe(([code, id]) => {
-          this.orgUnitsService.updateAddress(code, id, form.value);
-          this.routingService.go({
-            cxRoute: 'orgUnitAddressDetails',
-            params: { id, uid: code },
-          });
+      this.code$.pipe(take(1)).subscribe((code) => {
+        this.orgUnitsService.updateAddress(code, form.value.id, form.value);
+        this.routingService.go({
+          cxRoute: 'orgUnitAddressDetails',
+          params: { id: form.value.id, uid: code },
         });
+      });
     }
   }
 }

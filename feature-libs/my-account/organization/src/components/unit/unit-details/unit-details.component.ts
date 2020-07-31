@@ -1,47 +1,28 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  TemplateRef,
-} from '@angular/core';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, TemplateRef } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { B2BUnit, OrgUnitService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
-import { ActivatedRoute } from '@angular/router';
+import { CurrentUnitService } from '../current-unit.service';
 
 @Component({
   selector: 'cx-unit-details',
   templateUrl: './unit-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrentUnitService],
 })
-export class UnitDetailsComponent implements OnInit {
-  orgUnit$: Observable<B2BUnit>;
-  orgUnitCode$: Observable<string> = this.route.params.pipe(
-    map((params) => params['code']),
-    filter((code) => Boolean(code))
-  );
+export class UnitDetailsComponent {
+  orgUnit$ = this.currentUnitService.unit$;
 
   constructor(
     protected orgUnitsService: OrgUnitService,
     protected modalService: ModalService,
-    protected route: ActivatedRoute
+    protected currentUnitService: CurrentUnitService
   ) {}
 
-  ngOnInit(): void {
-    this.orgUnit$ = this.orgUnitCode$.pipe(
-      tap((code) => this.orgUnitsService.load(code)),
-      switchMap((code) => this.orgUnitsService.get(code)),
-      filter(Boolean)
-    );
-  }
-
   update(orgUnit: B2BUnit) {
-    this.orgUnitCode$
+    this.orgUnit$
       .pipe(take(1))
-      .subscribe((orgUnitCode) =>
-        this.orgUnitsService.update(orgUnitCode, orgUnit)
-      );
+      .subscribe((unit) => this.orgUnitsService.update(unit.uid, orgUnit));
   }
 
   openModal(template: TemplateRef<any>): void {
