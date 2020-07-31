@@ -19,6 +19,8 @@ import { UserAssignPermissionsModule } from './permissions/assign/user-assign-pe
 import { UserPermissionListModule } from './permissions/list/user-permission-list.module';
 import { UserAssignApproversModule } from './approvers/assign/user-assign-approvers.module';
 import { UserApproverListModule } from './approvers/list/user-approver-list.module';
+import { UserAssignUserGroupsModule } from './user-groups/assign/user-assign-user-group.module';
+import { UserUserGroupListModule } from './user-groups/list/user-user-group-list.module';
 
 @NgModule({
   imports: [
@@ -27,8 +29,8 @@ import { UserApproverListModule } from './approvers/list/user-approver-list.modu
     UserPermissionListModule,
     UserAssignApproversModule,
     UserApproverListModule,
-    // UserAssignUserGroupsModule,
-    // UserUserGroupsListModule,
+    UserAssignUserGroupsModule,
+    UserUserGroupListModule,
     UserDetailsModule,
     UserCreateModule,
     UserEditModule,

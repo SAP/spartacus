@@ -13,6 +13,8 @@ import { UserPermissionListComponent } from './permissions/list/user-permission-
 import { UserAssignPermissionsComponent } from './permissions/assign/user-assign-permission.component';
 import { UserApproverListComponent } from './approvers/list/user-approver-list.component';
 import { UserAssignApproversComponent } from './approvers/assign/user-assign-approvers.component';
+import { UserUserGroupListComponent } from './user-groups/list/user-user-group-list.component';
+import { UserAssignUserGroupsComponent } from './user-groups/assign/user-assign-user-group.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -95,18 +97,18 @@ export const userCmsConfig: CmsConfig = {
                 },
               ],
             },
-            // {
-            //   path: 'user-groups',
-            //   component: UserUserGroupsListComponent,
-            //   canDeactivate: [SplitViewDeactivateGuard],
-            //   children: [
-            //     {
-            //       path: 'assign',
-            //       component: UserAssignUserGroupsComponent,
-            //       canDeactivate: [SplitViewDeactivateGuard],
-            //     },
-            //   ],
-            // },
+            {
+              path: 'user-groups',
+              component: UserUserGroupListComponent,
+              canDeactivate: [SplitViewDeactivateGuard],
+              children: [
+                {
+                  path: 'assign',
+                  component: UserAssignUserGroupsComponent,
+                  canDeactivate: [SplitViewDeactivateGuard],
+                },
+              ],
+            },
             {
               path: 'purchase-limits',
               component: UserPermissionListComponent,
@@ -212,6 +214,35 @@ export const userTableConfig: TableConfig = {
         headers: [
           { key: 'name', sortCode: 'byCode' },
           { key: 'limit' },
+          { key: 'orgUnit', sortCode: 'byUnitName' },
+        ],
+      },
+    ],
+    [OrganizationTableType.USER_USER_GROUPS]: [
+      {
+        headers: [{ key: 'summary' }, { key: 'link' }, { key: 'unassign' }],
+        hideHeader: true,
+        pagination: {
+          pageSize: MAX_OCC_INTEGER_VALUE,
+        },
+      },
+    ],
+    [OrganizationTableType.USER_ASSIGN_USER_GROUPS]: [
+      {
+        pagination: {
+          sort: 'byCode',
+        },
+      },
+      {
+        breakpoint: BREAKPOINT.xs,
+        headers: [{ key: 'selected' }, { key: 'summary' }, { key: 'link' }],
+        hideHeader: true,
+      },
+      {
+        breakpoint: BREAKPOINT.lg,
+        headers: [
+          { key: 'name', sortCode: 'byName' },
+          { key: 'uid', sortCode: 'byGroupID' },
           { key: 'orgUnit', sortCode: 'byUnitName' },
         ],
       },

@@ -22,7 +22,7 @@ export const user = {
     back: 'Back',
     new: 'New approver',
     instructions: {
-      check: "To assign an approver to this unit, select the user's check box.",
+      check: "To assign an approver to this user, select the user's check box.",
       uncheck: "To remove aa approver, clear the user's check box.",
       changes: 'Changes are saved automatically.',
     },
@@ -33,6 +33,13 @@ export const user = {
     header: 'User groups in {{code}}',
     assign: 'Assign user groups',
     assignHeader: 'Assign user groups in {{code}}',
+    back: 'Back',
+    instructions: {
+      check:
+        "To assign an user group to this user, select the user's check box.",
+      uncheck: "To remove aa user group, clear the user's check box.",
+      changes: 'Changes are saved automatically.',
+    },
   },
 
   permission: {
@@ -42,8 +49,7 @@ export const user = {
     assignHeader: 'Assign purchase limits in {{code}}',
     back: 'Back',
     instructions: {
-      check:
-        'To assign a purchase limits to this user group, select its check box.',
+      check: 'To assign a purchase limits to this user, select its check box.',
       uncheck: 'To unassign a purchase limits, clear its check box.',
       changes: 'Changes are saved automatically.',
     },
@@ -71,6 +77,7 @@ export const userAssignPermissions = {
 };
 
 export const userAssignUserGroups = {
-  name: 'Code',
+  name: 'Name',
+  uid: 'UID',
   orgUnit: 'Unit',
 };
