@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { B2BUser, B2BUserService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -11,6 +10,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { UserFormService } from '../form/user-form.service';
+import { CurrentUserService } from '../current-user.service';
 
 @Component({
   selector: 'cx-user-edit',
@@ -18,9 +18,7 @@ import { UserFormService } from '../form/user-form.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserEditComponent {
-  protected code$: Observable<string> = this.activatedRoute.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
+  protected code$: Observable<string> = this.currentUserService.code$;
 
   protected user$: Observable<B2BUser> = this.code$.pipe(
     tap((code) => this.userService.load(code)),
@@ -42,7 +40,7 @@ export class UserEditComponent {
   constructor(
     protected userService: B2BUserService,
     protected userFormService: UserFormService,
-    protected activatedRoute: ActivatedRoute,
+    protected currentUserService: CurrentUserService,
     // we can't do without the router as the routingService is unable to
     // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
     // would actually fix that.

@@ -1,25 +1,23 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { UserPermissionListService } from './user-permission-list.service';
+import { CurrentUserService } from '../../current-user.service';
 
 @Component({
   selector: 'cx-user-permission-list',
   templateUrl: './user-permission-list.component.html',
 })
 export class UserPermissionListComponent {
-  code$: Observable<string> = this.route.parent.params.pipe(
-    map((routingData) => routingData['code'])
-  );
+  code$: Observable<string> = this.currentUserService.code$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.userPermissionListService.getTable(code))
   );
 
   constructor(
-    protected route: ActivatedRoute,
+    protected currentUserService: CurrentUserService,
     protected userPermissionListService: UserPermissionListService
   ) {}
 

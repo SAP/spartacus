@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
-import { ActivatedRoute } from '@angular/router';
 import { UserAssignApproversService } from './user-assign-approvers.service';
+import { CurrentUserService } from '../../current-user.service';
 
 @Component({
   selector: 'cx-user-assign-approvers',
@@ -14,9 +14,7 @@ import { UserAssignApproversService } from './user-assign-approvers.service';
 export class UserAssignApproversComponent {
   protected readonly APPROVERS_ROLE_ID = 'b2bapprovergroup';
 
-  code$: Observable<string> = this.activateRoute.parent.parent.params.pipe(
-    map((params) => params['code'])
-  );
+  code$: Observable<string> = this.currentUserService.code$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) =>
@@ -25,7 +23,7 @@ export class UserAssignApproversComponent {
   );
 
   constructor(
-    protected activateRoute: ActivatedRoute,
+    protected currentUserService: CurrentUserService,
     protected userAssignApproversService: UserAssignApproversService
   ) {}
 

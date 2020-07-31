@@ -1,29 +1,24 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Table } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { UserAssignPermissionListService } from './user-assign-permission.service';
 import { PaginationModel } from '@spartacus/core';
+import { CurrentUserService } from '../../current-user.service';
 
 @Component({
   selector: 'cx-user-assign-permission',
   templateUrl: './user-assign-permission.component.html',
 })
 export class UserAssignPermissionsComponent {
-  code$: Observable<string> = this.activateRoute.parent.parent.params.pipe(
-    map((params) => params['code'])
-  );
+  code$: Observable<string> = this.currentUserService.code$;
 
   dataTable$: Observable<Table> = this.code$.pipe(
     switchMap((code) => this.assignService.getTable(code))
   );
 
   constructor(
-    // we can't do without the router as the routingService is unable to
-    // resolve the parent routing params. `paramsInheritanceStrategy: 'always'`
-    // would actually fix that.
-    protected activateRoute: ActivatedRoute,
+    protected currentUserService: CurrentUserService,
     protected assignService: UserAssignPermissionListService
   ) {}
 
