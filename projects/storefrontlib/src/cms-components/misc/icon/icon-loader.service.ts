@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
+import { DirectionMode } from '../../../layout/config/direction.model';
 import {
   IconConfig,
   IconConfigResource,
@@ -32,6 +33,15 @@ export class IconLoaderService {
     if (this.isResourceType(type, IconResourceType.TEXT)) {
       return this.sanitizer.bypassSecurityTrustHtml(this.getSymbol(type));
     }
+  }
+
+  /**
+   * Indicates whether the icon should flip for Right to Left direction.
+   */
+  getFlipDirection(
+    type: ICON_TYPE | string
+  ): DirectionMode.LTR | DirectionMode.RTL {
+    return this.config.flipDirection[type];
   }
 
   /**

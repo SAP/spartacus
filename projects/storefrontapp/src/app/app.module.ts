@@ -10,6 +10,7 @@ import {
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ConfigModule, TestConfigModule } from '@spartacus/core';
 import {
+  DirectionMode,
   JsonLdBuilderModule,
   LayoutConfig,
   LayoutDirection,
@@ -55,7 +56,7 @@ if (environment.b2b) {
 
     ConfigModule.withConfig({
       direction: {
-        // default: DirectionMode.RTL,
+        default: DirectionMode.LTR,
         detect: true,
         rtlLanguages: ['de'],
       } as LayoutDirection,

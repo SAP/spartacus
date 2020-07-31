@@ -1,6 +1,7 @@
 import { Component, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { DirectionMode } from 'projects/storefrontlib/src/layout';
 import { IconLoaderService } from './icon-loader.service';
 import { IconComponent } from './icon.component';
 import { ICON_TYPE } from './icon.model';
@@ -25,6 +26,10 @@ export class MockIconLoaderService {
     return `<p>${icon}</p>`;
   }
   addLinkResource() {}
+
+  getFlipDirection() {
+    return;
+  }
 }
 
 describe('IconComponent', () => {
@@ -86,6 +91,17 @@ describe('IconComponent', () => {
       component.type = <any>'';
       expect(component.icon).toBeFalsy();
     });
+
+    it(`should not have a flip direction by default`, () => {
+      component.type = <any>'';
+      expect(component.flipDirection).toBeFalsy();
+    });
+
+    it(`should store the flip direction for the given icon`, () => {
+      spyOn(service, 'getFlipDirection').and.returnValue(DirectionMode.RTL);
+      component.type = ICON_TYPE.CART;
+      expect(component.flipDirection).toEqual(DirectionMode.RTL);
+    });
   });
 
   describe('UI tests', () => {
@@ -127,6 +143,33 @@ describe('IconComponent', () => {
       expect(classList).toContain('cx-icon');
       expect(classList).not.toContain('EXPAND');
       expect(classList).toContain('COLLAPSE');
+    });
+
+    it('should bind rtl flip direction to flip-at attribute', () => {
+      spyOn(service, 'getFlipDirection').and.returnValue(DirectionMode.RTL);
+      component.type = ICON_TYPE.CART;
+      fixture.detectChanges();
+      expect(
+        (debugElement.nativeElement as HTMLElement).getAttribute('flip-at')
+      ).toEqual('rtl');
+    });
+
+    it('should bind rtl flip direction to flip-at attribute', () => {
+      spyOn(service, 'getFlipDirection').and.returnValue(DirectionMode.LTR);
+      component.type = ICON_TYPE.CART;
+      fixture.detectChanges();
+      expect(
+        (debugElement.nativeElement as HTMLElement).getAttribute('flip-at')
+      ).toEqual('ltr');
+    });
+
+    it('should not bind undefined flip direction to flip-at attribute', () => {
+      spyOn(service, 'getFlipDirection').and.returnValue(undefined);
+      component.type = ICON_TYPE.CART;
+      fixture.detectChanges();
+      expect(
+        (debugElement.nativeElement as HTMLElement).getAttribute('flip-at')
+      ).toBeNull();
     });
   });
 });

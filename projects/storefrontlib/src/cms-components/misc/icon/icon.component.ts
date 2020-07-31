@@ -1,5 +1,12 @@
-import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostBinding,
+  Input,
+  Renderer2,
+} from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
+import { DirectionMode } from '../../../layout/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
 import { ICON_TYPE } from './icon.model';
 
@@ -50,6 +57,14 @@ export class IconComponent {
   icon: SafeHtml;
 
   /**
+   * The flip direction adds information to the DOM on how it should behave for a specific
+   * direction (ltr vs rtl).
+   */
+  @HostBinding('attr.flip-at') flipDirection:
+    | DirectionMode.LTR
+    | DirectionMode.RTL;
+
+  /**
    * Maintains the applied style classes so we can remove them when the
    * icon type changes at run time.
    */
@@ -68,6 +83,8 @@ export class IconComponent {
     this.icon = this.iconLoader.getHtml(type);
     this.addStyleClasses(type);
     this.iconLoader.addLinkResource(type);
+    // the flip direction is added so that icons can be flipped for rtl vs ltr
+    this.flipDirection = this.iconLoader.getFlipDirection(type);
   }
 
   /**

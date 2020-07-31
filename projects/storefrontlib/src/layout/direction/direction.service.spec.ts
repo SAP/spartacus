@@ -9,7 +9,7 @@ const mockLanguageService = {
   getActive: () => {},
 };
 
-fdescribe('DirectionService', () => {
+xdescribe('DirectionService', () => {
   let service: DirectionService;
   //   let config: LayoutConfig;
   //   let windowRef: WindowRef;

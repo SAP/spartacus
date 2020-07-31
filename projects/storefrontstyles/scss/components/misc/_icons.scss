@@ -1,3 +1,7 @@
+[dir='rtl'] cx-icon[flip-at='rtl'] {
+  transform: scaleX(-1);
+}
+
 .cx-icon {
   @extend %cx-icon;
 }

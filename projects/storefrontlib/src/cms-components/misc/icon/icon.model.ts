@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
+import { DirectionMode } from 'projects/storefrontlib/src/layout/config/direction.model';
 
 export enum ICON_TYPE {
   STAR = 'STAR',
@@ -60,6 +61,13 @@ export interface IconOptions {
    * is used for the SVG xlink reference.
    */
   resources?: IconConfigResource[];
+
+  /**
+   * Lists icons that should be flipped for the Right to Left direction.
+   */
+  flipDirection?: {
+    [ICON_TYPE: string]: DirectionMode.RTL | DirectionMode.LTR;
+  };
 }
 
 export interface IconConfigResource {
