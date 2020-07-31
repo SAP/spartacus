@@ -42,7 +42,7 @@ export class PermissionFormService {
 
   /**
    * Depending on permission type form should render custom set of additonal fields.
-   * This method is used to re-create additonal ones in case they no exists
+   * This method is used to re-create additonal ones in case they not exists
    * in `FormGroup` controls.
    */
   protected setAdditionalFields(form: FormGroup) {

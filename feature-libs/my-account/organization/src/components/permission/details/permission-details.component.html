@@ -30,7 +30,9 @@
         </div>
 
         <div class="property">
-          <label>{{ 'permission.type' | cxTranslate }}</label>
+          <label>{{
+            'permission.orderApprovalPermissionType' | cxTranslate
+          }}</label>
           <span class="value">
             {{ permission.orderApprovalPermissionType?.name }}
           </span>
@@ -44,7 +46,7 @@
         </div>
 
         <div class="property">
-          <label>{{ 'permission.period' | cxTranslate }}</label>
+          <label>{{ 'permission.periodRange' | cxTranslate }}</label>
           <span class="value">
             {{ permission.periodRange || '-' }}
           </span>

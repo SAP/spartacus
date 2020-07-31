@@ -4,6 +4,7 @@ import {
   userGroupAssignUsers,
   userGroupAssignPermissions,
 } from './user-group.i18n';
+import { permission } from './permission.i18n';
 
 /**
  * The organization i18n labels provide generic labels for all organization sub features.
@@ -49,4 +50,5 @@ export const organization = {
   userGroup,
   userGroupAssignUsers,
   userGroupAssignPermissions,
+  permission,
 };

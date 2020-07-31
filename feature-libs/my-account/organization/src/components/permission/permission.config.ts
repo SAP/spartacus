@@ -10,9 +10,6 @@ import { PermissionCreateComponent } from './create/permission-create.component'
 import { PermissionDetailsComponent } from './details/permission-details.component';
 import { PermissionEditComponent } from './edit';
 
-// TODO:#my-account-architecture - Number.MAX_VALUE?
-// const MAX_OCC_INTEGER_VALUE = 2147483647;
-
 // TODO: this doesn't work with lazy loaded feature
 export const permissionRoutingConfig: RoutingConfig = {
   routing: {
@@ -68,12 +65,10 @@ export function permissionTableConfigFactory(): TableConfig {
 export const permissionTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.PERMISSION]: [
-      // TODO: consider cascading from smallest size
       {
         headers: [{ key: 'code' }],
         pagination: {
           sort: 'byName',
-          // pageSize: 2,
         },
       },
       {
