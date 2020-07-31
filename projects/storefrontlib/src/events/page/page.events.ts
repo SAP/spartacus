@@ -2,7 +2,7 @@ import { Params } from '@angular/router';
 import { PageContext } from '@spartacus/core';
 
 /**
- * Indicates either that a user visited an arbitrary page of a web presence or that the page type was unknown.
+ * Indicates that a user visited an arbitrary page.
  */
 export class PageEvent {
   context: PageContext;
@@ -12,6 +12,6 @@ export class PageEvent {
 }
 
 /**
- * Indicates that a user visited the home page of a web presence.
+ * Indicates that a user visited the home page.
  */
 export class HomePageEvent extends PageEvent {}
