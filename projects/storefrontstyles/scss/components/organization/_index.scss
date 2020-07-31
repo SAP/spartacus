@@ -24,17 +24,17 @@
 @import './units/_unit-edit';
 @import './units/_unit-details';
 @import './units/_unit-list';
-@import './units/_unit-manage-addresses';
+@import 'units/unit-address-list';
 @import './units/_unit-address-create';
 @import './units/_unit-address-edit';
 @import './units/_unit-address-details';
-@import './units/_unit-approvers';
+@import 'units/unit-approver-list';
 @import './units/_unit-assign-approvers';
-@import './units/_unit-users';
-@import './units/_unit-assign-roles';
+@import 'units/unit-user-list';
+@import 'units/unit-user-assign-roles';
 @import './units/_unit-children';
 @import './units/_unit-cost-centers';
-@import './units/_unit-tree-navigation-ui';
+@import 'units/unit-tree';
 @import './order-approval/order-approval-list';
 @import './order-approval/order-approval-detail-form';
 
@@ -48,9 +48,8 @@ $organization-components-whitelist: cx-budget-create cx-budget-edit
   cx-user-edit cx-user-details cx-user-list cx-user-approvers
   cx-user-assign-approvers cx-user-permissions cx-user-assign-permissions
   cx-user-user-groups cx-user-assign-user-groups cx-unit-create cx-unit-edit
-  cx-unit-details cx-unit-list cx-unit-manage-addresses cx-unit-approvers
-  cx-unit-assign-approvers cx-unit-roles cx-unit-assign-roles cx-unit-children
+  cx-unit-details cx-unit-list cx-unit-address-list cx-unit-approver-list
+  cx-unit-assign-approvers cx-unit-user-assign-roles cx-unit-children
   cx-unit-cost-centers cx-unit-address-create cx-unit-address-edit
   cx-unit-address-details cx-fake-tabs cx-fake-tabs-desktop cx-fake-tabs-mobile
-  cx-unit-tree-navigation-ui cx-order-approval-detail-form
-  cx-order-approval-list !default;
+  cx-unit-tree cx-order-approval-detail-form cx-order-approval-list !default;

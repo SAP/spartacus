@@ -4,21 +4,21 @@ import {
   SplitViewDeactivateGuard,
   TableConfig,
 } from '@spartacus/storefront';
-import { ManageUnitsListComponent } from './unit-list/unit-list.component';
-import { UnitCreateComponent } from './unit-create/unit-create.component';
-import { UnitDetailsComponent } from './unit-details/unit-details.component';
-import { UnitEditComponent } from './unit-edit/unit-edit.component';
-import { UnitUsersComponent } from './unit-users/unit-users.component';
+import { UnitListComponent } from './list/unit-list.component';
+import { UnitCreateComponent } from './create/unit-create.component';
+import { UnitDetailsComponent } from './details/unit-details.component';
+import { UnitEditComponent } from './edit/unit-edit.component';
+import { UnitUserListComponent } from './users/list/unit-user-list.component';
+import { UnitUserAssignRolesComponent } from './users/assign-roles/unit-user-assign-roles.component';
+import { UnitChildrenComponent } from './children/unit-children.component';
+import { UnitApproverListComponent } from './approvers/list/unit-approver-list.component';
+import { UnitAssignApproversComponent } from './approvers/assign/unit-assign-approvers.component';
+import { UnitAddressListComponent } from './addresses/list/unit-address-list.component';
+import { UnitAddressDetailsComponent } from './addresses/details/unit-address-details.component';
+import { UnitAddressCreateComponent } from './addresses/create/unit-address-create.component';
+import { UnitAddressEditComponent } from './addresses/edit/unit-address-edit.component';
+import { UnitCostCentersComponent } from './cost-centers/unit-cost-centers.component';
 import { OrganizationTableType } from '../shared/organization.model';
-import { UnitChildrenComponent } from './unit-children/unit-children.component';
-import { UnitApproversComponent } from './unit-approvers/unit-approvers.component';
-import { UnitAssignApproversComponent } from './unit-assign-approvers/unit-assign-approvers.component';
-import { UnitAssignRolesComponent } from './unit-assign-roles/unit-assign-roles.component';
-import { UnitManageAddressesComponent } from './unit-manage-addresses/unit-manage-addresses.component';
-import { UnitAddressDetailsComponent } from './unit-address-details/unit-address-details.component';
-import { UnitAddressCreateComponent } from './unit-address-create/unit-address-create.component';
-import { UnitAddressEditComponent } from './unit-address-edit/unit-address-edit.component';
-import { UnitCostCentersComponent } from './unit-cost-centers/unit-cost-centers.component';
 
 // TODO:#my-account-architecture - Number.MAX_VALUE?
 const MAX_OCC_INTEGER_VALUE = 2147483647;
@@ -87,7 +87,7 @@ export const unitsRoutingConfig: RoutingConfig = {
 export const unitsCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageUnitsListComponent: {
-      component: ManageUnitsListComponent,
+      component: UnitListComponent,
       childRoutes: [
         {
           path: 'create',
@@ -111,19 +111,19 @@ export const unitsCmsConfig: CmsConfig = {
             },
             {
               path: 'users',
-              component: UnitUsersComponent,
+              component: UnitUserListComponent,
               canDeactivate: [SplitViewDeactivateGuard],
               children: [
                 {
                   path: 'roles/assign',
-                  component: UnitAssignRolesComponent,
+                  component: UnitUserAssignRolesComponent,
                   canDeactivate: [SplitViewDeactivateGuard],
                 },
               ],
             },
             {
               path: 'approvers',
-              component: UnitApproversComponent,
+              component: UnitApproverListComponent,
               canDeactivate: [SplitViewDeactivateGuard],
               children: [
                 {
@@ -135,7 +135,7 @@ export const unitsCmsConfig: CmsConfig = {
             },
             {
               path: 'addresses',
-              component: UnitManageAddressesComponent,
+              component: UnitAddressListComponent,
               canDeactivate: [SplitViewDeactivateGuard],
               children: [
                 {
