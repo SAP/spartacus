@@ -25,6 +25,13 @@ export function clickOnEditConfigurationLink() {
     });
 }
 
+/**
+ * Verifies whether the updating configuration message is not displayed on the top of the configuration.
+ */
+function isUpdatingMessageNotDisplayed() {
+  cy.get('cx-config-message').should('not.be.visible');
+}
+
 function clickOnPreviousOrNextBtn(btnSelector: string, followingGroup: string) {
   cy.get(btnSelector)
     .click()
@@ -32,18 +39,20 @@ function clickOnPreviousOrNextBtn(btnSelector: string, followingGroup: string) {
       cy.get('a.active:contains(' + `${followingGroup}` + ')').should(
         'be.visible'
       );
+
+      isUpdatingMessageNotDisplayed();
     });
 }
 
 /**
- * Click on the next group Button and verifies that an element of the next group is displayed
+ * Click on the next group Button and verifies that an element of the next group is displayed.
  */
 export function clickOnNextBtn(nextGroup: string) {
   clickOnPreviousOrNextBtn(nextBtnSelector, nextGroup);
 }
 
 /**
- * Click on the previous group Button and verifies that an element of the previous group is displayed
+ * Click on the previous group Button and verifies that an element of the previous group is displayed.
  */
 export function clickOnPreviousBtn(previousGroup: string) {
   clickOnPreviousOrNextBtn(previousBtnSelector, previousGroup);
@@ -157,6 +166,8 @@ export function selectAttribute(
     case 'input':
       cy.get(`#${valueId}`).clear().type(value);
   }
+
+  isUpdatingMessageNotDisplayed();
 }
 
 export function isCheckboxSelected(attributeName: string, valueName: string) {
@@ -199,6 +210,12 @@ export function isCategoryNavigationDisplayed() {
 
 export function isCategoryNavigationNotDisplayed() {
   cy.get('cx-category-navigation').should('not.be.visible');
+}
+
+export function isConflictDescriptionDisplayed(description) {
+  cy.get('.cx-config-conflict-description').should(($div) => {
+    expect($div).to.contain(description);
+  });
 }
 
 export function isTotalPrice(formattedPrice) {

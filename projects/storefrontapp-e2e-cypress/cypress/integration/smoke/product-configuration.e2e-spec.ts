@@ -58,6 +58,12 @@ const P5 = 'P5';
 const VIDEO_SERVER_YES = 'VIDEO_SERVER_YES';
 const GAMING_CONSOLE_YES = 'GAMING_CONSOLE_YES';
 
+// List of conflict groups
+const CONFLICT_FOR_GAMING_CONSOLE = 'Conflict for Gaming Console';
+
+// Conflict message
+const Conflict_msg_gaming_console = 'Gaming console cannot be selected with LCD projector';
+
 function goToConfigPage(configuratorType, product) {
   cy.visit(
     `/electronics-spa/en/USD/configure${configuratorType}/product/entityKey/${product}`
@@ -396,7 +402,8 @@ context('Product Configuration', () => {
       configuration.clickOnPreviousBtn(PROJECTOR_SCREEN);
       configuration.clickOnPreviousBtn(PROJECTOR);
       configuration.clickOnPreviousBtn(GENERAL);
-      configuration.clickOnPreviousBtn('Conflict for Gaming Console');
+      configuration.clickOnPreviousBtn(CONFLICT_FOR_GAMING_CONSOLE);
+      configuration.isConflictDescriptionDisplayed(Conflict_msg_gaming_console);
     });
   });
 });
