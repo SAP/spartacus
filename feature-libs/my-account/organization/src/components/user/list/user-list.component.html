@@ -49,6 +49,14 @@
   </div>
 </ng-template>
 
+<ng-template cxOutletRef="table.user.data.roles" let-model>
+  <small>
+    <span *ngFor="let role of model.roles">
+      &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}
+    </span>
+  </small>
+</ng-template>
+
 <!-- TODO: refactor outlet concatenation-->
 <ng-template cxOutletRef="table.user.data.orgUnit" let-model>
   <a

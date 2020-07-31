@@ -10,7 +10,9 @@
       <cx-icon type="CARET_LEFT"></cx-icon>
       {{ 'organization.back' | cxTranslate }}
     </a>
-    <span>{{ 'user.permission.assign' | cxTranslate }}</span>
+    <span>{{
+      'user.permission.assignHeader' | cxTranslate: { code: userCode }
+    }}</span>
   </h3>
 
   <ng-container *ngIf="dataTable$ | async as dataTable; else emptyList">

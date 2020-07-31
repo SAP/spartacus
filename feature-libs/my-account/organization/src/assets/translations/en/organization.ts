@@ -4,6 +4,12 @@ import {
   userGroupAssignUsers,
   userGroupAssignPermissions,
 } from './user-group.i18n';
+import {
+  user,
+  userAssignApprovers,
+  userAssignPermissions,
+  userAssignUserGroups,
+} from './user.i18n';
 
 /**
  * The organization i18n labels provide generic labels for all organization sub features.
@@ -37,7 +43,12 @@ export const organization = {
     messages: {
       emptyList: 'The list is empty',
     },
-
+    userRoles: {
+      b2bcustomergroup: 'Customer',
+      b2bapprovergroup: 'Approver',
+      b2bmanagergroup: 'Manager',
+      b2badmingroup: 'Admin',
+    },
     breadcrumb: 'Organization',
   },
 
@@ -47,4 +58,8 @@ export const organization = {
   userGroup,
   userGroupAssignUsers,
   userGroupAssignPermissions,
+  user,
+  userAssignApprovers,
+  userAssignPermissions,
+  userAssignUserGroups,
 };

@@ -9,9 +9,7 @@
     >
       <cx-icon type="CARET_LEFT"></cx-icon>
     </a>
-    <span>{{
-      'user.approvers.header' | cxTranslate: { customerId: userCode }
-    }}</span>
+    <span>{{ 'user.approver.header' | cxTranslate: { code: userCode } }}</span>
   </h3>
 
   <div class="actions">
@@ -34,7 +32,7 @@
         } | cxUrl
       "
     >
-      {{ 'user.approvers.assign' | cxTranslate }}
+      {{ 'user.approver.assign' | cxTranslate }}
     </a>
   </div>
   <section>
@@ -61,7 +59,7 @@
     </small>
   </ng-template>
 
-  <ng-template cxOutletRef="table.userPermissions.data.unassign" let-model>
+  <ng-template cxOutletRef="table.userApprovers.data.unassign" let-model>
     <button class="button" (click)="unassign(model)">
       <cx-icon type="CLOSE"></cx-icon>
     </button>

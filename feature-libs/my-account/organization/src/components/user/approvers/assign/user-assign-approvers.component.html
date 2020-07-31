@@ -11,7 +11,7 @@
       {{ 'organization.back' | cxTranslate }}
     </a>
     <span>{{
-      'user.assignApprovers.header' | cxTranslate: { customerId: userCode }
+      'user.approver.assignHeader' | cxTranslate: { code: userCode }
     }}</span>
   </h3>
 
@@ -31,13 +31,13 @@
     <div class="instructions">
       <ul>
         <li>
-          {{ 'user.assignApprovers.instructions.check' | cxTranslate }}
+          {{ 'user.approver.instructions.check' | cxTranslate }}
         </li>
         <li>
-          {{ 'user.assignApprovers.instructions.uncheck' | cxTranslate }}
+          {{ 'user.approver.instructions.uncheck' | cxTranslate }}
         </li>
         <li>
-          {{ 'user.assignApprovers.instructions.changes' | cxTranslate }}
+          {{ 'user.approver.instructions.changes' | cxTranslate }}
         </li>
       </ul>
       <a

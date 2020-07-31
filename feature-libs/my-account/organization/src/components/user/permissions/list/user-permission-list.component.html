@@ -10,7 +10,9 @@
       <cx-icon type="CARET_LEFT"></cx-icon>
       {{ 'organization.back' | cxTranslate }}
     </a>
-    <span>{{ 'user.permission.header' | cxTranslate }}</span>
+    <span>{{
+      'user.permission.header' | cxTranslate: { code: userCode }
+    }}</span>
   </h3>
 
   <div class="actions">
