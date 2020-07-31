@@ -96,7 +96,7 @@
             {{ 'organization.disabled' | cxTranslate }}
             <button
               class="button icon"
-              (click)="update({ code: budget.code, activeFlag: true })"
+              (click)="update({ code: budget.code })"
             >
               {{ 'organization.enable' | cxTranslate }}
               <!--              <cx-icon type="OFF"></cx-icon>-->
@@ -123,6 +123,6 @@
     *ngIf="budget$ | async as budget"
     [title]="'budget.messages.deactivateHeader' | cxTranslate"
     [message]="'budget.messages.deactivate' | cxTranslate"
-    (confirm)="update({ code: budget.code, activeFlag: false })"
+    (confirm)="update({ code: budget.code })"
   ></cx-confirm-modal>
 </ng-template>

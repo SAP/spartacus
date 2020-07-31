@@ -31,11 +31,9 @@ export class BudgetCostCenterListService extends BaseOrganizationListService<
   }
 
   protected load(
-    structure: TableStructure,
+    _structure: TableStructure,
     code: string
   ): Observable<EntitiesModel<CostCenter>> {
-    // const config = structure.pagination;
-
     return this.budgetService
       .getCostCenters(code)
       .pipe(map((costCenter) => this.filterSelected(costCenter)));
