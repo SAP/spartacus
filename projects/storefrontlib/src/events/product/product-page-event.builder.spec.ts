@@ -13,9 +13,9 @@ import { take } from 'rxjs/operators';
 import { PageVisitedEvent } from '../page/page.events';
 import { ProductPageEventBuilder } from './product-page-event.builder';
 import {
-  CategoryPageResultsVisitedEvent,
-  ProductDetailsPageVisitedEvent,
-  SearchPageResultsVisitedEvent,
+  CategoryPageResultsEvent,
+  ProductDetailsPageEvent,
+  SearchPageResultsEvent,
 } from './product-page.events';
 
 const productGetBehavior = new BehaviorSubject<Product>(undefined);
@@ -51,7 +51,7 @@ describe('ProductPageEventModule', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  describe('SearchPageResultsVisitedEvent', () => {
+  describe('SearchPageResultsEvent', () => {
     it('should fire when the user performs a search and navigates to the search page', () => {
       const searchResults: ProductSearchPage = {
         freeTextSearch: 'camera',
@@ -59,9 +59,9 @@ describe('ProductPageEventModule', () => {
         facets: [{ category: true }],
       };
 
-      let result: SearchPageResultsVisitedEvent;
+      let result: SearchPageResultsEvent;
       eventService
-        .get(SearchPageResultsVisitedEvent)
+        .get(SearchPageResultsEvent)
         .pipe(take(1))
         .subscribe((value) => (result = value));
 
@@ -78,7 +78,7 @@ describe('ProductPageEventModule', () => {
         jasmine.objectContaining({
           searchTerm: searchResults.freeTextSearch,
           numberOfResults: searchResults.pagination.totalResults,
-        } as SearchPageResultsVisitedEvent)
+        } as SearchPageResultsEvent)
       );
     });
 
@@ -89,9 +89,9 @@ describe('ProductPageEventModule', () => {
         facets: [{ category: true }],
       };
 
-      let result: SearchPageResultsVisitedEvent;
+      let result: SearchPageResultsEvent;
       const sub = eventService
-        .get(SearchPageResultsVisitedEvent)
+        .get(SearchPageResultsEvent)
         .subscribe((value) => (result = value));
 
       const pageVisitedEvent = createFrom(PageVisitedEvent, {
@@ -107,7 +107,7 @@ describe('ProductPageEventModule', () => {
         jasmine.objectContaining({
           searchTerm: searchResults.freeTextSearch,
           numberOfResults: searchResults.pagination.totalResults,
-        } as SearchPageResultsVisitedEvent)
+        } as SearchPageResultsEvent)
       );
 
       getResultsBehavior.next({
@@ -118,7 +118,7 @@ describe('ProductPageEventModule', () => {
         jasmine.objectContaining({
           searchTerm: 'new',
           numberOfResults: searchResults.pagination.totalResults,
-        } as SearchPageResultsVisitedEvent)
+        } as SearchPageResultsEvent)
       );
       sub.unsubscribe();
     });
@@ -130,9 +130,9 @@ describe('ProductPageEventModule', () => {
         facets: [{ category: true }],
       };
 
-      let result: SearchPageResultsVisitedEvent;
+      let result: SearchPageResultsEvent;
       eventService
-        .get(SearchPageResultsVisitedEvent)
+        .get(SearchPageResultsEvent)
         .pipe(take(1))
         .subscribe((value) => (result = value));
 
@@ -142,14 +142,14 @@ describe('ProductPageEventModule', () => {
     });
   });
 
-  it('CategoryPageResultsVisitedEvent', () => {
+  it('CategoryPageResultsEvent', () => {
     const searchResults: ProductSearchPage = {
       breadcrumbs: [{ facetValueName: 'Cat1' }],
     };
 
-    let result: CategoryPageResultsVisitedEvent;
+    let result: CategoryPageResultsEvent;
     eventService
-      .get(CategoryPageResultsVisitedEvent)
+      .get(CategoryPageResultsEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 
@@ -166,11 +166,11 @@ describe('ProductPageEventModule', () => {
       jasmine.objectContaining({
         categoryCode: pageVisitedEvent.context.id,
         categoryName: searchResults.breadcrumbs[0].facetValueName,
-      } as CategoryPageResultsVisitedEvent)
+      } as CategoryPageResultsEvent)
     );
   });
 
-  describe('ProductDetailsPageVisitedEvent', () => {
+  describe('ProductDetailsPageEvent', () => {
     it('should fire on PDP visit', () => {
       const product: Product = {
         code: '1234',
@@ -179,9 +179,9 @@ describe('ProductPageEventModule', () => {
         price: { value: 100 },
       };
 
-      let result: ProductDetailsPageVisitedEvent;
+      let result: ProductDetailsPageEvent;
       eventService
-        .get(ProductDetailsPageVisitedEvent)
+        .get(ProductDetailsPageEvent)
         .pipe(take(1))
         .subscribe((value) => (result = value));
 
@@ -200,7 +200,7 @@ describe('ProductPageEventModule', () => {
           categories: product.categories,
           name: product.name,
           price: product.price,
-        } as ProductDetailsPageVisitedEvent)
+        } as ProductDetailsPageEvent)
       );
     });
 
@@ -212,9 +212,9 @@ describe('ProductPageEventModule', () => {
         price: { value: 100 },
       };
 
-      let result: ProductDetailsPageVisitedEvent;
+      let result: ProductDetailsPageEvent;
       const sub = eventService
-        .get(ProductDetailsPageVisitedEvent)
+        .get(ProductDetailsPageEvent)
         .subscribe((value) => (result = value));
 
       const productPageVisitedEvent = createFrom(PageVisitedEvent, {
@@ -232,7 +232,7 @@ describe('ProductPageEventModule', () => {
           categories: product.categories,
           name: product.name,
           price: product.price,
-        } as ProductDetailsPageVisitedEvent)
+        } as ProductDetailsPageEvent)
       );
 
       productGetBehavior.next({ ...product, code: 'new' });
@@ -243,7 +243,7 @@ describe('ProductPageEventModule', () => {
           categories: product.categories,
           name: product.name,
           price: product.price,
-        } as ProductDetailsPageVisitedEvent)
+        } as ProductDetailsPageEvent)
       );
       sub.unsubscribe();
     });
