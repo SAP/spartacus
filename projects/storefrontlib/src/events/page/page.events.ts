@@ -4,7 +4,7 @@ import { PageContext } from '@spartacus/core';
 /**
  * Indicates either that a user visited an arbitrary page of a web presence or that the page type was unknown.
  */
-export class PageVisitedEvent {
+export class PageEvent {
   context: PageContext;
   semanticRoute?: string;
   url: string;
@@ -14,4 +14,4 @@ export class PageVisitedEvent {
 /**
  * Indicates that a user visited the home page of a web presence.
  */
-export class HomePageVisitedEvent extends PageVisitedEvent {}
+export class HomePageEvent extends PageEvent {}
