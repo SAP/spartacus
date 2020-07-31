@@ -37,7 +37,17 @@
   <router-outlet></router-outlet>
 </cx-split-view>
 
-<ng-template cxOutletRef="table.permission.data.code" let-model>
+<ng-template cxOutletRef="table.permission.data.limit" let-model>
+  <span *ngIf="model.threshold; else type"
+    >{{ model.threshold }} {{ model.currency?.symbol }}
+    {{ 'permission.per.' + model.periodRange | cxTranslate }}
+  </span>
+  <ng-template #type>
+    <span>{{ model.orderApprovalPermissionType.name }}</span>
+  </ng-template>
+</ng-template>
+
+<ng-template cxOutletRef="table.permission.data.name" let-model>
   <div routerLinkActive="active">
     <a [routerLink]="{ cxRoute: 'permissionDetails', params: model } | cxUrl">
       <span class="text">{{ model.code }}</span>
@@ -49,22 +59,6 @@
   </div>
 </ng-template>
 
-<ng-template
-  cxOutletRef="table.permission.data.orderApprovalPermissionType"
-  let-model
->
-  {{ model.orderApprovalPermissionType?.name }}
-</ng-template>
-
-<ng-template cxOutletRef="table.permission.data.threshold" let-model>
-  {{ model.threshold || '-' }} {{ model.currency?.symbol }}
-</ng-template>
-
-<ng-template cxOutletRef="table.permission.data.periodRange" let-model>
-  {{ model.periodRange || '-' }}
-</ng-template>
-
-<!-- TODO: refactor outlet concatenation-->
 <ng-template cxOutletRef="table.permission.data.orgUnit" let-model>
   <a
     [routerLink]="{ cxRoute: 'orgUnitDetails', params: model.orgUnit } | cxUrl"

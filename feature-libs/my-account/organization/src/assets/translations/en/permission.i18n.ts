@@ -1,7 +1,9 @@
 export const permission = {
   header: 'Purchase limits',
   disabled: '(disabled)',
-  code: 'Name',
+  name: 'Name',
+  code: 'Code',
+  limit: 'Limit',
   orderApprovalPermissionType: 'Type',
   threshold: 'Threshold',
   periodRange: 'Period',
@@ -14,5 +16,13 @@ export const permission = {
     disabled: 'You cannot edit a disabled purchase limit.',
     deactivate: 'Are you sure you want to disable this purchase limit?',
     deactivateHeader: 'Disable Purchase Limit',
+  },
+
+  per: {
+    undefined: '',
+    MONTH: 'per Month',
+    YEAR: 'per Year',
+    WEEK: 'per Week',
+    QUARTER: 'per Quarter',
   },
 };

@@ -66,22 +66,20 @@ export const permissionTableConfig: TableConfig = {
   table: {
     [OrganizationTableType.PERMISSION]: [
       {
-        headers: [{ key: 'code' }],
         pagination: {
-          sort: 'byName',
+          sort: 'byCode',
         },
       },
       {
         breakpoint: BREAKPOINT.xs,
+        headers: [{ key: 'name' }],
         hideHeader: true,
       },
       {
         breakpoint: BREAKPOINT.lg,
         headers: [
-          { key: 'code', sortCode: 'byName' },
-          { key: 'orderApprovalPermissionType' },
-          { key: 'threshold' },
-          { key: 'periodRange' },
+          { key: 'name', sortCode: 'byCode' },
+          { key: 'limit' },
           { key: 'orgUnit', sortCode: 'byUnitName' },
         ],
       },

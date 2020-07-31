@@ -41,7 +41,7 @@ export class PermissionFormService {
   }
 
   /**
-   * Depending on permission type form should render custom set of additonal fields.
+   * Depending on permission type form should render custom set of additional fields.
    * This method is used to re-create additonal ones in case they not exists
    * in `FormGroup` controls.
    */
@@ -57,7 +57,7 @@ export class PermissionFormService {
   }
 
   /**
-   * Depending on permission type form should render custom set of additonal fields.
+   * Depending on permission type form should render custom set of additional fields.
    * This method removes redundant fields from `FormGroup` controls.
    */
   protected unsetFields(form: FormGroup, fieldNames: string[]) {
