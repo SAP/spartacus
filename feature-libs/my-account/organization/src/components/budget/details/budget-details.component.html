@@ -94,10 +94,7 @@
           </ng-container>
           <ng-template #disabled>
             {{ 'organization.disabled' | cxTranslate }}
-            <button
-              class="button icon"
-              (click)="update({ code: budget.code })"
-            >
+            <button class="button icon" (click)="update({ code: budget.code })">
               {{ 'organization.enable' | cxTranslate }}
               <!--              <cx-icon type="OFF"></cx-icon>-->
             </button>
