@@ -24,6 +24,9 @@ export class PaymentTypeComponent {
   @ViewChild('poNumber', { static: false })
   private _poNumberInput: ElementRef;
 
+  typeSelected: string;
+  cartPoNumber: string;
+
   paymentTypes$: Observable<
     PaymentType[]
   > = this.paymentTypeService.getPaymentTypes();
@@ -43,8 +46,14 @@ export class PaymentTypeComponent {
     })
   );
 
-  typeSelected: string;
-  cartPoNumber: string;
+  cartPoNumber$: Observable<
+    string
+  > = this.paymentTypeService.getPoNumber().pipe(
+    filter((po) => po !== undefined),
+    tap((po) => {
+      return (this.cartPoNumber = po);
+    })
+  );
 
   constructor(
     protected paymentTypeService: PaymentTypeService,
@@ -55,13 +64,6 @@ export class PaymentTypeComponent {
   changeType(code: string): void {
     this.paymentTypeService.setPaymentType(code);
     this.typeSelected = code;
-  }
-
-  get cartPoNumber$(): Observable<string> {
-    return this.paymentTypeService.getPoNumber().pipe(
-      filter((po) => po !== undefined),
-      tap((po) => (this.cartPoNumber = po))
-    );
   }
 
   next(): void {

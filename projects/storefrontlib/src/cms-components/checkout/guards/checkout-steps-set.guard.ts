@@ -1,22 +1,21 @@
 import { Injectable, isDevMode } from '@angular/core';
 import {
-  CanActivate,
-  UrlTree,
   ActivatedRouteSnapshot,
-  RouterStateSnapshot,
+  CanActivate,
   Router,
+  RouterStateSnapshot,
+  UrlTree,
 } from '@angular/router';
-import { Observable, of, combineLatest } from 'rxjs';
-import { map, tap, switchMap, take } from 'rxjs/operators';
 import {
-  Address,
-  RoutingConfigService,
-  PaymentTypeService,
   CheckoutCostCenterService,
+  PaymentTypeService,
+  RoutingConfigService,
 } from '@spartacus/core';
-import { CheckoutStepService } from '../services/checkout-step.service';
-import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
+import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Injectable({
   providedIn: 'root',
@@ -50,7 +49,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
         );
       }),
       take(1),
-      switchMap(([steps, isAccount]) => {
+      switchMap(([steps]) => {
         currentIndex = steps.findIndex((step) => {
           const stepRouteUrl = `/${
             this.routingConfigService.getRouteConfig(step.routeName).paths[0]
@@ -63,7 +62,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
           currentStep = steps[currentIndex];
         }
         if (Boolean(currentStep)) {
-          return this.isStepSet(steps[currentIndex - 1], isAccount);
+          return this.isStepSet(steps[currentIndex - 1]);
         } else {
           if (isDevMode()) {
             console.warn(
@@ -76,17 +75,14 @@ export class CheckoutStepsSetGuard implements CanActivate {
     );
   }
 
-  protected isStepSet(
-    step: CheckoutStep,
-    isAccountPayment: boolean
-  ): Observable<boolean | UrlTree> {
+  protected isStepSet(step: CheckoutStep): Observable<boolean | UrlTree> {
     if (step && !step.disabled) {
       switch (step.type[0]) {
         case CheckoutStepType.PAYMENT_TYPE: {
-          return this.isCostCenterSet(step, isAccountPayment);
+          return this.isPaymentTypeSet(step);
         }
         case CheckoutStepType.SHIPPING_ADDRESS: {
-          return this.isShippingAddressSet(step);
+          return this.isShippingAddressAndCostCenterSet(step);
         }
         case CheckoutStepType.DELIVERY_MODE: {
           return this.isDeliveryModeSet(step);
@@ -102,32 +98,38 @@ export class CheckoutStepsSetGuard implements CanActivate {
     return of(true);
   }
 
-  protected isCostCenterSet(
-    _step: CheckoutStep,
-    _isAccountPayment: boolean
-  ): Observable<boolean | UrlTree> {
-    // if (isAccountPayment) {
-    //   return this.checkoutCostCenterService
-    //     .getCostCenter()
-    //     .pipe(map((cc) => (Boolean(cc) ? true : this.getUrl(step.routeName))));
-    // } else {
-    //   return of(true);
-    // }
-    return of(true);
-  }
-
-  protected isShippingAddressSet(
+  protected isPaymentTypeSet(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutDetailsService
-      .getDeliveryAddress()
-      .pipe(
-        map((deliveryAddress: Address) =>
-          deliveryAddress && Object.keys(deliveryAddress).length
-            ? true
-            : this.getUrl(step.routeName)
-        )
-      );
+    return this.paymentTypeService.getSelectedPaymentType().pipe(
+      map((paymentType: string) => {
+        if (Boolean(paymentType)) {
+          return true;
+        } else {
+          return this.getUrl(step.routeName);
+        }
+      })
+    );
+  }
+
+  protected isShippingAddressAndCostCenterSet(
+    step: CheckoutStep
+  ): Observable<boolean | UrlTree> {
+    return combineLatest([
+      this.checkoutDetailsService.getDeliveryAddress(),
+      this.checkoutCostCenterService.getCostCenter(),
+    ]).pipe(
+      map(([deliveryAddress, costCenter]) => {
+        if (
+          (Boolean(deliveryAddress) && Boolean(costCenter)) ||
+          costCenter === undefined
+        ) {
+          return true;
+        } else {
+          this.getUrl(step.routeName);
+        }
+      })
+    );
   }
 
   protected isDeliveryModeSet(

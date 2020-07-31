@@ -48,6 +48,7 @@ export const checkout = {
     },
   },
   checkoutPO: {
+    noPoNumber: 'None',
     poNumber: 'Purchase order number (optional)',
     costCenter: 'Cost Center',
   },

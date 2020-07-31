@@ -97,9 +97,12 @@ class MockPaymentTypeService {
   isAccountPayment(): Observable<boolean> {
     return isAccount;
   }
+  getSelectedPaymentType(): Observable<string> {
+    return of(null);
+  }
 }
 
-describe(`CheckoutStepsSetGuard`, () => {
+fdescribe(`CheckoutStepsSetGuard`, () => {
   let guard: CheckoutStepsSetGuard;
   let checkoutCostCenterService: CheckoutCostCenterService;
   let checkoutDetailsService: CheckoutDetailsService;
@@ -136,7 +139,7 @@ describe(`CheckoutStepsSetGuard`, () => {
     });
 
     describe('there is no checkout data set yet', () => {
-      it('go to step1 (shipping address), should return ture (no need cost center for CARD)', (done) => {
+      it('go to step1 (shipping address), should return true (no need cost center for CARD)', (done) => {
         guard
           .canActivate(<any>{ url: ['checkout', 'route1'] }, undefined)
           .subscribe((result) => {
@@ -149,6 +152,7 @@ describe(`CheckoutStepsSetGuard`, () => {
         guard
           .canActivate(<any>{ url: ['checkout', 'route2'] }, undefined)
           .subscribe((result) => {
+            console.log('2', result);
             expect(result.toString()).toEqual('/checkout/route1');
             done();
           });
