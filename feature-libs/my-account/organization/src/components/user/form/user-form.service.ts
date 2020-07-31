@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { B2BUser } from '@spartacus/core';
+import { CustomFormValidators } from '@spartacus/storefront';
 
 @Injectable({
   providedIn: 'root',
@@ -16,13 +17,23 @@ export class UserFormService {
   }
 
   protected build(form: FormGroup) {
-    form.setControl('uid', new FormControl('', Validators.required));
-    form.setControl('name', new FormControl('', Validators.required));
+    form.setControl('titleCode', new FormControl(''));
+    form.setControl(
+      'email',
+      new FormControl('', [
+        Validators.required,
+        CustomFormValidators.emailValidator,
+      ])
+    );
+    form.setControl('firstName', new FormControl('', Validators.required));
+    form.setControl('lastName', new FormControl('', Validators.required));
     form.setControl(
       'orgUnit',
       new FormGroup({
         uid: new FormControl(undefined, Validators.required),
       })
     );
+    form.setControl('isAssignedToApprovers', new FormControl(false));
+    form.setControl('roles', new FormArray([]));
   }
 }

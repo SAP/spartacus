@@ -19,7 +19,7 @@ export class UserFormComponent implements OnInit {
    */
   @Input() form: FormGroup;
 
-  units$: Observable<B2BUnitNode[]> = this.orgUnitService.getList();
+  units$: Observable<B2BUnitNode[]> = this.orgUnitService.getActiveUnitList();
 
   constructor(protected orgUnitService: OrgUnitService) {}
 

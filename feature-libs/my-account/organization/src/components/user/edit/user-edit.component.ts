@@ -34,7 +34,7 @@ export class UserEditComponent {
   // that's why we are wrapping them into one observable
   viewModel$ = this.form$.pipe(
     withLatestFrom(this.user$, this.code$),
-    map(([form, user, uid]) => ({ form, uid, user }))
+    map(([form, user, customerId]) => ({ form, customerId, user }))
   );
 
   constructor(
@@ -47,16 +47,16 @@ export class UserEditComponent {
     protected routingService: RoutingService
   ) {}
 
-  save(userCode: string, form: FormGroup): void {
+  save(customerId: string, form: FormGroup): void {
     if (form.invalid) {
       form.markAllAsTouched();
     } else {
       form.disable();
-      this.userService.update(userCode, form.value);
+      this.userService.update(customerId, form.value);
 
       this.routingService.go({
         cxRoute: 'userDetails',
-        params: form.value,
+        params: { customerId },
       });
     }
   }

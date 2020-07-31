@@ -3,6 +3,9 @@ export const user = {
   disabled: '(disabled)',
   uid: 'Code',
   name: 'Name',
+  firstName: 'Name',
+  lastName: 'Name',
+  email: 'Email',
   orgUnit: 'Parent Unit',
   roles: 'Roles',
 
