@@ -17,9 +17,11 @@
 
 4. Add spinner/👻 design to http://localhost:4200/electronics-spa/en/USD/configureTEXTFIELD/cartEntry/entityKey/0?forceReload=true
 
-5. Get rid of import { makeErrorSerializable } from '@spartacus/product/configurators/common', instead expose it from core lib. Temporarily duplicated and exposed from /feature-libs/product/configurators/common/src/index.ts
+5. fix focus lose when selection with keyboard (e.g. single selection image, multi selection image)
 
-6. Update the following *.spec.ts files once ConfigurationTestData has been moved to lib:
+6. Get rid of import { makeErrorSerializable } from '@spartacus/product/configurators/common', instead expose it from core lib. Temporarily duplicated and exposed from /feature-libs/product/configurators/common/src/index.ts
+
+7. Update the following *.spec.ts files once ConfigurationTestData has been moved to lib:
     - config-message.component.spec.ts
     - config-group-title.component.spec.ts
     - config-previous-next-buttons.component.spec.ts

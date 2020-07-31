@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule, ProductModule } from '@spartacus/core';
 import {
   CommonConfiguratorComponentsModule,
+  ConfigFormComponent,
   ConfigPriceSummaryComponent,
   ConfigProductTitleComponent,
   ConfigTabBarComponent,
@@ -11,7 +12,6 @@ import {
 import {
   CmsPageGuard,
   ConfigAddToCartButtonComponent,
-  ConfigFormComponent,
   ConfigGroupMenuComponent,
   DefaultMessageConfig,
   HamburgerMenuModule,
