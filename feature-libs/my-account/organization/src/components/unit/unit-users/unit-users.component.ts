@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Table } from '@spartacus/storefront';
 import { UnitUsersService } from './unit-users.service';
 import { CurrentUnitService } from '../current-unit.service';
-import { UnitRoleType } from '../../shared';
+import { UnitRoleType } from '../../shared/organization.model';
 
 @Component({
   selector: 'cx-unit-users',

@@ -8,7 +8,7 @@ import {
   InteractiveTableModule,
   SplitViewModule,
 } from '@spartacus/storefront';
-import { UnitTreeNavigationUIModule } from '../unit-tree-navigation-ui';
+import { UnitTreeNavigationUIModule } from '../unit-tree-navigation-ui/unit-tree-navigation-ui.module';
 
 @NgModule({
   imports: [

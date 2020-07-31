@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { PaginationModel } from '@spartacus/core';
 import { Table } from '@spartacus/storefront';
 import { UnitAssignApproversService } from './unit-assign-approvers.service';
-import { UnitRoleType } from '../../shared';
+import { UnitRoleType } from '../../shared/organization.model';
 import { CurrentUnitService } from '../current-unit.service';
 
 @Component({

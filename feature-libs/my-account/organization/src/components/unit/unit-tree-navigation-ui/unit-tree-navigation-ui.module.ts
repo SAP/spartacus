@@ -9,7 +9,5 @@ import { RouterModule } from '@angular/router';
   imports: [CommonModule, UrlModule, I18nModule, IconModule, RouterModule],
   declarations: [UnitTreeNavigationUIComponent],
   exports: [UnitTreeNavigationUIComponent],
-  providers: [],
-  entryComponents: [UnitTreeNavigationUIComponent],
 })
 export class UnitTreeNavigationUIModule {}

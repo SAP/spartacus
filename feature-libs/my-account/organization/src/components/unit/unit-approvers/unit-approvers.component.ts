@@ -3,7 +3,7 @@ import { Table } from '@spartacus/storefront';
 import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UnitApproversService } from './unit-approvers.service';
-import { UnitRoleType } from '../../shared';
+import { UnitRoleType } from '../../shared/organization.model';
 import { CurrentUnitService } from '../current-unit.service';
 
 @Component({
