@@ -70,8 +70,10 @@
   <ng-template cxOutletRef="table.userAssignApprovers.data.summary" let-model>
     <h3>{{ model.name }}</h3>
     <small>
-      {{ model.email
-      }}<span *ngFor="let role of model.roles"> • {{ role }}</span>
+      {{ model.email }}
+      <span *ngFor="let role of model.roles">
+        &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}
+      </span>
     </small>
   </ng-template>
 
@@ -116,10 +118,9 @@
   </ng-template>
 
   <ng-template cxOutletRef="table.userAssignApprovers.data.roles" let-model>
-    <span *ngFor="let role of model.roles; let last = last">
-      {{ 'organization.userRoles.' + role | cxTranslate
-      }}<span *ngIf="!last">,&nbsp;</span></span
-    >
+    <span *ngFor="let role of model.roles">
+      &nbsp;• {{ 'organization.userRoles.' + role | cxTranslate }}
+    </span>
   </ng-template>
 
   <ng-template cxOutletRef="table.userAssignApprovers.data.orgUnit" let-model>
