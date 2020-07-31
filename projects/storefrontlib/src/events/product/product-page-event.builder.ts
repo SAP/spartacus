@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, skip, switchMap, take } from 'rxjs/operators';
-import { PageVisitedEvent } from '../page/page.events';
+import { PageEvent } from '../page/page.events';
 import {
   CategoryPageResultsEvent,
   ProductDetailsPageEvent,
@@ -44,11 +44,9 @@ export class ProductPageEventBuilder {
   protected buildProductDetailsPageEvent(): Observable<
     ProductDetailsPageEvent
   > {
-    return this.eventService.get(PageVisitedEvent).pipe(
-      filter(
-        (pageVisitedEvent) => pageVisitedEvent.semanticRoute === 'product'
-      ),
-      map((pageVisitedEvent) => pageVisitedEvent.context.id),
+    return this.eventService.get(PageEvent).pipe(
+      filter((pageEvent) => pageEvent.semanticRoute === 'product'),
+      map((pageEvent) => pageEvent.context.id),
       switchMap((productId) =>
         this.productService.get(productId).pipe(
           filter((product) => Boolean(product)),
@@ -74,16 +72,14 @@ export class ProductPageEventBuilder {
       skip(1)
     );
 
-    const categoryPageVisitedEvent$ = this.eventService
-      .get(PageVisitedEvent)
-      .pipe(
-        map((pageVisitedEvent) => ({
-          isCategoryPage: pageVisitedEvent.semanticRoute === 'category',
-          categoryCode: pageVisitedEvent.context.id,
-        }))
-      );
+    const categoryPageEvent$ = this.eventService.get(PageEvent).pipe(
+      map((pageEvent) => ({
+        isCategoryPage: pageEvent.semanticRoute === 'category',
+        categoryCode: pageEvent.context.id,
+      }))
+    );
 
-    return categoryPageVisitedEvent$.pipe(
+    return categoryPageEvent$.pipe(
       switchMap((pageEvent) => {
         if (!pageEvent.isCategoryPage) {
           return EMPTY;
@@ -113,13 +109,11 @@ export class ProductPageEventBuilder {
       map((searchPage) => createFrom(SearchPageResultsEvent, searchPage))
     );
 
-    const searchPageVisitedEvent$ = this.eventService
-      .get(PageVisitedEvent)
-      .pipe(
-        map((pageVisitedEvent) => pageVisitedEvent.semanticRoute === 'search')
-      );
+    const searchPageEvent$ = this.eventService
+      .get(PageEvent)
+      .pipe(map((pageEvent) => pageEvent.semanticRoute === 'search'));
 
-    return searchPageVisitedEvent$.pipe(
+    return searchPageEvent$.pipe(
       switchMap((isSearchPage) => (isSearchPage ? searchResults$ : EMPTY))
     );
   }
