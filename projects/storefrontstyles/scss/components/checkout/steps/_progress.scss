@@ -28,7 +28,6 @@
       ::after {
         padding: 0 0.75rem 0 0;
         content: '';
-        color: var(--cx-color-text);
         @include media-breakpoint-only(lg) {
           padding: 0 0.5rem 0 0;
         }
